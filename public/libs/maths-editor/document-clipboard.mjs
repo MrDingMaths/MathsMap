@@ -1,4 +1,4 @@
-import {normalizeDocument,paragraph,uid,safeLink} from './document-model.mjs';
+import {normalizeDocument,paragraph,uid,safeLink,mathInlineMarks} from './document-model.mjs';
 
 export function plainTextDocument(text){return normalizeDocument({blocks:String(text).replace(/\r\n?/g,'\n').split('\n').map(line=>paragraph([{type:'text',text:line,marks:[]}]))});}
 
@@ -11,7 +11,7 @@ export function readClipboard(data,{plain=false}={}){
   const encoded=body.querySelector('[data-maths-document]')?.dataset.mathsDocument;
   if(encoded)return {document:normalizeDocument(JSON.parse(encoded)),unsupported:[]};
   const unsupported=[];
-  if(/<(?:m:)?oMath\b|<(?:m:)?oMathPara\b|<math\b|equation\.\d|mso-element:equation/i.test(html))unsupported.push('Word equations');
+  if(/<(?:m:)?oMath\b|<(?:m:)?oMathPara\b|equation\.\d|mso-element:equation/i.test(html)||[...body.querySelectorAll('math')].some(node=>!node.closest('[data-math][data-latex]')))unsupported.push('Word equations');
   if(body.querySelector('object,embed,iframe,svg,canvas')||/<(?:v:shape|o:oleobject)\b/i.test(html))unsupported.push('embedded objects');
   if(body.querySelector('img'))unsupported.push('images');
   if(body.querySelector('table table'))unsupported.push('nested tables');
@@ -21,6 +21,12 @@ export function readClipboard(data,{plain=false}={}){
     if(node.nodeType!==1)return [];
     if(node.tagName==='BR')return [{type:'break'}];
     if(node.tagName==='IMG')return [];
+    if(node.matches('[data-math],math-field')) {
+      const field=node.matches('math-field')?node:node.querySelector('math-field'),mathMarks=mathInlineMarks(node,marks);
+      const latex=field?.dataset.clipboardLatex??node.dataset.latex??field?.textContent;
+      if(latex!=null)return [{type:'math',latex,display:node.dataset.display==='true',...(mathMarks.length?{marks:mathMarks}:{})}];
+      // An unknown external math box has no editable source; retain ordinary text.
+    }
     const next=new Set(marks),style=node.style;
     if(['STRONG','B'].includes(node.tagName)||style.fontWeight==='bold'||Number(style.fontWeight)>=600)next.add('bold');
     if(['EM','I'].includes(node.tagName)||style.fontStyle==='italic')next.add('italic');

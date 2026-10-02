@@ -30,6 +30,10 @@ export async function settleBooklet(root) {
  for(const latex of new Set([...root.querySelectorAll('.katex annotation[encoding="application/x-tex"]')].map(n=>n.textContent)))if(renderMath(`$${latex}$`).includes('katex-error'))throw Error('Invalid mathematical notation: '+latex);
  if([...root.querySelectorAll('.tikz-wrap')].some(e=>!e.querySelector('svg:not(:has(animate))')))throw Error('A diagram has not rendered');
 }
+export function clozeResponseRequiredMm(expected) {
+ const compact=expected.replace(/\\(?:color|textcolor)\s*(?:\[[^\]]*\]\s*)?\{[^{}]*\}/g,'').replace(/\\(?:d?frac|tfrac)\{([^{}]+)\}\{([^{}]+)\}/g,'$1/$2').replace(/\\[a-z]+/gi,'').replace(/[$ {}]/g,'');
+ return Math.ceil(compact.length*2.2+6);
+}
 export function inspectBookletPage(article,{footerClearanceMm=3,style=false}={}) {
  const flow=!!article.closest('.flow'),issues=[],r=article.getBoundingClientRect(),scale=r.width/((flow?180:210)*96/25.4),mm=96/25.4*scale,main=article.querySelector('main'),footer=article.querySelector('footer');
  if(!main||!footer)return {page:article.dataset.pageNumber,issues:[{kind:'missing-page-structure'}],graphs:[]};
@@ -117,7 +121,7 @@ export function inspectBookletPage(article,{footerClearanceMm=3,style=false}={})
   }
  }
  if(style){
-  for(const c of main.querySelectorAll('[data-cloze]')){if(!visible(c))continue;const expected=c.dataset.expectedResponse??c.dataset.cloze;if(!expected?.trim()||c.dataset.reviewStatus==='needs-review')add('unknown-cloze-response',c);const available=c.getBoundingClientRect().width/mm*(Number(c.dataset.lines)||1);const compact=expected.replace(/\\(?:d?frac|tfrac)\{([^{}]+)\}\{([^{}]+)\}/g,'$1/$2').replace(/\\[a-z]+/gi,'').replace(/[$ {}]/g,'');if(available+.5<Math.max(8,Math.ceil(compact.length*2.2+6)))add('short-cloze',c,{requiredMm:Math.ceil(compact.length*2.2+6),availableMm:available});}
+  for(const c of main.querySelectorAll('[data-cloze]')){if(!visible(c))continue;const expected=c.dataset.expectedResponse??c.dataset.cloze;if(!expected?.trim()||c.dataset.reviewStatus==='needs-review')add('unknown-cloze-response',c);const available=c.getBoundingClientRect().width/mm*(Number(c.dataset.lines)||1);const requiredMm=clozeResponseRequiredMm(expected);if(available+.5<Math.max(8,requiredMm))add('short-cloze',c,{requiredMm,availableMm:available});}
   for(const table of main.querySelectorAll('table'))for(const row of table.rows){
    const c=row.cells[0];if(!c||c.colSpan>1)continue;
    const words=/\b[A-Za-z]{2,}\s+[A-Za-z]{2,}\b/;

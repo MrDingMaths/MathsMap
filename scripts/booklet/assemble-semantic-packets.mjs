@@ -51,7 +51,9 @@ for(const packet of packets){
   section.sourcePageNumber=page;
   // A teaching/practice transition within one source page is semantic, not a
   // physical page break. Existing section flow permits these groups to share.
-  section.pageBreakBefore=first&&sourceBoundaries;
+  // Front matter must not merge into the source-cover page: that page renders
+  // the calculated cover rather than its body blocks (including a syllabus).
+  section.pageBreakBefore=first&&(sourceBoundaries||section.phase==='front-matter');
   // Pagination shows this calculated topic band only at the topic's start.
   // Packet body headings are omitted, but the generated topic title must print.
   if(section.phase!=='front-matter')section.headingStyle='page-title';

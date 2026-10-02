@@ -22,6 +22,23 @@ const reference=file=>({path:file,hash:hash(fs.readFileSync(file))});
 function temp(t){const dir=fs.mkdtempSync(path.join(os.tmpdir(),'import-pipeline-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));return dir;}
 const inv=(page,n=5)=>({pageNumber:page,inventoried:true,entries:Array.from({length:n},(_,i)=>({id:`p${page}-q${i}`,targetId:`q${page}-${i}`,kind:'question',description:'Solve x+1=2',expectedAnswer:'1'}))});
 const packet=(page,entries,id='s')=>({pageNumber:page,sections:[{id,title:'Algebra',phase:'practice',blocks:entries.filter(e=>e.kind==='question').map(e=>({id:e.targetId+'-block',type:'question',content:{id:e.targetId,type:'question',prompt:'Solve x+1=2.',answer:{short:'1',worked:'x=1'}}}))}],inventoryMappings:entries.map(e=>({inventoryId:e.id,targetId:e.targetId}))});
+test('difficulty categories permit bounded batches while shared activities stay whole',()=>{
+ for(const header of ['FOUNDATION','DEVELOPMENT','MASTERY']){
+  const inventory=inv(1,5);
+  inventory.groups=[{id:'difficulty',kind:'practice',header,members:inventory.entries.map(e=>e.id)}];
+  for(const entry of inventory.entries)entry.parentId='difficulty';
+  inventory.entries.push({id:'p1-q0-a',parentId:'p1-q0',kind:'part',description:'Explain the first result.'});
+  const plan=createAssignmentPlan([inventory]);
+  assert.deepEqual(plan.assignments.map(a=>a.questions),[4,1]);
+  assert.ok(plan.assignments[0].inventoryIds.includes('p1-q0-a'));
+  assert.ok(plan.assignments.every(a=>!a.oversized));
+  inventory.groups[0].indivisible=true;
+  const activity=createAssignmentPlan([inventory]);
+  assert.equal(activity.assignments.length,1);
+  assert.equal(activity.assignments[0].questions,5);
+  assert.equal(activity.assignments[0].oversized,true);
+ }
+});
 test('assignments bound whole questions, preserve descendants, activities and continuations',()=>{
  const a=inv(1);a.entries.splice(1,0,{id:'p1-q0-a',parentId:'p1-q0',kind:'part',description:'Explain'});
  const p=createAssignmentPlan([a]);assert.deepEqual(p.assignments.map(a=>a.questions),[4,1]);assert.ok(p.assignments[0].inventoryIds.includes('p1-q0-a'));
@@ -130,6 +147,15 @@ test('practice categories retain provenance without joining independent question
  assert.deepEqual(createAssignmentPlan([inventory]).assignments.map(a=>a.questions),[4,3]);
 });
 
+test('numbered multipart identity takes precedence over a difficulty header',()=>{
+ const inventory={pageNumber:25,entries:[{id:'p25-q3',targetId:'p25-q3',kind:'question',description:'Calculate the area of these parallelograms.'}],groups:[{id:'p25-q3',kind:'practice',header:'DEVELOPMENT',sourceLabel:'3',parts:['a','b','c']}]};
+ for(const label of ['a','b','c'])inventory.entries.push({id:'p25-q3-'+label,kind:'part',parentId:'p25-q3'},{id:'p25-q3-'+label+'-diagram',kind:'diagram',parentId:'p25-q3-'+label});
+ const before=structuredClone(inventory),plan=createAssignmentPlan([inventory],{maxCharacters:1});
+ assert.equal(plan.assignments.length,1);assert.equal(plan.assignments[0].questions,1);assert.equal(plan.assignments[0].oversized,true);assert.deepEqual(plan.assignments[0].inventoryIds,inventory.entries.map(e=>e.id));assert.deepEqual(inventory,before);
+ const category=inv(26,3);category.entries.unshift({id:'development',kind:'group',sourceLabel:'Development'});for(const entry of category.entries.slice(1))entry.parentId='development';category.groups=[{id:'development',kind:'practice',header:'Development',members:category.entries.slice(1).map(e=>e.id)}];
+ assert.deepEqual(createAssignmentPlan([category],{maxQuestions:2}).assignments.map(a=>a.questions),[2,1]);
+});
+
 test('shared printed ranges count as whole questions and remain intact at category boundaries',()=>{
  const inventory=inv(7,8);
  inventory.groups=[{id:'category',kind:'practice-category',members:inventory.entries.map(e=>e.id)}];
@@ -201,6 +227,23 @@ test('assignment workers receive page authoring contracts and complete taught ev
  assert.equal(payload.promptStats.sections.assignment,JSON.stringify(payload.context).length+payload.promptStats.inlineGuidanceCharacters);
  const before=payload.inputHash;task.promptSections.find(s=>s.name==='teaching').text+=' Additional taught-method constraint.';
  assert.notEqual(assignmentPayload(plan.assignments[0],[task]).inputHash,before);
+});
+
+test('three-pass assignment workers receive classifications and handwriting guidance once',t=>{
+ const runDir=temp(t),inventory=inv(1,2);
+ fs.mkdirSync(path.join(runDir,'evidence/pages'),{recursive:true});fs.mkdirSync(path.join(runDir,'semantic-packets'));
+ for(const ext of ['png','txt'])fs.writeFileSync(path.join(runDir,'evidence/pages',`page-001.${ext}`),'Algebra source');
+ fs.writeFileSync(path.join(runDir,'semantic-packets/page-001.inventory.json'),JSON.stringify(inventory));
+ const options={runDir,manifest:{...TRANSCRIPTION_DEFAULT,selectedPages:[1],pipelinePolicy:PIPELINE_POLICY,reviewProfile:'textbook-three-pass-v1'},config:{title:'Algebra',classificationSkillIds:['factorise-common-factor'],topics:[{id:'algebra',title:'Algebra',start:1,end:1}]},stage:'author',pages:[1]};
+ const task=createSemanticTasks(options)[0],plan=planTaskAssignments([task]),payload=assignmentPayload(plan.assignments[0],[task]);
+ for(const name of ['three-pass-precedence','classification','working-space','native-grouping']){
+  const text=task.promptSections.find(s=>s.name===name).text;
+  assert.equal(payload.prompt.split(text).length,2,`Missing or repeated ${name}`);
+ }
+ assert.match(payload.prompt,/factorise-common-factor/);
+ assert.match(payload.prompt,/Foundation, Development and Mastery do not create native category headings/);
+ assert.match(payload.prompt,/block.id must differ from content.id/);
+ assert.match(payload.prompt,/toCellId is an arrow endpoint, not a box range/);
 });
 
 test('indivisible teaching and answer guidance counts in the budget without truncation',t=>{

@@ -11,7 +11,7 @@
   import { estimateAnswerSpaceMm, allDiagrams } from '../lib/practice-question-model.js';
   import { setoutMathChain } from '../lib/inline-content.js';
   import { isRewriteTableQuestion, shortAnswerDisplay, combinedExampleTikz, visibleImportedQuestionTitle } from '../lib/booklet-preview.js';
-  import {compactAnswerDisplay,answerDiagramStyle,answerDiagramWidth,compactAnswerLabel,answerNodePath} from '../lib/booklet-exercises.js';
+  import {compactAnswerDisplay,answerDiagramStyle,answerDiagramWidth,compactAnswerLabel,answerNodePath,answerNodeContext} from '../lib/booklet-exercises.js';
   import {normaliseShortAnswer,SHORT_ANSWER_INK} from '../lib/short-answer-style.js';
   import {teachingAnswerCategory,retainsTeachingPromptWithAnswers} from '../lib/booklet-answer-options.js';
   import {hasEmbeddedResponseLabel,hasStandaloneMathTable} from '../lib/booklet-labels.js';
@@ -173,16 +173,19 @@
   </section>
 {/snippet}
 
-{#snippet renderAnswerNode(node, path = [], index = 0)}
+{#snippet renderAnswerNode(node, path = [], index = 0, contexts = [], parent = null)}
   {@const nextPath = answerNodePath(question.content,node,path,index)}
+  {@const context = answerNodeContext(question.content,node,index,parent)}
+  {@const nextContexts = context ? [...contexts,context] : contexts}
   {@const groupAnswer = node.children?.length && (showShortAnswers ? node.answer?.short : showWorkedSolutions ? node.answer?.worked : false)}
   {#if node.children?.length && !groupAnswer}
     <div class:question-grid={node.layout === 'grid'} class="answer-children" style={node.layout === 'grid' ? '--columns:' + Math.min(answerColumnsLimit ?? Infinity, node.answerColumns ?? Math.min(node.columns, showWorkedSolutions ? 2 : node.columns)) : ''}>
-      {#each node.children as child, childIndex}{@render renderAnswerNode(child, nextPath, childIndex)}{/each}
+      {#each node.children as child, childIndex}{@render renderAnswerNode(child, nextPath, childIndex, nextContexts, node)}{/each}
     </div>
     {#each node.sharedSolutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}
   {:else}
     <article class="answer-item" data-node-id={node.id} style={compactAnswerSettings?'':questionLayoutStyle(node,blockLayouts)}><div class="answer-label" style={compactAnswerSettings?`flex:0 0 ${answerLabelWidthMm}mm;width:${answerLabelWidthMm}mm`:''}>{#if answerLink}<a href={answerLink}>{leafLabel(nextPath)}</a>{:else}{leafLabel(nextPath)}{/if}</div><div class="answer-content">
+      {#if nextContexts.length}<div class="answer-context"><EditableBookletText value={nextContexts.join(' · ')} rootId={node.id} pointer="/prompt" editMode={false} /></div>{/if}
       {#if showShortAnswers}{#if node.answer?.short}<EditableBookletText value={shortAnswerDisplay(shortValue(node.answer.short))} displayValue={compactAnswerSettings?compactAnswerDisplay(shortAnswerDisplay(shortValue(node.answer.short))):null} rootId={node.id} pointer="/answer/short" {editMode} edited={isEdited(node.id, '/answer/short')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{:else}<span class="muted">No short answer supplied.</span>{/if}{/if}
       {#if showShortAnswers}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}{/if}
       {#if showWorkedSolutions}<div class="worked-content">{#if node.answer?.worked}<EditableBookletText value={compactAnswerSettings||editMode ? node.answer.worked : setoutMathChain(node.answer.worked, { stackFirstTerm: true })} displayValue={compactAnswerSettings?setoutMathChain(node.answer.worked,{stackFirstTerm:false}):null} rootId={node.id} pointer="/answer/worked" {editMode} edited={isEdited(node.id, '/answer/worked')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{/if}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}</div>{/if}

@@ -38,3 +38,112 @@ test('boxed maths anchors persist without changing ordinary cell arrows',()=>{
  const g=tableArrowGeometry(measured,{...measured,left:45,top:29},n);assert.equal(g.start[1],24);assert.equal(g.end[1],29);
  assert.equal(tableArrowGeometry(a,b,{side:'top'}).start[1],17);
 });
+
+const operationRailMm=96/25.4;
+const operationRailTolerance=1e-8;
+function operationRailClose(actual,expected){
+ assert.ok(Math.abs(actual-expected)<operationRailTolerance,`${actual} should equal ${expected}`);
+}
+function operationRailHeadPoints(path){
+ const coordinates=path.match(/[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/gi).map(Number);
+ assert.equal(coordinates.length,6,'an arrowhead must contain three finite vertices');
+ assert.ok(coordinates.every(Number.isFinite));
+ return Array.from({length:3},(_,index)=>coordinates.slice(index*2,index*2+2));
+}
+
+for(const widthMm of [12,9.12]){
+ test(`labelled operation rails stay bounded and mirrored at ${widthMm} mm`,()=>{
+  const width=widthMm*operationRailMm,rowHeight=12*operationRailMm,tableWidth=100*operationRailMm,trim=1.5*operationRailMm;
+  const cell=(left,row)=>({left,top:row*rowHeight,width,height:rowHeight,bottom:(row+1)*rowHeight});
+  const annotation={side:'middle',label:'÷(−4)',distanceMm:1.5,curveMm:.5};
+  const rails=[0,tableWidth-width].map(left=>{
+   let previousMaxY=-Infinity;
+   return Array.from({length:3},(_,row)=>{
+    const from=cell(left,row),to=cell(left,row+1),g=tableArrowGeometry(from,to,annotation);
+    const fromCentre=from.top+rowHeight/2,toCentre=to.top+rowHeight/2;
+    operationRailClose(toCentre-fromCentre,12*operationRailMm);
+    assert.match(g.path,/\bC\b/,'labelled vertical rails must use the curved branch');
+    assert.equal(g.controls.length,2);
+    const startHead=operationRailHeadPoints(g.startHead),endHead=operationRailHeadPoints(g.endHead);
+    const curvePoints=[g.start,...g.controls,g.end];
+    const points=[...curvePoints,...startHead,...endHead];
+    for(const [x,y] of points){
+     assert.ok(Number.isFinite(x)&&Number.isFinite(y));
+     assert.ok(x>=left-operationRailTolerance&&x<=left+width+operationRailTolerance,'curve and heads must remain inside the physical rail');
+     assert.ok(y>fromCentre&&y<toCentre,'each step must remain between its row centres');
+    }
+    operationRailClose(g.start[1]-fromCentre,trim);
+    operationRailClose(toCentre-g.end[1],trim);
+    assert.ok(g.start[1]<g.controls[0][1]&&g.controls[0][1]<g.controls[1][1]&&g.controls[1][1]<g.end[1],'the curve must progress downward');
+    operationRailClose(startHead[0][0],g.start[0]);operationRailClose(startHead[0][1],g.start[1]);
+    operationRailClose(endHead[0][0],g.end[0]);operationRailClose(endHead[0][1],g.end[1]);
+    assert.ok(endHead.slice(1).every(point=>point[1]<endHead[0][1]),'the final arrowhead must point downward');
+    assert.ok(previousMaxY<Math.min(...points.map(point=>point[1])),'successive curves and heads must stay separated');
+    previousMaxY=Math.max(...points.map(point=>point[1]));
+    const curveMinX=Math.min(...curvePoints.map(point=>point[0])),curveMaxX=Math.max(...curvePoints.map(point=>point[0]));
+    assert.ok(g.labelX>left&&g.labelX<left+width);
+    assert.ok(left===0?g.labelX<curveMinX:g.labelX>curveMaxX,'the label centre must lie outside the curve band');
+    assert.ok(g.labelY>g.start[1]&&g.labelY<g.end[1]);
+    // A centre outside the curve band does not prove clearance for rendered glyphs.
+    return g;
+   });
+  });
+  for(let row=0;row<3;row++){
+   const left=rails[0][row],right=rails[1][row];
+   for(const [leftPoint,rightPoint] of [[left.start,right.start],...left.controls.map((point,index)=>[point,right.controls[index]]),[left.end,right.end]]){
+    operationRailClose(leftPoint[0]+rightPoint[0],tableWidth);
+    operationRailClose(leftPoint[1],rightPoint[1]);
+   }
+   operationRailClose(left.labelX+right.labelX,tableWidth);
+   operationRailClose(left.labelY,right.labelY);
+  }
+  for(const steps of rails){
+   assert.ok(steps[2].end[1]<3.5*rowHeight,'the final endpoint must precede the final row centre');
+  }
+ });
+}
+
+test('source 58 operation notation and rail identities survive normalization and save/reopen',()=>{
+ const rows=Array.from({length:4},(_,row)=>['first','value-a','value-b','last'].map(column=>({id:`${column}-${row}`,blocks:[]})));
+ const labels=['×2','÷(−4)','+3'];
+ const annotations=['first','last'].flatMap(rail=>labels.map((label,row)=>({id:`${rail}-step-${row}`,type:'arrow',side:'middle',cellId:`${rail}-${row}`,toCellId:`${rail}-${row+1}`,label,distanceMm:1.5,curveMm:.5})));
+ const doc=normalizeDocument({blocks:[{id:'operation-table',type:'table',rows,annotations}]});
+ const reopened=normalizeDocument(JSON.parse(JSON.stringify(doc)));
+ assert.deepEqual(reopened,doc);
+ for(const candidate of [doc,reopened]){
+  const table=candidate.blocks[0];
+  assert.equal(table.id,'operation-table');
+  assert.deepEqual(table.rows.map(row=>row.map(cell=>cell.id)),rows.map(row=>row.map(cell=>cell.id)));
+  assert.equal(table.annotations.length,annotations.length);
+  for(const expected of annotations){
+   const actual=table.annotations.find(annotation=>annotation.id===expected.id);
+   assert.ok(actual,`missing annotation ${expected.id}`);
+   assert.deepEqual(Object.fromEntries(Object.keys(expected).map(key=>[key,actual[key]])),expected);
+  }
+  assert.equal(table.annotations.filter(annotation=>annotation.label==='÷(−4)').length,2);
+ }
+});
+
+test('unlabelled vertical and labelled horizontal middle arrows retain straight geometry',()=>{
+ const width=12*operationRailMm,rowHeight=12*operationRailMm;
+ const from={left:0,top:0,width,height:rowHeight,bottom:rowHeight};
+ const below={...from,top:rowHeight,bottom:2*rowHeight};
+ const alongside={...from,left:width};
+ const annotation={side:'middle',distanceMm:1.5,curveMm:.5};
+ const vertical=tableArrowGeometry(from,below,annotation);
+ assert.deepEqual(tableArrowGeometry(from,below,{...annotation,label:' \t '}),vertical);
+ assert.deepEqual(vertical.controls,[]);
+ assert.match(vertical.path,/\bL\b/);assert.doesNotMatch(vertical.path,/\bC\b/);
+ operationRailClose(vertical.start[0],width/2);operationRailClose(vertical.end[0],width/2);
+ operationRailClose(vertical.start[1]-rowHeight/2,1.5*operationRailMm);
+ operationRailClose(1.5*rowHeight-vertical.end[1],1.5*operationRailMm);
+ assert.ok(vertical.start[1]<vertical.end[1]);
+ const horizontal=tableArrowGeometry(from,alongside,{...annotation,label:'÷(−4)'});
+ assert.deepEqual(horizontal,tableArrowGeometry(from,alongside,annotation));
+ assert.deepEqual(horizontal.controls,[]);
+ assert.match(horizontal.path,/\bL\b/);assert.doesNotMatch(horizontal.path,/\bC\b/);
+ operationRailClose(horizontal.start[1],rowHeight/2);operationRailClose(horizontal.end[1],rowHeight/2);
+ operationRailClose(horizontal.start[0]-width/2,1.5*operationRailMm);
+ operationRailClose(1.5*width-horizontal.end[0],1.5*operationRailMm);
+ assert.ok(horizontal.start[0]<horizontal.end[0]);
+});

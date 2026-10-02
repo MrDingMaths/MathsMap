@@ -9,18 +9,89 @@ const copy = v => JSON.parse(JSON.stringify(v));
 const descendants = node => [node.id,...(node.children ?? []).flatMap(descendants)];
 const refs = n => n.type === 'item' ? [n.ref] : (n.children ?? []).flatMap(refs);
 
+// Explicit physical rows may cross semantic columns without reordering content.
+// This opt-in supports only a saved, rectangular grid of leaf response cells.
+function nestedGridSplitGroups(block, layouts) {
+  const root=block.content, columns=root?.children, rows=block.flow.continuationRows;
+  if(block.type!=='question'||!Array.isArray(rows)||rows.length<2||root?.layout!=='grid'||!Array.isArray(columns)||columns.length<2||root.columns!==columns.length)return [];
+  const atomic=n=>n.keepTogether||n.flow?.keepTogether||n.pairedBlockId||n.representations;
+  const response=n=>n.answer!=null||n.answerSpaceMm!=null||n.answerSpace!=null||n.response!=null||n.responses!=null||n.responseType!=null||n.workingSpaceMm!=null||n.teachingAnswer!=null;
+  const ancestorDependency=n=>n.dependsOn!=null&&(!Array.isArray(n.dependsOn)||n.dependsOn.length);
+  if(atomic(root)||response(root)||ancestorDependency(root)||root.sharedSolutionDiagrams?.length||(root.questionDiagrams?.length&&!block.flow.repeatSharedDiagram))return [];
+  if(columns.some(column=>column.type!=='group'||column.layout!=='list'||atomic(column)||response(column)||ancestorDependency(column)||(column.label!=null&&column.label!=='')||(column.prompt!=null&&column.prompt!=='')||column.questionDiagrams?.length||column.sharedSolutionDiagrams?.length||!Array.isArray(column.children)||column.children.length!==rows.length))return [];
+  const allIds=descendants(root);
+  if(allIds.some(id=>typeof id!=='string'||!id||id.includes('/'))||new Set(allIds).size!==allIds.length)return [];
+  const leaves=columns.flatMap(column=>column.children);
+  if(leaves.some(part=>part.type!=='part'||part.children?.length||part.pairedBlockId||part.representations||!Number.isFinite(part.answerSpaceMm)||part.answerSpaceMm<=0))return [];
+  // Definitions must match both the column order and the order within columns.
+  if(rows.some((row,index)=>!Array.isArray(row)||row.length!==columns.length||row.some((id,column)=>id!==columns[column].children[index].id)))return [];
+  const rowOf=new Map(rows.flatMap((row,index)=>row.map(id=>[id,index])));
+  if(rowOf.size!==leaves.length)return [];
+  // A dependency crossing rows, or targeting an ancestor/unknown node, is unsafe.
+  if(leaves.some(part=>part.dependsOn!=null&&(!Array.isArray(part.dependsOn)||part.dependsOn.some(id=>!rowOf.has(id)||rowOf.get(id)!==rowOf.get(part.id)))))return [];
+  const local=block.presentation?.layoutOverrides?.blockLayouts?.[block.id];
+  const stored=layouts[block.id]?.arrangement??local?.arrangement;
+  if(stored?.root?.type!=='group')return [];
+  const entries=arrangementCatalog(block).entries;
+  const requiredRefs=new Set([...entries.values()].filter(entry=>
+    !['answer-short','answer-worked'].includes(entry.role)&&
+    !(entry.kind==='label'&&entry.value===''&&entry.ownerId!==root.id&&!rowOf.has(entry.ownerId))
+  ).map(entry=>entry.ref));
+  let arrangement;
+  try{
+    // Resolve native-field aliases and intentional blanks before checking refs.
+    // Only generated fragments may retain references to removed source rows.
+    if(!Number.isInteger(block.flow.fragment)&&resolveArrangement(block,stored).missing.length)return [];
+    const projected=fragmentLayouts([block],layouts)[block.id]?.arrangement??stored;
+    arrangement=resolveArrangement(block,projected).tree;
+  }catch{return [];}
+  if(arrangement.root.type!=='group'||arrangement.root.direction!=='stack'||arrangement.root.keepTogether)return [];
+  const counts=new Map();
+  for(const ref of refs(arrangement.root))counts.set(ref,(counts.get(ref)??0)+1);
+  if([...counts].some(([ref,count])=>!entries.has(ref)||count!==1)||[...requiredRefs].some(ref=>counts.get(ref)!==1))return [];
+  const owner=ref=>entries.get(ref)?.ownerId;
+  let index=0;
+  for(const child of arrangement.root.children??[]){
+    const childRefs=refs(child), responseRefs=childRefs.filter(ref=>rowOf.has(owner(ref)));
+    if(!responseRefs.length){
+      // Shared context must precede the responses and belong to the root.
+      if(index||childRefs.some(ref=>owner(ref)!==root.id))return [];
+      continue;
+    }
+    const expected=rows[index++];
+    if(!expected||child.type!=='group'||child.direction!=='row'||child.children?.length!==columns.length)return [];
+    for(let column=0;column<columns.length;column++){
+      const cellRefs=refs(child.children[column]), id=expected[column];
+      if(!cellRefs.length||cellRefs.some(ref=>owner(ref)!==id))return [];
+      const required=[...requiredRefs].filter(ref=>owner(ref)===id);
+      if(required.length!==cellRefs.length||required.some(ref=>!cellRefs.includes(ref)))return [];
+    }
+  }
+  if(index!==rows.length)return [];
+  return rows.map(ids=>({parentId:root.id,ids:[...ids],leafRows:true}));
+}
+
 // Safe cuts are structural: complete rows and dependency groups remain atomic.
 export function questionSplitGroups(block, layouts={}) {
   if (block.flow?.keepTogether || block.pairedBlockId) return [];
+  if (block.flow?.continuationRows !== undefined) return nestedGridSplitGroups(block,layouts);
   let node = block.content;
-  while (node?.children?.length === 1 && !(node.questionDiagrams?.length) && !node.representations) node = node.children[0];
+  while (node?.children?.length === 1 && (!(node.questionDiagrams?.length) || block.flow?.repeatSharedDiagram) && !node.representations) node = node.children[0];
   if (!node?.children?.length || ((node.questionDiagrams?.length||node.sharedSolutionDiagrams?.length) && !block.flow?.repeatSharedDiagram) || node.representations) return [];
   const children = node.children, groups = children.map(c => descendants(c));
   const owner = new Map(groups.flatMap((ids,i) => ids.map(id => [id,i])));
   const joined = new Set();
   const join = indexes => {const sorted=[...new Set(indexes)].sort((a,b)=>a-b);for(let i=sorted[0];i<sorted.at(-1);i++)joined.add(i);};
   const arrangement = resolveArrangement(block,layouts[block.id]?.arrangement).tree;
-  const scan = n => {if(n.direction === 'row')join(refs(n).map(ref=>owner.get(ref.split('/')[0])).filter(i=>i!==undefined));for(const child of n.children??[])scan(child);};
+  const scan = n => {
+    if(n.direction === 'row'){
+      const responseCells=(n.children??[])
+        .map(child=>refs(child).map(ref=>owner.get(ref.split('/')[0])).filter(i=>i!==undefined))
+        .filter(indexes=>indexes.length);
+      if(responseCells.length>1)join(responseCells.flat());
+    }
+    for(const child of n.children??[])scan(child);
+  };
   scan(arrangement.root);
   const dependencies = n => {if(n.dependsOn?.length)join([owner.get(n.id),...n.dependsOn.map(id=>owner.get(id))].filter(i=>i!==undefined));for(const c of n.children??[])dependencies(c);};
   dependencies(node);
@@ -32,7 +103,17 @@ export function questionSplitGroups(block, layouts={}) {
 export function fragmentQuestion(block, groups, continuation=0) {
   const next=copy(block), targetId=groups[0].parentId, ids=new Set(groups.flatMap(g=>g.ids));
   const visit=n=>{if(n.id===targetId)n.children=n.children.filter(c=>ids.has(c.id));else n.children?.forEach(visit);};
-  visit(next.content);
+  if(groups[0].leafRows){
+    if(!groups.every(group=>group.leafRows&&group.parentId===targetId))throw Error('Mixed continuation group types');
+    // Retain complete selected leaves beneath their unchanged semantic ancestors.
+    const retain=n=>{
+      if(!n.children?.length)return ids.has(n.id)?n:null;
+      n.children=n.children.map(retain).filter(Boolean);
+      return n.children.length?n:null;
+    };
+    next.content=retain(next.content);
+    next.flow={...next.flow,continuationRows:groups.map(group=>[...group.ids])};
+  }else visit(next.content);
   next.flow={...next.flow,fragment:continuation};
   if(continuation!==(block.flow?.fragment??0)){
     next.flow.hideRepeatedStem=true;
@@ -52,7 +133,8 @@ export function fragmentLayouts(blocks, layouts={}) {
   if(cached&&cached.blocks.length===blocks.length&&cached.blocks.every((block,i)=>block===blocks[i]))return cached.result;
   const result={...layouts};
   for(const block of blocks){
-    const stored=layouts[block.id]?.arrangement;
+    const local=block.flow?.continuationRows?block.presentation?.layoutOverrides?.blockLayouts?.[block.id]:null;
+    const stored=layouts[block.id]?.arrangement??local?.arrangement;
     if(!stored)continue;
     const allowed=arrangementCatalog(block).entries;
     const missing=n=>n.type==='item'?!allowed.has(n.ref):n.children.some(missing);
@@ -67,7 +149,7 @@ export function fragmentLayouts(blocks, layouts={}) {
       // Remove only groups emptied by this fragment's missing content.
       return n.children.length&&!children.length?null:{...n,children};
     };
-    result[block.id]={...layouts[block.id],arrangement:{...projected,root:prune(projected.root)??{...projected.root,children:[]}}};
+    result[block.id]={...local,...layouts[block.id],arrangement:{...projected,root:prune(projected.root)??{...projected.root,children:[]}}};
   }
   byBlocks.set(blocks,{blocks:[...blocks],result});return result;
 }
@@ -181,8 +263,16 @@ async function paginateFlowLayout(project,edition,measure,{cancelled=()=>false,o
       if(size.height<=size.capacity+.2){current=blocks;return;}
       // Teaching atoms and pre-existing source continuation chains can break
       // between their complete blocks, retaining the shared atom heading.
-      if(blocks.length>1&&!blocks.some(b=>b.flow?.keepTogether||b.flow?.keepWithNext||b.pairedBlockId)){
-        for(const b of blocks)await add([b]);return;
+      if(blocks.length>1&&!blocks.some(b=>b.flow?.keepTogether||b.pairedBlockId)){
+        const chunks=[];
+        for(const b of blocks){
+          if(!chunks.length||!chunks.at(-1).at(-1).flow?.keepWithNext)chunks.push([]);
+          chunks.at(-1).push(b);
+        }
+        // A shared teaching activity can span pages between complete local
+        // rule/practice pairs. One keep-with-next link does not bind the whole
+        // activity; an indivisible chain still reaches the overflow check.
+        if(chunks.length>1){for(const chunk of chunks)await add(chunk);return;}
       }
       const block=blocks[0];
       const groups=blocks.length===1&&block.type==='question'?questionSplitGroups(block,layouts):[];

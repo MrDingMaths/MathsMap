@@ -72,4 +72,8 @@ test('import preview recognises paired rewrite tables and hides model-only title
   assert.equal(isRewriteTableQuestion(question), true);
   assert.equal(visibleImportedQuestionTitle(question), '');
   assert.equal(visibleImportedQuestionTitle({ title: 'NAPLAN B+', content: { prompt: 'Solve it.' } }), 'NAPLAN B+');
+  const document={format:'maths-editor-document-v1',version:1,blocks:[{id:'attribution',type:'paragraph',inlines:[{type:'text',text:'NAPLAN C',marks:['bold']}]},{id:'stem',type:'paragraph',inlines:[{type:'text',text:'Find the width.'}]}]};
+  assert.equal(visibleImportedQuestionTitle({title:'NAPLAN C',content:{prompt:document}}),'','A native source attribution must suppress its generated duplicate');
+  document.blocks.shift();
+  assert.equal(visibleImportedQuestionTitle({title:'NAPLAN C',content:{prompt:document}}),'NAPLAN C','A missing native attribution remains visible');
 });

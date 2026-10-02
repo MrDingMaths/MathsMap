@@ -80,6 +80,42 @@ test('measurement waits for late diagrams, images and fonts without fixed animat
  }finally{await browser.close();}
 });
 
+test('measurement waits for diagrams mounted during font settling and cancels the late wait',async()=>{
+ const browser=await chromium.launch({headless:true,channel:'chrome'});
+ try{
+  const page=await browser.newPage();await page.setContent('<main></main>');
+  const result=await page.evaluate(async ({fn,fontFn})=>{
+   const fontSettle=(new Function('nunitoLoads','return ('+fontFn+')'))(new WeakMap());
+   const settle=(new Function('settleBookletFonts','return ('+fn+')'))(fontSettle),root=document.querySelector('main');
+   window.requestAnimationFrame=()=>{throw Error('Measurement must not wait for paint frames');};
+   const run=async cancel=>{
+    root.innerHTML='';const events=[],controller=new AbortController();
+    let resolveFonts,markFontWait,outcome='pending';
+    const fontsReady=new Promise(resolve=>{resolveFonts=resolve;});
+    const fontWaitStarted=new Promise(resolve=>{markFontWait=resolve;});
+    const faces=[];
+    Object.defineProperty(faces,'ready',{get:()=>{markFontWait();return fontsReady;}});
+    // Keep the surface as a real DOM node for the late MutationObserver wait.
+    Object.defineProperty(root,'ownerDocument',{configurable:true,value:{fonts:faces,defaultView:{getComputedStyle:()=>({fontFamily:'serif'})}}});
+    const measurement=settle(root,{signal:controller.signal,timeoutMs:5000,calibrate:()=>events.push('calibrated')}).then(()=>{outcome='ready';},error=>{outcome=error.cancelled?'cancelled':error.message;});
+    await fontWaitStarted;
+    root.innerHTML='<div class="tikz-wrap"></div>';
+    resolveFonts();
+    await new Promise(resolve=>setTimeout(resolve,0));
+    const heldForDiagram=outcome==='pending'&&events.length===0;
+    if(cancel)controller.abort();else root.querySelector('.tikz-wrap').innerHTML='<svg></svg>';
+    await measurement;
+    return{heldForDiagram,outcome,events};
+   };
+   return{ready:await run(false),cancelled:await run(true)};
+  },{fn:settleBookletMeasurement.toString(),fontFn:settleBookletFonts.toString()});
+  assert.deepEqual(result,{
+   ready:{heldForDiagram:true,outcome:'ready',events:['calibrated']},
+   cancelled:{heldForDiagram:true,outcome:'cancelled',events:[]},
+  });
+ }finally{await browser.close();}
+});
+
 test('measurement cancels stale asset waits and reports failed or timed-out assets',async()=>{
  const browser=await chromium.launch({headless:true,channel:'chrome'});
  try{

@@ -1,4 +1,5 @@
 import {compactAnswerProseGlue} from './compact-answer-glue.js';
+import {contentSource} from './document-content.js';
 import {retainDifficultyAsMetadata} from './booklet-difficulty-headings.js';
 import {isPractice, logicalUnits} from './booklet-flow.js';
 import {graphSourceWithoutColourMetadata} from './diagram-colours.js';
@@ -8,11 +9,42 @@ export {COMPACT_ANSWERS} from './booklet-creation.js';
 
 export function compactAnswerLabel(number,parts=[]){
  const labels=[...(number==null?[]:[String(number)]),...parts.map(String)].filter(Boolean);
- return labels.reduce((text,label,index)=>text+(index&&label.length>1&&!/^[ivxlcdm]+$/i.test(label)?' ':'')+label,'');
+ return labels.reduce((text,label,index)=>text+(index&&/^\d+$/.test(label)?`(${label})`:(index&&label.length>1&&!/^[ivxlcdm]+$/i.test(label)?' ':'')+label),'');
+}
+
+// Display metadata belongs only to cloned answer fragments. Preserve the original
+// segment before pruning siblings, including whether a group was transparent.
+function answerPartLabel(node,index=0){
+ if(node._answerDisplay)return node._answerDisplay.label;
+ if(node.label!=null&&String(node.label).trim())return String(node.label);
+ if(node.label!=null||node.children?.some(child=>!String(child.label??'').trim()))return String(index+1);
+ return node.children?.length?null:String.fromCharCode(97+index);
 }
 
 export function answerNodePath(root,node,path=[],index=0){
- return node===root||node.children?.length&&node.label==null?path:[...path,String(node.label??String.fromCharCode(97+index))];
+ if(node===root)return path;
+ const label=answerPartLabel(node,index);
+ return label==null?path:[...path,label];
+}
+
+// Context stays in the content column; it never enlarges the label gutter.
+export function answerNodeContext(root,node,index=0,parent=null){
+ if(node._answerDisplay)return node._answerDisplay.context;
+ const prompt=contentSource(node.prompt).trim();
+ const rootPrompt=contentSource(root.prompt).trim();
+ if(node!==root&&String(node.label??'').trim())return '';
+ if(node!==root&&node.children?.length)return answerPartLabel(node,index)==null?'':prompt.split(/\r?\n/,1)[0].replace(/:\s*$/,'');
+ if(node!==root&&!prompt&&index<2&&/\busing both methods\b/i.test(contentSource(parent?.prompt))){
+  const names=rootPrompt.match(/^([\p{L}\p{M}][\p{L}\p{M}'’ -]*?) and ([\p{L}\p{M}][\p{L}\p{M}'’ -]*?) are solving\b/u);
+  if(names)return `${names[index+1]}’s method`;
+ }
+ if(node===root){
+  const work=rootPrompt.match(/^Read ([^\n:]+?[’']s work) carefully\b/u);
+  if(work)return work[1];
+  const student=rootPrompt.match(/^([\p{L}\p{M}'’-]+) is solving (?:the )?equation\b/u);
+  if(student)return `${student[1]}’s work`;
+ }
+ return '';
 }
 
 export function answerDiagramSignature(diagram) {
@@ -47,12 +79,57 @@ export function withAnswerDiagramWidth(settings,mode,id,width) {
 // Allow wrapping between complete coordinates/values, never within a fraction
 // or coordinate pair. This changes only the display value passed to the renderer.
 export function compactAnswerDisplay(value) {
-  if(typeof value!=='string')return compactAnswerProseGlue(value);
-  const wrapped=value.replace(/(?<![\\$])\$(?!\$)((?:\\.|[^$])*?)(?<!\\)\$(?!\$)/g,(_,math)=>{
+  // Display-only wrapping; never modify stored editor documents or TeX.
+  const breakInlineMath=math=>{
     let depth=0,result='';
-    for(const c of math){if('({['.includes(c))depth++;if(')}]'.includes(c))depth--;result+=c;if(depth===0&&',;'.includes(c))result+='\\allowbreak ';}
-    return '$'+result+'$';
-  });
+    for(let index=0;index<math.length;index++){
+      const c=math[index];
+      if(c==='\\'&&index+1<math.length){
+        const escaped=math[++index];
+        // Escaped braces can delimit a mathematical set. Escaped punctuation
+        // and spacing commands are not list separators.
+        if('({['.includes(escaped))depth++;
+        else if(')}]'.includes(escaped))depth=Math.max(0,depth-1);
+        result+='\\'+escaped;
+        continue;
+      }
+      if('({['.includes(c))depth++;
+      else if(')}]'.includes(c))depth=Math.max(0,depth-1);
+      result+=c;
+      if(depth===0&&',;'.includes(c)&&!/^\s*\\allowbreak\b/.test(math.slice(index+1)))result+='\\allowbreak ';
+    }
+    return result;
+  };
+  const visit=(node,inlineContext=false)=>{
+    if(Array.isArray(node)){
+      const items=node.map(item=>visit(item,inlineContext));
+      return items.some((item,index)=>item!==node[index])?items:node;
+    }
+    if(node===null||typeof node!=='object')return node;
+    let result=node;
+    for(const [key,child] of Object.entries(node)){
+      const next=visit(child,key==='inlines'||(inlineContext&&key!=='blocks'));
+      if(next!==child){
+        if(result===node)result={...node};
+        result[key]=next;
+      }
+    }
+    // Math blocks and explicitly displayed atoms retain their original layout.
+    if(inlineContext&&node.type==='math'&&node.display!==true&&typeof node.latex==='string'){
+      const latex=breakInlineMath(node.latex);
+      if(latex!==node.latex){
+        if(result===node)result={...node};
+        result.latex=latex;
+      }
+    }
+    return result;
+  };
+  let wrapped=value;
+  if(typeof value==='string'){
+    wrapped=value.replace(/(?<![\\$])\$(?!\$)((?:\\.|[^$])*?)(?<!\\)\$(?!\$)/g,(_,math)=>'$'+breakInlineMath(math)+'$');
+  }else if(value&&value.format==='maths-editor-document-v1'){
+    wrapped=visit(value);
+  }
   return compactAnswerProseGlue(wrapped);
 }
 
@@ -132,11 +209,11 @@ export function organiseExercises(source, ratings={}) {
 // Nodes sharing a solution diagram, or explicit dependencies, stay atomic.
 export function answerFragments(block, mode = null) {
   const root=structuredClone(block.content),units=[];
-  const label=(node,index=0)=>{
-    if(node!==root&&node.label==null&&!node.children?.length)node.label=String.fromCharCode(97+index);
-    node.children?.forEach(label);
+  const retainDisplay=(node,index=0,parent=null)=>{
+    node._answerDisplay={label:answerPartLabel(node,index),context:answerNodeContext(root,node,index,parent)};
+    node.children?.forEach((child,childIndex)=>retainDisplay(child,childIndex,node));
   };
-  label(root);
+  retainDisplay(root);
   const visit=(node,path=[])=>{
     if(node.children?.length&&!(mode&&node.answer?.[mode])&&!node.sharedSolutionDiagrams?.length&&!node.children.some(c=>c.dependsOn?.length))node.children.forEach(c=>visit(c,[...path,node]));
     else units.push({node,path});

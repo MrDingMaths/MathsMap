@@ -31,6 +31,12 @@ export function teachingLabels(blocks=[]){
   if(seen.has(block.id)||!(usesTeachingLetters(block)||usesReviewNumbers(block)))continue;seen.add(block.id);
   const key=block.sourceAtom?.id??block.id;
   if(usesReviewNumbers(block)){
+   const root=block.content;
+   if(root?.type==='group'&&root.label===''&&!root.prompt&&root.children?.length&&root.children.every(child=>/^\d+$/.test(String(child.label??'')))){
+    labels[root.id]='';
+    counts.set(key,Math.max(counts.get(key)??0,...root.children.map(child=>Number(child.label))));
+    continue;
+   }
    // Reviewed source labels can include an unnumbered objective or stem.
    if(block.presentation?.reviewNumbering==='source'){
     labels[block.content.id]=String(block.content.label??'');
@@ -65,6 +71,11 @@ export function teachingLabels(blocks=[]){
   for(const example of block.examples??[])labels[example.id]='';
  }
  return labels;
+}
+export function keyIdeasClozeStatements(block){
+ if(block?.pedagogyRole!=='key-ideas'||!block.sourceReview?.responses?.length||!block.sourceReview.responses.every(r=>r.kind==='cloze'))return null;
+ const statements=block.content?.children?.length?block.content.children:[block.content];
+ return statements.every(part=>part&&!part.children?.length)?statements:null;
 }
 export function labelledTeachingQuestion(block,labels){
  if(usesReviewNumbers(block))return {...block,sourceOrder:labels[block.content.id]===''?null:Number(labels[block.content.id]??1)};

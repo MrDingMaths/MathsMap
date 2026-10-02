@@ -1,6 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {teachingLabels,alphabeticLabel,labelledTeachingQuestion,hasEmbeddedResponseLabel,hasStandaloneMathTable} from '../src/lib/booklet-labels.js';
+import {teachingLabels,alphabeticLabel,labelledTeachingQuestion,hasEmbeddedResponseLabel,hasStandaloneMathTable,keyIdeasClozeStatements} from '../src/lib/booklet-labels.js';
+
+test('source-numbered review groups omit a redundant outer number and retain following numbering',()=>{
+ const atom={id:'review-box',kind:'review'},group={id:'grouped-review',type:'question',sourceAtom:atom,content:{id:'review-root',type:'group',label:'',prompt:'',children:[{id:'review-one',label:'1',prompt:'First task'},{id:'review-two',label:'2',prompt:'Second task'},{id:'review-three',label:'3',prompt:'Third task'}]}},next={id:'next-review',type:'question',sourceAtom:atom,content:{id:'next-root',label:'',prompt:'Fourth task'}};
+ const labels=teachingLabels([group,next]);assert.equal(labels['review-root'],'');assert.equal(labels['next-root'],'4');
+ assert.equal(labelledTeachingQuestion(group,labels).sourceOrder,null);
+});
+
+test('nested Key Ideas clozes use the full question renderer while flat statements retain compact layout',()=>{
+ const first={id:'key-one',label:'1',prompt:'Find the HCF:',children:[{id:'key-a',label:'a',prompt:'Identify the highest number.'},{id:'key-b',label:'b',prompt:'Use the lowest common powers.'}]},second={id:'key-two',label:'2',prompt:'Check by expanding.'};
+ const block={pedagogyRole:'key-ideas',sourceReview:{responses:[{kind:'cloze'},{kind:'cloze'},{kind:'cloze'}]},content:{children:[first,second]}};
+ assert.equal(keyIdeasClozeStatements(block),null);
+ const flat={...block,content:{children:[...first.children,second]}};assert.deepEqual(keyIdeasClozeStatements(flat),flat.content.children);
+ assert.equal(keyIdeasClozeStatements({...flat,sourceReview:{responses:[{kind:'working'}]}}),null);
+});
 
 test('answer-only scaffold leaves keep answer labels without an empty student label',()=>{
  const node={id:'table-row-a',label:'a',responseSpace:'scaffold',answer:{short:'1/5'}};

@@ -9,6 +9,12 @@ export const DOCUMENT_FORMAT = 'maths-editor-document-v1';
 export const DOCUMENT_VERSION = 1;
 // Semantic table headings affect presentation, never the editable LaTeX value.
 export const tableMathLatex = (latex, bold = false) => bold ? `\\boldsymbol{${latex}}` : latex;
+export const inlineMarks = (...groups) => ['bold','italic','underline'].filter(mark => groups.some(group => Array.isArray(group) && group.includes(mark)));
+// Explicit inline marks are content. Table-header bold remains presentation only.
+export function mathInlineMarks(node, inherited = []) {
+  let declared=[];try{declared=JSON.parse(node.dataset.mathMarks??'[]');}catch{}
+  return inlineMarks(inherited,declared);
+}
 export const copy = value => JSON.parse(JSON.stringify(value));
 export const uid = () => globalThis.crypto?.randomUUID?.() ?? `me-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 const limit = (v, fallback, min = 0, max = 300) => Number.isFinite(Number(v)) ? Math.max(min, Math.min(max, Number(v))) : fallback;
@@ -64,20 +70,35 @@ export function tableCells(line) {
   }
   cells.push(cell.trim());return cells;
 }
-export function inlinesFromSource(source) {
-  const nodes = [];
-  const re = /(?<!\\)(\$\$[\s\S]*?(?<!\\)\$\$|\$[^$\n]*?(?<!\\)\$)|\[\[([^|\]]*)\|(\d+)\]\]|(\*\*[^*]+\*\*)|(_[^_\n]+_)/g;
-  let start = 0;
-  const text = str => str.split('\n').forEach((s, i) => { if (i) nodes.push({ type: 'break' }); s.split('\t').forEach((part,j)=>{if(j)nodes.push({type:'tab'});if(part)nodes.push({type:'text',text:part.replace(/\\\$/g,'$'),marks:[]});}); });
-  for (const m of String(source).matchAll(re)) {
-    text(source.slice(start, m.index));
-    if (m[1]) { const display = m[1].startsWith('$$'); nodes.push({ type:'math', latex:m[1].slice(display ? 2 : 1, display ? -2 : -1), display }); }
-    else if (m[2] !== undefined) nodes.push({ type:'cloze', answer:m[2], width:Number(m[3]) });
-    else nodes.push({ type:'text', text:m[0].slice(m[4] ? 2 : 1, m[4] ? -2 : -1), marks:[m[4] ? 'bold' : 'italic'] });
-    start = m.index + m[0].length;
+export function inlinesFromSource(source, inherited = []) {
+  const value=String(source),marks=inlineMarks(inherited),nodes=[];
+  const escaped=at=>{let count=0;while(at>0&&value[--at]==='\\')count++;return count%2===1;};
+  const mathAt=at=>{
+    if(value[at]!=='$'||escaped(at))return null;
+    const delimiter=value.startsWith('$$',at)?'$$':'$';
+    for(let end=at+delimiter.length;end<value.length;end++){
+      if(delimiter==='$'&&value[end]==='\n')return null;
+      if(value.startsWith(delimiter,end)&&!escaped(end))return {end:end+delimiter.length,latex:value.slice(at+delimiter.length,end),display:delimiter==='$$'};
+    }return null;
+  };
+  const formatEnd=(at,delimiter)=>{
+    for(let end=at+delimiter.length;end<value.length;end++){
+      const math=mathAt(end);if(math){end=math.end-1;continue;}
+      if(delimiter==='_'&&value[end]==='\n')return -1;
+      if(value.startsWith(delimiter,end)&&!escaped(end))return end;
+    }return -1;
+  };
+  const text=str=>str.split('\n').forEach((line,i)=>{if(i)nodes.push({type:'break'});line.split('\t').forEach((part,j)=>{if(j)nodes.push({type:'tab'});if(part)nodes.push({type:'text',text:part.replace(/\\\$/g,'$'),marks:[...marks]});});});
+  let start=0,at=0;
+  while(at<value.length){
+    const math=mathAt(at),cloze=/^\[\[([^|\]]*)\|(\d+)\]\]/.exec(value.slice(at)),delimiter=value.startsWith('**',at)?'**':value[at]==='_'?'_':null;
+    const end=delimiter&&!escaped(at)?formatEnd(at,delimiter):-1;
+    if(math){text(value.slice(start,at));nodes.push({type:'math',latex:math.latex,display:math.display,...(marks.length?{marks:[...marks]}:{})});at=math.end;start=at;}
+    else if(cloze){text(value.slice(start,at));nodes.push({type:'cloze',answer:cloze[1],width:Number(cloze[2])});at+=cloze[0].length;start=at;}
+    else if(delimiter&&end>at+delimiter.length){text(value.slice(start,at));nodes.push(...inlinesFromSource(value.slice(at+delimiter.length,end),inlineMarks(marks,[delimiter==='**'?'bold':'italic'])));at=end+delimiter.length;start=at;}
+    else at++;
   }
-  text(String(source).slice(start));
-  return nodes;
+  text(value.slice(start));return nodes;
 }
 export function fromSource(source = '') {
   const lines = String(source).replace(/\r/g, '').split('\n');
@@ -113,7 +134,7 @@ export function normalizeDocument(raw = {}) {
       const n = copy(rawNode);if(n.type==='annotated-equation')return normalizeAnnotatedEquation(n,{id,blocks:items=>blocks(items,depth+1)});const base = { id:id(n.id), type:n.type };
       if (n.type === 'paragraph') return { ...base, ...(n.preserveEmpty?{preserveEmpty:true}:{}), fontSize:n.fontSize==null?null:limit(n.fontSize,11,6,48), align:choice(n.align,['left','center','right','justify'],'left'), spaceBefore:limit(n.spaceBefore,0), spaceAfter:limit(n.spaceAfter,2), lineHeight:limit(n.lineHeight,1.4,1,3), indent:limit(n.indent,0), ...(n.tabStops?{tabStops:normalizeTabStops(n.tabStops)}:{}), inlines:(n.inlines ?? []).map(x => {
         if (x.type === 'inline-image') return {type:'inline-image',id:id(x.id),src:safeImage(x.src),alt:String(x.alt??''),width:limit(x.width,20,.5,190),aspectRatio:limit(x.aspectRatio,1,.01,100),verticalAlign:choice(x.verticalAlign,['baseline','middle','top','bottom'],'middle')};
-        if (x.type === 'math') return { type:'math', latex:String(x.latex ?? ''), display:!!x.display, ...(x.semanticRole==='correctness-marker'?{semanticRole:x.semanticRole}:{}), ...(colour(x.colour,null)?{colour:colour(x.colour,null)}:{}) };
+        if (x.type === 'math') return { type:'math', latex:String(x.latex ?? ''), display:!!x.display, ...(inlineMarks(x.marks).length?{marks:inlineMarks(x.marks)}:{}), ...(x.semanticRole==='correctness-marker'?{semanticRole:x.semanticRole}:{}), ...(colour(x.colour,null)?{colour:colour(x.colour,null)}:{}) };
         if (x.type === 'tab') return {type:'tab'};
         if (x.type === 'break') return { type:'break' };
         if (x.type === 'cloze' && x.width==null && x.answer) x={...clozeLayout(x.answer),...x,expectedResponse:x.expectedResponse??x.answer};
@@ -137,8 +158,9 @@ export function visitDocument(doc, fn) {
 }
 export function toSource(raw) {
   const doc = normalizeDocument(raw);
-  const inline = n => n.type === 'tab' ? '\t' : n.type === 'inline-image' ? `[Image ${JSON.stringify(n.alt)} source=${JSON.stringify(n.src)}]` : n.type === 'math' ? (n.display ? '$$' : '$') + n.latex + (n.display ? '$$' : '$') : n.type === 'break' ? '\n' : n.type === 'cloze' ? `[[${n.answer}|${n.width}]]` : (n.marks.includes('bold') ? '**' : n.marks.includes('italic') ? '_' : '') + n.text.replace(/\$/g, '\\$') + (n.marks.includes('bold') ? '**' : n.marks.includes('italic') ? '_' : '');
-  const text = nodes => nodes.map(n => n.type === 'paragraph' ? n.inlines.map(inline).join('') : n.type === 'list' ? n.items.map((item,i)=>(n.ordered?n.items.slice(0,i+1).reduce((value,item)=>item.value??value+1,n.start-1)+'. ':'- ')+item.blocks.map(b=>text([b])).join('\n').split('\n').join('\n  ')).join('\n') : n.type === 'table' ? n.rows.map(row => row.map(c => text(c.blocks)).join('\t')).join('\n') : n.type === 'annotated-equation' ? '$'+n.latex+'$\n'+n.annotations.map(a=>text(a.blocks)).join('\n') : n.type === 'layout' ? n.slots.map(s => text(s.blocks)).join('\n') : n.type === 'image' ? `[Image: ${n.alt || n.caption}]` : '').join('\n\n');
+  const inline = n => n.type === 'tab' ? '\t' : n.type === 'inline-image' ? `[Image ${JSON.stringify(n.alt)} source=${JSON.stringify(n.src)}]` : n.type === 'math' ? (n.display ? '$$' : '$') + n.latex + (n.display ? '$$' : '$') : n.type === 'break' ? '\n' : n.type === 'cloze' ? `[[${n.answer}|${n.width}]]` : n.text.replace(/\$/g, '\\$');
+  const sourceInlines=nodes=>{let out='',run='',marks=[];const flush=()=>{const delimiters=marks.filter(m=>m!=='underline').map(m=>m==='bold'?'**':'_');out+=delimiters.join('')+run+[...delimiters].reverse().join('');run='';};for(const n of nodes){const next=inlineMarks(n.marks);if(JSON.stringify(next)!==JSON.stringify(marks)){flush();marks=next;}run+=inline(n);}flush();return out;};
+  const text = nodes => nodes.map(n => n.type === 'paragraph' ? sourceInlines(n.inlines) : n.type === 'list' ? n.items.map((item,i)=>(n.ordered?n.items.slice(0,i+1).reduce((value,item)=>item.value??value+1,n.start-1)+'. ':'- ')+item.blocks.map(b=>text([b])).join('\n').split('\n').join('\n  ')).join('\n') : n.type === 'table' ? n.rows.map(row => row.map(c => text(c.blocks)).join('\t')).join('\n') : n.type === 'annotated-equation' ? '$'+n.latex+'$\n'+n.annotations.map(a=>text(a.blocks)).join('\n') : n.type === 'layout' ? n.slots.map(s => text(s.blocks)).join('\n') : n.type === 'image' ? `[Image: ${n.alt || n.caption}]` : '').join('\n\n');
   return text(doc.blocks);
 }
 export function renderDocument(raw, { math = latex => escapeHtml(latex), editable = false, fillCloze = false, annotationMath = math, editableMathPreview = false } = {}) {
@@ -155,7 +177,15 @@ export function renderDocument(raw, { math = latex => escapeHtml(latex), editabl
   // Editable-only caret anchors keep Chromium from dropping selections beside display maths.
   const mathCaret = editable ? '<span data-math-caret data-empty-caret>\u200b</span>' : '';
   const plainInline = (n, bold = false) => n.type === 'tab' ? '<span data-tab contenteditable="false" aria-label="Tab" style="display:inline-block;width:10mm;white-space:nowrap;vertical-align:baseline;overflow:hidden">&#8203;</span>'+mathCaret : n.type === 'inline-image' ? renderInlineImage(n,editable) : n.type === 'text' ? n.marks.reduce((s,m) => `<${{bold:'strong',italic:'em',underline:'u'}[m]}>${s}</${{bold:'strong',italic:'em',underline:'u'}[m]}>`, n.href?'<a href="'+e(n.href)+'" style="color:inherit;text-decoration:underline">'+e(n.text)+'</a>':editable ? e(n.text) : linkedTextHtml(n.text)) : n.type === 'break' ? '<br>' : n.type === 'cloze' ? renderCloze(n) : `${mathCaret}<span data-math="true"${bold?' data-math-bold="true"':''}${n.semanticRole==='correctness-marker'?' data-semantic-role="correctness-marker"':''} data-display="${n.display}"${editable&&editableMathPreview?' data-math-preview-host':''} contenteditable="false" style="${n.semanticRole==='correctness-marker'?`font-size:${BOOKLET_HOUSE_STYLE.teaching.correctnessMarkerPt}pt;`:''}${n.display ? 'display:block;' : 'display:inline-block;vertical-align:baseline;'}${/\\(?:d?frac|tfrac|cfrac)\b/.test(n.latex)?'padding-block:.15em;':''}">${editable ? `${editableMathPreview?`<span data-math-preview aria-hidden="true">${math(tableMathLatex(n.latex,bold),n.display)}</span>`:''}<math-field>${e(spaceFractionSteps(n.latex))}</math-field>` : math(tableMathLatex(n.latex,bold),n.display)}</span>${mathCaret}`;
-  const inline = (n, bold = false) => n.colour ? `<span data-colour="${e(n.colour)}" style="color:${n.colour}">${plainInline(n,bold)}</span>` : plainInline(n,bold);
+  const inline = (n, bold = false) => {
+    const marks=n.type==='math'?inlineMarks(n.marks):[];
+    let html=plainInline(n,bold||marks.includes('bold'));
+    if(n.type==='math') {
+      html=html.replace('data-math="true"',`data-math="true" data-latex="${e(n.latex)}"${marks.length?` data-math-marks="${e(JSON.stringify(marks))}"`:''}`);
+      html=marks.reduce((value,mark)=>`<${{bold:'strong',italic:'em',underline:'u'}[mark]}>${value}</${{bold:'strong',italic:'em',underline:'u'}[mark]}>`,html);
+    }
+    return n.colour ? `<span data-colour="${e(n.colour)}" style="color:${n.colour}">${html}</span>` : html;
+  };
   // Inline maths is an atomic box. Keep immediately following punctuation in
   // that same unbroken run so it cannot start the next printed line. Editable
   // DOM retains its original caret and text nodes; no stored content changes.
@@ -172,20 +202,22 @@ export function renderDocument(raw, { math = latex => escapeHtml(latex), editabl
     }
     return inline(n,bold);
   }).join('');
-  const render = (nodes, compactImages = false, bold = false) => nodes.map(n => {
+  const render = (nodes, compactImages = false, bold = false, listItem = false, cellAlign = null) => nodes.map((n, index) => {
     const attr = `data-id="${e(n.id)}" data-type="${n.type}"`;
     if(n.type === 'annotated-equation')return renderAnnotatedEquation(n,{e,render,math:annotationMath,editable});
-    if(n.type === 'list'){const tag=n.ordered?'ol':'ul';return `<${tag} ${attr} ${n.ordered?`start="${n.start}"`:''} style="margin:0 0 2mm;padding-left:${n.indent}mm;list-style-position:outside;list-style-type:${n.ordered?'decimal':'disc'}">${n.items.map(item=>`<li ${item.value!=null?`value="${item.value}"`:""} data-id="${e(item.id)}" data-type="list-item" style="display:list-item;margin:0 0 1mm;padding:0">${render(item.blocks,false,bold)}</li>`).join('')}</${tag}>`;}
+    if(n.type === 'list'){const tag=n.ordered?'ol':'ul';return `<${tag} ${attr} ${n.ordered?`start="${n.start}"`:''} style="margin:0 0 2mm;padding-left:${n.indent}mm;list-style-position:outside;list-style-type:${n.ordered?'decimal':'disc'}">${n.items.map(item=>`<li ${item.value!=null?`value="${item.value}"`:""} data-id="${e(item.id)}" data-type="list-item" style="display:list-item;margin:0 0 1mm;padding:0">${render(item.blocks,false,bold,true)}</li>`).join('')}</${tag}>`;}
     if(n.type === 'paragraph') return `<p ${attr} ${n.preserveEmpty?'data-preserve-empty="true"':''} ${n.tabStops?`data-tab-stops="${e(JSON.stringify(n.tabStops))}"`:""} style="${n.fontSize?`font-size:${n.fontSize}pt;`:''}text-align:${n.align};margin:${n.spaceBefore}mm 0 ${n.spaceAfter}mm;padding-left:${n.indent}mm;line-height:${n.lineHeight}">${renderInlines(n.inlines,bold) || (editable?'<br data-editor-placeholder>':'<br>')}</p>`;
     if(n.type === 'spacer') return `<div ${attr} contenteditable="false" style="height:${n.height}mm">${editable ? 'Working space' : ''}</div>`;
     if(n.type === 'image') { const [t,r,b,l] = n.crop, floating=n.align.startsWith('beside-'); return `<figure ${attr} contenteditable="false" style="width:${n.width}mm;max-width:100%;${floating?'float:'+n.align.slice(7)+';':''}display:${n.align === 'inline' ? 'inline-block' : 'block'};margin:${compactImages?0:2}mm ${floating?'3mm':n.align === 'left' || n.align === 'inline' ? 'auto 2mm 0' : n.align === 'right' ? '0 2mm auto' : 'auto'};${n.spaceBefore!=null?`margin-top:${n.spaceBefore}mm;`:''}${n.spaceAfter!=null?`margin-bottom:${n.spaceAfter}mm;`:''}"><div style="overflow:hidden;position:relative;aspect-ratio:${n.aspectRatio*(100-l-r)/(100-t-b)}"><img src="${e(n.src)}" alt="${e(n.alt)}" style="position:absolute;max-width:none;width:${10000/(100-l-r)}%;left:${-100*l/(100-l-r)}%;top:${-100*t/(100-t-b)}%"></div><figcaption>${e(n.caption)}</figcaption></figure>`; }
     if(n.type === 'table') {
       const reserve=side=>Math.max(0,...n.annotations.filter(a=>a.type==='arrow'&&a.side===side&&(a.curveMm!=null||a.distanceMm!=null)).map(a=>(a.distanceMm??.794)+(a.curveMm??8)+(a.label?7:2)));
       const marginTop=n.annotations.some(a=>a.type==='arrow'&&a.side==='top')?Math.max(9,n.marginBefore,reserve('top')):n.marginBefore, marginBottom=n.annotations.some(a=>a.type==='arrow'&&a.side==='bottom')?Math.max(n.annotations.some(a=>a.labelBox)?14:10,n.marginAfter,reserve('bottom')):n.marginAfter;
-      return `<div data-table-wrap style="position:relative;width:${n.widthMm?n.widthMm+'mm':'100%'};max-width:100%;margin:${marginTop}mm 0 ${marginBottom}mm"><table ${attr} data-annotations="${e(JSON.stringify(n.annotations))}" style="--document-cloze-line:${n.border===false?'none':'var(--document-table-cloze-line,solid)'};--document-cloze-dots:${n.border===false?'block':'var(--document-table-cloze-dots,none)'};--document-cloze-bottom:${n.border===false?'.5em':'-.3mm'};width:100%;border-collapse:collapse;table-layout:fixed"><colgroup>${Array.from({length:tableGrid(n).columns},(_,i)=>n.widths[i]??1).map(w => `<col style="width:${100*w/(n.widths.reduce((a,b)=>a+b,0) || tableGrid(n).columns || 1)}%">`).join('')}</colgroup><tbody>${n.rows.map((row,ri) => `<tr style="${n.rowHeights[ri]?'height:'+n.rowHeights[ri]+'mm':''}">${row.map(c => `<${c.header?'th':'td'} data-id="${e(c.id)}" colspan="${c.colspan}" rowspan="${c.rowspan}" style="vertical-align:${c.verticalAlign};text-align:${c.align};background:${c.background};color:${c.colour};font-weight:${c.header||c.bold?700:400};padding:${n.padding}mm;${['Top','Right','Bottom','Left'].map(side=>c['padding'+side]!=null?'padding-'+side.toLowerCase()+':'+c['padding'+side]+'mm;':'').join('')}${tableCellBorderStyle(n,c)}overflow-wrap:anywhere">${c.rotation?`<div style="min-height:${n.rowHeights[ri]??24}mm;display:flex;align-items:center;justify-content:center"><div data-cell-content style="transform:rotate(${c.rotation}deg);white-space:nowrap;flex:none;width:max-content">${render(c.blocks,false,c.header||c.bold)}</div></div>`:render(c.blocks.map(b=>b.type==='paragraph'?{...b,align:c.preserveParagraphAlignment?b.align:c.align,spaceAfter:c.preserveParagraphSpacing?b.spaceAfter:0}:b),false,c.header||c.bold)}</${c.header?'th':'td'}>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+      return `<div data-table-wrap style="${listItem && index === 0 ? `display:inline-block;vertical-align:${n.rows.length === 1 ? 'middle' : 'top'};` : ''}position:relative;width:${n.widthMm?n.widthMm+'mm':'100%'};max-width:100%;margin:${marginTop}mm ${cellAlign==='center'?'auto':0} ${marginBottom}mm ${cellAlign==='center'||cellAlign==='right'?'auto':0}"><table ${attr} data-annotations="${e(JSON.stringify(n.annotations))}" style="--document-cloze-line:${n.border===false?'none':'var(--document-table-cloze-line,solid)'};--document-cloze-dots:${n.border===false?'block':'var(--document-table-cloze-dots,none)'};--document-cloze-bottom:${n.border===false?'.5em':'-.3mm'};width:100%;border-collapse:collapse;table-layout:fixed"><colgroup>${Array.from({length:tableGrid(n).columns},(_,i)=>n.widths[i]??1).map(w => `<col style="width:${100*w/(n.widths.reduce((a,b)=>a+b,0) || tableGrid(n).columns || 1)}%">`).join('')}</colgroup><tbody>${n.rows.map((row,ri) => `<tr style="${n.rowHeights[ri]?'height:'+n.rowHeights[ri]+'mm':''}">${row.map(c => `<${c.header?'th':'td'} data-id="${e(c.id)}" colspan="${c.colspan}" rowspan="${c.rowspan}" style="vertical-align:${c.verticalAlign};text-align:${c.align};background:${c.background};color:${c.colour};font-weight:${c.header||c.bold?700:400};padding:${n.padding}mm;${['Top','Right','Bottom','Left'].map(side=>c['padding'+side]!=null?'padding-'+side.toLowerCase()+':'+c['padding'+side]+'mm;':'').join('')}${tableCellBorderStyle(n,c)}overflow-wrap:anywhere">${c.rotation?`<div style="min-height:${n.rowHeights[ri]??24}mm;display:flex;align-items:center;justify-content:center"><div data-cell-content style="transform:rotate(${c.rotation}deg);white-space:nowrap;flex:none;width:max-content">${render(c.blocks,false,c.header||c.bold)}</div></div>`:render(c.blocks.map(b=>b.type==='paragraph'?{...b,align:c.preserveParagraphAlignment?b.align:c.align,spaceAfter:c.preserveParagraphSpacing?b.spaceAfter:0}:b),false,c.header||c.bold,false,c.align)}</${c.header?'th':'td'}>`).join('')}</tr>`).join('')}</tbody></table></div>`;
     }
     if(n.arrangement==='speech-bubble') {
       const tail=n.tail!=='none'?`<span aria-hidden="true" contenteditable="false" style="position:absolute;${n.tail}: -2.1mm;top:55%;width:3.6mm;height:3.6mm;background:white;border-${n.tail}:.4mm solid #24282d;border-bottom:.4mm solid #24282d;transform:rotate(${n.tail==='left'?45:-45}deg)"></span>`:'';
+      // Mathematical thought bubbles have one content slot and no portrait.
+      if(n.slots.length===1)return `<section ${attr} data-tail="${n.tail}" contenteditable="false" class="me-layout me-speech-bubble" style="margin:${n.margin}mm 0;break-inside:avoid;text-align:center"><div data-slot="${e(n.slots[0].id)}" style="display:inline-block;max-width:100%;min-width:18mm;position:relative;border:.4mm solid #000000;border-radius:3mm;background:white;padding:2mm 4mm" ${editable?'contenteditable="true"':''}>${tail}${render(n.slots[0].blocks,true)}</div></section>`;
       return `<section ${attr} data-tail="${n.tail}" contenteditable="false" class="me-layout me-speech-bubble" style="margin:${n.margin}mm 0;break-inside:avoid"><div style="display:grid;grid-template-columns:${`${n.slots[0]?.blocks.find(b=>b.type==='image')?.width??17}mm minmax(0,1fr)`};gap:${n.gap}mm;align-items:center">${n.slots.map((slot,i)=>`<div data-slot="${e(slot.id)}" style="min-width:0;position:relative;${i===1?'border:.4mm solid #24282d;border-radius:3mm;background:white;padding:4mm;':''}" ${editable?'contenteditable="true"':''}>${i===1?tail:''}${render(slot.blocks,true)}</div>`).join('')}</div></section>`;
     }
     if(n.arrangement==='cards'&&n.slots.some(s=>s.label!=null))return `<section ${attr} contenteditable="false" class="me-layout me-cards" style="width:${n.widthMm??170}mm;max-width:100%;margin:${n.margin}mm ${n.align==='left'?'auto '+n.margin+'mm 0':n.align==='right'?'0 '+n.margin+'mm auto':'auto'}"><div style="display:grid;grid-template-columns:repeat(${n.columns},minmax(0,1fr));gap:${n.gap}mm">${n.slots.map(s=>`<div data-slot="${e(s.id)}" style="display:flex;align-items:center;gap:3mm;min-width:0"><span data-card-label style="width:4mm;flex:none;font-weight:700">${e(s.label??'')}</span><div data-card-face style="width:${s.widthMm??30}mm;max-width:calc(100% - 7mm);box-sizing:border-box;border:.2mm solid #000000;padding:2mm;text-align:center" ${editable?'contenteditable="true"':''}>${render(s.blocks)}</div></div>`).join('')}</div></section>`;

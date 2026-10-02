@@ -10,6 +10,8 @@ Use margin handles to select complete teaching groups/questions, Shift for an ad
 
 Within native text, Enter creates paragraphs and lists use the existing MathsEditor behaviour. Left/right at field boundaries moves to an adjacent writing area. Cross-field selection supports copy, cut, deletion and emphasis/colour while preserving containers. Mathematics and writable boxes are atomic for prose selections; click inside a formula to edit its mathematics.
 
+Source emphasis may contain native mathematics, for example `**Assume true for $n = k$**`. Bold and italic source text is parsed recursively; math keeps its original LaTeX and stores explicit inline marks separately. JSON save/reopen, the native editor reader and native HTML clipboard preserve those marks. Semantic table-header bold remains presentation only and never adds bold commands to saved LaTeX. Escaped dollar amounts remain prose.
+
 Arrangement keyboard activation handles Space and Enter only when the arrangement container itself is focused. Events from nested text editors and controls retain their native behaviour. `node scripts/booklet/check-text-spacing.mjs` checks actual Space/Enter input in question stems and nested parts, autosave, preview/reopen, and keyboard selection of the layout, using only in-memory project writes.
 
 More options opens controls for the active selection, including spacing, tables and images. Table selections also expose common row/column actions in the toolbar. The block-properties panel retains specialist question arrangements. Source comparison and bank-conflict review remain available.

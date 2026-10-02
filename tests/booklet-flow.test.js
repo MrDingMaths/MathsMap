@@ -3,9 +3,29 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {convertToFlexible,matchSourceLayout,flowNumbers,flowCommand,captureFlowClipboard,logicalUnits,flowEditionSections,isPractice,exerciseNumbers} from '../src/lib/booklet-flow.js';
 import {paginateFlow,questionSplitGroups,fragmentQuestion,fragmentLayouts} from '../src/lib/booklet-pagination.js';
+
+test('explicit shared-graph continuation permits safe rows inside one nested task group',()=>{
+ const block={id:'nested-graph-question',type:'question',flow:{repeatSharedDiagram:true},content:{id:'given-graph',type:'question',questionDiagrams:[{id:'given',format:'tikz',code:'graph'}],children:[{id:'sketches',type:'part',layout:'grid',columns:2,children:['a','b','c','d'].map(id=>({id,type:'part',prompt:id,answerSpaceMm:120}))}]}};
+ const groups=questionSplitGroups(block);
+ assert.deepEqual(groups.map(g=>g.ids),[['a','b'],['c','d']]);
+ const next=fragmentQuestion(block,groups.slice(1),1);
+ assert.deepEqual(next.content.children[0].children.map(n=>n.id),['c','d']);
+ assert.equal(next.content.questionDiagrams[0].id,'given');
+ block.flow.repeatSharedDiagram=false;
+ assert.deepEqual(questionSplitGroups(block),[]);
+});
 import {normalizeEditableProject,validateEditableProject} from '../src/lib/editable-booklet-model.js';
 import {mergeProjectChanges} from '../src/lib/booklet-save-merge.js';
 import {deriveBookletCover} from '../src/lib/booklet-cover.js';
+
+test('oversized shared teaching activity breaks between complete rule/practice pairs',async()=>{
+ const atom={id:'conventions-activity',kind:'identify',label:'Apply conventions',order:1};
+ const blocks=['rule-1','practice-1','rule-2','practice-2'].map((id,i)=>({id,type:'rich-text',content:id,height:35,sourceAtom:atom,...(i%2===0?{flow:{keepWithNext:true}}:{})}));
+ const project={id:'paired-teaching',title:'Book',topics:[{id:'t',title:'Topic'}],settings:{paginationMode:'flexible',exerciseOrganisation:'topic',questionOrder:'source',generatedCover:false,layoutOverrides:{blockLayouts:{}}},sections:[{id:'s',topicId:'t',phase:'teaching',blocks}]};
+ const result=await paginateFlow(project,'student',async page=>({height:page.blocks.reduce((n,b)=>n+b.height,0),capacity:100}));
+ assert.deepEqual(result.pages.map(p=>p.blocks.map(b=>b.id)),[['rule-1','practice-1'],['rule-2','practice-2']]);
+ assert.deepEqual(result.issues,[]);
+});
 
 const question=(id,parts=[])=>({id,type:'question',bankRef:{id:'bank-'+id,revision:'r1'},snapshotKind:'bank',content:{id:id+'-root',type:'question',prompt:'Find $x$.',children:parts.map((height,i)=>({id:id+'-'+i,type:'part',label:String.fromCharCode(97+i),prompt:'Part',height,answer:{short:'1',worked:'$x=1$'}})),answer:{short:'1',worked:'$x=1$'}},height:20});
 export const fixture=()=>normalizeEditableProject({format:'mathsmap-booklet-project-v4',version:4,id:'flow-test',title:'Flexible fixture',settings:{paginationMode:'flexible'},topics:[{id:'topic-a',title:'First topic'},{id:'topic-b',title:'Second topic'}],sections:[{id:'a',topicId:'topic-a',title:'Foundation',phase:'practice',role:'practice',blocks:[question('q1'),question('q2')]},{id:'b',topicId:'topic-b',title:'Development',phase:'practice',role:'practice',blocks:[question('q3')]}]});

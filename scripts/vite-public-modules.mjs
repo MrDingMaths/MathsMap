@@ -33,6 +33,10 @@ export function publicLibraryModulesPlugin(){
       if(options?.ssr||!importer||!source.startsWith('.')||/[?#]/.test(source)||!/[.]m?js$/.test(source))return null;
       const file=path.resolve(path.dirname(importerFile(importer)),source),relative=path.relative(directory,file);
       if(relative.startsWith('..')||path.isAbsolute(relative))return null;
+      // Vite's esbuild dependency scanner uses only resolved.id and reads it
+      // from disk. An external /libs URL becomes a drive-root filesystem path
+      // there, so give the scanner the real file while retaining one browser URL.
+      if(options?.scan)return {id:file.split(path.sep).join('/')};
       return {id:'/libs/maths-editor/'+relative.split(path.sep).join('/'),external:true};
     },
     load(id){

@@ -89,6 +89,27 @@ test('named review exercises use the title column and keep their original destin
   }
 });
 
+test('compact Challenge contents omit Exercise without changing source headings or links', () => {
+  for (const section of [
+    {exerciseNumber:3,topicTitle:'Challenge Exercise'},
+    {exerciseNumber:'Challenge Exercise',topicTitle:'Challenge Exercise'},
+    {unnumberedTopic:true,topicId:'challenge',topicTitle:'Challenge Exercise'},
+  ]) {
+    const challenge=page('challenge',2,{...section,title:'Challenge Exercise'},[text('challenge-text','Challenge questions.')]);
+    const before=structuredClone(challenge);
+    const bookletPages=[coverPage(),challenge];
+    const row=deriveBookletCover(bookletPages).contents[0];
+    assert.equal(row.title,'Challenge');
+    assert.equal(row.href,section.unnumberedTopic?'#teaching-topic-challenge':`#exercise-topic-${section.exerciseNumber}`);
+    for(const anchorPrefix of ['screen-','print-']) {
+      const html=rendered.cover({pages:bookletPages,anchorPrefix});
+      assert.match(html,/>Challenge</);
+      assert.ok(html.includes(`href="#${anchorPrefix}${row.href.slice(1)}"`));
+    }
+    assert.deepEqual(challenge,before);
+  }
+});
+
 test('practice-only topic numbering survives normalization and preserves unnumbered teaching navigation', () => {
   const raw={id:'practice-numbering',title:'Mixed topics',settings:{exerciseOrganisation:'topic',numberPracticeTopicsOnly:true,paginationMode:'flexible'},topics:[{id:'intro',title:'Introduction'},{id:'mean',title:'Mean'},{id:'overview',title:'Overview'},{id:'median',title:'Median'}],sections:[
     {id:'intro',topicId:'intro',phase:'teaching',blocks:[text('intro-text','Introduction')]},

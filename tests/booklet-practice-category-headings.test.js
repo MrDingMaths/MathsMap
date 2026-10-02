@@ -30,6 +30,18 @@ function headingPacket(inventory,{label=true,nativeMapping=false}={}){
 }
 const task=inventory=>({page:inventory.pageNumber,inventory,promptSections:[],images:[],evidence:[],contextPages:[],teacherPages:[]});
 
+test('source difficulty groups stay in provenance without printed category ownership',()=>{
+ for(const label of ['Foundation','Development','MASTERY']){
+  const inventory={pageNumber:5,groups:[{id:'difficulty',kind:'practice-category',header:label,members:['question']}],entries:[{id:'heading',kind:'group',sourceLabel:label,description:label},{id:'question',kind:'question',parentId:'difficulty',description:'Factorise.'}]};
+  assert.deepEqual(practiceCategoryHeadingOwnership(inventory),[]);
+  const payload=assignmentPayload(createAssignmentPlan([inventory]).assignments[0],[task(inventory)]);
+  assert.deepEqual(payload.context.categoryHeadings,[]);
+  assert.ok(payload.context.assignment.inventory.some(e=>e.sourceLabel===label));
+ }
+ const inventory=p15();inventory.groups[0].category='Foundation';
+ assert.equal(practiceCategoryHeadingOwnership(inventory)[0].label,'essential problems','A meaningful heading retains priority over difficulty metadata');
+});
+
 test('p15 binds the real heading to the first complete shared task under tight budgets',()=>{
  const inventory=p15(),before=structuredClone(inventory),plan=createAssignmentPlan([inventory],{maxCharacters:1});
  assert.deepEqual(plan.assignments.map(a=>a.questions),[1,1,1]);

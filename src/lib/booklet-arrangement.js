@@ -16,6 +16,9 @@ export function arrangementQuestionBlock(question,number=null){
 }
 
 export const practiceContinuation=block=>block.type==='question'&&(block.flow?.fragment>0||block.flow?.continuationOf||block.continuationOf)&&!block.sourceAtom&&!teachingAnswerCategory(block);
+// Only a leading structural label is positioned outside the row's grid.
+// Matching endpoints at the end of a row are real columns.
+export const arrangementRowChildren=(node,entries)=>(node.children??[]).filter((child,index)=>index!==0||entries.get(child.ref)?.kind!=='label');
 
 export function arrangementCatalog(block,overrides={},widthMm=180){
  const labels={...teachingLabels([block]),...overrides.labels};
@@ -122,7 +125,7 @@ export function resolveArrangement(block,stored,overrides={},widthMm=180){
   if(node.type==='item')return !catalog.emptyRefs.has(node.ref);
   // Arrangements position question/teaching parts; rules belong to real tables/cards.
   // Ignore legacy source-grid separators without altering preserved evidence.
-  delete node.rules;
+  if(node.rules!=='grid')delete node.rules;
   const hadChildren=node.children.length>0;
   node.children=node.children.filter(collapse);
   return !hadChildren||node.children.length>0;
@@ -143,7 +146,8 @@ export function resolveArrangement(block,stored,overrides={},widthMm=180){
 export function teachingAnswerArrangement(block,stored,overrides={},mode='worked'){
  if(!retainsTeachingPromptWithAnswers(block)||!['short','worked'].includes(mode))return null;
  const resolved=resolveArrangement(block,stored,overrides),leaves=[];
- const visit=n=>{if(n.children?.length)n.children.forEach(visit);else if(hasVisibleContent(n.answer?.[mode])||n.answer?.solutionDiagrams?.length)leaves.push(n);};
+ const responseSpecs=new Map((block.sourceReview?.responses??[]).map(r=>[r.targetId??r.id,r]));
+ const visit=n=>{if(n.children?.length)n.children.forEach(visit);else if(responseSpecs.get(n.id)?.kind!=='none'&&(hasVisibleContent(n.answer?.[mode])||n.answer?.solutionDiagrams?.length))leaves.push(n);};
  visit(block.content);
  const positions=arrangementItems(resolved.tree.root),refs=new Set(positions.map(n=>n.ref));
  const responses=new Map();
@@ -151,10 +155,24 @@ export function teachingAnswerArrangement(block,stored,overrides={},mode='worked
   const fields=[...resolved.entries.values()].filter(e=>e.ownerId===leaf.id&&e.field==='answer/'+mode);
   const diagrams=(leaf.answer?.solutionDiagrams??[]).map(d=>resolved.entries.get(d.id)).filter(Boolean);
   const entries=[...fields,...diagrams];
+  let slot=responseSpecs.get(leaf.id)?.answerSlotRef??leaf.id+'/space';
+  if(!responseSpecs.get(leaf.id)?.answerSlotRef&&!refs.has(slot)){
+   const method=leaf.answer?.worked?.blocks?.find(n=>n.type==='list'&&n.ordered);
+   const scaffolds=(leaf.prompt?.blocks??[]).filter(n=>n.type==='table'&&/scaffold/i.test(n.id)&&method?.items?.length===n.rows?.length&&n.rows.every((row,i)=>{
+    if(!Array.isArray(row)||row.length<2||!row.slice(1).every(cell=>(cell.blocks??[]).length===0))return false;
+    const label=(row[0].blocks??[]).flatMap(p=>p.inlines??[]).map(n=>n.type==='text'?n.text:'').join('').trim();
+    return label===String((method.start??1)+i)+'.'||label===String((method.start??1)+i);
+   }));
+   if(scaffolds.length===1)slot=leaf.id+'/prompt#'+scaffolds[0].id;
+  }
+  const slotEntry=resolved.entries.get(slot);
+  // A source-owned blank table can be the response scaffold. Its explicit
+  // reference keeps the answer in that column while preserving the givens.
+  if(slot!==leaf.id+'/space'&&(slotEntry?.ownerId!==leaf.id||slotEntry?.field!=='prompt'||slotEntry?.value?.blocks?.[0]?.type!=='table'))return null;
   // An older custom layout may deliberately omit writing slots or explicitly
   // place answers. Leave its existing answer rendering in charge in that case.
-  if(!entries.length||positions.filter(n=>n.ref===leaf.id+'/space').length!==1||entries.some(e=>refs.has(e.ref)))return null;
-  responses.set(leaf.id+'/space',entries);
+  if(!entries.length||positions.filter(n=>n.ref===slot).length!==1||entries.some(e=>refs.has(e.ref)))return null;
+  responses.set(slot,entries);
  }
  if(!responses.size||resolved.missing.length)return null;
  const replace=n=>{

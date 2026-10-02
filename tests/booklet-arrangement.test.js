@@ -8,6 +8,18 @@ test('internal source-grid rules survive normalisation without becoming outer bo
  assert.equal(result.root.rules,'internal');assert.equal(result.root.children[0].rules,'internal');
  raw.root.rules='outer';assert.equal(normalizeArrangement(raw).root.rules,undefined);
 });
+test('explicit native grid frames survive save, resize and question layout resolution',()=>{
+ const block={id:'working-grid',type:'question',content:{id:'q',prompt:'Example',children:[{id:'a',label:'a',prompt:'Your turn',answerSpaceMm:45}]}};
+ const raw={version:1,root:{...group('grid',[item('q/prompt'),group('response',[item('a/label'),item('a/prompt'),item('a/space')])],'row'),rules:'grid'}};
+ const saved=normalizeArrangement(JSON.parse(JSON.stringify(raw)));
+ const before=structuredClone(saved);
+ const resized=transformArrangement(saved,'properties','response',{weight:2});
+ const resolved=resolveArrangement(block,resized);
+ assert.equal(resolved.tree.root.rules,'grid');
+ assert.equal(resolved.tree.root.children[1].weight,2);
+ assert.equal(block.content.children[0].answerSpaceMm,45);
+ assert.deepEqual(saved,before);
+});
 import {arrangementCatalog,arrangementQuestionBlock,resolveArrangement,replaceArrangementContent,shareUnchanged,applyArrangementContent,addArrangementText,removeArrangementText} from '../src/lib/booklet-arrangement.js';
 import {fromSource,hasVisibleContent} from '../src/lib/document-content.js';
 import {arrangementExamTitle,findContent} from '../src/lib/booklet-arrangement.js';

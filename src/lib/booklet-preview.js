@@ -1,3 +1,5 @@
+import {contentSource} from './document-content.js';
+
 export function resolvePreviewAssets(value, resolveAssetUrl) {
   const seen = new WeakMap();
 
@@ -74,7 +76,7 @@ export function shortAnswerDisplay(value) {
 
 export function visibleImportedQuestionTitle(question) {
   const title = String(question?.title ?? '').trim();
-  const prompt = String(question?.content?.prompt ?? '').trim().replace(/\*\*/g, '');
+  const prompt = contentSource(question?.content?.prompt).trim().replace(/\*\*/g, '');
   if (!title || title === prompt || prompt.startsWith(title + '\n') || prompt.startsWith(title + ':')) return '';
   return /^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(title) ? title.replace(/\s+Band\s+\d+\s*$/i, '') : '';
 }

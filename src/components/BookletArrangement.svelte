@@ -4,7 +4,7 @@
  import EditableBookletText from './EditableBookletText.svelte';
  import Tikz from './Tikz.svelte';
  import {sourceRegionStyles} from '../lib/diagram-source-region.js';
- import {resolveArrangement,arrangementExamTitle} from '../lib/booklet-arrangement.js';
+ import {resolveArrangement,arrangementExamTitle,arrangementRowChildren} from '../lib/booklet-arrangement.js';
  import {combinedExampleTikz} from '../lib/booklet-preview.js';
  import {hasStandaloneMathTable} from '../lib/booklet-labels.js';
  let {block,arrangement,layoutOverrides={},selected='',onselect=null,onresize=null,onmeasure=null,onSpaceResize=null,onmove=null,assetUrl=s=>s,showSolutions=true,showSpaces=true,showTitle=true,fillCloze=false,answerSpaceOverrides={},diagramColourModes={},editMode=false}=$props();
@@ -26,7 +26,7 @@
   if(event.target!==event.currentTarget||event.defaultPrevented||event.isComposing)return;
   if(['Enter',' '].includes(event.key)){event.preventDefault();choose(event,n);}
  }
- const rowChildren=n=>n.children.filter(c=>resolved.entries.get(c.ref)?.kind!=='label');
+ const rowChildren=n=>arrangementRowChildren(n,resolved.entries);
  function labelHasTextBaseline(n){
   const first=resolved.entries.get(n.children?.[1]?.ref);
   return first?.kind==='text'||first?.kind==='document'&&first.value?.blocks?.[0]?.type==='paragraph'&&!hasStandaloneMathTable(first.value);
@@ -71,7 +71,7 @@
  {#if !(entry?.kind==='label'&&!entry.value)}
  <!-- Selectable structural groups have keyboard equivalents in the adjacent structure panel. -->
  <!-- svelte-ignore a11y_no_noninteractive_tabindex, a11y_no_noninteractive_element_interactions -->
- <div data-arrangement-id={n.id} data-content-owner={entry?.ownerId} class:arr-group={n.type==='group'} class:internal-rules={n.rules==='internal'} class:arr-row={n.direction==='row'} class:inline-row={n.direction==='row'&&n.keepInline} class:arr-item={n.type==='item'} class:zero-space={entry?.kind==='space'&&spaceHeight(n,entry)===0} class:hidden-space={entry?.kind==='space'&&(!showSpaces||spaceHeight(n,entry)===0)&&!onselect&&!editMode} class:selected={selected===n.id||direct&&documentActions.layoutSelection?.id===n.id} class:interactive={!!onselect} class:theory-solution={entry?.role==='solution'&&entry?.kind!=='diagram'} class:solution-hidden={entry?.role==='solution'&&!showSolutions} class:labelled={n.children?.[0]&&resolved.entries.get(n.children[0].ref)?.kind==='label'&&resolved.entries.get(n.children[0].ref)?.value} class:baseline-label={labelHasTextBaseline(n)} class:baseline-body-row={labelBodyHasTextBaseline(n)} class:baseline-direct-row={n.direction==='row'&&n.children?.length===2&&(n.verticalAlign==null||n.verticalAlign==='top')&&labelHasTextBaseline(n)} class:auto-row-baseline={n.verticalAlign==null&&n.direction!=='row'&&resolved.entries.get(n.children?.[0]?.ref)?.kind==='label'&&labelHasTextBaseline(n)&&!hasStandaloneMathTable(resolved.entries.get(n.children?.[1]?.ref)?.value)} class:label-item={entry?.kind==='label'} style={style(n)+(entry?.kind==='space'&&showSpaces?'min-height:'+spaceHeight(n,entry)+'mm;':'')+(n.direction==='row'?`grid-template-columns:${rowChildren(n).map(c=>`minmax(0,${c.weight??1}fr)`).join(' ')};`:'')} role="group" aria-label={n.title??entry?.title??(n.direction==='row'?'Row':'Group')} tabindex={onselect||requestEdit?0:undefined} onclick={e=>choose(e,n)} onkeydown={e=>key(e,n)} draggable={!!onmove} ondragstart={e=>{e.stopPropagation();e.dataTransfer.setData('text/plain',n.id);}} ondragover={e=>{if(canMove){e.preventDefault();e.stopPropagation();e.currentTarget.classList.add('drop-target');e.currentTarget.dataset.dropPosition={inside:'Move into group',before:'Move before',after:'Move after'}[dropPosition(e,n)];}}} ondragleave={e=>e.currentTarget.classList.remove('drop-target')} ondrop={e=>{if(canMove){e.preventDefault();e.stopPropagation();e.currentTarget.classList.remove('drop-target');runMove(e.dataTransfer.getData('text/plain'),n.id,dropPosition(e,n));}}}>
+ <div data-arrangement-id={n.id} data-content-owner={entry?.ownerId} class:arr-group={n.type==='group'} class:internal-rules={n.rules==='internal'} class:grid-rules={n.type==='group'&&n.rules==='grid'} class:arr-row={n.direction==='row'} class:inline-row={n.direction==='row'&&n.keepInline} class:arr-item={n.type==='item'} class:zero-space={entry?.kind==='space'&&spaceHeight(n,entry)===0} class:hidden-space={entry?.kind==='space'&&(!showSpaces||spaceHeight(n,entry)===0)&&!onselect&&!editMode} class:selected={selected===n.id||direct&&documentActions.layoutSelection?.id===n.id} class:interactive={!!onselect} class:theory-solution={entry?.role==='solution'&&entry?.kind!=='diagram'} class:solution-hidden={entry?.role==='solution'&&!showSolutions} class:labelled={n.children?.[0]&&resolved.entries.get(n.children[0].ref)?.kind==='label'&&resolved.entries.get(n.children[0].ref)?.value} class:baseline-label={labelHasTextBaseline(n)} class:baseline-body-row={labelBodyHasTextBaseline(n)} class:baseline-direct-row={n.direction==='row'&&n.children?.length===2&&(n.verticalAlign==null||n.verticalAlign==='top')&&labelHasTextBaseline(n)} class:auto-row-baseline={n.verticalAlign==null&&n.direction!=='row'&&resolved.entries.get(n.children?.[0]?.ref)?.kind==='label'&&labelHasTextBaseline(n)&&!hasStandaloneMathTable(resolved.entries.get(n.children?.[1]?.ref)?.value)} class:label-item={entry?.kind==='label'} style={style(n)+(entry?.kind==='space'&&showSpaces?'min-height:'+spaceHeight(n,entry)+'mm;':'')+(n.direction==='row'?`grid-template-columns:${rowChildren(n).map(c=>`minmax(0,${c.weight??1}fr)`).join(' ')};`:'')} role="group" aria-label={n.title??entry?.title??(n.direction==='row'?'Row':'Group')} tabindex={onselect||requestEdit?0:undefined} onclick={e=>choose(e,n)} onkeydown={e=>key(e,n)} draggable={!!onmove} ondragstart={e=>{e.stopPropagation();e.dataTransfer.setData('text/plain',n.id);}} ondragover={e=>{if(canMove){e.preventDefault();e.stopPropagation();e.currentTarget.classList.add('drop-target');e.currentTarget.dataset.dropPosition={inside:'Move into group',before:'Move before',after:'Move after'}[dropPosition(e,n)];}}} ondragleave={e=>e.currentTarget.classList.remove('drop-target')} ondrop={e=>{if(canMove){e.preventDefault();e.stopPropagation();e.currentTarget.classList.remove('drop-target');runMove(e.dataTransfer.getData('text/plain'),n.id,dropPosition(e,n));}}}>
  {#if direct&&entry?.kind!=='label'}<button type="button" class="layout-handle" style={n.type==='group'?`right:${depth*18}px;top:-16px`:undefined} data-layout-handle={n.id} aria-label={'Select layout '+(entry?.title??n.title??'group')} title="Select block; Ctrl+click to group; drag to move" draggable="true" ondragstart={e=>{e.stopPropagation();e.dataTransfer.setData('text/plain',n.id);}} onclick={e=>{e.preventDefault();e.stopPropagation();documentActions.selectLayout(block.id,n.id,e);}}></button>{/if}
  {#if n.type==='group'}
   {#each n.children as child (editMode&&documentActions&&!onselect ? resolved.entries.get(child.ref)?.editorKey??child.id : child.id)}{#if !covered(child)}{@render renderNode(child,depth+1)}{/if}{/each}
@@ -119,9 +119,9 @@
 
  /* Keep question labels in the same first-baseline row as their prompt. This
     also aligns labels beside tall fractions and native handwriting blanks. */
- .labelled:not(.arr-row){display:grid;grid-template-columns:6mm minmax(0,1fr)!important;padding-left:var(--arr-label-left,0mm)!important;column-gap:1mm;align-content:var(--arr-vertical,start)}
+ .labelled:not(.arr-row){display:grid;grid-template-columns:minmax(6mm,max-content) minmax(0,1fr)!important;padding-left:var(--arr-label-left,0mm)!important;column-gap:1mm;align-content:var(--arr-vertical,start)}
  .labelled:not(.arr-row)>div{grid-column:2}
- .labelled:not(.arr-row)>.label-item{position:static;grid-column:1;grid-row:1;width:6mm;align-self:start}
+ .labelled:not(.arr-row)>.label-item{position:static;grid-column:1;grid-row:1;width:max-content;min-width:6mm;white-space:nowrap;align-self:start}
  .labelled:not(.arr-row)>.label-item+div{grid-row:1;align-self:start}
  .labelled.baseline-label:not(.arr-row)>.label-item,.labelled.baseline-label:not(.arr-row)>.label-item+div{align-self:first baseline}
  /* Native question-grid cells share their first text baseline; explicit vertical alignment remains authoritative. */
@@ -143,14 +143,21 @@
 .layout-handle::before{content:'\283f'}.layout-handle{user-select:none}
  /* A label and one prose stack share their first baseline without changing
     the stored stack, its writing heights or explicit middle/bottom alignment. */
- .labelled.baseline-body-row{grid-template-columns:6mm minmax(0,1fr)!important;padding-left:var(--arr-label-left,0mm)!important;column-gap:1mm}
- .labelled.baseline-body-row>.label-item{position:static;grid-column:1;grid-row:1;width:6mm;align-self:first baseline}
+ .labelled.baseline-body-row{grid-template-columns:minmax(6mm,max-content) minmax(0,1fr)!important;padding-left:var(--arr-label-left,0mm)!important;column-gap:1mm}
+ .labelled.baseline-body-row>.label-item{position:static;grid-column:1;grid-row:1;width:max-content;min-width:6mm;white-space:nowrap;align-self:first baseline}
  .labelled.baseline-body-row>.arr-group{grid-column:2;grid-row:1;align-self:first baseline}
 
  /* Direct label/prose rows share the text baseline beside tall inline maths.
     Explicit middle/bottom alignment and stored writing areas remain intact. */
- .labelled.baseline-direct-row{grid-template-columns:6mm minmax(0,1fr)!important;padding-left:var(--arr-label-left,0mm)!important;column-gap:1mm}
- .labelled.baseline-direct-row>.label-item{position:static;grid-column:1;grid-row:1;width:6mm;align-self:first baseline}
+ .labelled.baseline-direct-row{grid-template-columns:minmax(6mm,max-content) minmax(0,1fr)!important;padding-left:var(--arr-label-left,0mm)!important;column-gap:1mm}
+ .labelled.baseline-direct-row>.label-item{position:static;grid-column:1;grid-row:1;width:max-content;min-width:6mm;white-space:nowrap;align-self:first baseline}
  .labelled.baseline-direct-row>.label-item+div{grid-column:2;grid-row:1;align-self:first baseline}
+ /* Optional native grids retain content and writing heights inside bounded cells. */
+ .grid-rules{border:.2mm solid #000000;gap:0;box-sizing:border-box}
+ .grid-rules>:global([data-arrangement-id]){box-sizing:border-box;padding:1mm}
+ .grid-rules>:global(.grid-rules){border:0;padding:0}
+ .grid-rules.arr-row>:global([data-arrangement-id]){align-self:stretch!important}
+ .grid-rules.arr-row>:global([data-arrangement-id]+[data-arrangement-id]){border-left:.2mm solid #000000}
+ .grid-rules:not(.arr-row)>:global([data-arrangement-id]+[data-arrangement-id]){border-top:.2mm solid #000000}
 </style>
 

@@ -4,6 +4,11 @@ function plain(value) {
   return String(value ?? '').replace(/^#+\s*/, '').replace(/^\*\*(.*?)\*\*$/, '$1').trim();
 }
 
+// Compact contents name the topic; retain the source heading and destination.
+function compactTopicTitle(value) {
+  return String(value ?? '').replace(/\bExercise\b/gi, '').replace(/\s+/g, ' ').trim();
+}
+
 export function parseImportedContents(value) {
   return String(value ?? '').split(/\r?\n/).map((line) => {
     const match = /^(.*?)\s+\.{3,}\s*(\d+)\s*$/.exec(line.trim());
@@ -81,13 +86,13 @@ export function deriveBookletCover(pages = [], overrides = {}) {
     const seen=new Set();
     const topicContents=ordered.filter(page=>page.mode==='student'&&page.section?.phase!=='front-matter').flatMap(page=>{
       const topicId=page.section?.topicId;if(!topicId||seen.has(topicId))return [];seen.add(topicId);
-      return [{title:page.section.topicTitle??page.section.title,pageNumber:page.pageNumber}];
+      return [{title:compactTopicTitle(page.section.topicTitle??page.section.title),pageNumber:page.pageNumber}];
     });
     const coveredTopics=new Set();
     const anchoredContents=imported.flatMap(entry=>{
       const destination=ordered.find(page=>page.mode==='student'&&page.blocks?.some(block=>Number(block.sourcePageNumber)===entry.sourcePage));
       if(destination)coveredTopics.add(destination.section?.topicId);
-      return destination?[{title:entry.title,pageNumber:destination.pageNumber}]:[];
+      return destination?[{title:compactTopicTitle(entry.title),pageNumber:destination.pageNumber}]:[];
     });
     const newTopics=topicContents.filter(entry=>!coveredTopics.has(ordered.find(page=>page.pageNumber===entry.pageNumber)?.section?.topicId));
     contents=anchoredContents.length?[...anchoredContents,...newTopics].sort((a,b)=>a.pageNumber-b.pageNumber):topicContents;
@@ -96,12 +101,12 @@ export function deriveBookletCover(pages = [], overrides = {}) {
       const frontMatter=frontMatterDestinations(ordered).map(({id,page})=>({title:page.section.title,frontMatter:true,pageNumber:page.pageNumber,href:`#${id}`}));
       const unnumbered=new Map(unnumberedTopicDestinations(ordered).map(destination=>[destination.page,destination.id]));
       contents=[...frontMatter,...ordered.filter(p=>p.mode==='student').flatMap(p=>{
-        if(unnumbered.has(p))return [{title:p.section.topicTitle,unnumberedTopic:true,pageNumber:p.pageNumber,href:`#${unnumbered.get(p)}`}];
+        if(unnumbered.has(p))return [{title:compactTopicTitle(p.section.topicTitle),unnumberedTopic:true,pageNumber:p.pageNumber,href:`#${unnumbered.get(p)}`}];
         const number=p.section?.exerciseNumber;
         if(!number||seenExercises.has(number))return [];
         seenExercises.add(number);
-        if(/\S\s+\S/.test(String(number)))return [{namedExercise:true,title:p.section.topicTitle??number,pageNumber:p.pageNumber,href:`#exercise-topic-${number}`}];
-        return [{number,title:p.section.topicTitle,pageNumber:p.pageNumber,href:`#exercise-topic-${number}`}];
+        if(/\S\s+\S/.test(String(number)))return [{namedExercise:true,title:compactTopicTitle(p.section.topicTitle??number),pageNumber:p.pageNumber,href:`#exercise-topic-${number}`}];
+        return [{number,title:compactTopicTitle(p.section.topicTitle),pageNumber:p.pageNumber,href:`#exercise-topic-${number}`}];
       })];
     }
   }

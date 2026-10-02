@@ -4,7 +4,7 @@
   import { houseStyleVariables } from '../lib/booklet-house-style.js';
   import { sourceRegionStyles } from '../lib/diagram-source-region.js';
   import { onMount,getContext,setContext } from 'svelte';
-  import {usesReviewNumbers,teachingLabels,usesTeachingLetters,labelledTeachingQuestion} from '../lib/booklet-labels.js';
+  import {usesReviewNumbers,teachingLabels,usesTeachingLetters,labelledTeachingQuestion,keyIdeasClozeStatements} from '../lib/booklet-labels.js';
   import BookletCover from './BookletCover.svelte';
   import BookletHeading from './BookletHeading.svelte';
   import BookletArrangement from './BookletArrangement.svelte';
@@ -124,9 +124,10 @@
   {#if block.flow?.exerciseAnchorBefore&&firstPlacement(block)&&!(page.section?.headingStyle!=='none'&&page.showTopicHeading!==false)}<span id={`${anchorPrefix}exercise-topic-${block.flow.exerciseAnchorBefore}`}></span>{/if}
   {#if block.flow?.exerciseHeadingBefore&&!(page.showDifficultyHeading!==false&&page.section?.difficultyTitle===`Exercise ${block.flow.exerciseHeadingBefore}`)}<BookletHeading kind="exercise">Exercise {block.flow.exerciseHeadingBefore}</BookletHeading>{/if}
   {#if block.type === 'question'}
+    {@const clozeStatements=keyIdeasClozeStatements(block)}
     {#if block.flow?.teachingLabel&&firstPlacement(block)}<span id={`${anchorPrefix}question-${block.id}`}></span>{#if usesTeachingLetters(block)&&presentation?.()?.teachingPresentationVersion!==1}<div class="teaching-activity-reference">{block.flow.teachingLabel}</div>{/if}{/if}
-    {#if block.pedagogyRole==='key-ideas'&&block.sourceReview?.responses?.every(r=>r.kind==='cloze')}
-      <div class="key-ideas-cloze" data-content-owner={block.id}>{#each block.content.children?.length ? block.content.children : [block.content] as part}<div class="cloze-statement"><span class="cloze-number">{part.label}.</span><div class="cloze-text"><EditableBookletText value={part.prompt} rootId={part.id} pointer="/prompt" fillCloze={showKeyIdeasAnswers} {...editProps()}/></div></div>{/each}</div>
+    {#if clozeStatements}
+      <div class="key-ideas-cloze" data-content-owner={block.id}>{#each clozeStatements as part}<div class="cloze-statement">{#if part.label}<span class="cloze-number">{part.label}.</span>{/if}<div class="cloze-text"><EditableBookletText value={part.prompt} rootId={part.id} pointer="/prompt" fillCloze={showKeyIdeasAnswers} {...editProps()}/></div></div>{/each}</div>
     {:else if isGuided(block) && !insideAtom}
       <section class="theory-section"><BookletSectionHeader kind="guided-practice" /><div class="body-box">{@render questionView(block, null)}</div></section>
     {:else}

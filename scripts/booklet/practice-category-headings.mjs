@@ -4,7 +4,12 @@ const categoryLabel=value=>/^(concept checks?|essential problems|additional prac
 export const categoryGroupAnchors=g=>[g.id,g.entryId,g.inventoryId,g.inventoryGroupId,g.headingEntryId,g.targetId].filter(Boolean);
 const labelOf=g=>{
  const values=[g.header,g.exactHeader,g.category,g.title,g.sourceLabel,g.description];
- return values.find(categoryLabel)??(g.kind==='practice-category'?values.find(v=>typeof v==='string'&&v.trim()):undefined);
+ // Compact booklets retain source difficulty in editor metadata, not printed
+ // category headings. A broad practice-category declaration cannot override it.
+ const explicit=values.find(categoryLabel);
+ if(explicit)return explicit;
+ const fallback=g.kind==='practice-category'?values.find(v=>typeof v==='string'&&v.trim()):undefined;
+ return /^(foundation|development|mastery)$/.test(normal(fallback))?undefined:fallback;
 };
 const categoryGroup=g=>!g.exclusionReason&&!g.indivisible&&!g.sharedActivity&&!!labelOf(g)&&['practice-category','practice'].includes(g.kind);
 const headingEntry=e=>!e.exclusionReason&&!e.sharedStemId&&e.kind==='group'&&!!labelOf(e);

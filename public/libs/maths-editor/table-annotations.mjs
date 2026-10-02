@@ -7,6 +7,29 @@ export function tableArrowGeometry(from, to, annotation = {}) {
     const length=Math.hypot(x2-x1,y2-y1)||1,ux=(x2-x1)/length,uy=(y2-y1)/length;
     const gap=Math.min(length/3,(annotation.distanceMm??2.5)*96/25.4),sx=x1+ux*gap,sy=y1+uy*gap,ex=x2-ux*gap,ey=y2-uy*gap;
     const head=(x,y,dx,dy)=>{const size=Math.min(6,(length-2*gap)*.4),bx=x-dx*size,by=y-dy*size,half=size*.42;return `M ${x} ${y} L ${bx-dy*half} ${by+dx*half} L ${bx+dy*half} ${by-dx*half} Z`;};
+    if(typeof annotation.label==='string' && annotation.label.trim() && Math.abs(from.left-to.left)<.01 && Math.abs(from.width-to.width)<.01 && y2>y1){
+      const mm=96/25.4,leftRail=Math.abs(from.left)<.01,outward=leftRail?-1:1;
+      const inset=.6*mm,reserve=2.8*mm;
+      const railX=leftRail?from.left+from.width-inset:from.left+inset;
+      const trim=Math.min(length/3,Math.max(0,(annotation.distanceMm??1.5)*mm));
+      const railSy=y1+trim,railEy=y2-trim;
+      const bend=Math.min(.5*mm,Math.max(0,(annotation.curveMm??.5)*mm));
+      const c1=[railX+outward*bend,railSy+(railEy-railSy)/3];
+      const c2=[railX+outward*bend,railEy-(railEy-railSy)/3];
+      const railHead=(x,y,tx,ty)=>{
+        const tangentLength=Math.hypot(tx,ty)||1,dx=tx/tangentLength,dy=ty/tangentLength;
+        const size=Math.min(6,(railEy-railSy)*.4),bx=x-dx*size,by=y-dy*size,half=size*.42;
+        return `M ${x} ${y} L ${bx-dy*half} ${by+dx*half} L ${bx+dy*half} ${by-dx*half} Z`;
+      };
+      return {
+        path:`M ${railX} ${railSy} C ${c1[0]} ${c1[1]}, ${c2[0]} ${c2[1]}, ${railX} ${railEy}`,
+        startHead:railHead(railX,railSy,railX-c1[0],railSy-c1[1]),
+        endHead:railHead(railX,railEy,railX-c2[0],railEy-c2[1]),
+        labelX:leftRail?from.left+(from.width-reserve)/2:from.left+reserve+(from.width-reserve)/2,
+        labelY:(railSy+railEy)/2,
+        start:[railX,railSy],end:[railX,railEy],controls:[c1,c2],
+      };
+    }
     return {path:`M ${sx} ${sy} L ${ex} ${ey}`,startHead:head(sx,sy,-ux,-uy),endHead:head(ex,ey,ux,uy),labelX:(sx+ex)/2,labelY:(sy+ey)/2-9,start:[sx,sy],end:[ex,ey],controls:[]};
   }
   const sign = annotation.side === 'top' ? -1 : 1;

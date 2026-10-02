@@ -46,7 +46,7 @@ export async function settleBookletMeasurement(root,{signal,timeoutMs=300000,cal
   });
   check();
   const diagramsReady=()=>[...root.querySelectorAll('.tikz-wrap')].every(e=>e.querySelector('svg:not(:has(animate)),.tikz-error'));
-  if(!diagramsReady())await new Promise((resolve,reject)=>{
+  const waitForDiagrams=()=>new Promise((resolve,reject)=>{
     const finish=error=>{observer.disconnect();clearTimeout(timer);signal?.removeEventListener('abort',abort);error?reject(error):resolve();};
     const abort=()=>finish(aborted());
     const observer=new MutationObserver(()=>{if(diagramsReady())finish();});
@@ -55,6 +55,7 @@ export async function settleBookletMeasurement(root,{signal,timeoutMs=300000,cal
     signal?.addEventListener('abort',abort,{once:true});
     if(signal?.aborted)abort();else if(diagramsReady())finish();
   });
+  if(!diagramsReady())await waitForDiagrams();
   check();
   await wait(Promise.all([...root.querySelectorAll('img')].map(async image=>{
     if(image.complete&&image.naturalWidth>0)return;
@@ -63,6 +64,9 @@ export async function settleBookletMeasurement(root,{signal,timeoutMs=300000,cal
   // Force style/layout to request fonts used by newly inserted SVG and maths.
   root.getBoundingClientRect();
   await wait(settleBookletFonts(root));
+  check();
+  // Image/font waits can allow newly mounted diagrams to join the surface.
+  if(!diagramsReady())await waitForDiagrams();
   check();calibrate(root);
   if(root.querySelector('.tikz-error,.katex-error'))throw Error('Mathematics failed to render');
   if(!diagramsReady())throw Error('A diagram has not rendered');
