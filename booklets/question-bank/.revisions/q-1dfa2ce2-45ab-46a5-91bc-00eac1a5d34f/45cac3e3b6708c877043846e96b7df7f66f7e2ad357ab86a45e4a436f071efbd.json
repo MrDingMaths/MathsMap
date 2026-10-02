@@ -1,0 +1,244 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1dfa2ce2-45ab-46a5-91bc-00eac1a5d34f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-cubic-inequalities",
+    "secondarySkillIds": [
+      "solve-rational-inequalities"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Requires counterexamples involving a double root and a disconnected function domain."
+  },
+  "content": {
+    "id": "p86-q1-2-node",
+    "type": "question",
+    "label": "1",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p86-q1-2-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "True or False?",
+              "marks": [
+                "bold"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p86-q1-2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "If $P(x)$ is a cubic with a double root at $x=a$, then the solution to $P(x)\\ge 0$ is a single interval $[a,\\infty)$ for some value of $a$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "False.",
+          "worked": "Consider $P(x)=x^3-x^2=x^2(x-1)$, which has a double root at $x=0$. Its graph touches the $x$-axis at $0$ and crosses it at $1$. It is negative elsewhere to the left of $1$ and positive to the right of $1$.\n\nThus $P(x)\\ge 0$ has solution $\\{0\\}\\cup[1,\\infty)$, which is not a single interval.",
+          "solutionDiagrams": [
+            {
+              "id": "p86-q1-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"polynomialBlue\",\"hex\":\"268CFF\",\"reason\":\"counterexample polynomial graph\"}],\"reference\":\"page 86 question 1; teacher page 15\"}\n\\begin{tikzpicture}[x=18mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\path[use as bounding box] (-1.6,-2.9) rectangle (2.5,5.9);\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{polynomialBlue}{HTML}{268CFF}\n\\draw[black,line width=0.5pt,->] (-1.35,0)--(2.15,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-2.6)--(0,3.35) node[above] {$y$};\n\\draw[polynomialBlue,line width=0.8pt,<->,domain=-1.05:1.85,samples=140] plot (\\x,{\\x*\\x*(\\x-1)});\n\\fill[black] (0,0) circle[radius=1.6pt];\n\\fill[black] (1,0) circle[radius=1.6pt];\n\\node[below left] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$0$\\special{dvisvgm:raw </g>}};\n\\node[below] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[polynomialBlue,anchor=south] at (0.4,4.8) {$y=x^2(x-1)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 80,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 86,
+                "sourceRegion": "Question 1",
+                "description": "Authored counterexample graph with the isolated equality point at zero and crossing at one.",
+                "mathematics": "P(x)=x^2(x-1); P(x)>=0 exactly at x=0 and for x>=1.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 6
+      },
+      {
+        "id": "p86-q1-2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "If $y=f(x)$ and $y=g(x)$ do not have any points of intersection, then the graph of $f$ is either purely above $g$ or purely below $g$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "False.",
+          "worked": "Consider $f(x)=\\dfrac{1}{x}$ and $g(x)=0$. Their graphs do not intersect. However, $f$ is above $g$ when $x>0$ and below $g$ when $x<0$. The value $x=0$ is outside the domain of $f$.",
+          "solutionDiagrams": [
+            {
+              "id": "p86-q2-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"reciprocalBlue\",\"hex\":\"268CFF\",\"reason\":\"counterexample reciprocal graph\"},{\"name\":\"comparisonRed\",\"hex\":\"EF6068\",\"reason\":\"comparison function g(x)=0\"}],\"reference\":\"page 86 question 2; teacher page 15\"}\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\path[use as bounding box] (-4.1,-4) rectangle (4.3,4.5);\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{reciprocalBlue}{HTML}{268CFF}\n\\definecolor{comparisonRed}{HTML}{EF6068}\n\\draw[black,line width=0.5pt,->] (-3.8,0)--(4,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-3.6)--(0,3.7) node[above] {$y$};\n\\draw[comparisonRed,line width=0.8pt,<->] (-3.5,0)--(3.5,0);\n\\draw[reciprocalBlue,line width=0.8pt,<->,domain=0.32:3.5,samples=100] plot (\\x,{1/\\x});\n\\draw[reciprocalBlue,line width=0.8pt,<->,domain=-3.5:-0.32,samples=100] plot (\\x,{1/\\x});\n\\node[reciprocalBlue,anchor=west] at (0.8,2.5) {$y=\\frac{1}{x}$};\n\\node[comparisonRed,anchor=south] at (2.45,-1.3) {$y=0$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 85,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 86,
+                "sourceRegion": "Question 2",
+                "description": "Authored counterexample showing different above/below relationships on the two components of the reciprocal function's domain.",
+                "mathematics": "1/x is positive for x>0, negative for x<0, undefined at zero, and never zero.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 6
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p86-q1-2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p86-q1-2-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p86-q1-2-heading-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p86-q1-2-label-item",
+                      "type": "item",
+                      "ref": "p86-q1-2-node/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p86-q1-2-instruction-item",
+                      "type": "item",
+                      "ref": "p86-q1-2-node/prompt#p86-q1-2-instruction"
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p86-q1-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p86-q1-label-item",
+                      "type": "item",
+                      "ref": "p86-q1-2-a/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p86-q1-content-stack",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p86-q1-prompt-item",
+                          "type": "item",
+                          "ref": "p86-q1-2-a/prompt"
+                        },
+                        {
+                          "id": "p86-q1-space-item",
+                          "type": "item",
+                          "ref": "p86-q1-2-a/space"
+                        }
+                      ],
+                      "gap": 0
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p86-q2-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p86-q2-label-item",
+                      "type": "item",
+                      "ref": "p86-q1-2-b/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p86-q2-content-stack",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p86-q2-prompt-item",
+                          "type": "item",
+                          "ref": "p86-q1-2-b/prompt"
+                        },
+                        {
+                          "id": "p86-q2-space-item",
+                          "type": "item",
+                          "ref": "p86-q1-2-b/space"
+                        }
+                      ],
+                      "gap": 0
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p86-q1-2"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:54:50.691Z",
+  "updatedAt": "2026-09-29T12:54:50.691Z"
+}

@@ -1,0 +1,130 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-46d4d0b1-98de-4009-9c91-6842e9fd5d12",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-rational-inequalities",
+    "secondarySkillIds": [
+      "solve-cubic-inequalities"
+    ],
+    "reasoningScore": 92,
+    "difficulty": "Challenge",
+    "difficultyReason": "Use a supplied cubic root to identify exact intersections of a rational curve and line, then compare branches across a pole."
+  },
+  "content": {
+    "id": "p88-q66-response",
+    "type": "question",
+    "label": null,
+    "prompt": "The graph of $y=x^3+x^2+1$ has exactly one $x$-intercept. Let this $x$-intercept be $\\alpha$.\n\nFind the values of $x$ for which\n$$\\frac{1}{x^3+1}\\ge x+1,$$\nexpressing your answer in terms of $\\alpha$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p88-q66-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "x\\le\\alpha\\quad\\text{or}\\quad -1<x\\le0",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p88-q66-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "The curves intersect at ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "x=\\alpha,0",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ". Compare above or below on either side of the pole ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "x=-1",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Sketch $y=\\dfrac1{x^3+1}$ and $y=x+1$, retaining the vertical asymptote $x=-1$. Their intersections satisfy\n$$\\begin{align*}\\frac1{x^3+1}&=x+1\\\\1&=(x+1)(x^3+1)\\\\0&=x^4+x^3+x\\\\0&=x(x^3+x^2+1)\\\\x&=0\\quad\\text{or}\\quad x=\\alpha.\\end{align*}$$\nFor $h(x)=x^3+x^2+1$, $h(-2)=-3$ and $h(-1)=1$. Since $h$ has exactly one zero, $-2<\\alpha<-1$.\n\nThe rational curve is on or above the line for $x\\le\\alpha$ and $-1<x\\le0$. Thus\n$$x\\le\\alpha\\quad\\text{or}\\quad -1<x\\le0.$$\nThe pole $x=-1$ is excluded; both intersection values are included.",
+      "solutionDiagrams": [
+        {
+          "id": "p88-q66-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"rational function\"},{\"name\":\"comparisonRed\",\"hex\":\"EF6068\",\"reason\":\"comparison line\"}],\"reference\":\"source page 88 question 66; teaching pages 84-85\"}\n\\begin{tikzpicture}[x=1.6cm,y=0.8cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{comparisonRed}{HTML}{EF6068}\n\\def\\a{-1.465571232}\n\\draw[black,dashed,line width=0.4pt] (-1,-3.15)--(-1,3.2);\n\\draw[->,black,line width=0.5pt] (-3.2,0)--(2.2,0) node[below] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-3.2)--(0,3.3) node[left] {$y$};\n\\draw[functionBlue,line width=0.8pt,<->] plot[domain=-3:-1.10065,samples=150] (\\x,{1/(\\x*\\x*\\x+1)});\n\\draw[functionBlue,line width=0.8pt,<->] plot[domain=-0.87358:2,samples=150] (\\x,{1/(\\x*\\x*\\x+1)});\n\\draw[comparisonRed,line width=0.8pt,<->] (-3,-2)--(2,3);\n\\node[text=functionBlue] at (-1.75,3.9) {$y=\\dfrac1{x^3+1}$};\n\\node[text=comparisonRed] at (1.3,3.9) {$y=x+1$};\n\\draw[black,dashed,line width=0.4pt] (\\a,0)--(\\a,{\\a+1});\n\\draw[black,line width=0.4pt] (\\a,-0.07)--(\\a,0.07);\n\\fill[black] (\\a,{\\a+1}) circle[radius=1.4pt];\n\\fill[black] (0,1) circle[radius=1.4pt];\n\\node at (\\a,-0.95) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\alpha$\\special{dvisvgm:raw </g>}};\n\\node[above left] at (-1,0.05) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 115,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 88,
+            "sourceRegion": "Question 66; no supplied question figure",
+            "description": "Rational curve and comparison line with vertical asymptote x=-1 and included intersections at x=alpha and x=0.",
+            "mathematics": "y=1/(x^3+1) and y=x+1 intersect at (alpha,alpha+1) and (0,1), where alpha is the unique root of x^3+x^2+1. The numerical plotting coordinate for alpha is derived from this equation and is labelled exactly as alpha.",
+            "answerVisibility": "Solution only"
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 82
+  },
+  "presentation": {
+    "ownerId": "p88-q66",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:56:37.281Z",
+  "updatedAt": "2026-09-29T12:56:37.281Z"
+}

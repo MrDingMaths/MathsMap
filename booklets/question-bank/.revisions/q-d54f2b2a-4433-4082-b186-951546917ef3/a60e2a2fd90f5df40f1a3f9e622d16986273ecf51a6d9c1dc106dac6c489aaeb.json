@@ -1,0 +1,194 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d54f2b2a-4433-4082-b186-951546917ef3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-sum-difference-functions",
+    "secondarySkillIds": [],
+    "reasoningScore": 74,
+    "difficulty": "Mastery",
+    "difficultyReason": "Extends ordinate combination to products, requiring sign, intercept and asymptotic reasoning. The supplied catalogue has no product-graph skill, so the closest contextual graph-combination skill is used."
+  },
+  "content": {
+    "id": "p38-stem65-66",
+    "type": "question",
+    "label": null,
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p38-range65-66-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "While this exercise focused on ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "adding",
+              "marks": [
+                "italic"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " graphs, they can also be ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "multiplied",
+              "marks": [
+                "italic"
+              ]
+            },
+            {
+              "type": "text",
+              "text": ". Given ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "f(x)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "g(x)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", sketch the graph of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y=f(x)g(x)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p38-q65",
+        "type": "part",
+        "label": "a",
+        "prompt": "$f(x)=x,\\ g(x)=2^x$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=x2^x$: passes through $(0,0)$, is negative for $x<0$ and positive for $x>0$, and approaches $y=0$ from below as $x\\to-\\infty$. It has one minimum to the left of the origin, then rises without bound.\n\nMultiply the ordinates of $y=x$ and $y=2^x$ at each $x$.",
+          "worked": "Sketch $y=x$ and $y=2^x$, then multiply their ordinates at common $x$-values.\n$$\\begin{align*}y(-2)&=(-2)2^{-2}\\\\y(-2)&=-\\frac12\\\\y(-1)&=(-1)2^{-1}\\\\y(-1)&=-\\frac12\\\\y(0)&=0\\\\y(1)&=2\\end{align*}$$\nSince $2^x>0$, the product has the sign of $x$. For large negative $x$, exponential decay makes $x2^x$ approach zero from below. The negative branch dips to a minimum between $x=-2$ and $x=-1$, then rises through the origin; the positive branch rises increasingly steeply.",
+          "solutionDiagrams": [
+            {
+              "id": "p38-q65-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"productBlue\",\"hex\":\"268CFF\",\"reason\":\"product graph\"},{\"name\":\"componentRed\",\"hex\":\"EF6068\",\"reason\":\"exponential construction graph\"}],\"reference\":\"source PDF page 38 question 65; teacher PDF page 8\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{productBlue}{HTML}{268CFF}\n\\definecolor{componentRed}{HTML}{EF6068}\n\\path[use as bounding box] (-4.3,-2.2) rectangle (2.6,5.7);\n\\draw[black,line width=0.5pt,->] (-4.1,0)--(2.35,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-2)--(0,4.45) node[left] {$y$};\n\\begin{scope}\n\\clip (-4.1,-1.95) rectangle (2.1,4.15);\n\\draw[black,dashed,opacity=1,line width=0.4pt,domain=-4.1:2.1,samples=2] plot (\\x,\\x);\n\\draw[componentRed,dashed,opacity=1,line width=0.4pt,domain=-4.1:2.05,samples=100] plot (\\x,{pow(2,\\x)});\n\\end{scope}\n\\draw[productBlue,line width=0.8pt,<->,domain=-4.05:1.63,samples=120] plot (\\x,{\\x*pow(2,\\x)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 82,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 38,
+                "sourceRegion": "Printed question 65; answer-book PDF page 8, enrichment answer 65",
+                "description": "Equation-driven product curve, shallow negative minimum and origin crossing, with faint dashed component constructions. No grid, numeric ticks, origin label or shading.",
+                "mathematics": "y=x*2^x; component graphs y=x and y=2^x.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 90
+      },
+      {
+        "id": "p38-q66",
+        "type": "part",
+        "label": "b",
+        "prompt": "$f(x)=\\dfrac{1}{x^2-1},\\ g(x)=x$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=\\dfrac{x}{x^2-1}$, $x\\ne\\pm1$: passes through $(0,0)$, has vertical asymptotes $x=\\pm1$ and horizontal asymptote $y=0$, and is symmetric about the origin. Its signs on the four intervals are $-,+,-,+$.\n\nMultiply the component ordinates; preserve the excluded values $x=\\pm1$.",
+          "worked": "Multiply the ordinates of $y=\\dfrac1{x^2-1}$ and $y=x$.\n$$\\begin{align*}y&=x\\left(\\frac1{x^2-1}\\right)\\\\y&=\\frac{x}{x^2-1}\\\\y(0)&=0\\end{align*}$$\nThe graph is undefined at $x=\\pm1$, where the numerator is nonzero, so both are vertical asymptotes. The denominator is positive outside $(-1,1)$ and negative inside it. Thus the product is negative on $(-\\infty,-1)$, positive on $(-1,0)$, negative on $(0,1)$ and positive on $(1,\\infty)$.\n$$\\begin{align*}y&=\\frac{1/x}{1-1/x^2}\\end{align*}$$\nHence $y\\to0$ as $x\\to\\pm\\infty$. The outer left branch approaches $0$ from below and falls to $-\\infty$ at $-1$; the middle branch falls from $+\\infty$ through the origin to $-\\infty$; the outer right branch falls from $+\\infty$ towards $0$. Replacing $x$ with $-x$ changes the sign, giving origin symmetry.",
+          "solutionDiagrams": [
+            {
+              "id": "p38-q66-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"productBlue\",\"hex\":\"268CFF\",\"reason\":\"product graph\"},{\"name\":\"componentRed\",\"hex\":\"EF6068\",\"reason\":\"rational construction graph\"}],\"reference\":\"source PDF page 38 question 66; teacher PDF page 8\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{productBlue}{HTML}{268CFF}\n\\definecolor{componentRed}{HTML}{EF6068}\n\\path[use as bounding box] (-3.3,-3.4) rectangle (3.55,3.55);\n\\draw[black,line width=0.5pt,->] (-3.15,0)--(3.3,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-3.2)--(0,3.3) node[left] {$y$};\n\\draw[black,dashed,line width=0.4pt] (-1,-3.1)--(-1,3.1);\n\\draw[black,dashed,line width=0.4pt] (1,-3.1)--(1,3.1);\n\\begin{scope}\n\\clip (-3.1,-3.1) rectangle (3.1,3.1);\n\\draw[black,dashed,opacity=1,line width=0.4pt] (-3.1,-3.1)--(3.1,3.1);\n\\draw[componentRed,dashed,opacity=1,line width=0.4pt,domain=-3.1:-1.16,samples=90] plot (\\x,{1/(\\x*\\x-1)});\n\\draw[componentRed,dashed,opacity=1,line width=0.4pt,domain=-0.82:0.82,samples=90] plot (\\x,{1/(\\x*\\x-1)});\n\\draw[componentRed,dashed,opacity=1,line width=0.4pt,domain=1.16:3.1,samples=90] plot (\\x,{1/(\\x*\\x-1)});\n\\end{scope}\n\\draw[productBlue,line width=0.8pt,<->,domain=-3.1:-1.18,samples=110] plot (\\x,{\\x/(\\x*\\x-1)});\n\\draw[productBlue,line width=0.8pt,<->,domain=-0.847:0.847,samples=110] plot (\\x,{\\x/(\\x*\\x-1)});\n\\draw[productBlue,line width=0.8pt,<->,domain=1.18:3.1,samples=110] plot (\\x,{\\x/(\\x*\\x-1)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 88,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 38,
+                "sourceRegion": "Printed question 66; answer-book PDF page 8, enrichment answer 66",
+                "description": "Three equation-driven branches with dashed vertical asymptotes and faint component curves. Preserves the keyed origin crossing and asymptotic behaviour. No grid, numeric ticks, origin label or shading.",
+                "mathematics": "y=x/(x^2-1), x≠±1; vertical asymptotes x=±1 and horizontal asymptote y=0.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 94
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p38-range65-66",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:46:55.871Z",
+  "updatedAt": "2026-09-29T12:46:55.871Z"
+}

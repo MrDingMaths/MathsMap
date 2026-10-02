@@ -1,0 +1,132 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-818358a6-25b1-44d0-8020-9d07f5068a55",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "restrict-domain-for-inverse",
+    "secondarySkillIds": [
+      "find-inverse-function",
+      "domain-range-inverse",
+      "graph-inverse-function"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Complete the square, select the maximal left branch containing the given value and carry that branch through the inverse and both graphs."
+  },
+  "content": {
+    "id": "p51-q27-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Let $f(x)=x^2+4x+3$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p51-q27-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "State the largest domain that contains $x=-3$ so that the inverse function $f^{-1}$ exists.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(-\\infty,-2]$.",
+          "worked": "$$\\begin{align*}f(x)&=x^2+4x+3\\\\f(x)&=(x+2)^2-1.\\end{align*}$$\nThe vertex is $(-2,-1)$. The maximal branch containing $x=-3$ has domain $(-\\infty,-2]$ and passes the horizontal line test.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p51-q27-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find $f^{-1}(x)$ for the domain of $f$ found in part (a).",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f^{-1}(x)=-2-\\sqrt{x+1}$.",
+          "worked": "Interchange $x$ and $y$ in $y=(x+2)^2-1$:\n$$\\begin{align*}x&=(y+2)^2-1\\\\(y+2)^2&=x+1\\\\y+2&=-\\sqrt{x+1}\\\\y&=-2-\\sqrt{x+1}.\\end{align*}$$\nUse the negative square root because the inverse must have $y\\leq-2$. Thus $f^{-1}(x)=-2-\\sqrt{x+1}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p51-q27-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "State the domain and range of $f^{-1}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Domain: $[-1,\\infty)$. Range: $(-\\infty,-2]$.",
+          "worked": "The restricted $f$ has domain $(-\\infty,-2]$ and range $[-1,\\infty)$. Interchanging domain and range gives $f^{-1}$ domain $[-1,\\infty)$ and range $(-\\infty,-2]$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p51-q27-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Sketch the graph of $y=f^{-1}(x)$, $y=f(x)$ with the domain found in part (a), and $y=x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Reflect the branch $y=(x+2)^2-1$, $x\\leq-2$, in $y=x$. Its endpoint $(-2,-1)$ becomes $(-1,-2)$.",
+          "worked": "Draw $y=(x+2)^2-1$ only for $x\\leq-2$, including $(-2,-1)$ and $(-3,0)$. Reflect these points in $y=x$ to obtain $(-1,-2)$ and $(0,-3)$ on $y=-2-\\sqrt{x+1}$. Include both endpoints and the line $y=x$.",
+          "solutionDiagrams": [
+            {
+              "id": "p51-q27-d-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"restricted original function\"},{\"name\":\"inverseRed\",\"hex\":\"EF6068\",\"reason\":\"inverse function\"}],\"reference\":\"source PDF page 51 question 27(d); teacher PDF page 9 question 27\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{inverseRed}{HTML}{EF6068}\n\\path[use as bounding box] (-4.6,-4.6) rectangle (2.9,2.9);\n\\draw[black,line width=0.5pt,->] (-4.3,0)--(2.6,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-4.3)--(0,2.6) node[left] {$y$};\n\\draw[black,dashed,line width=0.4pt,<->] (-4.2,-4.2)--(2.5,2.5);\n\\draw[functionBlue,line width=0.8pt,<-] plot[domain=-3.9:-2,samples=90] (\\x,{(\\x+2)*(\\x+2)-1});\n\\draw[inverseRed,line width=0.8pt,->] plot[domain=-1:2.61,samples=110] (\\x,{-2-sqrt(\\x+1)});\n\\fill[functionBlue] (-2,-1) circle[radius=1.6pt];\n\\fill[inverseRed] (-1,-2) circle[radius=1.6pt];\n\n\n\n\n\n\n\\node[fill=white,inner sep=1pt,outer sep=1pt,below] at (-3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-3$\\special{dvisvgm:raw </g>}};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,below] at (-2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-2$\\special{dvisvgm:raw </g>}};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,below] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,right] at (0,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,right] at (0,-2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-2$\\special{dvisvgm:raw </g>}};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,right] at (0,-3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-3$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 85,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 51,
+                "sourceRegion": "Question 27(d); answer-book PDF page 9, printed page 313, question 27",
+                "description": "Left branch of the parabola, its inverse and the reflection line y=x.",
+                "mathematics": "Original y=(x+2)^2-1 for x<=-2, endpoint (-2,-1), x-intercept (-3,0). Inverse y=-2-sqrt(x+1) for x>=-1, endpoint (-1,-2), y-intercept (0,-3).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 74
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p51-q27",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:47:39.798Z",
+  "updatedAt": "2026-09-29T12:47:39.798Z"
+}

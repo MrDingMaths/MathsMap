@@ -1,0 +1,100 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0c512d35-8a41-45f5-a9d7-217a5b2e9381",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-inverse-function-problems",
+    "secondarySkillIds": [
+      "find-inverse-function",
+      "graph-inverse-function",
+      "domain-range-inverse"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires a rational inverse, excluded input, both pairs of asymptotes, and justification that all intersections have been found."
+  },
+  "content": {
+    "id": "p52-q31-root",
+    "type": "question",
+    "label": "31",
+    "prompt": "Let $f(x)=\\dfrac{x}{2x+1}$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p52-q31-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find $f^{-1}(x)$ and state its domain.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f^{-1}(x)=\\dfrac{x}{1-2x}$, with domain $\\mathbb R\\setminus\\{\\tfrac12\\}$.",
+          "worked": "Interchange $x$ and $y$ and make $y$ the subject:\n$$\\begin{align*}y&=\\frac{x}{2x+1}\\\\x&=\\frac{y}{2y+1}\\\\x(2y+1)&=y\\\\(2x-1)y&=-x\\\\y&=\\frac{x}{1-2x}.\\end{align*}$$\nTherefore, $f^{-1}(x)=\\dfrac{x}{1-2x}$, with domain $\\mathbb R\\setminus\\{\\tfrac12\\}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 64
+      },
+      {
+        "id": "p52-q31-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the point(s) where $y=f(x)$ cuts the graph of its inverse, and sketch both graphs.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The graphs intersect only at $(0,0)$.\n\nReflect the original graph in $y=x$; its asymptotes $x=-\\tfrac12$, $y=\\tfrac12$ become $x=\\tfrac12$, $y=-\\tfrac12$.",
+          "worked": "At a common point, the original and inverse relations give\n$$\\begin{align*}2xy+y&=x\\\\2xy+x&=y.\\end{align*}$$\nSubtracting gives $2(y-x)=0$, so every intersection lies on $y=x$.\n$$\\begin{align*}x(2x+1)&=x\\\\2x^2&=0\\\\x&=0.\\end{align*}$$\nThus the only intersection is $(0,0)$.\n\nThe original graph has asymptotes $x=-\\tfrac12$ and $y=\\tfrac12$. Reflect it in $y=x$ to obtain the inverse, with asymptotes $x=\\tfrac12$ and $y=-\\tfrac12$.",
+          "solutionDiagrams": [
+            {
+              "id": "p52-q31-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"original rational function and its asymptotes\"},{\"name\":\"inverseRed\",\"hex\":\"EF6068\",\"reason\":\"inverse rational function and its reflected asymptotes\"}],\"reference\":\"source PDF52 Q31(b), teacher PDF9 printed313\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{inverseRed}{HTML}{EF6068}\n\\path[use as bounding box] (-3.6,-3.6) rectangle (3.7,3.7);\n\\draw[black,line width=0.5pt,->] (-3.3,0)--(3.4,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-3.3)--(0,3.4) node[left] {$y$};\n\\draw[black,line width=0.4pt,dashed,<->] (-3.1,-3.1)--(3.1,3.1);\n\\draw[functionBlue,line width=0.4pt,dashed] (-0.5,-3.2)--(-0.5,3.2);\n\\draw[functionBlue,line width=0.4pt,dashed] (-3.2,0.5)--(3.2,0.5);\n\\draw[inverseRed,line width=0.4pt,dashed] (0.5,-3.2)--(0.5,3.2);\n\\draw[inverseRed,line width=0.4pt,dashed] (-3.2,-0.5)--(3.2,-0.5);\n\\draw[functionBlue,line width=0.8pt,<->,domain=-3.2:-0.6,samples=101] plot (\\x,{\\x/(2*\\x+1)});\n\\draw[functionBlue,line width=0.8pt,<->,domain=-0.428571:3.2,samples=121] plot (\\x,{\\x/(2*\\x+1)});\n\\draw[inverseRed,line width=0.8pt,<->,domain=-3.2:0.428571,samples=121] plot (\\x,{\\x/(1-2*\\x)});\n\\draw[inverseRed,line width=0.8pt,<->,domain=0.6:3.2,samples=101] plot (\\x,{\\x/(1-2*\\x)});\n\\fill[black] (0,0) circle (1.5pt);\n\\draw[black,line width=0.4pt] (-0.5,-0.06)--(-0.5,0.06);\n\\draw[black,line width=0.4pt] (0.5,-0.06)--(0.5,0.06);\n\\draw[black,line width=0.4pt] (-0.06,0.5)--(0.06,0.5);\n\\draw[black,line width=0.4pt] (-0.06,-0.5)--(0.06,-0.5);\n\n\n\n\n\\node[functionBlue] at (-2.2,1.05) {$f$};\n\\node[inverseRed] at (2.2,-1.1) {$f^{-1}$};\n\\node[black,above left] at (2.45,2.45) {$y=x$};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,below left,xshift=-4mm,yshift=-3mm] at (-0.5,-0.08) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-\\frac12$\\special{dvisvgm:raw </g>}};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,above right,xshift=4mm,yshift=3mm] at (0.5,0.08) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac12$\\special{dvisvgm:raw </g>}};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,above left,xshift=-3mm,yshift=3mm] at (-0.08,0.5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac12$\\special{dvisvgm:raw </g>}};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,below right,xshift=3mm,yshift=-3mm] at (0.08,-0.5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-\\frac12$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 90,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 52,
+                "sourceRegion": "Question 31(b); answer graph on teacher PDF9, printed page 313",
+                "description": "Both branches of each rational function, the four reflected asymptotes, y=x, and the intersection at the origin.",
+                "mathematics": "f=x/(2x+1), x!=-1/2; inverse=x/(1-2x), x!=1/2. Original asymptotes x=-1/2 and y=1/2; inverse asymptotes x=1/2 and y=-1/2. Only intersection (0,0).",
+                "answerVisibility": "Complete solution graph; no graph is supplied in the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 84
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p52-q31",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:47:50.082Z",
+  "updatedAt": "2026-09-29T12:47:50.082Z"
+}

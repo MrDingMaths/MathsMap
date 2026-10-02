@@ -1,0 +1,500 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1f0d0fff-3211-42e7-a52c-ea035a289d1e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-sum-difference-functions",
+    "secondarySkillIds": [],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combine familiar component graphs, preserving restricted domains, finite endpoints, symmetry and asymptotic behaviour."
+  },
+  "content": {
+    "id": "p35-task20-23-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Graph the following.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p35-task20-23-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=x^2+\\dfrac{1}{x}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p35-q20-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Two branches with vertical asymptote ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "x=0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and x-intercept ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "(-1,0)",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ". The right branch has a minimum. Both branches approach ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "y=x^2",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " as ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "|x|\\to\\infty",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p35-q20-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Add the ordinates of the parabola and reciprocal graph at each common x-value.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Sketch $y=x^2$ and $y=\\frac{1}{x}$ lightly on the same axes. Add their ordinates at each common $x$-value.\n\n$$\\begin{align*}y(-1)&=(-1)^2+\\frac{1}{-1}\\\\y(-1)&=0\\\\y(1)&=1^2+\\frac{1}{1}\\\\y(1)&=2\\end{align*}$$\n\nFor $x<0$, the sum lies below the parabola; for $x>0$, it lies above it. As $x\\to0^-$, $y\\to-\\infty$; as $x\\to0^+$, $y\\to\\infty$. As $|x|$ increases, $\\frac{1}{x}\\to0$, so the sum approaches the parabola. Join the resulting points smoothly, keeping the two branches separate.",
+          "solutionDiagrams": [
+            {
+              "id": "p35-q20-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"sumBlue\",\"hex\":\"268CFF\",\"reason\":\"result curve; dashed pale curves are the components\"}],\"reference\":\"source PDF35 q20; teacher PDF6 q20\"}\n\\begin{tikzpicture}[x=10mm,y=6mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{sumBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-3.2,-4.2) rectangle (3.2,6.3);\n\\draw[black,line width=0.5pt,->] (-2.8,0)--(2.8,0) node[below left] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-3.9)--(0,5.9) node[above left] {$y$};\n\\draw[sumBlue,opacity=0.65,dashed,line width=0.8pt,<->] plot[domain=-2.35:2.35,samples=120] (\\x,{\\x*\\x});\n\\draw[sumBlue,opacity=0.65,dashed,line width=0.8pt,<->] plot[domain=-2.7:-0.28,samples=120] (\\x,{1/\\x});\n\\draw[sumBlue,opacity=0.65,dashed,line width=0.8pt,<->] plot[domain=0.18:2.7,samples=120] (\\x,{1/\\x});\n\\draw[sumBlue,line width=0.8pt,<->] plot[domain=-2.4:-0.28,samples=200] (\\x,{\\x*\\x+1/\\x});\n\\draw[sumBlue,line width=0.8pt,<->] plot[domain=0.19:2.25,samples=200] (\\x,{\\x*\\x+1/\\x});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 35,
+                "sourceRegion": "Question 20 expression; teacher PDF page 6, printed page 310, keyed graph 20",
+                "description": "Solid sum curve with two arrow-ended branches, dashed parabola and reciprocal construction graphs, black axes, no grid or numeric ticks.",
+                "mathematics": "y=x²+1/x, x≠0; x-intercept −1; vertical asymptote x=0; approaches y=x² at large |x|.",
+                "answerVisibility": "Solution only; the student question supplies the expression without a graph."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 114
+      },
+      {
+        "id": "p35-task20-23-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=\\sqrt{4-x^2}-x$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p35-q21-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "A continuous curve on ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "-2\\le x\\le2",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " with closed endpoints ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "(-2,2)",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "(2,-2)",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", passing through ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "(0,2)",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "(\\sqrt2,0)",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ". It rises to a maximum left of the y-axis, then falls.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p35-q21-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Add the ordinates of the upper semicircle and the line ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "y=-x",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Sketch the upper semicircle $y=\\sqrt{4-x^2}$ and the line $y=-x$ lightly. Add their ordinates only for $-2\\le x\\le2$.\n\n$$\\begin{align*}y(-2)&=\\sqrt{4-(-2)^2}-(-2)\\\\y(-2)&=2\\\\y(0)&=\\sqrt{4-0^2}-0\\\\y(0)&=2\\\\y(2)&=\\sqrt{4-2^2}-2\\\\y(2)&=-2\\end{align*}$$\n\nFor negative $x$, $-x$ raises the semicircle; for positive $x$, it lowers it. The ordinates cancel at $x=\\sqrt2$. Join the resulting points smoothly, retaining both closed endpoints.",
+          "solutionDiagrams": [
+            {
+              "id": "p35-q21-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"sumBlue\",\"hex\":\"268CFF\",\"reason\":\"result curve and endpoints; dashed pale curves are the components\"}],\"reference\":\"source PDF35 q21; teacher PDF6 q21\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{sumBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-3.2,-3.1) rectangle (3.2,3.7);\n\\draw[black,line width=0.5pt,->] (-2.9,0)--(2.9,0) node[below left] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-2.8)--(0,3.3) node[above left] {$y$};\n\\draw[sumBlue,opacity=0.65,dashed,line width=0.8pt] plot[variable=\\t,domain=0:180,samples=160] ({2*cos(\\t)},{2*sin(\\t)});\n\\draw[sumBlue,opacity=0.65,dashed,line width=0.8pt,<->] (-2.8,2.8)--(2.8,-2.8);\n\\draw[sumBlue,line width=0.8pt] plot[variable=\\t,domain=0:180,samples=200] ({2*cos(\\t)},{2*sin(\\t)-2*cos(\\t)});\n\\fill[sumBlue] (-2,2) circle[radius=1.2pt];\n\\fill[sumBlue] (2,-2) circle[radius=1.2pt];\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 35,
+                "sourceRegion": "Question 21 expression; teacher PDF page 6, printed page 310, keyed graph 21",
+                "description": "Finite solid sum curve with two closed endpoints, dashed upper semicircle and descending line, black axes, no grid or numeric ticks.",
+                "mathematics": "Parametrisation x=2cos(t), y=2sin(t)−2cos(t), 0≤t≤π; domain [−2,2]; endpoints (−2,2) and (2,−2); maximum (−√2,2√2).",
+                "answerVisibility": "Solution only; no component or result graph appears in the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 114
+      },
+      {
+        "id": "p35-task20-23-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$y=2^x+2^{-x}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p35-q22-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "A smooth curve symmetric about the y-axis, with minimum ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "(0,2)",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and no x-intercepts. Both ends rise without bound.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p35-q22-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Add the positive ordinates of ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "y=2^x",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "y=2^{-x}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Sketch $y=2^x$ and its reflection $y=2^{-x}$ lightly. Both ordinates are positive, so their sum lies above each component.\n\n$$\\begin{align*}y(0)&=2^0+2^0\\\\y(0)&=2\\\\y(1)&=2^1+2^{-1}\\\\y(1)&=\\frac52\\end{align*}$$\n\nAt $x=-1$, the component ordinates exchange places, giving the same sum $\\frac{5}{2}$. This symmetry holds for every pair $x$ and $-x$. Add the ordinates and draw a smooth curve with its minimum at $(0,2)$, rising at both ends.",
+          "solutionDiagrams": [
+            {
+              "id": "p35-q22-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"sumBlue\",\"hex\":\"268CFF\",\"reason\":\"result curve; dashed pale curves are the reflected exponential components\"}],\"reference\":\"source PDF35 q22; teacher PDF6 q22\"}\n\\begin{tikzpicture}[x=10mm,y=8mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{sumBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-3.2,-0.8) rectangle (3.2,7);\n\\draw[black,line width=0.5pt,->] (-2.9,0)--(2.9,0) node[below left] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.5)--(0,6.6) node[above left] {$y$};\n\\draw[sumBlue,opacity=0.65,dashed,line width=0.8pt,<->] plot[domain=-2.6:2.6,samples=160] (\\x,{pow(2,\\x)});\n\\draw[sumBlue,opacity=0.65,dashed,line width=0.8pt,<->] plot[domain=-2.6:2.6,samples=160] (\\x,{pow(2,-\\x)});\n\\draw[sumBlue,line width=0.8pt,<->] plot[domain=-2.6:2.6,samples=200] (\\x,{pow(2,\\x)+pow(2,-\\x)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 35,
+                "sourceRegion": "Question 22 expression; teacher PDF page 6, printed page 310, keyed graph 22",
+                "description": "Symmetric solid sum curve with upward arrow-ended arms, two dashed reflected exponential construction graphs, black axes, no grid or numeric ticks.",
+                "mathematics": "y=2^x+2^(−x); minimum (0,2); even function; positive for all real x; tends to infinity at both ends.",
+                "answerVisibility": "Solution only; the student prompt supplies only the expression."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 106
+      },
+      {
+        "id": "p35-task20-23-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$y=\\dfrac{x}{2}+\\dfrac{2}{x}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p35-q23-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Two branches symmetric about the origin, with asymptotes ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "x=0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "y=\\frac{x}{2}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ". The positive branch lies above the line; the negative branch lies below it. There are no axis intercepts.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p35-q23-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Add the reciprocal ordinates to the line at common x-values.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Sketch $y=\\frac{x}{2}$ and $y=\\frac{2}{x}$ lightly. Add their ordinates separately on either side of $x=0$.\n\n$$\\begin{align*}y(1)&=\\frac12+\\frac21\\\\y(1)&=\\frac52\\\\y(2)&=\\frac22+\\frac22\\\\y(2)&=2\\end{align*}$$\n\nFor $x>0$, the sum lies above the line; for $x<0$, it lies below it. Negative $x$-values give the origin-reflected branch. As $x\\to0^+$, $y\\to\\infty$; as $x\\to0^-$, $y\\to-\\infty$. As $|x|$ increases, $\\frac{2}{x}\\to0$, so the branches approach $y=\\frac{x}{2}$. Join the resulting points smoothly, retaining the vertical asymptote.",
+          "solutionDiagrams": [
+            {
+              "id": "p35-q23-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"sumBlue\",\"hex\":\"268CFF\",\"reason\":\"result curve; dashed pale curves are the line and reciprocal components\"}],\"reference\":\"source PDF35 q23; teacher PDF6 q23\"}\n\\begin{tikzpicture}[x=6mm,y=6mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{sumBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5.5,-5.5) rectangle (5.5,5.8);\n\\draw[black,line width=0.5pt,->] (-5.1,0)--(5.1,0) node[below left] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-5.1)--(0,5.2) node[above left] {$y$};\n\\draw[sumBlue,opacity=0.65,dashed,line width=0.8pt,<->] (-5,-2.5)--(5,2.5);\n\\draw[sumBlue,opacity=0.65,dashed,line width=0.8pt,<->] plot[domain=-5:-0.4,samples=180] (\\x,{2/\\x});\n\\draw[sumBlue,opacity=0.65,dashed,line width=0.8pt,<->] plot[domain=0.4:5,samples=180] (\\x,{2/\\x});\n\\draw[sumBlue,line width=0.8pt,<->] plot[domain=-5:-0.43,samples=220] (\\x,{\\x/2+2/\\x});\n\\draw[sumBlue,line width=0.8pt,<->] plot[domain=0.43:5,samples=220] (\\x,{\\x/2+2/\\x});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 35,
+                "sourceRegion": "Question 23 expression; teacher PDF page 6, printed page 310, keyed graph 23",
+                "description": "Two solid arrow-ended sum branches with dashed straight-line and reciprocal construction graphs, black axes, no grid or numeric ticks.",
+                "mathematics": "y=x/2+2/x, x≠0; odd function; vertical asymptote x=0; oblique asymptote y=x/2; positive-branch minimum (2,2) and negative-branch maximum (−2,−2).",
+                "answerVisibility": "Solution only; the student prompt contains no supplied graph."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 120
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p35-task20-23",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:46:02.042Z",
+  "updatedAt": "2026-09-29T12:46:02.042Z"
+}

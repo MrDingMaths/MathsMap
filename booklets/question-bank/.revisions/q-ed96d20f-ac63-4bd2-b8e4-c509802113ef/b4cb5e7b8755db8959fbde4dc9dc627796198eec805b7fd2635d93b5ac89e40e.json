@@ -1,0 +1,100 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ed96d20f-ac63-4bd2-b8e4-c509802113ef",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-inverse-function-problems",
+    "secondarySkillIds": [
+      "find-inverse-function",
+      "graph-inverse-function",
+      "domain-range-inverse"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires completing the square, selecting the negative inverse branch, and checking all crossings of decreasing reflected graphs."
+  },
+  "content": {
+    "id": "p52-q33-root",
+    "type": "question",
+    "label": "33",
+    "prompt": "Let $f(x)=x^2-4x$ for $x\\le2$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p52-q33-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find $f^{-1}(x)$ and state its domain.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f^{-1}(x)=2-\\sqrt{x+4}$, with domain $[-4,\\infty)$.",
+          "worked": "Complete the square, then interchange $x$ and $y$:\n$$\\begin{align*}y&=(x-2)^2-4\\\\x&=(y-2)^2-4\\\\(y-2)^2&=x+4\\\\y-2&=-\\sqrt{x+4}\\\\y&=2-\\sqrt{x+4}.\\end{align*}$$\nChoose the negative root because the original domain gives $y\\le2$ after swapping. The original range is $[-4,\\infty)$, so this is the inverse's domain.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 68
+      },
+      {
+        "id": "p52-q33-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the point(s) where $y=f(x)$ cuts the graph of its inverse, and sketch both graphs.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The graphs intersect only at $(0,0)$.\n\nReflect the branch $x\\le2$ in $y=x$; the endpoints $(2,-4)$ and $(-4,2)$ are paired.",
+          "worked": "Sketch the decreasing branch $y=(x-2)^2-4$, $x\\le2$, including its endpoint $(2,-4)$. Reflect it in $y=x$ to obtain $y=2-\\sqrt{x+4}$, $x\\ge-4$, with endpoint $(-4,2)$.\n\nThe sketch shows one intersection on $y=x$ and none away from it. Confirm the point:\n$$\\begin{align*}x^2-4x&=x\\\\x^2-5x&=0\\\\x(x-5)&=0.\\end{align*}$$\nThe roots are $x=0$ and $x=5$. The original domain excludes $x=5$, so the only intersection is $(0,0)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p52-q33-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"restricted original quadratic branch\"},{\"name\":\"inverseRed\",\"hex\":\"EF6068\",\"reason\":\"reflected negative square-root branch\"}],\"reference\":\"source PDF52 Q33(b), teacher PDF10 printed314\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{inverseRed}{HTML}{EF6068}\n\\path[use as bounding box] (-4.9,-4.9) rectangle (5.9,5.9);\n\\draw[black,line width=0.5pt,->] (-4.6,0)--(5.6,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-4.6)--(0,5.6) node[left] {$y$};\n\\draw[black,line width=0.4pt,dashed,<->] (-4.5,-4.5)--(5.4,5.4);\n\\draw[functionBlue,line width=0.8pt,<-,domain=-1:2,samples=101] plot (\\x,{\\x*\\x-4*\\x});\n\\draw[inverseRed,line width=0.8pt,->,domain=-4:5,samples=141] plot (\\x,{2-sqrt(\\x+4)});\n\\fill[functionBlue] (2,-4) circle (1.7pt);\n\\fill[inverseRed] (-4,2) circle (1.7pt);\n\\fill[black] (0,0) circle (1.7pt);\n\\draw[black,line width=0.4pt] (-4,-0.08)--(-4,0.08);\n\\draw[black,line width=0.4pt] (2,-0.08)--(2,0.08);\n\\draw[black,line width=0.4pt] (4,-0.08)--(4,0.08);\n\\draw[black,line width=0.4pt] (-0.08,2)--(0.08,2);\n\\draw[black,line width=0.4pt] (-0.08,4)--(0.08,4);\n\\draw[black,line width=0.4pt] (-0.08,-4)--(0.08,-4);\n\\node[below] at (-4,-0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-4$\\special{dvisvgm:raw </g>}};\n\\node[above] at (2,0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[above] at (4,0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$4$\\special{dvisvgm:raw </g>}};\n\\node[right] at (0.1,2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[right] at (0.1,4) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$4$\\special{dvisvgm:raw </g>}};\n\\node[left] at (-0.1,-4) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-4$\\special{dvisvgm:raw </g>}};\n\\node[functionBlue,right] at (1.45,-2.9) {$f$};\n\\node[inverseRed,below] at (3.8,-1.15) {$f^{-1}$};\n\\node[black,above left] at (4.6,4.6) {$y=x$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 95,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 52,
+                "sourceRegion": "Question 33(b); answer graph on teacher PDF10, printed page 314",
+                "description": "Decreasing quadratic branch and reflected radical branch with their closed endpoints, numerical axis labels, and the common origin.",
+                "mathematics": "f=(x-2)^2-4, x<=2, endpoint (2,-4); inverse=2-sqrt(x+4), x>=-4, endpoint (-4,2). Only intersection (0,0). Equal coordinate units preserve reflection.",
+                "answerVisibility": "Complete solution graph only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 74
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p52-q33",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:47:55.308Z",
+  "updatedAt": "2026-09-29T12:47:55.308Z"
+}
