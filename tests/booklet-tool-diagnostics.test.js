@@ -58,3 +58,24 @@ test('historical zero observed tools does not establish missing completed or rej
  assert.equal(receipt.completeJob.toolCalls,0);assert.equal(receipt.completeJob.completedToolCalls,null);assert.equal(receipt.completeJob.rejectedToolAttempts,null);assert.equal(receipt.completeJob.missingCompletedToolCounts,1);assert.equal(receipt.completeJob.missingRejectedToolCounts,1);
  assert.equal(receipt.model.rejectedToolAttempts,null);assert.equal(receipt.model.missingRejectedToolCounts,1);
 });
+
+
+test('medium execution metrics record the same effort and override sent to Codex',async t=>{
+ const f=fixture(t),reasoningOverride={effort:'medium',reason:'User-requested Pythagoras trial'};
+ const {transcriptionConfiguration}=await import('../scripts/booklet/transcription-settings.mjs');
+ const result=await runAstraTask({cwd:f.dir,prompt:'Synthetic evidence',out:path.join(f.dir,'medium'),configuration:transcriptionConfiguration({reasoningOverride})},{spawnProcess:(_binary,args)=>{
+  assert.ok(args.includes('model_reasoning_effort="medium"'));
+  const child=new EventEmitter();child.stdout=new PassThrough();child.stderr=new PassThrough();child.stdin=new Writable({write(_chunk,_encoding,done){done();}});child.kill=()=>child.emit('close',1);
+  setTimeout(()=>{fs.writeFileSync(args[args.indexOf('--output-last-message')+1],'{}');child.stdout.write(JSON.stringify({type:'turn.completed',usage})+'\n');child.emit('close',0);},5);
+  return child;
+ }});
+ assert.equal(result.metrics.effort,'medium');assert.deepEqual(result.metrics.reasoningOverride,reasoningOverride);assert.equal(result.metrics.serviceTier,'default');
+});
+
+
+test('repair workers infer medium from run manifest and reject explicit high before execution',async t=>{
+ const f=fixture(t),manifest={provider:'codex',model:'gpt-6.1-sol',effort:'medium',reasoningOverride:{effort:'medium',reason:'User-requested Pythagoras trial'}};
+ fs.writeFileSync(path.join(f.dir,'manifest.json'),JSON.stringify(manifest));
+ await assert.rejects(()=>runAstraTask({runDir:f.dir,cwd:f.dir,prompt:'Repair',out:path.join(f.dir,'wrong'),configuration:{provider:'codex',model:'gpt-6.1-sol',effort:'high'}},{spawnProcess:()=>assert.fail('Mismatched execution started')}),/differs from recorded run/);
+ await assert.rejects(()=>runAstraTask({runDir:f.dir,cwd:f.dir,prompt:'Repair',out:path.join(f.dir,'inferred')},{spawnProcess:(_binary,args)=>{assert.ok(args.includes('model_reasoning_effort="medium"'));throw Error('Synthetic inference checked');}}),error=>{assert.equal(error.metrics.effort,'medium');return /Synthetic inference/.test(error.message);});
+});

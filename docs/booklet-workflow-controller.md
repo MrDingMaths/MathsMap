@@ -1,5 +1,60 @@
 # Resumable bounded review dispatch
 
+## Import-efficiency implementation (2 October 2026)
+
+The controller refills each safe slot as a worker finishes instead of waiting for
+a whole wave. Three-pass assessment jobs expose their exercise/source/teaching
+dependencies; the first accepted teaching summary must be recorded before
+dependent jobs overlap. Shared source pages remain exclusive, and composition
+work remains exclusive. The shared three-worker cap and serialized record/save
+transactions remain in force. Bootstrap checks are local; the first useful job
+checks worker connectivity without a disposable model call.
+
+New three-pass review tickets carry source text, relevant same-page teaching
+siblings and identity guidance before dispatch. The full delivered prompt is
+counted against the conservative existing 24,000-character limit; stable and
+variable sections are also measured separately. Accepted unclaimed questions no
+longer occupy new batches. Prepared ownership and historical delivery contracts
+stay immutable. Batch occupancy and underfilled-batch reasons appear in receipts.
+
+Local result normalization permits only a JSON envelope and unique teaching
+source-alias mappings to delivered native IDs. Original/normalized hashes and
+the transformation allowlist are retained beside the ticket. Ambiguous IDs,
+mathematical values, correction targets, review checks and verdicts are never
+inferred. Every normalized result still passes the existing acceptance APIs.
+
+A failure stops new dispatch and drains active jobs. Completed generation is
+retained for reconciliation; only an exact, ended worker without a completed
+result can have its owner cancelled. An unchanged failed job cannot be dispatched
+again on restart without a recorded diagnosis and changed approach through
+`--regenerate-reason`. Retained-result recording needs no new model call.
+
+Approved corrections to canonical Projects use the ordinary optimistic
+project/bank transaction and readback. A pending save is durable and retried on
+restart without rerunning its reviewer. Staged candidates outside Projects retain
+their reviewed corrections and require a revision-safe save before resuming.
+For a graceful drain, create `workflow/dispatch-drain` in the run, let active jobs
+finish, then remove it before resuming.
+
+For full final exports, supply `--run-dir RUN` to
+`scripts/booklet/check-compact-exercises.mjs` and omit `--out` to select a fresh
+run-local `final-exports-*` directory automatically. This enables the existing
+verified seeding path. An explicit output remains unchanged; reports explain
+when it is outside that seeding path. Per-edition seeding reasons distinguish
+missing artifacts, changed renderer/printable dependencies and changed PDF bytes.
+Seeding and actual reuse remain separate from visual-inspection credit.
+
+Offline packet replay is available without model calls or acceptance changes:
+
+```text
+node scripts/booklet/benchmark-review-packets.mjs --run-dir RUN --out .booklet-work/packet-benchmark.json
+```
+
+Complete accepted-import elapsed time remains the primary success measure.
+Offline character or assembly measurements are not claims of token or whole-job
+time savings. Compact-spacing tuning remains user-directed; only relevant graph
+assignments receive the concise sizing convention.
+
 `run-workflow drive` advances eligible inventory, authoring, mathematical,
 teaching, question, feedback and final visual-review work. It reads the existing
 dependency status and `run-workflow next`, uses the three-worker pool and records

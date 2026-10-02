@@ -49,7 +49,7 @@ export async function main(args=process.argv.slice(2)){
   if(command==='drive'){
    if(!flags['--budget'])throw Error('Drive requires --budget JSON with dispatch limits');
    const {driveBoundedWorkflow}=await import('./workflow-controller.mjs');
-   result=await driveBoundedWorkflow(options,{budget:jsonFile(flags['--budget']),...(flags['--concurrency']?{concurrency:Number(flags['--concurrency'])}:{}),...(flags['--plan']?{planFile:path.resolve(flags['--plan'])}:{})});
+   result=await driveBoundedWorkflow(options,{budget:jsonFile(flags['--budget']),...(flags['--concurrency']?{concurrency:Number(flags['--concurrency'])}:{}),...(flags['--plan']?{planFile:path.resolve(flags['--plan'])}:{}),...(flags['--regenerate-reason']?{retryDiagnosis:flags['--regenerate-reason']}:{})});
   }else if(command==='next'){
    result=await stages.nextBoundedWork(options);
    if(options.config&&loaded.manifest){const generation=dependencyStatus({...options,pages:options.selectedPages},{retry:!!flags['--retry'],representative:!!flags['--representative'],requireRepresentativePlan:true,planFile:flags['--plan'],retryDiagnosis:flags['--regenerate-reason']});result.generation={...generation,complete:generation.complete.length};}

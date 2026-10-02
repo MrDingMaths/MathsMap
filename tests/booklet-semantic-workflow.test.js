@@ -264,7 +264,7 @@ test('dry run performs no model calls or writes, and fingerprints only relevant 
  assert.equal(a.inputHash,b.inputHash);
  fs.writeFileSync(path.join(options.runDir,'evidence/pages/page-003.png'),'changed teaching image');
  assert.notEqual(createSemanticTasks(options)[0].inputHash,a.inputHash);
- assert.throws(()=>createSemanticTasks({...options,manifest:{...options.manifest,effort:'xhigh'}}),/fresh Sol high/);
+ assert.throws(()=>createSemanticTasks({...options,manifest:{...options.manifest,effort:'xhigh'}}),/fresh Sol medium/);
 });
 
 test('bounded workers resume completed pages, reject edited caches, and preserve failed retries',async t=>{
@@ -509,5 +509,27 @@ test('reviewed publication honours its bounded wait without stealing another wri
    return {result:{...inventory(page),layoutPatterns:[{id:'plain',description:'Plain source question'}]},metrics:{}};
   }});
   await release;assert.equal(report.ok,success);assert.equal(fs.existsSync(canonical),success);if(!success)assert.match(report.pages[0].error,/review lock is busy/);
+ }
+});
+
+
+test('retained medium trial provenance changes generation identity and reaches inventory and author workers',async t=>{
+ const options={...fixture(t),pages:[4]},defaultTask=createSemanticTasks(options)[0];
+ options.manifest={...options.manifest,effort:'medium',reasoningOverride:{effort:'medium',reason:'User-requested Pythagoras trial'}};
+ const medium=createSemanticTasks(options)[0];
+ assert.notEqual(defaultTask.inputHash,medium.inputHash);
+ assert.equal(medium.generationDependencies.configuration.effort,'medium');
+ for(const stage of ['inventory','author']){
+  if(stage==='inventory')fs.unlinkSync(path.join(options.runDir,'semantic-packets/page-004.inventory.json'));
+  let calls=0;
+  const result=await runSemanticPackets({...options,stage},{...quiet,runner:async request=>{
+   calls++;assert.equal(request.configuration.effort,'medium');
+   if(stage==='author')assert.match(request.prompt,/assigned Sol medium authoring worker/);
+   return {result:stage==='inventory'?inventory(4):author(4),metrics:{provider:'test',effort:request.configuration.effort}};
+  }});
+  assert.equal(result.ok,true);assert.equal(calls,1);
+  const task=createSemanticTasks({...options,stage})[0],meta=JSON.parse(fs.readFileSync(path.join(task.out,'result.meta.json')));
+  assert.equal(meta.effort,'medium');assert.deepEqual(meta.reasoningOverride,options.manifest.reasoningOverride);assert.equal(meta.metrics.effort,'medium');
+  assert.ok(fs.existsSync(task.resultFile));
  }
 });

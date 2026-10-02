@@ -10,6 +10,19 @@ const profile='textbook-three-pass-v1';
 const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
 const inside=(root,file)=>{const relative=path.relative(root,file);return relative!==''&&relative!=='..'&&!relative.startsWith('..'+path.sep)&&!path.isAbsolute(relative);};
 
+export function finalExportOutput({out,runDir,development=false,draft=false,preflight=false,now=Date.now()}){
+ return out??(runDir&&!development&&!draft&&!preflight?path.join(path.resolve(runDir),'final-exports-'+now):'.booklet-work/compact-exercises');
+}
+
+export function finalExportIneligibility({manifest,edition,renderer,printableKey,pdfHash}={}){
+ if(manifest?.passed!==true||manifest.mode!=='full')return 'not-passed-full-export';
+ if(manifest.reviewProfile!==profile||manifest.edition!==edition)return 'edition-or-policy-changed';
+ if(manifest.renderer!==renderer)return 'renderer-changed';
+ if(!printableKey||manifest.printableKey!==printableKey)return 'printable-dependencies-changed';
+ if(manifest.pdf?.hash!==pdfHash||!/^([a-f0-9]{64})$/i.test(pdfHash??''))return 'pdf-bytes-changed';
+ return null;
+}
+
 export function isEligibleFinalExport({manifest,edition,renderer,printableKey,pdfHash}={}){
  return editions.includes(edition)&&typeof renderer==='string'&&renderer.length>0&&typeof printableKey==='string'&&printableKey.length>0&&
   manifest?.passed===true&&manifest.mode==='full'&&manifest.reviewProfile===profile&&manifest.edition===edition&&
@@ -57,7 +70,7 @@ function rollback(created){
  return errors;
 }
 
-export async function seedUnchangedFinalExports({runDir,projectFile,out}){
+export async function seedUnchangedFinalExports({runDir,projectFile,out,onDecision=()=>{}}){
  runDir=checkedPath(runDir);projectFile=checkedPath(projectFile);out=checkedPath(out,{missing:true});
  if(!fs.statSync(runDir).isDirectory()||path.dirname(out)!==runDir||!path.basename(out).startsWith('final-exports-'))throw Error('Output must be a direct final-exports-* directory inside the run');
  const projectSource=snapshot(projectFile),project=JSON.parse(projectSource.bytes.toString('utf8'));
@@ -77,26 +90,28 @@ export async function seedUnchangedFinalExports({runDir,projectFile,out}){
   const dirs=fs.readdirSync(runDir,{withFileTypes:true}).filter(entry=>entry.isDirectory()&&entry.name.startsWith('final-exports-')&&path.join(runDir,entry.name)!==out)
    .map(entry=>path.join(runDir,entry.name)).filter(dir=>{try{checkedPath(dir);return true;}catch{return false;}})
    .sort((a,b)=>fs.statSync(b).mtimeMs-fs.statSync(a).mtimeMs||a.localeCompare(b));
-  const plans=[];
+  const plans=[],decisions=[];
   for(const edition of editions){
    const stem=project.id+'-'+edition,target=path.join(out,stem+'.full.pages.json'),pdf=path.join(out,stem+'.pdf'),cache=path.join(out,stem+'.verification.json');
-   if([target,pdf,cache].some(file=>{try{fs.lstatSync(file);return true;}catch(error){if(error.code==='ENOENT')return false;throw error;}}))continue;
-   const key=await layoutCacheKey(project,edition,renderer);if(!key)continue;
+   if([target,pdf,cache].some(file=>{try{fs.lstatSync(file);return true;}catch(error){if(error.code==='ENOENT')return false;throw error;}})){decisions.push({edition,reason:'target-present'});continue;}
+   const key=await layoutCacheKey(project,edition,renderer);if(!key){decisions.push({edition,reason:'unresolved-printable-dependencies'});continue;}
+   const candidates=[];let selected=false;
    for(const dir of dirs)try{
     const sourceManifest=snapshot(path.join(dir,stem+'.full.pages.json')),manifest=JSON.parse(sourceManifest.bytes.toString('utf8'));
     const sourcePdf=path.join(dir,stem+'.pdf');
-    if(typeof manifest.pdf?.path!=='string'||path.resolve(manifest.pdf.path)!==sourcePdf||!inside(dir,sourcePdf))continue;
+    if(typeof manifest.pdf?.path!=='string'||path.resolve(manifest.pdf.path)!==sourcePdf||!inside(dir,sourcePdf)){candidates.push({directory:dir,reason:'unsafe-pdf-path'});continue;}
     const pdfSource=snapshot(sourcePdf);
-    if(!isEligibleFinalExport({manifest,edition,renderer,printableKey:key,pdfHash:pdfSource.hash}))continue;
+    if(!isEligibleFinalExport({manifest,edition,renderer,printableKey:key,pdfHash:pdfSource.hash})){candidates.push({directory:dir,reason:finalExportIneligibility({manifest,edition,renderer,printableKey:key,pdfHash:pdfSource.hash})??'invalid-export'});continue;}
     let cacheSource=null;
     try{
      const candidate=snapshot(path.join(dir,stem+'.verification.json')),value=JSON.parse(candidate.bytes.toString('utf8'));
      if(value.key===key&&value.passed===true&&value.pdfHash===pdfSource.hash&&Object.hasOwn(value,'result'))cacheSource=candidate;
     }catch{}
-    plans.push({edition,key,target,pdf,cache,sourceManifest,pdfSource,cacheSource,manifest});break;
-   }catch{continue;}
+    plans.push({edition,key,target,pdf,cache,sourceManifest,pdfSource,cacheSource,manifest});selected=true;break;
+   }catch(error){candidates.push({directory:dir,reason:error.code==='ENOENT'?'missing-artifact':'unreadable-or-invalid-artifact'});continue;}
+   decisions.push({edition,reason:selected?'seeded':dirs.length?'no-compatible-export':'no-retained-export',candidates});
   }
-  if(!plans.length)return [];
+  if(!plans.length){decisions.forEach(onDecision);return [];}
   const dependencies=[projectSource,...plans.flatMap(plan=>[plan.sourceManifest,plan.pdfSource,...(plan.cacheSource?[plan.cacheSource]:[])])];
   async function validate(){
    checkedPath(runDir);checkedPath(out);unchanged(dependencies);
@@ -123,7 +138,7 @@ export async function seedUnchangedFinalExports({runDir,projectFile,out}){
    checkedPath(receiptFile,{missing:true});if(oldReceipt)unchanged([oldReceipt]);
    fs.renameSync(temporary,receiptFile);
   }catch(error){error.receiptCleanupErrors=rollback(receiptFiles);throw error;}
-  return seeded;
+  decisions.forEach(onDecision);return seeded;
  }catch(error){error.rollbackErrors=rollback(created);throw error;}
  finally{const errors=rollback(lockFiles);if(errors.length)throw Error('Seed lock cleanup failed: '+errors.join('; '));}
 }

@@ -130,7 +130,7 @@ export async function recordExportReuse(runDir,input) {
  if(!input.dependencyKey||typeof input.dependencyKey!=='string'||!input.artifact?.path||typeof input.artifact.hash!=='string')throw Error('Export observation requires current artifact and dependency evidence');
  const artifact={path:path.resolve(input.artifact.path),hash:input.artifact.hash};
  if(!fs.existsSync(artifact.path)||createHash('sha256').update(fs.readFileSync(artifact.path)).digest('hex')!==artifact.hash)throw Error('Export observation artifact is missing or changed');
- const observation={id,edition,reused:input.reused,artifact,dependencyKey:input.dependencyKey,phaseId:input.phaseId??null};
+ const observation={id,edition,reused:input.reused,artifact,dependencyKey:input.dependencyKey,phaseId:input.phaseId??null,...(input.reason?{reason:input.reason}:{})};
  return withRunLock(runDir,'observability',()=>{
   const previous=readRunEvents(runDir).events.find(event=>event.event==='export-observed'&&event.observation.id===id);
   if(previous){if(eventHash(previous.observation)!==eventHash(observation))throw Error('Export observation identity already has different values');return {ok:true,id,reused:true};}
@@ -198,14 +198,18 @@ function exportReuseSummary(events,phases) {
 
 export function summarizeControllerEvents(runDir){
  const file=path.join(runDir,'workflow','controller-events.jsonl');if(!fs.existsSync(file))return {events:0,byKind:{},dispatchByStage:{},incompleteTail:false};
- const contents=fs.readFileSync(file,'utf8'),lines=contents.split('\n'),byKind={},dispatchByStage={};let count=0,incompleteTail=false;
+ const contents=fs.readFileSync(file,'utf8'),lines=contents.split('\n'),byKind={},dispatchByStage={},batchReasons={};let count=0,incompleteTail=false,owned=0,pending=0,batches=0,deliveredCharacters=0;
  for(let i=0;i<lines.length;i++){
   if(!lines[i].trim())continue;let row;
   try{row=JSON.parse(lines[i]);}catch(error){if(i===lines.length-1){incompleteTail=true;break;}throw error;}
   count++;byKind[row.event]=(byKind[row.event]??0)+1;
-  if(row.event==='dispatch')dispatchByStage[row.stage]=(dispatchByStage[row.stage]??0)+1;
+  if(row.event==='dispatch'){
+   dispatchByStage[row.stage]=(dispatchByStage[row.stage]??0)+1;
+   deliveredCharacters+=row.deliveredCharacters??0;
+   if(row.batch){batches++;owned+=row.batch.owned;pending+=row.batch.pending;batchReasons[row.batch.reason]=(batchReasons[row.batch.reason]??0)+1;}
+  }
  }
- return {events:count,byKind,dispatchByStage,incompleteTail};
+ return {events:count,byKind,dispatchByStage,incompleteTail,batching:{batches,owned,pending,reasons:batchReasons},deliveredCharacters};
 }
 
 export function buildRunReceipt(runDir) {

@@ -113,7 +113,7 @@ export function readCodexSessionUsage(file,{sessionId,startedAt=null,endedAt=nul
  const lower=startedAt===null?-Infinity:timestamp(startedAt),upper=endedAt===null?Infinity:timestamp(endedAt);
  if(lower===null||upper===null||upper<=lower)throw Error('Invalid linked session interval');
  if(!fs.existsSync(file))return {sessionId,available:false,reason:'rollout-unavailable',records:[],intervals:[],unfinished:[],toolCalls:null,compactions:null,usage:normalizeUsage(null),missingUsage:1};
- const identities=new Set(),direct=[],directTotals=new Set(),directIds=new Set(),pendingDirect=new Set(),snapshots=[],toolRows=new Map(),completedToolRows=new Map(),compactionRows=new Map(),starts=new Map(),ends=new Map();
+ const identities=new Set(),parentIdentities=new Set(),direct=[],directTotals=new Set(),directIds=new Set(),pendingDirect=new Set(),snapshots=[],toolRows=new Map(),completedToolRows=new Map(),compactionRows=new Map(),starts=new Map(),ends=new Map();
  let currentTurn=null,canonicalSessionId=null,incompleteTail=false,unidentifiedUsageRecords=0;
  const keep=time=>time!==null&&time>=lower&&time<upper;
  const addDirect=(payload,time)=>{
@@ -126,13 +126,14 @@ export function readCodexSessionUsage(file,{sessionId,startedAt=null,endedAt=nul
   let event;try{event=JSON.parse(raw);}catch{if(tail){incompleteTail=true;break;}throw Error('Invalid session event JSON at line '+line);}
   const payload=event.payload??{},time=timestamp(event.timestamp??event.at??event.time);
   if(event.type==='session_meta'){
-   canonicalSessionId=payload.id??payload.session_id;
    const parentThreadId=payload.parent_thread_id??payload.source?.subagent?.thread_spawn?.parent_thread_id;
-   // Subagent logs inherit the root session_id, but own a distinct thread id.
-   // Keep historical runtime aliases without treating a parent as this session.
-   for(const key of ['id','session_id'])if(typeof payload[key]==='string'&&(payload[key]!==parentThreadId||payload[key]===canonicalSessionId))identities.add(payload[key]);
+   if(typeof parentThreadId==='string'){parentIdentities.add(parentThreadId);identities.delete(parentThreadId);}
+   // Inherited metadata can repeat the root id later without its parent marker.
+   // Retain the first owned identity and historical aliases, excluding every
+   // explicitly identified parent for the remainder of this rollout.
+   for(const key of ['id','session_id'])if(typeof payload[key]==='string'&&!parentIdentities.has(payload[key])){canonicalSessionId??=payload[key];identities.add(payload[key]);}
   }
-  else if(event.type==='thread.started'&&event.thread_id){identities.add(event.thread_id);canonicalSessionId??=event.thread_id;}
+  else if(event.type==='thread.started'&&event.thread_id&&!parentIdentities.has(event.thread_id)){identities.add(event.thread_id);canonicalSessionId??=event.thread_id;}
   else if(event.type==='turn_context')currentTurn=payload.turn_id??currentTurn;
   else if(event.type==='token_usage_record')addDirect(payload,time);
   else if(event.type==='event_msg'&&payload.type==='token_count'){

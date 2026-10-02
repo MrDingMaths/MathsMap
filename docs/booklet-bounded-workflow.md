@@ -10,17 +10,30 @@ and the [change runbook](booklet-change-runbook.md). The current instructions in
 
 ## One coordinator, small fresh contexts
 
+Future authoring follows the [graph sizing convention](booklet-cross-session-rules.md#graph-sizing-and-user-directed-compact-layouts-2-october-2026): routine supplied question graphs start around 70 mm wide and simple short-answer graphs around 50 mm, with larger sizes where readability or drawing needs require them. Do not stretch graphs to fill available width, reduce label fonts or discard mathematical features. Keep short/worked widths independent and preserve manual overrides. Include this concise guidance in relevant authoring assignments and use existing early/selected layout checks; introduce no extra sizing-review call. Compact-spacing tuning remains user-directed.
+
 The coordinator reads `run-workflow next` and handles exceptions. As of
-30 September 2026, all booklet transcription, authoring, dispatch, bookkeeping,
+2 October 2026, all booklet transcription, authoring, dispatch, bookkeeping,
 mathematical, teaching-method, question and visual review, and repair work uses
-exclusively Sol 6.1 (`gpt-6.1-sol`) with `high` reasoning. Do not substitute another
-model or effort, or automatically escalate to xhigh. Historical trial records retain their original provenance;
-they do not authorize production model choices. The user approved Sol 6.1 for future work on 30 September 2026; historical run settings and recorded model usage remain unchanged. All use Standard speed, ephemeral contexts and the same
+exclusively Sol 6.1 (`gpt-6.1-sol`) with `medium` reasoning. Do not substitute another
+model or effort, or automatically escalate to high or xhigh. The user selected
+medium for the production workflow on 2 October 2026, superseding the previous
+high default. Historical run settings, completed evidence, trial overrides and
+recorded model usage remain unchanged; do not silently migrate existing runs.
+All use Standard speed, ephemeral contexts and the same
 three-worker pool. Do not fork the conversation history into a worker. Provide
 the current ticket, relevant source images, taught context, approved decisions
 and exact ownership only. Preserve whole questions, shared stems and meaningful
 exercise/category boundaries. Publication still uses the existing serialized
 project/bank transactions.
+
+Fresh runs use medium without a reasoning override. Retain the earlier
+`reasoningOverride: {effort: "medium", reason: "User-requested trial"}` records
+and CLI compatibility as historical provenance. All worker roles, repair calls,
+immutable tickets, generation dependency hashes and usage receipts must use the
+recorded configuration. Historical runs with other settings remain pinned;
+the current runner rejects incompatible execution rather than rewriting them.
+Standard speed, the three-worker cap and quality gates remain.
 
 Worker queue waits default to 30 minutes. For a sustained import whose three
 owners are verified to be progressing, a coordinator may set the process-local

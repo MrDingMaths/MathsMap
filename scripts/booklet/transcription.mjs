@@ -5,7 +5,7 @@ import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parseResultFile } from '../agy/lib/agy-run.mjs';
-import { TRANSCRIPTION_DEFAULT, requireCurrentTranscription } from './transcription-settings.mjs';
+import { TRANSCRIPTION_DEFAULT, requireCurrentTranscription, transcriptionConfiguration } from './transcription-settings.mjs';
 import { normaliseQuestion, validateQuestion } from '../../src/lib/practice-question-model.js';
 import { normalizeTeachingModule, validateTeachingModule } from '../../src/lib/teaching-module-model.js';
 import { sourcePresentationFlags } from '../../src/lib/source-presentation.js';
@@ -159,6 +159,7 @@ export function assertPinnedInputs(runDir) {
   // Historical runs remain verifiable; fresh execution still requires the current profile.
   if (![BOOKLET_AGY_MODEL, 'gpt-6-sol', TRANSCRIPTION_DEFAULT.model].includes(manifest.model) || manifest.pins.model !== hashValue(manifest.model)) throw new Error('Pinned model changed');
   if (manifest.model === TRANSCRIPTION_DEFAULT.model) requireCurrentTranscription(manifest);
+  if (manifest.pins.configuration && manifest.pins.configuration !== hashValue(transcriptionConfiguration(manifest))) throw new Error('Pinned reasoning configuration changed; prepare a fresh run');
   const mismatches = [];
   for (const [relative, expected] of Object.entries(manifest.pins.files ?? {})) {
     const file = path.join(REPO_ROOT, relative);
@@ -172,7 +173,8 @@ export function assertPinnedInputs(runDir) {
   return manifest;
 }
 
-export function prepareRun({ pdf, docx = null, teacherPdf = null, teacherDocx = null, pages, contextPages = [], teacherPages = null, runId = null, workRoot = WORK_ROOT, continuations = [], concurrency = DEFAULT_CONCURRENCY }, { command = runCommand, checkTooling = assertTooling } = {}) {
+export function prepareRun({ pdf, docx = null, teacherPdf = null, teacherDocx = null, pages, contextPages = [], teacherPages = null, runId = null, workRoot = WORK_ROOT, continuations = [], concurrency = DEFAULT_CONCURRENCY, reasoningOverride }, { command = runCommand, checkTooling = assertTooling } = {}) {
+  const configuration = transcriptionConfiguration({reasoningOverride});
   concurrency = Number(concurrency);
   if (!Number.isInteger(concurrency) || concurrency < 1) throw new Error('Concurrency must be a positive integer');
   const selection = (value, name) => {
@@ -249,10 +251,10 @@ export function prepareRun({ pdf, docx = null, teacherPdf = null, teacherDocx = 
   if (teacherPdf || teacherDocx) save('evidence/teacher/authority.txt', 'Student pages define prompts, layouts, scaffolds and answer visibility. Teacher material supplies answer evidence only. Match questions by stem, labels and mathematical content, never by page number alone. Teacher PDF page numbers retain their original identity; only selected teacher pages are evidence. Word evidence is optional. Store page.answerEvidence records {questionId,teacherReference,matchEvidence,conflict}. Flag ambiguous matches, contradictions or absent answers; never silently substitute teacher prompts or leak answers into student questions. Preserve teacher answers separately under the canonical answer fields. Known equations and domains define graphs: use equation-based TikZ, not curve tracing; retain images when the mathematics is uncertain.');
   const manifest = {
     format: RUN_MANIFEST_FORMAT, version: 1, id, createdAt: new Date().toISOString(), status: 'prepared',
-    ...TRANSCRIPTION_DEFAULT, concurrency, selectedPages, contextPages, teacherPages, continuations,
+    ...configuration, concurrency, selectedPages, contextPages, teacherPages, continuations,
     reviewProfile: LEAN_REVIEW_PROFILE, exactResultFormat: EXACT_RESULT_FORMAT, workflowPolicy: 'review-first-v1', pipelinePolicy: 'pdf-import-efficient-v1',
     evidenceAuthority: 'Original PDF pages and their rendered images are authoritative. Extracted text and optional Word material are supporting evidence; verify mathematical symbols and labels visually.', source,
-    pins: { model: hashValue(TRANSCRIPTION_DEFAULT.model), files: pinFiles([...SCHEMA_FILES, PRESENTATION_CONTRACT, ...TAXONOMY_FILES]),
+    pins: { model: hashValue(TRANSCRIPTION_DEFAULT.model), configuration: hashValue(configuration), files: pinFiles([...SCHEMA_FILES, PRESENTATION_CONTRACT, ...TAXONOMY_FILES]),
       runFiles: Object.fromEntries(runFiles.map(relative => [relative.replaceAll(path.sep, '/'), hashFile(path.join(runDir, relative))])) }, lanes: {},
   };
   writeJson(manifestPath(runDir), manifest);
@@ -668,7 +670,7 @@ function parseArgs(argv) {
 }
 
 function usage() {
-  console.log('Source evidence: prepare --pdf FILE [--docx FILE] --pages 1-3 [--context-pages 4-5] --run-id ID [--concurrency 3] [--teacher-pdf FILE] [--teacher-docx FILE] [--teacher-pages 1-8]\nLegacy result collection: merge --run-id ID\nvalidate --run-id ID\nstatus --run-id ID');
+  console.log('Source evidence: prepare --pdf FILE [--docx FILE] --pages 1-3 [--context-pages 4-5] --run-id ID [--concurrency 3] [--reasoning-effort medium --reasoning-override-reason REASON] [--teacher-pdf FILE] [--teacher-docx FILE] [--teacher-pages 1-8]\nLegacy result collection: merge --run-id ID\nvalidate --run-id ID\nstatus --run-id ID');
 }
 
 export async function main(argv = process.argv.slice(2)) {
@@ -677,7 +679,7 @@ export async function main(argv = process.argv.slice(2)) {
   let output;
   if (args.command === 'prepare') {
     const continuations = args.continuations ? (readJson(path.resolve(args.continuations)).continuations ?? readJson(path.resolve(args.continuations))) : [];
-    output = prepareRun({ pdf: args.pdf ? path.resolve(args.pdf) : null, docx: args.docx ? path.resolve(args.docx) : null, teacherPdf:args.teacherPdf ? path.resolve(args.teacherPdf) : null, teacherDocx:args.teacherDocx ? path.resolve(args.teacherDocx) : null, pages: args.pages, contextPages: args.contextPages, teacherPages: args.teacherPages ?? null, runId: args.runId, continuations, concurrency: args.concurrency ?? DEFAULT_CONCURRENCY });
+    output = prepareRun({ pdf: args.pdf ? path.resolve(args.pdf) : null, docx: args.docx ? path.resolve(args.docx) : null, teacherPdf:args.teacherPdf ? path.resolve(args.teacherPdf) : null, teacherDocx:args.teacherDocx ? path.resolve(args.teacherDocx) : null, pages: args.pages, contextPages: args.contextPages, teacherPages: args.teacherPages ?? null, runId: args.runId, continuations, concurrency: args.concurrency ?? DEFAULT_CONCURRENCY, reasoningOverride: args.reasoningEffort ? {effort:args.reasoningEffort,reason:args.reasoningOverrideReason} : undefined });
   } else {
     if (!args.runId) throw new Error('--run-id is required');
     if (args.command === 'merge') output = mergeLane(args.runId, { lane: args.lane ?? 'exact' });

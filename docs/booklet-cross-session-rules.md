@@ -6,6 +6,41 @@ This register consolidates earlier recorded user feedback for every future bookl
 
 ## Precedence and scope
 
+### Graph sizing and user-directed compact layouts (2 October 2026)
+
+Size graphs for the information or student drawing they must carry, rather than
+stretching them to the available page or column width. For newly authored routine
+supplied question graphs, start around **70 mm wide**; for simple short-answer
+graphs, start around **50 mm wide**. These are reference sizes, not maximums or
+automatic acceptance thresholds. The Further Transformations repairs used
+50–65 mm short-answer widths and reviewed 75 mm question exceptions; see the
+[retained sizing decisions](../booklets/provenance/further-transformations-layout-2026-10-02.json).
+
+Increase width where required for complete labels, ticks, intercepts, asymptotes,
+multiple curves or other assessed features. Ordinary native labels remain 10 pt,
+with graph ticks at their existing 8.5 pt default or reviewed 8 pt exception.
+Resolve crowding through placement or appropriate size, never smaller fonts,
+lost mathematical features or changed coordinate ranges solely to fit. Blank
+grids students must draw on need sufficient drawing space; a small supplied
+answer graph is not their sizing template. Preserve meaningful paired figures.
+
+Question placement and short/worked answer widths remain independently editable.
+Store answer changes using the existing edition-specific diagram-width controls;
+do not shrink worked solutions implicitly when sizing short answers. Preserve
+manual overrides and accepted project layouts on load or duplication. Existing
+oversizing repairs use the scoped change runbook and revision-safe save.
+
+Check a simple graph and a dense graph within the existing early layout sample,
+then include applicable dense/flagged graphs in the existing selected final-size
+review. Check readability, clipping and drawing capacity. Add no separate sizing
+approval, routine model call or whole-book export for this convention alone.
+
+Compact-layout tuning remains user-directed: import-efficiency work must not
+introduce a new automatic compact-spacing policy or discretionary reductions in
+gaps, padding or minimum heights. Existing house style, source fidelity and
+required handwriting space still apply. Oversized-graph prevention is expressly
+included in future authoring.
+
 ### Opening syllabus and multiple-choice options (25 September 2026)
 
 Keep all syllabus content in one editable block at the start of each booklet, with its source outcomes, focus statements and bullets intact. The shared section header remains separate from that content block. Preserve original source blocks and review evidence when consolidating existing projects.

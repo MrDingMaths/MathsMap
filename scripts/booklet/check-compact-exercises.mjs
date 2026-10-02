@@ -19,7 +19,7 @@ import {publishBrowserDiagrams} from './render-cache-server.mjs';
 import {inspectPdfNavigation} from './pdf-navigation-qa.mjs';
 import {ensurePdfRasters,ensureSelectedPdfRasters} from './pdf-rasters.mjs';
 import {LEAN_REVIEW_PROFILE,isLeanReview,selectLeanVisualPages} from './lean-profile.mjs';
-import {seedUnchangedFinalExports} from './seed-final-export-cache.mjs';
+import {seedUnchangedFinalExports,finalExportOutput} from './seed-final-export-cache.mjs';
 // The compiler reports per-event durations; its public stats retain only the
 // last event, so exports accumulate the observed events without estimating time.
 export function accumulateTikzCompilation(state,detail){
@@ -96,7 +96,7 @@ export function assertAnswerRenderCoverage(labels,diagramIds,project,mode){
 
 async function runCompactExerciseCheck(){
 const arg=(name,fallback)=>{const i=process.argv.indexOf(name);return i<0?fallback:process.argv[i+1];};
-const out=arg('--out','.booklet-work/compact-exercises'),base=arg('--base','http://127.0.0.1:5173');
+const out=finalExportOutput({out:arg('--out'),runDir:arg('--run-dir'),development:process.argv.includes('--development'),draft:process.argv.includes('--draft')||process.argv.includes('--review-only'),preflight:process.argv.includes('--diagram-preflight')}),base=arg('--base','http://127.0.0.1:5173');
 const preflight=process.argv.includes('--diagram-preflight'),candidateFile=arg('--project-file');
 const editions=arg('--editions',preflight?'student,short,worked':'student,short,worked,with-short,with-worked').split(',');
 const projects=arg('--projects',arg('--project','linear-relationships-v1')).split(',');
@@ -116,7 +116,7 @@ const runStarted=Date.now(),runMeasurements={startedAt:new Date(runStarted).toIS
 runMeasurements.visibilityReviews=visibilityInput.artifact;
 if(fullDevelopmentReason)runMeasurements.fullDevelopmentReason=fullDevelopmentReason.trim();
 const observeExport=async(edition,file,dependencyKey,reused)=>{
- const observation={id:randomUUID(),edition,reused,artifact:{path:path.resolve(file),hash:artifactHash(file)},dependencyKey,phaseId};
+ const observation={id:randomUUID(),edition,reused,artifact:{path:path.resolve(file),hash:artifactHash(file)},dependencyKey,phaseId,reason:reused?'passed-current-export':'generated-after-dependency-check'};
  runMeasurements.exports.push(observation);
  if(runDir)await recordExportReuse(runDir,observation);
 };
@@ -172,7 +172,11 @@ try{
    fs.writeFileSync(`${out}/${id}-readiness.json`,JSON.stringify(coverage,null,2));
    if(!draft&&!development&&!preflight)assert.equal(coverage.complete,true,'Content and teaching/arrangement fidelity must pass independently of layout. Use --draft for review exports.');
   }
-  if(lean&&runDir&&!development&&!preflight&&!draft&&path.dirname(path.resolve(out))===path.resolve(runDir)&&path.basename(out).startsWith('final-exports-'))await seedUnchangedFinalExports({runDir,projectFile:candidateFile??projectFile,out});
+  if(lean&&runDir&&!development&&!preflight&&!draft){
+   runMeasurements.exportSeeding??=[];
+   if(path.dirname(path.resolve(out))===path.resolve(runDir)&&path.basename(out).startsWith('final-exports-'))await seedUnchangedFinalExports({runDir,projectFile:candidateFile??projectFile,out,onDecision:decision=>runMeasurements.exportSeeding.push({projectId:id,...decision})});
+   else runMeasurements.exportSeeding.push({projectId:id,reason:'explicit-output-outside-canonical-seeding-path',out:path.resolve(out)});
+  }
   const loadStarted=Date.now();
   await routeCandidateProject(page,record);
   // The project picker keeps its initial inventory for the lifetime of the app.

@@ -58,6 +58,31 @@ function fixture(t,{pages=2,ambiguity=false,project=true}={}){
 const signed={reviewer:'Fixture reviewer',note:'Explicit review assertion in a test fixture only'};
 const job=(plan,stage,id)=>plan.jobs.find(j=>j.stage===stage&&(!id||j.ownershipIds.includes(id)));
 const readTicket=prepared=>JSON.parse(fs.readFileSync(prepared.ticket.path));
+
+test('canonical source supplements are counted, immutable and reject changed text evidence',async t=>{
+ const f=fixture(t,{pages:1});f.book.reviewProfile='textbook-three-pass-v1';f.write('project.json',f.book);
+ const prepared=await prepareBoundedStage(f.options,job(await nextBoundedWork(f.options),'assessment').id),ticket=readTicket(prepared);
+ assert.equal(ticket.job.context.deliveryProfile,'source-context-v1');assert.equal(ticket.job.context.sourceTexts.length,1);
+ assert.equal(ticket.job.deliveredCharacters,prepared.prompt.length);assert.equal(ticket.job.variableCharacters,prepared.prompt.length);
+ assert.equal(ticket.job.stableCharacters+ticket.job.variableContextCharacters,prepared.prompt.length);
+ assert.equal(prepared.prompt.split('Original source 1').length-1,1);
+ const payload=JSON.parse(prepared.prompt.slice(prepared.prompt.lastIndexOf('\n\n')+2));
+ const source=payload.context.sourceTexts[0];assert.ok(Number.isInteger(source.artifactRef));assert.equal(payload.artifactIndex[source.artifactRef].hash,bytesHash(path.join(f.dir,'evidence/pages/page-001.txt')));
+ fs.writeFileSync(path.join(f.dir,'evidence/pages/page-001.txt'),'Changed original source text');
+ await assert.rejects(()=>executePreparedBoundedStage(f.options,prepared.ticket,{runner:()=>assert.fail('Changed source dispatched a worker')}),/stale/);
+ assert.equal(loadWorkflow(f.dir).verification.entries['question:q1'],undefined);
+});
+
+test('retained JSON envelopes and unique teaching aliases record through ordinary acceptance',async t=>{
+ const f=fixture(t,{pages:1});f.book.reviewProfile='textbook-three-pass-v1';f.book.sections[0].blocks[0].sourceAtom={id:'original-group'};f.write('project.json',f.book);
+ const prepared=await prepareBoundedStage(f.options,job(await nextBoundedWork(f.options),'assessment').id),ticket=readTicket(prepared);
+ const result={...signed,records:ticket.job.context.questions.map(q=>({id:'question:'+q.id,outcome:'passed',sourceCompared:true,contentVerified:true,checks:{answer:true,skillMapping:true,taughtMethod:true}})),teachingSummary:{outcome:'accepted',sourceCompared:true,note:'Original method actually checked in this fixture.',methods:[{statement:'Use the given substitution.',sourceRefs:[{pageNumber:1,targetId:'original-group'}]}]}};
+ assert.equal((await recordBoundedStage(f.options,{ticket:prepared.ticket,result:'```json\n'+JSON.stringify(result)+'\n```'})).ok,true);
+ assert.equal(loadWorkflow(f.dir).verification.teachingContexts.t1.methods[0].sourceRefs[0].targetId,'method1');
+ const receiptFile=fs.readdirSync(path.dirname(prepared.ticket.path)).find(file=>file.endsWith('.normalization.json'));
+ const receipt=JSON.parse(fs.readFileSync(path.join(path.dirname(prepared.ticket.path),receiptFile)));
+ assert.equal(receipt.mathematicsChanged,false);assert.equal(receipt.transformations.length,2);assert.equal(receipt.original.hash,bytesHash(receipt.original.path));assert.equal(receipt.normalized.hash,bytesHash(receipt.normalized.path));
+});
 test('artifact checks read once per snapshot and reject changed evidence in the next snapshot',t=>{
  const f=fixture(t),file=f.write('shared-evidence.txt','original bytes'),original=ref(file),verify=createArtifactVerifier();
  const read=fs.readFileSync;let reads=0;
@@ -78,7 +103,7 @@ test('next work is a read-only compact projection with stable unique ownership',
  assert.deepEqual(a.jobs,b.jobs);assert.deepEqual(fs.readdirSync(f.dir),before);assert.equal(fs.existsSync(path.join(f.dir,'workflow/issues.json')),false);
  assert.equal(a.jobs.filter(j=>j.stage==='maths').length,2);assert.ok(a.jobs.every(j=>!Object.hasOwn(j,'context')&&!Object.hasOwn(j,'images')));
  assert.equal(new Set(a.jobs.flatMap(j=>j.ownershipIds)).size,a.jobs.flatMap(j=>j.ownershipIds).length);
- assert.ok(a.jobs.every(j=>j.profile.model==='gpt-6.1-sol'&&j.profile.effort==='high'&&j.profile.freshContext&&j.profile.speed==='standard'));
+ assert.ok(a.jobs.every(j=>j.profile.model==='gpt-6.1-sol'&&j.profile.effort==='medium'&&j.profile.freshContext&&j.profile.speed==='standard'));
 });
 
 test('three-pass structured finding identities stay with their actual question instead of the first page question',async t=>{
@@ -698,4 +723,30 @@ test('lean teaching-summary receipts preserve completed question dependencies wh
  assert.deepEqual(questionTeachingDependencies(state,f.book,q),before);
  state.pages[2].sourceEvidence={...state.pages[2].sourceEvidence,hash:'changed-original-teaching-source'};
  assert.notDeepEqual(questionTeachingDependencies(state,f.book,q),before);
+});
+
+
+test('retained medium trial provenance reaches bounded tickets and invalidates other generation tickets',async t=>{
+ const f=fixture(t),original=await nextBoundedWork(f.options),pending=original.jobs.find(j=>!j.done&&!j.blockers.length);
+ const manifestFile=path.join(f.dir,'manifest.json'),manifest=JSON.parse(fs.readFileSync(manifestFile));
+ manifest.effort='medium';manifest.reasoningOverride={effort:'medium',reason:'User-requested Pythagoras trial'};
+ fs.writeFileSync(manifestFile,JSON.stringify(manifest));
+ const next=await nextBoundedWork(f.options),changed=next.jobs.find(j=>j.id===pending.id);
+ assert.notEqual(changed.dependencyHash,pending.dependencyHash);
+ assert.ok(next.jobs.every(j=>j.profile.effort==='medium'&&j.profile.speed==='standard'));
+ const prepared=await prepareBoundedStage(f.options,changed.id);
+ assert.equal(prepared.configuration.effort,'medium');assert.match(prepared.prompt,/fresh Sol medium context/);
+ await cancelBoundedStage(f.options,{ticket:prepared.ticket,reason:'Test complete'});
+});
+
+test('historical high run retains its bounded profile and prepared execution configuration',async t=>{
+ const f=fixture(t),manifestFile=path.join(f.dir,'manifest.json');
+ const manifest={...JSON.parse(fs.readFileSync(manifestFile)),provider:'codex',model:'gpt-6.1-sol',effort:'high'};
+ const original=JSON.stringify(manifest);fs.writeFileSync(manifestFile,original);
+ const next=await nextBoundedWork(f.options);
+ assert.ok(next.jobs.every(j=>j.profile.model==='gpt-6.1-sol'&&j.profile.effort==='high'));
+ const job=next.jobs.find(j=>!j.done&&!j.blockers.length),prepared=await prepareBoundedStage(f.options,job.id);
+ assert.equal(prepared.configuration.effort,'high');assert.match(prepared.prompt,/fresh Sol high context/);
+ assert.equal(fs.readFileSync(manifestFile,'utf8'),original);
+ await cancelBoundedStage(f.options,{ticket:prepared.ticket,reason:'Historical preservation check complete'});
 });

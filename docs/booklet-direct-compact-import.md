@@ -31,7 +31,7 @@ exports, bounded preview diagnostics and measured retry costs.
 Use the [bounded Sol stage guidance](booklet-bounded-workflow.md) for current
 dispatch, teaching-context reuse, review tickets, session accounting and closeout.
 New-policy authoring schedules unique complete assignments directly across pages;
-all author and review calls share a maximum of three Standard-speed Sol high slots.
+all author and review calls share a maximum of three Standard-speed Sol 6.1 medium slots.
 Explicit worker counts must be from one to three. The register remains authoritative
 for source decisions and acceptance.
 

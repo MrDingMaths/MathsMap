@@ -180,6 +180,16 @@ test('tight context budgets cannot strand category headings or absorb the next c
  assert.throws(()=>createAssignmentPlan([trailing]),/explicit first question: empty-heading/);
 });
 
+test('graph sizing guidance is scoped to graph assignments and counted in the author budget',()=>{
+ const inventory={pageNumber:1,entries:[{id:'source',kind:'question',description:'Sketch the graph.'}]};
+ const task={page:1,inventory,promptSections:[],images:[],evidence:[],contextPages:[],teacherPages:[]};
+ const plan=createAssignmentPlan([inventory]),payload=assignmentPayload(plan.assignments[0],[task]);
+ assert.match(payload.prompt,/around 70 mm/);assert.match(payload.prompt,/around 50 mm/);assert.match(payload.prompt,/not caps/);
+ assert.ok(payload.promptStats.sections.assignment>JSON.stringify(payload.context).length);
+ inventory.entries[0].description='Solve the equation.';
+ const plain=assignmentPayload(createAssignmentPlan([inventory]).assignments[0],[task]);assert.equal(plain.prompt.includes('Graph sizing:'),false);
+});
+
 test('required guidance is self-contained and a context page never imports unrelated question repairs',t=>{
  const dir=temp(t),inventory=inv(1,5),task={page:1,inventory,packetRoot:dir,promptSections:[{name:'contract',text:'Contract'},{name:'supplement',text:'Shared teaching guidance. '.repeat(200)}],images:[],evidence:[],contextPages:[1],teacherPages:[],editorial:{corrections:[{id:'unrelated',patches:[{targetId:'q1-4',page:1,field:'/prompt'}],reason:'Unrelated question'}],currentValues:[{targetId:'q1-4',page:1,field:'/prompt',key:'other'}]}};
  inventory.groups=[{id:'shared-stem',instruction:'Simplify each expression.',questionIds:['p1-q0','p1-q1','p1-q2']}];

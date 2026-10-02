@@ -2,14 +2,16 @@
 // publication remain with their authoritative, revision-checked APIs.
 import fs from 'node:fs';
 import path from 'node:path';
-import {nextBoundedWork,runBoundedStage,executePreparedBoundedStage,recordBoundedStage} from './bounded-stages.mjs';
-import {buildRunReceipt,withRunLock} from './run-observability.mjs';
-import {runBoundedJobs,workerConcurrency} from './worker-pool.mjs';
+import {nextBoundedWork,runBoundedStage,executePreparedBoundedStage,recordBoundedStage,cancelBoundedStage} from './bounded-stages.mjs';
+import {randomUUID} from 'node:crypto';
+import {buildRunReceipt,withRunLock,measureRunPhase} from './run-observability.mjs';
+import {workerConcurrency} from './worker-pool.mjs';
 import {dependencyStatus} from './dependency-runner.mjs';
 import {runSemanticPackets} from './semantic-workflow.mjs';
 import {runCodexTranscription} from './codex-transcription.mjs';
 import {readAttemptEvents} from './semantic-run-metrics.mjs';
 import {freshGenerationOptions,generationPublicationGuard} from './inventory-reuse.mjs';
+import {liveWorkflow,synchronizeProject,fingerprint,bytesHash} from './workflow-review.mjs';
 
 const defaults={warningFraction:0.8,reserveTokensPerJob:100000,maxWaves:100};
 const positive=(value,name)=>{if(value===undefined)return null;if(!Number.isSafeInteger(value)||value<1)throw Error(name+' must be a positive integer');return value;};
@@ -33,6 +35,40 @@ export function evaluateDispatchBudget(receipt,budget={},slots=1){
 }
 
 const resultPath=claim=>path.join(path.dirname(claim.ticket.path),'generation.json');
+export function selectDispatchJobs(jobs,active=[],capacity=3){
+ const selected=[];
+ for(const job of jobs){
+  const others=[...active,...selected];
+  if(others.some(other=>other.stage==='composition')||job.stage==='composition'&&others.length)continue;
+  if(job.stage==='visual'&&others.filter(other=>other.stage==='visual').length>=(job.visualConcurrency??1))continue;
+  if(job.stage==='assessment'){
+   const scope=job.dispatch;
+   if(!scope&&others.some(other=>other.stage==='assessment'))continue;
+   if(scope&&others.some(other=>{
+    if(other.stage!=='assessment')return false;
+    const otherScope=other.dispatch;if(!otherScope)return true;
+    const overlaps=(a,b)=>(a??[]).some(page=>(b??[]).includes(page));
+    return overlaps(scope.sourcePages,otherScope.sourcePages)||
+     (!scope.teachingStable||!otherScope.teachingStable)&&
+      (scope.exerciseId===otherScope.exerciseId||overlaps([...(scope.sourcePages??[]),...(scope.teachingPages??[])],[...(otherScope.sourcePages??[]),...(otherScope.teachingPages??[])]));
+   }))continue;
+  }
+  selected.push(job);if(selected.length===capacity)break;
+ }
+ return selected;
+}
+
+export async function recoverEndedStageFailure(options,error,{cancel=cancelBoundedStage}={}){
+ const ticket=error.ticket;if(!ticket?.path||!error.retainedOutput)return {action:'retained',inspectionCredited:false,reason:'No exact ticket and retained worker directory'};
+ const worker=path.join(path.dirname(ticket.path),'codex'),supplied=typeof error.retainedOutput==='string'?error.retainedOutput:error.retainedOutput?.directory;
+ if(path.resolve(supplied??'')!==worker||!fs.existsSync(worker)||!fs.lstatSync(worker).isDirectory())return {action:'retained-for-reconciliation',inspectionCredited:false};
+ const root=fs.realpathSync(path.join(options.runDir,'workflow/stages')),real=fs.realpathSync(worker),relative=path.relative(root,real);
+ if(relative.startsWith('..')||path.isAbsolute(relative)||fs.lstatSync(worker).isSymbolicLink())throw Error('Retained worker directory is outside the run or symbolic');
+ if(fs.existsSync(path.join(path.dirname(ticket.path),'generation.json'))||completedWorkerResult({ticket}))return {action:'retained-for-reconciliation',inspectionCredited:false};
+ // Called only after the awaited execution rejects, never for an active claim.
+ await cancel(options,{ticket,reason:'Ended worker failed without a completed result: '+error.message});
+ return {action:'cancelled-ended-owner',inspectionCredited:false,ticket};
+}
 function completedWorkerResult(claim){
  const dir=path.join(path.dirname(claim.ticket.path),'codex'),message=path.join(dir,'last-message.txt'),events=path.join(dir,'events.jsonl');
  if(!fs.existsSync(message)||!fs.existsSync(events))return null;
@@ -58,37 +94,87 @@ export function recoveryAction(claim,runDir){
  return {kind:'execute'};
 }
 
+export async function publishStageCorrections(options,result){
+ if(!result.next?.startsWith('Propagate approved corrections'))return;
+ if(bytesHash(result.ticket.path)!==result.ticket.hash||!result.artifact||bytesHash(result.artifact.path)!==result.artifact.hash)throw Error('Reviewed correction evidence changed before publication');
+ const request=JSON.parse(fs.readFileSync(result.ticket.path,'utf8')),file=path.resolve(request.projectFile),project=JSON.parse(fs.readFileSync(file,'utf8'));
+ if(file!==path.resolve('booklets/projects',project.id+'.json'))throw Error('Reviewed candidate corrections are retained; save the candidate through the revision-safe project transaction before resuming');
+ const updated=synchronizeProject(project,liveWorkflow(options.runDir),request.selectedPages,JSON.parse(fs.readFileSync(path.join(options.runDir,'manifest.json'),'utf8')).id);
+ if(fingerprint(updated)!==fingerprint(project)){
+  const {saveBookletProject}=await import('./project-studio-server.mjs');
+  await saveBookletProject(updated,{expectedRevision:project.revision});
+  const saved=JSON.parse(fs.readFileSync(file,'utf8'));
+  const {materializeCorrections,workflowForPages}=await import('./workflow-review.mjs');
+  const state=liveWorkflow(options.runDir),effective=materializeCorrections(saved,workflowForPages(state,request.selectedPages),'project');
+  if(fingerprint(effective.sections)!==fingerprint(saved.sections))throw Error('Project correction readback differs from the reviewed result');
+ }
+}
+
 export async function driveBoundedWorkflow(options,{budget={},concurrency=3,runner,maxWaves=defaults.maxWaves,
  next=nextBoundedWork,receipt=buildRunReceipt,run=runBoundedStage,resume=executePreparedBoundedStage,record=recordBoundedStage,
- generationStatus=dependencyStatus,generationRun=runSemanticPackets,planFile}={}){
+ generationStatus=dependencyStatus,generationRun=runSemanticPackets,planFile,cancel=cancelBoundedStage,publish=publishStageCorrections,retryDiagnosis}={}){
  const runDir=path.resolve(options.runDir),limit=workerConcurrency(concurrency);
  if(!Number.isSafeInteger(maxWaves)||maxWaves<1)throw Error('maxWaves must be a positive integer');
  if(!['totalTokens','uncachedPlusOutputTokens','externalTokens'].some(key=>budget[key]!==undefined))throw Error('Drive needs at least one token budget');
- return withRunLock(runDir,'bounded-drive',async()=>{
-  const logFile=path.join(runDir,'workflow','controller-events.jsonl'),attempted=new Set(),recovered=new Set(),priorFailures=new Map(),failures=[],warnings=[];
+ return measureRunPhase(runDir,'workflow-dispatch',()=>withRunLock(runDir,'bounded-drive',async()=>{
+  const logFile=path.join(runDir,'workflow','controller-events.jsonl'),attempted=new Set(),recovered=new Set(),priorFailures=new Map(),failedJobs=new Map(),pendingPublications=new Map(),failures=[],warnings=[],active=new Map();
+  const probe=path.join(runDir,'workflow','.dispatch-bootstrap-'+randomUUID());
+  fs.writeFileSync(probe,'local writable-state probe',{flag:'wx'});fs.unlinkSync(probe);
   if(fs.existsSync(logFile)){
    const content=fs.readFileSync(logFile,'utf8');if(content&&!content.endsWith('\n'))throw Error('Controller event log has an incomplete tail; reconcile it before dispatch');
    for(const line of content.split('\n').filter(Boolean)){
     const event=JSON.parse(line);
     if(event.event==='recovery-failed'&&event.claimId){recovered.add(event.claimId);priorFailures.set(event.claimId,{jobId:event.jobId,reason:event.reason,retainedOutput:event.retainedOutput});}
     if(event.event==='recovered'&&event.claimId){recovered.delete(event.claimId);priorFailures.delete(event.claimId);}
+    if(event.event==='publication-pending')pendingPublications.set(event.jobId,event.result);
+    if(event.event==='publication-finished')pendingPublications.delete(event.jobId);
+    if(event.event==='failed')failedJobs.set(event.jobId,event);
+    if(event.event==='finished')failedJobs.delete(event.jobId);
    }
   }
   const log=(event,details={})=>fs.appendFileSync(logFile,JSON.stringify({event,at:new Date().toISOString(),...details})+'\n');
+  const publishResult=async(jobId,result)=>{
+   if(result.next){pendingPublications.set(jobId,result);log('publication-pending',{jobId,result});}
+   await publish(options,result);
+   if(result.next){pendingPublications.delete(jobId);log('publication-finished',{jobId});}
+  };
+  let stopReason=null;
+  const takeResult=async()=>{
+   const row=await Promise.race([...active.values()].map(value=>value.promise)),assigned=active.get(row.id)?.job;active.delete(row.id);
+   if(row.ok&&row.result.ok!==false){
+    try{await publishResult(row.id,row.result);log('finished',{jobId:row.id,accepted:row.result.ok});return;}
+    catch(error){row.ok=false;row.error=error;}
+   }
+   const error=row.error??Error('Reviewer returned a failed result'),failure={jobId:row.id,reason:error.message,retainedOutput:error.retainedOutput??null,dependencyHash:assigned?.dependencyHash};
+   failures.push(failure);stopReason={ok:false,status:'needs-repair'};log('failed',failure);
+   if(row.error)try{log('worker-recovery',{jobId:row.id,...await recoverEndedStageFailure(options,error,{cancel})});}
+   catch(recoveryError){log('worker-recovery',{jobId:row.id,action:'retained-cleanup-blocked',reason:recoveryError.message,inspectionCredited:false});}
+  };
+  log('bootstrap',{kind:'local',externalModelCalls:0});
+  try{
+  for(const [jobId,result] of [...pendingPublications])try{await publishResult(jobId,result);}
+  catch(error){log('publication-failed',{jobId,reason:error.message});return {ok:false,status:'needs-repair',failures:[{jobId,reason:error.message}],warnings};}
   for(let wave=0;wave<maxWaves;wave++){
+   if(fs.existsSync(path.join(runDir,'workflow','dispatch-drain')))stopReason??={ok:false,status:'drained'};
+   if(stopReason){while(active.size)await takeResult();return {...stopReason,failures,warnings};}
    const state=await next(options),claims=state.active??[];
-   const claim=claims.find(c=>!recovered.has(c.id)&&['record','execute'].includes(recoveryAction(c,runDir).kind));
+   const undiagnosed=(state.jobs??[]).filter(job=>!job.done&&failedJobs.has(job.id)&&failedJobs.get(job.id).dependencyHash===job.dependencyHash&&!retryDiagnosis?.trim()&&!claims.some(claim=>claim.jobId===job.id&&recoveryAction(claim,runDir).kind==='record'));
+   if(undiagnosed.length){while(active.size)await takeResult();return {ok:false,status:'needs-repair',failures:undiagnosed.map(job=>({jobId:job.id,reason:'Diagnose the retained failure before redispatch; use --regenerate-reason to record the changed approach'})),warnings};}
+   const claim=!active.size&&claims.find(c=>!recovered.has(c.id)&&['record','execute'].includes(recoveryAction(c,runDir).kind));
    if(claim){
     recovered.add(claim.id);const action=recoveryAction(claim,runDir),gate=evaluateDispatchBudget(receipt(runDir),budget,action.kind==='execute'?1:0);
     if(action.kind==='execute'&&!gate.ok)return {ok:false,status:gate.missingUsage?'usage-unavailable':'budget-exhausted',budget:gate,failures,active:claims.length};
     try{
      const result=action.kind==='execute'?await resume(options,claim.ticket,{runner}):await record(options,{ticket:claim.ticket,...('resultFile'in action?{resultFile:action.resultFile}:{result:action.result})});
+     if(result.ok!==false)await publishResult(claim.jobId,result);
      log('recovered',{claimId:claim.id,jobId:claim.jobId,action:action.kind,accepted:result.ok});
-    }catch(error){failures.push({jobId:claim.jobId,reason:error.message,retainedOutput:error.retainedOutput??null});priorFailures.set(claim.id,failures.at(-1));log('recovery-failed',{claimId:claim.id,...failures.at(-1)});}
+     if(result.ok===false){failures.push({jobId:claim.jobId,reason:'Recovered reviewer result needs repair'});stopReason={ok:false,status:'needs-repair'};}
+    }catch(error){failures.push({jobId:claim.jobId,reason:error.message,retainedOutput:error.retainedOutput??null});priorFailures.set(claim.id,failures.at(-1));log('recovery-failed',{claimId:claim.id,...failures.at(-1)});stopReason={ok:false,status:'needs-repair'};}
     continue;
    }
-   const runnable=(state.jobs??[]).filter(j=>!j.blockers?.length&&!attempted.has(j.id));
+   const runnable=(state.jobs??[]).filter(j=>!j.done&&!j.blockers?.length&&!attempted.has(j.id)&&!active.has(j.id));
    if(!runnable.length){
+    if(active.size){await takeResult();continue;}
     let generationBlockers=[];
     if(options.config&&options.manifest){
      const generationOptions={...options,pages:options.selectedPages??options.manifest.selectedPages};
@@ -126,8 +212,8 @@ export async function driveBoundedWorkflow(options,{budget={},concurrency=3,runn
       try{
        const report=await generationRun(argumentsForRun,{runner:guardedRunner,log:()=>{},verifyPublication:generationPublicationGuard(generationOptions,job.stage,job.page)});
        log('generation-finished',{stage:job.stage,page:job.page,ok:report.ok,completed:report.pages?.filter(p=>p.ok).length??0});
-       if(!report.ok)failures.push({jobId:'generation:'+job.stage+':'+job.page,reason:report.pages?.filter(p=>!p.ok).map(p=>`Page ${p.page}: ${p.error??p.blocked?.join(', ')??'failed'}`).join('; ')||'Generation returned failed pages; inspect the retained attempts'});
-      }catch(error){const failure={jobId:'generation:'+job.stage+':'+job.page,reason:error.message};failures.push(failure);log('generation-failed',failure);}
+       if(!report.ok){failures.push({jobId:'generation:'+job.stage+':'+job.page,reason:report.pages?.filter(p=>!p.ok).map(p=>`Page ${p.page}: ${p.error??p.blocked?.join(', ')??'failed'}`).join('; ')||'Generation returned failed pages; inspect the retained attempts'});stopReason={ok:false,status:'needs-repair'};}
+      }catch(error){const failure={jobId:'generation:'+job.stage+':'+job.page,reason:error.message};failures.push(failure);log('generation-failed',failure);stopReason={ok:false,status:'needs-repair'};}
       continue;
      }
     }
@@ -137,20 +223,24 @@ export async function driveBoundedWorkflow(options,{budget={},concurrency=3,runn
     return {ok:complete,status,remaining:state.jobs??[],active:claims.map(c=>({jobId:c.jobId,action:recoveryAction(c,runDir)})),blockers:[...(state.blockers??[]),...generationBlockers],
      checks:state.checklist?.filter(c=>!c.passed)??[],handoffs:state.handoffs,failures:[...retainedFailures,...failures],warnings};
    }
-   const capacity=limit,visual=runnable.find(j=>['visual','composition'].includes(j.stage));
-   let selected=visual?[visual,...runnable.filter(j=>!['visual','composition'].includes(j.stage)).slice(0,capacity-1)]:runnable.slice(0,capacity);
-   if(!selected.length)return {ok:false,status:'handoff',remaining:runnable,active:claims.map(c=>({jobId:c.jobId,action:recoveryAction(c,runDir)})),failures,warnings};
-   const currentReceipt=receipt(runDir);let gate=evaluateDispatchBudget(currentReceipt,budget,selected.length);
-   while(!gate.ok&&!gate.missingUsage&&selected.length>1){selected=selected.slice(0,-1);gate=evaluateDispatchBudget(currentReceipt,budget,selected.length);}
+   const capacity=limit-active.size;
+   let selected=capacity?selectDispatchJobs(runnable.map(job=>job.stage==='visual'?{...job,visualConcurrency:state.visualConcurrency??options.visualConcurrency??1}:job),[...active.values()].map(value=>value.job),capacity):[];
+   if(!selected.length){if(active.size){await takeResult();continue;}return {ok:false,status:'handoff',remaining:runnable,active:claims.map(c=>({jobId:c.jobId,action:recoveryAction(c,runDir)})),failures,warnings};}
+   const currentReceipt=receipt(runDir);let gate=evaluateDispatchBudget(currentReceipt,budget,selected.length+active.size);
+   while(!gate.ok&&!gate.missingUsage&&selected.length>1){selected=selected.slice(0,-1);gate=evaluateDispatchBudget(currentReceipt,budget,selected.length+active.size);}
    warnings.push(...gate.warnings);
-   if(!gate.ok){log('budget-stopped',{gate});return {ok:false,status:gate.missingUsage?'usage-unavailable':'budget-exhausted',budget:gate,remaining:selected,failures,warnings};}
-   for(const job of selected){attempted.add(job.id);log('dispatch',{jobId:job.id,stage:job.stage,dependencyHash:job.dependencyHash});}
-   const results=await runBoundedJobs(selected,job=>run(options,job.id,{runner}),{concurrency:limit});
-   for(const row of results){if(row.ok)log('finished',{jobId:row.id,accepted:row.result.ok});else{
-    const failure={jobId:row.id,reason:row.error.message,retainedOutput:row.error.retainedOutput??null};failures.push(failure);log('failed',failure);
-   }}
+   if(!gate.ok){log('budget-stopped',{gate});stopReason={ok:false,status:gate.missingUsage?'usage-unavailable':'budget-exhausted',budget:gate,remaining:selected};while(active.size)await takeResult();return {...stopReason,failures,warnings};}
+   for(const job of selected){
+    attempted.add(job.id);log('dispatch',{jobId:job.id,stage:job.stage,dependencyHash:job.dependencyHash,batch:job.batch,deliveredCharacters:job.deliveredCharacters,...(failedJobs.has(job.id)&&retryDiagnosis?{retryDiagnosis}: {})});
+    const promise=Promise.resolve().then(()=>run(options,job.id,{runner})).then(result=>({id:job.id,ok:true,result}),error=>({id:job.id,ok:false,error}));
+    active.set(job.id,{job,promise});
+   }
+   await takeResult();
   }
+  while(active.size)await takeResult();
+  if(stopReason)return {...stopReason,failures,warnings};
   log('stopped',{status:'wave-limit'});
   return {ok:false,status:'wave-limit',failures,warnings,note:'Resume with the durable register and existing tickets.'};
- });
+  }catch(error){while(active.size)await takeResult();throw error;}
+ }));
 }

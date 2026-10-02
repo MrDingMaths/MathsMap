@@ -56,6 +56,16 @@ const manifestFor=(edition,renderer,key,pdf)=>({passed:true,mode:'full',reviewPr
  assert.deepEqual(fs.readFileSync(path.join(out,'unchanged-export-seeds.json')),receipt);
  assert.equal(fs.existsSync(path.join(out,'.seed-final-export-cache.lock')),false);
 
+ const changedProject=structuredClone(project);changedProject.sections[0].blocks[0].content.prompt='Solve x + 1 = 4.';
+ fs.writeFileSync(projectFile,JSON.stringify(changedProject));const decisions=[];
+ assert.deepEqual(await seedUnchangedFinalExports({runDir,projectFile,out:path.join(runDir,'final-exports-changed'),onDecision:decision=>decisions.push(decision)}),[]);
+ assert.ok(decisions.find(decision=>decision.edition==='student').candidates.some(candidate=>candidate.reason==='printable-dependencies-changed'));
+ fs.writeFileSync(projectFile,JSON.stringify({...project,revision:99,comments:['Metadata-only update']}));
+ const metadataOut=path.join(runDir,'final-exports-metadata');
+ assert.equal((await seedUnchangedFinalExports({runDir,projectFile,out:metadataOut})).length,1);
+ fs.renameSync(metadataOut,path.join(runDir,'preserved-metadata-target'));
+ fs.writeFileSync(projectFile,JSON.stringify(project));
+
  // Isolate the negative candidates: the previously seeded valid copy is a
  // legitimate fallback and must not make a corrupt-source test fail.
  fs.renameSync(out,path.join(runDir,'preserved-seeded-target'));

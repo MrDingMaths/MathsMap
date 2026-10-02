@@ -195,3 +195,25 @@ test('export reuse is explicit, deduplicated and tied to current artifact eviden
  await assert.rejects(()=>recordExportReuse(f.dir,{...input,reused:false}),/different values/);
  fs.writeFileSync(file,'changed');await assert.rejects(()=>recordExportReuse(f.dir,{...input,id:'short-2'}),/changed/);
 });
+
+
+test('repeated inherited session metadata retains child identity and historical runtime aliases',async t=>{
+ const f=fixture(t),root=f.write('root.jsonl',[meta('root'),call(20,'root-call',usage(10,0,2))]);
+ await linkRunSession(f.dir,{sessionId:'root',stage:'dispatch',role:'coordinator',rolloutPath:root});
+ for(const [id,nested]of [['child-a',false],['child-b',true]]){
+  const response=call(20,id+'-call',usage(20,5,3)),rolloutPath=f.write(id+'.jsonl',[
+   event(0,'session_meta',{id,session_id:'root',...(nested?{source:{subagent:{thread_spawn:{parent_thread_id:'root'}}}}:{parent_thread_id:'root'})}),
+   event(1,'session_meta',{id:'root',session_id:'root',source:'vscode'}),
+   event(2,'thread.started',{thread_id:'root'}),
+   event(3,'session_meta',{id:id+'-runtime',session_id:id+'-runtime'}),
+   response,response,
+  ]),result=readCodexSessionUsage(rolloutPath,{sessionId:id});
+  assert.equal(result.canonicalSessionId,id);assert.deepEqual(result.sessionAliases,[id,id+'-runtime']);
+  assert.equal(result.usage.input_tokens,20);assert.equal(result.responseCalls,1);
+  assert.equal(readCodexSessionUsage(rolloutPath,{sessionId:id+'-runtime'}).canonicalSessionId,id);
+  assert.throws(()=>readCodexSessionUsage(rolloutPath,{sessionId:'root'}),/identity/);
+  await linkRunSession(f.dir,{sessionId:id,stage:'inventory',role:'transcription',rolloutPath});
+  await assert.rejects(()=>linkRunSession(f.dir,{sessionId:id+'-runtime',stage:'review',role:'review',rolloutPath}),/overlap/);
+ }
+ assert.equal(buildRunReceipt(f.dir).completeJob.usage.input_tokens,50);
+});

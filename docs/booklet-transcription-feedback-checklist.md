@@ -36,6 +36,8 @@ For ordinary feedback maintenance, use the [minimum verification matrix](booklet
 
 ## Required completion evidence
 
+- **Graph sizing:** follow the [graph sizing convention](booklet-cross-session-rules.md#graph-sizing-and-user-directed-compact-layouts-2-october-2026). Start routine supplied question graphs around 70 mm and simple short-answer graphs around 50 mm, without treating those sizes as caps. Avoid automatic page/column stretching; preserve 10 pt labels, tick readability, complete assessed features, meaningful pairs and sufficient student drawing space. Keep short/worked widths independent and manual overrides intact. Use the existing early sample and selected final-size checks; add no review stage or routine model call. Discretionary compact-spacing tuning remains user-directed.
+
 - **Purposeful diagram shading:** use unshaded diagrams by default. Retain only
   mathematical region/face/material highlights or a demonstrated final-size
   clarity benefit, using the minimum standard-palette fill. Source shading is

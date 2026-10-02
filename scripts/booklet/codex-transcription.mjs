@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {spawn} from 'node:child_process';
 import {randomUUID} from 'node:crypto';
-import {TRANSCRIPTION_DEFAULT,requireCurrentTranscription} from './transcription-settings.mjs';
+import {TRANSCRIPTION_DEFAULT,requireCurrentTranscription,transcriptionConfiguration} from './transcription-settings.mjs';
 import {reconcileIds} from '../agy/lib/agy-run.mjs';
 import {withWorkerSlot} from './worker-pool.mjs';
 import {StringDecoder} from 'node:string_decoder';
@@ -28,29 +28,38 @@ export function readToolDiagnostics(file){
  const fd=fs.openSync(file,'r'),buffer=Buffer.alloc(64*1024);try{let size;while((size=fs.readSync(fd,buffer,0,buffer.length,null)))counter.write(buffer.subarray(0,size));counter.finish();return counter.snapshot();}finally{fs.closeSync(fd);}
 }
 
-// Legacy export names are retained for callers; every production profile uses Sol 6.1 high.
-export const ASTRA_PROFILES=Object.freeze({transcription:Object.freeze({model:'gpt-6.1-sol',effort:'high'}),review:Object.freeze({model:'gpt-6.1-sol',effort:'high'}),coordinator:Object.freeze({model:'gpt-6.1-sol',effort:'high'})});
+// Legacy export names are retained for callers; all roles share the production default.
+const productionProfile=Object.freeze({model:TRANSCRIPTION_DEFAULT.model,effort:TRANSCRIPTION_DEFAULT.effort});
+export const ASTRA_PROFILES=Object.freeze({transcription:productionProfile,review:productionProfile,coordinator:productionProfile});
 const BOUNDED_WORKER_INSTRUCTIONS='Bounded worker execution: you already occupy one slot in the shared three-worker pool. Complete only the assigned task yourself. Do not spawn sub-agents, delegate work, or launch another Codex CLI, model runner or model/API call through any tool or shell command. Only the parent coordinator schedules workers. If the assigned evidence or task cannot be completed, report the specific blocker in the required result rather than delegating. Use read-only source access and return the required final response; the caller writes the result.';
-export function astraCommandArgs({cwd,images=[],raw,profile='transcription'}){
- const configuration=ASTRA_PROFILES[profile];if(!configuration)throw Error('Unknown booklet worker profile');
+export function astraCommandArgs({cwd,images=[],raw,profile='transcription',configuration=transcriptionConfiguration()}){
+ if(!ASTRA_PROFILES[profile])throw Error('Unknown booklet worker profile');requireCurrentTranscription(configuration);
  const args=['exec','--ephemeral','--ignore-user-config','--skip-git-repo-check','--sandbox','read-only','-C',cwd,'--model',configuration.model,'-c',`model_reasoning_effort="${configuration.effort}"`,'-c','service_tier="default"','-c','features.fast_mode=false','-c','features.multi_agent=false','-c','features.multi_agent_v2=false','--json','--output-last-message',raw];
  for(const image of images)args.push('--image',image);args.push('-');return args;
 }
 
-export async function runAstraTask({cwd,runDir=cwd,prompt,images=[],out,profile='review',stage=profile,timeoutMs=900000,onProgress=()=>{},signal},{spawnProcess=spawn}={}){
+export async function runAstraTask({cwd,runDir=cwd,prompt,images=[],out,profile='review',configuration,stage=profile,timeoutMs=900000,onProgress=()=>{},signal},{spawnProcess=spawn}={}){
  if(!ASTRA_PROFILES[profile])throw Error('Unknown booklet worker profile');
+ const manifestFile=path.join(runDir,'manifest.json');
+ if(fs.existsSync(manifestFile)){
+  const manifest=JSON.parse(fs.readFileSync(manifestFile,'utf8'));requireCurrentTranscription(manifest);
+  const recorded=transcriptionConfiguration(manifest);
+  if(configuration&&JSON.stringify(transcriptionConfiguration(requireCurrentTranscription(configuration)))!==JSON.stringify(recorded))throw Error('Worker configuration differs from recorded run; prepare a fresh run');
+  configuration=recorded;
+ }else configuration??=transcriptionConfiguration();
+ requireCurrentTranscription(configuration);
  const callId=randomUUID();
- return withWorkerSlot(runDir,{callId,stage,profile},lease=>invokeAstra({cwd,prompt,images,out,profile,stage,timeoutMs,onProgress,signal,callId,queueWaitMs:lease.queueWaitMs},spawnProcess),{signal});
+ return withWorkerSlot(runDir,{callId,stage,profile},lease=>invokeAstra({cwd,prompt,images,out,profile,configuration,stage,timeoutMs,onProgress,signal,callId,queueWaitMs:lease.queueWaitMs},spawnProcess),{signal});
 }
 export async function runCodexTranscription(options){return runAstraTask({...options,profile:'transcription'},options.execution);}
 
-async function invokeAstra({cwd,prompt,images,out,profile,stage,timeoutMs,onProgress,signal,callId,queueWaitMs},spawnProcess){
+async function invokeAstra({cwd,prompt,images,out,profile,configuration,stage,timeoutMs,onProgress,signal,callId,queueWaitMs},spawnProcess){
  fs.mkdirSync(out,{recursive:true});
  const raw=path.join(out,'last-message.txt'),start=Date.now();let usage=null,observedModel=null,sessionId=null,completedCapture=false;const toolIds=new Set(),toolDiagnostics=toolDiagnosticCounter();
- const args=astraCommandArgs({cwd,images,raw,profile});
+ const args=astraCommandArgs({cwd,images,raw,profile,configuration});
  // Exclusive creation makes a failed attempt visible and prevents silent retries.
  const eventFd=fs.openSync(path.join(out,'events.jsonl'),'wx'),errorFd=fs.openSync(path.join(out,'stderr.txt'),'wx');
- const metrics=()=>({provider:'codex',...ASTRA_PROFILES[profile],requestedModel:ASTRA_PROFILES[profile].model,profile,role:profile,stage,serviceTier:'default',observedModel,sessionId,callId,usage,toolCalls:toolIds.size,completedToolCalls:completedCapture||toolIds.size?toolIds.size:null,missingCompletedToolCounts:completedCapture?0:1,...toolDiagnostics.snapshot(),toolCountingNote:'toolCalls retains observed completion events. Completed events and recognized stderr rejection diagnostics are separate observations and may overlap; neither establishes all attempted calls.',queueWaitMs,startedAt:new Date(start).toISOString(),endedAt:new Date().toISOString(),elapsedMs:Date.now()-start});
+ const metrics=()=>({provider:'codex',...configuration,requestedModel:configuration.model,profile,role:profile,stage,serviceTier:'default',observedModel,sessionId,callId,usage,toolCalls:toolIds.size,completedToolCalls:completedCapture||toolIds.size?toolIds.size:null,missingCompletedToolCounts:completedCapture?0:1,...toolDiagnostics.snapshot(),toolCountingNote:'toolCalls retains observed completion events. Completed events and recognized stderr rejection diagnostics are separate observations and may overlap; neither establishes all attempted calls.',queueWaitMs,startedAt:new Date(start).toISOString(),endedAt:new Date().toISOString(),elapsedMs:Date.now()-start});
  try {
   await new Promise((resolve,reject)=>{
    const child=spawnProcess(process.env.BOOKLET_CODEX_BIN??'codex',args,{cwd,windowsHide:true,shell:false,stdio:['pipe','pipe','pipe']});let buffer='',failure=null;
@@ -74,13 +83,13 @@ export async function runTranscriptionTasks(dir,configuration=TRANSCRIPTION_DEFA
   const stem=file.slice(0,-3),target=path.join(dir,stem+'.result.json');if(fs.existsSync(target)){results.push({task:stem,skipped:true});continue;}
   try{
    const prompt=fs.readFileSync(path.join(dir,file),'utf8')+'\n\n'+HOUSE_STYLE_PROMPT+'\n\n'+SOLUTION_CONVENTIONS+'\n\nExecution: use read-only access to the supplied source evidence. Return the required JSON object as your final response; the caller writes the result file. Do not write files. House style: no O label at Cartesian origins; align question numbers with their stem. Recreate mathematical diagrams in TikZ. No model fallback.';
-   const reply=await runner({cwd:dir,prompt,out:path.join(dir,stem+'.codex'),images:fs.readdirSync(dir).filter(f=>f.endsWith('.png')).map(f=>path.join(dir,f))});
+   const reply=await runner({cwd:dir,configuration,prompt,out:path.join(dir,stem+'.codex'),images:fs.readdirSync(dir).filter(f=>f.endsWith('.png')).map(f=>path.join(dir,f))});
    const ids=JSON.parse(fs.readFileSync(path.join(dir,stem+'.ids.json'),'utf8')).ids;
    const checked=reconcileIds(ids,reply.result);if(checked.missing.length)throw new Error('Missing expected ids: '+checked.missing.join(', '));
    fs.writeFileSync(target,JSON.stringify(reply.result,null,2),{flag:'wx'});results.push({task:stem,ok:true,metrics:reply.metrics});
   }catch(error){results.push({task:stem,ok:false,error:error.message,metrics:error.metrics});}
   fs.appendFileSync(path.join(dir,'ledger.jsonl'),JSON.stringify({...results.at(-1),at:new Date().toISOString()})+'\n');
  }
- return{ok:results.every(r=>r.ok||r.skipped),results,...TRANSCRIPTION_DEFAULT};
+ return{ok:results.every(r=>r.ok||r.skipped),results,...configuration};
 }
 import { SOLUTION_CONVENTIONS } from './solution-conventions.mjs';
