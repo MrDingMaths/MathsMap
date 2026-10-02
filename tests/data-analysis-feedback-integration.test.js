@@ -1,0 +1,19 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
+import {repairDataAnalysisR353} from '../scripts/booklet/repair-data-analysis-r353.mjs';
+import {repairDataAnalysisCalculator} from '../scripts/booklet/repair-data-analysis-calculator.mjs';
+import {repairRenderedCalculator} from '../scripts/booklet/repair-data-analysis-rendered-calculator.mjs';
+import {repairDataAnalysisSkewness} from '../scripts/booklet/repair-data-analysis-skewness.mjs';
+import {flowEditionSections,flowNumbers} from '../src/lib/booklet-flow.js';import {teachingAnswerCategory} from '../src/lib/booklet-answer-options.js';import {normalizeDocument} from '../public/libs/maths-editor/document-model.mjs';
+const original=JSON.parse(fs.readFileSync(new URL('../booklets/projects/data-analysis-v1.json',import.meta.url)));
+const blocks=p=>p.sections.flatMap(s=>s.blocks);const byId=(p,id)=>blocks(p).find(b=>b.id===id);
+const preserved=b=>({sourceReview:b.sourceReview,sourceAtom:b.sourceAtom,sourceRefs:b.sourceRefs,spec:b.spec,sourceOrder:b.sourceOrder,bankRef:b.bankRef,classification:b.classification});
+const boxes=value=>{const found=[];function walk(v){if(!v||typeof v!=='object')return;if(v.latex)for(const m of v.latex.matchAll(/\\rule\{0pt\}\{([\d.]+)mm\}\\hspace\{([\d.]+)mm\}/g))found.push([m[1],m[2]]);for(const[k,x]of Object.entries(v))if(!/^(source|spec|studio|bankRef|provenance)/.test(k))walk(x);}walk(value);return found;};
+test('real section schema repairs both exercises and current scaffold without altering accepted evidence or answers',()=>{
+const result=repairDataAnalysisR353(original);assert.equal(flowNumbers(result.next)['p24-q1-block'],1);assert.equal(flowNumbers(result.next)['p27-q11-block'],3);assert.equal(flowNumbers(result.next)['p79-q5-block'],1);
+for(const b of blocks(original)){const n=byId(result.next,b.id);assert.deepEqual(preserved(n),preserved(b));const walk=(a,z)=>{assert.deepEqual(z.answer,a.answer);for(const c of a.children??[])walk(c,z.children.find(n=>n.id===c.id));};if(b.content)walk(b.content,n.content);}
+assert.deepEqual(result.next.studio,original.studio);assert.deepEqual(repairDataAnalysisR353(result.next).next,result.next);
+const scaffold=byId(result.next,'p24-q1-block');assert.ok(boxes(scaffold).length>20);assert.deepEqual(boxes(scaffold),boxes(byId(original,'p24-q1-block')));
+const removed=new Set(result.provenance.mergedParagraphs.flatMap(m=>m.removedIds));const active=JSON.stringify(scaffold.presentation)+JSON.stringify(result.next.settings.layoutOverrides.blockLayouts[scaffold.id]);for(const id of removed)assert.ok(!active.includes(id));
+});
+test('real calculator content keeps source snapshots and both active arrangement copies',()=>{const repair=byId(original,'p52-calculator-information-model-2')?repairRenderedCalculator:repairDataAnalysisCalculator;const {next}=repair(original);for(const id of ['p52-calculator-information','p53-example',...(byId(original,'p52-calculator-information-model-2')?['p52-calculator-information-model-2']:[])])assert.deepEqual(preserved(byId(next,id)),preserved(byId(original,id)));assert.deepEqual(byId(next,'p53-example').content,byId(original,'p53-example').content);assert.deepEqual(repair(next).next,next);});
+test('new editable investigation uses teaching controls and is excluded from both practice answer editions',()=>{const {next}=repairDataAnalysisSkewness(original),b=byId(next,'p82-skewness-investigation');assert.equal(teachingAnswerCategory(b),'identify');for(const edition of ['short','worked'])assert.ok(!flowEditionSections(next,edition).flatMap(s=>s.blocks).some(x=>x.id===b.id));for(const doc of [b.content.prompt,...b.content.children.map(c=>c.prompt)]){const n=normalizeDocument(doc);assert.ok(n.blocks.every(p=>typeof p.id==='string'&&p.id.startsWith(b.id)));}});
