@@ -2,21 +2,35 @@
   "skillId": "identify-parts-of-expression",
   "atomType": "R",
   "theory": {
-        "intro": "An algebraic expression is built from **terms**, separated by addition. The number multiplying a pronumeral in a term is its **coefficient**, and a term that is just a number is the **constant term**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.4]\n\\usetikzlibrary{arrows.meta}\n\\node (a) at (0,0) {$a$};\n\\node (x) at (0.32,0) {$x$};\n\\node (m) at (0.95,0) {$-$};\n\\node (c) at (1.5,0) {$c$};\n\\draw (-0.25,0.4) -- (-0.25,0.58) -- (0.6,0.58) -- (0.6,0.4);\n\\node at (0.175,0.92) {term};\n\\draw (0.72,0.4) -- (0.72,0.58) -- (1.78,0.58) -- (1.78,0.4);\n\\draw (1.25,0.58) -- (1.25,1.25);\n\\node at (1.25,1.5) {constant term};\n\\draw[-{Stealth}] (0,-1.35) -- (0,-0.32);\n\\node at (0,-1.7) {coefficient of $x$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "An algebraic expression is built from **terms**, separated by addition. The number multiplying a pronumeral in a term is its **coefficient**, and a term that is just a number is the **constant term**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},>=stealth]\n\\node (co) at (0,0) {$4$};\n\\node (pr) at (0.4,0) {$x$};\n\\node at (1.0,0) {$-$};\n\\node at (1.8,0) {$17$};\n\\draw (-0.2,0.3)--(-0.2,0.5)--(0.65,0.5)--(0.65,0.3);\n\\node at (0.225,0.85) {term};\n\\draw (0.75,0.3)--(0.75,0.55)--(2.15,0.55)--(2.15,0.3);\n\\draw (1.45,0.55)--(1.45,1.05);\n\\node at (1.45,1.35) {constant term};\n\\node[align=center] (cl) at (-0.8,-1.3) {coefficient\\\\of $x$};\n\\node (pl) at (1.7,-1.3) {pronumeral};\n\\draw[->] (cl.north)--(co.south);\n\\draw[->] (pl.north west)--(pr.south);\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "A **term** is a part of an expression, and terms are **separated by addition**.",
           "Treat every subtraction as adding a negative, so the sign travels with the term: $3x - 4y$ has terms $3x$ and $-4y$.",
           "The **coefficient** is the number multiplying a pronumeral: in $3x$ it is $3$, in $-9x$ it is $-9$, in $\\frac{x}{3}$ it is $\\frac{1}{3}$.",
           "A term written as just a pronumeral has coefficient $1$: $x$ has coefficient $1$ and $-x$ has coefficient $-1$.",
           "The **constant term** is a term with no pronumeral, and is $0$ when every term has a pronumeral."
         ],
-        "steps": [
+"steps": [
           "Rewrite subtractions.",
           "Split into terms.",
           "Read coefficient.",
           "Find constant."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Identify the parts of $6p-5q-13$.\n(a) List the terms and the pronumerals.\n(b) State the coefficient of $p$ and the coefficient of $q$.\n(c) Identify the constant term.",
+    "solution_text": "(a) Treat each subtraction as adding a negative.\n$6p-5q-13=6p+(-5q)+(-13)$\nThe terms are $6p$, $-5q$ and $-13$. The pronumerals are $p$ and $q$.\n(b) The coefficient of $p$ is $6$; the coefficient of $q$ is $-5$.\n(c) The constant term is $-13$."
+  },
+  {
+    "question_text": "For the expression $\\frac{t}{4}-u+9$:\n(a) state the coefficient of $t$\n(b) state the coefficient of $u$\n(c) list all the terms.",
+    "solution_text": "(a) $\\frac{t}{4}=\\frac{1}{4}t$, so the coefficient of $t$ is $\\frac{1}{4}$.\n(b) $-u=(-1)u$, so the coefficient of $u$ is $-1$.\n(c) $\\frac{t}{4}-u+9=\\frac{t}{4}+(-u)+9$\nThe terms are $\\frac{t}{4}$, $-u$ and $9$."
+  },
+  {
+    "question_text": "For the expression $a-6b$:\n(a) list the terms\n(b) state the coefficient of $a$\n(c) identify the constant term.",
+    "solution_text": "(a) $a-6b=a+(-6b)$, so the terms are $a$ and $-6b$.\n(b) $a=1a$, so the coefficient of $a$ is $1$.\n(c) Both terms contain a pronumeral. There is no separate number term, so the constant term is $0$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

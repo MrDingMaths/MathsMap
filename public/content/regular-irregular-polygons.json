@@ -2,83 +2,97 @@
   "skillId": "regular-irregular-polygons",
   "atomType": "R",
   "theory": {
-        "intro": "A polygon is regular if all its sides are equal AND all its angles are equal. If either varies, it is irregular.",
-        "facts": [
-          "**Regular**: all sides equal and all angles equal (e.g. square, equilateral triangle).\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, decorations.markings}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n}\n\\coordinate (P0) at (90:1.9);\n\\coordinate (P1) at (162:1.9);\n\\coordinate (P2) at (234:1.9);\n\\coordinate (P3) at (306:1.9);\n\\coordinate (P4) at (18:1.9);\n\\draw[tickmark] (P0)--(P1);\n\\draw[tickmark] (P1)--(P2);\n\\draw[tickmark] (P2)--(P3);\n\\draw[tickmark] (P3)--(P4);\n\\draw[tickmark] (P4)--(P0);\n\\pic[draw, angle radius=0.55cm] {angle=P1--P0--P4};\n\\pic[draw, angle radius=0.55cm] {angle=P2--P1--P0};\n\\pic[draw, angle radius=0.55cm] {angle=P3--P2--P1};\n\\pic[draw, angle radius=0.55cm] {angle=P4--P3--P2};\n\\pic[draw, angle radius=0.55cm] {angle=P0--P4--P3};\n\\end{tikzpicture}\n[/tikz]",
-          "**Irregular**: at least one side or angle is different — this pentagon has five equal sides but its angles are not all equal.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.2,0);\n\\coordinate (C) at (2.2,2.2);\n\\coordinate (D) at (1.1,4.1);\n\\coordinate (E) at (0,2.2);\n\\draw[tickmark] (A)--(B);\n\\draw[tickmark] (B)--(C);\n\\draw[tickmark] (C)--(D);\n\\draw[tickmark] (D)--(E);\n\\draw[tickmark] (E)--(A);\n\\end{tikzpicture}\n[/tikz]",
-          "Equal sides are shown by tick marks; equal angles are often shown by matching arc marks."
-        ],
-        "steps": [
+"intro": "A polygon is regular if all its sides are equal AND all its angles are equal. If either varies, it is irregular.",
+"facts": [
+"**Regular**: all sides equal and all angles equal (e.g. square, equilateral triangle).\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, decorations.markings}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n}\n\\coordinate (P0) at (90:1.9);\n\\coordinate (P1) at (162:1.9);\n\\coordinate (P2) at (234:1.9);\n\\coordinate (P3) at (306:1.9);\n\\coordinate (P4) at (18:1.9);\n\\draw[tickmark] (P0)--(P1);\n\\draw[tickmark] (P1)--(P2);\n\\draw[tickmark] (P2)--(P3);\n\\draw[tickmark] (P3)--(P4);\n\\draw[tickmark] (P4)--(P0);\n\\pic[draw, angle radius=0.55cm] {angle=P1--P0--P4};\n\\pic[draw, angle radius=0.55cm] {angle=P2--P1--P0};\n\\pic[draw, angle radius=0.55cm] {angle=P3--P2--P1};\n\\pic[draw, angle radius=0.55cm] {angle=P4--P3--P2};\n\\pic[draw, angle radius=0.55cm] {angle=P0--P4--P3};\n\\end{tikzpicture}\n[/tikz]",
+"**Irregular**: at least one side or angle is different — this pentagon has five equal sides but its angles are not all equal.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.2,0);\n\\coordinate (C) at (2.2,2.2);\n\\coordinate (D) at (1.1,{2.2+1.1*sqrt(3)});\n\\coordinate (E) at (0,2.2);\n\\draw[tickmark] (A)--(B);\n\\draw[tickmark] (B)--(C);\n\\draw[tickmark] (C)--(D);\n\\draw[tickmark] (D)--(E);\n\\draw[tickmark] (E)--(A);\n\\end{tikzpicture}\n[/tikz]",
+"Equal sides are shown by tick marks; equal angles are often shown by matching arc marks."
+],
+"steps": [
           "Check whether all sides are equal (look at the tick marks or lengths).",
           "Check whether all angles are equal.",
           "If both are equal it is regular; otherwise it is irregular."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Every side of this square is $6$ cm and every angle is a right angle.\n[tikz]\n\\begin{tikzpicture}[scale=0.75,every node/.style={font=\\normalsize,text=black}]\n\\path[use as bounding box] (-0.2,-0.2) rectangle (3.2,3.2);\n\\draw[black] (0,0) rectangle (3,3);\n\\end{tikzpicture}\n[/tikz]\n(a) Classify it as regular or irregular. Give both checks.\n(b) Does a polygon need right angles to be regular?",
+    "solution_text": "(a) All four sides are equal and all four angles are equal. The square is regular.\n(b) No. It needs equal angles, not necessarily right angles. An equilateral triangle is regular and has three equal angles of $60^{\\circ}$."
+  },
+  {
+    "question_text": "Classify each quadrilateral as regular or irregular. Explain which check decides.\n(a) A rhombus has four sides of $8$ cm, two angles of $60^{\\circ}$ and two of $120^{\\circ}$.\n[tikz]\n\\begin{tikzpicture}[scale=0.75,every node/.style={font=\\normalsize,text=black}]\n\\draw[black] (0,-1.5)--(2.598076,0)--(0,1.5)--(-2.598076,0)--cycle;\n\\end{tikzpicture}\n[/tikz]\n(b) A rectangle has side lengths $9$ cm, $5$ cm, $9$ cm and $5$ cm, and four right angles.\n[tikz]\n\\begin{tikzpicture}[scale=0.75,every node/.style={font=\\normalsize,text=black}]\n\\path[use as bounding box] (-0.2,-0.2) rectangle (4.7,2.7);\n\\draw[black] (0,0) rectangle (4.5,2.5);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Its sides are all equal, but its angles are not all equal. The rhombus is irregular.\n(b) Its angles are all equal, but its sides are not all equal. The rectangle is irregular."
+  },
+  {
+    "question_text": "(a) A pentagon has five sides of $7$ cm. What else must be checked before calling it regular?\n(b) An octagon has seven sides of $4$ cm and one side of $6$ cm. Must every angle be measured to classify it?\n(c) Mia says equal sides alone always make a polygon regular. Give a quadrilateral counterexample.",
+    "solution_text": "(a) Check that all five angles are equal as well.\n(b) No. Its sides are not all equal, so it is already known to be irregular.\n(c) A non-square rhombus has four equal sides but its angles are not all equal. It is irregular, so Mia's claim is false."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Every side of this triangle is $6$ cm and every angle is $60^{\\circ}$.\nIs it regular or irregular?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0); \\coordinate (B) at (4,0); \\coordinate (C) at (2,3.464);\n\\draw (A) -- (B) node[midway,below] {$6\\text{ cm}$};\n\\draw (B) -- (C) node[midway,above right] {$6\\text{ cm}$};\n\\draw (C) -- (A) node[midway,above left] {$6\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "classify-from-both-properties",
         "solution_text": "All three sides are equal and all three angles are equal.\nThe triangle is regular."
       },
-      {
+{
         "question_text": "Every side of this square is $4$ cm and every angle is $90^{\\circ}$.\nIs it regular or irregular?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (3.4,3.4);\n\\end{tikzpicture}\n[/tikz]",
         "structure": "classify-from-both-properties",
         "solution_text": "All four sides are equal and all four angles are equal.\nThe square is regular."
       },
-      {
-        "question_text": "This rhombus has four equal sides, but it has two $70^{\\circ}$ angles and two $110^{\\circ}$ angles.\nIs it regular or irregular?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,-1.5) -- (2.9,0) -- (0,1.5) -- (-2.9,0) -- cycle;\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "This rhombus has four equal sides, but it has two $70^{\\circ}$ angles and two $110^{\\circ}$ angles.\nIs it regular or irregular?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,-1.5) -- ({1.5/tan(35)},0) -- (0,1.5) -- ({-1.5/tan(35)},0) -- cycle;\n\\end{tikzpicture}\n[/tikz]",
         "structure": "equal-sides-angle-near-miss",
         "solution_text": "The sides are all equal, but the angles are not all equal.\nThe rhombus is irregular."
       },
-      {
+{
         "question_text": "This rectangle has four equal angles.\nIts side lengths are $7$ cm, $3$ cm, $7$ cm and $3$ cm.\nIs it regular or irregular?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0); \\coordinate (B) at (5,0); \\coordinate (C) at (5,2.2); \\coordinate (D) at (0,2.2);\n\\draw (A) -- (B) node[midway,below] {$7\\text{ cm}$};\n\\draw (B) -- (C) node[midway,right] {$3\\text{ cm}$};\n\\draw (C) -- (D) node[midway,above] {$7\\text{ cm}$};\n\\draw (D) -- (A) node[midway,left] {$3\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "equal-angles-side-near-miss",
         "solution_text": "The angles are all equal, but the side lengths are not all equal.\nThe rectangle is irregular."
       },
-      {
+{
         "question_text": "Four sides of this pentagon are $5$ cm and one side is $4$ cm.\nIs it regular or irregular?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\coordinate (A) at (0,0); \\coordinate (B) at (3.2,0); \\coordinate (C) at (5,3.572); \\coordinate (D) at (1.6,5.679); \\coordinate (E) at (-1.8,3.572);\n\\draw (A) -- (B) node[midway,below] {$4\\text{ cm}$};\n\\draw (B) -- (C) node[midway,right] {$5\\text{ cm}$};\n\\draw (C) -- (D) node[midway,above right] {$5\\text{ cm}$};\n\\draw (D) -- (E) node[midway,above left] {$5\\text{ cm}$};\n\\draw (E) -- (A) node[midway,left] {$5\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "detect-unequal-side",
         "solution_text": "At least one side length differs from the others.\nThe pentagon is irregular."
       },
-      {
+{
         "question_text": "The sides of this hexagon are all equal, but its interior angles are not all equal.\nIs it regular or irregular?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) -- (2,0) -- (3,1.732) -- (1,1.732) -- (0,3.464) -- (-1,1.732) -- cycle;\n\\end{tikzpicture}\n[/tikz]",
         "structure": "equal-sides-angle-near-miss",
         "solution_text": "A regular polygon needs equal sides **and** equal angles.\nBecause the angles differ, the hexagon is irregular."
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "A hexagon has six equal sides and six equal angles.\nClassify it as regular or irregular.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\foreach \\i in {0,...,5} {\\coordinate (P\\i) at ({60*\\i}:2.4);}\n\\draw (P0) -- (P1) -- (P2) -- (P3) -- (P4) -- (P5) -- cycle;\n\\end{tikzpicture}\n[/tikz]",
         "structure": "classify-from-both-properties",
         "solution_text": "All six sides are equal and all six angles are equal.\nThe hexagon is regular."
       },
-      {
+{
         "question_text": "An octagon has eight equal angles, but two of its sides are longer than the other six.\nClassify it.",
         "structure": "equal-angles-side-near-miss",
         "solution_text": "Equal angles satisfy only one part of the definition.\nBecause the eight sides are not all equal, the octagon is irregular."
       },
-      {
+{
         "question_text": "A pentagon has five equal side lengths.\nWhat extra information is needed before you can call it regular?",
         "structure": "identify-missing-condition",
         "solution_text": "Its five interior angles must also all be equal."
       },
-      {
+{
         "question_text": "Noah measures all four sides of this quadrilateral and finds that they are equal.\nHe immediately labels it regular.\nExplain why he does not yet have enough information.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,-1.5) -- (2.9,0) -- (0,1.5) -- (-2.9,0) -- cycle;\n\\end{tikzpicture}\n[/tikz]",
         "structure": "identify-missing-condition",
         "solution_text": "Noah has checked only the side condition.\nHe must also check whether all four angles are equal before deciding whether the quadrilateral is regular."
       },
-      {
+{
         "question_text": "A quadrilateral has four angles of $90^{\\circ}$ and four sides of $5$ cm.\nIs it regular?\nGive both checks.",
         "structure": "classify-from-both-properties",
         "solution_text": "All four angles are equal because each is $90^{\\circ}$.\nAll four sides are equal because each is $5$ cm.\nThe quadrilateral is regular."
       },
-      {
-        "question_text": "A triangle has side lengths $8$ cm, $8$ cm and $5$ cm.\nIts angles are $71^{\\circ}$, $71^{\\circ}$ and $38^{\\circ}$.\nClassify it as regular or irregular.",
+{
+        "question_text": "A triangle has side lengths $8$ cm, $8$ cm and $5$ cm.\nIts angles, rounded to the nearest degree, are $72^{\\circ}$, $72^{\\circ}$ and $36^{\\circ}$.\nClassify it as regular or irregular.",
         "structure": "detect-unequal-side",
         "solution_text": "The three sides are not all equal, and the three angles are not all equal.\nThe triangle is irregular."
       }
-    ],
+],
     "mastery": [
       {
         "question_text": "A polygon has all its sides equal.\nPriya says this proves it is regular.\nDecide whether her claim is always true and justify your answer.",

@@ -2,89 +2,99 @@
   "skillId": "round-decimals-carry",
   "atomType": "R",
   "theory": {
-        "intro": "Rounding up sometimes lands on a $9$, and $9$ rounded up is $10$ — too big for one place. The extra $1$ carries to the left.",
-        "facts": [
+"intro": "Rounding up sometimes lands on a $9$, and $9$ rounded up is $10$ — too big for one place. The extra $1$ carries to the left.",
+"facts": [
           "Rounding $9$ up gives $10$: write **0** in that place and **carry 1** to the next place on the left.",
           "If the place you carry into is also a $9$, it becomes $0$ and carries again — the carry can **cascade**.",
           "Keep the trailing zeros so the answer still shows the required number of places: $9.999 \\approx 10.00$."
         ],
-        "steps": [
+"steps": [
           "Round up as usual by adding $1$ to the digit in the rounding place.",
           "Where a $9$ becomes $10$, write $0$ and carry $1$ into the next place to the left.",
           "Repeat the carry through any further $9$s, then write the answer to the required number of places."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Round to two decimal places.\na. $14.895$\nb. $29.997$",
+    "solution_text": "a. The rounding place is the hundredths $9$. The critical digit is $5$, so round up.\n$9+1=10$: write $0$ in the hundredths and carry $1$ into the tenths.\nThe tenths $8$ becomes $9$. Keep two decimal places.\n$14.895\\approx14.90$\nb. The critical digit is $7$, so round the hundredths $9$ up.\nWrite $0$ and carry $1$ into the tenths $9$, which also becomes $0$ and carries.\nThe ones $9$ becomes $0$ and carries into the tens $2$, making $3$.\nKeep two decimal places.\n$29.997\\approx30.00$"
+  },
+  {
+    "question_text": "A student rounds $5.9997$ to three decimal places and writes $5.990$. Explain the mistake and give the correct answer.",
+    "solution_text": "The critical digit is $7$, so the thousandths $9$ must round up.\nWriting $0$ without carrying leaves $5.990$. The carry must continue through the hundredths and tenths $9$s into the ones.\nKeep three decimal places.\n$5.9997\\approx6.000$"
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Round $3.97$ to one decimal place.",
         "structure": "carry-into-whole",
-        "solution_text": "$3.\\underline{9}7$\n$=4.0$"
+        "solution_text": "The critical digit is $7$, so round the tenths $9$ up. Write $0$ and carry $1$ into the ones.\n$3.97\\approx4.0$"
       },
-      {
+{
         "question_text": "Round $0.298$ to two decimal places.",
         "structure": "carry-one-place",
-        "solution_text": "$0.2\\underline{9}8$\n$=0.30$"
+        "solution_text": "The critical digit is $8$, so round the hundredths $9$ up. Write $0$ and carry $1$ into the tenths.\n$0.298\\approx0.30$"
       },
-      {
+{
         "question_text": "Round $5.96$ to one decimal place.",
         "structure": "carry-into-whole",
-        "solution_text": "$5.\\underline{9}6$\n$=6.0$"
+        "solution_text": "The critical digit is $6$, so round the tenths $9$ up. Write $0$ and carry $1$ into the ones.\n$5.96\\approx6.0$"
       },
-      {
+{
         "question_text": "Round $12.895$ to two decimal places.",
         "structure": "carry-one-place",
-        "solution_text": "$12.8\\underline{9}5$\n$=12.90$"
+        "solution_text": "The critical digit is $5$, so round the hundredths $9$ up. Write $0$ and carry $1$ into the tenths.\n$12.895\\approx12.90$"
       },
-      {
+{
         "question_text": "Round $0.96$ to one decimal place.",
         "structure": "carry-into-whole",
-        "solution_text": "$0.\\underline{9}6$\n$=1.0$"
+        "solution_text": "The critical digit is $6$, so round the tenths $9$ up. Write $0$ and carry $1$ into the ones.\n$0.96\\approx1.0$"
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "Round $9.999$ to two decimal places.",
         "structure": "carry-cascade",
-        "solution_text": "$9.9\\underline{9}9$\n$=10.00$"
+        "solution_text": "The critical digit is $9$, so round up. The hundredths and tenths $9$s each become $0$ and carry $1$ to the left. The ones $9$ then becomes $10$.\n$9.999\\approx10.00$"
       },
-      {
+{
         "question_text": "Round $2.6996$ to three decimal places.",
         "structure": "carry-cascade",
-        "solution_text": "$2.699\\underline{6}$\n$=2.700$"
+        "solution_text": "The critical digit is $6$, so round up. Carry from the thousandths $9$ through the hundredths $9$ into the tenths.\n$2.6996\\approx2.700$"
       },
-      {
+{
         "question_text": "Round $19.96$ to one decimal place.",
         "structure": "carry-into-whole",
-        "solution_text": "$19.\\underline{9}6$\n$=20.0$"
+        "solution_text": "The critical digit is $6$, so round up. The tenths $9$ becomes $0$ and carries into the ones $9$, then into the tens.\n$19.96\\approx20.0$"
       },
-      {
+{
         "question_text": "Round $0.0999$ to three decimal places.",
         "structure": "carry-cascade",
-        "solution_text": "$0.09\\underline{9}9$\n$=0.100$"
+        "solution_text": "The critical digit is $9$, so round up. Carry through the thousandths and hundredths $9$s into the tenths.\n$0.0999\\approx0.100$"
       },
-      {
+{
         "question_text": "Round $99.95$ to one decimal place.",
         "structure": "carry-into-whole",
-        "solution_text": "$99.\\underline{9}5$\n$=100.0$"
+        "solution_text": "The critical digit is $5$, so round up. Carry from the tenths through both whole-number $9$s.\n$99.95\\approx100.0$"
       }
-    ],
+],
     "mastery": [
-      {
+{
         "question_text": "Josh rounds $7.999$ to two decimal places and writes $7.90$.\nExplain his mistake and give the correct answer.",
         "structure": "carry-cascade",
         "solution_text": "Rounding the hundredths $9$ up gives $10$, so the carry must cascade through every $9$, not just change one digit: the tenths $9$ also becomes $10$ and carries into the ones.\n$7.999 \\approx 8.00$"
       },
-      {
+{
         "question_text": "Round $4.99997$ to four decimal places.",
         "structure": "carry-cascade",
-        "solution_text": "$4.9999\\underline{7}$\n$=5.0000$"
+        "solution_text": "The critical digit is $7$, so round up. Each of the four decimal $9$s becomes $0$ and carries $1$ to the left.\n$4.99997\\approx5.0000$"
       },
-      {
+{
         "question_text": "Round $349.996$ to two decimal places.",
         "structure": "carry-cascade",
-        "solution_text": "$349.99\\underline{6}$\n$=350.00$"
+        "solution_text": "The critical digit is $6$, so round up. Carry through both decimal $9$s and the ones $9$ into the tens.\n$349.996\\approx350.00$"
       }
-    ]
+]
   }
 }

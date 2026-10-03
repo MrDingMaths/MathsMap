@@ -2,99 +2,123 @@
   "skillId": "non-unit-fraction-of-quantity",
   "atomType": "R",
   "theory": {
-        "intro": "A non-unit fraction such as $\\tfrac{2}{5}$ has a numerator greater than $1$. Find it by first finding one part, then taking that many copies.\n[tikz]\\begin{tikzpicture}[x=1cm,y=0.9cm,every node/.style={font=\\small}]\n\\fill[blue!25] (0,0) rectangle (2,1);\n\\draw (0,0) rectangle (5,1);\n\\foreach \\x in {1,2,3,4} {\\draw (\\x,0)--(\\x,1);}\n\\draw[decorate,decoration={brace,amplitude=5pt}] (0,1.15)--(2,1.15);\n\\node[above] at (1,1.35) {shaded parts};\n\\draw[decorate,decoration={brace,mirror,amplitude=5pt}] (0,-0.15)--(5,-0.15);\n\\node[below] at (2.5,-0.35) {the whole quantity};\n\\end{tikzpicture}[/tikz]",
-        "facts": [
-          "$\\tfrac{a}{b}$ of a quantity means **divide by $b$, then multiply by $a$**.",
-          "First find $\\tfrac{1}{b}$ (one part), then take $a$ of those parts.",
-          "A **tape diagram** split into $b$ equal segments shows $a$ shaded segments as $\\tfrac{a}{b}$."
-        ],
-        "steps": [
-          "Divide the quantity by the denominator to get one part.",
-          "Multiply that one part by the numerator.",
-          "The result is the non-unit fraction of the quantity."
-        ]
-      },
+"intro": "A non-unit fraction such as $\\tfrac{2}{5}$ has a numerator greater than $1$. Find it by first finding one part, then taking that many copies.\n[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"fractionBlueFill\",\"hex\":\"D4E8FF\",\"reason\":\"Identify selected equal fractional parts of the whole; restrained mathematical fraction shading.\"}],\"reference\":\"Preserve all equal-part geometry and labels; ordinary black strokes; selected fraction fill uses standard palette\"}\n\\definecolor{fractionBlueFill}{HTML}{D4E8FF}\n\\begin{tikzpicture}[x=1cm,y=0.9cm,every node/.style={font=\\small}]\n\\fill[fractionBlueFill] (0,0) rectangle (2,1);\n\\draw (0,0) rectangle (5,1);\n\\foreach \\x in {1,2,3,4} {\\draw (\\x,0)--(\\x,1);}\n\\draw[decorate,decoration={brace,amplitude=5pt}] (0,1.15)--(2,1.15);\n\\node[above] at (1,1.35) {shaded parts};\n\\draw[decorate,decoration={brace,mirror,amplitude=5pt}] (0,-0.15)--(5,-0.15);\n\\node[below] at (2.5,-0.35) {the whole quantity};\n\\end{tikzpicture}[/tikz]",
+"facts": [
+"For the quarters, fifths and tenths used here, $\\tfrac{a}{b}$ of a quantity means **divide by $b$, then multiply by $a$**.",
+"First find $\\tfrac{1}{b}$ (one part), then take $a$ of those parts.",
+"A **tape diagram** split into $b$ equal segments shows $a$ shaded segments as $\\tfrac{a}{b}$.",
+"If several equal parts are known, divide their total by the number of known parts to find one part, then rebuild the whole.",
+"Find each amount before comparing different quantities. Subtract a selected amount from the whole to find the amount left."
+],
+"steps": [
+"Read how many equal parts make the whole and how many are selected.",
+"If the whole is known, divide by the denominator to find one part, then multiply by the numerator. If the selected amount is known instead, divide it by the number of selected parts to find one part, then multiply by the denominator to rebuild the whole.",
+"For a missing numerator, find one part first, then count how many of those parts make the selected amount. Keep measurement units. Find both amounts before comparing, or subtract the selected amount to find what is left."
+],
+"workedExamples": [
+  {
+    "question_text": "(a) Find $\\frac{4}{5}$ of $135$.\n(b) A student finds $\\frac{3}{4}$ of $124$ by calculating $124\\div3\\times4$. Explain the error and correct it.",
+    "solution_text": "(a) One fifth is $135\\div5=27$.\nFour fifths is $27\\times4=108$.\n(b) Divide by the denominator, then multiply by the numerator.\n$124\\div4=31$.\n$31\\times3=93$."
+  },
+  {
+    "question_text": "Three fifths of a length of ribbon is $87$ centimetres.\n(a) Find the whole length.\n(b) Check your answer.",
+    "solution_text": "(a) Three equal parts total $87$ centimetres.\nOne fifth is $87\\div3=29$ centimetres.\nThe whole is $29\\times5=145$ centimetres.\n(b) $145\\div5=29$ and $29\\times3=87$ centimetres, as given."
+  },
+  {
+    "question_text": "Find the missing numerator: $\\frac{\\square}{10}$ of $170$ is $119$.",
+    "solution_text": "One tenth is $170\\div10=17$.\n$119\\div17=7$, so seven tenths is $119$.\n$\\square=7$."
+  },
+  {
+    "question_text": "Compare $\\frac{3}{4}$ of $92$ with $\\frac{4}{5}$ of $95$.\n(a) Find both amounts.\n(b) Which is greater, and by how much?",
+    "solution_text": "(a) $92\\div4=23$ and $23\\times3=69$.\n$95\\div5=19$ and $19\\times4=76$.\n(b) $76>69$ and $76-69=7$.\n$\\frac{4}{5}$ of $95$ is greater by $7$."
+  },
+  {
+    "question_text": "A tank holds $260$ litres. Seven tenths of the water is used.\n(a) How much water is used?\n(b) How much is left?",
+    "solution_text": "(a) One tenth is $260\\div10=26$ litres.\nSeven tenths is $26\\times7=182$ litres.\n(b) $260-182=78$ litres remain."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
-        "question_text": "Find $\\frac{2}{5}$ of $30$.\n[tikz]\n\\begin{tikzpicture}[x=0.9cm,y=0.8cm]\n\\fill[blue!25] (0,0) rectangle (2,1);\n\\draw (0,0) rectangle (5,1);\n\\foreach \\x in {1,2,3,4} {\\draw (\\x,0)--(\\x,1);}\n\\node[above] at (2.5,1) {total $30$};\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "Find $\\frac{2}{5}$ of $30$.\n[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"fractionBlueFill\",\"hex\":\"D4E8FF\",\"reason\":\"Identify selected equal fractional parts of the whole; restrained mathematical fraction shading.\"}],\"reference\":\"Preserve all equal-part geometry and labels; ordinary black strokes; selected fraction fill uses standard palette\"}\n\\definecolor{fractionBlueFill}{HTML}{D4E8FF}\n\n\\begin{tikzpicture}[x=0.9cm,y=0.8cm]\n\\fill[fractionBlueFill] (0,0) rectangle (2,1);\n\\draw (0,0) rectangle (5,1);\n\\foreach \\x in {1,2,3,4} {\\draw (\\x,0)--(\\x,1);}\n\\node[above] at (2.5,1) {total $30$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "direct-nonunit",
         "solution_text": "$30\\div5=6$\n$6\\times2=12$"
       },
-      {
+{
         "question_text": "Find $\\frac{3}{4}$ of $28$.",
         "structure": "direct-nonunit",
         "solution_text": "$28\\div4=7$\n$7\\times3=21$"
       },
-      {
+{
         "question_text": "Find $\\frac{4}{10}$ of $90$.",
         "structure": "tenths-nonunit",
         "solution_text": "$90\\div10=9$\n$9\\times4=36$"
       },
-      {
+{
         "question_text": "Find $\\frac{3}{5}$ of $45$ kg.",
         "structure": "direct-nonunit",
         "solution_text": "$45\\div5=9$ kg\n$9\\times3=27$ kg"
       },
-      {
+{
         "question_text": "Complete: $\\frac{2}{4}$ of $\\square$ is $18$.",
         "structure": "missing-value-nonunit",
         "solution_text": "$\\frac{1}{4}$ is $18\\div2=9$.\n$\\frac{4}{4}$ is $9\\times4=36$.\n$\\square=36$"
       },
-      {
+{
         "question_text": "Which is greater: $\\frac{3}{10}$ of $80$ or $\\frac{2}{5}$ of $60$?",
         "structure": "compare-two-quantities",
         "solution_text": "$80\\div10\\times3=24$\n$60\\div5\\times2=24$\nThey are equal."
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "Find $\\frac{7}{10}$ of $120$.",
         "structure": "tenths-nonunit",
         "solution_text": "$120\\div10=12$\n$12\\times7=84$"
       },
-      {
-        "question_text": "Find $\\frac{5}{8}$ of $64$.",
+{
+        "question_text": "Find $\\frac{3}{4}$ of $64$.",
         "structure": "direct-nonunit",
-        "solution_text": "$64\\div8=8$\n$8\\times5=40$"
+        "solution_text": "$64\\div4=16$\n$16\\times3=48$"
       },
-      {
-        "question_text": "A tape of $50$ is split into fifths.\nWhat is the value of $4$ sections?\n[tikz]\n\\begin{tikzpicture}[x=0.9cm,y=0.8cm]\n\\fill[blue!25] (0,0) rectangle (4,1);\n\\draw (0,0) rectangle (5,1);\n\\foreach \\x in {1,2,3,4} {\\draw (\\x,0)--(\\x,1);}\n\\node[above] at (2.5,1) {total $50$};\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "A tape of $50$ is split into fifths.\nWhat is the value of $4$ sections?\n[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"fractionBlueFill\",\"hex\":\"D4E8FF\",\"reason\":\"Identify selected equal fractional parts of the whole; restrained mathematical fraction shading.\"}],\"reference\":\"Preserve all equal-part geometry and labels; ordinary black strokes; selected fraction fill uses standard palette\"}\n\\definecolor{fractionBlueFill}{HTML}{D4E8FF}\n\n\\begin{tikzpicture}[x=0.9cm,y=0.8cm]\n\\fill[fractionBlueFill] (0,0) rectangle (4,1);\n\\draw (0,0) rectangle (5,1);\n\\foreach \\x in {1,2,3,4} {\\draw (\\x,0)--(\\x,1);}\n\\node[above] at (2.5,1) {total $50$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "tape-sections-quantity",
         "solution_text": "$50\\div5=10$\n$10\\times4=40$"
       },
-      {
-        "question_text": "A student finds $\\frac{3}{8}$ of $56$ by calculating $56\\div3\\times8$.\nCorrect the order.",
+{
+        "question_text": "A student finds $\\frac{3}{4}$ of $56$ by calculating $56\\div3\\times4$.\nCorrect the order.",
         "structure": "diagnose-operation-order",
-        "solution_text": "$56\\div8=7$\n$7\\times3=21$"
+        "solution_text": "$56\\div4=14$\n$14\\times3=42$"
       },
-      {
+{
         "question_text": "Find the missing numerator: $\\frac{\\square}{10}$ of $70$ is $42$.",
         "structure": "missing-value-nonunit",
         "solution_text": "$70\\div10=7$\n$42\\div7=6$\n$\\square=6$"
       },
-      {
+{
         "question_text": "Find $\\frac{9}{10}$ of $150$, then find the amount left.",
         "structure": "remainder-after-fraction",
         "solution_text": "$150\\div10\\times9=135$\n$150-135=15$"
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "Find $\\frac{7}{8}$ of $296$.",
+{
+        "question_text": "Find $\\frac{3}{4}$ of $296$.",
         "structure": "direct-nonunit",
-        "solution_text": "$296\\div8=37$\n$37\\times7=259$"
+        "solution_text": "$296\\div4=74$\n$74\\times3=222$"
       },
-      {
+{
         "question_text": "Find $\\frac{3}{5}$ of $100$ and $\\frac{4}{10}$ of $90$.\nWhich is greater, and by how much?",
         "structure": "compare-two-quantities",
         "solution_text": "$100\\div5\\times3=60$\n$90\\div10\\times4=36$\n$60-36=24$, so $\\frac{3}{5}$ of $100$ is greater by $24$."
       },
-      {
+{
         "question_text": "A student claims $\\frac{6}{10}$ of $140$ is $14\\times6=84$.\nExplain why the shortcut works.",
         "structure": "justify-shortcut-method",
         "solution_text": "$\\frac{1}{10}$ of $140=14$.\nSix tenths is six copies of $14$.\n$14\\times6=84$"
       }
-    ]
+]
   }
 }

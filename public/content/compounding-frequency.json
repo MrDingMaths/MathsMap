@@ -2,8 +2,8 @@
   "skillId": "compounding-frequency",
   "atomType": "R",
   "theory": {
-        "intro": "When interest compounds more often than yearly, the quoted rate is still annual but the formula $FV=PV(1+r)^{n}$ works on **periods**. Match both $r$ and $n$ to the compounding period.",
-        "facts": [
+"intro": "When an **annual** rate is quoted but interest compounds more often than yearly, match both $r$ and $n$ in $FV=PV(1+r)^n$ to the compounding period. A rate already quoted per period is used directly.",
+"facts": [
           "Half-yearly (bi-annually) is $2$ periods a year, quarterly $4$, monthly $12$, weekly $52$ and daily $365$.",
           "**Rate per period: divide.** $6\\%$ p.a. compounded quarterly is $1.5\\%$ per quarter, so $r=0.015$.",
           "**Number of periods: multiply.** $3$ years compounded monthly gives $n=3\\times12=36$.",
@@ -11,13 +11,47 @@
           "A part-year term works the same way: $1.5$ years compounded monthly gives $n=18$.",
           "When the rate per period does not terminate, keep it as $\\dfrac{0.05}{12}$ in the calculator and round only the final money answer."
         ],
-        "steps": [
+"steps": [
           "Write down how many compounding periods there are in a year.",
           "Divide the annual rate by that number to get $r$.",
           "Multiply the number of years by that number to get $n$.",
           "Substitute into $FV=PV(1+r)^{n}$ and round the money answer once, at the end."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "For each investment, state the rate per period as a percentage and the number of periods.\n(a) $9\\%$ p.a., compounded half-yearly for $2.5$ years.\n(b) $7.2\\%$ p.a., compounded monthly for $3.5$ years.",
+    "solution_text": "(a) Half-yearly means $2$ periods per year.\nRate $=9\\%\\div2=4.5\\%$ per half-year; $n=2.5\\times2=5$.\n(b) Monthly means $12$ periods per year.\nRate $=7.2\\%\\div12=0.6\\%$ per month; $n=3.5\\times12=42$.\nFor the formula, these rates are $r=0.045$ and $r=0.006$."
+  },
+  {
+    "question_text": "$\\$3600$ earns $5.2\\%$ p.a. compounded quarterly for $3$ years. Find the balance to the nearest cent.",
+    "solution_text": "$r=0.052\\div4=0.013$, $n=3\\times4=12$.\n$FV=3600(1+0.013)^{12}$\n$\\approx\\$4203.55$. Change both the rate and the period count."
+  },
+  {
+    "question_text": "$\\$4200$ earns $5\\%$ p.a. compounded monthly for $2$ years. Find the balance to the nearest cent.",
+    "solution_text": "$r=\\dfrac{0.05}{12}$, $n=2\\times12=24$.\nKeep the rate as a fraction in the calculator:\n$FV=4200\\left(1+\\dfrac{0.05}{12}\\right)^{24}$\n$\\approx\\$4640.75$. Do not round the monthly rate part-way."
+  },
+  {
+    "question_text": "$\\$2800$ earns $4.8\\%$ p.a. compounded monthly for $1.75$ years. Find the balance to the nearest cent.",
+    "solution_text": "$r=0.048\\div12=0.004$.\n$n=1.75\\times12=21$ months.\n$FV=2800(1.004)^{21}$\n$\\approx\\$3044.85$. The part-year term is a whole number of monthly periods."
+  },
+  {
+    "question_text": "$\\$5200$ earns $6\\%$ p.a. compounded half-yearly for $3$ years. Find the interest earned to the nearest cent.",
+    "solution_text": "$r=0.06\\div2=0.03$, $n=3\\times2=6$.\n$FV=5200(1.03)^6=6209.0719419508$.\n$I=FV-PV=6209.0719419508-5200$\n$\\approx\\$1009.07$. Subtract the deposit after finding the balance."
+  },
+  {
+    "question_text": "How much must be deposited now to reach $\\$9000$ in $2.5$ years at $7.2\\%$ p.a. compounded monthly? Give the answer to the nearest cent.",
+    "solution_text": "$r=0.072\\div12=0.006$, $n=2.5\\times12=30$.\n$9000=PV(1.006)^{30}$.\nDivide by the whole growth factor:\n$PV=\\dfrac{9000}{(1.006)^{30}}$\n$\\approx\\$7521.48$."
+  },
+  {
+    "question_text": "$\\$6400$ earns $4.8\\%$ p.a. for $4$ years. How much more is the balance with monthly rather than quarterly compounding? Round the difference to the nearest cent.",
+    "solution_text": "Quarterly: $r=0.012$, $n=16$.\nMonthly: $r=0.004$, $n=48$.\nKeep both balances unrounded when subtracting:\nDifference $=6400(1.004)^{48}-6400(1.012)^{16}$\n$\\approx\\$5.89$. The original deposits are equal, so this is also the difference in interest."
+  },
+  {
+    "question_text": "Offer $A$ pays $6\\%$ per annum compounded half-yearly. Offer $B$ pays $2.8\\%$ per half-year, compounded half-yearly. Which gives the larger balance on $\\$3500$ after $4$ years, and by how much to the nearest cent?",
+    "solution_text": "Both have $n=4\\times2=8$ periods.\n$A$: annual rate must be divided by $2$, so $r=0.03$.\n$B$: its rate is already per half-year, so $r=0.028$.\n$FV_A=3500(1.03)^8$, $FV_B=3500(1.028)^8$.\n$A$ gives the larger balance.\nDifference $=3500(1.03)^8-3500(1.028)^8$\n$\\approx\\$68.41$. Do not divide a per-period rate again."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -104,21 +138,21 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "$\\$12\\,000$ is invested for $5$ years at $7.2\\%$ p.a.\nHow much more **interest** is earned when the account compounds monthly rather than half-yearly?\nAnswer to the nearest cent.",
         "structure": "compare-frequencies",
-        "solution_text": "Half-yearly: $r=0.036$, $n=10$\n$FV=\\$12\\,000(1+0.036)^{10}=\\$17\\,091.45$\nMonthly: $r=0.006$, $n=60$\n$FV=\\$12\\,000(1+0.006)^{60}=\\$17\\,181.46$\n$\\$17\\,181.46-\\$17\\,091.45$\n$=\\$90.02$"
+        "solution_text": "Half-yearly: $r=0.036$, $n=10$.\nMonthly: $r=0.006$, $n=60$.\nBoth use the same deposit, so the difference in interest equals the difference in balances.\nKeep both balances unrounded:\nDifference $=12000(1.006)^{60}-12000(1.036)^{10}$\n$\\approx\\$90.02$."
       },
-      {
+{
         "question_text": "A superannuation account is projected to be worth $\\$560\\,000$ in $20$ years at $4.5\\%$ p.a. compounded half-yearly.\nWhat single amount invested now would produce the same future value?\nAnswer to the nearest dollar.",
         "structure": "present-value-non-annual",
         "solution_text": "$r=\\dfrac{0.045}{2}=0.0225$, $n=20\\times2=40$\n$FV=PV(1+r)^{n}$\n$\\$560\\,000=PV(1+0.0225)^{40}$\n$PV=\\dfrac{\\$560\\,000}{(1.0225)^{40}}$\n$=\\$229\\,962$"
       },
-      {
+{
         "question_text": "Bank $A$ quotes $6\\%$ p.a. compounded quarterly.\nBank $B$ quotes $1.6\\%$ per quarter, compounded quarterly.\nOn a deposit of $\\$8\\,000$ held for $3$ years, which bank gives the larger balance, and by how much?\nAnswer to the nearest cent.",
         "structure": "compare-frequencies",
-        "solution_text": "Bank $A$: $r=\\dfrac{0.06}{4}=0.015$, $n=12$\n$FV=\\$8\\,000(1+0.015)^{12}=\\$9\\,564.95$\nBank $B$: $r=0.016$, $n=12$\n$FV=\\$8\\,000(1+0.016)^{12}=\\$9\\,678.64$\n$\\$9\\,678.64-\\$9\\,564.95$\n$=\\$113.70$\nBank $B$ gives the larger balance, by $\\$113.70$."
+        "solution_text": "Bank $A$: $r=0.06\\div4=0.015$, $n=12$.\nBank $B$: $r=0.016$ is already the rate per quarter, $n=12$.\n$FV_A=8000(1.015)^{12}\\approx\\$9564.95$.\n$FV_B=8000(1.016)^{12}\\approx\\$9678.64$.\nUsing unrounded calculator values, difference $=8000(1.016)^{12}-8000(1.015)^{12}$\n$\\approx\\$113.70$. Bank $B$ gives the larger balance."
       }
-    ]
+]
   }
 }

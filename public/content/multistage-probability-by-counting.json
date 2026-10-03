@@ -2,23 +2,41 @@
   "skillId": "multistage-probability-by-counting",
   "atomType": "R",
   "theory": {
-        "intro": "Every outcome recorded in an array or a tree diagram is equally likely, so a probability can be found by counting. Count the outcomes that make the event happen, divide by the total, and simplify.",
-        "facts": [
-          "When every outcome is equally likely, $P(\\text{event}) = \\dfrac{\\text{number of favourable outcomes}}{\\text{total number of outcomes}}$.",
-          "The total number of outcomes is the number of cells in the array, or the number of complete paths in the tree.",
-          "An event described **in any order**, such as 'a $2$ and a $3$', is favourable in more than one cell or path.",
-          "Count every one of those cells or paths.",
-          "'At least one' means one or more, so count every outcome containing one or more of the required results.",
-          "Where identical objects are listed separately, such as $R_{1}$ and $R_{2}$, every outcome is equally likely even though the colours are not.",
-          "Totals of two stages, such as the sums of two dice, are **not** equally likely; the cells of the array are.",
-          "Unless a question asks for another form, give a probability as a fraction in simplest form."
-        ],
-        "steps": [
-          "Count the total number of outcomes in the completed array or tree diagram.",
-          "Count the outcomes that make the event happen, including every order in which it can happen.",
-          "Write the probability as favourable over total, then simplify."
-        ]
-      },
+"intro": "When the outcomes recorded in an array or tree diagram are **equally likely**, find a probability by counting the favourable outcomes out of the total. For these questions, assume dice are fair and their rolls are independent, and every separate card or counter still available has the same chance of being chosen.",
+"facts": [
+"When every recorded outcome is equally likely, use\n$P(\\text{event})=\\dfrac{\\text{favourable}}{\\text{total}}$.\nHere **favourable** is the number of outcomes for the event, and **total** is the number of all recorded outcomes.",
+"Count the allowed cells in an array or the complete paths in a tree. Crossed-out cells are impossible and are not counted.",
+"Include every different order allowed by the event. A $2$ and a $3$, in any order, gives $(2,3)$ and $(3,2)$.",
+"Count every favourable cell or path once.",
+"At least one means one or more, so include outcomes containing two or more of the required result.",
+"Label separate objects, such as $R_1$ and $R_2$, when they share a colour. With equal chances of choosing each available object, the ordered object draws can be counted equally; the colour results need not have equal chances.",
+"Different sums of two fair dice are not equally likely. Count the ordered pairs giving each sum.",
+"Unless another form is requested, give a probability as a fraction in simplest form."
+],
+"steps": [
+"Count the allowed outcomes in the completed array or the complete paths in the tree. Check that they are equally likely.",
+"Count the outcomes that make the event happen, including every order in which it can happen.",
+"Write the probability as favourable over total, then simplify."
+],
+"workedExamples": [
+  {
+    "question_text": "A fair red four-sided die and a fair blue four-sided die, each numbered $1$ to $4$, are rolled independently. The array records (red, blue).\n$\\begin{array}{c|cccc}&1&2&3&4\\\\\\hline1&(1,1)&(1,2)&(1,3)&(1,4)\\\\2&(2,1)&(2,2)&(2,3)&(2,4)\\\\3&(3,1)&(3,2)&(3,3)&(3,4)\\\\4&(4,1)&(4,2)&(4,3)&(4,4)\\end{array}$\nFind, as fractions in simplest form:\n(a) the probability of (3,2)\n(b) the probability that the sum is at least $7$\n(c) the probability that the numbers differ by $1$.",
+    "solution_text": "There are $16$ equally likely ordered outcomes.\n(a) Only $(3,2)$ matches, so $P((3,2))=\\frac{1}{16}$.\n(b) The favourable cells are $(3,4),(4,3),(4,4)$.\n$P(\\text{sum at least }7)=\\frac{3}{16}$\n(c) The favourable cells are $(1,2),(2,1),(2,3),(3,2),(3,4),(4,3)$.\n$P(\\text{difference }1)=\\frac{6}{16}=\\frac{3}{8}$"
+  },
+  {
+    "question_text": "Four cards numbered $2,3,5,7$ are shuffled. A card is drawn, recorded and replaced. The cards are shuffled again before a second draw. Every card has the same chance.\n(a) Find the probability of drawing a $2$ and a $7$, in any order.\n(b) Find the probability of drawing at least one $5$. Give both answers in simplest form.",
+    "solution_text": "There are $4\\times4=16$ equally likely ordered draws.\n(a) The favourable outcomes are $(2,7)$ and $(7,2)$.\n$P(\\text{a }2\\text{ and a }7)=\\frac{2}{16}=\\frac{1}{8}$\n(b) The favourable outcomes are $(5,2),(5,3),(5,5),(5,7),(2,5),(3,5),(7,5)$.\nCount $(5,5)$ only once.\n$P(\\text{at least one }5)=\\frac{7}{16}$"
+  },
+  {
+    "question_text": "A fair coin is tossed three times independently. Its eight complete paths are:\nFirst toss $H$: $HHH,HHT,HTH,HTT$\nFirst toss $T$: $THH,THT,TTH,TTT$\nFind, as fractions in simplest form:\n(a) the probability of exactly two tails\n(b) the probability that all three results are the same.",
+    "solution_text": "The eight paths are equally likely.\n(a) Exactly two tails occur on $HTT,THT,TTH$.\n$P(\\text{exactly two tails})=\\frac{3}{8}$\n(b) All three match on $HHH$ and $TTT$.\n$P(\\text{all the same})=\\frac{2}{8}=\\frac{1}{4}$"
+  },
+  {
+    "question_text": "Four separate cards are labelled $A_1,A_2,B,C$. The first two both show the letter A. Two cards are chosen in order without replacement, each available card having the same chance.\nThe array records the individual cards:\n$\\begin{array}{c|cccc}&A_1&A_2&B&C\\\\\\hline A_1&\\times&A_1A_2&A_1B&A_1C\\\\A_2&A_2A_1&\\times&A_2B&A_2C\\\\B&BA_1&BA_2&\\times&BC\\\\C&CA_1&CA_2&CB&\\times\\end{array}$\n(a) Find the probability that both cards show A.\n(b) Explain why the two letter results AA and BC cannot simply be treated as equally likely.",
+    "solution_text": "(a) Exclude the $4$ crossed-out cells, leaving $12$ equally likely ordered card draws.\nBoth cards show A on $A_1A_2$ and $A_2A_1$.\n$P(AA)=\\frac{2}{12}=\\frac{1}{6}$\n(b) AA comes from $2$ ordered card draws, but BC comes only from $BC$, so it has $1$.\n$P(BC)=\\frac{1}{12}$.\nThe letter results are not equally likely. Count the individual card draws."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

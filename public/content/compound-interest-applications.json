@@ -2,21 +2,47 @@
   "skillId": "compound-interest-applications",
   "atomType": "R",
   "theory": {
-    "intro": "**Appreciation** is an asset's increase in value over time, while **inflation** is the rise in general prices. Both grow exponentially and are calculated using the compound interest formula $FV = PV(1 + r)^{n}$.",
-    "facts": [
+"intro": "**Appreciation** is an increase in an asset's value; **inflation** is a rise in general prices. When a price is modelled by the same annual percentage increase, use $FV=PV(1+r)^n$. For changing annual rates, apply each year's multiplier in turn.",
+"facts": [
       "In inflation and appreciation, $PV$ is the starting price and $FV$ is the future price.",
       "The annual rate of inflation or appreciation is $r$, written as a decimal in the formula.",
       "To find a past price given the current price and inflation, use $PV = \\frac{FV}{(1 + r)^{n}}$.",
       "The total increase in value over $n$ periods is $\\text{Increase} = FV - PV$.",
       "When annual rates change each year, multiply the initial value by each successive $(1 + r)$ factor."
     ],
-    "steps": [
-      "Identify the initial price $PV$, rate $r$ as a decimal, and number of years $n$.",
-      "Substitute into $FV = PV(1 + r)^{n}$ to find the future price.",
-      "Rearrange to $PV = \\frac{FV}{(1 + r)^{n}}$ when estimating a past price.",
-      "Subtract $PV$ from $FV$ when calculating the total increase in value."
-    ]
+"steps": [
+"Identify the known price, annual rate or rates, and number of years.",
+"Use $FV=PV(1+r)^n$ for a fixed rate, or multiply successive yearly factors for changing rates.",
+"Find the unknown. Divide by the growth factor when finding a past price.",
+"Keep calculator values unrounded, then round as asked. Subtract $PV$ from $FV$ if the increase is wanted."
+],
+"workedExamples": [
+  {
+    "question_text": "Find, to the nearest cent:\n(a) the price of a $\\$78$ grocery basket after $4$ years of $4.2\\%$ annual inflation\n(b) the value of a $\\$1600$ collectible after $5$ years of $6.5\\%$ annual appreciation.",
+    "solution_text": "(a) $PV=78$, $r=0.042$, $n=4$.\n$FV=78(1.042)^4\\approx\\$91.95$.\n(b) $PV=1600$, $r=0.065$, $n=5$.\n$FV=1600(1.065)^5\\approx\\$2192.14$. Both calculations use repeated percentage growth."
   },
+  {
+    "question_text": "A pair of shoes costs $\\$210$ now. Assuming annual inflation of $3.5\\%$ over the last $6$ years, estimate its price six years ago, to the nearest cent.",
+    "solution_text": "$210=PV(1.035)^6$.\nDivide by the complete growth factor:\n$PV=\\dfrac{210}{(1.035)^6}\\approx\\$170.84$. Multiplying would project forwards instead of undoing the increase."
+  },
+  {
+    "question_text": "An artwork bought for $\\$900$ appreciates at $8\\%$ p.a. for $4$ years. Find (a) its expected value and (b) its total dollar increase, to the nearest cent.",
+    "solution_text": "(a) $FV=900(1.08)^4=\\$1224.440064\\approx\\$1224.44$.\n(b) Increase $=FV-PV$\n$=900(1.08)^4-900\\approx\\$324.44$. The future value includes the original cost."
+  },
+  {
+    "question_text": "Find the final price or value, to the nearest cent.\n(a) A $\\$72$ ticket rises by $2.5\\%$, $4\\%$ and $3\\%$ in three successive years.\n(b) An asset starts at $\\$13\\,500$, appreciates at $6\\%$ p.a. for $3$ years, then at $4.5\\%$ p.a. for $2$ more years.",
+    "solution_text": "(a) Apply each rate to the new price:\n$FV=72(1.025)(1.04)(1.03)=\\$79.05456\\approx\\$79.05$.\n(b) Group repeated factors for each rate:\n$FV=13500(1.06)^3(1.045)^2\\approx\\$17\\,558.36$. Do not add or average the rates."
+  },
+  {
+    "question_text": "(a) An item bought for $\\$1800$ was expected to appreciate at $7.5\\%$ p.a. for $5$ years, then sold for $\\$2700$. Find how much the sale price exceeded the expected value.\n(b) Another item bought for $\\$1450$ was expected to appreciate at $6\\%$ p.a. for $4$ years, then sold for $\\$1700$. Was the sale above or below expectation, and by how much? Give differences to the nearest cent.",
+    "solution_text": "(a) Expected value $=1800(1.075)^5\\approx\\$2584.13$.\n$2700$ is greater, so excess $=2700-1800(1.075)^5\\approx\\$115.87$.\n(b) Expected value $=1450(1.06)^4\\approx\\$1830.59$.\n$1700$ is smaller, so it sold below expectation by $1450(1.06)^4-1700\\approx\\$130.59$. Keep full calculator values until subtracting."
+  },
+  {
+    "question_text": "A price rose by the same annual percentage in each of two years. Its total increase was $21\\%$. Find the annual rate.",
+    "solution_text": "The two-year multiplier is $1.21$.\nLet $r$ be the annual rate as a decimal.\n$(1+r)^2=1.21$.\n$1+r=\\sqrt{1.21}=1.1$.\n$r=0.1$, so the annual rate is $10\\%$. It is not half of $21\\%$: the second increase uses the new price."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -51,53 +77,53 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "In three successive years, the annual inflation rates were $2.5\\%$, $4.0\\%$, and $3.2\\%$.\nA theatre ticket cost $\\$65$ at the start of this period.\nFind its price at the end of the $3$ years.",
         "structure": "variable-annual-rates",
         "solution_text": "$FV = PV(1 + r_1)(1 + r_2)(1 + r_3)$\n$= 65(1 + 0.025)(1 + 0.04)(1 + 0.032)$\n$= 65 \\times 1.025 \\times 1.04 \\times 1.032$\n$= \\$71.51$"
       },
-      {
+{
         "question_text": "A vintage watch purchased for $\\$2400$ was expected to appreciate at $8\\%$ p.a.\nAfter $6$ years, it was sold for $\\$4100$.\nBy how much did the sale price exceed the expected value?",
         "structure": "compare-actual-vs-expected",
-        "solution_text": "$\\text{Expected value} = 2400(1 + 0.08)^{6}$\n$= \\$3808.49$\n$\\text{Excess} = 4100 - 3808.49$\n$= \\$291.51$"
+        "solution_text": "Expected value $=2400(1.08)^6\\approx\\$3808.50$.\nThe sale price is above this.\nExcess $=4100-2400(1.08)^6\\approx\\$291.50$. Keep the full calculator value when subtracting."
       },
-      {
+{
         "question_text": "A house was bought in 2018 for $\\$680\\,000$.\nIt appreciated at an average rate of $5.4\\%$ p.a.\nEstimate its value in 2026 ($8$ years later), to the nearest dollar.",
         "structure": "calculate-appreciated-asset-value",
-        "solution_text": "$FV = PV(1 + r)^{n}$\n$= 680\\,000(1 + 0.054)^{8}$\n$= 680\\,000(1.054)^{8}$\n$= \\$1\\,034\\,908$"
+        "solution_text": "$FV=680000(1.054)^8\\approx\\$1\\,035\\,700$ to the nearest dollar."
       },
-      {
+{
         "question_text": "School fees of $\\$8500$ increase by $4.2\\%$, $5.0\\%$, and $3.8\\%$ over three consecutive years.\nFind the fees at the end of the third year.",
         "structure": "variable-annual-rates",
-        "solution_text": "$FV = 8500(1.042)(1.050)(1.038)$\n$= \\$9653.48$"
+        "solution_text": "$FV=8500(1.042)(1.050)(1.038)=\\$9653.2443\\approx\\$9653.24$."
       },
-      {
+{
         "question_text": "A collectible card purchased for $\\$850$ appreciated at $9.5\\%$ p.a. for $7$ years.\nCalculate the total gain in value over this period.",
         "structure": "calculate-value-increase",
-        "solution_text": "$FV = 850(1 + 0.095)^{7}$\n$= \\$1604.28$\n$\\text{Gain} = 1604.28 - 850$\n$= \\$754.28$"
+        "solution_text": "$FV=850(1.095)^7\\approx\\$1604.42$.\nGain $=850(1.095)^7-850\\approx\\$754.42$."
       },
-      {
+{
         "question_text": "A signed sports jersey was bought for $\\$1500$ and expected to appreciate at $6.5\\%$ p.a.\nAfter $5$ years it sold for $\\$1900$.\nWas it sold above or below expected value, and by how much?",
         "structure": "compare-actual-vs-expected",
         "solution_text": "$\\text{Expected} = 1500(1 + 0.065)^{5}$\n$= \\$2055.13$\n$\\text{Difference} = 2055.13 - 1900$\n$= \\$155.13\\text{ below expected value}$"
       }
-    ],
+],
     "mastery": [
-      {
+{
         "question_text": "A property is valued at $\\$1\\,250\\,000$ in 2026 after appreciating at an average rate of $6.2\\%$ p.a. since 2016 ($10$ years).\nEstimate its original purchase price in 2016 to the nearest thousand dollars.",
         "structure": "estimate-past-price",
         "solution_text": "$PV = \\frac{1\\,250\\,000}{(1 + 0.062)^{10}}$\n$= \\frac{1\\,250\\,000}{(1.062)^{10}}$\n$= \\frac{1\\,250\\,000}{1.824925617}$\n$= 684\\,959.42$\n$\\approx \\$685\\,000$"
       },
-      {
+{
         "question_text": "An antique violin was bought for $\\$12\\,000$ and appreciated by $7.5\\%$ p.a. for $5$ years, then by $4.2\\%$ p.a. for the next $3$ years.\nFind its value after the $8$ years, to the nearest cent.",
         "structure": "compare-actual-vs-expected",
         "solution_text": "$FV = 12\\,000(1 + 0.075)^{5}(1 + 0.042)^{3}$\n$= 12\\,000(1.075)^{5}(1.042)^{3}$\n$= 12\\,000(1.435629326)(1.131366088)$\n$= 12\\,000(1.624222334)$\n$= \\$19\\,490.67$"
       },
-      {
-        "question_text": "A product's price increased by the same percentage $r\\%$ in each of two consecutive years, resulting in an overall price increase of $12.36\\%$.\nFind the annual inflation rate $r$.",
+{
+        "question_text": "A product's price increased by the same annual percentage in each of two consecutive years, resulting in an overall price increase of $12.36\\%$. Find the annual inflation rate.",
         "structure": "variable-annual-rates",
         "solution_text": "$(1 + r)^{2} = 1 + 0.1236$\n$(1 + r)^{2} = 1.1236$\n$1 + r = \\sqrt{1.1236} = 1.06$\n$r = 0.06 = 6\\%$"
       }
-    ]
+]
   }
 }

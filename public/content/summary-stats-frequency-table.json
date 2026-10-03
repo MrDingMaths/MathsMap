@@ -2,31 +2,49 @@
   "skillId": "summary-stats-frequency-table",
   "atomType": "R",
   "theory": {
-        "intro": "A **frequency table** lists each data value $x$ once, beside its **frequency** $f$ — how many times that value occurs. The same four summary statistics you find from a list can be read straight from the table, without writing the list out.",
-        "facts": [
-          "$\\Sigma f$ is the **number of data values** and $\\Sigma fx$ is their **total**.",
-          "In a table of pets per household, $\\Sigma f$ counts the households and $\\Sigma fx$ counts the pets.",
-          "$\\overline{x} = \\dfrac{\\Sigma fx}{\\Sigma f}$ — build an $fx$ column, add it, then divide by $\\Sigma f$.",
-          "The **mode** is the data value $x$ with the greatest frequency, not the frequency itself.",
-          "If every value has the same frequency there is **no mode**; if several values tie for the greatest frequency, report **all** of them.",
-          "$\\text{Range} = \\text{Max} - \\text{Min}$, using only the data values whose frequency is **not** $0$.",
-          "The **cumulative frequency** (c.f.) of a value is the running total of the frequencies up to and including it.",
-          "$\\text{Position} = \\dfrac{\\Sigma f + 1}{2}$ gives the position of the median, and the median is the value whose cumulative frequency first reaches that position.",
-          "A position such as $13.5$ means the median is the mean of the $13$th and $14$th scores.",
-          "The median is the middle of the data values — not the middle row of the $x$ column or the middle mark on an axis.",
-          "On a **cumulative frequency histogram**, each column height is a cumulative frequency.",
-          "The frequency of a value is the difference between its column and the one before it.",
-          "Read the median across from $50\\%$ of the total; for ungrouped data the median is simply the score you land on.",
-          "A **dot plot** and a **frequency histogram** are the same table drawn as a picture, so the routines are identical."
-        ],
-        "steps": [
+"intro": "A **frequency table** lists each data value $x$ once, beside its **frequency** $f$ — how many times that value occurs. The same four summary statistics you find from a list can be read straight from the table, without writing the list out.",
+"facts": [
+"$\\Sigma f$ is the **number of data values** and $\\Sigma fx$ is their **total**.",
+"In a table of pets per household, $\\Sigma f$ counts the households and $\\Sigma fx$ counts the pets.",
+"$\\overline{x} = \\dfrac{\\Sigma fx}{\\Sigma f}$ — build an $fx$ column, add it, then divide by $\\Sigma f$.",
+"The **mode** is the data value $x$ with the greatest frequency, not the frequency itself.",
+"If two or more different values all have equal frequency, there is **no mode**. Otherwise, report **all** values tied for the greatest frequency.",
+"$\\text{Range} = \\text{Max} - \\text{Min}$, using only the data values whose frequency is **not** $0$.",
+"The **cumulative frequency** (c.f.) of a value is the running total of the frequencies up to and including it.",
+"Use cumulative frequencies to locate the middle score. With an even number of scores, find the mean of the two middle scores.",
+"A position such as $13.5$ means the median is the mean of the $13$th and $14$th scores.",
+"The median is the middle of the data values — not the middle row of the $x$ column or the middle mark on an axis.",
+"On a **cumulative frequency histogram**, each column height is a cumulative frequency.",
+"The frequency of a value is the difference between its column and the one before it.",
+"On a cumulative frequency histogram, use half the total to locate the median. With an even number of scores, check both middle scores.",
+"A **dot plot** and a **frequency histogram** are the same table drawn as a picture, so the routines are identical."
+],
+"steps": [
           "Build the $fx$ and cumulative frequency columns",
           "Find the range",
           "Find the mode",
           "Find the median",
           "Find the mean"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "The table shows the number of pets in each household surveyed.\n$\\begin{array}{c|c}\\text{Pets }x&\\text{Frequency }f\\\\\\hline0&0\\\\1&3\\\\3&6\\\\5&7\\\\7&2\\\\9&0\\end{array}$\na. How many households were surveyed, and how many pets did they have altogether?\nb. Find the range.\nc. Find the mode.\nd. Find the median.\ne. Find the mean, correct to $1$ decimal place.",
+    "solution_text": "Build the $fx$ and cumulative frequency columns.\n$\\begin{array}{c|c|c|c}x&f&fx&\\text{c.f.}\\\\\\hline0&0&0&0\\\\1&3&3&3\\\\3&6&18&9\\\\5&7&35&16\\\\7&2&14&18\\\\9&0&0&18\\end{array}$\na. $\\Sigma f=18$ and $\\Sigma fx=70$. There are $18$ households and $70$ pets.\nb. Ignore values with frequency $0$.\n$\\text{Range}=7-1=6$\nc. The greatest frequency is $7$, at $x=5$.\n$\\text{Mode}=5$\nd. There are $18$ values. The $9$th score is $3$ and the $10$th is $5$.\n$\\text{Median}=\\frac{3+5}{2}=4$\ne. $\\overline{x}=\\frac{70}{18}=3.8888\\ldots\\approx3.9$ pets per household."
+  },
+  {
+    "question_text": "The cumulative frequency table shows the number of pets in each household.\n$\\begin{array}{c|c}\\text{Pets }x&\\text{c.f.}\\\\\\hline0&4\\\\1&11\\\\2&20\\\\3&25\\\\4&28\\end{array}$\na. Find the frequency of each value.\nb. Find the mean number of pets per household, correct to $1$ decimal place.",
+    "solution_text": "a. Subtract each cumulative frequency from the next. The first frequency is $4$.\n$11-4=7$, $20-11=9$, $25-20=5$, $28-25=3$.\n$\\begin{array}{c|c|c}x&f&fx\\\\\\hline0&4&0\\\\1&7&7\\\\2&9&18\\\\3&5&15\\\\4&3&12\\end{array}$\nb. $\\Sigma f=28$ and $\\Sigma fx=52$.\nThe households with $0$ pets still count in the total frequency.\n$\\overline{x}=\\frac{52}{28}=1.8571\\ldots\\approx1.9$ pets per household."
+  },
+  {
+    "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\draw[black,->] (0,0)--(0,5.4);\\draw[black,->] (0,0)--(6.2,0);\n\\foreach \\v/\\y in {0/0,5/1,10/2,15/3,20/4,25/5} {\\draw[black] (-0.12,\\y)--(0,\\y);\\node[left] at (-0.12,\\y) {$\\v$};}\n\\foreach \\x/\\h in {1/0.6,2/1.4,3/2.8,4/3.6,5/4.6} {\\draw[black] ({\\x-0.5},0) rectangle ({\\x+0.5},\\h);\\node[below] at (\\x,0) {$\\x$};}\n\\draw[black,thick] (0.5,0)--(1.5,0.6)--(2.5,1.4)--(3.5,2.8)--(4.5,3.6)--(5.5,4.6);\n\\node[rotate=90] at (-0.95,2.7) {Cumulative frequency};\\node at (3,-0.75) {Books read};\n\\end{tikzpicture}\n[/tikz]\nThe cumulative frequency histogram shows the number of books each of $23$ students read. Use the ogive to find the median.",
+    "solution_text": "Half the total cumulative frequency is $23\\div2=11.5$.\nRead across from $11.5$ to the ogive. The crossing is in the column for $3$ books.\nThere are $7$ scores up to $2$ books and $14$ up to $3$ books. The middle score is the $12$th, so it is $3$.\n$\\text{Median}=3$ books."
+  },
+  {
+    "question_text": "Find the mode for each frequency table.\na. $\\begin{array}{c|c}x&f\\\\\\hline1&4\\\\3&4\\\\5&4\\end{array}$\nb. $\\begin{array}{c|c}x&f\\\\\\hline1&3\\\\2&5\\\\6&5\\end{array}$",
+    "solution_text": "a. Each value has the same frequency, so there is no mode.\nb. The greatest frequency is $5$, at both $x=2$ and $x=6$.\nThe modes are $2$ and $6$, not the frequency $5$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

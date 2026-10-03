@@ -2,20 +2,46 @@
   "skillId": "find-unknown-side-from-area",
   "atomType": "R",
   "theory": {
-        "intro": "When you know the area but not one side length, substitute what you do know into the area formula and solve the equation using inverse operations.",
-        "facts": [
+"intro": "When you know the area but not one side length, substitute what you do know into the area formula and solve the equation using inverse operations.",
+"facts": [
           "Use $A=lw$ for a rectangle, $A=bh$ for a parallelogram and $A=\\frac{bh}{2}$ for a triangle.",
           "The height in $A=bh$ and $A=\\frac{bh}{2}$ is the **perpendicular** height, not a slanted side.",
           "Whatever you do to one side of the equation, do to the other so it stays balanced.",
           "For a triangle, **multiply both sides by $2$ first**, then divide by the known length.",
           "The answer is a length, so write it in a unit such as cm or m, not a squared unit."
         ],
-        "steps": [
+"steps": [
           "Write the formula for the shape.",
           "Substitute the values you know.",
           "Solve for the unknown using inverse operations."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "(a) A rectangle has area $39.6\\text{ m}^2$ and length $6\\text{ m}$. Find its width.\n(b) A parallelogram has area $84\\text{ cm}^2$ and base $12\\text{ cm}$. Find its perpendicular height.",
+    "solution_text": "(a) $A=lw$\n$39.6=6w$\n$w=39.6\\div6=6.6\\text{ m}$.\n(b) $A=bh$\n$84=12h$\n$h=84\\div12=7\\text{ cm}$."
+  },
+  {
+    "question_text": "A triangle has area $55\\text{ cm}^2$ and perpendicular height $10\\text{ cm}$ to the base. A slanted side is $13\\text{ cm}$. Find the base length.",
+    "solution_text": "Use the $10\\text{ cm}$ perpendicular height; the slanted side is not needed.\n$A=\\frac{bh}{2}$\n$55=\\frac{10b}{2}$\n$110=10b$\n$b=11\\text{ cm}$."
+  },
+  {
+    "question_text": "(a) A parallelogram has a base of $15\\text{ cm}$ and perpendicular height $8\\text{ cm}$. Another side is $10\\text{ cm}$. Find the perpendicular height to that side.\n(b) A triangle has base $21\\text{ cm}$ and perpendicular height $8\\text{ cm}$. A second perpendicular height of $12\\text{ cm}$ is drawn to another side. Find the length of that side.",
+    "solution_text": "(a) $A=bh$\n$A=15\\times8=120\\text{ cm}^2$\n$120=10h$\n$h=12\\text{ cm}$.\n(b) $A=\\frac{bh}{2}$\n$A=\\frac{21\\times8}{2}=84\\text{ cm}^2$\n$84=\\frac{12b}{2}$\n$168=12b$\n$b=14\\text{ cm}$.\nEach new base uses its own perpendicular height, while the area stays the same."
+  },
+  {
+    "question_text": "A rectangle is $10\\text{ cm}$ by $6\\text{ cm}$. A triangle has half its area and base $12\\text{ cm}$. Find the triangle’s perpendicular height.",
+    "solution_text": "Rectangle area $=10\\times6=60\\text{ cm}^2$.\nTriangle area $=60\\div2=30\\text{ cm}^2$.\n$A=\\frac{bh}{2}$\n$30=\\frac{12h}{2}$\n$60=12h$\n$h=5\\text{ cm}$."
+  },
+  {
+    "question_text": "A smaller rectangle of area $21\\text{ cm}^2$ and height $3\\text{ cm}$ sits on the left of a larger rectangle. The larger rectangle extends $8\\text{ cm}$ beyond it to the right and has area $150\\text{ cm}^2$. Find the larger rectangle’s height.",
+    "solution_text": "Smaller rectangle: $A=lw$\n$21=3w$\n$w=7\\text{ cm}$.\nLarger rectangle width $=7+8=15\\text{ cm}$.\n$150=15h$\n$h=10\\text{ cm}$."
+  },
+  {
+    "question_text": "A parallelogram is divided into two smaller parallelograms with the same perpendicular height. The right part has base $15\\text{ cm}$ and area $75\\text{ cm}^2$. The left part has area $45\\text{ cm}^2$. Find its base length.",
+    "solution_text": "Right part: $A=bh$\n$75=15h$\n$h=5\\text{ cm}$.\nLeft part: $45=5b$\n$b=9\\text{ cm}$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -60,63 +86,63 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.42]\n\\draw (0,0) rectangle (9,6.5);\n\\node[below,font=\\small] at (4.5,0) {$9\\text{ m}$};\n\\node[right,font=\\small] at (9,3.25) {$x$};\n\\end{tikzpicture}\n[/tikz]\nA rectangular vegetable patch covers $58.5\\text{ m}^2$ and is $9\\text{ m}$ long.\nFind $x$, its width, in metres.",
         "structure": "rectangle-find-side",
         "solution_text": "$A=lw$\n$58.5=9x$\n$x=6.5\\text{ m}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.28]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (12,0);\n\\coordinate (C) at (18,8);\n\\coordinate (D) at (6,8);\n\\coordinate (F) at (13.68,2.24);\n\\draw (A) -- (B) node[midway,below,font=\\small] {$12\\text{ cm}$};\n\\draw (B) -- (C) node[midway,below right,font=\\small] {$10\\text{ cm}$};\n\\draw (C) -- (D);\n\\draw (D) -- (A);\n\\draw[dashed] (4,0) -- (4,8) node[midway,left,font=\\small] {$8\\text{ cm}$};\n\\draw (4,0.8) -- (4.8,0.8) -- (4.8,0);\n\\draw[dashed] (D) -- (F) node[midway,above,font=\\small] {$x$};\n\\pic[draw,angle radius=0.32cm] {angle = C--F--D};\n\\end{tikzpicture}\n[/tikz]\nThe parallelogram has a base of $12\\text{ cm}$ and a perpendicular height of $8\\text{ cm}$.\nFind $x$, the perpendicular height drawn to the $10\\text{ cm}$ side, in centimetres.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.28]\n\\usetikzlibrary{calc,angles}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (12,0);\n\\coordinate (C) at (18,8);\n\\coordinate (D) at (6,8);\n\\coordinate (F) at ($(B)!(D)!(C)$);\n\\draw (A) -- (B) node[midway,below,font=\\small] {$12\\text{ cm}$};\n\\draw (B) -- (C) node[midway,below right,font=\\small] {$10\\text{ cm}$};\n\\draw (C) -- (D);\n\\draw (D) -- (A);\n\\draw[dashed] (4,0) -- (4,8) node[midway,left,font=\\small] {$8\\text{ cm}$};\n\\draw (4,0.8) -- (4.8,0.8) -- (4.8,0);\n\\draw[dashed] (D) -- (F) node[midway,above,font=\\small] {$x$};\n\\pic[draw,angle radius=0.32cm] {right angle = C--F--D};\n\\end{tikzpicture}\n[/tikz]\nThe parallelogram has a base of $12\\text{ cm}$ and a perpendicular height of $8\\text{ cm}$.\nFind $x$, the perpendicular height drawn to the $10\\text{ cm}$ side, in centimetres.",
         "structure": "second-base-height-pair",
         "solution_text": "$A=bh$\n$A=12\\times8$\n$=96\\text{ cm}^2$\n\n$96=10x$\n$x=9.6\\text{ cm}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.3]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (15,0);\n\\coordinate (C) at (6.06,8);\n\\coordinate (F) at (6.67,7.45);\n\\draw (A) -- (B) node[midway,below,font=\\small] {$15\\text{ cm}$};\n\\draw (B) -- (C) node[midway,right,font=\\small] {$x$};\n\\draw (C) -- (A);\n\\draw[dashed] (6.06,0) -- (C) node[midway,left,font=\\small] {$8\\text{ cm}$};\n\\draw (6.06,0.8) -- (6.86,0.8) -- (6.86,0);\n\\draw[dashed] (A) -- (F) node[midway,above,font=\\small] {$10\\text{ cm}$};\n\\pic[draw,angle radius=0.32cm] {angle = C--F--A};\n\\end{tikzpicture}\n[/tikz]\nThe triangle has a base of $15\\text{ cm}$ and a perpendicular height of $8\\text{ cm}$.\nA second perpendicular height of $10\\text{ cm}$ is drawn to the side marked $x$.\nFind $x$, in centimetres.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.3]\n\\usetikzlibrary{calc,angles}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (15,0);\n\\coordinate (C) at ({15-sqrt(80)},8);\n\\coordinate (F) at ($(B)!(A)!(C)$);\n\\draw (A) -- (B) node[midway,below,font=\\small] {$15\\text{ cm}$};\n\\draw (B) -- (C) node[midway,right,font=\\small] {$x$};\n\\draw (C) -- (A);\n\\draw[dashed] ({15-sqrt(80)},0) -- (C) node[pos=0.65,right,font=\\small] {$8\\text{ cm}$};\n\\draw ({15-sqrt(80)},0.8) -- ({15-sqrt(80)+0.8},0.8) -- ({15-sqrt(80)+0.8},0);\n\\draw[dashed] (A) -- (F) node[pos=0.3,below right,font=\\small] {$10\\text{ cm}$};\n\\pic[draw,angle radius=0.32cm] {right angle = C--F--A};\n\\end{tikzpicture}\n[/tikz]\nThe triangle has a base of $15\\text{ cm}$ and a perpendicular height of $8\\text{ cm}$.\nA second perpendicular height of $10\\text{ cm}$ is drawn to the side marked $x$.\nFind $x$, in centimetres.",
         "structure": "second-base-height-pair",
         "solution_text": "$A=\\frac{bh}{2}$\n$A=\\frac{15\\times8}{2}$\n$=60\\text{ cm}^2$\n\n$60=\\frac{10x}{2}$\n$120=10x$\n$x=12\\text{ cm}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw (0,0) rectangle (8,3.75);\n\\node[below,font=\\small] at (4,0) {$8\\text{ m}$};\n\\node[left,font=\\small] at (0,1.9) {$x$};\n\\end{tikzpicture}\n[/tikz]\nThe rectangle has an area of $30\\text{ m}^2$.\nFind the value of $x$, in metres, correct to $2$ decimal places.",
         "structure": "rectangle-find-side",
         "solution_text": "$A=lw$\n$30=8x$\n$x=3.75\\text{ m}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.4]\n\\draw (0,0) -- (9.1,0) node[midway,below,font=\\small] {$x$};\n\\draw (9.1,0) -- (3,8);\n\\draw (3,8) -- (0,0);\n\\draw[dashed] (3,0) -- (3,8) node[midway,right,font=\\small] {$8\\text{ cm}$};\n\\draw (3,0.6) -- (3.6,0.6) -- (3.6,0);\n\\end{tikzpicture}\n[/tikz]\nThe triangle has an area of $36.4\\text{ cm}^2$.\nFind the value of $x$, in centimetres.",
         "structure": "triangle-find-base",
         "solution_text": "$A=\\frac{bh}{2}$\n$36.4=\\frac{8x}{2}$\n$72.8=8x$\n$x=9.1\\text{ cm}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw (0,0) -- (5.6,0) node[midway,below,font=\\small] {$5.6\\text{ m}$};\n\\draw (5.6,0) -- (7.4,8.5);\n\\draw (7.4,8.5) -- (1.8,8.5);\n\\draw (1.8,8.5) -- (0,0);\n\\draw[dashed] (2.6,0) -- (2.6,8.5) node[midway,right,font=\\small] {$x$};\n\\draw (2.6,0.6) -- (3.2,0.6) -- (3.2,0);\n\\end{tikzpicture}\n[/tikz]\nThe parallelogram has an area of $47.6\\text{ m}^2$.\nFind the value of $x$, in metres.",
         "structure": "parallelogram-find-height",
         "solution_text": "$A=bh$\n$47.6=5.6x$\n$x=8.5\\text{ m}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.42]\n\\draw (0,0) -- (2.4,0) node[midway,below,font=\\small] {$2.4\\text{ m}$};\n\\draw (2.4,0) -- (0.9,9);\n\\draw (0.9,9) -- (0,0);\n\\draw[dashed] (0.9,0) -- (0.9,9) node[midway,right,font=\\small] {$x$};\n\\draw (0.9,0.4) -- (1.3,0.4) -- (1.3,0);\n\\end{tikzpicture}\n[/tikz]\nA triangular sail has an area of $10.8\\text{ m}^2$ and a base of $2.4\\text{ m}$ along the boom.\nFind $x$, its perpendicular height, in metres.",
         "structure": "triangle-find-height",
         "solution_text": "$A=\\frac{bh}{2}$\n$10.8=\\frac{2.4x}{2}$\n$21.6=2.4x$\n$x=9\\text{ m}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.42]\n\\draw (0,0) -- (11,0) node[midway,below,font=\\small] {$x$};\n\\draw (11,0) -- (5.29,6);\n\\draw (5.29,6) -- (0,0) node[midway,above left,font=\\small] {$8\\text{ cm}$};\n\\draw[dashed] (5.29,0) -- (5.29,6) node[midway,right,font=\\small] {$6\\text{ cm}$};\n\\draw (5.29,0.6) -- (5.89,0.6) -- (5.89,0);\n\\end{tikzpicture}\n[/tikz]\nThe triangle has an area of $33\\text{ cm}^2$.\nNot every length shown is needed.\nFind the value of $x$, in centimetres.",
         "structure": "triangle-with-extra-length",
         "solution_text": "The $8\\text{ cm}$ side is slanted, so it is not the height.\n$A=\\frac{bh}{2}$\n$33=\\frac{6x}{2}$\n$66=6x$\n$x=11\\text{ cm}$"
       }
-    ],
+],
     "mastery": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.3]\n\\draw (0,0) -- (14,0) node[midway,below,font=\\small] {$14\\text{ cm}$};\n\\draw (14,0) -- (17,6);\n\\draw (17,6) -- (3,6);\n\\draw (3,6) -- (0,0);\n\\draw[dashed] (5,0) -- (5,6) node[midway,right,font=\\small] {$6\\text{ cm}$};\n\\draw (5,0.6) -- (5.6,0.6) -- (5.6,0);\n\\draw (21,0) rectangle (29,5.25);\n\\node[below,font=\\small] at (25,0) {$8\\text{ cm}$};\n\\node[right,font=\\small] at (29,2.6) {$x$};\n\\end{tikzpicture}\n[/tikz]\nThe area of the parallelogram is twice the area of the rectangle.\nFind the value of $x$, in centimetres.",
         "structure": "related-areas-two-shapes",
         "solution_text": "$A=bh$\n$A=14\\times6$\n$=84\\text{ cm}^2$\nArea of rectangle $=84\\div2=42\\text{ cm}^2$\n$42=8x$\n$x=5.25\\text{ cm}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.3]\n\\draw (0,0) rectangle (19.5,10);\n\\draw (0,10) rectangle (8.4,13);\n\\node[font=\\scriptsize] at (9.75,5) {$A=195\\text{ cm}^2$};\n\\node[font=\\scriptsize] at (4.2,11.5) {$A=25.2\\text{ cm}^2$};\n\\node[left,font=\\small] at (0,11.5) {$3\\text{ cm}$};\n\\node[right,font=\\small] at (19.5,5) {$x$};\n\\draw[gray,thin] (8.4,13) -- (8.4,15.2);\n\\draw[gray,thin] (19.5,10) -- (19.5,15.2);\n\\draw[<->] (8.4,14.6) -- (19.5,14.6) node[midway,above,font=\\small] {$11.1\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nThe figure is made from two rectangles and the area of each is shown.\nFind the value of $x$, in centimetres.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.3]\n\\draw (0,0) rectangle (19.5,10);\n\\draw (0,10) rectangle (8.4,13);\n\\node[font=\\scriptsize] at (9.75,5) {$A=195\\text{ cm}^2$};\n\\node[font=\\scriptsize] at (4.2,11.5) {$A=25.2\\text{ cm}^2$};\n\\node[left,font=\\small] at (0,11.5) {$3\\text{ cm}$};\n\\node[right,font=\\small] at (19.5,5) {$x$};\n\\draw[thin] (8.4,13) -- (8.4,15.2);\n\\draw[thin] (19.5,10) -- (19.5,15.2);\n\\draw[<->] (8.4,14.6) -- (19.5,14.6) node[midway,above,font=\\small] {$11.1\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nThe figure is made from two rectangles and the area of each is shown.\nFind the value of $x$, in centimetres.",
         "structure": "composite-two-areas-find-side",
         "solution_text": "Width of the upper rectangle:\n$25.2=3w$\n$w=8.4\\text{ cm}$\nWidth of the lower rectangle:\n$8.4+11.1=19.5\\text{ cm}$\n\n$195=19.5x$\n$x=10\\text{ cm}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.38]\n\\draw (0,0) -- (13,0);\n\\draw (13,0) -- (17,8);\n\\draw (17,8) -- (4,8);\n\\draw (4,8) -- (0,0);\n\\draw (4,0) -- (8,8);\n\\node[below,font=\\small] at (2,0) {$v$};\n\\node[below,font=\\small] at (8.5,0) {$9\\text{ cm}$};\n\\node[font=\\scriptsize] at (4,4) {$32\\text{ cm}^2$};\n\\node[font=\\scriptsize] at (10.5,4) {$72\\text{ cm}^2$};\n\\end{tikzpicture}\n[/tikz]\nA parallelogram is divided into two smaller parallelograms whose areas are shown.\nFind the value of $v$, in centimetres.",
         "structure": "composite-two-areas-find-side",
         "solution_text": "Both parts have the same perpendicular height $h$.\n$72=9h$\n$h=8\\text{ cm}$\n\n$32=8v$\n$v=4\\text{ cm}$"
       }
-    ]
+]
   }
 }

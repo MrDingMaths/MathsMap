@@ -2,8 +2,8 @@
   "skillId": "find-missing-sides-rectilinear",
   "atomType": "R",
   "theory": {
-        "intro": "A **rectilinear figure** is made only of straight sides meeting at right angles. Its opposite sides balance: what runs one way must total the same as what runs back the other way. That balance finds an unlabelled side.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) -- (6,0) node[midway, below] {$a$};\n\\draw (6,0) -- (6,2) node[midway, right] {$q$};\n\\draw (6,2) -- (3,2) node[midway, above] {$c$};\n\\draw (3,2) -- (3,5) node[midway, right] {$r$};\n\\draw (3,5) -- (0,5) node[midway, above] {$b$};\n\\draw (0,5) -- (0,0) node[midway, left] {$p$};\n\\node at (3,-1.1) {$a = b + c$};\n\\node at (3,-1.9) {$p = q + r$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "A **rectilinear figure** is made only of straight sides meeting at right angles. Its opposite sides balance: what runs one way must total the same as what runs back the other way. That balance finds an unlabelled side.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) -- (6,0) node[midway, below] {$a$};\n\\draw (6,0) -- (6,2) node[midway, right] {$q$};\n\\draw (6,2) -- (3,2) node[midway, above] {$c$};\n\\draw (3,2) -- (3,5) node[midway, right] {$r$};\n\\draw (3,5) -- (0,5) node[midway, above] {$b$};\n\\draw (0,5) -- (0,0) node[midway, left] {$p$};\n\\node at (3,-1.1) {$a = b + c$};\n\\node at (3,-1.9) {$p = q + r$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "Every side is horizontal or vertical, because all the angles are right angles.",
           "The total width across the top $=$ the total width across the bottom.",
           "The total height up one side $=$ the total height down the other side.",
@@ -11,12 +11,34 @@
           "If the missing side **is** the matching total, **add** the known parts together.",
           "A side that steps **inwards** faces the opposite way, so it counts on the other side of the balance.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) -- (6,0);\n\\draw (6,0) -- (6,3) node[midway, right] {$q$};\n\\draw (6,3) -- (4,3);\n\\draw (4,3) -- (4,1) node[midway, left] {$s$};\n\\draw (4,1) -- (2,1);\n\\draw (2,1) -- (2,5) node[midway, right] {$t$};\n\\draw (2,5) -- (0,5);\n\\draw (0,5) -- (0,0) node[midway, left] {$p$};\n\\node at (3,-1.2) {$q + t = p + s$};\n\\end{tikzpicture}\n[/tikz]"
         ],
-        "steps": [
+"steps": [
           "Decide whether the missing side is horizontal or vertical.",
           "Add the known sides that run the same way as each other.",
           "Subtract to find a missing part, or add to find a missing total."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.53,every node/.style={font=\\normalsize,text=black}]\n\\draw[black] (0,0)--(8,0) node[midway,below=5pt] {$x$};\n\\draw[black] (8,0)--(8,2) node[midway,right=5pt] {$2\\text{ m}$};\n\\draw[black] (8,2)--(3,2) node[midway,above=5pt] {$5\\text{ m}$};\n\\draw[black] (3,2)--(3,6) node[midway,right=5pt] {$y$};\n\\draw[black] (3,6)--(0,6) node[midway,above=5pt] {$3\\text{ m}$};\n\\draw[black] (0,6)--(0,0) node[midway,left=5pt] {$6\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]\nAll sides meet at right angles. Find the lengths marked $x$ and $y$.",
+    "solution_text": "The bottom is the total of the two horizontal lengths above it.\n$x=3+5$\n$=8\\text{ m}$\nThe two vertical lengths on the right add to the left side.\n$y=6-2$\n$=4\\text{ m}$"
+  },
+  {
+    "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.36,every node/.style={font=\\normalsize,text=black}]\n\\draw[black] (0,0)--(13,0) node[midway,below=5pt] {$13\\text{ cm}$};\n\\draw[black] (13,0)--(13,3) node[midway,right=5pt] {$3\\text{ cm}$};\n\\draw[black] (13,3)--(5,3) node[midway,above=5pt] {$x$};\n\\draw[black] (5,3)--(5,10);\n\\draw[black] (5,10)--(0,10) node[midway,above=5pt] {$5\\text{ cm}$};\n\\draw[black] (0,10)--(0,0) node[midway,left=5pt] {$10\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nAll sides meet at right angles. Find the length marked $x$.",
+    "solution_text": "The two upper horizontal lengths add to the bottom length.\n$5+x=13$\n$x=13-5$\n$=8\\text{ cm}$"
+  },
+  {
+    "question_text": "Find each length marked $x$. All sides meet at right angles.\n(a)\n[tikz]\n\\begin{tikzpicture}[scale=0.17,every node/.style={font=\\normalsize,text=black}]\n\\draw[black] (0,0)--(8,0) node[midway,below=5pt] {$8\\text{ cm}$};\n\\draw[black] (8,0)--(8,6);\n\\draw[black] (8,6)--(17,6) node[midway,above=5pt] {$x$};\n\\draw[black] (17,6)--(17,0);\n\\draw[black] (17,0)--(27,0) node[midway,below=5pt] {$10\\text{ cm}$};\n\\draw[black] (27,0)--(27,16) node[midway,right=5pt] {$16\\text{ cm}$};\n\\draw[black] (27,16)--(0,16) node[midway,above=5pt] {$27\\text{ cm}$};\n\\draw[black] (0,16)--(0,0);\n\\end{tikzpicture}\n[/tikz]\n(b) The two sides marked with matching dashes are equal.\n[tikz]\n\\begin{tikzpicture}[scale=0.16,every node/.style={font=\\normalsize,text=black}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{equalSide/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw[black] (0pt,-4pt)--(0pt,4pt);}}}}}\n\\draw[black,equalSide] (0,0)--(8,0) node[midway,below=5pt] {$8\\text{ m}$};\n\\draw[black] (8,0)--(8,5);\n\\draw[black] (8,5)--(21,5) node[midway,above=5pt] {$x$};\n\\draw[black] (21,5)--(21,0);\n\\draw[black,equalSide] (21,0)--(29,0);\n\\draw[black] (29,0)--(29,17) node[midway,right=5pt] {$17\\text{ m}$};\n\\draw[black] (29,17)--(0,17) node[midway,above=5pt] {$29\\text{ m}$};\n\\draw[black] (0,17)--(0,0);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) The three horizontal lengths along the bottom add to the top length.\n$8+x+10=27$\n$x=27-18$\n$=9\\text{ cm}$\n(b) The matching dashes show that the other bottom side is also $8\\text{ m}$.\n$8+x+8=29$\n$x=29-16$\n$=13\\text{ m}$"
+  },
+  {
+    "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.31,every node/.style={font=\\normalsize,text=black}]\n\\draw[black] (0,0)--(9,0) node[midway,below=5pt] {$9\\text{ cm}$};\n\\draw[black] (9,0)--(9,4);\n\\draw[black] (9,4)--(5,4) node[midway,above=5pt] {$4\\text{ cm}$};\n\\draw[black] (5,4)--(5,8);\n\\draw[black] (5,8)--(15,8) node[midway,below=5pt] {$x$};\n\\draw[black] (15,8)--(15,12);\n\\draw[black] (15,12)--(0,12) node[midway,above=5pt] {$15\\text{ cm}$};\n\\draw[black] (0,12)--(0,0);\n\\end{tikzpicture}\n[/tikz]\nAll sides meet at right angles. Find the length marked $x$.",
+    "solution_text": "Trace the boundary from the bottom-left corner. The $9\\text{ cm}$ side and $x$ run right; the $4\\text{ cm}$ step and $15\\text{ cm}$ top run left.\n$9+x=4+15$\n$x=19-9$\n$=10\\text{ cm}$"
+  },
+  {
+    "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.19,every node/.style={font=\\normalsize,text=black}]\n\\draw[black] (0,0)--(6,0) node[midway,below=5pt] {$6\\text{ cm}$};\n\\draw[black] (6,0)--(6,7);\n\\draw[black] (6,7)--(14,7);\n\\draw[black] (14,7)--(14,0) node[midway,right=5pt] {$x$};\n\\draw[black] (14,0)--(24,0) node[midway,below=5pt] {$10\\text{ cm}$};\n\\draw[black] (24,0)--(24,17) node[midway,right=5pt] {$17\\text{ cm}$};\n\\draw[black] (24,17)--(0,17) node[midway,above=5pt] {$24\\text{ cm}$};\n\\draw[black] (0,17)--(0,0);\n\\end{tikzpicture}\n[/tikz]\nThe diagram is not to scale. All sides meet at right angles. Can the length marked $x$ be found from the lengths shown? Explain your answer.",
+    "solution_text": "The horizontal lengths give the width of the gap, not its depth.\n$24-6-10=8\\text{ cm}$\nNo length is given for the depth of the gap. It could change while the marked lengths stay the same, so $x$ cannot be found."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

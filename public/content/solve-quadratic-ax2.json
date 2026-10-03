@@ -2,20 +2,47 @@
   "skillId": "solve-quadratic-ax2",
   "atomType": "R",
   "theory": {
-        "intro": "Solve $ax^{2}=c$ in two moves: divide both sides by $a$ so that $x^{2}$ stands alone, then undo the square. Undoing a square gives **two** answers, so write the $\\pm$ in: $3x^{2}=48$ gives $x^{2}=16$, then $x=\\pm 4$.",
-        "facts": [
-          "Divide **before** taking the square root: from $5x^{2}=45$ go to $x^{2}=9$, not to $5x=3$.",
-          "Taking the square root of both sides gives $x=\\pm\\sqrt{c}$, because the root sign alone means only the positive root.",
-          "If $x^{2}=0$ the only solution is $x=0$; if $x^{2}$ equals a negative number there is no solution.",
-          "When $c$ is not a perfect square, give the exact answer $x=\\pm\\sqrt{c}$ or round as directed, by convention to $2$ decimal places.",
-          "Where $x$ is a length, a speed or a count, state both solutions and then reject the negative one, giving the reason."
-        ],
-        "steps": [
-          "Divide both sides by the coefficient of $x^{2}$",
-          "Take the square root of both sides, writing $\\pm$",
-          "State both solutions, or choose the one the context allows"
-        ]
-      },
+"intro": "For $ax^2=c$ with $a\\ne0$, divide both sides by $a$ so that $x^2$ stands alone, then undo the square. For example, $3x^2=48$ gives $x^2=16$, so $x=\\pm4$. A positive value of $x^2$ gives two solutions, zero gives one, and a negative value gives none.",
+"facts": [
+"Divide **before** taking the square root: from $5x^{2}=45$ go to $x^{2}=9$, not to $5x=3$.",
+"After isolating $x^2=d$ with $d>0$, the solutions are $x=\\pm\\sqrt d$. The root sign itself gives the value that is positive or zero; write the $\\pm$ when solving the equation.",
+"If $x^{2}=0$ the only solution is $x=0$; if $x^{2}$ equals a negative number there is no solution.",
+"When the isolated square equals a positive number that is not a perfect square, leave both solutions in exact root form or round as directed, normally to $2$ decimal places.",
+"Where $x$ is a length, a speed or a count, state both solutions and then reject the negative one, giving the reason.",
+"Do not divide by a zero coefficient. For example, $0x^2=48$ has no solution because its left side is always zero."
+],
+"steps": [
+"Divide both sides by the non-zero coefficient of $x^{2}$",
+"Take the square root of both sides, writing $\\pm$",
+"State both solutions, or choose the one the context allows"
+],
+"workedExamples": [
+  {
+    "question_text": "Solve.\n(a) $5x^2=180$\n(b) $\\frac{x^2}{9}=16$",
+    "solution_text": "(a) Divide both sides by $5$.\n$x^2=36$\n$6^2=36$ and $(-6)^2=36$.\n$x=\\pm6$\n(b) Multiply both sides by $9$ to undo division.\n$x^2=144$\n$x=\\pm12$"
+  },
+  {
+    "question_text": "Solve each equation and state how many solutions it has.\n(a) $4x^2=0$\n(b) $3x^2=-12$\n(c) $-2x^2=-18$",
+    "solution_text": "(a) Divide by $4$: $x^2=0$. Only zero squares to zero.\n$x=0$, one solution.\n(b) Divide by $3$: $x^2=-4$. A square is positive or zero, so there is no solution.\n(c) Divide by $-2$: $x^2=9$.\n$x=\\pm3$, two solutions.\nDecide from the sign after dividing, not from the original right side alone."
+  },
+  {
+    "question_text": "Solve.\n(a) $9x^2=25$, in exact form\n(b) $4x^2=44$, correct to $2$ decimal places",
+    "solution_text": "(a) $x^2=\\frac{25}{9}$\n$x=\\pm\\frac53$\n(b) $x^2=11$\n$x=\\pm\\sqrt{11}$\n$x\\approx\\pm3.32$ (to $2$ decimal places).\nRetain both signs in the rounded answer."
+  },
+  {
+    "question_text": "Three identical square tiles have a total area of $432$ cm$^2$. Let each side be $s$ cm. Write and solve an equation, then state the side length.",
+    "solution_text": "One tile has area $s^2$, so $3s^2=432$.\n$s^2=144$\n$s=\\pm12$\nBoth numbers satisfy the equation, but a side length cannot be negative.\nReject $s=-12$. Each tile has side length $12$ cm."
+  },
+  {
+    "question_text": "(a) One solution of $ax^2=147$ is $x=7$. Find $a$.\n(b) One solution of $4x^2=c$ is $x=-5$. Find $c$ and the other solution.",
+    "solution_text": "(a) Substitute the known solution.\n$a(7^2)=147$\n$49a=147$\n$a=3$\n(b) $c=4(-5)^2$\n$c=4(25)=100$\nThe other solution is $x=5$, since $4(5)^2=100$ too."
+  },
+  {
+    "question_text": "For which values of $k$ does $kx^2=75$ have no solution? Explain.",
+    "solution_text": "If $k>0$, divide by $k$. Then $x^2=\\frac{75}{k}>0$, so there are two solutions.\nIf $k<0$, division gives $x^2<0$, which is impossible.\nIf $k=0$, the equation is $0=75$, which is false. Do not divide by zero.\nThere is no solution when $k\\le0$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -55,42 +82,42 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "Solve $5x^{2}=60$, giving both solutions correct to $2$ decimal places.",
         "structure": "non-perfect-square-rounded",
-        "solution_text": "$5x^{2}=60$\n$x^{2}=12$\n$x=\\pm 3.46$"
+        "solution_text": "$5x^{2}=60$\n$x^{2}=12$\n$x=\\pm\\sqrt{12}$\n$x\\approx\\pm3.46$ (to $2$ decimal places)."
       },
-      {
+{
         "question_text": "Solve $x^{2}=20$, giving both solutions in exact form.",
         "structure": "surd-exact-solutions",
         "solution_text": "$x^{2}=20$\n$x=\\pm\\sqrt{20}$"
       },
-      {
+{
         "question_text": "Solve $8x^{2}=18$.",
         "structure": "divide-then-square-root",
         "solution_text": "$8x^{2}=18$\n$x^{2}=2.25$\n$x=\\pm 1.5$"
       },
-      {
+{
         "question_text": "Solve $x^{2}=\\frac{9}{25}$.",
         "structure": "solve-bare-square",
         "solution_text": "$x^{2}=\\frac{9}{25}$\n$x=\\pm\\frac{3}{5}$"
       },
-      {
+{
         "question_text": "Solve $4x^{2}=-36$.",
         "structure": "negative-after-dividing",
         "solution_text": "$4x^{2}=-36$\n$x^{2}=-9$\nA square is never negative.\nThere is no solution."
       },
-      {
+{
         "question_text": "The side length $x$ cm of a square satisfies $7x^{2}=63$.\nFind $x$.",
         "structure": "solve-in-context",
         "solution_text": "$7x^{2}=63$\n$x^{2}=9$\n$x=\\pm 3$\nA length cannot be negative, so $x=3$."
       },
-      {
+{
         "question_text": "One solution of $ax^{2}=100$ is $x=5$.\nFind $a$.",
         "structure": "find-missing-coefficient",
         "solution_text": "$a\\times 5^{2}=100$\n$25a=100$\n$a=4$"
       }
-    ],
+],
     "mastery": [
       {
         "question_text": "Solve $9x^{2}=16$, giving both solutions in exact form.",

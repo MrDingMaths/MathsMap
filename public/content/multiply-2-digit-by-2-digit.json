@@ -2,18 +2,40 @@
   "skillId": "multiply-2-digit-by-2-digit",
   "atomType": "R",
   "theory": {
-        "intro": "To multiply by a 2-digit number, split **both** numbers by place value and use the area model, or use the standard algorithm.",
-        "facts": [
+"intro": "To multiply by a 2-digit number, split **both** numbers by place value and use the area model, or use the standard algorithm.",
+"facts": [
           "The area model for $2 \\times 2$ digits gives **four** part-products.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\small}]\n\\draw (0,0) rectangle (5,3);\n\\draw (3,0)--(3,3);\n\\draw (0,1.5)--(5,1.5);\n\\node[above] at (1.5,3) {tens};\n\\node[above] at (4,3) {ones};\n\\node[left] at (0,2.25) {tens};\n\\node[left] at (0,0.75) {ones};\n\\node at (1.5,2.25) {part-product};\n\\node at (4,2.25) {part-product};\n\\node at (1.5,0.75) {part-product};\n\\node at (4,0.75) {part-product};\n\\end{tikzpicture}[/tikz]",
           "e.g. $34 \\times 26 = (30+4)(20+6)$ has parts $600, 180, 80, 24$.",
           "The algorithm multiplies by the ones, then the tens (shifted one place), then adds."
         ],
-        "steps": [
+"steps": [
           "Split each number into tens and ones.",
           "Multiply every part of one by every part of the other.",
           "Add all the part-products for the total."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Use the area model for $24\\times37$.\n(a) Find the four part-products.\n(b) Find the total.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\small}]\n\\path[use as bounding box] (-0.7,-0.2) rectangle (4.0,4.3);\n\\draw (0,0) rectangle (3.6,3.7);\n\\draw (3,0)--(3,3.7);\n\\draw (0,0.7)--(3.6,0.7);\n\\node[above] at (1.5,3.7) {$20$};\n\\node[above] at (3.3,3.7) {$4$};\n\\node[left] at (0,2.2) {$30$};\n\\node[left] at (0,0.35) {$7$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "(a) $20\\times30=600$, $4\\times30=120$.\n$20\\times7=140$, $4\\times7=28$.\n(b) Add all four part-products.\n$600+120+140+28=888$.\nSo $24\\times37=888$."
+  },
+  {
+    "question_text": "Use the standard algorithm to calculate $58\\times24$.",
+    "solution_text": "Multiply by the ones, then by the tens.\n$58\\times4=232$.\nThe $2$ in $24$ represents $20$, so $58\\times20=1160$.\n$\\begin{array}{r}58\\\\\\times24\\\\\\hline232\\\\1160\\\\\\hline1392\\end{array}$\nSo $58\\times24=1392$."
+  },
+  {
+    "question_text": "For $207\\times36$:\n(a) calculate the product using the standard algorithm\n(b) explain why the second partial product ends in zero.",
+    "solution_text": "(a) $207\\times6=1242$.\n$207\\times30=6210$.\n$\\begin{array}{r}207\\\\\\times36\\\\\\hline1242\\\\6210\\\\\\hline7452\\end{array}$\nSo $207\\times36=7452$.\n(b) The $3$ represents $30$. Multiplying $207$ by $3$ gives $621$; multiplying by $30$ gives $6210$. The zero keeps the tens partial product in its correct place."
+  },
+  {
+    "question_text": "A student calculates $37\\times26$ using the partial products $222$ and $74$.\nIdentify the error and give the correct product.",
+    "solution_text": "$37\\times6=222$ is correct.\nThe $2$ in $26$ represents $20$, not $2$.\nThe second partial product should be $37\\times20=740$.\n$222+740=962$.\nSo $37\\times26=962$."
+  },
+  {
+    "question_text": "Find the missing digit in $4\\square3\\times12=5676$. Check using partial products.",
+    "solution_text": "The missing digit is $7$.\nCheck $473\\times12$ by multiplying by $2$ and by $10$.\n$473\\times2=946$.\n$473\\times10=4730$.\n$946+4730=5676$.\nSo $473\\times12=5676$, as required."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -80,21 +102,21 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "An area model for $76 \\times 63$ has part-products $4200$, $210$, $360$ and $18$.\nExplain which multiplication produces each part, then find the total.",
         "structure": "identify-four-part-products",
         "solution_text": "$70 \\times 60=4200$, $70 \\times 3=210$, $6 \\times 60=360$, $6 \\times 3=18$.\n$4200+210+360+18$\n$=4788$"
       },
-      {
+{
         "question_text": "A student uses the algorithm for $43 \\times 26$ and writes partial products $258$ and $86$.\nIdentify the error and find the product.",
         "structure": "diagnose-tens-partial-product",
         "solution_text": "$43 \\times 6=258$.\n$43 \\times 20=860$, not $86$.\n$258+860$\n$=1118$"
       },
-      {
+{
         "question_text": "Complete the multiplication $3\\square 2 \\times 14=4508$ by finding the missing digit.",
         "structure": "missing-digit-factor",
-        "solution_text": "$4508 \\div 14=322$.\n$\\square=2$"
+        "solution_text": "The missing digit is $2$.\nCheck $322\\times14$ using the ones and tens partial products.\n$322\\times4=1288$.\n$322\\times10=3220$.\n$1288+3220=4508$.\nSo $322\\times14=4508$, as required."
       }
-    ]
+]
   }
 }

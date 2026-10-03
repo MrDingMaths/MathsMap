@@ -2,117 +2,144 @@
   "skillId": "compound-interest-repeated",
   "atomType": "R",
   "theory": {
-        "intro": "With **compound interest**, each period's interest is added to the balance, so the next period earns interest on the interest as well. Increasing a balance by $r$ means multiplying by $(1+r)$, so compounding applies that multiplier once per period.",
-        "facts": [
-          "A rate of $5\\%$ p.a. compounded annually multiplies the balance by $1.05$ at the end of **each** year.",
-          "Each year's ending balance becomes the **next** year's starting balance.",
-          "Because the balance grows, the interest earned each year is **larger** than the year before.",
-          "The compound interest earned is the final balance minus the amount deposited: $I=FV-PV$.",
-          "Round money to the nearest cent **once**, at the final step."
-        ],
-        "steps": [
-          "Write the multiplier $1+r$ for the given rate.",
-          "Multiply the starting balance by the multiplier to get the balance at the end of the first year.",
-          "Repeat, using each year's ending balance as the next year's starting balance.",
-          "If the interest is asked for, subtract the amount deposited from the final balance."
-        ]
-      },
+"intro": "With compound interest, each year’s interest is added to the balance. The next year earns interest on this new balance, including the interest already added. For annual compounding, apply the percentage multiplier once for each year.",
+"facts": [
+"For $5\\%$ p.a. compounded annually, use the multiplier $1+\\frac{5}{100}=1.05$ each year.",
+"Each year’s ending balance becomes the next year’s starting balance.",
+"With a positive deposit and a fixed positive rate, and no extra deposits or withdrawals, the balance and the interest earned each year grow.",
+"Total interest earned is the final balance minus the original deposit. Interest earned in one year is that year’s starting balance multiplied by the rate as a decimal.",
+"You may write repeated multiplication as a power: $1.05^3=1.05\\times1.05\\times1.05$.",
+"Keep the full calculator values between years. Round only the requested answers to the nearest cent, or as stated. Rounded table entries show the amounts to the nearest cent."
+],
+"steps": [
+"Write the percentage rate as a decimal and find the multiplier for an increase.",
+"For balances, multiply once for each year, using the new balance each time. Keep unrounded calculator values.",
+"For total interest, subtract the original deposit from the final balance. For one year’s interest, multiply that year’s starting balance by the decimal rate. Find each year’s interest before comparing them.",
+"To work backwards, divide by the multiplier once for each year. If the first year’s interest is given, divide it by the decimal rate to find the deposit. For a target, continue year by year until it is reached, checking the preceding year too."
+],
+"workedExamples": [
+  {
+    "question_text": "An account starts with $\\$658$ and earns $3.5\\%$ p.a. compounded annually.\n(a) Show the balance at the end of each of the first $3$ years, to the nearest cent.\n(b) Explain why adding $\\$23.03$ each year would not give compound interest.",
+    "solution_text": "Multiplier $=1.035$.\nYear $1$: $\\$658\\times1.035=\\$681.03$.\nYear $2$: $\\$681.03\\times1.035=\\$704.86605$,\nso the displayed balance is $\\$704.87$.\nKeep the unrounded value for year $3$:\n$\\$704.86605\\times1.035$\n$=\\$729.53636175$\n$\\approx\\$729.54$.\n(b) $\\$23.03$ is the first year’s interest on $\\$658$. Each new year uses the larger current balance, so its interest is larger."
+  },
+  {
+    "question_text": "A fund holds $\\$843.25$ at the end of year $2$. It earns $4.2\\%$ p.a. compounded annually.\n(a) Find the balance at the end of year $3$.\n(b) Find the interest earned in year $3$.\nGive both answers to the nearest cent.",
+    "solution_text": "(a) Apply the multiplier once more:\n$\\$843.25\\times1.042=\\$878.6665$\n$\\approx\\$878.67$.\n(b) Year $3$ starts with $\\$843.25$.\nInterest $=\\$843.25\\times0.042$\n$=\\$35.4165$\n$\\approx\\$35.42$."
+  },
+  {
+    "question_text": "An account starts with $\\$724$ and earns $5.3\\%$ p.a. compounded annually.\n(a) Find the balance after $2$ years.\n(b) Find the total interest earned in those $2$ years.\nGive both answers to the nearest cent.",
+    "solution_text": "Year $1$: $\\$724\\times1.053=\\$762.372$.\nYear $2$: $\\$762.372\\times1.053=\\$802.777716$.\n(a) Balance $\\approx\\$802.78$.\n(b) Total interest $=\\$802.777716-\\$724$\n$\\approx\\$78.78$.\nThe balance includes the original deposit; the interest does not."
+  },
+  {
+    "question_text": "An account earns $7.5\\%$ p.a. compounded annually. Its first year’s interest is $\\$31.20$.\n(a) Find the deposit.\n(b) Find the interest earned in year $3$.\n(c) How much more interest is earned in year $3$ than in year $1$?\nGive money answers to the nearest cent.",
+    "solution_text": "(a) $\\$31.20$ is $7.5\\%$ of the deposit.\nDeposit $=\\$31.20\\div0.075=\\$416$.\nYear $1$ ends with $\\$416\\times1.075=\\$447.20$.\nYear $2$ ends with $\\$447.20\\times1.075=\\$480.74$.\n(b) Year $3$ interest $=\\$480.74\\times0.075$\n$=\\$36.0555$\n$\\approx\\$36.06$.\n(c) Difference $=\\$36.0555-\\$31.20$\n$\\approx\\$4.86$."
+  },
+  {
+    "question_text": "After $2$ years at $4.5\\%$ p.a. compounded annually, a fund holds $\\$899.25$. Work backwards to find the deposit, to the nearest cent.",
+    "solution_text": "Multiplier $=1.045$.\nUndo each year by dividing:\n$\\$899.25\\div1.045\\div1.045$\n$\\approx\\$823.47$.\nKeep the full calculator value after the first division."
+  },
+  {
+    "question_text": "A fund starts with $\\$812.50$ and earns $5\\%$ p.a. compounded annually. The saver needs $\\$936$.\nAt the end of which year does the balance first reach the target? Show why it has not reached the target in the preceding year.",
+    "solution_text": "Multiplier $=1.05$.\nYear $1$: $\\$812.50\\times1.05=\\$853.125$.\nYear $2$: $\\$853.125\\times1.05=\\$895.78125$.\nYear $3$: $\\$895.78125\\times1.05$\n$=\\$940.5703125$.\nYear $2$ is below $\\$936$; year $3$ is above it.\nThe balance first reaches the target at the end of year $3$."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Maya deposits $\\$600$ into a savings account towards a new bike.\nThe account pays $5\\%$ p.a. compounded annually.\nShow the balance at the end of each of the first $3$ years, to the nearest cent.",
         "structure": "growth-table",
-        "solution_text": "$\\begin{array}{c|c|c|c}\\text{Year}&\\text{Start}&\\text{Interest}&\\text{End}\\\\\\hline 1&\\$600.00&\\$30.00&\\$630.00\\\\2&\\$630.00&\\$31.50&\\$661.50\\\\3&\\$661.50&\\$33.08&\\$694.58\\end{array}$"
+        "solution_text": "$\\begin{array}{c|c|c|c}\\text{Year}&\\text{Start}&\\text{Interest}&\\text{End}\\\\\\hline 1&\\$600.00&\\$30.00&\\$630.00\\\\2&\\$630.00&\\$31.50&\\$661.50\\\\3&\\$661.50&\\$33.08&\\$694.58\\end{array}$\nThe table shows amounts to the nearest cent. Keep unrounded calculator values when continuing to the next year."
       },
-      {
+{
         "question_text": "Dylan's guitar fund holds $\\$486.00$ at the end of the second year.\nThe account pays $4\\%$ p.a. compounded annually.\nFind the balance at the end of the third year, to the nearest cent.",
         "structure": "next-period-balance",
         "solution_text": "$\\$486.00\\times1.04$\n$=\\$505.44$"
       },
-      {
+{
         "question_text": "Priya puts $\\$250$ aside for a music festival ticket in an account paying $6\\%$ p.a. compounded annually.\nFind the balance after $2$ years, to the nearest cent.",
         "structure": "balance-after-periods",
         "solution_text": "$\\$250\\times1.06\\times1.06$\n$=\\$280.90$"
       },
-      {
+{
         "question_text": "Sam saves $\\$320$ towards soccer boots in an account paying $8\\%$ p.a. compounded annually.\nFind the balance after $3$ years, to the nearest cent.",
         "structure": "balance-after-periods",
-        "solution_text": "$\\$320\\times1.08\\times1.08\\times1.08$\n$=\\$403.11$"
+        "solution_text": "$\\$320\\times1.08\\times1.08\\times1.08$\n$\\approx\\$403.11$"
       },
-      {
+{
         "question_text": "Noah deposits $\\$800$ towards a new phone at $5\\%$ p.a. compounded annually.\nFind the **interest earned** after $2$ years, to the nearest cent.",
         "structure": "interest-earned",
         "solution_text": "$\\$800\\times1.05\\times1.05$\n$=\\$882.00$\n$I=\\$882.00-\\$800$\n$=\\$82.00$"
       },
-      {
+{
         "question_text": "Zara saves $\\$450$ for a camera in an account paying $4\\%$ p.a. compounded annually.\nShow the balance at the end of each of the first $3$ years, to the nearest cent.",
         "structure": "growth-table",
-        "solution_text": "$\\begin{array}{c|c|c|c}\\text{Year}&\\text{Start}&\\text{Interest}&\\text{End}\\\\\\hline 1&\\$450.00&\\$18.00&\\$468.00\\\\2&\\$468.00&\\$18.72&\\$486.72\\\\3&\\$486.72&\\$19.47&\\$506.19\\end{array}$"
+        "solution_text": "$\\begin{array}{c|c|c|c}\\text{Year}&\\text{Start}&\\text{Interest}&\\text{End}\\\\\\hline 1&\\$450.00&\\$18.00&\\$468.00\\\\2&\\$468.00&\\$18.72&\\$486.72\\\\3&\\$486.72&\\$19.47&\\$506.19\\end{array}$\nThe table shows amounts to the nearest cent. Keep unrounded calculator values when continuing to the next year."
       },
-      {
+{
         "question_text": "Ella deposits $\\$700$ towards a snowboard at $5\\%$ p.a. compounded annually.\nHow much interest is earned in the **second** year, to the nearest cent?",
         "structure": "interest-in-a-given-year",
         "solution_text": "$\\$700\\times1.05$\n$=\\$735.00$\n$\\$735.00\\times0.05$\n$=\\$36.75$"
       },
-      {
+{
         "question_text": "Kai saves $\\$500$ towards a drum kit at $6\\%$ p.a. compounded annually.\nFind the **interest earned** after $3$ years, to the nearest cent.",
         "structure": "interest-earned",
-        "solution_text": "$\\$500\\times1.06\\times1.06\\times1.06$\n$=\\$595.51$\n$I=\\$595.51-\\$500$\n$=\\$95.51$"
+        "solution_text": "$\\$500\\times1.06\\times1.06\\times1.06$\n$=\\$595.508$.\nTotal interest $=\\$595.508-\\$500$\n$=\\$95.508$\n$\\approx\\$95.51$."
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "Harper puts $\\$1\\,250$ into a youth saver paying $8\\%$ p.a. compounded annually, saving for camping gear.\nShow the balance at the end of each of the first $4$ years, to the nearest cent.",
         "structure": "growth-table",
-        "solution_text": "$\\begin{array}{c|c|c|c}\\text{Year}&\\text{Start}&\\text{Interest}&\\text{End}\\\\\\hline 1&\\$1\\,250.00&\\$100.00&\\$1\\,350.00\\\\2&\\$1\\,350.00&\\$108.00&\\$1\\,458.00\\\\3&\\$1\\,458.00&\\$116.64&\\$1\\,574.64\\\\4&\\$1\\,574.64&\\$125.97&\\$1\\,700.61\\end{array}$"
+        "solution_text": "$\\begin{array}{c|c|c|c}\\text{Year}&\\text{Start}&\\text{Interest}&\\text{End}\\\\\\hline 1&\\$1\\,250.00&\\$100.00&\\$1\\,350.00\\\\2&\\$1\\,350.00&\\$108.00&\\$1\\,458.00\\\\3&\\$1\\,458.00&\\$116.64&\\$1\\,574.64\\\\4&\\$1\\,574.64&\\$125.97&\\$1\\,700.61\\end{array}$\nThe table shows amounts to the nearest cent. Keep unrounded calculator values when continuing to the next year."
       },
-      {
+{
         "question_text": "Leo saves $\\$900$ towards a surfboard at $4.5\\%$ p.a. compounded annually.\nFind the balance after $4$ years, to the nearest cent.",
         "structure": "balance-after-periods",
-        "solution_text": "$\\$900\\times1.045\\times1.045\\times1.045\\times1.045$\n$=\\$1\\,073.27$"
+        "solution_text": "$\\$900\\times1.045\\times1.045\\times1.045\\times1.045$\n$\\approx\\$1\\,073.27$"
       },
-      {
+{
         "question_text": "Amina's festival travel fund starts at $\\$650$ and earns $7.2\\%$ p.a. compounded annually.\nFind the **interest earned** after $3$ years, to the nearest cent.",
         "structure": "interest-earned",
-        "solution_text": "$\\$650\\times1.072\\times1.072\\times1.072$\n$=\\$800.75$\n$I=\\$800.75-\\$650$\n$=\\$150.75$"
+        "solution_text": "$\\$650\\times1.072\\times1.072\\times1.072$\n$=\\$800.7514112$.\nTotal interest $=\\$800.7514112-\\$650$\n$\\approx\\$150.75$."
       },
-      {
+{
         "question_text": "Jonah saves $\\$1\\,000$ towards a mountain bike at $6\\%$ p.a. compounded annually.\nHow much interest is earned in the **third** year, to the nearest cent?",
         "structure": "interest-in-a-given-year",
-        "solution_text": "$\\$1\\,000\\times1.06\\times1.06$\n$=\\$1\\,123.60$\n$\\$1\\,123.60\\times0.06$\n$=\\$67.42$"
+        "solution_text": "Starting balance for year $3$:\n$\\$1000\\times1.06\\times1.06=\\$1123.60$.\nYear $3$ interest $=\\$1123.60\\times0.06$\n$=\\$67.416$\n$\\approx\\$67.42$."
       },
-      {
+{
         "question_text": "Tia's ticket fund holds $\\$1\\,346.80$ at the end of the third year.\nThe account pays $5.5\\%$ p.a. compounded annually.\nFind the balance at the end of the fourth year, to the nearest cent.",
         "structure": "next-period-balance",
-        "solution_text": "$\\$1\\,346.80\\times1.055$\n$=\\$1\\,420.87$"
+        "solution_text": "$\\$1\\,346.80\\times1.055$\n$\\approx\\$1\\,420.87$"
       },
-      {
+{
         "question_text": "Ruby saves $\\$2\\,000$ towards a home recording setup at $5.25\\%$ p.a. compounded annually.\nHow much **more** interest is earned in the third year than in the first year, to the nearest cent?",
         "structure": "compare-interest-across-years",
-        "solution_text": "$\\$2\\,000\\times0.0525$\n$=\\$105.00$\n$\\$2\\,000\\times1.0525\\times1.0525\\times0.0525$\n$=\\$116.31$\n$\\$116.31-\\$105.00$\n$=\\$11.31$"
+        "solution_text": "First-year interest $=\\$2000\\times0.0525=\\$105$.\nStarting balance for year $3$:\n$\\$2000\\times1.0525\\times1.0525$\n$=\\$2215.5125$.\nYear $3$ interest $=\\$2215.5125\\times0.0525$\n$=\\$116.31440625$.\nDifference $=\\$116.31440625-\\$105$\n$\\approx\\$11.31$."
       },
-      {
+{
         "question_text": "Isla saves $\\$380$ towards concert tickets at $7\\%$ p.a. compounded annually.\nFind the balance after $4$ years, to the nearest cent.",
         "structure": "balance-after-periods",
-        "solution_text": "$\\$380\\times1.07\\times1.07\\times1.07\\times1.07$\n$=\\$498.10$"
+        "solution_text": "$\\$380\\times1.07\\times1.07\\times1.07\\times1.07$\n$\\approx\\$498.10$"
       }
-    ],
+],
     "mastery": [
-      {
+{
         "question_text": "After $2$ years at $6\\%$ p.a. compounded annually, Omar's skateboard fund holds $\\$617.98$.\nHow much did he deposit at the start?",
         "structure": "find-the-deposit",
         "solution_text": "$\\$617.98\\div1.06$\n$=\\$583.00$\n$\\$583.00\\div1.06$\n$=\\$550.00$"
       },
-      {
+{
         "question_text": "Nina deposits $\\$625$ at $8\\%$ p.a. compounded annually and needs $\\$800$ for an electric scooter.\nAt the end of which year does her balance first reach at least $\\$800$?",
         "structure": "years-to-reach-target",
-        "solution_text": "$\\$625\\times1.08=\\$675.00$\n$\\$675.00\\times1.08=\\$729.00$\n$\\$729.00\\times1.08=\\$787.32$\n$\\$787.32\\times1.08=\\$850.31$\nThe balance first reaches $\\$800$ at the end of year $4$."
+        "solution_text": "$\\$625\\times1.08=\\$675.00$.\n$\\$675\\times1.08=\\$729.00$.\n$\\$729\\times1.08=\\$787.32$.\n$\\$787.32\\times1.08\\approx\\$850.31$.\nYear $3$ is below $\\$800$ and year $4$ is above it.\nThe balance first reaches at least $\\$800$ at the end of year $4$."
       },
-      {
+{
         "question_text": "Ivy's savings account pays $6\\%$ p.a. compounded annually.\nIn the first year the account earns $\\$27.00$ interest.\nFind the interest earned in the third year, to the nearest cent.",
         "structure": "interest-in-a-given-year",
-        "solution_text": "$\\$27.00\\div0.06$\n$=\\$450.00$\n$\\$450.00\\times1.06\\times1.06$\n$=\\$505.62$\n$\\$505.62\\times0.06$\n$=\\$30.34$"
+        "solution_text": "First-year interest $=\\$27.00$, which is $6\\%$ of the deposit.\nDeposit $=\\$27\\div0.06=\\$450$.\nStarting balance for year $3$:\n$\\$450\\times1.06\\times1.06=\\$505.62$.\nYear $3$ interest $=\\$505.62\\times0.06$\n$=\\$30.3372$\n$\\approx\\$30.34$."
       }
-    ]
+]
   }
 }

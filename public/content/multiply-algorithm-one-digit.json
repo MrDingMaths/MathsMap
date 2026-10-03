@@ -2,51 +2,73 @@
   "skillId": "multiply-algorithm-one-digit",
   "atomType": "R",
   "theory": {
-    "intro": "The formal multiplication algorithm multiplies a number by a one-digit number, working from the right and carrying when a column total is $10$ or more.",
-    "facts": [
-      "Multiply the **ones** first, then tens, then hundreds.",
-      "If a column gives $10$ or more, write the ones digit and **carry** the tens.",
-      "Add any carried digit to the next column's product."
-    ],
-    "steps": [
+"intro": "The formal multiplication algorithm multiplies a number by a one-digit number, working from the right and carrying when a column total is $10$ or more.",
+"facts": [
+"Multiply the **ones** first, then tens, hundreds and thousands as needed.",
+"If a column gives $10$ or more, write the ones digit and **carry** the tens to the next column. In the final column, write the whole remaining result.",
+"Add any carried digit to the next column's product."
+],
+"steps": [
       "Set out the number with the single digit beneath the ones place.",
       "Multiply each digit by the one-digit number, right to left.",
       "Carry where needed and combine to get the product."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Use the formal algorithm to calculate $134\\times2$.",
+    "solution_text": "$4\\times2=8$.\n$3\\times2=6$.\n$1\\times2=2$.\nNo carrying is needed.\n$\\begin{array}{r}134\\\\ \\times2\\\\ \\hline268\\end{array}$"
   },
+  {
+    "question_text": "For $763\\times8$:\n(a) state the digit written and the digit carried after multiplying the ones\n(b) complete the calculation.",
+    "solution_text": "(a) $3\\times8=24$: write $4$ in the ones column and carry $2$ to the tens column.\n(b) $2+(6\\times8)=50$: write $0$, carry $5$.\n$5+(7\\times8)=61$. This is the final column, so write $61$.\n$\\begin{array}{r}763\\\\ \\times8\\\\ \\hline6104\\end{array}$"
+  },
+  {
+    "question_text": "Calculate $3058\\times7$ using the formal algorithm. Explain what happens at the zero hundreds digit.",
+    "solution_text": "$8\\times7=56$: write $6$, carry $5$.\n$5+(5\\times7)=40$: write $0$, carry $4$.\n$4+(0\\times7)=4$. The zero hundreds digit still receives the carried $4$.\n$3\\times7=21$.\n$\\begin{array}{r}3058\\\\ \\times7\\\\ \\hline21406\\end{array}$"
+  },
+  {
+    "question_text": "Find the missing digit in $\\begin{array}{r}2\\square9\\\\ \\times6\\\\ \\hline1734\\end{array}$. Explain using the columns, then check.",
+    "solution_text": "$9\\times6=54$: write $4$, carry $5$.\nThe final column is $17$. Since $2\\times6=12$, the tens column must carry $5$.\nThe tens column therefore gives $53$: write $3$, carry $5$.\nAfter subtracting the carried $5$ from the ones column, $53-5=48$.\n$8\\times6=48$, so the missing digit is $8$.\nCheck: $5+(8\\times6)=53$ and $5+(2\\times6)=17$.\n$289\\times6=1734$.\nAlternatively, $1734\\div6=289$, giving the same missing digit."
+  },
+  {
+    "question_text": "A student writes $857\\times3=2411$.\n(a) Identify the first incorrect column.\n(b) Give the correct product.",
+    "solution_text": "(a) $7\\times3=21$: write $1$, carry $2$. The ones digit is correct.\n$2+(5\\times3)=17$: the tens digit should be $7$, not $1$. This is the first incorrect column.\n(b) Carry $1$ from the tens column.\n$1+(8\\times3)=25$.\n$\\begin{array}{r}857\\\\ \\times3\\\\ \\hline2571\\end{array}$"
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Use the formal algorithm to calculate $42 \\times 3$.",
         "structure": "algorithm-no-carry",
         "solution_text": "$2 \\times 3=6$.\n$4 \\times 3=12$.\n$\\begin{array}{r}42\\\\ \\times 3\\\\ \\hline 126\\end{array}$"
       },
-      {
+{
         "question_text": "Use the formal algorithm to calculate $231 \\times 4$.",
         "structure": "algorithm-ones-carry",
-        "solution_text": "$1 \\times 4=4$.\n$3 \\times 4=12$.\n$2 \\times 4=8$.\n$\\begin{array}{r}231\\\\ \\times 4\\\\ \\hline 924\\end{array}$"
+        "solution_text": "$1\\times4=4$.\n$3\\times4=12$: write $2$, carry $1$.\n$1+(2\\times4)=9$.\n$\\begin{array}{r}231\\\\ \\times4\\\\ \\hline924\\end{array}$"
       },
-      {
+{
         "question_text": "Use the formal algorithm to calculate $76 \\times 5$.",
         "structure": "algorithm-ones-carry",
         "solution_text": "$6 \\times 5=30$: write $0$, carry $3$.\n$3+(7 \\times 5)=38$.\n$\\begin{array}{r}76\\\\ \\times 5\\\\ \\hline 380\\end{array}$"
       },
-      {
+{
         "question_text": "Use the formal algorithm to calculate $324 \\times 6$.",
         "structure": "algorithm-multiple-carries",
         "solution_text": "$4 \\times 6=24$: write $4$, carry $2$.\n$2+(2 \\times 6)=14$: write $4$, carry $1$.\n$1+(3 \\times 6)=19$.\n$\\begin{array}{r}324\\\\ \\times 6\\\\ \\hline 1944\\end{array}$"
       },
-      {
+{
         "question_text": "Use the formal algorithm to calculate $508 \\times 7$.",
         "structure": "algorithm-internal-zero",
         "solution_text": "$8 \\times 7=56$: write $6$, carry $5$.\n$5+(0 \\times 7)=5$.\n$5 \\times 7=35$.\n$\\begin{array}{r}508\\\\ \\times 7\\\\ \\hline 3556\\end{array}$"
       },
-      {
+{
         "question_text": "Use the formal algorithm to calculate $1204 \\times 3$.",
         "structure": "algorithm-internal-zero",
         "solution_text": "$4 \\times 3=12$: write $2$, carry $1$.\n$1+(0 \\times 3)=1$.\n$2 \\times 3=6$ and $1 \\times 3=3$.\n$\\begin{array}{r}1204\\\\ \\times 3\\\\ \\hline 3612\\end{array}$"
       }
-    ],
+],
     "development": [
       {
         "question_text": "Calculate $487 \\times 8$ using the formal algorithm.",
@@ -80,21 +102,21 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "A student writes $643 \\times 5=3015$.\nIdentify the first incorrect column and give the correct product.",
         "structure": "diagnose-algorithm-error",
-        "solution_text": "$3 \\times 5=15$: write $5$, carry $1$.\n$1+(4 \\times 5)=21$, so the tens digit should be $1$, not $0$.\n$2+(6 \\times 5)=32$.\n$\\begin{array}{r}643\\\\ \\times 5\\\\ \\hline 3215\\end{array}$"
+        "solution_text": "$3\\times5=15$: write $5$, carry $1$.\n$1+(4\\times5)=21$: write $1$, carry $2$.\nThe ones digit $5$ and tens digit $1$ in $3015$ are correct.\nThe first incorrect column is the hundreds column: $2+(6\\times5)=32$, not $30$.\nThe carried $2$ must be added in this final column.\n$\\begin{array}{r}643\\\\ \\times5\\\\ \\hline3215\\end{array}$"
       },
-      {
+{
         "question_text": "Complete $\\begin{array}{r}2\\square 7\\\\ \\times 8\\\\ \\hline 1816\\end{array}$ and explain how the tens digit is found.",
         "structure": "algorithm-missing-digit",
         "solution_text": "$1816 \\div 8=227$, so $\\square=2$.\nThe ones column gives $7 \\times 8=56$, so carry $5$.\n$5+(2 \\times 8)=21$, which gives the tens digit $1$."
       },
-      {
+{
         "question_text": "Without doing the entire calculation again, decide whether $709 \\times 6=4254$ is correct by checking its columns.",
         "structure": "diagnose-algorithm-error",
         "solution_text": "$9 \\times 6=54$: write $4$, carry $5$.\n$5+(0 \\times 6)=5$.\n$7 \\times 6=42$.\nThe product $4254$ is correct."
       }
-    ]
+]
   }
 }

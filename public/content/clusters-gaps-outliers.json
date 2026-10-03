@@ -2,8 +2,8 @@
   "skillId": "clusters-gaps-outliers",
   "atomType": "Cat",
   "theory": {
-        "intro": "Once a dataset is ordered, three features stand out at a glance: **clusters**, **gaps** and **outliers**. You identify all three **informally**, by looking at how the values are spaced, with no calculation needed.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.9]\n\\draw[<->] (1.6,0)--(9.6,0);\n\\foreach \\x in {2,3,4,5,6,7,8,9} {\\draw (\\x,-0.12)--(\\x,0.12); \\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\x$};}\n\\foreach \\x/\\c in {3/3,4/5,5/4,8/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.35*\\k}) circle (2.5pt);}}\n\\node[font=\\small] at (4,2.5) {Cluster};\n\\node[font=\\small] at (8,1.4) {Outlier};\n\\draw[->] (8,1.15)--(8,0.65);\n\\draw[<->] (6,-0.75)--(7,-0.75);\n\\node[font=\\small] at (6.5,-1.15) {Gap};\n\\node[below,font=\\scriptsize] at (5.5,-1.75) {Data value};\n\\node[font=\\small] at (5.5,3.1) {Cluster, gap and outlier};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "Once a dataset is ordered, three features stand out at a glance: **clusters**, **gaps** and **outliers**. You identify all three **informally**, by looking at how the values are spaced, with no calculation needed.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.9]\n\\draw[<->] (1.6,0)--(9.6,0);\n\\foreach \\x in {2,3,4,5,6,7,8,9} {\\draw (\\x,-0.12)--(\\x,0.12); \\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\x$};}\n\\foreach \\x/\\c in {3/3,4/5,5/4,8/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.35*\\k}) circle (2.5pt);}}\n\\node[font=\\small] at (4,2.5) {Cluster};\n\\node[font=\\small] at (8,1.4) {Outlier};\n\\draw[->] (8,1.15)--(8,0.65);\n\\draw[<->] (6,-0.75)--(7,-0.75);\n\\node[font=\\small] at (6.5,-1.15) {Gap};\n\\node[below,font=\\scriptsize] at (5.5,-1.75) {Data value};\n\\node[font=\\small] at (5.5,3.1) {Cluster, gap and outlier};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "A **cluster** is a group of data values grouped closely around each other.",
           "A dataset can contain more than one cluster.",
           "A **gap** is an interval that contains no data values.",
@@ -13,13 +13,31 @@
           "A wide spread does not create an outlier: values spaced evenly across a large interval have no value far from the rest.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[<->] (-0.6,0)--(12.6,0);\n\\foreach \\x in {0,2,4,6,8,10,12} {\\draw (\\x,-0.12)--(\\x,0.12); \\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\x$};}\n\\foreach \\x in {0,2,4,6,8,10,12} {\\fill (\\x,0.4) circle (2.5pt);}\n\\node[font=\\small] at (6,1.6) {Evenly spread, so no outlier};\n\\node[below,font=\\scriptsize] at (6,-0.9) {Data value};\n\\end{tikzpicture}\n[/tikz]",
           "Ordering the data first makes every cluster, gap and outlier easy to see."
         ],
-        "steps": [
+"steps": [
           "Order the data values from smallest to largest",
           "Identify any value far from all the others (an outlier)",
           "Identify any interval with no data values (a gap)",
           "Identify any group of values bunched closely together (a cluster)"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "The heights, in metres, of six trees are $7.4$, $6.8$, $7.1$, $7.6$, $18.9$ and $7.2$.\nDescribe the cluster, the gap and the outlier.",
+    "solution_text": "Order the heights: $6.8,7.1,7.2,7.4,7.6,18.9$.\nFive heights are close together from $6.8$ m to $7.6$ m, so this is the cluster.\nThere is a gap between $7.6$ m and $18.9$ m: no tree has a recorded height in that interval.\nThe outlier is $18.9$ m, much higher than the other five trees."
+  },
+  {
+    "question_text": "The graph shows the daily maximum temperature over six days.\n[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"clusters-gaps-outliers scaled display example; source-adapted statistical display; ordinary black lines, labels and data points; no shaded region\"}\n\\begin{tikzpicture}[x=0.75cm,y=0.12cm]\n\\draw[->] (0,0)--(0,34);\\draw[->] (0,0)--(6.8,0);\n\\foreach \\v in {0,5,10,15,20,25,30} {\\draw (-0.12,\\v)--(0,\\v);\\node[left] at (-0.15,\\v) {$\\v$};}\n\\foreach \\x in {1,...,6} {\\node[below] at (\\x,0) {$\\x$};}\n\\draw (1,14)--(2,16)--(3,15)--(4,31)--(5,17)--(6,16);\n\\foreach \\x/\\y in {1/14,2/16,3/15,4/31,5/17,6/16} {\\fill (\\x,\\y) circle (1.8pt);\\node[above] at (\\x,\\y) {$\\y$};}\n\\node[rotate=90] at (-1.25,17) {Temperature ($^{\\circ}$C)};\n\\node[below] at (3.5,-3) {Day};\n\\end{tikzpicture}\n[/tikz]\n(a) Read the six temperatures.\n(b) Describe the cluster, the gap and the outlier. State which day had the outlier.",
+    "solution_text": "(a) Read the temperature scale, not the day numbers: $14,16,15,31,17,16$ in day order.\n(b) In order: $14,15,16,16,17,31$.\nFive temperatures are close together from $14^{\\circ}$C to $17^{\\circ}$C, forming a cluster.\nThere is a gap between $17^{\\circ}$C and $31^{\\circ}$C, with no recorded temperature in that interval.\nThe outlier is $31^{\\circ}$C on Day $4$, much higher than the other five temperatures."
+  },
+  {
+    "question_text": "Each dot shows one tree height. The two plots use the same heights; only the number of trees at $21$ m changes.\nPlot A:\n[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"clusters-gaps-outliers worked example; source-adapted dot plot; ordinary black lines, labels and data dots; no shaded region\"}\n\\begin{tikzpicture}[x=0.48cm,y=0.45cm]\n\\draw[<->] (9.5,0)--(22.5,0);\n\\foreach \\x in {10,...,22} {\\draw (\\x,-0.15)--(\\x,0.15);}\n\\foreach \\x in {11,13,15,17,19,21} {\\node[below] at (\\x,-0.2) {$\\x$};}\n\\foreach \\x/\\c in {11/3,12/4,13/3,21/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,\\k) circle (1.8pt);}}\n\\node[below] at (16,-1.2) {Height (m)};\n\\end{tikzpicture}\n[/tikz]\nPlot B:\n[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"clusters-gaps-outliers worked example; source-adapted dot plot; ordinary black lines, labels and data dots; no shaded region\"}\n\\begin{tikzpicture}[x=0.48cm,y=0.45cm]\n\\draw[<->] (9.5,0)--(22.5,0);\n\\foreach \\x in {10,...,22} {\\draw (\\x,-0.15)--(\\x,0.15);}\n\\foreach \\x in {11,13,15,17,19,21} {\\node[below] at (\\x,-0.2) {$\\x$};}\n\\foreach \\x/\\c in {11/3,12/4,13/3,21/3} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,\\k) circle (1.8pt);}}\n\\node[below] at (16,-1.2) {Height (m)};\n\\end{tikzpicture}\n[/tikz]\n(a) Describe the clusters and gap in Plot B.\n(b) Which plot shows a single outlier at $21$ m? Explain.",
+    "solution_text": "(a) Plot B has ten heights from $11$ m to $13$ m and three heights at $21$ m. These form two groups.\nThere is a gap between $13$ m and $21$ m, with no heights at the ticks $14$ m to $20$ m.\n(b) Plot A has a single outlier at $21$ m, far above the group from $11$ m to $13$ m.\nIn Plot B, three trees have height $21$ m. They form a second group, rather than a single height standing alone."
+  },
+  {
+    "question_text": "Two streets have these house prices, in thousands of dollars:\nStreet A: $43,56,69,82,95,108$\nStreet B: $43,46,48,51,54,108$\nBoth have the same lowest and highest prices. Which street has an outlier? Explain why the highest price is not automatically an outlier.",
+    "solution_text": "In Street A the prices rise in equal steps of $13$. No price sits far from the rest, so there is no outlier.\nIn Street B, five prices are grouped from $43$ to $54$. The price $108$ is much higher and stands alone, so it is an outlier.\nBoth streets have the same spread, but only Street B has an isolated price. The highest price is an outlier only when it is far from the rest."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,83 +2,107 @@
   "skillId": "unit-fraction-of-quantity",
   "atomType": "R",
   "theory": {
-        "intro": "A **unit fraction** has a numerator of $1$. Finding a unit fraction of a quantity means sharing the quantity into that many equal parts.\n[tikz]\\begin{tikzpicture}[x=1cm,y=0.9cm,every node/.style={font=\\small}]\n\\fill[blue!25] (0,0) rectangle (1,1);\n\\draw (0,0) rectangle (5,1);\n\\foreach \\x in {1,2,3,4} {\\draw (\\x,0)--(\\x,1);}\n\\node[above] at (0.5,1.05) {one part};\n\\draw[decorate,decoration={brace,mirror,amplitude=5pt}] (0,-0.15)--(5,-0.15);\n\\node[below] at (2.5,-0.35) {the whole quantity};\n\\end{tikzpicture}[/tikz]",
-        "facts": [
-          "$\\tfrac{1}{n}$ of a quantity is the quantity **divided by $n$**.",
-          "$\\tfrac{1}{2}$ means split into $2$ equal parts, $\\tfrac{1}{4}$ into $4$, and so on.",
-          "A bar split into $n$ equal segments shows each segment as $\\tfrac{1}{n}$ of the whole."
-        ],
-        "steps": [
-          "Read the denominator to see how many equal parts to make.",
-          "Divide the quantity by that number.",
-          "The result is one of the equal parts."
-        ]
-      },
+"intro": "A **unit fraction** has a numerator of $1$. Finding a unit fraction of a quantity means sharing the quantity into that many equal parts.\n[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"fractionBlueFill\",\"hex\":\"D4E8FF\",\"reason\":\"Identify the one selected fifth of five equal parts; restrained mathematical fraction shading.\"}],\"reference\":\"Equal-part quantity bar; preserve outer geometry and ordinary black outlines/labels\"}\n\\definecolor{fractionBlueFill}{HTML}{D4E8FF}\n\\begin{tikzpicture}[x=1cm,y=0.9cm,every node/.style={font=\\small}]\n\\fill[fractionBlueFill] (0,0) rectangle (1,1);\n\\draw (0,0) rectangle (5,1);\n\\foreach \\x in {1,2,3,4} {\\draw (\\x,0)--(\\x,1);}\n\\node[above] at (0.5,1.05) {one part};\n\\draw[decorate,decoration={brace,mirror,amplitude=5pt}] (0,-0.15)--(5,-0.15);\n\\node[below] at (2.5,-0.35) {the whole quantity};\n\\end{tikzpicture}[/tikz]",
+"facts": [
+"For the halves, quarters, fifths and tenths used here, $\\tfrac{1}{n}$ of a quantity is the quantity **divided by $n$**.",
+"$\\tfrac{1}{2}$ means split into $2$ equal parts, $\\tfrac{1}{4}$ into $4$, and so on.",
+"A bar split into $n$ equal segments shows each segment as $\\tfrac{1}{n}$ of the whole.",
+"If one equal part is known, multiply it by the number of parts to find the whole.",
+"To compare fractions of different quantities, find each amount before comparing."
+],
+"steps": [
+"Read the denominator to see how many equal parts make the whole.",
+"For a unit fraction of a known whole, divide by the denominator. Use halving or useful partitions when helpful. If one part is known instead, multiply by the denominator to rebuild the whole.",
+"Keep the measurement units. Find both amounts before comparing different quantities, and check a rebuilt whole by dividing."
+],
+"workedExamples": [
+  {
+    "question_text": "(a) Find $\\frac{1}{5}$ of $85$.\n(b) Find $\\frac{1}{2}$ of $1258$ by halving.\n(c) A student says $\\frac{1}{5}$ of $145$ is $140$. Explain the error and correct it.",
+    "solution_text": "(a) Share into five equal parts: $85\\div5=17$.\n(b) Halve the quantity: $1258\\div2=629$.\n(c) The student subtracted $5$ instead of dividing by $5$.\n$145\\div5=29$."
+  },
+  {
+    "question_text": "Find $\\frac{1}{4}$ of $3412$ by partitioning.",
+    "solution_text": "$3412\\div4$\n$=(3400\\div4)+(12\\div4)$\n$=850+3$\n$=853$"
+  },
+  {
+    "question_text": "One fifth of a quantity is $74$.\n(a) Find the whole quantity.\n(b) Check your answer.",
+    "solution_text": "(a) The whole has five equal parts.\n$74\\times5=370$.\n(b) $370\\div5=74$, which is the given fifth."
+  },
+  {
+    "question_text": "Which is greater: $\\frac{1}{4}$ of $236$ or $\\frac{1}{5}$ of $305$? Show both calculations.",
+    "solution_text": "$236\\div4=59$.\n$305\\div5=61$.\n$61>59$, so $\\frac{1}{5}$ of $305$ is greater.\nThe wholes are different, so compare the calculated amounts."
+  },
+  {
+    "question_text": "A $3$-metre ribbon is cut into ten equal pieces. Find the length of one piece in centimetres.",
+    "solution_text": "$3$ metres $=300$ centimetres.\n$300\\div10=30$ centimetres.\nEach piece is $30$ centimetres long."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Find $\\frac{1}{2}$ of $18$.",
         "structure": "half-quantity",
         "solution_text": "$18\\div2=9$"
       },
-      {
-        "question_text": "Find $\\frac{1}{4}$ of $28$.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=0.8cm]\n\\draw (0,0) rectangle (4,1);\n\\foreach \\x in {1,2,3} {\\draw (\\x,0)--(\\x,1);}\n\\node[above] at (2,1) {total $28$};\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "Find $\\frac{1}{4}$ of $28$.\n[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"Equal-part quantity bar; preserve outer geometry and ordinary black outlines/labels\"}\n\\begin{tikzpicture}[x=1cm,y=0.8cm]\n\\draw (0,0) rectangle (4,1);\n\\foreach \\x in {1,2,3} {\\draw (\\x,0)--(\\x,1);}\n\\node[above] at (2,1) {total $28$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "quarter-quantity",
         "solution_text": "$28\\div4=7$"
       },
-      {
+{
         "question_text": "Find $\\frac{1}{5}$ of $35$.",
         "structure": "fifth-quantity",
         "solution_text": "$35\\div5=7$"
       },
-      {
+{
         "question_text": "Find $\\frac{1}{10}$ of $90$.",
         "structure": "tenth-quantity",
         "solution_text": "$90\\div10=9$"
       },
-      {
+{
         "question_text": "Find $\\frac{1}{4}$ of $24$ kg.",
         "structure": "quarter-quantity",
         "solution_text": "$24\\div4=6$ kg"
       },
-      {
+{
         "question_text": "Which is greater: $\\frac{1}{2}$ of $16$ or $\\frac{1}{4}$ of $28$?",
         "structure": "compare-unit-quantities",
         "solution_text": "$16\\div2=8$\n$28\\div4=7$\n$8>7$"
       }
-    ],
+],
     "development": [
-      {
-        "question_text": "Find $\\frac{1}{8}$ of $72$.\n[tikz]\n\\begin{tikzpicture}[x=0.75cm,y=0.75cm]\n\\draw (0,0) rectangle (8,1);\n\\foreach \\x in {1,2,3,4,5,6,7} {\\draw (\\x,0)--(\\x,1);}\n\\node[above] at (4,1) {total $72$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "eighth-quantity",
-        "solution_text": "$72\\div8=9$"
+{
+        "question_text": "Find $\\frac{1}{4}$ of $72$.\n[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"Scope repair: four equal quarters within exact existing 0–8 bar bounds; retain total72 and ordinary black outlines/labels\"}\n\\begin{tikzpicture}[x=0.75cm,y=0.75cm]\n\\draw (0,0) rectangle (8,1);\n\\foreach \\x in {2,4,6} {\\draw (\\x,0)--(\\x,1);}\n\\node[above] at (4,1) {total $72$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "quarter-quantity",
+        "solution_text": "$72\\div4=18$"
       },
-      {
+{
         "question_text": "Find $\\frac{1}{5}$ of $125$ cm.",
         "structure": "fifth-quantity",
         "solution_text": "$125\\div5=25$ cm"
       },
-      {
+{
         "question_text": "One tenth of a number is $14$.\nFind the number.",
         "structure": "inverse-unit-fraction",
         "solution_text": "$14\\times10=140$"
       },
-      {
+{
         "question_text": "A student says $\\frac{1}{4}$ of $36$ is $32$.\nIdentify the error and correct it.",
         "structure": "identify-fraction-error",
         "solution_text": "The student subtracted $4$ instead of dividing by $4$.\n$36\\div4=9$"
       },
-      {
+{
         "question_text": "Find $\\frac{1}{2}$ of $3\\,248$ by halving.",
         "structure": "half-quantity",
         "solution_text": "$3\\,248\\div2=1\\,624$"
       },
-      {
+{
         "question_text": "A $2$ m ribbon is divided into $10$ equal pieces.\nFind each length in centimetres.",
         "structure": "measure-context",
         "solution_text": "$2$ m $=200$ cm\n$200\\div10=20$ cm"
       }
-    ],
+],
     "mastery": [
       {
         "question_text": "Find $\\frac{1}{4}$ of $3\\,096$ using partitioning.",

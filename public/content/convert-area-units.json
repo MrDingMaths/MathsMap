@@ -2,84 +2,107 @@
   "skillId": "convert-area-units",
   "atomType": "R",
   "theory": {
-        "intro": "An area conversion uses the length conversion factor **squared**. A metre is $100$ cm long, so a square metre is $100$ cm by $100$ cm, which is $10\\,000$ square centimetres.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[fill=blue!15] (0,0) rectangle (5.2,5.2);\n\\draw[fill=blue!45] (0,0) rectangle (0.65,0.65);\n\\node[right] at (0.8,0.32) {$1$ small unit$^{2}$};\n\\node[below] at (2.6,-0.15) {$1$ big unit $=k$ small units};\n\\node[rotate=90] at (-0.9,2.6) {$1$ big unit $=k$ small units};\n\\node at (2.6,2.9) {$1$ big unit$^{2}$};\n\\node at (2.6,2.3) {$=k^{2}$ small units$^{2}$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
-          "The area ladder runs $\\text{km}^2$, ha, $\\text{m}^2$, $\\text{cm}^2$, $\\text{mm}^2$ from largest unit to smallest.",
-          "$1\\text{ cm}^2 = 10^2 = 100\\text{ mm}^2$ and $1\\text{ m}^2 = 100^2 = 10\\,000\\text{ cm}^2$.",
-          "$1\\text{ ha} = 100^2 = 10\\,000\\text{ m}^2$ (a square $100$ m by $100$ m) and $1\\text{ km}^2 = 10^2 = 100$ ha.",
-          "$1\\text{ km}^2 = 1000^2 = 1\\,000\\,000\\text{ m}^2$.",
-          "Moving to a **smaller** unit **multiplies**; moving to a **larger** unit **divides**.",
-          "The factor is never the length factor on its own: $\\text{cm}^2 \\to \\text{m}^2$ divides by $100^2$, not by $100$."
-        ],
-        "steps": [
-          "Find the two units on the area ladder.",
-          "Decide to multiply (to a smaller unit) or divide (to a larger unit).",
-          "Square the length factor and apply it."
-        ]
-      },
+"intro": "An area conversion uses the length conversion factor **squared**. A metre is $100$ cm long, so a square metre is $100$ cm by $100$ cm, which is $10\\,000$ square centimetres.\n\n[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"areaPartFill\",\"hex\":\"D4E8FF\",\"reason\":\"One small square identifies the small unit whose copies fill the large square; whole background unshaded.\"}],\"reference\":\"Existing square/grid geometry retained; ordinary outlines and labels black; semantic selected-unit shading only\"}\n\\definecolor{areaPartFill}{HTML}{D4E8FF}\n\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\large}]\n\\draw[fill=white] (0,0) rectangle (5.2,5.2);\n\\draw[fill=areaPartFill] (0,0) rectangle (0.65,0.65);\n\\node[right] at (0.8,0.32) {$1$ small unit$^{2}$};\n\\node[below] at (2.6,-0.15) {$1$ big unit $=k$ small units};\n\\node[rotate=90] at (-0.9,2.6) {$1$ big unit $=k$ small units};\n\\node at (2.6,2.9) {$1$ big unit$^{2}$};\n\\node at (2.6,2.3) {$=k^{2}$ small units$^{2}$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
+"The area ladder runs $\\text{km}^2$, ha, $\\text{m}^2$, $\\text{cm}^2$, $\\text{mm}^2$ from largest unit to smallest.",
+"$1\\text{ cm}^2 = 10^2\\text{ mm}^2 = 100\\text{ mm}^2$ and $1\\text{ m}^2 = 100^2\\text{ cm}^2 = 10\\,000\\text{ cm}^2$.",
+"$1\\text{ ha} = 100^2\\text{ m}^2 = 10\\,000\\text{ m}^2$ (a square $100$ m by $100$ m) and $1\\text{ km}^2 = 10^2\\text{ ha} = 100$ ha.",
+"$1\\text{ km}^2 = 1000^2\\text{ m}^2 = 1\\,000\\,000\\text{ m}^2$.",
+"Moving to a **smaller** unit **multiplies**; moving to a **larger** unit **divides**.",
+"The factor is never the length factor on its own: $\\text{cm}^2 \\to \\text{m}^2$ divides by $100^2$, not by $100$."
+],
+"steps": [
+"Find the units on the area ladder. Use the squared length factor for each conversion.",
+"Multiply to a smaller unit or divide to a larger unit. Repeat for each link needed.",
+"For comparison or a total, convert the areas to the same unit first.",
+"For counts, costs or rates, convert first, then calculate using the information given. Count only whole objects when required."
+],
+"workedExamples": [
+  {
+    "question_text": "(a) A square has sides of $1$ cm. Explain why its area is $100\\text{ mm}^2$, rather than $10\\text{ mm}^2$.\n(b) Convert $6.3\\text{ cm}^2$ to $\\text{mm}^2$.\n(c) Convert $4700\\text{ cm}^2$ to $\\text{m}^2$.",
+    "solution_text": "(a) Each side is $10$ mm long.\n$10\\times10=100\\text{ mm}^2$.\nThe length factor is squared because there are two dimensions.\n(b) A square millimetre is smaller, so multiply.\n$6.3\\times10^2=630\\text{ mm}^2$.\n(c) A square metre is larger, so divide.\n$4700\\div100^2=4700\\div10\\,000=0.47\\text{ m}^2$."
+  },
+  {
+    "question_text": "Complete both rows of this area table.\n$\\begin{array}{c|c|c}\\text{m}^2&\\text{cm}^2&\\text{mm}^2\\\\\\hline0.83&?&?\\\\?&36\\,500&?\\end{array}$",
+    "solution_text": "First row:\n$0.83\\times10\\,000=8300\\text{ cm}^2$.\n$8300\\times100=830\\,000\\text{ mm}^2$.\nSecond row:\n$36\\,500\\div10\\,000=3.65\\text{ m}^2$.\n$36\\,500\\times100=3\\,650\\,000\\text{ mm}^2$."
+  },
+  {
+    "question_text": "(a) Which is larger: $0.73\\text{ m}^2$ or $6900\\text{ cm}^2$? Give the larger area in $\\text{cm}^2$.\n(b) A garden bed covers $1.42\\text{ m}^2$ and a path beside it covers $3800\\text{ cm}^2$. Find their total area in $\\text{m}^2$.",
+    "solution_text": "(a) Use the same unit for both areas.\n$0.73\\times10\\,000=7300\\text{ cm}^2$.\n$7300>6900$, so the larger area is $7300\\text{ cm}^2$.\n(b) Convert the path's area before adding.\n$3800\\div10\\,000=0.38\\text{ m}^2$.\n$1.42+0.38=1.80\\text{ m}^2$."
+  },
+  {
+    "question_text": "(a) A floor has area $39\\text{ m}^2$. Tiles each cover $625\\text{ cm}^2$ and are sold in boxes of $12$ at $\\$17.50$ per box. Find the cost of the tiles needed.\n(b) A farm covers $4.6$ ha. Using area alone, how many whole house blocks of $1450\\text{ m}^2$ could it contain?",
+    "solution_text": "(a) Convert the floor area to the tile unit.\n$39\\times10\\,000=390\\,000\\text{ cm}^2$.\n$390\\,000\\div625=624$ tiles.\n$624\\div12=52$ boxes.\n$52\\times17.50=\\$910$.\n(b) $4.6\\times10\\,000=46\\,000\\text{ m}^2$.\n$46\\,000\\div1450=31.72\\ldots$.\nBy area, there is enough for **$31$ whole blocks**. A further whole block would exceed the farm's area."
+  },
+  {
+    "question_text": "(a) A property covers $187\\,500\\text{ m}^2$. Its owner plants $12$ trees per hectare. How many trees are planted?\n(b) A park covers $16.8\\text{ km}^2$. A ranger patrols $240$ ha each day. How many days are needed to patrol the whole park?",
+    "solution_text": "(a) Convert to hectares before using the planting rate.\n$187\\,500\\div10\\,000=18.75\\text{ ha}$.\n$18.75\\times12=225$ trees.\n(b) $16.8\\times100=1680\\text{ ha}$.\n$1680\\div240=7$ days."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\draw[step=0.4,gray!50,very thin] (0,0) grid (4,4);\n\\draw[thick] (0,0) rectangle (4,4);\n\\draw[decorate,decoration={brace,amplitude=4pt}] (0,4.12)--(0.4,4.12) node[midway,above,font=\\scriptsize] {$1\\text{ mm}$};\n\\node[below] at (2,-0.1) {$1\\text{ cm}$};\n\\node[rotate=90] at (-0.45,2) {$1\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nThe large square has area $1\\text{ cm}^2$ and each small square has area $1\\text{ mm}^2$.\nHow many $\\text{mm}^2$ are there in $1\\text{ cm}^2$?",
+{
+        "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"Existing square/grid geometry retained; ordinary outlines and labels black; semantic selected-unit shading only\"}\n\n\\begin{tikzpicture}[draw=black,text=black,scale=1]\n\\draw[step=0.4,black,very thin] (0,0) grid (4,4);\n\\draw[thick] (0,0) rectangle (4,4);\n\\draw[decorate,decoration={brace,amplitude=4pt}] (0,4.12)--(0.4,4.12) node[midway,above,font=\\scriptsize] {$1\\text{ mm}$};\n\\node[below] at (2,-0.1) {$1\\text{ cm}$};\n\\node[rotate=90] at (-0.45,2) {$1\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nThe large square has area $1\\text{ cm}^2$ and each small square has area $1\\text{ mm}^2$.\nHow many $\\text{mm}^2$ are there in $1\\text{ cm}^2$?",
         "structure": "unit-square-count",
-        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\fill[gray!25] (0,0) rectangle (4,0.4);\n\\draw[step=0.4,gray!50,very thin] (0,0) grid (4,4);\n\\draw[thick] (0,0) rectangle (4,4);\n\\node[right] at (4.15,0.2) {$10$ squares};\n\\node[rotate=90] at (-0.45,2) {$10$ rows};\n\\end{tikzpicture}\n[/tikz]\n$10 \\times 10$\n$= 100\\text{ mm}^2$"
+        "solution_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"areaPartFill\",\"hex\":\"D4E8FF\",\"reason\":\"Highlight one row of ten small squares to distinguish row count from total area.\"}],\"reference\":\"Existing square/grid geometry retained; ordinary outlines and labels black; semantic selected-unit shading only\"}\n\\definecolor{areaPartFill}{HTML}{D4E8FF}\n\n\\begin{tikzpicture}[draw=black,text=black,scale=1]\n\\fill[areaPartFill] (0,0) rectangle (4,0.4);\n\\draw[step=0.4,black,very thin] (0,0) grid (4,4);\n\\draw[thick] (0,0) rectangle (4,4);\n\\node[right] at (4.15,0.2) {$10$ squares};\n\\node[rotate=90] at (-0.45,2) {$10$ rows};\n\\end{tikzpicture}\n[/tikz]\n$10 \\times 10$\n$= 100\\text{ mm}^2$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\draw[thick] (0,0) rectangle (4,4);\n\\node[below] at (2,-0.1) {$1\\text{ m} = 100\\text{ cm}$};\n\\node[rotate=90] at (-0.5,2) {$1\\text{ m} = 100\\text{ cm}$};\n\\node at (2,2) {$1\\text{ m}^2$};\n\\end{tikzpicture}\n[/tikz]\nEach side of this square is $100$ cm long.\nHow many $\\text{cm}^2$ are there in $1\\text{ m}^2$?",
+{
+        "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"Existing square/grid geometry retained; ordinary outlines and labels black; semantic selected-unit shading only\"}\n\n\\begin{tikzpicture}[draw=black,text=black,scale=1]\n\\draw[thick] (0,0) rectangle (4,4);\n\\node[below] at (2,-0.1) {$1\\text{ m} = 100\\text{ cm}$};\n\\node[rotate=90] at (-0.5,2) {$1\\text{ m} = 100\\text{ cm}$};\n\\node at (2,2) {$1\\text{ m}^2$};\n\\end{tikzpicture}\n[/tikz]\nEach side of this square is $100$ cm long.\nHow many $\\text{cm}^2$ are there in $1\\text{ m}^2$?",
         "structure": "unit-square-count",
         "solution_text": "$100 \\times 100$\n$= 10\\,000\\text{ cm}^2$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\draw[thick] (0,0) rectangle (4,4);\n\\node[below] at (2,-0.1) {$100\\text{ m}$};\n\\node[rotate=90] at (-0.4,2) {$100\\text{ m}$};\n\\node at (2,2) {$1\\text{ ha}$};\n\\end{tikzpicture}\n[/tikz]\nOne hectare is the area of this square.\nWrite $1$ ha in $\\text{m}^2$.",
+{
+        "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"Existing square/grid geometry retained; ordinary outlines and labels black; semantic selected-unit shading only\"}\n\n\\begin{tikzpicture}[draw=black,text=black,scale=1]\n\\draw[thick] (0,0) rectangle (4,4);\n\\node[below] at (2,-0.1) {$100\\text{ m}$};\n\\node[rotate=90] at (-0.4,2) {$100\\text{ m}$};\n\\node at (2,2) {$1\\text{ ha}$};\n\\end{tikzpicture}\n[/tikz]\nOne hectare is the area of this square.\nWrite $1$ ha in $\\text{m}^2$.",
         "structure": "unit-square-count",
         "solution_text": "$100 \\times 100$\n$= 10\\,000\\text{ m}^2$"
       },
-      {
+{
         "question_text": "To convert an area from $\\text{cm}^2$ to $\\text{mm}^2$, do you multiply or divide, and by what factor?",
         "structure": "state-conversion-factor",
         "solution_text": "A square millimetre is smaller than a square centimetre, so the count of them is larger and the conversion multiplies.\nThe length factor is $10$, so the area factor is $10^2$.\nMultiply by $10^2 = 100$."
       },
-      {
+{
         "question_text": "To convert an area from $\\text{m}^2$ to ha, do you multiply or divide, and by what factor?",
         "structure": "state-conversion-factor",
         "solution_text": "A hectare is larger than a square metre, so the count of them is smaller and the conversion divides.\nThe length factor is $100$, so the area factor is $100^2$.\nDivide by $100^2 = 10\\,000$."
       },
-      {
+{
         "question_text": "Convert $4\\text{ cm}^2$ to $\\text{mm}^2$.",
         "structure": "convert-one-step",
         "solution_text": "$4\\text{ cm}^2 \\times 10^2$\n$= 400\\text{ mm}^2$"
       },
-      {
+{
         "question_text": "Convert $3.7\\text{ m}^2$ to $\\text{cm}^2$.",
         "structure": "convert-one-step",
         "solution_text": "$3.7\\text{ m}^2 \\times 100^2$\n$= 3.7 \\times 10\\,000$\n$= 37\\,000\\text{ cm}^2$"
       },
-      {
+{
         "question_text": "Convert $50\\,000\\text{ cm}^2$ to $\\text{m}^2$.",
         "structure": "convert-one-step",
         "solution_text": "$50\\,000\\text{ cm}^2 \\div 100^2$\n$= 50\\,000 \\div 10\\,000$\n$= 5\\text{ m}^2$"
       },
-      {
+{
         "question_text": "Convert $350\\text{ cm}^2$ to $\\text{m}^2$.",
         "structure": "convert-one-step",
         "solution_text": "$350\\text{ cm}^2 \\div 100^2$\n$= 350 \\div 10\\,000$\n$= 0.035\\text{ m}^2$"
       },
-      {
+{
         "question_text": "Convert $0.5$ ha to $\\text{m}^2$.",
         "structure": "convert-one-step",
         "solution_text": "$0.5\\text{ ha} \\times 100^2$\n$= 0.5 \\times 10\\,000$\n$= 5000\\text{ m}^2$"
       },
-      {
+{
         "question_text": "Convert $85\\,000\\text{ m}^2$ to ha.",
         "structure": "convert-one-step",
         "solution_text": "$85\\,000\\text{ m}^2 \\div 100^2$\n$= 85\\,000 \\div 10\\,000$\n$= 8.5\\text{ ha}$"
       },
-      {
+{
         "question_text": "Convert $6\\text{ km}^2$ to ha.",
         "structure": "convert-one-step",
         "solution_text": "$6\\text{ km}^2 \\times 10^2$\n$= 6 \\times 100$\n$= 600\\text{ ha}$"
       }
-    ],
+],
     "development": [
       {
         "question_text": "Convert $3\\text{ m}^2$ to $\\text{mm}^2$.",
@@ -133,21 +156,21 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "A kitchen floor has an area of $48\\text{ m}^2$.\nSquare tiles each have an area of $400\\text{ cm}^2$ and are sold in boxes of $10$ at $\\$8.50$ per box.\nFind the total cost of the tiles needed, in dollars.",
         "structure": "conversion-word-problem",
         "solution_text": "$48\\text{ m}^2 \\times 100^2$\n$= 480\\,000\\text{ cm}^2$\n$480\\,000 \\div 400$\n$= 1200$ tiles\n$1200 \\div 10$\n$= 120$ boxes\n$120 \\times 8.50$\n$= \\$1020$"
       },
-      {
-        "question_text": "A suburban house block is advertised as $650\\text{ m}^2$.\nGive this area in hectares, then find how many whole blocks of that size would fit on a farm of $3.2$ ha.",
+{
+        "question_text": "A suburban house block is advertised as $650\\text{ m}^2$.\nGive this area in hectares, then, using area alone, find how many whole blocks of that size a farm could contain if its area is $3.2$ ha.",
         "structure": "conversion-word-problem",
         "solution_text": "$650\\text{ m}^2 \\div 100^2$\n$= 0.065\\text{ ha}$\n$3.2\\text{ ha} \\times 100^2$\n$= 32\\,000\\text{ m}^2$\n$32\\,000 \\div 650$\n$= 49.2\\ldots$\n$49$ whole blocks"
       },
-      {
+{
         "question_text": "Copy and complete this table, writing each area in all three units.\n$\\begin{array}{c|c|c} \\text{Area in }\\text{m}^2 & \\text{Area in }\\text{cm}^2 & \\text{Area in }\\text{mm}^2 \\\\ \\hline 14 & ? & ? \\\\ ? & 22\\,000 & ? \\end{array}$",
         "structure": "complete-conversion-table",
         "solution_text": "$14\\text{ m}^2 \\times 100^2$\n$= 140\\,000\\text{ cm}^2$\n$140\\,000\\text{ cm}^2 \\times 10^2$\n$= 14\\,000\\,000\\text{ mm}^2$\n$22\\,000\\text{ cm}^2 \\div 100^2$\n$= 2.2\\text{ m}^2$\n$22\\,000\\text{ cm}^2 \\times 10^2$\n$= 2\\,200\\,000\\text{ mm}^2$"
       }
-    ]
+]
   }
 }

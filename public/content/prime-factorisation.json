@@ -2,8 +2,8 @@
   "skillId": "prime-factorisation",
   "atomType": "R",
   "theory": {
-        "intro": "**Prime factorisation** writes a whole number as a product of primes. Every whole number above $1$ has exactly one prime factorisation, however you find it.",
-        "facts": [
+"intro": "**Prime factorisation** writes a whole number as a product of primes. Every whole number above $1$ has exactly one prime factorisation, however you find it.",
+"facts": [
           "The first ten primes are $2, 3, 5, 7, 11, 13, 17, 19, 23, 29$.",
           "A **factor tree** splits a number into a factor pair, then keeps splitting until every branch ends at a prime.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\node (a) at (0,2.5) {$n$};\n\\node (b) at (-1.6,1.5) {$p$};\n\\node (c) at (1.6,1.5) {$m$};\n\\node (d) at (0.7,0.5) {$q$};\n\\node (e) at (2.5,0.5) {$r$};\n\\draw (a)--(b);\n\\draw (a)--(c);\n\\draw (c)--(d);\n\\draw (c)--(e);\n\\node[font=\\normalsize, below] at (-1.6,1.2) {prime};\n\\node[font=\\normalsize, below] at (0.7,0.2) {prime};\n\\node[font=\\normalsize, below] at (2.5,0.2) {prime};\n\\end{tikzpicture}\n[/tikz]",
           "$1$ is not prime, so a branch never ends at $1$ — the tree below changes one prime leaf to $1$ and fails.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\node (a) at (0,2.5) {$n$};\n\\node (b) at (-1.6,1.5) {$1$};\n\\node (c) at (1.6,1.5) {$m$};\n\\node (d) at (0.7,0.5) {$q$};\n\\node (e) at (2.5,0.5) {$r$};\n\\draw (a)--(b);\n\\draw (a)--(c);\n\\draw (c)--(d);\n\\draw (c)--(e);\n\\node[font=\\normalsize, below] at (-1.6,1.2) {not prime};\n\\node[font=\\normalsize, below] at (0.7,0.2) {prime};\n\\node[font=\\normalsize, below] at (2.5,0.2) {prime};\n\\end{tikzpicture}\n[/tikz]",
@@ -11,13 +11,43 @@
           "Write the primes from smallest to largest and use index form for repeats: $40=2^{3}\\times 5$.",
           "The divisibility tests help you find the first factor pair."
         ],
-        "steps": [
+"steps": [
           "Think of a factor pair and draw two branches with the two factors at the ends.",
           "End a branch when its factor is prime; otherwise split that factor again.",
           "Write all the prime factors as a product, from smallest to largest.",
           "Use index form for prime factors that repeat."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "(a) Draw a factor tree for $84$ starting with $12\\times7$.\n(b) Write $84$ as a product of prime factors in index form.",
+    "solution_text": "(a) Split $12$ into $3\\times4$, then $4$ into $2\\times2$. End the branches at primes.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\small}]\n\\path[use as bounding box] (-2.3,-0.3) rectangle (1.5,3.4);\n\\node (a) at (0,3) {$84$};\n\\node (b) at (-1.1,2) {$12$};\n\\node (c) at (1.1,2) {$7$};\n\\node (d) at (-1.9,1) {$3$};\n\\node (e) at (-0.3,1) {$4$};\n\\node (f) at (-1.0,0) {$2$};\n\\node (g) at (0.4,0) {$2$};\n\\draw (a)--(b);\\draw (a)--(c);\n\\draw (b)--(d);\\draw (b)--(e);\n\\draw (e)--(f);\\draw (e)--(g);\n\\end{tikzpicture}[/tikz]\n(b) The prime leaves are $3$, $2$, $2$ and $7$.\n$84=2\\times2\\times3\\times7=2^{2}\\times3\\times7$."
+  },
+  {
+    "question_text": "Two factor trees for $120$ start with $8\\times15$ and $12\\times10$.\nShow that both give the same prime factorisation.",
+    "solution_text": "Starting with $8\\times15$:\n$120=(2\\times2\\times2)\\times(3\\times5)$.\nStarting with $12\\times10$:\n$120=(2\\times2\\times3)\\times(2\\times5)$.\nBoth have three factors of $2$, one $3$ and one $5$.\n$120=2^{3}\\times3\\times5$.\nDifferent starting pairs give the same prime factorisation."
+  },
+  {
+    "question_text": "Use repeated division by primes to write $350$ as a product of prime factors in index form.",
+    "solution_text": "$350\\div2=175$.\n$175\\div5=35$.\n$35\\div5=7$.\n$7\\div7=1$. Stop at $1$.\nThe prime divisors are $2$, $5$, $5$ and $7$.\n$350=2\\times5\\times5\\times7=2\\times5^{2}\\times7$."
+  },
+  {
+    "question_text": "(a) A student writes $132=2^{2}\\times33$. Is this a prime factorisation? Correct it if necessary.\n(b) Give the prime factorisation of $19$.",
+    "solution_text": "(a) The product is $132$, but $33$ is not prime: $33=3\\times11$.\nContinue until every factor is prime.\n$132=2^{2}\\times3\\times11$.\n(b) $19$ is prime. Its only positive factors are $1$ and $19$, so its factor tree has no branches.\nIts prime factorisation is $19$."
+  },
+  {
+    "question_text": "Given $56=2^{3}\\times7$:\n(a) write $280$ as a product of prime factors in index form\n(b) decide which of $10$, $16$ and $35$ are factors of $280$, using the prime factors.",
+    "solution_text": "(a) $280=5\\times56=2^{3}\\times5\\times7$.\n(b) $10=2\\times5$: both primes are available, so $10$ is a factor.\n$16=2^{4}$: four factors of $2$ are needed, but only three are available, so $16$ is not a factor.\n$35=5\\times7$: both primes are available, so $35$ is a factor.\nThe factors from the list are $10$ and $35$."
+  },
+  {
+    "question_text": "The smallest possible number with prime factorisation $2^{3}\\times3\\times\\square\\times\\square$ has both $50$ and $70$ as factors.\nFill the two boxes with the prime powers needed.",
+    "solution_text": "$50=2\\times5^{2}$, so two factors of $5$ are needed.\n$70=2\\times5\\times7$, so one factor of $7$ is also needed.\nThe given $2^{3}$ already supplies enough factors of $2$.\nFor the smallest possible number, use exactly $5^{2}$ and $7$ in the boxes, in either order.\nThe complete factorisation is $2^{3}\\times3\\times5^{2}\\times7$."
+  },
+  {
+    "question_text": "The complete factor tree has two leaves, $a$ and $b$, which are different prime numbers.\nWhich of $35$, $37$, $49$ and $63$ could it factorise? Explain.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\small}]\n\\path[use as bounding box] (-1.5,-0.1) rectangle (1.5,1.8);\n\\node (n) at (0,1.4) {$?$};\n\\node (a) at (-1.1,0.4) {$a$};\n\\node (b) at (1.1,0.4) {$b$};\n\\draw (n)--(a);\\draw (n)--(b);\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "$35=5\\times7$: two different primes.\n$37$ is prime, so its tree has no branches.\n$49=7\\times7$: the two prime leaves would be equal.\n$63=3\\times3\\times7$: three prime leaves are needed.\nOnly $35$ fits the complete tree."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -94,26 +124,26 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "Given that $450=2\\times 3^{2}\\times 5^{2}$, write $900$ as a product of prime factors in index form.",
         "structure": "factorise-from-a-given-result",
         "solution_text": "$900$\n$=2\\times 450$\n$=2\\times 2\\times 3^{2}\\times 5^{2}$\n$=2^{2}\\times 3^{2}\\times 5^{2}$"
       },
-      {
-        "question_text": "A number has prime factorisation $2^{2}\\times 3\\times \\square\\times \\square$, and $100$ and $130$ are both factors of it.\nFill in the two missing prime powers.",
+{
+        "question_text": "The smallest possible number with prime factorisation $2^{2}\\times3\\times\\square\\times\\square$ has both $100$ and $130$ as factors.\nFill in the two missing prime powers.",
         "structure": "deduce-factorisation-from-known-factors",
-        "solution_text": "$100$\n$=2^{2}\\times 5^{2}$\nso the number needs two factors of $5$.\n$130$\n$=2\\times 5\\times 13$\nso the number also needs a factor of $13$.\nThe missing prime powers are $5^{2}$ and $13$, giving $2^{2}\\times 3\\times 5^{2}\\times 13$."
+        "solution_text": "$100$\n$=2^{2}\\times 5^{2}$\nso the number needs two factors of $5$.\n$130$\n$=2\\times 5\\times 13$\nso the number also needs a factor of $13$.\nThe missing prime powers are $5^{2}$ and $13$, giving $2^{2}\\times 3\\times 5^{2}\\times 13$.\nFor the smallest possible number, use only the prime factors required. The boxes contain $5^{2}$ and $13$, in either order."
       },
-      {
+{
         "question_text": "$a$ and $b$ are different prime numbers, and the factor tree below is complete.\nWhich of $45$, $47$, $49$ and $51$ could the tree be factorising?\n[tikz]\n\\begin{tikzpicture}\n\\node (a) at (0,1.4) {$?$};\n\\node (b) at (-1.1,0.4) {$a$};\n\\node (c) at (1.1,0.4) {$b$};\n\\draw (a)--(b);\n\\draw (a)--(c);\n\\end{tikzpicture}\n[/tikz]",
         "structure": "deduce-number-from-tree-shape",
         "solution_text": "$45=3^{2}\\times 5$, which needs three prime leaves.\n$47$ is prime, so its tree has no branches.\n$49=7\\times 7$, so the two leaves would be equal.\n$51=3\\times 17$, two different primes.\nThe tree factorises $51$."
       },
-      {
+{
         "question_text": "Which of $6$, $15$, $21$ and $26$ are factors of $2\\times 3\\times 7\\times 13$?",
         "structure": "factor-from-prime-factorisation",
         "solution_text": "$6=2\\times 3$, and both primes are in the product, so $6$ is a factor.\n$15=3\\times 5$, but there is no $5$ in the product, so $15$ is not a factor.\n$21=3\\times 7$, both present, so $21$ is a factor.\n$26=2\\times 13$, both present, so $26$ is a factor.\nThe factors are $6$, $21$ and $26$."
       }
-    ]
+]
   }
 }

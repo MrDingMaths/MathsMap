@@ -2,17 +2,44 @@
   "skillId": "probability-range",
   "atomType": "Cat",
   "theory": {
-        "intro": "Every probability is a number from $0$ to $1$. Where it sits on this scale says how likely the event is.\n\n[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\draw (0,0)--(7,0);\n\\foreach \\x in {0,3.5,7} {\\draw (\\x,-0.12)--(\\x,0.12);}\n\\node[below] at (0,-0.15) {$0$};\n\\node[below] at (3.5,-0.15) {$\\frac{1}{2}$};\n\\node[below] at (7,-0.15) {$1$};\n\\node[font=\\scriptsize] at (0,-1.3) {$0\\%$};\n\\node[font=\\scriptsize] at (3.5,-1.3) {$50\\%$};\n\\node[font=\\scriptsize] at (7,-1.3) {$100\\%$};\n\\node[font=\\scriptsize] at (0,-2.0) {Impossible};\n\\node[font=\\scriptsize] at (3.5,-2.0) {Even chance};\n\\node[font=\\scriptsize] at (7,-2.0) {Certain};\n\\node[font=\\scriptsize] at (1.75,0.45) {Unlikely};\n\\node[font=\\scriptsize] at (5.25,0.45) {Likely};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
-          "Every probability satisfies $0 \\le P(\\text{event}) \\le 1$, so $-0.2$ and $1.4$ can never be probabilities.",
-          "$P(\\text{event}) = 0$ means the event is **impossible** and never happens; $P(\\text{event}) = 1$ means it is **certain** and always happens.",
-          "$P(\\text{event}) = \\frac{1}{2}$ is an **even chance**: the event happens exactly half the time.",
-          "Below $\\frac{1}{2}$ an event is **unlikely**; above $\\frac{1}{2}$ it is **likely**.",
-          "Probabilities can be written as fractions, decimals or percentages: the same scale runs from $0$ to $1$, or $0\\%$ to $100\\%$.",
-          "The probabilities of **all** possible outcomes of an experiment add to $1$, because one outcome is certain to happen.",
-          "So an unknown probability equals $1$ minus the sum of the known ones."
-        ]
-      },
+"intro": "Every probability is a number from $0$ to $1$. Where it sits on this scale says how likely the event is.\n\n[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\draw (0,0)--(7,0);\n\\foreach \\x in {0,3.5,7} {\\draw (\\x,-0.12)--(\\x,0.12);}\n\\node[below] at (0,-0.15) {$0$};\n\\node[below] at (3.5,-0.15) {$\\frac{1}{2}$};\n\\node[below] at (7,-0.15) {$1$};\n\\node[font=\\scriptsize] at (0,-1.3) {$0\\%$};\n\\node[font=\\scriptsize] at (3.5,-1.3) {$50\\%$};\n\\node[font=\\scriptsize] at (7,-1.3) {$100\\%$};\n\\node[font=\\scriptsize] at (0,-2.0) {Impossible};\n\\node[font=\\scriptsize] at (3.5,-2.0) {Even chance};\n\\node[font=\\scriptsize] at (7,-2.0) {Certain};\n\\node[font=\\scriptsize] at (1.75,0.45) {Unlikely};\n\\node[font=\\scriptsize] at (5.25,0.45) {Likely};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
+"Every probability satisfies $0 \\le P(\\text{event}) \\le 1$, so $-0.2$ and $1.4$ can never be probabilities.",
+"$P(\\text{event}) = 0$ means the event is **impossible** and never happens; $P(\\text{event}) = 1$ means it is **certain** and always happens.",
+"$P(\\text{event})=\\frac{1}{2}$ is an **even chance**: happening and not happening are equally likely. Actual results need not be exactly half.",
+"Below $\\frac{1}{2}$ an event is **unlikely**; above $\\frac{1}{2}$ it is **likely**.",
+"Probabilities can be written as fractions, decimals or percentages: the same scale runs from $0$ to $1$, or $0\\%$ to $100\\%$.",
+"For a complete list where exactly one outcome happens each time, the probabilities add to $1$, because one outcome is certain to happen.",
+"So an unknown probability equals $1$ minus the sum of the known ones."
+],
+"steps": [
+  "Check that each probability is from $0$ to $1$, including the endpoints.",
+  "Use the scale to describe or compare chances. For equally likely choices, count favourable outcomes over the total.",
+  "For a complete list of outcomes, check the total is $1$. Subtract known probabilities from $1$ to find a missing one."
+],
+"workedExamples": [
+  {
+    "question_text": "Consider $-0.17$, $0$, $0.46$, $\\frac{1}{2}$, $1$ and $117\\%$.\n(a) Which could be probabilities?\n(b) Describe each valid probability as impossible, unlikely, even chance, likely or certain. List them from least to most likely.",
+    "solution_text": "(a) $-0.17$ is below $0$, and $117\\%=1.17$ is above $1$, so neither is valid.\n$0$, $0.46$, $\\frac{1}{2}$ and $1$ could be probabilities.\n(b) $0$ is impossible; $0.46$ is unlikely; $\\frac{1}{2}$ is an even chance; $1$ is certain.\nLeast to most likely: $0$, $0.46$, $\\frac{1}{2}$, $1$."
+  },
+  {
+    "question_text": "A bag contains $13$ red, $18$ blue and $3$ yellow counters. One is picked at random.\n(a) Find the probability of red and describe its chance.\n(b) Find the probability of white, and of red, blue or yellow. Describe these events.\n(c) Check that the three colour probabilities add to $1$.",
+    "solution_text": "There are $13+18+3=34$ counters.\n(a) $P(\\text{red})=\\frac{13}{34}$. Half of $34$ is $17$, and $13<17$, so red is unlikely.\n(b) There are no white counters: $P(\\text{white})=\\frac{0}{34}=0$, so white is impossible.\nEvery counter is red, blue or yellow: $\\frac{34}{34}=1$, so this event is certain.\n(c) $\\frac{13}{34}+\\frac{18}{34}+\\frac{3}{34}=\\frac{34}{34}=1$."
+  },
+  {
+    "question_text": "Each selector shows exactly one of A, B or C. Find the missing probability of C in the requested form.\n(a) $P(A)=0.31$, $P(B)=0.42$: decimal.\n(b) $P(A)=\\frac{2}{7}$, $P(B)=\\frac{1}{4}$: fraction.\n(c) $P(A)=29\\%$, $P(B)=37\\%$: percentage.",
+    "solution_text": "All three probabilities must add to $1$, or $100\\%$.\n(a) $P(C)=1-0.31-0.42=0.27$\n(b) $P(C)=1-\\frac{2}{7}-\\frac{1}{4}$\n$=\\frac{28}{28}-\\frac{8}{28}-\\frac{7}{28}=\\frac{13}{28}$\n(c) $P(C)=100\\%-29\\%-37\\%=34\\%$"
+  },
+  {
+    "question_text": "A selector shows exactly one of three colours. Which lists could give the probabilities of all three colours? Explain each decision.\n(a) $0.18,0.37,0.45$\n(b) $0.28,0.36,0.43$\n(c) $0.63,0.48,-0.11$",
+    "solution_text": "Check each value and the total.\n(a) Every value is from $0$ to $1$, and $0.18+0.37+0.45=1$. This list could be valid.\n(b) Each value is in range, but $0.28+0.36+0.43=1.07$. This is not a valid complete list.\n(c) $0.63+0.48-0.11=1$, but $-0.11$ is negative. A total of $1$ does not make a negative probability valid."
+  },
+  {
+    "question_text": "A bag contains $26$ counters. There is an even chance of picking a red counter at random.\n(a) How many counters are red?\n(b) Does this mean exactly $13$ reds must be picked in $26$ draws if the counter is replaced each time?",
+    "solution_text": "(a) An even chance means half the counters are red.\n$26\\div2=13$\nThere are $13$ red counters.\n(b) No. Red and not red are equally likely on each draw, but random results need not be exactly half red."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -94,21 +121,21 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "A jar contains only red, yellow, blue and green lollies.\nFor one lolly picked at random, $P(\\text{red}) = 0.35$, $P(\\text{yellow}) = 0.3$ and $P(\\text{blue}) = 0.15$.\na. Find $P(\\text{green})$ as a decimal.\nb. Describe picking a green lolly as impossible, unlikely, even chance, likely or certain.",
         "structure": "missing-outcome-decimal",
         "solution_text": "a. The probabilities of all the outcomes add to $1$.\n$P(\\text{green}) = 1 - 0.35 - 0.3 - 0.15$\n$= 0.2$\nb. $0.2$ is between $0$ and $\\frac{1}{2}$, so picking a green lolly is **unlikely**."
       },
-      {
+{
         "question_text": "A jar contains $12$ lollies, and there is an even chance of picking a red lolly at random.\nHow many of the lollies are red?",
         "structure": "count-from-probability",
         "solution_text": "An even chance means the probability is exactly $\\frac{1}{2}$, so exactly half the lollies are red.\n$\\frac{1}{2} \\times 12 = 6$\nThere are $6$ red lollies."
       },
-      {
+{
         "question_text": "A jar contains $5$ red, $6$ yellow and $2$ blue lollies.\nOne lolly is picked at random.\nAva says picking a yellow lolly is an even chance, because yellow is the most common colour.\nIs Ava correct?\nExplain.",
         "structure": "even-chance-strict",
-        "solution_text": "Ava is not correct.\n$P(\\text{yellow}) = \\frac{6}{13}$\nAn even chance means a probability of exactly $\\frac{1}{2} = \\frac{6.5}{13}$, and $\\frac{6}{13}$ is less than this.\nPicking a yellow lolly is **unlikely** — being the most common colour does not make it an even chance."
+        "solution_text": "Ava is not correct.\n$P(\\text{yellow})=\\frac{6}{13}$.\nHalf of $13$ is $6.5$, and $6<6.5$, so $\\frac{6}{13}<\\frac{1}{2}$.\nPicking yellow is **unlikely**. Being the most common colour does not make it an even chance."
       }
-    ]
+]
   }
 }

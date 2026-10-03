@@ -2,121 +2,151 @@
   "skillId": "estimate-roots",
   "atomType": "R",
   "theory": {
-        "intro": "$\\sqrt{10}$ is the side length of a square of area $10$. Because $10$ lies between the perfect squares $9$ and $16$, $\\sqrt{10}$ lies between $3$ and $4$.",
-        "facts": [
-          "If $a^{2}<x<b^{2}$, then $a<\\sqrt{x}<b$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-0.6,0)--(6.6,0);\n\\draw (1.5,0.12)--(1.5,-0.12);\n\\node[below] at (1.5,-0.12) {$a$};\n\\draw (4.5,0.12)--(4.5,-0.12);\n\\node[below] at (4.5,-0.12) {$b$};\n\\draw[very thick] (1.5,0)--(4.5,0);\n\\fill (2.7,0) circle (2.2pt);\n\\node[above] at (2.7,0.2) {$\\sqrt{x}$};\n\\end{tikzpicture}\n[/tikz]",
-          "If $a^{3}<x<b^{3}$, then $a<\\sqrt[3]{x}<b$.",
-          "The landmarks are the perfect squares $1,4,9,16,25,36,49,64,81,100,\\ldots$ and the perfect cubes $1,8,27,64,125,216,343,\\ldots$",
-          "The root sits nearer the landmark the number is nearer to: $50$ is much nearer $49$ than $64$, so $\\sqrt{50}$ is a little above $7$.",
-          "An estimate is not exact, so record a decimal value with $\\approx$, for example $\\sqrt{10}\\approx 3.16$."
-        ],
-        "steps": [
-          "Find the two perfect squares (or cubes) the number lies between.",
-          "Take the root of each landmark to get the two whole numbers.",
-          "Decide which of the two whole numbers the root is closer to."
-        ]
-      },
+"intro": "$\\sqrt{10}$ is the side length of a square of area $10$. Because $10$ lies between the perfect squares $9$ and $16$, $\\sqrt{10}$ lies between $3$ and $4$.",
+"facts": [
+"For nonnegative $a$ and $b$, If $a^{2}<x<b^{2}$, then $a<\\sqrt{x}<b$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-0.6,0)--(6.6,0);\n\\draw (1.5,0.12)--(1.5,-0.12);\n\\node[below] at (1.5,-0.12) {$a$};\n\\draw (4.5,0.12)--(4.5,-0.12);\n\\node[below] at (4.5,-0.12) {$b$};\n\\draw[very thick] (1.5,0)--(4.5,0);\n\\fill (2.7,0) circle (2.2pt);\n\\node[above] at (2.7,0.2) {$\\sqrt{x}$};\n\\end{tikzpicture}\n[/tikz]",
+"If $a^{3}<x<b^{3}$, then $a<\\sqrt[3]{x}<b$.",
+"The landmarks are the perfect squares $1,4,9,16,25,36,49,64,81,100,\\ldots$ and the perfect cubes $1,8,27,64,125,216,343,\\ldots$",
+"Perfect squares and cubes help you make a rough estimate. For example, $50$ is only a little above $49$, so $\\sqrt{50}$ is a little above $7$. For a nearest-whole-number answer, check the halfway value rather than comparing distances from the powered landmarks alone.",
+"An estimate is not exact, so record a decimal value with $\\approx$, for example $\\sqrt{10}\\approx 3.16$."
+],
+"steps": [
+"Find the two perfect squares (or cubes) the number lies between.",
+"Take the root of each landmark to get the two whole numbers.",
+"Refine the estimate using nearby squares or cubes. For the nearest whole number, square or cube the halfway value to check which side the root lies on. Check with a calculator when required."
+],
+"workedExamples": [
+  {
+    "question_text": "Between which two consecutive whole numbers does each root lie?\n(a) $\\sqrt{22}$\n(b) $\\sqrt[3]{90}$",
+    "solution_text": "(a) $4^2=16<22<25=5^2$, so $4<\\sqrt{22}<5$.\n(b) $4^3=64<90<125=5^3$, so $4<\\sqrt[3]{90}<5$.\nUse perfect squares for a square root and perfect cubes for a cube root."
+  },
+  {
+    "question_text": "Find each root exactly. Is an estimate needed?\n(a) $\\sqrt{81}$\n(b) $\\sqrt[3]{125}$",
+    "solution_text": "(a) $81=9^2$, so $\\sqrt{81}=9$.\n(b) $125=5^3$, so $\\sqrt[3]{125}=5$.\nBoth numbers are exact landmarks, so no estimate is needed."
+  },
+  {
+    "question_text": "Which whole number is $\\sqrt{56}$ closest to? Check your estimate.",
+    "solution_text": "$49<56<64$, so $7<\\sqrt{56}<8$.\nThe halfway value between $7$ and $8$ is $7.5$.\n$7.5^2=56.25$ and $56<56.25$, so $\\sqrt{56}<7.5$.\nTherefore, $\\sqrt{56}$ is closer to $7$.\nA calculator check gives $\\sqrt{56}\\approx7.48$ to two decimal places.\nComparing distances from $49$ and $64$ alone would not settle which whole number is closest."
+  },
+  {
+    "question_text": "Estimate each root between consecutive whole numbers, then check with a calculator and give the value to two decimal places. Plot their approximate positions on a number line.\n(a) $\\sqrt{8}$\n(b) $\\sqrt{38}$",
+    "solution_text": "(a) $4<8<9$, so $2<\\sqrt{8}<3$.\nA calculator check gives $\\sqrt{8}\\approx2.83$.\n(b) $36<38<49$, so $6<\\sqrt{38}<7$.\nA calculator check gives $\\sqrt{38}\\approx6.16$.\nThe plotted positions are approximate.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\foreach \\i in {0,...,8}{\\draw (0.78*\\i,0.12)--(0.78*\\i,-0.12);\\node[below] at (0.78*\\i,-0.12) {$\\i$};}\n\\fill (2.206,0) circle (2.2pt);\n\\node[above] at (2.206,0.2) {$\\sqrt{8}$};\n\\fill (4.808,0) circle (2.2pt);\n\\node[above] at (4.808,0.2) {$\\sqrt{38}$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Show that $0.7<\\sqrt{0.6}<0.8$ without using a calculator.",
+    "solution_text": "$0.7^2=0.49$ and $0.8^2=0.64$.\n$0.49<0.6<0.64$, so $\\sqrt{0.49}<\\sqrt{0.6}<\\sqrt{0.64}$.\nTherefore, $0.7<\\sqrt{0.6}<0.8$."
+  },
+  {
+    "question_text": "Which is larger, $\\sqrt{70}$ or $\\sqrt[3]{200}$? Use bounds to explain.",
+    "solution_text": "$64<70<81$, so $8<\\sqrt{70}<9$.\n$125<200<216$, so $5<\\sqrt[3]{200}<6$.\nThe intervals do not overlap: $\\sqrt{70}>8$ while $\\sqrt[3]{200}<6$.\nTherefore, $\\sqrt{70}$ is larger."
+  },
+  {
+    "question_text": "Use strict bounds to answer each question.\n(a) $4<\\sqrt{n}<5$, where $n$ is a whole number. What is the largest possible $n$?\n(b) $2<\\sqrt[3]{m}<3$, where $m$ is a whole number. How many values can $m$ take?",
+    "solution_text": "(a) Squaring the positive bounds gives $16<n<25$.\nThe largest whole number below $25$ is $24$.\n(b) Cubing the bounds gives $8<m<27$.\nThe whole numbers are $9$ to $26$, giving $26-9+1=18$ possible values.\nThe endpoints are excluded because the roots must lie strictly between the bounds."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Between which two whole numbers does $\\sqrt{20}$ lie?\nShow the interval on the number line.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "between-consecutive-squares",
         "solution_text": "$16<20<25$\n$\\sqrt{16}<\\sqrt{20}<\\sqrt{25}$\n$4<\\sqrt{20}<5$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\draw[very thick] (3.12,0)--(3.9,0);\n\\fill (3.49,0) circle (2.2pt);\n\\node[above] at (3.49,0.2) {$\\sqrt{20}$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Between which two whole numbers does $\\sqrt{55}$ lie?\nShow the interval on the number line.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "between-consecutive-squares",
         "solution_text": "$49<55<64$\n$\\sqrt{49}<\\sqrt{55}<\\sqrt{64}$\n$7<\\sqrt{55}<8$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\draw[very thick] (5.46,0)--(6.24,0);\n\\fill (5.79,0) circle (2.2pt);\n\\node[above] at (5.79,0.2) {$\\sqrt{55}$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
-        "question_text": "Between which two whole numbers does $\\sqrt{36}$ lie?\nShow its position on the number line.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "Find $\\sqrt{36}$ exactly.\nShow its position on the number line.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "exact-root-no-estimate",
         "solution_text": "$36$ is itself a perfect square, so no estimate is needed.\n$\\sqrt{36}$\n$=6$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\fill (4.68,0) circle (2.2pt);\n\\node[above] at (4.68,0.2) {$\\sqrt{36}$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Between which two whole numbers does $\\sqrt{13}$ lie?\nShow the interval on the number line.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "between-consecutive-squares",
         "solution_text": "$9<13<16$\n$\\sqrt{9}<\\sqrt{13}<\\sqrt{16}$\n$3<\\sqrt{13}<4$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\draw[very thick] (2.34,0)--(3.12,0);\n\\fill (2.82,0) circle (2.2pt);\n\\node[above] at (2.82,0.2) {$\\sqrt{13}$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Between which two whole numbers does $\\sqrt{45}$ lie?\nShow the interval on the number line.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "between-consecutive-squares",
         "solution_text": "$36<45<49$\n$\\sqrt{36}<\\sqrt{45}<\\sqrt{49}$\n$6<\\sqrt{45}<7$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\draw[very thick] (4.68,0)--(5.46,0);\n\\fill (5.23,0) circle (2.2pt);\n\\node[above] at (5.23,0.2) {$\\sqrt{45}$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Between which two whole numbers does $\\sqrt[3]{30}$ lie?\nShow the interval on the number line.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "between-consecutive-cubes",
         "solution_text": "$27<30<64$\n$\\sqrt[3]{27}<\\sqrt[3]{30}<\\sqrt[3]{64}$\n$3<\\sqrt[3]{30}<4$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\draw[very thick] (2.34,0)--(3.12,0);\n\\fill (2.43,0) circle (2.2pt);\n\\node[above] at (2.43,0.2) {$\\sqrt[3]{30}$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Between which two whole numbers does $\\sqrt[3]{200}$ lie?\nShow the interval on the number line.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "between-consecutive-cubes",
         "solution_text": "$125<200<216$\n$\\sqrt[3]{125}<\\sqrt[3]{200}<\\sqrt[3]{216}$\n$5<\\sqrt[3]{200}<6$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\draw[very thick] (3.9,0)--(4.68,0);\n\\fill (4.56,0) circle (2.2pt);\n\\node[above] at (4.56,0.2) {$\\sqrt[3]{200}$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Is $\\sqrt{50}$ closer to $7$ or to $8$?\nShow your reasoning on the number line.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "closer-to-which-whole-number",
-        "solution_text": "$49<50<64$\n$7<\\sqrt{50}<8$\n$50-49=1$ and $64-50=14$, so $50$ is much nearer to $49$.\n$\\sqrt{50}$ is closer to $7$.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\draw[very thick] (5.46,0)--(6.24,0);\n\\fill (5.51,0) circle (2.2pt);\n\\node[above] at (5.51,0.2) {$\\sqrt{50}$};\n\\end{tikzpicture}\n[/tikz]"
+        "solution_text": "$49<50<64$\n$7<\\sqrt{50}<8$\nThe halfway value is $7.5$, and $7.5^2=56.25$. Since $50<56.25$, $\\sqrt{50}<7.5$.\n$\\sqrt{50}$ is closer to $7$.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\draw[very thick] (5.46,0)--(6.24,0);\n\\fill (5.51,0) circle (2.2pt);\n\\node[above] at (5.51,0.2) {$\\sqrt{50}$};\n\\end{tikzpicture}\n[/tikz]"
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "Between which two whole numbers does $\\sqrt{110}$ lie?\nShow the interval on the number line.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.4,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$8$};\n\\draw (1,0.12)--(1,-0.12);\n\\node[below] at (1,-0.12) {$9$};\n\\draw (2,0.12)--(2,-0.12);\n\\node[below] at (2,-0.12) {$10$};\n\\draw (3,0.12)--(3,-0.12);\n\\node[below] at (3,-0.12) {$11$};\n\\draw (4,0.12)--(4,-0.12);\n\\node[below] at (4,-0.12) {$12$};\n\\draw (5,0.12)--(5,-0.12);\n\\node[below] at (5,-0.12) {$13$};\n\\draw (6,0.12)--(6,-0.12);\n\\node[below] at (6,-0.12) {$14$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "between-consecutive-squares",
         "solution_text": "$100<110<121$\n$\\sqrt{100}<\\sqrt{110}<\\sqrt{121}$\n$10<\\sqrt{110}<11$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.4,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$8$};\n\\draw (1,0.12)--(1,-0.12);\n\\node[below] at (1,-0.12) {$9$};\n\\draw (2,0.12)--(2,-0.12);\n\\node[below] at (2,-0.12) {$10$};\n\\draw (3,0.12)--(3,-0.12);\n\\node[below] at (3,-0.12) {$11$};\n\\draw (4,0.12)--(4,-0.12);\n\\node[below] at (4,-0.12) {$12$};\n\\draw (5,0.12)--(5,-0.12);\n\\node[below] at (5,-0.12) {$13$};\n\\draw (6,0.12)--(6,-0.12);\n\\node[below] at (6,-0.12) {$14$};\n\\draw[very thick] (2,0)--(3,0);\n\\fill (2.49,0) circle (2.2pt);\n\\node[above] at (2.49,0.2) {$\\sqrt{110}$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Is $\\sqrt{68}$ closer to $8$ or to $9$?\nShow your reasoning on the number line.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.7,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$6$};\n\\draw (1.05,0.12)--(1.05,-0.12);\n\\node[below] at (1.05,-0.12) {$7$};\n\\draw (2.1,0.12)--(2.1,-0.12);\n\\node[below] at (2.1,-0.12) {$8$};\n\\draw (3.15,0.12)--(3.15,-0.12);\n\\node[below] at (3.15,-0.12) {$9$};\n\\draw (4.2,0.12)--(4.2,-0.12);\n\\node[below] at (4.2,-0.12) {$10$};\n\\draw (5.25,0.12)--(5.25,-0.12);\n\\node[below] at (5.25,-0.12) {$11$};\n\\draw (6.3,0.12)--(6.3,-0.12);\n\\node[below] at (6.3,-0.12) {$12$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "closer-to-which-whole-number",
-        "solution_text": "$64<68<81$\n$8<\\sqrt{68}<9$\n$68-64=4$ and $81-68=13$, so $68$ is nearer to $64$.\n$\\sqrt{68}$ is closer to $8$.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.7,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$6$};\n\\draw (1.05,0.12)--(1.05,-0.12);\n\\node[below] at (1.05,-0.12) {$7$};\n\\draw (2.1,0.12)--(2.1,-0.12);\n\\node[below] at (2.1,-0.12) {$8$};\n\\draw (3.15,0.12)--(3.15,-0.12);\n\\node[below] at (3.15,-0.12) {$9$};\n\\draw (4.2,0.12)--(4.2,-0.12);\n\\node[below] at (4.2,-0.12) {$10$};\n\\draw (5.25,0.12)--(5.25,-0.12);\n\\node[below] at (5.25,-0.12) {$11$};\n\\draw (6.3,0.12)--(6.3,-0.12);\n\\node[below] at (6.3,-0.12) {$12$};\n\\draw[very thick] (2.1,0)--(3.15,0);\n\\fill (2.36,0) circle (2.2pt);\n\\node[above] at (2.36,0.2) {$\\sqrt{68}$};\n\\end{tikzpicture}\n[/tikz]"
+        "solution_text": "$64<68<81$\n$8<\\sqrt{68}<9$\nThe halfway value is $8.5$, and $8.5^2=72.25$. Since $68<72.25$, $\\sqrt{68}<8.5$.\n$\\sqrt{68}$ is closer to $8$.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.7,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$6$};\n\\draw (1.05,0.12)--(1.05,-0.12);\n\\node[below] at (1.05,-0.12) {$7$};\n\\draw (2.1,0.12)--(2.1,-0.12);\n\\node[below] at (2.1,-0.12) {$8$};\n\\draw (3.15,0.12)--(3.15,-0.12);\n\\node[below] at (3.15,-0.12) {$9$};\n\\draw (4.2,0.12)--(4.2,-0.12);\n\\node[below] at (4.2,-0.12) {$10$};\n\\draw (5.25,0.12)--(5.25,-0.12);\n\\node[below] at (5.25,-0.12) {$11$};\n\\draw (6.3,0.12)--(6.3,-0.12);\n\\node[below] at (6.3,-0.12) {$12$};\n\\draw[very thick] (2.1,0)--(3.15,0);\n\\fill (2.36,0) circle (2.2pt);\n\\node[above] at (2.36,0.2) {$\\sqrt{68}$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Place $\\sqrt{29}$, $\\sqrt{45}$ and $\\sqrt{63}$ on the number line, and state the two whole numbers each lies between.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "between-consecutive-squares",
         "solution_text": "$25<29<36$, so $5<\\sqrt{29}<6$\n$36<45<49$, so $6<\\sqrt{45}<7$\n$49<63<64$, so $7<\\sqrt{63}<8$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\fill (4.2,0) circle (2.2pt);\n\\node[above] at (4.2,0.2) {$\\sqrt{29}$};\n\\fill (5.23,0) circle (2.2pt);\n\\node[above] at (5.23,0.2) {$\\sqrt{45}$};\n\\fill (6.19,0) circle (2.2pt);\n\\node[above] at (6.19,0.2) {$\\sqrt{63}$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Between which two whole numbers does $\\sqrt[3]{310}$ lie?\nShow the interval on the number line.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "between-consecutive-cubes",
         "solution_text": "$216<310<343$\n$\\sqrt[3]{216}<\\sqrt[3]{310}<\\sqrt[3]{343}$\n$6<\\sqrt[3]{310}<7$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\draw[very thick] (4.68,0)--(5.46,0);\n\\fill (5.28,0) circle (2.2pt);\n\\node[above] at (5.28,0.2) {$\\sqrt[3]{310}$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Show that $3<\\sqrt{10}<4$ without using a calculator.",
         "structure": "justify-bounds",
         "solution_text": "$3^{2}=9$ and $4^{2}=16$\n$9<10<16$\n$\\sqrt{9}<\\sqrt{10}<\\sqrt{16}$\n$3<\\sqrt{10}<4$"
       },
-      {
+{
         "question_text": "Show that $11<\\sqrt{130}<12$ without using a calculator.",
         "structure": "justify-bounds",
         "solution_text": "$11^{2}=121$ and $12^{2}=144$\n$121<130<144$\n$\\sqrt{121}<\\sqrt{130}<\\sqrt{144}$\n$11<\\sqrt{130}<12$"
       },
-      {
+{
         "question_text": "Which is larger, $\\sqrt{40}$ or $\\sqrt[3]{100}$?\nShow both on the number line.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "compare-two-roots",
         "solution_text": "$36<40<49$, so $6<\\sqrt{40}<7$\n$64<100<125$, so $4<\\sqrt[3]{100}<5$\nThe intervals do not overlap, so $\\sqrt{40}$ is larger.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.64,0);\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.12) {$0$};\n\\draw (0.78,0.12)--(0.78,-0.12);\n\\node[below] at (0.78,-0.12) {$1$};\n\\draw (1.56,0.12)--(1.56,-0.12);\n\\node[below] at (1.56,-0.12) {$2$};\n\\draw (2.34,0.12)--(2.34,-0.12);\n\\node[below] at (2.34,-0.12) {$3$};\n\\draw (3.12,0.12)--(3.12,-0.12);\n\\node[below] at (3.12,-0.12) {$4$};\n\\draw (3.9,0.12)--(3.9,-0.12);\n\\node[below] at (3.9,-0.12) {$5$};\n\\draw (4.68,0.12)--(4.68,-0.12);\n\\node[below] at (4.68,-0.12) {$6$};\n\\draw (5.46,0.12)--(5.46,-0.12);\n\\node[below] at (5.46,-0.12) {$7$};\n\\draw (6.24,0.12)--(6.24,-0.12);\n\\node[below] at (6.24,-0.12) {$8$};\n\\fill (4.93,0) circle (2.2pt);\n\\node[above] at (4.93,0.2) {$\\sqrt{40}$};\n\\fill (3.62,0) circle (2.2pt);\n\\node[above] at (3.62,0.2) {$\\sqrt[3]{100}$};\n\\end{tikzpicture}\n[/tikz]"
       }
-    ],
+],
     "mastery": [
-      {
+{
         "question_text": "$\\sqrt{n}$ lies between $7$ and $8$, where $n$ is a whole number.\nWhat is the largest value $n$ could be?",
         "structure": "reverse-bounds",
         "solution_text": "$7^{2}=49$ and $8^{2}=64$\n$49<n<64$\nThe largest whole number below $64$ is $63$.\n$n=63$"
       },
-      {
+{
         "question_text": "A square has area $150$ cm$^{2}$.\nBetween which two whole numbers is its side length, and which is it closer to?",
         "structure": "closer-to-which-whole-number",
-        "solution_text": "$\\text{side}=\\sqrt{150}$\n$144<150<169$\n$12<\\sqrt{150}<13$\n$150-144=6$ and $169-150=19$, so $150$ is nearer to $144$.\nThe side length is between $12$ cm and $13$ cm, and closer to $12$ cm."
+        "solution_text": "$\\text{side}=\\sqrt{150}$\n$144<150<169$\n$12<\\sqrt{150}<13$\nThe halfway value is $12.5$, and $12.5^2=156.25$. Since $150<156.25$, $\\sqrt{150}<12.5$.\nThe side length is between $12$ cm and $13$ cm, and closer to $12$ cm."
       },
-      {
+{
         "question_text": "Show that $1.2<\\sqrt{1.5}<1.3$ without using a calculator.",
         "structure": "justify-bounds",
         "solution_text": "$1.2^{2}=1.44$ and $1.3^{2}=1.69$\n$1.44<1.5<1.69$\n$\\sqrt{1.44}<\\sqrt{1.5}<\\sqrt{1.69}$\n$1.2<\\sqrt{1.5}<1.3$"
       },
-      {
+{
         "question_text": "$\\sqrt[3]{m}$ lies between $4$ and $5$, where $m$ is a whole number.\nHow many values could $m$ take?",
         "structure": "reverse-bounds",
         "solution_text": "$4^{3}=64$ and $5^{3}=125$\n$64<m<125$\nThe whole numbers run from $65$ to $124$.\n$124-65+1$\n$=60$"
       }
-    ]
+]
   }
 }

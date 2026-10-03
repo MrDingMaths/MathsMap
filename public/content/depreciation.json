@@ -2,23 +2,61 @@
   "skillId": "depreciation",
   "atomType": "R",
   "theory": {
-        "intro": "**Depreciation** is compound interest in reverse: an asset loses the same percentage of its **current** value each period, so the dollar amount lost shrinks each year. What is left at the end is the salvage value $S$.",
-        "facts": [
-          "In $S = V_{0}(1-r)^{n}$, $S$ is the **salvage value**, $V_{0}$ the initial value, $r$ the depreciation rate as a decimal and $n$ the number of periods.",
-          "The bracket is $(1-r)$, not $(1+r)$: an asset falling by $15\\%$ p.a. is multiplied by $0.85$ each year.",
-          "The salvage value is what is left, while the total depreciation is the value lost, $V_{0}-S$.",
-          "Check which of the two the question asks for.",
-          "Each year's loss is a percentage of a smaller amount, so the value drops quickly at first, then slowly, and never reaches zero.",
-          "Rearranging gives $V_{0}=\\dfrac{S}{(1-r)^{n}}$ for the initial value and $r = 1-\\sqrt[n]{\\dfrac{S}{V_{0}}}$ for the rate.",
-          "A number of years is found by testing whole values of $n$.",
-          "Round money to the nearest cent unless told otherwise, doing the whole calculation in one line so nothing is rounded part-way."
-        ],
-        "steps": [
-          "Write down $V_{0}$, $r$ and $n$.",
-          "Substitute into $S = V_{0}(1-r)^{n}$.",
-          "Evaluate and round as the question asks."
-        ]
-      },
+"intro": "With **declining-balance depreciation**, an asset loses the same percentage of its **current value** each period. The value left is the salvage value $S$.",
+"facts": [
+"In $S = V_{0}(1-r)^{n}$, $S$ is the **salvage value**, $V_{0}$ the initial value, $r$ the depreciation rate as a decimal and $n$ the number of periods.",
+"The bracket is $(1-r)$, not $(1+r)$: an asset falling by $15\\%$ p.a. is multiplied by $0.85$ each year.",
+"The salvage value is what is left, while the total depreciation is the value lost, $V_{0}-S$.",
+"Check which of the two the question asks for.",
+"For a positive initial value and a fixed rate between $0\\%$ and $100\\%$, each year loses a percentage of a smaller value. The dollar loss decreases and the calculated value stays above zero.",
+"Rearranging gives $V_{0}=\\dfrac{S}{(1-r)^{n}}$ for the initial value and $r = 1-\\sqrt[n]{\\dfrac{S}{V_{0}}}$ for the rate.",
+"A number of years is found by testing whole values of $n$.",
+"Round money to the nearest cent unless told otherwise, doing the whole calculation in one line so nothing is rounded part-way."
+],
+"steps": [
+"Identify the known values and the value, loss, initial value, rate or years you need.",
+"Substitute into $S=V_0(1-r)^n$ and find the unknown. For whole years, test values of $n$.",
+"Keep calculator values unrounded, then give the requested result and units."
+],
+"workedExamples": [
+  {
+    "question_text": "(a) Machinery has value $7400(0.86)^5$. State its initial value, annual depreciation rate and age.\n(b) Write the value of a $\\$27\\,000$ van depreciating at $11\\%$ p.a. after $6$ years, without evaluating.",
+    "solution_text": "(a) Initial value $=\\$7400$, age $=5$ years.\n$1-r=0.86$, so $r=0.14$: the rate is $14\\%$ p.a.\n(b) $S=27000(1-0.11)^6=27000(0.89)^6$."
+  },
+  {
+    "question_text": "Equipment costs $\\$32\\,000$ and depreciates at $15\\%$ p.a. Find (a) its salvage value and (b) its total depreciation after $3$ years.",
+    "solution_text": "(a) $S=32000(0.85)^3=\\$19\\,652$.\n(b) Total depreciation $=V_0-S$\n$=32000-19652=\\$12\\,348$. The value left and the value lost are different amounts."
+  },
+  {
+    "question_text": "(a) A machine depreciating at $25\\%$ p.a. is worth $\\$7800$ after $2$ years. Find its initial value.\n(b) A second machine loses $\\$15\\,000$ in total over $3$ years at $10\\%$ p.a. Find its initial value. Give answers to the nearest cent.",
+    "solution_text": "(a) $7800=V_0(0.75)^2$.\n$V_0=\\dfrac{7800}{(0.75)^2}\\approx\\$13\\,866.67$.\n(b) $V_0-V_0(0.9)^3=15000$.\n$0.271V_0=15000$.\n$V_0=15000\\div0.271\\approx\\$55\\,350.55$."
+  },
+  {
+    "question_text": "A van bought for $\\$26\\,000$ is worth $\\$13\\,312$ after $3$ years. Find its annual declining-balance depreciation rate.",
+    "solution_text": "$13312=26000(1-r)^3$.\n$(1-r)^3=13312\\div26000=0.512$.\n$1-r=\\sqrt[3]{0.512}=0.8$.\n$r=0.2$, so the annual rate is $20\\%$."
+  },
+  {
+    "question_text": "(a) An asset costs $\\$22\\,000$ and depreciates at $20\\%$ p.a. Find the first whole year when it is worth less than $\\$8000$.\n(b) Another asset depreciates at $25\\%$ p.a. Find the first whole year when it is worth less than $30\\%$ of its initial value.",
+    "solution_text": "(a) Test $S=22000(0.8)^n$.\nAt $n=4$, $S=\\$9011.20$; at $n=5$, $S=\\$7208.96$.\nIts value decreases each year, so the first whole year is $5$.\n(b) Divide $V_0(0.75)^n<0.3V_0$ by the positive initial value.\nAt $n=4$, $(0.75)^4=0.31640625>0.3$.\nAt $n=5$, $(0.75)^5=0.2373046875<0.3$.\nThe first whole year is $5$."
+  },
+  {
+    "question_text": "This graph shows declining-balance depreciation.\n[tikz]\n\\begin{tikzpicture}\n% mathsmap-standard-palette 2026-09-11\n\\definecolor{ink}{HTML}{24282D}\n\\definecolor{blue}{HTML}{268CFF}\n\\definecolor{red}{HTML}{EF6068}\n\\definecolor{green}{HTML}{4F9B63}\n\\definecolor{orange}{HTML}{EF8B2C}\n\\definecolor{purple}{HTML}{8B5CC7}\n\\definecolor{tableLabel}{HTML}{D3E8FC}\n\\definecolor{housegrid}{HTML}{CCCCCC}\n\\definecolor{skipped}{HTML}{C7C7C7}\n\\definecolor{housemuted}{HTML}{777777}\n\\definecolor{blueFill}{HTML}{D4E8FF}\n\\definecolor{redFill}{HTML}{FCDFE1}\n\\definecolor{greenFill}{HTML}{DCEBE0}\n\\definecolor{orangeFill}{HTML}{FCE8D5}\n\\definecolor{purpleFill}{HTML}{E8DEF4}\n\\begin{axis}[width=7cm,height=5.2cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=3.6,ymin=0,ymax=26000,xtick={0,1,2,3},ytick={0,6000,12000,18000,24000},grid=both,grid style={color=housegrid,line width=0.25pt},clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Years},ylabel={Value (\\$)},ylabel style={at={(axis description cs:-0.32,0.5)},anchor=south}]\n\\addplot[thick,blue,domain=0:3,samples=60]{24000*exp(x*ln(0.75))};\n\\addplot[only marks,blue,mark=*,mark size=1.6pt] coordinates{(0,24000)(1,18000)(2,13500)(3,10125)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\n(a) Read the initial value and the value after one year, then find the annual rate.\n(b) Find the value after $4$ years.",
+    "solution_text": "(a) Initial value $=\\$24\\,000$; after one year $=\\$18\\,000$.\n$1-r=18000\\div24000=0.75$, so $r=0.25$: $25\\%$ p.a.\n(b) $S=24000(0.75)^4=\\$7593.75$."
+  },
+  {
+    "question_text": "Equipment costs $\\$42\\,000$. It depreciates at $10\\%$ p.a. for the first $3$ years, then at $20\\%$ p.a. for the next $2$ years. Find its value at the end of $5$ years.",
+    "solution_text": "After $3$ years, the value is $42000(0.9)^3$.\nUse this value for the next $2$ years:\n$S=42000(0.9)^3(0.8)^2=\\$19\\,595.52$."
+  },
+  {
+    "question_text": "A truck costs $\\$64\\,000$ and is worth $\\$56\\,320$ after one year. Assuming the same declining-balance rate continues, find (a) the annual rate and (b) its value after $7$ years, to the nearest cent.",
+    "solution_text": "(a) $1-r=56320\\div64000=0.88$.\n$r=0.12$: $12\\%$ p.a.\n(b) $S=64000(0.88)^7\\approx\\$26\\,155.24$."
+  },
+  {
+    "question_text": "A machine costs $\\$30\\,000$ and depreciates at $20\\%$ p.a. Find how much more value it loses in the first year than in the fifth year.",
+    "solution_text": "Year $1$ loss $=30000(0.2)=\\$6000$.\nYear $5$ starts after four years of depreciation.\nYear $5$ loss $=30000(0.8)^4(0.2)=\\$2457.60$.\nDifference $=6000-2457.60=\\$3542.40$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -63,47 +101,47 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "A food truck depreciates at $15\\%$ p.a.\nAfter $4$ years its salvage value is $\\$20\\,880.25$.\nFind its purchase price, to the nearest dollar.",
         "structure": "find-initial-value",
         "solution_text": "$S = V_{0}(1-r)^{n}$\n$20\\,880.25 = V_{0}(0.85)^{4}$\n$V_{0}=\\dfrac{20\\,880.25}{(0.85)^{4}}$\n$=\\$40\\,000$"
       },
-      {
+{
         "question_text": "A landscaping firm's mulcher has depreciated by a total of $\\$28\\,000$ over $3$ years at $20\\%$ p.a.\nFind its purchase price, to the nearest dollar.",
         "structure": "find-initial-value",
         "solution_text": "$V_{0}-V_{0}(0.8)^{3}=28\\,000$\n$V_{0}(1-0.512)=28\\,000$\n$V_{0}=\\dfrac{28\\,000}{0.488}$\n$=\\$57\\,377$"
       },
-      {
+{
         "question_text": "A delivery van bought for $\\$52\\,000$ is worth $\\$31\\,934.50$ after $3$ years.\nFind the annual depreciation rate, as a whole percentage.",
         "structure": "find-depreciation-rate",
         "solution_text": "$31\\,934.50 = 52\\,000(1-r)^{3}$\n$(1-r)^{3}=\\dfrac{31\\,934.50}{52\\,000}$\n$1-r=\\sqrt[3]{0.614125}$\n$1-r=0.85$\n$r=0.15$\nThe van depreciates at $15\\%$ p.a."
       },
-      {
+{
         "question_text": "A commercial dough mixer bought for $\\$14\\,500$ is worth $\\$6200$ after $5$ years.\nFind the annual depreciation rate, correct to $2$ decimal places.",
         "structure": "find-depreciation-rate",
         "solution_text": "$6200 = 14\\,500(1-r)^{5}$\n$(1-r)^{5}=\\dfrac{6200}{14\\,500}$\n$1-r=\\sqrt[5]{0.427586\\ldots}$\n$1-r=0.843732\\ldots$\n$r=0.156267\\ldots$\nThe mixer depreciates at $15.63\\%$ p.a."
       },
-      {
+{
         "question_text": "A forklift bought for $\\$36\\,000$ depreciates at $25\\%$ p.a.\nAfter how many whole years is it first worth less than $\\$10\\,000$?",
         "structure": "find-number-of-years",
         "solution_text": "$S = 36\\,000(0.75)^{n}$\n$n=4$: $36\\,000(0.75)^{4}=\\$11\\,390.63$\n$n=5$: $36\\,000(0.75)^{5}=\\$8542.97$\nIt is first worth less than $\\$10\\,000$ after $5$ years."
       },
-      {
+{
         "question_text": "Machinery bought for $\\$18\\,000$ depreciates at $20\\%$ p.a.\nAfter how many whole years has it depreciated by at least $\\$12\\,000$?",
         "structure": "find-number-of-years",
         "solution_text": "Depreciating by $\\$12\\,000$ leaves a salvage value of $18\\,000-12\\,000=\\$6000$.\n$S = 18\\,000(0.8)^{n}$\n$n=4$: $18\\,000(0.8)^{4}=\\$7372.80$\n$n=5$: $18\\,000(0.8)^{5}=\\$5898.24$\nIt has depreciated by at least $\\$12\\,000$ after $5$ years."
       },
-      {
-        "question_text": "The graph shows the declining-balance value of a delivery truck that depreciates at $18\\%$ p.a.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=7.6cm,height=5.8cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=6.6,ymin=0,ymax=66000,xtick={0,1,2,3,4,5,6},ytick={0,10000,20000,30000,40000,50000,60000},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Years, $n$},ylabel={Value (\\$)},title={Delivery truck value}]\n\\addplot[thick,blue,domain=0:6,samples=60]{60000*exp(x*ln(0.82))};\n\\addplot[only marks,blue,mark=*,mark size=1.6pt] coordinates {(0,60000) (1,49200) (2,40344) (3,33082.08) (4,27127.31) (5,22244.39) (6,18240.4)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\nRead the purchase price from the graph, then use $S=V_{0}(1-r)^{n}$ to find the truck's value after $9$ years, to the nearest cent.",
+{
+        "question_text": "The graph shows the declining-balance value of a delivery truck that depreciates at $18\\%$ p.a.\n[tikz]\n\\begin{tikzpicture}\n% mathsmap-standard-palette 2026-09-11\n\\definecolor{ink}{HTML}{24282D}\n\\definecolor{blue}{HTML}{268CFF}\n\\definecolor{red}{HTML}{EF6068}\n\\definecolor{green}{HTML}{4F9B63}\n\\definecolor{orange}{HTML}{EF8B2C}\n\\definecolor{purple}{HTML}{8B5CC7}\n\\definecolor{tableLabel}{HTML}{D3E8FC}\n\\definecolor{housegrid}{HTML}{CCCCCC}\n\\definecolor{skipped}{HTML}{C7C7C7}\n\\definecolor{housemuted}{HTML}{777777}\n\\definecolor{blueFill}{HTML}{D4E8FF}\n\\definecolor{redFill}{HTML}{FCDFE1}\n\\definecolor{greenFill}{HTML}{DCEBE0}\n\\definecolor{orangeFill}{HTML}{FCE8D5}\n\\definecolor{purpleFill}{HTML}{E8DEF4}\n\\begin{axis}[width=7.6cm,height=5.8cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=6.6,ymin=0,ymax=66000,xtick={0,1,2,3,4,5,6},ytick={0,10000,20000,30000,40000,50000,60000},grid=both,grid style={color=housegrid,line width=0.25pt},clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Years, $n$},ylabel={Value (\\$)},ylabel style={at={(axis description cs:-0.32,0.5)},anchor=south},title={Delivery truck value}]\n\\addplot[thick,blue,domain=0:6,samples=60]{60000*exp(x*ln(0.82))};\n\\addplot[only marks,blue,mark=*,mark size=1.6pt] coordinates {(0,60000) (1,49200) (2,40344) (3,33082.08) (4,27127.31) (5,22244.39) (6,18240.4)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\nRead the purchase price from the graph, then use $S=V_{0}(1-r)^{n}$ to find the truck's value after $9$ years, to the nearest cent.",
         "structure": "read-depreciation-graph",
-        "solution_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=7.6cm,height=5.8cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=6.6,ymin=0,ymax=66000,xtick={0,1,2,3,4,5,6},ytick={0,10000,20000,30000,40000,50000,60000},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Years, $n$},ylabel={Value (\\$)},title={Delivery truck value}]\n\\addplot[thick,blue,domain=0:6,samples=60]{60000*exp(x*ln(0.82))};\n\\addplot[only marks,blue,mark=*,mark size=1.6pt] coordinates {(0,60000) (1,49200) (2,40344) (3,33082.08) (4,27127.31) (5,22244.39) (6,18240.4)};\n\\draw[dashed,gray] (axis cs:0,60000)--(axis cs:1.6,60000);\n\\node[right,font=\\scriptsize] at (axis cs:1.6,60000) {$V_{0}=\\$60\\,000$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\n$S = V_{0}(1-r)^{n}$\n$=60\\,000(1-0.18)^{9}$\n$=60\\,000(0.82)^{9}$\n$=\\$10\\,057.17$"
+        "solution_text": "[tikz]\n\\begin{tikzpicture}\n% mathsmap-standard-palette 2026-09-11\n\\definecolor{ink}{HTML}{24282D}\n\\definecolor{blue}{HTML}{268CFF}\n\\definecolor{red}{HTML}{EF6068}\n\\definecolor{green}{HTML}{4F9B63}\n\\definecolor{orange}{HTML}{EF8B2C}\n\\definecolor{purple}{HTML}{8B5CC7}\n\\definecolor{tableLabel}{HTML}{D3E8FC}\n\\definecolor{housegrid}{HTML}{CCCCCC}\n\\definecolor{skipped}{HTML}{C7C7C7}\n\\definecolor{housemuted}{HTML}{777777}\n\\definecolor{blueFill}{HTML}{D4E8FF}\n\\definecolor{redFill}{HTML}{FCDFE1}\n\\definecolor{greenFill}{HTML}{DCEBE0}\n\\definecolor{orangeFill}{HTML}{FCE8D5}\n\\definecolor{purpleFill}{HTML}{E8DEF4}\n\\begin{axis}[width=7.6cm,height=5.8cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=6.6,ymin=0,ymax=66000,xtick={0,1,2,3,4,5,6},ytick={0,10000,20000,30000,40000,50000,60000},grid=both,grid style={color=housegrid,line width=0.25pt},clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Years, $n$},ylabel={Value (\\$)},ylabel style={at={(axis description cs:-0.32,0.5)},anchor=south},title={Delivery truck value}]\n\\addplot[thick,blue,domain=0:6,samples=60]{60000*exp(x*ln(0.82))};\n\\addplot[only marks,blue,mark=*,mark size=1.6pt] coordinates {(0,60000) (1,49200) (2,40344) (3,33082.08) (4,27127.31) (5,22244.39) (6,18240.4)};\n\\draw[dashed,housemuted] (axis cs:0,60000)--(axis cs:1.6,60000);\n\\node[right,font=\\scriptsize] at (axis cs:1.6,60000) {$V_{0}=\\$60\\,000$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\n$S = V_{0}(1-r)^{n}$\n$=60\\,000(1-0.18)^{9}$\n$=60\\,000(0.82)^{9}$\n$=\\$10\\,057.17$"
       },
-      {
-        "question_text": "The graph shows the declining-balance value of a refrigerated van.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=7.6cm,height=5.8cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=5.6,ymin=0,ymax=44000,xtick={0,1,2,3,4,5},ytick={0,8000,16000,24000,32000,40000},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Years, $n$},ylabel={Value (\\$)},title={Refrigerated van value}]\n\\addplot[thick,blue,domain=0:5,samples=60]{40000*exp(x*ln(0.8))};\n\\addplot[only marks,blue,mark=*,mark size=1.6pt] coordinates {(0,40000) (1,32000) (2,25600) (3,20480) (4,16384) (5,13107.2)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\nRead the purchase price and the value after $1$ year from the graph, then find the annual depreciation rate.",
+{
+        "question_text": "The graph shows the declining-balance value of a refrigerated van.\n[tikz]\n\\begin{tikzpicture}\n% mathsmap-standard-palette 2026-09-11\n\\definecolor{ink}{HTML}{24282D}\n\\definecolor{blue}{HTML}{268CFF}\n\\definecolor{red}{HTML}{EF6068}\n\\definecolor{green}{HTML}{4F9B63}\n\\definecolor{orange}{HTML}{EF8B2C}\n\\definecolor{purple}{HTML}{8B5CC7}\n\\definecolor{tableLabel}{HTML}{D3E8FC}\n\\definecolor{housegrid}{HTML}{CCCCCC}\n\\definecolor{skipped}{HTML}{C7C7C7}\n\\definecolor{housemuted}{HTML}{777777}\n\\definecolor{blueFill}{HTML}{D4E8FF}\n\\definecolor{redFill}{HTML}{FCDFE1}\n\\definecolor{greenFill}{HTML}{DCEBE0}\n\\definecolor{orangeFill}{HTML}{FCE8D5}\n\\definecolor{purpleFill}{HTML}{E8DEF4}\n\\begin{axis}[width=7.6cm,height=5.8cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=5.6,ymin=0,ymax=44000,xtick={0,1,2,3,4,5},ytick={0,8000,16000,24000,32000,40000},grid=both,grid style={color=housegrid,line width=0.25pt},clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Years, $n$},ylabel={Value (\\$)},ylabel style={at={(axis description cs:-0.32,0.5)},anchor=south},title={Refrigerated van value}]\n\\addplot[thick,blue,domain=0:5,samples=60]{40000*exp(x*ln(0.8))};\n\\addplot[only marks,blue,mark=*,mark size=1.6pt] coordinates {(0,40000) (1,32000) (2,25600) (3,20480) (4,16384) (5,13107.2)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\nRead the purchase price and the value after $1$ year from the graph, then find the annual depreciation rate.",
         "structure": "read-depreciation-graph",
-        "solution_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=7.6cm,height=5.8cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=5.6,ymin=0,ymax=44000,xtick={0,1,2,3,4,5},ytick={0,8000,16000,24000,32000,40000},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Years, $n$},ylabel={Value (\\$)},title={Refrigerated van value}]\n\\addplot[thick,blue,domain=0:5,samples=60]{40000*exp(x*ln(0.8))};\n\\addplot[only marks,blue,mark=*,mark size=1.6pt] coordinates {(0,40000) (1,32000) (2,25600) (3,20480) (4,16384) (5,13107.2)};\n\\draw[dashed,gray] (axis cs:0,40000)--(axis cs:2.2,40000);\n\\draw[dashed,gray] (axis cs:1,32000)--(axis cs:2.2,32000);\n\\draw[dashed,gray] (axis cs:1,0)--(axis cs:1,32000);\n\\node[right,font=\\scriptsize] at (axis cs:2.2,40000) {$\\$40\\,000$};\n\\node[right,font=\\scriptsize] at (axis cs:2.2,32000) {$\\$32\\,000$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\n$32\\,000 = 40\\,000(1-r)^{1}$\n$1-r=\\dfrac{32\\,000}{40\\,000}$\n$1-r=0.8$\n$r=0.2$\nThe van depreciates at $20\\%$ p.a."
+        "solution_text": "[tikz]\n\\begin{tikzpicture}\n% mathsmap-standard-palette 2026-09-11\n\\definecolor{ink}{HTML}{24282D}\n\\definecolor{blue}{HTML}{268CFF}\n\\definecolor{red}{HTML}{EF6068}\n\\definecolor{green}{HTML}{4F9B63}\n\\definecolor{orange}{HTML}{EF8B2C}\n\\definecolor{purple}{HTML}{8B5CC7}\n\\definecolor{tableLabel}{HTML}{D3E8FC}\n\\definecolor{housegrid}{HTML}{CCCCCC}\n\\definecolor{skipped}{HTML}{C7C7C7}\n\\definecolor{housemuted}{HTML}{777777}\n\\definecolor{blueFill}{HTML}{D4E8FF}\n\\definecolor{redFill}{HTML}{FCDFE1}\n\\definecolor{greenFill}{HTML}{DCEBE0}\n\\definecolor{orangeFill}{HTML}{FCE8D5}\n\\definecolor{purpleFill}{HTML}{E8DEF4}\n\\begin{axis}[width=7.6cm,height=5.8cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=5.6,ymin=0,ymax=44000,xtick={0,1,2,3,4,5},ytick={0,8000,16000,24000,32000,40000},grid=both,grid style={color=housegrid,line width=0.25pt},clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Years, $n$},ylabel={Value (\\$)},ylabel style={at={(axis description cs:-0.32,0.5)},anchor=south},title={Refrigerated van value}]\n\\addplot[thick,blue,domain=0:5,samples=60]{40000*exp(x*ln(0.8))};\n\\addplot[only marks,blue,mark=*,mark size=1.6pt] coordinates {(0,40000) (1,32000) (2,25600) (3,20480) (4,16384) (5,13107.2)};\n\\draw[dashed,housemuted] (axis cs:0,40000)--(axis cs:2.2,40000);\n\\draw[dashed,housemuted] (axis cs:1,32000)--(axis cs:2.2,32000);\n\\draw[dashed,housemuted] (axis cs:1,0)--(axis cs:1,32000);\n\\node[right,font=\\scriptsize] at (axis cs:2.2,40000) {$\\$40\\,000$};\n\\node[right,font=\\scriptsize] at (axis cs:2.2,32000) {$\\$32\\,000$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\n$32\\,000 = 40\\,000(1-r)^{1}$\n$1-r=\\dfrac{32\\,000}{40\\,000}$\n$1-r=0.8$\n$r=0.2$\nThe van depreciates at $20\\%$ p.a."
       }
-    ],
+],
     "mastery": [
       {
         "question_text": "A workshop fits out with equipment costing $\\$75\\,000$.\nIt depreciates at $25\\%$ p.a. for the first $2$ years, then at $10\\%$ p.a. after that.\nFind its salvage value at the end of $5$ years, to the nearest cent.",

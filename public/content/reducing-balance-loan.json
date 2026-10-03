@@ -2,62 +2,88 @@
   "skillId": "reducing-balance-loan",
   "atomType": "R",
   "theory": {
-    "intro": "On a **reducing balance loan** the interest each period is charged on the amount still owing, not on the amount first borrowed. Each repayment lowers the balance, so the next interest charge is smaller.",
-    "facts": [
-      "Each row of a loan table gives closing balance $= P + I - R$, for opening balance $P$, interest $I$ and repayment $R$.",
-      "The interest is always charged on the **opening** balance, and the repayment is taken off afterwards.",
-      "The rate per period must match the repayment period: $7.2\\%$ p.a. compounded monthly gives $\\dfrac{0.072}{12} = 0.006$ per month.",
-      "Each month's interest is rounded to the nearest cent before the closing balance is worked out.",
-      "One row's closing balance becomes the next row's opening balance.",
-      "The total repaid is the repayment multiplied by the number of periods, and the total interest is that total minus the amount borrowed.",
-      "A graph of the balance owing falls slowly at first and then more steeply, because early repayments are mostly interest.",
-      "If the interest charged in a period is more than the repayment, the balance grows and the loan is never repaid."
-    ],
-    "steps": [
-      "Work out the interest rate per period.",
-      "Multiply the opening balance by that rate to get the interest.",
-      "Add the interest and subtract the repayment to get the closing balance.",
-      "Carry the closing balance down as the next opening balance."
-    ]
+"intro": "On a **reducing balance loan**, interest each period is charged on the amount still owing. In this model interest is added first, then the repayment is taken off. When a repayment is more than the interest, the balance falls; with the same rate, the next interest charge is smaller.",
+"facts": [
+"Each row of a loan table gives closing balance $= P + I - R$, for opening balance $P$, interest $I$ and repayment $R$.",
+"The interest is always charged on the **opening** balance, and the repayment is taken off afterwards.",
+"The rate per period must match the repayment period: $7.2\\%$ p.a. compounded monthly gives $\\dfrac{0.072}{12} = 0.006$ per month.",
+"Each month's interest is rounded to the nearest cent before the closing balance is worked out.",
+"One row's closing balance becomes the next row's opening balance.",
+"If a loan is fully repaid by a stated number of equal repayments, total repaid is repayment multiplied by number of periods. Total interest is total repaid minus the amount borrowed. Include any different final payment separately.",
+"With a fixed rate and equal repayments greater than the interest, the balance falls faster as it gets smaller: less of each repayment is interest and more reduces the amount owing.",
+"If interest is greater than the repayment, the balance grows. With the same rate and repayment continuing, the interest keeps exceeding the repayment and the loan is never repaid."
+],
+"steps": [
+"Work out the interest rate per period.",
+"Multiply the opening balance by that rate. Round the period's interest to the nearest cent before updating the balance.",
+"Add the interest and subtract the repayment to get the closing balance.",
+"Carry the closing balance down as the next opening balance."
+],
+"workedExamples": [
+  {
+    "question_text": "A loan of $\\$7200$ is charged $15\\%$ p.a. compounded monthly, with repayments of $\\$360$ each month.\n(a) Complete records of opening balance, interest and closing balance for the first four months. Round each month's interest to the nearest cent.\n(b) Find the total interest charged in those four months.\n(c) How much of the repayments reduced the amount borrowed?",
+    "solution_text": "Monthly rate $=0.15\\div12=0.0125$. Use closing balance $=P+I-360$, then carry it to the next row. All table amounts are dollars.\n$\\begin{array}{c|r|r|r}\\text{Month}&P&I&\\text{Closing}\\\\1&7200.00&90.00&6930.00\\\\2&6930.00&86.63&6656.63\\\\3&6656.63&83.21&6379.84\\\\4&6379.84&79.75&6099.59\\end{array}$\n(b) Interest $=90+86.63+83.21+79.75=\\$339.59$.\n(c) Repayments $=4(360)=\\$1440$.\nPrincipal reduced $=1440-339.59=\\$1100.41$. Check: $7200-6099.59=1100.41$."
   },
+  {
+    "question_text": "A loan of $\\$18\\,000$ is charged $8\\%$ p.a. compounded quarterly, with repayments of $\\$1100$ each quarter. Find the balance after the second quarter.",
+    "solution_text": "Quarterly rate $=0.08\\div4=0.02$.\nQuarter $1$: interest $=18000(0.02)=\\$360$; closing balance $=18000+360-1100=\\$17\\,260$.\nQuarter $2$: interest $=17260(0.02)=\\$345.20$; closing balance $=17260+345.20-1100=\\$16\\,505.20$."
+  },
+  {
+    "question_text": "(a) In a loan record, the opening balance is $\\$5400$, the monthly rate is $1.4\\%$ and the closing balance is $\\$5285.60$. Find the repayment.\n(b) Another loan record shows an opening balance of $\\$12\\,500$ and interest of $\\$62.50$ for one month. Find its annual rate, compounded monthly.",
+    "solution_text": "(a) Interest $=5400(0.014)=\\$75.60$.\n$5285.60=5400+75.60-R$.\n$R=5400+75.60-5285.60=\\$190$.\n(b) Monthly rate $=62.50\\div12500=0.005=0.5\\%$.\nAnnual rate $=12(0.5\\%)=6\\%$ p.a."
+  },
+  {
+    "question_text": "A loan of $\\$22\\,000$ is fully repaid by monthly repayments of $\\$445$ over $5$ years. Find (a) the total repaid and (b) the total interest charged.",
+    "solution_text": "Number of repayments $=5(12)=60$.\n(a) Total repaid $=445(60)=\\$26\\,700$.\n(b) Interest $=26700-22000=\\$4700$. The total repaid includes the amount borrowed."
+  },
+  {
+    "question_text": "A borrower owes $\\$4300$ at $21.6\\%$ p.a. compounded monthly.\n(a) With fixed monthly repayments of $\\$75$, find the first closing balance and explain why these repayments will not clear the loan if the rate stays the same.\n(b) Find the smallest whole-dollar monthly repayment that reduces this opening balance.",
+    "solution_text": "Monthly rate $=0.216\\div12=0.018$.\nInterest $=4300(0.018)=\\$77.40$.\n(a) Closing balance $=4300+77.40-75=\\$4302.40$. The repayment is less than the interest. The balance rises, so with the same terms the interest also rises and the loan is not repaid.\n(b) Repayment must be greater than $\\$77.40$, so the smallest whole-dollar amount is $\\$78$. Equal repayment and interest would leave the balance unchanged."
+  },
+  {
+    "question_text": "Use the graph to find (a) the amount borrowed and (b) the amount still owing after $75$ months, estimated to the nearest $\\$5000$.\n[tikz]\n\\begin{tikzpicture}\n% mathsmap-standard-palette 2026-09-11\n\\definecolor{ink}{HTML}{24282D}\n\\definecolor{blue}{HTML}{268CFF}\n\\definecolor{red}{HTML}{EF6068}\n\\definecolor{green}{HTML}{4F9B63}\n\\definecolor{orange}{HTML}{EF8B2C}\n\\definecolor{purple}{HTML}{8B5CC7}\n\\definecolor{tableLabel}{HTML}{D3E8FC}\n\\definecolor{housegrid}{HTML}{CCCCCC}\n\\definecolor{skipped}{HTML}{C7C7C7}\n\\definecolor{housemuted}{HTML}{777777}\n\\definecolor{blueFill}{HTML}{D4E8FF}\n\\definecolor{redFill}{HTML}{FCDFE1}\n\\definecolor{greenFill}{HTML}{DCEBE0}\n\\definecolor{orangeFill}{HTML}{FCE8D5}\n\\definecolor{purpleFill}{HTML}{E8DEF4}\n\\begin{axis}[width=7cm,height=5.8cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=105,ymin=0,ymax=98000,xtick={0,25,50,75,100},ytick={0,15000,30000,45000,60000,75000,90000},grid=both,grid style={color=housegrid,line width=0.25pt},samples=80,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Months},ylabel={Balance owing (\\$)},ylabel style={at={(axis description cs:-0.37,0.5)},anchor=south}]\n\\addplot[thick,blue,domain=0:100]{90000*(2-exp(x*0.00693147180559945))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) At month $0$, the balance is $\\$90\\,000$, so that is the amount borrowed.\n(b) Read up from $75$ months to the curve, then across to the value axis. The balance is a little below $\\$30\\,000$, so the estimate to the nearest $\\$5000$ is $\\$30\\,000$. The curve falls more steeply later; it is not a straight-line decrease."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "A reducing balance loan of $\\$8000$ is charged interest at $12\\%$ p.a. compounded monthly, with monthly repayments of $\\$250$.\nFind the interest charged in the first month and the balance owing at the end of that month.",
         "structure": "build-table-row",
         "solution_text": "Rate per month $= \\dfrac{0.12}{12} = 0.01$\n$I = 8000 \\times 0.01$\n$= \\$80$\nClosing balance $= P + I - R$\n$= 8000 + 80 - 250$\n$= \\$7830$"
       },
-      {
+{
         "question_text": "A reducing balance loan of $\\$15\\,000$ is charged interest at $7.2\\%$ p.a. compounded monthly, with monthly repayments of $\\$450$.\nFind the balance owing at the end of the first month.",
         "structure": "build-table-row",
         "solution_text": "Rate per month $= \\dfrac{0.072}{12} = 0.006$\n$I = 15\\,000 \\times 0.006$\n$= \\$90$\nClosing balance $= P + I - R$\n$= 15\\,000 + 90 - 450$\n$= \\$14\\,640$"
       },
-      {
+{
         "question_text": "A reducing balance loan of $\\$5000$ is charged interest at $18\\%$ p.a. compounded monthly, with monthly repayments of $\\$300$.\nFind the balance owing at the end of the **second** month, rounding each month's interest to the nearest cent.",
         "structure": "next-balance",
         "solution_text": "Rate per month $= \\dfrac{0.18}{12} = 0.015$\nMonth $1$:\n$I = 5000 \\times 0.015 = \\$75$\nBalance $= 5000 + 75 - 300 = \\$4775$\nMonth $2$:\n$I = 4775 \\times 0.015 = \\$71.63$\nBalance $= 4775 + 71.63 - 300$\n$= \\$4546.63$"
       },
-      {
+{
         "question_text": "A reducing balance loan of $\\$12\\,000$ is charged interest at $9\\%$ p.a. compounded monthly, with monthly repayments of $\\$400$.\nFind the balance owing at the end of the **third** month, rounding each month's interest to the nearest cent.",
         "structure": "next-balance",
         "solution_text": "Rate per month $= \\dfrac{0.09}{12} = 0.0075$\nMonth $1$:\n$I = 12\\,000 \\times 0.0075 = \\$90$\nBalance $= 12\\,000 + 90 - 400 = \\$11\\,690$\nMonth $2$:\n$I = 11\\,690 \\times 0.0075 = \\$87.68$\nBalance $= 11\\,690 + 87.68 - 400 = \\$11\\,377.68$\nMonth $3$:\n$I = 11\\,377.68 \\times 0.0075 = \\$85.33$\nBalance $= 11\\,377.68 + 85.33 - 400$\n$= \\$11\\,063.01$"
       },
-      {
+{
         "question_text": "Nadia owes $\\$6200$ on a reducing balance loan charged at $24\\%$ p.a. compounded monthly and repays $\\$120$ each month.\nShow that this loan will never be repaid, and find the balance at the end of the first month.",
         "structure": "interest-exceeds-repayment",
         "solution_text": "Rate per month $= \\dfrac{0.24}{12} = 0.02$\n$I = 6200 \\times 0.02$\n$= \\$124$\nThe interest of $\\$124$ is more than the repayment of $\\$120$, so the balance rises.\nBalance $= 6200 + 124 - 120$\n$= \\$6204$"
       },
-      {
+{
         "question_text": "A reducing balance loan of $\\$18\\,000$ is repaid by monthly repayments of $\\$395$ over $5$ years.\nFind the total amount repaid and the total interest charged.",
         "structure": "total-repaid-interest",
         "solution_text": "Number of repayments $= 5 \\times 12 = 60$\nTotal repaid $= 395 \\times 60$\n$= \\$23\\,700$\nTotal interest $= 23\\,700 - 18\\,000$\n$= \\$5700$"
       },
-      {
-        "question_text": "The graph shows the balance owing on a reducing balance home loan.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=9.5cm,height=7cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=315,ymin=0,ymax=215000,xtick={0,50,100,150,200,250,300},ytick={0,25000,50000,75000,100000,125000,150000,175000,200000},grid=both,samples=80,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Months},ylabel={Balance owing (\\$)},ylabel near ticks]\n\\addplot[thick,blue,domain=0:300]{200000*(4.46497 - exp(x*0.0049875))/3.46497};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nUse the graph to estimate how much was borrowed, and how much is still owing after $200$ months.",
+{
+        "question_text": "The graph shows the balance owing on a reducing balance home loan.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n% mathsmap-standard-palette 2026-09-11\n\\definecolor{ink}{HTML}{24282D}\n\\definecolor{blue}{HTML}{268CFF}\n\\definecolor{red}{HTML}{EF6068}\n\\definecolor{green}{HTML}{4F9B63}\n\\definecolor{orange}{HTML}{EF8B2C}\n\\definecolor{purple}{HTML}{8B5CC7}\n\\definecolor{tableLabel}{HTML}{D3E8FC}\n\\definecolor{housegrid}{HTML}{CCCCCC}\n\\definecolor{skipped}{HTML}{C7C7C7}\n\\definecolor{housemuted}{HTML}{777777}\n\\definecolor{blueFill}{HTML}{D4E8FF}\n\\definecolor{redFill}{HTML}{FCDFE1}\n\\definecolor{greenFill}{HTML}{DCEBE0}\n\\definecolor{orangeFill}{HTML}{FCE8D5}\n\\definecolor{purpleFill}{HTML}{E8DEF4}\n\\begin{axis}[width=7cm,height=5.8cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=315,ymin=0,ymax=215000,xtick={0,50,100,150,200,250,300},ytick={0,25000,50000,75000,100000,125000,150000,175000,200000},grid=both,grid style={color=housegrid,line width=0.25pt},samples=80,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Months},ylabel={Balance owing (\\$)},ylabel style={at={(axis description cs:-0.37,0.5)},anchor=south}]\n\\addplot[thick,blue,domain=0:300]{200000*(4.46497 - exp(x*0.0049875))/3.46497};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nUse the graph to estimate how much was borrowed, and how much is still owing after $200$ months.",
         "structure": "graph-read-balance",
         "solution_text": "The curve starts at $\\$200\\,000$, so that is the amount borrowed.\nAt $200$ months the curve is level with the $\\$100\\,000$ gridline.\nAbout $\\$100\\,000$ is still owing after $200$ months."
       }
-    ],
+],
     "development": [
       {
         "question_text": "The first two months of a reducing balance loan of $\\$60\\,000$ at $6.6\\%$ p.a. compounded monthly, with monthly repayments of $\\$700$, are shown below.\n$\\begin{array}{|c|c|c|c|c|}\\hline \\textbf{Month} & \\textbf{Opening } (P) & \\textbf{Interest } (I) & \\textbf{Repayment } (R) & \\textbf{Closing } (P+I-R) \\\\ \\hline 1 & \\$60\\,000 & \\$330 & \\$700 & \\$59\\,630 \\\\ \\hline 2 & \\$59\\,630 & A & \\$700 & B \\\\ \\hline \\end{array}$\nFind the values of $A$ and $B$, to the nearest cent.",

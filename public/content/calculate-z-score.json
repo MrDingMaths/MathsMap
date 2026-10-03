@@ -2,22 +2,36 @@
   "skillId": "calculate-z-score",
   "atomType": "R",
   "theory": {
-    "intro": "A **z-score** (or **standardised score**) tells you how many standard deviations a value sits from the mean. A positive $z$ means the value is above the mean; a negative $z$ means it is below.",
-    "facts": [
-      "The formula is $z = \\dfrac{x - \\mu}{\\sigma}$, where $x$ is the value, $\\mu$ is the mean and $\\sigma$ is the standard deviation.",
-      "Subtract the mean from the value, never the other way round; reversing the subtraction reverses the sign of $z$.",
-      "A value above the mean gives a positive $z$, and a value below the mean gives a negative $z$.",
-      "A value equal to the mean gives $z = 0$.",
-      "The size of $z$ is a count of standard deviations, so $z = -1.5$ is $1.5$ standard deviations below the mean.",
-      "A $z$-score has no units, so it can be compared even when the raw values are marks, seconds or grams.",
-      "Round $z$ as the question directs; otherwise give two decimal places."
-    ],
-    "steps": [
+"intro": "A **z-score** (or **standardised score**) tells you how many standard deviations a value sits from the mean. A positive $z$ means the value is above the mean; a negative $z$ means it is below.",
+"facts": [
+"The formula is $z = \\dfrac{x - \\mu}{\\sigma}$, where $x$ is the value, $\\mu$ is the mean and $\\sigma$ is the standard deviation. Use $\\sigma>0$.",
+"Subtract the mean from the value, never the other way round; reversing the subtraction reverses the sign of $z$.",
+"A value above the mean gives a positive $z$, and a value below the mean gives a negative $z$.",
+"A value equal to the mean gives $z = 0$.",
+"The size of $z$ is a count of standard deviations, so $z = -1.5$ is $1.5$ standard deviations below the mean.",
+"A $z$-score has no units, so it can be compared even when the raw values are marks, seconds or grams.",
+"Round $z$ as the question directs; otherwise give two decimal places."
+],
+"steps": [
       "Write the formula",
       "Substitute the value, the mean and the standard deviation",
       "Evaluate and round"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A machine produces packets with mean mass $42.6$ g and standard deviation $3.5$ g.\n(a) Calculate the $z$-score for a packet of mass $48.8$ g.\n(b) Calculate the $z$-score for a packet of mass $38.1$ g.\nGive the $z$-scores correct to $2$ decimal places.\n(c) Packets are rejected if their $z$-score is below $-1.5$ or above $1.5$. Which of these two packets is rejected?",
+    "solution_text": "Write $z=\\dfrac{x-\\mu}{\\sigma}$.\n(a) $z=\\dfrac{48.8-42.6}{3.5}=\\dfrac{6.2}{3.5}$\n$=1.771428\\ldots\\approx1.77$.\nThe packet is above the mean, so its score is positive.\n(b) $z=\\dfrac{38.1-42.6}{3.5}=\\dfrac{-4.5}{3.5}$\n$=-1.285714\\ldots\\approx-1.29$.\nThe packet is below the mean, so its score is negative.\n(c) $1.771428\\ldots>1.5$, so the $48.8$ g packet is rejected.\nThe other score is between $-1.5$ and $1.5$, so the $38.1$ g packet is accepted."
   },
+  {
+    "question_text": "A test has mean $57$ and standard deviation $8$.\n$\\begin{array}{c|cccc}\\text{Student}&A&B&C&D\\\\\\hline\\text{Mark}&69&51&57&61\\end{array}$\n(a) Calculate each student's standardised score.\n(b) Describe B's result in terms of the mean and standard deviation.\n(c) Which result, A or B, is further from the mean? By how many standard deviations further?",
+    "solution_text": "(a) Use $z=\\dfrac{x-\\mu}{\\sigma}$ for each mark.\nA: $z=\\dfrac{69-57}{8}=1.5$.\nB: $z=\\dfrac{51-57}{8}=-0.75$.\nC: $z=\\dfrac{57-57}{8}=0$.\nD: $z=\\dfrac{61-57}{8}=0.5$.\n(b) B is $0.75$ standard deviations below the mean.\nC's score of $0$ shows that the mark equals the mean, not that the mark is zero.\n(c) A is $1.5$ standard deviations from the mean; B is $0.75$ standard deviations from it.\n$1.5-0.75=0.75$.\nA is further from the mean by $0.75$ standard deviations."
+  },
+  {
+    "question_text": "(a) The times (seconds) to solve a puzzle are $8,11,13,15,19$. Use a calculator to find the mean and population standard deviation, then calculate the $z$-score of the slowest time. Give the standard deviation and $z$-score correct to $2$ decimal places.\n(b) Fun-run times have mean $18$ minutes $24$ seconds and standard deviation $1$ minute $40$ seconds. Calculate the $z$-score of a time of $16$ minutes $9$ seconds.",
+    "solution_text": "(a) Enter all five times in statistics mode and read the population standard deviation.\n$\\mu=13.2$, $\\sigma=3.709447\\ldots\\approx3.71$ seconds.\nThe slowest time is the largest, $x=19$.\nKeep the unrounded standard deviation in the calculation.\n$z=\\dfrac{19-13.2}{3.709447\\ldots}$\n$=1.563575\\ldots\\approx1.56$.\n(b) Use seconds throughout.\n$\\mu=18\\times60+24=1104$, $\\sigma=60+40=100$, $x=16\\times60+9=969$.\n$z=\\dfrac{969-1104}{100}=\\dfrac{-135}{100}=-1.35$.\nAll three time quantities must use the same unit."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -84,21 +98,21 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "The times, in seconds, taken by eight students to solve a puzzle are\n$12, \\ 15, \\ 9, \\ 14, \\ 11, \\ 17, \\ 10, \\ 16$\nCalculate the mean and the population standard deviation, then find the $z$-score of the slowest time.\nGive the standard deviation and the $z$-score correct to two decimal places.",
         "structure": "z-from-dataset",
         "solution_text": "1. **Write the formula**\n$z = \\dfrac{x - \\mu}{\\sigma}$\n2. **Substitute the value, the mean and the standard deviation**\nFrom the statistics mode of the calculator,\n$\\mu = 13$\n$\\sigma = 2.7386...$\n$\\approx 2.74$\nThe slowest time is the largest, $x = 17$.\n$z = \\dfrac{17 - 13}{2.7386...}$\n3. **Evaluate and round**\n$= 1.4606...$\n$\\approx 1.46$"
       },
-      {
-        "question_text": "A machine fills bottles with a mean of $502$ mL and a standard deviation of $1.6$ mL.\nA bottle is rejected if its $z$-score is below $-2.5$ or above $2.5$.\nCalculate the $z$-score of a bottle containing $497$ mL and state whether it is rejected.",
+{
+        "question_text": "A machine fills bottles with a mean of $502$ mL and a standard deviation of $1.6$ mL.\nA bottle is rejected if its $z$-score is below $-2.5$ or above $2.5$.\nCalculate the $z$-score, correct to two decimal places, of a bottle containing $497$ mL and state whether it is rejected.",
         "structure": "z-from-context",
-        "solution_text": "$z = \\dfrac{x - \\mu}{\\sigma}$\n$= \\dfrac{497 - 502}{1.6}$\n$= \\dfrac{-5}{1.6}$\n$= -3.125$\nThis is below $-2.5$, so the bottle is rejected."
+        "solution_text": "$z = \\dfrac{x - \\mu}{\\sigma}$\n$= \\dfrac{497 - 502}{1.6}$\n$= \\dfrac{-5}{1.6}$\n$= -3.125$\n$\\approx -3.13$\nThe unrounded score is below $-2.5$, so the bottle is rejected."
       },
-      {
+{
         "question_text": "Times for a $5$ km fun run are normally distributed with a mean of $27$ minutes $30$ seconds and a standard deviation of $2$ minutes $15$ seconds.\nCalculate the $z$-score of a runner who finishes in $23$ minutes.",
         "structure": "z-from-context",
         "solution_text": "Work in minutes throughout.\n$\\mu = 27.5$\n$\\sigma = 2.25$\n$z = \\dfrac{x - \\mu}{\\sigma}$\n$= \\dfrac{23 - 27.5}{2.25}$\n$= \\dfrac{-4.5}{2.25}$\n$= -2$"
       }
-    ]
+]
   }
 }

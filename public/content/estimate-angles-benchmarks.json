@@ -2,18 +2,44 @@
   "skillId": "estimate-angles-benchmarks",
   "atomType": "R",
   "theory": {
-        "intro": "You can estimate an angle's size by comparing it with familiar **benchmark** angles before measuring.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (V1) at (0,0);\\coordinate (A1) at (1.6,0);\\coordinate (B1) at (45:1.6);\n\\draw (A1)--(V1)--(B1);\n\\pic[draw,\"$45^{\\circ}$\",angle radius=0.45cm,angle eccentricity=2.4]{angle=A1--V1--B1};\n\\node[font=\\small] at (0.8,-0.8) {half a right angle};\n\\coordinate (V2) at (4.4,0);\\coordinate (A2) at (6,0);\\coordinate (B2) at (4.4,1.6);\n\\draw (A2)--(V2)--(B2);\n\\pic[draw,\"$90^{\\circ}$\",angle radius=0.45cm,angle eccentricity=2.4]{angle=A2--V2--B2};\n\\node[font=\\small] at (5.2,-0.8) {right angle};\n\\coordinate (V3) at (1.6,-3.2);\\coordinate (A3) at (3.2,-3.2);\\coordinate (B3) at (0,-3.2);\n\\draw (A3)--(V3)--(B3);\\fill (V3) circle (1.5pt);\n\\pic[draw,\"$180^{\\circ}$\",angle radius=0.45cm,angle eccentricity=2.2]{angle=A3--V3--B3};\n\\node[font=\\small] at (1.6,-4.0) {straight angle};\n\\coordinate (V4) at (5.2,-3.2);\n\\draw (V4)--($(V4)+(1.4,0)$);\\fill (V4) circle (1.5pt);\n\\draw[->] ($(V4)+(12:0.7)$) arc (12:348:0.7);\n\\node[font=\\small] at (5.2,-4.0) {full turn $360^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
-          "Key benchmarks: $90^{\\circ}$ (right angle), $180^{\\circ}$ (straight), $45^{\\circ}$ (half a right angle), $360^{\\circ}$ (full turn).",
-          "Smaller than the square corner $\\Rightarrow$ less than $90^{\\circ}$; wider $\\Rightarrow$ more.",
-          "A good estimate is usually within about $10^{\\circ}$ of the true value."
-        ],
-        "steps": [
+"intro": "You can estimate an angle's size by comparing it with familiar **benchmark** angles before measuring.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (V1) at (0,0);\\coordinate (A1) at (1.6,0);\\coordinate (B1) at (45:1.6);\n\\draw (A1)--(V1)--(B1);\n\\pic[draw,\"$45^{\\circ}$\",angle radius=0.45cm,angle eccentricity=2.4]{angle=A1--V1--B1};\n\\node[font=\\small] at (0.8,-0.8) {half a right angle};\n\\coordinate (V2) at (4.4,0);\\coordinate (A2) at (6,0);\\coordinate (B2) at (4.4,1.6);\n\\draw (A2)--(V2)--(B2);\n\\pic[draw,\"$90^{\\circ}$\",angle radius=0.45cm,angle eccentricity=2.4]{angle=A2--V2--B2};\n\\node[font=\\small] at (5.2,-0.8) {right angle};\n\\coordinate (V3) at (1.6,-3.2);\\coordinate (A3) at (3.2,-3.2);\\coordinate (B3) at (0,-3.2);\n\\draw (A3)--(V3)--(B3);\\fill (V3) circle (1.5pt);\n\\pic[draw,\"$180^{\\circ}$\",angle radius=0.45cm,angle eccentricity=2.2]{angle=A3--V3--B3};\n\\node[font=\\small] at (1.6,-4.0) {straight angle};\n\\coordinate (V4) at (5.2,-3.2);\n\\draw (V4)--($(V4)+(1.4,0)$);\\fill (V4) circle (1.5pt);\n\\draw[->] ($(V4)+(0:0.7)$) arc (0:360:0.7);\n\\node[font=\\small] at (5.2,-4.35) {full turn $360^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
+"Key benchmarks: $90^{\\circ}$ (right angle), $180^{\\circ}$ (straight), $45^{\\circ}$ (half a right angle), $360^{\\circ}$ (full turn).",
+"Smaller than the square corner $\\Rightarrow$ less than $90^{\\circ}$; wider $\\Rightarrow$ more.",
+"Use the size of the turn, rather than the length or direction of the arms, to choose a sensible estimate."
+],
+"steps": [
           "Compare the angle with the nearest benchmark.",
           "Decide if it is a bit more or a bit less.",
           "Give a sensible whole-degree estimate."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Estimate each marked angle.\n(a) Compare with half a right angle.\n[tikz]\n\\begin{tikzpicture}[scale=0.8,every node/.style={font=\\normalsize,text=black}]\n\\coordinate (V) at (0,0);\n\\draw[black] (V)--(0:3);\n\\draw[black] (V)--(38:3);\n\\draw[black] (0:0.65) arc (0:38:0.65);\n\\end{tikzpicture}\n[/tikz]\n(b) Compare with a right angle.\n[tikz]\n\\begin{tikzpicture}[scale=0.8,every node/.style={font=\\normalsize,text=black}]\n\\coordinate (V) at (0,0);\n\\draw[black] (V)--(0:3);\n\\draw[black] (V)--(99:3);\n\\draw[black] (0:0.65) arc (0:99:0.65);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Half a right angle is $45^{\\circ}$. The marked angle is a little smaller, so about $40^{\\circ}$ is sensible.\n(b) A right angle is $90^{\\circ}$. This angle is a little wider, so about $100^{\\circ}$ is sensible.\nThese are estimates, not exact measurements."
+  },
+  {
+    "question_text": "Estimate the marked angle. Compare it with a right angle and a straight angle.\n[tikz]\n\\begin{tikzpicture}[scale=0.8,every node/.style={font=\\normalsize,text=black}]\n\\coordinate (V) at (0,0);\n\\draw[black] (V)--(0:3);\n\\draw[black] (V)--(132:3);\n\\draw[black] (0:0.65) arc (0:132:0.65);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "It is wider than $90^{\\circ}$ but smaller than $180^{\\circ}$.\nIt is close to halfway between these benchmarks, $135^{\\circ}$.\nA sensible estimate is about $130^{\\circ}$."
+  },
+  {
+    "question_text": "Estimate the marked angle to the nearest $10^{\\circ}$.\n[tikz]\n\\begin{tikzpicture}[scale=0.8,every node/.style={font=\\normalsize,text=black}]\n\\coordinate (V) at (0,0);\n\\draw[black] (V)--(0:3);\n\\draw[black] (V)--(168:3);\n\\draw[black] (0:0.65) arc (0:168:0.65);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The angle is close to a straight angle, $180^{\\circ}$, with a small gap.\nIt looks about $10^{\\circ}$ smaller, so estimate about $170^{\\circ}$."
+  },
+  {
+    "question_text": "Estimate the marked reflex angle using $180^{\\circ}$, $270^{\\circ}$ and $360^{\\circ}$ as benchmarks.\n[tikz]\n\\begin{tikzpicture}[scale=0.8,every node/.style={font=\\normalsize,text=black}]\n\\coordinate (V) at (0,0);\n\\draw[black] (V)--(35:3);\n\\draw[black] (V)--(109:3);\n\\draw[black] (109:0.75) arc (109:395:0.75);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The marked turn is more than three right angles, $270^{\\circ}$, but less than a full turn, $360^{\\circ}$.\nIt is a little more than $270^{\\circ}$, so about $290^{\\circ}$ is sensible."
+  },
+  {
+    "question_text": "(a) A reflex angle leaves a small inside angle of about $65^{\\circ}$. Estimate the reflex angle.\n(b) An angle is just wider than a right angle. Is $100^{\\circ}$ or $170^{\\circ}$ a more sensible estimate?",
+    "solution_text": "(a) The two turns complete a full turn.\n$360^{\\circ}-65^{\\circ}=295^{\\circ}$.\nThe reflex angle is about $295^{\\circ}$ because the inside angle was estimated.\n(b) $100^{\\circ}$ is just beyond $90^{\\circ}$. The $170^{\\circ}$ estimate is close to a straight angle, so it is too large."
+  },
+  {
+    "question_text": "Estimate the marked angle. You may turn the picture mentally to compare it with a familiar benchmark.\n[tikz]\n\\begin{tikzpicture}[scale=0.8,every node/.style={font=\\normalsize,text=black}]\n\\coordinate (V) at (0,0);\n\\draw[black] (V)--(150:3);\n\\draw[black] (V)--(179:3);\n\\draw[black] (150:0.65) arc (150:179:0.65);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Turn the picture mentally so that one arm is horizontal. This does not change the size of the turn.\nThe angle is smaller than $45^{\\circ}$ and close to $30^{\\circ}$, so about $30^{\\circ}$ is sensible."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

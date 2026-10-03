@@ -2,21 +2,43 @@
   "skillId": "expand-binomial-products",
   "atomType": "R",
   "theory": {
-        "intro": "A binomial has two terms. To expand a product such as $(x+3)(x+5)$, multiply every term in the first bracket by every term in the second, then collect like terms.",
-        "facts": [
-          "A **binomial** is an expression with **two** terms, such as $x+3$ or $2x-7$.",
-          "Multiplying every pair of terms gives $(a+b)(c+d)=ac+ad+bc+bd$ — **four** products in all.",
-          "The two **middle** products are like terms and combine; the first and last products do not.",
-          "Keep the sign attached to each term: in $(x-5)(x+2)$ the second term of the first bracket is $-5$.",
-          "For monic binomials, $(x+\\alpha)(x+\\beta)=x^2+(\\alpha+\\beta)x+\\alpha\\beta$: the coefficient of $x$ is the **sum** and the constant is the **product**.",
-          "When a number multiplies the brackets, expand the binomial product first and multiply through by that number last."
-        ],
-        "steps": [
+"intro": "A binomial has two terms. To expand a product such as $(x+3)(x+5)$, multiply every term in the first bracket by every term in the second, then collect like terms.",
+"facts": [
+"A **binomial** is an expression with **two** terms, such as $x+3$ or $2x-7$.",
+"Multiplying every pair of terms gives $(a+b)(c+d)=ac+ad+bc+bd$ — **four** products in all.",
+"Collect **like terms** after multiplying. In $(x+a)(x+b)$, the two middle products are like terms; in $(p+3)(q-4)$, they are not.",
+"Keep the sign attached to each term: in $(x-5)(x+2)$ the second term of the first bracket is $-5$.",
+"For $(x+a)(x+b)$, expansion gives $x^2+(a+b)x+ab$: the coefficient of $x$ is the **sum** and the constant is the **product**.",
+"When a number multiplies the brackets, expand the binomial product first and multiply through by that number last."
+],
+"steps": [
           "Multiply each term in the first bracket by each term in the second.",
           "Collect like terms.",
           "Multiply through by any factor outside the brackets."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Use the area model to expand $(u+2)(v+5)$, where $u$ and $v$ are positive. The diagram is not drawn to scale.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black]\n\\draw (0,0) rectangle (4.8,2.4);\n\\draw (2.8,0)--(2.8,2.4);\n\\draw (0,0.8)--(4.8,0.8);\n\\node[above] at (1.4,2.4) {$v$};\n\\node[above] at (3.8,2.4) {$5$};\n\\node[left] at (0,1.6) {$u$};\n\\node[left] at (0,0.4) {$2$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Multiply the side lengths of each smaller rectangle.\nThe four areas are $uv$, $5u$, $2v$ and $10$. Add them.\n$(u+2)(v+5)$\n$=u(v+5)+2(v+5)$\n$=uv+5u+2v+10$\nThe terms $5u$ and $2v$ are unlike, so they cannot be collected."
+  },
+  {
+    "question_text": "Expand and simplify.\n(a) $(x-6)(x-3)$\n(b) $(2y-5)(3y+4)$",
+    "solution_text": "(a) Multiply every term in the first bracket by every term in the second. A negative times a negative is positive.\n$(x-6)(x-3)$\n$=x^2-3x-6x+18$\n$=x^2-9x+18$\n(b) Keep the sign of $-5$.\n$(2y-5)(3y+4)$\n$=6y^2+8y-15y-20$\n$=6y^2-7y-20$"
+  },
+  {
+    "question_text": "Expand and simplify.\n(a) $-3(x+4)(x-2)$\n(b) $(z+2)(z+5)-(z-1)(z+3)$",
+    "solution_text": "(a) Expand the product, then multiply every term by $-3$.\n$-3(x+4)(x-2)$\n$=-3(x^2-2x+4x-8)$\n$=-3(x^2+2x-8)$\n$=-3x^2-6x+24$\n(b) Expand both products, then subtract every term of the second.\n$(z+2)(z+5)-(z-1)(z+3)$\n$=z^2+7z+10-(z^2+2z-3)$\n$=z^2+7z+10-z^2-2z+3$\n$=5z+13$"
+  },
+  {
+    "question_text": "(a) Find the missing number: $(5x+3)(x+4)=5x^2+20x+\\square x+12$.\n(b) The expansion of $(2x+k)(x+3)$ is $2x^2+10x+12$. Find $k$ and check both remaining coefficients.",
+    "solution_text": "(a) The four products are $5x^2$, $20x$, $3x$ and $12$. The missing number is $3$.\n(b) Expand using $k$.\n$(2x+k)(x+3)$\n$=2x^2+6x+kx+3k$\n$=2x^2+(6+k)x+3k$\nThe constant gives $3k=12$, so $k=4$.\nCheck: $6+4=10$, and the leading coefficient is $2$, as required."
+  },
+  {
+    "question_text": "Show by expansion that $(x+a)(x+b)=x^2+(a+b)x+ab$. Use this to expand $(x+11)(x-3)$.",
+    "solution_text": "Multiply all four pairs.\n$(x+a)(x+b)$\n$=x^2+bx+ax+ab$\n$=x^2+(a+b)x+ab$\nHere $a=11$ and $b=-3$. Their sum is $8$ and their product is $-33$.\n$(x+11)(x-3)=x^2+8x-33$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -66,73 +88,73 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "Expand and simplify $(x+6)(x+2)+(x+1)(x+4)$.",
         "structure": "expand-and-combine",
         "solution_text": "$(x+6)(x+2)+(x+1)(x+4)$\n$=x^2+8x+12+x^2+5x+4$\n$=2x^2+13x+16$"
       },
-      {
+{
         "question_text": "Expand and simplify $(y-8)(y+3)-(y+2)(y-5)$.",
         "structure": "expand-and-combine",
         "solution_text": "$(y-8)(y+3)-(y+2)(y-5)$\n$=y^2-5y-24-(y^2-3y-10)$\n$=y^2-5y-24-y^2+3y+10$\n$=-2y-14$"
       },
-      {
+{
         "question_text": "Expand and simplify $3a^2+(2a-1)(a-4)$.",
         "structure": "expand-and-combine",
         "solution_text": "$3a^2+(2a-1)(a-4)$\n$=3a^2+2a^2-8a-a+4$\n$=5a^2-9a+4$"
       },
-      {
+{
         "question_text": "Expand and simplify $(x+9)(x-2)-x+7$.",
         "structure": "expand-and-combine",
         "solution_text": "$(x+9)(x-2)-x+7$\n$=x^2-2x+9x-18-x+7$\n$=x^2+6x-11$"
       },
-      {
+{
         "question_text": "Expand and simplify $-4(2x-3)(x+5)$.",
         "structure": "expand-with-numeric-factor",
         "solution_text": "$-4(2x-3)(x+5)$\n$=-4(2x^2+10x-3x-15)$\n$=-4(2x^2+7x-15)$\n$=-8x^2-28x+60$"
       },
-      {
-        "question_text": "Expand and simplify $(x+2)(x^2+3x-1)$.",
-        "structure": "expand-binomial-trinomial",
-        "solution_text": "$(x+2)(x^2+3x-1)$\n$=x^3+3x^2-x+2x^2+6x-2$\n$=x^3+5x^2+5x-2$"
+{
+        "question_text": "Expand and simplify $(p+4)(q-3)$.",
+        "structure": "expand-unlike-pronumerals",
+        "solution_text": "$(p+4)(q-3)$\n$=p(q-3)+4(q-3)$\n$=pq-3p+4q-12$\nThere are no like terms to collect."
       },
-      {
-        "question_text": "Expand and simplify $(2x-3)(x^2-x+4)$.",
-        "structure": "expand-binomial-trinomial",
-        "solution_text": "$(2x-3)(x^2-x+4)$\n$=2x^3-2x^2+8x-3x^2+3x-12$\n$=2x^3-5x^2+11x-12$"
+{
+        "question_text": "Expand and simplify $(2x-3)^2$.",
+        "structure": "expand-non-monic-binomials",
+        "solution_text": "A square means multiply the bracket by itself.\n$(2x-3)^2=(2x-3)(2x-3)$\n$=4x^2-6x-6x+9$\n$=4x^2-12x+9$"
       },
-      {
-        "question_text": "Expand and simplify $(x+1)(x+3)(x+5)$.",
-        "structure": "expand-triple-product",
-        "solution_text": "$(x+1)(x+3)(x+5)$\n$=(x^2+4x+3)(x+5)$\n$=x^3+5x^2+4x^2+20x+3x+15$\n$=x^3+9x^2+23x+15$"
+{
+        "question_text": "Expand and simplify $(x+5)(4-x)$.",
+        "structure": "expand-monic-binomials",
+        "solution_text": "$(x+5)(4-x)$\n$=4x-x^2+20-5x$\n$=-x^2-x+20$"
       },
-      {
+{
         "question_text": "Find the number that belongs in the box: $(4x+5)(x+2)=4x^2+8x+\\square x+10$.",
         "structure": "complete-the-expansion",
         "solution_text": "$(4x+5)(x+2)$\n$=4x^2+8x+5x+10$\nThe missing number is $5$."
       }
-    ],
+],
     "mastery": [
-      {
+{
         "question_text": "Expand and simplify $(3x-2)(2x+5)-(x+4)(6x-1)$.",
         "structure": "expand-and-combine",
         "solution_text": "$(3x-2)(2x+5)-(x+4)(6x-1)$\n$=6x^2+15x-4x-10-(6x^2-x+24x-4)$\n$=6x^2+11x-10-(6x^2+23x-4)$\n$=6x^2+11x-10-6x^2-23x+4$\n$=-12x-6$"
       },
-      {
-        "question_text": "Expand and simplify $(2x-1)(x+3)(x-2)$.",
-        "structure": "expand-triple-product",
-        "solution_text": "$(2x-1)(x+3)(x-2)$\n$=(2x^2+6x-x-3)(x-2)$\n$=(2x^2+5x-3)(x-2)$\n$=2x^3-4x^2+5x^2-10x-3x+6$\n$=2x^3+x^2-13x+6$"
+{
+        "question_text": "Expand and simplify $(3x-4)(2x-5)$.",
+        "structure": "expand-non-monic-binomials",
+        "solution_text": "$(3x-4)(2x-5)$\n$=6x^2-15x-8x+20$\n$=6x^2-23x+20$"
       },
-      {
+{
         "question_text": "Show by expansion that $(x+a)(x+b)=x^2+(a+b)x+ab$, and hence write the expansion of $(x+13)(x+7)$ without multiplying out the four products.",
         "structure": "general-identity",
         "solution_text": "$(x+a)(x+b)$\n$=x^2+bx+ax+ab$\n$=x^2+(a+b)x+ab$\nWith $a=13$ and $b=7$, the sum is $20$ and the product is $91$.\n$(x+13)(x+7)=x^2+20x+91$"
       },
-      {
+{
         "question_text": "The expansion of $(3x+m)(x+2)$ is $3x^2+11x+10$.\nFind the value of $m$.",
         "structure": "find-unknown-coefficient",
         "solution_text": "$(3x+m)(x+2)$\n$=3x^2+6x+mx+2m$\n$=3x^2+(6+m)x+2m$\nMatching the constant terms, $2m=10$\n$m=5$"
       }
-    ]
+]
   }
 }

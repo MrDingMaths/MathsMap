@@ -2,18 +2,36 @@
   "skillId": "create-random-generators",
   "atomType": "R",
   "theory": {
-        "intro": "A **random generator** such as a spinner or a bag of counters can be designed to give outcomes with chosen probabilities. You decide how many equal parts to use and how many to label with each outcome.",
-        "facts": [
-          "On a spinner with $n$ equal sectors, an outcome with $k$ sectors has probability $\\dfrac{k}{n}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\foreach \\k in {0,1,2} {\\filldraw[gray!35, draw=black] (0,0) -- ({\\k*360/7}:1.5) arc ({\\k*360/7}:{(\\k+1)*360/7}:1.5) -- cycle;}\n\\draw[thick] (0,0) circle (1.5);\n\\foreach \\k in {0,...,6} {\\draw (0,0) -- ({\\k*360/7}:1.5);}\n\\node[font=\\small] at (0,-2.1) {$n$ equal sectors, $k$ of them shaded};\n\\end{tikzpicture}\n[/tikz]",
-          "In a bag, an outcome's probability is $\\dfrac{\\text{that colour}}{\\text{total counters}}$.",
-          "Choose a total ($n$) that lets every required fraction be a whole number of parts."
-        ],
-        "steps": [
+"intro": "A **random generator** such as a spinner or a bag of counters can be designed to give outcomes with chosen probabilities. Use equal sectors on a fair spinner, or counters that have the same chance of being chosen. Decide how many parts to assign to each outcome.",
+"facts": [
+"On a spinner with $n$ equal sectors, an outcome with $k$ sectors has probability $\\dfrac{k}{n}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\foreach \\k in {0,1,2} {\\filldraw[gray!35, draw=black] (0,0) -- ({\\k*360/7}:1.5) arc ({\\k*360/7}:{(\\k+1)*360/7}:1.5) -- cycle;}\n\\draw[thick] (0,0) circle (1.5);\n\\foreach \\k in {0,...,6} {\\draw (0,0) -- ({\\k*360/7}:1.5);}\n\\node[font=\\small] at (0,-2.1) {$n$ equal sectors, $k$ of them shaded};\n\\end{tikzpicture}\n[/tikz]",
+"In a bag, an outcome's probability is the number of counters of that colour divided by the total number of counters. Assume each counter has the same chance of being chosen.",
+"Choose a total ($n$) that lets every required fraction be a whole number of parts."
+],
+"steps": [
           "Write each required probability as a fraction with the same denominator.",
           "Use that denominator as the number of equal sectors (or counters).",
           "Colour or label that many parts for each outcome and check they total the whole."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Design the smallest equal-sector spinner with $P(A)=\\frac{1}{2}$, $P(B)=\\frac{1}{5}$ and $P(C)=\\frac{3}{10}$.\n(a) State the number of sectors and the labels.\n(b) Check the probability of each outcome.",
+    "solution_text": "(a) Write the probabilities in tenths:\n$\\frac{1}{2}=\\frac{5}{10}$, $\\frac{1}{5}=\\frac{2}{10}$ and $\\frac{3}{10}$.\nTen is the smallest common denominator. Use $10$ equal sectors: $5$ labelled A, $2$ B and $3$ C.\n(b) The probabilities are $\\frac{5}{10}=\\frac{1}{2}$, $\\frac{2}{10}=\\frac{1}{5}$ and $\\frac{3}{10}$.\nThe counts total $5+2+3=10$."
+  },
+  {
+    "question_text": "A bag contains only red and blue counters. Red must be three times as likely as blue.\n(a) Design a bag with $20$ counters.\n(b) Explain why $3$ red and $17$ blue does not work.",
+    "solution_text": "(a) For every $1$ blue counter, use $3$ red counters. That makes groups of $4$.\n$20\\div4=5$ groups, giving $15$ red and $5$ blue counters.\n(b) $3$ red is a count, not three times the blue count. With $3$ red and $17$ blue, red would be less likely."
+  },
+  {
+    "question_text": "A spinner has $1$ star, $2$ leaf and $5$ moon equal sectors.\n(a) Scale it to $24$ equal sectors without changing the probabilities.\n(b) Check the probability of a leaf.",
+    "solution_text": "(a) There are $1+2+5=8$ sectors.\n$24\\div8=3$, so multiply every count by $3$.\nUse $3$ star, $6$ leaf and $15$ moon sectors.\n(b) $\\frac{2}{8}=\\frac{6}{24}=\\frac{1}{4}$. The probability stays the same."
+  },
+  {
+    "question_text": "An $8$-equal-sector spinner needs $P(\\text{red})=\\frac{3}{8}$, with blue and green equally likely.\n(a) Explain why this design is impossible.\n(b) Can it be made with $16$ equal sectors? Give a design.",
+    "solution_text": "(a) Red uses $3$ of the $8$ sectors. The $5$ remaining sectors cannot be shared equally between blue and green using whole sectors.\n(b) With $16$ sectors, red uses $6$. The remaining $10$ can be shared equally.\nUse $6$ red, $5$ blue and $5$ green sectors."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
