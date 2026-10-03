@@ -1,0 +1,334 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4861fe1c-fa7e-46f1-abd3-1b3a7a3db7b7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "perimeter-composite-arc-figures",
+    "secondarySkillIds": [
+      "arc-length-perimeter-sector"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Combine a semicircular arc and a straight distance, check the stated precision, and explain staggered starts using unequal lane lengths."
+  },
+  "content": {
+    "id": "p44-q5",
+    "type": "question",
+    "label": "5",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p44-q5-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "One lap of an athletics track is 400 m.",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "One of the races at the Olympics is the 200 m, which is half the track.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p44-q5-track",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 44 p44-q5-track\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\pgfmathsetmacro{\\straight}{85.332/36.5}\n\\foreach \\k in {0,...,10}{\\pgfmathsetmacro{\\rr}{1+0.022*\\k}\\draw[black,line width=0.8pt] (0,\\rr) arc[start angle=90,end angle=270,radius=\\rr] -- (\\straight,-\\rr);}\n\\draw[black,dashed,line width=0.4pt] (0,-1.38)--(0,1.38);\n\\node[anchor=west] at (0.07,1.10) {Start};\n\\node[anchor=west] at (\\straight+0.07,-1.10) {Finish};\n\\draw[black,line width=0.4pt] (-1,-0.10)--(-1,0.10) (0,-0.10)--(0,0.10);\n\\draw[black,line width=0.4pt] (-1,0)--(0,0) node[midway,below=2pt] {36.5 m};\n\\draw[black,line width=0.4pt] (0,-1.38)--(0,-1.58) (\\straight,-1.38)--(\\straight,-1.58);\n\\draw[black,line width=0.4pt] (0,-1.48)--(\\straight,-1.48) node[midway,below=2pt] {85.332 m};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 73,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 44,
+          "sourceRegion": "Question 5, left half-track schematic",
+          "description": "Parallel lane boundaries follow a left semicircular bend and the lower straight. Start is at the upper bend endpoint; Finish is at the right end of the straight. Dimensions are horizontal and the bend endpoints share a dashed vertical reference.",
+          "mathematics": "The inner bend has radius 36.5 m and the straight has length 85.332 m. The schematic straight-to-radius ratio is 85.332/36.5.",
+          "answerVisibility": "All geometry, lane boundaries, dimensions and Start/Finish labels are permanent question givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p44-q5-lanes",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 44 p44-q5-lanes\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,-10);\n\\foreach \\k in {0,...,10}{\\pgfmathsetmacro{\\rr}{10+0.22*\\k}\\draw[black,line width=0.8pt] (0,-10+\\rr) arc[start angle=90,end angle=125,radius=\\rr];}\n\\draw[black,line width=0.8pt] ({10*cos(125)},{-10+10*sin(125)})--({12.2*cos(125)},{-10+12.2*sin(125)});\n\\draw[black,dashed,line width=0.4pt] (0,-0.50)--(0,2.55);\n\\node[anchor=west] at (0.12,1.10) {Start};\n\\foreach \\lane in {1,...,10}{\\pgfmathsetmacro{\\rr}{10+0.22*(\\lane-0.5)}\\pgfmathsetmacro{\\aa}{90+3.6*(\\lane-1)}\\pgfmathsetmacro{\\rot}{\\aa-90}\\node[rotate=\\rot] at ({\\rr*cos(\\aa)},{-10+\\rr*sin(\\aa)}) {\\lane};}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 90,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 44,
+          "sourceRegion": "Question 5, enlarged lane diagram on the right",
+          "description": "Ten curved lanes end at a common vertical dashed Start reference. Lane 1 is innermost and lowest; lane 10 is outermost and highest. The numbers progress diagonally around the bend from lane 1 at the right towards lane 10 at the left.",
+          "mathematics": "Concentric lane boundaries show increasing arc lengths for outer lanes. No additional measurement is asserted.",
+          "answerVisibility": "The ten lane numbers, lane boundaries and Start reference are permanent question content."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p44-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that the arc length of a semicircle with a radius of 36.5 m and a straight line of 85.332 m has a total length of 200 m, correct to 3 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$200.000\\text{ m}$",
+          "worked": "Arc + straight distance:\n$$\\begin{align*}\nL &= \\frac{180}{360}\\times 2\\pi(36.5)+85.332\\\\\nL &= 36.5\\pi+85.332\\\\\nL &\\approx 200.000\\text{ m}\\quad\\text{(3 d.p.)}\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p44-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "If each lane is one metre wide, that means the second lane is a semicircle with a radius of 37.5 m and a straight line of 85.332 m. Calculate the distance of the second lane. Round your answer to 2 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$203.14\\text{ m}$",
+          "worked": "$$\\begin{align*}\nL &= \\frac{180}{360}\\times 2\\pi(37.5)+85.332\\\\\nL &= 37.5\\pi+85.332\\\\\nL &\\approx 203.14\\text{ m}\\quad\\text{(2 d.p.)}\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p44-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence explain why the start of the lanes are slightly offset (i.e., they don’t all start at the same place).",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Outer lanes have longer bends, so their starts are moved forward to give every runner the same distance.",
+          "worked": "The second lane is about $3.14\\text{ m}$ longer than the first when both start at the same reference line. Outer lanes have larger radii and therefore longer semicircular arcs. Their starts are moved forward so that every runner covers 200 m.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p44-q5-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p44-q5-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p44-q5-stem-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p44-q5-label-item",
+                      "type": "item",
+                      "ref": "p44-q5/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p44-q5-prompt-item",
+                      "type": "item",
+                      "ref": "p44-q5/prompt"
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p44-q5-figures-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p44-q5-track-slot",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p44-q5-track-item",
+                          "type": "item",
+                          "ref": "p44-q5-track",
+                          "width": 73,
+                          "align": "center"
+                        }
+                      ],
+                      "weight": 73
+                    },
+                    {
+                      "id": "p44-q5-lanes-slot",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p44-q5-lanes-item",
+                          "type": "item",
+                          "ref": "p44-q5-lanes",
+                          "width": 90,
+                          "align": "center"
+                        }
+                      ],
+                      "weight": 90
+                    }
+                  ],
+                  "gap": 6,
+                  "verticalAlign": "middle"
+                },
+                {
+                  "id": "p44-q5-a-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p44-q5-a-label-item",
+                      "type": "item",
+                      "ref": "p44-q5-a/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p44-q5-a-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p44-q5-a-prompt-item",
+                          "type": "item",
+                          "ref": "p44-q5-a/prompt"
+                        },
+                        {
+                          "id": "p44-q5-a-space-item",
+                          "type": "item",
+                          "ref": "p44-q5-a/space"
+                        }
+                      ]
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p44-q5-b-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p44-q5-b-label-item",
+                      "type": "item",
+                      "ref": "p44-q5-b/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p44-q5-b-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p44-q5-b-prompt-item",
+                          "type": "item",
+                          "ref": "p44-q5-b/prompt"
+                        },
+                        {
+                          "id": "p44-q5-b-space-item",
+                          "type": "item",
+                          "ref": "p44-q5-b/space"
+                        }
+                      ]
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p44-q5-c-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p44-q5-c-label-item",
+                      "type": "item",
+                      "ref": "p44-q5-c/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p44-q5-c-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p44-q5-c-prompt-item",
+                          "type": "item",
+                          "ref": "p44-q5-c/prompt"
+                        },
+                        {
+                          "id": "p44-q5-c-space-item",
+                          "type": "item",
+                          "ref": "p44-q5-c/space"
+                        }
+                      ]
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p44-q5-block"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-02T18:19:58.464Z",
+  "updatedAt": "2026-10-02T18:19:58.464Z"
+}

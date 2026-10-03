@@ -1,0 +1,260 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7a46bdd3-344b-4c4b-9283-1b0458933525",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "unknown-sides-angles-figures",
+    "secondarySkillIds": [
+      "angle-sum-triangle",
+      "angle-pairs-point"
+    ],
+    "reasoningScore": 80,
+    "difficulty": "Challenge",
+    "difficultyReason": "Construct a symbolic proof using two isosceles triangles, supplementary angles and triangle angle sums."
+  },
+  "content": {
+    "id": "p49-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": "Prove that $x+4y=180^\\circ$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p49-q17-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 49 p49-q17-diagram\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (D) at (0,0);\n\\coordinate (C) at (3,0);\n\\coordinate (A) at (6.75,0);\n\\coordinate (B) at (4.2,{sqrt(7.56)});\n\\draw (D)--(B)--(A)--cycle;\n\\draw (B)--(C);\n\\foreach \\P/\\Q in {D/C,C/B}{\n  \\foreach \\t in {0.48,0.52}{\n    \\draw[line width=0.4pt] ($(\\P)!\\t!(\\Q)!3pt!90:(\\Q)$)--($(\\P)!\\t!(\\Q)!3pt!-90:(\\Q)$);\n  }\n}\n\\foreach \\P/\\Q in {C/A,B/A}{\n  \\draw[line width=0.4pt] ($(\\P)!0.5!(\\Q)!3pt!90:(\\Q)$)--($(\\P)!0.5!(\\Q)!3pt!-90:(\\Q)$);\n}\n\\pic[draw=black,line width=0.4pt,angle radius=14pt,angle eccentricity=1.5,\"$y$\"] {angle=A--D--B};\n\\pic[draw=black,line width=0.4pt,angle radius=14pt,angle eccentricity=1.5,\"$x$\"] {angle=B--A--D};\n\\node[left=3pt] at (D) {$D$};\n\\node[below=4pt] at (C) {$C$};\n\\node[right=3pt] at (A) {$A$};\n\\node[above=4pt] at (B) {$B$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 49,
+          "sourceRegion": "Question 17, left-hand diagram",
+          "description": "Triangle DBA above a horizontal baseline D–C–A, with internal segment BC. DC and BC have double equality ticks; CA and BA have single equality ticks. Interior angles at D and A are labelled y and x.",
+          "mathematics": "D, C and A are collinear in that order; DC=BC and CA=BA. The schematic coordinates satisfy both equality classes without adding numerical givens.",
+          "answerVisibility": "Only source givens are visible. No derived angles or proof steps appear in the question diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\angle CBD=y$, so $\\angle BCD=180^\\circ-2y$ and $\\angle BCA=2y$. Since $CA=BA$, $\\angle ABC=2y$. Thus $x+2y+2y=180^\\circ$, giving $x+4y=180^\\circ$.",
+      "worked": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p49-q17-answer",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\angle CBD=y",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " (base angles of isosceles triangle DCB are equal, since DC = BC).",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p49-q17-answer-bcd",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\angle BCD=180^\\circ-2y",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " (angles in triangle DCB sum to 180°).",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p49-q17-answer-bca",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\angle BCA=2y",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " (adjacent angles BCD and BCA on a straight line sum to 180°).",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p49-q17-answer-abc",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\angle ABC=2y",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " (base angles of isosceles triangle ABC are equal, since CA = BA).",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p49-q17-answer-triangle-sum",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\angle BCA+\\angle ABC+\\angle CAB=180^\\circ",
+                "display": true
+              },
+              {
+                "type": "text",
+                "text": "Angles in triangle ABC sum to 180°.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p49-q17-answer-conclusion",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\begin{aligned}2y+2y+x&=180^\\circ\\\\x+4y&=180^\\circ\\end{aligned}",
+                "display": true
+              }
+            ]
+          }
+        ]
+      },
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 100
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p49-q17": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p49-q17-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p49-q17-instruction-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p49-q17-label-item",
+                      "type": "item",
+                      "ref": "p49-q17-root/label",
+                      "width": 7,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p49-q17-prompt-item",
+                      "type": "item",
+                      "ref": "p49-q17-root/prompt",
+                      "align": "left"
+                    }
+                  ]
+                },
+                {
+                  "id": "p49-q17-diagram-working-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p49-q17-diagram-item",
+                      "type": "item",
+                      "ref": "p49-q17-diagram",
+                      "width": 70,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p49-q17-working-item",
+                      "type": "item",
+                      "ref": "p49-q17-root/space",
+                      "width": 98,
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 5,
+                  "verticalAlign": "top"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p49-q17"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-02T20:36:52.274Z",
+  "updatedAt": "2026-10-02T20:36:52.274Z"
+}

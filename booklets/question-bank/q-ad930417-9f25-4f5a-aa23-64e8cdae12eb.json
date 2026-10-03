@@ -1,0 +1,71 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ad930417-9f25-4f5a-aa23-64e8cdae12eb",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "angle-sum-triangle",
+    "secondarySkillIds": [
+      "unknown-angles-point"
+    ],
+    "reasoningScore": 75,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combine three angles-around-a-point equations with the triangle angle sum to justify a sum of reflex angles."
+  },
+  "content": {
+    "id": "p42-q11",
+    "type": "question",
+    "label": "11",
+    "prompt": "What is the value of $a+b+c$? Explain your reasoning.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p42-q11-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 42 p42-q11-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (L) at (0,0);\n\\coordinate (T) at (2,1.8);\n\\coordinate (R) at (4.2,-0.12);\n\\draw[black,line width=0.8pt] (L)--(T)--(R)--cycle;\n\\pgfmathanglebetweenpoints{\\pgfpointanchor{L}{center}}{\\pgfpointanchor{T}{center}}\n\\let\\angleLT\\pgfmathresult\n\\pgfmathanglebetweenpoints{\\pgfpointanchor{L}{center}}{\\pgfpointanchor{R}{center}}\n\\let\\angleLR\\pgfmathresult\n\\pgfmathsetmacro{\\endL}{\\angleLT+mod(\\angleLR-\\angleLT+360,360)}\n\\pgfmathanglebetweenpoints{\\pgfpointanchor{T}{center}}{\\pgfpointanchor{R}{center}}\n\\let\\angleTR\\pgfmathresult\n\\pgfmathanglebetweenpoints{\\pgfpointanchor{T}{center}}{\\pgfpointanchor{L}{center}}\n\\let\\angleTL\\pgfmathresult\n\\pgfmathsetmacro{\\endT}{\\angleTL+360}\n\\pgfmathanglebetweenpoints{\\pgfpointanchor{R}{center}}{\\pgfpointanchor{L}{center}}\n\\let\\angleRL\\pgfmathresult\n\\pgfmathanglebetweenpoints{\\pgfpointanchor{R}{center}}{\\pgfpointanchor{T}{center}}\n\\let\\angleRT\\pgfmathresult\n\\pgfmathsetmacro{\\endR}{\\angleRT+360}\n\\begin{scope}[shift={(L)}]\n\\draw[black,line width=0.4pt] (\\angleLT:0.46) arc[start angle=\\angleLT,end angle=\\endL,radius=0.46];\n\\node[anchor=north east] at (225:0.57) {$c^{\\circ}$};\n\\end{scope}\n\\begin{scope}[shift={(T)}]\n\\draw[black,line width=0.4pt] (\\angleTR:0.46) arc[start angle=\\angleTR,end angle=\\endT,radius=0.46];\n\\node[anchor=south] at (90:0.55) {$b^{\\circ}$};\n\\end{scope}\n\\begin{scope}[shift={(R)}]\n\\draw[black,line width=0.4pt] (\\angleRL:0.46) arc[start angle=\\angleRL,end angle=\\endR,radius=0.46];\n\\node[anchor=north west] at (325:0.57) {$a^{\\circ}$};\n\\end{scope}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 42,
+          "sourceRegion": "Question 11, upper-left triangle",
+          "description": "Triangle with an upper apex and an approximately horizontal lower side. Reflex-angle arcs lie outside the triangle at all three vertices, labelled c° at the lower-left, b° at the apex and a° at the lower-right.",
+          "mathematics": "Each labelled reflex angle and its adjacent interior angle sum to 360°. The three interior angles sum to 180°.",
+          "answerVisibility": "Only the source givens a°, b° and c° are visible; interior-angle variables and calculations appear only in the worked answer."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$a+b+c=900^{\\circ}$.",
+      "worked": "Let $x$, $y$ and $z$ be the interior angles adjacent to $c$, $b$ and $a$, respectively. Angles around each vertex sum to $360^{\\circ}$:\n$$\\begin{align*}\nc+x&=360^{\\circ}\\\\\nb+y&=360^{\\circ}\\\\\na+z&=360^{\\circ}\\\\\nc+x+b+y+a+z&=1080^{\\circ}.\n\\end{align*}$$\nThe angle sum of the triangle gives $x+y+z=180^{\\circ}$. Hence\n$$\\begin{align*}\na+b+c&=1080^{\\circ}-(x+y+z)\\\\\na+b+c&=1080^{\\circ}-180^{\\circ}\\\\\na+b+c&=900^{\\circ}.\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 70
+  },
+  "presentation": {
+    "ownerId": "p42-q11-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-02T20:35:47.097Z",
+  "updatedAt": "2026-10-02T20:35:47.097Z"
+}

@@ -139,3 +139,8 @@ Deleting Markdown while retaining media would save little and lose context. Dele
 ## 28 September 2026 current-project growth
 
 The tracked-file budget is 500 MiB to accommodate the current editable Data Analysis and Concept Maths Advanced 11 Chapter 2 projects (about 19.2 and 27.1 MiB), their referenced assets, and the existing project/bank updates. These are current content, not render caches or automatic project history. The two project-specific file limits in `booklets/storage-policy.json` preserve the default 10 MiB limit for other files. Original oversized Data Analysis sources and temporary Word owner files remain local. This storage allowance does not establish import or visual acceptance.
+
+## Tracked content budget (4 October 2026)
+
+The complete working-tree publication adds 17 editable booklet projects, original Studio PDF/Word pairs, referenced assets, synced bank records and durable campaign reviews/content. After staging all requested files, the repository check measured 1,230,409,116 bytes across 9,792 files. Increase the total tracked budget from 1.1 GiB to 1.2 GiB to accommodate this source/content growth with limited headroom. Individual file limits and generated-file exclusions remain unchanged; local caches, run logs and revision histories remain outside Git.
+
