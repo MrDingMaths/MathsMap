@@ -334,6 +334,20 @@ test('source card diagrams may map to individual editable card slots, not arbitr
  layout.arrangement='parallel';assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
 });
 
+test('source speech bubbles map to populated editable statements with a tail',()=>{
+ const a=author(4),i=inventory(4);i.entries.push({id:'source-bubble',kind:'diagram',description:'Quoted statement in a speech bubble'});
+ const layout={id:'bubble',type:'layout',arrangement:'speech-bubble',tail:'left',slots:[{id:'statement',blocks:[{id:'quote',type:'paragraph',inlines:[{type:'text',text:'Increasing by 50% then decreasing by 50%.'}]}]}]};
+ a.sections[0].blocks.push({id:'native-bubble',type:'rich-text',content:{format:'maths-editor-document-v1',version:1,blocks:[layout]}});
+ a.inventoryMappings.push({inventoryId:'source-bubble',targetId:'bubble'});
+ const task={stage:'author',page:4,inventory:i};
+ assert.doesNotThrow(()=>validateSemanticResult(a,task));
+ a.inventoryMappings.at(-1).targetId='statement';assert.doesNotThrow(()=>validateSemanticResult(a,task));
+ layout.slots[0].blocks[0].inlines[0].text=' ';assert.throws(()=>validateSemanticResult(a,task),/non-diagram/);
+ layout.slots[0].blocks[0].inlines[0].text='Statement';delete layout.tail;assert.throws(()=>validateSemanticResult(a,task),/non-diagram/);
+ layout.tail='left';layout.arrangement='parallel';assert.throws(()=>validateSemanticResult(a,task),/non-diagram/);
+ layout.arrangement='speech-bubble';layout.slots=[];a.inventoryMappings.at(-1).targetId='bubble';assert.throws(()=>validateSemanticResult(a,task),/non-diagram/);
+});
+
 test('source tables may map to populated native tables but not empty placeholders',()=>{
  const a=author(4),i=inventory(4);i.entries.push({id:'source-table',kind:'diagram',description:'Outcome table'});
  const table={id:'native-table',type:'table',rows:[[{blocks:[{id:'heading',type:'paragraph',inlines:[{type:'text',text:'Outcome'}]}]}]]};
@@ -341,6 +355,17 @@ test('source tables may map to populated native tables but not empty placeholder
  a.inventoryMappings.push({inventoryId:'source-table',targetId:'native-table'});
  assert.doesNotThrow(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}));
  table.rows=[];assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
+});
+test('a source table may map to its exact native response payload, never prose or a missing field',()=>{
+ const a=author(4),i=inventory(4);i.entries.push({id:'source-response-table',kind:'diagram',description:'Completion table'});
+ const table={id:'native-response-table',type:'table',rows:[[{blocks:[{id:'native-response-heading',type:'paragraph',inlines:[{type:'text',text:'Pay'}]}]}]]};
+ const response={id:'table-response',type:'part',prompt:{format:'maths-editor-document-v1',version:1,blocks:[table]},answer:{short:'5',worked:'2+3=5'}};
+ a.sections[0].blocks.push({id:'response-table-block',type:'question',content:response});
+ const mapping={inventoryId:'source-response-table',targetId:response.id,field:'/prompt/blocks/0'};a.inventoryMappings.push(mapping);
+ assert.doesNotThrow(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}));
+ mapping.field='/prompt/blocks/1';assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
+ mapping.field='/prompt/blocks/0';table.type='paragraph';table.inlines=[{type:'text',text:'Table placeholder'}];assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
+ table.type='table';table.rows=[];assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
 });
 
 test('equation and writing-scaffold visuals can retain editable native maths',()=>{

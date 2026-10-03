@@ -14,6 +14,9 @@ test('supplemental teaching citations require the assigned, delivered primary im
  const run=path.resolve('fixture-run'),image=path.join(run,'evidence/pages/page-007.png'),source={path:image,hash:'current-source',page:7};
  const base={context:{pages:[6],evidence:[source]},images:[image],evidence:[source]};
  assert.deepEqual([...deliveredTeachingPages(base,run)],[6,7]);
+ const {page:omitted,...retainedSource}=source;
+ assert.deepEqual([...deliveredTeachingPages({...base,context:{pages:[6],evidence:[retainedSource]}},run)],[6]);
+ assert.deepEqual([...deliveredTeachingPages({...base,inferCanonicalSourcePages:true,context:{pages:[6],evidence:[retainedSource]}},run)],[6,7]);
  for(const change of [
   {images:[]},
   {evidence:[{...source,hash:'different-source'}]},
@@ -58,6 +61,31 @@ function fixture(t,{pages=2,ambiguity=false,project=true}={}){
 const signed={reviewer:'Fixture reviewer',note:'Explicit review assertion in a test fixture only'};
 const job=(plan,stage,id)=>plan.jobs.find(j=>j.stage===stage&&(!id||j.ownershipIds.includes(id)));
 const readTicket=prepared=>JSON.parse(fs.readFileSync(prepared.ticket.path));
+
+test('lean content handoffs retain source guards and history while excluding historical early-render diagnostics',async t=>{
+ const f=fixture(t,{pages:1}),source=ref(path.join(f.dir,'evidence/pages/page-001.png'));
+ const early=ref(f.write('early/exports/diagram-preflight.json','old render'));
+ const renderer=ref(f.write('src/components/PracticeQuestionRenderer.svelte','old renderer'));
+ const pageRenderer=ref(f.write('src/components/TranscribedBookletPage.svelte','old page renderer'));
+ const baseline=ref(f.write('booklets/projects/historical.json','old project baseline'));
+ f.write('early/exports/diagram-preflight.json','replacement render');
+ f.write('src/components/PracticeQuestionRenderer.svelte','replacement renderer');
+ f.write('src/components/TranscribedBookletPage.svelte','replacement page renderer');
+ f.write('booklets/projects/historical.json','repaired project');
+ const correction={id:'historical-layout',status:'approved',reason:'Retained early layout diagnostic.',sourceRefs:[{pageNumber:1}],evidence:[source,early,renderer,pageRenderer,baseline],patches:[{scope:'project',page:1,targetId:'method1',field:'/content',original:'Substitute before evaluating 1',corrected:'Substitute before evaluating 1'}]};
+ await updateWorkflow(f.dir,'fixture historical render evidence',state=>{state.corrections.push(correction);return state;});
+ const legacy=job(await nextBoundedWork(f.options),'theory');
+ assert.ok(legacy.blockers.some(reason=>reason.includes(early.path)));
+ f.book.reviewProfile='textbook-three-pass-v1';f.write('project.json',f.book);
+ const lean=job(await nextBoundedWork(f.options),'assessment');
+ assert.deepEqual(lean.blockers,[]);
+ const prepared=await prepareBoundedStage(f.options,lean.id),context=readTicket(prepared).job.context;
+ assert.deepEqual(context.teaching.decisions[0].evidence,[source]);
+ assert.deepEqual(loadWorkflow(f.dir).corrections[0].evidence,[source,early,renderer,pageRenderer,baseline]);
+ await cancelBoundedStage(f.options,{ticket:prepared.ticket,reason:'Fixture source guard check'});
+ f.write('evidence/pages/page-001.png','changed original source');
+ assert.ok(job(await nextBoundedWork(f.options),'assessment').blockers.some(reason=>reason.includes(source.path)));
+});
 
 test('canonical source supplements are counted, immutable and reject changed text evidence',async t=>{
  const f=fixture(t,{pages:1});f.book.reviewProfile='textbook-three-pass-v1';f.write('project.json',f.book);

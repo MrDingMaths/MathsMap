@@ -6,6 +6,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {deflateSync} from 'node:zlib';
 import {pngBodyFingerprint,UnsupportedCandidateImage,selectedPageReusePlans,validateSelectedPageReuse,selectedPageReuseArtifacts} from '../scripts/booklet/selected-page-review-reuse.mjs';
+import {printableProject} from '../src/lib/booklet-review-profile.js';
 
 const PROFILE='textbook-three-pass-v1';
 const editions=['student','short','worked','student-short','student-worked'];
@@ -60,6 +61,42 @@ function fixture(t){
  return {dir,artifact,queue,source};
 }
 const plans=(old,current)=>selectedPageReusePlans(old,current,{combinedEditions});
+
+function isolatedReview(f,queue,{category='import-review',bankRef=null,archived=false}={}){
+ const project={reviewProfile:PROFILE,library:{category,archived},sections:[{blocks:[{id:'q',type:'question',bankRef,content:{id:'root',prompt:'Source-supported question'}}]}]};
+ queue.input.mode='review';delete queue.input.key;
+ queue.input.isolatedProject=f.artifact(JSON.stringify(project),'json');
+ queue.input.project.contentHash=digest(JSON.stringify(printableProject(project)));
+ for(const entry of Object.values(queue.input.editions)){
+  const manifest=JSON.parse(fs.readFileSync(entry.manifest.path));
+  Object.assign(manifest,{mode:'review',reviewOnly:true,workflowKey:null,projectHash:queue.input.project.contentHash});
+  entry.manifest=f.artifact(JSON.stringify(manifest),'json');
+ }
+ return queue;
+}
+
+test('isolated review-only bodies retain actual inspection without granting settlement',t=>{
+ const f=fixture(t),old=isolatedReview(f,f.queue({accepted:true})),current=isolatedReview(f,f.queue({image:png({change:(b,w,h)=>{b[((h-1)*w+4)*3]=0;}})}));
+ const [plan]=plans(old,current);assert.ok(plan);
+ assert.equal(validateSelectedPageReuse(plan.record,current.rows[0],current.input),true);
+ assert.equal(current.input.mode,'review');assert.equal(current.input.key,undefined);
+ assert.equal(plan.record.presentationVerified,undefined);
+ assert.deepEqual(plans(old,f.queue({mode:'review'})),[]);
+});
+
+test('review-only retention rejects bank ownership, archives and changed snapshot bytes',t=>{
+ const f=fixture(t),old=isolatedReview(f,f.queue({accepted:true}));
+ for(const options of [{category:'original'},{bankRef:{id:'owned'}},{archived:true}])assert.throws(()=>plans(old,isolatedReview(f,f.queue(),options)));
+ const current=isolatedReview(f,f.queue());fs.appendFileSync(current.input.isolatedProject.path,' ');
+ assert.throws(()=>plans(old,current));
+});
+
+test('review-only retention requires all five passed matching review manifests',t=>{
+ const f=fixture(t),old=isolatedReview(f,f.queue({accepted:true})),current=isolatedReview(f,f.queue());
+ const entry=current.input.editions.short,manifest=JSON.parse(fs.readFileSync(entry.manifest.path));
+ manifest.passed=false;entry.manifest=f.artifact(JSON.stringify(manifest),'json');
+ assert.throws(()=>plans(old,current));
+});
 
 test('lossless RGB reconstruction covers all five scanline filters',()=>{
  const options={dpi:25.4,footerMm:1},base=pngBodyFingerprint(png({width:17,height:13}),options);

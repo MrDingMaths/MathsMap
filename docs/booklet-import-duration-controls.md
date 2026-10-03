@@ -4,6 +4,8 @@
 
 Applies to new imports and remaining work that has not yet been reviewed. Preserve the quality gates in the bounded workflow, review-first policy and change runbook. These controls do not authorize lower model effort, incomplete page coverage or question-bank publication.
 
+The [lean import runtime](booklet-lean-import-runtime.md) provides an opt-in canonical entry point for recorded three-pass runs: complete compact handoffs, a shared refilling worker pool, batch retention of hash-bound unchanged reviews and isolated resumable exports. Adopt at a completed batch boundary; historical manifests and active workers retain their existing policy and ownership. Accepted whole-import speed improvements remain unmeasured.
+
 ## Before bulk work
 
 - Inventory independently, establish shared-stem groups, and map original teaching and answer evidence before authoring. Resolve inaccessible evidence and notation prerequisites early; deliver required text inline when tool access is unavailable.

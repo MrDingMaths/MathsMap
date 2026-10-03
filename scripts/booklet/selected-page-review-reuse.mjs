@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {inflateSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
+import {printableProject} from '../../src/lib/booklet-review-profile.js';
 
 const PROFILE='textbook-three-pass-v1';
 const standalone=new Set(['student','short','worked']);
@@ -117,16 +118,25 @@ export function pngBodyFingerprint(data,{dpi=144,footerMm=15,strictA4=false}={})
  }
 }
 
-const eligibleInput=input=>input?.mode==='final'&&input.reviewProfile===PROFILE;
+// Review-only retention is scoped to an immutable, bank-isolated snapshot.
+// It credits presentation only; settlement and final acceptance stay separate.
+const eligibleInput=input=>input?.reviewProfile===PROFILE&&(input.mode==='final'||input.mode==='review'&&!!input.isolatedProject);
 function finalEvidence(input){
- assert(eligibleInput(input),'Selected-body retention requires a lean final settlement');
+ assert(eligibleInput(input),'Selected-body retention requires a lean settlement or isolated review snapshot');
+ const reviewOnly=input.mode==='review';
+ if(reviewOnly){
+  const project=json(input.isolatedProject);
+  assert(project.library?.category==='import-review'&&!project.library.archived&&!project.library.archivedAt,'Review retention requires an unarchived Import review project');
+  assert(!(project.sections??[]).some(section=>(section.blocks??[]).some(block=>block.bankRef||block.canonicalId)),'Review retention cannot credit bank-owned content');
+  assert(digest(JSON.stringify(printableProject(project)))===input.project?.contentHash,'Isolated review snapshot does not match the current project');
+ }
  assert(input.sourceArtifacts?.length,'Original source evidence is required');
  input.sourceArtifacts.forEach(bytes);
  const entries=Object.entries(input.editions??{});
  assert(entries.length===5,'Current all-five-edition QA is required');
  for(const [edition,entry]of entries){
   const manifest=json(entry.manifest);
-  assert(manifest.edition===edition&&manifest.mode==='full'&&manifest.passed===true&&manifest.workflowKey===input.key,'Current passed full manifest is required: '+edition);
+  assert(manifest.edition===edition&&manifest.passed===true&&(reviewOnly?manifest.mode==='review'&&manifest.reviewOnly===true&&manifest.workflowKey==null:manifest.mode==='full'&&manifest.workflowKey===input.key),(reviewOnly?'Current passed review manifest is required: ':'Current passed full manifest is required: ')+edition);
   if(input.renderer!==undefined)assert(manifest.renderer===input.renderer,'Current renderer does not match: '+edition);
   if(input.project?.contentHash!==undefined)assert(manifest.projectHash===input.project.contentHash,'Current project does not match: '+edition);
   if(input.assets!==undefined)assert(equal(manifest.assets,input.assets),'Current assets do not match: '+edition);
@@ -193,6 +203,7 @@ export function validateSelectedPageReuse(record,row,input){
  assert(record?.reuseKind==='selected-body'&&record.reviewProfile===PROFILE&&record.outcome==='accepted','Invalid selected-body retention record');
  assert(equal(record.currentPageKeys,[row.key])&&equal(record.currentRow,rowIdentity(row)),'Retention proof does not identify the current row');
  assert(equal(record.sourceArtifacts,input.sourceArtifacts)&&equal(record.currentManifests,manifests),'Retention proof source or manifest closure changed');
+ if(input.mode==='review')assert(equal(record.isolatedProject,input.isolatedProject),'Retention proof isolated project changed');
  const prior=actualInspection({...record.priorRow,review:record.priorReview},input.sourceArtifacts);
  const allowed=prior.row.edition===row.edition&&prior.row.page===row.page||standalone.has(prior.row.edition)&&record.combinedEditions?.includes(row.edition);
  assert(allowed,'Retention origin is not the same page or an accepted standalone');
@@ -204,7 +215,7 @@ export function validateSelectedPageReuse(record,row,input){
 
 export function selectedPageReuseArtifacts(record,row,input){
  validateSelectedPageReuse(record,row,input);
- const refs=[record.priorReview.artifact,record.priorRow.image,record.currentRow.image,...record.sourceArtifacts,...Object.values(record.currentManifests)];
+ const refs=[record.priorReview.artifact,record.priorRow.image,record.currentRow.image,...record.sourceArtifacts,...Object.values(record.currentManifests),...(record.isolatedProject?[record.isolatedProject]:[])];
  return [...new Map(refs.map(ref=>[ref.path,copy(ref)])).values()];
 }
 
@@ -263,7 +274,7 @@ export function selectedPageReusePlans(previous,current,{combinedEditions=[]}={}
    reuseKind:'selected-body',reviewProfile:PROFILE,outcome:'accepted',
    reviewer:candidate.review.reviewer,originalActualReviewer:candidate.review.reviewer,note:candidate.review.note,
    currentPageKeys:[row.key],currentRow:rowIdentity(row),priorRow:copy(candidate.row),priorReview:copy(candidate.review),
-   sourceArtifacts:copy(sources),currentManifests:copy(manifests),bodyFingerprint:copy(body),combinedEditions:copy(combinedEditions)
+   sourceArtifacts:copy(sources),currentManifests:copy(manifests),bodyFingerprint:copy(body),combinedEditions:copy(combinedEditions),...(current.input.mode==='review'?{isolatedProject:copy(current.input.isolatedProject)}:{})
   }});
  }
  return plans;

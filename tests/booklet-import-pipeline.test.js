@@ -74,6 +74,27 @@ test('explicit question continuations keep both fragments together without absor
  assert.throws(()=>createAssignmentPlan([a,b],{continuations:[{...continuation,entryIds:['p1-q4','p2-q0-b']}]}),/question on every linked page/);
 });
 
+test('continuation pages may start with explicitly parented parts without a repeated stem',()=>{
+ const a=inv(1),b=inv(2);
+ a.entries.push({id:'p1-q4-a',parentId:'p1-q4',kind:'part',description:'First part'});
+ b.entries.push({id:'p2-continued-d',parentId:'p1-q4',kind:'part',description:'Later part d'},
+  {id:'p2-continued-d-answer',parentId:'p2-continued-d',kind:'answer',description:'Supplied proof'},
+  {id:'p2-continued-e',parentId:'p1-q4',kind:'part',description:'Later part e'});
+ const original=structuredClone([a,b]),continuation={from:1,to:2,entryIds:['p1-q4','p2-continued-d','p2-continued-e']};
+ const plan=createAssignmentPlan([a,b],{continuations:[continuation]}),whole=plan.assignments.find(v=>v.pages.length===2);
+ assert.equal(whole.questions,1);
+ assert.deepEqual(new Set(whole.inventoryIds),new Set(['p1-q4','p1-q4-a','p2-continued-d','p2-continued-d-answer','p2-continued-e']));
+ assert.equal(plan.assignments.filter(v=>v!==whole).flatMap(v=>v.inventoryIds).length,9);
+ assert.deepEqual([a,b],original);
+ for(const badParent of ['p2-q0','p1-q3']){
+  const changed=structuredClone(b);changed.entries.find(e=>e.id==='p2-continued-e').parentId=badParent;
+  assert.throws(()=>createAssignmentPlan([a,changed],{continuations:[continuation]}),/question on every linked page/);
+ }
+ const excluded=structuredClone(b);excluded.entries.find(e=>e.id==='p2-continued-e').exclusionReason='Excluded';
+ assert.throws(()=>createAssignmentPlan([a,excluded],{continuations:[continuation]}),/question on every linked page/);
+ assert.throws(()=>createAssignmentPlan([a,b],{continuations:[{...continuation,entryIds:['p2-continued-d','p2-continued-e']}]}),/question on every linked page/);
+});
+
 test('configured question continuations apply only to the selected authoring pages',async t=>{
  const runDir=temp(t);fs.mkdirSync(path.join(runDir,'evidence/pages'),{recursive:true});fs.mkdirSync(path.join(runDir,'semantic-packets'));
  for(const page of [1,2,3]){const stem='page-'+String(page).padStart(3,'0');for(const ext of ['png','txt'])fs.writeFileSync(path.join(runDir,'evidence/pages',stem+'.'+ext),'Synthetic source');fs.writeFileSync(path.join(runDir,'semantic-packets',stem+'.inventory.json'),JSON.stringify(inv(page,page===3?1:5)));}
@@ -178,6 +199,21 @@ test('tight context budgets cannot strand category headings or absorb the next c
  assert.deepEqual(plan.assignments.map(a=>a.questions),[1,1,1]);assert.deepEqual(inventory,before);
  const trailing=structuredClone(inventory);trailing.entries.push({id:'empty-heading',kind:'group',description:'Additional practice'});
  assert.throws(()=>createAssignmentPlan([trailing]),/explicit first question: empty-heading/);
+});
+
+test('teaching-kind difficulty headings stay with their first question under tight budgets',()=>{
+ const inventory=inv(5,3);
+ inventory.entries.unshift({id:'foundation',kind:'teaching',description:'FOUNDATION',responseKind:'none'});
+ inventory.entries.splice(3,0,{id:'development',kind:'teaching',description:'DEVELOPMENT',responseKind:'none'});
+ const original=structuredClone(inventory),plan=createAssignmentPlan([inventory],{maxQuestions:1,maxCharacters:1});
+ assert.deepEqual(plan.assignments.map(a=>a.inventoryIds),[['foundation','p5-q0'],['p5-q1'],['development','p5-q2']]);
+ assert.deepEqual(inventory,original);
+ const task={page:5,inventory,promptSections:[],images:[],evidence:[],contextPages:[],teacherPages:[]};
+ const payload=assignmentPayload(plan.assignments[0],[task]);
+ assert.match(payload.prompt,/editor-only difficulty metadata/);
+ assert.match(payload.prompt,/\/classification\/difficulty/);
+ const ordinary=assignmentPayload(plan.assignments[1],[task]);
+ assert.equal(ordinary.prompt.includes('editor-only difficulty metadata'),false);
 });
 
 test('graph sizing guidance is scoped to graph assignments and counted in the author budget',()=>{

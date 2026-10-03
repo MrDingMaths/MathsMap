@@ -13,12 +13,12 @@ const labelOf=g=>{
 };
 const categoryGroup=g=>!g.exclusionReason&&!g.indivisible&&!g.sharedActivity&&!!labelOf(g)&&['practice-category','practice'].includes(g.kind);
 const headingEntry=e=>!e.exclusionReason&&!e.sharedStemId&&e.kind==='group'&&!!labelOf(e);
-const memberFields=['questionIds','inventoryIds','entryIds','members','memberIds','memberGroupIds','memberQuestionIds','authoringBlocks','authoringOrder','orderedChildren','questionOrder','authoringTasks','authoringQuestionOrder','taskOrder','children','sourceOrder','sharedInstructionGroups','standaloneQuestions'];
+const memberFields=['questionIds','questionBlocks','inventoryIds','entryIds','members','memberIds','memberGroupIds','memberQuestionIds','authoringBlocks','authoringOrder','orderedChildren','questionOrder','authoringTasks','authoringQuestionOrder','taskOrder','children','sourceOrder','sharedInstructionGroups','standaloneQuestions'];
 const memberIds=g=>memberFields.flatMap(key=>Array.isArray(g[key])?g[key].map(v=>typeof v==='string'?v:v?.targetId).filter(Boolean):[]);
 const visibilityFields=['headingVisibleOnTargetPage','headingVisibleOnTarget','headingPrintedOnTargetPage','headingOnTargetPage','headerVisibleOnTarget','headerVisibleOnTargetPage'];
 function continuation(g){
  if(visibilityFields.some(key=>g[key]===false)||g.continuedFrom||g.continuationOf||g.sourceCategoryBeginsHere===false)return true;
- const evidence=Object.entries(g).filter(([key])=>/heading|header/i.test(key)).map(([,value])=>typeof value==='string'?value:'').join(' ');
+  const evidence=Object.entries(g).filter(([key])=>/heading|header/i.test(key)||key==='presentation').map(([,value])=>typeof value==='string'?value:'').join(' ');
  return /no (?:repeated )?category (?:heading|band)|no category heading.*(?:printed|repeated)|(?:heading|band) (?:is )?not repeated|without a repeated category heading/i.test(evidence);
 }
 

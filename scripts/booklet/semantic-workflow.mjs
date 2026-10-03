@@ -122,8 +122,13 @@ export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=
     editorial=currentEditorialContext(workflow.corrections,page,editorialContextPages,(scope,p)=>{
      if(scope==='inventory')return effectiveInventory(runDir,p,workflow);
      if(scope==='author')return effectiveAuthor(runDir,p,workflow);
-     if(scope!=='project'||!workflow.projectId||!/^[a-zA-Z0-9._-]+$/.test(workflow.projectId))throw Error('Project correction context requires its bound project');
-     return materializeCorrections(JSON.parse(read(path.resolve('booklets/projects',workflow.projectId+'.json'))),workflow,'project');
+     if(scope!=='project')throw Error('Project correction context requires its bound project');
+     const projectFile=config.authoringProjectFile??(workflow.projectId&&/^[a-zA-Z0-9._-]+$/.test(workflow.projectId)?path.resolve('booklets/projects',workflow.projectId+'.json'):null);
+     if(!projectFile)throw Error('Project correction context requires its bound project');
+     // Full-book authoring can continue against reviewed draft content before
+     // the compact import publishes a Studio project. Exact correction guards
+     // and the supplied draft's materialization receipt still apply.
+     return materializeCorrections(JSON.parse(read(path.resolve(projectFile))),workflow,'project');
     });
     const targets=new Set(inventory.entries.flatMap(e=>[e.id,e.targetId]).filter(Boolean));
     const decisions=editorialDecisions=Object.values(workflow.issues).filter(i=>(i.pages??[i.page]).some(p=>relevant.has(p))&&i.status!=='pending'&&reviewIssueMatchesExercise(i,topic?.id,targets)).map(i=>({id:i.id,page:i.page,pages:i.pages,entryId:i.entryId,targetId:i.targetId,inventoryIds:decisionInventoryIds(i,inventory),status:i.status,issue:i.message,reason:i.resolution?.reason,correctionId:i.resolution?.correctionId}));
@@ -180,13 +185,20 @@ export function validateSemanticResult(result,{stage,page,inventory,reviewed=fal
  if(!Array.isArray(result.sections)||!Array.isArray(result.inventoryMappings))throw Error('Incomplete semantic author envelope');
  if(contentScope==='practice-only')validatePracticeAuthor(result,inventory);
  if(reviewed&&result.confirmedCorrections?.length)throw Error('Author output cannot approve corrections; use the structured editorial register');
- const ids=new Map(),nativeCards=new Set();
+ const ids=new Map(),nativeCards=new Set(),nativeSpeechBubbles=new Set();
  function walk(value){
   if(!value||typeof value!=='object')return;
   if(value.id){if(ids.has(value.id))throw Error('Duplicate content ID '+value.id);ids.set(value.id,value);}
   if(value.type==='layout'&&value.arrangement==='cards'){
    if(value.id&&value.slots?.length&&value.slots.every(slot=>slot.blocks?.length))nativeCards.add(value.id);
    for(const slot of value.slots??[])if(slot.id&&slot.blocks?.length)nativeCards.add(slot.id);
+  }
+  if(value.type==='layout'&&value.arrangement==='speech-bubble'&&['left','right'].includes(value.tail)&&value.slots?.length){
+   const hasStatement=blocks=>blocks?.some(block=>block.type==='paragraph'&&block.inlines?.some(inline=>inline.type==='text'&&inline.text?.trim()||inline.type==='math'&&inline.latex?.trim()));
+   if(value.slots.every(slot=>slot.blocks?.length)&&value.slots.some(slot=>hasStatement(slot.blocks))){
+    if(value.id)nativeSpeechBubbles.add(value.id);
+    for(const slot of value.slots)if(slot.id&&hasStatement(slot.blocks))nativeSpeechBubbles.add(slot.id);
+   }
   }
   if(value.type==='group'&&value.children?.filter(n=>n.type==='item'&&n.ref?.endsWith('/label')).length>1)throw Error('Multiple structural labels share a layout group; give each response its own group: '+value.id);
   if(['question','part','group'].includes(value.type)&&'prompt' in value){
@@ -204,7 +216,11 @@ export function validateSemanticResult(result,{stage,page,inventory,reviewed=fal
   if(!mapping.exclusionReason){
    const target=ids.get(mapping.targetId);
    if(!target)throw Error('Missing mapping target '+mapping.targetId);
-   const nativeTable=target.type==='table'&&target.rows?.length>0&&target.rows.every(row=>Array.isArray(row)&&row.length>0);
+   // A scaffold leaf may own a table through its exact native prompt/content
+   // field. Inspect that typed payload rather than accepting its prose owner.
+   const tableTarget=/^\/(?:prompt|content)\/blocks\/\d+$/.test(mapping.field??'')?
+    mapping.field.split('/').slice(1).reduce((value,key)=>value?.[key],target):target;
+   const nativeTable=tableTarget?.type==='table'&&tableTarget.rows?.length>0&&tableTarget.rows.every(row=>Array.isArray(row)&&row.length>0);
    const nativeImage=target.type==='image'&&typeof target.src==='string'&&target.src.trim()&&Number(target.width)>0;
    // Source visuals include equation/scaffold images. Their editable native
    // reconstruction is a supported target, without allowing empty prose to
@@ -218,7 +234,7 @@ export function validateSemanticResult(result,{stage,page,inventory,reviewed=fal
    };
    const nativeScaffold=target.type==='layout'&&target.arrangement==='scaffold'&&target.slots?.length>0&&target.slots.every(s=>s.blocks?.length>0)&&target.slots.some(s=>hasNativeMath(s.blocks));
    const nativeResponseGrid=mapping.field==='/layout'&&['question','group','part'].includes(target.type)&&target.layout==='grid'&&target.children?.length>1&&target.children.every(n=>Object.hasOwn(n,'prompt'));
-   if(sourceIds.get(mapping.inventoryId).kind==='diagram'&&!['tikz','image'].includes(target.format)&&target.type!=='diagram'&&!nativeCards.has(mapping.targetId)&&!nativeTable&&!nativeImage&&!nativeMath&&!nativeScaffold&&!nativeResponseGrid)throw Error('Diagram mapped to non-diagram target '+mapping.targetId);
+   if(sourceIds.get(mapping.inventoryId).kind==='diagram'&&!['tikz','image'].includes(target.format)&&target.type!=='diagram'&&!nativeCards.has(mapping.targetId)&&!nativeSpeechBubbles.has(mapping.targetId)&&!nativeTable&&!nativeImage&&!nativeMath&&!nativeScaffold&&!nativeResponseGrid)throw Error('Diagram mapped to non-diagram target '+mapping.targetId);
   }
  }
  for(const entry of inventory.entries)if(!entry.exclusionReason&&!result.inventoryMappings.some(m=>m.inventoryId===entry.id))throw Error('Missing inventory mapping '+entry.id);

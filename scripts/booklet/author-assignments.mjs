@@ -15,8 +15,10 @@ const bytes=f=>createHash('sha256').update(fs.readFileSync(f)).digest('hex');
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
 const groupAnchors=categoryGroupAnchors;
 const categoryLabel=value=>/^(foundation|development|mastery|concept checks?|essential problems|additional practice|enrichment|chapter\s+\d+\s+review\s+set\s+(one|two|\d+))$/i.test(value?.trim()??'');
-const practiceCategory=(g,questionAnchors)=>!groupAnchors(g).some(id=>questionAnchors.has(id))&&(g.kind==='practice-category'||g.kind==='practice'&&!g.indivisible&&!g.sharedActivity&&(
- !!g.category||categoryLabel(g.header)));
+const difficultyHeading=e=>e.kind==='teaching'&&(!e.responseKind||e.responseKind==='none')&&[e.description,e.sourceLabel].some(value=>/^(foundation|development|mastery)$/i.test(value?.trim()??''));
+const categoryHeading=e=>e.kind==='group'||difficultyHeading(e);
+const practiceCategory=(g,questionAnchors)=>!groupAnchors(g).some(id=>questionAnchors.has(id))&&(g.kind==='practice-category'||!g.indivisible&&!g.sharedActivity&&(
+ (g.kind==='practice'||/^(practice|difficulty)[ -]category$/i.test(g.kind??''))&&(!!g.category||categoryLabel(g.header))||/^(foundation|development|mastery)$/i.test(g.kind??'')||g.kind==='challenge'&&/^challenge exercise$/i.test(g.header??'')));
 export function createAssignmentPlan(inventories,{continuations=[],maxQuestions=4,maxCharacters=24000,measure=values=>JSON.stringify(values).length}={}){
  if(![maxQuestions,maxCharacters].every(n=>Number.isInteger(n)&&n>0))throw Error('Assignment limits must be positive integers');
  const entries=inventories.flatMap(i=>i.entries.map(e=>({...e,pageNumber:i.pageNumber}))),byId=new Map(entries.map(e=>[e.id,e]));
@@ -33,7 +35,7 @@ export function createAssignmentPlan(inventories,{continuations=[],maxQuestions=
  for(const inventory of inventories)for(const group of inventory.groups??[]){
   for(const id of groupAnchors(group)){anchors.add(id);if(isCategory(group))categories.add(id);}
  }
- for(const e of entries)if(e.kind==='group'&&!e.sharedStemId&&!e.indivisible&&!e.sharedActivity&&(categoryLabel(e.sourceLabel)||categoryLabel(e.description)))categories.add(e.id);
+ for(const e of entries)if(categoryHeading(e)&&!e.sharedStemId&&!e.indivisible&&!e.sharedActivity&&(categoryLabel(e.sourceLabel)||categoryLabel(e.description)))categories.add(e.id);
  // Category ancestry supplies ordering/context, not one indivisible activity.
  // Propagate aliases so a heading's authored target has the same semantics.
  for(const e of entries)if(categories.has(e.id)||categories.has(e.targetId))for(const id of [e.id,e.targetId].filter(Boolean))categories.add(id);
@@ -57,13 +59,21 @@ export function createAssignmentPlan(inventories,{continuations=[],maxQuestions=
   const local=entries.filter(e=>e.pageNumber===inventory.pageNumber),groups=inventory.groups??[],ancestry=new Map();
   for(const e of local)for(const id of [e.id,e.targetId].filter(Boolean))ancestry.set(id,e.parentId);
   for(const g of groups)for(const id of groupAnchors(g))if(!ancestry.has(id))ancestry.set(id,g.parentId);
-  for(const heading of local.filter(e=>e.kind==='group'&&!e.exclusionReason&&(categories.has(e.id)||categories.has(e.targetId)))){
-   const aliases=new Set([heading.id,heading.targetId].filter(Boolean)),related=groups.filter(g=>groupAnchors(g).some(id=>aliases.has(id)));
+  for(const heading of local.filter(e=>categoryHeading(e)&&!e.exclusionReason&&(categories.has(e.id)||categories.has(e.targetId)))){
+   const aliases=new Set([heading.id,heading.targetId].filter(Boolean));let related=groups.filter(g=>groupAnchors(g).some(id=>aliases.has(id)));
+   // A source inventory may list the heading after its questions and omit its
+   // entry ID from group aliases. A unique explicit matching category supplies
+   // the first member; preserve the original inventory and question units.
+   if(!related.length){
+    const labels=new Set([heading.description,heading.sourceLabel].filter(v=>typeof v==='string').map(v=>v.trim().toLowerCase()));
+    const matching=groups.filter(g=>isCategory(g)&&typeof g.header==='string'&&labels.has(g.header.trim().toLowerCase()));
+    if(matching.length===1)related=matching;
+   }
    for(const g of related)for(const id of groupAnchors(g))aliases.add(id);
    const members=new Set(related.flatMap(g=>g.inventoryIds??g.entryIds??g.members??g.memberIds??g.questionIds??[]));
    const belongs=e=>{if(members.has(e.id)||members.has(e.targetId))return true;let id=e.parentId;const visited=new Set();while(id&&!visited.has(id)){if(aliases.has(id))return true;visited.add(id);id=ancestry.get(id);}return false;};
    let first=local.find(e=>e.kind==='question'&&!e.exclusionReason&&belongs(e));
-   if(!first){const start=local.indexOf(heading);for(const e of local.slice(start+1)){if(e.kind==='group'&&(categories.has(e.id)||categories.has(e.targetId)))break;if(e.kind==='question'&&!e.exclusionReason){first=e;break;}}}
+   if(!first){const start=local.indexOf(heading);for(const e of local.slice(start+1)){if(categoryHeading(e)&&(categories.has(e.id)||categories.has(e.targetId)))break;if(e.kind==='question'&&!e.exclusionReason){first=e;break;}}}
    if(!first)throw Error('Practice category heading needs an explicit first question: '+heading.id);
    join(first.id,heading.id);
   }
@@ -76,9 +86,13 @@ export function createAssignmentPlan(inventories,{continuations=[],maxQuestions=
   if(pages.some(p=>!inventories.some(i=>i.pageNumber===p)))throw Error('Continuation needs every source inventory');
   if(!Array.isArray(pair)&&pair.entryIds!==undefined){
    if(!Array.isArray(pair.entryIds)||pair.entryIds.length<2||new Set(pair.entryIds).size!==pair.entryIds.length)throw Error('Question continuation needs distinct entry IDs');
-   const roots=pair.entryIds.map(id=>byId.get(id));
-   if(roots.some(e=>!e||e.kind!=='question'||e.exclusionReason||!pages.includes(e.pageNumber))||pages.some(p=>!roots.some(e=>e.pageNumber===p)))throw Error('Question continuation must identify a question on every linked page');
-   for(const e of roots)continuedQuestions.add(e.id);
+   const roots=pair.entryIds.map(id=>byId.get(id)),questions=roots.filter(e=>e?.kind==='question');
+   const earlierQuestionParent=e=>questions.find(q=>[q.id,q.targetId].filter(Boolean).includes(e.parentId)&&q.pageNumber<e.pageNumber);
+   // A continued page can begin directly with parts under the earlier printed
+   // stem. Require that explicit parent; never promote parts to source roots or
+   // absorb a neighbouring question merely because it shares a page.
+   if(!questions.length||roots.some(e=>!e||(e.kind!=='question'&&!(['answer','part'].includes(e.kind)&&earlierQuestionParent(e)))||e.exclusionReason||!pages.includes(e.pageNumber))||pages.some(p=>!roots.some(e=>e.pageNumber===p)))throw Error('Question continuation must identify a question on every linked page, or its explicitly parented later part or supplied answer');
+   for(const e of questions)continuedQuestions.add(e.id);
    for(const e of roots.slice(1))join(roots[0].id,e.id);
    continue;
   }
@@ -176,9 +190,10 @@ export function assignmentPayload(assignment,tasks){
  const continuationRules=assignment.continuations?.length?' For a declared cross-page question, author its complete editable block exactly once conceptually, with all parts and sourceRefs for both pages. Include an identical copy (same IDs, content, sourceReview and answerEvidence) in each owned page packet so each independently inventoried page maps to valid local content. On each later packet add sharedContentContinuations:[{blockId,canonicalPageNumber:theEarliestOwnedPage,reason:sourceSupportedExplanation}]. Keep each page inventory mapping local, without cross-page continuationOf; assembly validates the exact copies and merges them into one question while retaining all source mappings. Never declare unrelated questions as continuations.':'';
  const categoryRules=' categoryHeadings is derived from the FULL source inventory before assignment scoping. Only ownsHeading:true authorises one native editable category-heading paragraph in the first owning question prompt, arranged above its numbered question. Preserve source alignment. Category headings are not template-owned main-topic or teaching-activity headings, and a section title is insufficient because compact organisation replaces it. Keep the original group members and firstQuestionInventoryId as context even when they are outside this assignment; never infer a new first owner from an assignment slice. ownsHeading:false or status:continuation means do not repeat the category heading. status:needs-review requires an explicit finding, never an invented boundary. Record sourceReview.sourceCategoryHeading:{sourceGroupId,targetId:paragraphID,label,placement}; add sourceInventoryId only when categoryHeadings provides a real inventory heading entry, and map that entry to paragraphID with field:"/inlines". Group-only metadata creates no inventory ID. headerOwnedByTemplate applies only to main/topic and teaching-group headings; it never removes this native practice heading.';
  const graphGuidance=assignment.entries.some(entry=>/\b(?:graph|axes|asymptote|cartesian|coordinate grid)\b/i.test(JSON.stringify(entry)))?' Graph sizing: start routine supplied question graphs around 70 mm wide and simple short-answer graphs around 50 mm; increase width for legibility or required student drawing space. Never stretch to fill a column, shrink 10 pt labels or discard mathematical features. Preserve meaningful pairs, manual overrides and independent short/worked widths. These are reference sizes, not caps.':'';
- const prompt=contracts.map(s=>s.text).join('\n\n')+'\n\n'+guidance+'\n\n'+rules.replace(/\nTopics:.*$/,'')+'\n'+decisionRules+continuationRules+categoryRules+graphGuidance+'\n\n'+JSON.stringify(context);
- const images=[...new Set(relevant.flatMap(t=>t.images))],dependencies={context,contracts,rules,decisionRules,continuationRules,categoryRules,...(graphGuidance?{graphGuidance}:{}),guidance,continuationImplementation:bytes(new URL('./packet-continuations.mjs',import.meta.url)),generation:relevant.map(t=>t.generationDependencies),images:images.map(f=>[f,bytes(f)])};
- return {prompt,images,context,resources,inputHash:hash(dependencies),promptStats:{characters:prompt.length,imageCount:images.length,inlineGuidanceCharacters:guidance.length+graphGuidance.length,sections:{contract:contracts.reduce((n,s)=>n+s.text.length,0),assignment:JSON.stringify(context).length+guidance.length+graphGuidance.length}}};
+ const difficultyRules=assignment.entries.some(e=>difficultyHeading(e)&&!e.exclusionReason)?' Source FOUNDATION, DEVELOPMENT and MASTERY headings are editor-only difficulty metadata, not teaching activities or printable headings. Map each assigned difficulty heading to its first owning question block and field "/classification/difficulty"; preserve the source category for subsequent questions.':'';
+ const prompt=contracts.map(s=>s.text).join('\n\n')+'\n\n'+guidance+'\n\n'+rules.replace(/\nTopics:.*$/,'')+'\n'+decisionRules+continuationRules+categoryRules+graphGuidance+difficultyRules+'\n\n'+JSON.stringify(context);
+ const images=[...new Set(relevant.flatMap(t=>t.images))],dependencies={context,contracts,rules,decisionRules,continuationRules,categoryRules,...(graphGuidance?{graphGuidance}:{}),...(difficultyRules?{difficultyRules}:{}),guidance,continuationImplementation:bytes(new URL('./packet-continuations.mjs',import.meta.url)),generation:relevant.map(t=>t.generationDependencies),images:images.map(f=>[f,bytes(f)])};
+ return {prompt,images,context,resources,inputHash:hash(dependencies),promptStats:{characters:prompt.length,imageCount:images.length,inlineGuidanceCharacters:guidance.length+graphGuidance.length+difficultyRules.length,sections:{contract:contracts.reduce((n,s)=>n+s.text.length,0),assignment:JSON.stringify(context).length+guidance.length+graphGuidance.length+difficultyRules.length}}};
 }
 
 export function planTaskAssignments(tasks,options={}){

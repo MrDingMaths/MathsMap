@@ -74,6 +74,36 @@ function patchField(target,patch){
  if(patchFingerprint(parent[key],patch)!==patchFingerprint(patch.original,patch))throw Error('Stale correction '+patch.targetId+patch.field);
  parent[key]=structuredClone(patch.corrected);
 }
+// Source packets retain page sections; compact projects merge those sections.
+// A whole source-block replacement used solely to add teaching metadata must
+// target its stable block, not the same ordinal in the merged exercise. Keep
+// every current prompt, answer and layout field. Other replacements retain the
+// ordinary exact-original conflict path.
+function compactTeachingMetadataPatch(result,patch){
+ if(patch.scope!=='author'||!/^\/blocks\/\d+$/.test(patch.field)||!patch.original?.id||patch.corrected?.id!==patch.original.id)return false;
+ const strip=block=>{const value=structuredClone(block);delete value.sourceAtom;for(const response of value.sourceReview?.responses??[])delete response.scaffoldTargetId;return value;};
+ if(fingerprint(strip(patch.original))!==fingerprint(strip(patch.corrected)))return false;
+ const located=contentNodes(result).get(patch.original.id),target=located?.node;
+ if(!target||target.id!==located.block.id||target.type!==patch.original.type||!(target.sourcePageNumber===patch.page||(target.sourceRefs??[]).some(ref=>ref.pageNumber===patch.page)))throw Error('Missing compact teaching metadata owner '+patch.original.id);
+ if(fingerprint(patch.original.sourceAtom)!==fingerprint(patch.corrected.sourceAtom)){
+  if(fingerprint(target.sourceAtom)!==fingerprint(patch.corrected.sourceAtom)){
+   if(fingerprint(target.sourceAtom)!==fingerprint(patch.original.sourceAtom))throw Error('Stale compact teaching header '+target.id);
+   if(patch.corrected.sourceAtom===undefined)delete target.sourceAtom;else target.sourceAtom=structuredClone(patch.corrected.sourceAtom);
+  }
+ }
+ const before=patch.original.sourceReview?.responses??[],after=patch.corrected.sourceReview?.responses??[];
+ for(let index=0;index<before.length;index++)if(fingerprint(before[index].scaffoldTargetId)!==fingerprint(after[index].scaffoldTargetId)){
+  const original=before[index],corrected=after[index],responses=target.sourceReview?.responses?.filter(r=>r.targetId===original.targetId);
+  if(responses?.length!==1||responses[0].kind!==original.kind)throw Error('Missing compact scaffold response '+original.targetId);
+  const response=responses[0];
+  if(fingerprint(response.scaffoldTargetId)===fingerprint(corrected.scaffoldTargetId))continue;
+  if(fingerprint(response.scaffoldTargetId)!==fingerprint(original.scaffoldTargetId))throw Error('Stale compact scaffold binding '+original.targetId);
+  const scaffold=corrected.scaffoldTargetId&&contentNodes(result).get(corrected.scaffoldTargetId);
+  if(corrected.scaffoldTargetId&&(!scaffold||scaffold.block!==located.block||!['table','paragraph'].includes(scaffold.node.type)))throw Error('Foreign compact scaffold binding '+original.targetId);
+  if(corrected.scaffoldTargetId===undefined)delete response.scaffoldTargetId;else response.scaffoldTargetId=corrected.scaffoldTargetId;
+ }
+ return true;
+}
 // Compact assembly normalises nodes and merges source-page sections. Bind an
 // explicitly reviewed materialisation to its complete saved value; correction
 // IDs alone cannot prove that a patch was applied or protect a concurrent edit.
@@ -197,6 +227,7 @@ export function materializeCorrections(source,state,scope,page){
     for(const target of targets){const before=fingerprint(target);if(!superseded(target,patch))patchField(target,patch);if(scope==='project'&&before!==fingerprint(target))delete target.verification;}
    }
    else{
+    if(scope==='project'&&compactTeachingMetadataPatch(result,patch)){affected.add(patch.original.id);continue;}
     const target=contentNodes(result).get(patch.targetId);
     if(!target){
      // An explicitly approved ancestor replacement may remove an old scaffold.

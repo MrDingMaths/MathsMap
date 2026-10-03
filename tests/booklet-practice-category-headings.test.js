@@ -79,9 +79,23 @@ test('p51 continuation metadata cannot produce a repeated heading or take the la
  assert.equal(plan.assignments.flatMap(a=>assignmentCategoryHeadings(inventory,a.inventoryIds)).filter(h=>h.ownsHeading).length,1);
 });
 
+test('a category includes its explicitly listed grouped question before later standalone questions',()=>{
+ const inventory={pageNumber:11,groups:[{id:'concept-check',kind:'practice',header:'concept check',sourceOrder:['q1','q2','q3'],questionBlocks:['q1-2','q3']}],entries:[
+  {id:'q1-2',kind:'question'},
+  {id:'q1',kind:'part',parentId:'q1-2'},
+  {id:'q2',kind:'part',parentId:'q1-2'},
+  {id:'q3',kind:'question'},
+ ]};
+ const [heading]=practiceCategoryHeadingOwnership(inventory);
+ assert.equal(heading.firstQuestionInventoryId,'q1-2');
+ assert.equal(heading.ownerTargetId,'q1-2');
+ assert.equal(assignmentCategoryHeadings(inventory,['q3'])[0].ownsHeading,false);
+ assert.equal(assignmentCategoryHeadings(inventory,['q1-2','q1','q2'])[0].ownsHeading,true);
+});
+
 test('source continuation flags and prose are respected and unknown boundaries are findings',()=>{
  const inventory=p69();
- for(const continuation of [{headingPrintedOnTargetPage:false},{headerVisibleOnTargetPage:false},{continuedFrom:{pdfPage:68}},{headingAppearance:'No category heading is repeated on page 69.'},{headingVisibility:'Category heading is not repeated on the target page.'},{headerEvidence:'Continued without a repeated category heading on page 69.'}]){
+ for(const continuation of [{headingPrintedOnTargetPage:false},{headerVisibleOnTargetPage:false},{continuedFrom:{pdfPage:68}},{headingAppearance:'No category heading is repeated on page 69.'},{headingVisibility:'Category heading is not repeated on the target page.'},{headerEvidence:'Continued without a repeated category heading on page 69.'},{presentation:'Continued category; heading is not repeated on target page.'}]){
   inventory.groups[0]={...p69().groups[0],...continuation};
   assert.equal(practiceCategoryHeadingOwnership(inventory)[0].status,'continuation');
   assert.equal(assignmentCategoryHeadings(inventory,inventory.entries.map(e=>e.id))[0].ownsHeading,false);

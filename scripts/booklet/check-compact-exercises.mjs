@@ -98,6 +98,7 @@ async function runCompactExerciseCheck(){
 const arg=(name,fallback)=>{const i=process.argv.indexOf(name);return i<0?fallback:process.argv[i+1];};
 const out=finalExportOutput({out:arg('--out'),runDir:arg('--run-dir'),development:process.argv.includes('--development'),draft:process.argv.includes('--draft')||process.argv.includes('--review-only'),preflight:process.argv.includes('--diagram-preflight')}),base=arg('--base','http://127.0.0.1:5173');
 const preflight=process.argv.includes('--diagram-preflight'),candidateFile=arg('--project-file');
+const freshEditionDocument=process.argv.includes('--fresh-edition-document');
 const editions=arg('--editions',preflight?'student,short,worked':'student,short,worked,with-short,with-worked').split(',');
 const projects=arg('--projects',arg('--project','linear-relationships-v1')).split(',');
 const rendererSignatures=new Map();
@@ -223,6 +224,14 @@ try{
    }
    console.log(`Checking ${kind} ${edition}`);
    const paginationStarted=Date.now();
+   if(freshEditionDocument){
+    // Keep the context's IndexedDB diagram cache, but isolate each edition's
+    // component tree and navigation state. Reused editions need no reload.
+    await page.goto('about:blank');
+    await page.goto(base+'/#/booklet?stage=projects&project='+id,{waitUntil:'domcontentloaded'});
+    await page.getByLabel('Booklet edition',{exact:true}).waitFor({state:'visible',timeout:600000});
+    lastCompilationSnapshot=null;
+   }
    await page.getByLabel('Booklet edition',{exact:true}).selectOption(edition);await ready(edition);
    await page.evaluate(()=>window.dispatchEvent(new Event('booklet-prepare-print')));
    await page.locator('.project-print .print-page').first().waitFor({state:'attached'});
