@@ -5,6 +5,7 @@ import {signature} from './booklet-content-verification.js';
 import {normalizeArrangement} from '../../public/libs/maths-editor/arrangement-model.mjs';
 import {resolveArrangement} from './booklet-arrangement.js';
 import {underlinedQuestionScaffolds} from '../../public/libs/maths-editor/question-scaffolds.mjs';
+import {sourceInventories} from './booklet-source-content.js';
 
 export const PRESENTATION_VERIFIER_VERSION='3';
 // Review every rendered occurrence; preserved originals are evidence, not output.
@@ -67,7 +68,10 @@ export async function inspectPresentationFidelity(project){
     if(block.sourceAtom){
       if(!review?.headerOwnedByTemplate)issue('unchecked-header',block.id,'Check that the template owns the heading and the body contains only the teaching content.');
       const body=contentSource(block.type==='question'?block.content.prompt:block.content).replace(/[*#]/g,'').trim();
-      if(/^(?:-\s*)?(Guided Practice|Key Ideas|Review|Example)\s*(?::|$)/i.test(body))issue('duplicate-teaching-header',block.id,'Move the repeated heading out of the teaching body.');
+      const heading=body.match(/^(?:-\s*)?(Guided Practice|Key Ideas|Review|Example)\s*(?::|$)/i)?.[1];
+      const sourceExampleWithinActivity=heading?.toLowerCase()==='example'&&block.sourceAtom.kind==='investigation'&&
+        sourceInventories(project).some(inventory=>inventory.entries?.some(entry=>!entry.exclusionReason&&entry.kind==='example'&&entry.targetId===block.content?.id&&entry.field==='/prompt'));
+      if(heading&&!sourceExampleWithinActivity)issue('duplicate-teaching-header',block.id,'Move the repeated heading out of the teaching body.');
     }
     const nodes=questionNodes(block.type==='question'?block.content:null);
     for(const node of nodes){

@@ -168,6 +168,29 @@ test('syllabus wrappers require all paragraph and list branches to be inventorie
  assert.ok((await inspectContentCoverage(p)).issues.some(i=>i.kind==='unmapped-content'&&i.targetId==='syllabus'));
 });
 
+test('source part decomposition requires a whole source part and explicit response declarations',async()=>{
+ const p=imported(),block=p.sections[0].blocks[0],entry=p.source.inventory.entries.find(e=>e.targetId===block.id);
+ const leaf={id:'native-response',type:'part',prompt:'Compare the two counts.',answer:{short:'2:3',worked:'Count both quantities.'}};
+ const owner={id:'source-part',type:'part',children:[leaf]};block.content.children=[owner];
+ p.source.inventory.entries.push({id:'source-a',targetId:owner.id,kind:'part',pageNumber:2,parentId:entry.id});
+ block.sourceReview={responses:[{targetId:leaf.id,kind:'short'}]};
+ const unmapped=async()=> (await inspectContentCoverage(p)).issues.some(i=>i.kind==='unmapped-content'&&i.targetId===leaf.id);
+ assert.equal(await unmapped(),false);
+ p.source.inventory.entries.at(-1).field='/prompt';assert.equal(await unmapped(),true);
+ delete p.source.inventory.entries.at(-1).field;block.sourceReview.responses=[];assert.equal(await unmapped(),true);
+ block.sourceReview.responses=[{targetId:leaf.id,kind:'short'}];p.source.inventory.entries.at(-1).kind='question';assert.equal(await unmapped(),true);
+});
+
+test('one-question teaching wrappers require a complete original identity and no extra stem',async()=>{
+ const p=imported(),block=p.sections[0].blocks[0],entry=p.source.inventory.entries.find(e=>e.targetId===block.id);
+ const child={id:'source-key-idea',type:'part',prompt:'Complete the source sentence.',answer:{short:'factor',worked:'Use the common factor.'}};
+ block.content={id:'key-idea-group',type:'group',prompt:'',children:[child]};entry.targetId=child.id;entry.sourceLabel='1';
+ block.sourceReview={sourceQuestionIdentities:[{targetId:child.id,pageNumber:entry.pageNumber,sourceLabel:'1'}]};
+ const unmapped=async()=> (await inspectContentCoverage(p)).issues.some(i=>i.kind==='unmapped-content'&&i.targetId===block.id);
+ assert.equal(await unmapped(),false);block.content.prompt='Additional unrecorded teaching.';assert.equal(await unmapped(),true);
+ block.content.prompt='';entry.field='/prompt';assert.equal(await unmapped(),true);
+});
+
 test('grouped question ownership requires every original whole-question identity',async()=>{
  const p=imported(),block=p.sections[0].blocks[0],entry=p.source.inventory.entries.find(e=>e.targetId===block.id);
  const a={id:'source-q3-root',type:'part',prompt:'First dataset',answer:{short:'3',worked:'Count three.'}},b={...structuredClone(a),id:'source-q4-root',prompt:'Second dataset'};

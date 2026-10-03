@@ -4,6 +4,7 @@ import {paginateCompactAnswers} from './booklet-answer-pagination.js';
 import {paragraphSlice} from './booklet-document-fragments.js';
 import {paginationReuse,samePageCarry} from './booklet-pagination-cache.js';
 import {isLeanReview,printableProject} from './booklet-review-profile.js';
+import {workingContinuation} from './booklet-working-continuation.js';
 
 const copy = v => JSON.parse(JSON.stringify(v));
 const descendants = node => [node.id,...(node.children ?? []).flatMap(descendants)];
@@ -82,7 +83,7 @@ export function questionSplitGroups(block, layouts={}) {
   const owner = new Map(groups.flatMap((ids,i) => ids.map(id => [id,i])));
   const joined = new Set();
   const join = indexes => {const sorted=[...new Set(indexes)].sort((a,b)=>a-b);for(let i=sorted[0];i<sorted.at(-1);i++)joined.add(i);};
-  const arrangement = resolveArrangement(block,layouts[block.id]?.arrangement).tree;
+  const arrangement = resolveArrangement(block,layouts[block.id]?.arrangement??block.presentation?.layoutOverrides?.blockLayouts?.[block.id]?.arrangement).tree;
   const scan = n => {
     if(n.keepTogether){
       const indexes=refs(n).map(ref=>owner.get(ref.split('/')[0])).filter(i=>i!==undefined);
@@ -137,7 +138,7 @@ export function fragmentLayouts(blocks, layouts={}) {
   if(cached&&cached.blocks.length===blocks.length&&cached.blocks.every((block,i)=>block===blocks[i]))return cached.result;
   const result={...layouts};
   for(const block of blocks){
-    const local=block.flow?.continuationRows?block.presentation?.layoutOverrides?.blockLayouts?.[block.id]:null;
+    const local=block.presentation?.layoutOverrides?.blockLayouts?.[block.id];
     const stored=layouts[block.id]?.arrangement??local?.arrangement;
     if(!stored)continue;
     const allowed=arrangementCatalog(block).entries;
@@ -148,6 +149,10 @@ export function fragmentLayouts(blocks, layouts={}) {
     const projected=resolveArrangement(block,stored).tree;
     const prune=n=>{
       if(n.type==='item')return allowed.has(n.ref)?copy(n):null;
+      // A paired teaching row may reference a shared demonstration and a
+      // response owned by one part. Do not leave the demonstration behind
+      // when that complete response belongs to another generated fragment.
+      if(Number.isInteger(block.flow?.fragment)&&n.keepTogether&&n.direction==='row'&&missing(n))return null;
       const children=n.children.map(prune).filter(Boolean);
       // Empty columns in a saved arrangement reserve intentional layout space.
       // Remove only groups emptied by this fragment's missing content.
@@ -290,6 +295,23 @@ async function paginateFlowLayout(project,edition,measure,{cancelled=()=>false,o
           offset+=best;part++;if(offset<groups.length)flush();
         }
         return;
+      }
+      // A long single response can continue its writing area without inventing
+      // semantic parts or reducing the solution-based allowance. This is opt-in
+      // and cannot split a paired/atomic task or a multi-cell arrangement.
+      if(blocks.length===1&&block.type==='question'&&block.flow?.allowWorkingContinuation&&!block.flow.keepTogether&&!block.pairedBlockId&&!block.content.children?.length&&Number.isFinite(block.content.answerSpaceMm)&&block.content.answerSpaceMm>0){
+        const total=layouts[block.content.id]?.answerSpaceMm??project.settings.layoutOverrides.answerSpaces?.[block.content.id]??block.content.answerSpaceMm;
+        let remaining=total,index=0;
+        while(remaining>0){
+          let lo=1,hi=Math.ceil(remaining),best=0;
+          while(lo<=hi){const amount=Math.min(remaining,Math.floor((lo+hi)/2)),trial=workingContinuation(block,amount,index,total),measured=await fits([trial]);if(measured.height<=measured.capacity+.2){best=amount;lo=Math.floor((lo+hi)/2)+1;}else hi=Math.floor((lo+hi)/2)-1;}
+          if(!best)break;
+          current=[workingContinuation(block,best,index,total)];remaining-=best;index++;
+          if(remaining)flush();
+        }
+        if(!remaining)return;
+        issues.push({kind:'oversized-content',id:block.id,sectionId:section.sourceSectionId,message:'The question context has no safe page break before its working area.'});
+        current=[workingContinuation(block,remaining,index,total)];flush();return;
       }
       // Paragraphs (including whole equation/table blocks) are safe boundaries.
       const document=block.content?.format==='maths-editor-document-v1'?block.content:null;

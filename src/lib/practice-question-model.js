@@ -161,6 +161,7 @@ function normaliseNode(raw = {}, depth = 0, index = 0, root = false) {
     node.representations.diagramSlots=Object.fromEntries(Object.entries(value.representations.diagramSlots??{}).filter(([,slot])=>['pattern','graph'].includes(slot)));
   }
   if(value.sharedSolutionDiagrams?.length)node.sharedSolutionDiagrams=normaliseDiagrams(value.sharedSolutionDiagrams,'solution');
+  if(value.sharedSolutionDiagramLayout==='row')node.sharedSolutionDiagramLayout='row';
   if(value.sharedSolutionDiagramId)node.sharedSolutionDiagramId=String(value.sharedSolutionDiagramId);
   if(value.responseKind)node.responseKind=String(value.responseKind);
   if(value.teachingMapping)node.teachingMapping=deepCopy(value.teachingMapping);

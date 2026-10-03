@@ -38,7 +38,7 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
  function question(n,index=0,root=false){
    if(hasEmbeddedResponseLabel(n))labels[n.id]='';
    const continuation=root&&practiceContinuation(block);
-   const hideStem=continuation&&(block.flow?.hideRepeatedStem||(!block.flow?.continuationOf&&!block.continuationOf)||typeof n.prompt==='string'&&/^Question \d+ continued\.?$/i.test(n.prompt));
+   const hideStem=continuation&&!block.flow?.repeatSharedStem&&(block.flow?.hideRepeatedStem||(!block.flow?.continuationOf&&!block.continuationOf)||typeof n.prompt==='string'&&/^Question \d+ continued\.?$/i.test(n.prompt));
    if(continuation)labels[n.id]='';
    const label=labels[n.id]??(root?block.sourceOrder??n.label:n.label??(n.children?.length?'':String.fromCharCode(97+index)));
    const labelItem=(label==null||label==='')&&!(n.id in labels)?[]:[add(n.id+'/label',{kind:'label',ownerId:n.id,value:String(label??''),title:label?'Label '+label:'Unlabelled stem'})];

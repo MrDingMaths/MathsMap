@@ -2,6 +2,30 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {tableArrowGeometry,tableCircleGeometry} from '../public/libs/maths-editor/table-annotations.mjs';
 import {normalizeDocument,renderDocument} from '../public/libs/maths-editor/document-model.mjs';
 const a={left:0,top:20,width:40,height:30,bottom:50},b={left:40,top:20,width:40,height:30,bottom:50};
+test('hierarchy arrows stay between category rows and approach the facing destination edge',()=>{
+ const parent={left:70,top:0,width:40,height:20,bottom:20};
+ const child={left:0,top:50,width:40,height:24,bottom:74};
+ for(const [from,to,side,sign]of [[parent,child,'bottom',1],[child,parent,'top',-1]]){
+  const arrow=tableArrowGeometry(from,to,{side,cellId:'parent',toCellId:'child',distanceMm:20,curveMm:30});
+  const low=side==='bottom'?from.bottom:to.bottom,high=side==='bottom'?to.top:from.top;
+  for(const point of [arrow.start,...arrow.controls,arrow.end])assert.ok(point[1]>low&&point[1]<high,'Connector must clear both category boxes and their text');
+  assert.ok(sign*(arrow.end[1]-arrow.start[1])>0,'Arrow must progress toward the destination');
+  const vertices=arrow.endHead.match(/[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/gi).map(Number);
+  assert.ok(sign*(vertices[1]-vertices[3])>0,'Head must point toward the destination');
+ }
+});
+test('hierarchy clearance cannot reverse a short connector and adjacent-row arrows retain legacy geometry',()=>{
+ const source={left:0,top:0,width:40,height:20,bottom:20};
+ const tinyGap={left:60,top:20.02,width:40,height:20,bottom:40.02};
+ const arrow=tableArrowGeometry(source,tinyGap,{side:'bottom',cellId:'a',toCellId:'b',distanceMm:20});
+ assert.ok(arrow.start[1]<arrow.end[1]);assert.ok(arrow.start[1]>20&&arrow.end[1]<20.02);
+ assert.ok([arrow.start,...arrow.controls,arrow.end].flat().every(Number.isFinite));
+ const adjacent={...tinyGap,top:20,bottom:40};
+ const legacy=tableArrowGeometry(source,adjacent,{side:'bottom',cellId:'a',toCellId:'b'});
+ assert.equal(legacy.start[1],23);assert.equal(legacy.end[1],43);
+ const noise=tableArrowGeometry(source,{...adjacent,top:20.005},{side:'bottom',cellId:'a',toCellId:'b'});
+ assert.deepEqual(noise,legacy);
+});
 test('physical circle outlines can enclose complete calculator labels and survive save/reopen',()=>{
  const doc=normalizeDocument({blocks:[{id:'t',type:'table',annotations:[{id:'key',type:'circle',cellId:'a',widthMm:10,heightMm:7}],rows:[[{id:'a',blocks:[]}]]}]});
  const annotation=doc.blocks[0].annotations[0];

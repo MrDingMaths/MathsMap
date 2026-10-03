@@ -90,6 +90,16 @@ test('example labels can be suppressed for an example/non-example activity',()=>
  assert.deepEqual(teachingLabels([block]),{a:'',b:''});
 });
 
+test('source-labelled demonstrations and following responses share activity lettering',()=>{
+ const sourceAtom={id:'expanded-activity',kind:'identify'};
+ const demonstration={id:'demo',type:'worked-example',sourceAtom,presentation:{showLabels:true},examples:[{id:'demo-a',label:'a'},{id:'demo-b',label:'b'}]};
+ const responses={id:'responses',type:'question',sourceAtom,content:{id:'response-root',label:'',children:['c','d','e','f'].map(label=>({id:'response-'+label,label,prompt:'Expand'}))}};
+ const original=structuredClone([demonstration,responses]);
+ assert.deepEqual(teachingLabels(original),{'demo-a':'a','demo-b':'b','response-root':'','response-c':'c','response-d':'d','response-e':'e','response-f':'f'});
+ assert.deepEqual([demonstration,responses],original);
+ assert.deepEqual(teachingLabels([{...demonstration,presentation:{showLabels:false}},responses]),{'demo-a':'','demo-b':'','response-root':'','response-c':'a','response-d':'b','response-e':'c','response-f':'d'});
+});
+
 test('explicitly unlettered teaching tasks stay unlettered without consuming a label',()=>{
  const block={id:'guided',type:'question',sourceAtom:{kind:'guided-practice'},sourceReview:{responses:[{targetId:'unlettered',kind:'working',label:''}]},content:{id:'root',children:[{id:'unlettered',label:'',prompt:'Spin the spinner',answerSpaceMm:30},{id:'next',prompt:'Explain'}]}};
  assert.deepEqual(teachingLabels([block]),{root:'',unlettered:'',next:'a'});

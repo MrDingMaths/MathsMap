@@ -173,6 +173,14 @@
   </section>
 {/snippet}
 
+{#snippet sharedSolutionFigures(node)}
+  {#if node.sharedSolutionDiagrams?.length}
+    <div class:paired-solution-figures={showWorkedSolutions && node.sharedSolutionDiagramLayout === 'row'}>
+      {#each node.sharedSolutionDiagrams as diagram}{@render diagramView(diagram, false)}{/each}
+    </div>
+  {/if}
+{/snippet}
+
 {#snippet renderAnswerNode(node, path = [], index = 0, contexts = [], parent = null)}
   {@const nextPath = answerNodePath(question.content,node,path,index)}
   {@const context = answerNodeContext(question.content,node,index,parent)}
@@ -182,7 +190,7 @@
     <div class:question-grid={node.layout === 'grid'} class="answer-children" style={node.layout === 'grid' ? '--columns:' + Math.min(answerColumnsLimit ?? Infinity, node.answerColumns ?? Math.min(node.columns, showWorkedSolutions ? 2 : node.columns)) : ''}>
       {#each node.children as child, childIndex}{@render renderAnswerNode(child, nextPath, childIndex, nextContexts, node)}{/each}
     </div>
-    {#each node.sharedSolutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}
+    {@render sharedSolutionFigures(node)}
   {:else}
     <article class="answer-item" data-node-id={node.id} style={compactAnswerSettings?'':questionLayoutStyle(node,blockLayouts)}><div class="answer-label" style={compactAnswerSettings?`flex:0 0 ${answerLabelWidthMm}mm;width:${answerLabelWidthMm}mm`:''}>{#if answerLink}<a href={answerLink}>{leafLabel(nextPath)}</a>{:else}{leafLabel(nextPath)}{/if}</div><div class="answer-content">
       {#if nextContexts.length}<div class="answer-context"><EditableBookletText value={nextContexts.join(' · ')} rootId={node.id} pointer="/prompt" editMode={false} /></div>{/if}
@@ -190,7 +198,7 @@
       {#if showShortAnswers}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}{/if}
       {#if showWorkedSolutions}<div class="worked-content">{#if node.answer?.worked}<EditableBookletText value={compactAnswerSettings||editMode ? node.answer.worked : setoutMathChain(node.answer.worked, { stackFirstTerm: true })} displayValue={compactAnswerSettings?setoutMathChain(node.answer.worked,{stackFirstTerm:false}):null} rootId={node.id} pointer="/answer/worked" {editMode} edited={isEdited(node.id, '/answer/worked')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{/if}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}</div>{/if}
     </div></article>
-    {#if groupAnswer}{#each node.sharedSolutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}{/if}
+    {#if groupAnswer}{@render sharedSolutionFigures(node)}{/if}
   {/if}
 {/snippet}
 
@@ -283,6 +291,8 @@
   @media screen { .answer-space.resizable { min-height:18px; touch-action:none; } .answer-space.collapsed { border-color:var(--booklet-blue); color:var(--booklet-blue); } }
   .answer-key { background: var(--booklet-white); }
   .answer-children { margin: 1mm 0; }
+  .paired-solution-figures { display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:center; gap:2mm; break-inside:avoid; }
+  .paired-solution-figures > .diagram-resize-shell { flex:none; margin:2mm 0; }
   .answer-children > .answer-item { min-width: 0; grid-template-columns:8mm minmax(0,1fr); gap:2mm; }
   .answer-item { display: grid; grid-template-columns: 18mm minmax(0, 1fr); gap: 3mm; padding: 3mm 0; border-bottom: 1px solid var(--booklet-border); break-inside: avoid; }
   .answer-children > .answer-item { padding:1.5mm 0; }

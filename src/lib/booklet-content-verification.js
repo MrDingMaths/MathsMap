@@ -83,13 +83,39 @@ export async function inspectContentCoverage(project,{assetSignatures={}}={}){
     node.type==='list-item'&&node.blocks?.length>0&&node.blocks.every(mappedDocumentNode)
   );
   const wholeEntry=(id,kind)=>entries.find(e=>!e.exclusionReason&&!e.field&&e.targetId===id&&(!kind||e.kind===kind));
+  // Cards and paired teaching grids are structural owners. Verify every
+  // printable branch; a mapped sibling cannot cover new text or a new task.
+  const fieldOwned=(node,field)=>entries.some(e=>!e.exclusionReason&&e.targetId===node?.id&&
+    (!e.field||e.field===field||field.startsWith(e.field+'/')));
+  const mappedNative=node=>!!node&&(
+    !!wholeEntry(node.id)||
+    node.type==='paragraph'&&fieldOwned(node,'/inlines')||
+    node.type==='list'&&node.items?.length>0&&node.items.every(mappedNative)||
+    node.type==='list-item'&&node.blocks?.length>0&&node.blocks.every(mappedNative)||
+    node.type==='layout'&&!hasVisibleContent(node.title)&&node.slots?.length>0&&
+      node.slots.every(slot=>!!wholeEntry(slot.id)||!hasVisibleContent(slot.title)&&slot.blocks?.length>0&&slot.blocks.every(mappedNative))
+  );
+  const mappedPrompt=node=>fieldOwned(node,'/prompt')||
+    node.prompt?.format==='maths-editor-document-v1'&&node.prompt.blocks?.length>0&&node.prompt.blocks.every(mappedNative);
+  const sourceTeachingTree=node=>{
+    if(wholeEntry(node?.id))return true;
+    if(!node)return false;
+    if(hasVisibleContent(node.prompt)&&!mappedPrompt(node))return false;
+    for(const key of ['questionDiagrams','sharedSolutionDiagrams','solutionDiagrams'])
+      if(node[key]?.some(d=>!wholeEntry(d.id,'diagram')&&!fieldOwned(node,'/'+key)))return false;
+    if(node.children?.length)return fieldOwned(node,'/children')||node.children.every(sourceTeachingTree);
+    return mappedPrompt(node);
+  };
+  const mappedTeachingWrapper=block=>!!block.sourceAtom?.id&&block.type==='question'&&sourceTeachingTree(block.content)&&
+    !['prompt','title','theorySolution','answer','examples','questionDiagrams','solutionDiagrams'].some(key=>hasVisibleContent(block[key]));
   // These owners describe complete source units, not arbitrary descendants.
   // A shared-stem group retains a distinct whole-question mapping and the
   // original printed identity for every immediate child. Its shared prompt is
   // included in each child's contentVerificationKey through sharedContext.
   const mappedQuestionGroup=block=>{
     const root=block.content,identities=block.sourceReview?.sourceQuestionIdentities;
-    return ['group','question'].includes(root?.type)&&root.children?.length>1&&Array.isArray(identities)&&
+    return ['group','question'].includes(root?.type)&&root.children?.length>0&&
+      (root.children.length>1||!hasVisibleContent(root.prompt)&&!root.questionDiagrams?.length&&!root.sharedSolutionDiagrams?.length)&&Array.isArray(identities)&&
       identities.length===root.children.length&&new Set(identities.map(i=>i.targetId)).size===identities.length&&
       root.children.every(child=>{
         const entry=wholeEntry(child.id,'question'),identity=identities.find(i=>i.targetId===child.id);
@@ -107,6 +133,13 @@ export async function inspectContentCoverage(project,{assetSignatures={}}={}){
     example.prompt?.format==='maths-editor-document-v1'&&example.prompt.blocks?.length>0&&example.prompt.blocks.every(mappedPermanentDocumentNode)&&
     [...(example.questionDiagrams??[]),...(example.solutionDiagrams??[])].every(diagram=>!!wholeEntry(diagram.id,'diagram'));
   const mappedWorkedExamples=block=>block.examples?.length>0&&block.examples.every(mappedExample)&&
+    !['content','prompt','title','theorySolution','answer','questionDiagrams','solutionDiagrams'].some(key=>hasVisibleContent(block[key]));
+  const mappedSplitWorkedExamples=block=>block.sourceAtom?.id&&block.sourceAtom.kind==='example'&&block.examples?.length>0&&
+    block.examples.every(example=>!hasVisibleContent(example.label)&&
+      Object.keys(example).every(key=>['id','label','prompt','theorySolution','questionDiagrams','solutionDiagrams','sourceRefs','sourcePageNumber'].includes(key))&&
+      hasVisibleContent(example.prompt)&&hasVisibleContent(example.theorySolution)&&
+      fieldOwned(example,'/prompt')&&fieldOwned(example,'/theorySolution')&&
+      [...(example.questionDiagrams??[]),...(example.solutionDiagrams??[])].every(d=>wholeEntry(d.id,'diagram')))&&
     !['content','prompt','title','theorySolution','answer','questionDiagrams','solutionDiagrams'].some(key=>hasVisibleContent(block[key]));
   // A native table completion may need an answer-bearing part solely to expose
   // editable short/worked answers. Require the actual inventoried scaffold,
@@ -127,10 +160,11 @@ export async function inspectContentCoverage(project,{assetSignatures={}}={}){
     entries.some(e=>e.id===block.id&&e.kind==='footer'&&e.pageNumber===block.sourcePageNumber&&e.exclusionReason?.trim());
   const mappedWrapper=node=>node.type==='question'&&wholeQuestions.has(node.content?.id)||
     node.type==='question'&&mappedQuestionGroup(node)||
-    node.type==='worked-example'&&mappedWorkedExamples(node)||
+    mappedTeachingWrapper(node)||
+    node.type==='worked-example'&&(mappedWorkedExamples(node)||mappedSplitWorkedExamples(node))||
     excludedFooterEvidence(node)||
     node.type==='rich-text'&&node.content?.format==='maths-editor-document-v1'&&
-    node.content.blocks?.length>0&&node.content.blocks.every(mappedDocumentNode);
+    node.content.blocks?.length>0&&node.content.blocks.every(n=>mappedDocumentNode(n)||mappedNative(n));
   // An authored answer leaf can respond to an explicit task already printed in
   // its ancestor prompt. Bind the exact inventoried response/task and payload;
   // an arbitrary parent paragraph, foreign question or stale pointer is not
@@ -175,9 +209,22 @@ export async function inspectContentCoverage(project,{assetSignatures={}}={}){
     for(const page of inventory.selectedPages??[])if(!inventory.pages?.some(p=>p.pageNumber===page&&p.inventoried))issue('unchecked-page',null,`Source ${inventory.runId?inventory.runId+' ':''}p${page} has not been inventoried.`);
   }
   const hasAnswer=value=>value!=null&&hasVisibleContent(value);
+  // A completely inventoried source part can be decomposed into editable
+  // response leaves. Keep this distinct from a question-level mapping: an
+  // arbitrary new question or an undeclared response is still unmapped.
+  const ownedPartResponse=(node,block,ancestors)=>
+    ['part','subpart'].includes(node.type)&&!node.children?.length&&
+    block.sourceReview?.responses?.some(r=>r.targetId===node.id&&['cloze','inline','short','working','tick-cross'].includes(r.kind))&&
+    ancestors.some(parent=>['part','subpart'].includes(parent.type)&&entries.some(e=>!e.exclusionReason&&!e.field&&e.targetId===parent.id&&['part','subpart'].includes(e.kind)));
+  const ownedTeachingResponse=(node,block,ancestors)=>!!block.sourceAtom?.id&&
+    ['part','subpart'].includes(node.type)&&!node.children?.length&&
+    block.sourceReview?.responses?.some(r=>r.targetId===node.id&&['none','cloze','inline','short','working','tick-cross'].includes(r.kind))&&
+    ancestors.some(parent=>['question','group','part','subpart'].includes(parent.type)&&
+      entries.some(e=>!e.exclusionReason&&e.targetId===parent.id&&['question','part','subpart','example','answer'].includes(e.kind)&&
+        (!e.field||e.field==='/children')));
   for(const flag of project.studio?.flags??[])if(!flag.resolved)issue(flag.kind??'review-finding',flag.targetId,flag.note??'Unresolved review finding.');
   for(const {node,block,ancestors}of nodes.values()){
-    if((blocks.has(node)&&!mappedWrapper(node)||['part','subpart'].includes(node.type)&&!mappedScaffoldResponse(node,block,ancestors)||['tikz','svg','image'].includes(node.format))&&!targetIds.has(node.id))issue('unmapped-content',node.id,'Content has no source inventory mapping.');
+    if((blocks.has(node)&&!mappedWrapper(node)||['part','subpart'].includes(node.type)&&!mappedScaffoldResponse(node,block,ancestors)&&!ownedPartResponse(node,block,ancestors)&&!ownedTeachingResponse(node,block,ancestors)||['tikz','svg','image'].includes(node.format))&&!targetIds.has(node.id))issue('unmapped-content',node.id,'Content has no source inventory mapping.');
     if(node!==block&&['question','part','subpart'].includes(node.type)&&!node.children?.length&&block.type==='question'){
       const scaffoldRef=block.sourceReview?.responses?.find(r=>r.targetId===node.id)?.scaffoldTargetId;
       const scaffold=scaffoldRef?nodes.get(scaffoldRef):null;

@@ -18,6 +18,16 @@ import {
   containsSourceMetadata,
 } from '../src/lib/practice-question-model.js';
 
+test('paired solution figures survive bank normalization and JSON reopen independently of question layout', () => {
+  const original=normaliseQuestion({id:'paired-circle',content:{id:'circle',layout:'list',sharedSolutionDiagramLayout:'row',sharedSolutionDiagrams:[{id:'original',format:'tikz',code:'\\begin{tikzpicture}\\draw (0,0) circle (1);\\end{tikzpicture}',widthMm:55},{id:'inverse',format:'tikz',code:'\\begin{tikzpicture}\\draw (0,3) circle (1);\\end{tikzpicture}',widthMm:55}],children:[{id:'a',label:'a',prompt:'Sketch the original.',sharedSolutionDiagramId:'original',answer:{short:'Circle.',worked:'Plot its centre.'}},{id:'c',label:'c',prompt:'Reflect it.',sharedSolutionDiagramId:'inverse',answer:{short:'Reflected circle.',worked:'Swap coordinates.'}}]}});
+  const reopened=normaliseQuestion(JSON.parse(JSON.stringify(original)));
+  assert.equal(reopened.content.layout,'list');
+  assert.equal(reopened.content.sharedSolutionDiagramLayout,'row');
+  assert.deepEqual(reopened.content.sharedSolutionDiagrams,original.content.sharedSolutionDiagrams);
+  assert.deepEqual(reopened.content.children,original.content.children);
+  assert.equal(normaliseQuestion({content:{prompt:'Ordinary question.'}}).content.sharedSolutionDiagramLayout,undefined);
+});
+
 test('booklet parts with subparts become labelled bank groups without losing content', () => {
   const question=normaliseQuestion({id:'nested-booklet',classification:{primarySkillId:'index-laws-variables'},
     content:{prompt:'Simplify.',children:[{id:'a',type:'part',label:'a',prompt:'Compare these.',layout:'grid',columns:2,

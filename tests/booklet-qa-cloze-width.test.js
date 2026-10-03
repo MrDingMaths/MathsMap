@@ -4,6 +4,15 @@ import {clozeResponseRequiredMm} from '../src/lib/booklet-qa.js';
 
 const width=latex=>clozeResponseRequiredMm(`$${latex}$`);
 
+test('written division measures its widest handwritten row, excluding array syntax',()=>{
+ const division=(q,r,d,n)=>`\\begin{array}{rl}&${q}\\ \\mathrm{r}\\ ${r}\\\\${d}&\\begin{array}{|l}\\hline${n}\\end{array}\\end{array}`;
+ assert.equal(width(division('2','3','4','11')),15);
+ assert.equal(width(division('535','9','37','19804')),24);
+ assert.ok(width(division('2','3','4','11'))<=32);
+ assert.ok(width(division('535','9','37','19804'))>width(division('2','3','4','11')));
+ assert.ok(width('\\begin{array}{rl}12345&67890\\\\98765&43210\\end{array}')>24,'Unrecognised structures retain the existing conservative rule');
+});
+
 test('colour formatting does not increase handwriting width',()=>{
  for(const latex of ['+2','\\div3','-2','\\times3','12345','x^{12}','x_{123}','\\frac{123}{45}']){
   const plain=width(latex);

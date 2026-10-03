@@ -68,7 +68,10 @@ export function teachingLabels(blocks=[]){
    else labels[node.id]=next();
   };
   if(block.type==='question')visit(block.content);
-  for(const example of block.examples??[])labels[example.id]='';
+  // A source-labelled demonstration can precede response parts inside one
+  // activity. Explicitly showing its label also consumes that activity's
+  // sequence; routine worked examples keep their unlabelled presentation.
+  for(const example of block.examples??[])labels[example.id]=block.presentation?.showLabels===true?next():'';
  }
  return labels;
 }

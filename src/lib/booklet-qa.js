@@ -48,6 +48,10 @@ export async function settleBooklet(root) {
  if([...root.querySelectorAll('.tikz-wrap')].some(e=>!e.querySelector('svg:not(:has(animate))')))throw Error('A diagram has not rendered');
 }
 export function clozeResponseRequiredMm(expected) {
+ // A written division has two rows. Its TeX array declarations are structure,
+ // and the two handwritten rows occupy the same horizontal space.
+ const division=expected.replace(/\\\s+/g,'').replace(/\s+/g,'').match(/^\$?\\begin\{array\}\{rl\}&(\d+)\\mathrm\{r\}(\d+)\\\\(\d+)&\\begin\{array\}\{\|l\}\\hline(\d+)\\end\{array\}\\end\{array\}\$?$/);
+ if(division){const [,quotient,remainder,divisor,dividend]=division;return Math.ceil(Math.max(quotient.length+1+remainder.length,divisor.length+1+dividend.length)*2.2+6);}
  const compact=expected.replace(/\\(?:color|textcolor)\s*(?:\[[^\]]*\]\s*)?\{[^{}]*\}/g,'').replace(/\\(?:d?frac|tfrac)\{([^{}]+)\}\{([^{}]+)\}/g,'$1/$2').replace(/\\[a-z]+/gi,'').replace(/[$ {}]/g,'');
  return Math.ceil(compact.length*2.2+6);
 }

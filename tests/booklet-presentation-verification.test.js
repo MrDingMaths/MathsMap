@@ -49,6 +49,18 @@ test('untemplated teaching, duplicate headings and blanket spaces cannot pass ac
  for(const kind of ['duplicate-teaching-header','unnecessary-response-space','unreviewed-source-arrangement'])assert.ok(kinds.includes(kind));
 });
 
+test('a source example subheading stays within its investigation activity',async()=>{
+ const p=fixture(),b=p.sections[0].blocks[0];
+ b.sourceAtom={id:'activity',kind:'investigation',label:'Inverse Relations'};
+ b.content.prompt='Example:\nConsider the linear function.';
+ p.source.inventory={entries:[{id:'source-example',kind:'example',targetId:'root',field:'/prompt'}]};
+ assert.ok(!(await inspectPresentationFidelity(p)).issues.some(i=>i.kind==='duplicate-teaching-header'));
+ p.source.inventory.entries[0].targetId='foreign';
+ assert.ok((await inspectPresentationFidelity(p)).issues.some(i=>i.kind==='duplicate-teaching-header'));
+ p.source.inventory.entries[0].targetId='root';b.sourceAtom.kind='example';
+ assert.ok((await inspectPresentationFidelity(p)).issues.some(i=>i.kind==='duplicate-teaching-header'));
+});
+
 test('an empty source topic-band record uses its matching calculated section header',async()=>{
  const block={id:'topic-evidence',type:'rich-text',content:{format:'maths-editor-document-v1',version:1,blocks:[]},sourceLayoutEvidence:{sharedSectionHeader:{sectionId:'topic-section',title:'Range'}}};
  const p={settings:creationSettings(),source:{inventory:{entries:[]}},sections:[{id:'topic-section',title:'Range',phase:'teaching',headingStyle:'page-title',blocks:[block]}]};

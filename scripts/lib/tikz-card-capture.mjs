@@ -8,7 +8,7 @@ export async function captureTikzCard(card, options) {
     const scroll=[...element.querySelectorAll('.stage')].map(stage=>({left:stage.scrollLeft,top:stage.scrollTop}));
     const drawings=[...element.querySelectorAll('.stage svg')].map(svg=>({
       width:svg.getBoundingClientRect().width,height:svg.getBoundingClientRect().height,
-      viewBox:svg.getAttribute('viewBox')
+      viewBox:svg.getAttribute('viewBox'),cssWidth:getComputedStyle(svg).width,clientWidth:svg.clientWidth
     }));
     let extra=0;
     for(const stage of element.querySelectorAll('.stage')) {
@@ -41,7 +41,7 @@ export async function captureTikzCard(card, options) {
         viewBox:svg.getAttribute('viewBox')
       }));
       if(stages.some(stage=>stage.fullInkWidth>stage.width+1))throw Error('Full TikZ ink does not fit the capture surface');
-      if(drawings.some((drawing,i)=>Math.abs(drawing.width-saved.drawings[i].width)>.1||Math.abs(drawing.height-saved.drawings[i].height)>.1||drawing.viewBox!==saved.drawings[i].viewBox))throw Error('TikZ capture changed native fitting');
+      if(drawings.some((drawing,i)=>Math.abs(drawing.width-saved.drawings[i].width)>.1||Math.abs(drawing.height-saved.drawings[i].height)>.1||drawing.viewBox!==saved.drawings[i].viewBox))throw Error('TikZ capture changed native fitting '+JSON.stringify({before:saved.drawings,after:drawings}));
       return {originalWidth:saved.originalWidth,captureWidth:element.getBoundingClientRect().width,stages,drawings};
     },saved);
     await card.screenshot(options);
@@ -58,10 +58,5 @@ export async function captureTikzCard(card, options) {
       void element.offsetWidth;
       [...element.querySelectorAll('.stage')].forEach((stage,i)=>{stage.scrollLeft=saved.scroll[i].left;stage.scrollTop=saved.scroll[i].top;});
     },saved);
-    // Finish in a separate browser task after asynchronous layout cleanup.
-    // Preserve attribute absence as well as the original declarations.
-    await card.evaluate((element,styles)=>{
-      [element,...element.querySelectorAll('.stage, .stage svg')].forEach((node,i)=>styles[i]===null?node.removeAttribute('style'):node.setAttribute('style',styles[i]));
-    },saved.styles);
   }
 }

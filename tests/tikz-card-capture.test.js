@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import {createServer} from 'vite';
 import {chromium} from 'playwright-core';
 import {captureTikzCard} from '../scripts/lib/tikz-card-capture.mjs';
@@ -18,8 +19,10 @@ test('mounted six box-plot cards capture full ink at original fitting and restor
   await page.route('**/capture-test.json',r=>r.fulfill({contentType:'application/json',body:JSON.stringify(fixtures)}));
   await page.goto(base.replace(/\/$/,'')+'/#/tikz-check?input=%2Fcapture-test.json',{waitUntil:'domcontentloaded',timeout:60000});
   await page.waitForFunction(()=>window.__tikzCheckDone===true,{timeout:150000});await page.evaluate(()=>document.fonts.ready);
-  const snapshot=card=>card.evaluate(el=>({styles:[el,...el.querySelectorAll('*')].map(n=>n.getAttribute('style')),svgs:[...el.querySelectorAll('.stage svg')].map(svg=>({width:svg.getBoundingClientRect().width,viewBox:svg.getAttribute('viewBox'),paths:[...svg.querySelectorAll('path')].map(p=>p.getAttribute('d')),targets:[...svg.querySelectorAll('[data-diagram-label="1"]')].map(g=>g.dataset.labelTargetPt)}))}));
-  const cards=await page.$$('.grid .card');assert.equal(cards.length,6);let clipped=0;
+  // Only absent/empty attributes are equivalent. Every actual declaration,
+  // geometry and label target remains exact under the restoration contract.
+  const snapshot=card=>card.evaluate(el=>({styles:[el,...el.querySelectorAll('*')].map(n=>{const value=n.getAttribute('style');return value===''?null:value;}),svgs:[...el.querySelectorAll('.stage svg')].map(svg=>({width:svg.getBoundingClientRect().width,viewBox:svg.getAttribute('viewBox'),paths:[...svg.querySelectorAll('path')].map(p=>p.getAttribute('d')),targets:[...svg.querySelectorAll('[data-diagram-label="1"]')].map(g=>g.dataset.labelTargetPt)}))}));
+  const cards=await page.$$('.grid .card');assert.equal(cards.length,6);let clipped=0;const rows=[],scaled=[];
   for(const [index,card]of cards.entries()){
    await card.scrollIntoViewIfNeeded();
    const baseline=await card.evaluate(el=>{const s=el.querySelector('.stage');return{width:s.clientWidth,ink:s.scrollWidth};});
@@ -29,20 +32,26 @@ test('mounted six box-plot cards capture full ink at original fitting and restor
    const bounds=await captureTikzCard(card,{path:dir+'/complete-'+index+'.png'});
    assert.ok(bounds.stages.every(s=>s.fullInkWidth<=s.width+1));
    assert.deepEqual(await snapshot(card),before,'all temporary styles and native geometry restored');
-   await assert.rejects(captureTikzCard(card,{path:dir}),/EISDIR|illegal operation|directory/i);
+   await assert.rejects(captureTikzCard(card,{path:dir,type:'png'}),/EISDIR|illegal operation|directory/i);
    assert.deepEqual(await snapshot(card),before,'screenshot failure restores every temporary style');
    assert.ok(before.svgs[0].targets.every(p=>p==='10'));
+   rows.push({index,baseline,captureBounds:bounds,originalDrawings:before.svgs,stylesAndGeometryRestored:true,actualWriteFailureRestored:true});
   }
   assert.equal(clipped,6,'current live scroll/card screenshot baseline clips all six full scroll surfaces');
   const card=cards[0];
   for(const [zoom,scale]of [[.7,1],[1.4,1],[1,.7],[1,1.4]]){
-   await card.evaluate((el,{zoom,scale})=>{el.style.zoom=String(zoom);el.style.transform=`scale(${scale})`;el.style.transformOrigin='top left';const stage=el.querySelector('.stage');stage.scrollLeft=Math.min(30,stage.scrollWidth-stage.clientWidth);},{zoom,scale});
+   // Compare settled scaled drawings, not two instants of the harness's card
+   // hover/transform transition. The original declarations include this value.
+   await card.evaluate((el,{zoom,scale})=>{el.style.transition='none';el.style.zoom=String(zoom);el.style.transform=`scale(${scale})`;el.style.transformOrigin='top left';const stage=el.querySelector('.stage');stage.scrollLeft=Math.min(30,stage.scrollWidth-stage.clientWidth);},{zoom,scale});
+   await card.evaluate(async el=>{const{calibrateGraphStrokes}=await import('/src/lib/graph-strokes.js');calibrateGraphStrokes(el);await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));});
    const before=await snapshot(card),scroll=await card.evaluate(el=>el.querySelector('.stage').scrollLeft);
-   await captureTikzCard(card,{path:dir+`/scaled-${zoom}-${scale}.png`});assert.deepEqual(await snapshot(card),before,'CSS zoom/transform preserves native fitting/styles');
+   const bounds=await captureTikzCard(card,{path:dir+`/scaled-${zoom}-${scale}.png`});assert.deepEqual(await snapshot(card),before,'CSS zoom/transform preserves native fitting/styles');
    assert.equal(await card.evaluate(el=>el.querySelector('.stage').scrollLeft),scroll,'original scroll offset restored');
-   await assert.rejects(captureTikzCard(card,{path:dir}),/EISDIR|illegal operation|directory/i);
+   await assert.rejects(captureTikzCard(card,{path:dir,type:'png'}),/EISDIR|illegal operation|directory/i);
    assert.deepEqual(await snapshot(card),before);assert.equal(await card.evaluate(el=>el.querySelector('.stage').scrollLeft),scroll,'failed capture restores scroll');
+   scaled.push({zoom,scale,scroll,captureBounds:bounds,stylesScrollGeometryRestored:true,actualWriteFailureRestored:true});
   }
+  fs.writeFileSync(dir+'/result.json',JSON.stringify({base,rows,scaled,clippedBaseline:clipped,styleEquivalence:'Only null and exactly empty style attributes normalized; every declaration retained.',fixtureHash:crypto.createHash('sha256').update(fs.readFileSync(new URL('./fixtures/compare-box-plots-labels.json',import.meta.url))).digest('hex')},null,2)+'\n',{flag:'wx'});
   console.log('Actual mounted baseline/full-ink captures retained at '+dir);
  }finally{await browser.close();if(server)await server.close();}
 });

@@ -9,6 +9,7 @@
   import { mountTableAnnotations } from '../../public/libs/maths-editor/table-annotations.mjs';
   import { isDocument, documentHtml } from '../lib/document-content.js';
   import { renderRichTextHtml } from '../lib/maths-editor.js';
+  import { renderMath } from '../lib/render-math.js';
   import { splitBookletTables, numberedTheoryRules } from '../lib/booklet-preview.js';
 
   let { text: sourceText = '', class: className = '', fillCloze = false, layout = null, alignRelations = true } = $props();
@@ -20,7 +21,7 @@
 </script>
 
 {#if isDocument(text)}
-  <div class="document-content {className}" use:mountTabs={text} use:mountTableAnnotations={text} use:mountEquationAnnotations={text} use:mountImageFeedback={text}>{@html documentHtml(text, { fillCloze, mathsStyle:presentation?.()?.mathsStyle })}</div>
+  <div class="document-content {className}" use:mountTabs={text} use:mountTableAnnotations={{math:latex=>renderMath('$'+latex+'$')}} use:mountEquationAnnotations={text} use:mountImageFeedback={text}>{@html documentHtml(text, { fillCloze, mathsStyle:presentation?.()?.mathsStyle })}</div>
 {:else if rules}
   <ol class="theory-rules">
     {#each rules as rule}

@@ -114,8 +114,8 @@ export function prepareTikz(code) {
   const pkgs = {};
   if (/\\begin\{axis\}|\\addplot|\\pgfplots/.test(cleanCode)) pkgs.pgfplots = '';
   if (/\\tdplotsetmaincoords|\\tdplotsetrotatedcoords|\\begin\{tdplot|\\tdplot/.test(cleanCode)) pkgs['tikz-3dplot'] = '';
-  if (/\\tfrac|\\dfrac|\\frac\{|\\text\{|\\operatorname|\\mathbb|\\bm\{|\\boldsymbol\b|\\underset\{|\\overset\{/.test(cleanCode)) pkgs.amsmath = '';
-  if (/\\mathbb|\\varnothing|\\therefore|\\square|\\blacksquare|\\triangle\b|\\angle\b/.test(cleanCode)) pkgs.amssymb = '';
+  if (/\\tfrac|\\dfrac|\\frac\{|\\text\{|\\operatorname|\\mathbb|\\bm\{|\\boldsymbol\b|\\boxed\b|\\underset\{|\\overset\{/.test(cleanCode)) pkgs.amsmath = '';
+  if (/\\mathbb|\\varnothing|\\therefore|\\square|\\blacksquare|\\triangle\b|\\angle\b|\\checkmark\b/.test(cleanCode)) pkgs.amssymb = '';
   const pkgJson = Object.keys(pkgs).length ? JSON.stringify(pkgs) : null;
 
   return {

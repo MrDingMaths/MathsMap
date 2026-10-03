@@ -1,4 +1,12 @@
 // Local CSS-pixel geometry: independent of the paper's display zoom.
+export function tableAnnotationLabelHtml(label, math) {
+  if(typeof math!=='function'||!/(?<!\\)\$/.test(label))return null;
+  const escape=value=>value.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const parts=label.split(/(?<!\\)\$((?:\\.|[^$])*?)\$/);
+  if(parts.length===1)return null;
+  return parts.map((value,index)=>index%2?math(value):escape(value).replace(/\\\$/g,'$')).join('');
+}
+
 export function tableArrowGeometry(from, to, annotation = {}) {
   // Between-cell instructions follow the cell centres, with room for the values.
   // Existing top/bottom annotations retain their original geometry below.
@@ -35,6 +43,30 @@ export function tableArrowGeometry(from, to, annotation = {}) {
   const sign = annotation.side === 'top' ? -1 : 1;
   const same = annotation.cellId === annotation.toCellId;
   const center = cell => cell.left + cell.width / 2;
+  // Only explicit top/bottom connectors across a positive row gap use opposing edges.
+  // Shared boundaries and floating-point noise retain the legacy geometry.
+  const rowGap = annotation.side === 'bottom' ? to.top-from.bottom : annotation.side === 'top' ? from.top-to.bottom : 0;
+  if(!same && rowGap > .01){
+    const sx=center(from),ex=center(to);
+    const requestedDistance=annotation.distanceMm==null?3:annotation.distanceMm*96/25.4;
+    const clearance=Math.min(rowGap/4,Math.max(0,requestedDistance));
+    const sy=(sign<0?from.top:from.bottom)+sign*clearance;
+    const ey=(sign<0?to.bottom:to.top)-sign*clearance;
+    const span=sign*(ey-sy);
+    const requestedHandle=annotation.curveMm==null?span/3:annotation.curveMm*96/25.4;
+    const handle=Math.min(span/3,Math.max(span/10,requestedHandle));
+    const c1=[sx,sy+sign*handle],c2=[ex,ey-sign*handle];
+    const head=(x,y,dy)=>{
+      const size=Math.min(8,span*.4),by=y-dy*size,half=size*.42;
+      return `M ${x} ${y} L ${x-dy*half} ${by} L ${x+dy*half} ${by} Z`;
+    };
+    return {
+      path:`M ${sx} ${sy} C ${c1[0]} ${c1[1]}, ${c2[0]} ${c2[1]}, ${ex} ${ey}`,
+      startHead:head(sx,sy,-sign),endHead:head(ex,ey,sign),
+      labelX:(sx+ex)/2,labelY:(sy+ey)/2,
+      start:[sx,sy],end:[ex,ey],controls:[c1,c2],
+    };
+  }
   const startX = center(from) - (same ? from.width * .25 : 0);
   const endX = center(to) + (same ? to.width * .25 : 0);
   const direction = Math.sign(endX - startX) || 1;
@@ -75,6 +107,13 @@ export function tableMathBoxElement(cell) {
   for(const root of roots)for(const box of root.querySelectorAll('.katex-html .fbox,.ML__box')){
     const rect=box.getBoundingClientRect();
     if(rect.width>0&&rect.height>0&&getComputedStyle(box).visibility!=='hidden')return box;
+  }
+  // Plain fractions also have measurable native maths bounds. Use the full
+  // fraction stack, keeping explicit writing/outline boxes as the first choice.
+  // This is reached only by an explicitly requested math-box anchor.
+  for(const root of roots)for(const fraction of root.querySelectorAll('.katex-html .mfrac > .vlist-t,.ML__mfrac')){
+    const rect=fraction.getBoundingClientRect();
+    if(rect.width>0&&rect.height>0&&getComputedStyle(fraction).visibility!=='hidden')return fraction;
   }
   return null;
 }
@@ -146,7 +185,20 @@ export function mountTableAnnotations(root, options = {}) {
           if(options?.onselect)add('path',{d:geometry.path,fill:'none',stroke:'transparent','stroke-width':16,'pointer-events':'stroke'});
           const {labelX,labelY}=geometry;
           if(a.labelBox)add('rect',{x:labelX-12,y:labelY-10,width:24,height:22,fill:'white',stroke:'#cccccc','stroke-width':1});
-          if(a.label){const text=add('text',{x:labelX,y:labelY+5,'text-anchor':'middle',fill:stroke,'font-size':a.side==='middle'?40/3:14});text.textContent=a.label;}
+          if(a.label){
+            const html=tableAnnotationLabelHtml(a.label,options.math);
+            if(html===null){const text=add('text',{x:labelX,y:labelY+5,'text-anchor':'middle',fill:stroke,'font-size':a.side==='middle'?40/3:14});text.textContent=a.label;}
+            else{
+              const foreign=add('foreignObject',{x:0,y:0,width:10000,height:10000,'data-annotation-maths-label':''});
+              const label=document.createElementNS('http://www.w3.org/1999/xhtml','div');
+              label.style.cssText=`display:inline-block;width:max-content;white-space:nowrap;font-size:10pt;line-height:1.2;color:${stroke}`;
+              label.innerHTML=html;foreign.append(label);
+              for(const formula of label.querySelectorAll('.katex,.ML__mathlive'))formula.style.fontSize='10pt';
+              const measured=label.getBoundingClientRect(),labelWidth=measured.width/scale,labelHeight=measured.height/scale;
+              foreign.setAttribute('x',labelX-labelWidth/2);foreign.setAttribute('y',labelY-labelHeight/2);
+              foreign.setAttribute('width',labelWidth);foreign.setAttribute('height',labelHeight);
+            }
+          }
         }
       }
     }
