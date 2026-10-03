@@ -4,19 +4,29 @@ import { randomUUID } from 'node:crypto';
 import { inflateSync } from 'node:zlib';
 import { execFileSync } from 'node:child_process';
 import { hashValue, inside, readJson, relative } from './campaign-sources.mjs';
-import { campaignRendererSignature, campaignRendererDependencyManifest, CAMPAIGN_RENDER_DEPENDENCY_PROFILE } from './campaign-render-dependencies.mjs';
+import { campaignRendererSignature, campaignRendererDependencyManifest, CAMPAIGN_RENDER_DEPENDENCY_PROFILE, campaignScopedRendererDependencyManifest, CAMPAIGN_SCOPED_RENDER_DEPENDENCY_PROFILE, verifyCampaignScopedRenderActivation } from './campaign-render-dependencies.mjs';
+import { probeCampaignRenderBrowser } from './campaign-render-browser.mjs';
 export { campaignRendererSignature, campaignRendererDependencyManifest } from './campaign-render-dependencies.mjs';
 
 const activeRendererContexts = new WeakSet();
 // Operation-scoped only: no process-global signature cache. Recheck actual bytes
 // before returning, and refuse use after the synchronous validation completes.
-export function withCampaignRendererContext(root, validate) {
-  const context = Object.freeze({ root: path.resolve(root), signature: campaignRendererSignature(root) });
+function rendererManifest(root, profile, activation) {
+  if (profile === CAMPAIGN_RENDER_DEPENDENCY_PROFILE) return campaignRendererDependencyManifest(root);
+  if (profile !== CAMPAIGN_SCOPED_RENDER_DEPENDENCY_PROFILE) throw Error('Unknown campaign renderer dependency profile');
+  verifyCampaignScopedRenderActivation(root, activation);
+  return campaignScopedRendererDependencyManifest(root);
+}
+export function withCampaignRendererContext(root, validate, {profile = CAMPAIGN_RENDER_DEPENDENCY_PROFILE, activation = null} = {}) {
+  const signature = hashValue(rendererManifest(root, profile, activation));
+  const browserBinding = profile === CAMPAIGN_SCOPED_RENDER_DEPENDENCY_PROFILE ? Object.freeze(probeCampaignRenderBrowser(root)) : null;
+  const context = Object.freeze({ root: path.resolve(root), signature, profile, activation, browserBinding });
   activeRendererContexts.add(context);
   try {
     const result = validate(context);
     if (result?.then) throw new Error('Renderer validation context must be synchronous');
-    if (campaignRendererSignature(root) !== context.signature) throw new Error('Renderer changed during scoped validation');
+    if (hashValue(rendererManifest(root, profile, activation)) !== context.signature) throw new Error('Renderer changed during scoped validation');
+    if (browserBinding && hashValue(fs.readFileSync(browserBinding.executablePath)) !== browserBinding.executableHash) throw Error('Browser changed during scoped validation');
     return result;
   } finally { activeRendererContexts.delete(context); }
 }
@@ -61,7 +71,8 @@ export function verifyCampaignRenderReceipt(root, candidateHash, field, referenc
   const receipt = JSON.parse(bytes);
   if (context && (!activeRendererContexts.has(context) || context.root !== path.resolve(root))) throw new Error('Expired/foreign renderer validation context');
   if (receipt.format !== 'content-campaign-render-v1' || receipt.producer !== 'scripts/shoot-tikz.mjs' || receipt.candidateHash !== candidateHash || receipt.rendererSignature !== (context?.signature || campaignRendererSignature(root))) throw new Error('Render receipt candidate/producer/renderer mismatch');
-  if (receipt.rendererDependencyProfile !== CAMPAIGN_RENDER_DEPENDENCY_PROFILE || !receipt.rendererDependencies?.path || !receipt.rendererDependencies?.hash) throw new Error('Complete renderer dependency binding required; historical partial signatures remain unverified');
+  if (receipt.rendererDependencyProfile !== (context?.profile || CAMPAIGN_RENDER_DEPENDENCY_PROFILE) || !receipt.rendererDependencies?.path || !receipt.rendererDependencies?.hash) throw new Error('Complete renderer dependency binding required; historical partial signatures remain unverified');
+  if (receipt.rendererDependencyProfile === CAMPAIGN_SCOPED_RENDER_DEPENDENCY_PROFILE && (JSON.stringify(receipt.rendererActivation) !== JSON.stringify(context.activation) || JSON.stringify(receipt.browserBinding) !== JSON.stringify(context.browserBinding))) throw Error('Scoped renderer activation/live browser mismatch');
   const dependencyBytes = fs.readFileSync(inside(root, receipt.rendererDependencies.path));
   if (hashValue(dependencyBytes) !== receipt.rendererDependencies.hash || hashValue(JSON.parse(dependencyBytes)) !== receipt.rendererSignature) throw new Error('Renderer dependency manifest changed');
   if (!receipt.renderEnvironment?.path || !receipt.renderEnvironment?.hash || hashValue(fs.readFileSync(inside(root, receipt.renderEnvironment.path))) !== receipt.renderEnvironment.hash) throw new Error('Render environment evidence missing or changed');
@@ -81,28 +92,30 @@ export function verifyCampaignRenderReceipt(root, candidateHash, field, referenc
   });
   return captured;
 }
-export function rebindCampaignRenderReceipt(root, { reference, candidateHash, fields, out }) {
+export function rebindCampaignRenderReceipt(root, { reference, candidateHash, fields, out, rendererDependencyProfile = CAMPAIGN_RENDER_DEPENDENCY_PROFILE, rendererActivation = null }) {
+  return withCampaignRendererContext(root, context => {
   const bytes = fs.readFileSync(inside(root, reference.path));
   if (hashValue(bytes) !== reference.hash) throw new Error('Stale original render receipt');
   const original = JSON.parse(bytes);
   for (const field of fields) {
     if (hashValue(field.value) !== field.hash) throw new Error('Stale rebound field');
-    verifyCampaignRenderReceipt(root, original.candidateHash, field, reference);
+    verifyCampaignRenderReceipt(root, original.candidateHash, field, reference, context);
   }
   const file = inside(root, out);
   if (!relative(root, file).startsWith('.agywork/content-campaign/')) throw new Error('Rebound receipts must stay in ignored campaign directories');
   const receipt = { ...original, candidateHash, fields: original.fields.filter(field => fields.some(current => current.where === field.where)), reusedFrom: reference, reboundAt: new Date().toISOString() };
   if (fs.existsSync(file)) {
     const existing = { path: relative(root, file), hash: hashValue(fs.readFileSync(file)) };
-    for (const field of fields) verifyCampaignRenderReceipt(root, candidateHash, field, existing);
+    for (const field of fields) verifyCampaignRenderReceipt(root, candidateHash, field, existing, context);
     return existing;
   }
   fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, JSON.stringify(receipt, null, 2), { flag: 'wx' });
   return { path: relative(root, file), hash: hashValue(fs.readFileSync(file)) };
+  }, {profile: rendererDependencyProfile, activation: rendererActivation});
 }
 // Canonical producer: render actual staged blocks, never screenshots of currently
 // published content that differ from the candidate. No visual verdict is generated.
-export function captureCampaignDiagrams(root, { skillId, candidateHash, fields, out, base, batchSize = 12 }, { capture = null } = {}) {
+export function captureCampaignDiagrams(root, { skillId, candidateHash, fields, out, base, batchSize = 12, rendererDependencyProfile = CAMPAIGN_RENDER_DEPENDENCY_PROFILE, rendererActivation = null }, { capture = null } = {}) {
   const directory = inside(root, out);
   if (!relative(root, directory).startsWith('.agywork/content-campaign/')) throw new Error('Campaign captures must use a fresh ignored campaign directory');
   if (fs.existsSync(directory)) throw new Error('Capture directory already exists; preserve prior evidence');
@@ -117,43 +130,46 @@ export function captureCampaignDiagrams(root, { skillId, candidateHash, fields, 
   }
   if (!items.length) throw new Error('No diagram blocks to capture');
   fs.mkdirSync(directory, { recursive: true });
-  const rendererSignature = campaignRendererSignature(root);
+  const dependencies = rendererManifest(root, rendererDependencyProfile, rendererActivation), rendererSignature = hashValue(dependencies);
+  const browserBinding = rendererDependencyProfile === CAMPAIGN_SCOPED_RENDER_DEPENDENCY_PROFILE ? probeCampaignRenderBrowser(root) : null;
   const dependencyPath = path.join(directory, 'renderer-dependencies.json');
-  fs.writeFileSync(dependencyPath, JSON.stringify(campaignRendererDependencyManifest(root), null, 2), { flag: 'wx' });
+  fs.writeFileSync(dependencyPath, JSON.stringify(dependencies, null, 2), { flag: 'wx' });
   const input = { items }, inputPath = path.join(directory, 'input.json'), captures = path.join(directory, 'captures');
   fs.writeFileSync(inputPath, JSON.stringify(input));
-  fs.writeFileSync(path.join(directory, 'capture-request.json'), JSON.stringify({ skillId, candidateHash, fields, base, rendererSignature, requestedAt: new Date().toISOString() }));
+  fs.writeFileSync(path.join(directory, 'capture-request.json'), JSON.stringify({ skillId, candidateHash, fields, base, rendererSignature, rendererDependencyProfile, rendererActivation, browserBinding, requestedAt: new Date().toISOString() }));
   const publicInput = path.join(root, 'public/.audit-input', 'campaign-' + randomUUID() + '.json');
   fs.mkdirSync(path.dirname(publicInput), { recursive: true }); fs.copyFileSync(inputPath, publicInput);
   try {
     if (capture) capture({ root, inputPath: publicInput, out: captures, base, items });
     else execFileSync(process.execPath, [path.join(root, 'scripts/shoot-tikz.mjs'), '--input', publicInput, '--out', captures, '--base', base, '--batch-size', String(batchSize)], { cwd: root, stdio: 'inherit', windowsHide: true });
   } finally { fs.unlinkSync(publicInput); }
-  return finalizeCampaignDiagrams(root, { skillId, candidateHash, fields, directory, base, rendererSignature });
+  return finalizeCampaignDiagrams(root, { skillId, candidateHash, fields, directory, base, rendererSignature, rendererDependencyProfile, rendererActivation, browserBinding });
 }
 // Receipt assembly can resume after a bookkeeping failure without compiling
 // unchanged diagrams again. Callers retain the original requested signature.
-export function finalizeCampaignDiagrams(root, { candidateHash, fields, directory, base, rendererSignature }) {
+export function finalizeCampaignDiagrams(root, { candidateHash, fields, directory, base, rendererSignature, rendererDependencyProfile = CAMPAIGN_RENDER_DEPENDENCY_PROFILE, rendererActivation = null, browserBinding = null }) {
   directory = inside(root, directory);
   if (!relative(root, directory).startsWith('.agywork/content-campaign/')) throw new Error('Campaign captures must stay in ignored campaign directories');
   for (const field of fields) if (hashValue(field.value) !== field.hash || JSON.stringify([...field.value.matchAll(/\[tikz\][\s\S]*?\[\/tikz\]/g)].map(match => hashValue(match[0]))) !== JSON.stringify(field.diagramHashes)) throw new Error('Stale captured field');
   const receiptPath = path.join(directory, 'render-receipt.json');
   if (fs.existsSync(receiptPath)) {
     const reference = { path: relative(root, receiptPath), hash: hashValue(fs.readFileSync(receiptPath)) };
-    for (const field of fields) verifyCampaignRenderReceipt(root, candidateHash, field, reference);
+    withCampaignRendererContext(root, context => { for (const field of fields) verifyCampaignRenderReceipt(root, candidateHash, field, reference, context); }, {profile: rendererDependencyProfile, activation: rendererActivation});
     return reference;
   }
   const inputPath = path.join(directory, 'input.json'), captures = path.join(directory, 'captures');
   const input = readJson(inputPath), manifestPath = path.join(captures, 'manifest.json'), manifest = readJson(manifestPath);
-  if (rendererSignature !== campaignRendererSignature(root)) throw new Error('Renderer changed during capture; current rendering is unverified');
+  if (rendererSignature !== hashValue(rendererManifest(root, rendererDependencyProfile, rendererActivation))) throw new Error('Renderer changed during capture; current rendering is unverified');
+  if (rendererDependencyProfile === CAMPAIGN_SCOPED_RENDER_DEPENDENCY_PROFILE && JSON.stringify(browserBinding) !== JSON.stringify(probeCampaignRenderBrowser(root))) throw Error('Browser changed during capture; current rendering is unverified');
   const dependencyPath = path.join(directory, 'renderer-dependencies.json');
   if (!fs.existsSync(dependencyPath) || hashValue(readJson(dependencyPath)) !== rendererSignature) throw new Error('Missing/stale complete renderer dependencies captured before pixels');
   const environmentPath = path.join(captures, 'render-environment.json');
   if (!fs.existsSync(environmentPath)) throw new Error('Actual browser/font render environment required');
   const environment = readJson(environmentPath);
+  if (browserBinding && environment.browserVersion !== browserBinding.browserVersion) throw Error('Capture environment differs from actual producer browser');
   if (environment.format !== 'tikz-capture-environment-v1' || typeof environment.browserVersion !== 'string' || !environment.browserVersion || !Array.isArray(environment.viewports) || !environment.viewports.length || environment.viewports.some(row => !row.userAgent || !(row.devicePixelRatio > 0) || !(row.viewport?.width > 0) || !(row.viewport?.height > 0) || row.fontStatus !== 'loaded' || !Array.isArray(row.fonts))) throw new Error('Invalid browser/font render environment');
   const renderEnvironment = { path: relative(root, environmentPath), hash: hashValue(fs.readFileSync(environmentPath)) };
-  const receipt = { format: 'content-campaign-render-v1', producer: 'scripts/shoot-tikz.mjs', candidateHash, rendererSignature, rendererDependencyProfile: CAMPAIGN_RENDER_DEPENDENCY_PROFILE, rendererDependencies: { path: relative(root, dependencyPath), hash: hashValue(fs.readFileSync(dependencyPath)) }, renderEnvironment, capturedAt: new Date().toISOString(), base, input: { path: relative(root, inputPath), hash: hashValue(fs.readFileSync(inputPath)) }, manifest: { path: relative(root, manifestPath), hash: hashValue(fs.readFileSync(manifestPath)) }, fields: fields.map(field => ({ where: field.where, fieldHash: field.hash, blockHashes: field.diagramHashes, artifacts: field.diagramHashes.map((blockHash, index) => {
+  const receipt = { format: 'content-campaign-render-v1', producer: 'scripts/shoot-tikz.mjs', candidateHash, rendererSignature, rendererDependencyProfile, ...(browserBinding ? {rendererActivation, browserBinding} : {}), rendererDependencies: { path: relative(root, dependencyPath), hash: hashValue(fs.readFileSync(dependencyPath)) }, renderEnvironment, capturedAt: new Date().toISOString(), base, input: { path: relative(root, inputPath), hash: hashValue(fs.readFileSync(inputPath)) }, manifest: { path: relative(root, manifestPath), hash: hashValue(fs.readFileSync(manifestPath)) }, fields: fields.map(field => ({ where: field.where, fieldHash: field.hash, blockHashes: field.diagramHashes, artifacts: field.diagramHashes.map((blockHash, index) => {
     const auditId = `${field.where}:${index}`, row = manifest.find(row => row.auditId === auditId);
     const actualInput = input.items.find(item => item.auditId === auditId);
     if (!actualInput || hashValue('[tikz]' + actualInput.code + '[/tikz]') !== blockHash || actualInput.field !== `${field.where}[${index}]` || !row || row.status !== 'pass') throw new Error('Capture missing/failed block ' + auditId);

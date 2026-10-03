@@ -30,8 +30,9 @@ function validateSourceLongDescription(root, ref, gap, sourcePath) {
   if (rows.some(line => !/^\s*\|[^|]*\|\s*$/.test(line))) fail();
   const cells = rows.map(line => line.trim().slice(1, -1).trim());
   if (sourceMarkdownImages(rows.join('\n')).length !== 1) fail();
-  const marker = '*Image long description*:';
-  const markers = cells.flatMap((cell, i) => cell.startsWith(marker) ? [boxStartLine + i + 1] : []);
+  // Official syllabus labels put the colon either inside or outside emphasis.
+  const marker = /^\*Image long description(?:\*:|:\*)/;
+  const markers = cells.flatMap((cell, i) => marker.test(cell) ? [boxStartLine + i + 1] : []);
   if (markers.length !== 1 || markers[0] !== startLine) fail();
   if (!/^\s*\|\s*!\[/.test(lines[imageLine - 1])) fail();
   const before = lines.slice(boxStartLine, startLine - 1).join('\n');
@@ -44,7 +45,7 @@ function validateSourceLongDescription(root, ref, gap, sourcePath) {
   if (sourceMarkdownImages(lines.slice(boxStartLine, imageLine - 1).join('\n')).length || sourceMarkdownImages(lines.slice(imageLine - 1, startLine - 1).join('\n')).length !== 1) fail();
   const body = lines.slice(startLine - 1, endLine).map(line => line.trim().slice(1, -1).trim());
   if (!body.at(-1) || lines.slice(endLine, boxEndLine - 1).some(line => line.trim().slice(1, -1).trim())) fail();
-  body[0] = body[0].slice(marker.length).trim();
+  body[0] = body[0].replace(marker, '').trim();
   const normalize = text => text.replace(/\s+/g, ' ').trim();
   if (!normalize(body.join(' ')) || normalize(body.join(' ')) !== normalize(gap.textAlternative)) fail();
 }
@@ -188,5 +189,5 @@ export function scopeDependencies(root, skillId, scope, sourceRefs = [], cache =
   const governing = taxonomy.dotpoints.filter(dp => scope.governingDotPoints?.some(old => old.id === dp.id));
   const topic = taxonomy.topics.find(topic => topic.id === scope.topicId);
   const context = { skill, prereqs, siblings: siblings.map(({ id, title, blurb, stage }) => ({ id, title, blurb, stage })), dependents: dependents.map(({ id, title, blurb, stage }) => ({ id, title, blurb, stage })), prerequisiteTheory, governing, topic };
-  return { hash: hashValue({ context, paths, ...(unavailableImages.length ? { unavailableImages } : {}) }), context, paths };
+  return { hash: hashValue({ context, paths, ...(unavailableImages.length ? { unavailableImages } : {}) }), context, paths, ...(unavailableImages.length ? { unavailableImages } : {}) };
 }

@@ -5,10 +5,43 @@ import os from 'node:os';
 import { validateCandidatePair } from '../validate.mjs';
 import { workedExampleEntries, theoryTextFields } from '../../src/lib/theory-content.js';
 import { checkCampaignStepsRepair } from '../check-theory.mjs';
+import { revalidateContextOutcomes } from './campaign-context-revalidation.mjs';
 import { verifyCampaignRenderReceipt, withCampaignRendererContext, pngDimensions } from './campaign-visual-evidence.mjs';
+import { CAMPAIGN_SCOPED_RENDER_DEPENDENCY_PROFILE, verifyCampaignScopedRenderActivation } from './campaign-render-dependencies.mjs';
+
+export function campaignRendererOptions(campaign) {
+  if (campaign.rendererDependencyProfile === undefined && campaign.rendererActivation === undefined) return {};
+  if (campaign.rendererDependencyProfile !== CAMPAIGN_SCOPED_RENDER_DEPENDENCY_PROFILE || !campaign.rendererActivation?.path || !campaign.rendererActivation?.hash) throw new Error('Explicit scoped renderer campaign policy and immutable activation required');
+  return { profile: campaign.rendererDependencyProfile, activation: campaign.rendererActivation };
+}
+function reviewRendererProfile(root, review) {
+  // Mode discovery grants no trust. Full canonical validation checks every byte.
+  try {
+    const bytes=fs.readFileSync(inside(root,review.renderReceipt.path));
+    if(hashValue(bytes)!==review.renderReceipt.hash)return null;
+    return JSON.parse(bytes).rendererDependencyProfile;
+  }
+  catch { return null; }
+}
+function withReviewRendererContexts(root, campaign, reviews, validate) {
+  const needsScoped=reviews.some(review=>reviewRendererProfile(root,review)===CAMPAIGN_SCOPED_RENDER_DEPENDENCY_PROFILE);
+  if (!needsScoped) return withCampaignRendererContext(root,validate);
+  const options=campaignRendererOptions(campaign);
+  if(options.profile!==CAMPAIGN_SCOPED_RENDER_DEPENDENCY_PROFILE)throw new Error('Scoped capture requires explicit accepted campaign renderer activation');
+  // Keep both held contexts alive for mixed historical evidence; never relabel v2.
+  if(reviews.every(review=>reviewRendererProfile(root,review)===CAMPAIGN_SCOPED_RENDER_DEPENDENCY_PROFILE))return withCampaignRendererContext(root,scoped=>validate({rendererContexts:{scoped},rendererActivation:options.activation}),options);
+  return withCampaignRendererContext(root,legacy=>withCampaignRendererContext(root,scoped=>validate({rendererContexts:{legacy,scoped},rendererActivation:options.activation}),options));
+}
 import { verifyApplicableRenderReceipt, verifyTerminalPixelReuse, bindCurrentRenderField, LAYOUT_APPLICABILITY_PROFILE } from './campaign-render-applicability.mjs';
 
 function verifyReviewRender(root,candidateHash,field,review,context){
+  if(context?.rendererContexts) {
+    if(reviewRendererProfile(root,review)===CAMPAIGN_SCOPED_RENDER_DEPENDENCY_PROFILE) {
+      const receipt=readJson(inside(root,review.renderReceipt.path));
+      if(hashValue(receipt.rendererActivation)!==hashValue(context.rendererActivation))throw new Error('Scoped receipt activation differs from explicit campaign policy');
+      context=context.rendererContexts.scoped;
+    } else context=context.rendererContexts.legacy;
+  }
   if(!review?.rendererApplicability)return verifyCampaignRenderReceipt(root,candidateHash,field,review?.renderReceipt,context);
   const captured=verifyApplicableRenderReceipt(root,candidateHash,field,review.renderReceipt,review.rendererApplicability,context);
   if(captured.applicability.profile===LAYOUT_APPLICABILITY_PROFILE&&review.inspectionMode!=='identical-png-reuse')throw new Error('Layout applicability requires genuine terminal positive original inspection reuse');
@@ -22,7 +55,10 @@ export { hashValue };
 export { WORKER_LINEAGE_PROFILE };
 import { CAMPAIGN_PROFILE, EXECUTION_OVERRIDE_PROFILE, assignmentExecutionProfile, futureExecutionProfile } from './campaign-execution-profile.mjs';
 import { PREREQUISITE_CONTEXT_PROFILE, NATIVE_PREREQUISITE_READ_CONTRACT, planPrerequisiteContext, savePrerequisiteContext, validatePrerequisiteContext, validateReadAcknowledgment, prerequisitePacketContext, hasPrerequisiteContext } from './campaign-prerequisite-context.mjs';
+import { CAPTURE_PRESENTATION_BINDING, validateBoundPresentationResolution } from './campaign-presentation-findings.mjs';
+import { REPAIR_METADATA_PROFILE, REPAIR_METADATA_READ_CONTRACT, planRepairMetadata, saveRepairMetadata, validateRepairMetadata, saveRepairMetadataRead, hasRepairMetadata } from './campaign-repair-metadata.mjs';
 export { PREREQUISITE_CONTEXT_PROFILE };
+export { REPAIR_METADATA_PROFILE };
 export { CAMPAIGN_PROFILE };
 export const BOUNDED_CONTEXT_PROFILE = 'source-metadata-refs-v1';
 export const PREVIOUS_REVIEW_PROFILE = 'whole-item-prior-review-ref-v1';
@@ -140,6 +176,43 @@ export function activateWorkerLineagePolicy(root, { campaignId = DEFAULT_CAMPAIG
     return { campaignId, policy: campaign.futureAssignmentPolicy };
   });
 }
+/** Explicit prospective renderer opt-in; historical captures/inspections remain immutable. */
+export function activateScopedRendererPolicy(root, { campaignId = DEFAULT_CAMPAIGN, rendererActivation } = {}) {
+  return lock(root,campaignId,()=>{
+    const campaign=readCampaign(root,campaignId),policy={rendererDependencyProfile:CAMPAIGN_SCOPED_RENDER_DEPENDENCY_PROFILE,rendererActivation};
+    const options=campaignRendererOptions(policy);
+    verifyCampaignScopedRenderActivation(root,rendererActivation);
+    withCampaignRendererContext(root,()=>null,options);
+    if(campaign.rendererDependencyProfile!==undefined || campaign.rendererActivation!==undefined) {
+      if(hashValue(campaignRendererOptions(campaign))!==hashValue(options))throw new Error('Preserve existing explicit renderer activation; a changed policy requires separate reviewed migration');
+      return {campaignId,...policy,changed:false};
+    }
+    Object.assign(campaign,policy);campaign.rendererActivatedAt=now();
+    save(ledgerFile(root,campaignId),campaign);
+    return {campaignId,...policy,changed:true};
+  });
+}
+/** Reviewed prospective migration; the previous policy and receipts stay immutable. */
+export function migrateScopedRendererPolicy(root, { campaignId = DEFAULT_CAMPAIGN, expectedPolicy, expectedPolicyHash, rendererActivation, migratedBy, reason } = {}) {
+  return lock(root, campaignId, () => {
+    if (!expectedPolicy || JSON.stringify(Object.keys(expectedPolicy).sort()) !== JSON.stringify(['rendererActivatedAt','rendererActivation','rendererDependencyProfile']) || !/^[a-f0-9]{64}$/.test(expectedPolicyHash || '') || hashValue(expectedPolicy) !== expectedPolicyHash || !Number.isFinite(Date.parse(expectedPolicy.rendererActivatedAt)) || !/^\/root(?:\/[a-zA-Z0-9_/-]+)?$/.test(migratedBy || '') || !reason?.trim()) throw new Error('Explicit exact existing renderer policy/hash, actor and migration reason required');
+    campaignRendererOptions(expectedPolicy);
+    const campaign = readCampaign(root, campaignId), current = { rendererDependencyProfile: campaign.rendererDependencyProfile, rendererActivation: campaign.rendererActivation, rendererActivatedAt: campaign.rendererActivatedAt };
+    if (hashValue(current) !== expectedPolicyHash) throw new Error('Stale renderer policy migration baseline');
+    if (campaign.skillIds.some(id => { const state = readSkill(root, campaignId, id); return state.status === 'publishing' || state.owner?.role === 'publish' || fs.existsSync(path.join(root, '.agywork/content-publication/active', id + '.json')); })) throw new Error('Renderer policy migration refused during publication');
+    if (hashValue(fs.readFileSync(inside(root, current.rendererActivation.path))) !== current.rendererActivation.hash) throw new Error('Historical renderer activation changed');
+    const next = { rendererDependencyProfile: CAMPAIGN_SCOPED_RENDER_DEPENDENCY_PROFILE, rendererActivation };
+    const options = campaignRendererOptions(next);
+    if (hashValue(rendererActivation) === hashValue(current.rendererActivation)) throw new Error('Renderer migration needs a different independently reviewed activation');
+    verifyCampaignScopedRenderActivation(root, rendererActivation);
+    withCampaignRendererContext(root, () => null, options);
+    const migratedAt = now();
+    campaign.rendererPolicyHistory = [...(campaign.rendererPolicyHistory || []), { previousPolicy: structuredClone(current), previousPolicyHash: expectedPolicyHash, nextPolicy: structuredClone(next), migratedAt, migratedBy, reason }];
+    Object.assign(campaign, next); campaign.rendererActivatedAt = migratedAt;
+    save(ledgerFile(root, campaignId), campaign);
+    return { campaignId, ...next, rendererActivatedAt: migratedAt, previousPolicyHash: expectedPolicyHash, changed: true };
+  });
+}
 export function activateExecutionOverride(root, { campaignId = DEFAULT_CAMPAIGN, request, requestedBy } = {}) {
   if (typeof request !== 'string' || !request.trim() || typeof requestedBy !== 'string' || !requestedBy.trim()) throw new Error('Explicit human request and requestedBy required');
   return lock(root, campaignId, () => {
@@ -154,9 +227,16 @@ export function activateExecutionOverride(root, { campaignId = DEFAULT_CAMPAIGN,
     return { campaignId, override: campaign.futureExecutionOverride };
   });
 }
-export function nextAssignment(root, { campaignId = DEFAULT_CAMPAIGN, workerId, workerLineage = null, ids = null, authorIds = null, excludeIds = [], role = null } = {}) {
+export function nextAssignment(root, { campaignId = DEFAULT_CAMPAIGN, workerId, workerLineage = null, ids = null, authorIds = null, excludeIds = [], role = null, claimGuard = null } = {}) {
   if (!workerId) throw new Error('workerId required');
   return lock(root, campaignId, () => {
+    // Optional read-only plan guard runs under the same lock, before reconciliation
+    // or ownership changes. It can only refuse; all normal assignment gates follow.
+    if (claimGuard !== null) {
+      if (typeof claimGuard !== 'function') throw new Error('Claim guard must be a function');
+      const refusal = claimGuard();
+      if (refusal) return { blocked: refusal };
+    }
     const campaign = readCampaign(root, campaignId), states = campaign.skillIds.map(id => readJson(skillFile(root, campaignId, id)));
     const cache = { taxonomy: taxonomyAt(root), fileHashes: new Map() };
     const selectedIds = new Set(ids || campaign.skillIds);
@@ -171,7 +251,7 @@ export function nextAssignment(root, { campaignId = DEFAULT_CAMPAIGN, workerId, 
       if (!freshness.mathematicsSourceCurrent) reopenForReconciliation(root, campaignId, state, freshness);
     }
     };
-    if (freshnessStates.some(state => state.review?.requiredVisuals?.length)) withCampaignRendererContext(root, checkFreshness);
+    if (freshnessStates.some(state => state.review?.requiredVisuals?.length)) withReviewRendererContexts(root, campaign, freshnessStates.flatMap(state => state.review?.visualReviews || []), checkFreshness);
     else checkFreshness(null);
     const owned = states.find(state => state.owner?.workerId === workerId);
     if (owned) {
@@ -231,15 +311,42 @@ function liveAcceptance(root, state, cache = {}) {
   };
   if ((state.review?.requiredVisuals || []).length) {
     if (cache.rendererContext) checkRendering(cache.rendererContext);
-    else withCampaignRendererContext(root, checkRendering);
+    else withReviewRendererContexts(root, cache.rendererCampaign || {}, state.review?.visualReviews || [], checkRendering);
   }
   return { current: mathematicsSourceCurrent && !renderingReasons.length, mathematicsSourceCurrent, renderingCurrent: !renderingReasons.length, renderingReasons, skillId: state.skillId, expected: state.status === 'published' ? state.published?.expected : state.stage?.expected, actual, expectedDependencyHash: state.stage?.dependencyHash || null, actualDependencyHash: dependencyHash, reasons };
 }
 function reopenForReconciliation(root, campaignId, state, freshness) {
+  let priorReference = null;
+  if (state.stage && state.review && freshness.reasons.length === 1 && freshness.reasons[0] === 'source/scope/prerequisite teaching dependencies changed') {
+    const current = scopeDependencies(root, state.skillId, state.scope, state.stage.sourceReview);
+    let dependencies = null;
+    if (state.stage.dependencyReference) {
+      const captured = readJson(inside(root, state.stage.dependencyReference.path));
+      if (hashValue(captured) !== state.stage.dependencyReference.hash) throw new Error('Changed original dependency evidence');
+      dependencies = captured;
+    }
+    // Legacy inline packets are usable only if their complete context reconstructs the original dependency hash.
+    if (!dependencies) {
+      const packetPath = path.join(path.dirname(inside(root, state.stage.candidatePath)), 'packet-1.json');
+      if (fs.existsSync(packetPath)) {
+        const context = readJson(packetPath).context;
+        const body = { context, paths: current.paths, ...(current.unavailableImages ? { unavailableImages: current.unavailableImages } : {}) };
+        if (context?.prerequisiteTheory && hashValue(body) === state.stage.dependencyHash) dependencies = { hash: state.stage.dependencyHash, ...body };
+      }
+    }
+    if (dependencies) {
+      const prior = { stage: state.stage, review: state.review, dependencies };
+      const file = path.join(path.dirname(inside(root, state.stage.candidatePath)), `context-prior-review-${hashValue(prior)}.json`);
+      const bytes = JSON.stringify(prior, null, 2) + '\n';
+      if (!fs.existsSync(file)) fs.writeFileSync(file, bytes, { flag: 'wx' });
+      else if (fs.readFileSync(file, 'utf8') !== bytes) throw new Error('Changed immutable context prior review');
+      priorReference = { path: relative(root, file), hash: hashValue(prior) };
+    }
+  }
   if (state.published) state.publishedHistory = [...(state.publishedHistory || []), { published: state.published, stageHash: state.stage?.hash, dependencyHash: state.stage?.dependencyHash, invalidatedAt: now(), reasons: freshness.reasons }];
   if (state.stage) state.stageHistory = [...(state.stageHistory || []), { stageHash: state.stage.hash, candidatePath: state.stage.candidatePath, baselinePath: state.stage.baselinePath, invalidatedAt: now(), reasons: freshness.reasons }];
   state.sources = (state.stage?.sourceReview || state.sources).map(source => ({ ...source, support: state.scope.stage === 3 || source.support === 'indirect' ? 'indirect-candidate' : 'candidate', accepted: false, hash: fs.existsSync(inside(root, source.path)) ? hashValue(fs.readFileSync(inside(root, source.path))) : null, images: (source.images || []).map(image => ({ ...image, hash: fs.existsSync(inside(root, image.path)) ? hashValue(fs.readFileSync(inside(root, image.path))) : null })) }));
-  state.reconciliation = { ...freshness, reopenedAt: now() }; state.pending = freshness.reasons; state.status = 'pending'; delete state.stage; delete state.review; delete state.published;
+  state.reconciliation = { ...freshness, ...(priorReference ? { priorReference } : {}), reopenedAt: now() }; state.pending = freshness.reasons; state.status = 'pending'; delete state.stage; delete state.review; delete state.published;
   save(skillFile(root, campaignId, state.skillId), state);
 }
 function checkOwner(state, workerId, role) {
@@ -260,6 +367,26 @@ export function claimCoordinator(root, { campaignId = DEFAULT_CAMPAIGN, skillId,
 function stageDir(root, campaignId, state) { return path.join(campaignPaths(root, campaignId).work, state.skillId, state.owner.assignmentId); }
 function repairReview(state, repairTargets) {
   return state.status === 'repair-needed' && state.review ? { reviewer: state.review.reviewer, stageHash: state.review.stageHash, reviewedAt: state.review.reviewedAt, outcomes: state.review.outcomes.filter(outcome => outcome.verdict !== 'accepted' || repairTargets.some(target => target.where === outcome.where || target.where.startsWith(outcome.where + '.'))), findings: state.review.findings, note: 'Other passed outcomes remain in the preserved ledger; include only failed or explicitly targeted outcomes in this repair context.' } : null;
+}
+function currentRepairMetadata(state) {
+  const repairTargets = (state.findingRegister || []).filter(finding => finding.stageHash === state.stage?.hash).flatMap(finding => finding.targets || []);
+  return { priorFindings: state.pending, repairTargets, previousReview: repairReview(state, repairTargets) };
+}
+/** Native workers load the complete exact artifact; this grants no reading credit. */
+export function loadRepairMetadata(root, prepared, state, { requireRead = false, packets = null } = {}) {
+  const captured = state.owner?.prepared;
+  if (hashValue(prepared.repairMetadataReference ?? null) !== hashValue(captured?.repairMetadataReference ?? null) || prepared.repairMetadataProfile !== captured?.repairMetadataProfile) throw new Error('Changed supplied repair metadata reference');
+  validatePrerequisiteContext(root, state, { requireRead: false });
+  return validateRepairMetadata(root, state, currentRepairMetadata(state), { requireRead, packets });
+}
+export function recordRepairMetadataRead(root, { campaignId = DEFAULT_CAMPAIGN, skillId, workerId, acknowledgment } = {}) {
+  return lock(root, campaignId, () => {
+    const state = readSkill(root, campaignId, skillId); checkOwner(state, workerId);
+    const value = loadRepairMetadata(root, state.owner.prepared, state);
+    state.owner.prepared.repairMetadataReadReceipt = saveRepairMetadataRead(root, state, value, acknowledgment);
+    save(skillFile(root, campaignId, skillId), state);
+    return structuredClone(state.owner.prepared.repairMetadataReadReceipt);
+  });
 }
 // Only the coordinator reads this reference. Workers still receive actual inline
 // observations and complete owned questions; they never need file tools.
@@ -287,7 +414,7 @@ export function loadPreviousReview(root, prepared, state, packets) {
   const items = new Map(assessmentItems(snapshot.content, snapshot.quiz, false).map(item => [item.where, item]));
   for (const outcome of rows.values()) if (!items.has(outcome.where) || (outcome.hash && outcome.hash !== items.get(outcome.where).hash)) throw new Error('Stale previous-review item');
   const { outcomes, ...identity } = artifact.previousReview;
-  const summary = { ...identity, reference: ref };
+  const summary = captured.repairMetadataProfile ? { reference: captured.repairMetadataReference } : { ...identity, reference: ref };
   for (const packet of packets) {
     if (hashValue(packet.previousReview) !== hashValue(summary)) throw new Error('Changed previous-review packet identity');
     for (const item of packet.items) {
@@ -301,6 +428,7 @@ export function loadPreviousReview(root, prepared, state, packets) {
 // complete actual source section, image and unavailable-image decision once.
 export function verifyRepairPacketEvidence(root, prepared, state, packets) {
   const captured = state.owner?.prepared;
+  if (hasRepairMetadata(root, captured || prepared)) loadRepairMetadata(root, prepared, state, { packets });
   if (!captured?.repairPacketProfile) {
     if (prepared.repairPacketProfile || packets.some(packet => packet.repairPacketProfile || packet.repairPacketEvidence)) throw new Error('Unexpected repair packet reference on a legacy preparation');
     return;
@@ -315,22 +443,27 @@ export function verifyRepairPacketEvidence(root, prepared, state, packets) {
   const compact = refs.map((ref,index) => repairPacketSource(ref,index));
   const dependencies = scopeDependencies(root,state.skillId,state.scope,refs);
   if (dependencies.hash !== captured.dependencyHash) throw new Error('Changed complete repair source/scope/prerequisite evidence');
-  for (const packet of packets) if (packet.repairPacketProfile !== captured.repairPacketProfile || hashValue(packet.repairPacketEvidence) !== hashValue({ path: captured.sourceEvidencePath, hash: captured.sourceEvidenceHash }) || hashValue(packet.sourceReferences) !== hashValue(compact) || hashValue(packet.context) !== hashValue(captured.prerequisiteContextProfile ? prerequisitePacketContext(root, state, dependencies) : dependencies.context) || hashValue(packet.scope) !== hashValue(state.scope) || hashValue(packet.priorFindings) !== hashValue(state.pending)) throw new Error('Changed or incomplete repair packet source/context references');
+  const priorFindings = captured.repairMetadataProfile ? { reference: captured.repairMetadataReference } : state.pending;
+  for (const packet of packets) if (packet.repairPacketProfile !== captured.repairPacketProfile || hashValue(packet.repairPacketEvidence) !== hashValue({ path: captured.sourceEvidencePath, hash: captured.sourceEvidenceHash }) || hashValue(packet.sourceReferences) !== hashValue(compact) || hashValue(packet.context) !== hashValue(captured.prerequisiteContextProfile ? prerequisitePacketContext(root, state, dependencies) : dependencies.context) || hashValue(packet.scope) !== hashValue(state.scope) || hashValue(packet.priorFindings) !== hashValue(priorFindings)) throw new Error('Changed or incomplete repair packet source/context references');
 }
 function repairPacketSource(ref, index) {
   return { ...Object.fromEntries(['path','hash','startLine','endLine','locator','support'].filter(key=>ref[key]!==undefined).map(key=>[key,ref[key]])), sourceEvidenceIndex: index, metadataHash: hashValue(ref) };
 }
-export function prepareAssignment(root, { campaignId = DEFAULT_CAMPAIGN, skillId, workerId, sources = null, maxVariableChars = 24000, prerequisiteContextProfile } = {}) {
+export function prepareAssignment(root, { campaignId = DEFAULT_CAMPAIGN, skillId, workerId, sources = null, maxVariableChars = 24000, prerequisiteContextProfile, repairMetadataProfile } = {}) {
   return lock(root, campaignId, () => {
     const state = readSkill(root, campaignId, skillId); checkOwner(state, workerId);
     const capturedPrerequisiteProfile = state.owner.prepared?.prerequisiteContextProfile;
     if (state.owner.prepared && prerequisiteContextProfile !== undefined && prerequisiteContextProfile !== capturedPrerequisiteProfile) throw new Error('Cannot migrate a historical prerequisite context profile');
     const parentProfile = state.owner.prepared ? capturedPrerequisiteProfile : prerequisiteContextProfile;
     if (parentProfile !== undefined && parentProfile !== PREREQUISITE_CONTEXT_PROFILE) throw new Error('Unknown prerequisite context profile');
+    const capturedMetadataProfile = state.owner.prepared?.repairMetadataProfile;
+    if (state.owner.prepared && repairMetadataProfile !== undefined && repairMetadataProfile !== capturedMetadataProfile) throw new Error('Cannot migrate a historical repair metadata profile');
+    const metadataProfile = state.owner.prepared ? capturedMetadataProfile : repairMetadataProfile;
+    if (metadataProfile !== undefined && (metadataProfile !== REPAIR_METADATA_PROFILE || parentProfile !== PREREQUISITE_CONTEXT_PROFILE || state.owner.workerLineage?.kind !== 'native' || state.status !== 'repair-needed' || !state.review)) throw new Error('Repair metadata profile requires a current native reviewed repair and prerequisite references');
     if (state.owner.prepared && !sameWorkerLineage(state.owner.workerLineage, state.owner.prepared.workerLineage)) throw new Error('Cannot change prepared worker lineage on reprepare');
     if (sources === null && state.owner.paidCallCheckpoint) {
       const prepared = requirePrepared(root, state, state.owner.role);
-      return { skillId, assignmentId: state.owner.assignmentId, role: state.owner.role, packets: prepared.packets, sourceEvidencePath: prepared.sourceEvidencePath, sourceEvidenceHash: prepared.sourceEvidenceHash, expected: prepared.expected, dependencyHash: prepared.dependencyHash, sourceReferences: prepared.sources, ...(prepared.prerequisiteContextProfile ? { prerequisiteContextProfile: prepared.prerequisiteContextProfile, prerequisiteContextReference: prepared.prerequisiteContextReference } : {}), ...(prepared.repairPacketProfile ? { repairPacketProfile: prepared.repairPacketProfile } : {}), ...(prepared.workerLineage ? { workerLineage: structuredClone(prepared.workerLineage) } : {}), ...(prepared.boundedContextProfile ? { boundedContextProfile: prepared.boundedContextProfile } : {}), ...(prepared.packetSourceProfile ? { packetSourceProfile: prepared.packetSourceProfile } : {}), ...(prepared.previousReviewProfile ? { previousReviewProfile: prepared.previousReviewProfile, previousReviewReference: prepared.previousReviewReference } : {}) };
+      return { skillId, assignmentId: state.owner.assignmentId, role: state.owner.role, packets: prepared.packets, sourceEvidencePath: prepared.sourceEvidencePath, sourceEvidenceHash: prepared.sourceEvidenceHash, expected: prepared.expected, dependencyHash: prepared.dependencyHash, sourceReferences: prepared.sources, ...(prepared.prerequisiteContextProfile ? { prerequisiteContextProfile: prepared.prerequisiteContextProfile, prerequisiteContextReference: prepared.prerequisiteContextReference } : {}), ...(prepared.repairPacketProfile ? { repairPacketProfile: prepared.repairPacketProfile } : {}), ...(prepared.workerLineage ? { workerLineage: structuredClone(prepared.workerLineage) } : {}), ...(prepared.boundedContextProfile ? { boundedContextProfile: prepared.boundedContextProfile } : {}), ...(prepared.packetSourceProfile ? { packetSourceProfile: prepared.packetSourceProfile } : {}), ...(prepared.repairMetadataProfile ? { repairMetadataProfile: prepared.repairMetadataProfile, repairMetadataReference: prepared.repairMetadataReference } : {}), ...(prepared.previousReviewProfile ? { previousReviewProfile: prepared.previousReviewProfile, previousReviewReference: prepared.previousReviewReference } : {}) };
     }
     const dir = stageDir(root, campaignId, state); fs.mkdirSync(dir, { recursive: true });
     // Capture the format only on the first preparation of a new assignment.
@@ -416,6 +549,20 @@ export function prepareAssignment(root, { campaignId = DEFAULT_CAMPAIGN, skillId
       scopeContext.repairPacketEvidence = { path: relative(root,path.join(dir,`source-evidence-${hashValue(sourceEvidence)}.json`)), hash: hashValue(sourceEvidence) };
       scopeContext.sourceReferences = sourceEvidence.map(({excerpt,...ref},index)=>repairPacketSource(ref,index));
     }
+    let metadataPlan, repairMetadataReadReceipt;
+    if (metadataProfile) {
+      if (!state.owner.prepared && size([]) <= maxVariableChars && pairs.every(item => size([item]) <= maxVariableChars)) throw new Error('Repair metadata references apply only to a fresh oversized repair preparation');
+      metadataPlan = planRepairMetadata(root, state, dir, snapshot, sourceEvidence.map(({excerpt,...ref})=>ref), imageDeps, { priorFindings, repairTargets, previousReview: fullPreviousReview });
+      scopeContext.repairMetadataProfile = metadataProfile;
+      scopeContext.repairMetadataReference = metadataPlan.reference;
+      scopeContext.nativeRepairMetadataInstruction = REPAIR_METADATA_READ_CONTRACT;
+      for (const key of ['priorFindings', 'repairTargets', 'previousReview']) scopeContext[key] = { reference: metadataPlan.reference };
+      if (state.owner.prepared?.repairMetadataReadReceipt && hashValue(state.owner.prepared.repairMetadataReference) === hashValue(metadataPlan.reference)) {
+        loadRepairMetadata(root, state.owner.prepared, state, { requireRead: true });
+        repairMetadataReadReceipt = structuredClone(state.owner.prepared.repairMetadataReadReceipt);
+      }
+    }
+    const metadataFields = metadataPlan ? { repairMetadataProfile: metadataProfile, repairMetadataReference: metadataPlan.reference } : {};
     const budgetError = (message, items = []) => {
       const packet = packetFor(items, boundParts, boundParts), error = new Error(message);
       error.packetBudget = { limit: maxVariableChars, variableChars: JSON.stringify(packet).length, fields: Object.fromEntries(Object.entries(packet).map(([key, value]) => [key, JSON.stringify(value).length])), items: items.map(item => ({ where: item.where, variableChars: JSON.stringify(item).length })) };
@@ -450,6 +597,7 @@ export function prepareAssignment(root, { campaignId = DEFAULT_CAMPAIGN, skillId
     versionedSave(sourceEvidencePath, sourceEvidence);
     if (prerequisitePlan) savePrerequisiteContext(prerequisitePlan);
     if (previousReviewArtifact) versionedSave(inside(root, previousReviewReference.path), previousReviewArtifact);
+    if (metadataPlan) saveRepairMetadata(metadataPlan);
     for (const planned of plannedPackets) versionedSave(planned.file, planned.packet);
     const packets = plannedPackets.map(({ file, packet, ...record }) => record);
     if (state.owner.prepared) {
@@ -473,17 +621,17 @@ export function prepareAssignment(root, { campaignId = DEFAULT_CAMPAIGN, skillId
     // returned immutable paths and aliases are never overwritten on reprepare.
     if (!fs.existsSync(path.join(dir, 'source-evidence.json'))) save(path.join(dir, 'source-evidence.json'), sourceEvidence);
     for (const [index, planned] of plannedPackets.entries()) if (!fs.existsSync(path.join(dir, `packet-${index + 1}.json`))) save(path.join(dir, `packet-${index + 1}.json`), planned.packet);
-    state.owner.prepared = { snapshotPath: relative(root, snapshotFile), sourceEvidencePath: relative(root, sourceEvidencePath), sourceEvidenceHash, expected: snapshot.expected, dependencyHash: imageDeps.hash, sources: sourceEvidence.map(({ excerpt, ...ref }) => ref), packets, preparedAt: now(), ...prerequisiteFields, ...(prerequisiteReadReceipt ? { prerequisiteReadReceipt } : {}), ...(repairPacketProfile ? { repairPacketProfile } : {}), ...(state.owner.workerLineage ? { workerLineage: structuredClone(state.owner.workerLineage) } : {}), ...(boundedContextProfile ? { boundedContextProfile } : {}), ...(packetSourceProfile ? { packetSourceProfile } : {}), ...(previousReviewArtifact ? { previousReviewProfile, previousReviewReference } : {}) };
+    state.owner.prepared = { snapshotPath: relative(root, snapshotFile), sourceEvidencePath: relative(root, sourceEvidencePath), sourceEvidenceHash, expected: snapshot.expected, dependencyHash: imageDeps.hash, sources: sourceEvidence.map(({ excerpt, ...ref }) => ref), packets, preparedAt: now(), ...prerequisiteFields, ...metadataFields, ...(repairMetadataReadReceipt ? { repairMetadataReadReceipt } : {}), ...(prerequisiteReadReceipt ? { prerequisiteReadReceipt } : {}), ...(repairPacketProfile ? { repairPacketProfile } : {}), ...(state.owner.workerLineage ? { workerLineage: structuredClone(state.owner.workerLineage) } : {}), ...(boundedContextProfile ? { boundedContextProfile } : {}), ...(packetSourceProfile ? { packetSourceProfile } : {}), ...(previousReviewArtifact ? { previousReviewProfile, previousReviewReference } : {}) };
     if (resolvedSourceGap) {
       state.sourcePreparationHistory = [...(state.sourcePreparationHistory || []), { ...state.sourcePreparationGap, resolvedAt: now(), preparedSourceEvidenceHash: sourceEvidenceHash }];
       delete state.sourcePreparationGap;
       state.pending = (state.pending || []).filter(message => !message.startsWith('source-prep-gap: '));
     }
     save(skillFile(root, campaignId, skillId), state);
-    return { skillId, assignmentId: state.owner.assignmentId, role: state.owner.role, packets, sourceEvidencePath: state.owner.prepared.sourceEvidencePath, sourceEvidenceHash, expected: snapshot.expected, dependencyHash: imageDeps.hash, sourceReferences: state.owner.prepared.sources, ...prerequisiteFields, ...(repairPacketProfile ? { repairPacketProfile } : {}), ...(state.owner.workerLineage ? { workerLineage: structuredClone(state.owner.workerLineage) } : {}), ...(boundedContextProfile ? { boundedContextProfile } : {}), ...(packetSourceProfile ? { packetSourceProfile } : {}), ...(previousReviewArtifact ? { previousReviewProfile, previousReviewReference } : {}) };
+    return { skillId, assignmentId: state.owner.assignmentId, role: state.owner.role, packets, sourceEvidencePath: state.owner.prepared.sourceEvidencePath, sourceEvidenceHash, expected: snapshot.expected, dependencyHash: imageDeps.hash, sourceReferences: state.owner.prepared.sources, ...prerequisiteFields, ...metadataFields, ...(repairPacketProfile ? { repairPacketProfile } : {}), ...(state.owner.workerLineage ? { workerLineage: structuredClone(state.owner.workerLineage) } : {}), ...(boundedContextProfile ? { boundedContextProfile } : {}), ...(packetSourceProfile ? { packetSourceProfile } : {}), ...(previousReviewArtifact ? { previousReviewProfile, previousReviewReference } : {}) };
   });
 }
-function requirePrepared(root, state, expectedRole) {
+export function requirePrepared(root, state, expectedRole) {
   if (!state.owner?.prepared || state.owner.role !== expectedRole) throw new Error('Prepare the owned ' + expectedRole + ' assignment first');
   const prepared = state.owner.prepared, live = capturePair(root, state.skillId);
   if (!sameWorkerLineage(state.owner.workerLineage, prepared.workerLineage)) throw new Error('Prepared worker lineage differs from immutable ownership');
@@ -491,6 +639,7 @@ function requirePrepared(root, state, expectedRole) {
   if (JSON.stringify(live.expected) !== JSON.stringify(expected)) throw new Error('Stale live content/quiz baseline; reconcile without overwriting concurrent edits');
   if (scopeDependencies(root, state.skillId, state.scope, prepared.sources).hash !== prepared.dependencyHash) throw new Error('Stale source/scope/teaching dependencies');
   if (hasPrerequisiteContext(root, prepared)) validatePrerequisiteContext(root, state);
+  if (hasRepairMetadata(root, prepared)) loadRepairMetadata(root, prepared, state, { requireRead: true });
   return prepared;
 }
 /** An explicit native worker reading, separate from preparing or accepting content. */
@@ -598,9 +747,16 @@ export function stageAssignment(root, { campaignId = DEFAULT_CAMPAIGN, skillId, 
     const inheritedVisualFlags = changedDiagramItems(baseline, { content, quiz }, [...(previousStage?.inheritedVisualFlags || []), ...(previousReview?.requiredVisuals || []).map(field => field.where)]).map(field => field.where);
     state.stage = { executionProfile: structuredClone(assignmentExecutionProfile(state)), candidatePath: relative(root, candidatePath), baselinePath, hash: stageHash, candidateHash: hashValue({ content, quiz }), expected: prepared.expected, baselineDispositions, reusedOutcomes, inheritedVisualFlags, author: workerId, authorSessionId: metrics?.sessionId || workerId, authorSessionIds: metrics?.sessions?.map(session => typeof session === 'string' ? session : session.sessionId).filter(Boolean) || [metrics?.sessionId || workerId], coverage: acceptedCoverage, sourceReview, removals, substantiveCorrections: [...new Set([...(state.stage?.substantiveCorrections || []), ...substantiveCorrections])], dependencyHash: dependencies.hash, validation: { warnings: validation.warnings || [], checkedAt: now() }, metrics, stagedAt: now() };
     if (workerLineage) state.stage.workerLineage = workerLineage;
+    const dependencyPath = path.join(dir, `dependencies-${dependencies.hash}.json`);
+    const dependencyBytes = JSON.stringify(dependencies, null, 2) + '\n';
+    if (!fs.existsSync(dependencyPath)) fs.writeFileSync(dependencyPath, dependencyBytes, { flag: 'wx' });
+    else if (fs.readFileSync(dependencyPath, 'utf8') !== dependencyBytes) throw new Error('Changed immutable dependency evidence');
+    state.stage.dependencyReference = { path: relative(root, dependencyPath), hash: hashValue(dependencies) };
+    if (state.reconciliation?.priorReference) state.stage.contextPriorReference = structuredClone(state.reconciliation.priorReference);
     const nativeAuthorLineage = retainedNativeAuthorLineage(previousStage, workerLineage);
     if (nativeAuthorLineage.length) state.stage.nativeAuthorLineage = nativeAuthorLineage;
     if (prepared.prerequisiteContextProfile) state.stage.prerequisiteReading = { profile: prepared.prerequisiteContextProfile, reference: structuredClone(prepared.prerequisiteContextReference), receipt: structuredClone(prepared.prerequisiteReadReceipt) };
+    if (prepared.repairMetadataProfile) state.stage.repairMetadataReading = { profile: prepared.repairMetadataProfile, reference: structuredClone(prepared.repairMetadataReference), receipt: structuredClone(prepared.repairMetadataReadReceipt) };
     state.attempts.push({ assignmentId: state.owner.assignmentId, role: 'author', workerId, profile: structuredClone(assignmentExecutionProfile(state)), stageHash, metrics, ...(workerLineage ? { workerLineage } : {}), at: now() });
     delete state.review; delete state.owner; delete state.publishedRepair; state.status = 'staged'; state.pending = [];
     save(skillFile(root, campaignId, skillId), state); return { skillId, status: state.status, stageHash, candidatePath: state.stage.candidatePath };
@@ -628,15 +784,18 @@ export function recordReviewProfile(root, { campaignId = DEFAULT_CAMPAIGN, skill
     save(skillFile(root, campaignId, skillId), state); return { skillId, stageHash, reviewer: workerId, metrics };
   });
 }
-export function recordReview(root, { campaignId = DEFAULT_CAMPAIGN, skillId, workerId, stageHash, outcomes, theoryObservation, sourceObservation, removals = [], findings = [], visualReviews = [], flaggedDiagrams = [], stepsRepair = null, sourceImageReviews = [], metrics = null, reviewerProfile = null } = {}) {
+export function normalizeReviewFindings(findings = []) {
   if (!Array.isArray(findings)) throw new Error('Review findings must be an array');
-  findings = findings.map(finding => {
+  return findings.map(finding => {
     if (typeof finding === 'string' && finding.trim()) return finding;
     if (!finding || typeof finding !== 'object' || Array.isArray(finding)) throw new Error('Review finding needs a nonempty description/observation/repair');
     const description = typeof finding.description === 'string' && finding.description.trim() ? finding.description : [finding.observation, finding.repair].filter(value => typeof value === 'string' && value.trim()).join(' ');
     if (!description.trim()) throw new Error('Review finding needs a nonempty description/observation/repair');
     return { ...structuredClone(finding), description };
   });
+}
+export function recordReview(root, { campaignId = DEFAULT_CAMPAIGN, skillId, workerId, stageHash, outcomes, theoryObservation, sourceObservation, removals = [], findings = [], visualReviews = [], flaggedDiagrams = [], stepsRepair = null, sourceImageReviews = [], metrics = null, reviewerProfile = null, contextRevalidation = null } = {}) {
+  findings = normalizeReviewFindings(findings);
   return lock(root, campaignId, () => {
     const state = readSkill(root, campaignId, skillId); checkOwner(state, workerId, 'review'); requirePrepared(root, state, 'review');
     const workerLineage = validateWorkerProvenance(state, { role: 'review', workerId, metrics, profile: reviewerProfile });
@@ -646,52 +805,75 @@ export function recordReview(root, { campaignId = DEFAULT_CAMPAIGN, skillId, wor
     if (stageHash !== state.stage.hash) throw new Error('Stale staged review evidence');
     const candidate = readJson(inside(root, state.stage.candidatePath));
     if (hashValue({ content: candidate.content, quiz: candidate.quiz }) !== state.stage.candidateHash) throw new Error('Staged candidate changed after authoring');
-    if (!theoryObservation?.trim() || !sourceObservation?.trim()) throw new Error('Theory and source/method/language scope review observations required');
-    const imageGaps = state.stage.sourceReview.flatMap((source, sourceIndex) => (source.unavailableImages || []).map(gap => ({ sourceIndex, sourcePath: source.path, imagePath: gap.path, decisionHash: unavailableImageDecisionHash(gap) })));
-    if (!Array.isArray(sourceImageReviews) || sourceImageReviews.length !== imageGaps.length) throw new Error('Every declared unavailable illustration needs independent source review');
-    for (const gap of imageGaps) {
-      const matches = sourceImageReviews.filter(review => review.sourceIndex === gap.sourceIndex && review.imagePath === gap.imagePath);
-      if (matches.length !== 1 || matches[0].decisionHash !== gap.decisionHash || typeof matches[0].accepted !== 'boolean' || typeof matches[0].observation !== 'string' || !matches[0].observation.trim()) throw new Error('Missing/stale independent unavailable-illustration decision: ' + gap.imagePath);
-    }
-    const items = assessmentItems(candidate.content, candidate.quiz).filter(item => item.kind !== 'theory');
-    if (!Array.isArray(outcomes)) throw new Error('Independent review must cover every assessment and example');
-    if (new Set(outcomes.map(outcome => outcome.where)).size !== outcomes.length) throw new Error('Duplicate independent review outcome');
-    outcomes = [...outcomes, ...(state.stage.reusedOutcomes || []).filter(outcome => !outcomes.some(fresh => fresh.where === outcome.where))];
-    if (outcomes.length !== items.length) throw new Error('Independent review must cover every assessment and example');
-    for (const item of items) {
-      const matches = outcomes.filter(outcome => outcome.where === item.where), outcome = matches[0];
-      if (matches.length !== 1 || outcome.hash !== item.hash) throw new Error('Missing/stale review outcome: ' + item.where);
-      if (!outcome.independentSolution?.trim() || !outcome.observation?.trim() || !['accepted', 'repair', 'unresolved'].includes(outcome.verdict)) throw new Error('Full independent solution and method/wording/scope observation required: ' + item.where);
-      if (item.kind === 'quiz') {
-        if (!Array.isArray(outcome.options) || outcome.options.length !== item.value.options.length) throw new Error('Every MCQ option needs independent review: ' + item.where);
-        item.value.options.forEach((option, i) => { const reviewed = outcome.options[i]; if (reviewed?.hash !== hashValue(option) || !reviewed.observation?.trim() || typeof reviewed.mathematicallyCorrect !== 'boolean') throw new Error('Incomplete/stale option review: ' + item.where); });
-        if (outcome.verdict === 'accepted' && (outcome.options.filter(option => option.mathematicallyCorrect).length !== 1 || outcome.options.some((option, i) => option.mathematicallyCorrect !== (item.value.options[i].correct === true)))) throw new Error('MCQ unique correct answer disagrees with candidate: ' + item.where);
-      }
-    }
-    const baseline = readJson(inside(root, state.stage.baselinePath));
-    if (removals.length !== state.stage.removals.length) throw new Error('Every removed assessment needs a unique independent disposition review');
-    for (const removal of state.stage.removals) {
-      const review = removals.find(review => review.hash === removal.hash && review.where === removal.where), original = assessmentItems(baseline.content, baseline.quiz).find(item => item.where === removal.where && item.hash === removal.hash);
-      if (!review || !review.observation?.trim() || !review.independentSolution?.trim() || review.accepted !== true || !original) throw new Error('Removed assessment needs full independent solution/disposition review');
-      if (original.kind === 'quiz' && (!Array.isArray(review.options) || review.options.length !== original.value.options.length || review.options.some((option, index) => option.hash !== hashValue(original.value.options[index]) || typeof option.mathematicallyCorrect !== 'boolean' || !option.observation?.trim()))) throw new Error('Removed MCQ requires every original option review');
-    }
-    if (JSON.stringify(baseline.content.theory.steps) !== JSON.stringify(candidate.content.theory.steps)) {
-      const stepCheck = checkCampaignStepsRepair({ beforeTheory: baseline.content.theory, candidateContent: candidate.content, candidateQuiz: candidate.quiz, review: stepsRepair && { ...stepsRepair, author: state.stage.author, reviewer: workerId } });
-      if (stepCheck.faults.length) throw new Error('Campaign steps repair: ' + stepCheck.faults.join('; '));
-    }
-    const requiredVisuals = changedDiagramItems(baseline, candidate, [...new Set([...flaggedDiagrams, ...(state.stage.inheritedVisualFlags || [])])]);
-    const checkedVisuals = validateVisualReviews(root, requiredVisuals, visualReviews, state.stage.candidateHash, candidate);
+    const { outcomes: checkedOutcomes, requiredVisuals } = validateReviewStructure(root, state, { outcomes, theoryObservation, sourceObservation, removals, flaggedDiagrams, stepsRepair, sourceImageReviews, contextRevalidation });
+    outcomes = checkedOutcomes;
+    const checkedVisuals = validateVisualReviews(root, requiredVisuals, visualReviews, state.stage.candidateHash, candidate, readCampaign(root,campaignId));
     const visualPending = requiredVisuals.filter(item => !checkedVisuals.some(review => review.where === item.where && review.hash === item.hash));
     const issueOutcomes = outcomes.filter(outcome => outcome.verdict !== 'accepted');
     const imageGapIssues = sourceImageReviews.filter(review => !review.accepted);
     state.review = { executionProfile: structuredClone(assignmentExecutionProfile(state)), reviewer: workerId, reviewerSessionId: metrics?.sessionId || workerId, reviewerProfile: reviewerProfile ? structuredClone(reviewerProfile) : null, stageHash, outcomes, theoryObservation, sourceObservation, sourceImageReviews, removals, findings, visualReviews: checkedVisuals, requiredVisuals: requiredVisuals.map(({ value, ...item }) => item), stepsRepair, metrics, reviewedAt: now() };
     if (workerLineage) state.review.workerLineage = workerLineage;
+    if (contextRevalidation) state.review.contextRevalidation = structuredClone(contextRevalidation);
     if (state.owner.prepared.prerequisiteContextProfile) state.review.prerequisiteReading = { profile: state.owner.prepared.prerequisiteContextProfile, reference: structuredClone(state.owner.prepared.prerequisiteContextReference), receipt: structuredClone(state.owner.prepared.prerequisiteReadReceipt) };
     state.pending = [...findings.map(finding => typeof finding === 'string' ? finding : finding.description), ...issueOutcomes.map(outcome => outcome.where + ': ' + outcome.verdict), ...imageGapIssues.map(review => review.imagePath + ': missing-source illustration decision rejected: ' + review.observation), ...visualPending.map(item => item.where + ': actual diagram visual/geometry/palette/visibility evidence pending')];
     state.status = issueOutcomes.length || findings.length || imageGapIssues.length ? 'repair-needed' : visualPending.length ? 'visual-pending' : 'accepted';
     state.attempts.push({ assignmentId: state.owner.assignmentId, role: 'review', workerId, profile: structuredClone(assignmentExecutionProfile(state)), stageHash, metrics, ...(workerLineage ? { workerLineage } : {}), at: now() }); delete state.owner;
     save(skillFile(root, campaignId, skillId), state); return { skillId, status: state.status, pending: state.pending };
   });
+}
+/** Read-only canonical receipt checks, shared with opt-in preflight. No acceptance or save. */
+export function validateReviewStructure(root, state, { outcomes, theoryObservation, sourceObservation, removals = [], flaggedDiagrams = [], stepsRepair = null, sourceImageReviews = [], contextRevalidation = null } = {}) {
+  const workerId = state.owner?.workerId;
+  const candidate = readJson(inside(root, state.stage.candidatePath));
+  if (!theoryObservation?.trim() || !sourceObservation?.trim()) throw new Error('Theory and source/method/language scope review observations required');
+  const imageGaps = state.stage.sourceReview.flatMap((source, sourceIndex) => (source.unavailableImages || []).map(gap => ({ sourceIndex, sourcePath: source.path, imagePath: gap.path, decisionHash: unavailableImageDecisionHash(gap) })));
+  if (!Array.isArray(sourceImageReviews) || sourceImageReviews.length !== imageGaps.length) throw new Error('Every declared unavailable illustration needs independent source review');
+  for (const gap of imageGaps) {
+    const matches = sourceImageReviews.filter(review => review.sourceIndex === gap.sourceIndex && review.imagePath === gap.imagePath);
+    if (matches.length !== 1 || matches[0].decisionHash !== gap.decisionHash || typeof matches[0].accepted !== 'boolean' || typeof matches[0].observation !== 'string' || !matches[0].observation.trim()) throw new Error('Missing/stale independent unavailable-illustration decision: ' + gap.imagePath);
+  }
+  const items = assessmentItems(candidate.content, candidate.quiz).filter(item => item.kind !== 'theory');
+  if (!Array.isArray(outcomes)) throw new Error('Independent review must cover every assessment and example');
+  if (new Set(outcomes.map(outcome => outcome.where)).size !== outcomes.length) throw new Error('Duplicate independent review outcome');
+  if (contextRevalidation) {
+    requirePrepared(root, state, 'review');
+    const reference = state.stage.contextPriorReference;
+    if (!reference || !state.owner.prepared.prerequisiteReadReceipt) throw new Error('Context revalidation requires preserved prior evidence and actual current full prerequisite reading');
+    checkWorkerIndependence(state, state.owner.workerLineage);
+    const prior = readJson(inside(root, reference.path));
+    if (hashValue(prior) !== reference.hash) throw new Error('Changed immutable context prior review');
+    const priorCandidate = readJson(inside(root, prior.stage.candidatePath));
+    if (hashValue({ content: priorCandidate.content, quiz: priorCandidate.quiz }) !== prior.stage.candidateHash) throw new Error('Changed original context candidate');
+    const retained = revalidateContextOutcomes({ prior, reference, currentStage: state.stage, currentDependencies: scopeDependencies(root, state.skillId, state.scope, state.stage.sourceReview), items, confirmation: contextRevalidation, reviewerLineage: state.owner.workerLineage });
+    outcomes = [...outcomes, ...retained.filter(row => !outcomes.some(fresh => fresh.where === row.where))];
+  }
+  // Context confirmation is the sole retention authority on this path: an older
+  // stage reuse list must not restore methods explicitly requiring fresh work.
+  if (!contextRevalidation) outcomes = [...outcomes, ...(state.stage.reusedOutcomes || []).filter(outcome => !outcomes.some(fresh => fresh.where === outcome.where))];
+  if (outcomes.length !== items.length) throw new Error('Independent review must cover every assessment and example');
+  for (const item of items) {
+    const matches = outcomes.filter(outcome => outcome.where === item.where), outcome = matches[0];
+    if (matches.length !== 1 || outcome.hash !== item.hash) throw new Error('Missing/stale review outcome: ' + item.where);
+    if (!outcome.independentSolution?.trim() || !outcome.observation?.trim() || !['accepted', 'repair', 'unresolved'].includes(outcome.verdict)) throw new Error('Full independent solution and method/wording/scope observation required: ' + item.where);
+    if (item.kind === 'quiz') {
+      if (!Array.isArray(outcome.options) || outcome.options.length !== item.value.options.length) throw new Error('Every MCQ option needs independent review: ' + item.where);
+      item.value.options.forEach((option, i) => { const reviewed = outcome.options[i]; if (reviewed?.hash !== hashValue(option) || !reviewed.observation?.trim() || typeof reviewed.mathematicallyCorrect !== 'boolean') throw new Error('Incomplete/stale option review: ' + item.where); });
+      if (outcome.verdict === 'accepted' && (outcome.options.filter(option => option.mathematicallyCorrect).length !== 1 || outcome.options.some((option, i) => option.mathematicallyCorrect !== (item.value.options[i].correct === true)))) throw new Error('MCQ unique correct answer disagrees with candidate: ' + item.where);
+    }
+  }
+  const baseline = readJson(inside(root, state.stage.baselinePath));
+  if (removals.length !== state.stage.removals.length) throw new Error('Every removed assessment needs a unique independent disposition review');
+  for (const removal of state.stage.removals) {
+    const review = removals.find(review => review.hash === removal.hash && review.where === removal.where), original = assessmentItems(baseline.content, baseline.quiz).find(item => item.where === removal.where && item.hash === removal.hash);
+    if (!review || !review.observation?.trim() || !review.independentSolution?.trim() || review.accepted !== true || !original) throw new Error('Removed assessment needs full independent solution/disposition review');
+    if (original.kind === 'quiz' && (!Array.isArray(review.options) || review.options.length !== original.value.options.length || review.options.some((option, index) => option.hash !== hashValue(original.value.options[index]) || typeof option.mathematicallyCorrect !== 'boolean' || !option.observation?.trim()))) throw new Error('Removed MCQ requires every original option review');
+  }
+  if (JSON.stringify(baseline.content.theory.steps) !== JSON.stringify(candidate.content.theory.steps)) {
+    const stepCheck = checkCampaignStepsRepair({ beforeTheory: baseline.content.theory, candidateContent: candidate.content, candidateQuiz: candidate.quiz, review: stepsRepair && { ...stepsRepair, author: state.stage.author, reviewer: workerId } });
+    if (stepCheck.faults.length) throw new Error('Campaign steps repair: ' + stepCheck.faults.join('; '));
+  }
+  const requiredVisuals = changedDiagramItems(baseline, candidate, [...new Set([...flaggedDiagrams, ...(state.stage.inheritedVisualFlags || [])])]);
+  return { outcomes, requiredVisuals };
 }
 function changedDiagramItems(baseline, candidate, flagged) {
   const fields = pair => {
@@ -702,14 +884,20 @@ function changedDiagramItems(baseline, candidate, flagged) {
   const before = fields(baseline), after = fields(candidate);
   return after.filter(field => flagged.some(where => field.where === where || field.where.startsWith(where + '.')) || !before.some(old => old.where === field.where && old.hash === field.hash));
 }
-function validateVisualReviews(root, required, reviews, candidateHash, candidate = null) {
+/** Validate observations and exact required fields before expensive render verification. */
+export function validateVisualReviewStructure(required, review) {
+  const item = required.find(item => item.where === review.where && item.hash === review.hash);
+  if (!item || !review.accepted || review.renderedSourceHash !== review.hash || JSON.stringify(review.renderedBlockHashes) !== JSON.stringify(item.diagramHashes) || !review.observation?.trim()) throw new Error('Incomplete/stale visual review with every rendered block and source binding required');
+  if (!review.geometryObservation?.trim() || !review.paletteObservation?.trim() || (review.solid3d && !review.visibilityObservation?.trim())) throw new Error('Diagram geometry/palette/solid visibility observations required');
+  return item;
+}
+function validateVisualReviews(root, required, reviews, candidateHash, candidate = null, campaign = {}) {
   if (!reviews.length) return reviews;
-  return withCampaignRendererContext(root, context => {
+  return withReviewRendererContexts(root, campaign, reviews, context => {
   for (const review of reviews) {
-    const item = required.find(item => item.where === review.where && item.hash === review.hash);
-    if (!item || !review.accepted || review.renderedSourceHash !== review.hash || JSON.stringify(review.renderedBlockHashes) !== JSON.stringify(item.diagramHashes) || !review.observation?.trim()) throw new Error('Incomplete/stale visual review with every rendered block and source binding required');
+    const item = validateVisualReviewStructure(required, review);
     verifyReviewRender(root, candidateHash, review.rendererApplicability && candidate ? bindCurrentRenderField(candidate,candidateHash,item) : item, review, context);
-    if (!review.geometryObservation?.trim() || !review.paletteObservation?.trim() || (review.solid3d && !review.visibilityObservation?.trim())) throw new Error('Diagram geometry/palette/solid visibility observations required');
+
   }
   return reviews;
   });
@@ -723,7 +911,7 @@ export function recordVisualReview(root, { campaignId = DEFAULT_CAMPAIGN, skillI
     if (scopeDependencies(root, skillId, state.scope, state.stage.sourceReview).hash !== state.stage.dependencyHash) throw new Error('Stale visual dependencies');
     const candidate = readJson(inside(root, state.stage.candidatePath));
     if (hashValue({ content: candidate.content, quiz: candidate.quiz }) !== state.stage.candidateHash) throw new Error('Stale visual candidate');
-    const all = [...state.review.visualReviews, ...validateVisualReviews(root, state.review.requiredVisuals, visualReviews, state.stage.candidateHash, candidate).map(review => ({ ...review, reviewer: workerId, ...(workerLineage ? { workerLineage, reviewerProfile: structuredClone(reviewerProfile) } : {}), at: now() }))];
+    const all = [...state.review.visualReviews, ...validateVisualReviews(root, state.review.requiredVisuals, visualReviews, state.stage.candidateHash, candidate, readCampaign(root,campaignId)).map(review => ({ ...review, reviewer: workerId, ...(workerLineage ? { workerLineage, reviewerProfile: structuredClone(reviewerProfile) } : {}), at: now() }))];
     state.review.visualReviews = [...new Map(all.map(review => [review.where, review])).values()];
     const pending = state.review.requiredVisuals.filter(item => !all.some(review => review.where === item.where && review.hash === item.hash));
     state.pending = pending.map(item => item.where + ': actual diagram visual/geometry/palette/visibility evidence pending'); state.status = pending.length ? 'visual-pending' : 'accepted';
@@ -795,7 +983,7 @@ export function recordRefreshedVisualReview(root, { campaignId = DEFAULT_CAMPAIG
     if (state.review.outcomes.length !== items.length || new Set(state.review.outcomes.map(row => row.where)).size !== items.length || items.some(item => !state.review.outcomes.some(row => row.where === item.where && row.hash === item.hash))) throw new Error('Existing complete mathematical outcomes no longer match current items');
     const required = changedDiagramItems(candidate, candidate, state.review.requiredVisuals.map(field => field.where));
     if (required.length !== state.review.requiredVisuals.length || required.some(field => !state.review.requiredVisuals.some(old => old.where === field.where && old.hash === field.hash && JSON.stringify(old.diagramHashes) === JSON.stringify(field.diagramHashes)))) throw new Error('Required diagram fields changed');
-    const checked = withCampaignRendererContext(root, context => visualReviews.map(review => {
+    const checked = withReviewRendererContexts(root, readCampaign(root,campaignId), visualReviews, context => visualReviews.map(review => {
       const field = required.find(field => field.where === review.where && field.hash === review.hash);
       if (!field || review.accepted !== true || review.renderedSourceHash !== field.hash || JSON.stringify(review.renderedBlockHashes) !== JSON.stringify(field.diagramHashes) || !review.observation?.trim() || !review.geometryObservation?.trim() || !review.paletteObservation?.trim() || !review.visibilityObservation?.trim()) throw new Error('Complete positive refreshed field/block/geometry/palette/visibility observations required');
       const fresh = verifyReviewRender(root, candidateHash, field, review, context);
@@ -811,6 +999,12 @@ export function recordRefreshedVisualReview(root, { campaignId = DEFAULT_CAMPAIG
     }));
     const findingsToResolve = new Set(), outcomesToReplace = new Map(), resolutionHistory = [];
     for (const resolution of resolvedPresentationFindings) {
+      if (skillId === CAPTURE_PRESENTATION_BINDING.skillId) {
+        if (findingsToResolve.has(resolution.findingHash)) throw new Error('Duplicate capture presentation resolution');
+        const evidence = validateBoundPresentationResolution(CAPTURE_PRESENTATION_BINDING, state, resolution, checked);
+        findingsToResolve.add(resolution.findingHash); resolutionHistory.push(evidence);
+        continue;
+      }
       const allowed = ratioBorderFinding, finding = state.review.findings.find(finding => hashValue(finding) === resolution.findingHash), field = required.find(field => field.where === allowed.where), previous = state.review.outcomes.find(outcome => outcome.where === allowed.itemWhere), outcome = resolution.outcome;
       if (skillId !== allowed.skillId || stageHash !== allowed.stageHash || resolution.where !== allowed.where || resolution.findingHash !== allowed.findingHash || !finding || finding.where !== allowed.where || field?.hash !== allowed.fieldHash || previous?.hash !== allowed.itemHash || previous.verdict !== 'repair' || findingsToResolve.has(resolution.findingHash)) throw new Error('Only the exact recorded Ratios border presentation finding can resolve here');
       if (reviewerProfile.reviewerIdentity === state.review.reviewerProfile?.reviewerIdentity || workerId === state.review.reviewer || (reviewerProfile.sessionId && reviewerProfile.sessionId === state.review.reviewerSessionId)) throw new Error('Fresh presentation repair derivation requires a different original reviewer');
@@ -826,7 +1020,7 @@ export function recordRefreshedVisualReview(root, { campaignId = DEFAULT_CAMPAIG
     updated.review.visualReviews = [...new Map([...(state.review.visualReviews || []), ...checked].map(review => [review.where, review])).values()];
     updated.review.findings = state.review.findings.filter(finding => !findingsToResolve.has(hashValue(finding)));
     updated.review.outcomes = state.review.outcomes.map(outcome => outcomesToReplace.get(outcome.where) || outcome);
-    const renderingPending = withCampaignRendererContext(root, context => required.filter(field => {
+    const renderingPending = withReviewRendererContexts(root, readCampaign(root,campaignId), updated.review.visualReviews || [], context => required.filter(field => {
       const review = updated.review.visualReviews.find(row => row.where === field.where && row.hash === field.hash && row.accepted);
       try { verifyReviewRender(root, candidateHash, field, review, context); return false; } catch { return true; }
     })).map(field => field.where);
@@ -893,12 +1087,13 @@ export function recordWorkerFailure(root, { campaignId = DEFAULT_CAMPAIGN, skill
     delete state.owner; save(skillFile(root, campaignId, skillId), state); return { skillId, status: state.status };
   });
 }
-export async function publishAssignment(root, { campaignId = DEFAULT_CAMPAIGN, skillId, publisher = null } = {}) {
+export async function publishAssignment(root, { campaignId = DEFAULT_CAMPAIGN, skillId, publisher = null, expectedStageHash = null } = {}) {
   // Publication's own root/skill lock protects all canonical writers. A ledger lease
   // prevents two coordinators publishing the same accepted assignment concurrently.
   let state;
   lock(root, campaignId, () => {
     state = readSkill(root, campaignId, skillId); if (!['accepted', 'publishing'].includes(state.status)) throw new Error('Skill has not passed independent and actual visual review');
+    if(expectedStageHash!==null && state.stage?.hash!==expectedStageHash)throw new Error('Stale explicitly requested publication stage');
     if (state.owner) throw new Error('Publication already owned');
     if (scopeDependencies(root, skillId, state.scope, state.stage.sourceReview).hash !== state.stage.dependencyHash) throw new Error('Stale source/scope acceptance');
     for (const [sourceIndex, source] of state.stage.sourceReview.entries()) {
@@ -908,7 +1103,7 @@ export async function publishAssignment(root, { campaignId = DEFAULT_CAMPAIGN, s
         if (reviewed.length !== 1 || reviewed[0].accepted !== true || !reviewed[0].observation?.trim()) throw new Error('Unavailable-source illustration lacks current independent acceptance: ' + gap.path);
       }
     }
-    validateVisualReviews(root, state.review.requiredVisuals, state.review.visualReviews, state.stage.candidateHash, readJson(inside(root,state.stage.candidatePath)));
+    validateVisualReviews(root, state.review.requiredVisuals, state.review.visualReviews, state.stage.candidateHash, readJson(inside(root,state.stage.candidatePath)), readCampaign(root,campaignId));
     state.status = 'publishing'; state.owner = { workerId: 'coordinator-publication', role: 'publish', pid: process.pid, assignedAt: now() }; save(skillFile(root, campaignId, skillId), state);
   });
   try {
@@ -956,7 +1151,7 @@ export function receiptCampaign(root, campaignId = DEFAULT_CAMPAIGN) {
   const attempts = states.flatMap(state => state.attempts || []);
   const observations = attempts.flatMap(attempt => attempt.metrics?.boundedAttempts ? attempt.metrics.boundedAttempts.filter(call => !call.reused && call.metrics?.externalModelCalls !== 0).map(call => ({ ...call.metrics, callId: call.metrics?.callId || call.attemptId })) : attempt.metrics && attempt.metrics.externalModelCalls !== 0 ? [attempt.metrics] : []);
   const metrics = [...new Map(observations.map((metric, index) => [metric.callId || metric.sessionId || 'unidentified-' + index, metric])).values()];
-  const cache = { taxonomy: taxonomyAt(root), fileHashes: new Map() }, finalFreshness = withCampaignRendererContext(root, context => {
+  const cache = { taxonomy: taxonomyAt(root), fileHashes: new Map(), rendererCampaign: campaign }, finalFreshness = withReviewRendererContexts(root, campaign, states.flatMap(state => state.review?.visualReviews || []), context => {
     cache.rendererContext = context;
     return states.filter(state => state.status === 'published').map(state => liveAcceptance(root, state, cache));
   }), staleFinals = finalFreshness.filter(final => !final.current);

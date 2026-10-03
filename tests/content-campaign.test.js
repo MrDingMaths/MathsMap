@@ -786,6 +786,26 @@ test('published source and prerequisite changes invalidate completion without ch
   const assignment = nextAssignment(root, { campaignId: 'test', workerId: 'reconcile', ids: ['first'] }); assert.equal(assignment.role, 'author'); assert.equal(readSkill(root, 'test', 'first').publishedHistory.length, 1);
 });
 
+test('prerequisite-only reopening preserves immutable original review without automatic acceptance', async t => {
+  const { root, sourcePath, write } = fixture(t), skills = JSON.parse(fs.readFileSync(path.join(root, 'data/skills.json')));
+  skills.find(skill => skill.id === 'first').prereqs = ['combinations-nCr']; write('data/skills.json', skills);
+  const state = stage(root, sourcePath); recordReview(root, { ...normalizeWorkerResult(root, state, reviewPayload(root, state)), campaignId: 'test', skillId: 'first', workerId: 'reviewer' });
+  await publishAssignment(root, { campaignId: 'test', skillId: 'first' });
+  const accepted = readSkill(root, 'test', 'first'), originalCandidate = fs.readFileSync(path.join(root, accepted.stage.candidatePath));
+  const parent = capturePair(root, 'combinations-nCr'); parent.content.theory.workedExamples = [{ question_text: 'Calculate $2+2$.', solution_text: '$2+2=4$' }];
+  write('public/content/combinations-nCr.json', parent.content);
+  nextAssignment(root, { campaignId: 'test', workerId: 'reconcile', ids: ['first'] });
+  const reopened = readSkill(root, 'test', 'first'), reference = reopened.reconciliation.priorReference;
+  const evidence = JSON.parse(fs.readFileSync(path.join(root, reference.path)));
+  assert.equal(hashValue(evidence), reference.hash);
+  assert.deepEqual(evidence.review, accepted.review);
+  assert.deepEqual(evidence.stage, accepted.stage);
+  assert.equal(evidence.dependencies.hash, accepted.stage.dependencyHash);
+  assert.deepEqual(fs.readFileSync(path.join(root, accepted.stage.candidatePath)), originalCandidate);
+  assert.equal(reopened.review, undefined); assert.equal(reopened.stage, undefined);
+  assert.equal(reopened.status, 'pending');
+});
+
 test('abandoned ledger ticket is reclaimed and a concurrent runner cannot dispatch or release a live owner', async t => {
   const { root } = fixture(t), directory = path.join(root, '.agywork/content-campaign/test/campaign-locks');
   const dead = path.join(directory, `2147483647-${Buffer.from(os.hostname()).toString('hex')}-abandoned`); fs.mkdirSync(dead, { recursive: true });

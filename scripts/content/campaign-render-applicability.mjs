@@ -14,10 +14,13 @@ import * as leader from '../../public/libs/maths-editor/cloze-leader.mjs';
 import * as answer from '../../public/libs/maths-editor/cloze-answer.mjs';
 import * as house from '../../public/libs/maths-editor/house-style.mjs';
 import * as table from '../../public/libs/maths-editor/table-model.mjs';
+import * as tablePartLabel from '../../public/libs/maths-editor/table-part-label.mjs';
 import * as borders from '../../public/libs/maths-editor/table-borders.mjs';
 import * as spacing from '../../public/libs/maths-editor/equation-spacing.mjs';
 import { LAYOUT_APPLICABILITY, LAYOUT_APPLICABILITY_PROFILE, layoutSourceReferences, verifyLayoutSources } from './campaign-layout-applicability.mjs';
 export { LAYOUT_APPLICABILITY_PROFILE };
+import { LABEL_APPLICABILITY, LABEL_APPLICABILITY_PROFILE, verifyLabelSources } from './campaign-label-applicability.mjs';
+export { LABEL_APPLICABILITY_PROFILE };
 
 export const RENDER_APPLICABILITY_PROFILE = 'campaign-three-delta-plain-fields-v1';
 export const RENDER_APPLICABILITY_SCHEMA = 'docs/content-campaign-render-applicability.json';
@@ -51,9 +54,9 @@ function artifact(read,reference){
  if(!reference?.path||!reference.hash||!reference.path.startsWith('.agywork/content-campaign/'))fail('immutable campaign reference required');
  const bytes=read(reference.path);if(hashValue(bytes)!==reference.hash)fail('evidence changed: '+reference.path);return JSON.parse(bytes);
 }
-function codeAcceptance(read,reference,files=codeFiles){
+function codeAcceptance(read,reference,files=codeFiles,effort='high'){
  const review=artifact(read,reference);
- if(review.format!=='content-campaign-render-applicability-code-review-v1'||review.accepted!==true||!review.authorIdentity?.startsWith('/root/')||!review.reviewerIdentity?.startsWith('/root/')||review.authorIdentity===review.reviewerIdentity||review.profile?.model!=='gpt-6.1-sol'||review.profile?.effort!=='high'||review.profile?.requestedServiceTier!=='default')fail('different-worker accepted code review required');
+ if(review.format!=='content-campaign-render-applicability-code-review-v1'||review.accepted!==true||!review.authorIdentity?.startsWith('/root/')||!review.reviewerIdentity?.startsWith('/root/')||review.authorIdentity===review.reviewerIdentity||review.profile?.model!=='gpt-6.1-sol'||review.profile?.effort!==effort||review.profile?.requestedServiceTier!=='default')fail('different-worker accepted code review required');
  for(const file of files){const row=review.files?.find(r=>r.path===file);if(!row||hashValue(read(file))!==row.hash)fail('accepted code/schema bytes changed: '+file);}
  return review;
 }
@@ -79,7 +82,7 @@ function verifiedSources(read,proof,oldManifest,currentManifest){
  if(!same(styles(sources[DELTAS[1][0]].before),styles(sources[DELTAS[1][0]].current)))fail('global component CSS changed');
  return sources;
 }
-const helpers={...annotated,...leader,...answer,...house,...table,...borders,...spacing};
+const helpers={...annotated,...leader,...answer,...house,...table,...tablePartLabel,...borders,...spacing};
 function documentRenderer(source){
  const ast=parse(source,{sourceType:'module',ecmaVersion:'latest'}),edits=[];
  for(const node of ast.body){
@@ -115,16 +118,18 @@ export function verifyPlainFieldFeatures(value,{beforeSource,currentSource}){
 
 function applicabilityConfig(profile){
  if(profile===LAYOUT_APPLICABILITY_PROFILE)return LAYOUT_APPLICABILITY;
+ if(profile===LABEL_APPLICABILITY_PROFILE)return LABEL_APPLICABILITY;
  if(profile===RENDER_APPLICABILITY_PROFILE)return {profile,old:OLD,current:CURRENT,sourceProof:SOURCE_PROOF,codeFiles};
  fail('unknown applicability profile');
 }
 function profileEvidence(read,readArtifact,proof,reference,currentManifest,field,accepted,config){
- if(reference.hash!==config.sourceProof)fail('exact independent source applicability proof required');
- const refs=config.profile===LAYOUT_APPLICABILITY_PROFILE?layoutSourceReferences(proof):proof;
+ if(config.profile!==LABEL_APPLICABILITY_PROFILE&&reference.hash!==config.sourceProof)fail('exact independent source applicability proof required');
+ const refs=config.profile===LAYOUT_APPLICABILITY_PROFILE?layoutSourceReferences(proof):config.profile===LABEL_APPLICABILITY_PROFILE?readArtifact(read,proof.sourceEvidence):proof;
  const oldManifest=readArtifact(read,refs.oldManifest),recordedCurrent=readArtifact(read,refs.currentManifest);
  if(!same(currentManifest,recordedCurrent))fail('current complete renderer manifest changed');
  let source;
  if(config.profile===LAYOUT_APPLICABILITY_PROFILE)source=verifyLayoutSources(read,ref=>readArtifact(read,ref),proof,oldManifest,currentManifest,accepted.authorIdentity);
+ else if(config.profile===LABEL_APPLICABILITY_PROFILE)source=verifyLabelSources(read,ref=>readArtifact(read,ref),proof,oldManifest,currentManifest,accepted.authorIdentity,field);
  else {
   if(proof.format!=='bounded-renderer-three-delta-scope-review-v1'||proof.profile?.reviewerIdentity===accepted.authorIdentity||proof.profile?.model!=='gpt-6.1-sol'||proof.profile?.effort!=='high')fail('exact independent source applicability proof required');
   const sources=verifiedSources(read,proof,oldManifest,currentManifest);source={beforeSource:sources[DELTAS[0][0]].before,currentSource:sources[DELTAS[0][0]].current};
@@ -138,7 +143,7 @@ export function verifyRenderApplicabilityEvidence({read,currentManifest,addendum
  const addendum=artifact(read,addendumReference);
  const config=applicabilityConfig(addendum.format),{old:OLD,current:CURRENT}=config;
  if(addendum.format!==config.profile||addendum.originalRendererSignature!==OLD||addendum.currentRendererSignature!==CURRENT||addendum.activatedBy?.identity!=='/root'||!Number.isFinite(Date.parse(addendum.activatedBy?.at)))fail('explicit coordinator activation required');
- const accepted=codeAcceptance(read,addendum.codeReview,config.codeFiles),proof=artifact(read,addendum.scopeReview);
+ const accepted=codeAcceptance(read,addendum.codeReview,config.codeFiles,config.effort||'high'),proof=artifact(read,addendum.scopeReview);
  const {oldManifest,features}=profileEvidence(read,artifact,proof,addendum.scopeReview,currentManifest,field,accepted,config);
  if(features.fieldHash!==field.hash||!same([...field.value.matchAll(/\[tikz\][\s\S]*?\[\/tikz\]/g)].map(r=>hashValue(r[0])),field.diagramHashes))fail('whole field/block binding changed');
  const receipt=artifact(read,receiptReference);
@@ -163,7 +168,7 @@ export function verifyRenderApplicabilityEvidence({read,currentManifest,addendum
   const item=input.find(r=>r.auditId===image.auditId),record=manifest.find(r=>r.auditId===image.auditId),bytes=read(image.path),size=pngDimensions(bytes);
   if(image.blockIndex!==index||image.blockHash!==field.diagramHashes[index]||image.status!=='pass'||hashValue(bytes)!==image.hash||size.width!==image.width||size.height!==image.height||item?.field!==`${field.where}[${index}]`||hashValue('[tikz]'+item?.code+'[/tikz]')!==image.blockHash||item.q!==field.value.replace(/\[tikz\][\s\S]*?\[\/tikz\]/g,'').trim()||record?.status!=='pass'||path.basename(image.path)!==record.png)fail('original PNG/input/geometry attribution changed');
  }
- codeAcceptance(read,addendum.codeReview,config.codeFiles);
+ codeAcceptance(read,addendum.codeReview,config.codeFiles,config.effort||'high');
  return {...capture,applicability:{reference:addendumReference,profile:config.profile,originalRendererSignature:OLD,currentRendererSignature:CURRENT,scopeReview:addendum.scopeReview,codeReview:addendum.codeReview,features,originalRenderEnvironment:receipt.renderEnvironment,currentEnvironmentReceipt:addendum.currentEnvironmentReceipt,currentRenderEnvironment:currentReceipt.renderEnvironment,liveBrowser,originalReceipt:receiptReference}};
 }
 export function verifyApplicableRenderReceipt(root,candidateHash,field,receiptReference,addendumReference,context){
@@ -192,7 +197,7 @@ export function verifyTerminalPixelReuse(root,field,reference,currentCapture,pro
    ref=row.reusedInspection?.review||row.reusedInspection?.artifact;if(!ref)fail('terminal original inspection missing');continue;
   }
   const profile=document.reviewerProfile||(profileReference&&artifact(read,profileReference));
-  if(row.inspectionMode!=='fresh'||row.actualPixelInspection!==true||profile?.model!=='gpt-6.1-sol'||profile?.effort!=='high'||profile?.requestedServiceTier!=='default'||!profile?.reviewerIdentity?.trim())fail('authentic terminal actual inspector/profile required');
+  if(row.inspectionMode!=='fresh'||row.actualPixelInspection!==true||profile?.model!=='gpt-6.1-sol'||profile?.effort!==(currentCapture.applicability?.profile===LABEL_APPLICABILITY_PROFILE?'medium':'high')||profile?.requestedServiceTier!=='default'||!profile?.reviewerIdentity?.trim())fail('authentic terminal actual inspector/profile required');
   const receipt=artifact(read,row.renderReceipt),capture=receipt.fields?.find(f=>f.where===field.where);
   if(receipt.format!=='content-campaign-render-v1'||receipt.producer!=='scripts/shoot-tikz.mjs'||(document.candidateHash&&receipt.candidateHash!==document.candidateHash)||capture?.fieldHash!==field.hash||!same(capture.blockHashes,field.diagramHashes)||capture.artifacts.length!==currentCapture.artifacts.length||!Number.isFinite(Date.parse(row.inspectedAt))||!Number.isFinite(Date.parse(receipt.capturedAt))||Date.parse(row.inspectedAt)<Date.parse(receipt.capturedAt))fail('terminal original receipt/capture timestamp changed');
   const input=artifact(read,receipt.input).items,manifest=artifact(read,receipt.manifest);
@@ -207,9 +212,9 @@ export function verifyTerminalPixelReuse(root,field,reference,currentCapture,pro
 export function activateRenderApplicability(root,{scopeReview,codeReview,currentEnvironmentReceipt,coordinatorIdentity,out,profile=RENDER_APPLICABILITY_PROFILE}){
  if(coordinatorIdentity!=='/root'||!out?.startsWith('.agywork/content-campaign/'))fail('explicit coordinator activation/output required');
  const config=applicabilityConfig(profile),{old:OLD,current:CURRENT,sourceProof:SOURCE_PROOF}=config;
- const read=reader(root);const accepted=codeAcceptance(read,codeReview,config.codeFiles);const proof=artifact(read,scopeReview);if(scopeReview.hash!==SOURCE_PROOF)fail('unreviewed source proof');
+ const read=reader(root);const accepted=codeAcceptance(read,codeReview,config.codeFiles,config.effort||'high');const proof=artifact(read,scopeReview);if(config.profile!==LABEL_APPLICABILITY_PROFILE&&scopeReview.hash!==SOURCE_PROOF)fail('unreviewed source proof');
  const current=campaignRendererDependencyManifest(root);profileEvidence(read,artifact,proof,scopeReview,current,{value:'Activation feature preflight only.'},accepted,config);
  const receipt=artifact(read,currentEnvironmentReceipt),environment=artifact(read,receipt.renderEnvironment),browserProbe=probeApplicabilityBrowser(root);if(receipt.rendererSignature!==CURRENT||receipt.producer!=='scripts/shoot-tikz.mjs'||environment.browserVersion!==browserProbe.browserVersion||!same(artifact(read,receipt.rendererDependencies),current))fail('current captured/live browser binding required');
- const value={format:config.profile,originalRendererSignature:OLD,currentRendererSignature:CURRENT,scopeReview,codeReview,currentEnvironmentReceipt,browserProbe,activatedBy:{identity:coordinatorIdentity,at:new Date().toISOString()},limits:'Exact reviewed three deltas and supported whole plain/string-list fields only. Original captures, signatures, inspectors and pixels remain unchanged; no new pixel or unrelated application acceptance.'};
+ const value={format:config.profile,originalRendererSignature:OLD,currentRendererSignature:CURRENT,scopeReview,codeReview,currentEnvironmentReceipt,browserProbe,activatedBy:{identity:coordinatorIdentity,at:new Date().toISOString()},limits:'Exact reviewed deltas and supported whole plain/string-list fields only. Original captures, signatures, inspectors and pixels remain unchanged; no new pixel or unrelated application acceptance.'};
  const file=inside(root,out);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,JSON.stringify(value,null,2)+'\n',{flag:'wx'});return {path:out,hash:hashValue(fs.readFileSync(file))};
 }

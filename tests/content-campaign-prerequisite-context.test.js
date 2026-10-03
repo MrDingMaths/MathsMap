@@ -1,8 +1,9 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';
-import {prepareAssignment,readSkill,hashValue,recordPrerequisiteContextRead,stageAssignment,recordReview,assessmentItems} from '../scripts/content/campaign-support.mjs';
+import {prepareAssignment,readSkill,hashValue,recordPrerequisiteContextRead,stageAssignment,recordReview,assessmentItems,validateReviewStructure} from '../scripts/content/campaign-support.mjs';
 import {PREREQUISITE_CONTEXT_PROFILE,validatePrerequisiteContext} from '../scripts/content/campaign-prerequisite-context.mjs';
 import {scopeDependencies,validateSourceImages} from '../scripts/content/campaign-sources.mjs';
 import {inlineEvidencePrompt} from '../scripts/content/campaign-runner.mjs';import {runBoundedAssignment} from '../scripts/content/campaign-bounded.mjs';
+import {LEAN_PROFILE,receiptBinding,preflightReview} from '../scripts/content/campaign-lean.mjs';
 
 function fixture(t,{real=false,role='author',theory,kind='native'}={}) {
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'prerequisite-context-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
@@ -97,4 +98,31 @@ test('normal author stage and independent review retain their separate complete 
 test('legacy preparation has identical reprepare bytes and cannot migrate; profile caches are separate',t=>{
  const f=fixture(t),old=f.prepare(),bytes=old.packets.map(p=>fs.readFileSync(path.join(f.root,p.path),'utf8'));assert.equal(old.prerequisiteContextProfile,undefined);assert.ok(f.load(old.packets[0].path).context.prerequisiteTheory[0].theory.workedExamples.length);assert.throws(()=>opt(f),/Cannot migrate/);const again=f.prepare();assert.deepEqual(again.packets,old.packets);assert.deepEqual(again.packets.map(p=>fs.readFileSync(path.join(f.root,p.path),'utf8')),bytes);
  const g=fixture(t),fresh=opt(g);assert.notEqual(fresh.packets[0].path,old.packets[0].path);assert.equal(fresh.dependencyHash,old.dependencyHash);assert.equal(f.load(old.packets[0].path).prerequisiteContextReference,undefined);assert.equal(g.load(fresh.packets[0].path).context.prerequisiteTheory[0].theory,undefined);
+});
+
+test('context preflight requires current owned reading and never restores affected methods from stage reuse',t=>{
+ const f=fixture(t,{role:'review'}),state=f.read(),candidate=f.load(state.stage.candidatePath),before=scopeDependencies(f.root,'child',state.scope,f.sources),items=assessmentItems(candidate.content,null,false);
+ const coverage={methods:[{id:'add',description:'Add quantities.',sourceRefs:[0]}],items:items.map(item=>({where:item.where,hash:item.hash,methods:['add']}))};
+ const outcomes=items.map(item=>({where:item.where,hash:item.hash,verdict:'accepted',independentSolution:'7+4=11',observation:'Original peer checked taught addition.'}));
+ const oldStage={...state.stage,hash:'old-stage',baselinePath:state.stage.candidatePath,removals:[],candidateHash:hashValue({content:candidate.content,quiz:null}),dependencyHash:before.hash,coverage,workerLineage:{kind:'native',actorId:'/root/old_author'}};
+ const prior={stage:oldStage,review:{stageHash:oldStage.hash,outcomes,findings:[],reviewer:'old-peer',reviewedAt:'then'},dependencies:before};
+ const reference={path:'immutable-prior.json',hash:hashValue(prior)};f.write(reference.path,prior);
+ const parent=f.load(f.parentPath),oldTheory=structuredClone(parent.theory);parent.theory.workedExamples.push({question_text:'Add $4+6$.',solution_text:'$4+6=10$'});f.write(f.parentPath,parent);
+ const current=scopeDependencies(f.root,'child',state.scope,f.sources);
+ state.stage={...oldStage,hash:'current-stage',dependencyHash:current.hash,contextPriorReference:reference,reusedOutcomes:outcomes,workerLineage:{kind:'native',actorId:'/root/current_author'}};f.save(state);opt(f);
+ const confirmation={profile:'prerequisite-context-revalidation-v1',actorId:'/root/fixture_review',priorReferenceHash:reference.hash,oldStageHash:oldStage.hash,currentStageHash:state.stage.hash,candidateHash:state.stage.candidateHash,oldDependencyHash:before.hash,currentDependencyHash:current.hash,parents:[{id:'parent',oldTheoryHash:hashValue(oldTheory),currentTheoryHash:hashValue(parent.theory),scopeStillValid:true,observation:'Both full parent units checked; example addition preserves scope.'}],methods:[{id:'add',hash:hashValue(coverage.methods[0]),requiresFreshDerivation:false,observation:'Source and parent still teach direct addition.'}]};
+ const review={outcomes:[],theoryObservation:'Current complete Theory valid.',sourceObservation:'Current complete source methods valid.',contextRevalidation:confirmation};
+ assert.throws(()=>validateReviewStructure(f.root,f.read(),review),/has not been acknowledged read/);acknowledge(f);
+ assert.equal(validateReviewStructure(f.root,f.read(),review).outcomes.length,1,'canonical preflight permits explicitly retained omitted rows');
+ const peerProfile={model:'gpt-6.1-sol',effort:'medium',requestedServiceTier:'default',reviewerIdentity:'/root/fixture_review',workerId:'fixture-worker',sessionId:'fixture-peer-session'};
+ const leanInput=()=>({profile:LEAN_PROFILE,binding:receiptBinding(f.root,f.read()),result:{...review,reviewerProfile:peerProfile}});
+ const lean=preflightReview(f.root,f.read(),leanInput());assert.equal(lean.acceptanceGranted,false);assert.deepEqual(lean.result.outcomes,[],'preflight must preserve supplied fresh rows for recomputation under lock');
+ confirmation.methods[0].requiresFreshDerivation=true;
+ assert.throws(()=>validateReviewStructure(f.root,f.read(),review),/every assessment and example/,'old stage.reusedOutcomes must not restore an affected-method pass');
+ assert.throws(()=>preflightReview(f.root,f.read(),leanInput()),/every assessment and example/);
+ review.outcomes=outcomes.map(row=>({...row,independentSolution:'Freshly derived 7+4=11',observation:'Fresh affected-method derivation checked.'}));
+ assert.equal(validateReviewStructure(f.root,f.read(),review).outcomes[0].independentSolution,'Freshly derived 7+4=11');
+ const immutable=fs.readFileSync(path.join(f.root,reference.path),'utf8');
+ recordReview(f.root,{...review,campaignId:'test',skillId:'child',workerId:'fixture-worker',stageHash:'current-stage',reviewerProfile:peerProfile});
+ assert.equal(f.read().status,'accepted');assert.equal(fs.readFileSync(path.join(f.root,reference.path),'utf8'),immutable);
 });

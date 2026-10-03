@@ -1,5 +1,9 @@
 # MathsMap working conventions
 
+## Skill-content campaign efficiency (2 October 2026)
+
+For `worked-examples-2026-09`, follow [the approved efficient campaign workflow](docs/content-campaign-efficient-workflow.md). This supersedes conflicting campaign orchestration requirements only: batch related ready skills, share unchanged teaching evidence, automate bookkeeping, preserve accepted reviews and verify repairs within their affected scope. Keep complete independent mathematical/source review, booklet voice and stage boundaries, at most three workers, serialized revision-safe publication and historical receipts. The user's GPT-6.1 Sol Medium instruction remains in force for this campaign. Do not bypass existing runtime guards; implement and verify equivalent scoped mechanisms before replacing them. Other booklet/import workflows are unchanged.
+
 ## Graph sizing and user-directed compact layouts (2 October 2026)
 
 Use the [graph sizing convention](docs/booklet-cross-session-rules.md#graph-sizing-and-user-directed-compact-layouts-2-october-2026) for future authoring and graph-sizing repairs. Routine supplied question graphs start around 70 mm wide; simple short-answer graphs start around 50 mm. These are reference sizes, not hard caps: the Further Transformations repairs retained readable short-answer graphs at 50–65 mm and reviewed question exceptions at 75 mm. Do not stretch graphs to fill a page or answer column merely because space is available. Preserve mathematical features, 10 pt ordinary labels, graph tick sizes, meaningful paired arrangements and sufficient space on grids students must draw on. Keep question, short-answer and worked-solution widths independently editable; preserve manual overrides. Check representative dense graphs within the existing early sample and selected final-size review, without an additional approval stage or routine model call. Do not automatically resize accepted projects on load or duplication.

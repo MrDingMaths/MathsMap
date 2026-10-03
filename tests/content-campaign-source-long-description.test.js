@@ -3,10 +3,10 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';import os from 'node:os';import path from 'node:path';
 import {hashValue,unavailableImageDecisionHash,validateSourceImages,SOURCE_LONG_DESCRIPTION_PROFILE} from '../scripts/content/campaign-sources.mjs';
 
-function fixture(t, stage=5) {
+function fixture(t, stage=5, marker='*Image long description*:') {
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'mathsmap-source-description-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
   const sourcePath=`syllabus/Stage ${stage} Content.md`;
-  const text=['# Probability','+----------------------------+','| **Example(s):**            |','| ![Two coins](media/missing.png) |','|                            |','| *Image long description*: H and T branch first, |','| then H and T from each branch: HH, HT, TH and TT. |','+----------------------------+','Other source context.'].join('\n');
+  const text=['# Probability','+----------------------------+','| **Example(s):**            |','| ![Two coins](media/missing.png) |','|                            |',`| ${marker} H and T branch first, |`,'| then H and T from each branch: HH, HT, TH and TT. |','+----------------------------+','Other source context.'].join('\n');
   fs.mkdirSync(path.join(root,'syllabus'),{recursive:true});fs.writeFileSync(path.join(root,sourcePath),text);
   const gap={path:'syllabus/media/missing.png',profile:SOURCE_LONG_DESCRIPTION_PROFILE,nonessential:true,reason:'Complete source-authored alternative records every branch and outcome.',textAlternative:'H and T branch first, then H and T from each branch: HH, HT, TH and TT.',textAlternativeLocator:{path:sourcePath,sourceHash:hashValue(text),startLine:6,endLine:7,imageLine:4,boxStartLine:2,boxEndLine:8}};
   const ref={path:sourcePath,hash:hashValue(text),startLine:1,endLine:8,unavailableImages:[gap]};return {root,ref,gap,text,sourcePath};
@@ -20,6 +20,27 @@ test('legacy Stage3 gap decision hash and behavior remain exact',t=>{
   const {root,ref,gap}=fixture(t,3);delete gap.profile;gap.textAlternativeLocator='Historical locator';
   const legacy={path:gap.path,nonessential:gap.nonessential,reason:gap.reason,textAlternative:gap.textAlternative,textAlternativeLocator:gap.textAlternativeLocator,matchingBookletStyle:gap.matchingBookletStyle};
   assert.equal(unavailableImageDecisionHash(gap),hashValue(legacy));assert.deepEqual(validateSourceImages(root,ref),[]);
+});
+for (const stage of [4,5,6]) test(`Stage ${stage} colon inside emphasis retains explicit acceptance gate`,t=>{
+  const {root,ref,gap}=fixture(t,stage,'*Image long description:*');
+  assert.deepEqual(validateSourceImages(root,ref),[]);
+  assert.throws(()=>validateSourceImages(root,ref,{requireAccepted:true}),/Author must explicitly accept/);
+  gap.accepted=true;gap.observation='Complete official text reviewed; no original pixels viewed.';
+  assert.deepEqual(validateSourceImages(root,ref,{requireAccepted:true}),[]);
+});
+test('colon inside emphasis still rejects truncated or copied alternatives',t=>{
+  const {root,ref,gap}=fixture(t,4,'*Image long description:*');
+  gap.textAlternative='H and T branch first,';
+  assert.throws(()=>validateSourceImages(root,ref),/complete source-authored long description/);
+  gap.textAlternative='Copied unrelated description.';
+  assert.throws(()=>validateSourceImages(root,ref),/complete source-authored long description/);
+});
+test('mixed marker spellings cannot declare two descriptions in one box',t=>{
+  const f=fixture(t);
+  const text=f.text.replace('|                            |','| *Image long description:* Another description. |');
+  fs.writeFileSync(path.join(f.root,f.sourcePath),text);
+  f.ref.hash=hashValue(text);f.gap.textAlternativeLocator.sourceHash=f.ref.hash;
+  assert.throws(()=>validateSourceImages(f.root,f.ref),/complete source-authored long description/);
 });
 const mutations={
   'no opt-in':f=>delete f.gap.profile,
@@ -50,4 +71,11 @@ test('actual Stage5 two-coin description is complete and source-bound without pi
   const root=path.resolve('.'),sourcePath='syllabus/Stage 5 Content.md',bytes=fs.readFileSync(path.join(root,sourcePath));
   const gap={profile:SOURCE_LONG_DESCRIPTION_PROFILE,path:'syllabus/media/image34.png',nonessential:true,reason:'Source long description records the complete tree and array.',textAlternative:'The tree diagram originates with H and T as the options for the first coin, and H and T stemming from each of those options for the second coin. The table has H and T on the top row and H and T on the first column. The outcomes are HH, HT, TH and TT.',textAlternativeLocator:{path:sourcePath,sourceHash:hashValue(bytes),startLine:2123,endLine:2127,imageLine:2118,boxStartLine:2112,boxEndLine:2128}};
   const ref={path:sourcePath,hash:hashValue(bytes),startLine:2072,endLine:2128,unavailableImages:[gap]};assert.deepEqual(validateSourceImages(root,ref),[]);
+});
+test('actual Stage4 area description accepts official emphasized-colon spelling without pixel credit',()=>{
+  const root=path.resolve('.'),sourcePath='syllabus/Stage 4 Content.md',bytes=fs.readFileSync(path.join(root,sourcePath));
+  const gap={profile:SOURCE_LONG_DESCRIPTION_PROFILE,path:'syllabus/media/image33.png',nonessential:true,reason:'Complete official description records every square side, area and equivalence.',textAlternative:'The first square has sides of 10 millimetres with an area of 100 square millimetres. It is equal to the second square that has sides of 1 centimetre and an area of 1 square centimetre. The third square has sides of 100 centimetres and an area of 10 000 square centimetres. It is equal to the fourth square with sides of 1 metre and an area of 1 square metre.',textAlternativeLocator:{path:sourcePath,sourceHash:hashValue(bytes),startLine:2076,endLine:2081,imageLine:2072,boxStartLine:2067,boxEndLine:2082}};
+  const ref={path:sourcePath,hash:hashValue(bytes),startLine:2062,endLine:2082,unavailableImages:[gap]};
+  assert.deepEqual(validateSourceImages(root,ref),[]);
+  assert.throws(()=>validateSourceImages(root,ref,{requireAccepted:true}),/Author must explicitly accept/);
 });
