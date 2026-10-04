@@ -1,5 +1,6 @@
 // Browser-only adapter. Booklet selection survives replacement of rendered page fragments.
 import {captureSelection,restoreSelection} from '../../public/libs/maths-editor/math-selection.mjs';
+import {locateDocumentNode,alignDocumentBlock} from '../../public/libs/maths-editor/document-operations.mjs';
 const atom='[data-math],[data-tab],[data-cloze],[data-type="inline-image"]';
 const chrome='[data-native-handle],[data-resize-handles],[data-table-annotations],[data-math-preview]';
 function visibleLength(node){if(node.nodeType===3)return node.textContent.replaceAll('\u200b','').length;if(node.nodeType!==1&&node.nodeType!==11)return 0;if(node.matches?.(chrome))return 0;if(node.matches?.(atom))return 1;return [...node.childNodes].reduce((n,c)=>n+visibleLength(c),0);}
@@ -108,7 +109,12 @@ export function runEditorCommand(editor, name, value) {
   else if(name==='math')c.insertMath();
   else if(name==='bullets'||name==='numbered')c.listCommand(name==='bullets'?'insertUnorderedList':'insertOrderedList');
   else if(name==='indent-list'||name==='outdent-list')c.listCommand(name==='indent-list'?'indent':'outdent');
-  else if(name==='align')c.modify(n=>{n.align=value;});
+  else if(name==='align'){
+    // A table cell sets the alignment of its lines, so align the cell there.
+    const at=locateDocumentNode(c.doc,c.selectedId),id=at?.node.type==='paragraph'?at.node.id:at?.ancestors.findLast(n=>n.type==='paragraph')?.id,owner=id&&locateDocumentNode(c.doc,id)?.parent;
+    if(owner?.type==='cell'&&!owner.preserveParagraphAlignment)c.transact(doc=>{alignDocumentBlock(doc,id,value);});
+    else c.modify(n=>{n.align=value;});
+  }
   else if(name==='colour'){if(c.mathEditing?.applyStyle({color:value},'set'))return;c.restoreRange();document.execCommand('foreColor',false,value);c.surface.querySelectorAll('font[color]').forEach(n=>{n.dataset.colour=n.getAttribute('color');});c.capture();c.remember();c.emit();}
   else if(name==='native'){const button=[...c.toolbar.querySelectorAll('button')].find(b=>b.textContent===value);button?.click();}
   else if(name==='table'){const button=[...c.toolbar.querySelectorAll('button')].find(b=>b.textContent==='Table');button?.click();}

@@ -14,14 +14,25 @@ function workingRows(latex){
  }
  return stack.length||depth?[]:roots;
 }
+const gapMm=b=>{if(b.gap==null)return 0;const m=b.gap.trim().match(/^([\d.]+)\s*(mm|cm|pt)$/);return m?Number(m[1])*({mm:1,cm:10,pt:25.4/72}[m[2]]):null;};
+const checkGap=mm=>{if(!Number.isFinite(mm)||mm<0||mm>30)throw Error('Equation row spacing must be between 0 and 30 mm.');};
+// Additional gap after each line of working; null marks a unit the control cannot show.
+export function equationRowGaps(latex){
+ const roots=workingRows(latex);return roots.length===1?roots[0].breaks.map(gapMm):[];
+}
+export function setEquationRowGap(latex,index,mm){
+ checkGap(mm);
+ const roots=workingRows(latex),b=roots.length===1?roots[0].breaks[index]:null;if(!b)throw Error('Use Edit LaTeX for this equation structure.');
+ return latex.slice(0,b.start)+'\\\\['+Number(mm.toFixed(3))+'mm]'+latex.slice(b.end);
+}
 export function equationRowSpacing(latex){
  const roots=workingRows(latex),breaks=roots.length===1?roots[0].breaks:[];
- const values=breaks.map(b=>{if(b.gap==null)return 0;const m=b.gap.trim().match(/^([\d.]+)\s*(mm|cm|pt)$/);return m?Number(m[1])*({mm:1,cm:10,pt:25.4/72}[m[2]]):null;});
+ const values=breaks.map(gapMm);
  const mixed=values.some(v=>v===null||Math.abs(v-values[0])>.001);
  return {supported:breaks.length>0,mixed,valueMm:breaks.length&&!mixed?values[0]:null};
 }
 export function setEquationRowSpacing(latex,mm){
- if(!Number.isFinite(mm)||mm<0||mm>30)throw Error('Equation row spacing must be between 0 and 30 mm.');
+ checkGap(mm);
  const roots=workingRows(latex);if(roots.length!==1||!roots[0].breaks.length)throw Error('Use Edit LaTeX for this equation structure.');
  for(const b of [...roots[0].breaks].reverse())latex=latex.slice(0,b.start)+'\\\\['+Number(mm.toFixed(3))+'mm]'+latex.slice(b.end);
  return latex;

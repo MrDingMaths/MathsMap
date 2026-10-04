@@ -44,6 +44,26 @@ test('opt-in fraction anchors follow complete rendered stacks, retaining explici
   }finally{await browser.close();}
 });
 
+test('MathLive static and live-editor fractions supply visible opt-in anchors',async()=>{
+  const browser=await chromium.launch({headless:true,channel:'chrome'});
+  try{
+    const page=await browser.newPage();
+    await page.route('http://annotation.test/module.mjs',r=>r.fulfill({contentType:'text/javascript',body:fs.readFileSync('public/libs/maths-editor/table-annotations.mjs','utf8')}));
+    await page.setContent('<table><tr><td id="static"></td><td id="live"></td></tr></table>');
+    await page.addStyleTag({content:fs.readFileSync('public/libs/maths-editor/vendor/mathlive-static.css','utf8')});
+    await page.addScriptTag({content:fs.readFileSync('public/libs/maths-editor/vendor/mathlive.min.js','utf8')});
+    const result=await page.evaluate(async()=>{
+      const {tableMathBoxElement}=await import('http://annotation.test/module.mjs');
+      document.querySelector('#static').innerHTML=MathLive.convertLatexToMarkup('\\frac{2}{3}');
+      const field=new MathLive.MathfieldElement();field.value='\\frac{4}{6}';document.querySelector('#live').append(field);
+      await new Promise(r=>setTimeout(r,250));
+      return ['static','live'].map(id=>{const box=tableMathBoxElement(document.getElementById(id));return {id,found:!!box,fraction:box?.classList.contains('ML__mfrac'),height:box?.getBoundingClientRect().height,shadow:box?.getRootNode()===field.shadowRoot};});
+    });
+    for(const row of result){assert.equal(row.found,true);assert.equal(row.fraction,true);assert.ok(row.height>10);}
+    assert.equal(result[1].shadow,true);
+  }finally{await browser.close();}
+});
+
 test('native arrow maths labels remain centred and 10pt through zoom, redraw and print',async()=>{
   const browser=await chromium.launch({headless:true,channel:'chrome'});
   try{

@@ -1,4 +1,34 @@
 import {paragraph,uid} from './document-model.mjs';
+import {tableGrid} from './table-model.mjs';
+
+// Cells addressed by a table control: the selected cell, its row, its column
+// or the whole table. Merged cells belong to every row and column they span.
+export function tableScopeCells(table,cellId,scope='cell'){
+ const entries=tableGrid(table).entries,at=entries.find(e=>e.cell.id===cellId);if(!at)return [];
+ return entries.filter(e=>e.cell.id===cellId||scope==='table'||scope==='row'&&e.row<at.row+at.rows&&e.row+e.rows>at.row||scope==='column'&&e.col<at.col+at.cols&&e.col+e.cols>at.col).map(e=>e.cell);
+}
+export function setTableCells(doc,cellId,patch,scope='cell'){
+ const at=locateDocumentNode(doc,cellId);if(at?.parent?.type!=='table')throw Error('Select a table cell.');
+ for(const cell of tableScopeCells(at.parent,cellId,scope)){
+  Object.assign(cell,patch);
+  // Cells that keep per-line alignment would otherwise ignore the cell value.
+  if(patch.align&&cell.preserveParagraphAlignment)for(const block of cell.blocks)if(block.type==='paragraph')block.align=patch.align;
+ }
+ return cellId;
+}
+// Position one paragraph or equation. A table cell normally imposes its own
+// alignment on every line; before one line may differ, write the alignment
+// each line currently shows so stored-but-ignored values do not take effect.
+export function alignDocumentBlock(doc,id,align,{single=false}={}){
+ const at=locateDocumentNode(doc,id);if(at?.node.type!=='paragraph')throw Error('Select text or an equation.');
+ const cell=at.parent?.type==='cell'?at.parent:null;
+ if(cell&&!cell.preserveParagraphAlignment){
+  if(!single){cell.align=align;return id;}
+  for(const block of cell.blocks)if(block.type==='paragraph')block.align=cell.align??'center';
+  cell.preserveParagraphAlignment=true;
+ }
+ at.node.align=align;return id;
+}
 
 // Resolve ownership instead of assuming a selection is a top-level block.
 export function locateDocumentNode(doc,id){

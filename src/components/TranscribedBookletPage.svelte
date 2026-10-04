@@ -30,8 +30,10 @@
   const documentActions=getContext('booklet-document-actions');
   const labels=$derived(parentLabels?.()??teachingLabels(bookletPages.length?bookletPages.flatMap(p=>p.blocks??[]):page.blocks??[]));
   setContext('booklet-labels',()=>labels);
+  // Optional per-example spacing; without it the row keeps the house values in the stylesheet.
+  const exampleRowStyle=example=>{const r=example.rowLayout;if(!r)return undefined;return [['gapMm','--example-gap'],['aboveMm','--example-above'],['belowMm','--example-below'],['minHeightMm','--example-min']].filter(([key])=>Number.isFinite(r[key])).map(([key,name])=>`${name}:${r[key]}mm`).join(';')||undefined;};
   let previewFrame;
-  let frameWidth=$state(794),frameHeight=$state(900);
+  let frameWidth=$state(794),frameHeight=$state(900),dropBefore=$state('');
   let previewScale = $derived(zoom===null?Math.min(1,frameWidth/(210*96/25.4)):zoom==='width'?frameWidth/(210*96/25.4):zoom==='page'?Math.min(frameWidth/(210*96/25.4),Math.max(100,frameHeight)/(297*96/25.4)):Number(zoom)||1);
   let cover = $derived(deriveBookletCover(bookletPages, presentation?.()?.cover));
   const frontMatterAnchor = $derived([...frontMatterDestinations(bookletPages),...unnumberedTopicDestinations(bookletPages)].find(destination => destination.page === page)?.id);
@@ -147,7 +149,7 @@
           <BookletArrangement {block} arrangement={blockLayouts[block.id]?.arrangement} layoutOverrides={{blockLayouts, answerSpaces:answerSpaceOverrides}} showSolutions={showTheorySolutions} {assetUrl} {diagramColourModes} {editMode}/>
         {:else if block.examples?.length && block.presentation?.layout === 'worked-rows'}
           {#each block.examples as example, exampleIndex}
-            <div class="worked-example-row" data-example-id={example.id}>
+            <div class="worked-example-row" data-example-id={example.id} style={exampleRowStyle(example)}>
               <div class="example-working">
                 {#if example.prompt}<div class="stacked-prompt" style:padding-left={blockLayouts[example.id]?.insetMm != null ? blockLayouts[example.id].insetMm+'mm' : undefined}><span class="example-prompt"><EditableBookletText value={example.prompt} rootId={example.id} pointer="/prompt" {...editProps()} edited={isEdited(example.id, '/prompt')} /></span></div>{/if}
                 {@render exampleSolution(example, block.presentation?.numberSteps !== false)}
@@ -206,12 +208,18 @@
 {/snippet}
 
 {#snippet teachingAtom(item)}
+  {#if item.atom.kind === 'instruction'}
+    <section class="teaching-atom" data-atom-id={item.atom.id}>
+      {#each item.blocks as block, blockIndex (block.id)}{@render blockBody(block, blockIndex, true)}{/each}
+    </section>
+  {:else}
   <section class="theory-section teaching-atom" class:key-ideas-body={item.atom.kind==='key-ideas'} data-atom-id={item.atom.id}>
     <BookletSectionHeader kind={item.atom.kind} label={item.atom.label} labelPointer="/sourceAtom/label" subtitle={item.atom.visibleSubtitle} headerFill={item.atom.headerFill} editMode={editMode} rootId={item.blocks[0].id} rootIds={item.blocks.map((block) => block.id)} pointer={item.atom.visibleSubtitle !== undefined && item.blocks[0].sourceAtom.visibleSubtitle !== undefined ? "/sourceAtom/visibleSubtitle" : "/sourceAtom/description"} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} />
     <div class="body-box atom-body" class:review-body={item.atom.kind === "review"}>
       {#each item.blocks as block, blockIndex (block.id)}{@render blockBody(block, blockIndex, true)}{/each}
     </div>
   </section>
+  {/if}
 {/snippet}
 
 <div class="preview-frame" class:compact-pages={compactPages} class:zoomed={zoom!==null} class:flow bind:this={previewFrame} style={`--preview-scale:${previewScale};--preview-height:${297 * previewScale}mm;--preview-width:${210 * previewScale}mm`}>
@@ -225,11 +233,12 @@
         <main>
           {#each displayItems as item, index (item.id)}
             {@const documentIds=item.blocks?.map(b=>b.id)??[item.block?.id??item.id]}
-            <div role="group" class="document-group" class:editable-group={editMode&&!!documentActions} class:group-selected={editMode&&documentActions?.selected?.some(id=>documentIds.includes(id))} data-document-group={documentIds.join(' ')}
-              ondragover={e=>{if(editMode&&documentActions&&e.dataTransfer.types.includes('application/x-booklet-block'))e.preventDefault();}}
-              ondrop={e=>{const id=e.dataTransfer.getData('application/x-booklet-block');if(editMode&&documentActions&&id){e.preventDefault();e.stopPropagation();documentActions.move(id,page.section?.sourceSectionId??page.section?.id,documentIds[0]);}}}>
+            <div role="group" class="document-group" class:editable-group={editMode&&!!documentActions} class:group-selected={editMode&&documentActions?.selected?.some(id=>documentIds.includes(id))} class:drop-before={dropBefore===documentIds[0]} data-document-group={documentIds.join(' ')}
+              ondragover={e=>{if(editMode&&documentActions&&e.dataTransfer.types.includes('application/x-booklet-block')){e.preventDefault();dropBefore=documentIds[0];}}}
+              ondragleave={e=>{if(dropBefore===documentIds[0]&&!e.currentTarget.contains(e.relatedTarget))dropBefore='';}}
+              ondrop={e=>{dropBefore='';const id=e.dataTransfer.getData('application/x-booklet-block');if(editMode&&documentActions&&id){e.preventDefault();e.stopPropagation();documentActions.move(id,page.section?.sourceSectionId??page.section?.id,documentIds[0]);}}}>
             {#if editMode&&documentActions}<div class="document-group-tools">
-              <button class="group-handle" aria-label="Select whole teaching group or question" aria-pressed={documentActions.selected?.some(id=>documentIds.includes(id))} draggable="true" ondragstart={e=>{documentActions.select(documentIds,e);e.dataTransfer.setData('application/x-booklet-block',documentIds[0]);}} onclick={e=>documentActions.select(documentIds,e)}>⠿</button>
+              <button class="group-handle" aria-label="Select whole teaching group or question" aria-pressed={documentActions.selected?.some(id=>documentIds.includes(id))} draggable="true" ondragend={()=>dropBefore=''} ondragstart={e=>{if(!documentActions.selected?.some(id=>documentIds.includes(id)))documentActions.select(documentIds);e.dataTransfer.setData('application/x-booklet-block',documentIds[0]);}} onclick={e=>documentActions.select(documentIds,e)}>⠿</button>
               <button aria-label="Insert text before this group" onclick={()=>documentActions.insert('text',documentIds[0])}>+</button>
               {#if documentActions.commentsFor(documentIds).length}<button aria-label="Comments on this group" onclick={()=>documentActions.comment(documentIds)}>●</button>{/if}
             </div>{/if}
@@ -252,7 +261,7 @@
 
 <style>
   .practice-continuation-label{font-size:9pt;font-weight:600;margin-bottom:2mm}
-  .document-group{display:block;position:relative}.document-group.editable-group{display:block;position:relative}.group-selected{outline:2px solid var(--booklet-blue);outline-offset:3px}.document-group-tools{position:absolute;left:-10mm;top:0;display:grid;gap:2px;z-index:4;opacity:.15}.document-group:hover>.document-group-tools,.document-group-tools:focus-within,.group-selected>.document-group-tools{opacity:1}.document-group-tools button{box-sizing:border-box;width:7mm;height:7mm;padding:0;min-height:0;border:1px solid var(--booklet-border);border-radius:4px;background:var(--booklet-white);color:var(--booklet-ink);font:14px system-ui;cursor:pointer}.group-handle{cursor:grab!important}.document-end-insert{font:12px system-ui;color:var(--booklet-muted);border:1px dashed var(--booklet-border);background:transparent;padding:4px;opacity:.35}.document-end-insert:hover,.document-end-insert:focus{opacity:1}@media print{.document-group{display:block!important;outline:none!important}.document-group-tools,.document-end-insert{display:none!important}}
+  .document-group{display:block;position:relative}.document-group.editable-group{display:block;position:relative}.group-selected{outline:2px solid var(--booklet-blue);outline-offset:3px}.document-group-tools{position:absolute;left:-10mm;top:0;display:grid;gap:2px;z-index:4;opacity:.15}.document-group:hover>.document-group-tools,.document-group-tools:focus-within,.group-selected>.document-group-tools{opacity:1}.document-group-tools button{box-sizing:border-box;width:7mm;height:7mm;padding:0;min-height:0;border:1px solid var(--booklet-border);border-radius:4px;background:var(--booklet-white);color:var(--booklet-ink);font:14px system-ui;cursor:pointer}.group-handle{cursor:grab!important}.document-group.drop-before::before{content:'';position:absolute;left:0;right:0;top:-1.5mm;border-top:3px solid var(--booklet-blue);pointer-events:none;z-index:5}.document-end-insert{font:12px system-ui;color:var(--booklet-muted);border:1px dashed var(--booklet-border);background:transparent;padding:4px;opacity:.35}.document-end-insert:hover,.document-end-insert:focus{opacity:1}@media print{.document-group{display:block!important;outline:none!important}.document-group-tools,.document-end-insert{display:none!important}}
   .cloze-statement{display:grid;grid-template-columns:6mm minmax(0,1fr);gap:1mm;align-items:baseline}.cloze-number{grid-column:1;grid-row:1}.cloze-text{grid-column:2;grid-row:1;min-width:0}
   @media screen{.document-end-insert{position:absolute;left:0;top:calc(297mm + var(--studio-overflow-height,0px) + 4px);max-width:45%;white-space:nowrap}}
   .practice{position:relative}.editor-difficulty{position:absolute;right:-14mm;top:4mm;width:13mm;font:7px/1.3 system-ui;color:var(--booklet-muted);text-align:right;pointer-events:none}.answer-jump{position:absolute;right:-14mm;top:0;width:13mm;text-align:right;font-size:6.5pt;color:var(--booklet-muted);text-decoration:none}@media print{.editor-difficulty,.answer-jump{display:none!important}}
@@ -287,7 +296,7 @@
   .example-columns { display:grid; grid-template-columns:repeat(var(--example-columns),minmax(0,1fr)); }
   .example-prompt { display:grid; grid-template-columns:6mm minmax(0,1fr); gap:1mm; }
   .stacked-prompt { padding-left:5mm; margin-bottom:1.5mm; }
-  .worked-example-row { display:grid; grid-template-columns:minmax(25mm,.7fr) minmax(38mm,1.15fr) minmax(0,1.85fr); gap:3mm; padding:2mm 0 4mm; min-height:29mm; align-items:start; }
+  .worked-example-row { display:grid; grid-template-columns:minmax(25mm,.7fr) minmax(38mm,1.15fr) minmax(0,1.85fr); gap:var(--example-gap,3mm); padding:var(--example-above,2mm) 0 var(--example-below,4mm); min-height:var(--example-min,29mm); align-items:start; }
   .worked-example-row:not(:has(.example-explanation)) { grid-template-columns:minmax(0,1fr) minmax(0,1.35fr); }
   .worked-example-row + .worked-example-row { border-top:.2mm solid var(--booklet-border); }
   /* These prompts have no separate number cell: the legacy 6 mm label track
