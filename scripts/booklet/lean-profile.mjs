@@ -2,6 +2,12 @@ export {LEAN_REVIEW_PROFILE,isLeanReview,printableProject,questionReviewContent,
 import {isLeanReview} from '../../src/lib/booklet-review-profile.js';
 
 export const blockingIssue=(issue,state)=>issue.status==='pending'&&(!isLeanReview(state)||!['optional-polish'].includes(issue.disposition));
+// A block's layout family (its type plus nested layout/arrangement kinds) and a
+// density count. Page selection and the early layout sample share this one rule.
+export function leanLayoutProfile(block){
+ const text=JSON.stringify(block),types=[...text.matchAll(/"(?:type|format|arrangement|layout)":"([^"]+)"/g)].map(m=>m[1]);
+ return {family:[...new Set([block.type,...types])].sort().join(':'),density:(text.match(/"(?:type|latex|code|prompt)":/g)??[]).length};
+}
 // Selection is deterministic and small, not an assertion that unselected pages
 // were visually inspected. Every edition still receives automated checks.
 export function selectLeanVisualPages(project,pages,edition,{flaggedPages=[],changedPages=[]}={}){
@@ -17,9 +23,7 @@ export function selectLeanVisualPages(project,pages,edition,{flaggedPages=[],cha
   for(const row of rows){
    if(row.phase==='front-matter')selected.add(number);
    const exercise=mode+':'+row.exercise;if(!exercises.has(exercise)){exercises.add(exercise);selected.add(number);}
-   const text=JSON.stringify(row.block),types=[...text.matchAll(/"(?:type|format|arrangement|layout)":"([^"]+)"/g)].map(m=>m[1]);
-   const family=[...new Set([row.block.type,...types])].sort().join(':');
-   const density=(text.match(/"(?:type|latex|code|prompt)":/g)??[]).length;
+   const {family,density}=leanLayoutProfile(row.block);
    const key=mode+':'+family,old=families.get(key);
    if(!old){selected.add(number);families.set(key,{number,density});}
    else if(density>old.density)families.set(key,{number,density});

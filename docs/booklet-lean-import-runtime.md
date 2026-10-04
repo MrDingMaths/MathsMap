@@ -23,9 +23,9 @@ node scripts/booklet/lean-import.mjs plan --runs .booklet-work/RUN/runs.json
 node scripts/booklet/lean-import.mjs review --runs .booklet-work/RUN/runs.json --pool .booklet-work/RUN/pool --concurrency 3
 ```
 
-Use one shared pool directory for related inventory, authoring and review commands. The pool refills when each job finishes, uses the existing question/teaching/visual dependency exclusions, retains successes, drains active jobs on failure and does not retry automatically. It pauses a run requiring correction propagation while other ready runs can finish. Canonical ownership and revision checks remain authoritative. Project publication remains the normal serialized save operation; the dispatcher does not save projects.
+Use one shared pool directory for related inventory, authoring and review commands. Launch a command once and read its result and checkpoint when it exits; do not poll it from a model session. The pool refills when each job finishes, uses the existing question/teaching/visual dependency exclusions, retains successes and does not retry automatically. A failed job pauses only its own run; other ready runs keep their slots. Approved corrections returned by a review are published through the existing serialized `publishStageCorrections` as each result settles; a publication that cannot proceed pauses that run for the normal correction handoff. Only the run whose state changed is re-planned. Canonical ownership and revision checks remain authoritative.
 
-Two failed deliveries of an unchanged job persist across command restarts. Before a third delivery, supply `review ... --regenerate-reason "Diagnosed cause and changed approach"`; other unaffected runs can still finish. Planning failures also drain workers before the command exits. The pool coordinates only commands using that pool: include every participating run and adopt after earlier campaign workers have drained.
+Two failed deliveries of an unchanged job persist across command restarts. Before a third delivery, supply `review ... --regenerate-reason "Diagnosed cause and changed approach"`. Planning failures drain workers before the command exits. The pool coordinates only commands using that pool: include every participating run and adopt after earlier campaign workers have drained. Author at most two booklets at once and give the remaining capacity to the booklet nearest acceptance; the pool already orders ready runs that way.
 
 ## Authoring and complete handoffs
 
@@ -36,21 +36,21 @@ node scripts/booklet/lean-import.mjs author --run-id BOOKLET-RUN-ID --config CON
 
 Independent inventory and semantic authoring still use the canonical source packets, assignment limits, continuation handling and validators. Authoring batches up to four complete questions using existing assignment planning; it never splits a shared stem. Teaching selections can use the existing guarded `authoringContextByInventoryId` configuration when an explicit source-bound selection is available.
 
-The default optional native recipes supply editable document/diagram structure. The author explicitly supplies IDs, content, mathematical values, geometry and dimensions. No recipe generates a solution, approval or spacing reduction. Expansion occurs before ordinary packet validation and independent review. `--templates FILE` selects another explicit recipe catalogue; every declared slot is mandatory and overlapping slots are rejected.
+Review uses the complete canonical source-context ticket rather than adding duplicate whole-page inventories, historical author envelopes or application files. Three-pass review jobs carry skill definitions, teaching and section context once per job; the 24,000-character budget counts each additional complete question, and the four-question cap, shared stems and exercise boundaries are unchanged. Source, mathematics, answers, classifications, taught methods and applicable image/shading/visibility judgments remain in the same independent content pass. Run the existing `--diagram-preflight` and packet validators on each authored batch before review, so compile and binding defects are found before export.
 
-Review uses the complete canonical source-context ticket rather than adding duplicate whole-page inventories, historical author envelopes or application files. Required source/teacher images and retained image assets are attached. Source, mathematics, answers, classifications, taught methods and applicable image/shading/visibility judgments remain in the same independent content pass.
+Layout and metadata edits already leave three-pass review dependencies unchanged, because the canonical question hash excludes them. There is no separate retention command, prompt codec or author template catalogue; they were removed on 4 October 2026 after an offline benchmark showed the codec contributed 0–7% and the remaining reduction came from dropping duplicated supplements.
 
-`lean-import-context-v1` losslessly indexes repeated JSON values. Decoding must reconstruct the original payload exactly. Exact repair values, JSON pointer scopes, source identities and artifact hashes remain available. Small payloads keep the uncompressed form. The immutable ticket retains the full context and pins its delivery profile; an existing ticket cannot change profile. Review batch measurement includes the diagram/image supplement. Each worker retains a `lean-delivery.json` with actual prompt, hashes, character counts, image order and unchanged provider usage. Canonical limits still allow justified indivisible contexts; exceeding the budget is not hidden.
+## Benchmark arms
 
-## Retain unchanged actual reviews together
+A fresh run may record `benchmarkArm: {id, reason}` for an explicit user-requested model comparison (currently `claude-sonnet-5-5-relay`). Its manifest records the actual provider and model. The Codex runner refuses it; `relay-runner.mjs` writes each canonical prompt and image list under `POOL/relay/pending` and waits for the worker's `relay-response.json`, then the normal validators and recording apply. Usage is recorded as unavailable, never estimated. Production runs remain Sol 6.1 medium.
+
+## Early layout sample
 
 ```powershell
-node scripts/booklet/lean-import.mjs retain --runs .booklet-work/RUN/runs.json
+node scripts/booklet/lean-import.mjs sample --run-id BOOKLET-RUN-ID --project PROJECT-ID --project-file CANDIDATE.json --out .booklet-work/full-imports/BOOKLET-RUN-ID/layout-sample [--limit 8]
 ```
 
-New opt-in assessments bind their actual immutable ticket/result, final reviewed semantic scope and taught-source context. Batch retention compares those hashes, checks original artifacts and pending findings, then uses the normal verification transaction once. Layout and metadata do not create mathematical review credit. Changed answers, classifications, source identities, response requirements, methods, sources or unverified dependencies remain pending. Already-current records are left alone. Older reviews without this binding retain their historical evidence; the tool does not guess a new binding or silently migrate them. Render/diagram checks and selected-page visual checks remain separately required after printable edits.
-
-This retention command supports individual-source projects. Merged projects keep their canonical source-specific workflow; no retention binding is guessed across imported runs.
+The three-pass profile asks for a small sample of difficult layouts to be checked, and shared causes fixed, before authoring scales up. Run this once the first teaching and practice pages are authored into a candidate project, and again after any shared layout change. It picks every block carrying a figure (diagrams and images are where placement and page splits fail), then the densest block of each other layout family, using the same family and density rule as final page selection. It draft-renders the candidate's student and worked editions through the frozen runtime, rasterises only the pages carrying those blocks and writes `layout-sample.json`. It makes no model call and records no acceptance: look at the listed pages at final size and fix causes (arrangement, diagram width, page splits) before authoring the rest. A manual override that only clears an automated overflow check is not a layout fix; inspect the page it produces.
 
 ## Freeze and resume five-edition checks
 
@@ -62,8 +62,18 @@ The runtime snapshot includes current uncommitted bytes and starts a separate lo
 
 After interruption, repeat the same command and output directory while its dependencies match. Passing editions and PDF bytes remain in place; the normal checker establishes actual reuse. Canonical run-local `final-exports-*` directories can also seed eligible prior editions through the existing cache helper. No PDF or hash substitutes for the required visual inspection. An actual dependency change names changed files and requires a new output directory rather than overwriting old evidence. Two recorded export failures require a diagnosis and changed approach through `--regenerate-reason` before a third attempt.
 
+## Final visual review is scheduled work
+
+A passed five-edition export is automated evidence only; its receipt records `visualAcceptance: false`. `export` therefore finishes by binding the exporter's own selected pages (layout families and their densest examples, one ordinary page per exercise, covers, answer transitions, flagged pages) to the existing visual review queue, and reports the result as `visualReview`. A problem preparing the queue is reported there and never hides that inspection is still pending. To prepare it again without exporting:
+
+```powershell
+node scripts/booklet/lean-import.mjs visual --run-id BOOKLET-RUN-ID --project PROJECT-ID --exports .booklet-work/full-imports/BOOKLET-RUN-ID/final-exports-LEAN
+```
+
+Preparation requires a settled project and all five passed edition manifests, and the queue is guarded by the same renderer, project and asset hashes as the export. `review --runs` then dispatches the pending page inspections through the shared pool alongside any content review; standalone pages are inspected and their selected bodies in combined editions are retained from those actual inspections. When no page is pending, record the final review with `visual-review.mjs final-record` and then `review-workflow.mjs final-review`. A booklet is not delivered while this queue has pending pages.
+
 ## Measure before claiming savings
 
-The pool records dispatch/completion/failure events and emits duration receipts after ten newly completed source pages or thirty active minutes. Read complete-job coverage and unavailable metrics; do not add overlapping worker durations as elapsed time. Preserve the canonical source page, review, export and local-replay counts.
+Every pool event records the number of active workers, so slot occupancy is measured rather than inferred from overlapping call durations. Checkpoints (after ten newly completed source pages, thirty active minutes and at command exit) store receipt summaries. Read complete-job coverage and unavailable metrics; preserve the canonical source page, review, export and local-replay counts.
 
-An offline comparison on nine retained source-context tickets reduced delivered prompt sizes by 30–85% chiefly by removing duplicated campaign supplements. It made no model calls and measures delivery size only. No accepted whole-import time reduction or two-hour completion target has yet been established. Benchmark a representative teaching section, including independent review, repairs and export reuse, before changing routine batch sizes further.
+No accepted whole-import time reduction or two-hour completion target has yet been established. Do not claim savings from prompt size alone; benchmark a representative booklet including independent review, repairs and export reuse.

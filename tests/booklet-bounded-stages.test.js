@@ -184,6 +184,20 @@ test('lean assessment scopes author mapping notes to owned questions while retai
  assert.equal(exerciseTeachingContext(f.book,liveWorkflow(f.dir,[1,2,3,4,5]),'t1',{runDir:f.dir}).suppliedNotes.length,5);
 });
 
+test('a large shared context is budgeted once, so lean review still batches whole questions',async t=>{
+ const f=fixture(t,{pages:6}),manifest=JSON.parse(fs.readFileSync(path.join(f.dir,'manifest.json')));manifest.reviewProfile='textbook-three-pass-v1';f.write('manifest.json',manifest);
+ f.book.sections=f.book.sections.filter(section=>section.phase==='practice');
+ for(const section of f.book.sections)section.topicId='t1';
+ f.book.source={reviewProfile:manifest.reviewProfile,contentScope:'practice-only'};f.write('project.json',f.book);
+ f.options.configFile=f.write('config.json',{topics:[{id:'t1',teachingPages:[1,2,3]}]});
+ const marker='UNIQUE-SHARED-DEFINITION-MARKER',blurb=marker+' '+'Shared classification definition. '.repeat(700);
+ f.options.skillCatalogFile=f.write('skills.json',[{id:'substitution',blurb}]);
+ const plan=await nextBoundedWork(f.options),assessments=plan.jobs.filter(job=>job.stage==='assessment');
+ assert.deepEqual(assessments.map(job=>job.ownershipIds.length),[4,2],'six questions form one full batch and its tail, not six single-question jobs');
+ const prepared=await prepareBoundedStage(f.options,assessments[0].id);
+ assert.ok(prepared.prompt.length>blurb.length,'the shared context is delivered');assert.equal(prepared.prompt.split(marker).length-1,1,'the shared context is delivered once per job');
+ assert.ok(assessments.every(job=>job.batch.reason!=='indivisible-context'),'a shared prefix is not an indivisible question');
+});
 test('lean decision projection keeps owned answer references and source context without repeating another question review',async t=>{
  const f=fixture(t),manifest=JSON.parse(fs.readFileSync(path.join(f.dir,'manifest.json')));manifest.reviewProfile='textbook-three-pass-v1';f.write('manifest.json',manifest);
  f.book.sections=f.book.sections.filter(section=>section.phase==='practice');

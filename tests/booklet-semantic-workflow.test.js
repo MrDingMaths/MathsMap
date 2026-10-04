@@ -52,6 +52,18 @@ test('author assignment passes explicit worker wait options without changing lea
  assert.equal(fs.readFileSync(path.join(slots,'1.json'),'utf8'),owners[1]);assert.equal(fs.readFileSync(path.join(slots,'2.json'),'utf8'),owners[2]);
 });
 
+test('a regeneration reason naming one assignment reruns only that assignment and keeps the other cached',async t=>{
+ const options=fixture(t),tasks=createSemanticTasks(options),{assignments}=planTaskAssignments(tasks);
+ assert.ok(assignments.length>=2,'fixture plans separate assignments');
+ const calls=[],runner=assignment=>async()=>{calls.push(assignment.id);return {result:{packets:[author(assignment.pages[0])]},metrics:{provider:'test',externalModelCalls:0}};};
+ for(const assignment of assignments)await runAuthorAssignment({runDir:options.runDir,tasks,assignment,attempt:1,validate:validateSemanticResult,runner:runner(assignment),...quiet});
+ assert.equal(calls.length,assignments.length);calls.length=0;
+ await assert.rejects(runAuthorAssignment({runDir:options.runDir,tasks,assignment:assignments[0],attempt:2,regenerationReason:'Cause fixed elsewhere',validate:validateSemanticResult,runner:()=>assert.fail('An unnamed assignment must stay cached'),...quiet}).then(()=>{throw Error('cached');}),/cached/);
+ await runAuthorAssignment({runDir:options.runDir,tasks,assignment:assignments[0],attempt:2,regenerationReason:'Repair duplicate ownership in '+assignments[0].id,validate:validateSemanticResult,runner:runner(assignments[0]),...quiet});
+ await runAuthorAssignment({runDir:options.runDir,tasks,assignment:assignments[1],attempt:2,regenerationReason:'Repair duplicate ownership in '+assignments[0].id,validate:validateSemanticResult,runner:runner(assignments[1]),...quiet});
+ assert.deepEqual(calls,[assignments[0].id],'only the named assignment called a worker');
+});
+
 test('three-pass inventory accepts a source checklist without legacy layout approvals and reuses it',async t=>{
  const options={...fixture(t),stage:'inventory',pages:[4]};
  options.manifest={...options.manifest,workflowPolicy:'review-first-v1',reviewProfile:'textbook-three-pass-v1'};

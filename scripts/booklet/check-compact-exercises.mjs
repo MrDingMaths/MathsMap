@@ -136,8 +136,8 @@ const ready=async edition=>{
   const deadline=Date.now()+600000;let nextLog=Date.now();
   while(Date.now()<deadline){
     if(await page.getByLabel('Booklet edition',{exact:true}).inputValue()!==edition)await page.getByLabel('Booklet edition',{exact:true}).selectOption(edition);
-    const state=await page.locator('.flow-document').evaluate(el=>({state:el.dataset.paginationState,edition:el.dataset.paginatedEdition,status:el.querySelector('[role=status]')?.textContent,error:el.querySelector('[role=alert]')?.textContent}));
-    if(state.state==='error')throw Error(state.error);
+    const state=await page.locator('.flow-document').evaluate(el=>({state:el.dataset.paginationState,edition:el.dataset.paginatedEdition,status:el.querySelector('[role=status]')?.textContent,error:el.querySelector('[role=alert]')?.textContent??[...document.querySelectorAll('[role=alert]')].map(a=>a.textContent.trim()).filter(Boolean).join(' | ')}));
+    if(state.state==='error')throw Error(state.error||'Pagination failed without a visible message');
     if(state.state==='ready'&&state.edition===edition)return;
     if(Date.now()>nextLog){console.log(edition+': '+(state.status??state.state));nextLog=Date.now()+15000;}
     await page.waitForTimeout(200);

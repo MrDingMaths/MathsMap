@@ -109,7 +109,7 @@ Successful assignments survive another assignment's failure. Inspect a failed
 assignment using `attempt-context` with `assignmentId` alongside `page` and
 `fromAttempt`; `repair-attempt` writes a reviewed exact-field repair without a
 model call. Resume with a newer page attempt to assemble cached fragments.
-Only actual regeneration requires `--regenerate-reason`.
+Only actual regeneration requires `--regenerate-reason`. An accepted assignment that is individually valid but conflicts at page assembly (for example by authoring content owned by another assignment) is regenerated alone by naming its assignment ID in that reason; other accepted assignments stay cached.
 
 `representatives` chooses compact source-pattern coverage deterministically.
 Complete the cross-cutting coverage list and run `check-representatives`; for

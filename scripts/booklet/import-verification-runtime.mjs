@@ -43,8 +43,12 @@ export function prepareVerificationSnapshot({root=process.cwd(),out}){
 export async function startFrozenVerificationServer(manifest,out){
  // Plugins using process.cwd() and module constants must also see the frozen
  // root. Passing Vite's root in the parent's process does not isolate those.
- const script=`import {createServer} from 'vite';import path from 'node:path';
- const server=await createServer({root:process.cwd(),configFile:path.join(process.cwd(),'vite.config.js'),cacheDir:process.argv[1],server:{host:'127.0.0.1',port:0,strictPort:false,open:false,hmr:false,watch:null}});
+ // Vite ignores an inline null when the config file sets server.watch, so the
+ // resolved config is loaded and its server block is overridden directly.
+ const script=`import {createServer,loadConfigFromFile} from 'vite';import path from 'node:path';import fs from 'node:fs';
+ const loaded=await loadConfigFromFile({command:'serve',mode:'development'},path.join(process.cwd(),'vite.config.js'),process.cwd());
+ const config=loaded?.config??{},dependencies=fs.realpathSync(path.join(process.cwd(),'node_modules'));
+ const server=await createServer({...config,configFile:false,root:process.cwd(),cacheDir:process.argv[1],server:{...config.server,fs:{...config.server?.fs,allow:[process.cwd(),dependencies]},host:'127.0.0.1',port:0,strictPort:false,open:false,hmr:false,watch:null}});
  let closing=false;const close=async()=>{if(closing)return;closing=true;await server.close();process.exit(0);};process.on('message',m=>{if(m==='close')close();});process.on('disconnect',close);
  await server.listen();process.send({port:server.httpServer.address().port,cwd:process.cwd(),hmr:server.config.server.hmr,watch:server.config.server.watch});`;
  const child=spawn(process.execPath,['--input-type=module','-e',script,path.resolve(out,'vite-cache')],{cwd:manifest.snapshot,windowsHide:true,stdio:['ignore','pipe','pipe','ipc']});
@@ -57,7 +61,7 @@ export async function startFrozenVerificationServer(manifest,out){
  if(path.resolve(info.cwd)!==manifest.snapshot||info.hmr!==false||info.watch!==null){await close();throw Error('Frozen server isolation configuration mismatch');}
  return {info,listen:async()=>{},httpServer:{address:()=>({port:info.port})},close};
 }
-export async function exportWithFrozenRuntime({root=process.cwd(),out,projectId,runDir,visibilityReviews,projectFile,regenerationReason,execute=runChecker,createServer}){
+export async function exportWithFrozenRuntime({root=process.cwd(),out,projectId,runDir,visibilityReviews,projectFile,regenerationReason,extraArgs=[],execute=runChecker,createServer}){
  if(!out||!projectId||!runDir)throw Error('Frozen export requires project ID, source run and output directory');
  const attempts=fs.existsSync(out)?fs.readdirSync(out).filter(n=>/^frozen-export-receipt-.*\.json$/.test(n)).map(n=>JSON.parse(fs.readFileSync(path.join(out,n),'utf8'))):[];
  if(attempts.filter(r=>r.status!==0).length>=2&&!regenerationReason?.trim())throw Error('Diagnose repeated export failure before a third attempt; provide --regenerate-reason with the cause and changed approach');
@@ -67,7 +71,7 @@ export async function exportWithFrozenRuntime({root=process.cwd(),out,projectId,
   try{
    server=createServer?await createServer({root:manifest.snapshot,configFile:path.join(manifest.snapshot,'vite.config.js'),cacheDir:path.join(out,'vite-cache'),server:{host:'127.0.0.1',port:0,strictPort:false,open:false,hmr:false,watch:null}}):await startFrozenVerificationServer(manifest,out);
    await server.listen();const address=server.httpServer.address();if(!address||typeof address==='string')throw Error('Verification server address unavailable');
-   const args=['scripts/booklet/check-compact-exercises.mjs','--projects',projectId,'--out',path.resolve(out),'--run-dir',path.resolve(runDir),'--base','http://127.0.0.1:'+address.port,'--fresh-edition-document',...(visibilityReviews?['--visibility-reviews',path.resolve(visibilityReviews)]:[]),...(projectFile?['--project-file',path.resolve(projectFile)]:[])];
+   const args=['scripts/booklet/check-compact-exercises.mjs','--projects',projectId,'--out',path.resolve(out),'--run-dir',path.resolve(runDir),'--base','http://127.0.0.1:'+address.port,'--fresh-edition-document',...(visibilityReviews?['--visibility-reviews',path.resolve(visibilityReviews)]:[]),...(projectFile?['--project-file',path.resolve(projectFile)]:[]),...extraArgs];
    status=await execute({root:manifest.root,args});
   }catch(e){status=null;error=e.message;}
   const changed=[...snapshotDifferences(manifest.root,manifest.files),...snapshotDifferences(manifest.snapshot,manifest.files),...inputs.filter(i=>!fs.existsSync(i.file)||hash(i.file)!==i.hash).map(i=>i.file)];

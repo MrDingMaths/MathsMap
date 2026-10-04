@@ -223,7 +223,9 @@ export async function runAuthorAssignment({runDir,assignment,tasks,root=path.joi
   const lock='assignment-'+assignment.id.slice(11).replace(/[0-9]/g,n=>String.fromCharCode(103+Number(n)));
   const packets=await withRunLock(runDir,lock,async()=>{
    fs.mkdirSync(dir,{recursive:true});
-   if(fs.existsSync(cacheFile)){const cache=read(cacheFile);if(cache.inputHash===payload.inputHash&&fs.existsSync(cache.result.path)&&bytes(cache.result.path)===cache.result.hash){log(JSON.stringify({assignment:assignment.id,cached:true}));return read(cache.result.path).packets;}}
+   // A diagnosed regeneration reason naming this assignment reruns only it;
+   // the earlier attempt directory stays as evidence and other caches are kept.
+   if(fs.existsSync(cacheFile)&&!regenerationReason?.includes(assignment.id)){const cache=read(cacheFile);if(cache.inputHash===payload.inputHash&&fs.existsSync(cache.result.path)&&bytes(cache.result.path)===cache.result.hash){log(JSON.stringify({assignment:assignment.id,cached:true}));return read(cache.result.path).packets;}}
    const out=path.join(dir,String(attempt));if(fs.existsSync(out))throw Error('Assignment attempt already exists; use a newer attempt or exact-field repair');
    if(fs.readdirSync(dir).some(n=>/^\d+$/.test(n))&&!regenerationReason)throw Error('Assignment retry needs a reason why targeted repair is insufficient');
    fs.mkdirSync(out);fs.writeFileSync(path.join(out,'prompt.md'),payload.prompt);fs.writeFileSync(path.join(out,'task-input.json'),JSON.stringify({inputHash:payload.inputHash,assignment}));

@@ -47,7 +47,7 @@ export async function runAstraTask({cwd,runDir=cwd,prompt,images=[],out,profile=
   if(configuration&&JSON.stringify(transcriptionConfiguration(requireCurrentTranscription(configuration)))!==JSON.stringify(recorded))throw Error('Worker configuration differs from recorded run; prepare a fresh run');
   configuration=recorded;
  }else configuration??=transcriptionConfiguration();
- requireCurrentTranscription(configuration);
+ requireCurrentTranscription(configuration);if(configuration.provider!==TRANSCRIPTION_DEFAULT.provider)throw Error('A benchmark arm cannot use the Codex runner; supply its explicit relay runner');
  const callId=randomUUID();
  return withWorkerSlot(runDir,{callId,stage,profile},lease=>invokeAstra({cwd,prompt,images,out,profile,configuration,stage,timeoutMs,onProgress,signal,callId,queueWaitMs:lease.queueWaitMs},spawnProcess),{signal});
 }

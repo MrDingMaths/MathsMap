@@ -5,7 +5,7 @@ import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parseResultFile } from '../agy/lib/agy-run.mjs';
-import { TRANSCRIPTION_DEFAULT, requireCurrentTranscription, transcriptionConfiguration } from './transcription-settings.mjs';
+import { TRANSCRIPTION_DEFAULT, BENCHMARK_ARMS, requireCurrentTranscription, transcriptionConfiguration } from './transcription-settings.mjs';
 import { normaliseQuestion, validateQuestion } from '../../src/lib/practice-question-model.js';
 import { normalizeTeachingModule, validateTeachingModule } from '../../src/lib/teaching-module-model.js';
 import { sourcePresentationFlags } from '../../src/lib/source-presentation.js';
@@ -157,8 +157,8 @@ export function loadRun(runIdOrDir, workRoot = WORK_ROOT) {
 export function assertPinnedInputs(runDir) {
   const manifest = readJson(manifestPath(runDir));
   // Historical runs remain verifiable; fresh execution still requires the current profile.
-  if (![BOOKLET_AGY_MODEL, 'gpt-6-sol', TRANSCRIPTION_DEFAULT.model].includes(manifest.model) || manifest.pins.model !== hashValue(manifest.model)) throw new Error('Pinned model changed');
-  if (manifest.model === TRANSCRIPTION_DEFAULT.model) requireCurrentTranscription(manifest);
+  if (![BOOKLET_AGY_MODEL, 'gpt-6-sol', TRANSCRIPTION_DEFAULT.model, ...(manifest.benchmarkArm ? [BENCHMARK_ARMS[manifest.benchmarkArm.id]?.model] : [])].includes(manifest.model) || manifest.pins.model !== hashValue(manifest.model)) throw new Error('Pinned model changed');
+  if (manifest.model === TRANSCRIPTION_DEFAULT.model || manifest.benchmarkArm) requireCurrentTranscription(manifest);
   if (manifest.pins.configuration && manifest.pins.configuration !== hashValue(transcriptionConfiguration(manifest))) throw new Error('Pinned reasoning configuration changed; prepare a fresh run');
   const mismatches = [];
   for (const [relative, expected] of Object.entries(manifest.pins.files ?? {})) {
@@ -173,8 +173,8 @@ export function assertPinnedInputs(runDir) {
   return manifest;
 }
 
-export function prepareRun({ pdf, docx = null, teacherPdf = null, teacherDocx = null, pages, contextPages = [], teacherPages = null, runId = null, workRoot = WORK_ROOT, continuations = [], concurrency = DEFAULT_CONCURRENCY, reasoningOverride }, { command = runCommand, checkTooling = assertTooling } = {}) {
-  const configuration = transcriptionConfiguration({reasoningOverride});
+export function prepareRun({ pdf, docx = null, teacherPdf = null, teacherDocx = null, pages, contextPages = [], teacherPages = null, runId = null, workRoot = WORK_ROOT, continuations = [], concurrency = DEFAULT_CONCURRENCY, reasoningOverride, benchmarkArm }, { command = runCommand, checkTooling = assertTooling } = {}) {
+  const configuration = transcriptionConfiguration({reasoningOverride, benchmarkArm});
   concurrency = Number(concurrency);
   if (!Number.isInteger(concurrency) || concurrency < 1) throw new Error('Concurrency must be a positive integer');
   const selection = (value, name) => {
@@ -254,7 +254,7 @@ export function prepareRun({ pdf, docx = null, teacherPdf = null, teacherDocx = 
     ...configuration, concurrency, selectedPages, contextPages, teacherPages, continuations,
     reviewProfile: LEAN_REVIEW_PROFILE, exactResultFormat: EXACT_RESULT_FORMAT, workflowPolicy: 'review-first-v1', pipelinePolicy: 'pdf-import-efficient-v1',
     evidenceAuthority: 'Original PDF pages and their rendered images are authoritative. Extracted text and optional Word material are supporting evidence; verify mathematical symbols and labels visually.', source,
-    pins: { model: hashValue(TRANSCRIPTION_DEFAULT.model), configuration: hashValue(configuration), files: pinFiles([...SCHEMA_FILES, PRESENTATION_CONTRACT, ...TAXONOMY_FILES]),
+    pins: { model: hashValue(configuration.model), configuration: hashValue(configuration), files: pinFiles([...SCHEMA_FILES, PRESENTATION_CONTRACT, ...TAXONOMY_FILES]),
       runFiles: Object.fromEntries(runFiles.map(relative => [relative.replaceAll(path.sep, '/'), hashFile(path.join(runDir, relative))])) }, lanes: {},
   };
   writeJson(manifestPath(runDir), manifest);
