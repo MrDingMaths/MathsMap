@@ -6,6 +6,7 @@ import {normalizeArrangement} from '../../public/libs/maths-editor/arrangement-m
 import {resolveArrangement} from './booklet-arrangement.js';
 import {underlinedQuestionScaffolds} from '../../public/libs/maths-editor/question-scaffolds.mjs';
 import {sourceInventories} from './booklet-source-content.js';
+import {isStandardAvatar} from './booklet-avatars.js';
 
 export const PRESENTATION_VERIFIER_VERSION='3';
 // Review every rendered occurrence; preserved originals are evidence, not output.
@@ -44,6 +45,8 @@ export async function inspectPresentationFidelity(project){
     if(project.settings?.exerciseOrganisation==='topic'&&standaloneDifficultyHeading(block)&&!block.presentation?.editorOnly)issue('printed-difficulty-heading',block.id,'Keep standalone source difficulty headings as editor metadata, not printable content.');
     for(const field of underlinedQuestionScaffolds(block))issue('underlined-question-scaffold',block.id,`Replace the underlined writing blank at ${field.location} with a native dotted cloze or dotted maths, preserving handwriting space and source evidence.`);
     for(const occurrence of activeRasterOccurrences(block)){
+      // Standard avatars are house assets, not retained source images.
+      if(isStandardAvatar(occurrence.node.src))continue;
       const exception=review?.rasterExceptions?.find(e=>e.path===occurrence.path);
       const authorised=exception?.kind==='authorised-exception'&&exception.authorization?.trim();
       if(occurrence.mathematicalExpression&&!authorised)issue('rasterised-editable-maths',block.id,`Transcribe the equation and its complete scaffold at ${occurrence.path} into native maths; keeping a source crop is not a fidelity exception.`);

@@ -168,7 +168,7 @@ export function assignmentPayload(assignment,tasks){
   const id='context-'+hash(text),file=path.resolve(t.packetRoot,'evidence',id+'.txt');
   return {id,page:t.page,name:s.name,path:file,hash:hash(text),text};
  }));
- const contracts=relevant[0].promptSections.filter(s=>['contract','three-pass-precedence','content-scope','early-review','execution','schema','solutions','first-pass-patterns','classification','working-space','native-grouping','practice-answer-evidence','shared-diagrams','palette'].includes(s.name)).map(s=>({...s,text:s.text.replace('Transcribe only the supplied source page','Transcribe only the assigned complete questions or activities from the supplied source pages')}));
+ const contracts=relevant[0].promptSections.filter(s=>['contract','three-pass-precedence','content-scope','early-review','execution','schema','solutions','first-pass-patterns','classification','working-space','native-grouping','practice-answer-evidence','shared-diagrams','house-authoring','palette'].includes(s.name)).map(s=>({...s,text:s.text.replace('Transcribe only the supplied source page','Transcribe only the assigned complete questions or activities from the supplied source pages')}));
  const categoryHeadings=relevant.flatMap(t=>assignmentCategoryHeadings(t.inventory,assignment.inventoryIds));
  const categoryGroups=new Set(categoryHeadings.map(h=>h.sourceGroupId));
  const context={assignment:{id:assignment.id,pages:assignment.pages,inventory:assignment.entries,...(assignment.continuations?{continuations:assignment.continuations}:{})},evidence:[...evidence.values()],

@@ -570,3 +570,17 @@ test('retained medium trial provenance changes generation identity and reaches i
   assert.ok(fs.existsSync(task.resultFile));
  }
 });
+
+test('house authoring preferences are opt-in, fingerprinted, and publish generated editable diagrams',async t=>{
+ const options={...fixture(t),pages:[4]},enabled={...options,config:{...options.config,authoringPreferences:'house-presets-v1'}};
+ const normalTask=createSemanticTasks(options)[0],houseTask=createSemanticTasks(enabled)[0];
+ assert.notEqual(normalTask.inputHash,houseTask.inputHash);assert.doesNotMatch(normalTask.prompt,/HOUSE AUTHORING PREFERENCES/);assert.match(houseTask.prompt,/PRESET ARRANGEMENTS/);
+ assert.deepEqual(createSemanticTasks({...options,stage:'inventory'})[0].prompt,createSemanticTasks({...enabled,stage:'inventory'})[0].prompt);
+ assert.throws(()=>createSemanticTasks({...options,config:{...options.config,authoringPreferences:'unknown'}}),/Unsupported/);
+ const raw=author(4);raw.sections[0].blocks[0].content.questionDiagrams=[{id:'q4-diagram',role:'question',spec:{sourcePage:4},diagramTemplate:{family:'number-line',min:0,max:5,step:1}}];
+ const report=await runSemanticPackets(enabled,{...quiet,runner:async()=>({result:raw,metrics:{usage:{output_tokens:20}}})});
+ assert.equal(report.ok,true);
+ const diagram=JSON.parse(fs.readFileSync(houseTask.resultFile)).sections[0].blocks[0].content.questionDiagrams[0];
+ assert.equal(diagram.diagramTemplate,undefined);assert.match(diagram.code,/\\begin\{tikzpicture\}/);assert.equal(diagram.spec.template.family,'number-line');
+ assert.deepEqual(JSON.parse(fs.readFileSync(path.join(houseTask.out,'generation.json'))),raw);
+});

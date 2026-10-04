@@ -5,6 +5,7 @@ import {loadRun,parsePageSelection} from './transcription.mjs';
 import {validateSemanticResult} from './semantic-workflow.mjs';
 import {answerMatchText,answerMatchingIssues,approvedAnswerConflict,derivedAnswerDiagramEntries} from './answer-evidence.mjs';
 import {contentProject} from '../../src/lib/booklet-source-content.js';
+import {assignBookletAvatars} from '../../src/lib/booklet-avatars.js';
 import {validateEditableProject} from '../../src/lib/editable-booklet-model.js';
 import {renderMath} from '../../src/lib/render-math.js';
 import {contentNodes} from '../../src/lib/booklet-content-verification.js';
@@ -105,6 +106,8 @@ for(const correction of confirmedCorrections){
 candidate.sourceCorrections=confirmedCorrections;
 if(workflow)candidate.sourceInventory.workflow={policy:REVIEW_POLICY,runId,...(manifest.pipelinePolicy?{pipelinePolicy:manifest.pipelinePolicy,...(manifest.reviewProfile?{reviewProfile:manifest.reviewProfile}:{})}:{}),correctionIds:workflow.corrections.map(c=>c.id)};
 let project=contentProject(candidate,{runId,projectId,selectedPages:manifest.selectedPages});
+// Standard avatars rotate in booklet order, so a character keeps one avatar throughout.
+project=assignBookletAvatars(project).project;
 // Inventory and author patches were already applied in order by the effective
 // packet readers. Replaying them here would reject a valid A -> B -> C chain.
 if(workflow){if(!args.includes('--defer-project-corrections'))project=materializeCorrections(project,workflowForPages(workflow,selected,['project']),'project');project.source.workflow=candidate.sourceInventory.workflow;if(manifest.reviewProfile)project.source.reviewProfile=manifest.reviewProfile;}

@@ -7,7 +7,7 @@ import {createSemanticTasks,runSemanticPackets,positive,validateSemanticResult} 
 import {planTaskAssignments,assignmentPayload} from './author-assignments.mjs';
 import {withRunLock} from './run-observability.mjs';
 import {recordAttempt} from './semantic-run-metrics.mjs';
-import {materializeAuthorDiagrams,SHARED_DIAGRAM_FORMAT} from './shared-diagram-authoring.mjs';
+import {authorMaterializer} from './house-authoring.mjs';
 import {bytesHash,fingerprint} from './workflow-review.mjs';
 import {pointerParts,exactField} from './editorial-context.mjs';
 
@@ -46,7 +46,7 @@ function sourceAttempt(options,request){
  const dir=path.join(task.packetRoot,`${task.stem}.author.${fromAttempt}`),input=path.join(dir,'task-input.json'),file=path.join(dir,'generation.json');
  if(read(input).inputHash!==task.inputHash)throw Error('Repair source inputs changed; review against current evidence before a new reconstruction');
  if(fs.existsSync(path.join(dir,'result.meta.json'))||fs.existsSync(task.resultFile))throw Error('Published content uses repair-context and the correction register; this command is for unpublished failed attempts');
- const packet=materializeAuthorDiagrams(read(file),{enabled:options.config.authoringFormat===SHARED_DIAGRAM_FORMAT});
+ const packet=authorMaterializer(options.config)(read(file));
  return {task,packet,source:[ref(input),ref(file)],page,fromAttempt};
 }
 function targetNode(packet,targetId,field){
