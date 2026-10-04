@@ -7,11 +7,8 @@ import {hasTablePartLabel} from '../../public/libs/maths-editor/table-part-label
 
 export const projectId='computation-with-integers-v1';
 export const runDir='.booklet-work/integers-feedback-20261002';
-export function walk(value,visit,path='') {
- if(!value||typeof value!=='object')return;
- if(!Array.isArray(value))visit(value,path);
- for(const [key,child]of Object.entries(value))if(typeof child==='object')walk(child,visit,path+'/'+key);
-}
+import {walk} from './feedback-closeout.mjs';
+export {walk};
 export function repairIntegersFeedback(source) {
  const next=structuredClone(source),blocks=next.sections.flatMap(s=>s.blocks),find=id=>{
   const block=blocks.find(b=>b.id===id);if(!block)throw Error('Missing '+id);return block;
