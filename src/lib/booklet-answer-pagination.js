@@ -1,5 +1,5 @@
 import {flowEditionSections} from './booklet-flow.js';
-import {answerFragments,exerciseLabelWidth,workedAnswerDiagramFragments} from './booklet-exercises.js';
+import {answerFragments,exerciseLabelWidth,workedAnswerDiagramFragments,orderedAnswerUnits} from './booklet-exercises.js';
 import {paginationReuse,samePageCarry} from './booklet-pagination-cache.js';
 import {paginateShortAnswerGrid} from './booklet-short-answer-grid.js';
 
@@ -9,7 +9,7 @@ export async function paginateCompactAnswers(project,edition,measure,{cancelled=
   const sections=flowEditionSections(project,mode),pages=[],issues=[];
   const widths=new Map(sections.map(s=>[s.topicId,exerciseLabelWidth(sections.filter(t=>t.topicId===s.topicId).flatMap(t=>t.blocks))]));
   const reuse=paginationReuse(project,edition,previous,context,{compactAnswers:true});
-  const units=sections.flatMap(section=>section.blocks.map(block=>({blocks:[block],section})));
+  const units=orderedAnswerUnits(sections,mode);
   const cached=reuse.get('answers',{id:'answers',metadata:sections.map(s=>({...s,blocks:undefined,labelWidthMm:widths.get(s.topicId)}))},units,false);
   if(cached.unchanged){Object.assign(cached.entry,cached.prior);return reuse.finish({pages:cached.prior.pages.map(p=>({...p})),issues:cached.prior.issues,edition});}
   let columns=Array.from({length:count},()=>[]),column=0;
@@ -25,7 +25,7 @@ export async function paginateCompactAnswers(project,edition,measure,{cancelled=
     const prior=cached.prior?.checkpoints[i];
     if(i>begin&&prior&&cached.suffix(i)&&column===prior.column&&columns.every((c,j)=>samePageCarry(c,prior.columns[j]))){pages.push(...cached.prior.pages.slice(prior.pageCount).map(p=>({...p})));issues.push(...cached.prior.issues.slice(prior.issueCount));cached.entry.checkpoints.push(...cached.prior.checkpoints.slice(i));columns=Array.from({length:count},()=>[]);break;}
     cached.entry.checkpoints.push(checkpoint);
-      const fragments=answerFragments(block,mode);
+      const fragments=units[i].fragments??answerFragments(block,mode);
       for(let f=0;f<fragments.length;f++){
         const fragment=fragments[f];
         check();

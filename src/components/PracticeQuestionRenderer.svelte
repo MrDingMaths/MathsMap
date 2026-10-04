@@ -181,6 +181,16 @@
   {/if}
 {/snippet}
 
+{#snippet solutionFigures(node)}
+  {#if node.sharedSolutionDiagramLayout === 'row' && node.answer?.solutionDiagrams?.length}
+    <div class="paired-solution-figures">
+      {#each node.answer.solutionDiagrams as diagram}{@render diagramView(diagram, false)}{/each}
+    </div>
+  {:else}
+    {#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}
+  {/if}
+{/snippet}
+
 {#snippet renderAnswerNode(node, path = [], index = 0, contexts = [], parent = null)}
   {@const nextPath = answerNodePath(question.content,node,path,index)}
   {@const context = answerNodeContext(question.content,node,index,parent)}
@@ -195,8 +205,8 @@
     <article class="answer-item" data-node-id={node.id} style={compactAnswerSettings?'':questionLayoutStyle(node,blockLayouts)}><div class="answer-label" style={compactAnswerSettings?`flex:0 0 ${answerLabelWidthMm}mm;width:${answerLabelWidthMm}mm`:''}>{#if answerLink}<a href={answerLink}>{leafLabel(nextPath)}</a>{:else}{leafLabel(nextPath)}{/if}</div><div class="answer-content">
       {#if nextContexts.length}<div class="answer-context"><EditableBookletText value={nextContexts.join(' · ')} rootId={node.id} pointer="/prompt" editMode={false} /></div>{/if}
       {#if showShortAnswers}{#if node.answer?.short}<EditableBookletText value={shortAnswerDisplay(shortValue(node.answer.short))} displayValue={compactAnswerSettings?compactAnswerDisplay(shortAnswerDisplay(shortValue(node.answer.short))):null} rootId={node.id} pointer="/answer/short" {editMode} edited={isEdited(node.id, '/answer/short')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{:else if !node.answer?.solutionDiagrams?.length&&!parent?.sharedSolutionDiagrams?.length}<span class="muted">No short answer supplied.</span>{/if}{/if}
-      {#if showShortAnswers}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}{/if}
-      {#if showWorkedSolutions}<div class="worked-content">{#if node.answer?.worked}<EditableBookletText value={compactAnswerSettings||editMode ? node.answer.worked : setoutMathChain(node.answer.worked, { stackFirstTerm: true })} displayValue={compactAnswerSettings?setoutMathChain(node.answer.worked,{stackFirstTerm:false}):null} rootId={node.id} pointer="/answer/worked" {editMode} edited={isEdited(node.id, '/answer/worked')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{/if}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}</div>{/if}
+      {#if showShortAnswers}{@render solutionFigures(node)}{/if}
+      {#if showWorkedSolutions}<div class="worked-content">{#if node.answer?.worked}<EditableBookletText value={compactAnswerSettings||editMode ? node.answer.worked : setoutMathChain(node.answer.worked, { stackFirstTerm: true })} displayValue={compactAnswerSettings?setoutMathChain(node.answer.worked,{stackFirstTerm:false}):null} rootId={node.id} pointer="/answer/worked" {editMode} edited={isEdited(node.id, '/answer/worked')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{/if}{@render solutionFigures(node)}</div>{/if}
     </div></article>
     {#if groupAnswer}{@render sharedSolutionFigures(node)}{/if}
   {/if}

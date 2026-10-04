@@ -226,6 +226,41 @@ export function answerFragments(block, mode = null) {
   });
 }
 
+// Explicit student continuations cut physical rows across source columns.
+// Answer editions read each source column completely, retaining the owning
+// block and original leaf IDs for editing and navigation.
+export function orderedAnswerUnits(sections,mode) {
+  const units=sections.flatMap(section=>section.blocks.map(block=>({blocks:[block],section})));
+  const result=[];
+  for(let i=0;i<units.length;i++){
+    const first=units[i],base=first.blocks[0],chain=[first];let end=i+1;
+    while(end<units.length){const next=units[end],b=next.blocks[0],parent=b.flow?.continuationOf??b.continuationOf;
+      if(next.section.topicId!==first.section.topicId||!chain.some(u=>u.blocks[0].id===parent))break;
+      chain.push(next);end++;
+    }
+    const columns=base.content?.children;
+    const rectangular=chain.length>1&&base.content?.layout==='grid'&&columns?.length>1&&chain.every(({blocks:[b]})=>b.content?.layout==='grid'&&b.content.children?.length===columns.length&&!b.content.answer?.[mode]&&!b.content.sharedSolutionDiagrams?.length&&b.content.children.every(n=>n.children?.length&&!n.answer?.[mode]&&!n.sharedSolutionDiagrams?.length&&!n.dependsOn?.length));
+    if(!rectangular){result.push(first);continue;}
+    const grouped=chain.map(unit=>({unit,fragments:answerFragments(unit.blocks[0],mode)}));
+    for(let column=0;column<columns.length;column++){
+      let offset=0;
+      for(const {unit,fragments}of grouped){
+        const sourceColumn=unit.blocks[0].content.children[column],id=sourceColumn.id;
+        const indices=new Map(sourceColumn.children.map((child,index)=>[child.id,index]));
+        for(const fragment of fragments.filter(f=>f.content.children?.[0]?.id===id)){
+          for(const child of fragment.content.children[0].children??[]){
+            if(child.label!=null&&!String(child.label).trim())child._answerDisplay.label=String(offset+indices.get(child.id)+1);
+          }
+          result.push({...unit,fragments:[fragment]});
+        }
+        offset+=sourceColumn.children.length;
+      }
+    }
+    i=end-1;
+  }
+  return result;
+}
+
 // Last-resort presentation split for a measured oversized worked leaf. Keep the
 // whole editable field and the whole ordered figure group; never slice either.
 // Shared/dependent groups and consolidated parent answers remain atomic.

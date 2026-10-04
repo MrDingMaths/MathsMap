@@ -1,5 +1,5 @@
 import {contentSource,isDocument} from './document-content.js';
-import {answerFragments,exerciseLabelWidth} from './booklet-exercises.js';
+import {answerFragments,exerciseLabelWidth,orderedAnswerUnits} from './booklet-exercises.js';
 import {flowEditionSections} from './booklet-flow.js';
 import {paginationReuse} from './booklet-pagination-cache.js';
 
@@ -85,7 +85,7 @@ export async function paginateShortAnswerGrid(project,edition,measure,{cancelled
     return reuse.finish({pages:input.prior.pages.map(p=>({...p})),issues:input.prior.issues,edition});
   }
   const check=()=>{if(cancelled())throw Object.assign(Error('Pagination superseded'),{cancelled:true});};
-  const entries=sections.flatMap(section=>section.blocks.flatMap(block=>fragmentsFor(block).map(fragment=>({block:fragment,section,labelWidthMm:labelWidths.get(section.topicId)}))));
+  const entries=orderedAnswerUnits(sections,'short').flatMap(({section,blocks:[block],fragments:ordered})=>(ordered??fragmentsFor(block)).map(fragment=>({block:fragment,section,labelWidthMm:labelWidths.get(section.topicId)})));
   const widths=entries.map(()=>null);
   let columnWidthMm=(180-project.settings.compactAnswers.gutterMm)/2;
   const candidates=entries.map((entry,index)=>({entry,index})).filter(({entry})=>canShareShortAnswer(entry.block));
