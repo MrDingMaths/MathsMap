@@ -23,10 +23,33 @@ export const DIAGRAM_RENDER_INPUTS=[
   'src/lib/diagram-label-geometry.js',
 ];
 async function filesUnder(root){return (await Promise.all((await fs.readdir(root,{withFileTypes:true})).map(e=>e.isDirectory()?filesUnder(path.join(root,e.name)):path.join(root,e.name)))).flat().sort();}
+// Compiled SVGs can only depend on modules the diagram path can execute. Follow
+// its static relative imports; anything unresolved or dynamic widens to every
+// shared library, the previous conservative scope. The TikZ engine is loaded by
+// URL rather than imported, so its whole directory always participates.
+export async function diagramInputFiles(root=process.cwd()){
+  const files=new Set(),pending=DIAGRAM_RENDER_INPUTS.map(file=>path.join(root,file));let wide=false;
+  while(pending.length){
+    const file=pending.pop();if(files.has(file))continue;files.add(file);
+    if(!/\.(?:[cm]?js)$/.test(file))continue;
+    let source;try{source=await fs.readFile(file,'utf8');}catch{continue;}
+    if(/import\.meta\.glob|\bimport\s*\(\s*[^'"\s)]/.test(source))wide=true;
+    for(const match of source.matchAll(/(?:\b(?:import|export)\s+(?:[^;'"]*?\s+from\s*)?|\bimport\s*\(\s*)['"]([^'"]+)['"]/g)){
+      if(!match[1].startsWith('.'))continue;
+      const target=path.resolve(path.dirname(file),match[1].split('?')[0]);
+      try{if((await fs.stat(target)).isFile())pending.push(target);else wide=true;}catch{wide=true;}
+    }
+  }
+  const libraries=path.join(root,'public/libs');
+  for(const file of await filesUnder(wide?libraries:path.join(libraries,'tikzjax')).catch(()=>[]))files.add(file);
+  files.add(path.join(root,'package-lock.json'));
+  return [...files].sort();
+}
+export async function diagramInputRows(root=process.cwd(),readHash=fileHash){
+  return hashRows(await diagramInputFiles(root),root,readHash);
+}
 export async function diagramFingerprint(root=process.cwd(),readHash=fileHash){
-  const files=[...DIAGRAM_RENDER_INPUTS.map(file=>path.join(root,file)),...await filesUnder(path.join(root,'public/libs')),path.join(root,'package-lock.json')].sort(),rows=[];
-  rows.push(...await hashRows(files,root,readHash));
-  return hash(JSON.stringify(['booklet-diagram-cache-v1',rows]));
+  return hash(JSON.stringify(['booklet-diagram-cache-v2',await diagramInputRows(root,readHash)]));
 }
 export async function rendererFingerprint(root=process.cwd(),readHash=fileHash){
   const files=[...await filesUnder(path.join(root,'src')),...await filesUnder(path.join(root,'data')).catch(()=>[]),...await filesUnder(path.join(root,'public/libs')),...await filesUnder(path.join(root,'node_modules/katex/dist/fonts')).catch(()=>[]),path.join(root,'index.html'),path.join(root,'package-lock.json')],rows=[];
@@ -87,5 +110,8 @@ export async function publishBrowserDiagrams(page){
   const data=await page.evaluate(()=>window.TikZ?.cacheEntries?.()??null);
   if(!data?.version)return {published:0};
   if(data.version!==await diagramFingerprint())throw Error('Diagram renderer changed during cache warming; rerun with settled inputs');
-  return {version:data.version,published:await publishRenderEntries(data.version,data.entries)};
+  const published=await publishRenderEntries(data.version,data.entries);
+  // Record what this version was built from so a later invalidation can be attributed.
+  if(published)await fs.writeFile(path.join(RENDER_CACHE_ROOT,data.version,'_inputs.manifest'),JSON.stringify(await diagramInputRows())).catch(()=>{});
+  return {version:data.version,published};
 }

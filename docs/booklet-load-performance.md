@@ -245,3 +245,83 @@ repository storage checks passed. Native standalone-library edits trigger a full
 reload so browser module caching cannot retain the old runtime under a new cache
 version. Detailed phase coverage, retry reasons and unavailable timing/token
 metrics are recorded in `receipt.json`.
+
+## Load-time investigation (4 October 2026)
+
+Report only: no performance code was changed. The library has grown from the
+4–6 projects of the September baselines to 54 project files (257 MB on disk;
+largest 28 MB, nine more at 7–10 MB). Samples below are single local readings on
+`npm run dev` with a fresh browser profile, taken while other work was running
+on the same machine. They show where the time goes; they are not medians.
+
+| Step | Reading |
+|---|---|
+| `GET /__booklet/projects?summary=1` (the Studio project list) | 29.3 s for a 16.9 KB response |
+| Inverse Functions, first open (no browser cache, diagram cache cold) | 42.2 s pagination: 39.8 s waiting for diagrams, 1.4 s rendering, 0.03 s layout; 325 measurements, 11 cache hits |
+| Same content reopened under a new project id (diagrams cached, measurements cold) | 5.4 s pagination: 2.3 s diagrams, 1.9 s rendering; 336 measurements, 0 hits |
+
+Findings, most costly first:
+
+1. **The project list parses every project.** `readRecords`
+   (`scripts/booklet/project-studio-server.mjs`) reads and `JSON.parse`s all 54
+   files to return eleven small fields each; `summary=1` only trims the response.
+   It runs on the Vite thread, so the `/open` request and module requests queue
+   behind it, and it reruns after create, duplicate, archive and delete. This is
+   the wait that has grown with the number of booklets.
+2. **Cold diagrams dominate a cold open.** With compiled diagrams unavailable,
+   95% of pagination was waiting for TikZ. Any change to the diagram input files
+   or `public/libs` issues a new diagram version, after which every booklet
+   recompiles in the browser until `warm-render-cache.mjs` is rerun.
+3. **Measurements are discarded by any edit under `src/`, `data/` or
+   `public/libs`**, and by a change of device pixel ratio (browser zoom, another monitor) or
+   browser, because all are in the measurement key. During active development
+   most opens re-measure the whole edition (about 5 s here; 400–1,300
+   measurements for larger books).
+4. **`/__booklet/render-cache/version` re-hashes those trees on every pagination
+   run**, including after each edit. Its 5 s client timeout clears both caches
+   for that run, which is likely while finding 1 holds the server thread.
+5. **Layout itself is small.** Forced layout was 33–48 ms and keying 130–160 ms
+   in these samples, so rewriting the measurement loop would save less than the
+   code suggests; rendering each candidate page (1.4–1.9 s) is the larger part.
+6. **Project payloads carry review evidence the editor does not render**
+   (`sourceReview`, `workingSpaceEstimate`, `source`: over half of the largest
+   file). It is parsed on the server, sent, cloned for the save baseline and
+   included in measurement keys.
+7. **The built site** is one 1.48 MB script (408 KB gzipped) with every view,
+   Cytoscape, KaTeX and about 490 KB of taxonomy data loaded up front. It does not
+   grow with question count; per-skill content is already fetched on demand.
+
+Options, in suggested order. The first three cannot change rendering.
+
+| Option | Addresses | Rendering risk |
+|---|---|---|
+| Keep a project summary index keyed by file size and modified time (in memory, or a sidecar written on save) | 1 | None |
+| Memoise the renderer and diagram fingerprints on the server and invalidate them from the existing file watcher | 4 | None |
+| Rewarm the diagram cache automatically when the diagram version changes | 2 | None |
+| Read a project's cached measurements in one IndexedDB transaction | first-open storage reads | None |
+| Narrow the measurement fingerprint to the page renderer's dependency closure and drop device pixel ratio | 3 | Needs stale-input and pagination-parity checks |
+| Serve the editor a project without review evidence, loading it on demand | 6 | Needs save/merge parity checks |
+| Show pages as they are paginated instead of after the whole edition | perceived wait | Changes the complete-document loading behaviour |
+| Split the production bundle by route | 7 | None for booklets |
+
+### Correction: dev-server file watching (4 October 2026)
+
+Findings 1 and 4 above misattribute the wait. On a settled dev server the
+summary project list takes 1.0–1.2 s and `/__booklet/render-cache/version`
+0.04 s (0.21 s lean); three readings each. The 29.3 s list reading was queued
+behind Vite's file watcher, which registered about 93,000 files individually
+after each server start (`booklets/` 48,782, `.agywork/` 30,253, `.claude/`
+7,685, `dist/` 2,870) and blocked all requests meanwhile. A server CPU profile
+of the first 100 s showed 65 s in the watcher's per-file `fs.watch` call.
+
+`vite.config.js` now also ignores `booklets/`, `.agywork/`, `.claude/` and
+`dist/`. Nothing the app imports lives there and no plugin watches them, so
+reload behaviour is unchanged. Single local readings on a fresh server: first
+Studio load finished in about 70 s before and 1.6 s after; watcher time in the
+profile fell from 65 s to 0.6 s. The server restarts whenever the Vite config
+or an imported `scripts/` plugin file changes, so this was paid repeatedly.
+
+The summary index and fingerprint memoisation options are not needed at the
+current library size. Finding 2 (cold diagrams) stands: `.booklet-work/render-cache/`
+holds 56 diagram versions since 12 September, so automatic rewarming is deferred
+until the `_inputs.manifest` records show what changes the diagram version.

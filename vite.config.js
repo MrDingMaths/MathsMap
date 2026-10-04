@@ -20,5 +20,8 @@ export default defineConfig({
   // Only the application entry participates in dependency discovery.
   optimizeDeps: { entries: ['index.html'] },
   plugins: [publicLibraryModulesPlugin(), svelte(), tikzjaxRawGzPlugin(), contentWritePlugin(), renderCachePlugin(), practiceStudioPlugin(), fullBookletImportPlugin(), projectStudioPlugin()],
-  server: { open: true, watch: { ignored: ['**/.booklet-work/**', '**/output/**', '**/public/content/**', '**/public/quizzes/**', '**/public/content-manifest.json'] } },
+  // The watcher registers every file individually and blocks requests while it
+  // does. Nothing the app imports lives in these folders; Studio reads booklets
+  // through its own API.
+  server: { open: true, watch: { ignored: ['**/.booklet-work/**', '**/booklets/**', '**/.agywork/**', '**/.claude/**', '**/dist/**','**/output/**', '**/public/content/**', '**/public/quizzes/**', '**/public/content-manifest.json'] } },
 });

@@ -94,3 +94,24 @@ test('the diagram fingerprint covers every relative runtime import and re-export
   }
  }
 });
+
+test('diagram versions ignore shared libraries outside the diagram import closure',()=>temporary(async root=>{
+ for(const file of [...DIAGRAM_RENDER_INPUTS,'public/libs/tikzjax/font.woff','public/libs/maths-editor/document-editor.js','public/libs/maths-editor/house-style.mjs','public/libs/maths-editor/booklet-palette.mjs','public/libs/fonts/page.woff2','package-lock.json']){
+  await fs.mkdir(path.dirname(path.join(root,file)),{recursive:true});await fs.writeFile(path.join(root,file),'one');
+ }
+ await fs.writeFile(path.join(root,'public/libs/maths-editor/booklet-palette.mjs'),"import {style} from './house-style.mjs';");
+ await fs.writeFile(path.join(root,'src/lib/tikz-prepare.js'),"import {palette} from '../../public/libs/maths-editor/booklet-palette.mjs';");
+ const before=await diagramFingerprint(root);
+ for(const file of ['public/libs/maths-editor/document-editor.js','public/libs/fonts/page.woff2']){await fs.writeFile(path.join(root,file),'two');assert.equal(await diagramFingerprint(root),before,file+' cannot affect compiled diagrams');}
+ // Imported modules invalidate, including modules reached only transitively.
+ for(const file of ['public/libs/maths-editor/booklet-palette.mjs','public/libs/maths-editor/house-style.mjs']){
+  const prior=await diagramFingerprint(root);await fs.appendFile(path.join(root,file),'\n// changed');
+  assert.notEqual(await diagramFingerprint(root),prior,file+' must invalidate compiled diagrams');
+ }
+ // An import the walker cannot resolve, or a computed import, restores the whole-library scope.
+ for(const source of ["import {x} from './missing.js';","const load=name=>import(name);"]){
+  await fs.writeFile(path.join(root,'src/lib/svg-paint-scope.js'),source);
+  const wide=await diagramFingerprint(root);await fs.appendFile(path.join(root,'public/libs/maths-editor/document-editor.js'),'x');
+  assert.notEqual(await diagramFingerprint(root),wide,'unknown imports widen to every shared library');
+ }
+}));
