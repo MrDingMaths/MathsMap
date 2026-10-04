@@ -1,5 +1,31 @@
 # MathsMap working conventions
 
+## Waiting and polling (4 October 2026)
+
+For healthy, non-interactive builds, tests, exports, scripts and delegated work, use a 60-second wait (`60000` ms) by default when the active tool supports it. Prefer completion notifications or event-based waits that return early on completion, failure or required attention. Where a tool has a lower limit, use its maximum supported wait. Avoid additional status-listing or log checks merely to confirm healthy work is still running. Check sooner only when incremental output requires intervention, a relevant deadline approaches, or observed behaviour suggests a stall. Keep required progress updates and existing runtime guards; this changes model-driven waiting, not script-internal timers or quality gates.
+
+## Preset arrangements, templated diagrams and avatars (4 October 2026)
+
+For future imports and authorised feedback repairs, source appearance is evidence, not a layout target. Reproduce content, order, mathematical structure and meaningful relationships; apply house style to everything else. See [the cross-session convention](docs/booklet-cross-session-rules.md#preset-arrangements-templated-diagrams-and-avatars-4-october-2026).
+
+Lay out teaching and practice content with the shared arrangement presets. Use a custom arrangement only where position carries mathematical or instructional meaning, such as paired figures, matching activities, card placement or a diagram that working must sit beside, and record that meaning. Source placement alone is not a reason. Presets keep the per-part handwriting estimate and all instructional content. This supersedes source-relative placement as the default, including the Volume prevention wording; explicit local exceptions remain.
+
+Where a source diagram belongs to a supported family (number line, fraction bar or grid, fraction circle, blank grid), author it from the shared parameter model. Reproduce its mathematical content exactly: range, ticks, marked values, shaded parts, labels and givens. Proportions and size follow the template. Use free-form TikZ for other diagrams and where a template would lose a mathematical feature.
+
+Omit mascots and illustrations that carry no instructional or mathematical content, keeping everything they say as editable text and recording the omission against the source inventory. Explain-the-mistake and speech-bubble characters use the standard avatar set, assigned in order of first appearance within each booklet, with the existing 17 mm portrait and 5 mm gap; do not crop or reproduce source portraits. Keep the character's name and any image a question depends on.
+
+Do not migrate accepted projects automatically. These preferences add no review stage and change no quality gate, spacing rule, cloze or table convention. Their effect on import time is unmeasured until a comparable accepted import is recorded.
+
+## Cloze styles and source tables (4 October 2026)
+
+For future imports and authorised feedback repairs, ordinary completion blanks use editable native dotted clozes, sized consistently with the shared handwriting rule for their expected responses. Prefer dots even when the source uses outlined boxes. Keep boxes only where they serve a specific mathematical or response purpose, such as card placement, a dedicated writing region, or meaningful table cells; source decoration alone is insufficient. Explicit user instructions to retain a local box remain exceptions. Preserve source evidence and record intentional departures. Do not automatically migrate accepted projects on load.
+
+Keep source tables as native editable tables, preserving row/column relationships, givens, reading order and meaningful borders; do not replace their cells with separate cards. Bordered table cells already provide the writing space and normally have no cloze dots or duplicate response boxes inside them. Preserve actual card activities as cards. The Integers magic-square conversion is an explicit user-requested departure from its separate source boxes. See [the cross-session convention](docs/booklet-cross-session-rules.md#cloze-styles-and-source-tables-4-october-2026).
+
+## Source alignment on import and Studio layout controls (4 October 2026)
+
+The initial import reproduces the source's [equation and working alignment](docs/booklet-transcription-feedback-checklist.md#equation-and-working-alignment-4-october-2026): position on the page, alignment between lines of working, and worked-example question against working. Inside tables the cell's `align` governs every line unless `preserveParagraphAlignment` is set; `scripts/booklet/check-dormant-alignment.mjs` reports lines whose stored alignment is overridden and should report none for a new import. Do not auto-repair existing booklets. Studio layout controls must only write fields the renderer already supports, or optional fields whose absence renders exactly as before, so adding a control never requires re-auditing existing booklets.
+
 ## Skill-content campaign efficiency (2 October 2026)
 
 For `worked-examples-2026-09`, follow [the approved efficient campaign workflow](docs/content-campaign-efficient-workflow.md). This supersedes conflicting campaign orchestration requirements only: batch related ready skills, share unchanged teaching evidence, automate bookkeeping, preserve accepted reviews and verify repairs within their affected scope. Keep complete independent mathematical/source review, booklet voice and stage boundaries, at most three workers, serialized revision-safe publication and historical receipts. The user's GPT-6.1 Sol Medium instruction remains in force for this campaign. Do not bypass existing runtime guards; implement and verify equivalent scoped mechanisms before replacing them. Other booklet/import workflows are unchanged.

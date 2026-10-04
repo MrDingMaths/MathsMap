@@ -6,6 +6,101 @@ This register consolidates earlier recorded user feedback for every future bookl
 
 ## Precedence and scope
 
+### Preset arrangements, templated diagrams and avatars (4 October 2026)
+
+Source appearance is evidence, not a layout target. Reproduce content, order,
+mathematical structure and meaningful relationships; apply house style to
+everything else. These defaults apply to future imports and authorised feedback
+repairs. Accepted projects are not migrated on load.
+
+**Preset arrangements.** Teaching and practice content uses the shared
+arrangement presets. A custom arrangement is used only where position carries
+mathematical or instructional meaning (paired figures, matching activities, card
+placement, a diagram that working must sit beside), and that meaning is recorded.
+Source placement alone is not a reason. Presets keep the per-part handwriting
+estimate and all instructional content. This supersedes source-relative
+placement as the default, including the Volume prevention wording and the
+"before/after/beside diagram order" row below; explicit local exceptions remain.
+The supporting comparison found that accepted Operations pages rebuilt regular
+source grids as independent column stacks, leaving rows misaligned between
+columns.
+
+**Paired Worked Example | Your Turn.** Use one question block: a borderless
+one-row heading table ("Worked Example", "Your Turn") in the root prompt, then a
+two-column part grid alternating worked part and your-turn part. Nothing in this
+layout prints a border, box or arrangement rule. Parts carry no letters unless
+the source prints them. A given equation and the working that follows from it
+share one aligned block, with the given as the first row in ordinary ink, so
+their relation signs line up as in the source. Lines that do not follow from the
+previous line are independent and stay as separate lines; Earning Money's
+sliding-scale commission example (labelled 5%, 7% and total-pay calculations) is
+the reference for that case and is correct as it stands. Never build paired rows
+from one-cell bordered tables, a block per row or a separate heading block.
+Inverse Functions p7, Earning Money pp26–27 and p50, and Rates p36 were repaired
+on 4 October 2026.
+
+**Templated diagrams.** A source diagram in a supported family (number line,
+fraction bar or grid, fraction circle, blank grid) is authored from the shared
+parameter model. Its mathematical content is reproduced exactly: range, ticks,
+marked values, shaded parts, labels and givens. Proportions and size follow the
+template. Other diagrams, and any case where a template would lose a
+mathematical feature, use free-form TikZ. Typography, stroke, palette and
+shading contracts are unchanged.
+
+**Decorative images and avatars.** Omit mascots and illustrations with no
+instructional or mathematical content, keeping everything they say as editable
+text and recording the omission against the source inventory. Explain-the-mistake
+and speech-bubble characters use the standard avatar set (source file
+`D:\OneDrive\Admin\Templates\Avatars.pptx`, 14 avatars), assigned in order of
+first appearance within each booklet so a character keeps one avatar throughout.
+Keep the 17 mm portrait width and 5 mm gap. This supersedes cropping source
+portraits for new work. Keep the character's name and any image a question
+depends on.
+
+Implementation: new run configurations set
+`authoringPreferences: "house-presets-v1"`; see
+[three-pass imports](booklet-three-pass-import.md). The presets are the existing
+default semantic layout (`layout:"grid"` with `columns`, and `diagramPlacement`),
+whose row grid keeps parts in a row aligned. Template generators are in
+`src/lib/diagram-templates.js`, avatar assignment in `src/lib/booklet-avatars.js`
+and the 14 shared images in `public/booklet-assets/shared/avatars/`. Standard
+avatars are house assets and need no raster-exception review; retained source
+images still do. The templates have been compiled with the TikZ engine but not
+yet inspected at final size inside a booklet: include each family used in the
+early layout sample of the first import that adopts them.
+
+No review stage, quality gate, spacing rule, cloze or table convention changes.
+The effect on import time is unmeasured; compare authoring minutes per block,
+feedback and visual findings per 100 blocks, export runs and failures, and the
+share of templated diagrams and preset arrangements on the next comparable
+accepted import. Native SVG rendering was considered and not pursued: TikZ
+compilation was 18 of 137 export minutes across the six FDP booklets.
+
+### Cloze styles and source tables (4 October 2026)
+
+Ordinary completion blanks use **editable native dotted clozes**, including when
+the source uses outlined boxes. Use the shared handwriting-sizing rule for each
+expected response; consistency does not require equal widths for different
+responses. Preserve operand positions, signs, response metadata and sufficient
+writing capacity, including blanks in fractions and exponents. Keep boxes only
+for a specific mathematical or response purpose, such as card placement,
+dedicated writing regions or meaningful table cells. Source decoration alone
+does not justify a box. Honour an explicit local user instruction to retain one.
+
+Keep source tables as **native editable tables**, preserving their rows, columns,
+givens, reading order and meaningful borders. Do not reconstruct table cells as
+separate cards. Bordered response cells provide their own writing region and
+normally contain no dotted leaders or duplicate response boxes. Preserve actual
+card activities as cards. The Integers magic squares are an explicit user-requested
+table conversion from separate source boxes, not evidence that all source cards
+should become tables.
+
+These defaults apply to future imports and authorised feedback repairs. Preserve
+original source evidence and record intentional departures; do not migrate
+accepted projects automatically on load. Apply the existing scoped verification
+rules without adding a review stage. This supersedes older blanket instructions
+to preserve outlined missing-value boxes.
+
 ### Graph sizing and user-directed compact layouts (2 October 2026)
 
 Size graphs for the information or student drawing they must carry, rather than
