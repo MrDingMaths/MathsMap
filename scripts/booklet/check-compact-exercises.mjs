@@ -74,6 +74,15 @@ export function assertAnswerNodeCoverage(actualIds,expectedIds){
  assert.deepEqual([...actualIds].sort(),[...expectedIds].sort(),'Every expected answer node appears exactly once, including edition-specific group answers');
 }
 export const expectedTeachingGroupIds=project=>[...new Set(project.sections.flatMap(s=>s.blocks).filter(b=>b.sourceAtom&&!b.presentation?.editorOnly).map(b=>b.sourceAtom.id))].sort();
+export function expectedTeachingHeaderCounts(project){
+ const counts=new Map();
+ for(const b of project.sections.flatMap(s=>s.blocks).filter(b=>b.sourceAtom&&!b.presentation?.editorOnly)){
+  const count=b.sourceAtom.kind==='instruction'?0:1,old=counts.get(b.sourceAtom.id);
+  assert.ok(old===undefined||old===count,'A source teaching group has consistent header requirements');
+  counts.set(b.sourceAtom.id,count);
+ }
+ return counts;
+}
 export function assertAnswerRenderCoverage(labels,diagramIds,project,mode){
  const primary=labels.filter(label=>!label.continuation);
  assertAnswerNodeCoverage(primary.map(label=>label.id),expectedAnswerNodeIds(project,mode));
@@ -330,7 +339,8 @@ try{
     if(!['short','worked'].includes(edition)){
      const expected=expectedTeachingGroupIds(record);
      assert.deepEqual([...new Set(info.teachingGroups.map(g=>g.id))].sort(),expected,'Every teaching group uses its header template');
-     assert.ok(info.teachingGroups.every(g=>g.headers===1),'Exactly one header per teaching box');
+     const headerCounts=expectedTeachingHeaderCounts(record);
+     assert.ok(info.teachingGroups.every(g=>g.headers===headerCounts.get(g.id)),'Exactly one header per teaching box; plain instructions remain unbanded');
     }else assert.deepEqual(info.teachingGroups,[],'Answer-only editions contain practice, not teaching');
    }
    assert.deepEqual(info.columnOverflow,[],'Answer content fits its column');
