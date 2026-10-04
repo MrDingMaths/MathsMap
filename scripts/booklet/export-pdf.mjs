@@ -106,7 +106,7 @@ try {
   const sharedCache=await publishBrowserDiagrams(page);
   const cacheOutput=arg('--save-cache-state');
   let cacheMetrics;
-  if(cacheOutput){mkdirSync(dirname(resolve(cacheOutput)),{recursive:true});await context.storageState({path:resolve(cacheOutput),indexedDB:true});cacheMetrics=await page.evaluate(()=>{const s=window.TikZ?.stats?.();return s?{compiles:s.compiles,memoryHits:s.memoryHits,idbHits:s.idbHits,driverHits:s.driverHits}:null;});writeFileSync(output+'.render-metrics.json',JSON.stringify({cacheOutput:resolve(cacheOutput),tikz:cacheMetrics},null,2));}
+  if(cacheOutput){mkdirSync(dirname(resolve(cacheOutput)),{recursive:true});await context.storageState({path:resolve(cacheOutput),indexedDB:true});cacheMetrics=await page.evaluate(()=>{const s=window.TikZ?.stats?.();return s?{compiles:s.compiles,memoryHits:s.memoryHits,idbHits:s.idbHits,serverHits:s.serverHits,driverHits:s.driverHits}:null;});writeFileSync(output+'.render-metrics.json',JSON.stringify({cacheOutput:resolve(cacheOutput),tikz:cacheMetrics},null,2));}
   console.log(JSON.stringify({ output, projectId, mode, draft, sharedCache, ...(cacheOutput?{cacheOutput:resolve(cacheOutput),tikz:cacheMetrics}:{}) }));
 } catch (error) {
   console.error('Booklet PDF export failed:', error.message);
