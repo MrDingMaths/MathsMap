@@ -6,100 +6,93 @@
 "facts": [
 "In $S = V_{0} - Dn$, $S$ is the salvage value, $V_{0}$ the initial value, $D$ the loss per period and $n$ the periods.",
 "The same dollar amount is lost each period, so a graph of value against time is a straight line.",
-"When the initial value, the salvage value and the life are known, $D = \\dfrac{V_{0} - S}{n}$.",
+"To write an asset down to zero over $n$ years, use $0=V_0-Dn$, so $D=V_0\\div n$.",
 "A rate given as a percentage **of the purchase price** is a fixed dollar amount: $8\\%$ of $\\$50\\,000$ is $\\$4000$ every year.",
 "The total depreciation after $n$ periods is $Dn$, and the value left over is $V_{0} - Dn$.",
 "For a positive initial value and depreciation amount, straight-line value reaches zero after $n=\\dfrac{V_0}{D}$ periods. Stop this model at zero. With a fixed declining-balance rate greater than $0\\%$ and less than $100\\%$, a positive value decreases but does not reach zero.",
-"The period can be a month or a quarter instead of a year, as long as $D$ and $n$ use the same period."
+"When the method changes from straight-line to declining-balance depreciation, use the value at the end of the straight-line stage as the initial value for the declining-balance stage."
 ],
 "steps": [
 "Identify the known values and the unknown. Use the same period for $D$ and $n$.",
 "Substitute into $S=V_0-Dn$.",
-"Evaluate, or rearrange to find the unknown. Round as asked; check the neighbouring whole years if a first whole year is wanted."
+"Evaluate, or rearrange to find the unknown. Round as asked.",
+"For two stages, calculate the value after the first stage, then apply the second method for the remaining years."
 ],
 "workedExamples": [
-  {
-    "question_text": "A machine costs $\\$28\\,000$ and depreciates by $\\$3400$ each year. Find (a) its value after $5$ years and (b) its total depreciation over those years.",
-    "solution_text": "Use $V_0=28000$, $D=3400$ and $n=5$.\n(a) $S=28000-3400(5)=\\$11\\,000$.\n(b) Total depreciation $=Dn=3400(5)=\\$17\\,000$. The value left and the amount lost are different quantities."
+{
+    "question_text": "A car costs $\\$28\\,000$ and depreciates by $\\$3400$ each year using the straight-line method. Find its value after $3$ years.",
+    "solution_text": "$S=V_0-Dn$\n$=28000-3400(3)$\n$=28000-10200$\n$=\\$17\\,800$."
   },
-  {
-    "question_text": "A computer bought for $\\$6600$ has a salvage value of $\\$1800$ after $8$ years. Find its annual straight-line depreciation.",
-    "solution_text": "$1800=6600-8D$.\n$8D=6600-1800=4800$.\n$D=4800\\div8=\\$600$ per year."
+{
+    "question_text": "A computer costs $\\$6600$. Find the annual straight-line depreciation amount needed for it to be worth zero after $8$ years.",
+    "solution_text": "$S=V_0-Dn$\n$0=6600-8D$\n$8D=6600$\n$D=6600\\div8$\n$D=\\$825$ per year."
   },
-  {
-    "question_text": "(a) A vehicle costs $\\$39\\,000$ and loses $\\$4500$ a year. After how many years will its value be $\\$12\\,000$?\n(b) A machine bought for $\\$24\\,000$ loses $\\$3000$ a year. When does the straight-line model reach zero?",
-    "solution_text": "(a) $12000=39000-4500n$.\n$4500n=27000$, so $n=6$ years.\n(b) $0=24000-3000n$.\n$n=24000\\div3000=8$ years. Stop the straight-line model at zero."
+{
+    "question_text": "A machine costs $\\$48\\,000$. Using straight-line depreciation, it loses $12.5\\%$ of its purchase price each year. After how many years will its value be $\\$30\\,000$?",
+    "solution_text": "$D=0.125\\times48000$\n$D=\\$6000$ per year.\n$S=V_0-Dn$\n$30000=48000-6000n$\n$6000n=18000$\n$n=3$ years."
   },
-  {
-    "question_text": "Equipment loses $\\$2100$ a year and is worth $\\$7600$ after $7$ years. Find its original value.",
-    "solution_text": "$7600=V_0-2100(7)$.\n$V_0=7600+14700=\\$22\\,300$. Add the loss back to the value left."
-  },
-  {
-    "question_text": "A vehicle costs $\\$48\\,000$. Each year it depreciates by $12.5\\%$ of its purchase price. Find (a) the fixed annual dollar loss, (b) its value after $3$ years and (c) the percentage of the purchase price lost over those years.",
-    "solution_text": "(a) $D=0.125(48000)=\\$6000$ per year. This stays fixed.\n(b) $S=48000-6000(3)=\\$30\\,000$.\n(c) Total loss $=6000(3)=\\$18\\,000$.\nPercentage lost $=\\dfrac{18000}{48000}\\times100\\%=37.5\\%$."
-  },
-  {
+{
     "question_text": "The graph shows straight-line depreciation. Find (a) the annual dollar loss and (b) the value after $4$ years.\n[tikz]\n\\begin{tikzpicture}\n% mathsmap-standard-palette 2026-09-11\n\\definecolor{ink}{HTML}{24282D}\n\\definecolor{blue}{HTML}{268CFF}\n\\definecolor{red}{HTML}{EF6068}\n\\definecolor{green}{HTML}{4F9B63}\n\\definecolor{orange}{HTML}{EF8B2C}\n\\definecolor{purple}{HTML}{8B5CC7}\n\\definecolor{tableLabel}{HTML}{D3E8FC}\n\\definecolor{housegrid}{HTML}{CCCCCC}\n\\definecolor{skipped}{HTML}{C7C7C7}\n\\definecolor{housemuted}{HTML}{777777}\n\\definecolor{blueFill}{HTML}{D4E8FF}\n\\definecolor{redFill}{HTML}{FCDFE1}\n\\definecolor{greenFill}{HTML}{DCEBE0}\n\\definecolor{orangeFill}{HTML}{FCE8D5}\n\\definecolor{purpleFill}{HTML}{E8DEF4}\n\\begin{axis}[width=7cm,height=5.8cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=6.5,ymin=0,ymax=20000,xtick={0,1,2,3,4,5,6},ytick={0,3000,6000,9000,12000,15000,18000},grid=both,grid style={color=housegrid,line width=0.25pt},samples=2,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Years, $n$},ylabel={Value (\\$)},ylabel style={at={(axis description cs:-0.32,0.5)},anchor=south}]\n\\addplot[thick,blue,domain=0:6]{18000-3000*x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
-    "solution_text": "(a) The value falls from $\\$18\\,000$ at $n=0$ to $\\$15\\,000$ at $n=1$, so $D=\\$3000$ per year.\n(b) At $n=4$, read $S=\\$6000$. Check: $18000-3000(4)=6000$."
+    "solution_text": "(a) The value falls from $\\$18\\,000$ at $n=0$ to $\\$15\\,000$ at $n=1$.\n$D=18000-15000$\n$D=\\$3000$ per year.\n(b) At $n=4$, read $S=\\$6000$.\nCheck using the formula:\n$S=18000-3000(4)$\n$=\\$6000$."
   },
-  {
-    "question_text": "(a) A printer bought for $\\$4200$ loses $\\$85$ each month. Find its value after $2$ years.\n(b) An asset costs $\\$31\\,000$ and loses $\\$3600$ each year. Find the first whole year when its value is less than $\\$12\\,000$.",
-    "solution_text": "(a) Use months: $n=2\\times12=24$.\n$S=4200-85(24)=\\$2160$.\n(b) After $5$ years, $S=31000-3600(5)=\\$13\\,000$.\nAfter $6$ years, $S=31000-3600(6)=\\$9400$.\nThe first whole year below $\\$12\\,000$ is year $6$."
+{
+    "question_text": "An asset costs $\\$75\\,000$. For the first $4$ years it depreciates by $\\$8200$ per year using the straight-line method. It then depreciates at $20\\%$ per annum using the declining-balance method. Find its value after $7$ years and its total depreciation over those years.",
+    "solution_text": "Value after the first $4$ years:\n$S=V_0-Dn$\n$=75000-8200(4)$\n$=\\$42\\,200$.\nRemaining time $=7-4=3$ years.\nValue after another $3$ years:\n$S=V_0(1-r)^n$\n$=42200(0.8)^3$\n$=\\$21\\,606.40$.\nTotal depreciation $=75000-21606.40$\n$=\\$53\\,393.60$."
   },
-  {
-    "question_text": "Equipment costs $\\$75\\,000$. It loses $\\$8200$ a year for the first $4$ years, then $\\$5100$ a year for the next $3$ years. Find its value after all $7$ years.",
-    "solution_text": "The loss changes after year $4$.\nFirst loss $=8200(4)=\\$32\\,800$.\nSecond loss $=5100(3)=\\$15\\,300$.\n$S=75000-32800-15300=\\$26\\,900$."
+{
+    "question_text": "Equipment costs $\\$40\\,000$. It can be depreciated using either straight-line depreciation of $\\$3000$ per year or declining-balance depreciation at $10\\%$ per annum. Which method gives the lower salvage value after $3$ years? Justify your answer with calculations.",
+    "solution_text": "Straight-line method:\n$S=V_0-Dn$\n$=40000-3000(3)$\n$=\\$31\\,000$.\nDeclining-balance method:\n$S=V_0(1-r)^n$\n$=40000(0.9)^3$\n$=\\$29\\,160$.\nThe declining-balance method gives the lower salvage value because $29160<31000$."
   }
 ]
 },
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "A machine is bought for $\\$24\\,000$ and depreciates by $\\$3000$ each year using the straight-line method.\nFind its salvage value after $5$ years.",
         "structure": "salvage-value",
         "solution_text": "$S = V_{0} - Dn$\n$= 24\\,000 - 3000(5)$\n$= 24\\,000 - 15\\,000$\n$= \\$9000$"
       },
-      {
+{
         "question_text": "A delivery van costs $\\$38\\,500$ and is depreciated by $\\$4200$ per year using the straight-line method.\nFind its value after $4$ years.",
         "structure": "salvage-value",
         "solution_text": "$S = V_{0} - Dn$\n$= 38\\,500 - 4200(4)$\n$= 38\\,500 - 16\\,800$\n$= \\$21\\,700$"
       },
-      {
+{
         "question_text": "A computer costing $\\$2700$ is written down to zero over $6$ years by the straight-line method.\nFind the annual depreciation amount.",
         "structure": "depreciation-amount",
         "solution_text": "$D = \\dfrac{V_{0} - S}{n}$\n$= \\dfrac{2700 - 0}{6}$\n$= \\$450$ per year"
       },
-      {
-        "question_text": "A printer bought for $\\$7200$ has a salvage value of $\\$1200$ after $8$ years.\nFind the annual straight-line depreciation amount.",
+{
+        "question_text": "A printer costing $\\$7200$ is written down to zero over $8$ years using the straight-line method.\nFind the annual depreciation amount.",
         "structure": "depreciation-amount",
-        "solution_text": "$D = \\dfrac{V_{0} - S}{n}$\n$= \\dfrac{7200 - 1200}{8}$\n$= \\dfrac{6000}{8}$\n$= \\$750$ per year"
+        "solution_text": "$S=V_0-Dn$\n$0=7200-8D$\n$8D=7200$\n$D=7200\\div8$\n$D=\\$900$ per year."
       },
-      {
-        "question_text": "A photocopier costing $\\$9600$ depreciates by $\\$1150$ each year.\nFind the **total depreciation** after $7$ years.",
-        "structure": "total-depreciation",
-        "solution_text": "Total depreciation $= Dn$\n$= 1150(7)$\n$= \\$8050$"
+{
+        "question_text": "A photocopier costing $\\$9600$ depreciates by $\\$1150$ each year using the straight-line method.\nFind its salvage value after $7$ years.",
+        "structure": "salvage-value",
+        "solution_text": "$S=V_0-Dn$\n$=9600-1150(7)$\n$=9600-8050$\n$=\\$1550$."
       },
-      {
-        "question_text": "A set of tools bought for $\\$16\\,000$ depreciates by $\\$2500$ each year.\nAfter how many years is it worth $\\$6000$?",
-        "structure": "useful-life",
-        "solution_text": "$S = V_{0} - Dn$\n$6000 = 16\\,000 - 2500n$\n$2500n = 10\\,000$\n$n = 4$ years"
+{
+        "question_text": "A set of tools costs $\\$16\\,000$ and depreciates by $\\$2500$ each year using the straight-line method.\nFind its value after $4$ years.",
+        "structure": "salvage-value",
+        "solution_text": "$S=V_0-Dn$\n$=16000-2500(4)$\n$=16000-10000$\n$=\\$6000$."
       },
-      {
-        "question_text": "A trailer depreciates by $\\$1450$ each year using the straight-line method and is worth $\\$8700$ after $6$ years.\nFind its purchase price.",
-        "structure": "initial-value",
-        "solution_text": "$S = V_{0} - Dn$\n$8700 = V_{0} - 1450(6)$\n$8700 = V_{0} - 8700$\n$V_{0} = \\$17\\,400$"
+{
+        "question_text": "A trailer costs $\\$18\\,000$ and depreciates by $\\$1450$ each year using the straight-line method.\nFind its salvage value after $6$ years.",
+        "structure": "salvage-value",
+        "solution_text": "$S=V_0-Dn$\n$=18000-1450(6)$\n$=18000-8700$\n$=\\$9300$."
       },
-      {
-        "question_text": "A trailer-mounted generator bought for $\\$13\\,500$ depreciates by $\\$1500$ each year.\nIn how many years will its value be zero?",
-        "structure": "useful-life",
-        "solution_text": "$n = \\dfrac{V_{0}}{D}$\n$= \\dfrac{13\\,500}{1500}$\n$= 9$ years"
+{
+        "question_text": "A generator costs $\\$13\\,500$. Find the annual straight-line depreciation amount needed for it to be worth zero after $9$ years.",
+        "structure": "depreciation-amount",
+        "solution_text": "$S=V_0-Dn$\n$0=13500-9D$\n$9D=13500$\n$D=13500\\div9$\n$D=\\$1500$ per year."
       }
-    ],
+],
     "development": [
 {
-        "question_text": "A utility vehicle costing $\\$46\\,000$ is depreciated by the straight-line method at $12.5\\%$ of its purchase price each year.\nFind its value after $6$ years.",
-        "structure": "rate-of-cost",
-        "solution_text": "$D = 0.125 \\times 46\\,000$\n$= \\$5750$ per year\n$S = V_{0} - Dn$\n$= 46\\,000 - 5750(6)$\n$= 46\\,000 - 34\\,500$\n$= \\$11\\,500$"
+        "question_text": "A utility vehicle costs $\\$46\\,000$. Using straight-line depreciation, it loses $12.5\\%$ of its purchase price each year.\nAfter how many years will its value be $\\$11\\,500$?",
+        "structure": "time-to-salvage-percentage-of-cost",
+        "solution_text": "$D=0.125\\times46000$\n$D=\\$5750$ per year.\n$S=V_0-Dn$\n$11500=46000-5750n$\n$5750n=34500$\n$n=34500\\div5750$\n$n=6$ years."
       },
 {
         "question_text": "A machine costing $\\$50\\,000$ is depreciated by the straight-line method at $11\\%$ of its purchase price each year.\nAfter how many years is it worth $\\$28\\,000$?",
@@ -107,19 +100,19 @@
         "solution_text": "$D = 0.11 \\times 50\\,000$\n$= \\$5500$ per year\n$S = V_{0} - Dn$\n$28\\,000 = 50\\,000 - 5500n$\n$5500n = 22\\,000$\n$n = 4$ years"
       },
 {
-        "question_text": "A van cost $\\$32\\,000$ and depreciates by $\\$3600$ each year.\nWhat percentage of its purchase price has it lost after $5$ years?",
-        "structure": "percentage-lost",
-        "solution_text": "Total depreciation $= 3600(5)$\n$= \\$18\\,000$\nPercentage lost $= \\dfrac{18\\,000}{32\\,000} \\times 100$\n$= 56.25\\%$"
+        "question_text": "A van costs $\\$32\\,000$. It depreciates by $\\$3600$ per year using the straight-line method for the first $5$ years, then at $20\\%$ per annum using the declining-balance method.\nFind its value $7$ years after purchase.",
+        "structure": "straight-line-then-declining-balance-salvage",
+        "solution_text": "Value after $5$ years:\n$S=V_0-Dn$\n$=32000-3600(5)$\n$=\\$14\\,000$.\nRemaining time $=7-5=2$ years.\n$S=V_0(1-r)^n$\n$=14000(0.8)^2$\n$=\\$8960$."
       },
 {
-        "question_text": "A bus costing $\\$180\\,000$ depreciates by $\\$14\\,500$ each year and is scrapped once it is worth $\\$35\\,000$.\nFind the useful life of the bus.",
-        "structure": "useful-life",
-        "solution_text": "$S = V_{0} - Dn$\n$35\\,000 = 180\\,000 - 14\\,500n$\n$14\\,500n = 145\\,000$\n$n = 10$ years"
+        "question_text": "A bus costs $\\$180\\,000$. Using straight-line depreciation, it loses $8\\%$ of its purchase price each year.\nAfter how many years will its value be $\\$36\\,000$?",
+        "structure": "time-to-salvage-percentage-of-cost",
+        "solution_text": "$D=0.08\\times180000$\n$D=\\$14\\,400$ per year.\n$S=V_0-Dn$\n$36000=180000-14400n$\n$14400n=144000$\n$n=10$ years."
       },
 {
-        "question_text": "A crane cost $\\$220\\,000$ and is depreciated by the straight-line method at $8\\%$ of its purchase price each year.\nFind the total depreciation after $5$ years.",
-        "structure": "rate-of-cost",
-        "solution_text": "$D = 0.08 \\times 220\\,000$\n$= \\$17\\,600$ per year\nTotal depreciation $= Dn$\n$= 17\\,600(5)$\n$= \\$88\\,000$"
+        "question_text": "A crane costs $\\$220\\,000$. For the first $2$ years it depreciates by $\\$17\\,600$ per year using the straight-line method. It then depreciates at $10\\%$ per annum using the declining-balance method.\nFind its total depreciation at the end of $5$ years, to the nearest cent.",
+        "structure": "straight-line-then-declining-balance-total-depreciation",
+        "solution_text": "Value after $2$ years:\n$S=220000-17600(2)$\n$=\\$184\\,800$.\nRemaining time $=5-2=3$ years.\nFinal value $=184800(0.9)^3$\n$=\\$134\\,719.20$.\nTotal depreciation $=220000-134719.20$\n$=\\$85\\,280.80$."
       },
 {
         "question_text": "The graph shows the value of a mixing plant depreciated by the straight-line method.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n% mathsmap-standard-palette 2026-09-11\n\\definecolor{ink}{HTML}{24282D}\n\\definecolor{blue}{HTML}{268CFF}\n\\definecolor{red}{HTML}{EF6068}\n\\definecolor{green}{HTML}{4F9B63}\n\\definecolor{orange}{HTML}{EF8B2C}\n\\definecolor{purple}{HTML}{8B5CC7}\n\\definecolor{tableLabel}{HTML}{D3E8FC}\n\\definecolor{housegrid}{HTML}{CCCCCC}\n\\definecolor{skipped}{HTML}{C7C7C7}\n\\definecolor{housemuted}{HTML}{777777}\n\\definecolor{blueFill}{HTML}{D4E8FF}\n\\definecolor{redFill}{HTML}{FCDFE1}\n\\definecolor{greenFill}{HTML}{DCEBE0}\n\\definecolor{orangeFill}{HTML}{FCE8D5}\n\\definecolor{purpleFill}{HTML}{E8DEF4}\n\\begin{axis}[width=7cm,height=5.8cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=8.6,ymin=0,ymax=22000,xtick={0,1,2,3,4,5,6,7,8},ytick={0,2500,5000,7500,10000,12500,15000,17500,20000},grid=both,grid style={color=housegrid,line width=0.25pt},samples=2,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Years, $n$},ylabel={Value (\\$)},ylabel style={at={(axis description cs:-0.32,0.5)},anchor=south}]\n\\addplot[thick,blue,domain=0:8]{20000 - 2500*x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nUse the graph to find the annual depreciation amount and the value of the plant after $6$ years.",
@@ -127,32 +120,32 @@
         "solution_text": "The line starts at $\\$20\\,000$ and reaches $\\$0$ after $8$ years.\n$D = \\dfrac{20\\,000}{8}$\n$= \\$2500$ per year\n$S = V_{0} - Dn$\n$= 20\\,000 - 2500(6)$\n$= \\$5000$"
       },
 {
-        "question_text": "An asset loses $\\$2750$ of its value each year by the straight-line method and is worth $\\$9250$ after $7$ years.\nFind its purchase price and the total depreciation over those $7$ years.",
-        "structure": "initial-value",
-        "solution_text": "Total depreciation $= 2750(7)$\n$= \\$19\\,250$\n$S = V_{0} - Dn$\n$9250 = V_{0} - 19\\,250$\n$V_{0} = \\$28\\,500$"
+        "question_text": "An asset costs $\\$28\\,500$. It depreciates by $\\$2750$ each year using the straight-line method.\nFind its salvage value after $7$ years.",
+        "structure": "salvage-value",
+        "solution_text": "$S=V_0-Dn$\n$=28500-2750(7)$\n$=28500-19250$\n$=\\$9250$."
       },
 {
-        "question_text": "A laptop costing $\\$3600$ is depreciated by $\\$75$ per **month** using the straight-line method.\nFind its value after $2$ years.",
+        "question_text": "A laptop costs $\\$3600$. It depreciates by $\\$900$ per year using the straight-line method.\nFind its value after $2$ years.",
         "structure": "salvage-value",
-        "solution_text": "$n = 2 \\times 12 = 24$ months\n$S = V_{0} - Dn$\n$= 3600 - 75(24)$\n$= 3600 - 1800$\n$= \\$1800$"
+        "solution_text": "$S=V_0-Dn$\n$=3600-900(2)$\n$=3600-1800$\n$=\\$1800$."
       }
 ],
     "mastery": [
-      {
-        "question_text": "Equipment bought for $\\$84\\,000$ is depreciated by the straight-line method to a salvage value of $\\$12\\,000$ over $8$ years.\nAfter how many whole years is it first worth less than $\\$28\\,000$?",
-        "structure": "useful-life",
-        "solution_text": "$D = \\dfrac{84\\,000 - 12\\,000}{8}$\n$= \\$9000$ per year\n$84\\,000 - 9000n < 28\\,000$\n$9000n > 56\\,000$\n$n > 6.22\\ldots$\n$n = 7$ years"
+{
+        "question_text": "Equipment costs $\\$84\\,000$. It can be depreciated using either straight-line depreciation of $\\$9000$ per year or declining-balance depreciation at $15\\%$ per annum.\nWhich method gives the lower salvage value after $4$ years? Justify your answer with calculations and give money amounts to the nearest cent.",
+        "structure": "compare-depreciation-methods",
+        "solution_text": "Straight-line method:\n$S=V_0-Dn$\n$=84000-9000(4)$\n$=\\$48\\,000$.\nDeclining-balance method:\n$S=V_0(1-r)^n$\n$=84000(0.85)^4$\n$=\\$43\\,848.525$\n$\\approx\\$43\\,848.53$.\nThe declining-balance method gives the lower salvage value because $43848.53<48000$."
       },
-      {
-        "question_text": "A machine costs $\\$60\\,000$.\nIt is depreciated by $\\$7000$ per year for the first $3$ years, after which the annual depreciation amount changes to $\\$4500$.\nFind its value $9$ years after purchase.",
-        "structure": "two-stage-straight-line",
-        "solution_text": "First $3$ years at $\\$7000$ per year:\n$S = V_{0} - Dn$\n$= 60\\,000 - 7000(3)$\n$= \\$39\\,000$\nNext $9 - 3 = 6$ years at $\\$4500$ per year:\n$S = 39\\,000 - 4500(6)$\n$= 39\\,000 - 27\\,000$\n$= \\$12\\,000$"
+{
+        "question_text": "A machine costs $\\$60\\,000$. It depreciates by $\\$7000$ per year using the straight-line method for the first $3$ years. It then depreciates at $20\\%$ per annum using the declining-balance method.\nFind its total depreciation at the end of $9$ years, to the nearest cent.",
+        "structure": "straight-line-then-declining-balance-total-depreciation",
+        "solution_text": "Value after $3$ years:\n$S=V_0-Dn$\n$=60000-7000(3)$\n$=\\$39\\,000$.\nRemaining time $=9-3=6$ years.\nFinal value $=39000(0.8)^6$\n$=\\$10\\,223.616$.\nTotal depreciation $=60000-10223.616$\n$=\\$49\\,776.384$\n$\\approx\\$49\\,776.38$."
       },
-      {
-        "question_text": "An asset costing $\\$72\\,000$ is depreciated by the straight-line method to $\\$18\\,000$ over $12$ years.\nIf the annual depreciation amount were instead $\\$1500$ larger, how many years earlier would the asset reach $\\$18\\,000$?",
-        "structure": "useful-life",
-        "solution_text": "$D = \\dfrac{72\\,000 - 18\\,000}{12}$\n$= \\$4500$ per year\nLarger amount: $D = 4500 + 1500 = \\$6000$ per year\n$18\\,000 = 72\\,000 - 6000n$\n$6000n = 54\\,000$\n$n = 9$ years\n$12 - 9 = 3$ years earlier"
+{
+        "question_text": "An asset costs $\\$72\\,000$. Using straight-line depreciation, it loses $12.5\\%$ of its purchase price each year.\nWhen will its value be $\\$18\\,000$?",
+        "structure": "time-to-salvage-percentage-of-cost",
+        "solution_text": "$D=0.125\\times72000$\n$D=\\$9000$ per year.\n$S=V_0-Dn$\n$18000=72000-9000n$\n$9000n=54000$\n$n=54000\\div9000$\n$n=6$ years."
       }
-    ]
+]
   }
 }

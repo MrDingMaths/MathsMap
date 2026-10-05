@@ -55,54 +55,54 @@
     },
 {
       "id": "q5",
-      "question_text": "The network shows the direct flights between six airports.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.2,-0.6);\n\\coordinate (C) at (4.2,0.8);\n\\coordinate (D) at (3.6,3.0);\n\\coordinate (E) at (1.4,3.4);\n\\coordinate (F) at (2.4,1.4);\n\\draw (A)--(F);\n\\draw (B)--(F);\n\\draw (D)--(F);\n\\draw (A)--(E);\n\\draw (E)--(D);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\fill (F) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[above right] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\node[above left] at (F) {$F$};\n\\end{tikzpicture}\n[/tikz]\nWhich airports have a direct flight to $F$?",
-      "structure": "describe-connection",
+      "question_text": "The network shows direct flight routes between five airports.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (J) at (0,0);\n\\coordinate (K) at (3,0);\n\\coordinate (L) at (3,3);\n\\coordinate (M) at (0,3);\n\\coordinate (N) at (4.5,1.5);\n\\draw (J)--(K);\n\\draw (K)--(L);\n\\draw (L)--(M);\n\\draw (M)--(J);\n\\draw (K)--(N);\n\\draw (L)--(N);\n\\fill (J) circle (2.5pt);\n\\fill (K) circle (2.5pt);\n\\fill (L) circle (2.5pt);\n\\fill (M) circle (2.5pt);\n\\fill (N) circle (2.5pt);\n\\node[below left] at (J) {$J$};\n\\node[below] at (K) {$K$};\n\\node[above] at (L) {$L$};\n\\node[above left] at (M) {$M$};\n\\node[right] at (N) {$N$};\n\\end{tikzpicture}\n[/tikz]\nHow many direct flight routes are available from $K$?",
+      "structure": "count-direct-connections",
       "mastery": false,
       "options": [
-        { "text": "$A$, $B$ and $D$", "correct": true },
-        { "text": "$A$, $B$, $C$ and $D$", "why": "Includes $C$, which can only reach $F$ by first flying through $B$ or $D$, so it has no edge to $F$." },
-        { "text": "$A$ and $B$", "why": "Stops at the two edges below $F$ and misses the edge running from $F$ up to $D$." },
-        { "text": "$A$, $B$, $D$ and $E$", "why": "Includes $E$, which is joined to $A$ and $D$ but has no edge of its own reaching $F$." }
-      ],
-      "solution_text": "Follow each edge that meets $F$ and read the vertex at its other end.\n**$A$, $B$ and $D$.**"
+{ "text": "$3$", "correct": true },
+{ "text": "$2$", "why": "Counts $KJ$ and $KL$ but misses the direct route $KN$." },
+{ "text": "$4$", "why": "Counts all four other airports, including $M$, which has no direct edge to $K$." },
+{ "text": "$6$", "why": "Counts all six flight routes in the network instead of only the routes meeting $K$." }
+],
+      "solution_text": "The edges meeting $K$ are $KJ$, $KL$ and $KN$.\n**There are $3$ direct flight routes available from $K$.**"
     },
 {
       "id": "q6",
-      "question_text": "The arrows show the only direction in which each one-way road may be driven.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.4,1.0);\n\\coordinate (C) at (1.0,3.4);\n\\coordinate (D) at (4.6,1.6);\n\\coordinate (E) at (3.2,-0.8);\n\\draw[midarrow] (A)--(B);\n\\draw[midarrow] (C)--(B);\n\\draw[midarrow] (B)--(D);\n\\draw[midarrow] (D)--(E);\n\\draw[midarrow] (E)--(A);\n\\draw[midarrow] (C)--(D);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\node[left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\node[below] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]\nWhich one of these trips can be made directly?",
-      "structure": "identify-directed",
+      "question_text": "What is the sum of the degrees of all five vertices in this network?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (J) at (0,0);\n\\coordinate (K) at (3,0);\n\\coordinate (L) at (3,3);\n\\coordinate (M) at (0,3);\n\\coordinate (N) at (4.5,3);\n\\draw (J)--(K);\n\\draw (K)--(L);\n\\draw (L)--(M);\n\\draw (M)--(J);\n\\draw (J)--(L);\n\\draw (K)--(M);\n\\draw (L)--(N);\n\\fill (J) circle (2.5pt);\n\\fill (K) circle (2.5pt);\n\\fill (L) circle (2.5pt);\n\\fill (M) circle (2.5pt);\n\\fill (N) circle (2.5pt);\n\\node[below left] at (J) {$J$};\n\\node[below right] at (K) {$K$};\n\\node[above] at (L) {$L$};\n\\node[above left] at (M) {$M$};\n\\node[right] at (N) {$N$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "degree-sum",
       "mastery": false,
       "options": [
-        {
-          "text": "$B$ to $D$",
+{
+          "text": "$14$",
           "correct": true
         },
-        {
-          "text": "$B$ to $C$",
-          "why": "Reads the edge joining $B$ and $C$ backwards; its arrow runs from $C$ into $B$ only."
+{
+          "text": "$7$",
+          "why": "Gives the number of edges instead of adding the degrees of the vertices."
         },
-        {
-          "text": "$A$ to $D$",
-          "why": "Chains the two edges $A$ to $B$ and $B$ to $D$ and calls the result a direct trip, but no single road joins $A$ and $D$."
+{
+          "text": "$18$",
+          "why": "Treats the unmarked diagonal crossing as an extra vertex and splits both diagonals there."
         },
-        {
-          "text": "$A$ to $C$",
-          "why": "Chains $A$ to $B$ with the edge joining $B$ and $C$, ignoring both that this is two roads and that the arrow points from $C$ to $B$."
+{
+          "text": "$12$",
+          "why": "Omits the edge $LN$, losing one degree contribution at $L$ and one at $N$."
         }
-      ],
-      "solution_text": "The arrow on the edge joining $B$ and $D$ points from $B$ towards $D$.\nNone of the other listed trips can be driven directly: each is either a pair of roads joined end to end, or a single road taken against its arrow.\n**$B$ to $D$.**"
+],
+      "solution_text": "$d(J)=3$, from $JK$, $JM$ and $JL$.\n$d(K)=3$, from $KJ$, $KL$ and $KM$.\n$d(L)=4$, from $LK$, $LM$, $LJ$ and $LN$.\n$d(M)=3$, from $MJ$, $ML$ and $MK$.\n$d(N)=1$, from $NL$.\n$3+3+4+3+1$\n$=14$\n**The degree sum is $14$.**"
     },
 {
       "id": "q7",
-      "question_text": "The number on each edge is the train journey time in minutes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,3.0);\n\\coordinate (B) at (2.6,3.8);\n\\coordinate (C) at (4.6,2.0);\n\\coordinate (D) at (3.4,0);\n\\coordinate (E) at (0.8,0.2);\n\\draw (A)--(B) node[midway, above] {$22$};\n\\draw (B)--(C) node[midway, above right] {$47$};\n\\draw (C)--(D) node[midway, right] {$35$};\n\\draw (D)--(E) node[midway, below] {$60$};\n\\draw (E)--(A) node[midway, left] {$28$};\n\\draw (B)--(E) node[midway, right] {$41$};\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\node[left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\node[left] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]\nHow long is the direct train journey between $B$ and $E$?",
-      "structure": "read-weighted-edge",
+      "question_text": "How many vertices of even degree does this network have?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (3,0);\n\\coordinate (R) at (3,3);\n\\coordinate (S) at (0,3);\n\\coordinate (T) at (4.5,3);\n\\coordinate (U) at (4.5,0);\n\\draw (P)--(Q);\n\\draw (Q)--(R);\n\\draw (R)--(S);\n\\draw (S)--(P);\n\\draw (P)--(R);\n\\draw (R)--(T);\n\\draw (Q)--(U);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (S) circle (2.5pt);\n\\fill (T) circle (2.5pt);\n\\fill (U) circle (2.5pt);\n\\node[below left] at (P) {$P$};\n\\node[below] at (Q) {$Q$};\n\\node[above] at (R) {$R$};\n\\node[above left] at (S) {$S$};\n\\node[right] at (T) {$T$};\n\\node[right] at (U) {$U$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "count-even-degree-vertices",
       "mastery": false,
       "options": [
-{ "text": "$41$ minutes", "correct": true },
-{ "text": "$28$ minutes", "why": "Reads the weight on $EA$, another edge meeting $E$, instead of the edge joining $B$ and $E$." },
-{ "text": "$22$ minutes", "why": "Reads the weight on $AB$, another edge meeting $B$, instead of the edge joining $B$ and $E$." },
-{ "text": "$69$ minutes", "why": "Adds the weights $22$ on $AB$ and $47$ on $BC$. Neither is the direct edge $BE$, whose weight gives the requested journey time." }
+{ "text": "$2$", "correct": true },
+{ "text": "$4$", "why": "Counts the vertices of odd degree, $P$, $Q$, $T$ and $U$, instead of those of even degree." },
+{ "text": "$1$", "why": "Counts only $S$, whose degree is $2$, and overlooks that $R$ has the even degree $4$." },
+{ "text": "$6$", "why": "Counts all six vertices without checking whether each degree is even." }
 ],
-      "solution_text": "The edge joining $B$ and $E$ is drawn across the middle of the network.\nThe weight written on that edge is $41$.\n**$41$ minutes.**"
+      "solution_text": "$d(P)=3$, from $PQ$, $PS$ and $PR$.\n$d(Q)=3$, from $QP$, $QR$ and $QU$.\n$d(R)=4$, from $RQ$, $RS$, $RP$ and $RT$.\n$d(S)=2$, from $SP$ and $SR$.\n$d(T)=1$, from $TR$.\n$d(U)=1$, from $UQ$.\nOnly $R$ and $S$ have even degree.\n**There are $2$ vertices of even degree.**"
     },
 {
       "id": "q8",

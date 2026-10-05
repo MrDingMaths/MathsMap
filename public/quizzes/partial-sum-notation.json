@@ -2,31 +2,6 @@
   "skillId": "partial-sum-notation",
   "questions": [
 {
-      "id": "q1",
-      "question_text": "Which of the following correctly describes the relationship between a sequence and its corresponding series?",
-      "structure": "distinguish-sequence-series",
-      "mastery": false,
-      "options": [
-        {
-          "text": "A sequence is an ordered list of terms, while a series is the sum of the terms of a sequence.",
-          "correct": true
-        },
-        {
-          "text": "A sequence is the sum of terms, while a series is an ordered list of numbers.",
-          "why": "Reversed the definitions of sequence and series."
-        },
-        {
-          "text": "A sequence and a series are identical mathematical objects with different names.",
-          "why": "Treated an ordered list and a sum as the same mathematical concept."
-        },
-        {
-          "text": "A sequence is always finite, whereas a series is always infinite.",
-          "why": "Confused the list/sum distinction with the finite/infinite distinction."
-        }
-      ],
-      "solution_text": "A sequence is an ordered list of terms, whereas a series is the addition of the terms of a sequence."
-    },
-{
       "id": "q2",
       "question_text": "For the sequence $6, 11, 16, 21, 26, 31, \\dots$, what is the value of the partial sum $S_{4}$?",
       "structure": "evaluate-partial-sum-list",
@@ -78,178 +53,178 @@
     },
 {
       "id": "q4",
-      "question_text": "The partial sums of a sequence are $S_{4} = 50$ and $S_{5} = 72$.\nWhat is the value of the 5th term, $a_{5}$?",
-      "structure": "recover-term-from-partial-sums",
+      "question_text": "For the sequence $5, 15, 45, 135, 405, \\dots$, what is $S_{4}$?",
+      "structure": "evaluate-partial-sum-list",
       "mastery": false,
       "options": [
-        {
-          "text": "$22$",
+{
+          "text": "$200$",
           "correct": true
         },
-        {
-          "text": "$122$",
-          "why": "Added $S_{5} + S_{4}$ instead of subtracting $S_{5} - S_{4}$."
+{
+          "text": "$135$",
+          "why": "Gave the fourth term instead of adding the first four terms."
         },
-        {
-          "text": "$72$",
-          "why": "Gave the partial sum $S_{5}$ instead of the individual term $a_{5}$."
+{
+          "text": "$605$",
+          "why": "Added the fifth term $405$ as well: $200+405=605$."
         },
-        {
-          "text": "$14.4$",
-          "why": "Divided $S_{5}$ by 5 instead of computing $S_{5} - S_{4}$."
+{
+          "text": "$195$",
+          "why": "Left out the first term $5$: $15+45+135=195$."
         }
-      ],
-      "solution_text": "$a_{5} = S_{5} - S_{4}$\n$= 72 - 50$\n$= 22$"
+],
+      "solution_text": "$S_{4}=5+15+45+135$\n$=200$"
     },
 {
       "id": "q5",
-      "question_text": "For a sequence with partial sum formula $S_{n}$, which expression represents the sum of the terms $a_{4} + a_{5} + a_{6} + a_{7}$?",
-      "structure": "evaluate-partial-sum-difference",
+      "question_text": "A sequence has $n$th term $a_{n}=n^{2}+3$.\nWhat is $S_{6}-S_{3}$?",
+      "structure": "evaluate-partial-sum-difference-rule",
       "mastery": false,
       "options": [
-        {
-          "text": "$S_{7} - S_{3}$",
+{
+          "text": "$86$",
           "correct": true
         },
-        {
-          "text": "$S_{7} - S_{4}$",
-          "why": "Subtracted $S_{4}$, which wrongly removes $a_{4}$ from the required sum."
+{
+          "text": "$67$",
+          "why": "Removed the fourth term as well, calculating $S_{6}-S_{4}=28+39=67$."
         },
-        {
-          "text": "$S_{8} - S_{3}$",
-          "why": "Counted the four terms as ending at $a_{8}$ by adding $4$ to the starting index $4$."
+{
+          "text": "$109$",
+          "why": "Gave $S_{6}=4+7+12+19+28+39$ without subtracting $S_{3}=23$."
         },
-        {
-          "text": "$S_{8} - S_{4}$",
-          "why": "Made both index slips: ended at $S_{8}$ and also removed $a_{4}$ by subtracting $S_{4}$."
+{
+          "text": "$98$",
+          "why": "Included the third term $12$, calculating $S_{6}-S_{2}=12+19+28+39=98$."
         }
-      ],
-      "solution_text": "$a_{4} + a_{5} + a_{6} + a_{7} = (a_{1} + \\dots + a_{7}) - (a_{1} + a_{2} + a_{3})$\n$= S_{7} - S_{3}$"
+],
+      "solution_text": "$S_{6}-S_{3}=a_{4}+a_{5}+a_{6}$\n$=(4^{2}+3)+(5^{2}+3)+(6^{2}+3)$\n$=19+28+39$\n$=86$"
     },
 {
       "id": "q6",
-      "question_text": "The partial sum of a sequence is given by $S_{n} = 2n^{2} + 3n$.\nWhat is the value of the 4th term, $a_{4}$?",
-      "structure": "recover-term-from-partial-sums",
+      "question_text": "A sequence has $n$th term $a_{n}=2n+1$.\nWhat is $S_{4}$?",
+      "structure": "evaluate-partial-sum-rule",
       "mastery": false,
       "options": [
-        {
-          "text": "$17$",
+{
+          "text": "$24$",
           "correct": true
         },
-        {
-          "text": "$44$",
-          "why": "Evaluated $S_{4}$ instead of $a_{4} = S_{4} - S_{3}$."
+{
+          "text": "$9$",
+          "why": "Gave the fourth term $2(4)+1=9$ instead of the sum."
         },
-        {
-          "text": "$11$",
-          "why": "Evaluated $2(4) + 3$ instead of computing $S_{4} - S_{3}$."
+{
+          "text": "$20$",
+          "why": "Omitted the $+1$ from every term, adding $2+4+6+8=20$."
         },
-        {
-          "text": "$71$",
-          "why": "Added $S_{4} + S_{3} = 44 + 27$ instead of subtracting."
+{
+          "text": "$35$",
+          "why": "Included the fifth term $11$, calculating $S_{5}=24+11=35$."
         }
-      ],
-      "solution_text": "$S_{4} = 2(4)^{2} + 3(4) = 32 + 12 = 44$\n$S_{3} = 2(3)^{2} + 3(3) = 18 + 9 = 27$\n$a_{4} = S_{4} - S_{3}$\n$= 44 - 27$\n$= 17$"
+],
+      "solution_text": "$a_{1}=2(1)+1=3$\n$a_{2}=2(2)+1=5$\n$a_{3}=2(3)+1=7$\n$a_{4}=2(4)+1=9$\n$S_{4}=3+5+7+9$\n$=24$"
     },
 {
       "id": "q7",
-      "question_text": "A sequence has partial sums $S_{3} = 18$ and $S_{7} = 98$.\nWhat is the value of $a_{4} + a_{5} + a_{6} + a_{7}$?",
-      "structure": "evaluate-partial-sum-difference",
+      "question_text": "A sequence has $n$th term $a_{n}=n^{2}-3$.\nWhat is $S_{7}-S_{3}$?",
+      "structure": "evaluate-partial-sum-difference-rule",
       "mastery": false,
       "options": [
-        {
-          "text": "$80$",
+{
+          "text": "$114$",
           "correct": true
         },
-        {
-          "text": "$116$",
-          "why": "Added $S_{7} + S_{3} = 98 + 18$ instead of finding the difference."
+{
+          "text": "$120$",
+          "why": "Included the third term $6$, adding $6+13+22+33+46=120$."
         },
-        {
-          "text": "$98$",
-          "why": "Gave $S_{7}$ without subtracting $S_{3}$."
+{
+          "text": "$101$",
+          "why": "Removed the fourth term $13$ as well, adding only $22+33+46=101$."
         },
-        {
-          "text": "$20$",
-          "why": "Divided the difference 80 by 4 terms."
+{
+          "text": "$126$",
+          "why": "Omitted the $-3$ from each of the four required terms, adding $16+25+36+49=126$."
         }
-      ],
-      "solution_text": "$a_{4} + a_{5} + a_{6} + a_{7} = S_{7} - S_{3}$\n$= 98 - 18$\n$= 80$"
+],
+      "solution_text": "$S_{7}-S_{3}=a_{4}+a_{5}+a_{6}+a_{7}$\n$=(4^{2}-3)+(5^{2}-3)+(6^{2}-3)+(7^{2}-3)$\n$=13+22+33+46$\n$=114$"
     },
 {
       "id": "q8",
-      "question_text": "The sum of the first $n$ terms of a sequence is $S_{n}=3n^{2}-n$.\nWhat is the fifth term $a_{5}$?",
-      "structure": "recover-term-from-partial-sums",
+      "question_text": "A sequence has $n$th term $a_{n}=3n^{2}-n$.\nWhat is $S_{5}-S_{2}$?",
+      "structure": "evaluate-partial-sum-difference-rule",
       "mastery": true,
       "options": [
 {
-          "text": "$26$",
+          "text": "$138$",
           "correct": true
         },
 {
           "text": "$70$",
-          "why": "Gave $S_{5}$, the sum of the first five terms, instead of the fifth term."
-        },
-{
-          "text": "$14$",
-          "why": "Divided $S_{5}=70$ by $5$, giving an average rather than the fifth term."
+          "why": "Gave the fifth term $3(5)^{2}-5=70$ instead of adding the required terms."
         },
 {
           "text": "$114$",
-          "why": "Added $S_{5}+S_{4}=70+44$ instead of subtracting."
+          "why": "Removed the third term $24$ as well, adding only $44+70=114$."
+        },
+{
+          "text": "$150$",
+          "why": "Gave $S_{5}=2+10+24+44+70=150$ without subtracting $S_{2}=12$."
         }
 ],
-      "solution_text": "$S_{5}=3(5)^{2}-5=70$\n$S_{4}=3(4)^{2}-4=44$\n$a_{5}=S_{5}-S_{4}$\n$=70-44$\n$=26$"
+      "solution_text": "$S_{5}-S_{2}=a_{3}+a_{4}+a_{5}$\n$=(3(3)^{2}-3)+(3(4)^{2}-4)+(3(5)^{2}-5)$\n$=24+44+70$\n$=138$"
     },
 {
       "id": "q9",
-      "question_text": "A sequence has partial sums $S_{n}=4n^{2}+2n$.\nWhat is the third term $a_{3}$?",
-      "structure": "recover-term-from-partial-sums",
+      "question_text": "A sequence has $n$th term $a_{n}=4n^{2}+2n$.\nWhat is $S_{5}-S_{2}$?",
+      "structure": "evaluate-partial-sum-difference-rule",
       "mastery": true,
       "options": [
 {
-          "text": "$22$",
+          "text": "$224$",
           "correct": true
         },
 {
-          "text": "$42$",
-          "why": "Gave $S_{3}$ instead of the third term."
+          "text": "$110$",
+          "why": "Gave the fifth term $4(5)^{2}+2(5)=110$ instead of adding the required terms."
         },
 {
-          "text": "$14$",
-          "why": "Divided $S_{3}=42$ by $3$, giving an average rather than the third term."
+          "text": "$182$",
+          "why": "Removed the third term $42$ as well, adding only $72+110=182$."
         },
 {
-          "text": "$62$",
-          "why": "Added $S_{3}+S_{2}=42+20$ instead of subtracting."
+          "text": "$250$",
+          "why": "Gave $S_{5}=6+20+42+72+110=250$ without subtracting $S_{2}=26$."
         }
 ],
-      "solution_text": "$S_{3}=4(3)^{2}+2(3)=42$\n$S_{2}=4(2)^{2}+2(2)=20$\n$a_{3}=S_{3}-S_{2}$\n$=42-20$\n$=22$"
+      "solution_text": "$S_{5}-S_{2}=a_{3}+a_{4}+a_{5}$\n$=(4(3)^{2}+2(3))+(4(4)^{2}+2(4))+(4(5)^{2}+2(5))$\n$=42+72+110$\n$=224$"
     },
 {
       "id": "dq-120168",
-      "question_text": "Let $u_{n}$ be the $n$th term of a sequence and $S_{n}$ the sum of its first $n$ terms.\n$S_{20}-S_{19}=\\ldots$",
-      "structure": "recover-term-from-partial-sums",
+      "question_text": "A sequence has $n$th term $a_{n}=n^{2}-4$.\nWhat is $S_{6}-S_{2}$?",
+      "structure": "evaluate-partial-sum-difference-rule",
       "mastery": false,
       "options": [
-        {
-          "text": "$S_1$",
-          "why": "The difference isolates the newly added twentieth term, not the first partial sum."
+{
+          "text": "$65$",
+          "why": "Removed the third term $5$ as well, adding only $12+21+32=65$."
         },
-        {
-          "text": "$u_1$",
-          "why": "Uses the first term instead of the term added when forming $S_{20}$."
+{
+          "text": "$64$",
+          "why": "Added $S_{2}=-3$ instead of subtracting it, calculating $S_{6}+S_{2}=67-3=64$."
         },
-        {
-          "text": "$u_{20}$",
+{
+          "text": "$70$",
           "correct": true
         },
-        {
-          "text": "$u_{19}$",
-          "why": "The nineteenth term was already included in both partial sums and cancels."
+{
+          "text": "$86$",
+          "why": "Omitted the $-4$ from each of the four required terms, adding $9+16+25+36=86$."
         }
-      ],
-      "solution_text": "Since $S_{20}=u_{1}+u_{2}+\\cdots+u_{20}$ and $S_{19}=u_{1}+u_{2}+\\cdots+u_{19}$, their difference is $u_{20}$."
+],
+      "solution_text": "$S_{6}-S_{2}=a_{3}+a_{4}+a_{5}+a_{6}$\n$=(3^{2}-4)+(4^{2}-4)+(5^{2}-4)+(6^{2}-4)$\n$=5+12+21+32$\n$=70$"
     }
 ]
 }

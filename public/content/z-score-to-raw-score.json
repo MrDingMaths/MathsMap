@@ -2,33 +2,31 @@
   "skillId": "z-score-to-raw-score",
   "atomType": "R",
   "theory": {
-"intro": "Rearranging $z = \\dfrac{x - \\mu}{\\sigma}$ gives $x = \\mu + z\\sigma$, which turns a $z$-score back into a raw value. Rearranging the same formula the other ways finds the mean or the standard deviation.",
+"intro": "Use $x = \\mu + z\\sigma$ to convert a $z$-score to a raw score, where $\\mu$ is the mean and $\\sigma$ is the standard deviation.",
 "facts": [
 "$x = \\mu + z\\sigma$: multiply the $z$-score by the standard deviation, then add the mean.",
 "A positive $z$ gives a raw value above the mean; a negative $z$ gives one below the mean.",
 "When $z$ is negative the term $z\\sigma$ is negative, so you end up subtracting from the mean.",
-"To find the mean from a known value and $z$-score, rearrange to $\\mu = x - z\\sigma$.",
-"To find the standard deviation from a known value and nonzero $z$-score, rearrange to $\\sigma = \\dfrac{x - \\mu}{z}$. A standard deviation used for a $z$-score must be positive.",
 "'Two standard deviations below the mean' means $z = -2$, so turn the words into a $z$-score first.",
 "Check an answer by substituting it back into $z = \\dfrac{x - \\mu}{\\sigma}$; it must give the original $z$-score."
 ],
 "steps": [
-      "Write the z-score formula in the form needed",
-      "Substitute the known values",
-      "Solve for the unknown"
-    ],
+"Write $x = \\mu + z\\sigma$",
+"Substitute the known values",
+"Calculate the raw score"
+],
 "workedExamples": [
-  {
+{
     "question_text": "A test has mean $47.8$ and standard deviation $6.5$.\n(a) Find the mark with $z=1.3$.\n(b) Find the mark that is $1.7$ standard deviations below the mean. Give exact answers.",
-    "solution_text": "Use $x=\\mu+z\\sigma$.\n(a) $x=47.8+1.3\\times6.5$\n$=47.8+8.45=56.25$.\n(b) Below the mean means $z=-1.7$.\n$x=47.8+(-1.7)\\times6.5$\n$=47.8-11.05=36.75$.\nThe positive score gives a mark above the mean; the negative score gives one below it."
+    "solution_text": "Use $x=\\mu+z\\sigma$.\n(a) $x=47.8+1.3\\times6.5$\n$=47.8+8.45$\n$=56.25$.\n(b) Below the mean means $z=-1.7$.\n$x=47.8+(-1.7)\\times6.5$\n$=47.8-11.05$\n$=36.75$.\nThe positive score gives a mark above the mean; the negative score gives one below it."
   },
-  {
-    "question_text": "(a) A value of $38.6$ has $z=-1.4$ in a dataset whose standard deviation is $4.5$. Find the mean.\n(b) A value of $83.6$ has $z=2.4$ in a dataset whose mean is $72.2$. Find the standard deviation.",
-    "solution_text": "Substitute the known quantities into $z=\\dfrac{x-\\mu}{\\sigma}$.\n(a) $-1.4=\\dfrac{38.6-\\mu}{4.5}$\n$-6.3=38.6-\\mu$\n$\\mu=38.6+6.3=44.9$.\nThe value is below its mean, as its negative score requires.\n(b) $2.4=\\dfrac{83.6-72.2}{\\sigma}$\n$2.4\\sigma=11.4$\n$\\sigma=11.4\\div2.4=4.75$.\nThe standard deviation is positive."
+{
+    "question_text": "The monthly rainfall at a station has a mean of $62$ mm and a standard deviation of $2.4$ mm. Find the rainfall corresponding to a standardised score of $2.7$, correct to one decimal place.",
+    "solution_text": "$x=\\mu+z\\sigma$\n$=62+2.7\\times2.4$\n$=62+6.48$\n$=68.48$ mm.\nThe rainfall is $68.5$ mm, correct to one decimal place."
   },
-  {
-    "question_text": "In one dataset, the value $89$ has $z=1.7$ and the value $43$ has $z=-0.8$.\n(a) Find the mean and standard deviation.\n(b) Find the value with $z=-1.2$.",
-    "solution_text": "(a) Use $x=\\mu+z\\sigma$ for each value.\n$89=\\mu+1.7\\sigma$\n$43=\\mu-0.8\\sigma$.\nSubtract the second equation from the first.\n$89-43=(1.7+0.8)\\sigma$\n$46=2.5\\sigma$\n$\\sigma=18.4$.\nSubstitute into the first equation.\n$89=\\mu+1.7\\times18.4$\n$\\mu=89-31.28=57.72$.\n(b) $x=57.72+(-1.2)\\times18.4$\n$=57.72-22.08=35.64$."
+{
+    "question_text": "A reading test has a mean mark of $68.4$ and a standard deviation of $7.6$. A student achieved a $z$-score of $-2.25$. What was the student's actual mark?",
+    "solution_text": "$x=\\mu+z\\sigma$\n$=68.4+(-2.25)\\times7.6$\n$=68.4-17.1$\n$=51.3$."
   }
 ]
 },
@@ -66,53 +64,53 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "A dataset has a mean of $\\mu = 63.5$ and a standard deviation of $\\sigma = 7.2$.\nFind the raw value with a $z$-score of $2.3$.",
         "structure": "raw-from-z",
         "solution_text": "$x = \\mu + z\\sigma$\n$= 63.5 + 2.3 \\times 7.2$\n$= 63.5 + 16.56$\n$= 80.06$"
       },
-      {
+{
         "question_text": "The monthly rainfall at a station has a mean of $84$ mm and a standard deviation of $12.5$ mm.\nFind the rainfall of a month with a $z$-score of $-1.8$.",
         "structure": "raw-from-z-context",
         "solution_text": "$x = \\mu + z\\sigma$\n$= 84 + (-1.8) \\times 12.5$\n$= 84 - 22.5$\n$= 61.5$ mm"
       },
-      {
-        "question_text": "In a dataset with a standard deviation of $6$, the value $57$ has a $z$-score of $-1.5$.\nFind the mean.",
-        "structure": "find-mean",
-        "solution_text": "$\\mu = x - z\\sigma$\n$= 57 - (-1.5) \\times 6$\n$= 57 + 9$\n$= 66$"
-      },
-      {
-        "question_text": "In a dataset with a mean of $76$, the value $88$ has a $z$-score of $2.5$.\nFind the standard deviation.",
-        "structure": "find-sd",
-        "solution_text": "$\\sigma = \\dfrac{x - \\mu}{z}$\n$= \\dfrac{88 - 76}{2.5}$\n$= \\dfrac{12}{2.5}$\n$= 4.8$"
-      },
-      {
-        "question_text": "Priya scored $41$ in a test with a standard deviation of $8$.\nHer standardised score was $-2.25$.\nFind the mean mark for the test.",
-        "structure": "find-mean",
-        "solution_text": "$\\mu = x - z\\sigma$\n$= 41 - (-2.25) \\times 8$\n$= 41 + 18$\n$= 59$"
-      },
-      {
-        "question_text": "In a set of readings with a mean of $134$, a reading of $118$ has a $z$-score of $-1.6$.\nFind the standard deviation.",
-        "structure": "find-sd",
-        "solution_text": "$\\sigma = \\dfrac{x - \\mu}{z}$\n$= \\dfrac{118 - 134}{-1.6}$\n$= \\dfrac{-16}{-1.6}$\n$= 10$"
-      }
-    ],
-    "mastery": [
-      {
-        "question_text": "The masses of newborn lambs are normally distributed with a mean of $3.2$ kg and a standard deviation of $0.45$ kg.\nFind the two masses with $z$-scores of $-2$ and $2$, and state the width of the interval between them.",
+{
+        "question_text": "A test has a mean mark of $61.8$ and a standard deviation of $5.6$.\nFind the mark corresponding to a $z$-score of $-1.75$.",
         "structure": "raw-from-z",
-        "solution_text": "$x = \\mu + z\\sigma$\nFor $z = -2$,\n$x = 3.2 + (-2) \\times 0.45$\n$= 3.2 - 0.9$\n$= 2.3$ kg\nFor $z = 2$,\n$x = 3.2 + 2 \\times 0.45$\n$= 3.2 + 0.9$\n$= 4.1$ kg\nWidth of the interval $= 4.1 - 2.3$\n$= 1.8$ kg"
+        "solution_text": "$x = \\mu + z\\sigma$\n$= 61.8 + (-1.75) \\times 5.6$\n$= 61.8 - 9.8$\n$= 52$"
       },
-      {
-        "question_text": "In a test with a mean of $66$, a mark of $78$ has a $z$-score of $2$.\nFind the standard deviation, then find the mark with a $z$-score of $-0.5$.",
-        "structure": "find-sd",
-        "solution_text": "1. **Write the z-score formula in the form needed**\n$\\sigma = \\dfrac{x - \\mu}{z}$\n2. **Substitute the known values**\n$= \\dfrac{78 - 66}{2}$\n3. **Solve for the unknown**\n$= \\dfrac{12}{2}$\n$= 6$\nNow use $x = \\mu + z\\sigma$ with $z = -0.5$.\n$x = 66 + (-0.5) \\times 6$\n$= 66 - 3$\n$= 63$"
+{
+        "question_text": "The monthly rainfall at a station has a mean of $73$ mm and a standard deviation of $2.6$ mm.\nFind the rainfall corresponding to a standardised score of $2.8$, correct to one decimal place.",
+        "structure": "raw-from-z-context",
+        "solution_text": "$x = \\mu + z\\sigma$\n$= 73 + 2.8 \\times 2.6$\n$= 73 + 7.28$\n$= 80.28$ mm.\nThe rainfall is $80.3$ mm, correct to one decimal place."
       },
-      {
-        "question_text": "In a dataset the value $92$ has a $z$-score of $1.5$ and the value $56$ has a $z$-score of $-0.75$.\nFind the mean and the standard deviation.",
-        "structure": "find-mean",
-        "solution_text": "$x = \\mu + z\\sigma$ for each value gives\n$92 = \\mu + 1.5\\sigma$\n$56 = \\mu - 0.75\\sigma$\nSubtracting the second equation from the first,\n$36 = 2.25\\sigma$\n$\\sigma = 16$\nSubstituting into the first equation,\n$92 = \\mu + 1.5 \\times 16$\n$92 = \\mu + 24$\n$\\mu = 68$\nThe mean is $68$ and the standard deviation is $16$."
+{
+        "question_text": "A fitness test has a mean mark of $69.5$ and a standard deviation of $7.2$.\nWhat mark is $2.25$ standard deviations below the mean?",
+        "structure": "raw-from-words",
+        "solution_text": "$2.25$ standard deviations below the mean means $z = -2.25$.\n$x = \\mu + z\\sigma$\n$= 69.5 + (-2.25) \\times 7.2$\n$= 69.5 - 16.2$\n$= 53.3$"
+      },
+{
+        "question_text": "A reading test has a mean mark of $72.4$ and a standard deviation of $6.8$.\nWhat mark corresponds to a $z$-score of $1.75$?",
+        "structure": "raw-from-z-context",
+        "solution_text": "$x = \\mu + z\\sigma$\n$= 72.4 + 1.75 \\times 6.8$\n$= 72.4 + 11.9$\n$= 84.3$"
       }
-    ]
+],
+    "mastery": [
+{
+        "question_text": "The masses of newborn lambs are normally distributed with a mean of $3.2$ kg and a standard deviation of $0.45$ kg.\nFind the two masses with $z$-scores of $-2$ and $2$.",
+        "structure": "raw-from-z",
+        "solution_text": "$x = \\mu + z\\sigma$\nFor $z = -2$,\n$x = 3.2 + (-2) \\times 0.45$\n$= 3.2 - 0.9$\n$= 2.3$ kg\nFor $z = 2$,\n$x = 3.2 + 2 \\times 0.45$\n$= 3.2 + 0.9$\n$= 4.1$ kg"
+      },
+{
+        "question_text": "A test has a mean mark of $67.35$ and a standard deviation of $4.8$.\nFind the mark corresponding to a $z$-score of $-2.125$.",
+        "structure": "raw-from-z",
+        "solution_text": "$x = \\mu + z\\sigma$\n$= 67.35 + (-2.125) \\times 4.8$\n$= 67.35 - 10.2$\n$= 57.15$"
+      },
+{
+        "question_text": "A reading test has a mean mark of $58.75$ and a standard deviation of $7.6$.\nWhat mark is $2.375$ standard deviations above the mean?",
+        "structure": "raw-from-words",
+        "solution_text": "$2.375$ standard deviations above the mean means $z = 2.375$.\n$x = \\mu + z\\sigma$\n$= 58.75 + 2.375 \\times 7.6$\n$= 58.75 + 18.05$\n$= 76.8$"
+      }
+]
   }
 }

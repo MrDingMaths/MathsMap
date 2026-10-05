@@ -2,7 +2,7 @@
 import path from 'node:path';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { initCampaign, nextAssignment, activateWorkerLineagePolicy, activateExecutionOverride, prepareAssignment, recordPrerequisiteContextRead, stageAssignment, recordReview, recordReviewProfile, recordVisualReview, recordRefreshedVisualReview, publishAssignment, recoverCampaignPublication, requestRepair, releaseAssignment, statusCampaign, receiptCampaign, DEFAULT_CAMPAIGN } from './campaign-support.mjs';
+import { initCampaign, nextAssignment, activateWorkerLineagePolicy, activateBookletTypePolicy, activateExecutionOverride, prepareAssignment, recordPrerequisiteContextRead, stageAssignment, recordReview, recordReviewProfile, recordVisualReview, recordRefreshedVisualReview, publishAssignment, recoverCampaignPublication, requestRepair, releaseAssignment, statusCampaign, receiptCampaign, DEFAULT_CAMPAIGN } from './campaign-support.mjs';
 import { measureCampaignUsage } from './campaign-measurement.mjs';
 import { runCampaign } from './campaign-runner.mjs';
 import { createSourcePreparer } from './campaign-source-dispatch.mjs';
@@ -21,6 +21,7 @@ try {
       result = argv.includes('--full') ? initialized : { campaignId, createdAt: initialized.createdAt, membership: initialized.skillIds.length, excluded: initialized.excludedIds.length, initialCounts: initialized.initialCounts, membershipHash: initialized.membershipHash, manifestReconciliation: initialized.manifestReconciliation }; break;
     }
     case 'activate-execution-override': result = activateExecutionOverride(root, { ...input(), campaignId }); break;
+    case 'activate-booklet-type': result = activateBookletTypePolicy(root, { ...input(), campaignId }); break;
     case 'activate-lineage': result = activateWorkerLineagePolicy(root, { campaignId }); break;
     case 'measure-usage': result = measureCampaignUsage(root, campaignId, {historicalExternalEvidencePath:value('--historical-external-evidence'),historicalExternalEvidenceHash:value('--historical-external-evidence-hash'),nativeProfileClarificationPath:value('--native-profile-clarification'),nativeProfileClarificationHash:value('--native-profile-clarification-hash')}); break;
     case 'next': result = nextAssignment(root, { ...options, ...(value('--native-actor') ? { workerLineage: { kind: 'native', actorId: value('--native-actor') } } : argv.includes('--external-ephemeral') ? { workerLineage: { kind: 'external-ephemeral' } } : {}) }); break;

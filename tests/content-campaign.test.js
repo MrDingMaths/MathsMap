@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { deflateSync } from 'node:zlib';
 import { publishSkill } from '../scripts/content/publication.mjs';
 import { captureCampaignDiagrams, finalizeCampaignDiagrams, rebindCampaignRenderReceipt, verifyCampaignRenderReceipt, pngCrc32, pngDimensions } from '../scripts/content/campaign-visual-evidence.mjs';
-import { initCampaign, readCampaign, readSkill, nextAssignment, prepareAssignment, stageAssignment, recordReview, recordReviewProfile, recordVisualReview, capturePair, assessmentItems, hashValue, statusCampaign, reconcileBaselineItems, recoverCampaignPublication, publishAssignment, receiptCampaign, claimCoordinator, recordPaidCallCheckpoint, requestRepair, loadPreviousReview } from '../scripts/content/campaign-support.mjs';
+import { initCampaign, readCampaign, readSkill, nextAssignment, prepareAssignment, stageAssignment, recordReview, recordReviewProfile, recordVisualReview, capturePair, assessmentItems, hashValue, statusCampaign, reconcileBaselineItems, recoverCampaignPublication, publishAssignment, receiptCampaign, claimCoordinator, recordPaidCallCheckpoint, requestRepair, loadPreviousReview, activateBookletTypePolicy, BOOKLET_TYPE_PROFILE } from '../scripts/content/campaign-support.mjs';
 import { runCampaign, normalizeWorkerResult, inlineEvidencePrompt } from '../scripts/content/campaign-runner.mjs';
 import { createSourcePreparer } from '../scripts/content/campaign-source-dispatch.mjs';
 import { validateCandidatePair } from '../scripts/validate.mjs';
@@ -897,4 +897,27 @@ test('actual algebra pilot source review with all supplemental images fits fully
   const evidence = JSON.parse(fs.readFileSync(path.join(root, prepared.sourceEvidencePath))); assert.equal(evidence.length,6); assert.equal(evidence[5].images.length,2);
   assert.equal(hashValue(evidence),prepared.sourceEvidenceHash); assert.ok(prepared.packets.every(packet=>packet.variableChars <= 24000));
   assert.equal(prepared.sourceReferences[5].adjustments, refs[5].adjustments);
+});
+
+test('activated booklet question-type rule requires a cited booklet question or exception per assessment and an independent confirmation', t => {
+  const { root, sourcePath } = fixture(t);
+  assert.throws(() => activateBookletTypePolicy(root, { campaignId: 'test' }), /explicit request and requester/);
+  assert.equal(activateBookletTypePolicy(root, { campaignId: 'test', request: 'replace off-booklet question types', requestedBy: 'human user' }).policy.profile, BOOKLET_TYPE_PROFILE);
+  nextAssignment(root, { campaignId: 'test', workerId: 'author', ids: ['first'] }); prepareAssignment(root, { campaignId: 'test', workerId: 'author', skillId: 'first' });
+  let state = readSkill(root, 'test', 'first');
+  const payload = normalizeWorkerResult(root, state, authorPayload(root, sourcePath)), stageWith = value => stageAssignment(root, { ...value, campaignId: 'test', workerId: 'author', skillId: 'first' });
+  assert.throws(() => stageWith(payload), /Booklet question type or explicit exception required/);
+  const typed = structuredClone(payload);
+  for (const row of typed.coverage.items) if (!row.where.startsWith('theory.')) row.bookletType = { sourceRef: 0, question: 'Example: Calculate 8+3' };
+  const unknown = structuredClone(typed); unknown.coverage.items.find(row => row.bookletType).bookletType.sourceRef = 4;
+  assert.throws(() => stageWith(unknown), /Booklet question type references unknown source evidence/);
+  typed.coverage.items.find(row => row.bookletType).bookletType = { exception: true, reason: 'No booklet question at this tier; listed for the user.' };
+  stageWith(typed);
+  nextAssignment(root, { campaignId: 'test', workerId: 'reviewer', ids: ['first'], role: 'review' }); prepareAssignment(root, { campaignId: 'test', workerId: 'reviewer', skillId: 'first' });
+  state = readSkill(root, 'test', 'first'); assert.equal(state.stage.bookletTypeProfile, BOOKLET_TYPE_PROFILE);
+  const review = reviewPayload(root, state), record = value => recordReview(root, { ...normalizeWorkerResult(root, state, value), campaignId: 'test', workerId: 'reviewer', skillId: 'first' });
+  assert.throws(() => record(review), /Independent booklet question-type confirmation required/);
+  for (const outcome of review.outcomes) if (!outcome.where.startsWith('theory.')) outcome.bookletTypeConfirmed = true;
+  record(review);
+  assert.ok(readSkill(root, 'test', 'first').review.outcomes.filter(outcome => !outcome.where.startsWith('theory.')).every(outcome => outcome.bookletTypeConfirmed === true));
 });

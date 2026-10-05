@@ -64,6 +64,7 @@ export const BOUNDED_CONTEXT_PROFILE = 'source-metadata-refs-v1';
 export const PREVIOUS_REVIEW_PROFILE = 'whole-item-prior-review-ref-v1';
 export const PACKET_SOURCE_PROFILE = 'packet-source-evidence-ref-v1';
 export const REPAIR_PACKET_PROFILE = 'repair-common-source-ref-v1';
+export const BOOKLET_TYPE_PROFILE = 'booklet-question-type-v1';
 export const DEFAULT_CAMPAIGN = 'worked-examples-2026-09';
 const now = () => new Date().toISOString();
 const idPattern = /^[a-z0-9][a-z0-9-]*$/;
@@ -176,6 +177,20 @@ export function activateWorkerLineagePolicy(root, { campaignId = DEFAULT_CAMPAIG
     return { campaignId, policy: campaign.futureAssignmentPolicy };
   });
 }
+/** Explicit prospective booklet question-type rule; existing owners, stages and accepted evidence are unchanged. */
+export function activateBookletTypePolicy(root, { campaignId = DEFAULT_CAMPAIGN, request, requestedBy } = {}) {
+  return lock(root, campaignId, () => {
+    const campaign = readCampaign(root, campaignId);
+    if (campaign.bookletTypePolicy && campaign.bookletTypePolicy.profile !== BOOKLET_TYPE_PROFILE) throw new Error('Unknown booklet question-type policy');
+    if (!campaign.bookletTypePolicy) {
+      if (!request?.trim() || !requestedBy?.trim()) throw new Error('Booklet question-type activation needs the explicit request and requester');
+      campaign.bookletTypePolicy = { profile: BOOKLET_TYPE_PROFILE, request, requestedBy, activatedAt: now(), appliesTo: 'author ownership assigned after activation and its reviews; existing owners, stages and accepted evidence unchanged' };
+      save(ledgerFile(root, campaignId), campaign);
+    }
+    return { campaignId, policy: campaign.bookletTypePolicy };
+  });
+}
+const bookletTypeRequired = (campaign, state) => campaign.bookletTypePolicy?.profile === BOOKLET_TYPE_PROFILE && state.owner.assignedAt >= campaign.bookletTypePolicy.activatedAt;
 /** Explicit prospective renderer opt-in; historical captures/inspections remain immutable. */
 export function activateScopedRendererPolicy(root, { campaignId = DEFAULT_CAMPAIGN, rendererActivation } = {}) {
   return lock(root,campaignId,()=>{
@@ -660,7 +675,7 @@ export function recordPrerequisiteContextRead(root, { campaignId = DEFAULT_CAMPA
     return structuredClone(prepared.prerequisiteReadReceipt);
   });
 }
-function checkCoverage(content, quiz, coverage) {
+function checkCoverage(content, quiz, coverage, bookletType = false) {
   const items = assessmentItems(content, quiz), methods = coverage?.methods || [], mappings = coverage?.items || [];
   const ids = new Set(methods.map(method => method.id));
   if (ids.size !== methods.length || methods.some(method => !idPattern.test(method.id) || !method.description?.trim() || !Array.isArray(method.sourceRefs) || !method.sourceRefs.length)) throw new Error('Methods need unique IDs, descriptions and source references');
@@ -668,6 +683,13 @@ function checkCoverage(content, quiz, coverage) {
   for (const item of [...assessment, ...examples]) {
     const matches = mappings.filter(mapping => mapping.where === item.where);
     if (matches.length !== 1 || matches[0].hash !== item.hash) throw new Error('Missing/stale method coverage for ' + item.where);
+    // Every retained practice/quiz item names the booklet question it follows, or is an explicit exception for the user.
+    if (bookletType && item.kind !== 'example') {
+      const type = matches[0].bookletType;
+      const cited = Number.isInteger(type?.sourceRef) && type.sourceRef >= 0 && typeof type.question === 'string' && type.question.trim() && type.exception === undefined;
+      const exception = type?.exception === true && typeof type.reason === 'string' && type.reason.trim() && type.sourceRef === undefined;
+      if (!cited && !exception) throw new Error('Booklet question type or explicit exception required for ' + item.where);
+    }
     if (!matches[0].methods?.length || matches[0].methods.some(id => !ids.has(id))) throw new Error('Unknown/empty assessed method for ' + item.where);
   }
   if (mappings.some(mapping => ![...assessment, ...examples].some(item => item.where === mapping.where))) throw new Error('Unknown method coverage item');
@@ -708,12 +730,14 @@ export function stageAssignment(root, { campaignId = DEFAULT_CAMPAIGN, skillId, 
     const workerLineage = validateWorkerProvenance(state, { role: 'author', workerId, metrics });
     const content = typeof candidateContent === 'string' ? JSON.parse(candidateContent) : candidateContent, quiz = typeof candidateQuiz === 'string' ? JSON.parse(candidateQuiz) : candidateQuiz;
     const validation = validatePair({ skillId, content, quiz, rootDir: root }); if (validation.errors?.length) throw new Error('Candidate validation: ' + validation.errors.join('; '));
-    const acceptedCoverage = checkCoverage(content, quiz, coverage);
+    const bookletType = bookletTypeRequired(readCampaign(root, campaignId), state);
+    const acceptedCoverage = checkCoverage(content, quiz, coverage, bookletType);
     if (!Array.isArray(sourceReview) || !sourceReview.length || sourceReview.some(ref => !ref.path || !ref.hash || typeof ref.locator !== 'string' || !ref.locator.trim() || !['direct', 'indirect'].includes(ref.support) || typeof ref.observation !== 'string' || !ref.observation.trim() || typeof ref.adjustments !== 'string' || !ref.adjustments.trim())) throw new Error('Source review needs hashed exact sections/pages, support, observations and actual adjustments');
     for (const ref of sourceReview) if (hashValue(fs.readFileSync(inside(root, ref.path))) !== ref.hash) throw new Error('Stale reviewed source ' + ref.path);
     sourceReview = sourceReview.map(ref => ({ ...ref, images: validateSourceImages(root, preservePreparedSourceImages(root, ref, prepared.sources), { requireAccepted: true }) }));
     for (const ref of prepared.sources) for (const gap of ref.unavailableImages || []) if (!sourceReview.some(reviewed => reviewed.path === ref.path && reviewed.startLine === ref.startLine && reviewed.endLine === ref.endLine && reviewed.unavailableImages?.some(accepted => unavailableImageDecisionHash(accepted) === unavailableImageDecisionHash(gap)))) throw new Error('Source review omitted or changed the declared missing-illustration decision: ' + gap.path);
     for (const method of acceptedCoverage.methods) if (method.sourceRefs.some(index => !Number.isInteger(index) || !sourceReview[index])) throw new Error('Method references unknown source evidence');
+    if (bookletType) for (const mapping of acceptedCoverage.items) if (mapping.bookletType?.sourceRef !== undefined && !sourceReview[mapping.bookletType.sourceRef]) throw new Error('Booklet question type references unknown source evidence: ' + mapping.where);
     if (state.scope.stage === 3 && sourceReview.some(ref => ref.support !== 'indirect' && relative(root, inside(root, ref.path)).toLowerCase() !== 'syllabus/stage 3 content.md')) throw new Error('Stage 3 borrowed sources must use honest indirect support');
     const baselinePath = state.stage?.baselinePath || prepared.snapshotPath;
     const baseline = readJson(inside(root, baselinePath));
@@ -747,6 +771,7 @@ export function stageAssignment(root, { campaignId = DEFAULT_CAMPAIGN, skillId, 
     const inheritedVisualFlags = changedDiagramItems(baseline, { content, quiz }, [...(previousStage?.inheritedVisualFlags || []), ...(previousReview?.requiredVisuals || []).map(field => field.where)]).map(field => field.where);
     state.stage = { executionProfile: structuredClone(assignmentExecutionProfile(state)), candidatePath: relative(root, candidatePath), baselinePath, hash: stageHash, candidateHash: hashValue({ content, quiz }), expected: prepared.expected, baselineDispositions, reusedOutcomes, inheritedVisualFlags, author: workerId, authorSessionId: metrics?.sessionId || workerId, authorSessionIds: metrics?.sessions?.map(session => typeof session === 'string' ? session : session.sessionId).filter(Boolean) || [metrics?.sessionId || workerId], coverage: acceptedCoverage, sourceReview, removals, substantiveCorrections: [...new Set([...(state.stage?.substantiveCorrections || []), ...substantiveCorrections])], dependencyHash: dependencies.hash, validation: { warnings: validation.warnings || [], checkedAt: now() }, metrics, stagedAt: now() };
     if (workerLineage) state.stage.workerLineage = workerLineage;
+    if (bookletType) state.stage.bookletTypeProfile = BOOKLET_TYPE_PROFILE;
     const dependencyPath = path.join(dir, `dependencies-${dependencies.hash}.json`);
     const dependencyBytes = JSON.stringify(dependencies, null, 2) + '\n';
     if (!fs.existsSync(dependencyPath)) fs.writeFileSync(dependencyPath, dependencyBytes, { flag: 'wx' });
@@ -855,6 +880,7 @@ export function validateReviewStructure(root, state, { outcomes, theoryObservati
     const matches = outcomes.filter(outcome => outcome.where === item.where), outcome = matches[0];
     if (matches.length !== 1 || outcome.hash !== item.hash) throw new Error('Missing/stale review outcome: ' + item.where);
     if (!outcome.independentSolution?.trim() || !outcome.observation?.trim() || !['accepted', 'repair', 'unresolved'].includes(outcome.verdict)) throw new Error('Full independent solution and method/wording/scope observation required: ' + item.where);
+    if (state.stage.bookletTypeProfile === BOOKLET_TYPE_PROFILE && item.kind !== 'example' && outcome.verdict === 'accepted' && outcome.bookletTypeConfirmed !== true) throw new Error('Independent booklet question-type confirmation required: ' + item.where);
     if (item.kind === 'quiz') {
       if (!Array.isArray(outcome.options) || outcome.options.length !== item.value.options.length) throw new Error('Every MCQ option needs independent review: ' + item.where);
       item.value.options.forEach((option, i) => { const reviewed = outcome.options[i]; if (reviewed?.hash !== hashValue(option) || !reviewed.observation?.trim() || typeof reviewed.mathematicallyCorrect !== 'boolean') throw new Error('Incomplete/stale option review: ' + item.where); });
