@@ -12,6 +12,10 @@ existing local read-only Codex runner. Record observed model/session/usage/setti
 unavailable observations remain unavailable. Preserve historical model receipts.
 At most three fresh worker sessions run concurrently, plus the coordinator.
 
+Booklet question types (4 October 2026): every practice and quiz item must be a
+question type found in the source booklet for that skill; off-booklet types are
+replaced. See [the rule](content-campaign-efficient-workflow.md#booklet-question-type-rule-4-october-2026).
+
 ## Source, scope and coverage
 
 ### Optional complete prerequisite references for native workers

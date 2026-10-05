@@ -11,17 +11,27 @@ Accepted 11 September 2026; feedback verification narrowed by user request on 16
 
 ### Minimum verification for feedback maintenance
 
+**Lean local repairs (5 October 2026, user-approved).** A repair confined to named blocks of one booklet uses the first matching row below and nothing more. The 5 October Earning Money repair (7 comments, 8 blocks, 23 minutes) printed 1,070 pages, rasterised 496 and inspected 36; its only automated catches were the first layout check and the answer-coverage check, and its only visual catch was on the answer pages. Studio reopens, the interaction script, readback, the bank comparison, `repo:check` and the combined-edition page inspections found nothing. For these repairs:
+
+- Run `check-feedback-pages.mjs --blocks` once after the changes settle and again only after a failure. Inspect the selected Questions pages. Add `short` or `worked` to `--editions` only when practice answers changed.
+- Combined editions get the automated answer-coverage and navigation checks (`--checks-only`, on by default) and are not printed or inspected. Name a combined edition in `--editions` only when covers, contents, answer-section transitions or footers changed.
+- Reopen in Studio or script an interaction only when editor code or a Studio control changed. A renderer-only change is covered by the page check.
+- Check bank sync only when a changed block is bank-linked. Run `repo:check` only before committing or when assets were added.
+- Closeout is the before-snapshot, the revision-safe save and a short report to the user. See [section 6](#6-record-evidence-and-actual-costs).
+
+Widen beyond this only for a reason you can name from the change itself.
+
 Choose checks from the actual change, not the number of comments. Combine comments sharing a cause into one repair and verification group. Record the reason before adding a check outside this matrix.
 
 | Change | Required coverage |
 | --- | --- |
 | Documentation or review metadata only | Check edited text, links or saved review fields. No application build, browser test or PDF export. Resolving a comment does not itself invalidate content renders. |
-| Local content, maths or spacing | Compare changed content with source and taught methods. Inspect final-size changed pages and immediate pagination neighbours in affected layouts. Check further pages only while pagination differs; stop when it rejoins the accepted page map. |
+| Local content, maths or spacing | Compare changed content with source and taught methods. Inspect the final-size pages carrying the changed blocks, with their immediate neighbours, in the Questions layout; add an answer edition only when answers changed. Check further pages only where the repair visibly moved content. |
 | Editor behaviour without a render change | Reproduce the fixed interaction and verify the result. For writes, wait for save acknowledgement and reopen once. Add fragment, undo/redo, rapid-edit, failed-save or mode cases only where the changed mechanism can affect them. No PDF export unless stored/rendered output can change. |
 | Shared renderer or template | Audit all applicable occurrences and book-specific exceptions once. Check every distinct affected arrangement at final size; reuse checks for equivalent cases. Inspect changed pages in affected books, not every page of every book. Exercise each affected edition path; duplicate wrappers need only a focused integration check unless composition changes. |
 | Pagination, covers, footers, numbering, links or export | Check changed page maps, transitions and navigation in the affected editions. Inspect affected boundaries and footers. Widen to the whole affected edition when renumbering or layout changes propagate throughout it. |
 | Diagram content, context, dimensions or rendering | Run the applicable shading, colour, typography and geometry checks for affected figures. Run 3D visibility only for affected solids/viewing dependencies. Check fresh/cache parity only when cache or calibration behaviour changed. Inspect final-size output in each affected layout. |
-| Project or bank writes | Use the revision-safe transaction, read back the changed fields and check applicable bank sync/pins. Test the transaction mechanism separately only if it changed. |
+| Project or bank writes | Use the revision-safe transaction with the expected revision; a rejected save is the conflict check. Check bank sync/pins only for bank-linked changed blocks. Test the transaction mechanism separately only if it changed. |
 | New import or required full acceptance | All five automated checks once after settlement; full standalone visual review and combined acceptance under the unique-layout policy. Also use this coverage for an explicit full-review request or a global pagination/export change whose impact cannot be bounded. Touching a shared file alone is not that trigger. |
 
 For maintenance, full PDF-pixel comparison and complete combined-footer sheets are not default tasks. Use pixel comparison when it is needed to reuse an actual inspection or to investigate a difference. Do not render two complete books merely to prove that an unrelated edit had no effect. Source/DOM hashes identify dependencies and candidates for review; they do not establish visual inspection. Full acceptance retains its exact-pixel and composition requirements.
@@ -79,10 +89,18 @@ node scripts/booklet/check-compact-exercises.mjs --project PROJECT --out .bookle
 
 Before starting a development export, inspect the existing page baseline and planned editions. The command now stops before rendering if a baseline is absent or has a different renderer signature, and it stops before printing if the page comparison selects the entire edition. For a deliberate full development render, pass `--full-development-reason "WHY"`; the reason is recorded in the run report. For ordinary maintenance, reuse a valid baseline and avoid duplicate student/combined exports when their affected page bodies are the same. A missing baseline does not by itself justify a full-book check.
 
-For scoped feedback on an accepted booklet, prefer the single-browser page check, which needs no persisted baseline and writes no project, bank or comment:
+For scoped feedback on an accepted booklet, prefer the single-browser page check, which writes no project, bank or comment. For a repair to named blocks, select pages by block:
 
 ```text
-node scripts/booklet/check-feedback-pages.mjs --baseline-project-file RUN/before.json --project-file RUN/candidate.json --out RUN/pages --cache-state .booklet-work/feedback-pages/cache.json --run-dir RUN
+node scripts/booklet/check-feedback-pages.mjs --project-file RUN/candidate.json --blocks BLOCK_ID,BLOCK_ID --out RUN/pages
+```
+
+This renders no baseline. It runs the full-DOM layout, diagram and navigation checks on the Questions edition, prints and rasterises only the pages carrying those blocks and their neighbours, and runs the same checks plus answer coverage on `with-worked` without printing it (`--checks-only EDITIONS`, or `none`). A renderer change made with the repair therefore cannot select the whole booklet. An unknown block ID fails the run. On Earning Money this took 19 seconds and printed 8 pages, against 70–82 seconds and 359 pages for the page-hash comparison after a renderer change. `--editions` now defaults to `student`.
+
+Use the page-hash comparison when the affected blocks are not known in advance, such as a shared-renderer or style change:
+
+```text
+node scripts/booklet/check-feedback-pages.mjs --baseline-project-file RUN/before.json --project-file RUN/candidate.json --editions student,with-short,with-worked --out RUN/pages --cache-state .booklet-work/feedback-pages/cache.json --run-dir RUN
 ```
 
 It hashes the accepted project's pages without printing them, runs the full-DOM layout, diagram, navigation and answer-coverage checks on the candidate, and prints and rasterises only changed pages, their neighbours and combined-edition boundaries. Both maps come from one runtime in one process. Combined editions take the Questions selection while their body paginates identically and no practice answer changed; otherwise, or with `--baseline-editions all`, they render their own baseline. Pages marked `inspectIn: "student"` are inspected once in the Questions layout; no pixel comparison is performed or claimed. For a shared-renderer change, run `--capture-baseline` before editing the renderer, then rerun without a baseline project; `--runtime-override URL_GLOB=FILE` or `--candidate-css FILE` tests an isolated candidate without touching the live tree and disables diagram-cache reuse when a diagram input is overridden. A whole-edition selection stops unless `--full-reason` is given. `--pages` adds pages for style-only changes that move nothing. The report lists compiles and memory/IndexedDB/server hits per pass; selected pages are not inspected pages.
@@ -132,7 +150,9 @@ human waiting and concurrent call durations. Supply `--run-dir` to export checks
 to record actual PDF creation and verified reuse automatically; no export receipt
 is a visual inspection.
 
-Keep one compact run receipt under `.booklet-work/RUN/` with:
+**Local feedback repairs keep less (5 October 2026).** Keep `before.json` for rollback and the one-off repair script in the run folder, not in `scripts/booklet/`. Resolve each comment with one sentence saying what changed and the page inspected. Report the changed blocks, saved revision, what the checks found and the elapsed time to the user in the reply. Do not write a hashed receipt, a provenance copy, extra project snapshots, per-comment check lists or retry accounting; `writeFeedbackReceipt` is optional. Record an intentional departure from the source on the block itself, as before. The fuller receipt below applies to new imports, shared-renderer changes and full-acceptance work.
+
+For that wider work, keep one compact run receipt under `.booklet-work/RUN/` with:
 
 - Input revisions/hashes, affected occurrence/page/edition coverage and representative cases.
 - Check results, artifact paths/hashes, cache reuse and invalidation reasons.
@@ -149,9 +169,9 @@ Keep tool output to changed fields, compact check summaries and actionable failu
 - Start complete-job timing at the first discovery action. If timing starts later, report that measured window explicitly rather than calling it the whole job.
 - Capture the current page map before editing. Prefer a read-only pagination/map capture to a full baseline PDF when only page movement needs comparison; retain an existing compatible baseline where available.
 - Check cache origin and relevant signatures before export. Reuse compatible diagram caches and keep the initialized browser/context for successive editions when the tooling supports it. Record actual hits and compilations; never bypass cache validity or export guards to claim reuse.
-- For bounded feedback, inspect the changed arrangements and pagination neighbours once in the question layout, then exercise affected combined-edition paths and composition boundaries. Do not default to full combined-body raster comparisons; use them only when their evidence is actually needed. Preserve the existing maintenance verification matrix and full-acceptance exceptions.
+- For bounded feedback, inspect the changed arrangements and pagination neighbours once in the question layout. Combined editions receive automated checks only unless their covers, transitions or footers changed (superseded 5 October 2026; previously every affected combined-edition path and boundary was inspected). Preserve the full-acceptance exceptions.
 - Studio virtualizes offscreen pages. Scroll the affected page into view and wait for its content to mount before asserting table/editor behaviour. The hidden print section is populated only after print preparation; an empty section is not evidence that content is missing.
-- Tools for the points above: `check-feedback-pages.mjs` (page map, affected pages, one browser), `check-feedback-studio.mjs` (mounts each named block's page before reading it, then reopens and compares) and `feedback-closeout.mjs` (`startFeedbackJob` at the first discovery action, write-once `snapshotInput`, `saveRepair` with expected revision and block readback, `resolveComments` only against recorded inspected pages or checks, `writeFeedbackReceipt` with recorded work counts and `unavailable` for anything unrecorded).
+- Tools for the points above: `check-feedback-pages.mjs` (`--blocks` selection or page map, one browser), `check-feedback-studio.mjs` (only when editor code or a Studio control changed; mounts each named block's page before reading it, then reopens and compares) and `feedback-closeout.mjs` (`startFeedbackJob` at the first discovery action, write-once `snapshotInput`, `saveRepair` with expected revision and block readback, `resolveComments` only against recorded inspected pages or checks, `writeFeedbackReceipt` with recorded work counts and `unavailable` for anything unrecorded).
 - Batch source-backed cloze/table repairs with their response mapping and mathematical checks. Reuse the existing repair, transaction and review helpers; avoid ad hoc duplicate closeout scripts. Durable preferences belong in the cross-session guidance and shared authoring prompt, not only a repair receipt.
 
 Completion requires the agreed quality gates to pass, not merely a faster run. Report what changed, the verification result and any real limitations concisely.

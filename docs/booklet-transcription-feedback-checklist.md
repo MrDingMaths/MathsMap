@@ -1,5 +1,7 @@
 # Transcription feedback acceptance checklist
 
+For displayed header casing, unboxed syllabus content, redundant inner teaching panels and complete native table structure, apply the [4 October 2026 prevention convention](booklet-cross-session-rules.md#sentence-case-headers-and-native-table-structure-4-october-2026). Keep source evidence exact and inspect PDF writing space as well as Studio geometry.
+
 > Future runs with `textbook-three-pass-v1` use [three-pass imports](booklet-three-pass-import.md), which supersede conflicting approval stages and exhaustive visual/audit requirements here. Historical runs keep their existing policy.
 
 This checklist records the user's general feedback from the Index Laws transcription session on 9 September 2026. It is required for every future transcription run, alongside the [direct compact workflow](booklet-direct-compact-import.md). Apply it to every occurrence in every book, including existing books, unless the user explicitly limits the change. A named example is evidence of a pattern, not a scope limit.

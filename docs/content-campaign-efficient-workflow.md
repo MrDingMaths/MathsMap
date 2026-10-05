@@ -2,6 +2,77 @@
 
 Approved by the user on 2 October 2026 for `worked-examples-2026-09`. This policy supersedes conflicting campaign orchestration requirements, while preserving content standards and historical evidence. It does not change booklet-import workflows.
 
+## Booklet question-type rule (4 October 2026)
+
+The user's purpose for this campaign includes removing practice and quiz questions that do not follow the source booklets. A six-skill comparison found the earlier standard retained them: of 7,109 pre-existing practice and quiz items in the first 298 published skills, 2 were removed. This rule supersedes "preserve good items" for off-booklet question types.
+
+Every practice and quiz item must be a question type that appears in the booklet's teaching, guided practice or exercises for that skill. Type means what the student is asked to do and with what given information, not the context or values.
+
+- Read the booklet's complete exercise set for the skill, not only the teaching span.
+- Keep booklet-type items and review them as before. Flattening a multi-part booklet question into stand-alone questions is acceptable site format.
+- Replace each off-booklet type with an adapted booklet question of the same tier and new values; record the original in `removals`. Remove or rewrite a worked example that existed only to support it.
+- Only what a booklet question or part actually asks is a type. An intermediate step inside a booklet solution (for example interest earned on the way to another answer) is not.
+- Follow the booklet's conventions for values and working, and its rounding convention, such as rounding each money amount to the nearest cent before combining where the booklet's solutions do. State the rounding in the question where it changes the answer.
+- Remove, with no replacement: recognition questions on a taught term that the booklet never asks, unless recognising it is central to the skill (naming the sink is not; identifying the sampling method is, in a skill about sampling methods); and off-booklet items with no comparable booklet question to adapt.
+- Keep Development and Mastery items that are a booklet question type with harder values, even where the booklet section has no exercises of that tier.
+- Inspect the booklet images in the `media` folders. A question type shown only in an image counts.
+- Use an explicit exception only when the evidence genuinely cannot decide. Do not invent a type.
+
+Runtime: `node scripts/content/campaign.mjs activate-booklet-type --input FILE` with `{request,requestedBy}` records `bookletTypePolicy` (`booklet-question-type-v1`). It applies to author ownership assigned after activation and to reviews of those stages; existing owners, stages, receipts and accepted evidence are unchanged. Each practice/quiz entry in `coverage.items` then needs `bookletType: {sourceRef, question}` or `{exception: true, reason}`, and each accepted practice/quiz review outcome needs the reviewer's own `bookletTypeConfirmed: true`. Scripts never supply either. Reading the complete exercise set is a worker instruction and reviewer check; source selection does not yet enforce it.
+
+Published skills need a style pass under this rule. Skills with no off-type items need no republication.
+
+## Lean route (5 October 2026)
+
+Approved by the user on 5 October 2026 after the efficiency review below. It replaces the guarded ledger route for new work in this campaign. The ledger code and its historical receipts are unchanged and unused by this route.
+
+Why: over 298 skills the independent reviewer found 245 issues in 10,616 item reviews, while the reading acknowledgments, lineage proofs, render receipts and 680 UI inspections rejected nothing in the final records. Claimed author plus review time was about 6 minutes per skill against about 18 worker-minutes of wall time.
+
+```powershell
+node scripts/content/lean-route.mjs run --ids skill-a,skill-b,skill-c --publish
+node scripts/content/lean-route.mjs run --ids skill-a --section "booklets/mathsmap-sources/Stage 6 Standard/Booklet.md:120-480"
+node scripts/content/lean-route.mjs run --ids skill-a --resume --publish
+node scripts/content/lean-route.mjs publish --ids skill-a [--diagram-checked]
+node scripts/content/lean-route.mjs status
+```
+
+Per skill, `run` does the following with GPT-6.1 Sol at medium reasoning, three skills at a time:
+
+1. Author call. The booklet evidence (see below), its images and the live content and quiz are supplied inline with the booklet question-type rule. The author returns the complete corrected pair, a booklet question reference for every practice and quiz item, and the removals with reasons.
+2. Mechanical checks: the site validator, a booklet reference on every item, valid removals, and no bare currency sign in changed text. `removed` rows that do not name a whole original item (theory edits, parts of an item) are moved to edit notes for the reviewer without a model call. Formatting errors (delimiters, TeX outside maths, currency) get one fix call per run, sent the candidate and the errors without the booklet; it may only replace existing text fields.
+3. Independent reviewer call in a separate session. The reviewer derives every answer, picks the correct option of every quiz question from its own answer, confirms each item's booklet type, and checks the theory and removals. The script rejects a review that omits an item or whose correct option differs from the marked one.
+4. At most one repair round. The reviewer then re-checks the changed items and any item the first review left open, or everything if the theory or removals moved, the first review left the theory or a removal open, or no full review has run yet. A run makes at most five calls.
+5. Publication through `publishSkill`, which refuses if the live files changed since the baseline was read and keeps a recoverable journal.
+
+It does not publish when findings remain after the repair round (`needs attention`), when nothing changed, or when a changed item contains a diagram (`held for diagram check`; look at the rendered diagram, then `publish --diagram-checked`). A skill with a finished record is skipped on later runs unless `--redo` or `--resume` is passed; a record still marked `running` was interrupted and is run again. Supplied booklet text over 450 KB needs `--section`. The limit counts the numbered text actually supplied after the existing table-padding normalization, preserving the same prompt and limit.
+
+Booklet evidence (5 October 2026 efficiency review). Where the skill's source mapping cites lines, the route supplies each cited booklet's enclosing top-level (`# `) sections plus that booklet's mixed exercise sections (Check your Understanding, Mixed Practice, Challenge Exercise, Exam Practice), with an outline of the booklet's headings. Booklets mapped only as unconfirmed topic suggestions are named but not supplied. Each image in the supplied lines is attached once. Image paths containing commas use byte-identical copies in the isolated call folder because the worker CLI splits comma-separated image arguments; source labels and original evidence remain intact. The author returns a blocker naming the headings it needs when the supplied lines stop short of the skill's exercise set; rerun that skill with `--section`. A skill whose mapping cites no lines still gets its mapped booklets whole.
+
+`--resume` (once per candidate) continues a `needs attention` record from its retained candidate instead of authoring again: mechanical checks, a full review unless one already covers exactly that candidate, one repair round and the re-review. It refuses, leaving the record untouched, when the live files moved since the baseline or the retained candidate does not match the record; use `--redo` for a fresh attempt.
+
+Authorised maintenance (5 October 2026): the user requested autonomous repair of the reported pending issues. `run --repair` starts from the revision/hash-checked retained candidate of a needs-attention record or a diagram hold, including an exhausted resume. It sends the recorded findings and an optional `--finding "diagnosed issue"` to one repair call, then independently reviews the complete result. Findings still prevent publication; diagrams remain held. Failed-author candidates still require `--redo`. This is an explicit maintenance operation, not automatic repeated retries.
+
+The user also approved a documented booklet-source exception for **only** `add-multiple-numbers-place-value`, `add-subtract-decimals` and `add-subtract-strategies`. `run --redo --source-exception` supplies `syllabus/Stage 3 Content.md` instead of unrelated Stage 4 booklets. Each assessment item must explicitly cite that syllabus and carry `sourceException: true`; every independent review outcome, including examples, must carry `sourceExceptionConfirmed: true`. Booklet-type confirmation remains required for all other skills. The record retains the reason and syllabus hash, and publication of a held candidate refuses changed syllabus evidence. All mathematical, option, stage, minimum-count, diagram and revision-safe publication checks remain in force.
+
+Records: one compact file per skill in `booklets/provenance/content-campaign/worked-examples-2026-09/lean/` (status, baseline and candidate hashes, changed items, removals, call times and token usage, publication journal). The record is written after every call, and a later attempt keeps the earlier attempts' calls under `previousAttempts`, so interrupted, redone and resumed work stays counted. Working files are in `.agywork/content-campaign/worked-examples-2026-09/lean/<skill>/`.
+
+Not checked by this route: page layout of text-only skills, and the old ledger's `published`/`pending` counts, which no longer reflect lean work. Use `status` for lean progress.
+
+First live run, `credit-cards`: accepted after one repair round and published; four calls, 12.7 minutes, about 307k input and 23k output tokens.
+
+First-batch checkpoint decision (5 October 2026): the user accepted the comparisons and permits worked examples to adapt booklet exercises when no booklet worked example covers the assessed method. Change the values, keep the target skill as the focus, and do not introduce more advanced skills. The same focus and advanced-skill restriction applies to practice and quiz adaptations. This resolves the exercise-derived worked-example blockers without relaxing the booklet question-type rule or independent review.
+
+## Operating rules from the 4 October 2026 efficiency review
+
+Measured over the first 298 skills: about 6 minutes of claimed author plus review time per skill against roughly 18 worker-minutes of wall time; 851 hand-written one-off scripts; 84 published skills made stale for rendering only by renderer-policy activations; 487 UI capture runs; 29% of skills needing a second author stage. Token use per skill was not recorded. These rules stay within the approved standard.
+
+- Do not write a script per skill. Workers supply plain JSON (author delta, compact review input) and use `campaign-lean-cli.mjs` `expand-author`, `preflight-compact-review` and `batch` (`prepare`, `acknowledge-read`, `stage`, `review`, `publish`), which already cover the whole path.
+- No further workflow or renderer-policy changes until the queue is done, unless a diagnosed blocker stops content. Reconcile stale rendering once, at final settlement.
+- Capture UI once per stage hash, sampled views where the sampling guard allows, and reuse that capture for review.
+- Plan only the next cohorts (`plan --ids`/`--size`), not the whole queue. Write progress snapshots at batch milestones.
+- Record explicit structured confirmations in place of repeated "personally read" prose. The author's separate `compact-math-audit.txt` is not required.
+- Record per cohort: claim-to-stage and claim-to-review minutes, off-type items found and replaced, second author stages, UI captures, and the account weekly-percent change per published skill.
+
 ## Lean execution precedence (3 October 2026)
 
 The user requested faster, leaner execution. Prioritize ready content authoring, independent review and serialized batch publication. Complete the already-tested repair metadata blocker fix, then stop further workflow development unless a demonstrated blocker prevents content work. Do not build new evidence-reuse systems or add speculative test coverage.

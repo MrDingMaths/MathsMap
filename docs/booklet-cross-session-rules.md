@@ -1,5 +1,17 @@
 # Cross-session transcription and rendering rules
 
+## Sentence-case headers and native table structure (4 October 2026)
+
+Use sentence case for displayed section, teaching-box and table headers, preserving proper names, acronyms, syllabus codes, case-sensitive unit symbols such as km and mL, and native mathematics. Retain original source headings in evidence. Store the chosen text; do not impose case with CSS. Generated exercise headings and shared teaching-header defaults follow the same convention.
+
+Keep opening syllabus content unboxed beneath the shared Syllabus content section header. Teaching templates supply their own outer panel: prose and formulas do not need another inner card or one-column bordered table. Preserve actual mathematical tables, calculator displays, meaningful paired work and dedicated response regions.
+
+Keep grouped headers and data rows in one native editable table, with meaningful spans and stable answer-owning parts. Do not imitate a table using a separate header table and one table per part. House label cells use blue `#d3e8fc` and grey `#cccccc` borders; preserve colour where it carries mathematical meaning. Single-column tables require a mathematical or response purpose rather than automatic removal. New teaching activities require explicit authorisation.
+
+For a response table taller than a page, `flow.tableContinuation` explicitly maps each body row to its stable answer part using `tableId`, `headerRows` and `rowPartIds`. Printed fragments retain whole owned rows and repeat the header; Studio opens the complete canonical table for editing. Preserve meaningful figure arrangements when consolidating rows. Do not shrink writing space to force a long table onto one page.
+
+The opt-in house-authoring validator rejects fragmented tables and boxed syllabus content; ambiguous single-column tables are reported for the existing content review. Historical authoring packets remain pinned. Layout and writing-space acceptance still requires final-size PDF inspection: screen measurements alone are insufficient.
+
 > Future runs with `textbook-three-pass-v1` use [three-pass imports](booklet-three-pass-import.md), which supersede conflicting approval stages and exhaustive visual/audit requirements here. Historical runs keep their existing policy.
 
 This register consolidates earlier recorded user feedback for every future booklet and every applicable occurrence. Read it with the [acceptance checklist](booklet-transcription-feedback-checklist.md), [compact import workflow](booklet-direct-compact-import.md) and [worked-solution contract](booklet-worked-solution-style.md). This is an audit of repository feedback records and instructions, not a claim to have retrieved every historical conversation or visually rechecked every existing book.

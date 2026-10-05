@@ -1,5 +1,7 @@
 # Lean import runtime
 
+> Since 5 October 2026 new imports use the [lean review route](booklet-three-pass-import.md#lean-review-route-no-ledger-5-october-2026-user-approved) for review, export and visual inspection. `lean-import.mjs inventory|author|sample` below still apply; its `review`, `export` and `visual` commands remain for runs already using them.
+
 Implemented 3 October 2026 after the six-booklet FDP timing review. This is an explicit execution option for runs already recording `textbook-three-pass-v1`, Sol 6.1 medium and Standard speed. It does not migrate historical manifests, waive a check, change application APIs, publish to the bank or tune spacing.
 
 ## Adopt at a completed batch boundary
@@ -70,7 +72,7 @@ A passed five-edition export is automated evidence only; its receipt records `vi
 node scripts/booklet/lean-import.mjs visual --run-id BOOKLET-RUN-ID --project PROJECT-ID --exports .booklet-work/full-imports/BOOKLET-RUN-ID/final-exports-LEAN
 ```
 
-Preparation requires a settled project and all five passed edition manifests, and the queue is guarded by the same renderer, project and asset hashes as the export. `review --runs` then dispatches the pending page inspections through the shared pool alongside any content review; standalone pages are inspected and their selected bodies in combined editions are retained from those actual inspections. When no page is pending, record the final review with `visual-review.mjs final-record` and then `review-workflow.mjs final-review`. A booklet is not delivered while this queue has pending pages.
+Preparation requires a settled project and all five passed edition manifests, and the queue is guarded by the same renderer, project and asset hashes as the export. `review --runs` then dispatches the pending page inspections through the shared pool alongside any content review; standalone pages are inspected; since 5 October 2026 combined editions queue only their covers, transitions and flagged pages (see the [lean cut](booklet-three-pass-import.md#lean-cut-5-october-2026-user-approved)). When no page is pending, record the final review with `visual-review.mjs final-record` and then `review-workflow.mjs final-review`. A booklet is not delivered while this queue has pending pages.
 
 ## Measure before claiming savings
 
