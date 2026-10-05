@@ -38,7 +38,9 @@ test('lean removes separate approval gates but never accepts an unchecked or err
 });
 test('targeted selection deduplicates examples, transitions, flags and local repair neighbours',()=>{
  const {project}=fixture(),pages=Array.from({length:15},(_,i)=>({page:i+1,blocks:i===0?[]:[i<8?'q1':'q2'],mode:i<11?'student':'short',isCover:i===0}));
- const selected=selectLeanVisualPages(project,pages,'with-short',{flaggedPages:[6,6],changedPages:[5]});
+ // A combined edition repeats the standalone bodies: only its composition is selected.
+ assert.deepEqual(selectLeanVisualPages(project,pages,'with-short',{flaggedPages:[6,6],changedPages:[5]}),[1,6,11,12,15]);
+ const selected=selectLeanVisualPages(project,pages,'student',{flaggedPages:[6,6],changedPages:[5]});
  assert.equal(selected.length,new Set(selected).size);for(const n of [1,2,4,5,6,9,11,12,15])assert.ok(selected.includes(n),String(n));assert.ok(selected.length<15);
 });
 test('three-pass review accepts explicit contract attestations without weakening failed or missing checks',()=>{

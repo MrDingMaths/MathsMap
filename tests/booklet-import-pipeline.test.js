@@ -430,3 +430,18 @@ test('verification is dependency-bound, question-specific and requires postpubli
  project.sections[0].blocks[0].content.answer.short='2';assert.equal(verificationStatus(state,project,{renderer:'r'}).checks.find(c=>c.id==='question:q').passed,false);
  assert.equal(verificationStatus({},project).policy,'legacy');
 });
+
+test('a runner that cannot launch stops dispatch instead of consuming an attempt for every page',async t=>{
+ const runDir=temp(t),pages=[1,2,3,4,5,6,7,8];fs.mkdirSync(path.join(runDir,'evidence/pages'),{recursive:true});
+ for(const page of pages)for(const ext of ['png','txt'])fs.writeFileSync(path.join(runDir,'evidence/pages/page-'+String(page).padStart(3,'0')+'.'+ext),'Synthetic source');
+ const options={runDir,manifest:{...TRANSCRIPTION_DEFAULT,selectedPages:pages},config:{title:'Algebra',topics:[{id:'algebra',title:'Algebra',start:1,end:8}]},stage:'inventory',pages,concurrency:3};
+ let calls=0;const failed=await runSemanticPackets(options,{runner:async()=>{calls++;throw Error('Codex exited 1');},log:()=>{}});
+ assert.equal(failed.ok,false);assert.ok(calls>=1&&calls<=3,'only the workers already started reach the runner: '+calls);
+ const attempts=fs.readdirSync(path.join(runDir,'semantic-packets')).filter(name=>/\.inventory\.1$/.test(name));
+ assert.equal(attempts.length,calls,'pages that were never started keep attempt 1 free');
+ // An ordinary page failure is not a launch failure: every page is still tried.
+ const other=temp(t);fs.mkdirSync(path.join(other,'evidence/pages'),{recursive:true});
+ for(const page of pages)for(const ext of ['png','txt'])fs.writeFileSync(path.join(other,'evidence/pages/page-'+String(page).padStart(3,'0')+'.'+ext),'Synthetic source');
+ let tried=0;await runSemanticPackets({...options,runDir:other},{runner:async()=>{tried++;throw Error('Result was not valid JSON');},log:()=>{}});
+ assert.equal(tried,pages.length);
+});

@@ -36,25 +36,38 @@ test('sampled pages include every page a split block appears on',()=>{
  assert.deepEqual(samplePages(map,[{id:'missing'}]),[]);
 });
 
-test('a layout sample draft-renders student and worked answers, rasterises only sampled pages and records no acceptance',async t=>{
+test('a layout sample draft-renders the three standalone editions, rasterises only sampled pages and records no acceptance',async t=>{
  const dir=temp(t),projectFile=write(dir,'candidate.json',project()),out=path.join(dir,'sample');
  let exportArgs,rasterCalls=[];
  const exportRuntime=async args=>{
   exportArgs=args;
   write(out,'report.json',{report:{book:{
    student:{pdf:{path:path.join(out,'book-student.pdf'),hash:'a'.repeat(64)},map:[{page:1,blocks:['plain-a']},{page:2,blocks:['figure-big']},{page:3,blocks:['figure-big']}]},
+   short:{pdf:{path:path.join(out,'book-short.pdf'),hash:'c'.repeat(64)},map:[{page:1,blocks:['plain-a']}]},
    worked:{pdf:{path:path.join(out,'book-worked.pdf'),hash:'b'.repeat(64)},map:[{page:1,blocks:['figure-small']}]},
   }}});
   return {runtimeManifest:path.join(out,'runtime-manifest.json'),visualAcceptance:false};
  };
  const rasterize=async(pdf,count,rasterDir,{pages})=>{rasterCalls.push({pdf:pdf.path,count,pages});return {images:pages.map(page=>({page,path:path.join(rasterDir,pdf.hash.slice(0,4)+'-'+page+'.png')}))};};
  const result=await runLayoutSample({runDir:dir,projectId:'book',projectFile,out,limit:3},{exportRuntime,rasterize});
- assert.deepEqual(exportArgs.extraArgs,['--draft','--editions','student,worked']);
+ assert.deepEqual(exportArgs.extraArgs,['--draft','--editions','student,short,worked']);
+ assert.equal(result.ok,true);assert.equal(result.coversPracticeAnswers,true);assert.deepEqual(result.lint,{blocking:[],review:[]});
  assert.deepEqual(rasterCalls.map(c=>c.pages),[[2,3],[1]]);
  assert.deepEqual(result.pages.map(p=>p.edition+':'+p.page),['student:2','student:3','worked:1']);
  assert.equal(result.visualAcceptance,false);
  assert.ok(fs.existsSync(result.file));
  await assert.rejects(runLayoutSample({runDir:dir,projectId:'book',projectFile:write(dir,'legacy.json',{id:'book',sections:[]}),out},{exportRuntime}),/three-pass/);
+ // A failed render keeps what it produced: flagged pages are rasterised and the sample is not ok.
+ const failing=project();failing.sections[1].blocks[0].content=[{type:'text',prompt:'Pay $20 and then $30.'}];
+ const failedOut=path.join(dir,'failed'),failed=await runLayoutSample({runDir:dir,projectId:'book',projectFile:write(dir,'failing.json',failing),out:failedOut,limit:3},{rasterize,exportRuntime:async()=>{
+  write(failedOut,'report.json',{report:{book:{student:{pdf:{path:path.join(failedOut,'book-student.pdf'),hash:'d'.repeat(64)},map:[{page:1,blocks:['plain-a']},{page:2,blocks:['figure-big']}],issues:[{page:'1',kind:'short-cloze'}]}}}});
+  throw Error('Export failed');}});
+ assert.equal(failed.ok,false);assert.equal(failed.exportError,'Export failed');assert.deepEqual(failed.missingEditions,['short','worked']);
+ assert.deepEqual(failed.automatedIssues.student.map(issue=>issue.kind),['short-cloze']);assert.deepEqual(failed.pages.map(p=>p.page),[1,2],'the flagged page is shown with the sampled one');
+ assert.deepEqual(failed.lint.blocking.map(row=>row.blockId),['plain-a']);assert.match(failed.next,/did not pass/);
+ const teachingOnly={id:'book',source:{reviewProfile:LEAN_REVIEW_PROFILE},sections:[{phase:'teaching',blocks:[{id:'example',type:'question',content:prompt(4)}]}]};let teachingArgs;
+ const teaching=await runLayoutSample({runDir:dir,projectId:'book',projectFile:write(dir,'teaching.json',teachingOnly),out:path.join(dir,'teaching')},{rasterize,exportRuntime:async args=>{teachingArgs=args;write(path.join(dir,'teaching'),'report.json',{report:{book:{student:{pdf:{path:'s.pdf',hash:'e'.repeat(64)},map:[{page:1,blocks:['example']}]}}}});return {};}});
+ assert.deepEqual(teachingArgs.extraArgs.at(-1),'student');assert.equal(teaching.coversPracticeAnswers,false);assert.match(teaching.next,/no practice answers yet/);
 });
 
 test('final visual review needs a settlement and all five passed edition manifests, then queues the exporter selection',async t=>{

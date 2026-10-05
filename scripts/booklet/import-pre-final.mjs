@@ -8,8 +8,13 @@ const proseKeys=new Set(['prompt','short','worked','text','title','label','capti
 const hash=text=>crypto.createHash('sha256').update(text).digest('hex');
 const aside=/\b(?:this is the source answer|editorial (?:note|revision|correction)|transcription (?:note|revision|correction)|revised teaching section)\b/i;
 const currency=/^\d[\d,.]*\s+(?:and|for|per|each|is|was|to|at|dollars|cents|from)\b/i;
+// A dotted run padded with \hspace inside native maths is a hand-built response
+// blank: it cannot be edited or sized as a cloze and wraps unpredictably.
+const texScaffold=/\\(?:cdots|ldots|dots)\}?\s*\\hspace\{/;
+// Rules that always mean broken printed output. Other rules need a look.
+export const BLOCKING_LINT_RULES=Object.freeze(['math-delimiter','currency-delimiter','math-render']);
 
-export function importPreFinal(project,{reviews=[]}={}){
+export function importPreFinal(project,{reviews=[],extended=false}={}){
  const issues=[],reviewed=[],strings=new Set();let diagrams=0;
  const report=(rule,path,text,message)=>{
   const evidence={rule,path,hash:hash(text),message};
@@ -41,6 +46,8 @@ export function importPreFinal(project,{reviews=[]}={}){
  const walk=(node,pointer='')=>{
   if(!node||typeof node!=='object')return;
   if(node.format==='tikz'){diagramCheck(node,pointer);return;}
+  if(extended&&node.type==='math'&&typeof node.latex==='string'&&texScaffold.test(node.latex))report('tex-response-scaffold',pointer+'/latex',node.latex,'Dotted response blank built from TeX dots and \\hspace; ordinary completion blanks use native dotted clozes');
+  if(extended&&node.type==='layout'&&Array.isArray(node.slots))node.slots.forEach((slot,index)=>{if(typeof slot?.label==='string'&&slot.label.trim())report('unrendered-slot-label',pointer+'/slots/'+index+'/label',slot.label,'A layout slot label is not printed; put the label in a paragraph inside the slot');});
   for(const [key,value] of Object.entries(node)){
    if(excluded.has(key))continue;
    const next=pointer+'/'+key.replace(/~/g,'~0').replace(/\//g,'~1');
@@ -61,4 +68,13 @@ export function importPreFinal(project,{reviews=[]}={}){
   }
  }
  return {version:1,ok:issues.length===0,projectHash:hash(JSON.stringify(project)),strings:strings.size,diagrams,issues,reviewed,note:'Text and graph-axis precheck only. Source coverage, palette/shading/visibility, physical lengths, final-size layout and all five visual editions remain required.'};
+}
+
+// Lean-route lint: the pre-final text checks plus two authoring patterns that
+// reached export in a recorded import. Blocking issues stop an export; review
+// issues are listed for the author and never block.
+export function leanPreExportLint(project){
+ const result=importPreFinal(project,{extended:true}),blockId=pointer=>{const m=/^\/sections\/(\d+)\/blocks\/(\d+)/.exec(pointer);return m?project.sections?.[m[1]]?.blocks?.[m[2]]?.id??null:null;};
+ const rows=result.issues.map(({rule,path,message})=>({rule,blockId:blockId(path),path,message}));
+ return {blocking:rows.filter(row=>BLOCKING_LINT_RULES.includes(row.rule)),review:rows.filter(row=>!BLOCKING_LINT_RULES.includes(row.rule))};
 }

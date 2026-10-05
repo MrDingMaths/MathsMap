@@ -11,6 +11,7 @@ import {describeReview} from './visual-review.mjs';
 import {prepareReviewQueue} from './visual-review-queue.mjs';
 import {ensureSelectedPdfRasters} from './pdf-rasters.mjs';
 import {isLeanReview,leanLayoutProfile} from './lean-profile.mjs';
+import {leanPreExportLint} from './import-pre-final.mjs';
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^﻿/,''));
 const pageImage=(runDir,page)=>path.join(runDir,'evidence','pages','page-'+String(page).padStart(3,'0')+'.png');
 
@@ -62,24 +63,34 @@ export function samplePages(map,sample){
  const ids=sample.map(row=>row.id);
  return (map??[]).filter(page=>(page.blocks??[]).some(block=>ids.some(id=>block===id||block.startsWith(id+'-')||block.startsWith(id+':')))).map(page=>page.page);
 }
-// Draft-render the candidate (all authored content, student and worked answers),
+// Draft-render the candidate in every standalone edition it has content for,
 // then rasterise only the sampled pages. A reviewer looks at them and fixes any
 // shared cause before the rest is authored. Nothing here accepts a layout.
-export async function runLayoutSample({runDir,projectId,projectFile,out,limit=8,editions=['student','worked'],regenerationReason,visibilityReviews},{exportRuntime,rasterize=ensureSelectedPdfRasters}={}){
+// Text lint and the export's automated issues come back with the pages, so a
+// defect family is seen here instead of at the final export; a failed render
+// is reported with whatever it produced instead of being lost.
+const hasPractice=project=>(project.sections??[]).some(section=>section.phase==='practice'&&section.blocks?.length);
+export async function runLayoutSample({runDir,projectId,projectFile,out,limit=8,editions,regenerationReason,visibilityReviews},{exportRuntime,rasterize=ensureSelectedPdfRasters}={}){
  if(!out||!projectId||!projectFile)throw Error('A layout sample needs a candidate project, its ID and an output directory');
  const project=read(projectFile);if(!isLeanReview(project))throw Error('A layout sample requires a three-pass project');
  const sample=selectLayoutSample(project,{limit});if(!sample.length)throw Error('The candidate has no authored blocks to sample');
- const run=exportRuntime??(await import('./import-verification-runtime.mjs')).exportWithFrozenRuntime;
- const receipt=await run({out,projectId,runDir,projectFile,visibilityReviews,regenerationReason,extraArgs:['--draft','--editions',editions.join(',')]});
- const report=read(path.join(out,'report.json')).report?.[projectId]??{},pages=[];
+ const coversPracticeAnswers=hasPractice(project);editions??=coversPracticeAnswers?['student','short','worked']:['student'];
+ const lint=leanPreExportLint(project),run=exportRuntime??(await import('./import-verification-runtime.mjs')).exportWithFrozenRuntime;
+ let receipt=null,exportError=null;
+ try{receipt=await run({out,projectId,runDir,projectFile,visibilityReviews,regenerationReason,extraArgs:['--draft','--editions',editions.join(',')]});}
+ catch(error){exportError=error.message;}
+ const reportFile=path.join(out,'report.json'),report=fs.existsSync(reportFile)?read(reportFile).report?.[projectId]??{}:{},pages=[],automatedIssues={},missingEditions=[];
+ if(!exportError&&!report.student?.pdf?.path)throw Error('Draft render has no PDF page map for student');
  for(const edition of editions){
-  const entry=report[edition];if(!entry?.pdf?.path||!Array.isArray(entry.map))throw Error('Draft render has no PDF page map for '+edition);
-  const wanted=samplePages(entry.map,sample);if(!wanted.length)continue;
+  const entry=report[edition];if(!entry?.pdf?.path||!Array.isArray(entry.map)){missingEditions.push(edition);continue;}
+  if(entry.issues?.length)automatedIssues[edition]=entry.issues;
+  const wanted=[...new Set([...samplePages(entry.map,sample),...(entry.issues??[]).map(issue=>Number(issue.page)).filter(page=>Number.isInteger(page)&&page>=1&&page<=entry.map.length)])].sort((a,b)=>a-b);if(!wanted.length)continue;
   const images=await rasterize(entry.pdf,entry.map.length,path.join(out,'sample-rasters'),{pages:wanted});
   for(const image of images.images)pages.push({edition,page:image.page,blocks:entry.map.find(p=>p.page===image.page)?.blocks??[],image:image.path});
  }
- const result={plan:sample,pages,receipt:receipt?.runtimeManifest??null,visualAcceptance:false,
-  next:'Look at these pages at final size. Fix shared causes (arrangement, diagram width, page splits) in the candidate before authoring the remaining content; nothing here records an acceptance.'};
- fs.writeFileSync(path.join(out,'layout-sample.json'),JSON.stringify(result,null,2)+'\n');
+ const ok=!exportError&&!missingEditions.length&&!lint.blocking.length&&!Object.keys(automatedIssues).length;
+ const result={ok,plan:sample,pages,editions,coversPracticeAnswers,lint,automatedIssues,missingEditions,exportError,receipt:receipt?.runtimeManifest??null,visualAcceptance:false,
+  next:(ok?'':'This sample did not pass: repair the lint, automated issues or render failure listed here and sample again before authoring more. ')+(coversPracticeAnswers?'':'This candidate has no practice answers yet, so short and worked layouts are untested: sample again once the first exercise is authored. ')+'Look at these pages at final size. Fix shared causes (arrangement, diagram width, page splits) in the candidate and in the instructions for the remaining pages before authoring them; nothing here records an acceptance.'};
+ fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'layout-sample.json'),JSON.stringify(result,null,2)+'\n');
  return {...result,file:path.join(out,'layout-sample.json')};
 }

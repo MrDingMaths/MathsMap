@@ -4,6 +4,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {spawn} from 'node:child_process';
+import {projectReviewHash} from './page-review.mjs';
+import {isLeanReview} from './lean-profile.mjs';
 const hash=f=>createHash('sha256').update(fs.readFileSync(f)).digest('hex');
 const entries=['src','data','public','scripts','index.html','vite.config.js','package.json','package-lock.json'];
 export function snapshotFiles(root,names=entries){
@@ -13,6 +15,33 @@ export function snapshotFiles(root,names=entries){
 export function snapshotDifferences(root,files){
  const expected=new Set(files.map(row=>row.path)),actual=snapshotFiles(root),hashes=new Map(actual.map(row=>[row.path,row.hash]));
  return [...files.filter(row=>hashes.get(row.path)!==row.hash).map(row=>row.path),...actual.filter(row=>!expected.has(row.path)).map(row=>row.path)];
+}
+// A skill campaign writes public/content and public/quizzes JSON while imports
+// run. A booklet export does not load a skill file its project never names, so
+// such a write is not a change to that export. Everything else under the frozen
+// entries (renderer, data, scripts, referenced assets) still counts.
+export function unrelatedCampaignFile(file,project){
+ const match=/^public\/(?:content|quizzes)\/([a-z0-9-]+)\.json$/.exec(file);
+ return !!match&&!JSON.stringify(project).includes(match[1]);
+}
+// Resume an already successful checker after an unrelated skill campaign writes
+// public JSON. Never relax the frozen renderer, project or PDF checks.
+export function verifyCompletedFrozenExport({out,projectId,projectFile}){
+ const manifest=JSON.parse(fs.readFileSync(path.join(out,'runtime-manifest.json'))),project=JSON.parse(fs.readFileSync(projectFile));
+ if(!isLeanReview(project))throw Error('Scoped export reuse requires the lean profile');
+ const receipts=fs.readdirSync(out).filter(name=>/^frozen-export-receipt-.*\.json$/.test(name)).sort();
+ const attempt=receipts.length?JSON.parse(fs.readFileSync(path.join(out,receipts.at(-1)))):null;
+ if(attempt?.status!==0||attempt.error)throw Error('The complete five-edition checker has not passed');
+ if(snapshotDifferences(manifest.snapshot,manifest.files).length)throw Error('Frozen renderer changed');
+ const changed=snapshotDifferences(manifest.root,manifest.files),unrelated=changed.every(file=>unrelatedCampaignFile(file,project));
+ if(!unrelated)throw Error('Current export dependencies changed: '+changed.join(', '));
+ const report=JSON.parse(fs.readFileSync(path.join(out,'report.json'))).report?.[projectId];
+ for(const edition of ['student','short','worked','with-short','with-worked']){
+  const entry=report?.[edition];
+  if(!entry||entry.projectHash!==projectReviewHash(project)||entry.issues?.length||!entry.pageHashes?.length)throw Error('Current project or checks differ for '+edition);
+  if(!entry.pdf?.path||!fs.existsSync(entry.pdf.path)||hash(entry.pdf.path)!==entry.pdf.hash)throw Error('PDF changed for '+edition);
+ }
+ return {reused:true,unrelatedCampaignChanges:changed};
 }
 function attachSharedRenderCache(root,snapshot){
  const source=path.join(root,'.booklet-work/render-cache'),target=path.join(snapshot,'.booklet-work/render-cache');
@@ -74,8 +103,10 @@ export async function exportWithFrozenRuntime({root=process.cwd(),out,projectId,
    const args=['scripts/booklet/check-compact-exercises.mjs','--projects',projectId,'--out',path.resolve(out),'--run-dir',path.resolve(runDir),'--base','http://127.0.0.1:'+address.port,'--fresh-edition-document',...(visibilityReviews?['--visibility-reviews',path.resolve(visibilityReviews)]:[]),...(projectFile?['--project-file',path.resolve(projectFile)]:[]),...extraArgs];
    status=await execute({root:manifest.root,args});
   }catch(e){status=null;error=e.message;}
-  const changed=[...snapshotDifferences(manifest.root,manifest.files),...snapshotDifferences(manifest.snapshot,manifest.files),...inputs.filter(i=>!fs.existsSync(i.file)||hash(i.file)!==i.hash).map(i=>i.file)];
-  const receipt={version:1,at:new Date().toISOString(),status,error,regenerationReason:regenerationReason??null,changedDependencies:[...new Set(changed)],runtimeManifest:path.join(path.resolve(out),'runtime-manifest.json'),freshEditionDocuments:true,visualAcceptance:false};
+  let project=null;try{project=JSON.parse(fs.readFileSync(inputs[0].file,'utf8').replace(/^\uFEFF/,''));}catch{}
+  const live=snapshotDifferences(manifest.root,manifest.files),unrelated=project?live.filter(file=>unrelatedCampaignFile(file,project)):[];
+  const changed=[...live.filter(file=>!unrelated.includes(file)),...snapshotDifferences(manifest.snapshot,manifest.files),...inputs.filter(i=>!fs.existsSync(i.file)||hash(i.file)!==i.hash).map(i=>i.file)];
+  const receipt={version:1,at:new Date().toISOString(),status,error,regenerationReason:regenerationReason??null,changedDependencies:[...new Set(changed)],unrelatedCampaignChanges:unrelated,runtimeManifest:path.join(path.resolve(out),'runtime-manifest.json'),freshEditionDocuments:true,visualAcceptance:false};
   fs.writeFileSync(path.join(out,'frozen-export-receipt-'+Date.now()+'.json'),JSON.stringify(receipt,null,2),{flag:'wx'});
   if(changed.length)throw Error('Export snapshot no longer matches live dependencies; passing artifacts remain preserved: '+changed.slice(0,12).join(', '));
   if(status!==0)throw Error('Export failed; resume the same output directory to reuse passed editions. Diagnose repeated failure before a third attempt.');

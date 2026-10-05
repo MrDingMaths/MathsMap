@@ -10,17 +10,21 @@ export function leanLayoutProfile(block){
 }
 // Selection is deterministic and small, not an assertion that unselected pages
 // were visually inspected. Every edition still receives automated checks.
+// A combined edition repeats the standalone question and answer bodies, so only
+// its composition is selected: covers, first and last pages, question/answer
+// transitions and automatically flagged pages. In 38 recorded imports the
+// combined bodies were 42% of visual batches with the standalone hit rate.
 export function selectLeanVisualPages(project,pages,edition,{flaggedPages=[],changedPages=[]}={}){
  const selected=new Set(),families=new Map(),exercises=new Set();
  const blocks=new Map((project.sections??[]).flatMap(section=>(section.blocks??[]).map(block=>[block.id,{block,exercise:section.exerciseId??section.topicId??section.id,phase:section.phase}])));
- const numbers=new Set(pages.map((p,i)=>p.page??i+1));
+ const numbers=new Set(pages.map((p,i)=>p.page??i+1)),combined=edition.startsWith('with-');
  if(pages.length){selected.add(pages[0].page??1);selected.add(pages.at(-1).page??pages.length);}
  let previousMode;
  for(const [index,page]of pages.entries()){
   const number=page.page??index+1,ids=page.blocks??[],rows=ids.map(id=>blocks.get(typeof id==='string'?id:id.id)).filter(Boolean);
   const mode=page.mode??page.compactAnswers??(edition.startsWith('with-')?(page.isAnswer?'answer':'student'):edition);
   if(previousMode!==undefined&&mode!==previousMode){selected.add(number);if(numbers.has(number-1))selected.add(number-1);}previousMode=mode;
-  for(const row of rows){
+  for(const row of combined?[]:rows){
    if(row.phase==='front-matter')selected.add(number);
    const exercise=mode+':'+row.exercise;if(!exercises.has(exercise)){exercises.add(exercise);selected.add(number);}
    const {family,density}=leanLayoutProfile(row.block);
@@ -32,6 +36,6 @@ export function selectLeanVisualPages(project,pages,edition,{flaggedPages=[],cha
  }
  for(const {number}of families.values())selected.add(number);
  for(const page of flaggedPages)selected.add(page);
- for(const page of changedPages)for(const n of [page-1,page,page+1])selected.add(n);
+ if(!combined)for(const page of changedPages)for(const n of [page-1,page,page+1])selected.add(n);
  return [...selected].filter(p=>numbers.has(p)).sort((a,b)=>a-b);
 }
