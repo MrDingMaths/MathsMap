@@ -1,0 +1,816 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9cd491fe-4dc4-4343-9c6e-407a71b355aa",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "taxable-income-tax",
+    "secondarySkillIds": [],
+    "reasoningScore": 28,
+    "difficulty": "Development",
+    "difficultyReason": "Read annual amounts from a table, total income and deductions, then round taxable income down."
+  },
+  "content": {
+    "id": "p47-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p47-q5-intro",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Consider the following table:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p47-q5-table",
+          "type": "table",
+          "widthMm": 120,
+          "marginBefore": 2,
+          "marginAfter": 2,
+          "borderColour": "#cccccc",
+          "borderWidthMm": 0.26,
+          "rowHeights": [],
+          "annotations": [],
+          "border": true,
+          "padding": 2,
+          "widths": [
+            1,
+            1
+          ],
+          "rows": [
+            [
+              {
+                "id": "p47-q5-income-heading-cell",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "#d3e8fc",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p47-q5-income-heading",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "center",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Income (p.a.)",
+                        "marks": [
+                          "bold"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p47-q5-deductions-heading-cell",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "#d3e8fc",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p47-q5-deductions-heading",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "center",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Deductions (p.a.)",
+                        "marks": [
+                          "bold"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                "id": "p47-q5-income-body-cell",
+                "type": "cell",
+                "header": false,
+                "align": "left",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p47-q5-income-values",
+                    "type": "table",
+                    "widthMm": null,
+                    "marginBefore": 2,
+                    "marginAfter": 2,
+                    "borderColour": "#cccccc",
+                    "borderWidthMm": 0.26,
+                    "rowHeights": [
+                      7,
+                      7,
+                      7
+                    ],
+                    "annotations": [],
+                    "border": false,
+                    "padding": 0,
+                    "widths": [
+                      3,
+                      2
+                    ],
+                    "rows": [
+                      [
+                        {
+                          "id": "p47-q5-salary-label-cell",
+                          "type": "cell",
+                          "header": false,
+                          "align": "left",
+                          "verticalAlign": "middle",
+                          "background": "transparent",
+                          "colour": "inherit",
+                          "bold": false,
+                          "borderColour": null,
+                          "borderWidthMm": null,
+                          "border": null,
+                          "rotation": 0,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "blocks": [
+                            {
+                              "id": "p47-q5-salary-label",
+                              "type": "paragraph",
+                              "fontSize": null,
+                              "align": "left",
+                              "spaceBefore": 0,
+                              "spaceAfter": 2,
+                              "lineHeight": 1.4,
+                              "indent": 0,
+                              "inlines": [
+                                {
+                                  "type": "text",
+                                  "text": "Salary",
+                                  "marks": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "p47-q5-salary-amount-cell",
+                          "type": "cell",
+                          "header": false,
+                          "align": "right",
+                          "verticalAlign": "middle",
+                          "background": "transparent",
+                          "colour": "inherit",
+                          "bold": false,
+                          "borderColour": null,
+                          "borderWidthMm": null,
+                          "border": null,
+                          "rotation": 0,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "blocks": [
+                            {
+                              "id": "p47-q5-salary-amount",
+                              "type": "paragraph",
+                              "fontSize": null,
+                              "align": "right",
+                              "spaceBefore": 0,
+                              "spaceAfter": 2,
+                              "lineHeight": 1.4,
+                              "indent": 0,
+                              "inlines": [
+                                {
+                                  "type": "text",
+                                  "text": "$57 521",
+                                  "marks": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      [
+                        {
+                          "id": "p47-q5-interest-label-cell",
+                          "type": "cell",
+                          "header": false,
+                          "align": "left",
+                          "verticalAlign": "middle",
+                          "background": "transparent",
+                          "colour": "inherit",
+                          "bold": false,
+                          "borderColour": null,
+                          "borderWidthMm": null,
+                          "border": null,
+                          "rotation": 0,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "blocks": [
+                            {
+                              "id": "p47-q5-interest-label",
+                              "type": "paragraph",
+                              "fontSize": null,
+                              "align": "left",
+                              "spaceBefore": 0,
+                              "spaceAfter": 2,
+                              "lineHeight": 1.4,
+                              "indent": 0,
+                              "inlines": [
+                                {
+                                  "type": "text",
+                                  "text": "Bank Interest",
+                                  "marks": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "p47-q5-interest-amount-cell",
+                          "type": "cell",
+                          "header": false,
+                          "align": "right",
+                          "verticalAlign": "middle",
+                          "background": "transparent",
+                          "colour": "inherit",
+                          "bold": false,
+                          "borderColour": null,
+                          "borderWidthMm": null,
+                          "border": null,
+                          "rotation": 0,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "blocks": [
+                            {
+                              "id": "p47-q5-interest-amount",
+                              "type": "paragraph",
+                              "fontSize": null,
+                              "align": "right",
+                              "spaceBefore": 0,
+                              "spaceAfter": 2,
+                              "lineHeight": 1.4,
+                              "indent": 0,
+                              "inlines": [
+                                {
+                                  "type": "text",
+                                  "text": "$108.42",
+                                  "marks": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      [
+                        {
+                          "id": "p47-q5-rent-label-cell",
+                          "type": "cell",
+                          "header": false,
+                          "align": "left",
+                          "verticalAlign": "middle",
+                          "background": "transparent",
+                          "colour": "inherit",
+                          "bold": false,
+                          "borderColour": null,
+                          "borderWidthMm": null,
+                          "border": null,
+                          "rotation": 0,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "blocks": [
+                            {
+                              "id": "p47-q5-rent-label",
+                              "type": "paragraph",
+                              "fontSize": null,
+                              "align": "left",
+                              "spaceBefore": 0,
+                              "spaceAfter": 2,
+                              "lineHeight": 1.4,
+                              "indent": 0,
+                              "inlines": [
+                                {
+                                  "type": "text",
+                                  "text": "Rent",
+                                  "marks": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "p47-q5-rent-amount-cell",
+                          "type": "cell",
+                          "header": false,
+                          "align": "right",
+                          "verticalAlign": "middle",
+                          "background": "transparent",
+                          "colour": "inherit",
+                          "bold": false,
+                          "borderColour": null,
+                          "borderWidthMm": null,
+                          "border": null,
+                          "rotation": 0,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "blocks": [
+                            {
+                              "id": "p47-q5-rent-amount",
+                              "type": "paragraph",
+                              "fontSize": null,
+                              "align": "right",
+                              "spaceBefore": 0,
+                              "spaceAfter": 2,
+                              "lineHeight": 1.4,
+                              "indent": 0,
+                              "inlines": [
+                                {
+                                  "type": "text",
+                                  "text": "$30 928",
+                                  "marks": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p47-q5-deductions-body-cell",
+                "type": "cell",
+                "header": false,
+                "align": "left",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p47-q5-deductions-values",
+                    "type": "table",
+                    "widthMm": null,
+                    "marginBefore": 2,
+                    "marginAfter": 2,
+                    "borderColour": "#cccccc",
+                    "borderWidthMm": 0.26,
+                    "rowHeights": [
+                      7,
+                      7,
+                      7
+                    ],
+                    "annotations": [],
+                    "border": false,
+                    "padding": 0,
+                    "widths": [
+                      3,
+                      2
+                    ],
+                    "rows": [
+                      [
+                        {
+                          "id": "p47-q5-union-label-cell",
+                          "type": "cell",
+                          "header": false,
+                          "align": "left",
+                          "verticalAlign": "middle",
+                          "background": "transparent",
+                          "colour": "inherit",
+                          "bold": false,
+                          "borderColour": null,
+                          "borderWidthMm": null,
+                          "border": null,
+                          "rotation": 0,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "blocks": [
+                            {
+                              "id": "p47-q5-union-label",
+                              "type": "paragraph",
+                              "fontSize": null,
+                              "align": "left",
+                              "spaceBefore": 0,
+                              "spaceAfter": 2,
+                              "lineHeight": 1.4,
+                              "indent": 0,
+                              "inlines": [
+                                {
+                                  "type": "text",
+                                  "text": "Union Fees",
+                                  "marks": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "p47-q5-union-amount-cell",
+                          "type": "cell",
+                          "header": false,
+                          "align": "right",
+                          "verticalAlign": "middle",
+                          "background": "transparent",
+                          "colour": "inherit",
+                          "bold": false,
+                          "borderColour": null,
+                          "borderWidthMm": null,
+                          "border": null,
+                          "rotation": 0,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "blocks": [
+                            {
+                              "id": "p47-q5-union-amount",
+                              "type": "paragraph",
+                              "fontSize": null,
+                              "align": "right",
+                              "spaceBefore": 0,
+                              "spaceAfter": 2,
+                              "lineHeight": 1.4,
+                              "indent": 0,
+                              "inlines": [
+                                {
+                                  "type": "text",
+                                  "text": "$857",
+                                  "marks": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      [
+                        {
+                          "id": "p47-q5-laptop-label-cell",
+                          "type": "cell",
+                          "header": false,
+                          "align": "left",
+                          "verticalAlign": "middle",
+                          "background": "transparent",
+                          "colour": "inherit",
+                          "bold": false,
+                          "borderColour": null,
+                          "borderWidthMm": null,
+                          "border": null,
+                          "rotation": 0,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "blocks": [
+                            {
+                              "id": "p47-q5-laptop-label",
+                              "type": "paragraph",
+                              "fontSize": null,
+                              "align": "left",
+                              "spaceBefore": 0,
+                              "spaceAfter": 2,
+                              "lineHeight": 1.4,
+                              "indent": 0,
+                              "inlines": [
+                                {
+                                  "type": "text",
+                                  "text": "Work laptop",
+                                  "marks": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "p47-q5-laptop-amount-cell",
+                          "type": "cell",
+                          "header": false,
+                          "align": "right",
+                          "verticalAlign": "middle",
+                          "background": "transparent",
+                          "colour": "inherit",
+                          "bold": false,
+                          "borderColour": null,
+                          "borderWidthMm": null,
+                          "border": null,
+                          "rotation": 0,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "blocks": [
+                            {
+                              "id": "p47-q5-laptop-amount",
+                              "type": "paragraph",
+                              "fontSize": null,
+                              "align": "right",
+                              "spaceBefore": 0,
+                              "spaceAfter": 2,
+                              "lineHeight": 1.4,
+                              "indent": 0,
+                              "inlines": [
+                                {
+                                  "type": "text",
+                                  "text": "$1550",
+                                  "marks": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      [
+                        {
+                          "id": "p47-q5-blank-deduction-label-cell",
+                          "type": "cell",
+                          "header": false,
+                          "align": "left",
+                          "verticalAlign": "middle",
+                          "background": "transparent",
+                          "colour": "inherit",
+                          "bold": false,
+                          "borderColour": null,
+                          "borderWidthMm": null,
+                          "border": null,
+                          "rotation": 0,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "blocks": []
+                        },
+                        {
+                          "id": "p47-q5-blank-deduction-amount-cell",
+                          "type": "cell",
+                          "header": false,
+                          "align": "right",
+                          "verticalAlign": "middle",
+                          "background": "transparent",
+                          "colour": "inherit",
+                          "bold": false,
+                          "borderColour": null,
+                          "borderWidthMm": null,
+                          "border": null,
+                          "rotation": 0,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "blocks": []
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p47-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Calculate total gross income.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "\\$88 557.42",
+          "worked": "$$\\begin{align*}\\text{Gross income} &= 57\\,521+108.42+30\\,928\\\\&=\\$88\\,557.42\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p47-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Calculate total deductions.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "\\$2407",
+          "worked": "$$\\begin{align*}\\text{Total deductions} &= 857+1550\\\\&=\\$2407\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p47-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Calculate taxable income. Round down to the nearest whole dollar.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "\\$86 150",
+          "worked": "$$\\begin{align*}\\text{Gross income}-\\text{deductions} &= 88\\,557.42-2407\\\\&=\\$86\\,150.42\\end{align*}$$\nRounding down to the nearest whole dollar, taxable income is \\$86 150.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p47-q5",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p47-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p47-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p47-q5-root/label",
+                  "type": "item",
+                  "ref": "p47-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "layout:p47-q5-root/prompt#p47-q5-intro",
+                  "type": "item",
+                  "ref": "p47-q5-root/prompt#p47-q5-intro",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p47-q5-root/prompt#p47-q5-table",
+                  "type": "item",
+                  "ref": "p47-q5-root/prompt#p47-q5-table",
+                  "title": "table"
+                },
+                {
+                  "id": "p47-q5-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p47-q5-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p47-q5-a/label",
+                          "type": "item",
+                          "ref": "p47-q5-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p47-q5-a/prompt",
+                          "type": "item",
+                          "ref": "p47-q5-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p47-q5-a/space",
+                          "type": "item",
+                          "ref": "p47-q5-a/space",
+                          "title": "Answer space",
+                          "height": 15
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p47-q5-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p47-q5-b/label",
+                          "type": "item",
+                          "ref": "p47-q5-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p47-q5-b/prompt",
+                          "type": "item",
+                          "ref": "p47-q5-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p47-q5-b/space",
+                          "type": "item",
+                          "ref": "p47-q5-b/space",
+                          "title": "Answer space",
+                          "height": 15
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p47-q5-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p47-q5-c/label",
+                          "type": "item",
+                          "ref": "p47-q5-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p47-q5-c/prompt",
+                          "type": "item",
+                          "ref": "p47-q5-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p47-q5-c/space",
+                          "type": "item",
+                          "ref": "p47-q5-c/space",
+                          "title": "Answer space",
+                          "height": 15
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 5",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p47-q5-a": 15,
+        "p47-q5-b": 15,
+        "p47-q5-c": 15
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-05T06:50:43.767Z",
+  "updatedAt": "2026-10-05T06:50:43.769Z"
+}

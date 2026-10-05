@@ -1,0 +1,27 @@
+{
+  "projectId": "inverse-functions-v1",
+  "date": "2026-10-04",
+  "scope": "Shared screen rendering of collapsed working-space restore controls; affected Inverse Functions question pages and pagination neighbours",
+  "revision": 261,
+  "projectContentChanged": false,
+  "preserved": "All saved content, layouts and both user-inserted manual page breaks; no project or bank save",
+  "cause": "Zero-height arrangement working-space restore controls remained flex/grid children in Studio, adding arrangement gaps. Print and paginator measurements hide these controls. Page 45 contained 27 zero-space nodes and the screen-only gaps added 37.9394 mm.",
+  "repair": "Place zero-height restore controls outside normal flow, in the part's right gutter. Apply the equivalent treatment to legacy collapsed response controls. Keep non-zero response structures and dedicated arrangement-editor selection mode unchanged.",
+  "measurementsMm": {
+    "page45BeforeStudio": -32.12255,
+    "page45BeforePrint": 5.81685,
+    "page45AfterStudio": 5.81685,
+    "originalCandidateWithoutManualBreaksAfterStudio": 5.77551
+  },
+  "verification": {
+    "focusedTests": "14 passing tests covering zero-space controls, page-space measurement, arrangement print layout and spacing pagination; final gutter adjustment reran the two zero-space tests successfully",
+    "productionBuild": "Passed after final code changes",
+    "studioAudit": "All 45 question-content pages fit in current revision 261, isolated original candidate without the two manual breaks, Questions with short answers, and Questions with worked solutions",
+    "studioReopen": "Passed for representative Mixed Review questions, including measured page space and stable content after reopen",
+    "scopedPrint": "Pages 44–46 in student and both combined editions, plus answer-section boundaries: no automated layout, answer, navigation or print failures; 11 pages printed and 7 rasterized; 55.33 seconds; no new diagram compilation",
+    "actualVisualInspection": "Final full Studio page 45, student pages 44–46, both combined page 46 and answer-transition page 47 inspected as actual PNG/JPEG images; all parts visible, footer clearance and answer transitions clear",
+    "qaImprovement": "check-feedback-studio now records measureBookletPage remaining space and fails negative values beyond the paginator tolerance. The earlier print checks did not observe the screen-only control gaps.",
+    "localEvidence": ".booklet-work/inverse-overflow-20261004"
+  },
+  "limitations": "No full-book export settlement was repeated for this bounded screen-only change. Other screen/print measurement differences remain within page capacity; no negative question-page space was found. Total complete-job elapsed time was not measured."
+}
