@@ -20,6 +20,7 @@
  </div>
  {/if}
  {#if category!=='arrange'}<small class="units">Size and spacing (mm)</small><div class="fields">
+ {#if info.entry?.kind==='space'}<label>Height<input aria-label="Answer space height (mm)" type="number" min="0" max="180" step=".5" value={info.node.height??info.entry.value??0} onchange={e=>{if(e.currentTarget.value!=='')act('properties',{height:Number(e.currentTarget.value)});}}/></label>{/if}
  {#each [['width','Width (mm)'],['before',info.entry?.kind==='diagram'?'Space above image (mm)':'Space above (mm)'],['after','Space below (mm)'],['inset','Indent (mm)']] as [key,label]}<label>{label.replace(' (mm)','').replace('Space above image','Above').replace('Space above','Above').replace('Space below','Below')}<input aria-label={label==='Space above image (mm)'?label:'Layout '+label} type="number" min="0" max="190" step=".5" placeholder={key==='width'?'Auto':'0'} value={key==='width'?(info.node[key]||info.entry?.value?.widthMm||''):info.node[key]??0} onchange={e=>act('properties',{[key]:Number(e.currentTarget.value)})}/></label>{/each}
  {#if info.parent?.direction==='row'}<label>Column proportion<input aria-label="Column proportion" type="number" min=".1" step=".1" value={info.node.weight??1} onchange={e=>act('properties',{weight:Number(e.currentTarget.value)})}/></label>{/if}
  {#if info.node.type==='group'}<label>Gap<input aria-label="Gap (mm)" type="number" min="0" max="30" step=".5" value={info.node.gap??2} onchange={e=>act('properties',{gap:Number(e.currentTarget.value)})}/></label>{/if}

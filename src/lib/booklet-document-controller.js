@@ -68,9 +68,17 @@ export function replaceDocumentFragment(canonical, ids, edited) {
   const blocks=[];canonical.blocks.forEach((b,i)=>{if(i===first)blocks.push(...edited.blocks);if(!wanted.has(b.id))blocks.push(b);});
   return {...canonical,blocks};
 }
+// Page fragments are presentation slices of one stored table. Open the whole
+// canonical table for editing so saving a slice cannot remove off-page rows.
+export function editableTableFragment(canonical,visible,tableId){
+  if(!tableId||!canonical?.blocks||!visible?.blocks)return visible;
+  const table=canonical.blocks.find(block=>block.type==='table'&&block.id===tableId);
+  if(!table)return visible;
+  return {...visible,blocks:visible.blocks.map(block=>block.type==='table'&&block.id===tableId?copy(table):block)};
+}
 export const TEACHING_TEMPLATES = [
   ['review','Review'],['theory','Definition / Theory'],['identify','Identify / Activity'],
-  ['example','Example'],['guided-practice','Guided Practice'],['key-ideas','Key Ideas'],
+  ['example','Example'],['guided-practice','Guided practice'],['key-ideas','Key ideas'],
 ];
 export function createTeachingGroup(kind) {
   const labels = Object.fromEntries(TEACHING_TEMPLATES);

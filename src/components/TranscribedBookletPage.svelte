@@ -51,7 +51,7 @@
     return text.includes('$') || /\s[A-Za-z]{3,}\b/.test(text) ? text : `$${text}$`;
   };
   const calloutKind = (block) => block.variant === 'investigation' ? 'investigation' : block.variant === 'key-ideas' ? 'key-ideas' : 'definition';
-  const calloutLabel = (block) => block.label ?? (block.variant === 'investigation' ? '' : block.variant === 'key-ideas' ? 'Key Ideas' : block.variant === 'info' ? 'Definition' : 'Theory');
+  const calloutLabel = (block) => block.label ?? (block.variant === 'investigation' ? '' : block.variant === 'key-ideas' ? 'Key ideas' : block.variant === 'info' ? 'Definition' : 'Theory');
   const calloutDescription = (block) => block.title === calloutLabel(block) ? '' : block.variant === 'investigation' ? investigationDescription(block.title) : block.title;
 
   function editProps() {

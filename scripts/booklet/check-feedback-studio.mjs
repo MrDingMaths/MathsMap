@@ -44,7 +44,13 @@ export async function snapshotStudioBlock(page,blockId){
  for(const number of pages){
   // Mount and read one page at a time: scrolling to the next unmounts this one.
   await mountStudioPage(page,number);
-  parts.push(await page.locator(pageGroup(number)).evaluate((group,id)=>{
+  await page.waitForFunction(selector=>{const status=document.querySelector(selector)?.querySelector('.page-space-status');return status&&!status.textContent.includes('Updating');},pageGroup(number),{timeout:60000});
+  const space=await page.locator(pageGroup(number)).evaluate(async group=>{
+   const {measureBookletPage}=await import('/src/lib/booklet-page-space.js');
+   const value=measureBookletPage(group);
+   return value?{page:Number(group.dataset.pageNumber),remainingMm:Math.round(value.remainingMm*1000)/1000,columns:value.columns.map(mm=>Math.round(mm*1000)/1000)}:null;
+  });
+  const part=await page.locator(pageGroup(number)).evaluate((group,id)=>{
    const name=CSS.escape(id),matches=[...group.querySelectorAll(`[data-content-owner="${name}"],[data-arrangement-block="${name}"],[data-question-id="${name}"],[data-edit-root="${name}"],[data-edit-root^="${name}-"]`)],roots=matches.filter(el=>!matches.some(other=>other!==el&&other.contains(el)));
    if(!roots.length)return {found:false};
    const visible=el=>el.getClientRects().length>0,root={innerText:roots.map(el=>el.innerText).join('\n'),querySelectorAll:selector=>roots.flatMap(el=>[...el.querySelectorAll(selector)])};
@@ -54,7 +60,8 @@ export async function snapshotStudioBlock(page,blockId){
     clozes:[...root.querySelectorAll('[data-cloze]')].filter(visible).length,
     diagrams:[...root.querySelectorAll('[data-diagram-id]')].filter(visible).map(el=>el.dataset.diagramId),
     editors:root.querySelectorAll(".editable-booklet-text").length};
-  },blockId));
+  },blockId);
+  parts.push({...part,pageSpace:space});
  }
  return {blockId,pages,parts};
 }
@@ -94,6 +101,7 @@ async function main(){
    const again=await snapshotStudioBlock(page,block),same=isDeepStrictEqual(first[i],again),found=first[i].parts.every(part=>part.found);
    report.blocks.push({...first[i],stableAfterReopen:same});
    if(!found)report.failures.push({block,kind:'not-rendered'});
+   for(const part of first[i].parts)if(part.pageSpace?.remainingMm<-.2*25.4/96)report.failures.push({block,kind:'studio-page-overflow',...part.pageSpace});
    if(!same)report.failures.push({block,kind:'changed-after-reopen'});
   }
   report.saveState=await page.locator('.save-state').first().textContent().catch(()=>null);

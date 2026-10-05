@@ -19,7 +19,7 @@
   import FlowBookletPage from './FlowBookletPage.svelte';
   import {isFlexible,FLOW_EDITIONS,flowCommand,flowNumbers,selectedFlowIds,logicalUnits,captureFlowClipboard} from '../lib/booklet-flow.js';
   import {nextGroupSelection,nudgeDestination,moveDestinations,movedBreaks} from '../lib/booklet-group-selection.js';
-  import {createDocumentHistory,contentTarget,fieldValue,createTeachingGroup,createDocumentQuestion,TEACHING_TEMPLATES,replaceDocumentFragment} from '../lib/booklet-document-controller.js';
+  import {createDocumentHistory,contentTarget,fieldValue,createTeachingGroup,createDocumentQuestion,TEACHING_TEMPLATES,replaceDocumentFragment,editableTableFragment} from '../lib/booklet-document-controller.js';
   import {captureEditorSelection,restoreEditorSelection,placeEditorAtPoint,runEditorCommand,prosePoint} from '../lib/booklet-editor-dom.js';
   import {bookletComments,createFeedback,reconcileFeedback,feedbackPrompt,selectFeedbackTarget,feedbackSelectionAnchor,snapshotFeedbackAnchor} from '../lib/booklet-feedback.js';
   import BookletComments from './BookletComments.svelte';
@@ -31,6 +31,7 @@
   import {theme} from '../lib/theme.svelte.js';
   import BookletQuestionSpacing from './BookletQuestionSpacing.svelte';
   import {bookletColours,DOCUMENT_INSERT_TOOLS,applyQuestionSpacing,syncDiagramPresentation} from '../lib/booklet-document-tools.js';
+  import {applyBlockSpacing} from '../lib/booklet-bulk-spacing.js';
   import {captureBookletTextRange,applyBookletTextRange,copyBookletTextRange,replaceBookletTextRange,documentTextLength,joinDocumentParagraph,selectedBookletParagraphs,setBookletParagraphSpacing} from '../lib/booklet-text-selection.js';
   import {readClipboard,plainTextDocument} from '../../public/libs/maths-editor/document-clipboard.mjs';
   import {locateDocumentNode} from '../../public/libs/maths-editor/document-operations.mjs';
@@ -268,6 +269,18 @@
   }
   function formatDocument(name,value){history.boundary();if((textSelection?.crossSurface||textSelection?.ranges.length>1)&&['bold','italic','underline','colour'].includes(name)){const next=applyBookletTextRange(project,textSelection,name,value);finishInline();change(next);textSelection=null;return;}if(activeEditor&&inlineSession?.bookmark&&!activeEditor.contains(document.activeElement))restoreEditorSelection(activeEditor,inlineSession.bookmark);runEditorCommand(activeEditor,name,value);history.boundary();}
   async function replaceSelection(doc){const selection=textSelection;if(!selection)return;const first=selection.ranges[0],next=replaceBookletTextRange(project,selection,doc);finishInline();history.boundary();change(next);history.boundary();textSelection=null;window.getSelection()?.removeAllRanges();await tick();try{await flowPreview?.waitUntilReady();}catch{}const field=canvas?.querySelector('[data-edit-root="'+CSS.escape(first.rootId)+'"][data-edit-path="'+CSS.escape(first.pointer)+'"]');field?.querySelector('.clickable')?.click();if(inlineSession)inlineSession.point={offset:first.start+documentTextLength(doc)};}
+  const spacingBlockIds=$derived(groupSelection.length?selectedFlowIds(project,groupSelection):selectedBlock?[selectedBlock.id]:[]);
+  // Arrangement values leave the open text editor alone; document values are
+  // written to the project, so the editor's own copy is committed first.
+  function spaceBlocks(key,value){try{const arrangement=key==='height'||key==='gap';if(!arrangement)finishInline();history.boundary();const next=applyBlockSpacing(project,spacingBlockIds,key,value);if(next!==project){change(next);if(arrangement)immediateLayoutGeneration=documentGeneration;}history.boundary();}catch(e){error=e.message;}}
+  // One field per setting: an answer space's height also feeds the ordinary
+  // response-space renderer, and a diagram's width its saved presentation.
+  function itemCommand(command,options={}){
+    const info=directLayout;
+    if(command==='properties'&&options.width>0&&info?.entry?.kind==='diagram'&&selectedDiagram){changeDiagram({widthMm:options.width});return;}
+    layoutCommand(command,options);
+    if(command==='properties'&&options.height!=null&&info?.entry?.kind==='space'&&info.entry.ownerId){const overrides=project.settings.layoutOverrides;change(updateProjectSettings(project,{layoutOverrides:{...overrides,answerSpaces:{...overrides.answerSpaces,[info.entry.ownerId]:options.height}}}));history.boundary();}
+  }
   function spaceWholeQuestion(property,value){try{const next=applyQuestionSpacing(project,selectedBlockId,property,value);if(next===project)return;change(next);immediateLayoutGeneration=documentGeneration;}catch(e){error=e.message;}}
   function pasteAtSection(sectionId,beforeId){if(!groupClipboard)return;finishInline();change(flowCommand(project,{type:'paste',clipboard:groupClipboard,sectionId,beforeId}));if(groupClipboard.mode==='cut')groupClipboard=null;}
   function selectDocumentGroup(ids,event={}){
@@ -365,6 +378,8 @@
   function togglePanel(next){panel=panel===next?'':next;}
   function editLocation(origin,target){const labels=[];for(let node=origin?.closest('.question-node');node;node=node.parentElement?.closest('.question-node')){const label=node.querySelector(':scope > .question-line > .part-label')?.textContent?.trim().replace(/[.)]$/,'');if(label)labels.unshift(label);}return `Page ${flexible?flowActive:previewPage?.pageNumber} · ${labels.length?'Question '+labels.join(''):target?blockLabel(target.block,target.section.blocks.indexOf(target.block)):'Content'}`;}
   function requestEdit(request){
+    const tableId=contentTarget(project,request.rootId)?.block.flow?.tableContinuation?.tableId;
+    request={...request,value:editableTableFragment(fieldValue(project,request),request.value,tableId)};
     request={...request,renderMode:request.renderMode??request.origin?.closest('[data-page-mode]')?.dataset.pageMode};
     if(inlineSession?.rootId===request.rootId&&inlineSession?.pointer===request.pointer){
       if(request.hostId===inlineSession.hostId&&!paginationSelection)return;
@@ -995,7 +1010,7 @@
    <button bind:this={layoutPanelButton} aria-expanded={panel==='layout'} aria-controls="booklet-layout-spacing" onclick={()=>{inspectorTab='layout';panel='layout';}}>Spacing</button>
    <details class="document-insert"><summary>Comments {commentLocations.length||''}</summary><div><button onclick={addComment}>Add comment</button><button onclick={()=>togglePanel('comments')}>Show comments</button></div></details>
    {#if nativeTable}<details class="document-insert"><summary>Table</summary><div>{#each ['Add row','Remove row','Add column','Remove column','Merge right','Merge down','Split cell'] as action}<button onclick={()=>formatDocument('table-action',action)}>{action}</button>{/each}</div></details>{/if}
-   {#if selectedDiagram}<span class="selection-tools">{#if directLayout?.entry?.kind==='diagram'}<label>Space above image <input aria-label="Space above image on page (mm)" type="number" min="0" max="80" step=".5" value={directLayout.node.before??0} onchange={e=>layoutCommand('properties',{before:Number(e.currentTarget.value)})}/> mm</label>{/if}<label>Diagram width <input aria-label="Diagram width on page" type="number" min="5" max="190" value={diagramSelection.answerMode?answerDiagramWidth(project.settings.compactAnswers,diagramSelection.answerMode,selectedDiagram):selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/> mm</label><select aria-label="Diagram alignment on page" value={selectedDiagram.align??'left'} onchange={e=>changeDiagram({align:e.currentTarget.value})}><option value="left">Left</option><option value="center">Centre</option><option value="right">Right</option></select><button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button></span>{/if}
+   {#if selectedDiagram}<span class="selection-tools"><label>Diagram width <input aria-label="Diagram width on page" type="number" min="5" max="190" value={diagramSelection.answerMode?answerDiagramWidth(project.settings.compactAnswers,diagramSelection.answerMode,selectedDiagram):selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/> mm</label><select aria-label="Diagram alignment on page" value={selectedDiagram.align??'left'} onchange={e=>changeDiagram({align:e.currentTarget.value})}><option value="left">Left</option><option value="center">Centre</option><option value="right">Right</option></select><button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button></span>{/if}
    {#if groupSelection.length}<details class="document-insert"><summary>Selection ({groupSelection.length})</summary><div><button onclick={()=>groupCommand('cut')}>Cut</button><button onclick={()=>groupCommand('copy')}>Copy</button><button onclick={()=>groupCommand('paste')} disabled={!groupClipboard}>Paste</button><button onclick={()=>groupCommand('duplicate')}>Duplicate</button><button onclick={()=>groupCommand('delete')}>Delete</button>{#if flexible}<button title="Alt+↑" onclick={()=>nudgeSelection(-1)}>Move up</button><button title="Alt+↓" onclick={()=>nudgeSelection(1)}>Move down</button>
     <details class="move-to"><summary>Move to…</summary><label>Exercise or section<select aria-label="Move selection to section" value={moveSection?.id??''} onchange={e=>{moveSectionId=e.currentTarget.value;moveBeforeId='';}}>{#each moveTargets as topic}<optgroup label={topic.title}>{#each topic.sections as dest}<option value={dest.id}>{dest.title}</option>{/each}</optgroup>{/each}</select></label><label>Position<select aria-label="Move selection to position" bind:value={moveBeforeId}>{#each moveSection?.positions??[] as position}<option value={position.id}>Before {position.label}</option>{/each}<option value="">End of section</option></select></label><button disabled={!moveSection} onclick={()=>moveGroups(groupSelection,moveSection.id,moveSection.positions.some(p=>p.id===moveBeforeId)?moveBeforeId:null)}>Move {groupSelection.length>1?'selection':'item'} here</button></details>{/if}</div></details>{/if}
  </div>{/if}
@@ -1060,13 +1075,13 @@
       {#if inspectorTab==='page'}<BookletPageControls block={selectedBlock} onboundary={pageBoundary} onlayout={pageLayout}/>
       {:else}
        {#if inspectorTab==='layout'}
-        {#if selectedBlock?.type==='question'}<section class="spacing-scope-section" aria-labelledby="whole-question-spacing-heading"><h3 id="whole-question-spacing-heading">Whole question</h3><BookletQuestionSpacing {project} block={selectedBlock} onchange={spaceWholeQuestion}/></section>{/if}
+        {#if spacingBlockIds.length}<section class="spacing-scope-section" aria-labelledby="whole-question-spacing-heading"><h3 id="whole-question-spacing-heading">{spacingBlockIds.length>1?spacingBlockIds.length+' selected blocks':selectedBlock?.type==='question'?'Whole question '+(questionNumbers[selectedBlock.id]??''):'Whole block'}</h3><BookletQuestionSpacing {project} blockIds={spacingBlockIds} onchange={spaceBlocks}/></section>{/if}
         <section class="spacing-scope-section" aria-labelledby="selected-item-spacing-heading"><h3 id="selected-item-spacing-heading">Selected item</h3>
          {#if rangeParagraphs.length}<BookletRangeSpacing targets={rangeParagraphs} {canvas} oncommit={spaceSelectedParagraphs}/>{:else if activeEditor}{#key activeEditor}<BookletSelectionSpacing editor={activeEditor} questionLabel={selectedBlock?.type==='question'?'Question '+(questionNumbers[selectedBlock.id]??''):'Content'} onboundary={()=>history.boundary()} row={editorRow} onrow={applyEditorRow} example={editorExample} onexample={applyExampleRow}/>{/key}
-         {:else}<BookletDirectLayout info={directLayout} selection={layoutSelection} category={inspectorTab} oncommand={layoutCommand}/>{#if selectedDiagram}<label>Diagram width (mm)<input type="number" min="5" max="190" value={selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/></label><button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button>{/if}{/if}
+         {:else}<BookletDirectLayout info={directLayout} selection={layoutSelection} category={inspectorTab} oncommand={itemCommand}/>{#if selectedDiagram}{#if !directLayout}<label>Diagram width (mm)<input type="number" min="5" max="190" value={selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/></label>{/if}<button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button>{/if}{/if}
         </section>
        {:else if activeEditor}{#key activeEditor}{#key inspectorTab}<div class="native-layout-fields" use:nativeLayoutPanel={{editor:activeEditor,category:inspectorTab}}></div>{/key}{/key}
-       {:else}<BookletDirectLayout info={directLayout} selection={layoutSelection} category={inspectorTab} oncommand={layoutCommand}/>{#if selectedDiagram}<label>Diagram width (mm)<input type="number" min="5" max="190" value={selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/></label><button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button>{/if}
+       {:else}<BookletDirectLayout info={directLayout} selection={layoutSelection} category={inspectorTab} oncommand={layoutCommand}/>
        {/if}
       {/if}
      </div>

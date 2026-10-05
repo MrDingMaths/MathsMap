@@ -36,7 +36,9 @@ export async function settleBooklet(root) {
    [...svg.querySelectorAll('g[data-diagram-label="1"],[data-diagram-label-background="1"],[data-graph-stroke-pt]')].map(n=>[n.getAttribute('transform'),n.style.strokeWidth])];
  }));
  let diagramsSettled=false;
- for(let pass=0;pass<12;pass++){
+ // Dense books can need another observer turn after stroke/label padding
+ // converges. Keep the exact stability gate, with a bounded extra budget.
+ for(let pass=0;pass<24;pass++){
   const before=diagramState();
   calibrateGraphStrokes(root);
   await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));

@@ -296,7 +296,25 @@ export function containsSourceMetadata(value) {
   return found;
 }
 
+// Native editor text and undelimited cloze answers render literally. Check only
+// their explicitly typeset maths, separately, so currency cannot join delimiters
+// across cells or hide an invalid mathematical inline.
+function nativeMathSources(value) {
+  const sources = [];
+  const visit = node => {
+    if (!node || typeof node !== 'object') return;
+    if (node.type === 'math' || node.type === 'annotated-equation') sources.push('$' + node.latex + '$');
+    if (node.type === 'cloze' && /^\$(?:\\.|[^$])+\$$/.test(node.answer ?? '')) sources.push(node.answer);
+    Object.entries(node).filter(([key]) => !['latex', 'answer'].includes(key)).forEach(([, child]) => {
+      if (Array.isArray(child)) child.forEach(visit); else visit(child);
+    });
+  };
+  visit(value);
+  return sources;
+}
+
 function balancedMath(value) {
+  if (isDocument(value)) return nativeMathSources(value).every(balancedMath);
   const source = text(value);
   const dollars = source.match(/(?<!\\)\$/g)?.length ?? 0;
   // A LaTeX row break followed by spacing, e.g. \\\\[2mm], is not \\[.
@@ -317,6 +335,7 @@ export function mathSpans(value) {
 }
 
 export function invalidFractionSpans(value) {
+  if (isDocument(value)) return nativeMathSources(value).flatMap(invalidFractionSpans);
   // A slash inside a plain textual unit is not an arithmetic fraction. Keep
   // checking everything else, including arithmetic alongside that unit.
   return mathSpans(value).filter((span) => /(?<!\\)\/(?!\/)/.test(
@@ -368,8 +387,13 @@ function validateNode(node, path, errors, warnings, depth, diagramIds, inherited
   // Table-bound responses and a sole answer child inherit the visible parent
   // task. A leading unlabelled sketch can also use its direct stem when a
   // shared solution diagram identifies that response, preserving writing space.
-  const tableLabels = isDocument(node.prompt) ? new Set(node.prompt.blocks.filter(b=>b.type==='table').flatMap(b=>b.rows??[]).map(row=>
-    text({format:'maths-editor-document-v1',version:1,blocks:row[0]?.blocks??[]}).replace(/[*_]/g,'').trim())) : new Set();
+  const tableLabels = isDocument(node.prompt) ? new Set(node.prompt.blocks.filter(b=>b.type==='table').flatMap(b=>b.rows??[]).flatMap(row=> {
+    const label = text({format:'maths-editor-document-v1',version:1,blocks:row[0]?.blocks??[]}).replace(/[*_]/g,'').trim();
+    // A row headed "a) Alan Douglas" supplies part a's givens; arbitrary names
+    // and words starting with a letter do not establish a response label.
+    const prefix = /^([a-z]|\d+)[.)](?:\s|$)/i.exec(label)?.[1];
+    return prefix ? [label, prefix] : [label];
+  })) : new Set();
   children.forEach((child, index) => validateNode(child, path + '.children[' + index + ']', errors, warnings, depth + 1, diagramIds,
     (ancestorTask || Boolean(text(node.prompt))) && (child.responseSpace === 'scaffold' || children.length === 1 || Boolean(child.label)&&tableLabels.has(child.label)
       || index === 0 && child.label === '' && Boolean(text(node.prompt)) && Boolean(child.sharedSolutionDiagramId) && diagramIds.has(child.sharedSolutionDiagramId)),

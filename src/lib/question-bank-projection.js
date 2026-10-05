@@ -1,6 +1,6 @@
 import {captureQuestionPresentation} from './question-presentation.js';
 import {mergeQuestionContent} from './question-sync.js';
-import {fromSource} from './document-content.js';
+import {fromSource,isDocument} from './document-content.js';
 import {mathSpans} from './practice-question-model.js';
 
 const normal=value=>String(value??'').trim().toLowerCase().replace(/\s+/g,' ');
@@ -19,8 +19,13 @@ function replaceMath(value,replacements){
   return result;
  }
  const copied=structuredClone(value);
- const visit=v=>{if(!v||typeof v!=='object')return;if(v.type==='math'&&typeof v.latex==='string'){const r=replacements.find(r=>r.from===v.latex);if(r)v.latex=r.to;}else Object.values(v).forEach(visit);};
+ const visit=v=>{if(!v||typeof v!=='object')return;if(v.type==='math'&&typeof v.latex==='string'){const r=replacements.find(r=>r.from===v.latex);if(r)v.latex=r.to;}else if(v.type==='cloze'&&typeof v.answer==='string'){v.answer=replaceMath(v.answer,replacements);}else Object.values(v).forEach(visit);};
  visit(copied);return copied;
+}
+function contextualPrompt(node){
+ const prompt=isDocument(node.prompt)?structuredClone(node.prompt):fromSource(node.prompt??'');
+ if(typeof node.prompt==='string')prompt.blocks.forEach((b,i)=>{b.id=`bank-original-${node.id}-${i}`;});
+ return prompt;
 }
 
 // Source metadata identifies a category, never a substring of a mathematical task.
@@ -56,6 +61,28 @@ export function projectBankQuestion(block,{overrides,policy=bankProjectionPolicy
  for(const replacement of policy.notationReplacements??[]){
   const node=nodes(projected.content).find(n=>n.id===replacement.nodeId);
   if(node)setField(node,replacement.field,replaceMath(fieldValue(node,replacement.field),[replacement]));
+ }
+ for(const context of policy.prependPromptBlocks??[]){
+  const node=nodes(projected.content).find(n=>n.id===context.nodeId);
+  if(!node)throw Error('Unknown bank context node: '+context.nodeId);
+  const prompt=contextualPrompt(node),ids=new Set(prompt.blocks.map(b=>b.id));
+  if(context.blocks.some(b=>!b.id||ids.has(b.id)))throw Error('Bank context needs distinct block IDs');
+  node.prompt={...prompt,blocks:[...structuredClone(context.blocks),...prompt.blocks]};
+  const visit=value=>{
+   if(!value||typeof value!=='object')return;
+   if(value.arrangement?.root){
+    let inserted=false;
+    const walk=group=>{if(!group.children)return;group.children=group.children.flatMap(item=>{
+     if(item.type==='item'&&(item.ref===node.id+'/prompt'||item.ref?.startsWith(node.id+'/prompt#'))){
+      const original=item.ref===node.id+'/prompt'?prompt.blocks.map(b=>({id:'layout:'+node.id+'/prompt#'+b.id,type:'item',ref:node.id+'/prompt#'+b.id,title:item.title})): [item];
+      if(inserted)return original;inserted=true;
+      return [...context.blocks.map(b=>({id:'layout:'+node.id+'/prompt#'+b.id,type:'item',ref:node.id+'/prompt#'+b.id,title:'Supplied context'})),...original];
+     }
+     walk(item);return [item];
+    });};walk(value.arrangement.root);
+   }
+   for(const [key,child]of Object.entries(value))if(key!=='arrangement')visit(child);
+  };visit(projected.presentation);
  }
  const prune=node=>{
   if(node.type==='item')return !refs.has(node.ref);
@@ -96,6 +123,13 @@ export function mergeBankIntoBooklet(incoming,block,base,policy=null){
   const following=paragraphs.slice(paragraphs.indexOf(paragraph)+1).map(p=>p.id);
   const index=next.findIndex(p=>following.includes(p.id));
   next.splice(index<0?Math.min(paragraphs.indexOf(paragraph),next.length):index,0,structuredClone(paragraph));
+ }
+ for(const context of policy?.prependPromptBlocks??[]){
+  const target=nodes(merged).find(n=>n.id===context.nodeId),original=nodes(block.content).find(n=>n.id===context.nodeId);
+  if(!target?.prompt?.blocks||!original)continue;
+  const ids=new Set(context.blocks.map(b=>b.id));
+  target.prompt.blocks=target.prompt.blocks.filter(b=>!ids.has(b.id));
+  if(typeof original.prompt==='string'&&JSON.stringify(target.prompt)===JSON.stringify(contextualPrompt(original)))target.prompt=original.prompt;
  }
  return merged;
 }

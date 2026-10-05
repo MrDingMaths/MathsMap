@@ -19,6 +19,26 @@ test('labelled native table rows supply the matching response task only',()=>{
  assert.equal(errors({id:'q',prompt,children:[leaf('a',{label:'a'}),leaf('c',{label:'c'})]}).length,1);
 });
 
+test('a native table row may prefix its name with the response label',()=>{
+ const prompt={format:'maths-editor-document-v1',version:1,blocks:[{id:'t',type:'table',rows:['a) Alan Douglas','b. Betty Smith','Clara'].map(label=>[{blocks:[{type:'paragraph',inlines:[{type:'text',text:label}]}]}])}]};
+ assert.deepEqual(errors({id:'q',prompt,children:[leaf('a',{label:'a'}),leaf('b',{label:'b'})]}),[]);
+ assert.equal(errors({id:'q',prompt,children:[leaf('a',{label:'a'}),leaf('c',{label:'c'})]}).length,1);
+ assert.equal(errors({id:'q',prompt,children:[leaf('a',{label:'a'}),leaf('c',{label:'Cl'})]}).length,1);
+});
+
+test('native currency is literal while mathematical inlines and clozes retain notation guards',()=>{
+ const doc=inlines=>({format:'maths-editor-document-v1',version:1,blocks:[{type:'paragraph',inlines}]});
+ const notationErrors=prompt=>validateQuestion(normaliseQuestion({content:leaf('q',{type:'question',prompt})})).errors.filter(e=>/maths delimiters|slash-style/.test(e));
+ assert.deepEqual(notationErrors(doc([{type:'text',text:'Salary $23.90; complete: '},{type:'cloze',answer:'$23.90',width:25}])),[]);
+ assert.ok(notationErrors('Salary $23.90; complete the calculation.').some(e=>/maths delimiters/.test(e)));
+ assert.ok(notationErrors(doc([{type:'math',latex:'1/2'}])).some(e=>/slash-style/.test(e)));
+ assert.ok(notationErrors(doc([{type:'cloze',answer:'$1/2$',width:25}])).some(e=>/slash-style/.test(e)));
+ assert.ok(notationErrors(doc([{type:'cloze',answer:String.raw`$\$31.60/\text{h}$`,width:25}])).some(e=>/slash-style/.test(e)));
+ assert.deepEqual(notationErrors(doc([{type:'cloze',answer:String.raw`$\frac{\$31.60}{\text{h}}$`,width:25}])),[]);
+ assert.deepEqual(notationErrors(doc([{type:'math',latex:'\\frac{1}{2}'},{type:'cloze',answer:'$\\frac{1}{2}$',width:25}])),[]);
+ assert.ok(notationErrors(doc([{type:'math',latex:'\\(x'},{type:'math',latex:'x\\)'}])).some(e=>/maths delimiters/.test(e)));
+});
+
 test('a leading unlabelled shared sketch inherits its direct stem and keeps writing space',()=>{
  const content={id:'q',prompt:'Sketch the component functions and their sum.',sharedSolutionDiagrams:[{id:'sum',format:'tikz',code:'\\begin{tikzpicture}\\draw (0,0)--(1,1);\\end{tikzpicture}'}],children:[leaf('sketch',{label:'',sharedSolutionDiagramId:'sum',answerSpaceMm:70}),leaf('a',{label:'a',prompt:'Explain the asymptote.'})]};
  assert.deepEqual(errors(content),[]);

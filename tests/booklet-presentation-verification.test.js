@@ -12,6 +12,17 @@ import fs from 'node:fs';
 const fixture=()=>({settings:creationSettings(),source:{sourceHashes:{pdf:'source'}},sections:[{phase:'teaching',blocks:[{
  id:'guided',type:'question',pedagogyRole:'guided-practice',sourceRefs:[{pageNumber:3}],content:{id:'root',prompt:'Guided Practice',layout:'grid',columns:2,children:[{id:'a',prompt:'$x^2x^3$',answerSpaceMm:14}]}
 }]}]});
+test('narrative presentation guidance does not crash coverage or mask a field mismatch',async()=>{
+ const p=fixture(),b=p.sections[0].blocks[0];
+ b.sourceReview={presentationRequirements:[{targetId:'a',requirement:'Keep the exponent blank writable.'},{path:'/content/columns',value:3},null]};
+ for(const profile of [undefined,'textbook-three-pass-v1']){
+  p.source.reviewProfile=profile;
+  const report=await inspectPresentationFidelity(p);
+  assert.ok(report.issues.some(i=>i.kind==='source-presentation-mismatch'));
+  assert.equal(report.issues.filter(i=>i.kind==='invalid-presentation-requirement').length,1);
+  await assert.doesNotReject(()=>inspectContentCoverage(p));
+ }
+});
 test('object-shaped optional review metadata reports missing legacy evidence without crashing',async()=>{
  const p=fixture(),b=p.sections[0].blocks[0];
  b.sourceReview={arrangements:{layout:'grid',columns:2,order:['a']},responses:{a:'working'}};

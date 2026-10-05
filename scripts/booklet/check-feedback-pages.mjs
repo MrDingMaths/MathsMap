@@ -2,6 +2,8 @@
 // accepted project (page maps only) and the candidate (checks, then only the
 // affected pages and their pagination neighbours as PDF). Read-only: no project,
 // bank or comment is written. No report here is a visual inspection.
+// --blocks selects pages by the blocks a repair changed and needs no baseline;
+// --checks-only editions run the automated checks without printing.
 import fs from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -36,6 +38,13 @@ export function selectFeedbackPages({before,after,edition,extra=[]}){
  if(before.length>after.length&&after.length)changed.push(after.length);
  const boundaries=edition.startsWith('with-')&&(affected.length||extra.length)?boundaryPages(after):[];
  return {changed:within(changed,after.length),boundaries,selected:within([...affected,...boundaries,...extra],after.length)};
+}
+// Pages carrying the named blocks, with their neighbours. Unlike a page-hash
+// comparison this stays local when a renderer change alters every page hash.
+export function selectBlockPages({pages,blockIds,edition,extra=[]}){
+ const wanted=new Set(blockIds),changed=pages.filter(page=>page.blocks?.some(id=>wanted.has(id))).map(page=>page.page);
+ const boundaries=edition.startsWith('with-')&&(changed.length||extra.length)?boundaryPages(pages):[];
+ return {changed,boundaries,selected:within([...changed.flatMap(page=>[page-1,page,page+1]),...boundaries,...extra],pages.length)};
 }
 // A combined-edition body page whose flow blocks equal a selected Questions page
 // is the same arrangement: inspect it once there. Boundaries, answers and covers
@@ -84,11 +93,16 @@ export function parseOverrides(values){
 async function main(){
  const args=process.argv.slice(2),arg=(name,fallback)=>{const i=args.indexOf(name);return i<0?fallback:args[i+1];},all=name=>args.flatMap((value,i)=>value===name?[args[i+1]]:[]),flag=name=>args.includes(name);
  const out=path.resolve(arg('--out')??(()=>{throw Error('--out DIRECTORY is required');})()),base=arg('--base','http://127.0.0.1:5173').replace(/\/$/,'');
- const editions=arg('--editions','student,with-short,with-worked').split(',');
+ const editions=arg('--editions','student').split(',');
  if(editions.some(edition=>!FEEDBACK_EDITIONS.includes(edition))||new Set(editions).size!==editions.length)throw Error('Select distinct supported editions');
+ const blockIds=arg('--blocks','').split(',').filter(Boolean),byBlocks=blockIds.length>0;
  const capture=flag('--capture-baseline'),candidateFile=arg('--project-file'),baselineFile=arg('--baseline-project-file'),projectId=arg('--project');
  const overrides=parseOverrides(all('--runtime-override')),candidateCss=arg('--candidate-css'),extra=(arg('--pages','')).split(',').filter(Boolean).map(Number),fullReason=arg('--full-reason');
- if(capture&&(overrides.length||candidateCss||baselineFile))throw Error('--capture-baseline records the current project and runtime only');
+ if(capture&&(overrides.length||candidateCss||baselineFile||byBlocks))throw Error('--capture-baseline records the current project and runtime only');
+ // One combined edition exercises answer coverage and navigation by default,
+ // without printing; a local repair inspects its pages in the Questions layout.
+ const checksOnly=capture||arg('--checks-only','with-worked')==='none'?[]:arg('--checks-only','with-worked').split(',').filter(edition=>!editions.includes(edition));
+ if(checksOnly.some(edition=>!FEEDBACK_EDITIONS.includes(edition)))throw Error('--checks-only takes supported editions or none');
  const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
  const candidate=candidateFile?read(candidateFile):read(`booklets/projects/${projectId??(()=>{throw Error('Use --project ID or --project-file FILE');})()}.json`);
  const baselineProject=baselineFile?read(baselineFile):null;
@@ -102,11 +116,12 @@ async function main(){
  const baselineChoice=arg('--baseline-editions','auto');
  if(!['auto','all'].includes(baselineChoice))throw Error('--baseline-editions is auto or all');
  const answersDiffer=!!baselineProject&&answerSignature(baselineProject)!==answerSignature(candidate);
- const derived=baselineProject&&baselineChoice==='auto'&&!answersDiffer&&editions.includes('student')?editions.filter(edition=>edition.startsWith('with-')):[];
- const baselineEditions=editions.filter(edition=>!derived.includes(edition));
- if(!capture&&!baselineProject)for(const edition of editions)requireBoundedDevelopmentExport({projectId:id,edition,hasBaseline:!!readPageManifest(mapFile(edition)),reason:fullReason});
+ const derived=!byBlocks&&baselineProject&&baselineChoice==='auto'&&!answersDiffer&&editions.includes('student')?editions.filter(edition=>edition.startsWith('with-')):[];
+ const baselineEditions=byBlocks?[]:editions.filter(edition=>!derived.includes(edition));
+ if(answersDiffer&&!editions.some(edition=>edition!=='student'))console.warn('Practice answers changed; add the affected answer edition with --editions student,short or student,worked');
+ if(!capture&&!baselineProject&&!byBlocks)for(const edition of editions)requireBoundedDevelopmentExport({projectId:id,edition,hasBaseline:!!readPageManifest(mapFile(edition)),reason:fullReason});
  const runDir=arg('--run-dir');trackProcessPhase(runDir,capture?'feedback-baseline-map':'feedback-pages',{artifact:reportFile,projectId:id,editions});
- const started=Date.now(),report={tool:'check-feedback-pages',startedAt:new Date(started).toISOString(),projectId:id,base,editions,passes:[],editionsReport:{},failures:[],browserLaunches:1,
+ const started=Date.now(),report={tool:'check-feedback-pages',startedAt:new Date(started).toISOString(),projectId:id,base,editions,checksOnly,blocks:blockIds,passes:[],editionsReport:{},failures:[],browserLaunches:1,
   note:'Automated evidence only. Selected pages still need final-size visual inspection; combined body pages marked inspectIn "student" reuse that inspection of the same flow blocks, with no pixel comparison performed or claimed. Partial PDFs carry no link annotations; navigation is checked in the print DOM.'};
  const write=()=>fs.writeFileSync(reportFile,JSON.stringify({...report,elapsedMs:Date.now()-started},null,2));
  const inputUrls=diagramInputUrls(await diagramInputFiles()),cacheOff=overrideTouchesDiagramInputs(overrides.map(o=>o.glob),inputUrls);
@@ -166,7 +181,7 @@ async function main(){
     const origin=e.getBoundingClientRect(),round=value=>Math.round(value*2)/2;
     // Geometry makes the map sensitive to style-only shifts that leave markup unchanged.
     const layout=[...e.querySelectorAll('[data-question-id],[data-node-id],[data-edit-root],[data-diagram-id],table,.tikz-wrap,footer')].map(el=>{const r=el.getBoundingClientRect();return [el.tagName,round(r.left-origin.left),round(r.top-origin.top),round(r.width),round(r.height)];});
-    const isAnswer=!!e.querySelector('.compact-answer,.answer-columns,.answer-item,[id*="answer-section-"]');
+    const isAnswer=!!e.querySelector('.compact-answer,.answer-columns,[id*="answer-section-"]');
     return {html:e.outerHTML+'\n'+JSON.stringify(layout),blocks:e.dataset.flowBlocks?.split(',')??[],isAnswer,mode:edition.startsWith('with-')?(isAnswer?(edition.endsWith('worked')?'worked':'short'):'student'):edition,isCover:!!e.querySelector('.booklet-cover,.project-cover'),answerSectionStart:!!e.querySelector('[id*="answer-section-"]')};
    }),edition);
    // Both maps are compared within this tool, so the hash binds rendered markup,
@@ -177,7 +192,7 @@ async function main(){
    if(inspect){
     const diagramStarted=Date.now(),diagrams=await inspectFinalSizeDiagrams(page);timings.diagramInspectionMs=Date.now()-diagramStarted;
     const info=await page.locator('.project-print').evaluate(root=>({
-     labels:[...root.querySelectorAll('.answer-item')].map(e=>({id:e.dataset.nodeId,label:e.querySelector('.answer-label')?.textContent,continuation:e.closest('[data-answer-continuation]')?.dataset.answerContinuation,editableFields:e.querySelectorAll('.editable-booklet-text').length,diagrams:e.querySelectorAll('[data-diagram-id]').length})),
+     labels:[...root.querySelectorAll('.compact-answer .answer-item')].map(e=>({id:e.dataset.nodeId,label:e.querySelector('.answer-label')?.textContent,continuation:e.closest('[data-answer-continuation]')?.dataset.answerContinuation,editableFields:e.querySelectorAll('.editable-booklet-text').length,diagrams:e.querySelectorAll('[data-diagram-id]').length})),
      answerDiagramIds:[...root.querySelectorAll('.compact-answer [data-diagram-id]')].filter(e=>!e.parentElement.closest('[data-diagram-id]')).map(e=>e.dataset.diagramId),
      missingLinks:[...root.querySelectorAll('a[href^="#"]')].filter(a=>a.getClientRects().length>0&&!root.querySelector(`[id="${CSS.escape(a.getAttribute('href').slice(1))}"]`)).map(a=>a.getAttribute('href')),
      links:[...root.querySelectorAll('a[href^="#"]')].filter(a=>a.getClientRects().length>0).length
@@ -194,7 +209,7 @@ async function main(){
   return pass;
  };
  try{
-  if(capture||baselineProject){
+  if(capture||(baselineProject&&!byBlocks)){
    const pass=await renderPass('baseline',baselineProject??candidate,{inspect:null,editions:baselineEditions,publish:true});
    for(const edition of baselineEditions)fs.writeFileSync(mapFile(edition),JSON.stringify({mode:'feedback-baseline',projectId:id,projectHash:pass.projectHash,revision:pass.revision,edition,capturedAt:new Date().toISOString(),diagramVersion:pass.editions[edition].diagramVersion,pages:pass.editions[edition].pages},null,2));
    for(const edition of baselineEditions)pass.editions[edition]={pageCount:pass.editions[edition].pages.length,timings:pass.editions[edition].timings,tikz:pass.editions[edition].tikz,diagramVersion:pass.editions[edition].diagramVersion};
@@ -207,11 +222,13 @@ async function main(){
    if(cacheOff)await page.addInitScript(()=>{window.__bookletCacheMode='off';});
    report.candidate={overrides,candidateCss:candidateCss?path.resolve(candidateCss):null,diagramCache:cacheOff?'off: a diagram input is overridden':'normal'};
    const student={pages:[],selected:[]};
-   const candidatePass=await renderPass('candidate',candidate,{editions,publish:!cacheOff,inspect:async(edition,result,record)=>{
-    const isDerived=derived.includes(edition),baseline=isDerived?{pages:[],revision:baselineProject.revision??null,projectHash:null,derivedFrom:'student'}:readPageManifest(mapFile(edition));
-    const selection=isDerived?deriveCombinedSelection({pages:result.pages,studentPages:student.pages,studentSelected:student.selected,extra}):selectFeedbackPages({before:baseline.pages,after:result.pages,edition,extra});
+   const candidatePass=await renderPass('candidate',candidate,{editions:[...editions,...checksOnly],publish:!cacheOff,inspect:async(edition,result,record)=>{
+    const onlyChecks=checksOnly.includes(edition),isDerived=derived.includes(edition);
+    const baseline=onlyChecks||byBlocks?{pages:[],revision:null,projectHash:null}:isDerived?{pages:[],revision:baselineProject.revision??null,projectHash:null,derivedFrom:'student'}:readPageManifest(mapFile(edition));
+    const selection=onlyChecks?{changed:null,checksOnly:true,boundaries:[],selected:[]}:byBlocks?selectBlockPages({pages:result.pages,blockIds,edition,extra}):isDerived?deriveCombinedSelection({pages:result.pages,studentPages:student.pages,studentSelected:student.selected,extra}):selectFeedbackPages({before:baseline.pages,after:result.pages,edition,extra});
     requireBoundedDevelopmentExport({projectId:id,edition,hasBaseline:true,selectedPages:selection.selected.length,totalPages:result.pages.length,reason:fullReason});
     if(edition==='student')Object.assign(student,{pages:result.pages,selected:selection.selected});
+    if(byBlocks&&edition==='student'){const present=new Set(result.pages.flatMap(p=>p.blocks??[])),unknown=blockIds.filter(id=>!present.has(id));if(unknown.length)report.failures.push({edition,kind:'unknown-block',blocks:unknown});}
     const plan=inspectionPlan({edition,selected:selection.selected,boundaries:selection.boundaries,pages:result.pages,studentPages:student.pages,studentSelected:student.selected});
     const issues=result.qa.flatMap((p,i)=>p.issues.map(issue=>({page:i+1,...issue}))).concat(result.diagrams.issues);
     const entry={baseline:{pages:baseline.pages.length,revision:baseline.revision,projectHash:baseline.projectHash},pageCount:result.pages.length,...selection,inspection:plan,inspectHere:plan.filter(p=>p.inspectIn===edition).map(p=>p.page),
@@ -236,9 +253,9 @@ async function main(){
      }
     }
     write();
-    console.log(`${id} ${edition}: ${result.pages.length} pages, ${selection.changed?selection.changed.length+' changed':'selection derived from student'},${selection.selected.length} printed, ${entry.inspectHere.length} to inspect here, ${issues.length} layout issues, ${result.tikz.compiles} compiles`);
+    console.log(`${id} ${edition}: ${result.pages.length} pages, ${onlyChecks?'checks only':selection.changed?selection.changed.length+' changed':'selection derived from student'}, ${selection.selected.length} printed, ${entry.inspectHere.length} to inspect here, ${issues.length} layout issues, ${result.tikz.compiles} compiles`);
    }});
-   report.passes.find(pass=>pass.name==='candidate').editions=Object.fromEntries(editions.map(edition=>[edition,{pageCount:report.editionsReport[edition].pageCount}]));
+   report.passes.find(pass=>pass.name==='candidate').editions=Object.fromEntries([...editions,...checksOnly].map(edition=>[edition,{pageCount:report.editionsReport[edition].pageCount}]));
    if(!cacheOff){report.candidate.cachePublished=candidatePass.cachePublished;await saveState();}
   }
   if(errors.length)report.failures.push({kind:'browser-errors',errors});

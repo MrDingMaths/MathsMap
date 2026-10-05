@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
-import {boundaryPages,selectFeedbackPages,inspectionPlan,deriveCombinedSelection,answerSignature,overrideTouchesDiagramInputs,diagramInputUrls,tikzDelta,parseOverrides} from '../scripts/booklet/check-feedback-pages.mjs';
+import {boundaryPages,selectFeedbackPages,selectBlockPages,inspectionPlan,deriveCombinedSelection,answerSignature,overrideTouchesDiagramInputs,diagramInputUrls,tikzDelta,parseOverrides} from '../scripts/booklet/check-feedback-pages.mjs';
 import {diagramInputFiles} from '../scripts/booklet/render-cache-server.mjs';
 import {requireBoundedDevelopmentExport} from '../scripts/booklet/page-review.mjs';
 
@@ -14,6 +14,16 @@ test('question editions select changed pages and pagination neighbours only',()=
  assert.deepEqual(selectFeedbackPages({before:pages(12),after:pages(12),edition:'student',extra:[7,99]}).selected,[7]);
  // A deleted tail is checked at the new final page.
  assert.deepEqual(selectFeedbackPages({before:pages(12),after:pages(10),edition:'student'}).selected,[9,10]);
+});
+
+test('block selection stays local when every page hash changed',()=>{
+ const after=pages(12,{changed:[1,2,3,4,5,6,7,8,9,10,11,12]});
+ const result=selectBlockPages({pages:after,blockIds:['b5','b9'],edition:'student'});
+ assert.deepEqual(result.changed,[5,9]);assert.deepEqual(result.selected,[4,5,6,8,9,10]);
+ assert.deepEqual(selectBlockPages({pages:after,blockIds:['missing'],edition:'student'}).selected,[]);
+ assert.deepEqual(selectBlockPages({pages:after,blockIds:['b12'],edition:'student',extra:[2]}).selected,[2,11,12]);
+ // A combined edition named explicitly still adds its composition boundary.
+ assert.deepEqual(selectBlockPages({pages:pages(14,{answersFrom:11}),blockIds:['b5'],edition:'with-short'}).selected,[4,5,6,10,11]);
 });
 
 test('combined editions add their composition boundary when anything changed',()=>{

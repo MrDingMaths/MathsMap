@@ -55,6 +55,13 @@ export async function inspectPresentationFidelity(project){
     if(!templateChecks||section.phase==='front-matter')continue;
     if(project.source?.inventory&&(!review?.visualAudit?.checked||SOURCE_VISUAL_CATEGORIES.some(category=>!review.visualAudit.categories?.includes(category))))issue('unchecked-source-visuals',block.id,'Compare source colours, pagination, speech bubbles, writable boxes, activity identity, alignment, cards and prose styling. Content counts and an overflow check do not verify these features.');
     for(const requirement of review?.presentationRequirements??[]){
+      // Authors may include human-readable guidance alongside exact field checks.
+      // A narrative note is not a JSON-pointer assertion or automated evidence.
+      if(typeof requirement?.path!=='string'||!requirement.path.startsWith('/')){
+        if(requirement?.path==null&&typeof requirement?.requirement==='string'&&requirement.requirement.trim())continue;
+        issue('invalid-presentation-requirement',block.id,'A presentation field check needs a JSON pointer path and expected value.');
+        continue;
+      }
       const actual=requirement.path.split('/').slice(1).reduce((value,key)=>value?.[key],block);
       if(JSON.stringify(actual)!==JSON.stringify(requirement.value))issue('source-presentation-mismatch',block.id,`Restore the source-reviewed presentation at ${requirement.path}.`);
     }

@@ -54,6 +54,37 @@ test('explicit equivalent notation repairs are bank-only and survive a reverse s
  assert.equal(mergeBankIntoBooklet(projected.content,b,null,policy).answer.worked,projected.content.answer.worked);
 });
 
+test('supplied bank context stays editable and visible while owner sync preserves the source stem',()=>{
+ const b=question();b.content.prompt='Calculate the tax.';
+ b.presentation={layoutOverrides:{blockLayouts:{[b.id]:{arrangement:arrangementCatalog(b).initial}}}};
+ const context=fromSource('Use the supplied historical tax rates.').blocks;context[0].id='bank-context-tax';
+ const policy={version:1,prependPromptBlocks:[{nodeId:b.content.id,blocks:context}]};
+ const projected=projectBankQuestion(b,{policy});
+ assert.equal(projected.content.prompt.blocks[0].id,'bank-context-tax');
+ assert.deepEqual(resolveArrangement(projected,projected.presentation.layoutOverrides.blockLayouts[b.id].arrangement).missing,[]);
+ assert.ok(JSON.stringify(projected.presentation).includes('bank-context-tax'));
+ assert.equal(mergeBankIntoBooklet(projected.content,b,null,policy).prompt,b.content.prompt);
+ projected.content.prompt.blocks[1].inlines[0].text='Calculate the total tax.';
+ const merged=mergeBankIntoBooklet(projected.content,b,null,policy);
+ assert.equal(merged.prompt.blocks[0].inlines[0].text,'Calculate the total tax.');
+ assert.ok(!JSON.stringify(merged).includes('bank-context-tax'));
+ const native=question();native.presentation={layoutOverrides:{blockLayouts:{[native.id]:{arrangement:arrangementCatalog(native).initial}}}};
+ const nativePolicy={version:1,prependPromptBlocks:[{nodeId:native.content.id,blocks:context}]};
+ const nativeProjection=projectBankQuestion(native,{policy:nativePolicy});
+ assert.deepEqual(nativeProjection.content.prompt.blocks.slice(1),native.content.prompt.blocks);
+ assert.deepEqual(resolveArrangement(nativeProjection,nativeProjection.presentation.layoutOverrides.blockLayouts[native.id].arrangement).missing,[]);
+ assert.deepEqual(mergeBankIntoBooklet(nativeProjection.content,native,null,nativePolicy).prompt,native.content.prompt);
+});
+
+test('native cloze notation projections preserve literal currency and reverse owner sync',()=>{
+ const b=question();b.content.prompt={format:'maths-editor-document-v1',version:1,blocks:[{id:'p',type:'paragraph',inlines:[{type:'cloze',answer:String.raw`$\$31.60/\text{h}$`,width:26},{type:'cloze',answer:'$31.60',width:26}]}]};
+ const policy={version:1,notationReplacements:[{nodeId:b.content.id,field:'prompt',from:String.raw`\$31.60/\text{h}`,to:String.raw`\frac{\$31.60}{\text{h}}`}]};
+ const projected=projectBankQuestion(b,{policy});
+ assert.equal(projected.content.prompt.blocks[0].inlines[0].answer,String.raw`$\frac{\$31.60}{\text{h}}$`);
+ assert.equal(projected.content.prompt.blocks[0].inlines[1].answer,'$31.60');
+ assert.deepEqual(mergeBankIntoBooklet(projected.content,b,null,policy).prompt,b.content.prompt);
+});
+
 test('promotion, owner saves, bank acceptance and conflicts keep source headings local',async t=>{
  const root=await fs.mkdtemp(path.join(os.tmpdir(),'bank-projection-'));t.after(()=>fs.rm(root,{recursive:true,force:true}));
  const options={projectRoot:path.join(root,'projects'),bankRoot:path.join(root,'bank'),moduleRoot:path.join(root,'modules')};

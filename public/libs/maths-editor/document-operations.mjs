@@ -16,6 +16,23 @@ export function setTableCells(doc,cellId,patch,scope='cell'){
  }
  return cellId;
 }
+// Whole-table spacing. Rows are given by index; omit them for every row.
+export function setTableRowHeights(table,value,rows=null){
+ const heights=table.rows.map((_,i)=>table.rowHeights?.[i]??10);
+ for(const i of rows??heights.keys())if(i>=0&&i<heights.length)heights[i]=Math.max(4,value);
+ table.rowHeights=heights;return table;
+}
+const sides=['paddingTop','paddingRight','paddingBottom','paddingLeft'];
+// One padding for the table; cells stop overriding it side by side.
+export function setTablePadding(table,value){
+ table.padding=value;for(const cell of table.rows.flat())for(const side of sides)delete cell[side];
+ return table;
+}
+// The padding every cell shows, or null where cells differ.
+export function tablePadding(table){
+ const base=table.padding??2;
+ return table.rows.flat().every(cell=>sides.every(side=>(cell[side]??base)===base))?base:null;
+}
 // Position one paragraph or equation. A table cell normally imposes its own
 // alignment on every line; before one line may differ, write the alignment
 // each line currently shows so stored-but-ignored values do not take effect.

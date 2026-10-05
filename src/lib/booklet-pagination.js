@@ -119,6 +119,26 @@ export function fragmentQuestion(block, groups, continuation=0) {
     next.content=retain(next.content);
     next.flow={...next.flow,continuationRows:groups.map(group=>[...group.ids])};
   }else visit(next.content);
+  // One editable response table may span physical pages. Its explicit row
+  // ownership keeps each response with its semantic answer part; headers repeat.
+  const tableFlow=next.flow?.tableContinuation;
+  if(tableFlow){
+    const locate=n=>{
+      if(!n||typeof n!=='object')return null;
+      if(n.id===tableFlow.tableId&&n.type==='table')return n;
+      for(const value of Object.values(n))if(value&&typeof value==='object'){
+        if(Array.isArray(value)){for(const child of value){const found=locate(child);if(found)return found;}}
+        else {const found=locate(value);if(found)return found;}
+      }
+      return null;
+    };
+    const table=locate(next.content?.prompt),header=tableFlow.headerRows;
+    if(!table||!Number.isInteger(header)||header<1||!Array.isArray(tableFlow.rowPartIds)||table.rows.length!==header+tableFlow.rowPartIds.length||tableFlow.rowPartIds.some(id=>!block.content.children?.some(part=>part.id===id))||table.rows.slice(header).some(row=>row.some(cell=>(cell.rowspan??cell.rowSpan??1)>1)))throw Error('Invalid response-table continuation ownership');
+    const keep=table.rows.map((_,i)=>i<header||ids.has(tableFlow.rowPartIds[i-header]));
+    table.rows=table.rows.filter((_,i)=>keep[i]);
+    if(table.rowHeights)table.rowHeights=table.rowHeights.filter((_,i)=>keep[i]);
+    tableFlow.rowPartIds=tableFlow.rowPartIds.filter(id=>ids.has(id));
+  }
   next.flow={...next.flow,fragment:continuation};
   if(continuation!==(block.flow?.fragment??0)){
     next.flow.hideRepeatedStem=true;

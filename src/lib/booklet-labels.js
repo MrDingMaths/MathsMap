@@ -52,6 +52,10 @@ export function teachingLabels(blocks=[]){
   const next=()=>{const index=counts.get(key)??0;counts.set(key,index+1);return alphabeticLabel(index);};
   const visit=node=>{
    if(!node)return;
+   // Opt-in maintenance uses the reviewed labels on both grouping wrappers and
+   // response leaves. Without the flag, historical automatic lettering is exact.
+   const sourceLabel=block.presentation?.sourceResponseLabels===true?block.sourceReview?.responses?.find(r=>r.targetId===node.id&&typeof r.label==='string'):null;
+   if(sourceLabel){labels[node.id]=sourceLabel.label;node.children?.forEach(visit);return;}
    // Separately prompted tasks inside one teaching box can each restart a–c.
    // Their explicit source labels are local to that task, unlike a flat set
    // of activity responses continued across blocks.

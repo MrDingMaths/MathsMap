@@ -20,7 +20,10 @@
  const getLabels=getContext('booklet-labels');
  let contentWidth=$state(0);
  const resolved=$derived(resolveArrangement(block,arrangement,{...layoutOverrides,editable:editMode&&!!documentActions&&!onselect,labels:getLabels?.()??layoutOverrides.labels},contentWidth>0?contentWidth*25.4/96:180));
- function choose(event,n){if(onselect){event.stopPropagation();onselect(n.id);}else if(editMode&&requestEdit){if(event.target.closest('.editable-booklet-text,[data-diagram-id]'))return;event.stopPropagation();if(documentActions){documentActions.select([block.id],event);return;}const e=resolved.entries.get(n.ref);requestEdit({rootId:block.type==='question'?block.content.id:block.id,pointer:'/content',selectedArrangementId:n.id,selectedNodeId:e?.nodeId,selectedDiagramId:e?.diagramId,origin:event.currentTarget});}}
+ function choose(event,n){if(onselect){event.stopPropagation();onselect(n.id);}else if(editMode&&requestEdit){if(event.target.closest('.editable-booklet-text,[data-diagram-id]'))return;event.stopPropagation();if(documentActions){
+  // An answer space has no text to click into, so the space itself is the target.
+  if(direct&&resolved.entries.get(n.ref)?.kind==='space'&&!(event.shiftKey||event.metaKey)){documentActions.selectLayout(block.id,n.id,event);return;}
+  documentActions.select([block.id],event);return;}const e=resolved.entries.get(n.ref);requestEdit({rootId:block.type==='question'?block.content.id:block.id,pointer:'/content',selectedArrangementId:n.id,selectedNodeId:e?.nodeId,selectedDiagramId:e?.diagramId,origin:event.currentTarget});}}
  function key(event,n){
   // Descendant editors and controls own their keys, including Space and Enter.
   if(event.target!==event.currentTarget||event.defaultPrevented||event.isComposing)return;
@@ -137,6 +140,10 @@
  .space-handle.worksheet-handle{bottom:0;left:0;right:0;width:100%;height:14px;min-height:14px;border:0;background:transparent;display:flex;align-items:center;justify-content:center;cursor:ns-resize;touch-action:none}
  @media print{.space-edit{min-height:0;margin-top:0;border:0;border-radius:0;background:none}.space-handle,.width-handle,.zero-space{display:none}.space-edit{outline:none}}
 .hidden-space{display:none}
+ /* A zero-height restore control must not add another flex/grid gap. Keep
+    it reachable over the end of its part without changing worksheet geometry. */
+ .booklet-arrangement:not(.editing) .zero-space{position:absolute;bottom:0;left:0;right:0;height:0;min-height:0}
+ .booklet-arrangement:not(.editing) .zero-space .worksheet-handle{left:auto;right:-14px;width:14px}
  .diagram-height-handle{position:absolute;z-index:6;bottom:-6px;left:0;width:100%;height:14px;min-height:14px;padding:0;border:0;background:transparent;cursor:ns-resize;touch-action:none}
  @media print{.diagram-height-handle{display:none}}
 .layout-handle{position:absolute;right:100%;top:0;width:16px;min-height:16px;padding:0;border:0;background:#eaf2fa;color:#345;opacity:0;z-index:8;cursor:grab;font:14px system-ui}.arr-item:hover>.layout-handle,.arr-group:hover>.layout-handle,.layout-handle:focus-visible,.selected>.layout-handle{opacity:1}@media print{.layout-handle{display:none!important}}
