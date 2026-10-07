@@ -30,8 +30,8 @@ export function auditShading(rows,register){
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
  const arg=k=>{const i=process.argv.indexOf(k);return i<0?null:process.argv[i+1];};
- const register=JSON.parse(fs.readFileSync(arg('--reviews')??'booklets/provenance/diagram-shading-2026-09-12.json','utf8'));
- const rows=inventoryShading(process.cwd(),arg('--project')?[arg('--project')]:null),issues=auditShading(rows,register);
+ const register=arg('--lean-reviews')?{}:JSON.parse(fs.readFileSync(arg('--reviews')??'booklets/provenance/diagram-shading-2026-09-12.json','utf8'));
+ const rows=inventoryShading(process.cwd(),arg('--project')?[arg('--project')]:null),issues=arg('--lean-reviews')?(await import('./lean-shading.mjs')).leanShadingIssues(rows,JSON.parse(fs.readFileSync(arg('--lean-reviews'),'utf8'))):auditShading(rows,register);
  const report={createdAt:new Date().toISOString(),figures:rows.length,native:rows.filter(r=>r.code).length,paintOccurrences:rows.filter(r=>r.candidates.length).length,images:rows.filter(r=>r.image).length,issues};
  if(arg('--report'))fs.writeFileSync(arg('--report'),JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify(report));if(issues.length)process.exitCode=1;

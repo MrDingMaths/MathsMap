@@ -32,6 +32,41 @@ const author=page=>({pageNumber:page,sections:[{id:`s-${page}`,title:'Equations'
 const pageFrom=prompt=>Number(prompt.match(/Target page (\d+)/)[1]);
 const quiet={log:()=>{}};
 
+test('non-response worked demonstrations require independent source support, including given practice examples',()=>{
+ const packet={pageNumber:1,sections:[{id:'teaching',title:'Example',phase:'teaching',blocks:[{id:'paired',type:'question',sourceReview:{responses:[{targetId:'worked',kind:'none'},{targetId:'turn',kind:'working'}]},content:{id:'pair',type:'group',prompt:'Worked example and your turn',children:[{id:'worked',type:'part',prompt:'Visible worked demonstration.'},{id:'turn',type:'part',prompt:'Solve.',answer:{short:'1',worked:'x=1'}}]}}]}],inventoryMappings:[{inventoryId:'source-example',targetId:'worked'},{inventoryId:'source-turn',targetId:'turn'}]};
+ const source={entries:[{id:'source-example',kind:'example'},{id:'source-turn',kind:'question',responseKind:'working'}]};
+ const validate=(value=packet,inventory=source)=>validateSemanticResult(value,{stage:'author',page:1,inventory});
+ assert.doesNotThrow(()=>validate());
+ const missing=structuredClone(packet);delete missing.sections[0].blocks[0].content.children[1].answer;
+ missing.sections[0].blocks[0].sourceReview.responses[1].kind='none';
+ assert.throws(()=>validate(missing),/Response leaf lacks short\/worked answers turn/);
+ const practice=structuredClone(packet);practice.sections[0].phase='practice';
+ assert.doesNotThrow(()=>validate(practice));
+ const responseSource=structuredClone(source);responseSource.entries[0].responseKind='working';
+ assert.throws(()=>validate(packet,responseSource),/Response leaf lacks short\/worked answers worked/);
+});
+
+test('source operation arrows can map to native table annotations with both cell anchors',()=>{
+ const arrow={id:'division',type:'arrow',cellId:'original',toCellId:'image',label:'÷500',side:'bottom'};
+ const table={id:'ratio-table',type:'table',annotations:[arrow],rows:[[{id:'original',type:'cell',blocks:[]},{id:'image',type:'cell',blocks:[]}]]};
+ const packet={pageNumber:1,sections:[{id:'section',title:'Scale',blocks:[{id:'example',type:'callout',content:{format:'maths-editor-document-v1',blocks:[table]}}]}],inventoryMappings:[{inventoryId:'source-arrow',targetId:'division'}]};
+ const source={entries:[{id:'source-arrow',kind:'diagram'}]};
+ assert.doesNotThrow(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory:source}));
+ arrow.toCellId='missing';assert.throws(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory:source}),/Diagram mapped to non-diagram target/);
+ arrow.toCellId='image';arrow.label='';assert.throws(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory:source}),/Diagram mapped to non-diagram target/);
+});
+
+test('source diagrams can map to editable annotated equations only with resolved labels',()=>{
+ const diagram={id:'formula',type:'annotated-equation',latex:'y=mx+c',anchors:[{id:'gradient',start:2,end:3,text:'m'}],annotations:[{id:'gradient-label',targetId:'gradient',blocks:[{id:'gradient-text',type:'paragraph',inlines:[{type:'text',text:'gradient'}]}]}]};
+ const packet={pageNumber:1,sections:[{id:'section',title:'Gradient',blocks:[{id:'definition',type:'callout',content:{format:'maths-editor-document-v1',blocks:[diagram]}}]}],inventoryMappings:[{inventoryId:'source-formula',targetId:'formula'}]};
+ const source={entries:[{id:'source-formula',kind:'diagram'}]};
+ assert.doesNotThrow(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory:source}));
+ diagram.anchors[0].start=3;
+ assert.throws(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory:source}),/Diagram mapped to non-diagram target/);
+ diagram.anchors[0].start=2;diagram.annotations[0].targetId='missing';
+ assert.throws(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory:source}),/Diagram mapped to non-diagram target/);
+});
+
 test('author assignment passes explicit worker wait options without changing lease ownership',async t=>{
  const options={...fixture(t),pages:[4]},tasks=createSemanticTasks(options),assignment=planTaskAssignments(tasks).assignments[0];
  const slots=path.join(options.runDir,'workflow','worker-slots');fs.mkdirSync(slots,{recursive:true});

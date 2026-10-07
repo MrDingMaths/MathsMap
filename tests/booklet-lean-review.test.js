@@ -3,8 +3,50 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {contentHash,pendingBlocks,batchBlocks,applyCorrections,recordContentResult,loadReviewed,runContentReview,visualPlan,visualBatches,recordVisualResult,runVisualReview,reviewStatus,openProject,sourcePagesFor,teachingFor,runLeanExport,applyRepair,outstandingFindings} from '../scripts/booklet/lean-review.mjs';
+import {contentHash,pendingBlocks,batchBlocks,applyCorrections,recordContentResult,recordReuseFallbacks,loadReviewed,runContentReview,visualPlan,visualBatches,recordVisualResult,runVisualReview,reviewStatus,openProject,sourcePagesFor,teachingFor,runLeanExport,applyRepair,outstandingFindings,scopeRepairedVisualPlan} from '../scripts/booklet/lean-review.mjs';
+
+test('fallback reuse references record actual full review without renewing acceptance or claiming inherited approval',()=>{
+ const block={id:'copy',type:'question',content:{prompt:'Given 2 and 4'},sourceReview:{reuse:{projectId:'ratios',blockId:'original'}}};
+ const project={sections:[{blocks:[block]}]},prior={hash:contentHash(block),outcome:'passed',attempts:1,at:'original-time',note:'Independently reviewed'},state={questions:{copy:structuredClone(prior)}},context={projectId:'ratios',runDir:'prior-run'};
+ assert.equal(recordReuseFallbacks(project,state,context),1);
+ const {reuse,...acceptance}=state.questions.copy;assert.deepEqual(acceptance,prior);assert.equal(reuse.outcome,'full-review');assert.equal(reuse.blockId,'original');assert.equal(reuse.runDir,'prior-run');
+ assert.equal(recordReuseFallbacks(project,state,context),0);
+ for(const outcome of ['failed','pending'])assert.equal(recordReuseFallbacks(project,{questions:{copy:{...prior,outcome}}},context),0);
+ assert.equal(recordReuseFallbacks(project,{questions:{copy:{...prior,hash:'stale'}}},context),0);
+});
+
+test('scoped visual repairs keep neighbours, moved content and flags without rereading hash-only changes',()=>{
+ const editions=['student','short','worked','with-short','with-worked'],project={sections:[{blocks:[{id:'fixed'},{id:'unchanged'}]}]},plan={},previousPlan={},report={},previousReport={},state={pages:{}};
+ for(const edition of editions){
+  const old=Array.from({length:7},(_,i)=>({page:i+1,hash:'old-'+edition+'-'+i,blocks:[i===2?'fixed':'unchanged']}));
+  const current=old.map(row=>({...row,hash:'new-'+row.hash}));
+  previousPlan[edition]={pending:old};plan[edition]={pending:current};previousReport[edition]={pageHashes:old};report[edition]={pageHashes:current,issues:[{page:6}]};
+  for(const row of old)state.pages[edition+':'+row.hash]={outcome:'accepted'};
+ }
+ state.pages['student:old-student-2'].outcome='needs-change';
+ const scoped=scopeRepairedVisualPlan({project,plan,report,previousPlan,previousReport,state,repairBlocks:['fixed']});
+ assert.deepEqual(scoped.student.pending.map(p=>p.page),[2,3,4,5,6,7]);
+ assert.deepEqual(scoped['with-short'].pending.map(p=>p.page),[3,6]);
+ assert.equal(plan.student.pending.length,7,'the input plan is unchanged');
+ assert.throws(()=>scopeRepairedVisualPlan({project,plan,report,previousPlan,previousReport,state,repairBlocks:['unchanged']}),/outstanding finding/);
+ delete state.pages['short:old-short-0'];
+ assert.throws(()=>scopeRepairedVisualPlan({project,plan,report,previousPlan,previousReport,state,repairBlocks:['fixed']}),/Finish the previous visual review/);
+});
+test('scoped visual repair consumes moved page sequences and retains new/reflowed bodies and combined boundaries',()=>{
+ const editions=['student','short','worked','with-short','with-worked'],project={sections:[{blocks:['fixed','other','tail','new'].map(id=>({id}))}]},plan={},previousPlan={},report={},previousReport={},state={pages:{}};
+ for(const edition of editions){
+  const old=[['other'],['fixed'],['tail'],['tail'],['other'],['other'],['other'],['other']].map((blocks,i)=>({page:i+1,blocks,hash:edition+'-old-'+i,mode:'student',isCover:i===0}));
+  const current=[['other'],['fixed'],['fixed'],['tail'],['tail'],['other'],['other'],['other'],['other'],['tail'],['new']].map((blocks,i)=>({page:i+1,blocks,hash:edition+'-new-'+i,mode:i>=10?'short':'student',isCover:i===0,answerSectionStart:i===10}));
+  previousPlan[edition]={pending:old};plan[edition]={pending:current};previousReport[edition]={pageHashes:old};report[edition]={pageHashes:current,issues:[]};for(const row of old)state.pages[edition+':'+row.hash]={outcome:'accepted'};
+ }
+ const snapshot=structuredClone(state),scoped=scopeRepairedVisualPlan({project,plan,report,previousPlan,previousReport,state,repairBlocks:['fixed']});
+ assert.deepEqual(scoped.student.pending.map(p=>p.page),[1,2,3,4,9,10,11]);
+ assert.ok(!scoped.student.pending.some(p=>[5,6,7,8].includes(p.page)),'unchanged shifted bodies are not inspected again');
+ assert.deepEqual(scoped['with-short'].pending.map(p=>p.page),Array.from({length:11},(_,i)=>i+1),'the existing combined composition selection remains current when page count changes');
+ assert.deepEqual(state,snapshot,'scoping neither records nor rebinds acceptance');
+});
 import {leanPreExportLint} from '../scripts/booklet/import-pre-final.mjs';
+import {solidAcceptance} from '../scripts/audit-solid-visibility.mjs';
 
 const question=(id,short='4')=>({id,type:'question',sourcePageNumber:6,sourceRefs:[{pageNumber:6}],classification:{primarySkillId:'skill-a'},sourceReview:{teachingContext:[{pageNumber:4,method:'m'}]},content:{id:id+'-root',type:'question',prompt:'Find x.',layout:'grid',answer:{short,worked:'x='+short}}});
 const fixture=()=>({id:'p',title:'P',reviewProfile:'textbook-three-pass-v1',revision:1,sections:[
@@ -15,6 +57,18 @@ const workspace=project=>{const runDir=fs.mkdtempSync(path.join(os.tmpdir(),'lea
 const passAll=batchIds=>({records:batchIds.map(id=>({id,outcome:'passed',note:'ok'})),corrections:[]});
 const idsIn=prompt=>JSON.parse(prompt.slice(prompt.indexOf('\n\n')+2)).blocks.map(block=>block.id);
 
+test('same-pass geometry decisions bind corrected code and never accept rejected or failed blocks',()=>{
+ const block=question('q'),diagram={id:'d',format:'tikz',code:'old'};block.content.questionDiagrams=[diagram];
+ const {dir}=workspace(fixture()),state={questions:{},pages:{}};
+ const batch={rows:[{block}]},result={records:[{id:'q',outcome:'passed'}],corrections:[{patches:[{targetId:'d',field:'/code',original:'old',corrected:'new'}]}],diagramReviews:[{targetId:'d',outcome:'accepted',reason:'Checked visible faces and silhouette'},{targetId:'outside',outcome:'accepted',reason:'Ignore foreign ID'}]};
+ recordContentResult({batch,result,state,dir});assert.equal(Object.keys(state.diagrams).length,1);
+ const first=Object.keys(state.diagrams)[0];
+ recordContentResult({batch,result:{...result,corrections:[{patches:[{targetId:'d',field:'/code',original:'stale',corrected:'bad'}]}]},state,dir});
+ assert.deepEqual(Object.keys(state.diagrams),[first]);
+ diagram.code='failed';recordContentResult({batch,result:{records:[{id:'q',outcome:'failed'}],diagramReviews:result.diagramReviews},state,dir});
+ assert.deepEqual(Object.keys(state.diagrams),[first]);
+ fs.rmSync(path.dirname(dir),{recursive:true,force:true});
+});
 test('a block is pending until reviewed and again only when printable content changes',()=>{
  const project=fixture(),state={questions:{},pages:{}};
  assert.equal(pendingBlocks(project,state).length,6,'front matter is not reviewed');
@@ -27,6 +81,31 @@ test('a block is pending until reviewed and again only when printable content ch
  assert.deepEqual(pendingBlocks(project,state).map(row=>row.block.id),['q1']);
  state.questions.q2.outcome='failed';
  assert.deepEqual(pendingBlocks(project,state,{retryFailed:true}).map(row=>row.block.id),['q1','q2']);
+});
+
+test('passed raster content stays reviewed while the export still requires image acceptance',()=>{
+ const project=fixture(),block=project.sections[2].blocks[0],state={questions:{},pages:{}};
+ block.content.questionDiagrams=[{id:'source-chart',format:'image',src:'/missing-source-chart.png'}];
+ assert.ok(pendingBlocks(project,state).some(row=>row.block===block));
+ for(const {block:own} of pendingBlocks(project,state))state.questions[own.id]={hash:contentHash(own),outcome:'passed'};
+ assert.equal(pendingBlocks(project,state).length,0);
+ assert.equal(solidAcceptance(project).filter(issue=>issue.status==='image-review').length,1);
+ block.content.answer.short='5';
+ assert.deepEqual(pendingBlocks(project,state).map(row=>row.block.id),['q1']);
+});
+
+test('a passed block with unresolved native geometry returns to content review',()=>{
+ const project=fixture(),block=project.sections[2].blocks[0];
+ const code=String.raw`\begin{tikzpicture}\draw (0,0)--(1,1);\end{tikzpicture}`;
+ project.title='Surface area of cylinders';
+ block.content.questionDiagrams=[{id:'d',format:'tikz',code}];
+ const state={questions:{},pages:{}};
+ for(const {block:own} of pendingBlocks(project,state))state.questions[own.id]={hash:contentHash(own),outcome:'passed'};
+ assert.deepEqual(pendingBlocks(project,state).map(row=>row.block.id),['q1']);
+ recordContentResult({batch:{rows:[{block}]},result:{records:[{id:block.id,outcome:'passed'}],diagramReviews:[{targetId:'d',outcome:'accepted',reason:'Checked planar construction rather than a solid'}]},state,dir:workspace(project).dir});
+ assert.equal(pendingBlocks(project,state).length,0);
+ block.content.questionDiagrams[0].code+='\n% changed';
+ assert.deepEqual(pendingBlocks(project,state).map(row=>row.block.id),['q1']);
 });
 
 test('batches hold at most four consecutive blocks of one section',()=>{
@@ -109,7 +188,7 @@ test('visual plan skips accepted page hashes and combined bodies; findings are r
  const first=await runVisualReview({runDir,projectFile:file,exportDir,runner});
  assert.equal(first.pagesInspected,2);assert.equal(first.findings,1);
  await runVisualReview({runDir,projectFile:file,exportDir,runner:async({images})=>{calls++;assert.deepEqual(images,['two.png']);return {result:{pages:[{page:2,outcome:'accepted'}]}};}});
- assert.equal(calls,2);assert.deepEqual(reviewStatus({runDir,projectFile:file}),{blocks:6,pending:6,failed:[],pagesAccepted:2,pagesNeedingChange:0});
+ assert.equal(calls,2);assert.deepEqual(reviewStatus({runDir,projectFile:file}),{blocks:6,pending:6,shadingPending:0,failed:[],pagesAccepted:2,pagesNeedingChange:0});
  const exportState=loadReviewed(path.join(runDir,'lean-review'));exportState.pages['student:obsolete']={outcome:'needs-change'};
  fs.writeFileSync(path.join(runDir,'lean-review/reviewed.json'),JSON.stringify(exportState));
  const currentReport=Object.fromEntries(['student','short','worked','with-short','with-worked'].map(edition=>[edition,{pdf:{path:'x.pdf'},issues:[],pageHashes:[{page:1,hash:edition==='student'?'a':'current-'+edition,blocks:[],isCover:true}]}]));

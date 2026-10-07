@@ -7,6 +7,7 @@ import assert from 'node:assert/strict';
 import {chromium} from 'playwright-core';
 import {inspectPrintedPdf} from './pdf-layout-qa.mjs';
 import {isPractice,flowEditionSections,exerciseNumbers} from '../../src/lib/booklet-flow.js';
+import {isGivenFigureNode} from '../../src/lib/booklet-exercises.js';
 import {rendererSignature,qaSignature,layoutCacheKey,readLayoutCache,writeLayoutCache,contentAssetSignatures} from './verification-cache.mjs';
 import {inspectContentCoverage} from '../../src/lib/booklet-content-verification.js';
 import {loadRun} from './transcription.mjs';
@@ -63,6 +64,7 @@ export function expectedAnswerNodeIds(project,mode){
  assert.ok(['short','worked'].includes(mode),'Select an answer mode');
  const ids=[];
  const visit=node=>{
+  if(isGivenFigureNode(node))return;
   if(node.children?.length&&!node.answer?.[mode])node.children.forEach(visit);
   else ids.push(node.id);
  };
@@ -253,7 +255,7 @@ try{
    const info=await page.locator('.project-print').evaluate(root=>({
      pages:root.querySelectorAll('.print-page').length,
      exerciseHeadings:[...root.querySelectorAll('.difficulty-heading,.inline-exercise-heading,.exercise-heading')].map(e=>e.textContent.trim()).filter(t=>/^Exercise \S+(?:\s+\S+)*$/.test(t)),
-     labels:[...root.querySelectorAll('.answer-item')].map(e=>({id:e.dataset.nodeId,label:e.querySelector('.answer-label')?.textContent,continuation:e.closest('[data-answer-continuation]')?.dataset.answerContinuation,editableFields:e.querySelectorAll('.editable-booklet-text').length,diagrams:e.querySelectorAll('[data-diagram-id]').length})),
+     labels:[...root.querySelectorAll('.compact-answer .answer-item')].map(e=>({id:e.dataset.nodeId,label:e.querySelector('.answer-label')?.textContent,continuation:e.closest('[data-answer-continuation]')?.dataset.answerContinuation,editableFields:e.querySelectorAll('.editable-booklet-text').length,diagrams:e.querySelectorAll('[data-diagram-id]').length})),
      answerDiagramIds:[...root.querySelectorAll('.compact-answer [data-diagram-id]')].filter(e=>!e.parentElement.closest('[data-diagram-id]')).map(e=>e.dataset.diagramId),
      badges:root.querySelectorAll('[data-editor-difficulty]').length,
      teachingGroups:[...root.querySelectorAll('[data-atom-id]')].map(e=>({id:e.dataset.atomId,headers:e.querySelectorAll(':scope > [data-header-kind]').length})),

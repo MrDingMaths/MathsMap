@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {createHash} from 'node:crypto';
-import {snapshotFiles,verifyCompletedFrozenExport,exportWithFrozenRuntime,unrelatedCampaignFile} from '../scripts/booklet/import-verification-runtime.mjs';import {projectReviewHash} from '../scripts/booklet/page-review.mjs';
+import {snapshotFiles,snapshotDifferences,verifyCompletedFrozenExport,exportWithFrozenRuntime,unrelatedCampaignFile,unrelatedProjectAssetFile} from '../scripts/booklet/import-verification-runtime.mjs';import {projectReviewHash} from '../scripts/booklet/page-review.mjs';
 const digest=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 function fixture(){
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'completed-export-')),out=path.join(root,'.booklet-work/out'),snapshot=path.join(out,'runtime');
@@ -24,13 +24,143 @@ test('completed export reuse rejects changed project, PDF, frozen bytes and inco
  const h=fixture();h.write(path.join(h.snapshot,'src/renderer.js'),'changed frozen renderer');assert.throws(()=>verifyCompletedFrozenExport(h.options),/Frozen renderer changed/);
  const i=fixture();i.write(path.join(i.out,'frozen-export-receipt-1.json'),JSON.stringify({status:1}));assert.throws(()=>verifyCompletedFrozenExport(i.options),/checker has not passed/);
 });
+
+test('other-project private assets are reusable while referenced, shared and own assets stay strict',()=>{
+ const f=fixture(),asset='public/booklet-assets/projects/other-book/figure.png';
+ f.write(path.join(f.root,asset),'other project image');
+ const result=verifyCompletedFrozenExport(f.options);
+ assert.deepEqual(result.unrelatedProjectAssetChanges,[asset]);
+ assert.deepEqual(result.unrelatedCampaignChanges,[]);
+ assert.equal(unrelatedProjectAssetFile(asset,f.project),true);
+ for(const src of ['/booklet-assets/projects/other-book/figure.png','/booklet-assets/projects/other%2Dbook/figure.png']){
+  assert.equal(unrelatedProjectAssetFile(asset,{...f.project,sections:[{image:src}]}),false);
+ }
+ assert.equal(unrelatedProjectAssetFile('public/booklet-assets/projects/p/figure.png',f.project),false);
+ assert.equal(unrelatedProjectAssetFile('public/booklet-assets/shared/avatars/figure.png',f.project),false);
+ assert.equal(unrelatedProjectAssetFile(asset,{id:'p'}),false,'historical profiles stay strict');
+ assert.equal(unrelatedProjectAssetFile(asset,{...f.project,id:undefined}),false,'unknown project ownership stays strict');
+ assert.equal(unrelatedProjectAssetFile('public/booklet-assets/projects/P/figure.png',f.project),false,'namespace case does not bypass our own assets');
+ f.project.sections=[{image:'/booklet-assets/projects/other-book/figure.png'}];f.write(f.projectFile,JSON.stringify(f.project));
+ assert.throws(()=>verifyCompletedFrozenExport(f.options),/dependencies changed/);
+ for(const file of ['public/booklet-assets/projects/p/figure.png','public/booklet-assets/shared/avatars/figure.png']){
+  const g=fixture();g.write(path.join(g.root,file),'changed image');
+  assert.throws(()=>verifyCompletedFrozenExport(g.options),/dependencies changed/);
+ }
+});
+
+test('unreferenced other-project assets still require unchanged frozen bytes',()=>{
+ const f=fixture(),asset='public/booklet-assets/projects/other-book/figure.png';
+ f.write(path.join(f.root,asset),'original image');f.write(path.join(f.snapshot,asset),'original image');
+ const manifest=JSON.parse(fs.readFileSync(path.join(f.out,'runtime-manifest.json')));
+ manifest.files.push({path:asset,hash:digest(path.join(f.root,asset))});
+ f.write(path.join(f.out,'runtime-manifest.json'),JSON.stringify(manifest));
+ f.write(path.join(f.snapshot,asset),'changed frozen image');
+ assert.throws(()=>verifyCompletedFrozenExport(f.options),/Frozen renderer changed/);
+});
+
+test('optional content-review reuse is outside print dependencies until a runtime imports it',()=>{
+ const f=fixture(),module=path.join(f.root,'scripts/booklet/review-reuse.mjs');
+ f.write(module,'export const x=1');
+ f.write(path.join(f.root,'scripts/booklet/lean-review.mjs'),"import {x} from './review-reuse.mjs';");
+ assert(!snapshotFiles(f.root).some(row=>row.path==='scripts/booklet/review-reuse.mjs'));
+ for(const reference of ["import {x} from '../scripts/booklet/review-reuse.mjs';","import '../scripts/booklet/review-reuse.mjs';","const x=await import('../scripts/booklet/review-reuse.mjs');","const x=require('../scripts/booklet/review-reuse.mjs');"]){
+  f.write(path.join(f.root,'src/renderer.js'),reference);
+  assert(snapshotFiles(f.root).some(row=>row.path==='scripts/booklet/review-reuse.mjs'),reference);
+ }
+});
+test('unused authoring/host coordinators do not invalidate historical print snapshots',()=>{
+ const f=fixture();
+ const names=['scripts/booklet/lean-import.mjs','scripts/booklet/lean-review.mjs','scripts/content/lean-route.mjs','scripts/booklet/import-verification-runtime.mjs'];
+ for(const name of names){f.write(path.join(f.root,name),'original coordinator');f.write(path.join(f.snapshot,name),'original coordinator');}
+ const manifest=JSON.parse(fs.readFileSync(path.join(f.out,'runtime-manifest.json')));
+ manifest.files.push(...names.map(name=>({path:name,hash:digest(path.join(f.root,name))})));
+ f.write(path.join(f.out,'runtime-manifest.json'),JSON.stringify(manifest));
+ f.write(path.join(f.root,'scripts/booklet/lean-import.mjs'),'changed authoring launcher');
+ f.write(path.join(f.root,'scripts/booklet/lean-review.mjs'),'changed review coordinator');
+ f.write(path.join(f.root,'scripts/content/lean-route.mjs'),'changed campaign coordinator');
+ f.write(path.join(f.root,'scripts/booklet/import-verification-runtime.mjs'),'changed host guard');
+ assert.deepEqual(snapshotDifferences(f.root,manifest.files),[]);
+ assert.equal(verifyCompletedFrozenExport(f.options).reused,true);
+ for(const name of names){
+  f.write(path.join(f.root,'src/renderer.js'),"import '../"+name+"';");
+  assert(snapshotFiles(f.root).some(row=>row.path===name));
+  assert.throws(()=>verifyCompletedFrozenExport(f.options),/dependencies changed/);
+  const expected=snapshotFiles(f.root);fs.unlinkSync(path.join(f.root,name));
+  assert(snapshotDifferences(f.root,expected).includes(name),'deleting an imported coordinator stays blocking');
+  f.write(path.join(f.root,name),'restored coordinator');
+ }
+});
+
+test('a selected-page reuse import does not bind the separate content-review helper in old snapshots',()=>{
+ const f=fixture(),contentReuse='scripts/booklet/review-reuse.mjs',pageReuse='scripts/booklet/selected-page-review-reuse.mjs';
+ f.write(path.join(f.root,contentReuse),'export const x=1');
+ f.write(path.join(f.root,pageReuse),'export const x=1');
+ f.write(path.join(f.root,'scripts/booklet/lean-review.mjs'),"import {x} from './review-reuse.mjs';");
+ f.write(path.join(f.root,'src/renderer.js'),"import {x} from '../scripts/booklet/selected-page-review-reuse.mjs';");
+ const files=snapshotFiles(f.root);
+ assert(!files.some(row=>row.path===contentReuse));
+ assert(files.some(row=>row.path===pageReuse));
+ // Older guards captured the unrelated helper because its name is a suffix.
+ files.push({path:contentReuse,hash:digest(path.join(f.root,contentReuse))});
+ for(const row of files)f.write(path.join(f.snapshot,row.path),fs.readFileSync(path.join(f.root,row.path)));
+ f.write(path.join(f.out,'runtime-manifest.json'),JSON.stringify({root:f.root,snapshot:f.snapshot,files}));
+ f.write(path.join(f.root,contentReuse),'export const x=2');
+ assert.equal(verifyCompletedFrozenExport(f.options).reused,true);
+ f.write(path.join(f.root,pageReuse),'export const x=2');
+ assert.throws(()=>verifyCompletedFrozenExport(f.options),/dependencies changed/);
+ f.write(path.join(f.root,'src/renderer.js'),"import {x} from '../scripts/booklet/review-reuse.mjs';");
+ assert(snapshotFiles(f.root).some(row=>row.path===contentReuse));
+});
+
+test('completed authoring changes stay separate until a renderer imports their helpers transitively',()=>{
+ const f=fixture(),assembler='scripts/booklet/assemble-semantic-packets.mjs',helper='scripts/booklet/packet-continuations.mjs',caller='scripts/booklet/author-assignments.mjs';
+ f.write(path.join(f.root,assembler),"import {x} from './packet-continuations.mjs';");
+ f.write(path.join(f.root,caller),"import {x} from './packet-continuations.mjs';");
+ f.write(path.join(f.root,helper),'export const x=1');
+ const files=snapshotFiles(f.root);
+ assert(!files.some(row=>row.path===assembler));assert(!files.some(row=>row.path===helper));
+ files.push(...[assembler,helper].map(file=>({path:file,hash:digest(path.join(f.root,file))})));
+ for(const row of files)f.write(path.join(f.snapshot,row.path),fs.readFileSync(path.join(f.root,row.path)));
+ f.write(path.join(f.out,'runtime-manifest.json'),JSON.stringify({root:f.root,snapshot:f.snapshot,files}));
+ f.write(path.join(f.root,helper),'export const x=2');
+ f.write(path.join(f.root,assembler),"import {x} from './packet-continuations.mjs'; console.log(x);");
+ assert.equal(verifyCompletedFrozenExport(f.options).reused,true);
+ f.write(path.join(f.root,'src/renderer.js'),"import {x} from '../scripts/booklet/author-assignments.mjs';");
+ assert(snapshotFiles(f.root).some(row=>row.path===helper));
+ assert(snapshotDifferences(f.root,files).includes(helper));
+ assert.throws(()=>verifyCompletedFrozenExport(f.options),/dependencies changed/);
+});
 test('only an unreferenced campaign skill file is unrelated; scripts, data and other public files are dependencies',()=>{
  const project={sections:[{blocks:[{classification:{primarySkillId:'used-skill'}}]}]};
  assert.equal(unrelatedCampaignFile('public/content/other-skill.json',project),true);
  assert.equal(unrelatedCampaignFile('public/quizzes/other-skill.json',project),true);
  for(const file of ['public/content/used-skill.json','public/fonts/font.woff2','public/content/nested/other.json','data/skills.json','scripts/booklet/lean-review.mjs','scripts/booklet/import-verification-runtime.mjs','src/renderer.js'])assert.equal(unrelatedCampaignFile(file,project),false,file);
  const f=fixture();f.write(path.join(f.root,'scripts/booklet/lean-review.mjs'),'new orchestrator file');
- assert.throws(()=>verifyCompletedFrozenExport(f.options),/dependencies changed/,'an orchestrator edit is not exempt by name');
+ f.write(path.join(f.root,'src/renderer.js'),"import '../scripts/booklet/lean-review.mjs';");
+ assert.throws(()=>verifyCompletedFrozenExport(f.options),/dependencies changed/,'an imported orchestrator remains guarded');
+});
+
+test('assembly-only answer provenance changes preserve printed PDFs while direct and transitive runtime imports stay guarded',()=>{
+ const f=fixture(),assembler='scripts/booklet/assemble-semantic-packets.mjs',helper='scripts/booklet/answer-evidence.mjs';
+ f.write(path.join(f.root,assembler),"import {x} from './answer-evidence.mjs';");
+ f.write(path.join(f.root,helper),'export const x=1');
+ const files=snapshotFiles(f.root);
+ assert(!files.some(row=>row.path===helper));
+ // Earlier snapshots conservatively included this authoring-only module.
+ files.push(...[assembler,helper].map(file=>({path:file,hash:digest(path.join(f.root,file))})));
+ for(const row of files)f.write(path.join(f.snapshot,row.path),fs.readFileSync(path.join(f.root,row.path)));
+ f.write(path.join(f.out,'runtime-manifest.json'),JSON.stringify({root:f.root,snapshot:f.snapshot,files}));
+ f.write(path.join(f.root,helper),'export const x=2');
+ assert.equal(verifyCompletedFrozenExport(f.options).reused,true);
+ for(const imported of [helper,assembler]){
+  f.write(path.join(f.root,'src/renderer.js'),`import '../${imported}';`);
+  assert(snapshotFiles(f.root).some(row=>row.path===helper));
+  assert.throws(()=>verifyCompletedFrozenExport(f.options),/dependencies changed/);
+ }
+ f.write(path.join(f.root,'src/renderer.js'),'original renderer');
+ f.write(path.join(f.root,'scripts/booklet/unknown-checker.mjs'),"import {x} from './answer-evidence.mjs';");
+ assert(snapshotFiles(f.root).some(row=>row.path===helper),'An unknown caller remains conservative');
+ assert.throws(()=>verifyCompletedFrozenExport(f.options),/dependencies changed/);
 });
 test('a passing export survives an unrelated campaign write made while it ran, and fails on a renderer change',async()=>{
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'export-campaign-')),write=(file,value)=>{fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,value);};

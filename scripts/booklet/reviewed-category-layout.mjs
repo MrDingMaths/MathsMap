@@ -12,7 +12,7 @@ export function reconcileReviewedCategoryLayouts(project){
   const document=block.content?.prompt,heading=document?.format==='maths-editor-document-v1'?document.blocks?.[0]:null;
   const declared=block.sourceReview?.sourceCategoryHeading;
   if(!heading||heading.type!=='paragraph'||heading.inlines?.some(inline=>inline.type!=='text'))continue;
-  if(!heading.id?.endsWith('-category-heading')&&![declared?.targetId,declared?.paragraphId].includes(heading.id))continue;
+  if(!heading.id||(!heading.id.endsWith('-category-heading')&&![declared?.targetId,declared?.paragraphId].includes(heading.id)))continue;
   const text=heading.inlines.map(inline=>inline.text).join('');
   if(!normal(text)||normal(text)!==normal(block.sourceReview?.sourceIdentity?.category))throw Error('Reviewed category heading does not match source identity: '+block.id);
   const ref=block.content.id+'/prompt#'+heading.id;

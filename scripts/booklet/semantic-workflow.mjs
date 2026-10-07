@@ -20,6 +20,7 @@ import {validateContentScope,PRACTICE_ONLY_PROMPT,validatePracticeInventory,vali
 import {planTaskAssignments,createAuthorAssignmentQueue,assignmentPayload} from './author-assignments.mjs';
 import {workerConcurrency,withWorkerSlot} from './worker-pool.mjs';
 import {FIRST_PASS_PATTERNS} from './first-pass-patterns.mjs';
+import {anchorResolved} from '../../public/libs/maths-editor/annotated-equation.mjs';
 import {reviewIssueMatchesExercise} from './import-verification.mjs';
 
 const read=file=>fs.readFileSync(file,'utf8').replace(/^\uFEFF/,'');
@@ -190,6 +191,15 @@ export function validateSemanticResult(result,{stage,page,inventory,reviewed=fal
  if(!Array.isArray(result.sections)||!Array.isArray(result.inventoryMappings))throw Error('Incomplete semantic author envelope');
  if(contentScope==='practice-only')validatePracticeAuthor(result,inventory);
  if(reviewed&&result.confirmedCorrections?.length)throw Error('Author output cannot approve corrections; use the structured editorial register');
+ // Permanent demonstrations are content, not student response leaves. Require
+ // independent source inventory support as well as the author's declaration;
+ // marking a real question `none` must never waive its answer requirement.
+ const sourceEntries=new Map(inventory.entries.map(entry=>[entry.id,entry]));
+ const demonstrationTargets=new Set(result.inventoryMappings.filter(mapping=>{
+  const entry=sourceEntries.get(mapping.inventoryId);
+  return entry?.kind==='example'&&(!entry.responseKind||entry.responseKind==='none');
+ }).map(mapping=>mapping.targetId));
+ const nonResponseExamples=new Set(result.sections.flatMap(section=>(section.blocks??[]).flatMap(block=>(block.sourceReview?.responses??[]).filter(response=>response.kind==='none'&&demonstrationTargets.has(response.targetId)).map(response=>response.targetId))));
  const ids=new Map(),nativeCards=new Set(),nativeSpeechBubbles=new Set();
  function walk(value){
   if(!value||typeof value!=='object')return;
@@ -208,7 +218,7 @@ export function validateSemanticResult(result,{stage,page,inventory,reviewed=fal
   if(value.type==='group'&&value.children?.filter(n=>n.type==='item'&&n.ref?.endsWith('/label')).length>1)throw Error('Multiple structural labels share a layout group; give each response its own group: '+value.id);
   if(['question','part','group'].includes(value.type)&&'prompt' in value){
    if(value.children?.length){if(value.answer)throw Error('Parent node carries answers '+value.id);}
-   else if(!value.answer?.short||!value.answer?.worked)throw Error('Response leaf lacks short/worked answers '+value.id);
+   else if(!nonResponseExamples.has(value.id)&&(!value.answer?.short||!value.answer?.worked))throw Error('Response leaf lacks short/worked answers '+value.id);
   }
   if(value.format==='tikz'&&(!value.code?.includes('\\begin{tikzpicture}')||!value.code?.includes('\\end{tikzpicture}')))throw Error('Incomplete TikZ diagram '+value.id);
   for(const [key,child]of Object.entries(value))if(!['sourceAtom','sourceReview','sourceLayoutEvidence','spec','provenance'].includes(key))walk(child);
@@ -232,6 +242,7 @@ export function validateSemanticResult(result,{stage,page,inventory,reviewed=fal
    // stand in for an inventoried mathematical figure.
    const nativeMathNode=n=>n?.type==='math'&&typeof n.latex==='string'&&n.latex.trim()||n?.type==='cloze'&&typeof n.answer==='string'&&Number(n.width)>0;
    const nativeMath=!!nativeMathNode(target)||target.type==='paragraph'&&target.inlines?.some(nativeMathNode);
+   const nativeAnnotatedEquation=target.type==='annotated-equation'&&typeof target.latex==='string'&&target.latex.trim()&&target.anchors?.length>0&&target.anchors.every(anchor=>anchorResolved(target,anchor))&&target.annotations?.length>0&&target.annotations.every(annotation=>annotation.blocks?.length>0&&target.anchors.some(anchor=>anchor.id===annotation.targetId));
    const hasNativeMath=value=>{
     if(nativeMathNode(value))return true;
     if(Array.isArray(value))return value.some(hasNativeMath);
@@ -239,7 +250,8 @@ export function validateSemanticResult(result,{stage,page,inventory,reviewed=fal
    };
    const nativeScaffold=target.type==='layout'&&target.arrangement==='scaffold'&&target.slots?.length>0&&target.slots.every(s=>s.blocks?.length>0)&&target.slots.some(s=>hasNativeMath(s.blocks));
    const nativeResponseGrid=mapping.field==='/layout'&&['question','group','part'].includes(target.type)&&target.layout==='grid'&&target.children?.length>1&&target.children.every(n=>Object.hasOwn(n,'prompt'));
-   if(sourceIds.get(mapping.inventoryId).kind==='diagram'&&!['tikz','image'].includes(target.format)&&target.type!=='diagram'&&!nativeCards.has(mapping.targetId)&&!nativeSpeechBubbles.has(mapping.targetId)&&!nativeTable&&!nativeImage&&!nativeMath&&!nativeScaffold&&!nativeResponseGrid)throw Error('Diagram mapped to non-diagram target '+mapping.targetId);
+   const nativeTableArrow=target.type==='arrow'&&typeof target.label==='string'&&target.label.trim()&&ids.get(target.cellId)?.type==='cell'&&ids.get(target.toCellId)?.type==='cell';
+   if(sourceIds.get(mapping.inventoryId).kind==='diagram'&&!['tikz','image'].includes(target.format)&&target.type!=='diagram'&&!nativeCards.has(mapping.targetId)&&!nativeSpeechBubbles.has(mapping.targetId)&&!nativeTable&&!nativeImage&&!nativeMath&&!nativeAnnotatedEquation&&!nativeScaffold&&!nativeResponseGrid&&!nativeTableArrow)throw Error('Diagram mapped to non-diagram target '+mapping.targetId);
   }
  }
  for(const entry of inventory.entries)if(!entry.exclusionReason&&!result.inventoryMappings.some(m=>m.inventoryId===entry.id))throw Error('Missing inventory mapping '+entry.id);

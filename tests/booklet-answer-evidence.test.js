@@ -6,6 +6,16 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {answerMatchText,answerMatchingIssues,approvedAnswerConflict,derivedAnswerDiagramEntries} from '../scripts/booklet/answer-evidence.mjs';
 const match=()=>({questionId:'q62',teacherReference:[{pdfPage:5,printedPage:583,exercise:'1G',questionLabel:'62(a,b)'},{pdfPage:6,printedPage:584,exercise:'1G',questionLabel:'62(c,d)'}],matchEvidence:'Compared the four labelled equations and solutions in the source and answer images.',conflict:null});
+test('an inventoried teaching example owns its derived solution figure',()=>{
+ const block={id:'example-block',type:'question',pedagogyRole:'example',content:{id:'example-root',answer:{solutionDiagrams:[{id:'completed-histogram'}]}}};
+ const entry={id:'source-example',kind:'example',targetId:'example-root',pageNumber:8};
+ const [derived]=derivedAnswerDiagramEntries([{blocks:[block]}],[entry]);
+ assert.equal(derived.derivedFrom,entry.id);assert.equal(derived.pageNumber,8);
+ assert.deepEqual(derivedAnswerDiagramEntries([{blocks:[block]}],[entry,derived]),[]);
+ assert.throws(()=>derivedAnswerDiagramEntries([{blocks:[{...block,pedagogyRole:undefined}]}],[entry]),/inventoried source question/);
+ assert.throws(()=>derivedAnswerDiagramEntries([{blocks:[block]}],[{...entry,exclusionReason:'Reference only'}]),/inventoried source question/);
+ assert.throws(()=>derivedAnswerDiagramEntries([{blocks:[block]}],[{...entry,targetId:'unrelated'}]),/inventoried source question/);
+});
 test('derived answer figures retain printed-question provenance without importing teaching figures',()=>{
  const sections=[{blocks:[{id:'q1',type:'question',content:{id:'q1-content',questionDiagrams:[{id:'printed'}],answer:{solutionDiagrams:[{id:'answer'}]},children:[{id:'q1-a',answer:{solutionDiagrams:[{id:'part-answer'}]}}]}},{id:'example',type:'worked-example',content:{answer:{solutionDiagrams:[{id:'teaching'}]}}}]}];
  const entries=[{id:'source-q1',targetId:'q1',pageNumber:4,kind:'question'},{id:'teacher-answer',targetId:'answer',exclusionReason:'Answer book is reference only'}],original=structuredClone({sections,entries});
@@ -104,6 +114,32 @@ test('native teaching activities bind solution figures to their explicitly inven
  assert.throws(()=>derivedAnswerDiagramEntries(sections,[heading]),/inventoried source question/);
  assert.throws(()=>derivedAnswerDiagramEntries(sections,[heading,{...tasks[0],parentId:'foreign'},tasks[1]]),/inventoried source question/);
  assert.throws(()=>derivedAnswerDiagramEntries([{blocks:[{...activity,pedagogyRole:undefined}]}],[heading,...tasks]),/inventoried source question/);
+});
+
+test('teaching response parts retain their own source lineage for derived area-model answers',()=>{
+ const activity={id:'area-model',type:'question',pedagogyRole:'investigation',content:{id:'tasks',children:[{id:'part-a',answer:{solutionDiagrams:[{id:'completed-model'}]}}]}};
+ const sections=[{phase:'teaching',blocks:[activity]}];
+ const heading={id:'source-activity',kind:'teaching',targetId:'area-model',field:'/sourceAtom',pageNumber:17};
+ const task={id:'source-a',kind:'part',targetId:'part-a',parentId:heading.id,responseKind:'working',pageNumber:17};
+ const entries=[heading,task],before=structuredClone({sections,entries});
+ const derived=derivedAnswerDiagramEntries(sections,entries);
+ assert.deepEqual(derived.map(e=>[e.targetId,e.derivedFrom,e.responseId,e.pageNumber]),[['completed-model','source-a','part-a',17]]);
+ assert.deepEqual({sections,entries},before);
+ assert.deepEqual(derivedAnswerDiagramEntries(sections,[...entries,...derived]),[]);
+ for(const invalid of [{...task,parentId:'foreign'},{...task,pageNumber:18},{...task,responseKind:'none'},{...task,responseKind:undefined},{...task,exclusionReason:'Reference only'}])assert.throws(()=>derivedAnswerDiagramEntries(sections,[heading,invalid]),/inventoried source question/);
+ assert.throws(()=>derivedAnswerDiagramEntries(sections,[{...heading,kind:'group'},task]),/inventoried source question/);
+ assert.throws(()=>derivedAnswerDiagramEntries([{blocks:[{...activity,pedagogyRole:undefined}]}],entries),/inventoried source question/);
+});
+
+test('directly inventoried teaching questions bind derived figures to their own native prompts',()=>{
+ const activity={id:'guided',type:'question',pedagogyRole:'guided-practice',content:{id:'activity',children:[{id:'a',prompt:{blocks:[{id:'prompt-a',type:'paragraph'}]},answer:{worked:{blocks:[{id:'answer-text-a',type:'paragraph'}]},solutionDiagrams:[{id:'solution-a'}]}},{id:'b',prompt:'Second task',answer:{solutionDiagrams:[{id:'solution-b'}]}}]}};
+ const tasks=[{id:'source-a',kind:'question',targetId:'prompt-a',responseKind:'working',pageNumber:13},{id:'source-b',kind:'question',targetId:'b',responseKind:'working',pageNumber:13}];
+ const derive=(block=activity,entries=tasks)=>derivedAnswerDiagramEntries([{phase:'teaching',blocks:[block]}],entries);
+ assert.deepEqual(derive().map(entry=>[entry.targetId,entry.derivedFrom]),[['solution-a','source-a'],['solution-b','source-b']]);
+ assert.throws(()=>derive({...activity,pedagogyRole:undefined}),/inventoried source question/);
+ assert.throws(()=>derive(activity,[{...tasks[0],exclusionReason:'Reference only'},tasks[1]]),/inventoried source question/);
+ assert.throws(()=>derive(activity,[{...tasks[0],targetId:'answer-text-a'},tasks[1]]),/inventoried source question/);
+ assert.throws(()=>derive(activity,[{...tasks[0],responseKind:'none'},tasks[1]]),/inventoried source question/);
 });
 
 test('answer matches reject missing, duplicate, foreign and unselected references',()=>{

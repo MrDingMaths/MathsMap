@@ -62,8 +62,9 @@ export function derivedAnswerDiagramEntries(sections,entries,{groups:sourceGroup
   // Authors may map the independently inventoried whole question to its native
   // content root. That root and the outer question block have the same ownership;
   // an arbitrary descendant part does not establish whole-question provenance.
-  const source=entries.find(e=>!e.exclusionReason&&e.kind==='question'&&e.targetId===block.id)
-   ??entries.find(e=>!e.exclusionReason&&e.kind==='question'&&e.targetId===block.content?.id);
+  const sourceTask=e=>e.kind==='question'||block.pedagogyRole==='example'&&e.kind==='example';
+  const source=entries.find(e=>!e.exclusionReason&&sourceTask(e)&&e.targetId===block.id)
+   ??entries.find(e=>!e.exclusionReason&&sourceTask(e)&&e.targetId===block.content?.id);
   // A shared-stem root may group several independently numbered questions.
   // Bind each response to its own inventoried question only when the explicit
   // inventory parent belongs to that mapped group; an isolated part is not enough.
@@ -75,8 +76,14 @@ export function derivedAnswerDiagramEntries(sections,entries,{groups:sourceGroup
   questionIds(block.content);
   // Native teaching activities also group independently inventoried tasks
   // under one source heading. The heading establishes the parent group only;
-  // each derived figure still needs its own explicit source-question owner.
+  // Each derived figure still needs its own explicit source task. A response
+  // part is eligible only under a mapped teaching parent on the same page.
   const groups=new Set(entries.filter(e=>!e.exclusionReason&&(e.kind==='group'||block.pedagogyRole&&e.kind==='teaching')&&promptTargets.has(e.targetId)).map(e=>e.id));
+  const teachingGroups=new Map(entries.filter(e=>!e.exclusionReason&&block.pedagogyRole&&e.kind==='teaching'&&promptTargets.has(e.targetId)).map(e=>[e.id,e]));
+  const teachingResponse=e=>{
+   const parent=teachingGroups.get(e.parentId);
+   return e.kind==='part'&&parent&&Number.isInteger(e.pageNumber)&&e.pageNumber===parent.pageNumber&&['cloze','inline','short','working','tick-cross'].includes(e.responseKind);
+  };
   // Some original inventories store range instructions in their groups table,
   // separately from numbered entries. Use only a complete explicit membership
   // declaration; never invent a group entry or infer an arbitrary descendant.
@@ -92,7 +99,16 @@ export function derivedAnswerDiagramEntries(sections,entries,{groups:sourceGroup
    members.forEach(member=>metadataOwners.add(member));
   }
   const visit=(node,owner=source)=>{
-   if(groups.size||metadataOwners.size)owner=entries.find(e=>!e.exclusionReason&&e.kind==='question'&&e.targetId===node?.id&&(metadataOwners.has(e)||groups.has(e.parentId)||groups.has(e.sharedStemId)))??owner;
+   if(groups.size||metadataOwners.size)owner=entries.find(e=>!e.exclusionReason&&e.targetId===node?.id&&(e.kind==='question'&&(metadataOwners.has(e)||groups.has(e.parentId)||groups.has(e.sharedStemId))||teachingResponse(e)))??owner;
+   // A teaching activity can inventory its response questions directly without
+   // a separate heading entry. Bind only the current response's own prompt,
+   // never an arbitrary descendant or answer field of the activity.
+   if(block.pedagogyRole&&!node?.children?.length){
+    const ownTargets=new Set([node?.id]);
+    const collect=value=>{if(!value||typeof value!=='object')return;if(value.id)ownTargets.add(value.id);Object.values(value).forEach(collect);};
+    collect(node?.prompt);
+    owner=entries.find(e=>!e.exclusionReason&&e.kind==='question'&&ownTargets.has(e.targetId)&&Number.isInteger(e.pageNumber)&&['cloze','inline','short','working','tick-cross'].includes(e.responseKind))??owner;
+   }
    for(const diagram of [...(node?.answer?.solutionDiagrams??[]),...(node?.sharedSolutionDiagrams??[])]){
     if(!diagram.id)throw Error('Authored answer diagram requires a stable identity: '+block.id);
     if(mapped.has(diagram.id))continue;

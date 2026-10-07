@@ -11,7 +11,7 @@ import {renderMath} from '../../src/lib/render-math.js';
 import {contentNodes} from '../../src/lib/booklet-content-verification.js';
 import {resolveArrangement} from '../../src/lib/booklet-arrangement.js';
 import {trackProcessPhase} from './run-observability.mjs';
-import {coalescePacketContinuations} from './packet-continuations.mjs';
+import {coalescePacketContinuations,mergeQuestionFragments} from './packet-continuations.mjs';
 import {projectPracticeCategoryMappings} from './practice-category-headings.mjs';
 import {reconcileReviewedCategoryLayouts} from './reviewed-category-layout.mjs';
 import {reviewEnabled,liveWorkflow,effectiveInventory,effectiveAuthor,workflowFlags,materializeCorrections,workflowForPages,synchronizeInventoryAmbiguities,REVIEW_POLICY} from './workflow-review.mjs';
@@ -34,7 +34,7 @@ for(const page of selected){
  validateSemanticResult(packet,{stage:'author',page,inventory:inv,contentScope:config.contentScope,reviewed:!!workflow});
  inventories.set(page,inv);rawPackets.push(packet);
 }
-const packets=coalescePacketContinuations(rawPackets,{continuations:config.assignmentLimits?.continuations});
+const packets=mergeQuestionFragments(coalescePacketContinuations(rawPackets,{continuations:config.assignmentLimits?.continuations}),config.questionFragmentGroups);
 for(const packet of packets){
  const page=packet.pageNumber,inv=inventories.get(page);
  for(const record of packet.answerEvidence??[])record.matchEvidence=answerMatchText(record.matchEvidence);

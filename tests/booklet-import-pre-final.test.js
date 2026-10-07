@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
-import {importPreFinal} from '../scripts/booklet/import-pre-final.mjs';
+import {importPreFinal,leanPreExportLint} from '../scripts/booklet/import-pre-final.mjs';
 import {compactWorkflowOutput} from '../scripts/booklet/workflow-output.mjs';
 
 test('pre-final catches the three late Data Visualisation defects while preserving semantic colour and native currency',()=>{
@@ -24,6 +24,13 @@ test('source evidence is excluded; reviewed exceptions are occurrence- and sourc
  assert.equal(importPreFinal(project,{reviews:[review]}).ok,true);
  assert.equal(importPreFinal({...project,prompt:project.prompt+' Changed.'},{reviews:[review]}).ok,false);
  assert.equal(importPreFinal({prompt:String.raw`$\unknowncommand{3}$`}).issues[0].rule,'math-render');
+});
+
+test('malformed TikZ macro definitions block export before rendering',()=>{
+ const project={sections:[{blocks:[{id:'solid',format:'tikz',code:String.raw`\begin{tikzpicture}\pgfmathsetmacro{angle}{90+atan(1/2)}\draw (0,0)--({cos(\angle)},{sin(\angle)});\end{tikzpicture}`}]}]};
+ assert.deepEqual(leanPreExportLint(project).blocking.map(row=>[row.rule,row.blockId]),[['tikz-macro','solid']]);
+ project.sections[0].blocks[0].code=project.sections[0].blocks[0].code.replace('{angle}','{\\angle}');
+ assert.equal(leanPreExportLint(project).blocking.length,0);
 });
 
 test('CLI output is compact by default while saved JSON and --full retain all detail',t=>{

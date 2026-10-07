@@ -12,7 +12,7 @@ const currency=/^\d[\d,.]*\s+(?:and|for|per|each|is|was|to|at|dollars|cents|from
 // blank: it cannot be edited or sized as a cloze and wraps unpredictably.
 const texScaffold=/\\(?:cdots|ldots|dots)\}?\s*\\hspace\{/;
 // Rules that always mean broken printed output. Other rules need a look.
-export const BLOCKING_LINT_RULES=Object.freeze(['math-delimiter','currency-delimiter','math-render']);
+export const BLOCKING_LINT_RULES=Object.freeze(['math-delimiter','currency-delimiter','math-render','tikz-macro']);
 
 export function importPreFinal(project,{reviews=[],extended=false}={}){
  const issues=[],reviewed=[],strings=new Set();let diagrams=0;
@@ -34,6 +34,7 @@ export function importPreFinal(project,{reviews=[],extended=false}={}){
  };
  const diagramCheck=(node,pointer)=>{
   diagrams++;const code=node.code??'',body=code.replace(/%[^\n]*/g,'');
+  if(/\\pgfmathsetmacro\{[^\\]/.test(body))report('tikz-macro',pointer+'/code',code,'TikZ macro definition must name a control sequence beginning with a backslash');
   if(!/graph|plot|histogram|ogive|column|scatter|axis/i.test(node.id+' '+(node.spec?.kind??'')+' '+(node.spec?.description??'')+' '+code))return;
   for(const match of body.matchAll(/\\draw\[([^\]]*)\]\s*(\([^;]+);/g)){
    const [,options,geometry]=match,points=[...geometry.matchAll(/\((-?[\d.]+),\s*(-?[\d.]+)\)/g)].map(m=>[Number(m[1]),Number(m[2])]);
