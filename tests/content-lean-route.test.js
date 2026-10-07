@@ -5,7 +5,60 @@ import os from 'node:os';
 import path from 'node:path';
 import { EventEmitter } from 'node:events';
 import { PassThrough } from 'node:stream';
-import { runModel, runSkill, publishAccepted, checkCandidate, checkReview, changedItems, leanStatus, skillEvidence, normaliseRemovals, currencyProblems, applyFixes, reReviewScope, touchesDiagram } from '../scripts/content/lean-route.mjs';
+import { runModel, runSkill, runAuditPilot, publishAccepted, checkCandidate, checkReview, changedItems, leanStatus, remainingSkillIds, skillEvidence, normaliseRemovals, currencyProblems, applyFixes, reReviewScope, touchesDiagram, auditRepairScope, changedDiagramBodies, AUDIT_FIRST_PROFILE } from '../scripts/content/lean-route.mjs';
+
+test('remaining queue preserves completed and held records and resumes interrupted work only', t => {
+  const { root } = fixture(t), base = path.join(root, 'booklets/provenance/content-campaign/test');
+  fs.writeFileSync(path.join(base, 'campaign.json'), JSON.stringify({ skillIds: ['new', 'done', 'unchanged', 'held', 'blocked', 'interrupted', 'survey-bias-ethics'] }));
+  fs.mkdirSync(path.join(base, 'lean'), { recursive: true });
+  for (const [id, status] of Object.entries({ done: 'published', unchanged: 'accepted: no change needed', held: 'accepted: held for diagram check', blocked: 'blocked', interrupted: 'running', 'survey-bias-ethics': 'running' })) fs.writeFileSync(path.join(base, 'lean', id + '.json'), JSON.stringify({ status }));
+  assert.deepEqual(remainingSkillIds(root, 'test'), ['new', 'interrupted']);
+});
+
+test('audit maintenance rechecks corrected items instead of replaying stale rejected outcomes', async t => {
+  const { root, content, quiz } = fixture(t), bad = structuredClone(content);
+  bad.practice.foundation[0].solution_text = '$3+2=6$';
+  fs.writeFileSync(path.join(root, 'public/content/first.json'), JSON.stringify(bad));
+  const rejected = auditOf({ content: bad, quiz });
+  Object.assign(rejected.outcomes[0], { verdict: 'repair', finding: '3+2=5, not 6.' });
+  const first = await runSkill(root, { campaignId: 'test', skillId: 'first', auditFirst: true, model: async ({ name, dir }) => {
+    const result = name === 'repair' ? author({ content: bad, quiz }) : rejected;
+    fs.writeFileSync(path.join(dir, name + '.json'), JSON.stringify(result));
+    return { result, call: { name, seconds: 1 } };
+  } });
+  assert.match(first.status, /^needs attention/);
+  const seen = [];
+  const repaired = await runSkill(root, { campaignId: 'test', skillId: 'first', auditFirst: true, repair: true, publish: true, model: async ({ name, prompt }) => {
+    seen.push(name);
+    if (name === 'maintenance-repair') return { result: author({ content, quiz }), call: { name, seconds: 1 } };
+    assert.match(prompt, /each of these items only: practice.foundation\[0\]/);
+    return { result: { outcomes: [auditOf({ content, quiz }).outcomes[0]], summary: 'Independently corrected.' }, call: { name, seconds: 1 } };
+  } });
+  assert.equal(repaired.status, 'published');
+  assert.deepEqual(seen, ['maintenance-repair', 'maintenance-review-scoped']);
+});
+
+test('stale procedure headings use a text-only formatting fix before independent review', async t => {
+  const { root, content, quiz } = fixture(t), next = structuredClone(content), seen = [];
+  content.theory.steps = ['Add two.'];
+  fs.writeFileSync(path.join(root, 'public/content/first.json'), JSON.stringify(content));
+  next.theory.steps = ['Add the two numbers.'];
+  next.practice.foundation[0].solution_text = '1. **Add two.**\n$3+2$\n$=5$';
+  const corrected = structuredClone(next);
+  corrected.practice.foundation[0].solution_text = '1. **Add the two numbers.**\n$3+2$\n$=5$';
+  const model = async ({ name, prompt, images }) => {
+    seen.push(name);
+    if (name === 'author') return { result: author({ content: next, quiz }), call: { name, seconds: 0 } };
+    if (name === 'fix') {
+      assert.deepEqual(images, []); assert.match(prompt, /replace only the bold heading/);
+      return { result: { fixes: [{ path: 'content.practice.foundation[0].solution_text', value: corrected.practice.foundation[0].solution_text }] }, call: { name, seconds: 0 } };
+    }
+    return { result: reviewOf(author({ content: corrected, quiz })), call: { name, seconds: 0 } };
+  };
+  const record = await runSkill(root, { campaignId: 'test', skillId: 'first', publish: true, model });
+  assert.equal(record.status, 'published'); assert.deepEqual(seen, ['author', 'fix', 'review']);
+  assert.equal(JSON.parse(fs.readFileSync(path.join(root, 'public/content/first.json'))).practice.foundation[0].solution_text, corrected.practice.foundation[0].solution_text);
+});
 
 const card = n => ({ question_text: `Calculate $${n}+2$.`, structure: 'add', solution_text: `$${n}+2$\n$=${n + 2}$` });
 const question = (n, i) => ({ id: 'q' + (i + 1), ...card(n), mastery: false, options: [{ text: `$${n + 2}$`, correct: true }, { text: `$${n + 1}$`, why: 'Added one instead of two.' }, { text: `$${n}$`, why: 'Did not add the second number.' }] });
@@ -28,6 +81,92 @@ function fixture(t) {
 }
 const author = pair => ({ skillId: 'first', blocker: null, content: pair.content, quiz: pair.quiz, items: [...['foundation', 'development'].flatMap(tier => pair.content.practice[tier].map((_, i) => ({ where: `practice.${tier}[${i}]`, decision: 'kept', bookletQuestion: 'Foundation 1, line 6' }))), ...pair.quiz.questions.map(q => ({ where: 'quiz.' + q.id, decision: 'kept', bookletQuestion: 'Foundation 1, line 6' }))], removed: [], summary: 'Checked.' });
 const reviewOf = candidate => ({ outcomes: [...['foundation', 'development'].flatMap(tier => candidate.content.practice[tier].map((_, i) => ({ where: `practice.${tier}[${i}]`, verdict: 'accepted', answer: 'sum', correctOption: null, bookletType: true, finding: '' }))), ...candidate.quiz.questions.map(q => ({ where: 'quiz.' + q.id, verdict: 'accepted', answer: 'sum', correctOption: 0, bookletType: true, finding: '' })), ...candidate.content.theory.workedExamples.map((_, i) => ({ where: `theory.workedExamples[${i}]`, verdict: 'accepted', answer: '11', correctOption: null, bookletType: null, finding: '' }))], theory: { verdict: 'accepted', finding: '' }, removals: [], summary: 'Agreed.' });
+
+const auditOf = pair => { const review = reviewOf({ ...pair, content: { ...pair.content, theory: { ...pair.content.theory, workedExamples: pair.content.theory.workedExamples || [] } } }); for (const row of review.outcomes) if (!row.where.startsWith('theory.')) row.bookletQuestion = 'Foundation 1, line 6'; return review; };
+
+test('pilot gives both models identical blind packets, caps workers and leaves live content untouched', async t => {
+  const { root, content, quiz } = fixture(t), skills = [];
+  for (let i = 0; i < 6; i++) {
+    const skillId = 'pilot-' + i, beforeDirectory = 'snapshots/' + skillId;
+    fs.mkdirSync(path.join(root, beforeDirectory), { recursive: true });
+    fs.writeFileSync(path.join(root, beforeDirectory, 'content.before.json'), JSON.stringify({ ...content, skillId }));
+    fs.writeFileSync(path.join(root, beforeDirectory, 'quiz.before.json'), JSON.stringify({ ...quiz, skillId }));
+    skills.push({ skillId, beforeDirectory, section: { path: 'booklets/mathsmap-sources/Stage 4/Addition.md', start: 1, end: 6 }, expectedFindings: ['SECRET-GOLD'] });
+  }
+  const manifestFile = path.join(root, 'pilot.json'); fs.writeFileSync(manifestFile, JSON.stringify({ skills }));
+  const original = fs.readFileSync(path.join(root, 'public/content/first.json'), 'utf8');
+  let active = 0, peak = 0; const inputs = [];
+  const model = async input => {
+    inputs.push(input); peak = Math.max(peak, ++active); assert.doesNotMatch(input.prompt, /SECRET-GOLD/);
+    await new Promise(resolve => setTimeout(resolve, 5)); active--;
+    return { result: auditOf({ content, quiz }), call: { seconds: 1 } };
+  };
+  const { report } = await runAuditPilot(root, { manifestFile, campaignId: 'test', model, concurrency: 8 });
+  assert.equal(peak, 3); assert.equal(inputs.length, 12); assert.equal(report.results.length, 12);
+  for (const skill of skills) {
+    const rows = report.results.filter(row => row.skillId === skill.skillId);
+    assert.equal(rows[0].promptHash, rows[1].promptHash); assert.equal(rows[0].pairHash, rows[1].pairHash);
+    assert.deepEqual(rows.map(row => [row.modelId, row.effort]).sort(), [['gpt-6-luna', 'max'], ['gpt-6.1-sol', 'low']]);
+  }
+  assert.equal(fs.readFileSync(path.join(root, 'public/content/first.json'), 'utf8'), original);
+  assert.equal(fs.existsSync(recordFile(root)), false);
+});
+
+test('audit-first accepts existing content in one call without adding missing examples or publishing', async t => {
+  const { root, content, quiz } = fixture(t); delete content.theory.workedExamples;
+  const file = path.join(root, 'public/content/first.json'); fs.writeFileSync(file, JSON.stringify(content)); const before = fs.readFileSync(file, 'utf8'), seen = [];
+  const model = async ({ name, prompt }) => { seen.push(name); assert.match(prompt, /Missing worked examples and optional style improvements must not block/); return { result: auditOf({ content, quiz }), call: { name, seconds: 0 } }; };
+  const record = await runSkill(root, { campaignId: 'test', skillId: 'first', auditFirst: true, publish: true, model });
+  assert.equal(record.profile, AUDIT_FIRST_PROFILE); assert.equal(record.status, 'accepted: no change needed'); assert.deepEqual(seen, ['audit']); assert.equal(fs.readFileSync(file, 'utf8'), before);
+});
+
+test('audit-first repairs a defect and independently rechecks only the affected item', async t => {
+  const { root, content, quiz } = fixture(t); content.practice.foundation[0].solution_text = '$3+2$\n$=6$'; fs.writeFileSync(path.join(root, 'public/content/first.json'), JSON.stringify(content));
+  const good = structuredClone(content); good.practice.foundation[0] = card(3); const seen = [];
+  const model = async ({ name, prompt }) => {
+    seen.push(name);
+    if (name === 'audit') { const result = auditOf({ content, quiz }); Object.assign(result.outcomes[0], { verdict: 'repair', finding: '3+2=5, not 6.' }); return { result, call: { name, seconds: 0 } }; }
+    if (name === 'repair') return { result: author({ content: good, quiz }), call: { name, seconds: 0 } };
+    assert.match(prompt, /each of these items only: practice.foundation\[0\]/); return { result: { outcomes: [auditOf({ content: good, quiz }).outcomes[0]], summary: 'Corrected.' }, call: { name, seconds: 0 } };
+  };
+  const record = await runSkill(root, { campaignId: 'test', skillId: 'first', auditFirst: true, publish: true, model });
+  assert.equal(record.status, 'published'); assert.deepEqual(seen, ['audit', 'repair', 'review-scoped']);
+});
+
+test('audit-first rejects incomplete audits and refuses unchanged acceptance when live content moves', async t => {
+  const { root, content, quiz } = fixture(t);
+  const incomplete = async ({ name }) => ({ result: name === 'repair' ? author({ content, quiz }) : { ...auditOf({ content, quiz }), outcomes: [] }, call: { name, seconds: 0 } });
+  assert.match((await runSkill(root, { campaignId: 'test', skillId: 'first', auditFirst: true, publish: true, model: incomplete })).status, /^needs attention/);
+  const moved = async ({ name }) => { fs.writeFileSync(path.join(root, 'public/content/first.json'), JSON.stringify(withFirst(content, card(20)))); return { result: auditOf({ content, quiz }), call: { name, seconds: 0 } }; };
+  assert.equal((await runSkill(root, { campaignId: 'test', skillId: 'first', auditFirst: true, model: moved })).status, 'needs attention: live content changed during audit');
+});
+
+test('audit-first retains a source blocker without spending a repair call', async t => {
+  const { root } = fixture(t), seen = [];
+  const model = async ({ name, prompt }) => { seen.push(name); assert.match(prompt, /complete exercise set or necessary figures/); return { result: { skillId: 'first', blocker: 'Need the complete Addition exercise figures.' }, call: { name, seconds: 0 } }; };
+  const record = await runSkill(root, { campaignId: 'test', skillId: 'first', auditFirst: true, publish: true, model });
+  assert.equal(record.status, 'blocked'); assert.match(record.blocker, /exercise figures/); assert.deepEqual(seen, ['audit']);
+});
+
+test('audit-first scopes local theory/removal repairs but fully rechecks shared mathematical dependencies', t => {
+  const { content, quiz } = fixture(t), before = author({ content, quiz }), review = auditOf(before), next = structuredClone(before);
+  next.content.theory.intro = 'Clearer wording.'; review.theory = { verdict: 'repair', finding: 'Clarify wording.', affectedItems: [] };
+  assert.deepEqual(auditRepairScope(before, next, review), ['theory']);
+  review.theory.affectedItems = null; assert.equal(auditRepairScope(before, next, review), null);
+  const removed = structuredClone(before); removed.content.practice.foundation.pop(); removed.removed = [{ where: 'practice.foundation[2]', reason: 'Not a booklet type.' }];
+  assert.deepEqual(auditRepairScope(before, removed, auditOf(before)), ['removals']);
+});
+
+test('audit-first checks diagram changes rather than wording changes in diagram-bearing items', t => {
+  const { content, quiz } = fixture(t), before = { content, quiz };
+  content.practice.foundation[0].question_text += '\n[tikz]\\begin{tikzpicture}\\draw (0,0)--(1,1);\\end{tikzpicture}[/tikz]';
+  const prose = structuredClone(before); prose.content.practice.foundation[0].solution_text += '\nCorrect.';
+  assert.deepEqual(changedDiagramBodies(before, prose), []);
+  const drawing = structuredClone(before); drawing.content.practice.foundation[0].question_text = drawing.content.practice.foundation[0].question_text.replace('(1,1)', '(2,1)');
+  assert.equal(changedDiagramBodies(before, drawing).length, 1);
+  const theory = structuredClone(before); theory.content.theory.intro += '\n[tikz]\\begin{tikzpicture}\\draw (0,0)--(3,1);\\end{tikzpicture}[/tikz]';
+  assert.equal(changedDiagramBodies(before, theory).length, 1);
+});
 
 test('source budgets count the normalized numbered text actually supplied, including scoped ranges', t => {
   const { root } = fixture(t), booklet = 'booklets/mathsmap-sources/Stage 4/Addition.md';
@@ -231,6 +370,8 @@ test('model calls isolate response files, reject failed workers and retain failu
   fs.writeFileSync(path.join(dir, 'author.raw.txt'), '{"stale":true}');
   const paths = [];
   const fake = (code, response, fail) => (_binary, args) => {
+    assert.equal(args[args.indexOf('--model') + 1], 'gpt-6.1-sol');
+    assert.ok(args.includes('model_reasoning_effort="low"'));
     const raw = args[args.indexOf('--output-last-message') + 1]; paths.push(raw);
     const child = new EventEmitter(); child.stdout = new PassThrough(); child.stderr = new PassThrough(); child.stdin = new PassThrough(); child.kill = () => {};
     child.stdin.once('finish', () => {

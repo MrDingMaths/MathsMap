@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// Lean campaign route (approved 4 October 2026): author call, independent reviewer call, at most one
-// repair round, mechanical validation, then the existing revision-safe publication transaction.
+// Audit-first campaign (approved 5 October 2026): audit existing content, repair defects only,
+// then independently check the affected content and publish through the revision-safe transaction.
+// The legacy author-first profile remains available for historical/test runs.
 // Formatting errors get one separate fix call so they do not use up the repair round (five calls at most).
 // It keeps one compact record per skill and does not use the guarded campaign ledger's ownership,
 // reading acknowledgments, lineage proofs, render receipts or UI capture.
@@ -14,7 +15,8 @@ import { validateCandidatePair } from '../validate.mjs';
 import { publishSkill } from './publication.mjs';
 
 export const LEAN_ROUTE_PROFILE = 'lean-two-call-v1';
-const MODEL = 'gpt-6.1-sol', EFFORT = 'medium', IMAGE_LIMIT = 110, BOOKLET_BYTE_LIMIT = 450000, CALL_LIMIT = 5;
+export const AUDIT_FIRST_PROFILE = 'lean-audit-first-v1';
+const MODEL = 'gpt-6.1-sol', EFFORT = 'low', IMAGE_LIMIT = 110, BOOKLET_BYTE_LIMIT = 450000, CALL_LIMIT = 5;
 const NL = '\n';
 export const SOURCE_EXCEPTION_SKILLS = ['add-multiple-numbers-place-value', 'add-subtract-decimals', 'add-subtract-strategies'];
 const SOURCE_EXCEPTION_REASON = 'User approved a booklet-source exception for these three Stage 3 skills on 5 October 2026, using the Stage 3 syllabus and independent mathematical review.';
@@ -36,6 +38,9 @@ Content rules:
 - Site fields use inline $...$ maths only, one working step per line, no display maths.
 - A replaced or repaired item's "structure" slug must describe its new task; do not leave the slug of a removed type.
 - Every quiz question keeps exactly one correct option, and every other option keeps a "why" naming the specific mistake.
+- Evaluate requested numerical answers and every numerical quiz option: an unevaluated formula or rounding operator is not a final calculated answer. Keep full precision until the stated rounding point; when totals use actual rounded payments, state that convention explicitly. Derive distractor values from their stated mistakes.
+- Check boundary cases, consistency of every supplied given, payment/valuation timing where relevant, and that each review answer belongs to its stated canonical item. A table's column declaration must match its actual rows.
+- When theory.steps changes, keep affected solution procedure headings consistent with it. Preserve correct calculations and usable working; do not introduce discretionary rewrites.
 Output rules:
 - Money: write every dollar amount as inline maths with an escaped sign, $\\$200$. Never leave a bare $ before an amount in any field, including an option's "why".
 - A quiz option's "text" and "why" are prose with inline $...$ maths only. No [tikz] figure and no TikZ commands inside an option; a figure the question needs goes in question_text.
@@ -49,7 +54,7 @@ export function codexBinary() {
   return 'codex';
 }
 
-export function runModel({ root, prompt, images, dir, name, spawnProcess = spawn }) {
+export function runModel({ root, prompt, images, dir, name, modelId = MODEL, effort = EFFORT, spawnProcess = spawn }) {
   // A failed worker must never supply a response left by an earlier attempt.
   const callDir = fs.mkdtempSync(path.join(dir, name + '-'));
   const raw = path.join(callDir, 'response.raw.txt');
@@ -60,7 +65,7 @@ export function runModel({ root, prompt, images, dir, name, spawnProcess = spawn
     fs.copyFileSync(file, copy);
     return copy;
   });
-  const args = ['exec', '--ephemeral', '--ignore-user-config', '--skip-git-repo-check', '--sandbox', 'read-only', '-C', root, '--model', MODEL, '-c', `model_reasoning_effort="${EFFORT}"`, '-c', 'service_tier="default"', '-c', 'features.fast_mode=false', '-c', 'features.multi_agent=false', '-c', 'features.multi_agent_v2=false', '--json', '--output-last-message', raw, ...attached.flatMap(file => ['--image', file]), '-'];
+  const args = ['exec', '--ephemeral', '--ignore-user-config', '--skip-git-repo-check', '--sandbox', 'read-only', '-C', root, '--model', modelId, '-c', `model_reasoning_effort="${effort}"`, '-c', 'service_tier="default"', '-c', 'features.fast_mode=false', '-c', 'features.multi_agent=false', '-c', 'features.multi_agent_v2=false', '--json', '--output-last-message', raw, ...attached.flatMap(file => ['--image', file]), '-'];
   const started = Date.now();
   return new Promise(resolve => {
     const child = spawnProcess(codexBinary(), args, { cwd: root, windowsHide: true, shell: false, stdio: ['pipe', 'pipe', 'pipe'] });
@@ -189,6 +194,7 @@ ${evidence}`;
 const fixPrompt = (skillId, candidate, problems) => `You are correcting formatting only in a candidate for MathsMap skill ${skillId}. Do not run commands or tools. No subagents.
 
 Site text rules:
+- For a procedure-label mismatch, replace only the bold heading with the corresponding current theory.steps text, or remove the decorative heading while retaining all instructional text and calculations. Do not alter numbers or mathematical working.
 - Inline $...$ maths only, one working step per line, no display maths.
 - Money: every dollar amount is inline maths with an escaped sign, $\\$200$. Never a bare $ before an amount.
 - A quiz option's "text" and "why" are prose with inline maths only.
@@ -209,7 +215,7 @@ const reviewPrompt = (skillId, candidate, scope, evidence, baseline) => `You are
 ${RULES}
 
 Skill: ${skillId}
-For ${scope ? 'each of these items only: ' + scope.join(', ') : 'EVERY practice item, quiz question and worked example in the candidate'}: derive the answer yourself before reading the given solution, then compare. Check the wording, the working, the stage and method, and that the item is a booklet question type under the rule. For each quiz question decide which single option is correct from your own answer and check every other option's explanation. ${scope ? '' : 'Also check the theory text against the booklet and each removal.'}
+For ${scope ? 'each of these items only: ' + scope.join(', ') : 'EVERY practice item, quiz question and worked example in the candidate'}: derive the answer yourself before reading the given solution, then compare. Check the wording, the working, the stage and method, and that the item is a booklet question type under the rule. For each quiz question decide which single option is correct from your own answer and check every other option's explanation. ${!scope || scope.includes('theory') ? 'Also check the theory text against the booklet.' : ''} ${!scope || scope.includes('removals') ? 'Independently check each removal against its original item and source.' : ''}
 
 Return ONLY JSON:
 {"skillId":"${skillId}","outcomes":[{"where":"practice.foundation[0] | quiz.<id> | theory.workedExamples[0]","verdict":"accepted"|"repair","answer":"your own final answer with the key working","correctOption":null,"bookletType":true,"finding":"empty, or exactly what must change"}],"theory":{"verdict":"accepted"|"repair","finding":""},"removals":[{"where":"...","agree":true,"finding":""}],"summary":"two sentences"}
@@ -220,11 +226,39 @@ ${JSON.stringify(reviewable(candidate).filter(item => !scope || scope.includes(i
 Candidate:
 ${JSON.stringify({ content: candidate.content, quiz: candidate.quiz, items: candidate.items, removed: candidate.removed, editNotes: candidate.editNotes })}
 
-${scope ? '' : 'Original items named in removals (compare each original task with the booklet before agreeing):' + NL + JSON.stringify(reviewable(baseline).filter(item => (candidate.removed || []).some(row => row.where === item.where)).map(({ where, value }) => ({ where, value })))}
+${scope && !scope.includes('removals') ? '' : 'Original items named in removals (compare each original task with the booklet before agreeing):' + NL + JSON.stringify(reviewable(baseline).filter(item => (candidate.removed || []).some(row => row.where === item.where)).map(({ where, value }) => ({ where, value })))}
 
 ${evidence}`;
 
 const reviewable = pair => assessmentItems(pair.content, pair.quiz, false);
+
+// The audit-first campaign checks existing content without requiring expansion or cosmetic rewriting.
+export const AUDIT_RULES = RULES.replace(/- Worked examples \(theory\.workedExamples[^\n]+/, '- Audit existing worked examples. Missing examples or incomplete example coverage are optional improvements, not defects; do not add examples unless needed to repair misleading or unusable teaching.')
+  .replace('- Site fields use inline $...$ maths only, one working step per line, no display maths.', '- Preserve usable existing setout. Flag mathematical, source, scope, misleading-teaching or rendering defects only; do not request line splitting or other cosmetic changes unless needed for understanding. Changed text uses inline $...$ maths, not display maths.');
+
+const auditPrompt = (skillId, candidate, evidence, baseline) => reviewPrompt(skillId, candidate, null, evidence, baseline).replace(RULES, AUDIT_RULES) + `\nThis is an audit of the existing published skill, not a content-upgrade assignment. Return findings and your independently derived answers only; do not return replacement content. If the evidence omits the skill's teaching, complete exercise set or necessary figures, return {"skillId":"${skillId}","blocker":"the missing source headings/figures needed"} instead of acceptance; do not infer booklet types from incomplete evidence. Each accepted practice/quiz outcome also supplies bookletQuestion: the source question/part and line supporting your booklet-type decision. For a theory repair, supply affectedItems: an array of canonical item locators dependent on the correction, [] only for a local wording correction with no answer/method dependencies, or null when shared mathematics/methods change. Missing worked examples and optional style improvements must not block acceptance.`;
+
+/** Keep accepted answers from the first audit; review only changed/open items and explicit dependencies. */
+export function auditRepairScope(reviewed, candidate, review, sourceException = false) {
+  if (!reviewed || !review) return null;
+  const delta = changedItems(reviewed, candidate);
+  if (delta.theory && !Array.isArray(review.theory?.affectedItems)) return null;
+  const final = new Set(reviewable(candidate).map(item => item.where));
+  const dependencies = delta.theory ? review.theory.affectedItems : [];
+  if (dependencies.some(where => !final.has(where))) return null;
+  const open = reviewable(reviewed).filter(item => checkReview(reviewed, review, [item.where], sourceException).length).map(item => item.where);
+  const scope = [...new Set([...delta.where, ...open, ...dependencies])].filter(where => final.has(where));
+  if (delta.theory || review.theory?.verdict !== 'accepted') scope.push('theory');
+  if (JSON.stringify(reviewed.removed || []) !== JSON.stringify(candidate.removed || []) || checkReview(reviewed, review, null, sourceException).some(problem => problem.startsWith('removal '))) scope.push('removals');
+  return scope;
+}
+
+/** A diagram check is required only for a new/changed diagram body, including theory diagrams. */
+export function changedDiagramBodies(baseline, candidate) {
+  const diagrams = pair => textFields({ content: pair.content, quiz: pair.quiz }).flatMap(({ value }) => [...value.matchAll(/\[tikz\][\s\S]*?\[\/tikz\]|\\begin\{tikzpicture\}[\s\S]*?\\end\{tikzpicture\}|<svg\b[\s\S]*?<\/svg>|!\[[^\]]*\]\([^)]+\)|\\includegraphics(?:\[[^\]]*\])?\{[^}]+\}/g)].map(match => match[0]));
+  const known = new Set(diagrams(baseline));
+  return [...new Set(diagrams(candidate))].filter(body => !known.has(body));
+}
 
 /** "removed" rows that do not name a whole original item (theory edits, parts of an item) become edit notes for the reviewer, not removals. */
 export function normaliseRemovals(baseline, candidate) {
@@ -249,7 +283,7 @@ export function currencyProblems(baseline, candidate) {
   }
   return problems;
 }
-const isFormat = problem => /^Format: |unbalanced \$ delimiters|TeX outside math|KaTeX error/.test(problem);
+const isFormat = problem => /^Format: |unbalanced \$ delimiters|TeX outside math|KaTeX error|procedure label .* does not match theory\.steps/.test(problem);
 
 /** Replace existing text fields named by path. Anything else in a fix is ignored, so a fix cannot add, remove or restructure items. */
 export function applyFixes(candidate, fixes) {
@@ -291,8 +325,8 @@ export function checkReview(candidate, review, scope = null, sourceException = f
       if (marked.length !== 1 || row.correctOption !== marked[0]) problems.push(item.where + ': reviewer\'s correct option (' + row.correctOption + ') disagrees with the marked option (' + marked.join(',') + ')');
     }
   }
-  if (!scope) {
-    if (review?.theory?.verdict !== 'accepted') problems.push('theory: ' + (review?.theory?.finding?.trim() || 'not accepted'));
+  if ((!scope || scope.includes('theory')) && review?.theory?.verdict !== 'accepted') problems.push('theory: ' + (review?.theory?.finding?.trim() || 'not accepted'));
+  if (!scope || scope.includes('removals')) {
     for (const row of candidate.removed || []) { const seen = (review?.removals || []).find(entry => entry.where === row.where); if (seen?.agree !== true) problems.push('removal ' + row.where + ': ' + (seen?.finding?.trim() || 'reviewer did not agree')); }
   }
   return problems;
@@ -336,7 +370,7 @@ function resumable(dir, prior, baseline, repair = false) {
   return { candidate, review: full?.hash === prior.candidateHash && (!(candidate.removed || []).length || full.originalRemovalsSupplied) ? readJson(path.join(dir, full.name + '.json')) : null };
 }
 
-export async function runSkill(root, { campaignId = DEFAULT_CAMPAIGN, skillId, publish = false, section = null, resume = false, repair = false, finding = null, sourceException = false, model = runModel } = {}) {
+export async function runSkill(root, { campaignId = DEFAULT_CAMPAIGN, skillId, publish = false, section = null, resume = false, repair = false, finding = null, sourceException = false, auditFirst = campaignId === DEFAULT_CAMPAIGN, model = runModel } = {}) {
   if (sourceException && !SOURCE_EXCEPTION_SKILLS.includes(skillId)) throw new Error('No approved source exception for ' + skillId);
   const dir = path.join(root, '.agywork/content-campaign', campaignId, 'lean', skillId), recordDir = path.join(root, 'booklets/provenance/content-campaign', campaignId, 'lean'), recordFile = path.join(recordDir, skillId + '.json');
   fs.mkdirSync(dir, { recursive: true }); fs.mkdirSync(recordDir, { recursive: true });
@@ -344,7 +378,7 @@ export async function runSkill(root, { campaignId = DEFAULT_CAMPAIGN, skillId, p
   // A refused resume leaves the existing record and working files untouched.
   if (typeof resumed === 'string') return { skillId, status: 'not resumed: ' + resumed, calls: [] };
   if (repair && !(prior.findings || []).length && !finding) return { skillId, status: 'not resumed: explicit maintenance repair requires findings', calls: [] };
-  const record = { profile: LEAN_ROUTE_PROFILE, skillId, model: MODEL, effort: EFFORT, startedAt: new Date().toISOString(), status: 'running', calls: [] };
+  const record = { profile: auditFirst ? AUDIT_FIRST_PROFILE : LEAN_ROUTE_PROFILE, skillId, model: MODEL, effort: EFFORT, startedAt: new Date().toISOString(), status: 'running', calls: [] };
   // Earlier attempts keep their calls and usage, so a redo, a resume or an interruption does not lose what was spent.
   if (prior) record.previousAttempts = [...(prior.previousAttempts || []), { startedAt: prior.startedAt, finishedAt: prior.finishedAt ?? null, status: prior.status, calls: prior.calls || [] }];
   if (resume) record.resumed = true;
@@ -368,15 +402,24 @@ export async function runSkill(root, { campaignId = DEFAULT_CAMPAIGN, skillId, p
     const { result, call: metrics } = await model({ root, prompt, images: attach, dir, name: prefix + name }); record.calls.push(metrics); save(); return result;
   };
 
-  let candidate = resumed ? resumed.candidate : await call(authorPrompt(skillId, evidence.stage, text), 'author');
+  const auditRules = prompt => auditFirst ? prompt.replace(RULES, AUDIT_RULES) : prompt;
+  let initialAudit = null;
+  let candidate = resumed ? resumed.candidate : auditFirst ? { content: baseline.content, quiz: baseline.quiz, items: [], removed: [] } : await call(authorPrompt(skillId, evidence.stage, text), 'author');
   if (!candidate) return finish('failed: author returned no result');
   if (candidate.blocker) { record.blocker = candidate.blocker; return finish('blocked'); }
-  let review = repair ? null : resumed?.review ?? null, reviewed = review ? candidate : null, scope = null, fixed = false, repaired = repair;
+  if (auditFirst && !resumed) {
+    initialAudit = await call(auditPrompt(skillId, candidate, plain, baseline), 'audit');
+    if (!initialAudit) return finish('failed: auditor returned no result');
+    if (initialAudit.blocker) { record.blocker = initialAudit.blocker; return finish('blocked'); }
+    candidate.items = (initialAudit.outcomes || []).filter(row => !row.where?.startsWith('theory.')).map(row => ({ where: row.where, decision: 'kept', bookletQuestion: row.bookletQuestion, ...(sourceException ? { sourceException: row.sourceExceptionConfirmed === true } : {}) }));
+    record.fullReview = { name: 'audit', hash: pairHash(candidate), originalRemovalsSupplied: true, ...(sourceException ? { sourceExceptionConfirmed: initialAudit.outcomes?.every(row => row.sourceExceptionConfirmed === true) === true } : {}) };
+  }
+  let review = repair ? (auditFirst ? resumed?.review ?? null : null) : initialAudit ?? resumed?.review ?? null, reviewed = review ? candidate : null, scope = null, fixed = false, repaired = repair;
   if (repair) {
     const findings = [...(prior.findings || []), ...(finding ? [finding] : [])];
     if (!findings.length) return finish('needs attention: explicit maintenance repair requires findings');
     record.firstRoundFindings = findings;
-    candidate = await call(repairPrompt(skillId, candidate, findings, text), 'repair');
+    candidate = await call(auditRules(repairPrompt(skillId, candidate, findings, auditFirst ? plain : text)), 'repair');
     if (!candidate?.content) return finish('needs attention: repair returned no candidate');
   }
   // Mechanical problems after tidying the removals. Formatting errors get one fix call per run, sent without the booklet, so they do not use the repair round.
@@ -390,21 +433,38 @@ export async function runSkill(root, { campaignId = DEFAULT_CAMPAIGN, skillId, p
     }
     return found;
   };
-  const fullReview = async name => { const result = await call(reviewPrompt(skillId, candidate, null, plain, baseline), name); review = result; reviewed = candidate; record.fullReview = { name: prefix + name, hash: pairHash(candidate), originalRemovalsSupplied: true, ...(sourceException ? { sourceExceptionConfirmed: result?.outcomes?.every(row => row.sourceExceptionConfirmed === true) === true } : {}) }; return checkReview(candidate, result, null, sourceException); };
+  const fullReview = async name => { const result = await call(auditRules(reviewPrompt(skillId, candidate, null, plain, baseline)), name); review = result; reviewed = candidate; record.fullReview = { name: prefix + name, hash: pairHash(candidate), originalRemovalsSupplied: true, ...(sourceException ? { sourceExceptionConfirmed: result?.outcomes?.every(row => row.sourceExceptionConfirmed === true) === true } : {}) }; return checkReview(candidate, result, null, sourceException); };
   // After a change the reviewer re-checks the changed and still-open items, or everything where reReviewScope cannot narrow it.
   const reReview = async () => {
-    scope = reReviewScope(reviewed, candidate, review, sourceException);
+    scope = auditFirst ? auditRepairScope(reviewed, candidate, review, sourceException) : reReviewScope(reviewed, candidate, review, sourceException);
     if (!scope) return fullReview('review-full');
-    if (!changedItems(reviewed, candidate).where.length) return ['Repair changed no item', ...checkReview(reviewed, review, null, sourceException)];
-    return checkReview(candidate, await call(reviewPrompt(skillId, candidate, scope, plain, baseline), 'review-scoped'), scope, sourceException);
+    if (!auditFirst && !changedItems(reviewed, candidate).where.length) return ['Repair changed no item', ...checkReview(reviewed, review, null, sourceException)];
+    if (!scope.length) return checkReview(candidate, review, null, sourceException);
+    const result = await call(auditRules(reviewPrompt(skillId, candidate, scope, plain, baseline)), 'review-scoped');
+    const problems = checkReview(candidate, result, scope, sourceException);
+    if (auditFirst && !problems.length) {
+      const old = new Map(review.outcomes.map(row => [row.where, row]));
+      for (const row of result.outcomes || []) if (scope.includes(row.where)) old.set(row.where, row);
+      // Merge actual independent decisions only; unchanged items retain their accepted audit.
+      review = { ...review, outcomes: reviewable(candidate).map(item => old.get(item.where)), ...(scope.includes('theory') ? { theory: result.theory } : {}), ...(scope.includes('removals') ? { removals: result.removals } : {}), summary: result.summary };
+      const remaining = checkReview(candidate, review, null, sourceException);
+      if (remaining.length) return remaining;
+      fs.writeFileSync(path.join(dir, 'review-accepted.json'), JSON.stringify(review, null, 2));
+      record.fullReview = { name: 'review-accepted', hash: pairHash(candidate), originalRemovalsSupplied: true, ...(sourceException ? { sourceExceptionConfirmed: review.outcomes.every(row => row.sourceExceptionConfirmed === true) } : {}) };
+      reviewed = candidate;
+    }
+    return problems;
   };
 
   let problems = await mechanical();
-  if (!problems.length && !review) problems = await fullReview('review');
+  // Maintenance changed the retained candidate: old rejected outcomes identify
+  // the review scope, but cannot reject the corrected candidate without a recheck.
+  if (!problems.length && repair) problems = review ? await reReview() : await fullReview('review');
+  else if (!problems.length && !review) problems = await fullReview('review');
   else if (review) problems = [...problems, ...checkReview(reviewed, review, null, sourceException)];
   if (problems.length && !repair) {
     record.firstRoundFindings = problems; repaired = true;
-    const next = await call(repairPrompt(skillId, candidate, problems, text), 'repair');
+    const next = await call(auditRules(repairPrompt(skillId, candidate, problems, auditFirst ? plain : text)), 'repair');
     if (!next?.content) return finish('needs attention: repair returned no candidate');
     candidate = next; problems = await mechanical();
     if (!problems.length) problems = await reReview();
@@ -414,8 +474,12 @@ export async function runSkill(root, { campaignId = DEFAULT_CAMPAIGN, skillId, p
   Object.assign(record, { repaired, changed: delta.where, theoryChanged: delta.theory, removed: candidate.removed || [], items: reviewable(candidate).length, summary: candidate.summary || null, reviewSummary: review?.summary || null, candidateHash: pairHash(candidate) });
   if (problems.length) { record.findings = problems; return finish('needs attention: not accepted after one repair round'); }
   if (sourceException && record.sourceException.hash !== hashValue(fs.readFileSync(path.join(root, syllabusPath), 'utf8'))) return finish('needs attention: syllabus changed during review');
+  if (auditFirst) {
+    const live = capturePair(root, skillId).expected;
+    if (live.contentHash !== baseline.expected.contentHash || live.quizHash !== baseline.expected.quizHash) return finish('needs attention: live content changed during audit');
+  }
   if (!delta.where.length && !delta.theory && !(candidate.removed || []).length) return finish('accepted: no change needed');
-  if (touchesDiagram(baseline, candidate)) return finish('accepted: held for diagram check');
+  if (auditFirst ? changedDiagramBodies(baseline, candidate).length : touchesDiagram(baseline, candidate)) return finish('accepted: held for diagram check');
   if (!publish) return finish('accepted: not published (run with --publish)');
   const saved = await publishSkill(root, skillId, { expected: baseline.expected, candidateContent: candidate.content, candidateQuiz: candidate.quiz });
   record.published = { expected: saved.expected, journalPath: saved.journalPath ? path.relative(root, saved.journalPath) : null };
@@ -437,6 +501,16 @@ export async function publishAccepted(root, { campaignId = DEFAULT_CAMPAIGN, ski
   return record;
 }
 
+export function remainingSkillIds(root, campaignId = DEFAULT_CAMPAIGN) {
+  const base = path.join(root, 'booklets/provenance/content-campaign', campaignId);
+  const campaign = readJson(path.join(base, 'campaign.json'));
+  if (!Array.isArray(campaign?.skillIds)) throw new Error('Campaign membership is missing');
+  return campaign.skillIds.filter(id => {
+    const record = readJson(path.join(base, 'lean', id + '.json'));
+    return id !== 'survey-bias-ethics' && (!record || record.status === 'running');
+  });
+}
+
 export function leanStatus(root, campaignId = DEFAULT_CAMPAIGN) {
   const dir = path.join(root, 'booklets/provenance/content-campaign', campaignId, 'lean'), counts = {}, attention = [];
   for (const name of fs.existsSync(dir) ? fs.readdirSync(dir).filter(file => file.endsWith('.json')) : []) {
@@ -444,6 +518,42 @@ export function leanStatus(root, campaignId = DEFAULT_CAMPAIGN) {
     counts[key] = (counts[key] || 0) + 1; if (!/^(published|accepted)/.test(record.status)) attention.push(record.skillId + ' — ' + record.status);
   }
   return { campaignId, counts, attention };
+}
+
+/** One blind audit per model and frozen historical skill; no repairs, publications or campaign-record writes. */
+export async function runAuditPilot(root, { manifestFile, campaignId = DEFAULT_CAMPAIGN, model = runModel, concurrency = 3 }) {
+  const manifest = readJson(manifestFile);
+  if (!Array.isArray(manifest?.skills) || manifest.skills.length !== 6 || new Set(manifest.skills.map(row => row.skillId)).size !== 6) throw new Error('Pilot requires six distinct skills');
+  const arms = [{ modelId: 'gpt-6-luna', effort: 'max' }, { modelId: 'gpt-6.1-sol', effort: 'low' }];
+  const packets = manifest.skills.map(row => {
+    const content = readJson(path.join(root, row.beforeDirectory, 'content.before.json')), quiz = readJson(path.join(root, row.beforeDirectory, 'quiz.before.json'));
+    if (content?.skillId !== row.skillId || quiz?.skillId !== row.skillId) throw new Error('Missing historical pair: ' + row.skillId);
+    const evidence = skillEvidence(root, campaignId, row.skillId, row.section || null);
+    if (!evidence.files.length || evidence.bytes > BOOKLET_BYTE_LIMIT || evidence.omittedImages) throw new Error('Pilot needs complete bounded evidence: ' + row.skillId);
+    const pair = { content, quiz, items: [], removed: [] };
+    const prompt = auditPrompt(row.skillId, pair, evidenceText(root, evidence, null), pair);
+    return { skillId: row.skillId, pair, prompt, images: evidence.images.map(image => image.file), pairHash: pairHash(pair), promptHash: hashValue(prompt) };
+  });
+  const pilotRoot = path.join(root, '.agywork/content-campaign', campaignId, 'pilots'); fs.mkdirSync(pilotRoot, { recursive: true });
+  const dir = fs.mkdtempSync(path.join(pilotRoot, 'luna-max-sol-low-'));
+  const report = { profile: 'six-skill-blind-audit-pilot-v1', startedAt: new Date().toISOString(), arms, samples: manifest.skills, results: [] };
+  const file = path.join(dir, 'results.json'), save = () => fs.writeFileSync(file, JSON.stringify(report, null, 2) + NL);
+  save();
+  const queue = packets.flatMap(packet => arms.map(arm => ({ packet, arm })));
+  await Promise.all(Array.from({ length: Math.min(3, Math.max(1, concurrency)) }, async () => {
+    while (queue.length) {
+      const { packet, arm } = queue.shift();
+      const outcome = await model({ root, dir, name: packet.skillId + '-' + arm.modelId + '-' + arm.effort, prompt: packet.prompt, images: packet.images, ...arm });
+      const review = outcome.result;
+      const problems = review?.blocker ? ['Source blocker: ' + review.blocker] : review ? checkReview(packet.pair, review) : ['No audit result'];
+      const incomplete = problems.filter(problem => /^Review missing/.test(problem));
+      const row = { skillId: packet.skillId, ...arm, pairHash: packet.pairHash, promptHash: packet.promptHash, call: outcome.call, status: !review ? 'failed' : review.blocker ? 'blocked' : incomplete.length ? 'incomplete' : 'complete', findings: problems, review };
+      report.results.push(row); save();
+      console.log(JSON.stringify({ skillId: row.skillId, model: arm.modelId, effort: arm.effort, status: row.status, seconds: row.call.seconds }));
+    }
+  }));
+  report.finishedAt = new Date().toISOString(); save();
+  return { path: path.relative(root, file), report };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
@@ -457,19 +567,34 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
       catch (error) { console.log(JSON.stringify({ skillId, status: 'failed: ' + String(error.message).slice(0, 300) })); }
     }
   } else if (command === 'run') {
-    const ids = (value('--ids') || '').split(',').filter(Boolean), publish = argv.includes('--publish'), redo = argv.includes('--redo'), resume = argv.includes('--resume'), repair = argv.includes('--repair'), finding = value('--finding'), sourceException = argv.includes('--source-exception');
+    const pilotManifest = value('--pilot-manifest');
+    if (pilotManifest) {
+      if (argv.includes('--publish') || argv.includes('--ids')) throw new Error('A pilot cannot publish or run campaign ids');
+      const result = await runAuditPilot(root, { campaignId, manifestFile: path.resolve(root, pilotManifest), concurrency: Number(value('--concurrency', 3)) });
+      console.log(JSON.stringify({ pilot: result.path, calls: result.report.results.length }));
+      process.exit(0);
+    }
+    const remaining = argv.includes('--remaining');
+    if (remaining && (value('--ids') || argv.some(flag => ['--redo', '--resume', '--repair', '--source-exception', '--section'].includes(flag)))) throw new Error('--remaining selects only unstarted/interrupted skills; do not combine it with explicit ids or retry/source overrides');
+    const ids = remaining ? remainingSkillIds(root, campaignId) : (value('--ids') || '').split(',').filter(Boolean), publish = argv.includes('--publish'), redo = argv.includes('--redo'), resume = argv.includes('--resume'), repair = argv.includes('--repair'), finding = value('--finding'), sourceException = argv.includes('--source-exception');
+    if (remaining && !ids.length) { console.log(JSON.stringify({ status: 'No unstarted skills remain', ...leanStatus(root, campaignId) })); process.exit(0); }
     const sectionArgument = value('--section'), sectionMatch = sectionArgument?.match(/^(.*):(\d+)-(\d+)$/);
-    if (!ids.length || [redo, resume, repair].filter(Boolean).length > 1 || (sectionArgument && (!sectionMatch || ids.length !== 1)) || (finding && !repair)) { console.error('Usage: lean-route.mjs run --ids a,b,c [--publish] [--redo | --resume | --repair [--finding "diagnosed issue"]] [--concurrency 3] [--section "booklet path:start-end" with one id]'); process.exit(1); }
+    if (!ids.length || [redo, resume, repair].filter(Boolean).length > 1 || (sectionArgument && (!sectionMatch || ids.length !== 1)) || (finding && !repair)) { console.error('Usage: lean-route.mjs run (--ids a,b,c | --remaining) [--publish] [--redo | --resume | --repair [--finding "diagnosed issue"]] [--concurrency 3] [--section "booklet path:start-end" with one id]'); process.exit(1); }
+    const concurrency = Number(value('--concurrency', 3));
+    if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 3) throw new Error('Campaign concurrency must be an integer from 1 to 3');
     const section = sectionMatch ? { path: sectionMatch[1], start: Number(sectionMatch[2]), end: Number(sectionMatch[3]) } : null;
     // --resume repairs the retained candidate of a record needing attention, once; --redo starts again from the author. An interrupted record (still "running") is run again.
     const queue = ids.filter(skillId => redo || resume || repair || (readJson(path.join(root, 'booklets/provenance/content-campaign', campaignId, 'lean', skillId + '.json'))?.status ?? 'running') === 'running');
     // At most three workers; publication itself is serialized by the publication lock.
-    await Promise.all(Array.from({ length: Math.min(3, Number(value('--concurrency', 3))) }, async () => {
+    const dispatchStarted = Date.now();
+    if (remaining) console.log(JSON.stringify({ campaignId, queued: queue.length, concurrency, model: MODEL, effort: EFFORT, startedAt: new Date(dispatchStarted).toISOString() }));
+    await Promise.all(Array.from({ length: concurrency }, async () => {
       while (queue.length) {
         const skillId = queue.shift();
         try { const record = await runSkill(root, { campaignId, skillId, publish, section, resume, repair, finding, sourceException }); console.log(JSON.stringify({ skillId, status: record.status, changed: record.changed?.length ?? null, removed: record.removed?.length ?? null, seconds: Math.round(record.calls.reduce((total, call) => total + call.seconds, 0)), calls: record.calls.length })); }
         catch (error) { console.log(JSON.stringify({ skillId, status: 'failed: ' + String(error.message).slice(0, 300) })); }
       }
     }));
+    if (remaining) console.log(JSON.stringify({ elapsedSeconds: Math.round((Date.now() - dispatchStarted) / 1000), ...leanStatus(root, campaignId) }));
   } else { console.error('Commands: run, publish, status'); process.exit(1); }
 }
