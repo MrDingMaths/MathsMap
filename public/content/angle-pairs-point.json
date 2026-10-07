@@ -2,71 +2,93 @@
   "skillId": "angle-pairs-point",
   "atomType": "Cat",
   "theory": {
-        "intro": "Angle pairs are named either by where the angles sit or by what their measures add to.",
-        "facts": [
+"intro": "Angle pairs are named either by where the angles sit or by what their measures add to.",
+"facts": [
           "**Vertically opposite** angles sit across from each other where two lines cross, sharing only the vertex.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (2.4,1.5);\n\\coordinate (C) at (-2.4,-1.5);\n\\coordinate (B) at (-2.4,1.5);\n\\coordinate (D) at (2.4,-1.5);\n\\draw (A) -- (C);\n\\draw (B) -- (D);\n\\pic[draw, angle radius=0.75cm] {angle = A--O--B};\n\\pic[draw, angle radius=0.75cm] {angle = C--O--D};\n\\end{tikzpicture}\n[/tikz]",
           "**Adjacent** angles share a vertex and one arm, and their interiors do not overlap.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles}\n\\coordinate (V) at (0,0);\n\\coordinate (P) at (2.6,0);\n\\coordinate (Q) at (1.5,2.1);\n\\coordinate (R) at (-2.0,1.7);\n\\draw (V) -- (P);\n\\draw (V) -- (Q);\n\\draw (V) -- (R);\n\\node[right] at (P) {$P$};\n\\node[above] at (Q) {$Q$};\n\\node[above left] at (R) {$R$};\n\\node[below] at (V) {$V$};\n\\pic[draw, angle radius=0.7cm] {angle = P--V--Q};\n\\pic[draw, angle radius=1.0cm] {angle = Q--V--R};\n\\end{tikzpicture}\n[/tikz]",
           "**Complementary** angles have measures that add to $90^{\\circ}$.",
           "**Supplementary** angles have measures that add to $180^{\\circ}$.",
           "One pair can fit more than one name; adjacent angles can also be complementary."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Decide whether angles measuring $38^{\\circ}$ and $52^{\\circ}$ are complementary, supplementary, or neither.",
+    "solution_text": "$38 + 52 = 90$.\nThe angles are complementary."
+  },
+  {
+    "question_text": "Find the complement of $36^{\\circ}$.",
+    "solution_text": "Complementary angles sum to $90^{\\circ}$.\n$90 - 36 = 54$.\nThe complement is $54^{\\circ}$."
+  },
+  {
+    "question_text": "Find the supplement of $124^{\\circ}$.",
+    "solution_text": "Supplementary angles sum to $180^{\\circ}$.\n$180 - 124 = 56$.\nThe supplement is $56^{\\circ}$."
+  },
+  {
+    "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (V) at (0,0);\n\\draw (V)--(0:2) node[right] {$P$};\n\\draw (V)--(60:2) node[above right] {$Q$};\n\\draw (V)--(140:2) node[above left] {$R$};\n\\node[below] at (V) {$V$};\n\\end{tikzpicture}\n[/tikz]\nDecide whether $\\angle PVQ$ and $\\angle QVR$ are adjacent.",
+    "solution_text": "They share vertex $V$ and arm $VQ$.\nThey do not overlap.\nThe angles are adjacent."
+  },
+  {
+    "question_text": "[tikz]\n\\begin{tikzpicture}\n\\draw (-2,-1) node[below left] {$J$}--(2,1) node[above right] {$K$};\n\\draw (-2,1) node[above left] {$L$}--(2,-1) node[below right] {$M$};\n\\node[below] at (0,0) {$V$};\n\\end{tikzpicture}\n[/tikz]\nIdentify the angle vertically opposite to $\\angle KVL$.",
+    "solution_text": "$VJ$ is opposite $VK$, and $VM$ is opposite $VL$.\nThe vertically opposite angle is $\\angle JVM$."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.75]\\draw (-2,-1.4)--(2,1.4);\\draw (-2,1.4)--(2,-1.4);\\draw (0.45,0.32) arc[start angle=35,end angle=145,radius=0.55];\\draw (-0.45,-0.32) arc[start angle=215,end angle=325,radius=0.55];\\end{tikzpicture}\n[/tikz]\nIdentify the relationship between the two marked angles.",
         "structure": "vertically-opposite",
-        "solution_text": "Vertically opposite angles"
+        "solution_text": "The marked angles are opposite each other where two straight lines intersect.\nThey are vertically opposite angles."
       },
-      {
+{
         "question_text": "Which relationship describes angles measuring $32^{\\circ}$ and $58^{\\circ}$?",
         "structure": "complementary",
-        "solution_text": "Complementary angles"
+        "solution_text": "$32 + 58 = 90$.\nThey are complementary angles."
       },
-      {
+{
         "question_text": "Which relationship describes angles measuring $117^{\\circ}$ and $63^{\\circ}$?",
         "structure": "supplementary",
-        "solution_text": "Supplementary angles"
+        "solution_text": "$117 + 63 = 180$.\nThey are supplementary angles."
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.7]\\coordinate (O) at (0,0);\\draw (O)--(2,0) node[right] {$A$};\\draw (O)--(1.2,1.7) node[above] {$B$};\\draw (O)--(-1.5,1.3) node[above] {$C$};\\node[below] at (O) {$O$};\\draw (0.5,0) arc[start angle=0,end angle=55,radius=0.5];\\draw (0.42,0.6) arc[start angle=55,end angle=139,radius=0.72];\\end{tikzpicture}\n[/tikz]\nIdentify the relationship between $\\angle AOB$ and $\\angle BOC$.",
         "structure": "adjacent",
-        "solution_text": "Adjacent angles"
+        "solution_text": "They share vertex $O$ and arm $OB$, and do not overlap.\nThey are adjacent angles."
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.7]\\coordinate (O) at (0,0);\\draw (-2,-1.4) node[below] {$C$}--(2,1.4) node[above] {$A$};\\draw (-2,1.4) node[above] {$B$}--(2,-1.4) node[below] {$D$};\\node[below] at (O) {$O$};\\draw (0.42,0.3) arc[start angle=35,end angle=145,radius=0.52];\\end{tikzpicture}\n[/tikz]\nWhich angle is vertically opposite $\\angle AOB$?",
         "structure": "vertically-opposite",
-        "solution_text": "$\\angle COD$"
+        "solution_text": "$OC$ is opposite $OA$, and $OD$ is opposite $OB$.\nThe vertically opposite angle is $\\angle COD$."
       },
-      {
+{
         "question_text": "From $24^{\\circ}$, $66^{\\circ}$ and $156^{\\circ}$, choose the angle complementary to $24^{\\circ}$.",
         "structure": "complementary",
-        "solution_text": "$66^{\\circ}$"
+        "solution_text": "$90 - 24 = 66$.\nThe complementary angle is $66^{\\circ}$."
       },
-      {
+{
         "question_text": "From $42^{\\circ}$, $138^{\\circ}$ and $148^{\\circ}$, choose the angle supplementary to $42^{\\circ}$.",
         "structure": "supplementary",
-        "solution_text": "$138^{\\circ}$"
+        "solution_text": "$180 - 42 = 138$.\nThe supplementary angle is $138^{\\circ}$."
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.7]\\coordinate (O) at (0,0);\\foreach \\a/\\n in {10/A,70/B,155/C,240/D}{\\draw (O)--(\\a:2) node[anchor=180+\\a] {$\\n$};}\\node[below] at (O) {$O$};\\end{tikzpicture}\n[/tikz]\nAre $\\angle AOB$ and $\\angle COD$ adjacent?\nGive the positional reason.",
         "structure": "adjacent",
         "solution_text": "No. They share a vertex but do not share an arm."
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.7]\\coordinate (O) at (0,0);\\draw (O)--(2,0) node[right] {$A$};\\draw (O)--(35:2) node[above right] {$B$};\\draw (O)--(90:2) node[above] {$C$};\\node[below] at (O) {$O$};\\draw (0.45,0) arc[start angle=0,end angle=35,radius=0.45];\\draw (35:0.65) arc[start angle=35,end angle=90,radius=0.65];\\end{tikzpicture}\n[/tikz]\nAngles $\\angle AOB$ and $\\angle BOC$ measure $35^{\\circ}$ and $55^{\\circ}$.\nGive every relationship from this skill that describes the pair.",
-        "structure": "identify-all-relationships",
-        "solution_text": "They are adjacent and complementary."
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.7]\n\\coordinate (O) at (0,0);\n\\draw (O)--(0:2) node[right] {$A$};\n\\draw (O)--(40:2) node[above right] {$B$};\n\\draw (O)--(110:2) node[above left] {$C$};\n\\node[below] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]\nDecide whether $\\angle AOC$ and $\\angle BOC$ are adjacent.\nGive a reason.",
+        "structure": "adjacent-overlapping-angles",
+        "solution_text": "Both angles share vertex $O$ and arm $OC$.\nHowever, $\\angle BOC$ lies inside $\\angle AOC$, so they overlap.\nThey are not adjacent."
       },
-      {
-        "question_text": "Two angles measure $70^{\\circ}$ each.\nWhich named relationships from this skill are guaranteed by the measures alone?",
-        "structure": "identify-all-relationships",
-        "solution_text": "None. They are neither complementary nor supplementary, and position is needed to decide adjacent or vertically opposite."
+{
+        "question_text": "Decide whether angles measuring $73.5^{\\circ}$ and $106.25^{\\circ}$ are complementary, supplementary, or neither.",
+        "structure": "classify-angle-pair-sum",
+        "solution_text": "$73.5 + 106.25 = 179.75$.\nThe total is neither $90^{\\circ}$ nor $180^{\\circ}$.\nThe angles are neither complementary nor supplementary."
       }
-    ]
+]
   }
 }

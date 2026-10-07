@@ -1,205 +1,205 @@
 {
   "skillId": "annuity-problems-gp",
   "questions": [
-    {
+{
       "id": "q1",
-      "question_text": "A couple wants to save $\\$24\\,000$ in $5\\text{ years}$ for a trip by depositing an equal amount at the end of each year into an account paying $6\\%$ p.a. compounded annually.\nCalculate the required annual deposit.",
+      "question_text": "A couple wants to save $\\$24\\,000$ in $5\\text{ years}$ for a trip by depositing an equal amount at the end of each year into an account paying $6\\%$ p.a. compounded annually.\nCalculate the required annual deposit, correct to the nearest cent.",
       "structure": "solve-for-payment",
       "mastery": false,
       "options": [
-        {
-          "text": "$\\$4257.55$",
+{
+          "text": "$\\$4257.51$",
           "correct": true
         },
-        {
+{
           "text": "$\\$4800.00$",
-          "why": "Divided $\\$24\\,000$ by 5 years, ignoring compound interest earned."
+          "why": "Divided $\\$24\\,000$ by $5$ years, ignoring compound interest earned."
         },
-        {
-          "text": "$\\$4016.56$",
-          "why": "Calculated payment using start-of-period compounding (annuity due) formula."
+{
+          "text": "$\\$4016.52$",
+          "why": "Used beginning-of-year payments, dividing the full-precision ordinary payment by $1.06$."
         },
-        {
-          "text": "$\\$3582.10$",
-          "why": "Divided by $(1.06)^5$ instead of using the geometric series annuity divisor."
+{
+          "text": "$\\$17\\,934.20$",
+          "why": "Treated the target as the future value of one initial deposit and divided by $1.06^5$ instead of the payment-series factor."
         }
-      ],
-      "solution_text": "$24000 = a\\left[\\dfrac{1.06^{5}-1}{0.06}\\right]$\n$24000 = a \\times 5.637093$\n$a = \\dfrac{24000}{5.637093}$\n$= \\$4257.55$"
+],
+      "solution_text": "The payments form $a+a(1.06)+\\cdots+a(1.06)^4$.\n$24000=a\\dfrac{1.06^5-1}{0.06}$.\n$a=\\dfrac{1440}{1.06^5-1}\\approx\\$4257.51$.\nThere are $5$ end-of-year payments; the factor is evaluated without intermediate rounding."
     },
-    {
+{
       "id": "q2",
-      "question_text": "A business needs $\\$100\\,000$ in $4\\text{ years}$ to purchase new servers.\nEqual deposits are made at the end of each quarter into a fund earning $8\\%$ p.a. compounded quarterly.\nFind the quarterly deposit $a$.",
+      "question_text": "A business needs $\\$100\\,000$ in $4\\text{ years}$ to purchase new servers.\nEqual deposits are made at the end of each quarter into a fund earning $8\\%$ p.a. compounded quarterly.\nFind the quarterly deposit $a$, correct to the nearest cent.",
       "structure": "solve-for-payment",
       "mastery": false,
       "options": [
-        {
-          "text": "$\\$5365.06$",
+{
+          "text": "$\\$5365.02$",
           "correct": true
         },
-        {
+{
           "text": "$\\$6250.00$",
-          "why": "Divided $\\$100\\,000$ into 16 equal quarterly parts without accounting for interest."
+          "why": "Divided $\\$100\\,000$ into $16$ equal quarterly payments without accounting for interest."
         },
-        {
-          "text": "$\\$5259.86$",
-          "why": "Treated the quarterly payments as being made at the beginning of each quarter."
+{
+          "text": "$\\$5259.82$",
+          "why": "Treated payments as beginning-of-quarter deposits, dividing the ordinary payment by $1.02$."
         },
-        {
-          "text": "$\\$5892.40$",
-          "why": "Used $n = 4$ years instead of $n = 16$ quarterly compounding periods."
+{
+          "text": "$\\$24\\,262.37$",
+          "why": "Used only $4$ payments while retaining the quarterly rate $0.02$, instead of using $16$ quarterly payments."
         }
-      ],
-      "solution_text": "$r = \\dfrac{0.08}{4} = 0.02$, $n = 16$\n$100000 = a\\left[\\dfrac{1.02^{16}-1}{0.02}\\right]$\n$100000 = a \\times 18.639285$\n$a = \\dfrac{100000}{18.639285}$\n$= \\$5365.06$"
+],
+      "solution_text": "$r=0.08/4=0.02$, $n=4\\times4=16$.\nThe payments form $a+a(1.02)+\\cdots+a(1.02)^{15}$.\n$100000=a\\dfrac{1.02^{16}-1}{0.02}$.\n$a=\\dfrac{2000}{1.02^{16}-1}$.\nThe answer is $\\$5365.02$, with no intermediate rounding."
     },
-    {
+{
       "id": "q3",
       "question_text": "Zack deposits $\\$350$ at the end of each month into an annuity earning $6\\%$ p.a. compounded monthly.\nHow many whole months will it take for the balance to first exceed $\\$15\\,000$?",
       "structure": "solve-for-periods",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$39\\text{ months}$",
           "correct": true
         },
-        {
+{
           "text": "$38\\text{ months}$",
-          "why": "Rounded down from $38.48$, which yields a balance strictly below $\\$15\\,000$."
+          "why": "Rounded down from approximately $38.93$ months, leaving the balance below $\\$15\\,000$."
         },
-        {
+{
           "text": "$43\\text{ months}$",
-          "why": "Divided $\\$15\\,000$ by $\\$350$ without accounting for monthly compound interest."
+          "why": "Ignored interest and chose the first whole number greater than $15000/350$."
         },
-        {
-          "text": "$35\\text{ months}$",
-          "why": "Used the annual interest rate of $6\\%$ instead of the monthly rate of $0.5\\%$."
+{
+          "text": "The smallest whole number greater than $\\dfrac{\\ln(1+15000(0.06)/350)}{\\ln(1.06)}$ months.",
+          "why": "Used $0.06$ as the monthly rate instead of dividing the annual rate by $12$."
         }
-      ],
-      "solution_text": "$r = \\dfrac{0.06}{12} = 0.005$\n$15000 = 350\\left[\\dfrac{1.005^{n}-1}{0.005}\\right]$\n$75 = 350(1.005^{n}-1)$\n$1.005^{n} = 1.214286$\n$n = \\dfrac{\\ln(1.214286)}{\\ln(1.005)} \\approx 38.86$\n$= 39\\text{ months}$"
+],
+      "solution_text": "$r=0.06/12=0.005$.\nThe payments form $350+350(1.005)+\\cdots+350(1.005)^{n-1}$.\n$350\\dfrac{1.005^n-1}{0.005}>15000$.\n$n>\\dfrac{\\ln(1+75/350)}{\\ln(1.005)}\\approx38.93$.\nThe first qualifying number is $39\\text{ months}$; $38$ months is insufficient. The logarithm uses the exact fraction."
     },
-    {
+{
       "id": "q4",
       "question_text": "Deposits of $\\$1500$ are made at the end of each year into an investment account earning $7\\%$ p.a. compounded annually.\nFind the number of whole years required to reach a target of $\\$30\\,000$.",
       "structure": "solve-for-periods",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$13\\text{ years}$",
           "correct": true
         },
-        {
+{
           "text": "$12\\text{ years}$",
-          "why": "Truncated $12.78$ years to $12$, which leaves the fund short of the $\\$30\\,000$ target."
+          "why": "Truncated approximately $12.94$ years to $12$, leaving the fund below $\\$30\\,000$."
         },
-        {
+{
           "text": "$20\\text{ years}$",
           "why": "Divided $\\$30\\,000$ by $\\$1500$ without including compound interest."
         },
-        {
-          "text": "$15\\text{ years}$",
-          "why": "Subtracted $1$ on the wrong side when rearranging the logarithm expression."
+{
+          "text": "$5\\text{ years}$",
+          "why": "Omitted the added $1$, solving $1.07^n\\geq1.4$ instead of $1.07^n\\geq2.4$ and rounding up."
         }
-      ],
-      "solution_text": "$30000 = 1500\\left[\\dfrac{1.07^{n}-1}{0.07}\\right]$\n$2100 = 1500(1.07^{n}-1)$\n$1.4 = 1.07^{n}-1$\n$1.07^{n} = 2.4$\n$n = \\dfrac{\\ln(2.4)}{\\ln(1.07)} \\approx 12.98$\n$= 13\\text{ years}$"
+],
+      "solution_text": "The payments form $1500+1500(1.07)+\\cdots+1500(1.07)^{n-1}$.\n$1500\\dfrac{1.07^n-1}{0.07}\\geq30000$.\n$1.07^n\\geq2.4$.\n$n\\geq\\dfrac{\\ln2.4}{\\ln1.07}\\approx12.94$.\nThe smallest qualifying number is $13\\text{ years}$; $12$ years is insufficient."
     },
-    {
+{
       "id": "q5",
-      "question_text": "Option X deposits $\\$800$ per quarter for $6\\text{ years}$ at $8\\%$ p.a. compounded quarterly.\nOption Y deposits $\\$400$ per quarter for $12\\text{ years}$ at $8\\%$ p.a. compounded quarterly.\nBoth deposit $\\$19\\,200$ in total.\nWhat is the difference in future values?",
+      "question_text": "Option X deposits $\\$800$ at the end of each quarter for $6\\text{ years}$ at $8\\%$ p.a. compounded quarterly.\nOption Y deposits $\\$400$ at the end of each quarter for $12\\text{ years}$ at $8\\%$ p.a. compounded quarterly.\nBoth deposit $\\$19\\,200$ in total.\nWhat is the difference in future values, correct to the nearest cent?",
       "structure": "compare-annuity-scenarios",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$\\$7403.92$",
           "correct": true
         },
-        {
+{
           "text": "$\\$0.00$",
           "why": "Assumed identical future values because total deposits are both $\\$19\\,200$."
         },
-        {
+{
           "text": "$\\$7552.00$",
-          "why": "Calculated future values assuming payments were made at the start of each quarter (annuity due)."
+          "why": "Assumed beginning-of-quarter payments, multiplying the unrounded ordinary-annuity difference by $1.02$."
         },
-        {
+{
           "text": "$\\$6888.43$",
-          "why": "Calculated future values using annual compounding with annualised deposits instead of quarterly."
+          "why": "Used annual deposits of $\\$3200$ for $6$ years and $\\$1600$ for $12$ years at $8\\%$ compounded annually."
         }
-      ],
-      "solution_text": "$r = 0.02$\nOption X ($n=24$): $FV_{X} = \\dfrac{800(1.02^{24}-1)}{0.02} = \\$24\\,337.49$\nOption Y ($n=48$): $FV_{Y} = \\dfrac{400(1.02^{48}-1)}{0.02} = \\$31\\,741.41$\n$\\text{Difference} = 31741.41 - 24337.49$\n$= \\$7403.92$"
+],
+      "solution_text": "$r=0.08/4=0.02$, $n_X=24$, $n_Y=48$.\nThe payment series are $800+800(1.02)+\\cdots+800(1.02)^{23}$ and $400+400(1.02)+\\cdots+400(1.02)^{47}$.\n$FV_X=800\\dfrac{1.02^{24}-1}{0.02}\\approx\\$24\\,337.49$.\n$FV_Y=400\\dfrac{1.02^{48}-1}{0.02}\\approx\\$31\\,741.41$.\nSubtracting the unrounded expressions gives a difference of $\\$7403.92$. Equal contribution totals do not imply equal interest."
     },
-    {
+{
       "id": "q6",
-      "question_text": "An investor deposits $\\$600$ at the end of each month into an annuity for $10\\text{ years}$.\nHow much additional money is accumulated if the interest rate is $7.2\\%$ p.a. compounded monthly instead of $4.8\\%$ p.a. compounded monthly?",
+      "question_text": "An investor deposits $\\$600$ at the end of each month into an annuity for $10\\text{ years}$.\nHow much additional money is accumulated if the interest rate is $7.2\\%$ p.a. compounded monthly instead of $4.8\\%$ p.a. compounded monthly? Give your answer correct to the nearest cent.",
       "structure": "compare-annuity-scenarios",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$\\$12\\,822.63$",
           "correct": true
         },
-        {
+{
           "text": "$\\$17\\,280.00$",
-          "why": "Calculated the simple interest difference ($72\\,000 \\times 0.024 \\times 10$)."
+          "why": "Applied simple interest to all contributions for the full term, using $72000(0.072-0.048)(10)$."
         },
-        {
+{
           "text": "$\\$13\\,083.92$",
-          "why": "Calculated annuity due start-of-month differences instead of ordinary annuity."
+          "why": "Assumed beginning-of-month deposits, multiplying each ordinary future value by its own monthly growth factor."
         },
-        {
+{
           "text": "$\\$10\\,703.24$",
-          "why": "Used annual compounding with annualised deposits instead of monthly compounding."
+          "why": "Replaced the monthly deposits with end-of-year deposits of $\\$7200$ and used annual compounding."
         }
-      ],
-      "solution_text": "$n = 120$\nAt 4.8%: $r = 0.004$, $FV_{1} = \\dfrac{600(1.004^{120}-1)}{0.004} = \\$92\\,179.18$\nAt 7.2%: $r = 0.006$, $FV_{2} = \\dfrac{600(1.006^{120}-1)}{0.006} = \\$105\\,001.81$\n$\\text{Difference} = 105001.81 - 92179.18$\n$= \\$12\\,822.63$"
+],
+      "solution_text": "$n=10\\times12=120$, with monthly rates $0.004$ and $0.006$.\nFor each rate, the payments form $600+600(1+r)+\\cdots+600(1+r)^{119}$.\n$FV_1=600\\dfrac{1.004^{120}-1}{0.004}$.\n$FV_2=600\\dfrac{1.006^{120}-1}{0.006}$.\nThe additional balance is $\\$12\\,822.63$.\nBoth plans contribute $\\$72\\,000$; subtract the full-precision balances before rounding."
     },
-    {
+{
       "id": "q7",
-      "question_text": "A municipality plans to accumulate $\\$1\\,200\\,000$ in a sinking fund over $15\\text{ years}$ to build a recreation centre.\nInterest is $5.4\\%$ p.a. compounded monthly.\nCalculate the monthly contribution $a$ required at the end of each month.",
+      "question_text": "A municipality plans to accumulate $\\$1\\,200\\,000$ in a sinking fund over $15\\text{ years}$ to build a recreation centre.\nInterest is $5.4\\%$ p.a. compounded monthly.\nCalculate the monthly contribution $a$ required at the end of each month, correct to the nearest cent.",
       "structure": "solve-for-payment",
       "mastery": true,
       "options": [
-        {
-          "text": "$\\$4340.64$",
+{
+          "text": "$\\$4341.45$",
           "correct": true
         },
-        {
+{
           "text": "$\\$6666.67$",
-          "why": "Divided total target by 180 months without accounting for compound interest."
+          "why": "Divided the target by $180$ months without accounting for compound interest."
         },
-        {
-          "text": "$\\$4321.20$",
-          "why": "Calculated payments using start-of-month payments (annuity due) formula."
+{
+          "text": "$\\$4322.00$",
+          "why": "Assumed beginning-of-month payments, dividing the full-precision ordinary contribution by $1.0045$."
         },
-        {
-          "text": "$\\$5124.80$",
-          "why": "Used annual periods of $15$ rather than monthly periods of $180$."
+{
+          "text": "$\\$77\\,510.18$",
+          "why": "Used $15$ payments instead of $180$ while retaining the monthly rate $0.0045$."
         }
-      ],
-      "solution_text": "$r = \\dfrac{0.054}{12} = 0.0045$, $n = 180$\n$1200000 = a\\left[\\dfrac{1.0045^{180}-1}{0.0045}\\right]$\n$1200000 = a \\times 276.452902$\n$a = \\dfrac{1200000}{276.452902}$\n$= \\$4340.64$"
+],
+      "solution_text": "$r=0.054/12=0.0045$, $n=15\\times12=180$.\nThe payments form $a+a(1.0045)+\\cdots+a(1.0045)^{179}$.\n$1200000=a\\dfrac{1.0045^{180}-1}{0.0045}$.\nThe full-precision factor is $\\dfrac{1.0045^{180}-1}{0.0045}$.\n$a=\\dfrac{5400}{1.0045^{180}-1}$.\nThe required payment is $\\$4341.45$."
     },
-    {
+{
       "id": "q8",
-      "question_text": "A fund with monthly contributions of $\\$450$ earns $6.6\\%$ p.a. compounded monthly.\nHow many additional whole months does it take to grow the fund from $\\$50\\,000$ to $\\$100\\,000$ compared to growing from $\\$0$ to $\\$50\\,000$?",
+      "question_text": "A fund starts with $\\$0$. Contributions of $\\$450$ are made at the end of each month, and interest is $6.6\\%$ p.a. compounded monthly.\nHow many whole months will it take for the fund to first exceed $\\$100\\,000$?",
       "structure": "solve-for-periods",
       "mastery": true,
       "options": [
-        {
-          "text": "It takes $28$ fewer months to reach the second $\\$50\\,000$.",
+{
+          "text": "$146\\text{ months}$",
           "correct": true
         },
-        {
-          "text": "It takes the exact same number of months because the dollar increment is the same.",
-          "why": "Ignored compound interest earned on the existing $\\$50\\,000$ balance."
+{
+          "text": "$145\\text{ months}$",
+          "why": "Rounded the logarithmic boundary down, although $145$ payments leave the balance below $\\$100\\,000$."
         },
-        {
-          "text": "It takes $14$ more months to reach the second $\\$50\\,000$.",
-          "why": "Assumed diminishing returns on compounding over time."
+{
+          "text": "$223\\text{ months}$",
+          "why": "Ignored interest and chose the smallest whole number greater than $100000/450$."
         },
-        {
-          "text": "It takes $42$ fewer months because interest doubles every year.",
-          "why": "Overestimated the acceleration of compound interest."
+{
+          "text": "$222.22\\text{ months}$",
+          "why": "Ignored interest and rounded $100000/450$ to two decimal places instead of finding a whole payment period."
         }
-      ],
-      "solution_text": "$r = \\dfrac{0.066}{12} = 0.0055$\nFor $\\$50\\,000$:\n$50000 = 450\\left[\\dfrac{1.0055^{n}-1}{0.0055}\\right] \\implies 1.0055^{n_{1}} = 1.611111 \\implies n_{1} \\approx 87.03 \\implies 88\\text{ months}$\nFor $\\$100\\,000$:\n$100000 = 450\\left[\\dfrac{1.0055^{n}-1}{0.0055}\\right] \\implies 1.0055^{n_{2}} = 2.222222 \\implies n_{2} \\approx 145.60 \\implies 146\\text{ months}$\nTime for second $\\$50\\,000 = 146 - 88 = 58\\text{ months}$\n$\\text{Difference} = 88 - 58 = 28\\text{ fewer months}$"
+],
+      "solution_text": "$r=0.066/12=0.0055$.\nThe payments form $450+450(1.0055)+\\cdots+450(1.0055)^{n-1}$.\n$450\\dfrac{1.0055^n-1}{0.0055}>100000$.\n$1.0055^n>1+550/450=20/9$.\n$n>\\dfrac{\\ln(20/9)}{\\ln(1.0055)}$.\nThis boundary lies strictly between $145$ and $146$, so the answer is $146\\text{ months}$. The balance after $145$ payments is below the target and after $146$ payments is above it."
     }
-  ]
+]
 }

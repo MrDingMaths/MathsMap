@@ -2,19 +2,19 @@
   "skillId": "circular-arrangements",
   "atomType": "R",
   "theory": {
-        "intro": "Rotating a circular arrangement does not create a new one, because everyone keeps the same neighbours. Fixing one object's position removes the $n$ rotations, leaving $(n-1)!$ arrangements of $n$ distinct objects. If the circle can also be flipped over, divide by $2$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) circle (2);\n\\fill (90:2) circle (2.5pt);\n\\fill (30:2) circle (2.5pt);\n\\fill (-30:2) circle (2.5pt);\n\\fill (-90:2) circle (2.5pt);\n\\fill (-150:2) circle (2.5pt);\n\\fill (150:2) circle (2.5pt);\n\\node at (90:2.75) {$A$ (fixed)};\n\\node at (30:2.7) {$1$};\n\\node at (-30:2.7) {$2$};\n\\node at (-90:2.7) {$3$};\n\\node at (-150:2.7) {$\\cdots$};\n\\node at (150:2.85) {$n-1$};\n\\end{tikzpicture}\n[/tikz]",
+        "intro": "Rotating a circular arrangement does not create a new one, because the objects keep the same clockwise relative order. A reflection reverses that order and is a different arrangement at a table. Fixing one object's position removes the $n$ rotations, leaving $(n-1)!$ arrangements of $n$ distinct objects. If the circle can also be flipped over, divide by $2$ when there are at least $3$ distinct objects; with $1$ or $2$ distinct objects, there is $1$ arrangement.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) circle (2);\n\\fill (90:2) circle (2.5pt);\n\\fill (30:2) circle (2.5pt);\n\\fill (-30:2) circle (2.5pt);\n\\fill (-90:2) circle (2.5pt);\n\\fill (-150:2) circle (2.5pt);\n\\fill (150:2) circle (2.5pt);\n\\node at (90:2.75) {$A$ (fixed)};\n\\node at (30:2.7) {$1$};\n\\node at (-30:2.7) {$2$};\n\\node at (-90:2.7) {$3$};\n\\node at (-150:2.7) {$\\cdots$};\n\\node at (150:2.85) {$n-1$};\n\\end{tikzpicture}\n[/tikz]",
         "facts": [
-          "Arranging $n$ distinct objects around a circle, where rotations count as the same arrangement, gives $(n-1)!$ arrangements.",
-          "A keyring, bracelet or necklace can be flipped over, so a reflection is the same arrangement and the count is $\\dfrac{(n-1)!}{2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) circle (1.4);\n\\fill (90:1.4) circle (2.5pt);\n\\fill (0:1.4) circle (2.5pt);\n\\fill (-90:1.4) circle (2.5pt);\n\\fill (180:1.4) circle (2.5pt);\n\\node at (90:1.85) {$A$};\n\\node at (0:1.85) {$B$};\n\\node at (-90:1.85) {$C$};\n\\node at (180:1.85) {$D$};\n\\draw[dashed] (2.5,-2.1) -- (2.5,2.1);\n\\node[above] at (2.5,2.1) {flip over};\n\\begin{scope}[shift={(5,0)}]\n\\draw (0,0) circle (1.4);\n\\fill (90:1.4) circle (2.5pt);\n\\fill (0:1.4) circle (2.5pt);\n\\fill (-90:1.4) circle (2.5pt);\n\\fill (180:1.4) circle (2.5pt);\n\\node at (90:1.85) {$A$};\n\\node at (0:1.85) {$D$};\n\\node at (-90:1.85) {$C$};\n\\node at (180:1.85) {$B$};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
-          "**Block method**: treat the $k$ objects that must sit together as $1$ unit, arrange the units in $(n-k)!$ ways, then multiply by $k!$.",
-          "**Separation**: subtract the together count from the total, $(n-1)! - 2(n-2)! = (n-3)(n-2)!$.",
-          "**Alternating**: fix $1$ boy, arrange the other $n-1$ boys in $(n-1)!$ ways, then seat the $n$ girls in the gaps in $n!$ ways."
-        ],
+"Arranging $n$ distinct objects around a circle, where rotations count as the same arrangement, gives $(n-1)!$ arrangements.",
+"A keyring, bracelet or necklace can be flipped over, so a reflection is the same arrangement. For at least $3$ distinct objects, the count is $\\dfrac{(n-1)!}{2}$; with $1$ or $2$ distinct objects, the count is $1$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) circle (1.4);\n\\fill (90:1.4) circle (2.5pt);\n\\fill (0:1.4) circle (2.5pt);\n\\fill (-90:1.4) circle (2.5pt);\n\\fill (180:1.4) circle (2.5pt);\n\\node at (90:1.85) {$A$};\n\\node at (0:1.85) {$B$};\n\\node at (-90:1.85) {$C$};\n\\node at (180:1.85) {$D$};\n\\draw[dashed] (2.5,-2.1) -- (2.5,2.1);\n\\node[above] at (2.5,2.1) {flip over};\n\\begin{scope}[shift={(5,0)}]\n\\draw (0,0) circle (1.4);\n\\fill (90:1.4) circle (2.5pt);\n\\fill (0:1.4) circle (2.5pt);\n\\fill (-90:1.4) circle (2.5pt);\n\\fill (180:1.4) circle (2.5pt);\n\\node at (90:1.85) {$A$};\n\\node at (0:1.85) {$D$};\n\\node at (-90:1.85) {$C$};\n\\node at (180:1.85) {$B$};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+"**Block method**: for $1 \\leq k < n$, treat the $k$ objects that must sit together as $1$ unit, arrange the units in $(n-k)!$ ways, then multiply by $k!$. If all $n$ objects are grouped together, the count is $(n-1)!$.",
+"**Separation**: for integer $n \\geq 3$, subtract the count with two particular people together from the total, $(n-1)! - 2(n-2)! = (n-3)(n-2)!$.",
+"**Alternating**: fix $1$ boy, arrange the other $n-1$ boys in $(n-1)!$ ways, then seat the $n$ girls in the gaps in $n!$ ways."
+],
         "steps": [
-          "Identify the total number of objects $n$ and whether the arrangement is a table (rotations only, $(n-1)!$) or a ring/necklace (rotations and reflections, $\\dfrac{(n-1)!}{2}$)",
-          "If restrictions apply, fix reference items or group restricted items into blocks",
-          "Arrange the remaining items relative to the fixed item(s) and multiply by internal permutations"
-        ]
+"Identify the total number of objects $n$ and whether the arrangement is a table (rotations only, $(n-1)!$) or a ring/necklace (rotations and reflections, $\\dfrac{(n-1)!}{2}$ for $n \\geq 3$, and $1$ arrangement for $n=1$ or $n=2$)",
+"If restrictions apply, fix reference items or group restricted items into blocks",
+"Arrange the remaining items relative to the fixed item(s) and multiply by internal permutations"
+]
       },
   "practice": {
     "foundation": [
@@ -92,21 +92,21 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "$5$ boys and $5$ girls sit around a circular table.\nIn how many ways can they be seated if boys and girls alternate?",
         "structure": "circular-alternating",
         "solution_text": "Fix $1$ boy's position ($1$ choice). Arrange other $4$ boys: $(5-1)! = 4! = 24$.\nArrange $5$ girls in the $5$ alternating seats: $5! = 120$.\n$= 24 \\times 120$\n$= 2880$"
       },
-      {
-        "question_text": "In how many ways can $n$ people be seated around a circular table if $2$ particular people must sit apart?\nExpress the answer in terms of $n$.",
+{
+        "question_text": "In how many ways can $n$ people be seated around a circular table if $2$ particular people must sit apart, where $n$ is an integer and $n \\geq 3$?\nExpress the answer in terms of $n$.",
         "structure": "circular-separated-apart",
-        "solution_text": "Total arrangements $= (n-1)!$.\nArrangements with the $2$ people together $= (n-2)! \\times 2! = 2(n-2)!$.\nApart $= (n-1)! - 2(n-2)!$\n$= (n-1)(n-2)! - 2(n-2)!$\n$= (n-3)(n-2)!$"
+        "solution_text": "For integer $n \\geq 3$:\nTotal arrangements $= (n-1)!$.\nArrangements with the $2$ people together $= (n-2)! \\times 2! = 2(n-2)!$.\nApart $= (n-1)! - 2(n-2)!$\n$= (n-1)(n-2)! - 2(n-2)!$\n$= (n-3)(n-2)!$"
       },
-      {
-        "question_text": "$8$ people sit around a round table.\nIn how many ways can they sit if Person A must sit directly opposite Person B?",
-        "structure": "circular-relative-fixed-positions",
-        "solution_text": "Fix Person A at the table ($1$ choice). Person B must take the seat directly opposite ($1$ choice).\nThe remaining $6$ seats are distinct relative to A and B.\nArrange remaining $6$ people in $6$ seats:\n$= 6!$\n$= 720$"
+{
+        "question_text": "$10$ people sit around a circular table.\nIn how many ways can they sit if $4$ particular friends must sit together?",
+        "structure": "circular-block-together",
+        "solution_text": "Treat the $4$ friends as $1$ unit $\\implies 7$ units around a circle.\n$= (7-1)! \\times 4!$\n$= 720 \\times 24$\n$= 17280$"
       }
-    ]
+]
   }
 }

@@ -2,103 +2,125 @@
   "skillId": "ambiguous-case-sine-rule",
   "atomType": "R",
   "theory": {
-        "intro": "When you know two sides and a non-included angle (an **SSA** triangle), the sine rule can give **two** triangles. Because $\\sin\\theta=\\sin(180^{\\circ}-\\theta)$, both the acute answer $\\theta$ and its obtuse partner $180^{\\circ}-\\theta$ may fit. Find both, then test each against the $180^{\\circ}$ angle sum.",
-        "facts": [
-          "The sine rule $\\dfrac{\\sin\\theta}{a}=\\dfrac{\\sin A}{b}$ gives $\\sin\\theta$, which may have an acute **and** an obtuse solution.",
-          "Find the acute angle $\\theta=\\sin^{-1}(\\ldots)$, then its obtuse partner $\\theta'=180^{\\circ}-\\theta$.",
-          "The obtuse solution $\\theta'$ is valid only if $\\theta'+(\\text{given angle})<180^{\\circ}$; otherwise reject it.",
-          "If the given angle is already obtuse there is only **one** solution, since a triangle can have at most one obtuse angle.",
-          "If the sine rule gives $\\sin\\theta>1$ — the swung side $a$ is shorter than $b\\sin A$ — no triangle exists.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc,arrows.meta}\n\\coordinate (A) at (0,0);\n\\coordinate (X) at (6.8,0);\n\\coordinate (B) at (3.77,2.64);\n\\coordinate (F) at (3.77,0);\n\\coordinate (E) at ($(B)+(305:2)$);\n\\draw[-{Stealth}] (A)--(X);\n\\draw (A)--(B) node[midway,above left] {$b$};\n\\draw (B)--(E) node[midway,left] {$a$};\n\\draw[dashed] ($(B)+(230:2)$) arc (230:310:2);\n\\draw[dashed] (B)--(F) node[midway,fill=white,inner sep=1pt] {$b\\sin A$};\n\\coordinate (r1) at ($(F)!0.3cm!(B)$);\n\\coordinate (r2) at ($(F)!0.3cm!(X)$);\n\\draw (r1)--($(r1)+(r2)-(F)$)--(r2);\n\\pic[draw,\"$A$\",angle radius=0.8cm,angle eccentricity=1.9] {angle=X--A--B};\n\\end{tikzpicture}\n[/tikz]",
-          "Two triangles occur when $b\\sin A<a<b$, because the swung side $a$ then reaches the base in two places.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc,arrows.meta}\n\\coordinate (A) at (0,0);\n\\coordinate (X) at (6.8,0);\n\\coordinate (B) at (3.77,2.64);\n\\coordinate (C) at (1.96,0);\n\\coordinate (D) at (5.58,0);\n\\coordinate (F) at (3.77,0);\n\\draw[-{Stealth}] (A)--(X);\n\\draw (A)--(B) node[midway,above left] {$b$};\n\\draw (B)--(C) node[midway,above left] {$a$};\n\\draw (B)--(D) node[midway,above right] {$a$};\n\\draw[dashed] ($(B)+(228:3.2)$) arc (228:312:3.2);\n\\draw[dashed] (B)--(F) node[midway,fill=white,inner sep=1pt] {$b\\sin A$};\n\\coordinate (r1) at ($(F)!0.3cm!(B)$);\n\\coordinate (r2) at ($(F)!0.3cm!(X)$);\n\\draw (r1)--($(r1)+(r2)-(F)$)--(r2);\n\\fill (C) circle (2pt);\n\\fill (D) circle (2pt);\n\\pic[draw,\"$A$\",angle radius=0.8cm,angle eccentricity=1.9] {angle=X--A--B};\n\\end{tikzpicture}\n[/tikz]"
-        ],
-        "steps": [
-          "Use the sine rule to find the acute angle theta",
-          "Find the obtuse partner 180 degrees minus theta",
-          "Add each possible angle to the given angle and reject any whose sum reaches 180 degrees",
-          "State all valid values of the angle"
-        ]
-      },
+"intro": "When you know two sides and a non-included angle (an **SSA** triangle), the sine rule can give **two** triangles. Because $\\sin\\theta=\\sin(180^{\\circ}-\\theta)$, both the acute answer $\\theta$ and its obtuse partner $180^{\\circ}-\\theta$ may fit. Find both, then test each against the $180^{\\circ}$ angle sum.",
+"facts": [
+"The sine rule $\\dfrac{\\sin B}{b}=\\dfrac{\\sin A}{a}$ gives $\\sin B$, which may have an acute **and** an obtuse solution.",
+"Find the acute angle $\\theta=\\sin^{-1}(\\ldots)$, then its obtuse partner $\\theta'=180^{\\circ}-\\theta$.",
+"The obtuse solution $\\theta'$ is valid only if $\\theta'+(\\text{given angle})<180^{\\circ}$; otherwise reject it.",
+"If the given angle is already obtuse, there is at most **one** solution, since a triangle can have at most one obtuse angle.",
+"If the sine rule gives $\\sin B>1$ — the swung side $a$ is shorter than $b\\sin A$ — no triangle exists.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc,arrows.meta}\n\\coordinate (A) at (0,0);\n\\coordinate (X) at (6.8,0);\n\\coordinate (B) at (3.77,2.64);\n\\coordinate (F) at (3.77,0);\n\\coordinate (E) at ($(B)+(305:2)$);\n\\draw[-{Stealth}] (A)--(X);\n\\draw (A)--(B) node[midway,above left] {$b$};\n\\draw (B)--(E) node[midway,left] {$a$};\n\\draw[dashed] ($(B)+(230:2)$) arc (230:310:2);\n\\draw[dashed] (B)--(F) node[midway,fill=white,inner sep=1pt] {$b\\sin A$};\n\\coordinate (r1) at ($(F)!0.3cm!(B)$);\n\\coordinate (r2) at ($(F)!0.3cm!(X)$);\n\\draw (r1)--($(r1)+(r2)-(F)$)--(r2);\n\\pic[draw,\"$A$\",angle radius=0.8cm,angle eccentricity=1.9] {angle=X--A--B};\n\\end{tikzpicture}\n[/tikz]",
+"When $A$ is acute, two triangles occur when $b\\sin A<a<b$, because the swung side $a$ then reaches the base in two places.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc,arrows.meta}\n\\coordinate (A) at (0,0);\n\\coordinate (X) at (6.8,0);\n\\coordinate (B) at (3.77,2.64);\n\\coordinate (C) at (1.96,0);\n\\coordinate (D) at (5.58,0);\n\\coordinate (F) at (3.77,0);\n\\draw[-{Stealth}] (A)--(X);\n\\draw (A)--(B) node[midway,above left] {$b$};\n\\draw (B)--(C) node[midway,above left] {$a$};\n\\draw (B)--(D) node[midway,above right] {$a$};\n\\draw[dashed] ($(B)+(228:3.2)$) arc (228:312:3.2);\n\\draw[dashed] (B)--(F) node[midway,fill=white,inner sep=1pt] {$b\\sin A$};\n\\coordinate (r1) at ($(F)!0.3cm!(B)$);\n\\coordinate (r2) at ($(F)!0.3cm!(X)$);\n\\draw (r1)--($(r1)+(r2)-(F)$)--(r2);\n\\fill (C) circle (2pt);\n\\fill (D) circle (2pt);\n\\pic[draw,\"$A$\",angle radius=0.8cm,angle eccentricity=1.9] {angle=X--A--B};\n\\end{tikzpicture}\n[/tikz]"
+],
+"steps": [
+"Use the sine rule to find the acute angle $\\theta$, keeping the calculator value",
+"Find the obtuse partner $180^{\\circ}-\\theta$",
+"Add each possible angle to the given angle and reject any whose sum reaches $180^{\\circ}$",
+"State all valid values of the angle, rounding only at the end"
+],
+"workedExamples": [
+  {
+    "question_text": "Two triangles have sides $6$ cm and $5$ cm. The angle opposite the $5$ cm side is $30^{\\circ}$.\nFind both possible values of the angle $\\theta$ opposite the $6$ cm side, correct to the nearest degree.",
+    "solution_text": "$\\dfrac{\\sin\\theta}{6}=\\dfrac{\\sin30^{\\circ}}{5}$\n$\\sin\\theta=\\dfrac{6\\sin30^{\\circ}}{5}=0.6$\n$\\theta=\\sin^{-1}(0.6)\\approx36.8699^{\\circ}$\n$\\theta'=180^{\\circ}-\\theta\\approx143.1301^{\\circ}$\n$143.1301^{\\circ}+30^{\\circ}<180^{\\circ}$, so both angles are valid.\n$\\theta\\approx37^{\\circ}$ or $143^{\\circ}$."
+  },
+  {
+    "question_text": "A triangle has sides $4$ cm and $10$ cm. The angle opposite the $10$ cm side is $30^{\\circ}$.\nFind the angle $\\theta$ opposite the $4$ cm side, correct to the nearest degree.",
+    "solution_text": "$\\dfrac{\\sin\\theta}{4}=\\dfrac{\\sin30^{\\circ}}{10}$\n$\\sin\\theta=\\dfrac{4\\sin30^{\\circ}}{10}=0.2$\n$\\theta=\\sin^{-1}(0.2)\\approx11.5370^{\\circ}$\n$\\theta'=180^{\\circ}-\\theta\\approx168.4630^{\\circ}$\n$168.4630^{\\circ}+30^{\\circ}>180^{\\circ}$, so the obtuse partner is rejected.\n$\\theta\\approx12^{\\circ}$ only."
+  },
+  {
+    "question_text": "A triangle has sides $5$ cm and $10$ cm. The angle opposite the $10$ cm side is $120^{\\circ}$.\nFind the angle $\\theta$ opposite the $5$ cm side, correct to the nearest degree.",
+    "solution_text": "$\\dfrac{\\sin\\theta}{5}=\\dfrac{\\sin120^{\\circ}}{10}$\n$\\sin\\theta=\\dfrac{5\\sin120^{\\circ}}{10}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{5\\sin120^{\\circ}}{10}\\right)\\approx25.6589^{\\circ}$\n$\\theta'=180^{\\circ}-\\theta\\approx154.3411^{\\circ}$\n$154.3411^{\\circ}+120^{\\circ}>180^{\\circ}$, so the obtuse partner is rejected.\n$25.6589^{\\circ}+120^{\\circ}<180^{\\circ}$, so the acute angle is valid.\n$\\theta\\approx26^{\\circ}$ only."
+  },
+  {
+    "question_text": "A triangle is claimed to have sides $9$ cm and $4$ cm. The angle opposite the $4$ cm side is $30^{\\circ}$.\nTry to find the angle $\\theta$ opposite the $9$ cm side and explain why the triangle is impossible.",
+    "solution_text": "$\\dfrac{\\sin\\theta}{9}=\\dfrac{\\sin30^{\\circ}}{4}$\n$\\sin\\theta=\\dfrac{9\\sin30^{\\circ}}{4}=1.125$\nSince $\\sin\\theta$ cannot exceed $1$, no such triangle exists."
+  },
+  {
+    "question_text": "In triangle $PQR$, $p=7$ cm, $q=10$ cm and $\\angle P=30^{\\circ}$.\nFind both possible sizes of $\\angle Q$, correct to the nearest degree, and the corresponding lengths of side $r$, correct to $1$ decimal place.",
+    "solution_text": "$\\dfrac{\\sin Q}{10}=\\dfrac{\\sin30^{\\circ}}{7}$\n$\\sin Q=\\dfrac{10\\sin30^{\\circ}}{7}=\\dfrac57$\n$Q_1=\\sin^{-1}\\left(\\dfrac57\\right)\\approx45.5847^{\\circ}$\n$Q_2=180^{\\circ}-Q_1\\approx134.4153^{\\circ}$\n$134.4153^{\\circ}+30^{\\circ}<180^{\\circ}$, so both angles are valid.\nKeep the calculator values for the side calculations.\n$R_1=180^{\\circ}-30^{\\circ}-Q_1\\approx104.4153^{\\circ}$\n$r_1=\\dfrac{7\\sin R_1}{\\sin30^{\\circ}}\\approx13.5592$ cm\n$R_2=180^{\\circ}-30^{\\circ}-Q_2\\approx15.5847^{\\circ}$\n$r_2=\\dfrac{7\\sin R_2}{\\sin30^{\\circ}}\\approx3.7613$ cm\nThe possibilities are $Q\\approx46^{\\circ}$ with $r\\approx13.6$ cm, or $Q\\approx134^{\\circ}$ with $r\\approx3.8$ cm."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
-        "question_text": "Two triangles have sides $8$ and $6$, where the angle opposite the $6$ side is $40^{\\circ}$.\nFind, in each case, the size of the angle $\\theta$ opposite the $8$ side, correct to $2$ decimal places.",
+{
+        "question_text": "Two triangles have sides $8$ and $6$, where the angle opposite the $6$ side is $40^{\\circ}$.\nFind, in each case, the size of the angle $\\theta$ opposite the $8$ side, correct to the nearest degree.",
         "structure": "find-both-angles",
-        "solution_text": "$\\dfrac{\\sin\\theta}{8}=\\dfrac{\\sin 40^{\\circ}}{6}$\n$\\sin\\theta=\\dfrac{8\\sin 40^{\\circ}}{6}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{8\\sin 40^{\\circ}}{6}\\right)$\n$=58.99^{\\circ}$\nThe obtuse partner is $180^{\\circ}-58.99^{\\circ}=121.01^{\\circ}$.\nCheck: $121.01^{\\circ}+40^{\\circ}<180^{\\circ}$, so both are valid.\n$\\theta=58.99^{\\circ}$ or $121.01^{\\circ}$"
+        "solution_text": "$\\dfrac{\\sin\\theta}{8}=\\dfrac{\\sin40^{\\circ}}{6}$\n$\\sin\\theta=\\dfrac{8\\sin40^{\\circ}}{6}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{8\\sin40^{\\circ}}{6}\\right)\\approx58.99^{\\circ}$\n$\\theta'=180^{\\circ}-\\theta\\approx121.01^{\\circ}$\n$121.01^{\\circ}+40^{\\circ}<180^{\\circ}$, so both are valid.\n$\\theta\\approx59^{\\circ}$ or $121^{\\circ}$."
       },
-      {
-        "question_text": "Two triangles have sides $9$ and $5$, where the angle opposite the $5$ side is $22^{\\circ}$.\nFind, in each case, the size of the angle $\\theta$ opposite the $9$ side, correct to $2$ decimal places.",
+{
+        "question_text": "Two triangles have sides $9$ and $5$, where the angle opposite the $5$ side is $22^{\\circ}$.\nFind, in each case, the size of the angle $\\theta$ opposite the $9$ side, correct to the nearest degree.",
         "structure": "find-both-angles",
-        "solution_text": "$\\dfrac{\\sin\\theta}{9}=\\dfrac{\\sin 22^{\\circ}}{5}$\n$\\sin\\theta=\\dfrac{9\\sin 22^{\\circ}}{5}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{9\\sin 22^{\\circ}}{5}\\right)$\n$=42.40^{\\circ}$\nThe obtuse partner is $180^{\\circ}-42.40^{\\circ}=137.60^{\\circ}$.\nCheck: $137.60^{\\circ}+22^{\\circ}<180^{\\circ}$, so both are valid.\n$\\theta=42.40^{\\circ}$ or $137.60^{\\circ}$"
+        "solution_text": "$\\dfrac{\\sin\\theta}{9}=\\dfrac{\\sin22^{\\circ}}{5}$\n$\\sin\\theta=\\dfrac{9\\sin22^{\\circ}}{5}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{9\\sin22^{\\circ}}{5}\\right)\\approx42.40^{\\circ}$\n$\\theta'=180^{\\circ}-\\theta\\approx137.60^{\\circ}$\n$137.60^{\\circ}+22^{\\circ}<180^{\\circ}$, so both are valid.\n$\\theta\\approx42^{\\circ}$ or $138^{\\circ}$."
       },
-      {
-        "question_text": "Two triangles have sides $6$ and $4$, where the angle opposite the $4$ side is $36^{\\circ}$.\nFind, in each case, the size of the angle $\\theta$ opposite the $6$ side, correct to $2$ decimal places.",
+{
+        "question_text": "Two triangles have sides $6$ and $4$, where the angle opposite the $4$ side is $36^{\\circ}$.\nFind, in each case, the size of the angle $\\theta$ opposite the $6$ side, correct to the nearest degree.",
         "structure": "find-both-angles",
-        "solution_text": "$\\dfrac{\\sin\\theta}{6}=\\dfrac{\\sin 36^{\\circ}}{4}$\n$\\sin\\theta=\\dfrac{6\\sin 36^{\\circ}}{4}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{6\\sin 36^{\\circ}}{4}\\right)$\n$=61.85^{\\circ}$\nThe obtuse partner is $180^{\\circ}-61.85^{\\circ}=118.15^{\\circ}$.\nCheck: $118.15^{\\circ}+36^{\\circ}<180^{\\circ}$, so both are valid.\n$\\theta=61.85^{\\circ}$ or $118.15^{\\circ}$"
+        "solution_text": "$\\dfrac{\\sin\\theta}{6}=\\dfrac{\\sin36^{\\circ}}{4}$\n$\\sin\\theta=\\dfrac{6\\sin36^{\\circ}}{4}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{6\\sin36^{\\circ}}{4}\\right)\\approx61.85^{\\circ}$\n$\\theta'=180^{\\circ}-\\theta\\approx118.15^{\\circ}$\n$118.15^{\\circ}+36^{\\circ}<180^{\\circ}$, so both are valid.\n$\\theta\\approx62^{\\circ}$ or $118^{\\circ}$."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.46]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.536,5.438);\n\\coordinate (C) at (10.93,0);\n\\draw (A)--(B) node[midway,above left] {$6$};\n\\draw (B)--(C) node[midway,above right] {$10$};\n\\draw (A)--(C);\n\\pic[draw,\"$65^{\\circ}$\",angle radius=1cm,angle eccentricity=1.4] {angle=C--A--B};\n\\pic[draw,\"$\\theta$\",angle radius=1cm,angle eccentricity=1.5] {angle=B--C--A};\n\\end{tikzpicture}\n[/tikz]\nFind the angle $\\theta$, correct to $2$ decimal places.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.46]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.536,5.438);\n\\coordinate (C) at (10.93,0);\n\\draw (A)--(B) node[midway,above left] {$6$};\n\\draw (B)--(C) node[midway,above right] {$10$};\n\\draw (A)--(C);\n\\pic[draw,\"$65^{\\circ}$\",angle radius=1cm,angle eccentricity=1.4] {angle=C--A--B};\n\\pic[draw,\"$\\theta$\",angle radius=1cm,angle eccentricity=1.5] {angle=B--C--A};\n\\end{tikzpicture}\n[/tikz]\nFind the angle $\\theta$, correct to the nearest degree.",
         "structure": "reject-obtuse-solution",
-        "solution_text": "$\\dfrac{\\sin\\theta}{6}=\\dfrac{\\sin 65^{\\circ}}{10}$\n$\\sin\\theta=\\dfrac{6\\sin 65^{\\circ}}{10}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{6\\sin 65^{\\circ}}{10}\\right)$\n$=32.94^{\\circ}$\nThe obtuse partner is $180^{\\circ}-32.94^{\\circ}=147.06^{\\circ}$.\nCheck: $147.06^{\\circ}+65^{\\circ}=212.06^{\\circ}>180^{\\circ}$, so the obtuse angle is rejected.\n$\\theta=32.94^{\\circ}$ only"
+        "solution_text": "$\\dfrac{\\sin\\theta}{6}=\\dfrac{\\sin65^{\\circ}}{10}$\n$\\sin\\theta=\\dfrac{6\\sin65^{\\circ}}{10}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{6\\sin65^{\\circ}}{10}\\right)\\approx32.94^{\\circ}$\n$\\theta'=180^{\\circ}-\\theta\\approx147.06^{\\circ}$\n$147.06^{\\circ}+65^{\\circ}=212.06^{\\circ}>180^{\\circ}$, so the obtuse angle is rejected.\n$\\theta\\approx33^{\\circ}$ only."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.6]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (6,0);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (-2.77,4.8);\n\\draw (A)--(B) node[midway,below] {$6$};\n\\draw (A)--(C) node[midway,above right] {$10$};\n\\draw (B)--(C);\n\\pic[draw,\"$120^{\\circ}$\",angle radius=0.9cm,angle eccentricity=1.35] {angle=A--B--C};\n\\pic[draw,\"$\\theta$\",angle radius=0.9cm,angle eccentricity=1.6] {angle=B--C--A};\n\\end{tikzpicture}\n[/tikz]\nThe angle marked $120^{\\circ}$ is opposite the side of length $10$.\nFind the angle $\\theta$, correct to $2$ decimal places.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.6]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (6,0);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (-2.77,4.8);\n\\draw (A)--(B) node[midway,below] {$6$};\n\\draw (A)--(C) node[midway,above right] {$10$};\n\\draw (B)--(C);\n\\pic[draw,\"$120^{\\circ}$\",angle radius=0.9cm,angle eccentricity=1.35] {angle=A--B--C};\n\\pic[draw,\"$\\theta$\",angle radius=0.9cm,angle eccentricity=1.6] {angle=B--C--A};\n\\end{tikzpicture}\n[/tikz]\nThe angle marked $120^{\\circ}$ is opposite the side of length $10$.\nFind the angle $\\theta$, correct to the nearest degree.",
         "structure": "given-obtuse-one-solution",
-        "solution_text": "$\\dfrac{\\sin\\theta}{6}=\\dfrac{\\sin 120^{\\circ}}{10}$\n$\\sin\\theta=\\dfrac{6\\sin 120^{\\circ}}{10}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{6\\sin 120^{\\circ}}{10}\\right)$\n$=31.31^{\\circ}$\nThe given angle $120^{\\circ}$ is already obtuse, so the other angles must be acute — there is only one solution.\n$\\theta=31.31^{\\circ}$"
+        "solution_text": "$\\dfrac{\\sin\\theta}{6}=\\dfrac{\\sin120^{\\circ}}{10}$\n$\\sin\\theta=\\dfrac{6\\sin120^{\\circ}}{10}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{6\\sin120^{\\circ}}{10}\\right)\\approx31.31^{\\circ}$\n$\\theta'=180^{\\circ}-\\theta\\approx148.69^{\\circ}$\n$148.69^{\\circ}+120^{\\circ}>180^{\\circ}$, so the obtuse partner is rejected.\n$31.31^{\\circ}+120^{\\circ}<180^{\\circ}$, so the acute angle is valid.\n$\\theta\\approx31^{\\circ}$ only."
       },
-      {
-        "question_text": "A triangle has sides $7$ and $12$, where the angle opposite the $12$ side is $58^{\\circ}$.\nFind the angle $\\theta$ opposite the $7$ side, correct to $2$ decimal places.",
+{
+        "question_text": "A triangle has sides $7$ and $12$, where the angle opposite the $12$ side is $58^{\\circ}$.\nFind the angle $\\theta$ opposite the $7$ side, correct to the nearest degree.",
         "structure": "reject-obtuse-solution",
-        "solution_text": "$\\dfrac{\\sin\\theta}{7}=\\dfrac{\\sin 58^{\\circ}}{12}$\n$\\sin\\theta=\\dfrac{7\\sin 58^{\\circ}}{12}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{7\\sin 58^{\\circ}}{12}\\right)$\n$=29.65^{\\circ}$\nThe obtuse partner is $180^{\\circ}-29.65^{\\circ}=150.35^{\\circ}$.\nCheck: $150.35^{\\circ}+58^{\\circ}=208.35^{\\circ}>180^{\\circ}$, so it is rejected.\n$\\theta=29.65^{\\circ}$ only"
+        "solution_text": "$\\dfrac{\\sin\\theta}{7}=\\dfrac{\\sin58^{\\circ}}{12}$\n$\\sin\\theta=\\dfrac{7\\sin58^{\\circ}}{12}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{7\\sin58^{\\circ}}{12}\\right)\\approx29.65^{\\circ}$\n$\\theta'=180^{\\circ}-\\theta\\approx150.35^{\\circ}$\n$150.35^{\\circ}+58^{\\circ}=208.35^{\\circ}>180^{\\circ}$, so it is rejected.\n$\\theta\\approx30^{\\circ}$ only."
       }
-    ],
+],
     "development": [
-      {
-        "question_text": "Two triangles have sides $12$ and $9$, where the angle opposite the $9$ side is $34^{\\circ}$.\nFind, in each case, the size of the angle $\\theta$ opposite the $12$ side, correct to $2$ decimal places.",
+{
+        "question_text": "Two triangles have sides $12$ and $9$, where the angle opposite the $9$ side is $34^{\\circ}$.\nFind, in each case, the size of the angle $\\theta$ opposite the $12$ side, correct to the nearest degree.",
         "structure": "find-both-angles",
-        "solution_text": "$\\dfrac{\\sin\\theta}{12}=\\dfrac{\\sin 34^{\\circ}}{9}$\n$\\sin\\theta=\\dfrac{12\\sin 34^{\\circ}}{9}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{12\\sin 34^{\\circ}}{9}\\right)$\n$=48.21^{\\circ}$\nThe obtuse partner is $180^{\\circ}-48.21^{\\circ}=131.79^{\\circ}$.\nCheck: $131.79^{\\circ}+34^{\\circ}<180^{\\circ}$, so both are valid.\n$\\theta=48.21^{\\circ}$ or $131.79^{\\circ}$"
+        "solution_text": "$\\dfrac{\\sin\\theta}{12}=\\dfrac{\\sin34^{\\circ}}{9}$\n$\\sin\\theta=\\dfrac{12\\sin34^{\\circ}}{9}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{12\\sin34^{\\circ}}{9}\\right)\\approx48.21^{\\circ}$\n$\\theta'=180^{\\circ}-\\theta\\approx131.79^{\\circ}$\n$131.79^{\\circ}+34^{\\circ}<180^{\\circ}$, so both are valid.\n$\\theta\\approx48^{\\circ}$ or $132^{\\circ}$."
       },
-      {
-        "question_text": "In triangle $ABC$, side $a=13$ is opposite $\\angle A=54^{\\circ}$ and side $b=7$ is opposite $\\angle B$.\nFind $\\angle B$ and explain why only one solution is possible.\nAnswer to $2$ decimal places.",
+{
+        "question_text": "In triangle $ABC$, side $a=13$ is opposite $\\angle A=54^{\\circ}$ and side $b=7$ is opposite $\\angle B$.\nFind $\\angle B$ and explain why only one solution is possible.\nAnswer to the nearest degree.",
         "structure": "reject-obtuse-solution",
-        "solution_text": "$\\dfrac{\\sin B}{7}=\\dfrac{\\sin 54^{\\circ}}{13}$\n$\\sin B=\\dfrac{7\\sin 54^{\\circ}}{13}$\n$B=\\sin^{-1}\\left(\\dfrac{7\\sin 54^{\\circ}}{13}\\right)$\n$=25.83^{\\circ}$\nThe obtuse partner $180^{\\circ}-25.83^{\\circ}=154.17^{\\circ}$ gives $154.17^{\\circ}+54^{\\circ}=208.17^{\\circ}>180^{\\circ}$, so it is rejected.\n$\\angle B=25.83^{\\circ}$ only"
+        "solution_text": "$\\dfrac{\\sin B}{7}=\\dfrac{\\sin54^{\\circ}}{13}$\n$\\sin B=\\dfrac{7\\sin54^{\\circ}}{13}$\n$B=\\sin^{-1}\\left(\\dfrac{7\\sin54^{\\circ}}{13}\\right)\\approx25.83^{\\circ}$\n$B'=180^{\\circ}-B\\approx154.17^{\\circ}$\n$154.17^{\\circ}+54^{\\circ}=208.17^{\\circ}>180^{\\circ}$, so the obtuse partner is rejected.\n$\\angle B\\approx26^{\\circ}$ only."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.55]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (5,0);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (-1.63,6.08);\n\\draw (A)--(B) node[midway,below] {$5$};\n\\draw (A)--(C) node[midway,above right] {$9$};\n\\draw (B)--(C);\n\\pic[draw,\"$105^{\\circ}$\",angle radius=0.9cm,angle eccentricity=1.35] {angle=A--B--C};\n\\pic[draw,\"$\\theta$\",angle radius=0.9cm,angle eccentricity=1.6] {angle=B--C--A};\n\\end{tikzpicture}\n[/tikz]\nThe angle marked $105^{\\circ}$ is opposite the side of length $9$.\nFind the angle $\\theta$, correct to $2$ decimal places.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.55]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (5,0);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (-1.63,6.08);\n\\draw (A)--(B) node[midway,below] {$5$};\n\\draw (A)--(C) node[midway,above right] {$9$};\n\\draw (B)--(C);\n\\pic[draw,\"$105^{\\circ}$\",angle radius=0.9cm,angle eccentricity=1.35] {angle=A--B--C};\n\\pic[draw,\"$\\theta$\",angle radius=0.9cm,angle eccentricity=1.6] {angle=B--C--A};\n\\end{tikzpicture}\n[/tikz]\nThe angle marked $105^{\\circ}$ is opposite the side of length $9$.\nFind the angle $\\theta$, correct to the nearest degree.",
         "structure": "given-obtuse-one-solution",
-        "solution_text": "$\\dfrac{\\sin\\theta}{5}=\\dfrac{\\sin 105^{\\circ}}{9}$\n$\\sin\\theta=\\dfrac{5\\sin 105^{\\circ}}{9}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{5\\sin 105^{\\circ}}{9}\\right)$\n$=32.45^{\\circ}$\nThe given angle $105^{\\circ}$ is obtuse, so the other angles are acute — there is only one solution.\n$\\theta=32.45^{\\circ}$"
+        "solution_text": "$\\dfrac{\\sin\\theta}{5}=\\dfrac{\\sin105^{\\circ}}{9}$\n$\\sin\\theta=\\dfrac{5\\sin105^{\\circ}}{9}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{5\\sin105^{\\circ}}{9}\\right)\\approx32.45^{\\circ}$\n$\\theta'=180^{\\circ}-\\theta\\approx147.55^{\\circ}$\n$147.55^{\\circ}+105^{\\circ}>180^{\\circ}$, so the obtuse partner is rejected.\n$32.45^{\\circ}+105^{\\circ}<180^{\\circ}$, so the acute angle is valid.\n$\\theta\\approx32^{\\circ}$ only."
       },
-      {
-        "question_text": "Two triangles have sides $10$ and $7$, where the angle opposite the $7$ side is $40^{\\circ}$.\nFor each triangle, find the third angle (the angle opposite the unknown side), correct to $2$ decimal places.",
-        "structure": "remaining-angle-each-case",
-        "solution_text": "$\\dfrac{\\sin\\theta}{10}=\\dfrac{\\sin 40^{\\circ}}{7}$\n$\\sin\\theta=\\dfrac{10\\sin 40^{\\circ}}{7}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{10\\sin 40^{\\circ}}{7}\\right)$\n$=66.67^{\\circ}$\nThe obtuse partner is $180^{\\circ}-66.67^{\\circ}=113.33^{\\circ}$; both are valid since $113.33^{\\circ}+40^{\\circ}<180^{\\circ}$.\nAcute case: third angle $=180^{\\circ}-40^{\\circ}-66.67^{\\circ}=73.33^{\\circ}$.\nObtuse case: third angle $=180^{\\circ}-40^{\\circ}-113.33^{\\circ}=26.67^{\\circ}$."
+{
+        "question_text": "Two triangles have sides $9$ cm and $6$ cm. The angle opposite the $6$ cm side is $30^{\\circ}$.\nFind both possible values of the angle $\\theta$ opposite the $9$ cm side, correct to the nearest degree.",
+        "structure": "find-both-angles",
+        "solution_text": "$\\dfrac{\\sin\\theta}{9}=\\dfrac{\\sin30^{\\circ}}{6}$\n$\\sin\\theta=\\dfrac{9\\sin30^{\\circ}}{6}=0.75$\n$\\theta=\\sin^{-1}(0.75)\\approx48.59^{\\circ}$\n$\\theta'=180^{\\circ}-\\theta\\approx131.41^{\\circ}$\n$131.41^{\\circ}+30^{\\circ}<180^{\\circ}$, so both are valid.\n$\\theta\\approx49^{\\circ}$ or $131^{\\circ}$."
       },
-      {
+{
         "question_text": "A triangle is claimed to have sides $8$ and $5$, where the angle opposite the $5$ side is $40^{\\circ}$.\nFind the angle $\\theta$ opposite the $8$ side, or explain why no such triangle exists.",
         "structure": "no-solution",
-        "solution_text": "$\\dfrac{\\sin\\theta}{8}=\\dfrac{\\sin 40^{\\circ}}{5}$\n$\\sin\\theta=\\dfrac{8\\sin 40^{\\circ}}{5}$\n$=1.03$\nSince $\\sin\\theta$ cannot exceed $1$, no such triangle exists."
+        "solution_text": "$\\dfrac{\\sin\\theta}{8}=\\dfrac{\\sin40^{\\circ}}{5}$\n$\\sin\\theta=\\dfrac{8\\sin40^{\\circ}}{5}\\approx1.0285$\nSince $\\sin\\theta$ cannot exceed $1$, no such triangle exists."
       },
-      {
-        "question_text": "Two triangles have sides $11$ and $8$, where the angle opposite the $8$ side is $45^{\\circ}$.\nFind, in each case, the size of the angle $\\theta$ opposite the $11$ side, correct to $2$ decimal places.",
+{
+        "question_text": "Two triangles have sides $11$ and $8$, where the angle opposite the $8$ side is $45^{\\circ}$.\nFind, in each case, the size of the angle $\\theta$ opposite the $11$ side, correct to the nearest degree.",
         "structure": "find-both-angles",
-        "solution_text": "$\\dfrac{\\sin\\theta}{11}=\\dfrac{\\sin 45^{\\circ}}{8}$\n$\\sin\\theta=\\dfrac{11\\sin 45^{\\circ}}{8}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{11\\sin 45^{\\circ}}{8}\\right)$\n$=76.48^{\\circ}$\nThe obtuse partner is $180^{\\circ}-76.48^{\\circ}=103.52^{\\circ}$.\nCheck: $103.52^{\\circ}+45^{\\circ}<180^{\\circ}$, so both are valid.\n$\\theta=76.48^{\\circ}$ or $103.52^{\\circ}$"
+        "solution_text": "$\\dfrac{\\sin\\theta}{11}=\\dfrac{\\sin45^{\\circ}}{8}$\n$\\sin\\theta=\\dfrac{11\\sin45^{\\circ}}{8}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{11\\sin45^{\\circ}}{8}\\right)\\approx76.48^{\\circ}$\n$\\theta'=180^{\\circ}-\\theta\\approx103.52^{\\circ}$\n$103.52^{\\circ}+45^{\\circ}<180^{\\circ}$, so both are valid.\n$\\theta\\approx76^{\\circ}$ or $104^{\\circ}$."
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "In triangle $PQR$, $p=7$ is opposite $\\angle P=45^{\\circ}$ and $q=9$ is opposite $\\angle Q$.\nFind both possible sizes of $\\angle Q$, and the corresponding length of side $r$, correct to $2$ decimal places.",
+{
+        "question_text": "In triangle $PQR$, $p=7$ is opposite $\\angle P=45^{\\circ}$ and $q=9$ is opposite $\\angle Q$.\nFind both possible sizes of $\\angle Q$, correct to the nearest degree, and the corresponding length of side $r$, correct to $1$ decimal place.",
+        "structure": "find-both-angles-and-third-sides",
+        "solution_text": "$\\dfrac{\\sin Q}{9}=\\dfrac{\\sin45^{\\circ}}{7}$\n$\\sin Q=\\dfrac{9\\sin45^{\\circ}}{7}$\n$Q_1=\\sin^{-1}\\left(\\dfrac{9\\sin45^{\\circ}}{7}\\right)\\approx65.39^{\\circ}$\n$Q_2=180^{\\circ}-Q_1\\approx114.61^{\\circ}$\n$114.61^{\\circ}+45^{\\circ}<180^{\\circ}$, so both are valid.\nKeep the calculator values for the side calculations.\n$R_1=180^{\\circ}-45^{\\circ}-Q_1\\approx69.61^{\\circ}$\n$r_1=\\dfrac{7\\sin R_1}{\\sin45^{\\circ}}\\approx9.2794$\n$R_2=180^{\\circ}-45^{\\circ}-Q_2\\approx20.39^{\\circ}$\n$r_2=\\dfrac{7\\sin R_2}{\\sin45^{\\circ}}\\approx3.4485$\nThe possibilities are $Q\\approx65^{\\circ}$ with $r\\approx9.3$, or $Q\\approx115^{\\circ}$ with $r\\approx3.4$."
+      },
+{
+        "question_text": "In triangle $ABC$, $a=13$ is opposite $\\angle A=54^{\\circ}$ and $b=7$ is opposite $\\angle B$.\nFind $\\angle B$, correct to the nearest degree, and all possible lengths of side $c$, correct to $1$ decimal place.",
+        "structure": "find-angle-and-third-side",
+        "solution_text": "$\\dfrac{\\sin B}{7}=\\dfrac{\\sin54^{\\circ}}{13}$\n$\\sin B=\\dfrac{7\\sin54^{\\circ}}{13}$\n$B=\\sin^{-1}\\left(\\dfrac{7\\sin54^{\\circ}}{13}\\right)\\approx25.83^{\\circ}$\n$B'=180^{\\circ}-B\\approx154.17^{\\circ}$\n$154.17^{\\circ}+54^{\\circ}>180^{\\circ}$, so the obtuse partner is rejected.\nKeep the calculator value of $B$ for the side calculation.\n$C=180^{\\circ}-54^{\\circ}-B\\approx100.17^{\\circ}$\n$c=\\dfrac{13\\sin C}{\\sin54^{\\circ}}\\approx15.8162$\nThere is one triangle, with $B\\approx26^{\\circ}$ and $c\\approx15.8$."
+      },
+{
+        "question_text": "In triangle $ABC$, $a=6$ cm is opposite $\\angle A=30^{\\circ}$ and $b=10$ cm is opposite $\\angle B$.\nFind all possible sizes of $\\angle B$, correct to the nearest degree.",
         "structure": "find-both-angles",
-        "solution_text": "$\\dfrac{\\sin Q}{9}=\\dfrac{\\sin 45^{\\circ}}{7}$\n$\\sin Q=\\dfrac{9\\sin 45^{\\circ}}{7}$\n$Q=\\sin^{-1}\\left(\\dfrac{9\\sin 45^{\\circ}}{7}\\right)$\n$=65.39^{\\circ}$\nThe obtuse partner is $180^{\\circ}-65.39^{\\circ}=114.61^{\\circ}$; both are valid since $114.61^{\\circ}+45^{\\circ}<180^{\\circ}$.\n**Case 1** $Q=65.39^{\\circ}$: $\\angle R=180^{\\circ}-45^{\\circ}-65.39^{\\circ}=69.61^{\\circ}$.\n$r=\\dfrac{7\\sin 69.61^{\\circ}}{\\sin 45^{\\circ}}=9.28$\n**Case 2** $Q=114.61^{\\circ}$: $\\angle R=180^{\\circ}-45^{\\circ}-114.61^{\\circ}=20.39^{\\circ}$.\n$r=\\dfrac{7\\sin 20.39^{\\circ}}{\\sin 45^{\\circ}}=3.45$"
-      },
-      {
-        "question_text": "In triangle $ABC$, $a=13$ is opposite $\\angle A=54^{\\circ}$ and $b=7$ is opposite $\\angle B$.\nFind $\\angle B$, then find $\\angle C$ and side $c$, correct to $2$ decimal places.",
-        "structure": "reject-obtuse-solution",
-        "solution_text": "$\\dfrac{\\sin B}{7}=\\dfrac{\\sin 54^{\\circ}}{13}$\n$\\sin B=\\dfrac{7\\sin 54^{\\circ}}{13}$\n$B=\\sin^{-1}\\left(\\dfrac{7\\sin 54^{\\circ}}{13}\\right)$\n$=25.83^{\\circ}$\nThe obtuse partner $180^{\\circ}-25.83^{\\circ}=154.17^{\\circ}$ gives a sum over $180^{\\circ}$ with $\\angle A$, so it is rejected; $\\angle B=25.83^{\\circ}$.\n$\\angle C=180^{\\circ}-54^{\\circ}-25.83^{\\circ}=100.17^{\\circ}$\n$c=\\dfrac{13\\sin 100.17^{\\circ}}{\\sin 54^{\\circ}}=15.82$"
-      },
-      {
-        "question_text": "In triangle $ABC$, $a=6$ is opposite $\\angle A=35^{\\circ}$ and $b=10$ is opposite $\\angle B$.\nFirst decide how many triangles are possible by comparing $b\\sin A$ with $a$, then find all possible sizes of $\\angle B$, correct to $2$ decimal places.",
-        "structure": "count-triangles",
-        "solution_text": "$b\\sin A=10\\sin 35^{\\circ}=5.74$\nSince $b\\sin A<a<b$ (that is $5.74<6<10$), **two** triangles are possible.\n$\\dfrac{\\sin B}{10}=\\dfrac{\\sin 35^{\\circ}}{6}$\n$\\sin B=\\dfrac{10\\sin 35^{\\circ}}{6}$\n$B=\\sin^{-1}\\left(\\dfrac{10\\sin 35^{\\circ}}{6}\\right)$\n$=72.93^{\\circ}$\nThe obtuse partner is $180^{\\circ}-72.93^{\\circ}=107.07^{\\circ}$; both are valid since $107.07^{\\circ}+35^{\\circ}<180^{\\circ}$.\n$\\angle B=72.93^{\\circ}$ or $107.07^{\\circ}$"
+        "solution_text": "$\\dfrac{\\sin B}{10}=\\dfrac{\\sin30^{\\circ}}{6}$\n$\\sin B=\\dfrac{10\\sin30^{\\circ}}{6}=\\dfrac56$\n$B=\\sin^{-1}\\left(\\dfrac56\\right)\\approx56.44^{\\circ}$\n$B'=180^{\\circ}-B\\approx123.56^{\\circ}$\n$123.56^{\\circ}+30^{\\circ}<180^{\\circ}$, so both are valid.\n$\\angle B\\approx56^{\\circ}$ or $124^{\\circ}$."
       }
-    ]
+]
   }
 }

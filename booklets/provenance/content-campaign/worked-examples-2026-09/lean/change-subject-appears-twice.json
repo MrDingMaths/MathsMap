@@ -1,0 +1,92 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "change-subject-appears-twice",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-06T15:03:12.868Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 76,
+      "usage": {
+        "input_tokens": 181904,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3091,
+        "reasoning_output_tokens": 83
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\change-subject-appears-twice\\audit-FYdaJB\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 145,
+      "usage": {
+        "input_tokens": 182672,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 7147,
+        "reasoning_output_tokens": 96
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\change-subject-appears-twice\\repair-EqXRyj\\response.raw.txt"
+    },
+    {
+      "name": "review-full",
+      "code": 0,
+      "seconds": 59.2,
+      "usage": {
+        "input_tokens": 183045,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2353,
+        "reasoning_output_tokens": 59
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\change-subject-appears-twice\\review-full-oYl9Xt\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "f449c7d6213ce13bead570ea42f6e654989035615e52ec2f6549973e727e876d",
+    "quizHash": "3d91697e2fd5a5f547d2e3c65d6a59e851449179a5448ab2ca096cf58af45985"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 5 Path/Equations C_1 Solve linear equations involving algebraic fractions and equations of more than 3 steps.md",
+    "booklets/mathsmap-sources/Stage 5 Path/Equations C_2 Rearrange literal equations.md",
+    "booklets/mathsmap-sources/Stage 5/Equations C_3 Quadratic Equations.md",
+    "booklets/mathsmap-sources/Stage 5/Equations C 4_Simultaneous Equations.md"
+  ],
+  "images": 93,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "review-full",
+    "hash": "6b326babe6879959cf92059ca69b1a12b9d53626bda55f063a5d3929a9d43ec2",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for quiz.dq-155216",
+    "quiz.q4: Option 3's explanation does not fully account for $a=pn$: multiplying by the whole bracket would give $p(n+1)$. Its why must name both dropping the unit term and multiplying by $n$ instead of dividing.",
+    "quiz.q6: State the nonzero assumptions needed for the claimed unique rearrangement, including $b\\ne0$ and $d\\ne c$. Option 2's why must identify the actual erroneous operation producing $b/d+c$; dividing before collecting does not by itself explain changing the sign of $c$ and failing to divide the whole expression.",
+    "quiz.dq-155216: The algebra and correct option are correct, but the natural exponential $e^x$ introduces notation beyond this Stage 5 skill and has no comparable given in its source exercises. Replace this item under the same quiz id with a source-supported rational rearrangement without the exponential; check its structure and all distractor explanations.",
+    "theory: Qualify division by the bracket: it must be nonzero, and original denominator restrictions remain in force. If collection gives a zero coefficient, check the remaining equation rather than divide by zero; C_2 Q6(b), lines 880–882, explicitly teaches this restriction."
+  ],
+  "repaired": true,
+  "changed": [
+    "quiz.q4",
+    "quiz.q6",
+    "quiz.dq-155216"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 29,
+  "summary": "Qualified the theory's division rule, retained original denominator restrictions and explained how to handle a zero collected coefficient; repaired the specified distractor explanations and added the assumptions for quiz.q6. Replaced quiz.dq-155216 under its existing id with a cited, source-supported rational rearrangement and checked all four options, preserving all other items and values.",
+  "reviewSummary": "All 29 items have correct algebra, supported booklet question types and appropriate scope; all quiz distractors describe their specific mistakes correctly. Qualify one misleading absolute statement in the theory intro; there are no worked examples or removals to review.",
+  "candidateHash": "6b326babe6879959cf92059ca69b1a12b9d53626bda55f063a5d3929a9d43ec2",
+  "findings": [
+    "theory: Qualify the intro's absolute claim that inverse operations alone cannot isolate a repeated subject. The booklet includes $2a=b+a$, which gives $a=b$ simply by subtracting $a$; replace the opening with 'When the subject appears more than once, collect its terms together; you may then need to factorise.' Keep the remaining method and restrictions."
+  ],
+  "finishedAt": "2026-10-06T15:07:53.416Z"
+}

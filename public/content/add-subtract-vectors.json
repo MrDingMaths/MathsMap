@@ -2,21 +2,63 @@
   "skillId": "add-subtract-vectors",
   "atomType": "R",
   "theory": {
-    "intro": "To **add** two vectors, draw them tip to tail. The **resultant** runs from the tail of the first arrow to the tip of the last. To subtract, add the negative.",
-    "facts": [
-      "The **negative** $-\\underset{\\sim}{b}$ has the same length as $\\underset{\\sim}{b}$ but points the opposite way.",
-      "Subtraction is rewritten as addition: $\\underset{\\sim}{a}-\\underset{\\sim}{b}=\\underset{\\sim}{a}+(-\\underset{\\sim}{b})$.",
-      "Addition is commutative: $\\underset{\\sim}{a}+\\underset{\\sim}{b}=\\underset{\\sim}{b}+\\underset{\\sim}{a}$.",
-      "Subtraction is not commutative, because $\\underset{\\sim}{a}-\\underset{\\sim}{b}$ and $\\underset{\\sim}{b}-\\underset{\\sim}{a}$ point opposite ways.",
-      "In a figure $\\overrightarrow{AB}+\\overrightarrow{BC}=\\overrightarrow{AC}$, because the journey through $B$ starts at $A$ and ends at $C$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.3]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (3,0);\n\\coordinate (R) at (4.4,2.2);\n\\draw[->,thick] (P) -- (Q) node[midway,below] {$\\underset{\\sim}{a}$};\n\\draw[->,thick] (Q) -- (R) node[midway,right] {$\\underset{\\sim}{b}$};\n\\draw[->,thick,dashed] (P) -- (R) node[midway,above left] {$\\underset{\\sim}{a}+\\underset{\\sim}{b}$};\n\\end{tikzpicture}\n[/tikz]",
-      "In column form, add or subtract the top components and the bottom components separately."
-    ],
-    "steps": [
+"intro": "To **add** two vectors, draw them tip to tail. The **resultant** runs from the tail of the first arrow to the tip of the last. To subtract, add the negative.",
+"facts": [
+"The **negative** $-\\underset{\\sim}{b}$ has the same length as $\\underset{\\sim}{b}$ but points the opposite way.",
+"Subtraction is rewritten as addition: $\\underset{\\sim}{a}-\\underset{\\sim}{b}=\\underset{\\sim}{a}+(-\\underset{\\sim}{b})$.",
+"Addition is commutative: $\\underset{\\sim}{a}+\\underset{\\sim}{b}=\\underset{\\sim}{b}+\\underset{\\sim}{a}$.",
+"Subtraction is not commutative in general: $\\underset{\\sim}{b}-\\underset{\\sim}{a}=-(\\underset{\\sim}{a}-\\underset{\\sim}{b})$. If $\\underset{\\sim}{a}=\\underset{\\sim}{b}$, both differences are the zero vector.",
+"In a figure $\\overrightarrow{AB}+\\overrightarrow{BC}=\\overrightarrow{AC}$, because the journey through $B$ starts at $A$ and ends at $C$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.3]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (3,0);\n\\coordinate (R) at (4.4,2.2);\n\\draw[->,thick] (P) -- (Q) node[midway,below] {$\\underset{\\sim}{a}$};\n\\draw[->,thick] (Q) -- (R) node[midway,right] {$\\underset{\\sim}{b}$};\n\\draw[->,thick,dashed] (P) -- (R) node[midway,above left] {$\\underset{\\sim}{a}+\\underset{\\sim}{b}$};\n\\end{tikzpicture}\n[/tikz]",
+"In column form, add or subtract the top components and the bottom components separately."
+],
+"steps": [
       "Rewrite any subtraction as adding the negative",
       "Join the vectors tip to tail",
       "Read the resultant from the first tail to the last tip"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "$JKLM$ is a parallelogram with $\\overrightarrow{JK}=\\underset{\\sim}{u}$ and $\\overrightarrow{KL}=\\underset{\\sim}{v}$.\nFind $\\overrightarrow{JL}$ and $\\overrightarrow{LJ}$ in terms of $\\underset{\\sim}{u}$ and $\\underset{\\sim}{v}$.",
+    "solution_text": "$\\overrightarrow{JL}=\\overrightarrow{JK}+\\overrightarrow{KL}$\n$\\overrightarrow{JL}=\\underset{\\sim}{u}+\\underset{\\sim}{v}$\n$\\overrightarrow{LJ}=-\\overrightarrow{JL}$\n$\\overrightarrow{LJ}=-\\underset{\\sim}{u}-\\underset{\\sim}{v}$"
   },
+  {
+    "question_text": "Two vectors start at $T$, with $\\overrightarrow{TU}=\\underset{\\sim}{p}$ and $\\overrightarrow{TV}=\\underset{\\sim}{q}$.\nFind $\\overrightarrow{UV}$ in terms of $\\underset{\\sim}{p}$ and $\\underset{\\sim}{q}$.",
+    "solution_text": "$\\overrightarrow{UV}=\\overrightarrow{UT}+\\overrightarrow{TV}$\n$\\overrightarrow{UT}=-\\overrightarrow{TU}=-\\underset{\\sim}{p}$\n$\\overrightarrow{UV}=-\\underset{\\sim}{p}+\\underset{\\sim}{q}$\n$\\overrightarrow{UV}=\\underset{\\sim}{q}-\\underset{\\sim}{p}$"
+  },
+  {
+    "question_text": "Find $\\begin{pmatrix}4\\\\-3\\end{pmatrix}+\\begin{pmatrix}-7\\\\8\\end{pmatrix}$ and $\\begin{pmatrix}4\\\\-3\\end{pmatrix}-\\begin{pmatrix}-7\\\\8\\end{pmatrix}$.",
+    "solution_text": "Add corresponding components.\n$\\begin{pmatrix}4\\\\-3\\end{pmatrix}+\\begin{pmatrix}-7\\\\8\\end{pmatrix}=\\begin{pmatrix}4+(-7)\\\\-3+8\\end{pmatrix}$\n$=\\begin{pmatrix}-3\\\\5\\end{pmatrix}$\nSubtract corresponding components.\n$\\begin{pmatrix}4\\\\-3\\end{pmatrix}-\\begin{pmatrix}-7\\\\8\\end{pmatrix}=\\begin{pmatrix}4-(-7)\\\\-3-8\\end{pmatrix}$\n$=\\begin{pmatrix}11\\\\-11\\end{pmatrix}$"
+  },
+  {
+    "question_text": "Given $\\underset{\\sim}{a}=2\\mathbf{i}-4\\mathbf{j}$ and $\\underset{\\sim}{b}=-6\\mathbf{i}+3\\mathbf{j}$, find $\\underset{\\sim}{a}+\\underset{\\sim}{b}$, $\\underset{\\sim}{b}-\\underset{\\sim}{a}$ and $3\\underset{\\sim}{a}+\\frac{\\underset{\\sim}{b}}{2}$ in component form.",
+    "solution_text": "$\\underset{\\sim}{a}+\\underset{\\sim}{b}=(2\\mathbf{i}-4\\mathbf{j})+(-6\\mathbf{i}+3\\mathbf{j})$\n$=-4\\mathbf{i}-\\mathbf{j}$\n$\\underset{\\sim}{b}-\\underset{\\sim}{a}=(-6\\mathbf{i}+3\\mathbf{j})-(2\\mathbf{i}-4\\mathbf{j})$\n$=-8\\mathbf{i}+7\\mathbf{j}$\n$3\\underset{\\sim}{a}+\\frac{\\underset{\\sim}{b}}{2}=3(2\\mathbf{i}-4\\mathbf{j})+\\frac{1}{2}(-6\\mathbf{i}+3\\mathbf{j})$\n$=(6\\mathbf{i}-12\\mathbf{j})+(-3\\mathbf{i}+\\frac{3}{2}\\mathbf{j})$\n$=3\\mathbf{i}-\\frac{21}{2}\\mathbf{j}$"
+  },
+  {
+    "question_text": "Find $\\begin{pmatrix}3\\\\-4\\end{pmatrix}+\\begin{pmatrix}-2\\\\7\\end{pmatrix}-\\begin{pmatrix}5\\\\1\\end{pmatrix}$.",
+    "solution_text": "$\\begin{pmatrix}3\\\\-4\\end{pmatrix}+\\begin{pmatrix}-2\\\\7\\end{pmatrix}-\\begin{pmatrix}5\\\\1\\end{pmatrix}=\\begin{pmatrix}3+(-2)-5\\\\-4+7-1\\end{pmatrix}$\n$=\\begin{pmatrix}-4\\\\2\\end{pmatrix}$"
+  },
+  {
+    "question_text": "The resultant of $\\begin{pmatrix}x\\\\-2\\end{pmatrix}+\\begin{pmatrix}4\\\\y\\end{pmatrix}$ is $\\begin{pmatrix}9\\\\5\\end{pmatrix}$.\nFind $x$ and $y$.",
+    "solution_text": "$\\begin{pmatrix}x+4\\\\-2+y\\end{pmatrix}=\\begin{pmatrix}9\\\\5\\end{pmatrix}$\nEquate the top components.\n$x+4=9$\n$x=5$\nEquate the bottom components.\n$-2+y=5$\n$y=7$"
+  },
+  {
+    "question_text": "In triangle $DEF$, $\\overrightarrow{DE}=\\begin{pmatrix}4\\\\-2\\end{pmatrix}$ and $\\overrightarrow{EF}=\\begin{pmatrix}-7\\\\6\\end{pmatrix}$.\nFind $\\overrightarrow{FD}$ as a column vector.",
+    "solution_text": "$\\overrightarrow{DF}=\\overrightarrow{DE}+\\overrightarrow{EF}$\n$\\overrightarrow{DF}=\\begin{pmatrix}4+(-7)\\\\-2+6\\end{pmatrix}$\n$\\overrightarrow{DF}=\\begin{pmatrix}-3\\\\4\\end{pmatrix}$\n$\\overrightarrow{FD}=-\\overrightarrow{DF}$\n$\\overrightarrow{FD}=\\begin{pmatrix}3\\\\-4\\end{pmatrix}$"
+  },
+  {
+    "question_text": "Prove that $\\overrightarrow{JK}-\\overrightarrow{LK}+\\overrightarrow{LM}=\\overrightarrow{JM}$. State the laws used.",
+    "solution_text": "$\\overrightarrow{JK}-\\overrightarrow{LK}+\\overrightarrow{LM}$\n$=\\overrightarrow{JK}+\\overrightarrow{KL}+\\overrightarrow{LM}$ by the negative vector law.\n$=\\overrightarrow{JL}+\\overrightarrow{LM}$ by the triangle law.\n$=\\overrightarrow{JM}$ by the triangle law."
+  },
+  {
+    "question_text": "Prove that $\\overrightarrow{HJ}-\\overrightarrow{HK}-\\overrightarrow{JK}=2\\overrightarrow{KJ}$. State the laws used.",
+    "solution_text": "$\\overrightarrow{HJ}-\\overrightarrow{HK}-\\overrightarrow{JK}$\n$=\\overrightarrow{KJ}-\\overrightarrow{JK}$ by the parallelogram law of subtraction.\n$=\\overrightarrow{KJ}+\\overrightarrow{KJ}$ by the negative vector law.\n$=2\\overrightarrow{KJ}$"
+  },
+  {
+    "question_text": "In triangle $EGH$, find the resultant $\\overrightarrow{EG}+\\overrightarrow{GH}+\\overrightarrow{HE}$.",
+    "solution_text": "$\\overrightarrow{EG}+\\overrightarrow{GH}+\\overrightarrow{HE}$\n$=\\overrightarrow{EH}+\\overrightarrow{HE}$ by the triangle law.\n$=\\overrightarrow{EH}-\\overrightarrow{EH}$ by the negative vector law.\n$=\\underset{\\sim}{0}$\nThe successive vectors return to their starting point $E$, so their resultant is the zero vector."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -51,53 +93,53 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "In the diagram $\\overrightarrow{WX}=\\underset{\\sim}{u}$, $\\overrightarrow{XY}=\\underset{\\sim}{v}$ and $\\overrightarrow{YZ}=\\underset{\\sim}{w}$.\nWrite $\\overrightarrow{WZ}$ in terms of $\\underset{\\sim}{u}$, $\\underset{\\sim}{v}$ and $\\underset{\\sim}{w}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\coordinate (W) at (0,0);\n\\coordinate (X) at (2.8,-0.6);\n\\coordinate (Y) at (4.4,1.4);\n\\coordinate (Z) at (1.6,2.6);\n\\draw[->,thick] (W) -- (X) node[midway,below] {$\\underset{\\sim}{u}$};\n\\draw[->,thick] (X) -- (Y) node[midway,right] {$\\underset{\\sim}{v}$};\n\\draw[->,thick] (Y) -- (Z) node[midway,above right] {$\\underset{\\sim}{w}$};\n\\node[left] at (W) {$W$};\n\\node[below] at (X) {$X$};\n\\node[right] at (Y) {$Y$};\n\\node[above] at (Z) {$Z$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "add-three-vectors",
         "solution_text": "$\\overrightarrow{WZ}$\n$=\\overrightarrow{WX}+\\overrightarrow{XY}+\\overrightarrow{YZ}$\n$=\\underset{\\sim}{u}+\\underset{\\sim}{v}+\\underset{\\sim}{w}$"
       },
-      {
+{
         "question_text": "In the diagram $\\overrightarrow{CD}=\\underset{\\sim}{s}$ and $\\overrightarrow{CE}=\\underset{\\sim}{t}$.\nWrite $\\overrightarrow{ED}$ in terms of $\\underset{\\sim}{s}$ and $\\underset{\\sim}{t}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\coordinate (C) at (0,0);\n\\coordinate (D) at (3.4,0.2);\n\\coordinate (E) at (1.4,2.6);\n\\draw[->,thick] (C) -- (D) node[midway,below] {$\\underset{\\sim}{s}$};\n\\draw[->,thick] (C) -- (E) node[midway,left] {$\\underset{\\sim}{t}$};\n\\node[below left] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "subtract-vectors-graphically",
         "solution_text": "$\\overrightarrow{ED}$\n$=\\overrightarrow{EC}+\\overrightarrow{CD}$\n$=-\\underset{\\sim}{t}+\\underset{\\sim}{s}$\n$=\\underset{\\sim}{s}-\\underset{\\sim}{t}$"
       },
-      {
-        "question_text": "Find $(4\\underset{\\sim}{i}-3\\underset{\\sim}{j})+(-\\underset{\\sim}{i}+7\\underset{\\sim}{j})$.",
-        "structure": "add-column-vectors",
-        "solution_text": "$(4\\underset{\\sim}{i}-3\\underset{\\sim}{j})+(-\\underset{\\sim}{i}+7\\underset{\\sim}{j})$\n$=(4-1)\\underset{\\sim}{i}+(-3+7)\\underset{\\sim}{j}$\n$=3\\underset{\\sim}{i}+4\\underset{\\sim}{j}$"
+{
+        "question_text": "Find $(4\\mathbf{i}-3\\mathbf{j})+(-\\mathbf{i}+7\\mathbf{j})$.",
+        "structure": "add-component-vectors",
+        "solution_text": "$(4\\mathbf{i}-3\\mathbf{j})+(-\\mathbf{i}+7\\mathbf{j})$\n$=(4-1)\\mathbf{i}+(-3+7)\\mathbf{j}$\n$=3\\mathbf{i}+4\\mathbf{j}$"
       },
-      {
+{
         "question_text": "Find $\\begin{pmatrix}-1\\\\5\\end{pmatrix}+\\begin{pmatrix}6\\\\-2\\end{pmatrix}-\\begin{pmatrix}3\\\\3\\end{pmatrix}$.",
         "structure": "add-three-vectors",
         "solution_text": "$\\begin{pmatrix}-1\\\\5\\end{pmatrix}+\\begin{pmatrix}6\\\\-2\\end{pmatrix}-\\begin{pmatrix}3\\\\3\\end{pmatrix}$\n$=\\begin{pmatrix}-1+6-3\\\\5-2-3\\end{pmatrix}$\n$=\\begin{pmatrix}2\\\\0\\end{pmatrix}$"
       },
-      {
+{
         "question_text": "Use the diagram to write $\\overrightarrow{PS}-\\overrightarrow{PQ}$ as a single vector.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (3.0,-0.5);\n\\coordinate (R) at (4.4,1.8);\n\\coordinate (S) at (1.2,2.4);\n\\draw[->,thick] (P) -- (Q);\n\\draw[->,thick] (P) -- (S);\n\\draw (Q) -- (R);\n\\draw (R) -- (S);\n\\node[left] at (P) {$P$};\n\\node[below] at (Q) {$Q$};\n\\node[right] at (R) {$R$};\n\\node[above left] at (S) {$S$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "resultant-point-to-point",
         "solution_text": "$\\overrightarrow{PS}-\\overrightarrow{PQ}$\n$=\\overrightarrow{QP}+\\overrightarrow{PS}$\n$=\\overrightarrow{QS}$"
       },
-      {
-        "question_text": "$\\underset{\\sim}{a}=\\begin{pmatrix}5\\\\-1\\end{pmatrix}$ and $\\underset{\\sim}{a}+\\underset{\\sim}{b}=\\begin{pmatrix}2\\\\4\\end{pmatrix}$.\nFind $\\underset{\\sim}{b}$.",
-        "structure": "find-unknown-vector",
-        "solution_text": "$\\underset{\\sim}{b}$\n$=\\begin{pmatrix}2\\\\4\\end{pmatrix}-\\begin{pmatrix}5\\\\-1\\end{pmatrix}$\n$=\\begin{pmatrix}2-5\\\\4-(-1)\\end{pmatrix}$\n$=\\begin{pmatrix}-3\\\\5\\end{pmatrix}$"
+{
+        "question_text": "The resultant of $\\begin{pmatrix}a\\\\-4\\end{pmatrix}+\\begin{pmatrix}-7\\\\b\\end{pmatrix}$ is $\\begin{pmatrix}-2\\\\9\\end{pmatrix}$.\nFind $a$ and $b$.",
+        "structure": "find-unknown-components-in-vector-sum",
+        "solution_text": "$\\begin{pmatrix}a-7\\\\-4+b\\end{pmatrix}=\\begin{pmatrix}-2\\\\9\\end{pmatrix}$\n$a-7=-2$\n$a=5$\n$-4+b=9$\n$b=13$"
       }
-    ],
+],
     "mastery": [
-      {
+{
         "question_text": "$\\overrightarrow{AB}=\\begin{pmatrix}3\\\\7\\end{pmatrix}$ and $\\overrightarrow{BC}=\\begin{pmatrix}-8\\\\2\\end{pmatrix}$.\nFind $\\overrightarrow{CA}$ as a column vector.",
         "structure": "find-unknown-vector",
         "solution_text": "$\\overrightarrow{AC}$\n$=\\overrightarrow{AB}+\\overrightarrow{BC}$\n$=\\begin{pmatrix}3+(-8)\\\\7+2\\end{pmatrix}$\n$=\\begin{pmatrix}-5\\\\9\\end{pmatrix}$\n$\\overrightarrow{CA}=-\\overrightarrow{AC}$\n$=\\begin{pmatrix}5\\\\-9\\end{pmatrix}$"
       },
-      {
+{
         "question_text": "$ABCD$ is a quadrilateral.\nWrite $\\overrightarrow{AB}+\\overrightarrow{BC}+\\overrightarrow{CD}+\\overrightarrow{DA}$ as a single vector.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.0,-0.4);\n\\coordinate (C) at (4.4,1.8);\n\\coordinate (D) at (1.4,2.6);\n\\draw[->,thick] (A) -- (B);\n\\draw[->,thick] (B) -- (C);\n\\draw[->,thick] (C) -- (D);\n\\draw[->,thick] (D) -- (A);\n\\node[left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[above] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "add-three-vectors",
+        "structure": "sum-vectors-around-closed-path",
         "solution_text": "$\\overrightarrow{AB}+\\overrightarrow{BC}+\\overrightarrow{CD}+\\overrightarrow{DA}$\n$=\\overrightarrow{AC}+\\overrightarrow{CD}+\\overrightarrow{DA}$\n$=\\overrightarrow{AD}+\\overrightarrow{DA}$\n$=\\underset{\\sim}{0}$"
       },
-      {
-        "question_text": "In the diagram $\\overrightarrow{OA}=\\underset{\\sim}{a}$, $\\overrightarrow{OB}=\\underset{\\sim}{b}$ and $\\overrightarrow{OC}=\\underset{\\sim}{c}$.\nWrite $\\overrightarrow{AB}+\\overrightarrow{BC}$ in terms of $\\underset{\\sim}{a}$ and $\\underset{\\sim}{c}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (3.0,0.6);\n\\coordinate (B) at (1.8,2.6);\n\\coordinate (C) at (-1.4,1.8);\n\\draw[->,thick] (O) -- (A) node[midway,below right] {$\\underset{\\sim}{a}$};\n\\draw[->,thick] (O) -- (B) node[midway,right] {$\\underset{\\sim}{b}$};\n\\draw[->,thick] (O) -- (C) node[midway,below left] {$\\underset{\\sim}{c}$};\n\\node[below] at (O) {$O$};\n\\node[right] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[left] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "subtract-vectors-graphically",
-        "solution_text": "$\\overrightarrow{AB}+\\overrightarrow{BC}$\n$=\\overrightarrow{AC}$\n$=\\overrightarrow{AO}+\\overrightarrow{OC}$\n$=-\\underset{\\sim}{a}+\\underset{\\sim}{c}$\n$=\\underset{\\sim}{c}-\\underset{\\sim}{a}$"
+{
+        "question_text": "Prove that $\\overrightarrow{JK}-\\overrightarrow{MK}+\\overrightarrow{HJ}=\\overrightarrow{HM}$. Show your steps clearly and state the laws used.",
+        "structure": "prove-point-to-point-vector-identity",
+        "solution_text": "$\\overrightarrow{JK}-\\overrightarrow{MK}+\\overrightarrow{HJ}$\n$=\\overrightarrow{JK}+\\overrightarrow{KM}+\\overrightarrow{HJ}$ by the negative vector law.\n$=\\overrightarrow{HJ}+\\overrightarrow{JK}+\\overrightarrow{KM}$ by the commutative law.\n$=\\overrightarrow{HK}+\\overrightarrow{KM}$ by the triangle law.\n$=\\overrightarrow{HM}$ by the triangle law."
       }
-    ]
+]
   }
 }

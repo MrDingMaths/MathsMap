@@ -2,110 +2,115 @@
   "skillId": "annuity-lump-sum-and-withdrawals",
   "atomType": "R",
   "theory": {
-    "intro": "An account with an initial principal and regular payments is modelled by splitting it into two parts: the initial **lump sum** compounding as $PV(1+r)^{n}$, and a geometric series of regular payments.",
+    "intro": "An account with an initial principal and regular payments is modelled by splitting it into two parts: the initial **lump sum** compounding as $PV(1+r)^n$, and a geometric series of regular payments. Here $r$ is the decimal interest rate per payment period and $n$ is the number of matching periods. The formulas below apply only to end-of-period payments, with the balance measured immediately after the final payment. Formulas dividing by $r$ require $r>0$.",
     "facts": [
-      "For regular **contributions**, the annuity series is **added**: $FV = PV(1+r)^{n} + a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$.",
-      "For regular **withdrawals**, the annuity series is **subtracted**: $A_{n} = PV(1+r)^{n} - M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$.",
-      "To fund a retirement pension until the balance reaches zero ($A_{n} = 0$), solve for the required initial deposit $PV$.",
-      "If monthly withdrawals exceed interest earned, the balance decreases over time until the fund is fully exhausted."
-    ],
+"For regular **contributions**, the payment series is **added**: $FV=PV(1+r)^n+a\\left[\\dfrac{(1+r)^n-1}{r}\\right]$.",
+"For regular **withdrawals**, the payment series is **subtracted**: $A_n=PV(1+r)^n-M\\left[\\dfrac{(1+r)^n-1}{r}\\right]$.",
+"At $r=0$, contributions give $FV=PV+na$, withdrawals give $A_n=PV-nM$, and funding $n$ withdrawals with zero final balance requires $PV=nM$.",
+"To fund withdrawals until the balance reaches zero after the final withdrawal, form the geometric-series equation with $A_n=0$ and solve for the required initial deposit.",
+"For $PV>0$, $M>0$ and $r>0$, finite exhaustion requires $M>rPV$. If $M=rPV$, the balance remains constant; if $M<rPV$, it grows.",
+"A negative model balance means the fund was exhausted earlier. Only affordable full withdrawals can be made, followed by a partial final withdrawal after that period's interest is added.",
+"Keep full precision throughout working and round only the final monetary answer to cents. In the answers below, $\\operatorname{round}_2(x)$ means evaluate the complete expression $x$ at full precision and then round to two decimal places."
+],
     "steps": [
-      "Compound the initial principal $PV$ for $n$ periods as $PV(1+r)^{n}$.",
-      "Form the geometric series for regular payments and sum it using $\\dfrac{a((1+r)^{n}-1)}{r}$.",
-      "Add the series for contributions, or subtract it for withdrawals, to find the final balance."
-    ]
+"Match the interest rate and number of periods to the payment dates. Compound the initial principal for all $n$ periods as $PV(1+r)^n$.",
+"Form the payment series for the question. The first end-of-period payment grows for $n-1$ periods, the next for $n-2$, and the final payment earns no interest before the balance is measured.",
+"Write the payment terms in increasing powers as $a+a(1+r)+\\cdots+a(1+r)^{n-1}$. This geometric series has first term $a$, common ratio $R=1+r$ and $n$ terms. For $r>0$, its sum is $a\\dfrac{R^n-1}{R-1}$; for $r=0$, its sum is $na$.",
+"Add the series for contributions or subtract it for withdrawals. Solve for the requested balance, initial principal or duration, retaining full precision.",
+"For exhaustion, first check that a finite positive zero-balance boundary exists. A non-integer zero-balance result means its floor counts the full withdrawals, followed by a partial withdrawal at the next period-end. An integer result means exactly that many full withdrawals exhaust the account, with no additional partial withdrawal."
+]
   },
   "practice": {
     "foundation": [
-      {
-        "question_text": "An account begins with an initial deposit of $\\$5000$.\nA further $\\$1000$ is deposited at the end of each year for $6\\text{ years}$.\nThe account earns $6\\%$ p.a. compounded annually.\nFind the value of the account after $6\\text{ years}$.",
+{
+        "question_text": "An account begins with an initial deposit of $\\$5000$.\nA further $\\$1000$ is deposited at the end of each year for $6\\text{ years}$.\nThe account earns $6\\%$ p.a. compounded annually.\nFind the value of the account after $6\\text{ years}$, to the nearest cent.",
         "structure": "lump-sum-with-contributions",
-        "solution_text": "1. **Compound the initial principal $PV$ for $n$ periods as $PV(1+r)^{n}$.**\n$\\text{Lump sum value} = 5000(1.06)^{6} = \\$7092.60$\n2. **Form the geometric series for regular payments and sum it using $\\dfrac{a((1+r)^{n}-1)}{r}$.**\n$\\text{Annuity value} = \\dfrac{1000(1.06^{6}-1)}{0.06} = \\$6975.32$\n3. **Add the series for contributions, or subtract it for withdrawals, to find the final balance.**\n$FV = 7092.60 + 6975.32$\n$= \\$14\\,067.92$"
+        "solution_text": "1. $\\text{Lump sum value}=5000(1.06)^6$.\n2. $S=1000+1000(1.06)+\\cdots+1000(1.06)^5$.\nThere are $6$ terms with common ratio $1.06$, so $S=\\dfrac{1000(1.06^6-1)}{0.06}$.\n3. $FV=5000(1.06)^6+\\dfrac{1000(1.06^6-1)}{0.06}=\\$14\\,067.91$.\nThe last deposit earns no interest; the initial deposit earns interest for all $6$ years."
       },
-      {
-        "question_text": "A retirement fund starts with $\\$50\\,000$ earning $5\\%$ p.a. compounded annually.\nAt the end of each year, $\\$6000$ is withdrawn.\nCalculate the balance remaining in the fund after $5\\text{ years}$.",
+{
+        "question_text": "A retirement fund starts with $\\$50\\,000$ earning $5\\%$ p.a. compounded annually.\nAt the end of each year, $\\$6000$ is withdrawn.\nCalculate the balance remaining in the fund after $5\\text{ years}$, to the nearest cent.",
         "structure": "lump-sum-with-withdrawals",
-        "solution_text": "1. **Compound the initial principal $PV$ for $n$ periods as $PV(1+r)^{n}$.**\n$\\text{Compounded principal} = 50000(1.05)^{5} = \\$63\\,814.08$\n2. **Form the geometric series for regular payments and sum it using $\\dfrac{a((1+r)^{n}-1)}{r}$.**\n$\\text{Withdrawal series} = \\dfrac{6000(1.05^{5}-1)}{0.05} = \\$33\\,153.79$\n3. **Add the series for contributions, or subtract it for withdrawals, to find the final balance.**\n$A_{5} = 63814.08 - 33153.79$\n$= \\$30\\,660.29$"
+        "solution_text": "1. $\\text{Compounded principal}=50000(1.05)^5$.\n2. The withdrawal series is $S=6000+6000(1.05)+\\cdots+6000(1.05)^4$.\nThere are $5$ terms with common ratio $1.05$, so $S=\\dfrac{6000(1.05^5-1)}{0.05}$.\n3. $A_5=50000(1.05)^5-\\dfrac{6000(1.05^5-1)}{0.05}=\\$30\\,660.29$.\nEvaluate the complete difference at full precision, then round to the nearest cent."
       },
-      {
-        "question_text": "An investment account begins with $\\$12\\,000$.\nMonthly contributions of $\\$250$ are made at the end of each month for $4\\text{ years}$ at $4.8\\%$ p.a. compounded monthly.\nFind the balance at the end of $4\\text{ years}$.",
+{
+        "question_text": "An investment account begins with $\\$12\\,000$.\nMonthly contributions of $\\$250$ are made at the end of each month for $4\\text{ years}$ at $4.8\\%$ p.a. compounded monthly.\nFind the balance at the end of $4\\text{ years}$, to the nearest cent.",
         "structure": "lump-sum-with-contributions",
-        "solution_text": "$r = \\dfrac{0.048}{12} = 0.004$, $n = 4 \\times 12 = 48$\n$\\text{Lump sum} = 12000(1.004^{48}) = \\$14\\,533.82$\n$\\text{Annuity series} = \\dfrac{250(1.004^{48}-1)}{0.004} = \\$13\\,194.39$\n$FV = 14533.82 + 13194.39$\n$= \\$27\\,728.21$"
+        "solution_text": "$r=0.048/12=0.004$, $n=4\\times12=48$.\nThe contributions form $S=250+250(1.004)+\\cdots+250(1.004)^{47}$, with $48$ terms and common ratio $1.004$.\n$S=\\dfrac{250(1.004^{48}-1)}{0.004}$.\n$FV=12000(1.004)^{48}+\\dfrac{250(1.004^{48}-1)}{0.004}$.\nThe balance to cents is $\\$27\\,734.89$.\nEvaluate the complete expression before rounding. The first monthly contribution grows for $47$ months and the last for $0$ months."
       },
-      {
-        "question_text": "A person deposits an initial lump sum into an account earning $6\\%$ p.a. compounded monthly in order to withdraw $\\$1000$ at the end of each month for $5\\text{ years}$ ($n=60$), leaving a balance of $\\$0$.\nFind the required initial investment $PV$.",
+{
+        "question_text": "A person deposits an initial lump sum into an account earning $6\\%$ p.a. compounded monthly in order to withdraw $\\$1000$ at the end of each month for $5\\text{ years}$ ($n=60$), leaving a balance of $\\$0$.\nFind the required initial investment $PV$ to the nearest cent.",
         "structure": "solve-initial-lump-sum",
-        "solution_text": "$r = \\dfrac{0.06}{12} = 0.005$, $n = 60$\n$0 = PV(1.005^{60}) - \\dfrac{1000(1.005^{60}-1)}{0.005}$\n$PV(1.005^{60}) = \\dfrac{1000(1.005^{60}-1)}{0.005} = 69770.03$\n$PV = \\dfrac{69770.03}{1.005^{60}}$\n$= \\$51\\,725.56$"
+        "solution_text": "$r=\\dfrac{0.06}{12}=0.005$, $n=60$.\nThe withdrawal series is $S=1000+1000(1.005)+\\cdots+1000(1.005)^{59}$, with $60$ terms and common ratio $1.005$.\n$S=\\dfrac{1000(1.005^{60}-1)}{0.005}$.\n$0=PV(1.005)^{60}-\\dfrac{1000(1.005^{60}-1)}{0.005}$.\n$PV(1.005)^{60}=\\dfrac{1000(1.005^{60}-1)}{0.005}$.\n$PV=\\dfrac{1000(1.005^{60}-1)}{0.005(1.005)^{60}}=\\$51\\,725.56$.\nRetain the unrounded series value when dividing, then round the initial investment to the nearest cent."
       },
-      {
-        "question_text": "A term deposit starts with $\\$20\\,000$ and earns $7.2\\%$ p.a. compounded monthly.\nAt the end of each month, $\\$800$ is withdrawn.\nCalculate the balance remaining after $2\\text{ years}$.",
+{
+        "question_text": "A term deposit starts with $\\$20\\,000$ and earns $7.2\\%$ p.a. compounded monthly.\nAt the end of each month, $\\$800$ is withdrawn.\nCalculate the balance remaining after $2\\text{ years}$, to the nearest cent.",
         "structure": "lump-sum-with-withdrawals",
-        "solution_text": "$r = \\dfrac{0.072}{12} = 0.006$, $n = 2 \\times 12 = 24$\n$\\text{Compounded principal} = 20000(1.006^{24}) = \\$23\\,088.39$\n$\\text{Withdrawals} = \\dfrac{800(1.006^{24}-1)}{0.006} = \\$20\\,589.24$\n$A_{24} = 23088.39 - 20589.24$\n$= \\$2499.15$"
+        "solution_text": "$r=0.072/12=0.006$, $n=24$.\nThe withdrawal series is $S=800+800(1.006)+\\cdots+800(1.006)^{23}$, with common ratio $1.006$ and $24$ terms.\n$A_{24}=20000(1.006)^{24}-\\dfrac{800(1.006^{24}-1)}{0.006}$.\nThe balance to cents is $\\$2502.77$.\nRound the complete difference only. This balance is positive, so all $24$ scheduled withdrawals are affordable."
       },
-      {
-        "question_text": "A fund begins with $\\$15\\,000$ earning $6\\%$ p.a. compounded monthly.\nMonthly withdrawals of $\\$500$ are made.\nHow many whole months will it take for the fund to be completely exhausted?",
+{
+        "question_text": "A fund begins with $\\$15\\,000$ earning $6\\%$ p.a. compounded monthly.\nWithdrawals of $\\$500$ are made at the end of each month.\nIn which month will the fund be completely exhausted, allowing a partial final withdrawal?",
         "structure": "solve-drawdown-duration",
-        "solution_text": "$r = \\dfrac{0.06}{12} = 0.005$\n$0 = 15000(1.005^{n}) - \\dfrac{500(1.005^{n}-1)}{0.005}$\n$0 = 15000(1.005^{n}) - 100000(1.005^{n}-1)$\n$0 = 15000(1.005^{n}) - 100000(1.005^{n}) + 100000$\n$85000(1.005^{n}) = 100000$\n$1.005^{n} = \\dfrac{100000}{85000} = \\dfrac{20}{17}$\n$n = \\dfrac{\\ln(20/17)}{\\ln(1.005)} \\approx 32.59$\n$= 33\\text{ months}$"
+        "solution_text": "$r=0.06/12=0.005$.\nThe withdrawal terms are $500+500(1.005)+\\cdots+500(1.005)^{n-1}$, with common ratio $1.005$.\n$A_n=15000(1.005)^n-\\dfrac{500(1.005^n-1)}{0.005}$.\nSetting $A_n=0$ gives $85000(1.005)^n=100000$, so $n=\\dfrac{\\ln(20/17)}{\\ln(1.005)}$.\nThis lies strictly between $32$ and $33$: $A_{32}>0$ but $A_{33}<0$.\nTherefore $32$ full withdrawals can be made. The fund is exhausted at the end of month $33$ by a partial withdrawal of the remaining balance after that month's interest; $33$ full withdrawals cannot be made."
       },
-      {
-        "question_text": "An endowment fund starts with $\\$80\\,000$ and earns $4\\%$ p.a. compounded annually.\nAt the end of each year, a scholarship grant of $\\$5000$ is awarded from the fund.\nFind the balance after $8\\text{ years}$.",
+{
+        "question_text": "An endowment fund starts with $\\$80\\,000$ and earns $4\\%$ p.a. compounded annually.\nAt the end of each year, a scholarship grant of $\\$5000$ is awarded from the fund.\nFind the balance after $8\\text{ years}$, to the nearest cent.",
         "structure": "lump-sum-with-withdrawals",
-        "solution_text": "$r = 0.04$, $n = 8$\n$\\text{Compounded principal} = 80000(1.04^{8}) = \\$109\\,485.50$\n$\\text{Scholarships} = \\dfrac{5000(1.04^{8}-1)}{0.04} = \\$46\\,071.18$\n$A_{8} = 109485.50 - 46071.18$\n$= \\$63\\,414.32$"
+        "solution_text": "$r=0.04$, $n=8$.\nThe grants form $S=5000+5000(1.04)+\\cdots+5000(1.04)^7$, with $8$ terms and common ratio $1.04$.\n$A_8=80000(1.04)^8-\\dfrac{5000(1.04^8-1)}{0.04}$.\nThe balance to cents is $\\$63\\,414.39$.\nRound only the complete difference. The balance remains positive after all $8$ grants."
       }
-    ],
+],
     "development": [
-      {
-        "question_text": "A retiree invests $\\$150\\,000$ in an annuity earning $5.4\\%$ p.a. compounded monthly.\nShe withdraws $\\$1400$ at the end of each month for living expenses.\nCalculate the balance remaining in the fund after $10\\text{ years}$.",
+{
+        "question_text": "A retiree invests $\\$150\\,000$ in an annuity earning $5.4\\%$ p.a. compounded monthly.\nShe withdraws $\\$1400$ at the end of each month for living expenses.\nCalculate the balance remaining in the fund after $10\\text{ years}$, to the nearest cent.",
         "structure": "lump-sum-with-withdrawals",
-        "solution_text": "$r = \\dfrac{0.054}{12} = 0.0045$, $n = 10 \\times 12 = 120$\n$\\text{Compounded principal} = 150000(1.0045^{120}) = \\$257\\,043.91$\n$\\text{Withdrawals} = \\dfrac{1400(1.0045^{120}-1)}{0.0045} = \\$222\\,027.60$\n$A_{120} = 257043.91 - 222027.60$\n$= \\$35\\,016.31$"
+        "solution_text": "$r=0.054/12=0.0045$, $n=120$.\nThe withdrawals form $S=1400+1400(1.0045)+\\cdots+1400(1.0045)^{119}$, with $120$ terms and common ratio $1.0045$.\n$A_{120}=150000(1.0045)^{120}-\\dfrac{1400(1.0045^{120}-1)}{0.0045}$.\nThe balance to cents is $\\$34\\,978.04$.\nUse full precision for both components. The final balance is positive, so the $120$ full withdrawals can be made."
       },
-      {
-        "question_text": "An investor has $\\$25\\,000$ in savings and adds $\\$400$ at the end of each month into an account paying $6.6\\%$ p.a. compounded monthly.\nFind the total value of the account after $8\\text{ years}$.",
+{
+        "question_text": "An investor has $\\$25\\,000$ in savings and adds $\\$400$ at the end of each month into an account paying $6.6\\%$ p.a. compounded monthly.\nFind the total value of the account after $8\\text{ years}$, to the nearest cent.",
         "structure": "lump-sum-with-contributions",
-        "solution_text": "$r = \\dfrac{0.066}{12} = 0.0055$, $n = 8 \\times 12 = 96$\n$\\text{Compounded principal} = 25000(1.0055^{96}) = \\$42\\,318.06$\n$\\text{Annuity deposits} = \\dfrac{400(1.0055^{96}-1)}{0.0055} = \\$50\\,382.63$\n$FV = 42318.06 + 50382.63$\n$= \\$92\\,700.69$"
+        "solution_text": "$r=0.066/12=0.0055$, $n=96$.\nThe deposits form $S=400+400(1.0055)+\\cdots+400(1.0055)^{95}$, with common ratio $1.0055$ and $96$ terms.\n$FV=25000(1.0055)^{96}+\\dfrac{400(1.0055^{96}-1)}{0.0055}$.\nThe final value to cents is $\\$92\\,733.47$.\nThe initial deposit grows for $96$ months; the first regular deposit grows for $95$ months. Round only the final sum."
       },
-      {
-        "question_text": "Determine the initial principal $P$ required in an account paying $4.8\\%$ p.a. compounded monthly so that a retiree can withdraw $\\$1800$ at the end of each month for $12\\text{ years}$, leaving a final balance of exactly $\\$0$.",
+{
+        "question_text": "Determine the initial principal $P$ required in an account paying $4.8\\%$ p.a. compounded monthly so that a retiree can withdraw $\\$1800$ at the end of each month for $12\\text{ years}$, leaving a final balance of exactly $\\$0$. Give the principal to the nearest cent.",
         "structure": "solve-initial-lump-sum",
-        "solution_text": "$r = \\dfrac{0.048}{12} = 0.004$, $n = 12 \\times 12 = 144$\n$0 = P(1.004^{144}) - \\dfrac{1800(1.004^{144}-1)}{0.004}$\n$P(1.004^{144}) = \\dfrac{1800(1.004^{144}-1)}{0.004} = 348560.85$\n$P = \\dfrac{348560.85}{1.004^{144}}$\n$= \\$196\\,413.91$"
+        "solution_text": "$r=0.048/12=0.004$, $n=144$.\nThe withdrawals form $1800+1800(1.004)+\\cdots+1800(1.004)^{143}$, with $144$ terms and common ratio $1.004$.\n$0=P(1.004)^{144}-\\dfrac{1800(1.004^{144}-1)}{0.004}$.\n$P=\\dfrac{1800(1.004^{144}-1)}{0.004(1.004)^{144}}$.\nThe required principal to cents is $\\$196\\,745.09$.\nSubstituting the unrounded principal gives exactly zero after withdrawal $144$; rounding the principal to cents can leave a small rounding difference."
       },
-      {
-        "question_text": "A person with $\\$100\\,000$ in a fund earning $6\\%$ p.a. compounded monthly withdraws $\\$1200$ at the end of each month. (a) Show that the balance $A_{n}$ after $n$ months is $A_{n} = 100000(1.005)^{n} - 200000(1.005^{n}-1)$. (b) Find the number of whole months until the fund is exhausted.",
+{
+        "question_text": "A person with $\\$100\\,000$ in a fund earning $6\\%$ p.a. compounded monthly withdraws $\\$1200$ at the end of each month. (a) Show that the balance $A_n$ after $n$ months is $A_n=100000(1.005)^n-240000(1.005^n-1)$. (b) Find the number of full monthly withdrawals and the month in which the fund is exhausted by a partial final withdrawal.",
         "structure": "solve-drawdown-duration",
-        "solution_text": "$r = 0.005$\n$A_{n} = 100000(1.005)^{n} - \\dfrac{1200(1.005^{n}-1)}{0.005} = 100000(1.005)^{n} - 240000(1.005^{n}-1)$\nSet $A_{n} = 0$:\n$100000(1.005^{n}) - 240000(1.005^{n}) + 240000 = 0$\n$140000(1.005^{n}) = 240000$\n$1.005^{n} = \\dfrac{240000}{140000} = \\dfrac{12}{7}$\n$n = \\dfrac{\\ln(12/7)}{\\ln(1.005)} \\approx 108.08$\n$= 109\\text{ months}$"
+        "solution_text": "Part (a): $r=0.005$.\nThe withdrawals form $1200+1200(1.005)+\\cdots+1200(1.005)^{n-1}$, with common ratio $1.005$.\n$A_n=100000(1.005)^n-\\dfrac{1200(1.005^n-1)}{0.005}=100000(1.005)^n-240000(1.005^n-1)$.\nPart (b): Set $A_n=0$.\n$140000(1.005)^n=240000$, so $n=\\dfrac{\\ln(12/7)}{\\ln(1.005)}\\approx108.07$.\n$A_{108}>0$ and $A_{109}<0$. Therefore $108$ full withdrawals can be made, followed by a partial final withdrawal at the end of month $109$."
       },
-      {
-        "question_text": "A trust fund begins with $\\$40\\,000$ and receives an additional deposit of $\\$1500$ at the end of each quarter for $6\\text{ years}$.\nIf the fund earns $6\\%$ p.a. compounded quarterly, calculate the total interest earned over the $6\\text{ years}$.",
+{
+        "question_text": "A trust fund begins with $\\$40\\,000$ and receives an additional deposit of $\\$1500$ at the end of each quarter for $6\\text{ years}$.\nIf the fund earns $6\\%$ p.a. compounded quarterly, calculate its final balance to the nearest cent.",
         "structure": "lump-sum-with-contributions",
-        "solution_text": "$r = \\dfrac{0.06}{4} = 0.015$, $n = 6 \\times 4 = 24$\n$\\text{Compounded principal} = 40000(1.015^{24}) = \\$57\\,180.03$\n$\\text{Annuity deposits} = \\dfrac{1500(1.015^{24}-1)}{0.015} = \\$42\\,950.04$\n$FV = 57180.03 + 42950.04 = \\$100\\,130.07$\n$\\text{Total principal deposited} = 40000 + (24 \\times 1500) = \\$76\\,000$\n$\\text{Interest} = 100130.07 - 76000$\n$= \\$24\\,130.07$"
+        "solution_text": "$r=0.06/4=0.015$, $n=6\\times4=24$.\nThe deposits form $S=1500+1500(1.015)+\\cdots+1500(1.015)^{23}$, with $24$ terms and common ratio $1.015$.\n$FV=40000(1.015)^{24}+\\dfrac{1500(1.015^{24}-1)}{0.015}$.\nThe final balance to cents is $\\$100\\,130.39$.\nThe last quarterly deposit earns no interest before the balance is measured. Round only the final sum."
       },
-      {
-        "question_text": "A retiree starts with $\\$200\\,000$ in an investment earning $4.8\\%$ p.a. compounded monthly.\nIf $\\$1600$ is withdrawn at the end of each month, find the balance remaining after $15\\text{ years}$.",
+{
+        "question_text": "A retiree starts with $\\$200\\,000$ in an investment earning $4.8\\%$ p.a. compounded monthly.\nIf $\\$1600$ is withdrawn at the end of each month, can the scheduled withdrawals last for $15\\text{ years}$? Calculate the model balance after $15\\text{ years}$ to the nearest cent and explain what it means.",
         "structure": "lump-sum-with-withdrawals",
-        "solution_text": "$r = \\dfrac{0.048}{12} = 0.004$, $n = 15 \\times 12 = 180$\n$\\text{Compounded principal} = 200000(1.004^{180}) = \\$410\\,311.13$\n$\\text{Withdrawals} = \\dfrac{1600(1.004^{180}-1)}{0.004} = \\$420\\,622.25$\n$A_{180} = 410311.13 - 420622.25$\n$= -\\$10\\,311.12$\nThe fund is exhausted before 15 years, with balance $\\$0.00$."
+        "solution_text": "$r=0.048/12=0.004$, $n=180$.\nThe withdrawal series is $1600+1600(1.004)+\\cdots+1600(1.004)^{179}$, with common ratio $1.004$ and $180$ terms.\n$A_{180}=200000(1.004)^{180}-\\dfrac{1600(1.004^{180}-1)}{0.004}=400000-200000(1.004)^{180}$.\nThe model value to cents is $-\\$10\\,296.96$, which is negative.\nThis assumes the scheduled withdrawals continue after exhaustion. In fact, setting $A_n=0$ gives $n=\\dfrac{\\ln2}{\\ln1.004}$, between $173$ and $174$.\nOnly $173$ full withdrawals can be made, followed by a partial withdrawal in month $174$. The scheduled full withdrawals cannot continue for $15$ years, and the actual remaining balance after exhaustion is $\\$0.00$."
       },
-      {
-        "question_text": "An account starts with an initial balance $P$.\nAn investor adds $\\$3000$ at the end of each year for $10\\text{ years}$ at $7\\%$ p.a. compounded annually.\nIf the target future value is $\\$60\\,000$, find the required initial principal $P$.",
+{
+        "question_text": "An account starts with an initial balance $P$.\nAn investor adds $\\$3000$ at the end of each year for $10\\text{ years}$ at $7\\%$ p.a. compounded annually.\nIf the target future value is $\\$60\\,000$, find the required initial principal $P$ to the nearest cent.",
         "structure": "solve-initial-lump-sum",
-        "solution_text": "$r = 0.07$, $n = 10$\n$\\text{Annuity value} = \\dfrac{3000(1.07^{10}-1)}{0.07} = \\$41\\,449.34$\n$60000 = P(1.07^{10}) + 41449.34$\n$P(1.07^{10}) = 60000 - 41449.34 = 18550.66$\n$P = \\dfrac{18550.66}{1.07^{10}}$\n$= \\$9430.22$"
+        "solution_text": "$r=0.07$, $n=10$.\nThe deposits form $3000+3000(1.07)+\\cdots+3000(1.07)^9$, with $10$ terms and common ratio $1.07$.\n$60000=P(1.07)^{10}+\\dfrac{3000(1.07^{10}-1)}{0.07}$.\n$P=\\dfrac{60000-3000(1.07^{10}-1)/0.07}{1.07^{10}}$.\nThe required principal to cents is $\\$9430.21$.\nRetain full precision before dividing. Substituting the unrounded principal reproduces the target final value."
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "A retiree has a $\\$300\\,000$ superannuation balance earning $6\\%$ p.a. compounded monthly.\nShe wants the fund to provide monthly living payments for $20\\text{ years}$ ($n=240$). (a) Calculate the maximum monthly withdrawal $M$ that fully exhausts the fund at $20\\text{ years}$. (b) If she instead withdraws $\\$2500$ per month, calculate the number of complete months until the fund is fully exhausted.",
+{
+        "question_text": "A retiree has a $\\$300\\,000$ superannuation balance earning $6\\%$ p.a. compounded monthly.\nShe withdraws $\\$2500$ at the end of each month. Calculate how many full monthly withdrawals can be made and the month in which the fund is exhausted by a partial final withdrawal.",
         "structure": "solve-drawdown-duration",
-        "solution_text": "Part (a):\n$r = 0.005$, $n = 240$\n$0 = 300000(1.005^{240}) - \\dfrac{M(1.005^{240}-1)}{0.005}$\n$300000 \\times 3.310204 = M \\times 462.040895$\n$M = \\dfrac{993061.20}{462.040895} = \\$2149.29$\nPart (b):\nSet $M = 2500$:\n$0 = 300000(1.005^{n}) - \\dfrac{2500(1.005^{n}-1)}{0.005} = 300000(1.005^{n}) - 500000(1.005^{n}-1)$\n$200000(1.005^{n}) = 500000$\n$1.005^{n} = 2.5 \\implies n = \\dfrac{\\ln(2.5)}{\\ln(1.005)} \\approx 183.72$\n$= 184\\text{ months}$"
+        "solution_text": "$r=0.005$.\nThe withdrawals form $2500+2500(1.005)+\\cdots+2500(1.005)^{n-1}$, with common ratio $1.005$.\n$A_n=300000(1.005)^n-\\dfrac{2500(1.005^n-1)}{0.005}$.\nSetting $A_n=0$ gives $200000(1.005)^n=500000$.\n$n=\\dfrac{\\ln2.5}{\\ln1.005}\\approx183.72$.\n$A_{183}>0$ and $A_{184}<0$. Therefore $183$ full withdrawals can be made, followed by a partial final withdrawal at the end of month $184$. The fund cannot provide $184$ full withdrawals."
       },
-      {
-        "question_text": "An individual opens a business expansion account with an initial $\\$35\\,000$.\nAt the end of each quarter for $5\\text{ years}$, they make an additional deposit of $\\$2000$.\nThe account earns $6.8\\%$ p.a. compounded quarterly. (a) Calculate the final balance after $5\\text{ years}$. (b) Determine what percentage of the final accumulated balance was generated by compound interest.",
+{
+        "question_text": "An individual opens a business expansion account with an initial $\\$35\\,000$.\nAt the end of each quarter for $5\\text{ years}$, they make an additional deposit of $\\$2000$.\nThe account earns $6.8\\%$ p.a. compounded quarterly. Calculate the final balance after $5\\text{ years}$, to the nearest cent.",
         "structure": "lump-sum-with-contributions",
-        "solution_text": "$r = \\dfrac{0.068}{4} = 0.017$, $n = 20$\n$\\text{Compounded principal} = 35000(1.017^{20}) = \\$49\\,037.38$\n$\\text{Annuity deposits} = \\dfrac{2000(1.017^{20}-1)}{0.017} = \\$47\\,180.52$\n$FV = 49037.38 + 47180.52 = \\$96\\,217.90$\n$\\text{Total deposits} = 35000 + (20 \\times 2000) = \\$75\\,000$\n$\\text{Interest} = 96217.90 - 75000 = \\$21\\,217.90$\n$\\text{Percentage} = \\dfrac{21217.90}{96217.90} \\times 100\\%$\n$= 22.1\\%$"
+        "solution_text": "$r=0.068/4=0.017$, $n=20$.\nThe deposits form $2000+2000(1.017)+\\cdots+2000(1.017)^{19}$, with $20$ terms and common ratio $1.017$.\n$FV=35000(1.017)^{20}+\\dfrac{2000(1.017^{20}-1)}{0.017}$.\nThe final balance to cents is $\\$96\\,202.08$.\nThe initial deposit grows for $20$ quarters and the first regular deposit for $19$. Round only the complete sum."
       },
-      {
-        "question_text": "A family sets up a university living allowance fund with an initial deposit $PV$ in an account earning $5.4\\%$ p.a. compounded monthly.\nThe fund must provide $\\$1200$ at the end of each month for $4\\text{ years}$ ($n=48$) and leave a remaining balance of $\\$10\\,000$ at the end of the $4\\text{ years}$ for graduation expenses.\nCalculate the required initial deposit $PV$.",
+{
+        "question_text": "A family sets up a university living allowance fund with an initial deposit $PV$ in an account earning $5.4\\%$ p.a. compounded monthly.\nThe fund must provide $\\$1200$ at the end of each month for $4\\text{ years}$ ($n=48$), leaving a balance of $\\$0$ after the final withdrawal.\nForm a geometric-series equation and calculate the required initial deposit $PV$ to the nearest cent.",
         "structure": "solve-initial-lump-sum",
-        "solution_text": "$r = \\dfrac{0.054}{12} = 0.0045$, $n = 48$\n$\\text{Withdrawals series} = \\dfrac{1200(1.0045^{48}-1)}{0.0045} = \\$64\\,114.77$\n$10000 = PV(1.0045^{48}) - 64114.77$\n$PV(1.0045^{48}) = 74114.77$\n$PV = \\dfrac{74114.77}{1.0045^{48}}$\n$= \\$59\\,750.80$"
+        "solution_text": "$r=0.054/12=0.0045$, $n=48$.\nThe withdrawals form $1200+1200(1.0045)+\\cdots+1200(1.0045)^{47}$, with $48$ terms and common ratio $1.0045$.\n$0=PV(1.0045)^{48}-\\dfrac{1200(1.0045^{48}-1)}{0.0045}$.\n$PV=\\dfrac{1200(1.0045^{48}-1)}{0.0045(1.0045)^{48}}$.\nThe initial deposit to cents is $\\$51\\,699.78$.\nThe unrounded deposit gives exactly zero after withdrawal $48$. Rounding the deposit to cents can leave a small rounding difference."
       }
-    ]
+]
   }
 }

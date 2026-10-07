@@ -1,0 +1,91 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "area-with-y-axis",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-06T14:03:01.538Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 72.5,
+      "usage": {
+        "input_tokens": 165860,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2900,
+        "reasoning_output_tokens": 127
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\area-with-y-axis\\audit-XiRhsg\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 299.4,
+      "usage": {
+        "input_tokens": 166606,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 16053,
+        "reasoning_output_tokens": 33
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\area-with-y-axis\\repair-qSvroj\\response.raw.txt"
+    },
+    {
+      "name": "review-full",
+      "code": 0,
+      "seconds": 58.7,
+      "usage": {
+        "input_tokens": 166937,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2442,
+        "reasoning_output_tokens": 161
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\area-with-y-axis\\review-full-QuEj0v\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "29ef7fe618019791b9037a873be784a307ed418e68a694577b9bf4896ed5abf8",
+    "quizHash": "0d6beb7a06ea0b0d83f3fcb6a279dcb20644410ad61bf44f579ffdc0a333f213"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 6 Advanced/Integral Calculus 3_Further Areas under Curves.md"
+  ],
+  "images": 110,
+  "omittedImages": 9,
+  "fullReview": {
+    "name": "review-full",
+    "hash": "e910203d9c087a9dcf4bec64afe40adb9a79d6c8d4dda04028954a882af87714",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "quiz.q6: Option index 3 states 12, but its described symmetry mistake gives $2(14/3)=28/3$. Correct the distractor value or its explanation so they agree.",
+    "quiz.q7: Option index 2 states 3, but substituting only the upper limit into the correct primitive gives $-3$. Correct the value or explicitly explain the additional absolute-value step.",
+    "theory: The intro and first fact state unconditionally that area equals $\\int_c^d g(y)\\,dy$, contradicting the subsequent sign rules. Qualify this equality by $c<d$ and $g(y)\\geq0$ throughout; for a left-hand region use the negative integral, and for sign changes add the absolute values of the sub-integrals."
+  ],
+  "repaired": true,
+  "changed": [
+    "quiz.q6",
+    "quiz.q7"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 27,
+  "summary": "Qualified the theory intro and first fact with increasing limits and the correct rules for right-hand, left-hand and sign-changing regions; this rewording removes no item. Corrected the q6 symmetry distractor to $\\dfrac{28}{3}$ and the q7 upper-limit-only distractor to $-3$, preserving all other content.",
+  "reviewSummary": "All 27 items are booklet question types, and every supplied correct answer and numerical distractor evaluates correctly. Repair five boundary descriptions, one misplaced diagram label and one distractor explanation; no worked examples or removals were supplied.",
+  "candidateHash": "e910203d9c087a9dcf4bec64afe40adb9a79d6c8d4dda04028954a882af87714",
+  "findings": [
+    "practice.development[2]: The stated vertical boundary lines do not bound the shaded region. Describe the region between the curve and the $y$-axis from the height of the curve at $x=0$ to its height at $x=3$, retaining the supplied $x$ values for conversion; the upper boundary is $y=9$. Keep the calculation and structure.",
+    "practice.development[3]: Describe the horizontal boundaries as the heights of the curve at $x=0$ and $x=2$, rather than saying the region is bounded by those vertical lines. The shaded region has boundaries $y=1$ and $y=9$; retain the supplied $x$ values, calculation and structure.",
+    "practice.mastery[1]: Describe the horizontal boundaries as the heights of the curve at $x=1$ and $x=3$, rather than the vertical lines themselves. The shaded region is bounded by $y=0$ and $y=8$; retain the supplied $x$ values, calculation and structure.",
+    "practice.mastery[2]: The diagram places $-1$ on the $x$-axis although the curve meets that axis at $(0,0)$. Remove this label or mark the vertex $(-1,1)$ with a correctly positioned coordinate label; keep the working.",
+    "quiz.q4: Describe the region between the curve and the $y$-axis using the heights of the curve at $x=0$ and $x=2$, rather than calling those vertical lines its boundaries. The upper boundary is $y=4$; preserve the conversion task, options and calculation.",
+    "quiz.q8: Describe the horizontal boundaries as the heights of the curve at $x=0$ and $x=2$, rather than those vertical lines; retain the conversion task. In options[1].why, say the mistake reports the signed integral $\\int_0^2(x^3-1)\\,dx=2$, not the area against the $x$-axis: that curve changes sign, and its actual area is $\\dfrac{7}{2}$."
+  ],
+  "finishedAt": "2026-10-06T14:10:12.370Z"
+}
