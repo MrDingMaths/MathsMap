@@ -24,6 +24,22 @@ Published skills need a style pass under this rule. Skills with no off-type item
 
 ## Lean route (5 October 2026)
 
+### Audit first (5 October 2026, user approved)
+
+Workflow repair (7 October 2026, user requested): maintenance now independently rechecks a repaired candidate before evaluating its old review findings. Unchanged accepted outcomes remain hash-bound and scoped rechecks retain their normal coverage checks. Stale solution procedure labels use the existing formatting-only call, which cannot change values or mathematical meaning. Workers must evaluate requested numerical answers/options, derive distractor values, verify boundary cases and consistent givens, and keep necessary theory/solution headings aligned. These changes preserve the independent-review, call-limit, source, diagram and revision-safe publication gates.
+
+Continue all unstarted skills with `node scripts/content/lean-route.mjs run --remaining --publish --concurrency 3`. This selects campaign membership with no lean record or an interrupted `running` record, excludes `survey-bias-ethics`, and leaves all completed, source-blocked, needs-attention and diagram-held records untouched. Such records still require diagnosed scoped repair or actual diagram inspection; the dispatcher never grants acceptance or automatically loops repairs. Do not launch a second campaign dispatcher while this one is active.
+
+The user retained the audit of all 1,056 campaign skills and approved dropping mandatory content expansion and redundant verification. New `worked-examples-2026-09` runs now default to `lean-audit-first-v1` through the same `lean-route.mjs run | publish | status` commands. Existing published skills and historical records remain accepted; do not restart them.
+
+One independent auditor checks the existing theory, every practice item, quiz answer/option/explanation and existing example against the relevant booklet evidence. A passing skill takes one model call and is recorded as `accepted: no change needed`, without rewriting or publication. Missing examples or incomplete example coverage are optional improvement work, unless the omission makes the existing teaching misleading or unusable. Do not block on cosmetic preferences or split usable working lines merely for style.
+
+Only defects receive a bundled repair. The independent reviewer then checks changed/open items, removals and any explicitly affected dependencies, preserving accepted answers for unchanged content. Shared mathematical/theory changes still need the full affected review; a local theory wording correction can be checked alone when the auditor explicitly confirms no item dependencies. Incomplete reviews, unresolved source gaps and wrong options still prevent acceptance. Keep one automatic repair round, mechanical checks and revision-safe publication. A diagram hold applies only to new or changed diagram bodies, including theory diagrams; unchanged diagrams do not require another render because surrounding prose changed.
+
+Passing skills normally use one call; defective skills normally use three (audit, repair, affected review), with a formatting-only call if needed. The user subsequently chose **GPT-6.1 Sol low** for future work on 5 October 2026, superseding the earlier medium requirement; the route sets this for audits, repairs and reviews and records actual usage. Preserve the three-worker limit, complete independent mathematical/source review and the booklet question-type rule. Existing minimum-count validation remains in force. No model calls are required simply to adopt this workflow. Booklet-family batching is a future efficiency option, not an extra stage or a claim of measured savings.
+
+This section supersedes the author-first, mandatory-example-coverage and broad re-review instructions below for new campaign work. Historical author-first records keep their recorded policy. The deliberate `survey-bias-ethics` hold remains untouched.
+
 Approved by the user on 5 October 2026 after the efficiency review below. It replaces the guarded ledger route for new work in this campaign. The ledger code and its historical receipts are unchanged and unused by this route.
 
 Why: over 298 skills the independent reviewer found 245 issues in 10,616 item reviews, while the reading acknowledgments, lineage proofs, render receipts and 680 UI inspections rejected nothing in the final records. Claimed author plus review time was about 6 minutes per skill against about 18 worker-minutes of wall time.

@@ -1,5 +1,7 @@
 # Three-pass imports
 
+Worker-limit precedence (6 October 2026): up to three workers per booklet, shared across sessions using that booklet's canonical run directory. Different booklets may each use three. Reuse the existing run for the same booklet; the lean multi-booklet dispatcher's `--concurrency` is per booklet. This supersedes older limits of three total across booklets and takes effect on the next dispatcher launch without disturbing active leases.
+
 Applies only to new run manifests with `reviewProfile: "textbook-three-pass-v1"`. Never migrate a historical run implicitly. This profile takes precedence over older review-first and bounded-stage gate instructions; established source fidelity and editing conventions still apply.
 
 ## Lean cut (5 October 2026, user-approved)
@@ -34,6 +36,10 @@ node scripts/booklet/lean-review.mjs lint    --run-id RUN --project-file CANDIDA
 node scripts/booklet/lean-review.mjs repair  --run-id RUN --project-file CANDIDATE.json --corrections REPAIR.json [--exports .booklet-work/RUN/export-1]
 ```
 
+When a new source repeats accepted content, content review accepts optional paired inputs `--reuse-project PROJECT_ID_OR_JSON --reuse-run RUN_ID_OR_DIRECTORY`. Copies may record `sourceReview.reuse: {projectId, blockId}` to identify their prior block; otherwise a unique exact content match is required. Reuse compares questions, diagrams, teaching responses and both solutions while ignoring local IDs, question numbering, source references and layout. Mathematical colours remain significant. Prior acceptance must match current content and retain its independent review; legacy workflow records require current artifact bytes and their original dependency binding. An exact independently reviewed input snapshot can establish that only presentation changed. Missing, ambiguous or stale acceptance receives ordinary review.
+
+The new independent reviewer still compares every reused item with the new source, teaching context and classification. It explicitly returns `sourceEquivalent`, `classificationVerified` and `taughtMethodEquivalent`; otherwise it completes ordinary mathematical review with `mathematicsReviewed: true`. Incomplete reuse falls back on the next content call. The existing reviewed table records the prior project/block, acceptance reference and reuse outcome. No prior run is rewritten and no live project or bank dependency is added.
+
 - `content` sends every pending block to one independent Sol 6.1 medium reviewer, up to four consecutive blocks of a section per call and three calls at once, with the block's source page images and the topic's earlier teaching blocks. It applies the returned corrections inside the reviewed blocks, saves, and records each block as passed or failed. A correction whose `original` does not match is rejected and the block is reviewed once more, then marked failed for a person. Rerunning the command resumes; `--retry-failed` sends failed blocks again.
 - `export` runs the existing five-edition draft export and automated checks in the frozen runtime, selects pages with `selectLeanVisualPages`, drops pages whose rendered hash is already accepted, and rasterises the rest into `visual-plan.json`.
 - `visual` sends those pages to an independent visual reviewer, up to eight per call, records a per-page outcome and writes `visual-findings.json`. Repair the findings, export again and rerun `visual`: only pages that changed are inspected.
@@ -66,3 +72,6 @@ The first content assessment for a stable exercise may return `teachingSummary: 
 Later assigned question reviews may carry that summary forward across their own scoped decisions only when the complete source/method context remains identical and every additional artifact is from evidence delivered to that review or its actual result. Preserve the original summary and its artifact list; accumulating later review receipts as new question source dependencies would invalidate already checked content. Source or method changes still invalidate the summary.
 
 The export report records pagination, diagram compilation, printing and selected image generation, plus actual reuse. These are measurements, not promised speed-ups. Retain original source evidence. Keep one correction log and one short completion report: deliverables, substantive corrections, genuine unresolved decisions and actual elapsed time. Do not create additional audit documents to unblock delivery.
+## Occurrence-specific fill review in the lean table
+
+`lean-review.mjs shading --run-id ID --project-file FILE --exports DIR` independently reviews native paint operations against their question context and current final-size PDF pages, without repeating accepted mathematics. Decisions stay in the existing reviewed table, bound to each occurrence, source hash and context hash. Run `check-diagram-shading.mjs --project FILE --lean-reviews RUN/lean-review/reviewed.json` for the same required fill-purpose gate; stale or incomplete decisions fail, and clarity fills require an actual outline-only comparison.

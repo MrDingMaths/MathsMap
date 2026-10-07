@@ -1,5 +1,19 @@
 # MathsMap working conventions
 
+## Booklet worker limit (6 October 2026, user requested)
+
+Allow at most three model workers per booklet import, shared by all sessions using that booklet's canonical run directory. Different booklets have independent three-worker limits; the multi-booklet lean dispatcher uses `--concurrency` per booklet, not across its entire queue. Reuse the existing run for the same booklet rather than creating separate runs to bypass its cap. This supersedes earlier wording requiring three workers total across different booklets. Preserve model settings, ownership, revision-safe publication and historical evidence. Already-running dispatchers adopt the change on their next launch; do not interrupt or remove active leases.
+
+## Windows Codex worker launches (6 October 2026, user requested)
+
+On this machine, launch authorised child Codex CLI workers and scripts that spawn them with `exec_command` using `sandbox_permissions: "require_escalated"` from the first attempt. This includes booklet import/review runners and content campaign runners. The outer Windows sandbox cannot write Codex's startup directory `C:\Users\Admin\.codex\tmp\arg0`; ordinary launches repeatedly fail with `Access is denied. (os error 5)`. The permitted host launch was verified to start without those warnings. Keep each worker's own `--sandbox read-only`, existing worker limits, model settings and revision-safe publication guards. This instruction does not authorise additional workers or unrelated elevated commands.
+
+Do not first launch these runners in the outer sandbox, consume attempts on the known failure, or retry unchanged permissions. If the permitted launch is rejected, stop the affected dispatch and report the approval-review reason. Do not broaden Windows ACLs, disable the sandbox, change `CODEX_HOME`, or clear runtime/session directories as a workaround. Existing chats must follow this rule when next launching workers; preserve completed work and resume only incomplete tasks.
+
+## Future model preference (5 October 2026, user approved)
+
+Use GPT-6.1 Sol (`gpt-6.1-sol`) at **low reasoning** for future MathsMap model workers, including campaign audits, repairs and independent reviews. This supersedes earlier medium/high reasoning instructions for future work. Preserve historical usage records and completed acceptance; do not rerun work to change its model label. Keep existing worker limits and the audit-first scope.
+
 ## Lean imports (5 October 2026)
 
 New three-pass imports follow [the lean cut](docs/booklet-three-pass-import.md#lean-cut-5-october-2026-user-approved). Content review returns only corrections that change printed content, an answer or a skill mapping. Visual review covers the `student`, `short` and `worked` selections; combined editions are inspected only at covers, transitions and flagged pages, and all five editions keep their automated checks. After a visual repair, inspect only repaired pages and neighbours, once. Budget three exports per booklet (early sample, final, one post-repair); a further export needs a named cause. Do not write one-off scripts to retain, rebind or re-record evidence for unchanged content, and do not produce receipts or closeout audits beyond the short completion report. Review and export new imports with [`scripts/booklet/lean-review.mjs`](docs/booklet-three-pass-import.md#lean-review-route-no-ledger-5-october-2026-user-approved) (`content`, `export`, `visual`, `status`): it keeps only a revision-checked save, one reviewed table and one correction log, and replaces bounded-stage tickets, the visual review queue, settlement and final-review records, which stay only for runs already using them. This supersedes conflicting evidence, re-inspection and audit wording below for new imports; independent inventory, the one full content review, the early layout sample, revision-safe saves, Sol 6.1 medium and the three-worker limit remain.
@@ -37,6 +51,10 @@ The initial import reproduces the source's [equation and working alignment](docs
 ## Skill-content campaign: booklet question types (4 October 2026)
 
 For `worked-examples-2026-09`, every practice and quiz item must be a question type found in the source booklet's teaching, guided practice or exercises for that skill. Replace off-booklet types with adapted booklet questions of the same tier; flattened single-part versions are acceptable; list genuine gaps as exceptions for the user. This supersedes "preserve good items" for off-booklet types. See [the rule and its runtime guard](docs/content-campaign-efficient-workflow.md#booklet-question-type-rule-4-october-2026).
+
+## Skill-content campaign: audit first (5 October 2026)
+
+The user retained auditing every skill and approved the [audit-first workflow](docs/content-campaign-efficient-workflow.md#audit-first-5-october-2026-user-approved). New `worked-examples-2026-09` runs audit existing content once before authoring, repair genuine defects only, and independently recheck affected content. Missing worked examples and discretionary rewrites are optional; usable working is not reformatted for taste. Passing skills are recorded without rewriting or publication. Inspect only new/changed diagram bodies. Preserve accepted work, complete answer/option/source review, booklet question types, GPT-6.1 Sol medium, at most three workers and revision-safe publication. This supersedes mandatory example coverage and redundant author/full-review requirements in the earlier lean route for new work; historical records and the deliberate survey hold remain unchanged.
 
 ## Skill-content campaign: lean route (5 October 2026)
 

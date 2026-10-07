@@ -1,5 +1,7 @@
 # Bounded Sol import, review and repair stages
 
+Worker-limit precedence (6 October 2026): allow three workers per booklet, shared across sessions through its canonical run directory. Different booklets have independent limits. The lean multi-booklet dispatcher leases each run separately and applies `--concurrency` per booklet. Reuse the same run for the same booklet; do not create another run to bypass its cap. This supersedes older shared-pool wording across booklets. Active leases stay intact and running dispatchers adopt this on their next launch.
+
 > Future runs with `textbook-three-pass-v1` use [three-pass imports](booklet-three-pass-import.md), which supersede conflicting approval stages and exhaustive visual/audit requirements here. Historical runs keep their existing policy.
 
 This is the stage handoff guide for the existing efficient import workflow. It
