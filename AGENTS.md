@@ -1,5 +1,16 @@
 # MathsMap working conventions
 
+## Remote Studio access (8 October 2026, user requested)
+
+Studio is published at `studio.mrdingmaths.com` through a Cloudflare Tunnel with an Access login; see [remote access](docs/studio-remote-access.md). Keep remote-access code in `remote/` and out of `vite.config.js` and `scripts/`, which are hash-bound by export evidence. Never expose port 5173 directly or remove the Access login while the DNS record exists.
+
+The server on `127.0.0.1:5173` may be serving the user remotely. All sessions (Claude and Codex):
+
+- If a server is already listening on 5173, reuse it. Do not stop or restart it unless the task requires it; say so first if the user may be working remotely.
+- When starting the port-5173 server, use the remote config: `npx vite --config remote/vite.remote.config.js --port 5173 --strictPort --host 127.0.0.1` (the `mathsmap-dev` launch configuration does this). Do not use `npm run dev`, `npm run dev:batch` or plain `npx vite` on 5173: those work locally but make the remote address return "Blocked request". Local behaviour under the remote config is identical.
+- Do not start or stop the tunnel. The user runs `remote/start-remote-studio.cmd`, which starts the tunnel and, only if 5173 is free, the server.
+- Scripts that start their own server on another port (frozen export and verification servers) are unaffected and keep using `vite.config.js`.
+
 ## Booklet worker limit (6 October 2026, user requested)
 
 Allow at most three model workers per booklet import, shared by all sessions using that booklet's canonical run directory. Different booklets have independent three-worker limits; the multi-booklet lean dispatcher uses `--concurrency` per booklet, not across its entire queue. Reuse the existing run for the same booklet rather than creating separate runs to bypass its cap. This supersedes earlier wording requiring three workers total across different booklets. Preserve model settings, ownership, revision-safe publication and historical evidence. Already-running dispatchers adopt the change on their next launch; do not interrupt or remove active leases.
