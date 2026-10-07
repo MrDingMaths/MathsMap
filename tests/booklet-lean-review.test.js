@@ -30,7 +30,9 @@ test('scoped visual repairs keep neighbours, moved content and flags without rer
  assert.equal(plan.student.pending.length,7,'the input plan is unchanged');
  assert.throws(()=>scopeRepairedVisualPlan({project,plan,report,previousPlan,previousReport,state,repairBlocks:['unchanged']}),/outstanding finding/);
  delete state.pages['short:old-short-0'];
- assert.throws(()=>scopeRepairedVisualPlan({project,plan,report,previousPlan,previousReport,state,repairBlocks:['fixed']}),/Finish the previous visual review/);
+ const interrupted=structuredClone(state),resumed=scopeRepairedVisualPlan({project,plan,report,previousPlan,previousReport,state,repairBlocks:['fixed']});
+ assert.deepEqual(resumed.short.pending.map(p=>p.page),[1,2,3,4,5,6,7],'the unfinished page and its neighbours remain pending alongside repairs');
+ assert.deepEqual(state,interrupted,'scoping cannot manufacture acceptance for an interrupted batch');
 });
 test('scoped visual repair consumes moved page sequences and retains new/reflowed bodies and combined boundaries',()=>{
  const editions=['student','short','worked','with-short','with-worked'],project={sections:[{blocks:['fixed','other','tail','new'].map(id=>({id}))}]},plan={},previousPlan={},report={},previousReport={},state={pages:{}};

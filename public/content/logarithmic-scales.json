@@ -2,111 +2,111 @@
   "skillId": "logarithmic-scales",
   "atomType": "Com",
   "theory": {
-        "intro": "A **logarithmic scale** measures a quantity by its order of magnitude: each whole step up the scale means ten times as much, so small numbers describe an enormous range. Real scales built this way are the **Richter scale**, **pH** and **decibels**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.9,0) -- (6.6,0);\n\\foreach \\x in {0,1.9,3.8,5.7} \\draw (\\x,-0.18) -- (\\x,0.18);\n\\node[above] at (0,0.2) {$m$};\n\\node[above] at (1.9,0.2) {$m+1$};\n\\node[above] at (3.8,0.2) {$m+2$};\n\\node[above] at (5.7,0.2) {$m+3$};\n\\node[below] at (0,-0.22) {$A$};\n\\node[below] at (1.9,-0.22) {$10A$};\n\\node[below] at (3.8,-0.22) {$100A$};\n\\node[below] at (5.7,-0.22) {$1000A$};\n\\draw[-{Stealth}] (0.2,-1.25) -- (1.7,-1.25) node[midway, below] {$\\times 10$};\n\\draw[-{Stealth}] (2.1,-1.25) -- (3.6,-1.25) node[midway, below] {$\\times 10$};\n\\draw[-{Stealth}] (4.0,-1.25) -- (5.5,-1.25) node[midway, below] {$\\times 10$};\n\\node[left] at (-1.0,0.45) {magnitude};\n\\node[left] at (-1.0,-0.55) {value};\n\\end{tikzpicture}\n[/tikz]",
+        "intro": "A **logarithmic scale** measures a quantity by its order of magnitude, so small numbers describe an enormous range. On the illustrated positive base-$10$ log scale, each unit increase multiplies the quantity by ten. Related scales include the **Richter scale**, **pH** and **decibels**, but their steps work differently: a pH increase of one divides hydrogen-ion concentration by ten, and a decibel increase of ten multiplies sound intensity by ten.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.9,0) -- (6.6,0);\n\\foreach \\x in {0,1.9,3.8,5.7} \\draw (\\x,-0.18) -- (\\x,0.18);\n\\node[above] at (0,0.2) {$m$};\n\\node[above] at (1.9,0.2) {$m+1$};\n\\node[above] at (3.8,0.2) {$m+2$};\n\\node[above] at (5.7,0.2) {$m+3$};\n\\node[below] at (0,-0.22) {$A$};\n\\node[below] at (1.9,-0.22) {$10A$};\n\\node[below] at (3.8,-0.22) {$100A$};\n\\node[below] at (5.7,-0.22) {$1000A$};\n\\draw[-{Stealth}] (0.2,-1.25) -- (1.7,-1.25) node[midway, below] {$\\times 10$};\n\\draw[-{Stealth}] (2.1,-1.25) -- (3.6,-1.25) node[midway, below] {$\\times 10$};\n\\draw[-{Stealth}] (4.0,-1.25) -- (5.5,-1.25) node[midway, below] {$\\times 10$};\n\\node[left] at (-1.0,0.45) {magnitude};\n\\node[left] at (-1.0,-0.55) {value};\n\\end{tikzpicture}\n[/tikz]",
         "facts": [
-          "**Richter scale:** $M=\\log_{10}A$ gives magnitude $M$ from ground amplitude $A$; reversed, $A=10^{M}$.",
-          "**pH scale:** $pH=-\\log_{10}M$ uses hydrogen-ion concentration $M$ in mol/L; the minus sign makes a higher concentration a lower pH, and reversed, $M=10^{-pH}$.",
-          "**Decibel scale:** $S=10\\log_{10}\\dfrac{I}{I_{0}}$ gives loudness $S$ from $\\dfrac{I}{I_{0}}$, how many times the hearing threshold is exceeded; reversed, $\\dfrac{I}{I_{0}}=10^{S/10}$.",
-          "A difference of $k$ whole magnitudes means one quantity is $10^{k}$ times the other, **not** $k$ times.",
-          "A magnitude-$6$ earthquake has $10^{3}=1000$ times the amplitude of a magnitude-$3$ one."
-        ],
+"**Richter scale:** $M=\\log_{10}A$ gives magnitude $M$ from ground amplitude $A$; reversed, $A=10^{M}$.",
+"**pH scale:** $pH=-\\log_{10}M$ uses hydrogen-ion concentration $M$ in mol/L; the minus sign makes a higher concentration a lower pH, and reversed, $M=10^{-pH}$.",
+"**Decibel scale:** $S=10\\log_{10}\\dfrac{I}{I_{0}}$ gives loudness $S$ from $\\dfrac{I}{I_{0}}$, how many times the hearing threshold is exceeded; reversed, $\\dfrac{I}{I_{0}}=10^{S/10}$.",
+"On the Richter scale or the illustrated positive base-$10$ log scale, a difference of $k$ magnitudes means the larger quantity is $10^{k}$ times the smaller, **not** $k$ times.",
+"A magnitude-$6$ earthquake has $10^{3}=1000$ times the amplitude of a magnitude-$3$ one."
+],
         "steps": [
-          "Substitute the known value into the scale's formula.",
-          "Evaluate the logarithm, or its inverse $10^{(\\dots)}$, to find the unknown.",
-          "To compare two readings, subtract the magnitudes and raise ten to that difference."
-        ]
+"Substitute the known value into the scale's formula.",
+"Evaluate the logarithm, or its inverse $10^{(\\dots)}$, to find the unknown.",
+"To compare two readings, use the scale's formula to find each quantity, then divide in the requested order. For Richter amplitudes use $A=10^{M}$; for sound intensities use $I/I_{0}=10^{S/10}$."
+]
       },
   "practice": {
     "foundation": [
-      {
-        "question_text": "An earthquake has amplitude $A=10^{4}$.\nUsing the Richter formula $M=\\log_{10}A$, find its magnitude $M$.",
-        "structure": "richter-magnitude-from-amplitude",
-        "solution_text": "$M=\\log_{10}A$\n$=\\log_{10}10^{4}$\n$=4$"
+{
+        "question_text": "One earthquake has Richter magnitude $4$ and another has magnitude $2$.\nUsing $A=10^{M}$, how many times greater is the amplitude of the magnitude-$4$ earthquake?",
+        "structure": "richter-difference-ratio",
+        "solution_text": "$\\dfrac{A_{1}}{A_{2}}=\\dfrac{10^{4}}{10^{2}}$\n$=10^{2}$\n$=100$\nSo the amplitude is $100$ times greater."
       },
-      {
-        "question_text": "An earthquake has amplitude $A=1000$.\nFind its Richter magnitude using $M=\\log_{10}A$.",
-        "structure": "richter-magnitude-from-amplitude",
-        "solution_text": "$M=\\log_{10}A$\n$=\\log_{10}1000$\n$=\\log_{10}10^{3}$\n$=3$"
+{
+        "question_text": "One earthquake has Richter magnitude $6$ and another has magnitude $3$.\nUsing $A=10^{M}$, how many times greater is the amplitude of the magnitude-$6$ earthquake?",
+        "structure": "richter-difference-ratio",
+        "solution_text": "$\\dfrac{A_{1}}{A_{2}}=\\dfrac{10^{6}}{10^{3}}$\n$=10^{3}$\n$=1000$\nSo the amplitude is $1000$ times greater."
       },
-      {
+{
         "question_text": "A solution has hydrogen-ion concentration $M=10^{-3}$ mol/L.\nUsing $pH=-\\log_{10}M$, find its pH.",
         "structure": "ph-from-concentration",
         "solution_text": "$pH=-\\log_{10}M$\n$=-\\log_{10}10^{-3}$\n$=-(-3)$\n$=3$"
       },
-      {
+{
         "question_text": "A solution has hydrogen-ion concentration $M=10^{-5}$ mol/L.\nFind its pH using $pH=-\\log_{10}M$.",
         "structure": "ph-from-concentration",
         "solution_text": "$pH=-\\log_{10}M$\n$=-\\log_{10}10^{-5}$\n$=-(-5)$\n$=5$"
       },
-      {
-        "question_text": "A sound is $10^{6}$ times as intense as the threshold of hearing.\nUsing $S=10\\log_{10}\\dfrac{I}{I_{0}}$ with $\\dfrac{I}{I_{0}}=10^{6}$, find its loudness $S$ in decibels.",
-        "structure": "decibel-level-from-ratio",
-        "solution_text": "$S=10\\log_{10}\\dfrac{I}{I_{0}}$\n$=10\\log_{10}10^{6}$\n$=10\\times6$\n$=60$ dB"
+{
+        "question_text": "A sound measures $40$ dB.\nUsing $\\dfrac{I}{I_{0}}=10^{S/10}$, how many times as intense is it as the threshold of human hearing?",
+        "structure": "intensity-ratio-from-decibels",
+        "solution_text": "$\\dfrac{I}{I_{0}}=10^{S/10}$\n$=10^{40/10}$\n$=10^{4}$\n$=10\\,000$\nSo the sound is $10\\,000$ times as intense as the hearing threshold."
       },
-      {
-        "question_text": "On a base-$10$ logarithmic scale, a quantity has magnitude $4$.\nEach whole step means ten times as much.\nWhat is the actual value of the quantity?",
-        "structure": "richter-amplitude-from-magnitude",
-        "solution_text": "value $=10^{4}$\n$=10\\,000$"
+{
+        "question_text": "A solution has hydrogen-ion concentration $M=10^{-7}$ mol/L.\nUsing $pH=-\\log_{10}M$, find its pH.",
+        "structure": "ph-from-concentration",
+        "solution_text": "$pH=-\\log_{10}M$\n$=-\\log_{10}10^{-7}$\n$=-(-7)$\n$=7$"
       },
-      {
+{
         "question_text": "One earthquake has Richter magnitude $5$ and another has magnitude $3$.\nOn the Richter scale each whole step is ten times the amplitude.\nHow many times greater is the amplitude of the magnitude-$5$ earthquake?",
         "structure": "richter-difference-ratio",
         "solution_text": "$A=10^{M}$\n$\\dfrac{A_{1}}{A_{2}}=\\dfrac{10^{5}}{10^{3}}$\n$=10^{2}$\n$=100$\nSo the amplitude is $100$ times greater."
       }
-    ],
+],
     "development": [
-      {
-        "question_text": "An earthquake has Richter magnitude $M=6$.\nRearrange $M=\\log_{10}A$ to make $A$ the subject, then find the amplitude $A$.",
-        "structure": "richter-amplitude-from-magnitude",
-        "solution_text": "$M=\\log_{10}A$\n$A=10^{M}$\n$=10^{6}$\n$=1\\,000\\,000$"
+{
+        "question_text": "Earthquake magnitude $M$ and ground amplitude $A$ are related by $M=\\log_{10}A$.\nRewrite the formula with $A$ as the subject.",
+        "structure": "richter-amplitude-formula-rearrangement",
+        "solution_text": "$M=\\log_{10}A$\nWriting in index form gives $A=10^{M}$."
       },
-      {
+{
         "question_text": "A solution has $pH=2$.\nRearrange $pH=-\\log_{10}M$ to make $M$ the subject, then find the hydrogen-ion concentration $M$.",
         "structure": "concentration-from-ph",
         "solution_text": "$pH=-\\log_{10}M$\n$M=10^{-pH}$\n$=10^{-2}$\n$=0.01$ mol/L"
       },
-      {
+{
         "question_text": "How many times more intense is a sound of $80$ dB than a sound of $50$ dB?\nUse $\\dfrac{I}{I_{0}}=10^{S/10}$.",
         "structure": "decibel-ratio",
         "solution_text": "For $80$ dB: $\\dfrac{I}{I_{0}}=10^{80/10}=10^{8}$.\nFor $50$ dB: $\\dfrac{I}{I_{0}}=10^{50/10}=10^{5}$.\n$\\dfrac{10^{8}}{10^{5}}=10^{3}$\n$=1000$\nSo it is $1000$ times more intense."
       },
-      {
+{
         "question_text": "How many times greater is the amplitude of a magnitude-$7$ earthquake than a magnitude-$4$ earthquake?\nUse $A=10^{M}$.",
         "structure": "richter-difference-ratio",
         "solution_text": "$\\dfrac{A_{1}}{A_{2}}=\\dfrac{10^{7}}{10^{4}}$\n$=10^{3}$\n$=1000$\nSo the amplitude is $1000$ times greater."
       },
-      {
+{
         "question_text": "The column graph shows the Richter magnitude of five earthquakes recorded in 2022.\nHow many times greater was the ground amplitude at Chile than at Fiji?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (0,0)--(0,9.4);\n\\draw[->] (0,0)--(13.5,0);\n\\foreach \\y in {1,2,3,4,5,6,7,8} {\\draw (-0.2,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\draw (0.8,0) rectangle (2.3,7);\n\\draw (3.1,0) rectangle (4.6,5);\n\\draw (5.4,0) rectangle (6.9,6);\n\\draw (7.7,0) rectangle (9.2,3);\n\\draw (10.0,0) rectangle (11.5,4);\n\\node[below,font=\\scriptsize] at (1.55,0) {Chile};\n\\node[below,font=\\scriptsize] at (3.85,0) {Nepal};\n\\node[below,font=\\scriptsize] at (6.15,0) {Peru};\n\\node[below,font=\\scriptsize] at (8.45,0) {Fiji};\n\\node[below,font=\\scriptsize] at (10.75,0) {Crete};\n\\node[rotate=90] at (-1.4,4.5) {Magnitude};\n\\node[below] at (6.15,-1.0) {Earthquake};\n\\node at (6.15,9.1) {Richter magnitudes};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "richter-bar-chart-read",
         "solution_text": "From the graph, Chile has magnitude $7$ and Fiji has magnitude $3$.\n$\\dfrac{A_{1}}{A_{2}}=\\dfrac{10^{7}}{10^{3}}$\n$=10^{4}$\n$=10\\,000$\nSo the amplitude was $10\\,000$ times greater."
       },
-      {
-        "question_text": "Solution A has $pH=4$ and solution B has $pH=8$.\nHow many times greater is the hydrogen-ion concentration in solution A?\nUse $M=10^{-pH}$.",
-        "structure": "ph-concentration-ratio",
-        "solution_text": "For A: $M=10^{-4}$.\nFor B: $M=10^{-8}$.\n$\\dfrac{10^{-4}}{10^{-8}}=10^{4}$\n$=10\\,000$\nSo solution A is $10\\,000$ times more concentrated."
+{
+        "question_text": "A solution has $pH=3.4$.\nUsing $M=10^{-pH}$, find its hydrogen-ion concentration in mol/L.\nGive your answer to $2$ significant figures.",
+        "structure": "concentration-from-ph",
+        "solution_text": "$M=10^{-pH}$\n$=10^{-3.4}$\n$\\approx0.000398107$\nSo the concentration is $0.00040$ mol/L to $2$ significant figures."
       },
-      {
+{
         "question_text": "On a base-$10$ logarithmic scale, the volume of Lake Victoria has magnitude $8$ and Lake Anne has magnitude $5$.\nLake Anne holds $500\\,000$ ML of water.\nHow much water does Lake Victoria hold?",
         "structure": "order-of-magnitude-scaled-value",
         "solution_text": "Each whole step is ten times as much, and the magnitudes differ by $8-5=3$.\nSo Lake Victoria holds $10^{3}=1000$ times as much.\n$500\\,000\\times1000=500\\,000\\,000$ ML"
       }
-    ],
+],
     "mastery": [
-      {
+{
         "question_text": "A magnitude-$8.6$ earthquake struck offshore, while an inland tremor measured $3.2$.\nHow many times greater was the ground amplitude of the larger quake?\nGive your answer to the nearest whole number.",
         "structure": "richter-difference-ratio",
         "solution_text": "$\\dfrac{A_{1}}{A_{2}}=\\dfrac{10^{8.6}}{10^{3.2}}$\n$=10^{8.6-3.2}$\n$=10^{5.4}$\n$\\approx251\\,189$\nSo the amplitude was about $251\\,189$ times greater."
       },
-      {
+{
         "question_text": "A jet engine measures $140$ dB and a motorcycle measures $80$ dB.\nHow many times more intense is the sound of the jet engine?\nUse $\\dfrac{I}{I_{0}}=10^{S/10}$.",
         "structure": "decibel-ratio",
         "solution_text": "Jet: $\\dfrac{I}{I_{0}}=10^{140/10}=10^{14}$.\nMotorcycle: $\\dfrac{I}{I_{0}}=10^{80/10}=10^{8}$.\n$\\dfrac{10^{14}}{10^{8}}=10^{6}$\n$=1\\,000\\,000$\nSo the jet is $1\\,000\\,000$ times more intense."
       },
-      {
-        "question_text": "Solution X has $pH=3$ and solution Y has $pH=6$.\nRemembering the minus sign in $pH=-\\log_{10}M$, how many times greater is the hydrogen-ion concentration in solution X?",
-        "structure": "ph-concentration-ratio",
-        "solution_text": "$M=10^{-pH}$\nFor X: $M=10^{-3}$.\nFor Y: $M=10^{-6}$.\n$\\dfrac{10^{-3}}{10^{-6}}=10^{3}$\n$=1000$\nThe lower pH means the higher concentration, so solution X is $1000$ times more concentrated."
+{
+        "question_text": "A solution has $pH=9.4$.\nUsing $pH=-\\log_{10}M$, find its hydrogen-ion concentration in mol/L.\nGive your answer to $3$ significant figures.",
+        "structure": "concentration-from-ph",
+        "solution_text": "$pH=-\\log_{10}M$\n$\\log_{10}M=-pH$\n$M=10^{-pH}$\n$=10^{-9.4}$\n$\\approx3.9810717\\times10^{-10}$\nSo the concentration is $3.98\\times10^{-10}$ mol/L to $3$ significant figures."
       }
-    ]
+]
   }
 }

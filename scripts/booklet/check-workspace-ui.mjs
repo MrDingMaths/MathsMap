@@ -80,7 +80,7 @@ try{
  await page.reload();await settle();
  await page.setViewportSize({width:800,height:700});await settle();await page.screenshot({path:out+'/workspace-narrow.png'});
  await page.setViewportSize({width:1366,height:768});
- await page.locator('.toolbar-actions .menu>summary').filter({hasText:'Tools'}).click();await page.getByRole('button',{name:'Assembly',exact:true}).click();
+ await page.locator('.toolbar-actions .menu>summary').filter({hasText:/^File/}).click();await page.locator('.project-toolbar .submenu>summary').click();await page.getByRole('button',{name:'Assembly',exact:true}).click();
  await page.getByRole('combobox',{name:'Booklet type',exact:true}).selectOption('revision');await page.getByRole('button',{name:'Choose question...',exact:true}).first().click();await page.getByRole('dialog',{name:'Choose a revision question',exact:true}).waitFor();await page.getByRole('dialog',{name:'Choose a revision question',exact:true}).getByRole('button',{name:'Cancel',exact:true}).click();checks.push('assembly reuses the question preview picker');
  assert.equal(errors.length,0,errors.join('\n'));
  fs.writeFileSync(out+'/ui-result.json',JSON.stringify({checks,writes:writes.length,errors},null,2));console.log(JSON.stringify({checks,writes:writes.length,errors}));

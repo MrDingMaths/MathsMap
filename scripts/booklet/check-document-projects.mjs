@@ -56,7 +56,7 @@ try{for(const [id,initial] of [...records]){
  assert.deepEqual(fieldValue(records.get(id),anchor),originalValue);
  // Panels never change the physical paper width.
  const width=await page.locator('.flow-paper').evaluate(e=>e.getBoundingClientRect().width);
- await page.locator('.document-toolbar summary').filter({hasText:'Comments'}).click();await page.getByRole('button',{name:'Show comments',exact:true}).click();assert.equal(await page.locator('.flow-paper').evaluate(e=>e.getBoundingClientRect().width),width);await page.getByRole('button',{name:'Close panel',exact:true}).click();
+ await page.locator('.project-toolbar summary').filter({hasText:'Comments'}).click();await page.getByRole('button',{name:'Show comments',exact:true}).click();assert.equal(await page.locator('.flow-paper').evaluate(e=>e.getBoundingClientRect().width),width);await page.getByRole('button',{name:'Close panel',exact:true}).click();
  await page.getByRole('button',{name:'Spacing',exact:true}).click();await page.getByRole('button',{name:'Close panel',exact:true}).click();
  const editions=[];
  for(const edition of smoke?['student','short','worked','with-short','with-worked']:['student','short','worked']){

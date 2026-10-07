@@ -9,7 +9,7 @@ const contextContent=value=>Array.isArray(value)?value.map(contextContent):value
 // change the purpose of an unchanged fill, so source hashes alone are insufficient.
 export function shadingContextHash(data,location){
  const contexts=[];let node=data;
- const collect=()=>{if(!node||typeof node!=='object')return;for(const k of ['prompt','question_text','title','alt'])if(node[k]!=null)contexts.push(contextContent(node[k]));if(node.format==='maths-editor-document-v1')contexts.push(contextContent(node));};
+ const collect=()=>{if(!node||typeof node!=='object')return;for(const k of ['prompt','question_text','title','alt'])if(node[k]!=null)contexts.push(contextContent(node[k]));if(node.format==='maths-editor-document-v1')contexts.push(contextContent(node));if(node.format==='image'||node.type==='image')contexts.push(Object.fromEntries(['src','widthMm','width','sourceRegion','retentionReason'].filter(k=>node[k]!=null).map(k=>[k,contextContent(node[k])])));};
  collect();for(const key of location.split('/').filter(Boolean)){node=node?.[key];collect();}
  return solidHash(JSON.stringify(contexts));
 }

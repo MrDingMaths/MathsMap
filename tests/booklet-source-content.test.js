@@ -7,9 +7,51 @@ import {inspectContentCoverage,contentVerificationKey,layoutVerificationKey,cont
 import {applySourceCorrection} from '../src/lib/booklet-source-corrections.js';
 import {flowEditionSections,flowNumbers} from '../src/lib/booklet-flow.js';
 import {makeFlowPage,paginateFlow} from '../src/lib/booklet-pagination.js';
+import {createHash} from 'node:crypto';
+import {questionReviewContent} from '../src/lib/booklet-review-profile.js';
 const question=(id,score)=>({id,type:'question',sourceRefs:[{pageNumber:2}],flow:{localDifficulty:{reasoningScore:score,difficulty:'Foundation'}},content:{id:id+'-root',type:'question',prompt:'Simplify $x^2x^3$.',children:[],answer:{short:'$x^5$',worked:'$x^{2+3}=x^5$'}}});
 const candidate=()=>({title:'New topic',topics:[{id:'t',title:'Powers'}],sections:[{id:'s',title:'Practice',role:'practice',phase:'practice',topicId:'t',blocks:[question('a',30),question('b',10)]}],sourceInventory:{version:1,pages:[{pageNumber:2,inventoried:true}],entries:[{id:'src-a',pageNumber:2,kind:'question',targetId:'a'},{id:'src-b',pageNumber:2,kind:'question',targetId:'b'}]}});
 const imported=()=>contentProject(candidate(),{runId:'run',projectId:'new',selectedPages:[2]});
+
+test('lean coverage resolves historical ambiguity only with a current independent block review',async()=>{
+ const p=imported();p.source.reviewProfile='textbook-three-pass-v1';
+ p.source.inventory.entries[0].ambiguous='The original source answer needs correction.';
+ const block=p.sections.flatMap(s=>s.blocks).find(b=>b.id==='a');
+ block.content.children=[{id:'derived-response',type:'part',prompt:'Explain the index rule.',answer:{short:'Add the indices.',worked:'For the same base, add the indices.'}}];
+ const reviewedQuestions={a:{outcome:'passed',hash:createHash('sha256').update(JSON.stringify(questionReviewContent(block))).digest('hex')}};
+ assert.ok((await inspectContentCoverage(p)).issues.some(i=>i.kind==='ambiguous'));
+ assert.equal((await inspectContentCoverage(p,{reviewedQuestions})).complete,true);
+ block.content.children[0].answer.short='Multiply the indices.';
+ const stale=await inspectContentCoverage(p,{reviewedQuestions});
+ assert.ok(stale.issues.some(i=>i.kind==='ambiguous'));
+ assert.ok(stale.issues.some(i=>i.kind==='unmapped-content'));
+});
+
+test('lean review never hides missing answers, missing source targets or unrelated duplicate mappings',async()=>{
+ const p=imported();p.source.reviewProfile='textbook-three-pass-v1';
+ const block=p.sections.flatMap(s=>s.blocks).find(b=>b.id==='a');
+ delete block.content.answer.short;
+ const reviewedQuestions={a:{outcome:'passed',hash:createHash('sha256').update(JSON.stringify(questionReviewContent(block))).digest('hex')}};
+ p.source.inventory.entries.push({...p.source.inventory.entries[0],id:'duplicate-a'});
+ p.source.inventory.entries.push({id:'missing-source',pageNumber:2,kind:'question',targetId:'absent'});
+ const result=await inspectContentCoverage(p,{reviewedQuestions});
+ for(const kind of ['missing-answer','missing','duplicate'])assert.ok(result.issues.some(i=>i.kind===kind),kind);
+});
+
+test('a reviewed empty instruction identity requires its exact mapped printed source text',async()=>{
+ const p=imported();p.source.reviewProfile='textbook-three-pass-v1';
+ const instruction={id:'printed-instruction',type:'rich-text',content:'Read every question.',sourcePageNumber:2,sourceRefs:[{pageNumber:2}]};
+ const alias={id:'source-instruction',type:'rich-text',content:'',sourcePageNumber:2,sourceRefs:[{pageNumber:2}],sourceReview:{responses:[{targetId:'source-instruction',kind:'none'}]}};
+ p.sections[0].blocks.push(instruction,alias);
+ p.source.inventory.entries.push({id:alias.id,kind:'teaching',pageNumber:2,targetId:instruction.id,field:'/content',description:instruction.content});
+ const reviewedQuestions={[alias.id]:{outcome:'passed',hash:createHash('sha256').update(JSON.stringify(questionReviewContent(alias))).digest('hex')}};
+ assert.equal((await inspectContentCoverage(p,{reviewedQuestions})).complete,true);
+ instruction.content='Different instructions.';
+ assert.ok((await inspectContentCoverage(p,{reviewedQuestions})).issues.some(i=>i.kind==='unmapped-content'&&i.targetId===alias.id));
+ instruction.content='Read every question.';alias.content='Extra printable content.';
+ reviewedQuestions[alias.id].hash=createHash('sha256').update(JSON.stringify(questionReviewContent(alias))).digest('hex');
+ assert.ok((await inspectContentCoverage(p,{reviewedQuestions})).issues.some(i=>i.kind==='unmapped-content'&&i.targetId===alias.id));
+});
 
 test('compact coalescing preserves source section identities including empty difficulty headings',async()=>{
   const c=candidate();c.settings={questionOrder:'source'};

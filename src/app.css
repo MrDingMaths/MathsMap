@@ -129,6 +129,11 @@ a:hover { text-decoration: underline; }
 /* Inline KaTeX should match the surrounding text size and never force scrollbars. */
 .katex { font-size: 1.05em; }
 .katex-display { margin: 0.4em 0; }
+/* KaTeX's clipped screen-reader layer can leave off-page glyph bounds in
+   Chromium PDFs. Print the visible maths layer; retain MathML on screen. */
+@media print {
+  .project-print .katex-mathml { display: none !important; }
+}
 
 /* Display font is loaded through weight 600; keep heading weights within that range. */
 h1, h2, h3 { margin: 0 0 0.4em; line-height: 1.15; font-weight: 600; letter-spacing: -0.01em; }

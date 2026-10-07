@@ -2,144 +2,144 @@
   "skillId": "derivative-of-inverse-function",
   "atomType": "R",
   "theory": {
-    "intro": "The graph of $y=f^{-1}(x)$ is the graph of $y=f(x)$ reflected in the line $y=x$. Reflecting a tangent of gradient $m$ produces a tangent of gradient $\\dfrac{1}{m}$, so the two derivatives are reciprocals.",
+    "intro": "The graph of $y=f^{-1}(x)$ is the graph of an existing one-to-one branch of $y=f(x)$ reflected in the line $y=x$. At a corresponding interior point where the original derivative is finite and nonzero, reflecting a tangent of gradient $m$ produces a tangent of gradient $\\dfrac{1}{m}$, so the two derivatives are reciprocals.",
     "facts": [
-      "If $f(a)=b$ then $f^{-1}(b)=a$, so the point $(a,b)$ on $f$ becomes the point $(b,a)$ on $f^{-1}$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n             xmin=-3.6, xmax=3.6, ymin=-3.4, ymax=3.4,\n             xtick=\\empty, ytick=\\empty, samples=100, clip=false,\n             axis line style={-{Stealth}}]\n\\addplot[thick, <->, domain=-2.1:2.1] {x*x*x/3};\n\\addplot[thick, <->, domain=-2.1:2.1, variable=\\t] ({t*t*t/3}, {t});\n\\addplot[dashed, domain=-3:3] {x};\n\\addplot[only marks, mark=*] coordinates {(1.5,1.125) (1.125,1.5)};\n\\addplot[dashed] coordinates {(1.5,1.125) (1.125,1.5)};\n\\node[below right] at (axis cs:1.5,1.125) {$(a,b)$};\n\\node[above left] at (axis cs:1.125,1.5) {$(b,a)$};\n\\node[font=\\small] at (axis cs:1.15,3.12) {$y=f(x)$};\n\\node[font=\\small] at (axis cs:2.9,1.45) {$y=f^{-1}(x)$};\n\\node[fill=white, inner sep=1pt] at (axis cs:-2.75,-2.75) {$y=x$};\n\\end{axis}\n\\end{tikzpicture}[/tikz]",
-      "The rule is $\\left(f^{-1}\\right)'(x)=\\dfrac{1}{f'\\left(f^{-1}(x)\\right)}$, usually used as $\\left(f^{-1}\\right)'(b)=\\dfrac{1}{f'(a)}$.",
-      "Evaluate $f'$ at $a$, the input of $f$, and never at $b$.",
-      "In Leibniz notation the same rule reads $\\dfrac{dy}{dx}=\\dfrac{1}{dx/dy}$, where $y$ is the inverse function.",
-      "If $f'(a)=0$ the inverse has a vertical tangent at $(b,a)$, so $\\left(f^{-1}\\right)'(b)$ is undefined.",
-      "The inverse exists only where $f$ is one-to-one, so restrict the domain of $f$ when necessary.",
-      "The domain of $f^{-1}$ is the range of $f$, and outside that domain no gradient exists.",
-      "You may instead find $f^{-1}(x)$ explicitly and differentiate it directly; the two methods agree."
-    ],
+"If $f(a)=b$ then $f^{-1}(b)=a$, so the point $(a,b)$ on $f$ becomes the point $(b,a)$ on $f^{-1}$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n             xmin=-3.6, xmax=3.6, ymin=-3.4, ymax=3.4,\n             xtick=\\empty, ytick=\\empty, samples=100, clip=false,\n             axis line style={-{Stealth}}]\n\\addplot[thick, <->, domain=-2.1:2.1] {x*x*x/3};\n\\addplot[thick, <->, domain=-2.1:2.1, variable=\\t] ({t*t*t/3}, {t});\n\\addplot[dashed, domain=-3:3] {x};\n\\addplot[only marks, mark=*] coordinates {(1.5,1.125) (1.125,1.5)};\n\\addplot[dashed] coordinates {(1.5,1.125) (1.125,1.5)};\n\\node[below right] at (axis cs:1.5,1.125) {$(a,b)$};\n\\node[above left] at (axis cs:1.125,1.5) {$(b,a)$};\n\\node[font=\\small] at (axis cs:1.15,3.12) {$y=f(x)$};\n\\node[font=\\small] at (axis cs:2.9,1.45) {$y=f^{-1}(x)$};\n\\node[fill=white, inner sep=1pt] at (axis cs:-2.75,-2.75) {$y=x$};\n\\end{axis}\n\\end{tikzpicture}[/tikz]",
+"For an existing inverse branch, at a corresponding interior point where $f'$ is finite and nonzero, the rule is $\\left(f^{-1}\\right)'(x)=\\dfrac{1}{f'\\left(f^{-1}(x)\\right)}$, usually used as $\\left(f^{-1}\\right)'(b)=\\dfrac{1}{f'(a)}$.",
+"Evaluate $f'$ at $a$, the input of $f$, and never at $b$.",
+"Under the same conditions, in Leibniz notation the rule reads $\\dfrac{dy}{dx}=\\dfrac{1}{dx/dy}$, where $y$ is the inverse function.",
+"If a differentiable one-to-one branch has a horizontal tangent at $(a,b)$, its reflection has a vertical tangent at $(b,a)$, so no finite inverse derivative exists there. This can be an endpoint tangent; $f'(a)=0$ alone does not ensure an inverse branch exists.",
+"The inverse exists only where $f$ is one-to-one, so restrict the domain of $f$ when necessary.",
+"The domain of $f^{-1}$ is the range of $f$, and outside that domain no gradient exists.",
+"You may instead find $f^{-1}(x)$ explicitly and differentiate it directly; the two methods agree where the reciprocal rule applies."
+],
     "steps": [
-      "Identify the pair: find the value $a$ with $f(a)=b$, so that $f^{-1}(b)=a$.",
-      "Differentiate $f$ to get $f'(x)$.",
-      "Evaluate $f'(a)$ and take its reciprocal: $\\left(f^{-1}\\right)'(b)=\\dfrac{1}{f'(a)}$."
-    ]
+"Identify the pair: find the value $a$ with $f(a)=b$, so that $f^{-1}(b)=a$.",
+"Differentiate $f$ to get $f'(x)$.",
+"Check that the inverse branch exists and $a$ is an interior point with a finite nonzero derivative, then evaluate $f'(a)$ and take its reciprocal: $\\left(f^{-1}\\right)'(b)=\\dfrac{1}{f'(a)}$. Treat endpoints and zero derivatives separately."
+]
   },
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Let $f(x)=3x+4$.\nFind $f^{-1}(x)$ and hence $\\left(f^{-1}\\right)'(x)$.",
         "structure": "inverse-derivative-explicit",
         "solution_text": "$y=3x+4$\nSwapping $x$ and $y$: $x=3y+4$\n$y=\\dfrac{x-4}{3}$\n$f^{-1}(x)=\\dfrac{x-4}{3}$\n$\\left(f^{-1}\\right)'(x)=\\dfrac{1}{3}$"
       },
-      {
+{
         "question_text": "Let $f(x)=x^{5}-2$.\nFind $f^{-1}(x)$ and hence $\\left(f^{-1}\\right)'(x)$.",
         "structure": "inverse-derivative-explicit",
-        "solution_text": "$y=x^{5}-2$\nSwapping $x$ and $y$: $x=y^{5}-2$\n$y=(x+2)^{\\frac{1}{5}}$\n$f^{-1}(x)=(x+2)^{\\frac{1}{5}}$\n$\\left(f^{-1}\\right)'(x)=\\dfrac{1}{5}(x+2)^{-\\frac{4}{5}}$"
+        "solution_text": "$y=x^{5}-2$\nSwapping $x$ and $y$: $x=y^{5}-2$\n$y=(x+2)^{\\frac{1}{5}}$\n$f^{-1}(x)=(x+2)^{\\frac{1}{5}}$\n$\\left(f^{-1}\\right)'(x)=\\dfrac{1}{5}(x+2)^{-\\frac{4}{5}}$ for $x\\ne-2$.\nAt $x=-2$, the inverse has a vertical tangent and its derivative is undefined."
       },
-      {
+{
         "question_text": "Let $f(x)=e^{2x}$.\nFind $f^{-1}(x)$ and hence $\\left(f^{-1}\\right)'(x)$.",
         "structure": "inverse-derivative-explicit",
         "solution_text": "$y=e^{2x}$\nSwapping $x$ and $y$: $x=e^{2y}$\n$2y=\\ln x$\n$f^{-1}(x)=\\dfrac{1}{2}\\ln x$\n$\\left(f^{-1}\\right)'(x)=\\dfrac{1}{2x}$"
       },
-      {
+{
         "question_text": "Let $f(x)=\\ln x+3$.\nFind $f^{-1}(x)$ and hence $\\left(f^{-1}\\right)'(x)$.",
         "structure": "inverse-derivative-explicit",
         "solution_text": "$y=\\ln x+3$\nSwapping $x$ and $y$: $x=\\ln y+3$\n$\\ln y=x-3$\n$f^{-1}(x)=e^{x-3}$\n$\\left(f^{-1}\\right)'(x)=e^{x-3}$"
       },
-      {
+{
         "question_text": "Let $f(x)=x^{3}+2x$.\nThe point $(3,1)$ lies on $y=f^{-1}(x)$.\nFind the gradient of the tangent to $y=f^{-1}(x)$ at that point.",
         "structure": "inverse-derivative-formula",
         "solution_text": "$(3,1)$ on $f^{-1}$ means $f(1)=3$, and $1^{3}+2(1)=3$.\n$f'(x)=3x^{2}+2$\n$f'(1)=5$\n$\\left(f^{-1}\\right)'(3)=\\dfrac{1}{f'(1)}$\n$=\\dfrac{1}{5}$"
       },
-      {
+{
         "question_text": "Let $f(x)=2x^{3}+1$.\nThe point $(17,2)$ lies on $y=f^{-1}(x)$.\nFind the gradient of the tangent to $y=f^{-1}(x)$ at that point.",
         "structure": "inverse-derivative-formula",
         "solution_text": "$(17,2)$ on $f^{-1}$ means $f(2)=17$, and $2(8)+1=17$.\n$f'(x)=6x^{2}$\n$f'(2)=24$\n$\\left(f^{-1}\\right)'(17)=\\dfrac{1}{f'(2)}$\n$=\\dfrac{1}{24}$"
       },
-      {
+{
         "question_text": "Let $f(x)=e^{5x}$.\nThe point $(1,0)$ lies on $y=f^{-1}(x)$.\nFind the gradient of the tangent to $y=f^{-1}(x)$ at that point.",
         "structure": "inverse-derivative-formula",
         "solution_text": "$(1,0)$ on $f^{-1}$ means $f(0)=1$, and $e^{0}=1$.\n$f'(x)=5e^{5x}$\n$f'(0)=5$\n$\\left(f^{-1}\\right)'(1)=\\dfrac{1}{f'(0)}$\n$=\\dfrac{1}{5}$"
       },
-      {
+{
         "question_text": "Let $f(x)=\\sqrt{x+3}$.\nThe point $(3,6)$ lies on $y=f^{-1}(x)$.\nFind the gradient of the tangent to $y=f^{-1}(x)$ at that point.",
         "structure": "inverse-derivative-formula",
         "solution_text": "$(3,6)$ on $f^{-1}$ means $f(6)=3$, and $\\sqrt{9}=3$.\n$f'(x)=\\dfrac{1}{2\\sqrt{x+3}}$\n$f'(6)=\\dfrac{1}{6}$\n$\\left(f^{-1}\\right)'(3)=\\dfrac{1}{f'(6)}$\n$=6$"
       },
-      {
-        "question_text": "A function $f$ satisfies $f(4)=9$ and $f'(4)=2$.\nFind $\\left(f^{-1}\\right)'(9)$.",
-        "structure": "inverse-derivative-from-given-pair",
-        "solution_text": "Since $f(4)=9$, $f^{-1}(9)=4$.\n$\\left(f^{-1}\\right)'(9)=\\dfrac{1}{f'(4)}$\n$=\\dfrac{1}{2}$"
+{
+        "question_text": "Let $f(x)=4x-3$.\nThe point $(17,5)$ lies on $y=f^{-1}(x)$.\nFind the gradient of the tangent to $y=f^{-1}(x)$ at that point.",
+        "structure": "inverse-derivative-formula",
+        "solution_text": "$(17,5)$ on $f^{-1}$ means $f(5)=17$, and $4(5)-3=17$.\n$f'(x)=4$\n$f'(5)=4$\n$\\left(f^{-1}\\right)'(17)=\\dfrac{1}{f'(5)}$\n$=\\dfrac{1}{4}$"
       },
-      {
-        "question_text": "A function $g$ satisfies $g(-1)=5$ and $g'(-1)=-4$.\nFind $\\left(g^{-1}\\right)'(5)$.",
-        "structure": "inverse-derivative-from-given-pair",
-        "solution_text": "Since $g(-1)=5$, $g^{-1}(5)=-1$.\n$\\left(g^{-1}\\right)'(5)=\\dfrac{1}{g'(-1)}$\n$=-\\dfrac{1}{4}$"
+{
+        "question_text": "Let $g(x)=-3x+2$.\nThe point $(8,-2)$ lies on $y=g^{-1}(x)$.\nFind the gradient of the tangent to $y=g^{-1}(x)$ at that point.",
+        "structure": "inverse-derivative-formula",
+        "solution_text": "$(8,-2)$ on $g^{-1}$ means $g(-2)=8$, and $-3(-2)+2=8$.\n$g'(x)=-3$\n$g'(-2)=-3$\n$\\left(g^{-1}\\right)'(8)=\\dfrac{1}{g'(-2)}$\n$=-\\dfrac{1}{3}$"
       }
-    ],
+],
     "development": [
-      {
-        "question_text": "Let $f(x)=x^{3}e^{x}$.\nFind $\\dfrac{dx}{dy}$ for the inverse function $f^{-1}$, in terms of $y$.",
+{
+        "question_text": "Let $f(x)=x^{3}e^{x}$ for $x\\ge0$.\nFind $\\dfrac{dx}{dy}$ for the inverse function $f^{-1}$, in terms of $y$.",
         "structure": "inverse-derivative-dx-dy",
         "solution_text": "$y=x^{3}e^{x}$\nSwapping $x$ and $y$: $x=y^{3}e^{y}$\n$\\dfrac{dx}{dy}=3y^{2}e^{y}+y^{3}e^{y}$\n$=y^{2}e^{y}(3+y)$"
       },
-      {
+{
         "question_text": "Let $f(x)=\\dfrac{2x-1}{x+3}$.\nFind $\\dfrac{dx}{dy}$ for the inverse function $f^{-1}$, in terms of $y$.",
         "structure": "inverse-derivative-dx-dy",
         "solution_text": "$y=\\dfrac{2x-1}{x+3}$\nSwapping $x$ and $y$: $x=\\dfrac{2y-1}{y+3}$\n$\\dfrac{dx}{dy}=\\dfrac{2(y+3)-(2y-1)}{(y+3)^{2}}$\n$=\\dfrac{7}{(y+3)^{2}}$"
       },
-      {
-        "question_text": "Let $y=x\\cos 2x$.\nFind $\\dfrac{dx}{dy}$ for the inverse function, in terms of $y$.",
+{
+        "question_text": "Let $y=x\\cos 2x$ for $\\dfrac{\\pi}{4}\\le x\\le\\dfrac{\\pi}{2}$, on which the function is strictly decreasing.\nFind $\\dfrac{dx}{dy}$ for the inverse function, in terms of $y$.",
         "structure": "inverse-derivative-dx-dy",
         "solution_text": "$y=x\\cos 2x$\nSwapping $x$ and $y$: $x=y\\cos 2y$\n$\\dfrac{dx}{dy}=\\cos 2y+y\\times(-2\\sin 2y)$\n$=\\cos 2y-2y\\sin 2y$"
       },
-      {
+{
         "question_text": "Let $f(x)=x^{2}+5$ for $x\\ge 0$.\nFind $f^{-1}(x)$ and hence $\\left(f^{-1}\\right)'(x)$.",
         "structure": "inverse-derivative-explicit",
-        "solution_text": "$y=x^{2}+5$\nSwapping $x$ and $y$: $x=y^{2}+5$\n$y^{2}=x-5$\nSince the domain of $f$ is $x\\ge 0$, take $y=\\sqrt{x-5}$.\n$f^{-1}(x)=\\sqrt{x-5}$ for $x\\ge 5$\n$\\left(f^{-1}\\right)'(x)=\\dfrac{1}{2\\sqrt{x-5}}$"
+        "solution_text": "$y=x^{2}+5$\nSwapping $x$ and $y$: $x=y^{2}+5$\n$y^{2}=x-5$\nSince the domain of $f$ is $x\\ge 0$, take $y=\\sqrt{x-5}$.\n$f^{-1}(x)=\\sqrt{x-5}$ for $x\\ge 5$\n$\\left(f^{-1}\\right)'(x)=\\dfrac{1}{2\\sqrt{x-5}}$ for $x>5$.\nAt $x=5$, the inverse has a vertical endpoint tangent and its derivative is undefined."
       },
-      {
+{
         "question_text": "Let $f(x)=\\dfrac{x-1}{x+1}$.\nThe point $\\left(\\dfrac{1}{3},2\\right)$ lies on $y=f^{-1}(x)$.\nFind the gradient of the tangent to $y=f^{-1}(x)$ at that point.",
         "structure": "inverse-derivative-formula",
         "solution_text": "$\\left(\\dfrac{1}{3},2\\right)$ on $f^{-1}$ means $f(2)=\\dfrac{1}{3}$, and $\\dfrac{2-1}{2+1}=\\dfrac{1}{3}$.\n$f'(x)=\\dfrac{(x+1)-(x-1)}{(x+1)^{2}}=\\dfrac{2}{(x+1)^{2}}$\n$f'(2)=\\dfrac{2}{9}$\n$\\left(f^{-1}\\right)'\\left(\\dfrac{1}{3}\\right)=\\dfrac{1}{f'(2)}$\n$=\\dfrac{9}{2}$"
       },
-      {
-        "question_text": "Let $f(x)=x^{2}\\ln x$ for $x>0$.\nThe point $\\left(e^{2},e\\right)$ lies on $y=f^{-1}(x)$.\nFind the gradient of the tangent to $y=f^{-1}(x)$ at that point.",
+{
+        "question_text": "Let $f(x)=x^{2}\\ln x$ for $x>e^{-\\frac{1}{2}}$, the increasing branch containing $e$.\nThe point $\\left(e^{2},e\\right)$ lies on $y=f^{-1}(x)$.\nFind the gradient of the tangent to $y=f^{-1}(x)$ at that point.",
         "structure": "inverse-derivative-formula",
         "solution_text": "$\\left(e^{2},e\\right)$ on $f^{-1}$ means $f(e)=e^{2}$, and $e^{2}\\ln e=e^{2}$.\n$f'(x)=2x\\ln x+x$\n$f'(e)=2e+e=3e$\n$\\left(f^{-1}\\right)'\\left(e^{2}\\right)=\\dfrac{1}{f'(e)}$\n$=\\dfrac{1}{3e}$"
       },
-      {
-        "question_text": "Let $f(x)=x^{3}-3x+5$.\nThe point $(3,1)$ lies on $y=f^{-1}(x)$.\nFind the gradient of the tangent to $y=f^{-1}(x)$ at that point, or explain why it does not exist.",
+{
+        "question_text": "Let $f(x)=x^{3}-3x+5$ for $-1\\le x\\le1$, a strictly decreasing branch ending at $x=1$.\nThe point $(3,1)$ lies on $y=f^{-1}(x)$.\nFind the gradient of the tangent to $y=f^{-1}(x)$ at that point, or explain why it does not exist.",
         "structure": "inverse-derivative-undefined",
-        "solution_text": "$(3,1)$ on $f^{-1}$ means $f(1)=3$, and $1-3+5=3$.\n$f'(x)=3x^{2}-3$\n$f'(1)=0$\n$\\left(f^{-1}\\right)'(3)=\\dfrac{1}{f'(1)}$ is undefined.\nThe tangent to $y=f(x)$ at $x=1$ is horizontal, so its reflection is vertical and has no gradient."
+        "solution_text": "$(3,1)$ on $f^{-1}$ means $f(1)=3$, and $1-3+5=3$.\n$f'(x)=3x^{2}-3$\n$f'(1)=0$\nThe chosen branch has a horizontal endpoint tangent at $(1,3)$.\nIts reflection is a vertical endpoint tangent at $(3,1)$, so $\\left(f^{-1}\\right)'(3)$ has no finite value."
       },
-      {
+{
         "question_text": "Let $f(x)=\\sqrt{x-2}+1$.\nFind the gradient of the tangent to $y=f^{-1}(x)$ at $x=-3$, or explain why it does not exist.",
         "structure": "inverse-derivative-undefined",
         "solution_text": "The range of $f$ is $y\\ge 1$.\nThe domain of $f^{-1}$ is the range of $f$, so it is $x\\ge 1$.\n$x=-3$ lies outside this domain, so no point of $y=f^{-1}(x)$ has $x=-3$ and the gradient does not exist."
       },
-      {
-        "question_text": "A function $f$ satisfies $f^{-1}(6)=2$ and $f'(2)=7$.\nFind $\\left(f^{-1}\\right)'(6)$.",
-        "structure": "inverse-derivative-from-given-pair",
-        "solution_text": "$f^{-1}(6)=2$ means $f(2)=6$.\n$\\left(f^{-1}\\right)'(6)=\\dfrac{1}{f'(2)}$\n$=\\dfrac{1}{7}$"
+{
+        "question_text": "Let $f(x)=x^{3}+4x$.\nGiven $f(2)=16$, find $\\left(f^{-1}\\right)'(16)$.",
+        "structure": "inverse-derivative-formula",
+        "solution_text": "Since $f(2)=16$, $f^{-1}(16)=2$.\n$f'(x)=3x^{2}+4$\n$f'(2)=16$\n$\\left(f^{-1}\\right)'(16)=\\dfrac{1}{f'(2)}$\n$=\\dfrac{1}{16}$"
       },
-      {
-        "question_text": "Let $f(x)=\\sqrt{x-4}$ for $x\\ge 4$.\nShow that $f^{-1}(x)=x^{2}+4$ for $x\\ge 0$, then find $\\left(f^{-1}\\right)'(x)$ using the formula $\\left(f^{-1}\\right)'(x)=\\dfrac{1}{f'\\left(f^{-1}(x)\\right)}$.",
+{
+        "question_text": "Let $f(x)=\\sqrt{x-4}$ for $x\\ge 4$.\nShow that $f^{-1}(x)=x^{2}+4$ for $x\\ge 0$, then find $\\left(f^{-1}\\right)'(x)$ for $x>0$ using the formula $\\left(f^{-1}\\right)'(x)=\\dfrac{1}{f'\\left(f^{-1}(x)\\right)}$.",
         "structure": "inverse-derivative-explicit",
-        "solution_text": "$y=\\sqrt{x-4}$\nSwapping $x$ and $y$: $x=\\sqrt{y-4}$\n$x^{2}=y-4$\n$f^{-1}(x)=x^{2}+4$, with domain $x\\ge 0$, the range of $f$.\n$f'(x)=\\dfrac{1}{2\\sqrt{x-4}}$\n$\\left(f^{-1}\\right)'(x)=\\dfrac{1}{f'\\left(x^{2}+4\\right)}$\n$=\\dfrac{1}{\\frac{1}{2\\sqrt{x^{2}+4-4}}}$\n$=2x$"
+        "solution_text": "$y=\\sqrt{x-4}$\nSwapping $x$ and $y$: $x=\\sqrt{y-4}$\n$x^{2}=y-4$\n$f^{-1}(x)=x^{2}+4$, with domain $x\\ge 0$, the range of $f$.\n$f'(x)=\\dfrac{1}{2\\sqrt{x-4}}$ for $x>4$.\nFor $x>0$, $\\left(f^{-1}\\right)'(x)=\\dfrac{1}{f'\\left(x^{2}+4\\right)}$\n$=\\dfrac{1}{\\frac{1}{2\\sqrt{x^{2}+4-4}}}$\n$=2x$\nAt $x=0$, the reciprocal formula does not apply because $f'(4)$ is undefined. Directly from $f^{-1}(x)=x^{2}+4$, the endpoint right derivative is $0$; an ordinary two-sided derivative is not defined there."
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "Let $f(x)=x^{3}+x-1$.\nFind $\\left(f^{-1}\\right)'(9)$.",
+{
+        "question_text": "Let $f(x)=x^{3}+x-1$.\nThe point $(9,2)$ lies on $y=f^{-1}(x)$.\nFind $\\left(f^{-1}\\right)'(9)$.",
         "structure": "inverse-derivative-formula",
-        "solution_text": "Solve $f(a)=9$: $a^{3}+a-1=9$, so $a^{3}+a=10$ and $a=2$.\n$f'(x)=3x^{2}+1$\n$f'(2)=13$\n$\\left(f^{-1}\\right)'(9)=\\dfrac{1}{f'(2)}$\n$=\\dfrac{1}{13}$"
+        "solution_text": "$(9,2)$ on $f^{-1}$ means $f(2)=9$, and $8+2-1=9$.\n$f'(x)=3x^{2}+1$\n$f'(2)=13$\n$\\left(f^{-1}\\right)'(9)=\\dfrac{1}{f'(2)}$\n$=\\dfrac{1}{13}$"
       },
-      {
-        "question_text": "Let $f(x)=2x+\\sin x$.\nFind $\\left(f^{-1}\\right)'(2\\pi)$.",
+{
+        "question_text": "Let $f(x)=2x+\\sin x$.\nThe point $(2\\pi,\\pi)$ lies on $y=f^{-1}(x)$.\nFind $\\left(f^{-1}\\right)'(2\\pi)$.",
         "structure": "inverse-derivative-formula",
-        "solution_text": "Solve $f(a)=2\\pi$: $2\\pi+\\sin\\pi=2\\pi$, so $a=\\pi$.\n$f'(x)=2+\\cos x$\n$f'(\\pi)=2-1=1$\n$\\left(f^{-1}\\right)'(2\\pi)=\\dfrac{1}{f'(\\pi)}$\n$=1$"
+        "solution_text": "$(2\\pi,\\pi)$ on $f^{-1}$ means $f(\\pi)=2\\pi$, and $2\\pi+\\sin\\pi=2\\pi$.\n$f'(x)=2+\\cos x$\n$f'(\\pi)=2-1=1$\n$\\left(f^{-1}\\right)'(2\\pi)=\\dfrac{1}{f'(\\pi)}$\n$=1$"
       },
-      {
+{
         "question_text": "Let $f(x)=x^{2}-6x+11$ for $x\\ge 3$.\nFind $f^{-1}(x)$ and hence $\\left(f^{-1}\\right)'(x)$.",
         "structure": "inverse-derivative-explicit",
-        "solution_text": "$y=x^{2}-6x+11=(x-3)^{2}+2$\nSwapping $x$ and $y$: $x=(y-3)^{2}+2$\n$(y-3)^{2}=x-2$\nSince $x\\ge 3$ for $f$, its inverse takes values $y\\ge 3$, so $y-3=\\sqrt{x-2}$.\n$f^{-1}(x)=3+\\sqrt{x-2}$ for $x\\ge 2$\n$\\left(f^{-1}\\right)'(x)=\\dfrac{1}{2\\sqrt{x-2}}$"
+        "solution_text": "$y=x^{2}-6x+11=(x-3)^{2}+2$\nSwapping $x$ and $y$: $x=(y-3)^{2}+2$\n$(y-3)^{2}=x-2$\nSince $x\\ge 3$ for $f$, its inverse takes values $y\\ge 3$, so $y-3=\\sqrt{x-2}$.\n$f^{-1}(x)=3+\\sqrt{x-2}$ for $x\\ge 2$\n$\\left(f^{-1}\\right)'(x)=\\dfrac{1}{2\\sqrt{x-2}}$ for $x>2$.\nAt $x=2$, the inverse has a vertical endpoint tangent and its derivative is undefined."
       }
-    ]
+]
   }
 }

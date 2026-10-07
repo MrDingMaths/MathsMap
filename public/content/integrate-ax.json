@@ -2,25 +2,25 @@
   "skillId": "integrate-ax",
   "atomType": "R",
   "theory": {
-    "intro": "Any exponential is integrated by dividing by the natural logarithm of its base: $\\int a^{x}\\,dx = \\dfrac{a^{x}}{\\ln a} + C$ for $a > 0$. Differentiating $a^{x}$ multiplies by $\\ln a$, so integrating divides by it.",
+    "intro": "An exponential with base $a > 0$ and $a \\ne 1$ is integrated by dividing by the natural logarithm of its base: $\\int a^{x}\\,dx = \\dfrac{a^{x}}{\\ln a} + C$. Differentiating $a^{x}$ multiplies by $\\ln a$, so integrating divides by it.",
     "facts": [
-      "$\\int a^{x}\\,dx = \\dfrac{a^{x}}{\\ln a} + C$ for a constant base $a > 0$ with $a \\ne 1$.",
-      "Differentiating $a^{x}$ multiplies by $\\ln a$, so integrating $a^{x}$ divides by $\\ln a$.",
-      "Multiplying by $\\ln a$ instead of dividing is the most common error.",
-      "$\\int a^{mx+c}\\,dx = \\dfrac{a^{mx+c}}{m\\ln a} + C$, the chain rule contributing the extra divisor $m$.",
-      "When $a = e$ the rule collapses to $\\int e^{x}\\,dx = e^{x} + C$, because $\\ln e = 1$.",
-      "$\\ln a$ is a fixed number, so $\\dfrac{1}{\\ln a}$ behaves like any other constant factor.",
-      "The power rule does not apply here, because $x$ is the index and $a$ is the base.",
-      "Since $\\ln a^{k} = k\\ln a$, rewriting the base gives the same primitive in a different form.",
-      "For a definite integral, evaluate $\\left[\\dfrac{a^{x}}{\\ln a}\\right]_{p}^{q}$ and leave $\\ln a$ in the exact answer.",
-      "Check any primitive by differentiating it back to the integrand."
-    ],
+"$\\int a^{x}\\,dx = \\dfrac{a^{x}}{\\ln a} + C$ for a constant base $a > 0$ with $a \\ne 1$.",
+"Differentiating $a^{x}$ multiplies by $\\ln a$, so integrating $a^{x}$ divides by $\\ln a$.",
+"Multiplying by $\\ln a$ instead of dividing is the most common error.",
+"$\\int a^{mx+c}\\,dx = \\dfrac{a^{mx+c}}{m\\ln a} + C$ for $a > 0$, $a \\ne 1$ and $m \\ne 0$, the chain rule contributing the extra divisor $m$. When $m = 0$, the integrand is the constant $a^{c}$, so its integral is $a^{c}x + C$. When $a = 1$, the integrand is $1$, so its integral is $x + C$.",
+"When $a = e$ the rule collapses to $\\int e^{x}\\,dx = e^{x} + C$, because $\\ln e = 1$.",
+"$\\ln a$ is a fixed number, so $\\dfrac{1}{\\ln a}$ behaves like any other constant factor.",
+"The power rule does not apply here, because $x$ is the index and $a$ is the base.",
+"Since $\\ln a^{k} = k\\ln a$, rewriting the base gives the same primitive in a different form.",
+"For a definite integral, evaluate $\\left[\\dfrac{a^{x}}{\\ln a}\\right]_{p}^{q}$ and leave $\\ln a$ in the exact answer.",
+"Check any primitive by differentiating it back to the integrand."
+],
     "steps": [
-      "Write the integrand in the form $ka^{mx+c}$ with base $a > 0$.",
-      "Write down $a$ to the same index, unchanged.",
-      "Divide by $\\ln a$, and by $m$, the coefficient of $x$ in the index.",
-      "Add $+C$ for an indefinite integral, or evaluate $\\left[F(x)\\right]_{p}^{q}$ for a definite one."
-    ]
+"Write the integrand in the form $ka^{mx+c}$ with base $a > 0$. The logarithm formula requires $a \\ne 1$ and $m \\ne 0$; if $a = 1$ or $m = 0$, integrate the constant instead.",
+"Keep the multiplier $k$ and write down $a$ to the same index, unchanged.",
+"Divide by $\\ln a$, and by $m$, the coefficient of $x$ in the index, to obtain $F(x) = \\dfrac{ka^{mx+c}}{m\\ln a}$.",
+"Add $+C$ for an indefinite integral, or evaluate $\\left[F(x)\\right]_{p}^{q}$ for a definite one."
+]
   },
   "practice": {
     "foundation": [
@@ -128,26 +128,26 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "Evaluate $\\int_{-1}^{1} \\left(2^{x} + 3\\right)dx$, giving the exact value.",
         "structure": "definite-a-to-the-x-exact",
         "solution_text": "$\\int_{-1}^{1} \\left(2^{x} + 3\\right)dx$\n$= \\left[\\dfrac{2^{x}}{\\ln 2} + 3x\\right]_{-1}^{1}$\n$= \\left(\\dfrac{2}{\\ln 2} + 3\\right) - \\left(\\dfrac{\\frac{1}{2}}{\\ln 2} - 3\\right)$\n$= \\dfrac{3}{2\\ln 2} + 6$"
       },
-      {
+{
         "question_text": "Find the exact value of $\\int_{0}^{2} \\left(5^{x} - 5x\\right)dx$, then give it correct to four decimal places.",
         "structure": "definite-a-to-the-x-decimal",
         "solution_text": "$\\int_{0}^{2} \\left(5^{x} - 5x\\right)dx$\n$= \\left[\\dfrac{5^{x}}{\\ln 5} - \\dfrac{5x^{2}}{2}\\right]_{0}^{2}$\n$= \\left(\\dfrac{25}{\\ln 5} - 10\\right) - \\dfrac{1}{\\ln 5}$\n$= \\dfrac{24}{\\ln 5} - 10$\n$= 4.9120$"
       },
-      {
-        "question_text": "Find $\\int 4^{x}\\,dx$ twice: once with base $4$, and once by first writing $4^{x} = 2^{2x}$.\nShow that the two answers agree.",
-        "structure": "equivalent-base-forms",
-        "solution_text": "Using base $4$:\n$\\int 4^{x}\\,dx$\n$= \\dfrac{4^{x}}{\\ln 4} + C$\nUsing base $2$, with $4^{x} = 2^{2x}$:\n$\\int 2^{2x}\\,dx$\n$= \\dfrac{2^{2x}}{2\\ln 2} + C$\n$= \\dfrac{4^{x}}{2\\ln 2} + C$\nSince $\\ln 4 = \\ln 2^{2} = 2\\ln 2$, the two primitives are the same."
+{
+        "question_text": "Find $\\int 6 \\times 5^{3-4x}\\,dx$ in simplest form, with $+C$.",
+        "structure": "integrate-a-linear-index",
+        "solution_text": "$\\int 6 \\times 5^{3-4x}\\,dx$\n$= \\dfrac{6\\left(5^{3-4x}\\right)}{-4\\ln 5} + C$\n$= -\\dfrac{3\\left(5^{3-4x}\\right)}{2\\ln 5} + C$"
       },
-      {
+{
         "question_text": "A curve has gradient $\\dfrac{dy}{dx} = 2^{x+1}$ and passes through $(-1, 3)$.\nFind the equation of the curve and its exact $y$-intercept.",
         "structure": "find-function-from-derivative",
         "solution_text": "$y = \\int 2^{x+1}\\,dx$\n$= \\dfrac{2^{x+1}}{\\ln 2} + C$\nSubstituting $(-1, 3)$:\n$\\dfrac{2^{0}}{\\ln 2} + C = 3$\n$C = 3 - \\dfrac{1}{\\ln 2}$\n$y = \\dfrac{2^{x+1} - 1}{\\ln 2} + 3$\nAt $x = 0$:\n$y = \\dfrac{2 - 1}{\\ln 2} + 3$\n$= \\dfrac{1}{\\ln 2} + 3$"
       }
-    ]
+]
   }
 }

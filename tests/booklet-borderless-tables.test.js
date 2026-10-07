@@ -3,6 +3,29 @@ import assert from 'node:assert/strict';
 import {normalizeDocument,renderDocument} from '../public/libs/maths-editor/document-model.mjs';
 
 const table=(id,border)=>({id,type:'table',...(border===undefined?{}:{border}),rows:[[{id:id+'-cell',type:'cell',blocks:[{id:id+'-text',type:'paragraph',inlines:[{type:'text',text:'1 cm³ = 1 mL'}]}]}]]});
+test('prose completion tables opt into dotted guides without changing existing bordered cells',()=>{
+ const original=table('original',true),prose={...table('prose',true),showClozeDots:true};
+ const doc=normalizeDocument({blocks:[original,prose]});
+ assert.equal(Object.hasOwn(doc.blocks[0],'showClozeDots'),false);
+ assert.equal(doc.blocks[1].showClozeDots,true);
+ assert.deepEqual(normalizeDocument(JSON.parse(JSON.stringify(doc))),doc);
+ for(const editable of [false,true]){
+  const html=renderDocument(doc,{editable});
+  assert.match(html,/data-id="original"[^>]*--document-cloze-line:var\(--document-table-cloze-line,solid\);--document-cloze-dots:var\(--document-table-cloze-dots,none\)/);
+  assert.match(html,/data-id="prose"[^>]*--document-cloze-line:none;--document-cloze-dots:block/);
+ }
+});
+test('a supplied word initial stays attached to its completion blank in print and survives editing',()=>{
+ const doc=normalizeDocument({blocks:[{id:'cue',type:'paragraph',inlines:[{type:'text',text:'a d'},{type:'cloze',answer:'ifference',width:26,joinPrevious:true},{type:'text',text:' of squares'}]}]});
+ assert.equal(doc.blocks[0].inlines[1].joinPrevious,true);
+ assert.deepEqual(normalizeDocument(JSON.parse(JSON.stringify(doc))),doc);
+ const html=renderDocument(doc);
+ assert.match(html,/a <span data-cloze-prefix style="white-space:nowrap">d<span/);
+ assert.equal((html.match(/data-cloze="/g)??[]).length,1);
+ assert.match(renderDocument(doc,{editable:true}),/a d/);
+ assert.match(renderDocument(doc,{editable:true}),/data-join-previous="true"/);
+ assert.doesNotMatch(renderDocument(doc,{editable:true}),/data-cloze-prefix/);
+});
 test('numeric zero borders survive normalization, nested tables and editor/print rendering',()=>{
  const inner=table('equivalences',0),outer=table('panel',true);
  outer.rows[0][0].blocks=[inner];

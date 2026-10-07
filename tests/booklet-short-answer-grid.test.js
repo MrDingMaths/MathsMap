@@ -37,6 +37,11 @@ test('a consolidated group answer occupies a whole column even with one child',(
  assert.equal(canShareShortAnswer(grouped),true);
 });
 
+test('final general-form line equations share rows while calculations and nonlinear working span',()=>{
+ for(const value of ['$x-y+2=0$','$3x+2y-6=0$',fromSource('$-5x + 8y - 12 = 0$'),'$0.5x+y-2=0$'])assert.equal(canShareShortAnswer(block('q',value)),true,value);
+ for(const value of ['$3x+2y-6=0=0$','$x^2+y-2=0$','$xy+x-y=0$','$6+4-10=0$','$x/2+y-3=0$'])assert.equal(canShareShortAnswer(block('q',value)),false,value);
+});
+
 test('complete answer rows paginate left then right and retain every original node',async()=>{
   const p=fixture(),before=structuredClone(p),result=await paginateFlow(p,'short',measure);
   assert.equal(result.pages.length,2);assert.deepEqual(result.pages[0].columns.map(c=>c.length),[9,9]);

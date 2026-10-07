@@ -29,6 +29,13 @@ export function canShareShortAnswer(block){
     return latex.split(/;|,(?!\d)|\\q(?:quad|uad)(?![a-zA-Z])/).some(clause=>{
       const steps=clause.split(/=|\\approx(?![a-zA-Z])|≈/).map(s=>s.trim());
       if(steps.length<2||steps.some(s=>!s))return false;
+      // A line in general form is a final equation, not a calculation step.
+      // Keep the exception narrow so arithmetic and nonlinear working still span.
+      if(steps.length===2&&steps[1]==='0'){
+        const terms=steps[0].replace(/\s/g,'').match(/[+-]?[^+-]+/g)??[];
+        if(terms.length&&terms.every(term=>/^[+-]?(?:\d+(?:\.\d+)?)?[xy]$|^[+-]?\d+(?:\.\d+)?$/.test(term))&&
+          terms.filter(term=>term.endsWith('x')).length===1&&terms.filter(term=>term.endsWith('y')).length===1)return false;
+      }
       const arithmetic=s=>/\\(?:[dt]?frac|times|div|cdot)(?![a-zA-Z])|\S\s*[+\-/]\s*\S|\d\s*\^/.test(s);
       return steps.slice(0,-1).some(arithmetic);
     });

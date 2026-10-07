@@ -16,16 +16,16 @@
     },
 {
       "id": "q2",
-      "question_text": "A $5$-sector fair spinner is labelled shell, key, crown, gem and anchor.\nThe list shell, key, crown, anchor is incomplete.\nWhich outcome is missing?",
-      "structure": "complete-outcome-list",
+      "question_text": "A fair spinner has $5$ equal sectors labelled bell, bell, bell, ribbon and ribbon. The label is recorded.\nAva says the sample space is $\\{\\text{bell},\\text{ribbon}\\}$. Ben says it is $\\{\\text{bell},\\text{bell},\\text{bell},\\text{ribbon},\\text{ribbon}\\}$. Who is correct?",
+      "structure": "judge-sample-space-claims",
       "mastery": false,
       "options": [
-        { "text": "gem", "correct": true },
-        { "text": "shell", "why": "Repeats an outcome already recorded instead of finding the omitted label." },
-        { "text": "wheel", "why": "Names the random device rather than a possible result shown by its pointer." },
-        { "text": "spin", "why": "Names the action in the experiment rather than one of its possible outcomes." }
-      ],
-      "solution_text": "Gem is the only sector label not recorded.\nThe missing outcome is gem."
+{ "text": "Only Ava.", "correct": true },
+{ "text": "Only Ben.", "why": "Lists every sector label, including repeats, instead of the distinct results in the sample space." },
+{ "text": "Both.", "why": "Treats a list with repeated labels as a valid sample-space list." },
+{ "text": "Neither.", "why": "Rejects Ava's complete list even though it contains each possible recorded label once." }
+],
+      "solution_text": "The sample space lists the distinct possible recorded results without repeats.\nIt is $\\{\\text{bell},\\text{ribbon}\\}$, so only Ava is correct."
     },
 {
       "id": "q3",
@@ -65,27 +65,35 @@
     },
 {
       "id": "q6",
-      "question_text": "A fair spinner is labelled noon, dusk and night.\nWhich description correctly identifies the trial and its outcomes?",
-      "structure": "distinguish-trial-outcomes",
+      "question_text": "Four cards are labelled $4$, $8$, $12$ and an unknown number. One card is selected at random and its number is recorded. The sample space is $S=\\{4,8,12\\}$.\nElla says the unknown number could be $8$. Finn says it could be $4$. Who is correct?",
+      "structure": "judge-card-labels-from-sample-space",
       "mastery": false,
       "options": [
-        { "text": "Trial: one spin; outcomes: noon, dusk, night", "correct": true },
-        { "text": "Trial: noon, dusk, night; outcomes: one spin", "why": "Reverses the experiment action and the possible results of that action." },
-        { "text": "Trial: the pointer; outcomes: start, turn, stop", "why": "Names a spinner part and its motion rather than the trial and recorded labels." }
-      ],
-      "solution_text": "The experiment is performed once by spinning once.\nThe possible recorded results are noon, dusk and night."
+{ "text": "Both.", "correct": true },
+{ "text": "Only Ella.", "why": "Allows a repeated $8$ but incorrectly rejects a repeated $4$, which also leaves the sample space unchanged." },
+{ "text": "Only Finn.", "why": "Allows a repeated $4$ but incorrectly rejects a repeated $8$, which also leaves the sample space unchanged." },
+{
+  "text": "Neither.",
+  "why": "Assumes physical cards cannot repeat labels even though the sample space lists distinct results only."
+}
+],
+      "solution_text": "The unknown card can repeat any number already in $S$.\nBoth $8$ and $4$ leave the sample space as $\\{4,8,12\\}$, so both students are correct."
     },
 {
       "id": "q7",
-      "question_text": "A fair wheel has $7$ different colour labels, including red and indigo.\nA student lists red twice and leaves out indigo.\nWhich correction produces a complete outcome list?",
-      "structure": "audit-recorded-outcomes",
+      "question_text": "A fair wheel has $14$ equal sectors: $4$ labelled copper, $3$ labelled silver, $3$ labelled gold, $2$ labelled bronze and $2$ labelled platinum.\nWhich pair of recorded labels is equally likely?",
+      "structure": "compare-repeated-label-chances",
       "mastery": true,
       "options": [
-        { "text": "Remove the repeated red and add indigo.", "correct": true },
-        { "text": "Keep both reds and add indigo.", "why": "Adds the missing result but leaves a duplicate, so outcomes are not recorded once each." },
-        { "text": "Remove one red and make no other change.", "why": "Removes the duplicate but still leaves the possible indigo result missing." }
-      ],
-      "solution_text": "A complete list records each possible result once.\nRemove the repeated red and add the omitted indigo."
+{ "text": "Silver and gold.", "correct": true },
+{ "text": "Copper and silver.", "why": "Treats $4$ sectors and $3$ sectors as giving the same chance." },
+{ "text": "Gold and bronze.", "why": "Treats $3$ sectors and $2$ sectors as giving the same chance." },
+{
+  "text": "Copper and platinum.",
+  "why": "Treats $4$ sectors and $2$ sectors as giving the same chance."
+}
+],
+      "solution_text": "Silver and gold each appear on $3$ equal sectors.\nThey have the same chance, so silver and gold is the correct pair."
     }
 ]
 }

@@ -180,7 +180,9 @@ try{
   if(workflow&&!development&&!draft&&!preflight)assert.ok(workflow.settled?.project.hash===projectHash,'Settle current content before the complete final five-edition review. Use --development during editing.');
   const workflowKey=reviewOnly?null:workflow?.settled?.key??null,assets=await contentAssetSignatures(record);
   if(record.source?.inventory){
-   const coverage=await inspectContentCoverage(record,{assetSignatures:assets});
+   const leanReviewedFile=lean&&runDir?path.join(runDir,'lean-review','reviewed.json'):null;
+   const reviewedQuestions=leanReviewedFile&&fs.existsSync(leanReviewedFile)?JSON.parse(fs.readFileSync(leanReviewedFile,'utf8')).questions??{}:{};
+   const coverage=await inspectContentCoverage(record,{assetSignatures:assets,reviewedQuestions});
    fs.writeFileSync(`${out}/${id}-readiness.json`,JSON.stringify(coverage,null,2));
    if(!draft&&!development&&!preflight)assert.equal(coverage.complete,true,'Content and teaching/arrangement fidelity must pass independently of layout. Use --draft for review exports.');
   }
@@ -349,8 +351,12 @@ try{
    if(edition!=='student')assertAnswerRenderCoverage(info.labels,info.answerDiagramIds,record,edition.endsWith('worked')?'worked':'short');
    else assert.deepEqual(info.labels.filter(l=>studentPrompts.has(l.id)),[],'Practice answers do not leak into the Questions edition');
    assert.ok(info.links.every(l=>l.exists),'All printed references have destinations');
-   assert.deepEqual(issues,[],'DOM layout/style checks');
-   assert.deepEqual(printed.flatMap(p=>p.issues),[],'Printed geometry');
+   // Draft review exports collect every edition's layout findings before the
+   // final assertions below, so one repair round can cover all five layouts.
+   if(!draft){
+    assert.deepEqual(issues,[],'DOM layout/style checks');
+    assert.deepEqual(printed.flatMap(p=>p.issues),[],'Printed geometry');
+   }
    assert.deepEqual(errors,[],'Browser errors');
    if(!draft||reviewOnly){
     const pdf={path:path.resolve(file),hash:artifactHash(file)};

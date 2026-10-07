@@ -1,0 +1,80 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "define-differential-equation",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-07T10:46:04.158Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 73.5,
+      "usage": {
+        "input_tokens": 170299,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2768,
+        "reasoning_output_tokens": 69
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\define-differential-equation\\audit-KhK3AT\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 163.1,
+      "usage": {
+        "input_tokens": 171082,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 7878,
+        "reasoning_output_tokens": 77
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\define-differential-equation\\repair-8b5foh\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "8eccd1670157b8a29e6fbc2bef0affe967a7c9ca0d01bd8ebf0c3e839df1dbde",
+    "quizHash": "2694a64e4db9bd6963a9ba999cfd8021033eb89a8e4b64280e3cf81c8d8cc539"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 6 Extension 1/Further Applications of Calculus 4_Differential equations.md"
+  ],
+  "images": 88,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "audit",
+    "hash": "4f906bcb236f4f78b7e936b3b3ca7b034ff14cb35ba5387ac873b4c8bbdd81fd",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for practice.mastery[1]",
+    "No booklet question cited for quiz.q6",
+    "No booklet question cited for quiz.q7",
+    "practice.mastery[1]: The source never asks students to determine an exponent parameter by substituting a proposed function into a DE. Question 5 supplies the exponents and asks for verification; replace this off-booklet task with a source-supported verification task at the same tier and update its structure.",
+    "quiz.q3: The explanation for option index 2 does not describe its value: taking $2$ as the power would produce $x^2$, not $2x$. Change that explanation to identify using $2$ as a multiplying coefficient instead of the exponent; its residual $-2x$ is correct.",
+    "quiz.q6: Determining an unknown exponent by substitution is not an asked booklet type for this skill; replace it with a source-supported verification question under the same id and update its structure. The current working also needs a domain such as $x>0$: its claim $x^a\\ne0$ is not valid without a domain restriction.",
+    "quiz.q7: Determining two constants from initial conditions assesses solving an IVP beyond this skill's verification focus. The source's verification IVP supplies a definite function, while determining integration constants belongs to solving sections; replace this with a source-supported verification task under q7, retain mastery:true and update its structure.",
+    "theory: Qualify the final fact to require equality throughout the solution's domain, rather than for every x without restriction; the tangent and reciprocal examples have restricted domains. Qualify the general/particular-solution facts to allow arbitrary constants in the plural and definite values for all of them, since the source and practice.mastery[0] include two-constant families."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.mastery[1]",
+    "quiz.q3",
+    "quiz.q6",
+    "quiz.q7"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 27,
+  "summary": "Replaced the unknown-exponent tasks and the integration-constant task with cited booklet-supported verification tasks, updating their structures and retaining q7's mastery status. Corrected q3's distractor explanation and qualified the theory facts for solution domains and multiple arbitrary constants; no whole items were removed.",
+  "reviewSummary": "The independently derived answers and correct-option indices agree with the candidate, but three exponent/constant-finding tasks require replacement because their tasks are unsupported for this skill. Repair quiz.q3's mismatched distractor explanation and the theory's domain and constant wording; no removals or worked examples were supplied.",
+  "candidateHash": "8486af03c933e8668096a6cbefc18aa3d8c272dd70eab7e9b75b1321bb431e0c",
+  "findings": [
+    "Validator: content define-differential-equation practice.mastery[1].solution_text: procedure label \"Differentiate the given function\" is out of theory order",
+    "Validator: content define-differential-equation practice.mastery[1].solution_text: procedure label \"Substitute into both sides of the differential equation\" is out of theory order"
+  ],
+  "finishedAt": "2026-10-07T10:50:01.028Z"
+}

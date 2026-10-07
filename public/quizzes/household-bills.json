@@ -1,205 +1,205 @@
 {
   "skillId": "household-bills",
   "questions": [
-    {
+{
       "id": "q1",
-      "question_text": "A water meter showed a reading of $1417\\text{ kL}$ at the start of a billing cycle and $1482\\text{ kL}$ at the end.\nHow many kilolitres of water were consumed during the cycle?",
-      "structure": "compute-usage-from-readings",
+      "question_text": "An electricity bill lists the last account as $\\$247.00$ and the current total amount due as $\\$312.00$.\nBy how much has the bill increased?",
+      "structure": "bill-dollar-increase",
       "mastery": false,
       "options": [
-        {
-          "text": "$65\\text{ kL}$",
+{
+          "text": "$\\$65.00$",
           "correct": true
         },
-        {
-          "text": "$1482\\text{ kL}$",
-          "why": "Takes the final meter reading instead of calculating the difference between readings."
+{
+          "text": "$\\$312.00$",
+          "why": "Takes the current total amount due instead of subtracting the last account."
         },
-        {
-          "text": "$75\\text{ kL}$",
-          "why": "Makes an arithmetic subtraction error when calculating $1482 - 1417$."
+{
+          "text": "$\\$75.00$",
+          "why": "Borrows a ten for the units column but fails to reduce the tens column when subtracting $312 - 247$."
         },
-        {
-          "text": "$2899\\text{ kL}$",
-          "why": "Adds the two meter readings together instead of subtracting the previous reading."
+{
+          "text": "$\\$559.00$",
+          "why": "Adds the current bill and the last account instead of subtracting."
         }
-      ],
-      "solution_text": "$\\text{Usage} = 1482 - 1417$\n$= 65\\text{ kL}$"
+],
+      "solution_text": "$\\text{Increase} = \\$312.00 - \\$247.00$\n$= \\$65.00$"
     },
-    {
+{
       "id": "q2",
-      "question_text": "An electricity bill summary is shown below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\small},\n  cell/.style={draw, minimum height=0.65cm, inner xsep=5pt, anchor=west},\n  hdr/.style={cell, fill=gray!25, font=\\small\\bfseries}]\n\\def\\colA{3.6cm} \\def\\colB{2.4cm}\n\\node[hdr, minimum width=\\colA] (h1) at (0,0) {Charge Item};\n\\node[hdr, minimum width=\\colB, right=0pt of h1] (h2) {Amount (ex GST)};\n\\node[cell, minimum width=\\colA, below=0pt of h1.south west, anchor=north west] (a1) {Electricity Usage};\n\\node[cell, minimum width=\\colB, right=0pt of a1] (a2) {\\$300.00};\n\\node[cell, minimum width=\\colA, below=0pt of a1.south west, anchor=north west] (b1) {Daily Supply Charge};\n\\node[cell, minimum width=\\colB, right=0pt of b1] (b2) {\\$90.00};\n\\node[cell, minimum width=\\colA, below=0pt of b1.south west, anchor=north west] (c1) {Subtotal};\n\\node[cell, minimum width=\\colB, right=0pt of c1] (c2) {\\$390.00};\n\\end{tikzpicture}\n[/tikz]\nWhat is the total amount payable including $10\\%$ GST?",
-      "structure": "calculate-electricity-bill",
+      "question_text": "An electricity bill lists: current charges excluding GST $\\$372.00$; GST $\\$37.20$; total amount due including GST $\\$409.20$.\nHow much GST was charged?",
+      "structure": "read-gst-charge",
       "mastery": false,
       "options": [
-        {
-          "text": "\\$429.00",
+{
+          "text": "$\\$37.20$",
           "correct": true
         },
-        {
-          "text": "\\$390.00",
-          "why": "Omits the $10\\%$ GST calculation on the subtotal."
+{
+          "text": "$\\$372.00$",
+          "why": "Reads the current charges excluding GST instead of the GST amount."
         },
-        {
-          "text": "\\$400.00",
-          "why": "Adds \\$10 instead of computing $10\\%$ of \\$390.00 as GST."
+{
+          "text": "$\\$409.20$",
+          "why": "Reads the total amount due including GST instead of the GST amount."
         },
-        {
-          "text": "\\$330.00",
-          "why": "Applies GST only to the usage charge and neglects the supply charge entirely."
+{
+          "text": "$\\$40.92$",
+          "why": "Calculates $10\\%$ of the GST-inclusive total of $\\$409.20$ instead of reading the stated GST."
         }
-      ],
-      "solution_text": "$\\text{Total with GST} = \\$390.00 \\times 1.10$\n$= \\$429.00$"
+],
+      "solution_text": "The bill states that GST of $\\$37.20$ was charged."
     },
-    {
+{
       "id": "q3",
-      "question_text": "A water account includes a water usage charge of $58\\text{ kL}$ at \\$2.30 per kL, a water service charge of \\$42.50, and a sewerage service charge of \\$148.00.\nWater and sewerage services are GST-free.\nWhat is the total charge for the water account?",
-      "structure": "calculate-water-bill",
+      "question_text": "A residential water bill lists: water usage charge $\\$142.80$; total service charges $\\$204.60$; total current charges $\\$347.40$.\nIt states that GST does not apply to usage or service charges.\nHow much GST was charged?",
+      "structure": "read-water-bill-gst",
       "mastery": false,
       "options": [
-        {
-          "text": "\\$323.90",
+{
+          "text": "$\\$0.00$",
           "correct": true
         },
-        {
-          "text": "\\$133.40",
-          "why": "Calculates the usage charge but omits the fixed service charges."
+{
+          "text": "$\\$34.74$",
+          "why": "Calculates $10\\%$ of the total current charges of $\\$347.40$ despite the statement that GST does not apply."
         },
-        {
-          "text": "\\$356.29",
-          "why": "Incorrectly adds $10\\%$ GST to GST-free residential water services."
+{
+          "text": "$\\$14.28$",
+          "why": "Incorrectly charges $10\\%$ GST on the water usage charge of $\\$142.80$."
         },
-        {
-          "text": "\\$190.50",
-          "why": "Adds only the fixed service charges and omits the usage charge."
+{
+          "text": "$\\$20.46$",
+          "why": "Incorrectly charges $10\\%$ GST on the service charges of $\\$204.60$."
         }
-      ],
-      "solution_text": "$\\text{Usage charge} = 58 \\times \\$2.30 = \\$133.40$\n$\\text{Total} = \\$133.40 + \\$42.50 + \\$148.00$\n$= \\$323.90$"
+],
+      "solution_text": "GST does not apply to the listed charges, so the GST charged is $\\$0.00$."
     },
-    {
+{
       "id": "q4",
-      "question_text": "A gas account shows $6500\\text{ MJ}$ of consumption at $3.0\\text{ cents per MJ}$ and a daily supply charge of \\$0.80 per day for $60$ days (both excluding GST). What is the total amount payable including $10\\%$ GST?",
-      "structure": "calculate-gas-bill",
+      "question_text": "A water bill covers $1$ July to $30$ September. The homeowner refilled their pool on $8$ October. The bill was issued on $12$ October and is due on $26$ October.\nIs the pool refill included in this bill?",
+      "structure": "check-usage-within-billing-period",
       "mastery": false,
       "options": [
-        {
-          "text": "\\$267.30",
+{
+          "text": "No, the refill occurred after the billing period ended on $30$ September.",
           "correct": true
         },
-        {
-          "text": "\\$243.00",
-          "why": "Omits the $10\\%$ GST on the subtotal."
+{
+          "text": "Yes, the refill occurred before the issue date of $12$ October.",
+          "why": "Uses the issue date as the end of the usage period instead of $30$ September."
         },
-        {
-          "text": "\\$214.50",
-          "why": "Includes GST on the usage charge but omits the daily supply charge."
+{
+          "text": "Yes, the refill occurred before the due date of $26$ October.",
+          "why": "Uses the payment due date as the end of the usage period."
         },
-        {
-          "text": "\\$448.80",
-          "why": "Multiplies $6500 \\times 0.30$ instead of $0.03$, misconverting cents to dollars."
+{
+          "text": "Yes, all October water use is included because the bill was issued in October.",
+          "why": "Uses the month of issue instead of the stated July-to-September billing period."
         }
-      ],
-      "solution_text": "$\\text{Usage charge} = 6500 \\times \\$0.03 = \\$195.00$\n$\\text{Supply charge} = 60 \\times \\$0.80 = \\$48.00$\n$\\text{Subtotal} = \\$195.00 + \\$48.00 = \\$243.00$\n$\\text{Total with GST} = \\$243.00 \\times 1.10$\n$= \\$267.30$"
+],
+      "solution_text": "No. The refill on $8$ October occurred after the billing period ended on $30$ September."
     },
-    {
+{
       "id": "q5",
-      "question_text": "A monthly telecommunications bundle increased in price from \\$75.00 to \\$84.00.\nWhat is the percentage increase?",
+      "question_text": "A monthly telecommunications bundle increased in price from $\\$75.00$ to $\\$84.00$.\nWhat is the percentage increase? Round to two decimal places where appropriate.",
       "structure": "bill-percentage-change",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$12\\%$",
           "correct": true
         },
-        {
+{
           "text": "$9\\%$",
-          "why": "Confuses the dollar increase of \\$9.00 with a percentage."
+          "why": "Confuses the dollar increase of $\\$9.00$ with a percentage."
         },
-        {
-          "text": "$10.7\\%$",
-          "why": "Divides the \\$9 increase by the new amount \\$84 instead of the original \\$75."
+{
+          "text": "$10.71\\%$",
+          "why": "Divides the $\\$9$ increase by the new amount $\\$84$ instead of the original $\\$75$."
         },
-        {
+{
           "text": "$112\\%$",
           "why": "Calculates the ratio of new to old bill without subtracting $100\\%$."
         }
-      ],
+],
       "solution_text": "$\\text{Dollar increase} = \\$84.00 - \\$75.00 = \\$9.00$\n$\\text{Percentage increase} = \\dfrac{9.00}{75.00} \\times 100\\%$\n$= 12\\%$"
     },
-    {
+{
       "id": "q6",
-      "question_text": "A quarterly electricity bill lists a total energy consumption of $1820\\text{ kWh}$ across a $91$-day billing cycle.\nWhat was the average daily electricity consumption?",
+      "question_text": "A quarterly electricity bill lists a total energy consumption of $1820\\text{ kWh}$ across a $91$-day billing cycle.\nWhat was the average daily electricity consumption? Round to two decimal places where appropriate.",
       "structure": "daily-average-consumption",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$20\\text{ kWh/day}$",
           "correct": true
         },
-        {
+{
           "text": "$18.2\\text{ kWh/day}$",
           "why": "Divides by $100$ instead of the actual billing duration of $91$ days."
         },
-        {
-          "text": "$165.6\\text{ kWh/day}$",
+{
+          "text": "$165.45\\text{ kWh/day}$",
           "why": "Divides by $11$ instead of $91$ days."
         },
-        {
-          "text": "$60.7\\text{ kWh/day}$",
+{
+          "text": "$60.67\\text{ kWh/day}$",
           "why": "Divides by $30$ days assuming a standard month instead of $91$ days."
         }
-      ],
+],
       "solution_text": "$\\text{Daily usage} = \\dfrac{1820}{91}$\n$= 20\\text{ kWh/day}$"
     },
-    {
+{
       "id": "q7",
-      "question_text": "An electricity account for a $90$-day period has a total amount due of \\$350.90 including $10\\%$ GST. The daily supply charge is \\$0.90 per day (ex GST) and energy is billed at $28\\text{ cents per kWh}$ (ex GST). How many kilowatt-hours ($\\text{kWh}$) were consumed?",
-      "structure": "calculate-electricity-bill",
+      "question_text": "An electricity bill lists the last account as $\\$328.40$ and the current total amount due as $\\$369.45$.\nExpress the increase as a percentage of the last bill, correct to two decimal places.",
+      "structure": "bill-percentage-change",
       "mastery": true,
       "options": [
-        {
-          "text": "$850\\text{ kWh}$",
+{
+          "text": "$12.50\\%$",
           "correct": true
         },
-        {
-          "text": "$964\\text{ kWh}$",
-          "why": "Calculates usage directly from the GST-inclusive total without dividing by $1.10$."
+{
+          "text": "$11.11\\%$",
+          "why": "Divides the increase of $\\$41.05$ by the current bill of $\\$369.45$ instead of the last bill of $\\$328.40$."
         },
-        {
-          "text": "$1139\\text{ kWh}$",
-          "why": "Forgets to subtract the supply charge from the pre-GST subtotal before dividing by the unit rate."
+{
+          "text": "$41.05\\%$",
+          "why": "Treats the dollar increase of $\\$41.05$ as the percentage increase."
         },
-        {
-          "text": "$1253\\text{ kWh}$",
-          "why": "Divides the GST-inclusive total directly by the unit rate without removing GST or supply charge."
+{
+          "text": "$112.50\\%$",
+          "why": "Divides the current bill by the last bill and multiplies by $100\\%$ without subtracting $100\\%$."
         }
-      ],
-      "solution_text": "$\\text{Pre-GST subtotal} = \\dfrac{\\$350.90}{1.10} = \\$319.00$\n$\\text{Supply charge} = 90 \\times \\$0.90 = \\$81.00$\n$\\text{Usage charge} = \\$319.00 - \\$81.00 = \\$238.00$\n$\\text{Usage in kWh} = \\dfrac{\\$238.00}{\\$0.28}$\n$= 850\\text{ kWh}$"
+],
+      "solution_text": "$\\text{Increase} = \\$369.45 - \\$328.40 = \\$41.05$\n$\\text{Percentage increase} = \\dfrac{41.05}{328.40} \\times 100\\%$\n$= 12.50\\%$"
     },
-    {
+{
       "id": "q8",
-      "question_text": "A $3$-person household used $54\\text{ kL}$ of water over a $90$-day billing period.\nThe water-efficiency benchmark for their property size is $180\\text{ L per person per day}$.\nWhich statement correctly describes their daily water consumption ($1\\text{ kL} = 1000\\text{ L}$)?",
-      "structure": "daily-average-consumption",
+      "question_text": "A three-person household on a $620\\text{ m}^2$ property used $43.2\\text{ kL}$ of water over $90$ days.\nFor three-person households, the targets are: small property, $463\\text{ L/day}$; medium property, $477\\text{ L/day}$; large property, $498\\text{ L/day}$. A medium property has an area between $501\\text{ m}^2$ and $700\\text{ m}^2$.\nWhich statement correctly compares the household's daily water use with its target? Use $1\\text{ kL} = 1000\\text{ L}$.",
+      "structure": "compare-household-water-efficiency-target",
       "mastery": true,
       "options": [
-        {
-          "text": "They used $200\\text{ L per person per day}$, exceeding the target by $20\\text{ L}$.",
+{
+          "text": "They used $480\\text{ L/day}$, exceeding their target of $477\\text{ L/day}$ by $3\\text{ L/day}$.",
           "correct": true
         },
-        {
-          "text": "They used $600\\text{ L per person per day}$, exceeding the target by $420\\text{ L}$.",
-          "why": "Calculates total household daily litres but fails to divide by the 3 occupants."
+{
+          "text": "They used $480\\text{ L/day}$, meeting a target of $498\\text{ L/day}$.",
+          "why": "Selects the large-property target instead of the medium-property target for an area of $620\\text{ m}^2$."
         },
-        {
-          "text": "They used $0.2\\text{ L per person per day}$, meeting the target by $179.8\\text{ L}$.",
-          "why": "Omits the conversion from kilolitres to litres, dividing $54\\text{ kL}$ directly by $90$ days and $3$ occupants to get $0.2\\text{ L per person per day}$."
+{
+          "text": "They used $160\\text{ L/day}$, meeting their household target of $477\\text{ L/day}$.",
+          "why": "Divides the household daily usage by the three occupants and compares per-person usage with a whole-household target."
         },
-        {
-          "text": "They used $200\\text{ L per person per day}$, which meets the target.",
-          "why": "Identifies the correct usage rate of 200 L/person/day but misinterprets it as being below the 180 L target."
+{
+          "text": "They used $0.48\\text{ L/day}$, meeting their target of $477\\text{ L/day}$.",
+          "why": "Divides $43.2$ by $90$ without converting kilolitres to litres, then labels the result as litres per day."
         }
-      ],
-      "solution_text": "$\\text{Total litres} = 54 \\times 1000 = 54\\,000\\text{ L}$\n$\\text{Household daily usage} = \\dfrac{54\\,000}{90} = 600\\text{ L/day}$\n$\\text{Usage per person} = \\dfrac{600}{3} = 200\\text{ L/person/day}$\n$\\text{Difference from benchmark} = 200 - 180$\n$= 20\\text{ L (exceeds target)}$"
+],
+      "solution_text": "$\\text{Total litres} = 43.2 \\times 1000 = 43\\,200\\text{ L}$\n$\\text{Household daily usage} = \\dfrac{43\\,200}{90} = 480\\text{ L/day}$\nThe property is medium-sized, so the target for three occupants is $477\\text{ L/day}$.\n$\\text{Amount above target} = 480 - 477 = 3\\text{ L/day}$\nThe household is not meeting its target."
     }
-  ]
+]
 }

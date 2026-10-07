@@ -2,25 +2,25 @@
   "skillId": "integrate-exponential",
   "atomType": "R",
   "theory": {
-    "intro": "Integrating an exponential undoes differentiating it. Since differentiating $e^{ax+b}$ multiplies by $a$, integrating it divides by $a$: $\\int e^{ax+b}\\,dx = \\dfrac{1}{a}e^{ax+b} + C$. The index itself never changes.",
+    "intro": "Integrating an exponential undoes differentiating it. Since differentiating $e^{ax+b}$ multiplies by $a$, integrating it divides by $a$ when $a \\ne 0$: $\\int e^{ax+b}\\,dx = \\dfrac{1}{a}e^{ax+b} + C$. The index itself never changes. When $a=0$, the term is constant and integrates to the constant times $x$, with $+C$.",
     "facts": [
-      "$\\int e^{x}\\,dx = e^{x} + C$, because $e^{x}$ is its own derivative.",
-      "$\\int e^{ax+b}\\,dx = \\dfrac{1}{a}e^{ax+b} + C$ for constants $a \\ne 0$ and $b$.",
-      "Differentiating multiplies by $a$, so integrating divides by $a$; losing that $\\dfrac{1}{a}$ is the most common error.",
-      "A constant factor passes straight through: $\\int ke^{ax+b}\\,dx = \\dfrac{k}{a}e^{ax+b} + C$.",
-      "When $a$ is negative the divisor is negative, so $\\int e^{-x}\\,dx = -e^{-x} + C$.",
-      "The index is never raised by one, because the power rule does not apply to $e^{x}$.",
-      "Rewrite $\\dfrac{1}{e^{ax+b}}$ as $e^{-ax-b}$ before integrating.",
-      "There is no product rule for integration, so expand a product such as $e^{x}\\left(e^{x}+1\\right)$ first.",
-      "For a definite integral write $\\left[F(x)\\right]_{p}^{q}$ and compute $F(q) - F(p)$ in that order.",
-      "Check any primitive by differentiating it: the result must be the original integrand."
-    ],
+"$\\int e^{x}\\,dx = e^{x} + C$, because $e^{x}$ is its own derivative.",
+"$\\int e^{ax+b}\\,dx = \\dfrac{1}{a}e^{ax+b} + C$ for constants $a \\ne 0$ and $b$.",
+"Differentiating multiplies by $a$, so integrating divides by $a$; losing that $\\dfrac{1}{a}$ is the most common error.",
+"A constant factor passes straight through: $\\int ke^{ax+b}\\,dx = \\dfrac{k}{a}e^{ax+b} + C$ for $a \\ne 0$.",
+"When $a$ is negative the divisor is negative, so $\\int e^{-x}\\,dx = -e^{-x} + C$.",
+"The index is never raised by one, because the power rule does not apply to $e^{x}$.",
+"Rewrite $\\dfrac{1}{e^{ax+b}}$ as $e^{-ax-b}$ before integrating.",
+"There is no product rule for integration, so expand a product such as $e^{x}\\left(e^{x}+1\\right)$ first.",
+"For a definite integral write $\\left[F(x)\\right]_{p}^{q}$ and compute $F(q) - F(p)$ in that order.",
+"Check any primitive by differentiating it: the result must be the original integrand."
+],
     "steps": [
-      "Rewrite the integrand so every term is a single power of $e$, expanding brackets or splitting fractions first.",
-      "Write down $e$ to the same index, unchanged.",
-      "Divide by $a$, the coefficient of $x$ in the index, keeping any constant factor.",
-      "Add $+C$ for an indefinite integral, or evaluate $\\left[F(x)\\right]_{p}^{q}$ for a definite one."
-    ]
+"Rewrite the integrand as a sum of exponential terms and constant terms, expanding brackets or splitting fractions first.",
+"For each exponential term with nonzero coefficient $a$ of $x$ in its index, write down $e$ to the same index, unchanged.",
+"Divide each exponential term by $a$, keeping any constant factor. Integrate each constant term $k$ as $kx$; do not divide by zero.",
+"Add $+C$ for an indefinite integral, or evaluate $\\left[F(x)\\right]_{p}^{q}$ for a definite one."
+]
   },
   "practice": {
     "foundation": [

@@ -1,11 +1,32 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {inspectContentCoverage} from '../src/lib/booklet-content-verification.js';
+import {contentHash} from '../scripts/booklet/lean-review.mjs';
 const doc=blocks=>({format:'maths-editor-document-v1',version:1,blocks});
 const paragraph=(id,text)=>({id,type:'paragraph',inlines:[{type:'text',text}]});
 const project=(block,entries)=>({sections:[{id:'s',phase:'teaching',blocks:[block]}],source:{reviewProfile:'textbook-three-pass-v1',inventory:{entries,pages:[{pageNumber:1,inventoried:true}]}},settings:{}});
 const entry=(id,targetId,field)=>({id,targetId,field,kind:'teaching',pageNumber:1});
 const missing=async p=>(await inspectContentCoverage(p)).issues.filter(i=>i.kind==='unmapped-content');
+test('current lean reviews supersede generated workflow findings but retain human findings and expire after edits',async()=>{
+ const block={id:'teaching',type:'rich-text',content:doc([paragraph('instruction','Complete the source task.')])};
+ const p=project(block,[entry('source','instruction','/inlines')]);
+ p.studio={flags:[{workflowIssue:true,note:'Original inventory warning',resolved:false}]};
+ const reviewedQuestions={teaching:{outcome:'passed',hash:contentHash(block)}};
+ assert.equal((await inspectContentCoverage(p,{reviewedQuestions})).issues.some(i=>i.kind==='review-finding'),false);
+ p.studio.flags.push({note:'User feedback',resolved:false});
+ assert.ok((await inspectContentCoverage(p,{reviewedQuestions})).issues.some(i=>i.note==='User feedback'));
+ block.content.blocks[0].inlines[0].text='Changed task';
+ assert.ok((await inspectContentCoverage(p,{reviewedQuestions})).issues.some(i=>i.note==='Original inventory warning'));
+});
+test('an independently inventoried permanent demonstration does not invent student answers',async()=>{
+ const node={id:'demo',type:'part',label:'a',prompt:'Given circle.',questionDiagrams:[{id:'figure',format:'tikz',code:'circle'}]};
+ const block={id:'demonstration',type:'question',content:{id:'root',type:'group',children:[node]},sourceReview:{responses:[{targetId:'demo',kind:'none'}]}};
+ const p=project(block,[{id:'source-example',targetId:'demo',field:'/prompt',kind:'example',pageNumber:1},{id:'source-figure',targetId:'figure',kind:'diagram',pageNumber:1}]);
+ const reviewedQuestions={demonstration:{outcome:'passed',hash:contentHash(block)}};
+ assert.equal((await inspectContentCoverage(p,{reviewedQuestions})).issues.filter(i=>i.kind==='missing-answer').length,0);
+ p.source.inventory.entries[0].kind='question';
+ assert.equal((await inspectContentCoverage(p,{reviewedQuestions})).issues.filter(i=>i.kind==='missing-answer').length,2);
+});
 test('native card ownership requires every visible slot branch',async()=>{
  const block={id:'card-block',type:'rich-text',content:doc([{id:'card',type:'layout',arrangement:'cards',slots:[{id:'slot',blocks:[paragraph('formula','Pay = rate × hours')]}]}])};
  const p=project(block,[entry('source-formula','formula','/inlines')]);

@@ -4,15 +4,15 @@
   "theory": {
         "intro": "The **gradient** measures how steep an interval is. It is the ratio $m = \\dfrac{\\text{rise}}{\\text{run}}$: how far the interval goes up or down for each unit it moves to the right.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.3]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,2.6);\n\\coordinate (C) at (4,0);\n\\draw[thick,blue] (A) -- (B);\n\\draw[dashed,red] (A) -- (C) node[midway,below,black] {run};\n\\draw[dashed,red] (C) -- (B) node[midway,right,black] {rise};\n\\coordinate (p) at ($(C)!0.4cm!(A)$);\n\\coordinate (q) at ($(C)!0.4cm!(B)$);\n\\draw (p) -- ($(p)+(q)-(C)$) -- (q);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]",
         "facts": [
-          "$m = \\dfrac{\\text{rise}}{\\text{run}}$, where the **rise** is the vertical change and the **run** is the horizontal change between the two points.",
-          "Always read the interval from left to right, so the **run** is positive.",
-          "An interval that slopes up from left to right has a positive rise, so its gradient is **positive**.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\draw[->] (-0.7,0) -- (4.4,0) node[right] {$x$};\n\\draw[->] (0,-0.5) -- (0,3.4) node[above] {$y$};\n\\draw[thick,blue] (0.9,0.7) -- (3.5,2.9);\n\\fill (0.9,0.7) circle (2.5pt);\n\\fill (3.5,2.9) circle (2.5pt);\n\\node at (2.0,-1.1) {Positive gradient};\n\\end{tikzpicture}\n[/tikz]",
-          "An interval that slopes down from left to right has a negative rise, so its gradient is **negative**.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\draw[->] (-0.7,0) -- (4.4,0) node[right] {$x$};\n\\draw[->] (0,-0.5) -- (0,3.4) node[above] {$y$};\n\\draw[thick,blue] (0.9,2.9) -- (3.5,1.0);\n\\fill (0.9,2.9) circle (2.5pt);\n\\fill (3.5,1.0) circle (2.5pt);\n\\node at (2.0,-1.1) {Negative gradient};\n\\end{tikzpicture}\n[/tikz]",
-          "A **horizontal** interval has a rise of $0$, so its gradient is $\\dfrac{0}{\\text{run}} = 0$.",
-          "A **vertical** interval has a run of $0$, and dividing by $0$ is impossible, so its gradient is **undefined**.",
-          "Simplify the gradient fraction where possible.",
-          "The gradient is the same whichever two points on the interval you use."
-        ],
+"$m = \\dfrac{\\text{rise}}{\\text{run}}$, where the **rise** is the vertical change and the **run** is the horizontal change between the two points.",
+"Read a nonvertical interval from left to right, so the **run** is positive. A vertical interval has a run of $0$.",
+"An interval that slopes up from left to right has a positive rise, so its gradient is **positive**.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\draw[->] (-0.7,0) -- (4.4,0) node[right] {$x$};\n\\draw[->] (0,-0.5) -- (0,3.4) node[above] {$y$};\n\\draw[thick,blue] (0.9,0.7) -- (3.5,2.9);\n\\fill (0.9,0.7) circle (2.5pt);\n\\fill (3.5,2.9) circle (2.5pt);\n\\node at (2.0,-1.1) {Positive gradient};\n\\end{tikzpicture}\n[/tikz]",
+"An interval that slopes down from left to right has a negative rise, so its gradient is **negative**.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\draw[->] (-0.7,0) -- (4.4,0) node[right] {$x$};\n\\draw[->] (0,-0.5) -- (0,3.4) node[above] {$y$};\n\\draw[thick,blue] (0.9,2.9) -- (3.5,1.0);\n\\fill (0.9,2.9) circle (2.5pt);\n\\fill (3.5,1.0) circle (2.5pt);\n\\node at (2.0,-1.1) {Negative gradient};\n\\end{tikzpicture}\n[/tikz]",
+"A **horizontal** interval has a rise of $0$, so its gradient is $\\dfrac{0}{\\text{run}} = 0$.",
+"A **vertical** interval has a run of $0$, and dividing by $0$ is impossible, so its gradient is **undefined**.",
+"Simplify the gradient fraction where possible.",
+"The gradient is the same whichever two points on the interval you use."
+],
         "steps": [
           "Find the rise (the vertical change between the points).",
           "Find the run (the horizontal change between the points).",
@@ -22,95 +22,95 @@
       },
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Find the gradient of the interval $AB$.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-4,-1)--(2,3);\n\\fill (-4,-1) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (-4,-1){$A$};\n\\fill (2,3) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (2,3){$B$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "gradient-positive",
         "solution_text": "$\\text{rise} = 3 - (-1)$\n$= 4$\n$\\text{run} = 2 - (-4)$\n$= 6$\n$m = \\dfrac{\\text{rise}}{\\text{run}}$\n$= \\dfrac{4}{6}$\n$= \\dfrac{2}{3}$\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-4,-1)--(2,3);\n\\draw[dashed,gray] (-4,-1)--(2,-1)--(2,3);\n\\draw (1.7,-1)--(1.7,-0.7)--(2,-0.7);\n\\node[below,font=\\scriptsize] at (-1,-1){run $=6$};\n\\node[right,font=\\scriptsize] at (2,1){rise $=4$};\n\\fill (-4,-1) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (-4,-1){$A$};\n\\fill (2,3) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (2,3){$B$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Find the gradient of the interval $AB$.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-2,-3)--(1,3);\n\\fill (-2,-3) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (-2,-3){$A$};\n\\fill (1,3) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (1,3){$B$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "gradient-negative",
+        "structure": "gradient-positive",
         "solution_text": "$\\text{rise} = 3 - (-3)$\n$= 6$\n$\\text{run} = 1 - (-2)$\n$= 3$\n$m = \\dfrac{\\text{rise}}{\\text{run}}$\n$= \\dfrac{6}{3}$\n$= 2$\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-2,-3)--(1,3);\n\\draw[dashed,gray] (-2,-3)--(1,-3)--(1,3);\n\\draw (0.7,-3)--(0.7,-2.7)--(1,-2.7);\n\\node[below,font=\\scriptsize] at (-0.5,-3){run $=3$};\n\\node[right,font=\\scriptsize] at (1,0){rise $=6$};\n\\fill (-2,-3) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (-2,-3){$A$};\n\\fill (1,3) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (1,3){$B$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Find the gradient of the interval $AB$.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-4,3)--(2,-1);\n\\fill (-4,3) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (-4,3){$A$};\n\\fill (2,-1) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (2,-1){$B$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "gradient-positive",
+        "structure": "gradient-negative",
         "solution_text": "$\\text{rise} = -1 - 3$\n$= -4$\n$\\text{run} = 2 - (-4)$\n$= 6$\n$m = \\dfrac{\\text{rise}}{\\text{run}}$\n$= \\dfrac{-4}{6}$\n$= -\\dfrac{2}{3}$\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-4,3)--(2,-1);\n\\draw[dashed,gray] (-4,3)--(2,3)--(2,-1);\n\\draw (1.7,3)--(1.7,2.7)--(2,2.7);\n\\node[above,font=\\scriptsize] at (-1,3){run $=6$};\n\\node[right,font=\\scriptsize] at (2,1){rise $=-4$};\n\\fill (-4,3) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (-4,3){$A$};\n\\fill (2,-1) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (2,-1){$B$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Find the gradient of the interval $AB$.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-1,4)--(2,-2);\n\\fill (-1,4) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (-1,4){$A$};\n\\fill (2,-2) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (2,-2){$B$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "gradient-negative",
         "solution_text": "$\\text{rise} = -2 - 4$\n$= -6$\n$\\text{run} = 2 - (-1)$\n$= 3$\n$m = \\dfrac{\\text{rise}}{\\text{run}}$\n$= \\dfrac{-6}{3}$\n$= -2$\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-1,4)--(2,-2);\n\\draw[dashed,gray] (-1,4)--(2,4)--(2,-2);\n\\draw (1.7,4)--(1.7,3.7)--(2,3.7);\n\\node[above,font=\\scriptsize] at (0.5,4){run $=3$};\n\\node[right,font=\\scriptsize] at (2,1){rise $=-6$};\n\\fill (-1,4) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (-1,4){$A$};\n\\fill (2,-2) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (2,-2){$B$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Find the gradient of the interval $AB$.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-3,2)--(2,2);\n\\fill (-3,2) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (-3,2){$A$};\n\\fill (2,2) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (2,2){$B$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "gradient-zero",
         "solution_text": "$\\text{rise} = 2 - 2$\n$= 0$\n$\\text{run} = 2 - (-3)$\n$= 5$\n$m = \\dfrac{0}{5}$\n$= 0$\nA horizontal interval has a gradient of $0$.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-3,2)--(2,2);\n\\node[below,font=\\scriptsize] at (-0.5,2){run $=5$};\n\\node[above,font=\\scriptsize] at (-0.5,2.15){rise $=0$};\n\\fill (-3,2) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (-3,2){$A$};\n\\fill (2,2) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (2,2){$B$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Find the gradient of the interval $AB$.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (1,-3)--(1,3);\n\\fill (1,-3) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (1,-3){$A$};\n\\fill (1,3) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (1,3){$B$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "gradient-undefined",
         "solution_text": "$\\text{run} = 1 - 1$\n$= 0$\n$\\text{rise} = 3 - (-3)$\n$= 6$\n$m = \\dfrac{6}{0}$\nDividing by $0$ is undefined, so a vertical interval has an **undefined** gradient.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (1,-3)--(1,3);\n\\node[right,font=\\scriptsize] at (1.15,0){rise $=6$};\n\\node[left,font=\\scriptsize] at (0.85,0){run $=0$};\n\\fill (1,-3) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (1,-3){$A$};\n\\fill (1,3) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (1,3){$B$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Find the gradient of the interval $AB$.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-4,-2)--(2,1);\n\\fill (-4,-2) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (-4,-2){$A$};\n\\fill (2,1) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (2,1){$B$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "gradient-positive",
         "solution_text": "$\\text{rise} = 1 - (-2)$\n$= 3$\n$\\text{run} = 2 - (-4)$\n$= 6$\n$m = \\dfrac{\\text{rise}}{\\text{run}}$\n$= \\dfrac{3}{6}$\n$= \\dfrac{1}{2}$\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-4,-2)--(2,1);\n\\draw[dashed,gray] (-4,-2)--(2,-2)--(2,1);\n\\draw (1.7,-2)--(1.7,-1.7)--(2,-1.7);\n\\node[below,font=\\scriptsize] at (-1,-2){run $=6$};\n\\node[right,font=\\scriptsize] at (2,-0.5){rise $=3$};\n\\fill (-4,-2) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (-4,-2){$A$};\n\\fill (2,1) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (2,1){$B$};\n\\end{tikzpicture}\n[/tikz]"
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "Find the gradient of the interval $AB$.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-5,-4)--(3,2);\n\\fill (-5,-4) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (-5,-4){$A$};\n\\fill (3,2) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (3,2){$B$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "gradient-negative",
+        "structure": "gradient-positive",
         "solution_text": "$\\text{rise} = 2 - (-4)$\n$= 6$\n$\\text{run} = 3 - (-5)$\n$= 8$\n$m = \\dfrac{\\text{rise}}{\\text{run}}$\n$= \\dfrac{6}{8}$\n$= \\dfrac{3}{4}$\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-5,-4)--(3,2);\n\\draw[dashed,gray] (-5,-4)--(3,-4)--(3,2);\n\\draw (2.7,-4)--(2.7,-3.7)--(3,-3.7);\n\\node[below,font=\\scriptsize] at (-1,-4){run $=8$};\n\\node[right,font=\\scriptsize] at (3,-1){rise $=6$};\n\\fill (-5,-4) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (-5,-4){$A$};\n\\fill (3,2) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (3,2){$B$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Find the gradient of the interval $AB$.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-3,5)--(3,-3);\n\\fill (-3,5) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (-3,5){$A$};\n\\fill (3,-3) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (3,-3){$B$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "gradient-positive",
+        "structure": "gradient-negative",
         "solution_text": "$\\text{rise} = -3 - 5$\n$= -8$\n$\\text{run} = 3 - (-3)$\n$= 6$\n$m = \\dfrac{\\text{rise}}{\\text{run}}$\n$= \\dfrac{-8}{6}$\n$= -\\dfrac{4}{3}$\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-3,5)--(3,-3);\n\\draw[dashed,gray] (-3,5)--(3,5)--(3,-3);\n\\draw (2.7,5)--(2.7,4.7)--(3,4.7);\n\\node[above,font=\\scriptsize] at (0,5){run $=6$};\n\\node[right,font=\\scriptsize] at (3,1){rise $=-8$};\n\\fill (-3,5) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (-3,5){$A$};\n\\fill (3,-3) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (3,-3){$B$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Find the gradient of the interval $AB$.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-2,3)--(4,0);\n\\fill (-2,3) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (-2,3){$A$};\n\\fill (4,0) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (4,0){$B$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "gradient-zero",
+        "structure": "gradient-negative",
         "solution_text": "$\\text{rise} = 0 - 3$\n$= -3$\n$\\text{run} = 4 - (-2)$\n$= 6$\n$m = \\dfrac{\\text{rise}}{\\text{run}}$\n$= \\dfrac{-3}{6}$\n$= -\\dfrac{1}{2}$\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-2,3)--(4,0);\n\\draw[dashed,gray] (-2,3)--(4,3)--(4,0);\n\\draw (3.7,3)--(3.7,2.7)--(4,2.7);\n\\node[above,font=\\scriptsize] at (1,3){run $=6$};\n\\node[right,font=\\scriptsize] at (4,1.5){rise $=-3$};\n\\fill (-2,3) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (-2,3){$A$};\n\\fill (4,0) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (4,0){$B$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Find the gradient of the interval $AB$.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-3,-2)--(-3,3);\n\\fill (-3,-2) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (-3,-2){$A$};\n\\fill (-3,3) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (-3,3){$B$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "gradient-undefined",
         "solution_text": "$\\text{run} = -3 - (-3)$\n$= 0$\n$\\text{rise} = 3 - (-2)$\n$= 5$\n$m = \\dfrac{5}{0}$\nDividing by $0$ is undefined, so this vertical interval has an **undefined** gradient.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-3,-2)--(-3,3);\n\\node[right,font=\\scriptsize] at (-2.85,0.5){rise $=5$};\n\\node[left,font=\\scriptsize] at (-3.15,0.5){run $=0$};\n\\fill (-3,-2) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (-3,-2){$A$};\n\\fill (-3,3) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (-3,3){$B$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Which interval is steeper, $PQ$ or $RS$?\nFind the gradient of each to decide.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-4,-1)--(-1,5);\n\\fill (-4,-1) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (-4,-1){$P$};\n\\fill (-1,5) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (-1,5){$Q$};\n\\draw[thick,red,dashed] (0,-3)--(4,-1);\n\\fill (0,-3) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (0,-3){$R$};\n\\fill (4,-1) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (4,-1){$S$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "compare-interval-steepness",
         "solution_text": "$m_{PQ} = \\dfrac{5 - (-1)}{-1 - (-4)}$\n$= \\dfrac{6}{3}$\n$= 2$\n$m_{RS} = \\dfrac{-1 - (-3)}{4 - 0}$\n$= \\dfrac{2}{4}$\n$= \\dfrac{1}{2}$\nSince $2 > \\dfrac{1}{2}$, interval $PQ$ is steeper.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-4,-1)--(-1,5);\n\\node[blue,font=\\scriptsize] at (-3.4,2.3){$m=2$};\n\\fill (-4,-1) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (-4,-1){$P$};\n\\fill (-1,5) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (-1,5){$Q$};\n\\draw[thick,red,dashed] (0,-3)--(4,-1);\n\\node[red,font=\\scriptsize] at (2.6,-1.4){$m=\\tfrac{1}{2}$};\n\\fill (0,-3) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (0,-3){$R$};\n\\fill (4,-1) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (4,-1){$S$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Find the gradient of the interval $AB$.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-1,-4)--(2,5);\n\\fill (-1,-4) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (-1,-4){$A$};\n\\fill (2,5) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (2,5){$B$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "gradient-negative",
+        "structure": "gradient-positive",
         "solution_text": "$\\text{rise} = 5 - (-4)$\n$= 9$\n$\\text{run} = 2 - (-1)$\n$= 3$\n$m = \\dfrac{\\text{rise}}{\\text{run}}$\n$= \\dfrac{9}{3}$\n$= 3$\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-1,-4)--(2,5);\n\\draw[dashed,gray] (-1,-4)--(2,-4)--(2,5);\n\\draw (1.7,-4)--(1.7,-3.7)--(2,-3.7);\n\\node[below,font=\\scriptsize] at (0.5,-4){run $=3$};\n\\node[right,font=\\scriptsize] at (2,0){rise $=9$};\n\\fill (-1,-4) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (-1,-4){$A$};\n\\fill (2,5) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (2,5){$B$};\n\\end{tikzpicture}\n[/tikz]"
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "The interval joining $(-1, 3)$ and $(3, k)$ has a gradient of $\\dfrac{1}{2}$.\nFind the value of $k$.",
-        "structure": "gradient-find-coordinate",
-        "solution_text": "$m = \\dfrac{k - 3}{3 - (-1)}$\n$\\dfrac{1}{2} = \\dfrac{k - 3}{4}$\n$4 \\times \\dfrac{1}{2} = k - 3$\n$2 = k - 3$\n$k = 5$"
+{
+        "question_text": "Find the gradient of the interval joining $(-5, 4)$ and $(3, -2)$.",
+        "structure": "gradient-symbolic",
+        "solution_text": "$\\text{rise} = -2 - 4$\n$= -6$\n$\\text{run} = 3 - (-5)$\n$= 8$\n$m = \\dfrac{\\text{rise}}{\\text{run}}$\n$= \\dfrac{-6}{8}$\n$= -\\dfrac{3}{4}$"
       },
-      {
-        "question_text": "The interval joining $(2, 1)$ and $(x, 7)$ has a gradient of $3$.\nFind the value of $x$.",
-        "structure": "gradient-find-coordinate",
-        "solution_text": "$m = \\dfrac{7 - 1}{x - 2}$\n$3 = \\dfrac{6}{x - 2}$\n$3(x - 2) = 6$\n$x - 2 = 2$\n$x = 4$"
+{
+        "question_text": "Find the gradient of the interval joining $(-3, -7)$ and $(2, 8)$.",
+        "structure": "gradient-symbolic",
+        "solution_text": "$\\text{rise} = 8 - (-7)$\n$= 15$\n$\\text{run} = 2 - (-3)$\n$= 5$\n$m = \\dfrac{\\text{rise}}{\\text{run}}$\n$= \\dfrac{15}{5}$\n$= 3$"
       },
-      {
-        "question_text": "The interval joining $(-4, -1)$ and $(3, k)$ has a gradient of $0$.\nFind the value of $k$.",
-        "structure": "gradient-find-coordinate",
-        "solution_text": "A gradient of $0$ means the rise is $0$, so the interval is horizontal.\nThe two endpoints must share the same $y$-value.\n$k = -1$"
+{
+        "question_text": "Find the gradient of the interval joining $(6, -4)$ and $(-2, 2)$.",
+        "structure": "gradient-symbolic",
+        "solution_text": "Read from left to right, starting at $(-2, 2)$.\n$\\text{rise} = -4 - 2$\n$= -6$\n$\\text{run} = 6 - (-2)$\n$= 8$\n$m = \\dfrac{\\text{rise}}{\\text{run}}$\n$= \\dfrac{-6}{8}$\n$= -\\dfrac{3}{4}$"
       },
-      {
-        "question_text": "The interval joining $(h, 2)$ and $(5, -3)$ has an undefined gradient.\nFind the value of $h$.",
-        "structure": "gradient-find-coordinate",
-        "solution_text": "An undefined gradient means the run is $0$, so the interval is vertical.\nThe two endpoints must share the same $x$-value.\n$h = 5$"
+{
+        "question_text": "Find the gradient of the interval joining $(5, 7)$ and $(-4, -5)$.",
+        "structure": "gradient-symbolic",
+        "solution_text": "Read from left to right, starting at $(-4, -5)$.\n$\\text{rise} = 7 - (-5)$\n$= 12$\n$\\text{run} = 5 - (-4)$\n$= 9$\n$m = \\dfrac{\\text{rise}}{\\text{run}}$\n$= \\dfrac{12}{9}$\n$= \\dfrac{4}{3}$"
       }
-    ]
+]
   }
 }

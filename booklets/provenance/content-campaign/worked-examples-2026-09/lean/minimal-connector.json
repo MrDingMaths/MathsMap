@@ -1,0 +1,87 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "minimal-connector",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-07T19:05:17.721Z",
+  "status": "needs attention: repair returned no candidate",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 63.3,
+      "usage": {
+        "input_tokens": 149850,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2859,
+        "reasoning_output_tokens": 93
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\minimal-connector\\audit-UbhGdR\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": null,
+      "seconds": 1800,
+      "usage": null,
+      "error": "Worker exceeded the 30-minute call timeout | Reading prompt from stdin...\n2026-10-07T19:06:21.234306Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n2026-10-07T19:06:21.235949Z  WARN codex_core::agents_md: project doc exceeds remaining budget; truncating path=file:///D:/WebApps/MathsMap/AGENTS.md remaining_bytes=32768\n",
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\minimal-connector\\repair-9xnCXc\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "ca52f3824073181c20360292e761dbca05ac3f6aab1f6e99cd2afa6c3a4777e7",
+    "quizHash": "fd0a9c994411a6d84248308216c66e1305b4148a89b26a4746c9c5e70d02c021"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 6 Standard/Networks Paths Trees 2_Shortest paths and spanning trees.md",
+    "booklets/mathsmap-sources/Stage 6 Standard/Networks Paths Trees 1_Network concepts.md",
+    "booklets/mathsmap-sources/Stage 5 Path/Properties of Geometrical Figures B_3 Develop and apply the minimum conditions for triangles to be similar.md"
+  ],
+  "images": 110,
+  "omittedImages": 75,
+  "fullReview": {
+    "name": "audit",
+    "hash": "9580cd3600f04f126dc34903ad4571f77126bdd307b6440e827bcb3d248c8049",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for practice.foundation[1]",
+    "No booklet question cited for practice.foundation[3]",
+    "No booklet question cited for practice.foundation[5]",
+    "No booklet question cited for practice.foundation[6]",
+    "No booklet question cited for practice.foundation[7]",
+    "No booklet question cited for practice.development[3]",
+    "No booklet question cited for practice.development[4]",
+    "No booklet question cited for practice.development[7]",
+    "No booklet question cited for practice.mastery[0]",
+    "No booklet question cited for practice.mastery[1]",
+    "No booklet question cited for practice.mastery[2]",
+    "No booklet question cited for quiz.q2",
+    "No booklet question cited for quiz.q4",
+    "No booklet question cited for quiz.q5",
+    "No booklet question cited for quiz.q7",
+    "No booklet question cited for quiz.q8",
+    "practice.foundation[1]: The booklet asks students to determine the minimum network cost from a network or distance table; it does not ask cost-only questions given the MST total. This is an intermediate calculation rather than a supported standalone type.",
+    "practice.foundation[3]: Cost calculation from a supplied MST total is not a question type asked in the booklet; network selection is omitted.",
+    "practice.foundation[5]: The booklet asks whether a computed shortest path lies on a computed MST, not a general explanation from supplied path totals. The solution also needs an exchange argument: merely saying that adding an edge creates a cycle does not explain why that edge cannot replace a tree edge.",
+    "practice.foundation[6]: Summing a supplied list of MST edges is an intermediate solution step, not a standalone booklet question type.",
+    "practice.foundation[7]: Cost calculation from a supplied MST total is not a standalone booklet question type.",
+    "practice.development[2]: The calculations are correct, but independently finding a shortest path assesses a separate skill. Limit the assessed task to the minimal connector rather than requiring shortest-path computation.",
+    "practice.development[3]: The booklet's snow-clearing question starts with all roads closed; no question asks for additional construction or clearing with pre-existing links. The supplied task is a new constraint type.",
+    "practice.development[4]: Cost calculation from a supplied MST total is not a standalone booklet question type.",
+    "practice.development[7]: Summing supplied MST segment lengths, including an installed link, is not a standalone booklet question type.",
+    "practice.mastery[0]: The booklet does not ask tiered-rate or link-threshold surcharge questions, nor supply an MST solely for costing. This adds an unsupported task type despite correct arithmetic.",
+    "practice.mastery[1]: Transmission latency, propagation delay and switching delay are not taught or assessed in the supplied booklet. This engineering explanation is outside the target skill and source question types.",
+    "practice.mastery[2]: The booklet asks for minimal clearing when all roads are closed, not minimum additional clearing with mandatory existing links.",
+    "quiz.q1: Distractor explanations do not produce their values: all edges total 72 correctly, but replacing TA and AE by ET gives $39-9-6+11=35$, not 44, and disconnects A and B from the other component. Omitting C gives $39-8=31$, not 33. Repair these distractor values or explanations.",
+    "quiz.q2: Given-MST-total costing is not a standalone booklet type. The 680000 explanation assumes an unstated equal length of 16 km per edge; multiplying by five towns alone does not derive it. The solution invents individual edge lengths and a topology not supplied by the question.",
+    "quiz.q3: No selection of distinct supplied edges totals 26, so its disconnected-edge explanation is impossible. No selection of four distinct supplied edges totals 37; the four smallest total 40. Repair both distractor values or explanations.",
+    "quiz.q4: Given-MST-total costing is not a standalone booklet type. The solution invents edge lengths and a topology not provided in the question; remove that unsupported construction when repairing the task.",
+    "quiz.q5: The booklet asks concrete shortest-path/MST comparisons, not recognition of a general statement. Option 2 is also defensibly true: every MST edge joins vertices adjacent in the original graph, so its wording fails to provide an unambiguously false distractor.",
+    "quiz.q6: The 56 distractor explanation gives $48-7-11+16=46$, not 56, and isolates S1. Repair that value or explanation.",
+    "quiz.q7: Already-cleared-link constraints are not asked in the booklet. All outer boundary edges total $9+6+8+4+7+7=41$, not 34; omitting the connection to A gives $22-7=15$, not 18. Repair both distractor explanations or values alongside the unsupported task.",
+    "quiz.q8: Given-MST-total costing is not a standalone booklet type. The 3120000 explanation assumes five equal 13 km links, which are not supplied; identify the mistaken averaging assumption explicitly if retaining that distractor in a repaired task."
+  ],
+  "finishedAt": "2026-10-07T19:36:21.206Z"
+}

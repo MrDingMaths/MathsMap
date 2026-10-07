@@ -2,11 +2,18 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {inspectContentCoverage} from '../../src/lib/booklet-content-verification.js';
 import {contentAssetSignatures} from './verification-cache.mjs';
+import {isLeanReview} from '../../src/lib/booklet-review-profile.js';
+import {loadRun} from './transcription.mjs';
 const args=process.argv.slice(2),arg=(name,fallback)=>{const i=args.indexOf(name);return i<0?fallback:args[i+1];};
 const id=arg('--project');
 if(!id||!/^[a-zA-Z0-9._-]+$/.test(id))throw Error('Provide --project ID [--out DIRECTORY]');
 const project=JSON.parse(fs.readFileSync(`booklets/projects/${id}.json`,'utf8'));
-const report=await inspectContentCoverage(project,{assetSignatures:await contentAssetSignatures(project)}),out=arg('--out',`.booklet-work/coverage/${id}`);
+let reviewedQuestions={};
+if(isLeanReview(project)&&project.source?.runId){
+ const {runDir}=loadRun(project.source.runId),file=`${runDir}/lean-review/reviewed.json`;
+ if(fs.existsSync(file))reviewedQuestions=JSON.parse(fs.readFileSync(file,'utf8')).questions??{};
+}
+const report=await inspectContentCoverage(project,{assetSignatures:await contentAssetSignatures(project),reviewedQuestions}),out=arg('--out',`.booklet-work/coverage/${id}`);
 fs.mkdirSync(out,{recursive:true});
 fs.writeFileSync(path.join(out,'coverage.json'),JSON.stringify(report,null,2)+'\n');
 fs.writeFileSync(path.join(out,'coverage.md'),`# ${project.title}: source coverage\n\n${JSON.stringify(report.counts)}\n\n`+report.issues.map(i=>`- ${i.kind}: ${i.targetId??'source'} — ${i.note}`).join('\n')+'\n');

@@ -14,6 +14,7 @@ test('measured label overhang reserves flow without changing native fitting, acr
   \draw (-1,0)--(1,0);
   \node[above,fill=white,inner sep=1pt] at (0,0.24) {$\frac{x_1^2}{2}$};
   \node[below,rotate=25,fill=white,inner sep=1pt] at (0,-0.24) {$y_2^3$};
+  \node[right] at (0.9,0) {$(-3-\sqrt{21},0)$};
   \pgfresetboundingbox
   \path[use as bounding box] (-1,-0.25) rectangle (1,0.25);
   \end{tikzpicture}`);
@@ -21,7 +22,7 @@ test('measured label overhang reserves flow without changing native fitting, acr
   try {
     const page=await browser.newPage();
     const mathsCss=fs.readFileSync('node_modules/katex/dist/katex.min.css','utf8').replace(/url\((fonts\/[^)]+)\)/g,(_,name)=>'url(data:font/woff2;base64,'+fs.readFileSync('node_modules/katex/dist/'+name).toString('base64')+')');
-    await page.setContent('<style>'+mathsCss+'.booklet-page{width:210mm;transform-origin:top left}p{margin:0;font:9pt serif}.tikz-wrap{padding:3px 0 5px;overflow:visible}svg{display:block;width:100%;height:auto}</style><article class="booklet-page"><p>'+katex.renderToString(String.raw`(-\frac12,\frac{3}{4})` )+'</p><div class="tikz-wrap">'+svg+'</div><p>'+katex.renderToString(String.raw`x\ge\frac{2b}{a}`)+'</p></article>');
+    await page.setContent('<style>'+mathsCss+'.booklet-page{width:210mm;transform-origin:top left}p{margin:0;font:9pt serif}.tikz-wrap{box-sizing:border-box;padding:3px 0 5px;overflow:visible}svg{display:block;width:100%;height:auto}</style><article class="booklet-page"><p>'+katex.renderToString(String.raw`(-\frac12,\frac{3}{4})` )+'</p><div class="tikz-wrap">'+svg+'</div><p>'+katex.renderToString(String.raw`x\ge\frac{2b}{a}`)+'</p></article>');
     await page.evaluate(()=>document.fonts.ready);
     const rows=await page.evaluate(({calibrate,scale,reserve,style})=>{
       const fit=new Function('BOOKLET_HOUSE_STYLE',`const graphPageScale=${scale};return ${calibrate}`)(style),reserveSpace=new Function(`return ${reserve}`)();
@@ -57,6 +58,21 @@ test('measured label overhang reserves flow without changing native fitting, acr
         fit(article);reserveSpace(article);
         if(wrapper.style.cssText!==reservation)throw Error('Measured pagination changed on visible print');
         rows.push({zoom,width,top,bottom});
+      }
+      // Real answer diagrams use an auto-width wrapper inside a fixed slot.
+      // Repeated horizontal reservation must not shrink it to zero.
+      const slot=document.createElement('div');slot.style.width='45mm';wrapper.before(slot);slot.append(wrapper);
+      article.style.transform='';wrapper.style.width='';wrapper.style.boxSizing='border-box';
+      wrapper.style.paddingLeft='0px';wrapper.style.paddingRight='0px';
+      delete wrapper.dataset.labelSpaceOriginalLeft;delete wrapper.dataset.labelSpaceOriginalRight;
+      fit(article);const nativeWidth=wrapper.querySelector('svg').getBoundingClientRect().width;
+      for(let pass=0;pass<30;pass++){
+        fit(article);reserveSpace(article);
+        if(Math.abs(wrapper.querySelector('svg').getBoundingClientRect().width-nativeWidth)>.01)throw Error('Auto-width geometry consumed by horizontal reservation');
+        for(const label of wrapper.querySelectorAll('[data-diagram-label]')){
+          const matrix=label.getScreenCTM(),pageScale=article.getBoundingClientRect().width/(210*96/25.4),pt=Number(label.dataset.labelFont)*Math.hypot(matrix.c,matrix.d)*72/96/pageScale;
+          if(Math.abs(pt-10)>.01)throw Error('Auto-width label calibration diverged');
+        }
       }
       const padding=wrapper.style.cssText;article.style.display='none';fit(article);reserveSpace(article);
       if(wrapper.style.cssText!==padding)throw Error('Hidden print copy lost valid measurement');

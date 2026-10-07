@@ -3,22 +3,73 @@
   "skillId": "complementary-multistage",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-06T16:02:21.324Z",
-  "status": "running",
+  "startedAt": "2026-10-07T09:25:07.904Z",
+  "status": "accepted: held for diagram check",
   "calls": [
     {
       "name": "audit",
       "code": 0,
-      "seconds": 87.5,
+      "seconds": 91.4,
       "usage": {
         "input_tokens": 143285,
-        "cached_input_tokens": 20608,
+        "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 3469,
-        "reasoning_output_tokens": 179
+        "output_tokens": 3530,
+        "reasoning_output_tokens": 95
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\complementary-multistage\\audit-kttCjh\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\complementary-multistage\\audit-5E0JaO\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 264.5,
+      "usage": {
+        "input_tokens": 144505,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 14927,
+        "reasoning_output_tokens": 264
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\complementary-multistage\\repair-vWTIRg\\response.raw.txt"
+    },
+    {
+      "name": "review-scoped",
+      "code": 0,
+      "seconds": 32.5,
+      "usage": {
+        "input_tokens": 144336,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 862,
+        "reasoning_output_tokens": 60
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\complementary-multistage\\review-scoped-gQya69\\response.raw.txt"
+    }
+  ],
+  "previousAttempts": [
+    {
+      "startedAt": "2026-10-06T16:02:21.324Z",
+      "finishedAt": null,
+      "status": "running",
+      "calls": [
+        {
+          "name": "audit",
+          "code": 0,
+          "seconds": 87.5,
+          "usage": {
+            "input_tokens": 143285,
+            "cached_input_tokens": 20608,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 3469,
+            "reasoning_output_tokens": 179
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\complementary-multistage\\audit-kttCjh\\response.raw.txt"
+        }
+      ]
     }
   ],
   "baseline": {
@@ -33,5 +84,44 @@
     "booklets/mathsmap-sources/Stage 5 Path/Probability B_3 Describe mutually and non-mutually exclusive events using specific language and calculate related probabilities.md"
   ],
   "images": 110,
-  "omittedImages": 37
+  "omittedImages": 37,
+  "fullReview": {
+    "name": "review-accepted",
+    "hash": "18511012226ec7337864a6ed1a15f3c23be9643cf91520ccc9e3964ff4b8d117",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for practice.development[7]",
+    "No booklet question cited for practice.mastery[0]",
+    "No booklet question cited for practice.mastery[2]",
+    "No booklet question cited for quiz.q5",
+    "No booklet question cited for quiz.q7",
+    "No booklet question cited for quiz.q8",
+    "No booklet question cited for quiz.dq-5835",
+    "practice.development[7]: The booklet does not ask students to diagnose subtracting exactly one from 1. Replace this off-booklet explanation task with a supported task in the same tier and update its structure. The current explanation also misleadingly describes the error as removing too little: the subtracted event is the wrong event, and the retained outcomes are zero or two sixes.",
+    "practice.mastery[0]: The calculation is correct, but the supplied booklet never asks for at least two successes in three trials. Replace with a supported complementary multistage task in the same tier and update the structure.",
+    "practice.mastery[2]: The answer is correct, but recovering an unknown single-stage probability from an at-least-one probability is not a question type asked in the supplied booklet. Replace with a supported task in the same tier and update the structure.",
+    "quiz.q5: Option index 2's explanation does not derive its value: leaving only the second total at 9 gives $1-\\frac{5}{9}\\times\\frac{4}{9}=\\frac{61}{81}$. Its displayed $\\frac{56}{81}$ instead comes from treating the draws as with replacement, keeping both the working count and total unchanged; correct the explanation or value.",
+    "quiz.q7: Selecting a complementary calculation is not a task asked in the supplied booklet; replace with a supported probability question under the same id and update the structure. If it asks for a numerical probability, all numerical options must be evaluated.",
+    "quiz.q8: At least two successes in three trials is not asked in the supplied booklet. Replace with a supported mastery task under the same id; the current structure also incorrectly says at least one.",
+    "quiz.dq-5835: Correct the distractor explanations: index 1's $0.24$ is one win-loss path, whereas losing both is $0.16$; index 2's $0.48$ counts exactly one win and omits winning both. Index 3's explanation must identify a specific mistake that actually produces $0.30$, or its value and explanation must be repaired together.",
+    "theory: Qualify the intro and facts claiming that none is always a single tree path: this holds for a tree grouping each stage into success and failure, but a tree retaining multiple non-success outcomes can have several none paths. Likewise, seven at-least-one paths assumes three binary stages. Independence means previous results do not change a stage's probability; it does not mean different stages have equal probabilities, as practice.development[0–2] demonstrate."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.development[7]",
+    "practice.mastery[0]",
+    "practice.mastery[2]",
+    "quiz.q5",
+    "quiz.q7",
+    "quiz.q8",
+    "quiz.dq-5835"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 33,
+  "summary": "Replaced five off-booklet tasks with supported probability questions, updated their structure slugs and source citations, and repaired the distractor explanations in q5 and dq-5835, changing one distractor value in dq-5835. Qualified the theory's claims about tree paths and independence; these theory edits and item replacements are not whole-item removals.",
+  "reviewSummary": "All seven requested items have correct answers, appropriate complementary-event working and supported booklet question types; each reviewed quiz has exactly one correct option and accurate distractor explanations. The theory agrees with the booklet and correctly distinguishes independent stages from selections without replacement.",
+  "candidateHash": "18511012226ec7337864a6ed1a15f3c23be9643cf91520ccc9e3964ff4b8d117",
+  "finishedAt": "2026-10-07T09:31:36.553Z"
 }

@@ -1,0 +1,95 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "cut-capacity",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-07T10:33:26.157Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 87.3,
+      "usage": {
+        "input_tokens": 69391,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3335,
+        "reasoning_output_tokens": 482
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\cut-capacity\\audit-B2bNy9\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 367.5,
+      "usage": {
+        "input_tokens": 70139,
+        "cached_input_tokens": 69760,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 14755,
+        "reasoning_output_tokens": 0
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\cut-capacity\\repair-fQbBu4\\response.raw.txt"
+    },
+    {
+      "name": "review-scoped",
+      "code": 0,
+      "seconds": 46.7,
+      "usage": {
+        "input_tokens": 69908,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1202,
+        "reasoning_output_tokens": 597
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\cut-capacity\\review-scoped-DK1259\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "8f9cc5369eeea27a537a43ee336e4cecd7de8b4a8617cd16410ebde03fb5a63f",
+    "quizHash": "c7cfef35743d3ac820dced72d175bbeeacce1db91b1a4b64e665333e1205cd5b"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 6 Standard/Network Flow.md"
+  ],
+  "images": 44,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "audit",
+    "hash": "06d1a5f74228aab49c83234781c805b11c8cf3b219136390b4881d03a0a00f72",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "practice.foundation[2]: The drawn line crosses SA only, not AC. Correct the solution's statement that it cuts both SA and AC.",
+    "practice.foundation[3]: The drawn line misses SY and leaves S–Y–T uncut, contradicting the stated partition. Extend its lower endpoint beyond SY. Change structure to calculate-cut-capacity-forward-only because every crossing edge is forward.",
+    "practice.foundation[4]: The drawn line misses SQ and leaves S–Q–T uncut. Extend its lower endpoint beyond SQ so the drawing matches the stated partition.",
+    "practice.development[0]: The cut terminates exactly on SB and DT rather than passing through them. Extend both endpoints beyond those edges to show the stated separation unambiguously.",
+    "practice.development[2]: C2's lower endpoint stops before crossing SB, leaving S–B–T uncut. Extend C2 below SB so it implements the partition used in the solution.",
+    "quiz.q1: The explanation for 36 does not name a specific mistake producing that value: subtraction gives 4, not 36. Supply a specific numerical mistake consistent with 36.",
+    "quiz.q9: The explanation for 87 is mathematically false; that value results from omitting the 48 edge, not averaging. The explanation for 145 must name a specific numerical mistake producing 145 rather than merely saying arithmetic error."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.foundation[2]",
+    "practice.foundation[3]",
+    "practice.foundation[4]",
+    "practice.development[0]",
+    "practice.development[2]",
+    "quiz.q1",
+    "quiz.q9"
+  ],
+  "theoryChanged": false,
+  "removed": [],
+  "items": 26,
+  "summary": "Corrected the stated crossing in practice.foundation[2], extended four cut drawings to cross the required edges, and changed practice.foundation[3]'s structure to calculate-cut-capacity-forward-only. Repaired the distractor explanations in quiz.q1 and quiz.q9 to name specific mistakes producing their values; no whole items were removed and all other content was preserved.",
+  "reviewSummary": "All 26 items use booklet-supported question types, and their intended numerical answers are correct. Five cut diagrams, one solution's crossing-edge description, one structure slug and three distractor explanations require repair; no worked examples or removals were supplied.",
+  "candidateHash": "3975e2178f0523216cdc9e87d4bea032d17df7669967682b1a0c15a0b6c132fd",
+  "findings": [
+    "practice.development[0]: Redraw cut C to match the stated partition {S, A, D} and {B, C, T}. It must cross SB, AB, AC, BD, CD and DT once each, leaving SA, BC and CT uncut; preserve the intended answer 71 and its working."
+  ],
+  "finishedAt": "2026-10-07T10:41:47.833Z"
+}

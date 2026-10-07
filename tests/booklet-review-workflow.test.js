@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {inspectTriangle,triangleConstruction,measuredTriangle,verifyTriangleCode} from '../scripts/booklet/triangle-constraints.mjs';
-import {loadWorkflow,liveWorkflow,updateWorkflow,registerInventory,registerAuthor,pageGate,currentStatus,workflowFlags,recordMathReview,applyDecisions,approveRepresentative,representativeKey,settlementKey,settleWorkflow,acceptFinalReview,materializeCorrections,synchronizeProject,bytesHash,PATTERN_CHECKS,FINAL_EDITIONS,REVIEW_POLICY} from '../scripts/booklet/workflow-review.mjs';
+import {loadWorkflow,liveWorkflow,effectiveInventory,updateWorkflow,registerInventory,registerAuthor,pageGate,currentStatus,workflowFlags,recordMathReview,applyDecisions,approveRepresentative,representativeKey,settlementKey,settleWorkflow,acceptFinalReview,materializeCorrections,synchronizeProject,bytesHash,PATTERN_CHECKS,FINAL_EDITIONS,REVIEW_POLICY} from '../scripts/booklet/workflow-review.mjs';
 import {rendererSignature} from '../scripts/booklet/verification-cache.mjs';
 import {affectedPages,renderedPageHashes,projectReviewHash,validateFinalManifest} from '../scripts/booklet/page-review.mjs';
 import {refreshRegister,correctionOutputs} from '../scripts/booklet/review-workflow.mjs';
@@ -17,6 +17,23 @@ import {createBookletProject,promoteProjectQuestion,saveBookletProject} from '..
 import {nextBoundedWork,registerFeedbackScope,prepareBoundedStage,recordBoundedStage} from '../scripts/booklet/bounded-stages.mjs';
 
 const exact=value=>({value,exact:true});
+test('lean furniture exclusions recognise circled header icons and separators without excluding questions',()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'booklet-furniture-'));
+ try{
+  fs.mkdirSync(path.join(dir,'semantic-packets'));
+  const entries=[
+   {id:'icon',kind:'diagram',description:'Information-circle icon beside the teaching heading.',presentation:{exclusionReason:'Renderer-owned teaching-header template decorations; neither conveys mathematical content.'}},
+   {id:'rule',kind:'question',description:'Thin grey horizontal rules separate parts a–d.',presentation:{exclusionReason:'Decorative part separators carry no mathematical meaning; house arrangement presets govern separation.'}},
+   {id:'response',kind:'question',description:'Thin grey horizontal rules separate parts a–d.',expectedAnswer:'4',responseKind:'working',presentation:{exclusionReason:'Decorative part separators carry no mathematical meaning; house arrangement presets govern separation.'}}
+  ];
+  fs.writeFileSync(path.join(dir,'semantic-packets/page-001.inventory.json'),JSON.stringify({pageNumber:1,entries}));
+  const actual=effectiveInventory(dir,1,{reviewProfile:'textbook-three-pass-v1',corrections:[]});
+  assert.equal(actual.entries[0].exclusionReason,entries[0].presentation.exclusionReason);
+  assert.equal(actual.entries[1].exclusionReason,entries[1].presentation.exclusionReason);
+  assert.equal(actual.entries[2].exclusionReason,undefined);
+  assert.equal(JSON.parse(fs.readFileSync(path.join(dir,'semantic-packets/page-001.inventory.json'))).entries[0].exclusionReason,undefined);
+ }finally{fs.rmSync(dir,{recursive:true,force:true});}
+});
 const triangle={type:'triangle',sides:{b:exact(5),c:exact(5)},angles:{A:exact(100)}};
 const inv=page=>({pageNumber:page,inventoried:true,layoutPatterns:[{id:'short-question',description:'Single short prompt and response'}],entries:[{id:`src-${page}`,targetId:`q-${page}`,kind:'question',description:'Find x.'}]});
 const author=page=>({pageNumber:page,sections:[{id:`s-${page}`,title:'Triangles',blocks:[{id:`b-${page}`,type:'question',content:{id:`q-${page}`,type:'question',prompt:'Find x.',answer:{short:'1',worked:'x=1'}}}]}],inventoryMappings:[{inventoryId:`src-${page}`,targetId:`q-${page}`}]});

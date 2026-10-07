@@ -58,7 +58,7 @@ export async function inspectPresentationFidelity(project){
       // Authors may include human-readable guidance alongside exact field checks.
       // A narrative note is not a JSON-pointer assertion or automated evidence.
       if(typeof requirement?.path!=='string'||!requirement.path.startsWith('/')){
-        if(requirement?.path==null&&typeof requirement?.requirement==='string'&&requirement.requirement.trim())continue;
+        if(typeof requirement==='string'&&requirement.trim()||requirement?.path==null&&requirement?.value===undefined&&[requirement?.requirement,requirement?.description].some(note=>typeof note==='string'&&note.trim()))continue;
         issue('invalid-presentation-requirement',block.id,'A presentation field check needs a JSON pointer path and expected value.');
         continue;
       }

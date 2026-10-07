@@ -1,0 +1,120 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "max-flow-saturated-edges",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-07T18:34:54.630Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 65.5,
+      "usage": {
+        "input_tokens": 77470,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2688,
+        "reasoning_output_tokens": 224
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\max-flow-saturated-edges\\audit-374FCr\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 1366.4,
+      "usage": {
+        "input_tokens": 78502,
+        "cached_input_tokens": 78080,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 24907,
+        "reasoning_output_tokens": 0
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\max-flow-saturated-edges\\repair-J58a9P\\response.raw.txt"
+    },
+    {
+      "name": "review-full",
+      "code": 0,
+      "seconds": 57.3,
+      "usage": {
+        "input_tokens": 80169,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2242,
+        "reasoning_output_tokens": 169
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\max-flow-saturated-edges\\review-full-WVDkYk\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "33febdcbad3a57b0fb9c87b6729c01fdf51d2561876163a6ac68a4b0382a5902",
+    "quizHash": "1f31ff53ca03ce438ba18c3567c1fa8d5df44ce0e83607664f3d70918cdb8d1a"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 6 Standard/Network Flow.md"
+  ],
+  "images": 44,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "review-full",
+    "hash": "c695e97c1c39999659a7631d33b94dd1e12dcd797e751fefdded52358e8e6825",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for practice.foundation[0]",
+    "No booklet question cited for practice.foundation[1]",
+    "No booklet question cited for practice.development[0]",
+    "No booklet question cited for practice.development[1]",
+    "No booklet question cited for quiz.q1",
+    "No booklet question cited for quiz.q8",
+    "practice.foundation[0]: Finding the capacity of a specified path is an intermediate algorithm step, not a standalone booklet question type. Replace with an adapted Foundation maximum-flow question.",
+    "practice.foundation[1]: Reporting every remaining edge capacity after a specified path is only an intermediate solution step in the booklet. Replace with an adapted Foundation booklet question type.",
+    "practice.foundation[3]: The instruction and step 1 require every path, but omit S → A → B → C → T. Include this path and explain that it carries no additional flow after AB becomes saturated; the answer remains 17.",
+    "practice.development[0]: Calculating the next specified path's flow is an intermediate solution step rather than a booklet question type. Replace with an adapted Development maximum-flow question.",
+    "practice.development[1]: Listing all remaining capacities after two prescribed paths is only an intermediate solution task in the booklet. Replace with an adapted Development booklet question type.",
+    "practice.mastery[2]: Spare capacities depend on the chosen maximum-flow allocation. Specify the path order or accept other valid maximum-flow allocations and their corresponding spare capacities.",
+    "quiz.q1: The specified-path calculation is only an intermediate booklet solution step; replace with an adapted booklet question type. Independently, option 1's explanation is wrong: the largest path capacity is 17, while 13 is the final edge's capacity.",
+    "quiz.q6: Option 3's explanation does not produce 36: using only S → A → C → T and S → B → D → T produces 48. Change that distractor or its explanation so the stated specific mistake actually produces its value.",
+    "quiz.q8: Computing additional flow along a prescribed next path is only an intermediate booklet solution step. Replace with an adapted booklet question type at the same quiz id.",
+    "theory: The assertion that path order never changes the achieved maximum is mathematically false for the stated forward-only subtraction procedure, even though the booklet makes a similar claim. For example, with SA=SB=AB=AT=BT=1, taking S → A → B → T first yields 1 and blocks further forward paths, whereas S → A → T and S → B → T yield 2. Qualify the method's scope and remove the unconditional order-independence and stopping guarantees without introducing advanced residual-network demands."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.foundation[0]",
+    "practice.foundation[1]",
+    "practice.foundation[2]",
+    "practice.foundation[3]",
+    "practice.foundation[4]",
+    "practice.foundation[6]",
+    "practice.development[0]",
+    "practice.development[1]",
+    "practice.development[2]",
+    "practice.development[3]",
+    "practice.development[4]",
+    "practice.development[5]",
+    "practice.mastery[0]",
+    "practice.mastery[1]",
+    "practice.mastery[2]",
+    "quiz.q1",
+    "quiz.q3",
+    "quiz.q4",
+    "quiz.q6",
+    "quiz.q7",
+    "quiz.q8"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 24,
+  "summary": "Replaced the six flagged intermediate-step tasks with cited booklet maximum-flow questions, included the missing Foundation path, specified the Mastery allocation order and corrected the quiz q6 distractor explanation. Qualified the theory's path-order and stopping claims, updated affected procedure headings and added simple capacity checks while preserving the diagrams, existing values and correct calculations; no whole item was removed.",
+  "reviewSummary": "All supplied numerical answers and correct-option indices are correct; two practice items require removal of an off-booklet numerical spare-capacity demand, and quiz.q4 requires a corrected distractor explanation. The theory appropriately corrects the booklet's misleading path-order claim, and no worked examples or whole-item removals were supplied.",
+  "candidateHash": "c695e97c1c39999659a7631d33b94dd1e12dcd797e751fefdded52358e8e6825",
+  "findings": [
+    "practice.development[3]: The booklet asks for maximum flow and identification of unsaturated edges, but does not ask students to calculate every unsaturated edge's remaining capacity after a complete allocation. Remove that numerical spare-capacity demand, retaining the maximum-flow and unsaturated-edge questions and their correct working; update the structure slug to describe both retained tasks.",
+    "practice.mastery[2]: Calculating every edge's numerical spare capacity after a complete allocation is not a question type asked in the booklet. Retain finding maximum flow and identifying the unsaturated edges, but remove the demand to state each remaining amount; update the structure slug to describe both retained tasks.",
+    "quiz.q4: Replace option index 2's claim that only $19$ can reach $C$ and $D$ in total: that claim is false. Explain instead that $AC$ limits flow through $C$ to $9$, while $DT$ limits flow through $D$ into $T$ to $10$, so adding the sink capacities $11+10=21$ overestimates the flow."
+  ],
+  "finishedAt": "2026-10-07T18:59:44.167Z"
+}

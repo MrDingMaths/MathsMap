@@ -14,6 +14,7 @@ import {trackProcessPhase} from './run-observability.mjs';
 import {coalescePacketContinuations,mergeQuestionFragments} from './packet-continuations.mjs';
 import {projectPracticeCategoryMappings} from './practice-category-headings.mjs';
 import {reconcileReviewedCategoryLayouts} from './reviewed-category-layout.mjs';
+import {isLeanReview} from './lean-profile.mjs';
 import {reviewEnabled,liveWorkflow,effectiveInventory,effectiveAuthor,workflowFlags,materializeCorrections,workflowForPages,synchronizeInventoryAmbiguities,REVIEW_POLICY} from './workflow-review.mjs';
 const args=process.argv.slice(2),arg=(n,f)=>args.includes(n)?args[args.indexOf(n)+1]:f;
 const runId=arg('--run-id'),projectId=arg('--project-id',runId),selected=parsePageSelection(arg('--pages',''));
@@ -23,6 +24,9 @@ const {runDir,manifest}=loadRun(runId),config=JSON.parse(fs.readFileSync(arg('--
 if(selected.some(p=>!manifest.selectedPages.includes(p)))throw Error('Cannot assemble context-only pages');
 trackProcessPhase(runDir,'assembly',{artifact:arg('--out'),pages:selected,projectId});
 const workflow=reviewEnabled(manifest,config)?liveWorkflow(runDir):null;
+// Recorded three-pass runs can still use their original bounded ledger. Only
+// an explicit lean route suppresses those legacy notes in the new candidate.
+const lean=isLeanReview(manifest)&&config.reviewRoute==='lean-review-v1';
 const sourceBoundaries=!workflow||(config.sourcePaginationPolicy??config.settings?.sourcePaginationPolicy)==='source-boundaries';
 const root=path.join(runDir,'semantic-packets'),sections=[],entries=[],inventoryPages=[],sourceGroups=[],flags=[],corrections=[],confirmedCorrections=[];
 const inventories=new Map(),rawPackets=[];
@@ -60,6 +64,8 @@ for(const packet of packets){
   if(section.phase!=='front-matter')section.headingStyle='page-title';
   for(const block of section.blocks){
    block.sourcePageNumber=page;block.sourceRefs=block.sourceRefs?.length?block.sourceRefs:[{pageNumber:page,...(config.printedPageOffset!==undefined?{printedPageNumber:page+config.printedPageOffset}:{})}];
+   // Honour an explicit same-packet page alias without guessing another source.
+   for(const ref of block.sourceRefs)if(ref.pageNumber===undefined&&ref.page===page)ref.pageNumber=page;
    block.flow={...block.flow,sourcePageBreakBefore:first};
    // Source boundaries are student-edition constraints, not manual answer breaks.
    delete block.flow.pageBreakBefore;
@@ -81,11 +87,11 @@ for(const packet of packets){
    entries.push({...item,id:i?item.id+'-mapping-'+i:item.id,pageNumber:page,targetId:m.targetId,...(m.field?{field:m.field}:{}),...(m.sourceCategoryHeadingMapping?{sourceCategoryHeadingMapping:m.sourceCategoryHeadingMapping}:{}),...(m.exclusionReason?{exclusionReason:m.exclusionReason}:{}),...(m.derived?{derived:true}:{}),...(m.continuationOf?{continuationOf:m.continuationOf,continuationReason:m.continuationReason}:{}),...(item.ambiguity?{ambiguous:item.ambiguity}:{})});
   }
  }
- for(const finding of workflow?[]:packet.findings??[])flags.push({id:finding.id??`nr-p${page}-finding-${flags.length}`,targetId:finding.targetId??packet.sections[0]?.blocks[0]?.id,note:typeof finding==='string'?finding:finding.note??finding.message??finding.description??finding.reason??JSON.stringify(finding),resolved:finding.status==='resolved'&&!!finding.resolution?.trim(),...(finding.resolution?{resolution:finding.resolution}:{})});
+ for(const finding of workflow&&!lean?[]:packet.findings??[])flags.push({id:finding.id??`nr-p${page}-finding-${flags.length}`,targetId:finding.targetId??packet.sections[0]?.blocks[0]?.id,note:typeof finding==='string'?finding:finding.note??finding.message??finding.description??finding.reason??JSON.stringify(finding),resolved:finding.status==='resolved'&&!!finding.resolution?.trim(),...(finding.resolution?{resolution:finding.resolution}:{})});
  corrections.push(...(packet.corrections??[]));
  confirmedCorrections.push(...(packet.confirmedCorrections??[]));
 }
-if(workflow){synchronizeInventoryAmbiguities(entries,workflow);flags.push(...workflowFlags(workflow,selected));}
+if(workflow){synchronizeInventoryAmbiguities(entries,workflow);if(!lean)flags.push(...workflowFlags(workflow,selected));}
 entries.push(...derivedAnswerDiagramEntries(sections,entries,{groups:sourceGroups}));
 const candidate={title:config.title,topics:config.topics.map(({id,title})=>({id,title})),settings:{...(config.compactAnswers?{compactAnswers:structuredClone(config.compactAnswers)}:{}),sourcePaginationPolicy:'source-boundaries',preserveSourcePages:true,cover:{course:'Mathematics Stage 5 Path',book:'Book 2',version:'260905',feedback:'https://MrDingMaths.com'}},sections,sourceInventory:{version:1,selectedPages:selected,pages:inventoryPages,entries},studio:{version:1,flags}};
 if(workflow)candidate.settings={...config.settings,...(config.compactAnswers?{compactAnswers:structuredClone(config.compactAnswers)}:{}),...(sourceBoundaries?{sourcePaginationPolicy:'source-boundaries'}:{}),preserveSourcePages:sourceBoundaries,cover:{...config.settings?.cover,...config.cover}};

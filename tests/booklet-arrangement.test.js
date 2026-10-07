@@ -25,6 +25,20 @@ import {fromSource,hasVisibleContent} from '../src/lib/document-content.js';
 import {arrangementExamTitle,findContent} from '../src/lib/booklet-arrangement.js';
 import fs from 'node:fs';
 
+test('worked examples honour an explicit column count without changing saved arrangements',()=>{
+ const block={id:'examples',type:'worked-example',presentation:{layout:'columns',columns:2},examples:Array.from({length:5},(_,i)=>({id:'example-'+i,prompt:'Example '+i}))};
+ const initial=arrangementCatalog(block).initial.root.children[0];
+ assert.equal(initial.direction,'stack');
+ assert.deepEqual(initial.children.map(row=>row.children.map(child=>child.id)),[['example-0:example','example-1:example'],['example-2:example','example-3:example'],['example-4:example']]);
+ const legacy={...block,presentation:{layout:'columns'}};
+ const saved=arrangementCatalog(legacy).initial;
+ assert.equal(saved.root.children[0].direction,'row');
+ assert.equal(saved.root.children[0].children.length,5);
+ assert.deepEqual(resolveArrangement(block,saved).tree,saved);
+ const one=arrangementCatalog({...block,presentation:{layout:'columns',columns:1}}).initial.root.children[0];
+ assert.deepEqual(one.children.map(row=>row.children.length),[1,1,1,1,1]);
+});
+
 test('flattened custom parts retain semantic gutters without changing the saved layout',()=>{
  const block={id:'b',type:'question',sourceOrder:1,content:{id:'q',prompt:'Stem',children:[{id:'a',label:'a',prompt:'Part',children:[{id:'i',label:'i',prompt:'Nested'}]},{id:'b',label:'b',prompt:'Part'}]}};
  const stem=id=>group(id+'-row',[item(id+'/label'),item(id+'/prompt')]);

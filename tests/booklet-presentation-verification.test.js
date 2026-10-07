@@ -14,7 +14,7 @@ const fixture=()=>({settings:creationSettings(),source:{sourceHashes:{pdf:'sourc
 }]}]});
 test('narrative presentation guidance does not crash coverage or mask a field mismatch',async()=>{
  const p=fixture(),b=p.sections[0].blocks[0];
- b.sourceReview={presentationRequirements:[{targetId:'a',requirement:'Keep the exponent blank writable.'},{path:'/content/columns',value:3},null]};
+ b.sourceReview={presentationRequirements:[{targetId:'a',requirement:'Keep the exponent blank writable.'},'Keep labels readable.',{description:'Retain the diagram beside the working.'},{path:'/content/columns',value:3},null]};
  for(const profile of [undefined,'textbook-three-pass-v1']){
   p.source.reviewProfile=profile;
   const report=await inspectPresentationFidelity(p);

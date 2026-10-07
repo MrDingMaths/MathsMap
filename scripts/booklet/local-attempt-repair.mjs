@@ -10,6 +10,8 @@ import {recordAttempt} from './semantic-run-metrics.mjs';
 import {authorMaterializer} from './house-authoring.mjs';
 import {bytesHash,fingerprint} from './workflow-review.mjs';
 import {pointerParts,exactField} from './editorial-context.mjs';
+import {assertPinnedInputs} from './transcription.mjs';
+import {parseResultFile} from '../agy/lib/agy-run.mjs';
 
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
 const ref=file=>({path:path.resolve(file),hash:bytesHash(file)});
@@ -60,6 +62,37 @@ function targetNode(packet,targetId,field){
  if(['id','sourceRefs','sourceAtom','sourceReview','sourceLayoutEvidence','provenance'].includes(key)&&!reviewReferenceFields.has(field))throw Error('Preserve identity and source evidence in local repairs');
  return node;
 }
+
+// A shared validator repair can make a preserved assignment valid without any
+// content edit. Revalidate its original model output, never regenerate it.
+export async function revalidateAssignment(options,request,{assertInputs=assertPinnedInputs}={}){
+ if(!request.assignmentId||!request.reason?.trim())throw Error('Name the assignment and diagnosed validator repair');
+ assertInputs(options.runDir);
+ const source=sourceAttempt(options,request),{assignment,tasks,generation,root}=source;
+ if(positive(options.attempt,'New attempt')<=source.fromAttempt)throw Error('Use a newer revalidation attempt');
+ const raw=path.join(root,String(source.fromAttempt),'last-message.txt'),rawRef=ref(raw);
+ if(!isDeepStrictEqual(parseResultFile(raw),generation))throw Error('Preserved model output changed');
+ const packets=generation.packets.map(authorMaterializer(options.config));
+ for(const packet of packets){const task=tasks.find(t=>t.page===packet.pageNumber);validateSemanticResult(packet,{...task,inventory:{...task.inventory,entries:assignment.entries.filter(e=>e.pageNumber===packet.pageNumber)}});}
+ const verify=()=>{
+  assertInputs(options.runDir);for(const artifact of [...source.source,rawRef])checkRef(artifact);
+  const current=sourceAttempt(options,request);
+  if(current.task.inputHash!==source.task.inputHash)throw Error('Assignment inputs changed');
+ };
+ const lock='assignment-'+assignment.id.slice(11).replace(/[0-9]/g,n=>String.fromCharCode(103+Number(n)));
+ return withRunLock(options.runDir,lock,()=>{
+  verify();const out=path.join(root,String(options.attempt));if(fs.existsSync(out))throw Error('Revalidation attempt already exists');fs.mkdirSync(out);
+  const events=recordAttempt(path.join(options.runDir,'semantic-packets'),{stage:'author',page:source.page,assignmentId:assignment.id,attempt:options.attempt,retryReason:'validation-repair'});
+  const metrics={provider:'local-validator-replay',externalModelCalls:0,usage:null,elapsedMs:0};events.phase('generation');events.end({metrics});
+  fs.writeFileSync(path.join(out,'revalidation.json'),JSON.stringify({reason:request.reason,source:source.source,modelOutput:rawRef}));
+  fs.writeFileSync(path.join(out,'task-input.json'),JSON.stringify({inputHash:source.task.inputHash,assignment}));
+  fs.writeFileSync(path.join(out,'prompt.md'),fs.readFileSync(path.join(root,String(source.fromAttempt),'prompt.md')));
+  fs.writeFileSync(path.join(out,'generation.json'),JSON.stringify(generation));
+  const resultFile=path.join(out,'result.json');fs.writeFileSync(resultFile,JSON.stringify({packets}));
+  fs.writeFileSync(path.join(root,'accepted.json'),JSON.stringify({inputHash:source.task.inputHash,result:ref(resultFile)}));
+  events.finish({ok:true,metrics});return {ok:true,assignmentId:assignment.id,externalModelCalls:0,readyForAssembly:true};
+ });
+}
 export function attemptRepairContext(options,request){
  const {task,packet,source,page,fromAttempt,assignment}=sourceAttempt(options,request);
  if(!Array.isArray(request.targets)||!request.targets.length)throw Error('Select exact target IDs and fields');
@@ -69,7 +102,11 @@ export function attemptRepairContext(options,request){
   for(const field of target.fields){
    const key=target.targetId+field;if(seen.has(key))throw Error('Duplicate repair target');seen.add(key);
    const node=targetNode(packet,target.targetId,field);
-   targets.push({targetId:target.targetId,field,original:structuredClone(exactField(node,field))});
+   const original=structuredClone(exactField(node,field));
+   const wrapper=field==='/content'&&original?.type==='group'&&original.children?.length&&
+    !task.inventory.entries.some(e=>e.id===original.id||e.targetId===original.id)&&
+    !packet.inventoryMappings.some(m=>m.targetId===original.id)&&JSON.stringify(packet).split(original.id).length===2;
+   targets.push({targetId:target.targetId,field,original,...(wrapper?{derivedWrapperId:original.id}:{})});
   }
  }
  const evidence=[...new Set([...task.images,path.join(task.packetRoot,`${task.stem}.inventory.json`),path.join(assignment?task.out:path.join(task.packetRoot,`${task.stem}.author.${fromAttempt}`),'prompt.md')])].map(ref);
@@ -78,18 +115,23 @@ export function attemptRepairContext(options,request){
 }
 export function applyAttemptPatches(packet,context,patches){
  if(!Array.isArray(patches)||patches.length!==context.targets.length)throw Error('Repair must address exactly the selected fields');
- const expected=new Map(context.targets.map(t=>[t.targetId+t.field,t])),seen=new Set(),result=structuredClone(packet);
+ const expected=new Map(context.targets.map(t=>[t.targetId+t.field,t])),seen=new Set(),result=structuredClone(packet),renames=new Map();
  for(const patch of patches){
   const key=patch.targetId+patch.field,target=expected.get(key);
   if(!target||seen.has(key)||!patch.reason?.trim()||!Object.hasOwn(patch,'corrected')||!isDeepStrictEqual(patch.original,target.original))throw Error('Invalid repair target, original or reason');
   seen.add(key);
   const node=targetNode(result,patch.targetId,patch.field);
   if(!isDeepStrictEqual(exactField(node,patch.field),patch.original))throw Error('Repair fields overlap or the original changed');
+  if(target.derivedWrapperId&&patch.corrected?.id!==patch.original.id){
+   const {id:oldId,...before}=patch.original,{id:newId,...after}=patch.corrected??{};
+   if(oldId!==target.derivedWrapperId||typeof newId!=='string'||!newId.trim()||packet.inventoryMappings.some(m=>m.targetId===oldId||m.inventoryId===oldId)||!isDeepStrictEqual(before,after))throw Error('Derived wrapper repair must preserve all content and source identities');
+   renames.set(oldId,newId);
+  }
   const parts=pointerParts(patch.field),last=parts.pop();let parent=node;
   for(const part of parts)parent=parent[part];parent[last]=structuredClone(patch.corrected);
  }
  const ids=value=>{const rows=[];const walk=n=>{if(!n||typeof n!=='object')return;if(n.id)rows.push(n.id);for(const child of Object.values(n))walk(child);};walk(value.sections);return rows.sort();};
- if(!isDeepStrictEqual(ids(packet),ids(result)))throw Error('Local repair must preserve every content ID');
+ if(!isDeepStrictEqual(ids(packet).map(id=>renames.get(id)??id).sort(),ids(result)))throw Error('Local repair must preserve every content ID; only an explicitly selected unreferenced derived wrapper may change');
  for(const patch of patches.filter(p=>reviewReferenceFields.has(p.field))){
   if(!Array.isArray(patch.original)||!Array.isArray(patch.corrected))throw Error('Review reference repairs require arrays');
   const node=targetNode(result,patch.targetId,patch.field);

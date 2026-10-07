@@ -1,0 +1,82 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "integrate-power-rule",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-07T16:43:04.920Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 71.5,
+      "usage": {
+        "input_tokens": 71405,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2933,
+        "reasoning_output_tokens": 96
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\integrate-power-rule\\audit-HNsnKJ\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 126.9,
+      "usage": {
+        "input_tokens": 72102,
+        "cached_input_tokens": 36224,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 6596,
+        "reasoning_output_tokens": 29
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\integrate-power-rule\\repair-SGKbkP\\response.raw.txt"
+    },
+    {
+      "name": "review-full",
+      "code": 0,
+      "seconds": 58.1,
+      "usage": {
+        "input_tokens": 72459,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2279,
+        "reasoning_output_tokens": 129
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\integrate-power-rule\\review-full-tABMA8\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "02caf0b87d5dcc24de47d59b1aedee9e1ce0215fe25906f1ed7c5c7d03aa336b",
+    "quizHash": "c29be97fa41f36b72e642e560e6554bfe7650842f09e0fad0b852fd62c266a00"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 6 Advanced/Integral Calculus 1_The Fundamental Theorem of Calculus.md"
+  ],
+  "images": 33,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "review-full",
+    "hash": "c03309cbc20caf35dab7897152db1ce39865c99a9d0018a8f127ceaf545e6fdd",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "theory: State that the power rule applies on intervals where the real-valued integrand is defined, and require checking continuity on the whole integration interval before using endpoint subtraction. The booklet explicitly teaches this restriction at lines 1176–1192; the current procedure omits it and could sanction integration across a singularity."
+  ],
+  "repaired": true,
+  "changed": [],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 27,
+  "summary": "Repaired the theory to restrict the power rule to intervals where the real-valued integrand is defined and require checking continuity throughout the whole integration interval before endpoint subtraction, following booklet lines 1176–1192. Only theory text and steps changed; all practice items, quiz questions, values and solutions were preserved, and no whole items were removed.",
+  "reviewSummary": "All supplied calculations and quiz distractor explanations are correct, and there are no worked examples or removals to review. Replace the unsupported definite fractional-power evaluation card and qualify the general radical rewriting identity.",
+  "candidateHash": "c03309cbc20caf35dab7897152db1ce39865c99a9d0018a8f127ceaf545e6fdd",
+  "findings": [
+    "practice.development[1]: The cited source part asks whether evaluation is permissible, not for the evaluated integral; no supplied booklet task asks students to evaluate a definite integral of a fractional power using the power rule. Replace this card with a Development negative-power evaluation adapted from question 8, for example evaluate $\\int_1^4 x^{-2}\\,dx$, with solution $[-1/x]_1^4=3/4$ and structure integrate-negative-power.",
+    "theory: Qualify the radical rewriting fact: $\\sqrt[m]{x^p}=x^{p/m}$ is safe for $x>0$, with zero included when defined; negative inputs require checking the root and exponent convention. As currently stated it can incorrectly turn $\\sqrt{x^2}$ into $x$ for negative $x$, although the original radical is real-valued there; it equals $|x|$. Preserve the remaining theory and procedure."
+  ],
+  "finishedAt": "2026-10-07T16:47:21.775Z"
+}

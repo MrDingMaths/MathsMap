@@ -34,7 +34,10 @@ export function answerNodePath(root,node,path=[],index=0){
 // Context stays in the content column; it never enlarges the label gutter.
 export function answerNodeContext(root,node,index=0,parent=null){
  if(node._answerDisplay)return node._answerDisplay.context;
- const prompt=contentSource(node.prompt).trim();
+ // Table headings describe the given data, not the context of each answer.
+ const contextPrompt=node.prompt?.format==='maths-editor-document-v1'
+  ?{...node.prompt,blocks:node.prompt.blocks.filter(block=>block.type!=='table')}:node.prompt;
+ const prompt=contentSource(contextPrompt).trim();
  const rootPrompt=contentSource(root.prompt).trim();
  if(node!==root&&String(node.label??'').trim())return '';
  if(node!==root&&node.children?.length)return answerPartLabel(node,index)==null?'':prompt.split(/\r?\n/,1)[0].replace(/:\s*$/,'');

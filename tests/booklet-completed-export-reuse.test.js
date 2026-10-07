@@ -25,6 +25,20 @@ test('completed export reuse rejects changed project, PDF, frozen bytes and inco
  const i=fixture();i.write(path.join(i.out,'frozen-export-receipt-1.json'),JSON.stringify({status:1}));assert.throws(()=>verifyCompletedFrozenExport(i.options),/checker has not passed/);
 });
 
+test('immutable PDF review tolerates later tool edits while preserving artifact and source guards',()=>{
+ const f=fixture();f.write(path.join(f.root,'src/renderer.js'),'later renderer');
+ const review=verifyCompletedFrozenExport({...f.options,artifactReview:true});
+ assert.equal(review.reused,true);assert.deepEqual(review.laterDependencyChanges,['src/renderer.js']);assert.deepEqual(review.unrelatedCampaignChanges,[]);
+ assert.throws(()=>verifyCompletedFrozenExport(f.options),/dependencies changed/);
+ for(const mutate of [
+  g=>{g.project.title='changed';g.write(g.projectFile,JSON.stringify(g.project));},
+  g=>g.write(path.join(g.out,'short.pdf'),'changed PDF'),
+  g=>g.write(path.join(g.snapshot,'src/renderer.js'),'changed frozen renderer'),
+  g=>g.write(path.join(g.out,'frozen-export-receipt-1.json'),JSON.stringify({status:0,changedDependencies:['src/renderer.js']})),
+  g=>g.write(path.join(g.root,'public/booklet-assets/projects/p/figure.png'),'changed referenced asset'),
+ ]){const g=fixture();mutate(g);assert.throws(()=>verifyCompletedFrozenExport({...g.options,artifactReview:true}));}
+});
+
 test('other-project private assets are reusable while referenced, shared and own assets stay strict',()=>{
  const f=fixture(),asset='public/booklet-assets/projects/other-book/figure.png';
  f.write(path.join(f.root,asset),'other project image');
@@ -70,12 +84,13 @@ test('optional content-review reuse is outside print dependencies until a runtim
 });
 test('unused authoring/host coordinators do not invalidate historical print snapshots',()=>{
  const f=fixture();
- const names=['scripts/booklet/lean-import.mjs','scripts/booklet/lean-review.mjs','scripts/content/lean-route.mjs','scripts/booklet/import-verification-runtime.mjs'];
+ const names=['scripts/booklet/lean-import.mjs','scripts/booklet/semantic-packets.mjs','scripts/booklet/lean-review.mjs','scripts/content/lean-route.mjs','scripts/booklet/import-verification-runtime.mjs'];
  for(const name of names){f.write(path.join(f.root,name),'original coordinator');f.write(path.join(f.snapshot,name),'original coordinator');}
  const manifest=JSON.parse(fs.readFileSync(path.join(f.out,'runtime-manifest.json')));
  manifest.files.push(...names.map(name=>({path:name,hash:digest(path.join(f.root,name))})));
  f.write(path.join(f.out,'runtime-manifest.json'),JSON.stringify(manifest));
  f.write(path.join(f.root,'scripts/booklet/lean-import.mjs'),'changed authoring launcher');
+ f.write(path.join(f.root,'scripts/booklet/semantic-packets.mjs'),'changed standalone authoring CLI');
  f.write(path.join(f.root,'scripts/booklet/lean-review.mjs'),'changed review coordinator');
  f.write(path.join(f.root,'scripts/content/lean-route.mjs'),'changed campaign coordinator');
  f.write(path.join(f.root,'scripts/booklet/import-verification-runtime.mjs'),'changed host guard');

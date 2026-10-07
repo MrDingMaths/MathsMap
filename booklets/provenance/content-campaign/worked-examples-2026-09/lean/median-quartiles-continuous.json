@@ -1,0 +1,93 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "median-quartiles-continuous",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-07T18:51:25.461Z",
+  "status": "accepted: held for diagram check",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 67.7,
+      "usage": {
+        "input_tokens": 109317,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3211,
+        "reasoning_output_tokens": 241
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\median-quartiles-continuous\\audit-bB9SM2\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 282.5,
+      "usage": {
+        "input_tokens": 110210,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 16030,
+        "reasoning_output_tokens": 199
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\median-quartiles-continuous\\repair-vnYSr9\\response.raw.txt"
+    },
+    {
+      "name": "review-scoped",
+      "code": 0,
+      "seconds": 49.7,
+      "usage": {
+        "input_tokens": 109696,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 858,
+        "reasoning_output_tokens": 42
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\median-quartiles-continuous\\review-scoped-GVMCzo\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "ce401cc5652218ceb734fad43b53806643d473ae00b507e68f299ba7302b5535",
+    "quizHash": "efa0a05256a05b8d9f3b79cec55bc477bdc3591604280b44bf4fbb41d8551f27"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 6 Advanced/Random Variables 2_Continuous random variables.md"
+  ],
+  "images": 51,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "review-accepted",
+    "hash": "341c3a13eb08d119e2ac5edeb857b992d205844a6f2152449010a4905b34caa8",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for practice.development[2]",
+    "No booklet question cited for practice.mastery[1]",
+    "No booklet question cited for quiz.q6",
+    "practice.development[2]: The booklet asks for IQR from a cumulative frequency polygon (lines 1314–1318), but does not ask for IQR calculated from an algebraic CDF. Replace this off-booklet task with a supported Development task; its current working also subtracts rounded quartiles instead of retaining full precision.",
+    "practice.mastery[1]: Comparing the median with a supplied mean is not a question type asked in the source. Retain the supported median calculation and remove the unsupported comparison demand; the explanation that nonsymmetry causes the median to exceed the mean is also invalid.",
+    "quiz.q1: Option 1's explanation incorrectly says symmetry is necessary for a midpoint median. Symmetry guarantees a midpoint median, but an asymmetric density can also have one; explain this distractor using $F(3)=0.25$.",
+    "quiz.q3: Option 2's explanation incorrectly makes symmetry necessary for a midpoint median. Explain why $5$ fails here using $F(5)=0.25$.",
+    "quiz.q6: The source asks for IQR from a cumulative frequency polygon, not an algebraic CDF; replace this off-booklet task while retaining q6. Additionally, option 3 must be $3.28$ for its stated mistake of adding the quartiles, and the solution must retain full precision until final rounding.",
+    "theory: The assertion that the median equals the support midpoint only when the density is symmetric is false: symmetry is sufficient, not necessary. State it as a sufficient condition; the CDF method and remaining theory are correct."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.development[2]",
+    "practice.mastery[1]",
+    "practice.mastery[2]",
+    "quiz.q1",
+    "quiz.q3",
+    "quiz.q6"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 24,
+  "summary": "Replaced both algebraic-CDF IQR tasks with cited cumulative frequency polygon tasks using new values, exact interpolation and recalculated distractors, retaining quiz.q6. Removed the unsupported mean comparison within practice.mastery[1] and corrected the symmetry claim and affected explanations; no whole items were removed.",
+  "reviewSummary": "All six requested items have correct answers, appropriate methods and booklet-supported question types; each reviewed quiz has exactly one correct option and valid distractor explanations. The theory agrees with the booklet, and no repairs or removals are required.",
+  "candidateHash": "341c3a13eb08d119e2ac5edeb857b992d205844a6f2152449010a4905b34caa8",
+  "finishedAt": "2026-10-07T18:58:05.638Z"
+}

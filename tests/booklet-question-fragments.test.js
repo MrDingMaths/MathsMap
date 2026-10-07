@@ -38,3 +38,16 @@ test('fragment merging rejects distinct questions, unsafe order and content loss
  ]){const input=packets();mutate(input);assert.throws(()=>mergeQuestionFragments(input,groups));}
  assert.throws(()=>mergeQuestionFragments(packets(),[{canonicalBlockId:'missing',fragmentBlockIds:['question-2']}]));
 });
+
+test('explicit orphan continuations accept empty repeated stems and several packets on the later page',()=>{
+ const input=packets(),third=structuredClone(input[1]);
+ input[1].sections[0].blocks[0].content.prompt='';
+ third.sections[0].blocks[0].id='question-3';third.sections[0].blocks[0].content.id='root-3';
+ third.sections[0].blocks[0].content.children=[{id:'part-3',type:'part',label:'c',prompt:'y=x+3'}];
+ third.inventoryMappings=[{inventoryId:'source-part-3',targetId:'part-3'}];input.push(third);
+ const selection=[{canonicalBlockId:'question-1',fragmentBlockIds:['question-2','question-3'],allowEmptyContinuationStem:true}];
+ const result=mergeQuestionFragments(input,selection);
+ assert.deepEqual(result[0].sections[0].blocks[0].content.children.map(p=>p.id),['part-1','part-2','part-3']);
+ input[1].sections[0].blocks[0].content.prompt='A different task';
+ assert.throws(()=>mergeQuestionFragments(input,selection));
+});

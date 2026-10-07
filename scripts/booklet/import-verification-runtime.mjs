@@ -6,6 +6,7 @@ import {createHash} from 'node:crypto';
 import {spawn} from 'node:child_process';
 import {projectReviewHash} from './page-review.mjs';
 import {isLeanReview} from './lean-profile.mjs';
+import {visitFigures,isSolidCandidate} from '../audit-solid-visibility.mjs';
 const hash=f=>createHash('sha256').update(fs.readFileSync(f)).digest('hex');
 const entries=['src','data','public','scripts','index.html','vite.config.js','package.json','package-lock.json'];
 // These host coordinators never run in the frozen print checker. Exclude them
@@ -14,6 +15,7 @@ const entries=['src','data','public','scripts','index.html','vite.config.js','pa
 function printDependencyFiles(root,files){
  const callers=new Map([
   ['scripts/booklet/lean-import.mjs',new Set()],
+  ['scripts/booklet/semantic-packets.mjs',new Set()],
   ['scripts/booklet/lean-review.mjs',new Set()],
   ['scripts/content/lean-route.mjs',new Set()],
   ['scripts/booklet/assemble-semantic-packets.mjs',new Set()],
@@ -97,25 +99,40 @@ export function unrelatedCampaignManifest(before,after,project){
  return true;
 }
 const readCampaignManifest=root=>{try{return JSON.parse(fs.readFileSync(path.join(root,'public/content-manifest.json'),'utf8'));}catch{return null;}};
-const scopedCampaignFile=(file,project,root,snapshot)=>unrelatedCampaignFile(file,project)||unrelatedProjectAssetFile(file,project)||(file==='public/content-manifest.json'&&unrelatedCampaignManifest(readCampaignManifest(snapshot),readCampaignManifest(root),project));
+// The solid-edge auditor cannot affect a booklet with no solid candidates or
+// retained images. Candidate detection and renderer dependencies stay strict.
+export function unrelatedSolidAuditFile(file,project){
+ if(file!=='scripts/lib/solid-audit.mjs'||!isLeanReview(project))return false;
+ let affected=false;
+ visitFigures(project,figure=>{if(figure.image||figure.code&&isSolidCandidate(figure.code,figure.context))affected=true;});
+ return !affected;
+}
+const scopedCampaignFile=(file,project,root,snapshot)=>unrelatedCampaignFile(file,project)||unrelatedProjectAssetFile(file,project)||unrelatedSolidAuditFile(file,project)||(file==='public/content-manifest.json'&&unrelatedCampaignManifest(readCampaignManifest(snapshot),readCampaignManifest(root),project));
 // Resume an already successful checker after an unrelated skill campaign writes
 // public JSON. Never relax the frozen renderer, project or PDF checks.
-export function verifyCompletedFrozenExport({out,projectId,projectFile}){
+export function verifyCompletedFrozenExport({out,projectId,projectFile,artifactReview=false}){
+ if(typeof artifactReview!=='boolean')throw Error('Artifact review must be explicitly true or false');
  const manifest=JSON.parse(fs.readFileSync(path.join(out,'runtime-manifest.json'))),project=JSON.parse(fs.readFileSync(projectFile));
  if(!isLeanReview(project))throw Error('Scoped export reuse requires the lean profile');
  const receipts=fs.readdirSync(out).filter(name=>/^frozen-export-receipt-.*\.json$/.test(name)).sort();
  const attempt=receipts.length?JSON.parse(fs.readFileSync(path.join(out,receipts.at(-1)))):null;
  if(attempt?.status!==0||attempt.error)throw Error('The complete five-edition checker has not passed');
+ if(artifactReview&&attempt.changedDependencies?.length)throw Error('Dependencies changed during the completed export');
  if(snapshotDifferences(manifest.snapshot,manifest.files).length)throw Error('Frozen renderer changed');
  const changed=snapshotDifferences(manifest.root,manifest.files),unrelated=changed.every(file=>scopedCampaignFile(file,project,manifest.root,manifest.snapshot));
- if(!unrelated)throw Error('Current export dependencies changed: '+changed.join(', '));
+ // A fill review reads already completed PDF bytes. Later tool/renderer edits
+ // cannot alter those pages; project, frozen runtime and PDF guards still apply.
+ // Ordinary export reuse keeps its current-runtime dependency check.
+ if(!unrelated&&!artifactReview)throw Error('Current export dependencies changed: '+changed.join(', '));
+ if(artifactReview&&changed.some(file=>file.startsWith('public/booklet-assets/')&&!unrelatedProjectAssetFile(file,project)))throw Error('Referenced diagram assets changed');
  const report=JSON.parse(fs.readFileSync(path.join(out,'report.json'))).report?.[projectId];
  for(const edition of ['student','short','worked','with-short','with-worked']){
   const entry=report?.[edition];
   if(!entry||entry.projectHash!==projectReviewHash(project)||entry.issues?.length||!entry.pageHashes?.length)throw Error('Current project or checks differ for '+edition);
   if(!entry.pdf?.path||!fs.existsSync(entry.pdf.path)||hash(entry.pdf.path)!==entry.pdf.hash)throw Error('PDF changed for '+edition);
  }
- return {reused:true,unrelatedCampaignChanges:changed.filter(file=>!unrelatedProjectAssetFile(file,project)),unrelatedProjectAssetChanges:changed.filter(file=>unrelatedProjectAssetFile(file,project))};
+ const scoped=changed.filter(file=>scopedCampaignFile(file,project,manifest.root,manifest.snapshot));
+ return {reused:true,...(artifactReview?{artifactReview:true,laterDependencyChanges:changed.filter(file=>!scoped.includes(file))}:{}),unrelatedCampaignChanges:scoped.filter(file=>!unrelatedProjectAssetFile(file,project)&&!unrelatedSolidAuditFile(file,project)),unrelatedProjectAssetChanges:scoped.filter(file=>unrelatedProjectAssetFile(file,project)),unrelatedSolidAuditChanges:scoped.filter(file=>unrelatedSolidAuditFile(file,project))};
 }
 function attachSharedRenderCache(root,snapshot){
  const source=path.join(root,'.booklet-work/render-cache'),target=path.join(snapshot,'.booklet-work/render-cache');

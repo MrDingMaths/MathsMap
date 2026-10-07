@@ -242,12 +242,14 @@
   .practice-question.short-answer-key,.short-answer-key .answer-label,.short-answer-key .answer-label a{color:var(--short-answer-ink)}
   .short-answer-key :global(.editable-table th),.short-answer-key :global(.booklet-content th){color:inherit}
 
-  .practice-question.compact-answer{line-height:1.22}
+  /* The answer page supplies white paper. A fragment background can be painted
+     over its first flex label by Chromium's paged grid compositor. */
+  .practice-question.compact-answer{line-height:1.22;background:transparent}
   .compact-answer .answer-children{display:block;margin:0}
   /* Nested grid paints some first-column answer text inside the label gutter in
      Chromium PDFs despite correct DOM bounds. Flex preserves the measured gutter. */
   .compact-answer .answer-item,.compact-answer .answer-children > .answer-item{display:flex!important;gap:2mm;padding:.8mm 0;border-bottom:.15mm solid var(--booklet-border)}
-  .compact-answer .answer-label{flex:0 0 var(--answer-label-width)}
+  .compact-answer .answer-label{flex:0 0 var(--answer-label-width);align-self:flex-start}
   .compact-answer .answer-content{flex:1;min-width:0}
   .compact-answer .answer-label a{color:inherit;text-decoration:none}
   .short-answer-key .answer-item,.short-answer-key .answer-children > .answer-item{border-bottom:0}

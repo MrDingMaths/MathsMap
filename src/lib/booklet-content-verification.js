@@ -1,4 +1,4 @@
-import {isLeanReview} from './booklet-review-profile.js';
+import {isLeanReview,questionReviewContent} from './booklet-review-profile.js';
 import {hasVisibleContent} from './document-content.js';
 import {inspectPresentationFidelity} from './booklet-presentation-verification.js';
 import {validSourceRegion} from './diagram-source-region.js';
@@ -68,11 +68,34 @@ export async function contentVerificationKey(project,entry,nodes=contentNodes(pr
 export async function layoutVerificationKey(project,{renderer,fonts,edition}){
   return signature({project:{sections:project.sections,topics:project.topics,settings:project.settings,assets:project.assets},renderer,fonts,edition});
 }
-export async function inspectContentCoverage(project,{assetSignatures={}}={}){
+export async function inspectContentCoverage(project,{assetSignatures={},reviewedQuestions={}}={}){
   const inventories=sourceInventories(project),entries=inventories.flatMap(inventory=>inventory.entries??[]),nodes=contentNodes(project),issues=[],rows=[];
   const targetIds=new Set(entries.filter(e=>!e.exclusionReason).map(e=>e.targetId));
   const wholeQuestions=new Set(entries.filter(e=>!e.exclusionReason&&e.kind==='question').map(e=>e.targetId));
   const blocks=new Set((project.sections??[]).flatMap(section=>section.blocks??[]));
+  // Lean source comparison lives in the single reviewed table. Historical
+  // inventory ambiguities and structural wrappers do not replace that review,
+  // and acceptance applies only to the exact current printable block.
+  const reviewed=new Set();
+  if(isLeanReview(project))for(const block of blocks){
+    const row=reviewedQuestions[block.id];
+    if(row?.outcome!=='passed'||!row.hash)continue;
+    const bytes=new TextEncoder().encode(JSON.stringify(questionReviewContent(block)));
+    const hash=[...new Uint8Array(await globalThis.crypto.subtle.digest('SHA-256',bytes))].map(n=>n.toString(16).padStart(2,'0')).join('');
+    if(hash===row.hash)reviewed.add(block);
+  }
+  const requiredLeanBlocks=(project.sections??[]).filter(section=>section.phase!=='front-matter').flatMap(section=>section.blocks??[]);
+  const leanSourceReviewComplete=isLeanReview(project)&&requiredLeanBlocks.length>0&&requiredLeanBlocks.every(block=>reviewed.has(block));
+  const inventoriedBlocks=new Set(entries.filter(e=>!e.exclusionReason).map(e=>nodes.get(e.targetId)?.block).filter(Boolean));
+  // Assignment assembly may retain a nonprinting identity placeholder beside
+  // its separately mapped instruction. It owns no additional printable payload.
+  for(const entry of entries){
+    const alias=nodes.get(entry.id)?.node,target=nodes.get(entry.targetId)?.node;
+    if(alias?.type==='rich-text'&&alias.content===''&&alias.sourcePageNumber===entry.pageNumber&&
+      !alias.sourceAtom&&!['prompt','title','examples','answer','questionDiagrams','solutionDiagrams'].some(key=>hasVisibleContent(alias[key]))&&
+      alias.sourceReview?.responses?.some(r=>r.targetId===alias.id&&r.kind==='none')&&
+      entry.field==='/content'&&typeof entry.description==='string'&&target?.content===entry.description)inventoriedBlocks.add(alias);
+  }
   // A native question root owns the whole question. Rich-text wrappers may
   // instead collect separately inventoried paragraphs and list items, as the
   // opening syllabus does. Only structural lists can inherit child mappings;
@@ -187,7 +210,7 @@ export async function inspectContentCoverage(project,{assetSignatures={}}={}){
   if(!entries.length)issue('missing-inventory',null,'Source inventory has not been recorded.');
   for(const {node}of nodes.values())if(typeof node.src==='string'&&!assetSignatures[node.src])issue('unreadable-diagram',node.id,'Diagram bytes could not be checked; restore the referenced asset and verify it again.');
   for(const {node}of nodes.values())if(node.sourceRegion&&!validSourceRegion(node.sourceRegion))issue('invalid-source-crop',node.id,'Crop extends outside the original image. Correct its bounds and compare the displayed scaffold with the source; the whole-image fallback is not verified content.');
-  const seen=new Set(),mapped=new Set();
+  const seen=new Set(),mapped=new Map();
   for(const entry of entries){
     let state='unchecked';
     if(seen.has(entry.id)){state='duplicate';issue(state,entry.targetId,`Duplicate source inventory identity: ${entry.id}`);}seen.add(entry.id);
@@ -195,8 +218,10 @@ export async function inspectContentCoverage(project,{assetSignatures={}}={}){
     else if(!nodes.has(entry.targetId)){state='missing';issue(state,entry.targetId,`Missing ${entry.kind??'content'} from source p${entry.pageNumber}: ${entry.id}`);}
     else{
       const mapping=`${entry.targetId}|${entry.field??entry.kind??''}`;
-      if(mapped.has(mapping)&&!entry.continuationOf){state='duplicate';issue(state,entry.targetId,`Multiple inventory items map to the same target: ${entry.id}`);}mapped.add(mapping);
-      if(entry.ambiguous){state='ambiguous';issue(state,entry.targetId,entry.ambiguous);}
+      const prior=mapped.get(mapping),owner=nodes.get(entry.targetId)?.block;
+      const nestedAnswer=reviewed.has(owner)&&entry.kind==='answer'&&prior?.kind==='example'&&entry.parentId===prior.id;
+      if(prior&&!entry.continuationOf&&!nestedAnswer){state='duplicate';issue(state,entry.targetId,`Multiple inventory items map to the same target: ${entry.id}`);}mapped.set(mapping,entry);
+      if(entry.ambiguous&&!reviewed.has(owner)){state='ambiguous';issue(state,entry.targetId,entry.ambiguous);}
       else if(state!=='duplicate'){
         const key=await contentVerificationKey(project,entry,nodes,assetSignatures);
         state=isLeanReview(project)?'mapped':entry.verification?.signature===key&&entry.verification?.checked===true?'verified':'unchecked';
@@ -225,16 +250,19 @@ export async function inspectContentCoverage(project,{assetSignatures={}}={}){
     ancestors.some(parent=>['question','group','part','subpart'].includes(parent.type)&&
       entries.some(e=>!e.exclusionReason&&e.targetId===parent.id&&['question','part','subpart','example','answer'].includes(e.kind)&&
         (!e.field||e.field==='/children')));
-  for(const flag of project.studio?.flags??[])if(!flag.resolved)issue(flag.kind??'review-finding',flag.targetId,flag.note??'Unresolved review finding.');
+  for(const flag of project.studio?.flags??[])if(!flag.resolved&&!(flag.workflowIssue===true&&leanSourceReviewComplete))issue(flag.kind??'review-finding',flag.targetId,flag.note??'Unresolved review finding.');
   for(const {node,block,ancestors}of nodes.values()){
-    if((blocks.has(node)&&!mappedWrapper(node)||['part','subpart'].includes(node.type)&&!mappedScaffoldResponse(node,block,ancestors)&&!ownedPartResponse(node,block,ancestors)&&!ownedTeachingResponse(node,block,ancestors)||['tikz','svg','image'].includes(node.format))&&!targetIds.has(node.id))issue('unmapped-content',node.id,'Content has no source inventory mapping.');
+    if((blocks.has(node)&&!mappedWrapper(node)||['part','subpart'].includes(node.type)&&!mappedScaffoldResponse(node,block,ancestors)&&!ownedPartResponse(node,block,ancestors)&&!ownedTeachingResponse(node,block,ancestors)||['tikz','svg','image'].includes(node.format))&&!targetIds.has(node.id)&&!(reviewed.has(block)&&inventoriedBlocks.has(block)))issue('unmapped-content',node.id,'Content has no source inventory mapping.');
     if(node!==block&&['question','part','subpart'].includes(node.type)&&!node.children?.length&&block.type==='question'){
       const scaffoldRef=block.sourceReview?.responses?.find(r=>r.targetId===node.id)?.scaffoldTargetId;
       const scaffold=scaffoldRef?nodes.get(scaffoldRef):null;
       const boundScaffold=node.responseSpace==='scaffold'&&scaffold?.block===block&&
         (scaffold.node.type==='table'||scaffold.node.type==='paragraph'&&scaffold.node.inlines?.some(i=>i.type==='cloze'));
       if(!hasVisibleContent(node.prompt)&&![...ancestors,node].some(n=>n.questionDiagrams?.length)&&!boundScaffold&&!boundParentPrompt(node,block,ancestors))issue('missing-prompt',node.id,'Response has no visible prompt, shared question diagram or explicitly bound native scaffold.');
-      for(const mode of ['short','worked'])if(!hasAnswer(node.answer?.[mode]))issue('missing-answer',node.id,`Missing ${mode} answer.`);
+      const suppliedExample=reviewed.has(block)&&node.questionDiagrams?.length&&
+        block.sourceReview?.responses?.some(response=>response.targetId===node.id&&response.kind==='none')&&
+        entries.some(entry=>!entry.exclusionReason&&entry.targetId===node.id&&entry.kind==='example'&&!entry.expectedAnswer&&(!entry.responseKind||entry.responseKind==='none'));
+      for(const mode of ['short','worked'])if(!suppliedExample&&!hasAnswer(node.answer?.[mode]))issue('missing-answer',node.id,`Missing ${mode} answer.`);
       if(node.answer?.provenance?.worked==='source-short-only')issue('missing-worked-solution',node.id,'A supplied short answer still needs a worked solution.');
     }
     for(const id of [...(node.dependsOn??[]),node.pairedBlockId,node.flow?.continuationOf??node.continuationOf].filter(Boolean))if(!nodes.has(id))issue('broken-reference',node.id,`Missing dependency ${id}`);

@@ -55,7 +55,7 @@ export function mergeQuestionFragments(input,groups=[]){
   locations.set(block.id,{packet,section,block});
  }
  const used=new Set();
- for(const {canonicalBlockId,fragmentBlockIds}of groups){
+ for(const {canonicalBlockId,fragmentBlockIds,allowEmptyContinuationStem=false,allowFragmentLayouts=false}of groups){
   const canonical=locations.get(canonicalBlockId);
   if(!canonical||used.has(canonicalBlockId)||!Array.isArray(fragmentBlockIds)||!fragmentBlockIds.length)throw Error('Invalid canonical question fragment '+canonicalBlockId);
   const {block,packet,section}=canonical,root=block.content;
@@ -64,9 +64,9 @@ export function mergeQuestionFragments(input,groups=[]){
   const ids=nodeIds(block),labels=new Set(root.children.map(part=>part.label));
   for(const id of fragmentBlockIds){
    const current=locations.get(id);
-   if(!current||used.has(id)||current.packet.pageNumber<=previousPage||current.section.phase!=='practice'||current.section.topicId!==section.topicId)throw Error('Invalid ordered question fragment '+id);
+   if(!current||used.has(id)||current.packet.pageNumber<previousPage||current.packet.pageNumber<=packet.pageNumber||current.section.phase!=='practice'||current.section.topicId!==section.topicId)throw Error('Invalid ordered question fragment '+id);
    const next=current.block,body=next.content;
-   if(next.type!=='question'||!body?.children?.length||!isDeepStrictEqual(body.prompt,root.prompt)||body.layout!==root.layout||body.columns!==root.columns||body.questionDiagrams?.length||body.answer||body.sharedSolutionDiagrams?.length||next.presentation?.layoutOverrides?.blockLayouts?.[id]?.arrangement)throw Error('Question fragment has distinct content or arrangement '+id);
+   if(next.type!=='question'||!body?.children?.length||!(isDeepStrictEqual(body.prompt,root.prompt)||(allowEmptyContinuationStem&&body.prompt===''))||(!allowFragmentLayouts&&(body.layout!==root.layout||body.columns!==root.columns))||body.questionDiagrams?.length||body.answer||body.sharedSolutionDiagrams?.length||next.presentation?.layoutOverrides?.blockLayouts?.[id]?.arrangement)throw Error('Question fragment has distinct content or arrangement '+id);
    if(current.packet.inventoryMappings.some(mapping=>!mapping.exclusionReason&&[id,body.id].includes(mapping.targetId)))throw Error('Question fragment owns a separately inventoried stem '+id);
    for(const part of body.children){
     if(!part.label||labels.has(part.label))throw Error('Duplicate or unlabelled question fragment part '+id);

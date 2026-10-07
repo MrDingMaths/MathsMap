@@ -1,0 +1,101 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "exponential-end-behaviour",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-07T13:21:10.057Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 108.2,
+      "usage": {
+        "input_tokens": 116425,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3764,
+        "reasoning_output_tokens": 191
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\exponential-end-behaviour\\audit-n1hKQC\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 168.9,
+      "usage": {
+        "input_tokens": 117396,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 8400,
+        "reasoning_output_tokens": 74
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\exponential-end-behaviour\\repair-ILwHxw\\response.raw.txt"
+    },
+    {
+      "name": "review-full",
+      "code": 0,
+      "seconds": 62.2,
+      "usage": {
+        "input_tokens": 117348,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2499,
+        "reasoning_output_tokens": 47
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\exponential-end-behaviour\\review-full-cLX2kN\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "7c10327246a69f056da7bbe985369ff9440050f889bd88d91f1c17c2b4048211",
+    "quizHash": "65d1d339366eedbb534932cc44fb1f7f940e0045696ff7d395f718753e916128"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 6 Advanced/Exponential and Logarithmic Functions 1_Exponential functions.md",
+    "booklets/mathsmap-sources/Stage 6 Advanced/Exponential and Logarithmic Functions 2_Logarithmic functions.md"
+  ],
+  "images": 49,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "review-full",
+    "hash": "e154f0a11bbb0ea7cf5b07f3e3a74e3b6b932c104676db8af0d3beee12bab4fe",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for practice.development[3]",
+    "No booklet question cited for practice.development[4]",
+    "No booklet question cited for practice.mastery[0]",
+    "No booklet question cited for practice.mastery[2]",
+    "No booklet question cited for quiz.q8",
+    "practice.development[3]: The answer is correct, but explicitly determining approach from above or below is not asked in the supplied booklet. Repair the off-booklet demand using a same-tier booklet end-behaviour task.",
+    "practice.development[4]: Inferring two parameters from a limiting value and an intercept is not a booklet question type. The graph-to-equation question at Exponential functions lines 452–457 asks for an unshifted unit-coefficient exponential from a plotted point, which does not support this task; repair with a same-tier task focused on end behaviour.",
+    "practice.mastery[0]: The limits and asymptote are correct booklet-type demands with harder values, but the additional above-or-below determination is not explicitly asked in the source. Repair that off-booklet demand while preserving the valid end-behaviour content.",
+    "practice.mastery[2]: The source does not ask for limiting gradient behaviour or approach from above or below. The gradient demand extends this end-behaviour skill into rate-of-change analysis; repair with a same-tier booklet end-behaviour task.",
+    "quiz.q4: Repair option 3's explanation: subtracting $3$ from $-7$ gives $-10$, not $-4$; evaluating at $x=0$ does give $-4$. Option 2's explanation must also name its additional incorrect negative-infinity direction, since swapping the true ends alone would give positive infinity.",
+    "quiz.q8: Determining a shifted exponential's coefficient and constant from its asymptote and intercept is not asked in the booklet. Repair with a booklet-type end-behaviour question retaining id q8 and mastery:true.",
+    "theory: State the parameter restrictions for the general exponential rules: $a>0$, $a\\ne1$ and $k\\ne0$, with the stated $a>1$ restriction retained for the displayed growth/decay pair. Without $k\\ne0$, the claims that one end is unbounded and that the curve never reaches $y=c$ fail; clarify that the unbounded end may tend to either positive or negative infinity."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.development[3]",
+    "practice.development[4]",
+    "practice.mastery[0]",
+    "practice.mastery[2]",
+    "quiz.q4",
+    "quiz.q8"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 26,
+  "summary": "Repaired the above-or-below demands and replaced parameter-inference and limiting-gradient tasks with cited booklet end-behaviour questions, preserving tiers, q8's id and mastery flag, and all unaffected content. Clarified the theory's parameter restrictions and signed unbounded behaviour, corrected q4's two distractor explanations, and removed no whole items.",
+  "reviewSummary": "All 26 items have correct supplied answers and assess booklet-supported question types within the target skill; no worked examples or removals were supplied. Repair the theory's base-dependent procedure and quiz q5's incomplete distractor explanation, preserving the existing questions and values.",
+  "candidateHash": "e154f0a11bbb0ea7cf5b07f3e3a74e3b6b932c104676db8af0d3beee12bab4fe",
+  "findings": [
+    "quiz.q5: Option 2's explanation does not account for its positive-infinity answer: treating $3^{-x}$ as tending to infinity while retaining the coefficient $-2$ gives $y\\to-\\infty$. Preserve its text and amend its why to name both treating the exponential as growth and ignoring the negative coefficient.",
+    "theory: Step 1 labels $a^x$ as growth without restricting its base, although the intro allows $0<a<1$. Amend step 1 to state that for $a>1$, $a^x$ grows and $a^{-x}$ decays as $x$ increases, whereas for $0<a<1$ these behaviours reverse; equivalently rewrite using a reciprocal base greater than $1$. The remaining facts and diagrams are mathematically consistent with their stated conditions."
+  ],
+  "finishedAt": "2026-10-07T13:26:49.653Z"
+}

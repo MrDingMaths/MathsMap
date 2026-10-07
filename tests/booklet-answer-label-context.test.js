@@ -7,6 +7,23 @@ const part=(id,label,short,prompt='')=>({id,type:'part',label,prompt,source:{ref
 const group=(id,prompt,children,label='')=>({id,type:'group',label,prompt,children});
 const block=(number,children,prompt='')=>({sourceOrder:number,content:{id:`question-${number}`,type:'question',label:String(number),prompt,children}});
 
+test('given table headers do not become repeated answer context',()=>{
+ const table={id:'given-table',type:'table',rows:[[
+  {id:'header-a',type:'cell',blocks:fromSource('A').blocks},
+  {id:'header-not-a',type:'cell',blocks:fromSource('Not A').blocks},
+  {id:'header-total',type:'cell',blocks:fromSource('Total').blocks},
+ ]]};
+ const prompt={format:'maths-editor-document-v1',version:1,blocks:[table]};
+ const item=block(6,[group('table-panel',prompt,[part('a','a','3/7'),part('b','b','12/35')])]);
+ for(const mode of ['short','worked']){
+  const {split}=verifyFragments(item,['6(1)a','6(1)b'],mode);
+  assert.deepEqual(split.map(row=>row.contexts),[[],[]]);
+ }
+ const withProse=structuredClone(item);
+ withProse.content.children[0].prompt.blocks.unshift(...fromSource('Two-way table:').blocks);
+ assert.deepEqual(verifyFragments(withProse,['6(1)a','6(1)b']).split.map(row=>row.contexts),[['Two-way table'],['Two-way table']]);
+});
+
 // Apply the shared display API to the consumer's response tree. Expected labels
 // and source relationships below are explicit source fixtures, not generated.
 function responses(item,mode='short'){

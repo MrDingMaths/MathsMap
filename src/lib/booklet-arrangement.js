@@ -78,7 +78,18 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
  }
  let root;
  if(block.type==='question')root=question(block.content,0,true);
- else {const contents=block.examples?.length?group(block.id+':examples',block.examples.map(example),block.presentation?.layout==='columns'?'row':'stack'):group(block.id+':content',[...field(block,'content'),...field(block,'text'),...field(block,'theorySolution','solution')]);root=group(block.id+':root',[contents]);}
+ else {
+   let contents;
+   if(block.examples?.length){
+     const examples=block.examples.map(example),columns=block.presentation?.columns;
+     if(block.presentation?.layout==='columns'&&Number.isInteger(columns)&&columns>0&&examples.length>columns){
+       const rows=[];
+       for(let i=0;i<examples.length;i+=columns)rows.push(group(block.id+':examples-row-'+i,examples.slice(i,i+columns),'row'));
+       contents=group(block.id+':examples',rows);
+     }else contents=group(block.id+':examples',examples,block.presentation?.layout==='columns'?'row':'stack');
+   }else contents=group(block.id+':content',[...field(block,'content'),...field(block,'text'),...field(block,'theorySolution','solution')]);
+   root=group(block.id+':root',[contents]);
+ }
  function applyOverrides(n,available){
    const entry=entries.get(n.ref),layout=overrides.blockLayouts?.[entry?.ownerId??n.id.replace(/:(question|example)$/,'')];
    if(entry?.kind==='space'&&overrides.answerSpaces?.[entry.ownerId]!=null)n.height=overrides.answerSpaces[entry.ownerId];

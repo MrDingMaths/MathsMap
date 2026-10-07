@@ -6,6 +6,16 @@ import {repairValue} from '../scripts/repair-solid-visibility.mjs';
 import {solidHash,visitFigures,isSolidCandidate,solidAcceptance} from '../scripts/audit-solid-visibility.mjs';
 const box=()=>solidTikz(prismModel([[0,0],[3,0],[3,2],[0,2]]));
 
+test('declared semantic colour aliases follow construction-line rules without exempting ordinary boundaries',()=>{
+ const policy={version:1,kind:'geometry',base:['outlineInk'],semantic:[{name:'constructionRed',hex:'EF6068',reason:'Inscribed construction inside another solid'}],reference:'Test source diagram'};
+ const original=box();
+ const highlighted=original.replace('\\draw (','\\draw[constructionRed,dashed] (');
+ const withPolicy='% mathsmap-diagram-colours '+JSON.stringify(policy)+'\n'+highlighted;
+ assert.equal(inspectSolid(withPolicy).status,'pass');
+ assert.equal(inspectSolid(highlighted).status,'defect');
+ assert.equal(inspectSolid(withPolicy.replace('constructionRed,dashed','outlineInk,dashed')).status,'defect');
+});
+
 test('registered house avatars do not require a solid review, retained diagrams still do',()=>{
  const portrait={type:'image',src:'/booklet-assets/shared/avatars/avatar-01.png'};
  assert.deepEqual(solidAcceptance(portrait),[]);

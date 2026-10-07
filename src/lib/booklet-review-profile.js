@@ -2,8 +2,9 @@
 export const LEAN_REVIEW_PROFILE='textbook-three-pass-v1';
 export const isLeanReview=value=>[value?.reviewProfile,value?.source?.reviewProfile,value?.source?.inventory?.reviewProfile,value?.source?.workflow?.reviewProfile,value?.source?.inventory?.workflow?.reviewProfile].includes(LEAN_REVIEW_PROFILE);
 
-const metadata=new Set(['classification','verification','sourceReview','sourceLayoutEvidence','provenance','visualAudit','reviewStatus','reviewNotes','reviewFlags','audit','auditTrail','sourceRefs','studio','bankRef','canonicalId','snapshotKind']);
-const presentation=new Set(['presentation','flow','answerSpaceMm','workingSpaceEstimate','workingEstimate','responseSpace','layout','columns','diagramPlacement','widthMm','heightMm','fontSize','align','verticalAlign','colour','color','background','border','padding','marginBefore','marginAfter','spaceBefore','spaceAfter']);
+// Scaffold ownership is verification metadata; response kinds and labels still print.
+const metadata=new Set(['classification','verification','sourceReview','sourceLayoutEvidence','provenance','visualAudit','reviewStatus','reviewNotes','reviewFlags','audit','auditTrail','sourceRefs','studio','bankRef','canonicalId','snapshotKind','scaffoldTargetId']);
+const presentation=new Set(['presentation','flow','answerSpaceMm','workingSpaceEstimate','workingEstimate','responseSpace','layout','columns','diagramPlacement','widthMm','heightMm','fontSize','align','verticalAlign','colour','color','background','border','showClozeDots','joinPrevious','padding','marginBefore','marginAfter','spaceBefore','spaceAfter']);
 function projectValue(value,omit){
  if(Array.isArray(value))return value.map(v=>projectValue(v,omit));
  if(!value||typeof value!=='object')return value;

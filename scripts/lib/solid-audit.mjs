@@ -1,4 +1,5 @@
 import {parseNamedCoords} from './tikz-blocks.mjs';
+import {diagramColourPolicy} from '../../src/lib/diagram-colours.js';
 import {coneConstruction,repairCone,sweptArcConstruction,repairSweptArc} from './curved-solid-audit.mjs';
 import {tdplotView,obliqueView,sub,add,mul,cross,dot,project,lerp,edgeKey,solidEdges,edgeVisibility,validateSolid,solidMetadata,withSolidMetadata,number,curvedSolidTikz} from '../../src/lib/solid-geometry.js';
 
@@ -127,6 +128,8 @@ function balancedEnd(s,start,open,close) {let depth=0;for(let i=start;i<s.length
 // contain parentheses). Unknown path syntax is deliberately not rewritten.
 export function parseDraws(code,model,named=coordinates(code)) {
   const boundary=solidEdges(model),keys=new Set(boundary.map(e=>edgeKey(e.a,e.b))),result=[];
+  let semanticNames=[];
+  try{semanticNames=diagramColourPolicy(code)?.semantic.map(entry=>entry.name)??[];}catch{/* Invalid colour evidence cannot exempt boundary checks. */}
   const resolve=token=>{
     if(model.vertices[token])return token;
     const p=named.get(token)??tuple(token);if(!p)return null;
@@ -162,7 +165,7 @@ export function parseDraws(code,model,named=coordinates(code)) {
         }
       }
     }
-    result.push({raw,index:match.index,kind,options,edges,unknown,semantic:/\b(?:red|blue|green|orange|purple|cyan)\b|->|<-|Stealth|fill\s*=/.test(options)});
+    result.push({raw,index:match.index,kind,options,edges,unknown,semantic:/\b(?:red|blue|green|orange|purple|cyan)\b|->|<-|Stealth|fill\s*=/.test(options)||semanticNames.some(name=>new RegExp('\\b'+name+'\\b').test(options))});
   }return result;
 }
 

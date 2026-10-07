@@ -14,8 +14,8 @@ const hash=v=>createHash('sha256').update(typeof v==='string'?v:JSON.stringify(v
 const bytes=f=>createHash('sha256').update(fs.readFileSync(f)).digest('hex');
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
 const groupAnchors=categoryGroupAnchors;
-const categoryLabel=value=>/^(foundation|development|mastery|concept checks?|essential problems|additional practice|enrichment|chapter\s+\d+\s+review\s+set\s+(one|two|\d+))$/i.test(value?.trim()??'');
-const difficultyHeading=e=>e.kind==='teaching'&&(!e.responseKind||e.responseKind==='none')&&[e.description,e.sourceLabel].some(value=>/^(foundation|development|mastery)$/i.test(value?.trim()??''));
+const categoryLabel=value=>typeof value==='string'&&/^(foundation|development|mastery|concept checks?|essential problems|additional practice|enrichment|chapter\s+\d+\s+review\s+set\s+(one|two|\d+))$/i.test(value.trim());
+const difficultyHeading=e=>e.kind==='teaching'&&(!e.responseKind||e.responseKind==='none')&&[e.description,e.sourceLabel].some(value=>typeof value==='string'&&/^(foundation|development|mastery)$/i.test(value.trim()));
 const categoryHeading=e=>e.kind==='group'||difficultyHeading(e);
 const practiceCategory=(g,questionAnchors)=>!groupAnchors(g).some(id=>questionAnchors.has(id))&&(g.kind==='practice-category'||!g.indivisible&&!g.sharedActivity&&(
  (g.kind==='practice'||/^(practice|difficulty)[ -]category$/i.test(g.kind??''))&&(!!g.category||categoryLabel(g.header))||/^(foundation|development|mastery)$/i.test(g.kind??'')||g.kind==='challenge'&&/^challenge exercise$/i.test(g.header??'')));

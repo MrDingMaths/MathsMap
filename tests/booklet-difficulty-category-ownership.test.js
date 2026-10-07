@@ -1,5 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+test('structured inventory descriptions are content, not difficulty headings',()=>{
+ const inventory={pageNumber:8,entries:[
+  {id:'p8-theory',kind:'teaching',description:{text:'Solving simultaneous equations graphically'},sourceLabel:8},
+  {id:'p8-q1',kind:'question',description:'First independent question'},
+  {id:'p8-q2',kind:'question',description:'Second independent question'},
+ ]};
+ const before=structuredClone(inventory);
+ const plan=createAssignmentPlan([inventory],{maxQuestions:1});
+ assert.equal(plan.assignments.reduce((count,row)=>count+row.questions,0),2);
+ assert.deepEqual(inventory,before);
+});
 import {createAssignmentPlan} from '../scripts/booklet/author-assignments.mjs';
 
 test('difficulty-kind categories keep independent complete questions within assignment limits',()=>{

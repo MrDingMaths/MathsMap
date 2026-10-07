@@ -286,7 +286,24 @@ export function materializeCorrections(source,state,scope,page){
 
 export function effectiveInventory(runDir,page,state=loadWorkflow(runDir)){
  const file=path.join(runDir,'semantic-packets',`page-${String(page).padStart(3,'0')}.inventory.json`);
- return materializeCorrections(json(file,null),state,'inventory',page);
+ const inventory=materializeCorrections(json(file,null),state,'inventory',page);
+ // Inventoriers sometimes put an explicit furniture exclusion inside its
+ // presentation evidence. Honour that decision without editing source packets.
+ if(inventory&&isLeanReview(state))for(const entry of inventory.entries??[]){
+  const reason=entry.presentation?.exclusionReason;
+  const difficultyFurniture=entry.kind==='teaching'&&typeof entry.description==='string'&&/^(foundation|development|mastery)$/i.test(entry.description.trim())&&entry.expectedAnswer===undefined;
+  const furnitureKind=['diagram','teaching','example','cover'].includes(entry.kind);
+  const noResponse=entry.expectedAnswer===undefined&&(!entry.responseKind||entry.responseKind==='none');
+  const description=typeof entry.description==='string'?entry.description:'';
+  const explanation=typeof reason==='string'?reason.trim():'';
+  const headerIcon=furnitureKind&&noResponse&&/\b(?:information|question(?:[- ]mark)?|example|pencil|light[- ]bulb)(?:[- ](?:header|circle))? icons?\b/i.test(description)&&/^Renderer-owned\b.*\b(?:header|template|activity)\b/i.test(explanation);
+  const documentedRule=(furnitureKind||entry.kind==='question'&&/no mathematical (?:meaning|information|content)/i.test(explanation))&&noResponse&&/^Decorative\b/i.test(explanation)&&(/\b(?:top|page|layout|columns?|rows?|parts?|cells?|category|sections?)\b.*\b(?:rules?|dividers?|separators?)\b/i.test(description)||/\bhorizontal rule above (?:the )?(?:FOUNDATION|DEVELOPMENT|MASTERY)\b/i.test(description)||/\b(?:column|row|part|cell) separators?\b/i.test(description)||/\b(?:rules?|dividers?|separators?)\b.*\bparts?\b/i.test(description));
+  const warningMarker=furnitureKind&&noResponse&&/\bwarning (?:triangles|markers|icons)\b/i.test(description)&&/^Decorative warning markers\b/i.test(explanation);
+  const layoutFurniture=entry.kind==='diagram'&&entry.expectedAnswer===undefined&&(!entry.responseKind||entry.responseKind==='none')&&/decorative layout separators/i.test(reason??'')&&/no mathematical (?:table relationships|content)/i.test(reason??'')&&/divider|rules|separators/i.test(entry.description??'');
+  const panelFurniture=furnitureKind&&noResponse&&/^Decorative panel dividers\b/i.test(explanation)&&/no mathematical (?:information|content)/i.test(explanation)&&/\b(?:dividers?|separators?|rules?)\b.*\bgraph panels?\b/i.test(description);
+  if((difficultyFurniture||entry.kind==='footer'||headerIcon||layoutFurniture||panelFurniture||documentedRule||warningMarker)&&!entry.exclusionReason&&explanation)entry.exclusionReason=reason;
+ }
+ return inventory;
 }
 export function effectiveAuthor(runDir,page,state=loadWorkflow(runDir)){
  const file=path.join(runDir,'semantic-packets',`page-${String(page).padStart(3,'0')}.author.json`);

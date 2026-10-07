@@ -1,0 +1,97 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "points-given-gradient",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-07T21:34:37.394Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 69.1,
+      "usage": {
+        "input_tokens": 140527,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2866,
+        "reasoning_output_tokens": 144
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\points-given-gradient\\audit-p3oDq6\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 161.4,
+      "usage": {
+        "input_tokens": 141384,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 9476,
+        "reasoning_output_tokens": 169
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\points-given-gradient\\repair-Lg1aoQ\\response.raw.txt"
+    },
+    {
+      "name": "review-scoped",
+      "code": 0,
+      "seconds": 28,
+      "usage": {
+        "input_tokens": 141235,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 997,
+        "reasoning_output_tokens": 136
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\points-given-gradient\\review-scoped-Exi2be\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "1fc0f7812192db7f135f2063a3ac57088b2808e7d810c4a5d0c3ad8c1d69f34b",
+    "quizHash": "9ad97e1a6052f3826e410989b34f442ae7e65327880e8660f964ee42eb7d9ec9"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 6 Advanced/Introduction to Differentiation 3_Calculations with the derivative.md"
+  ],
+  "images": 53,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "audit",
+    "hash": "5c152e4a9489d727f3787ae65ad829e6850a4fa9b8afc36fc0294fe5612556bc",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for practice.mastery[1]",
+    "No booklet question cited for practice.mastery[2]",
+    "No booklet question cited for quiz.q8",
+    "practice.mastery[1]: The mathematics is correct, but the booklet never asks students to locate a point given that its normal is perpendicular to a supplied line. Replace with a supported point-finding type at the same tier and update the structure slug.",
+    "practice.mastery[2]: Correct calculations, but recovering unknown cubic coefficients from two stationary abscissae is not a question type asked in the booklet and adds a parameter-determination demand beyond the target skill. Replace with a supported point-finding type at the same tier and update the structure slug.",
+    "quiz.q3: Option 2 does not follow its explanation: equating $2x+2=-1/6$ gives $x=-13/12$ and $y=-287/144$, not $(-2,-1)$. Repair that option or its explanation; make option 3's arithmetic mistake explicit, for example incorrectly calculating $6-2=2$.",
+    "quiz.q5: Option 2 is inconsistent with its explanation and curve: at $x=4$ and $x=-4$, the actual ordinates are $21$ and $-11$. Specify the erroneous solving step that yields $x=\\pm4$ and use ordinates derived from that mistake.",
+    "quiz.q7: Option 3 claims derivative substitution gives zero, but $f'(-1)=3$. Repair this distractor and explanation without duplicating option 2.",
+    "quiz.q8: The booklet does not ask point-finding from a normal perpendicular to a supplied line; replace with a supported type while retaining q8 and its mastery tier. Independently, option 3's explanation is wrong because $f'(2)=1$, not zero.",
+    "theory: Horizontal tangents identify stationary points, which need not be turning points; $y=x^3$ at the origin is a counterexample. Qualify the parallel-line gradient formula with $b\\neq0$, and restrict the polynomial point-count claim to degree $n\\geq2$: a linear polynomial has infinitely many points with its constant tangent gradient. Also qualify the intro's normal reciprocal formula with $m_n\\neq0$."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.mastery[1]",
+    "practice.mastery[2]",
+    "quiz.q3",
+    "quiz.q5",
+    "quiz.q7",
+    "quiz.q8"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 25,
+  "summary": "Replaced the three unsupported tasks with cited booklet point-finding types, updated their structure slugs, and repaired the inconsistent quiz distractors. Qualified the theory statements about stationary points, normal gradients, parallel-line gradients and polynomial degree; these theory edits are not whole-item removals.",
+  "reviewSummary": "All supplied practice and quiz correct answers are mathematically correct, and no worked examples or removals were supplied. Three items require source or scope repairs, four additional quiz questions require distractor repairs, and the theory needs local qualifications.",
+  "candidateHash": "49e8ad6cf719f84893ad3a56d8a4a1d1e9515c9f2fcff6bf863ceb7dd11c13c3",
+  "findings": [
+    "quiz.q3: The cited booklet part asks only for the parameter $a$ given a normal gradient; it does not ask for coordinates. Replace the prompt with 'Find the point on $y = x^2 + 2x - 1$ where the tangent has gradient $6$.' Change structure to 'points-given-tangent-gradient', remove the normal-to-tangent conversion from the solution, and replace option 2 and its explanation with a distractor derived from a specific mistake in the revised task."
+  ],
+  "finishedAt": "2026-10-07T21:38:56.216Z"
+}

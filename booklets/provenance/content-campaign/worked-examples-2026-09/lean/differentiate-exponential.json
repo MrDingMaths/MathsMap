@@ -1,0 +1,97 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "differentiate-exponential",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-07T11:20:26.707Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 82.6,
+      "usage": {
+        "input_tokens": 50441,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3280,
+        "reasoning_output_tokens": 147
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\differentiate-exponential\\audit-tVC7wb\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 156.2,
+      "usage": {
+        "input_tokens": 51441,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 8197,
+        "reasoning_output_tokens": 68
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\differentiate-exponential\\repair-W7yipJ\\response.raw.txt"
+    },
+    {
+      "name": "review-scoped",
+      "code": 0,
+      "seconds": 27.1,
+      "usage": {
+        "input_tokens": 51540,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 828,
+        "reasoning_output_tokens": 160
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\differentiate-exponential\\review-scoped-dTlRir\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "e7cd72c013e52fcd232f2af7789eed5d1f0ececd29c895ccb1012251380516f1",
+    "quizHash": "ac6e90ea7a718ec3d11fc1806a726437a9c41358ac271b64007224fe579e969a"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 6 Advanced/Differential Calculus 1_Differentiation with exponential functions.md"
+  ],
+  "images": 3,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "audit",
+    "hash": "d8de1c3dc62917b7a1d99cbaa7b0ef801a8a37b45814e5dacdc50494280b8c65",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for practice.development[8]",
+    "No booklet question cited for practice.mastery[1]",
+    "No booklet question cited for quiz.q7",
+    "practice.development[8]: The mathematics is correct, but the booklet never asks students to recover an unknown coefficient from a supplied derivative. Replace this off-booklet task with a comparable Development differentiation task and update its structure slug.",
+    "practice.mastery[1]: The mathematics is correct, but determining two unknown parameters from a function value and derivative value is not asked anywhere in the booklet. Replace this off-booklet task with a comparable Mastery differentiation task and update its structure slug.",
+    "quiz.q3: Option 3's explanation does not derive its answer: differentiating the index gives $-3$, not $-3x$. Describe the specific mistake as dropping the constant $8$ from the unchanged exponent.",
+    "quiz.q4: Option 3's explanation does not account for its positive $4$: replacing the signed coefficients by the index coefficients gives $5e^{5x}-4e^{-4x}$. Its explanation must also identify the loss of the negative sign.",
+    "quiz.q7: The calculations and distractors are correct, but finding an unknown exponent coefficient from a supplied gradient is not a booklet question type. Replace this task under the same quiz id with an adapted booklet task and update its structure slug.",
+    "quiz.dq-120610: Option 1 has the correct coefficient $0.6$, so its explanation incorrectly claims a coefficient error. Identify the actual mistake: applying the power-rule exponent reduction $0.3t-1$ while retaining the chain factor $0.3$. Include 'thousand per minute' in the question's requested rate or the options so the numerical options have an explicit unit.",
+    "theory: The statement that $b$ 'never affects the derivative' is misleading: it remains in the exponent and changes the derivative's value when the other constants are nonzero; it contributes no additional chain-rule multiplier. Also qualify 'the power rule never applies here' as referring to applying the power rule directly to an exponential, since index-law rewrites and outer powers are distinct."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.development[8]",
+    "practice.mastery[1]",
+    "quiz.q3",
+    "quiz.q4",
+    "quiz.q7",
+    "quiz.dq-120610"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 32,
+  "summary": "Replaced the three unsupported unknown-parameter tasks with cited booklet differentiation tasks, retaining their tiers and quiz id and updating their structure slugs. Clarified the two theory statements, corrected the specified distractor explanations and the power-rule distractor exponent, and made the population-rate unit explicit; all other content was preserved.",
+  "reviewSummary": "All independently derived answers match the supplied solutions, and each quiz has exactly one correct option. Three unknown-parameter tasks are off-booklet types; repairs are also needed to theory wording, three distractor explanations and the population-rate units, with no worked examples or removals supplied.",
+  "candidateHash": "05887d64530314c0ae30f549267059315fc7ba605b9af637e122ab1cad36b884",
+  "findings": [
+    "theory: In facts[0], remove the claim that $e^x$ is the one exponential that is its own derivative: every function $ke^{x+b}$ also equals its derivative. Keep the correct identity $\\dfrac{d}{dx}(e^x)=e^x$; the remaining theory and procedure are correct and consistent with the booklet."
+  ],
+  "finishedAt": "2026-10-07T11:24:52.929Z"
+}

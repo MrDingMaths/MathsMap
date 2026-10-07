@@ -2,15 +2,15 @@
   "skillId": "evaluate-function-algebraic-argument",
   "atomType": "R",
   "theory": {
-        "intro": "The input to a function can be an expression, not just a number. $f(x+1)$ means replacing every $x$ in the rule with $(x+1)$, then expanding and simplifying. The same idea builds the difference quotient $\\dfrac{f(x+h)-f(x)}{h}$.",
+        "intro": "The input to a function can be an expression, not just a number. $f(x+1)$ means replacing every $x$ in the rule with $(x+1)$, then expanding and simplifying. The same idea builds the difference quotient $\\dfrac{f(x+h)-f(x)}{h}$, where $h\\ne0$.",
         "facts": [
-          "$f(x+1)$ means replace every $x$ in the rule with $(x+1)$, so $f(x)=x^2+5x$ gives $(x+1)^2+5(x+1)$.",
-          "Expand a squared bracket in full: $(x+1)^2=x^2+2x+1$, and never write $x^2+1$.",
-          "Distribute any coefficient over the whole substituted expression, so $5(x+1)=5x+5$.",
-          "For $f(-a)$, put $-a$ in for $x$ and watch the signs: $(-a)^2=a^2$ but $-(-a)=+a$.",
-          "For the difference quotient, expand $f(x+h)$, subtract $f(x)$, and simplify the numerator until every term has a factor of $h$.",
-          "Cancel the $h$ in the denominator only once the numerator is a multiple of $h$."
-        ],
+"$f(x+1)$ means replace every $x$ in the rule with $(x+1)$, so $f(x)=x^2+5x$ gives $(x+1)^2+5(x+1)$.",
+"Expand a squared bracket in full: $(x+1)^2=x^2+2x+1$, and never write $x^2+1$.",
+"Distribute any coefficient over the whole substituted expression, so $5(x+1)=5x+5$.",
+"For $f(-a)$, put $-a$ in for $x$ and watch the signs: $(-a)^2=a^2$ but $-(-a)=+a$.",
+"For the difference quotient, require $h\\ne0$ before division or cancellation. Expand $f(x+h)$, subtract $f(x)$, and simplify the numerator until every term has a factor of $h$.",
+"Cancel the $h$ in the denominator only once the numerator is a multiple of $h$, keeping the restriction $h\\ne0$. Simplification does not define the original quotient at $h=0$."
+],
         "steps": [
           "Substitute the expression for $x$, keeping it in brackets.",
           "Expand squares and distribute coefficients.",
@@ -98,26 +98,26 @@
       }
     ],
     "mastery": [
-      {
-        "question_text": "For $f(x)=x^2+5x$, find $\\dfrac{f(1+h)-f(1)}{h}$ in simplest form.",
+{
+        "question_text": "For $f(x)=x^2+5x$ and $h\\ne0$, find $\\dfrac{f(1+h)-f(1)}{h}$ in simplest form.",
         "structure": "difference-quotient-point",
-        "solution_text": "$f(1+h)=(1+h)^2+5(1+h)$\n$=h^2+7h+6$\n$f(1)=(1)^2+5(1)$\n$=6$\n$\\dfrac{f(1+h)-f(1)}{h}=\\dfrac{(h^2+7h+6)-6}{h}$\n$=\\dfrac{h^2+7h}{h}$\n$=h+7$"
+        "solution_text": "$f(1+h)=(1+h)^2+5(1+h)$\n$=h^2+7h+6$\n$f(1)=(1)^2+5(1)$\n$=6$\n$\\dfrac{f(1+h)-f(1)}{h}=\\dfrac{(h^2+7h+6)-6}{h}$\n$=\\dfrac{h^2+7h}{h}$\n$=h+7$, where $h\\ne0$."
       },
-      {
-        "question_text": "For $f(x)=x^2+5x$, find $\\dfrac{f(x+h)-f(x)}{h}$ in simplest form.",
+{
+        "question_text": "For $f(x)=x^2+5x$ and $h\\ne0$, find $\\dfrac{f(x+h)-f(x)}{h}$ in simplest form.",
         "structure": "difference-quotient-general",
-        "solution_text": "$f(x+h)=(x+h)^2+5(x+h)$\n$=x^2+2xh+h^2+5x+5h$\n$\\dfrac{f(x+h)-f(x)}{h}=\\dfrac{(x^2+2xh+h^2+5x+5h)-(x^2+5x)}{h}$\n$=\\dfrac{2xh+h^2+5h}{h}$\n$=2x+h+5$"
+        "solution_text": "$f(x+h)=(x+h)^2+5(x+h)$\n$=x^2+2xh+h^2+5x+5h$\n$\\dfrac{f(x+h)-f(x)}{h}=\\dfrac{(x^2+2xh+h^2+5x+5h)-(x^2+5x)}{h}$\n$=\\dfrac{2xh+h^2+5h}{h}$\n$=2x+h+5$, where $h\\ne0$."
       },
-      {
-        "question_text": "For $f(x)=2x^2-3x-1$, simplify $\\dfrac{f(x+h)-f(x)}{h}$.",
+{
+        "question_text": "For $f(x)=2x^2-3x-1$ and $h\\ne0$, simplify $\\dfrac{f(x+h)-f(x)}{h}$.",
         "structure": "difference-quotient-general",
-        "solution_text": "$f(x+h)=2(x+h)^2-3(x+h)-1$\n$=2x^2+4xh+2h^2-3x-3h-1$\n$\\dfrac{f(x+h)-f(x)}{h}=\\dfrac{(2x^2+4xh+2h^2-3x-3h-1)-(2x^2-3x-1)}{h}$\n$=\\dfrac{4xh+2h^2-3h}{h}$\n$=4x+2h-3$"
+        "solution_text": "$f(x+h)=2(x+h)^2-3(x+h)-1$\n$=2x^2+4xh+2h^2-3x-3h-1$\n$\\dfrac{f(x+h)-f(x)}{h}=\\dfrac{(2x^2+4xh+2h^2-3x-3h-1)-(2x^2-3x-1)}{h}$\n$=\\dfrac{4xh+2h^2-3h}{h}$\n$=4x+2h-3$, where $h\\ne0$."
       },
-      {
+{
         "question_text": "For $F(x)=2-x^2$, find $F(t-2)$ in simplest form.",
         "structure": "sub-square-argument",
         "solution_text": "$F(t-2)=2-(t-2)^2$\n$=2-(t^2-4t+4)$\n$=2-t^2+4t-4$\n$=-t^2+4t-2$"
       }
-    ]
+]
   }
 }

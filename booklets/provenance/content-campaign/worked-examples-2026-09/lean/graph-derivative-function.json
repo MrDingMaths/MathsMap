@@ -1,0 +1,96 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "graph-derivative-function",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-07T14:49:55.849Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 126.4,
+      "usage": {
+        "input_tokens": 89648,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 4102,
+        "reasoning_output_tokens": 516
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\graph-derivative-function\\audit-ozODod\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 289.1,
+      "usage": {
+        "input_tokens": 90739,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 13166,
+        "reasoning_output_tokens": 118
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\graph-derivative-function\\repair-uIhnvZ\\response.raw.txt"
+    },
+    {
+      "name": "review-full",
+      "code": 0,
+      "seconds": 73.9,
+      "usage": {
+        "input_tokens": 90937,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2324,
+        "reasoning_output_tokens": 399
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\graph-derivative-function\\review-full-pwnl76\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "77b769e45403af2a9c1fedcf05345996df26dd2a55b1a87aef5212bfae50bd94",
+    "quizHash": "10faba819c1b4770a39cbc4a4435a542a2bcae64e8c864d1bba37c4d57a8fe90"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 6 Advanced/Introduction to Differentiation 4_Graphical applications of the derivative.md"
+  ],
+  "images": 71,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "review-full",
+    "hash": "a8912df1fd11ab87f1a172f7deb4871b84912086e5fbf2326c19577072109369",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "practice.development[0]: Explicitly identify the supplied curve as cubic so that the asserted parabolic derivative follows from the stated givens. Strict increase alone does not imply a strictly positive derivative at every other point.",
+    "practice.development[6]: Place $B$ and $D$ exactly on the polynomial's stationary points, with their corresponding exact ordinates. Their current rounded coordinates do not support the claimed zero derivatives.",
+    "quiz.q3: Correct option 2's explanation: the listed values negate the original nonzero abscissae rather than merely swap their signs. Option 3's explanation must not assert an inflection point at $x=0$, because no stationary point's nature is supplied.",
+    "quiz.q5: Supply a graph or explicit gradient properties establishing positive gradient everywhere and flattening at both ends. The current givens do not establish option 0 or the solution's strict positivity and derivative limits.",
+    "quiz.q6: Option 1 is internally impossible: a parabola with vertex $(0,0)$ cannot also cross at $x=-3$ and $x=3$. Repair that distractor's inconsistent geometry and align its explanation with the resulting mistake.",
+    "quiz.q7: Specify or show an upward parabola with vertex $(2,0),$ or otherwise establish that the derivative decreases to zero then increases locally. The solution also claims strict positivity on both entire sides without that being supplied.",
+    "quiz.q8: State that $f(x)$ is cubic. The solution and option explanations currently assume a degree that the question never supplies.",
+    "theory: Replace 'plot that sign as a height' with the distinction that sign determines the side of the axis while gradient magnitude determines height. Restrict the degree rule to nonconstant polynomials, qualify the horizontal-asymptote statement by actual flattening with gradient tending to zero, and remove or appropriately restrict the universal claim that every vertical asymptote remains a derivative asymptote. The graphical method must also use how gradient magnitude changes, rather than suggesting signs and zeros determine the entire derivative shape."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.development[0]",
+    "practice.development[6]",
+    "quiz.q3",
+    "quiz.q5",
+    "quiz.q6",
+    "quiz.q7",
+    "quiz.q8"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 25,
+  "summary": "Repaired the specified givens, stationary-point coordinates and quiz explanations, preserving all items, ids and unaffected fields. Updated the theory to distinguish gradient sign from magnitude, qualify polynomial and asymptote rules, and use changing gradient magnitude when sketching; no whole items were removed.",
+  "reviewSummary": "All 25 items use booklet-supported question types, and every quiz has exactly one correct option with appropriate distractor explanations. Repair the justification in practice.mastery[0] by using the derivative graph's change from decreasing to increasing; no worked examples or removals were supplied.",
+  "candidateHash": "a8912df1fd11ab87f1a172f7deb4871b84912086e5fbf2326c19577072109369",
+  "findings": [
+    "practice.mastery[0]: The conclusion is correct for the displayed parabola, but positive derivative on both sides without a sign change alone does not establish an inflection. Add that the derivative graph decreases before $x=1$ and increases afterwards, so the original curve changes concavity there."
+  ],
+  "finishedAt": "2026-10-07T14:58:05.579Z"
+}

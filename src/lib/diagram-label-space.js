@@ -95,6 +95,18 @@ export function reserveDiagramLabelSpace(root) {
       wrapper.dataset.labelSpaceOriginalLeft=style.paddingLeft;
       wrapper.dataset.labelSpaceOriginalRight=style.paddingRight;
     }
+    // Generated ink reservations must grow an unpadded diagram slot, rather
+    // than consume its SVG width under the app's global border-box rule. That
+    // feedback otherwise shrinks the geometry, enlarges calibrated labels and
+    // demands still more padding on every observer pass.
+    if(style.boxSizing==='border-box'&&
+       !parseFloat(wrapper.dataset.labelSpaceOriginalLeft)&&!parseFloat(wrapper.dataset.labelSpaceOriginalRight)&&
+       !parseFloat(style.borderLeftWidth)&&!parseFloat(style.borderRightWidth)){
+      wrapper.style.boxSizing='content-box';
+      // Auto-sized block widths still subtract padding from their containing
+      // block, even in content-box. Keep the original full-width SVG slot.
+      if(!wrapper.style.width)wrapper.style.width='100%';
+    }
     // CSS subpixel rounding must not leave a sliver of measured ink outside.
     const above=Math.ceil(Math.max(0,bounds.top-top)*64)/64;
     const below=Math.ceil(Math.max(0,bottom-bounds.bottom)*64)/64;

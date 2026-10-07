@@ -10,8 +10,9 @@ import {readAttemptReceipt,recordAttempt,summarizeAttemptEvents} from '../script
 import {applyMappingRepair,mappingRepairContext} from '../scripts/booklet/semantic-mapping-repair.mjs';
 import {SHARED_DIAGRAM_FORMAT} from '../scripts/booklet/shared-diagram-authoring.mjs';
 import {normalizeDocument} from '../public/libs/maths-editor/document-model.mjs';
-import {attemptRepairContext,repairAttempt,applyAttemptPatches} from '../scripts/booklet/local-attempt-repair.mjs';
+import {attemptRepairContext,repairAttempt,applyAttemptPatches,revalidateAssignment} from '../scripts/booklet/local-attempt-repair.mjs';
 import {planTaskAssignments,runAuthorAssignment} from '../scripts/booklet/author-assignments.mjs';
+import {replayInventory} from '../scripts/booklet/semantic-packets.mjs';
 
 function fixture(t){
  const runDir=fs.mkdtempSync(path.join(os.tmpdir(),'semantic-workflow-'));
@@ -32,6 +33,99 @@ const author=page=>({pageNumber:page,sections:[{id:`s-${page}`,title:'Equations'
 const pageFrom=prompt=>Number(prompt.match(/Target page (\d+)/)[1]);
 const quiet={log:()=>{}};
 
+test('unmapped derived wrapper IDs can be repaired without changing source identities or content',()=>{
+ const packet=author(4),leaf=packet.sections[0].blocks[0].content;
+ const original={id:'derived-wrapper',type:'group',prompt:'',children:[leaf]};packet.sections[0].blocks[0].content=original;
+ const context={targets:[{targetId:'b-4',field:'/content',original,derivedWrapperId:original.id}]};
+ const corrected={...structuredClone(original),id:'unique-derived-wrapper'},patch={targetId:'b-4',field:'/content',original,corrected,reason:'Repair an unreferenced generated wrapper collision.'};
+ const result=applyAttemptPatches(packet,context,[patch]);
+ assert.equal(result.sections[0].blocks[0].content.id,'unique-derived-wrapper');
+ assert.deepEqual(result.sections[0].blocks[0].content.children,[leaf]);
+ const changed=structuredClone(patch);changed.corrected.children[0].prompt='Changed source';
+ assert.throws(()=>applyAttemptPatches(packet,context,[changed]),/preserve all content/);
+ packet.inventoryMappings.push({inventoryId:'source-stem',targetId:'derived-wrapper'});
+ assert.throws(()=>applyAttemptPatches(packet,context,[patch]),/preserve all content and source identities/);
+});
+
+test('failed assignments can be revalidated from matching original model output without another call',async t=>{
+ const options={...fixture(t),stage:'author',pages:[4],attempt:1},tasks=createSemanticTasks(options),plan=planTaskAssignments(tasks),assignment=plan.assignments[0];
+ const generation={packets:[author(4)]};
+ await assert.rejects(()=>runAuthorAssignment({runDir:options.runDir,assignment,tasks,attempt:1,validate:()=>{throw Error('Prior validator rejected a valid demonstration');},runner:async task=>{
+  fs.writeFileSync(path.join(task.out,'last-message.txt'),JSON.stringify(generation));return {result:generation,metrics:{provider:'fixture-model'}};
+ }}),/Prior validator/);
+ let checks=0;
+ const report=await revalidateAssignment({...options,attempt:2},{page:4,assignmentId:assignment.id,fromAttempt:1,reason:'Diagnosed validator repair.'},{assertInputs:()=>{checks++;}});
+ assert.equal(report.externalModelCalls,0);assert.equal(report.readyForAssembly,true);assert.equal(checks,2);
+ const root=path.join(options.runDir,'semantic-packets/assignments',assignment.id);
+ assert.deepEqual(JSON.parse(fs.readFileSync(path.join(root,'2/result.json'))),generation);
+ fs.appendFileSync(path.join(root,'1/last-message.txt'),'changed');
+ await assert.rejects(()=>revalidateAssignment({...options,attempt:3},{page:4,assignmentId:assignment.id,fromAttempt:1,reason:'Diagnosed validator repair.'},{assertInputs:()=>{}}));
+});
+
+test('page publication dependencies retain the assignment implementation loaded by the process',t=>{
+ const options=fixture(t);options.manifest.pipelinePolicy='pdf-import-efficient-v1';
+ const before=createSemanticTasks(options)[0];
+ const read=fs.readFileSync;
+ try{
+  fs.readFileSync=function(file,...args){
+   if(String(file).endsWith('/author-assignments.mjs')||String(file).endsWith('\\author-assignments.mjs'))return Buffer.from('a sibling updated the on-disk planner');
+   return read.call(this,file,...args);
+  };
+  assert.equal(createSemanticTasks(options)[0].inputHash,before.inputHash);
+  fs.writeFileSync(path.join(options.runDir,'evidence/pages/page-004.png'),'changed source');
+  assert.notEqual(createSemanticTasks(options)[0].inputHash,before.inputHash);
+ }finally{fs.readFileSync=read;}
+});
+
+async function unpublishedInventory(t){
+ const options={...fixture(t),stage:'inventory',pages:[4],attempt:1};
+ fs.unlinkSync(path.join(options.runDir,'semantic-packets/page-004.inventory.json'));
+ const preserved=await runSemanticPackets(options,{...quiet,verifyPublication:()=>{throw Error('Tool changed during generation');},runner:async task=>{
+  const result=inventory(4);fs.writeFileSync(path.join(task.out,'last-message.txt'),JSON.stringify(result));
+  return {result,metrics:{provider:'fixture-model'}};
+ }});
+ assert.equal(preserved.ok,false);
+ const files=[1,2,3,4].flatMap(p=>['txt','png'].map(ext=>path.join(options.runDir,`evidence/pages/page-00${p}.${ext}`)));
+ const original=files.map(file=>[file,fs.readFileSync(file)]);
+ const assertInputs=()=>{for(const [file,bytes]of original)if(!fs.readFileSync(file).equals(bytes))throw Error('Pinned source changed');};
+ return {options:{...options,attempt:2,fromAttempt:1},assertInputs,dir:path.join(options.runDir,'semantic-packets/page-004.inventory.1')};
+}
+
+test('guarded inventory replay preserves the model result without new calls and refuses published results',async t=>{
+ const {options,assertInputs}=await unpublishedInventory(t);
+ const preview=await replayInventory({...options,dryRun:true},{...quiet,assertInputs});
+ assert.equal(preview.dryRun,true);
+ assert.equal(fs.existsSync(path.join(options.runDir,'semantic-packets/page-004.inventory.2')),false);
+ const report=await replayInventory(options,{...quiet,assertInputs});
+ assert.equal(report.ok,true);assert.equal(report.pages[0].metrics.externalModelCalls,0);
+ assert.deepEqual(JSON.parse(fs.readFileSync(path.join(options.runDir,'semantic-packets/page-004.inventory.json'))),inventory(4));
+ await assert.rejects(()=>replayInventory({...options,attempt:3},{...quiet,assertInputs}),/already published/);
+});
+
+test('guarded inventory replay refuses changed source images or delivered prompts',async t=>{
+ const first=await unpublishedInventory(t);
+ fs.writeFileSync(path.join(first.options.runDir,'evidence/pages/page-004.png'),'changed source');
+ await assert.rejects(()=>replayInventory(first.options,{...quiet,assertInputs:first.assertInputs}),/Pinned source changed/);
+ const second=await unpublishedInventory(t);
+ second.options.config.pageEvidence={4:{note:'Changed source instructions'}};
+ await assert.rejects(()=>replayInventory(second.options,{...quiet,assertInputs:second.assertInputs}),/Source prompt changed/);
+});
+
+test('guarded inventory replay refuses edits to preserved model output',async t=>{
+ const {options,assertInputs,dir}=await unpublishedInventory(t);
+ fs.writeFileSync(path.join(dir,'generation.json'),JSON.stringify({...inventory(4),findings:['changed']}));
+ await assert.rejects(()=>replayInventory(options,{...quiet,assertInputs}),/output changed/);
+});
+
+test('guarded inventory replay rechecks its preserved bytes immediately before publication',async t=>{
+ const {options,assertInputs,dir}=await unpublishedInventory(t);let checks=0;
+ const report=await replayInventory(options,{...quiet,assertInputs:()=>{
+  assertInputs();if(++checks===3)fs.appendFileSync(path.join(dir,'last-message.txt'),' ');
+ }});
+ assert.equal(report.ok,false);assert.match(report.pages[0].error,/Replay source or output changed/);
+ assert.equal(fs.existsSync(path.join(options.runDir,'semantic-packets/page-004.inventory.json')),false);
+});
+
 test('non-response worked demonstrations require independent source support, including given practice examples',()=>{
  const packet={pageNumber:1,sections:[{id:'teaching',title:'Example',phase:'teaching',blocks:[{id:'paired',type:'question',sourceReview:{responses:[{targetId:'worked',kind:'none'},{targetId:'turn',kind:'working'}]},content:{id:'pair',type:'group',prompt:'Worked example and your turn',children:[{id:'worked',type:'part',prompt:'Visible worked demonstration.'},{id:'turn',type:'part',prompt:'Solve.',answer:{short:'1',worked:'x=1'}}]}}]}],inventoryMappings:[{inventoryId:'source-example',targetId:'worked'},{inventoryId:'source-turn',targetId:'turn'}]};
  const source={entries:[{id:'source-example',kind:'example'},{id:'source-turn',kind:'question',responseKind:'working'}]};
@@ -44,6 +138,22 @@ test('non-response worked demonstrations require independent source support, inc
  assert.doesNotThrow(()=>validate(practice));
  const responseSource=structuredClone(source);responseSource.entries[0].responseKind='working';
  assert.throws(()=>validate(packet,responseSource),/Response leaf lacks short\/worked answers worked/);
+ const teachingSource=structuredClone(source);teachingSource.entries[0].kind='teaching';
+ assert.doesNotThrow(()=>validate(packet,teachingSource));
+ teachingSource.entries[0].responseKind='cloze';
+ assert.throws(()=>validate(packet,teachingSource),/Response leaf lacks short\/worked answers worked/);
+ teachingSource.entries[0].responseKind='none';teachingSource.entries[0].expectedAnswer='growth';
+ assert.throws(()=>validate(packet,teachingSource),/Response leaf lacks short\/worked answers worked/);
+ const givenSource=structuredClone(source);givenSource.entries[0]={id:'source-example',kind:'part',responseKind:'none',presentation:{suppliedDemonstration:true}};
+ assert.doesNotThrow(()=>validate(packet,givenSource));
+ delete givenSource.entries[0].presentation.suppliedDemonstration;
+ assert.throws(()=>validate(packet,givenSource),/Response leaf lacks short\/worked answers worked/);
+ const pairedSource=structuredClone(source),pairedPacket=structuredClone(packet);
+ pairedSource.entries[0]={id:'source-example',kind:'part',parentId:'source-pair'};
+ pairedSource.entries.push({id:'source-pair',kind:'example'});pairedPacket.inventoryMappings.push({inventoryId:'source-pair',targetId:'paired'});
+ assert.doesNotThrow(()=>validate(pairedPacket,pairedSource));
+ pairedSource.entries[0].responseKind='working';
+ assert.throws(()=>validate(pairedPacket,pairedSource),/Response leaf lacks short\/worked answers worked/);
 });
 
 test('source operation arrows can map to native table annotations with both cell anchors',()=>{
@@ -54,6 +164,9 @@ test('source operation arrows can map to native table annotations with both cell
  assert.doesNotThrow(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory:source}));
  arrow.toCellId='missing';assert.throws(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory:source}),/Diagram mapped to non-diagram target/);
  arrow.toCellId='image';arrow.label='';assert.throws(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory:source}),/Diagram mapped to non-diagram target/);
+ source.entries[0].responseKind='none';source.entries[0].presentation={meaning:'Identifies the working line referenced by this line.'};
+ assert.doesNotThrow(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory:source}));
+ arrow.toCellId='original';assert.throws(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory:source}),/Diagram mapped to non-diagram target/);
 });
 
 test('source diagrams can map to editable annotated equations only with resolved labels',()=>{
@@ -618,4 +731,29 @@ test('house authoring preferences are opt-in, fingerprinted, and publish generat
  const diagram=JSON.parse(fs.readFileSync(houseTask.resultFile)).sections[0].blocks[0].content.questionDiagrams[0];
  assert.equal(diagram.diagramTemplate,undefined);assert.match(diagram.code,/\\begin\{tikzpicture\}/);assert.equal(diagram.spec.template.family,'number-line');
  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(houseTask.out,'generation.json'))),raw);
+});
+
+function suppliedDemonstration(entry){
+ const inventory={pageNumber:1,inventoried:true,entries:[{id:'source-demo',description:'Sketch the supplied parabola.',...entry}]};
+ const packet={pageNumber:1,sections:[{id:'demo-section',title:'Demonstration',topicId:'topic',phase:'teaching',blocks:[{id:'demo-block',type:'question',content:{id:'demo-node',type:'part',prompt:{format:'maths-editor-document-v1',version:1,blocks:[{id:'demo-paragraph',type:'paragraph',inlines:[{type:'text',text:'Supplied completed working.'}]}]}},sourceReview:{responses:[{targetId:'demo-node',kind:'none'}]}}]}],inventoryMappings:[{inventoryId:'source-demo',targetId:'demo-paragraph'}],findings:[],corrections:[]};
+ return {inventory,packet};
+}
+
+test('a supplied example mapped to its native paragraph retains its non-response owner',()=>{
+ const {inventory,packet}=suppliedDemonstration({kind:'example',responseKind:'none'});
+ assert.doesNotThrow(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory}));
+});
+
+test('independent inventory demonstration descriptions support permanent supplied parts',()=>{
+ for(const presentation of ['Completed demonstration: preserve the supplied scaffold.',{answerVisibility:'Completed demonstration remains student-visible.'}]){
+  const {inventory,packet}=suppliedDemonstration({kind:'part',presentation});
+  assert.doesNotThrow(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory}));
+ }
+});
+
+test('a real response cannot waive answers through an author none declaration',()=>{
+ for(const entry of [{kind:'question',responseKind:'none',presentation:'Completed demonstration'}, {kind:'part',responseKind:'working',presentation:'Completed demonstration'}, {kind:'part',responseKind:'none',presentation:{answerVisibility:'Supplied answer evidence; omit from student response spaces.'}}]){
+  const {inventory,packet}=suppliedDemonstration(entry);
+  assert.throws(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory}),/Response leaf lacks short\/worked answers/);
+ }
 });

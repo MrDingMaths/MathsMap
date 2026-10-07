@@ -4,12 +4,12 @@
   "theory": {
         "intro": "The **distance formula** gives the length of the interval joining two points from their coordinates. It is Pythagoras' theorem applied to the right-angled triangle whose shorter sides are the run and the rise: $d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\draw[<->] (-0.4,0)--(6.6,0) node[right]{$x$};\n\\draw[<->] (0,-0.4)--(0,4.6) node[above]{$y$};\n\\coordinate (A) at (1.6,1.0);\n\\coordinate (B) at (5.0,3.6);\n\\coordinate (C) at (5.0,1.0);\n\\draw[dashed,gray] (A)--(C)--(B);\n\\draw[thick,blue] (A)--(B);\n\\draw ($(C)+(-0.35,0)$)--($(C)+(-0.35,0.35)$)--($(C)+(0,0.35)$);\n\\fill (A) circle (2.5pt);\n\\node[below] at (A) {$A(x_1,y_1)$};\n\\fill (B) circle (2.5pt);\n\\node[above] at (B) {$B(x_2,y_2)$};\n\\node[below] at (3.9,1.0) {$x_2-x_1$};\n\\node[right] at (5.0,2.3) {$y_2-y_1$};\n\\node at (2.8,2.6) {$d$};\n\\end{tikzpicture}\n[/tikz]",
         "facts": [
-          "$d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$ — the run is $x_2 - x_1$ and the rise is $y_2 - y_1$.",
-          "Squaring removes the signs, so it does not matter which point is $(x_1, y_1)$.",
-          "Take the square root **last**: $\\sqrt{9 + 16} = \\sqrt{25} = 5$, not $\\sqrt{9} + \\sqrt{16} = 7$.",
-          "Leave a non-whole answer as an exact surd in simplest form, such as $2\\sqrt{5}$, or round as the question asks.",
-          "A horizontal interval has rise $0$, so $d$ is the run; a vertical interval has run $0$, so $d$ is the rise."
-        ],
+"$d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$ — the run is $x_2 - x_1$ and the rise is $y_2 - y_1$.",
+"Squaring removes the signs, so it does not matter which point is $(x_1, y_1)$.",
+"Take the square root **last**: $\\sqrt{9 + 16} = \\sqrt{25} = 5$, not $\\sqrt{9} + \\sqrt{16} = 7$.",
+"Leave a non-whole answer as an exact surd in simplest form, such as $2\\sqrt{5}$, or round as the question asks.",
+"A horizontal interval has distance $|x_2-x_1|$ and a vertical interval has distance $|y_2-y_1|$, since distance cannot be negative."
+],
         "steps": [
           "Label the coordinates $(x_1, y_1)$ and $(x_2, y_2)$.",
           "Substitute into $d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$.",
@@ -50,37 +50,37 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "A flight path on a grid map runs from airport $A(-4, -3)$ to airport $B(4, 3)$, where each unit is one hundred kilometres.\nFind the length of the interval $AB$.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-4,-3)--(4,3);\n\\fill (-4,-3) circle (2.5pt);\n\\node[below left,fill=white,inner sep=1pt,font=\\scriptsize] at (-4,-3){$A(-4,-3)$};\n\\fill (4,3) circle (2.5pt);\n\\node[above right,fill=white,inner sep=1pt,font=\\scriptsize] at (4,3){$B(4,3)$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "apply-distance-formula",
-        "solution_text": "$d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$\n$= \\sqrt{(4 - (-4))^2 + (3 - (-3))^2}$\n$= \\sqrt{8^2 + 6^2}$\n$= \\sqrt{64 + 36}$\n$= \\sqrt{100}$\n$= 10$\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-4,-3)--(4,3);\n\\draw[dashed,gray] (-4,-3)--(4,-3)--(4,3);\n\\draw (3.7,-3)--(3.7,-2.7)--(4,-2.7);\n\\node[below,font=\\scriptsize] at (0,-3){$8$};\n\\node[right,font=\\scriptsize] at (4,0){$6$};\n\\node[fill=white,inner sep=1pt,font=\\scriptsize] at (-0.3,0.2){$d$};\n\\fill (-4,-3) circle (2.5pt);\n\\node[below left,fill=white,inner sep=1pt,font=\\scriptsize] at (-4,-3){$A$};\n\\fill (4,3) circle (2.5pt);\n\\node[above right,fill=white,inner sep=1pt,font=\\scriptsize] at (4,3){$B$};\n\\end{tikzpicture}\n[/tikz]"
+        "solution_text": "$d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$\n$= \\sqrt{(4 - (-4))^2 + (3 - (-3))^2}$\n$= \\sqrt{8^2 + 6^2}$\n$= \\sqrt{64 + 36}$\n$= \\sqrt{100}$\n$= 10 \\text{ grid units}$\nEach grid unit represents $100$ km, so the physical length is $10 \\times 100 = 1000$ km.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (-4,-3)--(4,3);\n\\draw[dashed,gray] (-4,-3)--(4,-3)--(4,3);\n\\draw (3.7,-3)--(3.7,-2.7)--(4,-2.7);\n\\node[below,font=\\scriptsize] at (0,-3){$8$};\n\\node[right,font=\\scriptsize] at (4,0){$6$};\n\\node[fill=white,inner sep=1pt,font=\\scriptsize] at (-0.3,0.2){$d$};\n\\fill (-4,-3) circle (2.5pt);\n\\node[below left,fill=white,inner sep=1pt,font=\\scriptsize] at (-4,-3){$A$};\n\\fill (4,3) circle (2.5pt);\n\\node[above right,fill=white,inner sep=1pt,font=\\scriptsize] at (4,3){$B$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Find the length of the interval joining $(2, -3)$ and $(9, 4)$, correct to $2$ decimal places.",
         "structure": "apply-distance-formula",
         "solution_text": "$d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$\n$= \\sqrt{(9 - 2)^2 + (4 - (-3))^2}$\n$= \\sqrt{7^2 + 7^2}$\n$= \\sqrt{49 + 49}$\n$= \\sqrt{98}$\n$\\approx 9.90$"
       },
-      {
-        "question_text": "A zip line runs across a park from a platform at $A(1, 1)$ to a post at $B(5, 4)$, where each grid unit represents $10$ m. Find the length of the zip line in metres.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (1,1)--(5,4);\n\\fill (1,1) circle (2.5pt);\n\\node[below right,fill=white,inner sep=1pt,font=\\scriptsize] at (1,1){$A(1,1)$};\n\\fill (5,4) circle (2.5pt);\n\\node[above right,fill=white,inner sep=1pt,font=\\scriptsize] at (5,4){$B(5,4)$};\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "Find the length of the interval joining $A(-3, 2)$ and $B(4, -4)$, correct to $1$ decimal place.",
         "structure": "apply-distance-formula",
-        "solution_text": "$d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$\n$= \\sqrt{(5 - 1)^2 + (4 - 1)^2}$\n$= \\sqrt{4^2 + 3^2}$\n$= \\sqrt{25}$\n$= 5 \\text{ units}$\nEach unit is $10$ m, so the length is $5 \\times 10 = 50$ m.\n[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right]{$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above]{$y$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[thick,blue] (1,1)--(5,4);\n\\draw[dashed,gray] (1,1)--(5,1)--(5,4);\n\\draw (4.7,1)--(4.7,1.3)--(5,1.3);\n\\node[below,font=\\scriptsize] at (3,1){$4$};\n\\node[right,font=\\scriptsize] at (5,2.5){$3$};\n\\node[fill=white,inner sep=1pt,font=\\scriptsize] at (2.7,3){$d$};\n\\fill (1,1) circle (2.5pt);\n\\node[below right,fill=white,inner sep=1pt,font=\\scriptsize] at (1,1){$A$};\n\\fill (5,4) circle (2.5pt);\n\\node[above right,fill=white,inner sep=1pt,font=\\scriptsize] at (5,4){$B$};\n\\end{tikzpicture}\n[/tikz]"
+        "solution_text": "$d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$\n$= \\sqrt{(4 - (-3))^2 + (-4 - 2)^2}$\n$= \\sqrt{7^2 + (-6)^2}$\n$= \\sqrt{49 + 36}$\n$= \\sqrt{85}$\n$\\approx 9.2 \\text{ units}$"
       },
-      {
+{
         "question_text": "Find the length of the interval joining $(-2, -3)$ and $(3, 9)$.",
         "structure": "apply-distance-formula",
         "solution_text": "$d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$\n$= \\sqrt{(3 - (-2))^2 + (9 - (-3))^2}$\n$= \\sqrt{5^2 + 12^2}$\n$= \\sqrt{25 + 144}$\n$= \\sqrt{169}$\n$= 13$"
       },
-      {
+{
         "question_text": "Find the length of the interval joining $(0, 0)$ and $(8, 15)$.",
         "structure": "apply-distance-formula",
         "solution_text": "$d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$\n$= \\sqrt{(8 - 0)^2 + (15 - 0)^2}$\n$= \\sqrt{8^2 + 15^2}$\n$= \\sqrt{64 + 225}$\n$= \\sqrt{289}$\n$= 17$"
       },
-      {
+{
         "question_text": "Find the length of the interval joining $(-5, -2)$ and $(2, 3)$, correct to $2$ decimal places.",
         "structure": "apply-distance-formula",
         "solution_text": "$d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$\n$= \\sqrt{(2 - (-5))^2 + (3 - (-2))^2}$\n$= \\sqrt{7^2 + 5^2}$\n$= \\sqrt{49 + 25}$\n$= \\sqrt{74}$\n$\\approx 8.60$"
       }
-    ],
+],
     "mastery": [
       {
         "question_text": "The distance between $(-2, 1)$ and $(3, k)$ is $\\sqrt{34}$.\nFind the two possible values of $k$.",

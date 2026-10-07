@@ -4,112 +4,107 @@
   "theory": {
         "intro": "**Distance** and **speed** are **scalars**: they have size only. **Displacement** and **velocity** are **vectors**: they have size and direction, so they can be negative.",
         "facts": [
-          "**Displacement** $x$ is the position of the particle relative to a fixed origin $O$, and may be positive, zero or negative.",
-          "**Distance travelled** is the total length of path covered, and is never negative.",
-          "If the particle turns around, the distance travelled is greater than the size of the displacement.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[thick, -{Stealth}] (-0.8,0) -- (5.6,0) node[right] {$x$};\n\\draw[thick] (0,-0.15) -- (0,0.15);\n\\draw[thick] (2.5,-0.15) -- (2.5,0.15);\n\\draw[thick] (4.5,-0.15) -- (4.5,0.15);\n\\node[below] at (0,-0.2) {$O$};\n\\node[below] at (2.5,-0.2) {$B$};\n\\node[below] at (4.5,-0.2) {$A$};\n\\draw[-{Stealth}] (0,0.7) -- (4.5,0.7) node[midway, above] {out to $A$};\n\\draw[dashed] (4.5,0.7) -- (4.5,1.7);\n\\draw[-{Stealth}] (4.5,1.7) -- (2.5,1.7) node[midway, above] {back to $B$};\n\\draw[-{Stealth}] (0,-1.1) -- (2.5,-1.1) node[midway, below] {displacement};\n\\end{tikzpicture}\n[/tikz]",
-          "**Velocity** $v = \\dot{x} = \\dfrac{dx}{dt}$ is the rate of change of displacement; $v > 0$ moves the positive way and $v < 0$ the negative way.",
-          "**Speed** is the size of the velocity, $|v|$, with no direction attached.",
-          "A negative velocity means the particle is travelling in the negative direction, not that it is slowing down.",
-          "**At the origin** means $x = 0$, **initially** means $t = 0$, and **at rest** (or **stationary**) means $v = 0$."
-        ],
+"**Displacement** $x$ is the position of the particle relative to a fixed origin $O$, and may be positive, zero or negative.",
+"**Distance travelled** is the total length of path covered, and is never negative.",
+"The change in displacement over an interval is $\\Delta x = x_{\\text{final}} - x_{\\text{initial}}$. If the particle reverses direction within the interval, the distance travelled is greater than $|\\Delta x|$; this comparison is not necessarily with $|x_{\\text{final}}|$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[thick, -{Stealth}] (-0.8,0) -- (5.6,0) node[right] {$x$};\n\\draw[thick] (0,-0.15) -- (0,0.15);\n\\draw[thick] (2.5,-0.15) -- (2.5,0.15);\n\\draw[thick] (4.5,-0.15) -- (4.5,0.15);\n\\node[below] at (0,-0.2) {$O$};\n\\node[below] at (2.5,-0.2) {$B$};\n\\node[below] at (4.5,-0.2) {$A$};\n\\draw[-{Stealth}] (0,0.7) -- (4.5,0.7) node[midway, above] {out to $A$};\n\\draw[dashed] (4.5,0.7) -- (4.5,1.7);\n\\draw[-{Stealth}] (4.5,1.7) -- (2.5,1.7) node[midway, above] {back to $B$};\n\\draw[-{Stealth}] (0,-1.1) -- (2.5,-1.1) node[midway, below] {displacement};\n\\end{tikzpicture}\n[/tikz]",
+"**Velocity** $v = \\dot{x} = \\dfrac{dx}{dt}$ is the rate of change of displacement; $v > 0$ moves the positive way and $v < 0$ the negative way.",
+"**Speed** is the size of the velocity, $|v|$, with no direction attached.",
+"A negative velocity means the particle is travelling in the negative direction, not that it is slowing down.",
+"**At the origin** means $x = 0$, **initially** means $t = 0$, and **at rest** (or **stationary**) means $v = 0$."
+],
         "steps": [
-          "Identify whether the question asks for a scalar quantity (distance, speed) or a vector quantity (displacement, velocity).",
-          "Determine the reference direction (e.g. right/up is positive, left/down is negative).",
-          "Check whether the particle changes direction (reverses motion at $v = 0$) within the given time interval.",
-          "Calculate net displacement using $\\Delta x = x_{\\text{final}} - x_{\\text{initial}}$, and total distance by summing the absolute distances of each separate leg of motion."
-        ]
+"Identify whether the question asks for a scalar quantity (distance, speed) or a vector quantity (displacement, velocity).",
+"Determine the reference direction (e.g. right/up is positive, left/down is negative).",
+"Find velocity from the displacement function or the gradient of its graph. For distance travelled, check for reversals within the interval: velocity must change sign, so $v = 0$ alone does not establish a reversal.",
+"Calculate the requested quantity: displacement is $x(t)$, speed is $|v(t)|$, change in displacement is $\\Delta x = x_{\\text{final}} - x_{\\text{initial}}$, and total distance is the sum of the absolute changes in displacement between reversals."
+]
       },
   "practice": {
     "foundation": [
-      {
-        "question_text": "A vehicle travels west along a straight road at $60\\text{ km/h}$.\nIf east is defined as the positive direction, state the vehicle's velocity and its speed.",
-        "structure": "distinguish-velocity-and-speed",
-        "solution_text": "$\\text{Velocity has direction: } v = -60\\text{ km/h}$\n$\\text{Speed is magnitude: } |v| = 60\\text{ km/h}$"
+{
+        "question_text": "A car's displacement from home is $x = 6t^2 + 4t + 9$, where $x$ is in kilometres and $t$ is in hours. Find its speed after $3$ hours.",
+        "structure": "calculate-speed-from-displacement-function",
+        "solution_text": "$v = \\dfrac{dx}{dt} = 12t + 4$.\n$v(3) = 12(3) + 4 = 40\\text{ km/h}$.\nThe speed is $|40| = 40\\text{ km/h}$."
       },
-      {
-        "question_text": "A runner starts at the origin $O$, runs $80\\text{ m}$ to the right, and then runs $30\\text{ m}$ back to the left.\nState the runner's final displacement from $O$ and the total distance ran.",
-        "structure": "distinguish-displacement-and-distance",
-        "solution_text": "$\\text{Displacement} = 80 - 30 = +50\\text{ m}$\n$\\text{Total distance} = 80 + 30 = 110\\text{ m}$"
+{
+        "question_text": "A particle's displacement is $x = t^2 - 4t + 3$, where $x$ is in metres and $t$ is in seconds. Find the distance travelled in the first $4$ seconds.",
+        "structure": "calculate-distance-from-displacement-function",
+        "solution_text": "$v = 2t - 4 = 0$ when $t = 2\\text{ s}$. Velocity is negative before $2\\text{ s}$ and positive afterwards, so the particle reverses there.\n$x(0) = 3$, $x(2) = -1$, and $x(4) = 3$.\nDistance travelled is $|-1 - 3| + |3 - (-1)| = 4 + 4 = 8\\text{ m}$."
       },
-      {
-        "question_text": "A particle moving on the $x$-axis has position $x = -4\\text{ m}$ and velocity $v = +3\\text{ m/s}$.\nDescribe its position relative to the origin and its direction of motion.",
-        "structure": "interpret-motion-sign-conventions",
-        "solution_text": "$\\text{Since } x = -4\\text{, the particle is } 4\\text{ m to the left of the origin}.$\n$\\text{Since } v = +3 > 0\\text{, the particle is moving to the right (in the positive direction)}.$"
+{
+        "question_text": "A particle's displacement is $x = 2t^2 - 6t - 4$, where $x$ is in metres and $t$ is in seconds. Find its initial displacement.",
+        "structure": "calculate-initial-displacement",
+        "solution_text": "$x(0) = 2(0)^2 - 6(0) - 4 = -4\\text{ m}$."
       },
-      {
-        "question_text": "A tennis ball is hit vertically upwards.\nAt a certain point in its flight, its velocity is $-9.8\\text{ m/s}$ (taking upwards as positive).\nExplain what this velocity indicates about the ball's motion and state its speed.",
-        "structure": "distinguish-velocity-and-speed",
-        "solution_text": "$\\text{The negative sign indicates the ball is moving downwards.}$\n$\\text{The ball is moving downwards at a speed of } 9.8\\text{ m/s}.$"
+{
+        "question_text": "A stone's height above the ground is $h = 125 - 5t^2$, where $h$ is in metres and $t$ is in seconds. Find how fast it is travelling when it hits the ground.",
+        "structure": "calculate-impact-speed-from-height-function",
+        "solution_text": "At the ground, $125 - 5t^2 = 0$, so $t = 5\\text{ s}$, taking $t \\geq 0$.\n$v = \\dfrac{dh}{dt} = -10t$, so $v(5) = -50\\text{ m/s}$.\nThe speed is $|-50| = 50\\text{ m/s}$."
       },
-      {
-        "question_text": "Classify each condition as describing the particle at the origin, initially, or at rest:\n1. $v = 0$\n2. $x = 0$\n3. $t = 0$",
-        "structure": "interpret-motion-sign-conventions",
-        "solution_text": "$1. v = 0\\text{ describes the particle at rest (stationary).}$\n$2. x = 0\\text{ describes the particle at the origin.}$\n$3. t = 0\\text{ describes the particle initially (at time zero).}$"
+{
+        "question_text": "The movement of a particle is given by $x(t)$. Write each request in function notation using $x$ or $\\dot{x}$:\n1. Find when the particle is at rest.\n2. Find when the particle is at the origin.\n3. Find the initial displacement.",
+        "structure": "translate-motion-language-into-function-notation",
+        "solution_text": "1. Solve $\\dot{x}(t) = 0$ for $t$.\n2. Solve $x(t) = 0$ for $t$.\n3. Find $x(0)$."
       },
-      {
-        "question_text": "A swimmer completes two laps of a $50\\text{ m}$ pool, starting and finishing at the same end.\nState the swimmer's net displacement and total distance swam.",
-        "structure": "distinguish-displacement-and-distance",
-        "solution_text": "$\\text{The swimmer returns to the starting point: } \\text{Displacement} = 0\\text{ m}.$\n$\\text{Total distance swam} = 50 + 50 = 100\\text{ m}.$"
+{
+        "question_text": "A particle's displacement is $x = t^2 - 6t + 5$, where $x$ is in metres and $t$ is in seconds. Find the distance travelled in the first $6$ seconds.",
+        "structure": "calculate-distance-from-displacement-function",
+        "solution_text": "$v = 2t - 6 = 0$ when $t = 3\\text{ s}$. Velocity changes from negative to positive there.\n$x(0) = 5$, $x(3) = -4$, and $x(6) = 5$.\nDistance travelled is $|-4 - 5| + |5 - (-4)| = 9 + 9 = 18\\text{ m}$."
       },
-      {
-        "question_text": "A drone moves vertically with displacement $y$ metres above ground.\nAt $t = 4\\text{ s}$, $y = 25\\text{ m}$ and $\\dot{y} = -2\\text{ m/s}$.\nState whether the drone is above or below ground, and whether it is rising or descending.",
-        "structure": "interpret-motion-sign-conventions",
-        "solution_text": "$\\text{Since } y = 25 > 0\\text{, the drone is } 25\\text{ m above ground}.$\n$\\text{Since } \\dot{y} = -2 < 0\\text{, the drone is descending (moving downwards)}.$"
+{
+        "question_text": "A particle's vertical displacement is $x = 30 - 2t^2$, where $x$ is in metres and $t$ is in seconds. Find its velocity after $4$ seconds.",
+        "structure": "calculate-velocity-from-displacement-function",
+        "solution_text": "$v = \\dfrac{dx}{dt} = -4t$.\n$v(4) = -4(4) = -16\\text{ m/s}$."
       }
-    ],
+],
     "development": [
-      {
-        "question_text": "A particle moves along a straight line starting at $x = 3\\text{ m}$ at $t = 0$.\nIt moves to $x = 11\\text{ m}$ at $t = 4\\text{ s}$, then reverses direction and moves to $x = 2\\text{ m}$ at $t = 7\\text{ s}$.\nFind the net displacement and total distance travelled over the $7\\text{ seconds}$.",
-        "structure": "calculate-distance-with-reversal",
-        "solution_text": "$\\text{Net displacement} = x(7) - x(0) = 2 - 3 = -1\\text{ m}$\n$\\text{Leg 1 distance} = |11 - 3| = 8\\text{ m}$\n$\\text{Leg 2 distance} = |2 - 11| = 9\\text{ m}$\n$\\text{Total distance} = 8 + 9 = 17\\text{ m}$"
+{
+        "question_text": "A particle's displacement is $x = 2t^2 - 12t + 7$, where $x$ is in metres and $t$ is in seconds. Find the distance travelled in the first $5$ seconds.",
+        "structure": "calculate-distance-from-displacement-function",
+        "solution_text": "$v = 4t - 12 = 0$ when $t = 3\\text{ s}$. Velocity changes from negative to positive there.\n$x(0) = 7$, $x(3) = -11$, and $x(5) = -3$.\nDistance travelled is $|-11 - 7| + |-3 - (-11)| = 18 + 8 = 26\\text{ m}$."
       },
-      {
-        "question_text": "Particle $A$ has velocity $v_A = +15\\text{ m/s}$ and Particle $B$ has velocity $v_B = -20\\text{ m/s}$.\nState which particle has the greater velocity, and which has the greater speed.",
-        "structure": "distinguish-velocity-and-speed",
-        "solution_text": "$\\text{Velocity comparison: } +15 > -20\\text{, so Particle } A\\text{ has greater velocity.}$\n$\\text{Speed comparison: } |v_B| = 20 > |v_A| = 15\\text{, so Particle } B\\text{ has greater speed.}$"
+{
+        "question_text": "Two particles have displacements $x_A = 6t + 8$ and $x_B = t^2 + 3$, measured in metres, where $t \\geq 0$ is in seconds. When are they travelling with the same velocity?",
+        "structure": "find-equal-velocities-from-displacement-functions",
+        "solution_text": "$v_A = 6$ and $v_B = 2t$.\nFor equal velocities, $6 = 2t$, so $t = 3\\text{ s}$."
       },
-      {
-        "question_text": "A particle on a straight line has position $x = 6\\text{ m}$ and velocity $v = -4\\text{ m/s}$.\nDetermine whether the particle is moving towards or away from the origin.",
-        "structure": "interpret-motion-sign-conventions",
-        "solution_text": "$\\text{The particle is to the right of the origin } (x > 0).$\n$\\text{A negative velocity } (v < 0)\\text{ means motion to the left, towards the origin.}$\n$\\text{Therefore, the particle is moving towards the origin.}$"
+{
+        "question_text": "A particle's displacement is $x = 3t^2 - 15t + 6$, where $x$ is in metres and $t$ is in seconds. Find when its velocity is zero and its displacement at that time.",
+        "structure": "find-stationary-time-and-displacement",
+        "solution_text": "$v = 6t - 15 = 0$, so $t = 2.5\\text{ s}$.\n$x(2.5) = 3(2.5)^2 - 15(2.5) + 6 = -12.75\\text{ m}$."
       },
-      {
-        "question_text": "A particle's positions at $t = 0, 2, 5\\text{ s}$ are $x(0) = -5\\text{ m}$, $x(2) = 7\\text{ m}$, and $x(5) = 1\\text{ m}$, with a turnaround occurring only at $t = 2\\text{ s}$.\nFind the total distance travelled and overall change in displacement from $t = 0$ to $t = 5\\text{ s}$.",
-        "structure": "calculate-distance-with-reversal",
-        "solution_text": "$\\text{Leg 1 distance} = |7 - (-5)| = 12\\text{ m}$\n$\\text{Leg 2 distance} = |1 - 7| = 6\\text{ m}$\n$\\text{Total distance} = 12 + 6 = 18\\text{ m}$\n$\\text{Net displacement} = 1 - (-5) = +6\\text{ m}$"
+{
+        "question_text": "A particle's displacement is $x = 3t^2 - 18t - 5$, where $x$ is in metres and $t$ is in seconds. Find the distance travelled in the first $5$ seconds.",
+        "structure": "calculate-distance-from-displacement-function",
+        "solution_text": "$v = 6t - 18 = 0$ when $t = 3\\text{ s}$. Velocity changes from negative to positive there.\n$x(0) = -5$, $x(3) = -32$, and $x(5) = -20$.\nDistance travelled is $|-32 - (-5)| + |-20 - (-32)| = 27 + 12 = 39\\text{ m}$."
       },
-      {
-        "question_text": "Explain why a race car driving around a circular track at a constant speed of $80\\text{ km/h}$ does not have a constant velocity.",
-        "structure": "distinguish-velocity-and-speed",
-        "solution_text": "$\\text{Velocity is a vector having both magnitude and direction.}$\n$\\text{While the speed remains constant at } 80\\text{ km/h, the car's direction is continuously turning.}$\n$\\text{Because its direction is changing, its velocity is not constant.}$"
+{
+        "question_text": "A particle's displacement is $x = t^2 - 8t + 15$, where $x$ is in metres and $t \\geq 0$ is in seconds. Find when it first passes through the origin and its velocity then.",
+        "structure": "find-origin-crossing-time-and-velocity",
+        "solution_text": "$x = (t - 3)(t - 5) = 0$, so the first crossing is at $t = 3\\text{ s}$.\n$v = 2t - 8$, so $v(3) = -2\\text{ m/s}$."
       },
-      {
-        "question_text": "A particle has position $x = -8\\text{ m}$ and velocity $v = -5\\text{ m/s}$.\nDetermine whether the particle is getting closer to or further from the origin.",
-        "structure": "interpret-motion-sign-conventions",
-        "solution_text": "$\\text{The particle is } 8\\text{ m to the left of the origin } (x < 0).$\n$\\text{A negative velocity } (v < 0)\\text{ moves it further to the left.}$\n$\\text{Therefore, the particle is moving further away from the origin.}$"
-      },
-      {
-        "question_text": "A toy locomotive moves along a track.\nIts positions at $t = 0, 3, 8\\text{ s}$ are $x(0) = 4\\text{ m}$, $x(3) = -6\\text{ m}$, and $x(8) = 10\\text{ m}$, with a single turnaround at $t = 3\\text{ s}$.\nFind the total distance travelled and net displacement over $[0, 8\\text{ s}]$.",
-        "structure": "calculate-distance-with-reversal",
-        "solution_text": "$\\text{Leg 1 distance} = |-6 - 4| = 10\\text{ m}$\n$\\text{Leg 2 distance} = |10 - (-6)| = 16\\text{ m}$\n$\\text{Total distance} = 10 + 16 = 26\\text{ m}$\n$\\text{Net displacement} = 10 - 4 = +6\\text{ m}$"
+{
+        "question_text": "A particle's displacement is $x = 2t^2 - 10t + 4$, where $x$ is in metres and $t$ is in seconds. Find the distance travelled in the first $4$ seconds.",
+        "structure": "calculate-distance-from-displacement-function",
+        "solution_text": "$v = 4t - 10 = 0$ when $t = 2.5\\text{ s}$. Velocity changes from negative to positive there.\n$x(0) = 4$, $x(2.5) = -8.5$, and $x(4) = -4$.\nDistance travelled is $|-8.5 - 4| + |-4 - (-8.5)| = 12.5 + 4.5 = 17\\text{ m}$."
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "A particle moves along a straight line such that $x(0) = 5\\text{ m}$, reaches a turning point at $x(3) = -4\\text{ m}$, and ends at $x(5) = 0\\text{ m}$.\nCalculate the particle's net displacement and total distance travelled over $[0, 5\\text{ s}]$.",
-        "structure": "calculate-distance-with-reversal",
-        "solution_text": "$\\text{Net displacement} = x(5) - x(0) = 0 - 5 = -5\\text{ m}$\n$\\text{Leg 1 distance} = |-4 - 5| = 9\\text{ m}$\n$\\text{Leg 2 distance} = |0 - (-4)| = 4\\text{ m}$\n$\\text{Total distance} = 9 + 4 = 13\\text{ m}$"
+{
+        "question_text": "A particle's displacement is $x = 1.5t^2 - 10.5t + 5$, where $x$ is in metres and $t$ is in seconds. Find the distance travelled in the first $6$ seconds.",
+        "structure": "calculate-distance-from-displacement-function",
+        "solution_text": "$v = 3t - 10.5 = 0$ when $t = 3.5\\text{ s}$. Velocity changes from negative to positive there.\n$x(0) = 5$, $x(3.5) = -13.375$, and $x(6) = -4$.\nDistance travelled is $|-13.375 - 5| + |-4 - (-13.375)| = 18.375 + 9.375 = 27.75\\text{ m}$."
       },
-      {
-        "question_text": "A particle moves along a line.\nFor each sign combination of $(x, v)$, state where the particle is positioned and whether it is moving towards or away from the origin:\n1. $(x > 0, v > 0)$\n2. $(x > 0, v < 0)$\n3. $(x < 0, v > 0)$\n4. $(x < 0, v < 0)$",
-        "structure": "interpret-motion-sign-conventions",
-        "solution_text": "$1. (x>0, v>0): \\text{right of origin, moving away from origin}$\n$2. (x>0, v<0): \\text{right of origin, moving towards origin}$\n$3. (x<0, v>0): \\text{left of origin, moving towards origin}$\n$4. (x<0, v<0): \\text{left of origin, moving away from origin}$"
+{
+        "question_text": "A ball is thrown vertically upwards from the ground. Its height is $x = 35t - 5t^2$, where $x$ is in metres and $t$ is in seconds. Find when it returns to the ground and show that its speed then equals its initial speed.",
+        "structure": "compare-launch-and-return-speeds",
+        "solution_text": "$x = 5t(7 - t) = 0$, so the ball returns at $t = 7\\text{ s}$.\n$v = 35 - 10t$.\nInitially, $v(0) = 35\\text{ m/s}$, giving speed $35\\text{ m/s}$.\nOn return, $v(7) = -35\\text{ m/s}$, giving speed $35\\text{ m/s}$.\nThe velocities have opposite signs, but the speeds are equal."
       },
-      {
-        "question_text": "Particle $P$ moves with constant velocity $+4\\text{ m/s}$ for $6\\text{ s}$.\nParticle $Q$ starts from the same point, moves with velocity $+8\\text{ m/s}$ for $3\\text{ s}$, then reverses with velocity $-4\\text{ m/s}$ for $3\\text{ s}$.\nCompare their final displacements and total distances travelled.",
-        "structure": "distinguish-velocity-and-speed",
-        "solution_text": "$\\text{Particle } P: \\text{Displacement} = 4 \\times 6 = +24\\text{ m}, \\text{Distance} = 24\\text{ m}$\n$\\text{Particle } Q: \\text{Position at } 3\\text{ s} = 8 \\times 3 = 24\\text{ m}$\n$\\text{Position at } 6\\text{ s} = 24 - (4 \\times 3) = +12\\text{ m}$\n$\\text{Particle } Q: \\text{Displacement} = +12\\text{ m}, \\text{Distance} = 24 + 12 = 36\\text{ m}$"
+{
+        "question_text": "Two particles have displacements $x_P = 2.5t + 7$ and $x_Q = 0.5t^2 - 3t + 12$, measured in metres, where $t \\geq 0$ is in seconds. When are they travelling with the same velocity?",
+        "structure": "find-equal-velocities-from-displacement-functions",
+        "solution_text": "$v_P = 2.5$ and $v_Q = t - 3$.\nFor equal velocities, $2.5 = t - 3$, so $t = 5.5\\text{ s}$."
       }
-    ]
+]
   }
 }

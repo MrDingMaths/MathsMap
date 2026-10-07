@@ -2,7 +2,7 @@
   "skillId": "graph-quadratic-features",
   "atomType": "R",
   "theory": {
-        "intro": "A **quadratic relationship** $y=kx^2+c$ graphs as a **parabola**. Reading the equation tells you the parabola's shape and key features before you plot a single point.",
+        "intro": "A **quadratic relationship** $y=kx^2+c$, where $k\\ne0$, graphs as a **parabola**. Reading the equation tells you the parabola's shape and key features before you plot a single point. The vertex and axis rules below apply to this restricted form, with no $x$ term. If $k=0$, the graph is the constant line $y=c$, with no unique vertex or axis of symmetry; it has no $x$-intercepts when $c\\ne0$ and infinitely many when $c=0$.",
         "facts": [
           "$k>0$ makes the parabola **concave up**, so its turning point is a **minimum**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[dashed] (0,-1.7) -- (0,2.9);\n\\draw[thick,blue!70!black,<->,domain=-2:2,smooth,samples=60,variable=\\x] plot ({\\x},{\\x*\\x-1.5});\n\\fill (0,-1.5) circle (2pt);\n\\node[below,font=\\small] at (0,-1.78) {minimum turning point};\n\\node[above,font=\\small] at (0,3.0) {axis of symmetry};\n\\end{tikzpicture}\n[/tikz]",
           "$k<0$ makes the parabola **concave down**, so its turning point is a **maximum**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[dashed] (0,1.7) -- (0,-2.9);\n\\draw[thick,blue!70!black,<->,domain=-2:2,smooth,samples=60,variable=\\x] plot ({\\x},{1.5-\\x*\\x});\n\\fill (0,1.5) circle (2pt);\n\\node[above,font=\\small] at (0,1.78) {maximum turning point};\n\\node[below,font=\\small] at (0,-3.0) {axis of symmetry};\n\\end{tikzpicture}\n[/tikz]",
@@ -60,53 +60,53 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "For $y=x^2-1$, state the concavity, vertex, axis of symmetry, $y$-intercept and $x$-intercepts.",
         "structure": "all-features-from-equation",
         "solution_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=4,ymin=-3,ymax=9,xtick={-4,-3,...,4},ytick={-2,0,...,8},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-3.1:3.1,samples=100] {x*x-1};\n\\addplot[only marks,mark=*,mark size=2pt] coordinates {(0,-1) (-1,0) (1,0)};\n\\node[below right,fill=white,inner sep=1pt] at (axis cs:0,-1) {$(0,-1)$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\nSince $k=1>0$, the parabola is concave up.\nVertex $(0,-1)$; axis of symmetry $x=0$; $y$-intercept $(0,-1)$.\n$x^2-1=0$\n$x^2=1$\n$x=\\pm1$\nThe $x$-intercepts are $(-1,0)$ and $(1,0)$."
       },
-      {
+{
         "question_text": "For $y=-x^2+4$, state the concavity, vertex, axis of symmetry, $y$-intercept and $x$-intercepts.",
         "structure": "all-features-from-equation",
         "solution_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=4,ymin=-6,ymax=6,xtick={-4,-3,...,4},ytick={-6,-4,...,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-3.1:3.1,samples=100] {-x*x+4};\n\\addplot[only marks,mark=*,mark size=2pt] coordinates {(0,4) (-2,0) (2,0)};\n\\node[above right,fill=white,inner sep=1pt] at (axis cs:0,4) {$(0,4)$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\nSince $k=-1<0$, the parabola is concave down.\nVertex $(0,4)$; axis of symmetry $x=0$; $y$-intercept $(0,4)$.\n$-x^2+4=0$\n$x^2=4$\n$x=\\pm2$\nThe $x$-intercepts are $(-2,0)$ and $(2,0)$."
       },
-      {
+{
         "question_text": "For $y=2x^2+3$, state the concavity, vertex, axis of symmetry, $y$-intercept and $x$-intercepts.",
         "structure": "all-features-from-equation",
         "solution_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3,xmax=3,ymin=0,ymax=13,xtick={-3,-2,...,3},ytick={0,3,...,12},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-2.2:2.2,samples=100] {2*x*x+3};\n\\addplot[only marks,mark=*,mark size=2pt] coordinates {(0,3)};\n\\node[above right,fill=white,inner sep=1pt] at (axis cs:0,3) {$(0,3)$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\nSince $k=2>0$, the parabola is concave up.\nVertex $(0,3)$; axis of symmetry $x=0$; $y$-intercept $(0,3)$.\n$2x^2+3=0$\n$2x^2=-3$\nA square can never be negative, so there are no $x$-intercepts."
       },
-      {
+{
         "question_text": "Sketch the parabola $y=\\tfrac{1}{2}x^2-2$, showing its vertex and $x$-intercepts.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=4,ymin=-4,ymax=7,xtick={-4,-3,...,4},ytick={-4,-2,...,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
         "structure": "sketch-parabola",
         "solution_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=4,ymin=-4,ymax=7,xtick={-4,-3,...,4},ytick={-4,-2,...,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-3.9:3.9,samples=100] {0.5*x*x-2};\n\\addplot[only marks,mark=*,mark size=2pt] coordinates {(0,-2) (-2,0) (2,0)};\n\\node[below right,fill=white,inner sep=1pt] at (axis cs:0,-2) {$(0,-2)$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\nConcave up since $k=\\tfrac{1}{2}>0$; vertex $(0,-2)$.\n$\\tfrac{1}{2}x^2-2=0$\n$x^2=4$\n$x=\\pm2$\nPlot the vertex $(0,-2)$ and the $x$-intercepts $(-2,0)$ and $(2,0)$, then draw a concave-up parabola through them."
       },
-      {
+{
         "question_text": "Sketch the parabola $y=-2x^2+8$, showing its vertex and $x$-intercepts.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=4,ymin=-6,ymax=11,xtick={-4,-3,...,4},ytick={-6,-4,...,10},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
         "structure": "sketch-parabola",
         "solution_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=4,ymin=-6,ymax=11,xtick={-4,-3,...,4},ytick={-6,-4,...,10},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-2.85:2.85,samples=100] {-2*x*x+8};\n\\addplot[only marks,mark=*,mark size=2pt] coordinates {(0,8) (-2,0) (2,0)};\n\\node[above right,fill=white,inner sep=1pt] at (axis cs:0,8) {$(0,8)$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\nConcave down since $k=-2<0$; vertex $(0,8)$.\n$-2x^2+8=0$\n$x^2=4$\n$x=\\pm2$\nPlot the vertex $(0,8)$ and the $x$-intercepts $(-2,0)$ and $(2,0)$, then draw a concave-down parabola through them."
       },
-      {
-        "question_text": "A square garden bed has side length $s$ metres, so its area is $A=s^2$ square metres.\nThe relationship $A=s^2$ is a parabola.\nState the coordinates of its vertex and whether it opens upwards or downwards.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=4,ymin=-1,ymax=11,xtick={-3,-2,...,3},ytick={0,2,...,10},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$s$},ylabel={$A$}]\n\\addplot[thick,blue!70!black,<->,domain=-3.1:3.1,samples=100] {x*x};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "A square garden bed has side length $s$ metres, so its area is $A=s^2$ square metres.\nThe graph below shows the unrestricted equation $A=s^2$, including negative $s$-values that do not represent side lengths. A garden bed requires $s>0$; $(0,0)$ is the zero-length boundary, where there is no garden bed.\nState the coordinates of the vertex of the unrestricted parabola and whether it opens upwards or downwards.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=4,ymin=-1,ymax=11,xtick={-3,-2,...,3},ytick={0,2,...,10},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$s$},ylabel={$A$}]\n\\addplot[thick,blue!70!black,<->,domain=-3.1:3.1,samples=100] {x*x};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
         "structure": "vertex-value",
-        "solution_text": "Here $A=s^2$, so $k=1$ and $c=0$.\nThe vertex is $(0,0)$.\nSince $k=1>0$, the parabola opens upwards."
+        "solution_text": "Here $A=s^2$, so $k=1$ and $c=0$.\nThe vertex of the unrestricted parabola is $(0,0)$.\nSince $k=1>0$, the parabola opens upwards.\nOnly the part with $s>0$ represents a garden bed; $(0,0)$ is its zero-length boundary."
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "A parabola $y=kx^2+c$ has its vertex at $(0,-4)$ and passes through the point $(2,0)$.\nFind the values of $k$ and $c$.",
-        "structure": "reverse-features",
-        "solution_text": "The vertex $(0,c)$ is $(0,-4)$, so $c=-4$.\n$0=k(2)^2-4$\n$0=4k-4$\n$4k=4$\n$k=1$\nSo $k=1$ and $c=-4$, giving $y=x^2-4$."
+{
+        "question_text": "For $y=\\tfrac{1}{4}x^2-9$, state the concavity, vertex, axis of symmetry, $y$-intercept and $x$-intercepts.",
+        "structure": "all-features-from-equation",
+        "solution_text": "Since $k=\\tfrac{1}{4}>0$, the parabola is concave up.\nVertex $(0,-9)$; axis of symmetry $x=0$; $y$-intercept $(0,-9)$.\n$\\tfrac{1}{4}x^2-9=0$\n$x^2=36$\n$x=\\pm6$\nThe $x$-intercepts are $(-6,0)$ and $(6,0)$."
       },
-      {
-        "question_text": "A parabola $y=kx^2+c$ is concave down, has a maximum value of $9$, and one of its $x$-intercepts is $(3,0)$.\nFind its equation.",
-        "structure": "reverse-features",
-        "solution_text": "The maximum value is $c$, so $c=9$.\n$0=k(3)^2+9$\n$0=9k+9$\n$9k=-9$\n$k=-1$\nThe equation is $y=-x^2+9$."
+{
+        "question_text": "For $y=-4x^2+9$, state the concavity, vertex, axis of symmetry, $y$-intercept and $x$-intercepts.",
+        "structure": "all-features-from-equation",
+        "solution_text": "Since $k=-4<0$, the parabola is concave down.\nVertex $(0,9)$; axis of symmetry $x=0$; $y$-intercept $(0,9)$.\n$-4x^2+9=0$\n$x^2=\\tfrac{9}{4}$\n$x=\\pm\\tfrac{3}{2}$\nThe $x$-intercepts are $(-\\tfrac{3}{2},0)$ and $(\\tfrac{3}{2},0)$."
       },
-      {
-        "question_text": "For what values of $c$ does the parabola $y=x^2+c$ have no $x$-intercepts?",
-        "structure": "x-intercepts",
-        "solution_text": "$x^2+c=0$\n$x^2=-c$\nA square is never negative, so there is a solution only when $-c\\ge0$, that is $c\\le0$.\nThere are no $x$-intercepts when $c>0$."
+{
+        "question_text": "For $y=-\\tfrac{1}{2}x^2-3$, state the concavity, vertex, axis of symmetry, $y$-intercept and $x$-intercepts.",
+        "structure": "all-features-from-equation",
+        "solution_text": "Since $k=-\\tfrac{1}{2}<0$, the parabola is concave down.\nVertex $(0,-3)$; axis of symmetry $x=0$; $y$-intercept $(0,-3)$.\n$-\\tfrac{1}{2}x^2-3=0$\n$x^2=-6$\nA square can never be negative, so there are no $x$-intercepts."
       }
-    ]
+]
   }
 }

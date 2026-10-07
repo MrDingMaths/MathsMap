@@ -5,6 +5,27 @@ import os from 'node:os';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {answerMatchText,answerMatchingIssues,approvedAnswerConflict,derivedAnswerDiagramEntries} from '../scripts/booklet/answer-evidence.mjs';
+
+test('a shared teaching construction binds to its mapped drawing response and supplied figure',()=>{
+ const block={id:'activity',type:'question',pedagogyRole:'investigation',sourceReview:{responses:[{targetId:'construct',kind:'working'}]},content:{id:'root',questionDiagrams:[{id:'given'}],sharedSolutionDiagrams:[{id:'completed'}],children:[{id:'construct',prompt:'Construct a right-angled triangle.'}]}};
+ const entries=[{id:'heading',kind:'teaching',targetId:'activity',pageNumber:20},{id:'source-figure',kind:'diagram',targetId:'given',parentId:'heading',pageNumber:20},{id:'source-task',kind:'part',targetId:'construct',parentId:'heading',responseKind:'working',pageNumber:20}];
+ assert.equal(derivedAnswerDiagramEntries([{blocks:[block]}],entries)[0].derivedFrom,'source-task');
+ for(const changes of [{parentId:'foreign'},{pageNumber:21},{targetId:'unrelated'},{responseKind:'none'}])assert.throws(()=>derivedAnswerDiagramEntries([{blocks:[block]}],[...entries.slice(0,2),{...entries[2],...changes}]),/inventoried source question/);
+ assert.throws(()=>derivedAnswerDiagramEntries([{blocks:[block]}],[entries[0],{...entries[1],parentId:'foreign'},entries[2]]),/inventoried source question/);
+ assert.throws(()=>derivedAnswerDiagramEntries([{blocks:[{...block,sourceReview:{responses:[]}}]}],entries),/inventoried source question/);
+});
+
+test('investigation examples bind derived figures to their inventoried response parts',()=>{
+ const activity={id:'activity',type:'question',pedagogyRole:'investigation',content:{id:'root',children:[{id:'scenario',prompt:'12 friends are at a party.',children:[{id:'draw',prompt:'Draw a Venn diagram.',answer:{solutionDiagrams:[{id:'completed'}]}}]}]}};
+ const heading={id:'source-activity',kind:'teaching',targetId:'activity',pageNumber:12};
+ const example={id:'source-scenario',kind:'example',parentId:heading.id,targetId:'scenario',pageNumber:12};
+ const response={id:'source-draw',kind:'part',parentId:example.id,targetId:'draw',responseKind:'working',pageNumber:12};
+ const sections=[{phase:'teaching',blocks:[activity]}];
+ assert.deepEqual(derivedAnswerDiagramEntries(sections,[heading,example,response]).map(e=>[e.targetId,e.derivedFrom,e.responseId]),[['completed','source-draw','draw']]);
+ for(const invalid of [{...example,parentId:'foreign'},{...example,pageNumber:13},{...example,targetId:'foreign'},{...example,exclusionReason:'Decoration'}])assert.throws(()=>derivedAnswerDiagramEntries(sections,[heading,invalid,response]),/inventoried source question/);
+ assert.throws(()=>derivedAnswerDiagramEntries(sections,[heading,example,{...response,responseKind:'none'}]),/inventoried source question/);
+ assert.throws(()=>derivedAnswerDiagramEntries([{blocks:[{...activity,pedagogyRole:undefined}]}],[heading,example,response]),/inventoried source question/);
+});
 const match=()=>({questionId:'q62',teacherReference:[{pdfPage:5,printedPage:583,exercise:'1G',questionLabel:'62(a,b)'},{pdfPage:6,printedPage:584,exercise:'1G',questionLabel:'62(c,d)'}],matchEvidence:'Compared the four labelled equations and solutions in the source and answer images.',conflict:null});
 test('an inventoried teaching example owns its derived solution figure',()=>{
  const block={id:'example-block',type:'question',pedagogyRole:'example',content:{id:'example-root',answer:{solutionDiagrams:[{id:'completed-histogram'}]}}};
@@ -140,6 +161,20 @@ test('directly inventoried teaching questions bind derived figures to their own 
  assert.throws(()=>derive(activity,[{...tasks[0],exclusionReason:'Reference only'},tasks[1]]),/inventoried source question/);
  assert.throws(()=>derive(activity,[{...tasks[0],targetId:'answer-text-a'},tasks[1]]),/inventoried source question/);
  assert.throws(()=>derive(activity,[{...tasks[0],responseKind:'none'},tasks[1]]),/inventoried source question/);
+});
+
+test('inventoried teaching drawing grids bind only their own derived graph answers',()=>{
+ const activity={id:'investigation',type:'question',pedagogyRole:'investigation',content:{id:'tasks',children:[{id:'draw-response',questionDiagrams:[{id:'blank-grid'}],answer:{solutionDiagrams:[{id:'completed-graph'}]}}]}};
+ const heading={id:'source-activity',kind:'teaching',targetId:'tasks',pageNumber:7};
+ const grid={id:'source-grid',kind:'diagram',targetId:'blank-grid',parentId:heading.id,responseKind:'working',pageNumber:7};
+ const sections=[{phase:'teaching',blocks:[activity]}],entries=[heading,grid],before=structuredClone({sections,entries});
+ const derived=derivedAnswerDiagramEntries(sections,entries);
+ assert.deepEqual(derived.map(e=>[e.targetId,e.derivedFrom,e.responseId,e.pageNumber]),[['completed-graph','source-grid','draw-response',7]]);
+ assert.deepEqual({sections,entries},before);
+ assert.deepEqual(derivedAnswerDiagramEntries(sections,[...entries,...derived]),[]);
+ for(const invalid of [{...grid,parentId:'foreign'},{...grid,pageNumber:8},{...grid,responseKind:'none'},{...grid,responseKind:undefined},{...grid,targetId:'foreign-grid'},{...grid,exclusionReason:'Reference only'}])assert.throws(()=>derivedAnswerDiagramEntries(sections,[heading,invalid]),/inventoried source question/);
+ assert.throws(()=>derivedAnswerDiagramEntries(sections,[{...heading,targetId:'foreign-task'},grid]),/inventoried source question/);
+ assert.throws(()=>derivedAnswerDiagramEntries([{blocks:[{...activity,pedagogyRole:undefined}]}],entries),/inventoried source question/);
 });
 
 test('answer matches reject missing, duplicate, foreign and unselected references',()=>{

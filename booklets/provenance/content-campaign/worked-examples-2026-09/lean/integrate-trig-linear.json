@@ -1,0 +1,89 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "integrate-trig-linear",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-07T16:50:00.568Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 78.6,
+      "usage": {
+        "input_tokens": 113362,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3296,
+        "reasoning_output_tokens": 74
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\integrate-trig-linear\\audit-EgA8of\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 139.2,
+      "usage": {
+        "input_tokens": 114210,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 7655,
+        "reasoning_output_tokens": 53
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\integrate-trig-linear\\repair-rjZLXo\\response.raw.txt"
+    },
+    {
+      "name": "review-full",
+      "code": 0,
+      "seconds": 56.9,
+      "usage": {
+        "input_tokens": 114467,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2438,
+        "reasoning_output_tokens": 133
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\integrate-trig-linear\\review-full-EBRA8Y\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "3a7b9bba538a01b8c63fca7df6205fc5a416ece6c83866a4c81f95bacc4c1ca3",
+    "quizHash": "8d8acf2194fec303afe709b89bc5f94222abf777a7740805a907f6c9d25a207c"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 6 Advanced/Integral Calculus 2_Integration of Exponential, Logarithmic, and Trigonometric Functions.md"
+  ],
+  "images": 18,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "review-full",
+    "hash": "cba7358b6c147b7267381bd170fa59d1afcca4f518de68a3a3bd0e6e10996c25",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "quiz.q5: Option 2's why specifies the primitive $-\\sin 2x$, which evaluates to $-1$, not its displayed $-\\frac12$. Include the retained factor $\\frac12$ in that explanation.",
+    "quiz.q8: Ensure exactly one correct option for every permitted parameter value: $k=1$ makes all four options correct, and $k=-1$ makes options 0 and 2 coincide. Option 3's why also does not derive its displayed coefficient $k$: multiplying the existing $1/k$ by $k$ produces coefficient 1, which is option 2; revise that explanation to name a mistake that actually produces $k$.",
+    "quiz.dq-20232: Option 3's why must also name the lost minus sign: multiplying by the inner derivative while retaining the sine primitive's sign gives $-8\\cos(2x+3)+c$, not the displayed positive 8.",
+    "theory: State that $a$ and $b$ are constants with $a\\ne0$, as required by the linear-angle formulas. Qualify the definite-integral instruction: before subtracting endpoint values for $\\sec^2(ax+b)$, check that $ax+b$ never equals $\\frac\\pi2+n\\pi$ anywhere in the integration interval; the booklet explicitly prohibits integration across these asymptotes at lines 1510–1511."
+  ],
+  "repaired": true,
+  "changed": [
+    "quiz.q5",
+    "quiz.q8",
+    "quiz.dq-20232"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 34,
+  "summary": "Corrected the specified distractor explanations and excluded the parameter values that make quiz.q8 have multiple correct options. Clarified the theory's constant assumptions and required asymptote check before evaluating definite secant-squared integrals; no whole items were removed.",
+  "reviewSummary": "All 34 items are booklet question types, and their supplied answers and correct-option selections are mathematically correct; the theory is sound and no worked examples or removals were supplied. Repair only two distractor explanations to identify the coefficient errors as well as the sign errors, without removing or replacing any items.",
+  "candidateHash": "cba7358b6c147b7267381bd170fa59d1afcca4f518de68a3a3bd0e6e10996c25",
+  "findings": [
+    "quiz.dq-120293: Option index 1's why must also name the missing division by $2$: its value $-\\sin2x+C$ combines an incorrect minus sign with omission of the factor $\\frac12$. Preserve the question, options and solution.",
+    "quiz.dq-20232: Option index 2's why must also name the missing division by $2$: its value $4\\cos(2x+3)+c$ combines loss of the minus sign with omission of division by the inner coefficient. Preserve the question, options and solution."
+  ],
+  "finishedAt": "2026-10-07T16:54:35.560Z"
+}

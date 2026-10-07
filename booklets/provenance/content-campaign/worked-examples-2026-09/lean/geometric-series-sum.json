@@ -1,0 +1,102 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "geometric-series-sum",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-07T14:37:49.905Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 84.9,
+      "usage": {
+        "input_tokens": 97938,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2917,
+        "reasoning_output_tokens": 148
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\geometric-series-sum\\audit-ExG6M0\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 179.5,
+      "usage": {
+        "input_tokens": 98935,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 8033,
+        "reasoning_output_tokens": 308
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\geometric-series-sum\\repair-0pXPar\\response.raw.txt"
+    },
+    {
+      "name": "review-scoped",
+      "code": 0,
+      "seconds": 39.2,
+      "usage": {
+        "input_tokens": 98579,
+        "cached_input_tokens": 20608,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1200,
+        "reasoning_output_tokens": 187
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\geometric-series-sum\\review-scoped-5DHjM1\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "5918cce0f738b94a061607cb96383eaa91079d852d40dad98598b54e5addb9a0",
+    "quizHash": "2f8b3d85de4e90db5daf17d3913ea89a9498ecc092fa86d3180d54bf64ca3e3a"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 6 Advanced/Sequences and Series 3_Geometric Sequences and Series.md"
+  ],
+  "images": 12,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "audit",
+    "hash": "474aa741abf4b19cf29ca9083eebd4f64f9d0739ded5fdc4fa8c844dce8cfff2",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for practice.mastery[0]",
+    "No booklet question cited for practice.mastery[1]",
+    "No booklet question cited for quiz.q8",
+    "practice.development[6]: The structure slug describes finding parameters from a sum, but the task finds a sum from two given terms. Change the slug to describe that task; the question and calculations are correct.",
+    "practice.mastery[0]: The first show-that task is supported by Mastery 11(a), lines 1159–1168, but proving the difference of consecutive partial sums is not asked anywhere in the supplied booklet. Remove that unsupported part or adapt it to an explicitly asked booklet task; preserve the supported first part.",
+    "practice.mastery[1]: Finding the common ratio from a first term and a finite partial sum is not a question type asked in the booklet. The limiting-sum ratio questions do not support this finite-sum type; replace this item with a comparable supported Mastery task.",
+    "practice.mastery[2]: Keep full precision until rounding: the lines equating 1.05^12 to 1.795856 and the total to 1591.71 prematurely truncate values and use exact equality. Evaluate the full expression before the requested nearest-dollar rounding.",
+    "quiz.q2: Option 3's explanation does not produce -2186: omitting division by 4 produces 4376. Correct that distractor value or give a specific mistake that actually produces its existing value.",
+    "quiz.q4: Option 1's explanation is internally inconsistent: 2^(n-1)=64 gives n=7, while n-1=5 gives n=6, neither giving 5. Option 3's stated mistake gives n=log2(63)=5.977… rather than 8. Repair both explanations or their distractor values; option 2's added-one explanation correctly gives 7.",
+    "quiz.q5: Option 3's stated mistake gives 320/27, not 12. Correct its value or explanation so the specified mistake produces the displayed number.",
+    "quiz.q8: Finding a term from a supplied partial-sum formula is not asked in the booklet; replace this question with a supported task while retaining id q8 and mastery:true. Its option 3 explanation also fails to derive 1944: 4·3^5 is 972; 1944 is the sixth term.",
+    "quiz.dq-20821: Every incorrect option needs a specific mistake that produces its value. The explanations for 240 and 484 merely say they are wrong, and the explanation for 1452 does not identify a calculation; 1452 results from omitting division by r-1=2."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.development[6]",
+    "practice.mastery[0]",
+    "practice.mastery[1]",
+    "practice.mastery[2]",
+    "quiz.q2",
+    "quiz.q4",
+    "quiz.q5",
+    "quiz.q8",
+    "quiz.dq-20821"
+  ],
+  "theoryChanged": false,
+  "removed": [],
+  "items": 26,
+  "summary": "Removed only the unsupported consecutive-partial-sums part of practice.mastery[0], replaced practice.mastery[1] and quiz.q8 with supported Mastery tasks, and supplied their booklet citations; no whole item was removed. Corrected the development structure slug, retained full precision before nearest-dollar rounding, and repaired the flagged quiz distractor values and explanations while preserving everything else.",
+  "reviewSummary": "All supplied final answers are mathematically correct, but several quiz distractor explanations fail to produce their stated values, and one money solution rounds prematurely. Three tasks contain unsupported booklet question types, one structure slug needs correction, and no removals or worked examples were supplied.",
+  "candidateHash": "dd4ae4be15f266ee7b801e0cb2701dc6f847540e7a8fb677cc696a436479064d",
+  "findings": [
+    "quiz.q2: Option 2's why must name both mistakes: using $a=1$ instead of $a=2$ and $r=3$ instead of $r=-3$, giving $(3^7-1)/2=1093$. Changing only the ratio to positive gives $2186$, not $1093$."
+  ],
+  "finishedAt": "2026-10-07T14:42:53.736Z"
+}

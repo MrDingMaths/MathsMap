@@ -80,8 +80,12 @@ export function derivedAnswerDiagramEntries(sections,entries,{groups:sourceGroup
   // part is eligible only under a mapped teaching parent on the same page.
   const groups=new Set(entries.filter(e=>!e.exclusionReason&&(e.kind==='group'||block.pedagogyRole&&e.kind==='teaching')&&promptTargets.has(e.targetId)).map(e=>e.id));
   const teachingGroups=new Map(entries.filter(e=>!e.exclusionReason&&block.pedagogyRole&&e.kind==='teaching'&&promptTargets.has(e.targetId)).map(e=>[e.id,e]));
-  const teachingResponse=e=>{
+  const teachingExamples=new Map(entries.filter(e=>{
    const parent=teachingGroups.get(e.parentId);
+   return !e.exclusionReason&&e.kind==='example'&&promptTargets.has(e.targetId)&&parent&&Number.isInteger(e.pageNumber)&&e.pageNumber===parent.pageNumber;
+  }).map(e=>[e.id,e]));
+  const teachingResponse=e=>{
+   const parent=teachingGroups.get(e.parentId)??teachingExamples.get(e.parentId);
    return e.kind==='part'&&parent&&Number.isInteger(e.pageNumber)&&e.pageNumber===parent.pageNumber&&['cloze','inline','short','working','tick-cross'].includes(e.responseKind);
   };
   // Some original inventories store range instructions in their groups table,
@@ -108,6 +112,23 @@ export function derivedAnswerDiagramEntries(sections,entries,{groups:sourceGroup
     const collect=value=>{if(!value||typeof value!=='object')return;if(value.id)ownTargets.add(value.id);Object.values(value).forEach(collect);};
     collect(node?.prompt);
     owner=entries.find(e=>!e.exclusionReason&&e.kind==='question'&&ownTargets.has(e.targetId)&&Number.isInteger(e.pageNumber)&&['cloze','inline','short','working','tick-cross'].includes(e.responseKind))??owner;
+    // A blank graph can itself be the independently inventoried drawing task.
+    // Bind only this response's given graph under its mapped teaching parent.
+    const givenGraphs=new Set((node?.questionDiagrams??[]).map(diagram=>diagram.id));
+    owner=entries.find(e=>{
+     const parent=teachingGroups.get(e.parentId);
+     return !e.exclusionReason&&e.kind==='diagram'&&e.responseKind==='working'&&givenGraphs.has(e.targetId)&&parent&&Number.isInteger(e.pageNumber)&&e.pageNumber===parent.pageNumber;
+    })??owner;
+   }
+   // One construction can answer several steps on the same supplied figure.
+   // Require both a mapped drawing response and its mapped teaching-parent
+   // figure; a heading or an unrelated descendant cannot establish ownership.
+   if(!owner&&block.pedagogyRole&&node?.sharedSolutionDiagrams?.length&&node.children?.length){
+    const descendants=new Set(),collect=node=>{for(const child of node.children??[]){descendants.add(child.id);collect(child);}};collect(node);
+    const givenGraphs=new Set((node.questionDiagrams??[]).map(diagram=>diagram.id));
+    owner=entries.find(e=>!e.exclusionReason&&teachingResponse(e)&&e.responseKind==='working'&&descendants.has(e.targetId)&&
+     block.sourceReview?.responses?.some(response=>response.targetId===e.targetId&&response.kind==='working')&&
+     entries.some(given=>!given.exclusionReason&&given.kind==='diagram'&&givenGraphs.has(given.targetId)&&given.parentId===e.parentId&&given.pageNumber===e.pageNumber))??owner;
    }
    for(const diagram of [...(node?.answer?.solutionDiagrams??[]),...(node?.sharedSolutionDiagrams??[])]){
     if(!diagram.id)throw Error('Authored answer diagram requires a stable identity: '+block.id);
