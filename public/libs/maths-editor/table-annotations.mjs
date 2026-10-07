@@ -41,6 +41,8 @@ export function tableArrowGeometry(from, to, annotation = {}) {
     return {path:`M ${sx} ${sy} L ${ex} ${ey}`,startHead:head(sx,sy,-ux,-uy),endHead:head(ex,ey,ux,uy),labelX:(sx+ex)/2,labelY:(sy+ey)/2-9,start:[sx,sy],end:[ex,ey],controls:[]};
   }
   const sign = annotation.side === 'top' ? -1 : 1;
+  // Optional outward label clearance, independent of the connector geometry.
+  const labelOffset=Math.max(0,Number(annotation.labelOffsetMm)||0)*96/25.4;
   const same = annotation.cellId === annotation.toCellId;
   const center = cell => cell.left + cell.width / 2;
   // Only explicit top/bottom connectors across a positive row gap use opposing edges.
@@ -63,7 +65,7 @@ export function tableArrowGeometry(from, to, annotation = {}) {
     return {
       path:`M ${sx} ${sy} C ${c1[0]} ${c1[1]}, ${c2[0]} ${c2[1]}, ${ex} ${ey}`,
       startHead:head(sx,sy,-sign),endHead:head(ex,ey,sign),
-      labelX:(sx+ex)/2,labelY:(sy+ey)/2,
+      labelX:(sx+ex)/2,labelY:(sy+ey)/2+sign*labelOffset,
       start:[sx,sy],end:[ex,ey],controls:[c1,c2],
     };
   }
@@ -88,7 +90,7 @@ export function tableArrowGeometry(from, to, annotation = {}) {
   return {
     path:`M ${sx} ${sy} C ${c1[0]} ${c1[1]}, ${c2[0]} ${c2[1]}, ${ex} ${ey}`,
     startHead:head(sx,sy,sx-c1[0],sy-c1[1]), endHead:head(ex,ey,ex-c2[0],ey-c2[1]),
-    labelX:(sx+ex)/2, labelY:(sy+ey)/2+sign*(depth*.75+12),
+    labelX:(sx+ex)/2, labelY:(sy+ey)/2+sign*(depth*.75+12+labelOffset),
     start:[sx,sy], end:[ex,ey], controls:[c1,c2],
   };
 }

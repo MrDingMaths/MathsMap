@@ -130,7 +130,8 @@ export async function inspectContentCoverage(project,{assetSignatures={}}={}){
   );
   const mappedExample=example=>!!wholeEntry(example.id,'example')||
     !hasVisibleContent(example.label)&&Object.keys(example).every(key=>['id','label','prompt','questionDiagrams','solutionDiagrams','sourceRefs','sourcePageNumber'].includes(key))&&
-    example.prompt?.format==='maths-editor-document-v1'&&example.prompt.blocks?.length>0&&example.prompt.blocks.every(mappedPermanentDocumentNode)&&
+    (example.prompt?.format==='maths-editor-document-v1'&&example.prompt.blocks?.length>0&&example.prompt.blocks.every(mappedPermanentDocumentNode)||
+      !hasVisibleContent(example.prompt)&&[...(example.questionDiagrams??[]),...(example.solutionDiagrams??[])].length>0)&&
     [...(example.questionDiagrams??[]),...(example.solutionDiagrams??[])].every(diagram=>!!wholeEntry(diagram.id,'diagram'));
   const mappedWorkedExamples=block=>block.examples?.length>0&&block.examples.every(mappedExample)&&
     !['content','prompt','title','theorySolution','answer','questionDiagrams','solutionDiagrams'].some(key=>hasVisibleContent(block[key]));
@@ -175,6 +176,7 @@ export async function inspectContentCoverage(project,{assetSignatures={}}={}){
     const owner=ancestors.find(parent=>parent.id===binding.ownerId);
     const entry=entries.find(e=>e.id===binding.sourceInventoryId&&!e.exclusionReason);
     if(!owner||!entry||!['question','part','subpart'].includes(entry.kind))return false;
+    if(entry.field&&binding.path!==entry.field&&!binding.path.startsWith(entry.field+'/'))return false;
     const sourceTarget=nodes.get(entry.targetId);
     if(sourceTarget?.block!==block||!(entry.targetId===node.id||entry.targetId===owner.id||sourceTarget.node===block&&block.content===owner))return false;
     const payload=binding.path.split('/').slice(1).reduce((value,key)=>value?.[key],owner);
@@ -215,7 +217,8 @@ export async function inspectContentCoverage(project,{assetSignatures={}}={}){
   const ownedPartResponse=(node,block,ancestors)=>
     ['part','subpart'].includes(node.type)&&!node.children?.length&&
     block.sourceReview?.responses?.some(r=>r.targetId===node.id&&['cloze','inline','short','working','tick-cross'].includes(r.kind))&&
-    ancestors.some(parent=>['part','subpart'].includes(parent.type)&&entries.some(e=>!e.exclusionReason&&!e.field&&e.targetId===parent.id&&['part','subpart'].includes(e.kind)));
+    (ancestors.some(parent=>['group','part','subpart'].includes(parent.type)&&entries.some(e=>!e.exclusionReason&&!e.field&&e.targetId===parent.id&&['part','subpart'].includes(e.kind)))||
+      !hasVisibleContent(node.prompt)&&boundParentPrompt(node,block,ancestors));
   const ownedTeachingResponse=(node,block,ancestors)=>!!block.sourceAtom?.id&&
     ['part','subpart'].includes(node.type)&&!node.children?.length&&
     block.sourceReview?.responses?.some(r=>r.targetId===node.id&&['none','cloze','inline','short','working','tick-cross'].includes(r.kind))&&

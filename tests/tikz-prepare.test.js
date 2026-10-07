@@ -35,3 +35,13 @@ test('loads the supported symbol package for ASTC checkmarks without changing di
   assert.equal(prepareTikz(code.replace('\\checkmark', '\\checkmarkExtra')).pkgJson, null);
   assert.equal(prepareTikz(code.replace('\\checkmark', 'A')).pkgJson, null);
 });
+
+test('loads amssymb for filled triangle correspondence symbols in every direction', () => {
+  for (const symbol of ['blacktriangle', 'blacktriangledown', 'blacktriangleleft', 'blacktriangleright']) {
+    const code = `\\begin{tikzpicture}\\node at (0,0) {$\\${symbol}$};\\end{tikzpicture}`;
+    const prepared = prepareTikz(code);
+    assert.deepEqual(JSON.parse(prepared.pkgJson), { amssymb: '' });
+    assert.ok(prepared.cleanCode.includes(`$\\${symbol}$`));
+    assert.equal(prepareTikz(code.replace(symbol, `${symbol}Extra`)).pkgJson, null);
+  }
+});

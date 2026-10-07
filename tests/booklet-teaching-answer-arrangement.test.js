@@ -34,6 +34,19 @@ test('omitted response slots fall back and invalid duplicate placements remain r
 test('ordinary practice retains its answer renderer',()=>{
  const {block,saved}=fixture();delete block.sourceAtom;delete block.sourceReview;assert.equal(teachingAnswerArrangement(block,saved),null);
 });
+
+test('a theory demonstration with no student responses renders its complete prompt arrangement once',()=>{
+ const block={id:'scale-demo',type:'question',sourceAtom:{kind:'example'},sourceReview:{responses:[{targetId:'demo-a',kind:'none'},{targetId:'demo-b',kind:'none'}]},content:{id:'root',children:[{id:'demo-a',label:'a',prompt:fromSource('Scale factor 2: 5 cm becomes 10 cm.'),questionDiagrams:[{id:'triangles',format:'tikz',widthMm:70,code:'supplied triangles'}]},{id:'demo-b',label:'b',prompt:fromSource('Scale factor 3: 4 cm becomes 12 cm.')}]}};
+ const saved={version:1,root:group('examples',[item('demo-a/prompt'),item('triangles'),item('demo-b/prompt')])},before=structuredClone({block,saved});
+ for(const mode of ['short','worked']){
+  const answer=teachingAnswerArrangement(block,saved,{},mode);
+  assert.deepEqual(answer,resolveArrangement(block,saved).tree);
+  assert.equal(arrangementItems(answer.root).filter(n=>n.ref==='triangles').length,1);
+  assert.equal(arrangementItems(answer.root).some(n=>n.ref.includes('/answer/')),false);
+ }
+ assert.equal(teachingAnswerArrangement(block,saved,{},'student'),null);
+ assert.deepEqual({block,saved},before);
+});
 test('teaching fragments place only their current leaf responses',()=>{
  const {block,saved}=fixture();block.sourceReview.responses.push({id:'other-page',kind:'working'});
  assert.ok(teachingAnswerArrangement(block,saved));

@@ -156,6 +156,10 @@ export function resolveArrangement(block,stored,overrides={},widthMm=180){
 export function teachingAnswerArrangement(block,stored,overrides={},mode='worked'){
  if(!retainsTeachingPromptWithAnswers(block)||!['short','worked'].includes(mode))return null;
  const resolved=resolveArrangement(block,stored,overrides),leaves=[];
+ // A complete source demonstration is already in its prompt and diagrams.
+ // Render that arrangement once instead of adding empty answer-labelled rows.
+ const specs=block.sourceReview?.responses??[];
+ if(teachingAnswerCategory(block)==='theory'&&specs.length&&specs.every(r=>r.kind==='none'))return resolved.missing.length?null:resolved.tree;
  const responseSpecs=new Map((block.sourceReview?.responses??[]).map(r=>[r.targetId??r.id,r]));
  const visit=n=>{if(n.children?.length)n.children.forEach(visit);else if(responseSpecs.get(n.id)?.kind!=='none'&&(hasVisibleContent(n.answer?.[mode])||n.answer?.solutionDiagrams?.length))leaves.push(n);};
  visit(block.content);

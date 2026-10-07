@@ -63,6 +63,22 @@ test('boxed maths anchors persist without changing ordinary cell arrows',()=>{
  assert.equal(tableArrowGeometry(a,b,{side:'top'}).start[1],17);
 });
 
+test('optional table-arrow label offset clears tall fractions outward without moving the connector',()=>{
+ for(const [side,sign] of [['top',-1],['bottom',1]]){
+  const annotation={side,cellId:'a',toCellId:'b',curveMm:4,distanceMm:1};
+  const old=tableArrowGeometry(a,b,annotation),shifted=tableArrowGeometry(a,b,{...annotation,labelOffsetMm:3});
+  assert.ok(Math.abs(shifted.labelY-old.labelY-sign*3*96/25.4)<1e-9);
+  assert.deepEqual({...shifted,labelY:old.labelY},old);
+  assert.deepEqual(tableArrowGeometry(a,b,{...annotation,labelOffsetMm:0}),old);
+ }
+ const doc=normalizeDocument({blocks:[{id:'table',type:'table',annotations:[{id:'arrow',type:'arrow',side:'bottom',cellId:'a',toCellId:'b',label:'$\\div\\frac{2}{3}$',curveMm:4,distanceMm:1,labelOffsetMm:3}],rows:[[{id:'a',blocks:[]},{id:'b',blocks:[]}]]}]});
+ assert.equal(doc.blocks[0].annotations[0].labelOffsetMm,3);
+ assert.deepEqual(normalizeDocument(JSON.parse(JSON.stringify(doc))),doc);
+ assert.ok(renderDocument(doc).includes('margin:2mm 0 15mm'));
+ delete doc.blocks[0].annotations[0].labelOffsetMm;
+ assert.equal(Object.hasOwn(normalizeDocument(doc).blocks[0].annotations[0],'labelOffsetMm'),false);
+});
+
 const operationRailMm=96/25.4;
 const operationRailTolerance=1e-8;
 function operationRailClose(actual,expected){

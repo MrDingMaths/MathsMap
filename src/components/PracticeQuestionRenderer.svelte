@@ -11,7 +11,7 @@
   import { estimateAnswerSpaceMm, allDiagrams } from '../lib/practice-question-model.js';
   import { setoutMathChain } from '../lib/inline-content.js';
   import { isRewriteTableQuestion, shortAnswerDisplay, combinedExampleTikz, visibleImportedQuestionTitle } from '../lib/booklet-preview.js';
-  import {compactAnswerDisplay,answerDiagramStyle,answerDiagramWidth,compactAnswerLabel,answerNodePath,answerNodeContext} from '../lib/booklet-exercises.js';
+  import {compactAnswerDisplay,answerDiagramStyle,answerDiagramWidth,compactAnswerLabel,answerNodePath,answerNodeContext,isGivenFigureNode} from '../lib/booklet-exercises.js';
   import {normaliseShortAnswer,SHORT_ANSWER_INK} from '../lib/short-answer-style.js';
   import {teachingAnswerCategory,retainsTeachingPromptWithAnswers} from '../lib/booklet-answer-options.js';
   import {hasEmbeddedResponseLabel,hasStandaloneMathTable} from '../lib/booklet-labels.js';
@@ -196,6 +196,7 @@
   {@const context = answerNodeContext(question.content,node,index,parent)}
   {@const nextContexts = context ? [...contexts,context] : contexts}
   {@const groupAnswer = node.children?.length && (showShortAnswers ? node.answer?.short || node.answer?.solutionDiagrams?.length : showWorkedSolutions ? node.answer?.worked : false)}
+  {#if !isGivenFigureNode(node)}
   {#if node.children?.length && !groupAnswer}
     <div class:question-grid={node.layout === 'grid'} class="answer-children" style={node.layout === 'grid' ? '--columns:' + Math.min(answerColumnsLimit ?? Infinity, node.answerColumns ?? Math.min(node.columns, showWorkedSolutions ? 2 : node.columns)) : ''}>
       {#each node.children as child, childIndex}{@render renderAnswerNode(child, nextPath, childIndex, nextContexts, node)}{/each}
@@ -209,6 +210,7 @@
       {#if showWorkedSolutions}<div class="worked-content">{#if node.answer?.worked}<EditableBookletText value={compactAnswerSettings||editMode ? node.answer.worked : setoutMathChain(node.answer.worked, { stackFirstTerm: true })} displayValue={compactAnswerSettings?setoutMathChain(node.answer.worked,{stackFirstTerm:false}):null} rootId={node.id} pointer="/answer/worked" {editMode} edited={isEdited(node.id, '/answer/worked')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{/if}{@render solutionFigures(node)}</div>{/if}
     </div></article>
     {#if groupAnswer}{@render sharedSolutionFigures(node)}{/if}
+  {/if}
   {/if}
 {/snippet}
 

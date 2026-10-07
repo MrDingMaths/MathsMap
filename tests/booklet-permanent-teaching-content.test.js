@@ -12,5 +12,12 @@ test('supplied material in mixed teaching activities survives enabled response c
   }
 });
 test('practice keys and separate worked examples retain their existing presentation',()=>{
-  for(const block of [{type:'question',sourceReview:{responses:[{kind:'none'}]}},{type:'worked-example',sourceReview:{responses:[{kind:'none'}]}},{type:'question',sourceAtom:{kind:'example'},sourceReview:{responses:[{kind:'none'}]}},{type:'question',sourceAtom:{kind:'identify'},sourceReview:{responses:[{kind:'working'}]}}])assert.equal(retainsTeachingPromptWithAnswers(block),false);
+  for(const block of [{type:'question',sourceReview:{responses:[{kind:'none'}]}},{type:'worked-example',sourceReview:{responses:[{kind:'none'}]}},{type:'question',sourceAtom:{kind:'identify'},sourceReview:{responses:[{kind:'working'}]}}])assert.equal(retainsTeachingPromptWithAnswers(block),false);
+});
+
+test('question-shaped completed examples retain their permanent supplied material',()=>{
+ const block={type:'question',sourceAtom:{kind:'example'},sourceReview:{responses:[{targetId:'demo',kind:'none'}]}};
+ assert.equal(retainsTeachingPromptWithAnswers(block),true);
+ assert.equal(teachingQuestionMode(block,{},'student'),'worked');
+ assert.deepEqual(independentAnswerPages([{blocks:[block]}]),[]);
 });

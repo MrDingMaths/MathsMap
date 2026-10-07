@@ -12,6 +12,10 @@ export function compactAnswerLabel(number,parts=[]){
  return labels.reduce((text,label,index)=>text+(index&&/^\d+$/.test(label)?`(${label})`:(index&&label.length>1&&!/^[ivxlcdm]+$/i.test(label)?' ':'')+label),'');
 }
 
+// A supplied matching figure is a structural container, not another response.
+// A real question (including an empty prompt awaiting repair) keeps its answer row.
+export const isGivenFigureNode=node=>!!node&&!node.children?.length&&!Object.hasOwn(node,'prompt')&&!node.answer&&!!node.questionDiagrams?.length;
+
 // Display metadata belongs only to cloned answer fragments. Preserve the original
 // segment before pruning siblings, including whether a group was transparent.
 function answerPartLabel(node,index=0){
@@ -215,6 +219,7 @@ export function answerFragments(block, mode = null) {
   };
   retainDisplay(root);
   const visit=(node,path=[])=>{
+    if(isGivenFigureNode(node))return;
     if(node.children?.length&&!(mode&&(node.answer?.[mode]||mode==='short'&&node.answer?.solutionDiagrams?.length))&&!node.sharedSolutionDiagrams?.length&&!node.children.some(c=>c.dependsOn?.length))node.children.forEach(c=>visit(c,[...path,node]));
     else units.push({node,path});
   };

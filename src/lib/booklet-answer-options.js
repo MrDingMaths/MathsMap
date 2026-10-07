@@ -18,7 +18,7 @@ export function isKeyIdeas(block) {return [block?.sourceAtom?.kind,block?.pedago
 // Showing responses must keep that permanent source material available.
 export function retainsTeachingPromptWithAnswers(block) {
   return block?.type === 'question'
-    && ['review', 'identify', 'guided'].includes(teachingAnswerCategory(block))
+    && ['review', 'identify', 'guided', 'theory'].includes(teachingAnswerCategory(block))
     && block.sourceReview?.responses?.some(response => response.kind === 'none') === true;
 }
 export function blockClozeAnswers(block,options,mode='student') {return isKeyIdeas(block)?options.showKeyIdeasAnswers===true:mode!=='student';}
