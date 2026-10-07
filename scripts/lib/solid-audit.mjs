@@ -168,6 +168,8 @@ export function parseDraws(code,model,named=coordinates(code)) {
 
 export function inspectSolid(code,{context=''}={}) {
   let metadata;try{metadata=solidMetadata(code);}catch(e){return {status:'review',reason:e.message};}
+  // Concave curved cuts have opposite normals to convex sectors; require exact-code review.
+  if(metadata?.kind==='curved-complement')return {status:'review',reason:'Curved complement requires independent geometric and visual review of its concave boundary'};
   if(metadata?.kind==='curved-template'){
     try{const expected=curvedSolidTikz(metadata.template,metadata.parameters),body=s=>s.split('\n').filter(l=>!l.startsWith('% mathsmap-solid ')).join('\n').trim();return body(expected)===body(code)?{status:'pass',method:'checked-curved-template',issues:[]}:{status:'review',reason:'Curved template changed: regenerate or record geometric review'};}catch(e){return {status:'review',reason:e.message};}
   }
@@ -194,10 +196,16 @@ export function inspectSolid(code,{context=''}={}) {
   const missing=solidEdges(model).filter(e=>{let end=0;for(const [from,to]of (coverage.get(edgeKey(e.a,e.b))??[]).sort((a,b)=>a[0]-b[0])){if(from>end+1e-6)return true;end=Math.max(end,to);}return end<1-1e-6;}).map(e=>edgeKey(e.a,e.b));
   const defect=issues.some(i=>i.type!=='duplicate-edge');
   if(missing.length)issues.push({type:'incomplete-boundary',edges:missing});
-  const additional=draws.filter(s=>s.kind!=='path'&&!s.semantic).reduce((n,s)=>n+s.edges.filter(e=>!e.a&&!e.b).length,0)>=3||draws.some(s=>s.kind!=='path'&&!s.semantic&&/\bellipse\b|\barc\b/.test(s.raw));
+  const additional=draws.filter(s=>s.kind!=='path'&&!s.semantic).reduce((n,s)=>n+s.edges.filter(e=>!e.a&&!e.b).length,0)>=3||draws.some(s=>s.kind!=='path'&&!s.semantic&&/\bellipse\b|\barc\b|\bplot\b/.test(s.raw));
   if(additional)issues.push({type:'additional-geometry',reason:'The inferred model does not cover every construction in this drawing'});
   const reason=missing.length?'Model boundary is incomplete; record intentional omissions or repair missing edges':additional?'Additional geometry requires recorded geometric and visual review':null;
-  return {status:defect?'defect':reason?'review':'pass',...(reason?{reason}:{}),model,method:inferred.method,issues};
+  // An incomplete inferred model cannot establish occlusion for the complete
+  // drawing: another face or curved surface may hide its nominal silhouette.
+  // Keep the exact-code review gate rather than asserting this partial model's
+  // visibility is authoritative. Recorded models and explicit 3D topology keep
+  // their defect checks, as do complete inferred solids and analytic templates.
+  const partialInference=!!reason&&!['recorded-model','explicit-3d'].includes(inferred.method);
+  return {status:partialInference?'review':defect?'defect':reason?'review':'pass',...(reason?{reason}:{}),model,method:inferred.method,issues};
 }
 
 export function repairSolid(code,{moveLabels=false,context=''}={}) {

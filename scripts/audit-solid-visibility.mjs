@@ -3,6 +3,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {coordinates,inspectSolid,repairSolid} from './lib/solid-audit.mjs';
+import {isStandardAvatar} from '../src/lib/booklet-avatars.js';
 export const solidHash=s=>createHash('sha256').update(s).digest('hex');
 const evidence=new Set(['source','sourceReview','sourceAtom','sourceLayoutEvidence','originalDiagram','originalContent','before','after','mathematicalModel','spec','provenance']);
 export function visitFigures(value,fn,location='',context='',review=null) {
@@ -14,7 +15,12 @@ export function visitFigures(value,fn,location='',context='',review=null) {
   }
   if(!value||typeof value!=='object')return;
   const local=[context,value.prompt,value.question_text,value.title,value.alt].filter(x=>typeof x==='string').join(' ').replace(/\[tikz\][\s\S]*?\[\/tikz\]/g,' ');
-  if(value.format==='image'||value.type==='image')fn({image:value.src??value.attrs?.src,location,context:local,id:value.id});
+  if(value.format==='image'||value.type==='image'){
+    const src=value.src??value.attrs?.src;
+    // Registered house portraits contain no assessed geometry and are not
+    // retained source diagrams. Other images keep their source-hash review.
+    if(!isStandardAvatar(src))fn({image:src,location,context:local,id:value.id});
+  }
   for(const[k,v]of Object.entries(value))if(!evidence.has(k))visitFigures(v,fn,location+'/'+k,local,value.solidReview??review);
 }
 export function solidAcceptance(value,reviews={}) {
@@ -35,6 +41,10 @@ export function isSolidCandidate(code,context='') {
   if(/mathsmap-solid|tdplot|(?:prism|pyramid|cylinder|cone|sphere|cuboid|solid|\b3d\b|\b3-d\b)/i.test(context+' '+code))return true;
   if(/ellipse|x radius|y radius/.test(code))return true;
   const pts=[...coordinates(code).values()];if(pts.some(p=>p.length===3))return true;
+  // Equally spaced points on a planar interval repeat the same offset, too.
+  // They provide no evidence of a solid; explicit solid cues above still apply.
+  const origin=pts[0],direction=origin&&pts.find(p=>Math.hypot(p[0]-origin[0],p[1]-origin[1])>1e-5);
+  if(direction&&pts.every(p=>Math.abs((direction[0]-origin[0])*(p[1]-origin[1])-(direction[1]-origin[1])*(p[0]-origin[0]))<1e-5))return false;
   const offsets=new Map();
   for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
     const dx=pts[j][0]-pts[i][0],dy=pts[j][1]-pts[i][1];if(Math.abs(dx)<1e-5||Math.abs(dy)<1e-5)continue;

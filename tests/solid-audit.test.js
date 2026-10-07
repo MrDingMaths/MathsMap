@@ -3,8 +3,28 @@ import assert from 'node:assert/strict';
 import {inspectSolid,repairSolid} from '../scripts/lib/solid-audit.mjs';
 import {solidTikz,prismModel,curvedSolidTikz} from '../src/lib/solid-geometry.js';
 import {repairValue} from '../scripts/repair-solid-visibility.mjs';
-import {solidHash,visitFigures,isSolidCandidate} from '../scripts/audit-solid-visibility.mjs';
+import {solidHash,visitFigures,isSolidCandidate,solidAcceptance} from '../scripts/audit-solid-visibility.mjs';
 const box=()=>solidTikz(prismModel([[0,0],[3,0],[3,2],[0,2]]));
+
+test('registered house avatars do not require a solid review, retained diagrams still do',()=>{
+ const portrait={type:'image',src:'/booklet-assets/shared/avatars/avatar-01.png'};
+ assert.deepEqual(solidAcceptance(portrait),[]);
+ const found=[];visitFigures(portrait,row=>found.push(row));assert.equal(found.length,0);
+ for(const src of ['/booklet-assets/projects/source-solid.png','/booklet-assets/shared/avatars/avatar-99.png']){
+  assert.equal(solidAcceptance({type:'image',src})[0]?.status,'image-review');
+ }
+ assert.equal(solidAcceptance({format:'tikz',code:box().replace('"version":1','"version":99')})[0]?.status,'review');
+});
+
+test('equally spaced collinear points on a gradient interval are planar',()=>{
+ const code=String.raw`\begin{tikzpicture}
+ \coordinate (A) at (1,2);\coordinate (B) at (3,3);
+ \coordinate (C) at (5,4);\coordinate (D) at (7,5);
+ \draw (A)--(D);\end{tikzpicture}`;
+ assert.equal(isSolidCandidate(code,'Calculate the gradient of these line segments'),false);
+ assert.equal(isSolidCandidate(code,'solid construction'),true);
+ assert.equal(isSolidCandidate(box()),true);
+});
 test('current model detects flipped edge styles and cannot be fooled by a label stroke',()=>{
  const code=box(),wrong=code.replace(/\\draw\[dashed\]/,'\\draw');
  assert.equal(inspectSolid(code).status,'pass');assert.equal(inspectSolid(wrong).status,'defect');
