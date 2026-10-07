@@ -7631,11 +7631,11 @@
                     "spec": {
                       "sourcePage": 3,
                       "sourceRegion": "Investigation: left-hand coordinate grid",
-                      "description": "Unit grid from −5 to 5 on both axes, triangle ABC and dashed reflection line y=x.",
-                      "mathematics": "A=(3,2), B=(4,-1), C=(1,-3); edges AB, BC and CA; reflection line y=x.",
-                      "answerVisibility": "The original triangle is supplied. Reflected vertices and edges are hidden in the question."
+                      "description": "Original triangle in black and its reflection in blue on the complete supplied grid.",
+                      "mathematics": "A=(3,2), B=(4,-1), C=(1,-3); A′=(2,3), B′=(-1,4), C′=(-3,1); corresponding triangle edges and reflection line y=x.",
+                      "answerVisibility": "Both triangles are supplied in the question at the user’s explicit request."
                     },
-                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"gridGrey\",\"hex\":\"CCCCCC\",\"reason\":\"unit coordinate grid\"},{\"name\":\"referenceGrey\",\"hex\":\"777777\",\"reason\":\"dashed reflection reference line\"}],\"reference\":\"source page 3, p3-triangle-graph\"}\n\\begin{tikzpicture}[x=0.58cm,y=0.58cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\definecolor{referenceGrey}{HTML}{777777}\n\\path[use as bounding box] (-5.7,-5.7) rectangle (5.9,6.1);\n\\draw[step=1,gridGrey,line width=0.25pt] (-5,-5) grid (5,5);\n\\draw[<->,black,line width=0.5pt] (-5.45,0)--(5.45,0);\n\\draw[<->,black,line width=0.5pt] (0,-5.45)--(0,5.45);\n\\foreach \\n in {-5,-4,-3,-2,-1,1,2,3,4,5} {\n\\draw[black,line width=0.4pt] (\\n,-0.12)--(\\n,0.12);\n\\node[below,inner sep=2pt] at (\\n,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\n$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt] (-0.12,\\n)--(0.12,\\n);\n\\node[left,inner sep=2pt] at (0,\\n) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\n$\\special{dvisvgm:raw </g>}};\n}\n\\node[right,black] at (5.45,0) {$x$};\n\\node[above,black] at (0,5.45) {$y$};\n\\draw[referenceGrey,dashed,line width=0.4pt] (-5.4,-5.4)--(5.4,5.4);\n\\coordinate (A) at (3,2);\n\\coordinate (B) at (4,-1);\n\\coordinate (C) at (1,-3);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle;\n\\foreach \\P in {A,B,C} {\\fill[black] (\\P) circle[radius=1.5pt];}\n\\node[above right,black,inner sep=2pt] at (A) {$A$};\n\\node[below right,black,inner sep=2pt] at (B) {$B$};\n\\node[below right,black,inner sep=2pt] at (C) {$C$};\n\\end{tikzpicture}"
+                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"gridGrey\",\"hex\":\"CCCCCC\",\"reason\":\"unit coordinate grid\"},{\"name\":\"referenceGrey\",\"hex\":\"777777\",\"reason\":\"dashed reflection reference line\"},{\"name\":\"reflectionBlue\",\"hex\":\"268CFF\",\"reason\":\"reflected triangle distinguished from supplied triangle\"}],\"reference\":\"source page 3, p3-triangle-graph\"}\n\\begin{tikzpicture}[x=0.58cm,y=0.58cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\definecolor{referenceGrey}{HTML}{777777}\n\\definecolor{reflectionBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5.7,-5.7) rectangle (5.9,6.1);\n\\draw[step=1,gridGrey,line width=0.25pt] (-5,-5) grid (5,5);\n\\draw[<->,black,line width=0.5pt] (-5.45,0)--(5.45,0);\n\\draw[<->,black,line width=0.5pt] (0,-5.45)--(0,5.45);\n\\foreach \\n in {-5,-4,-3,-2,-1,1,2,3,4,5} {\n\\draw[black,line width=0.4pt] (\\n,-0.12)--(\\n,0.12);\n\\node[below,inner sep=2pt] at (\\n,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\n$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt] (-0.12,\\n)--(0.12,\\n);\n\\node[left,inner sep=2pt] at (0,\\n) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\n$\\special{dvisvgm:raw </g>}};\n}\n\\node[right,black] at (5.45,0) {$x$};\n\\node[above,black] at (0,5.45) {$y$};\n\\draw[referenceGrey,dashed,line width=0.4pt] (-5.4,-5.4)--(5.4,5.4);\n\\coordinate (A) at (3,2);\n\\coordinate (B) at (4,-1);\n\\coordinate (C) at (1,-3);\n\\coordinate (Ap) at (2,3);\n\\coordinate (Bp) at (-1,4);\n\\coordinate (Cp) at (-3,1);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle;\n\\draw[reflectionBlue,line width=0.8pt] (Ap)--(Bp)--(Cp)--cycle;\n\\foreach \\P in {A,B,C} {\\fill[black] (\\P) circle[radius=1.5pt];}\n\\foreach \\P in {Ap,Bp,Cp} {\\fill[reflectionBlue] (\\P) circle[radius=1.5pt];}\n\\node[above right,black,inner sep=2pt] at (A) {$A$};\n\\node[below right,black,inner sep=2pt] at (B) {$B$};\n\\node[below right,black,inner sep=2pt] at (C) {$C$};\n\\node[above right,reflectionBlue,inner sep=2pt] at (Ap) {$A'$};\n\\node[above left,reflectionBlue,inner sep=2pt] at (Bp) {$B'$};\n\\node[above left,reflectionBlue,inner sep=2pt] at (Cp) {$C'$};\n\\end{tikzpicture}"
                   }
                 ],
                 "responseSpace": "scaffold",
@@ -8046,7 +8046,13 @@
             "sourcePagination": {
               "page": 3,
               "breakBefore": true
-            }
+            },
+            "feedbackDepartures": [
+              {
+                "commentId": "ad19a2d4-7e2f-42e7-91cc-9eda61a36d54",
+                "reason": "User requested the reflected triangle in this question diagram; original source evidence retained."
+              }
+            ]
           },
           "flow": {
             "sourcePageBreakBefore": false
@@ -9241,7 +9247,8 @@
                   "description": "Horizontal input/output pair with a forward upper arrow and reverse lower arrow. White rounded operation boxes interrupt the curves.",
                   "mathematics": "f sends a to f(a); f^{-1} sends f(a) back to a.",
                   "answerVisibility": "Permanent supplied teaching diagram; visible with teaching answers on or off."
-                }
+                },
+                "align": "center"
               }
             ],
             "children": [
@@ -10856,7 +10863,7 @@
             "secondarySkillIds": [],
             "reasoningScore": 25,
             "difficulty": "Foundation",
-            "difficultyReason": "The source Foundation exercise asks for direct rearrangement of linear, cubic, square-root and reciprocal relations."
+            "difficultyReason": "Direct rearrangement of linear and cubic relations using the taught swap-and-rearrange method, without domain restrictions."
           },
           "content": {
             "id": "p8-q1-root",
@@ -11050,11 +11057,11 @@
                 "id": "p8-q1-m",
                 "type": "part",
                 "label": "m",
-                "prompt": "$y=\\sqrt{x+2}$",
+                "prompt": "$y=2x+5$",
                 "answerSpaceMm": 29,
                 "answer": {
-                  "short": "$y=x^2-2$, $x\\geq0$.",
-                  "worked": "$$\\begin{align*}x&=\\sqrt{y+2}\\\\x^2&=y+2\\\\y&=x^2-2\\end{align*}$$\nThe original range is $[0,\\infty)$, so the inverse has domain $x\\geq0$ and range $y\\geq-2$.",
+                  "short": "$y=\\dfrac{x-5}{2}$",
+                  "worked": "$$\\begin{align*}x&=2y+5\\\\x-5&=2y\\\\y&=\\frac{x-5}{2}\\end{align*}$$",
                   "provenance": {
                     "short": "authored",
                     "worked": "authored"
@@ -11065,11 +11072,11 @@
                 "id": "p8-q1-n",
                 "type": "part",
                 "label": "n",
-                "prompt": "$y=\\dfrac{3}{x+5}$",
+                "prompt": "$y=2x^3+1$",
                 "answerSpaceMm": 36,
                 "answer": {
-                  "short": "$y=\\dfrac{3}{x}-5$, $x\\ne0$.",
-                  "worked": "$$\\begin{align*}x&=\\frac{3}{y+5}\\\\x(y+5)&=3\\\\y+5&=\\frac{3}{x}\\\\y&=\\frac{3}{x}-5\\end{align*}$$\nThe original range excludes $0$, so the inverse has domain $x\\ne0$ and range $y\\ne-5$.",
+                  "short": "$y=\\sqrt[3]{\\dfrac{x-1}{2}}$",
+                  "worked": "$$\\begin{align*}x&=2y^3+1\\\\x-1&=2y^3\\\\y^3&=\\frac{x-1}{2}\\\\y&=\\sqrt[3]{\\frac{x-1}{2}}\\end{align*}$$",
                   "provenance": {
                     "short": "authored",
                     "worked": "authored"
@@ -11080,11 +11087,11 @@
                 "id": "p8-q1-o",
                 "type": "part",
                 "label": "o",
-                "prompt": "$y=\\dfrac{3}{x}$",
+                "prompt": "$y=\\sqrt[3]{x-4}$",
                 "answerSpaceMm": 29,
                 "answer": {
-                  "short": "$y=\\dfrac{3}{x}$, $x\\ne0$.",
-                  "worked": "$$\\begin{align*}x&=\\frac{3}{y}\\\\xy&=3\\\\y&=\\frac{3}{x}\\end{align*}$$\nThe inverse has domain $x\\ne0$ and range $y\\ne0$.",
+                  "short": "$y=x^3+4$",
+                  "worked": "$$\\begin{align*}x&=\\sqrt[3]{y-4}\\\\x^3&=y-4\\\\y&=x^3+4\\end{align*}$$",
                   "provenance": {
                     "short": "authored",
                     "worked": "authored"
@@ -11274,7 +11281,13 @@
             "sourcePagination": {
               "page": 8,
               "breakBefore": true
-            }
+            },
+            "feedbackDepartures": [
+              {
+                "commentId": "b7484152-6b08-4493-9e7e-9a06611bcdfd",
+                "reason": "Parts m–o replaced with linear/cubic relations requiring no domain restrictions, using the page 7 swap-and-rearrange method. Source inventory and original evidence retained."
+              }
+            ]
           },
           "flow": {
             "sourcePageBreakBefore": false,
@@ -11283,7 +11296,7 @@
               "secondarySkillIds": [],
               "reasoningScore": 25,
               "difficulty": "Foundation",
-              "difficultyReason": "The source Foundation exercise asks for direct rearrangement of linear, cubic, square-root and reciprocal relations."
+              "difficultyReason": "Direct rearrangement of linear and cubic relations using the taught swap-and-rearrange method, without domain restrictions."
             }
           },
           "snapshotKind": "local",
@@ -13322,7 +13335,7 @@
             "id": "p11-q10-root",
             "type": "question",
             "label": "10",
-            "prompt": "For each part in question 9, your inverse should have a restriction in terms of $y$.\nBy solving the inequality, rewrite the restriction in terms of $x$.",
+            "prompt": "For each part in question 10, your inverse should have a restriction in terms of $y$.\nBy solving the inequality, rewrite the restriction in terms of $x$.",
             "layout": "grid",
             "children": [
               {
@@ -13339,7 +13352,7 @@
                       "inlines": [
                         {
                           "type": "text",
-                          "text": "For 9a."
+                          "text": "For 10a."
                         }
                       ]
                     },
@@ -13419,11 +13432,11 @@
                 "id": "p11-q10-b",
                 "type": "part",
                 "label": "b",
-                "prompt": "For 9b.",
+                "prompt": "For 10b.",
                 "answerSpaceMm": 30,
                 "answer": {
                   "short": "$y=\\frac{x+10}{3},\\quad x<-4$.",
-                  "worked": "From 9b, $y=\\frac{x+10}{3}$ and $y<2$.\n$$\\begin{align*}\\frac{x+10}{3}&<2\\\\x+10&<6\\\\x&<-4\\end{align*}$$\nThus $y=\\frac{x+10}{3}$, with domain $x<-4$.",
+                  "worked": "From 10b, $y=\\frac{x+10}{3}$ and $y<2$.\n$$\\begin{align*}\\frac{x+10}{3}&<2\\\\x+10&<6\\\\x&<-4\\end{align*}$$\nThus $y=\\frac{x+10}{3}$, with domain $x<-4$.",
                   "provenance": {
                     "short": "authored",
                     "worked": "authored"
@@ -13434,11 +13447,11 @@
                 "id": "p11-q10-c",
                 "type": "part",
                 "label": "c",
-                "prompt": "For 9c.",
+                "prompt": "For 10c.",
                 "answerSpaceMm": 30,
                 "answer": {
                   "short": "$y=\\sqrt[3]{x-2},\\quad x<29$.",
-                  "worked": "From 9c, $y=\\sqrt[3]{x-2}$ and $y<3$.\n$$\\begin{align*}\\sqrt[3]{x-2}&<3\\\\x-2&<27\\\\x&<29\\end{align*}$$\nCubing preserves the inequality because the cube function is increasing.\nThus $y=\\sqrt[3]{x-2}$, with domain $x<29$.",
+                  "worked": "From 10c, $y=\\sqrt[3]{x-2}$ and $y<3$.\n$$\\begin{align*}\\sqrt[3]{x-2}&<3\\\\x-2&<27\\\\x&<29\\end{align*}$$\nCubing preserves the inequality because the cube function is increasing.\nThus $y=\\sqrt[3]{x-2}$, with domain $x<29$.",
                   "provenance": {
                     "short": "source",
                     "worked": "authored"
@@ -13449,11 +13462,11 @@
                 "id": "p11-q10-d",
                 "type": "part",
                 "label": "d",
-                "prompt": "For 9d.",
+                "prompt": "For 10d.",
                 "answerSpaceMm": 35,
                 "answer": {
                   "short": "$y=\\frac{13-x}{6},\\quad x\\le-5$.",
-                  "worked": "From 9d, $y=\\frac{13-x}{6}$ and $y\\ge3$.\n$$\\begin{align*}\\frac{13-x}{6}&\\ge3\\\\13-x&\\ge18\\\\-x&\\ge5\\\\x&\\le-5\\end{align*}$$\nMultiplying by $-1$ reverses the inequality.\nThus $y=\\frac{13-x}{6}$, with domain $x\\le-5$.",
+                  "worked": "From 10d, $y=\\frac{13-x}{6}$ and $y\\ge3$.\n$$\\begin{align*}\\frac{13-x}{6}&\\ge3\\\\13-x&\\ge18\\\\-x&\\ge5\\\\x&\\le-5\\end{align*}$$\nMultiplying by $-1$ reverses the inequality.\nThus $y=\\frac{13-x}{6}$, with domain $x\\le-5$.",
                   "provenance": {
                     "short": "source",
                     "worked": "authored"
@@ -13538,6 +13551,12 @@
               {
                 "targetId": "p11-q10-root",
                 "description": "Two columns and two rows in source reading order: a beside b, then c beside d. The permanent blue scaffold starts at the top of part a; continuation space follows it."
+              }
+            ],
+            "feedbackDepartures": [
+              {
+                "commentId": "10ef9b3a-5b03-4890-8906-4e264d471d98",
+                "reason": "References now use displayed question 10; source labels and evidence remain unchanged."
               }
             ]
           },
@@ -18983,7 +19002,49 @@
                 "id": "p22-q18-b",
                 "type": "part",
                 "label": "b",
-                "prompt": "Given $fg(2)=13$, find the value of $a$.",
+                "prompt": {
+                  "format": "maths-editor-document-v1",
+                  "version": 1,
+                  "blocks": [
+                    {
+                      "id": "d27f001e-0df7-4c1b-b085-fef270e1379f",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "left",
+                      "spaceBefore": 0,
+                      "spaceAfter": 0,
+                      "lineHeight": 1.3199970000068182,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "Given ",
+                          "marks": []
+                        },
+                        {
+                          "type": "math",
+                          "latex": "f\\left(g(2\\right))=13",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": ", find the value of ",
+                          "marks": []
+                        },
+                        {
+                          "type": "math",
+                          "latex": "a",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": ".",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
                 "answerSpaceMm": 30,
                 "answer": {
                   "short": "$a=5$.",
@@ -36478,6 +36539,84 @@
         "resolvedAt": "2026-10-04T10:07:02.895Z",
         "resolution": "Investigated the clarified part b spacing reduction in Studio and print. The second graph is a repeated copy of the supplied graph on the continuation page (repeatSharedDiagram=true). Reducing part b fits a–d on the first page, removing the continuation copy; the original graph, inverse answer sketch and next question graph remain. No graph content is lost; retained saved spacing.",
         "updatedAt": "2026-10-04T10:07:02.896Z"
+      },
+      {
+        "id": "ad19a2d4-7e2f-42e7-91cc-9eda61a36d54",
+        "targetId": "p3-reflection-activity",
+        "note": "show the reflected A'B'C' on the diagram.",
+        "resolved": true,
+        "at": "2026-10-06T11:15:51.838Z",
+        "scope": "local",
+        "anchor": {
+          "rootId": "p3-reflection-activity",
+          "edition": "with-short",
+          "quote": "Reflect the coordinates A, B, C across the line $y=x$."
+        },
+        "edition": "with-short",
+        "quote": "Reflect the coordinates A, B, C across the line $y=x$.",
+        "signature": "501123ac",
+        "sourceRefs": [
+          {
+            "pageNumber": 3
+          }
+        ],
+        "location": "Reflection across $y=x$ · Question",
+        "resolvedAt": "2026-10-06T11:25:08.799Z",
+        "resolution": "Added the reflected triangle A′B′C′ to the supplied diagram; inspected Questions page 3.",
+        "updatedAt": "2026-10-06T11:25:08.800Z"
+      },
+      {
+        "id": "b7484152-6b08-4493-9e7e-9a06611bcdfd",
+        "targetId": "p8-q1",
+        "note": "change this question. we haven't learned domain restrictions yet",
+        "resolved": true,
+        "at": "2026-10-06T11:16:36.990Z",
+        "scope": "local",
+        "anchor": {
+          "rootId": "p8-q1",
+          "edition": "with-short",
+          "quote": "Find the inverse relation."
+        },
+        "edition": "with-short",
+        "quote": "Find the inverse relation.",
+        "signature": "7a029eef",
+        "sourceRefs": [
+          {
+            "pageNumber": 8
+          }
+        ],
+        "location": "Exercise · Question",
+        "resolvedAt": "2026-10-06T11:25:08.799Z",
+        "resolution": "Replaced parts m–o with unrestricted linear and cubic relations and updated both answers; inspected Questions page 8.",
+        "updatedAt": "2026-10-06T11:25:08.800Z"
+      },
+      {
+        "id": "10ef9b3a-5b03-4890-8906-4e264d471d98",
+        "targetId": "p11-q10",
+        "note": "this should refer to q10",
+        "resolved": true,
+        "at": "2026-10-06T11:16:57.375Z",
+        "scope": "local",
+        "anchor": {
+          "rootId": "p11-q10",
+          "edition": "with-short",
+          "quote": "For each part in question 9, your inverse should have a restriction in terms of $y$.\nBy solving the inequality, rewrite the restriction in terms of $x$."
+        },
+        "edition": "with-short",
+        "quote": "For each part in question 9, your inverse should have a restriction in terms of $y$.\nBy solving the inequality, rewrite the restriction in terms of $x$.",
+        "signature": "da9f051d",
+        "sourceRefs": [
+          {
+            "pageNumber": 11
+          },
+          {
+            "pageNumber": 8
+          }
+        ],
+        "location": "Exercise · Question",
+        "resolvedAt": "2026-10-06T11:25:08.799Z",
+        "resolution": "Corrected the stem, part references and worked answers to refer to displayed question 10; inspected Questions page 12.",
+        "updatedAt": "2026-10-06T11:25:08.800Z"
       }
     ],
     "atoms": {},
@@ -46700,10 +46839,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 269,
+  "revision": 276,
   "assets": [],
   "createdAt": "2026-10-02T11:26:21.873Z",
-  "updatedAt": "2026-10-04T12:20:08.842Z",
+  "updatedAt": "2026-10-06T11:25:08.837Z",
   "library": {
     "category": "master",
     "courseId": "s6-ext1-11",
