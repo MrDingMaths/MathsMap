@@ -79,28 +79,29 @@ export async function runLeanImportPool(runs,{poolDir,concurrency=3,maxJobs=1000
    let added=false;
    // Re-plan only runs whose state changed; unchanged plans stay valid.
    for(const options of runs)if(dirty.has(options.runDir)){if(!stopped.has(options.runDir))plans.set(options.runDir,await next(options));dirty.delete(options.runDir);}
-   // The booklet nearest acceptance takes free slots first.
+   // Each booklet has its own slots; nearer acceptance determines dispatch order.
    const ready=runs.filter(options=>!stopped.has(options.runDir)&&plans.has(options.runDir)).map(options=>{const plan=plans.get(options.runDir),pending=(plan.jobs??[]).filter(j=>!j.done);return {options,plan,pending:pending.length,finishing:pending.some(j=>!j.blockers?.length&&['visual','composition'].includes(j.stage))};});
    ready.sort((a,b)=>Number(b.finishing)-Number(a.finishing)||a.pending-b.pending);
    for(const {options,plan} of ready){
-    if(active.size>=concurrency||stopped.has(options.runDir))continue;
+    if(stopped.has(options.runDir))continue;
     const running=[...active.values()].filter(v=>v.options.runDir===options.runDir).map(v=>v.job);
+    if(running.length>=concurrency)continue;
     const jobs=(plan.jobs??[]).filter(j=>!j.done&&!j.blockers?.length&&!attempted.has(options.runDir+':'+j.id)).sort((a,b)=>(['visual','composition'].includes(b.stage)?1:0)-(['visual','composition'].includes(a.stage)?1:0));
     // Each repair decision changes the shared register its siblings were
     // prepared against, so one run's feedback jobs are delivered one at a time.
     let feedbackBusy=running.some(j=>j.stage==='feedback');
-    for(const job of selectDispatchJobs(jobs,running,concurrency-active.size)){if(started>=maxJobs)break;const key=options.runDir+':'+job.id;
+    for(const job of selectDispatchJobs(jobs,running,concurrency-running.length)){if(started>=maxJobs)break;const key=options.runDir+':'+job.id;
      if(job.stage==='feedback'){if(feedbackBusy)continue;feedbackBusy=true;}
      if((failures.get(failureKey(options.runDir,job.id,job.dependencyHash))??0)>=2){
       if(!retryDiagnosis?.trim()){stopped.set(options.runDir,'retry-diagnosis-required');emit('retry-diagnosis-required',{runDir:options.runDir,jobId:job.id,dependencyHash:job.dependencyHash});break;}
       emit('retry-diagnosis',{runDir:options.runDir,jobId:job.id,dependencyHash:job.dependencyHash,reason:retryDiagnosis});
      }
      attempted.add(key);started++;added=true;
-     const jobRunner=runnerFor(options),promise=lease(poolDir,{stage:job.stage,jobId:job.id,runDir:options.runDir},()=>run(options,job.id,{runner:jobRunner})).then(result=>({key,ok:result.ok!==false,result}),error=>({key,ok:false,error}));active.set(key,{options,job,promise});
+     const jobRunner=runnerFor(options),promise=lease(options.runDir,{stage:job.stage,jobId:job.id,runDir:options.runDir},()=>run(options,job.id,{runner:jobRunner})).then(result=>({key,ok:result.ok!==false,result}),error=>({key,ok:false,error}));active.set(key,{options,job,promise});
      emit('dispatch',{runDir:options.runDir,jobId:job.id,dependencyHash:job.dependencyHash,owned:job.ownershipIds?.length,deliveredCharacters:job.deliveredCharacters});
     }
    }
-   if(active.size&&(!added||active.size>=concurrency))await settle();else if(!active.size&&!dirty.size)break;
+   if(active.size)await settle();else if(!added&&!dirty.size)break;
   }}catch(error){dispatchError=error;emit('dispatch-error',{reason:error.message});}
   while(active.size)await settle();
   if(dispatchError)throw dispatchError;
@@ -120,7 +121,7 @@ export async function main(args=process.argv.slice(2)){
   const loaded=loadRun(values['--run-id']);requireCurrentTranscription(loaded.manifest);if(!isLeanReview(loaded.manifest))throw Error('Lean authoring requires a three-pass run');
   const runner=runnerForManifest(loaded.manifest,poolDir),config=read(values['--config']),pages=parsePageSelection(values['--pages']);
   const timer=setInterval(()=>{try{writeCheckpoint(poolDir,'active-time',[loaded.runDir],{command});}catch{}},1800000);
-  try{result=await runSemanticPackets({...loaded,config,stage:command,pages,attempt:Number(values['--attempt']??1),concurrency:Number(values['--concurrency']??3),regenerationReason:values['--regenerate-reason']??null,retryReason:values['--retry-reason']??null,repairFrom:values['--repair-from']?Number(values['--repair-from']):null},{runner:prepared=>withWorkerSlot(poolDir,{stage:command,runDir:loaded.runDir},()=>runner({...prepared,stage:command,profile:'transcription'}))});}finally{clearInterval(timer);}
+  try{result=await runSemanticPackets({...loaded,config,stage:command,pages,attempt:Number(values['--attempt']??1),concurrency:Number(values['--concurrency']??3),regenerationReason:values['--regenerate-reason']??null,retryReason:values['--retry-reason']??null,repairFrom:values['--repair-from']?Number(values['--repair-from']):null},{runner:prepared=>withWorkerSlot(loaded.runDir,{stage:command,runDir:loaded.runDir},()=>runner({...prepared,stage:command,profile:'transcription'}))});}finally{clearInterval(timer);}
   writeCheckpoint(poolDir,'command-finished',[loaded.runDir],{command});
  }else if(command==='export'){
   const loaded=loadRun(values['--run-id']),projectFile=values['--project-file']??path.join('booklets/projects',values['--project']+'.json');

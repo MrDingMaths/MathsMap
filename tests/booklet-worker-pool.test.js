@@ -62,6 +62,14 @@ test('worker slots coordinate across processes and release leases after errors',
  assert.deepEqual(fs.readdirSync(path.join(dir,'workflow/worker-slots')),[]);
 });
 
+test('nested run and shared-pool leases reuse ancestors without blocking three workers',async t=>{
+ const dir=fixture(t),pool=path.join(dir,'pool'),run=path.join(dir,'run');let peak=0,active=0;
+ await Promise.all(Array.from({length:3},()=>withWorkerSlot(run,{},outer=>withWorkerSlot(pool,{},()=>withWorkerSlot(run,{},async inner=>{
+  assert.equal(inner.id,outer.id);active++;peak=Math.max(peak,active);await delay(25);active--;
+ },{timeoutMs:100,pollMs:2})))));
+ assert.equal(peak,3);assert.deepEqual(fs.readdirSync(path.join(run,'workflow/worker-slots')),[]);
+ assert.deepEqual(fs.readdirSync(path.join(pool,'workflow/worker-slots')),[]);
+});
 test('nested runner uses its existing slot; interrupted ownership is never stolen',async t=>{
  const dir=fixture(t);
  await withWorkerSlot(dir,{},lease=>withWorkerSlot(dir,{},nested=>assert.equal(nested.id,lease.id)));

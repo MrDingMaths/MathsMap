@@ -23,7 +23,9 @@ export function workerQueueTimeoutMs(environment=process.env){
 export async function withWorkerSlot(runDir,details,action,{timeoutMs=workerQueueTimeoutMs(),pollMs=50,signal}={}){
  const directory=path.resolve(runDir,'workflow','worker-slots');
  const inherited=leaseContext.getStore();
- if(inherited?.directory===directory)return action(inherited);
+ for(let ancestor=inherited;ancestor;ancestor=ancestor.parent){
+  if(ancestor.directory===directory)return action(ancestor);
+ }
  fs.mkdirSync(directory,{recursive:true});
  const waitingAt=Date.now(),id=randomUUID();let lease;
  while(!lease){
@@ -39,7 +41,7 @@ export async function withWorkerSlot(runDir,details,action,{timeoutMs=workerQueu
    }
    try{fs.writeSync(fd,JSON.stringify({...details,id,pid:process.pid,startedAt:new Date().toISOString(),queueTimeoutMs:timeoutMs}));}
    catch(error){fs.closeSync(fd);fs.unlinkSync(file);throw error;}
-   fs.closeSync(fd);lease={file,id,slot,directory,queueWaitMs:Date.now()-waitingAt};break;
+   fs.closeSync(fd);lease={file,id,slot,directory,parent:inherited,queueWaitMs:Date.now()-waitingAt};break;
   }
   if(lease)break;
   if(Date.now()-waitingAt>=timeoutMs)throw Error('All three booklet worker slots are busy. Inspect workflow/worker-slots and reconcile interrupted owners before resuming; leases are never stolen.');

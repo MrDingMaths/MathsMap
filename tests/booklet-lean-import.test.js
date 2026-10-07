@@ -14,11 +14,12 @@ import {PIPELINE_POLICY} from '../scripts/booklet/import-verification.mjs';
 const temp=t=>{const dir=fs.mkdtempSync(path.join(os.tmpdir(),'lean-booklet-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));return dir;};
 const write=(dir,name,value)=>{const f=path.join(dir,name);fs.mkdirSync(path.dirname(f),{recursive:true});fs.writeFileSync(f,typeof value==='string'?value:JSON.stringify(value));return f;};
 const ref=f=>({path:f,hash:bytesHash(f)});
-test('pool refills a free slot before a slow batch finishes and never exceeds three workers',async t=>{
+test('pool gives each booklet three workers and leases its run rather than the shared pool',async t=>{
  const dir=temp(t),runs=[{runDir:path.join(dir,'run-a')},{runDir:path.join(dir,'run-b')}],done=new Set(),started=[],finished=[];let active=0,maximum=0;
  const next=async o=>({active:[],blockers:[],jobs:Array.from({length:3},(_,i)=>({id:path.basename(o.runDir)+i,stage:'visual',visualConcurrency:3,ownershipIds:['render:'+i],done:done.has(path.basename(o.runDir)+i),blockers:[]}))});
- const result=await runLeanImportPool(runs,{poolDir:path.join(dir,'pool'),next,lease:async(_d,_i,action)=>action(),run:async(_o,id)=>{started.push(id);maximum=Math.max(maximum,++active);await new Promise(r=>setTimeout(r,id==='run-a0'?80:8));active--;done.add(id);finished.push(id);return {ok:true};}});
- assert.equal(result.completed,6);assert.equal(maximum,3);assert.ok(started.indexOf('run-b0')>=0);assert.ok(finished.indexOf('run-b0')<finished.indexOf('run-a0'));
+ const counts=new Map(),peaks=new Map();
+ const result=await runLeanImportPool(runs,{poolDir:path.join(dir,'pool'),next,lease:async(directory,details,action)=>{assert.equal(directory,details.runDir);return action();},run:async(o,id)=>{started.push(id);const count=(counts.get(o.runDir)??0)+1;counts.set(o.runDir,count);peaks.set(o.runDir,Math.max(peaks.get(o.runDir)??0,count));maximum=Math.max(maximum,++active);await new Promise(r=>setTimeout(r,id==='run-a0'?80:8));active--;counts.set(o.runDir,counts.get(o.runDir)-1);done.add(id);finished.push(id);return {ok:true};}});
+ assert.equal(result.completed,6);assert.equal(maximum,6);assert.deepEqual([...peaks.values()],[3,3]);assert.ok(finished.indexOf('run-b0')<finished.indexOf('run-a0'));
 });
 test('pool drains successful work and preserves failures without automatic retries',async t=>{
  const dir=temp(t),runs=[{runDir:path.join(dir,'run')}],done=new Set();let calls=0;
@@ -90,6 +91,12 @@ test('a failure pauses only its own run while another booklet finishes and corre
  assert.equal(result.status,'needs-repair');assert.deepEqual([...done].sort(),['good0','good1']);assert.deepEqual(published,['good0']);
  assert.equal(result.plans.find(p=>p.runDir.endsWith('bad')).stopped,'needs-repair');assert.equal(result.plans.find(p=>p.runDir.endsWith('good')).stopped,null);
  const events=fs.readFileSync(result.eventsFile,'utf8').split(String.fromCharCode(10)).filter(Boolean).map(l=>JSON.parse(l));assert.ok(events.every(e=>Number.isInteger(e.activeWorkers)));
+});
+test('low reasoning can be recorded for new imports while historical medium stays unchanged',()=>{
+ const configuration=transcriptionConfiguration({reasoningOverride:{effort:'low',reason:'User-approved future model preference'}});
+ assert.equal(configuration.effort,'low');assert.doesNotThrow(()=>requireCurrentTranscription(configuration));
+ assert.equal(transcriptionConfiguration().effort,'medium');
+ assert.throws(()=>transcriptionConfiguration({reasoningOverride:{effort:'low'}}),/recorded user-request reason/);
 });
 test('benchmark arms are explicit, recorded and never reach the Codex runner',async t=>{
  const arm={benchmarkArm:{id:'claude-sonnet-5-5-relay',reason:'User-requested Sonnet benchmark'}},configuration=transcriptionConfiguration(arm);

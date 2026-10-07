@@ -11,7 +11,7 @@ export function transcriptionConfiguration(record={}) {
     return {...arm,benchmarkArm:{id:record.benchmarkArm.id,reason:record.benchmarkArm.reason}};
   }
   const override=record.reasoningOverride;
-  if(override&&(override.effort!=='medium'||typeof override.reason!=='string'||!override.reason.trim()))throw new Error('Reasoning override requires medium and a recorded user-request reason');
+  if(override&&(!['low','medium'].includes(override.effort)||typeof override.reason!=='string'||!override.reason.trim()))throw new Error('Reasoning override requires low or medium and a recorded user-request reason');
   return {...TRANSCRIPTION_DEFAULT,...(override?{effort:override.effort,reasoningOverride:{...override}}:{})};
 }
 export function requireCurrentTranscription(configuration) {
