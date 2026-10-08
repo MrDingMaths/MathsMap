@@ -30,7 +30,8 @@ const entries = directory => fs.readdirSync(directory, {withFileTypes: true});
 
 function referenceCandidates(raw) {
   // Evidence notes often continue as prose; try each shorter prefix.
-  const trim = value => value.replace(/[.\s`'",;)\]]+$/, '');
+  // A trailing slash must go too, or a named folder would not match its contents.
+  const trim = value => value.replace(/[.\s`'",;)\]\/]+$/, '');
   const out = [trim(raw)];
   for (let value = out[0]; ;) {
     const cut = Math.max(value.lastIndexOf(' '), value.lastIndexOf(';'), value.lastIndexOf(','), value.lastIndexOf(')'), value.lastIndexOf('#'), value.lastIndexOf('`'));
@@ -47,20 +48,47 @@ export function liveReferences(root) {
   const files = new Set(), directories = new Set(), ancestors = new Set();
   // A note that names a whole run folder points at no particular evidence.
   const runDepth = parts => parts[1] === 'full-imports' || parts[1] === 'content-campaign' ? 3 : 2;
-  const add = relative => {
-    for (const candidate of referenceCandidates(relative)) {
-      const info = stat(path.join(root, candidate));
-      if (!info) continue;
-      const parts = candidate.split('/');
-      if (info.isDirectory() && parts.length <= runDepth(parts)) return;
-      (info.isDirectory() ? directories : files).add(key(candidate));
-      for (let n = 1; n < parts.length; n++) ancestors.add(key(parts.slice(0, n).join('/')));
-      return;
+  const realRoot = fs.realpathSync.native(root);
+  const register = (candidate, directory) => {
+    const parts = candidate.split('/');
+    if (directory && parts.length <= runDepth(parts)) return;
+    (directory ? directories : files).add(key(candidate));
+    for (let n = 1; n < parts.length; n++) ancestors.add(key(parts.slice(0, n).join('/')));
+  };
+  const exact = candidate => {
+    const file = path.join(root, candidate), info = stat(file);
+    if (!info) return false;
+    register(candidate, info.isDirectory());
+    // A note may name its file through a link, such as the work folder
+    // linked inside a frozen copy. Protect the file it really is as well.
+    let real;
+    try { real = posix(path.relative(realRoot, fs.realpathSync.native(file))); } catch { return true; }
+    if (real && !real.startsWith('..') && !path.isAbsolute(real) && key(real) !== key(candidate)) register(real, info.isDirectory());
+    return true;
+  };
+  const add = relative => { for (const candidate of referenceCandidates(relative)) if (exact(candidate)) return; };
+  // A booklet also cites files by a path relative to its own run folder.
+  const RELATIVE = /^[\w.@()+ -]+(?:[\\\/][\w.@()+ -]+)+\.\w{2,5}$/;
+  const runRelative = text => {
+    let project;
+    try { project = JSON.parse(text); } catch { return; }
+    const runs = new Set(), cited = new Set();
+    const visit = (value, name) => {
+      if (typeof value === 'string') {
+        if (name === 'runId' && /^[\w.-]+$/.test(value)) runs.add(value);
+        else if (value.length < 300 && RELATIVE.test(value)) cited.add(value.split(/[\\\/]+/).join('/'));
+      } else if (value && typeof value === 'object') for (const [child, item] of Object.entries(value)) visit(item, Array.isArray(value) ? name : child);
+    };
+    visit(project, '');
+    for (const relative of cited) {
+      if (relative.split('/').some(part => part === '.' || part === '..')) continue;
+      for (const run of runs) { exact(`.booklet-work/full-imports/${run}/${relative}`); exact(`.booklet-work/full-imports/${run}/lanes/exact/${relative}`); }
     }
   };
-  const scan = file => {
+  const scan = (file, booklet = false) => {
     let text;
     try { text = fs.readFileSync(file, 'utf8'); } catch { return; }
+    if (booklet) runRelative(text);
     if (!text.includes('booklet-work') && !text.includes('agywork') && !text.includes('__booklet/full-imports')) return;
     for (const match of text.matchAll(/\.(booklet-work|agywork)((?:(?:\\\\|\\|\/)+[^"`\\\/\r\n<>|*?:]+)+)/g))
       add('.' + match[1] + '/' + match[2].split(/[\\\/]+/).filter(Boolean).join('/'));
@@ -68,17 +96,17 @@ export function liveReferences(root) {
       try { add('.booklet-work/full-imports/' + decodeURIComponent(match[1]) + '/' + decodeURIComponent(match[2])); } catch { /* malformed escape */ }
     }
   };
-  const walk = (directory, recursive) => {
+  const walk = (directory, recursive, booklet = false) => {
     let list;
     try { list = entries(directory); } catch { return; }
     for (const entry of list) {
       if (entry.isSymbolicLink() || entry.name === '.revisions' || entry.name === '.sync') continue;
       const file = path.join(directory, entry.name);
       if (entry.isDirectory()) { if (recursive) walk(file, true); }
-      else if (/\.(?:json|md)$/i.test(entry.name)) scan(file);
+      else if (/\.(?:json|md)$/i.test(entry.name)) scan(file, booklet && entry.name.endsWith('.json'));
     }
   };
-  walk(path.join(root, 'booklets/projects'), false);
+  walk(path.join(root, 'booklets/projects'), false, true);
   walk(path.join(root, 'booklets/module-bank'), false);
   walk(path.join(root, 'booklets/question-bank'), false);
   walk(path.join(root, 'booklets/provenance'), true);

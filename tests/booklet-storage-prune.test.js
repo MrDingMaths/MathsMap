@@ -112,6 +112,25 @@ test('records mode keeps essentials, leases, references and tracked files in idl
   assert.ok(plan.skipped.some(item => item.path === '.agywork/content-campaign/live'));
 });
 
+test('a folder named with a trailing slash, a file named through a link and a run-relative file are all kept', t => {
+  const f = fixture(t), old = '.booklet-work/full-imports/old-run/';
+  for (const file of ['renders-final/page-1.png', 'alias-proof.json', 'representatives/before-3.png', 'representatives/uncited.png']) f.put(old + file);
+  let linked = true;
+  // Frozen copies link back to the work folder, and notes sometimes cite that route.
+  try { f.link('.booklet-work/full-imports/old-run', old + 'review/rasters/work'); } catch (error) { if (error.code !== 'EPERM') throw error; linked = false; }
+  f.put('booklets/projects/more.json', {text: JSON.stringify({
+    source: {runId: 'old-run'},
+    renders: old + 'renders-final/ (pages 1 to 12)',
+    proof: old + 'review/rasters/work/alias-proof.json',
+    review: {actualPreRepairPages: ['representatives/before-3.png'], speed: '60 km/h', path: '../outside.json'},
+  })});
+  assert.deepEqual(applyPrune(f.root, f.plan({records: true})).errors, []);
+  assert.ok(f.exists(old + 'renders-final/page-1.png'), 'contents of a folder cited with a trailing slash');
+  if (linked) assert.ok(f.exists(old + 'alias-proof.json'), 'file cited through a link');
+  assert.ok(f.exists(old + 'representatives/before-3.png'), 'file cited relative to the booklet run folder');
+  assert.ok(!f.exists(old + 'representatives/uncited.png') && !f.exists(old + 'draft.project.json'), 'unreferenced records still go');
+});
+
 test('references resolve through mixed separators and trailing prose; unsafe plan paths are refused', t => {
   const f = fixture(t), references = liveReferences(f.root);
   assert.ok(references.files.has('.booklet-work/full-imports/old-run/referenced-proof.json'));
