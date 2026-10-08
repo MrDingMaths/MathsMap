@@ -1,9 +1,0 @@
-import {transform,block,find,INK,BLUE,dryRunMain} from './layout-repair-common-20261004.mjs';
-import {prependGiven} from './layout-repair-alignment-20261004.mjs';
-export const PROJECTS=['earning-money-v1','operations-fractions-decimals-v1','logarithms-v1'];
-export function repairGivenWorking(source){return transform(source,'given-working',p=>{
- if(p.id==='earning-money-v1'){const b=block(p,'p13-pay-example-group');if(b.sourceReview?.intentionalDepartures?.some(s=>String(s).includes('(given-working)')))return;for(const name of ['normal','overtime','total']){const given=find(b.content,`p13-lily-${name}-formula`),working=find(b.content,`p13-lily-${name}-working`),text=given.inlines[0].text;const tex=text.split(' = ').map(s=>s.split(' × ').map(t=>String.raw`\text{${t}}`).join(String.raw`\times`)).join('=');given.inlines=[{type:'math',latex:tex}];prependGiven(given,working,b);const slots=find(b.content,'p13-example-lily-solution').slots;slots.find(s=>s.blocks.includes(given)).blocks.splice(0,1);}}
- if(p.id==='operations-fractions-decimals-v1'){const b=block(p,'p28-q4'),m=find(b.content,'p28-q4-example').inlines[0];m.latex=m.latex.replace('#000000',INK);find(b.content,'p28-q4-example').align='center';}
- if(p.id==='logarithms-v1'){const b=block(p,'p27-q22');if(b.sourceReview?.intentionalDepartures?.some(s=>String(s).includes('(given-working)')))return;const m=find(b.content,'p27-q22-example').inlines[0],old=m.latex.replace(/^\\begin\{align\*\}/,'').replace(/\\end\{align\*\}$/,'').split('\\\\');m.latex=String.raw`\begin{aligned}`+old.map((row,i)=>{const colour=i===0?INK:BLUE;return String.raw`\color{${colour}}`+row.replace('&',String.raw`&\color{${colour}}`);}).join(String.raw`\\`)+String.raw`\end{aligned}`;delete m.colour;}
-});}
-await dryRunMain(import.meta.url,repairGivenWorking,PROJECTS);

@@ -1,8 +1,0 @@
-import {INK,BLUE,retire} from './layout-repair-common-20261004.mjs';
-export function rows(latex){return latex.replace(/^\\(?:displaystyle\s*)/,'').replace(/^\\begin\{(?:aligned|align\*?)\}/,'').replace(/\\end\{(?:aligned|align\*?)\}$/,'').split(/\\\\(?:\[[^\]]*\])?/);}
-export function relation(row){let depth=0;for(let i=0;i<row.length;i++){if(row[i]==='{')depth++;if(row[i]==='}')depth--;if(depth)continue;const m=/^(=|\\approx(?![A-Za-z]))/.exec(row.slice(i));if(m)return [row.slice(0,i).replaceAll('&','').trim(),m[0],row.slice(i+m[0].length).replaceAll('&','').trim()];}throw Error('No relation in '+row);}
-export function alignIndependentParagraphs(paragraphs){const parsed=paragraphs.map(p=>({p,math:p.inlines[0],rows:rows(p.inlines[0].latex).map(relation)})),all=parsed.flatMap(x=>x.rows),phantom=values=>String.raw`\smash{\hphantom{\begin{gathered}`+ [...new Set(values)].join(String.raw`\\`)+String.raw`\end{gathered}}}`;
- const left=phantom(all.map(r=>r[0])),right=phantom(all.map(r=>r[2]));
- for(const x of parsed){x.p.align='center';const ink=x.math.colour??INK;x.math.latex=String.raw`\begin{aligned}`+x.rows.map(([lhs,rel,rhs])=>String.raw`\color{${ink}}${left}\mathllap{${lhs}}&\color{${ink}}${rel}\mathrlap{${rhs}}${right}`).join(String.raw`\\`)+String.raw`\end{aligned}`;x.math.display=true;}
-}
-export function prependGiven(given,working,b){const gm=given.inlines[0],wm=working.inlines[0],old=rows(wm.latex),[lhs,rel,rhs]=relation(gm.latex);wm.latex=String.raw`\begin{aligned}\color{${INK}}${lhs}&\color{${INK}}${rel}${rhs}\\`+old.map(row=>String.raw`\color{${BLUE}}`+row).join(String.raw`\\`)+String.raw`\end{aligned}`;wm.display=true;delete wm.colour;working.align='center';retire(b,[given.id]);}
