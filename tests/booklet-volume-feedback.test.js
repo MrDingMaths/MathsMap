@@ -6,6 +6,7 @@ import {dottedQuestionScaffolds} from '../scripts/booklet/normalise-question-sca
 import fs from 'node:fs';
 import {underlinedQuestionScaffolds} from '../public/libs/maths-editor/question-scaffolds.mjs';
 import {inspectPresentationFidelity} from '../src/lib/booklet-presentation-verification.js';
+import {sourceDifficultyPictograms} from '../src/lib/booklet-difficulty-headings.js';
 test('vertical alignment and equal diagram slots survive arrangement normalization',()=>{
  const a={version:1,root:group('row',[{...item('diagram'),verticalAlign:'bottom',minHeight:57}],'row')};
  assert.deepEqual(normalizeArrangement(normalizeArrangement(a)),normalizeArrangement(a));
@@ -61,4 +62,23 @@ test('current projects and bank questions do not reintroduce underlined writing 
   for(const field of underlinedQuestionScaffolds(value))issues.push(`${directory}/${file}:${field.location}`);
  }
  assert.deepEqual(issues,[],'Use native dotted scaffolds and the guarded maintenance transaction.');
+});
+
+test('presentation readiness rejects source chilli pictograms in rendered content but not in evidence',async()=>{
+ const block={id:'q',type:'question',content:{id:'q-root',prompt:'\u{1F336}️ Simplify $2x+3x$.'},sourceReview:{sourcePictograms:[{appearance:'One red chilli \u{1F336}'}]}};
+ const p={settings:{},sections:[{phase:'practice',blocks:[block]}]};
+ assert.ok((await inspectPresentationFidelity(p)).issues.some(i=>i.kind==='source-difficulty-pictogram'&&i.targetId==='q'));
+ block.content.prompt='A chilli sauce recipe uses 3 chillies. Simplify $2x+3x$.';
+ assert.equal((await inspectPresentationFidelity(p)).complete,true);
+ block.content.questionDiagrams=[{id:'d',src:'evidence/chilli.png',alt:'Red chilli difficulty icon'}];
+ assert.deepEqual(sourceDifficultyPictograms(block).map(f=>f.location),['/content/questionDiagrams/0/alt']);
+});
+
+test('current projects and bank questions keep source chilli pictograms out of rendered content',()=>{
+ const issues=[];
+ for(const directory of ['booklets/projects','booklets/question-bank'])for(const file of fs.readdirSync(new URL('../'+directory+'/',import.meta.url)).filter(f=>f.endsWith('.json')&&f!=='manifest.json')){
+  const value=JSON.parse(fs.readFileSync(new URL('../'+directory+'/'+file,import.meta.url)));
+  for(const field of sourceDifficultyPictograms(value))issues.push(`${directory}/${file}:${field.location}`);
+ }
+ assert.deepEqual(issues,[],'Record source difficulty pictograms as evidence only; Studio draws chillies from the reasoning score.');
 });

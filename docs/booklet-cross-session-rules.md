@@ -69,6 +69,14 @@ Keep the 17 mm portrait width and 5 mm gap. This supersedes cropping source
 portraits for new work. Keep the character's name and any image a question
 depends on.
 
+**Source difficulty pictograms (8 October 2026).** Chillies, stars and similar
+markers printed beside a question number are source evidence only. Never
+transcribe them into a prompt, answer or diagram: Studio shows its own
+printed chillies under the question number from the reasoning score (65+ one, 80+ two, 87+ three,
+94+ four), so a transcribed marker would appear twice. Record the source count
+against the inventory entry. Presentation readiness rejects a chilli in rendered
+content (`sourceDifficultyPictograms` in `src/lib/booklet-difficulty-headings.js`).
+
 Implementation: new run configurations set
 `authoringPreferences: "house-presets-v1"`; see
 [three-pass imports](booklet-three-pass-import.md). The presets are the existing

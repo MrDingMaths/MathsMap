@@ -7,7 +7,20 @@
  import {resolveArrangement,arrangementExamTitle,arrangementRowChildren} from '../lib/booklet-arrangement.js';
  import {combinedExampleTikz} from '../lib/booklet-preview.js';
  import {hasStandaloneMathTable} from '../lib/booklet-labels.js';
- let {block,arrangement,layoutOverrides={},selected='',onselect=null,onresize=null,onmeasure=null,onSpaceResize=null,onmove=null,assetUrl=s=>s,showSolutions=true,showSpaces=true,showTitle=true,fillCloze=false,answerSpaceOverrides={},diagramColourModes={},editMode=false}=$props();
+ let {block,arrangement,layoutOverrides={},selected='',onselect=null,onresize=null,onmeasure=null,onSpaceResize=null,onmove=null,assetUrl=s=>s,showSolutions=true,showSpaces=true,showTitle=true,fillCloze=false,answerSpaceOverrides={},diagramColourModes={},editMode=false,answerHref=null,answerPartHref=null}=$props();
+ // Question labels jump to the answer; a part without its own answer uses its first answered descendant.
+ // In Studio a part's answer may sit on an answer page that is not rendered yet, so the workspace reveals it.
+ function openPartAnswer(event,ownerId){
+  if(ownerId===block.content?.id||!editMode)return;
+  const href=labelHref(ownerId);if(!href?.includes('-part-'))return;
+  event.preventDefault();event.stopPropagation();documentActions?.openAnswer?.(href.slice(1));
+ }
+ function labelHref(ownerId){
+  if(ownerId===block.content?.id||!answerPartHref)return answerHref;
+  const find=n=>!n?null:n.id===ownerId?n:(n.children??[]).map(find).find(Boolean);
+  let node=find(block.content);while(node?.children?.length&&!node.answer?.short&&!node.answer?.worked)node=node.children[0];
+  return answerPartHref+(node?.id??ownerId);
+ }
  const requestEdit=getContext('booklet-edit-request');
  const documentActions=getContext('booklet-document-actions');
  const inlineEditing=getContext('booklet-inline-edit');
@@ -20,7 +33,7 @@
  const getLabels=getContext('booklet-labels');
  let contentWidth=$state(0);
  const resolved=$derived(resolveArrangement(block,arrangement,{...layoutOverrides,editable:editMode&&!!documentActions&&!onselect,labels:getLabels?.()??layoutOverrides.labels},contentWidth>0?contentWidth*25.4/96:180));
- function choose(event,n){if(onselect){event.stopPropagation();onselect(n.id);}else if(editMode&&requestEdit){if(event.target.closest('.editable-booklet-text,[data-diagram-id]'))return;event.stopPropagation();if(documentActions){
+ function choose(event,n){if(event.target.closest('a.answer-jump'))return;if(onselect){event.stopPropagation();onselect(n.id);}else if(editMode&&requestEdit){if(event.target.closest('.editable-booklet-text,[data-diagram-id]'))return;event.stopPropagation();if(documentActions){
   // An answer space has no text to click into, so the space itself is the target.
   if(direct&&resolved.entries.get(n.ref)?.kind==='space'&&!(event.shiftKey||event.metaKey)){documentActions.selectLayout(block.id,n.id,event);return;}
   documentActions.select([block.id],event);return;}const e=resolved.entries.get(n.ref);requestEdit({rootId:block.type==='question'?block.content.id:block.id,pointer:'/content',selectedArrangementId:n.id,selectedNodeId:e?.nodeId,selectedDiagramId:e?.diagramId,origin:event.currentTarget});}}
@@ -86,7 +99,7 @@
    {#if drawn.format==='tikz'}<Tikz code={showSolutions&&combined?combined:drawn.code} eager={true}/>{:else}<div style={region?.frame}><img style={region?.image} src={assetUrl(drawn.src)} alt={drawn.alt??'Diagram'}/></div>{/if}
    {#if !combined&&showSolutions}{#each overlays as overlay}<div class="arr-overlay">{#if overlay.format==='tikz'}<Tikz code={overlay.code} eager={true} transparent={true}/>{:else}<img src={assetUrl(overlay.src)} alt={overlay.alt??'Solution overlay'}/>{/if}</div>{/each}{/if}
   </div>
- {:else if entry.kind==='label'}<b>{entry.value}</b>
+ {:else if entry.kind==='label'}<b data-question-number={entry.ownerId===block.content?.id&&block.type==='question'?'':undefined}>{#if answerHref&&entry.value&&entry.role!=='solution'}<a class="answer-jump" href={labelHref(entry.ownerId)} onclick={e=>openPartAnswer(e,entry.ownerId)}>{entry.value}</a>{:else}{entry.value}{/if}</b>
  {:else if entry.kind==='space'}
   {#if showSpaces||onselect}<div class="arr-space" class:space-edit={!!onselect||editMode&&!!onSpaceResize} style:height={spaceHeight(n,entry)+'mm'} style:min-height={spaceHeight(n,entry)+'mm'}></div>{/if}
  {:else}{#if showTitle&&arrangementExamTitle(block,entry)}<strong class="exam-label" style:display="block">{arrangementExamTitle(block,entry)}</strong>{/if}{#if editMode&&!onselect&&documentActions}<EditableBookletText value={entry.value} displayValue={entry.displayValue??null} rootId={entry.ownerId} pointer={'/'+entry.field} {fillCloze} {editMode}/>{:else}<BookletRichText alignRelations={!/prompt$/i.test(entry.field ?? "")} text={entry.displayValue??entry.value} {fillCloze}/>{/if}{#if onselect&&entry.kind==='document'&&entry.value.blocks[0]?.type==='paragraph'&&!entry.value.blocks[0]?.inlines?.length}<span class="empty-label">Empty paragraph</span>{/if}
@@ -118,6 +131,7 @@
  .arr-diagram :global(.tikz-wrap svg){filter:none!important;display:block}
  .space-handle,.width-handle{position:absolute;z-index:5;font:12px system-ui;padding:0;min-height:18px;border:1px solid var(--booklet-blue);background:white;color:var(--booklet-blue);touch-action:none}.space-handle{bottom:-9px;left:45%;width:30px;cursor:ns-resize}.width-handle{right:-10px;top:40%;width:20px;height:30px;cursor:ew-resize}
  .arr-group:not(.arr-row){justify-content:var(--arr-vertical,start)}
+ .answer-jump{color:inherit;text-decoration:none}
  .booklet-arrangement{grid-column:1/-1;font-size:11pt;line-height:1.32;min-width:0}.arr-group{position:relative;display:flex;flex-direction:column;gap:var(--arr-gap);min-width:0;max-width:100%;box-sizing:border-box;break-inside:avoid}.arr-row{display:grid;align-items:var(--arr-vertical,start)}.arr-row>:global([data-arrangement-id]){align-self:var(--arr-vertical,start)}.arr-item{position:relative;min-width:0;max-width:100%;box-sizing:border-box;break-inside:avoid}.labelled{padding-left:7mm}.labelled>.label-item{position:absolute;left:var(--arr-label-left,0mm);top:0;width:6mm}.arr-diagram{max-width:100%}.arr-diagram img{max-width:100%;height:auto;display:block}.arr-diagram :global(svg){width:100%;max-width:100%;height:auto}.grayscale{filter:grayscale(1) contrast(1.12)}.solution-hidden{visibility:hidden;pointer-events:none}.interactive{cursor:pointer;outline:1px dashed transparent}.arr-item.interactive:hover{outline-color:var(--booklet-blue)}.selected{outline:2px solid var(--booklet-blue)!important;outline-offset:2px}.editing .arr-group{min-height:6mm}.space-edit{min-height:18px;background:var(--booklet-blueFill);border-bottom:1px dashed var(--booklet-muted)}.empty-label{font:11px system-ui;color:var(--booklet-muted)}.empty-label{position:absolute;top:0;left:0}.column-handle{position:absolute;top:0;bottom:0;transform:translateX(-50%);width:18px;border:0;background:#268cff22;color:var(--booklet-blue);cursor:ew-resize;z-index:3;padding:0;opacity:0}.arr-row.selected>.column-handle,.column-handle:hover,.column-handle:focus{opacity:1}.editing [draggable]:hover{background-color:#268cff05}@media print{.selected,.interactive{outline:none!important}.column-handle,.empty-label{display:none}.space-edit{min-height:0;background:none;border:0}}
 
  /* Keep question labels in the same first-baseline row as their prompt. This

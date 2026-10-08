@@ -1,5 +1,5 @@
 import {isLeanReview} from './booklet-review-profile.js';
-import {standaloneDifficultyHeading} from './booklet-difficulty-headings.js';
+import {standaloneDifficultyHeading,sourceDifficultyPictograms} from './booklet-difficulty-headings.js';
 import {contentSource,hasVisibleContent} from './document-content.js';
 import {signature} from './booklet-content-verification.js';
 import {normalizeArrangement} from '../../public/libs/maths-editor/arrangement-model.mjs';
@@ -44,6 +44,7 @@ export async function inspectPresentationFidelity(project){
     const review=block.sourceReview;
     if(project.settings?.exerciseOrganisation==='topic'&&standaloneDifficultyHeading(block)&&!block.presentation?.editorOnly)issue('printed-difficulty-heading',block.id,'Keep standalone source difficulty headings as editor metadata, not printable content.');
     for(const field of underlinedQuestionScaffolds(block))issue('underlined-question-scaffold',block.id,`Replace the underlined writing blank at ${field.location} with a native dotted cloze or dotted maths, preserving handwriting space and source evidence.`);
+    for(const field of sourceDifficultyPictograms(block))issue('source-difficulty-pictogram',block.id,`Remove the source chilli at ${field.location}; keep its count as source evidence only. Studio shows chillies from the reasoning score.`);
     for(const occurrence of activeRasterOccurrences(block)){
       // Standard avatars are house assets, not retained source images.
       if(isStandardAvatar(occurrence.node.src))continue;

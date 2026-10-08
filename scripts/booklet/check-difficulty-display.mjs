@@ -24,8 +24,10 @@ const ready=()=>page.waitForFunction(()=>!document.querySelector('.workspace-loa
 try{
  await page.goto(base+'/#/booklet?stage=projects&project='+record.id,{waitUntil:'domcontentloaded'});await ready();
  await page.locator('.flow-paper [data-editor-difficulty="linked"]').first().waitFor();
- assert.match(await page.locator('.flow-paper [data-editor-difficulty="linked"]').first().innerText(),/Mastery\s+55\/100/);
- assert.match(await page.locator('.flow-paper [data-editor-difficulty="local"]').first().innerText(),/Development\s+30\/100/);
+ const marker=id=>page.locator('.flow-paper [data-editor-difficulty="'+id+'"]').first(),band=id=>page.locator('.flow-paper .practice:has([data-editor-difficulty="'+id+'"])').first().getAttribute('data-reasoning-band');
+ assert.match(await marker('linked').getAttribute('title'),/Mastery, reasoning 55\/100/);assert.equal(await band('linked'),'Mastery');assert.equal(await marker('linked').getAttribute('data-chillies'),'0');
+ assert.match(await marker('local').getAttribute('title'),/Development, reasoning 30\/100/);assert.equal(await band('local'),'Development');
+ assert.equal(await page.locator('.flow-paper .practice:has([data-editor-difficulty="linked"]) [data-editor-bank]').first().getAttribute('data-editor-bank'),'synced');assert.equal(await page.locator('.flow-paper .practice:has([data-editor-difficulty="local"]) [data-editor-bank]').first().getAttribute('data-editor-bank'),'local');
  assert.equal(await page.locator('[data-editor-difficulty="unrated"],[data-editor-difficulty="theory"]').count(),0);checks.push('Linked and legacy local badges without exercise metadata; unrated and teaching excluded');
  await page.getByRole('button',{name:'More options',exact:true}).click();await page.locator('[data-question-difficulty]').waitFor();assert.match(await page.locator('[data-question-difficulty]').innerText(),/Connect two representations/);checks.push('Current bank rationale is accessible in question properties');
  await page.getByRole('button',{name:'Close panel',exact:true}).click();
@@ -36,6 +38,6 @@ try{
  await page.setViewportSize({width:1550,height:1100});
  for(const edition of ['student','short','worked','with-short','with-worked']){await page.getByLabel('Booklet edition',{exact:true}).selectOption(edition);await ready();await page.emulateMedia({media:'print'});assert.equal(await page.locator('.project-print [data-editor-difficulty]').count(),0);assert.ok(await page.locator('[data-editor-difficulty]').evaluateAll(els=>els.every(el=>getComputedStyle(el).display==='none')));await page.emulateMedia({media:'screen'});}
  checks.push('All five editions exclude difficulty badges from print');
- await page.getByLabel('Booklet edition',{exact:true}).selectOption('student');await ready();await page.reload();await ready();assert.match(await page.locator('.flow-paper [data-editor-difficulty="linked"]').first().innerText(),/55\/100/);checks.push('Reopen initializes current ratings');
+ await page.getByLabel('Booklet edition',{exact:true}).selectOption('student');await ready();await page.reload();await ready();assert.match(await marker('linked').getAttribute('title'),/55\/100/);checks.push('Reopen initializes current ratings');
  assert.deepEqual(errors,[]);console.log(JSON.stringify({checks,trigQuestions:91,errors}));
 }catch(e){await page.screenshot({path:out+'/failure.png',fullPage:true});throw e;}finally{fs.writeFileSync(out+'/report.json',JSON.stringify({checks,trigQuestions:91,errors,finished:new Date().toISOString()},null,2)+'\n');await browser.close();}

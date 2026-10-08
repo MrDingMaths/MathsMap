@@ -1,5 +1,5 @@
 <script>
-  import {questionDifficulty} from '../lib/booklet-bank-ratings.js';
+  import {questionDifficulty,chilliCount} from '../lib/booklet-bank-ratings.js';
   import {isTheoryReview} from '../lib/question-bank-eligibility.js';
   import { houseStyleVariables } from '../lib/booklet-house-style.js';
   import { sourceRegionStyles } from '../lib/diagram-source-region.js';
@@ -54,6 +54,17 @@
   const calloutLabel = (block) => block.label ?? (block.variant === 'investigation' ? '' : block.variant === 'key-ideas' ? 'Key ideas' : block.variant === 'info' ? 'Definition' : 'Theory');
   const calloutDescription = (block) => block.title === calloutLabel(block) ? '' : block.variant === 'investigation' ? investigationDescription(block.title) : block.title;
 
+  // Flexible pages show topic titles and generated exercise headings, so their headings are renamed in place rather than through the rich-text editor.
+  const headingsEditable=$derived(editMode&&!!page.flexible&&(page.mode??'student')==='student'&&!!documentActions?.retitle);
+  const answerHrefFor=block=>block.flow?.answerMode?`#${anchorPrefix}answer-${block.flow.answerMode}-${block.id}`:null;
+  // Editor-only: whether the question is in the bank and whether its copy is current.
+  function bankMarker(block){
+    const item=documentActions?.bankState?.(block.id),bankId=item?.bankId??block.bankRef?.id;
+    if(!bankId)return {state:'local',label:'Not in bank',title:'Booklet-local question: not in the question bank'};
+    const stale=['update','conflict','pending','missing'].includes(item?.state);
+    return {state:stale?item.state:'synced',label:stale?'Bank !':'Bank',title:`Question bank: ${bankId}${item?.owner?' (this booklet is the original)':''}${item?.state?' · '+item.state:''}`};
+  }
+
   function editProps() {
     return { editMode, onContentEdit, onContentRevert, onEditingChange, oncommit: onContentEdit, onrevert: onContentRevert, oneditingchange: onEditingChange, isEdited };
   }
@@ -68,6 +79,13 @@
     return () => observer.disconnect();
   });
 </script>
+
+{#snippet headingEditor(value, target)}
+  {#key value}<span class="heading-edit" role="textbox" tabindex="0" aria-label="Edit heading" contenteditable="true" spellcheck="false"
+    onpaste={e=>{e.preventDefault();document.execCommand('insertText',false,(e.clipboardData?.getData('text/plain')??'').replace(/\s+/g,' '));}}
+    onkeydown={e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();e.currentTarget.blur();}else if(e.key==='Escape'){e.currentTarget.textContent=value;e.currentTarget.blur();}}}
+    onblur={e=>{const next=e.currentTarget.textContent.replace(/\s+/g,' ').trim();if(!next||next===value){e.currentTarget.textContent=value;return;}documentActions.retitle(target,next);}}>{value}</span>{/key}
+{/snippet}
 
 {#snippet diagramView(diagram, transparent=false)}
   {#if diagram?.format === 'tikz' && diagram.code}
@@ -109,7 +127,7 @@
   </div>
 {/snippet}
 
-{#snippet questionView(block, number)}
+{#snippet questionView(block, number, answerHref = null)}
   {@const visibleNumber=usesReviewNumbers(block)?(labels[block.content.id]===''?null:Number(labels[block.content.id]??1)):usesTeachingLetters(block)?null:number}
   {@const trailing=page.blocks.find(b=>b.id===block.pairedBlockId&&!(block.sourceAtom&&b.sourceAtom))}
   {@const questionMode = teachingQuestionMode(block, {showReviewAnswers, showIdentifyAnswers, showGuidedPracticeAnswers, showKeyIdeasAnswers}, solutionMode)}
@@ -118,12 +136,16 @@
     <PracticeQuestionRenderer answerColumnsLimit={answerSheet ? 2 : null} {blockLayouts} compact={block.compact ?? false} question={previewQuestion(block)} number={visibleNumber} showTitle={false} showSpaces={false} eagerDiagrams={true} {...editProps()} />
   {/if}
   <div class="theory-question-space" class:copy-space={block.pedagogyRole==='worked-example'&&!showTheorySolutions} aria-hidden={block.pedagogyRole==='worked-example'&&!showTheorySolutions} inert={block.pedagogyRole==='worked-example'&&!showTheorySolutions}>
-  <PracticeQuestionRenderer trailingQuestion={trailing?previewQuestion(trailing):null} answerColumnsLimit={answerSheet ? 2 : null} {blockLayouts} compact={block.compact ?? false} question={previewQuestion(block)} number={visibleNumber} showTitle={Boolean(visibleImportedQuestionTitle(block))} showSpaces={questionMode === 'student'&&block.pedagogyRole!=='worked-example'} showShortAnswers={questionMode === 'short'} showWorkedSolutions={questionMode === 'worked'} {answerSpaceOverrides} {diagramColourModes} {onSpaceResize} eagerDiagrams={true} {...editProps()} />
+  <PracticeQuestionRenderer {answerHref} answerPartHref={answerHref?`#${anchorPrefix}answer-${block.flow.answerMode}-part-`:null} trailingAnswerHref={answerHref&&trailing?answerHrefFor(trailing):null} trailingQuestion={trailing?previewQuestion(trailing):null} answerColumnsLimit={answerSheet ? 2 : null} {blockLayouts} compact={block.compact ?? false} question={previewQuestion(block)} number={visibleNumber} showTitle={Boolean(visibleImportedQuestionTitle(block))} showSpaces={questionMode === 'student'&&block.pedagogyRole!=='worked-example'} showShortAnswers={questionMode === 'short'} showWorkedSolutions={questionMode === 'worked'} {answerSpaceOverrides} {diagramColourModes} {onSpaceResize} eagerDiagrams={true} {...editProps()} />
   </div>
 {/snippet}
 
 {#snippet blockBody(block, index = 0, insideAtom = false)}
-  {@const rating=questionDifficulty(block)}
+  {@const rated=block.type==='question'&&page.section?.phase==='practice'&&!isTheoryReview(block,page.section)}
+  {@const marked=editMode&&rated}
+  {@const rating=rated?questionDifficulty(block):null}
+  {@const chillies=rating?chilliCount(rating.reasoningScore):0}
+  {@const bank=marked?bankMarker(block):null}
   {#if block.flow?.exerciseAnchorBefore&&firstPlacement(block)&&!(page.section?.headingStyle!=='none'&&page.showTopicHeading!==false)}<span id={`${anchorPrefix}exercise-topic-${block.flow.exerciseAnchorBefore}`}></span>{/if}
   {#if block.flow?.exerciseHeadingBefore&&!(page.showDifficultyHeading!==false&&page.section?.difficultyTitle===`Exercise ${block.flow.exerciseHeadingBefore}`)}<BookletHeading kind="exercise">Exercise {block.flow.exerciseHeadingBefore}</BookletHeading>{/if}
   {#if block.type === 'question'}
@@ -134,11 +156,10 @@
     {:else if isGuided(block) && !insideAtom}
       <section class="theory-section"><BookletSectionHeader kind="guided-practice" /><div class="body-box">{@render questionView(block, null)}</div></section>
     {:else}
-      <section class:atom-practice={insideAtom} class="practice" id={block.flow?.exerciseNumber&&!block.flow?.teachingLabel&&firstPlacement(block)?`${anchorPrefix}question-${block.id}`:undefined}>
+      <section class:atom-practice={insideAtom} class="practice" data-reasoning-band={marked?rating?.difficulty:undefined} data-chillies={chillies||undefined} id={block.flow?.exerciseNumber&&!block.flow?.teachingLabel&&firstPlacement(block)?`${anchorPrefix}question-${block.id}`:undefined}>
         {#if block.flow?.exerciseNumber&&block.pairedBlockId&&firstPlacement(block)}<span id={`${anchorPrefix}question-${block.pairedBlockId}`}></span>{/if}
-        {#if editMode&&page.section?.phase==='practice'&&!isTheoryReview(block,page.section)&&rating}<span class="editor-difficulty" data-editor-difficulty={block.id} title={`Difficulty: ${rating.difficulty}, reasoning ${rating.reasoningScore}/100${rating.difficultyReason?'; '+rating.difficultyReason:''}`}>{rating.difficulty}<br/>{rating.reasoningScore}/100</span>{/if}
-        {#if block.flow?.answerMode}<a class="answer-jump" href={`#${anchorPrefix}answer-${block.flow.answerMode}-${block.id}`} aria-label={`Answers for Exercise ${block.flow.exerciseNumber}, question ${block.sourceOrder}`}>Answers</a>{/if}
-        {@render questionView(block, insideAtom ? null : block.sourceOrder ?? page.blocks.filter(item => item.type === 'question').findIndex(item => item.id === block.id) + 1)}
+        {#if marked}<div class="editor-markers">{#if rating}<span class="editor-difficulty" data-editor-difficulty={block.id} data-chillies={chillies} title={`Difficulty: ${rating.difficulty}, reasoning ${rating.reasoningScore}/100${rating.difficultyReason?'; '+rating.difficultyReason:''}`}>{rating.reasoningScore}</span>{/if}<span class="editor-bank" data-editor-bank={bank.state} title={bank.title}>{bank.label}</span></div>{/if}
+        {@render questionView(block, insideAtom ? null : block.sourceOrder ?? page.blocks.filter(item => item.type === 'question').findIndex(item => item.id === block.id) + 1, answerHrefFor(block))}
       </section>
     {/if}
   {:else if block.type === 'worked-example'}
@@ -228,8 +249,8 @@
       <BookletCover pages={bookletPages} {anchorPrefix} {editMode} settings={presentation?.()?.cover}/>
     {:else}
       <article class="booklet-page" id={frontMatterAnchor?anchorPrefix+frontMatterAnchor:undefined} data-page-number={page.pageNumber} data-house-style={houseStyleVersion}>
-        {#if page.section?.headingStyle !== 'none' && page.showTopicHeading !== false}<BookletHeading id={page.section?.exerciseNumber?`${anchorPrefix}exercise-topic-${page.section.exerciseNumber}`:undefined} kind={page.section?.headingStyle === 'difficulty'?'exercise':'main'}><EditableBookletText value={page.section?.title ?? ''} rootId={page.id} pointer="/section/title" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/title')} /></BookletHeading>{/if}
-        {#if page.showDifficultyHeading !== false && page.section?.difficultyTitle && !(page.section?.headingStyle === 'difficulty' && page.section.title?.trim().toLowerCase() === page.section.difficultyTitle.trim().toLowerCase())}<BookletHeading kind="exercise"><EditableBookletText value={page.section.difficultyTitle} rootId={page.id} pointer="/section/difficultyTitle" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/difficultyTitle')} /></BookletHeading>{/if}
+        {#if page.section?.headingStyle !== 'none' && page.showTopicHeading !== false}<BookletHeading id={page.section?.exerciseNumber?`${anchorPrefix}exercise-topic-${page.section.exerciseNumber}`:undefined} kind={page.section?.headingStyle === 'difficulty'?'exercise':'main'}>{#if headingsEditable&&page.section.title}{@render headingEditor(page.section.title,page.section.phase==='front-matter'?{sectionId:page.section.sourceSectionId}:{topicId:page.section.topicId})}{:else}<EditableBookletText value={page.section?.title ?? ''} rootId={page.id} pointer="/section/title" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/title')} />{/if}</BookletHeading>{/if}
+        {#if page.showDifficultyHeading !== false && page.section?.difficultyTitle && !(page.section?.headingStyle === 'difficulty' && page.section.title?.trim().toLowerCase() === page.section.difficultyTitle.trim().toLowerCase())}<BookletHeading kind="exercise">{#if headingsEditable&&!page.section.exerciseNumber}{@render headingEditor(page.section.difficultyTitle,{sectionId:page.section.sourceSectionId})}{:else}<EditableBookletText value={page.section.difficultyTitle} rootId={page.id} pointer="/section/difficultyTitle" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/difficultyTitle')} />{/if}</BookletHeading>{/if}
         <main>
           {#each displayItems as item, index (item.id)}
             {@const documentIds=item.blocks?.map(b=>b.id)??[item.block?.id??item.id]}
@@ -260,11 +281,19 @@
 </div>
 
 <style>
+  .heading-edit{outline:none;cursor:text;border-radius:2px}.heading-edit:hover,.heading-edit:focus{box-shadow:0 0 0 1px currentColor}
   .practice-continuation-label{font-size:9pt;font-weight:600;margin-bottom:2mm}
   .document-group{display:block;position:relative}.document-group.editable-group{display:block;position:relative}.group-selected{outline:2px solid var(--booklet-blue);outline-offset:3px}.document-group-tools{position:absolute;left:-10mm;top:0;display:grid;gap:2px;z-index:4;opacity:.15}.document-group:hover>.document-group-tools,.document-group-tools:focus-within,.group-selected>.document-group-tools{opacity:1}.document-group-tools button{box-sizing:border-box;width:7mm;height:7mm;padding:0;min-height:0;border:1px solid var(--booklet-border);border-radius:4px;background:var(--booklet-white);color:var(--booklet-ink);font:14px system-ui;cursor:pointer}.group-handle{cursor:grab!important}.document-group.drop-before::before{content:'';position:absolute;left:0;right:0;top:-1.5mm;border-top:3px solid var(--booklet-blue);pointer-events:none;z-index:5}.document-end-insert{font:12px system-ui;color:var(--booklet-muted);border:1px dashed var(--booklet-border);background:transparent;padding:4px;opacity:.35}.document-end-insert:hover,.document-end-insert:focus{opacity:1}@media print{.document-group{display:block!important;outline:none!important}.document-group-tools,.document-end-insert{display:none!important}}
   .cloze-statement{display:grid;grid-template-columns:6mm minmax(0,1fr);gap:1mm;align-items:baseline}.cloze-number{grid-column:1;grid-row:1}.cloze-text{grid-column:2;grid-row:1;min-width:0}
   @media screen{.document-end-insert{position:absolute;left:0;top:calc(297mm + var(--studio-overflow-height,0px) + 4px);max-width:45%;white-space:nowrap}}
-  .practice{position:relative}.editor-difficulty{position:absolute;right:-14mm;top:4mm;width:13mm;font:7px/1.3 system-ui;color:var(--booklet-muted);text-align:right;pointer-events:none}.answer-jump{position:absolute;right:-14mm;top:0;width:13mm;text-align:right;font-size:6.5pt;color:var(--booklet-muted);text-decoration:none}@media print{.editor-difficulty,.answer-jump{display:none!important}}
+  .practice{position:relative}.editor-markers{position:absolute;right:-14mm;top:0;width:13mm;display:grid;justify-items:end;gap:.6mm;font:7px/1.3 system-ui;color:var(--booklet-muted)}.editor-difficulty{font-size:8px;font-weight:600;white-space:nowrap;cursor:help}.editor-bank{padding:0 3px;border:1px solid #9aa7b5;border-radius:3px;white-space:nowrap;cursor:help}.editor-bank[data-editor-bank=synced]{border-color:#52769a;background:#52769a;color:#fff}.editor-bank[data-editor-bank=local]{border-style:dashed}.editor-bank:not([data-editor-bank=synced],[data-editor-bank=local]){border-color:#b45309;background:#fef3c7;color:#92400e}@media print{.editor-markers{display:none!important}}
+  /* Reasoning bands share MathsDatabase's difficulty badge colours; screen only. */
+  @media screen{.practice[data-reasoning-band] :global(:is(b[data-question-number],.question-depth-0>.question-line>.part-label,.question-depth-0>.leading-label)){border-radius:2px;background:var(--band-tint);box-shadow:0 0 0 1.5px var(--band-tint)}.practice[data-reasoning-band=Foundation]{--band-tint:#f1f5f9}.practice[data-reasoning-band=Development]{--band-tint:#e0f2fe}.practice[data-reasoning-band=Mastery]{--band-tint:#ede9fe}.practice[data-reasoning-band=Challenge]{--band-tint:#fce7f3}}
+  /* Printed chillies sit under the question number in a 2 by 2 grid; out of flow, so pagination is unchanged. */
+  .practice[data-chillies]{--chilli:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23d92d20' d='M12.5 5C14.5 7.500 13.500 11.500 10 13.500 7.500 15 4 15 1.500 14 4.500 13 6.500 11 7.500 8.500 8.200 6.800 8.600 5.200 10 4.600 10.900 4.200 11.900 4.300 12.500 5z'/%3E%3Cpath fill='%233f8f3a' d='M10.500 4.700C10.500 3 11.400 1.800 13 1.200L13.800 2.600C12.800 3 12.300 3.800 12.300 5z'/%3E%3C/svg%3E")}
+  .practice[data-chillies] :global(b[data-question-number]){position:relative}
+  .practice[data-chillies] :global(b[data-question-number]::after){content:'';position:absolute;left:0;top:calc(100% + .5mm);width:4.6mm;height:4.6mm;background:var(--chilli),var(--chilli),var(--chilli),var(--chilli);background-repeat:no-repeat;background-size:2.2mm 2.2mm;background-position:0 0,2.4mm 0,0 2.4mm,2.4mm 2.4mm;print-color-adjust:exact;-webkit-print-color-adjust:exact;pointer-events:none}
+  .practice[data-chillies="1"] :global(b[data-question-number]::after){background-image:var(--chilli)}.practice[data-chillies="2"] :global(b[data-question-number]::after){background-image:var(--chilli),var(--chilli)}.practice[data-chillies="3"] :global(b[data-question-number]::after){background-image:var(--chilli),var(--chilli),var(--chilli)}
 .compact-pages.preview-frame{height:auto;min-height:0!important;overflow:visible;width:210mm;}
 .compact-pages .preview-page{position:relative;left:0;transform:none;}
 .compact-pages .booklet-page{height:auto;min-height:0;overflow:visible;}

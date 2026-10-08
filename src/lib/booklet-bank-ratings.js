@@ -10,6 +10,12 @@ export function questionDifficulty(block) {
   return rating?{...rating,difficulty:difficultyBandForScore(rating.reasoningScore),difficultyReason:rating.difficultyReason??rating.reason??''}:null;
 }
 
+// Editor-only chilli markers scale with the reasoning score: lowest score earning each count.
+export const CHILLI_THRESHOLDS=Object.freeze([65,80,87,94]);
+export function chilliCount(score) {
+  return Number.isFinite(score)?CHILLI_THRESHOLDS.filter(min=>score>=min).length:0;
+}
+
 // Bank-owned display metadata can refresh independently of pinned content.
 export function applyBankRatings(project, items) {
   const ratings=new Map(items.filter(i=>i.bankDifficulty).map(i=>[i.blockId,i]));

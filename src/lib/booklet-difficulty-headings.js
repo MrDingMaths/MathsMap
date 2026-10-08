@@ -16,3 +16,21 @@ export function retainDifficultyAsMetadata(block){
  const difficulty=standaloneDifficultyHeading(block);
  return difficulty?{...block,presentation:{...block.presentation,editorOnly:true,sourceDifficulty:difficulty}}:block;
 }
+
+// Source difficulty pictograms (chillies) are evidence only: Studio draws its own
+// from the reasoning score, so one inside rendered content would appear twice.
+const evidenceKeys=new Set(['source','spec','sourceReview','sourceAtom','sourceLayoutEvidence','originalContent','originalDiagram','originalGraph','before','after','provenance','studio','review','flags','classification','flow','inventory','presentation']);
+const pictogramAlt=/chil+i|chili pepper/i,markerAlt=/difficult|marker|icon|pictogram|symbol/i;
+export function sourceDifficultyPictograms(value){
+ const found=[];
+ function visit(node,path,owner){
+  if(!node||typeof node!=='object')return;
+  const id=node.id??owner;
+  if(typeof node.alt==='string'&&(node.src||node.code)&&pictogramAlt.test(node.alt)&&markerAlt.test(node.alt))found.push({id:id??path,location:path+'/alt'});
+  for(const [key,child] of Object.entries(node))if(!evidenceKeys.has(key)){
+   if(typeof child==='string'){if(child.includes('\u{1F336}'))found.push({id:id??path,location:path+'/'+key});}
+   else visit(child,path+'/'+key,id);
+  }
+ }
+ visit(value,'');return found;
+}

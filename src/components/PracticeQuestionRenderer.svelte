@@ -16,7 +16,7 @@
   import {teachingAnswerCategory,retainsTeachingPromptWithAnswers} from '../lib/booklet-answer-options.js';
   import {hasEmbeddedResponseLabel,hasStandaloneMathTable} from '../lib/booklet-labels.js';
 
-  let { question, trailingQuestion = null, number = null, showSpaces = true, showShortAnswers = false, showWorkedSolutions = false, answerColumnsLimit = null, compactAnswerSettings=null, preserveDiagramWidths=false, answerLabelWidthMm=8, answerLink=null, compact = false, blockLayouts: suppliedBlockLayouts = {}, answerSpaceOverrides: suppliedAnswerSpaceOverrides = {}, diagramWidthOverrides: suppliedDiagramWidthOverrides = {}, diagramColourModes: suppliedDiagramColourModes = {}, onSpaceResize = null, onDiagramResize = null, showTitle = true, eagerDiagrams = false, editMode = false, onContentEdit = null, onContentRevert = null, onEditingChange = null, isEdited = () => false } = $props();
+  let { question, trailingQuestion = null, number = null, showSpaces = true, showShortAnswers = false, showWorkedSolutions = false, answerColumnsLimit = null, compactAnswerSettings=null, preserveDiagramWidths=false, answerLabelWidthMm=8, answerLink=null, answerHref=null, trailingAnswerHref=null, answerPartHref=null, answerAnchorPrefix=null, compact = false, blockLayouts: suppliedBlockLayouts = {}, answerSpaceOverrides: suppliedAnswerSpaceOverrides = {}, diagramWidthOverrides: suppliedDiagramWidthOverrides = {}, diagramColourModes: suppliedDiagramColourModes = {}, onSpaceResize = null, onDiagramResize = null, showTitle = true, eagerDiagrams = false, editMode = false, onContentEdit = null, onContentRevert = null, onEditingChange = null, isEdited = () => false } = $props();
   // Bank records retain their source owner ID and local presentation. Explicit
   // editor/worksheet overrides take precedence over the captured defaults.
   const blockLayouts = $derived({...question.presentation?.layoutOverrides?.blockLayouts, ...suppliedBlockLayouts});
@@ -29,6 +29,9 @@
   const shortValue = value => teachingAnswerCategory(question)||question.sourceAtom ? value : normaliseShortAnswer(value);
   const nodeLabel = (node, index, depth) => depth === 0 && number != null ? String(number) : node.label != null ? String(node.label) : node.children?.length ? '' : letter(index);
   const leafLabel = (path) => compactAnswerLabel(number,path);
+  // Question-side labels jump to the answer; part answers carry their own anchor.
+  const answeredNode = (node) => !node.children?.length || node.answer?.short || node.answer?.worked ? node : answeredNode(node.children[0]);
+  const partHref = (node, depth) => depth === 0 || !answerPartHref ? answerHref : answerPartHref + answeredNode(node).id;
   const sourceDiagram = (id) => id ? allDiagrams(question).find((diagram) => diagram.id === id) : null;
   const spaceFor = (node) => node.responseSpace === 'scaffold' ? 0 : Number.isFinite(Number(answerSpaceOverrides[node.id])) ? answerSpaceOverrides[node.id] : estimateAnswerSpaceMm(node);
   const widthFor = (diagram) => {
@@ -141,12 +144,14 @@
   {/if}
 {/snippet}
 
+{#snippet labelText(label, node, depth)}{#if answerHref&&label}<a class="answer-jump" href={partHref(node,depth)}>{label}</a>{:else}{label}{/if}{/snippet}
+
 {#snippet renderQuestionNode(node, depth = 0, index = 0, applications = null)}
   {@const label = hasEmbeddedResponseLabel(node) ? '' : nodeLabel(node, index, depth)}
   {@const space = resizeSpaces[node.id] ?? spaceFor(node)}
   <section class:part={depth > 0} class:numbered-root={depth === 0 && number != null} class:diagrams-first={node.diagramPlacement === 'before-prompt'} class:diagrams-beside={['beside-prompt','right-of-prompt'].includes(node.diagramPlacement)} class:diagrams-right={node.diagramPlacement === 'right-of-prompt'} class:compact class="question-node question-depth-{depth}" data-node-id={node.id} style={questionLayoutStyle(node,blockLayouts)}>
     {#if node.representations}
-      <div class="question-line" class:tabular-prompt={hasStandaloneMathTable(node.prompt)}><span class="part-label">{label}</span><EditableBookletText value={node.prompt} rootId={node.id} pointer="/prompt" {editMode} oncommit={onContentEdit}/></div>
+      <div class="question-line" class:tabular-prompt={hasStandaloneMathTable(node.prompt)}><span class="part-label">{@render labelText(label,node,depth)}</span><EditableBookletText value={node.prompt} rootId={node.id} pointer="/prompt" {editMode} oncommit={onContentEdit}/></div>
       <div class:pattern-top={node.layoutPreset==='pattern-top'} class="representations" class:without-pattern={!node.representations.pattern&&!Object.values(node.representations.diagramSlots).includes('pattern')}>
         {#each ['pattern','table','equation','graph'] as slot}
           <section class={'representation representation-'+slot}>
@@ -158,14 +163,14 @@
         {/each}
       </div>
     {:else}
-    {#if label&&node.diagramPlacement==='before-prompt'}<span class="leading-label part-label">{label}</span>{/if}
-    {#if label || node.prompt}<div class="question-line" class:tabular-prompt={hasStandaloneMathTable(node.prompt)}>{#if label&&node.diagramPlacement!=='before-prompt'}<span class="part-label">{depth === 0 && number != null ? label : depth > 0 && label ? label : ''}</span>{/if}{#if node.prompt}<div class="prompt">{#if depth === 0 && showTitle && /^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question?.title ?? "")}<strong class="exam-label">{visibleImportedQuestionTitle(question)}</strong>{/if}<EditableBookletText value={node.prompt} rootId={node.id} pointer="/prompt" {editMode} edited={isEdited(node.id, '/prompt')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} /></div>{/if}</div>{/if}
+    {#if label&&node.diagramPlacement==='before-prompt'}<span class="leading-label part-label">{@render labelText(label,node,depth)}</span>{/if}
+    {#if label || node.prompt}<div class="question-line" class:tabular-prompt={hasStandaloneMathTable(node.prompt)}>{#if label&&node.diagramPlacement!=='before-prompt'}<span class="part-label">{@render labelText(depth === 0 && number != null ? label : depth > 0 && label ? label : '',node,depth)}</span>{/if}{#if node.prompt}<div class="prompt">{#if depth === 0 && showTitle && /^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question?.title ?? "")}<strong class="exam-label">{visibleImportedQuestionTitle(question)}</strong>{/if}<EditableBookletText value={node.prompt} rootId={node.id} pointer="/prompt" {editMode} edited={isEdited(node.id, '/prompt')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} /></div>{/if}</div>{/if}
     {#if node.questionDiagrams?.length}<div class="question-diagrams">{#each node.questionDiagrams as diagram}{@render diagramView(diagram)}{/each}</div>{/if}
     {#if node.afterDiagramPrompt}<div class="after-diagram-prompt"><EditableBookletText value={node.afterDiagramPrompt} rootId={node.id} pointer="/afterDiagramPrompt" {editMode} oncommit={onContentEdit}/></div>{/if}
     {#if node.layoutPreset==='scenario'&&node.children?.length===2}
       {@render renderQuestionNode(node.children[0],depth+1,0,node.children[1])}
     {:else if node.children?.length}
-      <div class:question-grid={node.layout === 'grid'} class="parts" style={node.layout === 'grid' ? '--columns:' + node.columns : ''}>{#each node.children as child, childIndex}{@render renderQuestionNode(child, depth + 1, childIndex)}{/each}{#if depth===0&&trailingQuestion}<PracticeQuestionRenderer {preserveDiagramWidths} question={trailingQuestion} number={trailingQuestion.sourceOrder} {showSpaces} {showShortAnswers} {showWorkedSolutions} {blockLayouts} {answerSpaceOverrides} {diagramColourModes} {onSpaceResize} {editMode} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} eagerDiagrams={true}/>{/if}</div>
+      <div class:question-grid={node.layout === 'grid'} class="parts" style={node.layout === 'grid' ? '--columns:' + node.columns : ''}>{#each node.children as child, childIndex}{@render renderQuestionNode(child, depth + 1, childIndex)}{/each}{#if depth===0&&trailingQuestion}<PracticeQuestionRenderer {preserveDiagramWidths} answerHref={trailingAnswerHref} {answerPartHref} question={trailingQuestion} number={trailingQuestion.sourceOrder} {showSpaces} {showShortAnswers} {showWorkedSolutions} {blockLayouts} {answerSpaceOverrides} {diagramColourModes} {onSpaceResize} {editMode} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} eagerDiagrams={true}/>{/if}</div>
     {:else if showSpaces && (space > 0 || onSpaceResize && node.responseSpace !== 'scaffold' && (Object.hasOwn(answerSpaceOverrides,node.id)||Object.hasOwn(resizeSpaces,node.id)))}
       <div class="answer-space" class:collapsed={space===0} class:resizable={!!onSpaceResize} class:boxed-response={node.answerSpaceStyle === 'box'} style={'height:' + space + 'mm'} role="button" tabindex="0" aria-label={'Answer space ' + Math.round(space) + ' millimetres; drag or use up and down arrows to resize'} title={space===0?'Drag down or press Down arrow to restore answer space':'Drag or use up and down arrows to resize'} onpointerdown={(event) => beginResize(event, node.id, space)} onkeydown={(event) => resizeWithKeyboard(event, node.id, space)}><span class="space-label">{space===0?'Restore answer space':'Answer space'}</span><span class="space-handle" aria-hidden="true"></span></div>
     {/if}
@@ -203,7 +208,7 @@
     </div>
     {@render sharedSolutionFigures(node)}
   {:else}
-    <article class="answer-item" data-node-id={node.id} style={compactAnswerSettings?'':questionLayoutStyle(node,blockLayouts)}><div class="answer-label" style={compactAnswerSettings?`flex:0 0 ${answerLabelWidthMm}mm;width:${answerLabelWidthMm}mm`:''}>{#if answerLink}<a href={answerLink}>{leafLabel(nextPath)}</a>{:else}{leafLabel(nextPath)}{/if}</div><div class="answer-content">
+    <article class="answer-item" id={answerAnchorPrefix?answerAnchorPrefix+'part-'+node.id:undefined} data-node-id={node.id} style={compactAnswerSettings?'':questionLayoutStyle(node,blockLayouts)}><div class="answer-label" style={compactAnswerSettings?`flex:0 0 ${answerLabelWidthMm}mm;width:${answerLabelWidthMm}mm`:''}>{#if answerLink}<a href={answerLink}>{leafLabel(nextPath)}</a>{:else}{leafLabel(nextPath)}{/if}</div><div class="answer-content">
       {#if nextContexts.length}<div class="answer-context"><EditableBookletText value={nextContexts.join(' · ')} rootId={node.id} pointer="/prompt" editMode={false} /></div>{/if}
       {#if showShortAnswers}{#if node.answer?.short}<EditableBookletText value={shortAnswerDisplay(shortValue(node.answer.short))} displayValue={compactAnswerSettings?compactAnswerDisplay(shortAnswerDisplay(shortValue(node.answer.short))):null} rootId={node.id} pointer="/answer/short" {editMode} edited={isEdited(node.id, '/answer/short')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{:else if !node.answer?.solutionDiagrams?.length&&!parent?.sharedSolutionDiagrams?.length}<span class="muted">No short answer supplied.</span>{/if}{/if}
       {#if showShortAnswers}{@render solutionFigures(node)}{/if}
@@ -233,8 +238,8 @@
   {#if isRewriteTableQuestion(question)}
     {@render renderRewriteTables()}
   {:else if !(showShortAnswers || showWorkedSolutions) || (!compactAnswerSettings && question.presentation?.permanentTeachingPrompt === true)}
-    {#if showTitle && question?.title && !/^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question.title)}<h3>{question.title}</h3>{/if}{#if question?.content}<BookletArrangement {showTitle} block={arrangementQuestionBlock(question,number)} arrangement={questionArrangement} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} {showSpaces} {answerSpaceOverrides} {diagramColourModes} {editMode} {onSpaceResize}/>{/if}
-  {:else if question?.content}{#if teachingResponses}<BookletArrangement {showTitle} block={arrangementQuestionBlock(question,number)} arrangement={teachingResponses} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} showSpaces={false} fillCloze={true} {answerSpaceOverrides} {diagramColourModes} {editMode}/>{:else}{#if retainsTeachingPromptWithAnswers(question)&&!compactAnswerSettings}<BookletArrangement {showTitle} block={arrangementQuestionBlock(question,number)} arrangement={questionArrangement} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} showSpaces={false} fillCloze={true} {answerSpaceOverrides} {diagramColourModes} {editMode}/>{/if}{@render renderAnswerNode(question.content)}{/if}{#if trailingQuestion}<PracticeQuestionRenderer {preserveDiagramWidths} question={trailingQuestion} number={trailingQuestion.sourceOrder} {showSpaces} {showShortAnswers} {showWorkedSolutions} {blockLayouts} {answerSpaceOverrides} {diagramColourModes} {onSpaceResize} {editMode} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} eagerDiagrams={true}/>{/if}{/if}
+    {#if showTitle && question?.title && !/^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question.title)}<h3>{question.title}</h3>{/if}{#if question?.content}<BookletArrangement {answerHref} {answerPartHref} {showTitle} block={arrangementQuestionBlock(question,number)} arrangement={questionArrangement} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} {showSpaces} {answerSpaceOverrides} {diagramColourModes} {editMode} {onSpaceResize}/>{/if}
+  {:else if question?.content}{#if teachingResponses}<BookletArrangement {showTitle} block={arrangementQuestionBlock(question,number)} arrangement={teachingResponses} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} showSpaces={false} fillCloze={true} {answerSpaceOverrides} {diagramColourModes} {editMode}/>{:else}{#if retainsTeachingPromptWithAnswers(question)&&!compactAnswerSettings}<BookletArrangement {showTitle} block={arrangementQuestionBlock(question,number)} arrangement={questionArrangement} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} showSpaces={false} fillCloze={true} {answerSpaceOverrides} {diagramColourModes} {editMode}/>{/if}{@render renderAnswerNode(question.content)}{/if}{#if trailingQuestion}<PracticeQuestionRenderer {preserveDiagramWidths} answerHref={trailingAnswerHref} {answerPartHref} question={trailingQuestion} number={trailingQuestion.sourceOrder} {showSpaces} {showShortAnswers} {showWorkedSolutions} {blockLayouts} {answerSpaceOverrides} {diagramColourModes} {onSpaceResize} {editMode} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} eagerDiagrams={true}/>{/if}{/if}
 </div>
 
 <style>
@@ -283,6 +288,7 @@
   .question-line { display: flex; align-items: baseline; gap: var(--label-gap); }
   .question-line.tabular-prompt { align-items: flex-start; }
   .part-label { flex: none; min-width: var(--label-width); font-weight: 700; }
+  .answer-jump { color: inherit; text-decoration: none; }
   .exam-label { display: block; font: inherit; font-weight: 800; }
   .prompt { min-width: 0; flex: 1; }
   .parts { margin-top: 1mm; }
