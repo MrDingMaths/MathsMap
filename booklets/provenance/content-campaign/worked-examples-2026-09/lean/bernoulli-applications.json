@@ -4,8 +4,37 @@
   "model": "gpt-6.1-sol",
   "effort": "low",
   "startedAt": "2026-10-08T22:40:15.309Z",
-  "status": "running",
-  "calls": [],
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "maintenance-repair",
+      "code": 0,
+      "seconds": 81.5,
+      "usage": {
+        "input_tokens": 57495,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 6145,
+        "reasoning_output_tokens": 0
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\bernoulli-applications\\maintenance-repair-rh5ja1\\response.raw.txt"
+    },
+    {
+      "name": "maintenance-review",
+      "code": 0,
+      "seconds": 46.5,
+      "usage": {
+        "input_tokens": 57775,
+        "cached_input_tokens": 20736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2506,
+        "reasoning_output_tokens": 224
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\bernoulli-applications\\maintenance-review-N4I7fm\\response.raw.txt"
+    }
+  ],
   "previousAttempts": [
     {
       "startedAt": "2026-10-06T14:23:57.144Z",
@@ -66,5 +95,35 @@
     "booklets/mathsmap-sources/Stage 6 Extension 1/Binomial Distributions.md"
   ],
   "images": 14,
-  "omittedImages": 0
+  "omittedImages": 0,
+  "firstRoundFindings": [
+    "practice.development[4]: Replace the incorrect intermediate product $0.001141250625$ with $0.001140750625$ in solution_text. The final rounded answer $0.0011$ is correct."
+  ],
+  "fullReview": {
+    "name": "maintenance-review",
+    "hash": "4201a7310a801f9cffbb511c8886516f025c99c5fe3603bd76047040718604e6",
+    "originalRemovalsSupplied": true
+  },
+  "repaired": true,
+  "changed": [
+    "practice.foundation[5]",
+    "practice.development[1]",
+    "practice.development[4]",
+    "practice.development[7]",
+    "practice.mastery[1]",
+    "quiz.q4",
+    "quiz.q6",
+    "quiz.q7",
+    "quiz.q8"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 29,
+  "summary": "Corrected the intermediate product in practice.development[4].solution_text from $0.001141250625$ to $0.001140750625$, preserving the correct rounded answer $0.0011$. All other content and quiz fields were preserved, and no whole items were removed.",
+  "reviewSummary": "All 29 items use booklet question types, and their numerical answers and distractor calculations are correct. Quiz q5 needs explicit die assumptions and a complete correction of its erroneous model; no worked examples or removals were supplied.",
+  "candidateHash": "4201a7310a801f9cffbb511c8886516f025c99c5fe3603bd76047040718604e6",
+  "findings": [
+    "quiz.q5: Specify a fair die and independent rolls in question_text to support the probability and independence claims in the distractor explanations. In solution_text, also identify the incorrect parameter $0.3$ and give the corrected single-roll model $X\\sim\\text{Bernoulli}(\\frac{1}{6})$; retain option 0 as the sole correct option."
+  ],
+  "finishedAt": "2026-10-08T22:42:23.412Z"
 }

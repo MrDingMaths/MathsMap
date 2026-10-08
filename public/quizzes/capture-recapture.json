@@ -1,7 +1,7 @@
 {
   "skillId": "capture-recapture",
   "questions": [
-    {
+{
       "id": "q1",
       "question_text": "A biologist tags $75$ fish in a dam and releases them.\nA week later she catches $60$ fish and finds $15$ of them tagged.\nEstimate the number of fish in the dam.",
       "structure": "estimate-population",
@@ -26,7 +26,7 @@
       ],
       "solution_text": "$\\dfrac{15}{60}=\\dfrac{75}{N}$\n$N=\\dfrac{75\\times60}{15}$\n$=\\dfrac{4500}{15}$\n$=300\\text{ fish}$"
     },
-    {
+{
       "id": "q2",
       "question_text": "A ranger tags $130$ wombats and releases them.\nIn a later sample of $48$ wombats, $7$ are tagged.\nEstimate the wombat population, correct to the nearest whole wombat.",
       "structure": "estimate-population",
@@ -49,9 +49,9 @@
           "why": "Added the two catches and subtracted the overlap, $130+48-7$, instead of using the proportion."
         }
       ],
-      "solution_text": "$\\dfrac{7}{48}=\\dfrac{130}{N}$\n$N=\\dfrac{130\\times48}{7}$\n$=\\dfrac{6240}{7}$\n$=891.43\\ldots$\n$=891\\text{ wombats}$"
+      "solution_text": "$\\dfrac{7}{48}=\\dfrac{130}{N}$\n$N=\\dfrac{130\\times48}{7}$\n$=\\dfrac{6240}{7}$\n$=891.428571\\ldots$\n$=891\\text{ wombats}$"
     },
-    {
+{
       "id": "q3",
       "question_text": "A lake is estimated to contain $1200$ eels.\nEarlier in the study, $200$ eels were tagged and released.\nIn a new random sample of $60$ eels, how many would you expect to be tagged?",
       "structure": "reverse-unknown",
@@ -76,57 +76,32 @@
       ],
       "solution_text": "$\\dfrac{m}{60}=\\dfrac{200}{1200}$\n$m=\\dfrac{200\\times60}{1200}$\n$=\\dfrac{12\\,000}{1200}$\n$=10\\text{ eels}$"
     },
-    {
-      "id": "q4",
-      "question_text": "A conservation team estimates that a colony holds $5400$ penguins.\nIn a later sample of $180$ penguins, $15$ carry tags from an earlier stage of the study.\nHow many penguins were tagged in that earlier stage?",
-      "structure": "reverse-unknown",
-      "mastery": false,
-      "options": [
-        {
-          "text": "$450$ penguins",
-          "correct": true
-        },
-        {
-          "text": "$81\\,000$ penguins",
-          "why": "Multiplied $15\\times5400$ without dividing by the sample size of $180$."
-        },
-        {
-          "text": "$30$ penguins",
-          "why": "Divided the population by the sample size, which gives how many such samples fit in the colony, not the number tagged."
-        },
-        {
-          "text": "$64\\,800$ penguins",
-          "why": "Inverted the proportion, computing $\\dfrac{180\\times5400}{15}$ instead of $\\dfrac{15\\times5400}{180}$."
-        }
-      ],
-      "solution_text": "$\\dfrac{15}{180}=\\dfrac{M}{5400}$\n$M=\\dfrac{15\\times5400}{180}$\n$=\\dfrac{81\\,000}{180}$\n$=450\\text{ penguins}$"
-    },
-    {
+{
       "id": "q5",
-      "question_text": "Between the tagging and the recapture, heavy rain lets many untagged frogs move into the wetland from nearby dams.\nWhich assumption does this break, and what happens to the population estimate?",
-      "structure": "assumptions",
+      "question_text": "A study aims to estimate the original frog population in a wetland. Between the tagging and the recapture, heavy rain lets many untagged frogs move into the wetland from nearby dams.\nAssume no frogs die or leave, all tags remain attached, and all frogs are equally likely to be caught.\nWhat effect does this have on the estimate of the original population?",
+      "structure": "population-bias",
       "mastery": false,
       "options": [
-        {
-          "text": "The population must be closed, with no animals moving in or out, and the estimate will be too high.",
+{
+          "text": "Too high, because the extra untagged frogs lower the tagged fraction of the second sample.",
           "correct": true
         },
-        {
-          "text": "The population must be closed, with no animals moving in or out, and the estimate will be too low.",
-          "why": "Extra untagged frogs lower the tagged fraction of the second sample, and a lower tagged fraction raises the population estimate rather than lowering it."
+{
+          "text": "Too low, because the extra untagged frogs lower the tagged fraction of the second sample.",
+          "why": "Reversed the effect of a smaller tagged fraction: dividing the fixed first-stage tagged count by a smaller fraction gives a larger estimate."
         },
-        {
-          "text": "The marks must stay attached to the animals, and the estimate will be too high.",
-          "why": "No marks were lost here; the problem is untagged animals entering the area, which is the closed-population assumption."
+{
+          "text": "No effect, because the number tagged in the first stage has not changed.",
+          "why": "Ignored the tagged fraction of the second sample, which decreases when untagged frogs enter."
         },
-        {
-          "text": "The tagged frogs must mix evenly through the wetland, and the estimate is unaffected.",
-          "why": "Mixing is not what fails here, and adding untagged animals does change the tagged fraction of the sample, so the estimate does change."
+{
+          "text": "Too low, because the extra frogs raise the tagged fraction of the second sample.",
+          "why": "Treated the incoming frogs as tagged; they are untagged, so they lower the tagged fraction."
         }
-      ],
-      "solution_text": "The extra untagged frogs mean the wetland is no longer a closed population.\nThey lower the tagged fraction of the second sample.\nA smaller tagged fraction gives a larger population estimate, so the estimate will be too high."
+],
+      "solution_text": "The extra untagged frogs lower the tagged fraction of the second sample compared with the tagged fraction of the original population.\nA smaller tagged fraction gives a larger population estimate, so the estimate of the original population will be too high.\nIt estimates the larger population at recapture instead."
     },
-    {
+{
       "id": "q6",
       "question_text": "Tagged birds learn that the researcher's traps hold food, so they keep returning to the traps.\nWhat effect does this have on the estimated bird population?",
       "structure": "assumptions",
@@ -151,7 +126,7 @@
       ],
       "solution_text": "Tagged birds are recaptured more often than untagged birds.\nThis raises the tagged fraction of the second sample.\nA larger tagged fraction gives a smaller population estimate, so the estimate will be too low."
     },
-    {
+{
       "id": "q7",
       "question_text": "In the first stage of a study, $84$ turtles were tagged and released.\nIn the second stage, $21$ of the turtles caught were tagged, and this was $35\\%$ of the second catch.\nEstimate the turtle population.",
       "structure": "percentage-in-sample",
@@ -176,7 +151,7 @@
       ],
       "solution_text": "$n=\\dfrac{21}{0.35}$\n$=60\\text{ turtles in the second catch}$\n$\\dfrac{21}{60}=\\dfrac{84}{N}$\n$N=\\dfrac{84\\times60}{21}$\n$=\\dfrac{5040}{21}$\n$=240\\text{ turtles}$"
     },
-    {
+{
       "id": "q8",
       "question_text": "A capture–recapture study of wallabies in $2023$ tagged $180$ wallabies, and a later sample of $120$ wallabies contained $30$ tagged.\nThe $2023$ estimate was $20\\%$ more than the $2018$ estimate.\nWhat was the estimated wallaby population in $2018$?",
       "structure": "multi-step-population",
@@ -200,56 +175,6 @@
         }
       ],
       "solution_text": "$\\dfrac{30}{120}=\\dfrac{180}{N}$\n$N=\\dfrac{180\\times120}{30}$\n$=720\\text{ wallabies in }2023$\n$1.2\\times P_{2018}=720$\n$P_{2018}=\\dfrac{720}{1.2}$\n$=600\\text{ wallabies}$"
-    },
-    {
-      "id": "dq-143599",
-      "question_text": "A farmer wants to estimate the number of rabbits on his farm.\nOn Monday he catches 120 rabbits, puts a tag on each rabbit, and lets them run away.\nOn Tuesday he catches 70 rabbits, and 15 of these rabbits have a tag on them.\nWhich of the following calculations would give the best estimate for the total number of rabbits on the farm?",
-      "structure": "estimate-population",
-      "mastery": false,
-      "options": [
-        {
-          "text": "$\\frac{15\\times70}{120}$",
-          "why": "This reverses the population relationship and gives a much smaller value."
-        },
-        {
-          "text": "$120\\div\\frac{15}{70}$",
-          "correct": true
-        },
-        {
-          "text": "$\\frac{15}{70}\\div120$",
-          "why": "Dividing the tagged proportion by 120 cannot estimate the population."
-        },
-        {
-          "text": "$\\frac{15}{70}\\times120$",
-          "why": "This multiplies by the tagged proportion instead of dividing by it."
-        }
-      ],
-      "solution_text": "The proportion tagged in the Tuesday sample is $\\frac{15}{70}$. Set this equal to the proportion of all rabbits represented by the 120 tagged rabbits. The estimate is $120\\div\\frac{15}{70}=560$."
-    },
-    {
-      "id": "dq-79083",
-      "question_text": "Clive wants to estimate the number of bees in a beehive.\nClive catches 40 bees from the beehive.\nHe marks each bee with a dye.\nHe then lets the bees go.\nThe next day, Clive catches 50 bees from the beehive. 4 of these bees have been marked with the dye.\nWhich of the following calculation would give the best estimate for the total number of bees in the hive?",
-      "structure": "estimate-population",
-      "mastery": false,
-      "options": [
-        {
-          "text": "A: $\\frac{4}{40}\\div 50$",
-          "why": "Divides the marked proportion by the second sample size."
-        },
-        {
-          "text": "B: $\\frac{4\\times 40}{50}$",
-          "why": "Reverses the population relationship and produces a tiny estimate."
-        },
-        {
-          "text": "C: $\\frac{4}{50}\\times 40$",
-          "why": "Multiplies the recapture proportion instead of dividing by it."
-        },
-        {
-          "text": "D: $40\\div\\frac{4}{50}$",
-          "correct": true
-        }
-      ],
-      "solution_text": "The marked proportion in the second sample is $\\frac{4}{50}$. This represents $\\frac{40}{N}$ of the whole population, so $N=40\\div\\frac{4}{50}$."
     }
-  ]
+]
 }
