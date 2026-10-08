@@ -4,14 +4,14 @@
   "theory": {
     "intro": "The **variance** $\\mathrm{Var}(X)$ measures how far the values of $X$ spread from the mean $\\mu$. Find $E(X^{2})=\\sum x^{2}P(x)$ and subtract $\\mu^{2}$. The **standard deviation** $\\sigma$ is the square root of the variance.",
     "facts": [
-      "$\\mathrm{Var}(X)=E(X^{2})-\\mu^{2}$, where $\\mu=E(X)$.",
-      "$E(X^{2})=\\sum x^{2}P(x)$: square each value, multiply by its probability, then add.",
-      "$E(X^{2})$ and $[E(X)]^{2}$ are different numbers, so averaging the squares is not the same as squaring the average.",
-      "The equivalent form $\\mathrm{Var}(X)=\\sum (x-\\mu)^{2}P(x)$ always gives the same value.",
-      "$\\mathrm{Var}(X)=E\\left((X-\\mu)^{2}\\right)$, so the variance is itself an expected value.",
-      "The standard deviation is $\\sigma=\\sqrt{\\mathrm{Var}(X)}$ and is measured in the same units as $X$.",
-      "A variance can never be negative; a negative answer means $E(X^{2})$ and $\\mu^{2}$ were subtracted the wrong way round."
-    ],
+"$\\mathrm{Var}(X)=E(X^{2})-\\mu^{2}$, where $\\mu=E(X)$.",
+"$E(X^{2})=\\sum x^{2}P(x)$: square each value, multiply by its probability, then add.",
+"$E(X^{2})$ and $[E(X)]^{2}$ are not generally equal: averaging the squares is not the same calculation as squaring the average. They are equal when the variance is zero.",
+"The equivalent form $\\mathrm{Var}(X)=\\sum (x-\\mu)^{2}P(x)$ always gives the same value.",
+"$\\mathrm{Var}(X)=E\\left((X-\\mu)^{2}\\right)$, so the variance is itself an expected value.",
+"The standard deviation is $\\sigma=\\sqrt{\\mathrm{Var}(X)}$ and is measured in the same units as $X$.",
+"A variance can never be negative. A negative answer can result from reversing the subtraction, other calculation errors, invalid probabilities or premature rounding; check the probabilities and working."
+],
     "steps": [
       "Find the mean $\\mu=\\sum xP(x)$.",
       "Find $E(X^{2})=\\sum x^{2}P(x)$.",
@@ -85,21 +85,21 @@
       }
     ],
     "mastery": [
-      {
-        "question_text": "The random variable $X$ takes only the values $0$ and $4$, with $P(X=0)=p$.\nGiven that $\\mathrm{Var}(X)=3$, find the possible values of $p$.",
-        "structure": "reverse-variance",
-        "solution_text": "$\\mu=0(p)+4(1-p)$\n$=4-4p$\n$E(X^{2})=0(p)+16(1-p)$\n$=16-16p$\n$\\mathrm{Var}(X)=16-16p-(4-4p)^{2}$\n$=16-16p-(16-32p+16p^{2})$\n$=16p-16p^{2}$\n$16p-16p^{2}=3$\n$16p^{2}-16p+3=0$\n$(4p-1)(4p-3)=0$\n$p=\\frac{1}{4}$ or $p=\\frac{3}{4}$"
+{
+        "question_text": "Find $\\mathrm{Var}(X)$ and $\\sigma$ for the distribution below, correct to two decimal places where necessary.\n$\\begin{array}{c|cccc} x & -4 & -1 & 2 & 5 \\\\ \\hline P(X=x) & \\frac{1}{6} & \\frac{1}{3} & \\frac{1}{3} & \\frac{1}{6} \\end{array}$",
+        "structure": "variance-from-table",
+        "solution_text": "$\\mu=-4\\left(\\frac{1}{6}\\right)-1\\left(\\frac{1}{3}\\right)+2\\left(\\frac{1}{3}\\right)+5\\left(\\frac{1}{6}\\right)$\n$=\\frac{-4-2+4+5}{6}$\n$=\\frac{1}{2}$\n$E(X^{2})=16\\left(\\frac{1}{6}\\right)+1\\left(\\frac{1}{3}\\right)+4\\left(\\frac{1}{3}\\right)+25\\left(\\frac{1}{6}\\right)$\n$=\\frac{16+2+8+25}{6}$\n$=\\frac{17}{2}$\n$\\mathrm{Var}(X)=\\frac{17}{2}-\\left(\\frac{1}{2}\\right)^{2}$\n$=\\frac{33}{4}$\n$=8.25$\n$\\sigma=\\sqrt{8.25}$\n$\\approx2.87$"
       },
-      {
+{
         "question_text": "The random variable $X$ has mean $2.7$.\n$\\begin{array}{c|cccc} x & 1 & 2 & 3 & 4 \\\\ \\hline P(X=x) & 0.15 & a & b & 0.3 \\end{array}$\nFind $\\sigma$, correct to two decimal places.",
         "structure": "variance-from-table",
         "solution_text": "$0.15+a+b+0.3=1$\n$a+b=0.55$\n$1(0.15)+2a+3b+4(0.3)=2.7$\n$2a+3b=1.35$\nSubstituting $a=0.55-b$:\n$2(0.55-b)+3b=1.35$\n$1.1+b=1.35$\n$b=0.25$\n$a=0.3$\n$E(X^{2})=1(0.15)+4(0.3)+9(0.25)+16(0.3)$\n$=0.15+1.2+2.25+4.8$\n$=8.4$\n$\\mathrm{Var}(X)=8.4-2.7^{2}$\n$=8.4-7.29$\n$=1.11$\n$\\sigma=\\sqrt{1.11}$\n$=1.05$"
       },
-      {
+{
         "question_text": "The distributions of $V$ and $W$ below are reversals of each other.\nShow that they have the same variance and explain why.\n$V: \\begin{array}{c|cccc} v & 0 & 1 & 2 & 3 \\\\ \\hline P(V=v) & 0.4 & 0.3 & 0.2 & 0.1 \\end{array}$\n$W: \\begin{array}{c|cccc} w & 0 & 1 & 2 & 3 \\\\ \\hline P(W=w) & 0.1 & 0.2 & 0.3 & 0.4 \\end{array}$",
         "structure": "compare-spread",
         "solution_text": "$E(V)=0(0.4)+1(0.3)+2(0.2)+3(0.1)$\n$=1$\n$E(V^{2})=0(0.4)+1(0.3)+4(0.2)+9(0.1)$\n$=2$\n$\\mathrm{Var}(V)=2-1$\n$=1$\n$E(W)=0(0.1)+1(0.2)+2(0.3)+3(0.4)$\n$=2$\n$E(W^{2})=0(0.1)+1(0.2)+4(0.3)+9(0.4)$\n$=5$\n$\\mathrm{Var}(W)=5-4$\n$=1$\nReversing the probabilities reflects the distribution about the centre of the values, which moves the mean but leaves every distance from the mean unchanged, so the variance is the same."
       }
-    ]
+]
   }
 }

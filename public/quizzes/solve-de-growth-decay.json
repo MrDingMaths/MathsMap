@@ -1,7 +1,7 @@
 {
   "skillId": "solve-de-growth-decay",
   "questions": [
-    {
+{
       "id": "q1",
       "question_text": "Solve $\\dfrac{dy}{dt}=0.3y$ given $y(0)=40$.",
       "structure": "solve-kn-general",
@@ -14,7 +14,7 @@
       ],
       "solution_text": "$\\dfrac{1}{y}\\,dy=0.3\\,dt$\n$\\ln|y|=0.3t+C$\n$y=Ae^{0.3t}$\nSubstituting $y(0)=40$ gives $A=40$.\n$y=40e^{0.3t}$"
     },
-    {
+{
       "id": "q2",
       "question_text": "A quantity obeys $\\dfrac{dQ}{dt}=kQ$, with $Q(0)=250$ and $Q(5)=1000$.\nFind the exact value of $k$.",
       "structure": "find-k-from-data",
@@ -27,23 +27,23 @@
       ],
       "solution_text": "$Q=250e^{kt}$\n$1000=250e^{5k}$\n$e^{5k}=4$\n$5k=\\ln 4$\n$k=\\dfrac{\\ln 4}{5}$"
     },
-    {
+{
       "id": "q3",
-      "question_text": "A radioactive substance satisfies $\\dfrac{dA}{dt}=-0.04A$, with $t$ in years.\nFind its half-life, correct to the nearest year.",
-      "structure": "half-life",
+      "question_text": "A radioactive sample satisfies $\\dfrac{dA}{dt}=kA$, with $t$ in years.\nIts initial mass is $200$ g, and after $3$ years its mass is $120$ g. Find its mass after $6$ years.",
+      "structure": "find-k-then-predict",
       "mastery": false,
       "options": [
-        { "text": "$17$ years", "correct": true },
-        { "text": "$25$ years", "why": "Used $\\dfrac{1}{0.04}$ and left out the factor $\\ln 2$." },
-        { "text": "$8$ years", "why": "Used $\\log_{10}2$ instead of $\\ln 2$ when solving the exponential equation." },
-        { "text": "$35$ years", "why": "Used $\\ln 4$, which gives the time to fall to a quarter rather than to a half." }
-      ],
-      "solution_text": "$e^{-0.04t}=\\dfrac{1}{2}$\n$-0.04t=-\\ln 2$\n$t=\\dfrac{0.693147}{0.04}$\n$=17.33$\nThe half-life is $17$ years."
+{ "text": "$72$ g", "correct": true },
+{ "text": "$40$ g", "why": "Subtracted the same loss of $80$ g in each $3$-year period instead of multiplying by the same proportion." },
+{ "text": "$120$ g", "why": "Used only one $3$-year decay period instead of two." },
+{ "text": "$32$ g", "why": "Used the lost proportion $0.4$ as the remaining proportion in each period, calculating $200(0.4)^2$." }
+],
+      "solution_text": "$A=200e^{kt}$\n$120=200e^{3k}$\n$e^{3k}=0.6$\n$k=\\dfrac{\\ln 0.6}{3}$\n$A(6)=200\\left(e^{3k}\\right)^2$\n$=200(0.6)^2$\n$=72$ g"
     },
-    {
+{
       "id": "q4",
       "question_text": "A population satisfies $\\dfrac{dP}{dt}=0.12P$, with $t$ in years.\nHow long does the population take to triple, correct to one decimal place?",
-      "structure": "doubling-time",
+      "structure": "find-time",
       "mastery": false,
       "options": [
         { "text": "$9.2$ years", "correct": true },
@@ -53,7 +53,7 @@
       ],
       "solution_text": "$e^{0.12t}=3$\n$0.12t=\\ln 3$\n$t=\\dfrac{1.098612}{0.12}$\n$=9.2$ years"
     },
-    {
+{
       "id": "q5",
       "question_text": "A sample of $800$ g decays to $700$ g in $4$ years, and satisfies $\\dfrac{dm}{dt}=km$.\nFind the mass after $10$ years, correct to the nearest gram.",
       "structure": "find-k-then-predict",
@@ -66,33 +66,20 @@
       ],
       "solution_text": "$m=800e^{kt}$\n$700=800e^{4k}$\n$e^{4k}=\\dfrac{7}{8}$\n$m(10)=800\\left(\\dfrac{7}{8}\\right)^{\\frac{10}{4}}$\n$=800\\times 0.716179$\n$=573$ g"
     },
-    {
+{
       "id": "q6",
-      "question_text": "The graph shows a quantity $N$ modelled by $N=Ae^{kt}$, with $t$ in hours.\nWhich equation matches the graph?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$t$}, ylabel={$N$}, xmin=-0.5, xmax=4.4, ymin=-8, ymax=90, xtick={1,2,3,4}, ytick={5,40}, samples=100, clip=false]\n\\addplot[thick, ->, domain=0:4] {5*exp(0.693147*x)};\n\\addplot[dashed] coordinates {(0,40) (3,40) (3,0)};\n\\addplot[only marks, mark=*] coordinates {(0,5) (3,40)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
-      "structure": "read-graph-find-model",
+      "question_text": "A quantity $N$ satisfies $\\dfrac{dN}{dt}=kN$, with $N(0)=7$ and $N(3)=189$.\nWhich equation gives $N$ as a function of $t$?",
+      "structure": "find-model-from-two-readings",
       "mastery": false,
       "options": [
-        { "text": "$N=5e^{t\\ln 2}$", "correct": true },
-        { "text": "$N=5e^{-t\\ln 2}$", "why": "Used a negative exponent, which gives a falling curve rather than the rising curve shown." },
-        { "text": "$N=40e^{t\\ln 2}$", "why": "Read the marked point as the initial value instead of reading the $N$-intercept." },
-        { "text": "$N=40e^{-t\\ln 2}$", "why": "Read the marked point as the initial value and also used a negative exponent." }
-      ],
-      "solution_text": "The curve meets the $N$-axis at $5$, so $A=5$.\n$40=5e^{3k}$\n$e^{3k}=8$\n$3k=\\ln 8=3\\ln 2$\n$k=\\ln 2$\n$N=5e^{t\\ln 2}$"
+{ "text": "$N=7e^{t\\ln 3}$", "correct": true },
+{ "text": "$N=7e^{-t\\ln 3}$", "why": "Inverted the ratio of the readings, giving a negative value of $k$." },
+{ "text": "$N=7e^{t\\ln 27}$", "why": "Used $\\ln 27$ for $k$ without dividing by the elapsed time of $3$." },
+{ "text": "$N=189e^{t\\ln 3}$", "why": "Used the later reading $189$ as the initial amount instead of $7$." }
+],
+      "solution_text": "$N=Ae^{kt}$\n$N(0)=7$, so $A=7$.\n$189=7e^{3k}$\n$e^{3k}=27$\n$3k=\\ln 27=3\\ln 3$\n$k=\\ln 3$\n$N=7e^{t\\ln 3}$"
     },
-    {
-      "id": "q7",
-      "question_text": "A rabbit population is modelled by $P=1200e^{0.35t}$, with $t$ in years, fitted from counts taken during the first two years.\nWhich statement best describes the limitation of this model?",
-      "structure": "model-limitation",
-      "mastery": false,
-      "options": [
-        { "text": "It has no upper bound, so it eventually predicts more rabbits than the habitat could possibly feed.", "correct": true },
-        { "text": "It predicts that the population falls towards zero in the long term, which cannot happen here.", "why": "Reads $k=0.35>0$ as decay; a positive $k$ gives growth, not decline." },
-        { "text": "Its rate of increase is constant, so it cannot describe a population whose growth speeds up.", "why": "Confuses exponential growth with linear growth; $\\dfrac{dP}{dt}=0.35P$ increases as $P$ increases." },
-        { "text": "It only gives a population for whole-number values of $t$, so it cannot be used between counts.", "why": "Treats a continuous model as a discrete one; $P=1200e^{0.35t}$ is defined for every real $t$." }
-      ],
-      "solution_text": "$\\dfrac{dP}{dt}=0.35P$, so the rate of increase grows without limit as $P$ grows.\nThe model takes no account of the food and space the habitat can supply.\nIt is reliable only near the two years of data from which it was fitted."
-    },
-    {
+{
       "id": "q8",
       "question_text": "A quantity satisfies $\\dfrac{dQ}{dt}=kQ$, with $t$ in years.\nIt takes $9$ years for $Q$ to fall to one third of its value.\nFind how long it takes to fall to $5\\%$ of its original value, correct to the nearest year.",
       "structure": "find-time",
@@ -104,7 +91,7 @@
       ],
       "solution_text": "$\\dfrac{1}{3}=e^{9k}$\n$k=\\dfrac{1}{9}\\ln\\dfrac{1}{3}$\n$0.05=e^{kt}$\n$t=\\dfrac{\\ln 0.05}{k}$\n$=\\dfrac{9\\ln 0.05}{\\ln\\frac{1}{3}}$\n$=\\dfrac{9\\times(-2.995732)}{-1.098612}$\n$=24.54$\nIt takes $25$ years."
     },
-    {
+{
       "id": "q9",
       "question_text": "A population is modelled by $P=3000e^{0.06t}$, with $t$ in years.\nFind the population after $25$ years, correct to the nearest ten.",
       "structure": "predict-value",
@@ -116,5 +103,5 @@
       ],
       "solution_text": "$P(25)=3000e^{0.06\\times 25}$\n$=3000e^{1.5}$\n$=3000\\times 4.481689$\n$=13\\,445.07$\n$P(25)\\approx 13\\,450$"
     }
-  ]
+]
 }

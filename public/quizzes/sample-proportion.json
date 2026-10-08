@@ -1,7 +1,7 @@
 {
   "skillId": "sample-proportion",
   "questions": [
-    {
+{
       "id": "q1",
       "question_text": "In a random sample of $600$ shoppers, $174$ used a loyalty card.\nWhat is the sample proportion $\\hat{p}$ of shoppers who used a loyalty card?",
       "structure": "compute-phat",
@@ -14,7 +14,7 @@
       ],
       "solution_text": "$\\hat{p}=\\dfrac{X}{n}$\n$=\\dfrac{174}{600}$\n$=0.29$"
     },
-    {
+{
       "id": "q2",
       "question_text": "In a large population, $28\\%$ of trees are eucalypts.\nA random sample of $750$ trees is taken and $\\hat{p}$ is the proportion of eucalypts in the sample.\nWhat is $E(\\hat{p})$?",
       "structure": "mean-of-phat",
@@ -27,7 +27,7 @@
       ],
       "solution_text": "$E(\\hat{p})=p$\n$=0.28$"
     },
-    {
+{
       "id": "q3",
       "question_text": "$X\\sim\\mathrm{Bin}(600,0.6)$ and $\\hat{p}=\\dfrac{X}{600}$.\nWhat is $\\text{Var}(\\hat{p})$?",
       "structure": "variance-of-phat",
@@ -40,7 +40,7 @@
       ],
       "solution_text": "$\\text{Var}(\\hat{p})=\\dfrac{p(1-p)}{n}$\n$=\\dfrac{0.6\\times 0.4}{600}$\n$=\\dfrac{0.24}{600}$\n$=0.0004$"
     },
-    {
+{
       "id": "q4",
       "question_text": "$X\\sim\\mathrm{Bin}(1875,0.25)$ and $\\hat{p}=\\dfrac{X}{1875}$.\nWhat is $\\sigma(\\hat{p})$?",
       "structure": "sd-of-phat",
@@ -53,7 +53,7 @@
       ],
       "solution_text": "$\\text{Var}(\\hat{p})=\\dfrac{0.25\\times 0.75}{1875}$\n$=\\dfrac{0.1875}{1875}$\n$=0.0001$\n$\\sigma(\\hat{p})=\\sqrt{0.0001}$\n$=0.01$"
     },
-    {
+{
       "id": "q5",
       "question_text": "$X\\sim\\mathrm{Bin}(2000,0.35)$ and $\\hat{p}=\\dfrac{X}{2000}$.\nWhich pair gives $E(\\hat{p})$ and $\\sigma(\\hat{p})$, the standard deviation correct to four decimal places?",
       "structure": "phat-versus-count",
@@ -66,44 +66,44 @@
       ],
       "solution_text": "$E(\\hat{p})=p$\n$=0.35$\n$\\text{Var}(\\hat{p})=\\dfrac{0.35\\times 0.65}{2000}$\n$=\\dfrac{0.2275}{2000}$\n$=0.00011375$\n$\\sigma(\\hat{p})=\\sqrt{0.00011375}$\n$=0.0106653\\ldots$\n$=0.0107$"
     },
-    {
+{
       "id": "q6",
-      "question_text": "The proportion $p$ stays the same, but the sample size is increased from $250$ to $4000$.\nThe standard deviation of $\\hat{p}$ is multiplied by which factor?",
-      "structure": "compare-sample-sizes",
+      "question_text": "In a large population, $40\\%$ of people own a bicycle.\nA random sample of $2400$ people is taken.\nWhat is the standard deviation of the sample proportion of bicycle owners, correct to four decimal places?",
+      "structure": "sd-of-phat",
       "mastery": false,
       "options": [
-        { "text": "$\\dfrac{1}{4}$", "correct": true },
-        { "text": "$\\dfrac{1}{16}$", "why": "Divided by the sample-size ratio $16$ itself instead of by its square root." },
-        { "text": "$4$", "why": "Got the size of the change right but the direction wrong; a larger sample reduces the spread." },
-        { "text": "$16$", "why": "Multiplied by the sample-size ratio, missing both the square root and the fact that the spread shrinks." }
-      ],
-      "solution_text": "$\\sigma(\\hat{p})=\\sqrt{\\dfrac{p(1-p)}{n}}$, so $\\sigma(\\hat{p})$ is proportional to $\\dfrac{1}{\\sqrt{n}}$.\n$\\dfrac{4000}{250}=16$\n$\\dfrac{1}{\\sqrt{16}}=\\dfrac{1}{4}$"
+{ "text": "$0.0100$", "correct": true },
+{ "text": "$0.0001$", "why": "Gave the variance $0.0001$ without taking its square root." },
+{ "text": "$24.0000$", "why": "Used $\\sqrt{2400\\times 0.4\\times 0.6}$, the standard deviation of the count instead of the sample proportion." },
+{ "text": "$0.4899$", "why": "Used $\\sqrt{0.4\\times 0.6}$, omitting the division by the sample size inside the square root." }
+],
+      "solution_text": "$\\text{Var}(\\hat{p})=\\dfrac{0.4\\times 0.6}{2400}$\n$=\\dfrac{0.24}{2400}$\n$=0.0001$\n$\\sigma(\\hat{p})=\\sqrt{0.0001}$\n$=0.0100$"
     },
-    {
+{
       "id": "q7",
-      "question_text": "In a population, $60\\%$ of members renew their subscription.\nWhat sample size $n$ gives $\\sigma(\\hat{p})=0.01$ exactly?",
-      "structure": "find-n-from-sd",
+      "question_text": "In a large population, $60\\%$ of members renew their subscription.\nWhat is the smallest sample size $n$ for which $\\sigma(\\hat{p})<0.01$?",
+      "structure": "smallest-n-for-sd-bound",
       "mastery": false,
       "options": [
-        { "text": "$2400$", "correct": true },
-        { "text": "$24$", "why": "Divided $0.24$ by $0.01$ instead of by $0.01^2$, forgetting to square the standard deviation." },
-        { "text": "$3600$", "why": "Solved $\\dfrac{p}{\\sqrt{n}}=0.01$, using $p$ where $\\sqrt{p(1-p)}$ belongs." },
-        { "text": "$240000$", "why": "Wrote $0.01^2$ as $0.000001$ instead of $0.0001$." }
-      ],
-      "solution_text": "$\\sqrt{\\dfrac{0.6\\times 0.4}{n}}=0.01$\n$\\dfrac{0.24}{n}=0.0001$\n$n=\\dfrac{0.24}{0.0001}$\n$=2400$"
+{ "text": "$2401$", "correct": true },
+{ "text": "$2400$", "why": "Allowed equality at $\\sigma(\\hat{p})=0.01$, although the question requires a strict inequality." },
+{ "text": "$25$", "why": "Used $0.01$ instead of $0.01^2$ after removing the square root, obtaining $n>24$." },
+{ "text": "$3601$", "why": "Used $p^2=0.36$ instead of $p(1-p)=0.24$, obtaining $n>3600$." }
+],
+      "solution_text": "$\\sqrt{\\dfrac{0.6\\times 0.4}{n}}<0.01$\n$\\dfrac{0.24}{n}<0.0001$\n$0.24<0.0001n$\n$n>2400$\nThe smallest whole number greater than $2400$ is $2401$."
     },
-    {
+{
       "id": "q8",
-      "question_text": "For a random sample of size $n$ from a binomial population, $E(\\hat{p})=0.2$ and $\\sigma(\\hat{p})=0.02$.\nWhat is the standard deviation of the number of successes $X$?",
-      "structure": "find-n-from-sd",
+      "question_text": "In a large population, $25\\%$ of households own a dog.\nWhat is the smallest sample size $n$ for which the standard deviation of the sample proportion of dog-owning households is less than $0.02$?",
+      "structure": "smallest-n-for-sd-bound",
       "mastery": true,
       "options": [
-        { "text": "$8$", "correct": true },
-        { "text": "$64$", "why": "Stopped at $\\text{Var}(X)=np(1-p)=64$ without taking the square root." },
-        { "text": "$0.4$", "why": "Gave $\\sqrt{p(1-p)}$, the standard deviation of a single trial, instead of that of the count over $n$ trials." },
-        { "text": "$20$", "why": "Gave $\\sqrt{n}=20$, an intermediate value from finding $n$, rather than the standard deviation of $X$." }
-      ],
-      "solution_text": "$E(\\hat{p})=p$, so $p=0.2$.\n$\\dfrac{0.2\\times 0.8}{n}=0.02^2$\n$\\dfrac{0.16}{n}=0.0004$\n$n=400$\n$\\text{Var}(X)=400\\times 0.2\\times 0.8$\n$=64$\n$\\sigma(X)=\\sqrt{64}$\n$=8$"
+{ "text": "$469$", "correct": true },
+{ "text": "$468$", "why": "Rounded the boundary $468.75$ down, although $n$ must be greater than this boundary." },
+{ "text": "$10$", "why": "Used $0.02$ instead of $0.02^2$ after removing the square root, obtaining $n>9.375$." },
+{ "text": "$157$", "why": "Used $p^2=0.0625$ instead of $p(1-p)=0.1875$, obtaining $n>156.25$." }
+],
+      "solution_text": "$\\sqrt{\\dfrac{0.25\\times 0.75}{n}}<0.02$\n$\\dfrac{0.1875}{n}<0.0004$\n$0.1875<0.0004n$\n$n>468.75$\nThe smallest whole number greater than $468.75$ is $469$."
     }
-  ]
+]
 }

@@ -2,17 +2,17 @@
   "skillId": "volume-revolution-x",
   "atomType": "R",
   "theory": {
-    "intro": "Spinning the region under a curve about the $x$-axis sweeps out a solid of revolution. Every thin slice is a disc of radius $y$, so the volume is $V=\\pi\\int_{a}^{b}y^{2}\\,dx$.",
+    "intro": "Spinning the region between a curve and the $x$-axis about the $x$-axis sweeps out a solid of revolution. Every thin slice is a disc of radius $|y|$, so the volume is $V=\\pi\\int_{a}^{b}y^{2}\\,dx$.",
     "facts": [
-      "A **solid of revolution** is the solid swept out when a region is spun about an axis.",
-      "Rotating $y=f(x)$ about the $x$-axis from $x=a$ to $x=b$ gives $V=\\pi\\int_{a}^{b}y^{2}\\,dx$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1.1cm]\n\\fill[gray!35] (1,0) -- plot[domain=1:4, samples=60, variable=\\x] ({\\x},{2.2-0.1*(\\x-1)*(\\x-1)}) -- (4,0) -- cycle;\n\\draw[->] (-0.6,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-1.6) -- (0,3.2) node[above] {$y$};\n\\draw[thick, <->, domain=0.2:5, samples=60, variable=\\x] plot ({\\x},{2.2-0.1*(\\x-1)*(\\x-1)});\n\\draw[dashed] (2.5,0) ellipse [x radius=0.22, y radius=1.975];\n\\node at (3.4,2.6) {$y=f(x)$};\n\\node[below] at (1,-0.15) {$a$};\n\\node[below] at (4,-0.15) {$b$};\n\\end{tikzpicture}[/tikz]",
-      "The radius of each disc is the $y$ value of the curve, so the integrand is $y^{2}$.",
-      "Square the whole expression for $y$ before integrating, never integrate and square afterwards.",
-      "Keep the $\\pi$ outside the integral and carry it into the final answer.",
-      "A curve below the $x$-axis sweeps the same solid, because $y^{2}$ is positive either way.",
-      "When the region is bounded by the curve and the $x$-axis, the limits are the $x$-intercepts.",
-      "Volume is measured in cubic units, written $\\text{units}^{3}$."
-    ],
+"A **solid of revolution** is the solid swept out when a region is spun about an axis.",
+"Rotating the region between $y=f(x)$ and the $x$-axis from $x=a$ to $x=b$ about the $x$-axis gives $V=\\pi\\int_{a}^{b}y^{2}\\,dx$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1.1cm]\n\\fill[gray!35] (1,0) -- plot[domain=1:4, samples=60, variable=\\x] ({\\x},{2.2-0.1*(\\x-1)*(\\x-1)}) -- (4,0) -- cycle;\n\\draw[->] (-0.6,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-1.6) -- (0,3.2) node[above] {$y$};\n\\draw[thick, <->, domain=0.2:5, samples=60, variable=\\x] plot ({\\x},{2.2-0.1*(\\x-1)*(\\x-1)});\n\\draw[dashed] (2.5,0) ellipse [x radius=0.22, y radius=1.975];\n\\node at (3.4,2.6) {$y=f(x)$};\n\\node[below] at (1,-0.15) {$a$};\n\\node[below] at (4,-0.15) {$b$};\n\\end{tikzpicture}[/tikz]",
+"The radius of each disc is $|y|$, the distance from the curve to the $x$-axis, so the integrand is $y^{2}$.",
+"Square the whole expression for $y$ before integrating, never integrate and square afterwards.",
+"Keep the $\\pi$ outside the integral and carry it into the final answer.",
+"A curve below the $x$-axis sweeps the same solid, because $y^{2}$ is positive either way.",
+"When the region is bounded solely by the curve and the $x$-axis, the $x$-intercepts supply both limits. Specified vertical boundaries or the $y$-axis can instead supply limits.",
+"Volume is measured in cubic units, written $\\text{units}^{3}$."
+],
     "steps": [
       "Identify the limits $x=a$ and $x=b$.",
       "Write $y^{2}$ in terms of $x$, expanding or simplifying first.",
@@ -85,21 +85,21 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "The shaded region under $y=\\sqrt{9-x^{2}}$ from $x=0$ to $x=3$ is rotated about the $x$-axis, forming a hemisphere.\nFind its exact volume by integration.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1cm, y=1cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:3, samples=80, variable=\\x] ({\\x},{sqrt(9-\\x*\\x)}) -- cycle;\n\\draw[->] (-4.4,0) -- (4.6,0) node[right] {$x$};\n\\draw[->] (0,-1.2) -- (0,4.4) node[above] {$y$};\n\\draw[thick, domain=-3:3, samples=100, variable=\\x] plot ({\\x},{sqrt(9-\\x*\\x)}) node[pos=0.9, above right] {$y=\\sqrt{9-x^{2}}$};\n\\node[below] at (-3,-0.15) {$-3$};\n\\node[below] at (3,-0.15) {$3$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "volume-rotate-curve-x",
         "solution_text": "$V=\\pi\\int_{0}^{3}\\left(\\sqrt{9-x^{2}}\\right)^{2}dx$\n$= \\pi\\int_{0}^{3}\\left(9-x^{2}\\right)dx$\n$= \\pi\\left[9x-\\dfrac{x^{3}}{3}\\right]_{0}^{3}$\n$= \\pi\\left(27-9\\right)$\n$= 18\\pi\\ \\text{units}^{3}$"
       },
-      {
-        "question_text": "The shaded region under $y=x$ from $x=0$ to $x=b$, where $b>0$, is rotated about the $x$-axis.\nThe solid has volume $9\\pi\\ \\text{units}^{3}$.\nFind $b$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1.2cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:2.5, samples=2, variable=\\x] ({\\x},{\\x}) -- (2.5,0) -- cycle;\n\\draw[->] (-1,0) -- (4.2,0) node[right] {$x$};\n\\draw[->] (0,-1) -- (0,3.8) node[above] {$y$};\n\\draw[thick, <->, domain=-0.8:3.6, samples=2, variable=\\x] plot ({\\x},{\\x}) node[pos=0.98, below right] {$y=x$};\n\\node[below] at (2.5,-0.12) {$b$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "volume-reverse-limit-x",
-        "solution_text": "$V=\\pi\\int_{0}^{b}x^{2}dx$\n$= \\pi\\left[\\dfrac{x^{3}}{3}\\right]_{0}^{b}$\n$= \\dfrac{\\pi b^{3}}{3}$\nSetting this equal to the given volume:\n$\\dfrac{\\pi b^{3}}{3}=9\\pi$\n$b^{3}=27$\n$b=3$"
+{
+        "question_text": "The regions bounded by $y=x^{3}-4x$ and the $x$-axis are rotated about the $x$-axis.\nFind the exact volume of the solid formed.",
+        "structure": "volume-limits-from-intercepts",
+        "solution_text": "1. **Identify the limits $x=a$ and $x=b$**\n$x^{3}-4x=x(x-2)(x+2)=0$\n$x=-2,\\ 0,\\ 2$\nThe bounded regions lie between $x=-2$ and $x=2$.\n2. **Write $y^{2}$ in terms of $x$, expanding or simplifying first**\n$y^{2}=\\left(x^{3}-4x\\right)^{2}=x^{6}-8x^{4}+16x^{2}$\n3. **Evaluate $V=\\pi\\int_{a}^{b}y^{2}\\,dx$**\nThe integrand is even, so integrate from $0$ to $2$ and double.\n$V=2\\pi\\int_{0}^{2}\\left(x^{6}-8x^{4}+16x^{2}\\right)dx$\n$=2\\pi\\left[\\dfrac{x^{7}}{7}-\\dfrac{8x^{5}}{5}+\\dfrac{16x^{3}}{3}\\right]_{0}^{2}$\n$=2\\pi\\left(\\dfrac{128}{7}-\\dfrac{256}{5}+\\dfrac{128}{3}\\right)$\n$=\\dfrac{2048\\pi}{105}\\ \\text{units}^{3}$"
       },
-      {
+{
         "question_text": "A vase is modelled by rotating the shaded region under $y=\\sqrt{x}+1$ from $x=0$ to $x=4$ about the $x$-axis, where $1$ unit $=1$ cm.\nFind the exact capacity of the vase in cubic centimetres.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1.1cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:4, samples=80, variable=\\x] ({\\x},{sqrt(\\x)+1}) -- (4,0) -- cycle;\n\\draw[->] (-0.8,0) -- (5.6,0) node[right] {$x$};\n\\draw[->] (0,-0.8) -- (0,4.2) node[above] {$y$};\n\\draw[thick, ->, domain=0:5.2, samples=80, variable=\\x] plot ({\\x},{sqrt(\\x)+1}) node[pos=0.98, above right] {$y=\\sqrt{x}+1$};\n\\node[below] at (4,-0.12) {$4$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "volume-rotate-curve-x",
         "solution_text": "$V=\\pi\\int_{0}^{4}\\left(\\sqrt{x}+1\\right)^{2}dx$\n$= \\pi\\int_{0}^{4}\\left(x+2x^{\\frac{1}{2}}+1\\right)dx$\n$= \\pi\\left[\\dfrac{x^{2}}{2}+\\dfrac{4}{3}x^{\\frac{3}{2}}+x\\right]_{0}^{4}$\n$= \\pi\\left(8+\\dfrac{32}{3}+4\\right)$\n$= \\dfrac{68\\pi}{3}\\ \\text{cm}^{3}$"
       }
-    ]
+]
   }
 }

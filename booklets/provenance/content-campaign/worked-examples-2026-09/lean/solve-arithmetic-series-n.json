@@ -1,0 +1,107 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "solve-arithmetic-series-n",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-08T11:03:48.226Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 120.3,
+      "usage": {
+        "input_tokens": 63791,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 4219,
+        "reasoning_output_tokens": 410
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\solve-arithmetic-series-n\\audit-siaiI1\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 164.8,
+      "usage": {
+        "input_tokens": 65063,
+        "cached_input_tokens": 14976,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 8102,
+        "reasoning_output_tokens": 138
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\solve-arithmetic-series-n\\repair-JZyIzu\\response.raw.txt"
+    },
+    {
+      "name": "review-scoped",
+      "code": 0,
+      "seconds": 42.3,
+      "usage": {
+        "input_tokens": 64133,
+        "cached_input_tokens": 20736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1413,
+        "reasoning_output_tokens": 67
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\solve-arithmetic-series-n\\review-scoped-TxjIrg\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "a28b6760dc5b9f85e8cfa9a3e9bdcc3760058fcde1c8ff950f78c774eed3b012",
+    "quizHash": "e99faf015ce629fec47de94b356ccdecada906a1517b6340fe650cb95a6baa93"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 6 Advanced/Sequences and Series 2_Arithmetic Sequences and Series.md"
+  ],
+  "images": 3,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "audit",
+    "hash": "3aadf05fad77f9da88c9d3f1b81c8e66527e96c0f68bc5b55f00db93ed38e694",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for practice.foundation[7]",
+    "practice.foundation[5]: The factorisation is false: $(n-13)(n+15)=n^2+2n-195$, not $n^2+2n-203$. Correct the solution to state that no positive integer solution exists; $S_{13}=390$, not $406$.",
+    "practice.foundation[7]: The booklet's sigma questions ask students to evaluate sums with supplied limits (Foundation 7, lines 1235–1268); none asks for an unknown upper limit from a specified sum. Replace this off-booklet type with an adapted Foundation question asking for the number of terms of an explicitly given arithmetic series, and update its structure if the task changes.",
+    "practice.development[0]: The question incorrectly promises two valid values. The stated factorisation expands to $n^2-17n+52$, and neither $n=4$ nor $n=13$ gives $104$ ($S_4=88$, $S_{13}=52$). Repair the incompatible sum and expected answers or explicitly ask whether a valid term count exists; the cancellation explanation is also false for the supplied series.",
+    "practice.development[3]: The factorisation is false: $(n-12)(n+14)=n^2+2n-168$. Correct the roots and state that no positive integer solution exists; $S_{12}=96$, not $84$.",
+    "quiz.q1: Option 1's explanation only says the roots were miscalculated; identify a specific mistake that actually produces $11$.",
+    "quiz.q2: Option 1's explanation does not identify a definite calculation producing $20$. Specify the error, such as omitting the $-1$ in $(n-1)d$, which gives $n(20-n)=0$.",
+    "quiz.q4: Repair three distractor explanations: using $a+nd$ gives $2n^2+5n-230=0$, whose positive root is approximately $9.565$, not $11$; the magnitude of $-23/2$ is $11.5$, not $23$; and 'miscalculated the factorisation' does not name a specific mistake producing $8$. Each explanation must derive its displayed value.",
+    "quiz.q5: Option 3's stated mistake does not produce $14$: truncating $15.4$ gives $15$. Change its explanation to a specific mistake yielding $14$, or repair the distractor.",
+    "quiz.q6: The structure 'solve-n-simultaneous-with-last-term' misdescribes the final task: the first term is supplied and the solution uses a single linear sum equation. Update the slug to describe finding the term count with known endpoints.",
+    "theory: Qualify the claim that finding $n$ always produces a quadratic: it does so using known $a$ and nonzero $d$, whereas known endpoints permit a linear equation, as in quiz.q6, and $d=0$ also gives a linear equation. The positive-integer restriction and possibility of two positive term counts are correct."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.foundation[5]",
+    "practice.foundation[7]",
+    "practice.development[0]",
+    "practice.development[3]",
+    "quiz.q1",
+    "quiz.q2",
+    "quiz.q4",
+    "quiz.q5",
+    "quiz.q6"
+  ],
+  "theoryChanged": true,
+  "removed": [
+    {
+      "where": "practice.foundation[7]",
+      "reason": "The unknown sigma upper-limit question was replaced with an adapted Foundation 3 finite-series term-count question."
+    }
+  ],
+  "items": 27,
+  "summary": "Corrected the false factorisations, changed the incompatible two-solution sum to $88$, and replaced the unsupported sigma question with a cited finite-series term-count question. Qualified the theory, updated affected structure slugs and repaired the specified distractor explanations while preserving all other content.",
+  "reviewSummary": "Three practice solutions contain false factorisations, one sigma item is an off-booklet question type, and several quiz distractor explanations require correction. The remaining answers and booklet types pass; no worked examples or removals were supplied, and the theory needs a local qualification.",
+  "candidateHash": "f3711da2c5acd8573a25ce9ccb56a1766c3aff4837bfd9bd8ff28e5e6f6f1071",
+  "findings": [
+    "quiz.q6: The booklet never asks for the term count with first term, last term and sum all supplied; Foundation 3 supplies a finite series, while Development 12 supplies only common difference, last term and sum. Remove the given first term and adapt Development 12 to ask for all possible term counts: the current remaining givens give $n = 12$ or $n = 14$. Update the options to retain exactly one correct answer, their explanations, the solution and the structure slug accordingly.",
+    "theory: Qualify the claim that known endpoints or $d = 0$ give a linear equation: solving for $n$ requires $a + l \\ne 0$ or $a \\ne 0$, respectively. If these coefficients vanish, the sum equation is an identity when $S_n = 0$ and inconsistent otherwise; other givens may determine the count. The remaining theory agrees with the booklet, and no worked examples were supplied."
+  ],
+  "finishedAt": "2026-10-08T11:09:16.025Z"
+}

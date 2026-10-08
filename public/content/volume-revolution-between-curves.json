@@ -2,16 +2,16 @@
   "skillId": "volume-revolution-between-curves",
   "atomType": "R",
   "theory": {
-    "intro": "Rotating the region between two curves leaves a hole down the middle, so every slice is a ring. Subtract the squares of the two radii: $V=\\pi\\int_{a}^{b}\\left(y_{2}^{2}-y_{1}^{2}\\right)dx$.",
+    "intro": "Rotating a region between two curves can give ring-shaped slices or solid discs. Use the actual outer and inner radii, measured as distances from the axis of rotation, and subtract their squares; a solid disc has inner radius $0$.",
     "facts": [
-      "The cross-section of the solid is an **annulus**, the ring between an outer circle and an inner circle.",
-      "Rotating about the $x$-axis gives $V=\\pi\\int_{a}^{b}\\left(y_{2}^{2}-y_{1}^{2}\\right)dx$, where $y_{2}\\ge y_{1}$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1.1cm]\n\\fill[gray!35] (1,0.65) -- plot[domain=1:4, samples=60, variable=\\x] ({\\x},{2.6-0.12*(\\x-2.5)*(\\x-2.5)}) -- plot[domain=4:1, samples=2, variable=\\x] ({\\x},{0.5+0.15*\\x}) -- cycle;\n\\draw[->] (-0.6,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-1.6) -- (0,3.4) node[above] {$y$};\n\\draw[thick, <->, domain=0.2:5, samples=60, variable=\\x] plot ({\\x},{2.6-0.12*(\\x-2.5)*(\\x-2.5)});\n\\draw[thick, <->, domain=0.2:4.6, samples=2, variable=\\x] plot ({\\x},{0.5+0.15*\\x});\n\\node at (4.7,2.75) {$y_{2}$};\n\\node at (4.4,0.6) {$y_{1}$};\n\\end{tikzpicture}[/tikz]",
-      "The outer radius is the curve further from the axis of rotation.",
-      "Subtract the **squares** of the radii; $y_{2}^{2}-y_{1}^{2}$ is not the same as $\\left(y_{2}-y_{1}\\right)^{2}$.",
-      "Rotating about the $y$-axis gives $V=\\pi\\int_{c}^{d}\\left(x_{2}^{2}-x_{1}^{2}\\right)dy$, after rearranging both rules.",
-      "Limits that are not given come from where the curves meet, solving $y_{2}=y_{1}$.",
-      "Where one curve stops before the other, split the region and integrate each part separately."
-    ],
+"When a slice has a hole, its cross-section is an **annulus**, the ring between an outer circle and an inner circle. When there is no hole, the cross-section is a solid disc.",
+"Rotating about the $x$-axis gives $V=\\pi\\int_{a}^{b}\\left(y_{2}^{2}-y_{1}^{2}\\right)dx$ when $y_{2}\\ge y_{1}\\ge 0$ throughout the interval. Here $y_{2}$ and $y_{1}$ are the outer and inner distances from the $x$-axis.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1.1cm]\n\\fill[gray!35] (1,0.65) -- plot[domain=1:4, samples=60, variable=\\x] ({\\x},{2.6-0.12*(\\x-2.5)*(\\x-2.5)}) -- plot[domain=4:1, samples=2, variable=\\x] ({\\x},{0.5+0.15*\\x}) -- cycle;\n\\draw[->] (-0.6,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-1.6) -- (0,3.4) node[above] {$y$};\n\\draw[thick, <->, domain=0.2:5, samples=60, variable=\\x] plot ({\\x},{2.6-0.12*(\\x-2.5)*(\\x-2.5)});\n\\draw[thick, <->, domain=0.2:4.6, samples=2, variable=\\x] plot ({\\x},{0.5+0.15*\\x});\n\\node at (4.7,2.75) {$y_{2}$};\n\\node at (4.4,0.6) {$y_{1}$};\n\\end{tikzpicture}[/tikz]",
+"The outer radius is the curve further from the axis of rotation. Radii are nonnegative distances from that axis. If a slice of the region crosses the axis, rotation gives a solid disc with inner radius $0$ and outer radius equal to the greatest distance from the axis; do not automatically subtract the squares of the two boundary coordinates. Determine the actual cross-section and split the interval where its radii change.",
+"Subtract the **squares** of the radii; $y_{2}^{2}-y_{1}^{2}$ is not the same as $\\left(y_{2}-y_{1}\\right)^{2}$.",
+"Rotating about the $y$-axis gives $V=\\pi\\int_{c}^{d}\\left(x_{2}^{2}-x_{1}^{2}\\right)dy$, after rearranging both rules, when $x_{2}\\ge x_{1}\\ge 0$ throughout the interval. Here $x_{2}$ and $x_{1}$ are the outer and inner distances from the $y$-axis. For either axis, subtract squared distances from the axis using the actual cross-section.",
+"Limits that are not given come from where the curves meet, solving $y_{2}=y_{1}$.",
+"Where one curve stops before the other, split the region and integrate each part separately."
+],
     "steps": [
       "Find the limits, solving $y_{2}=y_{1}$ if they are not given.",
       "Decide which curve gives the outer radius and which gives the inner radius.",

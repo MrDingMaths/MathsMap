@@ -1,20 +1,20 @@
 {
   "skillId": "reverse-chain-rule-power",
   "questions": [
-    {
+{
       "id": "q1",
-      "question_text": "Find $\\int 3x^{2}\\left(x^{3} + 4\\right)^{6}dx$.",
-      "structure": "reverse-chain-basic",
+      "question_text": "Find $\\int (3x+4)^6\\,dx$.",
+      "structure": "linear-inner",
       "mastery": false,
       "options": [
-        { "text": "$\\dfrac{\\left(x^{3} + 4\\right)^{7}}{7} + C$", "correct": true },
-        { "text": "$\\dfrac{\\left(x^{3} + 4\\right)^{7}}{21} + C$", "why": "Divided by $3$ as well as by the new power, although the factor $3x^{2}$ was already the full inner derivative." },
-        { "text": "$\\dfrac{3x^{2}\\left(x^{3} + 4\\right)^{7}}{7} + C$", "why": "Kept the factor $3x^{2}$ in the answer instead of using it up as the inner derivative." },
-        { "text": "$\\dfrac{\\left(x^{3} + 4\\right)^{7}}{6} + C$", "why": "Divided by the original power $6$ instead of the new power $7$." }
-      ],
-      "solution_text": "$f(x) = x^{3} + 4$, so $f'(x) = 3x^{2}$.\n$\\int 3x^{2}\\left(x^{3} + 4\\right)^{6}dx$\n$= \\dfrac{\\left(x^{3} + 4\\right)^{7}}{7} + C$"
+{ "text": "$\\dfrac{(3x+4)^7}{21}+C$", "correct": true },
+{ "text": "$\\dfrac{(3x+4)^7}{7}+C$", "why": "Divided by the new power $7$ but forgot to divide by the coefficient $3$ of $x$." },
+{ "text": "$\\dfrac{(3x+4)^7}{18}+C$", "why": "Multiplied the coefficient $3$ by the original power $6$ instead of the new power $7$." },
+{ "text": "$18(3x+4)^5+C$", "why": "Differentiated the integrand with the chain rule instead of integrating it." }
+],
+      "solution_text": "$\\int (3x+4)^6\\,dx$\n$=\\dfrac{(3x+4)^7}{3\\times7}+C$\n$=\\dfrac{(3x+4)^7}{21}+C$"
     },
-    {
+{
       "id": "q2",
       "question_text": "Find $\\int (3x - 2)^{5}\\,dx$.",
       "structure": "linear-inner",
@@ -27,72 +27,72 @@
       ],
       "solution_text": "$\\int (3x - 2)^{5}\\,dx$\n$= \\dfrac{(3x - 2)^{6}}{3 \\times 6} + C$\n$= \\dfrac{(3x - 2)^{6}}{18} + C$"
     },
-    {
+{
       "id": "q3",
-      "question_text": "Find $\\int 5x\\left(x^{2} - 3\\right)^{4}dx$.",
-      "structure": "adjust-constant-factor",
+      "question_text": "Find $\\int 5(2x-3)^4\\,dx$.",
+      "structure": "constant-multiple-linear-power",
       "mastery": false,
       "options": [
-        { "text": "$\\dfrac{\\left(x^{2} - 3\\right)^{5}}{2} + C$", "correct": true },
-        { "text": "$\\dfrac{\\left(x^{2} - 3\\right)^{5}}{5} + C$", "why": "Ignored the factor $5x$ entirely instead of treating it as $\\dfrac{5}{2}$ of the inner derivative $2x$." },
-        { "text": "$\\dfrac{\\left(x^{2} - 3\\right)^{5}}{10} + C$", "why": "Divided by $2$ after dividing by the new power $5$, instead of multiplying by $\\dfrac{5}{2}$." },
-        { "text": "$\\dfrac{5x^{2}\\left(x^{2} - 3\\right)^{5}}{10} + C$", "why": "Integrated the factor $5x$ separately as $\\dfrac{5x^{2}}{2}$, as if a product rule existed for integration." }
-      ],
-      "solution_text": "$f(x) = x^{2} - 3$, so $f'(x) = 2x$.\n$\\int 5x\\left(x^{2} - 3\\right)^{4}dx$\n$= \\dfrac{5}{2}\\int 2x\\left(x^{2} - 3\\right)^{4}dx$\n$= \\dfrac{5}{2} \\times \\dfrac{\\left(x^{2} - 3\\right)^{5}}{5} + C$\n$= \\dfrac{\\left(x^{2} - 3\\right)^{5}}{2} + C$"
+{ "text": "$\\dfrac{(2x-3)^5}{2}+C$", "correct": true },
+{ "text": "$\\dfrac{(2x-3)^5}{10}+C$", "why": "Ignored the outside constant $5$ when finding the primitive." },
+{ "text": "$(2x-3)^5+C$", "why": "Retained the outside constant $5$ and divided by the new power $5$, but forgot to divide by the coefficient $2$ of $x$." },
+{ "text": "$\\dfrac{5(2x-3)^5}{8}+C$", "why": "Divided by the coefficient $2$ times the original power $4$ instead of the new power $5$." }
+],
+      "solution_text": "$\\int 5(2x-3)^4\\,dx$\n$=\\dfrac{5(2x-3)^5}{2\\times5}+C$\n$=\\dfrac{(2x-3)^5}{2}+C$"
     },
-    {
+{
       "id": "q4",
-      "question_text": "For which of these integrals does the reverse chain rule $\\int f'(x)\\left[f(x)\\right]^{n}dx$ apply?",
-      "structure": "applies-or-not",
+      "question_text": "Find $\\int (7-2x)^3\\,dx$.",
+      "structure": "linear-inner",
       "mastery": false,
       "options": [
-        { "text": "$\\int 8x\\left(x^{2} + 7\\right)^{3}dx$", "correct": true },
-        { "text": "$\\int \\left(x^{2} + 7\\right)^{3}dx$", "why": "There is no factor of $x$ at all, so the inner derivative $2x$ is missing." },
-        { "text": "$\\int x^{2}\\left(x^{2} + 7\\right)^{3}dx$", "why": "The factor $x^{2}$ is not a constant multiple of the inner derivative $2x$." },
-        { "text": "$\\int 8x\\left(x^{3} + 7\\right)^{3}dx$", "why": "Here the inner derivative is $3x^{2}$, and $8x$ is not a constant multiple of it." }
-      ],
-      "solution_text": "The derivative of the inner function must appear as a factor, up to a constant multiple.\nFor $f(x) = x^{2} + 7$, $f'(x) = 2x$ and $8x = 4(2x)$.\nSo the rule applies to $\\int 8x\\left(x^{2} + 7\\right)^{3}dx$."
+{ "text": "$-\\dfrac{(7-2x)^4}{8}+C$", "correct": true },
+{ "text": "$\\dfrac{(7-2x)^4}{8}+C$", "why": "Used $2$ instead of $-2$ as the coefficient of $x$." },
+{ "text": "$\\dfrac{(7-2x)^4}{4}+C$", "why": "Divided by the new power $4$ but forgot to divide by the coefficient $-2$ of $x$." },
+{ "text": "$-\\dfrac{(7-2x)^4}{6}+C$", "why": "Divided by the coefficient $-2$ times the original power $3$ instead of the new power $4$." }
+],
+      "solution_text": "$\\int (7-2x)^3\\,dx$\n$=\\dfrac{(7-2x)^4}{(-2)\\times4}+C$\n$=-\\dfrac{(7-2x)^4}{8}+C$"
     },
-    {
+{
       "id": "q5",
-      "question_text": "Find $\\int \\dfrac{2x}{\\sqrt{x^{2} + 9}}\\,dx$.",
+      "question_text": "Find $\\int \\sqrt{2x+9}\\,dx$.",
       "structure": "composite-root-or-reciprocal",
       "mastery": false,
       "options": [
-        { "text": "$2\\sqrt{x^{2} + 9} + C$", "correct": true },
-        { "text": "$\\sqrt{x^{2} + 9} + C$", "why": "Raised the index from $-\\dfrac{1}{2}$ to $\\dfrac{1}{2}$ but did not divide by the new index $\\dfrac{1}{2}$." },
-        { "text": "$\\dfrac{2\\left(x^{2} + 9\\right)^{\\frac{3}{2}}}{3} + C$", "why": "Read the square root as a factor of $\\sqrt{x^{2}+9}$ rather than the index $-\\dfrac{1}{2}$, integrating the wrong function." },
-        { "text": "$-\\dfrac{2}{3\\sqrt{\\left(x^{2} + 9\\right)^{3}}} + C$", "why": "Subtracted one from the index $-\\dfrac{1}{2}$ instead of adding one." }
-      ],
-      "solution_text": "$\\int 2x\\left(x^{2} + 9\\right)^{-\\frac{1}{2}}dx$\n$= \\dfrac{\\left(x^{2} + 9\\right)^{\\frac{1}{2}}}{\\frac{1}{2}} + C$\n$= 2\\sqrt{x^{2} + 9} + C$"
+{ "text": "$\\dfrac{(2x+9)^{\\frac32}}{3}+C$", "correct": true },
+{ "text": "$\\dfrac{2(2x+9)^{\\frac32}}{3}+C$", "why": "Divided by the new index $\\dfrac32$ but forgot to divide by the coefficient $2$ of $x$." },
+{ "text": "$(2x+9)^{\\frac32}+C$", "why": "Divided by the coefficient $2$ times the original index $\\dfrac12$ instead of the new index $\\dfrac32$." },
+{ "text": "$-\\dfrac{1}{\\sqrt{2x+9}}+C$", "why": "Subtracted one from the index $\\dfrac12$ instead of adding one, then divided by $2\\times(-\\dfrac12)$." }
+],
+      "solution_text": "$\\int (2x+9)^{\\frac12}\\,dx$\n$=\\dfrac{(2x+9)^{\\frac32}}{2\\times\\frac32}+C$\n$=\\dfrac{(2x+9)^{\\frac32}}{3}+C$"
     },
-    {
+{
       "id": "q6",
-      "question_text": "Evaluate $\\int_{0}^{1} 3x^{2}\\left(x^{3} + 1\\right)^{2}dx$.",
-      "structure": "definite-reverse-chain",
+      "question_text": "Evaluate $\\int_0^1(3x+1)^2\\,dx$.",
+      "structure": "definite-linear-power",
       "mastery": false,
       "options": [
-        { "text": "$\\dfrac{7}{3}$", "correct": true },
-        { "text": "$-\\dfrac{7}{3}$", "why": "Computed $F(a) - F(b)$ instead of $F(b) - F(a)$." },
-        { "text": "$\\dfrac{8}{3}$", "why": "Substituted the upper limit only and did not subtract the value at $x = 0$." },
-        { "text": "$3$", "why": "Added the two substituted values instead of subtracting them." }
-      ],
-      "solution_text": "$\\int_{0}^{1} 3x^{2}\\left(x^{3} + 1\\right)^{2}dx$\n$= \\left[\\dfrac{\\left(x^{3} + 1\\right)^{3}}{3}\\right]_{0}^{1}$\n$= \\dfrac{2^{3}}{3} - \\dfrac{1^{3}}{3}$\n$= \\dfrac{8 - 1}{3}$\n$= \\dfrac{7}{3}$"
+{ "text": "$7$", "correct": true },
+{ "text": "$-7$", "why": "Computed the lower-limit value minus the upper-limit value instead of the upper-limit value minus the lower-limit value." },
+{ "text": "$\\dfrac{64}{9}$", "why": "Substituted the upper limit only and did not subtract the primitive's value $\\dfrac19$ at $x=0$." },
+{ "text": "$\\dfrac{65}{9}$", "why": "Added the substituted values $\\dfrac{64}{9}$ and $\\dfrac19$ instead of subtracting them." }
+],
+      "solution_text": "$\\int_0^1(3x+1)^2\\,dx$\n$=\\left[\\dfrac{(3x+1)^3}{9}\\right]_0^1$\n$=\\dfrac{4^3}{9}-\\dfrac{1^3}{9}$\n$=\\dfrac{64-1}{9}$\n$=7$"
     },
-    {
+{
       "id": "q7",
-      "question_text": "In $\\int\\left(4x^{3} - 10x\\right)\\left(x^{4} - 5x^{2}\\right)^{6}dx$, which choice correctly names $f(x)$ and $f'(x)$ for the reverse chain rule?",
-      "structure": "identify-inner-function",
+      "question_text": "Find $\\int (4x-5)^6\\,dx$.",
+      "structure": "linear-inner",
       "mastery": false,
       "options": [
-        { "text": "$f(x) = x^{4} - 5x^{2}$ and $f'(x) = 4x^{3} - 10x$", "correct": true },
-        { "text": "$f(x) = 4x^{3} - 10x$ and $f'(x) = 12x^{2} - 10$", "why": "Took the outside factor as the inner function; the inner function is the expression inside the bracket." },
-        { "text": "$f(x) = x^{4} - 5x^{2}$ and $f'(x) = 4x^{3} - 5x$", "why": "Differentiated $-5x^{2}$ as $-5x$ instead of $-10x$." },
-        { "text": "$f(x) = \\left(x^{4} - 5x^{2}\\right)^{6}$ and $f'(x) = 6\\left(x^{4} - 5x^{2}\\right)^{5}$", "why": "Took the whole power as the inner function and dropped the inner derivative factor." }
-      ],
-      "solution_text": "The inner function is the expression inside the bracket.\n$f(x) = x^{4} - 5x^{2}$\n$f'(x) = 4x^{3} - 10x$"
+{ "text": "$\\dfrac{(4x-5)^7}{28}+C$", "correct": true },
+{ "text": "$\\dfrac{(4x-5)^7}{7}+C$", "why": "Divided by the new power $7$ but forgot to divide by the coefficient $4$ of $x$." },
+{ "text": "$\\dfrac{(4x-5)^7}{24}+C$", "why": "Divided by the coefficient $4$ times the original power $6$ instead of the new power $7$." },
+{ "text": "$24(4x-5)^5+C$", "why": "Differentiated the integrand with the chain rule instead of integrating it." }
+],
+      "solution_text": "$\\int (4x-5)^6\\,dx$\n$=\\dfrac{(4x-5)^7}{4\\times7}+C$\n$=\\dfrac{(4x-5)^7}{28}+C$"
     },
-    {
+{
       "id": "q8",
       "question_text": "Find $\\int \\dfrac{6}{(1 - 4x)^{3}}\\,dx$.",
       "structure": "linear-inner",
@@ -105,5 +105,5 @@
       ],
       "solution_text": "$\\int 6(1 - 4x)^{-3}dx$\n$= \\dfrac{6(1 - 4x)^{-2}}{(-4) \\times (-2)} + C$\n$= \\dfrac{6(1 - 4x)^{-2}}{8} + C$\n$= \\dfrac{3}{4(1 - 4x)^{2}} + C$"
     }
-  ]
+]
 }

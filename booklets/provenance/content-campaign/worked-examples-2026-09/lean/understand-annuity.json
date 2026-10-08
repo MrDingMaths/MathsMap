@@ -1,0 +1,113 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "understand-annuity",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-08T11:51:27.039Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 101.9,
+      "usage": {
+        "input_tokens": 62820,
+        "cached_input_tokens": 14976,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3850,
+        "reasoning_output_tokens": 144
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\understand-annuity\\audit-7tMvy7\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 177,
+      "usage": {
+        "input_tokens": 63030,
+        "cached_input_tokens": 20736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 8434,
+        "reasoning_output_tokens": 96
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\understand-annuity\\repair-azTwXT\\response.raw.txt"
+    },
+    {
+      "name": "review-full",
+      "code": 0,
+      "seconds": 72.5,
+      "usage": {
+        "input_tokens": 63893,
+        "cached_input_tokens": 14976,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2795,
+        "reasoning_output_tokens": 129
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\understand-annuity\\review-full-ciZLra\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "7ad904dd46213d038fc3b85454726ff2335a757f57707c18192d16eb15877e4d",
+    "quizHash": "a7d2073280f6de5f43d7453e74297a71a1572522d390dbdae3045c804f5cd12a"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 6 Standard/Annuities.md"
+  ],
+  "images": 23,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "review-full",
+    "hash": "c60d94efd576e68ba3278ecb45eb23ff2f8ea9caf8bfaf648a26c662d69ac45c",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for practice.mastery[2]",
+    "practice.foundation[4]: State that the account starts with a zero balance; the supplied information otherwise does not determine total interest.",
+    "practice.development[0]: Specify nearest-cent answers and retain full precision in the working until rounding the requested results; the displayed interest equality currently treats a rounded value as exact.",
+    "practice.development[1]: State that deposits occur at the end of each half-year and request the balance to the nearest cent. Keep $3745.9296$ unrounded in the final calculation before rounding the answer.",
+    "practice.development[3]: Keep the final multiplication result $179150.62752$ unrounded until calculating and rounding $V_3$; the existing equality uses a rounded intermediate value.",
+    "practice.development[5]: Specify that repayments occur at the end of each month, after interest is charged.",
+    "practice.mastery[0]: Request nearest-cent answers and retain full precision until rounding the requested results; the interest equality currently presents a rounded amount as exact.",
+    "practice.mastery[2]: The booklet never asks for interest as a percentage of total deposits. Remove that off-booklet demand; retain the supported closing-balance and total-interest tasks.",
+    "quiz.q1: Option 2's explanation does not produce its value: interest on the deposit alone is also $\\$200$. Its $\\$10400$ value instead results from charging interest on both the opening balance and the new deposit.",
+    "quiz.q3: Make option 2's explanation specific: it uses simple interest on the first deposit for two periods and omits interest on the second deposit. Compounding only the first deposit would instead give $\\$1530.45$.",
+    "quiz.q4: Option 3's $\\$4700$ does not follow from adding repayments. Correct its value or explanation so the numerical distractor follows the named mistake.",
+    "quiz.q5: Specify zero initial balance. In option 1's why, put the dollar amount inside inline maths as $\\$2500$.",
+    "quiz.q6: Option 1's explanation does not derive $1.8\\%$ from the interest amount; identify a specific mistake that produces it. Put its dollar amount inside inline maths as $\\$18$. Option 2's $0.03\\%$ results from attaching a percent sign to the decimal rate without conversion; dividing the decimal rate by 100 would instead give $0.0003\\%$.",
+    "quiz.q7: Specify end-of-quarter repayments after interest is charged.",
+    "quiz.q8: Describe $\\$200$ in option 0 as the initial periodic interest; the periodic interest increases with the balance and is not always $\\$200$.",
+    "quiz.q9: Option 3's $\\$144.90$ does not follow from its explanation; the stated mistake produces a negative amount of $\\$294.90$. Correct the value or explanation.",
+    "theory: Define annuities as equal regular payments into or out of an investment or loan, including withdrawals. The investment recurrence must allow an initial investment: $V_0$ is the initial balance and is zero only when no initial lump sum is invested. The procedure must explicitly add the calculated interest to the opening balance before adding a deposit or subtracting a repayment, and define $r$ as the decimal interest rate per payment/compounding period."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.foundation[4]",
+    "practice.development[0]",
+    "practice.development[1]",
+    "practice.development[3]",
+    "practice.development[5]",
+    "practice.mastery[0]",
+    "practice.mastery[2]",
+    "quiz.q1",
+    "quiz.q3",
+    "quiz.q4",
+    "quiz.q5",
+    "quiz.q6",
+    "quiz.q7",
+    "quiz.q8",
+    "quiz.q9"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 24,
+  "summary": "Repaired the annuity definition and procedure, initial-balance and payment-timing statements, nearest-cent instructions, full-precision working, and quiz distractor values and explanations. Removed only the unsupported percentage demand within practice.mastery[2], retained its closing-balance and total-interest tasks with booklet citations, and preserved all whole items and unaffected content.",
+  "reviewSummary": "All 24 items have correct answers, stay within the target skill and use question types explicitly asked in the booklet; every quiz has exactly one correct option. Repair only quiz.q1's final distractor explanation; the theory is sound, no worked examples were supplied and no removals were proposed.",
+  "candidateHash": "c60d94efd576e68ba3278ecb45eb23ff2f8ea9caf8bfaf648a26c662d69ac45c",
+  "findings": [
+    "quiz.q1: Change option index 3's why to 'Omitted the Year 2 opening balance, adding only the interest and the new deposit.' The previous year's opening balance is zero, so the existing explanation does not produce this distractor."
+  ],
+  "finishedAt": "2026-10-08T11:57:18.715Z"
+}

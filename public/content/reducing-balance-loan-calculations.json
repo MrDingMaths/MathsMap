@@ -2,102 +2,104 @@
   "skillId": "reducing-balance-loan-calculations",
   "atomType": "R",
   "theory": {
-    "intro": "Summing the geometric series of repayments yields a closed formula for the **balance owing** $A_{n}$ after $n$ repayments. This formula allows direct calculation of the outstanding debt, total amount paid, and total interest charged.",
+    "intro": "Derive the balance owing from the geometric series of repayments each time. Interest is added to the current balance before each end-of-period repayment.",
     "facts": [
-      "The balance owing is $A_{n}=PV(1+r)^{n}-M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$, where $r$ is the periodic interest rate.",
-      "The total amount paid to the lender after $n$ repayments is $\\text{Total Paid}=n\\times M$.",
-      "When a loan is completely paid off, the total interest charged is $\\text{Total Interest}=nM-PV$.",
-      "For an ongoing loan, total interest charged up to period $n$ is $nM-(PV-A_{n})$.",
-      "Principal reduces slowly in early years because the majority of each repayment covers accrued interest."
-    ],
+"The initial balance is $A_0=PV$. With periodic interest rate $r$ and end-of-period repayment $M$, $A_n=A_{n-1}(1+r)-M$.",
+"Expanding gives $A_n=PV(1+r)^n-[M+M(1+r)+\\dots+M(1+r)^{n-1}]$. The repayments form a geometric series with first term $M$, common ratio $1+r$ and $n$ terms.",
+"For $r\\ne0$, summing the repayment series gives $A_n=PV(1+r)^n-M\\left[\\dfrac{(1+r)^n-1}{r}\\right]$. For zero interest, $A_n=PV-nM$.",
+"For a schedule comprising $n$ equal payments of $M$, total paid is $nM$. If the final payment is smaller, add that final payment to the total of the preceding full payments.",
+"When a loan is completely paid off, total interest is total paid minus $PV$. For an ongoing loan, interest charged is total paid minus the principal reduction $PV-A_n$.",
+"The interest portion of a repayment is $rA_{n-1}$. Whether it takes most of an early repayment depends on the loan balance, interest rate and repayment amount."
+],
     "steps": [
-      "Calculate the periodic interest rate $r$ and number of periods $n$.",
-      "Substitute $PV$, $r$, $M$, and $n$ into $A_{n}=PV(1+r)^{n}-M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$ to find the balance.",
-      "Multiply $n\\times M$ to calculate total payments made.",
-      "Subtract the principal reduction $PV-A_{n}$ from total payments to find interest charged."
-    ]
+"Define the initial balance $A_0=PV$, calculate the periodic interest rate $r$ and count the repayment periods. Repayments occur at the end of each period after interest is added.",
+"Write $A_1=PV(1+r)-M$ and expand $A_2=[PV(1+r)-M](1+r)-M=PV(1+r)^2-M(1+r)-M$.",
+"Extend the expansion to $A_n=PV(1+r)^n-[M+M(1+r)+\\dots+M(1+r)^{n-1}]$. Identify the repayment geometric series and derive its sum.",
+"For $r\\ne0$, use the derived equation $A_n=PV(1+r)^n-M\\left[\\dfrac{(1+r)^n-1}{r}\\right]$ and evaluate without rounding intermediate values. For $r=0$, use $A_n=PV-nM$.",
+"When totals are requested, add the actual scheduled payments, including any smaller final payment. Subtract the principal reduction from total paid to find interest charged; for a fully repaid loan, subtract $PV$."
+]
   },
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "A loan of $\\$15\\,000$ charges interest at $9.6\\%$ p.a. compounded monthly ($r=0.008$) with monthly repayments of $\\$450$.\nFind the balance owing after $18$ repayments, to the nearest cent.",
         "structure": "calculate-balance-owing",
-        "solution_text": "$r=0.008, n=18$\n$A_{18}=PV(1+r)^{n}-M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$\n$=15\\,000(1.008)^{18}-450\\left[\\dfrac{(1.008)^{18}-1}{0.008}\\right]$\n$=17\\,313.93-8677.23$\n$=\\$8636.70$"
+        "solution_text": "$r=0.008, n=18$, with repayments at the end of each month.\n$A_0=15\\,000$\n$A_1=15\\,000(1.008)-450$\n$A_2=[15\\,000(1.008)-450](1.008)-450=15\\,000(1.008)^2-450(1.008)-450$\n$A_{18}=15\\,000(1.008)^{18}-[450+450(1.008)+\\dots+450(1.008)^{17}]$\nThe repayment series has $a=450$, $R=1.008$ and $18$ terms.\n$A_{18}=15\\,000(1.008)^{18}-450\\left[\\dfrac{(1.008)^{18}-1}{0.008}\\right]$\nKeeping full precision until the final rounding gives $A_{18}=\\$8636.32$."
       },
-      {
+{
         "question_text": "A borrower makes monthly repayments of $\\$520$ for $5$ years on a reducing balance loan.\nCalculate the total amount paid, to the nearest dollar.",
         "structure": "calculate-total-paid",
         "solution_text": "$n=5\\times12=60$\n$\\text{Total Paid}=n\\times M$\n$=60\\times520$\n$=\\$31\\,200$"
       },
-      {
+{
         "question_text": "A loan of $\\$24\\,000$ is fully repaid with $48$ monthly payments of $\\$610$.\nCalculate the total interest charged over the life of the loan.",
         "structure": "calculate-total-interest",
         "solution_text": "$\\text{Total Paid}=48\\times610=\\$29\\,280$\n$\\text{Total Interest}=\\text{Total Paid}-PV$\n$=29\\,280-24\\,000$\n$=\\$5280$"
       },
-      {
+{
         "question_text": "A $\\$20\\,000$ loan incurs interest at $6\\%$ p.a. compounded monthly ($r=0.005$).\nMonthly repayments are $\\$500$.\nFind the balance owing after $12$ months, to the nearest cent.",
         "structure": "calculate-balance-owing",
-        "solution_text": "$r=0.005, n=12$\n$A_{12}=20\\,000(1.005)^{12}-500\\left[\\dfrac{(1.005)^{12}-1}{0.005}\\right]$\n$=21\\,233.56-6167.78$\n$=\\$15\\,065.78$"
+        "solution_text": "$r=0.005, n=12$, with repayments at the end of each month.\n$A_0=20\\,000$\n$A_1=20\\,000(1.005)-500$\n$A_2=20\\,000(1.005)^2-500(1.005)-500$\n$A_{12}=20\\,000(1.005)^{12}-[500+500(1.005)+\\dots+500(1.005)^{11}]$\nThe repayment series has $a=500$, $R=1.005$ and $12$ terms.\n$A_{12}=20\\,000(1.005)^{12}-500\\left[\\dfrac{(1.005)^{12}-1}{0.005}\\right]$\n$=\\$15\\,065.78$, rounded only at the end."
       },
-      {
+{
         "question_text": "For a $\\$20\\,000$ loan with monthly repayments of $\\$500$ and balance $A_{12}=\\$15\\,065.78$ after $12$ months, calculate the total principal paid off and the total interest charged during these first $12$ months.",
         "structure": "calculate-principal-reduction",
         "solution_text": "$\\text{Principal reduced}=20\\,000-15\\,065.78=\\$4934.22$\n$\\text{Total payments}=12\\times500=\\$6000$\n$\\text{Interest charged}=6000-4934.22=\\$1065.78$"
       },
-      {
-        "question_text": "Given $A_{n}=PV(1+r)^{n}-M(1+r)^{n-1}-\\dots-M$, show how summing the repayment geometric series gives $A_{n}=PV(1+r)^{n}-M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$.",
+{
+        "question_text": "Given $A_{n}=PV(1+r)^{n}-M(1+r)^{n-1}-\\dots-M$, where $r\\ne0$, show how summing the repayment geometric series gives $A_{n}=PV(1+r)^{n}-M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$.",
         "structure": "derive-closed-balance-formula",
-        "solution_text": "$A_{n}=PV(1+r)^{n}-[M+M(1+r)+\\dots+M(1+r)^{n-1}]$\nThe bracketed terms form a GP with $a=M$, ratio $R=1+r$, and $n$ terms.\n$S_{n}=\\dfrac{M((1+r)^{n}-1)}{(1+r)-1}=\\dfrac{M((1+r)^{n}-1)}{r}$\n$A_{n}=PV(1+r)^{n}-M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$"
+        "solution_text": "$A_{n}=PV(1+r)^{n}-[M+M(1+r)+\\dots+M(1+r)^{n-1}]$\nThe bracketed terms form a GP with $a=M$, ratio $R=1+r$, and $n$ terms.\nSince $r\\ne0$, $S_{n}=\\dfrac{M((1+r)^{n}-1)}{(1+r)-1}=\\dfrac{M((1+r)^{n}-1)}{r}$.\n$A_{n}=PV(1+r)^{n}-M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$"
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "A mortgage of $\\$300\\,000$ at $4.8\\%$ p.a. compounded monthly ($r=0.004$) is repaid with monthly instalments of $\\$1800$.\nFind the balance owing after $10$ years ($120$ months), to the nearest cent.",
         "structure": "calculate-balance-owing",
-        "solution_text": "$r=0.004, n=120$\n$A_{120}=300\\,000(1.004)^{120}-1800\\left[\\dfrac{(1.004)^{120}-1}{0.004}\\right]$\n$=484\\,348.92-276\\,523.38$\n$=\\$207\\,825.54$"
+        "solution_text": "$r=0.004, n=120$, with repayments at the end of each month.\n$A_0=300\\,000$\n$A_1=300\\,000(1.004)-1800$\n$A_2=300\\,000(1.004)^2-1800(1.004)-1800$\n$A_{120}=300\\,000(1.004)^{120}-[1800+1800(1.004)+\\dots+1800(1.004)^{119}]$\nThe repayment series has $a=1800$, $R=1.004$ and $120$ terms.\n$A_{120}=300\\,000(1.004)^{120}-1800\\left[\\dfrac{(1.004)^{120}-1}{0.004}\\right]$\nKeeping full precision until the final rounding gives $A_{120}=\\$207\\,820.82$."
       },
-      {
-        "question_text": "For the $\\$300\\,000$ mortgage above, what percentage of the initial principal has been paid off after $10$ years (balance $\\$207\\,825.54$)?\nRound your answer to one decimal place.",
-        "structure": "calculate-principal-reduction",
-        "solution_text": "$\\text{Principal paid off}=300\\,000-207\\,825.54=\\$92\\,174.46$\n$\\text{Percentage}=\\dfrac{92\\,174.46}{300\\,000}\\times100\\%$\n$=30.7\\%$"
+{
+        "question_text": "For the $\\$300\\,000$ mortgage above, the balance after $10$ years is $\\$207\\,820.82$.\nCalculate the principal paid off, to the nearest cent, and state whether the remaining balance is more or less than half the amount borrowed.",
+        "structure": "calculate-principal-reduction-and-compare-balance",
+        "solution_text": "$\\text{Principal paid off}=300\\,000-207\\,820.82=\\$92\\,179.18$\nHalf the amount borrowed is $\\$150\\,000$.\nSince $207\\,820.82>150\\,000$, the remaining balance is more than half the amount borrowed."
       },
-      {
-        "question_text": "A car loan of $\\$36\\,000$ at $7.2\\%$ p.a. compounded monthly ($r=0.006$) is repaid with monthly payments of $\\$750$ over $5$ years ($60$ months), leaving a final balance of $\\$0$.\nCalculate the total interest paid over the $5$ years.",
+{
+        "question_text": "A car loan of $\\$36\\,000$ is fully repaid with $60$ equal monthly payments of $\\$750$ over $5$ years.\nCalculate the total interest paid over the $5$ years.",
         "structure": "calculate-total-interest",
         "solution_text": "$\\text{Total paid}=60\\times750=\\$45\\,000$\n$\\text{Total interest}=45\\,000-36\\,000$\n$=\\$9000$"
       },
-      {
+{
         "question_text": "A loan of $\\$50\\,000$ charges interest at $8\\%$ p.a. compounded quarterly ($r=0.02$) with quarterly payments of $\\$2200$.\nFind the balance owing after $3$ years ($12$ quarters), to the nearest dollar.",
         "structure": "calculate-balance-owing",
-        "solution_text": "$r=0.02, n=12$\n$A_{12}=50\\,000(1.02)^{12}-2200\\left[\\dfrac{(1.02)^{12}-1}{0.02}\\right]$\n$=63\\,412.09-29\\,506.60$\n$=\\$33\\,905$"
+        "solution_text": "$r=0.02, n=12$, with repayments at the end of each quarter.\n$A_0=50\\,000$\n$A_1=50\\,000(1.02)-2200$\n$A_2=50\\,000(1.02)^2-2200(1.02)-2200$\n$A_{12}=50\\,000(1.02)^{12}-[2200+2200(1.02)+\\dots+2200(1.02)^{11}]$\nThe repayment series has $a=2200$, $R=1.02$ and $12$ terms.\n$A_{12}=50\\,000(1.02)^{12}-2200\\left[\\dfrac{(1.02)^{12}-1}{0.02}\\right]$\n$=\\$33\\,905$ to the nearest dollar."
       },
-      {
+{
         "question_text": "For the $\\$50\\,000$ quarterly loan above with balance $\\$33\\,905.49$ after $12$ quarters of $\\$2200$ payments, calculate the total interest charged during these first $3$ years.",
         "structure": "calculate-total-interest",
         "solution_text": "$\\text{Total paid}=12\\times2200=\\$26\\,400$\n$\\text{Principal reduced}=50\\,000-33\\,905.49=\\$16\\,094.51$\n$\\text{Interest charged}=26\\,400-16\\,094.51$\n$=\\$10\\,305.49$"
       },
-      {
-        "question_text": "Show that the balance after $3$ periods $A_{3}=PV(1+r)^{3}-M[(1+r)^{2}+(1+r)+1]$ simplifies to $PV(1+r)^{3}-M\\left[\\dfrac{(1+r)^{3}-1}{r}\\right]$.",
-        "structure": "derive-closed-balance-formula",
-        "solution_text": "$1+(1+r)+(1+r)^{2}$ is a GP with $a=1, R=1+r, n=3$\n$S_{3}=\\dfrac{1((1+r)^{3}-1)}{(1+r)-1}=\\dfrac{(1+r)^{3}-1}{r}$\n$A_{3}=PV(1+r)^{3}-M\\left[\\dfrac{(1+r)^{3}-1}{r}\\right]$"
-      }
-    ],
-    "mastery": [
-      {
-        "question_text": "A mortgage of $\\$400\\,000$ at $6\\%$ p.a. compounded monthly ($r=0.005$) has monthly repayments of $\\$2500$.\nAfter $24$ months, the interest rate increases to $7.2\\%$ p.a. compounded monthly ($r=0.006$).\nFind the balance owing at the end of month $25$, to the nearest cent.",
+{
+        "question_text": "A loan of $\\$50\\,000$ charges interest at $8\\%$ p.a. compounded quarterly. Repayments of $\\$2200$ are made at the end of each quarter.\nFind the balance owing after $3$ repayments, to the nearest cent.",
         "structure": "calculate-balance-owing",
-        "solution_text": "$A_{24}=400\\,000(1.005)^{24}-2500\\left[\\dfrac{(1.005)^{24}-1}{0.005}\\right]=\\$387\\,284.02$\n$A_{25}=A_{24}(1.006)-2500$\n$=387\\,284.02(1.006)-2500$\n$=389\\,607.72-2500$\n$=\\$387\\,107.72$"
+        "solution_text": "$r=0.08\\div4=0.02$, $A_0=50\\,000$.\n$A_1=50\\,000(1.02)-2200$\n$A_2=50\\,000(1.02)^2-2200(1.02)-2200$\n$A_3=50\\,000(1.02)^3-[2200+2200(1.02)+2200(1.02)^2]$\nThe repayment series has $a=2200$, $R=1.02$ and $3$ terms.\n$A_3=50\\,000(1.02)^3-2200\\left[\\dfrac{(1.02)^3-1}{0.02}\\right]$\n$=53\\,060.40-6732.88=\\$46\\,327.52$"
+      }
+],
+    "mastery": [
+{
+        "question_text": "A mortgage of $\\$400\\,000$ at $6\\%$ p.a. compounded monthly ($r=0.005$) has repayments of $\\$2500$ at the end of each month.\nFind the balance owing after $24$ repayments, to the nearest cent, and state whether it is more or less than half the amount borrowed.",
+        "structure": "calculate-balance-and-compare-with-half-principal",
+        "solution_text": "$A_0=400\\,000$\n$A_1=400\\,000(1.005)-2500$\n$A_2=400\\,000(1.005)^2-2500(1.005)-2500$\n$A_{24}=400\\,000(1.005)^{24}-[2500+2500(1.005)+\\dots+2500(1.005)^{23}]$\nThe repayment series has $a=2500$, $R=1.005$ and $24$ terms.\n$A_{24}=400\\,000(1.005)^{24}-2500\\left[\\dfrac{(1.005)^{24}-1}{0.005}\\right]$\n$=\\$387\\,284.02$, rounded only at the end.\nHalf the amount borrowed is $\\$200\\,000$, so the balance is more than half."
       },
-      {
-        "question_text": "Compare the total interest paid on a $\\$100\\,000$ loan at $6\\%$ p.a. compounded monthly ($r=0.005$) when repaid with $\\$1000$ per month for $139$ months versus $\\$1500$ per month for $82$ months (both leaving $\\$0$ balance).\nHow much interest is saved with the higher repayment?",
+{
+        "question_text": "Compare two repayment schedules for a $\\$100\\,000$ loan: $139$ equal monthly payments of $\\$1000$, or $82$ equal monthly payments of $\\$1500$. Each schedule fully repays the loan with its stated payments and no additional final payment.\nHow much interest is saved under the second schedule?",
         "structure": "calculate-total-interest",
         "solution_text": "$\\text{Case 1 Total Paid}=139\\times1000=\\$139\\,000$\n$\\text{Case 1 Interest}=139\\,000-100\\,000=\\$39\\,000$\n$\\text{Case 2 Total Paid}=82\\times1500=\\$123\\,000$\n$\\text{Case 2 Interest}=123\\,000-100\\,000=\\$23\\,000$\n$\\text{Interest Saved}=39\\,000-23\\,000=\\$16\\,000$"
       },
-      {
-        "question_text": "A loan of $\\$PV$ is repaid with monthly instalments $\\$M$ at monthly rate $r$.\nIn month 1, interest is $I_{1}=PV\\times r$ and principal reduced is $P_{1}=M-PV\\times r$.\nShow that in month 2, the principal reduction is $P_{2}=P_{1}(1+r)$.",
-        "structure": "calculate-principal-reduction",
-        "solution_text": "$A_{1}=PV(1+r)-M=PV-(M-PV\\times r)=PV-P_{1}$\n$I_{2}=A_{1}\\times r=(PV-P_{1})r=PV\\times r-P_{1}r$\n$P_{2}=M-I_{2}=M-(PV\\times r-P_{1}r)$\n$=(M-PV\\times r)+P_{1}r$\n$=P_{1}+P_{1}r$\n$=P_{1}(1+r)$"
+{
+        "question_text": "A company borrows $\\$480\\,000$ at $6\\%$ p.a. compounded monthly and repays $\\$9000$ at the end of each month.\nLet $A_n$ be the balance after $n$ repayments. Find a series expression for $A_n$ and hence derive an equation for $A_n$.",
+        "structure": "derive-loan-balance-equation",
+        "solution_text": "$r=0.06\\div12=0.005$, $A_0=480\\,000$.\n$A_1=480\\,000(1.005)-9000$\n$A_2=480\\,000(1.005)^2-9000(1.005)-9000$\n$A_n=480\\,000(1.005)^n-[9000+9000(1.005)+\\dots+9000(1.005)^{n-1}]$\nThe repayment series has $a=9000$, $R=1.005$ and $n$ terms.\nSince $r=0.005\\ne0$, its sum is $9000\\left[\\dfrac{(1.005)^n-1}{0.005}\\right]$.\nHence $A_n=480\\,000(1.005)^n-9000\\left[\\dfrac{(1.005)^n-1}{0.005}\\right]$."
       }
-    ]
+]
   }
 }

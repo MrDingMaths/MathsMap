@@ -1,0 +1,89 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "solve-de-dydx-gy",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-08T11:06:39.746Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 90.1,
+      "usage": {
+        "input_tokens": 171979,
+        "cached_input_tokens": 14976,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3146,
+        "reasoning_output_tokens": 175
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\solve-de-dydx-gy\\audit-vJqA70\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 177.7,
+      "usage": {
+        "input_tokens": 171821,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 8407,
+        "reasoning_output_tokens": 24
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\solve-de-dydx-gy\\repair-JzkzCe\\response.raw.txt"
+    },
+    {
+      "name": "review-full",
+      "code": 0,
+      "seconds": 59.7,
+      "usage": {
+        "input_tokens": 173089,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2181,
+        "reasoning_output_tokens": 171
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\solve-de-dydx-gy\\review-full-Xg122v\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "af5f3f268f38aed99b16893c7d1119881b2ed24d8f182bb0f7dab3423a5ae762",
+    "quizHash": "6f2fccccd4d9aee640be44031439e976e182b20c609c203e0410e16caa16c10f"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 6 Extension 1/Further Applications of Calculus 4_Differential equations.md"
+  ],
+  "images": 88,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "review-full",
+    "hash": "1c7e224b1a437350be4411c6dc0d8a7b1ffca2f179ca7278d1b04733299d2419",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "practice.foundation[3]: State $x>C$ in the final solution. Squaring without this restriction introduces $x<C$, where the derivative is negative and does not equal $3\\sqrt{y}$; $x=C$ is excluded by the given $y>0$.",
+    "quiz.q4: Repair the explanations for options 2 and 3: leaving a constant inside an exponent is valid. The specific error is using $3$ as the additive exponent constant instead of $\\ln3$; option 3 additionally loses the negative rate.",
+    "quiz.q5: Repair option 2's explanation: the correct constant is $C=-1/2$, whereas that option results from $C=1/2$. Repair option 3's explanation: it retains the initial value $-1$ but has the opposite derivative sign; it can result from losing the minus sign in the antiderivative and then applying the initial condition.",
+    "theory: Replace the claim that $g(y)$ cannot be integrated with respect to $x$ because it has no $x$: along a solution, $y$ depends on $x$, so direct integration cannot treat $y$ as constant, and a constant $g$ can be integrated directly. Qualify the reciprocal rule by $g(y)\\ne0$ and check excluded constant solutions separately; specify $k\\ne0$ for $x=\\ln|y|/k+C$, handle $k=0$ as constant solutions, and allow $A=0$ in exponential families. Explain that squaring requires retaining the sign restriction from the preceding square-root equation."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.foundation[3]",
+    "quiz.q4",
+    "quiz.q5"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 25,
+  "summary": "Corrected the theory about direct integration, reciprocal restrictions, constant solutions, exponential families and retaining sign restrictions after squaring, and added $x>C$ to practice.foundation[3]. Repaired the specified distractor explanations in quiz.q4 and quiz.q5; no whole items were removed, and all other content was preserved.",
+  "reviewSummary": "All 25 items use booklet-supported question types, and their calculations and quiz distractor explanations are correct. Add the strict domain restrictions to the two reciprocal-linear branch solutions; no removals or new worked examples are needed.",
+  "candidateHash": "1c7e224b1a437350be4411c6dc0d8a7b1ffca2f179ca7278d1b04733299d2419",
+  "findings": [
+    "practice.mastery[0]: Add $x>-7$ to the final solution. At $x=-7$, $y=4$ makes the original DE undefined, so the square-root endpoint must be excluded.",
+    "quiz.q8: Add $x>-5$ to the correct option and final solution. At $x=-5$, $y=-5$ makes the original DE undefined, so the square-root endpoint must be excluded."
+  ],
+  "finishedAt": "2026-10-08T11:12:07.865Z"
+}

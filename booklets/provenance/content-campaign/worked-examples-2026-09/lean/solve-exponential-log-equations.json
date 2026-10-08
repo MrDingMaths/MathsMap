@@ -1,0 +1,92 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "solve-exponential-log-equations",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-08T11:10:22.761Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 81.5,
+      "usage": {
+        "input_tokens": 63589,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3059,
+        "reasoning_output_tokens": 238
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\solve-exponential-log-equations\\audit-orqEMh\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 133.9,
+      "usage": {
+        "input_tokens": 63376,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 6005,
+        "reasoning_output_tokens": 188
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\solve-exponential-log-equations\\repair-qhs3ZM\\response.raw.txt"
+    },
+    {
+      "name": "review-full",
+      "code": 0,
+      "seconds": 56.1,
+      "usage": {
+        "input_tokens": 63542,
+        "cached_input_tokens": 20736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2257,
+        "reasoning_output_tokens": 167
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\solve-exponential-log-equations\\review-full-PdUUR9\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "495c30142efb38b5c5dab8113c0d1b5b5c045bb89f9548d9729e710de9fed7d9",
+    "quizHash": "938ce1f2a81c54ef5982904a1a9e26394f8473dde36c9310b406d44c34c84c60"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 5 Path/Logarithms_2 Establish and apply the laws of logarithms to solve problems.md",
+    "booklets/mathsmap-sources/Stage 5 Path/Logarithms_1 Examine logarithms both numerically and graphically.md"
+  ],
+  "images": 19,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "review-full",
+    "hash": "e8c25e7cfc4c287286f7e444d0dec58d8be912d6bf2cc694efe510b447c24730",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for quiz.dq-116638",
+    "quiz.q7: The third option must be $16.932$, not $16.933$: derive it from the full-precision value before rounding.",
+    "quiz.dq-87608: State the required rounding and evaluate every numerical option and the final solution accordingly. Use the booklet's taught base-10 logarithm method rather than introducing natural logarithms.",
+    "quiz.dq-87605: The explanations for $x=2$ and $x=1/2$ must name specific mistakes that actually produce those values. The current explanations do not derive their distractors; ignoring the factor $2$ would give $x=3$, not $x=1/2$.",
+    "quiz.dq-116638: The booklet never asks students to identify an invalid first step; valid steps appearing in solutions do not establish this question type. Replace this item under the same quiz id with a source-supported equation-solving task within this skill, and update its structure slug to describe that task.",
+    "theory: State the logarithm conditions: base positive and unequal to $1$, and argument positive. The general assertion that $\\log_x a=k$ gives $x=\\sqrt[k]{a}$ must exclude $k=0$: when $a=1$ and $k=0$, every admissible base satisfies the equation, while $a\\ne1$ gives no solution. Qualify the no-solution statement for $a^x=b$ with a positive base."
+  ],
+  "repaired": true,
+  "changed": [
+    "quiz.q7",
+    "quiz.dq-87608",
+    "quiz.dq-87605",
+    "quiz.dq-116638"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 29,
+  "summary": "Qualified the logarithm conditions and zero-index case, corrected q7's rounded distractor, evaluated dq-87608 using base-10 logarithms with stated rounding, and repaired the two specified distractor explanations in dq-87605. Replaced dq-116638 under the same id with a cited booklet-supported equation-solving task and updated its structure; theory edits and replacement under a retained id are not whole-item removals.",
+  "reviewSummary": "All 29 items are supported booklet question types, and their answers, rounding and taught methods are correct; no worked examples or removals were supplied. Repair only the explanation for the final distractor in quiz.dq-87605 so it identifies the mistakes producing its specific value.",
+  "candidateHash": "e8c25e7cfc4c287286f7e444d0dec58d8be912d6bf2cc694efe510b447c24730",
+  "findings": [
+    "quiz.dq-87605: Option 3's explanation correctly rejects negative exponents but does not identify a mistake that produces its specific value. Keep the option and replace its why with: \"Reversed the ratio of the indices and incorrectly made it negative, giving $x=-2/3$ instead of $x=3/2$.\""
+  ],
+  "finishedAt": "2026-10-08T11:14:54.533Z"
+}

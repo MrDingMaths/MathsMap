@@ -2,114 +2,114 @@
   "skillId": "unit-circle-definitions",
   "atomType": "R",
   "theory": {
-        "intro": "A **unit circle** is a circle centred at the origin $O$ with radius $1$. The point $P$ at angle $\\theta$, measured anticlockwise from the positive $x$-axis, has coordinates $(\\cos\\theta,\\sin\\theta)$. The radius is the hypotenuse, so each ratio is just a coordinate.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, calc}\n\\coordinate (O) at (0,0);\n\\coordinate (X) at (1.2,0);\n\\coordinate (P) at (55:2.4);\n\\coordinate (F) at ({2.4*cos(55)},0);\n\\draw[{Stealth}-{Stealth}] (-3,0)--(3,0) node[right] {$x$};\n\\draw[{Stealth}-{Stealth}] (0,-3)--(0,3) node[above] {$y$};\n\\draw (O) circle (2.4);\n\\draw[thick] (O)--(P) node[midway, above left] {$1$};\n\\draw[red, thick] (F)--(P) node[midway, right] {$y$};\n\\draw[blue, thick] (O)--(F) node[midway, below] {$x$};\n\\fill (P) circle (1.6pt);\n\\node[above right] at (P) {$P(x,y)$};\n\\node[below left] at (O) {$O$};\n\\node[below] at (2.4,0) {$1$};\n\\node[below] at (-2.4,0) {$-1$};\n\\node[left] at (0,2.4) {$1$};\n\\node[left] at (0,-2.4) {$-1$};\n\\pic[draw, \"$\\theta$\", angle radius=0.75cm, angle eccentricity=1.5] {angle=X--O--P};\n\\coordinate (ra) at ($(F)!0.28cm!(O)$);\n\\coordinate (rb) at ($(F)!0.28cm!(P)$);\n\\draw (ra) -- ($(ra)+(rb)-(F)$) -- (rb);\n\\end{tikzpicture}\n[/tikz]",
+        "intro": "A **unit circle** is a circle centred at the origin $O$ with radius $1$. The point $P$ at angle $\\theta$, measured anticlockwise from the positive $x$-axis, has coordinates $(\\cos\\theta,\\sin\\theta)$. For the illustrated first-quadrant acute angle, the radius is the hypotenuse, so sine and cosine are just the corresponding coordinates. These coordinate definitions extend sine and cosine to all angles: ordinary side lengths cannot equal negative coordinates in other quadrants, and the construction gives no nondegenerate right triangle at boundary angles.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, calc}\n\\coordinate (O) at (0,0);\n\\coordinate (X) at (1.2,0);\n\\coordinate (P) at (55:2.4);\n\\coordinate (F) at ({2.4*cos(55)},0);\n\\draw[{Stealth}-{Stealth}] (-3,0)--(3,0) node[right] {$x$};\n\\draw[{Stealth}-{Stealth}] (0,-3)--(0,3) node[above] {$y$};\n\\draw (O) circle (2.4);\n\\draw[thick] (O)--(P) node[midway, above left] {$1$};\n\\draw[red, thick] (F)--(P) node[midway, right] {$y$};\n\\draw[blue, thick] (O)--(F) node[midway, below] {$x$};\n\\fill (P) circle (1.6pt);\n\\node[above right] at (P) {$P(x,y)$};\n\\node[below left] at (O) {$O$};\n\\node[below] at (2.4,0) {$1$};\n\\node[below] at (-2.4,0) {$-1$};\n\\node[left] at (0,2.4) {$1$};\n\\node[left] at (0,-2.4) {$-1$};\n\\pic[draw, \"$\\theta$\", angle radius=0.75cm, angle eccentricity=1.5] {angle=X--O--P};\n\\coordinate (ra) at ($(F)!0.28cm!(O)$);\n\\coordinate (rb) at ($(F)!0.28cm!(P)$);\n\\draw (ra) -- ($(ra)+(rb)-(F)$) -- (rb);\n\\end{tikzpicture}\n[/tikz]",
         "facts": [
-          "On the unit circle, the point at angle $\\theta$ is $P(\\cos\\theta,\\sin\\theta)$.",
-          "$\\cos\\theta$ is the $x$-coordinate of $P$.",
-          "$\\sin\\theta$ is the $y$-coordinate of $P$.",
-          "Because the radius is $1$: $\\cos\\theta=\\dfrac{\\text{adjacent}}{1}=x$ and $\\sin\\theta=\\dfrac{\\text{opposite}}{1}=y$.",
-          "The quadrantal points are exact: $0^{\\circ}\\to(1,0)$, $90^{\\circ}\\to(0,1)$, $180^{\\circ}\\to(-1,0)$, $270^{\\circ}\\to(0,-1)$.",
-          "$\\cos\\theta$ is positive when $P$ is right of the $y$-axis and negative when $P$ is left of it.",
-          "$\\sin\\theta$ is positive when $P$ is above the $x$-axis and negative when $P$ is below it.",
-          "Every point on the unit circle satisfies $x^2+y^2=1$, so $\\cos\\theta$ and $\\sin\\theta$ always lie between $-1$ and $1$."
-        ]
+"On the unit circle, the point at angle $\\theta$ is $P(\\cos\\theta,\\sin\\theta)$.",
+"$\\cos\\theta$ is the $x$-coordinate of $P$.",
+"$\\sin\\theta$ is the $y$-coordinate of $P$.",
+"For the illustrated first-quadrant acute angle, the radius is $1$: $\\cos\\theta=\\dfrac{\\text{adjacent}}{1}=x$ and $\\sin\\theta=\\dfrac{\\text{opposite}}{1}=y$. The coordinate definitions apply to all angles.",
+"The quadrantal points are exact: $0^{\\circ}\\to(1,0)$, $90^{\\circ}\\to(0,1)$, $180^{\\circ}\\to(-1,0)$, $270^{\\circ}\\to(0,-1)$.",
+"$\\cos\\theta$ is positive when $P$ is right of the $y$-axis and negative when $P$ is left of it.",
+"$\\sin\\theta$ is positive when $P$ is above the $x$-axis and negative when $P$ is below it.",
+"Every point on the unit circle satisfies $x^2+y^2=1$, so $\\cos\\theta$ and $\\sin\\theta$ always lie between $-1$ and $1$."
+]
       },
   "practice": {
     "foundation": [
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=2.2]\n\\draw[step=0.2,gray!30,very thin] (-1,-1) grid (1,1);\n\\draw[-{Stealth}] (-1.25,0)--(1.25,0) node[right,font=\\scriptsize]{$x$};\n\\draw[-{Stealth}] (0,-1.25)--(0,1.25) node[above,font=\\scriptsize]{$y$};\n\\draw (0,0) circle (1);\n\\node[below left,font=\\scriptsize] at (0,0) {$O$};\n\\node[below,font=\\scriptsize] at (1,0) {$1$};\n\\node[below,font=\\scriptsize] at (-1,0) {$-1$};\n\\node[left,font=\\scriptsize] at (0,1) {$1$};\n\\node[left,font=\\scriptsize] at (0,-1) {$-1$};\n\\coordinate (P) at (0.6,0.8);\n\\draw[thick,blue] (0,0)--(P);\n\\fill[red] (P) circle (1.4pt);\n\\node[above right,font=\\scriptsize] at (P) {$P$};\n\\end{tikzpicture}\n[/tikz]\nThe point $P(\\cos\\theta,\\sin\\theta)$ is shown on the unit circle.\nUse the grid to write down $\\cos\\theta$ and $\\sin\\theta$.",
-        "structure": "read-coordinates",
-        "solution_text": "$\\cos\\theta$ is the $x$-coordinate of $P$ and $\\sin\\theta$ is the $y$-coordinate of $P$.\n$\\cos\\theta=0.6$\n$\\sin\\theta=0.8$"
+{
+        "question_text": "Find the coordinates of $P(\\cos\\theta,\\sin\\theta)$ on the unit circle when $\\theta=20^{\\circ}$. Round your answer to 2 decimal places.",
+        "structure": "coordinates-from-angle",
+        "solution_text": "$x=\\cos20^{\\circ}\\approx0.94$\n$y=\\sin20^{\\circ}\\approx0.34$\nTherefore $P\\approx(0.94,0.34)$."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=2.2]\n\\draw[step=0.2,gray!30,very thin] (-1,-1) grid (1,1);\n\\draw[-{Stealth}] (-1.25,0)--(1.25,0) node[right,font=\\scriptsize]{$x$};\n\\draw[-{Stealth}] (0,-1.25)--(0,1.25) node[above,font=\\scriptsize]{$y$};\n\\draw (0,0) circle (1);\n\\node[below left,font=\\scriptsize] at (0,0) {$O$};\n\\node[below,font=\\scriptsize] at (1,0) {$1$};\n\\node[below,font=\\scriptsize] at (-1,0) {$-1$};\n\\node[left,font=\\scriptsize] at (0,1) {$1$};\n\\node[left,font=\\scriptsize] at (0,-1) {$-1$};\n\\coordinate (P) at (0.8,0.6);\n\\draw[thick,blue] (0,0)--(P);\n\\fill[red] (P) circle (1.4pt);\n\\node[above right,font=\\scriptsize] at (P) {$P$};\n\\end{tikzpicture}\n[/tikz]\nThe point $P(\\cos\\theta,\\sin\\theta)$ is shown on the unit circle.\nUse the grid to write down $\\cos\\theta$ and $\\sin\\theta$.",
-        "structure": "read-coordinates",
-        "solution_text": "$\\cos\\theta$ is the $x$-coordinate and $\\sin\\theta$ is the $y$-coordinate.\n$\\cos\\theta=0.8$\n$\\sin\\theta=0.6$"
+{
+        "question_text": "Find the coordinates of $P(\\cos\\theta,\\sin\\theta)$ on the unit circle when $\\theta=40^{\\circ}$. Round your answer to 2 decimal places.",
+        "structure": "coordinates-from-angle",
+        "solution_text": "$x=\\cos40^{\\circ}\\approx0.77$\n$y=\\sin40^{\\circ}\\approx0.64$\nTherefore $P\\approx(0.77,0.64)$."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=2.2]\n\\draw[step=0.2,gray!30,very thin] (-1,-1) grid (1,1);\n\\draw[-{Stealth}] (-1.25,0)--(1.25,0) node[right,font=\\scriptsize]{$x$};\n\\draw[-{Stealth}] (0,-1.25)--(0,1.25) node[above,font=\\scriptsize]{$y$};\n\\draw (0,0) circle (1);\n\\node[below right,font=\\scriptsize] at (0,0) {$O$};\n\\node[below,font=\\scriptsize] at (1,0) {$1$};\n\\node[below,font=\\scriptsize] at (-1,0) {$-1$};\n\\node[right,font=\\scriptsize] at (0,1) {$1$};\n\\node[right,font=\\scriptsize] at (0,-1) {$-1$};\n\\coordinate (P) at (-0.6,0.8);\n\\draw[thick,blue] (0,0)--(P);\n\\fill[red] (P) circle (1.4pt);\n\\node[above left,font=\\scriptsize] at (P) {$P$};\n\\end{tikzpicture}\n[/tikz]\nThe point $P(\\cos\\theta,\\sin\\theta)$ is shown on the unit circle.\nUse the grid to write down $\\cos\\theta$ and $\\sin\\theta$.",
-        "structure": "read-coordinates",
-        "solution_text": "$\\cos\\theta$ is the $x$-coordinate and $\\sin\\theta$ is the $y$-coordinate. $P$ is left of the $y$-axis, so $x$ is negative.\n$\\cos\\theta=-0.6$\n$\\sin\\theta=0.8$"
+{
+        "question_text": "Find the coordinates of $P(\\cos\\theta,\\sin\\theta)$ on the unit circle when $\\theta=100^{\\circ}$. Round your answer to 2 decimal places.",
+        "structure": "coordinates-from-angle",
+        "solution_text": "$x=\\cos100^{\\circ}\\approx-0.17$\n$y=\\sin100^{\\circ}\\approx0.98$\nTherefore $P\\approx(-0.17,0.98)$."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=2.2]\n\\draw[step=0.2,gray!30,very thin] (-1,-1) grid (1,1);\n\\draw[-{Stealth}] (-1.25,0)--(1.25,0) node[right,font=\\scriptsize]{$x$};\n\\draw[-{Stealth}] (0,-1.25)--(0,1.25) node[above,font=\\scriptsize]{$y$};\n\\draw (0,0) circle (1);\n\\node[above left,font=\\scriptsize] at (0,0) {$O$};\n\\node[below,font=\\scriptsize] at (1,0) {$1$};\n\\node[below,font=\\scriptsize] at (-1,0) {$-1$};\n\\node[left,font=\\scriptsize] at (0,1) {$1$};\n\\node[left,font=\\scriptsize] at (0,-1) {$-1$};\n\\coordinate (P) at (0.6,-0.8);\n\\draw[thick,blue] (0,0)--(P);\n\\fill[red] (P) circle (1.4pt);\n\\node[below right,font=\\scriptsize] at (P) {$P$};\n\\end{tikzpicture}\n[/tikz]\nThe point $P(\\cos\\theta,\\sin\\theta)$ is shown on the unit circle.\nUse the grid to write down $\\cos\\theta$ and $\\sin\\theta$.",
-        "structure": "read-coordinates",
-        "solution_text": "$\\cos\\theta$ is the $x$-coordinate and $\\sin\\theta$ is the $y$-coordinate. $P$ is below the $x$-axis, so $y$ is negative.\n$\\cos\\theta=0.6$\n$\\sin\\theta=-0.8$"
+{
+        "question_text": "Find the coordinates of $P(\\cos\\theta,\\sin\\theta)$ on the unit circle when $\\theta=310^{\\circ}$. Round your answer to 2 decimal places.",
+        "structure": "coordinates-from-angle",
+        "solution_text": "$x=\\cos310^{\\circ}\\approx0.64$\n$y=\\sin310^{\\circ}\\approx-0.77$\nTherefore $P\\approx(0.64,-0.77)$."
       },
-      {
+{
         "question_text": "State the exact coordinates of $P(\\cos\\theta,\\sin\\theta)$ when $\\theta=90^{\\circ}$, and hence write $\\cos90^{\\circ}$ and $\\sin90^{\\circ}$.",
         "structure": "quadrantal-exact",
         "solution_text": "At $\\theta=90^{\\circ}$, $P$ sits at the top of the unit circle, $P=(0,1)$.\n$\\cos90^{\\circ}=0$\n$\\sin90^{\\circ}=1$"
       },
-      {
+{
         "question_text": "State the exact coordinates of $P(\\cos\\theta,\\sin\\theta)$ when $\\theta=180^{\\circ}$, and hence write $\\cos180^{\\circ}$ and $\\sin180^{\\circ}$.",
         "structure": "quadrantal-exact",
         "solution_text": "At $\\theta=180^{\\circ}$, $P$ sits at the left of the unit circle, $P=(-1,0)$.\n$\\cos180^{\\circ}=-1$\n$\\sin180^{\\circ}=0$"
       },
-      {
-        "question_text": "The point $P(0.28,0.96)$ lies on the unit circle at angle of inclination $\\theta$.\nState $\\cos\\theta$ and $\\sin\\theta$.",
-        "structure": "identify-from-point",
-        "solution_text": "$\\cos\\theta$ is the $x$-coordinate and $\\sin\\theta$ is the $y$-coordinate of $P$.\n$\\cos\\theta=0.28$\n$\\sin\\theta=0.96$"
+{
+        "question_text": "Find the coordinates of $P(\\cos\\theta,\\sin\\theta)$ on the unit circle when $\\theta=50^{\\circ}$. Round your answer to 2 decimal places.",
+        "structure": "coordinates-from-angle",
+        "solution_text": "$x=\\cos50^{\\circ}\\approx0.64$\n$y=\\sin50^{\\circ}\\approx0.77$\nTherefore $P\\approx(0.64,0.77)$."
       },
-      {
-        "question_text": "The point $P(-0.96,0.28)$ lies on the unit circle at angle of inclination $\\theta$.\nState $\\cos\\theta$ and $\\sin\\theta$.",
-        "structure": "identify-from-point",
-        "solution_text": "$\\cos\\theta$ is the $x$-coordinate and $\\sin\\theta$ is the $y$-coordinate of $P$.\n$\\cos\\theta=-0.96$\n$\\sin\\theta=0.28$"
+{
+        "question_text": "Find the coordinates of $P(\\cos\\theta,\\sin\\theta)$ on the unit circle when $\\theta=140^{\\circ}$. Round your answer to 2 decimal places.",
+        "structure": "coordinates-from-angle",
+        "solution_text": "$x=\\cos140^{\\circ}\\approx-0.77$\n$y=\\sin140^{\\circ}\\approx0.64$\nTherefore $P\\approx(-0.77,0.64)$."
       }
-    ],
+],
     "development": [
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=2.2]\n\\draw[step=0.2,gray!30,very thin] (-1,-1) grid (1,1);\n\\draw[-{Stealth}] (-1.25,0)--(1.25,0) node[right,font=\\scriptsize]{$x$};\n\\draw[-{Stealth}] (0,-1.25)--(0,1.25) node[above,font=\\scriptsize]{$y$};\n\\draw (0,0) circle (1);\n\\node[above right,font=\\scriptsize] at (0,0) {$O$};\n\\node[below,font=\\scriptsize] at (1,0) {$1$};\n\\node[below,font=\\scriptsize] at (-1,0) {$-1$};\n\\node[right,font=\\scriptsize] at (0,1) {$1$};\n\\node[right,font=\\scriptsize] at (0,-1) {$-1$};\n\\coordinate (P) at (-0.8,-0.6);\n\\draw[thick,blue] (0,0)--(P);\n\\fill[red] (P) circle (1.4pt);\n\\node[below left,font=\\scriptsize] at (P) {$P$};\n\\end{tikzpicture}\n[/tikz]\nThe point $P(\\cos\\theta,\\sin\\theta)$ is shown on the unit circle.\nUse the grid to write down $\\cos\\theta$ and $\\sin\\theta$.",
-        "structure": "read-coordinates",
-        "solution_text": "$\\cos\\theta$ is the $x$-coordinate and $\\sin\\theta$ is the $y$-coordinate. $P$ is in the third quadrant, so both are negative.\n$\\cos\\theta=-0.8$\n$\\sin\\theta=-0.6$"
+{
+        "question_text": "Find the coordinates of $P(\\cos\\theta,\\sin\\theta)$ on the unit circle when $\\theta=225^{\\circ}$. Round your answer to 2 decimal places.",
+        "structure": "coordinates-from-angle",
+        "solution_text": "$x=\\cos225^{\\circ}\\approx-0.71$\n$y=\\sin225^{\\circ}\\approx-0.71$\nTherefore $P\\approx(-0.71,-0.71)$."
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=2]\n\\draw[-{Stealth}] (-1.3,0)--(1.3,0) node[right,font=\\scriptsize]{$x$};\n\\draw[-{Stealth}] (0,-1.3)--(0,1.3) node[above,font=\\scriptsize]{$y$};\n\\draw (0,0) circle (1);\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (210:1);\n\\draw[thick,blue] (O)--(P);\n\\draw (0.32,0) arc (0:210:0.32);\n\\node[font=\\scriptsize] at (105:0.55) {$210^{\\circ}$};\n\\fill[red] (P) circle (1.2pt);\n\\node[below left,font=\\scriptsize] at (P) {$P$};\n\\end{tikzpicture}\n[/tikz]\nThe radius to $P$ makes an angle of $210^{\\circ}$ with the positive $x$-axis.\nWhich coordinate of $P$ gives $\\sin\\theta$, and is $\\sin\\theta$ positive or negative?",
         "structure": "coordinate-sign",
         "solution_text": "$\\sin\\theta$ is the $y$-coordinate of $P$.\n$P$ at $210^{\\circ}$ lies in the third quadrant, below the $x$-axis, so its $y$-coordinate is negative.\nTherefore $\\sin\\theta$ is negative."
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=2]\n\\draw[-{Stealth}] (-1.3,0)--(1.3,0) node[right,font=\\scriptsize]{$x$};\n\\draw[-{Stealth}] (0,-1.3)--(0,1.3) node[above,font=\\scriptsize]{$y$};\n\\draw (0,0) circle (1);\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (300:1);\n\\draw[thick,blue] (O)--(P);\n\\draw (0.32,0) arc (0:300:0.32);\n\\node[font=\\scriptsize] at (150:0.6) {$300^{\\circ}$};\n\\fill[red] (P) circle (1.2pt);\n\\node[below right,font=\\scriptsize] at (P) {$P$};\n\\end{tikzpicture}\n[/tikz]\nThe radius to $P$ makes an angle of $300^{\\circ}$ with the positive $x$-axis.\nWhich coordinate of $P$ gives $\\cos\\theta$, and is $\\cos\\theta$ positive or negative?",
         "structure": "coordinate-sign",
         "solution_text": "$\\cos\\theta$ is the $x$-coordinate of $P$.\n$P$ at $300^{\\circ}$ lies in the fourth quadrant, right of the $y$-axis, so its $x$-coordinate is positive.\nTherefore $\\cos\\theta$ is positive."
       },
-      {
+{
         "question_text": "State the exact coordinates of $P(\\cos\\theta,\\sin\\theta)$ when $\\theta=270^{\\circ}$, and hence write $\\cos270^{\\circ}$ and $\\sin270^{\\circ}$.",
         "structure": "quadrantal-exact",
         "solution_text": "At $\\theta=270^{\\circ}$, $P$ sits at the bottom of the unit circle, $P=(0,-1)$.\n$\\cos270^{\\circ}=0$\n$\\sin270^{\\circ}=-1$"
       },
-      {
-        "question_text": "The point $P(-0.6,-0.8)$ lies on the unit circle at angle of inclination $\\theta$.\nState $\\cos\\theta$ and $\\sin\\theta$, and name the quadrant $P$ is in.",
-        "structure": "identify-from-point",
-        "solution_text": "$\\cos\\theta$ is the $x$-coordinate and $\\sin\\theta$ is the $y$-coordinate of $P$.\n$\\cos\\theta=-0.6$\n$\\sin\\theta=-0.8$\nBoth coordinates are negative, so $P$ is in the third quadrant."
+{
+        "question_text": "Find the coordinates of $P(\\cos\\theta,\\sin\\theta)$ on the unit circle when $\\theta=200^{\\circ}$. Round your answer to 2 decimal places.",
+        "structure": "coordinates-from-angle",
+        "solution_text": "$x=\\cos200^{\\circ}\\approx-0.94$\n$y=\\sin200^{\\circ}\\approx-0.34$\nTherefore $P\\approx(-0.94,-0.34)$."
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=2]\n\\draw[-{Stealth}] (-1.3,0)--(1.3,0) node[right,font=\\scriptsize]{$x$};\n\\draw[-{Stealth}] (0,-1.3)--(0,1.3) node[above,font=\\scriptsize]{$y$};\n\\draw (0,0) circle (1);\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (130:1);\n\\draw[thick,blue] (O)--(P);\n\\draw (0.32,0) arc (0:130:0.32);\n\\node[font=\\scriptsize] at (65:0.62) {$130^{\\circ}$};\n\\fill[red] (P) circle (1.2pt);\n\\node[above left,font=\\scriptsize] at (P) {$P$};\n\\end{tikzpicture}\n[/tikz]\nThe radius to $P$ makes an angle of $130^{\\circ}$ with the positive $x$-axis (second quadrant).\nExplain, using coordinates, whether $\\cos\\theta$ is positive or negative.",
         "structure": "coordinate-sign",
         "solution_text": "$\\cos\\theta$ is the $x$-coordinate of $P$.\nIn the second quadrant $P$ lies to the left of the $y$-axis, so its $x$-coordinate is negative.\nTherefore $\\cos\\theta$ is negative."
       },
-      {
+{
         "question_text": "A point on the unit circle has $\\cos\\theta=-1$ and $\\sin\\theta=0$.\nState the angle $\\theta$ in $0^{\\circ}\\le\\theta<360^{\\circ}$ and the coordinates of $P$.",
         "structure": "quadrantal-exact",
         "solution_text": "$\\cos\\theta$ is the $x$-coordinate and $\\sin\\theta$ is the $y$-coordinate, so $P=(-1,0)$.\nThis is the point at the left of the unit circle.\n$\\theta=180^{\\circ}$"
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "The point $P(\\cos\\theta,\\sin\\theta)$ lies on the unit circle with $\\cos\\theta=0.6$, and $\\theta$ is in the first quadrant.\nFind $\\sin\\theta$.",
-        "structure": "missing-coordinate",
-        "solution_text": "Every point on the unit circle satisfies $x^2+y^2=1$, with $x=\\cos\\theta$ and $y=\\sin\\theta$.\n$\\sin^2\\theta=1-\\cos^2\\theta$\n$=1-0.6^2$\n$=1-0.36$\n$=0.64$\n$\\sin\\theta=\\pm0.8$\nIn the first quadrant $y>0$, so $\\sin\\theta=0.8$."
+{
+        "question_text": "Find the coordinates of $P(\\cos\\theta,\\sin\\theta)$ on the unit circle when $\\theta=125^{\\circ}$. Round your answer to 2 decimal places.",
+        "structure": "coordinates-from-angle",
+        "solution_text": "$x=\\cos125^{\\circ}\\approx-0.57$\n$y=\\sin125^{\\circ}\\approx0.82$\nTherefore $P\\approx(-0.57,0.82)$."
       },
-      {
-        "question_text": "The point $P(\\cos\\theta,\\sin\\theta)$ lies on the unit circle with $\\sin\\theta=-0.28$, and $\\theta$ is in the third quadrant.\nFind $\\cos\\theta$.",
-        "structure": "missing-coordinate",
-        "solution_text": "Every point on the unit circle satisfies $x^2+y^2=1$, with $x=\\cos\\theta$ and $y=\\sin\\theta$.\n$\\cos^2\\theta=1-\\sin^2\\theta$\n$=1-(-0.28)^2$\n$=1-0.0784$\n$=0.9216$\n$\\cos\\theta=\\pm0.96$\nIn the third quadrant $x<0$, so $\\cos\\theta=-0.96$."
+{
+        "question_text": "Find the coordinates of $P(\\cos\\theta,\\sin\\theta)$ on the unit circle when $\\theta=235^{\\circ}$. Round your answer to 2 decimal places.",
+        "structure": "coordinates-from-angle",
+        "solution_text": "$x=\\cos235^{\\circ}\\approx-0.57$\n$y=\\sin235^{\\circ}\\approx-0.82$\nTherefore $P\\approx(-0.57,-0.82)$."
       },
-      {
-        "question_text": "A student claims a point on the unit circle has $\\cos\\theta=1.2$.\nExplain why this is impossible.",
-        "structure": "impossible-coordinate-value",
-        "solution_text": "$\\cos\\theta$ is the $x$-coordinate of a point on a circle of radius $1$ centred at the origin.\nEvery point on that circle has $-1\\le x\\le1$, so its $x$-coordinate can never be greater than $1$.\nTherefore $\\cos\\theta=1.2$ is impossible."
+{
+        "question_text": "Find the coordinates of $P(\\cos\\theta,\\sin\\theta)$ on the unit circle when $\\theta=305^{\\circ}$. Round your answer to 2 decimal places.",
+        "structure": "coordinates-from-angle",
+        "solution_text": "$x=\\cos305^{\\circ}\\approx0.57$\n$y=\\sin305^{\\circ}\\approx-0.82$\nTherefore $P\\approx(0.57,-0.82)$."
       }
-    ]
+]
   }
 }

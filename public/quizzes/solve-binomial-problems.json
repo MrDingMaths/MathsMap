@@ -1,9 +1,9 @@
 {
   "skillId": "solve-binomial-problems",
   "questions": [
-    {
+{
       "id": "q1",
-      "question_text": "A squash player wins each rally independently with probability $0.6$.\nA game lasts $7$ rallies.\nFind the probability that she wins exactly $5$ of them, correct to four decimal places.",
+      "question_text": "A squash player wins each rally independently with probability $0.6$.\nShe plays a fixed sequence of $7$ rallies.\nFind the probability that she wins exactly $5$ of them, correct to four decimal places.",
       "structure": "model-and-compute",
       "mastery": false,
       "options": [
@@ -14,9 +14,9 @@
       ],
       "solution_text": "Success: the rally is won.\n$X \\sim \\text{Bin}(7,0.6)$\n$P(X = 5) = {}^{7}C_{5}(0.6)^{5}(0.4)^{2}$\n$= 0.261273\\ldots$\n$= 0.2613$"
     },
-    {
+{
       "id": "q2",
-      "question_text": "A high jumper clears the opening height on each of her attempts independently with probability $0.15$ when the bar is raised to a record height.\nShe makes $10$ such attempts over a season.\nFind the probability that she clears it exactly twice, correct to four decimal places.",
+      "question_text": "A high jumper clears a record height on each of her attempts independently with probability $0.15$.\nShe makes $10$ such attempts over a season.\nFind the probability that she clears it exactly twice, correct to four decimal places.",
       "structure": "model-and-compute",
       "mastery": false,
       "options": [
@@ -27,7 +27,7 @@
       ],
       "solution_text": "Success: the record height is cleared.\n$X \\sim \\text{Bin}(10,0.15)$\n$P(X = 2) = {}^{10}C_{2}(0.15)^{2}(0.85)^{8}$\n$= 0.275897\\ldots$\n$= 0.2759$"
     },
-    {
+{
       "id": "q3",
       "question_text": "A cricketer takes a catch cleanly on each of $50$ chances independently with probability $0.72$.\nLet $X$ be the number of clean catches.\nFind $\\text{Var}(X)$.",
       "structure": "mean-variance-interpret",
@@ -40,7 +40,7 @@
       ],
       "solution_text": "$X \\sim \\text{Bin}(50,0.72)$\n$\\text{Var}(X) = np(1-p)$\n$= 50 \\times 0.72 \\times 0.28$\n$= 10.08$"
     },
-    {
+{
       "id": "q4",
       "question_text": "A volleyball server lands each serve independently with probability $0.45$.\nShe serves $20$ times in a match.\nFind the standard deviation of the number of serves she lands, correct to two decimal places.",
       "structure": "mean-variance-interpret",
@@ -53,36 +53,36 @@
       ],
       "solution_text": "$X \\sim \\text{Bin}(20,0.45)$\n$\\text{Var}(X) = 20 \\times 0.45 \\times 0.55$\n$= 4.95$\n$\\sigma(X) = \\sqrt{4.95}$\n$= 2.22$"
     },
-    {
+{
       "id": "q5",
       "question_text": "The number of races a sprinter wins in a season is $X \\sim \\text{Bin}(n,p)$, with $E(X) = 14$ and $\\text{Var}(X) = 8.4$.\nFind $n$.",
       "structure": "unknown-parameters",
       "mastery": true,
       "options": [
-        { "text": "$35$", "correct": true },
-        { "text": "$23$", "why": "Took $\\frac{\\text{Var}(X)}{E(X)}$ to be $p$ rather than $1-p$, giving $p=0.6$." },
-        { "text": "$21$", "why": "Divided the variance by $p$ instead of dividing the mean by $p$." },
-        { "text": "$14$", "why": "Read the mean $E(X)$ itself as the number of trials." }
-      ],
+{ "text": "$35$", "correct": true },
+{ "text": "$23$", "why": "Took $\\frac{\\text{Var}(X)}{E(X)}$ to be $p$ rather than $1-p$, giving $p=0.6$ and $n=14/0.6=23.333\\ldots$, then incorrectly rounded this inconsistent trial count to $23$." },
+{ "text": "$21$", "why": "Divided the variance by $p$ instead of dividing the mean by $p$." },
+{ "text": "$14$", "why": "Read the mean $E(X)$ itself as the number of trials." }
+],
       "solution_text": "$\\frac{\\text{Var}(X)}{E(X)} = 1-p$\n$1-p = \\frac{8.4}{14}$\n$= 0.6$\n$p = 0.4$\n$n = \\frac{14}{0.4}$\n$= 35$"
     },
-    {
+{
       "id": "q6",
-      "question_text": "A footballer scores from each set piece independently with probability $0.25$.\nFind the smallest number of set pieces she must take for the probability of scoring from at least one to exceed $0.95$.",
-      "structure": "reverse-find-n",
+      "question_text": "The number of set pieces a footballer scores from is $X \\sim \\text{Bin}(n,p)$, with $E(X) = 18$ and $\\text{Var}(X) = 10.8$.\nFind $n$.",
+      "structure": "unknown-parameters",
       "mastery": true,
       "options": [
-        { "text": "$11$", "correct": true },
-        { "text": "$10$", "why": "Rounded $10.41$ down instead of up, giving a probability still below $0.95$." },
-        { "text": "$17$", "why": "Solved for a probability above $0.99$ rather than above $0.95$." },
-        { "text": "$3$", "why": "Solved $(0.25)^{n} < 0.05$, using $p$ in place of $1-p$ in the complement." }
-      ],
-      "solution_text": "Success: the set piece is scored.\n$1 - (0.75)^{n} > 0.95$\n$(0.75)^{n} < 0.05$\n$n\\log 0.75 < \\log 0.05$\n$n > \\frac{\\log 0.05}{\\log 0.75}$\n$n > 10.41\\ldots$\nShe must take $11$ set pieces."
+{ "text": "$45$", "correct": true },
+{ "text": "$30$", "why": "Took $10.8/18=0.6$ to be $p$ rather than $1-p$, then calculated $18/0.6$." },
+{ "text": "$27$", "why": "Found $p=0.4$ but divided the variance $10.8$ by $p$ instead of dividing the mean $18$ by $p$." },
+{ "text": "$18$", "why": "Read the mean $E(X)$ itself as the number of trials." }
+],
+      "solution_text": "$1-p = \\frac{\\text{Var}(X)}{E(X)}$\n$= \\frac{10.8}{18}$\n$= 0.6$\n$p = 0.4$\n$n = \\frac{18}{0.4}$\n$= 45$"
     },
-    {
+{
       "id": "q7",
       "question_text": "A water polo team plays $24$ matches and wins each independently with probability $0.25$.\nFind the expected number of matches the team wins.",
-      "structure": "expected-vs-observed",
+      "structure": "expected-number-of-successes",
       "mastery": false,
       "options": [
         { "text": "$6$", "correct": true },
@@ -92,18 +92,18 @@
       ],
       "solution_text": "$X \\sim \\text{Bin}(24,0.25)$\n$E(X) = np$\n$= 24 \\times 0.25$\n$= 6$"
     },
-    {
+{
       "id": "q8",
-      "question_text": "Player P takes $8$ shots and scores each independently with probability $0.3$.\nPlayer Q takes $6$ shots and scores each independently with probability $0.4$.\nWhich player is more likely to score exactly $2$ shots?",
-      "structure": "compare-scenarios",
+      "question_text": "A player takes $6$ shots and scores each independently with probability $0.5$.\nFind the probability that she scores exactly $2$ shots, correct to four decimal places.",
+      "structure": "model-and-compute",
       "mastery": false,
       "options": [
-        { "text": "Player Q, because $P(Y=2) = 0.3110$ exceeds $P(X=2) = 0.2965$.", "correct": true },
-        { "text": "Player P, because $8$ shots give more chances of scoring exactly $2$ than $6$ shots do.", "why": "Compared the number of trials instead of evaluating both probabilities." },
-        { "text": "Player P, because a lower probability of scoring makes a small number of successes more likely.", "why": "Assumed a smaller $p$ always makes exactly $2$ successes more likely, without evaluating the terms." },
-        { "text": "Neither, because both players need exactly $2$ successes.", "why": "Treated the required number of successes as fixing the probability, ignoring $n$ and $p$." }
-      ],
-      "solution_text": "For player P, $X \\sim \\text{Bin}(8,0.3)$.\n$P(X = 2) = {}^{8}C_{2}(0.3)^{2}(0.7)^{6}$\n$= 0.296475$\nFor player Q, $Y \\sim \\text{Bin}(6,0.4)$.\n$P(Y = 2) = {}^{6}C_{2}(0.4)^{2}(0.6)^{4}$\n$= 0.31104$\nSince $0.31104 > 0.296475$, player Q is more likely to score exactly $2$ shots."
+{ "text": "$0.2344$", "correct": true },
+{ "text": "$0.3125$", "why": "Used $r=3$ instead of $r=2$ successes." },
+{ "text": "$0.0156$", "why": "Left out the factor ${}^{6}C_{2}=15$, so only one arrangement was counted." },
+{ "text": "$0.3438$", "why": "Found $P(X \\le 2)$ instead of $P(X=2)$, including the probabilities of zero and one success." }
+],
+      "solution_text": "Success: the shot is scored.\n$X \\sim \\text{Bin}(6,0.5)$\n$P(X = 2) = {}^{6}C_{2}(0.5)^{2}(0.5)^{4}$\n$= 0.234375$\n$= 0.2344$"
     }
-  ]
+]
 }

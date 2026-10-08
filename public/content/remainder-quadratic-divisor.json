@@ -2,16 +2,16 @@
   "skillId": "remainder-quadratic-divisor",
   "atomType": "R",
   "theory": {
-        "intro": "A quadratic divisor cannot be handled in one substitution, but the division identity still holds. The remainder has degree at most $1$, so write $R(x)=ax+b$, substitute each root of the divisor, and solve the two equations simultaneously.",
+        "intro": "For a quadratic divisor with two distinct real roots, write the remainder as $R(x)=ax+b$, substitute each root of the divisor into the division identity, and solve the two equations simultaneously. A repeated root gives only one independent equation, and a quadratic without real roots cannot use this real-substitution procedure; polynomial division remains available in both cases.",
         "facts": [
-          "The remainder always has lower degree than the divisor, so a quadratic divisor gives a remainder of the form $R(x)=ax+b$.",
-          "If $a=0$, that remainder is a constant.",
-          "Division identity: $P(x)=D(x)Q(x)+R(x)$, which for $D(x)=(x-p)(x-q)$ becomes $P(x)=(x-p)(x-q)Q(x)+ax+b$.",
-          "Substituting a root of the divisor makes the $D(x)Q(x)$ term zero, giving $P(p)=ap+b$ and $P(q)=aq+b$.",
-          "The two equations in $a$ and $b$ solve simultaneously to give the remainder.",
-          "Factorise a divisor such as $x^2-9$ as $(x-3)(x+3)$ to read off its roots.",
-          "If the remainder $ax+b$ for the quadratic division is known, the remainder on division by $(x-p)$ alone is $ap+b$."
-        ],
+"A nonzero remainder always has lower degree than the divisor, so a quadratic divisor gives a remainder of the form $R(x)=ax+b$, including zero when $a=b=0$.",
+"If $a=0$, that remainder is a constant, including zero when $b=0$.",
+"Division identity: $P(x)=D(x)Q(x)+R(x)$, which for $D(x)=(x-p)(x-q)$ becomes $P(x)=(x-p)(x-q)Q(x)+ax+b$.",
+"Substituting a root of the divisor makes the $D(x)Q(x)$ term zero, giving $P(p)=ap+b$ and $P(q)=aq+b$.",
+"When $p$ and $q$ are distinct real roots, the two equations in $a$ and $b$ solve simultaneously to give the remainder.",
+"Factorise a divisor such as $x^2-9$ as $(x-3)(x+3)$ to read off its roots.",
+"If $p$ is a root of the quadratic divisor and its remainder is $ax+b$, the remainder on division by $(x-p)$ alone is $ap+b$."
+],
         "steps": [
           "Write the identity with the remainder as ax+b",
           "Substitute each root of the divisor",
@@ -20,37 +20,37 @@
       },
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "A polynomial $P(x)$ is divided by $(x-2)(x+1)$, with quotient $Q(x)$ and remainder $R(x)$.\nExplain why $R(x)$ can be written in the form $ax+b$.",
         "structure": "remainder-form",
-        "solution_text": "The divisor $(x-2)(x+1)$ has degree $2$.\nThe degree of the remainder must be less than the degree of the divisor, so $R(x)$ has degree $1$ or $0$.\nBoth are covered by $R(x)=ax+b$, with $a=0$ giving the constant case."
+        "solution_text": "The divisor $(x-2)(x+1)$ has degree $2$.\nA nonzero remainder must have degree less than the divisor, so it has degree $1$ or $0$; the remainder may also be zero.\nAll cases are covered by $R(x)=ax+b$, with $a=0$ giving a constant and $a=b=0$ giving zero."
       },
-      {
+{
         "question_text": "When $P(x)$ is divided by $(x-4)(x+2)$, the quotient is $Q(x)$ and the remainder is $3x-1$.\nWrite this information in the form $P(x)=D(x)Q(x)+R(x)$.",
         "structure": "identity",
         "solution_text": "$P(x)=(x-4)(x+2)Q(x)+3x-1$"
       },
-      {
+{
         "question_text": "When $P(x)$ is divided by $(x-1)(x+5)$, the remainder is $2x+9$.\nFind the remainder when $P(x)$ is divided by $(x+5)$.",
         "structure": "single-eval-linear",
         "solution_text": "$P(x)=(x-1)(x+5)Q(x)+2x+9$\n$P(-5)=(-5-1)(0)Q(-5)+2(-5)+9$\n$=-1$\nThe remainder is $-1$."
       },
-      {
+{
         "question_text": "When $P(x)$ is divided by $(x^2-16)$, the remainder is $3x+2$.\nFind the remainder when $P(x)$ is divided by $(x-4)$.",
         "structure": "single-eval-quadratic",
         "solution_text": "$x^2-16=(x-4)(x+4)$\n$P(x)=(x-4)(x+4)Q(x)+3x+2$\n$P(4)=(0)(4+4)Q(4)+3(4)+2$\n$=14$\nThe remainder is $14$."
       },
-      {
-        "question_text": "$P(x)$ is divided by $(x-2)(x+3)$ with remainder $ax+b$.\nGiven $P(2)=7$ and $P(-3)=-3$, write down the two equations connecting $a$ and $b$.",
-        "structure": "simultaneous-from-values",
-        "solution_text": "$P(x)=(x-2)(x+3)Q(x)+ax+b$\n$P(2)=2a+b$ and $P(-3)=-3a+b$\n$\\therefore 2a+b=7$ and $-3a+b=-3$"
+{
+        "question_text": "$P(x)$ is divided by $(x-2)(x+3)$ with remainder $ax+b$.\nGiven $P(2)=7$ and $P(-3)=-3$, find $a$ and $b$.",
+        "structure": "solve-remainder-coefficients-from-values",
+        "solution_text": "$P(x)=(x-2)(x+3)Q(x)+ax+b$\n$P(2)=2a+b$ and $P(-3)=-3a+b$\n$\\therefore 2a+b=7$ and $-3a+b=-3$\nSubtract the equations:\n$5a=10$\n$a=2$\n$b=7-2(2)$\n$=3$\n$\\therefore a=2,\\ b=3$"
       },
-      {
-        "question_text": "Given $P(x)=(x-1)(x-6)Q(x)+4x+3$, write down the values of $P(1)$ and $P(6)$.",
-        "structure": "evaluate-at-root-from-identity",
-        "solution_text": "$P(1)=(0)(1-6)Q(1)+4(1)+3$\n$=7$\n$P(6)=(6-1)(0)Q(6)+4(6)+3$\n$=27$"
+{
+        "question_text": "Given $P(x)=(x-1)(x-6)Q(x)+4x+3$, find the remainder when $P(x)$ is divided by $(x-1)$.",
+        "structure": "single-eval-linear",
+        "solution_text": "$P(1)=(0)(1-6)Q(1)+4(1)+3$\n$=7$\nThe remainder is $7$."
       }
-    ],
+],
     "development": [
       {
         "question_text": "The polynomial $P(x)$ is divided by $(x-1)(x+2)$.\nFind the remainder, given $P(1)=5$ and $P(-2)=-4$.",
