@@ -11,6 +11,10 @@ The server on `127.0.0.1:5173` may be serving the user remotely. All sessions (C
 - Do not start or stop the tunnel. The user runs `remote/start-remote-studio.cmd`, which starts the tunnel and, only if 5173 is free, the server.
 - Scripts that start their own server on another port (frozen export and verification servers) are unaffected and keep using `vite.config.js`.
 
+## Run-folder pruning (8 October 2026, user approved)
+
+When an import is delivered or a feedback repair closes, run `npm run booklet:storage -- exports`, check the preview, then repeat it with `--apply`; see [pruning run folders](docs/booklet-storage.md#pruning-run-folders). It removes the frozen app copy, Vite cache, page rasters and layout cache that every export leaves behind. These are regenerable and are not evidence to retain. Add `--records` to also drop the process records of run folders idle for seven days or more; source evidence, run state, final decisions, the newest export and every file a live booklet or tracked provenance record points to are kept. Never clear run-folder trees with `rm -rf`, `Remove-Item -Recurse` or `git clean`: frozen copies contain junctions to the real `node_modules` and render cache. Keep one-off scripts and dated repair tests in the run folder, not in `scripts/` or `tests/`.
+
 ## Booklet worker limit (6 October 2026, user requested)
 
 Allow at most three model workers per booklet import, shared by all sessions using that booklet's canonical run directory. Different booklets have independent three-worker limits; the multi-booklet lean dispatcher uses `--concurrency` per booklet, not across its entire queue. Reuse the existing run for the same booklet rather than creating separate runs to bypass its cap. This supersedes earlier wording requiring three workers total across different booklets. Preserve model settings, ownership, revision-safe publication and historical evidence. Already-running dispatchers adopt the change on their next launch; do not interrupt or remove active leases.

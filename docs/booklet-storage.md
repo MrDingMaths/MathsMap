@@ -76,6 +76,24 @@ The archive command accepts only the named recovery, legacy and staging candidat
 
 Objects are gzip files addressed by the SHA-256 of their original bytes. Identical payloads share one object across revisions, recovery and staging. Every object is read back from disk, fully extracted and checked for both size and SHA-256 before pruning begins. A durable dated manifest records original relative paths, hashes, sizes, modification times, project revision groups and retained evidence. Files that changed during archiving remain loose. Linked directories/junctions are never traversed; source and restore paths are constrained, and restore never overwrites existing files. The store's exclusive `maintenance.lock` prevents overlapping archive jobs. After an interrupted process, confirm its recorded PID is no longer running before removing that lock and retrying; do not remove archive objects or indexes.
 
+### Pruning run folders
+
+Every export keeps a frozen copy of the app (`runtime/`), a Vite cache and page rasters. They are regenerable and are not evidence, but they were about 45% of `.booklet-work/` by 8 October 2026. Remove them when an import is delivered or a feedback repair closes:
+
+```text
+npm run booklet:storage -- exports
+npm run booklet:storage -- exports --apply
+npm run booklet:storage -- exports --records --out .booklet-work/NAME/prune.json
+```
+
+Without `--records` the command removes only regenerable payload: frozen app copies, `vite-cache/`, folders ending in `rasters`, `cache.json` in export folders, and leaked test temp folders older than 24 hours. The newest export of a run folder active in the last 48 hours is left whole so an unfinished import can still reuse it.
+
+`--records` also removes the process records of run folders idle for seven days or more: model call transcripts, intermediate booklet and bank copies, state snapshots, review renders, receipts and superseded exports. It keeps source evidence (`evidence/`, `lanes/`, `source/`, `media/`, `word/`, Word documents), run state (`manifest.json`, `config.json`, `review.json`, `workflow/`, `semantic-packets/`), final decisions (corrections, reviewed tables, visual findings), the newest export's PDFs and report, Markdown notes and lease files.
+
+Neither mode removes a tracked file, a file or sub-folder that a live booklet, bank or module or a tracked `booklets/provenance/` record points to, or anything in `render-cache/`, `deliveries/`, `recovery/`, `python/`, `pdf-libs/` or `practice-imports/`. A campaign folder under `.agywork/content-campaign/` is one run: nothing in it is touched until the whole campaign has been idle for seven days, and its root files and `candidate.json` files are always kept. These files are deleted, not archived; `--out` saves the list.
+
+Frozen copies contain junctions to the real `node_modules` and render cache. The command removes each link without entering it. Do not clear these trees with `rm -rf`, `Remove-Item -Recurse` or `git clean`.
+
 Verify a complete manifest, or restore into a new review directory:
 
 ```text

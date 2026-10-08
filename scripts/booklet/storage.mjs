@@ -3,6 +3,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
 import {archiveFiles, inside, noLinks, revisionCandidates, restoreArchive, sha256, walkFiles, withArchiveLock} from './storage-archive.mjs';
+import {applyPrune, prunePlan} from './storage-prune.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const archiveRoot = path.join(root, 'booklets/.storage-archives');
@@ -10,7 +11,7 @@ const args = process.argv.slice(2), command = args.shift();
 const values = {}, flags = new Set();
 while (args.length) {
   const arg = args.shift();
-  if (['--apply','--retired'].includes(arg)) flags.add(arg);
+  if (['--apply','--retired','--records'].includes(arg)) flags.add(arg);
   else if (['--tree','--manifest','--out','--only'].includes(arg) && args[0] && !args[0].startsWith('--')) values[arg] = args.shift();
   else throw Error('Unknown or incomplete argument: '+arg);
 }
@@ -62,7 +63,25 @@ async function run() {
     if (outputRoot && !outputRoot.startsWith(path.join(root,'.booklet-work')+path.sep)) throw Error('Restore into a new .booklet-work directory for review');
     return restoreArchive({archiveRoot,manifestPath,outputRoot:command==='restore'?outputRoot:undefined,only:values['--only']});
   }
-  if (!['revisions','archive'].includes(command)) throw Error('Usage: storage.mjs revisions [--retired] [--apply] | archive --tree PATH [--apply] | verify --manifest PATH | restore --manifest PATH --out .booklet-work/NEW [--only PATH]');
+  if (command === 'exports') {
+    // Regenerable export payload, and with --records the process records of idle
+    // runs. Deleted outright: none of it is recovery material for the archive.
+    const plan = prunePlan({root, records:flags.has('--records'), tracked:tracked()});
+    const gib = bytes => (bytes/1024**3).toFixed(2)+' GiB';
+    const sum = rows => Object.fromEntries(Object.entries(rows).map(([name,row])=>[name,{size:gib(row.bytes),files:row.files}]));
+    const report = {dryRun:!flags.has('--apply'),records:plan.records,folders:plan.folders,remove:sum(plan.totals),keep:sum(plan.kept),
+      total:gib(Object.values(plan.totals).reduce((n,row)=>n+row.bytes,0)),entries:plan.deletions.length,
+      wholeFolders:plan.deletions.filter(item=>item.reason==='test-temp').map(item=>item.path),skipped:plan.skipped.length};
+    if (values['--out']) {
+      const out = inside(root, values['--out']);
+      if (!out.startsWith(path.join(root,'.booklet-work')+path.sep)) throw Error('Write the prune manifest inside .booklet-work');
+      await fs.mkdir(path.dirname(out),{recursive:true});
+      await fs.writeFile(out, JSON.stringify(plan,null,1)+'\n');
+    }
+    if (!flags.has('--apply')) return report;
+    return {...report,...applyPrune(root, plan, {progress:(done,all,result)=>console.error(`${done}/${all} entries, ${gib(result.removedBytes)} removed`)})};
+  }
+  if (!['revisions','archive'].includes(command)) throw Error('Usage: storage.mjs revisions [--retired] [--apply] | archive --tree PATH [--apply] | exports [--records] [--out .booklet-work/FILE] [--apply] | verify --manifest PATH | restore --manifest PATH --out .booklet-work/NEW [--only PATH]');
   let plan;
   if (command === 'revisions') {
     plan = await revisionCandidates(path.join(root,'booklets/projects'), {retired:flags.has('--retired')});
@@ -92,4 +111,5 @@ async function run() {
   await noLinks(archiveRoot);
   return archiveFiles({...plan,archiveRoot,label:command==='revisions'?'Project revision retention':values['--tree'],prune:true,metadata});
 }
-console.log(JSON.stringify(flags.has('--apply') ? await withArchiveLock(archiveRoot,run) : await run(), null, 2));
+// A prune never touches the archive store, so it does not hold Studio's archive lock.
+console.log(JSON.stringify(flags.has('--apply') && command !== 'exports' ? await withArchiveLock(archiveRoot,run) : await run(), null, 2));
