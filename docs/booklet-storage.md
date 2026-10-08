@@ -86,7 +86,9 @@ npm run booklet:storage -- exports --apply
 npm run booklet:storage -- exports --records --out .booklet-work/NAME/prune.json
 ```
 
-Without `--records` the command removes only regenerable payload: frozen app copies, `vite-cache/`, folders ending in `rasters`, `cache.json` in export folders, and leaked test temp folders older than 24 hours. The newest export of a run folder active in the last 48 hours is left whole so an unfinished import can still reuse it.
+Run it only when no import or feedback repair is in flight in any session. Check first that no `lean-import.mjs`, `lean-review.mjs` or export process is running. The command cannot tell a paused run from a working one: on 8 October 2026 a second pass removed sample payload from twelve imports that had started half an hour earlier. The command also lives in `scripts/booklet/`, so editing it while an import is running changes that import's export snapshot hash.
+
+Without `--records` the command removes only regenerable payload: frozen app copies, `vite-cache/`, folders ending in `rasters`, `cache.json` in export folders, and leaked test temp folders older than 24 hours. The newest export of a run folder active in the last 48 hours is left whole so a paused import can still reuse it; its earlier exports are pruned.
 
 `--records` also removes the process records of run folders idle for seven days or more: model call transcripts, intermediate booklet and bank copies, state snapshots, review renders, receipts and superseded exports. It keeps source evidence (`evidence/`, `lanes/`, `source/`, `media/`, `word/`, Word documents), run state (`manifest.json`, `config.json`, `review.json`, `workflow/`, `semantic-packets/`), final decisions (corrections, reviewed tables, visual findings), the newest export's PDFs and report, Markdown notes and lease files.
 
@@ -162,3 +164,32 @@ The tracked-file budget is 500 MiB to accommodate the current editable Data Anal
 
 The complete working-tree publication adds 17 editable booklet projects, original Studio PDF/Word pairs, referenced assets, synced bank records and durable campaign reviews/content. After staging all requested files, the repository check measured 1,230,409,116 bytes across 9,792 files. Increase the total tracked budget from 1.1 GiB to 1.2 GiB to accommodate this source/content growth with limited headroom. Individual file limits and generated-file exclusions remain unchanged; local caches, run logs and revision histories remain outside Git.
 
+
+## 8 October 2026 clean-up
+
+Baseline commit `8b00e8f6`. The workspace had grown from about 16 GiB after the 25 September clean-up to **103.0 GiB** in 2.4 million files, of which `.booklet-work/` was 89.5 GiB. It is now **45.7 GiB** in 0.77 million files, with `.booklet-work/` at 33.0 GiB. Other sessions added about 4 GiB during the work, so the amount removed was 61.6 GiB.
+
+| Removed | Size | Files |
+| --- | ---: | ---: |
+| Frozen app copies (`runtime/`) | 27.1 GiB | 1,379,988 |
+| Page rasters | 9.4 GiB | 219,964 |
+| Vite caches | 1.8 GiB | 23,383 |
+| Layout caches (`cache.json`) | 1.1 GiB | 329 |
+| Process records in run folders idle 7+ days | 20.3 GiB | 116,070 |
+| Leaked test temp folders | 0.02 GiB | 1,575 |
+| The merged `lean` worktree | 1.8 GiB | |
+| Stray folders, scratch, `dist/`, old exports and logs | 0.2 GiB | 3,877 |
+
+Deletion was by the new `exports --records --apply` command in two passes, with 696 links unlinked rather than followed and no errors. `node_modules/` and the render cache were unchanged. The lists are in `.booklet-work/repo-cleanup-20261008/` (`prune-applied.json`, `prune-applied-2.json`, `extras-result.json`, `report.json`).
+
+Tracked removals, all in history: 36 applied one-off repair scripts with 28 tests, a helper and 4 fixtures; the Diagnostic Questions pipeline (`scripts/dq`, its npm scripts, 5 tests, 2 fixtures and its guide); the temporary library-panel and Sonnet benchmark booklets; and one test case pinned to the 25 September Data Visualisation source hash.
+
+Two things went wrong and are recorded here so they are not repeated.
+
+- **Twenty cited files were deleted** (about 1 MB) because the first pass matched references too literally. They are not in the archive store. The command now handles all three forms and has a regression test.
+  - `.booklet-work/volume-feedback/representatives-final/`: 14 page renders, cited as a folder with a trailing slash by Volume and Volume for 8MAT6.
+  - `.booklet-work/stage4-algebra-20260930/`: `introduction-final-layout-remainders-proof.json`, `introduction-image-shading-rebound.json`, `introduction-nested-fraction-occurrences.json` and `simplifying-native-equation-rows-proof.json`, cited through the work-folder link inside `renderer-snapshot-final/`. Three are hash-bound artifacts of accepted review records in Introduction to Algebra and Simplifying Expressions; if the bounded workflow is run on those booklets again, those records will count as stale.
+  - `.booklet-work/full-imports/data-analysis-v1-20260926-1047/representatives/mean-tower-v1-student-3.png` and `-4.png`, cited by Data Analysis relative to its run folder.
+- **The second pass ran while twelve new imports were in flight.** It removed the frozen copies, rasters, Vite caches and layout caches of their earlier sample exports (about 1.8 GiB), keeping each run's newest export. A `CLEANUP-NOTE-20261008.md` in each affected run folder lists what went. The reference fix also edited `scripts/booklet/storage-prune.mjs` between 22:50 and 22:57 that evening, which changes the export snapshot hash for exports made before then.
+
+Left as they were: the live content campaign's folders under `.agywork/` (1.2 GiB), records in run folders active within seven days (18 GiB, eligible as they go idle), `booklets/projects/.revisions/` at its 20-per-booklet policy, the archive store, and 88 MiB of stale Git temp objects that are under Git's two-week expiry.
