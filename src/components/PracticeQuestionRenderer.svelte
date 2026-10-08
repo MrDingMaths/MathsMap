@@ -11,7 +11,7 @@
   import { estimateAnswerSpaceMm, allDiagrams } from '../lib/practice-question-model.js';
   import { setoutMathChain } from '../lib/inline-content.js';
   import { isRewriteTableQuestion, shortAnswerDisplay, combinedExampleTikz, visibleImportedQuestionTitle } from '../lib/booklet-preview.js';
-  import {compactAnswerDisplay,answerDiagramStyle,answerDiagramWidth,compactAnswerLabel,answerNodePath,answerNodeContext,isGivenFigureNode} from '../lib/booklet-exercises.js';
+  import {compactAnswerDisplay,answerDiagramStyle,answerDiagramWidth,compactAnswerLabel,answerNodePath,answerNodeContext,isGivenFigureNode,firstAnswerNode} from '../lib/booklet-exercises.js';
   import {normaliseShortAnswer,SHORT_ANSWER_INK} from '../lib/short-answer-style.js';
   import {teachingAnswerCategory,retainsTeachingPromptWithAnswers} from '../lib/booklet-answer-options.js';
   import {hasEmbeddedResponseLabel,hasStandaloneMathTable} from '../lib/booklet-labels.js';
@@ -30,8 +30,7 @@
   const nodeLabel = (node, index, depth) => depth === 0 && number != null ? String(number) : node.label != null ? String(node.label) : node.children?.length ? '' : letter(index);
   const leafLabel = (path) => compactAnswerLabel(number,path);
   // Question-side labels jump to the answer; part answers carry their own anchor.
-  const answeredNode = (node) => !node.children?.length || node.answer?.short || node.answer?.worked ? node : answeredNode(node.children[0]);
-  const partHref = (node, depth) => depth === 0 || !answerPartHref ? answerHref : answerPartHref + answeredNode(node).id;
+  const partHref = (node, depth) => depth === 0 || !answerPartHref || !firstAnswerNode(node,question.sourceReview?.responses??[]) ? answerHref : answerPartHref + firstAnswerNode(node,question.sourceReview?.responses??[]).id;
   const sourceDiagram = (id) => id ? allDiagrams(question).find((diagram) => diagram.id === id) : null;
   const spaceFor = (node) => node.responseSpace === 'scaffold' ? 0 : Number.isFinite(Number(answerSpaceOverrides[node.id])) ? answerSpaceOverrides[node.id] : estimateAnswerSpaceMm(node);
   const widthFor = (diagram) => {

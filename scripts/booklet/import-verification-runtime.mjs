@@ -4,9 +4,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {spawn} from 'node:child_process';
+import {parseAst} from 'rollup/parseAst';
 import {projectReviewHash} from './page-review.mjs';
 import {isLeanReview} from './lean-profile.mjs';
 import {visitFigures,isSolidCandidate} from '../audit-solid-visibility.mjs';
+import {firstAnswerNode} from '../../src/lib/booklet-exercises.js';
 const hash=f=>createHash('sha256').update(fs.readFileSync(f)).digest('hex');
 const entries=['src','data','public','scripts','index.html','vite.config.js','package.json','package-lock.json'];
 // These host coordinators never run in the frozen print checker. Exclude them
@@ -16,6 +18,7 @@ function printDependencyFiles(root,files){
  const callers=new Map([
   ['scripts/booklet/lean-import.mjs',new Set()],
   ['scripts/booklet/semantic-packets.mjs',new Set()],
+  ['scripts/booklet/practice-only-scope.mjs',new Set(['scripts/booklet/semantic-workflow.mjs'])],
   ['scripts/booklet/lean-review.mjs',new Set()],
   ['scripts/content/lean-route.mjs',new Set()],
   ['scripts/booklet/assemble-semantic-packets.mjs',new Set()],
@@ -76,8 +79,17 @@ export function unrelatedCampaignFile(file,project){
 // Private images belonging to another project cannot affect this lean booklet
 // unless it references that project. Shared assets and our own namespace stay
 // strict, including files whose explicit image references are URL-encoded.
-export function unrelatedProjectAssetFile(file,project){
- const match=/^public\/booklet-assets\/projects\/([^/]+)\//.exec(file);
+export function unrelatedProjectAssetFile(file,project,root=process.cwd()){
+ let match=/^public\/booklet-assets\/projects\/([^/]+)\//.exec(file);
+ if(!match){
+  const owned=/^public\/booklet-assets\/([a-zA-Z0-9_-]+)\//.exec(file);
+  if(owned&&!['shared','projects'].includes(owned[1].toLowerCase())){
+   try{
+    const run=JSON.parse(fs.readFileSync(path.join(root,'.booklet-work/full-imports',owned[1],'manifest.json'),'utf8'));
+    if(run.format==='mathsmap-booklet-transcription-run-v1'&&run.id===owned[1])match=owned;
+   }catch{}
+  }
+ }
  if(!match||!isLeanReview(project)||typeof project.id!=='string'||!project.id||match[1].toLowerCase()===project.id.toLowerCase())return false;
  const namespace=match[1].toLowerCase();
  const referenced=value=>{
@@ -107,7 +119,154 @@ export function unrelatedSolidAuditFile(file,project){
  visitFigures(project,figure=>{if(figure.image||figure.code&&isSolidCandidate(figure.code,figure.context))affected=true;});
  return !affected;
 }
-const scopedCampaignFile=(file,project,root,snapshot)=>unrelatedCampaignFile(file,project)||unrelatedProjectAssetFile(file,project)||unrelatedSolidAuditFile(file,project)||(file==='public/content-manifest.json'&&unrelatedCampaignManifest(readCampaignManifest(snapshot),readCampaignManifest(root),project));
+// Already-authored projects do not call contentProject while printing. Keep
+// every import, signature and source-review function bound, but allow edits
+// confined to that unused authoring function's body. Unknown callers stay strict.
+export function unrelatedSourceImportChange(file,project,root,snapshot){
+ if(file!=='src/lib/booklet-source-content.js'||!isLeanReview(project)||!Array.isArray(project.sections))return false;
+ const skeleton=directory=>{
+  const source=fs.readFileSync(path.join(directory,file),'utf8'),ast=parseAst(source);
+  const node=ast.body.find(node=>node.type==='ExportNamedDeclaration'&&node.declaration?.type==='FunctionDeclaration'&&node.declaration.id?.name==='contentProject');
+  if(!node||/\bcontentProject\b/.test(source.slice(0,node.start)+source.slice(node.end)))return null;
+  return source.slice(0,node.declaration.body.start)+'{}'+source.slice(node.declaration.body.end);
+ };
+ const hasCaller=directory=>{
+  const walk=relative=>{
+   const absolute=path.join(directory,relative);if(!fs.existsSync(absolute))return false;
+   if(fs.statSync(absolute).isDirectory())return fs.readdirSync(absolute).some(name=>walk(path.join(relative,name)));
+   if(relative.replaceAll('\\','/')===file||!(/\.(?:m?js|svelte|html)$/.test(relative)))return false;
+   const source=fs.readFileSync(absolute,'utf8');
+   if(/\bcontentProject\b/.test(source))return true;
+   const rest=source.replace(/\bimport\s*\{([^}]*)\}\s*from\s*(['"])[^'"]*booklet-source-content\.js\2\s*;?/g,(statement,names)=>names.split(',').every(name=>/^(?:sourceReferences|sourcePageOptions|sourceInventories)(?:\s+as\s+\w+)?$/.test(name.trim()))?'':statement);
+   return rest.includes('booklet-source-content');
+  };
+  return ['src','scripts/booklet/check-compact-exercises.mjs','scripts/booklet/diagram-preflight.mjs'].some(walk);
+ };
+ try{const before=skeleton(snapshot),after=skeleton(root);return before!==null&&before===after&&!hasCaller(root)&&!hasCaller(snapshot);}catch{return false;}
+}
+export function inactiveSqrtClozeChange(before,after,project){
+ if(!isLeanReview(project))return false;
+ const active=value=>value&&typeof value==='object'&&(value.enclosure==='sqrt'||Object.values(value).some(active));
+ if(active(project))return false;
+ before=before.replaceAll('\r\n','\n');after=after.replaceAll('\r\n','\n');
+ const field="...(x.enclosure==='sqrt'?{enclosure:'sqrt'}:{}), ";
+ const strip=source=>{
+  const start=source.indexOf("    if(n.enclosure==='sqrt'){"),end=source.indexOf('    const content=fillCloze?',start);
+  if(start<0)return source.includes(field)?null:source;
+  if(end<0||!source.includes(field))return null;
+  const branch=source.slice(start,end),hash=createHash('sha256').update(branch).digest('hex');
+  if(!['9dcc3acb33f8c35f56883dc827694b9a97e3d20575c9a586fb9cf9002dd1957d','a5c3e44cf779b6cafd0fa0e5d817159963c5e8c9f1b93dce24b49913aa19d0eb'].includes(hash))return null;
+  return source.replace(field,'').replace(branch,'');
+ };
+ const original=strip(before),current=strip(after);return original!==null&&current!==null&&original===current;
+}
+export function unrelatedInactiveClozeChange(file,project,root,snapshot){
+ if(file!=='public/libs/maths-editor/document-model.mjs')return false;
+ try{return inactiveSqrtClozeChange(fs.readFileSync(path.join(snapshot,file),'utf8'),fs.readFileSync(path.join(root,file),'utf8'),project);}catch{return false;}
+}
+export function answerLinkRefactorEquivalent(file,before,after,project){
+ if(!isLeanReview(project)||!Array.isArray(project.sections))return false;
+ const old=node=>!node?.children?.length||node.answer?.short||node.answer?.worked?node:old(node.children[0]);
+ const equivalent=node=>!!node&&old(node)?.id===firstAnswerNode(node)?.id&&(node.children??[]).every(equivalent);
+ if(!project.sections.flatMap(s=>s.blocks??[]).every(b=>equivalent(b.content)))return false;
+ before=before.replaceAll('\r\n','\n');after=after.replaceAll('\r\n','\n');
+ const replacements=file==='src/components/PracticeQuestionRenderer.svelte'?[
+  ['answerNodeContext,isGivenFigureNode}', 'answerNodeContext,isGivenFigureNode,firstAnswerNode}'],
+  ["  const answeredNode = (node) => !node.children?.length || node.answer?.short || node.answer?.worked ? node : answeredNode(node.children[0]);\n  const partHref = (node, depth) => depth === 0 || !answerPartHref ? answerHref : answerPartHref + answeredNode(node).id;", "  const partHref = (node, depth) => depth === 0 || !answerPartHref || !firstAnswerNode(node) ? answerHref : answerPartHref + firstAnswerNode(node).id;"]
+ ]:file==='src/components/BookletArrangement.svelte'?[
+  [" import {hasStandaloneMathTable} from '../lib/booklet-labels.js';", " import {hasStandaloneMathTable} from '../lib/booklet-labels.js';\n import {firstAnswerNode} from '../lib/booklet-exercises.js';"],
+  ["  let node=find(block.content);while(node?.children?.length&&!node.answer?.short&&!node.answer?.worked)node=node.children[0];\n  return answerPartHref+(node?.id??ownerId);", "  const node=firstAnswerNode(find(block.content));\n  return node?answerPartHref+node.id:answerHref;"]
+ ]:null;
+ if(!replacements)return false;
+ for(const [original,corrected]of replacements){if(!before.includes(original))return false;before=before.replace(original,corrected);}
+ return before===after;
+}
+export function unrelatedAnswerLinkRefactor(file,project,root,snapshot){
+ if(!['src/components/PracticeQuestionRenderer.svelte','src/components/BookletArrangement.svelte'].includes(file))return false;
+ try{
+  if(hash(path.join(root,'src/lib/booklet-exercises.js'))!==hash(path.join(snapshot,'src/lib/booklet-exercises.js')))return false;
+  return answerLinkRefactorEquivalent(file,fs.readFileSync(path.join(snapshot,file),'utf8'),fs.readFileSync(path.join(root,file),'utf8'),project);
+ }catch{return false;}
+}
+export function unrelatedPracticeScopeHostChange(file,project,root,snapshot){
+ if(file!=='scripts/booklet/practice-only-scope.mjs'||!isLeanReview(project))return false;
+ try{return !snapshotFiles(root).some(row=>row.path===file)&&!snapshotFiles(snapshot).some(row=>row.path===file);}catch{return false;}
+}
+// This exact importer guard hardening cannot run for a materialized project
+// whose bound workflow contains no applicable absent-parent correction.
+// Do not exempt the whole workflow module: all other edits/callers stay bound.
+export function inactiveAbsentParentGuardChange(file,project,root,snapshot){
+ if(file!=='scripts/booklet/workflow-review.mjs'||!isLeanReview(project)||!Array.isArray(project.sections))return false;
+ const original="      const parent=json(ref.path,null)?.entries?.find(e=>e.id===patch.corrected);";
+ const corrected="      const parentSource=json(ref.path,null);\n      if(parentSource?.pageNumber!==ref.pageNumber)throw Error('Absent inventory parent evidence page mismatch '+patch.targetId);\n      const parent=parentSource.entries?.find(e=>e.id===patch.corrected);";
+ const callers=new Set(['assemble-semantic-packets','bounded-stages','check-compact-exercises','dependency-runner','efficiency-tools','import-closeout','import-project-bank','inventory-reuse','lean-visual','local-attempt-repair','multi-source-review','prepare-pipeline-pilot','review-reuse','review-workflow','run-workflow','seed-final-export-cache','semantic-workflow','visual-review-queue','workflow-controller'].map(name=>'scripts/booklet/'+name+'.mjs'));
+ try{
+  const read=directory=>fs.readFileSync(path.join(directory,file),'utf8').replaceAll('\r\n','\n'),before=read(snapshot),after=read(root);
+  const node=parseAst(before).body.find(n=>n.type==='ExportNamedDeclaration'&&n.declaration?.type==='FunctionDeclaration'&&n.declaration.id?.name==='materializeCorrections')?.declaration;
+  const at=before.indexOf(original);
+  if(!node||at<node.body.start||at>=node.body.end||before.split(original).length!==2||after.split(corrected).length!==2||before.replace(original,corrected)!==after)return false;
+  parseAst(after);
+  const printing=new Map([root,snapshot].map(directory=>[directory,new Set(snapshotFiles(directory).map(row=>row.path))]));
+  for(const directory of [root,snapshot]){
+   const scan=relative=>{
+    const absolute=path.join(directory,relative);if(!fs.existsSync(absolute))return true;
+    const stat=fs.lstatSync(absolute);if(stat.isSymbolicLink())return false;
+    if(stat.isDirectory())return fs.readdirSync(absolute).every(name=>scan(path.join(relative,name)));
+    const name=relative.replaceAll('\\','/');
+    if(!/\.(?:m?js|svelte|html)$/.test(name)||[file,'scripts/booklet/import-verification-runtime.mjs'].includes(name))return true;
+    const source=fs.readFileSync(absolute,'utf8');
+    if(!/workflow-review|\bmaterializeCorrections\b/.test(source))return true;
+    if(!callers.has(name))return false;
+    if(!printing.get(root).has(name)&&!printing.get(snapshot).has(name))return true;
+    const other=path.join(directory===root?snapshot:root,name);
+    return fs.existsSync(other)&&source.replaceAll('\r\n','\n')===fs.readFileSync(other,'utf8').replaceAll('\r\n','\n');
+   };
+   if(!['src','scripts','public','vite.config.js','index.html'].every(scan))return false;
+  }
+  const id=project.source?.runId,refs=[project.source?.workflow,project.source?.inventory?.workflow].filter(Boolean);
+  if(!/^[a-zA-Z0-9_-]+$/.test(id??'')||!refs.length||refs.some(ref=>ref.runId!==id))return false;
+  const run=path.join(root,'.booklet-work/full-imports',id),state=JSON.parse(fs.readFileSync(path.join(run,'workflow/issues.json'))),manifest=JSON.parse(fs.readFileSync(path.join(run,'manifest.json')));
+  if(manifest.id!==id||!Array.isArray(state.corrections)||state.corrections.some(c=>c.status==='approved'&&c.patches?.some(p=>p.scope==='inventory'&&p.field==='/parentId'&&p.originalAbsent===true&&p.original===null)))return false;
+  if(refs.some(ref=>!Array.isArray(ref.correctionIds)||ref.correctionIds.some(id=>!state.corrections.some(c=>c.id===id&&c.status==='approved'))))return false;
+  for(const [key,local]of [['pdf','booklet.pdf'],['teacherPdf','teacher.pdf']]){
+   const expected=project.source?.sourceHashes?.[key];
+   if(!expected||manifest.source?.[key+'Hash']!==expected||hash(manifest.source[key])!==expected||hash(path.join(run,'source',local))!==expected)return false;
+  }
+  return true;
+ }catch{return false;}
+}
+export function answerResponseNavigationEquivalent(file,before,after,project){
+ if(!isLeanReview(project)||!Array.isArray(project.sections))return false;
+ const blocks=project.sections.flatMap(s=>s.blocks??[]);
+ for(const block of blocks){const responses=block.sourceReview?.responses??[],same=node=>!!node&&firstAnswerNode(node,[])?.id===firstAnswerNode(node,responses)?.id&&(node.children??[]).every(same);if(!same(block.content))return false;}
+ before=before.replaceAll('\r\n','\n');after=after.replaceAll('\r\n','\n');
+ const oldHelper="export function firstAnswerNode(node){\n  if(!node||isGivenFigureNode(node))return null;\n  if(node.answer?.short||node.answer?.worked||!node.children?.length)return node;\n  return node.children.map(firstAnswerNode).find(Boolean)??null;\n}",newHelper="export function firstAnswerNode(node,responses=[]){\n  if(!node||isGivenFigureNode(node))return null;\n  if(!node.children?.length&&!node.answer?.short&&!node.answer?.worked&&responses.some(r=>r.targetId===node.id&&r.kind==='none'))return null;\n  if(node.answer?.short||node.answer?.worked||!node.children?.length)return node;\n  return node.children.map(child=>firstAnswerNode(child,responses)).find(Boolean)??null;\n}";
+ if(file==='src/lib/booklet-exercises.js'){if(!before.includes(oldHelper))return false;return before.replace(oldHelper,newHelper)===after;}
+ if(file==='src/components/BookletArrangement.svelte'){
+  const original='const node=firstAnswerNode(find(block.content));',corrected='const node=firstAnswerNode(find(block.content),block.sourceReview?.responses??[]);';
+  return before.includes(original)&&before.replace(original,corrected)===after;
+ }
+ if(file==='src/components/PracticeQuestionRenderer.svelte'){
+  const original='firstAnswerNode(node)',corrected='firstAnswerNode(node,question.sourceReview?.responses??[])';
+  if(before.split(original).length!==3)return false;let expected=before.replaceAll(original,corrected);
+  const row="<tr id={answerAnchorPrefix?answerAnchorPrefix+'part-'+row.id:undefined}>";
+  if(expected!==after&&expected.includes(row)){
+   const rewrite=block=>/^Fill in the table\b/i.test(block.content?.prompt??'')&&block.content?.layout==='grid'&&Number(block.content?.columns)===2&&(block.content?.children?.length??0)>=4&&block.content.children.every(child=>!child.children?.length);
+   if(blocks.some(rewrite))return false;expected=expected.replace(row,'<tr>');
+  }
+  return expected===after;
+ }
+ return false;
+}
+export function unrelatedResponseNavigationChange(file,project,root,snapshot){
+ if(!['src/lib/booklet-exercises.js','src/components/PracticeQuestionRenderer.svelte','src/components/BookletArrangement.svelte'].includes(file))return false;
+ try{
+  const helper='src/lib/booklet-exercises.js',a=fs.readFileSync(path.join(snapshot,helper),'utf8'),b=fs.readFileSync(path.join(root,helper),'utf8');
+  if(a!==b&&!answerResponseNavigationEquivalent(helper,a,b,project))return false;
+  return answerResponseNavigationEquivalent(file,fs.readFileSync(path.join(snapshot,file),'utf8'),fs.readFileSync(path.join(root,file),'utf8'),project);
+ }catch{return false;}
+}
+const scopedCampaignFile=(file,project,root,snapshot)=>unrelatedCampaignFile(file,project)||unrelatedProjectAssetFile(file,project,root)||unrelatedSolidAuditFile(file,project)||unrelatedSourceImportChange(file,project,root,snapshot)||unrelatedInactiveClozeChange(file,project,root,snapshot)||unrelatedAnswerLinkRefactor(file,project,root,snapshot)||unrelatedResponseNavigationChange(file,project,root,snapshot)||unrelatedPracticeScopeHostChange(file,project,root,snapshot)||inactiveAbsentParentGuardChange(file,project,root,snapshot)||(file==='public/content-manifest.json'&&unrelatedCampaignManifest(readCampaignManifest(snapshot),readCampaignManifest(root),project));
 // Resume an already successful checker after an unrelated skill campaign writes
 // public JSON. Never relax the frozen renderer, project or PDF checks.
 export function verifyCompletedFrozenExport({out,projectId,projectFile,artifactReview=false}){
@@ -117,14 +276,14 @@ export function verifyCompletedFrozenExport({out,projectId,projectFile,artifactR
  const receipts=fs.readdirSync(out).filter(name=>/^frozen-export-receipt-.*\.json$/.test(name)).sort();
  const attempt=receipts.length?JSON.parse(fs.readFileSync(path.join(out,receipts.at(-1)))):null;
  if(attempt?.status!==0||attempt.error)throw Error('The complete five-edition checker has not passed');
- if(artifactReview&&attempt.changedDependencies?.length)throw Error('Dependencies changed during the completed export');
+ if(artifactReview&&attempt.changedDependencies?.some(file=>!scopedCampaignFile(file,project,manifest.root,manifest.snapshot)))throw Error('Dependencies changed during the completed export');
  if(snapshotDifferences(manifest.snapshot,manifest.files).length)throw Error('Frozen renderer changed');
  const changed=snapshotDifferences(manifest.root,manifest.files),unrelated=changed.every(file=>scopedCampaignFile(file,project,manifest.root,manifest.snapshot));
  // A fill review reads already completed PDF bytes. Later tool/renderer edits
  // cannot alter those pages; project, frozen runtime and PDF guards still apply.
  // Ordinary export reuse keeps its current-runtime dependency check.
  if(!unrelated&&!artifactReview)throw Error('Current export dependencies changed: '+changed.join(', '));
- if(artifactReview&&changed.some(file=>file.startsWith('public/booklet-assets/')&&!unrelatedProjectAssetFile(file,project)))throw Error('Referenced diagram assets changed');
+ if(artifactReview&&changed.some(file=>file.startsWith('public/booklet-assets/')&&!unrelatedProjectAssetFile(file,project,manifest.root)))throw Error('Referenced diagram assets changed');
  const report=JSON.parse(fs.readFileSync(path.join(out,'report.json'))).report?.[projectId];
  for(const edition of ['student','short','worked','with-short','with-worked']){
   const entry=report?.[edition];
@@ -132,7 +291,7 @@ export function verifyCompletedFrozenExport({out,projectId,projectFile,artifactR
   if(!entry.pdf?.path||!fs.existsSync(entry.pdf.path)||hash(entry.pdf.path)!==entry.pdf.hash)throw Error('PDF changed for '+edition);
  }
  const scoped=changed.filter(file=>scopedCampaignFile(file,project,manifest.root,manifest.snapshot));
- return {reused:true,...(artifactReview?{artifactReview:true,laterDependencyChanges:changed.filter(file=>!scoped.includes(file))}:{}),unrelatedCampaignChanges:scoped.filter(file=>!unrelatedProjectAssetFile(file,project)&&!unrelatedSolidAuditFile(file,project)),unrelatedProjectAssetChanges:scoped.filter(file=>unrelatedProjectAssetFile(file,project)),unrelatedSolidAuditChanges:scoped.filter(file=>unrelatedSolidAuditFile(file,project))};
+ return {reused:true,...(artifactReview?{artifactReview:true,laterDependencyChanges:changed.filter(file=>!scoped.includes(file))}:{}),unrelatedCampaignChanges:scoped.filter(file=>!unrelatedProjectAssetFile(file,project,manifest.root)&&!unrelatedSolidAuditFile(file,project)),unrelatedProjectAssetChanges:scoped.filter(file=>unrelatedProjectAssetFile(file,project,manifest.root)),unrelatedSolidAuditChanges:scoped.filter(file=>unrelatedSolidAuditFile(file,project))};
 }
 function attachSharedRenderCache(root,snapshot){
  const source=path.join(root,'.booklet-work/render-cache'),target=path.join(snapshot,'.booklet-work/render-cache');
@@ -143,7 +302,7 @@ function attachSharedRenderCache(root,snapshot){
 export function prepareVerificationSnapshot({root=process.cwd(),out,project}){
  root=path.resolve(root);out=path.resolve(out);const snapshot=path.join(out,'runtime'),manifestFile=path.join(out,'runtime-manifest.json');
  const initialIndex=readCampaignManifest(root);
- const unrelated=file=>project&&isLeanReview(project)&&(unrelatedCampaignFile(file,project)||unrelatedProjectAssetFile(file,project)||(file==='public/content-manifest.json'&&unrelatedCampaignManifest(initialIndex,readCampaignManifest(root),project)&&unrelatedCampaignManifest(initialIndex,readCampaignManifest(snapshot),project)));
+ const unrelated=file=>project&&isLeanReview(project)&&(unrelatedCampaignFile(file,project)||unrelatedProjectAssetFile(file,project,root)||(file==='public/content-manifest.json'&&unrelatedCampaignManifest(initialIndex,readCampaignManifest(root),project)&&unrelatedCampaignManifest(initialIndex,readCampaignManifest(snapshot),project)));
  const relative=path.relative(root,out);if(!relative||relative.startsWith('..')||path.isAbsolute(relative)||!relative.replaceAll('\\','/').startsWith('.booklet-work/'))throw Error('Verification output must be a separate local .booklet-work directory');
  if(fs.existsSync(manifestFile)){
   const manifest=JSON.parse(fs.readFileSync(manifestFile,'utf8'));
@@ -206,7 +365,7 @@ export async function exportWithFrozenRuntime({root=process.cwd(),out,projectId,
   let project=null;try{project=JSON.parse(fs.readFileSync(inputs[0].file,'utf8').replace(/^\uFEFF/,''));}catch{}
   const live=snapshotDifferences(manifest.root,manifest.files),unrelated=project?live.filter(file=>scopedCampaignFile(file,project,manifest.root,manifest.snapshot)):[];
   const changed=[...live.filter(file=>!unrelated.includes(file)),...snapshotDifferences(manifest.snapshot,manifest.files),...inputs.filter(i=>!fs.existsSync(i.file)||hash(i.file)!==i.hash).map(i=>i.file)];
-  const receipt={version:1,at:new Date().toISOString(),status,error,regenerationReason:regenerationReason??null,changedDependencies:[...new Set(changed)],unrelatedCampaignChanges:unrelated.filter(file=>!unrelatedProjectAssetFile(file,project)),unrelatedProjectAssetChanges:unrelated.filter(file=>unrelatedProjectAssetFile(file,project)),runtimeManifest:path.join(path.resolve(out),'runtime-manifest.json'),freshEditionDocuments:true,visualAcceptance:false};
+  const receipt={version:1,at:new Date().toISOString(),status,error,regenerationReason:regenerationReason??null,changedDependencies:[...new Set(changed)],unrelatedCampaignChanges:unrelated.filter(file=>!unrelatedProjectAssetFile(file,project,manifest.root)),unrelatedProjectAssetChanges:unrelated.filter(file=>unrelatedProjectAssetFile(file,project,manifest.root)),runtimeManifest:path.join(path.resolve(out),'runtime-manifest.json'),freshEditionDocuments:true,visualAcceptance:false};
   fs.writeFileSync(path.join(out,'frozen-export-receipt-'+Date.now()+'.json'),JSON.stringify(receipt,null,2),{flag:'wx'});
   if(changed.length)throw Error('Export snapshot no longer matches live dependencies; passing artifacts remain preserved: '+changed.slice(0,12).join(', '));
   if(status!==0)throw Error('Export failed; resume the same output directory to reuse passed editions. Diagnose repeated failure before a third attempt.');

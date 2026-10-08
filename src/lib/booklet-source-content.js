@@ -84,6 +84,9 @@ export function contentProject(candidate,{runId,projectId,mode='compact',review=
   for(const correction of candidate.sourceCorrections??[])project=applySourceCorrection(project,correction);
   delete project.sourceCorrections;
   if(mode==='compact'){
+    // New practice-only imports retain the independently inventoried source
+    // sequence. Difficulty is metadata; it must not silently reorder exercises.
+    if(candidate.contentScope==='practice-only'&&project.settings.questionOrder==null)project.settings.questionOrder='source';
     // Only source-derived breaks/spacers are discarded. Author constraints survive.
     for(const section of project.sections){
       section.blocks=section.blocks.filter(b=>!(['spacer','page-break'].includes(b.type)&&b.sourceLayoutOnly===true));

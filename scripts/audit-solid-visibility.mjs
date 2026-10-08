@@ -39,6 +39,16 @@ export function imageSourceHash(src,root=process.cwd()){
 }
 export function isSolidCandidate(code,context='') {
   if(/mathsmap-solid|tdplot|(?:prism|pyramid|cylinder|cone|sphere|cuboid|solid|\b3d\b|\b3-d\b)/i.test(context+' '+code))return true;
+  // Relation diagrams have upright set ovals joined only by arrows between
+  // named nodes. Recognise that bounded planar structure before the ellipse
+  // heuristic; an arbitrary ellipse or a solid cue still needs solid review.
+  const drawings=[...code.matchAll(/\\draw\b[\s\S]*?;/g)].map(match=>match[0]);
+  const ovals=drawings.map(draw=>draw.match(/\((-?[\d.]+),\s*(-?[\d.]+)\)\s*ellipse\s*\(([\d.]+)\s+and\s+([\d.]+)\)/)).filter(Boolean);
+  const planarMapping=ovals.length>=2&&ovals.every(oval=>Number(oval[3])>0&&Number(oval[4])>Number(oval[3])&&Number(oval[2])===Number(ovals[0][2]))&&
+    drawings.every(draw=>/ellipse/.test(draw)||(/\[[^\]]*->[^\]]*\]/.test(draw)&&!/(?:arc|plot|cycle)/.test(draw)&&
+      [...draw.matchAll(/\(([^()]*)\)/g)].every(point=>/^(?:\[[^\]]+\])?[\w-]+\.(?:east|west|north|south)$/.test(point[1]))))&&
+    ![...coordinates(code).values()].some(point=>point.length===3);
+  if(planarMapping)return false;
   if(/ellipse|x radius|y radius/.test(code))return true;
   const pts=[...coordinates(code).values()];if(pts.some(p=>p.length===3))return true;
   // Equally spaced points on a planar interval repeat the same offset, too.

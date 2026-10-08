@@ -7,6 +7,7 @@
  import {resolveArrangement,arrangementExamTitle,arrangementRowChildren} from '../lib/booklet-arrangement.js';
  import {combinedExampleTikz} from '../lib/booklet-preview.js';
  import {hasStandaloneMathTable} from '../lib/booklet-labels.js';
+ import {firstAnswerNode} from '../lib/booklet-exercises.js';
  let {block,arrangement,layoutOverrides={},selected='',onselect=null,onresize=null,onmeasure=null,onSpaceResize=null,onmove=null,assetUrl=s=>s,showSolutions=true,showSpaces=true,showTitle=true,fillCloze=false,answerSpaceOverrides={},diagramColourModes={},editMode=false,answerHref=null,answerPartHref=null}=$props();
  // Question labels jump to the answer; a part without its own answer uses its first answered descendant.
  // In Studio a part's answer may sit on an answer page that is not rendered yet, so the workspace reveals it.
@@ -18,11 +19,22 @@
  function labelHref(ownerId){
   if(ownerId===block.content?.id||!answerPartHref)return answerHref;
   const find=n=>!n?null:n.id===ownerId?n:(n.children??[]).map(find).find(Boolean);
-  let node=find(block.content);while(node?.children?.length&&!node.answer?.short&&!node.answer?.worked)node=node.children[0];
-  return answerPartHref+(node?.id??ownerId);
+  const node=firstAnswerNode(find(block.content),block.sourceReview?.responses??[]);
+  return node?answerPartHref+node.id:answerHref;
  }
  const requestEdit=getContext('booklet-edit-request');
  const documentActions=getContext('booklet-document-actions');
+ function tableAnswerEditing(element){
+  const click=event=>{
+   if(!editMode||!arrangement?.tableResponseMode||!requestEdit)return;
+   const cell=event.target.closest('td[data-id],th[data-id]');
+   const binding=cell&&block.sourceReview?.tableResponses?.find(row=>row.cellId===cell.dataset.id);
+   if(!binding)return;
+   event.preventDefault();event.stopImmediatePropagation();
+   requestEdit({rootId:binding.targetId,pointer:'/answer/'+(binding.field??'short'),...(binding.nodeId?{selectedNodeId:binding.nodeId}:{}),origin:cell});
+  };
+  element.addEventListener('pointerdown',click,true);return {destroy:()=>element.removeEventListener('pointerdown',click,true)};
+ }
  const inlineEditing=getContext('booklet-inline-edit');
  function covered(n){const e=resolved.entries.get(n.ref),s=inlineEditing?.session;return editMode&&!s?.redistributing&&s?.hostNodeId&&e?.ownerId===s.rootId&&'/'+e.field===s.pointer&&s.fragmentIds?.includes(e.nodeId)&&e.nodeId!==s.hostNodeId;}
  const direct=$derived(editMode&&!!documentActions&&!onselect);
@@ -114,7 +126,7 @@
  </div>
  {/if}
 {/snippet}
-<div bind:clientWidth={contentWidth} class="booklet-arrangement" class:editing={!!onselect} data-arrangement-block={block.id}>{@render renderNode(resolved.tree.root)}</div>
+<div bind:clientWidth={contentWidth} use:tableAnswerEditing class="booklet-arrangement" class:editing={!!onselect} data-arrangement-block={block.id}>{@render renderNode(resolved.tree.root)}</div>
 <style>
  .internal-rules.arr-row>:global([data-arrangement-id]+[data-arrangement-id])::after{content:"";position:absolute;left:calc(var(--arr-gap) / -2);top:0;bottom:0;border-left:.2mm solid #cccccc;pointer-events:none}
  .internal-rules:not(.arr-row)>:global([data-arrangement-id]+[data-arrangement-id])::after{content:"";position:absolute;top:calc(var(--arr-gap) / -2);left:0;right:0;border-top:.2mm solid #cccccc;pointer-events:none}

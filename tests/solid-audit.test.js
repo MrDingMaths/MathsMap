@@ -35,6 +35,18 @@ test('equally spaced collinear points on a gradient interval are planar',()=>{
  assert.equal(isSolidCandidate(code,'solid construction'),true);
  assert.equal(isSolidCandidate(box()),true);
 });
+test('upright set ovals with node-to-node arrows are planar without exempting solids',()=>{
+ const mapping=String.raw`\begin{tikzpicture}
+ \draw (0,0) ellipse (0.65 and 1.15);\draw (2.6,0) ellipse (0.65 and 1.15);
+ \node (a) at (0,0.5) {$a$};\node (one) at (2.6,0.5) {$1$};
+ \draw[->,line width=0.8pt] ([yshift=2pt]a.east)--(one.west);\end{tikzpicture}`;
+ assert.equal(isSolidCandidate(mapping),false);
+ assert.deepEqual(solidAcceptance({format:'tikz',code:mapping}),[]);
+ assert.equal(isSolidCandidate(mapping,'solid construction'),true);
+ assert.equal(isSolidCandidate(mapping.replace('\\end{tikzpicture}','\\draw (0,1)--(2.6,1);\\end{tikzpicture}')),true);
+ assert.equal(isSolidCandidate(mapping.replace('0.65 and 1.15','1.15 and 0.65')),true);
+ assert.equal(isSolidCandidate(curvedSolidTikz('cylinder')),true);
+});
 test('current model detects flipped edge styles and cannot be fooled by a label stroke',()=>{
  const code=box(),wrong=code.replace(/\\draw\[dashed\]/,'\\draw');
  assert.equal(inspectSolid(code).status,'pass');assert.equal(inspectSolid(wrong).status,'defect');

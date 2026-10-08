@@ -3,6 +3,7 @@ import {hasVisibleContent} from './document-content.js';
 import {inspectPresentationFidelity} from './booklet-presentation-verification.js';
 import {validSourceRegion} from './diagram-source-region.js';
 import {sourceInventories} from './booklet-source-content.js';
+import {isGivenFigureNode} from './booklet-exercises.js';
 
 export const CONTENT_VERIFIER_VERSION='3';
 const canonical=value=>Array.isArray(value)?value.map(canonical):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort().map(k=>[k,canonical(value[k])])):value;
@@ -220,7 +221,9 @@ export async function inspectContentCoverage(project,{assetSignatures={},reviewe
       const mapping=`${entry.targetId}|${entry.field??entry.kind??''}`;
       const prior=mapped.get(mapping),owner=nodes.get(entry.targetId)?.block;
       const nestedAnswer=reviewed.has(owner)&&entry.kind==='answer'&&prior?.kind==='example'&&entry.parentId===prior.id;
-      if(prior&&!entry.continuationOf&&!nestedAnswer){state='duplicate';issue(state,entry.targetId,`Multiple inventory items map to the same target: ${entry.id}`);}mapped.set(mapping,entry);
+      const figureParent=entry.parentId&&entries.find(e=>e.id===entry.parentId&&e.kind==='diagram'&&e.targetId===entry.targetId);
+      const nestedFigure=reviewed.has(owner)&&entry.kind==='teaching'&&figureParent&&(prior?.id===figureParent.id||prior?.parentId===figureParent.id);
+      if(prior&&!entry.continuationOf&&!nestedAnswer&&!nestedFigure){state='duplicate';issue(state,entry.targetId,`Multiple inventory items map to the same target: ${entry.id}`);}mapped.set(mapping,entry);
       if(entry.ambiguous&&!reviewed.has(owner)){state='ambiguous';issue(state,entry.targetId,entry.ambiguous);}
       else if(state!=='duplicate'){
         const key=await contentVerificationKey(project,entry,nodes,assetSignatures);
@@ -259,7 +262,14 @@ export async function inspectContentCoverage(project,{assetSignatures={},reviewe
       const boundScaffold=node.responseSpace==='scaffold'&&scaffold?.block===block&&
         (scaffold.node.type==='table'||scaffold.node.type==='paragraph'&&scaffold.node.inlines?.some(i=>i.type==='cloze'));
       if(!hasVisibleContent(node.prompt)&&![...ancestors,node].some(n=>n.questionDiagrams?.length)&&!boundScaffold&&!boundParentPrompt(node,block,ancestors))issue('missing-prompt',node.id,'Response has no visible prompt, shared question diagram or explicitly bound native scaffold.');
-      const suppliedExample=reviewed.has(block)&&node.questionDiagrams?.length&&
+      const alternative=entries.find(e=>!e.exclusionReason&&e.targetId===node.id&&e.kind==='part'&&/^Alternative\s+[a-z]\.?$/i.test(e.description??'')&&!e.expectedAnswer&&(!e.responseKind||e.responseKind==='none'));
+      const selection=alternative&&entries.find(e=>e.id===alternative.parentId&&e.kind==='question'&&['inline','tick-cross'].includes(e.responseKind)&&e.expectedAnswer);
+      const selectionOwner=selection&&ancestors.find(n=>n.id===selection.targetId);
+      const permanentSelectionFigure=reviewed.has(block)&&isGivenFigureNode(node)&&selectionOwner&&
+        entries.filter(e=>e.parentId===selection.id&&e.kind==='part'&&/^Alternative\s+[a-z]\.?$/i.test(e.description??'')).length>=2&&
+        block.sourceReview?.responses?.some(r=>r.targetId===node.id&&r.kind==='none')&&
+        block.sourceReview.responses.some(r=>r.kind!=='none'&&nodes.get(r.targetId)?.ancestors.some(n=>n.id===selectionOwner.id)&&hasAnswer(nodes.get(r.targetId)?.node.answer?.short)&&hasAnswer(nodes.get(r.targetId)?.node.answer?.worked));
+      const suppliedExample=permanentSelectionFigure||reviewed.has(block)&&(hasVisibleContent(node.prompt)||node.questionDiagrams?.length)&&
         block.sourceReview?.responses?.some(response=>response.targetId===node.id&&response.kind==='none')&&
         entries.some(entry=>!entry.exclusionReason&&entry.targetId===node.id&&entry.kind==='example'&&!entry.expectedAnswer&&(!entry.responseKind||entry.responseKind==='none'));
       for(const mode of ['short','worked'])if(!suppliedExample&&!hasAnswer(node.answer?.[mode]))issue('missing-answer',node.id,`Missing ${mode} answer.`);

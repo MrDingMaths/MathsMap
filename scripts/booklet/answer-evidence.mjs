@@ -104,6 +104,15 @@ export function derivedAnswerDiagramEntries(sections,entries,{groups:sourceGroup
   }
   const visit=(node,owner=source)=>{
    if(groups.size||metadataOwners.size)owner=entries.find(e=>!e.exclusionReason&&e.targetId===node?.id&&(e.kind==='question'&&(metadataOwners.has(e)||groups.has(e.parentId)||groups.has(e.sharedStemId))||teachingResponse(e)))??owner;
+   // A nested multipart teaching task can own its independently inventoried
+   // instruction directly, without a second inventory entry for its header.
+   // Require the exact native group and the activity's source page; a heading,
+   // unrelated descendant or foreign-page task cannot establish ownership.
+   if(block.pedagogyRole&&['question','group'].includes(node?.type)&&node.children?.length&&node.prompt){
+    const pages=new Set([block.sourcePageNumber,...(block.sourceRefs??[]).map(ref=>ref.pageNumber)].filter(Number.isInteger));
+    owner=entries.find(e=>!e.exclusionReason&&e.kind==='question'&&e.targetId===node.id&&
+     pages.has(e.pageNumber)&&['cloze','inline','short','working','tick-cross'].includes(e.responseKind))??owner;
+   }
    // A teaching activity can inventory its response questions directly without
    // a separate heading entry. Bind only the current response's own prompt,
    // never an arbitrary descendant or answer field of the activity.

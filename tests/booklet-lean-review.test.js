@@ -4,6 +4,40 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {contentHash,pendingBlocks,batchBlocks,applyCorrections,recordContentResult,recordReuseFallbacks,loadReviewed,runContentReview,visualPlan,visualBatches,recordVisualResult,runVisualReview,reviewStatus,openProject,sourcePagesFor,teachingFor,runLeanExport,applyRepair,outstandingFindings,scopeRepairedVisualPlan} from '../scripts/booklet/lean-review.mjs';
+import {contentPrompt,contentImages,supplementalSourceImages,practiceContentEvidence,PRACTICE_CONTENT_EVIDENCE_VERSION} from '../scripts/booklet/lean-review.mjs';
+import {createHash} from 'node:crypto';
+import {prepareExportVisualPlan} from '../scripts/booklet/lean-review.mjs';
+import {projectReviewHash} from '../scripts/booklet/page-review.mjs';
+
+test('failed automated exports can be inspected without granting acceptance or using stale project content',async()=>{
+ const project=fixture(),{runDir,file}=workspace(project),out=path.join(runDir,'failed-export');fs.mkdirSync(out);
+ const report=Object.fromEntries(['student','short','worked','with-short','with-worked'].map(edition=>[edition,{projectHash:projectReviewHash(project),pdf:{path:edition+'.pdf',hash:edition},pageHashes:[{page:1,hash:edition,blocks:[],isCover:true}],issues:edition==='student'?[{page:1,kind:'graph-tick-overlap'}]:[]} ]));
+ fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({report:{p:report}}));
+ fs.writeFileSync(path.join(out,'frozen-export-receipt-1.json'),JSON.stringify({status:1}));
+ const result=await prepareExportVisualPlan({runDir,projectId:'p',projectFile:file,out},{rasterize:async(_pdf,_count,_out,{pages})=>({images:pages.map(page=>({page,path:'page-'+page+'.png'}))})});
+ assert.equal(result.automatedIssues.student,1);assert.equal(result.pagesToInspect.student,1);
+ assert.equal(reviewStatus({runDir,projectFile:file,exportDir:out,projectHash:projectReviewHash}).deliverable,false);
+ const before=fs.readFileSync(path.join(out,'frozen-export-receipt-1.json'),'utf8');
+ project.title='Changed title';fs.writeFileSync(file,JSON.stringify(project));
+ await assert.rejects(prepareExportVisualPlan({runDir,projectId:'p',projectFile:file,out},{rasterize:async()=>({images:[]})}),/current rendered PDF/);
+ assert.equal(fs.readFileSync(path.join(out,'frozen-export-receipt-1.json'),'utf8'),before);
+});
+
+test('supplemental Word source images must retain their original pinned bytes',t=>{
+ const runDir=fs.mkdtempSync(path.join(os.tmpdir(),'lean-source-images-'));t.after(()=>fs.rmSync(runDir,{recursive:true,force:true}));
+ const relative='evidence/word/media/media/image1.png',file=path.join(runDir,relative);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,'original-source-image');
+ fs.writeFileSync(path.join(runDir,'manifest.json'),JSON.stringify({pins:{runFiles:{[relative]:createHash('sha256').update(fs.readFileSync(file)).digest('hex')}}}));
+ const batch={rows:[{block:{sourceReview:{sourceEvidenceImages:[relative,relative]}}}]};
+ assert.deepEqual(supplementalSourceImages(batch,runDir),[file]);
+ fs.writeFileSync(file,'changed-source-image');assert.throws(()=>supplementalSourceImages(batch,runDir),/missing or changed/);
+ batch.rows[0].block.sourceReview.sourceEvidenceImages=['../private.png'];assert.throws(()=>supplementalSourceImages(batch,runDir),/original extracted Word image/);
+ assert.deepEqual(supplementalSourceImages({rows:[{block:{}}]},runDir),[]);
+});
+
+test('required supplemental source images are never silently truncated',()=>{
+ const batch={rows:[{block:{sourcePageNumber:1}}]};
+ assert.throws(()=>contentImages(batch,()=>'',{limit:1,supplementalImages:['source-a.png','source-b.png']}),/split the review batch/);
+});
 
 test('fallback reuse references record actual full review without renewing acceptance or claiming inherited approval',()=>{
  const block={id:'copy',type:'question',content:{prompt:'Given 2 and 4'},sourceReview:{reuse:{projectId:'ratios',blockId:'original'}}};
@@ -34,6 +68,20 @@ test('scoped visual repairs keep neighbours, moved content and flags without rer
  assert.deepEqual(resumed.short.pending.map(p=>p.page),[1,2,3,4,5,6,7],'the unfinished page and its neighbours remain pending alongside repairs');
  assert.deepEqual(state,interrupted,'scoping cannot manufacture acceptance for an interrupted batch');
 });
+
+test('accepted source-key and helper processing notes do not duplicate combined bodies, while real visual and automated flags remain',()=>{
+ const project=fixture(),block=project.sections[2].blocks[0];
+ project.studio={flags:[{id:'answer-match-1',targetId:block.id,note:'Original key typo corrected',resolved:false},{id:'nr-1',targetId:block.id,note:'estimateWorkedWritingSpace could not be accessed',resolved:false}]};
+ const state={questions:{[block.id]:{outcome:'passed',hash:contentHash(block)}},pages:{}};
+ const hashes=Array.from({length:6},(_,i)=>({page:i+1,hash:'p'+i,mode:i<4?'student':'short',isCover:i===0,answerSectionStart:i===4,blocks:i===2?[block.id]:[]}));
+ const entry={pdf:{path:'combined.pdf'},pageHashes:hashes,issues:[]};
+ const report=Object.fromEntries(['student','short','worked','with-short','with-worked'].map(edition=>[edition,structuredClone(entry)]));
+ assert.deepEqual(visualPlan({project,report,state})['with-short'].pending.map(p=>p.page),[1,4,5,6]);
+ assert.ok(visualPlan({project,report,state}).student.pending.some(p=>p.page===3));
+ report['with-short'].issues=[{page:3,kind:'clipping'}];assert.ok(visualPlan({project,report,state})['with-short'].pending.some(p=>p.page===3));
+ report['with-short'].issues=[];project.studio.flags.push({id:'visual-unknown',targetId:block.id,note:'Unreviewed label overlap',resolved:false});assert.ok(visualPlan({project,report,state})['with-short'].pending.some(p=>p.page===3));
+ project.studio.flags.pop();state.questions[block.id].hash='stale';assert.ok(visualPlan({project,report,state})['with-short'].pending.some(p=>p.page===3));
+});
 test('scoped visual repair consumes moved page sequences and retains new/reflowed bodies and combined boundaries',()=>{
  const editions=['student','short','worked','with-short','with-worked'],project={sections:[{blocks:['fixed','other','tail','new'].map(id=>({id}))}]},plan={},previousPlan={},report={},previousReport={},state={pages:{}};
  for(const edition of editions){
@@ -56,6 +104,37 @@ const fixture=()=>({id:'p',title:'P',reviewProfile:'textbook-three-pass-v1',revi
  {id:'teach',phase:'teaching',topicId:'t1',blocks:[{id:'example',type:'question',sourcePageNumber:4,content:{id:'example-root',prompt:'Example'}}]},
  {id:'practice',phase:'practice',topicId:'t1',blocks:[question('q1'),question('q2'),question('q3'),question('q4'),question('q5')]}]});
 const workspace=project=>{const runDir=fs.mkdtempSync(path.join(os.tmpdir(),'lean-review-')),file=path.join(runDir,'candidate.json');fs.writeFileSync(file,JSON.stringify(project,null,2)+'\n');return {runDir,file,dir:path.join(runDir,'lean-review')};};
+
+function practiceEvidenceFixture(t){
+ const block=question('practice'),section={id:'practice',phase:'practice',blocks:[block]},project={...fixture(),source:{contentScope:'practice-only'},sections:[section]};
+ block.sourceReview={teachingContext:{pdfPages:[4,5],methodNote:'Use the source method'},answerEvidence:{teacherReference:[30,31].map(pdfPage=>({pdfPage,printedPage:405,exercise:'6A',questionLabel:'1'}))}};
+ const w=workspace(project);t.after(()=>fs.rmSync(w.runDir,{recursive:true,force:true}));
+ const pins={};
+ for(const relative of ['source/booklet.pdf','source/teacher.pdf','evidence/pages/page-006.png','evidence/pages/page-004.png','evidence/pages/page-005.png','evidence/teacher/pages/page-030.png','evidence/teacher/pages/page-031.png']){
+  const file=path.join(w.runDir,relative);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,'original '+relative);pins[relative]=createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+ }
+ fs.writeFileSync(path.join(w.runDir,'manifest.json'),JSON.stringify({selectedPages:[6],contextPages:[4,5],teacherPages:[30,31],source:{pdfHash:pins['source/booklet.pdf'],teacherPdf:'original-answer.pdf',teacherPdfHash:pins['source/teacher.pdf']},pins:{runFiles:pins}}));
+ return {...w,project,block,batch:{section,rows:[{block}]}};
+}
+
+test('practice review delivers numeric teaching references and every matched original key image, with readable pinned paths',t=>{
+ const w=practiceEvidenceFixture(t),evidence=practiceContentEvidence(w.project,w.batch,w.runDir),pageImage=p=>path.join(w.runDir,'evidence/pages/page-'+String(p).padStart(3,'0')+'.png');
+ assert.deepEqual(sourcePagesFor(w.block),{own:[6],related:[4,5]});
+ const images=contentImages(w.batch,pageImage,{limit:4,evidence});
+ assert.equal(images.length,4);for(const p of [30,31])assert.ok(images.includes(path.join(w.runDir,'evidence/teacher/pages/page-'+String(p).padStart(3,'0')+'.png')));
+ const prompt=contentPrompt({project:w.project,batch:w.batch,evidence});assert.ok(prompt.includes(JSON.stringify(path.join(w.runDir,'evidence/pages/page-005.png')).slice(1,-1)));assert.match(prompt,/independently derive every answer/i);assert.match(prompt,/Inspect all linked answer pages/);
+ assert.throws(()=>contentImages(w.batch,pageImage,{limit:2,evidence}),/split the review batch/);
+ fs.writeFileSync(path.join(w.runDir,'source/teacher.pdf'),'changed');assert.throws(()=>practiceContentEvidence(w.project,w.batch,w.runDir),/missing or changed/);
+});
+
+test('practice reviews with missing original teaching/key evidence never launch or accept, and old incomplete reviews require real reinspection',async t=>{
+ const w=practiceEvidenceFixture(t),state={questions:{practice:{hash:contentHash(w.block),outcome:'passed'}}};
+ assert.equal(pendingBlocks(w.project,state).length,1);
+ let calls=0;fs.unlinkSync(path.join(w.runDir,'evidence/pages/page-005.png'));
+ const result=await runContentReview({runDir:w.runDir,projectFile:w.file,skills:[],runner:async()=>{calls++;return {result:passAll(['practice'])};}});
+ assert.equal(calls,0);assert.equal(result.remaining,1);assert.match(result.errors[0].error,/missing or changed/);assert.equal(loadReviewed(w.dir).questions.practice,undefined);
+ state.questions.practice.practiceEvidenceVersion=PRACTICE_CONTENT_EVIDENCE_VERSION;assert.equal(pendingBlocks(w.project,state).length,0);
+});
 const passAll=batchIds=>({records:batchIds.map(id=>({id,outcome:'passed',note:'ok'})),corrections:[]});
 const idsIn=prompt=>JSON.parse(prompt.slice(prompt.indexOf('\n\n')+2)).blocks.map(block=>block.id);
 
@@ -116,6 +195,20 @@ test('batches hold at most four consecutive blocks of one section',()=>{
  assert.equal(batchBlocks(pendingBlocks(project,{questions:{},pages:{}}),{characters:1}).length,6,'an oversized block still gets its own batch');
  assert.deepEqual(sourcePagesFor(project.sections[2].blocks[0]),{own:[6],related:[4]});
  assert.equal(teachingFor(project,project.sections[2]).length,1);
+});
+
+test('scoped teaching review includes same-group companions without reopening their review',()=>{
+ const text={id:'definitions',type:'rich-text',sourceAtom:{id:'tests'},content:'Four similarity tests'};
+ const figures={id:'figures',type:'worked-example',sourceAtom:{id:'tests'},examples:[{id:'sss',prompt:'SSS',questionDiagrams:[{id:'pair',format:'tikz',code:'paired triangles'}]}]};
+ const unrelated={id:'activity',type:'question',sourceAtom:{id:'different-group'}};
+ const section={id:'teaching',phase:'teaching',blocks:[text,figures,unrelated]},project={title:'Similarity',sections:[section]};
+ const state={questions:{definitions:{hash:'before-repair',outcome:'passed'},figures:{hash:contentHash(figures),outcome:'passed'},activity:{hash:contentHash(unrelated),outcome:'passed'}}};
+ const batch=batchBlocks(pendingBlocks(project,state))[0],prompt=contentPrompt({project,batch}),payload=JSON.parse(prompt.slice(prompt.indexOf('\n\n')+2));
+ assert.deepEqual(payload.blocks.map(block=>block.id),['definitions']);
+ assert.deepEqual(payload.companionBlocks.map(block=>block.id),['figures']);
+ assert.equal(payload.companionBlocks[0].examples[0].questionDiagrams[0].code,'paired triangles');
+ assert.equal(pendingBlocks(project,state).length,1);
+ assert.deepEqual(batch.rows.map(row=>row.block.id),['definitions']);
 });
 
 test('corrections apply exact fields inside the reviewed blocks only',()=>{
@@ -251,4 +344,13 @@ test('status is deliverable only for a passed export of the current project with
  report.short.issues=[];writeAll();
  fs.writeFileSync(file,JSON.stringify({...project,revision:2},null,2)+'\n');
  const stale=status();assert.equal(stale.deliverable,false);assert.equal(stale.exportProblems.length,5,'every edition was exported from older content');
+});
+
+
+test('replacement-shaped repair patches are rejected before an existing field can be deleted',()=>{
+ const blocks=[{id:'q',content:{prompt:'Original',obsolete:'Old'}}],before=structuredClone(blocks);
+ const wrong=applyCorrections(blocks,[{patches:[{targetId:'q',field:'/content/prompt',original:'Original',replacement:'New'}]}]);
+ assert.equal(wrong.applied.length,0);assert.equal(wrong.rejected[0].status,'rejected');assert.match(wrong.rejected[0].error,/use corrected/);assert.deepEqual(blocks,before);
+ const right=applyCorrections(blocks,[{patches:[{targetId:'q',field:'/content/prompt',original:'Original',corrected:'New'}]}]);assert.equal(right.applied.length,1);assert.equal(blocks[0].content.prompt,'New');
+ const deletion=applyCorrections(blocks,[{patches:[{targetId:'q',field:'/content/obsolete',original:'Old'}]}]);assert.equal(deletion.applied.length,1);assert.equal(Object.hasOwn(blocks[0].content,'obsolete'),false);
 });

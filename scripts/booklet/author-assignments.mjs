@@ -17,6 +17,7 @@ const groupAnchors=categoryGroupAnchors;
 const categoryLabel=value=>typeof value==='string'&&/^(foundation|development|mastery|concept checks?|essential problems|additional practice|enrichment|chapter\s+\d+\s+review\s+set\s+(one|two|\d+))$/i.test(value.trim());
 const difficultyHeading=e=>e.kind==='teaching'&&(!e.responseKind||e.responseKind==='none')&&[e.description,e.sourceLabel].some(value=>typeof value==='string'&&/^(foundation|development|mastery)$/i.test(value.trim()));
 const categoryHeading=e=>e.kind==='group'||difficultyHeading(e);
+const memberList=value=>Array.isArray(value)?value:[];
 const practiceCategory=(g,questionAnchors)=>!groupAnchors(g).some(id=>questionAnchors.has(id))&&(g.kind==='practice-category'||!g.indivisible&&!g.sharedActivity&&(
  (g.kind==='practice'||/^(practice|difficulty)[ -]category$/i.test(g.kind??''))&&(!!g.category||categoryLabel(g.header))||/^(foundation|development|mastery)$/i.test(g.kind??'')||g.kind==='challenge'&&/^challenge exercise$/i.test(g.header??'')));
 export function createAssignmentPlan(inventories,{continuations=[],maxQuestions=4,maxCharacters=24000,measure=values=>JSON.stringify(values).length}={}){
@@ -50,7 +51,7 @@ export function createAssignmentPlan(inventories,{continuations=[],maxQuestions=
  for(const inventory of inventories)for(const g of inventory.groups??[]){
   if(isCategory(g))continue;
   const ids=g.inventoryIds??g.entryIds??g.members??g.memberIds??((g.indivisible||g.sharedActivity)?g.questionIds:[])??[];
-  if(ids.length&&ids.every(id=>typeof id==='string'))for(const id of ids)join(g.id??ids[0],id);
+  if(Array.isArray(ids)&&ids.length&&ids.every(id=>typeof id==='string'))for(const id of ids)join(g.id??ids[0],id);
  }
  // A category heading is provenance for its first question, not a standalone
  // authoring task. Bind only that first complete unit so a tight context budget
@@ -70,7 +71,7 @@ export function createAssignmentPlan(inventories,{continuations=[],maxQuestions=
     if(matching.length===1)related=matching;
    }
    for(const g of related)for(const id of groupAnchors(g))aliases.add(id);
-   const members=new Set(related.flatMap(g=>g.inventoryIds??g.entryIds??g.members??g.memberIds??g.questionIds??[]));
+   const members=new Set(related.flatMap(g=>memberList(g.inventoryIds??g.entryIds??g.members??g.memberIds??g.questionIds)));
    const belongs=e=>{if(members.has(e.id)||members.has(e.targetId))return true;let id=e.parentId;const visited=new Set();while(id&&!visited.has(id)){if(aliases.has(id))return true;visited.add(id);id=ancestry.get(id);}return false;};
    let first=local.find(e=>e.kind==='question'&&!e.exclusionReason&&belongs(e));
    if(!first){const start=local.indexOf(heading);for(const e of local.slice(start+1)){if(categoryHeading(e)&&(categories.has(e.id)||categories.has(e.targetId)))break;if(e.kind==='question'&&!e.exclusionReason){first=e;break;}}}
@@ -176,7 +177,7 @@ export function assignmentPayload(assignment,tasks){
   topics:relevant.map(t=>({page:t.page,topic:t.topic})),
   guidance:resources.map(({text,...r})=>r),
   categoryHeadings,
-  groups:relevant.flatMap(t=>(t.inventory.groups??[]).filter(g=>categoryGroups.has(g.id)||(g.questionIds??g.inventoryIds??g.entryIds??g.members??[]).some(id=>targets.has(id))||assignment.entries.some(e=>e.parentId===g.id||e.continuationOf===g.id||e.sharedContextIds?.includes(g.id)||e.sharedWith?.includes(g.id))).map(g=>categoryGroups.has(g.id)?g:{...g,questionIds:g.questionIds?.filter(id=>targets.has(id)),inventoryIds:g.inventoryIds?.filter(id=>targets.has(id))})),
+  groups:relevant.flatMap(t=>(t.inventory.groups??[]).filter(g=>categoryGroups.has(g.id)||memberList(g.questionIds??g.inventoryIds??g.entryIds??g.members).some(id=>targets.has(id))||assignment.entries.some(e=>e.parentId===g.id||e.continuationOf===g.id||e.sharedContextIds?.includes(g.id)||e.sharedWith?.includes(g.id))).map(g=>categoryGroups.has(g.id)?g:{...g,questionIds:memberList(g.questionIds).filter(id=>targets.has(id)),inventoryIds:memberList(g.inventoryIds).filter(id=>targets.has(id))})),
   decisions:relevant.flatMap(t=>(t.editorial?.corrections??[]).map(c=>({id:c.id,reason:c.reason,patches:c.patches.filter(p=>targets.has(p.targetId)||t.contextPages.includes(p.page)&&!assignment.pages.includes(p.page))})).filter(c=>c.patches.length)),
   resolutions:relevant.flatMap(t=>(t.editorialDecisions??[]).filter(d=>targets.has(d.entryId)||targets.has(d.targetId)||d.inventoryIds?.some(id=>targets.has(id))||(d.pages??[d.page]).some(page=>!d.entryId&&!d.targetId&&!d.inventoryIds?.length&&assignment.pages.includes(page)||t.contextPages.includes(page)&&!assignment.pages.includes(page)))),
   currentValues:relevant.flatMap(t=>(t.editorial?.currentValues??[]).filter(v=>targets.has(v.targetId)||t.contextPages.includes(v.page)&&!assignment.pages.includes(v.page)).map(v=>({id:v.key,targetId:v.targetId,field:v.field,value:v.value,path:t.editorialFile,hash:t.editorialHash}))),

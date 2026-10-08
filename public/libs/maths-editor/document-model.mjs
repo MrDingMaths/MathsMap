@@ -139,7 +139,7 @@ export function normalizeDocument(raw = {}) {
         if (x.type === 'tab') return {type:'tab'};
         if (x.type === 'break') return { type:'break' };
         if (x.type === 'cloze' && x.width==null && x.answer) x={...clozeLayout(x.answer),...x,expectedResponse:x.expectedResponse??x.answer};
-        if (x.type === 'cloze') return { type:'cloze', answer:String(x.answer ?? ''), width:limit(x.width,clozeWidthMm(x.answer),8,120), ...(x.joinPrevious===true?{joinPrevious:true}:{}), ...(x.expectedResponse?{expectedResponse:String(x.expectedResponse)}:{}), ...(x.lines?{lines:Math.round(limit(x.lines,1,1,10))}:{}), ...(x.reviewStatus?{reviewStatus:String(x.reviewStatus)}:{}) };
+        if (x.type === 'cloze') return { type:'cloze', answer:String(x.answer ?? ''), width:limit(x.width,clozeWidthMm(x.answer),8,120), ...(x.enclosure==='sqrt'?{enclosure:'sqrt'}:{}), ...(x.joinPrevious===true?{joinPrevious:true}:{}), ...(x.expectedResponse?{expectedResponse:String(x.expectedResponse)}:{}), ...(x.lines?{lines:Math.round(limit(x.lines,1,1,10))}:{}), ...(x.reviewStatus?{reviewStatus:String(x.reviewStatus)}:{}) };
         if (x.type !== 'text') throw new Error(`Unsupported inline: ${x.type}`);
         return { type:'text', text:String(x.text ?? x.value ?? ''), marks:(x.marks ?? []).filter(m => ['bold','italic','underline'].includes(m)), ...(safeLink(x.href)?{href:safeLink(x.href)}:{}), ...(colour(x.colour,null)?{colour:colour(x.colour,null)}:{}) };
       }) };
@@ -171,6 +171,11 @@ export function renderDocument(raw, { math = latex => escapeHtml(latex), editabl
   const doc = normalizeDocument(raw), e = escapeHtml;
   const renderCloze = n => {
 const lines=n.lines??1, metadata=`${n.joinPrevious?'data-join-previous="true" ':''}data-cloze="${e(n.answer)}" data-width="${n.width}" data-lines="${lines}" data-expected-response="${e(n.expectedResponse??n.answer)}" data-review-status="${e(n.reviewStatus??'')}"`;
+    if(n.enclosure==='sqrt'){
+      const answer=n.answer.replace(/^\$\$?|\$\$?$/g,'');
+      const latex=fillCloze?'\\sqrt{'+answer+'}':'\\sqrt{\\vphantom{2}\\kern{'+n.width+'mm}}';
+      return `<span ${metadata} data-cloze-enclosure="sqrt" contenteditable="false" style="position:relative;display:inline-block;vertical-align:baseline">${math(latex,false)}${fillCloze?'':`<span style="position:absolute;right:0;bottom:.1em;width:${n.width}mm">${clozeLeader(n.width)}</span>`}</span>`;
+    }
     const content=fillCloze?renderClozeAnswer(n.answer,math,e):'&nbsp;';
     return `<span ${metadata} contenteditable="false" style="position:relative;display:${lines>1?'block':'inline-block'};width:${n.width}mm;max-width:100%;min-height:${lines>1?lines*8:0}mm;vertical-align:baseline;${lines===1?'border-bottom:1px var(--document-cloze-line,solid) currentColor;':''}">${content}${lines===1?clozeLeader(n.width):Array.from({length:lines},(_,i)=>`<span style="position:absolute;bottom:${i*8}mm;left:0;width:100%">${clozeLeader(n.width)}</span>`).join('')}</span>`;
   };

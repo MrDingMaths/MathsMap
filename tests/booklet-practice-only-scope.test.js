@@ -4,22 +4,74 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {validateSemanticResult,createSemanticTasks} from '../scripts/booklet/semantic-workflow.mjs';
+import {normalizePracticeInventory,validatePracticeInventory,validatePracticeAuthor} from '../scripts/booklet/practice-only-scope.mjs';
 import {TRANSCRIPTION_DEFAULT} from '../scripts/booklet/transcription-settings.mjs';
 import {isSelectableBankQuestion} from '../src/lib/question-bank-eligibility.js';
 import {normaliseQuestion} from '../src/lib/practice-question-model.js';
+
+test('explicit nested scope metadata survives canonicalisation and embedded parts resolve to their question',()=>{
+ const original={entries:[{id:'q',kind:'question',description:'Prove'},{id:'part',kind:'part',parentId:'q',description:'Part a'},
+  {id:'hint',kind:'teaching',parentId:'part',description:'Use part a',presentation:{embeddedInQuestion:'part'}},
+  {id:'theory',kind:'teaching',description:'Context',presentation:{exclusionReason:'Standalone reference only'}}]};
+ const result=normalizePracticeInventory(original);
+ assert.equal(result.entries[2].embeddedInQuestion,'q');assert.equal(result.entries[3].exclusionReason,'Standalone reference only');
+ assert.equal(original.entries[2].embeddedInQuestion,undefined);
+ assert.deepEqual(normalizePracticeInventory(result),result);assert.doesNotThrow(()=>validatePracticeInventory(result));
+ original.entries[2].embeddedInQuestion='q';assert.equal(normalizePracticeInventory(original).entries[2].embeddedInQuestion,'q');
+});
+
+test('scope normalisation rejects conflicting declarations, orphan embeds and vague heading exclusions',()=>{
+ const entry={id:'theory',kind:'teaching',description:'Context',exclusionReason:'A',presentation:{exclusionReason:'B'}};
+ assert.throws(()=>normalizePracticeInventory({entries:[entry]}),/Conflicting/);
+ assert.throws(()=>normalizePracticeInventory({entries:[{id:'hint',kind:'teaching',presentation:{embeddedInQuestion:'missing'}}]}),/Unknown embedded/);
+ assert.throws(()=>validatePracticeInventory({entries:[{id:'heading',kind:'teaching',description:'Important questions',presentation:{role:'Practice exercise boundary'}}]}),/exclude standalone/);
+ const exact={entries:[{id:'heading',kind:'teaching',description:'6B Exercises',sourceLabel:'6B Exercises',presentation:{role:'Practice exercise boundary'}}]};
+ assert.match(normalizePracticeInventory(exact).entries[0].exclusionReason,/house exercise heading/);
+ exact.entries[0].presentation={headingKind:'main topic band',sourceReference:'evidence/pages/page-017.png'};
+ assert.match(normalizePracticeInventory(exact).entries[0].exclusionReason,/house exercise heading/);
+ exact.entries[0].description='Exercise heading and a mathematical instruction';assert.throws(()=>validatePracticeInventory(exact),/exclude standalone/);
+});
 import {normalizeEditableProject} from '../src/lib/editable-booklet-model.js';
 import {organiseExercises} from '../src/lib/booklet-exercises.js';
 import {exerciseNumbers,flowEditionSections} from '../src/lib/booklet-flow.js';
 const inventory=()=>({pageNumber:4,inventoried:true,entries:[{id:'q',kind:'question',description:'True or false?'},{id:'theory',kind:'teaching',description:'Index rule',exclusionReason:'Standalone reference only'}]});
 const author=()=>({pageNumber:4,sections:[{id:'s',title:'Concept Check',phase:'practice',role:'mixed-practice',blocks:[{id:'b',type:'question',content:{id:'q',type:'question',prompt:'True or false?',answer:{short:'True',worked:'Apply the product rule.'}}}]}],inventoryMappings:[{inventoryId:'q',targetId:'q'}]});
 const check=(r,i=inventory())=>validateSemanticResult(r,{stage:'author',page:4,inventory:i,contentScope:'practice-only'});
+
+test('embedded supplied working retains its mapped content despite an explicit standalone-block exclusion',()=>{
+ const i=inventory(),a=author();i.entries.push({id:'hint',kind:'teaching',embeddedInQuestion:'q',exclusionReason:'Retain within the question parent; do not create a separate teaching block.'});
+ a.inventoryMappings.push({inventoryId:'hint',targetId:'q',field:'/prompt'});
+ assert.doesNotThrow(()=>validatePracticeAuthor(a,i));
+ a.inventoryMappings.at(-1).exclusionReason='Omit';assert.throws(()=>validatePracticeAuthor(a,i),/Practice content was excluded/);
+ delete a.inventoryMappings.at(-1).exclusionReason;i.entries.at(-1).exclusionReason='Omit all supplied working';assert.throws(()=>validatePracticeAuthor(a,i),/Conflicting embedded/);
+ for(const reason of ['Embedded question context; retain in the parent stem rather than authoring a standalone teaching section.','Inventory separately for coverage, but retain within the parent question rather than authoring a separate teaching section.','Inventory separately as embedded reference content; retain in the parent question rather than authoring a standalone teaching section.','Embedded instruction context; retain within the question, not as a standalone teaching section.','Embedded definition is retained once in the question parent; not a separate teaching section.']){
+  i.entries.at(-1).exclusionReason=reason;i.entries.at(-1).presentation={embeddedInQuestion:'q'};delete i.entries.at(-1).embeddedInQuestion;
+  assert.doesNotThrow(()=>validatePracticeAuthor(a,i));
+  a.inventoryMappings.at(-1).exclusionReason=reason;assert.doesNotThrow(()=>validatePracticeAuthor(a,i));
+  a.inventoryMappings.at(-1).targetId='missing';assert.throws(()=>validatePracticeAuthor(a,i),/Practice content was excluded/);a.inventoryMappings.at(-1).targetId='q';delete a.inventoryMappings.at(-1).exclusionReason;
+ }
+});
+
+test('part-only continuation owns only the explicitly parented distinct local responses',()=>{
+ const i={pageNumber:12,entries:[{id:'source-f',kind:'part',parentId:'whole-q',description:'Part f'},{id:'source-g',kind:'part',parentId:'whole-q',description:'Part g'}]};
+ const a={sections:[{phase:'practice',blocks:[{id:'whole-q',type:'question',sourceRefs:[{pageNumber:11},{pageNumber:12}],content:{id:'whole-root',type:'question',prompt:'Evaluate:',children:[{id:'f',type:'part',prompt:'1+2'},{id:'g',type:'part',prompt:'3+4'}]}}]}],inventoryMappings:[{inventoryId:'source-f',targetId:'f'},{inventoryId:'source-g',targetId:'g'}],sharedContentContinuations:[{blockId:'whole-q',canonicalPageNumber:11,reason:'Printed parts f–g continue the earlier question.'}]};
+ assert.doesNotThrow(()=>validatePracticeAuthor(a,i));
+ const mutate=fn=>{const x=structuredClone(a),source=structuredClone(i);fn(x,source);assert.throws(()=>validatePracticeAuthor(x,source),/without a printed question identity/);};
+ mutate(x=>delete x.sharedContentContinuations);
+ mutate(x=>x.sharedContentContinuations[0].canonicalPageNumber=12);
+ mutate(x=>x.sections[0].blocks[0].sourceRefs.pop());
+ mutate((x,source)=>source.entries[0].parentId='unrelated');
+ mutate(x=>x.inventoryMappings[1].targetId='f');
+ mutate(x=>x.inventoryMappings[0].targetId='whole-root');
+ mutate(x=>x.sections[0].blocks.push({...x.sections[0].blocks[0],id:'invented-q'}));
+});
 test('nested reference exclusions preserve teacher answers and source furniture without dropping practice content',()=>{
  const i=inventory(),a=author();
  for(const kind of ['answer','footer']){i.entries.push({id:kind,kind,description:'Reference evidence',presentation:{exclusionReason:'Reference evidence only'}});a.inventoryMappings.push({inventoryId:kind,exclusionReason:'Reference evidence only'});}
  assert.doesNotThrow(()=>check(a,i));
  delete i.entries.at(-1).presentation.exclusionReason;assert.throws(()=>check(a,i),/Practice content was excluded/);
  i.entries.at(-1).presentation.exclusionReason='Reference evidence only';
- i.entries[0].presentation={exclusionReason:'Attempted practice omission'};a.inventoryMappings[0].exclusionReason='Attempted practice omission';assert.throws(()=>check(a,i),/Practice content was excluded/);
+ i.entries[0].presentation={exclusionReason:'Attempted practice omission'};a.inventoryMappings[0].exclusionReason='Attempted practice omission';assert.throws(()=>check(a,i),/cannot exclude a practice question|Practice content was excluded/);
 });
 test('nested publisher navigation exclusion keeps exercise identity without admitting arbitrary cover omissions',()=>{
  const i=inventory(),a=author();

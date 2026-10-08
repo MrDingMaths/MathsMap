@@ -13,6 +13,44 @@ const question=(id,score)=>({id,type:'question',sourceRefs:[{pageNumber:2}],flow
 const candidate=()=>({title:'New topic',topics:[{id:'t',title:'Powers'}],sections:[{id:'s',title:'Practice',role:'practice',phase:'practice',topicId:'t',blocks:[question('a',30),question('b',10)]}],sourceInventory:{version:1,pages:[{pageNumber:2,inventoried:true}],entries:[{id:'src-a',pageNumber:2,kind:'question',targetId:'a'},{id:'src-b',pageNumber:2,kind:'question',targetId:'b'}]}});
 const imported=()=>contentProject(candidate(),{runId:'run',projectId:'new',selectedPages:[2]});
 
+test('reviewed selection figures are givens only with an inventoried selection and complete response',async()=>{
+ const p=imported();p.source.reviewProfile='textbook-three-pass-v1';
+ const block=p.sections[0].blocks[0],oldId=block.id;block.id='selection-block';
+ block.content={id:'selection',type:'group',prompt:'Circle the radius.',children:[
+  ...['choice-a','choice-b'].map(id=>({id,type:'part',questionDiagrams:[{id:id+'-diagram',format:'svg',code:'<svg></svg>'}]})),
+  {id:'response',type:'part',prompt:'Choose A or B.',answer:{short:'A',worked:'A joins the centre to the circumference.'}}
+ ]};
+ block.sourceReview={responses:[{targetId:'choice-a',kind:'none'},{targetId:'choice-b',kind:'none'},{targetId:'response',kind:'inline'}]};
+ p.source.inventory.entries=p.source.inventory.entries.filter(e=>e.targetId!==oldId);
+ p.source.inventory.entries.push({id:'selection-source',pageNumber:2,kind:'question',targetId:'selection',responseKind:'inline',expectedAnswer:'A'},
+  ...['choice-a','choice-b'].flatMap(id=>[{id:'option-'+id,pageNumber:2,kind:'part',parentId:'selection-source',targetId:id,description:'Alternative '+id.at(-1)+'.'},
+   {id:'figure-'+id,pageNumber:2,kind:'diagram',targetId:id+'-diagram'}]));
+ const review=()=>({[block.id]:{outcome:'passed',hash:createHash('sha256').update(JSON.stringify(questionReviewContent(block))).digest('hex')}});
+ const coverage=await inspectContentCoverage(p,{reviewedQuestions:review()});
+ assert.ok(!coverage.issues.some(i=>i.kind==='missing-answer'&&['choice-a','choice-b'].includes(i.targetId)));
+ delete block.content.children[2].answer.worked;
+ const incomplete=await inspectContentCoverage(p,{reviewedQuestions:review()});
+ assert.ok(incomplete.issues.some(i=>i.kind==='missing-answer'&&i.targetId==='choice-a'));
+ assert.ok(incomplete.issues.some(i=>i.kind==='missing-answer'&&i.targetId==='response'));
+});
+
+test('new practice-only imports keep numeric source sequence across difficulty and shared groups',()=>{
+ const c=candidate();c.contentScope='practice-only';
+ c.sections[0].blocks=[question('q2',80),question('q3',20),question('q10',1)];
+ c.sections[0].blocks[1].content.dependsOn=['q2-root'];
+ c.sections.push({...c.sections[0],id:'next-exercise',topicId:'next',blocks:[question('q1-next',90)]});
+ c.topics.push({id:'next',title:'Next exercise'});
+ // Decorations are earlier inventory records, not ordering instructions.
+ c.sourceInventory.entries=[{id:'footer',kind:'footer',exclusionReason:'Renderer-owned'},...c.sections.flatMap(s=>s.blocks).map((b,i)=>({id:'source-'+i,kind:'question',pageNumber:2,targetId:b.content.id}))];
+ const p=contentProject(c,{selectedPages:[2]});
+ assert.equal(p.settings.questionOrder,'source');
+ assert.deepEqual(p.sections.map(s=>s.blocks.map(b=>b.id)),[['q2','q3','q10'],['q1-next']]);
+ assert.deepEqual(p.sections[0].blocks[1].content.dependsOn,['q2-root']);
+ assert.equal(c.settings,undefined);
+ delete c.contentScope;
+ assert.deepEqual(contentProject(c,{selectedPages:[2]}).sections[0].blocks.map(b=>b.id),['q10','q2','q3']);
+});
+
 test('lean coverage resolves historical ambiguity only with a current independent block review',async()=>{
  const p=imported();p.source.reviewProfile='textbook-three-pass-v1';
  p.source.inventory.entries[0].ambiguous='The original source answer needs correction.';

@@ -23,8 +23,8 @@ export async function replayInventory(options,{assertInputs=assertPinnedInputs,l
   if(fs.readFileSync(path.join(dir,'prompt.md'),'utf8')!==task.prompt)throw Error('Source prompt changed: '+task.page);
   const raw=path.join(dir,'last-message.txt'),generation=path.join(dir,'generation.json'),result=path.join(dir,'result.json');
   const value=parseResultFile(raw);
-  if(!isDeepStrictEqual(value,parseResultFile(generation))||!isDeepStrictEqual(value,parseResultFile(result)))throw Error('Preserved inventory output changed: '+task.page);
-  records.set(task.prompt,{value,files:[raw,generation,result,path.join(dir,'prompt.md')].map(file=>({file,hash:hash(file)}))});
+  if(!isDeepStrictEqual(value,parseResultFile(generation))||fs.existsSync(result)&&!isDeepStrictEqual(value,parseResultFile(result)))throw Error('Preserved inventory output changed: '+task.page);
+  records.set(task.prompt,{value,files:[raw,generation,...(fs.existsSync(result)?[result]:[]),path.join(dir,'prompt.md')].map(file=>({file,hash:hash(file)}))});
  }
  const verify=()=>{
   assertInputs(options.runDir);

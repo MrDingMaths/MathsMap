@@ -63,12 +63,13 @@ export function requireLeanFinalEditions(project,editions,{development=false,pre
 export function expectedAnswerNodeIds(project,mode){
  assert.ok(['short','worked'].includes(mode),'Select an answer mode');
  const ids=[];
- const visit=node=>{
+ const visit=(node,block)=>{
   if(isGivenFigureNode(node))return;
-  if(node.children?.length&&!node.answer?.[mode])node.children.forEach(visit);
+  if(!node.children?.length&&!node.answer?.short&&!node.answer?.worked&&block.sourceReview?.responses?.some(r=>r.targetId===node.id&&r.kind==='none'))return;
+  if(node.children?.length&&!node.answer?.[mode])node.children.forEach(child=>visit(child,block));
   else ids.push(node.id);
  };
- flowEditionSections(project,mode).flatMap(section=>section.blocks).forEach(block=>visit(block.content));
+ flowEditionSections(project,mode).flatMap(section=>section.blocks).forEach(block=>visit(block.content,block));
  assert.equal(new Set(ids).size,ids.length,'Expected answer nodes have unique identities');
  return ids;
 }

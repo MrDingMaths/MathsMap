@@ -241,3 +241,14 @@ test('page-number-only matches and unresolved answer-book contradictions fail',(
  e=match();e.matchEvidence='';assert.match(answerMatchingIssues(['q62'],[e],[5,6]).join(),/mathematical content/);
  e=match();e.conflict='Printed strict inequality fails when p=q';assert.match(answerMatchingIssues(['q62'],[e],[5,6]).join(),/unresolved answer match/);
 });
+
+
+test('nested multipart teaching questions bind derived graphs to their exact inventoried instruction',()=>{
+ const task={id:'sketch-root',type:'group',prompt:'Sketch these functions.',children:[{id:'sketch-a',type:'part',prompt:'y=x^3',answer:{solutionDiagrams:[{id:'plot-a'}]}},{id:'sketch-b',type:'part',prompt:'y=x^4',answer:{solutionDiagrams:[{id:'plot-b'}]}}]};
+ const block={id:'activity',type:'question',pedagogyRole:'investigation',sourcePageNumber:22,content:{id:'activity-root',type:'group',children:[task]}},sections=[{blocks:[block]}];
+ const entry={id:'source-sketch',kind:'question',targetId:'sketch-root',pageNumber:22,responseKind:'working'},before=structuredClone({sections,entry});
+ assert.deepEqual(derivedAnswerDiagramEntries(sections,[entry]).map(e=>[e.targetId,e.derivedFrom]),[['plot-a','source-sketch'],['plot-b','source-sketch']]);
+ assert.deepEqual({sections,entry},before);
+ for(const change of [{kind:'teaching'},{targetId:'foreign'},{pageNumber:23},{responseKind:'none'},{exclusionReason:'Context only'}])assert.throws(()=>derivedAnswerDiagramEntries(sections,[{...entry,...change}]),/inventoried source question/);
+ assert.throws(()=>derivedAnswerDiagramEntries([{blocks:[{...block,pedagogyRole:undefined}]}],[entry]),/inventoried source question/);
+});

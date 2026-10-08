@@ -6,6 +6,7 @@ import {paginateShortAnswerGrid} from './booklet-short-answer-grid.js';
 export async function paginateCompactAnswers(project,edition,measure,{cancelled=()=>false,onprogress=()=>{},previous=null,context=''}={}) {
   if(edition.includes('short'))return paginateShortAnswerGrid(project,edition,measure,{cancelled,onprogress,previous,context});
   const mode=edition.includes('short')?'short':'worked',count=mode==='short'?2:1;
+  const footerReserve=Math.max(0,Number(project.settings?.compactAnswers?.workedFooterReserveMm)||0);
   const sections=flowEditionSections(project,mode),pages=[],issues=[];
   const widths=new Map(sections.map(s=>[s.topicId,exerciseLabelWidth(sections.filter(t=>t.topicId===s.topicId).flatMap(t=>t.blocks))]));
   const reuse=paginationReuse(project,edition,previous,context,{compactAnswers:true});
@@ -33,7 +34,7 @@ export async function paginateCompactAnswers(project,edition,measure,{cancelled=
         while(true){
           columns[column].push(entry);
           const size=await measure(make());check();
-          if(size.height<=size.capacity+.2)break;
+          if(size.height<=size.capacity-footerReserve+.2)break;
           columns[column].pop();
           if(!columns[column].length){
             const split=workedAnswerDiagramFragments(fragment);
@@ -43,7 +44,7 @@ export async function paginateCompactAnswers(project,edition,measure,{cancelled=
                 columns[column].push({...entry,block:part});
                 const partSize=await measure(make());check();
                 columns[column].pop();
-                if(partSize.height>partSize.capacity+.2){fits=false;break;}
+                if(partSize.height>partSize.capacity-footerReserve+.2){fits=false;break;}
               }
               if(fits){fragments.splice(f,1,...split);f--;break;}
             }

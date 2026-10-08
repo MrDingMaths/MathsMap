@@ -22,6 +22,17 @@ const reviewReferenceFields=new Set(['/sourceReview/presentationRequirements','/
 const checkRef=artifact=>{
  if(!artifact?.path||!artifact.hash||bytesHash(artifact.path)!==artifact.hash)throw Error('Missing or changed repair evidence: '+artifact?.path);
 };
+// A planner may add explicit empty group membership lists without changing
+// its delivered source, contracts or task. Revalidate that narrow tool-only
+// difference; never extend this to source changes or new group members.
+export function equivalentAssignmentPrompt(before,after){
+ if(before===after)return true;
+ const split=prompt=>{const at=prompt.lastIndexOf('\n{');if(at<0)return null;try{return {prefix:prompt.slice(0,at),context:JSON.parse(prompt.slice(at+1))};}catch{return null;}};
+ const old=split(before),current=split(after);
+ if(!old||!current||old.prefix!==current.prefix)return false;
+ const normalize=context=>{const value=structuredClone(context);for(const group of value.groups??[])for(const key of ['questionIds','inventoryIds'])if(Array.isArray(group[key])&&!group[key].length)delete group[key];return value;};
+ return isDeepStrictEqual(normalize(old.context),normalize(current.context));
+}
 function sourceAttempt(options,request){
  const page=positive(request.page,'Page'),fromAttempt=positive(request.fromAttempt,'Repair source attempt');
  const task=createSemanticTasks({...options,stage:'author',pages:[page]})[0];
@@ -39,11 +50,13 @@ function sourceAttempt(options,request){
   const tasks=createSemanticTasks({...options,stage:'author',pages:[...planningPages]});
   const plan=planTaskAssignments(tasks,{...options.config.assignmentLimits,continuations:continuations.filter(pair=>(Array.isArray(pair)?pair:[pair.from,pair.to]).every(p=>planningPages.has(p)))});
   const assignment=plan.assignments.find(a=>a.id===request.assignmentId);
-  if(!assignment||assignmentPayload(assignment,tasks).inputHash!==snapshot.inputHash)throw Error('Assignment source inputs changed');
+  if(!assignment)throw Error('Assignment source inputs changed');
+  const payload=assignmentPayload(assignment,tasks),sameInputs=payload.inputHash===snapshot.inputHash;
+  if(!sameInputs&&(!request.revalidateToolOnly||!equivalentAssignmentPrompt(fs.readFileSync(path.join(dir,'prompt.md'),'utf8'),payload.prompt)))throw Error('Assignment source inputs changed');
   if(fs.existsSync(task.resultFile))throw Error('Published content uses repair-context');
   const generation=read(file),packet=generation.packets?.find(p=>p.pageNumber===page);
   if(!packet)throw Error('Assignment has no preserved packet for this page');
-  return {task:{...task,inputHash:snapshot.inputHash,images:assignmentPayload(assignment,tasks).images,out:dir},packet,source:[ref(input),ref(file)],page,fromAttempt,assignment,tasks,generation,root};
+  return {task:{...task,inputHash:payload.inputHash,images:payload.images,out:dir},packet,source:[ref(input),ref(file)],page,fromAttempt,assignment,tasks,generation,root,...(!sameInputs?{compatibility:{originalInputHash:snapshot.inputHash,currentInputHash:payload.inputHash,reason:'Delivered prompts differ only by explicit empty group membership lists or unchanged tool implementation.'}}:{})};
  }
  const dir=path.join(task.packetRoot,`${task.stem}.author.${fromAttempt}`),input=path.join(dir,'task-input.json'),file=path.join(dir,'generation.json');
  if(read(input).inputHash!==task.inputHash)throw Error('Repair source inputs changed; review against current evidence before a new reconstruction');
@@ -68,6 +81,7 @@ function targetNode(packet,targetId,field){
 export async function revalidateAssignment(options,request,{assertInputs=assertPinnedInputs}={}){
  if(!request.assignmentId||!request.reason?.trim())throw Error('Name the assignment and diagnosed validator repair');
  assertInputs(options.runDir);
+ request={...request,revalidateToolOnly:true};
  const source=sourceAttempt(options,request),{assignment,tasks,generation,root}=source;
  if(positive(options.attempt,'New attempt')<=source.fromAttempt)throw Error('Use a newer revalidation attempt');
  const raw=path.join(root,String(source.fromAttempt),'last-message.txt'),rawRef=ref(raw);
@@ -84,7 +98,7 @@ export async function revalidateAssignment(options,request,{assertInputs=assertP
   verify();const out=path.join(root,String(options.attempt));if(fs.existsSync(out))throw Error('Revalidation attempt already exists');fs.mkdirSync(out);
   const events=recordAttempt(path.join(options.runDir,'semantic-packets'),{stage:'author',page:source.page,assignmentId:assignment.id,attempt:options.attempt,retryReason:'validation-repair'});
   const metrics={provider:'local-validator-replay',externalModelCalls:0,usage:null,elapsedMs:0};events.phase('generation');events.end({metrics});
-  fs.writeFileSync(path.join(out,'revalidation.json'),JSON.stringify({reason:request.reason,source:source.source,modelOutput:rawRef}));
+  fs.writeFileSync(path.join(out,'revalidation.json'),JSON.stringify({reason:request.reason,source:source.source,modelOutput:rawRef,...(source.compatibility?{compatibility:source.compatibility}:{})}));
   fs.writeFileSync(path.join(out,'task-input.json'),JSON.stringify({inputHash:source.task.inputHash,assignment}));
   fs.writeFileSync(path.join(out,'prompt.md'),fs.readFileSync(path.join(root,String(source.fromAttempt),'prompt.md')));
   fs.writeFileSync(path.join(out,'generation.json'),JSON.stringify(generation));

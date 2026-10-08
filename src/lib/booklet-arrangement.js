@@ -1,6 +1,7 @@
 import {teachingAnswerCategory,retainsTeachingPromptWithAnswers} from './booklet-answer-options.js';
 import {group,item,arrangementItems,normalizeArrangement,arrangementParent,findArrangement} from '../../public/libs/maths-editor/arrangement-model.mjs';
 import {isDocument,normalizeDocument,fromSource,hasVisibleContent} from './document-content.js';
+import {tableResponseDocument} from './booklet-table-responses.js';
 import {teachingLabels,hasEmbeddedResponseLabel} from './booklet-labels.js';
 import {estimateAnswerSpaceMm} from './practice-question-model.js';
 import {visibleImportedQuestionTitle} from './booklet-preview.js';
@@ -47,11 +48,19 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
    // resolvable without adding an extra item to newly generated arrangements.
    if(!entries.has(n.id+'/label'))entries.set(n.id+'/label',{ref:n.id+'/label',kind:'label',ownerId:n.id,value:'',title:'Unlabelled stem'});
    const prose=field(n,'prompt');
-   if(hideStem){emptyRefs.add(n.id+'/prompt');for(const item of prose){entries.delete(item.ref);emptyRefs.add(item.ref);}}
-   const pics=diagrams(n),children=(n.children??[]).map((c,i)=>question(c,i));
+   if(hideStem){
+    const continuationTable=block.flow?.tableContinuation?.tableId;
+    const retained=prose.filter(item=>entries.get(item.ref)?.nodeId===continuationTable);
+    emptyRefs.add(n.id+'/prompt');
+    for(const item of prose)if(!retained.includes(item)){entries.delete(item.ref);emptyRefs.add(item.ref);}
+    prose.splice(0,prose.length,...retained);
+   }
+   const pics=diagrams(n),allChildren=(n.children??[]).map((c,i)=>question(c,i));
+   // The native table contains its labels and response regions. Semantic parts
+   // still own the editable answers and table-continuation rows.
+   const children=root&&block.flow?.tableOnly===true?[]:allChildren;
    const childGroup=group(n.id+':parts',children,n.layout==='grid'?'row':'stack');
    if(n.layout==='grid'&&Math.max(1,n.columns||2)<children.length){childGroup.direction='stack';childGroup.children=[];for(let i=0;i<children.length;i+=Math.max(1,n.columns||2))childGroup.children.push(group(n.id+':row:'+i,children.slice(i,i+Math.max(1,n.columns||2)),'row'));}
-   if(hideStem)prose.length=0;
    let body;
    if(n.representations){
     const slots=['pattern','table','equation','graph'].map(slot=>group(n.id+':'+slot,[...field(n,'representations/'+slot),...pics.filter(p=>(n.representations.diagramSlots?.[p.ref]??'graph')===slot),...(slot==='equation'?children:[])]));
@@ -107,6 +116,9 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
 }
 export function resolveArrangement(block,stored,overrides={},widthMm=180){
  const catalog=arrangementCatalog(block,overrides,widthMm),tree=normalizeArrangement(stored)??catalog.initial;
+ if(stored?.tableResponseMode)for(const entry of catalog.entries.values())if(entry.kind==='document'&&entry.field==='prompt'){
+  const display=tableResponseDocument(entry.displayValue??entry.value,block);if(display!==(entry.displayValue??entry.value))entry.displayValue=display;
+ }
  // Older/custom arrangements name a whole native field instead of its blocks.
  // Project that slot into a stack, retaining its sizing and margins just once.
  // Explicit block placements win; unreferenced fields stay deliberately omitted.
@@ -165,6 +177,7 @@ export function resolveArrangement(block,stored,overrides={},widthMm=180){
 // grid. Replace each response's writing slot in that grid, so an unlabelled
 // response cannot move underneath the neighbouring demonstration.
 export function teachingAnswerArrangement(block,stored,overrides={},mode='worked'){
+ if(['short','worked'].includes(mode)&&teachingAnswerCategory(block)&&block.sourceReview?.tableResponses?.length){const resolved=resolveArrangement(block,stored,overrides);return resolved.missing.length?null:{...resolved.tree,tableResponseMode:mode};}
  if(!retainsTeachingPromptWithAnswers(block)||!['short','worked'].includes(mode))return null;
  const resolved=resolveArrangement(block,stored,overrides),leaves=[];
  // A complete source demonstration is already in its prompt and diagrams.

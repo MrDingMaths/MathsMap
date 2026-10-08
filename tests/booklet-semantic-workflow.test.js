@@ -10,7 +10,7 @@ import {readAttemptReceipt,recordAttempt,summarizeAttemptEvents} from '../script
 import {applyMappingRepair,mappingRepairContext} from '../scripts/booklet/semantic-mapping-repair.mjs';
 import {SHARED_DIAGRAM_FORMAT} from '../scripts/booklet/shared-diagram-authoring.mjs';
 import {normalizeDocument} from '../public/libs/maths-editor/document-model.mjs';
-import {attemptRepairContext,repairAttempt,applyAttemptPatches,revalidateAssignment} from '../scripts/booklet/local-attempt-repair.mjs';
+import {attemptRepairContext,repairAttempt,applyAttemptPatches,revalidateAssignment,equivalentAssignmentPrompt} from '../scripts/booklet/local-attempt-repair.mjs';
 import {planTaskAssignments,runAuthorAssignment} from '../scripts/booklet/author-assignments.mjs';
 import {replayInventory} from '../scripts/booklet/semantic-packets.mjs';
 
@@ -32,6 +32,19 @@ const inventory=page=>({pageNumber:page,inventoried:true,entries:[{id:`src-${pag
 const author=page=>({pageNumber:page,sections:[{id:`s-${page}`,title:'Equations',blocks:[{id:`b-${page}`,type:'question',content:{id:`q-${page}`,type:'question',prompt:'Solve.',answer:{short:'1',worked:'x=1'}}}]}],inventoryMappings:[{inventoryId:`src-${page}`,targetId:`q-${page}`}]});
 const pageFrom=prompt=>Number(prompt.match(/Target page (\d+)/)[1]);
 const quiet={log:()=>{}};
+
+test('assignment prompt compatibility permits only explicit empty group membership lists',()=>{
+ const context={assignment:{pages:[1]},evidence:[{hash:'source-hash'}],groups:[{id:'group',entryIds:['question']}]};
+ const prompt=value=>'Read the exact source.\n'+JSON.stringify(value);
+ const next=structuredClone(context);next.groups[0].questionIds=[];next.groups[0].inventoryIds=[];
+ assert.equal(equivalentAssignmentPrompt(prompt(context),prompt(next)),true);
+ const members=structuredClone(next);members.groups[0].questionIds=['new-question'];
+ assert.equal(equivalentAssignmentPrompt(prompt(context),prompt(members)),false);
+ const changedSource=structuredClone(next);changedSource.evidence[0].hash='changed-source';
+ assert.equal(equivalentAssignmentPrompt(prompt(context),prompt(changedSource)),false);
+ assert.equal(equivalentAssignmentPrompt(prompt(context),'Different contract.\n'+JSON.stringify(next)),false);
+ assert.equal(equivalentAssignmentPrompt('Malformed\n{','Malformed\n{different'),false);
+});
 
 test('unmapped derived wrapper IDs can be repaired without changing source identities or content',()=>{
  const packet=author(4),leaf=packet.sections[0].blocks[0].content;
@@ -97,7 +110,7 @@ test('guarded inventory replay preserves the model result without new calls and 
  assert.equal(preview.dryRun,true);
  assert.equal(fs.existsSync(path.join(options.runDir,'semantic-packets/page-004.inventory.2')),false);
  const report=await replayInventory(options,{...quiet,assertInputs});
- assert.equal(report.ok,true);assert.equal(report.pages[0].metrics.externalModelCalls,0);
+ assert.equal(report.ok,true,JSON.stringify(report.pages));assert.equal(report.pages[0].metrics.externalModelCalls,0);
  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(options.runDir,'semantic-packets/page-004.inventory.json'))),inventory(4));
  await assert.rejects(()=>replayInventory({...options,attempt:3},{...quiet,assertInputs}),/already published/);
 });
@@ -115,6 +128,14 @@ test('guarded inventory replay refuses edits to preserved model output',async t=
  const {options,assertInputs,dir}=await unpublishedInventory(t);
  fs.writeFileSync(path.join(dir,'generation.json'),JSON.stringify({...inventory(4),findings:['changed']}));
  await assert.rejects(()=>replayInventory(options,{...quiet,assertInputs}),/output changed/);
+});
+
+test('guarded inventory replay recovers matching original output rejected before result publication',async t=>{
+ const {options,assertInputs,dir}=await unpublishedInventory(t);
+ fs.unlinkSync(path.join(dir,'result.json'));
+ const report=await replayInventory(options,{...quiet,assertInputs});
+ assert.equal(report.ok,true,JSON.stringify(report.pages));assert.equal(report.pages[0].metrics.externalModelCalls,0);
+ assert.deepEqual(JSON.parse(fs.readFileSync(path.join(options.runDir,'semantic-packets/page-004.inventory.json'))),inventory(4));
 });
 
 test('guarded inventory replay rechecks its preserved bytes immediately before publication',async t=>{
@@ -756,4 +777,23 @@ test('a real response cannot waive answers through an author none declaration',(
   const {inventory,packet}=suppliedDemonstration(entry);
   assert.throws(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory}),/Response leaf lacks short\/worked answers/);
  }
+});
+
+test('inventoried selection alternatives stay given while the selection requires answers',()=>{
+ const inventory={pageNumber:1,inventoried:true,entries:[
+  {id:'selection',kind:'question',description:'Circle the radius.',responseKind:'inline',expectedAnswer:'A'},
+  ...['a','b'].map(label=>({id:label,kind:'part',parentId:'selection',description:'Alternative '+label+'.'}))
+ ]};
+ const option=id=>({id,type:'part',prompt:'',questionDiagrams:[{id:id+'-diagram',format:'tikz',code:'\\begin{tikzpicture}\\draw (0,0) circle (1);\\end{tikzpicture}'}]});
+ const packet={pageNumber:1,sections:[{id:'section',title:'Selection',blocks:[{id:'block',type:'question',content:{id:'root',type:'group',prompt:'Circle the radius.',children:[option('a'),option('b'),{id:'response',type:'part',prompt:'',answer:{short:'A',worked:'A joins the centre to the circumference.'}}]},sourceReview:{responses:[{targetId:'a',kind:'none'},{targetId:'b',kind:'none'},{targetId:'response',kind:'inline'}]}}]}],inventoryMappings:[{inventoryId:'selection',targetId:'root'},{inventoryId:'a',targetId:'a'},{inventoryId:'b',targetId:'b'}]};
+ const validate=(p=packet,i=inventory)=>validateSemanticResult(p,{stage:'author',page:1,inventory:i});
+ assert.doesNotThrow(()=>validate());
+ const unanswered=structuredClone(packet);delete unanswered.sections[0].blocks[0].content.children[2].answer;
+ assert.throws(()=>validate(unanswered),/Response leaf lacks short\/worked answers/);
+ const realPart=structuredClone(inventory);realPart.entries[1].responseKind='working';
+ assert.throws(()=>validate(packet,realPart),/Response leaf lacks short\/worked answers a/);
+ const unconfirmed=structuredClone(inventory);unconfirmed.entries[1].description='Find the radius.';
+ assert.throws(()=>validate(packet,unconfirmed),/Response leaf lacks short\/worked answers a/);
+ const undeclared=structuredClone(packet);undeclared.sections[0].blocks[0].sourceReview.responses[0].kind='working';
+ assert.throws(()=>validate(undeclared),/Response leaf lacks short\/worked answers a/);
 });

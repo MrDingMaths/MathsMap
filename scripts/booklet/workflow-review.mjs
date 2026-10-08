@@ -224,7 +224,19 @@ export function materializeCorrections(source,state,scope,page){
     const entries=scope==='inventory'?result.entries:result.source?.inventory?.entries;
     const targets=entries?.filter(e=>e.id===patch.targetId||scope==='project'&&e.id.startsWith(patch.targetId+'-mapping-'))??[];
     if(!targets.length)throw Error('Missing correction target '+patch.targetId);
-    for(const target of targets){const before=fingerprint(target);if(!superseded(target,patch))patchField(target,patch);if(scope==='project'&&before!==fingerprint(target))delete target.verification;}
+    for(const target of targets){
+     const before=fingerprint(target);
+     if(patch.field==='/parentId'&&patch.originalAbsent===true&&patch.original===null&&!Object.hasOwn(target,'parentId')){
+      const ref=correction.parentInventory;
+      if(target.kind!=='part'||typeof patch.corrected!=='string'||!ref||!Number.isInteger(ref.pageNumber)||ref.pageNumber>=patch.page||!correction.sourceRefs.some(r=>r.pageNumber===ref.pageNumber)||!correction.sourceRefs.some(r=>r.pageNumber===patch.page)||!correction.evidence?.some(a=>a.path===ref.path&&a.hash===ref.hash)||!fs.existsSync(ref.path)||bytesHash(ref.path)!==ref.hash)throw Error('Invalid absent inventory parent correction '+patch.targetId);
+      const parentSource=json(ref.path,null);
+      if(parentSource?.pageNumber!==ref.pageNumber)throw Error('Absent inventory parent evidence page mismatch '+patch.targetId);
+      const parent=parentSource.entries?.find(e=>e.id===patch.corrected);
+      if(!parent||!['question','group'].includes(parent.kind)||parent.exclusionReason)throw Error('Absent inventory parent must resolve to a prior inventoried question/group '+patch.targetId);
+      target.parentId=patch.corrected;
+     }else if(!superseded(target,patch))patchField(target,patch);
+     if(scope==='project'&&before!==fingerprint(target))delete target.verification;
+    }
    }
    else{
     if(scope==='project'&&compactTeachingMetadataPatch(result,patch)){affected.add(patch.original.id);continue;}
@@ -289,11 +301,13 @@ export function effectiveInventory(runDir,page,state=loadWorkflow(runDir)){
  const inventory=materializeCorrections(json(file,null),state,'inventory',page);
  // Inventoriers sometimes put an explicit furniture exclusion inside its
  // presentation evidence. Honour that decision without editing source packets.
+ const templateOnly=inventory?.entries?.length>0&&inventory.entries.every(e=>e.exclusionReason?.trim()||typeof e.presentation?.exclusionReason==='string'&&e.presentation.exclusionReason.trim())&&(inventory.findings??[]).some(f=>/\b(?:unused|noninstructional) authoring[- ]template\b/i.test(typeof f==='string'?f:f.description??f.note??''));
  if(inventory&&isLeanReview(state))for(const entry of inventory.entries??[]){
   const reason=entry.presentation?.exclusionReason;
-  const difficultyFurniture=entry.kind==='teaching'&&typeof entry.description==='string'&&/^(foundation|development|mastery)$/i.test(entry.description.trim())&&entry.expectedAnswer===undefined;
+  const difficultyFurniture=entry.kind==='teaching'&&[entry.description,entry.sourceLabel].some(value=>typeof value==='string'&&/^(foundation|development|mastery)$/i.test(value.trim()))&&entry.expectedAnswer===undefined&&(!entry.responseKind||entry.responseKind==='none');
   const furnitureKind=['diagram','teaching','example','cover'].includes(entry.kind);
   const noResponse=entry.expectedAnswer===undefined&&(!entry.responseKind||entry.responseKind==='none');
+  if(difficultyFurniture&&noResponse&&!entry.exclusionReason)entry.exclusionReason=typeof reason==='string'&&reason.trim()?reason:'Source difficulty tier is retained in editor metadata, not printed as content.';
   const description=typeof entry.description==='string'?entry.description:'';
   const explanation=typeof reason==='string'?reason.trim():'';
   const headerIcon=furnitureKind&&noResponse&&/\b(?:information|question(?:[- ]mark)?|example|pencil|light[- ]bulb)(?:[- ](?:header|circle))? icons?\b/i.test(description)&&/^Renderer-owned\b.*\b(?:header|template|activity)\b/i.test(explanation);
@@ -301,7 +315,7 @@ export function effectiveInventory(runDir,page,state=loadWorkflow(runDir)){
   const warningMarker=furnitureKind&&noResponse&&/\bwarning (?:triangles|markers|icons)\b/i.test(description)&&/^Decorative warning markers\b/i.test(explanation);
   const layoutFurniture=entry.kind==='diagram'&&entry.expectedAnswer===undefined&&(!entry.responseKind||entry.responseKind==='none')&&/decorative layout separators/i.test(reason??'')&&/no mathematical (?:table relationships|content)/i.test(reason??'')&&/divider|rules|separators/i.test(entry.description??'');
   const panelFurniture=furnitureKind&&noResponse&&/^Decorative panel dividers\b/i.test(explanation)&&/no mathematical (?:information|content)/i.test(explanation)&&/\b(?:dividers?|separators?|rules?)\b.*\bgraph panels?\b/i.test(description);
-  if((difficultyFurniture||entry.kind==='footer'||headerIcon||layoutFurniture||panelFurniture||documentedRule||warningMarker)&&!entry.exclusionReason&&explanation)entry.exclusionReason=reason;
+  if((templateOnly&&noResponse||difficultyFurniture||entry.kind==='footer'||headerIcon||layoutFurniture||panelFurniture||documentedRule||warningMarker)&&!entry.exclusionReason&&explanation)entry.exclusionReason=reason;
  }
  return inventory;
 }

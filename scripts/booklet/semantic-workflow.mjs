@@ -16,7 +16,7 @@ import {SHARED_DIAGRAM_FORMAT,SHARED_DIAGRAM_PROMPT} from './shared-diagram-auth
 import {HOUSE_AUTHORING,HOUSE_AUTHORING_PROMPT,authorMaterializer} from './house-authoring.mjs';
 import {withRunLock} from './run-observability.mjs';
 import {writeTransaction} from './bank-sync.mjs';
-import {validateContentScope,PRACTICE_ONLY_PROMPT,validatePracticeInventory,validatePracticeAuthor} from './practice-only-scope.mjs';
+import {validateContentScope,PRACTICE_ONLY_PROMPT,normalizePracticeInventory,validatePracticeInventory,validatePracticeAuthor} from './practice-only-scope.mjs';
 import {planTaskAssignments,createAuthorAssignmentQueue,assignmentPayload} from './author-assignments.mjs';
 import {workerConcurrency,withWorkerSlot} from './worker-pool.mjs';
 import {FIRST_PASS_PATTERNS} from './first-pass-patterns.mjs';
@@ -209,6 +209,20 @@ export function validateSemanticResult(result,{stage,page,inventory,reviewed=fal
   return (entry?.kind==='example'||entry?.kind==='teaching'&&entry.expectedAnswer===undefined||examplePart||suppliedPart)&&(!entry.responseKind||entry.responseKind==='none');
  }).flatMap(mapping=>[mapping.targetId,...(nodes.get(mapping.targetId)?.ancestors??[]).filter(node=>['question','group','part'].includes(node.type)).map(node=>node.id)]));
  const nonResponseExamples=new Set(result.sections.flatMap(section=>(section.blocks??[]).flatMap(block=>(block.sourceReview?.responses??[]).filter(response=>response.kind==='none'&&demonstrationTargets.has(response.targetId)).map(response=>response.targetId))));
+ // Supplied alternatives are givens. Keep the single selection response
+ // answer-bearing, and require independent inventory support for each option.
+ for(const section of result.sections)for(const block of section.blocks??[]){
+  const responses=block.sourceReview?.responses??[];
+  for(const mapping of result.inventoryMappings){
+   const entry=sourceEntries.get(mapping.inventoryId),parent=sourceEntries.get(entry?.parentId),option=nodes.get(mapping.targetId);
+   if(entry?.kind!=='part'||entry.responseKind&&!['none'].includes(entry.responseKind)||!/^Alternative\s+[a-z]\.?$/i.test(entry.description??'')||parent?.kind!=='question'||!['inline','tick-cross'].includes(parent.responseKind)||!parent.expectedAnswer||!option?.node?.questionDiagrams?.length)continue;
+   const alternatives=inventory.entries.filter(e=>e.parentId===parent.id&&e.kind==='part'&&/^Alternative\s+[a-z]\.?$/i.test(e.description??''));
+   const parentMapping=result.inventoryMappings.find(m=>m.inventoryId===parent.id),owner=nodes.get(parentMapping?.targetId)?.node;
+   if(alternatives.length<2||!owner||!option.ancestors.some(n=>n.id===owner.id)||!responses.some(r=>r.targetId===mapping.targetId&&r.kind==='none'))continue;
+   const selection=responses.some(r=>r.kind!=='none'&&r.targetId!==mapping.targetId&&nodes.get(r.targetId)?.ancestors.some(n=>n.id===owner.id)&&nodes.get(r.targetId)?.node?.answer?.short&&nodes.get(r.targetId)?.node?.answer?.worked);
+   if(selection)nonResponseExamples.add(mapping.targetId);
+  }
+ }
  const ids=new Map(),nativeCards=new Set(),nativeSpeechBubbles=new Set();
  function walk(value){
   if(!value||typeof value!=='object')return;
@@ -376,9 +390,9 @@ export async function runSemanticPackets({runDir,manifest,config,stage,pages,att
     events.end({metrics,generatedCharacters:JSON.stringify(reply.result)?.length??null});
     events.phase('validation');
     fs.writeFileSync(path.join(task.out,task.repair?'repair.json':'generation.json'),JSON.stringify(reply.result,null,2)+'\n',{flag:'wx'});
-    const result=task.repair?applyMappingRepair(task.repair.packet,task.inventory,reply.result):stage==='author'?authorMaterializer(config)(reply.result):reply.result;
+    const result=task.repair?applyMappingRepair(task.repair.packet,task.inventory,reply.result):stage==='author'?authorMaterializer(config)(reply.result):config.contentScope==='practice-only'?normalizePracticeInventory(reply.result):reply.result;
     if(task.repair)fs.writeFileSync(path.join(task.out,'generation.json'),JSON.stringify(result,null,2)+'\n',{flag:'wx'});
-    if(stage==='author'&&!task.repair&&result!==reply.result)fs.writeFileSync(path.join(task.out,'materialized.json'),JSON.stringify(result,null,2)+'\n',{flag:'wx'});
+    if(!task.repair&&result!==reply.result)fs.writeFileSync(path.join(task.out,'materialized.json'),JSON.stringify(result,null,2)+'\n',{flag:'wx'});
     validateSemanticResult(result,task);
     if(task.reviewed){
      if(stage==='author')validatePacketGeometry(task.inventory,result);

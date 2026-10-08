@@ -10,6 +10,8 @@
   import { isDocument, documentHtml } from '../lib/document-content.js';
   import { renderRichTextHtml } from '../lib/maths-editor.js';
   import { renderMath } from '../lib/render-math.js';
+  import {mountDocumentTikz} from '../lib/document-tikz.js';
+  import {renderTikzCode,cancelTikzJob} from '../lib/tikz.js';
   import { splitBookletTables, numberedTheoryRules } from '../lib/booklet-preview.js';
 
   let { text: sourceText = '', class: className = '', fillCloze = false, layout = null, alignRelations = true } = $props();
@@ -18,10 +20,11 @@
   let isRich = $derived(Boolean(text && typeof text === 'object' && (text.paragraphs || text.inlines || text.segments)));
   let html = $derived(isRich ? renderRichTextHtml(text, { fillCloze }) : '');
   let parts = $derived(isRich ? [] : splitBookletTables(text));
+  const nativeTikz=(node,document)=>mountDocumentTikz(node,document,{render:renderTikzCode,cancel:cancelTikzJob});
 </script>
 
 {#if isDocument(text)}
-  <div class="document-content {className}" use:mountTabs={text} use:mountTableAnnotations={{math:latex=>renderMath('$'+latex+'$')}} use:mountEquationAnnotations={text} use:mountImageFeedback={text}>{@html documentHtml(text, { fillCloze, mathsStyle:presentation?.()?.mathsStyle })}</div>
+  <div class="document-content {className}" use:mountTabs={text} use:mountTableAnnotations={{math:latex=>renderMath('$'+latex+'$')}} use:mountEquationAnnotations={text} use:mountImageFeedback={text} use:nativeTikz={text}>{@html documentHtml(text, { fillCloze, mathsStyle:presentation?.()?.mathsStyle })}</div>
 {:else if rules}
   <ol class="theory-rules">
     {#each rules as rule}
@@ -52,6 +55,7 @@
 <style>
   .booklet-content :global(.katex-display) { text-align:left; margin:.5em 0; }
   .document-content :global(.katex-display) { text-align:inherit; margin:.5em 0; }
+  .document-content :global(.document-tikz svg) { width:100%; max-width:100%; height:auto; }
   .booklet-content :global(.katex-display > .katex), .document-content :global(.katex-display > .katex) { display:inline-block; }
   .theory-rules { margin:0; padding-left:7mm; list-style-position:outside; }.theory-rule { display:list-item; padding:0; }
   .theory-rule + .theory-rule { margin-top: 6mm; }

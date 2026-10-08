@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {createHash} from 'node:crypto';
-import {snapshotFiles,snapshotDifferences,verifyCompletedFrozenExport,exportWithFrozenRuntime,unrelatedCampaignFile,unrelatedProjectAssetFile} from '../scripts/booklet/import-verification-runtime.mjs';import {projectReviewHash} from '../scripts/booklet/page-review.mjs';
+import {snapshotFiles,snapshotDifferences,verifyCompletedFrozenExport,exportWithFrozenRuntime,unrelatedCampaignFile,unrelatedProjectAssetFile,inactiveAbsentParentGuardChange} from '../scripts/booklet/import-verification-runtime.mjs';import {projectReviewHash} from '../scripts/booklet/page-review.mjs';
 const digest=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 function fixture(){
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'completed-export-')),out=path.join(root,'.booklet-work/out'),snapshot=path.join(out,'runtime');
@@ -17,6 +17,27 @@ test('completed lean export survives unrelated campaign JSON but rejects relevan
  assert.equal(verifyCompletedFrozenExport(f.options).reused,true);
  f.project.sections=[{blocks:[{classification:{primarySkillId:'unrelated-skill'}}]}];f.write(f.projectFile,JSON.stringify(f.project));assert.throws(()=>verifyCompletedFrozenExport(f.options),/dependencies changed/);
  const g=fixture();g.write(path.join(g.root,'src/renderer.js'),'changed renderer');assert.throws(()=>verifyCompletedFrozenExport(g.options),/dependencies changed/);
+});
+
+test('completed artifact review tolerates only unreferenced assets owned by a registered import run',()=>{
+ const f=fixture(),owner='other-book-20261008',asset='public/booklet-assets/'+owner+'/source.png';
+ f.write(path.join(f.root,'.booklet-work/full-imports',owner,'manifest.json'),JSON.stringify({format:'mathsmap-booklet-transcription-run-v1',id:owner}));
+ f.write(path.join(f.root,asset),'before');f.write(path.join(f.snapshot,asset),'before');
+ const files=snapshotFiles(f.root);f.write(path.join(f.out,'runtime-manifest.json'),JSON.stringify({root:f.root,snapshot:f.snapshot,files}));
+ f.write(path.join(f.root,asset),'concurrent import repair');
+ f.write(path.join(f.out,'frozen-export-receipt-1.json'),JSON.stringify({status:0,changedDependencies:[asset]}));
+ assert.equal(unrelatedProjectAssetFile(asset,f.project,f.root),true);
+ assert.equal(verifyCompletedFrozenExport({...f.options,artifactReview:true}).reused,true);
+ for(const src of ['/booklet-assets/'+owner+'/source.png','/booklet-assets/other%2Dbook%2D20261008/source.png']){
+  assert.equal(unrelatedProjectAssetFile(asset,{...f.project,sections:[{image:src}]},f.root),false);
+ }
+ assert.equal(unrelatedProjectAssetFile(asset,{...f.project,source:{runId:owner}},f.root),false);
+ assert.equal(unrelatedProjectAssetFile('public/booklet-assets/unregistered/source.png',f.project,f.root),false);
+ f.project.sections=[{image:'/booklet-assets/'+owner+'/source.png'}];f.write(f.projectFile,JSON.stringify(f.project));
+ assert.throws(()=>verifyCompletedFrozenExport({...f.options,artifactReview:true}),/Dependencies changed|Referenced diagram assets/);
+ f.project.sections=[];f.write(f.projectFile,JSON.stringify(f.project));
+ f.write(path.join(f.snapshot,asset),'changed frozen asset');
+ assert.throws(()=>verifyCompletedFrozenExport({...f.options,artifactReview:true}),/Frozen renderer changed/);
 });
 test('completed export reuse rejects changed project, PDF, frozen bytes and incomplete checker',()=>{
  const f=fixture();f.project.title='changed';f.write(f.projectFile,JSON.stringify(f.project));assert.throws(()=>verifyCompletedFrozenExport(f.options),/project or checks differ/);
@@ -185,4 +206,38 @@ test('a passing export survives an unrelated campaign write made while it ran, a
  const receipt=await exportWithFrozenRuntime({...base,out:path.join(root,'.booklet-work/a'),execute:async()=>{write(path.join(root,'public/content/other-skill.json'),'{"campaign":true}');return 0;}});
  assert.deepEqual(receipt.changedDependencies,[]);assert.deepEqual(receipt.unrelatedCampaignChanges,['public/content/other-skill.json']);
  await assert.rejects(exportWithFrozenRuntime({...base,out:path.join(root,'.booklet-work/b'),execute:async()=>{write(path.join(root,'src/main.js'),'changed renderer');return 0;}}),/no longer matches live dependencies.*: src\/main\.js/);
+});
+
+function inactiveParentFixture(){
+ const f=fixture(),file='scripts/booklet/workflow-review.mjs',current=fs.readFileSync(path.resolve(file),'utf8').replaceAll('\r\n','\n');
+ const original="      const parent=json(ref.path,null)?.entries?.find(e=>e.id===patch.corrected);",corrected="      const parentSource=json(ref.path,null);\n      if(parentSource?.pageNumber!==ref.pageNumber)throw Error('Absent inventory parent evidence page mismatch '+patch.targetId);\n      const parent=parentSource.entries?.find(e=>e.id===patch.corrected);";
+ assert.equal(current.split(corrected).length,2);const previous=current.replace(corrected,original);
+ const runId='inactive-parent-fixture',run=path.join(f.root,'.booklet-work/full-imports',runId),originalPdf=path.join(f.root,'.booklet-work/original.pdf'),originalTeacher=path.join(f.root,'.booklet-work/teacher.pdf');
+ f.write(originalPdf,'original source PDF');f.write(originalTeacher,'original teacher PDF');f.write(path.join(run,'source/booklet.pdf'),'original source PDF');f.write(path.join(run,'source/teacher.pdf'),'original teacher PDF');
+ const pdfHash=digest(originalPdf),teacherPdfHash=digest(originalTeacher),stateFile=path.join(run,'workflow/issues.json');f.write(stateFile,JSON.stringify({corrections:[]}));f.write(path.join(run,'manifest.json'),JSON.stringify({id:runId,source:{pdf:originalPdf,pdfHash,teacherPdf:originalTeacher,teacherPdfHash}}));
+ f.project.source={runId,sourceHashes:{pdf:pdfHash,teacherPdf:teacherPdfHash},workflow:{runId,correctionIds:[]},inventory:{workflow:{runId,correctionIds:[]}}};f.write(f.projectFile,JSON.stringify(f.project));
+ const report=JSON.parse(fs.readFileSync(path.join(f.out,'report.json')));for(const e of Object.values(report.report.p))e.projectHash=projectReviewHash(f.project);f.write(path.join(f.out,'report.json'),JSON.stringify(report));
+ f.write(path.join(f.root,file),previous);f.write(path.join(f.root,'scripts/booklet/check-compact-exercises.mjs'),"import {liveWorkflow} from './workflow-review.mjs';");
+ const files=snapshotFiles(f.root);for(const row of files)f.write(path.join(f.snapshot,row.path),fs.readFileSync(path.join(f.root,row.path)));f.write(path.join(f.out,'runtime-manifest.json'),JSON.stringify({root:f.root,snapshot:f.snapshot,files}));
+ f.write(path.join(f.root,file),current);f.write(path.join(f.out,'frozen-export-receipt-1.json'),JSON.stringify({status:0,changedDependencies:[file]}));
+ return {...f,file,run,stateFile,originalPdf,current,options:{...f.options,artifactReview:true},inactive:()=>inactiveAbsentParentGuardChange(file,f.project,f.root,f.snapshot)};
+}
+test('exact absent-parent hardening is inactive only for pinned materialized lean sources with known callers',()=>{
+ const f=inactiveParentFixture();assert.equal(f.inactive(),true);assert.equal(verifyCompletedFrozenExport(f.options).reused,true);
+ const cases=[
+  g=>g.write(path.join(g.root,g.file),g.current+'\nexport const anotherChange=true;'),
+  g=>g.write(g.stateFile,JSON.stringify({corrections:[{id:'active',status:'approved',patches:[{scope:'inventory',field:'/parentId',originalAbsent:true,original:null}]}]})),
+  g=>g.write(path.join(g.root,'scripts/unknown-caller.mjs'),"import {materializeCorrections} from './booklet/workflow-review.mjs';"),
+  g=>g.write(path.join(g.root,'src/unknown-caller.js'),"import {liveWorkflow} from '../scripts/booklet/workflow-review.mjs';"),
+  g=>g.write(path.join(g.root,'scripts/booklet/check-compact-exercises.mjs'),"import {liveWorkflow,materializeCorrections} from './workflow-review.mjs';"),
+  g=>g.write(g.originalPdf,'changed original source'),
+  g=>g.write(path.join(g.run,'source/booklet.pdf'),'changed local source'),
+  g=>{g.project.source.workflow.correctionIds=['unknown'];g.write(g.projectFile,JSON.stringify(g.project));},
+ ];
+ for(const edit of cases){const g=inactiveParentFixture();edit(g);assert.equal(g.inactive(),false);assert.throws(()=>verifyCompletedFrozenExport(g.options),/Dependencies changed during/);}
+});
+test('inactive importer hardening preserves frozen renderer, project and all PDF guards',()=>{
+ const f=inactiveParentFixture();f.write(path.join(f.snapshot,'src/renderer.js'),'changed frozen renderer');assert.throws(()=>verifyCompletedFrozenExport(f.options),/Frozen renderer changed/);
+ const g=inactiveParentFixture();g.project.title='Changed printed title';g.write(g.projectFile,JSON.stringify(g.project));assert.throws(()=>verifyCompletedFrozenExport(g.options),/Current project or checks differ/);
+ const h=inactiveParentFixture();h.write(path.join(h.out,'worked.pdf'),'changed PDF');assert.throws(()=>verifyCompletedFrozenExport(h.options),/PDF changed for worked/);
 });

@@ -58,7 +58,12 @@ function numberLine(p) {
   const at=num(x(point.value)),open=point.style==='open';
   if(point.style!=null&&!['open','closed'].includes(point.style))throw Error('Point style is "open" or "closed"');
   body.push(open?String.raw`\draw[black,fill=white,${graphStrokeOption('plot')}] (${at},0) circle[radius=1];`:String.raw`\fill[black] (${at},0) circle[radius=1];`);
-  if(point.label!=null){body.push(String.raw`\node[above,text=black] at (${at},1.6) {$${tex(point.label)}$};`);top=Math.max(top,tall(String(point.label))?12:8);}
+  if(point.label!=null){
+   const dx=finite(point.labelOffsetMm?.x??0,'label offset x'),dy=finite(point.labelOffsetMm?.y??0,'label offset y');
+   if(Math.abs(dx)>20||dy<0||dy>30)throw Error('Number-line label offsets need |x| <= 20 and 0 <= y <= 30 mm');
+   if(dx||dy)body.push(String.raw`\draw[black,${graphStrokeOption('guide')}] (${at},1.5)--(${num(Number(at)+dx)},${num(1.6+dy-1)});`);
+   body.push(String.raw`\node[above,text=black] at (${num(Number(at)+dx)},${num(1.6+dy)}) {$${tex(point.label)}$};`);top=Math.max(top,(tall(String(point.label))?12:8)+dy);
+  }
  }
  for(const jump of p.jumps??[]){
   const a=x(jump.from),b=x(jump.to);

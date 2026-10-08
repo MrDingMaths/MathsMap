@@ -15,6 +15,12 @@ export function compactAnswerLabel(number,parts=[]){
 // A supplied matching figure is a structural container, not another response.
 // A real question (including an empty prompt awaiting repair) keeps its answer row.
 export const isGivenFigureNode=node=>!!node&&!node.children?.length&&!Object.hasOwn(node,'prompt')&&!node.answer&&!!node.questionDiagrams?.length;
+export function firstAnswerNode(node,responses=[]){
+  if(!node||isGivenFigureNode(node))return null;
+  if(!node.children?.length&&!node.answer?.short&&!node.answer?.worked&&responses.some(r=>r.targetId===node.id&&r.kind==='none'))return null;
+  if(node.answer?.short||node.answer?.worked||!node.children?.length)return node;
+  return node.children.map(child=>firstAnswerNode(child,responses)).find(Boolean)??null;
+}
 
 // Display metadata belongs only to cloned answer fragments. Preserve the original
 // segment before pruning siblings, including whether a group was transparent.
@@ -216,13 +222,16 @@ export function organiseExercises(source, ratings={}) {
 // Nodes sharing a solution diagram, or explicit dependencies, stay atomic.
 export function answerFragments(block, mode = null) {
   const root=structuredClone(block.content),units=[];
+  const sourceLabels=block.presentation?.sourceResponseLabels===true?new Map((block.sourceReview?.responses??[]).filter(r=>typeof r.label==='string').map(r=>[r.targetId,r.label])):null;
   const retainDisplay=(node,index=0,parent=null)=>{
     node._answerDisplay={label:answerPartLabel(node,index),context:answerNodeContext(root,node,index,parent)};
+    if(sourceLabels?.has(node.id))node._answerDisplay.label=sourceLabels.get(node.id);
     node.children?.forEach((child,childIndex)=>retainDisplay(child,childIndex,node));
   };
   retainDisplay(root);
   const visit=(node,path=[])=>{
     if(isGivenFigureNode(node))return;
+    if(!node.children?.length&&!node.answer?.short&&!node.answer?.worked&&block.sourceReview?.responses?.some(r=>r.targetId===node.id&&r.kind==='none'))return;
     if(node.children?.length&&!(mode&&(node.answer?.[mode]||mode==='short'&&node.answer?.solutionDiagrams?.length))&&!node.sharedSolutionDiagrams?.length&&!node.children.some(c=>c.dependsOn?.length))node.children.forEach(c=>visit(c,[...path,node]));
     else units.push({node,path});
   };
