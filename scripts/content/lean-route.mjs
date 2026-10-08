@@ -581,11 +581,13 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     const sectionArgument = value('--section'), sectionMatch = sectionArgument?.match(/^(.*):(\d+)-(\d+)$/);
     if (!ids.length || [redo, resume, repair].filter(Boolean).length > 1 || (sectionArgument && (!sectionMatch || ids.length !== 1)) || (finding && !repair)) { console.error('Usage: lean-route.mjs run (--ids a,b,c | --remaining) [--publish] [--redo | --resume | --repair [--finding "diagnosed issue"]] [--concurrency 3] [--section "booklet path:start-end" with one id]'); process.exit(1); }
     const concurrency = Number(value('--concurrency', 3));
-    if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 3) throw new Error('Campaign concurrency must be an integer from 1 to 3');
+    const workerLimit = argv.includes('--task-worker-limit-10') ? 10 : 3;
+    if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > workerLimit) throw new Error(`Campaign concurrency must be an integer from 1 to ${workerLimit}`);
     const section = sectionMatch ? { path: sectionMatch[1], start: Number(sectionMatch[2]), end: Number(sectionMatch[3]) } : null;
     // --resume repairs the retained candidate of a record needing attention, once; --redo starts again from the author. An interrupted record (still "running") is run again.
     const queue = ids.filter(skillId => redo || resume || repair || (readJson(path.join(root, 'booklets/provenance/content-campaign', campaignId, 'lean', skillId + '.json'))?.status ?? 'running') === 'running');
-    // At most three workers; publication itself is serialized by the publication lock.
+    // The explicit task override permits ten workers; the default remains three.
+    // Publication itself is serialized by the publication lock.
     const dispatchStarted = Date.now();
     if (remaining) console.log(JSON.stringify({ campaignId, queued: queue.length, concurrency, model: MODEL, effort: EFFORT, startedAt: new Date(dispatchStarted).toISOString() }));
     await Promise.all(Array.from({ length: concurrency }, async () => {
