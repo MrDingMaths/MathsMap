@@ -144,7 +144,7 @@ export function captureFlowClipboard(project, ids, mode='copy') {
   if (!blocks.length) throw Error('Select content first.');
   const nodeIds=new Set();const scan=value=>{if(!value||typeof value!=='object')return;if(value.id)nodeIds.add(value.id);Object.values(value).forEach(v=>Array.isArray(v)?v.forEach(scan):scan(v));};blocks.forEach(scan);
   const mappings=Object.fromEntries(Object.entries(project.studio?.atoms??{}).filter(([id])=>nodeIds.has(id)).map(([id,value])=>[id,copy(value)]));
-  return {projectId:project.id,sourceRunId:project.source?.runId??project.id,mode,ids:[...selected],blocks,mappings};
+  return {projectId:project.id,revision:project.revision??null,sourceRunId:project.source?.runId??project.id,mode,ids:[...selected],blocks,mappings};
 }
 
 function duplicateBlocks(blocks) {
@@ -197,7 +197,9 @@ export function flowCommand(project, command) {
     for(const block of blocks)if(block.flow){delete block.flow.numberGapBefore;delete block.flow.numberResetBefore;}
     if(duplicated){
       next.studio={version:1,atoms:{},lineage:{},flags:[],...next.studio};
-      for(const [oldId,newId] of duplicated.ids){if(clip.mappings?.[oldId])next.studio.atoms[newId]=copy(clip.mappings[oldId]);next.studio.lineage[newId]={sourceIds:[oldId]};}
+      // A copy from another booklet records where it came from.
+      const origin=clip.projectId!==project.id?{projectId:clip.projectId,...(clip.revision!=null?{revision:clip.revision}:{})}:{};
+      for(const [oldId,newId] of duplicated.ids){if(clip.mappings?.[oldId])next.studio.atoms[newId]=copy(clip.mappings[oldId]);next.studio.lineage[newId]={sourceIds:[oldId],...origin};}
     }
     if (moving) for (const s of next.sections) s.blocks = s.blocks.filter(b => !clip.ids.includes(b.id));
     const at = command.beforeId == null ? section.blocks.length : section.blocks.findIndex(b => b.id === command.beforeId);

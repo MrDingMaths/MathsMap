@@ -3,17 +3,15 @@
 import {logicalUnits,selectedFlowIds,flowNumbers} from './booklet-flow.js';
 
 const unitIds=unit=>unit.blocks.map(b=>b.id);
-const phaseOf=(project,unit)=>project.sections.find(s=>s.id===unit.sectionId)?.phase;
 
 export function nextGroupSelection(project,{selection=[],anchor='',ids=[],shift=false,toggle=false}={}) {
   const units=logicalUnits(project),at=id=>units.findIndex(u=>u.blocks.some(b=>b.id===id));
   const target=at(ids[0]),start=at(anchor);
   if(target<0)return {selection:selectedFlowIds(project,ids),anchor};
   if(shift&&start>=0){
-    // A range stays within the anchor's phase, so a run of practice questions
-    // never sweeps the teaching content between two exercises into a move.
-    const phase=phaseOf(project,units[start]);
-    const range=units.slice(Math.min(start,target),Math.max(start,target)+1).filter(u=>phaseOf(project,u)===phase);
+    // A range covers everything between the two clicks, so theory and its
+    // exercise can be copied together.
+    const range=units.slice(Math.min(start,target),Math.max(start,target)+1);
     return {selection:selectedFlowIds(project,range.flatMap(unitIds)),anchor};
   }
   const clicked=selectedFlowIds(project,unitIds(units[target]));

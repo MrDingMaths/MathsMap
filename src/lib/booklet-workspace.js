@@ -1,5 +1,16 @@
 import { feedbackText } from './booklet-feedback.js';
-import { logicalUnits, flowId } from './booklet-flow.js';
+import { logicalUnits, flowId, isPractice } from './booklet-flow.js';
+
+const ATOM_KINDS = {definition:['Definition','theory'],'key-ideas':['Key Ideas','theory'],investigation:['Investigation','theory'],review:['Review','theory'],identify:['Identify','theory'],example:['Example','examples'],'guided-practice':['Guided','examples']};
+const BLOCK_KINDS = {'rich-text':'Text','worked-example':'Example',callout:'Theory','page-break':'Page break',image:'Image',diagram:'Diagram'};
+// What an outline item is, and which Theory / Examples / Questions filter it answers to.
+export function outlineKind(block) {
+  const atom = ATOM_KINDS[block.sourceAtom?.kind];
+  if (atom) return {kind:block.sourceAtom.kind,label:atom[0],group:atom[1]};
+  if (isPractice(block)) return {kind:'question',label:'Question',group:'questions'};
+  if (block.type === 'worked-example') return {kind:'example',label:'Example',group:'examples'};
+  return {kind:block.type === 'question' ? 'teaching' : block.type,label:block.sourceAtom ? 'Teaching' : BLOCK_KINDS[block.type] ?? (block.type === 'question' ? 'Teaching' : 'Content'),group:'theory'};
+}
 
 export function contentExcerpt(content, limit = 100) {
   const prompt = feedbackText(content?.prompt ?? content).replace(/\s+/g, ' ').trim();

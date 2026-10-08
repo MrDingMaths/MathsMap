@@ -37,10 +37,10 @@ test('Shift-click ranges from the last-clicked anchor and can shrink or pivot',(
   assert.equal(state.anchor,'q3');
 });
 
-test('a practice range across exercises leaves the teaching content between them',()=>{
+test('a range across exercises includes the teaching content between them',()=>{
   const p=fixture();
   const state=nextGroupSelection(p,{selection:['q4'],anchor:'q4',ids:['q6'],shift:true});
-  assert.deepEqual(state.selection,['q4','q5','q6']);
+  assert.deepEqual(state.selection,['q4','q5','theory','q6']);
 });
 
 test('non-contiguous selections move together in document order and keep ids',()=>{
