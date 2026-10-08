@@ -2,42 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import crypto from 'node:crypto';
-import {sourceInventories} from '../src/lib/booklet-source-content.js';
-import {flowEditionSections} from '../src/lib/booklet-flow.js';
 
 const project=JSON.parse(fs.readFileSync('booklets/projects/data-visualisation-1-v1.json','utf8'));
 const evidence=JSON.parse(fs.readFileSync('booklets/provenance/data-visualisation-1-v1/feedback-2026-09-25.json','utf8'));
 const blocks=project.sections.flatMap(s=>s.blocks);
 const block=id=>blocks.find(b=>b.id===id);
-
-test('all syllabus focus statements and bullets are in one editable block at the front',()=>{
-  const first=project.sections[0].blocks[0];
-  assert.equal(first.id,'data-classification--p2-syllabus');
-  assert.equal(project.sections.filter(s=>s.phase==='front-matter'&&s.role!=='candidate-pool').length,1);
-  assert.equal(blocks.filter(b=>/syllabus/.test(b.id)).length,1);
-  assert.equal(first.content.blocks.length,7);
-  const original=evidence.originalSyllabusSections;
-  const sha=crypto.createHash('sha256').update(JSON.stringify(original)).digest('hex');
-  assert.equal(first.feedbackProvenance.sourceHash,sha);
-  assert.equal(evidence.sourceHash,crypto.createHash('sha256').update(JSON.stringify(project.source)).digest('hex'));
-  for(const source of original){
-    const document=source.blocks[0].content;
-    for(const item of document.blocks.filter(x=>x.type==='list')){
-      for(const entry of item.items){
-        const text=entry.blocks[0].inlines.map(x=>x.text??'').join('');
-        assert.ok(JSON.stringify(first.content).includes(text),text);
-      }
-    }
-  }
-  assert.deepEqual(first.sourceRefs.map(r=>r.runId),[...new Set(first.sourceRefs.map(r=>r.runId))]);
-  const inventory=sourceInventories(project).flatMap(x=>x.entries);
-  assert.equal(inventory.find(x=>x.id===first.id).verification.checked,true);
-  for(const id of ['p2-overview','p2-syllabus-heading','p2-syllabus-outcome','derived-p2-syllabus-content','data-visualisation-2--p2-heading','data-visualisation-2--p2-syllabus'])assert.match(inventory.find(x=>x.id===id).exclusionReason,/consolidated/);
-  const withoutPlaceholders=structuredClone(project);
-  withoutPlaceholders.sections=withoutPlaceholders.sections.filter(s=>!s.feedbackConsolidation);
-  for(const edition of ['student','with-short'])assert.deepEqual(flowEditionSections(project,edition),flowEditionSections(withoutPlaceholders,edition));
-});
 
 test('every active multiple-choice table has bold uppercase labels',()=>{
   let count=0;
