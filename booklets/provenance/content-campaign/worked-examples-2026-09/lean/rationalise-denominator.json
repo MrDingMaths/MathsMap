@@ -1,0 +1,94 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "rationalise-denominator",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-07T23:01:13.813Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 46.2,
+      "usage": {
+        "input_tokens": 147830,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3046,
+        "reasoning_output_tokens": 182
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\rationalise-denominator\\audit-u82d3j\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 99.4,
+      "usage": {
+        "input_tokens": 148640,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 6140,
+        "reasoning_output_tokens": 87
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\rationalise-denominator\\repair-dqt2rz\\response.raw.txt"
+    },
+    {
+      "name": "review-scoped",
+      "code": 0,
+      "seconds": 21.1,
+      "usage": {
+        "input_tokens": 148882,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 552,
+        "reasoning_output_tokens": 99
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\rationalise-denominator\\review-scoped-R2B6na\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "20e66e78e9c888a5aa34f328eaca6f17ba8f5f8bcd580f525758e62787dd004d",
+    "quizHash": "4d5d4678596d2caa6f8cceb10951cd578025b94649bd7f8441ea11a5609c72ab"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 5 Path/Indices C_2 Apply knowledge of surds to solve problems.md",
+    "booklets/mathsmap-sources/Stage 5 Path/Indices C_1 Describe surds.md",
+    "booklets/mathsmap-sources/Stage 5 Path/Indices C_3 Describe and use fractional indices.md"
+  ],
+  "images": 45,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "audit",
+    "hash": "b9e66e8d6210ddeeda9a815e53eb6cb892db65fc5645a7a48bbaed874f25c7cf",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for practice.mastery[0]",
+    "practice.mastery[0]: The calculation is correct, but simplifying a single surd-denominator fraction plus a standalone surd is not a question type asked for this skill in the supplied booklet. Replace this off-booklet task within Mastery and update its structure slug; the related sums elsewhere require binomial-denominator rationalisation and cannot establish this type.",
+    "quiz.q4: options[2].why describes a valid operation: multiplying both top and bottom by $3\\sqrt{2}$ gives $12\\sqrt{2}/18=2\\sqrt{2}/3$, not its distractor $2\\sqrt{2}/9$. options[3].why also fails to derive its distractor: merely removing the denominator's root gives $4/3$, not $2/3$; both explanations must identify mistakes that actually produce their option values.",
+    "theory: State the real-domain and nonzero-denominator conditions for the general identities: $b>0$ in the first identity, $d>0$ and $c\\ne0$ in identities with denominator $c\\sqrt{d}$, nonnegative numerator radicands, and $x\\ge0$, $y>0$ for the root-of-fraction identity. Without these restrictions, the displayed general rules include undefined expressions; the booklet explicitly restricts its surd laws to positive radicands at lines 60–62."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.mastery[0]",
+    "quiz.q4"
+  ],
+  "theoryChanged": true,
+  "removed": [
+    {
+      "where": "practice.mastery[0]",
+      "reason": "The original fraction-plus-standalone-surd task was replaced because this question type is not asked for the target skill in the booklet."
+    }
+  ],
+  "items": 29,
+  "summary": "Replaced the off-booklet Mastery task with an adaptation of Mastery Q9e, updating its structure slug and source citation. Added domain and nonzero-denominator conditions to the theory and corrected two quiz.q4 distractor explanations while preserving all other content.",
+  "reviewSummary": "All supplied final answers are mathematically correct, but practice.mastery[0] is off-booklet and two quiz.q4 distractor explanations do not produce their stated values. The theory needs explicit domain restrictions; these do not affect the valid numerical items or the already restricted symbolic proof, and no worked examples or removals were supplied.",
+  "candidateHash": "ce5dcb62556ce06445ad6d9d8530529ac3d72e39dc49d636c0bd8303293d066a",
+  "findings": [
+    "theory: The stated domains do not guarantee rational denominators. In facts[0], require $b$ to be positive and rational; in facts[1], explicitly require $c$ to be nonzero and rational and $d$ to be positive and rational; in facts[2], require $d$ to be positive and rational. The identities and taught working are otherwise correct."
+  ],
+  "finishedAt": "2026-10-07T23:04:00.789Z"
+}
