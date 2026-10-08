@@ -1,0 +1,86 @@
+{
+  "profile": "lean-audit-first-v1",
+  "skillId": "reciprocal-index-expressions",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "startedAt": "2026-10-07T23:09:44.221Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 55.1,
+      "usage": {
+        "input_tokens": 170343,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2941,
+        "reasoning_output_tokens": 101
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\reciprocal-index-expressions\\audit-JdOFYh\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 106.6,
+      "usage": {
+        "input_tokens": 171109,
+        "cached_input_tokens": 20736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 6460,
+        "reasoning_output_tokens": 62
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\reciprocal-index-expressions\\repair-RW4c4b\\response.raw.txt"
+    },
+    {
+      "name": "review-scoped",
+      "code": 0,
+      "seconds": 18.1,
+      "usage": {
+        "input_tokens": 171179,
+        "cached_input_tokens": 20736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 411,
+        "reasoning_output_tokens": 158
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\reciprocal-index-expressions\\review-scoped-Bw0YG0\\response.raw.txt"
+    }
+  ],
+  "baseline": {
+    "contentHash": "03b107e916ccc24c392f0aa0f832a6d3ab80da583f8bbc19f7c22eeb7c325250",
+    "quizHash": "697b4eb9c1e5482daa2afbab60df73cf226e34a6c92c7128fdcde455a3db97f9"
+  },
+  "booklets": [
+    "booklets/mathsmap-sources/Stage 5 Path/Indices B_1 Apply index laws to algebraic expressions involving negative-integer indices.md",
+    "booklets/mathsmap-sources/Stage 5/Indices A 1_Index Laws.md",
+    "booklets/mathsmap-sources/Stage 5/Indices A 2_Negative Index.md"
+  ],
+  "images": 91,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "audit",
+    "hash": "14a1371628ed69a10b847d24b28efe8c98da90be8373be09967538d575f83bc8",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "quiz.q9: Correct the explanations for options 1 and 2 (zero-based). Option 1 requires losing the inner negative index when forming the denominator; merely leaving that term in the denominator gives $y^{12}/x^{-6}$, which is correct. Option 2 is not produced by raising both parts to positive power $2$ without inversion: that mistake gives $1/(x^6y^{12})$, option 3. Each explanation must identify a mistake that actually produces its option.",
+    "theory: State that a base raised to a negative index must be non-zero; in the fraction identities, both $a$ and $b$ must be non-zero and $n$ is a positive integer. The supplied numerical Negative Indices booklet explicitly restricts the rule to non-zero bases at line 76."
+  ],
+  "repaired": true,
+  "changed": [
+    "quiz.q9"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 33,
+  "summary": "Added the non-zero base restriction and specified that both a and b are non-zero and n is a positive integer in the fraction identities. Corrected quiz.q9 option explanations 1 and 2 to identify mistakes that produce their stated answers; no whole items were removed.",
+  "reviewSummary": "All 33 items have correct supplied answers and supported booklet question types, and each quiz has exactly one correct option. Repair two distractor explanations in q9 and add the non-zero domain condition to the theory; no removals or worked examples were supplied.",
+  "candidateHash": "07ed3c0183764e34d0c2c47c7e45b49c2bab0d5484683b90b2eb5c1560a1dea1",
+  "findings": [
+    "quiz.q9: Replace options[3].why: its stated mistake does not derive the displayed distractor. Use: \"Lost the inner negative index and replaced the fraction with the product $x^3y^6$, then took the reciprocal and squared to get $\\frac{1}{x^6y^{12}}$.\" The other distractor explanations and the solution are correct."
+  ],
+  "finishedAt": "2026-10-07T23:12:44.375Z"
+}
