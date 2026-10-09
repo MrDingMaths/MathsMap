@@ -2,6 +2,8 @@
 
 The booklet itself is the editor. Click prose or mathematics on the page and write; changing paragraphs does not require Save or Cancel. Changes autosave through the normal project/bank save path. The status distinguishes local changes, saving, saved, failure and conflict.
 
+This page is the single guide to editing in Booklet Studio. The sections from "Document workspace: commands and contracts" onwards were merged in on 9 October 2026 from five separate notes, and each says when its note was written. Where two sections name different menu routes for the same action, check the app: a later section not mentioning a route does not mean the route was removed. The original notes, with their dated benchmarks and acceptance records, are in `archive/`.
+
 ## Writing and selection
 
 The persistent toolbar supplies styles, emphasis, colour, alignment, lists, mathematics and insertion. Insert → teaching template creates one shared teaching group and places the caret in its body. Empty writing prompts are editor-only. Insert markers add text before a group; the end marker adds text after that group.
@@ -110,3 +112,146 @@ In a questions edition, click the printed title, course, Book number, version or
 The printed cover title is independent of Project ? Project details ? Title (the name in the project picker). Cover edits are stored in `settings.cover`; the original cover transcription and source documents remain unchanged. Title and Book number cannot be emptied. Contents, exercise numbering and answer-section navigation remain calculated from the chosen edition. The short-answer-only and worked-solution-only editions have no cover.
 
 Validation uses `node scripts/booklet/check-cover-editing.mjs` with in-memory project copies, all four current cover patterns, save/reopen, cancellation, undo/redo, zoom and all five edition paths. It does not modify saved booklets or claim a new full-content transcription acceptance.
+
+
+## Document workspace: commands and contracts
+
+Merged from the document-workspace note of 14 September 2026.
+
+Current projects keep their stored content, IDs, bank ownership and layout settings. Studio is a document workspace with a 48 px document bar, 44 px formatting row and 28 px status bar at the reference desktop size. Outline and inspector start closed; panels overlay the paper without changing its zoom.
+
+### Editing and commands
+
+Click prose or mathematics to edit it directly. Native editor instances survive page redistribution. Enter splits ordinary paragraphs; Backspace joins adjacent ordinary paragraphs in their native owner. Question and table ownership remain structural. Use a group handle to move, copy or delete a complete question. One document history owns typing, formatting, paste and structural operations.
+
+- **Spacing** opens the contextual inspector. Prose has line/before/after spacing; a multiline equation has an explicit additional gap in millimetres and tighter/looser actions. Table cells have text spacing, padding and minimum row height. Mixed paragraph values are shown as mixed. Whole-question scope is explicit.
+- Preview spacing changes locally, commit on confirmation or release, and cancel with Escape. Advanced native properties remain collapsed, with colour and specialist data controls disclosed on demand.
+- **Ctrl+F** finds document prose, **Ctrl+G** goes to a page, and **Ctrl+K** searches commands, including equation spacing. File contains source comparison, bank sync and specialist project tools.
+- Studio clipboard payloads retain native content. Structural question copies use the existing cloning rules; moves keep identities. Basic Word HTML is sanitised into destination typography, emphasis, lists, links and simple tables. **Ctrl+Shift+V** inserts literal text. Unsupported equations/objects require a fallback choice before replacement. DOCX round trips and Word equation conversion are outside this change.
+
+### Internal contracts
+
+The document session owns transactions, canonical field selections and immutable history. An edit transaction carries changed block IDs, selection before/after, a generation and layout impact. Field hosts register stable content IDs and paths; page numbers are presentation metadata. A single parked editor portal moves between fragment views. Native DOM reconciliation preserves MathLive islands and text nodes. Hosted native editors emit document transactions without standalone history or complete source exports on every input. Their standalone API remains available.
+
+Pagination begins after 250 ms of editing inactivity. Superseded jobs cancel, including asset waits. In-memory checkpoints resume from the earliest changed logical unit with the preceding partial page and keep-with-next dependencies. Reuse continues after the carry, placement and continuation state converge. Override fingerprints include every per-item layout map; global settings, edition and renderer/assets are cache inputs. Combined editions reuse page bodies while deriving numbering and links. Measurement work yields with a 4 ms JavaScript budget; DOM measurement stays on the main thread. Page views use the settled project snapshot while the active editor displays live input. Composition and drag selection defer redistribution.
+
+Autosave remains approximately 500 ms and keeps the existing revision-safe project/bank endpoint. A persistence worker receives one seed on open and subsequent immutable-branch patches. It serialises requests, parses canonical server responses and compares them off the main thread; the UI applies a small acknowledgement patch. Saves coalesce, and edits made during a save remain pending for the next revision. There is a compatibility fallback when workers are unavailable. Recovery checkpoint and bank conflict policies are unchanged.
+
+Export flushes the current document, requires a successful save, checks the layout generation and edition, settles fonts and assets, and rechecks the generation before printing. Failed layout keeps the editable document and last valid pages, with retry in the status bar. Save state and layout state remain separate.
+
+### Builds and checks
+
+Browser mutation checks use isolated project copies and intercept their save endpoints, including worker requests. They must never write the accepted project files. Incremental layouts are compared with fresh pagination for all five editions.
+
+The normal public build continues to exclude the local authoring route. Set `VITE_BOOKLET_STUDIO=true` for a production authoring build on the local authoring server; this also permits profiling the optimised code. The temporary local `booklet-word-workspace=off` preference is a development chrome escape hatch, not a project migration.
+
+Cold preparation still compiles uncached native diagrams and can take minutes in large books; the responsiveness targets apply after opening.
+
+For PDF word-bound checks, Poppler remains the default. Environments without Poppler can set `BOOKLET_PDF_PYTHON` to a Python executable with PyMuPDF installed; `BOOKLET_PYTHON_LIBS` optionally names its module directory. The alternative supplies actual printed word bounds to the same page-overflow and 3 mm footer-clearance checks. Generated PDFs, caches and benchmark traces remain local.
+
+The typing benchmarks, regression counts and reviewed PDFs from that release are in the [archived note](archive/booklet-word-workspace.md).
+
+
+## Outline, page breaks and bank insertion
+
+Merged from the workspace UI note, last changed 15 September 2026.
+
+The booklet editor uses a compact outline, contextual Layout / Arrange / Page inspector, and a full-height detailed arrangement workspace. The left outline expands the current topic and shows question numbers, content excerpts and page numbers. Topic, section and block actions are in their adjacent menus.
+
+- **Insert a bank question:** Insert -> From question bank. Search by skill, wording or ID, inspect the full question/answers, then Insert question. Copies are inserted after the selected logical group using the existing bank snapshot workflow.
+- **Manual page break:** select a question or teaching block, then Layout & spacing -> Page -> Page break before/after. The same actions are in outline block menus. Use the topic menu's Start exercise on new page for an exercise boundary.
+- **Remove a break:** use Remove on its manual-break marker or Page -> Remove break before. Automatic and source boundaries are labelled separately; explicit actions can override a source boundary. Keeping with next does not defeat an explicit break.
+- **Spacing:** Layout shows Whole question controls first for question blocks, followed by the selected item or selected-paragraph controls. Whole-question changes affect all answer spaces or stacked gaps; selected-item changes remain local. Units are shown once per field group; Auto width retains automatic sizing.
+- **Arrangement:** Detailed arrangement preserves the selected item. Layout changes dimensions; Arrange changes order/grouping; Page changes booklet boundaries when the draft is saved. Cancel leaves the project unchanged. Use Structure on smaller screens to open the tree.
+- **Tables:** select a cell and use the Table row selector to edit one row's minimum height. The inspector does not grow with the number of rows.
+
+Desktop property tabs fit at 1366 x 768, 1920 x 1080 and 3386 x 1219. Narrow screens use drawers and enlarged text can scroll without hiding controls. The document canvas owns page scrolling. Colours, print geometry, booklet IDs/content and bank ownership are unchanged by opening or closing the UI.
+
+Checks:
+
+- `node --test tests/booklet-workspace.test.js` covers logical teaching groups, exercise boundaries, idempotence, break removal, keep-with-next precedence and bank summaries/search.
+- `node scripts/booklet/check-workspace-ui.mjs` intercepts all booklet saves in memory. It checks desktop overflow, full dialog height, Cancel, bank preview/insertion, page-break removal, save/reopen, native text and table-row controls, and captures narrow/enlarged-text views. `BOOKLET_TEST_BASE` selects the server (default port 5173).
+- `BOOKLET_TEST_BASE=http://127.0.0.1:5173 node scripts/booklet/check-text-spacing.mjs` covers actual Space/Enter input, nested content, autosave/reopen and keyboard layout selection. Set the environment variable using the syntax for your shell.
+- `node scripts/booklet/check-arrangement-controls.mjs` uses isolated trigonometry questions to check selected-diagram preservation, movement/undo, Apply/Discard, spacing, save/reopen and preview zoom.
+- `node scripts/booklet/check-print-transition.mjs` verifies the PDF button and Ctrl+P preparation, then exports actual PDFs immediately from screen mode in all five editions. It rejects blank pages, leaked workspace controls and pagination differences compared with settled print mode. Requires Chrome and Poppler; `BOOKLET_TEST_BASE` selects the server. The route animation is disabled in print because Chromium can snapshot its invisible initial frame.
+
+The UI and print parity evidence for that redesign is described in the [archived note](archive/booklet-workspace-ui.md).
+
+
+## Specialist arrangement editor
+
+Merged from the focused-editing note, last changed 12 September 2026. Step-by-step recipes for common layout adjustments are in [adjusting question layouts](booklet-arrangement-controls.md).
+
+Ordinary writing happens directly on the page. Select a question and open its block properties to access the specialist arrangement editor described below. **Save** applies that specialist draft as one booklet change; **Cancel** discards it. TikZ code editing is available directly from a selected diagram.
+
+### Rearrange a question
+
+- Select a **Part** or **Group** in the left panel to move everything belonging to it.
+- **Move before / Move after** reorders siblings. **Move out of column** moves a selection up one level. **Full width** places it after its containing row, outside the columns.
+- Select several sibling items using their checkboxes, then **Group**. Give the group a useful name. **Ungroup** retains its contents.
+- Choose **Side by side** to make a row, or **Stack** to put items vertically. Drag a row's boundary handles, or use **Column proportion**. The handles also accept arrow keys.
+- Choose a destination group and **Move into column / group**, or drag an item onto its destination. Drop near the top or bottom of another item to place it before or after that item.
+- **Graph and table beside responses** creates an editable starting arrangement from the selected group's existing items.
+
+For the P11 Q14 pattern, select each final unlabelled part and choose **Full width**. For P39, place the graph and table in one stacked group and the equation responses in another, then put those groups side by side. These are saved arrangements, not special page templates.
+
+### Spacing, tables and diagrams
+
+**Space above / below** and **Indent** apply to the selected arrangement item. Paragraph and table spacing are listed separately beneath them so an internal margin is distinguishable from the gap around its group. **Reset spacing** clears the arrangement spacing. **Remove empty paragraph / space** removes an empty paragraph or collapses response space; **Restore answer space** brings response space back.
+
+Select a table or diagram and drag its width handle, or enter **Width**. **Edit selected content** opens only that item's MathsEditor or diagram controls. Apply it to the question, then Save the question. Short and worked answers remain available under **Answers and solutions** in the structure panel.
+
+Image controls show the full original with a crop rectangle as well as the rendered result. Drag the rectangle or its edges; numeric crop fields remain available. Arrow keys move the rectangle; Shift changes the step to ten pixels. Escape cancels a drag. Grayscale, crop, width and manually edited TikZ all save directly. Diagram controls have local undo/redo.
+
+### Corrections and stored content
+
+Tab, Shift+Tab and Alt+= behave as described under Smooth editing controls. Existing custom stops retain their layout until **Reset to 1 cm tabs** is chosen. Custom-stop authoring controls are retired from booklet editing.
+
+AI corrections are requested through document comments and **Copy feedback prompt**. Studio does not run models or use proposal/approval gates. Specialist arrangement edits apply directly and can be undone in the document.
+
+Source pagination, stable content IDs, original diagram evidence and answer associations remain in the project. Existing arrangements change when explicitly edited; loading a project does not convert all its pages. Retained source images still carry their existing review flags.
+
+
+## Flow, identity and pagination rules
+
+Merged from the flexible-editing note, last changed 25 September 2026. New-project defaults are in [compact exercises](booklet-compact-exercise-trial.md).
+
+Content has stable IDs, source references and logical continuation relationships. Moves retain identity; copies remap local references and retain bank pins. Cross-section edits merge through revision-checked saves. Conflicting edits require review.
+
+Page constraints include start-on-new-page, keep-together and keep-with-next. Releasing an imported break permits reflow. Break only at safe boundaries, preserving complete arrangement rows, shared diagrams, dependencies and handwriting space. Content without a safe fit remains a layout finding; do not shrink it silently.
+
+Numbering follows each exercise across teaching checkpoints. Source comparison follows the selected block after movement. Preview, contents navigation and PDF use the same calculated page map. All five editions remain supported; existing noncompact projects retain their settings.
+
+Run `node --test tests/booklet-flow.test.js tests/booklet-save-merge.test.js` for identity, continuation, conversion and merge regressions. `check-flexible-booklet.mjs` exercises isolated editing; `--full` uses the legacy layout test fixture. Use `check-compact-exercises.mjs --project ID` for current project edition checks; historical baseline/trial aliases are retired.
+
+
+## Project library
+
+Merged from the project-library note of 17 September 2026.
+
+The Open booklet picker searches titles, stage/course names and class labels. Masters are grouped by their single home course, using the existing MathsMap course catalogue. Class booklets are grouped by class label. Import reviews and unclassified legacy projects have separate groups. Archived projects are shown only when the archive checkbox is selected; their direct project links still work.
+
+Use **File → Project details** to change category, home course or class label. Uncertain courses remain Unassigned. A library category is independent of publication status and bank ownership: changing it never transfers ownership.
+
+In a master, **File → Create class booklet** saves pending edits and creates an independent copy with a class label and editable title. Content, solutions, pagination, local layout and bank revision pins are retained. Source review comments are cleared. Bank content updates still require explicit acceptance; master layout changes do not propagate to copies. Display ratings retain their existing automatic refresh behaviour.
+
+**Archive booklet** hides the project without deleting its JSON, assets, evidence, history or bank links. Open it through Archived projects and choose **Restore booklet** to return it to the active library. Concept Maths is an active Import review for spacing checks. Keep it after import because it owns linked bank questions; archive it when review is finished instead of deleting it.
+
+### Persistence and migration
+
+Optional `library` metadata contains `category` (`master`, `class`, `import-review`, or null), `courseId`, `classLabel`, and `archivedAt` (ISO date or null). Stage is derived from the course. List summaries include normalized metadata; absent metadata means Unassigned. Existing whole-project saves retain revision checking and bank-sync behaviour.
+
+`PATCH /__booklet/projects/:id/library` accepts `library` and a required `expectedRevision`. It writes only library metadata, revision and update time through the shared transaction and checkpoint helpers. It does not publish pending question edits. A stale revision returns 409.
+
+The repeatable initial migration uses the running authoring server's write queue:
+
+```powershell
+node scripts/booklet/migrate-project-library.mjs --base http://localhost:5173
+node scripts/booklet/migrate-project-library.mjs --base http://localhost:5173 --apply
+```
+
+It categorises the eight named topic masters, Volume for 8MAT6, and Concept Maths. Only Linear Relationships (Stage 4) and Concept Maths (Year 11 Advanced) receive home courses. Already classified or manually adjusted projects are skipped. Publication status, bank ownership, source references and document content are preserved. The 17 September 2026 application verified unchanged document-content hashes for all ten projects and unchanged bank-ownership links.
+
+### Checks
+
+Run the library, project, bank-sync and save-merge unit tests, plus `node scripts/booklet/check-project-library.mjs http://localhost:5173`. The browser check uses temporary projects and bank storage, tests keyboard/search, class creation, details/save/reopen, archive/restore, narrow-screen positioning, preview and print-only visibility, and new project categories. Screenshots are local under `.booklet-work/library-review/`. Loading/switching checks use `project-library-browser.mjs` instead of the retired native-select interaction. This change does not alter booklet rendering and does not require full PDF exports.

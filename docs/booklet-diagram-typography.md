@@ -1,6 +1,6 @@
 # Diagram typography and short-answer ink
 
-Native diagram labels use 10 pt at final printed size, with a measured tolerance of 0.1 pt. This applies to ordinary geometry and graph labels at every diagram width. Graph ticks retain their separate 8.5 pt default and reviewed 8 pt exceptions. Raster labels require separate review; automatic text calibration does not apply to images.
+Native diagram labels use 10 pt at final printed size, with a measured tolerance of 0.1 pt. This applies to ordinary geometry and graph labels at every diagram width. Graph ticks retain their separate 8.5 pt default and reviewed 8 pt exceptions. Raster labels require separate review; automatic text calibration does not apply to images. Graph scale rules and stroke weights have their own sections below.
 
 `public/libs/maths-editor/house-style.mjs` owns the targets. `src/lib/diagram-typography.js` wraps each complete TikZ node during compilation and calibrates its SVG group. The correction includes fraction rules and scripts, retaining their relative sizes, rotation and anchor. It starts from the uncorrected group each time, removes page zoom from the measurement, and runs through the shared resize/print observer. The preparation participates in the render cache key. `booklet-qa.js` checks both undersized and oversized labels against their semantic target; numeric graph ticks need the explicit marker below.
 
@@ -17,6 +17,53 @@ A TeX declaration such as `\fontsize{8.5}{10}` does not identify a tick to the s
 Apply this to practice questions, short answers, worked solutions and teaching graphs. Nominal category names such as A-D remain ordinary 10 pt labels. A font declaration or a passing measurement against the wrong target is not tick acceptance: confirm the semantic role, the rendered `tick` flag and the actual PDF font size. Preserve coordinates, scale values, widths and current answer-style bindings when adding markers. `scripts/booklet/graph-tick-roles.mjs` applies reviewed node ranges with exact source guards; its offsets are Unicode code points. Final visual review still checks placement and readability.
 
 Practice short answers inherit `#24282d`, including answer numbers, part labels, prose and mathematics. `src/lib/short-answer-style.js` removes known decorative blue declarations from legacy text and structured editor content, while retaining mathematical colour and inline diagrams. The practice renderer and content-edit save path share this policy. Teaching answers, worked solutions and diagram palettes retain their existing colours. Both answer editions remain practice-only.
+
+## Graph scales and tick labels
+
+Axis numbers target **8.5 pt**; **8 pt** is allowed only as a reviewed exception for a crowded scale. Axis names, coordinates and equations target **10 pt**. These are final printed sizes after the SVG is fitted into its diagram slot; calibration allows 0.1 pt measurement tolerance. Mathematical subscripts and superscripts retain their normal relative sizing.
+
+Use separate targets for ticks and other labels. Where 8 pt still crowds, give the diagram more room and verify the page layout. Move colliding labels rather than reducing equation or coordinate text below 10 pt.
+
+Preserve source presence or absence of numerical axis scales and tick marks. Do not add scales automatically. Keep grid spacing independent of scale visibility. Unnumbered axes use `ticks:false` and `tickLabels:false` and keep their grids, axes, arrows and x/y labels. The compiler uses a nonempty `\relax` label expression because PGFPlots interprets an empty expression as its default numbering. Scale visibility must survive regeneration.
+
+- `public/libs/maths-editor/house-style.mjs` supplies the shared house-style prompt and defaults. The editor sync preserves this host-owned convention.
+- Production `scripts/booklet/codex-transcription.mjs::runTranscriptionTasks` appends that prompt through `src/lib/booklet-house-style.js`. Fresh reconstruction and dedicated diagram stages also receive it through `scripts/booklet/candidate-validation.mjs::reconstructionPrompt`. The active files are `scripts/booklet/prompts/reconstruction-v4.md` and `scripts/booklet/prompts/diagram-reconstruction-v4.md`; both state the rule explicitly. Historical pinned inputs remain unchanged.
+- `src/lib/graph-model.js` supplies separate tick and label sizes, preserves scale visibility on regeneration and uses supported 10 pt Computer Modern fonts with separate node scaling. This avoids the renderer's snapping of arbitrary requested font sizes. It is an implementation detail of the generator, not a font rule for other diagrams.
+- Preview and PDF export share final-size checks and a tick-collision check using painted glyph bounds, rather than the empty space in a font's em box. Checks reject oversized text as well as undersized text. Normal TeX superscripts and subscripts are assessed through their surrounding base text. The old blanket 11 pt growth scripts are retired.
+
+`scripts/booklet/calibrate-graph-typography.mjs` builds a candidate and measurements without changing the saved project. Its `--refine` pass applies reviewed crowding exceptions and label placements. Review the candidate before saving through `saveBookletProject` with its expected revision. `compare-graph-typography.mjs` renders the 8/8.5/9 pt comparison; `review-graph-typography.mjs` produces contact sheets with unique SVG IDs.
+
+## Graph stroke weights
+
+Graph strokes use physical point sizes after the diagram is fitted into its page slot.
+
+| Drawing role | Final weight |
+| --- | --- |
+| Plotted relationships and geometry outlines | 0.8 pt |
+| Axes and number lines | 0.5 pt |
+| Tick marks | 0.4 pt |
+| Major grid | 0.25 pt |
+| Minor grid | 0.15 pt |
+| Construction guides and annotation pointers | 0.4 pt |
+
+Dashed relationships retain the plot weight. Dash patterns, point positions, labels and arrowhead types are preserved. Colours keep their mathematical meaning through the [standard palette](booklet-standard-palette.md); source shades are not retained for their own sake.
+
+`public/libs/maths-editor/house-style.mjs` owns the frozen `graphs.strokes` defaults and authoring prompt. Its existing 1.1.0 document style stays compatible; the stroke convention has its own version, 1. The graph compiler emits explicit widths and SVG metadata instead of relative `thin`/`thick` weights. Reconstruction prompts and the TikZ authoring guide specify the same rule.
+
+The bundled TikZJax driver preserves numerical stroke widths in SVG units. `src/lib/graph-strokes.js` identifies the declared widths in opted-in SVGs, retains each physical target on the path, and compensates for the actual SVG transform and booklet page zoom. It recalibrates after compilation, cache insertion, slot resizing and print layout. This avoids cumulative scaling and keeps text and mathematical geometry intact. Filled point markers retain their original size. Untagged SVG artwork is not restyled by the renderer.
+
+Preview and PDF export use the same calibration. Shared booklet QA checks the final widths to a 0.05 pt tolerance. The renderer cleans up its observers on cancellation or removal. The compiler can still recover earlier generated graph models without accepting hand-edited equations as authoritative model data. Cached SVG identifiers are prefixed with their source key so clip paths cannot collide across different diagrams.
+
+Checks, against the server already running on port 5173 (see `AGENTS.md`, "Remote Studio access"):
+
+```text
+node scripts/booklet/check-graph-strokes.mjs --base http://127.0.0.1:5173
+node scripts/booklet/check-graph-stroke-resizing.mjs --base http://127.0.0.1:5173
+```
+
+The compiler check also writes an isolated `cache-state.json` for the exporter's `--cache-state` option. `check-graph-stroke-pdfs.mjs` checks physical vector widths on representative exported pages through Poppler, independently of the application calibration.
+
+The September 2026 adoption records, with their measurements, verification tables and saved revisions, are kept as [graph typography](archive/booklet-graph-typography-2026-09.md) and [graph strokes](archive/booklet-graph-strokes-2026-09.md). The isolated verification config they mention for port 5173 is historical.
 
 ## Acceptance record — 11 September 2026
 

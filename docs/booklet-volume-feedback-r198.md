@@ -1,5 +1,7 @@
 # Volume revision 198 feedback repairs
 
+> Current-policy note (9 October 2026): exercise heading text now follows the [sentence-case rule](booklet-cross-session-rules.md#sentence-case-headers-and-native-table-structure-4-october-2026). The "uppercase" wording below records the heading as accepted in September and is superseded.
+
 The reference for exercise headings is canonical Linear Relationships v1: right-aligned uppercase 13 pt bold text, a 0.25 mm standard-blue top rule, 6 mm minimum height and 1 mm following margin. `BookletHeading` owns both page-start and inline headings, plus the main section band. Syllabus blocks may use `presentation.kind: main-section-header`; their original table is retained as source-layout evidence.
 
 Standalone difficulty labels in compact imports use `presentation.editorOnly: true` and `presentation.sourceDifficulty`. This preserves source IDs, content and inventory evidence without printing a source tier. Presentation readiness flags unsuppressed plain or structured labels. Detection is restricted to standalone label content, never comments, source evidence or prose containing these words.

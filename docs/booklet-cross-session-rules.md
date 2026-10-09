@@ -6,7 +6,7 @@ Use sentence case for displayed section, teaching-box and table headers, preserv
 
 Keep opening syllabus content unboxed beneath the shared Syllabus content section header. Teaching templates supply their own outer panel: prose and formulas do not need another inner card or one-column bordered table. Preserve actual mathematical tables, calculator displays, meaningful paired work and dedicated response regions.
 
-Keep grouped headers and data rows in one native editable table, with meaningful spans and stable answer-owning parts. Do not imitate a table using a separate header table and one table per part. House label cells use blue `#d3e8fc` and grey `#cccccc` borders; preserve colour where it carries mathematical meaning. Single-column tables require a mathematical or response purpose rather than automatic removal. New teaching activities require explicit authorisation.
+Keep grouped headers and data rows in one native editable table, with meaningful spans and stable answer-owning parts. Do not imitate a table using a separate header table and one table per part. House label cells use blue `#d3e8fc` and grey `#cccccc` borders; preserve colour where it carries mathematical meaning. Single-column tables require a mathematical or response purpose rather than automatic removal. New teaching activities require explicit authorisation. Header-cell roles, centred statistical tables, pictograms and answer-table alignment follow the [table conventions](booklet-table-conventions.md).
 
 For a response table taller than a page, `flow.tableContinuation` explicitly maps each body row to its stable answer part using `tableId`, `headerRows` and `rowPartIds`. Printed fragments retain whole owned rows and repeat the header; Studio opens the complete canonical table for editing. Preserve meaningful figure arrangements when consolidating rows. Do not shrink writing space to force a long table onto one page.
 
@@ -172,6 +172,8 @@ grey divider rules between questions or parts; keep exercise separators and
 meaningful table/diagram borders. Retain the final result and add one concise,
 booklet-supported method sentence where useful for harder questions. Existing
 worked-solution presentation and question pagination settings remain intact.
+Row measurement, pagination, caching and the reviewed migration are described in
+[adaptive back-of-book answers](booklet-adaptive-short-answers.md).
 
 ### Edition review (16 September 2026)
 
@@ -278,8 +280,10 @@ borderless, even when the source shows separators. Preserve meaningful columns,
 reading order and working space. Keep borders in actual value/comparison tables,
 dedicated writable boxes and solutions. Shared rendering must continue to support
 those legitimate bordered structures; do not suppress all borders with CSS.
+Part labels keep a 7 mm indent for each labelled ancestor wherever a part is
+placed; see [question part indentation](booklet-question-part-indents.md).
 
-The [Volume feedback prevention rules](booklet-volume-feedback-2026-09-12.md#prevention-in-future-work) extend this register to source-relative diagram/calculation/photo arrangements, equal scaffold starts, anchored formula annotations, isolated cut orientation and curved/composite silhouettes. Retain source-supported placement, with house-style dotted writing blanks and shared headers. The named Volume repairs retain their local dimensions; do not copy those dimensions into unrelated books.
+The [Volume feedback prevention rules](booklet-volume-feedback-2026-09-12.md#prevention-in-future-work) extend this register to source-relative diagram/calculation/photo arrangements, equal scaffold starts, anchored formula annotations, isolated cut orientation and curved/composite silhouettes. Retain source-supported placement, with house-style dotted writing blanks and shared headers. The named Volume repairs retain their local dimensions; do not copy those dimensions into unrelated books. Since 4 October 2026 the [preset arrangement rule](#preset-arrangements-templated-diagrams-and-avatars-4-october-2026) decides placement: keep a source arrangement only where position carries mathematical or instructional meaning.
 
 Question-side numbered exercise headings appear once at the start of each exercise, never again at source-page sections, teaching checkpoints or pagination continuations. This applies to all current compact books and future transcriptions. `flowEditionSections` derives the first non-empty practice section per topic without changing stored content; compact answer columns retain exercise context. Regression coverage in `booklet-compact-exercises.test.js` includes all active books and joined/separate sections.
 
@@ -289,7 +293,7 @@ The older exact-transcription prompt said to retain graphical material as assets
 
 Completion still requires independent source comparison, content reconciliation, presentation review and rendered checks. A policy being documented or a shared helper existing is not proof that every imported occurrence follows it.
 
-Primary records: [Linear feedback](linear-booklet-feedback-2026-09-06.json), [house style](booklet-house-style-1.1.md), [graph typography](booklet-graph-typography-2026-09.md), [graph strokes](booklet-graph-strokes-2026-09.md), [compact style](booklet-compact-exercise-trial.md), [Index feedback](../booklets/provenance/index-laws-complete-v1/feedback-review.md).
+Primary records: [Linear feedback](archive/linear-booklet-feedback-2026-09-06.json), [house style](booklet-house-style-1.1.md), [graph typography](archive/booklet-graph-typography-2026-09.md), [graph strokes](archive/booklet-graph-strokes-2026-09.md) (current rules: [diagram typography](booklet-diagram-typography.md#graph-scales-and-tick-labels)), [compact style](booklet-compact-exercise-trial.md), [Index feedback](../booklets/provenance/index-laws-complete-v1/feedback-review.md).
 
 ## General diagram ink (11 September 2026)
 
@@ -317,7 +321,7 @@ Main section-header precedence (11 September 2026): across all current booklets 
 
 ## Header and continuation prevention (Volume revision 198)
 
-Use the [revision 198 prevention rules](booklet-volume-feedback-r198.md) for shared exercise/main headings, editor-only source difficulty labels, single opening question numbers, equation row spacing, empty-paragraph deletion and image spacing. Preserve substantive continuation instructions and intentional blank lines. The accepted exercise reference is Linear Relationships v1, not a new left-aligned style.
+Use the [revision 198 prevention rules](booklet-volume-feedback-r198.md) for shared exercise/main headings, editor-only source difficulty labels, single opening question numbers, equation row spacing, empty-paragraph deletion and image spacing. Preserve substantive continuation instructions and intentional blank lines. The accepted exercise reference is Linear Relationships v1, not a new left-aligned style. Heading text follows the sentence-case rule at the top of this register, which replaces the uppercase wording in that record.
 
 
 ## Exercise starts and layout spacing (13 September 2026)

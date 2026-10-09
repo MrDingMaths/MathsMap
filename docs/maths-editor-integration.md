@@ -1,10 +1,44 @@
 # MathsEditor structured-document integration
 
+## Current status (9 October 2026)
+
+This page is a release-by-release record of the MathsEditor integration. Later changes replaced some statements in the older release notes below:
+
+- **Editing mode.** Ordinary writing happens directly on the page; see the [editing guide](booklet-document-editing.md). The 1.4.1 note that Studio "defaults to focused editing" and the 1.2.1 modal edit session describe the earlier default. Save and Cancel remain for specialist arrangement drafts.
+- **Diagram edits.** Studio does not run models or use proposal or approval gates; specialist edits apply directly and can be undone. "Save proposal" in the verification notes and the 1.2.1 note is superseded for Studio.
+- **Tabs.** Custom tab authoring controls are retired from booklet editing. Existing custom stops keep their layout until **Reset to 1 cm tabs** is chosen, and the standalone editor keeps its custom-stop controls.
+- **Keys.** In Studio, Tab advances to the next 1 cm stop in prose and **Alt+=** inserts maths. Inside maths, Tab keeps MathLive navigation and **Symbols** opens the palette.
+
 ## Equation selection and history (1.6.1, 11 September 2026)
 
 Selected equations have a screen-only blue wrapper highlight that persists through equation controls and dialogs. Shared transient bookmarks retain the caret and selected range; equation-only undo updates MathLive in place. Structural undo restores the field or a neighbouring prose position. The booklet adapter also restores legacy source fields whose paragraph IDs are regenerated when reopened, using the saved equation ordinal only when the equation count is unchanged.
 
-The standalone source now includes the former embedded editing and palette changes, source-colour support and shared fraction spacing. The sync manifest includes `math-editing.mjs`, `math-selection.mjs`, `equation-spacing.mjs` and the palette files; MathsMap's current house style is preserved. See [equation editing and its regression checks](embedded-equation-editing.md). This release changes no stored document schema or public change-event shape.
+The standalone source now includes the former embedded editing and palette changes, source-colour support and shared fraction spacing. The sync manifest includes `math-editing.mjs`, `math-selection.mjs`, `equation-spacing.mjs` and the palette files; MathsMap's current house style is preserved. See [equation editing and its regression checks](#equation-editing). This release changes no stored document schema or public change-event shape.
+
+## Equation editing
+
+Merged from the embedded equation editing note of 11 September 2026, with its two Tab bindings corrected to the current keys.
+
+MathsMap's structured MathsEditor provides:
+
+- A searchable Symbols picker, hosted inside the active editor dialog. **Symbols** opens it; Tab inside an equation keeps MathLive navigation.
+- Arrow-key entry from adjacent prose and exit from equation boundaries; Escape returns to prose.
+- **Alt+=** to insert maths in ordinary prose. Existing table, list, tab-stop and Escape-then-Tab behaviour is retained.
+- Bold/italic and colour controls for MathLive selections; document formatting shortcuts also act on focused maths.
+- An Edit LaTeX dialog with preview, Apply and Cancel.
+- A blue outline and light tint on the selected equation, retained while its tools, Symbols picker or LaTeX dialog are open. Selection styling is transient and excluded from print.
+- Selection-aware undo/redo, including whole-equation deletion and a neighbouring prose caret. Equation-only history changes retain the mounted MathLive field. Booklet bookmarks retain selected ranges and support regenerated legacy paragraph IDs.
+- In-page equation tools appear below the main document toolbar, outside scaled paper and narrow question columns. They retain readable colours in both themes. Long live equations scroll within their field rather than covering neighbouring questions.
+
+The source of truth is `D:\WebApps\MathsEditor`. Release 1.6.1 reconciles the former MathsMap-only interaction, palette, source-colour and fraction-spacing enhancements into that source. `math-editing.mjs` owns equation tools; `math-selection.mjs` owns transient bookmarks and equation-only history updates. `document-editor.js` connects both. The sync script includes those modules, equation spacing and palette assets, while preserving MathsMap's host house style. Do not replace the bundled runtime with an older standalone copy.
+
+Checks:
+
+- `node scripts/booklet/check-math-editing.mjs` exercises the actual browser editor in a temporary modal without modifying booklets. It covers selected-maths formatting, palette insertion, keyboard navigation, LaTeX apply/cancel, structured save/reload and maths insertion.
+- `check-equation-reliability.mjs`, `check-equation-editing.mjs` and `check-document-editor.mjs` under `scripts/booklet/` are the 1.6.1 regressions. They cover highlighting and print geometry, selected-term formatting, fraction/exponent edits, adding/removing multiline rows, rapid undo/redo, whole-equation deletion, tables/lists/teaching slots, annotated-equation references, clipboard and read-only behaviour. Screenshots are retained locally in `.booklet-work/equation-reliability/`.
+- `BOOKLET_TEST_BASE=http://127.0.0.1:5173 node scripts/booklet/check-equation-performance.mjs` exercises the actual Index Laws booklet through intercepted in-memory saves: typing, autosave, pagination, external selected-term formatting, undo/redo and reload. Its evidence remains in `.booklet-work/equation-performance/`. Run without syncing public assets concurrently, since Vite reloads active pages when those files change.
+
+The document format and `document-change` event contract are unchanged; existing projects require no migration. The 11 September 2026 verification record is in the [archived note](archive/embedded-equation-editing.md).
 
 ## Numbered theory lists and teaching labels (2026-09-07)
 
@@ -60,7 +94,7 @@ The Image action and image paste insert at the caret, including within table cel
 
 `exportSource(document)` returns `{ text, losses }`; `toSource(document)` remains a string compatibility projection. Inline assets emit `[Image "alt" source="stable source"]` in prose order. This marker is readable, not a round-trip source syntax. Structured JSON and rich clipboard retain assets and layout. HTML clipboard data includes an encoded structured payload plus a rendered fallback; copied nodes and annotation references receive fresh identities.
 
-Select a table cell to choose a logical column and type its width in mm. Numeric changes preserve other columns and change total width. Drag an interior boundary to redistribute its two tracks while preserving total width; arrows change it by 1 mm, Shift+arrows by 5 mm. One drag is one undo step; Escape cancels. Merges preserve row-major content order, survivor identity, and formatting snapshots. Split keeps current content in the survivor and restores empty cells' formatting. Missing annotation anchors remain stored and are reported; merge remaps endpoints, including visible self-arrows.
+Select a table cell to choose a logical column and type its width in mm. Numeric changes preserve other columns and change total width. Drag an interior boundary to redistribute its two tracks while preserving total width; arrows change it by 1 mm, Shift+arrows by 5 mm. One drag is one undo step; Escape cancels. Merges preserve row-major content order, survivor identity, and formatting snapshots. Split keeps current content in the survivor and restores empty cells' formatting. Column insertion preserves existing absolute widths and requires room for at least a 5 mm new track. Missing annotation anchors remain stored and are reported; merge remaps endpoints, including visible self-arrows.
 
 Content editors and the standalone studio show paired rendered previews. TikZ proposal editors debounce draft compilation for 300 ms and keep a labelled previous successful preview during compilation or errors. Width-only edits do not compile. Save proposal records pending changes; acceptance and fidelity approval remain separate.
 
@@ -133,4 +167,4 @@ Adds structured annotated-equation blocks, term anchors, editable maths/prose la
 
 ### Focused arrangements - 7 September 2026
 
-Pinned MathsEditor 1.6.0 adds the shared arrangement transaction model, illustrated tab guidance and orange palette. Studio opens whole questions with structural movement, sizing/spacing controls, selected content editing and direct diagram saves. Revision 44 adopts the P11/P30/P38/P39/P41 repairs while preserving unrelated edits. See `docs/booklet-focused-editing.md` and `docs/booklet-human-workflow.md`.
+Pinned MathsEditor 1.6.0 adds the shared arrangement transaction model, illustrated tab guidance and orange palette. Studio opens whole questions with structural movement, sizing/spacing controls, selected content editing and direct diagram saves. Revision 44 adopts the P11/P30/P38/P39/P41 repairs while preserving unrelated edits. See the [specialist arrangement editor](booklet-document-editing.md#specialist-arrangement-editor) and `docs/booklet-human-workflow.md`.

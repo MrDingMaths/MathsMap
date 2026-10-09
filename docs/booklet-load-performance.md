@@ -325,3 +325,25 @@ The summary index and fingerprint memoisation options are not needed at the
 current library size. Finding 2 (cold diagrams) stands: `.booklet-work/render-cache/`
 holds 56 diagram versions since 12 September, so automatic rewarming is deferred
 until the `_inputs.manifest` records show what changes the diagram version.
+
+## Warm spacing edits
+
+Merged from the question-spacing note of 15 September 2026. This covers the
+response to a spacing change in a booklet that is already open. It is separate
+from the opening and cache timings above; do not compare the two.
+
+The warm-edit target is a median below 300 ms and a p95 below 500 ms, measured
+from the control's change event through the updated preview's paint,
+independently of autosave. A first uncached layout can take longer.
+
+- Explicit whole-question spacing commits bypass the typing debounce. Composition, typing debounce and cancellation remain active.
+- Warm measurements are read synchronously from memory. Misses are measured directly; opening and edition changes retain persistent-cache reads. Writes update memory immediately and persist in coalesced background transactions.
+- Compact answer pagination ignores question-only spacing overrides, while retaining answer diagram-width and other relevant invalidation.
+- Incremental continuation cannot reuse a partial page containing a changed question. Repeated unchanged answer runs retain their checkpoint metadata.
+- Missing DOM measurements are retried after paint and rejected if still unavailable. They cannot become cached zero-height results.
+- Every validation request still hashes renderer and asset bytes. Bounded parallel reads and request-local sharing reduce validation time without time-based or file-stat-based acceptance. File-stat hash caching was tried and rejected after a same-size, same-timestamp regression.
+- Preview metrics include scheduling, validation, cache I/O, measurement, pagination, rendering, paint and cancelled work.
+
+Run `node scripts/booklet/check-spacing-performance.mjs --project linear-relationships-v1 --verify` (and repeat with `non-right-angled-trigonometry-v1`). Use `--out` for a new local evidence directory and `--capture` for affected-page PDFs. Run `node scripts/booklet/check-spacing-editor.mjs` for live typing/composition, cancellation and failure handling. That note also records that the older smooth-editing script has an obsolete layout selector.
+
+The measured before-and-after timings, the evidence folders and the export check from that change are in the [archived note](archive/booklet-spacing-performance.md).

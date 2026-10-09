@@ -12,7 +12,7 @@ Visible solid boundaries and silhouettes are solid black; obscured edges are das
 
 ## Acceptance and current content
 
-Run `node scripts/audit-solid-visibility.mjs --strict` (or `--only id1,id2`). The generation gate and booklet candidate validation use the same geometric audit. Supported legacy solids are reconstructed from verified topology; arbitrary TeX is not automatically rewritten. Unsupported candidates need a reason and accepted review bound to the exact source hash. Changes invalidate that review. Candidate detection intentionally includes false positives such as planar nets and coordinate constructions; reviewers distinguish them explicitly.
+Run `node scripts/audit-solid-visibility.mjs --strict` (or `--only id1,id2`). The generation gate and booklet candidate validation use the same geometric audit. Supported legacy solids are reconstructed from verified topology; arbitrary TeX is not automatically rewritten. Unsupported candidates need a reason and accepted review bound to the exact source hash. Changes invalidate that review. Reviews cannot waive a detected visibility defect. Candidate detection intentionally includes false positives such as planar nets and coordinate constructions; reviewers distinguish them explicitly.
 
 Use the guarded maintenance command `node scripts/repair-solid-visibility.mjs` to preview proposed repairs; `--apply` uses exact source guards and revision-safe booklet/bank transactions. Current correct diagrams and original evidence stay intact. Store decisions and before/after hashes in `booklets/provenance/solid-visibility-2026-09-12.json`; local captures, input snapshots and timing receipts stay under `.booklet-work/solid-visibility/`.
 

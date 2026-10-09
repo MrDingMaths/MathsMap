@@ -1,6 +1,6 @@
 # Focused booklet editing
 
-Ordinary writing now happens directly on the page; see [Document-first Booklet Studio](booklet-document-editing.md). Select a question and open its block properties to access the specialist arrangement editor described below. **Save** applies that specialist draft as one booklet change; **Cancel** discards it. TikZ code editing is available directly from a selected diagram.
+Ordinary writing now happens directly on the page; see [Document-first Booklet Studio](../booklet-document-editing.md). Select a question and open its block properties to access the specialist arrangement editor described below. **Save** applies that specialist draft as one booklet change; **Cancel** discards it. TikZ code editing is available directly from a selected diagram.
 
 ## Rearrange a question
 

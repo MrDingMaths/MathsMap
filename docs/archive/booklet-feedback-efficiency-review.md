@@ -1,7 +1,7 @@
 # Feedback-process efficiency review — 16 September 2026
 
 The Logarithms revision 207 repair was verified, but its verification expanded too
-far and restarted too often. The revised [change runbook](booklet-change-runbook.md#minimum-verification-for-feedback-maintenance)
+far and restarted too often. The revised [change runbook](../booklet-change-runbook.md#minimum-verification-for-feedback-maintenance)
 makes ordinary feedback use only checks justified by the changed dependencies.
 
 ## Recorded costs

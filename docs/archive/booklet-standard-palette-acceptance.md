@@ -1,6 +1,6 @@
 # Standard palette acceptance — 11 September 2026
 
-Implemented the [standard palette contract](booklet-standard-palette.md) for all three current projects, their five editions, reusable bank content and future authoring. Shared editor, preview, TikZ preparation, cache and print paths use the palette. Custom editable colours fail acceptance; original evidence, history, recovery copies and raster pixels remain unchanged.
+Implemented the [standard palette contract](../booklet-standard-palette.md) for all three current projects, their five editions, reusable bank content and future authoring. Shared editor, preview, TikZ preparation, cache and print paths use the palette. Custom editable colours fail acceptance; original evidence, history, recovery copies and raster pixels remain unchanged.
 
 ## Accepted inputs and output
 
@@ -34,4 +34,4 @@ The first compile exposed legacy answer overrides without palette definitions. R
 
 The compile retry reused 276 valid SVG files and created 392 remaining renderings. The final 668-entry cache seeded all edition exports; runtime cache hit/miss counters were not instrumented. No measured speedup is claimed.
 
-Durable reviewed departures, follow-up transactions, input/output hashes, timings and acceptance summaries are in [project provenance](../booklets/provenance/standard-palette-2026-09-11.json). Detailed local evidence is under `.booklet-work/standard-palette/`, particularly `run-receipt.json`, `stored-palette-qa.json`, `preservation.json`, `geometry-qa.json`, `editor-qa.json`, `cache-parity.json`, `printed-qa.json`, `index-render-equivalence.json` and `editions/report.json`. Render caches, PDFs, page images, baseline evidence and logs remain local under the [change runbook](booklet-change-runbook.md).
+Durable reviewed departures, follow-up transactions, input/output hashes, timings and acceptance summaries are in [project provenance](../../booklets/provenance/standard-palette-2026-09-11.json). Detailed local evidence is under `.booklet-work/standard-palette/`, particularly `run-receipt.json`, `stored-palette-qa.json`, `preservation.json`, `geometry-qa.json`, `editor-qa.json`, `cache-parity.json`, `printed-qa.json`, `index-render-equivalence.json` and `editions/report.json`. Render caches, PDFs, page images, baseline evidence and logs remain local under the [change runbook](../booklet-change-runbook.md).

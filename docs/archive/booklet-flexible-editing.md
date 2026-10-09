@@ -1,6 +1,6 @@
 # Flexible booklet editing
 
-Use [document editing](booklet-document-editing.md) for the current interface and [compact exercises](booklet-compact-exercise-trial.md) for new-project defaults.
+Use [document editing](../booklet-document-editing.md) for the current interface and [compact exercises](../booklet-compact-exercise-trial.md) for new-project defaults.
 
 Content has stable IDs, source references and logical continuation relationships. Moves retain identity; copies remap local references and retain bank pins. Cross-section edits merge through revision-checked saves. Conflicting edits require review.
 

@@ -10,11 +10,11 @@ The [complete JSON register](linear-relationships-atomisation-audit.json) accoun
 
 Project SHA-256: `48df2f5368013c29547326206eb8190f0d8d1eca17ef559c37f94ddcabe0f24e`. Graph SHA-256: `555639d425f07c84104a6cca1cf30ec9ec2d7d3c97a4e60dccf56b28f622ec98`. Initial baseline captured 2026-09-07T07:57:05.907Z at revision 78; refreshed to revision 98 at 2026-09-07T08:22:57.475Z after reviewing concurrent saves. Changes added blank change-arrow scaffolds on page 30 and adjusted layout/formatting on pages 17,23,27,31-34,36. Later line-height saves on pages 13 and 16 changed the hash without changing revision 98. Mathematical target wording and counts were preserved. The register records the initial hash and refresh history. Final recheck 2026-09-07T08:25:02.636Z. Revision and hashes matched at delivery generation.
 
-Applied the [graph atomisation rubric](atomisation-principles.md), [teaching rubric](atomisation-teaching.md), [worked-example rubric](worked-example-principles.md), [guided-practice rubric](guided-practice-principles.md) and [booklet pedagogy contract](booklet-pedagogy-contract.md), with calibration and Studio guidance. The [applied cross-topic amendment](../booklets/proposals/cross-topic-backfill/00-policy-amendment.md) takes precedence over older blanket exclusions. Conditional and ambient knowledge remains in this teaching audit; a public edge requires distinctive, at-risk, stage/course-compatible and nonredundant evidence.
+Applied the [graph atomisation rubric](../atomisation-principles.md), [teaching rubric](../atomisation-teaching.md), [worked-example rubric](../worked-example-principles.md), [guided-practice rubric](../guided-practice-principles.md) and [booklet pedagogy contract](../booklet-pedagogy-contract.md), with calibration and Studio guidance. The [applied cross-topic amendment](../../booklets/proposals/cross-topic-backfill/00-policy-amendment.md) takes precedence over older blanket exclusions. Conditional and ambient knowledge remains in this teaching audit; a public edge requires distinctive, at-risk, stage/course-compatible and nonredundant evidence.
 
 Reviewed every saved teaching block and question part, including shared prompts, answers, representation panels, diagram descriptions/models and continuation relationships. The prior-proposal corpus (115 files, including its empty placeholder) is hash-indexed with decision excerpts in the register; relevant Linear Relationships, formulas and cross-topic decisions were checked against current skills. The single embedded Studio proposal remains pending and unchanged.
 
-Original student pages inspected visually: [p. 12](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-012.png), [p. 15](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-015.png), [p. 16](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-016.png), [p. 17](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-017.png), [p. 22](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-022.png), [p. 23](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-023.png), [p. 29](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-029.png), [p. 35](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-035.png), [p. 39](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-039.png), [p. 41](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-041.png), [p. 44](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-044.png), [p. 57](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-057.png), [p. 61](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-061.png), [p. 63](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-063.png), [p. 65](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-065.png), [p. 70](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-070.png), [p. 73](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-073.png), [p. 84](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-084.png), [p. 92](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-092.png), [p. 93](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-093.png). Source images govern prompts, diagram scaffolds and answer visibility; saved worked answers support method analysis. The teacher evidence authority explicitly requires matching by stem and mathematics, not assuming teacher/student page equivalence. Matched teacher checks for Q1 on 17, shortcut prompts on 29, the 543-stick problem on 57, the candle on 70 and verification on 92 are recorded with their exact text-page references and conflicts. For the candle, the valid physical interval includes the zero endpoints; the teacher's shorthand positive-only wording is too narrow. Findings distinguish a source-confirmed issue from a current-render question still unresolved.
+Original student pages inspected visually: [p. 12](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-012.png), [p. 15](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-015.png), [p. 16](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-016.png), [p. 17](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-017.png), [p. 22](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-022.png), [p. 23](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-023.png), [p. 29](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-029.png), [p. 35](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-035.png), [p. 39](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-039.png), [p. 41](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-041.png), [p. 44](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-044.png), [p. 57](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-057.png), [p. 61](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-061.png), [p. 63](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-063.png), [p. 65](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-065.png), [p. 70](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-070.png), [p. 73](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-073.png), [p. 84](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-084.png), [p. 92](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-092.png), [p. 93](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-093.png). Source images govern prompts, diagram scaffolds and answer visibility; saved worked answers support method analysis. The teacher evidence authority explicitly requires matching by stem and mathematics, not assuming teacher/student page equivalence. Matched teacher checks for Q1 on 17, shortcut prompts on 29, the 543-stick problem on 57, the candle on 70 and verification on 92 are recorded with their exact text-page references and conflicts. For the candle, the valid physical interval includes the zero endpoints; the teacher's shorthand positive-only wording is too narrow. Findings distinguish a source-confirmed issue from a current-render question still unresolved.
 
 Pages 1–2 are **non-instructional front matter**. Footers, logos, ornamental headings and blank response space do not create teaching atoms. Coordinate diagrams, pattern pictures and worked graphs are instructional even when stored as image blocks. Desmos operating directions are non-mathematical support. Roles in the register mean teaches, practises or an assessment opportunity; none means the learner has mastered the linked full skill.
 
@@ -69,7 +69,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-01 · P1 · Repair lost table columns and stale answer alignment
 
-**Sources:** [p. 17](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-017.png). **Targets:** `page-17-q1-a`, `page-17-q1-b`, `page-17-q1-c`, `page-17-q1-d`.
+**Sources:** [p. 17](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-017.png). **Targets:** `page-17-q1-a`, `page-17-q1-b`, `page-17-q1-c`, `page-17-q1-d`.
 
 **Evidence:** The original four-column tables have three data columns in the saved reconstruction. Answers in b and d still include y=1 and y=14 for removed first columns.
 
@@ -79,7 +79,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-02 · P1 · Change impossible-shortcut wording
 
-**Sources:** [p. 29](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-029.png). **Targets:** `page-29-q1-node-5`, `page-29-q2-node-5`.
+**Sources:** [p. 29](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-029.png). **Targets:** `page-29-q1-node-5`, `page-29-q2-node-5`.
 
 **Evidence:** Both prompts ask why m or c cannot be found. The first table (x=7,2,11; y=25,15,33) has m=2; the other lacks a displayed zero column, not a determinable constant. Current answers qualify the shortcut but prompts do not.
 
@@ -89,7 +89,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-03 · P1 · Qualify variable-role definitions
 
-**Sources:** [p. 65](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-065.png). **Targets:** `page-65-b1`, `page-65-b2`.
+**Sources:** [p. 65](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-065.png). **Targets:** `page-65-b1`, `page-65-b2`.
 
 **Evidence:** The independent variable is described as not depending on anything and table positions as always fixed. The cloze repeats this.
 
@@ -99,7 +99,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-04 · P1 · Distinguish nonvertical form, zero slope and coincident lines
 
-**Sources:** [p. 23](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-023.png), [p. 73](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-073.png), [p. 93](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-093.png). **Targets:** `page-23-theory`, `page-73-block-2`, `page-73-block-3`, `page-93-q5-root`.
+**Sources:** [p. 23](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-023.png), [p. 73](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-073.png), [p. 93](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-093.png). **Targets:** `page-23-theory`, `page-73-block-2`, `page-73-block-3`, `page-93-q5-root`.
 
 **Evidence:** Page 23 generalises y=mx+c; page 73 says equal coefficients imply parallel lines. Page 92 includes x=3 and page 93 correctly says two different lines.
 
@@ -109,7 +109,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-05 · P2 · Teach table-column recognition before using it
 
-**Sources:** [p. 15](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-015.png). **Targets:** `page-15-q1`, `page-15-q2`, `page-15-identify-concept`, `page-15-q3`, `page-15-q4`.
+**Sources:** [p. 15](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-015.png). **Targets:** `page-15-q1`, `page-15-q2`, `page-15-identify-concept`, `page-15-q3`, `page-15-q4`.
 
 **Evidence:** Q2 requires plotting table coordinates before the Identify concept and Q3 explain column→pair conversion.
 
@@ -119,7 +119,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-06 · P2 · Prepare two-operation and inverse table branches
 
-**Sources:** [p. 25](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-025.png), [p. 27](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-027.png), [p. 29](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-029.png), [p. 30](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-030.png), [p. 50](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-050.png). **Targets:** `page-25-example`, `page-25-gp-c`, `page-27-q4-a`, `page-27-q4-b`, `page-29-q1`, `page-29-q2`, `page-30-we-1`, `page-50-q1`.
+**Sources:** [p. 25](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-025.png), [p. 27](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-027.png), [p. 29](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-029.png), [p. 30](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-030.png), [p. 50](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-050.png). **Targets:** `page-25-example`, `page-25-gp-c`, `page-27-q4-a`, `page-27-q4-b`, `page-29-q1`, `page-29-q2`, `page-30-we-1`, `page-50-q1`.
 
 **Evidence:** The two-operation rule example asserts the combined rule before m/c isolation on 29–30. Page 27 Q4 has unknown input entries; the forward/inverse review occurs on 50.
 
@@ -129,7 +129,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-07 · P2 · Match early worked answers to the method taught
 
-**Sources:** [p. 22](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-022.png), [p. 32](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-032.png), [p. 34](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-034.png), [p. 40](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-040.png). **Targets:** `page-22-q4`, `page-32-q3`, `page-32-q4`, `page-34-q8`, `page-34-q9`, `page-40-q3`.
+**Sources:** [p. 22](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-022.png), [p. 32](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-032.png), [p. 34](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-034.png), [p. 40](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-040.png). **Targets:** `page-22-q4`, `page-32-q3`, `page-32-q4`, `page-34-q8`, `page-34-q9`, `page-40-q3`.
 
 **Evidence:** Several saved worked answers use intercept language, difference quotients or c=y−mx before the relevant branch has been introduced. Early table tasks can be solved by unit differences and reading/extension to zero.
 
@@ -139,7 +139,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-08 · P2 · Make harder table branches and selection explicit
 
-**Sources:** [p. 33](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-033.png), [p. 35](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-035.png), [p. 37](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-037.png), [p. 38](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-038.png). **Targets:** `page-33-q7`, `page-35-q10`, `page-35-q12`, `page-37-example-15`, `page-37-q16`, `page-38-q17`.
+**Sources:** [p. 33](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-033.png), [p. 35](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-035.png), [p. 37](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-037.png), [p. 38](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-038.png). **Targets:** `page-33-q7`, `page-35-q10`, `page-35-q12`, `page-37-example-15`, `page-37-q16`, `page-38-q17`.
 
 **Evidence:** Back-extension has a first completed scaffold; non-unit steps explicitly say to divide and begin with 8÷2. Parameter substitution then introduces another decision, including avoiding x=0 when finding m.
 
@@ -149,7 +149,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-09 · P2 · Add a scale-reading bridge and resolve scale provenance
 
-**Sources:** [p. 9](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-009.png), [p. 41](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-041.png). **Targets:** `page-9-q8`, `page-9-q10`, `page-41-q5-a`, `page-41-q5-b`, `page-41-q5-c`, `page-41-q5-d`.
+**Sources:** [p. 9](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-009.png), [p. 41](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-041.png). **Targets:** `page-9-q8`, `page-9-q10`, `page-41-q5-a`, `page-41-q5-b`, `page-41-q5-c`, `page-41-q5-d`.
 
 **Evidence:** Fractional coordinates appear in early plotting; page 41 explicitly warns that axis scales differ. Source Q5 a–c use y intervals of 2; saved diagram model step metadata differs in a–c.
 
@@ -159,7 +159,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-10 · P2 · Respect graph windows and supplied graph scaffolds
 
-**Sources:** [p. 16](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-016.png), [p. 17](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-017.png), [p. 44](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-044.png), [p. 39](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-039.png). **Targets:** `page-16-example`, `page-17-q2-b`, `page-44-q1-graph`, `page-44-q2-graph`, `page-39-q2`.
+**Sources:** [p. 16](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-016.png), [p. 17](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-017.png), [p. 44](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-044.png), [p. 39](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-039.png). **Targets:** `page-16-example`, `page-17-q2-b`, `page-44-q1-graph`, `page-44-q2-graph`, `page-39-q2`.
 
 **Evidence:** The page 16 example tabulates (3,7) beyond a grid ending at y=5. Page 44 guided graph panels already contain lines in both source and saved diagrams. A pending Studio operation would remove labelled points from page 39 Q2a.
 
@@ -169,7 +169,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-11 · P2 · Add the short graph-to-table-to-rule example
 
-**Sources:** [p. 39](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-039.png), [p. 41](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-041.png). **Targets:** `page-39-q1`, `page-39-q2`, `page-41-q5`.
+**Sources:** [p. 39](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-039.png), [p. 41](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-041.png). **Targets:** `page-39-q1`, `page-39-q2`, `page-41-q5`.
 
 **Evidence:** Page 39 begins with Foundation tasks, scaffolded tables and labelled coordinates, but no complete worked chain.
 
@@ -179,7 +179,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-12 · P2 · Prepare count feasibility and requested-quantity decisions
 
-**Sources:** [p. 57](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-057.png), [p. 61](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-061.png). **Targets:** `page-57-q12-root`, `page-57-q13-a`, `page-57-q13-b`, `page-57-q13-c`, `page-57-q13-d`, `page-61-q6-root`.
+**Sources:** [p. 57](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-057.png), [p. 61](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-061.png). **Targets:** `page-57-q12-root`, `page-57-q13-a`, `page-57-q13-b`, `page-57-q13-c`, `page-57-q13-d`, `page-61-q6-root`.
 
 **Evidence:** Q12 asks whether 543 sticks fits y=3x+2, yielding a noninteger x. Q13 changes between shaded/unshaded/total. Page 61 Q6 decreases 6,5,4,3 triangles, but asks for x=17; y=7−x then gives −10. Its saved alternative text describes the fourth picture as two triangles.
 
@@ -189,7 +189,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-13 · P2 · Isolate modelling decisions and conditional unit prerequisites
 
-**Sources:** [p. 66](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-066.png), [p. 69](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-069.png), [p. 71](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-071.png), [p. 72](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-072.png). **Targets:** `page-66-q1`, `page-69-q3`, `page-69-q4`, `page-71-q7`, `page-72-q11`.
+**Sources:** [p. 66](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-066.png), [p. 69](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-069.png), [p. 71](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-071.png), [p. 72](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-072.png). **Targets:** `page-66-q1`, `page-69-q3`, `page-69-q4`, `page-71-q7`, `page-72-q11`.
 
 **Evidence:** The taxi investigation combines variables, rate/fixed fee, equation, table, graph and prediction. Later items require mixed time units, percentage multipliers and rate conversion.
 
@@ -199,7 +199,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-14 · P2 · Bring line selection ahead of full graphical solving
 
-**Sources:** [p. 81](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-081.png), [p. 82](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-082.png), [p. 83](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-083.png), [p. 84](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-084.png), [p. 85](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-085.png). **Targets:** `page-81-q1`, `page-81-q2`, `page-82-q1`, `page-83-q1`, `page-84-b1`, `page-84-w1`, `page-84-q1`, `page-85-gp`.
+**Sources:** [p. 81](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-081.png), [p. 82](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-082.png), [p. 83](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-083.png), [p. 84](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-084.png), [p. 85](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-085.png). **Targets:** `page-81-q1`, `page-81-q2`, `page-82-q1`, `page-83-q1`, `page-84-b1`, `page-84-w1`, `page-84-q1`, `page-85-gp`.
 
 **Evidence:** Pages 82–83 ask for graphical solves before page 84 isolates the choice y=mx+c and y=k.
 
@@ -209,7 +209,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-15 · P2 · Teach verification of both equations and separate extension demands
 
-**Sources:** [p. 89](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-089.png), [p. 92](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-092.png), [p. 93](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-093.png). **Targets:** `page-89-q1`, `page-89-q2`, `page-89-q3`, `page-92-q2-a`, `page-92-q2-b`, `page-93-q5-e`, `page-93-q5-f`, `page-93-q5-g`, `page-93-q5-h`, `page-93-q6`.
+**Sources:** [p. 89](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-089.png), [p. 92](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-092.png), [p. 93](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-093.png). **Targets:** `page-89-q1`, `page-89-q2`, `page-89-q3`, `page-92-q2-a`, `page-92-q2-b`, `page-93-q5-e`, `page-93-q5-f`, `page-93-q5-g`, `page-93-q5-h`, `page-93-q6`.
 
 **Evidence:** Page 92 requires substituting an intersection into both equations. Page 93 e–h requires rearrangement of implicit equations; Q6 adds parameters.
 
@@ -219,7 +219,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-16 · P2 · Create a cumulative independent endpoint and usable teaching chunks
 
-**Sources:** [p. 38](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-038.png), [p. 58](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-058.png), [p. 80](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-080.png), [p. 93](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-093.png). **Targets:** `page-38-q17`, `page-58-callout-1`, `page-80-q9`, `page-80-q10`, `page-93-q4`, `page-93-q5`, `page-93-q6`.
+**Sources:** [p. 38](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-038.png), [p. 58](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-058.png), [p. 80](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-080.png), [p. 93](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-093.png). **Targets:** `page-38-q17`, `page-58-callout-1`, `page-80-q9`, `page-80-q10`, `page-93-q4`, `page-93-q5`, `page-93-q6`.
 
 **Evidence:** There is mixed practice within table-method, representation and comparison sections, but the final pages are concentrated on simultaneous equations and extension rather than a cumulative independent mix of all booklet routines. Saved sections are source pages.
 
@@ -229,7 +229,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-17 · P2 · Replace blanket block mappings with demand-specific roles and links
 
-**Sources:** [p. 3](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-003.png), [p. 24](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-024.png), [p. 42](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-042.png), [p. 44](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-044.png), [p. 71](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-071.png), [p. 81](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-081.png), [p. 92](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-092.png). **Targets:** `page-3-review-question`, `page-24-verify`, `page-42-q1`, `page-42-q2`, `page-42-q3`, `page-44-q1-graph`, `page-71-q7-c`, `page-81-q1-a`, `page-92-q3-b`.
+**Sources:** [p. 3](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-003.png), [p. 24](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-024.png), [p. 42](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-042.png), [p. 44](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-044.png), [p. 71](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-071.png), [p. 81](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-081.png), [p. 92](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-092.png). **Targets:** `page-3-review-question`, `page-24-verify`, `page-42-q1`, `page-42-q2`, `page-42-q3`, `page-44-q1-graph`, `page-71-q7-c`, `page-81-q1-a`, `page-92-q3-b`.
 
 **Evidence:** All 233 saved mappings are block-level proposals. Examples include number-line review labelled Cartesian plotting, all page 42 review labelled pattern work, and compound leaves whose table/rule/graph facets cannot share one mastery claim.
 
@@ -239,7 +239,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 ### LR-18 · P3 · Tighten contrasts, recall and response criteria
 
-**Sources:** [p. 23](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-023.png), [p. 13](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-013.png), [p. 74](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-074.png), [p. 78](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-078.png), [p. 82](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-082.png), [p. 88](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-088.png), [p. 93](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-093.png). **Targets:** `page-23-identify-example`, `page-13-guided`, `page-74-block-1-graphs`, `page-78-q8`, `page-82-b1`, `page-88-q5`, `page-93-q4-b`.
+**Sources:** [p. 23](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-023.png), [p. 13](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-013.png), [p. 74](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-074.png), [p. 78](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-078.png), [p. 82](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-082.png), [p. 88](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-088.png), [p. 93](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-093.png). **Targets:** `page-23-identify-example`, `page-13-guided`, `page-74-block-1-graphs`, `page-78-q8`, `page-82-b1`, `page-88-q5`, `page-93-q4-b`.
 
 **Evidence:** The first nonlinear/linear contrast on 23 changes both exponent and coefficient. Signed-input plus signed-coefficient combination appears in guided substitution. Point membership is explicit on 82, but infinitely many real solution pairs are not checked directly. Page 93 requests an estimate.
 
@@ -261,7 +261,7 @@ P1 means content or classification validity; P2 means preparation, mapping or as
 
 Current prereqs: `["graph-linear-relationship"]`. Recommended: `["graph-linear-relationship", "point-satisfies-line"]`.
 
-**Trace:** [p. 92](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-092.png), `page-92-q2-a` and `page-92-q2-b`, explicitly require verification in both equations. In a, (2,−4) satisfies y=x−6 and y=−4x+4. In b, (−2,0) satisfies y=0.5x+1 and y=−x−2. The original diagrams and task wording were inspected. The existing intersection blurb already includes verification, but its prerequisites do not reach the specialist verification skill.
+**Trace:** [p. 92](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-092.png), `page-92-q2-a` and `page-92-q2-b`, explicitly require verification in both equations. In a, (2,−4) satisfies y=x−6 and y=−4x+4. In b, (−2,0) satisfies y=0.5x+1 and y=−x−2. The original diagrams and task wording were inspected. The existing intersection blurb already includes verification, but its prerequisites do not reach the specialist verification skill.
 
 - **Distinctive:** substituting the same ordered pair into each line equation is the characteristic check, not incidental arithmetic.
 - **At-risk:** a misread point may satisfy one line only; a picture alone does not establish both equalities.
@@ -272,7 +272,7 @@ No edge removals are recommended. Existing accepted substitution and equation-so
 
 ### 3. Edits to existing skills
 
-**LR-GR02: clarify `compare-linear-equations` blurb**, evidence LR-04, [p. 73](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-073.png) and [p. 93](../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-093.png). Current wording equates equal coefficients with parallel lines and leaves “size” ambiguous for negative coefficients. Proposed text:
+**LR-GR02: clarify `compare-linear-equations` blurb**, evidence LR-04, [p. 73](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-073.png) and [p. 93](../../.booklet-work/full-imports/linear-relationships-studio-v1/evidence/pages/page-093.png). Current wording equates equal coefficients with parallel lines and leaves “size” ambiguous for negative coefficients. Proposed text:
 
 > For nonvertical lines written as y = mx + c, use the sign of m to identify increasing, decreasing or horizontal lines, compare |m| for steepness on equally scaled axes, and use equal c values to identify a shared y-intercept. Equal m with different c gives distinct parallel lines; equal m and c gives the same line.
 
@@ -282,22 +282,22 @@ This is a mathematical boundary clarification within current comparison scope. *
 
 | Candidate | Decision and prior source |
 |---|---|
-| recognise-linear-equation | Covered by linear-representations; local category atom retained. Binding prior rejection. [Prior proposal](../booklets/proposals/Linear%20Relationships.md) |
-| find-rule-from-graph | Compose graph reading and table-rule skill; do not replace this with later gradient-formula mastery. [Prior proposal](../booklets/proposals/Linear%20Relationships.md) |
-| separate-public-m-and-c-skills | Keep local atoms and conditional harder branches; prior grain decision excludes duplicate public nodes. [Prior proposal](../booklets/proposals/Linear%20Relationships.md) |
-| construct-linear-model / interpret-linear-context | Already linear-real-life; local rate/fixed and variable decisions retained. [Prior proposal](../booklets/proposals/Linear%20Relationships%20B.md) |
-| standalone-forward-versus-inverse-decision | Inherent to substitution and equations-from-formulas; useful teaching-only recognition atom. [Prior proposal](../booklets/proposals/Equations%202_Formulas.md) |
-| apply-pattern-equation ← equations-from-formulas | Inverse solving is the harder conditional variant, not a prerequisite of forward evaluation. Keep part-level links. [Prior proposal](../booklets/proposals/Linear%20Relationships.md) |
-| graph-linear-relationship ← rearrange-to-gradient-intercept | Table graphing does not require rearrangement; later-stage extension cannot block Stage 4 base. [Prior proposal](../booklets/proposals/Linear%20Relationships%20B.md) |
-| new-horizontal-vertical-lines / Stage 4 retag | Existing public node is Stage 5. Teach required local cases on 84/92; no stage downgrade from a limited example. [Prior proposal](../booklets/proposals/Linear%20Relationships%20A.md) |
-| intersection-of-lines ← rearrange-to-gradient-intercept | Page 93 extension only; core reading and verification do not require it. [Prior proposal](../booklets/proposals/Linear%20Relationships%20B.md) |
-| intersection-of-lines ← verify-solutions-substitution | Use specialist point-satisfies-line instead; generic verification becomes reachable through the proposed edge. [Prior proposal](../booklets/proposals/cross-topic-backfill/D-s5core-2.md) |
-| construct-table-of-values ← basic signed arithmetic | Already covered through substitute-negative-numbers and its ancestors. [Prior proposal](../booklets/proposals/cross-topic-backfill/B-stage4-2.md) |
-| plot-points-cartesian ← geometry properties | Page 12 is a conditional geometry transfer. Basic plotting works without shape completion. [Prior proposal](../booklets/proposals/cross-topic-backfill/00-policy-amendment.md) |
-| linear-real-life ← percentages / time / rate conversions | These are constitutive for particular questions but not distinctive machinery of the general routine; retain teaching evidence and task links. [Prior proposal](../booklets/proposals/cross-topic-backfill/00-policy-amendment.md) |
-| new-graphing-tool-skill | Operational support, not an independent mathematical atom. [Prior proposal](../booklets/proposals/Linear%20Relationships%20Standard.md) |
-| interpret-linear-model Stage 6 mastery mapping | Stage 4 domain discussion supplies narrower local evidence; no claim of full Stage 6 interpretation mastery. [Prior proposal](../booklets/proposals/Linear%20Relationships%20Standard.md) |
-| remove-solve-linear-2-step-from-graphical-solve | Already accepted prerequisite; this audit does not overturn it based on easier supplied-graph variants. [Prior proposal](../booklets/proposals/cross-topic-backfill/B-stage4-2.md) |
+| recognise-linear-equation | Covered by linear-representations; local category atom retained. Binding prior rejection. [Prior proposal](../../booklets/proposals/Linear%20Relationships.md) |
+| find-rule-from-graph | Compose graph reading and table-rule skill; do not replace this with later gradient-formula mastery. [Prior proposal](../../booklets/proposals/Linear%20Relationships.md) |
+| separate-public-m-and-c-skills | Keep local atoms and conditional harder branches; prior grain decision excludes duplicate public nodes. [Prior proposal](../../booklets/proposals/Linear%20Relationships.md) |
+| construct-linear-model / interpret-linear-context | Already linear-real-life; local rate/fixed and variable decisions retained. [Prior proposal](../../booklets/proposals/Linear%20Relationships%20B.md) |
+| standalone-forward-versus-inverse-decision | Inherent to substitution and equations-from-formulas; useful teaching-only recognition atom. [Prior proposal](../../booklets/proposals/Equations%202_Formulas.md) |
+| apply-pattern-equation ← equations-from-formulas | Inverse solving is the harder conditional variant, not a prerequisite of forward evaluation. Keep part-level links. [Prior proposal](../../booklets/proposals/Linear%20Relationships.md) |
+| graph-linear-relationship ← rearrange-to-gradient-intercept | Table graphing does not require rearrangement; later-stage extension cannot block Stage 4 base. [Prior proposal](../../booklets/proposals/Linear%20Relationships%20B.md) |
+| new-horizontal-vertical-lines / Stage 4 retag | Existing public node is Stage 5. Teach required local cases on 84/92; no stage downgrade from a limited example. [Prior proposal](../../booklets/proposals/Linear%20Relationships%20A.md) |
+| intersection-of-lines ← rearrange-to-gradient-intercept | Page 93 extension only; core reading and verification do not require it. [Prior proposal](../../booklets/proposals/Linear%20Relationships%20B.md) |
+| intersection-of-lines ← verify-solutions-substitution | Use specialist point-satisfies-line instead; generic verification becomes reachable through the proposed edge. [Prior proposal](../../booklets/proposals/cross-topic-backfill/D-s5core-2.md) |
+| construct-table-of-values ← basic signed arithmetic | Already covered through substitute-negative-numbers and its ancestors. [Prior proposal](../../booklets/proposals/cross-topic-backfill/B-stage4-2.md) |
+| plot-points-cartesian ← geometry properties | Page 12 is a conditional geometry transfer. Basic plotting works without shape completion. [Prior proposal](../../booklets/proposals/cross-topic-backfill/00-policy-amendment.md) |
+| linear-real-life ← percentages / time / rate conversions | These are constitutive for particular questions but not distinctive machinery of the general routine; retain teaching evidence and task links. [Prior proposal](../../booklets/proposals/cross-topic-backfill/00-policy-amendment.md) |
+| new-graphing-tool-skill | Operational support, not an independent mathematical atom. [Prior proposal](../../booklets/proposals/Linear%20Relationships%20Standard.md) |
+| interpret-linear-model Stage 6 mastery mapping | Stage 4 domain discussion supplies narrower local evidence; no claim of full Stage 6 interpretation mastery. [Prior proposal](../../booklets/proposals/Linear%20Relationships%20Standard.md) |
+| remove-solve-linear-2-step-from-graphical-solve | Already accepted prerequisite; this audit does not overturn it based on easier supplied-graph variants. [Prior proposal](../../booklets/proposals/cross-topic-backfill/B-stage4-2.md) |
 
 The initial Linear Relationships proposal’s new nodes are already in the graph and are not re-proposed. Later proposals already rejected separate model construction/context interpretation and graph-to-rule duplicates. The applied cross-topic backfill added substantive substitution/verification dependencies; older “cross-topic” wording does not itself justify exclusion now. Exclusions above are based on actual routine scope, reachability, stage or grain, not topic boundaries alone.
 

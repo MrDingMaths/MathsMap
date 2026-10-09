@@ -57,6 +57,8 @@ are under `.booklet-work/volume-feedback/`.
 
 ## Prevention in future work
 
+> Current-policy note (9 October 2026): two statements below are superseded. Placement follows the [preset arrangement rule](booklet-cross-session-rules.md#preset-arrangements-templated-diagrams-and-avatars-4-october-2026): keep a source arrangement only where position carries mathematical or instructional meaning. New three-pass imports use [targeted visual review](booklet-three-pass-import.md), not a complete five-edition review; all five editions keep their automated checks.
+
 These rules apply to future imports, edits and restored projects. Preserve each
 book's content and teaching methods; the original explicitly local corrections
 do not mandate identical widths, heights or placement in unrelated questions.
