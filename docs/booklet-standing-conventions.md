@@ -43,4 +43,3 @@ Main section-header precedence (11 September 2026): across all current booklets 
 ## Shared-stem question groups and working space (17 September 2026)
 
 Group related source items under their shared instruction or definition as one editable question with a, b, c parts and a native grid, even when the source numbers them individually. Preserve meaningful range, exercise and category boundaries, nested parts and original source identities in provenance. Renumber displayed questions within each exercise. Generate/review worked solutions first and estimate per-part handwriting space from mathematical steps (including TeX rows), cell-width wrapping, fractions and required drawings; save editable estimates and retain manual overrides. Inspect representative grids at final size, including pagination. Do not repeat the stem per item or use question-type allowances alone. See [practice-only import contract](booklet-practice-only-import.md).
-
