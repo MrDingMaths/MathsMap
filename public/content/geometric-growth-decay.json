@@ -4,108 +4,109 @@
   "theory": {
     "intro": "Quantities that grow or decay by a constant percentage each period form a **geometric sequence**. If an initial quantity $A_{0}$ changes by a factor of $r$ each time period, the value after $n$ periods is $A_{n} = A_{0} r^{n}$.",
     "facts": [
-      "For exponential **growth** at rate $p\\%$ per period, the common ratio is $r = 1 + \\frac{p}{100} > 1$.",
-      "For exponential **decay** at rate $p\\%$ per period, the common ratio is $r = 1 - \\frac{p}{100} < 1$.",
-      "In declining-balance depreciation, the salvage value after $n$ years is $V_{n} = V_{0}(1-d)^{n}$ where $d$ is the annual depreciation rate.",
-      "The time $n$ required to reach a target value is found by solving $A_{0} r^{n} = T$ using logarithms: $n = \\frac{\\ln(T/A_{0})}{\\ln(r)}$."
-    ],
+"For exponential **growth** at rate $p\\%$ per period, the common ratio is $r = 1 + \\frac{p}{100} > 1$.",
+"For positive exponential **decay** at rate $p\\%$ per period, $0<p<100$ and the common ratio is $r = 1 - \\frac{p}{100}$, where $0<r<1$.",
+"In declining-balance depreciation, the salvage value after $n$ years is $V_{n} = V_{0}(1-d)^{n}$ where $d$ is the decimal annual depreciation rate and $0<d<1$.",
+"For positive initial and target values $A_{0}$ and $T$, with $r>0$ and $r\\ne1$, solving $A_{0}r^{n}=T$ gives $n=\\frac{\\ln(T/A_{0})}{\\ln(r)}$. A fractional result describes continuous interpolation only if that model is specified; whole-period valuations use integer values of $n$.",
+"For a strict threshold, solve the inequality and choose the first nonnegative integer satisfying it. Dividing by $\\ln(r)<0$ reverses the inequality for decay. If the result is $n>k$, choose the smallest integer strictly greater than $k$, even when $k$ is an integer, and check the chosen period and the preceding period."
+],
     "steps": [
-      "Identify the initial quantity $A_{0}$ and the growth or decay factor $r$ per period.",
-      "Write the exponential formula $A_{n} = A_{0} r^{n}$ for the quantity after $n$ time periods.",
-      "Substitute $n$ to find the future value, or solve $A_{0} r^{n} = T$ for $n$ using logarithms."
-    ]
+"Identify the initial quantity $A_{0}$ and the growth or decay factor $r$ per period.",
+"Write the exponential formula $A_{n} = A_{0} r^{n}$ for the quantity after $n$ time periods.",
+"Substitute $n$ to find the future value, or solve the target equation or inequality using logarithms. Keep full precision until the final rounding; for whole-period thresholds, choose and check the first integer satisfying the condition."
+]
   },
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "A bacterial colony has an initial population of $800$ and grows by $15\\%$ each hour.\nFind the population after $4$ hours to the nearest whole number.",
         "structure": "model-exponential-growth",
-        "solution_text": "$A_{0} = 800, r = 1 + 0.15 = 1.15, n = 4$\n$A_{4} = 800(1.15)^{4}$\n$= 800(1.749006)$\n$= 1399.20$\n$\\approx 1399$"
+        "solution_text": "$A_{0} = 800, r = 1 + 0.15 = 1.15, n = 4$\n$A_{4} = 800(1.15)^{4}$\n$= 800(1.74900625)$\n$= 1399.205$\n$\\approx 1399$"
       },
-      {
+{
         "question_text": "A radioactive isotope has an initial mass of $500\\text{ g}$ and decays by $20\\%$ each day.\nFind the remaining mass after $3$ days.",
         "structure": "model-exponential-decay",
         "solution_text": "$A_{0} = 500, r = 1 - 0.20 = 0.80, n = 3$\n$A_{3} = 500(0.80)^{3}$\n$= 500(0.512)$\n$= 256\\text{ g}$"
       },
-      {
+{
         "question_text": "A piece of office equipment bought for $\\$12\\,000$ depreciates by $10\\%$ per annum using the declining-balance method.\nFind its salvage value after $3$ years.",
         "structure": "declining-balance-depreciation",
         "solution_text": "$V_{0} = 12000, r = 1 - 0.10 = 0.90, n = 3$\n$V_{3} = 12000(0.90)^{3}$\n$= 12000(0.729)$\n$= \\$8748$"
       },
-      {
+{
         "question_text": "The population of a town is currently $25\\,000$ and increases by $4\\%$ each year.\nWrite an expression for the population after $n$ years, and calculate the population after $5$ years (to the nearest integer).",
         "structure": "model-exponential-growth",
-        "solution_text": "$P_{0} = 25000, r = 1.04$\n$P_{n} = 25000(1.04)^{n}$\n$P_{5} = 25000(1.04)^{5}$\n$= 25000(1.216653)$\n$= 30416.32$\n$\\approx 30416$"
+        "solution_text": "$P_{0} = 25000, r = 1.04$\n$P_{n} = 25000(1.04)^{n}$\n$P_{5} = 25000(1.04)^{5}$\n$= 25000(1.2166529024)$\n$= 30416.32256$\n$\\approx 30416$"
       },
-      {
-        "question_text": "A tennis ball is dropped from a height of $200\\text{ cm}$.\nOn each bounce, it rebounds to $60\\%$ of its previous height.\nFind the height of the ball at the top of the 4th bounce.",
-        "structure": "bouncing-ball-height",
-        "solution_text": "$h_{0} = 200, r = 0.60, n = 4$\n$h_{4} = 200(0.60)^{4}$\n$= 200(0.1296)$\n$= 25.92\\text{ cm}$"
+{
+        "question_text": "A radioactive isotope has an initial mass of $300\\text{ g}$ and decays by $40\\%$ each day.\nFind the remaining mass after $4$ days.",
+        "structure": "model-exponential-decay",
+        "solution_text": "$A_{0}=300, r=1-0.40=0.60, n=4$\n$A_{4}=300(0.60)^{4}$\n$=300(0.1296)$\n$=38.88\\text{ g}$"
       },
-      {
+{
         "question_text": "An initial dose of $400\\text{ mg}$ of medication is administered.\nThe body clears $25\\%$ of the drug every hour.\nHow much drug remains in the body after $2$ hours?",
         "structure": "model-exponential-decay",
         "solution_text": "$A_{0} = 400, r = 1 - 0.25 = 0.75, n = 2$\n$A_{2} = 400(0.75)^{2}$\n$= 400(0.5625)$\n$= 225\\text{ mg}$"
       },
-      {
-        "question_text": "A motorcycle purchased for $\\$15\\,000$ depreciates at $12\\%$ per annum under the declining-balance method.\nFind the total loss in value during the first year.",
-        "structure": "declining-balance-depreciation",
-        "solution_text": "$V_{0} = 15000, r = 0.88$\n$V_{1} = 15000(0.88) = 13200$\n$\\text{Loss} = 15000 - 13200$\n$= \\$1800$"
+{
+        "question_text": "When light passes through one sheet of thin glass, its intensity is reduced by $10\\%$.\nIf the light passes through $4$ sheets, find the percentage reduction in its intensity, correct to two decimal places.",
+        "structure": "percentage-reduction-after-repeated-decay",
+        "solution_text": "$r = 1 - 0.10 = 0.90, n = 4$\n$I_{4} = I_{0}(0.90)^{4}$\n$= 0.6561I_{0}$\n$\\text{Percentage remaining} = 65.61\\%$\n$\\text{Percentage reduction} = 100\\% - 65.61\\%$\n$= 34.39\\%$"
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "A town with population $10\\,000$ grows by $6\\%$ per year.\nUse logarithms to find the number of full years needed for the population to exceed $18\\,000$.",
         "structure": "solve-for-time-target",
         "solution_text": "$10000(1.06)^{n} > 18000$\n$(1.06)^{n} > 1.8$\n$n > \\frac{\\ln(1.8)}{\\ln(1.06)}$\n$n > \\frac{0.587787}{0.058269}$\n$n > 10.09$\n$n = 11\\text{ years}$"
       },
-      {
+{
         "question_text": "A new car costs $\\$32\\,000$ and depreciates at $15\\%$ per annum.\nAfter how many complete years will its value first fall below $\\$10\\,000$?",
         "structure": "solve-for-time-target",
         "solution_text": "$32000(0.85)^{n} < 10000$\n$(0.85)^{n} < \\frac{10}{32}$\n$(0.85)^{n} < 0.3125$\n$n > \\frac{\\ln(0.3125)}{\\ln(0.85)}$\n$n > \\frac{-1.163151}{-0.162519}$\n$n > 7.16$\n$n = 8\\text{ years}$"
       },
-      {
+{
         "question_text": "A pond contains $1200\\text{ kg}$ of algae.\nA treatment reduces the algae by $30\\%$ each week.\nFind the amount of algae remaining after $5$ weeks to the nearest kilogram.",
         "structure": "model-exponential-decay",
-        "solution_text": "$A_{0} = 1200, r = 1 - 0.30 = 0.70, n = 5$\n$A_{5} = 1200(0.70)^{5}$\n$= 1200(0.16807)$\n$= 201.68$\n$\\approx 202\\text{ kg}$"
+        "solution_text": "$A_{0} = 1200, r = 1 - 0.30 = 0.70, n = 5$\n$A_{5} = 1200(0.70)^{5}$\n$= 1200(0.16807)$\n$= 201.684$\n$\\approx 202\\text{ kg}$"
       },
-      {
-        "question_text": "A culture of yeast cells doubles in size every $3$ hours.\nIf it starts with $500$ cells, how many cells are present after $15$ hours, and how many hours are needed to exceed $50\\,000$ cells?",
+{
+        "question_text": "A culture of yeast cells doubles in size every $3$ hours.\nIf it starts with $500$ cells, how many cells are present after $15$ hours, and after how many complete three-hour periods will the population first exceed $50\\,000$ cells? Give the corresponding time in hours.",
         "structure": "solve-for-time-target",
-        "solution_text": "$\\text{Periods } n = \\frac{15}{3} = 5$\n$A_{5} = 500(2)^{5} = 500(32) = 16000\\text{ cells}$\n$500(2)^{k} > 50000$\n$2^{k} > 100$\n$k > \\frac{\\ln(100)}{\\ln(2)} \\approx 6.64\\text{ periods}$\n$\\text{Time } t = 6.64 \\times 3 = 19.93\\text{ hours}$\n$t \\approx 20\\text{ hours}$"
+        "solution_text": "$\\text{Periods } n = \\frac{15}{3} = 5$\n$A_{5} = 500(2)^{5} = 500(32) = 16000\\text{ cells}$\n$500(2)^{k} > 50000$\n$2^{k} > 100$\n$k > \\frac{\\ln(100)}{\\ln(2)}$\n$\\frac{\\ln(100)}{\\ln(2)}\\approx6.64$\n$500(2)^6=32000<50000$, while $500(2)^7=64000>50000$.\n$k=7\\text{ periods}$\n$\\text{Time}=7\\times3=21\\text{ hours}$"
       },
-      {
-        "question_text": "A drone purchased for $\\$4000$ has a salvage value of $\\$1024$ after $4$ years under declining-balance depreciation.\nFind the annual depreciation rate $d$.",
+{
+        "question_text": "A drone purchased for $\\$4000$ has a salvage value of $\\$1024$ after $4$ years under declining-balance depreciation.\nFind the annual depreciation rate as a percentage, correct to two decimal places.",
         "structure": "declining-balance-depreciation",
-        "solution_text": "$4000(1 - d)^{4} = 1024$\n$(1 - d)^{4} = \\frac{1024}{4000}$\n$(1 - d)^{4} = 0.256$\n$1 - d = \\sqrt[4]{0.256}$\n$1 - d = 0.80$\n$d = 0.20 = 20\\%$"
+        "solution_text": "$4000(1 - d)^{4} = 1024$\n$(1 - d)^{4} = \\frac{1024}{4000}$\n$(1 - d)^{4} = 0.256$\n$1 - d = \\sqrt[4]{0.256}$\n$d = 1-\\sqrt[4]{0.256}$\n$100d=100(1-\\sqrt[4]{0.256})\\approx28.87$\n$\\text{Annual depreciation rate}\\approx28.87\\%$"
       },
-      {
+{
         "question_text": "A ball is dropped from a height of $16\\text{ m}$.\nIf each bounce reaches $75\\%$ of the previous height, find the smallest number of bounces $n$ for which the rebound height is less than $1\\text{ m}$.",
         "structure": "bouncing-ball-height",
         "solution_text": "$16(0.75)^{n} < 1$\n$(0.75)^{n} < \\frac{1}{16}$\n$(0.75)^{n} < 0.0625$\n$n > \\frac{\\ln(0.0625)}{\\ln(0.75)}$\n$n > \\frac{-2.772589}{-0.287682}$\n$n > 9.64$\n$n = 10\\text{ bounces}$"
       },
-      {
-        "question_text": "The value of an investment of $\\$5000$ increases by $8\\%$ per annum compounded annually.\nFind the doubling time of the investment to the nearest tenth of a year.",
+{
+        "question_text": "The value of an investment of $\\$5000$ increases by $8\\%$ per annum compounded annually.\nFind the first complete year at whose end the investment is worth at least twice its initial value.",
         "structure": "solve-for-time-target",
-        "solution_text": "$5000(1.08)^{n} = 10000$\n$(1.08)^{n} = 2$\n$n = \\frac{\\ln(2)}{\\ln(1.08)}$\n$= \\frac{0.693147}{0.076961}$\n$= 9.006$\n$\\approx 9.0\\text{ years}$"
+        "solution_text": "$5000(1.08)^{n}\\ge10000$\n$(1.08)^{n}\\ge2$\n$n\\ge\\frac{\\ln(2)}{\\ln(1.08)}$\n$\\frac{\\ln(2)}{\\ln(1.08)}\\approx9.006$\n$5000(1.08)^9<10000$, while $5000(1.08)^{10}>10000$.\n$\\text{First complete year}=10\\text{ years}$"
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "A transport company buys a truck for $\\$80\\,000$.\nUnder declining-balance depreciation at $18\\%$ per annum, write the recurrence relation for the value $V_n$ and determine the year in which the annual depreciation amount (drop in value over that single year) first falls below $\\$5000$.",
-        "structure": "declining-balance-depreciation",
-        "solution_text": "$V_{0} = 80000, V_{n} = 0.82V_{n-1}$\n$\\text{Annual drop in year } n: D_{n} = 0.18 V_{n-1} = 0.18(80000)(0.82)^{n-1} = 14400(0.82)^{n-1}$\n$14400(0.82)^{n-1} < 5000$\n$(0.82)^{n-1} < \\frac{5}{14.4} \\approx 0.34722$\n$n - 1 > \\frac{\\ln(0.34722)}{\\ln(0.82)}$\n$n - 1 > \\frac{-1.05779}{-0.19845}$\n$n - 1 > 5.33$\n$n - 1 \\ge 6$\n$n = 7\\text{th year}$"
+{
+        "question_text": "A transport company buys a truck for $\\$80\\,000$.\nUnder declining-balance depreciation at $18\\%$ per annum, after how many complete years will its value first fall below $\\$20\\,000$? Use logarithms.",
+        "structure": "solve-for-time-target",
+        "solution_text": "$80000(0.82)^n<20000$\n$(0.82)^n<0.25$\n$n>\\frac{\\ln(0.25)}{\\ln(0.82)}$\n$\\frac{\\ln(0.25)}{\\ln(0.82)}\\approx6.99$\n$80000(0.82)^6>20000$, while $80000(0.82)^7<20000$.\n$\\text{First complete year}=7\\text{ years}$"
       },
-      {
-        "question_text": "Two wildlife reserves track their koala populations.\nReserve A starts with $120$ koalas and grows at $10\\%$ per year ($r_A = 1.10$).\nReserve B starts with $300$ koalas and declines at $5\\%$ per year ($r_B = 0.95$).\nFind the number of years after which Reserve A will have a larger koala population than Reserve B.",
-        "structure": "model-exponential-growth",
-        "solution_text": "$120(1.10)^{n} > 300(0.95)^{n}$\n$\\left(\\frac{1.10}{0.95}\\right)^{n} > \\frac{300}{120}$\n$\\left(\\frac{22}{19}\\right)^{n} > 2.5$\n$n > \\frac{\\ln(2.5)}{\\ln(22/19)}$\n$n > \\frac{0.916291}{0.146603}$\n$n > 6.25$\n$n = 7\\text{ years}$"
+{
+        "question_text": "An investment increases by $10\\%$ per annum compounded annually.\nUse logarithms to find the first complete year at whose end its value exceeds ten times its initial value.",
+        "structure": "solve-for-time-target",
+        "solution_text": "$A_{0}(1.10)^n>10A_{0}$\n$(1.10)^n>10$\n$n>\\frac{\\ln(10)}{\\ln(1.10)}$\n$\\frac{\\ln(10)}{\\ln(1.10)}\\approx24.16$\n$(1.10)^{24}<10$, while $(1.10)^{25}>10$.\n$\\text{First complete year}=25\\text{ years}$"
       },
-      {
-        "question_text": "A cup of boiling water at $100^{\\circ}\\text{C}$ is placed in a room at $20^{\\circ}\\text{C}$.\nThe temperature difference $D_n = T_n - 20$ decays geometrically by $12\\%$ per minute ($r = 0.88$).\nFind the temperature after $5$ minutes, and the time taken for the water to cool to $40^{\\circ}\\text{C}$ (to the nearest minute).",
-        "structure": "model-exponential-decay",
-        "solution_text": "$D_{0} = 100 - 20 = 80^{\\circ}\\text{C}$\n$D_{5} = 80(0.88)^{5} = 80(0.527732) = 42.22^{\\circ}\\text{C}$\n$T_{5} = 20 + 42.22 = 62.2^{\\circ}\\text{C}$\n$\\text{For } T = 40^{\\circ}\\text{C}, D_{n} = 40 - 20 = 20^{\\circ}\\text{C}$:\n$80(0.88)^{n} = 20$\n$(0.88)^{n} = 0.25$\n$n = \\frac{\\ln(0.25)}{\\ln(0.88)} = \\frac{-1.386294}{-0.127833} \\approx 10.84$\n$n \\approx 11\\text{ minutes}$"
+{
+        "question_text": "Each sheet of thin glass reduces the intensity of light passing through it by $4\\%$.\nUse logarithms to find the minimum number of sheets needed to reduce the intensity below $1\\%$ of its initial value.",
+        "structure": "solve-for-decay-threshold",
+        "solution_text": "$I_{0}(0.96)^n<0.01I_{0}$\n$(0.96)^n<0.01$\n$n>\\frac{\\ln(0.01)}{\\ln(0.96)}$\n$\\frac{\\ln(0.01)}{\\ln(0.96)}\\approx112.81$\n$(0.96)^{112}>0.01$, while $(0.96)^{113}<0.01$.\n$\\text{Minimum number}=113\\text{ sheets}$"
       }
-    ]
+]
   }
 }

@@ -1,32 +1,32 @@
 {
   "skillId": "max-flow-saturated-edges",
   "questions": [
-    {
+{
       "id": "q1",
-      "question_text": "The flow network below has source $S$ and sink $T$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.6);\n\\coordinate (A) at (2.6,3.2);\n\\coordinate (B) at (3.0,0);\n\\coordinate (C) at (5.4,3.2);\n\\coordinate (T) at (7.8,1.6);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$17$};\n\\draw[midarrow] (S) -- (B) node[midway, below left, fill=white, inner sep=1pt] {$9$};\n\\draw[midarrow] (A) -- (C) node[midway, above, fill=white, inner sep=1pt] {$8$};\n\\draw[midarrow] (A) -- (B) node[midway, right, fill=white, inner sep=1pt] {$6$};\n\\draw[midarrow] (C) -- (T) node[midway, above right, fill=white, inner sep=1pt] {$13$};\n\\draw[midarrow] (B) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$11$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the greatest flow that can be pushed along the path $S \\to A \\to C \\to T$?",
-      "structure": "flow-along-one-path",
+      "question_text": "The flow network below has source $S$ and sink $T$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.6);\n\\coordinate (A) at (2.6,3.2);\n\\coordinate (B) at (3.0,0);\n\\coordinate (C) at (5.4,3.2);\n\\coordinate (T) at (7.8,1.6);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$17$};\n\\draw[midarrow] (S) -- (B) node[midway, below left, fill=white, inner sep=1pt] {$9$};\n\\draw[midarrow] (A) -- (C) node[midway, above, fill=white, inner sep=1pt] {$8$};\n\\draw[midarrow] (A) -- (B) node[midway, right, fill=white, inner sep=1pt] {$6$};\n\\draw[midarrow] (C) -- (T) node[midway, above right, fill=white, inner sep=1pt] {$13$};\n\\draw[midarrow] (B) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$11$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the maximum flow of this network?",
+      "structure": "list-paths-and-sum-flows",
       "mastery": false,
       "options": [
-        {
-          "text": "$8$",
+{
+          "text": "$19$",
           "correct": true
         },
-        {
-          "text": "$13$",
-          "why": "Took the largest capacity on the path; a path is limited by its smallest edge, not its largest."
+{
+          "text": "$26$",
+          "why": "Added the capacities leaving the source, $17+9=26$, without checking what the rest of the network can carry."
         },
-        {
-          "text": "$17$",
-          "why": "Used the capacity of the first edge $SA$ only, ignoring the narrower edges further along the path."
+{
+          "text": "$24$",
+          "why": "Added the capacities entering the sink, $13+11=24$, ignoring the capacity $8$ of $AC$ feeding $C$."
         },
-        {
-          "text": "$38$",
-          "why": "Added the three capacities on the path instead of taking the smallest of them."
+{
+          "text": "$23$",
+          "why": "Added the separate path limits, $8+6+9=23$, without reducing the shared capacity of $BT$ after using the path through $AB$."
         }
-      ],
-      "solution_text": "The capacities along the path are $17$, $8$ and $13$.\n$\\min(17, 8, 13)$\n$=8$"
+],
+      "solution_text": "1. **List every path from the source to the sink**\n$S \\to A \\to C \\to T$, $S \\to A \\to B \\to T$, $S \\to B \\to T$\n2. **Find the smallest remaining capacity on the path**\n$S \\to A \\to C \\to T$: $\\min(17, 8, 13)=8$\n3. **Subtract that flow from every edge on the path**\n$SA$ has $9$ left, $AC$ has $0$ left, $CT$ has $5$ left.\n$S \\to A \\to B \\to T$: $\\min(9, 6, 11)=6$\n$SA$ has $3$ left, $AB$ has $0$ left, $BT$ has $5$ left.\n$S \\to B \\to T$: $\\min(9, 5)=5$\n$SB$ has $4$ left, $BT$ has $0$ left.\n4. **Add the path flows and check the maximum**\n$8+6+5=19$\nEvery path uses either $AC$ or $BT$, whose original capacities total $8+11=19$. The maximum flow is $19$."
     },
-    {
+{
       "id": "q2",
       "question_text": "The flow network below has source $S$ and sink $T$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.6);\n\\coordinate (A) at (2.6,3.2);\n\\coordinate (B) at (3.0,0);\n\\coordinate (C) at (5.4,3.2);\n\\coordinate (T) at (7.8,1.6);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$21$};\n\\draw[midarrow] (S) -- (B) node[midway, below left, fill=white, inner sep=1pt] {$12$};\n\\draw[midarrow] (A) -- (C) node[midway, above, fill=white, inner sep=1pt] {$14$};\n\\draw[midarrow] (A) -- (B) node[midway, right, fill=white, inner sep=1pt] {$7$};\n\\draw[midarrow] (C) -- (T) node[midway, above right, fill=white, inner sep=1pt] {$9$};\n\\draw[midarrow] (B) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$16$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nThe greatest possible flow is pushed along the path $S \\to A \\to C \\to T$.\nWhat capacity does edge $SA$ have left afterwards?",
       "structure": "remaining-capacity-after-path",
@@ -51,7 +51,7 @@
       ],
       "solution_text": "The path carries $\\min(21, 14, 9)=9$.\n$21-9$\n$=12$"
     },
-    {
+{
       "id": "q3",
       "question_text": "The flow network below has source $S$ and sink $T$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.6);\n\\coordinate (A) at (2.6,3.2);\n\\coordinate (B) at (3.0,0);\n\\coordinate (C) at (5.4,3.2);\n\\coordinate (T) at (7.8,1.6);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$11$};\n\\draw[midarrow] (S) -- (B) node[midway, below left, fill=white, inner sep=1pt] {$6$};\n\\draw[midarrow] (A) -- (C) node[midway, above, fill=white, inner sep=1pt] {$7$};\n\\draw[midarrow] (A) -- (B) node[midway, right, fill=white, inner sep=1pt] {$4$};\n\\draw[midarrow] (C) -- (T) node[midway, above right, fill=white, inner sep=1pt] {$10$};\n\\draw[midarrow] (B) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$8$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the maximum flow of this network?",
       "structure": "list-paths-and-sum-flows",
@@ -74,34 +74,34 @@
           "why": "Took the largest single capacity leaving the source instead of summing the flows along all the paths."
         }
       ],
-      "solution_text": "1. **List every path from the source to the sink**\n$S \\to A \\to C \\to T$, $S \\to A \\to B \\to T$, $S \\to B \\to T$\n2. **Find the smallest remaining capacity on the path**\n$S \\to A \\to C \\to T$: $\\min(11, 7, 10)=7$\n3. **Subtract that flow from every edge on the path**\n$SA$ has $4$ left, $AC$ has $0$ left, $CT$ has $3$ left.\n$S \\to A \\to B \\to T$: $\\min(4, 4, 8)=4$\n$SA$ has $0$ left, $AB$ has $0$ left, $BT$ has $4$ left.\n$S \\to B \\to T$: $\\min(6, 4)=4$\n4. **Add the path flows to give the maximum flow**\n$7+4+4$\n$=15$"
+      "solution_text": "1. **List every path from the source to the sink**\n$S \\to A \\to C \\to T$, $S \\to A \\to B \\to T$, $S \\to B \\to T$\n2. **Find the smallest remaining capacity on the path**\n$S \\to A \\to C \\to T$: $\\min(11, 7, 10)=7$\n3. **Subtract that flow from every edge on the path**\n$SA$ has $4$ left, $AC$ has $0$ left, $CT$ has $3$ left.\n$S \\to A \\to B \\to T$: $\\min(4, 4, 8)=4$\n$SA$ has $0$ left, $AB$ has $0$ left, $BT$ has $4$ left.\n$S \\to B \\to T$: $\\min(6, 4)=4$\n4. **Add the path flows and check the maximum**\n$7+4+4$\n$=15$\nEvery path uses either $AC$ or $BT$, whose original capacities total $7+8=15$, so this is the maximum."
     },
-    {
+{
       "id": "q4",
       "question_text": "The flow network below has source $S$ and sink $T$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.8);\n\\coordinate (A) at (2.4,3.6);\n\\coordinate (B) at (2.4,0);\n\\coordinate (C) at (5.2,3.6);\n\\coordinate (D) at (5.2,0);\n\\coordinate (T) at (7.6,1.8);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$12$};\n\\draw[midarrow] (S) -- (B) node[midway, below left, fill=white, inner sep=1pt] {$15$};\n\\draw[midarrow] (A) -- (C) node[midway, above, fill=white, inner sep=1pt] {$9$};\n\\draw[midarrow] (A) -- (D) node[midway, above right, fill=white, inner sep=1pt] {$6$};\n\\draw[midarrow] (B) -- (D) node[midway, below, fill=white, inner sep=1pt] {$13$};\n\\draw[midarrow] (C) -- (T) node[midway, above right, fill=white, inner sep=1pt] {$11$};\n\\draw[midarrow] (D) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$10$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (D) circle (2.5pt) node[below] {$D$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the maximum flow of this network?",
       "structure": "list-paths-and-sum-flows",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$19$",
           "correct": true
         },
-        {
+{
           "text": "$27$",
           "why": "Added the capacities leaving the source ($12+15$) rather than summing the flows the paths can actually carry."
         },
-        {
+{
           "text": "$21$",
-          "why": "Added the capacities entering the sink ($11+10$), ignoring that only $19$ can reach $C$ and $D$ in total."
+          "why": "Added the capacities entering the sink, $11+10=21$, ignoring that $AC$ limits flow through $C$ to $9$, while $DT$ limits flow through $D$ into $T$ to $10$, so this overestimates the flow."
         },
-        {
+{
           "text": "$22$",
           "why": "On the last path used the full capacity of $DT$ ($10$) instead of the $7$ still left on it after the earlier path had used part of it."
         }
-      ],
-      "solution_text": "1. **List every path from the source to the sink**\n$S \\to A \\to C \\to T$, $S \\to A \\to D \\to T$, $S \\to B \\to D \\to T$\n2. **Find the smallest remaining capacity on the path**\n$S \\to A \\to C \\to T$: $\\min(12, 9, 11)=9$\n3. **Subtract that flow from every edge on the path**\n$SA$ has $3$ left, $AC$ has $0$ left, $CT$ has $2$ left.\n$S \\to A \\to D \\to T$: $\\min(3, 6, 10)=3$\n$SA$ has $0$ left, $AD$ has $3$ left, $DT$ has $7$ left.\n$S \\to B \\to D \\to T$: $\\min(15, 13, 7)=7$\n4. **Add the path flows to give the maximum flow**\n$9+3+7$\n$=19$"
+],
+      "solution_text": "1. **List every path from the source to the sink**\n$S \\to A \\to C \\to T$, $S \\to A \\to D \\to T$, $S \\to B \\to D \\to T$\n2. **Find the smallest remaining capacity on the path**\n$S \\to A \\to C \\to T$: $\\min(12, 9, 11)=9$\n3. **Subtract that flow from every edge on the path**\n$SA$ has $3$ left, $AC$ has $0$ left, $CT$ has $2$ left.\n$S \\to A \\to D \\to T$: $\\min(3, 6, 10)=3$\n$SA$ has $0$ left, $AD$ has $3$ left, $DT$ has $7$ left.\n$S \\to B \\to D \\to T$: $\\min(15, 13, 7)=7$\n4. **Add the path flows and check the maximum**\n$9+3+7$\n$=19$\nEvery path uses either $AC$ or $DT$, whose original capacities total $9+10=19$, so this is the maximum."
     },
-    {
+{
       "id": "q5",
       "question_text": "The maximum flow of the network below is reached using the paths $S \\to A \\to C \\to T$ carrying $6$, $S \\to A \\to B \\to T$ carrying $3$, $S \\to B \\to C \\to T$ carrying $5$ and $S \\to B \\to T$ carrying $6$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.8);\n\\coordinate (A) at (2.6,3.6);\n\\coordinate (B) at (2.6,0);\n\\coordinate (C) at (5.4,1.8);\n\\coordinate (T) at (7.8,1.8);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$10$};\n\\draw[midarrow] (S) -- (B) node[midway, below left, fill=white, inner sep=1pt] {$13$};\n\\draw[midarrow] (A) -- (C) node[midway, above right, fill=white, inner sep=1pt] {$6$};\n\\draw[midarrow] (A) -- (B) node[midway, left, fill=white, inner sep=1pt] {$3$};\n\\draw[midarrow] (B) -- (C) node[midway, below right, fill=white, inner sep=1pt] {$5$};\n\\draw[midarrow] (C) -- (T) node[midway, above, fill=white, inner sep=1pt] {$12$};\n\\draw[midarrow] (B) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$9$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nWhich one of these edges is saturated?",
       "structure": "identify-saturated-edges",
@@ -126,32 +126,32 @@
       ],
       "solution_text": "Add the flow each edge carries and compare it with the edge's capacity.\n$AC$ is used only by the first path, carrying $6$ of its capacity $6$.\n$AC$ is saturated."
     },
-    {
+{
       "id": "q6",
       "question_text": "The network below shows an electricity grid.\nEach number is the greatest power, in megawatts, that the line can carry in the direction shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.8);\n\\coordinate (A) at (2.4,3.6);\n\\coordinate (B) at (2.4,0);\n\\coordinate (C) at (5.2,3.6);\n\\coordinate (D) at (5.2,0);\n\\coordinate (T) at (7.6,1.8);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$45$};\n\\draw[midarrow] (S) -- (B) node[midway, below left, fill=white, inner sep=1pt] {$38$};\n\\draw[midarrow] (A) -- (B) node[midway, right, fill=white, inner sep=1pt] {$12$};\n\\draw[midarrow] (A) -- (C) node[midway, above, fill=white, inner sep=1pt] {$30$};\n\\draw[midarrow] (B) -- (D) node[midway, below, fill=white, inner sep=1pt] {$26$};\n\\draw[midarrow] (C) -- (T) node[midway, above right, fill=white, inner sep=1pt] {$22$};\n\\draw[midarrow] (D) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$40$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (D) circle (2.5pt) node[below] {$D$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the greatest power, in megawatts, that can be delivered from $S$ to $T$?",
       "structure": "max-flow-in-context",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$48$",
           "correct": true
         },
-        {
+{
           "text": "$83$",
           "why": "Added the capacities leaving the source ($45+38$), which the rest of the grid cannot carry."
         },
-        {
+{
           "text": "$62$",
           "why": "Added the capacities entering the sink ($22+40$), ignoring the narrower lines feeding $C$ and $D$."
         },
-        {
+{
           "text": "$36$",
-          "why": "Used only the paths $S \\to A \\to C \\to T$ and $S \\to B \\to D \\to T$, missing the path through the link $AB$."
+          "why": "Added only the first and last path flows, $22+14=36$, forgetting the $12$ already sent along $S \\to A \\to B \\to D \\to T$."
         }
-      ],
-      "solution_text": "1. **List every path from the source to the sink**\n$S \\to A \\to C \\to T$, $S \\to A \\to B \\to D \\to T$, $S \\to B \\to D \\to T$\n2. **Find the smallest remaining capacity on the path**\n$S \\to A \\to C \\to T$: $\\min(45, 30, 22)=22$\n3. **Subtract that flow from every edge on the path**\n$SA$ has $23$ left, $AC$ has $8$ left, $CT$ has $0$ left.\n$S \\to A \\to B \\to D \\to T$: $\\min(23, 12, 26, 40)=12$\n$SA$ has $11$ left, $AB$ has $0$ left, $BD$ has $14$ left, $DT$ has $28$ left.\n$S \\to B \\to D \\to T$: $\\min(38, 14, 28)=14$\n4. **Add the path flows to give the maximum flow**\n$22+12+14$\n$=48$"
+],
+      "solution_text": "1. **List every path from the source to the sink**\n$S \\to A \\to C \\to T$, $S \\to A \\to B \\to D \\to T$, $S \\to B \\to D \\to T$\n2. **Find the smallest remaining capacity on the path**\n$S \\to A \\to C \\to T$: $\\min(45, 30, 22)=22$\n3. **Subtract that flow from every edge on the path**\n$SA$ has $23$ left, $AC$ has $8$ left, $CT$ has $0$ left.\n$S \\to A \\to B \\to D \\to T$: $\\min(23, 12, 26, 40)=12$\n$SA$ has $11$ left, $AB$ has $0$ left, $BD$ has $14$ left, $DT$ has $28$ left.\n$S \\to B \\to D \\to T$: $\\min(38, 14, 28)=14$\n4. **Add the path flows and check the maximum**\n$22+12+14$\n$=48$\nEvery path uses either $CT$ or $BD$, whose original capacities total $22+26=48$, so this is the maximum."
     },
-    {
+{
       "id": "q7",
       "question_text": "The flow network below has source $S$ and sink $T$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,2.0);\n\\coordinate (A) at (2.4,4.0);\n\\coordinate (B) at (2.4,0);\n\\coordinate (C) at (4.8,4.0);\n\\coordinate (D) at (4.8,0);\n\\coordinate (E) at (4.8,2.0);\n\\coordinate (T) at (7.2,2.0);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$16$};\n\\draw[midarrow] (S) -- (B) node[midway, below left, fill=white, inner sep=1pt] {$20$};\n\\draw[midarrow] (A) -- (C) node[midway, above, fill=white, inner sep=1pt] {$9$};\n\\draw[midarrow] (A) -- (E) node[midway, left, fill=white, inner sep=1pt] {$7$};\n\\draw[midarrow] (B) -- (D) node[midway, below, fill=white, inner sep=1pt] {$12$};\n\\draw[midarrow] (B) -- (E) node[midway, left, fill=white, inner sep=1pt] {$6$};\n\\draw[midarrow] (C) -- (T) node[midway, above right, fill=white, inner sep=1pt] {$14$};\n\\draw[midarrow] (D) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$18$};\n\\draw[midarrow] (E) -- (T) node[midway, above, fill=white, inner sep=1pt] {$11$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (D) circle (2.5pt) node[below] {$D$};\n\\fill (E) circle (2.5pt) node[above] {$E$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the maximum flow of this network?",
       "structure": "list-paths-and-sum-flows",
@@ -174,32 +174,32 @@
           "why": "On the last path used $BE$'s full capacity $6$ instead of the $4$ still left on $ET$ after the earlier path through $E$."
         }
       ],
-      "solution_text": "1. **List every path from the source to the sink**\n$S \\to A \\to C \\to T$, $S \\to A \\to E \\to T$, $S \\to B \\to D \\to T$, $S \\to B \\to E \\to T$\n2. **Find the smallest remaining capacity on the path**\n$S \\to A \\to C \\to T$: $\\min(16, 9, 14)=9$\n3. **Subtract that flow from every edge on the path**\n$SA$ has $7$ left, $AC$ has $0$ left, $CT$ has $5$ left.\n$S \\to A \\to E \\to T$: $\\min(7, 7, 11)=7$\n$SA$ has $0$ left, $AE$ has $0$ left, $ET$ has $4$ left.\n$S \\to B \\to D \\to T$: $\\min(20, 12, 18)=12$\n$SB$ has $8$ left, $BD$ has $0$ left, $DT$ has $6$ left.\n$S \\to B \\to E \\to T$: $\\min(8, 6, 4)=4$\n4. **Add the path flows to give the maximum flow**\n$9+7+12+4$\n$=32$"
+      "solution_text": "1. **List every path from the source to the sink**\n$S \\to A \\to C \\to T$, $S \\to A \\to E \\to T$, $S \\to B \\to D \\to T$, $S \\to B \\to E \\to T$\n2. **Find the smallest remaining capacity on the path**\n$S \\to A \\to C \\to T$: $\\min(16, 9, 14)=9$\n3. **Subtract that flow from every edge on the path**\n$SA$ has $7$ left, $AC$ has $0$ left, $CT$ has $5$ left.\n$S \\to A \\to E \\to T$: $\\min(7, 7, 11)=7$\n$SA$ has $0$ left, $AE$ has $0$ left, $ET$ has $4$ left.\n$S \\to B \\to D \\to T$: $\\min(20, 12, 18)=12$\n$SB$ has $8$ left, $BD$ has $0$ left, $DT$ has $6$ left.\n$S \\to B \\to E \\to T$: $\\min(8, 6, 4)=4$\n4. **Add the path flows and check the maximum**\n$9+7+12+4$\n$=32$\nEvery path uses one of $AC$, $BD$ or $ET$, whose original capacities total $9+12+11=32$, so this is the maximum."
     },
-    {
+{
       "id": "q8",
-      "question_text": "The flow network below has source $S$ and sink $T$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.8);\n\\coordinate (A) at (2.6,3.6);\n\\coordinate (B) at (2.6,0);\n\\coordinate (C) at (5.4,1.8);\n\\coordinate (T) at (7.8,1.8);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$24$};\n\\draw[midarrow] (S) -- (B) node[midway, below left, fill=white, inner sep=1pt] {$15$};\n\\draw[midarrow] (A) -- (C) node[midway, above right, fill=white, inner sep=1pt] {$13$};\n\\draw[midarrow] (A) -- (B) node[midway, left, fill=white, inner sep=1pt] {$9$};\n\\draw[midarrow] (C) -- (B) node[midway, above, fill=white, inner sep=1pt] {$5$};\n\\draw[midarrow] (C) -- (T) node[midway, above, fill=white, inner sep=1pt] {$19$};\n\\draw[midarrow] (B) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$21$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nA flow of $13$ has already been pushed along $S \\to A \\to C \\to T$.\nWhat is the greatest additional flow that can then be pushed along $S \\to A \\to B \\to T$?",
-      "structure": "flow-along-one-path",
+      "question_text": "The flow network below has source $S$ and sink $T$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.8);\n\\coordinate (A) at (2.6,3.6);\n\\coordinate (B) at (2.6,0);\n\\coordinate (C) at (5.4,1.8);\n\\coordinate (T) at (7.8,1.8);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$24$};\n\\draw[midarrow] (S) -- (B) node[midway, below left, fill=white, inner sep=1pt] {$15$};\n\\draw[midarrow] (A) -- (C) node[midway, above right, fill=white, inner sep=1pt] {$13$};\n\\draw[midarrow] (A) -- (B) node[midway, left, fill=white, inner sep=1pt] {$9$};\n\\draw[midarrow] (C) -- (B) node[midway, above, fill=white, inner sep=1pt] {$5$};\n\\draw[midarrow] (C) -- (T) node[midway, above, fill=white, inner sep=1pt] {$19$};\n\\draw[midarrow] (B) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$21$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the maximum flow of this network?",
+      "structure": "list-paths-and-sum-flows",
       "mastery": true,
       "options": [
-        {
-          "text": "$9$",
+{
+          "text": "$34$",
           "correct": true
         },
-        {
-          "text": "$11$",
-          "why": "Took the capacity left on $SA$ after the first path ($24-13$), forgetting that $AB$ is narrower at $9$."
+{
+          "text": "$39$",
+          "why": "Added the capacities leaving the source, $24+15=39$, ignoring the bottlenecks further along the paths."
         },
-        {
-          "text": "$21$",
-          "why": "Took the largest capacity on the path instead of the smallest remaining one."
+{
+          "text": "$40$",
+          "why": "Added the capacities entering the sink, $19+21=40$, ignoring that $AC$ can supply only $13$ to $C$."
         },
-        {
-          "text": "$24$",
-          "why": "Used $SA$'s original capacity rather than what is left on it after the first path has been pushed through."
+{
+          "text": "$37$",
+          "why": "Added the separate limits of $S \\to A \\to C \\to T$, $S \\to A \\to B \\to T$ and $S \\to B \\to T$, giving $13+9+15=37$, without reducing the shared capacity of $BT$."
         }
-      ],
-      "solution_text": "After the first path, $SA$ has $24-13=11$ left.\nThe remaining capacities along $S \\to A \\to B \\to T$ are $11$, $9$ and $21$.\n$\\min(11, 9, 21)$\n$=9$"
+],
+      "solution_text": "1. **List every path from the source to the sink**\n$S \\to A \\to C \\to T$, $S \\to A \\to C \\to B \\to T$, $S \\to A \\to B \\to T$, $S \\to B \\to T$\n2. **Find the smallest remaining capacity on the path**\n$S \\to A \\to C \\to T$: $\\min(24, 13, 19)=13$\n3. **Subtract that flow from every edge on the path**\n$SA$ has $11$ left, $AC$ has $0$ left, $CT$ has $6$ left.\n$S \\to A \\to C \\to B \\to T$ carries no additional flow because $AC$ is saturated.\n$S \\to A \\to B \\to T$: $\\min(11, 9, 21)=9$\n$SA$ has $2$ left, $AB$ has $0$ left, $BT$ has $12$ left.\n$S \\to B \\to T$: $\\min(15, 12)=12$\n$SB$ has $3$ left, $BT$ has $0$ left.\n4. **Add the path flows and check the maximum**\n$13+9+12=34$\nEvery path uses either $AC$ or $BT$, whose original capacities total $13+21=34$. The maximum flow is $34$."
     }
-  ]
+]
 }

@@ -2,15 +2,15 @@
   "skillId": "points-given-gradient",
   "atomType": "R",
   "theory": {
-        "intro": "To find where a curve has a tangent of gradient $m$, differentiate, solve $f'(x) = m$, then substitute each $x$-value back into $y = f(x)$ to get the coordinates. If a normal gradient $m_n$ is given, use $m = -\\dfrac{1}{m_n}$ first.",
+        "intro": "To find where a curve has a tangent of gradient $m$, differentiate, solve $f'(x) = m$, then substitute each $x$-value back into $y = f(x)$ to get the coordinates. If a normal gradient $m_n \\neq 0$ is given, use $m = -\\dfrac{1}{m_n}$ first.",
         "facts": [
-          "A tangent has gradient $m$ at the $x$-values where $f'(x) = m$.",
-          "The tangent is horizontal where $f'(x) = 0$; these are the stationary or turning points.",
-          "If a normal has gradient $m_n \\neq 0$, the tangent gradient is $m = -\\dfrac{1}{m_n}$, so solve $f'(x) = -\\dfrac{1}{m_n}$.",
-          "A tangent parallel to the line $ax + by + c = 0$ has gradient $m = -\\dfrac{a}{b}$.",
-          "Find each $y$-coordinate by substituting $x$ into $y = f(x)$, never into $f'(x)$.",
-          "A polynomial of degree $n$ can have up to $n-1$ points with a given tangent gradient, so a cubic gives two, one or none."
-        ],
+"A tangent has gradient $m$ at the $x$-values where $f'(x) = m$.",
+"The tangent is horizontal where $f'(x) = 0$; these are stationary points, which need not be turning points.",
+"If a normal has gradient $m_n \\neq 0$, the tangent gradient is $m = -\\dfrac{1}{m_n}$, so solve $f'(x) = -\\dfrac{1}{m_n}$.",
+"A tangent parallel to the line $ax + by + c = 0$, with $b \\neq 0$, has gradient $m = -\\dfrac{a}{b}$.",
+"Find each $y$-coordinate by substituting $x$ into $y = f(x)$, never into $f'(x)$.",
+"A polynomial of degree $n \\geq 2$ can have up to $n-1$ points with a given tangent gradient, so a cubic gives two, one or none."
+],
         "steps": [
           "Differentiate $f(x)$ to find the gradient function $f'(x)$",
           "Set the derivative equal to the required tangent gradient",
@@ -94,21 +94,21 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "Find the coordinates of the two points on the cubic $y = x^3 - 6x^2 + 12x - 5$ where the tangent is parallel to the line $3x - y + 4 = 0$.",
         "structure": "points-multiple-solutions-cubic",
         "solution_text": "$3x - y + 4 = 0 \\implies y = 3x + 4$ with gradient $m = 3$.\n$f'(x) = 3x^2 - 12x + 12$\n$3x^2 - 12x + 12 = 3$\n$3x^2 - 12x + 9 = 0$\n$3(x^2 - 4x + 3) = 0$\n$3(x - 1)(x - 3) = 0$\n$x = 1 \\text{ or } x = 3$\nFor $x = 1$: $y = (1)^3 - 6(1)^2 + 12(1) - 5 = 2 \\implies (1, 2)$\nFor $x = 3$: $y = (3)^3 - 6(3)^2 + 12(3) - 5 = 27 - 54 + 36 - 5 = 4 \\implies (3, 4)$\nThe points are $(1, 2)$ and $(3, 4)$."
       },
-      {
-        "question_text": "Find the point in the fourth quadrant on $y = x^2 - 5x + 2$ where the normal is perpendicular to the line $x + 3y - 6 = 0$.",
-        "structure": "points-given-normal-gradient",
-        "solution_text": "$x + 3y - 6 = 0 \\implies y = -\\dfrac{1}{3}x + 2$ with gradient $-\\dfrac{1}{3}$.\nSince the normal is perpendicular to this line, $m_{\\perp} = 3$.\nTherefore, the tangent gradient is $m = -\\dfrac{1}{3}$.\n$f'(x) = 2x - 5$\n$2x - 5 = -\\dfrac{1}{3}$\n$2x = \\dfrac{14}{3}$\n$x = \\dfrac{7}{3}$\n$y = \\left(\\dfrac{7}{3}\\right)^2 - 5\\left(\\dfrac{7}{3}\\right) + 2 = \\dfrac{49}{9} - \\dfrac{105}{9} + \\dfrac{18}{9} = -\\dfrac{38}{9}$\nThe point is $\\left(\\dfrac{7}{3}, -\\dfrac{38}{9}\\right)$."
+{
+        "question_text": "Find the coordinates of the point on $y = x^2 - 5x + 2$ where the tangent is perpendicular to the line $3x - y + 6 = 0$.",
+        "structure": "points-perpendicular-line",
+        "solution_text": "$3x - y + 6 = 0 \\implies y = 3x + 6$ with gradient $3$.\nTherefore, the tangent gradient is $m = -\\dfrac{1}{3}$.\n$f'(x) = 2x - 5$\n$2x - 5 = -\\dfrac{1}{3}$\n$2x = \\dfrac{14}{3}$\n$x = \\dfrac{7}{3}$\n$y = \\left(\\dfrac{7}{3}\\right)^2 - 5\\left(\\dfrac{7}{3}\\right) + 2 = \\dfrac{49}{9} - \\dfrac{105}{9} + \\dfrac{18}{9} = -\\dfrac{38}{9}$\nThe point is $\\left(\\dfrac{7}{3}, -\\dfrac{38}{9}\\right)$."
       },
-      {
-        "question_text": "A cubic curve $y = 2x^3 + ax^2 + bx + 1$ has stationary points at $x = 1$ and $x = 2$.\nFind the coordinates of both stationary points.",
-        "structure": "points-given-tangent-gradient",
-        "solution_text": "$f'(x) = 6x^2 + 2ax + b$\nStationary points at $x = 1, 2 \\implies 6(x - 1)(x - 2) = 6x^2 - 18x + 12 = 0$\nEquating coefficients: $2a = -18 \\implies a = -9, b = 12$\n$y = 2x^3 - 9x^2 + 12x + 1$\nFor $x = 1$: $y = 2(1)^3 - 9(1)^2 + 12(1) + 1 = 6 \\implies (1, 6)$\nFor $x = 2$: $y = 2(2)^3 - 9(2)^2 + 12(2) + 1 = 16 - 36 + 24 + 1 = 5 \\implies (2, 5)$\nThe stationary points are $(1, 6)$ and $(2, 5)$."
+{
+        "question_text": "Find the coordinates of the stationary points on the cubic curve $y = 2x^3 - 9x^2 + 12x + 3$.",
+        "structure": "points-horizontal-tangent",
+        "solution_text": "$f'(x) = 6x^2 - 18x + 12$\n$6x^2 - 18x + 12 = 0$\n$6(x - 1)(x - 2) = 0$\n$x = 1 \\text{ or } x = 2$\nFor $x = 1$: $y = 2(1)^3 - 9(1)^2 + 12(1) + 3 = 8 \\implies (1, 8)$\nFor $x = 2$: $y = 2(2)^3 - 9(2)^2 + 12(2) + 3 = 16 - 36 + 24 + 3 = 7 \\implies (2, 7)$\nThe stationary points are $(1, 8)$ and $(2, 7)$."
       }
-    ]
+]
   }
 }

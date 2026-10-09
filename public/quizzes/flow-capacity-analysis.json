@@ -1,59 +1,34 @@
 {
   "skillId": "flow-capacity-analysis",
   "questions": [
-    {
-      "id": "q1",
-      "question_text": "A network has a maximum flow capacity of $420\\text{ L/min}$.\nThe required peak demand is $460\\text{ L/min}$.\nWhat is the shortfall of the network?",
-      "structure": "evaluate-demand-sufficiency",
-      "mastery": false,
-      "options": [
-        {
-          "text": "$40\\text{ L/min}$ shortfall",
-          "correct": true
-        },
-        {
-          "text": "$40\\text{ L/min}$ surplus",
-          "why": "Confused shortfall (capacity < demand) with a surplus of capacity."
-        },
-        {
-          "text": "$80\\text{ L/min}$ shortfall",
-          "why": "Doubled the shortfall due to an arithmetic error."
-        },
-        {
-          "text": "$0\\text{ L/min}$ (meets demand)",
-          "why": "Incorrectly claimed the network meets demand when $420 < 460$."
-        }
-      ],
-      "solution_text": "$\\text{Shortfall} = 460 - 420$\n$= 40\\text{ L/min}$"
-    },
-    {
+{
       "id": "q2",
-      "question_text": "A manager wants to increase the maximum flow of a distribution network.\nWhich edge must be upgraded?",
-      "structure": "select-edge-to-increase-flow",
+      "question_text": "A distribution network has a unique minimum cut consisting of edges $SA$ and $SB$, with total capacity $35$.\nEvery other cut has capacity at least $40$. Edge $BC$ is not on the minimum cut.\nWhich upgrade increases maximum flow to $36$?",
+      "structure": "select-edge-and-increase-for-target-flow",
       "mastery": false,
       "options": [
-        {
-          "text": "An edge that belongs to the minimum cut.",
+{
+          "text": "Increase $SA$ by $1$.",
           "correct": true
         },
-        {
-          "text": "The edge with the smallest capacity in the entire network.",
-          "why": "Assumed the smallest edge anywhere is automatically on the minimum cut."
+{
+          "text": "Increase $BC$ by $1$.",
+          "why": "Leaves the minimum cut at $35$ because $BC$ is outside that cut."
         },
-        {
-          "text": "The edge with the highest capacity in the entire network.",
-          "why": "Assumed the largest edge determines overall flow increases."
+{
+          "text": "Increase $SA$ by $5$.",
+          "why": "Raises the minimum cut to $40$ rather than the required $36$; every other cut has capacity at least $40$."
         },
-        {
-          "text": "Any edge directly connected to the sink vertex.",
-          "why": "Believed only edges entering the sink can increase flow."
+{
+          "text": "Increase both $SA$ and $SB$ by $1$ each.",
+          "why": "Adds $2$ to the minimum cut, producing maximum flow $37$ rather than $36$."
         }
-      ],
-      "solution_text": "Only increasing the capacity of an edge on the minimum cut bottleneck can increase the overall maximum flow."
+],
+      "solution_text": "Increase $SA$ by $1$. The minimum cut rises from $35$ to $36$, while every other cut has capacity at least $40$. The new maximum flow is $36$."
     },
-    {
+{
       "id": "q3",
-      "question_text": "A network has minimum cut $C_1 = 50$ and second-smallest cut $C_2 = 56$.\nAn edge on $C_1$ is increased by $10$.\nWhat is the new maximum flow?",
+      "question_text": "A network has minimum cut $C_1 = 50$ and second-smallest cut $C_2 = 56$.\nAn edge on $C_1$ is increased by $10$. Cut $C_2$ does not contain this edge.\nWhat is the new maximum flow?",
       "structure": "calculate-new-flow-after-upgrade",
       "mastery": false,
       "options": [
@@ -74,11 +49,11 @@
           "why": "Added $10$ to cut $C_2$ instead of upgrading cut $C_1$."
         }
       ],
-      "solution_text": "New $C_1 = 50 + 10 = 60$. Since $C_2 = 56 < 60$, $C_2$ becomes the new minimum cut. New maximum flow is $56$."
+      "solution_text": "New $C_1 = 50 + 10 = 60$. Cut $C_2$ stays at $56$ because it excludes the upgraded edge. Other cuts originally had capacity at least $56$ and cannot decrease after an upgrade. The new maximum flow is $56$."
     },
-    {
+{
       "id": "q4",
-      "question_text": "An edge with capacity $30\\text{ units}$ currently carries $18\\text{ units}$ of flow.\nIts capacity is reduced to $22\\text{ units}$.\nWhat is the effect on the network's maximum flow?",
+      "question_text": "An edge with capacity $30\\text{ units}$ carries $18\\text{ units}$ of flow in a maximum-flow assignment.\nIts capacity is reduced to $22\\text{ units}$.\nWhat is the effect on the network's maximum flow?",
       "structure": "evaluate-capacity-reduction-impact",
       "mastery": false,
       "options": [
@@ -99,34 +74,9 @@
           "why": "Assumed any capacity reduction halts all flow through the network."
         }
       ],
-      "solution_text": "Since the reduced capacity ($22$) is greater than the required flow ($18$), the network's maximum flow is unchanged."
+      "solution_text": "The reduced capacity ($22$) still allows the edge flow ($18$) in the existing maximum-flow assignment. That assignment remains possible, and reducing capacity cannot increase maximum flow. Maximum flow is unchanged."
     },
-    {
-      "id": "q5",
-      "question_text": "Why does upgrading an edge that is NOT on the minimum cut fail to increase the network's maximum flow?",
-      "structure": "select-edge-to-increase-flow",
-      "mastery": false,
-      "options": [
-        {
-          "text": "The minimum cut remains the bottleneck that restricts the overall flow.",
-          "correct": true
-        },
-        {
-          "text": "Only edges leaving the source determine the network flow.",
-          "why": "Falsely claimed only source edges determine network throughput."
-        },
-        {
-          "text": "Edges not on the minimum cut already carry zero flow.",
-          "why": "Confused lack of bottleneck constraint with zero flow."
-        },
-        {
-          "text": "Upgrading any single edge always reduces maximum flow.",
-          "why": "Falsely claimed upgrades decrease capacity."
-        }
-      ],
-      "solution_text": "The minimum cut is the bottleneck limiting total flow. Upgrading an edge outside the minimum cut leaves the bottleneck unchanged."
-    },
-    {
+{
       "id": "q6",
       "question_text": "A pipeline network has a maximum flow of $180\\text{ kL/day}$.\nDemand is projected to reach $220\\text{ kL/day}$.\nThe minimum cut consists of pipes $A$ and $B$, and all other cuts have capacity $\\ge 240\\text{ kL/day}$.\nBy how much must the capacity of pipe $A$ or $B$ be increased to meet demand?",
       "structure": "design-network-upgrade-for-target-demand",
@@ -151,7 +101,7 @@
       ],
       "solution_text": "$\\text{Required increase} = 220 - 180$\n$= 40\\text{ kL/day}$"
     },
-    {
+{
       "id": "q7",
       "question_text": "The minimum cut of a road network has capacity $800\\text{ vehicles/hour}$ across two roads ($500$ and $300$).\nIf both roads are widened by $100\\text{ vehicles/hour}$ each and no other cut has capacity $< 1100$, what is the new maximum flow?",
       "structure": "calculate-new-flow-after-upgrade",
@@ -176,7 +126,7 @@
       ],
       "solution_text": "$\\text{New max flow} = 800 + 100 + 100$\n$= 1000\\text{ vehicles/hour}$"
     },
-    {
+{
       "id": "q8",
       "question_text": "In a network with maximum flow $75$, a bottleneck edge on the unique minimum cut has its capacity reduced by $15$.\nWhat is the new maximum flow?",
       "structure": "evaluate-capacity-reduction-impact",
@@ -200,31 +150,6 @@
         }
       ],
       "solution_text": "$\\text{New max flow} = 75 - 15$\n$= 60$"
-    },
-    {
-      "id": "q9",
-      "question_text": "A cooling water network has maximum flow $920\\text{ L/min}$.\nDuring peak operations, the required demand is $850\\text{ L/min}$.\nWhat is the surplus capacity?",
-      "structure": "evaluate-demand-sufficiency",
-      "mastery": true,
-      "options": [
-        {
-          "text": "$70\\text{ L/min}$ surplus",
-          "correct": true
-        },
-        {
-          "text": "$70\\text{ L/min}$ deficit",
-          "why": "Confused a capacity surplus with a deficit."
-        },
-        {
-          "text": "$120\\text{ L/min}$ surplus",
-          "why": "Arithmetic error when subtracting $920 - 850$."
-        },
-        {
-          "text": "$0\\text{ L/min}$",
-          "why": "Assumed flow exactly equals demand without surplus."
-        }
-      ],
-      "solution_text": "$\\text{Surplus} = 920 - 850$\n$= 70\\text{ L/min}$"
     }
-  ]
+]
 }

@@ -1,109 +1,109 @@
 {
   "skillId": "loan-repayment-geometric-series",
   "questions": [
-    {
+{
       "id": "q1",
       "question_text": "A loan of $\\$25\\,000$ is repaid in equal monthly instalments over $5$ years ($60$ months) at $6\\%$ p.a. compounded monthly ($r=0.005$).\nFind the monthly repayment, to the nearest cent.",
       "structure": "solve-for-repayment-amount",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$\\$483.32$",
           "correct": true
         },
-        {
+{
           "text": "$\\$541.67$",
           "why": "Used simple interest $(25\\,000 + 25\\,000 \\times 0.06 \\times 5)/60$."
         },
-        {
+{
           "text": "$\\$416.67$",
           "why": "Divided principal by 60 without adding interest."
         },
-        {
-          "text": "$\\$1627.50$",
+{
+          "text": "$\\$1546.89$",
           "why": "Used the annual rate with the monthly $n$."
         }
-      ],
-      "solution_text": "$r=0.005, n=60, PV=25\\,000$\n$0=25\\,000(1.005)^{60}-M\\left[\\dfrac{(1.005)^{60}-1}{0.005}\\right]$\n$M=\\dfrac{25\\,000(0.005)(1.005)^{60}}{(1.005)^{60}-1}$\n$=\\$483.32$"
+],
+      "solution_text": "$r=0.005, n=60, PV=25\\,000$\n$A_1=25\\,000(1.005)-M$\n$A_2=25\\,000(1.005)^2-M(1.005)-M$\n$A_{60}=25\\,000(1.005)^{60}-[M+M(1.005)+\\cdots+M(1.005)^{59}]$\nThe repayments form a geometric series with first term $M$, common ratio $1.005$ and $60$ terms.\n$0=25\\,000(1.005)^{60}-M\\left[\\dfrac{(1.005)^{60}-1}{0.005}\\right]$\n$M=\\dfrac{25\\,000(0.005)(1.005)^{60}}{(1.005)^{60}-1}$\n$=\\$483.32$"
     },
-    {
+{
       "id": "q2",
-      "question_text": "Sarah can afford $\\$850$ per month for a home improvement loan over $7$ years ($84$ months).\nThe bank charges $4.8\\%$ p.a. compounded monthly ($r=0.004$).\nWhat is the maximum amount Sarah can borrow, to the nearest dollar?",
+      "question_text": "Sarah can afford $\\$850$ per month for a home improvement loan over $7$ years ($84$ months).\nThe bank charges $4.8\\%$ p.a. compounded monthly ($r=0.004$).\nWhat is the maximum amount Sarah can borrow, rounding down to the nearest dollar?",
       "structure": "solve-for-borrowing-capacity",
       "mastery": false,
       "options": [
-        {
-          "text": "$\\$60\\,541$",
+{
+          "text": "$\\$60\\,540$",
           "correct": true
         },
-        {
+{
           "text": "$\\$71\\,400$",
           "why": "Multiplied monthly payment by 84 without discounting for interest."
         },
-        {
+{
           "text": "$\\$17\\,363$",
           "why": "Used the annual rate with the monthly $n$."
         },
-        {
+{
           "text": "$\\$84\\,660$",
           "why": "Calculated the future value of an annuity instead of present value."
         }
-      ],
-      "solution_text": "$r=0.004, n=84, M=850$\n$PV=\\dfrac{850[(1.004)^{84}-1]}{0.004(1.004)^{84}}$\n$=\\$60\\,541$"
+],
+      "solution_text": "$r=0.004, n=84, M=850$\n$A_1=PV(1.004)-850$\n$A_2=PV(1.004)^2-850(1.004)-850$\n$A_{84}=PV(1.004)^{84}-[850+850(1.004)+\\cdots+850(1.004)^{83}]$\nThe repayments form a geometric series with first term $850$, common ratio $1.004$ and $84$ terms.\n$0=PV(1.004)^{84}-850\\dfrac{(1.004)^{84}-1}{0.004}$\n$PV=\\dfrac{850[(1.004)^{84}-1]}{0.004(1.004)^{84}}\\approx\\$60\\,540.77$\nRounding down, the maximum whole-dollar loan is $\\$60\\,540$."
     },
-    {
+{
       "id": "q3",
-      "question_text": "An amount of $\\$200\\,000$ is borrowed at $6\\%$ p.a. compounded monthly ($r=0.005$).\nHow much higher is the monthly repayment for a $15$-year loan ($180$ months) compared to a $30$-year loan ($360$ months)?",
+      "question_text": "An amount of $\\$200\\,000$ is borrowed at $6\\%$ p.a. compounded monthly ($r=0.005$).\nHow much higher is the monthly repayment for a $15$-year loan ($180$ months) compared to a $30$-year loan ($360$ months)? Give your answer to the nearest cent.",
       "structure": "repayment-term-comparison",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$\\$488.61$",
           "correct": true
         },
-        {
-          "text": "$\\$555.56$",
+{
+          "text": "$\\$1111.11$",
           "why": "Divided principal by the difference in months."
         },
-        {
+{
           "text": "$\\$1687.71$",
           "why": "Reported the 15-year repayment instead of the difference."
         },
-        {
+{
           "text": "$\\$1199.10$",
           "why": "Reported the 30-year repayment instead of the difference."
         }
-      ],
-      "solution_text": "$M_{15}=\\dfrac{200\\,000(0.005)(1.005)^{180}}{(1.005)^{180}-1}=\\$1687.71$\n$M_{30}=\\dfrac{200\\,000(0.005)(1.005)^{360}}{(1.005)^{360}-1}=\\$1199.10$\n$\\text{Difference}=1687.71-1199.10=\\$488.61$"
+],
+      "solution_text": "$A_1=200\\,000(1.005)-M$\n$A_2=200\\,000(1.005)^2-M(1.005)-M$\nFor $15$ years, $A_{180}=200\\,000(1.005)^{180}-[M+M(1.005)+\\cdots+M(1.005)^{179}]$.\nThe repayments form a geometric series with first term $M$, common ratio $1.005$ and $180$ terms.\n$0=200\\,000(1.005)^{180}-M\\dfrac{(1.005)^{180}-1}{0.005}$\n$M_{15}=\\dfrac{200\\,000(0.005)(1.005)^{180}}{(1.005)^{180}-1}\\approx\\$1687.71$\nFor $30$ years, $A_{360}=200\\,000(1.005)^{360}-[M+M(1.005)+\\cdots+M(1.005)^{359}]$.\nThe repayments form a geometric series with first term $M$, common ratio $1.005$ and $360$ terms.\n$0=200\\,000(1.005)^{360}-M\\dfrac{(1.005)^{360}-1}{0.005}$\n$M_{30}=\\dfrac{200\\,000(0.005)(1.005)^{360}}{(1.005)^{360}-1}\\approx\\$1199.10$\nUsing the unrounded repayments, $\\text{Difference}=M_{15}-M_{30}\\approx\\$488.61$ to the nearest cent."
     },
-    {
+{
       "id": "q4",
       "question_text": "A loan of $\\$12\\,000$ is repaid in equal quarterly instalments over $4$ years ($16$ quarters) at $8\\%$ p.a. compounded quarterly ($r=0.02$).\nFind the quarterly repayment, to the nearest cent.",
       "structure": "solve-for-repayment-amount",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$\\$883.80$",
           "correct": true
         },
-        {
+{
           "text": "$\\$750.00$",
           "why": "Divided principal by 16 quarters without including interest."
         },
-        {
+{
           "text": "$\\$990.00$",
           "why": "Used simple interest formula on the quarterly repayments."
         },
-        {
-          "text": "$\\$1398.20$",
+{
+          "text": "$\\$1355.72$",
           "why": "Used the annual rate with the quarterly $n$."
         }
-      ],
-      "solution_text": "$r=0.02, n=16, PV=12\\,000$\n$M=\\dfrac{12\\,000(0.02)(1.02)^{16}}{(1.02)^{16}-1}$\n$=\\$883.80$"
+],
+      "solution_text": "$r=0.02, n=16, PV=12\\,000$\n$A_1=12\\,000(1.02)-M$\n$A_2=12\\,000(1.02)^2-M(1.02)-M$\n$A_{16}=12\\,000(1.02)^{16}-[M+M(1.02)+\\cdots+M(1.02)^{15}]$\nThe repayments form a geometric series with first term $M$, common ratio $1.02$ and $16$ terms.\n$0=12\\,000(1.02)^{16}-M\\dfrac{(1.02)^{16}-1}{0.02}$\n$M=\\dfrac{12\\,000(0.02)(1.02)^{16}}{(1.02)^{16}-1}$\n$=\\$883.80$"
     },
-    {
+{
       "id": "q5",
-      "question_text": "A borrower can make monthly repayments of $\\$750$ on a car loan over $3$ years ($36$ months) at $7.2\\%$ p.a. compounded monthly ($r=0.006$).\nFind the maximum amount that can be borrowed, to the nearest dollar.",
+      "question_text": "A borrower can make monthly repayments of $\\$750$ on a car loan over $3$ years ($36$ months) at $7.2\\%$ p.a. compounded monthly ($r=0.006$).\nFind the maximum amount that can be borrowed, rounding down to the nearest dollar.",
       "structure": "solve-for-borrowing-capacity",
       "mastery": false,
       "options": [
@@ -124,61 +124,36 @@
           "why": "Calculated the future value of an annuity instead of present value."
         }
       ],
-      "solution_text": "$r=0.006, n=36, M=750$\n$PV=\\dfrac{750[(1.006)^{36}-1]}{0.006(1.006)^{36}}$\n$=\\$24\\,218$"
+      "solution_text": "$r=0.006, n=36, M=750$\n$A_1=PV(1.006)-750$\n$A_2=PV(1.006)^2-750(1.006)-750$\n$A_{36}=PV(1.006)^{36}-[750+750(1.006)+\\cdots+750(1.006)^{35}]$\nThe repayments form a geometric series with first term $750$, common ratio $1.006$ and $36$ terms.\n$0=PV(1.006)^{36}-750\\dfrac{(1.006)^{36}-1}{0.006}$\n$PV=\\dfrac{750[(1.006)^{36}-1]}{0.006(1.006)^{36}}$\nRounding down, the maximum whole-dollar loan is $\\$24\\,218$."
     },
-    {
-      "id": "q6",
-      "question_text": "Why does making fortnightly repayments rather than monthly repayments save significant money over the life of a home loan?",
-      "structure": "repayment-frequency-impact",
-      "mastery": false,
-      "options": [
-        {
-          "text": "Making 26 fortnightly payments per year reduces the principal balance more frequently and is equivalent to making 13 monthly payments annually.",
-          "correct": true
-        },
-        {
-          "text": "Fortnightly payments allow the bank to charge a lower interest rate automatically.",
-          "why": "Mistakenly claims the quoted interest rate itself changes."
-        },
-        {
-          "text": "Simple interest applies instead of compound interest when paying fortnightly.",
-          "why": "Claims interest model switches to simple interest."
-        },
-        {
-          "text": "Fortnightly repayments eliminate interest charges entirely in alternate fortnights.",
-          "why": "Misunderstands the mechanics of compounding frequency."
-        }
-      ],
-      "solution_text": "Paying fortnightly at half the monthly amount yields $26$ half-payments, which equals $13$ full monthly payments each year.\nThe extra annual repayment and more frequent balance reduction drastically reduce total interest."
-    },
-    {
+{
       "id": "q7",
-      "question_text": "A personal loan of $\\$30\\,000$ at $13.3\\%$ p.a. reducible interest is repaid in $10$ equal six-monthly instalments ($r=0.0665$).\nFind the exact repayment to the nearest cent, and state the balance $A_{10}$ if the repayment is rounded down to $\\$4202$.",
+      "question_text": "A personal loan of $\\$30\\,000$ at $13.3\\%$ p.a. reducible interest is repaid in $10$ equal six-monthly instalments ($r=0.0665$).\nFind the repayment to the nearest cent, and state the balance $A_{10}$, rounded to the nearest cent, if the repayment is rounded down to $\\$4202$.",
       "structure": "solve-for-repayment-amount",
       "mastery": true,
       "options": [
-        {
+{
           "text": "Repayment is $\\$4202.48$; with $\\$4202$ the remaining balance is $\\$6.56$.",
           "correct": true
         },
-        {
+{
           "text": "Repayment is $\\$4202.00$; with $\\$4202$ the remaining balance is $\\$0.00$.",
           "why": "Assumed rounding to the dollar exactly pays off the loan."
         },
-        {
+{
           "text": "Repayment is $\\$4202.48$; with $\\$4202$ the remaining balance is $-\\$6.56$.",
           "why": "Inverted the sign of the remaining debt."
         },
-        {
+{
           "text": "Repayment is $\\$4202.48$; with $\\$4202$ the remaining balance is $\\$4.80$.",
-          "why": "Multiplied rounding difference by 10 without compound growth."
+          "why": "Prematurely rounded the payment shortfall to $\\$0.48$ before multiplying by $10$, without allowing for compound growth."
         }
-      ],
-      "solution_text": "$M=\\dfrac{30\\,000(0.0665)(1.0665)^{10}}{(1.0665)^{10}-1}=\\$4202.48$\n$A_{10}=30\\,000(1.0665)^{10}-4202\\left[\\dfrac{(1.0665)^{10}-1}{0.0665}\\right]$\n$=\\$6.56$"
+],
+      "solution_text": "$A_1=30\\,000(1.0665)-M$\n$A_2=30\\,000(1.0665)^2-M(1.0665)-M$\n$A_{10}=30\\,000(1.0665)^{10}-[M+M(1.0665)+\\cdots+M(1.0665)^9]$\nThe repayments form a geometric series with first term $M$, common ratio $1.0665$ and $10$ terms.\n$0=30\\,000(1.0665)^{10}-M\\dfrac{(1.0665)^{10}-1}{0.0665}$\n$M=\\dfrac{30\\,000(0.0665)(1.0665)^{10}}{(1.0665)^{10}-1}=\\$4202.48$ to the nearest cent.\nUsing repayments of $\\$4202$ in the derived balance equation,\n$A_{10}=30\\,000(1.0665)^{10}-4202\\left[\\dfrac{(1.0665)^{10}-1}{0.0665}\\right]$\n$=\\$6.56$ to the nearest cent."
     },
-    {
+{
       "id": "q8",
-      "question_text": "A mortgage of $\\$240\\,000$ at $6\\%$ p.a. compounded monthly ($r=0.005$) is amortised over $20$ years ($M=\\$1719.43$).\nIf the monthly payment is increased to $\\$2000$, the loan is paid off with $183$ full payments of $\\$2000$ plus a final payment of $\\$1432.84$.\nHow much total interest is saved?",
+      "question_text": "A mortgage of $\\$240\\,000$ at $6\\%$ p.a. compounded monthly ($r=0.005$) is amortised over $20$ years ($240$ months).\nDerive a geometric-series equation and calculate the original monthly repayment $M$, to the nearest cent.\nIf the monthly payment is increased to $\\$2000$, the loan is paid off with $183$ full payments of $\\$2000$ plus a final payment of $\\$1432.84$.\nHow much total interest is saved, to the nearest cent? Calculate the original total using $240$ payments of your rounded repayment, and the accelerated total using the supplied full payments and rounded final payment.",
       "structure": "repayment-term-comparison",
       "mastery": true,
       "options": [
@@ -199,7 +174,7 @@
           "why": "Reported the total original interest instead of the savings."
         }
       ],
-      "solution_text": "$\\text{Original Total Paid}=240\\times1719.43=\\$412\\,663.20$\n$\\text{Original Interest}=412\\,663.20-240\\,000=\\$172\\,663.20$\n$\\text{New Total Paid}=183\\times2000+1432.84=\\$367\\,432.84$\n$\\text{New Interest}=367\\,432.84-240\\,000=\\$127\\,432.84$\n$\\text{Interest Saved}=172\\,663.20-127\\,432.84=\\$45\\,230.36$"
+      "solution_text": "$r=0.005, n=240, PV=240\\,000$\n$A_1=240\\,000(1.005)-M$\n$A_2=240\\,000(1.005)^2-M(1.005)-M$\n$A_{240}=240\\,000(1.005)^{240}-[M+M(1.005)+\\cdots+M(1.005)^{239}]$\nThe repayments form a geometric series with first term $M$, common ratio $1.005$ and $240$ terms.\n$0=240\\,000(1.005)^{240}-M\\left[\\dfrac{(1.005)^{240}-1}{0.005}\\right]$\n$M=\\dfrac{240\\,000(0.005)(1.005)^{240}}{(1.005)^{240}-1}=\\$1719.43$ to the nearest cent.\nUsing the rounded repayment and supplied accelerated schedule as directed,\n$\\text{Original Total Paid}=240\\times1719.43=\\$412\\,663.20$\n$\\text{Original Interest}=412\\,663.20-240\\,000=\\$172\\,663.20$\n$\\text{New Total Paid}=183\\times2000+1432.84=\\$367\\,432.84$\n$\\text{New Interest}=367\\,432.84-240\\,000=\\$127\\,432.84$\n$\\text{Interest Saved}=172\\,663.20-127\\,432.84=\\$45\\,230.36$"
     }
-  ]
+]
 }

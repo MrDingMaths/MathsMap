@@ -1,32 +1,32 @@
 {
   "skillId": "maximum-flow-minimum-cut",
   "questions": [
-    {
+{
       "id": "q1",
-      "question_text": "Four valid cuts on a network have capacities $54, 48, 62, 51$.\nWhat is the maximum flow of the network?",
+      "question_text": "Four valid cuts on a network have capacities $54, 48, 62, 51$. These cuts include a minimum cut.\nWhat is the maximum flow of the network?",
       "structure": "find-minimum-cut-value",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$48$",
           "correct": true
         },
-        {
+{
           "text": "$54$",
           "why": "Selected the first cut capacity instead of the minimum cut capacity."
         },
-        {
+{
           "text": "$62$",
           "why": "Selected the maximum cut capacity instead of the minimum cut capacity."
         },
-        {
+{
           "text": "$51$",
-          "why": "Selected the median cut capacity instead of the minimum cut capacity."
+          "why": "Selected the second-smallest cut capacity instead of the minimum cut capacity."
         }
-      ],
+],
       "solution_text": "$\\text{Maximum flow} = \\min(54, 48, 62, 51)$\n$= 48$"
     },
-    {
+{
       "id": "q2",
       "question_text": "A network has a maximum flow of $65\\text{ L/min}$.\nA proposed cut $C$ has capacity $78\\text{ L/min}$.\nIs cut $C$ a minimum cut?",
       "structure": "verify-cut-is-minimal",
@@ -51,7 +51,7 @@
       ],
       "solution_text": "By the maximum-flow minimum-cut theorem, the minimum cut capacity must equal $65$. Since $78 > 65$, it is not minimal."
     },
-    {
+{
       "id": "q3",
       "question_text": "According to the maximum-flow minimum-cut theorem, what does the capacity of the minimum cut represent?",
       "structure": "apply-max-flow-min-cut-theorem",
@@ -76,59 +76,59 @@
       ],
       "solution_text": "The capacity of the minimum cut equals the maximum possible flow through the network."
     },
-    {
+{
       "id": "q4",
-      "question_text": "A network has three candidate cuts: Cut 1 ($\\{SA, SB\\}$, capacity $85$), Cut 2 ($\\{AC, BC, BD\\}$, capacity $74$), and Cut 3 ($\\{CT, DT\\}$, capacity $80$).\nWhich set of edges forms the minimum cut?",
+      "question_text": "A directed network has edges $SA = 40$, $SB = 45$, $AC = 30$, $BC = 20$, $BD = 24$, $CT = 42$ and $DT = 38$, directed in the order of their letters.\nFour valid candidate cuts, including a minimum cut, are: Cut 1 ($\\{SA, SB\\}$, capacity $85$), Cut 2 ($\\{AC, BC, BD\\}$, capacity $74$), Cut 3 ($\\{CT, DT\\}$, capacity $80$), and Cut 4 ($\\{CT, BD\\}$, capacity $66$).\nWhich set of edges forms the minimum cut?",
       "structure": "identify-minimum-cut-edges",
       "mastery": false,
       "options": [
-        {
-          "text": "$\\{AC, BC, BD\\}$ with capacity $74$",
+{
+          "text": "$\\{CT, BD\\}$ with capacity $66$",
           "correct": true
         },
-        {
+{
           "text": "$\\{SA, SB\\}$ with capacity $85$",
-          "why": "Selected the source cut instead of identifying the minimum capacity cut ($74$)."
+          "why": "Selected the source cut instead of identifying the minimum capacity cut ($66$)."
         },
-        {
+{
           "text": "$\\{CT, DT\\}$ with capacity $80$",
-          "why": "Selected the sink cut instead of identifying the minimum capacity cut ($74$)."
+          "why": "Selected the sink cut instead of identifying the minimum capacity cut ($66$)."
         },
-        {
-          "text": "$\\{SA, CT\\}$ with capacity $92$",
-          "why": "Combined non-cut edges rather than choosing the minimal valid cut."
+{
+          "text": "$\\{SA, CT\\}$ with total capacity $82$",
+          "why": "Added $40 + 42 = 82$ for edges that do not form a complete cut: the path $SBDT$ remains; the minimum cut is $\\{CT, BD\\}$ with capacity $66$."
         }
-      ],
-      "solution_text": "Cut 2 has the smallest capacity ($74$), so edges $\\{AC, BC, BD\\}$ form the minimum cut."
+],
+      "solution_text": "Cut 4 separates $\\{S,A,B,C\\}$ from $\\{D,T\\}$ and has capacity $42 + 24 = 66$. The listed cuts include a minimum cut, and $\\min(85, 74, 80, 66) = 66$, so edges $\\{CT, BD\\}$ form the minimum cut. The maximum flow is $66$."
     },
-    {
+{
       "id": "q5",
-      "question_text": "The minimum cut of a network consists of three edges with capacities $24, x, 31$.\nIf the maximum flow is $80$, what is the value of $x$?",
-      "structure": "find-unknown-edge-from-min-cut",
+      "question_text": "A valid cut crosses two edges directed from the source side to the sink side with capacities $24$ and $31$, and one edge directed from the sink side to the source side with capacity $10$.\nWhat is the capacity of the cut?",
+      "structure": "calculate-directed-cut-capacity",
       "mastery": false,
       "options": [
-        {
-          "text": "$25$",
+{
+          "text": "$55$",
           "correct": true
         },
-        {
-          "text": "$35$",
-          "why": "Arithmetic error: computed $80 - (24 + 31)$ incorrectly as $35$."
+{
+          "text": "$65$",
+          "why": "Included the reverse edge, calculating $24 + 31 + 10 = 65$."
         },
-        {
-          "text": "$15$",
-          "why": "Subtracted $31 - 24 = 7$ and subtracted from $80$ incorrectly."
+{
+          "text": "$45$",
+          "why": "Subtracted the reverse capacity instead of excluding it, calculating $24 + 31 - 10 = 45$."
         },
-        {
-          "text": "$80$",
-          "why": "Equated $x$ directly to the maximum flow without subtracting the other edges."
+{
+          "text": "$31$",
+          "why": "Selected the larger forward edge capacity instead of adding both forward capacities."
         }
-      ],
-      "solution_text": "$24 + x + 31 = 80$\n$55 + x = 80$\n$x = 80 - 55$\n$= 25$"
+],
+      "solution_text": "Count only edges directed from the source side to the sink side.\n$\\text{Cut capacity} = 24 + 31 = 55$.\nThe reverse edge of capacity $10$ is excluded."
     },
-    {
+{
       "id": "q6",
-      "question_text": "In a network, the edges leaving source $S$ have a total capacity of $90$, the edges entering sink $T$ have a total capacity of $82$, and an internal cut has a capacity of $76$.\nWhat is the maximum flow?",
+      "question_text": "In a network, the edges leaving source $S$ have a total capacity of $90$, the edges entering sink $T$ have a total capacity of $82$, and an internal cut has a capacity of $76$. The internal cut is a minimum cut.\nWhat is the maximum flow?",
       "structure": "find-minimum-cut-value",
       "mastery": false,
       "options": [
@@ -149,9 +149,9 @@
           "why": "Added source and sink capacities ($90 + 82$) instead of finding the minimum cut."
         }
       ],
-      "solution_text": "$\\text{Maximum flow} = \\min(90, 82, 76)$\n$= 76$"
+      "solution_text": "$\\text{Maximum flow} = \\text{Minimum cut capacity} = 76$"
     },
-    {
+{
       "id": "q7",
       "question_text": "Which statement best describes the edges crossing the minimum cut from source to sink when maximum flow is achieved?",
       "structure": "verify-cut-is-minimal",
@@ -176,34 +176,34 @@
       ],
       "solution_text": "At maximum flow, all edges crossing the minimum cut from source to sink are fully saturated."
     },
-    {
+{
       "id": "q8",
-      "question_text": "In a gas pipeline network, the minimum cut has a capacity of $450\\text{ m}^3/\\text{h}$.\nWhat is the maximum volume of gas that can be transported in $3\\text{ hours}$?",
-      "structure": "apply-max-flow-min-cut-theorem",
+      "question_text": "In a gas pipeline network, a minimum cut crosses three pipes directed from the source side to the sink side with capacities $180$, $150$ and $120\\text{ m}^3/\\text{h}$, and one pipe directed from the sink side to the source side with capacity $60\\text{ m}^3/\\text{h}$.\nWhat is the maximum flow rate of the network?",
+      "structure": "calculate-minimum-cut-and-maximum-flow-rate",
       "mastery": true,
       "options": [
-        {
-          "text": "$1350\\text{ m}^3$",
+{
+          "text": "$450\\text{ m}^3/\\text{h}$",
           "correct": true
         },
-        {
-          "text": "$450\\text{ m}^3$",
-          "why": "Gave the hourly rate instead of multiplying by $3\\text{ hours}$."
+{
+          "text": "$510\\text{ m}^3/\\text{h}$",
+          "why": "Included the reverse pipe capacity, calculating $180 + 150 + 120 + 60 = 510$."
         },
-        {
-          "text": "$900\\text{ m}^3$",
-          "why": "Multiplied by $2\\text{ hours}$ instead of $3\\text{ hours}$."
+{
+          "text": "$390\\text{ m}^3/\\text{h}$",
+          "why": "Subtracted the reverse pipe capacity instead of excluding it, calculating $180 + 150 + 120 - 60 = 390$."
         },
-        {
-          "text": "$150\\text{ m}^3$",
-          "why": "Divided by $3$ instead of multiplying rate by time."
+{
+          "text": "$120\\text{ m}^3/\\text{h}$",
+          "why": "Selected the smallest forward pipe capacity instead of summing the forward capacities across the minimum cut."
         }
-      ],
-      "solution_text": "$\\text{Max rate} = 450\\text{ m}^3/\\text{h}$\n$\\text{Total volume} = 450 \\times 3$\n$= 1350\\text{ m}^3$"
+],
+      "solution_text": "Exclude the reverse pipe.\n$\\text{Minimum cut capacity} = 180 + 150 + 120 = 450\\text{ m}^3/\\text{h}$.\nBy the maximum-flow minimum-cut theorem, the maximum flow rate is $450\\text{ m}^3/\\text{h}$."
     },
-    {
+{
       "id": "q9",
-      "question_text": "A network has four candidate cuts: $C_1 = 120, C_2 = 105, C_3 = 112, C_4 = 130$.\nWhat is the maximum flow?",
+      "question_text": "A network has four candidate cuts: $C_1 = 120, C_2 = 105, C_3 = 112, C_4 = 130$. These cuts include a minimum cut.\nWhat is the maximum flow?",
       "structure": "find-minimum-cut-value",
       "mastery": true,
       "options": [
@@ -226,5 +226,5 @@
       ],
       "solution_text": "$\\text{Maximum flow} = \\min(120, 105, 112, 130)$\n$= 105$"
     }
-  ]
+]
 }

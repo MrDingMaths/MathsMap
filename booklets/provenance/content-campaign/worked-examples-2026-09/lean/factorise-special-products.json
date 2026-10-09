@@ -3,52 +3,90 @@
   "skillId": "factorise-special-products",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-07T13:45:53.670Z",
-  "status": "needs attention: not accepted after one repair round",
+  "startedAt": "2026-10-08T22:58:20.793Z",
+  "status": "published",
   "calls": [
     {
-      "name": "audit",
+      "name": "maintenance-repair",
       "code": 0,
-      "seconds": 77.4,
+      "seconds": 94.4,
       "usage": {
-        "input_tokens": 271876,
-        "cached_input_tokens": 20608,
+        "input_tokens": 274075,
+        "cached_input_tokens": 0,
         "cache_write_input_tokens": 0,
-        "output_tokens": 3058,
-        "reasoning_output_tokens": 51
+        "output_tokens": 5776,
+        "reasoning_output_tokens": 0
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\factorise-special-products\\audit-pc93VP\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\factorise-special-products\\maintenance-repair-WggU8i\\response.raw.txt"
     },
     {
-      "name": "repair",
+      "name": "maintenance-review-scoped",
       "code": 0,
-      "seconds": 128,
+      "seconds": 14.8,
       "usage": {
-        "input_tokens": 272935,
-        "cached_input_tokens": 20608,
+        "input_tokens": 273221,
+        "cached_input_tokens": 20736,
         "cache_write_input_tokens": 0,
-        "output_tokens": 5821,
-        "reasoning_output_tokens": 30
+        "output_tokens": 230,
+        "reasoning_output_tokens": 70
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\factorise-special-products\\repair-bfpXUR\\response.raw.txt"
-    },
-    {
-      "name": "review-full",
-      "code": 0,
-      "seconds": 57.9,
-      "usage": {
-        "input_tokens": 273119,
-        "cached_input_tokens": 12544,
-        "cache_write_input_tokens": 0,
-        "output_tokens": 2068,
-        "reasoning_output_tokens": 99
-      },
-      "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\factorise-special-products\\review-full-kUO3IT\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\factorise-special-products\\maintenance-review-scoped-WuZ4KQ\\response.raw.txt"
     }
   ],
+  "previousAttempts": [
+    {
+      "startedAt": "2026-10-07T13:45:53.670Z",
+      "finishedAt": "2026-10-07T13:50:17.378Z",
+      "status": "needs attention: not accepted after one repair round",
+      "calls": [
+        {
+          "name": "audit",
+          "code": 0,
+          "seconds": 77.4,
+          "usage": {
+            "input_tokens": 271876,
+            "cached_input_tokens": 20608,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 3058,
+            "reasoning_output_tokens": 51
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\factorise-special-products\\audit-pc93VP\\response.raw.txt"
+        },
+        {
+          "name": "repair",
+          "code": 0,
+          "seconds": 128,
+          "usage": {
+            "input_tokens": 272935,
+            "cached_input_tokens": 20608,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 5821,
+            "reasoning_output_tokens": 30
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\factorise-special-products\\repair-bfpXUR\\response.raw.txt"
+        },
+        {
+          "name": "review-full",
+          "code": 0,
+          "seconds": 57.9,
+          "usage": {
+            "input_tokens": 273119,
+            "cached_input_tokens": 12544,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 2068,
+            "reasoning_output_tokens": 99
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\factorise-special-products\\review-full-kUO3IT\\response.raw.txt"
+        }
+      ]
+    }
+  ],
+  "maintenanceRepair": true,
   "baseline": {
     "contentHash": "a4e0f48bc5a3ebe9d9b65581edc252c13aa8e381f45c6fb49dd0452b86514b2f",
     "quizHash": "61142762f2f306c7ba7b9c6a656546e3b76c94f2da7507658cf5a2e3f1922f81"
@@ -65,32 +103,34 @@
   ],
   "images": 110,
   "omittedImages": 14,
+  "firstRoundFindings": [
+    "quiz.q9: Repair option 1's why: taking out $-y$ correctly gives $-y(3-x)=y(x-3)$ and does not cause the stated wrong answer. Explain the actual mistake: wrote $xy-3y=-y(x-3)$ instead of $y(x-3)$, producing $(x-3)(2-y)$."
+  ],
   "fullReview": {
-    "name": "review-full",
-    "hash": "72764ceeb907fd314abb63ecdf80ac0cca01938d3de639f3dec98766f0f7cf05",
+    "name": "review-accepted",
+    "hash": "a88a7b08eb6e5c26a4e3144cd8053d9bd15f4cf6bf29faef82c968df093c824a",
     "originalRemovalsSupplied": true
   },
-  "firstRoundFindings": [
-    "practice.foundation[7]: Qualify the claim that $a^2+b^2$ has no factorisation. It is false for arbitrary algebraic expressions; state the conclusion specifically for $x^2+9$ over the real numbers.",
-    "quiz.q4: Option 2's explanation does not produce its value: the square root of $27$ is not $9$. Explain that after removing $3$, the student used $9$ itself instead of its square root $3$.",
-    "quiz.q11: Option 3's explanation does not produce $x+7$: dropping only the minus on $4$ gives $x+1$. Explain that both subtractions in $x-4-3$ were incorrectly changed to additions.",
-    "theory: The square-root equalities require absolute values for unrestricted real variables: $\\sqrt{25x^2}=5|x|$, $\\sqrt{x^6}=|x^3|$ and $\\sqrt{16y^2}=4|y|$. Teach identification of squared terms, such as $25x^2=(5x)^2$, to preserve the valid factorisation method without asserting false principal-square-root identities; also qualify the sum-of-squares statement as concerning $x^2+9$ over the real numbers."
-  ],
   "repaired": true,
   "changed": [
     "practice.foundation[7]",
     "quiz.q4",
     "quiz.q7",
+    "quiz.q9",
     "quiz.q11"
   ],
   "theoryChanged": true,
   "removed": [],
   "items": 31,
-  "summary": "Replaced the false square-root identities in theory with identification of squared terms, and qualified the sum-of-squares conclusions in theory, practice.foundation[7] and quiz.q7 as factorisation into linear factors over the real numbers. Corrected the distractor explanations in quiz.q4 and quiz.q11; no whole items were removed, and all other content was preserved.",
-  "reviewSummary": "All 31 items have correct answers, stay within the supplied booklet's factorisation scope and use booklet question types; every quiz has exactly one correct option. Repair one distractor explanation in quiz.q9; no worked examples or removals were supplied, and no theory changes are required.",
-  "candidateHash": "72764ceeb907fd314abb63ecdf80ac0cca01938d3de639f3dec98766f0f7cf05",
-  "findings": [
-    "quiz.q9: Repair option 1's why: taking out $-y$ correctly gives $-y(3-x)=y(x-3)$ and does not cause the stated wrong answer. Explain the actual mistake: wrote $xy-3y=-y(x-3)$ instead of $y(x-3)$, producing $(x-3)(2-y)$."
-  ],
-  "finishedAt": "2026-10-07T13:50:17.378Z"
+  "summary": "Repaired quiz.q9 option 1's explanation to identify the incorrect factorisation $xy-3y=-y(x-3)$ that produces $(x-3)(2-y)$. All other content was preserved exactly, and no whole items were removed.",
+  "reviewSummary": "quiz.q9 follows the booklet's grouping-in-pairs question type and taught method, with correct working and exactly one correct option. All three distractors are incorrect identities and their explanations identify the relevant sign mistakes; no repair is required.",
+  "candidateHash": "a88a7b08eb6e5c26a4e3144cd8053d9bd15f4cf6bf29faef82c968df093c824a",
+  "published": {
+    "expected": {
+      "contentHash": "c12ea31c5a07f83c53f62becc62bc0c6995548d5a76de847d459f030cec5184a",
+      "quizHash": "5ab9f85a27af42231144bbbe46dea0b8291624c0bdc9d26ad016bbd047bd2504"
+    },
+    "journalPath": ".agywork\\content-publication\\transactions\\factorise-special-products-7deea453-90b4-473e-8738-b5400872906f\\journal.json"
+  },
+  "finishedAt": "2026-10-08T23:00:10.611Z"
 }

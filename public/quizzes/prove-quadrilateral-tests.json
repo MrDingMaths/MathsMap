@@ -1,57 +1,57 @@
 {
   "skillId": "prove-quadrilateral-tests",
   "questions": [
-    {
+{
       "id": "q1",
-      "structure": "identify-opposite-sides-test",
+      "structure": "prove-opposite-sides-test",
       "mastery": false,
-      "question_text": "Both pairs of opposite sides of quadrilateral $ABCD$ are marked equal.\nWhich test proves $ABCD$ is a parallelogram?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc,angles,quotes}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}},tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (C) at (6.1,2.5);\n\\coordinate (D) at (1.5,2.5);\n\\draw[tk] (A)--(B);\n\\draw[tk2] (B)--(C);\n\\draw[tk] (D)--(C);\n\\draw[tk2] (A)--(D);\n\\draw (A)--(C);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "Quadrilateral $ABCD$ has $AB = CD = 7$ cm and $BC = DA = 4$ cm. Diagonal $AC$ is drawn. Which proof shows that $ABCD$ is a parallelogram?",
       "options": [
-        {
-          "text": "Both pairs of opposite sides are equal.",
+{
+          "text": "$\\triangle ABC \\cong \\triangle CDA$ by SSS. Corresponding angles give two pairs of equal alternate angles, so $AB \\parallel CD$ and $BC \\parallel DA$.",
           "correct": true
         },
-        {
-          "text": "The diagonals are equal.",
-          "why": "Equal diagonals is the rectangle test and is not what is marked; the marks show equal sides, not equal diagonals."
+{
+          "text": "$AC = BD$, so $ABCD$ is a rectangle and hence a parallelogram.",
+          "why": "This assumes equal diagonals without evidence; equal diagonals establish a rectangle only when the quadrilateral is already known to be a parallelogram."
         },
-        {
-          "text": "One pair of opposite sides is equal.",
-          "why": "One pair alone is insufficient (an isosceles trapezium fits); the figure marks both pairs equal."
+{
+          "text": "$AB = CD$, so this one equal pair proves that $ABCD$ is a parallelogram.",
+          "why": "This uses only one pair of equal opposite sides, which does not establish both pairs of parallel sides."
         },
-        {
-          "text": "Both pairs of opposite angles are supplementary.",
-          "why": "Supplementary opposite angles is not a parallelogram test; opposite angles of a parallelogram are equal, not supplementary."
+{
+          "text": "The opposite angles are supplementary, so $ABCD$ is a parallelogram.",
+          "why": "This assumes an angle condition not given and uses supplementary opposite angles as a test; rectangles have supplementary opposite angles, but that condition alone does not prove a parallelogram."
         }
-      ],
-      "solution_text": "Both pairs of opposite sides are marked equal, which is exactly the opposite-sides test for a parallelogram."
+],
+      "solution_text": "In $\\triangle ABC$ and $\\triangle CDA$, $AB = CD$, $BC = DA$ and $AC$ is common, so the triangles are congruent by SSS. Corresponding angles give $\\angle BAC = \\angle DCA$ and $\\angle BCA = \\angle DAC$. Equal alternate angles establish $AB \\parallel CD$ and $BC \\parallel DA$, so $ABCD$ is a parallelogram."
     },
-    {
+{
       "id": "q2",
-      "structure": "identify-opposite-angles-test",
+      "structure": "prove-opposite-sides-test-using-second-diagonal",
       "mastery": false,
-      "question_text": "In quadrilateral $ABCD$, $\\angle A = \\angle C$ and $\\angle B = \\angle D$.\nWhich conclusion is justified?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc,angles,quotes}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}},tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (C) at (6.1,2.5);\n\\coordinate (D) at (1.5,2.5);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\pic[draw,angle radius=0.55cm]{angle=B--A--D};\n\\pic[draw,angle radius=0.55cm]{angle=D--C--B};\n\\pic[draw,angle radius=0.5cm]{angle=C--B--A};\n\\pic[draw,angle radius=0.64cm]{angle=C--B--A};\n\\pic[draw,angle radius=0.5cm]{angle=A--D--C};\n\\pic[draw,angle radius=0.64cm]{angle=A--D--C};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "Quadrilateral $PQRS$ has $PQ = RS = 8$ cm and $PS = RQ = 5$ cm. Diagonal $QS$ is drawn. Which proof establishes that $PQRS$ is a parallelogram?",
       "options": [
-        {
-          "text": "$ABCD$ is a parallelogram (both pairs of opposite angles equal).",
+{
+          "text": "$\\triangle PQS \\cong \\triangle RSQ$ by SSS. Their corresponding angles give $PQ \\parallel RS$ and $PS \\parallel RQ$ by equal alternate angles.",
           "correct": true
         },
-        {
-          "text": "$ABCD$ is a rhombus.",
-          "why": "Equal opposite angles do not force equal sides, so it need not be a rhombus."
+{
+          "text": "$\\triangle PQS \\cong \\triangle RSQ$ by SAS because $\\angle PQS = \\angle RSQ$ is given.",
+          "why": "This treats an angle equality that must be proved as a given."
         },
-        {
-          "text": "$ABCD$ is a rectangle.",
-          "why": "A rectangle needs right angles; equal opposite angles can each be non-right."
+{
+          "text": "$\\triangle PQS \\cong \\triangle RQS$ by SSS, so corresponding angles prove both pairs of sides parallel.",
+          "why": "This puts the matching vertices in the wrong order: $P$ matches $R$, $Q$ matches $S$ and $S$ matches $Q$."
         },
-        {
-          "text": "Not enough information to classify $ABCD$.",
-          "why": "Both pairs of opposite angles equal is a complete parallelogram test, so a conclusion can be drawn."
+{
+          "text": "$PQ = RS$, so these two sides must be parallel; the other equal pair must also be parallel.",
+          "why": "This assumes that equal lengths alone make individual sides parallel."
         }
-      ],
-      "solution_text": "Both pairs of opposite angles equal is a parallelogram test, so $ABCD$ is a parallelogram."
+],
+      "solution_text": "In $\\triangle PQS$ and $\\triangle RSQ$, $PQ = RS$, $PS = RQ$ and $QS$ is common, giving SSS. Corresponding angles give $\\angle PQS = \\angle RSQ$ and $\\angle PSQ = \\angle RQS$. Equal alternate angles prove both pairs of opposite sides parallel."
     },
-    {
+{
       "id": "q3",
       "structure": "diagonals-bisect-reason",
       "mastery": false,
@@ -76,157 +76,157 @@
       ],
       "solution_text": "The equal half-diagonals $AE = CE$ and $BE = DE$ are the two sides, and the included angle is the vertically opposite pair $\\angle AEB = \\angle CED$, giving SAS."
     },
-    {
+{
       "id": "q4",
-      "structure": "insufficient-condition",
+      "structure": "prove-sas-from-bisecting-diagonals",
       "mastery": false,
-      "question_text": "Which of these conditions is **not** enough on its own to prove that quadrilateral $ABCD$ is a parallelogram?",
+      "question_text": "The diagonals $AC$ and $BD$ of quadrilateral $ABCD$ meet at $E$, with $AE = CE = 6$ cm and $BE = DE = 3$ cm. Which argument proves $\\triangle ABE \\cong \\triangle CDE$?",
       "options": [
-        {
-          "text": "One pair of opposite sides is equal.",
+{
+          "text": "$AE = CE$, $BE = DE$ and $\\angle AEB = \\angle CED$ by vertically opposite angles, so the triangles are congruent by SAS.",
           "correct": true
         },
-        {
-          "text": "Both pairs of opposite sides are equal.",
-          "why": "This is a valid parallelogram test, so it is sufficient, not insufficient."
+{
+          "text": "$AE = CE$ and $BE = DE$, so the triangles are congruent by SSS.",
+          "why": "This claims SSS after establishing only two pairs of equal sides."
         },
-        {
-          "text": "The diagonals bisect each other.",
-          "why": "This is a valid parallelogram test, so it is sufficient."
+{
+          "text": "$AE = CE$, $BE = DE$ and both angles at $E$ are right angles, so the triangles are congruent by SAS.",
+          "why": "This assumes perpendicular diagonals, which are not given."
         },
-        {
-          "text": "One pair of opposite sides is equal and parallel.",
-          "why": "This is a valid parallelogram test, so it is sufficient."
+{
+          "text": "$\\angle BAE = \\angle DCE$ and $\\angle ABE = \\angle CDE$ because opposite sides are parallel, so AAS applies.",
+          "why": "This assumes the parallel sides that the quadrilateral test is intended to prove."
         }
-      ],
-      "solution_text": "One pair of opposite sides equal is satisfied by an isosceles trapezium, which is not a parallelogram, so it is insufficient."
+],
+      "solution_text": "$AE = CE$ and $BE = DE$ are given. The included angles $\\angle AEB$ and $\\angle CED$ are vertically opposite and equal. Thus $\\triangle ABE \\cong \\triangle CDE$ by SAS."
     },
-    {
+{
       "id": "q5",
-      "structure": "all-sides-rhombus",
+      "structure": "prove-opposite-sides-test",
       "mastery": false,
-      "question_text": "A quadrilateral has all four sides equal.\nThe most specific type it must be is:\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc,angles,quotes}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}},tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.2,0);\n\\coordinate (C) at (4.896,2.714);\n\\coordinate (D) at (1.696,2.714);\n\\draw[tk] (A)--(B);\n\\draw[tk] (B)--(C);\n\\draw[tk] (C)--(D);\n\\draw[tk] (D)--(A);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "Quadrilateral $EFGH$ has $EF = GH = 9$ cm and $FG = HE = 5$ cm. Diagonal $EG$ is drawn. Which proof establishes that $EFGH$ is a parallelogram?",
       "options": [
-        {
-          "text": "a rhombus",
+{
+          "text": "$\\triangle EFG \\cong \\triangle GHE$ by SSS. Corresponding angles give $EF \\parallel GH$ and $FG \\parallel HE$ by equal alternate angles.",
           "correct": true
         },
-        {
-          "text": "a parallelogram",
-          "why": "It is a parallelogram, but \"rhombus\" is more specific because all four sides are equal, not just opposite sides."
+{
+          "text": "$\\triangle EFG \\cong \\triangle GHE$ by RHS because $EG$ is a common hypotenuse.",
+          "why": "This assumes right angles; a common diagonal is not necessarily a hypotenuse."
         },
-        {
-          "text": "a square",
-          "why": "Equal sides do not force right angles, so it need not be a square."
+{
+          "text": "$\\triangle EFG \\cong \\triangle GHE$ by SAS because $\\angle EFG = \\angle GHE$ is given.",
+          "why": "This assumes an opposite-angle equality that is not given."
         },
-        {
-          "text": "a kite",
-          "why": "A kite has two pairs of adjacent equal sides, not necessarily all four equal, so this is not the most specific."
+{
+          "text": "$EF = FG = GH = HE$, so all four sides are parallel in pairs.",
+          "why": "This incorrectly equates the unequal adjacent lengths $9$ cm and $5$ cm."
         }
-      ],
-      "solution_text": "All four sides equal is the rhombus test; without a right angle it need not be a square, so the most specific answer is rhombus."
+],
+      "solution_text": "$EF = GH$, $FG = HE$ and $EG$ is common, so $\\triangle EFG \\cong \\triangle GHE$ by SSS. Corresponding angles give $\\angle FEG = \\angle HGE$ and $\\angle FGE = \\angle HEG$. Equal alternate angles establish both pairs of parallel sides."
     },
-    {
+{
       "id": "q6",
-      "structure": "diagonals-perp-bisect-rhombus",
+      "structure": "prove-bisecting-diagonals-test",
       "mastery": false,
-      "question_text": "The diagonals of quadrilateral $ABCD$ bisect each other at right angles.\n$ABCD$ must be a:\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc,angles,quotes}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}},tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.0,0);\n\\coordinate (C) at (4.5,2.598);\n\\coordinate (D) at (1.5,2.598);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\coordinate (E) at (2.25,1.299);\n\\draw[tk] (A)--(E);\n\\draw[tk] (E)--(C);\n\\draw[tk2] (B)--(E);\n\\draw[tk2] (E)--(D);\n\\coordinate (pep) at ($(E)!0.28cm!(A)$);\n\\coordinate (peq) at ($(E)!0.28cm!(B)$);\n\\draw (pep)--($(pep)+(peq)-(E)$)--(peq);\n\\node[above left] at (2.4,1.44) {$E$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "The diagonals $KM$ and $LN$ of quadrilateral $KLMN$ meet at $O$, with $KO = MO = 5$ cm and $LO = NO = 4$ cm. Which proof establishes that $KLMN$ is a parallelogram?",
       "options": [
-        {
-          "text": "rhombus",
+{
+          "text": "$\\triangle KLO \\cong \\triangle MNO$ and $\\triangle KNO \\cong \\triangle MLO$ by SAS, using vertically opposite angles. Corresponding angles then prove both pairs of opposite sides parallel by equal alternate angles.",
           "correct": true
         },
-        {
-          "text": "rectangle",
-          "why": "A rectangle needs equal diagonals; perpendicular bisecting diagonals give equal sides, not equal diagonals."
+{
+          "text": "Both pairs of triangles are congruent by RHS because the diagonals meet at right angles.",
+          "why": "This assumes right angles at $O$, which are not given."
         },
-        {
-          "text": "parallelogram only",
-          "why": "Bisecting diagonals alone give a parallelogram, but the right angle upgrades it to a rhombus, which is more specific."
+{
+          "text": "Both pairs of triangles are congruent by SSS because all four half-diagonals are equal.",
+          "why": "This incorrectly equates the half-diagonal lengths $5$ cm and $4$ cm and supplies no third pair of corresponding sides."
         },
-        {
-          "text": "square",
-          "why": "A square also needs the diagonals to be equal, which is not given here."
+{
+          "text": "Both pairs of triangles are congruent by AAS because the opposite sides are parallel.",
+          "why": "This assumes the parallel sides that must be proved."
         }
-      ],
-      "solution_text": "Bisecting diagonals give a parallelogram; the right angle makes adjacent sides equal, so $ABCD$ is a rhombus."
+],
+      "solution_text": "Equal half-diagonals and vertically opposite angles give $\\triangle KLO \\cong \\triangle MNO$ and $\\triangle KNO \\cong \\triangle MLO$ by SAS. Corresponding angles give $\\angle LKO = \\angle NMO$ and $\\angle NKO = \\angle LMO$. Equal alternate angles establish $KL \\parallel MN$ and $KN \\parallel ML$."
     },
-    {
+{
       "id": "q7",
-      "structure": "classify-equal-diagonals-rectangle",
+      "structure": "prove-opposite-sides-test-using-second-diagonal",
       "mastery": false,
-      "question_text": "The diagonals of a parallelogram are equal in length.\nThe parallelogram must be a:",
+      "question_text": "Quadrilateral $WXYZ$ has $WX = YZ = 10$ cm and $WZ = YX = 6$ cm. Diagonal $XZ$ is drawn. Which proof establishes that $WXYZ$ is a parallelogram?",
       "options": [
-        {
-          "text": "rectangle",
+{
+          "text": "$\\triangle WXZ \\cong \\triangle YZX$ by SSS. Corresponding angles give $WX \\parallel YZ$ and $WZ \\parallel YX$ by equal alternate angles.",
           "correct": true
         },
-        {
-          "text": "rhombus",
-          "why": "A rhombus comes from perpendicular diagonals or equal sides, not from equal diagonals."
+{
+          "text": "$\\triangle WXZ \\cong \\triangle YXZ$ by SSS, so corresponding angles prove both pairs of sides parallel.",
+          "why": "This gives the wrong matching order: $W$ matches $Y$, $X$ matches $Z$ and $Z$ matches $X$."
         },
-        {
-          "text": "square",
-          "why": "A square also needs perpendicular diagonals; equal diagonals alone give only a rectangle."
+{
+          "text": "$WX = YZ$, so that equal pair alone proves a parallelogram.",
+          "why": "This uses only one equal opposite pair and does not prove both pairs of sides parallel."
         },
-        {
-          "text": "kite",
-          "why": "A kite is not a parallelogram, and this shape is already stated to be a parallelogram."
+{
+          "text": "$XZ = WY$, so the quadrilateral is a rectangle and hence a parallelogram.",
+          "why": "This assumes equal diagonals without evidence and applies the rectangle test before proving a parallelogram."
         }
-      ],
-      "solution_text": "A parallelogram with equal diagonals satisfies the rectangle test, so it is a rectangle."
+],
+      "solution_text": "$WX = YZ$, $WZ = YX$ and $XZ$ is common, so $\\triangle WXZ \\cong \\triangle YZX$ by SSS. Corresponding angles give $\\angle WXZ = \\angle YZX$ and $\\angle WZX = \\angle YXZ$. Equal alternate angles prove both pairs of opposite sides parallel."
     },
-    {
+{
       "id": "q8",
-      "structure": "numerical-test",
+      "structure": "prove-sas-from-bisecting-diagonals",
       "mastery": false,
-      "question_text": "The diagonals of quadrilateral $ABCD$ bisect each other.\nIf $AE = 2x + 1$ and $CE = x + 7$ (where $E$ is the intersection), what is $x$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc,angles,quotes}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}},tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (C) at (6.1,2.5);\n\\coordinate (D) at (1.5,2.5);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\coordinate (E) at (3.05,1.25);\n\\draw[tk] (A)--(E);\n\\draw[tk] (E)--(C);\n\\draw[tk2] (B)--(E);\n\\draw[tk2] (E)--(D);\n\\node[above left] at (3.2,1.4) {$E$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "The diagonals $PR$ and $QS$ of quadrilateral $PQRS$ intersect at $M$, with $PM = RM = 8$ cm and $QM = SM = 5$ cm. Which argument proves $\\triangle PSM \\cong \\triangle RQM$?",
       "options": [
-        {
-          "text": "$x = 6$",
+{
+          "text": "$PM = RM$, $SM = QM$ and $\\angle PMS = \\angle RMQ$ by vertically opposite angles, so SAS applies.",
           "correct": true
         },
-        {
-          "text": "$x = 8$",
-          "why": "This comes from adding $2x + 1$ and $x + 7$ and mishandling the equation instead of setting $AE = CE$."
+{
+          "text": "$PM = QM$, $SM = RM$ and $\\angle PMS = \\angle RMQ$, so SAS applies.",
+          "why": "This matches halves of different diagonals, incorrectly equating $8$ cm with $5$ cm."
         },
-        {
-          "text": "$x = 4$",
-          "why": "This comes from solving $2x + 1 = x - 7$, a sign slip on the constant term."
+{
+          "text": "$PM = RM$ and $SM = QM$, so SSS applies.",
+          "why": "This uses only two pairs of equal sides for SSS."
         },
-        {
-          "text": "$x = 3$",
-          "why": "This comes from equating $2x + 1$ to $7$ and ignoring the $x$ term in $CE$."
+{
+          "text": "$PM = RM$, $SM = QM$ and $\\angle PMS = \\angle PMQ$, so SAS applies.",
+          "why": "This uses adjacent supplementary angles at $M$ instead of matching vertically opposite angles."
         }
-      ],
-      "solution_text": "Bisection gives $AE = CE$, so $2x + 1 = x + 7$, hence $x = 6$."
+],
+      "solution_text": "$PM = RM$ and $SM = QM$ are given. The included angles $\\angle PMS$ and $\\angle RMQ$ are vertically opposite and equal. Thus $\\triangle PSM \\cong \\triangle RQM$ by SAS."
     },
-    {
+{
       "id": "q9",
-      "structure": "classify-square-from-diagonals",
+      "structure": "prove-bisecting-diagonals-test",
       "mastery": true,
-      "question_text": "The diagonals of a quadrilateral bisect each other, are equal in length, and meet at right angles.\nThe most specific type of quadrilateral this must be is a:\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc,angles,quotes}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}},tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (3,3);\n\\coordinate (D) at (0,3);\n\\coordinate (E) at (1.5,1.5);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[tk] (A)--(E);\n\\draw[tk] (E)--(C);\n\\draw[tk] (B)--(E);\n\\draw[tk] (E)--(D);\n\\coordinate (cep) at ($(E)!0.28cm!(A)$);\n\\coordinate (ceq) at ($(E)!0.28cm!(B)$);\n\\draw (cep)--($(cep)+(ceq)-(E)$)--(ceq);\n\\node[above left] at (1.35,1.7) {$E$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "The diagonals $AC$ and $BD$ of quadrilateral $ABCD$ meet at $E$, with $AE = CE = 11$ cm and $BE = DE = 7$ cm. Which complete argument proves that $ABCD$ is a parallelogram without assuming parallel sides?",
       "options": [
-        {
-          "text": "square",
+{
+          "text": "Use equal half-diagonals and vertically opposite angles to prove $\\triangle ABE \\cong \\triangle CDE$ and $\\triangle ADE \\cong \\triangle CBE$ by SAS. Corresponding angles give two pairs of equal alternate angles, proving $AB \\parallel CD$ and $AD \\parallel BC$.",
           "correct": true
         },
-        {
-          "text": "rhombus",
-          "why": "Perpendicular bisecting diagonals give a rhombus, but the equal-diagonals condition also forces right angles, upgrading it to a square."
+{
+          "text": "Use alternate angles from $AB \\parallel CD$ and $AD \\parallel BC$ to prove the triangles congruent, then conclude that the sides are parallel.",
+          "why": "This assumes both parallel-side conclusions at the start, making the argument circular."
         },
-        {
-          "text": "rectangle",
-          "why": "Equal bisecting diagonals give a rectangle, but the perpendicular condition also forces equal sides, upgrading it to a square."
+{
+          "text": "Prove $\\triangle ABE \\cong \\triangle CDE$ by SAS and hence $AB \\parallel CD$. This one parallel pair proves a parallelogram.",
+          "why": "This stops after one pair of parallel sides; both pairs must be established."
         },
-        {
-          "text": "parallelogram only",
-          "why": "Bisecting diagonals alone give a parallelogram, but the extra equal and perpendicular conditions make it a square."
+{
+          "text": "The two diagonals have equal lengths, so $ABCD$ is a rectangle and hence a parallelogram.",
+          "why": "This incorrectly treats the two diagonals as equal despite their different half-lengths and applies the rectangle test without first proving a parallelogram."
         }
-      ],
-      "solution_text": "Bisecting diagonals give a parallelogram; equal diagonals make it a rectangle and perpendicular diagonals make it a rhombus, so it is both, that is a square."
+],
+      "solution_text": "The givens and vertically opposite angles establish both congruences by SAS. The first gives $\\angle BAE = \\angle DCE$, hence $AB \\parallel CD$ by equal alternate angles. The second gives $\\angle DAE = \\angle BCE$, hence $AD \\parallel BC$ by equal alternate angles. Therefore $ABCD$ is a parallelogram."
     },
-    {
+{
       "id": "q10",
       "structure": "diagonals-bisect-parallel-complete",
       "mastery": true,
@@ -251,30 +251,30 @@
       ],
       "solution_text": "$AC$ is a transversal, and $\\angle BAE = \\angle DCE$ are equal alternate angles, so $AB \\parallel DC$ (equal alternate angles imply parallel lines)."
     },
-    {
+{
       "id": "q11",
-      "structure": "rhombus-side-numerical",
+      "structure": "prove-opposite-sides-test",
       "mastery": false,
-      "question_text": "$ABCD$ is a rhombus with $AB = 4x - 3$ and $BC = 2x + 5$.\nWhat is $x$?",
+      "question_text": "Quadrilateral $JKLM$ has $JK = LM = 12$ cm and $KL = MJ = 5$ cm. Diagonal $JL$ is drawn. Which proof establishes that $JKLM$ is a parallelogram?",
       "options": [
-        {
-          "text": "$x = 4$",
+{
+          "text": "$\\triangle JKL \\cong \\triangle LMJ$ by SSS. Corresponding angles give $JK \\parallel LM$ and $KL \\parallel MJ$ by equal alternate angles.",
           "correct": true
         },
-        {
-          "text": "$x = 1$",
-          "why": "This comes from solving $4x - 3 = 2x - 5$, a sign error on the constant of $BC$."
+{
+          "text": "$\\triangle JKL \\cong \\triangle LMJ$ by RHS because the side lengths are $12$ cm and $5$ cm.",
+          "why": "This assumes right angles from two side lengths; no right angle is given."
         },
-        {
-          "text": "$x = 2$",
-          "why": "This comes from equating $4x - 3$ to $5$ and ignoring the $2x$ term of $BC$."
+{
+          "text": "$\\triangle JKL \\cong \\triangle LMJ$ by SAS because opposite angles are equal.",
+          "why": "This assumes an opposite-angle property before proving that the quadrilateral is a parallelogram."
         },
-        {
-          "text": "$x = 8$",
-          "why": "From $2x = 8$ the final division by $2$ is skipped, leaving $x = 8$ instead of $x = 4$."
+{
+          "text": "$\\triangle JKL \\cong \\triangle MLJ$ by SSS, so corresponding angles prove both pairs of sides parallel.",
+          "why": "This uses the wrong matching order: $J$ matches $L$, $K$ matches $M$ and $L$ matches $J$."
         }
-      ],
-      "solution_text": "All sides of a rhombus are equal, so $AB = BC$: $4x - 3 = 2x + 5$, giving $2x = 8$ and $x = 4$."
+],
+      "solution_text": "$JK = LM$, $KL = MJ$ and $JL$ is common, giving $\\triangle JKL \\cong \\triangle LMJ$ by SSS. Corresponding angles give $\\angle KJL = \\angle MLJ$ and $\\angle KLJ = \\angle MJL$. Equal alternate angles establish $JK \\parallel LM$ and $KL \\parallel MJ$."
     }
-  ]
+]
 }

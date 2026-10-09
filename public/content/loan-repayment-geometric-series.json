@@ -2,102 +2,99 @@
   "skillId": "loan-repayment-geometric-series",
   "atomType": "R",
   "theory": {
-    "intro": "When a reducing balance loan is fully repaid after $n$ periods, the final balance $A_{n}$ is zero. Setting the geometric series equation to zero allows solving for the required **periodic repayment** $M$ or the maximum principal $PV$ that can be borrowed.",
+    "intro": "For these reducing balance loans, repayments occur at the end of each repayment period, after interest is added, with the first repayment one period after borrowing. Let $r>0$ be the effective interest rate per repayment period and $n$ be the number of repayments. Derive the repayment geometric series for each problem before setting the final balance $A_n$ to zero and solving for the periodic repayment $M$ or principal $PV$.",
     "facts": [
-      "Setting $A_{n}=0$ gives $PV(1+r)^{n}=M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$.",
-      "Rearranging for the repayment gives $M=\\dfrac{PV\\,r(1+r)^{n}}{(1+r)^{n}-1}$.",
-      "Rearranging for the borrowable principal gives $PV=\\dfrac{M\\left[(1+r)^{n}-1\\right]}{r(1+r)^{n}}$.",
-      "Shorter loan terms require higher periodic repayments but dramatically decrease the total interest charged.",
-      "Always round money calculations to the nearest cent only at the final step."
-    ],
+"After one repayment, $A_1=PV(1+r)-M$. After two repayments, $A_2=PV(1+r)^2-M(1+r)-M$.",
+"After $n$ repayments, $A_n=PV(1+r)^n-[M+M(1+r)+\\cdots+M(1+r)^{n-1}]$. The repayment terms form a geometric series with first term $M$, common ratio $1+r$ and $n$ terms.",
+"Setting $A_{n}=0$ gives $PV(1+r)^{n}=M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$.",
+"Rearranging for the repayment gives $M=\\dfrac{PV\\,r(1+r)^{n}}{(1+r)^{n}-1}$.",
+"Rearranging for the borrowable principal gives $PV=\\dfrac{M\\left[(1+r)^{n}-1\\right]}{r(1+r)^{n}}$.",
+"Shorter loan terms require higher periodic repayments but dramatically decrease the total interest charged.",
+"Keep full calculator precision until the question's specified rounding point. Round down for maximum whole-dollar borrowing. For totals, follow the question's stated convention about using rounded or unrounded repayments."
+],
     "steps": [
-      "Determine the periodic interest rate $r$ and total number of repayments $n$.",
-      "Set $A_{n}=0$ in the loan balance equation $PV(1+r)^{n}-M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]=0$.",
-      "Isolate the unknown $M$ or $PV$ algebraically.",
-      "Evaluate using full calculator precision and round the final monetary amount."
-    ]
+"Determine the effective interest rate $r$ per repayment period, the repayment timing and the total number of repayments $n$.",
+"Write the balances after the first two repayments and extend the pattern to $A_n$. Identify the repayment geometric series and apply its sum.",
+"Set the final balance to zero and isolate the unknown $M$ or $PV$ algebraically.",
+"Evaluate using full calculator precision and apply the specified rounding. Calculate totals using rounded or unrounded repayments as directed."
+]
   },
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "A loan of $\\$18\\,000$ is repaid in equal monthly instalments over $3$ years ($36$ months) at $12\\%$ p.a. compounded monthly ($r=0.01$).\nFind the monthly repayment $M$, to the nearest cent.",
         "structure": "solve-for-repayment-amount",
-        "solution_text": "$r=0.01, n=36, PV=18\\,000$\n$0=18\\,000(1.01)^{36}-M\\left[\\dfrac{(1.01)^{36}-1}{0.01}\\right]$\n$M=\\dfrac{18\\,000(0.01)(1.01)^{36}}{(1.01)^{36}-1}$\n$=\\$597.86$"
+        "solution_text": "$r=0.01, n=36, PV=18\\,000$\n$A_1=18\\,000(1.01)-M$\n$A_2=18\\,000(1.01)^2-M(1.01)-M$\n$A_{36}=18\\,000(1.01)^{36}-[M+M(1.01)+\\cdots+M(1.01)^{35}]$\nThe repayments form a geometric series with first term $M$, common ratio $1.01$ and $36$ terms.\n$0=18\\,000(1.01)^{36}-M\\left[\\dfrac{(1.01)^{36}-1}{0.01}\\right]$\n$M=\\dfrac{18\\,000(0.01)(1.01)^{36}}{(1.01)^{36}-1}$\n$=\\$597.86$"
       },
-      {
+{
         "question_text": "A personal loan of $\\$6000$ is repaid over $3$ years with equal annual instalments at $12.5\\%$ p.a. ($r=0.125$).\nFind the amount of each annual instalment, to the nearest cent.",
         "structure": "solve-for-repayment-amount",
-        "solution_text": "$r=0.125, n=3, PV=6000$\n$0=6000(1.125)^{3}-M\\left[\\dfrac{(1.125)^{3}-1}{0.125}\\right]$\n$M=\\dfrac{6000(0.125)(1.125)^{3}}{(1.125)^{3}-1}$\n$=\\$2519.59$"
+        "solution_text": "$r=0.125, n=3, PV=6000$\n$A_1=6000(1.125)-M$\n$A_2=6000(1.125)^2-M(1.125)-M$\n$A_3=6000(1.125)^3-[M+M(1.125)+M(1.125)^2]$\nThe repayments form a geometric series with first term $M$, common ratio $1.125$ and $3$ terms.\n$0=6000(1.125)^{3}-M\\left[\\dfrac{(1.125)^{3}-1}{0.125}\\right]$\n$M=\\dfrac{6000(0.125)(1.125)^{3}}{(1.125)^{3}-1}$\n$=\\$2519.59$"
       },
-      {
-        "question_text": "A couple can afford monthly mortgage payments of $\\$1600$.\nThe interest rate is $7.5\\%$ p.a. compounded monthly ($r=0.00625$) over $25$ years ($300$ months).\nFind the maximum amount $PV$ they can borrow, to the nearest dollar.",
+{
+        "question_text": "A couple can afford monthly mortgage payments of $\\$1600$.\nThe interest rate is $7.5\\%$ p.a. compounded monthly ($r=0.00625$) over $25$ years ($300$ months).\nFind the maximum amount $PV$ they can borrow, rounding down to the nearest dollar.",
         "structure": "solve-for-borrowing-capacity",
-        "solution_text": "$r=0.00625, n=300, M=1600$\n$0=PV(1.00625)^{300}-1600\\left[\\dfrac{(1.00625)^{300}-1}{0.00625}\\right]$\n$PV=\\dfrac{1600[(1.00625)^{300}-1]}{0.00625(1.00625)^{300}}$\n$=\\$216\\,511$"
+        "solution_text": "$r=0.00625, n=300, M=1600$\n$A_1=PV(1.00625)-1600$\n$A_2=PV(1.00625)^2-1600(1.00625)-1600$\n$A_{300}=PV(1.00625)^{300}-[1600+1600(1.00625)+\\cdots+1600(1.00625)^{299}]$\nThe repayments form a geometric series with first term $1600$, common ratio $1.00625$ and $300$ terms.\n$0=PV(1.00625)^{300}-1600\\left[\\dfrac{(1.00625)^{300}-1}{0.00625}\\right]$\n$PV=\\dfrac{1600[(1.00625)^{300}-1]}{0.00625(1.00625)^{300}}$\nRounding down, the maximum whole-dollar loan is $\\$216\\,511$."
       },
-      {
+{
         "question_text": "David borrows $\\$5000$ at $15\\%$ p.a. compounded monthly ($r=0.0125$) over $4$ years ($48$ months).\nFind the monthly repayment $M$, to the nearest cent.",
         "structure": "solve-for-repayment-amount",
-        "solution_text": "$r=0.0125, n=48, PV=5000$\n$0=5000(1.0125)^{48}-M\\left[\\dfrac{(1.0125)^{48}-1}{0.0125}\\right]$\n$M=\\dfrac{5000(0.0125)(1.0125)^{48}}{(1.0125)^{48}-1}$\n$=\\$139.15$"
+        "solution_text": "$r=0.0125, n=48, PV=5000$\n$A_1=5000(1.0125)-M$\n$A_2=5000(1.0125)^2-M(1.0125)-M$\n$A_{48}=5000(1.0125)^{48}-[M+M(1.0125)+\\cdots+M(1.0125)^{47}]$\nThe repayments form a geometric series with first term $M$, common ratio $1.0125$ and $48$ terms.\n$0=5000(1.0125)^{48}-M\\left[\\dfrac{(1.0125)^{48}-1}{0.0125}\\right]$\n$M=\\dfrac{5000(0.0125)(1.0125)^{48}}{(1.0125)^{48}-1}$\n$=\\$139.15$"
       },
-      {
-        "question_text": "A buyer can afford $\\$450$ per month for a car loan over $4$ years ($48$ months) at $6\\%$ p.a. compounded monthly ($r=0.005$).\nFind the maximum amount they can borrow, to the nearest dollar.",
+{
+        "question_text": "A buyer can afford $\\$450$ per month for a car loan over $4$ years ($48$ months) at $6\\%$ p.a. compounded monthly ($r=0.005$).\nFind the maximum amount they can borrow, rounding down to the nearest dollar.",
         "structure": "solve-for-borrowing-capacity",
-        "solution_text": "$r=0.005, n=48, M=450$\n$PV=\\dfrac{450[(1.005)^{48}-1]}{0.005(1.005)^{48}}$\n$=\\$19\\,162$"
+        "solution_text": "$r=0.005, n=48, M=450$\n$A_1=PV(1.005)-450$\n$A_2=PV(1.005)^2-450(1.005)-450$\n$A_{48}=PV(1.005)^{48}-[450+450(1.005)+\\cdots+450(1.005)^{47}]$\nThe repayments form a geometric series with first term $450$, common ratio $1.005$ and $48$ terms.\n$0=PV(1.005)^{48}-450\\dfrac{(1.005)^{48}-1}{0.005}$\n$PV=\\dfrac{450[(1.005)^{48}-1]}{0.005(1.005)^{48}}$\nRounding down, the maximum whole-dollar loan is $\\$19\\,161$."
       },
-      {
-        "question_text": "A loan of $\\$10\\,000$ at $8\\%$ p.a. is repaid over $2$ years.\nFind the repayment amount if repaid: a) annually ($n=2, r=0.08$) and b) quarterly ($n=8, r=0.02$).",
+{
+        "question_text": "A loan of $\\$10\\,000$ at $8\\%$ p.a. is repaid over $2$ years, with interest compounded at the corresponding repayment frequency.\nFind the repayment amount, to the nearest cent, if repaid: a) annually ($n=2, r=0.08$) and b) quarterly ($n=8, r=0.02$).",
         "structure": "repayment-frequency-impact",
-        "solution_text": "$M_{\\text{annual}}=\\dfrac{10\\,000(0.08)(1.08)^{2}}{(1.08)^{2}-1}=\\$5607.69$\n$M_{\\text{quarterly}}=\\dfrac{10\\,000(0.02)(1.02)^{8}}{(1.02)^{8}-1}=\\$1365.10$"
+        "solution_text": "a) $A_1=10\\,000(1.08)-M$\n$A_2=10\\,000(1.08)^2-[M+M(1.08)]$\nThe repayments form a geometric series with first term $M$, common ratio $1.08$ and $2$ terms.\n$0=10\\,000(1.08)^2-M\\dfrac{(1.08)^2-1}{0.08}$\n$M_{\\text{annual}}=\\dfrac{10\\,000(0.08)(1.08)^{2}}{(1.08)^{2}-1}=\\$5607.69$\nb) $A_1=10\\,000(1.02)-M$\n$A_2=10\\,000(1.02)^2-M(1.02)-M$\n$A_8=10\\,000(1.02)^8-[M+M(1.02)+\\cdots+M(1.02)^7]$\nThe repayments form a geometric series with first term $M$, common ratio $1.02$ and $8$ terms.\n$0=10\\,000(1.02)^8-M\\dfrac{(1.02)^8-1}{0.02}$\n$M_{\\text{quarterly}}=\\dfrac{10\\,000(0.02)(1.02)^{8}}{(1.02)^{8}-1}=\\$1365.10$"
       }
-    ],
+],
     "development": [
-      {
-        "question_text": "A couple borrows $\\$150\\,000$ at $6\\%$ p.a. compounded monthly ($r=0.005$).\nFind the monthly repayment over a) $25$ years ($300$ months) and b) $15$ years ($180$ months), and calculate how much total interest is saved with the $15$-year term.",
+{
+        "question_text": "A couple borrows $\\$150\\,000$ at $6\\%$ p.a. compounded monthly ($r=0.005$).\nFind the monthly repayment over a) $25$ years ($300$ months) and b) $15$ years ($180$ months), and calculate how much total interest is saved with the $15$-year term. Round repayments to the nearest cent and calculate totals using those rounded repayments.",
         "structure": "repayment-term-comparison",
-        "solution_text": "$M_{25}=\\dfrac{150\\,000(0.005)(1.005)^{300}}{(1.005)^{300}-1}=\\$966.45$\n$\\text{Total Interest}_{25}=300(966.45)-150\\,000=\\$139\\,935.00$\n$M_{15}=\\dfrac{150\\,000(0.005)(1.005)^{180}}{(1.005)^{180}-1}=\\$1265.79$\n$\\text{Total Interest}_{15}=180(1265.79)-150\\,000=\\$77\\,842.20$\n$\\text{Interest Saved}=139\\,935.00-77\\,842.20=\\$62\\,092.80$"
+        "solution_text": "$A_1=150\\,000(1.005)-M$\n$A_2=150\\,000(1.005)^2-M(1.005)-M$\nFor $25$ years, $A_{300}=150\\,000(1.005)^{300}-[M+M(1.005)+\\cdots+M(1.005)^{299}]$.\nThe repayments form a geometric series with first term $M$, common ratio $1.005$ and $300$ terms.\n$0=150\\,000(1.005)^{300}-M\\dfrac{(1.005)^{300}-1}{0.005}$\n$M_{25}=\\dfrac{150\\,000(0.005)(1.005)^{300}}{(1.005)^{300}-1}=\\$966.45$\n$\\text{Total Interest}_{25}=300(966.45)-150\\,000=\\$139\\,935.00$\nFor $15$ years, $A_{180}=150\\,000(1.005)^{180}-[M+M(1.005)+\\cdots+M(1.005)^{179}]$.\nThe repayments form a geometric series with first term $M$, common ratio $1.005$ and $180$ terms.\n$0=150\\,000(1.005)^{180}-M\\dfrac{(1.005)^{180}-1}{0.005}$\n$M_{15}=\\dfrac{150\\,000(0.005)(1.005)^{180}}{(1.005)^{180}-1}=\\$1265.79$\n$\\text{Total Interest}_{15}=180(1265.79)-150\\,000=\\$77\\,842.20$\n$\\text{Interest Saved}=139\\,935.00-77\\,842.20=\\$62\\,092.80$"
       },
-      {
+{
         "question_text": "Santi buys a car for $\\$38\\,000$, paying a $10\\%$ deposit and borrowing the balance over $5$ years ($60$ months) at $1.5\\%$ per month ($r=0.015$).\nFind the monthly loan repayment, to the nearest cent.",
         "structure": "solve-for-repayment-amount",
-        "solution_text": "$PV=38\\,000-0.10(38\\,000)=\\$34\\,200$\n$r=0.015, n=60$\n$M=\\dfrac{34\\,200(0.015)(1.015)^{60}}{(1.015)^{60}-1}$\n$=\\$868.46$"
+        "solution_text": "$PV=38\\,000-0.10(38\\,000)=\\$34\\,200$\n$r=0.015, n=60$\n$A_1=34\\,200(1.015)-M$\n$A_2=34\\,200(1.015)^2-M(1.015)-M$\n$A_{60}=34\\,200(1.015)^{60}-[M+M(1.015)+\\cdots+M(1.015)^{59}]$\nThe repayments form a geometric series with first term $M$, common ratio $1.015$ and $60$ terms.\n$0=34\\,200(1.015)^{60}-M\\dfrac{(1.015)^{60}-1}{0.015}$\n$M=\\dfrac{34\\,200(0.015)(1.015)^{60}}{(1.015)^{60}-1}$\n$=\\$868.46$"
       },
-      {
-        "question_text": "A business allocates $\\$3500$ each quarter towards loan repayments over $6$ years ($24$ quarters) at $8\\%$ p.a. compounded quarterly ($r=0.02$).\nFind the maximum loan principal $PV$ that can be borrowed, to the nearest dollar.",
+{
+        "question_text": "A business allocates $\\$3500$ each quarter towards loan repayments over $6$ years ($24$ quarters) at $8\\%$ p.a. compounded quarterly ($r=0.02$).\nFind the maximum loan principal $PV$ that can be borrowed, rounding down to the nearest dollar.",
         "structure": "solve-for-borrowing-capacity",
-        "solution_text": "$r=0.02, n=24, M=3500$\n$PV=\\dfrac{3500[(1.02)^{24}-1]}{0.02(1.02)^{24}}$\n$=\\$132\\,350$"
+        "solution_text": "$r=0.02, n=24, M=3500$\n$A_1=PV(1.02)-3500$\n$A_2=PV(1.02)^2-3500(1.02)-3500$\n$A_{24}=PV(1.02)^{24}-[3500+3500(1.02)+\\cdots+3500(1.02)^{23}]$\nThe repayments form a geometric series with first term $3500$, common ratio $1.02$ and $24$ terms.\n$0=PV(1.02)^{24}-3500\\dfrac{(1.02)^{24}-1}{0.02}$\n$PV=\\dfrac{3500[(1.02)^{24}-1]}{0.02(1.02)^{24}}$\nRounding down, the maximum whole-dollar loan is $\\$66\\,198$."
       },
-      {
-        "question_text": "A mortgage of $\\$180\\,000$ at $6.6\\%$ p.a. compounded monthly ($r=0.0055$) is repaid over $25$ years ($300$ months).\nFind the monthly repayment $M$ and the total interest paid over the life of the loan.",
+{
+        "question_text": "A mortgage of $\\$180\\,000$ at $6.6\\%$ p.a. compounded monthly ($r=0.0055$) is repaid over $25$ years ($300$ months).\nFind the monthly repayment $M$ to the nearest cent and the total interest paid over the life of the loan to the nearest dollar. Use the unrounded repayment when calculating the total interest.",
         "structure": "solve-for-repayment-amount",
-        "solution_text": "$r=0.0055, n=300$\n$M=\\dfrac{180\\,000(0.0055)(1.0055)^{300}}{(1.0055)^{300}-1}=\\$1226.64$\n$\\text{Total Paid}=300\\times1226.64=\\$367\\,992$\n$\\text{Total Interest}=367\\,992-180\\,000=\\$187\\,992$"
+        "solution_text": "$r=0.0055, n=300$\n$A_1=180\\,000(1.0055)-M$\n$A_2=180\\,000(1.0055)^2-M(1.0055)-M$\n$A_{300}=180\\,000(1.0055)^{300}-[M+M(1.0055)+\\cdots+M(1.0055)^{299}]$\nThe repayments form a geometric series with first term $M$, common ratio $1.0055$ and $300$ terms.\n$0=180\\,000(1.0055)^{300}-M\\dfrac{(1.0055)^{300}-1}{0.0055}$\n$M=\\dfrac{180\\,000(0.0055)(1.0055)^{300}}{(1.0055)^{300}-1}=\\$1226.64$ to the nearest cent.\nUsing the unrounded value of $M$, $\\text{Total Paid}=300M\\approx\\$367\\,993$ to the nearest dollar.\n$\\text{Total Interest}=300M-180\\,000\\approx\\$187\\,993$ to the nearest dollar."
       },
-      {
-        "question_text": "Danny buys equipment for $\\$10\\,000$, pays a $\\$1500$ deposit, and borrows $\\$8500$ at $18\\%$ p.a. compounded monthly ($r=0.015$) over $4$ years ($48$ months).\nFind the monthly repayment $M$ and the total cost of the equipment.",
-        "structure": "repayment-frequency-impact",
-        "solution_text": "$PV=8500, r=0.015, n=48$\n$M=\\dfrac{8500(0.015)(1.015)^{48}}{(1.015)^{48}-1}=\\$249.69$\n$\\text{Total Cost}=1500+48\\times249.69$\n$=\\$13\\,485.12$"
+{
+        "question_text": "Danny buys equipment for $\\$10\\,000$, pays a $\\$1500$ deposit, and borrows $\\$8500$ at $18\\%$ p.a. compounded monthly ($r=0.015$) over $4$ years ($48$ months).\nFind the monthly repayment $M$ to the nearest cent and the total cost of the equipment using that rounded repayment.",
+        "structure": "repayment-and-total-purchase-cost",
+        "solution_text": "$PV=8500, r=0.015, n=48$\n$A_1=8500(1.015)-M$\n$A_2=8500(1.015)^2-M(1.015)-M$\n$A_{48}=8500(1.015)^{48}-[M+M(1.015)+\\cdots+M(1.015)^{47}]$\nThe repayments form a geometric series with first term $M$, common ratio $1.015$ and $48$ terms.\n$0=8500(1.015)^{48}-M\\dfrac{(1.015)^{48}-1}{0.015}$\n$M=\\dfrac{8500(0.015)(1.015)^{48}}{(1.015)^{48}-1}=\\$249.69$\n$\\text{Total Cost}=1500+48\\times249.69$\n$=\\$13\\,485.12$"
       },
-      {
-        "question_text": "A cardholder can afford to repay $\\$1500$ per month.\nBankerscard charges $24\\%$ p.a. compounded monthly ($r=0.02$).\nWhat is the maximum purchase amount that can be repaid in $2$ monthly instalments?",
+{
+        "question_text": "A cardholder can afford to repay $\\$1500$ per month.\nBankerscard charges $24\\%$ p.a. compounded monthly ($r=0.02$).\nWhat is the maximum purchase amount that can be repaid in $2$ monthly instalments? Give your answer to the nearest cent.",
         "structure": "solve-for-borrowing-capacity",
-        "solution_text": "$r=0.02, n=2, M=1500$\n$PV=\\dfrac{1500[(1.02)^{2}-1]}{0.02(1.02)^{2}}$\n$=\\dfrac{1500(0.0404)}{0.020808}$\n$=\\$2912.34$"
+        "solution_text": "$r=0.02, n=2, M=1500$\n$A_1=PV(1.02)-1500$\n$A_2=PV(1.02)^2-1500(1.02)-1500$\nThe two repayment terms are $1500+1500(1.02)$, a geometric series with first term $1500$, common ratio $1.02$ and $2$ terms.\n$0=PV(1.02)^2-1500\\dfrac{(1.02)^2-1}{0.02}$\n$PV=\\dfrac{1500[(1.02)^{2}-1]}{0.02(1.02)^{2}}$\n$=\\dfrac{1500(0.0404)}{0.020808}$\n$=\\$2912.34$"
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "A company buys machinery for $\\$500\\,000$ and repays it with $20$ equal six-monthly instalments.\nInterest is charged at $12\\%$ p.a. compounded monthly, giving a six-month growth factor $R=(1.01)^{6}$.\nFind each six-monthly instalment $M$, to the nearest cent.",
+{
+        "question_text": "A company buys machinery for $\\$500\\,000$ and repays it with $20$ equal six-monthly instalments, the first occurring six months after the loan is taken out.\nInterest is charged at $12\\%$ p.a. compounded monthly, giving a six-month growth factor $R=(1.01)^{6}$.\nFind each six-monthly instalment $M$, to the nearest cent.",
         "structure": "solve-for-repayment-amount",
-        "solution_text": "$R=(1.01)^{6}=1.06152015\\dots$\n$0=500\\,000R^{20}-M\\left[\\dfrac{R^{20}-1}{R-1}\\right]$\n$M=\\dfrac{500\\,000R^{20}(R-1)}{R^{20}-1}$\n$=\\$44\\,131.77$"
+        "solution_text": "$R=(1.01)^{6}=1.06152015\\dots$\n$A_1=500\\,000R-M$\n$A_2=500\\,000R^2-MR-M$\n$A_{20}=500\\,000R^{20}-[M+MR+\\cdots+MR^{19}]$\nThe repayments form a geometric series with first term $M$, common ratio $R$ and $20$ terms.\n$0=500\\,000R^{20}-M\\left[\\dfrac{R^{20}-1}{R-1}\\right]$\n$M=\\dfrac{500\\,000R^{20}(R-1)}{R^{20}-1}$\n$=\\$44\\,131.77$"
       },
-      {
-        "question_text": "A $\\$300\\,000$ home loan at $6\\%$ p.a. compounded monthly ($r=0.005$) has a 30-year monthly repayment of $\\$1798.65$.\nIf repayments are increased by $\\$250.57$ to $\\$2049.22$ per month, find the required payment for a 22-year term ($264$ months) to show that this cuts 8 years off the loan.",
+{
+        "question_text": "A $\\$300\\,000$ home loan at $6\\%$ p.a. compounded monthly ($r=0.005$) has a 30-year monthly repayment of $\\$1798.65$.\nIf repayments are increased by $\\$250.57$ to $\\$2049.22$ per month, find the required payment for a 22-year term ($264$ months), to the nearest cent, to show that this approximately cuts 8 years off the loan.",
         "structure": "repayment-term-comparison",
-        "solution_text": "$r=0.005, n=264$\n$M_{22}=\\dfrac{300\\,000(0.005)(1.005)^{264}}{(1.005)^{264}-1}$\n$=\\$2049.22$\nSince the calculated repayment is $\\$2049.22$, increasing monthly payments by $\\$250.57$ reduces the loan term from $30$ to $22$ years ($264$ months)."
-      },
-      {
-        "question_text": "A borrower has a fixed repayment budget of $\\$M$.\nIf the periodic interest rate decreases from $r_{1}$ to $r_{2}$ ($r_{2}<r_{1}$) for the same term $n$, express the ratio of the new borrowing capacity $PV_{2}$ to the original capacity $PV_{1}$.",
-        "structure": "solve-for-borrowing-capacity",
-        "solution_text": "$PV_{1}=\\dfrac{M[1-(1+r_{1})^{-n}]}{r_{1}}$\n$PV_{2}=\\dfrac{M[1-(1+r_{2})^{-n}]}{r_{2}}$\n$\\dfrac{PV_{2}}{PV_{1}}=\\dfrac{r_{1}[1-(1+r_{2})^{-n}]}{r_{2}[1-(1+r_{1})^{-n}]}$"
+        "solution_text": "$r=0.005, n=264$\n$A_1=300\\,000(1.005)-M$\n$A_2=300\\,000(1.005)^2-M(1.005)-M$\n$A_{264}=300\\,000(1.005)^{264}-[M+M(1.005)+\\cdots+M(1.005)^{263}]$\nThe repayments form a geometric series with first term $M$, common ratio $1.005$ and $264$ terms.\n$0=300\\,000(1.005)^{264}-M\\dfrac{(1.005)^{264}-1}{0.005}$\n$M_{22}=\\dfrac{300\\,000(0.005)(1.005)^{264}}{(1.005)^{264}-1}$\n$=\\$2049.22$\nSince the calculated repayment rounds to $\\$2049.22$, increasing monthly payments by $\\$250.57$ reduces the loan term from $30$ to approximately $22$ years ($264$ months). The rounded repayments do not give an exactly zero final balance."
       }
-    ]
+]
   }
 }

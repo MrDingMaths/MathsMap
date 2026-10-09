@@ -1,205 +1,205 @@
 {
   "skillId": "prove-binomial-identities",
   "questions": [
-    {
+{
       "id": "q1",
-      "question_text": "Which substitution establishes that $^{7}C_{0} + {^{7}C_{1}} + {^{7}C_{2}} + \\dots + {^{7}C_{7}} = 128$?",
+      "question_text": "Use the binomial expansion of $(1+x)^{9}$ to prove that $\\sum_{r=0}^{9} {^{9}C_{r}} = 512$. Which proof is correct?",
       "structure": "substitution-all-coefficients",
       "mastery": false,
       "options": [
-        {
-          "text": "Put $x = 1$ into the expansion of $(1+x)^{7}$.",
+{
+          "text": "From $(1+x)^{9} = \\sum_{r=0}^{9} {^{9}C_{r}}x^{r}$, set $x = 1$: $\\sum_{r=0}^{9} {^{9}C_{r}} = (1+1)^{9} = 512$.",
           "correct": true
         },
-        {
-          "text": "Put $x = 2$ into the expansion of $(1+x)^{7}$.",
-          "why": "Substituted the base of the power $2$ instead of $x=1$."
+{
+          "text": "From $(1+x)^{9} = \\sum_{r=0}^{9} {^{9}C_{r}}x^{r}$, set $x = 0$: $\\sum_{r=0}^{9} {^{9}C_{r}} = 1$.",
+          "why": "Setting $x = 0$ removes every term except ${^{9}C_{0}}$; it does not give the sum of all coefficients."
         },
-        {
-          "text": "Put $x = 0$ into the expansion of $(1+x)^{7}$.",
-          "why": "Setting $x=0$ leaves only the constant term $^{7}C_{0} = 1$."
+{
+          "text": "From $(1+x)^{9} = \\sum_{r=0}^{9} {^{9}C_{r}}x^{r}$, set $x = -1$: $\\sum_{r=0}^{9} {^{9}C_{r}} = 0$.",
+          "why": "Setting $x = -1$ gives alternating signs, which this proof incorrectly omits."
         },
-        {
-          "text": "Put $x = -1$ into the expansion of $(1+x)^{7}$.",
-          "why": "Setting $x=-1$ gives the alternating sum $0$, not $128$."
+{
+          "text": "From $(1+x)^{9} = \\sum_{r=0}^{9} {^{9}C_{r}}x^{r}$, set $x = 1$: $\\sum_{r=0}^{9} {^{9}C_{r}} = 2 \\times 9 = 18$.",
+          "why": "Replaced the power $2^{9}$ with the product $2 \\times 9$."
         }
-      ],
-      "solution_text": "In $(1+x)^{7} = \\sum_{r=0}^{7} {^{7}C_{r}} x^{r}$, substitute $x = 1$:\n$(1+1)^{7} = \\sum_{r=0}^{7} {^{7}C_{r}}$\n$2^{7} = 128 = \\sum_{r=0}^{7} {^{7}C_{r}}$\nPut $x = 1$ into the expansion of $(1+x)^{7}$."
+],
+      "solution_text": "State the expansion:\n$(1+x)^{9} = \\sum_{r=0}^{9} {^{9}C_{r}}x^{r}$\nSubstitute $x = 1$:\n$(1+1)^{9} = \\sum_{r=0}^{9} {^{9}C_{r}}1^{r}$\n$\\sum_{r=0}^{9} {^{9}C_{r}} = 2^{9} = 512$"
     },
-    {
+{
       "id": "q2",
-      "question_text": "What is the value of the alternating sum $^{8}C_{0} - {^{8}C_{1}} + {^{8}C_{2}} - {^{8}C_{3}} + {^{8}C_{4}} - {^{8}C_{5}} + {^{8}C_{6}} - {^{8}C_{7}} + {^{8}C_{8}}$?",
-      "structure": "substitution-alternating-sum",
+      "question_text": "By substituting $x = -1$ into the binomial expansion of $(1+x)^{11}$, prove that its even-indexed coefficient sum equals its odd-indexed coefficient sum. Which proof is correct?",
+      "structure": "substitution-even-odd-equality",
       "mastery": false,
       "options": [
-        {
-          "text": "$0$",
+{
+          "text": "From $(1+x)^{11} = \\sum_{r=0}^{11} {^{11}C_{r}}x^{r}$, let $E$ and $O$ be the even- and odd-indexed sums. At $x = -1$, $E-O = (1-1)^{11} = 0$, so $E = O$.",
           "correct": true
         },
-        {
-          "text": "$256$",
-          "why": "Evaluated the non-alternating sum $2^8 = 256$ instead of setting $x=-1$."
+{
+          "text": "From $(1+x)^{11} = \\sum_{r=0}^{11} {^{11}C_{r}}x^{r}$, let $E$ and $O$ be the even- and odd-indexed sums. At $x = -1$, $E+O = 0$, so $E = O$.",
+          "why": "Failed to give the odd powers of $x$ negative signs; the substitution gives $E-O$, not $E+O$, and a zero total would not establish equality."
         },
-        {
-          "text": "$1$",
-          "why": "Subtracted alternating terms pairwise assuming the final coefficient remains."
+{
+          "text": "From $(1+x)^{11} = \\sum_{r=0}^{11} {^{11}C_{r}}x^{r}$, let $E$ and $O$ be the even- and odd-indexed sums. At $x = -1$, $E-O = (1+1)^{11} = 2048$, so $E = O$.",
+          "why": "Used $x = 1$ on the factored side while using $x = -1$ on the expanded side; a difference of $2048$ would not establish equality."
         },
-        {
-          "text": "$-1$",
-          "why": "Assumed the alternating sum equals $(-1)^8 = 1$ with an incorrect sign."
+{
+          "text": "From $(1+x)^{11} = \\sum_{r=0}^{11} {^{11}C_{r}}x^{r}$, let $E$ and $O$ be the even- and odd-indexed sums. At $x = -1$, $E-O = 0$, so $E = -O$.",
+          "why": "Moved $-O$ across the equality without changing its sign, giving opposite sums instead of equal sums."
         }
-      ],
-      "solution_text": "In $(1+x)^{8} = \\sum_{r=0}^{8} {^{8}C_{r}} x^{r}$, substitute $x = -1$:\n$(1 - 1)^{8} = \\sum_{r=0}^{8} {^{8}C_{r}} (-1)^{r}$\n$= 0$"
+],
+      "solution_text": "State the expansion:\n$(1+x)^{11} = \\sum_{r=0}^{11} {^{11}C_{r}}x^{r}$\nLet $E = {^{11}C_{0}} + {^{11}C_{2}} + \\dots + {^{11}C_{10}}$ and $O = {^{11}C_{1}} + {^{11}C_{3}} + \\dots + {^{11}C_{11}}$.\nSubstitute $x = -1$:\n$E-O = (1-1)^{11} = 0$\nRearranging gives $E = O$, as required."
     },
-    {
+{
       "id": "q3",
-      "question_text": "Which value of $x$ should be substituted into $(1+x)^{10} = \\sum_{r=0}^{10} {^{10}C_{r}} x^{r}$ to prove that $\\sum_{r=0}^{10} {^{10}C_{r}} 2^{r} = 3^{10}$?",
-      "structure": "substitution-weighted-power",
+      "question_text": "For a positive integer $n$, use $(1+x)^{n+1}$ to prove that $\\sum_{r=0}^{n+1} {^{n+1}C_{r}} = 2^{n+1}$. Which proof is correct?",
+      "structure": "substitution-all-coefficients",
       "mastery": false,
       "options": [
-        {
-          "text": "$x = 2$",
+{
+          "text": "Expand $(1+x)^{n+1} = \\sum_{r=0}^{n+1} {^{n+1}C_{r}}x^{r}$ and set $x = 1$: $\\sum_{r=0}^{n+1} {^{n+1}C_{r}} = (1+1)^{n+1} = 2^{n+1}$.",
           "correct": true
         },
-        {
-          "text": "$x = 3$",
-          "why": "Substituted the target base $3$ instead of the base of the powers $x=2$."
+{
+          "text": "Expand $(1+x)^{n+1} = \\sum_{r=0}^{n+1} {^{n+1}C_{r}}x^{r}$ and set $x = 1$: $\\sum_{r=0}^{n+1} {^{n+1}C_{r}} = 2^{n} + 1 = 2^{n+1}$.",
+          "why": "Incorrectly treated increasing an exponent by $1$ as adding $1$ to the power's value."
         },
-        {
-          "text": "$x = 1$",
-          "why": "Substituted $x=1$, which gives the unweighted sum $2^{10}$."
+{
+          "text": "Expand $(1+x)^{n+1} = \\sum_{r=0}^{n+1} {^{n+1}C_{r}}x^{r}$ and set $x = -1$: $\\sum_{r=0}^{n+1} {^{n+1}C_{r}} = 0 = 2^{n+1}$.",
+          "why": "Omitted the alternating signs produced by $x = -1$ and equated zero with a positive power of $2$."
         },
-        {
-          "text": "$x = \\dfrac{1}{2}$",
-          "why": "Inverted the base to $\\dfrac{1}{2}$, which yields $\\left(\\dfrac{3}{2}\\right)^{10}$."
+{
+          "text": "Expand $(1+x)^{n+1} = \\sum_{r=0}^{n+1} {^{n+1}C_{r}}x^{r}$ and set $x = 0$: $\\sum_{r=0}^{n+1} {^{n+1}C_{r}} = 1 = 2^{n+1}$.",
+          "why": "Treated the constant term left at $x = 0$ as the sum of all coefficients."
         }
-      ],
-      "solution_text": "$(1+x)^{10} = \\sum_{r=0}^{10} {^{10}C_{r}} x^{r}$\nTo obtain the coefficient multiplier $2^{r}$, substitute $x = 2$:\n$(1+2)^{10} = \\sum_{r=0}^{10} {^{10}C_{r}} 2^{r}$\n$3^{10} = \\sum_{r=0}^{10} {^{10}C_{r}} 2^{r}$\n$x = 2$"
+],
+      "solution_text": "State the expansion:\n$(1+x)^{n+1} = \\sum_{r=0}^{n+1} {^{n+1}C_{r}}x^{r}$\nSubstitute $x = 1$:\n$(1+1)^{n+1} = \\sum_{r=0}^{n+1} {^{n+1}C_{r}}1^{r}$\n$\\sum_{r=0}^{n+1} {^{n+1}C_{r}} = 2^{n+1}$"
     },
-    {
+{
       "id": "q4",
-      "question_text": "What is the sum of the odd-positioned binomial coefficients $^{6}C_{1} + {^{6}C_{3}} + {^{6}C_{5}}$?",
+      "question_text": "Use the binomial expansion of $(1+x)^{8}$ to prove that ${^{8}C_{1}} + {^{8}C_{3}} + {^{8}C_{5}} + {^{8}C_{7}} = 128$. Which proof is correct?",
       "structure": "substitution-even-odd-split",
       "mastery": false,
       "options": [
-        {
-          "text": "$32$",
+{
+          "text": "Let $E$ and $O$ be the even- and odd-indexed sums. Substituting $x = 1$ and $x = -1$ gives $E+O = 256$ and $E-O = 0$. Subtracting gives $2O = 256$, so $O = 128$.",
           "correct": true
         },
-        {
-          "text": "$64$",
-          "why": "Computed the total row sum $2^6 = 64$ rather than half the row sum."
+{
+          "text": "Let $E$ and $O$ be the even- and odd-indexed sums. Substituting $x = 1$ and $x = -1$ gives $E+O = 256$ and $E-O = 0$. Subtracting gives $O = 256$.",
+          "why": "Dropped the factor $2$ when subtracting the equations, giving the whole row sum instead of half."
         },
-        {
-          "text": "$16$",
-          "why": "Subtracted 2 from the exponent twice, computing $2^{6-2} = 16$."
+{
+          "text": "Let $E$ and $O$ be the even- and odd-indexed sums. Substituting $x = -1$ gives $E-O = 0$, so $O = 0$.",
+          "why": "Treated equality of the two sums as meaning that each sum is zero."
         },
-        {
-          "text": "$31$",
-          "why": "Subtracted 1 from the power value, calculating $2^5 - 1 = 31$."
+{
+          "text": "Let $E$ and $O$ be the even- and odd-indexed sums. Substituting $x = 1$ and $x = -1$ gives $E+O = 256$ and $E-O = 0$. Thus $2O = 256$, so $O = 64$.",
+          "why": "Divided by $4$ instead of $2$ when solving $2O = 256$."
         }
-      ],
-      "solution_text": "Sum of odd coefficients is $2^{n-1}$ for $n = 6$:\n$2^{6-1} = 2^{5}$\n$= 32$"
+],
+      "solution_text": "State the expansion:\n$(1+x)^{8} = \\sum_{r=0}^{8} {^{8}C_{r}}x^{r}$\nLet $E = {^{8}C_{0}} + {^{8}C_{2}} + {^{8}C_{4}} + {^{8}C_{6}} + {^{8}C_{8}}$ and $O = {^{8}C_{1}} + {^{8}C_{3}} + {^{8}C_{5}} + {^{8}C_{7}}$.\nAt $x = 1$: $E+O = 256$.\nAt $x = -1$: $E-O = 0$.\nSubtract the second equation from the first:\n$2O = 256$\nDivide by $2$:\n$O = 128$"
     },
-    {
+{
       "id": "q5",
-      "question_text": "A student proves that ${^{n}C_{0}} + {^{n}C_{2}} + {^{n}C_{4}} + \\dots = 2^{n-1}$ using two substitutions into $(1+x)^{n}$.\nWhat operation on the two resulting equations yields this result?",
-      "structure": "identify-substitution-proof-step",
+      "question_text": "For a positive integer $n$, use the expansion of $(1+x)^{n+2}$ to prove that the sum of its even-indexed binomial coefficients is $2^{n+1}$. Which proof is correct?",
+      "structure": "substitution-even-odd-split",
       "mastery": false,
       "options": [
-        {
-          "text": "Add the equation for $x = 1$ and the equation for $x = -1$, then divide by 2.",
+{
+          "text": "Let $E$ and $O$ be the even- and odd-indexed sums. Substituting $x = 1$ and $x = -1$ gives $E+O = 2^{n+2}$ and $E-O = 0$. Adding and dividing by $2$ gives $E = 2^{n+1}$.",
           "correct": true
         },
-        {
-          "text": "Subtract the equation for $x = -1$ from the equation for $x = 1$, then divide by 2.",
-          "why": "Subtracting isolates the odd-indexed coefficients, not the even-indexed coefficients."
+{
+          "text": "Let $E$ and $O$ be the even- and odd-indexed sums. Substituting $x = 1$ and $x = -1$ gives $E+O = 2^{n+2}$ and $E-O = 0$. Adding gives $E = 2^{n+2}$.",
+          "why": "Dropped the factor $2$ on the even-indexed sum after adding the equations."
         },
-        {
-          "text": "Multiply the equation for $x = 1$ by the equation for $x = -1$.",
-          "why": "Multiplying the equations does not cancel the odd terms."
+{
+          "text": "Let $E$ and $O$ be the even- and odd-indexed sums. Substituting $x = -1$ gives $E-O = 0$, so $E = 0$.",
+          "why": "Mistook the zero difference of the two sums for a zero value of the even-indexed sum."
         },
-        {
-          "text": "Differentiate both equations and evaluate at $x = 1$.",
-          "why": "Differentiation is not required and introduces extra factors of $r$."
+{
+          "text": "Let $E$ and $O$ be the even- and odd-indexed sums. Substituting $x = 1$ and $x = -1$ gives $E+O = 2^{n+2}$ and $E-O = 0$. Adding gives $2E = 2^{n+2}$, so $E = 2^{n}$.",
+          "why": "Reduced the exponent by $2$ when dividing by $2$; it should decrease by $1$."
         }
-      ],
-      "solution_text": "Let (1) be $(1+1)^{n} = \\sum {^{n}C_{r}} = 2^{n}$ and (2) be $(1-1)^{n} = \\sum (-1)^{r} {^{n}C_{r}} = 0$.\nAdding (1) and (2) cancels odd terms:\n$2({^{n}C_{0}} + {^{n}C_{2}} + {^{n}C_{4}} + \\dots) = 2^{n} + 0 = 2^{n}$\nDividing by 2 gives $2^{n-1}$.\nAdd the equation for $x = 1$ and the equation for $x = -1$, then divide by 2."
+],
+      "solution_text": "State the expansion:\n$(1+x)^{n+2} = \\sum_{r=0}^{n+2} {^{n+2}C_{r}}x^{r}$\nLet $E$ and $O$ be its even- and odd-indexed coefficient sums.\nAt $x = 1$: $E+O = 2^{n+2}$.\nAt $x = -1$: $E-O = 0$.\nAdding:\n$2E = 2^{n+2}$\nDivide by $2$:\n$E = 2^{n+1}$"
     },
-    {
+{
       "id": "q6",
-      "question_text": "If $\\sum_{r=0}^{n} {^{n}C_{r}} = 1024$, what is the value of $n$?",
-      "structure": "substitution-all-coefficients",
+      "question_text": "By substituting $x = -1$ into the expansion of $(1+x)^{12}$, prove that its even-indexed coefficient sum equals its odd-indexed coefficient sum. Which proof is correct?",
+      "structure": "substitution-even-odd-equality",
       "mastery": false,
       "options": [
-        {
-          "text": "$10$",
+{
+          "text": "From $(1+x)^{12} = \\sum_{r=0}^{12} {^{12}C_{r}}x^{r}$, let $E$ and $O$ be the even- and odd-indexed sums. At $x = -1$, $E-O = (1-1)^{12} = 0$, so $E = O$.",
           "correct": true
         },
-        {
-          "text": "$9$",
-          "why": "Computed $2^9 = 512$ instead of $1024$."
+{
+          "text": "From $(1+x)^{12} = \\sum_{r=0}^{12} {^{12}C_{r}}x^{r}$, let $E$ and $O$ be the even- and odd-indexed sums. At $x = -1$, $E+O = 0$, so $E = O$.",
+          "why": "Failed to change the signs of odd powers of $x$; the substitution gives $E-O$, not $E+O$."
         },
-        {
-          "text": "$11$",
-          "why": "Computed $2^{11} = 2048$ instead of $1024$."
+{
+          "text": "From $(1+x)^{12} = \\sum_{r=0}^{12} {^{12}C_{r}}x^{r}$, let $E$ and $O$ be the even- and odd-indexed sums. At $x = -1$, $E-O = 1$, so $E = O$.",
+          "why": "Evaluated $(1-1)^{12}$ as $1$ instead of $0$ and then discarded that difference."
         },
-        {
-          "text": "$8$",
-          "why": "Computed $2^8 = 256$ instead of $1024$."
+{
+          "text": "From $(1+x)^{12} = \\sum_{r=0}^{12} {^{12}C_{r}}x^{r}$, let $E$ and $O$ be the even- and odd-indexed sums. At $x = -1$, $E-O = 0$, so $E = -O$.",
+          "why": "Moved $-O$ across the equality without changing its sign."
         }
-      ],
-      "solution_text": "$\\sum_{r=0}^{n} {^{n}C_{r}} = 2^{n}$\n$2^{n} = 1024$\n$n = 10$"
+],
+      "solution_text": "State the expansion:\n$(1+x)^{12} = \\sum_{r=0}^{12} {^{12}C_{r}}x^{r}$\nLet $E$ and $O$ be the even- and odd-indexed coefficient sums.\nSubstitute $x = -1$:\n$E-O = (1-1)^{12} = 0$\nTherefore $E = O$."
     },
-    {
+{
       "id": "q7",
-      "question_text": "Which identity results from substituting $x = -\\dfrac{1}{3}$ into $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$?",
-      "structure": "substitution-weighted-power",
+      "question_text": "For a positive integer $n$, use the expansion of $(1+x)^{4n+1}$ to prove that $\\sum_{k=0}^{2n} {^{4n+1}C_{2k}} = 2^{4n}$. Which proof is correct?",
+      "structure": "substitution-even-odd-split",
       "mastery": true,
       "options": [
-        {
-          "text": "$\\sum_{r=0}^{n} \\dfrac{(-1)^{r} {^{n}C_{r}}}{3^{r}} = \\left(\\dfrac{2}{3}\\right)^{n}$",
+{
+          "text": "Let $E = \\sum_{k=0}^{2n} {^{4n+1}C_{2k}}$ and let $O$ be the odd-indexed sum. Substituting $x = 1$ and $x = -1$ gives $E+O = 2^{4n+1}$ and $E-O = 0$. Adding and dividing by $2$ gives $E = 2^{4n}$.",
           "correct": true
         },
-        {
-          "text": "$\\sum_{r=0}^{n} \\dfrac{(-1)^{r} {^{n}C_{r}}}{3^{r}} = \\left(\\dfrac{4}{3}\\right)^{n}$",
-          "why": "Added $\\dfrac{1}{3}$ instead of subtracting it, computing $1 + \\dfrac{1}{3} = \\dfrac{4}{3}$."
+{
+          "text": "Let $E = \\sum_{k=0}^{2n} {^{4n+1}C_{2k}}$ and let $O$ be the odd-indexed sum. Substituting $x = 1$ and $x = -1$ gives $E+O = 2^{4n+1}$ and $E-O = 0$. Adding gives $E = 2^{4n+1}$.",
+          "why": "Forgot the factor $2$ on $E$ when adding the two equations."
         },
-        {
-          "text": "$\\sum_{r=0}^{n} \\dfrac{{^{n}C_{r}}}{3^{r}} = \\left(\\dfrac{2}{3}\\right)^{n}$",
-          "why": "Omitted the alternating factor $(-1)^r$ in the expansion."
+{
+          "text": "Let $E = \\sum_{k=0}^{2n} {^{4n+1}C_{2k}}$ and let $O$ be the odd-indexed sum. Substituting $x = -1$ gives $E-O = 0$, so $E = 0$.",
+          "why": "Confused the zero alternating sum with the even-indexed sum."
         },
-        {
-          "text": "$\\sum_{r=0}^{n} \\dfrac{(-1)^{r} {^{n}C_{r}}}{3^{r}} = 0$",
-          "why": "Confused $x = -\\dfrac{1}{3}$ with $x = -1$."
+{
+          "text": "Let $E = \\sum_{k=0}^{2n} {^{4n+1}C_{2k}}$ and let $O$ be the odd-indexed sum. Substituting $x = 1$ and $x = -1$ gives $E+O = 2^{4n+1}$ and $E-O = 0$. Thus $2E = 2^{4n+1}$, so $E = 2^{2n}$.",
+          "why": "Halved the exponent instead of dividing the power by $2$."
         }
-      ],
-      "solution_text": "In $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$, substitute $x = -\\dfrac{1}{3}$:\n$\\left(1 - \\dfrac{1}{3}\\right)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} \\left(-\\dfrac{1}{3}\\right)^{r}$\n$\\left(\\dfrac{2}{3}\\right)^{n} = \\sum_{r=0}^{n} \\dfrac{(-1)^{r} {^{n}C_{r}}}{3^{r}}$"
+],
+      "solution_text": "State the expansion:\n$(1+x)^{4n+1} = \\sum_{r=0}^{4n+1} {^{4n+1}C_{r}}x^{r}$\nLet $E = \\sum_{k=0}^{2n} {^{4n+1}C_{2k}}$ and let $O$ be the odd-indexed sum.\nAt $x = 1$: $E+O = 2^{4n+1}$.\nAt $x = -1$: $E-O = 0$.\nAdding:\n$2E = 2^{4n+1}$\nDivide by $2$:\n$\\sum_{k=0}^{2n} {^{4n+1}C_{2k}} = 2^{4n}$"
     },
-    {
+{
       "id": "q8",
-      "question_text": "To prove that ${^{n}C_{0}} + 4{^{n}C_{1}} + 16{^{n}C_{2}} + \\dots + 4^{n}{^{n}C_{n}} = 5^{n}$, what substitution and expansion should be used?",
-      "structure": "identify-substitution-proof-step",
+      "question_text": "For a positive integer $n$, use the expansion of $(1+x)^{6n}$ to prove that $\\sum_{k=0}^{3n-1} {^{6n}C_{2k+1}} = 2^{6n-1}$. Which proof is correct?",
+      "structure": "substitution-even-odd-split",
       "mastery": true,
       "options": [
-        {
-          "text": "Put $x = 4$ into $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$.",
+{
+          "text": "Let $O = \\sum_{k=0}^{3n-1} {^{6n}C_{2k+1}}$ and let $E$ be the even-indexed sum. Substituting $x = 1$ and $x = -1$ gives $E+O = 2^{6n}$ and $E-O = 0$. Subtracting the second equation from the first and dividing by $2$ gives $O = 2^{6n-1}$.",
           "correct": true
         },
-        {
-          "text": "Put $x = 5$ into $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$.",
-          "why": "Substituted the resulting base 5 instead of the multiplier 4."
+{
+          "text": "Let $O = \\sum_{k=0}^{3n-1} {^{6n}C_{2k+1}}$ and let $E$ be the even-indexed sum. Substituting $x = 1$ and $x = -1$ gives $E+O = 2^{6n}$ and $E-O = 0$. Subtracting gives $O = 2^{6n}$.",
+          "why": "Dropped the factor $2$ on $O$ when subtracting the equations."
         },
-        {
-          "text": "Put $x = 1$ into $(1+4x)^{n}$.",
-          "why": "While $(1+4(1))^n = 5^n$, the standard expansion is $(1+x)^n$ evaluated at $x=4$."
+{
+          "text": "Let $O = \\sum_{k=0}^{3n-1} {^{6n}C_{2k+1}}$ and let $E$ be the even-indexed sum. Substituting $x = 1$ and $x = -1$ gives $E+O = 2^{6n}$ and $E-O = 0$. Subtracting the first equation from the second gives $2O = -2^{6n}$, so $O = -2^{6n-1}$.",
+          "why": "Subtracting in that order gives $-2O$ on the left, not $2O$."
         },
-        {
-          "text": "Put $a = 1, b = 5$ into $(a+b)^{n}$.",
-          "why": "Setting $b=5$ produces terms with $5^r$ rather than $4^r$."
+{
+          "text": "Let $O = \\sum_{k=0}^{3n-1} {^{6n}C_{2k+1}}$ and let $E$ be the even-indexed sum. Substituting $x = 1$ and $x = -1$ gives $E+O = 2^{6n}$ and $E-O = 0$. Thus $2O = 2^{6n}$, so $O = 2^{3n}$.",
+          "why": "Halved the exponent instead of decreasing it by $1$ when dividing by $2$."
         }
-      ],
-      "solution_text": "$(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$\nSubstitute $x = 4$:\n$(1+4)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} 4^{r}$\n$5^{n} = {^{n}C_{0}} + 4{^{n}C_{1}} + 16{^{n}C_{2}} + \\dots + 4^{n}{^{n}C_{n}}$\nPut $x = 4$ into $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$."
+],
+      "solution_text": "State the expansion:\n$(1+x)^{6n} = \\sum_{r=0}^{6n} {^{6n}C_{r}}x^{r}$\nLet $O = \\sum_{k=0}^{3n-1} {^{6n}C_{2k+1}}$ and let $E$ be the even-indexed sum.\nAt $x = 1$: $E+O = 2^{6n}$.\nAt $x = -1$: $E-O = 0$.\nSubtract the second equation from the first:\n$2O = 2^{6n}$\nDivide by $2$:\n$\\sum_{k=0}^{3n-1} {^{6n}C_{2k+1}} = 2^{6n-1}$"
     }
-  ]
+]
 }

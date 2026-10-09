@@ -2,16 +2,16 @@
   "skillId": "factorial-notation",
   "atomType": "R",
   "theory": {
-        "intro": "For a whole number $n$, the **factorial** $n!$ is the product $n \\times (n-1) \\times (n-2) \\times \\dots \\times 2 \\times 1$. By definition $0! = 1$. Each factorial also **unrolls** as $n! = n \\times (n-1)!$, which is how factorial expressions are simplified.",
+        "intro": "For an integer $n \\ge 1$, the **factorial** $n!$ is the product $n \\times (n-1) \\times (n-2) \\times \\dots \\times 2 \\times 1$. By definition $0! = 1$. For integers $n \\ge 1$, each factorial also **unrolls** as $n! = n \\times (n-1)!$, which is how factorial expressions are simplified.",
         "facts": [
-          "**Factorial notation**: for a whole number $n \\ge 1$, $n! = n \\times (n-1) \\times (n-2) \\times \\dots \\times 2 \\times 1$.",
-          "**Zero factorial**: $0! = 1$, not $0$.",
-          "**Recursive relation**: $n! = n \\times (n-1)!$, and unrolling again gives $n! = n(n-1)(n-2)!$.",
-          "Only whole numbers have factorials, so $1.5!$ and $(-3)!$ are undefined.",
-          "To simplify a quotient, unroll the larger factorial until the smaller one appears, then cancel: $\\dfrac{n!}{(n-r)!} = n(n-1)\\dots(n-r+1)$.",
-          "To simplify a sum or difference, take out the smallest factorial: $(n+1)! - n! = n!(n+1-1) = n \\cdot n!$.",
-          "To combine fractions, unroll the larger factorial in the denominator to get a common denominator."
-        ],
+"**Factorial notation**: for a whole number $n \\ge 1$, $n! = n \\times (n-1) \\times (n-2) \\times \\dots \\times 2 \\times 1$.",
+"**Zero factorial**: $0! = 1$, not $0$.",
+"**Recursive relation**: $n! = n \\times (n-1)!$ for integers $n \\ge 1$, and unrolling again gives $n! = n(n-1)(n-2)!$ for integers $n \\ge 2$.",
+"In this skill, factorials are defined only for whole numbers, so $1.5!$ and $(-3)!$ are undefined. Factorial arguments in algebraic expressions must be non-negative integers.",
+"To simplify a quotient, unroll the larger factorial until the smaller one appears, then cancel: $\\dfrac{n!}{(n-r)!} = n(n-1)\\dots(n-r+1)$ for integers $0 \\le r \\le n$. When $r = 0$, the product has no factors and equals $1$.",
+"To simplify a sum or difference, take out the smallest factorial: $(n+1)! - n! = n!(n+1-1) = n \\cdot n!$.",
+"To combine fractions, unroll the larger factorial in the denominator to get a common denominator."
+],
         "steps": [
           "Identify the factorials in the expression and determine the largest and smallest factorial terms.",
           "Unroll the larger factorials using $n! = n \\times (n-1)!$ until common factors appear.",
@@ -21,47 +21,47 @@
       },
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Evaluate $5!$ without using a calculator.",
         "structure": "evaluate-numeric-factorial",
         "solution_text": "$5!$\n$= 5 \\times 4 \\times 3 \\times 2 \\times 1$\n$= 120$"
       },
-      {
-        "question_text": "Evaluate $0! + 4!$ without using a calculator.",
-        "structure": "evaluate-numeric-factorial",
-        "solution_text": "$0! + 4!$\n$= 1 + (4 \\times 3 \\times 2 \\times 1)$\n$= 1 + 24$\n$= 25$"
+{
+        "question_text": "Simplify $\\frac{6!}{4!}$ without using a calculator.",
+        "structure": "simplify-numeric-ratio",
+        "solution_text": "$\\frac{6!}{4!}$\n$= \\frac{6 \\times 5 \\times 4!}{4!}$\n$= 6 \\times 5$\n$= 30$"
       },
-      {
+{
         "question_text": "Express $8!$ in terms of $6!$ by unrolling it two times.",
         "structure": "unroll-factorial-expression",
         "solution_text": "$8!$\n$= 8 \\times 7 \\times 6!$\n$= 56 \\times 6!$"
       },
-      {
+{
         "question_text": "Simplify $\\frac{9!}{7!}$ without using a calculator.",
         "structure": "simplify-numeric-ratio",
         "solution_text": "$\\frac{9!}{7!}$\n$= \\frac{9 \\times 8 \\times 7!}{7!}$\n$= 9 \\times 8$\n$= 72$"
       },
-      {
+{
         "question_text": "Simplify $\\frac{10!}{8! \\times 2!}$ without using a calculator.",
         "structure": "simplify-numeric-ratio",
         "solution_text": "$\\frac{10!}{8! \\times 2!}$\n$= \\frac{10 \\times 9 \\times 8!}{8! \\times 2}$\n$= \\frac{90}{2}$\n$= 45$"
       },
-      {
+{
         "question_text": "Simplify the algebraic fraction $\\frac{n!}{(n - 1)!}$.",
         "structure": "simplify-algebraic-ratio",
         "solution_text": "$\\frac{n!}{(n - 1)!}$\n$= \\frac{n(n - 1)!}{(n - 1)!}$\n$= n$"
       },
-      {
+{
         "question_text": "Simplify $\\frac{(n + 2)!}{n!}$.",
         "structure": "simplify-algebraic-ratio",
         "solution_text": "$\\frac{(n + 2)!}{n!}$\n$= \\frac{(n + 2)(n + 1)n!}{n!}$\n$= (n + 2)(n + 1)$\n$= n^2 + 3n + 2$"
       },
-      {
+{
         "question_text": "Simplify $7! - 6!$ by taking out a common factor of $6!$.",
         "structure": "factorise-factorial-sum",
-        "solution_text": "$7! - 6!$\n$= 7 \\times 6! - 6!$\n$= 6!(7 - 1)$\n$= 6 \\times 6!$"
+        "solution_text": "$7! - 6!$\n$= 7 \\times 6! - 6!$\n$= 6!(7 - 1)$\n$= 6 \\times 6!$\n$= 4320$"
       }
-    ],
+],
     "development": [
       {
         "question_text": "Evaluate $\\frac{12!}{9! \\times 3!}$ without using a calculator.",

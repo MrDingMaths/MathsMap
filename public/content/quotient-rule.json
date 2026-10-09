@@ -2,14 +2,14 @@
   "skillId": "quotient-rule",
   "atomType": "R",
   "theory": {
-        "intro": "The **quotient rule** differentiates a fraction $y = \\dfrac{u}{v}$ where both parts are functions of $x$. The rule is $y' = \\dfrac{u'v - uv'}{v^{2}}$. The numerator starts with $u'v$, so the order matters.",
+        "intro": "The **quotient rule** differentiates a fraction $y = \\dfrac{u}{v}$ where $u$ and $v$ are differentiable functions of $x$ and $v \\ne 0$. The rule is $y' = \\dfrac{u'v - uv'}{v^{2}}$. The numerator starts with $u'v$, so the order matters.",
         "facts": [
-          "If $y = \\dfrac{u}{v}$, then $y' = \\dfrac{u'v - uv'}{v^{2}}$ or $\\dfrac{dy}{dx} = \\dfrac{v\\dfrac{du}{dx} - u\\dfrac{dv}{dx}}{v^{2}}$.",
-          "The order $u'v - uv'$ cannot be reversed, because subtraction is not commutative.",
-          "The denominator of the derivative is always $v^{2}$, the square of the original denominator.",
-          "Expand and collect like terms in the numerator, but leave the denominator $v^{2}$ in factored form.",
-          "Both the quotient and its derivative are undefined wherever $v(x) = 0$."
-        ],
+"If $y = \\dfrac{u}{v}$, where $u$ and $v$ are differentiable and $v \\ne 0$, then $y' = \\dfrac{u'v - uv'}{v^{2}}$ or $\\dfrac{dy}{dx} = \\dfrac{v\\dfrac{du}{dx} - u\\dfrac{dv}{dx}}{v^{2}}$.",
+"The order $u'v - uv'$ cannot be reversed, because subtraction is not commutative.",
+"The quotient-rule formula has denominator $v^{2}$, the square of the original denominator; subsequent simplification may cancel factors.",
+"Expand and collect like terms in the numerator, but leave the denominator $v^{2}$ in factored form.",
+"Both the quotient and its derivative are undefined wherever $v(x) = 0$."
+],
         "steps": [
           "Identify the numerator $u$ and denominator $v$.",
           "Differentiate both functions separately to find $u'$ and $v'$.",
@@ -56,42 +56,42 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "Differentiate $y = \\dfrac{2x + 3}{3x + 2}$ using the quotient rule.",
         "structure": "quotient-rule-linear",
         "solution_text": "$u = 2x + 3, \\quad u' = 2$\n$v = 3x + 2, \\quad v' = 3$\n$y' = \\dfrac{u'v - uv'}{v^{2}}$\n$= \\dfrac{2(3x + 2) - 3(2x + 3)}{(3x + 2)^{2}}$\n$= \\dfrac{6x + 4 - 6x - 9}{(3x + 2)^{2}}$\n$= -\\dfrac{5}{(3x + 2)^{2}}$"
       },
-      {
+{
         "question_text": "Differentiate $y = \\dfrac{x^{3}}{x^{2} - 9}$ using the quotient rule and factorise the numerator.",
         "structure": "quotient-rule-polynomial",
         "solution_text": "$u = x^{3}, \\quad u' = 3x^{2}$\n$v = x^{2} - 9, \\quad v' = 2x$\n$y' = \\dfrac{3x^{2}(x^{2} - 9) - 2x(x^{3})}{(x^{2} - 9)^{2}}$\n$= \\dfrac{3x^{4} - 27x^{2} - 2x^{4}}{(x^{2} - 9)^{2}}$\n$= \\dfrac{x^{2}(x^{2} - 27)}{(x^{2} - 9)^{2}}$"
       },
-      {
+{
         "question_text": "Differentiate $y = \\dfrac{3x^{2} + 4x}{x - 1}$ using the quotient rule.",
         "structure": "quotient-rule-polynomial",
         "solution_text": "$u = 3x^{2} + 4x, \\quad u' = 6x + 4$\n$v = x - 1, \\quad v' = 1$\n$y' = \\dfrac{u'v - uv'}{v^{2}}$\n$= \\dfrac{(6x + 4)(x - 1) - 1(3x^{2} + 4x)}{(x - 1)^{2}}$\n$= \\dfrac{6x^{2} - 2x - 4 - 3x^{2} - 4x}{(x - 1)^{2}}$\n$= \\dfrac{3x^{2} - 6x - 4}{(x - 1)^{2}}$"
       },
-      {
+{
         "question_text": "Differentiate $y = \\dfrac{3x}{\\sqrt{x + 7}}$ using the quotient rule.",
         "structure": "quotient-rule-surd",
         "solution_text": "$u = 3x, \\quad u' = 3$\n$v = \\sqrt{x + 7}, \\quad v' = \\dfrac{1}{2\\sqrt{x + 7}}$\n$y' = \\dfrac{3\\sqrt{x + 7} - \\dfrac{3x}{2\\sqrt{x + 7}}}{x + 7}$\n$= \\dfrac{6(x + 7) - 3x}{2(x + 7)\\sqrt{x + 7}}$\n$= \\dfrac{3x + 42}{2\\sqrt{(x + 7)^{3}}}$"
       },
-      {
+{
         "question_text": "Find the equation of the tangent to $y = \\dfrac{4x}{x - 2}$ at the point $(3, 12)$.",
         "structure": "quotient-rule-tangent-normal",
         "solution_text": "$y' = \\dfrac{4(x - 2) - 4x(1)}{(x - 2)^{2}}$\n$= -\\dfrac{8}{(x - 2)^{2}}$\n$\\text{At } x = 3, y' = -\\dfrac{8}{(1)^{2}} = -8$.\n$y - 12 = -8(x - 3)$\n$8x + y - 36 = 0$"
       },
-      {
-        "question_text": "Find the coordinates of the stationary points on the curve $y = \\dfrac{x^{2}}{x + 4}$.",
-        "structure": "quotient-rule-tangent-normal",
-        "solution_text": "$y' = \\dfrac{2x(x + 4) - x^{2}(1)}{(x + 4)^{2}}$\n$= \\dfrac{x^{2} + 8x}{(x + 4)^{2}}$\n$= \\dfrac{x(x + 8)}{(x + 4)^{2}}$\n$\\text{Setting } y' = 0 \\text{ gives } x = 0 \\text{ or } x = -8$.\n$\\text{When } x = 0, y = 0$.\n$\\text{When } x = -8, y = \\dfrac{64}{-4} = -16$.\n$(0, 0) \\text{ and } (-8, -16)$"
+{
+        "question_text": "Differentiate $y = \\dfrac{x^{2}}{x + 4}$ using the quotient rule, and state any zeros of the derivative function.",
+        "structure": "quotient-rule-derivative-zeros",
+        "solution_text": "$y' = \\dfrac{2x(x + 4) - x^{2}(1)}{(x + 4)^{2}}$\n$= \\dfrac{x^{2} + 8x}{(x + 4)^{2}}$\n$= \\dfrac{x(x + 8)}{(x + 4)^{2}}$\nSetting $y' = 0$ gives $x(x + 8) = 0$, so $x = 0$ or $x = -8$.\nBoth values are in the domain $x \\ne -4$, so the derivative zeros are $x = 0$ and $x = -8$."
       },
-      {
+{
         "question_text": "Differentiate $y = \\dfrac{\\sqrt{x}}{3x + 8}$ using the quotient rule.",
         "structure": "quotient-rule-surd",
         "solution_text": "$u = \\sqrt{x}, \\quad u' = \\dfrac{1}{2\\sqrt{x}}$\n$v = 3x + 8, \\quad v' = 3$\n$y' = \\dfrac{\\dfrac{3x + 8}{2\\sqrt{x}} - 3\\sqrt{x}}{(3x + 8)^{2}}$\n$= \\dfrac{3x + 8 - 6x}{2\\sqrt{x}(3x + 8)^{2}}$\n$= \\dfrac{8 - 3x}{2\\sqrt{x}(3x + 8)^{2}}$"
       }
-    ],
+],
     "mastery": [
       {
         "question_text": "Differentiate $y = \\dfrac{x^{n} - 2}{x^{n} + 2}$ where $n$ is a positive integer.",

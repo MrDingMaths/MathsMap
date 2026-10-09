@@ -3,52 +3,90 @@
   "skillId": "slope-fields",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-08T10:59:39.160Z",
+  "startedAt": "2026-10-08T23:26:44.295Z",
   "status": "needs attention: not accepted after one repair round",
   "calls": [
     {
-      "name": "audit",
+      "name": "maintenance-repair",
       "code": 0,
-      "seconds": 84.7,
+      "seconds": 350.2,
       "usage": {
-        "input_tokens": 189407,
-        "cached_input_tokens": 14976,
-        "cache_write_input_tokens": 0,
-        "output_tokens": 2809,
-        "reasoning_output_tokens": 174
-      },
-      "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\slope-fields\\audit-seJaFN\\response.raw.txt"
-    },
-    {
-      "name": "repair",
-      "code": 0,
-      "seconds": 504,
-      "usage": {
-        "input_tokens": 189166,
+        "input_tokens": 189084,
         "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 24544,
-        "reasoning_output_tokens": 42
+        "output_tokens": 24559,
+        "reasoning_output_tokens": 33
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\slope-fields\\repair-SjNqQt\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\slope-fields\\maintenance-repair-bz4oOS\\response.raw.txt"
     },
     {
-      "name": "review-scoped",
+      "name": "maintenance-review",
       "code": 0,
-      "seconds": 37,
+      "seconds": 52.3,
       "usage": {
-        "input_tokens": 189111,
-        "cached_input_tokens": 12544,
+        "input_tokens": 189297,
+        "cached_input_tokens": 20736,
         "cache_write_input_tokens": 0,
-        "output_tokens": 1118,
-        "reasoning_output_tokens": 126
+        "output_tokens": 2042,
+        "reasoning_output_tokens": 171
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\slope-fields\\review-scoped-43lObH\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\slope-fields\\maintenance-review-hGOlvY\\response.raw.txt"
     }
   ],
+  "previousAttempts": [
+    {
+      "startedAt": "2026-10-08T10:59:39.160Z",
+      "finishedAt": "2026-10-08T11:10:05.211Z",
+      "status": "needs attention: not accepted after one repair round",
+      "calls": [
+        {
+          "name": "audit",
+          "code": 0,
+          "seconds": 84.7,
+          "usage": {
+            "input_tokens": 189407,
+            "cached_input_tokens": 14976,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 2809,
+            "reasoning_output_tokens": 174
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\slope-fields\\audit-seJaFN\\response.raw.txt"
+        },
+        {
+          "name": "repair",
+          "code": 0,
+          "seconds": 504,
+          "usage": {
+            "input_tokens": 189166,
+            "cached_input_tokens": 12544,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 24544,
+            "reasoning_output_tokens": 42
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\slope-fields\\repair-SjNqQt\\response.raw.txt"
+        },
+        {
+          "name": "review-scoped",
+          "code": 0,
+          "seconds": 37,
+          "usage": {
+            "input_tokens": 189111,
+            "cached_input_tokens": 12544,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1118,
+            "reasoning_output_tokens": 126
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\slope-fields\\review-scoped-43lObH\\response.raw.txt"
+        }
+      ]
+    }
+  ],
+  "maintenanceRepair": true,
   "baseline": {
     "contentHash": "311adcbef9114c2639a44cc8b49105c8c0fb312075e755cba20756fa5539be9b",
     "quizHash": "4085177b3de1c3ea71964c7e54485aa014c887299d2e63e793cc205836b254d2"
@@ -58,20 +96,14 @@
   ],
   "images": 88,
   "omittedImages": 0,
+  "firstRoundFindings": [
+    "quiz.q3: Option 2's explanation does not produce its value: failing to divide $2y=4-x$ by $2$ gives $y=4-x$, not $y=-2x+4$. Preserve the option text and change its why to explain incorrectly rewriting $x+2y-4=0$ as $2x+y-4=0$ and then rearranging to $y=4-2x$."
+  ],
   "fullReview": {
-    "name": "audit",
-    "hash": "e52c4897a8220dfffc86421bdd5c1f1f82574d5995a798cf5f7f6cfc76b0218d",
+    "name": "maintenance-review",
+    "hash": "398508c9c92d12ac60789fa7c38da9382774a552b49b2d573f8a09e7e21decf6",
     "originalRemovalsSupplied": true
   },
-  "firstRoundFindings": [
-    "practice.development[0]: Remove the misleading claims that the curve rises and falls steeply based solely on its side of $y=x$. To the right of the origin its gradient remains between $0$ and $1$, tending to $1$; the supplied curve itself is correct.",
-    "practice.development[1]: Replace the assertion that one gradient at each point alone guarantees non-crossing. For this equation uniqueness holds, so the conclusion is correct; alternatively justify separation by the positive and negative branches and the constant solution.",
-    "practice.development[4]: In both figures the element centred at $(-2,-2)$ has negative gradient, but $-x-y=4$ there; reverse its tilt. Qualify the non-crossing statement as applying to this equation, where solutions are unique.",
-    "practice.mastery[0]: Clarify that the curve through $(0,4)$ becomes unbounded at a finite positive $x$, rather than suggesting it continues as $x$ increases without bound. Absence of an equilibrium above the curve alone does not establish unbounded growth.",
-    "quiz.q3: The explanation for option 3 does not generate its value: solving $x=4-2y$ and interchanging variable roles gives $y=4-2x$, not $y=2x-4$. Supply a specific mistake that actually produces $y=2x-4$.",
-    "quiz.q6: Qualify the universal non-crossing statement: this equation has unique solutions, so its curve cannot cross $y=2$. One gradient at each point is insufficient as a general justification.",
-    "theory: The claim that solution curves of every first-order differential equation can never cross merely because each point has one gradient is mathematically false without uniqueness conditions. Restrict it to equations with unique solutions through each point; the booklet itself acknowledges possible tangency at lines 765–766."
-  ],
   "repaired": true,
   "changed": [
     "practice.development[0]",
@@ -85,11 +117,12 @@
   "theoryChanged": true,
   "removed": [],
   "items": 23,
-  "summary": "Corrected the misleading gradient and growth descriptions, reversed the incorrect line element in both Development figures, and supplied a distractor explanation that produces its stated equation. Restricted non-crossing claims to equations with unique solutions, including the matching claim in q8; these are text and figure repairs, with no whole items removed.",
-  "reviewSummary": "All 23 practice and quiz items have supported booklet question types, and every quiz has exactly one correct option. Repairs are required for the uniqueness explanation, misleading curve descriptions, one incorrectly tilted field element and one distractor explanation; no removals or worked examples were supplied.",
-  "candidateHash": "508c2e198cac5dbcccab8a28982df03a5f0c999d7cf6629e556cf7687eff3b09",
+  "summary": "Corrected the explanation for the $y=-2x+4$ distractor in quiz.q3 to describe incorrectly rewriting $x+2y-4=0$ as $2x+y-4=0$ and rearranging to $y=4-2x$. Preserved all other content exactly and removed no items.",
+  "reviewSummary": "All 23 items are supported booklet question types, and their answers and marked correct options are mathematically correct. Repair the inflection distractor explanation and qualify the axis statements at the origin; no worked examples or removals were supplied.",
+  "candidateHash": "398508c9c92d12ac60789fa7c38da9382774a552b49b2d573f8a09e7e21decf6",
   "findings": [
-    "quiz.q3: Option 2's explanation does not produce its value: failing to divide $2y=4-x$ by $2$ gives $y=4-x$, not $y=-2x+4$. Preserve the option text and change its why to explain incorrectly rewriting $x+2y-4=0$ as $2x+y-4=0$ and then rearranging to $y=4-2x$."
+    "quiz.q5: Replace the inflection distractor's explanation with 'The gradient decreases throughout because $y''=-1$, so the concavity does not change.' A gradient changing sign alone does not rule out an inflection point; the current explanation teaches an invalid general test.",
+    "quiz.q7: Qualify both axis statements in question_text and solution_text with 'away from the origin'. At $(0,0)$, $x/(2y)$ is undefined, so it has neither a horizontal nor a vertical line element there."
   ],
-  "finishedAt": "2026-10-08T11:10:05.211Z"
+  "finishedAt": "2026-10-08T23:33:26.983Z"
 }

@@ -2,21 +2,22 @@
   "skillId": "vector-direction-angle",
   "atomType": "R",
   "theory": {
-    "intro": "The direction of a vector is usually given as its **angle of inclination**, the angle turned anticlockwise from the positive $x$-axis. Sketch the vector, find the reference angle $A=\\tan^{-1}\\frac{|y|}{|x|}$, then let the quadrant fix $\\theta$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\usetikzlibrary{arrows.meta,angles,quotes,calc}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (-2.4,1.8);\n\\coordinate (W) at (-3,0);\n\\coordinate (E) at (3,0);\n\\coordinate (F) at (-2.4,0);\n\\draw[->] (-3.2,0)--(3.2,0) node[right]{$x$};\n\\draw[->] (0,-0.8)--(0,2.8) node[above]{$y$};\n\\draw[dashed] (P)--(F);\n\\draw[-{Stealth},thick] (O)--(P) node[above right]{$\\underset{\\sim}{a}$};\n\\pic[draw, \"$A$\", angle radius=0.6cm, angle eccentricity=1.8] {angle = P--O--W};\n\\pic[draw, \"$\\theta$\", angle radius=1.2cm, angle eccentricity=1.45] {angle = E--O--P};\n\\end{tikzpicture}\n[/tikz]",
+    "intro": "The direction of a nonzero vector is usually given as its **angle of inclination**, the angle turned anticlockwise from the positive $x$-axis, with $0^{\\circ}\\leq\\theta<360^{\\circ}$. Use degree mode. Sketch the vector; when both components are nonzero, find the reference angle $A=\\tan^{-1}\\frac{|y|}{|x|}$, then let the quadrant fix $\\theta$. Handle axis directions directly; the zero vector has no direction.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\usetikzlibrary{arrows.meta,angles,quotes,calc}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (-2.4,1.8);\n\\coordinate (W) at (-3,0);\n\\coordinate (E) at (3,0);\n\\coordinate (F) at (-2.4,0);\n\\draw[->] (-3.2,0)--(3.2,0) node[right]{$x$};\n\\draw[->] (0,-0.8)--(0,2.8) node[above]{$y$};\n\\draw[dashed] (P)--(F);\n\\draw[-{Stealth},thick] (O)--(P) node[above right]{$\\underset{\\sim}{a}$};\n\\pic[draw, \"$A$\", angle radius=0.6cm, angle eccentricity=1.8] {angle = P--O--W};\n\\pic[draw, \"$\\theta$\", angle radius=1.2cm, angle eccentricity=1.45] {angle = E--O--P};\n\\end{tikzpicture}\n[/tikz]",
     "facts": [
-      "The reference angle $A=\\tan^{-1}\\frac{|y|}{|x|}$ is always acute, because the absolute values remove the signs.",
-      "By quadrant, $\\theta=A$, $180^{\\circ}-A$, $180^{\\circ}+A$ or $360^{\\circ}-A$ for quadrants $1$, $2$, $3$ and $4$.",
-      "A calculator returns $\\tan^{-1}$ between $-90^{\\circ}$ and $90^{\\circ}$, so it never gives a second- or third-quadrant angle directly.",
-      "A **true bearing** is measured clockwise from north, so $\\text{bearing}=90^{\\circ}-\\theta$, adding $360^{\\circ}$ if that is negative.",
-      "A bearing and an angle of inclination are different numbers for the same vector, so read which one is wanted.",
-      "A vector and its negative point opposite ways, so their angles of inclination differ by $180^{\\circ}$."
-    ],
+"When both components are nonzero, the reference angle $A=\\tan^{-1}\\frac{|y|}{|x|}$ is acute, because the ratio is positive.",
+"When both components are nonzero, $\\theta=A$, $180^{\\circ}-A$, $180^{\\circ}+A$ or $360^{\\circ}-A$ for quadrants $1$, $2$, $3$ and $4$.",
+"A calculator in degree mode returns $\\tan^{-1}$ between $-90^{\\circ}$ and $90^{\\circ}$, so it never gives a second- or third-quadrant angle directly.",
+"For nonzero vectors on the positive $x$-, positive $y$-, negative $x$- and negative $y$-axes, the angles of inclination are $0^{\\circ}$, $90^{\\circ}$, $180^{\\circ}$ and $270^{\\circ}$ respectively. The zero vector has no direction.",
+"A **true bearing** is measured clockwise from north. With the positive $x$-axis pointing east and the positive $y$-axis pointing north, $\\text{bearing}=90^{\\circ}-\\theta$, adding $360^{\\circ}$ if that is negative.",
+"A bearing and an angle of inclination use different conventions, so read which one is wanted. With east and north as the positive axes, their numerical values coincide at $45^{\\circ}$ and $225^{\\circ}$.",
+"A nonzero vector and its negative point opposite ways, so their angles of inclination differ by $180^{\\circ}$."
+],
     "steps": [
-      "Sketch the vector and name the quadrant it lies in.",
-      "Find the reference angle $A=\\tan^{-1}\\frac{|y|}{|x|}$.",
-      "Use the quadrant to write the angle of inclination $\\theta$.",
-      "Convert to a true bearing with $\\text{bearing}=90^{\\circ}-\\theta$ if the question asks for one."
-    ]
+"Sketch the vector. If it is the zero vector, it has no direction; if it lies on an axis, read its angle of inclination directly.",
+"When both components are nonzero, name the quadrant and use degree mode to find the reference angle $A=\\tan^{-1}\\frac{|y|}{|x|}$.",
+"Use the quadrant to write the angle of inclination $\\theta$, with $0^{\\circ}\\leq\\theta<360^{\\circ}$.",
+"If the question asks for a true bearing and the positive axes point east and north, use $\\text{bearing}=90^{\\circ}-\\theta$, adding $360^{\\circ}$ if the result is negative."
+]
   },
   "practice": {
     "foundation": [
@@ -104,21 +105,21 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "A ferry's displacement from the harbour is $\\underset{\\sim}{s}=-7\\underset{\\sim}{i}+24\\underset{\\sim}{j}$, measured in kilometres, with $\\underset{\\sim}{i}$ east and $\\underset{\\sim}{j}$ north.\nFind the true bearing of the ferry from the harbour, to the nearest degree.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\usetikzlibrary{arrows.meta}\n\\draw[->] (-2,0)--(2,0) node[right]{$E$};\n\\draw[->] (0,-0.6)--(0,4.3) node[above]{$N$};\n\\draw[dashed] (-1.05,3.6)--(-1.05,0);\n\\draw[-{Stealth},thick] (0,0)--(-1.05,3.6) node[above left]{$\\underset{\\sim}{s}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "direction-in-context",
         "solution_text": "Here $x<0$ and $y>0$, so the displacement lies in the second quadrant.\n$A=\\tan^{-1}\\frac{24}{7}$\n$=73.74^{\\circ}$\n$\\theta=180^{\\circ}-73.74^{\\circ}$\n$=106.26^{\\circ}$\n$\\text{bearing}=90^{\\circ}-106.26^{\\circ}$\n$=-16.26^{\\circ}$\n$=-16.26^{\\circ}+360^{\\circ}$\n$\\approx 344^{\\circ}\\text{T}$"
       },
-      {
+{
         "question_text": "The vector $\\underset{\\sim}{v}=m\\underset{\\sim}{i}+(m+2)\\underset{\\sim}{j}$ has an angle of inclination of $135^{\\circ}$.\nFind the value of $m$.",
         "structure": "find-component-from-direction",
         "solution_text": "$\\tan 135^{\\circ}=\\frac{m+2}{m}$\n$-1=\\frac{m+2}{m}$\n$-m=m+2$\n$-2m=2$\n$m=-1$"
       },
-      {
-        "question_text": "Given $\\underset{\\sim}{a}=6\\underset{\\sim}{i}-\\underset{\\sim}{j}$ and $\\underset{\\sim}{b}=-2\\underset{\\sim}{i}+5\\underset{\\sim}{j}$, find the angle of inclination of $2\\underset{\\sim}{a}-3\\underset{\\sim}{b}$, to the nearest degree.",
-        "structure": "direction-of-sum-or-difference",
-        "solution_text": "$2\\underset{\\sim}{a}=12\\underset{\\sim}{i}-2\\underset{\\sim}{j}$\n$3\\underset{\\sim}{b}=-6\\underset{\\sim}{i}+15\\underset{\\sim}{j}$\n$2\\underset{\\sim}{a}-3\\underset{\\sim}{b}=(12-(-6))\\underset{\\sim}{i}+(-2-15)\\underset{\\sim}{j}$\n$=18\\underset{\\sim}{i}-17\\underset{\\sim}{j}$\nHere $x>0$ and $y<0$, so the vector lies in the fourth quadrant.\n$A=\\tan^{-1}\\frac{17}{18}$\n$=43.36^{\\circ}$\n$\\theta=360^{\\circ}-43.36^{\\circ}$\n$\\approx 317^{\\circ}$"
+{
+        "question_text": "Given $\\underset{\\sim}{a}=-7\\underset{\\sim}{i}+9\\underset{\\sim}{j}$ and $\\underset{\\sim}{b}=11\\underset{\\sim}{i}-8\\underset{\\sim}{j}$, find the angle of inclination of $\\underset{\\sim}{b}-\\underset{\\sim}{a}$, to the nearest degree.",
+        "structure": "direction-of-difference",
+        "solution_text": "$\\underset{\\sim}{b}-\\underset{\\sim}{a}=(11-(-7))\\underset{\\sim}{i}+(-8-9)\\underset{\\sim}{j}$\n$=18\\underset{\\sim}{i}-17\\underset{\\sim}{j}$\nHere $x>0$ and $y<0$, so the vector lies in the fourth quadrant.\n$A=\\tan^{-1}\\frac{17}{18}$\n$=43.36^{\\circ}$\n$\\theta=360^{\\circ}-43.36^{\\circ}$\n$\\approx 317^{\\circ}$"
       }
-    ]
+]
   }
 }

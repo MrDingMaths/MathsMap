@@ -3,52 +3,90 @@
   "skillId": "rearrange-to-gradient-intercept",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-07T23:05:25.129Z",
+  "startedAt": "2026-10-08T23:22:57.125Z",
   "status": "needs attention: not accepted after one repair round",
   "calls": [
     {
-      "name": "audit",
+      "name": "maintenance-repair",
       "code": 0,
-      "seconds": 53.8,
+      "seconds": 70.8,
       "usage": {
-        "input_tokens": 180052,
-        "cached_input_tokens": 12544,
+        "input_tokens": 181781,
+        "cached_input_tokens": 21760,
         "cache_write_input_tokens": 0,
-        "output_tokens": 2557,
-        "reasoning_output_tokens": 119
+        "output_tokens": 4668,
+        "reasoning_output_tokens": 0
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\rearrange-to-gradient-intercept\\audit-5zlBQs\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\rearrange-to-gradient-intercept\\maintenance-repair-DJJIWa\\response.raw.txt"
     },
     {
-      "name": "repair",
+      "name": "maintenance-review",
       "code": 0,
-      "seconds": 81.9,
+      "seconds": 38.2,
       "usage": {
-        "input_tokens": 180730,
+        "input_tokens": 181029,
         "cached_input_tokens": 20736,
         "cache_write_input_tokens": 0,
-        "output_tokens": 4674,
-        "reasoning_output_tokens": 19
+        "output_tokens": 1817,
+        "reasoning_output_tokens": 64
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\rearrange-to-gradient-intercept\\repair-RV08eD\\response.raw.txt"
-    },
-    {
-      "name": "review-scoped",
-      "code": 0,
-      "seconds": 15,
-      "usage": {
-        "input_tokens": 180770,
-        "cached_input_tokens": 12544,
-        "cache_write_input_tokens": 0,
-        "output_tokens": 316,
-        "reasoning_output_tokens": 35
-      },
-      "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\rearrange-to-gradient-intercept\\review-scoped-mRWgaH\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\rearrange-to-gradient-intercept\\maintenance-review-NQLIJ7\\response.raw.txt"
     }
   ],
+  "previousAttempts": [
+    {
+      "startedAt": "2026-10-07T23:05:25.129Z",
+      "finishedAt": "2026-10-07T23:07:56.180Z",
+      "status": "needs attention: not accepted after one repair round",
+      "calls": [
+        {
+          "name": "audit",
+          "code": 0,
+          "seconds": 53.8,
+          "usage": {
+            "input_tokens": 180052,
+            "cached_input_tokens": 12544,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 2557,
+            "reasoning_output_tokens": 119
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\rearrange-to-gradient-intercept\\audit-5zlBQs\\response.raw.txt"
+        },
+        {
+          "name": "repair",
+          "code": 0,
+          "seconds": 81.9,
+          "usage": {
+            "input_tokens": 180730,
+            "cached_input_tokens": 20736,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 4674,
+            "reasoning_output_tokens": 19
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\rearrange-to-gradient-intercept\\repair-RV08eD\\response.raw.txt"
+        },
+        {
+          "name": "review-scoped",
+          "code": 0,
+          "seconds": 15,
+          "usage": {
+            "input_tokens": 180770,
+            "cached_input_tokens": 12544,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 316,
+            "reasoning_output_tokens": 35
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\rearrange-to-gradient-intercept\\review-scoped-mRWgaH\\response.raw.txt"
+        }
+      ]
+    }
+  ],
+  "maintenanceRepair": true,
   "baseline": {
     "contentHash": "dce39dc845747365c0ab7dce97f2f612ac71f4c273fb4029648291d2bf9ba9dd",
     "quizHash": "8cc59b1615ad45275932e9f0e8fdd1d0a3af4e2a07867eb5b3c803e20a2380e7"
@@ -60,15 +98,14 @@
   ],
   "images": 110,
   "omittedImages": 158,
+  "firstRoundFindings": [
+    "quiz.q5: Option 3's explanation does not produce its stated answer: leaving the constant undivided in $-4y=-3x+8$ gives $+8$, not $-8$. Replace its why with: \"Changed the constant's sign but did not divide its magnitude by $4$, giving $-8$ instead of $-2$.\""
+  ],
   "fullReview": {
-    "name": "audit",
-    "hash": "ab6b5af3e1ab9022e3e5fcbc6f79fdb49f108a2e6c7f89cf14d75cf16d04927e",
+    "name": "maintenance-review",
+    "hash": "494f03d6759a7b07973d952e555560ac1f823fe4828358802e6c93e3558e23f7",
     "originalRemovalsSupplied": true
   },
-  "firstRoundFindings": [
-    "quiz.q5: Correct the explanations for options 1 and 2. Dividing the entire right-hand side by positive $4$ would give $-\\frac34x+2$, not option 1; its explanation must identify the inconsistent sign handling between terms. Option 2's explanation incorrectly refers to dividing $-8$ by the negative coefficient: the isolated equation has constant $8$, and $8\\div(-4)=-2$.",
-    "quiz.dq-15072: Option 3's explanation must identify the specific mistake: $\\frac32$ is the $y$-intercept after correct rearrangement, mistakenly selected as the gradient. Calling this an incorrect rearrangement does not explain the distractor."
-  ],
   "repaired": true,
   "changed": [
     "quiz.q5",
@@ -77,11 +114,11 @@
   "theoryChanged": false,
   "removed": [],
   "items": 25,
-  "summary": "Corrected two distractor explanations in quiz.q5 to identify inconsistent sign handling and the correct division of the isolated constant. Corrected quiz.dq-15072's final distractor explanation to identify selecting the y-intercept as the gradient; all other content is preserved.",
-  "reviewSummary": "All 25 items have correct answers, remain within the target skill and use booklet-supported question types; each quiz has exactly one correct option. Repair the distractor explanations in quiz.q5 and quiz.dq-15072; no removals or theory changes are required.",
-  "candidateHash": "8f646b4e91b2094e6657b9ea434dc0e1006ceac0431940b523775fa0d915f0c4",
+  "summary": "Corrected the explanation for the $y=\\frac{3}{4}x-8$ distractor in quiz.q5 to describe changing the constant's sign without dividing its magnitude by $4$. All other content, values, fields and item records are preserved exactly.",
+  "reviewSummary": "All 25 items have correct answers, assess supported booklet question types and stay within the target skill; every quiz has exactly one correct option. Repair one distractor explanation in quiz.q1; the theory is sound, and no worked examples or removals were supplied.",
+  "candidateHash": "494f03d6759a7b07973d952e555560ac1f823fe4828358802e6c93e3558e23f7",
   "findings": [
-    "quiz.q5: Option 3's explanation does not produce its stated answer: leaving the constant undivided in $-4y=-3x+8$ gives $+8$, not $-8$. Replace its why with: \"Changed the constant's sign but did not divide its magnitude by $4$, giving $-8$ instead of $-2$.\""
+    "quiz.q1: Option index 3's explanation does not fully produce its stated answer: dropping the coefficient alone gives $y=-x+5$. Keep its text and change its why to: 'Dropped the coefficient $3$ and kept the $x$ term positive instead of subtracting $3x$ from both sides.'"
   ],
-  "finishedAt": "2026-10-07T23:07:56.180Z"
+  "finishedAt": "2026-10-08T23:24:46.364Z"
 }

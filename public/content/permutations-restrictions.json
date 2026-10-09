@@ -2,20 +2,22 @@
   "skillId": "permutations-restrictions",
   "atomType": "R",
   "theory": {
-        "intro": "Deal with the restriction first, then arrange whatever is left. Objects that must stay together are treated as one **block**, and objects tied to particular positions are placed before anything else. Multiply the counts together.",
+        "intro": "Deal with the restriction first, then arrange whatever is left. Objects that must stay together are treated as one **block**, and objects tied to particular positions are placed before anything else. The factorial formulas below concern distinct objects arranged in a row. Multiply counts within each case, then add non-overlapping cases or subtract unacceptable arrangements as needed.",
         "facts": [
-          "**Block method**: treat the $k$ objects that must stay together as $1$ unit, giving $(n - k + 1)! \\times k!$ arrangements.",
-          "**Fixed position**: place the fixed object first, then arrange the other $n-1$ objects in $(n-1)!$ ways.",
-          "**Alternating**: $n$ boys and $n$ girls alternate in $2 \\times (n! \\times n!)$ ways, since either a boy or a girl starts.",
-          "**Separation**: arrange the unrestricted objects first, then place the objects that must stay apart into the gaps between them.",
-          "Handle the strictest restriction first, so no arrangement is counted twice."
-        ],
+"**Block method**: treat the $k$ objects that must stay together as $1$ unit, giving $(n - k + 1)! \\times k!$ arrangements, where $n$ and $k$ are integers with $1 \\leq k \\leq n$.",
+"**Fixed position**: place the fixed object first, then arrange the other $n-1$ objects in $(n-1)!$ ways.",
+"**Alternating**: $n$ boys and $n$ girls alternate in $2 \\times (n! \\times n!)$ ways, since either a boy or a girl starts, where $n$ is a positive integer.",
+"**Separation**: arrange the unrestricted objects first, then place the objects that must stay apart into the gaps between them, including the two end gaps. For non-adjacency, place at most one separated object in each gap.",
+"**Complement principle**: count total orderings, count unacceptable orderings, then subtract: acceptable orderings = total orderings minus unacceptable orderings.",
+"**Considering cases**: consider all non-overlapping cases and add their counts. If cases overlap, subtract the overlap so no arrangement is counted twice.",
+"Handle the strictest restriction first, so no arrangement is counted twice."
+],
         "steps": [
-          "Identify the restriction type (block grouping, fixed positions, alternating, or slot constraints)",
-          "Apply the block method or fill the restricted positions first",
-          "Arrange the remaining unrestricted objects in the available spaces",
-          "Multiply the arrangements together using the multiplication principle"
-        ]
+"Identify the restriction type (block grouping, fixed positions, alternating, or slot constraints), and decide whether to use complements or cases",
+"Apply the block method or fill the restricted positions first",
+"Arrange the remaining unrestricted objects in the available spaces",
+"Multiply the arrangements within each case using the multiplication principle, then add all non-overlapping cases or subtract unacceptable arrangements from the total; account for any overlap"
+]
       },
   "practice": {
     "foundation": [
@@ -56,42 +58,42 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "$7$ people line up for a photograph.\n$3$ best friends insist on standing next to one another.\nHow many arrangements are possible?",
         "structure": "block-method-grouping",
         "solution_text": "Treat the $3$ friends as $1$ unit.\nUnits to arrange: $5$ units.\n$= 5! \\times 3!$\n$= 120 \\times 6$\n$= 720$"
       },
-      {
-        "question_text": "In how many ways can $8$ different books be arranged on a shelf if a specific red book and a specific blue book must be at the two ends?",
+{
+        "question_text": "In how many ways can $8$ different books be arranged on a shelf if a specific red book must be at the left end and a specific blue book must be at the right end?",
         "structure": "fixed-positions-ends",
-        "solution_text": "Arrange the $2$ end books in the $2$ end positions: $2! = 2$.\nArrange the remaining $6$ books in the middle: $6! = 720$.\n$= 2 \\times 720$\n$= 1440$"
+        "solution_text": "Fix the red book at the left end and the blue book at the right end.\nArrange the remaining $6$ books in the middle:\n$= 6!$\n$= 720$"
       },
-      {
+{
         "question_text": "$4$ boys and $4$ girls stand in a queue.\nIn how many ways can they be arranged if they must alternate genders?",
         "structure": "alternating-items",
         "solution_text": "Case 1 (Boy first: BGBGBGBG) $= 4! \\times 4! = 576$\nCase 2 (Girl first: GBGBGBGB) $= 4! \\times 4! = 576$\nTotal $= 576 + 576 = 1152$."
       },
-      {
+{
         "question_text": "How many $4$-digit numbers greater than $5000$ can be formed from the digits $\\{2, 3, 5, 7, 8, 9\\}$ without repeating any digit?",
         "structure": "digit-restrictions-even-odd-magnitude",
         "solution_text": "First digit must be $5, 7, 8$, or $9$ ($4$ choices).\nRemaining $3$ digits chosen from remaining $5$ digits: $^{5}P_{3} = 60$.\n$= 4 \\times 60$\n$= 240$"
       },
-      {
+{
         "question_text": "$2$ French, $3$ German, and $4$ Spanish novels are arranged on a shelf.\nIn how many ways can they be arranged if books of the same language are kept together?",
         "structure": "multiple-blocks-grouping",
         "solution_text": "Arrange $3$ language blocks: $3! = 6$.\nInternal: French $2! = 2$, German $3! = 6$, Spanish $4! = 24$.\n$= 6 \\times 2 \\times 6 \\times 24$\n$= 1728$"
       },
-      {
+{
         "question_text": "In how many ways can $5$ boys and $3$ girls be seated in a row such that no two girls sit next to each other?",
         "structure": "gaps-method-separated",
         "solution_text": "Seat $5$ boys first: $5! = 120$ ways.\nThis creates $6$ gaps (including ends): $\\_ \\text{B} \\_ \\text{B} \\_ \\text{B} \\_ \\text{B} \\_ \\text{B} \\_$.\nSeat $3$ girls in $6$ gaps: $^{6}P_{3} = 6 \\times 5 \\times 4 = 120$.\n$= 120 \\times 120$\n$= 14400$"
       },
-      {
+{
         "question_text": "How many $4$-digit even numbers can be formed using the digits $\\{0, 1, 2, 3, 4, 5\\}$ without repetition?",
         "structure": "digit-restrictions-even-odd-magnitude",
         "solution_text": "Case 1 (Ends in $0$): first digit has $5$ choices, middle two have $^{4}P_{2} = 12$ choices $\\implies 1 \\times 5 \\times 12 = 60$.\nCase 2 (Ends in $2$ or $4$): $2$ choices for last digit. First digit has $4$ choices (cannot be $0$), middle two have $^{4}P_{2} = 12$ choices $\\implies 2 \\times 4 \\times 12 = 96$.\nTotal $= 60 + 96 = 156$."
       }
-    ],
+],
     "mastery": [
       {
         "question_text": "How many $4$-digit numbers greater than $4000$ and odd can be formed from the digits $\\{1, 2, 3, 4, 5, 6\\}$ without repetition?",

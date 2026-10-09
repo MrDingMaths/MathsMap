@@ -8,9 +8,9 @@
       "mastery": false,
       "options": [
 { "text": "$936$", "correct": true },
-{ "text": "$318$", "why": "The ones digit must be $6$, since $2\\times3=6$. The tens and hundreds give $3$ and $9$, so the product is $936$." },
+{ "text": "$315$", "why": "Added $3$ to $312$ instead of multiplying by $3$." },
 { "text": "$639$", "why": "Reversed the product digits after working from right to left." },
-{ "text": "$915$", "why": "The tens digit should be $3$ and the ones digit $6$, giving $936$, not $915$." }
+{ "text": "$916$", "why": "Copied the tens digit $1$ instead of multiplying it by $3$." }
 ],
       "solution_text": "$2 \\times 3=6$, $1 \\times 3=3$, $3 \\times 3=9$.\n$\\begin{array}{r}312\\\\ \\times 3\\\\ \\hline 936\\end{array}$"
     },
@@ -22,8 +22,8 @@
       "options": [
 { "text": "$406$", "correct": true },
 { "text": "$356$", "why": "Forgot to add the carried 5 to the tens-column product." },
-{ "text": "$401$", "why": "The ones digit should be $6$, from $8\\times7=56$, not $1$." },
-{ "text": "$105$", "why": "The ones digit must be $6$. Adding the carried $5$ to $5\\times7$ gives $40$ tens, so the product is $406$." }
+{ "text": "$405$", "why": "Used the incorrect fact $8\\times7=55$, then carried $5$ into the tens column." },
+{ "text": "$350$", "why": "Multiplied only the $50$ by $7$ and omitted the $8$ ones." }
 ],
       "solution_text": "$8 \\times 7=56$: write $6$, carry $5$.\n$5+(5 \\times 7)=40$.\n$\\begin{array}{r}58\\\\ \\times 7\\\\ \\hline 406\\end{array}$"
     },
@@ -34,8 +34,8 @@
       "mastery": false,
       "options": [
 { "text": "$4584$", "correct": true },
-{ "text": "$4224$", "why": "The tens column gives $2+(6\\times6)=38$, so write $8$ and carry $3$. The final column gives $45$, not $42$." },
-{ "text": "$4344$", "why": "The tens digit should be $8$, from $2+(6\\times6)=38$. Carrying $3$ gives $3+(7\\times6)=45$ in the final column." },
+{ "text": "$4564$", "why": "Omitted the carried $2$ in the tens column, using $6\\times6=36$, then carried $3$ into the hundreds column." },
+{ "text": "$4284$", "why": "Omitted the carried $3$ in the hundreds column, using $7\\times6=42$." },
 { "text": "$4684$", "why": "Added one extra hundred when combining the final carry." }
 ],
       "solution_text": "$4 \\times 6=24$: write $4$, carry $2$.\n$2+(6 \\times 6)=38$: write $8$, carry $3$.\n$3+(7 \\times 6)=45$.\n$\\begin{array}{r}764\\\\ \\times 6\\\\ \\hline 4584\\end{array}$"
@@ -49,60 +49,60 @@
 { "text": "$12108$", "correct": true },
 { "text": "$12088$", "why": "Failed to carry 2 from the ones column into the tens column." },
 { "text": "$120108$", "why": "Inserted an extra zero for the zero hundreds digit." },
-{ "text": "$12028$", "why": "The tens column gives $2+(2\\times4)=10$: write $0$ and carry $1$. The zero hundreds digit still receives that $1$." }
+{ "text": "$12028$", "why": "Omitted $2\\times4$ in the tens column and wrote only the carried $2$, leaving no carry for the hundreds column." }
 ],
       "solution_text": "$7 \\times 4=28$: write $8$, carry $2$.\n$2+(2 \\times 4)=10$: write $0$, carry $1$.\n$1+(0 \\times 4)=1$.\n$3 \\times 4=12$.\n$\\begin{array}{r}3027\\\\ \\times 4\\\\ \\hline 12108\\end{array}$"
     },
 {
       "id": "q5",
-      "question_text": "Find the missing digit: $\\begin{array}{r}4\\square 6\\\\ \\times 5\\\\ \\hline 2280\\end{array}$.",
-      "structure": "algorithm-missing-digit",
+      "question_text": "Calculate $476\\times5$ using the formal algorithm.",
+      "structure": "algorithm-multiple-carries",
       "mastery": false,
       "options": [
-{ "text": "$5$", "correct": true },
-{ "text": "$4$", "why": "Using $4$ gives $446\\times5=2230$, not $2280$." },
-{ "text": "$6$", "why": "Using $6$ gives $466\\times5=2330$, not $2280$." },
-{ "text": "$8$", "why": "Copied the tens digit of the final product into the missing place." }
+{ "text": "$2380$", "correct": true },
+{ "text": "$2350$", "why": "Omitted the carried $3$ in the tens column, using $7\\times5=35$, then carried $3$ into the hundreds column." },
+{ "text": "$2080$", "why": "Omitted the carried $3$ in the hundreds column, using $4\\times5=20$." },
+{ "text": "$2353$", "why": "Reversed the digits of $6\\times5=30$: wrote $3$ and carried $0$, then completed the remaining columns." }
 ],
-      "solution_text": "$2280 \\div 5=456$.\n$\\square=5$"
+      "solution_text": "$6\\times5=30$: write $0$, carry $3$.\n$3+(7\\times5)=38$: write $8$, carry $3$.\n$3+(4\\times5)=23$.\n$\\begin{array}{r}476\\\\ \\times5\\\\ \\hline2380\\end{array}$"
     },
 {
       "id": "q6",
-      "question_text": "In $689 \\times 7$, what happens immediately after calculating $9 \\times 7=63$?",
-      "structure": "interpret-carry",
+      "question_text": "Calculate $1689\\times7$ using the formal algorithm.",
+      "structure": "algorithm-multiple-carries",
       "mastery": true,
       "options": [
-        {
-          "text": "Write $3$ in the ones column and carry $6$",
+{
+          "text": "$11823$",
           "correct": true
         },
-        {
-          "text": "Write $6$ in the ones column and carry $3$",
-          "why": "Reversed the two digits of $63$, writing the tens digit and carrying the ones digit."
+{
+          "text": "$11763$",
+          "why": "Omitted the carried $6$ in the tens column, using $8\\times7=56$, then carried $5$ into the hundreds column."
         },
-        {
-          "text": "Write $3$ in the ones column and discard $6$",
-          "why": "Recorded the ones digit but lost the $6$ tens that must be carried into the tens column."
+{
+          "text": "$11223$",
+          "why": "Omitted the carried $6$ in the hundreds column, using $6\\times7=42$, then carried $4$ into the thousands column."
         },
-        {
-          "text": "Write $6$ in the ones column and discard $3$",
-          "why": "Reversed the two digits of $63$ and also lost the digit that should have been carried."
+{
+          "text": "$7823$",
+          "why": "Omitted the carried $4$ in the thousands column, using only $1\\times7=7$."
         }
-      ],
-      "solution_text": "$9 \\times 7=63$.\nWrite $3$ in the ones column and carry $6$ to the tens column."
+],
+      "solution_text": "$9\\times7=63$: write $3$, carry $6$.\n$6+(8\\times7)=62$: write $2$, carry $6$.\n$6+(6\\times7)=48$: write $8$, carry $4$.\n$4+(1\\times7)=11$.\n$\\begin{array}{r}1689\\\\ \\times7\\\\ \\hline11823\\end{array}$"
     },
 {
       "id": "q7",
-      "question_text": "A student gives $572 \\times 8=4516$.\nWhich statement identifies the first error?",
-      "structure": "diagnose-algorithm-error",
+      "question_text": "Calculate $3572\\times8$ using the formal algorithm.",
+      "structure": "algorithm-multiple-carries",
       "mastery": true,
       "options": [
-        { "text": "The tens column should give $7 \\times 8+1=57$", "correct": true },
-        { "text": "The ones column should give $2 \\times 8=14$", "why": "Used an incorrect basic fact; 2 times 8 is 16, not 14." },
-        { "text": "The hundreds column should give $5 \\times 8=35$", "why": "Used an incorrect basic fact; 5 times 8 is 40, before adding the carry." },
-        { "text": "The digits should be multiplied from left to right", "why": "Reversed the required algorithm direction, which begins in the ones column." }
-      ],
-      "solution_text": "$2 \\times 8=16$: write $6$, carry $1$.\n$1+(7 \\times 8)=57$: write $7$, carry $5$.\n$5+(5 \\times 8)=45$.\n$\\begin{array}{r}572\\\\ \\times 8\\\\ \\hline 4576\\end{array}$"
+{ "text": "$28576$", "correct": true },
+{ "text": "$28566$", "why": "Omitted the carried $1$ in the tens column, using $7\\times8=56$, then carried $5$ into the hundreds column." },
+{ "text": "$28076$", "why": "Omitted the carried $5$ in the hundreds column, using $5\\times8=40$, then carried $4$ into the thousands column." },
+{ "text": "$24576$", "why": "Omitted the carried $4$ in the thousands column, using only $3\\times8=24$." }
+],
+      "solution_text": "$2\\times8=16$: write $6$, carry $1$.\n$1+(7\\times8)=57$: write $7$, carry $5$.\n$5+(5\\times8)=45$: write $5$, carry $4$.\n$4+(3\\times8)=28$.\n$\\begin{array}{r}3572\\\\ \\times8\\\\ \\hline28576\\end{array}$"
     }
 ]
 }
