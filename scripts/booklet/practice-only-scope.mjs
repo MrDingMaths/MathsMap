@@ -24,6 +24,9 @@ export function normalizePracticeInventory(inventory) {
       while(owner&&owner.kind!=='question'&&!seen.has(owner.id)){seen.add(owner.id);owner=byId.get(owner.parentId);}
       if(!owner||owner.kind!=='question'||owner.exclusionReason)throw Error('Unknown embedded question: '+e.id);
       e.embeddedInQuestion=owner.id;
+      // Explicit embedding also supplies assignment ownership when the
+      // independent inventory did not repeat a separate parentId.
+      e.parentId??=owner.id;
       if(e.presentation?.embeddedInQuestion)e.presentation.embeddedInQuestion=owner.id;
     }
     if(e.kind==='teaching'&&!e.parentId&&!e.exclusionReason&&!e.embeddedInQuestion&&
@@ -46,7 +49,7 @@ export function validatePracticeInventory(inventory) {
   }
 }
 
-export function validatePracticeAuthor(result,inventory) {
+export function validatePracticeAuthor(result,inventory,{continuations=[]}={}) {
   inventory=normalizePracticeInventory(inventory);
   validatePracticeInventory(inventory);
   const blocks=result.sections.flatMap(s=>s.blocks);
@@ -60,7 +63,14 @@ export function validatePracticeAuthor(result,inventory) {
    /^Inventory separately for coverage, but retain within the parent question rather than authoring a separate teaching section\.?$/i,
    /^Inventory separately as embedded reference content; retain in the parent question rather than authoring a standalone teaching section\.?$/i,
    /^Embedded instruction context; retain within the question, not as a standalone teaching section\.?$/i,
-   /^Embedded definition is retained once in the question parent; not a separate teaching section\.?$/i
+   /^Embedded definition is retained once in the question parent; not a separate teaching section\.?$/i,
+   /^Retained in the parent question stem; do not duplicate as standalone teaching\.?$/i,
+   /^Retain within question \d+(?:\([a-z]+\))*; do not author as a separate teaching block\.?$/i,
+   /^Inventoried separately for coverage; retain within the question rather than authoring a separate teaching block\.?$/i,
+   /^Inventoried separately for coverage; the definition and both example sequences remain embedded in question \d+\.?$/i,
+   /^Already retained in the question stem; do not author a separate teaching block\.?$/i,
+   /^Represent once within the parent question, not as a separate teaching block\.?$/i,
+   /^Represent once within the parent question, not as standalone theory\.?$/i
   ].some(pattern=>pattern.test(e.exclusionReason.trim()));
   for(const e of inventory.entries)if(e.embeddedInQuestion&&e.exclusionReason&&!embeddedRetention(e))throw Error('Conflicting embedded content exclusion: '+e.id);
   const excluded=new Set(inventory.entries.filter(e=>e.exclusionReason&&!embeddedRetention(e)&&
@@ -80,7 +90,7 @@ export function validatePracticeAuthor(result,inventory) {
     if(!excluded.has(m.inventoryId)&&m.exclusionReason&&!referenceExclusions.has(m.inventoryId)&&!retained)throw Error('Practice content was excluded during authoring: '+m.inventoryId);
   }
   const questions=inventory.entries.filter(e=>e.kind==='question'&&!e.exclusionReason),owners=new Map(),targets=new Set();
-  const ids=n=>[n?.id,...(n?.children??[]).flatMap(ids)].filter(Boolean);
+  const ids=n=>[...editableNodes].filter(([,row])=>row.block.content===n).map(([id])=>id);
   for(const q of questions){
     const mappings=result.inventoryMappings.filter(m=>m.inventoryId===q.id&&!m.exclusionReason);
     const owned=blocks.filter(b=>mappings.some(m=>m.targetId===b.id||ids(b.content).includes(m.targetId)));
@@ -94,20 +104,28 @@ export function validatePracticeAuthor(result,inventory) {
       const range=String(q.sourceLabel??q.sourceReview?.sourceIdentity?.questionLabel??'').match(/^\s*Q?(\d+)\s*[-–—]\s*Q?(\d+)\s*$/i);
       const partNumbers=new Set(localParts.map(e=>String(e.sourceLabel??'').match(/^\s*Q?(\d+)(?:\b|\()/i)?.[1]).filter(Boolean).map(Number));
       const groupedRangeRoot=distinctLocalParts&&range&&Number(range[2])>=Number(range[1])&&partNumbers.size===Number(range[2])-Number(range[1])+1&&[...partNumbers].every(n=>n>=Number(range[1])&&n<=Number(range[2]));
-      const numberedNestedRoot=distinctLocalParts&&!range&&/^\s*Q?\d+\.?\s*$/i.test(String(q.sourceLabel??''))&&
+      const numberedNestedRoot=distinctLocalParts&&!range&&/^\s*(?:\d+\s*[A-Z]\s*(?:Exercises\s*[,]?\s*)?)?Q?\d+\.?\s*[†‡*!]*\s*$/i.test(String(q.sourceLabel??''))&&
        questions.filter(entry=>entry.sharedStemId===q.sharedStemId).length===1&&
        (q.sourceReview?.sourceIdentity?.pdfPages??[inventory.pageNumber]).length===1;
       const continuedRoot=distinctLocalParts&&
        result.sharedContentContinuations?.some(ref=>ref.blockId===block.id&&ref.reason?.trim()&&ref.canonicalPageNumber<inventory.pageNumber&&
         [ref.canonicalPageNumber,inventory.pageNumber].every(page=>q.sourceReview?.sourceIdentity?.pdfPages?.includes(page)&&block.sourceRefs?.some(r=>r.pageNumber===page)));
+      const declaredRoot=continuations.some(pair=>!Array.isArray(pair)&&pair.entryIds?.includes(q.id)&&
+       pair.from<pair.to&&[pair.from,pair.to].includes(inventory.pageNumber)&&
+       [pair.from,pair.to].every(page=>block.sourceRefs?.some(ref=>ref.pageNumber===page)))&&
+       (distinctLocalParts||localParts.length===0&&inventory.pageNumber<Math.max(...block.sourceRefs.map(ref=>ref.pageNumber))&&contentSource(block.content.prompt).trim());
       const part=mappings.find(m=>m.targetId!==block.id&&m.targetId!==block.content.id&&ids(block.content).includes(m.targetId));
       // An independently inventoried continuation root represents the whole
       // shared question. Its individual parts still map locally; the assignment
       // coalescer checks explicit ownership and byte-identical complete copies.
-      if(!continuedRoot&&!groupedRangeRoot&&!numberedNestedRoot){if(!part||targets.has(part.targetId))throw Error('Shared-stem items require distinct part targets: '+q.id);targets.add(part.targetId);}
+      if(!declaredRoot&&!continuedRoot&&!groupedRangeRoot&&!numberedNestedRoot){if(!part||targets.has(part.targetId))throw Error('Shared-stem items require distinct part targets: '+q.id);targets.add(part.targetId);}
       const fullWidthReason=block.sourceReview?.grouping?.layoutReason??
        (Array.isArray(block.sourceReview?.arrangements)?block.sourceReview.arrangements.find(row=>row.targetId===block.content.id&&row.layout==='list'&&(row.columns==null||row.columns===1)&&row.description?.trim())?.description:null);
-      if(block.content.layout!=='grid'&&!(block.content.layout==='list'&&fullWidthReason?.trim()))throw Error('Shared-stem question requires an editable part grid or a reviewed full-width layout: '+block.id);
+      const listPreset=block.content.layout==='list'&&(!block.sourceReview?.arrangements?.length||
+       block.sourceReview.arrangements.every(row=>row.targetId===block.content.id&&row.layout==='list'&&(row.columns==null||row.columns===1)&&
+        JSON.stringify(row.order)===JSON.stringify((block.content.children??[]).map(child=>child.id))));
+      const stackedPreset=(numberedNestedRoot||declaredRoot)&&(block.content.layout==null||listPreset);
+      if(!stackedPreset&&block.content.layout!=='grid'&&!(block.content.layout==='list'&&fullWidthReason?.trim()))throw Error('Shared-stem question requires an editable part grid or a reviewed full-width layout: '+block.id);
       if(!block.sourceReview?.workingSpaceEstimate)throw Error('Shared-stem question requires reviewed solution-informed spacing: '+block.id);
     }
     owners.set(block.id,[...prior,q]);

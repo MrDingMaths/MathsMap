@@ -76,7 +76,7 @@ export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=
   if(!Number.isInteger(page)||!manifest.selectedPages.includes(page))throw Error('Unexpected source page '+page);
   const stem=`page-${String(page).padStart(3,'0')}`,topic=config.topics.find(t=>page>=t.start&&page<=t.end);
   let inventory=null,editorial=null,editorialDecisions=[],geometry=[];
-  if(stage==='author'){inventory=reviewed?effectiveInventory(runDir,page,workflow):JSON.parse(read(path.join(packetRoot,`${stem}.inventory.json`)));validateSemanticResult(inventory,{stage:'inventory',page,contentScope:config.contentScope});}
+  if(stage==='author'){inventory=reviewed?effectiveInventory(runDir,page,workflow):JSON.parse(read(path.join(packetRoot,`${stem}.inventory.json`)));validateSemanticResult(inventory,{stage:'inventory',page,contentScope:config.contentScope});if(config.contentScope==='practice-only')inventory=normalizePracticeInventory(inventory);}
   const authoringContextScoped=stage==='author'&&config.authoringContextByInventoryId!==undefined;
   const authoringContextSelections=authoringContextScoped?Object.fromEntries(inventory.entries.filter(e=>e.kind==='question'&&!e.exclusionReason&&config.authoringContextByInventoryId[e.id]).map(e=>[e.id,config.authoringContextByInventoryId[e.id]])):undefined;
   // Keep all configured teaching text and image references. Attach a bounded
@@ -176,11 +176,11 @@ export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=
   const inputs={version:2,stage,page,configuration,executionHash,...(authoringContextScoped?{authoringContextSelections}:{}),...(continuationDependencies.length?{continuationDependencies}:{}),...(teacherHashes.length?{teacherHashes}:{}),...(sharedDiagrams?{sharedDiagramHash}:{}),...(houseAuthoring?{houseAuthoringHash}:{}),prompt,images:images.map(file=>[file,hash(file)]),teachingImages:contextPages.map(p=>hash(pageFile(p,'png'))),wordHash:stage==='author'&&fs.existsSync(wordFile)?hash(wordFile):null};
   const evidence=[...new Set([...images,...contextPages.map(p=>pageFile(p,'png')),...teacherPages.map(p=>path.join(runDir,'evidence/teacher/pages',`page-${String(p).padStart(3,'0')}.png`))])].map(file=>({id:'evidence-'+hash(file),path:path.resolve(file),hash:hash(file)}));
   const editorialHash=editorial?digest(JSON.stringify(editorial)):null,editorialFile=editorial?path.resolve(packetRoot,'evidence','editorial-'+editorialHash+'.json'):null;
-  return {stage,page,stem,inventory,topic,contextPages,teacherPages,...(authoringContextScoped?{authoringContextScoped,authoringContextSelections,sourceImage:pageFile(page,'png'),teachingImageLimit:config.teachingImageLimit??2,teachingSources:contextPages.map(p=>({page:p,image:pageFile(p,'png'),text:`SOURCE CONTEXT PAGE ${p}\nImage: ${pageFile(p,'png')}\n${pageText(p)}`}))}:{}),editorial,editorialDecisions,editorialHash,editorialFile,geometry,evidence,generationDependencies:{configuration,executionHash,...(sharedDiagrams?{sharedDiagramHash}:{})},promptSections:sections,contentScope:config.contentScope,reviewed,blockers,packetRoot,out:path.join(packetRoot,`${stem}.${stage}.${attempt}`),resultFile:path.join(packetRoot,`${stem}.${stage}.json`),prompt,images,inputHash:digest(JSON.stringify({...inputs,...(manifest.pipelinePolicy?{pipelinePolicy:manifest.pipelinePolicy,assignmentImplementation:assignmentImplementationHash}:{})})),promptStats:{characters:prompt.length,imageCount:images.length,sections:Object.fromEntries(sections.map(s=>[s.name,s.text.length]))}};
+  return {stage,page,stem,inventory,topic,contextPages,teacherPages,practiceContinuations:config.assignmentLimits?.continuations??manifest.continuations??[],...(authoringContextScoped?{authoringContextScoped,authoringContextSelections,sourceImage:pageFile(page,'png'),teachingImageLimit:config.teachingImageLimit??2,teachingSources:contextPages.map(p=>({page:p,image:pageFile(p,'png'),text:`SOURCE CONTEXT PAGE ${p}\nImage: ${pageFile(p,'png')}\n${pageText(p)}`}))}:{}),editorial,editorialDecisions,editorialHash,editorialFile,geometry,evidence,generationDependencies:{configuration,executionHash,...(sharedDiagrams?{sharedDiagramHash}:{})},promptSections:sections,contentScope:config.contentScope,reviewed,blockers,packetRoot,out:path.join(packetRoot,`${stem}.${stage}.${attempt}`),resultFile:path.join(packetRoot,`${stem}.${stage}.json`),prompt,images,inputHash:digest(JSON.stringify({...inputs,...(manifest.pipelinePolicy?{pipelinePolicy:manifest.pipelinePolicy,assignmentImplementation:assignmentImplementationHash}:{})})),promptStats:{characters:prompt.length,imageCount:images.length,sections:Object.fromEntries(sections.map(s=>[s.name,s.text.length]))}};
  });
 }
 
-export function validateSemanticResult(result,{stage,page,inventory,reviewed=false,contentScope}){
+export function validateSemanticResult(result,{stage,page,inventory,reviewed=false,contentScope,practiceContinuations=[]}){
  validateContentScope(contentScope);
  if(!result||result.pageNumber!==page)throw Error('Source page identity mismatch');
  if(stage==='inventory'){
@@ -194,7 +194,7 @@ export function validateSemanticResult(result,{stage,page,inventory,reviewed=fal
   return;
  }
  if(!Array.isArray(result.sections)||!Array.isArray(result.inventoryMappings))throw Error('Incomplete semantic author envelope');
- if(contentScope==='practice-only')validatePracticeAuthor(result,inventory);
+ if(contentScope==='practice-only')validatePracticeAuthor(result,inventory,{continuations:practiceContinuations});
  if(reviewed&&result.confirmedCorrections?.length)throw Error('Author output cannot approve corrections; use the structured editorial register');
  // Permanent demonstrations are content, not student response leaves. Require
  // independent source inventory support as well as the author's declaration;

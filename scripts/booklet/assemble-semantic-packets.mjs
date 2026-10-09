@@ -35,7 +35,7 @@ for(const page of selected){
  const inv=workflow?effectiveInventory(runDir,page,workflow):JSON.parse(fs.readFileSync(path.join(root,stem+'.inventory.json'),'utf8'));
  const packet=workflow?effectiveAuthor(runDir,page,workflow):JSON.parse(fs.readFileSync(path.join(root,stem+'.author.json'),'utf8'));
  if(inv.pageNumber!==page||packet.pageNumber!==page)throw Error('Wrong packet page');
- validateSemanticResult(packet,{stage:'author',page,inventory:inv,contentScope:config.contentScope,reviewed:!!workflow});
+ validateSemanticResult(packet,{stage:'author',page,inventory:inv,contentScope:config.contentScope,reviewed:!!workflow,practiceContinuations:config.assignmentLimits?.continuations??manifest.continuations??[]});
  inventories.set(page,inv);rawPackets.push(packet);
 }
 const packets=mergeQuestionFragments(coalescePacketContinuations(rawPackets,{continuations:config.assignmentLimits?.continuations}),config.questionFragmentGroups);
