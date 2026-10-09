@@ -42,6 +42,7 @@ Their bytes are compared with, or recorded in, accepted review receipts.
 
 | File | Covers |
 | --- | --- |
+| [booklet-standing-conventions.md](booklet-standing-conventions.md) | September 2026 standing rules moved word for word out of `AGENTS.md`, which tells every agent to read this page before booklet work |
 | [booklet-three-pass-import.md](booklet-three-pass-import.md) | New imports: lean cut, lean review route, the three passes |
 | [booklet-lean-import-runtime.md](booklet-lean-import-runtime.md) | `lean-import.mjs inventory`, `author` and `sample`, the worker pool and frozen export. Also describes older review and export commands |
 | [booklet-import-duration-controls.md](booklet-import-duration-controls.md) | Preparation checks and lessons from earlier imports. Also describes the older ticket route |
