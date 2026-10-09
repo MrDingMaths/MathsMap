@@ -2,6 +2,10 @@
 
 Keep this file under 32,000 bytes: Codex loads only the first 32,768 bytes of it. Put detail in `docs/` and link it from here. `npm run repo:check` enforces the limit.
 
+## Bank links and duplicate questions (9 October 2026, user approved)
+
+A question is published to the bank once; every other booklet that contains it links to that record. Follow [duplicates and linking](docs/booklet-bank-auto-sync.md#duplicates-and-linking-9-october-2026-user-approved). `import-project-bank.mjs` links identical questions automatically, holds a same-question match that has a different answer for one decision in Studio (**Use existing** or **Keep separate**), and creates only the rest; assessments cover new questions only. Do not add a duplicate review stage or model call to imports, and do not hold or block on similarity scores. Run `node scripts/booklet/bank-links.mjs [--project ID]` to see what a publication would create, link or hold. Never create a second bank record for an identical question by writing bank files directly.
+
 ## Remote Studio access (8 October 2026, user requested)
 
 Studio is published at `studio.mrdingmaths.com` through a Cloudflare Tunnel with an Access login; see [remote access](docs/studio-remote-access.md). Keep remote-access code in `remote/` and out of `vite.config.js` and `scripts/`, which are hash-bound by export evidence. Never expose port 5173 directly or remove the Access login while the DNS record exists.

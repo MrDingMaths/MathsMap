@@ -12,6 +12,18 @@ export function sharedQuestion(value){
  }
  return {title:value.title??'',content:clean(value.content)};
 }
+// The question as posed: shared content without answers, a source question
+// number, inline widths or whitespace differences. It only raises a possible
+// duplicate for a decision; equal shared content is what links automatically.
+export function questionKey(value){
+ const posed=v=>{
+  if(typeof v==='string')return v.replace(/\s+/g,' ').trim();
+  if(Array.isArray(v))return v.map(posed);
+  if(!v||typeof v!=='object')return v;
+  return Object.fromEntries(Object.entries(v).filter(([k,x])=>k!=='answer'&&k!=='width'&&!(k==='label'&&v.type==='question'&&/^\d+$/.test(String(x)))).map(([k,x])=>[k,posed(x)]));
+ };
+ return JSON.stringify(sharedQuestion({content:posed(value.content)}).content);
+}
 export function mergeQuestionContent(incoming,local,base=null){
  const localById=new Map(),basePaths=new Map(),localPaths=new Map();
  walk(local,n=>{if(n.id)localById.set(n.id,n);});

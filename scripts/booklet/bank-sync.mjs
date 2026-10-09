@@ -1,13 +1,15 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
-import {sharedQuestion,mergeQuestionContent} from '../../src/lib/question-sync.js';
+import {sharedQuestion,mergeQuestionContent,questionKey} from '../../src/lib/question-sync.js';
 import {normaliseQuestion,validateQuestion,makeBankManifest} from '../../src/lib/practice-question-model.js';
 import {reconcileSyncLayout} from '../../src/lib/question-sync-layout.js';
-import {projectBankQuestion,mergeBankIntoBooklet} from '../../src/lib/question-bank-projection.js';
+import {projectBankQuestion,mergeBankIntoBooklet,bankProjectionPolicy} from '../../src/lib/question-bank-projection.js';
+import {isSelectableBankQuestion} from '../../src/lib/question-bank-eligibility.js';
 
 export const revisionHash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
-const sharedHash=(q,policy=null)=>revisionHash(sharedQuestion(normaliseQuestion(policy?projectBankQuestion(q,{policy}):q)));
+export const sharedHash=(q,policy=null)=>revisionHash(sharedQuestion(normaliseQuestion(policy?projectBankQuestion(q,{policy}):q)));
+export const questionKeyHash=(q,policy=null)=>revisionHash(questionKey(normaliseQuestion(policy?projectBankQuestion(q,{policy}):q)));
 const json=v=>JSON.stringify(v,null,2)+'\n';
 const segment=value=>{if(typeof value!=='string'||!value||!/^[a-zA-Z0-9._-]+$/.test(value)||value==='.'||value==='..')throw Object.assign(new Error('Invalid bank reference'),{statusCode:400});return value;};
 const linksPath=root=>path.join(root,'.sync','links.json');
@@ -66,7 +68,8 @@ export async function projectSyncStatus(project,bankRoot){
    if(link)state=localHash!==link.sourceHash&&bankHash!==link.bankHash?'conflict':bankHash!==link.bankHash?'update':'pending';
    else if(block.bankRef.revision!==bankRevision){
     const base=await readSyncJson(path.join(bankRoot,'.revisions',id,block.bankRef.revision+'.json'));
-    state=base&&sharedHash(block)===sharedHash(base)?'update':'conflict';
+    // A classification-only bank revision offers no content update.
+    state=base&&sharedHash(base)===bankHash?'local':base&&sharedHash(block)===sharedHash(base)?'update':'conflict';
    }else state='local';
   }
   items.push({blockId:block.id,bankId:id,owner:!!link,state,bankRevision,localHash,...(Number.isFinite(bank.classification?.reasoningScore)?{bankDifficulty:{difficulty:bank.classification.difficulty,reasoningScore:bank.classification.reasoningScore,difficultyReason:bank.classification.difficultyReason??'',revision:bankRevision}}:{}),title:block.title||block.sourceOrder&&`Question ${block.sourceOrder}`||'Question',...(state==='update'||state==='conflict'?{local:{...normaliseQuestion(block)},bank}: {})});
@@ -92,7 +95,63 @@ export async function prepareSyncResolution(project,bankRoot,body){
   const check=validateQuestion(next);if(!check.valid)throw new Error(check.errors.join('; '));
   entries.push([path.join(bankRoot,'.revisions',bank.id,item.bankRevision+'.json'),bank],[path.join(bankRoot,bank.id+'.json'),next],await bankManifestEntry(bankRoot,[next]));
   registerOwner(links,project,block,next);
- }else if(body.action==='keep-local'&&!item.owner){block.bankRef=null;block.snapshotKind='local';delete block.canonicalId;}
+ }else if(body.action==='keep-local'&&!item.owner){block.bankDecision={decision:'distinct',of:[...new Set([...(block.bankDecision?.of??[]),item.bankId])]};block.bankRef=null;block.snapshotKind='local';delete block.canonicalId;}
  else throw Object.assign(new Error('Invalid sync action'),{statusCode:400});
  entries.push([linksPath(bankRoot),links]);return entries;
+}
+
+// Duplicate linking. A duplicate is a question the sync comparison above already
+// calls identical; a looser question-only key raises a pair for one decision.
+const keyCache=new Map();
+export async function bankQuestionKeys(root){
+ const cache=keyCache.get(root)??keyCache.set(root,new Map()).get(root),seen=new Set(),entries=[];
+ for(const name of (await fs.readdir(root).catch(()=>[])).filter(n=>n.endsWith('.json')&&n!=='manifest.json')){
+  const file=path.join(root,name),stat=await fs.stat(file),stamp=stat.mtimeMs+':'+stat.size;seen.add(name);
+  let entry=cache.get(name);
+  if(entry?.stamp!==stamp){const q=await readSyncJson(file);entry=q?.id?{stamp,id:q.id,title:q.title??'',revision:revisionHash(q),selectable:isSelectableBankQuestion(q),shared:sharedHash(q),key:questionKeyHash(q)}:{stamp};cache.set(name,entry);}
+  if(entry.selectable)entries.push(entry);
+ }
+ for(const name of cache.keys())if(!seen.has(name))cache.delete(name);
+ return entries;
+}
+export const blockPolicy=block=>{try{return bankProjectionPolicy(block);}catch{return null;}};
+// One outcome per question, in order: linked, exact, held, new. A new question
+// also stands for its future record, so a later copy in the same booklet links to it.
+export async function resolveBankOutcomes(questions,bankRoot,entries=null){
+ const byShared=new Map(),byKey=new Map(),outcomes=new Map();
+ const add=(shared,key,ref)=>{if(!byShared.has(shared))byShared.set(shared,ref);byKey.set(key,[...(byKey.get(key)??[]),ref]);};
+ for(const e of entries??await bankQuestionKeys(bankRoot))add(e.shared,e.key,{bankId:e.id});
+ for(const block of questions){
+  if(block.bankRef?.id){outcomes.set(block.id,{outcome:'linked',bankId:block.bankRef.id});continue;}
+  const policy=blockPolicy(block),projected=sharedHash(block,policy),exact=byShared.get(projected);
+  // Only content the consumer comparison will also call equal links without a decision.
+  if(exact&&projected===sharedHash(block)){outcomes.set(block.id,{outcome:'exact',...exact});continue;}
+  const decided=new Set(block.bankDecision?.of??[]),key=questionKeyHash(block,policy);
+  const same=(byKey.get(key)??[]).filter(ref=>ref===exact||!ref.bankId||!decided.has(ref.bankId));
+  if(same.length){outcomes.set(block.id,{outcome:'held',sameQuestionAs:same});continue;}
+  outcomes.set(block.id,{outcome:'new'});add(projected,key,{blockId:block.id});
+ }
+ return outcomes;
+}
+// An exact match takes identity only. A same-question match adopts the bank's
+// answers by structural path, so local ids and layout stay.
+export function linkBlockToBank(project,block,bank){
+ if(sharedHash(block)!==sharedHash(bank)){
+  const before=structuredClone(block);
+  block.content=mergeBankIntoBooklet(bank.content,block,bank.content);block.title=bank.title;
+  reconcileSyncLayout(before,block,block.presentation);
+  reconcileSyncLayout(before,block,project.settings?.layoutOverrides?.blockLayouts?.[block.id]);
+ }
+ block.bankRef={id:bank.id,revision:revisionHash(bank)};block.canonicalId=bank.id;block.snapshotKind='bank';delete block.bankDecision;
+}
+// A booklet that files a shared question under another skill keeps it findable there.
+export async function secondarySkillAmendment(bankRoot,bank,skillId){
+ const c=bank.classification??{};
+ if(!skillId||!c.primarySkillId||c.primarySkillId===skillId||(c.secondarySkillIds??[]).includes(skillId))return null;
+ const next={...bank,classification:{...c,secondarySkillIds:[...(c.secondarySkillIds??[]),skillId]},updatedAt:new Date().toISOString()};
+ return {bank:next,entries:[[path.join(bankRoot,'.revisions',segment(bank.id),revisionHash(bank)+'.json'),bank],[path.join(bankRoot,bank.id+'.json'),next],await bankManifestEntry(bankRoot,[next])]};
+}
+export async function assertNoBankDuplicate(bankRoot,question){
+ const shared=sharedHash(question),match=(await bankQuestionKeys(bankRoot)).find(e=>e.shared===shared&&e.id!==question.id);
+ if(match)throw Object.assign(new Error('This question is identical to bank question '+match.id+'. Use that question instead of creating another.'),{statusCode:409});
 }

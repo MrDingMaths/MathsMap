@@ -890,7 +890,7 @@
     busy = 'Promoting'; error = '';
     try {
       const result = await promoteProjectQuestion(project.id, { blockId: selectedBlock.id, mode, targetId });
-      finishInline();documentSession.dispatch(result.project,{remember:false});savedBase=clone(result.project);promotion = null; status = mode === 'link-existing' ? 'Linked to the existing bank question.' : 'Question promoted to the shared bank.';
+      finishInline();documentSession.dispatch(result.project,{remember:false});savedBase=clone(result.project);promotion = null; status = mode === 'link-existing' ? 'Linked to the existing bank question.' : mode === 'distinct' ? 'Kept as a separate question.' : 'Question promoted to the shared bank.';
       await refreshProjects();
     } catch (exception) { error = exception.message; }
     finally { busy = ''; }
@@ -1173,7 +1173,7 @@
             {#if selectedBlock.content?.layout === 'grid'}<label>Columns<input type="number" min="2" max="4" value={selectedBlock.content?.columns ?? 2} onchange={(event) => patchSelected('/content/columns', Math.max(2, Math.min(4, Number(event.currentTarget.value))))} /></label>{/if}
             <fieldset><legend>Parts</legend><div class="row-actions"><button onclick={() => change(resizeQuestionParts(project, selectedBlock.id, 1))}>+ Part</button><button onclick={() => change(resizeQuestionParts(project, selectedBlock.id, -1))} disabled={!selectedBlock.content?.children?.length}>- Part</button></div></fieldset>
             <div class="bank-state"><strong>{selectedBlock.bankRef?.id ? `Bank snapshot: ${selectedBlock.bankRef.id}` : 'Booklet-local question'}</strong><button onclick={inspectPromotion} disabled={!!busy}>Check / promote</button>{#if selectedBlock.bankRef?.id}<button onclick={() => promote('update')}>Update bank question</button>{/if}</div>
-            {#if promotion}<div class="promotion"><p>{promotion.candidates.length ? 'Possible bank matches:' : 'No duplicate candidates found.'}</p>{#each promotion.candidates as candidate}<article><span>{candidate.exact ? 'Exact' : `${Math.round(candidate.score * 100)}% similar`} · {candidate.title || candidate.id}</span><button onclick={() => promote('link-existing', candidate.id)}>Use existing</button></article>{/each}<button class="primary" onclick={() => promote('create')}>Create new bank question</button></div>{/if}
+            {#if promotion}<div class="promotion"><p>{promotion.candidates.length ? 'Possible bank matches:' : 'No duplicate candidates found.'}</p>{#each promotion.candidates as candidate}<article><span>{candidate.exact ? 'Exact' : candidate.sameQuestion ? (candidate.decided ? 'Same question, kept separate' : 'Same question, different answer') : `${Math.round(candidate.score * 100)}% similar`} · {candidate.title || candidate.id}</span><button onclick={() => promote('link-existing', candidate.id)}>Use existing</button>{#if candidate.sameQuestion && !candidate.exact && !candidate.decided}<button onclick={() => promote('distinct', candidate.id)}>Keep separate</button>{/if}</article>{/each}<button class="primary" disabled={promotion.candidates.some((candidate) => candidate.exact || (candidate.sameQuestion && !candidate.decided))} onclick={() => promote('create')}>Create new bank question</button></div>{/if}
           {/if}
           <details class="technical"><summary>Technical</summary><p>Block id <code>{selectedBlock.id}</code></p></details>
         {:else}<p>Select a block on the page or in the outline.</p>{/if}

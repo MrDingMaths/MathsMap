@@ -3,10 +3,11 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {createEditableProject,createProjectBlock} from '../src/lib/editable-booklet-model.js';
-import {createBookletProject,saveBookletProject,loadBookletProject} from '../scripts/booklet/project-studio-server.mjs';
+import {createBookletProject,saveBookletProject,loadBookletProject,promoteProjectQuestion} from '../scripts/booklet/project-studio-server.mjs';
 import {revisionHash,writeTransaction} from '../scripts/booklet/bank-sync.mjs';
 import {makeBankManifest} from '../src/lib/practice-question-model.js';
 import {importProjectBank,practiceQuestions,verifyProjectBank} from '../scripts/booklet/import-project-bank.mjs';
+import {bankLinkReport} from '../scripts/booklet/bank-links.mjs';
 import {contentVerificationKey} from '../src/lib/booklet-content-verification.js';
 import {loadWorkflow,liveWorkflow,registerInventory,registerAuthor,sourceEvidence,representativeKey,settlementKey,bytesHash,acceptFinalReview,FINAL_EDITIONS} from '../scripts/booklet/workflow-review.mjs';
 import {verificationDependencies,recordVerification,verificationStatus} from '../scripts/booklet/import-verification.mjs';
@@ -279,4 +280,74 @@ test('interrupted reuse requires the same source, inventory, classification and 
   await assert.rejects(importProjectBank({...f.args,out:path.join(f.root,'retry'),resumeFrom:f.args.out,resumeAssessmentsFile:priorAssessments}),messages[kind]);
   assert.equal((await read(path.join(f.options.bankRoot,'manifest.json'))).questions.length,0);
  }
+});
+
+// Duplicate linking: a booklet may mix its own questions with questions owned elsewhere.
+async function mixedFixture(t){
+  const f=await fixture(t),question=(id,prompt,worked,skill)=>{const b=createProjectBlock('question');b.id=id;b.content.prompt=prompt;b.content.answer={short:'2',worked,solutionDiagrams:[]};b.classification={...b.classification,primarySkillId:skill};return b;};
+  // Another booklet already owns two bank questions.
+  const other=createEditableProject({id:'other-booklet',title:'Other'});other.sections[0].phase='practice';
+  other.sections[0].blocks=[question('other-x','Find the hypotenuse.','Use the cosine rule.','cosine-rule'),question('other-y','Find the angle.','Use the cosine rule.','cosine-rule')];
+  await createBookletProject(other,f.options);
+  const bankX=(await promoteProjectQuestion(other.id,{blockId:'other-x',mode:'create'},f.options)).question,bankY=(await promoteProjectQuestion(other.id,{blockId:'other-y',mode:'create'},f.options)).question;
+  // This booklet: its own question, a copy of X filed under another skill, a repeat of its own question, and Y with a different solution.
+  const project=await loadBookletProject(f.saved.id,f.options);
+  project.sections[0].blocks.push(question('q-copy','Find the hypotenuse.','Use the cosine rule.','sine-rule'),question('q-twin','Find the side.','The side is 2.','sine-rule'),question('q-held','Find the angle.','Use the sine rule twice.','sine-rule'));
+  const saved=await saveBookletProject(project,{...f.options,expectedRevision:project.revision});
+  f.assessments.sourceContext.projectHash=revisionHash(saved);await write(f.args.assessmentsFile,f.assessments);
+  const bankIds=async()=>(await fs.readdir(f.options.bankRoot)).filter(n=>n.startsWith('q-')).map(n=>n.slice(0,-5)).sort();
+  return {...f,saved,bankX,bankY,question,bankIds};
+}
+
+test('a mixed booklet creates, links and holds without publishing a duplicate',async t=>{
+  const f=await mixedFixture(t),byId=p=>new Map(practiceQuestions(p).map(b=>[b.id,b]));
+  const report=(await bankLinkReport({root:f.root})).find(row=>row.project===f.saved.id);
+  assert.deepEqual([report.toCreate,report.toLink,report.held,report.owned],[1,2,1,0]);
+  const staged=await importProjectBank(f.args);
+  assert.deepEqual([staged.created,staged.linked,staged.held,staged.fullyLinked,staged.applied],[1,2,1,false,false]);
+  assert.deepEqual(await f.bankIds(),[f.bankX.id,f.bankY.id].sort(),'Staging leaves the live bank alone');
+  const applied=await importProjectBank({...f.args,apply:true});assert.equal(applied.applied,true);
+  const live=byId(await loadBookletProject(f.saved.id,f.options)),created=live.get('q-source').bankRef.id;
+  assert.deepEqual(await f.bankIds(),[f.bankX.id,f.bankY.id,created].sort());
+  assert.equal(live.get('q-copy').bankRef.id,f.bankX.id);assert.equal(live.get('q-twin').bankRef.id,created);assert.equal(live.get('q-held').bankRef,null);
+  for(const id of ['q-copy','q-twin','q-held'])assert.deepEqual(live.get(id).content,byId(f.saved).get(id).content,id+' content is untouched');
+  // The copy was filed under another skill: the owner's record gains it, and the old revision stays for other consumers.
+  const amended=await read(path.join(f.options.bankRoot,f.bankX.id+'.json'));
+  assert.equal(amended.classification.primarySkillId,'cosine-rule');assert.deepEqual(amended.classification.secondarySkillIds,['sine-rule']);
+  assert.deepEqual(await read(path.join(f.options.bankRoot,'.revisions',f.bankX.id,revisionHash(f.bankX)+'.json')),f.bankX);
+  assert.equal(live.get('q-copy').bankRef.revision,revisionHash(amended));
+  assert.deepEqual(await read(path.join(f.options.bankRoot,f.bankY.id+'.json')),f.bankY);
+  const links=await read(path.join(f.options.bankRoot,'.sync/links.json'));
+  assert.equal(links[created].blockId,'q-source');assert.equal(links[f.bankX.id].projectId,'other-booklet');
+  const receipt=await read(path.join(f.root,'booklets/provenance',f.saved.id,'bank-import.json'));
+  assert.deepEqual(receipt.questions.map(q=>[q.sourceBlockId,q.outcome,q.bankId??q.sameQuestionAs]),[['q-source','created',created],['q-copy','linked',f.bankX.id],['q-twin','linked',created],['q-held','held',[f.bankY.id]]]);
+  assert.equal(receipt.questions[1].ownerProjectId,'other-booklet');
+  // A rerun with only a held question left creates nothing.
+  const again=await importProjectBank({...f.args,apply:true});
+  assert.deepEqual([again.created,again.held,again.fullyLinked],[0,1,false]);assert.equal((await f.bankIds()).length,3);
+  // Use existing: the held question adopts the bank's solution and the booklet is fully linked.
+  await promoteProjectQuestion(f.saved.id,{blockId:'q-held',mode:'link-existing',targetId:f.bankY.id},f.options);
+  const done=await importProjectBank({...f.args,apply:true});
+  assert.deepEqual([done.created,done.held,done.fullyLinked,done.linkedExisting],[0,0,true,3]);assert.equal((await f.bankIds()).length,3);
+  assert.equal(practiceQuestions(await loadBookletProject(f.saved.id,f.options)).find(b=>b.id==='q-held').content.answer.worked,'Use the cosine rule.');
+});
+
+test('a question kept separate is published by the next run with assessments for it alone',async t=>{
+  const f=await mixedFixture(t);
+  await assert.rejects(importProjectBank({...f.args,resumeFrom:path.join(f.root,'interrupted'),resumeAssessmentsFile:f.args.assessmentsFile}),/--resume-from supports only/);
+  await importProjectBank({...f.args,apply:true});
+  const decided=(await promoteProjectQuestion(f.saved.id,{blockId:'q-held',mode:'distinct',targetId:f.bankY.id},f.options)).project;
+  const held=practiceQuestions(decided).find(b=>b.id==='q-held');
+  const assessments={projectId:decided.id,sourceContext:{...f.assessments.sourceContext,projectHash:revisionHash(decided)},questions:[{...f.assessments.questions[0],sourceBlockId:'q-held',contentHash:revisionHash(held.content)}]};
+  const assessmentsFile=path.join(f.root,'assessments-2.json'),args={...f.args,assessmentsFile,out:path.join(f.root,'stage-2')};
+  // Assessments for every question are no longer accepted: only the new one needs review.
+  await write(assessmentsFile,{...assessments,questions:[...assessments.questions,{...f.assessments.questions[0],contentHash:revisionHash(practiceQuestions(decided)[0].content)}]});
+  await assert.rejects(importProjectBank(args),/exactly the 1 new questions/);
+  await write(assessmentsFile,assessments);
+  const second=await importProjectBank({...args,apply:true});
+  assert.deepEqual([second.created,second.linked,second.held,second.fullyLinked],[1,0,0,true]);assert.equal((await f.bankIds()).length,4);
+  const receipt=await read(path.join(f.root,'booklets/provenance',f.saved.id,'bank-import.json'));
+  assert.deepEqual(receipt.questions.map(q=>q.outcome),['created','linked','linked','created']);
+  assert.equal(receipt.questions[0].mappingNote,f.assessments.questions[0].mappingNote,'The first run\'s entry is kept');
+  assert.equal((await importProjectBank({...args,apply:true})).created,0);
 });

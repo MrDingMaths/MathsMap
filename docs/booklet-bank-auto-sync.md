@@ -27,6 +27,45 @@ Checks run when opening/saving a booklet, when returning to the app, every 15 se
 
 Linked exercise difficulty labels and reasoning scores refresh automatically on load, save and these checks. This bank-owned display metadata updates independently of content review and preserves question order, layout and unsaved edits. Loading/checking does not create a project revision; the current ratings are persisted on the next save. Detached or missing bank questions keep their existing ratings.
 
+## Duplicates and linking (9 October 2026, user approved)
+
+A question is published once. Any other booklet that contains the same question links to that bank record as a consumer instead of creating a second one.
+
+Two comparisons decide this. Neither involves a model call or a review stage, and imports are unchanged.
+
+- **Identical** means the sync comparison (`sharedHash` in `scripts/booklet/bank-sync.mjs`) already calls the booklet question and a bank record equal. Node IDs and layout are ignored; every word, number, answer and diagram counts.
+- **Same question** means equal `questionKey` (`src/lib/question-sync.js`): the same comparison without answers, a numeric source question number, inline widths or whitespace differences.
+
+Each practice question has one outcome, checked in this order:
+
+| Outcome | When | What happens |
+|---|---|---|
+| Linked | It already has a bank link | Left alone |
+| Exact | Identical to a bank record, or to an earlier question in the same booklet | Linked as a consumer. Only the link is added, so printed pages cannot change |
+| Held | Same question as a bank record, with a different answer, solution or inline formatting, and no decision recorded | Stays unpublished; the rest of the booklet publishes |
+| New | Anything else | A new record owned by this booklet |
+
+Decide a held question in Studio with **Promote** on that question:
+
+- **Use existing** links it and takes the bank's answer and worked solution. The block keeps its IDs and layout. Check the pages that hold it as for any content change.
+- **Keep separate** records the decision on the block (`bankDecision.of`); the next publication creates its own record. An identical question cannot be kept separate.
+
+The similarity percentages in the same dialog are advisory. They never hold or block anything.
+
+When a linking booklet files the question under a different primary skill, that skill is added to the bank record's secondary skills, so the question appears under both skill filters. The owner's primary skill and every consumer's sync state are unchanged, and the previous record stays under `.revisions`.
+
+`import-project-bank.mjs` applies these outcomes. Assessments cover the new questions only, the receipt records an `outcome` for every practice question, and a rerun after decisions handles the remainder. `--resume-from` supports only booklets whose practice questions are all new. Creating a bank question in the bank editor is refused when an identical record exists.
+
+To see where one booklet or the whole library stands, run the read-only report:
+
+```text
+node scripts/booklet/bank-links.mjs [--project ID] [--json]
+```
+
+It lists, per booklet, the questions owned, consuming, to link, held and to create, and how many also exist unpublished in another booklet. Whichever booklet is published first owns those; the other links to them when it is published.
+
+Not detected: the same question transcribed independently with different wording or structure. Use the similarity list for those.
+
 ## Persistence
 
 New transfers omit source-confirmed category headings (such as Concept check,

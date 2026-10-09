@@ -5,8 +5,8 @@ import os from 'node:os';
 import path from 'node:path';
 import {createEditableProject,createProjectBlock,snapshotBankQuestion} from '../src/lib/editable-booklet-model.js';
 import {createBookletProject,saveBookletProject,promoteProjectQuestion,loadBookletProject,getProjectBankSync,resolveProjectBankSync,duplicateBookletProject,updateProjectLibrary} from '../scripts/booklet/project-studio-server.mjs';
-import {revisionHash,writeTransaction,bankManifestEntry} from '../scripts/booklet/bank-sync.mjs';
-import {sharedQuestion,mergeQuestionContent} from '../src/lib/question-sync.js';
+import {revisionHash,writeTransaction,bankManifestEntry,secondarySkillAmendment,assertNoBankDuplicate,resolveBankOutcomes} from '../scripts/booklet/bank-sync.mjs';
+import {sharedQuestion,mergeQuestionContent,questionKey} from '../src/lib/question-sync.js';
 import {normaliseQuestion} from '../src/lib/practice-question-model.js';
 import {arrangementCatalog,resolveArrangement} from '../src/lib/booklet-arrangement.js';
 import {fromSource} from '../src/lib/document-content.js';
@@ -197,4 +197,108 @@ test('a write failure restores earlier transaction files',async t=>{
  try{fs.rename=async(...args)=>{if(++calls===2)throw new Error('Simulated write failure');return rename(...args);};await assert.rejects(()=>writeTransaction([[first,{after:true}],[second,{new:true}]]),/Simulated/);}
  finally{fs.rename=rename;}
  assert.equal(await fs.readFile(first,'utf8'),'{"before":true}');await assert.rejects(()=>fs.readFile(second),/ENOENT/);
+});
+
+// Duplicate linking: one bank record per question, however many booklets use it.
+async function secondBooklet(f,blocks){
+ const p=createEditableProject({id:'second',title:'Second'});
+ p.sections[0].blocks=blocks.map(([id,skill,prompt,answer])=>{const b=createProjectBlock('question');b.id=id;b.classification={primarySkillId:skill};b.content.prompt=prompt;b.content.answer={...answer,solutionDiagrams:[]};b.content.answerSpaceMm=35;return b;});
+ return createBookletProject(p,f.options);
+}
+const bankFiles=async f=>(await fs.readdir(f.bankRoot)).filter(n=>n.startsWith('q-'));
+
+test('questionKey ignores identity, layout, answers and whitespace but not the question posed',()=>{
+ const base={content:{id:'root-1',type:'question',label:'7',prompt:'Solve each equation.',layout:'list',children:[
+  {id:'part-1',type:'part',label:'a',prompt:{blocks:[{id:'p1',type:'paragraph',inlines:[{type:'text',text:'$x+1=3$ so x ='},{type:'cloze',width:30,answer:'2'}]}]},answer:{short:'2',worked:'Subtract 1.'}},
+  {id:'part-2',type:'part',label:'b',prompt:'$2x=8$',answer:{short:'4',worked:'Divide by 2.'}}]}};
+ const same=structuredClone(base).content;
+ same.id='other-root';same.label='12';same.layout='grid';same.columns=2;same.prompt='Solve  each equation. ';
+ same.children[0].id='other-1';same.children[0].prompt.blocks[0].id='q9';same.children[0].prompt.blocks[0].inlines[1].width=55;
+ same.children[0].answer={short:'$x=2$',worked:[{id:'w1',text:'A different method.'}]};same.children[1].id='other-2';same.children[1].answerSpaceMm=40;
+ assert.equal(questionKey({content:same}),questionKey(base));
+ for(const change of [c=>{c.children[1].prompt='$2x=6$';},c=>{c.children[1].label='c';},c=>{c.afterDiagramPrompt='Give exact values.';},c=>{c.questionDiagrams=[{id:'d',format:'tikz',code:'\\draw (0,0)--(1,1);'}];},c=>{c.children.pop();}]){
+  const changed=structuredClone(base);change(changed.content);assert.notEqual(questionKey(changed),questionKey(base));
+ }
+});
+
+test('an identical question links to the existing record without changing the booklet',async t=>{
+ const f=await fixture(t),created=await secondBooklet(f,[['copy-a','solve-linear-1-step','Solve $x+1=3$',{short:'2',worked:'$x=2$'}]]);
+ const before=structuredClone(created.sections[0].blocks[0]);
+ assert.notEqual(before.content.id,f.bank.content.id);
+ const candidate=(await promoteProjectQuestion('second',{blockId:'copy-a'},f.options)).candidates[0];
+ assert.equal(candidate.id,f.bank.id);assert.equal(candidate.exact,true);
+ await assert.rejects(promoteProjectQuestion('second',{blockId:'copy-a',mode:'create'},f.options),/identical to bank question/);
+ await assert.rejects(promoteProjectQuestion('second',{blockId:'copy-a',mode:'distinct',targetId:f.bank.id},f.options),/cannot be kept separate/);
+ await assert.rejects(promoteProjectQuestion('second',{blockId:'copy-a',mode:'publish'},f.options),/Unknown promotion mode/);
+ const linked=(await promoteProjectQuestion('second',{blockId:'copy-a',mode:'link-existing',targetId:f.bank.id},f.options)).project.sections[0].blocks[0];
+ assert.deepEqual(linked.content,before.content);
+ assert.deepEqual(linked.bankRef,{id:f.bank.id,revision:revisionHash(await f.readBank())});
+ assert.deepEqual(await f.readBank(),f.bank);
+ assert.deepEqual(await bankFiles(f),[f.bank.id+'.json']);
+ assert.equal((await getProjectBankSync('second',f.options)).items[0].state,'synced');
+ // The owner's next edit reaches the linked copy, which keeps its own ids and layout.
+ const owner=await loadBookletProject(f.project.id,f.options);owner.sections[0].blocks[0].content.answer.worked='$x=3-1=2$';
+ await saveBookletProject(owner,{...f.options,expectedRevision:owner.revision});
+ const status=await getProjectBankSync('second',f.options),item=status.items[0];
+ assert.equal(item.state,'update');
+ const after=(await resolveProjectBankSync('second',{...item,action:'use-bank',expectedRevision:status.projectRevision},f.options)).sections[0].blocks[0];
+ assert.equal(after.content.id,before.content.id);assert.equal(after.content.answerSpaceMm,35);assert.equal(after.content.answer.worked,'$x=3-1=2$');
+ assert.equal((await getProjectBankSync('second',f.options)).items[0].state,'synced');
+});
+
+test('a same-question match is held until it is linked or kept separate',async t=>{
+ const f=await fixture(t),answer={short:'$x=2$',worked:'Subtract 1 from both sides.'};
+ const created=await secondBooklet(f,[['variant-a','solve-linear-2-step','Solve  $x+1=3$ ',answer],['variant-b','solve-linear-2-step','Solve $x+1=3$',{short:'$x=2$',worked:'Guess and check.'}]]);
+ const outcomes=await resolveBankOutcomes(created.sections[0].blocks,f.bankRoot);
+ assert.deepEqual([...outcomes.values()].map(o=>o.outcome),['held','held']);
+ assert.deepEqual(outcomes.get('variant-a').sameQuestionAs,[{bankId:f.bank.id}]);
+ const candidate=(await promoteProjectQuestion('second',{blockId:'variant-a'},f.options)).candidates[0];
+ assert.equal(candidate.id,f.bank.id);assert.equal(candidate.exact,false);assert.equal(candidate.sameQuestion,true);
+ await assert.rejects(promoteProjectQuestion('second',{blockId:'variant-a',mode:'create'},f.options),/poses the same question/);
+ // Use existing: the bank's answers arrive, the block and its layout stay, and the booklet's skill is added.
+ const before=created.sections[0].blocks[0],bank=await f.readBank();
+ const linked=(await promoteProjectQuestion('second',{blockId:'variant-a',mode:'link-existing',targetId:f.bank.id},f.options)).project.sections[0].blocks[0];
+ assert.equal(linked.content.id,before.content.id);assert.equal(linked.content.answerSpaceMm,35);
+ assert.equal(linked.content.answer.worked,'$x=2$');assert.equal(linked.content.prompt,'Solve $x+1=3$');
+ const amended=await f.readBank();
+ assert.deepEqual(amended.classification.secondarySkillIds,['solve-linear-2-step']);assert.equal(amended.classification.primarySkillId,'solve-linear-1-step');
+ assert.deepEqual({...amended,updatedAt:null,classification:null},{...bank,updatedAt:null,classification:null});
+ assert.deepEqual(JSON.parse(await fs.readFile(path.join(f.bankRoot,'.revisions',bank.id,revisionHash(bank)+'.json'),'utf8')),bank);
+ assert.equal(linked.bankRef.revision,revisionHash(amended));
+ assert.equal((await getProjectBankSync('second',f.options)).items[0].state,'synced');
+ assert.equal((await getProjectBankSync(f.project.id,f.options)).items[0].state,'synced');
+ // Keep separate: the decision names the record, saves without publishing, then allows creation.
+ const decided=(await promoteProjectQuestion('second',{blockId:'variant-b',mode:'distinct',targetId:f.bank.id},f.options)).project.sections[0].blocks[1];
+ assert.deepEqual(decided.bankDecision,{decision:'distinct',of:[f.bank.id]});assert.equal(decided.bankRef,null);
+ assert.equal((await bankFiles(f)).length,1);
+ assert.equal((await resolveBankOutcomes([decided],f.bankRoot)).get('variant-b').outcome,'new');
+ const separate=await promoteProjectQuestion('second',{blockId:'variant-b',mode:'create'},f.options);
+ assert.equal((await bankFiles(f)).length,2);assert.notEqual(separate.question.id,f.bank.id);
+});
+
+test('a classification-only bank revision leaves a locally edited consumer local',async t=>{
+ const f=await fixture(t),copy=await duplicateBookletProject(f.project.id,{...f.options,copyId:'adapted'});
+ copy.sections[0].blocks[0].content.prompt='Solve $x+1=5$';
+ await saveBookletProject(copy,{...f.options,expectedRevision:copy.revision});
+ assert.equal((await getProjectBankSync('adapted',f.options)).items[0].state,'local');
+ await writeTransaction((await secondarySkillAmendment(f.bankRoot,await f.readBank(),'solve-linear-2-step')).entries);
+ assert.equal(await secondarySkillAmendment(f.bankRoot,await f.readBank(),'solve-linear-2-step'),null);
+ assert.equal((await getProjectBankSync('adapted',f.options)).items[0].state,'local');
+ assert.equal((await getProjectBankSync(f.project.id,f.options)).items[0].state,'synced');
+});
+
+test('detaching a consumer records the decision and the bank editor cannot create an identical record',async t=>{
+ const f=await fixture(t),copy=await duplicateBookletProject(f.project.id,{...f.options,copyId:'detached'});
+ copy.sections[0].blocks[0].content.answer.worked='Another method.';
+ const saved=await saveBookletProject(copy,{...f.options,expectedRevision:copy.revision});
+ const owner=await loadBookletProject(f.project.id,f.options);owner.sections[0].blocks[0].content.answer.short='$x=2$';
+ await saveBookletProject(owner,{...f.options,expectedRevision:owner.revision});
+ const item=(await getProjectBankSync('detached',f.options)).items[0];
+ const kept=(await resolveProjectBankSync('detached',{...item,action:'keep-local',expectedRevision:saved.revision},f.options)).sections[0].blocks[0];
+ assert.deepEqual(kept.bankDecision,{decision:'distinct',of:[f.bank.id]});assert.equal(kept.bankRef,null);
+ assert.equal((await resolveBankOutcomes([kept],f.bankRoot)).get(kept.id).outcome,'new');
+ const bank=await f.readBank();
+ await assert.rejects(assertNoBankDuplicate(f.bankRoot,{...bank,id:'q-another'}),/identical to bank question/);
+ await assertNoBankDuplicate(f.bankRoot,bank);
+ await assertNoBankDuplicate(f.bankRoot,{...bank,id:'q-another',content:{...bank.content,prompt:'Solve $x+1=4$'}});
 });

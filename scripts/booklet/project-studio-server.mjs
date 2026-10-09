@@ -10,7 +10,7 @@ import {captureQuestionPresentation} from '../../src/lib/question-presentation.j
 import {bankProjectionPolicy,projectBankQuestion} from '../../src/lib/question-bank-projection.js';
 import {convertToFlexible} from '../../src/lib/booklet-flow.js';
 import {withBankLock,prepareAutomaticSync,writeTransaction,registerBankOwner,projectSyncStatus,prepareSyncResolution,syncLinks} from './bank-sync.mjs';
-import {refreshBankRatings} from './bank-sync.mjs';
+import {refreshBankRatings,sharedHash,questionKeyHash,bankQuestionKeys,linkBlockToBank,secondarySkillAmendment} from './bank-sync.mjs';
 import {contentProject} from '../../src/lib/booklet-source-content.js';
 import {maintainProjectHistory} from './storage-archive.mjs';
 import {projectCheckpointEntries} from './project-checkpoints.mjs';
@@ -339,17 +339,32 @@ function canonicalFromProjectBlock(block, id) {
   return { ...ready.question, status: 'approved', updatedAt: new Date().toISOString() };
 }
 
-async function duplicateCandidates(block, bankRoot, projection=bankProjectionPolicy(block)) {
+// Exact and same-question matches use the sync comparison and decide what may be
+// created. The similarity list is advisory and built only for the manual dialog.
+async function duplicateCandidates(block, bankRoot, projection=bankProjectionPolicy(block), { similar = true } = {}) {
+  const shared = sharedHash(block, projection), key = questionKeyHash(block, projection);
+  const decided = new Set(block.bankDecision?.of ?? []);
+  const matches = (await bankQuestionKeys(bankRoot)).filter((entry) => entry.shared === shared || entry.key === key).map((entry) => ({
+    id: entry.id,
+    title: entry.title,
+    revision: entry.revision,
+    exact: entry.shared === shared,
+    sameQuestion: true,
+    decided: entry.shared !== shared && decided.has(entry.id),
+    score: 1,
+  })).sort((a, b) => Number(b.exact) - Number(a.exact));
+  if (!similar) return matches;
   const local = normaliseQuestion({ ...projectBankQuestion(block,{policy:projection}), id: block.canonicalId ?? block.id });
-  const localContent = revisionOf(local.content);
+  const matched = new Set(matches.map((item) => item.id));
   const records = await readRecords(bankRoot);
-  return records.filter(isSelectableBankQuestion).map((question) => ({
+  return [...matches, ...records.filter((question) => isSelectableBankQuestion(question) && !matched.has(question.id)).map((question) => ({
     id: question.id,
     title: question.title,
     revision: revisionOf(question),
-    exact: revisionOf(normaliseQuestion(question).content) === localContent,
+    exact: false,
+    sameQuestion: false,
     score: tokenSimilarity(questionSearchText(local), questionSearchText(question)),
-  })).filter((item) => item.exact || item.score >= 0.72).sort((a, b) => Number(b.exact) - Number(a.exact) || b.score - a.score);
+  })).filter((item) => item.score >= 0.72).sort((a, b) => b.score - a.score)];
 }
 
 async function writeBankManifest(bankRoot) {
@@ -370,44 +385,70 @@ export async function promoteProjectQuestion(projectId, body = {}, {
 } = {}) {
   return withBankLock(()=>promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,moduleRoot}));
 }
+const PROMOTE_MODES = new Set(['inspect', 'link-existing', 'distinct', 'create', 'update']);
 async function promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,moduleRoot}){
+  const mode = body.mode || 'inspect';
+  if (!PROMOTE_MODES.has(mode)) throw Object.assign(new Error('Unknown promotion mode'), { statusCode: 400 });
   const project = await loadBookletProject(projectId, { projectRoot, bankRoot, moduleRoot });
   const placement = topLevelQuestion(project, body.blockId);
   if (!placement) throw Object.assign(new Error('Select a top-level project question to promote'), { statusCode: 404 });
   if (isTheoryReview(placement.block, placement.section)) throw Object.assign(new Error('Review questions belong to theory. Save them in a teaching module rather than the practice question bank.'), { statusCode: 400 });
   const link=placement.block.bankRef?.id?(await syncLinks(bankRoot))[placement.block.bankRef.id]:null;
-  const projection=body.mode==='create'?(body.bankProjection??bankProjectionPolicy(placement.block)):link?.projection??bankProjectionPolicy(placement.block);
-  const candidates = await duplicateCandidates(placement.block, bankRoot,projection);
-  if (!body.mode || body.mode === 'inspect') return { project, candidates };
+  const projection=mode==='create'?(body.bankProjection??bankProjectionPolicy(placement.block)):link?.projection??bankProjectionPolicy(placement.block);
+  const candidates = await duplicateCandidates(placement.block, bankRoot, projection, { similar: mode === 'inspect' });
+  if (mode === 'inspect') return { project, candidates };
+  const match = (id) => candidates.find((item) => item.id === id && item.sameQuestion);
+  // Linking to a matching record, or recording a decision, publishes nothing new.
+  const publishes = mode === 'create' || mode === 'update' || (mode === 'link-existing' && !match(body.targetId));
   if(path.resolve(bankRoot)===path.resolve(BANK_ROOT)){
    if(project.source?.pipelinePilot)throw Error('Regression pilot content cannot be published to the live bank');
-   if((project.source?.workflow??project.source?.inventory?.workflow)?.pipelinePolicy&&!placement.block.bankRef)throw Error('New PDF imports must publish through import-project-bank with the current verification register');
+   if(publishes&&(project.source?.workflow??project.source?.inventory?.workflow)?.pipelinePolicy&&!placement.block.bankRef)throw Error('New PDF imports must publish through import-project-bank with the current verification register');
   }
 
-  if (body.mode === 'link-existing') {
+  if (mode === 'distinct') {
+    const target = match(body.targetId);
+    if (!target) throw Object.assign(new Error('Select a bank question that poses the same question'), { statusCode: 400 });
+    if (target.exact) throw Object.assign(new Error('An identical bank question cannot be kept separate. Use the existing question.'), { statusCode: 409 });
+    placement.block.bankDecision = { decision: 'distinct', of: [...new Set([...(placement.block.bankDecision?.of ?? []), target.id])] };
+    const saved = await saveProjectUnlocked(project, { projectRoot, bankRoot, expectedRevision: project.revision });
+    return { project: saved, candidates };
+  }
+
+  if (mode === 'link-existing') {
     const target = await readJson(fileFor(bankRoot, body.targetId));
     if (!target) throw Object.assign(new Error('The selected bank question no longer exists'), { statusCode: 404 });
     if (!isSelectableBankQuestion(target)) throw Object.assign(new Error('This question is not available in the practice question bank.'), { statusCode: 400 });
-    placement.section.blocks[placement.index] = snapshotBankQuestion(target, { placementId: placement.block.id });
+    if (match(target.id)) {
+      // The booklet's own block stays: identity for an exact match, the bank's answers otherwise.
+      const amendment = await secondarySkillAmendment(bankRoot, target, placement.block.classification?.primarySkillId);
+      if (amendment) await writeTransaction(amendment.entries);
+      linkBlockToBank(project, placement.block, amendment?.bank ?? target);
+    } else placement.section.blocks[placement.index] = snapshotBankQuestion(target, { placementId: placement.block.id });
     const saved = await saveProjectUnlocked(project, { projectRoot, bankRoot, expectedRevision: project.revision });
     return { project: saved, question: target, candidates };
   }
 
-  const targetId = body.mode === 'update'
+  if (mode === 'create') {
+    const exact = candidates.find((item) => item.exact), undecided = candidates.find((item) => item.sameQuestion && !item.exact && !item.decided);
+    if (exact) throw Object.assign(new Error('This question is identical to bank question ' + exact.id + '. Use the existing question.'), { statusCode: 409 });
+    if (undecided) throw Object.assign(new Error('Bank question ' + undecided.id + ' poses the same question with a different answer. Choose Use existing or Keep separate first.'), { statusCode: 409 });
+  }
+
+  const targetId = mode === 'update'
     ? String(placement.block.bankRef?.id ?? body.targetId ?? '')
     : `q-${randomUUID()}`;
   if (!targetId) throw Object.assign(new Error('Updating the bank requires an existing bank reference'), { statusCode: 400 });
   const file = fileFor(bankRoot, targetId);
   const previous = await readJson(file);
-  if (body.mode === 'create' && previous) throw Object.assign(new Error('Question id already exists'), { statusCode: 409 });
-  if (body.mode === 'update' && !previous) throw Object.assign(new Error('Referenced bank question no longer exists'), { statusCode: 404 });
+  if (mode === 'create' && previous) throw Object.assign(new Error('Question id already exists'), { statusCode: 409 });
+  if (mode === 'update' && !previous) throw Object.assign(new Error('Referenced bank question no longer exists'), { statusCode: 404 });
   const reviewedBlock=JSON.parse(JSON.stringify(placement.block));
   reviewedBlock.presentation=captureQuestionPresentation(placement.block,project.settings?.layoutOverrides);
   placement.block.presentation=reviewedBlock.presentation;
   const mapping=project.studio?.atoms?.[placement.block.id];
   if(!reviewedBlock.classification?.primarySkillId && mapping?.skillIds?.length)reviewedBlock.classification={...reviewedBlock.classification,primarySkillId:mapping.skillIds[0],secondarySkillIds:mapping.skillIds.slice(1),archetype:mapping.archetype};
   const attach=node=>{if(!node)return;const atom=project.studio?.atoms?.[node.id];if(atom)node.teachingMapping=atom;(node.children??[]).forEach(attach);};attach(reviewedBlock.content);
-  const publicationProjection=body.mode==='create'?projection:link?.projection??null;
+  const publicationProjection=mode==='create'?projection:link?.projection??null;
   const approved = canonicalFromProjectBlock(projectBankQuestion(reviewedBlock,{policy:publicationProjection}), targetId);
   if (previous) await writeJson(path.join(bankRoot, '.revisions', safeId(targetId), `${revisionOf(previous)}.json`), previous);
   await writeJson(file, approved);
@@ -416,7 +457,7 @@ async function promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,modu
   placement.block.canonicalId = approved.id;
   placement.block.snapshotKind = 'bank';
   const saved = await saveProjectUnlocked(project, { projectRoot, bankRoot, expectedRevision: project.revision });
-  if(body.mode==='create')await registerBankOwner(bankRoot,saved,placement.block,approved,publicationProjection);
+  if(mode==='create')await registerBankOwner(bankRoot,saved,placement.block,approved,publicationProjection);
   return { project: saved, question: approved, candidates };
 }
 

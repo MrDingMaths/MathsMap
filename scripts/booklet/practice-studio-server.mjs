@@ -1,7 +1,7 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import {readBankManifest} from './bank-manifest-cache.mjs';
-import {withBankLock,readSyncJson,revisionHash,writeTransaction,bankManifestEntry} from './bank-sync.mjs';
+import {withBankLock,readSyncJson,revisionHash,writeTransaction,bankManifestEntry,assertNoBankDuplicate} from './bank-sync.mjs';
 import { allDiagrams, makeBankManifest, normaliseQuestion, validateQuestion } from '../../src/lib/practice-question-model.js';
 
 const WORK_ROOT = path.resolve('.booklet-work/practice-imports');
@@ -78,6 +78,8 @@ export function practiceStudioPlugin() {
             await withBankLock(async()=>{
               const file=path.join(BANK_ROOT,safeId(question.id)+'.json'),previous=await readSyncJson(file);
               if(previous&&raw.updatedAt&&previous.updatedAt!==raw.updatedAt)throw Object.assign(new Error('This bank question changed while you were editing. Reload it before saving.'),{statusCode:409});
+              // POST and a PUT to an unused id both create a record.
+              if(!previous)await assertNoBankDuplicate(BANK_ROOT,question);
               const entries=[[file,question],await bankManifestEntry(BANK_ROOT,[question])];
               if(previous)entries.unshift([path.join(BANK_ROOT,'.revisions',question.id,revisionHash(previous)+'.json'),previous]);
               await writeTransaction(entries);
