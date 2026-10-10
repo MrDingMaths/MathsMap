@@ -2,6 +2,8 @@
 
 Companion to the graph, teaching, worked-example and guided-practice principles. Use the [current workflow](booklet-human-workflow.md) and [direct import evidence requirements](booklet-direct-compact-import.md). Booklet authoring does not authorise automatic public skill changes.
 
+**Reviewing an existing booklet (9 October 2026).** The [pedagogy review](booklet-pedagogy-review.md) decides what is reported about an existing booklet, using its own thresholds. The coverage, chunk-structure and example-sequence rules below are authoring guidance for new material, including teaching added by an approved repair. A booklet is not reported merely for lacking a structure prescribed here. The recorded precedents remain binding.
+
 ## Evidence and grain
 
 Use the supplied percentage operations, index laws and non-right-angled trigonometry exemplars as calibration evidence. Review theory and the complete practice range before deciding that coverage is complete. Record exact source pages and blocks for each decision. Existing accepted and rejected decisions in booklets/proposals remain binding precedents.

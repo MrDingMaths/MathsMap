@@ -20,6 +20,7 @@ Editing these changes worker prompts or parsed data.
 | [atomisation-teaching.md](atomisation-teaching.md) | How to break a routine into atoms. Inlined into every generation task |
 | [guided-practice-principles.md](guided-practice-principles.md) | We Do principles. Inlined into every generation task |
 | [worked-example-principles.md](worked-example-principles.md) | I Do principles. Inlined into every generation task |
+| [booklet-pedagogy-review.md](booklet-pedagogy-review.md) | Pedagogy review of booklets: policy, commands and finding states. Its two contract sections are embedded in worker prompts by `pedagogy/review.mjs` |
 | [content-queue.md](content-queue.md) | Generation queue. `scripts/content/campaign-sources.mjs` scans its table rows for topic and source mappings |
 
 ## Hash-checked or hash-recorded: do not edit

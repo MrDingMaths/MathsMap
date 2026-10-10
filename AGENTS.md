@@ -2,6 +2,10 @@
 
 Keep this file under 32,000 bytes: Codex loads only the first 32,768 bytes of it. Put detail in `docs/` and link it from here. `npm run repo:check` enforces the limit.
 
+## Booklet pedagogy review (9 October 2026, user approved)
+
+[`pedagogy/review.mjs`](docs/booklet-pedagogy-review.md) reports consequential learning barriers in a booklet's teaching sequence and proposes the smallest repair; it never edits a booklet. Its workers are Sol 6.1 at low reasoning for the review pass and medium for the challenge pass, a deliberate exception to the low default below. For a three-pass import, run it after content review and before the final export, and hold the export only for findings that add, move or replace questions. An open comment is never approval: repair only the findings the user names. Keep the tool out of `scripts/`, which exports freeze.
+
 ## Bank links and duplicate questions (9 October 2026, user approved)
 
 A question is published to the bank once; every other booklet that contains it links to that record. Follow [duplicates and linking](docs/booklet-bank-auto-sync.md#duplicates-and-linking-9-october-2026-user-approved). `import-project-bank.mjs` links identical questions automatically, holds a same-question match that has a different answer for one decision in Studio (**Use existing** or **Keep separate**), and creates only the rest; assessments cover new questions only. Do not add a duplicate review stage or model call to imports, and do not hold or block on similarity scores. Run `node scripts/booklet/bank-links.mjs [--project ID]` to see what a publication would create, link or hold. Never create a second bank record for an identical question by writing bank files directly.
