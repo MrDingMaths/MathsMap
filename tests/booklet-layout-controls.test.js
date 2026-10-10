@@ -71,3 +71,28 @@ test('the import check reports only table lines whose stored alignment the cell 
  assert.deepEqual(dormantAlignment(table({id:'c',type:'cell',align:'left',preserveParagraphAlignment:true,blocks:[para('b','center')]})),[]);
  assert.deepEqual(dormantAlignment(table({id:'c',type:'cell',blocks:[para('b','center'),para('a','left')]})),[],'the default cell alignment is centre');
 });
+
+test('the gutter check reports bare opening expressions followed by a relation line',async()=>{
+ const {missingEqualsGutter}=await import('../scripts/booklet/check-equals-gutter.mjs');
+ const math=(id,latex,align='left')=>({id,type:'paragraph',align,inlines:[{type:'math',latex}]});
+ const part=blocks=>({id:'q',type:'question',content:{id:'root',type:'question',prompt:{blocks}}});
+ const found=blocks=>missingEqualsGutter(part(blocks)).map(h=>[h.shape,h.needs]);
+ assert.deepEqual(found([math('a','-5+2'),math('b','=-3')]),[['lines','gutter']]);
+ assert.deepEqual(found([math('a','-5+2','center'),math('b','=-3','center')]),[['lines','check']]);
+ assert.deepEqual(found([math('a',String.raw`\mathrel{\phantom{=}}-5+2`),math('b','=-3')]),[]);
+ assert.deepEqual(found([math('a','y=2x'),math('b','=6')]),[],'the first line already carries the relation');
+ assert.deepEqual(found([math('a',String.raw`\begin{aligned}&5+(-6)\\&\color{#268cff}{=5-6}\end{aligned}`)]),[['rows','gutter']]);
+ assert.deepEqual(found([math('a',String.raw`\begin{gathered}5+(-6)\\=5-6\end{gathered}`)]),[['rows','check']]);
+ assert.deepEqual(found([math('a',String.raw`\begin{aligned}-50-130&=-(50+130)\\&=-180\end{aligned}`)]),[]);
+ assert.deepEqual(found([math('a',String.raw`\begin{aligned}&{\mathrel{\phantom{=}}5+(-6)}\\&=5-6\end{aligned}`)]),[]);
+ const row=(left,right)=>[{id:left.id+'c',type:'cell',align:'right',blocks:left.inlines?[left]:[]},{id:right.id+'c',type:'cell',align:'left',blocks:[right]}];
+ assert.deepEqual(found([{id:'t',type:'table',rows:[row({id:'e'},math('x','40-110')),row(math('eq','='),math('y','40-40'))]}]),[],'an equals-column table already has the gutter');
+ assert.deepEqual(found([math('a','2+3','center'),math('b','=5')]),[['lines','gutter']],'an opener centred above left-aligned working moves left');
+ assert.deepEqual(found([math('a','2+3','center'),{id:'t',type:'table',rows:[[{id:'c',type:'cell',align:'left',blocks:[math('b','=5')]}]]}]),[['lines','gutter']],'working may continue in a scaffold table');
+ assert.match(missingEqualsGutter(part([math('a',String.raw`\begin{aligned}&\quad20\\&=5\end{aligned}`)]))[0].detail,/manual spacing/);
+ assert.deepEqual(found([math('a',String.raw`\begin{aligned}&5.7\times1000\\={}&5700\end{aligned}`)]),[],'the relation already sits in the gutter column');
+ assert.deepEqual(found([math('a',String.raw`\begin{aligned}&=8+4\\&\quad-(2+1)\\&=9\end{aligned}`)]),[],'a wrapped line after a relation row opens nothing');
+ const example=extra=>({id:'b',type:'worked-example',examples:[{id:'e',prompt:{blocks:[math('p',String.raw`\log_2 6-\log_2 3`)]},theorySolution:String.raw`$$\begin{aligned}&=\log_2 2\\&=1\end{aligned}$$`,...extra}]});
+ assert.deepEqual(missingEqualsGutter(example({})).map(h=>h.shape),['solution']);
+ assert.deepEqual(missingEqualsGutter(example({equationAlignment:{mode:'continuation',align:'left'}})),[]);
+});

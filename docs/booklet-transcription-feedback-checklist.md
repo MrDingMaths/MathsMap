@@ -104,6 +104,26 @@ The initial import reproduces the source's alignment; it is not left for later e
 
 The independent content review checks these against the source images with the other presentation items. `node scripts/booklet/check-dormant-alignment.mjs <project-id>` lists table lines whose stored alignment their cell overrides; a new import should report none. Existing booklets are reported, not auto-repaired, because either correction changes print. Studio's Layout panel sets all of these directly (Position, Cell alignment with row/column/table scope, and "Only this line").
 
+### Equals-sign gutter (10 October 2026, user requested)
+
+When a left-aligned calculation opens with a bare expression and continues on lines that begin with a relation sign, indent the opening expression by one relation-sign gutter, so it sits directly above the right-hand sides and the relation signs stack in one column:
+
+```
+  −5 + 2
+= −3
+```
+
+This is house style for prompts, teaching examples and short and worked answers in every booklet, whether or not the source shows the offset. Encode it in the way that fits the content:
+
+- **Separate paragraphs:** begin the opening expression with `\mathrel{\phantom{=}}`.
+- **One `aligned` equation:** `&\mathrel{\phantom{=}}a+b\\&=c`. Where the next row's relation sits inside a colour group (`&\color{#268cff}{=c}`), wrap the opening row the same way, `&{\mathrel{\phantom{=}}a+b}`, or it prints one thick space too far right.
+- **Example prompt with a separate solution:** `equationAlignment: {mode: 'continuation'}`.
+- **Cloze scaffolds:** a borderless two-column table with a narrow right-aligned relation column, as in Integers source page 26 question 2.
+
+The opening expression is left-aligned with its working: an expression centred above left-aligned working (as in Operations with Fractions and Decimals source page 27 question 1) moves left and takes the gutter. Use the standard gutter only; do not make one by hand with `\quad`, `\ ` or `\hspace`.
+
+It does not apply when the first line already carries the relation (`a&=b\\&=c` or `&a+b\\={}&c`), where the working itself is centred, or to independent equations that are not steps of one calculation. `node scripts/booklet/check-equals-gutter.mjs [project-id]` lists opening expressions with no gutter (`--list` for every booklet, `--strict` to fail); a new import should report none under "need a gutter". Existing booklets are reported, not auto-repaired: the user decides which to change.
+
 ## Original handwritten analysis panels (9 October 2026)
 
 Apply the [handwritten analysis panel convention](booklet-cross-session-rules.md#original-handwritten-analysis-panels-9-october-2026-user-requested). For this specific archetype, preserve the original student-work image rather than transcribing its handwriting to LaTeX. Confirm the source visually, retain intentional errors and correctness marks, keep surrounding text and answers editable, record the occurrence-specific raster exception and inspect the final printed size. Avatar questions, generic “explain the mistake” questions, fully typeset examples and ordinary teaching examples are excluded. This is an explicit exception to item 7's native-maths default.
