@@ -18,8 +18,35 @@ export const LEAN_ROUTE_PROFILE = 'lean-two-call-v1';
 export const AUDIT_FIRST_PROFILE = 'lean-audit-first-v1';
 const MODEL = 'gpt-6.1-sol', EFFORT = 'low', IMAGE_LIMIT = 110, BOOKLET_BYTE_LIMIT = 450000, CALL_LIMIT = 5;
 const NL = '\n';
+// Windows scanners can briefly deny an existing record while it is being read.
+// Retry only transient file-access failures; retain the original error otherwise.
+function writeFileResilient(file, value) {
+  const temporary = `${file}.${process.pid}-${Date.now()}-${Math.random().toString(16).slice(2)}.tmp`;
+  fs.writeFileSync(temporary, value);
+  try {
+    for (let attempt = 0; ; attempt++) {
+      try { return fs.renameSync(temporary, file); }
+      catch (error) {
+        if (attempt >= 10 || !['UNKNOWN', 'EBUSY', 'EPERM', 'EACCES'].includes(error.code)) throw error;
+        Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 100 * (attempt + 1));
+      }
+    }
+  } finally {
+    try { fs.rmSync(temporary, { force: true }); } catch {}
+  }
+}
 export const SOURCE_EXCEPTION_SKILLS = ['add-multiple-numbers-place-value', 'add-subtract-decimals', 'add-subtract-strategies'];
 const SOURCE_EXCEPTION_REASON = 'User approved a booklet-source exception for these three Stage 3 skills on 5 October 2026, using the Stage 3 syllabus and independent mathematical review.';
+export function approvedSourceException(root, skillId) {
+  if (SOURCE_EXCEPTION_SKILLS.includes(skillId)) return { syllabusPath: 'syllabus/Stage 3 Content.md', reason: SOURCE_EXCEPTION_REASON };
+  const approvalPaths = ['booklets/provenance/content-campaign/worked-examples-2026-09/approved-source-exceptions-20261009.json', 'booklets/provenance/content-campaign/worked-examples-2026-09/approved-additional-source-exceptions-20261009.json'];
+  const rows = approvalPaths.flatMap(approvalPath => {
+    const approval = readJson(path.join(root, approvalPath));
+    return approval?.requestedBy === 'user' && approval.request?.trim() ? (approval.skills || []).filter(row => row.skillId === skillId).map(row => ({ ...row, approvalPath })) : [];
+  });
+  if (rows.length !== 1 || !rows[0].reason?.trim() || !/^syllabus\/Stage (?:3|4|5|6 (?:Standard|Advanced|Extension [12])) Content\.md$/.test(rows[0].syllabusPath || '') || !fs.existsSync(path.join(root, rows[0].syllabusPath))) return null;
+  return rows[0];
+}
 
 export const RULES = `Booklet question-type rule (booklet-question-type-v1):
 - Every practice and quiz item must be a question TYPE that appears in the source booklet's teaching, guided practice or exercises for this skill. "Type" means what the student is asked to do and with what given information, not the context or the values.
@@ -93,7 +120,7 @@ export function runModel({ root, prompt, images, dir, name, modelId = MODEL, eff
       let result = null, error = null;
       if (code !== 0 || failures.length || timedOut) error = [timedOut ? 'Worker exceeded the 30-minute call timeout' : 'Worker exited with code ' + code, ...failures, stderr.slice(-2000)].filter(Boolean).join(' | ');
       else try { const text = fs.readFileSync(raw, 'utf8'); result = JSON.parse(text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1)); } catch (failure) { error = String(failure.message) + ' | ' + stderr.slice(-2000); }
-      if (result) fs.writeFileSync(path.join(dir, name + '.json'), JSON.stringify(result, null, 2));
+      if (result) writeFileResilient(path.join(dir, name + '.json'), JSON.stringify(result, null, 2));
       resolve({ result, call: { name, code, seconds: Math.round((Date.now() - started) / 100) / 10, usage, error, responsePath: path.relative(root, raw) } });
     });
     child.stdin.end(prompt);
@@ -123,16 +150,22 @@ function citedSections(lines, spans) {
  * Each image file in the supplied lines is attached once.
  */
 export function skillEvidence(root, campaignId, skillId, section = null) {
+  const overrides = section ? (Array.isArray(section) ? section : [section]) : null;
+  if (overrides) for (const row of overrides) {
+    const resolved = path.resolve(root, row.path || ''), sourceRoot = path.resolve(root, 'booklets/mathsmap-sources');
+    if (!resolved.startsWith(sourceRoot + path.sep) || !Number.isInteger(row.start) || !Number.isInteger(row.end) || row.start < 1 || row.end < row.start || !fs.existsSync(resolved)) throw new Error('Invalid bounded booklet evidence override');
+    if (row.end > fs.readFileSync(resolved, 'utf8').split(/\r?\n/).length) throw new Error('Booklet evidence override exceeds source lines');
+  }
   const file = path.join(root, 'booklets/provenance/content-campaign', campaignId, 'skills', skillId + '.json');
   const state = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : {};
   const refs = [...(state.stage?.sourceReview || []), ...(state.sources || [])].filter(ref => /mathsmap-sources/.test(ref.path || '') && fs.existsSync(path.join(root, ref.path)));
   const mapped = [...new Set(refs.map(ref => ref.path))];
-  const spans = refs.filter(ref => ref.startLine).map(ref => ({ path: ref.path, start: ref.startLine, end: ref.endLine ?? ref.startLine }));
-  const cited = [...new Set(spans.map(span => span.path))], files = section ? [section.path] : cited.length ? cited : mapped;
+  const spans = overrides ? overrides.map(({path,start,end}) => ({path,start,end})) : refs.filter(ref => ref.startLine).map(ref => ({ path: ref.path, start: ref.startLine, end: ref.endLine ?? ref.startLine }));
+  const cited = [...new Set(spans.map(span => span.path))], files = overrides ? [...new Set(overrides.map(row => row.path))] : cited.length ? cited : mapped;
   const booklets = [], found = new Map(); let bytes = 0, duplicateImages = 0;
   for (const booklet of files) {
     const text = fs.readFileSync(path.join(root, booklet), 'utf8'), lines = text.split(/\r?\n/);
-    const ranges = section ? [{ start: section.start, end: section.end }] : cited.length ? citedSections(lines, spans.filter(span => span.path === booklet)) : null;
+    const ranges = overrides ? overrides.filter(row => row.path === booklet).map(({start,end}) => ({start,end})).sort((a,b) => a.start - b.start).reduce((list,row) => { const last = list.at(-1); if (last && row.start <= last.end + 1) last.end = Math.max(last.end,row.end); else list.push({...row}); return list; }, []) : cited.length ? citedSections(lines, spans.filter(span => span.path === booklet)) : null;
     bytes += Buffer.byteLength(numberedEvidence(lines, ranges));
     booklets.push({ path: booklet, ranges, lines: lines.length, outline: lines.map((line, index) => /^#{1,2} \S/.test(line) ? (index + 1) + ' ' + line.replace(/^#+ /, '').replace(/\*/g, '').trim() : null).filter(Boolean) });
     for (const match of text.matchAll(/\]\((media\/[^)]+?\.(?:png|jpe?g))\)/g)) {
@@ -154,7 +187,7 @@ function evidenceText(root, evidence, pair) {
   return [
     'ATTACHED IMAGES (' + evidence.images.length + (evidence.omittedImages ? '; ' + evidence.omittedImages + ' further images not attached' : '') + '; an image the booklet repeats is attached once, at its first line):',
     ...evidence.images.map((image, index) => (index + 1) + '. ' + image.label),
-    evidence.spans.length ? 'Lines previously cited for this skill: ' + evidence.spans.map(span => path.basename(span.path) + ' ' + span.start + '-' + span.end).join('; ') + '. Read the complete section and its full exercise set, not only these lines.' : '',
+    evidence.spans.length ? (evidence.section ? 'Bounded source selection for this skill (independently assess teaching and relevant exercise coverage): ' : 'Lines previously cited for this skill: ') + evidence.spans.map(span => path.basename(span.path) + ' ' + span.start + '-' + span.end).join('; ') + (evidence.section ? '.' : '. Read the complete section and its full exercise set, not only these lines.') : '',
     partial.length ? 'BOOKLET OUTLINE (line number and heading). Only the line ranges named in each BOOKLET block below are supplied:' + NL + partial.map(booklet => path.basename(booklet.path) + ': ' + booklet.outline.join(' | ')).join(NL) : '',
     evidence.unsupplied.length ? 'Mapped to this topic only as unconfirmed suggestions and NOT supplied: ' + evidence.unsupplied.map(booklet => path.basename(booklet)).join('; ') + '.' : '',
     ...evidence.booklets.map(booklet => '===== BOOKLET ' + booklet.path + ' (' + (booklet.ranges ? 'lines ' + booklet.ranges.map(range => range.start + '-' + range.end).join(', ') + ' of ' + booklet.lines : 'complete') + '; lines numbered) =====' + NL + numbered(booklet) + NL + '===== END BOOKLET ====='),
@@ -163,7 +196,7 @@ function evidenceText(root, evidence, pair) {
 }
 
 const AUTHOR_SHAPE = '{"skillId":"...","blocker":null,"content":{complete content JSON},"quiz":{complete quiz JSON},"items":[{"where":"practice.foundation[0] | practice.development[0] | practice.mastery[0] | quiz.<id> (final locators)","decision":"kept"|"repaired"|"replaced","bookletQuestion":"booklet question number/part and line that this item follows"}],"removed":[{"where":"exact original locator of a whole removed item","reason":"one sentence"}],"summary":"two sentences on what changed"}';
-const authorPrompt = (skillId, stage, evidence) => `You are the author for one MathsMap skill. Do not run commands or tools; everything is supplied inline. No subagents.
+const authorPrompt = (skillId, stage, evidence) => `You are the author for one MathsMap skill. All source and candidate evidence is supplied inline. You may use read-only calculator commands (such as node -e) to independently verify computations, particularly powers, probabilities and final rounding. Do not read repository files or write files. No subagents.
 
 ${RULES}
 
@@ -176,12 +209,15 @@ ${AUTHOR_SHAPE}
 
 ${evidence}`;
 
-const repairPrompt = (skillId, candidate, problems, evidence) => `You are the author for MathsMap skill ${skillId}, repairing your candidate after independent review. Do not run commands or tools. No subagents.
+const repairPrompt = (skillId, candidate, problems, evidence) => `You are the author for MathsMap skill ${skillId}, repairing your candidate after independent review. All source and candidate evidence is supplied inline. You may use read-only calculator commands (such as node -e) to independently verify computations, particularly powers, probabilities and final rounding. Do not read repository files or write files. No subagents.
 
 ${RULES}
 
 Change only what the findings require and preserve everything else exactly. Return ONLY JSON in the same shape as before:
 ${AUTHOR_SHAPE}
+For a large candidate, prefer this compact alternative instead of repeating unchanged figures:
+{"skillId":"${skillId}","baseHash":"${pairHash(candidate)}","patches":[{"path":"content.practice.foundation[0].solution_text","value":"complete corrected field"}],"summary":"what changed"}
+Each patch replaces one EXISTING content/quiz field, whole item, or array, using its exact JSON field path (quiz.questions[0], not quiz.<id>). Preserve omitted fields exactly. Omit items or removed to retain them; if supplied, each must be its COMPLETE final array. No placeholders. The baseHash above must match exactly. Independent review and all validators still run on the assembled complete candidate.
 
 Findings to repair:
 ${problems.map(problem => '- ' + problem).join(NL)}
@@ -210,7 +246,7 @@ ${problems.map(problem => '- ' + problem).join(NL)}
 Candidate:
 ${JSON.stringify({ content: candidate.content, quiz: candidate.quiz })}`;
 
-const reviewPrompt = (skillId, candidate, scope, evidence, baseline) => `You are the independent reviewer for one MathsMap skill. You did not write the candidate. Do not run commands or tools; everything is supplied inline. No subagents.
+const reviewPrompt = (skillId, candidate, scope, evidence, baseline) => `You are the independent reviewer for one MathsMap skill. You did not write the candidate. All source and candidate evidence is supplied inline. You may use read-only calculator commands (such as node -e) to independently verify computations, particularly powers, probabilities and final rounding. Do not read repository files or write files. No subagents.
 
 ${RULES}
 
@@ -297,8 +333,32 @@ export function applyFixes(candidate, fixes) {
   return { candidate: next, applied };
 }
 
+/** Assemble an author's bounded replacement fields; this grants no review or publication credit. */
+export function applyRepairResult(candidate, result) {
+  if (!result?.patches) return result;
+  const reject = reason => ({ skillId: candidate.content.skillId, blocker: 'Invalid repair patch: ' + reason, content: null });
+  if (result.skillId !== candidate.content.skillId || result.baseHash !== pairHash(candidate) || !Array.isArray(result.patches)) return reject('skill or base hash mismatch');
+  const next = structuredClone(candidate), seen = [];
+  for (const patch of result.patches) {
+    const field = patch?.path;
+    if (typeof field !== 'string' || !/^(content|quiz)(?:\.[A-Za-z][A-Za-z0-9_]*|\[\d+\])+$/.test(field)) return reject('invalid field path');
+    const keys = field.match(/[^.[\]]+/g);
+    if (keys.some(key => ['__proto__', 'prototype', 'constructor', 'skillId'].includes(key))) return reject('protected field');
+    const canonical = keys.join('.');
+    if (seen.some(old => old === canonical || old.startsWith(canonical + '.') || canonical.startsWith(old + '.'))) return reject('overlapping fields');
+    seen.push(canonical);
+    const last = keys.pop(); let holder = next;
+    for (const key of keys) { if (!holder || !Object.hasOwn(holder, key)) return reject('field does not exist'); holder = holder[key]; }
+    if (!holder || !Object.hasOwn(holder, last) || !Object.hasOwn(patch, 'value')) return reject('field does not exist or value missing');
+    holder[last] = structuredClone(patch.value);
+  }
+  for (const key of ['items', 'removed']) if (Object.hasOwn(result, key)) { if (!Array.isArray(result[key])) return reject(key + ' must be an array'); next[key] = structuredClone(result[key]); }
+  if (typeof result.summary === 'string') next.summary = result.summary;
+  return next;
+}
+
 /** Mechanical checks of the author's result. Mathematical acceptance comes only from the reviewer. */
-export function checkCandidate(root, skillId, baseline, candidate, sourceException = false) {
+export function checkCandidate(root, skillId, baseline, candidate, sourceException = false, exceptionPath = 'syllabus/Stage 3 Content.md') {
   const problems = [];
   if (!candidate?.content || candidate.content.skillId !== skillId) return ['Candidate content missing or for another skill'];
   if (baseline.quiz && (!candidate.quiz || candidate.quiz.skillId !== skillId)) problems.push('Candidate quiz missing or for another skill');
@@ -306,7 +366,7 @@ export function checkCandidate(root, skillId, baseline, candidate, sourceExcepti
   for (const error of validation.errors || []) problems.push('Validator: ' + error);
   const final = reviewable(candidate).filter(item => item.kind !== 'example'), before = reviewable(baseline);
   for (const item of final) if (!(candidate.items || []).some(row => row.where === item.where && typeof row.bookletQuestion === 'string' && row.bookletQuestion.trim())) problems.push('No booklet question cited for ' + item.where);
-  if (sourceException) for (const item of final) if (!(candidate.items || []).some(row => row.where === item.where && row.sourceException === true && /syllabus\/Stage 3 Content\.md/.test(row.bookletQuestion || ''))) problems.push('No explicit syllabus source exception cited for ' + item.where);
+  if (sourceException) for (const item of final) if (!(candidate.items || []).some(row => row.where === item.where && row.sourceException === true && (row.bookletQuestion || '').includes(exceptionPath))) problems.push('No explicit syllabus source exception cited for ' + item.where);
   for (const row of candidate.removed || []) if (!before.some(item => item.where === row.where) || !row.reason?.trim()) problems.push('Removal must name an original item and a reason: ' + row.where);
   return [...problems, ...currencyProblems(baseline, candidate)];
 }
@@ -370,11 +430,16 @@ function resumable(dir, prior, baseline, repair = false) {
   return { candidate, review: full?.hash === prior.candidateHash && (!(candidate.removed || []).length || full.originalRemovalsSupplied) ? readJson(path.join(dir, full.name + '.json')) : null };
 }
 
-export async function runSkill(root, { campaignId = DEFAULT_CAMPAIGN, skillId, publish = false, section = null, resume = false, repair = false, finding = null, sourceException = false, auditFirst = campaignId === DEFAULT_CAMPAIGN, model = runModel } = {}) {
-  if (sourceException && !SOURCE_EXCEPTION_SKILLS.includes(skillId)) throw new Error('No approved source exception for ' + skillId);
+export async function runSkill(root, { campaignId = DEFAULT_CAMPAIGN, skillId, publish = false, section = null, resume = false, repair = false, redo = false, finding = null, sourceException = false, auditFirst = campaignId === DEFAULT_CAMPAIGN, model = runModel } = {}) {
+  const exceptionPolicy = sourceException ? approvedSourceException(root, skillId) : null;
+  if (sourceException && !exceptionPolicy) throw new Error('No approved source exception for ' + skillId);
   const dir = path.join(root, '.agywork/content-campaign', campaignId, 'lean', skillId), recordDir = path.join(root, 'booklets/provenance/content-campaign', campaignId, 'lean'), recordFile = path.join(recordDir, skillId + '.json');
   fs.mkdirSync(dir, { recursive: true }); fs.mkdirSync(recordDir, { recursive: true });
-  const prior = readJson(recordFile), baseline = capturePair(root, skillId), resumed = resume || repair ? resumable(dir, prior, baseline, repair) : null;
+  const prior = readJson(recordFile), baseline = capturePair(root, skillId);
+  // A continuation of an approved exception reuses its completed audit/draft;
+  // an explicit redo or changed syllabus still starts a fresh audit.
+  if (sourceException && !redo && !resume && !repair && prior?.sourceException?.path === exceptionPolicy.syllabusPath && prior.sourceException.hash === hashValue(fs.readFileSync(path.join(root, exceptionPolicy.syllabusPath), 'utf8')) && typeof resumable(dir, prior, baseline) === 'object') resume = true;
+  const resumed = resume || repair ? resumable(dir, prior, baseline, repair) : null;
   // A refused resume leaves the existing record and working files untouched.
   if (typeof resumed === 'string') return { skillId, status: 'not resumed: ' + resumed, calls: [] };
   if (repair && !(prior.findings || []).length && !finding) return { skillId, status: 'not resumed: explicit maintenance repair requires findings', calls: [] };
@@ -383,18 +448,23 @@ export async function runSkill(root, { campaignId = DEFAULT_CAMPAIGN, skillId, p
   if (prior) record.previousAttempts = [...(prior.previousAttempts || []), { startedAt: prior.startedAt, finishedAt: prior.finishedAt ?? null, status: prior.status, calls: prior.calls || [] }];
   if (resume) record.resumed = true;
   if (repair) record.maintenanceRepair = true;
-  const save = () => fs.writeFileSync(recordFile, JSON.stringify(record, null, 2) + NL);
+  if (resumed) Object.assign(record, { candidateHash: pairHash(resumed.candidate), findings: prior.findings || [], ...(prior.fullReview ? { fullReview: prior.fullReview } : {}) });
+  const save = () => writeFileResilient(recordFile, JSON.stringify(record, null, 2) + NL);
   const finish = status => { Object.assign(record, { status, finishedAt: new Date().toISOString() }); save(); return record; };
-  const syllabusPath = 'syllabus/Stage 3 Content.md';
-  const evidence = sourceException ? { stage: 3, files: [syllabusPath], sections: [], images: [], omittedImages: 0, bytes: 0 } : skillEvidence(root, campaignId, skillId, section);
-  if (sourceException) record.sourceException = { reason: SOURCE_EXCEPTION_REASON, path: syllabusPath, hash: hashValue(fs.readFileSync(path.join(root, syllabusPath), 'utf8')) };
+  const syllabusPath = exceptionPolicy?.syllabusPath || 'syllabus/Stage 3 Content.md';
+  const evidenceSection = section || ((resume || repair) && prior?.sections?.length ? prior.sections : null);
+  const diagnosticContext = (Array.isArray(evidenceSection) ? evidenceSection : evidenceSection ? [evidenceSection] : []).map(row => row.diagnosticContext).filter(value => typeof value === 'string' && value.trim()).join(NL) || ((resume || repair) ? prior?.diagnosticContext : '') || '';
+  if (diagnosticContext) record.diagnosticContext = diagnosticContext;
+  const evidence = sourceException ? { stage: Number(syllabusPath.match(/Stage (\d)/)[1]), files: [syllabusPath], sections: [], images: [], omittedImages: 0, bytes: 0 } : skillEvidence(root, campaignId, skillId, evidenceSection);
+  if (sourceException) record.sourceException = { reason: exceptionPolicy.reason, ...(exceptionPolicy.approvalPath ? { approvalPath: exceptionPolicy.approvalPath } : {}), path: syllabusPath, hash: hashValue(fs.readFileSync(path.join(root, syllabusPath), 'utf8')) };
   Object.assign(record, { baseline: baseline.expected, booklets: evidence.files, images: evidence.images.length, omittedImages: evidence.omittedImages });
   if (evidence.sections.length) record.sections = evidence.sections;
   if (!evidence.files.length) return finish('skipped: no booklet source mapped');
   if (evidence.bytes > BOOKLET_BYTE_LIMIT) return finish('skipped: booklet too large to supply whole; pass --section path:start-end');
-  const exceptionText = sourceException ? `USER-APPROVED SOURCE EXCEPTION: ${SOURCE_EXCEPTION_REASON}\nFor this skill only, the requirement to adapt a booklet question/example is replaced by alignment to the supplied Stage 3 syllabus. Preserve correct existing questions within that scope; author examples with different values using the syllabus methods. Do not introduce advanced skills. Keep all other mathematical, wording, format, option and minimum-count rules. The author must set sourceException:true on EVERY items row and cite syllabus/Stage 3 Content.md with its relevant line/heading in the legacy bookletQuestion field. The independent reviewer must derive every answer and check every option and explanation, confirm each task/example is within the syllabus and target skill, and set sourceExceptionConfirmed:true on EVERY outcome only when confirmed. Set bookletType:false because these are explicit exceptions, not booklet questions. Review theory and every removal independently.\n===== SYLLABUS ${syllabusPath} =====\n` + fs.readFileSync(path.join(root, syllabusPath), 'utf8').split(/\r?\n/).map((line, index) => (index + 1) + ': ' + line).join(NL) : null;
-  const plain = sourceException ? exceptionText : evidenceText(root, evidence, null);
-  const text = sourceException ? plain + '\n===== CURRENT PUBLISHED content =====\n' + JSON.stringify(baseline.content) + '\n===== CURRENT PUBLISHED quiz =====\n' + JSON.stringify(baseline.quiz) : evidenceText(root, evidence, baseline);
+  const exceptionText = sourceException ? `USER-APPROVED SOURCE EXCEPTION: ${exceptionPolicy.reason}\nFor this skill only, the requirement to adapt a booklet question/example is replaced by alignment to the supplied stage syllabus. Preserve correct existing questions within that scope; author examples with different values using the syllabus methods. Do not introduce advanced skills. Keep all other mathematical, wording, format, option and minimum-count rules. The author must set sourceException:true on EVERY items row and cite ${syllabusPath} with its relevant line/heading in the legacy bookletQuestion field. The independent reviewer must derive every answer and check every option and explanation, confirm each task/example is within the syllabus and target skill, and set sourceExceptionConfirmed:true on EVERY outcome only when confirmed. Set bookletType:false because these are explicit exceptions, not booklet questions. Review theory and every removal independently.\n===== SYLLABUS ${syllabusPath} =====\n` + fs.readFileSync(path.join(root, syllabusPath), 'utf8').split(/\r?\n/).map((line, index) => (index + 1) + ': ' + line).join(NL) : null;
+  const diagnosticText = diagnosticContext ? '\nSOURCE-LOCATION DIAGNOSIS (not acceptance; independently confirm every claim against the supplied source and target-stage methods):\n' + diagnosticContext : '';
+  const plain = (sourceException ? exceptionText : evidenceText(root, evidence, null)) + diagnosticText;
+  const text = sourceException ? plain + '\n===== CURRENT PUBLISHED content =====\n' + JSON.stringify(baseline.content) + '\n===== CURRENT PUBLISHED quiz =====\n' + JSON.stringify(baseline.quiz) : evidenceText(root, evidence, baseline) + diagnosticText;
   const images = evidence.images.map(image => image.file), prefix = repair ? 'maintenance-' : resumed ? 'resume-' : '';
   save();
   const call = async (prompt, name, attach = images) => {
@@ -402,13 +472,20 @@ export async function runSkill(root, { campaignId = DEFAULT_CAMPAIGN, skillId, p
     const { result, call: metrics } = await model({ root, prompt, images: attach, dir, name: prefix + name }); record.calls.push(metrics); save(); return result;
   };
 
-  const auditRules = prompt => auditFirst ? prompt.replace(RULES, AUDIT_RULES) : prompt;
+  const auditRules = prompt => {
+    let next = auditFirst ? prompt.replace(RULES, AUDIT_RULES) : prompt;
+    if (sourceException) {
+      next = next.replace('If the evidence omits the skill\'s teaching, complete exercise set or necessary figures, return {"skillId":"'+skillId+'","blocker":"the missing source headings/figures needed"} instead of acceptance; do not infer booklet types from incomplete evidence.', 'The approved exception supplies a stage syllabus instead of booklet exercises. Independently assess every existing item and example against the target skill and syllabus; missing booklet questions alone are not a blocker. A real syllabus-scope uncertainty or mathematical defect still prevents acceptance.');
+      next = next.replace('Each accepted practice/quiz outcome also supplies bookletQuestion: the source question/part and line supporting your booklet-type decision.', 'Each accepted practice/quiz outcome supplies bookletQuestion citing the approved syllabus path and relevant line/heading, and sourceExceptionConfirmed:true only after independent confirmation.');
+    }
+    return next;
+  };
   let initialAudit = null;
   let candidate = resumed ? resumed.candidate : auditFirst ? { content: baseline.content, quiz: baseline.quiz, items: [], removed: [] } : await call(authorPrompt(skillId, evidence.stage, text), 'author');
   if (!candidate) return finish('failed: author returned no result');
   if (candidate.blocker) { record.blocker = candidate.blocker; return finish('blocked'); }
   if (auditFirst && !resumed) {
-    initialAudit = await call(auditPrompt(skillId, candidate, plain, baseline), 'audit');
+    initialAudit = await call(auditRules(auditPrompt(skillId, candidate, plain, baseline)), 'audit');
     if (!initialAudit) return finish('failed: auditor returned no result');
     if (initialAudit.blocker) { record.blocker = initialAudit.blocker; return finish('blocked'); }
     candidate.items = (initialAudit.outcomes || []).filter(row => !row.where?.startsWith('theory.')).map(row => ({ where: row.where, decision: 'kept', bookletQuestion: row.bookletQuestion, ...(sourceException ? { sourceException: row.sourceExceptionConfirmed === true } : {}) }));
@@ -416,20 +493,20 @@ export async function runSkill(root, { campaignId = DEFAULT_CAMPAIGN, skillId, p
   }
   let review = repair ? (auditFirst ? resumed?.review ?? null : null) : initialAudit ?? resumed?.review ?? null, reviewed = review ? candidate : null, scope = null, fixed = false, repaired = repair;
   if (repair) {
-    const findings = [...(prior.findings || []), ...(finding ? [finding] : [])];
+    const findings = [...(/^needs attention/.test(prior.status) ? prior.findings || [] : []), ...(finding ? [finding] : [])];
     if (!findings.length) return finish('needs attention: explicit maintenance repair requires findings');
     record.firstRoundFindings = findings;
-    candidate = await call(auditRules(repairPrompt(skillId, candidate, findings, auditFirst ? plain : text)), 'repair');
-    if (!candidate?.content) return finish('needs attention: repair returned no candidate');
+    candidate = applyRepairResult(candidate, await call(auditRules(repairPrompt(skillId, candidate, findings, auditFirst ? plain : text)), 'repair'));
+    if (!candidate?.content) { record.blocker = candidate?.blocker || null; return finish('needs attention: repair returned no candidate'); }
   }
   // Mechanical problems after tidying the removals. Formatting errors get one fix call per run, sent without the booklet, so they do not use the repair round.
   const mechanical = async () => {
     candidate = normaliseRemovals(baseline, candidate);
-    let found = checkCandidate(root, skillId, baseline, candidate, sourceException);
+    let found = checkCandidate(root, skillId, baseline, candidate, sourceException, syllabusPath);
     if (!fixed && found.some(isFormat)) {
       fixed = true;
       const patched = applyFixes(candidate, (await call(fixPrompt(skillId, candidate, found.filter(isFormat)), 'fix', []))?.fixes);
-      if (patched.applied) { candidate = patched.candidate; found = checkCandidate(root, skillId, baseline, candidate, sourceException); }
+      if (patched.applied) { candidate = patched.candidate; found = checkCandidate(root, skillId, baseline, candidate, sourceException, syllabusPath); }
     }
     return found;
   };
@@ -449,7 +526,7 @@ export async function runSkill(root, { campaignId = DEFAULT_CAMPAIGN, skillId, p
       review = { ...review, outcomes: reviewable(candidate).map(item => old.get(item.where)), ...(scope.includes('theory') ? { theory: result.theory } : {}), ...(scope.includes('removals') ? { removals: result.removals } : {}), summary: result.summary };
       const remaining = checkReview(candidate, review, null, sourceException);
       if (remaining.length) return remaining;
-      fs.writeFileSync(path.join(dir, 'review-accepted.json'), JSON.stringify(review, null, 2));
+      writeFileResilient(path.join(dir, 'review-accepted.json'), JSON.stringify(review, null, 2));
       record.fullReview = { name: 'review-accepted', hash: pairHash(candidate), originalRemovalsSupplied: true, ...(sourceException ? { sourceExceptionConfirmed: review.outcomes.every(row => row.sourceExceptionConfirmed === true) } : {}) };
       reviewed = candidate;
     }
@@ -464,15 +541,16 @@ export async function runSkill(root, { campaignId = DEFAULT_CAMPAIGN, skillId, p
   else if (review) problems = [...problems, ...checkReview(reviewed, review, null, sourceException)];
   if (problems.length && !repair) {
     record.firstRoundFindings = problems; repaired = true;
-    const next = await call(auditRules(repairPrompt(skillId, candidate, problems, auditFirst ? plain : text)), 'repair');
-    if (!next?.content) return finish('needs attention: repair returned no candidate');
+    const next = applyRepairResult(candidate, await call(auditRules(repairPrompt(skillId, candidate, problems, auditFirst ? plain : text)), 'repair'));
+    if (!next?.content) { record.blocker = next?.blocker || null; return finish('needs attention: repair returned no candidate'); }
     candidate = next; problems = await mechanical();
     if (!problems.length) problems = await reReview();
   } else if (!problems.length && pairHash(reviewed) !== pairHash(candidate)) problems = await reReview();
-  fs.writeFileSync(path.join(dir, 'candidate.json'), JSON.stringify({ content: candidate.content, quiz: candidate.quiz, items: candidate.items, removed: candidate.removed, editNotes: candidate.editNotes }, null, 2));
+  writeFileResilient(path.join(dir, 'candidate.json'), JSON.stringify({ content: candidate.content, quiz: candidate.quiz, items: candidate.items, removed: candidate.removed, editNotes: candidate.editNotes }, null, 2));
   const delta = changedItems(baseline, candidate);
   Object.assign(record, { repaired, changed: delta.where, theoryChanged: delta.theory, removed: candidate.removed || [], items: reviewable(candidate).length, summary: candidate.summary || null, reviewSummary: review?.summary || null, candidateHash: pairHash(candidate) });
   if (problems.length) { record.findings = problems; return finish('needs attention: not accepted after one repair round'); }
+  delete record.findings;
   if (sourceException && record.sourceException.hash !== hashValue(fs.readFileSync(path.join(root, syllabusPath), 'utf8'))) return finish('needs attention: syllabus changed during review');
   if (auditFirst) {
     const live = capturePair(root, skillId).expected;
@@ -494,10 +572,11 @@ export async function publishAccepted(root, { campaignId = DEFAULT_CAMPAIGN, ski
   if (hashValue({ content: candidate.content, quiz: candidate.quiz }) !== record.candidateHash) throw new Error('Candidate changed since review');
   if ((record.calls || []).some(call => /(?:^|-)author$/.test(call.name) && call.code != null && call.code !== 0)) throw new Error('Candidate includes a failed author worker call; rerun with --redo');
   if ((candidate.removed || []).length && !record.fullReview?.originalRemovalsSupplied) throw new Error('Original removed items were not supplied to the reviewer; rerun with --redo');
-  if (record.sourceException && (!SOURCE_EXCEPTION_SKILLS.includes(skillId) || record.sourceException.path !== 'syllabus/Stage 3 Content.md' || record.sourceException.hash !== hashValue(fs.readFileSync(path.join(root, record.sourceException.path), 'utf8')) || record.fullReview?.sourceExceptionConfirmed !== true)) throw new Error('Source exception is not independently confirmed against the current syllabus');
+  const exceptionPolicy = record.sourceException ? approvedSourceException(root, skillId) : null;
+  if (record.sourceException && (!exceptionPolicy || record.sourceException.path !== exceptionPolicy.syllabusPath || record.sourceException.hash !== hashValue(fs.readFileSync(path.join(root, record.sourceException.path), 'utf8')) || record.fullReview?.sourceExceptionConfirmed !== true)) throw new Error('Source exception is not independently confirmed against the current syllabus');
   const saved = await publishSkill(root, skillId, { expected: record.baseline, candidateContent: candidate.content, candidateQuiz: candidate.quiz });
   Object.assign(record, { status: 'published', finishedAt: new Date().toISOString(), published: { expected: saved.expected, journalPath: saved.journalPath ? path.relative(root, saved.journalPath) : null } });
-  fs.writeFileSync(file, JSON.stringify(record, null, 2) + NL);
+  writeFileResilient(file, JSON.stringify(record, null, 2) + NL);
   return record;
 }
 
@@ -593,7 +672,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     await Promise.all(Array.from({ length: concurrency }, async () => {
       while (queue.length) {
         const skillId = queue.shift();
-        try { const record = await runSkill(root, { campaignId, skillId, publish, section, resume, repair, finding, sourceException }); console.log(JSON.stringify({ skillId, status: record.status, changed: record.changed?.length ?? null, removed: record.removed?.length ?? null, seconds: Math.round(record.calls.reduce((total, call) => total + call.seconds, 0)), calls: record.calls.length })); }
+        try { const record = await runSkill(root, { campaignId, skillId, publish, section, resume, repair, redo, finding, sourceException }); console.log(JSON.stringify({ skillId, status: record.status, changed: record.changed?.length ?? null, removed: record.removed?.length ?? null, seconds: Math.round(record.calls.reduce((total, call) => total + call.seconds, 0)), calls: record.calls.length })); }
         catch (error) { console.log(JSON.stringify({ skillId, status: 'failed: ' + String(error.message).slice(0, 300) })); }
       }
     }));

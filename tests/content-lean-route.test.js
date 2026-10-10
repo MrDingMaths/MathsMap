@@ -5,6 +5,21 @@ import os from 'node:os';
 import path from 'node:path';
 import { EventEmitter } from 'node:events';
 import { PassThrough } from 'node:stream';
+import { applyRepairResult, approvedSourceException } from '../scripts/content/lean-route.mjs';
+import { hashValue } from '../scripts/content/campaign-support.mjs';
+
+test('bounded author patches preserve untouched figures and require exact base and existing non-overlapping fields', () => {
+  const candidate = {content:{skillId:'x',practice:{foundation:[{question_text:'[tikz]original[/tikz]',solution_text:'wrong'}]}},quiz:{skillId:'x',questions:[]},items:[{where:'practice.foundation[0]',bookletQuestion:'Q1'}],removed:[]};
+  const baseHash=hashValue({content:candidate.content,quiz:candidate.quiz});
+  const result={skillId:'x',baseHash,patches:[{path:'content.practice.foundation[0].solution_text',value:'correct'}],summary:'correction'};
+  const next=applyRepairResult(candidate,result);
+  assert.equal(next.content.practice.foundation[0].solution_text,'correct');
+  assert.equal(next.content.practice.foundation[0].question_text,'[tikz]original[/tikz]');
+  assert.deepEqual(next.items,candidate.items);
+  assert.equal(candidate.content.practice.foundation[0].solution_text,'wrong');
+  for(const bad of [ {...result,baseHash:'stale'}, {...result,skillId:'other'}, {...result,patches:[{path:'content.skillId',value:'other'}]}, {...result,patches:[{path:'content.__proto__.polluted',value:true}]}, {...result,patches:[{path:'content.practice.foundation[9]',value:{}}]}, {...result,patches:[...result.patches,{path:'content.practice.foundation',value:[]}]}, {...result,removed:'invalid'} ])assert.equal(applyRepairResult(candidate,bad).content,null);
+  assert.equal({}.polluted,undefined);
+});
 import { runModel, runSkill, runAuditPilot, publishAccepted, checkCandidate, checkReview, changedItems, leanStatus, remainingSkillIds, skillEvidence, normaliseRemovals, currencyProblems, applyFixes, reReviewScope, touchesDiagram, auditRepairScope, changedDiagramBodies, AUDIT_FIRST_PROFILE } from '../scripts/content/lean-route.mjs';
 
 test('remaining queue preserves completed and held records and resumes interrupted work only', t => {
@@ -27,10 +42,15 @@ test('audit maintenance rechecks corrected items instead of replaying stale reje
     return { result, call: { name, seconds: 1 } };
   } });
   assert.match(first.status, /^needs attention/);
+  const blocked = await runSkill(root, { campaignId:'test', skillId:'first', auditFirst:true, repair:true, model:async ({name}) => ({result:{blocker:'response budget',content:null},call:{name,seconds:1}}) });
+  assert.equal(blocked.status,'needs attention: repair returned no candidate');
+  assert.equal(blocked.candidateHash,first.candidateHash);
+  assert.deepEqual(blocked.fullReview,first.fullReview);
+  assert.deepEqual(blocked.findings,first.findings);
   const seen = [];
   const repaired = await runSkill(root, { campaignId: 'test', skillId: 'first', auditFirst: true, repair: true, publish: true, model: async ({ name, prompt }) => {
     seen.push(name);
-    if (name === 'maintenance-repair') return { result: author({ content, quiz }), call: { name, seconds: 1 } };
+    if (name === 'maintenance-repair') return { result: {skillId:'first',baseHash:hashValue({content:bad,quiz}),patches:[{path:'content.practice.foundation[0].solution_text',value:content.practice.foundation[0].solution_text}]}, call: { name, seconds: 1 } };
     assert.match(prompt, /each of these items only: practice.foundation\[0\]/);
     return { result: { outcomes: [auditOf({ content, quiz }).outcomes[0]], summary: 'Independently corrected.' }, call: { name, seconds: 1 } };
   } });
@@ -330,6 +350,11 @@ test('cited lines supply only their booklet section, with each image once and un
   assert.deepEqual(evidence.sections, [{ path: booklet, start: 3, end: 7 }]); assert.deepEqual(evidence.images.map(image => path.basename(image.file)), ['b.png']);
   assert.equal(evidence.duplicateImages, 1); assert.equal(evidence.omittedImages, 0); assert.deepEqual(evidence.unsupplied, ['booklets/mathsmap-sources/Stage 4/Addition.md']);
   assert.deepEqual(skillEvidence(root, 'test', 'first', { path: booklet, start: 8, end: 9 }).images.map(image => path.basename(image.file)), ['c.png']);
+  const bounded = skillEvidence(root, 'test', 'first', [{ path: booklet, start: 8, end: 9 }, { path: booklet, start: 3, end: 5 }, { path: booklet, start: 5, end: 7 }]);
+  assert.deepEqual(bounded.sections, [{ path: booklet, start: 3, end: 9 }]);
+  assert.deepEqual(bounded.images.map(image => path.basename(image.file)), ['b.png', 'c.png']);
+  assert.throws(() => skillEvidence(root, 'test', 'first', [{ path: 'AGENTS.md', start: 1, end: 2 }]), /Invalid bounded/);
+  assert.throws(() => skillEvidence(root, 'test', 'first', [{ path: booklet, start: 1, end: 10 }]), /exceeds source lines/);
   let prompt = '';
   const model = async input => { if (input.name === 'author') prompt = input.prompt; return { result: input.name === 'author' ? author({ content, quiz }) : reviewOf(author({ content, quiz })), call: { name: input.name, seconds: 0 } }; };
   const record = await runSkill(root, { campaignId: 'test', skillId: 'first', model });
@@ -480,4 +505,115 @@ test('an approved exception run supplies the syllabus, records its approval and 
   assert.equal(record.fullReview.sourceExceptionConfirmed, true); assert.match(record.sourceException.reason, /User approved/);
   fs.writeFileSync(syllabus, '# Changed syllabus');
   await assert.rejects(publishAccepted(root, { campaignId: 'test', skillId }), /current syllabus/);
+});
+
+test('audit completes when Windows denies direct truncation of a mapped record', async t => {
+  const { root, content, quiz } = fixture(t);
+  const recordFile = path.resolve(root, 'booklets/provenance/content-campaign/test/lean/first.json');
+  const originalWrite = fs.writeFileSync;
+  t.mock.method(fs, 'writeFileSync', (file, ...args) => {
+    if (path.resolve(String(file)) === recordFile) throw Object.assign(new Error('user-mapped section open'), { code: 'UNKNOWN' });
+    return originalWrite(file, ...args);
+  });
+  let calls = 0;
+  const result = await runSkill(root, { campaignId: 'test', skillId: 'first', auditFirst: true, model: async ({ name }) => {
+    calls++;
+    return { result: auditOf({ content, quiz }), call: { name, seconds: 1 } };
+  } });
+  assert.equal(result.status, 'accepted: no change needed');
+  assert.equal(calls, 1);
+  assert.equal(JSON.parse(fs.readFileSync(recordFile, 'utf8')).status, result.status);
+});
+test('task-approved source exceptions use the exact stage syllabus and refuse revoked approval', async t => {
+  const { root, content, quiz } = fixture(t);
+  const policyDir = path.join(root, 'booklets/provenance/content-campaign/worked-examples-2026-09');
+  fs.mkdirSync(policyDir, { recursive: true });
+  fs.mkdirSync(path.join(root, 'syllabus'));
+  const syllabusPath = 'syllabus/Stage 6 Advanced Content.md';
+  fs.writeFileSync(path.join(root, syllabusPath), '# Approved stage syllabus\nRequired method.');
+  const policyFile = path.join(policyDir, 'approved-source-exceptions-20261009.json');
+  fs.writeFileSync(policyFile, JSON.stringify({ requestedBy: 'user', request: 'Approve these source gaps.', skills: [{ skillId: 'first', syllabusPath, reason: 'User approved this named source gap.' }] }));
+  const candidate = author({ content: withFirst(content, card(9)), quiz });
+  for (const row of candidate.items) { row.sourceException = true; row.bookletQuestion = syllabusPath + ' line 2'; }
+  assert.match(checkCandidate(root, 'first', { content, quiz }, candidate, true).join('\n'), /explicit syllabus/);
+  assert.deepEqual(checkCandidate(root, 'first', { content, quiz }, candidate, true, syllabusPath), []);
+  const review = reviewOf(candidate);
+  for (const row of review.outcomes) { row.bookletType = false; row.sourceExceptionConfirmed = true; }
+  const record = await runSkill(root, { campaignId: 'test', skillId: 'first', sourceException: true, model: async ({ name, prompt }) => {
+    assert.match(prompt, /syllabus\/Stage 6 Advanced Content\.md/);
+    return { result: name === 'author' ? candidate : review, call: { name, seconds: 1 } };
+  } });
+  assert.equal(record.status, 'accepted: not published (run with --publish)');
+  assert.equal(record.sourceException.path, syllabusPath);
+  const recordFile=path.join(root,'booklets/provenance/content-campaign/test/lean/first.json');
+  fs.writeFileSync(recordFile,JSON.stringify({...record,status:'needs attention: saved draft awaiting independent review',findings:[]}));
+  const resumed=await runSkill(root,{campaignId:'test',skillId:'first',sourceException:true,model:async({name})=>{
+    assert.equal(name,'resume-review');return{result:review,call:{name,seconds:1}};
+  }});
+  assert.equal(resumed.status,'accepted: not published (run with --publish)');
+  assert.equal(resumed.resumed,true);
+  fs.writeFileSync(recordFile,JSON.stringify({...record,status:'needs attention: saved draft awaiting independent review',findings:[]}));
+  const redoNames=[];
+  await runSkill(root,{campaignId:'test',skillId:'first',sourceException:true,redo:true,model:async({name})=>{redoNames.push(name);return{result:name==='author'?candidate:review,call:{name,seconds:1}};}});
+  assert.deepEqual(redoNames,['author','review']);
+  fs.writeFileSync(policyFile, JSON.stringify({ requestedBy: 'user', request: 'Revoked.', skills: [] }));
+  await assert.rejects(publishAccepted(root, { campaignId: 'test', skillId: 'first' }), /current syllabus/);
+});
+test('separate additional approvals preserve the original whitelist and reject ambiguous duplicate approval', t => {
+  const {root}=fixture(t),dir=path.join(root,'booklets/provenance/content-campaign/worked-examples-2026-09');
+  fs.mkdirSync(dir,{recursive:true});fs.mkdirSync(path.join(root,'syllabus'));
+  const syllabusPath='syllabus/Stage 3 Content.md';fs.writeFileSync(path.join(root,syllabusPath),'# Stage 3');
+  const original=path.join(dir,'approved-source-exceptions-20261009.json'),additional=path.join(dir,'approved-additional-source-exceptions-20261009.json');
+  const primary={requestedBy:'user',request:'First approval.',skills:[{skillId:'original',syllabusPath,reason:'Named original gap.'}]};
+  fs.writeFileSync(original,JSON.stringify(primary));
+  assert.equal(approvedSourceException(root,'new-gap'),null);
+  fs.writeFileSync(additional,JSON.stringify({requestedBy:'user',request:'Extend to this exact gap.',skills:[{skillId:'new-gap',syllabusPath,reason:'Named additional gap.'}]}));
+  assert.match(approvedSourceException(root,'new-gap').approvalPath,/approved-additional/);
+  assert.equal(fs.readFileSync(original,'utf8'),JSON.stringify(primary));
+  assert.equal(approvedSourceException(root,'unapproved'),null);
+  fs.writeFileSync(additional,JSON.stringify({...primary}));
+  assert.equal(approvedSourceException(root,'original'),null);
+});
+test('audit-first syllabus exceptions do not demand missing booklet exercises', async t => {
+  const { root, content, quiz } = fixture(t);
+  const policyDir = path.join(root, 'booklets/provenance/content-campaign/worked-examples-2026-09');
+  fs.mkdirSync(policyDir, { recursive: true });
+  fs.mkdirSync(path.join(root, 'syllabus'));
+  const syllabusPath = 'syllabus/Stage 3 Content.md';
+  fs.writeFileSync(path.join(root, syllabusPath), '# Stage3\nAdd whole numbers.');
+  fs.writeFileSync(path.join(policyDir, 'approved-source-exceptions-20261009.json'), JSON.stringify({ requestedBy: 'user', request: 'Approve this named source gap.', skills: [{ skillId: 'first', syllabusPath, reason: 'User-approved source gap.' }] }));
+  const review = auditOf({ content, quiz });
+  for (const row of review.outcomes) { row.bookletType = false; row.sourceExceptionConfirmed = true; row.bookletQuestion = syllabusPath + ' line2'; }
+  const result = await runSkill(root, { campaignId: 'test', skillId: 'first', sourceException: true, auditFirst: true, model: async ({ name, prompt }) => {
+    assert.equal(name, 'audit');
+    assert.match(prompt, /missing booklet questions alone are not a blocker/);
+    assert.doesNotMatch(prompt, /If the evidence omits the skill's teaching, complete exercise set/);
+    return { result: review, call: { name, seconds: 1 } };
+  } });
+  assert.equal(result.status, 'accepted: no change needed');
+  assert.equal(result.fullReview.sourceExceptionConfirmed, true);
+});
+test('maintenance retains diagnosed source ranges instead of reverting to a stale topic mapping', async t => {
+  const { root, content, quiz } = fixture(t);
+  const correct = 'booklets/mathsmap-sources/Stage 4/Addition.md';
+  const decoy = 'booklets/mathsmap-sources/Stage 4/Unrelated.md';
+  fs.writeFileSync(path.join(root, decoy), '# Unrelated material\nNot the assessed method.');
+  fs.writeFileSync(path.join(root, 'booklets/provenance/content-campaign/test/skills/first.json'), JSON.stringify({ skillId: 'first', scope: { stage: 4 }, sources: [{ path: decoy }] }));
+  const section = [{ path: correct, start: 1, end: 6, diagnosticContext:'These are elementary addition tasks; independently verify source support.' }];
+  assert.deepEqual(skillEvidence(root,'test','first',section).spans,[{path:correct,start:1,end:6}]);
+  const candidate = author({ content: withFirst(content, card(9)), quiz });
+  const initial = await runSkill(root, { campaignId: 'test', skillId: 'first', section, model: async ({ name }) => ({ result: /author|repair/.test(name) ? candidate : flagged(candidate), call: { name, seconds: 1 } }) });
+  assert.match(initial.status, /^needs attention/);
+  const repaired = author({ content: withFirst(content, card(10)), quiz });
+  const result = await runSkill(root, { campaignId: 'test', skillId: 'first', repair: true, publish: true, model: async ({ name, prompt }) => {
+    assert.match(prompt, /# Addition/);
+    assert.match(prompt, /These are elementary addition tasks; independently verify source support/);
+    assert.match(prompt, /SOURCE-LOCATION DIAGNOSIS \(not acceptance/);
+    assert.doesNotMatch(prompt, /# Unrelated material/);
+    return { result: /repair$/.test(name) ? repaired : reviewOf(repaired), call: { name, seconds: 1 } };
+  } });
+  assert.equal(result.status, 'published');
+  assert.deepEqual(result.booklets, [correct]);
+  assert.deepEqual(result.sections, [{ path: correct, start: 1, end: 6 }]);
+  assert.equal(result.diagnosticContext,section[0].diagnosticContext);
 });
