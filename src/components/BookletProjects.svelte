@@ -357,7 +357,7 @@
   let canvas=$state(null);
   $effect(()=>{
     if(!canvas)return;
-    const select=event=>{const rootId=event.target.closest('[data-edit-root]')?.dataset.editRoot??event.target.closest('[data-node-id]')?.dataset.nodeId;const target=contentTarget(project,rootId);if(target?.block){if(inlineSession&&inlineSession.rootId!==rootId)finishInline();selectedBlockId=target.block.id;selectedTargetId=rootId;selectCommentTarget(rootId);}};
+    const select=event=>{const rootId=event.target.closest('[data-edit-root]')?.dataset.editRoot??event.target.closest('[data-node-id]')?.dataset.nodeId;const target=contentTarget(project,rootId);if(target?.block){if(inlineSession&&inlineSession.rootId!==rootId)finishInline();selectedBlockId=target.block.id;selectedSectionId=target.section?.id??selectedSectionId;selectedTargetId=rootId;selectCommentTarget(rootId);}};
     canvas.addEventListener('click',select);return()=>canvas?.removeEventListener('click',select);
   });
   let bankQuestionId = $state('');
@@ -428,7 +428,7 @@
     if(request.pointer==='/section/title')request={...request,rootId:flexible?(flowMap.pages[Number(request.origin?.closest('[data-flow-index]')?.dataset.flowIndex)]?.section.sourceSectionId??selectedSectionId):previewPage.section.id,pointer:'/title'};
     const found=contentTarget(project,request.rootId);let target=found?.block?{...found,id:request.rootId}:null;
     if(!target){for(const section of project.sections){for(const block of section.blocks){const node=findContent(block,request.rootId);if(node){target={id:request.rootId,node,block,section,kind:'part'};break;}}if(target)break;}}
-    if(flexible&&target?.section)selectedSectionId=target.section.id;
+    if(target?.section)selectedSectionId=target.section.id;
     if(target){selectedBlockId=target.block.id;selectedTargetId=target.id;}
     if(flexible&&target&&request.value!==undefined){const original=request.pointer.split('/').slice(1).reduce((v,k)=>v?.[k],target.node);if(original!==undefined){
       const fragmentIds=isDocument(original)&&isDocument(request.value)?request.value.blocks.map(b=>b.id):null;
@@ -485,7 +485,7 @@
     target={...target,section:target.section??project.sections.find(s=>s.blocks.some(b=>b.id===target.block.id))};
     const block=target.block;
     const related=new Set(reviewTargets(project).filter(t=>t.block.id===block.id).map(t=>t.id));
-    selectedBlockId=block.id;selectedTargetId=target.id;selectCommentTarget(target.id);
+    selectedBlockId=block.id;selectedSectionId=target.section?.id??selectedSectionId;selectedTargetId=target.id;selectCommentTarget(target.id);
     const paper=request.origin?.closest('.preview-page'),scale=paper?paper.getBoundingClientRect().width/paper.offsetWidth:1;
     const arrangementContainer=request.origin?.closest('.booklet-arrangement');
     const container=request.origin?.closest('.atom-body,.body-box,.practice');
@@ -535,7 +535,9 @@
   onMount(()=>{try{const prefs=JSON.parse(sessionStorage.getItem('booklet-workspace-v2')??'{}');navigation=false;zoom=prefs.zoom??'width';pageView=prefs.pageView==='multiple'?'multiple':'single';sourceZoom=prefs.sourceZoom??'width';panel='';answerView=['student','short','worked'].includes(prefs.answerView)?prefs.answerView:'student';}catch{}preferencesReady=true;const observer=new ResizeObserver(entries=>workspaceWidth=entries[0].contentRect.width);observer.observe(workspace);const menus=menuGroup(workspace);return()=>{observer.disconnect();menus.destroy();};});
 
   const selectedSection = $derived(project?.sections?.find((section) => section.id === selectedSectionId) ?? project?.sections?.[0] ?? null);
-  const selectedBlock = $derived(selectedSection?.blocks?.find((block) => block.id === selectedBlockId) ?? null);
+  // The flow view resets selectedSectionId to the first section on the visible page, so find the block wherever it lives.
+  const selectedBlockSection = $derived(project?.sections?.find((section) => section.blocks?.some((block) => block.id === selectedBlockId)) ?? null);
+  const selectedBlock = $derived(selectedBlockSection?.blocks.find((block) => block.id === selectedBlockId) ?? null);
   function buildPages(sections = []) {
     const pages = [];
     for (const section of sections) {
@@ -861,11 +863,13 @@
 
   function removeBlock() {
     if (!selectedBlock) return;
-    const next = flexible?flowCommand(project,{type:'delete',ids:[selectedBlock.id]}):deleteProjectBlock(project, selectedSection.id, selectedBlock.id);
+    const next = flexible?flowCommand(project,{type:'delete',ids:[selectedBlock.id],single:true}):deleteProjectBlock(project, selectedBlockSection.id, selectedBlock.id);
+    const sectionId = selectedBlockSection.id;
     change(next);
-    selectedBlockId = next.sections.find((section) => section.id === selectedSection.id)?.blocks?.[0]?.id ?? '';
+    selectedBlockId = next.sections.find((section) => section.id === sectionId)?.blocks?.[0]?.id ?? '';
+    groupSelection = [];
   }
-  function duplicateActiveBlock(){if(!selectedBlock)return;if(!flexible){change(duplicateProjectBlock(project,selectedSection.id,selectedBlock.id));return;}const ids=selectedFlowIds(project,[selectedBlock.id]),last=Math.max(...selectedSection.blocks.map((b,i)=>ids.includes(b.id)?i:-1));change(flowCommand(project,{type:'duplicate',ids,sectionId:selectedSection.id,beforeId:selectedSection.blocks[last+1]?.id}));}
+  function duplicateActiveBlock(){if(!selectedBlock)return;if(!flexible){change(duplicateProjectBlock(project,selectedBlockSection.id,selectedBlock.id));return;}const ids=selectedFlowIds(project,[selectedBlock.id]),last=Math.max(...selectedBlockSection.blocks.map((b,i)=>ids.includes(b.id)?i:-1));change(flowCommand(project,{type:'duplicate',ids,sectionId:selectedBlockSection.id,beforeId:selectedBlockSection.blocks[last+1]?.id}));}
 
   function resizeTable(rows, columns) {
     try { change(resizeFirstProjectTable(project, selectedBlock.id, { rows, columns })); }
@@ -874,7 +878,7 @@
 
   function patchSelected(pointer, value) {
     if (!selectedBlock) return;
-    try { let next=project;const blocks=pointer.startsWith('/sourceAtom/')&&selectedBlock.sourceAtom?selectedSection.blocks.filter(b=>b.sourceAtom?.id===selectedBlock.sourceAtom.id):[selectedBlock];for(const block of blocks)next=updateProjectContent(next,block.id,pointer,value);change(next); }
+    try { let next=project;const blocks=pointer.startsWith('/sourceAtom/')&&selectedBlock.sourceAtom?selectedBlockSection.blocks.filter(b=>b.sourceAtom?.id===selectedBlock.sourceAtom.id):[selectedBlock];for(const block of blocks)next=updateProjectContent(next,block.id,pointer,value);change(next); }
     catch (exception) { error = exception.message; }
   }
 
