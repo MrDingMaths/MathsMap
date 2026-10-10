@@ -27,6 +27,7 @@
   {#if report&&checkedProject!==project}<p>The booklet has changed since this check. Recheck to update the findings.</p>{/if}
   {#if error}<p role="alert">{error}</p>{:else if !report}<p>Run a source comparison when you are ready to review the booklet.</p>{:else}
     <p>{report.counts.verified} verified · {report.counts.excluded} accounted exclusions · {report.issues.length} content findings</p>
+    {#if report.rows.some(row=>row.basis==='authored-addition')}<p>{report.rows.filter(row=>row.basis==='authored-addition'&&row.state==='verified').length} approved authored additions reviewed for mathematics and teaching; these have no source counterpart.</p>{/if}
     <p>Content fidelity: {report.contentComplete?'checked':'needs review'}. Teaching and arrangements: {report.presentation?.required?(report.presentation.complete?'checked':'needs review'):'legacy project'}. Rendered layout: {layoutIssues.length?`${layoutIssues.length} findings`:'use edition checks to verify'}.</p>
     {#each [...report.issues,...layoutIssues.map(i=>({...i,note:i.note??i.message??i.kind,targetId:i.blockId??i.id}))].slice(0,limit) as item}
       <p><button disabled={!item.targetId} onclick={()=>onselect(item.targetId)}>{item.kind}</button> {item.note}</p>

@@ -227,12 +227,16 @@ export async function inspectContentCoverage(project,{assetSignatures={},reviewe
       if(entry.ambiguous&&!reviewed.has(owner)){state='ambiguous';issue(state,entry.targetId,entry.ambiguous);}
       else if(state!=='duplicate'){
         const key=await contentVerificationKey(project,entry,nodes,assetSignatures);
-        state=isLeanReview(project)?'mapped':entry.verification?.signature===key&&entry.verification?.checked===true?'verified':'unchecked';
-        if(state==='unchecked')issue(state,entry.targetId,`Check source p${entry.pageNumber}: ${entry.id}`);
+        const authored=entry.origin==='authored',verification=entry.verification;
+        const signed=verification?.signature===key&&verification?.checked===true;
+        const approved=entry.addition?.approvedBy==='user'&&typeof entry.addition?.date==='string'&&!!entry.addition.date.trim()&&typeof entry.addition?.reason==='string'&&!!entry.addition.reason.trim();
+        const authoredReview=verification?.basis==='authored-addition'&&typeof verification.reviewer==='string'&&!!verification.reviewer.trim()&&typeof verification.checkedAt==='string'&&!!verification.checkedAt.trim()&&['mathematics','teaching'].every(kind=>typeof verification.reviewNotes?.[kind]==='string'&&!!verification.reviewNotes[kind].trim());
+        state=authored?(approved&&signed&&authoredReview?'verified':'unchecked'):verification?.basis==='authored-addition'?'unchecked':isLeanReview(project)?'mapped':signed?'verified':'unchecked';
+        if(state==='unchecked')issue(state,entry.targetId,authored?`Review approved authored addition: ${entry.id}`:`Check source p${entry.pageNumber}: ${entry.id}`);
       }
       for(const id of entry.teachingContextIds??[])if(!nodes.has(id))issue('missing-teaching-context',entry.targetId,`Missing teaching context ${id}`);
     }
-    rows.push({id:entry.id,targetId:entry.targetId,pageNumber:entry.pageNumber,...(entry.runId?{runId:entry.runId}:{}),kind:entry.kind,state});
+    rows.push({id:entry.id,targetId:entry.targetId,pageNumber:entry.pageNumber,...(entry.runId?{runId:entry.runId}:{}),kind:entry.kind,state,...(entry.origin==='authored'?{basis:'authored-addition'}:{})});
   }
   for(const inventory of inventories){
     if(!inventory.entries?.length)issue('missing-inventory',null,`Source ${inventory.runId??project.source?.runId??''} inventory has not been recorded.`);
