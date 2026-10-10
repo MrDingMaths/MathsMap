@@ -215,3 +215,12 @@ test('paragraph continuation keeps equations/tables atomic and never cuts a cust
  p.settings.layoutOverrides.blockLayouts.text={arrangement:{version:1,root:{id:'row',type:'group',direction:'row',children:[{id:'left',type:'item',ref:'text/content#p1'},{id:'right',type:'item',ref:'text/content#p2'}]}}};
  assert.equal((await paginateFlow(p,'student',measured)).issues[0].kind,'oversized-content');
 });
+
+test('deleting one block of a teaching group keeps the rest; a group delete removes it all',()=>{
+ const atom={id:'review',kind:'review',label:'Review',order:1};
+ const project={id:'atom-delete',title:'Book',topics:[{id:'t',title:'Topic'}],settings:{paginationMode:'flexible',layoutOverrides:{blockLayouts:{}}},sections:[{id:'s',topicId:'t',phase:'teaching',blocks:[{id:'intro',type:'rich-text',content:'',sourceAtom:atom},{id:'r1',type:'rich-text',content:'One',sourceAtom:atom},{id:'r2',type:'rich-text',content:'Two',sourceAtom:atom,pairedBlockId:'r3'},{id:'r3',type:'rich-text',content:'Three'}]}]};
+ const ids=p=>p.sections[0].blocks.map(b=>b.id);
+ assert.deepEqual(ids(flowCommand(project,{type:'delete',ids:['intro'],single:true})),['r1','r2','r3']);
+ assert.deepEqual(ids(flowCommand(project,{type:'delete',ids:['r2'],single:true})),['intro','r1']);
+ assert.deepEqual(ids(flowCommand(project,{type:'delete',ids:['intro']})),[]);
+});

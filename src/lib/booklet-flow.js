@@ -53,13 +53,15 @@ export function convertToFlexible(source, { linear = source.id === 'linear-relat
   return preserveLayout ? matchSourceLayout(next,source) : normalizeEditableProject(next);
 }
 
-export function logicalUnits(project, section = null) {
+// `atoms:false` leaves teaching-group members as separate units, so one block
+// can be removed from its group; continuations and pairs still stay together.
+export function logicalUnits(project, section = null, { atoms = true } = {}) {
   const sections = section ? [section] : project.sections;
   const units = [];
   for (const s of sections) for (const block of s.blocks) {
     const continuation = block.flow?.continuationOf ?? block.continuationOf;
     const prior = units.at(-1);
-    if (prior && (continuation && prior.blocks.some(b => b.id === continuation || b.flow?.continuationOf === continuation) || block.sourceAtom?.id && prior.blocks.at(-1).sourceAtom?.id === block.sourceAtom.id || prior.blocks.at(-1).pairedBlockId === block.id)) prior.blocks.push(block);
+    if (prior && (continuation && prior.blocks.some(b => b.id === continuation || b.flow?.continuationOf === continuation) || atoms && block.sourceAtom?.id && prior.blocks.at(-1).sourceAtom?.id === block.sourceAtom.id || prior.blocks.at(-1).pairedBlockId === block.id)) prior.blocks.push(block);
     else units.push({id:block.id,sectionId:s.id,blocks:[block]});
   }
   return units;
@@ -126,9 +128,9 @@ export function exerciseNumbers(project) {
   return result;
 }
 
-export function selectedFlowIds(project, ids) {
+export function selectedFlowIds(project, ids, options) {
   const wanted = new Set(ids);
-  const units=logicalUnits(project),blocks=project.sections.flatMap(s=>s.blocks);
+  const units=logicalUnits(project,null,options),blocks=project.sections.flatMap(s=>s.blocks);
   let changed=true;
   while(changed){const size=wanted.size;
     for(const unit of units)if(unit.blocks.some(b=>wanted.has(b.id)))unit.blocks.forEach(b=>wanted.add(b.id));
@@ -172,7 +174,7 @@ function duplicateBlocks(blocks) {
 
 export function flowCommand(project, command) {
   const next = copy(project);
-  const ids = new Set(selectedFlowIds(project,command.ids ?? []));
+  const ids = new Set(selectedFlowIds(project,command.ids ?? [],{atoms:!command.single}));
   const section = next.sections.find(s => s.id === command.sectionId);
   if (command.type === 'layout') {
     for (const s of next.sections) for (const b of s.blocks) if (ids.has(b.id)) b.flow = {...b.flow,...command.patch};
