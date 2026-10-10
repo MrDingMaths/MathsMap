@@ -21,6 +21,47 @@ export const practiceContinuation=block=>block.type==='question'&&(block.flow?.f
 // Matching endpoints at the end of a row are real columns.
 export const arrangementRowChildren=(node,entries)=>(node.children??[]).filter((child,index)=>index!==0||entries.get(child.ref)?.kind!=='label');
 
+// A short last row keeps the grid's columns, so each part stays under the
+// part above it. The filler is an ordinary empty column.
+const gridFiller=(rowId,index)=>({...group(rowId+':fill:'+index,[]),title:'Empty column'});
+export const isGridFiller=n=>n.type==='group'&&!n.children.length&&/:fill:\d+$/.test(n.id);
+export function gridRows(nodeId,children,columns){
+ const count=Math.max(1,columns||2),rows=[];
+ for(let i=0;i<children.length;i+=count){
+  const id=nodeId+':row:'+i,cells=children.slice(i,i+count);
+  if(rows.length)while(cells.length<count)cells.push(gridFiller(id,cells.length));
+  rows.push(group(id,cells,'row'));
+ }
+ return rows;
+}
+const generatedRow=n=>n.type==='group'&&n.direction==='row'&&/:row:\d+$/.test(n.id);
+// Saved arrangements store their rows. Pad only rows still in generated form:
+// a resized or regrouped row is an explicit spacing decision.
+function padSavedGridRows(node){
+ if(node.type!=='group')return;
+ node.children.forEach(padSavedGridRows);
+ const rows=node.children;
+ if(node.direction==='row'||!node.id.endsWith(':parts')||rows.length<2||!rows.every(generatedRow))return;
+ const count=rows[0].children.length,last=rows.at(-1);
+ if(rows.slice(0,-1).some(row=>row.children.length!==count)||last.children.length>=count)return;
+ if(rows.some(row=>row.children.some(child=>child.weight!=null||child.width!=null)))return;
+ while(last.children.length<count)last.children.push(gridFiller(last.id,last.children.length));
+}
+// Regroup a saved arrangement's parts after its column count changes. Each
+// part keeps its own group, so adjusted gaps and answer spaces survive.
+// Returns null when the parts no longer sit in a generated list or grid.
+export function regridParts(tree,node,columns){
+ const next=JSON.parse(JSON.stringify(tree)),parts=findArrangement(next.root,node.id+':parts');
+ if(!parts)return null;
+ const rows=parts.direction!=='row'&&parts.children.length&&parts.children.every(generatedRow);
+ const cells=(rows?parts.children.flatMap(row=>row.children):parts.children).filter(child=>!isGridFiller(child));
+ if(cells.length!==(node.children??[]).length||cells.some(child=>child.type!=='group'))return null;
+ for(const cell of cells)delete cell.weight;
+ if(columns&&columns<cells.length){parts.direction='stack';parts.children=gridRows(node.id,cells,columns);}
+ else {parts.direction=columns?'row':'stack';parts.children=cells;}
+ return next;
+}
+
 export function arrangementCatalog(block,overrides={},widthMm=180){
  const labels={...teachingLabels([block]),...overrides.labels};
  const entries=new Map(),emptyRefs=new Set();
@@ -60,7 +101,9 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
    // still own the editable answers and table-continuation rows.
    const children=root&&block.flow?.tableOnly===true?[]:allChildren;
    const childGroup=group(n.id+':parts',children,n.layout==='grid'?'row':'stack');
-   if(n.layout==='grid'&&Math.max(1,n.columns||2)<children.length){childGroup.direction='stack';childGroup.children=[];for(let i=0;i<children.length;i+=Math.max(1,n.columns||2))childGroup.children.push(group(n.id+':row:'+i,children.slice(i,i+Math.max(1,n.columns||2)),'row'));}
+   if(n.layout==='grid'&&Math.max(1,n.columns||2)<children.length){childGroup.direction='stack';childGroup.children=gridRows(n.id,children,n.columns);}
+   // The last row of a grid continued on a later page keeps its columns too.
+   else if(n.layout==='grid'&&Number.isInteger(block.flow?.fragment)&&children.length)while(childGroup.children.length<(n.columns||2))childGroup.children.push(gridFiller(n.id+':parts',childGroup.children.length));
    let body;
    if(n.representations){
     const slots=['pattern','table','equation','graph'].map(slot=>group(n.id+':'+slot,[...field(n,'representations/'+slot),...pics.filter(p=>(n.representations.diagramSlots?.[p.ref]??'graph')===slot),...(slot==='equation'?children:[])]));
@@ -154,6 +197,7 @@ export function resolveArrangement(block,stored,overrides={},widthMm=180){
   return !hadChildren||node.children.length>0;
  };
  collapse(tree.root);
+ if(stored)padSavedGridRows(tree.root);
  if(stored){
   const labels={...teachingLabels([block]),...overrides.labels},refs=new Set(arrangementItems(tree.root).map(n=>n.ref));
   const reconcile=node=>{

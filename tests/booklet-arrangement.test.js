@@ -272,7 +272,9 @@ test('native grids preserve full-width one-column rows, two-column defaults and 
   const catalog=arrangementCatalog(block);
   const parts=find(catalog.initial.root,'grid-root:parts');
   assert.equal(parts.direction,'stack',scenario.name);
-  assert.deepEqual(parts.children.map(row=>row.children.map(child=>child.id)),scenario.rows.map(ids=>ids.map(id=>id+':question')),scenario.name);
+  // A short last row is padded with empty columns, so it keeps the grid's width.
+  assert.deepEqual(parts.children.map(row=>row.children.filter(child=>child.children.length).map(child=>child.id)),scenario.rows.map(ids=>ids.map(id=>id+':question')),scenario.name);
+  assert.deepEqual(parts.children.map(row=>row.children.length),scenario.rows.map(()=>scenario.rows[0].length),scenario.name);
   for(const row of parts.children){
    assert.equal(row.direction,'row',scenario.name);
    if(scenario.columns===1){
@@ -296,3 +298,42 @@ test('native grids preserve full-width one-column rows, two-column defaults and 
   assert.equal(JSON.stringify(block),before,scenario.name+' leaves source content unchanged');
  }
 });
+
+import {gridRows,regridParts} from '../src/lib/booklet-arrangement.js';
+import {findArrangement} from '../public/libs/maths-editor/arrangement-model.mjs';
+const gridBlock=(count,columns)=>({id:'b',type:'question',content:{id:'q',prompt:'Work out.',layout:'grid',columns,children:Array.from({length:count},(_,i)=>({id:'p'+i,label:String.fromCharCode(97+i),prompt:'part',children:[]}))}});
+const rowSizes=tree=>findArrangement(tree.root,'q:parts').children.map(row=>row.children.length);
+const partRefs=tree=>arrangementItems(tree.root).map(n=>n.ref).filter(ref=>ref.endsWith('/prompt')&&ref!=='q/prompt');
+test('a short last grid row keeps the columns of the rows above it',()=>{
+ const tree=resolveArrangement(gridBlock(8,3)).tree,rows=findArrangement(tree.root,'q:parts').children;
+ assert.deepEqual(rows.map(row=>row.children.length),[3,3,3]);
+ assert.deepEqual(rows[2].children.map(cell=>cell.children.length>0),[true,true,false]);
+ assert.equal(partRefs(tree).length,8);
+ assert.deepEqual(rowSizes(resolveArrangement(gridBlock(4,2)).tree),[2,2]);
+});
+test('saved generated rows are padded on resolve; resized or regrouped rows are left alone',()=>{
+ const block=gridBlock(8,3),initial=resolveArrangement(block).tree;
+ const saved=copyTree(initial);findArrangement(saved.root,'q:parts').children[2].children.length=2;
+ assert.deepEqual(rowSizes(resolveArrangement(block,saved).tree),[3,3,3]);
+ assert.deepEqual(rowSizes(saved),[3,3,2]);
+ const resized=copyTree(saved);findArrangement(resized.root,'q:parts').children[2].children[0].weight=2;
+ assert.deepEqual(rowSizes(resolveArrangement(block,resized).tree),[3,3,2]);
+ const regrouped=copyTree(saved),parts=findArrangement(regrouped.root,'q:parts');parts.children[1].children.push(parts.children[2].children.pop());
+ assert.deepEqual(rowSizes(resolveArrangement(block,regrouped).tree),[3,4,1]);
+});
+test('changing the column count regroups a saved arrangement and keeps each part',()=>{
+ const block=gridBlock(4,3),saved=resolveArrangement(block).tree;
+ findArrangement(saved.root,'p3:question').gap=5;
+ const next=regridParts(saved,block.content,2);
+ assert.deepEqual(rowSizes(next),[2,2]);
+ assert.equal(findArrangement(next.root,'p3:question').gap,5);
+ assert.deepEqual(partRefs(next),partRefs(saved));
+ assert.deepEqual(rowSizes(saved),[3,3]);
+ const list=regridParts(next,block.content,null),parts=findArrangement(list.root,'q:parts');
+ assert.equal(parts.direction,'stack');assert.equal(parts.children.length,4);
+ assert.deepEqual(rowSizes(regridParts(list,block.content,3)),[3,3]);
+ const custom=copyTree(saved);findArrangement(custom.root,'q:parts').id='custom';
+ assert.equal(regridParts(custom,block.content,2),null);
+ assert.equal(gridRows('q',[1,2,3,4,5].map(i=>group('g'+i,[])),2).at(-1).children.length,2);
+});
+function copyTree(tree){return JSON.parse(JSON.stringify(tree));}

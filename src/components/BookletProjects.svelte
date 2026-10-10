@@ -59,7 +59,7 @@
   import {contentNodes} from '../lib/booklet-content-verification.js';
   import {shareUnchanged} from '../lib/booklet-arrangement.js';
   import {reconcileSaveAcknowledgement} from '../lib/booklet-save-patch.js';
-  import {resolveArrangement,findContent} from '../lib/booklet-arrangement.js';
+  import {resolveArrangement,findContent,regridParts} from '../lib/booklet-arrangement.js';
   import BookletAssemblyPanel from './BookletAssemblyPanel.svelte';
   import { reviewTargets, findEditableDiagram } from '../lib/booklet-review-model.js';
   import { skills, courses } from '../lib/data.js';
@@ -876,6 +876,25 @@
     catch (exception) { error = exception.message; }
   }
 
+  const savedArrangement=blockId=>project.settings.layoutOverrides?.blockLayouts?.[blockId]?.arrangement;
+  // The root and every nested group of parts can be a list or a grid.
+  function partLayoutNodes(block){const nodes=[];const visit=node=>{if(node.children?.length)nodes.push(node);node.children?.forEach(visit);};if(block.content){visit(block.content);if(nodes[0]!==block.content)nodes.unshift(block.content);}return nodes;}
+  // A saved arrangement stores its rows, so regroup them with the content.
+  function setPartLayout(node, value) {
+    const columns=value==='list'?null:Number(value.split(':')[1]);
+    try {
+      let next=updateProjectContent(project,node.id,'/layout',columns?'grid':'list');
+      next=updateProjectContent(next,node.id,'/columns',columns);
+      const saved=savedArrangement(selectedBlock.id);
+      if(saved){
+        const arrangement=regridParts(saved,node,columns);
+        if(!arrangement)throw new Error('These parts have a custom arrangement. Use Detailed arrangement… to move them.');
+        const overrides=next.settings.layoutOverrides;
+        next=updateProjectSettings(next,{layoutOverrides:{...overrides,blockLayouts:{...overrides.blockLayouts,[selectedBlock.id]:{...overrides.blockLayouts[selectedBlock.id],arrangement}}}});
+      }
+      change(next);
+    } catch (exception) { error = exception.message; }
+  }
   function patchSelected(pointer, value) {
     if (!selectedBlock) return;
     try { let next=project;const blocks=pointer.startsWith('/sourceAtom/')&&selectedBlock.sourceAtom?selectedBlockSection.blocks.filter(b=>b.sourceAtom?.id===selectedBlock.sourceAtom.id):[selectedBlock];for(const block of blocks)next=updateProjectContent(next,block.id,pointer,value);change(next); }
@@ -1173,8 +1192,12 @@
             {@const rating=questionDifficulty(selectedBlock)}
             <div data-question-difficulty><strong>Difficulty: {rating?.difficulty??'Not rated'}</strong>{#if rating}<p>Reasoning score: {rating.reasoningScore}/100</p><p>{rating.difficultyReason||'No assessment rationale recorded.'}</p>{/if}</div>
             {#if !selectedBlock.bankRef?.id}<label>Reasoning score<input type="number" min="0" max="100" placeholder="Not rated" value={rating?.reasoningScore??''} onchange={(event) => {const value=event.currentTarget.value;if(value!==''&&event.currentTarget.validity.valid)patchSelected('/classification/reasoningScore', Number(value));}} /></label>{:else}<small>Ratings refresh from the question bank. Edit the assessment in the bank.</small>{/if}
-            <label>Part layout<select value={selectedBlock.content?.layout ?? 'list'} onchange={(event) => { patchSelected('/content/layout', event.currentTarget.value); if (event.currentTarget.value === 'list') patchSelected('/content/columns', null); }}><option value="list">List</option><option value="grid">Grid</option></select></label>
-            {#if selectedBlock.content?.layout === 'grid'}<label>Columns<input type="number" min="2" max="4" value={selectedBlock.content?.columns ?? 2} onchange={(event) => patchSelected('/content/columns', Math.max(2, Math.min(4, Number(event.currentTarget.value))))} /></label>{/if}
+            {#each partLayoutNodes(selectedBlock) as node (node.id)}
+              {@const custom=!!node.children?.length&&!!savedArrangement(selectedBlock.id)&&!regridParts(savedArrangement(selectedBlock.id),node,2)}
+              {@const current=node.layout==='grid'?'grid:'+(node.columns??2):'list'}
+              <label>{node===selectedBlock.content?'Part layout':'Layout of part '+(node.label??'')}<select value={current} disabled={!node.children?.length||custom} onchange={(event) => setPartLayout(node, event.currentTarget.value)}><option value="list">List</option>{#each [2,3,4] as count}<option value={'grid:'+count}>{count} columns</option>{/each}{#if node.layout==='grid'&&node.columns>4}<option value={current}>{node.columns} columns</option>{/if}</select></label>
+              {#if custom}<small>These parts have a custom arrangement. Use Detailed arrangement… to move them.</small>{/if}
+            {/each}
             <fieldset><legend>Parts</legend><div class="row-actions"><button onclick={() => change(resizeQuestionParts(project, selectedBlock.id, 1))}>+ Part</button><button onclick={() => change(resizeQuestionParts(project, selectedBlock.id, -1))} disabled={!selectedBlock.content?.children?.length}>- Part</button></div></fieldset>
             <div class="bank-state"><strong>{selectedBlock.bankRef?.id ? `Bank snapshot: ${selectedBlock.bankRef.id}` : 'Booklet-local question'}</strong><button onclick={inspectPromotion} disabled={!!busy}>Check / promote</button>{#if selectedBlock.bankRef?.id}<button onclick={() => promote('update')}>Update bank question</button>{/if}</div>
             {#if promotion}<div class="promotion"><p>{promotion.candidates.length ? 'Possible bank matches:' : 'No duplicate candidates found.'}</p>{#each promotion.candidates as candidate}<article><span>{candidate.exact ? 'Exact' : candidate.sameQuestion ? (candidate.decided ? 'Same question, kept separate' : 'Same question, different answer') : `${Math.round(candidate.score * 100)}% similar`} · {candidate.title || candidate.id}</span><button onclick={() => promote('link-existing', candidate.id)}>Use existing</button>{#if candidate.sameQuestion && !candidate.exact && !candidate.decided}<button onclick={() => promote('distinct', candidate.id)}>Keep separate</button>{/if}</article>{/each}<button class="primary" disabled={promotion.candidates.some((candidate) => candidate.exact || (candidate.sameQuestion && !candidate.decided))} onclick={() => promote('create')}>Create new bank question</button></div>{/if}

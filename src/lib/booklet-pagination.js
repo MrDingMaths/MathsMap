@@ -1,5 +1,5 @@
 import { logicalUnits, flowEditionSections } from './booklet-flow.js';
-import { resolveArrangement, arrangementCatalog } from './booklet-arrangement.js';
+import { resolveArrangement, arrangementCatalog, isGridFiller } from './booklet-arrangement.js';
 import {paginateCompactAnswers} from './booklet-answer-pagination.js';
 import {paragraphSlice} from './booklet-document-fragments.js';
 import {paginationReuse,samePageCarry} from './booklet-pagination-cache.js';
@@ -176,7 +176,8 @@ export function fragmentLayouts(blocks, layouts={}) {
       const children=n.children.map(prune).filter(Boolean);
       // Empty columns in a saved arrangement reserve intentional layout space.
       // Remove only groups emptied by this fragment's missing content.
-      return n.children.length&&!children.length?null:{...n,children};
+      // A grid row left with only its padding has no content on this page.
+      return n.children.length&&children.every(isGridFiller)?null:{...n,children};
     };
     result[block.id]={...local,...layouts[block.id],arrangement:{...projected,root:prune(projected.root)??{...projected.root,children:[]}}};
   }

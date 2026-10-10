@@ -37,6 +37,12 @@ The supporting comparison found that accepted Operations pages rebuilt regular
 source grids as independent column stacks, leaving rows misaligned between
 columns.
 
+**Part grids (10 October 2026, user requested).** Four parts default to a 2 by 2
+grid unless a spacing reason is recorded. A short last row keeps the grid's
+columns: generated rows are padded with empty columns when the arrangement is
+resolved, and rows resized or regrouped by hand are left as saved. In Studio,
+Properties > Part layout sets the column count and regroups a saved arrangement.
+
 **Paired Worked Example | Your Turn.** Use one question block: a borderless
 one-row heading table ("Worked Example", "Your Turn") in the root prompt, then a
 two-column part grid alternating worked part and your-turn part. Nothing in this
