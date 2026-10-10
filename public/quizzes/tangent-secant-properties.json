@@ -1,7 +1,7 @@
 {
   "skillId": "tangent-secant-properties",
   "questions": [
-    {
+{
       "id": "q1",
       "question_text": "$T$ is the point of contact where tangent $TP$ touches the circle, centre $O$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (T) at (0,2.4);\n\\coordinate (P) at (2.665,2.4);\n\\draw (O) circle (2.4);\n\\fill (O) circle (1.5pt);\n\\node[below left] at (O) {$O$};\n\\draw (O) -- (T) -- (P) -- (O);\n\\node[above left] at (T) {$T$};\n\\node[right] at (P) {$P$};\n\\coordinate (ta) at ($(T)!0.3cm!(O)$);\n\\coordinate (tp) at ($(T)!0.3cm!(P)$);\n\\draw (ta) -- ($(ta)+(tp)-(T)$) -- (tp);\n\\pic[draw, \"$48^{\\circ}$\", angle radius=0.6cm, angle eccentricity=2] {angle=P--O--T};\n\\pic[draw, \"$x$\", angle radius=0.5cm, angle eccentricity=2] {angle=T--P--O};\n\\end{tikzpicture}\n[/tikz]\nFind the value of $x$.",
       "structure": "tangent-radius-angle-sum",
@@ -26,32 +26,32 @@
       ],
       "solution_text": "$\\angle OTP = 90^{\\circ}$ (tangent is perpendicular to the radius at the point of contact)\n$x + 90^{\\circ} + 48^{\\circ} = 180^{\\circ}$ (angle sum of $\\triangle OTP$)\n$x = 42^{\\circ}$"
     },
-    {
+{
       "id": "q2",
       "question_text": "$PT$ and $PQ$ are tangents to the circle, centre $O$, from the external point $P$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, decorations.markings}\n\\tikzset{tickmark/.style={postaction={decorate, decoration={markings, mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}}}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (5,0);\n\\coordinate (T1) at (1.8,2.4);\n\\coordinate (T2) at (1.8,-2.4);\n\\draw (O) circle (3);\n\\fill (O) circle (1.5pt);\n\\node[left] at (O) {$O$};\n\\draw (O) -- (T1);\n\\draw (O) -- (T2);\n\\draw[tickmark] (P) -- (T1) node[midway, above left] {$4\\text{ cm}$};\n\\draw[tickmark] (P) -- (T2);\n\\node[above] at (T1) {$T$};\n\\node[below] at (T2) {$Q$};\n\\node[right] at (P) {$P$};\n\\coordinate (t1o) at ($(T1)!0.25cm!(O)$);\n\\coordinate (t1p) at ($(T1)!0.25cm!(P)$);\n\\draw (t1o) -- ($(t1o)+(t1p)-(T1)$) -- (t1p);\n\\coordinate (t2o) at ($(T2)!0.25cm!(O)$);\n\\coordinate (t2p) at ($(T2)!0.25cm!(P)$);\n\\draw (t2o) -- ($(t2o)+(t2p)-(T2)$) -- (t2p);\n\\end{tikzpicture}\n[/tikz]\nIf $PT = 4\\text{ cm}$, find the length of $PQ$.",
       "structure": "equal-tangent-length-direct",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$4\\text{ cm}$",
           "correct": true
         },
-        {
+{
           "text": "$2\\text{ cm}$",
           "why": "Halved the tangent length instead of applying $PT = PQ$ directly."
         },
-        {
+{
           "text": "$8\\text{ cm}$",
           "why": "Doubled the tangent length instead of applying $PT = PQ$ directly."
         },
-        {
-          "text": "$5\\text{ cm}$",
-          "why": "Used the distance $OP$ instead of the tangent length $PT$."
+{
+          "text": "$16\\text{ cm}$",
+          "why": "Squared the given tangent length, using $4^{2}=16$ instead of $PQ=PT$."
         }
-      ],
+],
       "solution_text": "$PQ = PT$ (tangents drawn to a circle from an external point are equal)\n$PQ = 4\\text{ cm}$"
     },
-    {
+{
       "id": "q3",
       "question_text": "$PT$ and $PQ$ are tangents to the circle, centre $O$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (P) at (0,0);\n\\coordinate (O) at (3.655,0);\n\\coordinate (T1) at (2.145,1.8);\n\\coordinate (T2) at (2.145,-1.8);\n\\draw (O) circle (2.349);\n\\fill (O) circle (1.5pt);\n\\node[right] at (O) {$O$};\n\\draw (O) -- (T1);\n\\draw (O) -- (T2);\n\\draw (P) -- (T1);\n\\draw (P) -- (T2);\n\\draw (T1) -- (T2);\n\\node[above] at (T1) {$T$};\n\\node[below] at (T2) {$Q$};\n\\node[left] at (P) {$P$};\n\\coordinate (t1o) at ($(T1)!0.25cm!(O)$);\n\\coordinate (t1p) at ($(T1)!0.25cm!(P)$);\n\\draw (t1o) -- ($(t1o)+(t1p)-(T1)$) -- (t1p);\n\\coordinate (t2o) at ($(T2)!0.25cm!(O)$);\n\\coordinate (t2p) at ($(T2)!0.25cm!(P)$);\n\\draw (t2o) -- ($(t2o)+(t2p)-(T2)$) -- (t2p);\n\\pic[draw, \"$80^{\\circ}$\", angle radius=0.6cm, angle eccentricity=2] {angle=T2--P--T1};\n\\pic[draw, \"$x$\", angle radius=0.5cm, angle eccentricity=2] {angle=P--T1--T2};\n\\end{tikzpicture}\n[/tikz]\nFind the value of $x$.",
       "structure": "isosceles-apex-base-angle",
@@ -76,32 +76,32 @@
       ],
       "solution_text": "$PT = PQ$ (tangents from an external point are equal)\n$\\triangle TPQ$ is isosceles, so its base angles are equal\n$2x + 80^{\\circ} = 180^{\\circ}$ (angle sum of $\\triangle TPQ$)\n$x = 50^{\\circ}$"
     },
-    {
+{
       "id": "q4",
-      "question_text": "$PT$ and $PQ$ are tangents to the circle, centre $O$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (P) at (0,0);\n\\coordinate (O) at (2.744,0);\n\\coordinate (T1) at (2.099,1.164);\n\\coordinate (T2) at (2.099,-1.164);\n\\draw (O) circle (1.33);\n\\fill (O) circle (1.5pt);\n\\node[right] at (O) {$O$};\n\\draw (O) -- (T1);\n\\draw (O) -- (T2);\n\\draw (P) -- (T1);\n\\draw (P) -- (T2);\n\\node[above] at (T1) {$T$};\n\\node[below] at (T2) {$Q$};\n\\node[left] at (P) {$P$};\n\\coordinate (t1o) at ($(T1)!0.25cm!(O)$);\n\\coordinate (t1p) at ($(T1)!0.25cm!(P)$);\n\\draw (t1o) -- ($(t1o)+(t1p)-(T1)$) -- (t1p);\n\\coordinate (t2o) at ($(T2)!0.25cm!(O)$);\n\\coordinate (t2p) at ($(T2)!0.25cm!(P)$);\n\\draw (t2o) -- ($(t2o)+(t2p)-(T2)$) -- (t2p);\n\\pic[draw, \"$58^{\\circ}$\", angle radius=0.5cm, angle eccentricity=2] {angle=T2--P--T1};\n\\pic[draw, \"$x$\", angle radius=0.6cm, angle eccentricity=2] {angle=T1--O--T2};\n\\end{tikzpicture}\n[/tikz]\nFind the value of $x$.",
-      "structure": "quadrilateral-angle-supplementary",
+      "question_text": "$PT$ and $PQ$ are tangents to a circle, centre $O$. The smaller angle $\\angle TOQ = 136^{\\circ}$. Find $\\angle TPQ$.",
+      "structure": "centre-angle-to-tangent-angle",
       "mastery": false,
       "options": [
-        {
-          "text": "$122^{\\circ}$",
+{
+          "text": "$44^{\\circ}$",
           "correct": true
         },
-        {
-          "text": "$58^{\\circ}$",
-          "why": "Copied the apex angle instead of using the supplementary relationship."
+{
+          "text": "$136^{\\circ}$",
+          "why": "Copied the centre angle instead of subtracting it from $180^{\\circ}$."
         },
-        {
-          "text": "$32^{\\circ}$",
-          "why": "Subtracted the given angle from $90^{\\circ}$ instead of the full quadrilateral sum."
+{
+          "text": "$22^{\\circ}$",
+          "why": "Halved $180^{\\circ}-136^{\\circ}=44^{\\circ}$, giving half the angle between the tangents."
         },
-        {
-          "text": "$238^{\\circ}$",
-          "why": "Added the given angle to $180^{\\circ}$ instead of subtracting it."
+{
+          "text": "$224^{\\circ}$",
+          "why": "Subtracted $136^{\\circ}$ from $360^{\\circ}$ but forgot the two tangent-radius right angles."
         }
-      ],
-      "solution_text": "$\\angle OTP = \\angle OQP = 90^{\\circ}$ (tangents meet radii at $90^{\\circ}$)\n$x + 90^{\\circ} + 90^{\\circ} + 58^{\\circ} = 360^{\\circ}$ (angle sum of quadrilateral $OTPQ$)\n$x = 122^{\\circ}$"
+],
+      "solution_text": "$\\angle OTP = \\angle OQP = 90^{\\circ}$ (tangents meet radii at $90^{\\circ}$)\n$\\angle TPQ + 90^{\\circ} + 90^{\\circ} + 136^{\\circ} = 360^{\\circ}$ (angle sum of quadrilateral $OTPQ$)\n$\\angle TPQ = 44^{\\circ}$"
     },
-    {
+{
       "id": "q5",
       "question_text": "$T$ is the point of contact of tangent $TP$ to the circle, centre $O$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (T) at (0,6);\n\\coordinate (P) at (8,6);\n\\draw (O) circle (6);\n\\fill (O) circle (1.5pt);\n\\node[below left] at (O) {$O$};\n\\draw (O) -- (T) node[midway, left] {$6\\text{ cm}$};\n\\draw (T) -- (P) node[midway, above] {$8\\text{ cm}$};\n\\draw (O) -- (P) node[midway, below right] {$x$};\n\\node[above left] at (T) {$T$};\n\\node[right] at (P) {$P$};\n\\coordinate (ta) at ($(T)!0.3cm!(O)$);\n\\coordinate (tp) at ($(T)!0.3cm!(P)$);\n\\draw (ta) -- ($(ta)+(tp)-(T)$) -- (tp);\n\\end{tikzpicture}\n[/tikz]\nFind the length of $x$.",
       "structure": "pythagoras-tangent-length",
@@ -126,85 +126,85 @@
       ],
       "solution_text": "$\\angle OTP = 90^{\\circ}$ (tangent is perpendicular to the radius at the point of contact)\n$x^{2} = 6^{2} + 8^{2}$ (Pythagoras' theorem in $\\triangle OTP$)\n$x^{2} = 100$\n$x = 10\\text{ cm}$"
     },
-    {
+{
       "id": "q6",
-      "question_text": "$PT$ and $PQ$ are tangents to the circle, centre $O$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (P) at (0,0);\n\\coordinate (O) at (3.633,0);\n\\coordinate (T1) at (2.006,1.807);\n\\coordinate (T2) at (2.006,-1.807);\n\\draw (O) circle (2.431);\n\\fill (O) circle (1.5pt);\n\\node[right] at (O) {$O$};\n\\draw (O) -- (T1);\n\\draw (O) -- (T2);\n\\draw (P) -- (T1);\n\\draw (P) -- (T2);\n\\draw (T1) -- (T2);\n\\node[above] at (T1) {$T$};\n\\node[below] at (T2) {$Q$};\n\\node[left] at (P) {$P$};\n\\coordinate (t1o) at ($(T1)!0.25cm!(O)$);\n\\coordinate (t1p) at ($(T1)!0.25cm!(P)$);\n\\draw (t1o) -- ($(t1o)+(t1p)-(T1)$) -- (t1p);\n\\coordinate (t2o) at ($(T2)!0.25cm!(O)$);\n\\coordinate (t2p) at ($(T2)!0.25cm!(P)$);\n\\draw (t2o) -- ($(t2o)+(t2p)-(T2)$) -- (t2p);\n\\pic[draw, \"$48^{\\circ}$\", angle radius=0.5cm, angle eccentricity=2] {angle=P--T1--T2};\n\\pic[draw, \"$x$\", angle radius=0.6cm, angle eccentricity=2] {angle=T2--P--T1};\n\\end{tikzpicture}\n[/tikz]\nFind the value of $x$.",
-      "structure": "isosceles-base-to-apex-chain",
+      "question_text": "$PT$ and $PQ$ are tangents to a circle from $P$, and $\\angle TPQ = 54^{\\circ}$. Find $\\angle PTQ$.",
+      "structure": "isosceles-apex-base-angle",
       "mastery": false,
       "options": [
-        {
-          "text": "$84^{\\circ}$",
+{
+          "text": "$63^{\\circ}$",
           "correct": true
         },
-        {
-          "text": "$48^{\\circ}$",
-          "why": "Copied the base angle instead of using the angle sum of the triangle."
+{
+          "text": "$126^{\\circ}$",
+          "why": "Calculated $180^{\\circ}-54^{\\circ}$ but forgot to divide equally between the two base angles."
         },
-        {
-          "text": "$132^{\\circ}$",
-          "why": "Subtracted only one base angle from $180^{\\circ}$ instead of two."
+{
+          "text": "$27^{\\circ}$",
+          "why": "Halved the given apex angle instead of the sum of the base angles."
         },
-        {
-          "text": "$96^{\\circ}$",
-          "why": "Doubled the base angle but forgot to subtract the result from $180^{\\circ}$."
+{
+          "text": "$54^{\\circ}$",
+          "why": "Assumed a base angle equals the given apex angle."
         }
-      ],
-      "solution_text": "$PT = PQ$ (tangents from an external point are equal), so $\\triangle TPQ$ is isosceles\n$\\angle PTQ = \\angle PQT = 48^{\\circ}$ (base angles of isosceles triangle)\n$x + 48^{\\circ} + 48^{\\circ} = 180^{\\circ}$ (angle sum of $\\triangle TPQ$)\n$x = 84^{\\circ}$"
+],
+      "solution_text": "$PT = PQ$ (tangents from an external point are equal), so $\\triangle TPQ$ is isosceles\n$\\angle PTQ = \\angle PQT$ (base angles of an isosceles triangle)\n$2\\angle PTQ + 54^{\\circ} = 180^{\\circ}$ (angle sum of $\\triangle TPQ$)\n$\\angle PTQ = 63^{\\circ}$"
     },
-    {
+{
       "id": "q7",
-      "question_text": "$PT$ and $PQ$ are tangents to the circle, centre $O$, from the external point $P$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.5]\n\\usetikzlibrary{calc, decorations.markings}\n\\tikzset{tickmark/.style={postaction={decorate, decoration={markings, mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}}}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (17,0);\n\\coordinate (T1) at (3.765,7.059);\n\\coordinate (T2) at (3.765,-7.059);\n\\draw (O) circle (8);\n\\fill (O) circle (1.5pt);\n\\node[left] at (O) {$O$};\n\\draw (O) -- (T1);\n\\draw (O) -- (T2);\n\\draw[tickmark] (P) -- (T1) node[midway, above left] {$2x+5$};\n\\draw[tickmark] (P) -- (T2) node[midway, below left] {$4x-9$};\n\\node[above] at (T1) {$T$};\n\\node[below] at (T2) {$Q$};\n\\node[right] at (P) {$P$};\n\\coordinate (t1o) at ($(T1)!0.25cm!(O)$);\n\\coordinate (t1p) at ($(T1)!0.25cm!(P)$);\n\\draw (t1o) -- ($(t1o)+(t1p)-(T1)$) -- (t1p);\n\\coordinate (t2o) at ($(T2)!0.25cm!(O)$);\n\\coordinate (t2p) at ($(T2)!0.25cm!(P)$);\n\\draw (t2o) -- ($(t2o)+(t2p)-(T2)$) -- (t2p);\n\\end{tikzpicture}\n[/tikz]\nFind the length of $PQ$.",
-      "structure": "algebraic-tangent-lengths",
+      "question_text": "$PA$ and $PB$ are tangents to a circle from the external point $P$. If $PB = 14.6\\text{ cm}$, find the length of $PA$.",
+      "structure": "equal-tangent-length-direct",
       "mastery": false,
       "options": [
-        {
-          "text": "$19\\text{ cm}$",
+{
+          "text": "$14.6\\text{ cm}$",
           "correct": true
         },
-        {
-          "text": "$7\\text{ cm}$",
-          "why": "Solved for $x$ but gave its value instead of the tangent length."
+{
+          "text": "$7.3\\text{ cm}$",
+          "why": "Halved $14.6\\text{ cm}$ instead of using equal tangent lengths."
         },
-        {
-          "text": "$1\\text{ cm}$",
-          "why": "Made a sign error when collecting the $x$ terms, giving $x=-2$."
+{
+          "text": "$29.2\\text{ cm}$",
+          "why": "Doubled $14.6\\text{ cm}$ instead of using equal tangent lengths."
         },
-        {
-          "text": "$33\\text{ cm}$",
-          "why": "Substituted $x=7$ into $4x+5$ instead of the correct expression $4x-9$."
+{
+          "text": "$213.16\\text{ cm}$",
+          "why": "Squared $14.6$, giving $14.6^{2}=213.16$, instead of using $PA=PB$."
         }
-      ],
-      "solution_text": "$PT = PQ$ (tangents from an external point are equal)\n$2x + 5 = 4x - 9$\n$14 = 2x$\n$x = 7$\n$PQ = 4(7) - 9 = 19\\text{ cm}$"
+],
+      "solution_text": "$PA = PB$ (tangents drawn to a circle from an external point are equal)\n$PA = 14.6\\text{ cm}$"
     },
-    {
+{
       "id": "q8",
-      "question_text": "$PT$ and $PQ$ are tangents to the circle, centre $O$, from the external point $P$.\nThe proof that $\\triangle PTO \\equiv \\triangle PQO$ uses the RHS test.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\usetikzlibrary{calc, decorations.markings}\n\\tikzset{tickmark/.style={postaction={decorate, decoration={markings, mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}}}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (25,0);\n\\coordinate (T1) at (1.96,6.72);\n\\coordinate (T2) at (1.96,-6.72);\n\\draw (O) circle (7);\n\\fill (O) circle (1.5pt);\n\\node[left] at (O) {$O$};\n\\draw (O) -- (T1);\n\\draw (O) -- (T2);\n\\draw[tickmark] (P) -- (T1);\n\\draw[tickmark] (P) -- (T2);\n\\node[above] at (T1) {$T$};\n\\node[below] at (T2) {$Q$};\n\\node[right] at (P) {$P$};\n\\coordinate (t1o) at ($(T1)!0.25cm!(O)$);\n\\coordinate (t1p) at ($(T1)!0.25cm!(P)$);\n\\draw (t1o) -- ($(t1o)+(t1p)-(T1)$) -- (t1p);\n\\coordinate (t2o) at ($(T2)!0.25cm!(O)$);\n\\coordinate (t2p) at ($(T2)!0.25cm!(P)$);\n\\draw (t2o) -- ($(t2o)+(t2p)-(T2)$) -- (t2p);\n\\end{tikzpicture}\n[/tikz]\nWhich reason justifies the statement $OT = OQ$ in this proof?",
-      "structure": "rhs-congruence-proof",
+      "question_text": "$PT$ and $PQ$ are tangents to a circle, centre $O$. The reflex angle $\\angle TOQ = 237^{\\circ}$. Find $\\angle TPQ$.",
+      "structure": "reflex-centre-angle-to-tangent-angle",
       "mastery": true,
       "options": [
-        {
-          "text": "Equal radii of the circle.",
+{
+          "text": "$57^{\\circ}$",
           "correct": true
         },
-        {
-          "text": "Given in the diagram.",
-          "why": "OT and OQ are equal because they are radii, not because a length is marked as given."
+{
+          "text": "$123^{\\circ}$",
+          "why": "Calculated the smaller centre angle $360^{\\circ}-237^{\\circ}=123^{\\circ}$ but gave it as the angle between the tangents."
         },
-        {
-          "text": "Common side shared by both triangles.",
-          "why": "OT and OQ are two different radii, not a single side shared by both triangles."
+{
+          "text": "$28.5^{\\circ}$",
+          "why": "Halved the correct angle $57^{\\circ}$, giving half the angle between the tangents."
         },
-        {
-          "text": "Corresponding sides of congruent triangles.",
-          "why": "This reason applies after congruence is proven, not as a step in proving it."
+{
+          "text": "$303^{\\circ}$",
+          "why": "Added $180^{\\circ}$ to the smaller centre angle $123^{\\circ}$ instead of subtracting it from $180^{\\circ}$."
         }
-      ],
-      "solution_text": "In $\\triangle PTO$ and $\\triangle PQO$:\n$\\angle OTP = \\angle OQP = 90^{\\circ}$ (tangents meet radii at $90^{\\circ}$)\n$OT = OQ$ (equal radii)\n$OP = OP$ (common)\n$\\therefore \\triangle PTO \\equiv \\triangle PQO$ (RHS)"
+],
+      "solution_text": "The smaller angle $\\angle TOQ = 360^{\\circ} - 237^{\\circ} = 123^{\\circ}$ (angles at a point)\n$\\angle OTP = \\angle OQP = 90^{\\circ}$ (tangents meet radii at $90^{\\circ}$)\n$\\angle TPQ + 90^{\\circ} + 90^{\\circ} + 123^{\\circ} = 360^{\\circ}$ (angle sum of quadrilateral $OTPQ$)\n$\\angle TPQ = 57^{\\circ}$"
     },
-    {
+{
       "id": "q9",
       "question_text": "$PT$ and $PQ$ are tangents to the circle, centre $O$, and $\\angle TOQ = 112^{\\circ}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.42]\n\\usetikzlibrary{calc, decorations.markings}\n\\tikzset{tickmark/.style={postaction={decorate, decoration={markings, mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}}}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (8.941,0);\n\\coordinate (T1) at (2.796,4.145);\n\\coordinate (T2) at (2.796,-4.145);\n\\draw (O) circle (5);\n\\fill (O) circle (1.5pt);\n\\node[left] at (O) {$O$};\n\\draw (O) -- (T1);\n\\draw (O) -- (T2);\n\\draw (P) -- (T1);\n\\draw (P) -- (T2);\n\\node[above] at (T1) {$T$};\n\\node[below] at (T2) {$Q$};\n\\node[right] at (P) {$P$};\n\\coordinate (t1o) at ($(T1)!0.25cm!(O)$);\n\\coordinate (t1p) at ($(T1)!0.25cm!(P)$);\n\\draw (t1o) -- ($(t1o)+(t1p)-(T1)$) -- (t1p);\n\\coordinate (t2o) at ($(T2)!0.25cm!(O)$);\n\\coordinate (t2p) at ($(T2)!0.25cm!(P)$);\n\\draw (t2o) -- ($(t2o)+(t2p)-(T2)$) -- (t2p);\n\\pic[draw, \"$112^{\\circ}$\", angle radius=0.6cm, angle eccentricity=2] {angle=T2--O--T1};\n\\end{tikzpicture}\n[/tikz]\nFind $\\angle TPQ$.",
-      "structure": "combined-pythagoras-quadrilateral",
+      "structure": "centre-angle-to-tangent-angle",
       "mastery": true,
       "options": [
         {
@@ -226,5 +226,5 @@
       ],
       "solution_text": "$\\angle OTP = \\angle OQP = 90^{\\circ}$ (tangents meet radii at $90^{\\circ}$)\n$\\angle TPQ + 90^{\\circ} + 90^{\\circ} + 112^{\\circ} = 360^{\\circ}$ (angle sum of quadrilateral $OTPQ$)\n$\\angle TPQ = 68^{\\circ}$"
     }
-  ]
+]
 }

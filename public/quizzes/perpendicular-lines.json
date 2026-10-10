@@ -1,7 +1,7 @@
 {
   "skillId": "perpendicular-lines",
   "questions": [
-    {
+{
       "id": "q1",
       "question_text": "Which statement matches the diagram?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw (-2,0) node[left] {$A$}--(2,0) node[right] {$B$}; \\draw (0,-2) node[below] {$C$}--(0,2) node[above] {$D$}; \\draw (0.32,0)--(0.32,0.32)--(0,0.32);\n\\end{tikzpicture}\n[/tikz]",
       "structure": "read-perpendicular-symbol",
@@ -26,7 +26,7 @@
       ],
       "solution_text": "The square shows that $AB$ and $CD$ meet at $90^{\\circ}$.\n$AB \\perp CD$"
     },
-    {
+{
       "id": "q2",
       "question_text": "Are lines $p$ and $q$ perpendicular?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw (-2.2,0)--(2.2,0) node[right] {$p$}; \\draw (255:2.1)--(75:2.1) node[above] {$q$}; \\node at (35:0.95) {$75^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
       "structure": "reject-ninety-mismatch",
@@ -39,7 +39,7 @@
       ],
       "solution_text": "Perpendicular lines must meet at $90^{\\circ}$.\nThe marked angle is $75^{\\circ}$, so $p$ and $q$ are not perpendicular."
     },
-    {
+{
       "id": "q3",
       "question_text": "Which pair of sides is perpendicular in rectangle $JKLM$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw (0,0) node[below left] {$J$}--(3,0) node[below right] {$K$}--(3,1.8) node[above right] {$L$}--(0,1.8) node[above left] {$M$}--cycle;\n\\end{tikzpicture}\n[/tikz]",
       "structure": "select-adjacent-rectangle-sides",
@@ -64,44 +64,56 @@
       ],
       "solution_text": "$JK$ and $KL$ meet at the rectangle's right-angle corner $K$.\n$JK \\perp KL$"
     },
-    {
+{
       "id": "q4",
-      "question_text": "What does the small square at $O$ tell you?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw (-2,-1) node[left] {$E$}--(2,1) node[right] {$F$}; \\draw (-1,2) node[above] {$G$}--(1,-2) node[below] {$H$}; \\node[below left] at (0,0) {$O$};\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0); \\coordinate (A) at ($(O)!0.3cm!(2,1)$); \\coordinate (B) at ($(O)!0.3cm!(-1,2)$); \\draw (A)--($(A)+(B)-(O)$)--(B);\n\\end{tikzpicture}\n[/tikz]",
-      "structure": "interpret-right-angle-mark",
+      "question_text": "Which pair of lines is perpendicular in the diagram?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw (-2,-1) node[left] {$E$}--(2,1) node[right] {$F$}; \\draw (-1,2) node[above] {$G$}--(1,-2) node[below] {$H$}; \\node[below left] at (0,0) {$O$};\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0); \\coordinate (A) at ($(O)!0.3cm!(2,1)$); \\coordinate (B) at ($(O)!0.3cm!(-1,2)$); \\draw (A)--($(A)+(B)-(O)$)--(B);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "identify-marked-perpendicular-pair",
       "mastery": false,
       "options": [
-        {"text": "The lines have equal lengths", "why": "Treats an angle square as an equal-length marking."},
-        {"text": "The lines meet at $45^{\\circ}$", "why": "Halves the right angle because two lines are involved."},
-        {"text": "The lines meet at $90^{\\circ}$", "correct": true},
-        {"text": "The lines do not intersect", "why": "Ignores that the marked vertex O is the visible intersection."}
-      ],
-      "solution_text": "A small square marks a right angle.\nThe lines meet at $90^{\\circ}$ and are perpendicular."
+{
+"text": "$EF$ and $GH$",
+"correct": true
+},
+{"text": "$EO$ and $OF$", "why": "Chooses two parts of the same straight line instead of the two lines meeting at a right angle."},
+{
+"text": "$GO$ and $OH$",
+"why": "Chooses two parts of the same straight line and mistakes their straight angle for a right angle."
+},
+{"text": "$EG$ and $FH$", "why": "Joins endpoints from different drawn lines instead of naming the lines at the marked right angle."}
+],
+      "solution_text": "The square shows that $EF$ and $GH$ meet at $90^{\\circ}$.\n$EF \\perp GH$"
     },
-    {
+{
       "id": "q5",
-      "question_text": "A horizontal line and a vertical line are extended until they meet.\nWhat must be true?",
-      "structure": "infer-perpendicular-from-directions",
+      "question_text": "The diagram is drawn on a square grid. Which statement is true? Consider the full lines if the segments are extended.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw[step=0.5,gray!35,thin] (-2.5,-2) grid (2.5,2);\n\\draw[thick] (-2,-1.5) node[below] {$J$}--(-2,1.5) node[above] {$K$};\n\\draw[thick] (0,0.5) node[above] {$L$}--(2,0.5) node[above] {$M$};\n\\draw[thick] (-1.5,-1.5) node[below] {$N$}--(1.5,1.5) node[above] {$P$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "identify-disjoint-perpendicular-lines-on-square-grid",
       "mastery": true,
       "options": [
-        {"text": "They are parallel", "why": "Confuses two different compass directions with lines running in the same direction."},
-        {"text": "They are perpendicular", "correct": true},
-        {"text": "They meet at $180^{\\circ}$", "why": "Uses a straight-angle value instead of the right angle between horizontal and vertical."},
-        {"text": "Their angle cannot be known", "why": "Misses that horizontal and vertical directions always form a right angle."}
-      ],
-      "solution_text": "Horizontal and vertical directions form a $90^{\\circ}$ angle.\nThe lines are perpendicular."
+{"text": "$JK \\parallel LM$", "why": "Treats segments that do not touch as parallel despite their different grid directions."},
+{"text": "$JK \\perp LM$", "correct": true},
+{"text": "$JK \\perp NP$", "why": "Treats the sloping line as perpendicular to the vertical line without checking for a right angle."},
+{"text": "$LM \\perp NP$", "why": "Treats the sloping line as perpendicular to the horizontal line even though their crossing is not a right angle."}
+],
+      "solution_text": "On the square grid, $JK$ follows a vertical grid line and $LM$ follows a horizontal grid line. Their full lines meet at $90^{\\circ}$.\n$JK \\perp LM$"
     },
-    {
+{
       "id": "q6",
-      "question_text": "Given $r \\perp s$ and $s \\perp t$, which conclusion is correct?",
-      "structure": "two-lines-perpendicular-to-same-line",
+      "question_text": "Which line is perpendicular to all three lines $AB$, $CD$ and $EF$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw (-2,1.5) node[left] {$A$}--(2,1.5) node[right] {$B$};\n\\draw (-2,0) node[left] {$C$}--(2,0) node[right] {$D$};\n\\draw (-2,-1.5) node[left] {$E$}--(2,-1.5) node[right] {$F$};\n\\draw (-0.7,2.2) node[above] {$G$}--(-0.7,-2.2) node[below] {$H$};\n\\draw (0.2,-2.2) node[below] {$J$}--(1.5,2.2) node[above] {$K$};\n\\draw (-0.4,1.5)--(-0.4,1.8)--(-0.7,1.8);\n\\draw (-0.4,0)--(-0.4,0.3)--(-0.7,0.3);\n\\draw (-0.4,-1.5)--(-0.4,-1.2)--(-0.7,-1.2);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "identify-line-perpendicular-to-three-named-lines",
       "mastery": true,
       "options": [
-        {"text": "$r \\perp t$", "why": "Chains the perpendicular symbols as though perpendicularity were transitive."},
-        {"text": "$r \\parallel t$", "correct": true},
-        {"text": "$r=t$", "why": "Treats line relationships as an equality of the line names."},
-        {"text": "$r$ and $t$ meet at $45^{\\circ}$", "why": "Halves a right angle without any geometric reason."}
-      ],
-      "solution_text": "Both $r$ and $t$ make a $90^{\\circ}$ angle with $s$.\nTherefore $r$ and $t$ run in the same direction, so $r \\parallel t$."
+{
+"text": "$GH$",
+"correct": true
+},
+{
+"text": "$JK$",
+"why": "Chooses a line that crosses all three lines without checking that its angles are right angles."
+},
+{"text": "$AB$", "why": "Chooses one of the three horizontal lines instead of the line meeting each at a right angle."},
+{"text": "$CD$", "why": "Chooses the middle horizontal line because it meets the vertical line, reversing which line must be perpendicular to all three."}
+],
+      "solution_text": "The square marks show that $GH$ meets $AB$, $CD$ and $EF$ at right angles.\nThe line is $GH$."
     }
-  ]
+]
 }

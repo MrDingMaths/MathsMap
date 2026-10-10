@@ -1,33 +1,33 @@
 {
   "skillId": "area-applications",
   "questions": [
-    {
+{
       "id": "q1",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0,0) -- plot[domain=0:3,smooth,variable=\\x] ({1.3*\\x},{0.1*(3*\\x*\\x+2)}) -- (3.9,0) -- cycle;\n\\draw[->] (-0.4,0) -- (5.0,0);\n\\draw[->] (0,-0.4) -- (0,3.6);\n\\draw[thick,domain=0:3,smooth,variable=\\x] plot ({1.3*\\x},{0.1*(3*\\x*\\x+2)});\n\\foreach \\t in {1,2,3} \\draw ({1.3*\\t},0.1) -- ({1.3*\\t},-0.1) node[below,font=\\footnotesize] {$\\t$};\n\\foreach \\p/\\lab in {1/10,2/20,3/30} \\draw (0.1,\\p) -- (-0.1,\\p) node[left,font=\\footnotesize] {$\\lab$};\n\\node[below] at (1.95,-0.85) {Time $t$ (seconds)};\n\\node[rotate=90] at (-1.4,1.6) {Velocity $v$ (m/s)};\n\\end{tikzpicture}\n[/tikz]\nA cyclist has velocity $v=3t^{2}+2$ metres per second for $0\\le t\\le 3$ seconds.\nHow far does the cyclist travel in those $3$ seconds?",
-      "structure": "distance-from-velocity",
+      "question_text": "A cyclist moves in the positive direction along a straight road. The cyclist's velocity is measured at the following times.\n\n| $t$ (seconds) | $0$ | $1$ | $2$ | $3$ |\n| --- | --- | --- | --- | --- |\n| $v$ (m/s) | $2$ | $5$ | $8$ | $11$ |\n\nUsing the trapezoidal rule, what is the estimated distance travelled in the first $3$ seconds?",
+      "structure": "distance-from-tabulated-velocity",
       "mastery": false,
       "options": [
-        { "text": "$33\\text{ m}$", "correct": true },
-        { "text": "$33\\text{ m}^{2}$", "why": "Correct integral, but reported an area in square metres; the area under a velocity–time graph is a distance in metres." },
-        { "text": "$29\\text{ m}$", "why": "Substituted $t=3$ into the velocity rule instead of integrating it." },
-        { "text": "$29\\text{ m}^{2}$", "why": "Substituted into the velocity rule and also gave square metres instead of metres." }
-      ],
-      "solution_text": "The distance travelled is the area under the velocity–time graph.\n$\\int_{0}^{3}\\left(3t^{2}+2\\right)dt$\n$=\\left[t^{3}+2t\\right]_{0}^{3}$\n$=27+6$\n$=33\\text{ m}$"
+{ "text": "$19.5\\text{ m}$", "correct": true },
+{ "text": "$13\\text{ m}$", "why": "Did not double the interior velocities: $\\frac12(2+5+8+11)=13$." },
+{ "text": "$39\\text{ m}$", "why": "Omitted the factor $\\frac12$ from the trapezoidal rule." },
+{ "text": "$33\\text{ m}$", "why": "Multiplied the final velocity $11\\text{ m/s}$ by $3$ seconds, treating the velocity as constant." }
+],
+      "solution_text": "The velocity is nonnegative, so the area under the velocity–time graph gives distance.\n$h=1$\nDistance $\\approx\\frac12\\left(2+11+2(5+8)\\right)$\n$=\\frac12(39)$\n$=19.5\\text{ m}$"
     },
-    {
+{
       "id": "q2",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0,0) -- (0,1.05) -- (4.2,2.73) -- (4.2,0) -- cycle;\n\\draw[->] (-0.4,0) -- (5.3,0);\n\\draw[->] (0,-0.4) -- (0,3.6);\n\\draw[thick] (0,1.05) -- (4.2,2.73);\n\\foreach \\t in {1,2,3,4,5,6} \\draw ({0.7*\\t},0.1) -- ({0.7*\\t},-0.1) node[below,font=\\footnotesize] {$\\t$};\n\\foreach \\p/\\lab in {0.7/10,1.4/20,2.1/30} \\draw (0.1,\\p) -- (-0.1,\\p) node[left,font=\\footnotesize] {$\\lab$};\n\\node[below] at (2.1,-0.85) {Time $t$ (minutes)};\n\\node[rotate=90] at (-1.4,1.6) {Rate $R$ (litres/min)};\n\\end{tikzpicture}\n[/tikz]\nPetrol flows into a tank at a rate of $R=15+4t$ litres per minute, for $0\\le t\\le 6$ minutes.\nHow much petrol enters the tank in those $6$ minutes?",
-      "structure": "total-from-rate",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0,0) -- (0,1.05) -- (4.2,2.73) -- (4.2,0) -- cycle;\n\\draw[->] (-0.4,0) -- (5.3,0);\n\\draw[->] (0,-0.4) -- (0,3.6);\n\\draw[thick] (0,1.05) -- (4.2,2.73);\n\\foreach \\t in {1,2,3,4,5,6} \\draw ({0.7*\\t},0.1) -- ({0.7*\\t},-0.1) node[below,font=\\footnotesize] {$\\t$};\n\\foreach \\p/\\lab in {0.7/10,1.4/20,2.1/30} \\draw (0.1,\\p) -- (-0.1,\\p) node[left,font=\\footnotesize] {$\\lab$};\n\\node[below] at (2.1,-0.85) {Time $t$ (minutes)};\n\\node[rotate=90] at (-1.4,1.6) {Rate $R$ (litres/min)};\n\\end{tikzpicture}\n[/tikz]\nA tank initially contains $100$ litres of petrol. Petrol flows into it at a rate of $R=15+4t$ litres per minute, for $0\\le t\\le 6$ minutes.\nHow much petrol is in the tank after $6$ minutes?",
+      "structure": "final-amount-from-rate",
       "mastery": false,
       "options": [
-        { "text": "$162$ litres", "correct": true },
-        { "text": "$39$ litres", "why": "Substituted $t=6$ into the rate rule, giving a rate rather than a total volume." },
-        { "text": "$90$ litres", "why": "Integrated only the constant term $15$ and ignored the $4t$ term." },
-        { "text": "$234$ litres", "why": "Multiplied the final rate of $39$ litres per minute by the $6$ minutes, treating the rate as constant." }
-      ],
-      "solution_text": "The volume added is the area under the rate–time graph.\n$\\int_{0}^{6}(15+4t)\\,dt$\n$=\\left[15t+2t^{2}\\right]_{0}^{6}$\n$=90+72$\n$=162\\text{ L}$"
+{ "text": "$262$ litres", "correct": true },
+{ "text": "$139$ litres", "why": "Added the final rate $15+4(6)=39$ to the initial $100$ litres instead of integrating the rate." },
+{ "text": "$190$ litres", "why": "Integrated only the constant term $15$, giving $90$ litres added, then added the initial $100$ litres." },
+{ "text": "$334$ litres", "why": "Multiplied the final rate $39$ litres per minute by $6$ minutes, then added the initial $100$ litres." }
+],
+      "solution_text": "The volume added is the area under the rate–time graph.\nVolume added $=\\int_{0}^{6}(15+4t)\\,dt$\n$=\\left[15t+2t^{2}\\right]_{0}^{6}$\n$=90+72$\n$=162\\text{ L}$\nFinal volume $=100+162=262\\text{ L}$"
     },
-    {
+{
       "id": "q3",
       "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (-2.2,0) -- plot[domain=-2:2,smooth,variable=\\x] ({1.1*\\x},{0.17*(16-4*\\x*\\x)}) -- (2.2,0) -- cycle;\n\\draw[->] (-3.2,0) -- (3.4,0) node[right] {$x$};\n\\draw[->] (0,-0.5) -- (0,3.7) node[above] {$y$};\n\\draw[thick,domain=-2:2,smooth,variable=\\x] plot ({1.1*\\x},{0.17*(16-4*\\x*\\x)});\n\\draw (-2.2,0.1) -- (-2.2,-0.1) node[below,font=\\footnotesize] {$-2$};\n\\draw (2.2,0.1) -- (2.2,-0.1) node[below,font=\\footnotesize] {$2$};\n\\draw (0.1,2.72) -- (-0.1,2.72) node[left,font=\\footnotesize] {$16$};\n\\node[below] at (0,-0.85) {$x$ (metres)};\n\\node at (2.7,3.3) {$y=16-4x^{2}$};\n\\end{tikzpicture}\n[/tikz]\nThe cross-section of a road tunnel is the region between the curve $y=16-4x^{2}$ and the level roadway $y=0$, with $x$ and $y$ measured in metres.\nWhat is the area of the cross-section?",
       "structure": "cross-section-area",
@@ -40,59 +40,59 @@
       ],
       "solution_text": "$\\int_{-2}^{2}\\left(16-4x^{2}\\right)dx$\n$=\\left[16x-\\frac{4x^{3}}{3}\\right]_{-2}^{2}$\n$=\\left(32-\\frac{32}{3}\\right)-\\left(-32+\\frac{32}{3}\\right)$\n$=\\frac{64}{3}+\\frac{64}{3}$\n$=\\frac{128}{3}\\text{ m}^{2}$"
     },
-    {
+{
       "id": "q4",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (-2.2,0) -- plot[domain=-4:4,smooth,variable=\\x] ({0.55*\\x},{0.15*(\\x*\\x-16)}) -- (2.2,0) -- cycle;\n\\draw[->] (-3.2,0) -- (3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2) -- (0,1.4) node[above] {$y$};\n\\draw[thick,domain=-4:4,smooth,variable=\\x] plot ({0.55*\\x},{0.15*(\\x*\\x-16)});\n\\draw (-2.2,0.1) -- (-2.2,-0.1) node[above,font=\\footnotesize] {$-4$};\n\\draw (2.2,0.1) -- (2.2,-0.1) node[above,font=\\footnotesize] {$4$};\n\\draw (0.1,-2.4) -- (-0.1,-2.4) node[left,font=\\footnotesize] {$-16$};\n\\node[right,font=\\small] at (2.4,0.35) {ground level};\n\\node at (-2.3,-2.9) {$y=x^{2}-16$};\n\\end{tikzpicture}\n[/tikz]\nA storm-water drain is cut into level ground with a uniform cross-section bounded above by $y=0$ and below by $y=x^{2}-16$, where $x$ and $y$ are in metres.\nThe drain is $9$ metres long.\nWhat volume of soil is removed?",
-      "structure": "volume-from-cross-section",
+      "question_text": "A lake's widths are measured at $8$-metre intervals along a straight baseline.\n\n| Distance along baseline (m) | $0$ | $8$ | $16$ | $24$ | $32$ |\n| --- | --- | --- | --- | --- | --- |\n| Width (m) | $0$ | $12$ | $18$ | $10$ | $0$ |\n\nUsing the trapezoidal rule, what is the estimated surface area of the lake?",
+      "structure": "surface-area-from-tabulated-widths",
       "mastery": false,
       "options": [
-        { "text": "$768\\text{ m}^{3}$", "correct": true },
-        { "text": "$384\\text{ m}^{3}$", "why": "Integrated only from $x=0$ to $x=4$, so half the symmetric cross-section was left out." },
-        { "text": "$768\\text{ m}^{2}$", "why": "Correct value, but multiplying an area in $\\text{m}^{2}$ by a length in metres gives a volume in $\\text{m}^{3}$." },
-        { "text": "$384\\text{ m}^{2}$", "why": "Used only half the cross-section and also gave square metres instead of cubic metres." }
-      ],
-      "solution_text": "$\\int_{-4}^{4}\\left(x^{2}-16\\right)dx$\n$=\\left[\\frac{x^{3}}{3}-16x\\right]_{-4}^{4}$\n$=\\left(\\frac{64}{3}-64\\right)-\\left(-\\frac{64}{3}+64\\right)$\n$=-\\frac{128}{3}-\\frac{128}{3}$\n$=-\\frac{256}{3}$\nThe cross-sectional area is $\\frac{256}{3}\\text{ m}^{2}$.\n$V=\\frac{256}{3}\\times 9$\n$=768\\text{ m}^{3}$"
+{ "text": "$320\\text{ m}^2$", "correct": true },
+{ "text": "$160\\text{ m}^2$", "why": "Did not double the interior widths: $\\frac82(12+18+10)=160$." },
+{ "text": "$640\\text{ m}^2$", "why": "Omitted the factor $\\frac12$ from the trapezoidal rule." },
+{ "text": "$576\\text{ m}^2$", "why": "Treated the lake as a rectangle with its maximum width $18$ metres and length $32$ metres." }
+],
+      "solution_text": "$h=8$\n$A\\approx\\frac82\\left(0+0+2(12+18+10)\\right)$\n$=4(80)$\n$=320\\text{ m}^2$"
     },
-    {
+{
       "id": "q5",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0,0) -- plot[domain=0:3,smooth,variable=\\x] ({0.8*\\x},{0.15*(\\x*\\x-9)}) -- (2.4,0) -- cycle;\n\\fill[gray!35] (2.4,0) -- plot[domain=3:5,smooth,variable=\\x] ({0.8*\\x},{0.15*(\\x*\\x-9)}) -- (4.0,0) -- cycle;\n\\draw[->] (-0.5,0) -- (5.0,0);\n\\draw[->] (0,-2.0) -- (0,3.2);\n\\draw[thick,domain=0:5,smooth,variable=\\x] plot ({0.8*\\x},{0.15*(\\x*\\x-9)});\n\\foreach \\t in {1,2,3,4,5} \\draw ({0.8*\\t},0.08) -- ({0.8*\\t},-0.08);\n\\node[above,font=\\footnotesize] at (2.4,0.15) {$3$};\n\\node[above,font=\\footnotesize] at (4.0,0.15) {$5$};\n\\foreach \\p/\\lab in {-1.35/-9,0.75/5,1.5/10,2.25/15} \\draw (0.08,\\p) -- (-0.08,\\p) node[left,font=\\footnotesize] {$\\lab$};\n\\node[below] at (2.0,-2.3) {Time $t$ (seconds)};\n\\node[rotate=90] at (-1.4,0.6) {Velocity $v$ (m/s)};\n\\end{tikzpicture}\n[/tikz]\nA particle moves along a line with velocity $v=t^{2}-9$ metres per second, for $0\\le t\\le 5$ seconds.\nWhat distance does it travel in those $5$ seconds?",
-      "structure": "interpret-signed-area",
+      "question_text": "A reservoir initially contains $100$ megalitres of water. Its net inflow rate is $R=8-3t$ megalitres per day, for $0\\leq t\\leq4$ days. A negative rate means water is being released.\nWhat volume is in the reservoir after $4$ days?",
+      "structure": "final-amount-from-signed-rate",
       "mastery": false,
       "options": [
-        { "text": "$\\frac{98}{3}\\text{ m}$", "correct": true },
-        { "text": "$\\frac{10}{3}\\text{ m}$", "why": "Integrated straight from $0$ to $5$, which gives the displacement because the area below the axis is subtracted." },
-        { "text": "$\\frac{98}{3}\\text{ m}^{2}$", "why": "Correct distance, but reported in square metres; the area under a velocity–time graph is a distance in metres." },
-        { "text": "$\\frac{10}{3}\\text{ m}^{2}$", "why": "Found the displacement rather than the distance and also gave square metres instead of metres." }
-      ],
-      "solution_text": "$v=0$ when $t^{2}-9=0$, so $t=3$ in the given interval.\n$\\int_{0}^{3}\\left(t^{2}-9\\right)dt$\n$=\\left[\\frac{t^{3}}{3}-9t\\right]_{0}^{3}$\n$=9-27$\n$=-18$\n$\\int_{3}^{5}\\left(t^{2}-9\\right)dt$\n$=\\left[\\frac{t^{3}}{3}-9t\\right]_{3}^{5}$\n$=\\left(\\frac{125}{3}-45\\right)-(-18)$\n$=-\\frac{10}{3}+18$\n$=\\frac{44}{3}$\nDistance $=18+\\frac{44}{3}=\\frac{98}{3}\\text{ m}$"
+{ "text": "$108\\text{ ML}$", "correct": true },
+{ "text": "$8\\text{ ML}$", "why": "Reported only the net change and did not add the initial $100\\text{ ML}$." },
+{ "text": "$92\\text{ ML}$", "why": "Subtracted the positive net change $8\\text{ ML}$ from the initial volume instead of adding it." },
+{ "text": "$84\\text{ ML}$", "why": "Used the final rate $-4\\text{ ML/day}$ for all $4$ days, giving $100+4(-4)=84$." }
+],
+      "solution_text": "Net change $=\\int_0^4(8-3t)\\,dt$\n$=\\left[8t-\\frac32t^2\\right]_0^4$\n$=32-24$\n$=8\\text{ ML}$\nFinal volume $=100+8=108\\text{ ML}$"
     },
-    {
+{
       "id": "q6",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0,0) -- plot[domain=0:5,smooth,variable=\\x] ({0.65*\\x},{0.078*\\x*\\x}) -- (3.25,0) -- cycle;\n\\draw[->] (-0.4,0) -- (4.9,0);\n\\draw[->] (0,-0.4) -- (0,3.6);\n\\draw[thick,domain=0:6,smooth,variable=\\x] plot ({0.65*\\x},{0.078*\\x*\\x});\n\\draw[dashed] (3.25,0) -- (3.25,1.95);\n\\node[below,font=\\footnotesize] at (3.25,-0.12) {$T$};\n\\node[font=\\small] at (1.7,0.5) {$250$ L};\n\\node[below] at (2.0,-0.85) {Time $t$ (seconds)};\n\\node[rotate=90] at (-1.6,1.6) {Rate $R$ (litres/s)};\n\\end{tikzpicture}\n[/tikz]\nA pump delivers water at a rate of $R=6t^{2}$ litres per second.\nAfter how many seconds has it delivered $250$ litres?",
-      "structure": "reverse-context",
+      "question_text": "A tank initially contains $400$ litres of water. A pump delivers water at a rate of $R=9t^2$ litres per second, for $0\\leq t\\leq4$ seconds.\nHow much water is in the tank after $4$ seconds?",
+      "structure": "final-amount-from-rate",
       "mastery": false,
       "options": [
-        { "text": "$5$ seconds", "correct": true },
-        { "text": "$6.30$ seconds", "why": "Solved $T^{3}=250$, dropping the coefficient $2$ produced by integrating $6t^{2}$." },
-        { "text": "$6.45$ seconds", "why": "Set the rate itself equal to $250$ and solved $6T^{2}=250$ instead of integrating." },
-        { "text": "$41.7$ seconds", "why": "Divided the total $250$ by the coefficient $6$, treating the rate as constant." }
-      ],
-      "solution_text": "$\\int_{0}^{T}6t^{2}\\,dt=250$\n$\\left[2t^{3}\\right]_{0}^{T}=250$\n$2T^{3}=250$\n$T^{3}=125$\n$T=5\\text{ seconds}$"
+{ "text": "$592$ litres", "correct": true },
+{ "text": "$192$ litres", "why": "Reported only the water delivered and omitted the initial $400$ litres." },
+{ "text": "$544$ litres", "why": "Added the final rate $9(4)^2=144$ to the initial volume instead of integrating the rate." },
+{ "text": "$976$ litres", "why": "Multiplied the final rate $144$ litres per second by $4$ seconds, then added the initial volume." }
+],
+      "solution_text": "Volume added $=\\int_0^4 9t^2\\,dt$\n$=\\left[3t^3\\right]_0^4$\n$=192\\text{ L}$\nFinal volume $=400+192=592\\text{ L}$"
     },
-    {
+{
       "id": "q7",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0,0) -- plot[domain=0:5,smooth,variable=\\x] ({0.8*\\x},{2.75*exp(-0.2*\\x)}) -- (4.0,0) -- cycle;\n\\draw[->] (-0.4,0) -- (5.1,0);\n\\draw[->] (0,-0.4) -- (0,3.6);\n\\draw[thick,domain=0:5,smooth,variable=\\x] plot ({0.8*\\x},{2.75*exp(-0.2*\\x)});\n\\foreach \\t in {1,2,3,4,5} \\draw ({0.8*\\t},0.1) -- ({0.8*\\t},-0.1) node[below,font=\\footnotesize] {$\\t$};\n\\foreach \\p/\\lab in {0.55/100,1.1/200,1.65/300,2.2/400,2.75/500} \\draw (0.1,\\p) -- (-0.1,\\p) node[left,font=\\footnotesize] {$\\lab$};\n\\node[below] at (2.0,-0.85) {Time $t$ (days)};\n\\node[rotate=90] at (-1.8,1.6) {Rate $R$ (kL/day)};\n\\end{tikzpicture}\n[/tikz]\nA dam loses water at a rate of $R=500e^{-0.2t}$ kilolitres per day, for $0\\le t\\le 5$ days.\nHow much water is lost over those $5$ days, to the nearest kilolitre?",
-      "structure": "total-from-rate",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0,0) -- plot[domain=0:5,smooth,variable=\\x] ({0.8*\\x},{2.75*exp(-0.2*\\x)}) -- (4.0,0) -- cycle;\n\\draw[->] (-0.4,0) -- (5.1,0);\n\\draw[->] (0,-0.4) -- (0,3.6);\n\\draw[thick,domain=0:5,smooth,variable=\\x] plot ({0.8*\\x},{2.75*exp(-0.2*\\x)});\n\\foreach \\t in {1,2,3,4,5} \\draw ({0.8*\\t},0.1) -- ({0.8*\\t},-0.1) node[below,font=\\footnotesize] {$\\t$};\n\\foreach \\p/\\lab in {0.55/100,1.1/200,1.65/300,2.2/400,2.75/500} \\draw (0.1,\\p) -- (-0.1,\\p) node[left,font=\\footnotesize] {$\\lab$};\n\\node[below] at (2.0,-0.85) {Time $t$ (days)};\n\\node[rotate=90] at (-1.8,1.6) {Rate $R$ (kL/day)};\n\\end{tikzpicture}\n[/tikz]\nA dam initially contains $3000$ kilolitres of water. It loses water at a rate of $R=500e^{-0.2t}$ kilolitres per day, for $0\\le t\\le 5$ days.\nHow much water remains after $5$ days, to the nearest kilolitre?",
+      "structure": "remaining-amount-from-rate",
       "mastery": true,
       "options": [
-        { "text": "$1580$ kL", "correct": true },
-        { "text": "$316$ kL", "why": "Left out the factor $\\frac{1}{0.2}$ when finding the primitive of $e^{-0.2t}$." },
-        { "text": "$2500$ kL", "why": "Used $\\frac{500}{0.2}$ but did not subtract the value of the primitive at $t=5$." },
-        { "text": "$920$ kL", "why": "Multiplied the final rate of about $184$ kL/day by the $5$ days, treating the rate as constant." }
-      ],
-      "solution_text": "$\\int_{0}^{5}500e^{-0.2t}\\,dt$\n$=\\left[-2500e^{-0.2t}\\right]_{0}^{5}$\n$=-2500e^{-1}+2500$\n$=2500\\left(1-e^{-1}\\right)$\n$\\approx1580\\text{ kL}$"
+{ "text": "$1420$ kL", "correct": true },
+{ "text": "$2684$ kL", "why": "Left out the factor $\\frac{1}{0.2}$ in the primitive, then subtracted the resulting loss $500(1-e^{-1})$ from $3000$ kL and rounded." },
+{ "text": "$500$ kL", "why": "Used $2500$ kL as the loss by omitting the upper-limit term, then calculated $3000-2500=500$ kL." },
+{ "text": "$2080$ kL", "why": "Treated the final rate as constant for all $5$ days, then calculated $3000-5(500e^{-1})$ and rounded." }
+],
+      "solution_text": "Volume lost $=\\int_{0}^{5}500e^{-0.2t}\\,dt$\n$=\\left[-2500e^{-0.2t}\\right]_{0}^{5}$\n$=-2500e^{-1}+2500$\n$=2500\\left(1-e^{-1}\\right)$\nVolume remaining $=3000-2500\\left(1-e^{-1}\\right)$\n$=500+2500e^{-1}$\n$\\approx1420\\text{ kL}$"
     },
-    {
+{
       "id": "q8",
       "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0,0) -- plot[domain=0:3.1416,smooth,variable=\\x] ({1.2*\\x},{2.6*sin(deg(\\x))}) -- (3.7699,0) -- cycle;\n\\draw[->] (-0.5,0) -- (4.8,0) node[right] {$x$};\n\\draw[->] (0,-0.5) -- (0,3.5) node[above] {$y$};\n\\draw[thick,domain=0:3.1416,smooth,variable=\\x] plot ({1.2*\\x},{2.6*sin(deg(\\x))});\n\\draw (3.7699,0.1) -- (3.7699,-0.1) node[below,font=\\footnotesize] {$\\pi$};\n\\draw (0.1,2.6) -- (-0.1,2.6) node[left,font=\\footnotesize] {$4$};\n\\node[below] at (1.9,-0.9) {$x$ (metres)};\n\\node at (3.4,3.0) {$y=4\\sin x$};\n\\end{tikzpicture}\n[/tikz]\nThe curved roof of a shelter follows $y=4\\sin x$ above the horizontal ceiling $y=0$, for $0\\le x\\le\\pi$, with $x$ and $y$ measured in metres.\nWhat is the area of the end wall between the roof and the ceiling?",
       "structure": "cross-section-area",
@@ -105,18 +105,18 @@
       ],
       "solution_text": "$\\int_{0}^{\\pi}4\\sin x\\,dx$\n$=\\left[-4\\cos x\\right]_{0}^{\\pi}$\n$=-4(-1)-(-4)(1)$\n$=4+4$\n$=8\\text{ m}^{2}$"
     },
-    {
+{
       "id": "q9",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0,0) -- plot[domain=0:16,smooth,variable=\\x] ({0.26*\\x},{0.69*sqrt(\\x)}) -- (4.16,0) -- cycle;\n\\draw[->] (-0.4,0) -- (5.9,0);\n\\draw[->] (0,-0.4) -- (0,3.6);\n\\draw[thick,domain=0:20,smooth,variable=\\x] plot ({0.26*\\x},{0.69*sqrt(\\x)});\n\\draw[dashed] (4.16,0) -- (4.16,2.76);\n\\node[below,font=\\footnotesize] at (4.16,-0.12) {$T$};\n\\node[font=\\small] at (2.0,0.9) {$128$ t};\n\\node[below] at (2.0,-0.85) {Time $t$ (hours)};\n\\node[rotate=90] at (-1.4,1.6) {Rate $R$ (tonnes/hour)};\n\\end{tikzpicture}\n[/tikz]\nA conveyor delivers sand at a rate of $R=3\\sqrt{t}$ tonnes per hour.\nAfter how many hours has it delivered $128$ tonnes?",
-      "structure": "reverse-context",
+      "question_text": "A tank initially contains $200$ litres of water. Water flows into it at a rate of $R=6\\sqrt{t}$ litres per hour, for $0\\leq t\\leq9$ hours.\nWhat volume is in the tank after $9$ hours?",
+      "structure": "final-amount-from-rate",
       "mastery": true,
       "options": [
-        { "text": "$16$ hours", "correct": true },
-        { "text": "$25.4$ hours", "why": "Solved $T^{\\frac{3}{2}}=128$, dropping the coefficient $2$ produced by integrating $3t^{\\frac{1}{2}}$." },
-        { "text": "$42.7$ hours", "why": "Divided the total $128$ by the coefficient $3$, treating the rate as constant." },
-        { "text": "$1820$ hours", "why": "Set the rate itself equal to $128$ and solved $3\\sqrt{T}=128$ instead of integrating." }
-      ],
-      "solution_text": "$\\int_{0}^{T}3t^{\\frac{1}{2}}\\,dt=128$\n$\\left[2t^{\\frac{3}{2}}\\right]_{0}^{T}=128$\n$2T^{\\frac{3}{2}}=128$\n$T^{\\frac{3}{2}}=64$\n$T=64^{\\frac{2}{3}}$\n$=16\\text{ hours}$"
+{ "text": "$308$ litres", "correct": true },
+{ "text": "$108$ litres", "why": "Reported only the volume added and omitted the initial $200$ litres." },
+{ "text": "$362$ litres", "why": "Multiplied the final rate $18$ litres per hour by $9$ hours, then added the initial volume." },
+{ "text": "$218$ litres", "why": "Added the final rate $6\\sqrt9=18$ to the initial volume instead of integrating the rate." }
+],
+      "solution_text": "Volume added $=\\int_0^9 6t^{\\frac12}\\,dt$\n$=\\left[4t^{\\frac32}\\right]_0^9$\n$=4(27)$\n$=108\\text{ L}$\nFinal volume $=200+108=308\\text{ L}$"
     }
-  ]
+]
 }

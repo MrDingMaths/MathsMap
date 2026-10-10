@@ -1,32 +1,32 @@
 {
   "skillId": "cut-capacity",
   "questions": [
-    {
+{
       "id": "q1",
       "question_text": "A cut in a network crosses edges $SA$ (capacity $18$) and $SB$ (capacity $22$), both directed from the source side to the sink side.\nWhat is the capacity of the cut?",
       "structure": "calculate-cut-capacity-forward-only",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$40$",
           "correct": true
         },
-        {
+{
           "text": "$22$",
           "why": "Took the maximum single edge capacity instead of summing all forward cut edges."
         },
-        {
+{
           "text": "$18$",
           "why": "Took the minimum single edge capacity instead of summing all forward cut edges."
         },
-        {
+{
           "text": "$36$",
-          "why": "Subtracted or miscalculated edge weights instead of adding $18 + 22$."
+          "why": "Counted the capacity $18$ twice instead of using both edge capacities: $18 + 18 = 36$."
         }
-      ],
+],
       "solution_text": "$\\text{Cut capacity} = 18 + 22$\n$= 40$"
     },
-    {
+{
       "id": "q2",
       "question_text": "A cut separates source side $\\{S, B\\}$ from sink side $\\{A, T\\}$.\nIt crosses edges $SA$ ($26$, $S\\to A$), $AB$ ($9$, $A\\to B$), and $BT$ ($21$, $B\\to T$).\nWhat is the capacity of the cut?",
       "structure": "calculate-cut-capacity-with-backflow",
@@ -51,7 +51,7 @@
       ],
       "solution_text": "Edge $AB$ flows from sink side $A$ to source side $B$, contributing $0$.\n$\\text{Cut capacity} = 26 + 21$\n$= 47$"
     },
-    {
+{
       "id": "q3",
       "question_text": "A line drawn across a network cuts edges $SA$ and $AB$, but leaves the path $S\\to C\\to T$ completely untouched.\nWhat is the status of this line?",
       "structure": "identify-invalid-cut",
@@ -76,7 +76,7 @@
       ],
       "solution_text": "A valid cut must completely block all flow from source to sink. Since path $S\\text{–}C\\text{–}T$ is open, it is not a valid cut."
     },
-    {
+{
       "id": "q4",
       "question_text": "Cut $C$ separates $\\{S, U\\}$ from $\\{V, T\\}$.\nWhy is edge $VU$ ($8\\text{ L/s}$) excluded when calculating the capacity of cut $C$?",
       "structure": "explain-backflow-exclusion",
@@ -101,7 +101,7 @@
       ],
       "solution_text": "Edges directed from the sink side to the source side carry backflow and contribute $0$ to cut capacity."
     },
-    {
+{
       "id": "q5",
       "question_text": "Cut $K$ separates $\\{S, X\\}$ from $\\{Y, T\\}$.\nCrossing edges are $SY = 34$ ($S\\to Y$), $YX = 12$ ($Y\\to X$), and $XT = 28$ ($X\\to T$).\nWhat is the capacity of cut $K$?",
       "structure": "calculate-cut-capacity-with-backflow",
@@ -126,7 +126,7 @@
       ],
       "solution_text": "Edge $YX$ flows backwards from sink side $Y$ to source side $X$.\n$\\text{Cut capacity} = 34 + 28$\n$= 62$"
     },
-    {
+{
       "id": "q6",
       "question_text": "On a pipeline network, Cut 1 has forward edges $44$ and $40$.\nCut 2 has forward edges $36$ and $40$, plus a backward edge of $15$.\nWhat are the capacities of Cut 1 and Cut 2?",
       "structure": "compare-cut-capacities",
@@ -151,7 +151,7 @@
       ],
       "solution_text": "$\\text{Cut 1} = 44 + 40 = 84$\n$\\text{Cut 2} = 36 + 40 = 76$ (backward edge excluded)"
     },
-    {
+{
       "id": "q7",
       "question_text": "A cut across five pipes cuts forward pipe $A$ ($42\\text{ L/s}$), forward pipe $B$ ($38\\text{ L/s}$), and backward pipe $C$ ($15\\text{ L/s}$).\nWhat is the total flow capacity of this cut?",
       "structure": "calculate-cut-capacity-with-backflow",
@@ -176,7 +176,7 @@
       ],
       "solution_text": "$\\text{Cut capacity} = 42 + 38$\n$= 80\\text{ L/s}$"
     },
-    {
+{
       "id": "q8",
       "question_text": "A dashed line crosses edges $SA$ and $SB$, but path $S\\to C\\to D\\to T$ is completely open.\nWhich statement is correct?",
       "structure": "identify-invalid-cut",
@@ -201,30 +201,30 @@
       ],
       "solution_text": "A line that leaves any source-to-sink path uncut is not a valid cut."
     },
-    {
+{
       "id": "q9",
       "question_text": "A cut across three feeder lines into a sink has forward capacities $52$, $48$, and $35$.\nWhat is the capacity of this cut?",
       "structure": "calculate-cut-capacity-forward-only",
       "mastery": true,
       "options": [
-        {
+{
           "text": "$135$",
           "correct": true
         },
-        {
+{
           "text": "$100$",
           "why": "Omitted the third edge ($52 + 48 = 100$) when summing the cut capacity."
         },
-        {
+{
           "text": "$145$",
-          "why": "Arithmetic error when adding $52 + 48 + 35$."
+          "why": "Incorrectly added $52 + 48$ as $110$, then added $35$: $110 + 35 = 145$."
         },
-        {
+{
           "text": "$87$",
-          "why": "Averaged the edge weights instead of calculating the sum."
+          "why": "Omitted the edge of capacity $48$, giving $52 + 35 = 87$."
         }
-      ],
+],
       "solution_text": "$\\text{Cut capacity} = 52 + 48 + 35$\n$= 135$"
     }
-  ]
+]
 }

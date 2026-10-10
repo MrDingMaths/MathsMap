@@ -1,72 +1,72 @@
 {
   "skillId": "log-scale-applications",
   "questions": [
-    {
+{
       "id": "q1",
-      "question_text": "One earthquake has a ground amplitude $1000$ times that of another.\nRichter magnitude is given by $M=\\log_{10}A$.\nWhat is the difference between the two magnitudes?",
-      "structure": "ratio-to-level-difference",
+      "question_text": "Two earthquakes have magnitudes $6$ and $3$.\nRichter magnitude is given by $M=\\log_{10}A$.\nHow many times greater is the ground amplitude of the magnitude-$6$ earthquake?",
+      "structure": "earthquake-amplitude-ratio",
       "mastery": false,
       "options": [
-        { "text": "$3$", "correct": true },
-        { "text": "$1000$", "why": "Treated the scale as linear, reading the amplitude ratio straight off as the difference in magnitude." },
-        { "text": "$10$", "why": "Gave the base of the scale rather than the index that produces the ratio." },
-        { "text": "$100$", "why": "Divided the ratio by the base once instead of taking its logarithm." }
-      ],
-      "solution_text": "$M_{1}-M_{2}=\\log_{10}\\dfrac{A_{1}}{A_{2}}$\n$=\\log_{10}1000$\n$=3$"
+{ "text": "$1000$ times", "correct": true },
+{ "text": "$3$ times", "why": "Used the magnitude difference $6-3=3$ as the amplitude ratio instead of calculating $10^{3}$." },
+{ "text": "$2$ times", "why": "Divided the magnitudes, calculating $6/3=2$, instead of comparing their amplitudes." },
+{ "text": "$10$ times", "why": "Used a magnitude difference of $1$ instead of the actual difference of $3$." }
+],
+      "solution_text": "$A_{6}=10^{6}$\n$A_{3}=10^{3}$\n$\\dfrac{A_{6}}{A_{3}}=\\dfrac{10^{6}}{10^{3}}=1000$\nThe magnitude-$6$ earthquake has $1000$ times the ground amplitude."
     },
-    {
+{
       "id": "q2",
-      "question_text": "Sound level is given by $S=10\\log_{10}\\dfrac{I}{I_{0}}$.\nA machine's sound intensity is multiplied by $1000$.\nBy how many decibels does its level rise?",
-      "structure": "decibel-change-from-intensity-ratio",
+      "question_text": "Sound level is given by $S=10\\log_{10}\\dfrac{I}{I_{0}}$.\nA machine measures $30$ dB.\nHow many times greater is its sound intensity than the threshold of human hearing?",
+      "structure": "decibel-reading-to-intensity-ratio",
       "mastery": false,
       "options": [
-        { "text": "$30$ dB", "correct": true },
-        { "text": "$3$ dB", "why": "Took $\\log_{10}1000=3$ but left out the factor of $10$ in the decibel formula." },
-        { "text": "$1000$ dB", "why": "Treated the scale as linear, adding the intensity ratio straight to the level." },
-        { "text": "$10\\,000$ dB", "why": "Multiplied the intensity ratio by $10$ instead of taking its logarithm first." }
-      ],
-      "solution_text": "Rise $=10\\log_{10}1000$\n$=10\\times3$\n$=30$"
+{ "text": "$1000$ times", "correct": true },
+{ "text": "$3$ times", "why": "Divided $30$ by $10$ but used the resulting logarithm as the intensity ratio." },
+{ "text": "$30$ times", "why": "Used the decibel reading directly as the intensity ratio." },
+{ "text": "$1\\,000\\,000\\,000\\,000\\,000\\,000\\,000\\,000\\,000\\,000$ times", "why": "Raised $10$ to the decibel reading without first dividing the reading by $10$." }
+],
+      "solution_text": "$30=10\\log_{10}\\dfrac{I}{I_{0}}$\n$3=\\log_{10}\\dfrac{I}{I_{0}}$\n$\\dfrac{I}{I_{0}}=10^{3}=1000$"
     },
-    {
+{
       "id": "q3",
-      "question_text": "The hydrogen-ion concentration of a solution is multiplied by $100\\,000$.\nUsing $pH=-\\log_{10}M$, how does the pH change?",
-      "structure": "ph-change-from-concentration-change",
+      "question_text": "One solution has a pH of $2$ and another has a pH of $7$.\nUsing $M=10^{-pH}$, how many times greater is the hydrogen-ion concentration of the pH-$2$ solution?",
+      "structure": "ph-reading-to-concentration-ratio",
       "mastery": false,
       "options": [
-        { "text": "It falls by $5$.", "correct": true },
-        { "text": "It rises by $5$.", "why": "Missed the minus sign in $pH=-\\log_{10}M$, so the direction of the change is reversed." },
-        { "text": "It falls by $100\\,000$.", "why": "Treated the scale as linear, subtracting the concentration ratio from the pH." },
-        { "text": "It rises by $100\\,000$.", "why": "Treated the scale as linear and also missed the minus sign in the formula." }
-      ],
-      "solution_text": "$pH_{\\text{new}}-pH_{\\text{old}}=-\\log_{10}M_{\\text{new}}+\\log_{10}M_{\\text{old}}$\n$=-\\log_{10}\\dfrac{M_{\\text{new}}}{M_{\\text{old}}}$\n$=-\\log_{10}100\\,000$\n$=-5$\nThe pH falls by $5$."
+{ "text": "$100\\,000$ times", "correct": true },
+{ "text": "$0.00001$ times", "why": "Reversed the concentration ratio, calculating $10^{-7}/10^{-2}$." },
+{ "text": "$5$ times", "why": "Used the pH difference $7-2=5$ as the concentration ratio." },
+{ "text": "$3.5$ times", "why": "Divided the pH readings, calculating $7/2=3.5$, instead of comparing the concentrations." }
+],
+      "solution_text": "$\\dfrac{M_{2}}{M_{7}}=\\dfrac{10^{-2}}{10^{-7}}$\n$=10^{5}$\n$=100\\,000$\nThe pH-$2$ solution has $100\\,000$ times the hydrogen-ion concentration."
     },
-    {
+{
       "id": "q4",
-      "question_text": "Star magnitudes satisfy $m_{1}-m_{2}=-2.5\\log_{10}\\dfrac{b_{1}}{b_{2}}$, where $b$ is brightness.\nStar X has magnitude $3.5$ and star Y has magnitude $6.0$.\nHow many times brighter is star X than star Y?",
-      "structure": "star-magnitude-ratio",
-      "mastery": true,
-      "options": [
-        { "text": "$10$ times", "correct": true },
-        { "text": "$2.5$ times", "why": "Treated the scale as linear, reading the difference in magnitude as the brightness ratio." },
-        { "text": "$316$ times", "why": "Raised $10$ to the magnitude difference of $2.5$ without dividing by the factor $2.5$." },
-        { "text": "$6.25$ times", "why": "Multiplied the magnitude difference by $2.5$ instead of dividing by it." }
-      ],
-      "solution_text": "$3.5-6.0=-2.5\\log_{10}\\dfrac{b_{X}}{b_{Y}}$\n$-2.5=-2.5\\log_{10}\\dfrac{b_{X}}{b_{Y}}$\n$\\log_{10}\\dfrac{b_{X}}{b_{Y}}=1$\n$\\dfrac{b_{X}}{b_{Y}}=10$"
-    },
-    {
-      "id": "q5",
-      "question_text": "One air-conditioning unit measures $54$ dB.\nFour identical units run together, giving four times the sound intensity.\nUsing $S=10\\log_{10}\\dfrac{I}{I_{0}}$, what is the sound level of the four units, correct to one decimal place?",
-      "structure": "combine-identical-sources",
+      "question_text": "Star magnitude is given by $m=-2.5\\log_{10}\\dfrac{B}{B_{0}}$, where $B$ is brightness and $B_{0}$ is a fixed reference brightness.\nTwo stars have magnitudes $3.5$ and $6.0$.\nHow many times brighter is the magnitude-$3.5$ star than the magnitude-$6.0$ star?",
+      "structure": "star-magnitudes-to-brightness-ratio",
       "mastery": false,
       "options": [
-        { "text": "$60.0$ dB", "correct": true },
-        { "text": "$216$ dB", "why": "Multiplied the decibel reading by $4$, treating the scale as linear." },
-        { "text": "$58.0$ dB", "why": "Added $4$ decibels because there are four units, instead of adding $10\\log_{10}4$." },
-        { "text": "$94.0$ dB", "why": "Added $10$ dB for each of the three extra units rather than $10\\log_{10}4$ in total." }
-      ],
-      "solution_text": "Rise $=10\\log_{10}4$\n$=10\\times0.6020\\ldots$\n$=6.02\\ldots$\nNew level $=54+6.02\\ldots$\n$=60.0$ dB"
+{ "text": "$10$ times", "correct": true },
+{ "text": "$1$ time", "why": "Divided the magnitude difference $6.0-3.5=2.5$ by $2.5$ but used the resulting logarithm as the brightness ratio." },
+{ "text": "About $316$ times", "why": "Calculated $10^{2.5}=316.227766\\ldots$ without dividing the magnitude difference by the scale multiplier $2.5$." },
+{ "text": "$0.1$ times", "why": "Reversed the brightness ratio, calculating $10^{(3.5-6.0)/2.5}=0.1$." }
+],
+      "solution_text": "$\\dfrac{B_{3.5}}{B_{6.0}}=10^{(6.0-3.5)/2.5}$\n$=10^{1}$\n$=10$\nThe magnitude-$3.5$ star is $10$ times brighter."
     },
-    {
+{
+      "id": "q5",
+      "question_text": "One air-conditioning unit measures $54$ dB and another measures $44$ dB.\nUsing $S=10\\log_{10}\\dfrac{I}{I_{0}}$, how many times greater is the sound intensity of the louder unit?",
+      "structure": "decibel-readings-to-intensity-ratio",
+      "mastery": false,
+      "options": [
+{ "text": "$10$ times", "correct": true },
+{ "text": "$1$ time", "why": "Divided the decibel difference by $10$ but used the resulting logarithm as the intensity ratio." },
+{ "text": "$100$ times", "why": "Used a decibel difference of $20$ instead of the actual difference of $10$." },
+{ "text": "$0.1$ times", "why": "Reversed the intensity ratio, calculating $10^{(44-54)/10}$." }
+],
+      "solution_text": "$\\dfrac{I_{54}}{I_{44}}=\\dfrac{10^{54/10}}{10^{44/10}}$\n$=10^{1}$\n$=10$\nThe louder unit has $10$ times the sound intensity."
+    },
+{
       "id": "q6",
       "question_text": "The graph plots $\\log_{10}V$ against time for an investment, where $V$ is the value in dollars.\nBy what factor did the investment grow over the $40$ years shown?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=9cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-2,xmax=46,ymin=0,ymax=5.6,xtick={0,5,...,40},ytick={0,0.5,...,5},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$t$ (years)},ylabel={$\\log_{10}V$},ylabel near ticks]\n\\addplot[thick,blue!70!black,domain=0:40,samples=2] {3+0.05*x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
       "structure": "semi-log-graph-read",
@@ -79,31 +79,31 @@
       ],
       "solution_text": "At $t=0$ the graph reads $3$ and at $t=40$ it reads $5$.\n$5-3=2$\n$\\dfrac{V_{40}}{V_{0}}=10^{2}$\n$=100$\nThe investment grew to $100$ times its starting value."
     },
-    {
+{
       "id": "q7",
       "question_text": "Richter magnitude is given by $M=\\log_{10}A$, where $A$ is the ground amplitude.\nWhich statement is correct?",
       "structure": "interpret-linear-misreading",
       "mastery": true,
       "options": [
-        { "text": "A magnitude-$7$ earthquake has $100$ times the ground amplitude of a magnitude-$5$ earthquake.", "correct": true },
-        { "text": "A magnitude-$7$ earthquake has twice the ground amplitude of a magnitude-$5$ earthquake.", "why": "Divided the magnitudes, treating the scale as linear when it records indices." },
-        { "text": "A magnitude-$7$ earthquake has $10$ times the ground amplitude of a magnitude-$5$ earthquake.", "why": "Used a magnitude difference of $1$ rather than the actual difference of $2$." },
-        { "text": "A magnitude-$7$ earthquake has $2$ more units of ground amplitude than a magnitude-$5$ earthquake.", "why": "Read the difference in magnitude as a difference in amplitude rather than as an index." }
-      ],
+{ "text": "A magnitude-$7$ earthquake has $100$ times the ground amplitude of a magnitude-$5$ earthquake.", "correct": true },
+{ "text": "A magnitude-$7$ earthquake has twice the ground amplitude of a magnitude-$5$ earthquake.", "why": "Used the magnitude difference $7-5=2$ as the amplitude ratio instead of calculating $10^{2}$." },
+{ "text": "A magnitude-$7$ earthquake has $10$ times the ground amplitude of a magnitude-$5$ earthquake.", "why": "Used a magnitude difference of $1$ rather than the actual difference of $2$." },
+{ "text": "A magnitude-$7$ earthquake has $2$ more units of ground amplitude than a magnitude-$5$ earthquake.", "why": "Read the difference in magnitude as a difference in amplitude rather than as an index." }
+],
       "solution_text": "$7-5=2$\n$\\dfrac{A_{1}}{A_{2}}=10^{2}$\n$=100$\nThe magnitude-$7$ earthquake has $100$ times the ground amplitude."
     },
-    {
+{
       "id": "q8",
-      "question_text": "A workshop tool's sound intensity is reduced to one quarter of its original value.\nUsing $S=10\\log_{10}\\dfrac{I}{I_{0}}$, by how many decibels does its level fall, correct to one decimal place?",
-      "structure": "decibel-change-from-intensity-ratio",
+      "question_text": "A workshop tool measures $77$ dB and a quieter tool measures $71$ dB.\nUsing $S=10\\log_{10}\\dfrac{I}{I_{0}}$, how many times greater is the sound intensity of the louder tool, correct to one decimal place?",
+      "structure": "decibel-readings-to-intensity-ratio",
       "mastery": true,
       "options": [
-        { "text": "$6.0$ dB", "correct": true },
-        { "text": "$0.6$ dB", "why": "Found $\\log_{10}4=0.602$ but left out the factor of $10$ in the decibel formula." },
-        { "text": "$4.0$ dB", "why": "Treated the scale as linear, subtracting the intensity ratio of $4$ from the level." },
-        { "text": "$12.0$ dB", "why": "Costed each halving at $6$ dB instead of $3$ dB, so doubled the true drop." }
-      ],
-      "solution_text": "Fall $=10\\log_{10}4$\n$=10\\times0.60205\\ldots$\n$=6.020\\ldots$\n$=6.0$ dB"
+{ "text": "$4.0$ times", "correct": true },
+{ "text": "$0.6$ times", "why": "Divided the decibel difference $6$ by $10$ but used the resulting logarithm as the intensity ratio." },
+{ "text": "$6.0$ times", "why": "Used the decibel difference $77-71=6$ directly as the intensity ratio." },
+{ "text": "$1\\,000\\,000.0$ times", "why": "Calculated $10^{6}$ without dividing the decibel difference by $10$." }
+],
+      "solution_text": "$\\dfrac{I_{77}}{I_{71}}=\\dfrac{10^{77/10}}{10^{71/10}}$\n$=10^{0.6}$\n$=3.981071\\ldots$\nThe louder tool has $4.0$ times the sound intensity."
     }
-  ]
+]
 }

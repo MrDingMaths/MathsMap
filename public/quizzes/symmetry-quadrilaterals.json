@@ -78,103 +78,103 @@
     },
 {
       "id": "q4",
-      "question_text": "Which quadrilateral has its two diagonals as its only lines of symmetry?",
-      "structure": "identify-diagonal-symmetry",
+      "question_text": "Which labelled segments are lines of symmetry of this non-square rhombus?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (-2.7,0); \\coordinate (B) at (0,1.4); \\coordinate (C) at (2.7,0); \\coordinate (D) at (0,-1.4);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[dashed] (A)--(C); \\draw[dashed] (B)--(D);\n\\node[left] at (A) {$A$}; \\node[above] at (B) {$B$}; \\node[right] at (C) {$C$}; \\node[below] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "identify-drawn-symmetry-axes",
       "mastery": false,
       "options": [
 {
-          "text": "A non-square rhombus",
+          "text": "Both $AC$ and $BD$",
           "correct": true
         },
 {
-          "text": "A non-square rectangle",
-          "why": "A rectangle's fold lines join midpoints of opposite sides; its diagonals are not fold lines."
+          "text": "Only $AC$",
+          "why": "Checked the horizontal diagonal but missed that folding along $BD$ also makes the halves match."
         },
 {
-          "text": "A general parallelogram",
-          "why": "A general parallelogram has no lines of symmetry, even though its diagonals cross at the centre."
+          "text": "Only $BD$",
+          "why": "Checked the vertical diagonal but missed that folding along $AC$ also makes the halves match."
         },
 {
-          "text": "A non-rhombus kite",
-          "why": "A non-rhombus kite has only one diagonal as a line of symmetry, not both diagonals."
+          "text": "Neither $AC$ nor $BD$",
+          "why": "Used the rule for a non-square rectangle's diagonals instead of checking the folds of a rhombus."
         }
 ],
-      "solution_text": "Both diagonals of a rhombus divide it into matching reflected halves.\nThe quadrilateral is a non-square rhombus."
+      "solution_text": "Folding along either diagonal makes the two halves match.\nBoth $AC$ and $BD$ are lines of symmetry."
     },
 {
       "id": "q5",
-      "question_text": "A quadrilateral has one line of symmetry and rotational symmetry of order $1$.\nWhich shape could it be?",
-      "structure": "infer-shape-from-symmetry",
+      "question_text": "State the number of lines of symmetry and the order of rotational symmetry of this kite.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,-2.5)--(1.6,0.3)--(0,1.9)--(-1.6,0.3)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "match-both-symmetries",
       "mastery": false,
       "options": [
-        {
-          "text": "A kite",
+{
+          "text": "$1$ line of symmetry and rotational order $1$",
           "correct": true
         },
-        {
-          "text": "A square",
-          "why": "A square has four lines of symmetry and rotational order four, not one of each."
+{
+          "text": "$2$ lines of symmetry and rotational order $2$",
+          "why": "Treated the kite as a rhombus and assumed both diagonals are fold lines and a half-turn matches."
         },
-        {
-          "text": "A non-square rectangle",
-          "why": "A rectangle has two lines of symmetry and rotational order two."
+{
+          "text": "$1$ line of symmetry and rotational order $2$",
+          "why": "Assumed the fold line guarantees a half-turn match, although the top and bottom vertices do not match."
         },
-        {
-          "text": "A general parallelogram",
-          "why": "A general parallelogram has rotational order two and no lines of symmetry."
+{
+          "text": "$0$ lines of symmetry and rotational order $1$",
+          "why": "Missed the vertical diagonal that folds the left half exactly onto the right half."
         }
-      ],
-      "solution_text": "A non-rhombus kite can fold along one diagonal and match again only after a full turn.\nA kite can have $1$ line of symmetry and rotational order $1$."
+],
+      "solution_text": "Only the vertical diagonal makes the halves match when folded, so there is $1$ line of symmetry.\nThe kite matches only after a full turn, so its rotational order is $1$."
     },
 {
       "id": "q6",
-      "question_text": "Luca claims that rotational symmetry of order $2$ guarantees at least one line of symmetry.\nWhich counterexample disproves the claim?",
-      "structure": "counterexample-symmetry-claim",
+      "question_text": "State the number of lines of symmetry and the order of rotational symmetry of this general parallelogram, which is neither a rectangle nor a rhombus.\n[tikz]\n\\begin{tikzpicture}[rotate=30,every node/.style={font=\\large}]\n\\draw (0,0)--(4.6,0)--(5.5,1.9)--(0.9,1.9)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "match-both-symmetries",
       "mastery": true,
       "options": [
-        {
-          "text": "A general parallelogram",
+{
+          "text": "$0$ lines of symmetry and rotational order $2$",
           "correct": true
         },
-        {
-          "text": "A non-square rectangle",
-          "why": "A rectangle has rotational order two, but it also has two lines of symmetry, so it does not disprove the claim."
+{
+          "text": "$2$ lines of symmetry and rotational order $2$",
+          "why": "Mistook the diagonals for fold lines merely because they cross at the centre."
         },
-        {
-          "text": "A non-square rhombus",
-          "why": "A rhombus has rotational order two, but it also has two diagonal lines of symmetry."
+{
+          "text": "$0$ lines of symmetry and rotational order $1$",
+          "why": "Missed that a half-turn maps each vertex onto the opposite vertex."
         },
-        {
-          "text": "A square",
-          "why": "A square has both line and rotational symmetry, and its rotational order is four rather than two."
+{
+          "text": "$4$ lines of symmetry and rotational order $4$",
+          "why": "Used the symmetry properties of a square because the shape has four sides."
         }
-      ],
-      "solution_text": "A general parallelogram matches after a $180^{\\circ}$ turn but no fold line matches its halves.\nIt is a counterexample."
+],
+      "solution_text": "No fold makes the two halves match, so there are $0$ lines of symmetry.\nThe parallelogram matches after a half-turn and a full turn, so its rotational order is $2$."
     },
 {
       "id": "dq-77601",
-      "question_text": "Which shape has rotational symmetry of order $2$?",
-      "structure": "infer-shape-from-symmetry",
+      "question_text": "What is the order of rotational symmetry of this non-square rectangle?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4.7,2.4);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "find-rotational-order",
       "mastery": false,
       "options": [
 {
-          "text": "A non-square rectangle",
+          "text": "$2$",
           "correct": true
         },
 {
-          "text": "Square",
-          "why": "A square matches four times, so its order is 4."
+          "text": "$4$",
+          "why": "Counted quarter-turns as matches even though they swap the unequal side lengths."
         },
 {
-          "text": "A trapezium with exactly one pair of parallel sides",
-          "why": "A half-turn would require both pairs of opposite sides to be parallel, so this trapezium does not have order 2."
+          "text": "$1$",
+          "why": "Counted only the full-turn match and missed the half-turn match."
         },
 {
-          "text": "A regular hexagon",
-          "why": "A regular hexagon has order 6, not order 2."
+          "text": "$0$",
+          "why": "Assumed that failing to match after a quarter-turn means there are no matching turns."
         }
 ],
-      "solution_text": "A $180^{\\circ}$ rotation maps a non-square rectangle onto itself. It matches twice during a full turn, so its rotational symmetry is order $2$."
+      "solution_text": "A $180^{\\circ}$ rotation maps the rectangle onto itself. It matches after a half-turn and a full turn, so its rotational order is $2$."
     }
 ]
 }

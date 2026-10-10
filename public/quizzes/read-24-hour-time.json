@@ -1,35 +1,52 @@
 {
   "skillId": "read-24-hour-time",
   "questions": [
-    { "id": "q1", "question_text": "How is $0510$ read in 24-hour time language?", "structure": "read-leading-zero-time", "mastery": false, "options": [{ "text": "zero five ten hours", "correct": true }, { "text": "five hundred ten hours", "why": "Reads all four digits as one ordinary number instead of hour and minute pairs." }, { "text": "fifteen hours", "why": "Joins the hour and minute values instead of reading both pairs." }], "solution_text": "$0510$ is read as **zero five ten hours**." },
-    { "id": "q2", "question_text": "Which part of the day contains $1425$?", "structure": "identify-part-of-day", "mastery": false, "options": [{ "text": "afternoon", "correct": true }, { "text": "morning", "why": "Treats hour 14 as though it were before the noon boundary." }, { "text": "after midnight", "why": "Confuses hour 14 with the zero hours immediately after midnight." }], "solution_text": "Hour $14$ is after noon and before evening.\n$1425$ is in the **afternoon**." },
-    { "id": "q3", "question_text": "Which time is noon?", "structure": "recognise-noon-midnight", "mastery": false, "options": [{ "text": "$1200$", "correct": true }, { "text": "$0000$", "why": "Chooses midnight, which begins the day, instead of noon." }, { "text": "$2400$", "why": "Uses a nonstandard end-of-day label instead of the four-digit noon time." }], "solution_text": "Noon is hour $12$ with zero minutes.\n$1200$" },
-    { "id": "q4", "question_text": "Which is a valid 24-hour time?", "structure": "validate-24-hour-time", "mastery": false, "options": [{ "text": "$2258$", "correct": true }, { "text": "$2460$", "why": "Uses both an invalid hour 24 and an invalid minute value 60." }, { "text": "$1964$", "why": "Uses 64 minutes, but the minute part can only reach 59." }, { "text": "$2530$", "why": "Uses hour 25, but the hour part can only reach 23." }], "solution_text": "Valid hours are $00$–$23$ and valid minutes are $00$–$59$.\n$2258$ is valid." },
-    { "id": "q5", "question_text": "Starting late in one day, which sequence is chronological across midnight?", "structure": "order-times-across-midnight", "mastery": true, "options": [{ "text": "$2345,0010,0130$", "correct": true }, { "text": "$0010,0130,2345$", "why": "Orders only by the written numbers and ignores that the sequence starts before midnight." }, { "text": "$0130,0010,2345$", "why": "Places 1:30 am before 12:10 am and then moves back to the previous day." }], "solution_text": "$2345$ is before midnight, followed by $0010$ and then $0130$.\nThe order is $2345,0010,0130$." },
-    {
+{ "id": "q1", "question_text": "Write $06:20$ in 12-hour time.", "structure": "convert-24-hour-to-12-hour-time", "mastery": false, "options": [
+{ "text": "$6:20$ am", "correct": true },
+{ "text": "$6:20$ pm", "why": "Uses pm for hour $06$, which is before noon." },
+{ "text": "$12:20$ am", "why": "Treats hour $06$ as hour $00$, which becomes $12$ am." }
+], "solution_text": "Hour $06$ is before noon, so use am.\nThe time is $6:20$ am." },
+{ "id": "q2", "question_text": "Write $15:35$ in 12-hour time.", "structure": "convert-24-hour-to-12-hour-time", "mastery": false, "options": [
+{ "text": "$3:35$ pm", "correct": true },
+{ "text": "$3:35$ am", "why": "Subtracts $12$ correctly but uses am instead of pm for hour $15$." },
+{ "text": "$4:35$ pm", "why": "Subtracts $11$ instead of $12$ from hour $15$." }
+], "solution_text": "Subtract $12$ from the hour: $15-12=3$.\nThe time is $3:35$ pm." },
+{ "id": "q3", "question_text": "Which time is noon?", "structure": "recognise-noon-midnight", "mastery": false, "options": [{ "text": "$1200$", "correct": true }, { "text": "$0000$", "why": "Chooses midnight, which begins the day, instead of noon." }, { "text": "$2400$", "why": "Uses a nonstandard end-of-day label instead of the four-digit noon time." }], "solution_text": "Noon is hour $12$ with zero minutes.\n$1200$" },
+{ "id": "q4", "question_text": "Write $9:42$ pm in 24-hour time.", "structure": "convert-12-hour-to-24-hour-time", "mastery": false, "options": [
+{ "text": "$21:42$", "correct": true },
+{ "text": "$09:42$", "why": "Keeps the hour unchanged instead of adding $12$ for pm." },
+{ "text": "$20:42$", "why": "Adds $11$ instead of $12$ to hour $9$." },
+{ "text": "$21:54$", "why": "Adds $12$ to the minutes as well as to the hour." }
+], "solution_text": "For pm, add $12$ to the hour: $9+12=21$.\nKeep the minutes unchanged. The time is $21:42$." },
+{ "id": "q5", "question_text": "Write $12:04$ am in 24-hour time.", "structure": "convert-12-hour-to-24-hour-time", "mastery": true, "options": [
+{ "text": "$00:04$", "correct": true },
+{ "text": "$12:04$", "why": "Keeps hour $12$ for am, confusing the midnight hour with the noon hour." },
+{ "text": "$00:16$", "why": "Changes the hour to $00$ correctly but adds $12$ to the minutes." }
+], "solution_text": "For the midnight hour, change $12$ am to hour $00$.\nKeep the minutes unchanged. The time is $00:04$." },
+{
       "id": "q6",
-      "question_text": "Which description of $0007$ is correct?",
-      "structure": "interpret-time-near-midnight",
+      "question_text": "Write $12:09$ in 12-hour time.",
+      "structure": "convert-24-hour-to-12-hour-time",
       "mastery": true,
       "options": [
-        {
-          "text": "seven minutes after midnight",
+{
+          "text": "$12:09$ pm",
           "correct": true
         },
-        {
-          "text": "seven minutes after noon",
-          "why": "Confuses hour $00$ with hour $12$, which represents noon."
+{
+          "text": "$12:09$ am",
+          "why": "Confuses hour $12$, the noon hour, with hour $00$, the midnight hour."
         },
-        {
-          "text": "seven minutes before midnight",
-          "why": "Treats the minute value as a countdown to the hour instead of minutes after hour $00$."
+{
+          "text": "$1:09$ pm",
+          "why": "Subtracts $11$ from hour $12$ instead of keeping the noon hour as $12$ pm."
         },
-        {
-          "text": "seven minutes before noon",
-          "why": "Makes both slips at once: reads hour $00$ as noon and counts the $07$ backwards to that hour."
+{
+          "text": "$12:21$ pm",
+          "why": "Adds $12$ to the minutes instead of keeping them unchanged."
         }
-      ],
-      "solution_text": "Hour $00$ begins at midnight and the minute part is $07$.\n$0007$ is seven minutes after midnight."
+],
+      "solution_text": "Hour $12$ is the noon hour, so use pm.\nKeep the minutes unchanged. The time is $12:09$ pm."
     }
-  ]
+]
 }

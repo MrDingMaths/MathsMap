@@ -1,132 +1,133 @@
 {
   "skillId": "graph-linear-inequalities-region",
   "questions": [
-    {
+{
       "id": "q1",
-      "question_text": "For the graph of $y > 2x-4$, what is the boundary line and which side is shaded?",
-      "structure": "line-style-side-strict-above",
+      "question_text": "Decide by substitution whether $(2,3)$ lies in the region defined by $y>2x-2$.",
+      "structure": "membership-point-true",
       "mastery": false,
       "options": [
-        {
-          "text": "Dotted line; shade above",
+{
+          "text": "Yes, because $3>2$ is true.",
           "correct": true
         },
-        {
-          "text": "Solid line; shade above",
-          "why": "Chose a solid line, but $>$ is a strict inequality so the boundary is dotted"
+{
+          "text": "No, because $3>2$ is false.",
+          "why": "Reversed the comparison: $3$ is greater than $2$."
         },
-        {
-          "text": "Dotted line; shade below",
-          "why": "The origin gives $0>2(0)-4=-4$ (true), so the origin side is shaded, which is above the line"
+{
+          "text": "No, because $2>4$ is false.",
+          "why": "Swapped the coordinates, using $x=3$ and $y=2$ instead of $x=2$ and $y=3$."
         },
-        {
-          "text": "Solid line; shade below",
-          "why": "Used a solid line for a strict $>$ and shaded the wrong side of the boundary"
+{
+          "text": "No, because $3>4$ is false.",
+          "why": "Omitted the $-2$ in $2x-2$ when substituting $x=2$."
         }
-      ],
-      "solution_text": "$y>2x-4$: strict sign gives a dotted line. Test $(0,0)$: $0>-4$ is true, so shade the side containing the origin, which is above the line."
+],
+      "solution_text": "Substitute $x=2$ and $y=3$: $2(2)-2=2$.\n$3>2$ is true, so $(2,3)$ lies in the region."
     },
-    {
+{
       "id": "q2",
-      "question_text": "For the graph of $y \\le -3x+1$, what is the boundary line and which side is shaded?",
-      "structure": "line-style-side-inclusive-below",
+      "question_text": "Decide by substitution whether $(1,0)$ lies in the region defined by $y\\le -2x+2$.",
+      "structure": "membership-point-boundary-inclusive",
       "mastery": false,
       "options": [
-        {
-          "text": "Solid line; shade below",
+{
+          "text": "Yes, because $0\\le 0$ is true.",
           "correct": true
         },
-        {
-          "text": "Dotted line; shade below",
-          "why": "Chose a dotted line, but $\\le$ includes the boundary so the line is solid"
+{
+          "text": "No, because equality is excluded.",
+          "why": "Treated $\\le$ as $<$; $\\le$ includes points on the boundary."
         },
-        {
-          "text": "Solid line; shade above",
-          "why": "Test $(0,0)$: $0\\le 1$ is true, so the origin side (below the line) is shaded, not above"
+{
+          "text": "No, because $0\\le -4$ is false.",
+          "why": "Changed the constant $+2$ to $-2$, obtaining $-2(1)-2=-4$."
         },
-        {
-          "text": "Dotted line; shade above",
-          "why": "Used a dotted line for an inclusive $\\le$ and shaded the wrong side"
+{
+          "text": "No, because $1\\le 0$ is false.",
+          "why": "Used the point's $x$-coordinate $1$ as its $y$-coordinate instead of $0$."
         }
-      ],
-      "solution_text": "$y\\le -3x+1$: inclusive sign gives a solid line. Test $(0,0)$: $0\\le 1$ is true, so shade below (the origin side)."
+],
+      "solution_text": "Substitute $x=1$ and $y=0$: $-2(1)+2=0$.\n$0\\le 0$ is true, so $(1,0)$ lies on the included boundary and is in the region."
     },
-    {
+{
       "id": "q3",
-      "question_text": "Rearranging $2x-5y > 20$ into the form $y=mx+c$ gives which inequality?",
-      "structure": "rearrange-flip-strict",
+      "question_text": "Decide by substitution which of $(2.5,-3)$, $(-2,-5)$ and $(5,-2)$ lie in the region defined by $3x-5y>22$.",
+      "structure": "membership-select-points",
       "mastery": true,
       "options": [
-        {
-          "text": "$y < \\dfrac{2}{5}x-4$",
-          "correct": true
+{
+"text": "Only $(2.5,-3)$.",
+"correct": false,
+"why": "Omitted $(5,-2)$ despite $3(5)-5(-2)=25$ and $25>22$ being true."
+},
+{
+          "text": "Only $(-2,-5)$ and $(5,-2)$.",
+          "why": "Used $3|x|-5y>24$ instead of $3x-5y>22$, obtaining $22.5$, $31$ and $25$ and selecting only the second and third points."
         },
-        {
-          "text": "$y > \\dfrac{2}{5}x-4$",
-          "why": "Forgot to reverse the inequality sign when dividing both sides by $-5$"
+{
+          "text": "All three points.",
+          "why": "Added $3|x|$ and $5|y|$ instead of evaluating $3x-5y$, obtaining $22.5$, $31$ and $25$."
         },
-        {
-          "text": "$y < \\dfrac{2}{5}x+4$",
-          "why": "Divided $20$ by $-5$ as $+4$ instead of $-4$"
-        },
-        {
-          "text": "$y > -\\dfrac{2}{5}x-4$",
-          "why": "Kept the sign and mishandled the sign of the $x$ coefficient"
-        }
-      ],
-      "solution_text": "$2x-5y>20$\n$-5y>-2x+20$\n$y<\\dfrac{2}{5}x-4$ (dividing by $-5$ reverses $>$ to $<$)."
+{
+"text": "Only $(2.5,-3)$ and $(5,-2)$.",
+"correct": true
+}
+],
+      "solution_text": "$(2.5,-3)$: $3(2.5)-5(-3)=22.5$, and $22.5>22$ is true.\n$(-2,-5)$: $3(-2)-5(-5)=19$, and $19>22$ is false.\n$(5,-2)$: $3(5)-5(-2)=25$, and $25>22$ is true.\nThe points $(2.5,-3)$ and $(5,-2)$ lie in the region."
     },
-    {
+{
       "id": "q4",
-      "question_text": "Rearranging $5x+2y \\ge 10$ into the form $y=mx+c$ gives which inequality?",
-      "structure": "rearrange-noflip-inclusive",
+      "question_text": "Decide by substitution whether $(2,-1)$ lies in the region defined by $5x+2y\\ge 12$.",
+      "structure": "membership-point-false",
       "mastery": false,
       "options": [
-        {
-          "text": "$y \\ge -\\dfrac{5}{2}x+5$",
+{
+          "text": "No, because $8\\ge 12$ is false.",
           "correct": true
         },
-        {
-          "text": "$y \\le -\\dfrac{5}{2}x+5$",
-          "why": "Reversed the sign, but dividing by the positive $2$ keeps the inequality unchanged"
+{
+          "text": "Yes, because $8\\ge 12$ is true.",
+          "why": "Reversed the comparison: $8$ is less than $12$."
         },
-        {
-          "text": "$y \\ge \\dfrac{5}{2}x+5$",
-          "why": "Dropped the negative sign on the $x$ coefficient after moving $5x$ across"
+{
+          "text": "Yes, because $12\\ge 12$ is true.",
+          "why": "Used $y=1$ instead of $y=-1$, obtaining $5(2)+2(1)=12$."
         },
-        {
-          "text": "$y \\ge -\\dfrac{5}{2}x-5$",
-          "why": "Divided $10$ by $2$ but kept it negative"
+{
+          "text": "Yes, because $14\\ge 12$ is true.",
+          "why": "Used the $x$-coordinate $2$ as $y$ instead of $-1$, obtaining $5(2)+2(2)=14$."
         }
-      ],
-      "solution_text": "$5x+2y\\ge 10$\n$2y\\ge -5x+10$\n$y\\ge -\\dfrac{5}{2}x+5$ (dividing by the positive $2$ keeps $\\ge$)."
+],
+      "solution_text": "$5(2)+2(-1)=10-2=8$.\n$8\\ge 12$ is false, so $(2,-1)$ does not lie in the region."
     },
-    {
+{
       "id": "q5",
       "question_text": "Does the origin $(0,0)$ satisfy $4x-y > 3$?",
       "structure": "membership-origin-false",
       "mastery": false,
       "options": [
-        {
+{
           "text": "No, because $0 > 3$ is false",
           "correct": true
         },
-        {
+{
           "text": "Yes, because $0 > 3$ is true",
           "why": "$0>3$ is a false statement, so the origin is not in the region"
         },
-        {
+{
           "text": "Yes, because $4x-y$ can be positive",
           "why": "Substituting the origin gives $0$, not a positive value, so the test fails"
         },
-        {
+{
           "text": "No, because the boundary is solid",
-          "why": "The line style does not decide membership; substitution does, and $0>3$ is false"
+          "why": "The strict sign $>$ requires a dotted boundary, not a solid boundary. The line style does not decide membership; substitution does, and $0>3$ is false"
         }
-      ],
+],
       "solution_text": "$4(0)-0=0$, and $0>3$ is false, so $(0,0)$ does not satisfy the inequality."
     },
-    {
+{
       "id": "q6",
       "question_text": "Which point lies in the region defined by $x+2y \\le 6$?",
       "structure": "membership-select-point",
@@ -151,55 +152,55 @@
       ],
       "solution_text": "$(2,1)$: $2+2(1)=4$, and $4\\le 6$ is true, so $(2,1)$ lies in the region."
     },
-    {
+{
       "id": "q7",
-      "question_text": "For the graph of $x < -1$, what is the boundary and which side is shaded?",
-      "structure": "vertical-line-shade",
+      "question_text": "Decide by substitution whether $(-3,4)$ lies in the region defined by $x<-3$.",
+      "structure": "membership-point-boundary-strict",
       "mastery": false,
       "options": [
-        {
-          "text": "Dotted vertical line $x=-1$; shade to the left",
+{
+          "text": "No, because $-3<-3$ is false.",
           "correct": true
         },
-        {
-          "text": "Solid vertical line $x=-1$; shade to the left",
-          "why": "$<$ is strict, so the vertical boundary is dotted, not solid"
+{
+          "text": "Yes, because the boundary is included.",
+          "why": "Treated the strict sign $<$ as $\\le$, incorrectly including $x=-3$."
         },
-        {
-          "text": "Dotted vertical line $x=-1$; shade to the right",
-          "why": "$x<-1$ means smaller $x$-values, which lie to the left of the line"
+{
+          "text": "Yes, because $-3<3$ is true.",
+          "why": "Dropped the negative sign from the boundary value $-3$."
         },
-        {
-          "text": "Dotted horizontal line $y=-1$; shade below",
-          "why": "$x<-1$ is a condition on $x$, so the boundary is vertical, not horizontal"
+{
+          "text": "Yes, because $4>-3$ is true.",
+          "why": "Used the $y$-coordinate $4$ instead of the $x$-coordinate $-3$ and reversed $<$ to $>$."
         }
-      ],
-      "solution_text": "$x<-1$ has a vertical dotted boundary $x=-1$; smaller $x$-values lie to the left, so shade left."
+],
+      "solution_text": "The point has $x=-3$.\n$-3<-3$ is false, so $(-3,4)$ lies on the excluded boundary and is not in the region."
     },
-    {
+{
       "id": "q8",
-      "question_text": "Using the test point $(0,0)$ for $y < x+1$, which region is shaded?",
-      "structure": "test-point-side",
+      "question_text": "Decide by substitution whether the origin $(0,0)$ lies in the region defined by $y<x-2$.",
+      "structure": "membership-origin-false",
       "mastery": false,
       "options": [
-        {
-          "text": "The side containing $(0,0)$, below the line",
+{
+          "text": "No, because $0<-2$ is false.",
           "correct": true
         },
-        {
-          "text": "The side not containing $(0,0)$, above the line",
-          "why": "$0<0+1$ is true, so the origin IS in the region and its side is shaded"
+{
+          "text": "Yes, because $0<-2$ is true.",
+          "why": "Reversed the comparison: $0$ is greater than $-2$."
         },
-        {
-          "text": "Only the boundary line itself",
-          "why": "A strict inequality shades a half-plane, not just the line"
+{
+          "text": "Yes, because $0<2$ is true.",
+          "why": "Changed the constant $-2$ to $+2$."
         },
-        {
-          "text": "The whole plane, because $(0,0)$ works",
-          "why": "Only the half-plane on the origin's side is shaded, not the entire plane"
+{
+          "text": "Yes, because $0>-2$ is true.",
+          "why": "Replaced the given sign $<$ with $>$."
         }
-      ],
-      "solution_text": "Test $(0,0)$: $0<0+1=1$ is true, so shade the half-plane containing the origin (below the line)."
+],
+      "solution_text": "Substitute $x=0$ and $y=0$: $0<0-2$, giving $0<-2$.\nThis is false, so the origin does not lie in the region."
     }
-  ]
+]
 }

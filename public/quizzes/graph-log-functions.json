@@ -1,7 +1,7 @@
 {
   "skillId": "graph-log-functions",
   "questions": [
-    {
+{
       "id": "q1",
       "question_text": "Is the logarithmic curve $y=\\log_{10}x$ increasing or decreasing?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0001:8.9,samples=100] {ln(x)/ln(10)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
       "structure": "log-nature-from-base",
@@ -13,7 +13,7 @@
       ],
       "solution_text": "The base is $10$, which is greater than $1$.\nSo the curve is increasing."
     },
-    {
+{
       "id": "q2",
       "question_text": "What is the equation of the vertical asymptote of $y=\\log_{4}x$?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0039:8.9,samples=100] {ln(x)/ln(4)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
       "structure": "vertical-asymptote",
@@ -26,82 +26,85 @@
       ],
       "solution_text": "The input of a logarithm must be positive, so the curve approaches the $y$-axis but never reaches it.\nThe vertical asymptote is $x=0$."
     },
-    {
+{
       "id": "q3",
-      "question_text": "At what point does $y=\\log_{6}x$ cross the $x$-axis?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.00077:8.9,samples=100] {ln(x)/ln(6)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
-      "structure": "x-intercept-log",
+      "question_text": "Is the logarithmic curve $y=\\log_{8}x$ increasing or decreasing?",
+      "structure": "log-nature-from-base",
       "mastery": false,
       "options": [
-        { "text": "$(1,0)$", "correct": true },
-        { "text": "$(0,1)$", "why": "Swapped to the exponential partner's $y$-intercept $(0,1)$." },
-        { "text": "$(0,0)$", "why": "Assumed the curve passes through the origin." },
-        { "text": "$(6,1)$", "why": "Used the base as a coordinate instead of $\\log_{6}1=0$." }
-      ],
-      "solution_text": "$\\log_{6}1=0$, so the curve passes through $(1,0)$.\nThe $x$-intercept is $(1,0)$."
+{ "text": "Increasing", "correct": true },
+{ "text": "Decreasing", "why": "Used the rule for bases between $0$ and $1$, although $8>1$." },
+{ "text": "Constant", "why": "Treated the fixed base $8$ as meaning that every output is the same." }
+],
+      "solution_text": "The base is $8$, which is greater than $1$.\nSo the curve is increasing."
     },
-    {
+{
       "id": "q4",
-      "question_text": "The curves $y=a^{x}$ and $y=\\log_{a}x$ are reflections of each other.\nIn which line?",
-      "structure": "mirror-line",
+      "question_text": "For $a>0$ and $a\\ne1$, are the graphs of $y=a^{x}$ and $y=\\log_{a}x$ always reflections of each other?",
+      "structure": "compare-exponential-log-reflections",
       "mastery": false,
       "options": [
-        { "text": "$y=x$", "correct": true },
-        { "text": "$y=0$", "why": "Chose the $x$-axis instead of the diagonal line $y=x$." },
-        { "text": "$x=0$", "why": "Chose the $y$-axis instead of the diagonal line $y=x$." },
-        { "text": "$y=-x$", "why": "Chose the opposite diagonal, which reflects to a different curve." }
-      ],
-      "solution_text": "An exponential and its logarithm are inverses.\nThey are reflections of each other in the line $y=x$."
+{ "text": "Yes, for both $a>1$ and $0<a<1$.", "correct": true },
+{ "text": "Only when $a>1$.", "why": "Assumed the inverse reflection relationship stops applying when the base is between $0$ and $1$." },
+{ "text": "Only when $0<a<1$.", "why": "Assumed only decreasing exponential and logarithmic graphs are reflections." },
+{ "text": "No, they are never reflections.", "why": "Ignored that exponentiation and logarithms with the same valid base are inverse operations." }
+],
+      "solution_text": "Yes. An exponential and its logarithm are inverses for every base satisfying $a>0$ and $a\\ne1$.\nThey are reflections of each other in the line $y=x$."
     },
-    {
+{
       "id": "q5",
-      "question_text": "The point $(0,1)$ lies on $y=7^{x}$.\nWhat is the corresponding point on $y=\\log_{7}x$?",
-      "structure": "reflected-point",
+      "question_text": "What is the equation of the vertical asymptote of $y=\\log_{9}x$?",
+      "structure": "vertical-asymptote",
       "mastery": false,
       "options": [
-        { "text": "$(1,0)$", "correct": true },
-        { "text": "$(0,1)$", "why": "Left the coordinates unswapped when reflecting in $y=x$." },
-        { "text": "$(0,-1)$", "why": "Negated a coordinate instead of swapping the pair." },
-        { "text": "$(-1,0)$", "why": "Negated the swapped coordinate instead of just swapping." }
-      ],
-      "solution_text": "Reflecting in $y=x$ swaps the coordinates.\n$(0,1)\\to(1,0)$\nThe corresponding point is $(1,0)$."
+{ "text": "$x=0$", "correct": true },
+{ "text": "$y=0$", "why": "Gave the exponential partner's horizontal asymptote instead of the logarithmic curve's vertical asymptote." },
+{ "text": "$x=9$", "why": "Used the base $9$ as the position of the vertical asymptote." },
+{ "text": "$x=1$", "why": "Mistook the point where the curve crosses the $x$-axis for a vertical asymptote." }
+],
+      "solution_text": "The logarithmic curve approaches the $y$-axis without touching it.\nThe vertical asymptote is $x=0$."
     },
-    {
+{
       "id": "q6",
-      "question_text": "The diagram shows three curves.\nWhich curve is $y=\\log_{3}x$?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=8,ymin=-4,ymax=8,xtick={-4,-2,2,4,6,8},ytick={-4,-2,2,4,6,8},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,red!70!black,dashdotted,<->,domain=0.0123:7.9,samples=100] {ln(x)/ln(3)};\n\\node[red!70!black] at (axis cs:7,2.4) {$A$};\n\\addplot[thick,blue!70!black,<->,domain=-3.5:1.9,samples=100] {exp(x*ln(3))};\n\\node[blue!70!black] at (axis cs:2.3,6.8) {$B$};\n\\addplot[thick,green!50!black,densely dashed,<->,domain=0.0123:7.9,samples=100] {ln(x)/ln(0.3333)};\n\\node[green!50!black] at (axis cs:7,-2.4) {$C$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
-      "structure": "which-graph-is-log",
+      "question_text": "For $y=\\log_{\\frac{1}{6}}x$, which description gives its direction and vertical asymptote?",
+      "structure": "log-nature-and-asymptote",
       "mastery": false,
       "options": [
-        { "text": "$A$", "correct": true },
-        { "text": "$B$", "why": "Chose the exponential $y=3^{x}$, reading the reflection backwards." },
-        { "text": "$C$", "why": "Chose the decreasing curve $y=\\log_{1/3}x$, the wrong base regime." }
-      ],
-      "solution_text": "Curve $A$ passes through $(1,0)$, rises (base $3>1$), and has a vertical asymptote at the $y$-axis.\nSo $A$ is $y=\\log_{3}x$. ($B$ is $y=3^{x}$; $C$ is the decreasing $y=\\log_{1/3}x$.)"
+{ "text": "Decreasing, with vertical asymptote $x=0$.", "correct": true },
+{ "text": "Increasing, with vertical asymptote $x=0$.", "why": "Used the increasing-curve rule even though the base $\\tfrac{1}{6}$ is between $0$ and $1$." },
+{ "text": "Decreasing, with vertical asymptote $x=1$.", "why": "Mistook the $x$-intercept position for the vertical asymptote." },
+{
+  "text": "Increasing, with vertical asymptote $x=\\tfrac{1}{6}$.",
+  "why": "Applied the wrong direction rule and used the base as the position of the asymptote."
+}
+],
+      "solution_text": "Since $0<\\tfrac{1}{6}<1$, the curve is decreasing.\nIts input must be positive, and its vertical asymptote is $x=0$."
     },
-    {
+{
       "id": "q7",
-      "question_text": "Which function does this graph show?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0625:8.9,samples=100] {ln(x)/ln(0.5)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
-      "structure": "identify-function-from-graph",
+      "question_text": "Is the logarithmic curve $y=\\log_{0.4}x$ increasing or decreasing?",
+      "structure": "log-nature-from-base",
       "mastery": false,
       "options": [
-        { "text": "$y=\\log_{0.5}x$", "correct": true },
-        { "text": "$y=\\log_{2}x$", "why": "Ignored that the curve falls, so the base must be under $1$." },
-        { "text": "$y=2^{x}$", "why": "Named an exponential, but this curve has a vertical asymptote, not a horizontal one." },
-        { "text": "$y=\\left(\\tfrac{1}{2}\\right)^{x}$", "why": "Named a decaying exponential, which has a horizontal asymptote instead." }
-      ],
-      "solution_text": "The curve passes through $(1,0)$ with a vertical asymptote at the $y$-axis, so it is a logarithm.\nIt falls, so the base is between $0$ and $1$: $y=\\log_{0.5}x$."
+{ "text": "Decreasing", "correct": true },
+{ "text": "Increasing", "why": "Assumed every positive base gives an increasing curve, overlooking that $0<0.4<1$." },
+{ "text": "Constant", "why": "Treated the fixed base $0.4$ as meaning that every output is the same." },
+{ "text": "The graph is undefined for every $x$.", "why": "Mistook a valid base between $0$ and $1$ for an invalid logarithm base." }
+],
+      "solution_text": "The base $0.4$ is between $0$ and $1$.\nSo the curve is decreasing."
     },
-    {
+{
       "id": "q8",
-      "question_text": "A logarithmic curve $y=\\log_{a}x$ passes through $(1,0)$ and $(9,2)$.\nWhat is the base $a$?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=10,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0123:9.5,samples=100] {ln(x)/ln(3)};\n\\addplot[only marks,mark=*,mark size=2pt] coordinates {(1,0) (9,2)};\n\\node[below right,fill=white,inner sep=1pt] at (axis cs:1,0) {$(1,0)$};\n\\node[above left,fill=white,inner sep=1pt] at (axis cs:9,2) {$(9,2)$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
-      "structure": "base-from-two-points",
+      "question_text": "Sketch $y=\\log_{\\frac{3}{5}}x$ and $y=\\log_{\\frac{5}{3}}x$ on the same axes. Which statement correctly describes their directions?",
+      "structure": "sketch-and-compare-log-curves",
       "mastery": true,
       "options": [
-        { "text": "$3$", "correct": true },
-        { "text": "$9$", "why": "Used the input $9$ as the base instead of solving $a^{2}=9$." },
-        { "text": "$4.5$", "why": "Divided the input $9$ by the $y$-value $2$." },
-        { "text": "$81$", "why": "Computed $9^{2}$ instead of $\\sqrt{9}$." }
-      ],
-      "solution_text": "The curve passes through $(9,2)$, so $\\log_{a}9=2$.\n$a^{2}=9$\n$a=3$"
+{ "text": "$y=\\log_{\\frac{3}{5}}x$ is decreasing and $y=\\log_{\\frac{5}{3}}x$ is increasing.", "correct": true },
+{ "text": "Both curves are increasing.", "why": "Assumed a positive base is enough for an increasing curve, ignoring that $\\tfrac{3}{5}<1$." },
+{ "text": "Both curves are decreasing.", "why": "Applied the decreasing-curve rule to $\\tfrac{5}{3}$ even though this base is greater than $1$." },
+{ "text": "$y=\\log_{\\frac{3}{5}}x$ is increasing and $y=\\log_{\\frac{5}{3}}x$ is decreasing.", "why": "Reversed the rules for bases between $0$ and $1$ and bases greater than $1$." }
+],
+      "solution_text": "For $x=\\tfrac{9}{25},\\tfrac{3}{5},1,\\tfrac{5}{3},\\tfrac{25}{9}$, the values of $y$ for base $\\tfrac{3}{5}$ are $2,1,0,-1,-2$, and for base $\\tfrac{5}{3}$ they are $-2,-1,0,1,2$.\nPlot each set of points and draw smooth curves approaching the $y$-axis without touching it.\nSince $0<\\tfrac{3}{5}<1$, its curve is decreasing. Since $\\tfrac{5}{3}>1$, its curve is increasing.\n[tikz]\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.5,xmax=5,ymin=-3,ymax=3,xtick={1,2,3,4},ytick={-2,-1,1,2},grid=both,xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.216:4.62962963,samples=150] {ln(x)/ln(3/5)};\n\\addplot[thick,red!70!black,dashdotted,<->,domain=0.216:4.62962963,samples=150] {ln(x)/ln(5/3)};\n\\node[blue!70!black,fill=white,inner sep=1pt] at (axis cs:3.2,-1.5) {$y=\\log_{3/5}x$};\n\\node[red!70!black,fill=white,inner sep=1pt] at (axis cs:3.2,1.5) {$y=\\log_{5/3}x$};\n\\end{axis}\\end{tikzpicture}[/tikz]"
     }
-  ]
+]
 }

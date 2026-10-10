@@ -1,35 +1,56 @@
 {
   "skillId": "read-timetables",
   "questions": [
-    { "id": "q1", "question_text": "Use $\\begin{array}{c|cc} &\\text{B1}&\\text{B2}\\\\\\hline\\text{Market}&0820&0915\\\\\\text{Station}&0845&0940\\end{array}$.\nWhen does B2 reach Station?", "structure": "read-row-column-intersection", "mastery": false, "options": [{ "text": "$0940$", "correct": true }, { "text": "$0915$", "why": "Reads the B2 departure from Market instead of its Station arrival." }, { "text": "$0845$", "why": "Reads the Station time from the B1 column instead of B2." }], "solution_text": "Read the Station row and B2 column.\nB2 reaches Station at $0940$." },
-    { "id": "q2", "question_text": "Use $\\begin{array}{c|cc} &\\text{C1}&\\text{C2}\\\\\\hline\\text{Start}&1240&1315\\\\\\text{Finish}&1330&1400\\end{array}$.\nHow long does C1 take?", "structure": "find-timetable-journey-duration", "mastery": false, "options": [{ "text": "$50\\text{ min}$", "correct": true }, { "text": "$90\\text{ min}$", "why": "Subtracts the displayed minute numbers without accounting for the change of hour." }, { "text": "$30\\text{ min}$", "why": "Uses only the minutes from 1:00 to 1:30 and omits the first 20 minutes." }], "solution_text": "$1240\\to1300=20\\text{ min}$\n$1300\\to1330=30\\text{ min}$\n$20+30=50\\text{ min}$" },
-    { "id": "q3", "question_text": "Use $\\begin{array}{c|ccc} &\\text{S1}&\\text{S2}&\\text{S3}\\\\\\hline\\text{Depart}&0745&0820&0855\\\\\\text{Arrive}&0830&0905&0940\\end{array}$.\nWhich service arrives at $0905$?", "structure": "select-service-by-arrival", "mastery": false, "options": [{ "text": "S2", "correct": true }, { "text": "S1", "why": "Reads the first service column, whose arrival is 0830." }, { "text": "S3", "why": "Reads the third service column, whose arrival is 0940." }], "solution_text": "Find $0905$ in the Arrive row and read its column heading.\nThe service is **S2**." },
-    {
+{ "id": "q1", "question_text": "Use $\\begin{array}{c|cc} &\\text{B1}&\\text{B2}\\\\\\hline\\text{Market}&0825&0920\\\\\\text{Station}&0850&0950\\end{array}$.\nHow long does B2 take from Market to Station?", "structure": "find-timetable-journey-duration", "mastery": false, "options": [
+{ "text": "$30\\text{ min}$", "correct": true },
+{ "text": "$25\\text{ min}$", "why": "Uses B1's times, $0825$ to $0850$, instead of B2's times." },
+{ "text": "$50\\text{ min}$", "why": "Counts from $0900$ to $0950$ instead of starting at B2's departure time of $0920$." }
+], "solution_text": "$0920\\to0950=30\\text{ min}$\nB2 takes $30\\text{ min}$." },
+{ "id": "q2", "question_text": "Use $\\begin{array}{c|cc} &\\text{C1}&\\text{C2}\\\\\\hline\\text{Start}&1240&1315\\\\\\text{Finish}&1330&1400\\end{array}$.\nHow long does C1 take?", "structure": "find-timetable-journey-duration", "mastery": false, "options": [
+{ "text": "$50\\text{ min}$", "correct": true },
+{ "text": "$90\\text{ min}$", "why": "Subtracts the whole HHMM entries as ordinary integers, $1330-1240=90$, instead of calculating elapsed time." },
+{ "text": "$30\\text{ min}$", "why": "Uses only the minutes from 1:00 to 1:30 and omits the first 20 minutes." }
+], "solution_text": "$1240\\to1300=20\\text{ min}$\n$1300\\to1330=30\\text{ min}$\n$20+30=50\\text{ min}$" },
+{ "id": "q3", "question_text": "Use $\\begin{array}{c|ccc} &\\text{S1}&\\text{S2}&\\text{S3}\\\\\\hline\\text{Depart}&0750&0825&0900\\\\\\text{Arrive}&0835&0910&0945\\end{array}$.\nWhich is the latest service that arrives by $9{:}20\\text{ am}$?", "structure": "select-latest-service-by-arrival-deadline", "mastery": false, "options": [
+{ "text": "S2", "correct": true },
+{ "text": "S1", "why": "Chooses the earliest service that meets the deadline instead of the latest departure." },
+{ "text": "S3", "why": "Checks that S3 departs before $0920$ instead of checking its arrival, which is $0945$." }
+], "solution_text": "S1 and S2 arrive by $0920$; S3 arrives too late.\nS2 leaves later than S1, at $0825$.\nThe latest service is **S2**." },
+{
       "id": "q4",
-      "question_text": "Use $\\begin{array}{c|cc}\\text{Session}&\\text{Start}&\\text{Finish}\\\\\\hline\\text{Art}&1535&1645\\\\\\text{Music}&1700&1810\\end{array}$.\nWhat is the Art start time in 12-hour notation?",
-      "structure": "convert-time-read-from-table",
+      "question_text": "Use $\\begin{array}{c|cc} &\\text{B1}&\\text{B2}\\\\\\hline\\text{Gallery}&1540&1710\\\\\\text{Station}&1650&1820\\end{array}$.\nAva arrives at the gallery bus stop at $3{:}18\\text{ pm}$. How long does she need to wait for the next bus?",
+      "structure": "find-wait-for-next-service",
       "mastery": false,
       "options": [
-        {
-          "text": "$3{:}35$ pm",
+{
+          "text": "$22\\text{ min}$",
           "correct": true
         },
-        {
-          "text": "$5{:}35$ pm",
-          "why": "Subtracts 10 instead of 12 from hour 15, giving 5, but keeps the correct pm label."
+{
+          "text": "$40\\text{ min}$",
+          "why": "Counts from $1500$ to $1540$ instead of starting at Ava's arrival time of $1518$."
         },
-        {
-          "text": "$3{:}35$ am",
-          "why": "Converts the hour correctly but labels every 24-hour time as am."
+{
+          "text": "$1\\text{ h }52\\text{ min}$",
+          "why": "Calculates the wait until B2 at $1710$, overlooking the next bus at $1540$."
         },
-        {
-          "text": "$5{:}35$ am",
-          "why": "Subtracts 10 instead of 12 from hour 15 and also labels the time as am."
+{
+          "text": "$1\\text{ h }32\\text{ min}$",
+          "why": "Uses B1's Station arrival at $1650$ instead of its departure from Gallery at $1540$."
         }
-      ],
-      "solution_text": "$15-12=3$\n$1535=3{:}35\\text{ pm}$"
+],
+      "solution_text": "The next bus leaves Gallery at $1540$.\n$1518\\to1540=22\\text{ min}$\nAva waits $22\\text{ min}$."
     },
-    { "id": "q5", "question_text": "Use $\\begin{array}{c|ccc} &\\text{F1}&\\text{F2}&\\text{F3}\\\\\\hline\\text{Leave}&2245&2325&2355\\\\\\text{Arrive}&2330&0010&0045\\end{array}$.\nWhich trips cross midnight?", "structure": "identify-midnight-crossing-trips", "mastery": true, "options": [{ "text": "F2 and F3", "correct": true }, { "text": "F1 only", "why": "Treats the latest same-day arrival as crossing midnight while ignoring 00-hour arrivals." }, { "text": "F3 only", "why": "Recognises one 00-hour arrival but overlooks that F2 also arrives after midnight." }, { "text": "all three", "why": "Includes F1 even though it arrives at 2330 before midnight." }], "solution_text": "Arrivals $0010$ and $0045$ occur on the next day.\nF2 and F3 cross midnight." },
-    { "id": "q6", "question_text": "Use $\\begin{array}{c|ccc} &\\text{A}&\\text{B}&\\text{C}\\\\\\hline\\text{Leave}&1010&1040&1115\\\\\\text{Arrive}&1120&1135&1200\\end{array}$.\nWhich service has the shortest journey?", "structure": "compare-timetable-durations", "mastery": true, "options": [{ "text": "C", "correct": true }, { "text": "A", "why": "Chooses the earliest departure without comparing each service's elapsed time." }, { "text": "B", "why": "Calculates B's 55 minutes but overlooks C's shorter 45-minute trip." }], "solution_text": "A takes $70$ minutes.\nB takes $55$ minutes.\nC takes $45$ minutes.\nService C has the shortest journey." }
-  ]
+{ "id": "q5", "question_text": "Use $\\begin{array}{c|ccc} &\\text{F1}&\\text{F2}&\\text{F3}\\\\\\hline\\text{Leave}&2250&2330&2350\\\\\\text{Arrive}&2335&0020&0045\\end{array}$.\nF2 and F3 arrive on the next day. How long does F2 take?", "structure": "find-timetable-journey-duration-across-midnight", "mastery": true, "options": [
+{ "text": "$50\\text{ min}$", "correct": true },
+{ "text": "$20\\text{ min}$", "why": "Counts only the time from midnight to $0020$, omitting the $30\\text{ min}$ before midnight." },
+{ "text": "$30\\text{ min}$", "why": "Counts only the time from $2330$ to midnight, omitting the $20\\text{ min}$ after midnight." },
+{ "text": "$55\\text{ min}$", "why": "Uses F3's times, $2350$ to $0045$, instead of F2's times." }
+], "solution_text": "$2330\\to2400=30\\text{ min}$\n$0000\\to0020=20\\text{ min}$\n$30+20=50\\text{ min}$" },
+{ "id": "q6", "question_text": "Use $\\begin{array}{c|ccc} &\\text{A}&\\text{B}&\\text{C}\\\\\\hline\\text{Leave}&1015&1045&1120\\\\\\text{Arrive}&1130&1140&1205\\end{array}$.\nHow long does service A take?", "structure": "find-timetable-journey-duration", "mastery": true, "options": [
+{ "text": "$1\\text{ h }15\\text{ min}$", "correct": true },
+{ "text": "$1\\text{ h }55\\text{ min}$", "why": "Subtracts the whole HHMM entries as ordinary integers, $1130-1015=115$, then treats the result as $115\\text{ min}$." },
+{ "text": "$55\\text{ min}$", "why": "Uses service B's times, $1045$ to $1140$, instead of service A's times." }
+], "solution_text": "$1015\\to1100=45\\text{ min}$\n$1100\\to1130=30\\text{ min}$\n$45+30=75\\text{ min}$\n$=1\\text{ h }15\\text{ min}$" }
+]
 }

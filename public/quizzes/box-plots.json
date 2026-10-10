@@ -53,53 +53,28 @@
     },
 {
       "id": "q3",
-      "question_text": "A box plot is drawn from the five-number summary: minimum $=190$, $Q_1=215$, median $=230$, $Q_3=250$, maximum $=290$.\nWhat are the values at the two ends of the shaded box (not the whiskers)?",
-      "structure": "construct-from-5ns",
-      "mastery": false,
-      "options": [
-        {
-          "text": "$215$ and $250$",
-          "correct": true
-        },
-        {
-          "text": "$215$ and $290$",
-          "why": "Started the box correctly at $Q_1$ but ended it at the maximum $290$, which is the end of the right whisker, not the right edge of the box."
-        },
-        {
-          "text": "$230$ and $250$",
-          "why": "Started the box at the median $230$ instead of at $Q_1$, forgetting that the median is the line drawn inside the box."
-        },
-        {
-          "text": "$230$ and $290$",
-          "why": "Made both slips: began the box at the median $230$ rather than $Q_1$, and ended it at the maximum $290$ rather than $Q_3$."
-        }
-      ],
-      "solution_text": "The box of a box plot runs from $Q_1$ to $Q_3$.\n$Q_1=215$ and $Q_3=250$."
-    },
-{
-      "id": "q4",
-      "question_text": "What does the length of a whisker on a box plot represent?",
-      "structure": "identify-box-plot-parts",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.4,0);\n\\foreach \\x/\\v in {0/180,1/200,2/220,3/240,4/260,5/280,6/300} {\n\\draw (\\x,-0.08)--(\\x,0.08);\n\\node[below,font=\\scriptsize] at (\\x,-0.16) {$\\v$};\n}\n\\node[below,font=\\scriptsize] at (3,-0.8) {Reaction time (ms)};\n\\draw[thick] (0.75,1.45)--(1.5,1.45);\n\\draw[thick] (3.75,1.45)--(5.25,1.45);\n\\draw[thick] (0.75,1.25)--(0.75,1.65);\n\\draw[thick] (5.25,1.25)--(5.25,1.65);\n\\draw[thick] (1.5,1.05) rectangle (3.75,1.85);\n\\draw[thick] (2.5,1.05)--(2.5,1.85);\n\\end{tikzpicture}\n[/tikz]\nWhich list is the correct five-number summary of these reaction times?",
+      "structure": "interpret-full-5ns",
       "mastery": false,
       "options": [
 {
-          "text": "The spread from an extreme value to the nearer quartile",
+          "text": "Minimum $195$, $Q_1=210$, median $230$, $Q_3=255$, maximum $285$",
           "correct": true
         },
 {
-          "text": "The spread of half of the data, from an extreme value to the median",
-          "why": "Extended the whisker past the nearer quartile to the median. A whisker stops at the nearer edge of the box."
+          "text": "Minimum $180$, $Q_1=210$, median $230$, $Q_3=255$, maximum $300$",
+          "why": "Used the first and last labelled axis values, $180$ and $300$, instead of the two whisker ends."
         },
 {
-          "text": "The full range of the dataset",
-          "why": "Described the whole box plot (both whiskers and the box together), not a single whisker."
+          "text": "Minimum $195$, $Q_1=210$, median $232.5$, $Q_3=255$, maximum $285$",
+          "why": "Used the box midpoint, $(210+255)\\div 2=232.5$, instead of reading the median line at $230$."
         },
 {
-          "text": "The number of values in the dataset",
-          "why": "A box plot shows the spread of values, not a count of how many values there are."
+          "text": "Minimum $195$, $Q_1=210$, median $230$, $Q_3=255$, maximum $280$",
+          "why": "Read the maximum as the nearby labelled tick at $280$, overlooking that the whisker ends one-quarter of the way towards $300$."
         }
 ],
-      "solution_text": "The left whisker runs from the minimum to $Q_1$. The right whisker runs from $Q_3$ to the maximum.\nIts length shows the difference between those two values, not a count of observations."
+      "solution_text": "Read the two whisker ends, the two edges of the box and the median line from the scale.\nMinimum $=195$, $Q_1=210$, median $=230$, $Q_3=255$, maximum $=285$."
     },
 {
       "id": "q5",
@@ -153,53 +128,28 @@
     },
 {
       "id": "q7",
-      "question_text": "A box plot is drawn from the five-number summary: minimum $=95$, $Q_1=120$, median $=140$, $Q_3=175$, maximum $=230$.\nHow long is the right whisker, in milliseconds?",
-      "structure": "construct-from-5ns",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-0.4,0)--(6.4,0);\n\\foreach \\x/\\v in {0/80,1/110,2/140,3/170,4/200,5/230,6/260} {\n\\draw (\\x,-0.08)--(\\x,0.08);\n\\node[below,font=\\scriptsize] at (\\x,-0.16) {$\\v$};\n}\n\\node[below,font=\\scriptsize] at (3,-0.8) {Reaction time (ms)};\n\\draw[thick] (0.5,1.45)--(1.5,1.45);\n\\draw[thick] (3.5,1.45)--(5,1.45);\n\\draw[thick] (0.5,1.25)--(0.5,1.65);\n\\draw[thick] (5,1.25)--(5,1.65);\n\\draw[thick] (1.5,1.05) rectangle (3.5,1.85);\n\\draw[thick] (2.5,1.05)--(2.5,1.85);\n\\end{tikzpicture}\n[/tikz]\nWhat is the range of these reaction times, in milliseconds?",
+      "structure": "find-range-from-box-plot",
       "mastery": false,
       "options": [
 {
-          "text": "$55$",
-          "correct": true
-        },
-{
           "text": "$135$",
-          "why": "Measured from the minimum to the maximum instead of from $Q_3$ to the maximum."
-        },
-{
-          "text": "$25$",
-          "why": "Measured from the minimum to $Q_1$ (the left whisker) instead of the right whisker."
-        },
-{
-          "text": "$90$",
-          "why": "Measured from the median to the maximum: $230-140=90$, instead of from $Q_3$ to the maximum."
-        }
-],
-      "solution_text": "The right whisker runs from $Q_3$ to the maximum.\nLength $=230-175$\n$=55$ ms."
-    },
-{
-      "id": "q8",
-      "question_text": "In a particular box plot, the median line sits much closer to $Q_1$ than to $Q_3$, so the two halves of the box look very different sizes.\nIs this possible?",
-      "structure": "identify-box-plot-parts",
-      "mastery": true,
-      "options": [
-{
-          "text": "Yes — quartile sections can have different widths on the number line",
           "correct": true
         },
 {
-          "text": "No — the median must be drawn exactly halfway between $Q_1$ and $Q_3$",
-          "why": "Assumed the median must divide the box into equal widths. It marks the middle of the ordered data, not the midpoint of $Q_1$ and $Q_3$."
+          "text": "$60$",
+          "why": "Found the interquartile range, $185-125=60$, instead of subtracting the minimum from the maximum."
         },
 {
-          "text": "No — this would mean the box plot has been drawn incorrectly",
-          "why": "Treated different widths as a drawing error. The median can be closer to either edge of the box."
+          "text": "$45$",
+          "why": "Measured only the right whisker, $230-185=45$, instead of the full range."
         },
 {
-          "text": "Yes, but only if the dataset has a repeated value at the median",
-          "why": "Adds an unnecessary condition — an off-centre median line reflects the spacing of the data values, not a repeated value."
+          "text": "$180$",
+          "why": "Subtracted the first axis label from the last, $260-80=180$, instead of using the whisker ends."
         }
 ],
-      "solution_text": "The median marks the middle of the ordered data, not the midpoint of $Q_1$ and $Q_3$.\nQuartile sections can cover different ranges of values, so the median line can sit off-centre. The box alone does not give exact counts when values repeat."
+      "solution_text": "The whisker ends show minimum $=95$ and maximum $=230$.\nRange $=230-95=135$ ms."
     }
 ]
 }

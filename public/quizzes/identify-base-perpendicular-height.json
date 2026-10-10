@@ -178,53 +178,53 @@
     },
 {
       "id": "q8",
-      "question_text": "A triangle is rotated on the page without changing its size.\nWhat happens to a chosen base and its matching perpendicular height?",
-      "structure": "rotation-preserves-base-height",
+      "question_text": "Side $p$ is chosen as the base of this triangle. Which labelled segment is its perpendicular height?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\\coordinate (B) at (1.8,2.4);\\coordinate (C) at (4.8,1.4);\\coordinate (H) at ($(A)!(C)!(B)$);\n\\draw (A)--(B) node[midway,above left] {$p$};\\draw (B)--(C) node[midway,above right] {$q$};\\draw (C)--(A) node[midway,below] {$r$};\n\\draw[dashed] (B)--(H);\\draw[dashed] (C)--(H) node[midway,right] {$s$};\n\\coordinate (ra) at ($(H)!0.25cm!(C)$);\\coordinate (rb) at ($(H)!0.25cm!(B)$);\\draw (ra)--($(ra)+(rb)-(H)$)--(rb);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "external-triangle-height",
       "mastery": true,
       "options": [
-        {
-          "text": "Their directions change, but their lengths and right angle stay the same",
+{
+          "text": "$s$",
           "correct": true
         },
-        {
-          "text": "The height becomes the longest side",
-          "why": "Uses page orientation to relabel a side, ignoring the perpendicular relationship to the chosen base."
+{
+          "text": "$q$",
+          "why": "Chooses a side joining the opposite vertex to a base endpoint, without checking that it is perpendicular to base $p$."
         },
-        {
-          "text": "The base stays horizontal and the height stays vertical",
-          "why": "Treats horizontal and vertical as fixed properties even though the whole triangle has rotated."
+{
+          "text": "$r$",
+          "why": "Chooses the lowest side on the page instead of the perpendicular segment for the chosen sloping base $p$."
         },
-        {
-          "text": "Both lengths change because the picture looks different",
-          "why": "Confuses a change in orientation with a change in the shape's actual dimensions."
+{
+          "text": "$p$",
+          "why": "Chooses the base itself instead of the perpendicular distance from the opposite vertex."
         }
-      ],
-      "solution_text": "A rotation preserves lengths and angles. The pair turns together, so the $90^{\\circ}$ relationship remains.\nTheir directions change, but their lengths and right angle stay the same."
+],
+      "solution_text": "Segment $s$ joins the opposite vertex to the extension of base $p$ at the marked right angle. The perpendicular height is $s$."
     },
 {
       "id": "dq-98486",
-      "question_text": "A parallelogram has base $12\\text{ cm}$ and matching perpendicular height $8\\text{ cm}$. A slanted side is labelled $m\\text{ cm}$.\nWhat is the value of $m$?",
-      "structure": "height-definition",
+      "question_text": "The bottom side is chosen as the base of this parallelogram. Which labelled segment is its perpendicular height?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0)--(4.6,0) node[midway,below] {base}--(5.8,2.4)--(1.2,2.4)--cycle;\n\\draw (4.6,0)--(5.8,2.4) node[midway,right] {$m$};\n\\draw (5.8,2.4)--(1.2,2.4) node[midway,above] {$n$};\n\\draw (1.2,2.4)--(0,0) node[midway,left] {$p$};\n\\draw[dashed] (1.2,2.4)--(1.2,0) node[midway,right] {$q$};\n\\draw (1.2,0.25)--(1.45,0.25)--(1.45,0);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "choose-parallelogram-height",
       "mastery": false,
       "options": [
 {
-          "text": "$84$",
-          "why": "A slanted side cannot be found by combining the base and perpendicular height as though they were one side."
+          "text": "$m$",
+          "why": "Chooses the right slanted side even though it does not meet the chosen base at $90^{\\circ}$."
         },
 {
-          "text": "$16$",
-          "why": "Doubling the perpendicular height does not give the slanted side."
+          "text": "$n$",
+          "why": "Chooses the opposite parallel side instead of the perpendicular distance to that side."
         },
 {
-          "text": "$8$",
-          "why": "This is the perpendicular height. A slanted side is not the matching perpendicular height."
+          "text": "$p$",
+          "why": "Chooses the left slanted side because it reaches the opposite side, ignoring the right-angle requirement."
         },
 {
-          "text": "Not enough information",
+          "text": "$q$",
           "correct": true
         }
 ],
-      "solution_text": "The given $8\\text{ cm}$ is perpendicular to the chosen base. Side $m$ is slanted.\nThese measurements do not determine the length of $m$.\nNot enough information."
+      "solution_text": "Segment $q$ meets the bottom base at the marked right angle and reaches the opposite side. The perpendicular height is $q$."
     }
 ]
 }

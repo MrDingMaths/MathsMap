@@ -1,32 +1,32 @@
 {
   "skillId": "prove-properties-triangles-quadrilaterals",
   "questions": [
-    {
+{
       "id": "q1",
-      "structure": "para-opposite-sides-triangles",
+      "structure": "parallelogram-congruence-proof",
       "mastery": false,
-      "question_text": "To prove that the opposite sides of parallelogram $ABCD$ are equal, the diagonal $AC$ is drawn.\nWhich pair of triangles must be proved congruent?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (C) at (6,2.2);\n\\coordinate (D) at (1.4,2.2);\n\\draw[sa] (A)--(B);\n\\draw[da] (B)--(C);\n\\draw[sa] (D)--(C);\n\\draw[da] (A)--(D);\n\\draw (A)--(C);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "$PQRS$ is a parallelogram with $PQ \\parallel RS$ and $PS \\parallel QR$. The diagonal $PR$ is drawn.\nWhich proof correctly establishes $\\triangle PQR \\cong \\triangle RSP$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}}}\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (4.2,0);\n\\coordinate (R) at (5.4,2.5);\n\\coordinate (S) at (1.2,2.5);\n\\draw[sa] (P)--(Q);\n\\draw[da] (Q)--(R);\n\\draw[sa] (S)--(R);\n\\draw[da] (P)--(S);\n\\draw (P)--(R);\n\\node[below left] at (P) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\node[above right] at (R) {$R$};\n\\node[above left] at (S) {$S$};\n\\end{tikzpicture}\n[/tikz]",
       "options": [
-        {
-          "text": "$\\triangle ABC$ and $\\triangle CDA$",
+{
+          "text": "$\\angle QPR = \\angle SRP$ and $\\angle QRP = \\angle SPR$ (alternate angles), and $PR$ is common, so $\\triangle PQR \\cong \\triangle RSP$ (AAS).",
           "correct": true
         },
-        {
-          "text": "$\\triangle ABD$ and $\\triangle CDB$",
-          "why": "These are the two triangles formed by the diagonal $BD$; the construction draws $AC$, which splits $ABCD$ into $\\triangle ABC$ and $\\triangle ACD$."
+{
+          "text": "$\\angle QPR = \\angle SRP$ (vertically opposite angles), and $PR$ is common, so $\\triangle PQR \\cong \\triangle RSP$ (AAS).",
+          "why": "The angles have different vertices, so they are not vertically opposite; the proof also supplies only one equal angle pair for AAS."
         },
-        {
-          "text": "$\\triangle ABC$ and $\\triangle ABD$",
-          "why": "$\\triangle ABD$ is formed by the undrawn diagonal $BD$, so this pairs a triangle across $AC$ with one across $BD$, which do not correspond."
+{
+          "text": "$\\angle QPR = \\angle SRP$ and $\\angle QRP = \\angle SPR$ (alternate angles), so $\\triangle PQR \\cong \\triangle RSP$ (AAA).",
+          "why": "Equal angles alone establish similarity, not congruence; this proof omits the common side needed for AAS."
         },
-        {
-          "text": "$\\triangle ABC$ and $\\triangle BCD$",
-          "why": "The diagonal $AC$ gives $\\triangle ACD$ as the far half, not $\\triangle BCD$, which is cut off by the other diagonal $BD$."
+{
+          "text": "$PR$ is common, so $\\triangle PQR \\cong \\triangle RSP$ (SSS).",
+          "why": "A common side supplies only one equal side pair; SSS needs three."
         }
-      ],
-      "solution_text": "In $\\triangle ABC$ and $\\triangle CDA$: $\\angle BAC = \\angle DCA$ and $\\angle BCA = \\angle DAC$ (alternate angles), $AC$ common, so $\\triangle ABC \\cong \\triangle CDA$ (AAS)."
+],
+      "solution_text": "In $\\triangle PQR$ and $\\triangle RSP$:\n$\\angle QPR = \\angle SRP$ (alternate angles, $PQ \\parallel RS$)\n$\\angle QRP = \\angle SPR$ (alternate angles, $QR \\parallel PS$)\n$PR$ is common.\n$\\therefore \\triangle PQR \\cong \\triangle RSP$ (AAS)."
     },
-    {
+{
       "id": "q2",
       "structure": "para-diagonals-bisect-reason",
       "mastery": false,
@@ -51,57 +51,57 @@
       ],
       "solution_text": "$AC$ is a transversal cutting the parallel sides $AB$ and $DC$, so $\\angle BAE = \\angle DCE$ as alternate angles."
     },
-    {
+{
       "id": "q3",
       "structure": "isosceles-base-angles-test",
       "mastery": false,
       "question_text": "$\\triangle ABC$ is isosceles with $AB = AC$ and $M$ is the midpoint of $BC$.\nWhich congruence test proves $\\triangle ABM \\cong \\triangle ACM$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc}\n\\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (2.2,3.4);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4.4,0);\n\\coordinate (M) at (2.2,0);\n\\draw[tk2] (A)--(B);\n\\draw[tk2] (A)--(C);\n\\draw[tk] (B)--(M);\n\\draw[tk] (M)--(C);\n\\draw (A)--(M);\n\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below] at (M) {$M$};\n\\end{tikzpicture}\n[/tikz]",
       "options": [
-        {
+{
           "text": "SSS",
           "correct": true
         },
-        {
+{
           "text": "SAS",
           "why": "SAS needs the equal angle to sit between two known equal sides; no angle is given equal here, only the three sides."
         },
-        {
+{
           "text": "AAS",
           "why": "AAS needs two pairs of equal angles; only sides are known equal ($AB=AC$, $BM=CM$, $AM$ common)."
         },
-        {
+{
           "text": "RHS",
-          "why": "RHS needs a marked right angle and equal hypotenuses, neither of which is given at this stage."
+          "why": "$AB = AC$ is given, but no right angle has been established, so these sides cannot yet be used as equal hypotenuses in an RHS proof."
         }
-      ],
+],
       "solution_text": "$AB = AC$ (given), $BM = CM$ (midpoint), $AM$ is common, so $\\triangle ABM \\cong \\triangle ACM$ (SSS)."
     },
-    {
+{
       "id": "q4",
       "structure": "rhombus-diagonals-perpendicular-complete",
       "mastery": false,
       "question_text": "In rhombus $ABCD$ the diagonals meet at $E$, and $\\triangle ABE \\cong \\triangle ADE$ has been proved.\nWhich statement correctly completes the proof that the diagonals are perpendicular?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc}\n\\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.6,0);\n\\coordinate (C) at (5.178,3.236);\n\\coordinate (D) at (1.578,3.236);\n\\draw[tk] (A)--(B);\n\\draw[tk] (B)--(C);\n\\draw[tk] (C)--(D);\n\\draw[tk] (D)--(A);\n\\coordinate (E) at (2.589,1.618);\n\\draw (A)--(C);\n\\draw (B)--(D);\n\\node[above left] at (2.74,1.76) {$E$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
       "options": [
-        {
+{
           "text": "$\\angle AEB = \\angle AED$, and they are angles on a straight line, so each is $90^{\\circ}$.",
           "correct": true
         },
-        {
+{
           "text": "$\\angle AEB = 90^{\\circ}$ because a rhombus is a rectangle.",
-          "why": "A rhombus is not a rectangle, and rectangles are defined by right angles at the vertices, not at the diagonal intersection."
+          "why": "Being a rectangle does not hold for every rhombus; a rhombus is a rectangle when it is a square. A rectangle's right angles are at its vertices and do not establish perpendicular diagonals."
         },
-        {
+{
           "text": "The diagonals are equal, so they meet at $90^{\\circ}$.",
-          "why": "Equal diagonals do not imply perpendicular diagonals, and a rhombus does not have equal diagonals."
+          "why": "Equal diagonals do not imply perpendicular diagonals, and equal diagonals do not hold for every rhombus, although they do for a square."
         },
-        {
+{
           "text": "$\\angle AEB = \\angle ADE$, so $\\angle AEB = 90^{\\circ}$.",
           "why": "$\\angle ADE$ is a base angle of the triangle, not the intersection angle, and it is not $90^{\\circ}$."
         }
-      ],
+],
       "solution_text": "The congruence gives $\\angle AEB = \\angle AED$; since $\\angle AEB + \\angle AED = 180^{\\circ}$ (straight line $BD$), each is $90^{\\circ}$."
     },
-    {
+{
       "id": "q5",
       "structure": "square-diagonals-equal-test",
       "mastery": false,
@@ -126,32 +126,32 @@
       ],
       "solution_text": "$AB = DC$ (square sides), $\\angle ABC = \\angle DCB = 90^{\\circ}$, $BC$ common, so $\\triangle ABC \\cong \\triangle DCB$ (SAS), giving $AC = DB$."
     },
-    {
+{
       "id": "q6",
-      "structure": "kite-congruent-triangles",
+      "structure": "kite-opposite-angles-proof",
       "mastery": false,
-      "question_text": "To prove that one pair of opposite angles of kite $ABCD$ (with $AB = AD$ and $CB = CD$) is equal, which pair of triangles is proved congruent?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc}\n\\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,2.7);\n\\coordinate (B) at (2.1,0);\n\\coordinate (C) at (0,-3.1);\n\\coordinate (D) at (-2.1,0);\n\\draw[tk] (A)--(B);\n\\draw[tk] (A)--(D);\n\\draw[tk2] (C)--(B);\n\\draw[tk2] (C)--(D);\n\\draw (A)--(C);\n\\node[above] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "$PQRS$ is a kite with $PQ = PS$ and $RQ = RS$. The diagonal $PR$ is drawn.\nWhich proof correctly shows that $\\angle PQR = \\angle PSR$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (P) at (0,2.5);\n\\coordinate (Q) at (2,0);\n\\coordinate (R) at (0,-3.2);\n\\coordinate (S) at (-2,0);\n\\draw[tk] (P)--(Q);\n\\draw[tk] (P)--(S);\n\\draw[tk2] (R)--(Q);\n\\draw[tk2] (R)--(S);\n\\draw (P)--(R);\n\\node[above] at (P) {$P$};\n\\node[right] at (Q) {$Q$};\n\\node[below] at (R) {$R$};\n\\node[left] at (S) {$S$};\n\\end{tikzpicture}\n[/tikz]",
       "options": [
-        {
-          "text": "$\\triangle ABC$ and $\\triangle ADC$",
+{
+          "text": "$PQ = PS$, $RQ = RS$ (given), and $PR$ is common, so $\\triangle PQR \\cong \\triangle PSR$ (SSS). Hence $\\angle PQR = \\angle PSR$ (matching angles).",
           "correct": true
         },
-        {
-          "text": "$\\triangle ABD$ and $\\triangle CBD$",
-          "why": "These use the cross diagonal $BD$; the axis diagonal $AC$ is the one that pairs the equal sides of the kite."
+{
+          "text": "$PQ = PS$ and $RQ = RS$ (given), so $\\triangle PQR \\cong \\triangle PSR$ (SSS). Hence $\\angle PQR = \\angle PSR$.",
+          "why": "This proof gives only two equal side pairs; SSS also needs the common side $PR$."
         },
-        {
-          "text": "$\\triangle ABC$ and $\\triangle ABD$",
-          "why": "$\\triangle ABD$ is formed by the cross diagonal $BD$, so it does not pair with $\\triangle ABC$ across the drawn axis $AC$."
+{
+          "text": "$PQ = RQ$, $PS = RS$, and $PR$ is common, so $\\triangle PQR \\cong \\triangle PSR$ (SSS). Hence $\\angle PQR = \\angle PSR$.",
+          "why": "It uses side equalities that are not given; the markings show $PQ = PS$ and $RQ = RS$."
         },
-        {
-          "text": "$\\triangle ABD$ and $\\triangle ACD$",
-          "why": "This mixes a triangle from diagonal $BD$ ($\\triangle ABD$) with one from $AC$ ($\\triangle ACD$); the axis $AC$ pairs $\\triangle ABC$ with $\\triangle ADC$."
+{
+          "text": "$PQ = PS$, $RQ = RS$ (given), and $PR$ is common, so $\\triangle PQR \\cong \\triangle PSR$ (SSS). Hence $\\angle QPR = \\angle PSR$.",
+          "why": "The final angles do not correspond: vertex $P$ matches $P$, while vertex $Q$ matches $S$."
         }
-      ],
-      "solution_text": "$AB = AD$, $CB = CD$, $AC$ common, so $\\triangle ABC \\cong \\triangle ADC$ (SSS), giving $\\angle ABC = \\angle ADC$."
+],
+      "solution_text": "In $\\triangle PQR$ and $\\triangle PSR$:\n$PQ = PS$ (given)\n$RQ = RS$ (given)\n$PR$ is common.\n$\\therefore \\triangle PQR \\cong \\triangle PSR$ (SSS)\n$\\therefore \\angle PQR = \\angle PSR$ (matching angles of congruent triangles)."
     },
-    {
+{
       "id": "q7",
       "structure": "para-diagonals-bisect-conclusion",
       "mastery": false,
@@ -176,7 +176,7 @@
       ],
       "solution_text": "Matching sides give $AE = CE$ and $BE = DE$, so each diagonal is cut into two equal parts, that is the diagonals bisect each other."
     },
-    {
+{
       "id": "q8",
       "structure": "isosceles-median-perpendicular-reason",
       "mastery": false,
@@ -201,32 +201,32 @@
       ],
       "solution_text": "The congruence gives $\\angle AMB = \\angle AMC$; since they are angles on the straight line $BC$ they add to $180^{\\circ}$, so each is $90^{\\circ}$."
     },
-    {
+{
       "id": "q9",
-      "structure": "equilateral-equiangular-reason",
+      "structure": "bisecting-diagonals-parallelogram-proof",
       "mastery": true,
-      "question_text": "To prove the equilateral triangle $ABC$ is equiangular, a student argues: since $AB = AC$, $\\angle B = \\angle C$; since $CA = CB$, $\\angle A = \\angle B$.\nWhich property justifies each step?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (A) at (1.7,2.94);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (3.4,0);\n\\draw[tk] (A)--(B);\n\\draw[tk] (B)--(C);\n\\draw[tk] (C)--(A);\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "The diagonals of quadrilateral $PQRS$ meet at $N$, with $PN = RN$ and $QN = SN$.\nWhich proof correctly establishes that $PQRS$ is a parallelogram?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (4.8,0);\n\\coordinate (R) at (6,2.6);\n\\coordinate (S) at (1.2,2.6);\n\\coordinate (N) at (3,1.3);\n\\draw (P)--(Q)--(R)--(S)--cycle;\n\\draw[tk2] (P)--(N);\n\\draw[tk2] (N)--(R);\n\\draw[tk] (Q)--(N);\n\\draw[tk] (N)--(S);\n\\node[below left] at (P) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\node[above right] at (R) {$R$};\n\\node[above left] at (S) {$S$};\n\\node[above] at (3,1.45) {$N$};\n\\end{tikzpicture}\n[/tikz]",
       "options": [
-        {
-          "text": "The base angles of an isosceles triangle are equal.",
+{
+          "text": "$\\triangle PQN \\cong \\triangle RSN$ and $\\triangle PSN \\cong \\triangle RQN$ (SAS, given sides and vertically opposite angles). Their matching angles give $PQ \\parallel RS$ and $PS \\parallel QR$ (equal alternate angles), so $PQRS$ is a parallelogram.",
           "correct": true
         },
-        {
-          "text": "The angle sum of a triangle is $180^{\\circ}$.",
-          "why": "The angle sum gives a total, not that two particular angles are equal, which is what each step asserts."
+{
+          "text": "$PN = RN$ and $QN = SN$, so $PR = QS$ and $PQRS$ is a parallelogram.",
+          "why": "Equal halves of each separate diagonal do not show that the two whole diagonals are equal; equal diagonals alone would not prove a parallelogram."
         },
-        {
-          "text": "An exterior angle equals the sum of the two interior opposite angles.",
-          "why": "No exterior angle is used; each step compares two interior angles of the same triangle."
+{
+          "text": "$\\triangle PQN \\cong \\triangle RSN$ (SAS), so $PQ = RS$. One pair of equal opposite sides proves $PQRS$ is a parallelogram.",
+          "why": "One pair of equal opposite sides alone is insufficient; the proof must establish both pairs of parallel sides or another complete parallelogram test."
         },
-        {
-          "text": "A triangle with all sides equal has all angles $90^{\\circ}$.",
-          "why": "Equal sides do not make right angles; the angles of an equilateral triangle are $60^{\\circ}$."
+{
+          "text": "$\\triangle PQN \\cong \\triangle RSN$ (SAS), so $\\angle PQN = \\angle RSN$. These are co-interior angles, so $PQ \\parallel RS$ and $PQRS$ is a parallelogram.",
+          "why": "These are alternate angles, not co-interior angles, and establishing only one parallel side pair does not prove a parallelogram."
         }
-      ],
-      "solution_text": "Each pair of equal angles is obtained by applying the isosceles base-angle property to a pair of equal sides; together they give $\\angle A = \\angle B = \\angle C$."
+],
+      "solution_text": "In $\\triangle PQN$ and $\\triangle RSN$:\n$PN = RN$ and $QN = SN$ (given)\n$\\angle PNQ = \\angle RNS$ (vertically opposite angles)\n$\\therefore \\triangle PQN \\cong \\triangle RSN$ (SAS)\n$\\therefore \\angle PQN = \\angle RSN$ (matching angles)\n$\\therefore PQ \\parallel RS$ (equal alternate angles).\nSimilarly, $\\triangle PSN \\cong \\triangle RQN$ (SAS), so $\\angle PSN = \\angle RQN$ (matching angles).\n$\\therefore PS \\parallel QR$ (equal alternate angles).\nBoth pairs of opposite sides are parallel, so $PQRS$ is a parallelogram."
     },
-    {
+{
       "id": "q10",
       "structure": "square-diagonals-bisect-conclusion",
       "mastery": true,
@@ -251,32 +251,32 @@
       ],
       "solution_text": "The congruence gives $\\angle AEB = \\angle CEB$; as angles on the straight line $AC$ they add to $180^{\\circ}$, so each is $90^{\\circ}$ and the diagonals are perpendicular."
     },
-    {
+{
       "id": "q11",
-      "structure": "rectangle-opposite-sides-reason",
+      "structure": "rectangle-opposite-sides-proof",
       "mastery": false,
-      "question_text": "To prove the opposite sides of rectangle $ABCD$ are equal, the diagonal $AC$ is drawn.\nWhy is $AB \\parallel DC$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.8,0);\n\\coordinate (C) at (4.8,2.8);\n\\coordinate (D) at (0,2.8);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\coordinate (rap) at ($(A)!0.3cm!(B)$);\n\\coordinate (raq) at ($(A)!0.3cm!(D)$);\n\\draw (rap)--($(rap)+(raq)-(A)$)--(raq);\n\\coordinate (rbp) at ($(B)!0.3cm!(C)$);\n\\coordinate (rbq) at ($(B)!0.3cm!(A)$);\n\\draw (rbp)--($(rbp)+(rbq)-(B)$)--(rbq);\n\\coordinate (rcp) at ($(C)!0.3cm!(D)$);\n\\coordinate (rcq) at ($(C)!0.3cm!(B)$);\n\\draw (rcp)--($(rcp)+(rcq)-(C)$)--(rcq);\n\\coordinate (rdp) at ($(D)!0.3cm!(A)$);\n\\coordinate (rdq) at ($(D)!0.3cm!(C)$);\n\\draw (rdp)--($(rdp)+(rdq)-(D)$)--(rdq);\n\\draw (A)--(C);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "$PQRS$ is a rectangle with $PQ \\parallel RS$ and $PS \\parallel QR$. The diagonal $PR$ is drawn.\nWhich proof correctly shows that both pairs of opposite sides are equal?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc,arrows.meta,decorations.markings}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}}}\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (4.5,0);\n\\coordinate (R) at (4.5,2.5);\n\\coordinate (S) at (0,2.5);\n\\draw[sa] (P)--(Q);\n\\draw[da] (Q)--(R);\n\\draw[sa] (S)--(R);\n\\draw[da] (P)--(S);\n\\draw (P)--(R);\n\\draw (0.3,0)--(0.3,0.3)--(0,0.3);\n\\draw (4.2,0)--(4.2,0.3)--(4.5,0.3);\n\\draw (4.2,2.5)--(4.2,2.2)--(4.5,2.2);\n\\draw (0.3,2.5)--(0.3,2.2)--(0,2.2);\n\\node[below left] at (P) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\node[above right] at (R) {$R$};\n\\node[above left] at (S) {$S$};\n\\end{tikzpicture}\n[/tikz]",
       "options": [
-        {
-          "text": "$\\angle DAB$ and $\\angle ADC$ are co-interior angles that add to $180^{\\circ}$, so $AB \\parallel DC$.",
+{
+          "text": "$\\angle QPR = \\angle SRP$ and $\\angle QRP = \\angle SPR$ (alternate angles), and $PR$ is common. Thus $\\triangle PQR \\cong \\triangle RSP$ (AAS), so $PQ = RS$ and $QR = SP$ (matching sides).",
           "correct": true
         },
-        {
-          "text": "$AB = DC$, so $AB \\parallel DC$.",
-          "why": "Equal length does not make two segments parallel, and $AB = DC$ is what the proof is trying to establish."
+{
+          "text": "$\\angle PQR = \\angle RSP = 90^{\\circ}$ and $PR$ is common. Thus $\\triangle PQR \\cong \\triangle RSP$ (RHS), so $PQ = RS$ and $QR = SP$.",
+          "why": "RHS also needs an equal pair of corresponding legs; equal right angles and a common hypotenuse alone are insufficient."
         },
-        {
-          "text": "$AB$ and $DC$ are vertically opposite, so they are parallel.",
-          "why": "Vertically opposite describes angles at one point, not two opposite sides of a rectangle."
+{
+          "text": "$PQ = RS$ and $QR = SP$, and $PR$ is common. Thus $\\triangle PQR \\cong \\triangle RSP$ (SSS), proving the opposite sides equal.",
+          "why": "This assumes the two side equalities that the question asks you to prove, making the argument circular."
         },
-        {
-          "text": "The diagonals are equal, so $AB \\parallel DC$.",
-          "why": "Equal diagonals do not force a pair of sides to be parallel; the parallelism comes from the supplementary co-interior angles."
+{
+          "text": "$\\angle QPR = \\angle SRP$ and $\\angle QRP = \\angle SPR$ (alternate angles), and $PR$ is common. Thus $\\triangle PQR \\cong \\triangle RSP$ (AAS), so $PQ = SP$ and $QR = RS$.",
+          "why": "The final side pairs do not correspond; this incorrectly concludes that adjacent sides of a rectangle are equal."
         }
-      ],
-      "solution_text": "$\\angle DAB = \\angle ADC = 90^{\\circ}$, so they add to $180^{\\circ}$; as co-interior angles that are supplementary, $AB \\parallel DC$."
+],
+      "solution_text": "In $\\triangle PQR$ and $\\triangle RSP$:\n$\\angle QPR = \\angle SRP$ (alternate angles, $PQ \\parallel RS$)\n$\\angle QRP = \\angle SPR$ (alternate angles, $QR \\parallel PS$)\n$PR$ is common.\n$\\therefore \\triangle PQR \\cong \\triangle RSP$ (AAS)\n$\\therefore PQ = RS$ and $QR = SP$ (matching sides of congruent triangles).\nSo both pairs of opposite sides of the rectangle are equal."
     },
-    {
+{
       "id": "q12",
       "structure": "isosceles-bisector-bisects-base-test",
       "mastery": false,
@@ -301,5 +301,5 @@
       ],
       "solution_text": "$AB = AC$ (given), $\\angle BAM = \\angle CAM$ (bisector), $AM$ common, and the equal angle sits between the two equal sides, so $\\triangle ABM \\cong \\triangle ACM$ (SAS)."
     }
-  ]
+]
 }

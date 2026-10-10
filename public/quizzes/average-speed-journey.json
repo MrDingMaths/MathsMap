@@ -3,9 +3,9 @@
   "questions": [
 {
       "id": "q1",
-      "structure": "two-legs-average",
+      "structure": "graph-whole-journey-average",
       "mastery": false,
-      "question_text": "A car travels $40$ km in $1$ hour and then $140$ km in $2$ hours.\nWhat is its average speed for the whole journey?",
+      "question_text": "The graph shows a car's journey from home. What is its average speed for the whole journey?\n[tikz]\\begin{tikzpicture}[x=1.4cm,y=0.02cm]\\draw[->] (0,0)--(3.4,0) node[right]{Time (h)};\\draw[->] (0,0)--(0,210) node[above]{Distance from home (km)};\\foreach \\x in {0,1,2,3}{\\draw (\\x,0)--(\\x,-4) node[below]{\\x};}\\foreach \\y in {40,180}{\\draw (0,\\y)--(-0.06,\\y) node[left]{\\y};}\\draw[thick] (0,0)--(1,40)--(3,180);\\draw[dashed] (1,40)--(0,40);\\draw[dashed] (3,180)--(0,180);\\end{tikzpicture}[/tikz]",
       "options": [
 {
           "text": "$60$ km/h",
@@ -21,16 +21,16 @@
         },
 {
           "text": "$45$ km/h",
-          "why": "Used $4$ hours instead of $1+2=3$ hours: $180\\div4=45$ km/h."
+          "why": "Used $4$ hours instead of $3$ hours: $180\\div4=45$ km/h."
         }
 ],
-      "solution_text": "$d=40+140$\n$=180\\text{ km}$\n$t=1+2$\n$=3\\text{ h}$\n$s=\\frac{180}{3}$\n$=60\\text{ km/h}$"
+      "solution_text": "$d=180\\text{ km}$\n$t=3\\text{ h}$\n$s=\\frac{180}{3}$\n$=60\\text{ km/h}$"
     },
 {
       "id": "q2",
-      "structure": "journey-with-stop-included",
+      "structure": "graph-journey-with-stop-included",
       "mastery": false,
-      "question_text": "A hiker walks $9$ km in $2$ hours, rests for $1$ hour, then walks $6$ km in $1$ hour.\nWhat is his average speed for the whole journey, including the rest?",
+      "question_text": "The graph shows a hiker's journey from home. What is his average speed for the whole journey, including the rest?\n[tikz]\\begin{tikzpicture}[x=1cm,y=0.24cm]\\draw[->] (0,0)--(4.5,0) node[right]{Time (h)};\\draw[->] (0,0)--(0,18) node[above]{Distance from home (km)};\\foreach \\x in {0,1,2,3,4}{\\draw (\\x,0)--(\\x,-0.4) node[below]{\\x};}\\foreach \\y in {9,15}{\\draw (0,\\y)--(-0.08,\\y) node[left]{\\y};}\\draw[thick] (0,0)--(2,9)--(3,9)--(4,15);\\draw[dashed] (2,9)--(0,9);\\draw[dashed] (4,15)--(0,15);\\end{tikzpicture}[/tikz]",
       "options": [
         {
           "text": "$3.75$ km/h",
@@ -49,32 +49,32 @@
           "why": "Divided only the first $9$ km by the $4$ hour total time."
         }
       ],
-      "solution_text": "$d=9+6$\n$=15\\text{ km}$\n$t=2+1+1$\n$=4\\text{ h}$\n$s=\\frac{15}{4}$\n$=3.75\\text{ km/h}$"
+      "solution_text": "$d=15\\text{ km}$\n$t=4\\text{ h}$\n$s=\\frac{15}{4}$\n$=3.75\\text{ km/h}$"
     },
 {
       "id": "q3",
-      "structure": "moving-time-only",
+      "structure": "graph-moving-time-average",
       "mastery": false,
-      "question_text": "A van covers $198$ km between $9$ am and $12{:}30$ pm, including a $30$ minute lunch stop.\nWhat was its average speed while it was actually moving?",
+      "question_text": "The graph shows a van's journey from its depot. What was its average speed while it was actually moving, correct to $2$ decimal places?\n[tikz]\\begin{tikzpicture}[x=1.2cm,y=0.018cm]\\draw[->] (0,0)--(4,0) node[right]{Time (h)};\\draw[->] (0,0)--(0,230) node[above]{Distance from depot (km)};\\foreach \\x in {0,1.5,2,3.5}{\\draw (\\x,0)--(\\x,-5) node[below]{\\x};}\\foreach \\y in {90,198}{\\draw (0,\\y)--(-0.07,\\y) node[left]{\\y};}\\draw[thick] (0,0)--(1.5,90)--(2,90)--(3.5,198);\\draw[dashed] (1.5,90)--(0,90);\\draw[dashed] (3.5,198)--(0,198);\\end{tikzpicture}[/tikz]",
       "options": [
-        {
-          "text": "$66$ km/h",
+{
+          "text": "$66.00$ km/h",
           "correct": true
         },
-        {
+{
           "text": "$56.57$ km/h",
-          "why": "Kept the $30$ minute stop in the total time even though only moving time was asked for."
+          "why": "Kept the $0.5$ hour stop in the total time, calculating $198\\div3.5$."
         },
-        {
-          "text": "$49.5$ km/h",
-          "why": "Added the stop on top of the $3$ h $30$ min instead of subtracting it, using $4$ hours."
+{
+          "text": "$49.50$ km/h",
+          "why": "Added the $0.5$ hour stop to the $3.5$ hour elapsed time, calculating $198\\div4$."
         },
-        {
-          "text": "$79.2$ km/h",
-          "why": "Subtracted a whole hour rather than $30$ minutes, using $2.5$ hours of moving time."
+{
+          "text": "$79.20$ km/h",
+          "why": "Subtracted a whole hour instead of the $0.5$ hour stop, calculating $198\\div2.5$."
         }
-      ],
-      "solution_text": "$d=198\\text{ km}$\n$t=3.5-0.5$\n$=3\\text{ h}$\n$s=\\frac{198}{3}$\n$=66\\text{ km/h}$"
+],
+      "solution_text": "$d=198\\text{ km}$\n$t=3.5-(2-1.5)$\n$=3\\text{ h}$\n$s=\\frac{198}{3}$\n$=66.00\\text{ km/h}$"
     },
 {
       "id": "q4",
@@ -103,78 +103,78 @@
     },
 {
       "id": "q5",
-      "structure": "legs-given-as-speed-and-time",
+      "structure": "legs-given-as-distance-and-speed",
       "mastery": false,
-      "question_text": "A driver travels for $30$ minutes at $100$ km/h and then for $90$ minutes at $60$ km/h.\nWhat is the average speed for the whole journey?",
+      "question_text": "A driver travels $50$ km at $100$ km/h and then $90$ km at $60$ km/h.\nWhat is the average speed for the whole journey, correct to $2$ decimal places?",
       "options": [
 {
-          "text": "$70$ km/h",
+          "text": "$70.00$ km/h",
           "correct": true
         },
 {
-          "text": "$80$ km/h",
-          "why": "Took the mean of $100$ and $60$, ignoring that three times as long was spent at $60$ km/h."
+          "text": "$80.00$ km/h",
+          "why": "Took the mean of $100$ and $60$, ignoring that the stages take different times."
         },
 {
           "text": "$46.67$ km/h",
-          "why": "Added the two times as $30+90=120$ and treated that as $3$ hours."
+          "why": "Used the second stage's $1.5$ hour time for both stages, giving $3$ hours in total and calculating $140\\div3\\approx46.67$ km/h."
         },
 {
-          "text": "$65$ km/h",
-          "why": "The total distance is $50+90=140$ km and the total time is $2$ hours, giving $70$ km/h rather than $65$ km/h."
+          "text": "$100.00$ km/h",
+          "why": "Used only the faster speed to find both stage times, calculating $50\\div100+90\\div100=1.4$ hours and then $140\\div1.4$."
         }
 ],
-      "solution_text": "$d=100\\times0.5+60\\times1.5$\n$=50+90$\n$=140\\text{ km}$\n$t=0.5+1.5$\n$=2\\text{ h}$\n$s=\\frac{140}{2}$\n$=70\\text{ km/h}$"
+      "solution_text": "$d=50+90$\n$=140\\text{ km}$\n$t=\\frac{50}{100}+\\frac{90}{60}$\n$=0.5+1.5$\n$=2\\text{ h}$\n$s=\\frac{140}{2}$\n$=70.00\\text{ km/h}$"
     },
 {
       "id": "q6",
-      "structure": "clock-times-journey",
+      "structure": "graph-journey-with-stop-included",
       "mastery": false,
-      "question_text": "A family leaves home at $7{:}45$ am, drives $52$ km, stops for morning tea, drives a further $98$ km, and arrives at $11{:}15$ am.\nWhat is their average speed for the whole journey, to $2$ decimal places?",
+      "question_text": "The graph shows a family's journey from home. What is their average speed for the whole journey, including the stop, to $2$ decimal places?\n[tikz]\\begin{tikzpicture}[x=1.2cm,y=0.024cm]\\draw[->] (0,0)--(4,0) node[right]{Time (h)};\\draw[->] (0,0)--(0,175) node[above]{Distance from home (km)};\\foreach \\x in {0,1,1.5,3.5}{\\draw (\\x,0)--(\\x,-4) node[below]{\\x};}\\foreach \\y in {52,150}{\\draw (0,\\y)--(-0.07,\\y) node[left]{\\y};}\\draw[thick] (0,0)--(1,52)--(1.5,52)--(3.5,150);\\draw[dashed] (1,52)--(0,52);\\draw[dashed] (3.5,150)--(0,150);\\end{tikzpicture}[/tikz]",
       "options": [
-        {
+{
           "text": "$42.86$ km/h",
           "correct": true
         },
-        {
+{
           "text": "$50.00$ km/h",
-          "why": "Used $3$ hours instead of the $3$ h $30$ min between $7{:}45$ and $11{:}15$."
+          "why": "Removed the $0.5$ hour stop although the whole journey was asked for, calculating $150\\div3$."
         },
-        {
+{
           "text": "$28.00$ km/h",
-          "why": "Divided only the second leg of $98$ km by the total time."
+          "why": "Divided only the second stage's $98$ km by the $3.5$ hour total time."
         },
-        {
+{
           "text": "$46.15$ km/h",
-          "why": "Guessed the morning tea stop as $15$ minutes and removed it, using $3.25$ hours."
+          "why": "Read the stop as $0.25$ hour and removed it from the elapsed time, calculating $150\\div3.25$."
         }
-      ],
-      "solution_text": "$d=52+98$\n$=150\\text{ km}$\n$t=3.5\\text{ h}$\n$s=\\frac{150}{3.5}$\n$\\approx42.86\\text{ km/h}$"
+],
+      "solution_text": "$d=150\\text{ km}$\n$t=3.5\\text{ h}$\n$s=\\frac{150}{3.5}$\n$\\approx42.86\\text{ km/h}$"
     },
 {
       "id": "q7",
-      "structure": "find-a-missing-stage",
+      "structure": "out-and-back",
       "mastery": true,
-      "question_text": "A courier drives $120$ km at $80$ km/h and then stops.\nFor the whole journey, including the stop, her average speed is $48$ km/h.\nHow long was the stop?",
+      "question_text": "A courier drives $120$ km to a town at $80$ km/h and returns along the same road at $48$ km/h.\nWhat is her average speed for the whole journey?",
       "options": [
 {
-          "text": "$1$ hour",
+          "text": "$60$ km/h",
           "correct": true
         },
 {
-          "text": "$2$ hours $30$ minutes",
-          "why": "Gave the total journey time instead of subtracting the $1.5$ hours of driving."
+          "text": "$64$ km/h",
+          "why": "Took the mean of the two speeds, $\\frac{80+48}{2}$, although the stages take different times."
         },
 {
-          "text": "$1$ hour $30$ minutes",
-          "why": "Subtracted $1$ hour from the $2.5$ hour total instead of the $1.5$ hours driven."
+          "text": "$30$ km/h",
+          "why": "Divided only the outward $120$ km by the total journey time of $4$ hours."
         },
 {
-          "text": "$30$ minutes",
-          "why": "A $30$ minute stop would give a total time of $1.5+0.5=2$ hours and an average speed of $120\\div2=60$ km/h, not $48$ km/h."
+          "text": "$96$ km/h",
+          "why": "Divided the whole journey's $240$ km by only the return time of $2.5$ hours."
         }
 ],
-      "solution_text": "$t_{\\text{total}}=\\frac{120}{48}$\n$=2.5\\text{ h}$\n$t_{\\text{driving}}=\\frac{120}{80}$\n$=1.5\\text{ h}$\n$t_{\\text{stop}}=2.5-1.5$\n$=1\\text{ h}$"
+      "solution_text": "$d=120+120$\n$=240\\text{ km}$\n$t=\\frac{120}{80}+\\frac{120}{48}$\n$=1.5+2.5$\n$=4\\text{ h}$\n$s=\\frac{240}{4}$\n$=60\\text{ km/h}$"
     }
 ]
 }

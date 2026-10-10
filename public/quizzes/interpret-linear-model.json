@@ -1,82 +1,57 @@
 {
   "skillId": "interpret-linear-model",
   "questions": [
-    {
+{
       "id": "q1",
       "question_text": "A mobile dog grooming service charges according to the model $C = 25t + 40$, where $C$ is the total charge in dollars and $t$ is the grooming duration in hours.\nWhat does the value $25$ represent?",
       "structure": "interpret-gradient-context",
       "mastery": false,
       "options": [
-        {
-          "text": "The hourly rate of \\$25 for grooming.",
+{
+          "text": "The hourly rate of $\\$25$ for grooming.",
           "correct": true
         },
-        {
-          "text": "The initial booking fee of \\$25.",
+{
+          "text": "The initial booking fee of $\\$25$.",
           "why": "Confuses the gradient (hourly rate) with the vertical intercept (fixed fee)."
         },
-        {
-          "text": "The total cost of \\$25 for a grooming session.",
+{
+          "text": "The total cost of $\\$25$ for a grooming session.",
           "why": "Treats the rate per hour as the overall cost regardless of time."
         },
-        {
+{
           "text": "The number of hours spent grooming the dog.",
           "why": "Confuses the coefficient $25$ with the independent variable $t$."
         }
-      ],
-      "solution_text": "The value $25$ is the gradient ($m$).\nIt represents the hourly rate of \\$25 for grooming."
+],
+      "solution_text": "The value $25$ is the gradient ($m$).\nIt represents the hourly rate of $\\$25$ for grooming."
     },
-    {
+{
       "id": "q2",
       "question_text": "A commercial print shop calculates the cost of printing $n$ event flyers using $C = 0.08n + 350$, where $C$ is the total cost in dollars.\nWhat does the value $350$ represent?",
       "structure": "interpret-intercept-context",
       "mastery": false,
       "options": [
-        {
-          "text": "The fixed setup cost of \\$350 before any flyers are printed.",
+{
+          "text": "The fixed setup cost of $\\$350$ before any flyers are printed.",
           "correct": true
         },
-        {
+{
           "text": "The cost of printing each flyer.",
-          "why": "Confuses the vertical intercept with the gradient (the per-flyer printing cost of \\$0.08)."
+          "why": "Confuses the vertical intercept with the gradient (the per-flyer printing cost of $\\$0.08$)."
         },
-        {
+{
           "text": "The total number of flyers printed.",
           "why": "Confuses the constant term with the independent variable $n$."
         },
-        {
+{
           "text": "The total cost of printing $350$ flyers.",
           "why": "Interprets the constant $350$ as a number of flyers rather than a dollar amount."
         }
-      ],
-      "solution_text": "When $n = 0$, $C = 350$.\nIt represents the fixed setup cost of \\$350 before any flyers are printed."
+],
+      "solution_text": "When $n = 0$, $C = 350$.\nIt represents the fixed setup cost of $\\$350$ before any flyers are printed."
     },
-    {
-      "id": "q3",
-      "question_text": "An agricultural scientist measured wheat yield $Y$ (in tonnes per hectare) for fertilizer applications $x$ ranging from $50$ kg/ha to $200$ kg/ha, finding $Y = 0.02x + 1.8$.\nWhich prediction represents an extrapolation?",
-      "structure": "classify-interpolation-extrapolation",
-      "mastery": false,
-      "options": [
-        {
-          "text": "Predicting the yield when applying $240$ kg/ha of fertilizer.",
-          "correct": true
-        },
-        {
-          "text": "Predicting the yield when applying $120$ kg/ha of fertilizer.",
-          "why": "The value $120$ lies within the tested range of $50$ to $200$, so it is an interpolation."
-        },
-        {
-          "text": "Predicting the yield when applying $75$ kg/ha of fertilizer.",
-          "why": "The value $75$ lies within the tested range of $50$ to $200$, so it is an interpolation."
-        },
-        {
-          "text": "Predicting the yield when applying $180$ kg/ha of fertilizer.",
-          "why": "The value $180$ lies within the tested range of $50$ to $200$, so it is an interpolation."
-        }
-      ],
-      "solution_text": "The observed data range is $50 \\le x \\le 200$.\nSince $240 > 200$, predicting for $240$ kg/ha lies outside the data range and is an extrapolation."
-    },
-    {
+{
       "id": "q4",
       "question_text": "The total fuel consumed $F$ (in litres) by a diesel generator running between $t = 2$ hours and $t = 10$ hours is modelled by $F = 2.4t + 5$.\nUsing interpolation, what is the estimated fuel consumed after $6.5$ hours of operation?",
       "structure": "interpolate-value",
@@ -101,7 +76,7 @@
       ],
       "solution_text": "$F = 2.4(6.5) + 5$\n$= 15.6 + 5$\n$= 20.6$\nThe estimated fuel consumed is $20.6$ L."
     },
-    {
+{
       "id": "q5",
       "question_text": "The height $H$ (in centimetres) of a tomato seedling recorded weekly over its first $5$ weeks ($w = 1$ to $w = 5$) is modelled by $H = 4.2w + 10$.\nUsing extrapolation, what is the predicted height at $w = 8$ weeks?",
       "structure": "extrapolate-value",
@@ -126,7 +101,7 @@
       ],
       "solution_text": "$H = 4.2(8) + 10$\n$= 33.6 + 10$\n$= 43.6$\nThe predicted height is $43.6$ cm."
     },
-    {
+{
       "id": "q6",
       "question_text": "A drone battery discharges during flight according to $B = 100 - 4.5m$, where $B$ is the remaining battery percentage and $m$ is the flight time in minutes.\nWhy does this model fail for a flight time of $m = 25$ minutes?",
       "structure": "identify-model-limitation",
@@ -151,55 +126,55 @@
       ],
       "solution_text": "$B = 100 - 4.5(25)$\n$= 100 - 112.5$\n$= -12.5$\nA battery level of $-12.5\\%$ is impossible; the model fails because the battery is completely depleted at $m \\approx 22.2$ minutes."
     },
-    {
+{
       "id": "q7",
-      "question_text": "A runner's heart rate $R$ (in beats per minute) during a fitness test at running speeds $v$ between $6$ km/h and $14$ km/h is modelled by $R = 8.5v + 65$.\nIf this model is extrapolated to $v = 28$ km/h, what is the predicted heart rate and why is it unreliable?",
-      "structure": "extrapolate-value",
+      "question_text": "A runner's heart rate $R$ (in beats per minute) during a fitness test at running speeds $v$ between $6$ km/h and $14$ km/h is modelled by $R = 8.5v + 65$.\nIf this model is used at $v = 28$ km/h, what is the predicted heart rate and why may the prediction be unreliable?",
+      "structure": "predict-value-and-explain-changing-rate",
       "mastery": true,
       "options": [
-        {
-          "text": "$303$ bpm; it exceeds the maximum physiological heart rate of a human.",
+{
+          "text": "$303$ bpm; the heart rate may not continue increasing by $8.5$ bpm for each additional km/h.",
           "correct": true
         },
-        {
+{
           "text": "$238$ bpm; the runner cannot run at a speed of $28$ km/h.",
-          "why": "Computes $8.5 \\times 28 = 238$ without adding the starting heart rate of $65$ bpm."
+          "why": "Computes $8.5 \\times 28 = 238$ without adding the starting heart rate of $65$ bpm, and assumes the runner's maximum speed without supporting information."
         },
-        {
+{
           "text": "$303$ bpm; linear models can never be used to make predictions.",
-          "why": "Linear models can make reliable predictions within the data range; this one fails because of extreme extrapolation."
+          "why": "Incorrectly rejects all linear predictions; a prediction can be reliable when the model fits the observations and remains applicable."
         },
-        {
-          "text": "$273$ bpm; the calculation used the wrong speed value.",
-          "why": "Miscalculates the arithmetic ($8.5 \\times 28 + 65 = 238 + 65 = 303$, not $273$)."
+{
+          "text": "$273$ bpm; the calculation used the wrong constant term.",
+          "why": "Uses $35$ instead of $65$ for the constant term, giving $8.5(28) + 35 = 238 + 35 = 273$."
         }
-      ],
-      "solution_text": "$R = 8.5(28) + 65$\n$= 238 + 65$\n$= 303$\nThe predicted heart rate is $303$ bpm; this extrapolation is unreliable because human maximum heart rate is physiologically capped well below $300$ bpm."
+],
+      "solution_text": "$R = 8.5(28) + 65$\n$= 238 + 65$\n$= 303$\nThe predicted heart rate is $303$ bpm. The model assumes a constant increase of $8.5$ bpm for each additional km/h. If this rate changes at higher speeds, the prediction will be unreliable; the measurements alone do not establish that the rate continues."
     },
-    {
+{
       "id": "q8",
       "question_text": "A hot bowl of soup cools in a room where the ambient temperature is $20^{\\circ}\\text{C}$.\nFor the first $10$ minutes, its temperature $T$ (in $^{\\circ}$C) is modelled by $T = 85 - 3.5t$.\nWhy does this linear model break down if used to predict the temperature at $t = 30$ minutes?",
       "structure": "identify-model-limitation",
       "mastery": true,
       "options": [
-        {
-          "text": "It predicts a temperature of $-20^{\\circ}\\text{C}$, but cooling ceases when the soup reaches room temperature ($20^{\\circ}\\text{C}$).",
+{
+          "text": "It predicts $-20^{\\circ}\\text{C}$, but cooling in this room slows as the soup approaches $20^{\\circ}\\text{C}$ and does not take it below room temperature.",
           "correct": true
         },
-        {
+{
           "text": "The soup will freeze into solid ice after $30$ minutes at room temperature.",
-          "why": "Takes the calculated $-20^{\\circ}\\text{C}$ literally rather than recognising that cooling stops at ambient room temperature."
+          "why": "Takes the calculated $-20^{\\circ}\\text{C}$ literally instead of recognising that cooling in a room at $20^{\\circ}\\text{C}$ does not take the soup below room temperature."
         },
-        {
+{
           "text": "The initial temperature of $85^{\\circ}\\text{C}$ was too low for a linear cooling model.",
-          "why": "The starting temperature is realistic; the model fails because cooling slows down exponentially towards room temperature."
+          "why": "Incorrectly blames the starting temperature; the limitation is that cooling slows as the soup approaches room temperature."
         },
-        {
+{
           "text": "The rate of cooling increases over time rather than remaining constant.",
-          "why": "According to Newton's law of cooling, the cooling rate decreases as temperature difference shrinks."
+          "why": "Reverses the change in cooling rate: the soup cools more slowly as it approaches room temperature."
         }
-      ],
-      "solution_text": "$T = 85 - 3.5(30)$\n$= 85 - 105$\n$= -20$\nThe model predicts $-20^{\\circ}\\text{C}$; this is impossible because the soup cannot cool below the room temperature of $20^{\\circ}\\text{C}$."
+],
+      "solution_text": "$T = 85 - 3.5(30)$\n$= 85 - 105$\n$= -20$\nThe model predicts $-20^{\\circ}\\text{C}$; cooling in this room cannot take the soup below $20^{\\circ}\\text{C}$. Cooling slows as the soup approaches room temperature, so the constant decrease of $3.5^{\\circ}\\text{C}$ per minute no longer applies."
     }
-  ]
+]
 }

@@ -78,28 +78,28 @@
     },
 {
       "id": "m1",
-      "question_text": "A number between $0.42$ and $0.43$ has three decimal places.\nWhich of these **could** it be?",
-      "structure": "reverse-insert",
+      "question_text": "Order $0.438$, $0.43$, $0.403$ and $0.48$ from smallest to largest.",
+      "structure": "order-four-ascending",
       "mastery": true,
       "options": [
-        {
-          "text": "$0.425$",
+{
+          "text": "$0.403, 0.43, 0.438, 0.48$",
           "correct": true
         },
-        {
-          "text": "$0.432$",
-          "why": "Gave a value greater than $0.43$, outside the upper bound of the interval."
+{
+          "text": "$0.48, 0.438, 0.43, 0.403$",
+          "why": "Ordered the values from largest to smallest instead of smallest to largest."
         },
-        {
-          "text": "$0.415$",
-          "why": "Gave a value less than $0.42$, outside the lower bound of the interval."
+{
+          "text": "$0.43, 0.48, 0.403, 0.438$",
+          "why": "Compared the decimal digit strings as $43$, $48$, $403$ and $438$ without aligning place values."
         },
-        {
-          "text": "$0.420$",
-          "why": "Repeated the lower bound itself rather than a value strictly between the two given decimals."
+{
+          "text": "$0.403, 0.438, 0.43, 0.48$",
+          "why": "Put $0.438$ before $0.430$, reversing the comparison of their thousandths digits."
         }
-      ],
-      "solution_text": "$0.425$"
+],
+      "solution_text": "$0.403<0.430<0.438<0.480$\n$0.403, 0.43, 0.438, 0.48$"
     },
 {
       "id": "q5",
@@ -142,11 +142,11 @@
         },
 {
           "text": "$2.008, 2.08, 2.8, 2.018$",
-          "why": "Left $2.018$ at the end instead of placing it between $2.008$ and $2.08$."
+          "why": "Left the supplied list unchanged without comparing place values."
         },
 {
           "text": "$2.08, 2.8, 2.008, 2.018$",
-          "why": "Placed $2.08$ and $2.8$ before the smaller values $2.008$ and $2.018$."
+          "why": "Ranked the two-place and one-place decimals ahead of the three-place decimals regardless of their values."
         }
 ],
       "solution_text": "$2.008 < 2.018 < 2.080 < 2.800$\n$2.008, 2.018, 2.08, 2.8$"
@@ -159,15 +159,15 @@
       "options": [
 {
           "text": "$0.503$",
-          "why": "$0.503$ is less than $0.510=0.51$. The hundredths first differ: $0$ is less than $1$."
+          "why": "Treated more decimal places as meaning a greater value, choosing $0.503$ over $0.51$."
         },
 {
           "text": "$0.051$",
-          "why": "Has only five hundredths and is much smaller than the other candidates."
+          "why": "Ignored the zero tenths digit and compared the digit string $51$ instead of matching place values."
         },
 {
           "text": "$0.50$",
-          "why": "Equals five tenths, which is less than $0.51$ by one hundredth."
+          "why": "Stopped at the equal tenths digits without checking the hundredths, where $0.51$ is greater."
         },
 {
           "text": "$0.51$",
@@ -178,28 +178,28 @@
     },
 {
       "id": "dq-73060",
-      "question_text": "Always, sometimes, never?\nA number with 2 decimal places is greater than a number with 3 decimal places.",
-      "structure": "always-sometimes-never",
+      "question_text": "Which is greater: $1.26$ or $1.259$?",
+      "structure": "pad-then-compare",
       "mastery": false,
       "options": [
-        {
-          "text": "Always",
-          "why": "Numbers with two decimal places are not automatically greater."
+{
+"text": "$1.26$",
+"correct": true
+},
+{
+          "text": "$1.259$",
+          "why": "Compared $259$ with $26$ instead of writing $1.26=1.260$ and comparing matching place values."
         },
-        {
-          "text": "Never",
-          "why": "A two-decimal number can be greater than a three-decimal number."
-        },
-        {
-          "text": "Sometimes",
-          "correct": true
-        },
-        {
-          "text": "Not enough information",
-          "why": "The given statement can be classified by testing valid decimal examples."
+{
+"text": "They are equal",
+"why": "Rounded $1.259$ to two decimal places before comparing, changing its exact value."
+},
+{
+          "text": "Cannot tell without more digits",
+          "why": "Assumed different numbers of decimal places prevent comparison, although a trailing zero gives $1.26=1.260$."
         }
-      ],
-      "solution_text": "The comparison depends on the values. For example, $1.23>1.229$, but $1.23<1.231$. Therefore, the statement is true sometimes."
+],
+      "solution_text": "$1.26=1.260$\n$1.260>1.259$\n$1.26$ is greater."
     },
 {
       "id": "dq-142208",
@@ -238,15 +238,15 @@
         },
 {
           "text": "$0.4$",
-          "why": "$0.4=0.400$ is less than both $0.401$ and $0.410=0.41$."
+          "why": "Stopped at the tenths tie and ignored the later digits that make $0.401$ and $0.41$ greater than $0.4$."
         },
 {
           "text": "$0.401$",
-          "why": "Compares only the first decimal digit and misses that 0.410 is larger."
+          "why": "Treated more decimal places as meaning a greater value, choosing $0.401$ over $0.41$."
         },
 {
           "text": "$0.041$",
-          "why": "Has a smaller tenths digit than all the other candidates."
+          "why": "Ignored the zero tenths digit and treated the digit string $041$ as $41$, losing its place values."
         }
 ],
       "solution_text": "Write $0.4=0.400$ and $0.41=0.410$. Comparing thousandths gives $0.410>0.401>0.400>0.041$, so $0.41$ is largest."

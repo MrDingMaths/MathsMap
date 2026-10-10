@@ -1,20 +1,20 @@
 {
   "skillId": "construct-column-graph-scale",
   "questions": [
-    {
+{
       "id": "q1",
-      "question_text": "The graph uses $1$ vertical step for $3$ students.\nA Drama bar must represent $15$ students.\nHow many steps high should it be?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.75]\n\\draw[->] (0,0)--(0,6.4); \\draw[->] (0,0)--(5.5,0);\n\\foreach \\y/\\lab in {1/3,2/6,3/9,4/12,5/15} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$}; \\node[below,font=\\scriptsize] at (2,0) {Drama};\n\\node[rotate=90] at (-1.3,2.5) {Students}; \\node[below] at (2,-1.0) {Club}; \\node at (2,6.1) {Club members};\n\\end{tikzpicture}\n[/tikz]",
-      "structure": "convert-frequency-to-bar-steps",
+      "question_text": "Complete the graph by adding the Drama bar for $18$ students.\nTo which labelled value should its top reach?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.75]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(5.5,0);\n\\foreach \\y/\\lab in {1/3,2/6,3/9,4/12,5/15,6/18} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$}; \\node[below,font=\\scriptsize] at (2,0) {Drama};\n\\node[rotate=90] at (-1.3,3) {Students}; \\node[below] at (2,-1.0) {Club}; \\node at (2,7.1) {Club members};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "complete-missing-column",
       "mastery": false,
       "options": [
-        { "text": "$5$ steps", "correct": true },
-        { "text": "$3$ steps", "why": "Uses the scale value itself as the height instead of dividing 15 by 3." },
-        { "text": "$12$ steps", "why": "Subtracts the scale value from the frequency instead of finding the number of intervals." },
-        { "text": "$15$ steps", "why": "Treats each step as one student and ignores the many-to-one scale." }
-      ],
-      "solution_text": "$15\\div3$\n$=5\\text{ steps}$"
+{ "text": "$18$", "correct": true },
+{ "text": "$15$", "why": "Stops one scale interval of $3$ below the supplied count of $18$." },
+{ "text": "$6$", "why": "Uses the number of steps, $18\\div3=6$, as the labelled endpoint instead of the frequency." },
+{ "text": "$3$", "why": "Uses the scale value as the bar's endpoint instead of the supplied count of $18$." }
+],
+      "solution_text": "$18\\div3=6$ steps, so draw the Drama bar from $0$ to the label $18$."
     },
-    {
+{
       "id": "q2",
       "question_text": "The Art and Music bars are complete.\nThe Science count is $32$.\nTo which labelled value should its missing bar reach?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (0,0)--(0,6.4); \\draw[->] (0,0)--(7.5,0);\n\\foreach \\y/\\lab in {1/8,2/16,3/24,4/32,5/40} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$}; \\draw (0.4,0) rectangle (1.6,3); \\draw (2.4,0) rectangle (3.6,5);\n\\foreach \\x/\\lab in {1/Art,3/Music,5/Science} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\node[rotate=90] at (-1.3,2.5) {Votes}; \\node[below] at (3,-1.0) {Subject}; \\node at (3,6.1) {Favourite subject};\n\\end{tikzpicture}\n[/tikz]",
       "structure": "complete-missing-column",
@@ -27,7 +27,7 @@
       ],
       "solution_text": "$32\\div8=4$ steps, so the bar reaches the label $32$."
     },
-    {
+{
       "id": "q3",
       "question_text": "A category has frequency $0$.\nHow should its bar appear on this graph?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.75]\n\\draw[->] (0,0)--(0,5.4); \\draw[->] (0,0)--(5.5,0);\n\\foreach \\y/\\lab in {1/5,2/10,3/15,4/20} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$}; \\node[below,font=\\scriptsize] at (2,0) {Absent};\n\\node[rotate=90] at (-1.3,2) {Students}; \\node[below] at (2,-1.0) {Category}; \\node at (2,5.1) {Attendance};\n\\end{tikzpicture}\n[/tikz]",
       "structure": "construct-zero-frequency-column",
@@ -39,32 +39,32 @@
       ],
       "solution_text": "A frequency of $0$ stays on the baseline, so the bar has no visible height."
     },
-    {
+{
       "id": "q4",
-      "question_text": "A bar must show $70$ tickets on an axis labelled $0,10,20,30,40,50,60,70,80$.\nAt which step should its top lie?",
-      "structure": "place-column-at-labelled-frequency",
+      "question_text": "Complete a column graph by adding Friday's bar for $90$ tickets sold.\nThe vertical axis has equal intervals labelled $0,10,20,30,40,50,60,70,80,90,100$.\nTo which labelled value should Friday's bar reach?",
+      "structure": "complete-missing-column",
       "mastery": false,
       "options": [
-        { "text": "The seventh step", "correct": true },
-        { "text": "The eighth step", "why": "Counts the zero label as the first vertical step and ends one interval too high." },
-        { "text": "The sixth step", "why": "Stops at 60, one many-to-one interval below 70." },
-        { "text": "The seventieth step", "why": "Ignores that each vertical step represents 10 tickets." }
-      ],
-      "solution_text": "$70\\div10$\n$=7\\text{ steps}$"
+{ "text": "$90$", "correct": true },
+{ "text": "$100$", "why": "Extends the bar one scale interval of $10$ above the supplied count of $90$." },
+{ "text": "$80$", "why": "Stops the bar one scale interval of $10$ below the supplied count of $90$." },
+{ "text": "$9$", "why": "Reports the number of steps, $90\\div10=9$, instead of the labelled endpoint." }
+],
+      "solution_text": "$90\\div10=9$ steps, so draw Friday's bar from $0$ to the label $90$."
     },
-    {
+{
       "id": "q5",
-      "question_text": "A student draws these bars for values $20$, $40$ and $30$.\nWhich construction feature needs correction?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.72]\n\\draw[->] (0,0)--(0,5.4); \\draw[->] (0,0)--(7.5,0);\n\\foreach \\y/\\lab in {1/10,2/20,3/30,4/40} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$}; \\draw (0.5,0) rectangle (1.5,2); \\draw (2.2,0) rectangle (4.0,4); \\draw (4.8,0) rectangle (5.8,3);\n\\foreach \\x/\\lab in {1/A,3/B,5.3/C} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\node[rotate=90] at (-1.3,2) {Items}; \\node[below] at (3,-1.0) {Group}; \\node at (3,5.1) {Group totals};\n\\end{tikzpicture}\n[/tikz]",
-      "structure": "identify-unequal-column-width-error",
+      "question_text": "A student draws these bars for Group A: $24$ items, Group B: $48$ items and Group C: $36$ items.\nOne column height is incorrect. Which correction matches the supplied data?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.72]\n\\draw[->] (0,0)--(0,5.4); \\draw[->] (0,0)--(7.5,0);\n\\foreach \\y/\\lab in {1/12,2/24,3/36,4/48} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$}; \\draw (0.4,0) rectangle (1.6,2); \\draw (2.4,0) rectangle (3.6,3); \\draw (4.4,0) rectangle (5.6,3);\n\\foreach \\x/\\lab in {1/A,3/B,5/C} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\node[rotate=90] at (-1.3,2) {Items}; \\node[below] at (3,-1.0) {Group}; \\node at (3,5.1) {Group totals};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "identify-and-correct-column-height",
       "mastery": true,
       "options": [
-        { "text": "Make all bars equal width", "correct": true },
-        { "text": "Change the second height to $30$", "why": "Changes a correct value instead of fixing the visibly wider second bar." },
-        { "text": "Start the axis at $10$", "why": "Removes the required zero baseline while leaving the unequal widths unchanged." }
-      ],
-      "solution_text": "All three heights match the data, but the second bar is wider.\nRedraw the bars with equal widths."
+{ "text": "Raise Group B's bar to $48$", "correct": true },
+{ "text": "Lower Group B's bar to $24$", "why": "Moves the incorrect bar down one interval of $12$ from $36$ instead of up to its supplied count of $48$." },
+{ "text": "Raise Group C's bar to $48$", "why": "Changes Group C's correct height of $36$ to Group B's supplied count of $48$." }
+],
+      "solution_text": "Group B's bar reaches $36$, but its supplied count is $48$.\nRaise it by one interval of $12$ to $48$. Groups A and C already match their counts."
     },
-    {
+{
       "id": "q6",
       "question_text": "A graph scale is $5$ per step.\nA student draws a $35$-item bar halfway between the labels $30$ and $35$.\nWhat correction is required?",
       "structure": "correct-between-ticks-column-error",
@@ -77,5 +77,5 @@
       ],
       "solution_text": "$35$ is itself a labelled tick, so the bar must end exactly at $35$."
     }
-  ]
+]
 }
