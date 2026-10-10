@@ -2898,13 +2898,6 @@
                       "direction": "stack",
                       "children": [
                         {
-                          "id": "p18-q5-tick-item",
-                          "type": "item",
-                          "ref": "p18-q5-correctness",
-                          "width": 18,
-                          "align": "left"
-                        },
-                        {
                           "id": "p18-q5-card-item",
                           "type": "item",
                           "ref": "p18-q5-root/prompt#p18-q5-demonstration-card",
@@ -2915,22 +2908,7 @@
                           "id": "p18-q5-demonstration-model-row",
                           "type": "group",
                           "direction": "row",
-                          "children": [
-                            {
-                              "id": "p18-q5-example-equation-item",
-                              "type": "item",
-                              "ref": "p18-q5-root/prompt#p18-q5-example-equation",
-                              "width": 30,
-                              "align": "left"
-                            },
-                            {
-                              "id": "p18-q5-example-model-item",
-                              "type": "item",
-                              "ref": "p18-q5-example-model",
-                              "width": 26,
-                              "align": "center"
-                            }
-                          ],
+                          "children": [],
                           "gap": 8,
                           "verticalAlign": "middle"
                         }
@@ -24886,98 +24864,34 @@
                   ]
                 },
                 {
-                  "id": "p18-q5-demonstration-card",
-                  "type": "layout",
-                  "arrangement": "cards",
-                  "columns": 1,
-                  "slots": [
+                  "id": "p18-q5-demonstration-card-name",
+                  "type": "paragraph",
+                  "inlines": [
                     {
-                      "id": "p18-q5-example",
-                      "widthMm": 76,
-                      "blocks": [
-                        {
-                          "id": "p18-q5-example-name",
-                          "type": "paragraph",
-                          "align": "left",
-                          "inlines": [
-                            {
-                              "type": "text",
-                              "text": "Name: ",
-                              "marks": [
-                                "bold"
-                              ]
-                            },
-                            {
-                              "type": "text",
-                              "text": "Mark"
-                            }
-                          ]
-                        },
-                        {
-                          "id": "p18-q5-example-instruction",
-                          "type": "paragraph",
-                          "align": "left",
-                          "inlines": [
-                            {
-                              "type": "text",
-                              "text": "Partition the model to prove that the following number sentence is true.",
-                              "marks": [
-                                "italic"
-                              ]
-                            }
-                          ]
-                        }
-                      ]
+                      "type": "text",
+                      "text": "Mark’s work:"
                     }
                   ]
                 },
                 {
-                  "id": "p18-q5-example-equation",
-                  "type": "paragraph",
+                  "id": "p18-q5-demonstration-card",
+                  "type": "image",
+                  "src": "/booklet-assets/projects/comparing-fractions-v1/a1ed1f08e53d-image36.png",
+                  "width": 68,
+                  "aspectRatio": 0.912932138284251,
                   "align": "left",
-                  "inlines": [
-                    {
-                      "type": "math",
-                      "latex": "\\frac{2}{5}=\\frac{4}{10}",
-                      "display": false
-                    }
+                  "alt": "Original handwritten student working for analysis",
+                  "crop": [
+                    0,
+                    0,
+                    0,
+                    0
                   ]
                 }
               ]
             },
             "layout": "list",
-            "questionDiagrams": [
-              {
-                "id": "p18-q5-correctness",
-                "format": "tikz",
-                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"correctGreen\",\"hex\":\"4F9B63\",\"reason\":\"supplied correctness tick\"}],\"reference\":\"source page 18 p18-q5-correctness\"}\n\\begin{tikzpicture}[x=1mm,y=1mm]\n\\definecolor{correctGreen}{HTML}{4F9B63}\n\\path[use as bounding box] (-1,-1) rectangle (17,15);\n\\draw[correctGreen,line width=3mm,line cap=round,line join=round] (2,7)--(4,2)--(14,12);\n\\end{tikzpicture}",
-                "widthMm": 18,
-                "role": "question",
-                "reviewStatus": "needs-review",
-                "spec": {
-                  "sourcePage": 18,
-                  "sourceRegion": "Question 5, upper left of Mark's demonstration card",
-                  "description": "Large green correctness tick.",
-                  "mathematics": "Mark's supplied partitioning demonstration is correct.",
-                  "answerVisibility": "Permanent supplied demonstration mark."
-                }
-              },
-              {
-                "id": "p18-q5-example-model",
-                "format": "tikz",
-                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"fractionFill\",\"hex\":\"D4E8FF\",\"reason\":\"given two fifths remain four tenths after partitioning\"}],\"reference\":\"source page 18 p18-q5-example-model\"}\n\\begin{tikzpicture}[x=1mm,y=1mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{fractionFill}{HTML}{D4E8FF}\n\\path[use as bounding box] (-1,-5) rectangle (25,53);\n\\fill[fractionFill] (0,0) rectangle (24,19.2);\n\\draw[black,line width=0.8pt] (0,0) rectangle (24,48);\n\\foreach \\y in {9.6,19.2,28.8,38.4} {\\draw[black,line width=0.8pt] (0,\\y)--(24,\\y);}\n\\draw[black,line width=0.8pt,dashed] (12,-4)--(12,52);\n\\end{tikzpicture}",
-                "widthMm": 26,
-                "role": "question",
-                "reviewStatus": "needs-review",
-                "spec": {
-                  "sourcePage": 18,
-                  "sourceRegion": "Question 5, Mark's demonstration model",
-                  "description": "Portrait rectangle with five equal horizontal strips, the bottom two filled, and an extended dashed vertical halving line.",
-                  "mathematics": "The dashed line creates ten equal regions, four of which represent the original shaded amount.",
-                  "answerVisibility": "The completed partition is a permanent supplied demonstration."
-                }
-              }
-            ],
+            "questionDiagrams": [],
             "children": [
               {
                 "id": "p18-q5-part1",
@@ -25388,12 +25302,192 @@
             "intentionalDepartures": [
               "Replace source grey fraction-model shading with restrained standard light-blue fill, preserving its mathematical meaning.",
               "Use the standard green correctness accent and editable typeset text for Mark's name.",
-              "Store the three printed blue teacher responses in editable answers rather than unsolved prompts."
+              "Store the three printed blue teacher responses in editable answers rather than unsolved prompts.",
+              "User requested 9 October 2026: preserve the original handwritten student-work image because its steps, errors and annotations are the object of analysis; surrounding prompts and answers remain editable."
             ],
             "sourcePagination": {
               "page": 18,
               "breakBefore": true
-            }
+            },
+            "arrangementOverride": {
+              "version": 1,
+              "root": {
+                "id": "p18-q5-arrangement",
+                "type": "group",
+                "direction": "stack",
+                "children": [
+                  {
+                    "id": "p18-q5-heading-row",
+                    "type": "group",
+                    "direction": "row",
+                    "children": [
+                      {
+                        "id": "p18-q5-number",
+                        "type": "item",
+                        "ref": "p18-q5-root/label",
+                        "width": 7,
+                        "align": "left"
+                      },
+                      {
+                        "id": "p18-q5-stem",
+                        "type": "item",
+                        "ref": "p18-q5-root/prompt#p18-q5-instruction",
+                        "align": "left"
+                      }
+                    ],
+                    "gap": 3,
+                    "verticalAlign": "top"
+                  },
+                  {
+                    "id": "p18-q5-demonstration-and-responses",
+                    "type": "group",
+                    "direction": "row",
+                    "children": [
+                      {
+                        "id": "p18-q5-left",
+                        "type": "group",
+                        "direction": "stack",
+                        "children": [
+                          {
+                            "id": "p18-q5-card-item",
+                            "type": "item",
+                            "ref": "p18-q5-root/prompt#p18-q5-demonstration-card",
+                            "width": 76,
+                            "align": "left"
+                          },
+                          {
+                            "id": "p18-q5-demonstration-model-row",
+                            "type": "group",
+                            "direction": "row",
+                            "children": [],
+                            "gap": 8,
+                            "verticalAlign": "middle"
+                          }
+                        ],
+                        "gap": 4,
+                        "weight": 1
+                      },
+                      {
+                        "id": "p18-q5-right",
+                        "type": "group",
+                        "direction": "stack",
+                        "children": [
+                          {
+                            "id": "p18-q5-response1",
+                            "type": "group",
+                            "direction": "stack",
+                            "children": [
+                              {
+                                "id": "p18-q5-response1-prompt",
+                                "type": "item",
+                                "ref": "p18-q5-part1/prompt",
+                                "align": "left"
+                              },
+                              {
+                                "id": "p18-q5-response1-space",
+                                "type": "item",
+                                "ref": "p18-q5-part1/space"
+                              }
+                            ],
+                            "gap": 2
+                          },
+                          {
+                            "id": "p18-q5-response2",
+                            "type": "group",
+                            "direction": "stack",
+                            "children": [
+                              {
+                                "id": "p18-q5-response2-prompt",
+                                "type": "item",
+                                "ref": "p18-q5-part2/prompt",
+                                "align": "left"
+                              },
+                              {
+                                "id": "p18-q5-response2-space",
+                                "type": "item",
+                                "ref": "p18-q5-part2/space"
+                              }
+                            ],
+                            "gap": 2
+                          },
+                          {
+                            "id": "p18-q5-response3",
+                            "type": "group",
+                            "direction": "stack",
+                            "children": [
+                              {
+                                "id": "p18-q5-response3-prompt",
+                                "type": "item",
+                                "ref": "p18-q5-part3/prompt",
+                                "align": "left"
+                              },
+                              {
+                                "id": "p18-q5-response3-space",
+                                "type": "item",
+                                "ref": "p18-q5-part3/space"
+                              }
+                            ],
+                            "gap": 2
+                          },
+                          {
+                            "id": "p18-q5-response4",
+                            "type": "group",
+                            "direction": "stack",
+                            "children": [
+                              {
+                                "id": "p18-q5-response4-instruction",
+                                "type": "item",
+                                "ref": "p18-q5-part4/prompt#p18-q5-part4-instruction",
+                                "align": "left"
+                              },
+                              {
+                                "id": "p18-q5-response4-model-row",
+                                "type": "group",
+                                "direction": "row",
+                                "children": [
+                                  {
+                                    "id": "p18-q5-response4-equation",
+                                    "type": "item",
+                                    "ref": "p18-q5-part4/prompt#p18-q5-part4-equation",
+                                    "width": 22,
+                                    "align": "left"
+                                  },
+                                  {
+                                    "id": "p18-q5-response4-model",
+                                    "type": "item",
+                                    "ref": "p18-q5-part4-model",
+                                    "width": 50,
+                                    "align": "left"
+                                  }
+                                ],
+                                "gap": 3,
+                                "verticalAlign": "middle"
+                              }
+                            ],
+                            "gap": 3
+                          }
+                        ],
+                        "gap": 4,
+                        "weight": 1
+                      }
+                    ],
+                    "gap": 6,
+                    "verticalAlign": "top"
+                  }
+                ],
+                "gap": 4
+              }
+            },
+            "rasterExceptions": [
+              {
+                "path": "/content/prompt/blocks/2",
+                "kind": "handwritten-analysis",
+                "checked": true,
+                "reason": "The original handwritten steps, errors and correctness marks are the evidence pupils analyse. User explicitly requested original pixels on 9 October 2026.",
+                "evidence": "Original source image compared; final-size Questions pages 26, 33, 47, 48 and neighbours visually inspected; D:/WebApps/MathsMap/.booklet-work/handwritten-analysis-20261009/comparing-fractions-v1/pages/feedback-pages.json",
+                "signature": "24faa52f2dba96d79c7f336a882b60e19f3f6fd2c73d2de070a916986c3426d0"
+              }
+            ]
           },
           "flow": {
             "sourcePageBreakBefore": false,
@@ -34853,89 +34947,17 @@
                       "blocks": [
                         {
                           "id": "p24-q10-example-frame",
-                          "type": "table",
-                          "widthMm": 78,
-                          "widths": [
-                            1
-                          ],
-                          "padding": 3,
-                          "border": false,
-                          "rows": [
-                            [
-                              {
-                                "id": "p24-q10-example-cell",
-                                "type": "cell",
-                                "align": "left",
-                                "verticalAlign": "middle",
-                                "blocks": [
-                                  {
-                                    "id": "p24-q10-example-cross",
-                                    "type": "paragraph",
-                                    "align": "left",
-                                    "inlines": [
-                                      {
-                                        "type": "math",
-                                        "latex": "\\Large\\times",
-                                        "display": false,
-                                        "colour": "#ef6068"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "id": "p24-q10-example-name",
-                                    "type": "paragraph",
-                                    "align": "left",
-                                    "inlines": [
-                                      {
-                                        "type": "text",
-                                        "text": "Name: ",
-                                        "marks": [
-                                          "bold"
-                                        ]
-                                      },
-                                      {
-                                        "type": "text",
-                                        "text": "Ellie"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "id": "p24-q10-example-instruction",
-                                    "type": "paragraph",
-                                    "align": "left",
-                                    "inlines": [
-                                      {
-                                        "type": "text",
-                                        "text": "Fill in the box to make the fractions equivalent.",
-                                        "marks": [
-                                          "italic"
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "id": "p24-q10-example-equation",
-                                    "type": "paragraph",
-                                    "align": "left",
-                                    "inlines": [
-                                      {
-                                        "type": "math",
-                                        "latex": "\\dfrac{1}{6}=\\dfrac{\\boxed{7}}{12}",
-                                        "display": false
-                                      }
-                                    ]
-                                  }
-                                ]
-                              }
-                            ]
-                          ],
-                          "annotations": [
-                            {
-                              "id": "p24-q10-example-outline",
-                              "type": "box",
-                              "cellId": "p24-q10-example-cell",
-                              "colour": "#ef6068"
-                            }
+                          "type": "image",
+                          "src": "/booklet-assets/projects/comparing-fractions-v1/c6dfbcfc95cb-image78.png",
+                          "width": 75,
+                          "aspectRatio": 1.596774193548387,
+                          "align": "left",
+                          "alt": "Original handwritten student working for analysis",
+                          "crop": [
+                            0,
+                            0,
+                            0,
+                            0
                           ]
                         }
                       ]
@@ -35274,7 +35296,20 @@
             "sourcePagination": {
               "page": 24,
               "breakBefore": true
-            }
+            },
+            "intentionalDepartures": [
+              "User requested 9 October 2026: preserve the original handwritten student-work image because its steps, errors and annotations are the object of analysis; surrounding prompts and answers remain editable."
+            ],
+            "rasterExceptions": [
+              {
+                "path": "/content/prompt/blocks/1/slots/0/blocks/0",
+                "kind": "handwritten-analysis",
+                "checked": true,
+                "reason": "The original handwritten steps, errors and correctness marks are the evidence pupils analyse. User explicitly requested original pixels on 9 October 2026.",
+                "evidence": "Original source image compared; final-size Questions pages 26, 33, 47, 48 and neighbours visually inspected; D:/WebApps/MathsMap/.booklet-work/handwritten-analysis-20261009/comparing-fractions-v1/pages/feedback-pages.json",
+                "signature": "df2259b4ab6fc4dfcb11ae25ebded601d03c3636a732263dc1210a2b156bb825"
+              }
+            ]
           },
           "flow": {
             "sourcePageBreakBefore": false,
@@ -49068,90 +49103,17 @@
                           "blocks": [
                             {
                               "id": "p34-bradley-card-frame",
-                              "type": "table",
-                              "widthMm": 78,
-                              "widths": [
-                                1
-                              ],
-                              "padding": 3,
-                              "border": false,
-                              "rows": [
-                                [
-                                  {
-                                    "id": "p34-bradley-card-cell",
-                                    "type": "cell",
-                                    "align": "left",
-                                    "verticalAlign": "middle",
-                                    "blocks": [
-                                      {
-                                        "id": "p34-bradley-cross",
-                                        "type": "paragraph",
-                                        "align": "left",
-                                        "inlines": [
-                                          {
-                                            "type": "math",
-                                            "latex": "\\Large\\times",
-                                            "display": false,
-                                            "colour": "#ef6068"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "id": "p34-bradley-name",
-                                        "type": "paragraph",
-                                        "align": "left",
-                                        "inlines": [
-                                          {
-                                            "type": "text",
-                                            "text": "Name: ",
-                                            "marks": [
-                                              "bold"
-                                            ]
-                                          },
-                                          {
-                                            "type": "math",
-                                            "latex": "\\underline{\\text{Bradley}}",
-                                            "display": false
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "id": "p34-bradley-card-instruction",
-                                        "type": "paragraph",
-                                        "align": "left",
-                                        "inlines": [
-                                          {
-                                            "type": "text",
-                                            "text": "Compare the fractions by writing <, >, or = in the circle.",
-                                            "marks": [
-                                              "italic"
-                                            ]
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "id": "p34-bradley-demonstration",
-                                        "type": "paragraph",
-                                        "align": "left",
-                                        "inlines": [
-                                          {
-                                            "type": "math",
-                                            "latex": "\\frac{1}{12}\\;\\textcircled{>}\\;\\frac{1}{7}",
-                                            "display": true
-                                          }
-                                        ]
-                                      }
-                                    ]
-                                  }
-                                ]
-                              ],
-                              "annotations": [
-                                {
-                                  "id": "p34-bradley-card-border",
-                                  "type": "box",
-                                  "cellId": "p34-bradley-card-cell",
-                                  "colour": "#ef6068"
-                                }
+                              "type": "image",
+                              "src": "/booklet-assets/projects/comparing-fractions-v1/7b2e82c849b1-image118.png",
+                              "width": 78,
+                              "aspectRatio": 1.5021645021645023,
+                              "align": "left",
+                              "alt": "Original handwritten student working for analysis",
+                              "crop": [
+                                0,
+                                0,
+                                0,
+                                0
                               ]
                             }
                           ]
@@ -49305,112 +49267,17 @@
                           "blocks": [
                             {
                               "id": "p34-nadine-card-frame",
-                              "type": "table",
-                              "widthMm": 78,
-                              "widths": [
-                                1
-                              ],
-                              "padding": 3,
-                              "border": false,
-                              "rows": [
-                                [
-                                  {
-                                    "id": "p34-nadine-card-cell",
-                                    "type": "cell",
-                                    "align": "left",
-                                    "verticalAlign": "middle",
-                                    "blocks": [
-                                      {
-                                        "id": "p34-nadine-cross",
-                                        "type": "paragraph",
-                                        "align": "left",
-                                        "inlines": [
-                                          {
-                                            "type": "math",
-                                            "latex": "\\Large\\times",
-                                            "display": false,
-                                            "colour": "#ef6068"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "id": "p34-nadine-name",
-                                        "type": "paragraph",
-                                        "align": "left",
-                                        "inlines": [
-                                          {
-                                            "type": "text",
-                                            "text": "Name: ",
-                                            "marks": [
-                                              "bold"
-                                            ]
-                                          },
-                                          {
-                                            "type": "math",
-                                            "latex": "\\underline{\\text{Nadine}}",
-                                            "display": false
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "id": "p34-nadine-card-instruction",
-                                        "type": "paragraph",
-                                        "align": "left",
-                                        "inlines": [
-                                          {
-                                            "type": "text",
-                                            "text": "Compare the fractions by writing <, >, or = in the circle. Then explain your reasoning.",
-                                            "marks": [
-                                              "italic"
-                                            ]
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "id": "p34-nadine-demonstration",
-                                        "type": "paragraph",
-                                        "align": "left",
-                                        "inlines": [
-                                          {
-                                            "type": "math",
-                                            "latex": "\\frac{2}{5}\\;\\textcircled{<}\\;\\frac{1}{4}",
-                                            "display": true
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "id": "p34-nadine-explanation-label",
-                                        "type": "paragraph",
-                                        "align": "left",
-                                        "inlines": [
-                                          {
-                                            "type": "text",
-                                            "text": "Explanation:"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "id": "p34-nadine-demonstrated-reason",
-                                        "type": "paragraph",
-                                        "align": "left",
-                                        "inlines": [
-                                          {
-                                            "type": "text",
-                                            "text": "Fourths are greater than fifths."
-                                          }
-                                        ]
-                                      }
-                                    ]
-                                  }
-                                ]
-                              ],
-                              "annotations": [
-                                {
-                                  "id": "p34-nadine-card-border",
-                                  "type": "box",
-                                  "cellId": "p34-nadine-card-cell",
-                                  "colour": "#ef6068"
-                                }
+                              "type": "image",
+                              "src": "/booklet-assets/projects/comparing-fractions-v1/b77f55c526fc-image121.png",
+                              "width": 78,
+                              "aspectRatio": 0.8108108108108109,
+                              "align": "left",
+                              "alt": "Original handwritten student working for analysis",
+                              "crop": [
+                                0,
+                                0,
+                                0,
+                                0
                               ]
                             }
                           ]
@@ -49788,7 +49655,28 @@
             "sourcePagination": {
               "page": 34,
               "breakBefore": true
-            }
+            },
+            "intentionalDepartures": [
+              "User requested 9 October 2026: preserve the original handwritten student-work image because its steps, errors and annotations are the object of analysis; surrounding prompts and answers remain editable."
+            ],
+            "rasterExceptions": [
+              {
+                "path": "/content/children/0/prompt/blocks/0/slots/0/blocks/0",
+                "kind": "handwritten-analysis",
+                "checked": true,
+                "reason": "The original handwritten steps, errors and correctness marks are the evidence pupils analyse. User explicitly requested original pixels on 9 October 2026.",
+                "evidence": "Original source image compared; final-size Questions pages 26, 33, 47, 48 and neighbours visually inspected; D:/WebApps/MathsMap/.booklet-work/handwritten-analysis-20261009/comparing-fractions-v1/pages/feedback-pages.json",
+                "signature": "a95ab9bbd4b63d15a7b07a8d4ea4af9bd475f481fe003f9e21eee7cecd5ab7de"
+              },
+              {
+                "path": "/content/children/1/prompt/blocks/0/slots/0/blocks/0",
+                "kind": "handwritten-analysis",
+                "checked": true,
+                "reason": "The original handwritten steps, errors and correctness marks are the evidence pupils analyse. User explicitly requested original pixels on 9 October 2026.",
+                "evidence": "Original source image compared; final-size Questions pages 26, 33, 47, 48 and neighbours visually inspected; D:/WebApps/MathsMap/.booklet-work/handwritten-analysis-20261009/comparing-fractions-v1/pages/feedback-pages.json",
+                "signature": "b8ebefecd4bb4bdae808a213a68f97f5a4f858baf4b26a4995ea7fc978d78ce5"
+              }
+            ]
           },
           "flow": {
             "sourcePageBreakBefore": false,
@@ -80053,8 +79941,13 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 15,
-  "assets": [],
+  "revision": 16,
+  "assets": [
+    "/booklet-assets/projects/comparing-fractions-v1/a1ed1f08e53d-image36.png",
+    "/booklet-assets/projects/comparing-fractions-v1/c6dfbcfc95cb-image78.png",
+    "/booklet-assets/projects/comparing-fractions-v1/7b2e82c849b1-image118.png",
+    "/booklet-assets/projects/comparing-fractions-v1/b77f55c526fc-image121.png"
+  ],
   "createdAt": "2026-10-03T09:23:11.602Z",
-  "updatedAt": "2026-10-04T12:19:35.250Z"
+  "updatedAt": "2026-10-09T09:18:12.921Z"
 }

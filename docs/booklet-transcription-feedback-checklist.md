@@ -103,3 +103,7 @@ The initial import reproduces the source's alignment; it is not left for later e
 3. **Worked-example question against working:** keep the source's column relationship (question beside or above its working, and where the working starts) through the example layout and `example.equationAlignment`.
 
 The independent content review checks these against the source images with the other presentation items. `node scripts/booklet/check-dormant-alignment.mjs <project-id>` lists table lines whose stored alignment their cell overrides; a new import should report none. Existing booklets are reported, not auto-repaired, because either correction changes print. Studio's Layout panel sets all of these directly (Position, Cell alignment with row/column/table scope, and "Only this line").
+
+## Original handwritten analysis panels (9 October 2026)
+
+Apply the [handwritten analysis panel convention](booklet-cross-session-rules.md#original-handwritten-analysis-panels-9-october-2026-user-requested). For this specific archetype, preserve the original student-work image rather than transcribing its handwriting to LaTeX. Confirm the source visually, retain intentional errors and correctness marks, keep surrounding text and answers editable, record the occurrence-specific raster exception and inspect the final printed size. Avatar questions, generic “explain the mistake” questions, fully typeset examples and ordinary teaching examples are excluded. This is an explicit exception to item 7's native-maths default.

@@ -809,11 +809,6 @@
                           "id": "p4-q3/prompt#p4-q3-fei-tick:slot",
                           "type": "item",
                           "ref": "p4-q3/prompt#p4-q3-fei-tick"
-                        },
-                        {
-                          "id": "p4-q3/prompt#p4-q3-fei-demonstration:slot",
-                          "type": "item",
-                          "ref": "p4-q3/prompt#p4-q3-fei-demonstration"
                         }
                       ]
                     },
@@ -4518,28 +4513,17 @@
                 },
                 {
                   "id": "p4-q3-fei-tick",
-                  "type": "paragraph",
+                  "type": "image",
+                  "src": "/booklet-assets/projects/factorising-negative-hcf-v1/46caf3c9db1d-image2.png",
+                  "width": 75,
+                  "aspectRatio": 1.2271186440677966,
                   "align": "left",
-                  "inlines": [
-                    {
-                      "type": "math",
-                      "latex": "\\checkmark",
-                      "display": false,
-                      "colour": "#4f9b63"
-                    }
-                  ]
-                },
-                {
-                  "id": "p4-q3-fei-demonstration",
-                  "type": "paragraph",
-                  "align": "center",
-                  "inlines": [
-                    {
-                      "type": "math",
-                      "latex": "\\begin{aligned}-4x-2\\\\-2(2x+1)\\end{aligned}",
-                      "display": true,
-                      "colour": "#24282d"
-                    }
+                  "alt": "Original handwritten student working for analysis",
+                  "crop": [
+                    0,
+                    0,
+                    0,
+                    0
                   ]
                 }
               ]
@@ -4674,7 +4658,128 @@
             "sourcePagination": {
               "page": 4,
               "breakBefore": false
-            }
+            },
+            "intentionalDepartures": [
+              "User requested 9 October 2026: preserve the original handwritten student-work image because its steps, errors and annotations are the object of analysis; surrounding prompts and answers remain editable."
+            ],
+            "arrangementOverride": {
+              "version": 1,
+              "root": {
+                "id": "p4-q3:root",
+                "type": "group",
+                "direction": "stack",
+                "children": [
+                  {
+                    "id": "p4-q3:instruction-row",
+                    "type": "group",
+                    "direction": "row",
+                    "children": [
+                      {
+                        "id": "p4-q3/label:slot",
+                        "type": "item",
+                        "ref": "p4-q3/label"
+                      },
+                      {
+                        "id": "p4-q3/prompt#p4-q3-instruction:slot",
+                        "type": "item",
+                        "ref": "p4-q3/prompt#p4-q3-instruction"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p4-q3:paired-work-response",
+                    "type": "group",
+                    "direction": "row",
+                    "children": [
+                      {
+                        "id": "p4-q3:fei-work",
+                        "type": "group",
+                        "direction": "stack",
+                        "children": [
+                          {
+                            "id": "p4-q3/prompt#p4-q3-fei-label:slot",
+                            "type": "item",
+                            "ref": "p4-q3/prompt#p4-q3-fei-label"
+                          },
+                          {
+                            "id": "p4-q3/prompt#p4-q3-fei-tick:slot",
+                            "type": "item",
+                            "ref": "p4-q3/prompt#p4-q3-fei-tick"
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p4-q3:responses",
+                        "type": "group",
+                        "direction": "stack",
+                        "children": [
+                          {
+                            "id": "p4-q3-explanation:question",
+                            "type": "group",
+                            "direction": "stack",
+                            "children": [
+                              {
+                                "id": "layout:p4-q3-explanation/prompt#p4-q3-fei-question-text",
+                                "type": "item",
+                                "ref": "p4-q3-explanation/prompt#p4-q3-fei-question-text",
+                                "title": "Text"
+                              },
+                              {
+                                "id": "layout:p4-q3-explanation/prompt#p4-q3-explanation-scaffold",
+                                "type": "item",
+                                "ref": "p4-q3-explanation/prompt#p4-q3-explanation-scaffold",
+                                "title": "Text"
+                              },
+                              {
+                                "id": "layout:p4-q3-explanation/space",
+                                "type": "item",
+                                "ref": "p4-q3-explanation/space",
+                                "title": "Answer space"
+                              }
+                            ],
+                            "title": "Unlabelled part 1",
+                            "gap": 2
+                          },
+                          {
+                            "id": "p4-q3-factorise:question",
+                            "type": "group",
+                            "direction": "stack",
+                            "children": [
+                              {
+                                "id": "layout:p4-q3-factorise/prompt",
+                                "type": "item",
+                                "ref": "p4-q3-factorise/prompt",
+                                "title": "Text"
+                              },
+                              {
+                                "id": "layout:p4-q3-factorise/space",
+                                "type": "item",
+                                "ref": "p4-q3-factorise/space",
+                                "title": "Answer space"
+                              }
+                            ],
+                            "title": "Unlabelled part 2",
+                            "gap": 2,
+                            "minHeight": 33
+                          }
+                        ]
+                      }
+                    ],
+                    "gap": 5
+                  }
+                ]
+              }
+            },
+            "rasterExceptions": [
+              {
+                "path": "/content/prompt/blocks/2",
+                "kind": "handwritten-analysis",
+                "checked": true,
+                "reason": "The original handwritten steps, errors and correctness marks are the evidence pupils analyse. User explicitly requested original pixels on 9 October 2026.",
+                "evidence": "Original source image compared; final-size Questions pages 5 and neighbours visually inspected; D:/WebApps/MathsMap/.booklet-work/handwritten-analysis-20261009/factorising-negative-hcf-v1/pages/feedback-pages.json",
+                "signature": "06992556a506c6dff395b144f679ae57e12f3ded2b6450c33961ccef6c69c0e5"
+              }
+            ]
           },
           "flow": {
             "sourcePageBreakBefore": false,
@@ -8592,8 +8697,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 6,
-  "assets": [],
+  "revision": 7,
+  "assets": [
+    "/booklet-assets/projects/factorising-negative-hcf-v1/46caf3c9db1d-image2.png"
+  ],
   "createdAt": "2026-10-07T13:11:33.131Z",
-  "updatedAt": "2026-10-07T13:40:53.839Z"
+  "updatedAt": "2026-10-09T09:18:17.290Z"
 }
