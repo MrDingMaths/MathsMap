@@ -2,7 +2,7 @@
   "skillId": "graph-log-functions",
   "atomType": "R",
   "theory": {
-        "intro": "The graphs of $y=a^{x}$ and $y=\\log_{a}x$ are **inverses**, so each is the mirror image of the other in the line $y=x$. Reading one curve tells you about the other.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3.5,xmax=6,ymin=-3.5,ymax=6,xtick=\\empty,ytick=\\empty,clip=false,xlabel={$x$},ylabel={$y$},samples=100]\n\\addplot[dashed,gray,domain=-3.5:6,samples=2] {x};\n\\addplot[thick,red!70!black,<->,domain=-3.5:2.58] {exp(x*ln(2))};\n\\addplot[thick,blue!70!black,<->,domain=0.088:6] {ln(x)/ln(2)};\n\\node[red!70!black] at (axis cs:-2.2,1.4) {$y=a^{x}$};\n\\node[gray] at (axis cs:5.2,3.9) {$y=x$};\n\\node[blue!70!black] at (axis cs:3.6,0.85) {$y=\\log_{a}x$};\n\\end{axis}\n\\end{tikzpicture}[/tikz]",
+        "intro": "For logarithmic functions, the base must satisfy $a>0$ and $a\\ne1$. The graphs of $y=a^{x}$ and $y=\\log_{a}x$ are **inverses**, so each is the mirror image of the other in the line $y=x$. Reading one curve tells you about the other.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3.5,xmax=6,ymin=-3.5,ymax=6,xtick=\\empty,ytick=\\empty,clip=false,xlabel={$x$},ylabel={$y$},samples=100]\n\\addplot[dashed,gray,domain=-3.5:6,samples=2] {x};\n\\addplot[thick,red!70!black,<->,domain=-3.5:2.58] {exp(x*ln(2))};\n\\addplot[thick,blue!70!black,<->,domain=0.088:6] {ln(x)/ln(2)};\n\\node[red!70!black] at (axis cs:-2.2,1.4) {$y=a^{x}$};\n\\node[gray] at (axis cs:5.2,3.9) {$y=x$};\n\\node[blue!70!black] at (axis cs:3.6,0.85) {$y=\\log_{a}x$};\n\\end{axis}\n\\end{tikzpicture}[/tikz]",
         "facts": [
           "$y=\\log_{a}x$ is an **increasing** curve when $a>1$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick=\\empty,ytick=\\empty,clip=false,xlabel={$x$},ylabel={$y$},samples=100]\n\\addplot[thick,blue!70!black,<->,domain=0.09:8.9] {ln(x)/ln(2)};\n\\node[blue!70!black] at (axis cs:5.5,-2.2) {$a>1$};\n\\end{axis}\n\\end{tikzpicture}[/tikz]",
           "$y=\\log_{a}x$ is a **decreasing** curve when $0<a<1$; the only feature changed is the base, now less than $1$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick=\\empty,ytick=\\empty,clip=false,xlabel={$x$},ylabel={$y$},samples=100]\n\\addplot[thick,blue!70!black,<->,domain=0.09:8.9] {ln(x)/ln(0.5)};\n\\node[blue!70!black] at (axis cs:5.5,2.2) {$0<a<1$};\n\\end{axis}\n\\end{tikzpicture}[/tikz]",
@@ -15,95 +15,95 @@
       },
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Is the logarithmic curve $y=\\log_{2}x$ increasing or decreasing?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0625:8.9,samples=100] {ln(x)/ln(2)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
         "structure": "log-nature-from-base",
         "solution_text": "The base is $2$, which is greater than $1$.\nSo the curve is increasing."
       },
-      {
+{
         "question_text": "Is the logarithmic curve $y=\\log_{0.5}x$ increasing or decreasing?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0625:8.9,samples=100] {ln(x)/ln(0.5)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
         "structure": "log-nature-from-base",
         "solution_text": "The base is $0.5$, which is between $0$ and $1$.\nSo the curve is decreasing."
       },
-      {
-        "question_text": "State the coordinates of the point where $y=\\log_{3}x$ crosses the $x$-axis.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0123:8.9,samples=100] {ln(x)/ln(3)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
-        "structure": "x-intercept-log",
-        "solution_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0123:8.9,samples=100] {ln(x)/ln(3)};\n\\addplot[only marks,mark=*,mark size=2pt] coordinates {(1,0)};\n\\node[above right,fill=white,inner sep=1pt] at (axis cs:1,0) {$(1,0)$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\n$\\log_{3}1=0$, so the curve passes through $(1,0)$.\nThe $x$-intercept is $(1,0)$."
+{
+        "question_text": "Sketch $y=\\log_{4}x$ using a table of values with $x=\\tfrac{1}{4},1,4,16$.",
+        "structure": "sketch-log-from-table",
+        "solution_text": "For $x=\\tfrac{1}{4},1,4,16$, the values of $y$ are $-1,0,1,2$ respectively.\nPlot these points and draw a smooth increasing curve approaching the $y$-axis without touching it.\n[tikz]\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=17,ymin=-3,ymax=3,xtick={4,8,12,16},ytick={-2,-1,1,2},grid=both,xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.015625:16.5,samples=150] {ln(x)/ln(4)};\n\\addplot[only marks,mark=*] coordinates {(0.25,-1) (1,0) (4,1) (16,2)};\n\\end{axis}\\end{tikzpicture}[/tikz]"
       },
-      {
+{
         "question_text": "State the equation of the vertical asymptote of $y=\\log_{2}x$.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0625:8.9,samples=100] {ln(x)/ln(2)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
         "structure": "vertical-asymptote",
         "solution_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[red!70!black,thick,dashed] coordinates {(0,-4) (0,4)};\n\\node[right,red!70!black] at (axis cs:0,-3) {$x=0$};\n\\addplot[thick,blue!70!black,<->,domain=0.0625:8.9,samples=100] {ln(x)/ln(2)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\nThe input of a logarithm must be positive, so the curve approaches the $y$-axis but never reaches it.\nThe vertical asymptote is $x=0$."
       },
-      {
-        "question_text": "State the $y$-intercept of $y=2^{x}$, the exponential partner of $y=\\log_{2}x$.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=4,ymin=-1,ymax=9,xtick={-4,-2,2,4},ytick={2,4,6,8},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-3.9:3.1,samples=100] {exp(x*ln(2))};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
-        "structure": "exponential-y-intercept",
-        "solution_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=4,ymin=-1,ymax=9,xtick={-4,-2,2,4},ytick={2,4,6,8},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-3.9:3.1,samples=100] {exp(x*ln(2))};\n\\addplot[only marks,mark=*,mark size=2pt] coordinates {(0,1)};\n\\node[above left,fill=white,inner sep=1pt] at (axis cs:0,1) {$(0,1)$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\n$2^{0}=1$, so the curve passes through $(0,1)$.\nThe $y$-intercept is $(0,1)$."
+{
+        "question_text": "Is $y=\\log_{7}x$ increasing or decreasing?",
+        "structure": "log-nature-from-base",
+        "solution_text": "The base is $7$, which is greater than $1$.\nSo the curve is increasing."
       },
-      {
-        "question_text": "In which line is $y=3^{x}$ reflected to give $y=\\log_{3}x$?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=8,ymin=-4,ymax=8,xtick={-4,-2,2,4,6,8},ytick={-4,-2,2,4,6,8},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[gray,dashed,domain=-4:8] {x};\n\\node[gray] at (axis cs:6.8,6.1) {$y=x$};\n\\addplot[thick,blue!70!black,<->,domain=-3.5:1.9,samples=100] {exp(x*ln(3))};\n\\node[blue!70!black] at (axis cs:0.6,7) {$y=3^{x}$};\n\\addplot[thick,red!70!black,dashdotted,<->,domain=0.0123:7.9,samples=100] {ln(x)/ln(3)};\n\\node[red!70!black] at (axis cs:6.6,2.4) {$y=\\log_{3}x$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
-        "structure": "mirror-line",
-        "solution_text": "The exponential and logarithmic curves are inverses.\nThey are reflections of each other in the line $y=x$."
+{
+        "question_text": "What do you notice about the graphs of $y=4^{x}$ and $y=\\log_{4}x$? Are they reflections of each other?",
+        "structure": "compare-exponential-log-reflections",
+        "solution_text": "Yes. The exponential and logarithmic curves are inverses.\nThey are reflections of each other in the line $y=x$."
       },
-      {
-        "question_text": "The point $(0,1)$ lies on $y=5^{x}$.\nReflecting in $y=x$ swaps the coordinates.\nState the corresponding point on $y=\\log_{5}x$.",
-        "structure": "reflected-point",
-        "solution_text": "Reflecting in $y=x$ swaps the coordinates.\n$(0,1)\\to(1,0)$\nThe corresponding point is $(1,0)$."
+{
+        "question_text": "State the equation of the vertical asymptote of $y=\\log_{6}x$.",
+        "structure": "vertical-asymptote",
+        "solution_text": "The input of a logarithm must be positive, so the curve approaches the $y$-axis but never reaches it.\nThe vertical asymptote is $x=0$."
       }
-    ],
+],
     "development": [
-      {
-        "question_text": "For $y=\\log_{5}x$, state whether it is increasing or decreasing, its $x$-intercept, and its vertical asymptote.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0016:8.9,samples=100] {ln(x)/ln(5)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
-        "structure": "state-all-features",
-        "solution_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[red!70!black,thick,dashed] coordinates {(0,-4) (0,4)};\n\\node[right,red!70!black] at (axis cs:0,-3) {$x=0$};\n\\addplot[thick,blue!70!black,<->,domain=0.0016:8.9,samples=100] {ln(x)/ln(5)};\n\\addplot[only marks,mark=*,mark size=2pt] coordinates {(1,0)};\n\\node[above right,fill=white,inner sep=1pt] at (axis cs:1,0) {$(1,0)$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\nThe base $5>1$, so the curve is increasing.\n$\\log_{5}1=0$, so the $x$-intercept is $(1,0)$.\nThe vertical asymptote is $x=0$."
+{
+        "question_text": "For $y=\\log_{5}x$, state whether it is increasing or decreasing and its vertical asymptote.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0016:8.9,samples=100] {ln(x)/ln(5)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
+        "structure": "log-nature-and-asymptote",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[red!70!black,thick,dashed] coordinates {(0,-4) (0,4)};\n\\node[right,red!70!black] at (axis cs:0,-3) {$x=0$};\n\\addplot[thick,blue!70!black,<->,domain=0.0016:8.9,samples=100] {ln(x)/ln(5)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\nThe base $5>1$, so the curve is increasing.\nThe vertical asymptote is $x=0$."
       },
-      {
-        "question_text": "For $y=\\log_{\\frac{1}{4}}x$, state whether it is increasing or decreasing, its $x$-intercept, and its vertical asymptote.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0039:8.9,samples=100] {ln(x)/ln(0.25)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
-        "structure": "state-all-features",
-        "solution_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[red!70!black,thick,dashed] coordinates {(0,-4) (0,4)};\n\\node[right,red!70!black] at (axis cs:0,3) {$x=0$};\n\\addplot[thick,blue!70!black,<->,domain=0.0039:8.9,samples=100] {ln(x)/ln(0.25)};\n\\addplot[only marks,mark=*,mark size=2pt] coordinates {(1,0)};\n\\node[above right,fill=white,inner sep=1pt] at (axis cs:1,0) {$(1,0)$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\nThe base $\\tfrac{1}{4}$ is between $0$ and $1$, so the curve is decreasing.\n$\\log_{\\frac{1}{4}}1=0$, so the $x$-intercept is $(1,0)$.\nThe vertical asymptote is $x=0$."
+{
+        "question_text": "For $y=\\log_{\\frac{1}{4}}x$, state whether it is increasing or decreasing and its vertical asymptote.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0039:8.9,samples=100] {ln(x)/ln(0.25)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
+        "structure": "log-nature-and-asymptote",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[red!70!black,thick,dashed] coordinates {(0,-4) (0,4)};\n\\node[right,red!70!black] at (axis cs:0,3) {$x=0$};\n\\addplot[thick,blue!70!black,<->,domain=0.0039:8.9,samples=100] {ln(x)/ln(0.25)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\nThe base $\\tfrac{1}{4}$ is between $0$ and $1$, so the curve is decreasing.\nThe vertical asymptote is $x=0$."
       },
-      {
-        "question_text": "The curves $y=2^{x}$ and $y=\\log_{2}x$ are drawn on the same axes.\nState the mirror line, and give the point on $y=\\log_{2}x$ that corresponds to $(1,2)$ on $y=2^{x}$.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=8,ymin=-4,ymax=8,xtick={-4,-2,2,4,6,8},ytick={-4,-2,2,4,6,8},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[gray,dashed,domain=-4:8] {x};\n\\node[gray] at (axis cs:6.8,6.1) {$y=x$};\n\\addplot[thick,blue!70!black,<->,domain=-3.9:3,samples=100] {exp(x*ln(2))};\n\\node[blue!70!black] at (axis cs:1.4,7) {$y=2^{x}$};\n\\addplot[thick,red!70!black,dashdotted,<->,domain=0.0625:7.9,samples=100] {ln(x)/ln(2)};\n\\node[red!70!black] at (axis cs:6.6,3.4) {$y=\\log_{2}x$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
-        "structure": "reflected-point",
-        "solution_text": "The curves are reflections in the line $y=x$.\nReflecting swaps the coordinates: $(1,2)\\to(2,1)$.\nThe corresponding point on $y=\\log_{2}x$ is $(2,1)$."
+{
+        "question_text": "Sketch $y=\\log_{\\frac{1}{3}}x$ using a table of values with $x=\\tfrac{1}{9},\\tfrac{1}{3},1,3,9$.",
+        "structure": "sketch-log-from-table",
+        "solution_text": "For $x=\\tfrac{1}{9},\\tfrac{1}{3},1,3,9$, the values of $y$ are $2,1,0,-1,-2$ respectively.\nPlot these points and draw a smooth decreasing curve approaching the $y$-axis without touching it.\n[tikz]\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=10,ymin=-3,ymax=3,xtick={1,3,6,9},ytick={-2,-1,1,2},grid=both,xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.037037037:9.5,samples=150] {ln(x)/ln(1/3)};\n\\addplot[only marks,mark=*] coordinates {(0.111111111,2) (0.333333333,1) (1,0) (3,-1) (9,-2)};\n\\end{axis}\\end{tikzpicture}[/tikz]"
       },
-      {
-        "question_text": "The point $(2,9)$ lies on $y=3^{x}$.\nState the corresponding point on $y=\\log_{3}x$.",
-        "structure": "reflected-point",
-        "solution_text": "Reflecting in $y=x$ swaps the coordinates.\n$(2,9)\\to(9,2)$\nThe corresponding point is $(9,2)$."
+{
+        "question_text": "Sketch $y=\\log_{4}x$ using a table of values with $x=\\tfrac{1}{16},\\tfrac{1}{4},1,4,16$.",
+        "structure": "sketch-log-from-table",
+        "solution_text": "For $x=\\tfrac{1}{16},\\tfrac{1}{4},1,4,16$, the values of $y$ are $-2,-1,0,1,2$ respectively.\nPlot these points and draw a smooth increasing curve approaching the $y$-axis without touching it.\n[tikz]\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=17,ymin=-3,ymax=3,xtick={4,8,12,16},ytick={-2,-1,1,2},grid=both,xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.015625:16.5,samples=150] {ln(x)/ln(4)};\n\\addplot[only marks,mark=*] coordinates {(0.0625,-2) (0.25,-1) (1,0) (4,1) (16,2)};\n\\end{axis}\\end{tikzpicture}[/tikz]"
       },
-      {
+{
         "question_text": "Explain why $y=\\log_{2}x$ has a vertical asymptote at $x=0$ and is only defined for $x>0$.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0625:8.9,samples=100] {ln(x)/ln(2)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
         "structure": "vertical-asymptote",
         "solution_text": "A logarithm asks 'what power of the base gives the input'.\nNo power of $2$ gives $0$ or a negative number, so the input $x$ must be positive.\nAs $x$ approaches $0$ the curve drops without bound, giving a vertical asymptote at $x=0$."
       },
-      {
-        "question_text": "The diagram shows $y=2^{x}$ and $y=\\log_{2}x$.\nWhich curve, $A$ or $B$, is $y=\\log_{2}x$, and how can you tell?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=8,ymin=-4,ymax=8,xtick={-4,-2,2,4,6,8},ytick={-4,-2,2,4,6,8},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-3.9:3,samples=100] {exp(x*ln(2))};\n\\node[blue!70!black] at (axis cs:1.5,7.2) {$A$};\n\\addplot[thick,red!70!black,dashdotted,<->,domain=0.0625:7.9,samples=100] {ln(x)/ln(2)};\n\\node[red!70!black] at (axis cs:6.8,3.4) {$B$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
-        "structure": "which-graph-is-log",
-        "solution_text": "$B$ is $y=\\log_{2}x$: it passes through $(1,0)$ and has a vertical asymptote at the $y$-axis.\n$A$ is the exponential $y=2^{x}$, passing through $(0,1)$ with a horizontal asymptote."
+{
+        "question_text": "For $y=6^{x}$ and $y=\\log_{6}x$, are the graphs reflections of each other? State the asymptote of each graph.",
+        "structure": "compare-reflections-and-asymptotes",
+        "solution_text": "Yes. The graphs are reflections of each other in the line $y=x$.\nThe exponential graph $y=6^{x}$ has a horizontal asymptote at $y=0$.\nThe logarithmic graph $y=\\log_{6}x$ has a vertical asymptote at $x=0$."
       },
-      {
-        "question_text": "A logarithmic curve $y=\\log_{a}x$ passes through $(1,0)$ and $(8,3)$.\nFind the base $a$.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0625:8.9,samples=100] {ln(x)/ln(2)};\n\\addplot[only marks,mark=*,mark size=2pt] coordinates {(1,0) (8,3)};\n\\node[below right,fill=white,inner sep=1pt] at (axis cs:1,0) {$(1,0)$};\n\\node[above left,fill=white,inner sep=1pt] at (axis cs:8,3) {$(8,3)$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
-        "structure": "base-from-two-points",
-        "solution_text": "The curve passes through $(8,3)$, so $\\log_{a}8=3$.\n$a^{3}=8$\n$a=2$"
+{
+        "question_text": "Sketch $y=\\log_{\\frac{1}{5}}x$ using a table of values with $x=\\tfrac{1}{25},\\tfrac{1}{5},1,5,25$.",
+        "structure": "sketch-log-from-table",
+        "solution_text": "For $x=\\tfrac{1}{25},\\tfrac{1}{5},1,5,25$, the values of $y$ are $2,1,0,-1,-2$ respectively.\nPlot these points and draw a smooth decreasing curve approaching the $y$-axis without touching it.\n[tikz]\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=27,ymin=-3,ymax=3,xtick={5,10,15,20,25},ytick={-2,-1,1,2},grid=both,xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.008:26,samples=150] {ln(x)/ln(1/5)};\n\\addplot[only marks,mark=*] coordinates {(0.04,2) (0.2,1) (1,0) (5,-1) (25,-2)};\n\\end{axis}\\end{tikzpicture}[/tikz]"
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "A logarithmic curve $y=\\log_{a}x$ passes through $(1,0)$ and $(16,2)$.\nFind the base $a$, and state the point where its exponential partner $y=a^{x}$ crosses the $y$-axis.",
-        "structure": "base-from-two-points",
-        "solution_text": "$\\log_{a}16=2$\n$a^{2}=16$\n$a=4$\nThe partner $y=4^{x}$ has $y$-intercept $(0,1)$."
+{
+        "question_text": "Sketch $y=\\log_{\\frac{3}{2}}x$ using a table of values with $x=\\tfrac{4}{9},\\tfrac{2}{3},1,\\tfrac{3}{2},\\tfrac{9}{4}$. State whether the curve is increasing or decreasing and its vertical asymptote.",
+        "structure": "sketch-log-and-state-features",
+        "solution_text": "For $x=\\tfrac{4}{9},\\tfrac{2}{3},1,\\tfrac{3}{2},\\tfrac{9}{4}$, the values of $y$ are $-2,-1,0,1,2$ respectively.\nPlot these points and draw a smooth curve.\nSince $\\tfrac{3}{2}>1$, the curve is increasing. Its vertical asymptote is $x=0$.\n[tikz]\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.5,xmax=3.5,ymin=-3,ymax=3,xtick={1,2,3},ytick={-2,-1,1,2},grid=both,xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.296296296:3.375,samples=150] {ln(x)/ln(3/2)};\n\\addplot[only marks,mark=*] coordinates {(0.444444444,-2) (0.666666667,-1) (1,0) (1.5,1) (2.25,2)};\n\\end{axis}\\end{tikzpicture}[/tikz]"
       },
-      {
-        "question_text": "A decreasing logarithmic curve $y=\\log_{a}x$ passes through $(1,0)$ and $(4,-1)$.\nFind the base $a$, and confirm it is consistent with the curve decreasing.",
-        "structure": "base-from-two-points",
-        "solution_text": "$\\log_{a}4=-1$\n$a^{-1}=4$\n$a=\\tfrac{1}{4}$\nSince $0<\\tfrac{1}{4}<1$, the base is less than $1$, which matches a decreasing curve."
+{
+        "question_text": "Sketch $y=\\log_{\\frac{2}{3}}x$ using a table of values with $x=\\tfrac{4}{9},\\tfrac{2}{3},1,\\tfrac{3}{2},\\tfrac{9}{4}$. State whether the curve is increasing or decreasing and its vertical asymptote.",
+        "structure": "sketch-log-and-state-features",
+        "solution_text": "For $x=\\tfrac{4}{9},\\tfrac{2}{3},1,\\tfrac{3}{2},\\tfrac{9}{4}$, the values of $y$ are $2,1,0,-1,-2$ respectively.\nPlot these points and draw a smooth curve.\nSince $0<\\tfrac{2}{3}<1$, the curve is decreasing. Its vertical asymptote is $x=0$.\n[tikz]\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.5,xmax=3.5,ymin=-3,ymax=3,xtick={1,2,3},ytick={-2,-1,1,2},grid=both,xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.296296296:3.375,samples=150] {ln(x)/ln(2/3)};\n\\addplot[only marks,mark=*] coordinates {(0.444444444,2) (0.666666667,1) (1,0) (1.5,-1) (2.25,-2)};\n\\end{axis}\\end{tikzpicture}[/tikz]"
       },
-      {
-        "question_text": "The point $\\left(3,\\tfrac{1}{8}\\right)$ lies on $y=a^{x}$.\nGiven the curve also passes through $(0,1)$, find the base $a$ and the point on $y=\\log_{a}x$ that corresponds to $\\left(3,\\tfrac{1}{8}\\right)$.",
-        "structure": "reflected-point",
-        "solution_text": "$a^{3}=\\tfrac{1}{8}$\n$a=\\tfrac{1}{2}$\nReflecting in $y=x$ swaps the coordinates.\n$\\left(3,\\tfrac{1}{8}\\right)\\to\\left(\\tfrac{1}{8},3\\right)$\nThe corresponding point is $\\left(\\tfrac{1}{8},3\\right)$."
+{
+        "question_text": "Sketch $y=\\log_{\\frac{4}{3}}x$ and $y=\\log_{\\frac{3}{4}}x$ on the same axes using $x=\\tfrac{9}{16},\\tfrac{3}{4},1,\\tfrac{4}{3},\\tfrac{16}{9}$. State whether each curve is increasing or decreasing.",
+        "structure": "sketch-and-compare-log-curves",
+        "solution_text": "For $x=\\tfrac{9}{16},\\tfrac{3}{4},1,\\tfrac{4}{3},\\tfrac{16}{9}$, the values of $y$ for base $\\tfrac{4}{3}$ are $-2,-1,0,1,2$, and for base $\\tfrac{3}{4}$ they are $2,1,0,-1,-2$.\nPlot each set of points and draw smooth curves.\nThe curve with base $\\tfrac{4}{3}>1$ is increasing. The curve with base $0<\\tfrac{3}{4}<1$ is decreasing.\n[tikz]\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.5,xmax=2.5,ymin=-3,ymax=3,xtick={1,2},ytick={-2,-1,1,2},grid=both,xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.421875:2.37037037,samples=150] {ln(x)/ln(4/3)};\n\\addplot[thick,red!70!black,dashdotted,<->,domain=0.421875:2.37037037,samples=150] {ln(x)/ln(3/4)};\n\\node[blue!70!black,fill=white,inner sep=1pt] at (axis cs:1.7,2.7) {$y=\\log_{4/3}x$};\n\\node[red!70!black,fill=white,inner sep=1pt] at (axis cs:1.7,-2.7) {$y=\\log_{3/4}x$};\n\\end{axis}\\end{tikzpicture}[/tikz]"
       }
-    ]
+]
   }
 }

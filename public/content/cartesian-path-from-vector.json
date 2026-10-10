@@ -2,16 +2,16 @@
   "skillId": "cartesian-path-from-vector",
   "atomType": "R",
   "theory": {
-    "intro": "The **Cartesian equation** of a path links $x$ and $y$ with no $t$ in it. Make $t$ the subject of one component and substitute it into the other. The values $t$ can take restrict which part of the curve is traced.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.0,0)--(3.2,0) node[right,font=\\footnotesize] {$x$};\n\\draw[->] (0,-0.6)--(0,4.2) node[above,font=\\footnotesize] {$y$};\n\\draw[dashed,gray,domain=-1.9:0,smooth,variable=\\x] plot ({\\x},{\\x*\\x});\n\\draw[thick,blue,domain=0:1.9,smooth,variable=\\x] plot ({\\x},{\\x*\\x});\n\\node[above right,font=\\footnotesize] at (1.9,3.61) {traced};\n\\node[above left,font=\\footnotesize] at (-1.9,3.61) {not traced};\n\\end{tikzpicture}\n[/tikz]",
+    "intro": "The **Cartesian equation** of a path links $x$ and $y$ with no $t$ in it. Make $t$ the subject of one component and substitute it into the other. The values $t$ can take restrict which part of the curve is traced.\n\nThe figure shows $x=t$ and $y=t^{2}$ for $t\\ge0$. The path is $y=x^{2}$ for $x\\ge0$: the right-hand half is traced, and the left-hand half is not traced.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.0,0)--(3.2,0) node[right,font=\\footnotesize] {$x$};\n\\draw[->] (0,-0.6)--(0,4.2) node[above,font=\\footnotesize] {$y$};\n\\draw[dashed,gray,domain=-1.9:0,smooth,variable=\\x] plot ({\\x},{\\x*\\x});\n\\draw[thick,blue,domain=0:1.9,smooth,variable=\\x] plot ({\\x},{\\x*\\x});\n\\node[above right,font=\\footnotesize] at (1.9,3.61) {traced};\n\\node[above left,font=\\footnotesize] at (-1.9,3.61) {not traced};\n\\end{tikzpicture}\n[/tikz]",
     "facts": [
-      "A Cartesian equation contains only $x$ and $y$, so an answer still containing $t$ is not finished.",
-      "When both components are linear in $t$, eliminating $t$ gives a straight line.",
-      "When $x$ is linear in $t$ and $y$ is quadratic in $t$, eliminating $t$ gives a parabola.",
-      "For $x=a\\cos t$ and $y=a\\sin t$, use $\\cos^{2}t+\\sin^{2}t=1$ to get the circle $x^{2}+y^{2}=a^{2}$.",
-      "The values $t$ can take restrict $x$ and $y$: if $x=t^{2}$ then $x\\ge0$, so only half the curve is traced.",
-      "State the restriction with the equation, because the path is often an arc or a half of the curve.",
-      "Check the equation by substituting two values of $t$ and confirming both points satisfy it."
-    ],
+"A Cartesian equation contains only $x$ and $y$, so an answer still containing $t$ is not finished.",
+"When both components are nonconstant linear functions of $t$, eliminating $t$ gives a straight line. If one component is constant, the path lies on a horizontal or vertical line; if both are constant, it is a point.",
+"When $x$ is a nonconstant linear function of $t$ and $y$ is genuinely quadratic in $t$ (its $t^{2}$ coefficient is nonzero), eliminating $t$ gives a parabola. If $x$ is constant, the path lies on a vertical line instead.",
+"For $x=a\\cos t$ and $y=a\\sin t$, use $\\cos^{2}t+\\sin^{2}t=1$ to get the circle $x^{2}+y^{2}=a^{2}$.",
+"The values $t$ can take restrict $x$ and $y$: if $x=t^{2}$ then $x\\ge0$, but the other component and the range of $t$ determine which portion of the curve is traced.",
+"State the restriction with the equation, because the path is often an arc or a half of the curve.",
+"Check the equation by substituting two values of $t$ and confirming both points satisfy it."
+],
     "steps": [
       "Write the two component equations $x=x(t)$ and $y=y(t)$.",
       "Eliminate $t$, either by making it the subject and substituting, or by using $\\cos^{2}t+\\sin^{2}t=1$.",
@@ -95,21 +95,21 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "A particle moves so that its path has Cartesian equation $y=3x-5$, and its $x$-coordinate at time $t$ is $x=2t+1$.\nFind its position vector function $\\underset{\\sim}{r}(t)$.",
-        "structure": "eliminate-linear-path",
+        "structure": "construct-position-vector-from-line-and-coordinate",
         "solution_text": "$y=3x-5$\n$=3(2t+1)-5$\n$=6t+3-5$\n$=6t-2$\n$\\underset{\\sim}{r}(t)=(2t+1)\\underset{\\sim}{i}+(6t-2)\\underset{\\sim}{j}$"
       },
-      {
+{
         "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}-2t)\\underset{\\sim}{i}+(t-1)\\underset{\\sim}{j}$ for $t\\ge0$.\nFind the Cartesian equation of its path, including any restriction.",
         "structure": "state-path-restriction",
-        "solution_text": "1. **Eliminate $t$, either by making it the subject and substituting, or by using $\\cos^{2}t+\\sin^{2}t=1$.**\n$y=t-1$\n$t=y+1$\n$x=(y+1)^{2}-2(y+1)$\n2. **Simplify to an equation in $x$ and $y$ only.**\n$x=y^{2}+2y+1-2y-2$\n$=y^{2}-1$\n3. **State the restriction on $x$ or $y$ that the values of $t$ force.**\nSince $t\\ge0$, $y=t-1\\ge-1$.\nThe path is $x=y^{2}-1$ for $y\\ge-1$, which is only the upper half of that parabola."
+        "solution_text": "1. **Eliminate $t$, either by making it the subject and substituting, or by using $\\cos^{2}t+\\sin^{2}t=1$.**\n$y=t-1$\n$t=y+1$\n$x=(y+1)^{2}-2(y+1)$\n2. **Simplify to an equation in $x$ and $y$ only.**\n$x=y^{2}+2y+1-2y-2$\n$=y^{2}-1$\n3. **State the restriction on $x$ or $y$ that the values of $t$ force.**\nSince $t\\ge0$, $y=t-1\\ge-1$.\nThe path is $x=y^{2}-1$ for $y\\ge-1$, which includes the lower-branch segment with $-1\\le y<0$, the vertex $(-1,0)$ and the entire upper branch."
       },
-      {
+{
         "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(3+2\\cos t)\\underset{\\sim}{i}+(2\\sin t-1)\\underset{\\sim}{j}$ for $0\\le t\\le\\pi$.\nFind the Cartesian equation of its path, including any restriction.",
         "structure": "eliminate-trig-circle",
         "solution_text": "1. **Eliminate $t$, either by making it the subject and substituting, or by using $\\cos^{2}t+\\sin^{2}t=1$.**\n$\\cos t=\\dfrac{x-3}{2}$ and $\\sin t=\\dfrac{y+1}{2}$\n$\\dfrac{(x-3)^{2}}{4}+\\dfrac{(y+1)^{2}}{4}=1$\n2. **Simplify to an equation in $x$ and $y$ only.**\n$(x-3)^{2}+(y+1)^{2}=4$\n3. **State the restriction on $x$ or $y$ that the values of $t$ force.**\nFor $0\\le t\\le\\pi$, $\\sin t\\ge0$, so $y=2\\sin t-1\\ge-1$.\nThe path is the upper half of the circle $(x-3)^{2}+(y+1)^{2}=4$, where $y\\ge-1$."
       }
-    ]
+]
   }
 }

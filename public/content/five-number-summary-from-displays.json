@@ -2,14 +2,14 @@
   "skillId": "five-number-summary-from-displays",
   "atomType": "R",
   "theory": {
-        "intro": "A dot plot or stem-and-leaf plot already shows the data in order, so you can read the five-number summary straight from the display.",
+        "intro": "A dot plot or an ordered stem-and-leaf plot shows the data in order, so you can read the five-number summary from the display. Check that the stems and leaves are ordered before applying the procedure; order them first if needed. The five-number summary is the minimum, $Q_1$, $Q_2$, $Q_3$ and maximum, in that order.",
         "facts": [
-          "In a **dot plot**, read the values left to right, counting each dot as one value, so a stack of $2$ dots counts twice.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (-0.4,0) -- (8.6,0);\n\\foreach \\x in {0,...,8} {\\draw (\\x,-0.12) -- (\\x,0.12);}\n\\foreach \\x/\\c in {0/1,1/2,3/1,4/2,6/1,7/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.45*\\k}) circle (3pt);}}\n\\node[above] at (4.0,1.5) {one dot $=$ one data value};\n\\draw[-{Stealth}] (0.3,-0.8) -- (7.7,-0.8);\n\\node[below] at (4.0,-0.9) {values increase in this direction};\n\\end{tikzpicture}\n[/tikz]",
-          "In a **stem-and-leaf plot**, each row's leaves are in ascending order and the stems increase down the page, so the whole plot is ordered.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\node at (0.7,0.7) {Stem};\n\\node at (2.9,0.7) {Leaf};\n\\draw (0,0.35) -- (4.8,0.35);\n\\draw (1.4,0.5) -- (1.4,-2.1);\n\\node at (0.7,-0.05) {$1$};\n\\node at (0.7,-0.75) {$2$};\n\\node at (0.7,-1.45) {$3$};\n\\foreach \\x/\\v in {1.9/2, 2.5/5, 3.1/8} {\\node at (\\x,-0.05) {$\\v$};}\n\\foreach \\x/\\v in {1.9/0, 2.5/3, 3.1/3, 3.7/7, 4.3/9} {\\node at (\\x,-0.75) {$\\v$};}\n\\foreach \\x/\\v in {1.9/1, 2.5/4} {\\node at (\\x,-1.45) {$\\v$};}\n\\node at (2.4,-2.5) {every row is already in order};\n\\end{tikzpicture}\n[/tikz]",
-          "Once the data is in order, $Q_1$ is the median of the lower half and $Q_3$ the median of the upper half.",
-          "Exclude the median itself from both halves when $n$ is odd.",
-          "The minimum is the first value shown — the leftmost dot, or the smallest stem's first leaf — and the maximum is the last."
-        ],
+"In a **dot plot**, read the values left to right, counting each dot as one value, so a stack of $2$ dots counts twice.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (-0.4,0) -- (8.6,0);\n\\foreach \\x in {0,...,8} {\\draw (\\x,-0.12) -- (\\x,0.12);}\n\\foreach \\x/\\c in {0/1,1/2,3/1,4/2,6/1,7/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.45*\\k}) circle (3pt);}}\n\\node[above] at (4.0,1.5) {one dot $=$ one data value};\n\\draw[-{Stealth}] (0.3,-0.8) -- (7.7,-0.8);\n\\node[below] at (4.0,-0.9) {values increase in this direction};\n\\end{tikzpicture}\n[/tikz]",
+"In an **ordered stem-and-leaf plot**, each row's leaves are in ascending order and the stems increase down the page. Check this before finding the summary, and order any unordered leaves first.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\node at (0.7,0.7) {Stem};\n\\node at (2.9,0.7) {Leaf};\n\\draw (0,0.35) -- (4.8,0.35);\n\\draw (1.4,0.5) -- (1.4,-2.1);\n\\node at (0.7,-0.05) {$1$};\n\\node at (0.7,-0.75) {$2$};\n\\node at (0.7,-1.45) {$3$};\n\\foreach \\x/\\v in {1.9/2, 2.5/5, 3.1/8} {\\node at (\\x,-0.05) {$\\v$};}\n\\foreach \\x/\\v in {1.9/0, 2.5/3, 3.1/3, 3.7/7, 4.3/9} {\\node at (\\x,-0.75) {$\\v$};}\n\\foreach \\x/\\v in {1.9/1, 2.5/4} {\\node at (\\x,-1.45) {$\\v$};}\n\\node at (2.4,-2.5) {every row is already in order};\n\\end{tikzpicture}\n[/tikz]",
+"Once the data is in order, $Q_1$ is the median of the lower half and $Q_3$ the median of the upper half.",
+"Exclude the median itself from both halves when $n$ is odd.",
+"The minimum is the first value shown — the leftmost dot, or the smallest stem's first leaf — and the maximum is the last."
+],
         "steps": [
           "Read the data from the display, in ascending order",
           "Find the median, $Q_2$",
@@ -84,21 +84,16 @@
       }
     ],
     "mastery": [
-      {
-        "question_text": "A dot plot shows the heights (cm) of seedlings in a nursery tray: $6\\text{ cm}$ (frequency $2$), $7\\text{ cm}$ (frequency $3$), $8\\text{ cm}$ (frequency $k$) and $9\\text{ cm}$ (frequency $2$).\nThere are $11$ seedlings in total.\nFind $Q_2$, the median height.",
-        "structure": "fnsd-missing-frequency",
-        "solution_text": "$2+3+k+2 = 11$\n$k = 4$\n$6, 6, 7, 7, 7, 8, 8, 8, 8, 9, 9$\n$Q_2 = 8$"
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (-0.5,0)--(8.5,0);\n\\foreach \\x/\\v in {0/2,1/4,2/6,3/8,4/10,5/12,6/14,7/16,8/18} {\\draw (\\x,-0.12)--(\\x,0.12);\\node[below] at (\\x,-0.12) {$\\v$};}\n\\foreach \\x/\\c in {0/3,1/4,2/2,3/5,4/1,6/2,8/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.35*\\k}) circle (2.2pt);}}\n\\node[below] at (4,-0.9) {Scores};\n\\end{tikzpicture}\n[/tikz]\nThe dot plot shows $18$ scores.\nFind the five-number summary of this data.",
+        "structure": "fnsd-dot-plot",
+        "solution_text": "$2, 2, 2, 4, 4, 4, 4, 6, 6, 8, 8, 8, 8, 8, 10, 14, 14, 18$\n$Q_2 = \\frac{6+8}{2} = 7$\n$2, 2, 2, 4, 4, 4, 4, 6, 6$\n$Q_1 = 4$\n$8, 8, 8, 8, 8, 10, 14, 14, 18$\n$Q_3 = 8$\n$\\text{Min} = 2$\n$\\text{Max} = 18$\nFive-number summary: $2, 4, 7, 8, 18$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\node[font=\\small] at (1.82,0.8) {Exam marks};\n\\draw (-0.35,0.3)--(3.65,0.3);\n\\node[font=\\bfseries\\scriptsize] at (0.2,0.02) {Stem};\n\\node[font=\\bfseries\\scriptsize] at (1.95,0.02) {Leaf};\n\\draw (0.75,0.3)--(0.75,-1.90);\n\\node at (0.2,-0.40) {$5$};\n\\node at (1.15,-0.40) {$2$};\n\\node at (1.65,-0.40) {$6$};\n\\node at (0.2,-0.95) {$6$};\n\\node at (1.15,-0.95) {$1$};\n\\node at (1.65,-0.95) {$4$};\n\\node at (2.15,-0.95) {$8$};\n\\node at (0.2,-1.50) {$7$};\n\\node at (1.15,-1.50) {$0$};\n\\node at (1.65,-1.50) {$3$};\n\\node at (2.15,-1.50) {$x$};\n\\node at (2.65,-1.50) {$9$};\n\\node at (0.2,-2.05) {$8$};\n\\node at (1.15,-2.05) {$2$};\n\\node[anchor=west,font=\\scriptsize] at (-0.35,-2.30) {Key: $5\\;|\\;2$ means $52$};\n\\end{tikzpicture}\n[/tikz]\nThe stem-and-leaf plot shows the exam marks of $10$ students.\nThe upper quartile of this dataset is $Q_3 = 76$.\nFind the missing leaf $x$.",
-        "structure": "fnsd-missing-leaf",
-        "solution_text": "$52, 56, 61, 64, 68, 70, 73, (70+x), 79, 82$\n$70, 73, (70+x), 79, 82$ is the upper half\n$Q_3 = 70+x$\n$76 = 70+x$\n$x = 6$"
-      },
-      {
-        "question_text": "The exam marks of $9$ students, listed in ascending order, are:\n$42, 50, 58, 63, 68, 72, 77, 81, 89$\nA $10$th student's mark, which was left off the list, is added.\nThe new median of all $10$ marks is $69$.\nFind the missing mark.",
-        "structure": "fnsd-inserted-value-median",
-        "solution_text": "Original median ($9$ marks, odd): $68$\nAdding a mark makes $n=10$ (even), so the new median is the mean of the two middle marks\nFor the new median to be $69$, the two middle marks must sum to $138$\nOne of the two middle marks is still $68$\n$68 + \\text{mark} = 138$\n$\\text{mark} = 70$\nCheck: $68 < 70 < 72$, so $70$ fits between them in the ordered list."
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\node at (0,0.6) {Stem};\n\\node at (2.4,0.6) {Leaf};\n\\draw (-0.5,0.3)--(4.6,0.3);\n\\draw (0.6,0.3)--(0.6,-2.8);\n\\foreach \\y/\\s in {0/10,-0.6/11,-1.2/12,-1.8/13,-2.4/14} {\\node at (0,\\y) {$\\s$};}\n\\foreach \\x/\\v in {1/1,1.6/4,2.2/4} {\\node at (\\x,0) {$\\v$};}\n\\foreach \\x/\\v in {1/0,1.6/3,2.2/8,2.8/8} {\\node at (\\x,-0.6) {$\\v$};}\n\\foreach \\x/\\v in {1/1,1.6/1,2.2/6,2.8/9} {\\node at (\\x,-1.2) {$\\v$};}\n\\foreach \\x/\\v in {1/2,1.6/5,2.2/5,2.8/7,3.4/9} {\\node at (\\x,-2.4) {$\\v$};}\n\\node[anchor=west] at (-0.5,-3.2) {Key: $10\\;|\\;1$ means $101$};\n\\end{tikzpicture}\n[/tikz]\nThe ordered stem-and-leaf plot shows $16$ scores.\nFind the five-number summary of this data.",
+        "structure": "fnsd-stem-leaf",
+        "solution_text": "$101, 104, 104, 110, 113, 118, 118, 121, 121, 126, 129, 142, 145, 145, 147, 149$\n$Q_2 = \\frac{121+121}{2} = 121$\n$101, 104, 104, 110, 113, 118, 118, 121$\n$Q_1 = \\frac{110+113}{2} = 111.5$\n$121, 126, 129, 142, 145, 145, 147, 149$\n$Q_3 = \\frac{142+145}{2} = 143.5$\n$\\text{Min} = 101$\n$\\text{Max} = 149$\nFive-number summary: $101, 111.5, 121, 143.5, 149$"
       }
-    ]
+]
   }
 }

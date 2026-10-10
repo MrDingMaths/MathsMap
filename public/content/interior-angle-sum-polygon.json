@@ -2,14 +2,14 @@
   "skillId": "interior-angle-sum-polygon",
   "atomType": "R",
   "theory": {
-        "intro": "Draw every diagonal from one vertex of a polygon and it splits into triangles. A polygon with $n$ sides gives $n-2$ triangles, each contributing $180^{\\circ}$, so the interior angles add to $180(n-2)$ degrees.",
+        "intro": "Draw every diagonal from one vertex of a convex polygon and it splits into triangles. A polygon with $n$ sides gives $n-2$ triangles, each contributing $180^{\\circ}$, so the interior angles add to $180(n-2)$ degrees. This formula also works for simple concave polygons, but their triangulation must use suitable interior diagonals. A simple polygon has no crossing sides.",
         "facts": [
-          "The interior angle sum of a polygon with $n$ sides is $S=180(n-2)$ degrees.",
-          "Drawing every diagonal from one vertex makes $n-2$ triangles: $2$ for a quadrilateral, $3$ for a pentagon, $4$ for a hexagon.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (Q1) at (-5.15,-1.3);\n\\coordinate (Q2) at (-2.4,-1.45);\n\\coordinate (Q3) at (-2.25,1.3);\n\\coordinate (Q4) at (-5.0,1.4);\n\\draw (Q1) -- (Q2) -- (Q3) -- (Q4) -- cycle;\n\\draw[dashed] (Q1) -- (Q3);\n\\node at (-3.7,-2.2) {$4$ sides, $2$ triangles};\n\\coordinate (F1) at (0,1.45);\n\\coordinate (F2) at (-1.379,0.448);\n\\coordinate (F3) at (-0.852,-1.173);\n\\coordinate (F4) at (0.852,-1.173);\n\\coordinate (F5) at (1.379,0.448);\n\\draw (F1) -- (F2) -- (F3) -- (F4) -- (F5) -- cycle;\n\\draw[dashed] (F1) -- (F3);\n\\draw[dashed] (F1) -- (F4);\n\\node at (0,-2.2) {$5$ sides, $3$ triangles};\n\\coordinate (H1) at (3.7,1.45);\n\\coordinate (H2) at (2.444,0.725);\n\\coordinate (H3) at (2.444,-0.725);\n\\coordinate (H4) at (3.7,-1.45);\n\\coordinate (H5) at (4.956,-0.725);\n\\coordinate (H6) at (4.956,0.725);\n\\draw (H1) -- (H2) -- (H3) -- (H4) -- (H5) -- (H6) -- cycle;\n\\draw[dashed] (H1) -- (H3);\n\\draw[dashed] (H1) -- (H4);\n\\draw[dashed] (H1) -- (H5);\n\\node at (3.7,-2.2) {$6$ sides, $4$ triangles};\n\\end{tikzpicture}\n[/tikz]",
-          "To find a missing interior angle, work out $S$, then set the angles equal to $S$ and solve.",
-          "The rule works for any polygon, not just regular ones, because the angles need not be equal.",
-          "To find the number of sides from a known angle sum, solve $180(n-2)=S$ for $n$."
-        ],
+"The interior angle sum of a simple polygon with $n$ sides is $S=180(n-2)$ degrees.",
+"Drawing every diagonal from one vertex of a convex polygon makes $n-2$ triangles: $2$ for a quadrilateral, $3$ for a pentagon, $4$ for a hexagon.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (Q1) at (-5.15,-1.3);\n\\coordinate (Q2) at (-2.4,-1.45);\n\\coordinate (Q3) at (-2.25,1.3);\n\\coordinate (Q4) at (-5.0,1.4);\n\\draw (Q1) -- (Q2) -- (Q3) -- (Q4) -- cycle;\n\\draw[dashed] (Q1) -- (Q3);\n\\node at (-3.7,-2.2) {$4$ sides, $2$ triangles};\n\\coordinate (F1) at (0,1.45);\n\\coordinate (F2) at (-1.379,0.448);\n\\coordinate (F3) at (-0.852,-1.173);\n\\coordinate (F4) at (0.852,-1.173);\n\\coordinate (F5) at (1.379,0.448);\n\\draw (F1) -- (F2) -- (F3) -- (F4) -- (F5) -- cycle;\n\\draw[dashed] (F1) -- (F3);\n\\draw[dashed] (F1) -- (F4);\n\\node at (0,-2.2) {$5$ sides, $3$ triangles};\n\\coordinate (H1) at (3.7,1.45);\n\\coordinate (H2) at (2.444,0.725);\n\\coordinate (H3) at (2.444,-0.725);\n\\coordinate (H4) at (3.7,-1.45);\n\\coordinate (H5) at (4.956,-0.725);\n\\coordinate (H6) at (4.956,0.725);\n\\draw (H1) -- (H2) -- (H3) -- (H4) -- (H5) -- (H6) -- cycle;\n\\draw[dashed] (H1) -- (H3);\n\\draw[dashed] (H1) -- (H4);\n\\draw[dashed] (H1) -- (H5);\n\\node at (3.7,-2.2) {$6$ sides, $4$ triangles};\n\\end{tikzpicture}\n[/tikz]",
+"To find a missing interior angle, work out $S$, then set the angles equal to $S$ and solve.",
+"The rule works for any simple polygon, not just regular ones, because the angles need not be equal. For a concave polygon, use suitable interior diagonals to divide it into $n-2$ triangles.",
+"To find the number of sides from a known angle sum, solve $180(n-2)=S$ for $n$."
+],
         "steps": [
           "Find the angle sum using $S=180(n-2)$.",
           "Form an equation from the angles.",
@@ -18,47 +18,47 @@
       },
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Find the interior angle sum of an octagon ($8$ sides).",
         "structure": "sum-from-sides",
         "solution_text": "$S=180(n-2)$\n$=180(8-2)$\n$=180(6)$\n$=1080^{\\circ}$"
       },
-      {
+{
         "question_text": "Find the interior angle sum of a nonagon ($9$ sides).",
         "structure": "sum-from-sides",
         "solution_text": "$S=180(n-2)$\n$=180(9-2)$\n$=180(7)$\n$=1260^{\\circ}$"
       },
-      {
+{
         "question_text": "Find the interior angle sum of an $11$-sided polygon.",
         "structure": "sum-from-sides",
         "solution_text": "$S=180(n-2)$\n$=180(11-2)$\n$=180(9)$\n$=1620^{\\circ}$"
       },
-      {
+{
         "question_text": "Find the interior angle sum of a $20$-sided polygon.",
         "structure": "sum-from-sides",
         "solution_text": "$S=180(n-2)$\n$=180(20-2)$\n$=180(18)$\n$=3240^{\\circ}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\draw (0,2.3)--(-2.25,0.478)--(-1.539,-1.709)--(1.478,-1.762)--(2.232,0.556)--cycle;\n\\draw (-2.001,0.679)--(-1.902,0.375)--(-2.151,0.174);\n\\node at (-0.004,1.68) {$130^{\\circ}$};\n\\node at (-1.645,0.341) {$90^{\\circ}$};\n\\node at (-1.123,-1.249) {$140^{\\circ}$};\n\\node at (1.073,-1.292) {$100^{\\circ}$};\n\\node at (1.825,0.451) {$x$};\n\\end{tikzpicture}\n[/tikz]\nFind the value of $x$.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\draw (0,2.3)--(-2.25,0.478)--(-0.428,-1.772)--(1.478,-1.762)--(2.232,0.556)--cycle;\n\\draw ({-2.25+0.11*2.25},{0.478+0.11*1.822})--({-2.25+0.11*(2.25+1.822)},{0.478+0.11*(1.822-2.25)})--({-2.25+0.11*1.822},{0.478-0.11*2.25});\n\\node at (-0.004,1.68) {$130^{\\circ}$};\n\\node at (-1.645,0.341) {$90^{\\circ}$};\n\\node at (-0.25,-1.15) {$140^{\\circ}$};\n\\node at (1.073,-1.292) {$100^{\\circ}$};\n\\node at (1.825,0.451) {$x$};\n\\end{tikzpicture}\n[/tikz]\nFind the value of $x$.",
         "structure": "missing-interior-numeric",
         "solution_text": "$S=180(5-2)=540^{\\circ}$\n$x+130+90+140+100=540$\n$x+460=540$\n$x=80^{\\circ}$, angle sum of a pentagon"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\draw (-0.12,2.297)--(-2.117,0.899)--(-1.185,-1.971)--(1.253,-1.929)--(2.133,0.862)--cycle;\n\\node at (-0.089,1.678) {$120^{\\circ}$};\n\\node at (-1.544,0.663) {$95^{\\circ}$};\n\\node at (-0.871,-1.437) {$110^{\\circ}$};\n\\node at (0.918,-1.407) {$100^{\\circ}$};\n\\node at (1.741,0.71) {$x$};\n\\end{tikzpicture}\n[/tikz]\nFind the value of $x$.",
         "structure": "missing-interior-numeric",
         "solution_text": "$S=180(5-2)=540^{\\circ}$\n$x+120+95+110+100=540$\n$x+425=540$\n$x=115^{\\circ}$, angle sum of a pentagon"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\draw (0,2.3)--(-2.085,0.972)--(-2.067,-1.008)--(0.12,-2.297)--(1.884,-1.319)--(1.907,1.286)--cycle;\n\\node at (-0.011,1.68) {$130^{\\circ}$};\n\\node at (-1.526,0.703) {$110^{\\circ}$};\n\\node at (-1.511,-0.734) {$120^{\\circ}$};\n\\node at (0.077,-1.679) {$150^{\\circ}$};\n\\node at (1.371,-0.97) {$100^{\\circ}$};\n\\node at (1.557,1.053) {$b$};\n\\end{tikzpicture}\n[/tikz]\nFind the value of $b$.",
         "structure": "missing-interior-numeric",
         "solution_text": "$S=180(6-2)=720^{\\circ}$\n$b+130+110+120+150+100=720$\n$b+610=720$\n$b=110^{\\circ}$, angle sum of a hexagon"
       },
-      {
+{
         "question_text": "A polygon has an interior angle sum of $1440^{\\circ}$.\nHow many sides does it have?",
         "structure": "sides-from-sum",
         "solution_text": "$180(n-2)=1440$\n$n-2=8$\n$n=10$"
       }
-    ],
+],
     "development": [
       {
         "question_text": "A polygon has an interior angle sum of $1620^{\\circ}$.\nHow many sides does it have?",
@@ -97,21 +97,16 @@
       }
     ],
     "mastery": [
-      {
-        "question_text": "The interior angles of a hexagon are in the ratio $3:4:4:5:5:3$.\nFind the size of the largest angle.",
-        "structure": "interior-angles-ratio",
-        "solution_text": "$S=180(6-2)=720^{\\circ}$\n$3+4+4+5+5+3=24$ parts\n$720\\div24=30^{\\circ}$ per part\n$5\\times30=150^{\\circ}$"
-      },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\draw (0,2.3)--(-1.992,1.15)--(-1.992,-1.15)--(0,-2.3)--(1.992,-1.15)--(1.992,1.15)--cycle;\n\\node at (0,1.68) {$(x+10)^{\\circ}$};\n\\node at (-1.455,0.84) {$(x+20)^{\\circ}$};\n\\node at (-1.455,-0.84) {$(x+30)^{\\circ}$};\n\\node at (0,-1.68) {$(x+40)^{\\circ}$};\n\\node at (1.455,-0.84) {$(x+50)^{\\circ}$};\n\\node at (1.455,0.84) {$(x+60)^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]\nThe interior angles of this hexagon are shown.\nFind the size of the largest angle.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\draw (0,2.3)--(-1.992,1.15)--(-1.992,-1.15)--(0,-2.3)--(1.992,-1.15)--(1.992,1.15)--cycle;\n\\node at (0,1.68) {$(x+10)^{\\circ}$};\n\\node at (-1.455,0.84) {$(x+20)^{\\circ}$};\n\\node at (-1.455,-0.84) {$(x+30)^{\\circ}$};\n\\node at (0,-1.68) {$(x+40)^{\\circ}$};\n\\node at (1.455,-0.84) {$(x+50)^{\\circ}$};\n\\node at (1.455,0.84) {$(x+60)^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]\nThe interior angles of this hexagon are shown.\nFind the value of $x$.",
         "structure": "missing-interior-algebraic",
-        "solution_text": "$(x+10)+(x+20)+(x+30)+(x+40)+(x+50)+(x+60)=720$\n$6x+210=720$\n$6x=510$\n$x=85$\n$x+60=145^{\\circ}$"
+        "solution_text": "$(x+10)+(x+20)+(x+30)+(x+40)+(x+50)+(x+60)=720$\n$6x+210=720$\n$6x=510$\n$x=85$"
       },
-      {
-        "question_text": "By dividing it into triangles from one vertex, explain why the interior angle sum of a $10$-sided polygon is $1440^{\\circ}$.",
+{
+        "question_text": "By dividing it into triangles from one vertex, explain why the interior angle sum of a convex $10$-sided polygon is $1440^{\\circ}$.",
         "structure": "explain-sum-by-triangulation",
-        "solution_text": "Drawing every diagonal from one vertex of a $10$-sided polygon divides it into $10-2=8$ triangles.\nEach triangle has an angle sum of $180^{\\circ}$, and together the triangles make up all the interior angles.\n$8\\times180^{\\circ}=1440^{\\circ}$"
+        "solution_text": "Drawing every diagonal from one vertex of a convex $10$-sided polygon divides it into $10-2=8$ triangles.\nEach triangle has an angle sum of $180^{\\circ}$, and together the triangles make up all the interior angles.\n$8\\times180^{\\circ}=1440^{\\circ}$"
       }
-    ]
+]
   }
 }

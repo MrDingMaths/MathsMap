@@ -3,22 +3,112 @@
   "skillId": "locate-irrationals-number-line",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-07T18:16:52.433Z",
-  "status": "skipped: booklet too large to supply whole; pass --section path:start-end",
-  "calls": [],
+  "startedAt": "2026-10-09T09:20:45.184Z",
+  "status": "needs attention: not accepted after one repair round",
+  "calls": [
+    {
+      "name": "audit",
+      "code": 0,
+      "seconds": 73.1,
+      "usage": {
+        "input_tokens": 39736,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2602,
+        "reasoning_output_tokens": 161
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\locate-irrationals-number-line\\audit-lgAMpS\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 227.3,
+      "usage": {
+        "input_tokens": 40261,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 9128,
+        "reasoning_output_tokens": 112
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\locate-irrationals-number-line\\repair-2x4NG1\\response.raw.txt"
+    },
+    {
+      "name": "review-scoped",
+      "code": 0,
+      "seconds": 25.6,
+      "usage": {
+        "input_tokens": 40716,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 699,
+        "reasoning_output_tokens": 82
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\locate-irrationals-number-line\\review-scoped-tdoh0g\\response.raw.txt"
+    }
+  ],
+  "previousAttempts": [
+    {
+      "startedAt": "2026-10-07T18:16:52.433Z",
+      "finishedAt": "2026-10-07T18:16:52.709Z",
+      "status": "skipped: booklet too large to supply whole; pass --section path:start-end",
+      "calls": []
+    }
+  ],
   "baseline": {
     "contentHash": "432b0e156488bc57baf6013f161c1ed1479a819d4e6c705948341b5ad970baaf",
     "quizHash": "d2193c27af1f5a870f4294e891c1ec861e4c6359855a5810ca943b2e43e3af5a"
   },
   "booklets": [
-    "booklets/mathsmap-sources/Stage 4/Fractions Decimals Percentages 1_Comparing Fractions.md",
-    "booklets/mathsmap-sources/Stage 4/Fractions Decimals Percentages 2_Decimals.md",
     "booklets/mathsmap-sources/Stage 4/Fractions Decimals Percentages 3_Converting FDP.md",
-    "booklets/mathsmap-sources/Stage 4/Fractions Decimals Percentages 4_Operations with FDP.md",
-    "booklets/mathsmap-sources/Stage 4/Fractions Decimals Percentages 5_Percentage Increase Decrease Change.md",
-    "booklets/mathsmap-sources/Stage 4/Fractions Decimals Percentages 6_Percentages Problems.md"
+    "booklets/mathsmap-sources/Stage 4/Indices.md"
   ],
-  "images": 110,
-  "omittedImages": 422,
-  "finishedAt": "2026-10-07T18:16:52.709Z"
+  "images": 16,
+  "omittedImages": 0,
+  "sections": [
+    {
+      "path": "booklets/mathsmap-sources/Stage 4/Fractions Decimals Percentages 3_Converting FDP.md",
+      "start": 2014,
+      "end": 2258
+    },
+    {
+      "path": "booklets/mathsmap-sources/Stage 4/Indices.md",
+      "start": 2097,
+      "end": 2204
+    }
+  ],
+  "fullReview": {
+    "name": "audit",
+    "hash": "16334b4360beee0727a60455d0b2089d241db50fcbbfbe2bc44dd3cafc3e1fa8",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for quiz.q1",
+    "No booklet question cited for quiz.q3",
+    "No booklet question cited for quiz.q5",
+    "quiz.q1: Identifying an unknown irrational number from a supplied plotted point is not asked in the supplied booklet. Replace this off-booklet reverse-identification task with an adapted supported task under the same quiz id, and update its structure slug.",
+    "quiz.q2: The final distractor's why only gives the correct interval; it must name the specific mistake leading to choosing $1$ and $2$, such as underestimating the square root below $2$.",
+    "quiz.q3: Identifying an unknown irrational number from a supplied plotted point is not asked in the supplied booklet. Replace this off-booklet reverse-identification task with an adapted supported task under the same quiz id, and update its structure slug.",
+    "quiz.q5: Identifying an unknown irrational number from a supplied plotted point is not asked in the supplied booklet. Replace this off-booklet reverse-identification task with an adapted supported task under the same quiz id, retaining mastery:true and updating its structure slug.",
+    "theory: Change 'whole numbers' to 'integers' in facts[1] and steps[1]: negative irrational numbers lie between consecutive negative integers, which are not whole numbers. The decimal approximation method, numerical examples and schematic diagrams are otherwise sound."
+  ],
+  "repaired": true,
+  "changed": [
+    "quiz.q1",
+    "quiz.q2",
+    "quiz.q3",
+    "quiz.q5"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 15,
+  "summary": "Replaced the reverse-identification tasks in quiz.q1, quiz.q3 and quiz.q5 with cited booklet-type location tasks, updated their structure slugs and retained mastery:true for quiz.q5. Changed 'whole numbers' to 'integers' in theory.facts[1] and theory.steps[1], and repaired quiz.q2's final distractor explanation; all other content remains unchanged.",
+  "reviewSummary": "All ten practice answers and all five quiz answer keys are mathematically correct, and the plotted positions agree with their values. Three quizzes use an unsupported reverse-identification task, one distractor explanation needs a specific mistake, and the theory must use integers when describing bounds that can be negative.",
+  "candidateHash": "a2728effcceba933ca01b5eae2c97dc8290a952cc96263bf9d4b071d1b7a0001",
+  "findings": [
+    "quiz.q2: Change option 1's explanation: rounding $2.65$ to a whole number gives $3$, not a value past $3$. Explain the mistake as rounding to $3$ and incorrectly treating $3$ as the lower bounding integer."
+  ],
+  "finishedAt": "2026-10-09T09:26:11.574Z"
 }

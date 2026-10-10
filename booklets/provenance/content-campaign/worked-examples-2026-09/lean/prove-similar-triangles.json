@@ -3,36 +3,36 @@
   "skillId": "prove-similar-triangles",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-08T23:20:12.457Z",
-  "status": "needs attention: not accepted after one repair round",
+  "startedAt": "2026-10-09T06:50:38.392Z",
+  "status": "accepted: held for diagram check",
   "calls": [
     {
       "name": "maintenance-repair",
       "code": 0,
-      "seconds": 229.9,
+      "seconds": 325.1,
       "usage": {
-        "input_tokens": 205662,
+        "input_tokens": 204917,
         "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 17113,
-        "reasoning_output_tokens": 30
+        "output_tokens": 17144,
+        "reasoning_output_tokens": 32
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\prove-similar-triangles\\maintenance-repair-augtkx\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\prove-similar-triangles\\maintenance-repair-hR01do\\response.raw.txt"
     },
     {
-      "name": "maintenance-review",
+      "name": "maintenance-review-scoped",
       "code": 0,
-      "seconds": 60.3,
+      "seconds": 23.7,
       "usage": {
-        "input_tokens": 205858,
-        "cached_input_tokens": 21760,
+        "input_tokens": 204957,
+        "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 2462,
-        "reasoning_output_tokens": 225
+        "output_tokens": 406,
+        "reasoning_output_tokens": 55
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\prove-similar-triangles\\maintenance-review-5FCL1l\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\prove-similar-triangles\\maintenance-review-scoped-mqWzDz\\response.raw.txt"
     }
   ],
   "previousAttempts": [
@@ -84,6 +84,41 @@
           "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\prove-similar-triangles\\review-scoped-8QBBoo\\response.raw.txt"
         }
       ]
+    },
+    {
+      "startedAt": "2026-10-08T23:20:12.457Z",
+      "finishedAt": "2026-10-08T23:25:02.884Z",
+      "status": "needs attention: not accepted after one repair round",
+      "calls": [
+        {
+          "name": "maintenance-repair",
+          "code": 0,
+          "seconds": 229.9,
+          "usage": {
+            "input_tokens": 205662,
+            "cached_input_tokens": 12544,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 17113,
+            "reasoning_output_tokens": 30
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\prove-similar-triangles\\maintenance-repair-augtkx\\response.raw.txt"
+        },
+        {
+          "name": "maintenance-review",
+          "code": 0,
+          "seconds": 60.3,
+          "usage": {
+            "input_tokens": 205858,
+            "cached_input_tokens": 21760,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 2462,
+            "reasoning_output_tokens": 225
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\prove-similar-triangles\\maintenance-review-5FCL1l\\response.raw.txt"
+        }
+      ]
     }
   ],
   "maintenanceRepair": true,
@@ -105,14 +140,13 @@
   "images": 110,
   "omittedImages": 256,
   "firstRoundFindings": [
-    "practice.foundation[2]: The figure uses TikZ coordinate calculations but does not load the calc library. Add \\usetikzlibrary{calc} unless the shared rendering preamble already supplies it.",
-    "practice.foundation[3]: The figure uses TikZ coordinate calculations but does not load the calc library. Add \\usetikzlibrary{calc} unless the shared rendering preamble already supplies it.",
-    "practice.development[4]: The figure uses TikZ coordinate calculations but does not load the calc library. Add \\usetikzlibrary{calc} unless the shared rendering preamble already supplies it.",
-    "quiz.q3: Add a visible $E$ label at coordinate E; the question and solution refer to this currently unlabelled vertex."
+    "practice.foundation[5]: The TikZ figure uses angle pics without declaring the angles library; add \\usetikzlibrary{angles} unless the rendering wrapper already supplies it.",
+    "practice.development[5]: The TikZ figure uses both angle pics and coordinate interpolation without declaring the angles and calc libraries; add \\usetikzlibrary{angles,calc} unless the rendering wrapper already supplies them.",
+    "quiz.q6: Declare the TikZ angles library unless supplied by the rendering wrapper. In the third option's why, replace the claim that A and F carry different arc marks: F has no arc mark; explain that the single arc at A matches E, not F."
   ],
   "fullReview": {
-    "name": "maintenance-review",
-    "hash": "9f45abd6930fb5a93bcc041cce904715c7fcb53e1478f6394c2cd33baec4b6f2",
+    "name": "review-accepted",
+    "hash": "cec6647a38a756b77b4bc7fa1d8fe9304fed1225bcea97aa2d5782ffa7e2bda7",
     "originalRemovalsSupplied": true
   },
   "repaired": true,
@@ -120,8 +154,10 @@
     "practice.foundation[2]",
     "practice.foundation[3]",
     "practice.foundation[4]",
+    "practice.foundation[5]",
     "practice.development[1]",
     "practice.development[4]",
+    "practice.development[5]",
     "quiz.q3",
     "quiz.q4",
     "quiz.q5",
@@ -133,13 +169,8 @@
   "theoryChanged": true,
   "removed": [],
   "items": 26,
-  "summary": "Added the calc library to the figures in practice.foundation[2], practice.foundation[3] and practice.development[4], and added a visible E label at coordinate E in quiz.q3. All other content, values, fields and item records were preserved exactly; no whole items were removed.",
-  "reviewSummary": "All 26 items have correct mathematical answers and supported booklet question types, and the theory accurately states the taught similarity criteria. Three figures need their TikZ library dependencies confirmed or declared, and quiz.q6 needs one distractor explanation corrected; no worked examples or removals were supplied.",
-  "candidateHash": "9f45abd6930fb5a93bcc041cce904715c7fcb53e1478f6394c2cd33baec4b6f2",
-  "findings": [
-    "practice.foundation[5]: The TikZ figure uses angle pics without declaring the angles library; add \\usetikzlibrary{angles} unless the rendering wrapper already supplies it.",
-    "practice.development[5]: The TikZ figure uses both angle pics and coordinate interpolation without declaring the angles and calc libraries; add \\usetikzlibrary{angles,calc} unless the rendering wrapper already supplies them.",
-    "quiz.q6: Declare the TikZ angles library unless supplied by the rendering wrapper. In the third option's why, replace the claim that A and F carry different arc marks: F has no arc mark; explain that the single arc at A matches E, not F."
-  ],
-  "finishedAt": "2026-10-08T23:25:02.884Z"
+  "summary": "Added explicit TikZ library declarations to practice.foundation[5], practice.development[5] and quiz.q6. Corrected quiz.q6's third-option explanation to say that the single arc at A matches E and that F has no arc mark; all other content is unchanged.",
+  "reviewSummary": "All three requested items have correct answers, consistent diagrams and working, and supported booklet question types. Their methods remain within the target skill and stage, and no repairs or removals are needed.",
+  "candidateHash": "cec6647a38a756b77b4bc7fa1d8fe9304fed1225bcea97aa2d5782ffa7e2bda7",
+  "finishedAt": "2026-10-09T06:56:27.588Z"
 }

@@ -3,36 +3,36 @@
   "skillId": "compare-order-fractions",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-08T22:45:58.289Z",
-  "status": "needs attention: not accepted after one repair round",
+  "startedAt": "2026-10-09T06:34:41.883Z",
+  "status": "published",
   "calls": [
     {
       "name": "maintenance-repair",
       "code": 0,
-      "seconds": 72.9,
+      "seconds": 111.4,
       "usage": {
-        "input_tokens": 52934,
-        "cached_input_tokens": 20736,
+        "input_tokens": 52255,
+        "cached_input_tokens": 19968,
         "cache_write_input_tokens": 0,
-        "output_tokens": 5302,
+        "output_tokens": 5147,
         "reasoning_output_tokens": 0
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\compare-order-fractions\\maintenance-repair-Sx12um\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\compare-order-fractions\\maintenance-repair-roKzvQ\\response.raw.txt"
     },
     {
-      "name": "maintenance-review",
+      "name": "maintenance-review-scoped",
       "code": 0,
-      "seconds": 39,
+      "seconds": 12.9,
       "usage": {
-        "input_tokens": 53231,
-        "cached_input_tokens": 12544,
+        "input_tokens": 52369,
+        "cached_input_tokens": 19968,
         "cache_write_input_tokens": 0,
-        "output_tokens": 2225,
-        "reasoning_output_tokens": 119
+        "output_tokens": 176,
+        "reasoning_output_tokens": 48
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\compare-order-fractions\\maintenance-review-O6Mjpp\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\compare-order-fractions\\maintenance-review-scoped-IexBFH\\response.raw.txt"
     }
   ],
   "previousAttempts": [
@@ -84,6 +84,41 @@
           "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\compare-order-fractions\\review-scoped-fR8RvD\\response.raw.txt"
         }
       ]
+    },
+    {
+      "startedAt": "2026-10-08T22:45:58.289Z",
+      "finishedAt": "2026-10-08T22:47:50.465Z",
+      "status": "needs attention: not accepted after one repair round",
+      "calls": [
+        {
+          "name": "maintenance-repair",
+          "code": 0,
+          "seconds": 72.9,
+          "usage": {
+            "input_tokens": 52934,
+            "cached_input_tokens": 20736,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 5302,
+            "reasoning_output_tokens": 0
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\compare-order-fractions\\maintenance-repair-Sx12um\\response.raw.txt"
+        },
+        {
+          "name": "maintenance-review",
+          "code": 0,
+          "seconds": 39,
+          "usage": {
+            "input_tokens": 53231,
+            "cached_input_tokens": 12544,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 2225,
+            "reasoning_output_tokens": 119
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\compare-order-fractions\\maintenance-review-O6Mjpp\\response.raw.txt"
+        }
+      ]
     }
   ],
   "maintenanceRepair": true,
@@ -104,11 +139,12 @@
     }
   ],
   "firstRoundFindings": [
-    "quiz.dq-100610: The three incorrect options' why fields explain their positions but do not name the specific mistake. Each must explicitly identify selecting a fraction inside the marked interval when the question asks for one outside it, retaining the correct comparisons."
+    "theory.workedExamples[4]: Remove this worked example: the supplied booklet does not ask students to choose the number closest to a whole number, and constructing distances introduces an additional task beyond comparing or ordering the given fractions. Its arithmetic is correct; no replacement example is required.",
+    "theory: Remove theory.workedExamples[4] for the scope defect recorded above. The intro, facts, steps and remaining worked examples are mathematically correct and consistent with the booklet's common-denominator method."
   ],
   "fullReview": {
-    "name": "maintenance-review",
-    "hash": "91f45ead9008d8025ca64d8166cb051ebe269c1e883d3e3d91cc0fc78b08450f",
+    "name": "review-accepted",
+    "hash": "3ca7fe71907aa819bab12ab2ecd221e7a17bcc9d86635266878c89cc38f0fbc4",
     "originalRemovalsSupplied": true
   },
   "repaired": true,
@@ -118,14 +154,22 @@
     "quiz.dq-100610"
   ],
   "theoryChanged": false,
-  "removed": [],
-  "items": 22,
-  "summary": "Updated the three incorrect-option explanations in quiz.dq-100610 to identify selecting a fraction inside the marked interval when the question asks for one outside it, retaining their correct comparisons. Everything else is preserved exactly, and no whole items were removed.",
-  "reviewSummary": "All practice items and quiz questions are supported booklet types, with correct answers, working and a single correct quiz option each. Four worked examples pass; the closest-to-a-whole-number example requires removal for scope, and no candidate removals were supplied.",
-  "candidateHash": "91f45ead9008d8025ca64d8166cb051ebe269c1e883d3e3d91cc0fc78b08450f",
-  "findings": [
-    "theory.workedExamples[4]: Remove this worked example: the supplied booklet does not ask students to choose the number closest to a whole number, and constructing distances introduces an additional task beyond comparing or ordering the given fractions. Its arithmetic is correct; no replacement example is required.",
-    "theory: Remove theory.workedExamples[4] for the scope defect recorded above. The intro, facts, steps and remaining worked examples are mathematically correct and consistent with the booklet's common-denominator method."
+  "removed": [
+    {
+      "where": "theory.workedExamples[4]",
+      "reason": "The booklet does not ask students to choose the number closest to a whole number, and constructing distances adds a task beyond comparing or ordering the given fractions."
+    }
   ],
-  "finishedAt": "2026-10-08T22:47:50.465Z"
+  "items": 21,
+  "summary": "Removed theory.workedExamples[4] without replacement to address the scope defect. Preserved all remaining theory, practice, quiz content and item records exactly.",
+  "reviewSummary": "The theory and retained worked examples use the booklet’s common-denominator method, with correct calculations, ordering and endpoint reasoning. The removed example correctly identifies the closer number because $1/6=7/42<12/42=2/7$, but comparing distances from a whole number is not a question type asked in the supplied booklet section.",
+  "candidateHash": "3ca7fe71907aa819bab12ab2ecd221e7a17bcc9d86635266878c89cc38f0fbc4",
+  "published": {
+    "expected": {
+      "contentHash": "5f077e6bb4211b21faa36757a79d4badb3917b984690f459cb6cf6d960586a39",
+      "quizHash": "33bcd41598cbf04d31085fc772da27104fbc0e6d670e35cf49385b51db2dd465"
+    },
+    "journalPath": ".agywork\\content-publication\\transactions\\compare-order-fractions-32a66560-f610-4985-84d6-34f83dfbf0d4\\journal.json"
+  },
+  "finishedAt": "2026-10-09T06:36:47.693Z"
 }

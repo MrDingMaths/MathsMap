@@ -12,10 +12,10 @@
       "The graph of $y=\\arcsin(\\sin x)$ is a zig-zag of straight segments repeating every $2\\pi$ between $-\\frac{\\pi}{2}$ and $\\frac{\\pi}{2}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.85cm, y=1.3cm]\n\\draw[->] (-4.7,0) -- (4.9,0) node[right] {$x$};\n\\draw[->] (0,-1.6) -- (0,1.8) node[above] {$y$};\n\\foreach \\x/\\lab in {-4/{$-2\\pi$}, -2/{$-\\pi$}, 2/{$\\pi$}, 4/{$2\\pi$}} \\draw (\\x,0.07) -- (\\x,-0.07) node[below, font=\\small] {\\lab};\n\\draw (0.07,1) -- (-0.07,1) node[left, font=\\small] {$\\frac{\\pi}{2}$};\n\\draw (0.07,-1) -- (-0.07,-1) node[left, font=\\small] {$-\\frac{\\pi}{2}$};\n\\draw[thick, <->] (-4,0) -- (-3,1) -- (-1,-1) -- (1,1) node[above right, font=\\small] {$y=\\arcsin(\\sin x)$} -- (3,-1) -- (4,0);\n\\end{tikzpicture}\n[/tikz]"
     ],
     "steps": [
-      "Decide which function is on the outside, because the outer function fixes the set of possible answers.",
-      "For an inverse function on the inside, check that its argument lies in $[-1,1]$; otherwise the composite is undefined.",
-      "For a trigonometric function on the inside, evaluate the ratio, then find the angle with that ratio inside the inverse function's range."
-    ]
+"Decide which function is on the outside, because the outer function fixes the set of possible answers.",
+"For an inverse function on the inside, check its domain: $\\arcsin$ and $\\arccos$ require an argument in $[-1,1]$, whereas $\\arctan$ accepts every real argument. Outside the inner function's domain, the composite is undefined.",
+"For a trigonometric function on the inside, first check that it exists: tangent is undefined at $x=\\frac{\\pi}{2}+k\\pi$ for any integer $k$, so $\\arctan(\\tan x)$ is also undefined there. Otherwise evaluate the ratio, check that it belongs to the outer inverse function's domain, then find the angle with that ratio inside the inverse function's range."
+]
   },
   "practice": {
     "foundation": [
@@ -123,26 +123,26 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "Sketch the graph of $y=\\arccos(\\cos x)$ for $-2\\pi\\le x\\le 2\\pi$.",
         "structure": "graph-composite",
-        "solution_text": "For $0\\le x\\le\\pi$ the composite is $y=x$.\nFor $\\pi\\le x\\le 2\\pi$ the angle with the same cosine inside $[0,\\pi]$ is $2\\pi-x$, so $y=2\\pi-x$.\nCosine is even, so the graph is symmetric about the $y$-axis, giving $y=-x$ on $[-\\pi,0]$ and $y=x+2\\pi$ on $[-2\\pi,-\\pi]$.\nThe graph is a triangular wave with peaks of height $\\pi$ at $x=\\pm\\pi$ and zeros at $x=0$ and $x=\\pm 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.9cm, y=0.9cm]\n\\draw[->] (-4.7,0) -- (4.9,0) node[right] {$x$};\n\\draw[->] (0,-0.7) -- (0,3.1) node[above] {$y$};\n\\foreach \\x/\\lab in {-4/{$-2\\pi$}, -2/{$-\\pi$}, 2/{$\\pi$}, 4/{$2\\pi$}} \\draw (\\x,0.08) -- (\\x,-0.08) node[below, font=\\small] {\\lab};\n\\draw (0.08,1) -- (-0.08,1) node[left, font=\\small] {$\\frac{\\pi}{2}$};\n\\draw (0.08,2) -- (-0.08,2) node[left, font=\\small] {$\\pi$};\n\\draw[thick, <->] (-4,0) -- (-2,2) -- (0,0) -- (2,2) node[above right, font=\\small] {$y=\\arccos(\\cos x)$} -- (4,0);\n\\end{tikzpicture}\n[/tikz]"
+        "solution_text": "For $0\\le x\\le\\pi$ the composite is $y=x$.\nFor $\\pi\\le x\\le 2\\pi$ the angle with the same cosine inside $[0,\\pi]$ is $2\\pi-x$, so $y=2\\pi-x$.\nCosine is even, so the graph is symmetric about the $y$-axis, giving $y=-x$ on $[-\\pi,0]$ and $y=x+2\\pi$ on $[-2\\pi,-\\pi]$.\nThe graph is a triangular wave with peaks of height $\\pi$ at $x=\\pm\\pi$ and zeros at $x=0$ and $x=\\pm 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.9cm, y=0.9cm]\n\\draw[->] (-4.7,0) -- (4.9,0) node[right] {$x$};\n\\draw[->] (0,-0.7) -- (0,3.1) node[above] {$y$};\n\\foreach \\x/\\lab in {-4/{$-2\\pi$}, -2/{$-\\pi$}, 2/{$\\pi$}, 4/{$2\\pi$}} \\draw (\\x,0.08) -- (\\x,-0.08) node[below, font=\\small] {\\lab};\n\\draw (0.08,1) -- (-0.08,1) node[left, font=\\small] {$\\frac{\\pi}{2}$};\n\\draw (0.08,2) -- (-0.08,2) node[left, font=\\small] {$\\pi$};\n\\draw[thick] (-4,0) -- (-2,2) -- (0,0) -- (2,2) node[above right, font=\\small] {$y=\\arccos(\\cos x)$} -- (4,0);\n\\fill (-4,0) circle (1.2pt);\n\\fill (4,0) circle (1.2pt);\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Given that $\\cos\\frac{23\\pi}{12}=\\frac{\\sqrt{6}+\\sqrt{2}}{4}$, find the exact value of $\\arccos\\left(\\frac{\\sqrt{6}+\\sqrt{2}}{4}\\right)$.",
         "structure": "evaluate-inverse-outer-reduce",
         "solution_text": "$\\arccos\\left(\\frac{\\sqrt{6}+\\sqrt{2}}{4}\\right)$\n$=\\arccos\\left(\\cos\\frac{23\\pi}{12}\\right)$\n$=\\arccos\\left(\\cos\\frac{\\pi}{12}\\right)$\n$=\\frac{\\pi}{12}$\nThe second line uses $\\cos\\frac{23\\pi}{12}=\\cos\\left(2\\pi-\\frac{\\pi}{12}\\right)=\\cos\\frac{\\pi}{12}$, and $\\frac{\\pi}{12}$ lies in $[0,\\pi]$."
       },
-      {
+{
         "question_text": "Express $\\arccos(\\cos x)$ in terms of $x$ for $-\\pi\\le x\\le 0$.",
         "structure": "express-reduction-general",
         "solution_text": "The answer must lie in $[0,\\pi]$, and a negative $x$ does not.\n$\\cos(-x)=\\cos x$\nFor $-\\pi\\le x\\le 0$, the angle $-x$ runs from $\\pi$ down to $0$, so it is inside the range of $\\arccos$.\n$\\arccos(\\cos x)=-x$"
       },
-      {
-        "question_text": "Find the exact value of $\\arcsin\\left(\\sin\\frac{5\\pi}{3}\\right)+\\arccos\\left(\\cos\\frac{5\\pi}{3}\\right)+\\arctan\\left(\\tan\\frac{5\\pi}{3}\\right)$.",
+{
+        "question_text": "Find the exact value of $\\arcsin\\left(\\sin\\frac{17\\pi}{6}\\right)$.",
         "structure": "evaluate-inverse-outer-reduce",
-        "solution_text": "$\\sin\\frac{5\\pi}{3}=-\\frac{\\sqrt{3}}{2}$, so $\\arcsin\\left(\\sin\\frac{5\\pi}{3}\\right)=-\\frac{\\pi}{3}$\n$\\cos\\frac{5\\pi}{3}=\\frac{1}{2}$, so $\\arccos\\left(\\cos\\frac{5\\pi}{3}\\right)=\\frac{\\pi}{3}$\n$\\tan\\frac{5\\pi}{3}=-\\sqrt{3}$, so $\\arctan\\left(\\tan\\frac{5\\pi}{3}\\right)=-\\frac{\\pi}{3}$\n$-\\frac{\\pi}{3}+\\frac{\\pi}{3}-\\frac{\\pi}{3}$\n$=-\\frac{\\pi}{3}$"
+        "solution_text": "$\\sin\\frac{17\\pi}{6}=\\sin\\frac{5\\pi}{6}=\\sin\\frac{\\pi}{6}$\n$\\frac{\\pi}{6}$ lies in $\\left[-\\frac{\\pi}{2},\\frac{\\pi}{2}\\right]$.\n$\\arcsin\\left(\\sin\\frac{17\\pi}{6}\\right)$\n$=\\arcsin\\left(\\sin\\frac{\\pi}{6}\\right)$\n$=\\frac{\\pi}{6}$"
       }
-    ]
+]
   }
 }

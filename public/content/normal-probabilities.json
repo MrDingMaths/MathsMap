@@ -2,16 +2,16 @@
   "skillId": "normal-probabilities",
   "atomType": "R",
   "theory": {
-    "intro": "The **probability** that a normally distributed score falls in an interval is the **area** under the bell curve over that interval. The whole area is $1$, and the empirical rule supplies the areas at whole numbers of standard deviations from the mean.",
+    "intro": "The **probability** that a normally distributed score falls in an interval is the **area** under the bell curve over that interval. The whole area is $1$, and the empirical rule supplies approximate areas at whole numbers of standard deviations from the mean. All numerical questions in this skill use the empirical rule, rather than normal distribution table values; their calculated probabilities and expected frequencies are estimates.",
     "facts": [
-      "The total area under a normal curve is $1$, because every score lies somewhere under it.",
-      "$P(\\mu-\\sigma < X < \\mu+\\sigma) = 0.68$, $P(\\mu-2\\sigma < X < \\mu+2\\sigma) = 0.95$ and $P(\\mu-3\\sigma < X < \\mu+3\\sigma) = 0.997$.",
-      "$P(X < \\mu) = 0.5$ and $P(X > \\mu) = 0.5$, because the curve is symmetrical about the mean.",
-      "Half of each band lies on each side of the mean, so $P(\\mu < X < \\mu+\\sigma) = 0.34$ and $P(\\mu < X < \\mu+2\\sigma) = 0.475$.",
-      "Each tail is half of what is left over, so $P(X > \\mu+2\\sigma) = (1-0.95)\\div 2 = 0.025$.",
-      "Shade the required region first, because the probability is the area of the shaded part.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (1.2,0) -- plot[domain=1.2:3.7, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (1.2,0) -- (1.2,-0.12) node[below, font=\\small] {$a$};\n\\node at (2.5,1.3) {$P(X > a)$};\n\\end{tikzpicture}\n[/tikz]",
-      "An **expected frequency** is $f = np$: multiply the number of items $n$ by the probability $p$, then round to a whole number."
-    ],
+"The total area under a normal curve is $1$, because every score lies somewhere under it.",
+"The empirical rule gives $P(\\mu-\\sigma < X < \\mu+\\sigma) \\approx 0.68$, $P(\\mu-2\\sigma < X < \\mu+2\\sigma) \\approx 0.95$ and $P(\\mu-3\\sigma < X < \\mu+3\\sigma) \\approx 0.997$.",
+"$P(X < \\mu) = 0.5$ and $P(X > \\mu) = 0.5$, because the curve is symmetrical about the mean.",
+"Half of each band lies on each side of the mean, so the empirical-rule estimates are $P(\\mu < X < \\mu+\\sigma) \\approx 0.34$ and $P(\\mu < X < \\mu+2\\sigma) \\approx 0.475$.",
+"Each tail is half of what is left over, so the empirical-rule estimate is $P(X > \\mu+2\\sigma) \\approx (1-0.95)\\div 2 = 0.025$.",
+"Shade the required region first, because the probability is the area of the shaded part.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (1.2,0) -- plot[domain=1.2:3.7, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (1.2,0) -- (1.2,-0.12) node[below, font=\\small] {$a$};\n\\node at (2.5,1.3) {$P(X > a)$};\n\\end{tikzpicture}\n[/tikz]",
+"An **expected frequency** is $f = np$: multiply the number of items $n$ by the probability $p$, then round to a whole number."
+],
     "steps": [
       "Write each boundary as a number of standard deviations from the mean",
       "Shade the required region on a normal curve",
@@ -110,26 +110,26 @@
       }
     ],
     "mastery": [
-      {
-        "question_text": "A factory tests $4000$ electronic components whose working lives are normally distributed with a mean of $1000$ hours and a standard deviation of $80$ hours.\nA component is sent for investigation if it lasts less than $840$ hours or more than $1160$ hours.\nHow many components are expected to be investigated?",
-        "structure": "expected-count",
-        "solution_text": "$840$ and $1160$ are each $2$ standard deviations from $1000$.\n$P(X < 840) + P(X > 1160)$\n$= 1 - 0.95$\n$= 0.05$\n$f = np$\n$= 4000 \\times 0.05$\n$= 200$ components\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-2, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-2,0) -- cycle;\n\\fill[gray!35] (2,0) -- plot[domain=2:3.7, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$840$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$1000$};\n\\draw (2,0) -- (2,-0.12) node[below, font=\\small] {$1160$};\n\\node at (-2.9,1.1) {$0.025$};\n\\node at (2.9,1.1) {$0.025$};\n\\end{tikzpicture}\n[/tikz]"
+{
+        "question_text": "A factory tests $3500$ electronic components whose working lives are normally distributed with a mean of $1200$ hours and a standard deviation of $90$ hours.\nHow many components are expected to last between $1020$ hours and $1290$ hours? Round to the nearest whole component.",
+        "structure": "expected-count-asymmetric-interval",
+        "solution_text": "$1020$ hours is $2$ standard deviations below $1200$ hours and $1290$ hours is $1$ standard deviation above.\nUsing the empirical rule, $P(1020 < X < 1290) \\approx 0.475 + 0.34 = 0.815$.\n$f = np$\n$= 3500 \\times 0.815$\n$= 2852.5$\nAbout $2853$ components are expected.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-2,0) -- plot[domain=-2:1, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$1020$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$1200$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$1290$};\n\\node at (-0.6,1.1) {$0.815$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
-        "question_text": "A dataset is normally distributed with a mean of $68$ and a standard deviation of $6$.\nFind the probability that a randomly chosen score is either less than $56$ or greater than $74$.",
-        "structure": "asymmetric-probability",
-        "solution_text": "$56$ is $2$ standard deviations below $68$ and $74$ is $1$ standard deviation above.\n$P(X < 56) + P(X > 74)$\n$= 0.025 + 0.16$\n$= 0.185$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-2, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-2,0) -- cycle;\n\\fill[gray!35] (1,0) -- plot[domain=1:3.7, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$56$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$68$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$74$};\n\\node at (-2.9,1.1) {$0.025$};\n\\node at (2.4,1.3) {$0.16$};\n\\end{tikzpicture}\n[/tikz]"
+{
+        "question_text": "A dataset is normally distributed with a mean of $76$ and a standard deviation of $8$.\nFind the probability that a randomly chosen score lies between $52$ and $92$.",
+        "structure": "asymmetric-interval-probability",
+        "solution_text": "$52$ is $3$ standard deviations below $76$ and $92$ is $2$ standard deviations above.\nUsing the empirical rule, $P(52 < X < 92) \\approx 0.4985 + 0.475 = 0.9735$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3,0) -- plot[domain=-3:2, samples=60, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (2,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-3,0) -- (-3,-0.12) node[below, font=\\small] {$52$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$76$};\n\\draw (2,0) -- (2,-0.12) node[below, font=\\small] {$92$};\n\\node at (-0.4,1.1) {$0.9735$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
-        "question_text": "The masses of newborn lambs are normally distributed with a mean of $4.2$ kg and a standard deviation of $0.4$ kg.\nA farmer claims that about $1$ lamb in every $6$ is born weighing under $3.8$ kg.\nUse the empirical rule to decide whether the claim is reasonable.",
-        "structure": "judgement",
-        "solution_text": "$3.8 = 4.2 - 0.4$, so $3.8$ kg is $1$ standard deviation below the mean.\n$P(X < 3.8)$\n$= (1 - 0.68) \\div 2$\n$= 0.16$\nThe farmer's claim is $1 \\div 6 \\approx 0.17$, which is very close to $0.16$, so the claim is reasonable.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-1, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$3.8$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$4.2$};\n\\node at (-2.3,1.3) {$0.16$};\n\\end{tikzpicture}\n[/tikz]"
+{
+        "question_text": "The masses of newborn lambs are normally distributed with a mean of $4.5$ kg and a standard deviation of $0.35$ kg.\nOne lamb weighs $3.45$ kg.\nUse the empirical rule to decide whether this mass is unusual, supporting your answer with a probability.",
+        "structure": "individual-measurement-judgement",
+        "solution_text": "$3.45 = 4.5 - 3(0.35)$, so the mass is $3$ standard deviations below the mean.\nUsing the empirical rule, $P(X < 3.45) \\approx (1 - 0.997) \\div 2 = 0.0015$.\nOnly about $0.15\\%$ of lambs weigh this little or less, so $3.45$ kg is unusual.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-3, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-3,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-3,0) -- (-3,-0.12) node[below, font=\\small] {$3.45$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$4.5$};\n\\node at (-2.9,1.1) {$0.0015$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "A production line fills $600$ packets whose masses are normally distributed with a mean of $205$ g and a standard deviation of $5$ g. A packet is underweight if its mass is below $195$ g. How many of the $600$ packets are expected to be underweight?",
         "structure": "expected-count",
         "solution_text": "$195$ g is $2$ standard deviations below $205$ g.\n$P(X < 195) = (1 - 0.95) \\div 2 = 0.025$\n$f = np$\n$= 600 \\times 0.025$\n$= 15$ packets\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-2, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-2,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$195$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$205$};\n\\node at (-2.9,1.1) {$0.025$};\n\\end{tikzpicture}\n[/tikz]"
       }
-    ]
+]
   }
 }

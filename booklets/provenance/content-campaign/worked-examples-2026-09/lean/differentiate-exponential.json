@@ -3,36 +3,36 @@
   "skillId": "differentiate-exponential",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-08T22:52:37.368Z",
-  "status": "needs attention: not accepted after one repair round",
+  "startedAt": "2026-10-09T06:36:48.323Z",
+  "status": "published",
   "calls": [
     {
       "name": "maintenance-repair",
       "code": 0,
-      "seconds": 113,
+      "seconds": 136.7,
       "usage": {
-        "input_tokens": 52595,
+        "input_tokens": 51830,
         "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 6934,
-        "reasoning_output_tokens": 39
+        "output_tokens": 7057,
+        "reasoning_output_tokens": 79
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\differentiate-exponential\\maintenance-repair-amApoY\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\differentiate-exponential\\maintenance-repair-BrRj6p\\response.raw.txt"
     },
     {
-      "name": "maintenance-review",
+      "name": "maintenance-review-scoped",
       "code": 0,
-      "seconds": 40.2,
+      "seconds": 11.1,
       "usage": {
-        "input_tokens": 51863,
+        "input_tokens": 51943,
         "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 2345,
-        "reasoning_output_tokens": 126
+        "output_tokens": 238,
+        "reasoning_output_tokens": 17
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\differentiate-exponential\\maintenance-review-iucjCZ\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\differentiate-exponential\\maintenance-review-scoped-Zh1Ah5\\response.raw.txt"
     }
   ],
   "previousAttempts": [
@@ -84,6 +84,41 @@
           "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\differentiate-exponential\\review-scoped-dTlRir\\response.raw.txt"
         }
       ]
+    },
+    {
+      "startedAt": "2026-10-08T22:52:37.368Z",
+      "finishedAt": "2026-10-08T22:55:10.751Z",
+      "status": "needs attention: not accepted after one repair round",
+      "calls": [
+        {
+          "name": "maintenance-repair",
+          "code": 0,
+          "seconds": 113,
+          "usage": {
+            "input_tokens": 52595,
+            "cached_input_tokens": 12544,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 6934,
+            "reasoning_output_tokens": 39
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\differentiate-exponential\\maintenance-repair-amApoY\\response.raw.txt"
+        },
+        {
+          "name": "maintenance-review",
+          "code": 0,
+          "seconds": 40.2,
+          "usage": {
+            "input_tokens": 51863,
+            "cached_input_tokens": 12544,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 2345,
+            "reasoning_output_tokens": 126
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\differentiate-exponential\\maintenance-review-iucjCZ\\response.raw.txt"
+        }
+      ]
     }
   ],
   "maintenanceRepair": true,
@@ -97,11 +132,11 @@
   "images": 3,
   "omittedImages": 0,
   "firstRoundFindings": [
-    "theory: In facts[0], remove the claim that $e^x$ is the one exponential that is its own derivative: every function $ke^{x+b}$ also equals its derivative. Keep the correct identity $\\dfrac{d}{dx}(e^x)=e^x$; the remaining theory and procedure are correct and consistent with the booklet."
+    "quiz.dq-120610: The booklet asks for velocity at a specified time in Chain Rule Q11(a), not a general contextual rate function; its general velocity formula is an intermediate solution step. Replace this question, preserving its id, with an adapted rate-at-a-specified-time question using a linear exponential and new values, and change the structure to evaluate-derivative-at-point; calculate the answer and distractors with an explicitly stated rounding convention."
   ],
   "fullReview": {
-    "name": "maintenance-review",
-    "hash": "de96ab0480207b658413bf9ae0135863ab29f1a97652f13e2bbaf7e382c1bd37",
+    "name": "review-accepted",
+    "hash": "557bd66ff5efdda88759e41c0b6e665375444bbe038b28b15e97ed27b07a550c",
     "originalRemovalsSupplied": true
   },
   "repaired": true,
@@ -116,11 +151,15 @@
   "theoryChanged": true,
   "removed": [],
   "items": 32,
-  "summary": "Removed the uniqueness claim from theory.facts[0], retaining the correct identity $\\dfrac{d}{dx}(e^x)=e^x$. This is a theory text correction, with no whole items removed and all other candidate fields preserved exactly.",
-  "reviewSummary": "All supplied calculations and quiz distractors are correct, and the theory is consistent with the booklet and target skill. One quiz question requires replacement under the strict booklet question-type rule; no worked examples or removals were supplied.",
-  "candidateHash": "de96ab0480207b658413bf9ae0135863ab29f1a97652f13e2bbaf7e382c1bd37",
-  "findings": [
-    "quiz.dq-120610: The booklet asks for velocity at a specified time in Chain Rule Q11(a), not a general contextual rate function; its general velocity formula is an intermediate solution step. Replace this question, preserving its id, with an adapted rate-at-a-specified-time question using a linear exponential and new values, and change the structure to evaluate-derivative-at-point; calculate the answer and distractors with an explicitly stated rounding convention."
-  ],
-  "finishedAt": "2026-10-08T22:55:10.751Z"
+  "summary": "Replaced quiz.dq-120610 with a velocity-at-a-specified-time question, preserving its id and changing its structure to evaluate-derivative-at-point. Calculated its answer and distractors to the stated two decimal places, and preserved all other content exactly.",
+  "reviewSummary": "The item adapts the velocity-at-a-specified-time task explicitly asked in booklet Q11(a), using a linear exponential within the target skill. Its wording, working, rounding and all option explanations are correct, with exactly one correct option.",
+  "candidateHash": "557bd66ff5efdda88759e41c0b6e665375444bbe038b28b15e97ed27b07a550c",
+  "published": {
+    "expected": {
+      "contentHash": "7168b2a457639cfad1f957f1b866d3ec4b157d8730c55d3000e28147862593ea",
+      "quizHash": "6dcec17a56d1da623db0c78388c150fcbffc7b6491939f6bdfad599c1a1f70f1"
+    },
+    "journalPath": ".agywork\\content-publication\\transactions\\differentiate-exponential-694bfe9a-f818-45d6-a618-ed0db760b476\\journal.json"
+  },
+  "finishedAt": "2026-10-09T06:39:17.035Z"
 }

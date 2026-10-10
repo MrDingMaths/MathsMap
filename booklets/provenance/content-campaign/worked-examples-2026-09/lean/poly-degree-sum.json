@@ -3,36 +3,36 @@
   "skillId": "poly-degree-sum",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-08T23:18:03.772Z",
-  "status": "needs attention: not accepted after one repair round",
+  "startedAt": "2026-10-09T06:49:16.560Z",
+  "status": "published",
   "calls": [
     {
       "name": "maintenance-repair",
       "code": 0,
-      "seconds": 82.4,
+      "seconds": 113.2,
       "usage": {
-        "input_tokens": 128958,
+        "input_tokens": 129180,
         "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 5213,
-        "reasoning_output_tokens": 25
+        "output_tokens": 5221,
+        "reasoning_output_tokens": 0
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\poly-degree-sum\\maintenance-repair-t1Kshz\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\poly-degree-sum\\maintenance-repair-JJN1rz\\response.raw.txt"
     },
     {
-      "name": "maintenance-review-full",
+      "name": "maintenance-review-scoped",
       "code": 0,
-      "seconds": 46.1,
+      "seconds": 20.5,
       "usage": {
-        "input_tokens": 130059,
+        "input_tokens": 129258,
         "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 1883,
-        "reasoning_output_tokens": 98
+        "output_tokens": 295,
+        "reasoning_output_tokens": 26
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\poly-degree-sum\\maintenance-review-full-6dted9\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\poly-degree-sum\\maintenance-review-scoped-UMlWOt\\response.raw.txt"
     }
   ],
   "previousAttempts": [
@@ -84,6 +84,41 @@
           "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\poly-degree-sum\\review-full-wIbM5E\\response.raw.txt"
         }
       ]
+    },
+    {
+      "startedAt": "2026-10-08T23:18:03.772Z",
+      "finishedAt": "2026-10-08T23:20:12.454Z",
+      "status": "needs attention: not accepted after one repair round",
+      "calls": [
+        {
+          "name": "maintenance-repair",
+          "code": 0,
+          "seconds": 82.4,
+          "usage": {
+            "input_tokens": 128958,
+            "cached_input_tokens": 12544,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 5213,
+            "reasoning_output_tokens": 25
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\poly-degree-sum\\maintenance-repair-t1Kshz\\response.raw.txt"
+        },
+        {
+          "name": "maintenance-review-full",
+          "code": 0,
+          "seconds": 46.1,
+          "usage": {
+            "input_tokens": 130059,
+            "cached_input_tokens": 12544,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1883,
+            "reasoning_output_tokens": 98
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\poly-degree-sum\\maintenance-review-full-6dted9\\response.raw.txt"
+        }
+      ]
     }
   ],
   "maintenanceRepair": true,
@@ -98,11 +133,12 @@
   "images": 106,
   "omittedImages": 0,
   "firstRoundFindings": [
-    "theory: The fifth fact incorrectly implies that every non-zero sum or difference of equal-degree polynomials has lower degree. Replace it with: 'If the two degrees are equal, the leading terms may cancel. If they do not cancel, the degree stays the same. If they cancel and the result is non-zero, its degree is lower; if all terms cancel, the result is the zero polynomial and has no degree.'"
+    "practice.development[4]: Change structure from degree-of-power to degree-of-sum-difference-distinct, because the requested task is the degree of a sum.",
+    "quiz.q6: Repair the why for option index 3 to name both mistakes: assuming every term cancels when only the leading terms cancel, and incorrectly assigning degree 0 to the zero polynomial."
   ],
   "fullReview": {
-    "name": "maintenance-review-full",
-    "hash": "221c7384bef48f9b22dd49e98453e86d662f166e395542daa13894a886ef0138",
+    "name": "review-accepted",
+    "hash": "72aa84de86fa7bd4165cf5b08eda281a3789b67bd5187f9806d20085213567f3",
     "originalRemovalsSupplied": true
   },
   "repaired": true,
@@ -111,6 +147,7 @@
     "practice.mastery[1]",
     "quiz.q3",
     "quiz.q4",
+    "quiz.q6",
     "quiz.q9"
   ],
   "theoryChanged": true,
@@ -137,12 +174,15 @@
     }
   ],
   "items": 21,
-  "summary": "Corrected the fifth theory fact to distinguish unchanged degree, lower degree after leading-term cancellation, and complete cancellation to the zero polynomial. All other candidate content and existing item and removal records are preserved exactly; this theory correction removes no item.",
-  "reviewSummary": "All final answers are mathematically correct, all retained tasks are supported booklet types, and all five removals are justified; no worked examples were supplied. Repair the sum item's structure slug and the zero-degree distractor explanation, while preserving the remaining content.",
-  "candidateHash": "221c7384bef48f9b22dd49e98453e86d662f166e395542daa13894a886ef0138",
-  "findings": [
-    "practice.development[4]: Change structure from degree-of-power to degree-of-sum-difference-distinct, because the requested task is the degree of a sum.",
-    "quiz.q6: Repair the why for option index 3 to name both mistakes: assuming every term cancels when only the leading terms cancel, and incorrectly assigning degree 0 to the zero polynomial."
-  ],
-  "finishedAt": "2026-10-08T23:20:12.454Z"
+  "summary": "Changed practice.development[4]'s structure to degree-of-sum-difference-distinct and repaired quiz.q6's fourth option explanation to name both mistaken full cancellation and assigning degree 0 to the zero polynomial. All other content and prior removal records are preserved; these repairs remove no whole items.",
+  "reviewSummary": "Both requested items have correct answers, clear working and appropriate methods for this skill and stage. Both assess the booklet's explicit degree-of-a-sum question type, with cancellation also addressed in its degree investigation; no repairs are needed.",
+  "candidateHash": "72aa84de86fa7bd4165cf5b08eda281a3789b67bd5187f9806d20085213567f3",
+  "published": {
+    "expected": {
+      "contentHash": "d4c2782622469a0e2b23b7f06c3daa891634d1ae6e6be519b967f3dead873a7c",
+      "quizHash": "53dbb85c8e4a99685a87381fb591794799d1c8fd3ee06aefd138bdff6f3c309d"
+    },
+    "journalPath": ".agywork\\content-publication\\transactions\\poly-degree-sum-818ace78-6be2-430e-82d7-f97dd207acd7\\journal.json"
+  },
+  "finishedAt": "2026-10-09T06:51:30.792Z"
 }

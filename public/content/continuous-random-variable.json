@@ -2,115 +2,70 @@
   "skillId": "continuous-random-variable",
   "atomType": "Cat",
   "theory": {
-    "intro": "A **continuous random variable** is measured rather than counted, so it can take any value in an interval. Because an interval holds infinitely many values, the probability of any one exact value is $0$.",
+    "intro": "A **continuous random variable** can take any value in an interval. For a continuous distribution, the probability of any one exact value is $0$, because a single point has zero width and hence zero area under the density curve.",
     "facts": [
-      "A continuous random variable comes from measuring something such as a length, time, mass, temperature or speed.",
-      "Its possible values fill an interval such as $0 < x < 100$, so they cannot be listed one by one.",
-      "Rounding a measurement to the nearest unit does not make the variable discrete, because the quantity measured still varies continuously.",
-      "$P(X = a) = 0$ for every single value $a$, since one point has no width on the number line.",
-      "Probability is the area under a density curve, and the strip above a single point has zero width.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1cm, y=1cm]\n\\fill[gray!35, domain=1.2:3.6, variable=\\x] (1.2,0) -- plot ({\\x},{2.2*exp(-0.5*(\\x-2.6)*(\\x-2.6))}) -- (3.6,0) -- cycle;\n\\draw[->] (-0.4,0) -- (6.0,0) node[right] {$x$};\n\\draw[->] (0,-0.4) -- (0,2.9) node[above] {$f(x)$};\n\\draw[thick, domain=0.2:5.2, smooth, samples=100, variable=\\x] plot ({\\x},{2.2*exp(-0.5*(\\x-2.6)*(\\x-2.6))});\n\\draw (1.2,0) -- (1.2,0.826);\n\\draw (3.6,0) -- (3.6,1.334);\n\\node[below] at (1.2,0) {$a$};\n\\node[below] at (3.6,0) {$b$};\n\\end{tikzpicture}\n[/tikz]",
-      "So probability is only meaningful over an interval, written $P(a < X < b)$.",
-      "Because the endpoints contribute nothing, $P(a < X < b) = P(a \\le X \\le b) = P(a \\le X < b) = P(a < X \\le b)$.",
-      "For the same reason $P(X < c) = P(X \\le c)$ and $P(X > c) = P(X \\ge c)$.",
-      "The complement rule still holds, so $P(X > c) = 1 - P(X \\le c)$."
-    ]
+"A continuous random variable comes from measuring something such as a length, time, mass, temperature or speed.",
+"Its possible values fill an interval such as $0 < x < 100$, so they cannot be listed one by one.",
+"An underlying measurement can be continuous while its rounded recorded value is discrete. For example, true mass varies continuously, but mass recorded to the nearest gram takes separate whole-number values.",
+"$P(X = a) = 0$ for every single value $a$, since one point has no width on the number line.",
+"Probability is the area under a density curve, and the strip above a single point has zero width.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1cm, y=4cm]\n\\fill[gray!35] (1.2,0) -- (1.2,0.05) -- (3,0.5) -- (3.6,0.35) -- (3.6,0) -- cycle;\n\\draw[->] (-0.4,0) -- (6.0,0) node[right] {$x$};\n\\draw[->] (0,-0.1) -- (0,0.65) node[above] {$f(x)$};\n\\draw[thick] (1,0) -- (3,0.5) -- (5,0);\n\\draw (1.2,0) -- (1.2,0.05);\n\\draw (3.6,0) -- (3.6,0.35);\n\\node[below] at (1.2,0) {$a$};\n\\node[below] at (3.6,0) {$b$};\n\\end{tikzpicture}\n[/tikz]",
+"Individual values have probability $0$. An interval can have positive probability, written $P(a < X < b)$.",
+"Because the endpoints contribute nothing, $P(a < X < b) = P(a \\le X \\le b) = P(a \\le X < b) = P(a < X \\le b)$.",
+"For the same reason $P(X < c) = P(X \\le c)$ and $P(X > c) = P(X \\ge c)$.",
+"The complement rule still holds, so $P(X > c) = 1 - P(X \\le c)$."
+]
   },
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Let $T$ be the time, in seconds, a swimmer takes to complete $100$ m. State whether $T$ is discrete or continuous, and give a reason.",
         "structure": "classify-variable",
         "solution_text": "Time is measured, not counted.\nAny value in an interval such as $50 < t < 70$ is possible.\n$T$ is continuous."
       },
-      {
+{
         "question_text": "Let $N$ be the number of text messages a person sends in a day.\nState whether $N$ is discrete or continuous, and give a reason.",
         "structure": "classify-variable",
         "solution_text": "Messages are counted, not measured.\nThe possible values are the separate steps $0, 1, 2, \\dots$\n$N$ is discrete."
       },
-      {
-        "question_text": "The mass of a bag of flour is recorded to the nearest gram.\nLet $M$ be that mass.\nState whether $M$ is discrete or continuous, and give a reason.",
+{
+        "question_text": "The mass of a bag of flour is recorded to the nearest gram.\nLet $M$ be the true mass before rounding.\nState whether $M$ is discrete or continuous, and give a reason.",
         "structure": "classify-variable",
         "solution_text": "Mass is measured, so the true mass can be any value in an interval.\nRecording it to the nearest gram rounds the record, not the quantity.\n$M$ is continuous."
       },
-      {
-        "question_text": "A quiz is marked out of $20$ and $S$ is the mark scored.\nState whether $S$ is discrete or continuous, and give a reason.",
+{
+        "question_text": "A quiz has $20$ questions, each worth one mark for a correct answer and zero otherwise. Let $S$ be the mark scored.\nState whether $S$ is discrete or continuous, and give a reason.",
         "structure": "classify-variable",
         "solution_text": "The mark is a count of correct answers.\nThe possible values are the whole numbers from $0$ to $20$.\n$S$ is discrete."
-      },
-      {
-        "question_text": "Let $H$ be the height, in centimetres, of a randomly chosen Year 12 student.\nFind $P(H = 170)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.13cm, y=1cm]\n\\draw[->] (146,0) -- (194,0) node[right] {$x$};\n\\draw[->] (148,-0.5) -- (148,3.0) node[above] {$f(x)$};\n\\draw[thick, domain=150:190, smooth, samples=100, variable=\\x] plot ({\\x},{2.4*exp(-0.5*((\\x-170)/5)*((\\x-170)/5))});\n\\draw[dashed] (170,0) -- (170,2.4);\n\\draw (150,0) -- (150,-0.12) node[below] {$150$};\n\\draw (170,0) -- (170,-0.12) node[below] {$170$};\n\\draw (190,0) -- (190,-0.12) node[below] {$190$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "zero-at-a-point",
-        "solution_text": "$H$ is continuous, so a single value has no width under the curve.\n$P(H = 170) = 0$"
-      },
-      {
-        "question_text": "The lifetime $L$, in hours, of a battery is a continuous random variable.\nWrite down $P(L = 24)$.",
-        "structure": "zero-at-a-point",
-        "solution_text": "$L$ is continuous, so every single value has probability $0$.\n$P(L = 24) = 0$"
-      },
-      {
-        "question_text": "A continuous random variable $X$ has $P(2 < X < 6) = 0.41$.\nFind $P(2 \\le X \\le 6)$.",
-        "structure": "endpoint-equivalence",
-        "solution_text": "$P(X = 2) = P(X = 6) = 0$\n$P(2 \\le X \\le 6) = P(2 < X < 6)$\n$= 0.41$"
-      },
-      {
-        "question_text": "A continuous random variable $X$ has $P(X \\le 9) = 0.73$.\nFind $P(X < 9)$.",
-        "structure": "endpoint-equivalence",
-        "solution_text": "$P(X = 9) = 0$\n$P(X < 9) = P(X \\le 9)$\n$= 0.73$"
       }
-    ],
+],
     "development": [
-      {
-        "question_text": "A continuous random variable $X$ has $P(X \\le 12) = 0.28$.\nFind $P(X > 12)$.",
-        "structure": "complement-probability",
-        "solution_text": "$P(X > 12) = 1 - P(X \\le 12)$\n$= 1 - 0.28$\n$= 0.72$"
+{
+        "question_text": "A sensor measures a car's true speed $U$, in kilometres per hour, and records its speed $R$ to the nearest whole kilometre per hour.\nState whether each random variable is discrete or continuous, and give a reason.",
+        "structure": "classify-measurement-and-rounded-record",
+        "solution_text": "$U$ is continuous because true speed can take any value in an interval.\n$R$ is discrete because the rounded record takes separate whole-number values."
       },
-      {
-        "question_text": "A continuous random variable $X$ has $P(X < 3) = 0.15$ and $P(X < 8) = 0.62$.\nFind $P(3 \\le X \\le 8)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.55cm, y=1cm]\n\\fill[gray!35, domain=3:8, variable=\\x] (3,0) -- plot ({\\x},{2.2*exp(-0.5*((\\x-5.5)/2.2)*((\\x-5.5)/2.2))}) -- (8,0) -- cycle;\n\\draw[->] (-0.6,0) -- (11.6,0) node[right] {$x$};\n\\draw[->] (0,-0.5) -- (0,2.9) node[above] {$f(x)$};\n\\draw[thick, domain=0:11, smooth, samples=100, variable=\\x] plot ({\\x},{2.2*exp(-0.5*((\\x-5.5)/2.2)*((\\x-5.5)/2.2))});\n\\draw (3,0) -- (3,1.153);\n\\draw (8,0) -- (8,1.153);\n\\node[below] at (3,0) {$3$};\n\\node[below] at (8,0) {$8$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "complement-probability",
-        "solution_text": "$P(3 \\le X \\le 8) = P(X < 8) - P(X < 3)$\n$= 0.62 - 0.15$\n$= 0.47$"
+{
+        "question_text": "A shop stocks shoe sizes $5$, $5.5$, $6$, $6.5$, $7$, $7.5$ and $8$. Let $S$ be the size bought by a randomly chosen customer and $L$ be that customer's true foot length, in centimetres.\nState whether each random variable is discrete or continuous, and give a reason.",
+        "structure": "classify-listed-sizes-and-measurement",
+        "solution_text": "$S$ is discrete because the stocked sizes form a listed set of separate values, even though some are not whole numbers.\n$L$ is continuous because true foot length can take any value in an interval."
       },
-      {
-        "question_text": "The waiting time $W$, in minutes, for a bus is a continuous random variable.\nExplain why $P(W = 4.5) = 0$.",
-        "structure": "justify-zero",
-        "solution_text": "Probability is the area under the density curve of $W$.\nThe value $4.5$ is a single point, so the strip above it has zero width.\nA region of zero width has zero area, so $P(W = 4.5) = 0$."
-      },
-      {
-        "question_text": "A continuous random variable $X$ has $P(X \\ge 5) = 0.34$.\nFind $P(X > 5)$.",
-        "structure": "endpoint-equivalence",
-        "solution_text": "$P(X = 5) = 0$\n$P(X > 5) = P(X \\ge 5)$\n$= 0.34$"
-      },
-      {
-        "question_text": "The density of a continuous random variable $X$ is non-zero only for $0 \\le x \\le 4$.\nFind $P(X = 2.5)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\draw[->] (-0.6,0) -- (5.2,0) node[right] {$x$};\n\\draw[->] (0,-0.5) -- (0,2.4) node[above] {$f(x)$};\n\\draw[thick] (-0.5,0) -- (0,0);\n\\draw[thick, domain=0:4, smooth, samples=100, variable=\\x] plot ({\\x},{0.125*\\x*\\x});\n\\draw[thick] (4,0) -- (4.8,0);\n\\draw[dashed] (2.5,0) -- (2.5,0.781);\n\\node[below] at (4,0) {$4$};\n\\node[below] at (2.5,0) {$2.5$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "zero-at-a-point",
-        "solution_text": "$X$ is continuous, so the region above the single value $2.5$ has zero width.\n$P(X = 2.5) = 0$"
-      },
-      {
-        "question_text": "A continuous random variable $X$ has $P(1 \\le X \\le 4) = 0.55$ and $P(X < 1) = 0.18$.\nFind $P(X > 4)$.",
-        "structure": "complement-probability",
-        "solution_text": "$P(X > 4) = 1 - P(X < 1) - P(1 \\le X \\le 4)$\n$= 1 - 0.18 - 0.55$\n$= 0.27$"
-      },
-      {
-        "question_text": "A machine records the volume $V$, in litres, of milk in a carton, correct to two decimal places.\nState whether $V$ is discrete or continuous, and justify your answer.",
+{
+        "question_text": "A machine records the volume of milk in a carton, correct to two decimal places. Let $V$ be the true volume, in litres, before rounding.\nState whether $V$ is discrete or continuous, and justify your answer.",
         "structure": "classify-variable",
-        "solution_text": "Volume is measured, so the true volume can be any value in an interval.\nRounding to two decimal places only limits how the value is written down.\n$V$ is continuous."
+        "solution_text": "Volume is measured, so the true volume can be any value in an interval.\nThe rounded record is discrete, but $V$ denotes the true volume.\n$V$ is continuous."
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "A continuous random variable $X$ has $P(X < 7) = 0.36$ and $P(X > 11) = 0.22$.\nFind $P(7 \\le X \\le 11)$, and state whether $P(7 < X < 11)$ has a different value.",
-        "structure": "complement-probability",
-        "solution_text": "$P(7 \\le X \\le 11) = 1 - P(X < 7) - P(X > 11)$\n$= 1 - 0.36 - 0.22$\n$= 0.42$\nSince $P(X = 7) = P(X = 11) = 0$, the value of $P(7 < X < 11)$ is also $0.42$."
+{
+        "question_text": "For a randomly chosen batch of $48$ containers, let $N$ be the number with a defect, $M$ the true mass of a randomly chosen container, and $R$ its mass recorded to the nearest $0.5$ gram.\nState whether each random variable is discrete or continuous, and give a reason.",
+        "structure": "classify-count-measurement-and-rounded-record",
+        "solution_text": "$N$ is discrete because it takes whole-number values from $0$ to $48$.\n$M$ is continuous because true mass can take any value in an interval.\n$R$ is discrete because recorded masses occur in separate steps of $0.5$ gram."
       },
-      {
-        "question_text": "Explain why $P(X \\le 6)$ and $P(X < 6)$ must be equal when $X$ is continuous, even though they can differ when $X$ is discrete.",
-        "structure": "justify-zero",
-        "solution_text": "$P(X \\le 6) = P(X < 6) + P(X = 6)$ for any random variable.\nFor a continuous variable $P(X = 6) = 0$, so the two probabilities are equal.\nFor a discrete variable $P(X = 6)$ can be positive, so the two probabilities can differ."
-      },
-      {
-        "question_text": "A continuous random variable $X$ has $P(X \\le 10) = 0.81$ and $P(X \\le 4) = 0.29$.\nFind $P(4 < X < 10)$.",
-        "structure": "endpoint-equivalence",
-        "solution_text": "$P(4 < X < 10) = P(4 \\le X \\le 10)$\n$= P(X \\le 10) - P(X \\le 4)$\n$= 0.81 - 0.29$\n$= 0.52$"
+{
+        "question_text": "A randomly chosen swimmer completes a $200$ m race. Let $T$ be the true finishing time in seconds, $R$ the time recorded to the nearest $0.01$ second, and $N$ the number of swimmers who finish before this swimmer.\nState whether each random variable is discrete or continuous, and give a reason.",
+        "structure": "classify-time-rounded-record-and-count",
+        "solution_text": "$T$ is continuous because true finishing time can take any value in an interval.\n$R$ is discrete because recorded times occur in separate steps of $0.01$ second.\n$N$ is discrete because swimmers are counted in whole numbers."
       }
-    ]
+]
   }
 }

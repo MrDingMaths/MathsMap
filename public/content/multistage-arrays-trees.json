@@ -2,7 +2,7 @@
   "skillId": "multistage-arrays-trees",
   "atomType": "R",
   "theory": {
-        "intro": "A **multistage experiment** has two or more steps, such as tossing a coin twice or drawing two marbles. A **two-way array** or a **tree diagram** shows every possible outcome. Multiply along the branches of a path, and add the paths that suit the event.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.95]\n\\coordinate (O) at (0,0);\n\\coordinate (N1) at (2.4,1.4);\n\\coordinate (N2) at (2.4,-1.4);\n\\coordinate (E1) at (5.0,2.2);\n\\coordinate (E2) at (5.0,0.6);\n\\coordinate (E3) at (5.0,-0.6);\n\\coordinate (E4) at (5.0,-2.2);\n\\node[left] at (O) {Start};\n\\draw (O) -- (N1) node[midway, above left, font=\\small, inner sep=2pt] {$P(A)$};\n\\draw (O) -- (N2) node[midway, below left, font=\\small, inner sep=2pt] {$P(A')$};\n\\draw (N1) -- (E1) node[midway, above left, font=\\small, inner sep=2pt] {$P(B \\mid A)$};\n\\draw (N1) -- (E2) node[midway, below left, font=\\small, inner sep=2pt] {$P(B' \\mid A)$};\n\\draw (N2) -- (E3) node[midway, above left, font=\\small, inner sep=2pt] {$P(B \\mid A')$};\n\\draw (N2) -- (E4) node[midway, below left, font=\\small, inner sep=2pt] {$P(B' \\mid A')$};\n\\node[above right, inner sep=3pt] at (N1) {$A$};\n\\node[below right, inner sep=3pt] at (N2) {$A'$};\n\\node[right] at (E1) {$B$};\n\\node[right] at (E2) {$B'$};\n\\node[right] at (E3) {$B$};\n\\node[right] at (E4) {$B'$};\n\\node[font=\\small] at (1.2,3.4) {Stage 1};\n\\node[font=\\small] at (3.7,3.4) {Stage 2};\n\\end{tikzpicture}\n[/tikz]",
+        "intro": "A **multistage experiment** has two or more steps, such as tossing a coin twice or drawing two marbles. A **two-way array** or a **tree diagram** shows every possible outcome. Multiply along the branches of a path, and add the paths that suit the event.\n\nThis tree shows two independent tosses of a fair coin, where $H$ means heads and $T$ means tails. Each branch has probability $\\frac{1}{2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.95]\n\\coordinate (O) at (0,0);\n\\coordinate (N1) at (2.4,1.4);\n\\coordinate (N2) at (2.4,-1.4);\n\\coordinate (E1) at (5.0,2.2);\n\\coordinate (E2) at (5.0,0.6);\n\\coordinate (E3) at (5.0,-0.6);\n\\coordinate (E4) at (5.0,-2.2);\n\\node[left] at (O) {Start};\n\\draw (O) -- (N1) node[midway, above left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\draw (O) -- (N2) node[midway, below left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\draw (N1) -- (E1) node[midway, above left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\draw (N1) -- (E2) node[midway, below left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\draw (N2) -- (E3) node[midway, above left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\draw (N2) -- (E4) node[midway, below left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\node[above right, inner sep=3pt] at (N1) {$H$};\n\\node[below right, inner sep=3pt] at (N2) {$T$};\n\\node[right] at (E1) {$H$};\n\\node[right] at (E2) {$T$};\n\\node[right] at (E3) {$H$};\n\\node[right] at (E4) {$T$};\n\\node[font=\\small] at (1.2,3.4) {Toss 1};\n\\node[font=\\small] at (3.7,3.4) {Toss 2};\n\\end{tikzpicture}\n[/tikz]",
         "facts": [
           "A **two-way array** lists the Stage 1 outcomes down one side and the Stage 2 outcomes across the top, one cell per pair.",
           "When every cell of the array is equally likely, $P(\\text{event}) = \\dfrac{\\text{favourable cells}}{\\text{total cells}}$.",
@@ -16,11 +16,11 @@
           "Check that the probabilities of all the complete paths add to $1$."
         ],
         "steps": [
-          "Choose and draw the display (a two-way array or a tree diagram with labelled branches).",
-          "Assign branch probabilities (noting whether the experiment is with or without replacement).",
-          "Multiply along branches to find the probability of each complete path.",
-          "Add favourable paths or apply the complement rule $1 - P(\\text{none})$ to answer the question."
-        ]
+"Choose and draw the display (a two-way array or a tree diagram with labelled branches).",
+"For an array with equally likely cells, count the favourable cells and divide by the total number of cells to answer the question. For a tree, label each branch with its probability, noting whether the experiment is with or without replacement.",
+"For a tree, multiply the probabilities along each complete path to find its probability.",
+"For a tree, add the probabilities of favourable paths or apply the complement rule $1 - P(\\text{none})$ when the question asks for at least one."
+]
       },
   "practice": {
     "foundation": [
@@ -61,53 +61,53 @@
       }
     ],
     "development": [
-      {
-        "question_text": "A standard six-sided die and a four-sided die (numbered $1$ to $4$) are rolled together.\nThe two-way array shows every possible pair of scores as $(\\text{six-sided}, \\text{four-sided})$.\n$\\begin{array}{c|cccc} & 1 & 2 & 3 & 4 \\\\ \\hline 1 & (1,1) & (1,2) & (1,3) & (1,4) \\\\ 2 & (2,1) & (2,2) & (2,3) & (2,4) \\\\ 3 & (3,1) & (3,2) & (3,3) & (3,4) \\\\ 4 & (4,1) & (4,2) & (4,3) & (4,4) \\\\ 5 & (5,1) & (5,2) & (5,3) & (5,4) \\\\ 6 & (6,1) & (6,2) & (6,3) & (6,4) \\end{array}$\nFind the probability that the sum of the two dice is at least $8$, as a fraction in simplest form.",
+{
+        "question_text": "A standard six-sided die and a four-sided die (numbered $1$ to $4$) are rolled together. Both dice are fair and rolled independently.\nThe two-way array shows every possible pair of scores as $(\\text{six-sided}, \\text{four-sided})$.\n$\\begin{array}{c|cccc} & 1 & 2 & 3 & 4 \\\\ \\hline 1 & (1,1) & (1,2) & (1,3) & (1,4) \\\\ 2 & (2,1) & (2,2) & (2,3) & (2,4) \\\\ 3 & (3,1) & (3,2) & (3,3) & (3,4) \\\\ 4 & (4,1) & (4,2) & (4,3) & (4,4) \\\\ 5 & (5,1) & (5,2) & (5,3) & (5,4) \\\\ 6 & (6,1) & (6,2) & (6,3) & (6,4) \\end{array}$\nFind the probability that the sum of the two dice is at least $8$, as a fraction in simplest form.",
         "structure": "array-two-dice-sum",
         "solution_text": "Total outcomes $= 6 \\times 4 = 24$.\nThe outcomes with sum $\\ge 8$ are $(4,4)$, $(5,3)$, $(5,4)$, $(6,2)$, $(6,3)$, $(6,4)$.\n$\\text{Number of favourable outcomes} = 6$\n$P(\\text{sum} \\ge 8) = \\frac{6}{24}$\n$= \\frac{1}{4}$"
       },
-      {
+{
         "question_text": "Two archers shoot at a target independently.\nArcher A hits the bullseye with probability $0.7$, while Archer B hits the bullseye with probability $0.6$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.95]\n\\coordinate (O) at (0,0);\n\\coordinate (N1) at (2.4,1.4);\n\\coordinate (N2) at (2.4,-1.4);\n\\coordinate (E1) at (5.0,2.2);\n\\coordinate (E2) at (5.0,0.6);\n\\coordinate (E3) at (5.0,-0.6);\n\\coordinate (E4) at (5.0,-2.2);\n\\draw (O) -- (N1) node[midway, above, fill=white, font=\\small] {$0.7$};\n\\draw (O) -- (N2) node[midway, below, fill=white, font=\\small] {$0.3$};\n\\draw (N1) -- (E1) node[midway, above, fill=white, font=\\small] {$0.6$};\n\\draw (N1) -- (E2) node[midway, below, fill=white, font=\\small] {$0.4$};\n\\draw (N2) -- (E3) node[midway, above, fill=white, font=\\small] {$0.6$};\n\\draw (N2) -- (E4) node[midway, below, fill=white, font=\\small] {$0.4$};\n\\node[fill=white, inner sep=2pt] at (N1) {$H_{A}$};\n\\node[fill=white, inner sep=2pt] at (N2) {$M_{A}$};\n\\node[right] at (E1) {$H_{B}$};\n\\node[right] at (E2) {$M_{B}$};\n\\node[right] at (E3) {$H_{B}$};\n\\node[right] at (E4) {$M_{B}$};\n\\end{tikzpicture}\n[/tikz]\nFind the probability that exactly one of the archers hits the bullseye, as a decimal.",
         "structure": "tree-independent-two-stage",
         "solution_text": "$P(H_{A}M_{B}) = 0.7 \\times 0.4 = 0.28$\n$P(M_{A}H_{B}) = 0.3 \\times 0.6 = 0.18$\n$P(\\text{exactly one hit}) = 0.28 + 0.18$\n$= 0.46$"
       },
-      {
+{
         "question_text": "A committee of $2$ students is randomly chosen from a group of $4$ boys and $6$ girls **without replacement**.\nFind the probability that both chosen students are girls, as a fraction in simplest form.",
         "structure": "tree-dependent-without-replacement",
-        "solution_text": "Total students $= 4 + 6 = 10$.\n$P(\\text{first is a girl}) = \\frac{6}{10}$\nAfter choosing one girl without replacement, $5$ girls remain out of $9$ students.\n$P(\\text{second is a girl} \\mid \\text{first is a girl}) = \\frac{5}{9}$\n$P(\\text{both girls}) = \\frac{6}{10} \\times \\frac{5}{9}$\n$= \\frac{30}{90}$\n$= \\frac{1}{3}$"
+        "solution_text": "Total students $= 4 + 6 = 10$.\n$P(\\text{first is a girl}) = \\frac{6}{10}$\nAfter choosing one girl without replacement, $5$ girls remain out of $9$ students.\nThe probability of choosing a girl on this second branch is $\\frac{5}{9}$.\n$P(\\text{both girls}) = \\frac{6}{10} \\times \\frac{5}{9}$\n$= \\frac{30}{90}$\n$= \\frac{1}{3}$"
       },
-      {
+{
         "question_text": "A drawer contains $4$ black socks and $6$ grey socks.\nTwo socks are pulled out in the dark at random **without replacement**.\nFind the probability that the two socks have different colours, as a fraction in simplest form.",
         "structure": "tree-dependent-without-replacement",
         "solution_text": "Total socks $= 10$.\n$P(BG) = \\frac{4}{10} \\times \\frac{6}{9} = \\frac{24}{90}$\n$P(GB) = \\frac{6}{10} \\times \\frac{4}{9} = \\frac{24}{90}$\n$P(\\text{different colours}) = \\frac{24}{90} + \\frac{24}{90}$\n$= \\frac{48}{90}$\n$= \\frac{8}{15}$"
       },
-      {
+{
         "question_text": "A multiple-choice quiz has $4$ questions, each with $5$ options and exactly one correct answer.\nA student randomly guesses all $4$ answers.\nFind the probability that the student gets at least one question correct, as a fraction in simplest form.",
         "structure": "at-least-one-complement-tree",
         "solution_text": "$P(\\text{incorrect}) = 1 - \\frac{1}{5} = \\frac{4}{5}$\n$P(\\text{all }4\\text{ incorrect}) = \\left(\\frac{4}{5}\\right)^{4}$\n$= \\frac{256}{625}$\n$P(\\text{at least one correct}) = 1 - \\frac{256}{625}$\n$= \\frac{369}{625}$"
       },
-      {
+{
         "question_text": "The weather forecast predicts a $40\\%$ chance of rain on each of the next three days, with each day being independent.\nFind the probability that it rains on exactly two of the three days, as a decimal.",
         "structure": "three-stage-tree-independent",
         "solution_text": "Let $R$ be rain ($P(R) = 0.4$) and $D$ be dry ($P(D) = 0.6$).\nThe favourable paths are $RRD, RDR, DRR$.\n$P(RRD) = 0.4 \\times 0.4 \\times 0.6 = 0.096$\n$P(RDR) = 0.4 \\times 0.6 \\times 0.4 = 0.096$\n$P(DRR) = 0.6 \\times 0.4 \\times 0.4 = 0.096$\n$P(\\text{exactly }2\\text{ rainy days}) = 0.096 + 0.096 + 0.096$\n$= 0.288$"
       }
-    ],
+],
     "mastery": [
-      {
+{
         "question_text": "A box contains $3$ red, $4$ blue, and $5$ green pens.\nTwo pens are selected at random **without replacement**.\nFind the probability that neither pen is red and the two pens have different colours, as a fraction in simplest form.",
         "structure": "tree-dependent-without-replacement",
         "solution_text": "Total pens $= 3 + 4 + 5 = 12$.\nNeither pen is red means both pens must be blue ($B$) or green ($G$).\nDifferent colours means the outcomes are $BG$ and $GB$.\n$P(BG) = \\frac{4}{12} \\times \\frac{5}{11} = \\frac{20}{132}$\n$P(GB) = \\frac{5}{12} \\times \\frac{4}{11} = \\frac{20}{132}$\n$P(BG \\text{ or } GB) = \\frac{20}{132} + \\frac{20}{132}$\n$= \\frac{40}{132}$\n$= \\frac{10}{33}$"
       },
-      {
-        "question_text": "A biased coin with $P(\\text{Heads}) = \\frac{3}{5}$ is tossed $4$ times independently.\nFind the probability of obtaining at least one Head and at least one Tail, as a fraction in simplest form.",
-        "structure": "at-least-one-complement-tree",
-        "solution_text": "The only outcomes that do not have at least one Head and at least one Tail are $HHHH$ and $TTTT$.\n$P(HHHH) = \\left(\\frac{3}{5}\\right)^{4} = \\frac{81}{625}$\n$P(TTTT) = \\left(\\frac{2}{5}\\right)^{4} = \\frac{16}{625}$\n$P(\\text{at least one } H \\text{ and at least one } T) = 1 - [P(HHHH) + P(TTTT)]$\n$= 1 - \\left(\\frac{81}{625} + \\frac{16}{625}\\right)$\n$= 1 - \\frac{97}{625}$\n$= \\frac{528}{625}$"
+{
+        "question_text": "A box contains $4$ caramel chocolates and $8$ mint chocolates, all of identical appearance.\nThree chocolates are selected at random **without replacement**.\nFind the probability of selecting exactly one caramel chocolate, as a fraction in simplest form.",
+        "structure": "three-stage-tree-without-replacement-exactly-one",
+        "solution_text": "Let $C$ be caramel and $M$ be mint.\nThe favourable paths are $CMM, MCM, MMC$.\n$P(CMM) = \\frac{4}{12} \\times \\frac{8}{11} \\times \\frac{7}{10} = \\frac{224}{1320}$\n$P(MCM) = \\frac{8}{12} \\times \\frac{4}{11} \\times \\frac{7}{10} = \\frac{224}{1320}$\n$P(MMC) = \\frac{8}{12} \\times \\frac{7}{11} \\times \\frac{4}{10} = \\frac{224}{1320}$\n$P(\\text{exactly one caramel}) = \\frac{224}{1320} + \\frac{224}{1320} + \\frac{224}{1320}$\n$= \\frac{672}{1320}$\n$= \\frac{28}{55}$"
       },
-      {
-        "question_text": "A game involves rolling a fair four-sided die (numbered $1$ to $4$) and a fair six-sided die (numbered $1$ to $6$).\nThe player wins if the product of the two scores is a multiple of $4$ or a multiple of $6$.\nUsing the array of outcomes, find the probability that the player wins, as a fraction in simplest form.",
-        "structure": "array-two-dice-sum",
-        "solution_text": "Total outcomes $= 4 \\times 6 = 24$.\nRow $1$: $1, 2, 3, 4, 5, 6$ (favourable: $4, 6$ — $2$ cells)\nRow $2$: $2, 4, 6, 8, 10, 12$ (favourable: $4, 6, 8, 12$ — $4$ cells)\nRow $3$: $3, 6, 9, 12, 15, 18$ (favourable: $6, 12, 18$ — $3$ cells)\nRow $4$: $4, 8, 12, 16, 20, 24$ (favourable: all $6$ cells)\n$\\text{Total favourable cells} = 2 + 4 + 3 + 6 = 15$\n$P(\\text{win}) = \\frac{15}{24}$\n$= \\frac{5}{8}$"
+{
+        "question_text": "Two fair four-sided dice are rolled independently.\nThe black die has faces numbered $2, 4, 6, 8$, and the white die has faces numbered $1, 3, 5, 7$.\nThe player wins if the number on the black die is greater than the number on the white die.\nUsing an array of outcomes, find the probability that the player wins, as a fraction in simplest form.",
+        "structure": "array-two-dice-score-comparison",
+        "solution_text": "Total outcomes $= 4 \\times 4 = 16$.\n$\\begin{array}{c|cccc} & 1 & 3 & 5 & 7 \\\\ \\hline 2 & (2,1) & (2,3) & (2,5) & (2,7) \\\\ 4 & (4,1) & (4,3) & (4,5) & (4,7) \\\\ 6 & (6,1) & (6,3) & (6,5) & (6,7) \\\\ 8 & (8,1) & (8,3) & (8,5) & (8,7) \\end{array}$\nThe rows for black scores $2, 4, 6, 8$ contain $1, 2, 3, 4$ winning outcomes respectively.\n$\\text{Number of favourable outcomes} = 1 + 2 + 3 + 4 = 10$\n$P(\\text{win}) = \\frac{10}{16}$\n$= \\frac{5}{8}$"
       }
-    ]
+]
   }
 }

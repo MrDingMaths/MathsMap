@@ -3,36 +3,36 @@
   "skillId": "define-differential-equation",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-08T22:50:32.514Z",
-  "status": "needs attention: not accepted after one repair round",
+  "startedAt": "2026-10-09T06:36:42.225Z",
+  "status": "published",
   "calls": [
     {
       "name": "maintenance-repair",
       "code": 0,
-      "seconds": 86,
+      "seconds": 133.7,
       "usage": {
-        "input_tokens": 171346,
+        "input_tokens": 170550,
         "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 6792,
-        "reasoning_output_tokens": 38
+        "output_tokens": 6773,
+        "reasoning_output_tokens": 0
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\define-differential-equation\\maintenance-repair-POrVl4\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\define-differential-equation\\maintenance-repair-AH8YxV\\response.raw.txt"
     },
     {
-      "name": "maintenance-review",
+      "name": "maintenance-review-scoped",
       "code": 0,
-      "seconds": 38.6,
+      "seconds": 18.3,
       "usage": {
-        "input_tokens": 171570,
-        "cached_input_tokens": 20736,
+        "input_tokens": 171613,
+        "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 2011,
-        "reasoning_output_tokens": 48
+        "output_tokens": 238,
+        "reasoning_output_tokens": 19
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\define-differential-equation\\maintenance-review-BUO1GA\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\define-differential-equation\\maintenance-review-scoped-zgCZ2T\\response.raw.txt"
     }
   ],
   "previousAttempts": [
@@ -70,6 +70,41 @@
           "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\define-differential-equation\\repair-8b5foh\\response.raw.txt"
         }
       ]
+    },
+    {
+      "startedAt": "2026-10-08T22:50:32.514Z",
+      "finishedAt": "2026-10-08T22:52:37.363Z",
+      "status": "needs attention: not accepted after one repair round",
+      "calls": [
+        {
+          "name": "maintenance-repair",
+          "code": 0,
+          "seconds": 86,
+          "usage": {
+            "input_tokens": 171346,
+            "cached_input_tokens": 12544,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 6792,
+            "reasoning_output_tokens": 38
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\define-differential-equation\\maintenance-repair-POrVl4\\response.raw.txt"
+        },
+        {
+          "name": "maintenance-review",
+          "code": 0,
+          "seconds": 38.6,
+          "usage": {
+            "input_tokens": 171570,
+            "cached_input_tokens": 20736,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 2011,
+            "reasoning_output_tokens": 48
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\define-differential-equation\\maintenance-review-BUO1GA\\response.raw.txt"
+        }
+      ]
     }
   ],
   "maintenanceRepair": true,
@@ -83,12 +118,11 @@
   "images": 88,
   "omittedImages": 0,
   "firstRoundFindings": [
-    "Validator: content define-differential-equation practice.mastery[1].solution_text: procedure label \"Differentiate the given function\" is out of theory order",
-    "Validator: content define-differential-equation practice.mastery[1].solution_text: procedure label \"Substitute into both sides of the differential equation\" is out of theory order"
+    "quiz.q7: Change options[2].text from the residual $-24e^{-x}$ to $-2e^{-x}$, which is the residual actually produced by its stated differentiation mistake. Adjust options[2].why to explain that mistake and state that the correct second derivative gives zero residual, removing the current mismatch commentary."
   ],
   "fullReview": {
-    "name": "maintenance-review",
-    "hash": "8c27683c772a366ddda57c8657d683b9a261ac67d45c05052cf0abd3aae52b74",
+    "name": "review-accepted",
+    "hash": "b9b575139aa83ac4f1be95050d61bc0bda269dd5557ba9e35cb381b5c55a7673",
     "originalRemovalsSupplied": true
   },
   "repaired": true,
@@ -101,11 +135,15 @@
   "theoryChanged": true,
   "removed": [],
   "items": 27,
-  "summary": "Reordered practice.mastery[1].solution_text so both functions are differentiated before substitution, followed by both equality checks, with each theory procedure heading appearing once in order. Preserved all calculations, questions, values and other content; no whole items were removed.",
-  "reviewSummary": "All 27 items are booklet question types, and their supplied answers and correct-option selections are mathematically sound. Quiz q7 needs one distractor residual repaired to match its stated mistake; no removals or theory changes are required.",
-  "candidateHash": "8c27683c772a366ddda57c8657d683b9a261ac67d45c05052cf0abd3aae52b74",
-  "findings": [
-    "quiz.q7: Change options[2].text from the residual $-24e^{-x}$ to $-2e^{-x}$, which is the residual actually produced by its stated differentiation mistake. Adjust options[2].why to explain that mistake and state that the correct second derivative gives zero residual, removing the current mismatch commentary."
-  ],
-  "finishedAt": "2026-10-08T22:52:37.363Z"
+  "summary": "Corrected quiz.q7 options[2] to use the residual $-2e^{-x}$ and explain the second-derivative sign mistake, stating that the correct second derivative gives zero residual. All other content is preserved, and no whole items were removed.",
+  "reviewSummary": "quiz.q7 correctly adapts the supplied-function IVP verification task explicitly asked in booklet question 8, lines 606–624, using differentiation and substitution within the target skill. Exactly option 0 is correct, and all three distractor explanations correctly identify and calculate their stated mistakes.",
+  "candidateHash": "b9b575139aa83ac4f1be95050d61bc0bda269dd5557ba9e35cb381b5c55a7673",
+  "published": {
+    "expected": {
+      "contentHash": "37413911aa92447e391ef403e319536bfa5b694a2be000dff35fb3fd24657fbf",
+      "quizHash": "fcb0f63d3d2063fd1c792488a4f87ed6ffac105bb4a8446d5859b3bd1f204c88"
+    },
+    "journalPath": ".agywork\\content-publication\\transactions\\define-differential-equation-82dfe7c2-86ac-48f0-a0a3-bdfaa74a97f2\\journal.json"
+  },
+  "finishedAt": "2026-10-09T06:39:14.825Z"
 }

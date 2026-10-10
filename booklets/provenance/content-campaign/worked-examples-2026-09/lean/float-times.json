@@ -3,24 +3,111 @@
   "skillId": "float-times",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-07T14:14:36.428Z",
-  "status": "blocked",
+  "startedAt": "2026-10-09T09:36:27.463Z",
+  "status": "accepted: held for diagram check",
   "calls": [
     {
-      "name": "audit",
+      "name": "maintenance-repair",
       "code": 0,
-      "seconds": 21.7,
+      "seconds": 664.5,
       "usage": {
-        "input_tokens": 125021,
-        "cached_input_tokens": 20608,
+        "input_tokens": 75441,
+        "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 185,
-        "reasoning_output_tokens": 52
+        "output_tokens": 32287,
+        "reasoning_output_tokens": 69
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\float-times\\audit-hnYn8H\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\float-times\\maintenance-repair-Y5vcqc\\response.raw.txt"
+    },
+    {
+      "name": "maintenance-review",
+      "code": 0,
+      "seconds": 56,
+      "usage": {
+        "input_tokens": 75526,
+        "cached_input_tokens": 20352,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2134,
+        "reasoning_output_tokens": 66
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\float-times\\maintenance-review-ZCIfML\\response.raw.txt"
     }
   ],
+  "previousAttempts": [
+    {
+      "startedAt": "2026-10-07T14:14:36.428Z",
+      "finishedAt": "2026-10-07T14:14:58.178Z",
+      "status": "blocked",
+      "calls": [
+        {
+          "name": "audit",
+          "code": 0,
+          "seconds": 21.7,
+          "usage": {
+            "input_tokens": 125021,
+            "cached_input_tokens": 20608,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 185,
+            "reasoning_output_tokens": 52
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\float-times\\audit-hnYn8H\\response.raw.txt"
+        }
+      ]
+    },
+    {
+      "startedAt": "2026-10-09T07:54:29.681Z",
+      "finishedAt": "2026-10-09T08:09:23.864Z",
+      "status": "needs attention: not accepted after one repair round",
+      "calls": [
+        {
+          "name": "audit",
+          "code": 0,
+          "seconds": 85.4,
+          "usage": {
+            "input_tokens": 75401,
+            "cached_input_tokens": 21120,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 3004,
+            "reasoning_output_tokens": 113
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\float-times\\audit-JpEe6H\\response.raw.txt"
+        },
+        {
+          "name": "repair",
+          "code": 0,
+          "seconds": 758.1,
+          "usage": {
+            "input_tokens": 75381,
+            "cached_input_tokens": 20096,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 32388,
+            "reasoning_output_tokens": 131
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\float-times\\repair-gZOEHL\\response.raw.txt"
+        },
+        {
+          "name": "review-scoped",
+          "code": 0,
+          "seconds": 50.4,
+          "usage": {
+            "input_tokens": 76274,
+            "cached_input_tokens": 14976,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1387,
+            "reasoning_output_tokens": 234
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\float-times\\review-scoped-wV6x7L\\response.raw.txt"
+        }
+      ]
+    }
+  ],
+  "maintenanceRepair": true,
   "baseline": {
     "contentHash": "890270ad03102ec7ba0f849a17ddc2b0e7b969b73299c017986f1a88a846a55f",
     "quizHash": "c3f99946acd5765bc1c0ff8847cf3422a123f124d665bf9da0a538f89dd45165"
@@ -28,8 +115,42 @@
   "booklets": [
     "booklets/mathsmap-sources/Stage 6 Standard/Critical Path Analysis.md"
   ],
-  "images": 110,
-  "omittedImages": 28,
-  "blocker": "The supplied images stop at image110.png and omit the figures for the skill's teaching and exercises: image113.png–image119.png (Float Time and its worked examples, lines 1224–1286), image120.png–image124.png (Foundation and Development exercises, lines 1305–1423), and image137.png (Mastery question 10, lines 1742–1789). These figures are needed to verify the given information and booklet question types, including whether finding an unknown duration from a stated float and interpreting an activity delay are actually asked.",
-  "finishedAt": "2026-10-07T14:14:58.178Z"
+  "images": 26,
+  "omittedImages": 0,
+  "sections": [
+    {
+      "path": "booklets/mathsmap-sources/Stage 6 Standard/Critical Path Analysis.md",
+      "start": 1212,
+      "end": 1828
+    }
+  ],
+  "firstRoundFindings": [
+    "practice.development[3]: The booklet asks for every activity's float or activities with a specified float; it does not ask students to list non-critical activities and their floats. Preserve the network and values, change the question to calculate every activity's float, retain the existing calculations, remove the concluding non-critical selection and change structure to float-all-activities.",
+    "quiz.q5: Change structure from float-all-activities to identify-longest-float so it describes the repaired question's task. Preserve the question, values, options and working.",
+    "Apply only the retained precise independent-review findings, preserving all other accepted content, source spans, values and IDs. Independently calculate numeric claims with a read-only calculator where needed; do not rewrite usable working for taste."
+  ],
+  "fullReview": {
+    "name": "maintenance-review",
+    "hash": "b9ac2b203c040fe866d7dde0f2e79458709c1ebd88d1ff59d5747295233ea78a",
+    "originalRemovalsSupplied": true
+  },
+  "repaired": true,
+  "changed": [
+    "practice.foundation[5]",
+    "practice.development[3]",
+    "practice.development[4]",
+    "practice.development[5]",
+    "practice.mastery[1]",
+    "quiz.q2",
+    "quiz.q5",
+    "quiz.q6",
+    "quiz.q7"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 22,
+  "summary": "Changed practice.development[3] to ask for every activity's float, retained its calculations, removed only its concluding non-critical selection and set its structure to float-all-activities. Changed quiz.q5's structure to identify-longest-float and preserved all other content, source spans, values and IDs.",
+  "reviewSummary": "All 22 items have correct answers, consistent completed scans and booklet-supported question types; each quiz has exactly one correct option with valid distractor explanations. The theory correctly teaches total float, and no worked examples or removals were supplied.",
+  "candidateHash": "b9ac2b203c040fe866d7dde0f2e79458709c1ebd88d1ff59d5747295233ea78a",
+  "finishedAt": "2026-10-09T09:48:28.213Z"
 }

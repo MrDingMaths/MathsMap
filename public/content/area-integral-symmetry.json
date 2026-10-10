@@ -2,23 +2,23 @@
   "skillId": "area-integral-symmetry",
   "atomType": "R",
   "theory": {
-    "intro": "Over an interval $[-a,a]$, symmetry shortens the work. An **odd** function has $\\int_{-a}^{a} f(x)\\,dx = 0$, because the two signed halves cancel. An **even** function has $\\int_{-a}^{a} f(x)\\,dx = 2\\int_{0}^{a} f(x)\\,dx$.",
+    "intro": "Over an interval $[-a,a]$, symmetry shortens the work when the function is integrable throughout the interval. An **odd** function has $\\int_{-a}^{a} f(x)\\,dx = 0$, because the two signed halves cancel. An **even** function has $\\int_{-a}^{a} f(x)\\,dx = 2\\int_{0}^{a} f(x)\\,dx$.",
     "facts": [
-      "A function is **even** if $f(-x)=f(x)$, so its graph is symmetric about the $y$-axis.",
-      "A function is **odd** if $f(-x)=-f(x)$, so its graph has point symmetry about the origin.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1cm, y=1cm]\n\\fill[gray!35, domain=-2:0, variable=\\x] (-2,0) -- plot ({\\x},{0.35*\\x*\\x*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:2, variable=\\x] (0,0) -- plot ({\\x},{0.35*\\x*\\x*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-3,0) -- (3,0) node[right] {$x$};\n\\draw[->] (0,-3.4) -- (0,3.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.05:2.05, smooth, samples=100, variable=\\x] plot ({\\x},{0.35*\\x*\\x*\\x});\n\\node[below left] at (-2,0) {$-a$};\n\\node[below right] at (2,0) {$a$};\n\\end{tikzpicture}\n[/tikz]",
-      "Test parity by substituting $-x$ for every $x$ and simplifying the signs.",
-      "For an odd function, $\\int_{-a}^{a} f(x)\\,dx = 0$, since the signed halves are equal and opposite.",
-      "For an even function, $\\int_{-a}^{a} f(x)\\,dx = 2\\int_{0}^{a} f(x)\\,dx$.",
-      "In a sum, each term can be treated separately, so odd terms contribute $0$ and even terms double.",
-      "An odd function still encloses **area** with the $x$-axis; that area is twice the area of the half on $[0,a]$.",
-      "So an integral of $0$ over $[-a,a]$ does not mean the enclosed area is $0$."
-    ],
+"A function is **even** if $f(-x)=f(x)$, so its graph is symmetric about the $y$-axis.",
+"A function is **odd** if $f(-x)=-f(x)$, so its graph has point symmetry about the origin.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1cm, y=1cm]\n\\fill[gray!35, domain=-2:0, variable=\\x] (-2,0) -- plot ({\\x},{0.35*\\x*\\x*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:2, variable=\\x] (0,0) -- plot ({\\x},{0.35*\\x*\\x*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-3,0) -- (3,0) node[right] {$x$};\n\\draw[->] (0,-3.4) -- (0,3.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.05:2.05, smooth, samples=100, variable=\\x] plot ({\\x},{0.35*\\x*\\x*\\x});\n\\node[below left] at (-2,0) {$-a$};\n\\node[below right] at (2,0) {$a$};\n\\end{tikzpicture}\n[/tikz]",
+"Test parity by substituting $-x$ for every $x$ and simplifying the signs.",
+"For an odd function that is integrable throughout $[-a,a]$, $\\int_{-a}^{a} f(x)\\,dx = 0$, since the signed halves are equal and opposite.",
+"For an even function that is integrable throughout $[-a,a]$, $\\int_{-a}^{a} f(x)\\,dx = 2\\int_{0}^{a} f(x)\\,dx$.",
+"In a sum of terms that are integrable throughout the symmetric interval, each term can be treated separately, so odd terms contribute $0$ and even terms double.",
+"An odd function still encloses **area** with the $x$-axis; that area is twice the area of the half on $[0,a]$.",
+"So an integral of $0$ over $[-a,a]$ does not mean the enclosed area is $0$."
+],
     "steps": [
-      "Test each term for parity by substituting $-x$.",
-      "Replace every odd term's integral over $[-a,a]$ with $0$.",
-      "Replace every even term's integral over $[-a,a]$ with twice the integral over $[0,a]$.",
-      "For an area, take the absolute value of each half before doubling."
-    ]
+"Test each term for parity by substituting $-x$.",
+"Replace every odd term's integral over $[-a,a]$ with $0$.",
+"Replace every even term's integral over $[-a,a]$ with twice the integral over $[0,a]$.",
+"For the area under an odd or even function on $[-a,a]$, first calculate the area on $[0,a]$: split at its $x$-intercepts and add the absolute values of the resulting sub-integrals. Then double this area."
+]
   },
   "practice": {
     "foundation": [
@@ -106,26 +106,26 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "Use symmetry to evaluate $\\int_{-3}^{3}\\left(x^{5}-2x^{3}+4x^{2}-6\\right)dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.62cm, y=0.011cm]\n\\fill[gray!35, domain=-3:0, variable=\\x] (-3,0) -- plot ({\\x},{\\x*\\x*\\x*\\x*\\x-2*\\x*\\x*\\x+4*\\x*\\x-6}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:3, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x*\\x*\\x-2*\\x*\\x*\\x+4*\\x*\\x-6}) -- (3,0) -- cycle;\n\\draw[->] (-4.6,0) -- (4.6,0) node[right] {$x$};\n\\draw[->] (0,-330) -- (0,330) node[above] {$y$};\n\\draw[thick, <->, domain=-3.05:3.05, smooth, samples=160, variable=\\x] plot ({\\x},{\\x*\\x*\\x*\\x*\\x-2*\\x*\\x*\\x+4*\\x*\\x-6});\n\\node[below left] at (-3,0) {$-3$};\n\\node[below right] at (3,0) {$3$};\n\\node[left] at (0,200) {$200$};\n\\node[left] at (0,-200) {$-200$};\n\\node[right, font=\\footnotesize] at (0.2,-45) {$f(0)=-6$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "split-by-parity",
         "solution_text": "1. **Test each term for parity by substituting $-x$**\n$x^{5}$ and $-2x^{3}$ are odd; $4x^{2}$ and $-6$ are even.\n2. **Replace every odd term's integral over $[-a,a]$ with $0$**\n$\\int_{-3}^{3}\\left(x^{5}-2x^{3}\\right)dx = 0$\n3. **Replace every even term's integral over $[-a,a]$ with twice the integral over $[0,a]$**\n$\\int_{-3}^{3}\\left(4x^{2}-6\\right)dx = 2\\left[\\dfrac{4x^{3}}{3}-6x\\right]_{0}^{3} = 2\\left(36-18\\right) = 36$\n$\\int_{-3}^{3}\\left(x^{5}-2x^{3}+4x^{2}-6\\right)dx = 0+36$\n$= 36$"
       },
-      {
+{
         "question_text": "The shaded region lies between $y=x^{3}-x$ and the $x$-axis, from $x=-1$ to $x=1$.\nFind its **area**.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=2.2cm, y=4.4cm]\n\\fill[gray!35, domain=-1:0, variable=\\x] (-1,0) -- plot ({\\x},{\\x*\\x*\\x-\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:1, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x-\\x}) -- (1,0) -- cycle;\n\\draw[->] (-1.6,0) -- (1.6,0) node[right] {$x$};\n\\draw[->] (0,-0.75) -- (0,0.75) node[above] {$y$};\n\\draw[thick, <->, domain=-1.24:1.24, smooth, samples=140, variable=\\x] plot ({\\x},{\\x*\\x*\\x-\\x});\n\\node[below left] at (-1,0) {$-1$};\n\\node[above right] at (1,0) {$1$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "odd-area-not-zero",
         "solution_text": "$f(-x) = -x^{3}+x = -f(x)$, so $f$ is odd and $\\int_{-1}^{1} f(x)\\,dx = 0$.\nOn $0\\le x\\le 1$ the curve lies below the $x$-axis.\n$\\int_{0}^{1}\\left(x^{3}-x\\right)dx = \\left[\\dfrac{x^{4}}{4}-\\dfrac{x^{2}}{2}\\right]_{0}^{1} = \\dfrac{1}{4}-\\dfrac{1}{2} = -\\dfrac{1}{4}$\n$\\text{Area} = 2\\times\\dfrac{1}{4}$\n$= \\dfrac{1}{2}\\ \\text{units}^{2}$"
       },
-      {
-        "question_text": "The function $f$ is even, and the shaded region between $y=f(x)$ and the $x$-axis from $x=0$ to $x=4$ has $\\int_{0}^{4} f(x)\\,dx = 7$.\nFind $\\int_{-4}^{4} f(x)\\,dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.62cm, y=0.62cm]\n\\fill[gray!35, domain=0:4, variable=\\x] (0,0) -- plot ({\\x},{3-0.15*\\x*\\x}) -- (4,0) -- cycle;\n\\draw[->] (-5.8,0) -- (5.8,0) node[right] {$x$};\n\\draw[->] (0,-2.2) -- (0,5.4) node[above] {$y$};\n\\draw[thick, <->, domain=-5:5, smooth, samples=120, variable=\\x] plot ({\\x},{3-0.15*\\x*\\x});\n\\node[below left] at (-4,0) {$-4$};\n\\node[below right] at (4,0) {$4$};\n\\node[right] at (2.2,3.4) {$y=f(x)$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "even-integral-double",
-        "solution_text": "$f$ is even, so the graph is symmetric about the $y$-axis and the two halves contribute equally.\n$\\int_{-4}^{4} f(x)\\,dx$\n$= 2\\int_{0}^{4} f(x)\\,dx$\n$= 2\\left(7\\right)$\n$= 14$"
+{
+        "question_text": "Use symmetry to find the area between $y=x^{4}-4x^{2}$ and the $x$-axis for $-2\\le x\\le 2$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=0.65cm]\n\\fill[gray!35, domain=-2:2, variable=\\x] (-2,0) -- plot ({\\x},{\\x*\\x*\\x*\\x-4*\\x*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-3,0) -- (3,0) node[right] {$x$};\n\\draw[->] (0,-5.4) -- (0,3.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.15:2.15, smooth, samples=140, variable=\\x] plot ({\\x},{\\x*\\x*\\x*\\x-4*\\x*\\x});\n\\node[above left] at (-2,0) {$-2$};\n\\node[above right] at (2,0) {$2$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "even-quartic-area-by-symmetry",
+        "solution_text": "$f(-x)=x^{4}-4x^{2}=f(x)$, so $f$ is even.\n$x^{4}-4x^{2}=x^{2}(x-2)(x+2)=0$, so the intercepts are $x=-2,\\ 0,\\ 2$.\nOn $0\\le x\\le 2$ the curve lies below the $x$-axis.\n$\\int_{0}^{2}(x^{4}-4x^{2})\\,dx = \\left[\\dfrac{x^{5}}{5}-\\dfrac{4x^{3}}{3}\\right]_{0}^{2} = \\dfrac{32}{5}-\\dfrac{32}{3} = -\\dfrac{64}{15}$\n$\\text{Area}=2\\times\\dfrac{64}{15}$\n$=\\dfrac{128}{15}\\ \\text{units}^{2}$"
       },
-      {
-        "question_text": "The function $g$ is odd, and the region between $y=g(x)$ and the $x$-axis from $x=0$ to $x=2$ has area $5$ square units.\nFind the total area between $y=g(x)$ and the $x$-axis from $x=-2$ to $x=2$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=0.5cm]\n\\fill[gray!35, domain=-2:0, variable=\\x] (-2,0) -- plot ({\\x},{0.35*\\x*\\x*\\x+0.4*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:2, variable=\\x] (0,0) -- plot ({\\x},{0.35*\\x*\\x*\\x+0.4*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-3.1,0) -- (3.1,0) node[right] {$x$};\n\\draw[->] (0,-5.4) -- (0,5.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.2:2.2, smooth, samples=140, variable=\\x] plot ({\\x},{0.35*\\x*\\x*\\x+0.4*\\x});\n\\node[below left] at (-2,0) {$-2$};\n\\node[above right] at (2,0) {$2$};\n\\node[right] at (0.6,4.4) {$y=g(x)$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "odd-area-not-zero",
-        "solution_text": "$g$ is odd, so the graph has point symmetry about the origin and the region on $-2\\le x\\le 0$ is a rotation of the region on $0\\le x\\le 2$.\nThe two regions therefore have equal area, even though $\\int_{-2}^{2} g(x)\\,dx = 0$.\n$\\text{Area} = 2\\times 5$\n$= 10\\ \\text{units}^{2}$"
+{
+        "question_text": "Use symmetry to find the area between $y=x^{3}-25x$ and the $x$-axis for $-5\\le x\\le 5$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.5cm, y=0.05cm]\n\\fill[gray!35, domain=-5:0, variable=\\x] (-5,0) -- plot ({\\x},{\\x*\\x*\\x-25*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:5, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x-25*\\x}) -- (5,0) -- cycle;\n\\draw[->] (-6.8,0) -- (6.8,0) node[right] {$x$};\n\\draw[->] (0,-60) -- (0,60) node[above] {$y$};\n\\draw[thick, <->, domain=-5.8:5.8, smooth, samples=160, variable=\\x] plot ({\\x},{\\x*\\x*\\x-25*\\x});\n\\node[below left] at (-5,0) {$-5$};\n\\node[above right] at (5,0) {$5$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "odd-cubic-area-by-symmetry",
+        "solution_text": "$f(-x)=-x^{3}+25x=-f(x)$, so $f$ is odd and the two halves have equal area.\n$x^{3}-25x=x(x-5)(x+5)=0$, so the intercepts are $x=-5,\\ 0,\\ 5$.\nOn $0\\le x\\le 5$ the curve lies below the $x$-axis.\n$\\int_{0}^{5}(x^{3}-25x)\\,dx = \\left[\\dfrac{x^{4}}{4}-\\dfrac{25x^{2}}{2}\\right]_{0}^{5} = \\dfrac{625}{4}-\\dfrac{625}{2} = -\\dfrac{625}{4}$\n$\\text{Area}=2\\times\\dfrac{625}{4}$\n$=\\dfrac{625}{2}\\ \\text{units}^{2}$"
       }
-    ]
+]
   }
 }

@@ -2,7 +2,7 @@
   "skillId": "represent-data-graphs",
   "atomType": "R",
   "theory": {
-        "intro": "The same dataset can be shown as a dot plot, a stem-and-leaf plot, a column graph or a histogram. Each display has a set way of placing every data value onto the picture.",
+        "intro": "Data can be shown using different displays. Stem-and-leaf plots and frequency histograms require numerical data, whereas column graphs can display categorical or numerical data. Each display has a set way of placing the data onto the picture.",
         "facts": [
           "A **dot plot** places one dot for each observation, stacked above its value on a number line.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (-0.6,0)--(6.4,0);\n\\foreach \\x in {0,1,2,3,4,5} {\\draw (\\x,0.1)--(\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\x/\\c in {0/1,1/3,2/4,3/2,5/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.35*\\k}) circle (2.2pt);}}\n\\node[below] at (2.5,-0.9) {Value};\n\\node at (2.5,2.3) {Dot plot};\n\\end{tikzpicture}\n[/tikz]",
           "A **stem-and-leaf plot** splits each value into a **stem** (all but the last digit) and a **leaf** (the last digit), and needs a **key**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\node at (0,1.6) {Stem};\n\\node at (1.7,1.6) {Leaf};\n\\draw (0.75,1.3)--(0.75,-0.7);\n\\draw (-0.6,1.3)--(3.0,1.3);\n\\node at (0.35,0.9) {$1$};\n\\node at (0.35,0.3) {$2$};\n\\node at (0.35,-0.3) {$3$};\n\\node[anchor=west] at (1.0,0.9) {$2\\;\\; 5\\;\\; 8$};\n\\node[anchor=west] at (1.0,0.3) {$0\\;\\; 3\\;\\; 3\\;\\; 7$};\n\\node[anchor=west] at (1.0,-0.3) {$1\\;\\; 6$};\n\\node[anchor=west,font=\\small] at (-0.6,-1.3) {Key: $2 \\mid 3$ means $23$};\n\\end{tikzpicture}\n[/tikz]",
@@ -18,65 +18,65 @@
       },
   "practice": {
     "foundation": [
-      {
-        "question_text": "A die is rolled $10$ times: $2, 5, 2, 3, 6, 2, 4, 5, 2, 1$.\nIn a dot plot of this data, how many dots are stacked above the value $2$?",
-        "structure": "dot-plot",
-        "solution_text": "$2$ appears at positions $1, 3, 6, 9$\n$=4\\text{ dots}$"
+{
+        "question_text": "A die is rolled $10$ times: $1, 4, 2, 4, 6, 3, 4, 2, 5, 1$.\nDisplay this data as a dot plot.",
+        "structure": "construct-dot-plot",
+        "solution_text": "Draw a number line from $1$ to $6$. Stack one dot for each roll above its value.\n\n[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0.5,0)--(6.5,0);\n\\foreach \\x in {1,2,3,4,5,6} {\\draw (\\x,0)--(\\x,-0.12); \\node[below] at (\\x,-0.14) {$\\x$};}\n\\foreach \\x/\\c in {1/2,2/2,3/1,4/3,5/1,6/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.32*\\k}) circle (2.2pt);}}\n\\node[below] at (3.5,-0.65) {Die score};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "The colours of $10$ counters are recorded: R, B, R, R, G, B, R, G, R, B.\nIn a frequency table of this data, what frequency is written for Red (R)?",
         "structure": "frequency-table",
         "solution_text": "R appears $5$ times\n$=5$"
       },
-      {
-        "question_text": "Data: $21, 24, 24, 31, 33, 42$.\nIn a stem-and-leaf plot with the tens digit as the stem, which leaves are written beside the stem $2$?",
-        "structure": "stem-leaf",
-        "solution_text": "The values in the $20$s are $21, 24, 24$\nLeaves beside stem $2$: $1\\;4\\;4$"
+{
+        "question_text": "Construct a stem-and-leaf plot for this data, using the tens digit as the stem. Give a key.\n$22, 25, 25, 32, 36, 43$",
+        "structure": "construct-stem-leaf",
+        "solution_text": "Use stems $2, 3, 4$ and write the final digit of each value as its leaf, in order.\n$\\begin{array}{c|l}\\text{Stem}&\\text{Leaf}\\\\ \\hline 2&2\\;5\\;5\\\\ 3&2\\;6\\\\ 4&3\\end{array}$\nKey: $2\\;|\\;2$ means $22$."
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,11.4);\\draw[->] (0,0)--(13.5,0);\\foreach \\y in {2,4,6,8,10} {\\draw (-0.2,\\y)--(0,\\y); \\node[left] at (-0.2,\\y) {$\\y$};}\\node[left] at (-0.2,0) {$0$};\\draw (0.8,0) rectangle (2.3,8);\\draw (3.1,0) rectangle (4.6,5);\\draw (5.4,0) rectangle (6.9,6);\\draw (7.7,0) rectangle (9.2,9);\\draw (10.0,0) rectangle (11.5,3);\\node[below] at (1.55,0) {Cheese};\\node[below] at (3.85,0) {Ham};\\node[below] at (6.15,0) {Veggie};\\node[below] at (8.45,0) {Meat};\\node[below] at (10.75,0) {BBQ};\\node[rotate=90] at (-1.4,5) {Number of slices};\\node[below] at (6.15,-1.0) {Pizza type};\\node at (6.15,11.1) {Pizza slices sold today};\\end{tikzpicture}\n[/tikz]\nThe column graph shows how many slices of each pizza type a shop sold today.\nHow many slices of Veggie pizza were sold?",
         "structure": "column-graph",
         "solution_text": "Read the height of the Veggie column\n$=6\\text{ slices}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,9.4);\\draw[->] (0,0)--(7.8,0);\\foreach \\y in {2,4,6,8} {\\draw (-0.2,\\y)--(0,\\y); \\node[left] at (-0.2,\\y) {$\\y$};}\\node[left] at (-0.2,0) {$0$};\\draw (0.5,0) rectangle (1.5,3);\\draw (1.5,0) rectangle (2.5,5);\\draw (2.5,0) rectangle (3.5,8);\\draw (3.5,0) rectangle (4.5,6);\\draw (4.5,0) rectangle (5.5,4);\\draw (5.5,0) rectangle (6.5,2);\\node[below] at (1,0) {$5$};\\node[below] at (2,0) {$6$};\\node[below] at (3,0) {$7$};\\node[below] at (4,0) {$8$};\\node[below] at (5,0) {$9$};\\node[below] at (6,0) {$10$};\\node[rotate=90] at (-1.0,4) {Frequency};\\node[below] at (3.50,-1.0) {Shoe size};\\node at (3.5,9.1) {Shoe sizes in a class};\\end{tikzpicture}\n[/tikz]\nThe frequency histogram shows the shoe sizes in a class.\nWhat is the frequency of shoe size $7$?",
         "structure": "histogram",
         "solution_text": "Read the height of the column centred on size $7$\n$=8$"
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[{Stealth}-{Stealth}] (-0.6,0)--(5.6,0);\\foreach \\x in {0,1,2,3,4,5} {\\draw (\\x,0)--(\\x,-0.12); \\node[below] at (\\x,-0.14) {$\\x$};}\\fill (0,0.3) circle (2.2pt);\\fill (0,0.62) circle (2.2pt);\\fill (1,0.3) circle (2.2pt);\\fill (1,0.62) circle (2.2pt);\\fill (1,0.94) circle (2.2pt);\\fill (1,1.26) circle (2.2pt);\\fill (2,0.3) circle (2.2pt);\\fill (2,0.62) circle (2.2pt);\\fill (2,0.94) circle (2.2pt);\\fill (3,0.3) circle (2.2pt);\\fill (3,0.62) circle (2.2pt);\\fill (5,0.3) circle (2.2pt);\\node[below] at (2.5,-0.62) {Books borrowed in a week};\\end{tikzpicture}\n[/tikz]\nThe dot plot shows the number of books each student borrowed from the library in a week.\nHow many students are shown in total?",
         "structure": "dot-plot",
         "solution_text": "Count every dot: $2+4+3+2+0+1$\n$=12\\text{ students}$"
       },
-      {
+{
         "question_text": "Construct a stem-and-leaf plot for this data, using the tens digit as the stem:\n$7, 12, 15, 15, 23, 24, 31$",
         "structure": "stem-leaf",
         "solution_text": "1. **Choose the stems from the place value of the data.**\nStems are $0, 1, 2, 3$\n2. **Write each leaf next to its stem.**\n$\\begin{array}{c|l}\\text{Stem}&\\text{Leaf}\\\\ \\hline 0&7\\\\ 1&2\\;5\\;5\\\\ 2&3\\;4\\\\ 3&1\\end{array}$\nKey: $1\\;|\\;2$ means $12$"
       },
-      {
-        "question_text": "A frequency table lists these scores and frequencies: score $10 \\to 4$, score $11 \\to 7$, score $12 \\to 7$, score $13 \\to 2$.\nIn a frequency histogram of this table, which score(s) give the tallest column?",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,8.4);\n\\draw[->] (0,0)--(5.8,0);\n\\foreach \\y in {2,4,6,8} {\\draw (-0.2,\\y)--(0,\\y); \\node[left] at (-0.2,\\y) {$\\y$};}\n\\node[left] at (-0.2,0) {$0$};\n\\draw (0.5,0) rectangle (1.5,4);\n\\draw (1.5,0) rectangle (2.5,7);\n\\draw (2.5,0) rectangle (3.5,7);\n\\draw (3.5,0) rectangle (4.5,2);\n\\node[below] at (1,0) {$10$};\n\\node[below] at (2,0) {$11$};\n\\node[below] at (3,0) {$12$};\n\\node[below] at (4,0) {$13$};\n\\node[rotate=90] at (-1.0,4) {Frequency};\n\\node[below] at (2.5,-0.8) {Score};\n\\end{tikzpicture}\n[/tikz]\nWhich score(s) are most frequent in this frequency histogram?",
         "structure": "histogram",
         "solution_text": "The tallest column matches the largest frequency, $7$\nScores $11$ and $12$ both have frequency $7$\nTallest columns: $11$ and $12$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,11.4);\\draw[->] (0,0)--(13.5,0);\\foreach \\y in {2,4,6,8,10} {\\draw (-0.2,\\y)--(0,\\y); \\node[left] at (-0.2,\\y) {$\\y$};}\\node[left] at (-0.2,0) {$0$};\\draw (0.8,0) rectangle (2.3,8);\\draw (3.1,0) rectangle (4.6,5);\\draw (5.4,0) rectangle (6.9,6);\\draw (7.7,0) rectangle (9.2,9);\\draw (10.0,0) rectangle (11.5,3);\\node[below] at (1.55,0) {Cheese};\\node[below] at (3.85,0) {Ham};\\node[below] at (6.15,0) {Veggie};\\node[below] at (8.45,0) {Meat};\\node[below] at (10.75,0) {BBQ};\\node[rotate=90] at (-1.4,5) {Number of slices};\\node[below] at (6.15,-1.0) {Pizza type};\\node at (6.15,11.1) {Pizza slices sold today};\\end{tikzpicture}\n[/tikz]\nUsing the column graph, how many more slices of Meat than BBQ pizza were sold?",
         "structure": "column-graph",
         "solution_text": "Meat $=9$, BBQ $=3$\n$9-3$\n$=6\\text{ slices}$"
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "Construct a stem-and-leaf plot for this data, using the tens digit as the stem:\n$19, 22, 22, 26, 28, 40, 53, 55, 56$\nWhich stem has no leaves, and why must it still be listed?",
+{
+        "question_text": "Construct a stem-and-leaf plot for this data, using the tens digit as the stem:\n$19, 22, 22, 26, 28, 40, 53, 55, 56$",
         "structure": "stem-leaf",
-        "solution_text": "$\\begin{array}{c|l}\\text{Stem}&\\text{Leaf}\\\\ \\hline 1&9\\\\ 2&2\\;2\\;6\\;8\\\\ 3&\\\\ 4&0\\\\ 5&3\\;5\\;6\\end{array}$\nKey: $1\\;|\\;9$ means $19$\nStem $3$ has no leaves.\nIt must still be listed because the stems run in an unbroken sequence, so the gap in the $30$s is visible."
+        "solution_text": "$\\begin{array}{c|l}\\text{Stem}&\\text{Leaf}\\\\ \\hline 1&9\\\\ 2&2\\;2\\;6\\;8\\\\ 3&\\\\ 4&0\\\\ 5&3\\;5\\;6\\end{array}$\nKey: $1\\;|\\;9$ means $19$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[{Stealth}-{Stealth}] (-0.6,0)--(5.6,0);\\foreach \\x in {0,1,2,3,4,5} {\\draw (\\x,0)--(\\x,-0.12); \\node[below] at (\\x,-0.14) {$\\x$};}\\fill (0,0.3) circle (2.2pt);\\fill (0,0.62) circle (2.2pt);\\fill (1,0.3) circle (2.2pt);\\fill (1,0.62) circle (2.2pt);\\fill (1,0.94) circle (2.2pt);\\fill (1,1.26) circle (2.2pt);\\fill (2,0.3) circle (2.2pt);\\fill (2,0.62) circle (2.2pt);\\fill (2,0.94) circle (2.2pt);\\fill (3,0.3) circle (2.2pt);\\fill (3,0.62) circle (2.2pt);\\fill (5,0.3) circle (2.2pt);\\node[below] at (2.5,-0.62) {Books borrowed in a week};\\end{tikzpicture}\n[/tikz]\nThe dot plot shows the number of books $12$ students borrowed in a week.\nWhat fraction of the students borrowed at least $3$ books?",
-        "structure": "dot-plot",
-        "solution_text": "At least $3$ books: $3$ books ($2$ students) and $5$ books ($1$ student)\n$2+1=3\\text{ students}$\n$\\frac{3}{12}$\n$=\\frac{1}{4}$"
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[{Stealth}-{Stealth}] (-0.6,0)--(5.6,0);\\foreach \\x in {0,1,2,3,4,5} {\\draw (\\x,0)--(\\x,-0.12); \\node[below] at (\\x,-0.14) {$\\x$};}\\fill (0,0.3) circle (2.2pt);\\fill (0,0.62) circle (2.2pt);\\fill (1,0.3) circle (2.2pt);\\fill (1,0.62) circle (2.2pt);\\fill (1,0.94) circle (2.2pt);\\fill (1,1.26) circle (2.2pt);\\fill (2,0.3) circle (2.2pt);\\fill (2,0.62) circle (2.2pt);\\fill (2,0.94) circle (2.2pt);\\fill (3,0.3) circle (2.2pt);\\fill (3,0.62) circle (2.2pt);\\fill (5,0.3) circle (2.2pt);\\node[below] at (2.5,-0.62) {Books borrowed in a week};\\end{tikzpicture}\n[/tikz]\nThe dot plot shows the number of books $12$ students borrowed in a week.\nWhat percentage of the students borrowed at least $3$ books?",
+        "structure": "dot-plot-percentage",
+        "solution_text": "At least $3$ books: $3$ books ($2$ students) and $5$ books ($1$ student)\n$2+1=3\\text{ students}$\n$\\frac{3}{12}\\times100\\%=25\\%$"
       }
-    ]
+]
   }
 }

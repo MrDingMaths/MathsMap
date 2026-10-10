@@ -2,123 +2,75 @@
   "skillId": "identify-graph-from-equation",
   "atomType": "Cat",
   "theory": {
-        "intro": "The **form** of an equation tells you the shape of its graph before you plot a point. Look at which variables are squared, whether $x$ is an exponent or in a denominator, and the highest power — that names the family.",
+        "intro": "The **form** of an equation tells you the shape of its graph before you plot a point. For linear, quadratic and exponential relationships, look at the powers of the variables and whether $x$ is an exponent.",
         "facts": [
-          "**Line:** $y=mx+c$, or a rearrangement like $x+2y=6$, has $x$ and $y$ to the power $1$ and a straight graph.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->] (-2.8,-1.7)--(2.8,2.8);\n\\end{tikzpicture}\n[/tikz]",
-          "**Parabola:** $y=ax^{2}+bx+c$ has highest power $2$ in $x$ only, giving a U-shape opening up when $a>0$ and down when $a<0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,smooth,domain=-1.2:2.2,variable=\\x] plot ({\\x},{(\\x-0.5)*(\\x-0.5)-1.5});\n\\end{tikzpicture}\n[/tikz]",
-          "**Exponential:** $y=a^{x}$ has $x$ as the **exponent**, so the curve gets steeper and steeper, falls instead for $a^{-x}$, and has a horizontal asymptote.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,smooth,domain=-3:1.55,variable=\\x] plot ({\\x},{0.85*exp(\\x*ln(2))});\n\\end{tikzpicture}\n[/tikz]",
-          "**Hyperbola:** $y=\\dfrac{k}{x}$, or equivalently $xy=k$, has $x$ in the **denominator**, and its graph is two separate branches with two asymptotes.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,smooth,domain=0.42:3,variable=\\x] plot ({\\x},{1.3/\\x});\n\\draw[thick,blue,<->,smooth,domain=-3:-0.42,variable=\\x] plot ({\\x},{1.3/\\x});\n\\end{tikzpicture}\n[/tikz]",
-          "**Circle:** $x^{2}+y^{2}=r^{2}$, or $(x-a)^{2}+(y-b)^{2}=r^{2}$ with centre $(a,b)$, squares and adds **both** $x$ and $y$, and its graph is a closed round curve.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue] (0,0) circle (2);\n\\fill (0,0) circle (0.07);\n\\draw[dashed] (0,0)--(1.414,1.414) node[midway,above left] {$r$};\n\\end{tikzpicture}\n[/tikz]",
-          "**Cubic:** $y=x^{3}$ has highest power $3$, with a central point where the curve flattens and then keeps rising.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,smooth,domain=-1.45:1.45,variable=\\x] plot ({\\x},{\\x*\\x*\\x});\n\\end{tikzpicture}\n[/tikz]"
-        ],
+"**Line:** $y=mx+c$, or a rearrangement like $x+2y=6$, has $x$ and $y$ to the power $1$ and a straight graph. Equations such as $x=-3$ give vertical straight lines; equations such as $y=6$ give horizontal straight lines.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->] (-2.8,-1.7)--(2.8,2.8);\n\\end{tikzpicture}\n[/tikz]",
+"**Parabola:** $y=ax^{2}+bx+c$, with $a\\ne0$, has highest power $2$ in $x$, giving a U-shape opening up when $a>0$ and down when $a<0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,smooth,domain=-1.2:2.2,variable=\\x] plot ({\\x},{(\\x-0.5)*(\\x-0.5)-1.5});\n\\end{tikzpicture}\n[/tikz]",
+"**Exponential:** $y=a^{x}$ has $x$ as the **exponent**, with $a>0$ and $a\\ne1$. It increases for $a>1$ and decreases for $0<a<1$; these directions are reversed for $y=a^{-x}$. Both have the $x$-axis as a horizontal asymptote. Multiplying by a negative number reflects the curve in the $x$-axis, and adding a constant moves it vertically.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,smooth,domain=-3:1.55,variable=\\x] plot ({\\x},{exp(\\x*ln(2))});\n\\end{tikzpicture}\n[/tikz]"
+],
         "steps": [
-          "Are both $x$ and $y$ squared and added to a constant? If so, it is a circle.",
-          "Is $x$ in the exponent (a power)? If so, it is exponential.",
-          "Is $x$ in the denominator? If so, it is a hyperbola.",
-          "Otherwise read the highest power of $x$: power $1$ is a line, power $2$ a parabola, power $3$ a cubic."
-        ]
+"Check for a straight-line equation, including $x=k$ for a vertical line and $y=k$ for a horizontal line.",
+"Is $x$ in the exponent of a positive constant base other than $1$? If so, the relationship is exponential.",
+"Otherwise, rearrange into the form $y=\\dots$ if needed. For the relationships in this section, highest power $1$ gives a line and highest power $2$ with a nonzero coefficient gives a parabola.",
+"When choosing between graphs of the same type, check whether the graph increases or decreases or the parabola opens up or down. Substitute $x=0$ to check the $y$-intercept where applicable."
+]
       },
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "What type of graph is $y=3x-2$?",
         "structure": "classify-line",
         "solution_text": "$y=3x-2$\nThe highest power of $x$ is $1$ and $y$ is not squared.\nThis is a **line** (straight)."
       },
-      {
+{
         "question_text": "What type of graph is $y=x^{2}+4$?",
         "structure": "classify-parabola",
         "solution_text": "$y=x^{2}+4$\nThe highest power of $x$ is $2$.\nThis is a **parabola** (opening up)."
       },
-      {
+{
         "question_text": "What type of graph is $y=-2x^{2}$?",
         "structure": "classify-parabola",
         "solution_text": "$y=-2x^{2}$\nThe highest power of $x$ is $2$, with a negative coefficient.\nThis is a **parabola** (opening down)."
       },
-      {
+{
         "question_text": "What type of graph is $y=4^{x}$?",
         "structure": "classify-exponential",
         "solution_text": "$y=4^{x}$\nThe variable $x$ is the exponent.\nThis is an **exponential** graph."
       },
-      {
+{
         "question_text": "What type of graph is $y=5^{-x}$?",
         "structure": "classify-exponential",
         "solution_text": "$y=5^{-x}$\nThe variable $x$ is the exponent (with a negative sign, so the curve falls as $x$ increases).\nThis is an **exponential** graph."
-      },
-      {
-        "question_text": "What type of graph is $y=\\dfrac{8}{x}$?",
-        "structure": "classify-hyperbola",
-        "solution_text": "$y=\\dfrac{8}{x}$\nThe variable $x$ is in the denominator.\nThis is a **hyperbola**."
-      },
-      {
-        "question_text": "What type of graph is $x^{2}+y^{2}=16$?",
-        "structure": "classify-circle",
-        "solution_text": "$x^{2}+y^{2}=16$\nBoth $x$ and $y$ are squared and added, equal to a constant.\nThis is a **circle** (centre $(0,0)$, radius $4$)."
-      },
-      {
-        "question_text": "What type of graph is $y=x^{3}$?",
-        "structure": "classify-cubic",
-        "solution_text": "$y=x^{3}$\nThe highest power of $x$ is $3$.\nThis is a **cubic**."
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "What type of graph is $2y=x^{2}$?",
         "structure": "classify-parabola",
         "solution_text": "$2y=x^{2}$\n$y=\\dfrac{x^{2}}{2}$\nThe highest power of $x$ is $2$.\nThis is a **parabola**."
       },
-      {
-        "question_text": "What type of graph is $xy=12$?",
-        "structure": "classify-hyperbola",
-        "solution_text": "$xy=12$\n$y=\\dfrac{12}{x}$\nThe variable $x$ is in the denominator.\nThis is a **hyperbola**."
-      },
-      {
+{
         "question_text": "What type of graph is $x+2y-6=0$?",
         "structure": "classify-line",
         "solution_text": "$x+2y-6=0$\n$y=\\dfrac{6-x}{2}$\nThe highest power of $x$ is $1$.\nThis is a **line**."
       },
-      {
+{
         "question_text": "What type of graph is $y=2^{x}+3$?",
         "structure": "classify-exponential",
         "solution_text": "$y=2^{x}+3$\nThe variable $x$ is the exponent; the $+3$ raises the whole curve.\nThis is an **exponential** graph (with asymptote $y=3$)."
-      },
-      {
-        "question_text": "What type of graph is $(x-2)^{2}+(y+1)^{2}=9$?",
-        "structure": "classify-circle",
-        "solution_text": "$(x-2)^{2}+(y+1)^{2}=9$\nBoth $x$ and $y$ are squared and added, equal to a constant.\nThis is a **circle** (centre $(2,-1)$, radius $3$)."
-      },
-      {
-        "question_text": "What type of graph is $y=\\dfrac{2}{x-3}$?",
-        "structure": "classify-hyperbola",
-        "solution_text": "$y=\\dfrac{2}{x-3}$\nThe variable $x$ is in the denominator.\nThis is a **hyperbola** (shifted right, asymptote $x=3$)."
-      },
-      {
-        "question_text": "What type of graph does the equation produce?\nName the family and give the general form of its equation.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,smooth,domain=0.42:3,variable=\\x] plot ({\\x},{1.3/\\x});\n\\draw[thick,blue,<->,smooth,domain=-3:-0.42,variable=\\x] plot ({\\x},{1.3/\\x});\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "identify-equation-from-graph",
-        "solution_text": "The graph has two separate branches, one in each of the top-right and bottom-left regions, each approaching both axes without touching them.\nThis is a **hyperbola**, with an equation of the form $y=\\dfrac{k}{x}$."
-      },
-      {
-        "question_text": "What type of graph does the equation produce?\nName the family and give the general form of its equation.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-0.6)--(0,3.6) node[above] {$y$};\n\\draw[thick,blue,<->,smooth,domain=-2:2.6,variable=\\x] plot ({\\x},{0.8*exp(-\\x*ln(2))});\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "identify-equation-from-graph",
-        "solution_text": "The curve falls steeply on the left, then flattens towards the $x$-axis on the right without ever reaching it (a horizontal asymptote).\nThis is an **exponential** graph, with an equation of the form $y=a^{-x}$."
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "State the type of graph for each equation:\n(a) $y=5-2x$\n(b) $y=5-2x^{2}$\n(c) $y=5(2^{-x})$\n(d) $x^{2}+y^{2}=5$",
+{
+        "question_text": "State the type of graph for each equation:\n(a) $y=5-2x$\n(b) $y=5-2x^{2}$\n(c) $y=5(2^{-x})$\n(d) $x=-5$",
         "structure": "classify-equation",
-        "solution_text": "(a) $y=5-2x$: highest power of $x$ is $1$, so a **line**.\n(b) $y=5-2x^{2}$: highest power of $x$ is $2$, so a **parabola** (opening down).\n(c) $y=5(2^{-x})$: $x$ is the exponent, so an **exponential** graph.\n(d) $x^{2}+y^{2}=5$: both $x$ and $y$ are squared and added, so a **circle**."
+        "solution_text": "(a) $y=5-2x$: highest power of $x$ is $1$, so a **line**.\n(b) $y=5-2x^{2}$: highest power of $x$ is $2$, so a **parabola** (opening down).\n(c) $y=5(2^{-x})$: $x$ is the exponent, so an **exponential** graph.\n(d) $x=-5$: $x$ is constant, so a **vertical straight line**."
       },
-      {
-        "question_text": "Two students disagree.\nOne says $y=\\dfrac{4}{x}$ and $y=4x$ are the same kind of graph because both contain a $4$ and an $x$.\nExplain why they are different types, naming each.",
+{
+        "question_text": "State the type of graph for each equation:\n(a) $3y+2x-9=0$\n(b) $y=7-4x^{2}$\n(c) $y=-3^{-x}+2$",
         "structure": "classify-equation",
-        "solution_text": "In $y=4x$ the highest power of $x$ is $1$ and $x$ is not in a denominator, so it is a **line**.\nIn $y=\\dfrac{4}{x}$ the variable $x$ is in the denominator, so it is a **hyperbola**.\nHaving the same numbers does not make two equations the same type — the type depends on **where** and to **what power** $x$ appears, not on the constants."
-      },
-      {
-        "question_text": "The graph shown is a closed round curve, but its centre is not at the origin.\nName the family this graph belongs to and write the general form of the equation that produces it.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-1,0)--(4.2,0) node[right] {$x$};\n\\draw[->] (0,-1)--(0,4.2) node[above] {$y$};\n\\draw[thick,blue] (2,2) circle (1.4);\n\\fill (2,2) circle (0.05);\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "identify-equation-from-graph",
-        "solution_text": "The graph is a closed round curve, so it is a **circle**.\nA circle whose centre is $(a,b)$ and radius $r$ has the general form $(x-a)^{2}+(y-b)^{2}=r^{2}$.\nBoth $x$ and $y$ appear squared and added, which is what distinguishes a circle from the other families."
+        "solution_text": "(a) $3y+2x-9=0$ gives $y=3-\\dfrac{2}{3}x$, so a **line**.\n(b) $y=7-4x^{2}$: highest power of $x$ is $2$, so a **parabola** (opening down).\n(c) $y=-3^{-x}+2$: $x$ is the exponent, so an **exponential** graph."
       }
-    ]
+]
   }
 }

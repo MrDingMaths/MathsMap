@@ -3,22 +3,73 @@
   "skillId": "summary-stats-frequency-table",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-08T11:34:33.427Z",
-  "status": "blocked",
+  "startedAt": "2026-10-09T09:03:20.337Z",
+  "status": "published",
   "calls": [
     {
       "name": "audit",
       "code": 0,
-      "seconds": 15.1,
+      "seconds": 117.7,
       "usage": {
-        "input_tokens": 66907,
-        "cached_input_tokens": 14976,
+        "input_tokens": 77646,
+        "cached_input_tokens": 20096,
         "cache_write_input_tokens": 0,
-        "output_tokens": 112,
-        "reasoning_output_tokens": 35
+        "output_tokens": 3915,
+        "reasoning_output_tokens": 251
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\summary-stats-frequency-table\\audit-4LFQbG\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\summary-stats-frequency-table\\audit-RPcgKC\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 397.5,
+      "usage": {
+        "input_tokens": 79646,
+        "cached_input_tokens": 21120,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 16205,
+        "reasoning_output_tokens": 30
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\summary-stats-frequency-table\\repair-fZwfrx\\response.raw.txt"
+    },
+    {
+      "name": "review-scoped",
+      "code": 0,
+      "seconds": 34.5,
+      "usage": {
+        "input_tokens": 79726,
+        "cached_input_tokens": 21120,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1054,
+        "reasoning_output_tokens": 44
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\summary-stats-frequency-table\\review-scoped-JmZJUz\\response.raw.txt"
+    }
+  ],
+  "previousAttempts": [
+    {
+      "startedAt": "2026-10-08T11:34:33.427Z",
+      "finishedAt": "2026-10-08T11:34:48.703Z",
+      "status": "blocked",
+      "calls": [
+        {
+          "name": "audit",
+          "code": 0,
+          "seconds": 15.1,
+          "usage": {
+            "input_tokens": 66907,
+            "cached_input_tokens": 14976,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 112,
+            "reasoning_output_tokens": 35
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\summary-stats-frequency-table\\audit-4LFQbG\\response.raw.txt"
+        }
+      ]
     }
   ],
   "baseline": {
@@ -28,20 +79,58 @@
   "booklets": [
     "booklets/mathsmap-sources/Stage 4/Data Analysis.md"
   ],
-  "images": 26,
+  "images": 58,
   "omittedImages": 0,
   "sections": [
     {
       "path": "booklets/mathsmap-sources/Stage 4/Data Analysis.md",
-      "start": 2303,
-      "end": 2866
+      "start": 139,
+      "end": 210
     },
     {
       "path": "booklets/mathsmap-sources/Stage 4/Data Analysis.md",
-      "start": 3257,
+      "start": 2303,
       "end": 3401
     }
   ],
-  "blocker": "The source section “Summary Statistics from a Frequency Table” (Data Analysis.md lines 2867–3256), including its teaching, complete exercise set and associated figures, is missing. Supply this section to verify the combined summary-statistics question types without inferring them from incomplete evidence.",
-  "finishedAt": "2026-10-08T11:34:48.703Z"
+  "fullReview": {
+    "name": "review-accepted",
+    "hash": "cff3b929c7131ffc75cdafc9fa789ef55092416d68bcfe2dc71218f6708c6921",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for practice.foundation[4]",
+    "No booklet question cited for practice.development[6]",
+    "No booklet question cited for practice.development[7]",
+    "No booklet question cited for practice.mastery[0]",
+    "No booklet question cited for quiz.dq-2110",
+    "practice.foundation[4]: The supplied section asks for means and medians from dot plots, but never asks for their range. Replace with a supported range-from-frequency-table task; its structure must describe the resulting task.",
+    "practice.development[6]: Finding a frequency from a cumulative histogram is supported at lines 3315–3322, but finding its mode is never asked. Remove or replace the unsupported mode demand and update the structure if the task changes.",
+    "practice.development[7]: The booklet asks for means from cumulative histograms, not from a table supplying only cumulative frequencies. Replace with a supported task of the same tier and update the structure.",
+    "practice.mastery[0]: The source asks for frequencies, median and mean from cumulative histograms, but never their range or mode. Replace or remove those unsupported demands while retaining a supported Mastery task; update the structure accordingly.",
+    "quiz.dq-2110: Selecting an unevaluated mean operation is not a task the source asks; its formula is a taught intermediate step. Replace with a supported calculated-mean question, state any required rounding, and evaluate every numerical option and the solution. The final distractor explanation should identify 49 as the sum of distinct hours, rather than merely calling it unrelated.",
+    "theory: The statement 'If two or more different values all have equal frequency, there is no mode' wrongly includes datasets where only some frequencies tie, contradicting the following sentence and the bimodal examples. Specify that there is no mode when every observed data value has the same frequency; otherwise report all values tied for greatest frequency."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.foundation[4]",
+    "practice.development[6]",
+    "practice.development[7]",
+    "practice.mastery[0]",
+    "quiz.dq-2110"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 37,
+  "summary": "Replaced the unsupported dot-plot range, cumulative-table mean and unevaluated-mean quiz tasks, removed unsupported cumulative-histogram mode and range demands, and supplied the missing booklet citations. Corrected the no-mode statement, updated changed task structures where needed, and evaluated the repaired quiz answers and distractors without removing any whole item.",
+  "reviewSummary": "All nine requested items have correct answers, usable working and booklet-supported question types. The theory is appropriate for the skill and correctly handles tied modes, zero frequencies and even-sized datasets.",
+  "candidateHash": "cff3b929c7131ffc75cdafc9fa789ef55092416d68bcfe2dc71218f6708c6921",
+  "finishedAt": "2026-10-09T09:33:12.653Z",
+  "published": {
+    "expected": {
+      "contentHash": "12f3a54cd4146d0dfaa170b693aa36a455df0f3878baf5b4fcfd50fb0b1448ee",
+      "quizHash": "b2a5adff1fe339983df32face8ccf6301717fa7d410350627abd008fe247a932"
+    },
+    "journalPath": ".agywork\\content-publication\\transactions\\summary-stats-frequency-table-37983479-56b4-4af0-921d-28a70ada949d\\journal.json"
+  }
 }

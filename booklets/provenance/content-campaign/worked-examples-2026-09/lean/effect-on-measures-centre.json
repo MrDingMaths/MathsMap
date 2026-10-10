@@ -3,22 +3,73 @@
   "skillId": "effect-on-measures-centre",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-07T12:18:05.133Z",
-  "status": "blocked",
+  "startedAt": "2026-10-09T07:44:02.699Z",
+  "status": "published",
   "calls": [
     {
       "name": "audit",
       "code": 0,
-      "seconds": 17.4,
+      "seconds": 110.5,
       "usage": {
-        "input_tokens": 163135,
-        "cached_input_tokens": 20608,
+        "input_tokens": 42972,
+        "cached_input_tokens": 21120,
         "cache_write_input_tokens": 0,
-        "output_tokens": 191,
-        "reasoning_output_tokens": 52
+        "output_tokens": 3546,
+        "reasoning_output_tokens": 102
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\effect-on-measures-centre\\audit-dMUZCH\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\effect-on-measures-centre\\audit-LCyHCi\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 272.1,
+      "usage": {
+        "input_tokens": 42945,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 12627,
+        "reasoning_output_tokens": 97
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\effect-on-measures-centre\\repair-LPu1oh\\response.raw.txt"
+    },
+    {
+      "name": "review-scoped",
+      "code": 0,
+      "seconds": 21.7,
+      "usage": {
+        "input_tokens": 43871,
+        "cached_input_tokens": 21120,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 648,
+        "reasoning_output_tokens": 36
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\effect-on-measures-centre\\review-scoped-BnnXPI\\response.raw.txt"
+    }
+  ],
+  "previousAttempts": [
+    {
+      "startedAt": "2026-10-07T12:18:05.133Z",
+      "finishedAt": "2026-10-07T12:18:22.603Z",
+      "status": "blocked",
+      "calls": [
+        {
+          "name": "audit",
+          "code": 0,
+          "seconds": 17.4,
+          "usage": {
+            "input_tokens": 163135,
+            "cached_input_tokens": 20608,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 191,
+            "reasoning_output_tokens": 52
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\effect-on-measures-centre\\audit-dMUZCH\\response.raw.txt"
+        }
+      ]
     }
   ],
   "baseline": {
@@ -28,8 +79,50 @@
   "booklets": [
     "booklets/mathsmap-sources/Stage 4/Data Analysis.md"
   ],
-  "images": 110,
-  "omittedImages": 77,
-  "blocker": "Necessary figures from 'Impact of Adding and Removing Data Values' are missing: image151.png (lines 3836–3873, tree datasets before and after changes), image152.png (lines 4021–4027, Foundation Q1), image153.png (line 4032, Foundation Q2), image154.png (line 4171, Development Q9), and image155.png (lines 4233–4274, Mastery Q12 before-and-after datasets). These are needed to review the complete exercise set and verify the candidate's graph-based booklet question types.",
-  "finishedAt": "2026-10-07T12:18:22.603Z"
+  "images": 5,
+  "omittedImages": 0,
+  "sections": [
+    {
+      "path": "booklets/mathsmap-sources/Stage 4/Data Analysis.md",
+      "start": 3826,
+      "end": 4290
+    }
+  ],
+  "fullReview": {
+    "name": "review-accepted",
+    "hash": "012e77dc7b04f50a362997964ccef9287282da854216ada428c9720a6c54439b",
+    "originalRemovalsSupplied": true
+  },
+  "firstRoundFindings": [
+    "No booklet question cited for practice.mastery[1]",
+    "No booklet question cited for quiz.q10",
+    "practice.development[4]: The new mean terminates, so the instruction to round only means that do not terminate does not permit rounding it to $12.9$. Make the solution follow the stated rounding condition, or explicitly request rounding every mean to $1$ decimal place.",
+    "practice.mastery[1]: The supplied source does not ask students to calculate a new mean from a known mean after simultaneously replacing one value. Replace this off-booklet type with an adapted Mastery question type and update its structure slug.",
+    "quiz.q1: Options $7.1$ kg and $5.8$ kg silently round the calculations named in their explanations. State that these distractor values are rounded to $1$ decimal place.",
+    "quiz.q4: The $32.7$ years distractor rounds $229/7$ without saying so. Specify $1$ decimal place in its explanation.",
+    "quiz.q10: The source does not ask for a numerical new mean from a known mean after simultaneously replacing a value. Replace this off-booklet type and update its structure slug; the existing $12.9$ distractor also rounds its stated calculation without specifying rounding.",
+    "theory: The claim that every data change changes the mean contradicts adding a value equal to the mean. Removing a smallest or largest value changes the mean strictly only when that value is below or above the mean and values remain. Removing an extreme need not change the range when another copy remains. Qualify the claims that an outlier always moves the median only slightly or makes the range much bigger, and that larger datasets always reduce an extra value's effect: the latter comparison requires the same original mean and added value."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.development[4]",
+    "practice.mastery[1]",
+    "quiz.q1",
+    "quiz.q4",
+    "quiz.q10"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 30,
+  "summary": "Qualified the theory claims, corrected the terminating mean and its change in practice.development[4], and made distractor rounding explicit in quiz.q1 and quiz.q4. Replaced practice.mastery[1] and quiz.q10 with cited booklet questions about removing an outlier from a dataset with a known mean, updated their structure slugs, and preserved all other content.",
+  "reviewSummary": "All five requested items are mathematically correct, use booklet question types and stay within the target skill. The theory is accurate and consistent with the supplied teaching, including its qualifications about median changes, remaining values and equal original means.",
+  "candidateHash": "012e77dc7b04f50a362997964ccef9287282da854216ada428c9720a6c54439b",
+  "published": {
+    "expected": {
+      "contentHash": "bc48f6be7211b692a3e57d2cdc894192035878e2bd09cb9755ba9ca033c6aa39",
+      "quizHash": "32c222b10b3f57ace9e0ea84a1daca8047c2d9cf135fd8e416da34ccb5463cb5"
+    },
+    "journalPath": ".agywork\\content-publication\\transactions\\effect-on-measures-centre-c3fac5fb-5740-44ad-97e2-311526b08d41\\journal.json"
+  },
+  "finishedAt": "2026-10-09T07:50:47.834Z"
 }

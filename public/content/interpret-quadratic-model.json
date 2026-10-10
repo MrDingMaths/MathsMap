@@ -2,15 +2,15 @@
   "skillId": "interpret-quadratic-model",
   "atomType": "R",
   "theory": {
-    "intro": "A **quadratic model** uses a parabola to describe a real situation. The vertex gives the largest or smallest value, the intercepts mark the start and the finish, and only part of the parabola makes sense in context.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.4,0) -- (6.4,0) node[right] {time};\n\\draw[-{Stealth}] (0,-0.4) -- (0,4.4) node[above] {height};\n\\draw[thick,blue!70!black,domain=0:5.458,samples=100,variable=\\x] plot ({\\x},{0.9+1.8*\\x-0.36*\\x*\\x});\n\\fill (0,0.9) circle (2pt);\n\\fill (2.5,3.15) circle (2pt);\n\\fill (5.458,0) circle (2pt);\n\\node[right] at (2.65,3.35) {vertex: greatest height};\n\\node[right] at (0.2,0.5) {starting height};\n\\node[below] at (5.458,-0.15) {lands};\n\\end{tikzpicture}\n[/tikz]",
+    "intro": "A **quadratic model** uses a parabola to describe a real situation. The vertex gives the largest or smallest value, the intercepts show where the input or output is zero, and only part of the parabola makes sense in context.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.4,0) -- (6.4,0) node[right] {time};\n\\draw[-{Stealth}] (0,-0.4) -- (0,4.4) node[above] {height};\n\\draw[thick,blue!70!black,domain=0:5.458,samples=100,variable=\\x] plot ({\\x},{0.9+1.8*\\x-0.36*\\x*\\x});\n\\fill (0,0.9) circle (2pt);\n\\fill (2.5,3.15) circle (2pt);\n\\fill (5.458,0) circle (2pt);\n\\node[right] at (2.65,3.35) {vertex: greatest height};\n\\node[right] at (0.2,0.5) {starting height};\n\\node[below] at (5.458,-0.15) {lands};\n\\end{tikzpicture}\n[/tikz]",
     "facts": [
-      "The **vertex** gives the largest or smallest value: its $y$-coordinate is that value and its $x$-coordinate is when it happens.",
-      "The **$y$-intercept** is the value at the start, when the input variable is zero.",
-      "An **$x$-intercept** is where the modelled quantity is zero, such as when a ball lands or a business breaks even.",
-      "Because a parabola is symmetric, most values are reached twice, once on each side of the vertex.",
-      "A model is only valid where the context makes sense, so negative times, heights and lengths are usually excluded.",
-      "The parabola keeps going in both directions, but the real situation stops where the context stops."
-    ],
+"The **vertex** gives the largest or smallest value: its $y$-coordinate is that value and its $x$-coordinate is when it happens.",
+"The **$y$-intercept** is the output when the input variable is zero; in a time model this often represents the starting value.",
+"An **$x$-intercept** is where the modelled quantity is zero, such as when a ball lands or a business breaks even.",
+"Because a parabola is symmetric, an output below its maximum or above its minimum occurs at two inputs on the full parabola. Both inputs need not lie in the valid contextual domain.",
+"A model is only valid where the context makes sense, so negative times, heights and lengths are usually excluded.",
+"The parabola keeps going in both directions, but the real situation stops where the context stops."
+],
     "steps": [
       "Read the vertex and say what the maximum or minimum means in the situation.",
       "Read the intercepts and say what they mean in the situation.",
@@ -56,37 +56,37 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "A company's profit $P$ dollars from making $x$ machines is modelled by $P=-x^{2}+60x-500$.\nThe model has $x$-intercepts at $x=10$ and $x=50$.\nFind the number of machines that gives the greatest profit and that profit, and explain what the two $x$-intercepts mean.",
         "structure": "interpret-vertex-in-context",
         "solution_text": "1. **Read the vertex and say what the maximum or minimum means in the situation.**\nThe vertex is midway between the intercepts, at $\\frac{10+50}{2}=30$.\n$P=-(30)^{2}+60(30)-500$\n$=-900+1800-500$\n$=400$\nMaking $30$ machines gives the greatest profit, $\\$400$.\n2. **Read the intercepts and say what they mean in the situation.**\nAt $x=10$ and $x=50$ the profit is zero, so these are the break-even points: below $10$ or above $50$ machines the company makes a loss."
       },
-      {
-        "question_text": "A rectangular pen is built against a wall using $24$ m of fencing for the three open sides.\nIts area $A$ square metres is modelled by $A=-w^{2}+24w$, where $w$ is the width in metres.\nThe model has $w$-intercepts at $w=0$ and $w=24$.\nFind the width that gives the greatest area, and that area.",
+{
+        "question_text": "A rectangular pen is built against a wall using $24$ m of fencing for the three open sides.\nIts area $A$ square metres is modelled by $A=-2w^{2}+24w$, where $w$ is the width in metres perpendicular to the wall.\nThe model has $w$-intercepts at $w=0$ and $w=12$.\nFind the width that gives the greatest area, and that area.",
         "structure": "interpret-vertex-in-context",
-        "solution_text": "The greatest area is at the vertex, midway between the two intercepts.\n$\\frac{0+24}{2}=12$\n$A=-(12)^{2}+24(12)$\n$=-144+288$\n$=144$\nA width of $12$ m gives the greatest area, $144$ m$^{2}$."
+        "solution_text": "The two widths use $2w$ metres of fencing, leaving a length of $24-2w$ metres, so $A=w(24-2w)=-2w^{2}+24w$.\nThe greatest area is at the vertex, midway between the two intercepts.\n$\\frac{0+12}{2}=6$\n$A=-2(6)^{2}+24(6)$\n$=-72+144$\n$=72$\nA width of $6$ m gives the greatest area, $72$ m$^{2}$."
       },
-      {
+{
         "question_text": "A garden bed has area $A$ square metres modelled by $A=-0.25w^{2}+15w$, where $w$ is its width in metres.\nThe model has $w$-intercepts at $w=0$ and $w=60$.\nExplain why the model cannot be used for a width of $70$ m.",
         "structure": "state-limitation-in-context",
         "solution_text": "$A=-0.25(70)^{2}+15(70)$\n$=-1225+1050$\n$=-175$\nThe model gives an area of $-175$ m$^{2}$, and an area cannot be negative.\nThe model only makes sense for $0\\le w\\le60$, which is where the curve is on or above the horizontal axis."
       },
-      {
-        "question_text": "A theatre's nightly revenue $R$ dollars is modelled by $R=-0.5n^{2}+30n$, where $n$ is the number of seats sold.\nFind the revenue when $n=20$ and when $n=40$, and explain why the two answers are equal.",
+{
+        "question_text": "A theatre's nightly revenue $R$ dollars is modelled by $R=-0.5n^{2}+30n$, where $n$ is the number of seats sold.\nFind the revenue when $n=20$ and when $n=40$.",
         "structure": "evaluate-model-in-context",
-        "solution_text": "$R=-0.5(20)^{2}+30(20)$\n$=-200+600$\n$=400$\n$R=-0.5(40)^{2}+30(40)$\n$=-800+1200$\n$=400$\nBoth give a revenue of $\\$400$.\nThe $n$-intercepts are $n=0$ and $n=60$, so the axis of symmetry is $n=30$.\nThe values $20$ and $40$ are each $10$ away from $30$, so the symmetry of the parabola makes their revenues equal."
+        "solution_text": "$R=-0.5(20)^{2}+30(20)$\n$=-200+600$\n$=400$\n$R=-0.5(40)^{2}+30(40)$\n$=-800+1200$\n$=400$\nBoth give a revenue of $\\$400$."
       },
-      {
+{
         "question_text": "A rocket's height $h$ metres after $t$ seconds is modelled by $h=-5t^{2}+60t$, and the graph is shown.\nAt which two times is the rocket $160$ m above the ground?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=8cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.8,xmax=13,ymin=-20,ymax=205,xtick={0,1,...,12},ytick={0,20,...,200},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$t$},ylabel={$h$}]\n\\addplot[thick,blue!70!black,domain=0:12,samples=100] {-5*x*x+60*x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
         "structure": "read-two-times-for-value",
         "solution_text": "Read across from $h=160$ to the curve, then down to the horizontal axis.\nThe curve is at $h=160$ when $t=4$ and when $t=8$.\nCheck: $-5(4)^{2}+60(4)=-80+240=160$ and $-5(8)^{2}+60(8)=-320+480=160$.\nThe rocket is $160$ m above the ground after $4$ seconds and after $8$ seconds."
       },
-      {
+{
         "question_text": "The cost $C$ dollars per item of running a print job is modelled by $C=x^{2}-8x+31$, where $x$ is the number of items in hundreds.\nThe graph is shown.\nFind the smallest cost per item and the value of $x$ that gives it.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.6,xmax=9.6,ymin=-3,ymax=44,xtick={0,1,...,9},ytick={0,5,...,40},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$C$}]\n\\addplot[thick,blue!70!black,->,domain=0:8.9,samples=100] {x*x-8*x+31};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
         "structure": "interpret-vertex-in-context",
         "solution_text": "The parabola is concave up, so the lowest point of the curve is the vertex.\nFrom the graph the vertex is $(4,15)$.\nThe smallest cost is $\\$15$ per item, and it occurs when $x=4$, that is for $400$ items."
       }
-    ],
+],
     "mastery": [
       {
         "question_text": "A theatre has $300$ seats and currently sells every ticket for $\\$10$.\nFor each $\\$1$ the price rises, $10$ fewer tickets are sold.\nThe income $I$ dollars for a price rise of $\\$x$ is modelled by $I=-10x^{2}+200x+3000$, and the graph is shown.\nRunning a session costs $\\$400$ plus $\\$3$ per ticket sold.\nFind the ticket price that maximises the income, and the profit at that price.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=8.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-12,xmax=33,ymin=-400,ymax=4600,xtick={-10,-5,...,30},ytick={0,500,...,4500},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$I$},ylabel near ticks]\n\\addplot[thick,blue!70!black,domain=-10:30,samples=100] {-10*x*x+200*x+3000};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",

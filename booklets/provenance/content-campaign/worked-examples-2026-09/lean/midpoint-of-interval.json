@@ -3,36 +3,36 @@
   "skillId": "midpoint-of-interval",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-08T23:11:24.840Z",
-  "status": "needs attention: not accepted after one repair round",
+  "startedAt": "2026-10-09T06:45:56.721Z",
+  "status": "published",
   "calls": [
     {
       "name": "maintenance-repair",
       "code": 0,
-      "seconds": 272.4,
+      "seconds": 346.1,
       "usage": {
-        "input_tokens": 210242,
-        "cached_input_tokens": 21760,
-        "cache_write_input_tokens": 0,
-        "output_tokens": 16581,
-        "reasoning_output_tokens": 34
-      },
-      "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\midpoint-of-interval\\maintenance-repair-FaYRiy\\response.raw.txt"
-    },
-    {
-      "name": "maintenance-review",
-      "code": 0,
-      "seconds": 39.9,
-      "usage": {
-        "input_tokens": 210475,
+        "input_tokens": 208619,
         "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 2110,
-        "reasoning_output_tokens": 105
+        "output_tokens": 16588,
+        "reasoning_output_tokens": 27
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\midpoint-of-interval\\maintenance-review-tJR1BY\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\midpoint-of-interval\\maintenance-repair-qg1xWI\\response.raw.txt"
+    },
+    {
+      "name": "maintenance-review-scoped",
+      "code": 0,
+      "seconds": 19.4,
+      "usage": {
+        "input_tokens": 209572,
+        "cached_input_tokens": 20992,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 363,
+        "reasoning_output_tokens": 19
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\midpoint-of-interval\\maintenance-review-scoped-t04Dq0\\response.raw.txt"
     }
   ],
   "previousAttempts": [
@@ -84,6 +84,41 @@
           "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\midpoint-of-interval\\review-scoped-jXsg0V\\response.raw.txt"
         }
       ]
+    },
+    {
+      "startedAt": "2026-10-08T23:11:24.840Z",
+      "finishedAt": "2026-10-08T23:16:37.428Z",
+      "status": "needs attention: not accepted after one repair round",
+      "calls": [
+        {
+          "name": "maintenance-repair",
+          "code": 0,
+          "seconds": 272.4,
+          "usage": {
+            "input_tokens": 210242,
+            "cached_input_tokens": 21760,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 16581,
+            "reasoning_output_tokens": 34
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\midpoint-of-interval\\maintenance-repair-FaYRiy\\response.raw.txt"
+        },
+        {
+          "name": "maintenance-review",
+          "code": 0,
+          "seconds": 39.9,
+          "usage": {
+            "input_tokens": 210475,
+            "cached_input_tokens": 12544,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 2110,
+            "reasoning_output_tokens": 105
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\midpoint-of-interval\\maintenance-review-tJR1BY\\response.raw.txt"
+        }
+      ]
     }
   ],
   "maintenanceRepair": true,
@@ -99,11 +134,14 @@
   "images": 110,
   "omittedImages": 158,
   "firstRoundFindings": [
-    "theory: In theory.facts[2], replace '$\\cdot 5$ value' with 'value halfway between two consecutive integers'. The multiplication dot is not a decimal point; retain the correct example $\\dfrac{1+4}{2}=2.5$. The remaining theory follows the booklet's coordinate-averaging method."
+    "quiz.q4: In options[3].why, replace 'read off the run and rise' with 'found half the run and half the rise'; the run and rise are 6 and 0, whereas the option is (3, 0).",
+    "quiz.q5: In options[3].why, replace 'read off the run and rise' with 'found half the run and half the rise'; the run and rise are 0 and 8, whereas the option is (0, 4).",
+    "quiz.q7: Make options[3].why name the specific sign mistake: 'Averaged the $x$-values correctly but reversed both $y$ signs, calculating $(3-5)/2=-1$.'",
+    "quiz.dq-83948: Make options[3].why name a specific mistake producing $(3.5,3.5)$: 'Used the $x$-coordinate mean $(2+5)/2=3.5$ for both coordinates instead of averaging the $y$-values.'"
   ],
   "fullReview": {
-    "name": "maintenance-review",
-    "hash": "6f2b2bb26af09255cc51a5c06059c4b5067df7155326d775591479f6cbf95d7b",
+    "name": "review-accepted",
+    "hash": "90d514eb7fa0dc89ee31b1e0782b3855fa3dda95f4bbd72eaf26e8e66cf6f269",
     "originalRemovalsSupplied": true
   },
   "repaired": true,
@@ -112,20 +150,25 @@
     "practice.mastery[1]",
     "practice.mastery[2]",
     "quiz.q3",
+    "quiz.q4",
+    "quiz.q5",
+    "quiz.q7",
     "quiz.q8",
-    "quiz.q9"
+    "quiz.q9",
+    "quiz.dq-83948"
   ],
   "theoryChanged": true,
   "removed": [],
   "items": 26,
-  "summary": "Reworded theory.facts[2] to describe a value halfway between two consecutive integers, retaining the correct example $\\dfrac{1 + 4}{2} = 2.5$. All other content, quiz questions and existing item records remain unchanged, and no whole items were removed.",
-  "reviewSummary": "All 26 items use booklet-supported midpoint question types, and every supplied solution and correct option is mathematically correct. Repair four distractor explanations; the theory follows the booklet's mean-coordinate method, no worked examples are supplied, and no removals are proposed.",
-  "candidateHash": "6f2b2bb26af09255cc51a5c06059c4b5067df7155326d775591479f6cbf95d7b",
-  "findings": [
-    "quiz.q4: In options[3].why, replace 'read off the run and rise' with 'found half the run and half the rise'; the run and rise are 6 and 0, whereas the option is (3, 0).",
-    "quiz.q5: In options[3].why, replace 'read off the run and rise' with 'found half the run and half the rise'; the run and rise are 0 and 8, whereas the option is (0, 4).",
-    "quiz.q7: Make options[3].why name the specific sign mistake: 'Averaged the $x$-values correctly but reversed both $y$ signs, calculating $(3-5)/2=-1$.'",
-    "quiz.dq-83948: Make options[3].why name a specific mistake producing $(3.5,3.5)$: 'Used the $x$-coordinate mean $(2+5)/2=3.5$ for both coordinates instead of averaging the $y$-values.'"
-  ],
-  "finishedAt": "2026-10-08T23:16:37.428Z"
+  "summary": "Repaired the four specified distractor explanations in quiz.q4, quiz.q5, quiz.q7 and quiz.dq-83948 to name the mistakes producing their values. All other content is preserved, and no whole items were removed.",
+  "reviewSummary": "All four requested questions have correct solutions, exactly one correct option and valid distractor explanations. They assess booklet midpoint question types using the taught averaging method and remain within the target skill.",
+  "candidateHash": "90d514eb7fa0dc89ee31b1e0782b3855fa3dda95f4bbd72eaf26e8e66cf6f269",
+  "published": {
+    "expected": {
+      "contentHash": "d0230f897c617572b0f27943af5a128409782c2a6732ed93c1ea42838fd4eb55",
+      "quizHash": "77e5216f1ff6d12f62312c09847c207844c1e74f81214de929569b2606384eb4"
+    },
+    "journalPath": ".agywork\\content-publication\\transactions\\midpoint-of-interval-9c43ca48-eac0-4c84-8231-5750c92b9fc1\\journal.json"
+  },
+  "finishedAt": "2026-10-09T06:52:02.898Z"
 }

@@ -3,33 +3,112 @@
   "skillId": "clt-mean-variance",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-06T15:30:41.040Z",
-  "status": "blocked",
+  "startedAt": "2026-10-09T09:45:31.793Z",
+  "status": "needs attention: not accepted after one repair round",
   "calls": [
     {
       "name": "audit",
       "code": 0,
-      "seconds": 11.5,
+      "seconds": 92.7,
       "usage": {
-        "input_tokens": 57230,
-        "cached_input_tokens": 20608,
+        "input_tokens": 49991,
+        "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 124,
-        "reasoning_output_tokens": 42
+        "output_tokens": 3521,
+        "reasoning_output_tokens": 158
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\clt-mean-variance\\audit-9tAOZf\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\clt-mean-variance\\audit-DVOwaL\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 13.7,
+      "usage": {
+        "input_tokens": 51359,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 361,
+        "reasoning_output_tokens": 0
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\clt-mean-variance\\repair-9lGEhq\\response.raw.txt"
+    },
+    {
+      "name": "review-full",
+      "code": 0,
+      "seconds": 81.4,
+      "usage": {
+        "input_tokens": 52454,
+        "cached_input_tokens": 14976,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2617,
+        "reasoning_output_tokens": 160
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\clt-mean-variance\\review-full-sgz8ZD\\response.raw.txt"
     }
   ],
+  "previousAttempts": [
+    {
+      "startedAt": "2026-10-06T15:30:41.040Z",
+      "finishedAt": "2026-10-06T15:30:52.505Z",
+      "status": "blocked",
+      "calls": [
+        {
+          "name": "audit",
+          "code": 0,
+          "seconds": 11.5,
+          "usage": {
+            "input_tokens": 57230,
+            "cached_input_tokens": 20608,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 124,
+            "reasoning_output_tokens": 42
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\clt-mean-variance\\audit-9tAOZf\\response.raw.txt"
+        }
+      ]
+    }
+  ],
+  "sourceException": {
+    "reason": "User approved syllabus-based source exceptions on 9 October 2026 for the displayed 54 source gaps. This skill remains in the approved subset of 53 unresolved gaps; use its governing Stage 6 syllabus and target course, preserve good existing content, independently review every mathematical answer/option and stage/method boundary, and repair substantive defects only. Booklet source evidence was unavailable or did not establish the required question types.",
+    "approvalPath": "booklets/provenance/content-campaign/worked-examples-2026-09/approved-source-exceptions-20261009.json",
+    "path": "syllabus/Stage 6 Extension 1 Content.md",
+    "hash": "4841de293c30c70c8ad0913369f6738c936793c73192af07de628b36df57363c"
+  },
   "baseline": {
     "contentHash": "df76f0830f76cd39a653971761d4d42d905f7ef90d8393eb9bd673cc993dd422",
     "quizHash": "98cc4d3201b8212d18d14d0f6e9d7639a142c7d8c717cc9c18f4ef9a2c057dbe"
   },
   "booklets": [
-    "booklets/mathsmap-sources/Stage 6 Extension 1/Binomial Distributions.md"
+    "syllabus/Stage 6 Extension 1 Content.md"
   ],
-  "images": 14,
+  "images": 0,
   "omittedImages": 0,
-  "blocker": "The supplied booklet includes sampling-distribution-of-the-mean syllabus statements (lines 81–139), but omits teaching, guided practice and exercises for sample-mean expectation, variance and standard error. Supply those source sections, their complete exercise set and any associated figures so booklet question types can be verified.",
-  "finishedAt": "2026-10-06T15:30:52.505Z"
+  "fullReview": {
+    "name": "review-full",
+    "hash": "b76539063ef9eee4e44f8ad4ae33a101cc23ed333e37c26f82083d45dd7e787d",
+    "originalRemovalsSupplied": true,
+    "sourceExceptionConfirmed": true
+  },
+  "firstRoundFindings": [
+    "quiz.dq-125697: The option with text 'variance $2.5$' needs a why naming the specific mistake: dividing the population variance by $40$ instead of the sample size $4$; 'an incorrect factor' does not identify the mistake.",
+    "theory: State that the formulas assume independent observations drawn from the same population with finite mean and variance. The current unconditional claims about samples and populations of any shape omit the sampling assumption needed for Var(X̄)=σ²/n and the standard-error formula; population shape alone is not sufficient."
+  ],
+  "repaired": true,
+  "changed": [
+    "quiz.dq-125697"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 31,
+  "summary": "Stated the independence, common-population and finite-moment assumptions governing the sample-mean formulas and qualified the population-shape claim. Corrected the distractor explanation to identify division by $40$ instead of $4$; all other content is preserved.",
+  "reviewSummary": "All 31 items have correct answers and confirmed alignment with the approved syllabus source exception; no worked examples or removals were supplied. Repair only the all-five-event distractor explanation and its missing comparison in quiz.dq-125667.",
+  "candidateHash": "b76539063ef9eee4e44f8ad4ae33a101cc23ed333e37c26f82083d45dd7e787d",
+  "findings": [
+    "quiz.dq-125667: Replace option 3's why with a specific misconception, such as 'Confused every observation lying in the interval with their mean lying in the interval; requiring every observation is more restrictive.' Add the subset comparison to solution_text so it also rules out the all-five event."
+  ],
+  "finishedAt": "2026-10-09T09:48:39.835Z"
 }

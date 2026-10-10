@@ -61,58 +61,58 @@
       }
     ],
     "development": [
-      {
-        "question_text": "This floor plan is U-shaped.\nTwo lengths are not marked.\nCalculate the floor area.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw[thick] (0,0)--(10,0)--(10,6)--(7,6)--(7,2)--(3,2)--(3,6)--(0,6)--cycle;\n\\draw[dashed] (0,2)--(10,2);\n\\node[below] at (5,0) {$10\\text{ m}$};\n\\node[left] at (0,3) {$6\\text{ m}$};\n\\node[right] at (10,3) {$6\\text{ m}$};\n\\node[above] at (1.5,6) {$3\\text{ m}$};\n\\node[above] at (8.5,6) {$3\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "This floor plan is U-shaped.\nTwo lengths are not marked.\nCalculate the floor area.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw[thick] (0,0)--(10,0)--(10,6)--(7,6)--(7,2)--(3,2)--(3,6)--(0,6)--cycle;\n\\draw[dashed] (0,2)--(10,2);\n\\draw[<->] (-1.5,0)--(-1.5,2) node[midway,left] {$2\\text{ m}$};\n\\node[below] at (5,0) {$10\\text{ m}$};\n\\node[left] at (0,3) {$6\\text{ m}$};\n\\node[right] at (10,3) {$6\\text{ m}$};\n\\node[above] at (1.5,6) {$3\\text{ m}$};\n\\node[above] at (8.5,6) {$3\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "composite-ushape-add",
         "solution_text": "Split the plan into a base rectangle and the two side towers.\nThe base rectangle is $10$ m by $2$ m.\nEach tower is $3$ m wide and $6-2=4$ m tall.\n$A_1 = 10\\times 2$\n$= 20\\text{ m}^{2}$\n$A_2 = 3\\times 4$\n$= 12\\text{ m}^{2}$\n$A_3 = 3\\times 4$\n$= 12\\text{ m}^{2}$\n$A = A_1 + A_2 + A_3$\n$= 44\\text{ m}^{2}$"
       },
-      {
+{
         "question_text": "A path of constant width $2$ m is built around the outside of a rectangular pool.\nCalculate the area of the path (the shaded region).\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.5]\n\\fill[blue!15] (0,0) rectangle (14,10);\n\\fill[white] (2,2) rectangle (12,8);\n\\draw[thick] (0,0) rectangle (14,10);\n\\draw[thick] (2,2) rectangle (12,8);\n\\node[below] at (7,0) {$14\\text{ m}$};\n\\node[left] at (0,5) {$10\\text{ m}$};\n\\draw[<->] (0,9)--(2,9) node[midway,above] {$2\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "composite-rect-minus-rect",
         "solution_text": "The pool sits $2$ m in from each side, so it is $14-2-2=10$ m by $10-2-2=6$ m.\n$A_1 = 14\\times 10$\n$= 140\\text{ m}^{2}$\n$A_2 = 10\\times 6$\n$= 60\\text{ m}^{2}$\n$A = A_1 - A_2$\n$= 80\\text{ m}^{2}$"
       },
-      {
+{
         "question_text": "A swimming pool is shaped like a rectangle with a triangle on one end.\nCalculate the surface area of the water.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[thick] (0,0)--(8,0)--(11,2.5)--(8,5)--(0,5)--cycle;\n\\draw[dashed] (8,0)--(8,5);\n\\node[below] at (4,0) {$8\\text{ m}$};\n\\node[left] at (0,2.5) {$5\\text{ m}$};\n\\draw[<->] (8,-0.6)--(11,-0.6) node[midway,below] {$3\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "composite-rect-triangle-add",
         "solution_text": "The triangle has base $5$ m (the shared edge) and perpendicular height $3$ m.\n$A_1 = 8\\times 5$\n$= 40\\text{ m}^{2}$\n$A_2 = \\frac{1}{2}\\times 5\\times 3$\n$= 7.5\\text{ m}^{2}$\n$A = A_1 + A_2$\n$= 47.5\\text{ m}^{2}$"
       },
-      {
-        "question_text": "A sports field is a trapezium with parallel sides $30$ m and $20$ m and a width of $12$ m. Turf costs $\\$8$ per square metre.\nCalculate the total cost of turfing the field.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.16]\n\\draw[thick] (0,0)--(30,0)--(25,12)--(5,12)--cycle;\n\\draw[dashed] (5,0)--(5,12);\n\\draw[dashed] (25,0)--(25,12);\n\\node[below] at (15,0) {$30\\text{ m}$};\n\\node[above] at (15,12) {$20\\text{ m}$};\n\\node[left] at (5,6) {$12\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "composite-area-to-cost",
-        "solution_text": "$A = \\frac{1}{2}(30+20)\\times 12$\n$= \\frac{1}{2}\\times 50\\times 12$\n$= 300\\text{ m}^{2}$\n$300\\times 8 = 2400$\nThe turf costs $\\$2400$."
+{
+        "question_text": "This sports field is a trapezium.\nCalculate its area by splitting it into a rectangle and a triangle.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.16]\n\\draw[thick] (0,0)--(32,0)--(22,14)--(0,14)--cycle;\n\\draw[dashed] (22,0)--(22,14);\n\\node[below] at (16,0) {$32\\text{ m}$};\n\\node[above] at (11,14) {$22\\text{ m}$};\n\\node[left] at (0,7) {$14\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-trapezium",
+        "solution_text": "The triangle's base is $32-22=10\\text{ m}$.\n$A_1 = 22\\times 14$\n$= 308\\text{ m}^{2}$\n$A_2 = \\frac{1}{2}\\times 10\\times 14$\n$= 70\\text{ m}^{2}$\n$A = A_1 + A_2$\n$= 378\\text{ m}^{2}$"
       },
-      {
-        "question_text": "A semicircle is cut from one long side of this rectangular metal tabletop.\nCalculate the remaining area, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\fill[blue!15] (0,0) rectangle (10,6);\n\\fill[white] (2,6) arc[start angle=180,end angle=360,radius=3];\n\\draw[thick] (0,0) rectangle (10,6);\n\\draw[thick] (2,6) arc[start angle=180,end angle=360,radius=3];\n\\node[below] at (5,0) {$10\\text{ m}$};\n\\node[left] at (0,3) {$6\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "A semicircle of diameter $6\\text{ m}$ is cut from one long side of this rectangular metal tabletop.\nCalculate the remaining area, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\fill[blue!15] (0,0) rectangle (10,6);\n\\fill[white] (2,6) arc[start angle=180,end angle=360,radius=3];\n\\draw[thick] (0,0) rectangle (10,6);\n\\draw[thick] (2,6) arc[start angle=180,end angle=360,radius=3];\n\\node[below] at (5,0) {$10\\text{ m}$};\n\\node[left] at (0,3) {$6\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "composite-rect-minus-semicircle",
         "solution_text": "The semicircle has diameter $6$ m, so its radius is $3$ m.\n$A_1 = 10\\times 6$\n$= 60\\text{ m}^{2}$\n$A_2 = \\frac{1}{2}\\pi(3)^{2}$\n$= 14.1371\\ldots\\text{ m}^{2}$\n$A = A_1 - A_2$\n$= 45.86\\text{ m}^{2}$"
       },
-      {
+{
         "question_text": "A rectangular wall has a door and a window that will not be painted.\nCalculate the area of wall to be painted.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\fill[blue!15] (0,0) rectangle (6,3);\n\\fill[white] (1,0) rectangle (2,2);\n\\fill[white] (3.5,1) rectangle (5,2);\n\\draw[thick] (0,0) rectangle (6,3);\n\\draw[thick] (1,0) rectangle (2,2);\n\\draw[thick] (3.5,1) rectangle (5,2);\n\\node[below] at (3,0) {$6\\text{ m}$};\n\\node[left] at (0,1.5) {$3\\text{ m}$};\n\\node[below,font=\\small] at (1.5,0) {$1\\text{ m}$};\n\\node[right,font=\\small] at (2,1) {$2\\text{ m}$};\n\\node[above,font=\\small] at (4.25,2) {$1.5\\text{ m}$};\n\\node[right,font=\\small] at (5,1.5) {$1\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "composite-rect-minus-rect",
         "solution_text": "$A_1 = 6\\times 3$\n$= 18\\text{ m}^{2}$\n$A_2 = 1\\times 2$\n$= 2\\text{ m}^{2}$\n$A_3 = 1.5\\times 1$\n$= 1.5\\text{ m}^{2}$\n$A = A_1 - A_2 - A_3$\n$= 14.5\\text{ m}^{2}$"
       },
-      {
-        "question_text": "This tabletop is a rectangle with a triangle on each end.\nCalculate its area.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.5]\n\\draw[thick] (0,0)--(10,0)--(13,3)--(10,6)--(0,6)--(-3,3)--cycle;\n\\draw[dashed] (0,0)--(0,6);\n\\draw[dashed] (10,0)--(10,6);\n\\node[below] at (5,0) {$10\\text{ m}$};\n\\node[left] at (0,3) {$6\\text{ m}$};\n\\draw[<->] (10,-0.7)--(13,-0.7) node[midway,below] {$3\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "This tabletop is a rectangle with a triangle on each end. The two end triangles are congruent.\nCalculate its area.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.5]\n\\draw[thick] (0,0)--(10,0)--(13,3)--(10,6)--(0,6)--(-3,3)--cycle;\n\\draw[dashed] (0,0)--(0,6);\n\\draw[dashed] (10,0)--(10,6);\n\\node[below] at (5,0) {$10\\text{ m}$};\n\\node[left] at (0,3) {$6\\text{ m}$};\n\\draw[<->] (10,-0.7)--(13,-0.7) node[midway,below] {$3\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "composite-rect-triangle-add",
         "solution_text": "Each triangle has base $6$ m (the shared edge) and perpendicular height $3$ m.\n$A_1 = 10\\times 6$\n$= 60\\text{ m}^{2}$\n$A_2 = \\frac{1}{2}\\times 6\\times 3$\n$= 9\\text{ m}^{2}$\n$A = A_1 + 2\\times A_2$\n$= 78\\text{ m}^{2}$"
       }
-    ],
+],
     "mastery": [
-      {
+{
         "question_text": "This garden bed is to be covered with mulch.\nEach bag of mulch covers $7\\text{ m}^{2}$, and bags cannot be split.\nHow many bags are needed?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.45]\n\\draw[thick] (0,0)--(12,0)--(12,6)--(6,10)--(0,6)--cycle;\n\\draw[dashed] (0,6)--(12,6);\n\\node[below] at (6,0) {$12\\text{ m}$};\n\\node[right] at (12,3) {$6\\text{ m}$};\n\\draw[<->] (6.4,6)--(6.4,10) node[midway,right] {$4\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "composite-area-to-units",
         "solution_text": "$A_1 = 12\\times 6$\n$= 72\\text{ m}^{2}$\n$A_2 = \\frac{1}{2}\\times 12\\times 4$\n$= 24\\text{ m}^{2}$\n$A = A_1 + A_2$\n$= 96\\text{ m}^{2}$\n$96\\div 7 = 13.7\\ldots$\nBags cannot be split, so $14$ bags are needed."
       },
-      {
-        "question_text": "A rectangular sheet of metal $12$ cm by $8$ cm has a smaller rectangle, $4$ cm by $x$ cm, cut out of it.\nThe area of metal that is left is $80\\text{ cm}^{2}$.\nFind the value of $x$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\fill[blue!15] (0,0) rectangle (12,8);\n\\fill[white] (7,2) rectangle (11,6);\n\\draw[thick] (0,0) rectangle (12,8);\n\\draw[thick] (7,2) rectangle (11,6);\n\\node[below] at (6,0) {$12\\text{ cm}$};\n\\node[left] at (0,4) {$8\\text{ cm}$};\n\\node[below] at (9,2) {$4\\text{ cm}$};\n\\node[right] at (11,4) {$x$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "composite-solve-for-dimension",
-        "solution_text": "$A_1 = 12\\times 8$\n$= 96\\text{ cm}^{2}$\n$A_2 = 4x$\n$A = A_1 - A_2$\n$80 = 96 - 4x$\n$4x = 16$\n$x = 4\\text{ cm}$"
+{
+        "question_text": "A rectangular wall is $8\\text{ m}$ wide and $5\\text{ m}$ high. An arch is cut from the wall. The arch consists of a rectangle $4\\text{ m}$ wide and $3\\text{ m}$ high, with a semicircle of diameter $4\\text{ m}$ joined to its top.\nCalculate the remaining area of the wall, correct to $2$ decimal places.",
+        "structure": "composite-rect-minus-arch",
+        "solution_text": "The semicircle has radius $2\\text{ m}$.\n$A_1 = 8\\times 5$\n$= 40\\text{ m}^{2}$\n$A_2 = 4\\times 3$\n$= 12\\text{ m}^{2}$\n$A_3 = \\frac{1}{2}\\pi(2)^{2}$\n$= 6.2831\\ldots\\text{ m}^{2}$\n$A = A_1 - A_2 - A_3$\n$= 21.72\\text{ m}^{2}$"
       },
-      {
-        "question_text": "A rectangular pool $15$ m long and $9$ m wide is surrounded by a paved path of constant width $1.5$ m. Paving costs $\\$40$ per square metre.\nCalculate the total cost of paving the path.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.32]\n\\fill[blue!15] (0,0) rectangle (18,12);\n\\fill[white] (1.5,1.5) rectangle (16.5,10.5);\n\\draw[thick] (0,0) rectangle (18,12);\n\\draw[thick] (1.5,1.5) rectangle (16.5,10.5);\n\\node at (9,6) {$15\\text{ m}\\times 9\\text{ m}$};\n\\draw[<->] (0,11)--(1.5,11) node[midway,above,font=\\small] {$1.5\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "composite-area-to-cost",
-        "solution_text": "The path adds $1.5$ m on every side, so the outer rectangle is $15+1.5+1.5=18$ m by $9+1.5+1.5=12$ m.\n$A_1 = 18\\times 12$\n$= 216\\text{ m}^{2}$\n$A_2 = 15\\times 9$\n$= 135\\text{ m}^{2}$\n$A = A_1 - A_2$\n$= 81\\text{ m}^{2}$\n$81\\times 40 = 3240$\nThe paving costs $\\$3240$."
+{
+        "question_text": "A racetrack is the region between two ovals. Each oval consists of a rectangle with a semicircle joined to each short side. Both rectangles are $30\\text{ m}$ long. The outer rectangle is $18\\text{ m}$ wide and the inner rectangle is $12\\text{ m}$ wide. Each semicircle's diameter equals the width of its rectangle.\nCalculate the area of the racetrack, correct to $2$ decimal places.",
+        "structure": "composite-oval-border",
+        "solution_text": "The two outer semicircles form a circle of radius $9\\text{ m}$. The two inner semicircles form a circle of radius $6\\text{ m}$.\n$A_1 = 30\\times 18 + \\pi(9)^{2}$\n$= 540 + 81\\pi\\text{ m}^{2}$\n$A_2 = 30\\times 12 + \\pi(6)^{2}$\n$= 360 + 36\\pi\\text{ m}^{2}$\n$A = A_1 - A_2$\n$= 180 + 45\\pi\\text{ m}^{2}$\n$= 321.37\\text{ m}^{2}$"
       }
-    ]
+]
   }
 }
