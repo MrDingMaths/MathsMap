@@ -11,7 +11,7 @@
   import {isLeanReview} from '../lib/booklet-review-profile.js';
   import {captureFlowViewport,resolveFlowPageAnchor,restoreFlowViewport} from '../lib/booklet-viewport.js';
   import {frontMatterDestinations,unnumberedTopicDestinations} from '../lib/booklet-cover.js';
-  let {project,edition='student',options={},zoom='width',selectedBlockId='',editing=false,composing=false,selecting=false,immediateLayoutGeneration=-1,documentGeneration=0,onstatus=null,onmap=null,onprogress=null,onpage=null,onselect=null,onContentEdit=null,onSpaceResize=null,onmove=null,onremovebreak=null}=$props();
+  let {project,edition='student',options={},zoom='width',pageView='single',selectedBlockId='',editing=false,composing=false,selecting=false,immediateLayoutGeneration=-1,documentGeneration=0,onstatus=null,onmap=null,onprogress=null,onpage=null,onselect=null,onContentEdit=null,onSpaceResize=null,onmove=null,onremovebreak=null}=$props();
   let renderProject=$state.raw(null),renderOptions=$state.raw({});
   let measurement=$state.raw(null),result=$state.raw({pages:[],issues:[]}),progress=$state('Preparing pages…'),ready=$state(false),error=$state(''),retry=$state(0);
   let metrics=$state.raw(null);
@@ -21,7 +21,9 @@
   let paginationRuns=0;
   const loadTimings=[],workTimings=[];let memoryContext;
   const documentEditor=getContext('booklet-inline-edit');
-  const scale=$derived(zoom==='width'||zoom==='page'?Math.min(1,width/794):Number(zoom)||1);
+  // Multiple-pages view wraps pages side by side; fitting the width shows a two-page spread.
+  const multiple=$derived(pageView==='multiple'),PAGE_GAP=20;
+  const scale=$derived(zoom==='width'||zoom==='page'?Math.min(1,width/(multiple?2*794+PAGE_GAP:794)):Number(zoom)||1);
   const paginationKey=createPaginationKey();
   const signature=$derived(paginationKey(project,edition,options));
   function scrollToElement(element){if(!element||!scrollRoot)return;scrollRoot.scrollTop+=element.getBoundingClientRect().top-scrollRoot.getBoundingClientRect().top-12;}
@@ -127,16 +129,26 @@
   });
   function updateVisible(){
     if(!root||!scrollRoot)return;const bounds=scrollRoot.getBoundingClientRect(),next=new Set();let nearest=0,distance=Infinity;
-    root.querySelectorAll('[data-flow-index]').forEach(el=>{const r=el.getBoundingClientRect(),i=Number(el.dataset.flowIndex);if(r.bottom>bounds.top-1500&&r.top<bounds.bottom+1500)next.add(i);const d=Math.abs(r.top-bounds.top-80);if(d<distance){nearest=i;distance=d;}});
+    // A zoomed-out grid holds many pages per screen, so render one screen ahead rather than 1500px.
+    const ahead=multiple?Math.min(1500,bounds.height):1500;
+    root.querySelectorAll('[data-flow-index]').forEach(el=>{const r=el.getBoundingClientRect(),i=Number(el.dataset.flowIndex);if(r.bottom>bounds.top-ahead&&r.top<bounds.bottom+ahead)next.add(i);const d=Math.abs(r.top-bounds.top-80);if(d<distance){nearest=i;distance=d;}});
     if(selecting){visible=new Set([...visible,...next]);return;}
     result.pages.forEach((p,i)=>{if(editing&&p.blocks.some(b=>b.id===selectedBlockId)||result.issues.some(issue=>p.blocks.some(b=>b.id===issue.id)))next.add(i);});
     if([...next].join()!==[...visible].join())visible=next;
     if(nearest!==active){active=nearest;onpage?.(result.pages[active]);}
   }
+  let shownView=pageView;
+  // Runs before the DOM changes so the page in view is read from the outgoing layout.
+  $effect.pre(()=>{
+    if(pageView===shownView)return;shownView=pageView;
+    const index=untrack(()=>{updateVisible();return active;});
+    tick().then(()=>{scrollToElement(root?.querySelector(`[data-flow-index="${index}"]`));updateVisible();});
+  });
+  $effect(()=>{scale;tick().then(updateVisible);});
   onMount(()=>{scrollRoot=root.closest('.project-canvas');const observer=new ResizeObserver(()=>{width=root.parentElement.clientWidth;updateVisible();});observer.observe(root.parentElement);scrollRoot?.addEventListener('scroll',updateVisible,{passive:true});return()=>{generation++;observer.disconnect();scrollRoot?.removeEventListener('scroll',updateVisible);};});
 </script>
 <div class="flow-document" bind:this={root} onclick={followReference} role="presentation" data-pagination-metrics={metrics?JSON.stringify(metrics):undefined} data-paginated-edition={result.edition} data-pagination-state={error?'error':ready&&result.edition===edition?'ready':'pending'} aria-busy={!ready&&!error}>
-  <div class="flow-paper" style:zoom={scale}>
+  <div class="flow-paper" class:multiple style:zoom={scale}>
     {#each result.pages as page,index (page.id)}
       {@const boundary=page.blocks[0]?.flow?.fragment?'automatic':pageBoundaryKind(renderProject??project,page.blocks[0]?.id)}
       <section class="flow-page-group" data-flow-index={index} data-page-mode={page.mode??'student'} data-page-number={page.pageNumber} data-flow-blocks={JSON.stringify(page.blocks.map(b=>[b.id,b.flow?.fragment,b.flow?.answerFragment,b.content?._bookletSlice,b.content?.children?.map(n=>n.id)]))}>
@@ -152,4 +164,5 @@
 <style>
 .page-boundary{display:flex;align-items:center;gap:10px}.remove-break{font:13px system-ui;border:1px solid #ccd5df;border-radius:4px;background:var(--panel,#fff);color:inherit;padding:4px 8px;cursor:pointer}
 .flow-document{min-width:0}.flow-paper{width:210mm;margin:auto;color:#24282d}.page-marker{display:flex;width:100%;justify-content:space-between;align-items:center;border:0;background:transparent;color:var(--text,#465f7b);padding:10px 0;cursor:pointer;font:14px system-ui}.page-marker small{color:inherit}.flow-page-group{scroll-margin-top:110px;margin-bottom:20px}.page-placeholder{background:white;height:297mm;box-shadow:0 2px 8px #182c4224}.placeholder-status{height:34px}.flow-measure{position:fixed;left:-20000px;top:0;width:210mm;visibility:hidden;pointer-events:none}.flow-page-content{display:flow-root}
+@media screen{.flow-paper.multiple{width:auto;display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:0 20px}.flow-paper.multiple .flow-page-group{width:210mm;flex:none}}
 </style>
