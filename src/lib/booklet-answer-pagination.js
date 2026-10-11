@@ -8,7 +8,7 @@ export async function paginateCompactAnswers(project,edition,measure,{cancelled=
   const mode=edition.includes('short')?'short':'worked',count=mode==='short'?2:1;
   const footerReserve=Math.max(0,Number(project.settings?.compactAnswers?.workedFooterReserveMm)||0);
   const sections=flowEditionSections(project,mode),pages=[],issues=[];
-  const widths=new Map(sections.map(s=>[s.topicId,exerciseLabelWidth(sections.filter(t=>t.topicId===s.topicId).flatMap(t=>t.blocks))]));
+  const widths=new Map(sections.map(s=>[s.topicId,exerciseLabelWidth(sections.filter(t=>t.topicId===s.topicId).flatMap(t=>t.blocks),mode)]));
   const reuse=paginationReuse(project,edition,previous,context,{compactAnswers:true});
   const units=orderedAnswerUnits(sections,mode);
   const cached=reuse.get('answers',{id:'answers',metadata:sections.map(s=>({...s,blocks:undefined,labelWidthMm:widths.get(s.topicId)}))},units,false);

@@ -95,4 +95,11 @@ test('parts of a multipart question start a new row; single answers still share 
   // One answer continued from a multipart question does not share with the next question.
   const tail=[entry('q3'),entry('q3'),entry('q3'),entry('q3-more',{continuationOf:'q3'}),entry('q4'),entry('q5')];
   assert.deepEqual(packShortAnswerRows(tail,tail.map(()=>18),86).map(r=>r.length),[3,1,2]);
+  // A short last row keeps the columns of the row above, so 4d sits under 4a and 8 9 under 5 6.
+  assert.deepEqual(rows.map(r=>r[0].shortColumns),[2,3,3,3,2,1]);
+  const singles=[entry('q5'),entry('q6'),entry('q7'),entry('q8'),entry('q9')];
+  assert.deepEqual(packShortAnswerRows(singles,singles.map(()=>18),86).map(r=>[r.length,r[0].shortColumns]),[[3,3],[2,3]]);
+  // An answer too wide for the narrower cell still takes the room it needs.
+  const wide=[entry('q4'),entry('q4'),entry('q4'),entry('q4'),entry('q4')];
+  assert.deepEqual(packShortAnswerRows(wide,[18,18,18,30,18],86).map(r=>[r.length,r[0].shortColumns]),[[3,3],[2,2]]);
 });

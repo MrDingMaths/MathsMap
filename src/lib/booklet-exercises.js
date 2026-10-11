@@ -316,12 +316,15 @@ export function workedAnswerDiagramFragments(fragment) {
   ];
 }
 
-export function exerciseLabelWidth(blocks) {
+// A group answered as one entry in this edition prints its own label only, so
+// the labels of the parts beneath it do not widen the gutter.
+export function exerciseLabelWidth(blocks,mode=null) {
+  const answeredAsGroup=node=>mode==='short'?node.answer?.short||node.answer?.solutionDiagrams?.length:mode==='worked'&&node.answer?.worked;
   let length=1;
   for(const block of blocks){
     const walk=(node,path=[],index=0,parent=null)=>{
       const next=answerNodePath(block.content,node,path,index,parent);
-      if(node.children?.length)node.children.forEach((c,i)=>walk(c,next,i,node));
+      if(node.children?.length&&!answeredAsGroup(node))node.children.forEach((c,i)=>walk(c,next,i,node));
       else length=Math.max(length,compactAnswerLabel(block.sourceOrder,next).length);
     };
     walk(block.content);

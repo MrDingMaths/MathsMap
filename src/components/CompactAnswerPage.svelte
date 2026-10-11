@@ -25,7 +25,7 @@
                   {#if !page.shortAnswerProbe&&(index===0||rows[index-1][0].section.topicId!==row[0].section.topicId)}
                     <h2><InlineContent text={title(row[0].section)}/></h2>
                   {/if}
-                  <div class="answer-row-grid" style={`grid-template-columns:repeat(${row.length},minmax(0,1fr));column-gap:${SHORT_ANSWER_GRID_GAP_MM}mm`}>
+                  <div class="answer-row-grid" style={`grid-template-columns:repeat(${row[0].shortColumns??row.length},minmax(0,1fr));column-gap:${SHORT_ANSWER_GRID_GAP_MM}mm`}>
                     {#each row as entry}
                       <section class="answer-fragment" class:answer-width-probe={page.shortAnswerProbe} id={!page.shortAnswerProbe&&firstFragment(entry)?`${anchorPrefix}answer-${page.mode}-${entry.block.id}`:undefined} data-answer-fragment={entry.block.flow.answerFragment} data-answer-continuation={entry.block.flow.answerContinuation}>
                         {#if entry.block.flow.answerContinuation==='solution-diagrams'}<div class="answer-continuation">Worked solution continued</div>{/if}

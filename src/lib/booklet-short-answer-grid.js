@@ -64,16 +64,23 @@ export function packShortAnswerRows(entries,widths,columnWidthMm){
   // Parts of a multipart question never share a row with another question:
   // 3i 3j ends the row and 4a starts the next. Single answers (3 4 5) may share.
   const together=(i,count)=>{const slice=keys.slice(i,i+count);return slice.every(key=>key===keys[i])||slice.every(key=>parts.get(key)===1);};
+  // Rows that belong together: the parts of one question, or a run of single answers in one exercise.
+  const group=i=>parts.get(keys[i])===1?`single:${entries[i].section.topicId}`:keys[i];
+  let previous=null;
   for(let i=0;i<entries.length;){
-    let count=1;
+    let count=1,columns=1;
     for(const candidate of [3,2]){
-      const slice=entries.slice(i,i+candidate),cell=(columnWidthMm-SHORT_ANSWER_GRID_GAP_MM*(candidate-1))/candidate;
-      if(slice.length===candidate&&together(i,candidate)&&slice.every((entry,j)=>entry.section.topicId===entries[i].section.topicId&&Number.isFinite(widths[i+j])&&widths[i+j]+.2<=cell)){
-        count=candidate;break;
-      }
+      const cell=(columnWidthMm-SHORT_ANSWER_GRID_GAP_MM*(candidate-1))/candidate;
+      const fits=size=>size>0&&i+size<=entries.length&&entries.slice(i,i+size).every((entry,j)=>entry.section.topicId===entries[i].section.topicId&&Number.isFinite(widths[i+j])&&widths[i+j]+.2<=cell);
+      if(together(i,candidate)&&fits(candidate)){count=columns=candidate;break;}
+      // A short last row keeps the columns of the row above: 9g 9h sit under 9d 9e.
+      let rest=0;
+      while(rest<candidate&&i+rest<entries.length&&group(i+rest)===group(i))rest++;
+      if(rest<candidate&&previous?.columns===candidate&&previous.group===group(i)&&fits(rest)){count=rest;columns=candidate;break;}
     }
     const row=rows.length;
-    rows.push(entries.slice(i,i+count).map(entry=>({...entry,shortRow:row,shortColumns:count})));
+    rows.push(entries.slice(i,i+count).map(entry=>({...entry,shortRow:row,shortColumns:columns})));
+    previous={columns,group:group(i)};
     i+=count;
   }
   return rows;
@@ -95,7 +102,7 @@ const sameCarry=(a,b)=>a.length===b.length&&a.every((entry,i)=>entry.block===b[i
 
 export async function paginateShortAnswerGrid(project,edition,measure,{cancelled=()=>false,onprogress=()=>{},previous=null,context=''}={}){
   const sections=flowEditionSections(project,'short'),pages=[],issues=[];
-  const labelWidths=new Map(sections.map(s=>[s.topicId,exerciseLabelWidth(sections.filter(t=>t.topicId===s.topicId).flatMap(t=>t.blocks))]));
+  const labelWidths=new Map(sections.map(s=>[s.topicId,exerciseLabelWidth(sections.filter(t=>t.topicId===s.topicId).flatMap(t=>t.blocks),'short')]));
   const metadata=sections.map(s=>({...s,blocks:undefined,labelWidthMm:labelWidths.get(s.topicId)}));
   const reuse=paginationReuse(project,edition,previous,context,{compactAnswers:true});
   const input=reuse.get('short-grid-inputs',{metadata},sections.flatMap(section=>section.blocks.map(block=>({blocks:[block]}))),false);

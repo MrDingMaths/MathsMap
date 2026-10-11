@@ -348,3 +348,16 @@ test('layout wrappers add no label segment or context unless their part labels c
  // A wrapper with an unlabelled response keeps its segment.
  verifyFragments(block(9,[group('rows','',[part('blank','','$1$'),part('b','b','$2$')])]),['9(1)(1)','9(1)b']);
 });
+
+test('a group answered as one entry does not widen the label gutter with its parts',()=>{
+ // A sample-answers table: twelve unlabelled cells under one short answer print as 14, not 14(1)(1)(1).
+ const cells=row=>['positive','zero','negative'].map(sign=>part(`${row}-${sign}`,'','$1$'));
+ const table=block(14,[group('table','',[group('row1','',cells('row1')),group('row2','',cells('row2'))])]);
+ assert.equal(exerciseLabelWidth([table],'short'),'14(1)(1)(1)'.length*2.1);
+ table.content.answer={short:'Sample answers'};
+ assert.equal(exerciseLabelWidth([table],'short'),8);
+ // The worked edition still prints each cell, so its gutter keeps their labels.
+ assert.equal(exerciseLabelWidth([table],'worked'),'14(1)(1)(1)'.length*2.1);
+ assert.equal(answerFragments(table,'short').length,1);
+ assert.equal(answerFragments(table,'worked').length,6);
+});
