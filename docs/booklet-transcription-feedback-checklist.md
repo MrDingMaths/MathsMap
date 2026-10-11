@@ -94,6 +94,14 @@ answer spaces and table row heights can also reserve writing room.
 
 Group related source items under their shared instruction or definition as one editable question with a, b, c parts and a native grid, even when the source numbers them individually. Preserve meaningful range, exercise and category boundaries, nested parts and original source identities in provenance. Renumber displayed questions within each exercise. Generate/review worked solutions first and estimate per-part handwriting space from mathematical steps (including TeX rows), cell-width wrapping, fractions and required drawings; save editable estimates and retain manual overrides. Inspect representative grids at final size, including pagination. Do not repeat the stem per item or use question-type allowances alone. See [practice-only import contract](booklet-practice-only-import.md).
 
+## Part labels run in one sequence (11 October 2026, user requested)
+
+Label the parts of one practice question in a single sequence, whatever the source does. When a question has several runs of parts, each under its own instruction or beside its own table or dataset, the second run continues where the first stopped (`a`–`d`, then `e`–`h`), and a lone response between or after the runs takes the next label rather than none. Roman-numeral parts continue the same way (`i`–`iii`, then `iv`–`vi`). Keep each run's instruction and its grouping on the question page; only the labels change. Update any wording that names a part ("use part a").
+
+Restarted labels are not a neutral copy of the source: the answer sections can only tell the runs apart by printing a position number and repeating the run's instruction beside every answer (`20(4)c`). With one sequence the answers read `20a`–`20j`. Record the relabelling as an intentional departure where the source restarts.
+
+`node scripts/booklet/check-part-label-sequence.mjs [project-id]` lists practice questions that restart their labels, with the labels a repair would assign (`--strict` to fail); a new import should report none. It marks for hand repair the cases it cannot sequence safely: questions continued across blocks, more than 26 parts, nested unlabelled groups, pinned source labels and wording that names a part. Teaching blocks are not reported: their responses are filled in place and each example may keep its own `a`, `b`.
+
 ## Equation and working alignment (4 October 2026)
 
 The initial import reproduces the source's alignment; it is not left for later editing. For every equation, line of working and worked example, record and encode three things:

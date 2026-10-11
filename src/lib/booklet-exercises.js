@@ -29,7 +29,7 @@ export function firstAnswerNode(node,responses=[]){
 // and no context: the part labels already identify each answer. A wrapper with an
 // unlabelled response, or whose part labels repeat elsewhere in the parent, keeps
 // its position number and its instruction as context.
-function arrangesLabelledParts(node,parent){
+export function arrangesLabelledParts(node,parent){
  if(!parent?.children||node.label==null||String(node.label).trim()||!node.children?.length)return false;
  const text=n=>String(n.label??'').trim();
  const labels=parent.children.flatMap(sibling=>sibling.label!=null&&!text(sibling)&&sibling.children?.length?sibling.children:[sibling]).map(text);

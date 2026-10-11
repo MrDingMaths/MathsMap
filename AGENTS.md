@@ -6,6 +6,14 @@ Keep this file under 32,000 bytes: Codex loads only the first 32,768 bytes of it
 
 [`pedagogy/review.mjs`](docs/booklet-pedagogy-review.md) reports consequential learning barriers in a booklet's teaching sequence and proposes the smallest repair; it never edits a booklet. Its workers are Sol 6.1 at low reasoning for the review pass and medium for the challenge pass, a deliberate exception to the low default below. For a three-pass import, run it after content review and before the final export, and hold the export only for findings that add, move or replace questions. An open comment is never approval: repair only the findings the user names. Keep the tool out of `scripts/`, which exports freeze.
 
+## Part labels run in one sequence (11 October 2026, user requested)
+
+For imports and authorised repairs, label the parts of one practice question in [one sequence](docs/booklet-transcription-feedback-checklist.md#part-labels-run-in-one-sequence-11-october-2026-user-requested): a second run of parts under its own instruction continues (`e`–`h`) and a lone response takes the next label, even where the source restarts at `a`. `node scripts/booklet/check-part-label-sequence.mjs [project-id]` should report none for a new import.
+
+## Sample answers for open-ended tables and box grids (11 October 2026, user requested)
+
+An open-ended question answered in the cells of one table or box grid gets one short-answer entry: “Sample answers” and the question’s layout filled with one example per cell, with no per-cell “e.g.” or restated headings. Follow [the convention](docs/booklet-cross-session-rules.md#sample-answers-for-open-ended-tables-and-box-grids-11-october-2026-user-requested).
+
 ## Bank links and duplicate questions (9 October 2026, user approved)
 
 A question is published to the bank once; every other booklet that contains it links to that record. Follow [duplicates and linking](docs/booklet-bank-auto-sync.md#duplicates-and-linking-9-october-2026-user-approved). `import-project-bank.mjs` links identical questions automatically, holds a same-question match that has a different answer for one decision in Studio (**Use existing** or **Keep separate**), and creates only the rest; assessments cover new questions only. Do not add a duplicate review stage or model call to imports, and do not hold or block on similarity scores. Run `node scripts/booklet/bank-links.mjs [--project ID]` to see what a publication would create, link or hold. Never create a second bank record for an identical question by writing bank files directly.
