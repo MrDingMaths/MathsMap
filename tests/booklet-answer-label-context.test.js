@@ -30,7 +30,7 @@ function responses(item,mode='short'){
  const result=[];
  const root=item.content;
  function visit(node,path=[],index=0,contexts=[],parent=null){
-  const next=answerNodePath(root,node,path,index);
+  const next=answerNodePath(root,node,path,index,parent);
   const context=answerNodeContext(root,node,index,parent);
   const headings=context?[...contexts,context]:contexts;
   if(node.children?.length&&!node.answer?.[mode]){
@@ -321,4 +321,19 @@ test('native paired-method roots retain Ashley Amelia Emma and Harriet in source
   ],mode);
   assert.deepEqual(second.map(response=>response.id),['p85-q7-strategy','p85-q7-emma-method','p85-q7-harriet-method']);
  }
+});
+
+test('unprompted layout wrappers add no label segment unless their part labels collide',()=>{
+ // Two source columns arranging parts a-d of one question: 4a, not 4(1)a.
+ const columns=block(4,[group('left','',[part('a','a','$3$'),part('b','b','$1$')]),group('right','',[part('c','c','$-2$'),part('d','d','$0$')])]);
+ for(const mode of ['short','worked'])verifyFragments(columns,['4a','4b','4c','4d'],mode);
+ assert.equal(exerciseLabelWidth([columns]),exerciseLabelWidth([block(4,[part('a','a','$3$')])]),'a transparent wrapper does not widen the label gutter');
+ // A wrapper beside directly labelled parts is transparent while labels stay distinct.
+ verifyFragments(block(5,[part('a','a','$1$'),group('rest','',[part('b','b','$2$'),part('c','c','$3$')])]),['5a','5b','5c']);
+ // Wrappers that each restart at a keep their position so labels stay distinct.
+ verifyFragments(block(6,[group('first','',[part('first-a','a','$1$')]),group('second','',[part('second-a','a','$2$')])]),['6(1)a','6(2)a']);
+ verifyFragments(block(7,[part('a','a','$1$'),group('again','',[part('again-a','a','$2$')])]),['7a','7(2)a']);
+ // A wrapper with its own heading, or with an unlabelled response, keeps its segment.
+ verifyFragments(block(8,[group('headed','Method one:',[part('a','a','$1$')])]),['8(1)a']);
+ verifyFragments(block(9,[group('rows','',[part('blank','','$1$'),part('b','b','$2$')])]),['9(1)(1)','9(1)b']);
 });

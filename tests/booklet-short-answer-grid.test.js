@@ -79,3 +79,20 @@ test('worked solutions retain individual entries and do not request short-answer
   const result=await paginateFlow(fixture(),'worked',page=>{assert.equal(page.shortAnswerProbe,undefined);assert.ok(page.columns.every(c=>c.every(e=>e.shortRow==null)));return {height:page.blocks.length*20,capacity:100};});
   assert.equal(result.pages.length,6);assert.ok(result.pages.every(p=>p.columns.length===1));
 });
+
+test('parts of a multipart question start a new row; single answers still share across questions',()=>{
+  const entry=(id,extra={})=>({block:{...block(id),...extra},section:{topicId:'t'}});
+  // 3i 3j | 4a 4b 4c | 4d | 5 6 7 | 8a 8b | 9
+  const entries=[entry('q3'),entry('q3'),entry('q4'),entry('q4'),entry('q4'),entry('q4'),entry('q5'),entry('q6'),entry('q7'),entry('q8'),entry('q8'),entry('q9')];
+  const rows=packShortAnswerRows(entries,entries.map(()=>18),86);
+  assert.deepEqual(rows.map(r=>r.map(e=>e.block.id).join(' ')),['q3 q3','q4 q4 q4','q4','q5 q6 q7','q8 q8','q9']);
+  assert.deepEqual(rows.flat().map(e=>e.block.id),entries.map(e=>e.block.id));
+  // A continuation block belongs to the question it continues, in either stored form.
+  for(const link of [{flow:{continuationOf:'q3'}},{continuationOf:'q3'}]){
+    const continued=[entry('q3'),entry('q3-more',link),entry('q3-more',link),entry('q4')];
+    assert.deepEqual(packShortAnswerRows(continued,continued.map(()=>18),86).map(r=>r.length),[3,1]);
+  }
+  // One answer continued from a multipart question does not share with the next question.
+  const tail=[entry('q3'),entry('q3'),entry('q3'),entry('q3-more',{continuationOf:'q3'}),entry('q4'),entry('q5')];
+  assert.deepEqual(packShortAnswerRows(tail,tail.map(()=>18),86).map(r=>r.length),[3,1,2]);
+});

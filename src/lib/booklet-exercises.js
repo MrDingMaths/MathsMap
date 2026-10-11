@@ -24,16 +24,27 @@ export function firstAnswerNode(node,responses=[]){
 
 // Display metadata belongs only to cloned answer fragments. Preserve the original
 // segment before pruning siblings, including whether a group was transparent.
-function answerPartLabel(node,index=0){
+// A blank-labelled, unprompted wrapper that only arranges labelled parts (source
+// columns, layout groups) adds no label segment. A wrapper with its own heading,
+// or whose part labels repeat elsewhere in the parent, keeps its position number.
+function arrangesLabelledParts(node,parent){
+ if(!parent?.children||node.label==null||String(node.label).trim()||!node.children?.length||contentSource(node.prompt).trim())return false;
+ const text=n=>String(n.label??'').trim();
+ const labels=parent.children.flatMap(sibling=>sibling.label!=null&&!text(sibling)&&sibling.children?.length?sibling.children:[sibling]).map(text);
+ return node.children.every(child=>text(child)&&labels.filter(label=>label===text(child)).length===1);
+}
+
+function answerPartLabel(node,index=0,parent=null){
  if(node._answerDisplay)return node._answerDisplay.label;
  if(node.label!=null&&String(node.label).trim())return String(node.label);
+ if(arrangesLabelledParts(node,parent))return null;
  if(node.label!=null||node.children?.some(child=>!String(child.label??'').trim()))return String(index+1);
  return node.children?.length?null:String.fromCharCode(97+index);
 }
 
-export function answerNodePath(root,node,path=[],index=0){
+export function answerNodePath(root,node,path=[],index=0,parent=null){
  if(node===root)return path;
- const label=answerPartLabel(node,index);
+ const label=answerPartLabel(node,index,parent);
  return label==null?path:[...path,label];
 }
 
@@ -224,7 +235,7 @@ export function answerFragments(block, mode = null) {
   const root=structuredClone(block.content),units=[];
   const sourceLabels=block.presentation?.sourceResponseLabels===true?new Map((block.sourceReview?.responses??[]).filter(r=>typeof r.label==='string').map(r=>[r.targetId,r.label])):null;
   const retainDisplay=(node,index=0,parent=null)=>{
-    node._answerDisplay={label:answerPartLabel(node,index),context:answerNodeContext(root,node,index,parent)};
+    node._answerDisplay={label:answerPartLabel(node,index,parent),context:answerNodeContext(root,node,index,parent)};
     if(sourceLabels?.has(node.id))node._answerDisplay.label=sourceLabels.get(node.id);
     node.children?.forEach((child,childIndex)=>retainDisplay(child,childIndex,node));
   };
@@ -306,9 +317,9 @@ export function workedAnswerDiagramFragments(fragment) {
 export function exerciseLabelWidth(blocks) {
   let length=1;
   for(const block of blocks){
-    const walk=(node,path=[],index=0)=>{
-      const next=answerNodePath(block.content,node,path,index);
-      if(node.children?.length)node.children.forEach((c,i)=>walk(c,next,i));
+    const walk=(node,path=[],index=0,parent=null)=>{
+      const next=answerNodePath(block.content,node,path,index,parent);
+      if(node.children?.length)node.children.forEach((c,i)=>walk(c,next,i,node));
       else length=Math.max(length,compactAnswerLabel(block.sourceOrder,next).length);
     };
     walk(block.content);

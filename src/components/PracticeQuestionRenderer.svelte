@@ -196,7 +196,7 @@
 {/snippet}
 
 {#snippet renderAnswerNode(node, path = [], index = 0, contexts = [], parent = null)}
-  {@const nextPath = answerNodePath(question.content,node,path,index)}
+  {@const nextPath = answerNodePath(question.content,node,path,index,parent)}
   {@const context = answerNodeContext(question.content,node,index,parent)}
   {@const nextContexts = context ? [...contexts,context] : contexts}
   {@const groupAnswer = node.children?.length && (showShortAnswers ? node.answer?.short || node.answer?.solutionDiagrams?.length : showWorkedSolutions ? node.answer?.worked : false)}

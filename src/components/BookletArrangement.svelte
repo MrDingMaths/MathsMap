@@ -55,15 +55,19 @@
   if(['Enter',' '].includes(event.key)){event.preventDefault();choose(event,n);}
  }
  const rowChildren=n=>arrangementRowChildren(n,resolved.entries);
+ // A borderless side-by-side block that opens with a paragraph reads as the
+ // first line of its part, so its label shares that line like ordinary prose.
+ const leadsWithLayoutText=block=>block?.type==='layout'&&['parallel','scaffold','worked-rows','investigation'].includes(block.arrangement)&&!block.border&&!block.title&&block.slots?.[0]?.blocks?.[0]?.type==='paragraph';
+ const leadsWithText=entry=>entry?.kind==='text'||entry?.kind==='document'&&(entry.value?.blocks?.[0]?.type==='paragraph'&&!hasStandaloneMathTable(entry.value)||leadsWithLayoutText(entry.value?.blocks?.[0]));
  function labelHasTextBaseline(n){
   const first=resolved.entries.get(n.children?.[1]?.ref);
-  return first?.kind==='text'||first?.kind==='document'&&first.value?.blocks?.[0]?.type==='paragraph'&&!hasStandaloneMathTable(first.value);
+  return leadsWithText(first);
  }
  function labelBodyHasTextBaseline(n){
   const body=n.children?.[1];
   if(n.direction!=='row'||n.children?.length!==2||resolved.entries.get(n.children[0]?.ref)?.kind!=='label'||body?.type!=='group'||body.direction==='row'||n.verticalAlign&&n.verticalAlign!=='top')return false;
   const first=resolved.entries.get(body.children?.[0]?.ref);
-  return first?.kind==='text'||first?.kind==='document'&&first.value?.blocks?.[0]?.type==='paragraph'&&!hasStandaloneMathTable(first.value);
+  return leadsWithText(first);
  }
  function start(event,n,index){
   event.preventDefault();event.stopPropagation();const el=event.currentTarget.parentElement,box=el.getBoundingClientRect(),children=rowChildren(n),total=children.reduce((a,c)=>a+(c.weight??1),0),left=children[index].weight??1,right=children[index+1].weight??1,start=event.clientX;
@@ -153,6 +157,10 @@
  .labelled:not(.arr-row)>.label-item{position:static;grid-column:1;grid-row:1;width:max-content;min-width:6mm;white-space:nowrap;align-self:start}
  .labelled:not(.arr-row)>.label-item+div{grid-row:1;align-self:start}
  .labelled.baseline-label:not(.arr-row)>.label-item,.labelled.baseline-label:not(.arr-row)>.label-item+div{align-self:first baseline}
+ /* A borderless side-by-side block directly after a label starts on the label's
+    line: its own space above would push the first line a full line lower.
+    Space below, side padding and bordered or titled blocks are unchanged. */
+ .labelled>.label-item+.arr-item :global(.document-content>section.me-layout:first-child:is(.me-parallel,.me-scaffold,.me-worked-rows,.me-investigation)[style*="border:0"]:not(:has(>strong))){margin-top:0!important;padding-top:0!important}
  /* Native question-grid cells share their first text baseline; explicit vertical alignment remains authoritative. */
  .arr-row>:global(.auto-row-baseline){align-self:first baseline}
  /* Chromium can collapse later flex-column writing areas when printing a

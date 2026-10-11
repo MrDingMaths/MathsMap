@@ -48,13 +48,27 @@ export function canShareShortAnswer(block){
   return !/[!?]|\.(?:\s|$)/.test(literal)&&!explanation.test(literal)&&literal.split(/\s+/).filter(Boolean).length<=5;
 }
 
+// A question continued across blocks is still one question.
+function questionKeys(entries){
+  const parents=new Map(entries.map(({block})=>[block.id,block.flow?.continuationOf??block.continuationOf]));
+  return entries.map(({block})=>{
+    let id=block.id;
+    for(const seen=new Set();parents.get(id)&&!seen.has(id);id=parents.get(id))seen.add(id);
+    return id;
+  });
+}
+
 export function packShortAnswerRows(entries,widths,columnWidthMm){
-  const rows=[];
+  const rows=[],keys=questionKeys(entries),parts=new Map();
+  for(const key of keys)parts.set(key,(parts.get(key)??0)+1);
+  // Parts of a multipart question never share a row with another question:
+  // 3i 3j ends the row and 4a starts the next. Single answers (3 4 5) may share.
+  const together=(i,count)=>{const slice=keys.slice(i,i+count);return slice.every(key=>key===keys[i])||slice.every(key=>parts.get(key)===1);};
   for(let i=0;i<entries.length;){
     let count=1;
     for(const candidate of [3,2]){
       const slice=entries.slice(i,i+candidate),cell=(columnWidthMm-SHORT_ANSWER_GRID_GAP_MM*(candidate-1))/candidate;
-      if(slice.length===candidate&&slice.every((entry,j)=>entry.section.topicId===entries[i].section.topicId&&Number.isFinite(widths[i+j])&&widths[i+j]+.2<=cell)){
+      if(slice.length===candidate&&together(i,candidate)&&slice.every((entry,j)=>entry.section.topicId===entries[i].section.topicId&&Number.isFinite(widths[i+j])&&widths[i+j]+.2<=cell)){
         count=candidate;break;
       }
     }
