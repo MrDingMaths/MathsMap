@@ -24,11 +24,13 @@ export function firstAnswerNode(node,responses=[]){
 
 // Display metadata belongs only to cloned answer fragments. Preserve the original
 // segment before pruning siblings, including whether a group was transparent.
-// A blank-labelled, unprompted wrapper that only arranges labelled parts (source
-// columns, layout groups) adds no label segment. A wrapper with its own heading,
-// or whose part labels repeat elsewhere in the parent, keeps its position number.
+// A blank-labelled wrapper that only arranges labelled parts (source columns,
+// layout groups, a run of parts under its own instruction) adds no label segment
+// and no context: the part labels already identify each answer. A wrapper with an
+// unlabelled response, or whose part labels repeat elsewhere in the parent, keeps
+// its position number and its instruction as context.
 function arrangesLabelledParts(node,parent){
- if(!parent?.children||node.label==null||String(node.label).trim()||!node.children?.length||contentSource(node.prompt).trim())return false;
+ if(!parent?.children||node.label==null||String(node.label).trim()||!node.children?.length)return false;
  const text=n=>String(n.label??'').trim();
  const labels=parent.children.flatMap(sibling=>sibling.label!=null&&!text(sibling)&&sibling.children?.length?sibling.children:[sibling]).map(text);
  return node.children.every(child=>text(child)&&labels.filter(label=>label===text(child)).length===1);
@@ -57,7 +59,7 @@ export function answerNodeContext(root,node,index=0,parent=null){
  const prompt=contentSource(contextPrompt).trim();
  const rootPrompt=contentSource(root.prompt).trim();
  if(node!==root&&String(node.label??'').trim())return '';
- if(node!==root&&node.children?.length)return answerPartLabel(node,index)==null?'':prompt.split(/\r?\n/,1)[0].replace(/:\s*$/,'');
+ if(node!==root&&node.children?.length)return answerPartLabel(node,index,parent)==null?'':prompt.split(/\r?\n/,1)[0].replace(/:\s*$/,'');
  if(node!==root&&!prompt&&index<2&&/\busing both methods\b/i.test(contentSource(parent?.prompt))){
   const names=rootPrompt.match(/^([\p{L}\p{M}][\p{L}\p{M}'’ -]*?) and ([\p{L}\p{M}][\p{L}\p{M}'’ -]*?) are solving\b/u);
   if(names)return `${names[index+1]}’s method`;

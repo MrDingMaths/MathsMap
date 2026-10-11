@@ -16,12 +16,17 @@ test('given table headers do not become repeated answer context',()=>{
  const prompt={format:'maths-editor-document-v1',version:1,blocks:[table]};
  const item=block(6,[group('table-panel',prompt,[part('a','a','3/7'),part('b','b','12/35')])]);
  for(const mode of ['short','worked']){
-  const {split}=verifyFragments(item,['6(1)a','6(1)b'],mode);
+  const {split}=verifyFragments(item,['6a','6b'],mode);
   assert.deepEqual(split.map(row=>row.contexts),[[],[]]);
  }
  const withProse=structuredClone(item);
  withProse.content.children[0].prompt.blocks.unshift(...fromSource('Two-way table:').blocks);
- assert.deepEqual(verifyFragments(withProse,['6(1)a','6(1)b']).split.map(row=>row.contexts),[['Two-way table'],['Two-way table']]);
+ // Distinct part labels identify each answer; the panel's instruction is not repeated.
+ assert.deepEqual(verifyFragments(withProse,['6a','6b']).split.map(row=>row.contexts),[[],[]]);
+ // Panels that restart at a keep their position and their instruction as context.
+ const repeated=structuredClone(withProse);
+ repeated.content.children.push(group('second-panel','Second table:',[part('second-a','a','1/7')]));
+ assert.deepEqual(verifyFragments(repeated,['6(1)a','6(1)b','6(2)a']).split.map(row=>row.contexts),[['Two-way table'],['Two-way table'],['Second table']]);
 });
 
 // Apply the shared display API to the consumer's response tree. Expected labels
@@ -323,7 +328,7 @@ test('native paired-method roots retain Ashley Amelia Emma and Harriet in source
  }
 });
 
-test('unprompted layout wrappers add no label segment unless their part labels collide',()=>{
+test('layout wrappers add no label segment or context unless their part labels collide',()=>{
  // Two source columns arranging parts a-d of one question: 4a, not 4(1)a.
  const columns=block(4,[group('left','',[part('a','a','$3$'),part('b','b','$1$')]),group('right','',[part('c','c','$-2$'),part('d','d','$0$')])]);
  for(const mode of ['short','worked'])verifyFragments(columns,['4a','4b','4c','4d'],mode);
@@ -333,7 +338,13 @@ test('unprompted layout wrappers add no label segment unless their part labels c
  // Wrappers that each restart at a keep their position so labels stay distinct.
  verifyFragments(block(6,[group('first','',[part('first-a','a','$1$')]),group('second','',[part('second-a','a','$2$')])]),['6(1)a','6(2)a']);
  verifyFragments(block(7,[part('a','a','$1$'),group('again','',[part('again-a','a','$2$')])]),['7a','7(2)a']);
- // A wrapper with its own heading, or with an unlabelled response, keeps its segment.
- verifyFragments(block(8,[group('headed','Method one:',[part('a','a','$1$')])]),['8(1)a']);
+ // A wrapper with its own instruction is transparent too: 7e, not 7(2)e, and the
+ // instruction is not repeated beside every answer (Integers p41 Q7).
+ const instructed=block(8,[group('calculate','',[part('a','a','$-9$'),part('b','b','$18$')]),group('sign','Without calculating, state the sign.',[part('e','e','Negative'),part('f','f','Negative')])]);
+ for(const mode of ['short','worked'])assert.deepEqual(verifyFragments(instructed,['8a','8b','8e','8f'],mode).split.map(row=>row.contexts),[[],[],[],[]]);
+ // Instructed wrappers that restart at a keep their position and their context.
+ const methods=block(8,[group('one','Method one:',[part('one-a','a','$1$')]),group('two','Method two:',[part('two-a','a','$1$')])]);
+ assert.deepEqual(verifyFragments(methods,['8(1)a','8(2)a']).split.map(row=>row.contexts),[['Method one'],['Method two']]);
+ // A wrapper with an unlabelled response keeps its segment.
  verifyFragments(block(9,[group('rows','',[part('blank','','$1$'),part('b','b','$2$')])]),['9(1)(1)','9(1)b']);
 });
