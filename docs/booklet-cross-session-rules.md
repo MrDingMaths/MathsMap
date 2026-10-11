@@ -378,3 +378,16 @@ Exclude avatar and speech-bubble questions, generic “explain the mistake” qu
 ## Equals-sign gutter (10 October 2026, user requested)
 
 A left-aligned calculation that opens with a bare expression and continues on lines beginning with a relation sign reserves one relation-sign gutter before the opening expression, so the expression sits above the right-hand sides and the relation signs stack. This is a general convention for prompts, teaching examples and answers in all booklets, not an Integers correction. Encodings, exclusions and the report tool are in [the transcription checklist](booklet-transcription-feedback-checklist.md#equals-sign-gutter-10-october-2026-user-requested). Existing booklets are reported by `scripts/booklet/check-equals-gutter.mjs` and repaired only where the user names them.
+
+## Sample answers for open-ended tables and box grids (11 October 2026, user requested)
+
+When an open-ended question is answered in the unlabelled cells of one table or one grid of boxes, the short answers show one entry for the question, not one per cell. The entry is the line “Sample answers” followed by the question’s own layout, filled in with one example per cell. Do not repeat “e.g.”, “for example” or “(one possible way)” in each cell, and do not restate row and column headings in prose.
+
+- Store the entry as `answer.short` on the node that owns the table or grid, normally the question root, as a document with a native table. The short edition then prints that one entry; the worked edition still prints each part’s `answer.worked`.
+- Keep each part’s own `answer.short` as a plain one-line example (“For example, $5-2=3$.” or “Not possible.”) for the bank record and Studio.
+- A grid of boxes with no headings becomes a borderless table in the question’s reading order (Integers Q14 p43, Comparing Fractions Q20 p26).
+- A table with headings keeps its headings and order. The answer column is 86 mm less the exercise’s label gutter, often under 60 mm, and equations must not wrap. Where the question’s table is too wide for that, give each row of the question’s table its own heading line and a small two-column table of column heading and example (Integers Q13 and Q14 p50).
+- Write “Not possible” in a cell the source marks as impossible.
+- Check every example against the question: cards used exist, and each result belongs in its cell.
+
+Ordinary labelled parts (a, b, c) that each have an example answer keep their one-line entries. Existing booklets were audited on 11 October 2026; the four questions named above were the only table or box-grid cases.
