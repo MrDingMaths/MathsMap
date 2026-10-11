@@ -54,6 +54,9 @@ try{
  assert.deepEqual(find('t1').rowHeights,[5,5,5]);
  await fill('Row minimum height (mm)','9');
  assert.deepEqual(find('t1').rowHeights,[5,9,5]);
+ // Typed digit by digit: the first digit of 12 is below the 4 mm minimum and must stay as typed.
+ await save(async()=>{const input=panel.getByRole('spinbutton',{name:'Row minimum height (mm)',exact:true});await input.fill('');await input.pressSequentially('12');assert.equal(await input.inputValue(),'12');await input.press('Tab');});
+ assert.deepEqual(find('t1').rowHeights,[5,12,5]);
  await fill('All table cells padding (mm)','1');
  assert.equal(find('t1').padding,1);
  await page.keyboard.press('Escape');
