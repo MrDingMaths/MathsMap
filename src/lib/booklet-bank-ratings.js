@@ -11,7 +11,7 @@ export function questionDifficulty(block) {
 }
 
 // Editor-only chilli markers scale with the reasoning score: lowest score earning each count.
-export const CHILLI_THRESHOLDS=Object.freeze([65,80,87,94]);
+export const CHILLI_THRESHOLDS=Object.freeze([60,70,80,90]);
 export function chilliCount(score) {
   return Number.isFinite(score)?CHILLI_THRESHOLDS.filter(min=>score>=min).length:0;
 }
