@@ -4,8 +4,9 @@
   import { mulberry32 } from '../lib/quiz-engine.js';
 
   // One question, one screen. The parent is expected to remount this component
-  // per question (e.g. `{#key question.id}`) so local selection state always
-  // starts fresh — we don't watch for question changes ourselves.
+  // per question (keyed on skill + question id, since ids repeat across
+  // skills) so local selection state always starts fresh — we don't watch for
+  // question changes ourselves.
   //
   // `onAnswer(originalIndex)` fires only when the learner clicks 'Next' (or
   // presses Enter) AFTER reviewing feedback — selecting an option just locks

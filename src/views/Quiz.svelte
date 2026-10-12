@@ -223,7 +223,9 @@
       <button class="finish-early" onclick={finish}>Finish early</button>
     </div>
     {#if currentStep}
-      {#key currentStep.question.id}
+      <!-- Question ids (q1, q2, …) are unique only within a skill, so the key
+           must include the skill or consecutive skills reuse the locked card. -->
+      {#key `${currentStep.skillId}:${currentStep.question.id}`}
         <QuizQuestion question={currentStep.question} onAnswer={handleAnswer} />
       {/key}
     {/if}
