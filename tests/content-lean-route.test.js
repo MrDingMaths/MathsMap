@@ -17,6 +17,9 @@ test('bounded author patches preserve untouched figures and require exact base a
   assert.equal(next.content.practice.foundation[0].question_text,'[tikz]original[/tikz]');
   assert.deepEqual(next.items,candidate.items);
   assert.equal(candidate.content.practice.foundation[0].solution_text,'wrong');
+  const blocked=applyRepairResult(candidate,{skillId:'x',baseHash,patches:[],blocker:'No source questions assess this skill.'});
+  assert.equal(blocked.content,null);
+  assert.equal(blocked.blocker,'No source questions assess this skill.');
   for(const bad of [ {...result,baseHash:'stale'}, {...result,skillId:'other'}, {...result,patches:[{path:'content.skillId',value:'other'}]}, {...result,patches:[{path:'content.__proto__.polluted',value:true}]}, {...result,patches:[{path:'content.practice.foundation[9]',value:{}}]}, {...result,patches:[...result.patches,{path:'content.practice.foundation',value:[]}]}, {...result,removed:'invalid'} ])assert.equal(applyRepairResult(candidate,bad).content,null);
   assert.equal({}.polluted,undefined);
 });
@@ -256,6 +259,8 @@ test('removal rows that are not whole original items become notes, bare currency
   const money = { content: withFirst(content, { ...card(9), question_text: 'A pen costs $9 and then you pay $2 more. Calculate $9+2$.' }), quiz };
   assert.match(currencyProblems(baseline, money).join('\n'), /^Format: content\.practice\.foundation\[0\]\.question_text: a bare \$/);
   assert.deepEqual(currencyProblems(baseline, { content: withFirst(content, { ...card(9), question_text: 'A pen costs $\\$9$. Calculate $9+2$ and write $\\text{total in dollars here}$.' }), quiz }), []);
+  assert.deepEqual(currencyProblems(baseline, { content: withFirst(content, { ...card(9), solution_text: '$PQ \\parallel RS \\parallel TU$. Line $VW$ is perpendicular to all three.' }), quiz }), []);
+  assert.match(currencyProblems(baseline, { content: withFirst(content, { ...card(9), question_text: 'A pen costs $9 PLUS TAX AND DELIVERY, then another $2.' }), quiz }).join('\n'), /^Format:/);
   const patched = applyFixes(money, [{ path: 'content.practice.foundation[0].question_text', value: 'Fixed.' }, { path: 'content.practice.foundation', value: 'x' }, { path: 'quiz.questions[0].options[9].why', value: 'x' }, { path: 'content.practice.foundation[0].extra', value: 'x' }]);
   assert.equal(patched.applied, 1); assert.equal(patched.candidate.content.practice.foundation[0].question_text, 'Fixed.');
   assert.equal(money.content.practice.foundation[0].question_text.startsWith('A pen'), true);

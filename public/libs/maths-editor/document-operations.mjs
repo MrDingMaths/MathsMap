@@ -59,11 +59,16 @@ export function locateDocumentNode(doc,id){
   if(found)return;
  }};walk(doc.blocks,doc);return found;
 }
-export function removeDocumentNode(doc,id){
+export function removeDocumentNode(doc,id,{allowEmptyRoot=false}={}){
  const target=locateDocumentNode(doc,id);if(!target)throw Error('The selected item is no longer available.');
- if(['cell','list-item'].includes(target.node.type)||target.parent.slots===target.nodes)throw Error('Select the content, or use the row/column controls.');
+ if(target.node.type==='cell'||target.parent.slots===target.nodes)throw Error('Select the content, or use the row/column controls.');
+ // Remove the empty list too, including nested lists, rather than leaving a
+ // phantom bullet. Other blocks in its enclosing item or cell stay intact.
+ if(target.node.type==='list-item'&&target.nodes.length===1)return removeDocumentNode(doc,target.parent.id,{allowEmptyRoot});
  target.nodes.splice(target.index,1);
- if(!target.nodes.length&&target.nodes===target.parent.blocks)target.nodes.push(paragraph());
+ // Nested containers need a caret paragraph; deleting the last root block
+ // must instead report an empty document to the owning Studio content block.
+ if(!target.nodes.length&&target.nodes===target.parent.blocks&&(!allowEmptyRoot||target.parent!==doc))target.nodes.push(paragraph());
  return target.nodes[Math.min(target.index,target.nodes.length-1)]?.id??target.parent.id??doc.blocks[0]?.id;
 }
 export function moveDocumentNode(doc,id,targetId,position='before'){

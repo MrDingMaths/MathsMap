@@ -14,6 +14,12 @@ import {
   QUIZ_QUESTION_KEYS
 } from '../src/lib/inline-content.js';
 import {renderMath} from '../src/lib/render-math.js';
+test('native source tables are opt-in and preserve paired editable cells',()=>{
+ const source='| $t$ | $0$ | $1$ |\n|---|---|---|\n| $v$ | $2$ | $3$ |';
+ assert.equal(groupTextBlocks(source).filter(block=>block.kind==='table').length,0);
+ const blocks=groupTextBlocks(source,{nativeTables:true});assert.equal(blocks.length,1);assert.equal(blocks[0].kind,'table');
+ assert.deepEqual(blocks[0].table.rows.map(row=>row.map(cell=>cell.blocks[0].inlines[0].latex)),[['t','0','1'],['v','2','3']]);
+});
 
 test('unknown maths commands are explicit render errors for the booklet gate',()=>{
  assert.match(renderMath(String.raw`$a\timesa$`),/class="katex-error"/);

@@ -12,6 +12,7 @@ export function installMathEditing(editor) {
   active=mf?.isConnected&&!host.readonly?mf:null;
   active?.closest('[data-math]')?.classList.add('me-equation-selected');
   bar.hidden=!active;refreshSpacing();
+  if(active)colour.value=active.closest('[data-colour]')?.dataset.colour??'#24282d';
   if(!active)selection=null;
  };
  const field=()=>document.activeElement?.matches('math-field')&&surface.contains(document.activeElement)?document.activeElement:active?.isConnected?active:null;
@@ -29,7 +30,18 @@ export function installMathEditing(editor) {
  button('Text before equation',()=>{const mf=field();if(mf&&!host.readonly)exit(mf,false);});
  button('Text after equation',()=>{const mf=field();if(mf&&!host.readonly)exit(mf,true);});
  button('Delete equation',()=>{const mf=field();if(mf&&!host.readonly)remove(mf);});
- const colour=document.createElement('input');colour.type='color';colour.value='#24282d';colour.setAttribute('aria-label','Selected maths colour');colour.oninput=()=>style({color:colour.value});bar.append(colour);
+ const colourLabel=document.createElement('label');colourLabel.textContent='Equation colour ';
+ const colour=document.createElement('input');colour.type='color';colour.value='#24282d';colour.setAttribute('aria-label','Equation colour');
+ const equationColour=value=>{const mf=field(),island=mf?.closest('[data-math]');if(!island||host.readonly)return;rememberLocation();
+  // Explicit LaTeX colours override inherited ink. Whole-equation colouring
+  // changes those declarations too, without rewriting the mathematical layout.
+  const latex=mf.getValue('latex'),next=latex.replace(/\\(textcolor|color)\s*\{[^{}]*\}/g,(_,command)=>`\\${command}{${value}}`);
+  if(next!==latex)mf.setValue(next,{silenceNotifications:true});
+  island.dataset.colour=value;island.style.color=value;colour.value=value;commit();};
+ colour.onchange=()=>equationColour(colour.value);colourLabel.append(colour);bar.append(colourLabel);
+ button('Blue equation',()=>equationColour('#268cff'));
+ const selectedColourLabel=document.createElement('label');selectedColourLabel.textContent='Selected maths colour ';
+ const selectedColour=document.createElement('input');selectedColour.type='color';selectedColour.value='#24282d';selectedColour.setAttribute('aria-label','Selected maths colour');selectedColour.oninput=()=>style({color:selectedColour.value});selectedColourLabel.append(selectedColour);bar.append(selectedColourLabel);
  button('Edit LaTeX',()=>{const mf=field();if(!mf||host.readonly)return;dialog?.remove();dialog=document.createElement('dialog');dialog.className='me-latex-dialog';dialog.setAttribute('aria-label','Edit equation LaTeX');const label=document.createElement('label');label.textContent='Equation LaTeX';const input=document.createElement('textarea');input.setAttribute('aria-label','Equation LaTeX');input.value=mf.getValue('latex');label.append(input);const preview=document.createElement('div');preview.className='me-latex-preview';const update=()=>{preview.innerHTML=window.MathLive.convertLatexToMarkup(input.value);};input.oninput=update;update();dialog.append(label,preview);editor.button(dialog,'Apply equation',()=>{if(mf.isConnected&&!host.readonly){mf.setValue(input.value,{silenceNotifications:true});commit();}dialog.close();});editor.button(dialog,'Cancel',()=>dialog.close());dialog.addEventListener('close',()=>{dialog.remove();dialog=null;if(mf.isConnected)mf.focus();});host.append(dialog);dialog.addEventListener('keydown',e=>e.stopPropagation());dialog.showModal();input.focus();});
  const hint=document.createElement('span');hint.textContent='Tab: symbols · Escape: text after · Shift+Escape: text before · Backspace/Delete removes an empty equation';bar.append(hint);
  const focus=e=>{
@@ -38,6 +50,8 @@ export function installMathEditing(editor) {
   else if(surface.contains(e.target)||!host.contains(e.target)&&!e.target.closest?.('.me-palette,[data-equation-control]'))setActive(null);
  };
  const pointer=e=>{
+  const clickedField=e.target.closest?.('math-field');
+  if(clickedField&&surface.contains(clickedField))setActive(clickedField);
   rememberLocation();
   if(surface.contains(e.target)&&!e.target.closest?.('[data-math]')||!host.contains(e.target)&&!e.target.closest?.('.me-palette,[data-equation-control]'))setActive(null);
   selectBlock(e.target);

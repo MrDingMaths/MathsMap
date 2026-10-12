@@ -14,6 +14,7 @@ import { lintMathString, validateInlineText, validateTikz } from './lib/lint-mat
 import { voiceBreaches } from './lib/theory-voice.mjs';
 import { allNodes, containsForbiddenMarks, containsSourceMetadata, invalidFractionSpans, validateQuestion } from '../src/lib/practice-question-model.js';
 import { workedExampleEntries, workedExampleProblems } from '../src/lib/theory-content.js';
+import { isSelectableBankQuestion } from '../src/lib/question-bank-eligibility.js';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const isMain = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
@@ -191,7 +192,7 @@ function validateContent(filterFn) {
       for (const { example, where: field } of workedExampleEntries(theory)) {
         const where = `${tag} theory.${field}`;
         if (example && typeof example === 'object' && !Array.isArray(example)) {
-          for (const key of unknownKeys(example, new Set(['question_text', 'solution_text']))) errs.push(`${where}: unknown key "${key}"`);
+          for (const key of unknownKeys(example, new Set(['question_text', 'solution_text', 'equationAlignment']))) errs.push(`${where}: unknown key "${key}"`);
           validateInlineText(example.question_text, `${where}.question_text`, errs);
           validateInlineText(example.solution_text, `${where}.solution_text`, errs);
           if (typeof example.solution_text === 'string') validateProcedure(example.solution_text, theory, `${where}.solution_text`, errs);
@@ -445,16 +446,18 @@ function crossCheckMastery(contentResult, quizResult) {
   return errs;
 }
 
-function validatePracticeBank() {
+export function validatePracticeBank({ bankDir = practiceBankDir } = {}) {
   const errs = [];
-  const files = existsSync(practiceBankDir) ? readdirSync(practiceBankDir).filter((file) => /^(?:q-|pq-).*\.json$/.test(file)) : [];
+  const files = existsSync(bankDir) ? readdirSync(bankDir).filter((file) => /^(?:q-|pq-).*\.json$/.test(file)) : [];
+  const selectable = new Map();
   const skillIds = new Set(skills.map((skill) => skill.id));
   for (const filename of files) {
     const where = 'practice bank ' + filename;
     let question;
-    try { question = JSON.parse(readFileSync(join(practiceBankDir, filename), 'utf8')); }
+    try { question = JSON.parse(readFileSync(join(bankDir, filename), 'utf8')); }
     catch (error) { errs.push(where + ': invalid JSON - ' + error.message); continue; }
     const checked = validateQuestion(question, { skillIds });
+    if (isSelectableBankQuestion(question)) selectable.set(question.id, filename);
     for (const error of checked.errors) errs.push(where + ': ' + error);
     if (containsForbiddenMarks(question)) errs.push(where + ': forbidden mark field');
     if (containsSourceMetadata(question)) errs.push(where + ': source metadata is not allowed in the canonical question bank');
@@ -464,13 +467,19 @@ function validatePracticeBank() {
       }
     }
   }
-  const manifestPath = join(practiceBankDir, 'manifest.json');
+  const manifestPath = join(bankDir, 'manifest.json');
   if (existsSync(manifestPath)) {
     try {
       const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
       if (manifest.format !== 'mathsmap-practice-bank-v3' || manifest.version !== 3) errs.push('practice bank manifest: expected v3');
       if (JSON.stringify(manifest).includes('"marks"')) errs.push('practice bank manifest: forbidden mark field');
-      if (manifest.questions?.length !== files.length) errs.push('practice bank manifest: question count does not match bank');
+      if (manifest.questions?.length !== selectable.size) errs.push('practice bank manifest: question count does not match selectable bank questions');
+      const indexed = new Set();
+      for (const entry of manifest.questions ?? []) {
+        if (!selectable.has(entry.id) || entry.path !== selectable.get(entry.id) || indexed.has(entry.id)) errs.push('practice bank manifest: invalid or duplicate selectable question entry ' + entry.id);
+        indexed.add(entry.id);
+      }
+      for (const id of selectable.keys()) if (!indexed.has(id)) errs.push('practice bank manifest: missing selectable question ' + id);
     } catch (error) { errs.push('practice bank manifest: invalid JSON - ' + error.message); }
   } else if (files.length) errs.push('practice bank manifest: missing manifest.json');
   return { checked: files.length, errors: errs };

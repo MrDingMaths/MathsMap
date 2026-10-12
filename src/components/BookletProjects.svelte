@@ -447,6 +447,10 @@
         const paragraphSlice=inlineSession?.paragraphSlice??request.paragraphSlice;
         const stored=paragraphSlice?replaceParagraphSlice(inlineSession?.paragraphBase??request.paragraphBase,paragraphSlice,result.value):fragmentIds?replaceDocumentFragment(fieldValue(project,request),fragmentIds,result.value):result.value;
         for(const id of request.rootIds?.length?request.rootIds:[request.rootId])next=updateProjectContent(next,id,request.pointer,stored);
+        if(target?.block.type==='rich-text'&&request.pointer==='/content'&&isDocument(stored)&&stored.blocks.length===0){
+          next=deleteProjectBlock(next,target.section.id,target.block.id);
+          finishInline();change(next,{structural:true,changedIds:[target.block.id]});return;
+        }
         if(result.applyTabs&&target?.block.type==='question'){
           const visit=node=>{if(!node.children?.length&&node.id!==request.rootId){const doc=isDocument(node.prompt)?normalizeDocument(node.prompt):fromSource(node.prompt??'');for(const p of doc.blocks)if(p.type==='paragraph')p.tabStops=clone(result.applyTabs);next=updateProjectContent(next,node.id,'/prompt',doc);}else node.children?.forEach(visit);};visit(target.block.content);
         }
@@ -1236,7 +1240,7 @@
 
 <style>
  .editor-parking{position:fixed;left:-20000px;top:0;width:180mm;visibility:hidden;pointer-events:none}
- .document-toolbar :global(.equation-menu:not([open])>.me-math-tools){display:none!important}.document-toolbar :global(.equation-menu>.me-math-tools){top:100%;right:0;width:280px;display:grid;gap:6px;padding:10px;white-space:normal}.document-toolbar :global(.equation-menu .me-math-tools>label){display:none}.document-toolbar :global(.equation-menu .me-math-tools button){text-align:left}
+ .document-toolbar :global(.equation-menu:not([open])>.me-math-tools){display:none!important}.document-toolbar :global(.equation-menu>.me-math-tools){top:100%;right:0;width:280px;display:grid;gap:6px;padding:10px;white-space:normal}.document-toolbar :global(.equation-menu .me-math-tools>label:not([hidden])){display:flex;align-items:center;justify-content:space-between;gap:6px;white-space:normal}.document-toolbar :global(.equation-menu .me-math-tools button){text-align:left}
  .layout-spacing-panel{display:grid;gap:0}.layout-spacing-panel label{display:flex;justify-content:space-between;gap:8px;margin:6px 0}.layout-spacing-panel input{width:80px}.spacing-scope-section{display:grid;gap:8px}.spacing-scope-section+ .spacing-scope-section{border-top:1px solid var(--border,#cbd5e1);margin-top:16px;padding-top:16px}.spacing-scope-section>h3{margin:0;font-size:14px}
 
 .project-shell{position:relative}.is-opening{min-height:calc(100dvh - 100px)}

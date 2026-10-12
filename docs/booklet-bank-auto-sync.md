@@ -14,6 +14,55 @@ The **33 whole practice questions from Further Transformations revision 130** ar
 
 When synced text changes between plain text and editor paragraphs, the destination's arrangement references are reconciled with the new content. Existing layout item IDs, spacing and sizing are retained; extra paragraphs receive additional items. Unresolved references stop the sync write with a review error instead of saving a broken layout. Repeated publication reuses previously mapped content IDs.
 
+## Dependent follow-up questions (11 October 2026, user feedback)
+
+Bank imports transfer whole question blocks, including their parts and embedded
+givens. They do not automatically fetch a preceding question from wording such
+as “use the previous question”. A `dependsOn` reference preserves an explicit
+dependency inside a question; it does not supply another bank record's content.
+
+Before publishing, keep a follow-up that requires the preceding task as the next
+part of that complete question, with both answers and sufficient response space.
+An independent question may instead embed the exact required graph, table or
+definition, preserving source identities and recording the departure. References
+to an earlier *method* alone need no merge when the task already supplies all its
+givens. Apply the same rule to authorised pedagogy extensions. Preserve existing
+bank IDs and pinned consumers when repairing an already published split.
+
+**Append where possible (11 October 2026, user requested).** Prefer appending a
+dependent follow-up to its preceding question over repeating the context in a
+separate question. Keep distinct instructions and meaningful arrangements, label
+all parts in one sequence, and retain both answers and source identities. Where
+the task refers to two earlier questions, include both in the complete group if
+their exercise and category boundaries permit it. Keep a genuinely independent
+method-transfer task separate. If a meaningful boundary prevents grouping, embed
+the necessary context instead.
+
+Run `node scripts/booklet/check-question-dependencies.mjs [PROJECT] --strict`
+before a bank transfer (`--json` for details). The bulk importer and individual
+promotion also check the selected questions before creating or linking records.
+The check reads prompts and explicit dependency IDs, never answers or comments.
+Unresolved references stop publication for review; keyword matches do not merge
+content. Explicit references to mathematical nodes outside the whole question
+must be repaired. A self-contained method reference may retain a substantive
+`sourceReview.bankDependencyReview` with `decision: "self-contained"`, `signature`
+from `dependencySignature(block)` and a `note`; changing content invalidates it.
+Existing accepted links are not retroactively blocked by a repeat import.
+
+The existing authoring and content-review passes also inspect implicit shared
+context, which a wording scan cannot reliably detect. No extra model call or
+review stage is added. For an already published merge, the preceding bank ID is
+updated; the absorbed record becomes a non-selectable draft with a supersession
+history pointing to its replacement. Its record and earlier pinned revisions
+remain available, and obsolete owner links are removed transactionally through
+`supersedeBankQuestion` after the booklet's revision-safe save.
+
+For a native response table with appended parts, retain the root table and its
+`flow.tableContinuation` row ownership. Set `flow.tableOnlyPartIds` to the table's
+answer-owning row IDs: those responses remain represented by the table, while
+appended parts print afterwards. Without this optional field, `tableOnly` keeps
+its earlier behaviour. Keep the root response table outside layout wrappers.
+
 ## Reviewing updates
 
 Open **Bank sync** in the booklet toolbar. Pending bank updates also show a **Review updates** notice. Expand **Compare question and worked solution** for both versions, including diagrams.

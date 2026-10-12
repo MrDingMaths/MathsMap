@@ -31,6 +31,11 @@ test('normalized reads preserve order and source identity, and reject ambiguous 
   const both = { ...singular, workedExamples: [example(2)] };
   assert.match(workedExampleProblems(both).join('\n'), /both workedExample and workedExamples/);
   assert.equal(getWorkedExamples(both).length, 2, 'corrupt dual input must not silently hide an example');
+  assert.deepEqual(workedExampleProblems({ workedExamples: [example(1, { equationAlignment: { mode: 'continuation' } })] }), []);
+  assert.deepEqual(workedExampleProblems({ workedExamples: [example(1, { equationAlignment: { mode: 'relation', align: 'right' } })] }), []);
+  for (const alignment of [null, {}, { mode: 'random' }, { mode: 'continuation', align: 'random' }, { mode: 'continuation', unsupported: true }]) {
+    assert.match(workedExampleProblems({ workedExamples: [example(1, { equationAlignment: alignment })] }).join(), /equationAlignment/);
+  }
 });
 
 test('editor drafts normalize legacy examples, retain extensions and survive reorder/save/reopen/removal', () => {
@@ -62,7 +67,7 @@ async function bundle(contents, generate, stubs = {}) {
     platform: generate === 'server' ? 'node' : 'browser', format: generate === 'server' ? 'esm' : 'iife',
     conditions: generate === 'server' ? [] : ['browser'],
     plugins: [{ name: 'worked-examples', setup(builder) {
-      builder.onLoad({ filter: /[/\\]tikz\.js$/ }, () => ({ contents: 'export function renderTikzCode(el) { el.innerHTML="<svg></svg>"; } export function cancelTikzJob() {}' }));
+      builder.onLoad({ filter: /[/\\]tikz\.js$/ }, () => ({ contents: stubs['tikz.js'] ?? 'export function renderTikzCode(el) { el.innerHTML="<svg></svg>"; } export function cancelTikzJob() {}' }));
       for (const [file, code] of Object.entries(stubs)) {
         builder.onLoad({ filter: new RegExp(`[/\\\\]${file.replaceAll('.', '\\.')}$`) }, () => ({ contents: code }));
       }
@@ -87,6 +92,80 @@ test('SSR shows each full solution after the method, numbers a set and preserves
   assert.doesNotMatch(legacy, /Worked example 1/);
   assert.match(legacy, /Result 3/);
   assert.doesNotMatch(view({ intro: 'No examples' }), /class="worked-example/);
+});
+
+test('rendered example colours cover prose and maths, retain diagram ink and support the shared continuation gutter', async () => {
+  const code = await bundle("import {mount} from 'svelte'; import Theory from './src/components/TheoryView.svelte'; window.showTheory=theory=>mount(Theory,{target:document.body,props:{theory}});", 'client', {
+    'tikz.js': 'export function renderTikzCode(el) { el.innerHTML=\'<svg><path stroke="#ff6600" d="M0 0L1 1"/><text>Given</text></svg>\'; } export function cancelTikzJob() {}',
+  });
+  let browser;
+  try { browser = await chromium.launch({ headless: true }); } catch { browser = await chromium.launch({ headless: true, channel: 'chrome' }); }
+  try {
+    const page = await browser.newPage();
+    await page.setContent('<html><body></body></html>');
+    await page.addScriptTag({ content: code });
+    await page.evaluate(t => window.showTheory(t), { intro: '', workedExamples: [
+      { question_text: '$8+3$', solution_text: '$=11$', equationAlignment: { mode: 'continuation' } },
+      { question_text: 'Find the length. $\\color{red}x$', solution_text: `Add the lengths. $\\color{red}x=11$\n${figure(1)}` },
+      { question_text: 'Calculate.', solution_text: '$\\mathrel{\\phantom{=}}8+3$\n$=11$' },
+      { question_text: 'Calculate.', solution_text: '$$\\begin{aligned}&\\mathrel{\\phantom{=}}8+3\\\\&=11\\end{aligned}$$' },
+      { question_text: '| $t$ | $0$ | $1$ |\n|---|---|---|\n| $v$ | $2$ | $3$ |', solution_text: '| Quantity | Value |\n|---|---|\n| Total | $5$ |' },
+      { question_text: 'Find the depreciation multiplier.', solution_text: '$1-r=\\dfrac{28900}{34000}$' },
+      { question_text: 'Inspect the long calculation.', solution_text: '$\\begin{align*}x&=12345678901234567890123456789012345678901234567890\\\\&=1\\end{align*}$' },
+    ] });
+    const colour = selector => page.locator(selector).first().evaluate(el => getComputedStyle(el).color);
+    assert.equal(await colour('.example-question .text-line'), 'rgb(0, 0, 0)');
+    assert.equal(await colour('.example-solution .text-line'), 'rgb(38, 140, 255)');
+    assert.equal(await colour('.example-solution .katex .mord'), 'rgb(38, 140, 255)');
+    assert.equal(await colour('.example-question .katex .mord'), 'rgb(0, 0, 0)');
+    assert.match(await page.locator('.worked-example').first().innerHTML(), /phantom/);
+    await page.locator('.inline-tikz svg').waitFor();
+    assert.equal(await colour('.inline-tikz svg text'), 'rgb(0, 0, 0)');
+    assert.equal(await page.locator('.inline-tikz svg path').getAttribute('stroke'), '#ff6600');
+    assert.doesNotMatch(await page.locator('.example-question').nth(1).innerText(), /Add the lengths/);
+    assert.equal(await page.locator('.example-question .text-table table').count(),1);
+    assert.deepEqual(await page.locator('.example-question .text-table tr').evaluateAll(rows=>rows.map(row=>[...row.cells].map(cell=>(cell.querySelector('.katex-html')||cell).textContent.trim()))),[['t','0','1'],['v','2','3']]);
+    assert.equal(await colour('.example-question .text-table p'),'rgb(0, 0, 0)');
+    assert.equal(await colour('.example-solution .text-table p'),'rgb(38, 140, 255)');
+    assert.equal(await colour('.example-solution .text-table .katex .mord'),'rgb(38, 140, 255)');
+    const phantoms = page.locator('.worked-example span[style*="transparent"]');
+    assert.ok(await phantoms.count() >= 3, 'shared and both authored gutter formats render invisible relation signs');
+    for (const phantom of await phantoms.all()) {
+      assert.equal(await phantom.evaluate(el => getComputedStyle(el).color), 'rgba(0, 0, 0, 0)');
+    }
+    for (const dark of [false, true]) {
+      await page.evaluate(dark => { document.documentElement.style.setProperty('--surface-soft', dark ? '#161b25' : '#f2f5fa'); document.documentElement.style.color = dark ? '#ffffff' : '#000000'; }, dark);
+      assert.equal(await colour('.worked-example'), 'rgb(0, 0, 0)');
+      assert.equal(await page.locator('.worked-example').first().evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(255, 255, 255)');
+      assert.equal(await colour('.example-question .text-line'), 'rgb(0, 0, 0)');
+      assert.equal(await colour('.example-solution .text-line'), 'rgb(38, 140, 255)');
+    }
+    await page.addStyleTag({content:fs.readFileSync('node_modules/katex/dist/katex.min.css','utf8')});
+    await page.setViewportSize({width:300,height:800});
+    const fractionInk=await page.locator('.example-solution .mfrac').first().evaluate(el=>{
+      const box=el.closest('.text-line').getBoundingClientRect(),math=el.closest('.katex');
+      const leaves=[...el.querySelectorAll('span')].filter(node=>!node.childElementCount&&/\d/.test(node.textContent));
+      const ink=leaves.map(node=>({text:node.textContent,top:node.getBoundingClientRect().top,bottom:node.getBoundingClientRect().bottom}));
+      return {padding:parseFloat(getComputedStyle(math).paddingTop),inside:ink.every(r=>r.top>=box.top-0.5&&r.bottom<=box.bottom+0.5),box:{top:box.top,bottom:box.bottom},ink};
+    });
+    assert.ok(fractionInk.padding>0,'fraction ink must have vertical clearance inside its scroll container');
+    assert.equal(fractionInk.inside,true,'fraction text ink must remain inside the visible row: '+JSON.stringify(fractionInk));
+    assert.equal(await page.locator('.worked-example').first().locator('.katex').first().evaluate(el=>parseFloat(getComputedStyle(el).paddingTop)),0,'non-fraction working keeps its existing spacing');
+    const scrolling = await page.locator('.worked-example').last().locator('.example-solution .text-line').evaluate(el=>{
+      const size=getComputedStyle(el.querySelector('.katex')).fontSize;
+      el.scrollLeft=el.scrollWidth;
+      return {contained:el.closest('.worked-example').scrollWidth<=el.closest('.worked-example').clientWidth+2,wide:el.scrollWidth>el.clientWidth,end:Math.abs(el.scrollLeft-(el.scrollWidth-el.clientWidth))<2,fontSize:size};
+    });
+    assert.equal(scrolling.contained,true);
+    assert.equal(scrolling.wide,true);
+    assert.equal(scrolling.end,true);
+    assert.notEqual(scrolling.fontSize,'0px');
+    const diagram=page.locator('.inline-tikz').first();
+    await diagram.locator('.tikz-wrap').evaluate(el=>{el.style.width='100%';el.style.boxSizing='content-box';el.style.paddingLeft='100px';el.style.paddingRight='100px';});
+    const visibleDiagram=await diagram.evaluate(el=>{const svg=el.querySelector('svg'),r=svg.getBoundingClientRect();el.scrollLeft=el.scrollWidth;return{width:r.width,height:r.height,shrink:getComputedStyle(el.querySelector('.tikz-wrap')).flexShrink,reachedEnd:Math.abs(el.scrollLeft-(el.scrollWidth-el.clientWidth))<2};});
+    assert.ok(visibleDiagram.width>0&&visibleDiagram.height>0,'reserved label padding must never collapse the drawing');
+    assert.equal(visibleDiagram.shrink,'0');assert.equal(visibleDiagram.reachedEnd,true);
+  } finally { await browser.close(); }
 });
 
 test('text audits, figure collection and editable field accessors round-trip every example and nested block index', () => {

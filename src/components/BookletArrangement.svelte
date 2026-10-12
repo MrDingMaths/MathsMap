@@ -8,7 +8,7 @@
  import {combinedExampleTikz} from '../lib/booklet-preview.js';
  import {hasStandaloneMathTable} from '../lib/booklet-labels.js';
  import {firstAnswerNode} from '../lib/booklet-exercises.js';
- let {block,arrangement,layoutOverrides={},selected='',onselect=null,onresize=null,onmeasure=null,onSpaceResize=null,onmove=null,assetUrl=s=>s,showSolutions=true,showSpaces=true,showTitle=true,fillCloze=false,answerSpaceOverrides={},diagramColourModes={},editMode=false,answerHref=null,answerPartHref=null}=$props();
+ let {block,arrangement,layoutOverrides={},selected='',onselect=null,onresize=null,onmeasure=null,onSpaceResize=null,onmove=null,assetUrl=s=>s,showSolutions=true,showSpaces=true,showTitle=true,fillCloze=false,answerSpaceOverrides={},diagramColourModes={},editMode=false,answerHref=null,answerPartHref=null,answerMode=null}=$props();
  // Question labels jump to the answer; a part without its own answer uses its first answered descendant.
  // In Studio a part's answer may sit on an answer page that is not rendered yet, so the workspace reveals it.
  function openPartAnswer(event,ownerId){
@@ -19,7 +19,7 @@
  function labelHref(ownerId){
   if(ownerId===block.content?.id||!answerPartHref)return answerHref;
   const find=n=>!n?null:n.id===ownerId?n:(n.children??[]).map(find).find(Boolean);
-  const node=firstAnswerNode(find(block.content),block.sourceReview?.responses??[]);
+  const node=firstAnswerNode(find(block.content),block.sourceReview?.responses??[],answerMode);
   return node?answerPartHref+node.id:answerHref;
  }
  const requestEdit=getContext('booklet-edit-request');

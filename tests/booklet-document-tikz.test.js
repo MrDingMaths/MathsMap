@@ -31,3 +31,9 @@ test('table-only presentation retains answer ownership and leaves default arrang
  assert.equal(tableOnly.entries.get('a/answer/short').value,'[0,1]');
  assert.deepEqual(arrangementItems(arrangementCatalog({...block,flow:{}}).initial.root).map(item=>item.ref),regular);
 });
+test('an explicit table-owned part list lets appended follow-ups print after a native table',()=>{
+ const block={id:'q',type:'question',flow:{tableOnly:true,tableOnlyPartIds:['row']},content:{id:'root',prompt:{format:'maths-editor-document-v1',version:1,blocks:[{id:'table',type:'table',rows:[[{blocks:[paragraph]}]]}]},children:[{id:'row',type:'part',label:'',prompt:'',answer:{short:'0.5',worked:'0.5'}},{id:'follow',type:'part',label:'a',prompt:'Use the completed table.',answer:{short:'1',worked:'1'}}]}};
+ const catalog=arrangementCatalog(block),items=arrangementItems(catalog.initial.root).map(item=>item.ref);
+ assert(items.includes('root/prompt#table'));assert(items.includes('follow/label'));assert(items.includes('follow/prompt'));assert(!items.includes('row/label'));assert.equal(catalog.entries.get('row/answer/short').value,'0.5');
+ const legacy=arrangementItems(arrangementCatalog({...block,flow:{tableOnly:true}}).initial.root).map(item=>item.ref);assert(!legacy.includes('follow/label'));
+});

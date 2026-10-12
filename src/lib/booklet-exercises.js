@@ -15,11 +15,12 @@ export function compactAnswerLabel(number,parts=[]){
 // A supplied matching figure is a structural container, not another response.
 // A real question (including an empty prompt awaiting repair) keeps its answer row.
 export const isGivenFigureNode=node=>!!node&&!node.children?.length&&!Object.hasOwn(node,'prompt')&&!node.answer&&!!node.questionDiagrams?.length;
-export function firstAnswerNode(node,responses=[]){
+export function firstAnswerNode(node,responses=[],mode=null){
   if(!node||isGivenFigureNode(node))return null;
   if(!node.children?.length&&!node.answer?.short&&!node.answer?.worked&&responses.some(r=>r.targetId===node.id&&r.kind==='none'))return null;
-  if(node.answer?.short||node.answer?.worked||!node.children?.length)return node;
-  return node.children.map(child=>firstAnswerNode(child,responses)).find(Boolean)??null;
+  const groupAnswer=mode?node.answer?.[mode]||mode==='short'&&node.answer?.solutionDiagrams?.length:node.answer?.short||node.answer?.worked;
+  if(groupAnswer||!node.children?.length)return node;
+  return node.children.map(child=>firstAnswerNode(child,responses,mode)).find(Boolean)??null;
 }
 
 // Display metadata belongs only to cloned answer fragments. Preserve the original

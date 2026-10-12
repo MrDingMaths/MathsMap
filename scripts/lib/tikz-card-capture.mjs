@@ -3,7 +3,7 @@
 // drawing size. Keep the live layout intact outside the screenshot transaction.
 export async function captureTikzCard(card, options) {
   const saved = await card.evaluate(element => {
-    const nodes=[element,...element.querySelectorAll('.stage, .stage svg')];
+    const nodes=[element,...element.querySelectorAll('.stage, .stage .tikz-wrap, .stage svg')];
     const styles=nodes.map(node=>node.getAttribute('style'));
     const scroll=[...element.querySelectorAll('.stage')].map(stage=>({left:stage.scrollLeft,top:stage.scrollTop}));
     const drawings=[...element.querySelectorAll('.stage svg')].map(svg=>({
@@ -13,6 +13,11 @@ export async function captureTikzCard(card, options) {
     let extra=0;
     for(const stage of element.querySelectorAll('.stage')) {
       extra=Math.max(extra,stage.scrollWidth-stage.clientWidth);
+      // A percentage-width, content-box wrapper adds its calibrated label
+      // padding again whenever the card expands. Freeze its content width too.
+      for(const wrapper of stage.querySelectorAll('.tikz-wrap')) {
+        wrapper.style.width=getComputedStyle(wrapper).width;
+      }
       for(const svg of stage.querySelectorAll('svg')) {
         // Fix both natural and constrained sizing before widening its container.
         const width=parseFloat(getComputedStyle(svg).width);
@@ -25,7 +30,7 @@ export async function captureTikzCard(card, options) {
     if(extra>0) {
       element.style.boxSizing='border-box';element.style.width=(originalCssWidth+extra+1)+'px';
       element.style.minWidth=element.style.width;element.style.maxWidth='none';
-      element.style.position='relative';element.style.zIndex='1';
+      element.style.position='relative';element.style.zIndex='2147483647';
     }
     return {styles,scroll,drawings,originalWidth,originalCssWidth,extra};
   });
@@ -51,7 +56,7 @@ export async function captureTikzCard(card, options) {
       // Screenshot/resize observers can finish cleanup on the next frame.
       // Restore our exact attributes after that work, not midway through it.
       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
-      const nodes=[element,...element.querySelectorAll('.stage, .stage svg')];
+      const nodes=[element,...element.querySelectorAll('.stage, .stage .tikz-wrap, .stage svg')];
       nodes.forEach((node,i)=>saved.styles[i]===null?node.removeAttribute('style'):node.setAttribute('style',saved.styles[i]));
       // Expanding a scroll surface clamps its old offset. Restore offsets only
       // after its original layout has been restored, including failure paths.

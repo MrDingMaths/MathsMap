@@ -252,7 +252,7 @@ export function prepareRun({ pdf, docx = null, teacherPdf = null, teacherDocx = 
   const manifest = {
     format: RUN_MANIFEST_FORMAT, version: 1, id, createdAt: new Date().toISOString(), status: 'prepared',
     ...configuration, concurrency, selectedPages, contextPages, teacherPages, continuations,
-    reviewProfile: LEAN_REVIEW_PROFILE, exactResultFormat: EXACT_RESULT_FORMAT, workflowPolicy: 'review-first-v1', pipelinePolicy: 'pdf-import-efficient-v1',
+    automaticReuse: true, reviewProfile: LEAN_REVIEW_PROFILE, exactResultFormat: EXACT_RESULT_FORMAT, workflowPolicy: 'review-first-v1', pipelinePolicy: 'pdf-import-efficient-v1',
     evidenceAuthority: 'Original PDF pages and their rendered images are authoritative. Extracted text and optional Word material are supporting evidence; verify mathematical symbols and labels visually.', source,
     pins: { model: hashValue(configuration.model), configuration: hashValue(configuration), files: pinFiles([...SCHEMA_FILES, PRESENTATION_CONTRACT, ...TAXONOMY_FILES]),
       runFiles: Object.fromEntries(runFiles.map(relative => [relative.replaceAll(path.sep, '/'), hashFile(path.join(runDir, relative))])) }, lanes: {},

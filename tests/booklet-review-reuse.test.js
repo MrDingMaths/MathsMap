@@ -80,6 +80,21 @@ test('legacy snapshot accepts only bound unchanged mathematics and ignores corre
   const request=path.join(dir,'request.json');fs.writeFileSync(request,JSON.stringify({job:{dependencies:{questions:deps.questions}},prompt:JSON.stringify({context:{questions:[snapshot]}})}));
   state.verification={version:1,entries:{'question:old':{id:'question:old',outcome:'passed',reviewer:'independent',note:'Checked unchanged content',sourceCompared:true,contentVerified:true,checks:{answer:true,skillMapping:true,taughtMethod:true},artifacts:[{path:artifact,hash:createHash('sha256').update(fs.readFileSync(artifact)).digest('hex')}],dependencies:{question:deps.questions.old}}}};
   fs.writeFileSync(path.join(dir,'workflow','issues.json'),JSON.stringify(state));assert.equal(loadReuseContext({projectFile:file,runDir:dir}).accepted.size,1);
+  const changed=JSON.parse(fs.readFileSync(file));changed.sections[0].blocks[0].content.answer.worked+=' Extra independently reviewable step.';fs.writeFileSync(file,JSON.stringify(changed));const improvedContext=loadReuseContext({projectFile:file,runDir:dir});assert.equal(improvedContext.accepted.size,0);assert.equal(improvedContext.baselines.get('old').block.content.answer.worked,snapshot.content.answer.worked);
   const invalid=JSON.parse(fs.readFileSync(request));invalid.job.dependencies.questions.old='unbound';fs.writeFileSync(request,JSON.stringify(invalid));assert.equal(loadReuseContext({projectFile:file,runDir:dir}).accepted.size,0);
+ }finally{fs.rmSync(dir,{recursive:true,force:true});}
+});
+
+test('legacy mathematics remains verifiable against its original delivered teaching after a theory audit',()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'reuse-teaching-audit-')),snapshot=block(),teacher={id:'teaching',type:'rich-text',content:'Divide the total equally between the parts.'};
+ snapshot.sourceReview={teachingContext:{exerciseId:'ratios'}};
+ const project={id:'prior',reviewProfile:'textbook-three-pass-v1',sections:[{id:'t',topicId:'ratios',phase:'teaching',blocks:[teacher]},{id:'p',topicId:'ratios',phase:'practice',blocks:[snapshot]}]},file=path.join(dir,'prior.json');
+ try{
+  fs.mkdirSync(path.join(dir,'workflow'));const state={pipelinePolicy:PIPELINE_POLICY,reviewProfile:project.reviewProfile,pages:{}},deps=verificationDependencies(state,project,{renderer:'test',implementation:{},runDir:dir});
+  const artifact=path.join(dir,'result-review.json');fs.writeFileSync(artifact,JSON.stringify({records:[{id:'old',outcome:'passed'}]}));
+  fs.writeFileSync(path.join(dir,'request.json'),JSON.stringify({job:{dependencies:{questions:deps.questions}},prompt:JSON.stringify({context:{exerciseId:'ratios',questions:[snapshot],sectionContext:[{id:'p',topicId:'ratios',phase:'practice',blockIds:['old']}],teaching:{teaching:[structuredClone(teacher)]}}})}));
+  state.verification={version:1,entries:{'question:old':{id:'question:old',outcome:'passed',reviewer:'independent',note:'Derived every answer using original teaching',sourceCompared:true,contentVerified:true,checks:{answer:true,skillMapping:true,taughtMethod:true},artifacts:[{path:artifact,hash:createHash('sha256').update(fs.readFileSync(artifact)).digest('hex')}],dependencies:{question:deps.questions.old}}}};fs.writeFileSync(path.join(dir,'workflow/issues.json'),JSON.stringify(state));
+  teacher.content+=' First check that the units agree.';project.sections[0].blocks.push({id:'added',type:'rich-text',content:'A new investigation'});fs.writeFileSync(file,JSON.stringify(project));
+  const context=loadReuseContext({projectFile:file,runDir:dir});assert.equal(context.accepted.size,1);assert.equal(context.baselines.get('old').block.content.answer.short,'4');
  }finally{fs.rmSync(dir,{recursive:true,force:true});}
 });

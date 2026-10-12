@@ -73,12 +73,13 @@ export const layoutControls={
  },
  colourField(label,value,action,special){
   const wrap=document.createElement('label');wrap.textContent=label+' ';const picker=document.createElement('input');picker.type='color';picker.disabled=this.host.readonly;picker.value=colours.test(value)?value:'#ffffff';picker.setAttribute('aria-label',label+' picker');
-  const input=document.createElement('input');input.type='text';input.disabled=this.host.readonly;input.value=value??'';input.placeholder=value==null?'Mixed':'';input.setAttribute('aria-label',label);input.onchange=()=>{if(!colours.test(input.value)&&input.value!==special){input.setAttribute('aria-invalid','true');this.message.textContent='Use a six-digit hex colour'+(special?' or '+special:'')+'.';return;}action(input.value);};picker.onchange=()=>action(picker.value);wrap.append(picker,input);if(special)this.button(wrap,special==='transparent'?'No fill':'Inherit',()=>action(special));this.inspector.append(wrap);
+  const input=document.createElement('input');input.type='text';input.disabled=this.host.readonly;input.value=value??'';input.placeholder=value==null?'Mixed':'';input.setAttribute('aria-label',label);input.onchange=()=>{if(!colours.test(input.value)&&input.value!==special){input.setAttribute('aria-invalid','true');this.message.textContent='Use a six-digit hex colour'+(special?' or '+special:'')+'.';return;}action(input.value);};picker.onchange=()=>action(picker.value);wrap.append(picker,input);this.inspector.append(wrap);
   const swatches=document.createElement('div');swatches.className='me-colour-swatches';swatches.setAttribute('role','group');swatches.setAttribute('aria-label',label+' booklet colours');
   const names={ink:'Ink',blue:'Booklet blue',red:'Booklet red',green:'Booklet green',orange:'Booklet orange',tableLabel:'Label blue',border:'Border grey',skipped:'Skipped-value grey',white:'White'};
   for(const {name:key,value:hex} of bookletColourChoices){
    const name=names[key]??key.replace('Fill',' fill');const button=this.button(swatches,'',()=>action(hex));button.style.backgroundColor=hex;button.title=name+' ('+hex+')';button.setAttribute('aria-label',label+': '+name);button.setAttribute('aria-pressed',String(value?.toLowerCase()===hex));
   }
+  if(special){const text=special==='transparent'?'No fill':'Inherit',b=this.button(swatches,text,()=>action(special));b.className='me-colour-special';b.title=text+' ('+special+')';b.setAttribute('aria-label',label+': '+text);b.setAttribute('aria-pressed',String(value?.toLowerCase()===special));}
   this.inspector.append(swatches);
  },
  tableStyleProperties(table,logical,edit){

@@ -144,7 +144,7 @@ export class DocumentEditor {
     at.nodes.splice(at.index,1,left,right);this.selectedId=right.id;this.doc=normalizeDocument(this.doc);this.render(null);
     const target=this.surface.querySelector(`[data-id="${CSS.escape(right.id)}"]`);this.surface.focus();const caret=document.createRange();caret.setStart(target,0);caret.collapse(true);selection.removeAllRanges();selection.addRange(caret);this.saveRange();this.remember();this.emit();return true;
   }
-  deleteNode(id=this.selectedId){this.transact(doc=>{this.selectedId=removeDocumentNode(doc,id);});}
+  deleteNode(id=this.selectedId){this.transact(doc=>{this.selectedId=removeDocumentNode(doc,id,{allowEmptyRoot:!!this.host.documentHost});});}
   insert(node) { this.transact(doc=>{ let at=locateDocumentNode(doc,this.selectedId);while(at&&at.nodes!==at.parent.blocks)at=locateDocumentNode(doc,at.parent.id);const nodes=at?.nodes??doc.blocks;nodes.splice(at?at.index+1:nodes.length,0,node); this.selectedId=node.id; }); }
   insertMath(latex='', display=false) {
     if(this.host.readonly)return; this.restoreRange();
@@ -330,6 +330,8 @@ export class DocumentEditor {
       const unresolved=unresolvedAnnotations(table);if(unresolved.length){const warning=document.createElement('p');warning.setAttribute('role','status');warning.textContent='Unresolved annotation anchors: '+unresolved.map(a=>a.id).join(', ');this.inspector.append(warning);}
 
     }
+    const location=locateDocumentNode(this.doc,n.id),listItem=n.type==='list-item'?n:[...(location?.ancestors??[])].reverse().find(node=>node.type==='list-item');
+    if(listItem)this.button(this.inspector,'Delete list item',()=>this.deleteNode(listItem.id));
     this.button(this.inspector,n.type==='paragraph'?'Delete paragraph':'Delete selected block',()=>this.deleteNode(n.id));
     this.contextualProperties(table?'table':n.type);
     this.host.dispatchEvent(new CustomEvent('document-selection'));

@@ -1,48 +1,57 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {questionTeachingDependencies} from '../scripts/booklet/import-verification.mjs';
-import {exerciseTeachingContext} from '../scripts/booklet/bounded-stages.mjs';
-
-function fixture(){
- const question={id:'q-d',type:'question',sourceRefs:[{pageNumber:32}],sourceReview:{teachingContext:{pdfPages:[28]}},content:{id:'q-d-root',prompt:'Find the distance.'}};
- const project={sections:[{id:'d',exerciseId:'2D',phase:'practice',blocks:[question]}]};
- const state={pages:{28:{sourceEvidence:'source-28',inventoryHash:'inventory-28'},32:{sourceEvidence:'source-32',inventoryHash:'inventory-32'}},issues:{}};
- const dependencies=()=>questionTeachingDependencies(state,project,question);
- const issue=(id,extra={})=>({id,status:'corrected',page:28,message:'Supply the exact method explanation.',resolution:{reason:'The exact explanation has been supplied.'},...extra});
- return {question,project,state,dependencies,issue};
-}
-
-test('exercise-specific theory handoffs do not invalidate another exercise sharing a source page',()=>{
- const f=fixture(),before=f.dependencies();
- f.state.issues.other=f.issue('other',{reviewJob:{stage:'theory',ownershipIds:['exercise:2E']}});
- assert.deepEqual(f.dependencies(),before);
- f.state.issues.other.resolution.reason='An unrelated handoff was clarified again.';
- assert.deepEqual(f.dependencies(),before);
- f.state.issues.own=f.issue('own',{reviewJob:{stage:'theory',ownershipIds:['exercise:2D']}});
- assert.deepEqual(f.dependencies().resolutions.map(r=>r.id),['own']);
- const own=f.dependencies();f.state.issues.own.resolution.reason='The assigned explanation changed.';
- assert.notDeepEqual(f.dependencies(),own);
+import {questionDependencyFindings,assertBankQuestionDependencies,dependencySignature} from '../src/lib/booklet-question-dependencies.js';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import {supersedeBankQuestion} from '../scripts/booklet/supersede-bank-question.mjs';
+import {normaliseQuestion,makeBankManifest} from '../src/lib/practice-question-model.js';
+import {revisionHash} from '../scripts/booklet/bank-sync.mjs';
+import {createEditableProject,createProjectBlock} from '../src/lib/editable-booklet-model.js';
+import {saveBookletProject,promoteProjectQuestion} from '../scripts/booklet/project-studio-server.mjs';
+const block=(id,prompt,extra={})=>({id,type:'question',content:{id:id+'-root',type:'question',prompt,children:[]},...extra});
+const project=(...blocks)=>({id:'test',sections:[{id:'practice',phase:'practice',blocks}]});
+test('preflight detects previous-question givens and numbered references, excluding answers and comments',()=>{
+ const p=project(block('a','Draw the graph.'),block('b','Use the graph in the previous question.'),block('c','Check your answers to Q1.'));
+ assert.equal(questionDependencyFindings(p).length,2);assert.throws(()=>assertBankQuestionDependencies(p),/dependency review required/);
+ p.sections[0].blocks[1].content.prompt='Find the intersection of the supplied lines.';p.sections[0].blocks.pop();
+ p.sections[0].blocks[1].content.answer={worked:'Use the previous question.'};p.studio={flags:[{note:'Use Q1.'}]};assert.doesNotThrow(()=>assertBankQuestionDependencies(p));
 });
-
-test('whole-exercise teaching context uses exercise ownership while retaining source and explicit target changes',()=>{
- const f=fixture(),context=()=>exerciseTeachingContext(f.project,f.state,'2D'),before=context();
- f.state.issues.other=f.issue('other',{reviewJob:{stage:'theory',ownershipIds:['exercise:2E']}});
- assert.deepEqual(context(),before);
- f.state.issues.own=f.issue('own',{reviewJob:{stage:'theory',ownershipIds:['exercise:2D']}});
- f.state.issues.source=f.issue('source');
- f.state.issues.target=f.issue('target',{targetId:'q-d-root',reviewJob:{stage:'theory',ownershipIds:['exercise:2E']}});
- assert.deepEqual(context().decisions.map(d=>d.id),['own','source','target']);
- const previous=context();f.state.pages[28].sourceEvidence='changed-source-pixels';
- assert.notEqual(context().dependencyHash,previous.dependencyHash);
+test('an explicit substantive review is invalidated by content changes',()=>{
+ const b=block('b','Use a similar method to the previous question to solve $x+3=7$.');
+ b.sourceReview={bankDependencyReview:{decision:'self-contained',signature:dependencySignature(b),note:'Only the method is referenced; the equation and complete givens are supplied here.'}};
+ assert.doesNotThrow(()=>assertBankQuestionDependencies(project(b)));b.content.prompt+=' Explain your answer.';assert.throws(()=>assertBankQuestionDependencies(project(b)),/dependency review required/);
 });
-
-test('shared source changes, legacy findings and explicit shared targets still invalidate dependencies',()=>{
- const f=fixture(),before=f.dependencies();
- f.state.issues.source=f.issue('source');
- assert.notDeepEqual(f.dependencies(),before);
- f.state.issues.legacy=f.issue('legacy',{reviewJob:{stage:'theory'}});
- f.state.issues.target=f.issue('target',{targetId:'q-d-root',reviewJob:{stage:'theory',ownershipIds:['exercise:2E']}});
- assert.deepEqual(f.dependencies().resolutions.map(r=>r.id),['legacy','source','target']);
- const previous=f.dependencies();f.state.pages[28].inventoryHash='changed-source-inventory';
- assert.notDeepEqual(f.dependencies(),previous);
+test('internal part dependencies pass, unresolved external node dependencies cannot be waived',()=>{
+ const b=block('b','Solve the problem.');b.content.children=[{id:'a',prompt:'Find x.'},{id:'c',prompt:'Use part a.',dependsOn:['a']}];assert.doesNotThrow(()=>assertBankQuestionDependencies(project(b)));
+ b.content.children[1].dependsOn=['outside'];b.sourceReview={bankDependencyReview:{decision:'self-contained',signature:dependencySignature(b),note:'This deliberately insufficient review cannot waive a missing external node.'}};
+ assert.throws(()=>assertBankQuestionDependencies(project(b)),/external dependency outside/);
+});
+test('maths and diagram source names do not produce numbered-question references; selection preserves accepted links',()=>{
+ const p=project(block('a','Compare $Q_1$ and $Q_2$. [tikz]% source p27-q1 \\node {$Q1$};[/tikz]'),block('b','Use Q1.'));
+ assert.equal(questionDependencyFindings(p).length,1);assert.doesNotThrow(()=>assertBankQuestionDependencies(p,{blockIds:['a']}));
+});
+test('individual promotion refuses a dependent question before creating any bank record',async t=>{
+ const temp=await fs.mkdtemp(path.join(os.tmpdir(),'dependency-promotion-'));t.after(()=>fs.rm(temp,{recursive:true,force:true}));
+ const options={projectRoot:path.join(temp,'projects'),bankRoot:path.join(temp,'bank'),moduleRoot:path.join(temp,'modules')};await fs.mkdir(options.bankRoot,{recursive:true});
+ const p=createEditableProject({id:'dependent',title:'Dependent'}),b=createProjectBlock('question');b.id='follow-up';b.content.prompt='Use the graph in the previous question.';p.sections[0].phase='practice';p.sections[0].blocks=[b];
+ await saveBookletProject(p,{...options,create:true});
+ await assert.rejects(promoteProjectQuestion(p.id,{mode:'create',blockId:b.id},options),/dependency review required/);
+ assert.deepEqual(await fs.readdir(options.bankRoot),[]);
+});
+test('supersession retains old content and revisions, excludes absorbed records and checks stale or still-live links',async t=>{
+ const temp=await fs.mkdtemp(path.join(os.tmpdir(),'dependency-supersession-'));t.after(()=>fs.rm(temp,{recursive:true,force:true}));
+ const options={projectRoot:path.join(temp,'projects'),bankRoot:path.join(temp,'bank')};await fs.mkdir(options.projectRoot,{recursive:true});await fs.mkdir(path.join(options.bankRoot,'.sync'),{recursive:true});
+ const old=normaliseQuestion({id:'q-old',status:'approved',content:{id:'old-root',prompt:'Follow-up',answer:{short:'Yes',worked:'Yes'}}}),next=normaliseQuestion({id:'q-next',status:'approved',content:{id:'next-root',prompt:'Complete question'}});
+ const write=(file,v)=>fs.writeFile(file,JSON.stringify(v));await write(path.join(options.bankRoot,'q-old.json'),old);await write(path.join(options.bankRoot,'q-next.json'),next);await write(path.join(options.bankRoot,'manifest.json'),makeBankManifest([old,next]));await write(path.join(options.bankRoot,'.sync','links.json'),{'q-old':{projectId:'owner',blockId:'old'},'q-next':{projectId:'owner',blockId:'next'}});
+ const projectFile=path.join(options.projectRoot,'owner.json');await write(projectFile,{sections:[{blocks:[{id:'old',bankRef:{id:'q-old'}},{id:'next',bankRef:{id:'q-next'}}]}]});
+ const args={id:'q-old',expectedRevision:revisionHash(old),replacementBankId:'q-next',projectId:'owner',blockId:'old',replacementBlockId:'next'};
+ await assert.rejects(supersedeBankQuestion(args,options),/still linked/);
+ await write(projectFile,{sections:[{blocks:[{id:'next',bankRef:{id:'q-next'}}]}]});
+ await assert.rejects(supersedeBankQuestion({...args,expectedRevision:'stale'},options),/changed/);
+ await supersedeBankQuestion(args,options);
+ const saved=JSON.parse(await fs.readFile(path.join(options.bankRoot,'q-old.json')));assert.equal(saved.status,'draft');assert.deepEqual(saved.content,old.content);assert.equal(saved.review.history.at(-1).replacementBankId,'q-next');
+ assert.deepEqual(JSON.parse(await fs.readFile(path.join(options.bankRoot,'.revisions','q-old',revisionHash(old)+'.json'))),old);
+ const manifest=JSON.parse(await fs.readFile(path.join(options.bankRoot,'manifest.json')));assert(!manifest.questions.some(q=>q.id==='q-old'));assert(manifest.questions.some(q=>q.id==='q-next'));
+ assert.equal((await supersedeBankQuestion(args,options)).reused,true);
 });

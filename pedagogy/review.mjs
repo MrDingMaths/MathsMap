@@ -10,13 +10,15 @@ import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {questionReviewContent} from '../src/lib/booklet-review-profile.js';
 import {toSource} from '../public/libs/maths-editor/document-model.mjs';
+import {questionKey} from '../src/lib/question-sync.js';
+import {isTheoryReview} from '../src/lib/question-bank-eligibility.js';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 export const LIMITS=Object.freeze({concurrency:3,images:8,earlierCharacters:24000,practiceOnlyEarlierCharacters:48000,challengeCharacters:160000,digestCharacters:220,outcomeCharacters:2500});
-export const KINDS=Object.freeze(['example-choice','worked-step-error','guided-practice','missing-prerequisite','opening-review','unsupported-transition','difficulty-jump','untested-distinction']);
+export const KINDS=Object.freeze(['example-choice','worked-step-error','guided-practice','missing-prerequisite','opening-review','unsupported-transition','difficulty-jump','untested-distinction','duplicate-question']);
 // Optional ideas, never counted as findings and never a reason to hold an import.
 export const SUGGESTION_KINDS=Object.freeze(['extension','variation-sequence']);
-export const REPAIRS=Object.freeze(['change-values','fix-step','add-cue','reorder','add-question','add-review','add-teaching']);
+export const REPAIRS=Object.freeze(['change-values','fix-step','add-cue','reorder','add-question','add-review','add-teaching','remove-question']);
 // Repairs that add, move or replace questions: these hold an import before its final export.
 const LOCAL_REPAIRS=new Set(['change-values','fix-step','add-cue']);
 export const isSuggestion=finding=>finding.severity==='suggestion';
@@ -95,6 +97,26 @@ export function visibleIds(sequence){
 }
 export const blockHash=block=>sha(JSON.stringify(questionReviewContent(block)));
 const blocksById=project=>new Map((project.sections??[]).flatMap(section=>(section.blocks??[]).map(block=>[block.id,block])));
+
+// Compare whole practice tasks across topics before model review. The existing
+// challenge reader checks whether repetition has an instructional purpose.
+export function duplicateQuestionCandidates(all,{topics=[]}={}){
+ const groups=new Map(),selected=new Set(topics);
+ for(const sequence of all)for(const section of sequence.sections.filter(s=>s.phase==='practice'))for(const block of section.blocks??[]){
+  if(block.type!=='question'||!block.content||isTheoryReview(block,section))continue;
+  const key=questionKey(block);if(!key||key==='{}')continue;
+  const group=groups.get(key)??[];group.push({id:block.id,sequence:sequence.id});groups.set(key,group);
+ }
+ return [...groups.values()].filter(group=>group.length>1&&(!selected.size||group.some(row=>selected.has(row.sequence)))).map(group=>({
+  kind:'duplicate-question',severity:'high',sequence:group.find(row=>!selected.size||selected.has(row.sequence)).sequence,targets:group.map(row=>row.id),
+  finding:'The same whole practice question appears '+group.length+' times: '+group.map(row=>row.id).join(', ')+'.',
+  breakdown:'Students repeat an unchanged task without a new mathematical decision; check whether this is accidental duplication rather than purposeful retrieval.',
+  checked:'Deterministic comparison of the complete posed question, including parts, givens and diagrams; ignores answers, node IDs, numeric question labels, whitespace and local layout.',
+  assumptions:'No explicit retrieval or comparison purpose has yet been established for the repeated copies.',
+  repair:{type:'remove-question',proposal:'Retain the first occurrence '+group[0].id+' and remove the redundant copies '+group.slice(1).map(row=>row.id).join(', ')+' unless an explicit instructional purpose warrants retaining them.'},
+  doneWhen:'Each unnecessary repeated whole question is removed; any retained repetition has an explicit instructional purpose.'
+ }));
+}
 
 // Earlier teaching in full, nearest topic first, until the budget is spent; the
 // rest as one line per block.
@@ -300,6 +322,12 @@ export async function runReview({projectFile,root=ROOT,topics=[],reviewEffort='l
    unreliable.push(...scoped(result?.notReliablyReviewed,own).map(item=>({sequence:sequence.id,targets:item.targets,reason:text(item.reason)})));
   }catch(error){row.error=error.message;errors.push(sequence.id+': '+error.message);}
  });
+ for(const candidate of duplicateQuestionCandidates(all,{topics:selected.map(sequence=>sequence.id)})){
+  if(rejected.some(finding=>sameIssue(finding,{kind:candidate.kind,targets:candidate.targets.map(id=>({blockId:ids.get(id)}))})))continue;
+  if(candidates.some(row=>row.kind===candidate.kind&&row.targets.length===candidate.targets.length&&candidate.targets.every(id=>row.targets.includes(id))))continue;
+  candidates.push(candidate);
+  const row=rows.find(row=>row.id===candidate.sequence);if(row)row.candidates=(row.candidates??0)+1;
+ }
  rows.sort((a,b)=>all.findIndex(sequence=>sequence.id===a.id)-all.findIndex(sequence=>sequence.id===b.id));
  candidates.sort((a,b)=>all.findIndex(sequence=>sequence.id===a.sequence)-all.findIndex(sequence=>sequence.id===b.sequence));
  candidates.forEach((candidate,i)=>{candidate.id='c'+(i+1);});

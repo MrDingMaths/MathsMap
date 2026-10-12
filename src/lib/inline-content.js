@@ -1,4 +1,4 @@
-import { readSourceList } from '../../public/libs/maths-editor/document-model.mjs';
+import { readSourceList, tableCells, fromSource } from '../../public/libs/maths-editor/document-model.mjs';
 const OPEN = '[tikz]';
 const CLOSE = '[/tikz]';
 export const PRACTICE_CARD_KEYS = new Set(['question_text', 'structure', 'solution_text']);
@@ -174,7 +174,7 @@ export function setoutMathChain(value, { stackFirstTerm = false } = {}) {
 // Split a text part's value into render blocks. Consecutive whole-line maths
 // runs (2+) collapse into one `aligned` block; everything else stays as its own
 // line (or a blank spacer), preserving today's behaviour for prose and singles.
-export function groupTextBlocks(value, { alignRelations = true } = {}) {
+export function groupTextBlocks(value, { alignRelations = true, nativeTables = false } = {}) {
   const blocks = [];
   let run = [];
   const flush = () => {
@@ -186,7 +186,13 @@ export function groupTextBlocks(value, { alignRelations = true } = {}) {
   // so the renderer receives one expression rather than fragments of raw TeX.
   const lines=String(value ?? '').replace(/(?<!\\)\$\$([\s\S]*?)(?<!\\)\$\$/g,block=>block.replace(/\r?\n/g,' ')).split(/\r?\n/);
   for (let index=0;index<lines.length;index++) {
-    const line=lines[index],list=readSourceList(lines,index);
+    const line=lines[index];
+    if(nativeTables&&tableCells(line)&&/^\s*\|[\s:|\-]+\|\s*$/.test(lines[index+1]??'')){
+      flush();let end=index+2;while(end<lines.length&&tableCells(lines[end]))end++;
+      const table=fromSource(lines.slice(index,end).join('\n')).blocks.find(block=>block.type==='table');
+      blocks.push({kind:'table',table});index=end-1;continue;
+    }
+    const list=readSourceList(lines,index);
     if(list){flush();blocks.push({kind:'list',list:list.list});index=list.next-1;continue;}
     const inner = pureMathInner(line);
     if (inner !== null) {

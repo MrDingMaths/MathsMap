@@ -43,6 +43,8 @@ between questions and parts; retain exercise separators and actual table borders
 - Use `$...$` for inline mathematics and `$$...$$` for display mathematics. Align multi-step calculations at the relation sign with `&`, one mathematical step per row, and a separate block for each part. Preserve native editable equations and table structures already used by the booklet.
 - Include units, exact values and requested rounding in the final answer. For multiple choice, finish with exactly one `Correct answer: X.` suffix; do not add it to other solutions.
 - Verify arithmetic, agreement with the short answer, every requested part and consistency with graphs before accepting the solution. Check method against the teaching example as well as answer correctness. Never remove meaningful source steps merely to shorten the text.
+- In editable PGF/TikZ plots, parenthesise a signed plotting variable before exponentiation, or use explicit multiplication: `(\x)^4` or `\x*\x*\x*\x`. A substituted negative value in `\x^4` can be interpreted as `-(x^4)` and draw the wrong branch. Use the same expression in the curve and any mathematical shading, and inspect both sides of the plotted domain.
+- Plot domains use a key/value equals sign and a range colon, for example `domain=-2:4`. For scaled Cartesian grids, make the physical grid steps match the coordinate unit scale (`x=6mm,y=6mm` requires `xstep=6mm,ystep=6mm`); inspect integer ticks and plotted points against their grid intersections.
 
 Examples:
 
@@ -57,3 +59,9 @@ References read locally:
 - `D:/WebApps/MathsDatabase/tools/paper-import/RUNBOOK.md`, learner-facing solution voice.
 
 The Linear Relationships edit is recorded in `output/linear-solution-tone/changes.json`, with the original saved project in `before.json`. The edit verifies that restoring the changed solution strings reproduces the original project exactly; question text, diagrams and layout data are unchanged. Existing exported PDFs are not updated by this data-edit script.
+
+### Worked-example campaign template parameters
+
+Shared number-line point and jump labels contain short TeX without dollar delimiters: use `label: '\\sqrt{8}'`, not `label: '$\\sqrt{8}$'`. Fraction-grid `shaded` is either an integer count or an array of zero-based `[row, column]` pairs, never flat cell numbers. For example, the left three quarters in a 2-by-4 grid use `[[0,0],[0,1],[0,2],[1,0],[1,1],[1,2]]`. Paired diagrams comparing the same whole need explicit matching `widthMm` and `heightMm`; default sizes depend on their partition counts. Preserve question givens and put derived partitions or labels only in the solution.
+
+For examples-only campaign repairs, retain the completed source, scope and mathematical review of unchanged content. A line-break or part-label repair does not reopen unchanged governing metadata or require a new source exception. New methods, source changes and changes to assumed knowledge still need independent review. Mathematical reviewers check diagram relationships from the supplied code and parameters; final-size readability and clipping are checked by the subsequent actual capture and independent visual stage. Missing later-stage captures are not mathematical or source defects: record the needed visual check separately. Publication still requires that actual inspection to pass.

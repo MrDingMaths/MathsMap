@@ -14,6 +14,12 @@ test('accepts a well-formed multi-line working block', () => {
   assert.deepEqual(lint('$a = 1$\n$b = 2$'), []);
 });
 
+test('validates supported AMS aligned working in the same display mode as the shared renderer', () => {
+  assert.deepEqual(lint('$\\begin{align*}x&=3+4\\\\&=7\\end{align*}$'), []);
+  assert.deepEqual(lint('$\\begin{align}x&=3+4\\\\&=7\\end{align}$'), []);
+  assert.ok(lint('$\\begin{align*}x&=\\unknowncommand\\end{align*}$').some(error=>error.includes('KaTeX error')));
+});
+
 test('an escaped \\$ is a literal dollar, not a delimiter', () => {
   assert.deepEqual(lint('The mulch costs $\\$468$.'), []);
   assert.deepEqual(lint('Graph $B$ passes the origin ($0$ kg costs \\$0).'), []);

@@ -20,7 +20,7 @@ const MODEL = 'gpt-6.1-sol', EFFORT = 'low', IMAGE_LIMIT = 110, BOOKLET_BYTE_LIM
 const NL = '\n';
 // Windows scanners can briefly deny an existing record while it is being read.
 // Retry only transient file-access failures; retain the original error otherwise.
-function writeFileResilient(file, value) {
+export function writeFileResilient(file, value) {
   const temporary = `${file}.${process.pid}-${Date.now()}-${Math.random().toString(16).slice(2)}.tmp`;
   fs.writeFileSync(temporary, value);
   try {
@@ -178,10 +178,10 @@ export function skillEvidence(root, campaignId, skillId, section = null) {
   }
   const images = [...found.values()], chosen = [...images].sort((a, b) => Number(b.cited) - Number(a.cited) || a.order - b.order).slice(0, IMAGE_LIMIT).sort((a, b) => a.order - b.order);
   const sections = booklets.flatMap(booklet => (booklet.ranges || []).map(range => ({ path: booklet.path, ...range })));
-  return { stage: state.scope?.stage ?? null, files, booklets, spans, section, sections, unsupplied: section ? [] : mapped.filter(booklet => !files.includes(booklet)), images: chosen, omittedImages: images.length - chosen.length, duplicateImages, bytes };
+  return { stage: state.scope?.stage ?? null, files, booklets, spans, section, sections, unsupplied: section ? [] : mapped.filter(booklet => !files.includes(booklet)), images: chosen, omittedImageEntries: images.filter(image => !chosen.includes(image)), omittedImages: images.length - chosen.length, duplicateImages, bytes };
 }
 
-function evidenceText(root, evidence, pair) {
+export function evidenceText(root, evidence, pair) {
   const numbered = booklet => numberedEvidence(fs.readFileSync(path.join(root, booklet.path), 'utf8').split(/\r?\n/), booklet.ranges);
   const partial = evidence.booklets.filter(booklet => booklet.ranges);
   return [
@@ -315,7 +315,7 @@ export function currencyProblems(baseline, candidate) {
   for (const { at, value } of textFields({ content: candidate.content, quiz: candidate.quiz })) {
     if (known.has(value)) continue;
     const spans = value.replace(/\[tikz\][\s\S]*?\[\/tikz\]/g, ' ').replace(/\\\$/g, '').match(/\$[^$]*\$/g) || [];
-    if (spans.some(span => /[A-Za-z]{2,}\s+[A-Za-z]{2,}\s+[A-Za-z]{2,}/.test(span.replace(/\\(?:text|textbf|textit|mathrm|mbox)\{[^{}]*\}/g, ' ').replace(/\\[A-Za-z]+/g, ' ')))) problems.push('Format: ' + at + ': a bare $ before a money amount starts an unintended maths span; write each amount as $\\$200$');
+    if (spans.some(span => !/^\$\s*[A-Z]{1,3}(?:\s*\\(?:parallel|perp|cong|sim|equiv)\s*[A-Z]{1,3})+\s*\$$/.test(span) && /[A-Za-z]{2,}\s+[A-Za-z]{2,}\s+[A-Za-z]{2,}/.test(span.replace(/\\(?:text|textbf|textit|mathrm|mbox)\{[^{}]*\}/g, ' ').replace(/\\[A-Za-z]+/g, ' ')))) problems.push('Format: ' + at + ': a bare $ before a money amount starts an unintended maths span; write each amount as $\\$200$');
   }
   return problems;
 }
@@ -335,6 +335,7 @@ export function applyFixes(candidate, fixes) {
 
 /** Assemble an author's bounded replacement fields; this grants no review or publication credit. */
 export function applyRepairResult(candidate, result) {
+  if (typeof result?.blocker === 'string' && result.blocker.trim()) return { ...result, content: null };
   if (!result?.patches) return result;
   const reject = reason => ({ skillId: candidate.content.skillId, blocker: 'Invalid repair patch: ' + reason, content: null });
   if (result.skillId !== candidate.content.skillId || result.baseHash !== pairHash(candidate) || !Array.isArray(result.patches)) return reject('skill or base hash mismatch');
@@ -637,6 +638,11 @@ export async function runAuditPilot(root, { manifestFile, campaignId = DEFAULT_C
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const argv = process.argv.slice(2), command = argv.shift(), value = (flag, fallback = null) => { const index = argv.indexOf(flag); return index < 0 ? fallback : argv[index + 1]; };
+  if (argv.includes('--examples-only')) {
+    const { examplesMain } = await import('./examples-route.mjs');
+    await examplesMain([command, ...argv.filter(flag => flag !== '--examples-only')]);
+    process.exit(0);
+  }
   const root = path.resolve(value('--root', path.join(path.dirname(fileURLToPath(import.meta.url)), '../..'))), campaignId = value('--campaign', DEFAULT_CAMPAIGN);
   if (command === 'status') console.log(JSON.stringify(leanStatus(root, campaignId), null, 2));
   else if (command === 'publish') {

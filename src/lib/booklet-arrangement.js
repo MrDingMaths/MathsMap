@@ -99,7 +99,10 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
    const pics=diagrams(n),allChildren=(n.children??[]).map((c,i)=>question(c,i));
    // The native table contains its labels and response regions. Semantic parts
    // still own the editable answers and table-continuation rows.
-   const children=root&&block.flow?.tableOnly===true?[]:allChildren;
+   const tableParts=new Set(block.flow?.tableOnlyPartIds??[]);
+   const children=root&&block.flow?.tableOnly===true
+    ? tableParts.size?allChildren.filter((_,i)=>!tableParts.has(n.children[i].id)):[]
+    :allChildren;
    const childGroup=group(n.id+':parts',children,n.layout==='grid'?'row':'stack');
    if(n.layout==='grid'&&Math.max(1,n.columns||2)<children.length){childGroup.direction='stack';childGroup.children=gridRows(n.id,children,n.columns);}
    // The last row of a grid continued on a later page keeps its columns too.

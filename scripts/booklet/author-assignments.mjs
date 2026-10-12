@@ -8,6 +8,7 @@ import {runBoundedJobs,withWorkerSlot,workerConcurrency} from './worker-pool.mjs
 import {coalescePacketContinuations} from './packet-continuations.mjs';
 import {compactTikzPrompt} from './token-efficient-prompts.mjs';
 import {assignmentCategoryHeadings,categoryGroupAnchors} from './practice-category-headings.mjs';
+import {materializeAutomaticReuse} from './automatic-reuse.mjs';
 
 export const ASSIGNMENT_FORMAT='mathsmap-author-assignments-v1';
 const hash=v=>createHash('sha256').update(typeof v==='string'?v:JSON.stringify(v)).digest('hex');
@@ -162,7 +163,7 @@ export function assignmentPayload(assignment,tasks){
  const relevant=tasks.filter(t=>assignment.pages.includes(t.page)).map(t=>scopedTeachingTask(t,assignment)),evidence=new Map();
  for(const task of relevant)for(const ref of task.evidence??[])evidence.set(ref.id,ref);
  const owned=new Set(assignment.inventoryIds),targets=new Set(assignment.entries.flatMap(e=>[e.id,e.targetId]).filter(Boolean));
- const resources=relevant.flatMap(t=>t.promptSections.filter(s=>['teaching','envelope','diagrams','decisions','supplement','source','word'].includes(s.name)||s.name.startsWith('answer-page-')).map(s=>{
+ const resources=relevant.flatMap(t=>t.promptSections.filter(s=>['automatic-reuse','teaching','envelope','diagrams','decisions','supplement','source','word'].includes(s.name)||s.name.startsWith('answer-page-')).map(s=>{
   // A page envelope describes one member of packets, with assignment-scoped
   // ownership. Retain its topic/header/source rules without importing siblings.
   const text=s.name==='envelope'?s.text.replace(/^Return /,'Each assigned PAGE_PACKET for this source page follows ').replace('Map EVERY non-excluded inventory item','Map EVERY assigned non-excluded inventory item').replaceAll('inventory.entries','assignment.inventory'):s.name==='diagrams'?compactTikzPrompt({inventory:{entries:assignment.entries.filter(e=>e.pageNumber===t.page)}}):s.text;
@@ -235,7 +236,10 @@ export async function runAuthorAssignment({runDir,assignment,tasks,root=path.joi
    try{
     events.phase('generation');const reply=assignment.evidenceOnly?{result:{packets:assignment.pages.map(pageNumber=>({pageNumber,sections:[],inventoryMappings:[],findings:[],corrections:[],answerEvidence:[]}))},metrics:{provider:'local-inventory-exclusions',externalModelCalls:0,usage:null,elapsedMs:0}}:await withWorkerSlot(runDir,{stage:'author',assignmentId:assignment.id},()=>runner({cwd:runDir,runDir,configuration:tasks.find(t=>assignment.pages.includes(t.page))?.generationDependencies.configuration,prompt:payload.prompt,images:payload.images,out}),workerSlotOptions);metrics=reply.metrics;events.end({metrics});
     fs.writeFileSync(path.join(out,'generation.json'),JSON.stringify(reply.result,null,2));events.phase('validation');
-    const packets=reply.result?.packets?.map(materialize);
+    const packets=reply.result?.packets?.map(packet=>{
+     const task=tasks.find(t=>t.page===packet.pageNumber);
+     return materialize(materializeAutomaticReuse(packet,task?.reuseCandidates??[],{runId:task?.runId,teachingPages:task?.contextPages??[]}));
+    });
     if(!packets||packets.length!==assignment.pages.length||new Set(packets.map(p=>p.pageNumber)).size!==packets.length)throw Error('Assignment must return every assigned page exactly once');
     for(const p of assignment.pages){const packet=packets.find(v=>v.pageNumber===p),original=tasks.find(t=>t.page===p),inventory={...original.inventory,entries:assignment.entries.filter(e=>e.pageNumber===p)};
      mergeAssignmentPackets(inventory,[{assignment,packet}]);validate(packet,{...original,inventory});}

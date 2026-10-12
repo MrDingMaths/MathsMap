@@ -351,3 +351,17 @@ test('a question kept separate is published by the next run with assessments for
   assert.equal(receipt.questions[0].mappingNote,f.assessments.questions[0].mappingNote,'The first run\'s entry is kept');
   assert.equal((await importProjectBank({...args,apply:true})).created,0);
 });
+
+test('adding another bank question preserves existing owner-local paragraph spacing and still rejects changed answers',async t=>{
+ const f=await fixture(t),first=practiceQuestions(f.saved)[0];first.content.prompt=fromSource('Find the side.');
+ await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);f.assessments.questions[0].contentHash=revisionHash(first.content);f.assessments.sourceContext.projectHash=revisionHash(f.saved);await write(f.args.assessmentsFile,f.assessments);
+ await importProjectBank({...f.args,apply:true});
+ const p=await loadBookletProject(f.saved.id,f.options),owned=practiceQuestions(p)[0];owned.content.prompt.blocks[0].spaceAfter=1;
+ const next=createProjectBlock('question');next.id='q-added';next.content.prompt='Find the other side.';next.content.answer={short:'3',worked:'The other side is 3.',solutionDiagrams:[]};p.sections[0].blocks.push(next);
+ const saved=await saveBookletProject(p,{...f.options,expectedRevision:p.revision});
+ const a={...f.assessments,sourceContext:{...f.assessments.sourceContext,projectHash:revisionHash(saved)},questions:[{...f.assessments.questions[0],sourceBlockId:next.id,contentHash:revisionHash(practiceQuestions(saved).find(b=>b.id===next.id).content)}]};
+ const args={...f.args,out:path.join(f.root,'second-stage')};await write(args.assessmentsFile,a);assert.equal((await importProjectBank({...args,apply:true})).created,1);
+ const live=await loadBookletProject(saved.id,f.options);assert.equal(practiceQuestions(live)[0].content.prompt.blocks[0].spaceAfter,1);
+ const bankFile=path.join(f.options.bankRoot,practiceQuestions(live)[0].bankRef.id+'.json'),bank=await read(bankFile);bank.content.answer.short='Wrong answer';await write(bankFile,bank);
+ await assert.rejects(verifyProjectBank(live,f.options.bankRoot,{root:f.root,baseline:live,assessments:{...a,questions:[]}}),/content and answers/);
+});

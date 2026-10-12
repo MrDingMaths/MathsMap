@@ -23,7 +23,15 @@ async function atomic(file, raw) {
   try {
     const handle = await fs.open(temp, 'wx');
     try { await handle.writeFile(raw); await handle.sync(); } finally { await handle.close(); }
-    await fs.rename(temp, file);
+    // Windows scanners may briefly deny replacing a live JSON file. Retry only
+    // transient access failures; retain the transaction and original error.
+    for (let attempt = 0; ; attempt++) {
+      try { await fs.rename(temp, file); break; }
+      catch (error) {
+        if (attempt >= 10 || !['EPERM','EACCES','EBUSY','UNKNOWN'].includes(error.code)) throw error;
+        await pause(100 * (attempt + 1));
+      }
+    }
   } finally { await fs.rm(temp, { force: true }); }
 }
 async function writeJson(file, value) { await atomic(file, JSON.stringify(value, null, 2) + '\n'); }

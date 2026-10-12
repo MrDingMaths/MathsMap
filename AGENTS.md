@@ -14,7 +14,13 @@ For imports and authorised repairs, label the parts of one practice question in 
 
 An open-ended question answered in the cells of one table or box grid gets one short-answer entry: “Sample answers” and the question’s layout filled with one example per cell, with no per-cell “e.g.” or restated headings. Follow [the convention](docs/booklet-cross-session-rules.md#sample-answers-for-open-ended-tables-and-box-grids-11-october-2026-user-requested).
 
+## Automatic reuse during imports (11 October 2026, user requested)
+
+Imports identify original source blocks separately from later audits; see [automatic discovery](docs/booklet-three-pass-import.md#automatic-discovery-before-transcription-11-october-2026-user-requested). Carry compatible saved clarifications, extra working and attached investigations. Reuse valid mathematical acceptance; review only amendments/new additions and always check new-source, skill and taught-method compatibility. Scores and saves never grant acceptance; changed tasks or missing proof require ordinary review. Preserve historical runs and never renew old acceptance merely by saving.
+
 ## Bank links and duplicate questions (9 October 2026, user approved)
+
+Append dependent follow-ups before bank import where possible; see the guide.
 
 A question is published to the bank once; every other booklet that contains it links to that record. Follow [duplicates and linking](docs/booklet-bank-auto-sync.md#duplicates-and-linking-9-october-2026-user-approved). `import-project-bank.mjs` links identical questions automatically, holds a same-question match that has a different answer for one decision in Studio (**Use existing** or **Keep separate**), and creates only the rest; assessments cover new questions only. Do not add a duplicate review stage or model call to imports, and do not hold or block on similarity scores. Run `node scripts/booklet/bank-links.mjs [--project ID]` to see what a publication would create, link or hold. Never create a second bank record for an identical question by writing bank files directly.
 

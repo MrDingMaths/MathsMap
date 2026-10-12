@@ -3,6 +3,8 @@ import { normalizeProjectLibrary } from '../../src/lib/booklet-library.js';
 import { isTheoryReview, isSelectableBankQuestion } from '../../src/lib/question-bank-eligibility.js';
 import path from 'node:path';
 import {applyBankRatings} from '../../src/lib/booklet-bank-ratings.js';
+import {assertBankQuestionDependencies} from '../../src/lib/booklet-question-dependencies.js';
+import {supersedeBankQuestion} from './supersede-bank-question.mjs';
 import { studioProject, reviewTargets } from '../../src/lib/booklet-review-model.js';
 import { mathsMapCandidates } from './assembly-bank.mjs';
 import { createHash, randomUUID } from 'node:crypto';
@@ -13,6 +15,7 @@ import {withBankLock,prepareAutomaticSync,writeTransaction,registerBankOwner,pro
 import {refreshBankRatings,sharedHash,questionKeyHash,bankQuestionKeys,linkBlockToBank,secondarySkillAmendment} from './bank-sync.mjs';
 import {contentProject} from '../../src/lib/booklet-source-content.js';
 import {maintainProjectHistory} from './storage-archive.mjs';
+import {preserveSourceLineage} from './source-lineage.mjs';
 import {projectCheckpointEntries} from './project-checkpoints.mjs';
 import {applyCreationPreset} from '../../src/lib/booklet-creation.js';
 import {
@@ -147,6 +150,7 @@ async function saveProjectUnlocked(raw, { projectRoot = PROJECT_ROOT, bankRoot =
     createdAt: previous?.createdAt ?? checked.project.createdAt ?? now,
     updatedAt: now,
   });
+  preserveSourceLineage(previous,project,{runDir:project.runId||project.source?.runId?path.join(path.resolve(projectRoot,'../..'),'.booklet-work/full-imports',project.runId??project.source.runId):undefined});
   await hydrateBankRevisions(project, bankRoot);
   const entries=await prepareAutomaticSync(project,bankRoot);
   await refreshBankRatings(project,bankRoot);
@@ -397,6 +401,7 @@ async function promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,modu
   const projection=mode==='create'?(body.bankProjection??bankProjectionPolicy(placement.block)):link?.projection??bankProjectionPolicy(placement.block);
   const candidates = await duplicateCandidates(placement.block, bankRoot, projection, { similar: mode === 'inspect' });
   if (mode === 'inspect') return { project, candidates };
+  assertBankQuestionDependencies(project,{blockIds:[placement.block.id]});
   const match = (id) => candidates.find((item) => item.id === id && item.sameQuestion);
   // Linking to a matching record, or recording a decision, publishes nothing new.
   const publishes = mode === 'create' || mode === 'update' || (mode === 'link-existing' && !match(body.targetId));
@@ -514,6 +519,8 @@ export function projectStudioPlugin() {
           if (promoteMatch && req.method === 'POST') return send(res, 200, await promoteProjectQuestion(decodeURIComponent(promoteMatch[1]), await readBody(req)));
           const moduleMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/promote-module$/);
           if (moduleMatch && req.method === 'POST') return send(res, 200, await promoteProjectModule(decodeURIComponent(moduleMatch[1]), await readBody(req)));
+          const supersedeMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/supersede-bank-question$/);
+          if(supersedeMatch&&req.method==='POST'){const body=await readBody(req);if(body.projectId!==decodeURIComponent(supersedeMatch[1]))throw Object.assign(new Error('Supersession project does not match'),{statusCode:400});return send(res,200,await supersedeBankQuestion(body));}
           const projectMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)$/);
           const syncMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/bank-sync$/);
           if(syncMatch&&req.method==='GET')return send(res,200,await getProjectBankSync(decodeURIComponent(syncMatch[1])));

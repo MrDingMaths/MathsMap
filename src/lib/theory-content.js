@@ -35,6 +35,14 @@ export function workedExampleProblems(theory) {
     for (const key of TEXT_KEYS) {
       if (typeof example[key] !== 'string' || !example[key].trim()) problems.push(`${where}.${key} is missing or empty`);
     }
+    if (owns(example, 'equationAlignment')) {
+      const alignment = example.equationAlignment;
+      if (!isObject(alignment) || !['continuation', 'relation'].includes(alignment.mode)
+        || owns(alignment, 'align') && !['left', 'center', 'right'].includes(alignment.align)
+        || isObject(alignment) && Object.keys(alignment).some(key => !['mode', 'align'].includes(key))) {
+        problems.push(`${where}.equationAlignment must use a supported mode and optional left/center/right align`);
+      }
+    }
   };
   if (owns(theory, 'workedExample')) check(theory.workedExample, 'theory.workedExample');
   if (owns(theory, 'workedExamples')) {

@@ -6,6 +6,25 @@ import {createServer} from 'vite';
 import {chromium} from 'playwright-core';
 import {captureTikzCard} from '../scripts/lib/tikz-card-capture.mjs';
 
+test('capture includes percentage wrapper label padding without changing the drawing or its restored styles',async()=>{
+ const dir='.agywork/tikz-padding-capture-test-'+Date.now();fs.mkdirSync(dir,{recursive:true});
+ const browser=await chromium.launch({headless:true,channel:'chrome'});
+ try {
+  const page=await browser.newPage();
+  await page.setContent('<div class="card" style="width:300px;padding:12px;border:1px solid"><div class="stage" style="overflow:auto"><div class="tikz-wrap" style="box-sizing:content-box;width:100%;padding-right:98px"><svg width="280" height="80" viewBox="0 0 280 80"><path d="M0 40L280 40" stroke="black"/><text x="200" y="30">Coordinate label</text></svg></div></div></div>');
+  const card=await page.$('.card');
+  const snapshot=()=>card.evaluate(el=>({styles:[el,...el.querySelectorAll('*')].map(n=>n.getAttribute('style')||null),svg:el.querySelector('svg').getBoundingClientRect().toJSON(),scroll:el.querySelector('.stage').scrollLeft}));
+  await card.evaluate(el=>el.querySelector('.stage').scrollLeft=30);
+  const before=await snapshot();
+  const bounds=await captureTikzCard(card,{path:dir+'/complete.png'});
+  assert.ok(bounds.captureWidth>bounds.originalWidth);
+  assert.ok(bounds.stages.every(s=>s.fullInkWidth<=s.width+1));
+  assert.deepEqual(await snapshot(),before);
+  await assert.rejects(captureTikzCard(card,{path:dir,type:'png'}),/EISDIR|illegal operation|directory/i);
+  assert.deepEqual(await snapshot(),before);
+ } finally {await browser.close();}
+});
+
 test('mounted six box-plot cards capture full ink at original fitting and restore even after failure',{timeout:180000},async()=>{
  const dir='.agywork/tikz-card-capture-test-'+Date.now();fs.mkdirSync(dir,{recursive:true});
  // An existing canonical dev server avoids competing dependency optimizers.
@@ -21,7 +40,7 @@ test('mounted six box-plot cards capture full ink at original fitting and restor
   await page.waitForFunction(()=>window.__tikzCheckDone===true,{timeout:150000});await page.evaluate(()=>document.fonts.ready);
   // Only absent/empty attributes are equivalent. Every actual declaration,
   // geometry and label target remains exact under the restoration contract.
-  const snapshot=card=>card.evaluate(el=>({styles:[el,...el.querySelectorAll('*')].map(n=>{const value=n.getAttribute('style');return value===''?null:value;}),svgs:[...el.querySelectorAll('.stage svg')].map(svg=>({width:svg.getBoundingClientRect().width,viewBox:svg.getAttribute('viewBox'),paths:[...svg.querySelectorAll('path')].map(p=>p.getAttribute('d')),targets:[...svg.querySelectorAll('[data-diagram-label="1"]')].map(g=>g.dataset.labelTargetPt)}))}));
+  const snapshot=card=>card.evaluate(el=>({styles:[el,...el.querySelectorAll('*')].map(n=>{const value=n.getAttribute('style');return value===''?null:value;}),svgs:[...el.querySelectorAll('.stage svg')].map(svg=>({width:Math.round(svg.getBoundingClientRect().width*1000)/1000,viewBox:svg.getAttribute('viewBox'),paths:[...svg.querySelectorAll('path')].map(p=>p.getAttribute('d')),targets:[...svg.querySelectorAll('[data-diagram-label="1"]')].map(g=>g.dataset.labelTargetPt)}))}));
   const cards=await page.$$('.grid .card');assert.equal(cards.length,6);let clipped=0;const rows=[],scaled=[];
   for(const [index,card]of cards.entries()){
    await card.scrollIntoViewIfNeeded();

@@ -1,6 +1,7 @@
 // Stage ordinary whole-question promotions once, then verify and publish that stage.
 import fs from 'node:fs/promises';
 import {validateSourceClassificationReview,externalTeachingEvidence} from './source-classification-review.mjs';
+import {assertBankQuestionDependencies} from '../../src/lib/booklet-question-dependencies.js';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -107,8 +108,12 @@ export async function verifyProjectBank(project,bankRoot,{root=process.cwd(),bas
     assert.ok(isSelectableBankQuestion(bank));
     const projection=assessment?assessment.bankProjection??bankProjectionPolicy(source):links[bank.id].projection??null,projected=projectBankQuestion(source,{overrides:baseline.settings?.layoutOverrides??{},policy:projection});
     assert.deepEqual(links[bank.id]?.projection??null,projection,b.id+' bank projection policy');
-    assert.deepEqual(bank.content,normaliseQuestion(projected).content,b.id+' content and answers');
-    assert.deepEqual(bank.presentation,projected.presentation,b.id+' presentation');
+    const expectedContent=normaliseQuestion(projected).content;
+    // Existing owners may have newer booklet-local spacing than their bank
+    // copy. Verify every shared word/answer while retaining that local layout;
+    // a newly promoted question still needs an exact content/presentation copy.
+    assert.deepEqual(added(b)?bank.content:mergeQuestionContent(bank.content,expectedContent),expectedContent,b.id+' content and answers');
+    if(added(b))assert.deepEqual(bank.presentation,projected.presentation,b.id+' presentation');
     assert.deepEqual(sharedQuestion(bank),sharedQuestion(normaliseQuestion(projectBankQuestion(b,{policy:projection}))),b.id+' sync content');
     assert.equal(links[bank.id]?.projectId,project.id);assert.equal(links[bank.id]?.blockId,b.id);
     assert.equal(b.bankRef.revision,revisionHash(bank));
@@ -195,6 +200,7 @@ export async function importProjectBank({root=process.cwd(),projectId,assessment
   // Each question is already linked, links to an identical bank question, waits
   // for a same-question decision, or is new. Only new questions need assessments.
   const outcomes=await resolveBankOutcomes(questions,bankRoot),outcome=b=>outcomes.get(b.id).outcome;
+  assertBankQuestionDependencies(source,{blockIds:questions.filter(b=>['new','exact'].includes(outcome(b))).map(b=>b.id)});
   // Nothing left to create or link: verify what is there and report any held questions.
   if(questions.length&&!questions.some(b=>['new','exact'].includes(outcome(b)))){
     // A booklet assembled only from existing bank questions has no import receipt.
