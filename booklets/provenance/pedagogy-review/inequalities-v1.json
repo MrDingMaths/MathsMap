@@ -1,0 +1,495 @@
+{
+ "version": 1,
+ "projectId": "inequalities-v1",
+ "title": "Inequalities",
+ "assumptions": {},
+ "findings": [
+  {
+   "id": "pf-ed54a83a2b",
+   "kind": "missing-prerequisite",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p6-q6-c",
+     "blockId": "p6-q6-block",
+     "hash": "0a4eaad7b5669826e0ad9d15b6b2e458be9fa41b7a99193272e925f44c0603c4"
+    },
+    {
+     "id": "p6-q6-d",
+     "blockId": "p6-q6-block",
+     "hash": "0a4eaad7b5669826e0ad9d15b6b2e458be9fa41b7a99193272e925f44c0603c4"
+    },
+    {
+     "id": "p6-q7-block",
+     "blockId": "p6-q7-block",
+     "hash": "91f73bd168ca1675b5c326be17116795d113b3329df7ef01e73e6d17150c75e6"
+    },
+    {
+     "id": "p6-q8",
+     "blockId": "p6-q8",
+     "hash": "104b5a5e3ba1063ff0247dd9bca60de73740117a6fcb0f1c3c9646a918d96a67"
+    },
+    {
+     "id": "p17-q5-c",
+     "blockId": "p17-q5",
+     "hash": "f9d9fbffdf15ef49eb9de2f52e15e168e7cbae158b6048265b2f653e83c6e138"
+    },
+    {
+     "id": "p17-q5-d",
+     "blockId": "p17-q5",
+     "hash": "f9d9fbffdf15ef49eb9de2f52e15e168e7cbae158b6048265b2f653e83c6e138"
+    }
+   ],
+   "finding": "Practice requires combining two bounds without teaching that both conditions must hold simultaneously.",
+   "breakdown": "The representation topic moves from single rays to chained inequalities and bounded segments. Later, p17-q5-c and p17-q5-d require combining separately calculated bounds. Students may treat the conditions as alternatives or give two separate solution sets without selecting their common values.",
+   "checked": "The complete teaching models single bounds, endpoint inclusion, inverse operations and sign reversal. No teaching block explains simultaneous conditions or intersection. The earlier bounded-interval practice gives tasks and matching diagrams, but no student-visible explanation of this method. Independently solving p17-q5-c gives a<-2 and a<5, hence a<-2; p17-q5-d gives a<-2 and a>-3, hence -3<a<-2.",
+   "assumptions": "Basic order and signed arithmetic are prior knowledge. Combining inequality conditions is new within the supplied teaching. Calculator use does not affect the finding.",
+   "repair": {
+    "type": "add-teaching",
+    "proposal": "Before p6-q6-block, add: “0<x≤3 means x>0 AND x≤3. Both conditions must hold. Draw an open circle at 0, a closed circle at 3, and join only the values between them.” Show the completed segment and ask whether 0, 1 and 4 are included (no, yes, no). Before p17-q5-c, recall the same principle with: “Solve each condition, then keep only their common values. For example, t<4 and t<1 together give t<1.”"
+   },
+   "doneWhen": "Students see simultaneous bounds connected to a bounded segment before p6-q6, and a short recall demonstrates combining nested bounds before p17-q5-c.",
+   "from": [
+    "c1",
+    "c5"
+   ],
+   "sequences": [
+    "represent-inequalities",
+    "solve-inequalities-negative"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:00:33.278Z"
+    }
+   ],
+   "commentId": "1ad1af6e-a4f9-4f91-8457-8a633f580912",
+   "postedAt": "2026-10-11T13:00:33.292Z"
+  },
+  {
+   "id": "pf-486c47ff50",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p6-q8",
+     "blockId": "p6-q8",
+     "hash": "104b5a5e3ba1063ff0247dd9bca60de73740117a6fcb0f1c3c9646a918d96a67"
+    }
+   ],
+   "finding": "Explore why a bounded interval contains infinitely many non-integer solutions.",
+   "breakdown": "The task develops the meaning of the continuous segment rather than adding another routine representation question.",
+   "checked": "For -2≤x<3, -1.5, 0.5 and 2.5 are valid. The midpoint of any two distinct solutions lies strictly between them and remains in the interval. Repeatedly finding such midpoints establishes that the solutions cannot form a finite list.",
+   "assumptions": "Students can compare decimals and calculate a midpoint using ordinary arithmetic. No later inequality-solving method is required.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p6-q8, ask: “For −2≤x<3, give three solutions that are not integers. Given any two different solutions, can you find another solution strictly between them? Explain what this tells you about the number of solutions.” Expected answer: examples include −1.5, 0.5 and 2.5; the number halfway between any two different solutions is another solution, so there are infinitely many."
+   },
+   "doneWhen": "The optional task asks for an explanation of infinitely many solutions and accepts a correct midpoint argument.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "represent-inequalities"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:00:33.278Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-f7680bbab5",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p7-working-block",
+     "blockId": "p7-working-block",
+     "hash": "c979adb51ed4890fb7004a0bfd559cc7656768bb3c2e576595ed10e60622a0ba"
+    },
+    {
+     "id": "p8-positive-coefficients-examples",
+     "blockId": "p8-positive-coefficients-examples",
+     "hash": "85ec91348615a5df8d0a88ec175dcdee75bbecd4580334dde7ce6987974e5413"
+    }
+   ],
+   "finding": "The opening investigation does not rehearse choosing inverse operations, although the introductory examples use that prior equation-solving skill directly.",
+   "breakdown": "Completing numerical comparisons with supplied operations does not check whether students can choose subtraction for y+1 or addition followed by division for 2a−3.",
+   "checked": "p7-add-subtract-group and p7-positive-group supply the operations. p7-swap-group rehearses swapping sides. The preceding representation teaching and supplied exercise do not rehearse isolating a pronumeral. Both p8 worked examples depend directly on this substantial prior skill.",
+   "assumptions": "Equation solving is prior knowledge from the course's equation booklets. The proposed calculations do not require a calculator.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p7-working-block, add: “Solve these equations, showing the inverse operation on both sides: (a) y+4=11; (b) 3a=12; (c) 2a−3=7.” Expected answers: y=7, a=4, a=5. These three short items fit within a one-page opening review."
+   },
+   "doneWhen": "The opening review checks selection and application of subtraction, positive division and their two-step combination before the inequality examples.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "solve-inequalities-positive"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:00:33.278Z"
+    }
+   ],
+   "commentId": "839cabc7-770f-4380-ae0e-b326490a29e9",
+   "postedAt": "2026-10-11T13:00:33.293Z"
+  },
+  {
+   "id": "pf-8899668735",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p11-q10-root",
+     "blockId": "p11-q10",
+     "hash": "b5a885e2c9e2f9519c49f736bfe75c3c6abc5d9950fc89d310fd052c7024781c"
+    }
+   ],
+   "finding": "Explain when a whole-number restriction makes two different real inequalities equivalent.",
+   "breakdown": "This extends the existing comparison of x>4 and x≥5 by changing the permitted values of x.",
+   "checked": "For whole-number a and real x, values between a and a+1 distinguish the inequalities. For whole-number x, x>a and x≥a+1 have identical solutions. For whole-number x, x>4.3 is equivalent to x≥5. The original proposal's change from whole-number a to a=4.3 needs to be stated explicitly.",
+   "assumptions": "Whole numbers are 0, 1, 2, … . The topic supplies comparison of real solution sets; the extension requires only order and the stated domain restriction.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p11-q10-root, ask: “Let a be a whole number. Compare x>a and x≥a+1 when x may be any real number, then when x must be a whole number. Explain. Now replace a with 4.3: write an equivalent inclusive inequality for whole-number x satisfying x>4.3.” Expected answer: the first pair differs for real x but is equivalent for whole-number x; the final answer is x≥5."
+   },
+   "doneWhen": "The optional task explicitly distinguishes the domains and clearly introduces 4.3 as a new threshold.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "solve-inequalities-positive"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:00:33.278Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-06619ee87e",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p18-q9-root",
+     "blockId": "p18-q9-block",
+     "hash": "57323bcf7029defbcd26b5a727f6314665a4430faae80ee12d6b41e754de10ec"
+    }
+   ],
+   "finding": "Generalise a linear inequality by considering the sign of the coefficient remaining after collecting terms.",
+   "breakdown": "The task returns to the two-sided inequality structure in p18-q9 and asks students to explain positive, negative and zero coefficient cases.",
+   "checked": "Collecting terms gives (a−c)x<d−b. Division preserves the sign when a>c and reverses it when a<c. When a=c, the condition is b<d, independently of x: all real values satisfy it if true, and none if false. These cases use the inverse-operation and sign-reversal methods already supplied.",
+   "assumptions": "a, b, c and d are fixed real constants, and x ranges over the real numbers. Symbolic generalisation is appropriate as an optional extension.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p18-q9-root, ask: “For fixed real constants a, b, c and d, explain how the real solutions of ax+b<cx+d depend on whether a>c, a<c or a=c. Give an example for each case, including both outcomes when a=c.” Expected answer: if a>c, x<(d−b)/(a−c); if a<c, x>(d−b)/(a−c); if a=c, all real x when b<d and no solutions when b≥d. Examples: 2x<4 gives x<2; x<2x+4 gives x>−4; x+1<x+2 holds for every real x; x+2<x+1 holds for none."
+   },
+   "doneWhen": "The optional task states the constants and domain, handles the zero coefficient separately, and includes correct examples of all outcomes.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "solve-inequalities-negative"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:00:33.278Z"
+    }
+   ]
+  }
+ ],
+ "contextQuestions": [],
+ "protectedGroups": [
+  {
+   "sequence": "represent-inequalities",
+   "targets": [
+    "p3-comparison-lt-panel",
+    "p3-comparison-gt-panel",
+    "p3-comparison-le-panel",
+    "p3-comparison-ge-panel"
+   ],
+   "observation": "Direction and endpoint inclusion are separate decisions.",
+   "varies": "Comparison direction and presence of equality.",
+   "invariant": "The symbolic bound a and number-line representation."
+  },
+  {
+   "sequence": "represent-inequalities",
+   "targets": [
+    "p4-q3-response",
+    "p4-q4-response"
+   ],
+   "observation": "The same four representations distinguish direction from endpoint inclusion.",
+   "varies": "The requested inequality.",
+   "invariant": "The bound −1 and the four diagram options."
+  },
+  {
+   "sequence": "represent-inequalities",
+   "targets": [
+    "p6-q6-c",
+    "p6-q6-d"
+   ],
+   "observation": "Each endpoint’s inclusion is determined independently.",
+   "varies": "Which endpoint is included.",
+   "invariant": "Bounds 1 and 2 and the selected interval between them."
+  },
+  {
+   "sequence": "represent-inequalities",
+   "targets": [
+    "p6-q8-a",
+    "p6-q8-b"
+   ],
+   "observation": "Swapping endpoint inclusion changes the two comparison symbols without changing the bounds.",
+   "varies": "Open and closed endpoints.",
+   "invariant": "Bounds −2 and 3."
+  },
+  {
+   "sequence": "represent-inequalities",
+   "targets": [
+    "p6-q8-c",
+    "p6-q8-d"
+   ],
+   "observation": "The same endpoint distinction transfers to another pair of bounds.",
+   "varies": "Open and closed endpoints.",
+   "invariant": "Bounds −3 and 2."
+  },
+  {
+   "sequence": "solve-inequalities-positive",
+   "targets": [
+    "p10-q6-c",
+    "p10-q6-d"
+   ],
+   "observation": "Exchanging both sides and reversing the symbol preserves the solution set.",
+   "varies": "Which side contains the variable expression.",
+   "invariant": "The expressions, boundary and solution set."
+  },
+  {
+   "sequence": "solve-inequalities-positive",
+   "targets": [
+    "p10-q6-g",
+    "p10-q6-h"
+   ],
+   "observation": "The same side-swapping equivalence also holds for an inclusive inequality.",
+   "varies": "Which side contains the variable expression.",
+   "invariant": "The expressions, inclusion of the boundary and solution set."
+  },
+  {
+   "sequence": "solve-inequalities-positive",
+   "targets": [
+    "p12-q12-a",
+    "p12-q12-b",
+    "p12-q12-c"
+   ],
+   "observation": "The scope of the fraction bar determines which terms are divided and which inverse operation comes first.",
+   "varies": "Whether division applies to n, n+3 or only 3.",
+   "invariant": "The variable, constants 3 and 4, and right side 5."
+  },
+  {
+   "sequence": "solve-inequalities-positive",
+   "targets": [
+    "p12-q12-d",
+    "p12-q12-e"
+   ],
+   "observation": "A negative right side changes the arithmetic without changing the inverse-operation sequence.",
+   "varies": "The sign of the right side.",
+   "invariant": "The entire left expression."
+  },
+  {
+   "sequence": "solve-inequalities-positive",
+   "targets": [
+    "p12-q13-a",
+    "p12-q13-b",
+    "p12-q13-c"
+   ],
+   "observation": "Fraction-bar scope changes the expression and the required inverse operations in inequalities too.",
+   "varies": "Which terms are divided, alongside the comparison symbol.",
+   "invariant": "The variable and numerical ingredients 6, 5 and 2."
+  },
+  {
+   "sequence": "solve-inequalities-positive",
+   "targets": [
+    "p12-q14-a",
+    "p12-q14-b",
+    "p12-q14-c"
+   ],
+   "observation": "Changing the sign inside brackets or the sign of the bound changes the boundary while retaining positive scaling.",
+   "varies": "First the operation inside the brackets, then the sign of the right side.",
+   "invariant": "The outer coefficient 5, comparison symbol and magnitude 10."
+  },
+  {
+   "sequence": "solve-inequalities-positive",
+   "targets": [
+    "p12-q14-c",
+    "p12-q14-d"
+   ],
+   "observation": "Students must distinguish a changed numerical bound from an equivalent exchange of sides.",
+   "varies": "The bound changes from -10 to 10 and the sides are exchanged.",
+   "invariant": "The variable expression 5(x-3)."
+  },
+  {
+   "sequence": "solve-inequalities-negative",
+   "targets": [
+    "p16-q3-a",
+    "p16-q3-b",
+    "p16-q3-c"
+   ],
+   "observation": "Changing the relation changes the solution direction; swapping both sides and reversing the relation preserves the solution set.",
+   "varies": "Relation direction and side order.",
+   "invariant": "Expressions 2x+5 and 9."
+  },
+  {
+   "sequence": "solve-inequalities-negative",
+   "targets": [
+    "p16-q3-c",
+    "p16-q3-d",
+    "p16-q3-e"
+   ],
+   "observation": "Changing the bound moves the endpoint; changing strictness changes whether that endpoint belongs.",
+   "varies": "Bound, then strictness.",
+   "invariant": "Expression 2x+5 on the right."
+  },
+  {
+   "sequence": "solve-inequalities-negative",
+   "targets": [
+    "p16-q3-g",
+    "p16-q3-h",
+    "p16-q3-i",
+    "p16-q3-j-middle",
+    "p16-q3-j-right",
+    "p16-q3-k",
+    "p16-q3-l",
+    "p16-q3-m",
+    "p16-q3-n"
+   ],
+   "observation": "The run separates the effects of coefficient, expression order, relation direction and constant signs; reordering terms alone leaves the solution unchanged.",
+   "varies": "One algebraic feature at each step.",
+   "invariant": "Single linear inequality solved by inverse operations."
+  },
+  {
+   "sequence": "solve-inequalities-negative",
+   "targets": [
+    "p17-q7-left-method",
+    "p17-q7-right-method"
+   ],
+   "observation": "Different first operations produce the same solution, while one avoids dividing by a negative coefficient.",
+   "varies": "Term added to both sides first.",
+   "invariant": "Original inequality and solution set."
+  },
+  {
+   "sequence": "solve-inequalities-negative",
+   "targets": [
+    "p18-q9-left-working",
+    "p18-q9-right-working"
+   ],
+   "observation": "Clearing fractions first and collecting fractional coefficients first give the same solution.",
+   "varies": "First operation.",
+   "invariant": "Original inequality and solution set."
+  },
+  {
+   "sequence": "solve-inequalities-negative",
+   "targets": [
+    "p20-q12-a",
+    "p20-q12-b",
+    "p20-q12-c",
+    "p20-q12-d"
+   ],
+   "observation": "Reversing subtraction inside a bracket changes its sign and affects the resulting bound and direction.",
+   "varies": "Term order inside brackets and inequality relation.",
+   "invariant": "Multipliers 5 and 3 and the same bracket terms."
+  }
+ ],
+ "notReliablyReviewed": [],
+ "reviewedRevision": 11,
+ "reviewedAt": "2026-10-11T13:00:33.278Z",
+ "passes": {
+  "review": {
+   "model": "gpt-6.1-sol",
+   "effort": "low",
+   "calls": 3
+  },
+  "challenge": {
+   "model": "gpt-6.1-sol",
+   "effort": "medium",
+   "calls": 1
+  }
+ },
+ "importReview": "Lean content review table: 50 of 50 blocks passed.",
+ "questionOrder": "source",
+ "lastRun": {
+  "sequences": [
+   {
+    "id": "represent-inequalities",
+    "title": "Representing inequalities",
+    "blocks": 13,
+    "images": 4,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 38323,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3727,
+     "reasoning_output_tokens": 51
+    },
+    "elapsedMs": 94595,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "solve-inequalities-positive",
+    "title": "Solving inequalities: part 1",
+    "blocks": 20,
+    "images": 4,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 41454,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 4740,
+     "reasoning_output_tokens": 115
+    },
+    "elapsedMs": 127270,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "solve-inequalities-negative",
+    "title": "Solving inequalities: part 2",
+    "blocks": 17,
+    "images": 5,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 47262,
+     "cached_input_tokens": 12544,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 5604,
+     "reasoning_output_tokens": 92
+    },
+    "elapsedMs": 145222,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 1
+   }
+  ],
+  "dropped": [],
+  "unchecked": [],
+  "suppressed": [],
+  "droppedQuestions": [],
+  "candidateFile": ".booklet-work/pedagogy-review/inequalities-v1/candidates-low-1791723561835.json",
+  "errors": []
+ },
+ "postedRevision": 12
+}

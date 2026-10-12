@@ -3,22 +3,36 @@
   "skillId": "graph-conventions",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-09T09:31:11.937Z",
-  "status": "blocked",
+  "startedAt": "2026-10-11T08:06:08.096Z",
+  "status": "published",
   "calls": [
     {
-      "name": "audit",
+      "name": "maintenance-repair",
       "code": 0,
-      "seconds": 21,
+      "seconds": 16.7,
       "usage": {
-        "input_tokens": 76373,
-        "cached_input_tokens": 12544,
+        "input_tokens": 77882,
+        "cached_input_tokens": 59136,
         "cache_write_input_tokens": 0,
-        "output_tokens": 188,
-        "reasoning_output_tokens": 91
+        "output_tokens": 352,
+        "reasoning_output_tokens": 13
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\graph-conventions\\audit-N8hCob\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\graph-conventions\\maintenance-repair-RTZfVn\\response.raw.txt"
+    },
+    {
+      "name": "maintenance-review",
+      "code": 0,
+      "seconds": 34.3,
+      "usage": {
+        "input_tokens": 77847,
+        "cached_input_tokens": 20736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1031,
+        "reasoning_output_tokens": 122
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\graph-conventions\\maintenance-review-rAPYZi\\response.raw.txt"
     }
   ],
   "previousAttempts": [
@@ -63,8 +77,85 @@
           "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\graph-conventions\\audit-YL0Rf9\\response.raw.txt"
         }
       ]
+    },
+    {
+      "startedAt": "2026-10-09T09:31:11.937Z",
+      "finishedAt": "2026-10-09T09:31:33.015Z",
+      "status": "blocked",
+      "calls": [
+        {
+          "name": "audit",
+          "code": 0,
+          "seconds": 21,
+          "usage": {
+            "input_tokens": 76373,
+            "cached_input_tokens": 12544,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 188,
+            "reasoning_output_tokens": 91
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\graph-conventions\\audit-N8hCob\\response.raw.txt"
+        }
+      ]
+    },
+    {
+      "startedAt": "2026-10-11T07:42:24.252Z",
+      "finishedAt": "2026-10-11T07:44:47.960Z",
+      "status": "needs attention: not accepted after one repair round",
+      "calls": [
+        {
+          "name": "audit",
+          "code": 0,
+          "seconds": 60.4,
+          "usage": {
+            "input_tokens": 77064,
+            "cached_input_tokens": 12544,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 2069,
+            "reasoning_output_tokens": 240
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\graph-conventions\\audit-vggyD7\\response.raw.txt"
+        },
+        {
+          "name": "repair",
+          "code": 0,
+          "seconds": 57.3,
+          "usage": {
+            "input_tokens": 77708,
+            "cached_input_tokens": 20736,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 2181,
+            "reasoning_output_tokens": 95
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\graph-conventions\\repair-9sJcCL\\response.raw.txt"
+        },
+        {
+          "name": "review-scoped",
+          "code": 0,
+          "seconds": 25.7,
+          "usage": {
+            "input_tokens": 77760,
+            "cached_input_tokens": 12544,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 811,
+            "reasoning_output_tokens": 36
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\graph-conventions\\review-scoped-dDyL6Q\\response.raw.txt"
+        }
+      ]
     }
   ],
+  "maintenanceRepair": true,
+  "candidateHash": "4509439deb3e2af6e2a20b8a85f16d14e570f6c796d8f1dd05f1b3f05d5425f7",
+  "fullReview": {
+    "name": "maintenance-review",
+    "hash": "4509439deb3e2af6e2a20b8a85f16d14e570f6c796d8f1dd05f1b3f05d5425f7",
+    "originalRemovalsSupplied": true
+  },
   "baseline": {
     "contentHash": "39bdf65cd6e05dd8bb6f7925e7df566e94fddef39f96d29e75206fe2c47cc0cb",
     "quizHash": "cb773a2b5c17dc4a786ae2058033ca5341f209f62275bf34d2b199807a8baaa3"
@@ -87,6 +178,31 @@
       "end": 822
     }
   ],
-  "blocker": "The Pictograms section (lines 457–576) is missing and is needed to verify quiz.dq-77207 and the booklet's title/key conventions. The Frequency Histograms teaching and exercises (from line 2199) are missing and are needed to verify quiz.q3's histogram conventions. Supply these sections and their necessary figures to complete the audit without inferring booklet question types.",
-  "finishedAt": "2026-10-09T09:31:33.015Z"
+  "firstRoundFindings": [
+    "practice.foundation[2]: State that the numbered tick marks are equally spaced. Replace the solution's unconditional equal-step rule with the requirement that equal numerical increments correspond to equal physical intervals.",
+    "practice.development[1]: State that the numbered tick marks are equally spaced. Explain that the jump from $15$ to $25$ occupies the same physical interval as jumps of $5$, rather than claiming every scale must have equal successive numerical steps.",
+    "This is a diagnosed continuation for the current independent-review findings, not a fresh rewrite. Correct only the named defects and preserve all unaffected accepted items, values, diagrams and working. Independently calculate intermediate values and distractors. Use exact-baseHash compact field patches."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.foundation[2]",
+    "practice.foundation[4]",
+    "practice.development[0]",
+    "practice.development[1]",
+    "quiz.q3",
+    "quiz.dq-77207"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 14,
+  "summary": "Both named questions now state that their numbered tick marks are equally spaced, and their solutions explain the mismatch between numerical increments and physical intervals. All other fields, values, diagrams and working are preserved.",
+  "reviewSummary": "All fourteen items have correct answers and use relevant booklet tasks for identifying poor graph features or choosing a title; every quiz has exactly one correct option with appropriate distractor explanations. The theory is accurate, no removals require checking, and no repairs are needed.",
+  "published": {
+    "expected": {
+      "contentHash": "ed413335f54f893d48fef1c5073f6e9f159a80bb71a5037404efe947f95799ae",
+      "quizHash": "c30f624bf5df834e5665c250d800d4d208aa87f1c764c746917abd1997d00bca"
+    },
+    "journalPath": ".agywork\\content-publication\\transactions\\graph-conventions-fce79119-de78-4588-a639-97306c6cc60f\\journal.json"
+  },
+  "finishedAt": "2026-10-11T08:06:59.692Z"
 }

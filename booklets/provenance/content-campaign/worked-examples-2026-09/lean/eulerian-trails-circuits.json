@@ -3,35 +3,121 @@
   "skillId": "eulerian-trails-circuits",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-07T12:53:06.740Z",
-  "status": "blocked",
+  "startedAt": "2026-10-11T07:40:58.085Z",
+  "status": "published",
   "calls": [
     {
       "name": "audit",
       "code": 0,
-      "seconds": 20.4,
+      "seconds": 87.6,
       "usage": {
-        "input_tokens": 159141,
-        "cached_input_tokens": 20608,
+        "input_tokens": 103640,
+        "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 89,
-        "reasoning_output_tokens": 0
+        "output_tokens": 3914,
+        "reasoning_output_tokens": 166
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\eulerian-trails-circuits\\audit-nOnhGO\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\eulerian-trails-circuits\\audit-GYfHP5\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 28,
+      "usage": {
+        "input_tokens": 105076,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1163,
+        "reasoning_output_tokens": 29
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\eulerian-trails-circuits\\repair-8y94dr\\response.raw.txt"
+    },
+    {
+      "name": "review-scoped",
+      "code": 0,
+      "seconds": 21.1,
+      "usage": {
+        "input_tokens": 104904,
+        "cached_input_tokens": 20736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 695,
+        "reasoning_output_tokens": 30
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\eulerian-trails-circuits\\review-scoped-ncmyx0\\response.raw.txt"
     }
   ],
+  "previousAttempts": [
+    {
+      "startedAt": "2026-10-07T12:53:06.740Z",
+      "finishedAt": "2026-10-07T12:53:28.167Z",
+      "status": "blocked",
+      "calls": [
+        {
+          "name": "audit",
+          "code": 0,
+          "seconds": 20.4,
+          "usage": {
+            "input_tokens": 159141,
+            "cached_input_tokens": 20608,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 89,
+            "reasoning_output_tokens": 0
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\eulerian-trails-circuits\\audit-nOnhGO\\response.raw.txt"
+        }
+      ]
+    }
+  ],
+  "sourceException": {
+    "reason": "User approved syllabus-based source exceptions on 9 October 2026 for the displayed 54 source gaps. This skill remains in the approved subset of 53 unresolved gaps; use its governing Stage 5 syllabus and target course, preserve good existing content, independently review every mathematical answer/option and stage/method boundary, and repair substantive defects only. Booklet source evidence was unavailable or did not establish the required question types.",
+    "approvalPath": "booklets/provenance/content-campaign/worked-examples-2026-09/approved-source-exceptions-20261009.json",
+    "path": "syllabus/Stage 5 Content.md",
+    "hash": "9c67a75ff107dfb5a4f408803fe7eaeb429964a21d3307dd27331155ee440c70"
+  },
   "baseline": {
     "contentHash": "ae111181ccca3ee24d666593833a9285f7751cb96fe8622089763bdf42282380",
     "quizHash": "b4a5e4871ffe25179a8fbaf80a02a7a31bc6a2948e6014609837ce4560321211"
   },
   "booklets": [
-    "booklets/mathsmap-sources/Stage 5 Path/Functions and Other Graphs_1 Define relations and functions, and use function notation.md",
-    "booklets/mathsmap-sources/Stage 5 Path/Functions and Other Graphs_2 Find the domain and range of a function and graph functions.md",
-    "booklets/mathsmap-sources/Stage 5 Path/Properties of Geometrical Figures B_1 Identify and explain congruence.md"
+    "syllabus/Stage 5 Content.md"
   ],
-  "images": 110,
-  "omittedImages": 91,
-  "blocker": "The supplied booklets and figures cover Functions and Other Graphs and congruence, not Eulerian trails and circuits. Supply the source headings containing this skill's network terminology, Eulerian degree tests and taught methods, its complete exercise set, and the associated network figures; booklet question types and theory alignment cannot be verified from the supplied evidence.",
-  "finishedAt": "2026-10-07T12:53:28.167Z"
+  "images": 0,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "review-accepted",
+    "hash": "997070b171a70d0aab08d9ba38b65325b764de5339395ee8b637a2d4b6f6c144",
+    "originalRemovalsSupplied": true,
+    "sourceExceptionConfirmed": true
+  },
+  "firstRoundFindings": [
+    "practice.mastery[0]: The final sentence incorrectly says a second bridge would not help, then correctly explains that joining the remaining odd vertices would permit an Eulerian circuit. Remove the false claim; a second bridge is unnecessary for the requested minimum, rather than unhelpful.",
+    "practice.mastery[2]: Specify whether the round must return to its starting junction: one joining street already permits an open Eulerian trail. If a closed round is intended, the solution must specify a parity-preserving second connection, such as another street between the same two junctions; an arbitrary second joining street need not make every degree even.",
+    "quiz.q7: The explanation for option $2$ falsely says $C$ and $D$ look furthest apart; they are adjacent and are not the furthest pair in the supplied coordinates. Explain the actual degree error: both have even degree and cannot be the two ends.",
+    "quiz.q8: Option $3$'s explanation falsely says no route through two odd junctions can return to its start; the displayed distractor itself does so. Qualify this claim as applying to a route using every edge exactly once."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.mastery[0]",
+    "practice.mastery[2]",
+    "quiz.q7",
+    "quiz.q8"
+  ],
+  "theoryChanged": false,
+  "removed": [],
+  "items": 33,
+  "summary": "Corrected the bridge-minimum explanation and specified a closed sweeper round with two separate joining streets between the same junctions to preserve even degrees. Repaired the two quiz explanations; all other fields and items remain unchanged.",
+  "reviewSummary": "All four requested items have correct answers, usable working and methods within the supplied Stage 5 Eulerian networks scope, with the approved source exception confirmed. Both reviewed quizzes have exactly one correct option and valid distractor explanations; the theory requires no substantive repair and no removals were proposed.",
+  "candidateHash": "997070b171a70d0aab08d9ba38b65325b764de5339395ee8b637a2d4b6f6c144",
+  "published": {
+    "expected": {
+      "contentHash": "fa9ec68a8dd49554d12996ccf7b3d35e1006d319bb9739c23e8fdf101f7a54b0",
+      "quizHash": "d888f3bdbd9573b1d4ed85b68f34951c419af2d47e90417314beba72ae12f26b"
+    },
+    "journalPath": ".agywork\\content-publication\\transactions\\eulerian-trails-circuits-b7c44bdd-69a0-4c33-b94d-b7dd90fa965c\\journal.json"
+  },
+  "finishedAt": "2026-10-11T07:43:15.419Z"
 }

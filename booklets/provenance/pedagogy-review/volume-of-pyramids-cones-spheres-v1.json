@@ -5,30 +5,25 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-23026a21a9",
+   "id": "pf-00b78af5ba",
    "kind": "opening-review",
    "severity": "high",
    "targets": [
-    {
-     "id": "p3-example-pyramid-item",
-     "blockId": "p3-example-block",
-     "hash": "0ba2038984fd9794087313d5375484298a26e48438e74d8f58dd22fe03616c70"
-    },
     {
      "id": "p3-example-cone-item",
      "blockId": "p3-example-block",
      "hash": "0ba2038984fd9794087313d5375484298a26e48438e74d8f58dd22fe03616c70"
     }
    ],
-   "finding": "The opening examples use square area, circle area and radius recognition without an opening review of these prerequisites.",
-   "breakdown": "Students must turn the supplied dimensions into 5×5 and π(5)². Weak recall of base-area formulas or radius recognition interrupts the substitution step.",
-   "checked": "The complete teaching contains no preceding topic or opening review. The definitions introduce base area A but do not rehearse calculating it. Both area calculations are substantial steps in the worked examples.",
-   "assumptions": "Area formulas and radius recognition are prior knowledge taught elsewhere in the course. Calculator use is assumed for numerical circle areas.",
+   "finding": "The topic has no opening review, and the cone worked example uses the area of a circle directly as its base-area step.",
+   "breakdown": "The only new ideas are the factor 1/3 and the perpendicular height, but the cone example writes pi(5)^2 for A with no rehearsal. A student who cannot recall pi r^2 quickly stalls on the base area and cannot attend to the new formula.",
+   "checked": "The topic has no review block and no earlier topic. Pieces removed from the candidate: square and rectangle area (well below the level of the booklet); V = Ah for a prism (not a step in either worked example, which state V = 1/3 Ah); radius from a diameter (first needed in guided practice b, not in a worked example, and its answer shows r = 23/2).",
+   "assumptions": "Area of a circle is prior knowledge from the Area of Circles and Sectors booklet. A calculator is assumed.",
    "repair": {
     "type": "add-review",
-    "proposal": "Before p3-definition-text, ask: (1) Find the areas of squares with sides 4 m and 7 cm. (2) State the circle-area formula and explain r. (3) Name a segment joining a circle's centre to its circumference. (4) Find the areas of circles with radii 3 cm and 5 m, to 2 d.p. Answers: 16 m²; 49 cm²; A=πr², with r the radius; radius; 28.27 cm² and 78.54 m². These short items fit within one page."
+    "proposal": "Add a short review before p3-definition-text. Find the area of each circle, to 2 d.p.: (1) radius 5 m [78.54 m^2]; (2) radius 8 m [201.06 m^2]; (3) radius 0.6 m [1.13 m^2]. (4) Write the formula for the area of a circle [A = pi r^2]."
    },
-   "doneWhen": "The opening review rehearses the two base-area formulas and recognising a radius before either worked example.",
+   "doneWhen": "Students have calculated the area of a circle from its radius immediately before the cone worked example.",
    "from": [
     "c1"
    ],
@@ -39,32 +34,40 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T04:59:00.149Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-6123472050",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p6-q7",
-     "blockId": "p6-q7",
-     "hash": "8b19695661f7c293116372bf7e0ad9f5679f608652ecb1c8da1d9b2375352c46"
+     "at": "2026-10-11T05:08:13.544Z"
     }
    ],
-   "finding": "Generalise the equal-height comparison by determining when a square-based pyramid and cone have equal volumes.",
-   "breakdown": "The task exposes that equal perpendicular heights leave base area as the deciding quantity.",
-   "checked": "Both volume substitutions are taught in p3-example-block, and p6-q7 already compares these solids at equal heights. Equating their volumes gives s²=πr²; for positive lengths, s=√π r. When s=3 cm, r=3/√π≈1.69 cm.",
-   "assumptions": "Lengths and the common perpendicular height are positive. Rearranging an equation and taking a square root are prior algebra skills taught separately in the course.",
+   "pipeline": "claude: sonnet medium review, opus medium challenge (comparison run, 11 October 2026)",
+   "commentId": "4e70049d-e2aa-4d1d-99c3-4822a2bbdec0",
+   "postedAt": "2026-10-11T05:53:05.260Z"
+  },
+  {
+   "id": "pf-fe4b4d9a8c",
+   "kind": "guided-practice",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p3-example-cone-item",
+     "blockId": "p3-example-block",
+     "hash": "0ba2038984fd9794087313d5375484298a26e48438e74d8f58dd22fe03616c70"
+    },
+    {
+     "id": "p3-guided-part-b",
+     "blockId": "p3-guided-block",
+     "hash": "7cf005187d76f8929a5e8cd0f1057a5fb4647d98477a35cdc6112e620dcce920"
+    }
+   ],
+   "finding": "The first guided cone task introduces diameter-to-radius conversion without modelling that additional decision.",
+   "breakdown": "Copying the worked example's use of the labelled length would substitute 23 for r and produce four times the correct volume.",
+   "checked": "The cone example uses a labelled radius unchanged. No preceding teaching explains diameter conversion. The expected substitution inside the guided blank is student work, not a supplied explanation.",
+   "assumptions": "Radius and diameter are prior knowledge, but the first guided application changes the example's sequence of decisions. Calculator use does not resolve the geometric choice.",
    "repair": {
-    "type": "add-question",
-    "proposal": "After p6-q7, offer: 'A square-based pyramid has base side s, and a cone has radius r. Their perpendicular heights are equal and positive. What relationship between s and r makes their volumes equal? Explain using the volume formula. Find r when s=3 cm.' Expected answer: equal base areas, s²=πr², hence s=√π r; r≈1.69 cm."
+    "type": "add-cue",
+    "proposal": "Before the volume scaffold, add: 'The labelled 23 mm is the diameter. First find the radius: r = 23 ÷ 2 = ___ mm.'"
    },
-   "doneWhen": "The optional task includes the positive-dimension condition and the verified expected relationship.",
+   "doneWhen": "Students establish r = 11.5 mm before completing the volume substitution.",
    "from": [
-    "c3"
+    "c2"
    ],
    "sequences": [
     "pyramids-cones-part-1"
@@ -73,69 +76,66 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T04:59:00.149Z"
+     "at": "2026-10-11T13:36:54.349Z"
+    }
+   ],
+   "commentId": "5de2a280-3713-408c-a5d7-50138e0b365a",
+   "postedAt": "2026-10-11T13:36:54.363Z"
+  },
+  {
+   "id": "pf-9b34b6b349",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p6-q7-response",
+     "blockId": "p6-q7",
+     "hash": "8b19695661f7c293116372bf7e0ad9f5679f608652ecb1c8da1d9b2375352c46"
+    }
+   ],
+   "finding": "Extend the equal-height comparison by asking when a square-based pyramid and cone have equal volumes.",
+   "breakdown": "The task exposes equal base areas as the deciding condition.",
+   "checked": "Both base-area formulas and V = Ah/3 are used in the topic. Cancelling the common positive height gives s² = πr²; for positive lengths, s = √π r.",
+   "assumptions": "Both solids have the same positive perpendicular height, with s > 0 and r > 0. The squared relationship is a sufficient expected answer.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p6-q7-response, offer: 'A square-based pyramid has base side s and a cone has radius r. Their perpendicular heights are equal. What relationship between s and r makes their volumes equal? Explain using V = Ah/3.' Expected answer: s² = πr², equivalently s = √π r, because equal heights make equal volumes equivalent to equal base areas."
+   },
+   "doneWhen": "The optional task asks for the condition and its explanation.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "pyramids-cones-part-1"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:36:54.349Z"
     }
    ]
   },
   {
-   "id": "pf-5acb88a767",
-   "kind": "opening-review",
+   "id": "pf-88e9c6a382",
+   "kind": "example-choice",
    "severity": "high",
    "targets": [
     {
      "id": "p7-example-pyramid-node",
      "blockId": "p7-examples",
      "hash": "80288044c3ea2400a562ead491866dc394f89189cc36a9182c3c1f61c768dcff"
-    },
-    {
-     "id": "p7-example-cone-node",
-     "blockId": "p7-examples",
-     "hash": "80288044c3ea2400a562ead491866dc394f89189cc36a9182c3c1f61c768dcff"
     }
    ],
-   "finding": "The examples depend on identifying the hypotenuse and applying Pythagoras to find a shorter leg, without rehearsing these prerequisites.",
-   "breakdown": "Students must recognise the slant height as the hypotenuse and subtract the other leg's square. The displayed rearranged formula does not rehearse making that choice.",
-   "checked": "Earlier teaching and the supplied preceding practice use perpendicular heights directly. Neither rehearses Pythagoras. p7-method supplies the calculation route but no recall task.",
-   "assumptions": "Pythagoras is prior knowledge, supported by the separate course booklet. A calculator is assumed for subsequent decimal calculations.",
+   "finding": "The pyramid example uses 11 mm without stating how it comes from the labelled 22 mm base side.",
+   "breakdown": "The horizontal leg is half a base side. Leaving that decision unwritten permits students to use the full side when forming the right triangle.",
+   "checked": "The diagram shows the construction but does not label 11 mm. Earlier pyramid teaching uses supplied perpendicular heights; p7-method supplies Pythagoras but does not explain this horizontal length.",
+   "assumptions": "Students know ordinary Pythagoras and are learning how to identify its lengths within a pyramid.",
    "repair": {
-    "type": "add-review",
-    "proposal": "Before p7-method, ask: (1) Which side of a right-angled triangle is the hypotenuse? Write Pythagoras' formula, identifying c. (2) The hypotenuse is 13 cm and one shorter side is 5 cm. Find the other side. (3) The hypotenuse is 17 mm and one shorter side is 8 mm. Find the other side. Answers: the side opposite the right angle; c²=a²+b²; 12 cm; 15 mm. These items fit comfortably within one page."
+    "type": "add-cue",
+    "proposal": "Before the height calculation, add: 'The horizontal leg runs from the base centre to the midpoint of a side, so its length is 22 ÷ 2 = 11 mm.'"
    },
-   "doneWhen": "Students rehearse hypotenuse recognition and finding a shorter leg before the worked examples.",
-   "from": [
-    "c4"
-   ],
-   "sequences": [
-    "pyramids-cones-part-2"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T04:59:00.149Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-b182bc63c6",
-   "kind": "variation-sequence",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p8-q1",
-     "blockId": "p8-q1",
-     "hash": "49bd029dcf621ba5fef94760d573bd35cf4e90e10dcd496f7f44a79fcf101ebe"
-    }
-   ],
-   "finding": "Vary radius while holding slant height fixed to expose why a wider cone need not have greater volume.",
-   "breakdown": "Increasing radius increases base area while reducing perpendicular height; the resulting volumes eventually decrease.",
-   "checked": "p7-method and the cone example supply h=√(l²−r²) and the volume formula. All proposed radii satisfy 0<r<10. The volumes round to 153.6, 301.6, 402.1 and 369.7 cm³. The follow-up has radius 5 cm, height 12 cm and volume 100π≈314.2 cm³. The supplied practice has no comparable fixed-slant-height run.",
-   "assumptions": "Use a calculator. Each solid is a right cone with positive perpendicular height.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p8-q1, ask students to predict whether increasing radius always increases volume when slant height stays 10 cm. Then calculate volumes to 1 d.p. for radii 4, 6, 8 and 9 cm, and explain the result. Expected answers: 153.6, 301.6, 402.1 and 369.7 cm³. Only radius varies; slant height, solid type, units and rounding remain fixed. Follow with: 'A cone has diameter 10 cm and slant height 13 cm. Find its volume to 1 d.p.' Answer: 314.2 cm³."
-   },
-   "doneWhen": "The optional run includes prediction, four verified volumes, an explanation and the unpatterned follow-up.",
+   "doneWhen": "The working explicitly connects the labelled base side to the horizontal leg.",
    "from": [
     "c5"
    ],
@@ -146,7 +146,238 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T04:59:00.149Z"
+     "at": "2026-10-11T13:36:54.349Z"
+    }
+   ],
+   "commentId": "8c3860b0-871b-4697-b186-e0abec24e76b",
+   "postedAt": "2026-10-11T13:36:54.363Z"
+  },
+  {
+   "id": "pf-6366ce9cd4",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p7-method",
+     "blockId": "p7-method",
+     "hash": "71c90f0040184a18af0809c482d6d4293ac05744bb15411d43290b612db284d6"
+    },
+    {
+     "id": "p7-examples",
+     "blockId": "p7-examples",
+     "hash": "80288044c3ea2400a562ead491866dc394f89189cc36a9182c3c1f61c768dcff"
+    }
+   ],
+   "finding": "The topic has no opening review, and both worked examples begin by finding a shorter side with Pythagoras, once with an exact surd result, which is not rehearsed here or in Part 1.",
+   "breakdown": "The first line of each example is h = sqrt(c^2 - b^2). Students who cannot quickly subtract the squares for a shorter side, or who round sqrt(2275) too early, stall on step 1 of every question, when the new content is finding the triangle inside the solid.",
+   "checked": "p7-method states the formula but does not practise it. No question in Part 1 uses Pythagoras. The proposed items were checked: 12, 8 and sqrt(65) = 8.1.",
+   "assumptions": "Pythagoras' Theorem is prior knowledge from its own booklet. A calculator is assumed.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Add a short opening review. Find the length of the missing shorter side: (a) hypotenuse 13 cm, other side 5 cm [12 cm]; (b) hypotenuse 10 m, other side 6 m [8 m]; (c) hypotenuse 9 mm, other side 4 mm, give the exact answer and then 1 d.p. [sqrt(65) mm, 8.1 mm]."
+   },
+   "doneWhen": "Students have found a shorter side with Pythagoras, including one surd result, before the first worked example.",
+   "from": [
+    "c7"
+   ],
+   "sequences": [
+    "pyramids-cones-part-2"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T05:08:13.545Z"
+    }
+   ],
+   "pipeline": "claude: sonnet medium review, opus medium challenge (comparison run, 11 October 2026)",
+   "commentId": "6474b6cc-ff3f-4080-a85a-054d86b67940",
+   "postedAt": "2026-10-11T05:53:05.263Z"
+  },
+  {
+   "id": "pf-f7c2fc6f0b",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p9-q2-response",
+     "blockId": "p9-q2",
+     "hash": "9ee16f4dad945cfb4644857f98572067c9c0f60903ec62f4c2127df005282cee"
+    }
+   ],
+   "finding": "Compare equal numerical face slant heights and sloping edge lengths to consolidate the distinction between their right triangles.",
+   "breakdown": "Equal sloping lengths do not imply equal perpendicular heights or volumes.",
+   "checked": "The worked pyramid models face slant height; p9-q2 supplies the diagonal hint for a sloping edge. For the proposed solids, h_A = √525 and h_B = √425, giving volumes 3055.1 cm³ and 2748.7 cm³ respectively.",
+   "assumptions": "Both are right square pyramids with positive dimensions. A calculator is assumed.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p9-q2-response, offer: 'Two right square pyramids have base sides 20 cm. Pyramid A has face slant height 25 cm; pyramid B has sloping edge length 25 cm. Predict which has greater volume, then calculate both volumes to 1 d.p. Explain using the horizontal legs of the right triangles.' Expected answer: A is larger; its horizontal leg is 10 cm, whereas B's is 10√2 cm. Their volumes are 3055.1 cm³ and 2748.7 cm³."
+   },
+   "doneWhen": "The optional comparison explicitly distinguishes face slant height from sloping edge length.",
+   "from": [
+    "c7"
+   ],
+   "sequences": [
+    "pyramids-cones-part-2"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:36:54.349Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-9d9a41d8d6",
+   "kind": "example-choice",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p10-example-hemisphere-entry",
+     "blockId": "p10-examples",
+     "hash": "70efbfb11522741091f59f3b0db4ced022ec2cad4b1c2af930a2965229a97215"
+    },
+    {
+     "id": "p10-guided-a-node",
+     "blockId": "p10-guided-block",
+     "hash": "65887c8088f6684c859e81559a0f14ed68ec4b9efc5b6da8be8769b27230cdc9"
+    }
+   ],
+   "finding": "The hemisphere example is drawn with a 3.5 m diameter but its working goes straight to 1.75^3, so the diameter-to-radius step is never shown in this topic.",
+   "breakdown": "This is the only decision in the two examples beyond substitution. Guided practice a then gives a 124 mm diameter with blanks that expect 62^3. A student who substitutes the labelled length gets a volume 8 times too large, and the only written model of r = d / 2 is in the hidden answer.",
+   "checked": "p10-formula-comparison marks a radius in both figures. An opening review is not needed: halving a diameter was practised in Part 1 (guided practice b, Questions 4, 6 and 7) and in the exercise just before (p8-q1-b and p8-q1-e), so the candidate's claim that the previous topic does not use it is wrong. One shown line is the smaller repair.",
+   "assumptions": "A calculator is assumed.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Add a first line to the hemisphere example's working: r = 3.5 / 2 = 1.75 m."
+   },
+   "doneWhen": "The hemisphere example shows the diameter-to-radius step as its own line before the substitution.",
+   "from": [
+    "c12",
+    "c13"
+   ],
+   "sequences": [
+    "spheres-hemispheres"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T05:08:13.545Z"
+    }
+   ],
+   "pipeline": "claude: sonnet medium review, opus medium challenge (comparison run, 11 October 2026)",
+   "commentId": "a9add235-425e-4814-8958-e37a2b9bdfc7",
+   "postedAt": "2026-10-11T05:53:05.264Z"
+  },
+  {
+   "id": "pf-deba13ae00",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p14-q14-root",
+     "blockId": "p14-q14",
+     "hash": "9297004e32f8966472878b76900306f9f827ee83001f90550a4c08d67e0af7d1"
+    }
+   ],
+   "finding": "Generalise the melting-spheres task to explain how the resulting radius depends on the number of identical spheres.",
+   "breakdown": "Conservation of volume explains why radii cannot simply be added.",
+   "checked": "The topic supplies the sphere formula, and p14-q14 already requires conserving volume and recovering a radius. Equating volumes gives R³ = nr³, hence R = r∛n; R = 2r requires n = 8.",
+   "assumptions": "n is a positive integer, r > 0, and melting conserves volume. Cube-root calculation is already required by the referenced practice.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p14-q14-root, offer: 'n identical metal spheres, each of radius r, are melted into one sphere of radius R. Express R in terms of n and r. How many original spheres are needed to double the radius? Explain.' Expected answer: (4/3)πR³ = n(4/3)πr³, so R = r∛n; eight spheres double the radius."
+   },
+   "doneWhen": "The optional task connects conservation of volume to the cube-root relationship.",
+   "from": [
+    "c10"
+   ],
+   "sequences": [
+    "spheres-hemispheres"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:36:54.349Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-91323c1c0c",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p16-example-left-node",
+     "blockId": "p16-example-block",
+     "hash": "8823655525609cb55b5aff51cd5221107d1165e5043dba7bb0621b9b21998265"
+    },
+    {
+     "id": "p16-guided-a-node",
+     "blockId": "p16-guided-block",
+     "hash": "4c19ba131abd3aa3c7cff5363f5d287db6c0b19e1cc794b119f59883bccec4fd"
+    }
+   ],
+   "finding": "The topic has no opening review, and its first example uses V = Ah for a prism, a formula the booklet never states or practises; guided practice a then needs it for a cylinder.",
+   "breakdown": "After three topics of V = 1/3 Ah and the sphere formulas, the example writes V_2 = Ah = (4 x 7) x 3 with no rehearsal. Students who cannot recall the prism and cylinder formula, or who apply 1/3 to it out of habit, fail on the second component of the first composite solid.",
+   "checked": "No teaching block in any earlier topic states V = Ah for a prism or cylinder; it appears only inside spheres Question 15. Pieces removed from the candidate: V = 1/3 Ah and the hemisphere formula (taught in this booklet and practised in the exercise just before, including Question 6), and the shared radius (incidental).",
+   "assumptions": "Volume of prisms and cylinders is Stage 4 knowledge from the Volume booklets.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Add a short review before the Key Ideas. (1) Write the formula for the volume of a prism or cylinder [V = Ah]. (2) A rectangular prism has base 3 m by 5 m and height 2 m. Find its volume [30 m^3]. (3) A cylinder has radius 4 cm and height 5 cm. Find its base area and then its volume, as multiples of pi [16 pi cm^2; 80 pi cm^3]."
+   },
+   "doneWhen": "Students have used V = Ah for a prism and a cylinder before example 1.",
+   "from": [
+    "c18"
+   ],
+   "sequences": [
+    "composite-solids"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T05:08:13.545Z"
+    }
+   ],
+   "pipeline": "claude: sonnet medium review, opus medium challenge (comparison run, 11 October 2026)",
+   "commentId": "78a68074-3917-4606-869c-8282d6e48fd2",
+   "postedAt": "2026-10-11T05:53:05.265Z"
+  },
+  {
+   "id": "pf-8d9e8a417c",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p21-q11-root",
+     "blockId": "p21-q11",
+     "hash": "3860abf39d169e54289640af9d85dea31ee505b51e5ce69761069441be7e0b7b"
+    }
+   ],
+   "finding": "Generalise the fitted-sphere cylinder to explain why the occupied volume fraction remains constant for a vertical stack.",
+   "breakdown": "The total sphere volume and cylinder height increase by the same factor.",
+   "checked": "The sphere formula and cylinder volume are available by this topic. A snug cylinder containing n spheres has radius r and height 2nr. Its volume is 2nπr³, while the spheres occupy 4nπr³/3, giving a fraction of 2/3.",
+   "assumptions": "n is a positive integer and r > 0. The cylinder fits snugly around the stack, touching the outermost spheres at its top and bottom.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p21-q11-root, offer: 'A cylinder fits snugly around n identical spheres stacked vertically, each of radius r. Neighbouring spheres touch, and the top and bottom spheres touch the cylinder's ends. What fraction of the cylinder's volume do the spheres occupy? Explain why it does not depend on n or r.' Expected answer: cylinder height 2nr; occupied fraction (4nπr³/3)/(2nπr³) = 2/3."
+   },
+   "doneWhen": "The optional task specifies the snug fit and asks students to explain the invariant fraction.",
+   "from": [
+    "c13"
+   ],
+   "sequences": [
+    "composite-solids"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:36:54.349Z"
     }
    ]
   },
@@ -185,145 +416,6 @@
    ],
    "commentId": "3c7cecac-3cd7-4383-83cf-82326b3005df",
    "postedAt": "2026-10-11T05:53:05.258Z"
-  },
-  {
-   "id": "pf-d67623556d",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p14-q14",
-     "blockId": "p14-q14",
-     "hash": "9297004e32f8966472878b76900306f9f827ee83001f90550a4c08d67e0af7d1"
-    }
-   ],
-   "finding": "Generalise the conservation-of-volume relationship when spheres are melted together.",
-   "breakdown": "The task explains why cubes of radii add and why radii themselves do not.",
-   "checked": "p10 teaches sphere volume, and p14-q14 already requires conserving the volume of melted spheres. Equating volumes and cancelling 4π/3 gives R³=a³+b³. Eight spheres of radius r have the volume of one sphere of radius 2r.",
-   "assumptions": "All radii are positive, and melting causes no material loss or change in density.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p14-q14, offer: 'Two spheres of radii a and b are melted into one sphere of radius R, with no material lost. Show that R³=a³+b³. How many identical spheres of radius r must be melted together to make a sphere of radius 2r? Explain why adding the original radii is incorrect.' Expected answer: equate volumes and cancel 4π/3; eight spheres because (2r)³=8r³; volumes add, whereas radii do not."
-   },
-   "doneWhen": "The optional task states conservation assumptions and includes the verified general relationship and eight-sphere result.",
-   "from": [
-    "c9"
-   ],
-   "sequences": [
-    "spheres-hemispheres"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T04:59:00.149Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-bfb2243928",
-   "kind": "opening-review",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p16-example-block",
-     "blockId": "p16-example-block",
-     "hash": "8823655525609cb55b5aff51cd5221107d1165e5043dba7bb0621b9b21998265"
-    }
-   ],
-   "finding": "The composite-solid examples use rectangular and circular base areas, prism volume and pyramid/cone volume without an opening review of these component calculations.",
-   "breakdown": "Students must retrieve several component formulas while learning decomposition. Failure to calculate a component obscures the new step of combining volumes.",
-   "checked": "p16-example-left-node directly uses rectangle area, Ah and Ah/3; p16-example-right-node uses circle area and cone volume. Earlier topics teach pyramid/cone volume, but the immediately preceding sphere topic and supplied exercise do not rehearse these pieces. Hemisphere volume is rehearsed immediately before this topic and needs no additional review.",
-   "assumptions": "Rectangle/circle area and prism volume are prior knowledge taught elsewhere in the course. A calculator is assumed for numerical circle calculations.",
-   "repair": {
-    "type": "add-review",
-    "proposal": "Before p16-key-ideas-block, ask: (1) Find the areas of a 4 m by 7 m rectangle and a circle of radius 2 cm. (2) Complete: prism V=___; pyramid or cone V=___. (3) Find the volume of a prism with base area 28 m² and height 3 m. (4) Find the volume of a pyramid with base area 28 m² and perpendicular height 5 m. (5) Write the volume substitution for a cone of radius 2 cm and perpendicular height 5 cm. Answers: 28 m²; 4π cm²; Ah; Ah/3; 84 m³; 140/3 m³; (1/3)π(2)²(5). This compact review fits within one page."
-   },
-   "doneWhen": "The opening review rehearses the component calculations used by the examples before decomposition is demonstrated.",
-   "from": [
-    "c10"
-   ],
-   "sequences": [
-    "composite-solids"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T04:59:00.149Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-a47e036724",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p18-q2-f",
-     "blockId": "p18-q2",
-     "hash": "77e79cb9bd73f7961eb159873d504e147d5b0217e7f851e127272797d47ea212"
-    }
-   ],
-   "finding": "Generalise the combined volume of two pyramids or cones sharing a base.",
-   "breakdown": "A common base area allows the perpendicular heights to be added before calculating volume.",
-   "checked": "p16-guided-b-node already combines two pyramids sharing a base, and p18-q2-f supplies the corresponding cone structure. Adding Ah1/3 and Ah2/3 gives A(h1+h2)/3. No additional volume method is required.",
-   "assumptions": "The solids lie on opposite sides of their common base, have positive perpendicular heights, and overlap only at that base. A and H remain fixed when the height split changes.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p18-q2-f, offer: 'Two pyramids share a base of area A and lie on opposite sides of it. Their perpendicular heights satisfy h1+h2=H. Show that their combined volume is AH/3. If A and H stay fixed, does changing the split between h1 and h2 change the volume? Does the same result hold for two cones sharing a circular base?' Expected answer: A(h1+h2)/3=AH/3; the height split does not change the volume; the same calculation applies to cones."
-   },
-   "doneWhen": "The optional task includes the shared-base conditions and the verified invariance result.",
-   "from": [
-    "c12"
-   ],
-   "sequences": [
-    "composite-solids"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T04:59:00.149Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-00b78af5ba",
-   "kind": "opening-review",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p3-example-cone-item",
-     "blockId": "p3-example-block",
-     "hash": "0ba2038984fd9794087313d5375484298a26e48438e74d8f58dd22fe03616c70"
-    }
-   ],
-   "finding": "The topic has no opening review, and the cone worked example uses the area of a circle directly as its base-area step.",
-   "breakdown": "The only new ideas are the factor 1/3 and the perpendicular height, but the cone example writes pi(5)^2 for A with no rehearsal. A student who cannot recall pi r^2 quickly stalls on the base area and cannot attend to the new formula.",
-   "checked": "The topic has no review block and no earlier topic. Pieces removed from the candidate: square and rectangle area (well below the level of the booklet); V = Ah for a prism (not a step in either worked example, which state V = 1/3 Ah); radius from a diameter (first needed in guided practice b, not in a worked example, and its answer shows r = 23/2).",
-   "assumptions": "Area of a circle is prior knowledge from the Area of Circles and Sectors booklet. A calculator is assumed.",
-   "repair": {
-    "type": "add-review",
-    "proposal": "Add a short review before p3-definition-text. Find the area of each circle, to 2 d.p.: (1) radius 5 m [78.54 m^2]; (2) radius 8 m [201.06 m^2]; (3) radius 0.6 m [1.13 m^2]. (4) Write the formula for the area of a circle [A = pi r^2]."
-   },
-   "doneWhen": "Students have calculated the area of a circle from its radius immediately before the cone worked example.",
-   "from": [
-    "c1"
-   ],
-   "sequences": [
-    "pyramids-cones-part-1"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T05:08:13.544Z"
-    }
-   ],
-   "pipeline": "claude: sonnet medium review, opus medium challenge (comparison run, 11 October 2026)",
-   "commentId": "4e70049d-e2aa-4d1d-99c3-4822a2bbdec0",
-   "postedAt": "2026-10-11T05:53:05.260Z"
   },
   {
    "id": "pf-d6f8c3be54",
@@ -371,48 +463,6 @@
    "pipeline": "claude: sonnet medium review, opus medium challenge (comparison run, 11 October 2026)",
    "commentId": "1a191933-cf73-4e69-bb0e-024b1fff1755",
    "postedAt": "2026-10-11T05:53:05.262Z"
-  },
-  {
-   "id": "pf-6366ce9cd4",
-   "kind": "opening-review",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p7-method",
-     "blockId": "p7-method",
-     "hash": "71c90f0040184a18af0809c482d6d4293ac05744bb15411d43290b612db284d6"
-    },
-    {
-     "id": "p7-examples",
-     "blockId": "p7-examples",
-     "hash": "80288044c3ea2400a562ead491866dc394f89189cc36a9182c3c1f61c768dcff"
-    }
-   ],
-   "finding": "The topic has no opening review, and both worked examples begin by finding a shorter side with Pythagoras, once with an exact surd result, which is not rehearsed here or in Part 1.",
-   "breakdown": "The first line of each example is h = sqrt(c^2 - b^2). Students who cannot quickly subtract the squares for a shorter side, or who round sqrt(2275) too early, stall on step 1 of every question, when the new content is finding the triangle inside the solid.",
-   "checked": "p7-method states the formula but does not practise it. No question in Part 1 uses Pythagoras. The proposed items were checked: 12, 8 and sqrt(65) = 8.1.",
-   "assumptions": "Pythagoras' Theorem is prior knowledge from its own booklet. A calculator is assumed.",
-   "repair": {
-    "type": "add-review",
-    "proposal": "Add a short opening review. Find the length of the missing shorter side: (a) hypotenuse 13 cm, other side 5 cm [12 cm]; (b) hypotenuse 10 m, other side 6 m [8 m]; (c) hypotenuse 9 mm, other side 4 mm, give the exact answer and then 1 d.p. [sqrt(65) mm, 8.1 mm]."
-   },
-   "doneWhen": "Students have found a shorter side with Pythagoras, including one surd result, before the first worked example.",
-   "from": [
-    "c7"
-   ],
-   "sequences": [
-    "pyramids-cones-part-2"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T05:08:13.545Z"
-    }
-   ],
-   "pipeline": "claude: sonnet medium review, opus medium challenge (comparison run, 11 October 2026)",
-   "commentId": "6474b6cc-ff3f-4080-a85a-054d86b67940",
-   "postedAt": "2026-10-11T05:53:05.263Z"
   },
   {
    "id": "pf-cb3632610c",
@@ -494,49 +544,6 @@
    "postedAt": "2026-10-11T05:53:05.264Z"
   },
   {
-   "id": "pf-9d9a41d8d6",
-   "kind": "example-choice",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p10-example-hemisphere-entry",
-     "blockId": "p10-examples",
-     "hash": "70efbfb11522741091f59f3b0db4ced022ec2cad4b1c2af930a2965229a97215"
-    },
-    {
-     "id": "p10-guided-a-node",
-     "blockId": "p10-guided-block",
-     "hash": "65887c8088f6684c859e81559a0f14ed68ec4b9efc5b6da8be8769b27230cdc9"
-    }
-   ],
-   "finding": "The hemisphere example is drawn with a 3.5 m diameter but its working goes straight to 1.75^3, so the diameter-to-radius step is never shown in this topic.",
-   "breakdown": "This is the only decision in the two examples beyond substitution. Guided practice a then gives a 124 mm diameter with blanks that expect 62^3. A student who substitutes the labelled length gets a volume 8 times too large, and the only written model of r = d / 2 is in the hidden answer.",
-   "checked": "p10-formula-comparison marks a radius in both figures. An opening review is not needed: halving a diameter was practised in Part 1 (guided practice b, Questions 4, 6 and 7) and in the exercise just before (p8-q1-b and p8-q1-e), so the candidate's claim that the previous topic does not use it is wrong. One shown line is the smaller repair.",
-   "assumptions": "A calculator is assumed.",
-   "repair": {
-    "type": "add-cue",
-    "proposal": "Add a first line to the hemisphere example's working: r = 3.5 / 2 = 1.75 m."
-   },
-   "doneWhen": "The hemisphere example shows the diameter-to-radius step as its own line before the substitution.",
-   "from": [
-    "c12",
-    "c13"
-   ],
-   "sequences": [
-    "spheres-hemispheres"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T05:08:13.545Z"
-    }
-   ],
-   "pipeline": "claude: sonnet medium review, opus medium challenge (comparison run, 11 October 2026)",
-   "commentId": "a9add235-425e-4814-8958-e37a2b9bdfc7",
-   "postedAt": "2026-10-11T05:53:05.264Z"
-  },
-  {
    "id": "pf-841c347a93",
    "kind": "unsupported-transition",
    "severity": "high",
@@ -587,48 +594,6 @@
    "pipeline": "claude: sonnet medium review, opus medium challenge (comparison run, 11 October 2026)",
    "commentId": "ad9b02aa-3aba-4bb0-ab0d-87f70a5e2e57",
    "postedAt": "2026-10-11T05:53:05.264Z"
-  },
-  {
-   "id": "pf-91323c1c0c",
-   "kind": "opening-review",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p16-example-left-node",
-     "blockId": "p16-example-block",
-     "hash": "8823655525609cb55b5aff51cd5221107d1165e5043dba7bb0621b9b21998265"
-    },
-    {
-     "id": "p16-guided-a-node",
-     "blockId": "p16-guided-block",
-     "hash": "4c19ba131abd3aa3c7cff5363f5d287db6c0b19e1cc794b119f59883bccec4fd"
-    }
-   ],
-   "finding": "The topic has no opening review, and its first example uses V = Ah for a prism, a formula the booklet never states or practises; guided practice a then needs it for a cylinder.",
-   "breakdown": "After three topics of V = 1/3 Ah and the sphere formulas, the example writes V_2 = Ah = (4 x 7) x 3 with no rehearsal. Students who cannot recall the prism and cylinder formula, or who apply 1/3 to it out of habit, fail on the second component of the first composite solid.",
-   "checked": "No teaching block in any earlier topic states V = Ah for a prism or cylinder; it appears only inside spheres Question 15. Pieces removed from the candidate: V = 1/3 Ah and the hemisphere formula (taught in this booklet and practised in the exercise just before, including Question 6), and the shared radius (incidental).",
-   "assumptions": "Volume of prisms and cylinders is Stage 4 knowledge from the Volume booklets.",
-   "repair": {
-    "type": "add-review",
-    "proposal": "Add a short review before the Key Ideas. (1) Write the formula for the volume of a prism or cylinder [V = Ah]. (2) A rectangular prism has base 3 m by 5 m and height 2 m. Find its volume [30 m^3]. (3) A cylinder has radius 4 cm and height 5 cm. Find its base area and then its volume, as multiples of pi [16 pi cm^2; 80 pi cm^3]."
-   },
-   "doneWhen": "Students have used V = Ah for a prism and a cylinder before example 1.",
-   "from": [
-    "c18"
-   ],
-   "sequences": [
-    "composite-solids"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T05:08:13.545Z"
-    }
-   ],
-   "pipeline": "claude: sonnet medium review, opus medium challenge (comparison run, 11 October 2026)",
-   "commentId": "78a68074-3917-4606-869c-8282d6e48fd2",
-   "postedAt": "2026-10-11T05:53:05.265Z"
   },
   {
    "id": "pf-1d9f869c7e",
@@ -746,15 +711,60 @@
   {
    "sequence": "composite-solids",
    "targets": [
-    "p22-q13"
+    "p22-q13-root"
    ],
-   "question": "Before p22-q13, have students learned to relate corresponding lengths in similar cones and use cubic volume scaling in reverse, for example solving (d/14)³=1/2? The course library names the relevant separate booklets, but their teaching order is unknown; this determines whether the question requires an untaught method."
+   "question": "Before this booklet, have students learned to relate the radius and height of similar cones and recover a linear scale factor from a volume ratio using a cube root? The supplied teaching does not establish that preparation, and it determines whether p22-q13 requires an untaught method."
   }
  ],
- "protectedGroups": [],
+ "protectedGroups": [
+  {
+   "sequence": "spheres-hemispheres",
+   "targets": [
+    "p11-q3-a",
+    "p11-q3-b",
+    "p11-q3-c"
+   ],
+   "observation": "Students must distinguish a radius from either representation of a diameter before substituting.",
+   "varies": "The dimension is a centre-to-surface radius, an equatorial diameter or the sphere's full vertical height; numerical values also change.",
+   "invariant": "Sphere volume formula, centimetre units and one-decimal-place answers."
+  },
+  {
+   "sequence": "spheres-hemispheres",
+   "targets": [
+    "p12-q6-a",
+    "p12-q6-b",
+    "p12-q6-c",
+    "p12-q6-d"
+   ],
+   "observation": "The mixed set requires selecting the volume formula for each taught solid.",
+   "varies": "Solid, supplied dimensions and units.",
+   "invariant": "Find volume from sufficient given dimensions and round to one decimal place."
+  },
+  {
+   "sequence": "composite-solids",
+   "targets": [
+    "p17-q1-a",
+    "p17-q1-b",
+    "p17-q1-c"
+   ],
+   "observation": "Changing orientation preserves the volume method, and a second hemispherical end adds another hemisphere rather than changing the cylinder calculation.",
+   "varies": "Orientation, scaffold and number of hemispherical ends.",
+   "invariant": "A cylinder joined to hemispherical components of the same radius."
+  },
+  {
+   "sequence": "composite-solids",
+   "targets": [
+    "p21-q10-root",
+    "p21-q11-root"
+   ],
+   "observation": "The same fitted sphere occupies different fractions of different enclosing solids.",
+   "varies": "The enclosure changes from cube to cylinder.",
+   "invariant": "An exactly fitted sphere and a request for its volume as a percentage of the enclosure."
+  }
+ ],
  "notReliablyReviewed": [],
- "reviewedRevision": 6,
- "reviewedAt": "2026-10-11T04:59:00.149Z",
+ "reviewedRevision": 8,
+ "reviewedAt": "2026-10-11T13:36:54.349Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -778,14 +788,14 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 35246,
+     "input_tokens": 35847,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1677,
-     "reasoning_output_tokens": 93
+     "output_tokens": 3293,
+     "reasoning_output_tokens": 110
     },
-    "elapsedMs": 45085,
-    "candidates": 1,
+    "elapsedMs": 92777,
+    "candidates": 2,
     "discarded": [],
     "suggestions": 2
    },
@@ -796,16 +806,16 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 32114,
-     "cached_input_tokens": 12544,
+     "input_tokens": 32715,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1839,
-     "reasoning_output_tokens": 228
+     "output_tokens": 2977,
+     "reasoning_output_tokens": 260
     },
-    "elapsedMs": 50721,
-    "candidates": 1,
+    "elapsedMs": 87393,
+    "candidates": 2,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "spheres-hemispheres",
@@ -814,13 +824,13 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 46541,
+     "input_tokens": 47142,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1635,
-     "reasoning_output_tokens": 191
+     "output_tokens": 4067,
+     "reasoning_output_tokens": 254
     },
-    "elapsedMs": 45747,
+    "elapsedMs": 113819,
     "candidates": 1,
     "discarded": [],
     "suggestions": 2
@@ -832,13 +842,13 @@
     "images": 7,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 51196,
-     "cached_input_tokens": 12544,
+     "input_tokens": 51797,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2121,
-     "reasoning_output_tokens": 318
+     "output_tokens": 4108,
+     "reasoning_output_tokens": 120
     },
-    "elapsedMs": 62303,
+    "elapsedMs": 114048,
     "candidates": 1,
     "discarded": [],
     "suggestions": 2
@@ -847,69 +857,52 @@
   "dropped": [
    {
     "ids": [
-     "c2"
+     "c3"
     ],
-    "reason": "The mathematics is correct, but this straightforward height-scaling run is less valuable than the four retained suggestions. It mainly repeats direct substitution rather than exposing competing effects or a less obvious structural relationship.",
+    "reason": "The mathematics is correct, but this direct proportionality run offers less explanatory depth than the four retained extensions. Dropped under the whole-booklet suggestion limit.",
     "candidates": [
      {
-      "id": "c2",
+      "id": "c3",
       "sequence": "pyramids-cones-part-1",
       "kind": "variation-sequence",
       "targets": [
        "p4-q1"
       ],
-      "finding": "Hold base area constant and vary perpendicular height to expose how volume changes with height."
+      "finding": "Hold base area fixed and vary perpendicular height to expose how height affects volume."
      }
     ]
    },
    {
     "ids": [
-     "c6"
+     "c9"
     ],
-    "reason": "Both routes correctly give h=84 cm, and the general relationship is valid for paired right triangles. However, it is narrower than the four retained suggestions and is dropped under the booklet-wide limit.",
+    "reason": "The mathematics is correct, but p13-q8 already directly tests the radius-to-volume scaling relationship. This additional numerical run ranks below the four retained extensions.",
     "candidates": [
      {
-      "id": "c6",
-      "sequence": "pyramids-cones-part-2",
-      "kind": "extension",
-      "targets": [
-       "p8-q1-f"
-      ],
-      "finding": "Explain when the two face-height routes through a rectangular pyramid agree."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c8"
-    ],
-    "reason": "The answers are correct, but the proposed transition from hemisphere radius 3 to sphere radius 6 changes both shape and radius. Its half-volume relationship is also explicitly taught in p10-formula-comparison. It is not among the four strongest suggestions.",
-    "candidates": [
-     {
-      "id": "c8",
+      "id": "c9",
       "sequence": "spheres-hemispheres",
       "kind": "variation-sequence",
       "targets": [
-       "p12-q4"
+       "p13-q8"
       ],
-      "finding": "Compare sphere and hemisphere volumes at matched radii, then double the radius."
+      "finding": "Use a short fixed-unit radius run to make cubic volume growth visible before the doubling question."
      }
     ]
    },
    {
     "ids": [
-     "c11"
+     "c12"
     ],
-    "reason": "The fractions are correct, but p19-q4 already explicitly tests the central distinction between half the height and half the volume using matched cone dimensions. This suggestion largely repeats that comparison and is dropped in favour of the four retained suggestions.",
+    "reason": "The supplied dimensions and fractions are correct, but p19-q4 already explicitly contrasts half the height with half the volume. This additional run ranks below the four retained extensions.",
     "candidates": [
      {
-      "id": "c11",
+      "id": "c12",
       "sequence": "composite-solids",
       "kind": "variation-sequence",
       "targets": [
-       "p19-q4"
+       "p19-q4-b"
       ],
-      "finding": "Compare three water cones whose radius and height increase together inside the same container."
+      "finding": "Vary only water depth in one cone to expose how volume fraction changes with linear scale."
      }
     ]
    }
@@ -917,8 +910,8 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/volume-of-pyramids-cones-spheres-v1/candidates-low-1791694622959.json",
+  "candidateFile": ".booklet-work/pedagogy-review/volume-of-pyramids-cones-spheres-v1/candidates-low-1791725690655.json",
   "errors": []
  },
- "postedRevision": 8
+ "postedRevision": 9
 }

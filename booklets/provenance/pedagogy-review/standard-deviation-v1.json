@@ -1,0 +1,206 @@
+{
+ "version": 1,
+ "projectId": "standard-deviation-v1",
+ "title": "Standard Deviation",
+ "assumptions": {},
+ "findings": [
+  {
+   "id": "pf-b3e052ab68",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p7-q4-c",
+     "blockId": "p7-q4-block",
+     "hash": "bba1552e5dadb87d9c91ec67574d5a59f3b3e0f466bc830cb301bfc693059673"
+    },
+    {
+     "id": "p7-q4-d",
+     "blockId": "p7-q4-block",
+     "hash": "bba1552e5dadb87d9c91ec67574d5a59f3b3e0f466bc830cb301bfc693059673"
+    }
+   ],
+   "finding": "Students must predict the effect of appending one observation using only summary statistics, but preceding teaching does not explain this change.",
+   "breakdown": "Adding 15 leaves the mean and range unchanged but decreases standard deviation. Students may incorrectly transfer the unchanged-spread reasoning from p7-q4-a. Adding 0 also moves the mean, so reasoning about translating every observation does not supply the required method.",
+   "checked": "All supplied teaching and preceding practice were checked. p6-q1-j/k changes the number of observations and p7-q3-e/f changes frequencies, but neither explicitly teaches the resulting comparison. The definition, calculator instructions and translation examples do not explain appending an observation. Using the stated summary statistics gives standard deviations approximately 2.41 after adding 15 and 5.10 after adding 0; the conclusions remain valid if 2.54 is rounded.",
+   "assumptions": "Population standard deviation is intended, as instructed in p4-types-block. Calculators are available under the explicit calculator teaching.",
+   "repair": {
+    "type": "add-teaching",
+    "proposal": "Before p7-q4-c, add a short guided comparison: 'Start with 10, 15, 20. Predict, then calculate, the population standard deviation of (i) the original data, (ii) the data with another 15 added, and (iii) the data with a 0 added. Does unchanged range mean unchanged standard deviation?' Expected results: 4.08, 3.54 and 7.40. Explain that adding the existing mean leaves the mean unchanged and reduces the average squared distance, hence standard deviation. Adding a sufficiently distant observation can increase standard deviation, and its effect on the mean must also be considered."
+   },
+   "doneWhen": "Students have explicitly compared appending a central and a distant observation before predicting these effects from Rachel's summary statistics.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "standard-deviation"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:28:02.480Z"
+    }
+   ],
+   "commentId": "af355b5c-cfdf-4b67-9d07-3de803adfa75",
+   "postedAt": "2026-10-11T13:28:02.491Z"
+  },
+  {
+   "id": "pf-2f5a62e6cb",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p8-q5-b",
+     "blockId": "p8-q5",
+     "hash": "710c237abbd5297e1360ef8834ba25da145e9dcfc956b5d3b6889101b997af67"
+    }
+   ],
+   "finding": "Use reflected wages to explore how unequal individual changes can preserve standard deviation.",
+   "breakdown": "The task extends the translation comparison by returning to reflection, already encountered in p7-q3-c/d.",
+   "checked": "The replacement wages are 970, 780, 750, 680, 610, 590 and 300 dollars. All remain positive. Their mean is 1270 minus the original mean, and each deviation from the mean reverses sign, preserving population standard deviation at approximately $191. Individual wage changes are unequal. Calculator calculation and comparison require methods available by the end of the topic.",
+   "assumptions": "This is an optional mathematical transformation of the wages, not a proposal that every employee receives a pay rise.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p8-q5-b, offer: 'Replace each wage x in Question 5 by 1270 − x. Predict whether the population standard deviation changes, then check with your calculator. Are the individual wage changes equal? Explain.' Expected answer: standard deviation remains approximately $191 because reflection preserves distances from the reflected mean; individual changes are unequal."
+   },
+   "doneWhen": "The optional task includes prediction, calculator verification and an explanation using preserved distances from the mean.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "standard-deviation"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:28:02.480Z"
+    }
+   ]
+  }
+ ],
+ "contextQuestions": [],
+ "protectedGroups": [
+  {
+   "sequence": "standard-deviation",
+   "targets": [
+    "p3-same-mean-example",
+    "p3-different-mean-example"
+   ],
+   "observation": "Mean and standard deviation describe independent features of a distribution.",
+   "varies": "Spread in the first panel; centre in the second.",
+   "invariant": "Centre in the first panel; spread in the second."
+  },
+  {
+   "sequence": "standard-deviation",
+   "targets": [
+    "p5-guided-a",
+    "p5-guided-b"
+   ],
+   "observation": "Adding a constant to every observation preserves standard deviation.",
+   "varies": "Every observation increases by 10.",
+   "invariant": "Number of observations and distances from the mean."
+  },
+  {
+   "sequence": "standard-deviation",
+   "targets": [
+    "p6-q1-b",
+    "p6-q1-c",
+    "p6-q1-d"
+   ],
+   "observation": "Translation preserves standard deviation, whereas doubling all values doubles it.",
+   "varies": "First location, then scale.",
+   "invariant": "Relative frequency pattern and number of observations."
+  },
+  {
+   "sequence": "standard-deviation",
+   "targets": [
+    "p6-q1-h",
+    "p6-q1-i",
+    "p6-q1-j"
+   ],
+   "observation": "Halving values halves standard deviation; subsequent translation preserves it.",
+   "varies": "First scale, then location.",
+   "invariant": "Number of observations and relative spacing pattern."
+  },
+  {
+   "sequence": "standard-deviation",
+   "targets": [
+    "p7-q3-a",
+    "p7-q3-b"
+   ],
+   "observation": "Replicating every observation equally preserves population standard deviation.",
+   "varies": "Every frequency is multiplied by 5.",
+   "invariant": "Outcomes and relative frequencies."
+  },
+  {
+   "sequence": "standard-deviation",
+   "targets": [
+    "p7-q3-b",
+    "p7-q3-c",
+    "p7-q3-d",
+    "p7-q3-e"
+   ],
+   "observation": "Translation and reflection preserve standard deviation; scaling changes its magnitude.",
+   "varies": "Location, sign and then scale of outcomes.",
+   "invariant": "Frequency pattern."
+  },
+  {
+   "sequence": "standard-deviation",
+   "targets": [
+    "p7-q3-e",
+    "p7-q3-f"
+   ],
+   "observation": "Standard deviation depends on the distribution of frequencies, even when the range is unchanged.",
+   "varies": "Frequency of the outcome -8.",
+   "invariant": "Outcome values and range."
+  }
+ ],
+ "notReliablyReviewed": [],
+ "reviewedRevision": 2,
+ "reviewedAt": "2026-10-11T13:28:02.480Z",
+ "passes": {
+  "review": {
+   "model": "gpt-6.1-sol",
+   "effort": "low",
+   "calls": 1
+  },
+  "challenge": {
+   "model": "gpt-6.1-sol",
+   "effort": "medium",
+   "calls": 1
+  }
+ },
+ "importReview": "Lean content review table: 20 of 20 blocks passed.",
+ "questionOrder": "source",
+ "lastRun": {
+  "sequences": [
+   {
+    "id": "standard-deviation",
+    "title": "Standard deviation",
+    "blocks": 20,
+    "images": 3,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 33914,
+     "cached_input_tokens": 12544,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 4466,
+     "reasoning_output_tokens": 429
+    },
+    "elapsedMs": 129275,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 1
+   }
+  ],
+  "dropped": [],
+  "unchecked": [],
+  "suppressed": [],
+  "droppedQuestions": [],
+  "candidateFile": ".booklet-work/pedagogy-review/standard-deviation-v1/candidates-low-1791725225131.json",
+  "errors": []
+ },
+ "postedRevision": 3
+}

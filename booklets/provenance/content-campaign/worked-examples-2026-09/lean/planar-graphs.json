@@ -3,35 +3,116 @@
   "skillId": "planar-graphs",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-07T21:30:25.427Z",
-  "status": "blocked",
+  "startedAt": "2026-10-11T07:49:45.230Z",
+  "status": "published",
   "calls": [
     {
       "name": "audit",
       "code": 0,
-      "seconds": 11.2,
+      "seconds": 83.5,
       "usage": {
-        "input_tokens": 164138,
-        "cached_input_tokens": 20608,
+        "input_tokens": 108695,
+        "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 98,
-        "reasoning_output_tokens": 0
+        "output_tokens": 3644,
+        "reasoning_output_tokens": 273
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\planar-graphs\\audit-F0kL79\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\planar-graphs\\audit-nGFzYo\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 22.1,
+      "usage": {
+        "input_tokens": 109961,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 842,
+        "reasoning_output_tokens": 23
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\planar-graphs\\repair-OMW841\\response.raw.txt"
+    },
+    {
+      "name": "review-scoped",
+      "code": 0,
+      "seconds": 12.7,
+      "usage": {
+        "input_tokens": 109850,
+        "cached_input_tokens": 20736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 233,
+        "reasoning_output_tokens": 44
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\planar-graphs\\review-scoped-STxPMw\\response.raw.txt"
     }
   ],
+  "previousAttempts": [
+    {
+      "startedAt": "2026-10-07T21:30:25.427Z",
+      "finishedAt": "2026-10-07T21:30:36.712Z",
+      "status": "blocked",
+      "calls": [
+        {
+          "name": "audit",
+          "code": 0,
+          "seconds": 11.2,
+          "usage": {
+            "input_tokens": 164138,
+            "cached_input_tokens": 20608,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 98,
+            "reasoning_output_tokens": 0
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\planar-graphs\\audit-F0kL79\\response.raw.txt"
+        }
+      ]
+    }
+  ],
+  "sourceException": {
+    "reason": "User approved syllabus-based source exceptions on 9 October 2026 for the displayed 54 source gaps. This skill remains in the approved subset of 53 unresolved gaps; use its governing Stage 5 syllabus and target course, preserve good existing content, independently review every mathematical answer/option and stage/method boundary, and repair substantive defects only. Booklet source evidence was unavailable or did not establish the required question types.",
+    "approvalPath": "booklets/provenance/content-campaign/worked-examples-2026-09/approved-source-exceptions-20261009.json",
+    "path": "syllabus/Stage 5 Content.md",
+    "hash": "9c67a75ff107dfb5a4f408803fe7eaeb429964a21d3307dd27331155ee440c70"
+  },
   "baseline": {
     "contentHash": "c2fa39f4a116080a5eef77b65d66768a5c2e02291bf4931e60ffd9216843d897",
     "quizHash": "0de00f0e253451210b58b56875069bee0cea471a346fd650fee9591c4d15cc9e"
   },
   "booklets": [
-    "booklets/mathsmap-sources/Stage 5 Path/Functions and Other Graphs_1 Define relations and functions, and use function notation.md",
-    "booklets/mathsmap-sources/Stage 5 Path/Functions and Other Graphs_2 Find the domain and range of a function and graph functions.md",
-    "booklets/mathsmap-sources/Stage 5 Path/Properties of Geometrical Figures B_1 Identify and explain congruence.md"
+    "syllabus/Stage 5 Content.md"
   ],
-  "images": 110,
-  "omittedImages": 91,
-  "blocker": "The supplied booklets cover functions, graph transformations and congruence, but omit the planar-graphs source section. Supply its teaching headings, complete exercise set and necessary network figures covering planarity, crossing-free redraws, faces and outer faces, loops, adding edges, and non-planar networks such as K5 and K3,3; the booklet question types cannot be verified from the supplied evidence.",
-  "finishedAt": "2026-10-07T21:30:36.712Z"
+  "images": 0,
+  "omittedImages": 0,
+  "fullReview": {
+    "name": "review-accepted",
+    "hash": "854ac2396cd7c81e17da46d305c016b45c50e42319cb0ad87dbb57846b6b0357",
+    "originalRemovalsSupplied": true,
+    "sourceExceptionConfirmed": true
+  },
+  "firstRoundFindings": [
+    "practice.mastery[0]: The numerical answer and diagrams are correct, but qualify the solution's universal claim that an extra edge inside one face always divides it into two: this holds here because its endpoints are already connected by an existing path; an edge joining separate components need not create a face.",
+    "theory: Qualify the fact that adding a crossing-free edge between vertices on the same face raises the face count by one: the endpoints must already be connected by an existing path. Joining separate components can leave the face count unchanged; the remaining theory and supplied diagrams are correct and within the approved Stage 5 planar-graphs scope."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.mastery[0]"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 32,
+  "summary": "Qualified the theory's face-count rule to require endpoints already connected by an existing path, and explained that joining separate components leaves the face count unchanged. Applied the same qualification to the mastery solution using the existing path through D; all other content, diagrams and numerical answers are preserved.",
+  "reviewSummary": "The requested mastery item has correct counts, diagrams and working and aligns with the approved Stage 5 syllabus exception for identifying faces. The theory correctly explains planarity, redraws, the outer face, loops and the effect of adding an edge, with no substantive repair required.",
+  "candidateHash": "854ac2396cd7c81e17da46d305c016b45c50e42319cb0ad87dbb57846b6b0357",
+  "published": {
+    "expected": {
+      "contentHash": "a7fb9ebe9a84185c1105cebf30ba4d553bb49cd64a00f83e6861fb6b0aa2af4d",
+      "quizHash": "0de00f0e253451210b58b56875069bee0cea471a346fd650fee9591c4d15cc9e"
+    },
+    "journalPath": ".agywork\\content-publication\\transactions\\planar-graphs-3ebc63f6-725a-4291-ba73-9960b22ee44b\\journal.json"
+  },
+  "finishedAt": "2026-10-11T07:51:44.149Z"
 }

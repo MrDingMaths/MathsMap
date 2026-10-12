@@ -1,0 +1,1262 @@
+{
+ "version": 1,
+ "projectId": "earning-money-v1",
+ "title": "Financial Mathematics 1: Earning Money",
+ "assumptions": {},
+ "findings": [
+  {
+   "id": "pf-368429b706",
+   "kind": "worked-step-error",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p13-total-pay-formulas",
+     "blockId": "p13-total-pay-formulas",
+     "hash": "7061d5216dea602a2ea838c6822012268a03a094efb631561d63f7c9a44b26d8"
+    },
+    {
+     "id": "p13-example-lily",
+     "blockId": "p13-pay-example-group",
+     "hash": "924a9edea863ab661750b6fbebbaf76e48648655f6252e738b96c7e8195314f4"
+    },
+    {
+     "id": "p14-q2-root",
+     "blockId": "p14-q2",
+     "hash": "fc67bc2113e1d07a55fad4745755158643251c4378fdd5bae917e1e5a653d6cb"
+    }
+   ],
+   "finding": "The overtime formula labels its dimensionless multiplier 'penalty rate', although the immediately preceding guided practice uses that term for a monetary hourly rate.",
+   "breakdown": "Substituting the calculated penalty hourly rate into this three-factor formula multiplies by the normal hourly wage twice. Lily's correct numerical substitution does not explicitly distinguish the two meanings.",
+   "checked": "p12-calculate-penalty-rates-block asks for monetary penalty rates. p12-penalty-rate-reference supplies the multipliers, but p13-total-pay-formulas and p14-q2-root do not distinguish these from the hourly rates. Lily's calculation is correct: 25 × 4 × 1.5 = $150.",
+   "assumptions": "Students may apply the meaning of 'penalty rate' established immediately before the formula. Calculator availability does not affect the issue.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Replace the final factor label with 'penalty multiplier' in all three targets. Beside the first formula write: 'Use 1.5, 2 or 2.5 here. If you have already calculated the penalty hourly rate, overtime pay = penalty hourly rate × overtime hours.'"
+   },
+   "doneWhen": "The formulas clearly distinguish the penalty multiplier from the monetary penalty hourly rate.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "penalty-rates"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T12:43:15.346Z"
+    }
+   ],
+   "commentId": "a0a5b631-2857-4530-bcfe-6d2fc97c7ddf",
+   "postedAt": "2026-10-11T12:43:15.378Z"
+  },
+  {
+   "id": "pf-750b6fc91f",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p25-example-gerald",
+     "blockId": "p25-example-header",
+     "hash": "55dd1933773a5db6d8f21ad2173670732338d2164f20725dd516d581e0785442"
+    },
+    {
+     "id": "p25-example-taylor",
+     "blockId": "p25-example-header",
+     "hash": "55dd1933773a5db6d8f21ad2173670732338d2164f20725dd516d581e0785442"
+    },
+    {
+     "id": "p26-aspen",
+     "blockId": "p26-example-block",
+     "hash": "43becf86c5f138da11ad5c67454c652cc1fa96da7dd8dc0b5429a5db47e06d49"
+    }
+   ],
+   "finding": "The topic lacks an opening review of percentage conversion, finding percentage amounts and solving a two-step equation.",
+   "breakdown": "Gerald and Taylor require selecting decimal percentage multipliers; Aspen requires subtracting the retainer before dividing. These substantial prior skills are not rehearsed in the topic's opening or the preceding piecework exercise.",
+   "checked": "The percentage substitutions occur explicitly in p25-example-header, and Aspen solves 5220 = 450 + 0.09x. Earlier teaching supplies pay formulas and inverse division. The preceding piecework teaching and practice rehearse multiplication and one-step inverse division, so that component has been removed from the proposed review. They do not rehearse percentages or two-step inverse operations.",
+   "assumptions": "Percentages and basic equation solving are prior knowledge, consistent with the course library. A calculator is assumed for monetary arithmetic.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p25-royalties-information add: '1. Write as decimals: (a) 6% (b) 0.4% (c) 17.5%. 2. Find: (a) 5% of $800 (b) 2.5% of $1200. 3. Solve 250 + 0.05x = 1250.' Answers: 0.06, 0.004, 0.175; $40, $30; x = 20000. These six short items fit within one page."
+   },
+   "doneWhen": "The teacher can check percentage setup and two-step inverse operations before the worked examples.",
+   "from": [
+    "c9"
+   ],
+   "sequences": [
+    "royalties-commissions"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T12:43:15.346Z"
+    }
+   ],
+   "commentId": "521fbd79-aa09-41db-b31c-d7e0f80f1b98",
+   "postedAt": "2026-10-11T12:43:15.382Z"
+  },
+  {
+   "id": "pf-8807ccd366",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p27-question-kerri",
+     "blockId": "p27-example-header",
+     "hash": "07ffa45b3a1934ed18a2571b81ffd4bd71b9d63c84799785d065dfd4a2f9c438"
+    }
+   ],
+   "finding": "Vary sales around a fixed commission threshold to expose which sales receive the higher rate.",
+   "breakdown": "A prediction and comparison can expose the incorrect rule that crossing the threshold changes the rate on all sales.",
+   "checked": "p27-example-hilary explicitly teaches splitting sales between bands; the proposed sequence uses that method. All proposed answers are correct.",
+   "assumptions": "Use the stated commission schedule with non-negative sales and no retainer.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p27-question-kerri, use 5% on the first $10000 and 7% on sales above $10000. Ask students to predict whether moving from $10000 to $11000 adds 7% of $1000 or changes the rate on all sales. Find commission for $9000, $10000, $11000 and $12000. Answers: $450, $500, $570 and $640. Sales alone vary; the schedule stays fixed. Follow with: 'A salesperson earns 4% on the first $7500 and 6% above this. Find commission on $9200 in sales.' Answer: $402."
+   },
+   "doneWhen": "Students predict and explain that only sales above the threshold attract the higher rate.",
+   "from": [
+    "c10"
+   ],
+   "sequences": [
+    "royalties-commissions"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T12:43:15.346Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-030729a263",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p31-example-left",
+     "blockId": "p31-example",
+     "hash": "f8e41945b1c9afb9c3f7dbc005fd5af56e43f821be5c84f91e0332687fa2421d"
+    },
+    {
+     "id": "p31-example-right",
+     "blockId": "p31-example",
+     "hash": "f8e41945b1c9afb9c3f7dbc005fd5af56e43f821be5c84f91e0332687fa2421d"
+    }
+   ],
+   "finding": "The salary topic lacks an opening review of the annual period counts used directly in its worked examples.",
+   "breakdown": "Selecting 26 as the divisor for fortnightly pay and 52 as the multiplier for annual pay requires recalling the annual time relationships.",
+   "checked": "p3-teaching and p3-time-conversion-activity establish the relationships. p31-salary states a fortnightly fraction but provides no retrieval task. The immediately preceding royalties and commissions teaching and supplied practice do not rehearse annual period counts.",
+   "assumptions": "The booklet uses 52 weeks and 26 fortnights per year. This concerns recalling and choosing period counts, not calculator arithmetic.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p31-salary add: '1. Complete: 1 year = ___ weeks = ___ fortnights. 2. How many weeks are in 3 fortnights? 3. Complete: 2 years = ___ weeks = ___ fortnights.' Answers: 52, 26; 6; 104, 52."
+   },
+   "doneWhen": "Students retrieve the annual week and fortnight counts before following the salary examples.",
+   "from": [
+    "c12"
+   ],
+   "sequences": [
+    "salary"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T12:43:15.346Z"
+    }
+   ],
+   "commentId": "c7f42afb-6164-4c8b-92ce-600c7f814a52",
+   "postedAt": "2026-10-11T12:43:15.386Z"
+  },
+  {
+   "id": "pf-3fe803765c",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p38-example-renee",
+     "blockId": "p38-example-header",
+     "hash": "0018a6986a6ab5ffeb3e7036da74a277a2292cca1c0ae623617ebbb498b1411e"
+    }
+   ],
+   "finding": "The bonuses and allowances topic lacks an opening review of finding a percentage of a quantity, used directly in Renee's example.",
+   "breakdown": "Students must select 0.06 and calculate the percentage bonus while learning how to combine a bonus with normal pay.",
+   "checked": "p25 and p26 teach percentage earnings, but the immediately preceding salary teaching and supplied exercise do not rehearse percentages. The hourly-wage component of the candidate has been removed: p37-q25 already requires calculating Harriet's weekly wages from her hourly rate and working hours.",
+   "assumptions": "Percentage calculations are prior knowledge. A calculator is assumed; the review checks calculation setup.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p38-definitions add: '(a) Find 6% of $500. (b) Find 3% of $1200.' Answers: $30 and $36."
+   },
+   "doneWhen": "Students rehearse selecting a percentage multiplier and finding a percentage amount before Renee's example.",
+   "from": [
+    "c14"
+   ],
+   "sequences": [
+    "bonuses-allowances"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T12:43:15.346Z"
+    }
+   ],
+   "commentId": "f0ef05bb-5884-4eb9-89ec-fe35aa10fb7f",
+   "postedAt": "2026-10-11T12:43:15.389Z"
+  },
+  {
+   "id": "pf-3202362a4e",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p38-a",
+     "blockId": "p38-guided-practice-block",
+     "hash": "5f4af606c05053d4eb8872a2fb0803c99f29d60a9ec4714274a3f6db2e02ecb6"
+    },
+    {
+     "id": "p39-q4",
+     "blockId": "p39-q4-block",
+     "hash": "e7b438aeb86702e9b2cff26248443be478786c9108811a33459501c932948a2f"
+    }
+   ],
+   "finding": "Jeremy's complete bonus task is repeated without an explicit retrieval or comparison purpose.",
+   "breakdown": "Both copies ask for total pay from the same $43600 annual salary and 3% bonus. The later completion lines supply working for the unchanged task.",
+   "checked": "Compared both complete tasks: worker, salary, percentage, givens and requested total are unchanged. Minor wording changes and added scaffolding do not change the mathematical task. Neither copy states a purpose for repeating it.",
+   "assumptions": "No explicit instructional purpose for the unchanged repetition is supplied.",
+   "repair": {
+    "type": "remove-question",
+    "proposal": "Remove p39-q4 and retain p38-a as the independent follow-up to Renee's example."
+   },
+   "doneWhen": "Only one copy of Jeremy's unchanged bonus task remains.",
+   "from": [
+    "c15"
+   ],
+   "sequences": [
+    "bonuses-allowances"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T12:43:15.346Z"
+    }
+   ],
+   "commentId": "3bf4d852-0bc1-40d9-ae0e-ceab39bc79c7",
+   "postedAt": "2026-10-11T12:43:15.393Z"
+  },
+  {
+   "id": "pf-9a488da538",
+   "kind": "example-choice",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p41-example-salary-entry",
+     "blockId": "p41-example-block",
+     "hash": "9c0153010645fdc0d6648d36c911c792e9a613e7023cb7396d22e33d1d506a9a"
+    }
+   ],
+   "finding": "The leave-loading salary example substitutes 70000/52 for weekly pay without stating the conversion decision.",
+   "breakdown": "The prompt gives annual salary, while the formula requires weekly pay. Students must supply the connecting decision themselves.",
+   "checked": "p31-salary-formulas and p31-example-right teach period conversion, but p41-example-salary-entry contains no line identifying annual salary ÷ 52 as weekly pay. Its loading and holiday-pay calculations are mathematically correct.",
+   "assumptions": "Earlier teaching supplies the conversion method. The finding concerns modelling its selection within the combined calculation.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Before the loading calculation write: 'Weekly pay = Annual salary ÷ 52 = $70000/52.' Retain the unrounded expression for subsequent calculations."
+   },
+   "doneWhen": "The worked example explicitly connects the annual salary to its weekly-pay input.",
+   "from": [
+    "c18"
+   ],
+   "sequences": [
+    "leave-loading"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T12:43:15.346Z"
+    }
+   ],
+   "commentId": "c00da8e8-dcc6-40ff-b61e-e24f3fdbd181",
+   "postedAt": "2026-10-11T12:43:15.397Z"
+  },
+  {
+   "id": "pf-1608a16ff7",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p41-topic-block",
+     "blockId": "p41-topic-block",
+     "hash": "4897344f235405658b750a11fde3b176cc32c97fa9d6097a85c30705bb789e36"
+    },
+    {
+     "id": "p41-example-salary-entry",
+     "blockId": "p41-example-block",
+     "hash": "9c0153010645fdc0d6648d36c911c792e9a613e7023cb7396d22e33d1d506a9a"
+    }
+   ],
+   "finding": "The leave-loading topic lacks an opening review of converting annual salary to weekly pay.",
+   "breakdown": "Following the annual-salary example requires recalling the 52-week convention and selecting division by 52 before applying loading.",
+   "checked": "p3 and p31 teach the conversion. The preceding bonuses teaching rehearses percentages and annual-to-monthly conversion. Its supplied practice also uses annual-to-monthly conversion, but does not rehearse annual-to-weekly pay or the 52-week count.",
+   "assumptions": "Use the booklet's 52-week year. Calculator use is assumed; recalling and choosing the conversion is the review target.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p41-topic-block add: '1. For these calculations, 1 year = ___ weeks. 2. An employee earns $52000 p.a. Find their weekly pay. 3. An employee earns $65000 p.a. Find their weekly pay.' Answers: 52; $1000; $1250."
+   },
+   "doneWhen": "Students rehearse the annual-to-weekly conversion before the leave-loading examples.",
+   "from": [
+    "c19"
+   ],
+   "sequences": [
+    "leave-loading"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T12:43:15.346Z"
+    }
+   ],
+   "commentId": "fcc856c5-718b-4eb4-9563-2355edd0f602",
+   "postedAt": "2026-10-11T12:43:15.401Z"
+  },
+  {
+   "id": "pf-19c99af1a3",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p45-q20",
+     "blockId": "p45-q20-block",
+     "hash": "b25d3670fdec827714c044f9a8c42ae9838c79f47ebf2f17a2a7b42792e1dcc0"
+    }
+   ],
+   "finding": "Generalise the salary increase that exactly compensates for removing leave loading.",
+   "breakdown": "This extends the final comparison by asking why the break-even percentage is independent of salary.",
+   "checked": "For positive salary S, lost loading is 0.175 × 4S/52. Equating this to pS/100 gives p = 17.5 × 4/52 = 35/26, approximately 1.34615%. Salary conversion, percentage calculations and the payment comparison are already available.",
+   "assumptions": "Annual salary is positive. The increase replaces loading completely, with four weeks of loading at 17.5% and a 52-week year.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p45-q20 ask: 'An employee has a positive annual salary plus 17.5% loading on four weeks of normal pay. Their employer removes loading and increases annual salary by p%. What value of p leaves annual earnings unchanged? Does it depend on salary? Explain.' Expected answer: p = 35/26 ≈ 1.34615%; dividing the lost loading by salary cancels the salary."
+   },
+   "doneWhen": "Students explain the break-even percentage and why it is independent of positive salary.",
+   "from": [
+    "c21"
+   ],
+   "sequences": [
+    "leave-loading"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T12:43:15.346Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-c8532a312c",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p48-q11",
+     "blockId": "p48-q11-block",
+     "hash": "64300ab53b8d87f98d0211804f5b7617aed2fd453496dfc7fe82c9daf7501332"
+    }
+   ],
+   "finding": "Investigate how an additional deduction affects taxable income rounded down to whole dollars.",
+   "breakdown": "The task distinguishes the exact subtraction from the reported whole-dollar result.",
+   "checked": "Initial unrounded taxable income is $49000.60. The proposed additional deductions produce $48900.60, $49000.10 and $48999.90, giving the stated rounded answers. Subtraction and rounding down are taught in p46.",
+   "assumptions": "Apply the booklet's rounding-down rule after subtracting all allowable deductions.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p48-q11 ask: 'Gross income is $50000.80 and allowable deductions total $1000.20. Calculate taxable income. Recalculate with an additional allowable deduction of (a) $100, (b) $0.50 and (c) $0.70. Does the reported taxable income always fall by exactly the additional deduction? Explain why an additional whole-dollar deduction does.' Answers: initially $49000; then $48900, $49000 and $48999. Before rounding, the decrease equals the deduction. A whole-dollar deduction preserves the cents; a cents deduction may cross a whole-dollar boundary."
+   },
+   "doneWhen": "Students distinguish exact subtraction from the effect of rounding down.",
+   "from": [
+    "c23"
+   ],
+   "sequences": [
+    "taxable-income"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T12:43:15.346Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-ea45773b9b",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p70-q10",
+     "blockId": "p70-q10-block",
+     "hash": "cee2e63c40074c4bd3b0252aac092bb5cd7f5b10dc669443613f46813cc0b499"
+    }
+   ],
+   "finding": "Explain how an extra deduction changes income tax, Medicare levy and the refund.",
+   "breakdown": "This connects the marginal income-tax rate and levy rate without repeating the complete calculation.",
+   "checked": "Catriona's taxable income is $86124. An extra $1000 or $500 deduction leaves it in the 32.5% bracket. Tax reductions are respectively $325 + $20 = $345 and $162.50 + $10 = $172.50. Whole-dollar deductions preserve the rounding relationship, and the booklet's separate cent rounding preserves these differences.",
+   "assumptions": "PAYG instalments stay fixed. Use the supplied historical tax table and the booklet's 2% levy model.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p70-q10 ask: 'Catriona discovers another $1000 of allowable deductions. Her PAYG instalments stay unchanged. Predict how total tax and her refund change, then explain without repeating the whole calculation. Would an extra $500 deduction have the same proportional effect?' Expected answer: total tax falls and the refund rises by $345; for $500, by $172.50. The proportional effect holds while taxable income remains in this bracket."
+   },
+   "doneWhen": "Students explain the combined 34.5% effect and its tax-bracket condition.",
+   "from": [
+    "c33"
+   ],
+   "sequences": [
+    "medicare"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T12:43:15.346Z"
+    }
+   ]
+  }
+ ],
+ "contextQuestions": [
+  {
+   "sequence": "bonuses-allowances",
+   "targets": [
+    "p40-q12"
+   ],
+   "question": "Have students already learned that company profit equals revenue minus costs? p40-q12 requires this relationship, but the supplied teaching and course-library titles do not establish whether it is prior knowledge."
+  }
+ ],
+ "protectedGroups": [
+  {
+   "sequence": "units-time",
+   "targets": [
+    "p3-time-conversion-activity-a",
+    "p3-time-conversion-activity-b"
+   ],
+   "observation": "Converting the same duration in opposite directions makes multiplication and division visible as inverse operations.",
+   "varies": "The starting unit and conversion direction.",
+   "invariant": "The duration and the relationship of 12 months per year."
+  },
+  {
+   "sequence": "units-time",
+   "targets": [
+    "p3-time-conversion-activity-c",
+    "p3-time-conversion-activity-d"
+   ],
+   "observation": "The reverse conversion recovers the starting duration when both routes use the same annual convention.",
+   "varies": "The starting unit and order of the two conversion operations.",
+   "invariant": "The duration and the relationships of 12 months and 52 weeks per year."
+  },
+  {
+   "sequence": "wages",
+   "targets": [
+    "p7-q1-a",
+    "p7-q1-b"
+   ],
+   "observation": "At a fixed hourly rate, five times the hours gives five times the pay.",
+   "varies": "Hours increase from 8 to 40, and substitution support fades.",
+   "invariant": "Hourly rate of $45.70."
+  },
+  {
+   "sequence": "wages",
+   "targets": [
+    "p7-q3-a",
+    "p7-q3-b"
+   ],
+   "observation": "The same weekly-hours calculation applies when only the hourly rate changes.",
+   "varies": "Hourly rate and supplied working.",
+   "invariant": "7 hours per day for 5 days."
+  },
+  {
+   "sequence": "wages",
+   "targets": [
+    "p9-q11-a",
+    "p9-q11-b",
+    "p9-q11-c",
+    "p9-q11-d"
+   ],
+   "observation": "Earnings scale with the number of working days or weeks in the requested period.",
+   "varies": "Reporting period: day, week, fortnight and year.",
+   "invariant": "Hourly rate and working schedule."
+  },
+  {
+   "sequence": "wages",
+   "targets": [
+    "p11-q15",
+    "p11-q16"
+   ],
+   "observation": "Hourly wages must be separated from a tip before dividing by hours.",
+   "varies": "Values and removal of the visual support.",
+   "invariant": "Total earnings consist of hourly wages plus a separately stated tip."
+  },
+  {
+   "sequence": "penalty-rates",
+   "targets": [
+    "p17-q14-a",
+    "p17-q14-b",
+    "p17-q14-c"
+   ],
+   "observation": "Working through the thresholds exposes that higher rates apply only to hours within the corresponding tier.",
+   "varies": "Total hours increase from below the normal-hours threshold to the end of the time-and-a-half tier and then beyond it.",
+   "invariant": "Normal hourly wage and the tiered award."
+  },
+  {
+   "sequence": "penalty-rates",
+   "targets": [
+    "p18-q16-root",
+    "p18-q17-root"
+   ],
+   "observation": "Equivalent normal hours depend on the penalty multiplier even when actual hours are unchanged.",
+   "varies": "Double time changes to time-and-a-half.",
+   "invariant": "Three actual hours and the request for equal earnings at the normal rate."
+  },
+  {
+   "sequence": "penalty-rates",
+   "targets": [
+    "p20-q26-gary",
+    "p20-q26-herbert",
+    "p20-q26-ian"
+   ],
+   "observation": "The unknown hours must be recovered using the rate for their own category.",
+   "varies": "Which hours category is unknown.",
+   "invariant": "$40 normal hourly wage, $1200 total earnings, and eight hours in each of the two known categories."
+  },
+  {
+   "sequence": "royalties-commissions",
+   "targets": [
+    "p29-q5-olivia",
+    "p29-q5-stella",
+    "p29-q5-emma"
+   ],
+   "observation": "Adding a retainer changes total pay without changing commission; changing the commission rate then changes commission and total pay.",
+   "varies": "First the retainer, then the commission rate.",
+   "invariant": "Sales remain $10000; each adjacent pair holds the other pay parameter fixed."
+  },
+  {
+   "sequence": "royalties-commissions",
+   "targets": [
+    "p30-q10-a",
+    "p30-q10-b",
+    "p30-q10-c"
+   ],
+   "observation": "Only the occupied portions of the commission bands contribute, while the base payment remains fixed.",
+   "varies": "Sale price and consequently the occupied bands.",
+   "invariant": "The base payment, rates and band boundaries."
+  },
+  {
+   "sequence": "salary",
+   "targets": [
+    "p32-q1-a",
+    "p32-q1-b"
+   ],
+   "observation": "The same annual income produces different payment amounts because the number of payments changes.",
+   "varies": "Monthly versus weekly payment period, with the formula cue removed in the second part.",
+   "invariant": "$48 000 annual income."
+  },
+  {
+   "sequence": "salary",
+   "targets": [
+    "p33-q6-b",
+    "p33-q6-c",
+    "p33-q6-d"
+   ],
+   "observation": "Annual pay provides the intermediate quantity for monthly pay, exposing why four weekly payments are not a monthly payment.",
+   "varies": "Required period, followed by an explicit explanation of the incorrect shortcut.",
+   "invariant": "$765 weekly pay."
+  },
+  {
+   "sequence": "salary",
+   "targets": [
+    "p33-q9-a",
+    "p33-q9-b",
+    "p33-q9-c"
+   ],
+   "observation": "Weekly, fortnightly and monthly amounts represent the same annual income divided into different numbers of payments.",
+   "varies": "Payment period.",
+   "invariant": "$68 600 annual income."
+  },
+  {
+   "sequence": "salary",
+   "targets": [
+    "p33-q10-a",
+    "p33-q10-b",
+    "p33-q10-c"
+   ],
+   "observation": "Repeats the payment-period comparison with a different fixed annual salary.",
+   "varies": "Payment period.",
+   "invariant": "$74 250 annual income."
+  },
+  {
+   "sequence": "salary",
+   "targets": [
+    "p33-q11-a",
+    "p33-q11-b",
+    "p33-q11-c"
+   ],
+   "observation": "Converting monthly pay to annual pay supplies a common intermediate for weekly and fortnightly amounts.",
+   "varies": "Required output period.",
+   "invariant": "$5205.50 monthly income."
+  },
+  {
+   "sequence": "bonuses-allowances",
+   "targets": [
+    "p39-q2",
+    "p39-q3"
+   ],
+   "observation": "The same two-part structure distinguishes a one-month bonus from a three-month bonus.",
+   "varies": "The number of months represented by the bonus and the annual salary.",
+   "invariant": "Convert annual salary to monthly salary, calculate the bonus, then add it to annual salary."
+  }
+ ],
+ "notReliablyReviewed": [],
+ "reviewedRevision": 672,
+ "reviewedAt": "2026-10-11T12:43:15.346Z",
+ "passes": {
+  "review": {
+   "model": "gpt-6.1-sol",
+   "effort": "low",
+   "calls": 13
+  },
+  "challenge": {
+   "model": "gpt-6.1-sol",
+   "effort": "medium",
+   "calls": 1
+  }
+ },
+ "importReview": "No lean review table found; this booklet's earlier acceptance route is not recorded here.",
+ "questionOrder": "source",
+ "lastRun": {
+  "sequences": [
+   {
+    "id": "units-time",
+    "title": "Units of time",
+    "blocks": 5,
+    "images": 1,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 23421,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 1849,
+     "reasoning_output_tokens": 254
+    },
+    "elapsedMs": 57647,
+    "candidates": 0,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "wages",
+    "title": "Wages",
+    "blocks": 33,
+    "images": 1,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 31656,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 4602,
+     "reasoning_output_tokens": 221
+    },
+    "elapsedMs": 122618,
+    "candidates": 0,
+    "discarded": [],
+    "suggestions": 2
+   },
+   {
+    "id": "penalty-rates",
+    "title": "Penalty rates",
+    "blocks": 38,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 33609,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 6488,
+     "reasoning_output_tokens": 347
+    },
+    "elapsedMs": 166484,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 2
+   },
+   {
+    "id": "piecework",
+    "title": "Piecework",
+    "blocks": 16,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 29321,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 2758,
+     "reasoning_output_tokens": 321
+    },
+    "elapsedMs": 80940,
+    "candidates": 0,
+    "discarded": [],
+    "suggestions": 2
+   },
+   {
+    "id": "royalties-commissions",
+    "title": "Royalties and commissions",
+    "blocks": 27,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 31236,
+     "cached_input_tokens": 12544,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 5129,
+     "reasoning_output_tokens": 439
+    },
+    "elapsedMs": 136994,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 2
+   },
+   {
+    "id": "salary",
+    "title": "Salary",
+    "blocks": 30,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 31895,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 4176,
+     "reasoning_output_tokens": 417
+    },
+    "elapsedMs": 119398,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "bonuses-allowances",
+    "title": "Bonuses and allowances",
+    "blocks": 16,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 29555,
+     "cached_input_tokens": 12544,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3076,
+     "reasoning_output_tokens": 160
+    },
+    "elapsedMs": 82220,
+    "candidates": 2,
+    "discarded": [],
+    "suggestions": 2
+   },
+   {
+    "id": "leave-loading",
+    "title": "Leave loading",
+    "blocks": 25,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 32508,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3930,
+     "reasoning_output_tokens": 342
+    },
+    "elapsedMs": 109065,
+    "candidates": 2,
+    "discarded": [],
+    "suggestions": 2
+   },
+   {
+    "id": "taxable-income",
+    "title": "Taxable income",
+    "blocks": 17,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 30901,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 2262,
+     "reasoning_output_tokens": 348
+    },
+    "elapsedMs": 70496,
+    "candidates": 0,
+    "discarded": [],
+    "suggestions": 2
+   },
+   {
+    "id": "income-tax",
+    "title": "Income tax table",
+    "blocks": 20,
+    "images": 1,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 37834,
+     "cached_input_tokens": 12544,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3906,
+     "reasoning_output_tokens": 229
+    },
+    "elapsedMs": 111549,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 2
+   },
+   {
+    "id": "payg",
+    "title": "Pay as you go",
+    "blocks": 9,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 31881,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 2767,
+     "reasoning_output_tokens": 298
+    },
+    "elapsedMs": 85353,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 2
+   },
+   {
+    "id": "tax-refund",
+    "title": "Tax refund or liability",
+    "blocks": 17,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 34138,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 2980,
+     "reasoning_output_tokens": 150
+    },
+    "elapsedMs": 78566,
+    "candidates": 0,
+    "discarded": [],
+    "suggestions": 2
+   },
+   {
+    "id": "medicare",
+    "title": "Medicare levy",
+    "blocks": 25,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 39510,
+     "cached_input_tokens": 12544,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3777,
+     "reasoning_output_tokens": 403
+    },
+    "elapsedMs": 107245,
+    "candidates": 0,
+    "discarded": [],
+    "suggestions": 2
+   }
+  ],
+  "dropped": [
+   {
+    "ids": [
+     "c1"
+    ],
+    "reason": "The mathematics is correct and available, but the task largely revisits the explicit month-versus-four-weeks explanation in p3-teaching-notes. Other suggestions make better use of the four available places.",
+    "candidates": [
+     {
+      "id": "c1",
+      "sequence": "units-time",
+      "kind": "extension",
+      "targets": [
+       "p3-q1-n"
+      ],
+      "finding": "Ask students to quantify the error produced by treating a month as four weeks."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c2"
+    ],
+    "reason": "The mathematics is correct, but fixed-rate proportional pay is already exposed by p7-q1. This is a lower-priority addition than the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c2",
+      "sequence": "wages",
+      "kind": "variation-sequence",
+      "targets": [
+       "p7-q1"
+      ],
+      "finding": "Use a fixed hourly rate to expose how pay changes with hours."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c3"
+    ],
+    "reason": "The calculations are correct and p5-example-jenny supplies the effective-hourly method. It is a valid extension, but lower priority than the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c3",
+      "sequence": "wages",
+      "kind": "extension",
+      "targets": [
+       "p11-q21"
+      ],
+      "finding": "Compare the two offers by both annual earnings and effective hourly earnings."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c5"
+    ],
+    "reason": "The equivalent-hours and earnings calculations are correct. The sequence is useful but lower priority than the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c5",
+      "sequence": "penalty-rates",
+      "kind": "variation-sequence",
+      "targets": [
+       "p18-q19-root"
+      ],
+      "finding": "Hold actual hours and the base wage fixed while changing the allocation between normal and time-and-a-half hours."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c6"
+    ],
+    "reason": "The 4:3 ratio is correct for a common positive hourly wage and uses available methods. It is lower priority than the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c6",
+      "sequence": "penalty-rates",
+      "kind": "extension",
+      "targets": [
+       "p20-q25-response"
+      ],
+      "finding": "Generalise which pairs of time-and-a-half and double-time hours earn the same amount."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c7"
+    ],
+    "reason": "The threshold calculations are correct. Its instructional purpose overlaps the retained commission-threshold sequence, which connects more directly to later progressive-tax teaching.",
+    "candidates": [
+     {
+      "id": "c7",
+      "sequence": "piecework",
+      "kind": "variation-sequence",
+      "targets": [
+       "p23-q4"
+      ],
+      "finding": "Keep the piece rates fixed and vary production across the threshold."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c8"
+    ],
+    "reason": "The calculations and whole-item condition are correct, but p22-example-larry already explicitly explains rounding up to meet an earnings target. Lower priority than the retained suggestions.",
+    "candidates": [
+     {
+      "id": "c8",
+      "sequence": "piecework",
+      "kind": "extension",
+      "targets": [
+       "p24-q11"
+      ],
+      "finding": "Find the productivity needed for piecework to match an hourly wage."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c11"
+    ],
+    "reason": "The break-even formula and cases are correct for positive R and non-negative sales. The symbolic generalisation is lower priority than the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c11",
+      "sequence": "royalties-commissions",
+      "kind": "extension",
+      "targets": [
+       "p30-q15-root"
+      ],
+      "finding": "Generalise the conditions under which two payment options have a break-even sales value."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c13"
+    ],
+    "reason": "The 40-hour threshold and comparisons are correct, but the task adds less to the booklet's existing pay comparisons than the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c13",
+      "sequence": "salary",
+      "kind": "extension",
+      "targets": [
+       "p37-q25"
+      ],
+      "finding": "Find when changing weekly hours reverses the annual-pay comparison between a fixed weekly payment and an hourly rate."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c16"
+    ],
+    "reason": "The calculations are correct, but the run changes both bonus amount and description rather than isolating the representation through equivalent bonuses. Lower priority than the retained suggestions.",
+    "candidates": [
+     {
+      "id": "c16",
+      "sequence": "bonuses-allowances",
+      "kind": "variation-sequence",
+      "targets": [
+       "p39-q3-block"
+      ],
+      "finding": "Compare percentage bonuses with bonuses expressed as months of the same annual salary."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c17"
+    ],
+    "reason": "The percentage formula and qualifying month counts are correct for positive salary. It is lower priority than the retained leave-loading generalisation.",
+    "candidates": [
+     {
+      "id": "c17",
+      "sequence": "bonuses-allowances",
+      "kind": "extension",
+      "targets": [
+       "p40-q13-block"
+      ],
+      "finding": "Generalise when a percentage bonus equals a bonus of a specified number of months' salary."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c20"
+    ],
+    "reason": "The equivalent-pay calculations, including $4230 for the follow-up, are correct and use available methods. Lower priority than the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c20",
+      "sequence": "leave-loading",
+      "kind": "variation-sequence",
+      "targets": [
+       "p44-q13"
+      ],
+      "finding": "Compare holiday pay for equivalent earnings expressed over different pay periods."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c22"
+    ],
+    "reason": "The rounding calculations are correct. The retained c23 investigates the same whole-dollar boundary more deeply, so a second suggestion on this distinction is unnecessary.",
+    "candidates": [
+     {
+      "id": "c22",
+      "sequence": "taxable-income",
+      "kind": "variation-sequence",
+      "targets": [
+       "p47-q5-root"
+      ],
+      "finding": "Hold deductions fixed and vary income cents across a whole-dollar boundary."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c24"
+    ],
+    "reason": "The claimed sharp jump is not established. p26-aspen already models removing a fixed amount and dividing to recover an unknown; percentage amounts are taught in royalties and commissions; p51 distinguishes whole-income percentages from marginal rates; and p56-q12 introduces recovering missing table entries. Q14 coordinates these taught methods as an end-of-exercise challenge. Its simpler later counterpart does not itself establish a high-severity breakdown.",
+    "candidates": [
+     {
+      "id": "c24",
+      "sequence": "income-tax",
+      "kind": "difficulty-jump",
+      "targets": [
+       "p57-q14-response",
+       "p57-q15-b"
+      ],
+      "finding": "p57-q14-response combines finding tax from an effective percentage with reversing the tax formula before students have practised reversing it with the tax total supplied."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c25"
+    ],
+    "reason": "All proposed tax and net-income calculations are correct. p51 already explicitly investigates crossing a bracket boundary, so this is lower priority than the retained suggestions.",
+    "candidates": [
+     {
+      "id": "c25",
+      "sequence": "income-tax",
+      "kind": "variation-sequence",
+      "targets": [
+       "p51-marginal-rate-conclusion"
+      ],
+      "finding": "Compare equal income increments around a tax-bracket boundary."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c26"
+    ],
+    "reason": "The argument is correct under the stated accumulated-base-tax and marginal-rate conditions. It extends a distinction already explicitly investigated in p51 and is lower priority than the retained suggestions.",
+    "candidates": [
+     {
+      "id": "c26",
+      "sequence": "income-tax",
+      "kind": "extension",
+      "targets": [
+       "p56-q12-root"
+      ],
+      "finding": "Explain the conditions under which a higher tax bracket can never make a pay rise reduce net income."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c27"
+    ],
+    "reason": "The preceding income-tax exercise already rehearses the relevant annual period counts and pay conversions in p53-q4: fortnightly, weekly and monthly earnings are converted to annual earnings. The annual-versus-period relationship is therefore not absent from the immediately preceding exercise, defeating the opening-review claim.",
+    "candidates": [
+     {
+      "id": "c27",
+      "sequence": "payg",
+      "kind": "opening-review",
+      "targets": [
+       "p58-payg-method",
+       "p58-charlie-payg",
+       "p58-charlie-net"
+      ],
+      "finding": "The topic has no opening review of the annual pay-period counts and annual-to-period pay conversion used directly in its worked example."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c28"
+    ],
+    "reason": "The deductions and annual checks are correct. The comparison is useful but lower priority than the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c28",
+      "sequence": "payg",
+      "kind": "variation-sequence",
+      "targets": [
+       "p59-q1"
+      ],
+      "finding": "Hold annual tax constant while changing the pay cycle to expose the relationship between payment frequency and deduction size."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c29"
+    ],
+    "reason": "The $0.24 rounding difference is correct and uses available methods. It is a valid extension but lower priority than the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c29",
+      "sequence": "payg",
+      "kind": "extension",
+      "targets": [
+       "p59-q3"
+      ],
+      "finding": "Investigate whether rounded periodic net payments always sum to annual gross income minus annual tax."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c30"
+    ],
+    "reason": "The balances and classifications are correct. p61-teaching-summary-block already explicitly states the zero-balance case, making this a lower-priority suggestion.",
+    "candidates": [
+     {
+      "id": "c30",
+      "sequence": "tax-refund",
+      "kind": "variation-sequence",
+      "targets": [
+       "p60-practice"
+      ],
+      "finding": "Hold tax payable fixed and vary instalments across the exact-payment boundary."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c31"
+    ],
+    "reason": "The balances and generalisation are correct, but the task closely revisits the explicit instalments-minus-tax relationship in p60 and p61. Lower priority than the retained suggestions.",
+    "candidates": [
+     {
+      "id": "c31",
+      "sequence": "tax-refund",
+      "kind": "extension",
+      "targets": [
+       "p64-q11"
+      ],
+      "finding": "Explain how changing instalments affects the year-end balance when taxable income stays fixed."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c32"
+    ],
+    "reason": "The taxable incomes and levies are correct. The retained c33 connects this deduction effect with marginal income tax and refunds, providing a stronger culminating extension.",
+    "candidates": [
+     {
+      "id": "c32",
+      "sequence": "medicare",
+      "kind": "variation-sequence",
+      "targets": [
+       "p67-q2"
+      ],
+      "finding": "Hold gross income fixed and vary deductions to expose the levy's dependence on taxable income."
+     }
+    ]
+   }
+  ],
+  "unchecked": [],
+  "suppressed": [],
+  "droppedQuestions": [],
+  "candidateFile": ".booklet-work/pedagogy-review/earning-money-v1/candidates-low-1791722426440.json",
+  "errors": []
+ },
+ "postedRevision": 673
+}

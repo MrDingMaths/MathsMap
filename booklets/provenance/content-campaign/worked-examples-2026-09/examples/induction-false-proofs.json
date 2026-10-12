@@ -1,0 +1,1443 @@
+{
+  "profile": "examples-only-20261011-v1",
+  "skillId": "induction-false-proofs",
+  "status": "published",
+  "baseline": {
+    "contentHash": "23a8c77b8654ff5b9ca4c0d6b2f4732842bc8f07168e4c810e2ce928d1dd297d",
+    "quizHash": "9a81717fc17599cef72c5546cbc76e9eda0a1cc9cfcc83fc8a4bcdeb51714dcb"
+  },
+  "sources": [
+    {
+      "path": "booklets/mathsmap-sources/Stage 6 Extension 1/Proof by Mathematical Induction.md",
+      "hash": "a3e07cd90054c90a916fdf5048f1149308ffcbb083ce0ddf18e7efa0d3b684ff"
+    }
+  ],
+  "sourceException": null,
+  "calls": [
+    {
+      "name": "author",
+      "code": 0,
+      "seconds": 64.7,
+      "usage": {
+        "input_tokens": 85947,
+        "cached_input_tokens": 20736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2606,
+        "reasoning_output_tokens": 152
+      },
+      "error": null,
+      "responsePath": ".booklet-work\\content-campaign\\worked-examples-2026-09\\examples\\induction-false-proofs\\author-sShF8L\\response.raw.txt"
+    },
+    {
+      "name": "review",
+      "code": 0,
+      "seconds": 26.1,
+      "usage": {
+        "input_tokens": 88189,
+        "cached_input_tokens": 20736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 866,
+        "reasoning_output_tokens": 62
+      },
+      "error": null,
+      "responsePath": ".booklet-work\\content-campaign\\worked-examples-2026-09\\examples\\induction-false-proofs\\review-4z8Ulb\\response.raw.txt"
+    },
+    {
+      "name": "visual-review",
+      "code": 0,
+      "seconds": 12.7,
+      "usage": {
+        "input_tokens": 42616,
+        "cached_input_tokens": 20736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 276,
+        "reasoning_output_tokens": 50
+      },
+      "error": null,
+      "responsePath": ".booklet-work\\content-campaign\\worked-examples-2026-09\\examples\\induction-false-proofs\\visual-review-ONHmvt\\response.raw.txt"
+    },
+    {
+      "name": "visual-review",
+      "code": 0,
+      "seconds": 10.2,
+      "usage": {
+        "input_tokens": 43769,
+        "cached_input_tokens": 20736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 238,
+        "reasoning_output_tokens": 32
+      },
+      "error": null,
+      "responsePath": ".booklet-work\\content-campaign\\worked-examples-2026-09\\examples\\induction-false-proofs\\visual-review-ulwS9a\\response.raw.txt"
+    }
+  ],
+  "startedAt": "2026-10-11T11:35:53.451Z",
+  "evidence": {
+    "stage": 6,
+    "files": [
+      "booklets/mathsmap-sources/Stage 6 Extension 1/Proof by Mathematical Induction.md"
+    ],
+    "booklets": [
+      {
+        "path": "booklets/mathsmap-sources/Stage 6 Extension 1/Proof by Mathematical Induction.md",
+        "ranges": null,
+        "lines": 2424,
+        "outline": [
+          "26 Syllabus Content",
+          "41 Proofs of Sums",
+          "1230 Proofs of Divisibility",
+          "1962 Exam Questions"
+        ]
+      }
+    ],
+    "spans": [],
+    "section": null,
+    "sections": [],
+    "unsupplied": [],
+    "images": [],
+    "omittedImageEntries": [],
+    "omittedImages": 0,
+    "duplicateImages": 0,
+    "bytes": 96880
+  },
+  "retainedSources": [],
+  "candidateHash": "732eaac98023450e713c99f82ac4826dc5ef1ffbf2e787de88c0a601622494dc",
+  "candidatePath": ".booklet-work\\content-campaign\\worked-examples-2026-09\\examples\\induction-false-proofs\\candidate.json",
+  "coverage": {
+    "skillId": "induction-false-proofs",
+    "blocker": null,
+    "examples": [
+      {
+        "question_text": "Suppose $4 + 12 + 20 + \\dots + 4(2n-1)=4n^2+5$ is true for $n=k$. Show that it is true for $n=k+1$, then explain why this does not prove the claim for all integers $n\\ge1$.",
+        "solution_text": "Assume $4+12+\\dots+4(2k-1)=4k^2+5$ for an integer $k\\ge1$.\n\nThe next term is $4(2(k+1)-1)=8k+4$. Using the assumption,\n\n$\\begin{aligned} &\\mathrel{\\phantom{=}}4+12+\\dots+4(2k-1)+(8k+4)\\\\ &=4k^2+5+8k+4\\\\ &=4(k+1)^2+5.\\end{aligned}$\n\nThe conditional step is valid. However, at $n=1$, the left side is $4$ and the right side is $4+5=9$. The base case is false, so the universal claim is false. A valid conditional step cannot replace a true base case."
+      },
+      {
+        "question_text": "Prove or disprove $6+12+18+\\dots+6n=2n(n+1)+2$ for all integers $n\\ge1$.",
+        "solution_text": "At $n=1$, the left side is $6$ and the right side is $2(1)(2)+2=6$. This verifies only one case.\n\nAt $n=2$,\n\n$\\begin{aligned} LHS&=6+12=18,\\\\ RHS&=2(2)(3)+2=14.\\end{aligned}$\n\nSince $18\\ne14$, $n=2$ is a counterexample. One counterexample disproves the universal claim."
+      },
+      {
+        "question_text": "A student verifies $2+7+12+\\dots+(5n-3)=\\dfrac{n(5n-1)}{2}$ at $n=1$ and establishes the next case from the $n=k$ case for every integer $k\\ge1$. The student concludes that the formula holds for all real numbers $n\\ge1$. Explain the error and state the conclusion supported by the proof.",
+        "solution_text": "The base case and step cover integer indices: $1,2,3,\\dots$. Stepping from $k$ to $k+1$ does not reach the real numbers between these integers. The number of terms in this sum also requires an integer index.\n\nThe supported conclusion is that the formula holds for all integers $n\\ge1$. It cannot be proved for all real numbers by induction on $n$ as stated."
+      },
+      {
+        "question_text": "Two students attempt the inductive step for $2(1)(2)+2(2)(3)+\\dots+2n(n+1)=\\dfrac{2n(n+1)(n+2)}{3}$.\n\nBoth assume the formula is true at $n=k$.\n\nStudent A substitutes the hypothesis into the first $k$ terms, then factorises the resulting left side.\n\nStudent B substitutes the hypothesis into the first $k$ terms, writes the proposed next-case equation, multiplies both sides by $3$ and expands. Both sides become $2k^3+12k^2+22k+12$.\n\nDecide whether each approach establishes the inductive step. Does this step alone complete the proof?",
+        "solution_text": "Student A's approach is valid. Using the hypothesis,\n\n$\\begin{aligned} &\\mathrel{\\phantom{=}}\\frac{2k(k+1)(k+2)}{3}+2(k+1)(k+2)\\\\ &=\\frac{2(k+1)(k+2)(k+3)}{3}.\\end{aligned}$\n\nThis is the required right side for $n=k+1$.\n\nStudent B's approach is also valid. After substituting the hypothesis, the required equation is\n\n$\\frac{2k(k+1)(k+2)}{3}+2(k+1)(k+2)=\\frac{2(k+1)(k+2)(k+3)}{3}$.\n\nMultiplication by the non-zero number $3$ and expansion are reversible. Both sides simplify to $2k^3+12k^2+22k+12$, so reversing those operations verifies the required equation. This establishes the next case rather than merely assuming it.\n\nBoth approaches establish the conditional step. A complete induction proof must also verify the base case and state the conclusion for the integer domain."
+      }
+    ],
+    "methods": [
+      {
+        "id": "conditional-step-false-base",
+        "description": "Use the inductive hypothesis and add the next term to establish the conditional step, then test the base case and reject the universal conclusion when it fails.",
+        "sourceRef": "booklets/mathsmap-sources/Stage 6 Extension 1/Proof by Mathematical Induction.md lines 628–648, Proofs of Sums Development 1(k)"
+      },
+      {
+        "id": "counterexample",
+        "description": "Evaluate a claimed sum, primality or divisibility statement at a suitable integer; one failing value disproves the universal claim.",
+        "sourceRef": "booklets/mathsmap-sources/Stage 6 Extension 1/Proof by Mathematical Induction.md lines 44–77, nature-of-proof investigation; lines 649–652, Proofs of Sums Development 1(l)"
+      },
+      {
+        "id": "integer-domain",
+        "description": "Identify the integer indices reached by the base case and successor step, and distinguish them from an unsupported conclusion over all real values.",
+        "sourceRef": "booklets/mathsmap-sources/Stage 6 Extension 1/Proof by Mathematical Induction.md lines 195–209, induction Key Ideas; lines 654–663, Proofs of Sums Development 1(m–n)"
+      },
+      {
+        "id": "verify-inductive-step",
+        "description": "After using the hypothesis, verify the next-case identity by left-side simplification or justified reversible operations; distinguish a valid step from a complete induction proof.",
+        "sourceRef": "booklets/mathsmap-sources/Stage 6 Extension 1/Proof by Mathematical Induction.md lines 817–851, Proofs of Sums Development 2(e); lines 200–209, required induction structure"
+      }
+    ],
+    "assessmentMappings": [
+      {
+        "where": "practice.foundation[0]",
+        "methodIds": [
+          "conditional-step-false-base"
+        ]
+      },
+      {
+        "where": "practice.foundation[1]",
+        "methodIds": [
+          "counterexample"
+        ]
+      },
+      {
+        "where": "practice.foundation[2]",
+        "methodIds": [
+          "integer-domain"
+        ]
+      },
+      {
+        "where": "practice.foundation[3]",
+        "methodIds": [
+          "counterexample"
+        ]
+      },
+      {
+        "where": "practice.foundation[4]",
+        "methodIds": [
+          "counterexample"
+        ]
+      },
+      {
+        "where": "practice.foundation[5]",
+        "methodIds": [
+          "conditional-step-false-base"
+        ]
+      },
+      {
+        "where": "practice.development[0]",
+        "methodIds": [
+          "conditional-step-false-base"
+        ]
+      },
+      {
+        "where": "practice.development[1]",
+        "methodIds": [
+          "conditional-step-false-base"
+        ]
+      },
+      {
+        "where": "practice.development[2]",
+        "methodIds": [
+          "counterexample"
+        ]
+      },
+      {
+        "where": "practice.development[3]",
+        "methodIds": [
+          "integer-domain"
+        ]
+      },
+      {
+        "where": "practice.development[4]",
+        "methodIds": [
+          "counterexample"
+        ]
+      },
+      {
+        "where": "practice.development[5]",
+        "methodIds": [
+          "integer-domain"
+        ]
+      },
+      {
+        "where": "practice.mastery[0]",
+        "methodIds": [
+          "conditional-step-false-base"
+        ]
+      },
+      {
+        "where": "practice.mastery[1]",
+        "methodIds": [
+          "verify-inductive-step"
+        ]
+      },
+      {
+        "where": "practice.mastery[2]",
+        "methodIds": [
+          "conditional-step-false-base"
+        ]
+      },
+      {
+        "where": "quiz.q1",
+        "methodIds": [
+          "counterexample"
+        ]
+      },
+      {
+        "where": "quiz.q2",
+        "methodIds": [
+          "conditional-step-false-base"
+        ]
+      },
+      {
+        "where": "quiz.q3",
+        "methodIds": [
+          "counterexample"
+        ]
+      },
+      {
+        "where": "quiz.q4",
+        "methodIds": [
+          "conditional-step-false-base"
+        ]
+      },
+      {
+        "where": "quiz.q5",
+        "methodIds": [
+          "integer-domain"
+        ]
+      },
+      {
+        "where": "quiz.q6",
+        "methodIds": [
+          "counterexample"
+        ]
+      },
+      {
+        "where": "quiz.q7",
+        "methodIds": [
+          "counterexample"
+        ]
+      },
+      {
+        "where": "quiz.q8",
+        "methodIds": [
+          "conditional-step-false-base"
+        ]
+      }
+    ],
+    "exampleMappings": [
+      {
+        "index": 0,
+        "methodIds": [
+          "conditional-step-false-base"
+        ],
+        "sourceRef": "booklets/mathsmap-sources/Stage 6 Extension 1/Proof by Mathematical Induction.md lines 628–648, Proofs of Sums Development 1(k); adapted coefficients and constant"
+      },
+      {
+        "index": 1,
+        "methodIds": [
+          "counterexample"
+        ],
+        "sourceRef": "booklets/mathsmap-sources/Stage 6 Extension 1/Proof by Mathematical Induction.md lines 649–652, Proofs of Sums Development 1(l); adapted values"
+      },
+      {
+        "index": 2,
+        "methodIds": [
+          "integer-domain"
+        ],
+        "sourceRef": "booklets/mathsmap-sources/Stage 6 Extension 1/Proof by Mathematical Induction.md lines 654–657, Proofs of Sums Development 1(m); adapted arithmetic progression and conclusion"
+      },
+      {
+        "index": 3,
+        "methodIds": [
+          "verify-inductive-step"
+        ],
+        "sourceRef": "booklets/mathsmap-sources/Stage 6 Extension 1/Proof by Mathematical Induction.md lines 817–851, Proofs of Sums Development 2(e); doubled terms, with the retained assessment's accepted reversible-verification comparison"
+      }
+    ],
+    "existingExamples": [],
+    "summary": "Authored four worked examples covering the distinct retained assessment methods, with one mapping for each of the 23 exact assessment locators. Existing examples: none. Assessments were classified only; their mathematics was neither altered nor re-audited. Examples use separate editable prompts and solutions, single-dollar mathematics, plain explanatory prose and phantom gutters where required. Solution ink inherits the renderer's #268cff styling. No diagrams are needed for these symbolic and logical methods. Independent example review and actual visual capture remain later stages."
+  },
+  "review": {
+    "coverageComplete": true,
+    "distinctMethodsConfirmed": true,
+    "existingExamplesAudited": true,
+    "sourceExceptionConfirmed": true,
+    "examples": [
+      {
+        "index": 0,
+        "sourceConfirmed": true,
+        "methodConfirmed": true,
+        "scopeConfirmed": true,
+        "calculationsConfirmed": true,
+        "answerConfirmed": true,
+        "diagramConsistencyConfirmed": true,
+        "derivation": "The next term is 4(2(k+1)-1)=8k+4. Substituting the hypothesis gives 4k²+5+8k+4=4(k+1)²+5, establishing the conditional step. At n=1, the sides are 4 and 9, so the universal claim is false. This adapts the false-base-case method at source lines 628–648."
+      },
+      {
+        "index": 1,
+        "sourceConfirmed": true,
+        "methodConfirmed": true,
+        "scopeConfirmed": true,
+        "calculationsConfirmed": true,
+        "answerConfirmed": true,
+        "diagramConsistencyConfirmed": true,
+        "derivation": "At n=1, both sides equal 6. At n=2, the sum is 6+12=18 while the proposed expression is 2·2·3+2=14. Thus n=2 disproves the claim, following the counterexample method at source lines 649–652."
+      },
+      {
+        "index": 2,
+        "sourceConfirmed": true,
+        "methodConfirmed": true,
+        "scopeConfirmed": true,
+        "calculationsConfirmed": true,
+        "answerConfirmed": true,
+        "diagramConsistencyConfirmed": true,
+        "derivation": "The progression has nth term 5n−3. Its base case gives 2=1(5−1)/2. Adding 5k+2 to k(5k−1)/2 gives (5k²+9k+4)/2=(k+1)(5k+4)/2, the next integer case. Successor steps reach precisely the integers n≥1, not intervening real values; the finite sum also requires an integer term count. This follows source lines 195–209 and 654–657."
+      },
+      {
+        "index": 3,
+        "sourceConfirmed": true,
+        "methodConfirmed": true,
+        "scopeConfirmed": true,
+        "calculationsConfirmed": true,
+        "answerConfirmed": true,
+        "diagramConsistencyConfirmed": true,
+        "derivation": "After hypothesis substitution, factoring gives 2k(k+1)(k+2)/3+2(k+1)(k+2)=2(k+1)(k+2)(k+3)/3. Multiplying by 3 gives left side 2k(k+1)(k+2)+6(k+1)(k+2); both sides expand to 2k³+12k²+22k+12. These reversible operations verify the identity. Both approaches establish the step, while a complete proof also requires the base case and integer-domain conclusion. The factorisation follows source lines 817–851; reversible verification preserves the explicitly accepted assessment method."
+      }
+    ],
+    "findings": [],
+    "summary": "All four examples pass independent mathematical, source, method and scope review. The four distinct assessed methods are covered, and all 23 exact assessment locators are mapped once. There are no existing examples to audit. Required phantom gutters are present; independent equations correctly omit them. Prompts and solutions remain separate, prose stays editable, and solution colour inherits the supplied renderer styling. No diagrams or solid reviews are required. Accepted practice and quiz mathematics was not re-audited. Actual rendering verification remains for the later visual stage."
+  },
+  "findings": [],
+  "inspectionsRequired": [
+    {
+      "index": 0,
+      "exampleHash": "d1f95c94fc69863c7742ff81f50a9c2375f6a63d044fc24413fc3c0916c505f3",
+      "diagramHash": null
+    },
+    {
+      "index": 1,
+      "exampleHash": "0bb3945b80f17b7829cf034c8de21083f4bcda05d7bce63a0f6bcf71b17f183f",
+      "diagramHash": null
+    },
+    {
+      "index": 2,
+      "exampleHash": "b0fd7c5b464baa0b1adce0a051a3d25bdb8e13831821a9b385765d7ddc080103",
+      "diagramHash": null
+    },
+    {
+      "index": 3,
+      "exampleHash": "a6df7d75934a3391ae9c8c02126730f3e0059724579460b7dbeed1d79c90ccdd",
+      "diagramHash": null
+    }
+  ],
+  "exampleCount": 4,
+  "render": {
+    "profile": "worked-examples-render-v1",
+    "theme": "light",
+    "skillId": "induction-false-proofs",
+    "candidateHash": "732eaac98023450e713c99f82ac4826dc5ef1ffbf2e787de88c0a601622494dc",
+    "theoryHash": "df1ef445f2d5c946329a99b2d0750c9ef9929a18fad71fae3d22f73fa125120d",
+    "capturedAt": "2026-10-12T01:16:39.022Z",
+    "baseUrl": "http://127.0.0.1:5173",
+    "browserVersion": "154.0.8037.98",
+    "dependencies": [
+      {
+        "path": "src/components/TheoryView.svelte",
+        "hash": "500f2453b0916d108ab7ba222174b148cc8770506f1daefea6199061f3813b88"
+      },
+      {
+        "path": "src/components/InlineContent.svelte",
+        "hash": "c6a40a7372dc7105d11faa01b1155030f7fc26718da6635414080ce4ed2175b5"
+      },
+      {
+        "path": "src/components/Math.svelte",
+        "hash": "ec898290e31b5affdaa25e3a2234118d7243dc07ef305cf4e44aa12a032fd0b2"
+      },
+      {
+        "path": "src/components/Tikz.svelte",
+        "hash": "28cd7f32f5a15d1cefc803f85b826fdc04ff5ff701a4b10c09121be4536beaa5"
+      },
+      {
+        "path": "src/lib/theory-content.js",
+        "hash": "140e395efdab705b43f44ad54a65609033bcd9325b49b7ae7fe2eaa92c27ede0"
+      },
+      {
+        "path": "src/lib/booklet-teaching-alignment.js",
+        "hash": "73b117dc0e983591b281a78de1e2fd9c26dd7d56ad85277ddc015a0c63a356d8"
+      },
+      {
+        "path": "src/lib/inline-content.js",
+        "hash": "05a036e7fdf036a5038e3333c0858ebf26177cf409b334197313cc0957f991f5"
+      },
+      {
+        "path": "src/lib/render-math.js",
+        "hash": "23d0f5e7619d1d00c588c974e3fb45a796ee1c26d4af0306eb9e2b8f89704aa8"
+      },
+      {
+        "path": "src/lib/document-content.js",
+        "hash": "99dcb0bee7d8920e00b9c0bbf7c57b286ba379304a401556d0c3236951127fdb"
+      },
+      {
+        "path": "src/lib/tikz.js",
+        "hash": "8ce83cb4031b80f21f5f329a0e2da8d8eef1dec42c69f09024478c4b67c8be29"
+      },
+      {
+        "path": "src/lib/tikz-prepare.js",
+        "hash": "ea45c0422436e47be1242d17cf593bb9d3e1ad1c6f165ab839ce7876b76b742c"
+      },
+      {
+        "path": "src/app.css",
+        "hash": "70f12bb276e121479cb3d977730260d58ecf0ded9a2eae901926b7c8cbcc6bf5"
+      },
+      {
+        "path": "src/views/SkillDetail.svelte",
+        "hash": "ed740c082c939c8cd1c236e6e3e4987461e52739e5462371c617d3561804e1e7"
+      },
+      {
+        "path": "scripts/content/examples-capture.mjs",
+        "hash": "87aecf6e3208964ca604cc3d692487137e19d2cbed21b1eb2a0cdf0604c9469d"
+      },
+      {
+        "path": "src/lib/math-writing-box.js",
+        "hash": "5fba0f5670bfe20f2bad7da27f7bf1abb152268b920925d9f6a9600b701206d5"
+      },
+      {
+        "path": "src/lib/graph-strokes.js",
+        "hash": "cca24f070f89fbc0aea5a8ca6444c3fe500142c0ad88fc7a13d35bf58b4550e6"
+      },
+      {
+        "path": "src/lib/diagram-label-space.js",
+        "hash": "fe358a9309811f05f1da1ef376140d7c1a778d304405293a05fd3b6352356258"
+      },
+      {
+        "path": "src/lib/diagram-typography.js",
+        "hash": "e40574010419b90f951016200d9228f0633573ef0e97a83f228e3a29f6146190"
+      },
+      {
+        "path": "src/lib/diagram-label-geometry.js",
+        "hash": "d4140310d146f5ba2d1c91f0b79fa81f77deec978dafa6bf4f00889ee6499974"
+      },
+      {
+        "path": "src/lib/svg-paint-scope.js",
+        "hash": "424428e042a886a388b4920c32d93198370d9d1704ca05a083d3645f08deabc2"
+      },
+      {
+        "path": "src/lib/diagram-colours.js",
+        "hash": "2983da943b2648ff47833c15f941828bd3da4f54af56c8421d6012e7f80a8be5"
+      },
+      {
+        "path": "src/lib/booklet-render-cache.js",
+        "hash": "6d68f9f85dad7cb182c806767fd15c49429bd8b1a906d0a50ccdc489d0ddb62f"
+      },
+      {
+        "path": "public/libs/maths-editor/document-model.mjs",
+        "hash": "b8dbdf049dbc42b4f49b20216c3c70d310c30b55be2d3abb346159f64437bd64"
+      },
+      {
+        "path": "public/libs/maths-editor/annotated-equation.mjs",
+        "hash": "a24cd4e47d8c93804a36af3fb8872b42b068be593465f9556ef526044b933ad9"
+      },
+      {
+        "path": "public/libs/maths-editor/cloze-leader.mjs",
+        "hash": "7bb528976f2a432e23ba9c17df25fb00ec6f78d9bf73424725aebf59d9a60d39"
+      },
+      {
+        "path": "public/libs/maths-editor/cloze-answer.mjs",
+        "hash": "d96a11d80adc24b2d1868d10f1e4a44e15ba5f119f3e7d3058412c70277d8c74"
+      },
+      {
+        "path": "public/libs/maths-editor/house-style.mjs",
+        "hash": "919e307fe9c7ff0c801c293380930febab1d36593f25c685f500459e178fa844"
+      },
+      {
+        "path": "public/libs/maths-editor/table-model.mjs",
+        "hash": "0a14be96c1bfe72b8a6b76a1874cae78f632ecd62cff5fbdaf5a4267ef47577d"
+      },
+      {
+        "path": "public/libs/maths-editor/table-part-label.mjs",
+        "hash": "75cf3f4e02d23992daac0166ce1d84628939a62608caeb2676b8c706f252e72d"
+      },
+      {
+        "path": "public/libs/maths-editor/table-borders.mjs",
+        "hash": "69a4240471b76fd705bc165e53d1e9cf391c0786edcedfff0ed3d2b39f1bc5cc"
+      },
+      {
+        "path": "public/libs/maths-editor/equation-spacing.mjs",
+        "hash": "b66f36fdd837e6231d1f9b347104619bf7498c974d3c11486911a8b2984e6c8f"
+      },
+      {
+        "path": "public/libs/maths-editor/booklet-palette.mjs",
+        "hash": "1619f4cbff1d514f45a8ec759d953257f0ae9de0f0d7610c1d8c168d0842bd8e"
+      },
+      {
+        "path": "node_modules/katex/dist/katex.mjs",
+        "hash": "82197f25be72b21d0bdd4c37458f510b652ab096ab74d12ca38d05aff3432721"
+      },
+      {
+        "path": "node_modules/katex/dist/katex.min.css",
+        "hash": "a34ad8fc188e8f5a3af7ceaa2a58d7210c6c9171335a15bff2b48ebcd6a6f5b0"
+      },
+      {
+        "path": "public/libs/tikzjax/tikzjax.js",
+        "hash": "e34944ee5a7136155040624e6c62197f9d9f39b3e72b7316ff04d42e23875653"
+      },
+      {
+        "path": "public/libs/tikzjax/fonts.css",
+        "hash": "8ef123aad1009668e28238974263cf321eb5e9f5a8e2cba222758d948ce076af"
+      }
+    ],
+    "indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "rows": [
+      {
+        "index": 0,
+        "viewport": "desktop",
+        "itemHash": "d1f95c94fc69863c7742ff81f50a9c2375f6a63d044fc24413fc3c0916c505f3",
+        "questionVisible": true,
+        "solutionVisible": true,
+        "fontsReady": true,
+        "questionInkErrors": [],
+        "solutionInkErrors": [],
+        "katexErrors": 0,
+        "diagramErrors": 0,
+        "diagramsReady": true,
+        "overflow": false,
+        "mathOutsideExample": 0,
+        "scrollableMath": [],
+        "width": 798.8125,
+        "height": 315.234375
+      },
+      {
+        "index": 1,
+        "viewport": "desktop",
+        "itemHash": "0bb3945b80f17b7829cf034c8de21083f4bcda05d7bce63a0f6bcf71b17f183f",
+        "questionVisible": true,
+        "solutionVisible": true,
+        "fontsReady": true,
+        "questionInkErrors": [],
+        "solutionInkErrors": [],
+        "katexErrors": 0,
+        "diagramErrors": 0,
+        "diagramsReady": true,
+        "overflow": false,
+        "mathOutsideExample": 0,
+        "scrollableMath": [],
+        "width": 798.8125,
+        "height": 240.28125
+      },
+      {
+        "index": 2,
+        "viewport": "desktop",
+        "itemHash": "b0fd7c5b464baa0b1adce0a051a3d25bdb8e13831821a9b385765d7ddc080103",
+        "questionVisible": true,
+        "solutionVisible": true,
+        "fontsReady": true,
+        "questionInkErrors": [],
+        "solutionInkErrors": [],
+        "katexErrors": 0,
+        "diagramErrors": 0,
+        "diagramsReady": true,
+        "overflow": false,
+        "mathOutsideExample": 0,
+        "scrollableMath": [],
+        "width": 798.8125,
+        "height": 270.140625
+      },
+      {
+        "index": 3,
+        "viewport": "desktop",
+        "itemHash": "a6df7d75934a3391ae9c8c02126730f3e0059724579460b7dbeed1d79c90ccdd",
+        "questionVisible": true,
+        "solutionVisible": true,
+        "fontsReady": true,
+        "questionInkErrors": [],
+        "solutionInkErrors": [],
+        "katexErrors": 0,
+        "diagramErrors": 0,
+        "diagramsReady": true,
+        "overflow": false,
+        "mathOutsideExample": 0,
+        "scrollableMath": [],
+        "width": 798.8125,
+        "height": 657.046875
+      },
+      {
+        "index": 0,
+        "viewport": "mobile",
+        "itemHash": "d1f95c94fc69863c7742ff81f50a9c2375f6a63d044fc24413fc3c0916c505f3",
+        "questionVisible": true,
+        "solutionVisible": true,
+        "fontsReady": true,
+        "questionInkErrors": [],
+        "solutionInkErrors": [],
+        "katexErrors": 0,
+        "diagramErrors": 0,
+        "diagramsReady": true,
+        "overflow": false,
+        "mathOutsideExample": 0,
+        "scrollableMath": [
+          {
+            "lineIndex": 0,
+            "containerKind": "math",
+            "clientWidth": 281,
+            "scrollWidth": 289,
+            "maxScrollLeft": 8,
+            "reachedEnd": true,
+            "overflowX": "auto",
+            "mode": "horizontal-scroll"
+          }
+        ],
+        "width": 314.8125,
+        "height": 609.921875
+      },
+      {
+        "index": 1,
+        "viewport": "mobile",
+        "itemHash": "0bb3945b80f17b7829cf034c8de21083f4bcda05d7bce63a0f6bcf71b17f183f",
+        "questionVisible": true,
+        "solutionVisible": true,
+        "fontsReady": true,
+        "questionInkErrors": [],
+        "solutionInkErrors": [],
+        "katexErrors": 0,
+        "diagramErrors": 0,
+        "diagramsReady": true,
+        "overflow": false,
+        "mathOutsideExample": 0,
+        "scrollableMath": [
+          {
+            "lineIndex": 0,
+            "containerKind": "math",
+            "clientWidth": 281,
+            "scrollWidth": 284,
+            "maxScrollLeft": 3,
+            "reachedEnd": true,
+            "overflowX": "auto",
+            "mode": "horizontal-scroll"
+          }
+        ],
+        "width": 314.8125,
+        "height": 387.625
+      },
+      {
+        "index": 2,
+        "viewport": "mobile",
+        "itemHash": "b0fd7c5b464baa0b1adce0a051a3d25bdb8e13831821a9b385765d7ddc080103",
+        "questionVisible": true,
+        "solutionVisible": true,
+        "fontsReady": true,
+        "questionInkErrors": [],
+        "solutionInkErrors": [],
+        "katexErrors": 0,
+        "diagramErrors": 0,
+        "diagramsReady": true,
+        "overflow": false,
+        "mathOutsideExample": 0,
+        "scrollableMath": [
+          {
+            "lineIndex": 0,
+            "containerKind": "math",
+            "clientWidth": 281,
+            "scrollWidth": 293,
+            "maxScrollLeft": 12,
+            "reachedEnd": true,
+            "overflowX": "auto",
+            "mode": "horizontal-scroll"
+          }
+        ],
+        "width": 314.8125,
+        "height": 539.234375
+      },
+      {
+        "index": 3,
+        "viewport": "mobile",
+        "itemHash": "a6df7d75934a3391ae9c8c02126730f3e0059724579460b7dbeed1d79c90ccdd",
+        "questionVisible": true,
+        "solutionVisible": true,
+        "fontsReady": true,
+        "questionInkErrors": [],
+        "solutionInkErrors": [],
+        "katexErrors": 0,
+        "diagramErrors": 0,
+        "diagramsReady": true,
+        "overflow": false,
+        "mathOutsideExample": 0,
+        "scrollableMath": [
+          {
+            "lineIndex": 0,
+            "containerKind": "math",
+            "clientWidth": 281,
+            "scrollWidth": 404,
+            "maxScrollLeft": 123,
+            "reachedEnd": true,
+            "overflowX": "auto",
+            "mode": "horizontal-scroll"
+          },
+          {
+            "lineIndex": 9,
+            "containerKind": "math",
+            "clientWidth": 281,
+            "scrollWidth": 444,
+            "maxScrollLeft": 163,
+            "reachedEnd": true,
+            "overflowX": "auto",
+            "mode": "horizontal-scroll"
+          }
+        ],
+        "width": 314.8125,
+        "height": 1242.609375
+      }
+    ],
+    "artifacts": [
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/desktop-example-1.png",
+        "hash": "c201698e943efbcaa9ce94d3ea54c791e1e7f3b6b4a21a17e5de244119cbc92d",
+        "index": 0,
+        "viewport": "desktop",
+        "kind": "example",
+        "itemHash": "d1f95c94fc69863c7742ff81f50a9c2375f6a63d044fc24413fc3c0916c505f3",
+        "framing": "actual target element; atomic document coordinates and stable native screenshot",
+        "clip": {
+          "x": 45,
+          "y": 1018,
+          "width": 800,
+          "height": 316,
+          "scale": 1
+        }
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/desktop-example-1-question.png",
+        "hash": "a57b7e204eef602f7a16ff4a0611f174113294d8bd57cf3d169ba01ce0f2b4fe",
+        "index": 0,
+        "viewport": "desktop",
+        "kind": "question-only",
+        "solutionHidden": true,
+        "itemHash": "d1f95c94fc69863c7742ff81f50a9c2375f6a63d044fc24413fc3c0916c505f3",
+        "clip": {
+          "x": 45,
+          "y": 1018,
+          "width": 800,
+          "height": 119,
+          "scale": 1
+        }
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/desktop-example-2.png",
+        "hash": "253a301e14f77d5f9e28a275f0f88f73be53d4a6bf1332fdc6d8ae8a539fa652",
+        "index": 1,
+        "viewport": "desktop",
+        "kind": "example",
+        "itemHash": "0bb3945b80f17b7829cf034c8de21083f4bcda05d7bce63a0f6bcf71b17f183f",
+        "framing": "actual target element; atomic document coordinates and stable native screenshot",
+        "clip": {
+          "x": 45,
+          "y": 1349,
+          "width": 800,
+          "height": 241,
+          "scale": 1
+        }
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/desktop-example-2-question.png",
+        "hash": "9699ff2a1da746eaa8b786912decc383461b2b66b30f51bcad1206e062cb9d4e",
+        "index": 1,
+        "viewport": "desktop",
+        "kind": "question-only",
+        "solutionHidden": true,
+        "itemHash": "0bb3945b80f17b7829cf034c8de21083f4bcda05d7bce63a0f6bcf71b17f183f",
+        "clip": {
+          "x": 45,
+          "y": 1349,
+          "width": 800,
+          "height": 95,
+          "scale": 1
+        }
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/desktop-example-3.png",
+        "hash": "aa19aa73d65db9bfedda5806a1cf3d4fb80977e3d9681f696f7bf9797ded68b0",
+        "index": 2,
+        "viewport": "desktop",
+        "kind": "example",
+        "itemHash": "b0fd7c5b464baa0b1adce0a051a3d25bdb8e13831821a9b385765d7ddc080103",
+        "framing": "actual target element; atomic document coordinates and stable native screenshot",
+        "clip": {
+          "x": 45,
+          "y": 1605,
+          "width": 800,
+          "height": 272,
+          "scale": 1
+        }
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/desktop-example-3-question.png",
+        "hash": "646dc3a42c0e919ff219ac2642ebbbc91a229038ea1efa69a694016a675b4bac",
+        "index": 2,
+        "viewport": "desktop",
+        "kind": "question-only",
+        "solutionHidden": true,
+        "itemHash": "b0fd7c5b464baa0b1adce0a051a3d25bdb8e13831821a9b385765d7ddc080103",
+        "clip": {
+          "x": 45,
+          "y": 1605,
+          "width": 800,
+          "height": 164,
+          "scale": 1
+        }
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/desktop-example-4.png",
+        "hash": "d119da3c30225c83a35e250578299ca515230c5cff2553d4ab1a682e7ea0f787",
+        "index": 3,
+        "viewport": "desktop",
+        "kind": "example",
+        "itemHash": "a6df7d75934a3391ae9c8c02126730f3e0059724579460b7dbeed1d79c90ccdd",
+        "framing": "actual target element; atomic document coordinates and stable native screenshot",
+        "clip": {
+          "x": 45,
+          "y": 1892,
+          "width": 800,
+          "height": 658,
+          "scale": 1
+        }
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/desktop-example-4-question.png",
+        "hash": "5ba76285c4183bdfbc0fd17a7b1ac636f344ca4bfc3193aa28611e38057e2727",
+        "index": 3,
+        "viewport": "desktop",
+        "kind": "question-only",
+        "solutionHidden": true,
+        "itemHash": "a6df7d75934a3391ae9c8c02126730f3e0059724579460b7dbeed1d79c90ccdd",
+        "clip": {
+          "x": 45,
+          "y": 1892,
+          "width": 800,
+          "height": 270,
+          "scale": 1
+        }
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-1.png",
+        "hash": "8e334ac008bb6f9948f9411784244c3862207641816bffc9c1a9041e38f63b5c",
+        "index": 0,
+        "viewport": "mobile",
+        "kind": "example",
+        "itemHash": "d1f95c94fc69863c7742ff81f50a9c2375f6a63d044fc24413fc3c0916c505f3",
+        "framing": "actual target element; atomic document coordinates and stable native screenshot",
+        "clip": {
+          "x": 37,
+          "y": 1826,
+          "width": 316,
+          "height": 611,
+          "scale": 1
+        }
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-1-math-1-full-ink.png",
+        "hash": "6899de53939123656479e5d9182a76a8604bcc3c4ed3bf38572ec83e6e9f0498",
+        "index": 0,
+        "viewport": "mobile",
+        "kind": "math-full-ink",
+        "lineIndex": 0,
+        "itemHash": "d1f95c94fc69863c7742ff81f50a9c2375f6a63d044fc24413fc3c0916c505f3",
+        "clip": {
+          "x": 38,
+          "y": 1852,
+          "width": 322,
+          "height": 177,
+          "scale": 1
+        },
+        "scroll": {
+          "lineIndex": 0,
+          "containerKind": "math",
+          "clientWidth": 281,
+          "scrollWidth": 289,
+          "maxScrollLeft": 8,
+          "reachedEnd": true,
+          "overflowX": "auto",
+          "mode": "horizontal-scroll"
+        },
+        "framing": "Overflowing calculation/table temporarily expanded; native glyph size and all other text wrapping retained."
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-1-question.png",
+        "hash": "1da12dbdd6ca650990e869e26fe422c0792635839cf083e002941efc50cb2788",
+        "index": 0,
+        "viewport": "mobile",
+        "kind": "question-only",
+        "solutionHidden": true,
+        "itemHash": "d1f95c94fc69863c7742ff81f50a9c2375f6a63d044fc24413fc3c0916c505f3",
+        "clip": {
+          "x": 37,
+          "y": 1826,
+          "width": 316,
+          "height": 215,
+          "scale": 1
+        }
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-2.png",
+        "hash": "0979fc2ff2693fa844abfa99f24cf01b1d8e8f29f09735a132202bfb728293ce",
+        "index": 1,
+        "viewport": "mobile",
+        "kind": "example",
+        "itemHash": "0bb3945b80f17b7829cf034c8de21083f4bcda05d7bce63a0f6bcf71b17f183f",
+        "framing": "actual target element; atomic document coordinates and stable native screenshot",
+        "clip": {
+          "x": 37,
+          "y": 2452,
+          "width": 316,
+          "height": 388,
+          "scale": 1
+        }
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-2-math-1-full-ink.png",
+        "hash": "646b4b2d1ec3ada6426d4515e97aca7d1eb95735cb31fe62080de3b3d4f3abdc",
+        "index": 1,
+        "viewport": "mobile",
+        "kind": "math-full-ink",
+        "lineIndex": 0,
+        "itemHash": "0bb3945b80f17b7829cf034c8de21083f4bcda05d7bce63a0f6bcf71b17f183f",
+        "clip": {
+          "x": 38,
+          "y": 2477,
+          "width": 317,
+          "height": 106,
+          "scale": 1
+        },
+        "scroll": {
+          "lineIndex": 0,
+          "containerKind": "math",
+          "clientWidth": 281,
+          "scrollWidth": 284,
+          "maxScrollLeft": 3,
+          "reachedEnd": true,
+          "overflowX": "auto",
+          "mode": "horizontal-scroll"
+        },
+        "framing": "Overflowing calculation/table temporarily expanded; native glyph size and all other text wrapping retained."
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-2-question.png",
+        "hash": "854ff90604eaa87c28b7a7c09d954e9330fc2b47856cd2bdd90a5d3519a014cc",
+        "index": 1,
+        "viewport": "mobile",
+        "kind": "question-only",
+        "solutionHidden": true,
+        "itemHash": "0bb3945b80f17b7829cf034c8de21083f4bcda05d7bce63a0f6bcf71b17f183f",
+        "clip": {
+          "x": 37,
+          "y": 2452,
+          "width": 316,
+          "height": 143,
+          "scale": 1
+        }
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-3.png",
+        "hash": "4da57c36072992a4b770cec32ce41357e84687821133067ba5236ba99e324660",
+        "index": 2,
+        "viewport": "mobile",
+        "kind": "example",
+        "itemHash": "b0fd7c5b464baa0b1adce0a051a3d25bdb8e13831821a9b385765d7ddc080103",
+        "framing": "actual target element; atomic document coordinates and stable native screenshot",
+        "clip": {
+          "x": 37,
+          "y": 2855,
+          "width": 316,
+          "height": 541,
+          "scale": 1
+        }
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-3-math-1-full-ink.png",
+        "hash": "2149f620bb854507e8c4cec64cec6ca2b834bd2114da1c0ffd021590f0fb0d01",
+        "index": 2,
+        "viewport": "mobile",
+        "kind": "math-full-ink",
+        "lineIndex": 0,
+        "itemHash": "b0fd7c5b464baa0b1adce0a051a3d25bdb8e13831821a9b385765d7ddc080103",
+        "clip": {
+          "x": 38,
+          "y": 2881,
+          "width": 326,
+          "height": 246,
+          "scale": 1
+        },
+        "scroll": {
+          "lineIndex": 0,
+          "containerKind": "math",
+          "clientWidth": 281,
+          "scrollWidth": 293,
+          "maxScrollLeft": 12,
+          "reachedEnd": true,
+          "overflowX": "auto",
+          "mode": "horizontal-scroll"
+        },
+        "framing": "Overflowing calculation/table temporarily expanded; native glyph size and all other text wrapping retained."
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-3-question.png",
+        "hash": "128c48dc36e9e94c3e8d476ee3f559c3db42a3c43274a9d1faac3345c7a91ac1",
+        "index": 2,
+        "viewport": "mobile",
+        "kind": "question-only",
+        "solutionHidden": true,
+        "itemHash": "b0fd7c5b464baa0b1adce0a051a3d25bdb8e13831821a9b385765d7ddc080103",
+        "clip": {
+          "x": 37,
+          "y": 2855,
+          "width": 316,
+          "height": 284,
+          "scale": 1
+        }
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-4.png",
+        "hash": "4f98a81cc74d27f55ed704ca5f64f3367e23feb8bd44accf87ec89ab1b6c220d",
+        "index": 3,
+        "viewport": "mobile",
+        "kind": "example",
+        "itemHash": "a6df7d75934a3391ae9c8c02126730f3e0059724579460b7dbeed1d79c90ccdd",
+        "framing": "actual target element; atomic document coordinates and stable native screenshot",
+        "clip": {
+          "x": 37,
+          "y": 3411,
+          "width": 316,
+          "height": 1243,
+          "scale": 1
+        }
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-4-math-1-full-ink.png",
+        "hash": "2d783d049cafadc9955e40dfd3ccaaaaa6b6335dcaa260d1f4f2c3e8f2ae333d",
+        "index": 3,
+        "viewport": "mobile",
+        "kind": "math-full-ink",
+        "lineIndex": 0,
+        "itemHash": "a6df7d75934a3391ae9c8c02126730f3e0059724579460b7dbeed1d79c90ccdd",
+        "clip": {
+          "x": 38,
+          "y": 3436,
+          "width": 437,
+          "height": 125,
+          "scale": 1
+        },
+        "scroll": {
+          "lineIndex": 0,
+          "containerKind": "math",
+          "clientWidth": 281,
+          "scrollWidth": 404,
+          "maxScrollLeft": 123,
+          "reachedEnd": true,
+          "overflowX": "auto",
+          "mode": "horizontal-scroll"
+        },
+        "framing": "Overflowing calculation/table temporarily expanded; native glyph size and all other text wrapping retained."
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-4-math-10-full-ink.png",
+        "hash": "89ceb51f4e4b14726280641e00682070f5d87eff4bdc9a114269cdb579dcfcc2",
+        "index": 3,
+        "viewport": "mobile",
+        "kind": "math-full-ink",
+        "lineIndex": 9,
+        "itemHash": "a6df7d75934a3391ae9c8c02126730f3e0059724579460b7dbeed1d79c90ccdd",
+        "clip": {
+          "x": 38,
+          "y": 4236,
+          "width": 478,
+          "height": 102,
+          "scale": 1
+        },
+        "scroll": {
+          "lineIndex": 9,
+          "containerKind": "math",
+          "clientWidth": 281,
+          "scrollWidth": 444,
+          "maxScrollLeft": 163,
+          "reachedEnd": true,
+          "overflowX": "auto",
+          "mode": "horizontal-scroll"
+        },
+        "framing": "Overflowing calculation/table temporarily expanded; native glyph size and all other text wrapping retained."
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-4-question.png",
+        "hash": "c1e209ddb458d512aca99238e73f5ec7e00be6fe52f9b99ad79bd9b618c8397e",
+        "index": 3,
+        "viewport": "mobile",
+        "kind": "question-only",
+        "solutionHidden": true,
+        "itemHash": "a6df7d75934a3391ae9c8c02126730f3e0059724579460b7dbeed1d79c90ccdd",
+        "clip": {
+          "x": 37,
+          "y": 3411,
+          "width": 316,
+          "height": 558,
+          "scale": 1
+        }
+      }
+    ],
+    "passed": true,
+    "errors": [],
+    "visualInspectionRequired": true,
+    "note": "Actual TheoryView renders. DOM checks do not establish visual inspection, mathematical correctness, diagram adequacy or semantic answer separation.",
+    "manifest": {
+      "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/capture.json",
+      "hash": "d71e023fd830ecf37f855970da3d06b6c253b58229a4e07ddf93ae5e47538ede"
+    }
+  },
+  "inspection": {
+    "accepted": true,
+    "reviewer": "independent visual model",
+    "examples": [
+      {
+        "index": 0,
+        "renderedConfirmed": true,
+        "diagramInspected": true,
+        "exampleHash": "d1f95c94fc69863c7742ff81f50a9c2375f6a63d044fc24413fc3c0916c505f3",
+        "diagramHash": null
+      },
+      {
+        "index": 1,
+        "renderedConfirmed": true,
+        "diagramInspected": true,
+        "exampleHash": "0bb3945b80f17b7829cf034c8de21083f4bcda05d7bce63a0f6bcf71b17f183f",
+        "diagramHash": null
+      },
+      {
+        "index": 2,
+        "renderedConfirmed": true,
+        "diagramInspected": true,
+        "exampleHash": "b0fd7c5b464baa0b1adce0a051a3d25bdb8e13831821a9b385765d7ddc080103",
+        "diagramHash": null
+      },
+      {
+        "index": 3,
+        "renderedConfirmed": true,
+        "diagramInspected": true,
+        "exampleHash": "a6df7d75934a3391ae9c8c02126730f3e0059724579460b7dbeed1d79c90ccdd",
+        "diagramHash": null
+      }
+    ],
+    "findings": [],
+    "nonblockingFindings": [],
+    "summary": "Inspected all 21 supplied desktop, mobile, question-only and full-ink images. Questions are black; solution prose and mathematics are blue. Continuation relation gutters align correctly, and question-only views reveal no solutions. Wide mobile equations are complete in the full-ink images and accessible through verified horizontal scrolling. No diagrams or consequential visual defects are present.",
+    "candidateHash": "732eaac98023450e713c99f82ac4826dc5ef1ffbf2e787de88c0a601622494dc",
+    "evidence": [
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/desktop-example-1.png",
+        "hash": "c201698e943efbcaa9ce94d3ea54c791e1e7f3b6b4a21a17e5de244119cbc92d"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/desktop-example-1-question.png",
+        "hash": "a57b7e204eef602f7a16ff4a0611f174113294d8bd57cf3d169ba01ce0f2b4fe"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/desktop-example-2.png",
+        "hash": "253a301e14f77d5f9e28a275f0f88f73be53d4a6bf1332fdc6d8ae8a539fa652"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/desktop-example-2-question.png",
+        "hash": "9699ff2a1da746eaa8b786912decc383461b2b66b30f51bcad1206e062cb9d4e"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/desktop-example-3.png",
+        "hash": "aa19aa73d65db9bfedda5806a1cf3d4fb80977e3d9681f696f7bf9797ded68b0"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/desktop-example-3-question.png",
+        "hash": "646dc3a42c0e919ff219ac2642ebbbc91a229038ea1efa69a694016a675b4bac"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/desktop-example-4.png",
+        "hash": "d119da3c30225c83a35e250578299ca515230c5cff2553d4ab1a682e7ea0f787"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/desktop-example-4-question.png",
+        "hash": "5ba76285c4183bdfbc0fd17a7b1ac636f344ca4bfc3193aa28611e38057e2727"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-1.png",
+        "hash": "8e334ac008bb6f9948f9411784244c3862207641816bffc9c1a9041e38f63b5c"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-1-math-1-full-ink.png",
+        "hash": "6899de53939123656479e5d9182a76a8604bcc3c4ed3bf38572ec83e6e9f0498"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-1-question.png",
+        "hash": "1da12dbdd6ca650990e869e26fe422c0792635839cf083e002941efc50cb2788"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-2.png",
+        "hash": "0979fc2ff2693fa844abfa99f24cf01b1d8e8f29f09735a132202bfb728293ce"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-2-math-1-full-ink.png",
+        "hash": "646b4b2d1ec3ada6426d4515e97aca7d1eb95735cb31fe62080de3b3d4f3abdc"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-2-question.png",
+        "hash": "854ff90604eaa87c28b7a7c09d954e9330fc2b47856cd2bdd90a5d3519a014cc"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-3.png",
+        "hash": "4da57c36072992a4b770cec32ce41357e84687821133067ba5236ba99e324660"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-3-math-1-full-ink.png",
+        "hash": "2149f620bb854507e8c4cec64cec6ca2b834bd2114da1c0ffd021590f0fb0d01"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-3-question.png",
+        "hash": "128c48dc36e9e94c3e8d476ee3f559c3db42a3c43274a9d1faac3345c7a91ac1"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-4.png",
+        "hash": "4f98a81cc74d27f55ed704ca5f64f3367e23feb8bd44accf87ec89ab1b6c220d"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-4-math-1-full-ink.png",
+        "hash": "2d783d049cafadc9955e40dfd3ccaaaaa6b6335dcaa260d1f4f2c3e8f2ae333d"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-4-math-10-full-ink.png",
+        "hash": "89ceb51f4e4b14726280641e00682070f5d87eff4bdc9a114269cdb579dcfcc2"
+      },
+      {
+        "path": ".booklet-work/content-campaign/worked-examples-2026-09/examples/induction-false-proofs/rendered-1791767794651/mobile-example-4-question.png",
+        "hash": "c1e209ddb458d512aca99238e73f5ec7e00be6fe52f9b99ad79bd9b618c8397e"
+      }
+    ],
+    "dependencies": [
+      {
+        "path": "src/components/TheoryView.svelte",
+        "hash": "500f2453b0916d108ab7ba222174b148cc8770506f1daefea6199061f3813b88"
+      },
+      {
+        "path": "src/components/InlineContent.svelte",
+        "hash": "c6a40a7372dc7105d11faa01b1155030f7fc26718da6635414080ce4ed2175b5"
+      },
+      {
+        "path": "src/components/Math.svelte",
+        "hash": "ec898290e31b5affdaa25e3a2234118d7243dc07ef305cf4e44aa12a032fd0b2"
+      },
+      {
+        "path": "src/components/Tikz.svelte",
+        "hash": "28cd7f32f5a15d1cefc803f85b826fdc04ff5ff701a4b10c09121be4536beaa5"
+      },
+      {
+        "path": "src/lib/theory-content.js",
+        "hash": "140e395efdab705b43f44ad54a65609033bcd9325b49b7ae7fe2eaa92c27ede0"
+      },
+      {
+        "path": "src/lib/booklet-teaching-alignment.js",
+        "hash": "73b117dc0e983591b281a78de1e2fd9c26dd7d56ad85277ddc015a0c63a356d8"
+      },
+      {
+        "path": "src/lib/inline-content.js",
+        "hash": "05a036e7fdf036a5038e3333c0858ebf26177cf409b334197313cc0957f991f5"
+      },
+      {
+        "path": "src/lib/render-math.js",
+        "hash": "23d0f5e7619d1d00c588c974e3fb45a796ee1c26d4af0306eb9e2b8f89704aa8"
+      },
+      {
+        "path": "src/lib/document-content.js",
+        "hash": "99dcb0bee7d8920e00b9c0bbf7c57b286ba379304a401556d0c3236951127fdb"
+      },
+      {
+        "path": "src/lib/tikz.js",
+        "hash": "8ce83cb4031b80f21f5f329a0e2da8d8eef1dec42c69f09024478c4b67c8be29"
+      },
+      {
+        "path": "src/lib/tikz-prepare.js",
+        "hash": "ea45c0422436e47be1242d17cf593bb9d3e1ad1c6f165ab839ce7876b76b742c"
+      },
+      {
+        "path": "src/app.css",
+        "hash": "70f12bb276e121479cb3d977730260d58ecf0ded9a2eae901926b7c8cbcc6bf5"
+      },
+      {
+        "path": "src/views/SkillDetail.svelte",
+        "hash": "ed740c082c939c8cd1c236e6e3e4987461e52739e5462371c617d3561804e1e7"
+      },
+      {
+        "path": "scripts/content/examples-capture.mjs",
+        "hash": "87aecf6e3208964ca604cc3d692487137e19d2cbed21b1eb2a0cdf0604c9469d"
+      },
+      {
+        "path": "src/lib/math-writing-box.js",
+        "hash": "5fba0f5670bfe20f2bad7da27f7bf1abb152268b920925d9f6a9600b701206d5"
+      },
+      {
+        "path": "src/lib/graph-strokes.js",
+        "hash": "cca24f070f89fbc0aea5a8ca6444c3fe500142c0ad88fc7a13d35bf58b4550e6"
+      },
+      {
+        "path": "src/lib/diagram-label-space.js",
+        "hash": "fe358a9309811f05f1da1ef376140d7c1a778d304405293a05fd3b6352356258"
+      },
+      {
+        "path": "src/lib/diagram-typography.js",
+        "hash": "e40574010419b90f951016200d9228f0633573ef0e97a83f228e3a29f6146190"
+      },
+      {
+        "path": "src/lib/diagram-label-geometry.js",
+        "hash": "d4140310d146f5ba2d1c91f0b79fa81f77deec978dafa6bf4f00889ee6499974"
+      },
+      {
+        "path": "src/lib/svg-paint-scope.js",
+        "hash": "424428e042a886a388b4920c32d93198370d9d1704ca05a083d3645f08deabc2"
+      },
+      {
+        "path": "src/lib/diagram-colours.js",
+        "hash": "2983da943b2648ff47833c15f941828bd3da4f54af56c8421d6012e7f80a8be5"
+      },
+      {
+        "path": "src/lib/booklet-render-cache.js",
+        "hash": "6d68f9f85dad7cb182c806767fd15c49429bd8b1a906d0a50ccdc489d0ddb62f"
+      },
+      {
+        "path": "public/libs/maths-editor/document-model.mjs",
+        "hash": "b8dbdf049dbc42b4f49b20216c3c70d310c30b55be2d3abb346159f64437bd64"
+      },
+      {
+        "path": "public/libs/maths-editor/annotated-equation.mjs",
+        "hash": "a24cd4e47d8c93804a36af3fb8872b42b068be593465f9556ef526044b933ad9"
+      },
+      {
+        "path": "public/libs/maths-editor/cloze-leader.mjs",
+        "hash": "7bb528976f2a432e23ba9c17df25fb00ec6f78d9bf73424725aebf59d9a60d39"
+      },
+      {
+        "path": "public/libs/maths-editor/cloze-answer.mjs",
+        "hash": "d96a11d80adc24b2d1868d10f1e4a44e15ba5f119f3e7d3058412c70277d8c74"
+      },
+      {
+        "path": "public/libs/maths-editor/house-style.mjs",
+        "hash": "919e307fe9c7ff0c801c293380930febab1d36593f25c685f500459e178fa844"
+      },
+      {
+        "path": "public/libs/maths-editor/table-model.mjs",
+        "hash": "0a14be96c1bfe72b8a6b76a1874cae78f632ecd62cff5fbdaf5a4267ef47577d"
+      },
+      {
+        "path": "public/libs/maths-editor/table-part-label.mjs",
+        "hash": "75cf3f4e02d23992daac0166ce1d84628939a62608caeb2676b8c706f252e72d"
+      },
+      {
+        "path": "public/libs/maths-editor/table-borders.mjs",
+        "hash": "69a4240471b76fd705bc165e53d1e9cf391c0786edcedfff0ed3d2b39f1bc5cc"
+      },
+      {
+        "path": "public/libs/maths-editor/equation-spacing.mjs",
+        "hash": "b66f36fdd837e6231d1f9b347104619bf7498c974d3c11486911a8b2984e6c8f"
+      },
+      {
+        "path": "public/libs/maths-editor/booklet-palette.mjs",
+        "hash": "1619f4cbff1d514f45a8ec759d953257f0ae9de0f0d7610c1d8c168d0842bd8e"
+      },
+      {
+        "path": "node_modules/katex/dist/katex.mjs",
+        "hash": "82197f25be72b21d0bdd4c37458f510b652ab096ab74d12ca38d05aff3432721"
+      },
+      {
+        "path": "node_modules/katex/dist/katex.min.css",
+        "hash": "a34ad8fc188e8f5a3af7ceaa2a58d7210c6c9171335a15bff2b48ebcd6a6f5b0"
+      },
+      {
+        "path": "public/libs/tikzjax/tikzjax.js",
+        "hash": "e34944ee5a7136155040624e6c62197f9d9f39b3e72b7316ff04d42e23875653"
+      },
+      {
+        "path": "public/libs/tikzjax/fonts.css",
+        "hash": "8ef123aad1009668e28238974263cf321eb5e9f5a8e2cba222758d948ce076af"
+      }
+    ]
+  },
+  "publicationIntent": {
+    "candidateHash": "732eaac98023450e713c99f82ac4826dc5ef1ffbf2e787de88c0a601622494dc",
+    "expected": {
+      "contentHash": "b7edcbe207f011791fcb19c85857a4f6c56e0c4166c41336a20b0e048eb706fc",
+      "quizHash": "9a81717fc17599cef72c5546cbc76e9eda0a1cc9cfcc83fc8a4bcdeb51714dcb"
+    }
+  },
+  "published": {
+    "expected": {
+      "contentHash": "b7edcbe207f011791fcb19c85857a4f6c56e0c4166c41336a20b0e048eb706fc",
+      "quizHash": "9a81717fc17599cef72c5546cbc76e9eda0a1cc9cfcc83fc8a4bcdeb51714dcb"
+    },
+    "journalPath": "D:\\WebApps\\MathsMap\\.agywork\\content-publication\\transactions\\induction-false-proofs-d865536d-ea88-42b4-9b67-d49920a26139\\journal.json"
+  }
+}

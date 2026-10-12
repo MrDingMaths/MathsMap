@@ -3,33 +3,126 @@
   "skillId": "exponential-rate-proportional",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-07T13:25:09.145Z",
-  "status": "blocked",
+  "startedAt": "2026-10-11T07:41:25.292Z",
+  "status": "published",
   "calls": [
     {
       "name": "audit",
       "code": 0,
-      "seconds": 10,
+      "seconds": 83.5,
       "usage": {
-        "input_tokens": 30784,
-        "cached_input_tokens": 20608,
+        "input_tokens": 60884,
+        "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 115,
-        "reasoning_output_tokens": 18
+        "output_tokens": 3827,
+        "reasoning_output_tokens": 140
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\exponential-rate-proportional\\audit-z2ODsz\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\exponential-rate-proportional\\audit-t4tFG5\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 22.8,
+      "usage": {
+        "input_tokens": 62113,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 921,
+        "reasoning_output_tokens": 58
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\exponential-rate-proportional\\repair-psdbpk\\response.raw.txt"
+    },
+    {
+      "name": "review-full",
+      "code": 0,
+      "seconds": 51.6,
+      "usage": {
+        "input_tokens": 62074,
+        "cached_input_tokens": 20736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2510,
+        "reasoning_output_tokens": 61
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\exponential-rate-proportional\\review-full-mmYPwv\\response.raw.txt"
     }
   ],
+  "previousAttempts": [
+    {
+      "startedAt": "2026-10-07T13:25:09.145Z",
+      "finishedAt": "2026-10-07T13:25:19.133Z",
+      "status": "blocked",
+      "calls": [
+        {
+          "name": "audit",
+          "code": 0,
+          "seconds": 10,
+          "usage": {
+            "input_tokens": 30784,
+            "cached_input_tokens": 20608,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 115,
+            "reasoning_output_tokens": 18
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\exponential-rate-proportional\\audit-z2ODsz\\response.raw.txt"
+        }
+      ]
+    }
+  ],
+  "sourceException": {
+    "reason": "User approved syllabus-based source exceptions on 9 October 2026 for the displayed 54 source gaps. This skill remains in the approved subset of 53 unresolved gaps; use its governing Stage 6 syllabus and target course, preserve good existing content, independently review every mathematical answer/option and stage/method boundary, and repair substantive defects only. Booklet source evidence was unavailable or did not establish the required question types.",
+    "approvalPath": "booklets/provenance/content-campaign/worked-examples-2026-09/approved-source-exceptions-20261009.json",
+    "path": "syllabus/Stage 6 Advanced Content.md",
+    "hash": "f61fc85163ff30bcca09d8d361504e71a246c059d3eeedf24e0695ef54be175a"
+  },
   "baseline": {
     "contentHash": "7e3ac137288ed2ef8c21e870c45e4a2e7111265da451e7587ba6d299467ab842",
     "quizHash": "228fbac6fb6c077109fc2cae5083bfa74f6fb686b660c128240ec1f8ff2f6eeb"
   },
   "booklets": [
-    "booklets/mathsmap-sources/Stage 6 Advanced/Applications of Calculus 3_Rates of change.md"
+    "syllabus/Stage 6 Advanced Content.md"
   ],
-  "images": 1,
+  "images": 0,
   "omittedImages": 0,
-  "blocker": "The supplied booklet contains syllabus statements (lines 38–63), placeholder teaching and practice sections (lines 105–205), and blank coordinate axes (line 221), but no actual exponential-rate-proportional teaching questions, guided practice or complete exercises. Supply those source sections and any associated figures so each practice and quiz type can be checked against what a booklet question actually asks.",
-  "finishedAt": "2026-10-07T13:25:19.133Z"
+  "fullReview": {
+    "name": "review-full",
+    "hash": "4d506bcd959eb8bd9ed5577aa7e20efb4f36dd21478c980e863f2e01fb102725",
+    "originalRemovalsSupplied": true,
+    "sourceExceptionConfirmed": true
+  },
+  "firstRoundFindings": [
+    "practice.foundation[1]: State that the quantity is positive in question_text; the unconditional decay conclusion needs this assumption.",
+    "practice.foundation[5]: Calling positive $0.03$ the constant of proportionality contradicts the decreasing mass and the theory's signed definition of $k$. Identify it as the magnitude of the decay constant.",
+    "practice.mastery[0]: The question's claim is false when $k=0$, although the solution correctly qualifies its conclusion. Add $k\\ne0$ to the question or ask for the full condition $kB=0$.",
+    "practice.mastery[1]: State that the quantity is positive in question_text; the supplied solution assumes $Q>0$ without a given.",
+    "quiz.q2: The explanations for options 2 and 3 omit the rounding needed to produce their displayed values. State that the reversed quotient was rounded to two decimal places.",
+    "quiz.q3: Calling positive $0.12$ the constant of proportionality contradicts the decreasing mass. Identify it as the magnitude of the decay constant.",
+    "theory: Qualify growth and decay by $Q>0$, as required by syllabus lines 2110–2112; negative initial values reverse the direction of change, and $k=0$ gives a constant solution. The claim that a nonzero additive constant cannot satisfy the equation needs $k\\ne0$, because the exact condition is $kB=0$. The formula $k=Q'/Q$ requires $Q\\ne0$; a pair with $Q=0$ cannot determine $k$."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.foundation[1]",
+    "practice.foundation[5]",
+    "practice.mastery[0]",
+    "practice.mastery[1]",
+    "quiz.q2",
+    "quiz.q3"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 25,
+  "summary": "Qualified the theory and affected questions for positive quantities, zero values and nonzero k, and identified the positive decay constants as magnitudes. Added the rounding explanation for both reversed-quotient distractors; all other content, values and items remain unchanged.",
+  "reviewSummary": "All 25 items are mathematically correct and within the supplied Stage 6 syllabus and target skill under the approved source exception; every quiz has exactly one correct option and valid distractor explanations. Theory, boundary cases, source-exception metadata and minimum counts pass, with no worked examples or removals supplied and no substantive repairs required.",
+  "candidateHash": "4d506bcd959eb8bd9ed5577aa7e20efb4f36dd21478c980e863f2e01fb102725",
+  "published": {
+    "expected": {
+      "contentHash": "7566b4c85a367b2424f4a19fbc72b8b363ba8de58b7b1dced366d0efa4cdabac",
+      "quizHash": "e34ea168804c7fd898fae48dd28c68263727b2e529b9fd83e6bd02efbfa85814"
+    },
+    "journalPath": ".agywork\\content-publication\\transactions\\exponential-rate-proportional-0f012310-bcfa-459f-8ab2-273fa3a5c3bd\\journal.json"
+  },
+  "finishedAt": "2026-10-11T07:44:03.908Z"
 }

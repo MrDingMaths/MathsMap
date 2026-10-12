@@ -3,33 +3,118 @@
   "skillId": "solve-parametric-derivative-problems",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-08T11:18:24.291Z",
-  "status": "blocked",
+  "startedAt": "2026-10-11T07:55:48.381Z",
+  "status": "published",
   "calls": [
     {
       "name": "audit",
       "code": 0,
-      "seconds": 8.2,
+      "seconds": 82.8,
       "usage": {
-        "input_tokens": 96941,
+        "input_tokens": 51417,
         "cached_input_tokens": 20736,
         "cache_write_input_tokens": 0,
-        "output_tokens": 98,
-        "reasoning_output_tokens": 13
+        "output_tokens": 4273,
+        "reasoning_output_tokens": 113
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\solve-parametric-derivative-problems\\audit-l0wyU0\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\solve-parametric-derivative-problems\\audit-4ptyos\\response.raw.txt"
+    },
+    {
+      "name": "repair",
+      "code": 0,
+      "seconds": 26.3,
+      "usage": {
+        "input_tokens": 52607,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1075,
+        "reasoning_output_tokens": 72
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\solve-parametric-derivative-problems\\repair-xTQhcB\\response.raw.txt"
+    },
+    {
+      "name": "review-full",
+      "code": 0,
+      "seconds": 59.7,
+      "usage": {
+        "input_tokens": 52875,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2881,
+        "reasoning_output_tokens": 56
+      },
+      "error": null,
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\solve-parametric-derivative-problems\\review-full-8FVIkx\\response.raw.txt"
     }
   ],
+  "previousAttempts": [
+    {
+      "startedAt": "2026-10-08T11:18:24.291Z",
+      "finishedAt": "2026-10-08T11:18:32.549Z",
+      "status": "blocked",
+      "calls": [
+        {
+          "name": "audit",
+          "code": 0,
+          "seconds": 8.2,
+          "usage": {
+            "input_tokens": 96941,
+            "cached_input_tokens": 20736,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 98,
+            "reasoning_output_tokens": 13
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\solve-parametric-derivative-problems\\audit-l0wyU0\\response.raw.txt"
+        }
+      ]
+    }
+  ],
+  "sourceException": {
+    "reason": "User approved syllabus-based source exceptions on 9 October 2026 for the displayed 54 source gaps. This skill remains in the approved subset of 53 unresolved gaps; use its governing Stage 6 syllabus and target course, preserve good existing content, independently review every mathematical answer/option and stage/method boundary, and repair substantive defects only. Booklet source evidence was unavailable or did not establish the required question types.",
+    "approvalPath": "booklets/provenance/content-campaign/worked-examples-2026-09/approved-source-exceptions-20261009.json",
+    "path": "syllabus/Stage 6 Extension 1 Content.md",
+    "hash": "4841de293c30c70c8ad0913369f6738c936793c73192af07de628b36df57363c"
+  },
   "baseline": {
     "contentHash": "4ee1c2e3eb0837f01af8ced7c5e8c5d484e07615c35f0a9910db329268c0c60c",
     "quizHash": "047d7c1de18ae030e1a67f3bd1d643df878b9fe8b35e2f1e01ab8fcedfe27014"
   },
   "booklets": [
-    "booklets/mathsmap-sources/Stage 6 Extension 1/Further Calculus Skills 1_Further differentiation and Integration.md"
+    "syllabus/Stage 6 Extension 1 Content.md"
   ],
-  "images": 14,
+  "images": 0,
   "omittedImages": 0,
-  "blocker": "The supplied booklet contains only syllabus references to parametric differentiation (lines 28–32); it omits the teaching, guided practice and complete exercises for derivatives of functions defined parametrically and solving parametric derivative problems. Supply those source sections and any associated figures so booklet question types and taught methods can be verified.",
-  "finishedAt": "2026-10-08T11:18:32.549Z"
+  "fullReview": {
+    "name": "review-full",
+    "hash": "c82b9d9a998a6907b756b498396a9bedc49b65ff7b6dedfdc11ee24e7bbcbec5",
+    "originalRemovalsSupplied": true,
+    "sourceExceptionConfirmed": true
+  },
+  "firstRoundFindings": [
+    "practice.mastery[0]: The unrestricted parameter includes $p=0$, but the proof divides by $p$. Retain the stated result and add the separate vertical-tangent case $p=0$; qualify the existing gradient calculation with $p\\ne0$.",
+    "quiz.q1: Correct the explanations for zero-based options 2 and 3. Option 2 negates the tangent gradient to $-3/4$; the actual normal gradient is $-4/3$. Option 3 uses the actual normal gradient $-4/3$; inverting the quotient and then taking its negative reciprocal would instead give $-3/4$.",
+    "theory: Qualify the derivative quotient with $dx/dt\\ne0$ and the negative-reciprocal normal rule with a finite, nonzero tangent gradient. Explain that a horizontal tangent has a vertical normal and a vertical tangent has a horizontal normal, and make the procedure handle these cases without division by zero."
+  ],
+  "repaired": true,
+  "changed": [
+    "practice.mastery[0]",
+    "quiz.q1"
+  ],
+  "theoryChanged": true,
+  "removed": [],
+  "items": 27,
+  "summary": "Qualified the derivative quotient and normal-gradient rule, and updated the procedure to handle horizontal and vertical tangents without division by zero. Added the separate case p=0 to the mastery proof and corrected the two quiz explanations; all other content is preserved.",
+  "reviewSummary": "All 27 items are mathematically correct, and every quiz has exactly one correct option with distractors consistent with their explanations. The theory and tasks align with the supplied Stage 6 Extension 1 parametric-derivative syllabus under the approved source exception; no worked examples or removals were supplied, and no substantive repairs are required.",
+  "candidateHash": "c82b9d9a998a6907b756b498396a9bedc49b65ff7b6dedfdc11ee24e7bbcbec5",
+  "published": {
+    "expected": {
+      "contentHash": "fb96350b42168994bff646e2d5a271e836fbeaec353bde1f80c6cea4b9574ef7",
+      "quizHash": "89f84ed4829d2705df9cb15fa49f4739d7a678734c130b0c288d09c9865bfb81"
+    },
+    "journalPath": ".agywork\\content-publication\\transactions\\solve-parametric-derivative-problems-a7e3f4f6-d836-40b1-b707-8a15757a3170\\journal.json"
+  },
+  "finishedAt": "2026-10-11T07:58:38.200Z"
 }

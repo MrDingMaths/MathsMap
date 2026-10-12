@@ -3,36 +3,36 @@
   "skillId": "multiply-divide-fractions",
   "model": "gpt-6.1-sol",
   "effort": "low",
-  "startedAt": "2026-10-09T06:47:02.265Z",
-  "status": "needs attention: not accepted after one repair round",
+  "startedAt": "2026-10-11T07:47:36.244Z",
+  "status": "published",
   "calls": [
     {
       "name": "maintenance-repair",
       "code": 0,
-      "seconds": 119,
+      "seconds": 13.3,
       "usage": {
-        "input_tokens": 92280,
-        "cached_input_tokens": 22656,
+        "input_tokens": 93202,
+        "cached_input_tokens": 20736,
         "cache_write_input_tokens": 0,
-        "output_tokens": 5370,
-        "reasoning_output_tokens": 0
+        "output_tokens": 199,
+        "reasoning_output_tokens": 41
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\multiply-divide-fractions\\maintenance-repair-ZvCseb\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\multiply-divide-fractions\\maintenance-repair-8g4UW1\\response.raw.txt"
     },
     {
-      "name": "maintenance-review-scoped",
+      "name": "maintenance-review",
       "code": 0,
-      "seconds": 15,
+      "seconds": 24.5,
       "usage": {
-        "input_tokens": 92359,
-        "cached_input_tokens": 19968,
+        "input_tokens": 93242,
+        "cached_input_tokens": 12544,
         "cache_write_input_tokens": 0,
-        "output_tokens": 223,
-        "reasoning_output_tokens": 32
+        "output_tokens": 1881,
+        "reasoning_output_tokens": 63
       },
       "error": null,
-      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\multiply-divide-fractions\\maintenance-review-scoped-KqRWA7\\response.raw.txt"
+      "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\multiply-divide-fractions\\maintenance-review-Tm9vum\\response.raw.txt"
     }
   ],
   "previousAttempts": [
@@ -119,9 +119,45 @@
           "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\multiply-divide-fractions\\maintenance-review-E5m9nS\\response.raw.txt"
         }
       ]
+    },
+    {
+      "startedAt": "2026-10-09T06:47:02.265Z",
+      "finishedAt": "2026-10-09T06:49:16.555Z",
+      "status": "needs attention: not accepted after one repair round",
+      "calls": [
+        {
+          "name": "maintenance-repair",
+          "code": 0,
+          "seconds": 119,
+          "usage": {
+            "input_tokens": 92280,
+            "cached_input_tokens": 22656,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 5370,
+            "reasoning_output_tokens": 0
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\multiply-divide-fractions\\maintenance-repair-ZvCseb\\response.raw.txt"
+        },
+        {
+          "name": "maintenance-review-scoped",
+          "code": 0,
+          "seconds": 15,
+          "usage": {
+            "input_tokens": 92359,
+            "cached_input_tokens": 19968,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 223,
+            "reasoning_output_tokens": 32
+          },
+          "error": null,
+          "responsePath": ".agywork\\content-campaign\\worked-examples-2026-09\\lean\\multiply-divide-fractions\\maintenance-review-scoped-KqRWA7\\response.raw.txt"
+        }
+      ]
     }
   ],
   "maintenanceRepair": true,
+  "candidateHash": "89b3f86f5c91776834643c8569533eb0d554881ab9c9b29f385e8e9b4d81e930",
   "baseline": {
     "contentHash": "6108bbbee2554f0d6f6648c349de10745b70ce8e64816818803a09fe2f09e479",
     "quizHash": "8f3af9d57ac65443a89895ac7c4c3895d12689d9cb70d0685d8e56318d8d2160"
@@ -154,8 +190,14 @@
     }
   ],
   "firstRoundFindings": [
-    "quiz.dq-31774: Evaluate options[3].text: replace $\\dfrac62$ with $3$. Its explanation correctly describes that mistaken calculation, but the option must contain an evaluated final answer."
+    "quiz.dq-31774: Options 1 and 3 both display $3$. Replace option 3 with text \"$12$\" and why \"Inverted the dividend instead of taking the reciprocal of the divisor: $2\\times6=12$.\" The other distractors correctly follow their stated mistakes; preserve the question and solution.",
+    "Resolve the retained independent findings only. Preserve all unaffected accepted content, values, IDs and diagram bodies. Independently calculate numerical claims and distractor values; never rewrite usable working for taste."
   ],
+  "fullReview": {
+    "name": "maintenance-review",
+    "hash": "89b3f86f5c91776834643c8569533eb0d554881ab9c9b29f385e8e9b4d81e930",
+    "originalRemovalsSupplied": true
+  },
   "repaired": true,
   "changed": [
     "quiz.dq-31774",
@@ -166,11 +208,14 @@
   "theoryChanged": false,
   "removed": [],
   "items": 26,
-  "summary": "Replaced quiz.dq-31774 options[3].text with the evaluated answer $3$, preserving its explanation. All other content remains unchanged, and no whole items were removed.",
-  "reviewSummary": "All calculations, teaching methods and question types match the supplied booklet, and every quiz has exactly one correct option. One distractor needs its numerical value evaluated; no items require removal.",
-  "candidateHash": "516f9879c9cf6ac95fcffefe31ad937f7b03cd78fa4ceb42caae79192fd5d20a",
-  "findings": [
-    "quiz.dq-31774: Options 1 and 3 both display $3$. Replace option 3 with text \"$12$\" and why \"Inverted the dividend instead of taking the reciprocal of the divisor: $2\\times6=12$.\" The other distractors correctly follow their stated mistakes; preserve the question and solution."
-  ],
-  "finishedAt": "2026-10-09T06:49:16.555Z"
+  "summary": "Replaced the duplicate $3$ distractor in quiz.dq-31774 with $12$ and its verified mistake explanation. Preserved all other content, including the question and solution.",
+  "reviewSummary": "All 26 items have correct answers, usable working and question types supported by the supplied booklet, with the target skill kept in focus. Theory matches the taught methods, every quiz has exactly one correct option with accurate distractor explanations, and no removals or repairs are required.",
+  "published": {
+    "expected": {
+      "contentHash": "6108bbbee2554f0d6f6648c349de10745b70ce8e64816818803a09fe2f09e479",
+      "quizHash": "6706b4a1b5ef3f612a799299fae3ca502d044267507eab9d1b43e37caf775c14"
+    },
+    "journalPath": ".agywork\\content-publication\\transactions\\multiply-divide-fractions-53334c94-776b-4d2a-a3b8-689b953abd02\\journal.json"
+  },
+  "finishedAt": "2026-10-11T07:48:14.869Z"
 }

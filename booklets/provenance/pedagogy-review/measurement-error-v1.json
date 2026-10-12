@@ -1,0 +1,255 @@
+{
+ "version": 1,
+ "projectId": "measurement-error-v1",
+ "title": "Measurement Error",
+ "assumptions": {},
+ "findings": [
+  {
+   "id": "pf-beffe31b81",
+   "kind": "missing-prerequisite",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p5-e",
+     "blockId": "p5-guided-practice",
+     "hash": "3523e98feb126b567fd6774790704ab4cbf0c2739b59061b7cae6948ee31fcde"
+    }
+   ],
+   "finding": "The first area-bound task requires students to combine dimension bounds before that method is taught.",
+   "breakdown": "Students must find both lower dimension bounds and multiply them. The preceding teaching models only bounds of individual measurements, leaving students liable to subtract a length error from the recorded area instead.",
+   "checked": "p3-precision, p4-limits-teaching, p4-limits-formulas-method, both p4 examples and p5-a through p5-d supply individual measurement bounds, but no rule for combining them into an area bound. p5-e has no visible hint supplying that rule; its answer is not preceding teaching. The complete supplied teaching contains no earlier explanation.",
+   "assumptions": "Rectangle area is prior knowledge. Applying measurement bounds to a product is a new variant within this booklet. Calculator access does not affect the finding.",
+   "repair": {
+    "type": "add-teaching",
+    "proposal": "Immediately before p5-e add: “For a rectangle, the smallest possible area uses the smallest possible length and width. Find the lower bound of each dimension, then multiply those bounds.”"
+   },
+   "doneWhen": "Before p5-e, students are explicitly taught how dimension bounds determine the lower area bound and still calculate both dimensions and their product themselves.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "absolute-error"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:01:58.999Z"
+    }
+   ],
+   "commentId": "4dc3adc1-bd7b-48c7-acc3-bb133fcbc7de",
+   "postedAt": "2026-10-11T13:01:59.009Z"
+  },
+  {
+   "id": "pf-2f4febf4c8",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p9-q16",
+     "blockId": "p9-q16",
+     "hash": "3af02ade4099a742aa1cb602bb8311654491ca29cb4a610265d2e8ca74868777"
+    }
+   ],
+   "finding": "Explain why a rectangle’s area bounds are not equally spaced around its recorded area.",
+   "breakdown": "The task deliberately revisits p5-e and extends it to comparing both bounds with the recorded area.",
+   "checked": "The calculations are correct: recorded area 15 m², lower bound 11.25 m² and upper bound 19.25 m². Their distances from the recorded area are 3.75 m² and 4.25 m². Individual upper and lower bounds and rectangle area provide the required methods; no algebraic expansion is necessary.",
+   "assumptions": "Students know rectangle area and can compare decimal differences. Dimensions are positive and both measurements are rounded to the nearest metre.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p9-q16, offer: “Return to the rectangular garden measured as 3 m by 5 m, each to the nearest metre. Find its recorded area and both area bounds. Is the recorded area halfway between the bounds? Explain using your calculations.” Expected answer: 15 m²; lower bound 2.5 × 4.5 = 11.25 m²; upper bound 3.5 × 5.5 = 19.25 m². It is not halfway: the differences are 3.75 m² and 4.25 m²."
+   },
+   "doneWhen": "The optional task explicitly asks students to compare and explain the unequal differences.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "absolute-error"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:01:58.999Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-b17c18c3ce",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p11-q3",
+     "blockId": "p11-q3",
+     "hash": "e83d3aa388d78af32f6506a7a74fe1cd6925919eb8d498b7087324a6a2aa7c3a"
+    }
+   ],
+   "finding": "Hold precision fixed while varying measurement to expose its effect on percentage error.",
+   "breakdown": "The sequence isolates the denominator: absolute error stays constant while percentage error halves whenever the measurement doubles.",
+   "checked": "All proposed answers are correct. p10-definition, its examples and guided practice supply the complete method. The supplied practice contains no equivalent controlled run.",
+   "assumptions": "Measurements are positive and measurement and absolute error use the same units.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p11-q3, add: “These lengths are all measured to the nearest centimetre. Before calculating, predict what happens to percentage error whenever the length doubles. Find the absolute and percentage errors for (a) 10 cm, (b) 20 cm, (c) 40 cm and (d) 80 cm. Explain the pattern.” Expected answers: absolute error 0.5 cm throughout; percentage errors 5%, 2.5%, 1.25% and 0.625%. Precision stays fixed and measurement varies. Follow with: “A length is measured as 25 cm to the nearest 0.5 cm. Find its percentage error.” Expected answer: 1%."
+   },
+   "doneWhen": "Students predict before calculating, explain the fixed-precision relationship and then answer the unpatterned follow-up.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "percentage-error"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:01:58.999Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-bc31bd10b6",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p12-q8-response",
+     "blockId": "p12-q8",
+     "hash": "9b4659d50a38ab4eb3694def8cb64261f560768dccded23b2779d0bc6a155a2f"
+    }
+   ],
+   "finding": "Find the condition under which different measurements have equal percentage error.",
+   "breakdown": "Students use the taught formula to explain equality of percentage errors and generalise from numerical pairs.",
+   "checked": "Both initial measurements have percentage error 2.5%. The proposed second pair both have percentage error 1.25%. For positive measurements, equality holds exactly when precision divided by measurement is equal, using matching units within each ratio.",
+   "assumptions": "Students can compare ratios and explain a relationship in words; formal symbolic rearrangement is unnecessary.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p12-q8-response, offer: “A length of 20 cm measured to the nearest centimetre has the same percentage error as a length of 2 cm measured to the nearest 0.1 cm. Explain why. Give another pair with equal percentage error, then describe a general condition for positive measurements.” Expected answer: both have percentage error 2.5%. Another pair is 40 cm to the nearest centimetre and 4 cm to the nearest 0.1 cm, both with percentage error 1.25%. Percentage errors are equal when precision divided by measurement is equal, with both quantities expressed in the same units, because absolute error is half the precision."
+   },
+   "doneWhen": "The optional task includes a verified example pair and asks students to state the general ratio condition.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "percentage-error"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:01:58.999Z"
+    }
+   ]
+  }
+ ],
+ "contextQuestions": [],
+ "protectedGroups": [
+  {
+   "sequence": "absolute-error",
+   "targets": [
+    "p7-q5-a",
+    "p7-q5-b"
+   ],
+   "observation": "Smaller ruler divisions give a smaller absolute error.",
+   "varies": "The subdivision size.",
+   "invariant": "The unit and labelled centimetre range."
+  },
+  {
+   "sequence": "absolute-error",
+   "targets": [
+    "p7-q6-a",
+    "p7-q6-b"
+   ],
+   "observation": "The same recorded measurement can represent different intervals when rounding precision changes.",
+   "varies": "Nearest metre versus nearest 10 metres.",
+   "invariant": "The recorded field length of 90 m."
+  },
+  {
+   "sequence": "absolute-error",
+   "targets": [
+    "p7-q7-a",
+    "p7-q7-b",
+    "p7-q7-c",
+    "p7-q7-d"
+   ],
+   "observation": "Increasing the rounding increment widens the interval proportionally.",
+   "varies": "Rounding to units, tens, hundreds and thousands.",
+   "invariant": "The recorded value of 5000."
+  },
+  {
+   "sequence": "absolute-error",
+   "targets": [
+    "p7-q8-c",
+    "p7-q8-d"
+   ],
+   "observation": "Equal numerical values can convey different precision and different bounds.",
+   "varies": "Integer precision versus one decimal place, recorded as 85 and 85.0.",
+   "invariant": "The numerical measurement."
+  }
+ ],
+ "notReliablyReviewed": [],
+ "reviewedRevision": 5,
+ "reviewedAt": "2026-10-11T13:01:58.999Z",
+ "passes": {
+  "review": {
+   "model": "gpt-6.1-sol",
+   "effort": "low",
+   "calls": 2
+  },
+  "challenge": {
+   "model": "gpt-6.1-sol",
+   "effort": "medium",
+   "calls": 1
+  }
+ },
+ "importReview": "Lean content review table: 38 of 38 blocks passed.",
+ "questionOrder": "source",
+ "lastRun": {
+  "sequences": [
+   {
+    "id": "absolute-error",
+    "title": "Absolute error",
+    "blocks": 26,
+    "images": 6,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 46556,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3337,
+     "reasoning_output_tokens": 92
+    },
+    "elapsedMs": 90190,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "percentage-error",
+    "title": "Percentage error",
+    "blocks": 12,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 25226,
+     "cached_input_tokens": 12544,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 2089,
+     "reasoning_output_tokens": 95
+    },
+    "elapsedMs": 60734,
+    "candidates": 0,
+    "discarded": [],
+    "suggestions": 2
+   }
+  ],
+  "dropped": [],
+  "unchecked": [],
+  "suppressed": [],
+  "droppedQuestions": [],
+  "candidateFile": ".booklet-work/pedagogy-review/measurement-error-v1/candidates-low-1791723660736.json",
+  "errors": []
+ },
+ "postedRevision": 6
+}

@@ -1,0 +1,2516 @@
+{
+ "version": 1,
+ "projectId": "stage4-indices-v1",
+ "title": "Indices",
+ "assumptions": {},
+ "findings": [
+  {
+   "id": "pf-aa3a54985c",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p17-q3-d",
+     "blockId": "p17-q3-block",
+     "hash": "17c1880a2ec9dc6fc376e501f0694c57bf018be9fddfe57bc7ba2f20e985bd8b"
+    },
+    {
+     "id": "p17-q3-e",
+     "blockId": "p17-q3-block",
+     "hash": "17c1880a2ec9dc6fc376e501f0694c57bf018be9fddfe57bc7ba2f20e985bd8b"
+    }
+   ],
+   "finding": "Parts d and e repeat the same whole task.",
+   "breakdown": "Both supply the prefix 21 and request two final digits making the number divisible by 5.",
+   "checked": "Compared the shared instruction, prefixes and response requirements. No comparison or retrieval purpose is stated.",
+   "assumptions": "The supplied prompts are complete.",
+   "repair": {
+    "type": "remove-question",
+    "proposal": "Remove p17-q3-e."
+   },
+   "doneWhen": "The unchanged 21-prefix task appears once.",
+   "from": [
+    "c5"
+   ],
+   "sequences": [
+    "divisibility"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "29993939-8448-4a58-bdcf-d970848e111d",
+   "postedAt": "2026-10-11T11:06:19.616Z"
+  },
+  {
+   "id": "pf-171a8107f8",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p22-identify-k-node",
+     "blockId": "p22-identify-question-block",
+     "hash": "2c93e7e7d8c1230611dfea70e6e7662f9d83e8a4354ae2bc95a1ad52a2fd0852"
+    },
+    {
+     "id": "p22-identify-question-root",
+     "blockId": "p22-identify-question-block",
+     "hash": "2c93e7e7d8c1230611dfea70e6e7662f9d83e8a4354ae2bc95a1ad52a2fd0852"
+    }
+   ],
+   "finding": "Students are asked to classify a thirteen-digit number without a feasible supplied method for establishing its primality.",
+   "breakdown": "Failing the six taught divisibility tests does not establish primality. The instruction to use these tests risks students treating their failure as proof.",
+   "checked": "p16-tests covers only 2, 3, 4, 5, 6 and 10. p22 supplies definitions, small arrays and the first ten primes. The teacher-supplied classification appears only in the answer.",
+   "assumptions": "An ordinary calculator may be available; no primality-testing facility is assumed. Practice answers are not student-facing teaching.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Label k: 'Teacher discussion: your teacher will supply this number’s classification. Explain why failing the divisibility tests for 2, 3, 4, 5, 6 and 10 does not prove that a number is prime.'"
+   },
+   "doneWhen": "The student-facing task identifies the teacher-supplied classification and asks students to explain the tests’ limitation.",
+   "from": [
+    "c8"
+   ],
+   "sequences": [
+    "prime-numbers"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "755a7273-20f0-4622-8a22-f3eb97d3860c",
+   "postedAt": "2026-10-11T11:06:19.622Z"
+  },
+  {
+   "id": "pf-d6d8beeea5",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p23-theorem-block",
+     "blockId": "p23-theorem-block",
+     "hash": "422485714a5ca0a898962a1872072c4e9102811b8879c42c55c8dae8bb0feab7"
+    },
+    {
+     "id": "p24-example-demonstration",
+     "blockId": "p24-example",
+     "hash": "55c910fea98118a0d826b229f3f362693b8d61a996b8662026752cb4db6ba856"
+    }
+   ],
+   "finding": "The factor-tree example uses mixed-factor compression into index form without an opening rehearsal.",
+   "breakdown": "Students must count repeated prime factors and retain single factors to connect the tree’s leaves to 2^3 × 5.",
+   "checked": "p3-rewrite teaches this skill. The immediately preceding prime-number teaching rehearses classification, not index compression. p23-identify requests prime products without rehearsing their compression.",
+   "assumptions": "Previously taught index notation needs retrieval here. Calculator availability does not affect the finding.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p23-theorem-block, ask: 'Write in index form: (a) 2×2×2; (b) 3×3×5; (c) 5×2×5×2×2.' Answers: 2^3; 3^2×5; 2^3×5^2."
+   },
+   "doneWhen": "A short review rehearses repeated-factor counting, single factors and mixed-factor grouping before the example.",
+   "from": [
+    "c10"
+   ],
+   "sequences": [
+    "prime-factorisation"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "98c106b3-37fa-41d0-ba66-852951a1e770",
+   "postedAt": "2026-10-11T11:06:19.630Z"
+  },
+  {
+   "id": "pf-9f4b8ab9e5",
+   "kind": "example-choice",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p36-q9-a",
+     "blockId": "p36-q9",
+     "hash": "29e1fab1203e14e12b4fac1df794fcb6e79468735e9888ce4bd19205f4e36232"
+    },
+    {
+     "id": "p36-q10-b",
+     "blockId": "p36-q10",
+     "hash": "94d5888e9dda54dca837b5efbf6d19b41f72292a23d173a94498d0762acac3ee"
+    },
+    {
+     "id": "p36-q10-c",
+     "blockId": "p36-q10",
+     "hash": "94d5888e9dda54dca837b5efbf6d19b41f72292a23d173a94498d0762acac3ee"
+    },
+    {
+     "id": "p36-q10-d",
+     "blockId": "p36-q10",
+     "hash": "94d5888e9dda54dca837b5efbf6d19b41f72292a23d173a94498d0762acac3ee"
+    }
+   ],
+   "finding": "The square-root model introduces 14 without showing the regrouping that produces it.",
+   "breakdown": "The rule 'multiply each distinct prime once' succeeds throughout question 9 but fails when question 10 contains several pairs of the same prime.",
+   "checked": "p30-q17 demonstrates distributing a power across a product, but does not model selecting factors from repeated pairs for a root. p36-q9-a jumps from 2^2×7^2 to 14^2; subsequent scaffolded examples retain the special case of one pair per prime.",
+   "assumptions": "Students know prime factorisation and repeated multiplication. Calculator access does not model the grouping decision.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Add to p36-q9-a: 'Regroup into two identical products: 2×2×7×7=(2×7)×(2×7)=14^2. For the square root, take one factor from every pair, including each repeated pair of the same prime.'"
+   },
+   "doneWhen": "The model shows where 14 comes from and explicitly retains one factor from every pair.",
+   "from": [
+    "c13"
+   ],
+   "sequences": [
+    "square-roots"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "4e6a28c3-273b-4800-a7f5-8df33a27c48a",
+   "postedAt": "2026-10-11T11:06:19.637Z"
+  },
+  {
+   "id": "pf-a11738485d",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p34-q2-g",
+     "blockId": "p34-q2",
+     "hash": "ca88cc38c526d6ed4139a7d5daad1d2b1ffb91ee0cdc0aab0a99f24948f56668"
+    },
+    {
+     "id": "p34-q2-k",
+     "blockId": "p34-q2",
+     "hash": "ca88cc38c526d6ed4139a7d5daad1d2b1ffb91ee0cdc0aab0a99f24948f56668"
+    },
+    {
+     "id": "p34-q2-d",
+     "blockId": "p34-q2",
+     "hash": "ca88cc38c526d6ed4139a7d5daad1d2b1ffb91ee0cdc0aab0a99f24948f56668"
+    },
+    {
+     "id": "p34-q2-m",
+     "blockId": "p34-q2",
+     "hash": "ca88cc38c526d6ed4139a7d5daad1d2b1ffb91ee0cdc0aab0a99f24948f56668"
+    }
+   ],
+   "finding": "Question 2 contains unchanged repeated tasks for √49 and √169.",
+   "breakdown": "Each later copy repeats the complete expression and evaluation requirement.",
+   "checked": "Compared all four prompts under the same Evaluate instruction. No comparison or retrieval purpose is stated.",
+   "assumptions": "These are separate student tasks.",
+   "repair": {
+    "type": "remove-question",
+    "proposal": "Remove p34-q2-k and p34-q2-m."
+   },
+   "doneWhen": "Each targeted root appears once within question 2.",
+   "from": [
+    "c14"
+   ],
+   "sequences": [
+    "square-roots"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "294474db-18b6-4e59-b452-0a36341031cd",
+   "postedAt": "2026-10-11T11:06:19.644Z"
+  },
+  {
+   "id": "pf-0384cd2e47",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p36-q12-c",
+     "blockId": "p36-q12-block",
+     "hash": "913c984208532f80a22b58088baff8c6f72932e9500b86237f1c3e7ae02d0b2a"
+    }
+   ],
+   "finding": "Generalise the prime-factor pairing condition for a perfect square.",
+   "breakdown": "The task connects root extraction to even prime multiplicities.",
+   "checked": "The first and third proposed products are squares; the second contains an unpaired factor 2. Factorisation, indices and square roots are available by the topic’s end.",
+   "assumptions": "The general rule concerns positive integers greater than 1.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p36-q12-c, offer: 'Without evaluating, which are perfect squares: 2^4×3^2, 2^3×3^2, and 2^2×3^4×5^2? Explain and state a rule.' Expected answer: the first and third; a positive integer greater than 1 is a perfect square exactly when every exponent in its prime factorisation is even."
+   },
+   "doneWhen": "The optional task includes the products, explanation prompt and expected rule.",
+   "from": [
+    "c15"
+   ],
+   "sequences": [
+    "square-roots"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "b943d503-34f5-4ec6-93d0-9dd0cd99d01c",
+   "postedAt": "2026-10-11T11:06:19.651Z"
+  },
+  {
+   "id": "pf-49220347a7",
+   "kind": "missing-prerequisite",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p40-q4-b",
+     "blockId": "p40-q4-block",
+     "hash": "ad947302dd8d3b80bf9513f6ef4de3439ad2fec63d6f7fe422b02969cf6ab218"
+    },
+    {
+     "id": "p40-q4-c",
+     "blockId": "p40-q4-block",
+     "hash": "ad947302dd8d3b80bf9513f6ef4de3439ad2fec63d6f7fe422b02969cf6ab218"
+    }
+   ],
+   "finding": "Fourth- and fifth-root notation appears before its meaning is supplied.",
+   "breakdown": "Knowing square and cube roots does not establish what the new small indices ask students to undo.",
+   "checked": "p33 and p38 define square and cube roots only. p40-q5 supplies higher-root inverse relationships later, after p40-q4.",
+   "assumptions": "Higher-root notation is new within this booklet. A calculator is available as explicitly permitted by p40-q4.",
+   "repair": {
+    "type": "add-teaching",
+    "proposal": "Before p40-q4, add: 'The small root index tells us which power to undo. For positive numbers and a positive integer n, √[n]{a}=b means b^n=a. For example, 3^4=81, so √[4]{81}=3.'"
+   },
+   "doneWhen": "The root index’s meaning and an explicit inverse pair precede fourth- and fifth-root evaluation.",
+   "from": [
+    "c16"
+   ],
+   "sequences": [
+    "cube-roots"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "5b5133f2-48d6-4d41-99a9-8bec5fcc7b0c",
+   "postedAt": "2026-10-11T11:06:19.664Z"
+  },
+  {
+   "id": "pf-a9af2c8026",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p42-q3-root",
+     "blockId": "p42-q3-block",
+     "hash": "e7f889da37fdd46f974bc489c3400507d7183c1fa87063bf727c5ee7694e5d76"
+    }
+   ],
+   "finding": "The cube-root estimation task does not identify how to adapt the taught square-root bounds.",
+   "breakdown": "Students must choose neighbouring perfect cubes and convert them into cube-root bounds; preceding estimation teaching specifies perfect squares only.",
+   "checked": "p38 establishes exact cubes and cube roots. p41-estimating-method, its example and guided questions model square-root bounds exclusively.",
+   "assumptions": "Calculator checking is available, but the task asks students to estimate.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Before p42-q3, add: 'For cube roots, use neighbouring perfect cubes. For example, 27<40<64, so 3<∛40<4. Then check with a calculator: ∛40≈3.42.'"
+   },
+   "doneWhen": "A short cue connects neighbouring cubes to root bounds before independent cube-root estimates.",
+   "from": [
+    "c17"
+   ],
+   "sequences": [
+    "cube-roots"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "4e2649bd-4bd5-4792-835c-11df8ad99c25",
+   "postedAt": "2026-10-11T11:06:19.667Z"
+  },
+  {
+   "id": "pf-ee10d25638",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p43-order",
+     "blockId": "p43-order",
+     "hash": "794d26cb397b03d848a65c616d81dbe3575e271b00c8281830710ceb0e2d17e3"
+    },
+    {
+     "id": "p43-examples",
+     "blockId": "p43-examples",
+     "hash": "3134b8482cf38bfe7148fe4cbd029967f03b75370817b20e91271cd8994cb39f"
+    }
+   ],
+   "finding": "The root-expression examples use index priority and grouping without an opening rehearsal of operation order.",
+   "breakdown": "Students must recall powers before subtraction and complete grouped calculations while learning the scope of a root.",
+   "checked": "p10 teaches these decisions. The immediately preceding root-estimation review and exercise do not rehearse mixed-operation order. p43 restates the hierarchy but supplies no retrieval questions.",
+   "assumptions": "Calculator access does not remove the need to choose operation order.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p43-order, ask: 'Evaluate using the order of operations. Write your first calculation on a new line: (a) 3^2−4; (b) (2+3)^2; (c) 18÷3^2+1.' Answers: 5, 25, 3."
+   },
+   "doneWhen": "A short opening review rehearses index priority and grouping before roots are incorporated.",
+   "from": [
+    "c20"
+   ],
+   "sequences": [
+    "evaluate-roots"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "56e04187-f495-4545-a149-89dadc62a9a0",
+   "postedAt": "2026-10-11T11:06:19.670Z"
+  },
+  {
+   "id": "pf-82d4393470",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p43-guided-c",
+     "blockId": "p43-guided",
+     "hash": "096379338dddb60ff3b1c40edf5821f72f278a5e9959a22c56ff2b7dbc6a2e17"
+    },
+    {
+     "id": "p44-q1-g",
+     "blockId": "p44-q1",
+     "hash": "d8349796b6b25cd62d707dd5b4832bf0fd5317af79399067ed639cc2b5b4f13d"
+    }
+   ],
+   "finding": "The independent exercise repeats the complete guided task √(3^2+4^2).",
+   "breakdown": "Both ask for evaluation of the unchanged expression.",
+   "checked": "Compared the expression and parent instructions. Neither states a retrieval or comparison purpose.",
+   "assumptions": "The supplied instructions contain the complete student-facing purpose.",
+   "repair": {
+    "type": "remove-question",
+    "proposal": "Remove p44-q1-g."
+   },
+   "doneWhen": "The unchanged task appears once in this sequence.",
+   "from": [
+    "c21"
+   ],
+   "sequences": [
+    "evaluate-roots"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "9f92baef-dbb5-4769-b83a-6577732ea336",
+   "postedAt": "2026-10-11T11:06:19.672Z"
+  },
+  {
+   "id": "pf-3ea7dabe2e",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p45-q2-c",
+     "blockId": "p45-q2-block",
+     "hash": "cdfdd0ed178dd0f3fe7733bb8aaa52bd4b77fe9422cffc12242576cee074ebf1"
+    },
+    {
+     "id": "p45-q2-e",
+     "blockId": "p45-q2-block",
+     "hash": "cdfdd0ed178dd0f3fe7733bb8aaa52bd4b77fe9422cffc12242576cee074ebf1"
+    }
+   ],
+   "finding": "Explain why square roots split across products of positive perfect squares but generally not across sums.",
+   "breakdown": "The task develops the equality already encountered in question 2 and exposes an invalid addition rule.",
+   "checked": "The product expressions both equal 12; the sum expressions equal 5 and 7. Repeated multiplication and inverse squaring suffice for the stated domain.",
+   "assumptions": "The generalisation is restricted to positive perfect squares.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p45-q2, offer: 'Compare √(9×16) with √9×√16, and √(9+16) with √9+√16. Which equality holds for every pair of positive perfect squares? Explain.' Expected answer: the product pair both equal 12; the sum pair equal 5 and 7. If the squares are m^2 and n^2 with positive integer m,n, their product is (mn)^2, whose square root is mn."
+   },
+   "doneWhen": "The optional task includes the product/sum comparison and an explanation within the stated domain.",
+   "from": [
+    "c22"
+   ],
+   "sequences": [
+    "evaluate-roots"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "20d555f1-6b15-4ab1-890a-df9fb8b4861d",
+   "postedAt": "2026-10-11T11:06:19.675Z"
+  },
+  {
+   "id": "pf-eb9307fff2",
+   "kind": "example-choice",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p50-investigation-block",
+     "blockId": "p50-investigation-block",
+     "hash": "ab19be6e5171a4d53f0b04521d5b576aef45ba30a02fbfe5058a2fea7d80c03f"
+    },
+    {
+     "id": "p51-q3-04",
+     "blockId": "p51-q3-block",
+     "hash": "e2c0eb6abcfbab8223ab48011313c432594dbbc2497112942781967e3ec3b9ad"
+    },
+    {
+     "id": "p51-q3-05",
+     "blockId": "p51-q3-block",
+     "hash": "e2c0eb6abcfbab8223ab48011313c432594dbbc2497112942781967e3ec3b9ad"
+    }
+   ],
+   "finding": "The introductory calculations do not distinguish ordered index subtraction from taking a positive difference.",
+   "breakdown": "Subtracting the smaller index from the larger succeeds in every introductory calculation but incorrectly gives 5^4 for the reversed quotient.",
+   "checked": "p50-investigation, p50-simplify and p51-q1–q2 use larger numerator indices. The reversed applicability example identifies the law without calculating; the general formula alone does not expose the wrong rule.",
+   "assumptions": "This finding concerns subtraction order, independently of whether negative-index meanings were taught elsewhere. No calculator is needed.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Before p51-q3-05, add: 'Order matters: 5^6÷5^2=5^(6−2)=5^4, whereas 5^2÷5^6=5^(2−6)=5^(−4). Subtract the denominator’s index from the numerator’s index.'"
+   },
+   "doneWhen": "An explicit reversed contrast distinguishes ordered subtraction from a positive difference.",
+   "from": [
+    "c24"
+   ],
+   "sequences": [
+    "index-division"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "ebd75465-45e0-469a-87c2-739e8025ce90",
+   "postedAt": "2026-10-11T11:06:19.678Z"
+  },
+  {
+   "id": "pf-7d1a5ff6c1",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p51-q3-18",
+     "blockId": "p51-q3-block",
+     "hash": "e2c0eb6abcfbab8223ab48011313c432594dbbc2497112942781967e3ec3b9ad"
+    }
+   ],
+   "finding": "The symbolic different-base quotient needs a grouping route that the same-base division teaching does not supply.",
+   "breakdown": "Students are correctly taught to reject index subtraction for different bases, but must now form repeated copies of m/p to obtain the expected index-form result.",
+   "checked": "p30-q17 supplies product grouping, not quotient grouping. p50 identifies different bases as outside the division law; preceding parts reinforce that restriction.",
+   "assumptions": "Students know positive-power expansion and ordinary fraction multiplication. The denominator p is nonzero.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Append: 'The bases differ, so do not subtract indices. Expand m^4/p^4, then group it as (m/p)×(m/p)×(m/p)×(m/p). Write this product in index form.'"
+   },
+   "doneWhen": "The question supplies the grouping route and distinguishes it from same-base index subtraction.",
+   "from": [
+    "c26"
+   ],
+   "sequences": [
+    "index-division"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "90b95b37-75f1-416e-b113-d87b5f8d0b58",
+   "postedAt": "2026-10-11T11:06:19.682Z"
+  },
+  {
+   "id": "pf-0006e0269b",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p51-q3-13",
+     "blockId": "p51-q3-block",
+     "hash": "e2c0eb6abcfbab8223ab48011313c432594dbbc2497112942781967e3ec3b9ad"
+    },
+    {
+     "id": "p51-q3-20",
+     "blockId": "p51-q3-block",
+     "hash": "e2c0eb6abcfbab8223ab48011313c432594dbbc2497112942781967e3ec3b9ad"
+    },
+    {
+     "id": "p51-q3-15",
+     "blockId": "p51-q3-block",
+     "hash": "e2c0eb6abcfbab8223ab48011313c432594dbbc2497112942781967e3ec3b9ad"
+    },
+    {
+     "id": "p51-q3-21",
+     "blockId": "p51-q3-block",
+     "hash": "e2c0eb6abcfbab8223ab48011313c432594dbbc2497112942781967e3ec3b9ad"
+    }
+   ],
+   "finding": "Question 3 repeats two unchanged whole tasks.",
+   "breakdown": "Parts 13 and 20 both request simplification of 4^0.6/4^0.2; parts 15 and 21 both request simplification of 4^6/4^6.",
+   "checked": "Compared complete expressions under the shared instruction. No additional givens, diagrams or explicit repetition purpose distinguishes the later copies.",
+   "assumptions": "No unstated retrieval purpose is assumed.",
+   "repair": {
+    "type": "remove-question",
+    "proposal": "Remove p51-q3-20 and p51-q3-21. Retain p51-q3-13 in its integer/decimal/fractional comparison and p51-q3-15 beside its symbolic generalisation."
+   },
+   "doneWhen": "Each targeted task appears once and the earlier variation groups remain intact.",
+   "from": [
+    "c27",
+    "c28"
+   ],
+   "sequences": [
+    "index-division"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "f95af98d-1770-420d-a087-58dcb7047669",
+   "postedAt": "2026-10-11T11:06:19.684Z"
+  },
+  {
+   "id": "pf-7c37f33db7",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p55-zero-power-rule",
+     "blockId": "p55-zero-power-rule",
+     "hash": "9e2f9fac4b881d45363dde6076fa42d01b237c2df13096d9da6227611b82ff0c"
+    },
+    {
+     "id": "p56-q1-m",
+     "blockId": "p56-q1",
+     "hash": "a46e443e7480a3b8ebab5bd155f81c73ea1b71e6c41fa53b7e81656a33065952"
+    }
+   ],
+   "finding": "The task requires the booklet’s treatment of 0^0 without stating it.",
+   "breakdown": "Excluding zero from a^0=1 tells students that the rule cannot be applied, but does not supply the requested classification of 0^0.",
+   "checked": "p55 consistently restricts the zero-power rule and division argument to nonzero bases. Positive powers of zero in p56 do not establish the treatment of 0^0.",
+   "assumptions": "The expected answer uses the school convention that 0^0 is undefined.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Add to p55-zero-power-rule: 'In this booklet, 0^0 is left undefined. The division argument cannot determine it because division by zero is undefined.'"
+   },
+   "doneWhen": "The booklet explicitly states its treatment of 0^0 before asking students to classify it.",
+   "from": [
+    "c31"
+   ],
+   "sequences": [
+    "zero-power"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "82eabbf2-c330-4b95-85ec-066c7d15d9c4",
+   "postedAt": "2026-10-11T11:06:19.687Z"
+  },
+  {
+   "id": "pf-497bd5e69a",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p64-example",
+     "blockId": "p64-example",
+     "hash": "14bb6fdb671c557b38936d8287f238e888e0ffb67bee280a03145573b8221788"
+    }
+   ],
+   "finding": "The opening example uses division-before-addition recall without rehearsing it.",
+   "breakdown": "Students must keep the separate addend outside the quotient while applying the division index law.",
+   "checked": "p10 teaches operation order. p57’s review rehearses individual index laws, not choosing between addition and division. The supplied preceding mixed-practice task does not rehearse that choice.",
+   "assumptions": "Operation order is previously taught but may need retrieval. Calculator access does not remove the decision.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p64-example, ask: 'Evaluate using the order of operations: (a) 6+12÷3; (b) 3+2^3×2; (c) (3+2^3)×2.' Answers: 10, 19, 22."
+   },
+   "doneWhen": "A short review rehearses a separate addend, power priority and grouping.",
+   "from": [
+    "c34"
+   ],
+   "sequences": [
+    "evaluate-index-laws"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "bbc22687-3288-45d4-8ac2-0d57c19f3ee7",
+   "postedAt": "2026-10-11T11:06:19.690Z"
+  },
+  {
+   "id": "pf-9061c5980b",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p65-q2-e",
+     "blockId": "p65-q2",
+     "hash": "33ae79df594becdbf0cbecff183eae403ee95deb21e96550370ab9d6139bf2c5"
+    },
+    {
+     "id": "p65-q2-l",
+     "blockId": "p65-q2",
+     "hash": "33ae79df594becdbf0cbecff183eae403ee95deb21e96550370ab9d6139bf2c5"
+    },
+    {
+     "id": "p65-q2-a",
+     "blockId": "p65-q2",
+     "hash": "33ae79df594becdbf0cbecff183eae403ee95deb21e96550370ab9d6139bf2c5"
+    },
+    {
+     "id": "p65-q3-j",
+     "blockId": "p65-q3",
+     "hash": "b4e1475e9f6cf95f0d4729e0e38032ba2eb6c5278f8f4ed50defb771bfef758f"
+    }
+   ],
+   "finding": "The exercises repeat unchanged evaluation tasks for (5^6)^0 and 4^0.",
+   "breakdown": "Each later copy has the same expression, givens and evaluation requirement as its earlier copy.",
+   "checked": "Compared complete prompts and parent instructions. Neither repeated task has a stated retrieval or comparison purpose; removing these standalone parts preserves the shared stems.",
+   "assumptions": "An unstated repetition purpose is not assumed.",
+   "repair": {
+    "type": "remove-question",
+    "proposal": "Remove p65-q2-l and p65-q3-j."
+   },
+   "doneWhen": "The unnecessary later copies are removed.",
+   "from": [
+    "c35",
+    "c36"
+   ],
+   "sequences": [
+    "evaluate-index-laws"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "cb85c3d4-00be-4297-a70a-65fc48999f9a",
+   "postedAt": "2026-10-11T11:06:19.694Z"
+  },
+  {
+   "id": "pf-a1e60b6222",
+   "kind": "difficulty-jump",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p68-q10-a",
+     "blockId": "p68-q10",
+     "hash": "f753508b69c02d55d6ad9db6ad585559b97d72696e5c868a0fc125499b2e5f04"
+    },
+    {
+     "id": "p68-q10-b",
+     "blockId": "p68-q10",
+     "hash": "f753508b69c02d55d6ad9db6ad585559b97d72696e5c868a0fc125499b2e5f04"
+    },
+    {
+     "id": "p67-q7-a",
+     "blockId": "p67-q7-block",
+     "hash": "a5fdc2f814250ae9fdcd4b87252e1684f6824e31587772db49755cf4875d65f6"
+    },
+    {
+     "id": "p67-q8",
+     "blockId": "p67-q8-block",
+     "hash": "80175c7ab6774d7c56672c9039431b84aed5ac21774ee1012ab889d863d29b97"
+    },
+    {
+     "id": "p67-q9-a",
+     "blockId": "p67-q9-block",
+     "hash": "23d9b32cd0be1150f8be1dc0b4ab921eb989e03394b8087886871b1fcd34a411"
+    },
+    {
+     "id": "p67-q9-b",
+     "blockId": "p67-q9-block",
+     "hash": "23d9b32cd0be1150f8be1dc0b4ab921eb989e03394b8087886871b1fcd34a411"
+    }
+   ],
+   "finding": "Common-base practice combines several new decisions before the existing preparation is encountered.",
+   "breakdown": "p68-q10-b adds independent base conversion, conversion inside a powered base, power-of-a-power simplification and combination of three factors after one supplied substitution.",
+   "checked": "Read the supplied practice order. p67-q7 provides common-base product rewriting, p67-q8 models a powered converted base, and p67-q9 scaffolds combined quotients, but all appear after p68-q10.",
+   "assumptions": "The supplied practice order is booklet order. Individual index laws and prime factorisation are already taught.",
+   "repair": {
+    "type": "reorder",
+    "proposal": "Move p67-q7-block, p67-q8-block and p67-q9-block, in that order, immediately before p68-q10. Include the same-base equation cue from the merged unknown-index finding before p67-q8-c."
+   },
+   "doneWhen": "The existing preparation precedes the combined common-base tasks.",
+   "from": [
+    "c37"
+   ],
+   "sequences": [
+    "evaluate-index-laws"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "61b8313a-be36-4113-b6b9-5371992bf426",
+   "postedAt": "2026-10-11T11:06:19.698Z"
+  },
+  {
+   "id": "pf-32b5035aa1",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p68-q15-response",
+     "blockId": "p68-q15",
+     "hash": "17499338f98e01a77d345f72984ac451e6c505c2eb2c11c068c48969fb75bdab"
+    },
+    {
+     "id": "p67-q8-c",
+     "blockId": "p67-q8-block",
+     "hash": "80175c7ab6774d7c56672c9039431b84aed5ac21774ee1012ab889d863d29b97"
+    },
+    {
+     "id": "p68-q14-response",
+     "blockId": "p68-q14",
+     "hash": "1d669b93b4e7e7eae3c80a491ac0e44543ae33a1570bb3ac39c007d7040eeca4"
+    }
+   ],
+   "finding": "Unknown-index tasks require the connection from equal powers to equal indices without a supplied model.",
+   "breakdown": "Students can rewrite both sides with a common base yet lack a demonstrated route from that equality to an equation in the indices.",
+   "checked": "p52 teaches multiplying nested indices. p68-q13 compares known powers. The earlier p62-q15 also requires an exponent inference but supplies no student-facing method. None models solving an unknown-index equation.",
+   "assumptions": "Ordinary linear-equation solving is prior knowledge. The relevant bases are positive and greater than 1.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Before the first unknown-index task, add: 'Once both sides are powers of the same base here, set their indices equal and solve. For example, 2^(3t)=2^12 gives 3t=12, so t=4.' With the proposed reorder, place this before p67-q8-c."
+   },
+   "doneWhen": "A written model connects equal powers to an equation in their indices before the affected tasks.",
+   "from": [
+    "c39"
+   ],
+   "sequences": [
+    "evaluate-index-laws"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "0afcb86a-3ae3-4d87-a620-c889fa761720",
+   "postedAt": "2026-10-11T11:06:19.701Z"
+  },
+  {
+   "id": "pf-eb75ac87e8",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p69-dot-operator",
+     "blockId": "p69-dot-operator",
+     "hash": "06ec8a288d1b1ccde772a080b2658fb4290d1c83f5aa3fdd53abf559d7b3c007"
+    },
+    {
+     "id": "p70-hcf-example-demonstration",
+     "blockId": "p70-hcf-example",
+     "hash": "26d4bc7a67e61e8441be9a4d3b1d841cbd3066e167b738b9461480d7fe4f9b7a"
+    }
+   ],
+   "finding": "The HCF method uses prime factorisation in index form without an opening rehearsal.",
+   "breakdown": "Students need to produce complete prime factorisations before selecting minimum or maximum indices.",
+   "checked": "p23–p24 teach factorisation and compression. The immediately preceding topic practises evaluating index expressions rather than constructing prime factorisations. p69 demonstrates calculator access to a factorisation but provides no retrieval task.",
+   "assumptions": "Calculators are available as stated in p69. The review concerns producing and interpreting factorisations, not evaluating powers or products.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p69-dot-operator, ask: 'Write each number as a product of prime factors in index form. Use a factor tree if helpful: (a) 28; (b) 45; (c) 72.' Answers: 2^2×7; 3^2×5; 2^3×3^2."
+   },
+   "doneWhen": "Students briefly rehearse complete prime factorisations in index form before the HCF example.",
+   "from": [
+    "c41"
+   ],
+   "sequences": [
+    "hcf-lcm-primes"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "7e498d27-e60f-4a2c-a734-b19f3a9da70b",
+   "postedAt": "2026-10-11T11:06:19.704Z"
+  },
+  {
+   "id": "pf-edca0431d9",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p71-guided",
+     "blockId": "p71-guided",
+     "hash": "f34a94e069891c15cdfc3ddcdc1f737e256381ca870565ea4c569c5eb450d59b"
+    }
+   ],
+   "finding": "Vary one prime index across the point where the minimum and maximum change.",
+   "breakdown": "The run makes the different effects on HCF and LCM visible.",
+   "checked": "The proposed HCF/LCM pairs are (18,72), (36,72), (72,72), (72,144). The unpatterned pair has HCF 6 and LCM 1260. All methods are taught by p71.",
+   "assumptions": "All numbers are positive integers.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p71-guided, fix A=2^3·3^2. For B=2^1·3^2, 2^2·3^2, 2^3·3^2 and 2^4·3^2, predict before calculating which of HCF and LCM changes from the preceding pair, then find both. Only B’s index of 2 varies. Expected pairs: (18,72), (36,72), (72,72), (72,144). Follow with A=2^2·3·5 and B=2·3^2·7; expected HCF 6, LCM 1260."
+   },
+   "doneWhen": "The optional run includes prediction, four single-feature variations and an unpatterned follow-up.",
+   "from": [
+    "c42"
+   ],
+   "sequences": [
+    "hcf-lcm-primes"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "c6f7816f-2830-449b-aa8f-89f0df026bd4",
+   "postedAt": "2026-10-11T11:06:19.708Z"
+  },
+  {
+   "id": "pf-89f967fa55",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p73-q2-c",
+     "blockId": "p73-q2",
+     "hash": "26b5fee40ce684057c01656f6b78b0c2992bfed8ab6b6b1289d0d8f743168550"
+    }
+   ],
+   "finding": "Explain the HCF–LCM product identity and why it does not extend directly to three numbers.",
+   "breakdown": "Students connect minimum and maximum prime indices to the multiplication law.",
+   "checked": "For two indices, minimum plus maximum equals their sum. For 2,4,8, HCF×LCM=16 while the three-number product is 64. All required methods are available.",
+   "assumptions": "The task concerns positive integers.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p73-q2-c, offer: 'For positive integers a,b, explain using prime factorisations why HCF(a,b)·LCM(a,b)=ab. Does HCF(a,b,c)·LCM(a,b,c)=abc always hold? Test 2,4,8 and explain.' Expected answer: minimum and maximum indices sum to the original two indices; for three numbers they omit the middle index. The example gives 16 rather than 64."
+   },
+   "doneWhen": "The optional task states the positive-integer domain and includes the counterexample and structural explanation.",
+   "from": [
+    "c43"
+   ],
+   "sequences": [
+    "hcf-lcm-primes"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "05a87862-a1bc-4fb1-9f3b-d755db33548d",
+   "postedAt": "2026-10-11T11:06:19.712Z"
+  },
+  {
+   "id": "pf-3121e6770d",
+   "kind": "difficulty-jump",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p78-q24",
+     "blockId": "p78-q24",
+     "hash": "181267ad48bb00372baae090d8a36475e2de5e7648872312cd153f1f44840108"
+    },
+    {
+     "id": "p78-q22",
+     "blockId": "p78-q22",
+     "hash": "c2c5b762a8c8e9114a49bcc4148faf70f854eb94bacf343b2673944fdb6c9c67"
+    }
+   ],
+   "finding": "The unscaffolded least-divisor square task precedes the existing multiplication-to-division bridge.",
+   "breakdown": "p78-q24 combines factorisation, selecting factors to remove and establishing leastness before students encounter the scaffolded division variant.",
+   "checked": "In the supplied practice order, p77-q20 and p78-q21 also appear after p78-q24. p78-q22 supplies factorisation followed by matched multiplication and division tasks; p78-q23 then repeats that structure.",
+   "assumptions": "The supplied practice order is booklet order. Earlier square-root factorisation is available; no separate root-factorisation repair is required.",
+   "repair": {
+    "type": "reorder",
+    "proposal": "Move p78-q24 to immediately after p78-q22, retaining p77-q20 and p78-q21 before p78-q22."
+   },
+   "doneWhen": "Square-completing multiplication and the scaffolded division variant precede the unscaffolded 3060/n task.",
+   "from": [
+    "c46"
+   ],
+   "sequences": [
+    "challenge"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T11:06:19.579Z"
+    }
+   ],
+   "commentId": "1ba79edd-0db8-4ac6-82cc-a159f5a1d455",
+   "postedAt": "2026-10-11T11:06:19.715Z"
+  }
+ ],
+ "contextQuestions": [
+  {
+   "sequence": "index-division",
+   "targets": [
+    "p51-q3-05",
+    "p51-q3-06",
+    "p51-q3-07",
+    "p51-q3-08",
+    "p51-q3-09",
+    "p51-q3-13",
+    "p51-q3-14",
+    "p51-q3-19",
+    "p53-q3-b",
+    "p53-q3-d",
+    "p53-q3-f",
+    "p53-q3-m",
+    "p53-q3-o",
+    "p53-q3-q"
+   ],
+   "question": "Have students already studied the meanings of negative and fractional indices and the application of index laws to them in the separate course booklets? This booklet introduces their notation and applicability but derives the laws through positive-integer factors. The answer determines whether these parts are retrieval or need teaching or postponement."
+  }
+ ],
+ "protectedGroups": [
+  {
+   "sequence": "divisibility",
+   "targets": [
+    "p18-q7-e",
+    "p18-q7-f"
+   ],
+   "observation": "Appending zeroes preserves the digit sum and therefore divisibility by 3.",
+   "varies": "108 becomes 10 800 by appending two zeroes.",
+   "invariant": "Nonzero digits, digit sum and divisibility result."
+  },
+  {
+   "sequence": "evaluate-indices",
+   "targets": [
+    "p11-q2-a",
+    "p11-q2-b",
+    "p11-q2-c",
+    "p11-q2-d"
+   ],
+   "observation": "An exponent applies to its base; squaring a sum differs from adding squares.",
+   "varies": "Position and scope of the square.",
+   "invariant": "Numbers 4 and 5 and the addition structure."
+  },
+  {
+   "sequence": "evaluate-indices",
+   "targets": [
+    "p11-q1-a",
+    "p11-q1-b",
+    "p11-q1-c",
+    "p11-q1-d",
+    "p11-q1-e",
+    "p11-q1-f"
+   ],
+   "observation": "Brackets and exponent placement determine which quantity is divided or squared.",
+   "varies": "Grouping and position of the square.",
+   "invariant": "Numbers 6, 2 and 4 with division and addition."
+  },
+  {
+   "sequence": "evaluate-indices",
+   "targets": [
+    "p14-q8-a",
+    "p14-q8-b"
+   ],
+   "observation": "The same number can have different bases and exponents.",
+   "varies": "Base and corresponding exponent.",
+   "invariant": "Total 16."
+  },
+  {
+   "sequence": "evaluate-indices",
+   "targets": [
+    "p14-q8-c",
+    "p14-q8-d"
+   ],
+   "observation": "Changing the base changes the exponent needed for the same total.",
+   "varies": "Base and corresponding exponent.",
+   "invariant": "Total 64."
+  },
+  {
+   "sequence": "evaluate-indices",
+   "targets": [
+    "p12-q4-a",
+    "p12-q4-b",
+    "p12-q4-c",
+    "p12-q4-d",
+    "p12-q4-e",
+    "p12-q4-f"
+   ],
+   "observation": "Squaring a factor, an addend, a product or an entire expression produces different calculations.",
+   "varies": "Presence and scope of the square.",
+   "invariant": "Numbers 5, 2 and 4 with multiplication and addition."
+  },
+  {
+   "sequence": "evaluate-indices",
+   "targets": [
+    "p12-q4-g",
+    "p12-q4-h",
+    "p12-q4-i",
+    "p12-q4-j",
+    "p12-q4-k",
+    "p12-q4-l"
+   ],
+   "observation": "Brackets alter subtraction scope and the base being squared.",
+   "varies": "Exponent position and grouping.",
+   "invariant": "Numbers 5, 2 and 4 with subtraction and addition."
+  },
+  {
+   "sequence": "evaluate-indices",
+   "targets": [
+    "p12-q5-a",
+    "p12-q5-b",
+    "p12-q5-c",
+    "p12-q5-d",
+    "p12-q5-e",
+    "p12-q5-f",
+    "p12-q5-g",
+    "p12-q5-h"
+   ],
+   "observation": "Multiplication or division retains priority over addition, while powers are evaluated first.",
+   "varies": "Operation position, multiplication versus division, and the square on 2.",
+   "invariant": "Numbers 12, 4 and 2."
+  },
+  {
+   "sequence": "evaluate-indices",
+   "targets": [
+    "p14-q10-root"
+   ],
+   "observation": "A negative base squared differs from a minus sign applied after squaring.",
+   "varies": "Brackets enclosing the negative sign.",
+   "invariant": "Magnitude 3 and exponent 2."
+  },
+  {
+   "sequence": "evaluate-indices",
+   "targets": [
+    "p15-q13-i",
+    "p15-q13-j"
+   ],
+   "observation": "An even power permits both opposite unit bases, whereas the odd power does not.",
+   "varies": "Parity of the exponent.",
+   "invariant": "Unknown base and total one."
+  },
+  {
+   "sequence": "prime-numbers",
+   "targets": [
+    "p22-identify-g-node",
+    "p22-identify-h-node"
+   ],
+   "observation": "The digit-sum test detects odd composites even when the number gains another digit.",
+   "varies": "Number of digits and digit sum.",
+   "invariant": "Odd numbers divisible by 3, classified using the same test."
+  },
+  {
+   "sequence": "index-notation",
+   "targets": [
+    "p3-rewrite-a",
+    "p3-rewrite-b",
+    "p3-rewrite-c"
+   ],
+   "observation": "The index counts factors independently of the base value.",
+   "varies": "Base: 5, 2, 13.",
+   "invariant": "Six repeated factors."
+  },
+  {
+   "sequence": "index-notation",
+   "targets": [
+    "p5-q2-i",
+    "p5-q2-j"
+   ],
+   "observation": "Swapping base and index changes the represented product.",
+   "varies": "The roles of 2 and 5.",
+   "invariant": "The two numbers used."
+  },
+  {
+   "sequence": "index-notation",
+   "targets": [
+    "p5-q2-j",
+    "p5-q2-k",
+    "p5-q2-l"
+   ],
+   "observation": "An even index gives matching values for opposite bases; an odd index retains the negative sign.",
+   "varies": "Base sign first, then exponent parity.",
+   "invariant": "Base magnitude 5."
+  },
+  {
+   "sequence": "index-notation",
+   "targets": [
+    "p7-q7-a",
+    "p7-q7-b",
+    "p7-q7-c",
+    "p7-q7-d",
+    "p7-q7-e",
+    "p7-q7-f",
+    "p7-q7-g",
+    "p7-q7-h"
+   ],
+   "observation": "Each product of two equal negative factors matches the corresponding positive-factor product.",
+   "varies": "Factor sign across corresponding items.",
+   "invariant": "Corresponding magnitudes and two-factor structure."
+  },
+  {
+   "sequence": "index-notation",
+   "targets": [
+    "p7-q8-a",
+    "p7-q8-b",
+    "p7-q8-c",
+    "p7-q8-d",
+    "p7-q8-e"
+   ],
+   "observation": "Signs alternate as the exponent increases.",
+   "varies": "Exponent from 1 to 5.",
+   "invariant": "Base -1."
+  },
+  {
+   "sequence": "index-notation",
+   "targets": [
+    "p7-q8-f",
+    "p7-q8-g",
+    "p7-q8-h",
+    "p7-q8-i",
+    "p7-q8-j"
+   ],
+   "observation": "The parity pattern persists while magnitudes grow.",
+   "varies": "Exponent from 1 to 5.",
+   "invariant": "Base -2."
+  },
+  {
+   "sequence": "index-notation",
+   "targets": [
+    "p7-q8-k",
+    "p7-q8-l",
+    "p7-q8-m",
+    "p7-q8-n",
+    "p7-q8-o"
+   ],
+   "observation": "A third negative base confirms the same parity pattern.",
+   "varies": "Exponent from 1 to 5.",
+   "invariant": "Base -3."
+  },
+  {
+   "sequence": "index-notation",
+   "targets": [
+    "p8-q11-g",
+    "p8-q11-h"
+   ],
+   "observation": "The same numeral can have different base-and-index representations.",
+   "varies": "Base 4 versus base 2 and the required exponent.",
+   "invariant": "Value 16."
+  },
+  {
+   "sequence": "square-roots",
+   "targets": [
+    "p32-square-example-2",
+    "p32-square-example-3",
+    "p32-square-example-4",
+    "p32-square-example-5"
+   ],
+   "observation": "Squaring produces the number of unit cells in a square and differs from doubling.",
+   "varies": "Side length from 2 to 5.",
+   "invariant": "Square-grid structure and base multiplied by itself."
+  },
+  {
+   "sequence": "square-roots",
+   "targets": [
+    "p33-root-4-demonstration",
+    "p33-root-9-demonstration",
+    "p33-root-16-demonstration",
+    "p33-root-25-demonstration"
+   ],
+   "observation": "Taking a square root recovers the side length from the number of unit cells.",
+   "varies": "Area and corresponding side length.",
+   "invariant": "Square-grid representation and highlighted side column."
+  },
+  {
+   "sequence": "square-roots",
+   "targets": [
+    "p34-q1-a",
+    "p34-q1-b",
+    "p34-q1-c",
+    "p34-q1-d"
+   ],
+   "observation": "Four representations describe the same multiplication.",
+   "varies": "Index notation, verbal descriptions and expanded multiplication.",
+   "invariant": "Base 6 and value 36."
+  },
+  {
+   "sequence": "square-roots",
+   "targets": [
+    "p37-q15-a",
+    "p37-q15-b",
+    "p37-q15-c",
+    "p37-q16-a",
+    "p37-q16-b",
+    "p37-q16-c"
+   ],
+   "observation": "Separate roots combine multiplicatively but do not distribute over addition.",
+   "varies": "Root scope, followed by the operation changing from addition to multiplication.",
+   "invariant": "Radicands 36 and 64 and the evaluate-then-compare structure."
+  },
+  {
+   "sequence": "cube-roots",
+   "targets": [
+    "p38-cubing-one-example",
+    "p38-cubing-two-example",
+    "p38-cubing-three-example"
+   ],
+   "observation": "Cubing counts unit cubes through three equal factors.",
+   "varies": "Edge length increases from 1 to 2 to 3.",
+   "invariant": "Three-dimensional cube structure and exponent 3."
+  },
+  {
+   "sequence": "cube-roots",
+   "targets": [
+    "p39-q1-a",
+    "p39-q1-b",
+    "p39-q1-c"
+   ],
+   "observation": "Index notation, 'cubed' and 'to the power of 3' name the same operation.",
+   "varies": "Representation.",
+   "invariant": "Base 2, exponent 3 and required evaluation."
+  },
+  {
+   "sequence": "cube-roots",
+   "targets": [
+    "p40-q6-a",
+    "p40-q6-b",
+    "p40-q6-c"
+   ],
+   "observation": "Changing the sign of a base changes the sign of its cube.",
+   "varies": "Sign of the base.",
+   "invariant": "Magnitude 3 and exponent 3."
+  },
+  {
+   "sequence": "cube-roots",
+   "targets": [
+    "p41-guided-a",
+    "p41-guided-b",
+    "p41-guided-c",
+    "p41-guided-d"
+   ],
+   "observation": "Students progressively take responsibility for selecting bounding perfect squares.",
+   "varies": "Amount of supplied working and radicand.",
+   "invariant": "Square-root bounding method."
+  },
+  {
+   "sequence": "prime-factorisation",
+   "targets": [
+    "p24-guided-c",
+    "p24-guided-d"
+   ],
+   "observation": "Different factor-tree choices lead to the same prime factorisation.",
+   "varies": "The chosen factor pairs and decomposition route.",
+   "invariant": "The number 60 and its terminal prime factors."
+  },
+  {
+   "sequence": "prime-factorisation",
+   "targets": [
+    "p27-q6",
+    "p27-q7-root"
+   ],
+   "observation": "The uniqueness statement is supported first by comparison and then by constructing alternative trees.",
+   "varies": "Tree structure and the order in which prime leaves appear.",
+   "invariant": "The prime-factor multiset for each fixed number."
+  },
+  {
+   "sequence": "prime-factorisation",
+   "targets": [
+    "p29-q12-i",
+    "p29-q12-j"
+   ],
+   "observation": "Adding the missing prime 5 changes whether 15 divides the displayed product.",
+   "varies": "Presence of prime factor 5.",
+   "invariant": "Candidate factor 15 and the other prime factors."
+  },
+  {
+   "sequence": "prime-factorisation",
+   "targets": [
+    "p31-q18-a-iii",
+    "p31-q18-a-iv"
+   ],
+   "observation": "A terminating denominator can contain only 2 or only 5; both primes need not occur.",
+   "varies": "Which single prime occurs in the denominator.",
+   "invariant": "A reduced fraction with a terminating decimal."
+  },
+  {
+   "sequence": "prime-factorisation",
+   "targets": [
+    "p31-q18-d",
+    "p31-q18-e"
+   ],
+   "observation": "The reduced denominator determines termination, so the same original denominator can produce different outcomes.",
+   "varies": "Numerator and the prime factors remaining after cancellation.",
+   "invariant": "Original denominator 30."
+  },
+  {
+   "sequence": "index-multiplication",
+   "targets": [
+    "p49-q4-left-a",
+    "p49-q4-left-b",
+    "p49-q4-left-c"
+   ],
+   "observation": "Changing an index changes the resulting index, while reversing the two indices leaves their sum unchanged.",
+   "varies": "The second index, then the order of the indices.",
+   "invariant": "Base 5, multiplication, and two factors."
+  },
+  {
+   "sequence": "index-multiplication",
+   "targets": [
+    "p49-q4-left-c",
+    "p49-q4-left-d",
+    "p49-q4-left-e"
+   ],
+   "observation": "The law applies when both bases match and ceases to apply when only one base changes.",
+   "varies": "One base at each transition.",
+   "invariant": "Indices 2 and 5, multiplication, and two factors."
+  },
+  {
+   "sequence": "index-multiplication",
+   "targets": [
+    "p49-q4-left-g",
+    "p49-q4-left-h",
+    "p49-q4-left-i",
+    "p49-q4-left-j"
+   ],
+   "observation": "Changing signs of indices changes their sum without changing the same-base applicability condition.",
+   "varies": "Signs of the indices.",
+   "invariant": "Base 4, multiplication, and index magnitudes 3 and 5."
+  },
+  {
+   "sequence": "index-multiplication",
+   "targets": [
+    "p49-q4-right-p",
+    "p49-q4-right-q",
+    "p49-q4-right-r"
+   ],
+   "observation": "Students must distinguish matching bases from matching indices as letters change roles.",
+   "varies": "Whether letters occupy the base or index positions, and whether the bases match.",
+   "invariant": "A product of two powers."
+  },
+  {
+   "sequence": "evaluate-roots",
+   "targets": [
+    "p45-q2-a",
+    "p45-q2-b"
+   ],
+   "observation": "Bracketing a sum changes which operation happens first.",
+   "varies": "Presence of brackets around 12+4.",
+   "invariant": "Numbers, root and multiplication."
+  },
+  {
+   "sequence": "evaluate-roots",
+   "targets": [
+    "p45-q2-f",
+    "p45-q2-g",
+    "p45-q2-h"
+   ],
+   "observation": "Changing an operation and then grouping it distinguishes ordinary precedence from bracket priority.",
+   "varies": "Addition becomes subtraction, then brackets enclose the root and subtraction.",
+   "invariant": "Numbers 12, 4 and 9, the square root of 4 and the leading multiplication."
+  },
+  {
+   "sequence": "evaluate-roots",
+   "targets": [
+    "p45-q2-i",
+    "p45-q2-j",
+    "p45-q2-k"
+   ],
+   "observation": "Adding a power and then grouping the subtraction changes the order of evaluation.",
+   "varies": "The initial 12 is squared, then the subtraction is bracketed.",
+   "invariant": "Numbers, subtraction, multiplication and square root of 4."
+  },
+  {
+   "sequence": "evaluate-roots",
+   "targets": [
+    "p45-q4-a",
+    "p45-q4-b",
+    "p45-q4-c",
+    "p45-q4-d"
+   ],
+   "observation": "Each added feature introduces one further ordering decision.",
+   "varies": "Brackets, then a square on the bracket, then a leading multiplier.",
+   "invariant": "Square roots of 9, 16 and 25 and their underlying addition and multiplication."
+  },
+  {
+   "sequence": "index-division",
+   "targets": [
+    "p50-identify-demo-1-example",
+    "p50-identify-demo-2-example"
+   ],
+   "observation": "Matching bases alone do not make the division law applicable; the operation matters.",
+   "varies": "Subtraction versus division.",
+   "invariant": "The bases and indices."
+  },
+  {
+   "sequence": "index-division",
+   "targets": [
+    "p50-identify-a-response",
+    "p50-identify-b-response",
+    "p50-identify-c-response"
+   ],
+   "observation": "Both division and equal bases are required.",
+   "varies": "First the operation, then the denominator's base relative to part a.",
+   "invariant": "Numerator power and index values."
+  },
+  {
+   "sequence": "index-division",
+   "targets": [
+    "p51-q3-01",
+    "p51-q3-02",
+    "p51-q3-03",
+    "p51-q3-04"
+   ],
+   "observation": "Changing an index changes the result, whereas changing one base can make the law unavailable; matching the bases restores applicability.",
+   "varies": "One index or one base at each step.",
+   "invariant": "Division notation and the remaining values."
+  },
+  {
+   "sequence": "index-division",
+   "targets": [
+    "p51-q3-04",
+    "p51-q3-05"
+   ],
+   "observation": "Reversing the indices reverses the sign of their difference.",
+   "varies": "The order of indices 6 and 2.",
+   "invariant": "Base 5 and division."
+  },
+  {
+   "sequence": "index-division",
+   "targets": [
+    "p51-q3-05",
+    "p51-q3-06"
+   ],
+   "observation": "Changing the numerator index's sign changes the ordered subtraction.",
+   "varies": "Numerator index 2 versus -2.",
+   "invariant": "Base 5 and denominator index 6."
+  },
+  {
+   "sequence": "index-division",
+   "targets": [
+    "p51-q3-07",
+    "p51-q3-08"
+   ],
+   "observation": "With a negative denominator index fixed, changing the numerator index's sign changes the result.",
+   "varies": "Numerator index 2 versus -2.",
+   "invariant": "Base 5 and denominator index -6."
+  },
+  {
+   "sequence": "index-division",
+   "targets": [
+    "p51-q3-08",
+    "p51-q3-09"
+   ],
+   "observation": "Subtraction order still matters when both indices are negative.",
+   "varies": "The order of indices -2 and -6.",
+   "invariant": "Base 5 and division."
+  },
+  {
+   "sequence": "index-division",
+   "targets": [
+    "p51-q3-12",
+    "p51-q3-13",
+    "p51-q3-14"
+   ],
+   "observation": "The same base-comparison and index-subtraction structure is presented with integer, decimal and fractional indices.",
+   "varies": "The type and values of the indices.",
+   "invariant": "Base 4, fraction notation and matching bases."
+  },
+  {
+   "sequence": "index-division",
+   "targets": [
+    "p51-q3-15",
+    "p51-q3-16",
+    "p51-q3-17"
+   ],
+   "observation": "A numerical equal-index quotient becomes a symbolic equal-index quotient, then a quotient with independently variable indices.",
+   "varies": "Numerical versus symbolic indices, then equal versus potentially different indices.",
+   "invariant": "Base 4 and fraction notation."
+  },
+  {
+   "sequence": "zero-power",
+   "targets": [
+    "p55-sequence-2",
+    "p55-sequence-3",
+    "p55-sequence-negative-2"
+   ],
+   "observation": "Decreasing the exponent by one divides the value by the fixed base, reaching 1 at exponent zero for both positive and negative nonzero bases.",
+   "varies": "The exponent decreases within each sequence; the base changes between sequences.",
+   "invariant": "The base within each sequence and the exponent progression across sequences."
+  },
+  {
+   "sequence": "zero-power",
+   "targets": [
+    "p55-simplify-f",
+    "p55-simplify-g"
+   ],
+   "observation": "Brackets determine whether the minus sign belongs to the base or remains outside the power.",
+   "varies": "Bracketing of the negative sign.",
+   "invariant": "Magnitude 3 and exponent zero."
+  },
+  {
+   "sequence": "zero-power",
+   "targets": [
+    "p56-q4-c",
+    "p56-q4-d",
+    "p56-q4-e",
+    "p56-q4-f",
+    "p56-q4-g"
+   ],
+   "observation": "Changing a bracketed base's sign leaves its zero power unchanged, whereas moving a minus sign outside the power changes the term's value.",
+   "varies": "One feature at each step: the second base's sign, the connecting operation, the first base's sign, then the first minus sign's scope.",
+   "invariant": "Base magnitudes 6 and 5, and exponent zero on both powers."
+  },
+  {
+   "sequence": "power-of-power",
+   "targets": [
+    "p53-q3-a",
+    "p53-q3-c",
+    "p53-q3-e"
+   ],
+   "observation": "Increasing the inner index by 1 increases the resulting index by 5.",
+   "varies": "Inner index: 2, 3, 4.",
+   "invariant": "Base 6 and outer index 5."
+  },
+  {
+   "sequence": "power-of-power",
+   "targets": [
+    "p53-q3-g",
+    "p53-q3-i"
+   ],
+   "observation": "Exchanging the inner and outer indices preserves the resulting power.",
+   "varies": "The positions of indices 4 and 5.",
+   "invariant": "Base 2 and the product of the indices."
+  },
+  {
+   "sequence": "power-of-power",
+   "targets": [
+    "p53-q3-k",
+    "p53-q3-m",
+    "p53-q3-o"
+   ],
+   "observation": "Changing one index's sign changes the resulting index's sign; changing both restores a positive index.",
+   "varies": "Outer index changes from 1 to −1, then inner index changes from 5 to −5.",
+   "invariant": "Base 2 and absolute value 5 of the resulting index."
+  },
+  {
+   "sequence": "mixed-practice",
+   "targets": [
+    "p58-q3-a",
+    "p58-q3-b",
+    "p58-q3-c"
+   ],
+   "observation": "The multiplication law requires both multiplication and matching bases.",
+   "varies": "First the operation, then one base.",
+   "invariant": "The indices 4 and 3 and the first base 5."
+  },
+  {
+   "sequence": "mixed-practice",
+   "targets": [
+    "p59-q8-a",
+    "p59-q8-b",
+    "p59-q8-c"
+   ],
+   "observation": "Adding indices does not justify multiplying the bases, and differing bases prevent this law.",
+   "varies": "One input base or the proposed output base.",
+   "invariant": "Multiplication, input indices 7 and 5, and proposed output index 12."
+  },
+  {
+   "sequence": "mixed-practice",
+   "targets": [
+    "p59-q8-g",
+    "p59-q8-h",
+    "p59-q8-i"
+   ],
+   "observation": "Repeat the distinction between preserving a common base and incorrectly multiplying bases.",
+   "varies": "One input base or the proposed output base.",
+   "invariant": "Multiplication, input indices 5 and 4, and proposed output index 9."
+  },
+  {
+   "sequence": "mixed-practice",
+   "targets": [
+    "p59-q8-m",
+    "p59-q8-n",
+    "p59-q8-o"
+   ],
+   "observation": "Test the same base-preservation distinction with another numerical base.",
+   "varies": "One input base or the proposed output base.",
+   "invariant": "Multiplication, input indices 6 and 7, and proposed output index 13."
+  },
+  {
+   "sequence": "evaluate-index-laws",
+   "targets": [
+    "p65-q3-e",
+    "p65-q3-f",
+    "p65-q3-g",
+    "p65-q3-h"
+   ],
+   "observation": "A zero-power factor becomes 1 while coefficients and additional terms retain their roles.",
+   "varies": "Coefficient and added terms.",
+   "invariant": "The zero-power factor x^0."
+  },
+  {
+   "sequence": "evaluate-index-laws",
+   "targets": [
+    "p65-q3-k",
+    "p65-q3-l",
+    "p65-q3-m",
+    "p65-q3-n",
+    "p65-q3-o",
+    "p65-q3-p"
+   ],
+   "observation": "The position of the exponent and brackets determines which factors become 1.",
+   "varies": "Exponent scope, brackets and surrounding operations.",
+   "invariant": "The recurring components 4, n and a zero exponent."
+  },
+  {
+   "sequence": "evaluate-index-laws",
+   "targets": [
+    "p66-q4-d",
+    "p66-q4-e",
+    "p66-q4-f",
+    "p66-q4-g",
+    "p66-q4-h",
+    "p66-q4-i"
+   ],
+   "observation": "An inner zero exponent leaves a coefficient to be powered, whereas an outer zero exponent makes the entire base equal to 1.",
+   "varies": "Placement of the zero exponent, with parallel coefficient and factor structures.",
+   "invariant": "Bracketed products raised to a power."
+  },
+  {
+   "sequence": "evaluate-index-laws",
+   "targets": [
+    "p66-q6-c",
+    "p66-q6-d",
+    "p66-q6-e",
+    "p66-q6-f"
+   ],
+   "observation": "The half-power relationship extends from successive perfect squares to square-root notation.",
+   "varies": "The base, ending with a variable.",
+   "invariant": "Exponent 0.5."
+  },
+  {
+   "sequence": "challenge",
+   "targets": [
+    "p78-q22-b",
+    "p78-q22-c"
+   ],
+   "observation": "Making a square by multiplication or division depends on the same odd prime exponents.",
+   "varies": "Whether the chosen factor multiplies or divides 280.",
+   "invariant": "The starting factorisation and the least completing/removing factor."
+  },
+  {
+   "sequence": "challenge",
+   "targets": [
+    "p78-q23-b",
+    "p78-q23-c"
+   ],
+   "observation": "Repeats the multiply/divide comparison with a different starting factorisation.",
+   "varies": "Multiplication versus division.",
+   "invariant": "270 and the requirement that every remaining exponent be even."
+  },
+  {
+   "sequence": "challenge",
+   "targets": [
+    "p83-q41-a",
+    "p83-q41-b",
+    "p83-q41-c",
+    "p83-q41-d"
+   ],
+   "observation": "Additional divisibility conditions progressively filter a fixed candidate set, and some conditions add no restriction.",
+   "varies": "The list of required divisors.",
+   "invariant": "The four-digit form 5AB6."
+  },
+  {
+   "sequence": "challenge",
+   "targets": [
+    "p90-q71-a",
+    "p90-q71-b",
+    "p90-q71-c"
+   ],
+   "observation": "Halving the divisor doubles the quotient, with an extra adjustment when the original remainder reaches the new divisor.",
+   "varies": "The remainder relative to half the divisor, followed by symbolic representation.",
+   "invariant": "The original number and the operation of halving its divisor."
+  }
+ ],
+ "notReliablyReviewed": [],
+ "reviewedRevision": 14,
+ "reviewedAt": "2026-10-11T11:06:19.579Z",
+ "passes": {
+  "review": {
+   "model": "gpt-6.1-sol",
+   "effort": "low",
+   "calls": 16
+  },
+  "challenge": {
+   "model": "gpt-6.1-sol",
+   "effort": "medium",
+   "calls": 1
+  }
+ },
+ "importReview": "No lean review table found; this booklet's earlier acceptance route is not recorded here.",
+ "questionOrder": null,
+ "lastRun": {
+  "sequences": [
+   {
+    "id": "index-notation",
+    "title": "Index notation",
+    "blocks": 19,
+    "images": 1,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 31906,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 7678,
+     "reasoning_output_tokens": 124
+    },
+    "elapsedMs": 170977,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 2
+   },
+   {
+    "id": "evaluate-indices",
+    "title": "Evaluate expressions with indices",
+    "blocks": 21,
+    "images": 2,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 35840,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 5703,
+     "reasoning_output_tokens": 80
+    },
+    "elapsedMs": 134077,
+    "candidates": 0,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "divisibility",
+    "title": "Divisibility",
+    "blocks": 28,
+    "images": 1,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 37195,
+     "cached_input_tokens": 12544,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3151,
+     "reasoning_output_tokens": 141
+    },
+    "elapsedMs": 89335,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 2
+   },
+   {
+    "id": "prime-numbers",
+    "title": "Prime numbers",
+    "blocks": 3,
+    "images": 1,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 29862,
+     "cached_input_tokens": 12544,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 2123,
+     "reasoning_output_tokens": 298
+    },
+    "elapsedMs": 68141,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "prime-factorisation",
+    "title": "Prime factorisation",
+    "blocks": 24,
+    "images": 7,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 60479,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 5717,
+     "reasoning_output_tokens": 136
+    },
+    "elapsedMs": 138385,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 2
+   },
+   {
+    "id": "square-roots",
+    "title": "Square roots",
+    "blocks": 23,
+    "images": 5,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 52132,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3981,
+     "reasoning_output_tokens": 265
+    },
+    "elapsedMs": 107119,
+    "candidates": 2,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "cube-roots",
+    "title": "Cube roots",
+    "blocks": 21,
+    "images": 4,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 47267,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3326,
+     "reasoning_output_tokens": 88
+    },
+    "elapsedMs": 97381,
+    "candidates": 2,
+    "discarded": [],
+    "suggestions": 2
+   },
+   {
+    "id": "evaluate-roots",
+    "title": "Evaluate expressions with roots",
+    "blocks": 13,
+    "images": 1,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 35741,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 5233,
+     "reasoning_output_tokens": 470
+    },
+    "elapsedMs": 141767,
+    "candidates": 2,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "index-multiplication",
+    "title": "Index law of multiplication",
+    "blocks": 10,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 33381,
+     "cached_input_tokens": 12544,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 4523,
+     "reasoning_output_tokens": 403
+    },
+    "elapsedMs": 115497,
+    "candidates": 0,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "index-division",
+    "title": "Index law of division",
+    "blocks": 8,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 32128,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 6507,
+     "reasoning_output_tokens": 298
+    },
+    "elapsedMs": 157204,
+    "candidates": 5,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "power-of-power",
+    "title": "Index law of power of a power",
+    "blocks": 8,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 34610,
+     "cached_input_tokens": 34048,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3359,
+     "reasoning_output_tokens": 0
+    },
+    "elapsedMs": 106699,
+    "candidates": 0,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "zero-power",
+    "title": "Index law of zero power",
+    "blocks": 7,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 32929,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 2808,
+     "reasoning_output_tokens": 112
+    },
+    "elapsedMs": 74082,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "mixed-practice",
+    "title": "Mixed practice",
+    "blocks": 21,
+    "images": 1,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 45012,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3132,
+     "reasoning_output_tokens": 357
+    },
+    "elapsedMs": 87619,
+    "candidates": 0,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "evaluate-index-laws",
+    "title": "Evaluating expressions by applying index laws",
+    "blocks": 17,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 38317,
+     "cached_input_tokens": 12544,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 6999,
+     "reasoning_output_tokens": 188
+    },
+    "elapsedMs": 164425,
+    "candidates": 6,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "hcf-lcm-primes",
+    "title": "HCF and LCM using prime factorisation",
+    "blocks": 11,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 37972,
+     "cached_input_tokens": 14592,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3477,
+     "reasoning_output_tokens": 97
+    },
+    "elapsedMs": 92063,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 2
+   },
+   {
+    "id": "challenge",
+    "title": "Challenge exercise",
+    "blocks": 90,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 54326,
+     "cached_input_tokens": 12544,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 5951,
+     "reasoning_output_tokens": 224
+    },
+    "elapsedMs": 161134,
+    "candidates": 5,
+    "discarded": [],
+    "suggestions": 1
+   }
+  ],
+  "dropped": [
+   {
+    "ids": [
+     "c1"
+    ],
+    "reason": "The task does not require a fixed base: 1^1 is valid index notation for Day 0 under p3-information. The expected 2^0 answer alone does not make zero-index knowledge necessary to complete the written task.",
+    "candidates": [
+     {
+      "id": "c1",
+      "sequence": "index-notation",
+      "kind": "missing-prerequisite",
+      "targets": [
+       "p6-q5-table-response"
+      ],
+      "finding": "The Day 0 cell requires zero-index notation before the sequence establishes what a zero index means."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c2"
+    ],
+    "reason": "The proposed mathematics is correct, but this run ranks below the four retained suggestions in its contribution to the booklet’s central distinctions.",
+    "candidates": [
+     {
+      "id": "c2",
+      "sequence": "index-notation",
+      "kind": "variation-sequence",
+      "targets": [
+       "p4-guided"
+      ],
+      "finding": "Expose how increasing a positive index changes the value multiplicatively."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c3"
+    ],
+    "reason": "The representations and completeness argument are correct, but this extension ranks below the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c3",
+      "sequence": "index-notation",
+      "kind": "extension",
+      "targets": [
+       "p8-q11"
+      ],
+      "finding": "Find and explain all positive whole-number power representations of 64."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c4"
+    ],
+    "reason": "The parity generalisation is correct, including the zero case, but it ranks below the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c4",
+      "sequence": "evaluate-indices",
+      "kind": "extension",
+      "targets": [
+       "p15-q15"
+      ],
+      "finding": "Generalise when opposite numbers have equal powers."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c6"
+    ],
+    "reason": "The single-feature run and answers are correct, but it ranks below the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c6",
+      "sequence": "divisibility",
+      "kind": "variation-sequence",
+      "targets": [
+       "p17-q2"
+      ],
+      "finding": "Compare numbers with the same final digit to distinguish the tests for 2 and 4."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c7"
+    ],
+    "reason": "The odd-n condition and even-n counterexample are correct, and p20-q20 supplies the coprime connection, but this extension ranks below the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c7",
+      "sequence": "divisibility",
+      "kind": "extension",
+      "targets": [
+       "p20-q20"
+      ],
+      "finding": "Generalise when two divisibility conditions guarantee divisibility by their product."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c9"
+    ],
+    "reason": "The factor-pair explanation and n=1 exception are correct, but this extension ranks below the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c9",
+      "sequence": "prime-numbers",
+      "kind": "extension",
+      "targets": [
+       "p22-identify-question-block"
+      ],
+      "finding": "Ask whether a square of a whole number can be prime."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c11"
+    ],
+    "reason": "p30-q17 supplies the required product-power method and the proposed answers are correct, but this run ranks below the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c11",
+      "sequence": "prime-factorisation",
+      "kind": "variation-sequence",
+      "targets": [
+       "p30-q17-root"
+      ],
+      "finding": "Vary the multiplicity of prime 2 inside a base while keeping the outer exponent fixed."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c12"
+    ],
+    "reason": "The two-prime-leaf characterisation and lists are correct, but this extension ranks below the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c12",
+      "sequence": "prime-factorisation",
+      "kind": "extension",
+      "targets": [
+       "p29-q13"
+      ],
+      "finding": "Characterise numbers whose completed factor tree has exactly two terminal leaves."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c18"
+    ],
+    "reason": "The answers are correct, but the proposed run varies the radicand between pairs as well as the root index within pairs; it does not form the requested single-feature variation sequence.",
+    "candidates": [
+     {
+      "id": "c18",
+      "sequence": "cube-roots",
+      "kind": "variation-sequence",
+      "targets": [
+       "p38-identify-block"
+      ],
+      "finding": "Compare square and cube roots while keeping each radicand the same."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c19"
+    ],
+    "reason": "The sign explanation and cube-root conclusion are correct, but this extension ranks below the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c19",
+      "sequence": "cube-roots",
+      "kind": "extension",
+      "targets": [
+       "p40-q7"
+      ],
+      "finding": "Explain why changing a number's sign changes its cube's sign but leaves its square unchanged."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c23"
+    ],
+    "reason": "The eleven ordered pairs and six pairs up to reversal are correct, but this extension ranks below the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c23",
+      "sequence": "index-multiplication",
+      "kind": "extension",
+      "targets": [
+       "p49-q4"
+      ],
+      "finding": "Reverse the multiplication law to find and explain every positive-integer index pair giving a specified power."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c25"
+    ],
+    "reason": "The equal-index quotients can be simplified directly to 1 using ordinary self-division. Students are not required to interpret zero-index notation in these prompts; its meaning is intentionally established in the later zero-power topic.",
+    "candidates": [
+     {
+      "id": "c25",
+      "sequence": "index-division",
+      "kind": "missing-prerequisite",
+      "targets": [
+       "p51-q3-15",
+       "p51-q3-16",
+       "p51-q3-21"
+      ],
+      "finding": "Equal-index quotients introduce index zero without any teaching establishing what a zero index means."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c29"
+    ],
+    "reason": "The recurrence and equal-index result are correct, but this extension ranks below the four retained suggestions and need not depend on adding premature zero-index teaching.",
+    "candidates": [
+     {
+      "id": "c29",
+      "sequence": "index-division",
+      "kind": "extension",
+      "targets": [
+       "p51-q3-block"
+      ],
+      "finding": "Use the existing equal-index quotient structure to explain why increasing a denominator index by one divides the quotient by the base."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c30"
+    ],
+    "reason": "The index-exchange generalisation is correct for the stated positive-integer domain, but it ranks below the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c30",
+      "sequence": "power-of-power",
+      "kind": "extension",
+      "targets": [
+       "p53-q3"
+      ],
+      "finding": "Explain when exchanging the inner and outer indices leaves a power unchanged."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c32"
+    ],
+    "reason": "The explanation of the failed zero-base division argument is correct, but this extension ranks below the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c32",
+      "sequence": "zero-power",
+      "kind": "extension",
+      "targets": [
+       "p56-q3"
+      ],
+      "finding": "Ask students to explain why the division argument establishes the zero-power rule for nonzero bases but cannot determine 0^0."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c33"
+    ],
+    "reason": "The common exponent difference, quotient and example pairs are correct, but this extension ranks below the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c33",
+      "sequence": "mixed-practice",
+      "kind": "extension",
+      "targets": [
+       "p62-q15"
+      ],
+      "finding": "Generalise why a quotient with one base determines a quotient with another base."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c38"
+    ],
+    "reason": "Earlier student-facing teaching in p30-q17 explicitly expands (2×5)^3 and regroups it as 2^3×5^3. That method supplies the powered-product transformation needed here; the challenge combines already taught methods.",
+    "candidates": [
+     {
+      "id": "c38",
+      "sequence": "evaluate-index-laws",
+      "kind": "missing-prerequisite",
+      "targets": [
+       "p68-q11-b"
+      ],
+      "finding": "Evaluating the mixed-base quotient requires the power-of-a-product law, which preceding teaching does not establish."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c40"
+    ],
+    "reason": "The condition ab=2cd and four ordered factor pairs are correct, but this extension ranks below the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c40",
+      "sequence": "evaluate-index-laws",
+      "kind": "extension",
+      "targets": [
+       "p68-q14-response"
+      ],
+      "finding": "Generalise the condition for nested powers with bases 2 and 4 to be equal."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c44"
+    ],
+    "reason": "p40-q5 already connects higher roots to their corresponding powers; p40-q6, p40-q7 and p40-q8 expose negative cubes and negative cube roots. p55 contrasts negative squares and cubes. The challenge asks students to combine these ideas, including deciding when a root is impossible.",
+    "candidates": [
+     {
+      "id": "c44",
+      "sequence": "challenge",
+      "kind": "missing-prerequisite",
+      "targets": [
+       "p75-q5"
+      ],
+      "finding": "The opening question requires real roots of negative numbers and fourth- and fifth-root notation without preceding teaching of those variants."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c45"
+    ],
+    "reason": "p36-q9 and p36-q10 already connect prime factorisation to square-root extraction. The cube-root task begins with a single prime cube, then introduces two prime groups and repeated triples, transferring that taught structure one feature at a time. The claimed complete absence of the connection is false.",
+    "candidates": [
+     {
+      "id": "c45",
+      "sequence": "challenge",
+      "kind": "missing-prerequisite",
+      "targets": [
+       "p74-q2",
+       "p74-q3"
+      ],
+      "finding": "The ‘hence’ root questions require extracting roots from prime factorisations, but the preceding teaching never connects those representations."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c47"
+    ],
+    "reason": "p30-q17 explicitly teaches factorising a powered composite base by expansion and regrouping. These challenge parts combine that earlier method with taught index laws.",
+    "candidates": [
+     {
+      "id": "c47",
+      "sequence": "challenge",
+      "kind": "missing-prerequisite",
+      "targets": [
+       "p74-q1-b",
+       "p74-q1-c",
+       "p74-q1-d"
+      ],
+      "finding": "Factoring powered composite bases requires distributing a power across a product, which none of the preceding index-law teaching demonstrates."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c48"
+    ],
+    "reason": "p95-q87 asks for any possible pair, not every pair. The HCF and LCM themselves, 504 and 66528, form a valid pair because 66528=132×504. Their definitions supply this route; a coprime reduced-factor algorithm is not required.",
+    "candidates": [
+     {
+      "id": "c48",
+      "sequence": "challenge",
+      "kind": "difficulty-jump",
+      "targets": [
+       "p95-q87",
+       "p89-q67"
+      ],
+      "finding": "The first prescribed-HCF-and-LCM recovery task precedes the existing scaffold that shows how to generate valid pairs."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c49"
+    ],
+    "reason": "The two remainder cases and quotient formulas are correct for integer division by an even positive divisor, but this extension ranks below the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c49",
+      "sequence": "challenge",
+      "kind": "extension",
+      "targets": [
+       "p90-q71"
+      ],
+      "finding": "Complete the quotient–remainder rule for halving an even divisor."
+     }
+    ]
+   }
+  ],
+  "unchecked": [],
+  "suppressed": [],
+  "droppedQuestions": [
+   {
+    "question": "Does the full earlier divisibility teaching include the digit-sum test for 9? The supplied p16-tests digest is truncated before that can be established.",
+    "targets": [
+     "p79-q29"
+    ],
+    "reason": "The full p16-tests content is supplied and does not include divisibility by 9, so the question about an omitted or truncated digest is answered by the evidence. A digit-sum rule for 9 also appears explicitly later in p92-q77 and p95-q86."
+   }
+  ],
+  "candidateFile": ".booklet-work/pedagogy-review/stage4-indices-v1/candidates-low-1791716548711.json",
+  "errors": []
+ },
+ "postedRevision": 15
+}
