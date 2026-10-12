@@ -1,0 +1,341 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-03b4afaf-fdfa-4b46-a659-40184cc1c404",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "calculate-mean-median-mode-range",
+    "secondarySkillIds": [
+      "convert-time-units"
+    ],
+    "reasoningScore": 28,
+    "difficulty": "Development",
+    "difficultyReason": "Read frequencies on a half-hour scale, connect 30 minutes to 0.5 hours, and compute a weighted mean. The explicit total-count part scaffolds the denominator; the unit interpretation adds a routine linked step."
+  },
+  "content": {
+    "id": "flow-87dc838a-d295-44ca-b23b-c208d3714f6b",
+    "type": "question",
+    "label": "7",
+    "prompt": "The lateness of people to a party is displayed in the dot plot.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "flow-bdce6b57-e3d4-49cf-ba69-b2971e448674",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 40 p40-q7-diagram\"}\n\\begin{tikzpicture}[x=20mm,y=4mm,line cap=round,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.5pt] (0,0) -- (3,0);\n\\foreach \\x in {0,0.5,1,1.5,2,2.5,3} {\n  \\draw[black,line width=0.4pt] (\\x,-0.15) -- (\\x,0.15);\n}\n\\foreach \\x in {0,1,2,3} {\n  \\node[anchor=north,inner sep=0pt,text=black,font=\\fontsize{8.5}{10.2}\\selectfont] at (\\x,-0.45) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\x/\\frequency in {0.5/6,1/5,1.5/3,2/3,2.5/5,3/2} {\n  \\foreach \\level in {1,...,\\frequency} {\n    \\filldraw[draw=black,fill=black,line width=0.8pt] (\\x,\\level) circle[radius=1.3mm];\n  }\n}\n\\node[anchor=center,inner sep=0pt,text=black] at (1.5,9) {Lateness (in hours)};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 64,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 40,
+          "sourceRegion": "Question 7: dot plot to the right of parts a–d.",
+          "description": "A single-series dot plot titled “Lateness (in hours)”, with a horizontal axis from 0 to 3, integer labels and unlabelled half-hour ticks. There are no arrowheads, vertical axis or grid lines.",
+          "mathematics": "The frequencies at 0.5, 1, 1.5, 2, 2.5 and 3 hours are respectively 6, 5, 3, 3, 5 and 2. Each dot represents one person. There are no observations at 0 hours.",
+          "answerVisibility": "All dots, ticks, numeric labels and the title are permanent question givens. No calculated answers or solution annotations appear in the diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "flow-b349ad6e-03b1-4739-ac95-cfd7f7802702",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many people were late overall?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "24 people",
+          "worked": "$6+5+3+3+5+2=24$ people.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "flow-c56ad7e7-36c5-4896-bea4-39d1fb377d9c",
+        "type": "part",
+        "label": "b",
+        "prompt": "How many people were 1 hour late?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "5 people",
+          "worked": "There are $5$ dots above $1$ hour, representing $5$ people.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "flow-a32772c1-e467-4131-8c6f-aa067b8d643b",
+        "type": "part",
+        "label": "c",
+        "prompt": "How many people were 30 minutes late?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "6 people",
+          "worked": "30 minutes is half an hour. There are $6$ dots above $0.5$ hours, representing $6$ people.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "flow-a184f6d2-dfc7-4b36-b497-a3d3e3168650",
+        "type": "part",
+        "label": "d",
+        "prompt": "What is the mean lateness in hours?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{37}{24}\\approx1.54$ hours",
+          "worked": "$$\\begin{align*}\\bar{x}&=\\frac{(6\\times0.5)+(5\\times1)+(3\\times1.5)+(3\\times2)+(5\\times2.5)+(2\\times3)}{24}\\\\\\bar{x}&=\\frac{37}{24}\\\\\\bar{x}&\\approx1.54\\text{ hours}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "flow-4ac98493-e42b-437b-bf65-c93a40e17fbe": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "flow-3b26a7a3-9f97-4aeb-bfd3-40e2ac8673ab",
+              "type": "group",
+              "direction": "row",
+              "children": [
+                {
+                  "id": "flow-f9693e4c-5c4f-4cca-882d-ec7fdb7fa24e",
+                  "type": "item",
+                  "ref": "flow-87dc838a-d295-44ca-b23b-c208d3714f6b/label",
+                  "width": 7,
+                  "align": "left"
+                },
+                {
+                  "id": "flow-6fb3a837-ebf5-4d82-9d9e-a0fc561d77c8",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "flow-6efca69d-43c0-4fb1-810a-d77af9d00185",
+                      "type": "item",
+                      "ref": "flow-87dc838a-d295-44ca-b23b-c208d3714f6b/prompt",
+                      "align": "left"
+                    },
+                    {
+                      "id": "flow-25d68c59-52ae-45a6-ba34-a4d8c0f8afbe",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "flow-99d80a7a-1115-4737-85a3-52585c435f43",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "flow-d695145b-d04a-44f4-80d8-092ce7b08f0c",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "flow-53c4f38a-2ee5-4021-bd08-9df4bd3144cb",
+                                  "type": "item",
+                                  "ref": "flow-b349ad6e-03b1-4739-ac95-cfd7f7802702/label",
+                                  "width": 7,
+                                  "align": "left"
+                                },
+                                {
+                                  "id": "flow-4749d288-9974-4e1b-8cd3-eeccd3b6d8c3",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "flow-c5270411-1ee2-4b51-bd45-536d9039e9c6",
+                                      "type": "item",
+                                      "ref": "flow-b349ad6e-03b1-4739-ac95-cfd7f7802702/prompt",
+                                      "align": "left"
+                                    },
+                                    {
+                                      "id": "flow-e9127e28-a773-440d-9dc6-f88caa575907",
+                                      "type": "item",
+                                      "ref": "flow-b349ad6e-03b1-4739-ac95-cfd7f7802702/space",
+                                      "align": "left"
+                                    }
+                                  ],
+                                  "gap": 0,
+                                  "weight": 1
+                                }
+                              ],
+                              "gap": 0,
+                              "verticalAlign": "top"
+                            },
+                            {
+                              "id": "flow-ab29d7ef-6e92-48a0-b59b-eb552272b070",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "flow-e766ac86-e85a-4985-bafe-495fef883798",
+                                  "type": "item",
+                                  "ref": "flow-c56ad7e7-36c5-4896-bea4-39d1fb377d9c/label",
+                                  "width": 7,
+                                  "align": "left"
+                                },
+                                {
+                                  "id": "flow-17f9974d-917f-4637-8a28-e8b60556f564",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "flow-6965d6ef-b0b2-476c-b31f-75e7f3ff5ac4",
+                                      "type": "item",
+                                      "ref": "flow-c56ad7e7-36c5-4896-bea4-39d1fb377d9c/prompt",
+                                      "align": "left"
+                                    },
+                                    {
+                                      "id": "flow-7e29cb24-1497-47d4-9af9-d12bc3e1472d",
+                                      "type": "item",
+                                      "ref": "flow-c56ad7e7-36c5-4896-bea4-39d1fb377d9c/space",
+                                      "align": "left"
+                                    }
+                                  ],
+                                  "gap": 0,
+                                  "weight": 1
+                                }
+                              ],
+                              "gap": 0,
+                              "verticalAlign": "top"
+                            },
+                            {
+                              "id": "flow-fbf69bb9-f06e-4207-bc91-03e6162954a6",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "flow-2ceb6e14-775d-4496-bdce-2416ceee2d63",
+                                  "type": "item",
+                                  "ref": "flow-a32772c1-e467-4131-8c6f-aa067b8d643b/label",
+                                  "width": 7,
+                                  "align": "left"
+                                },
+                                {
+                                  "id": "flow-e35d75af-23cf-4f89-8284-50ad4b454105",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "flow-4fdf03a7-3602-4be9-b643-d9683f0f673b",
+                                      "type": "item",
+                                      "ref": "flow-a32772c1-e467-4131-8c6f-aa067b8d643b/prompt",
+                                      "align": "left"
+                                    },
+                                    {
+                                      "id": "flow-ac021713-2a3c-445c-8908-c9000a152dbc",
+                                      "type": "item",
+                                      "ref": "flow-a32772c1-e467-4131-8c6f-aa067b8d643b/space",
+                                      "align": "left"
+                                    }
+                                  ],
+                                  "gap": 0,
+                                  "weight": 1
+                                }
+                              ],
+                              "gap": 0,
+                              "verticalAlign": "top"
+                            },
+                            {
+                              "id": "flow-8d4dd3d2-c506-48a0-9c58-1414ec83265a",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "flow-ecd6fc76-fe55-4408-b1db-4f69e105ec8b",
+                                  "type": "item",
+                                  "ref": "flow-a184f6d2-dfc7-4b36-b497-a3d3e3168650/label",
+                                  "width": 7,
+                                  "align": "left"
+                                },
+                                {
+                                  "id": "flow-6616a75e-6f7b-41d9-ad6a-fd170811874c",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "flow-5c57b03d-3a3f-442d-87a7-4fa2cf0b88a2",
+                                      "type": "item",
+                                      "ref": "flow-a184f6d2-dfc7-4b36-b497-a3d3e3168650/prompt",
+                                      "align": "left"
+                                    },
+                                    {
+                                      "id": "flow-37e0baff-2019-4e0a-bbdc-708380577391",
+                                      "type": "item",
+                                      "ref": "flow-a184f6d2-dfc7-4b36-b497-a3d3e3168650/space",
+                                      "align": "left"
+                                    }
+                                  ],
+                                  "gap": 0,
+                                  "weight": 1
+                                }
+                              ],
+                              "gap": 0,
+                              "verticalAlign": "top"
+                            }
+                          ],
+                          "gap": 2,
+                          "weight": 1
+                        },
+                        {
+                          "id": "flow-ceae0fa0-9bf9-45b8-9e0f-c04f20123c78",
+                          "type": "item",
+                          "ref": "flow-bdce6b57-e3d4-49cf-ba69-b2971e448674",
+                          "width": 64,
+                          "align": "center"
+                        }
+                      ],
+                      "gap": 5,
+                      "verticalAlign": "top"
+                    }
+                  ],
+                  "gap": 3,
+                  "weight": 1
+                }
+              ],
+              "gap": 0,
+              "verticalAlign": "top"
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "flow-4ac98493-e42b-437b-bf65-c93a40e17fbe"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-11T09:48:22.072Z",
+  "updatedAt": "2026-10-11T09:48:22.072Z"
+}
