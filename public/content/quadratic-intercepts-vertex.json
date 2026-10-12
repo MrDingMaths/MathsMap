@@ -2,8 +2,8 @@
   "skillId": "quadratic-intercepts-vertex",
   "atomType": "R",
   "theory": {
-    "intro": "A **parabola** meets the axes at its **intercepts** and turns at its **vertex**. The vertical line through the vertex is the **axis of symmetry**. All four features can be read straight off the graph.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.6,0) -- (5.8,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-2.2) -- (0,3.6) node[above] {$y$};\n\\draw[thick,blue!70!black,domain=0.05:4.95,samples=100,variable=\\x,<->] plot ({\\x},{0.55*(\\x-1)*(\\x-4)});\n\\draw[dashed] (2.5,-1.7) -- (2.5,3.1);\n\\fill (1,0) circle (2pt);\n\\fill (4,0) circle (2pt);\n\\fill (0,2.2) circle (2pt);\n\\fill (2.5,-1.2375) circle (2pt);\n\\node[below] at (1,-0.15) {$x$-intercept};\n\\node[below] at (4,-0.15) {$x$-intercept};\n\\node[left] at (-0.15,2.2) {$y$-intercept};\n\\node[right] at (2.7,-1.2375) {vertex};\n\\node[right] at (2.6,2.8) {axis of symmetry};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "A **parabola** meets the axes at its **intercepts** and turns at its **vertex**. The vertical line through the vertex is the **axis of symmetry**. All four features can be read straight off the graph.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.6,0) -- (5.8,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-2.2) -- (0,3.6) node[above] {$y$};\n\\draw[thick,blue!70!black,domain=0.05:4.95,samples=100,variable=\\x,<->] plot ({\\x},{0.55*(\\x-1)*(\\x-4)});\n\\draw[dashed] (2.5,-1.7) -- (2.5,3.1);\n\\fill (1,0) circle (2pt);\n\\fill (4,0) circle (2pt);\n\\fill (0,2.2) circle (2pt);\n\\fill (2.5,-1.2375) circle (2pt);\n\\node[below] at (1,-0.15) {$x$-intercept};\n\\node[below] at (4,-0.15) {$x$-intercept};\n\\node[left] at (-0.15,2.2) {$y$-intercept};\n\\node[right] at (2.7,-1.2375) {vertex};\n\\node[right] at (2.6,2.8) {axis of symmetry};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "The **$x$-intercepts** are the points where the curve meets the horizontal axis, including where it touches it, written as points such as $(3,0)$.",
 "The **$y$-intercept** is the one point where the curve meets the vertical axis.",
 "The **axis of symmetry** is a vertical line, so it is written as an equation such as $x=3$.",
@@ -13,12 +13,35 @@
 "The maximum or minimum **value** is the $y$-coordinate of the vertex, not the whole point.",
 "A parabola can have two, one or no $x$-intercepts, but it always has exactly one $y$-intercept."
 ],
-    "steps": [
+"steps": [
 "Read the $x$-intercepts and the $y$-intercept where the curve meets each axis, including where it touches an axis.",
 "If there are two distinct $x$-intercepts, find the axis of symmetry midway between them; otherwise, use the vertical line through the vertex. Write the axis as an equation.",
 "Read the vertex as a point and state whether it is a maximum or a minimum."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "From the graph, state the intercepts, axis of symmetry, vertex and minimum value of $y$.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,axis line style={black,<->},xmin=-3.5,xmax=5.5,ymin=-5,ymax=6,xtick={-3,-2,...,5},ytick={-4,-3,...,5},grid=major,grid style={draw=gray!40},ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$x$},ylabel={$y$},scaled ticks=false]\n\\addplot[color=curveblue,thick,<->,domain=-2.1:4.1,samples=100] {0.5*(x+2)*(x-4)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The curve crosses the horizontal axis at $(-2,0)$ and $(4,0)$, and the vertical axis at $(0,-4)$.\n\nFind the midpoint of the two $x$-intercepts:\n$\\begin{align*}x&=\\frac{-2+4}{2}\\\\x&=1\\end{align*}$\n\nThe axis of symmetry is $x=1$. Read the turning point on this line: the vertex is $(1,-4.5)$.\n\nThe parabola opens upwards, so the vertex is a minimum. The minimum value is $y=-4.5$.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,axis line style={black,<->},xmin=-3.5,xmax=5.5,ymin=-5.5,ymax=6,xtick={-2,1,4},ytick={2,4},ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},every axis plot/.append style={line width=0.8pt},xlabel={$x$},ylabel={$y$},scaled ticks=false]\n\\addplot[color=curveblue,thick,<->,domain=-2.1:4.1,samples=100] {0.5*(x+2)*(x-4)};\n\\draw[black,dashed] (axis cs:1,-5) -- (axis cs:1,5);\n\\addplot[black,only marks,mark=*] coordinates {(-2,0) (4,0) (0,-4) (1,-4.5)};\n\\node[anchor=south east,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:-2,0) {$(-2,0)$};\n\\node[anchor=south west,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:4,0) {$(4,0)$};\n\\node[anchor=east,xshift=-4mm,yshift=3mm,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:0,-4) {$(0,-4)$};\n\\node[anchor=north west,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:1,-4.5) {$(1,-4.5)$};\n\\node[anchor=west,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:1,4.5) {$x=1$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "From the graph, state how many $x$-intercepts there are and give their coordinates. Also state the $y$-intercept, vertex, axis of symmetry and maximum value of $y$.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,axis line style={black,<->},xmin=-3.5,xmax=2.5,ymin=-5,ymax=2,xtick={-3,-2,...,2},ytick={-4,-3,...,1},grid=major,grid style={draw=gray!40},ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$x$},ylabel={$y$},scaled ticks=false]\n\\addplot[color=curveblue,thick,<->,domain=-3.1:1.1,samples=100] {-(x+1)*(x+1)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The curve touches the horizontal axis at $(-1,0)$, so there is one $x$-intercept. It crosses the vertical axis at $(0,-1)$.\n\nThe turning point is also $(-1,0)$. The vertical line through it is the axis of symmetry, $x=-1$.\n\nThe parabola opens downwards, so the vertex is a maximum. The maximum value is $y=0$.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,axis line style={black,<->},xmin=-3.5,xmax=2.5,ymin=-5,ymax=2,xtick={-3,-2,...,2},ytick={-4,-3,...,1},ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$x$},ylabel={$y$},scaled ticks=false]\n\\addplot[color=curveblue,thick,<->,domain=-3.1:1.1,samples=100] {-(x+1)*(x+1)};\n\\draw[black,dashed] (axis cs:-1,-4.5) -- (axis cs:-1,1.5);\n\\addplot[black,only marks,mark=*] coordinates {(-1,0) (0,-1)};\n\\node[anchor=south east,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:-1,0) {$(-1,0)$};\n\\node[anchor=north west,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:0,-1) {$(0,-1)$};\n\\draw[black] (axis cs:-1,1.4) -- (axis cs:-1.7,1.4);\n\\node[anchor=east,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:-1.7,1.4) {$x=-1$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "From the graph, state the vertex, axis of symmetry, $y$-intercept and minimum value of $y$. Explain how many $x$-intercepts the parabola has.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,axis line style={black,<->},xmin=-4.5,xmax=2.5,ymin=-1,ymax=8,xtick={-4,-3,...,2},ytick={0,1,...,7},grid=major,grid style={draw=gray!40},ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$x$},ylabel={$y$},scaled ticks=false]\n\\addplot[color=curveblue,thick,<->,domain=-3.5:1.5,samples=100] {(x+1)*(x+1)+1};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Read the turning point: the vertex is $(-1,1)$. The axis of symmetry is the vertical line $x=-1$.\n\nThe curve crosses the vertical axis at $(0,2)$.\n\nThe parabola opens upwards, so the vertex is a minimum and the minimum value is $y=1$. The whole curve lies above the horizontal axis, so there are no $x$-intercepts.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,axis line style={black,<->},xmin=-4.5,xmax=2.5,ymin=-1,ymax=8,xtick={-4,-3,...,2},ytick={0,1,...,7},ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$x$},ylabel={$y$},scaled ticks=false]\n\\addplot[color=curveblue,thick,<->,domain=-3.5:1.5,samples=100] {(x+1)*(x+1)+1};\n\\draw[black,dashed] (axis cs:-1,0) -- (axis cs:-1,7);\n\\addplot[black,only marks,mark=*] coordinates {(-1,1) (0,2)};\n\\node[anchor=north east,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:-1,1) {$(-1,1)$};\n\\node[anchor=south west,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:0,2) {$(0,2)$};\n\\node[anchor=west,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:-1,6.5) {$x=-1$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

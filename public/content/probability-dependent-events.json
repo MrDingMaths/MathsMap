@@ -2,8 +2,8 @@
   "skillId": "probability-dependent-events",
   "atomType": "R",
   "theory": {
-        "intro": "**Dependent events** are events where earlier outcomes change later probabilities. For random draws from the same finite collection **without replacement**, the first item is not put back, so the second draw has one fewer item to choose from. Build the tree as before, but rewrite the second-stage fractions.",
-        "facts": [
+"intro": "**Dependent events** are events where earlier outcomes change later probabilities. For random draws from the same finite collection **without replacement**, the first item is not put back, so the second draw has one fewer item to choose from. Build the tree as before, but rewrite the second-stage fractions.",
+"facts": [
 "**Dependent events** occur when an earlier result changes the probabilities at a later stage. Random draws from the same finite collection without replacement are an example.",
 "For random draws from the same finite collection without replacement, at the second draw the total has fallen by $1$, so every second-stage denominator is one less than the first-stage denominator.",
 "For these draws, only the colour actually drawn loses one from its numerator; the other colours keep their counts. This tree represents two random draws without replacement from $n$ counters consisting of $r$ red and $n-r$ blue counters, where $n$ and $r$ are whole numbers, $n\\geq 2$ and $1\\leq r\\leq n-1$, so both colours are initially present.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (N1) at (2.4,1.7);\n\\coordinate (N2) at (2.4,-1.7);\n\\coordinate (E1) at (5.4,3.0);\n\\coordinate (E2) at (5.4,0.7);\n\\coordinate (E3) at (5.4,-0.7);\n\\coordinate (E4) at (5.4,-3.0);\n\\draw (O) -- (N1) node[midway, above, fill=white, font=\\small] {$\\frac{r}{n}$};\n\\draw (O) -- (N2) node[midway, below, fill=white, font=\\small] {$\\frac{n-r}{n}$};\n\\draw (N1) -- (E1) node[midway, above, fill=white, font=\\small] {$\\frac{r-1}{n-1}$};\n\\draw (N1) -- (E2) node[midway, below, fill=white, font=\\small] {$\\frac{n-r}{n-1}$};\n\\draw (N2) -- (E3) node[midway, above, fill=white, font=\\small] {$\\frac{r}{n-1}$};\n\\draw (N2) -- (E4) node[midway, below, fill=white, font=\\small] {$\\frac{n-r-1}{n-1}$};\n\\node[fill=white, inner sep=2pt] at (N1) {$R$};\n\\node[fill=white, inner sep=2pt] at (N2) {$B$};\n\\node[right, font=\\small] at (E1) {$R$};\n\\node[right, font=\\small] at (E2) {$B$};\n\\node[right, font=\\small] at (E3) {$R$};\n\\node[right, font=\\small] at (E4) {$B$};\n\\node[font=\\small] at (2.4,4.2) {Draw $1$};\n\\node[font=\\small] at (5.4,4.2) {Draw $2$};\n\\end{tikzpicture}\n[/tikz]",
@@ -12,14 +12,65 @@
 "Multiply along a path and add the paths that satisfy the event, exactly as for independent stages.",
 "Unless the question asks for another form, give the probability as a fraction in simplest form."
 ],
-        "steps": [
+"steps": [
           "Draw a tree with one set of branches for each draw.",
           "Label the first-stage branches from the original totals.",
           "Label the second-stage branches after removing the item already drawn.",
           "Multiply along the branches of each path.",
           "Add the paths that satisfy the event."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A bag contains $6$ red and $3$ blue counters. Two counters are drawn at random without replacement. Complete a probability tree for the two draws. Explain how the second-stage probabilities change after a red counter is drawn.",
+    "solution_text": "Let $R$ mean red and $B$ mean blue. After a red counter is drawn, $5$ red and $3$ blue counters remain: $8$ counters altogether. After a blue counter is drawn, $6$ red and $2$ blue counters remain.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont},x=1cm,y=1cm]\n\\coordinate (O) at (0,0);\n\\coordinate (R) at (2.6,1.6);\n\\coordinate (B) at (2.6,-1.6);\n\\coordinate (RR) at (5.6,2.7);\n\\coordinate (RB) at (5.6,0.6);\n\\coordinate (BR) at (5.6,-0.6);\n\\coordinate (BB) at (5.6,-2.7);\n\\draw (O)--(R) node[midway,above,fill=white] {$\\frac{6}{9}$};\n\\draw (O)--(B) node[midway,below,fill=white] {$\\frac{3}{9}$};\n\\draw (R)--(RR) node[midway,above,fill=white] {$\\frac{5}{8}$};\n\\draw (R)--(RB) node[midway,below,fill=white] {$\\frac{3}{8}$};\n\\draw (B)--(BR) node[midway,above,fill=white] {$\\frac{6}{8}$};\n\\draw (B)--(BB) node[midway,below,fill=white] {$\\frac{2}{8}$};\n\\path (R) node[fill=white,inner sep=2pt] {$R$};\n\\path (B) node[fill=white,inner sep=2pt] {$B$};\n\\path (RR) node[right] {$R\\quad RR$};\n\\path (RB) node[right] {$B\\quad RB$};\n\\path (BR) node[right] {$R\\quad BR$};\n\\path (BB) node[right] {$B\\quad BB$};\n\\path (2.6,3.5) node {Draw 1};\n\\path (5.6,3.5) node {Draw 2};\n\\end{tikzpicture}\n[/tikz]\n\nEvery second-stage denominator falls from $9$ to $8$. Only the colour drawn loses one from its count.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A box contains $4$ lemon and $7$ strawberry lollies. Two lollies are chosen at random without replacement. Find the probability of:\na. two lemon lollies\nb. a lemon lolly followed by a strawberry lolly.",
+    "solution_text": "a. After choosing a lemon lolly, $3$ lemon lollies remain among $10$ lollies.\n\n$\\begin{align*}P(LL)&=\\frac{4}{11}\\times\\frac{3}{10}\\\\&=\\frac{12}{110}\\\\&=\\frac{6}{55}\\end{align*}$\n\nb. Choosing a lemon lolly leaves all $7$ strawberry lollies among the $10$ remaining lollies.\n\n$\\begin{align*}P(LS)&=\\frac{4}{11}\\times\\frac{7}{10}\\\\&=\\frac{28}{110}\\\\&=\\frac{14}{55}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A bag contains $4$ green and $5$ pink counters. Two counters are drawn at random without replacement. Find the probability of drawing one counter of each colour, in any order.",
+    "solution_text": "The two possible colour orders are green then pink and pink then green. Multiply along each path.\n\n$\\begin{align*}P(GP)&=\\frac{4}{9}\\times\\frac{5}{8}\\\\&=\\frac{20}{72}\\end{align*}$\n\n$\\begin{align*}P(PG)&=\\frac{5}{9}\\times\\frac{4}{8}\\\\&=\\frac{20}{72}\\end{align*}$\n\nAdd the two path probabilities.\n\n$\\begin{align*}P(\\text{one of each})&=\\frac{20}{72}+\\frac{20}{72}\\\\&=\\frac{40}{72}\\\\&=\\frac{5}{9}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A bag contains $5$ red, $4$ blue and $3$ green counters. Two counters are drawn at random without replacement. Find the probability that both counters are the same colour.",
+    "solution_text": "The matching-colour paths are $RR$, $BB$ and $GG$.\n\n$\\begin{align*}P(RR)&=\\frac{5}{12}\\times\\frac{4}{11}\\\\&=\\frac{20}{132}\\end{align*}$\n\n$\\begin{align*}P(BB)&=\\frac{4}{12}\\times\\frac{3}{11}\\\\&=\\frac{12}{132}\\end{align*}$\n\n$\\begin{align*}P(GG)&=\\frac{3}{12}\\times\\frac{2}{11}\\\\&=\\frac{6}{132}\\end{align*}$\n\nAdd all three path probabilities.\n\n$\\begin{align*}P(\\text{same colour})&=\\frac{20}{132}+\\frac{12}{132}+\\frac{6}{132}\\\\&=\\frac{38}{132}\\\\&=\\frac{19}{66}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A shelf holds $7$ novels and $5$ science books. Two books are selected at random. Find the probability of selecting two novels:\na. when the first book is replaced before the second selection\nb. when the first book is not replaced.",
+    "solution_text": "a. With replacement, there are again $7$ novels among $12$ books for the second selection.\n\n$\\begin{align*}P(\\text{two novels})&=\\frac{7}{12}\\times\\frac{7}{12}\\\\&=\\frac{49}{144}\\end{align*}$\n\nb. Without replacement, selecting a novel leaves $6$ novels among $11$ books.\n\n$\\begin{align*}P(\\text{two novels})&=\\frac{7}{12}\\times\\frac{6}{11}\\\\&=\\frac{42}{132}\\\\&=\\frac{7}{22}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A bag contains $5$ yellow and $4$ white counters. Three counters are drawn at random without replacement. Find the probability that all three counters are the same colour.",
+    "solution_text": "The required paths are $YYY$ and $WWW$. Each draw removes one counter, so the totals are $9$, $8$ and $7$.\n\n$\\begin{align*}P(YYY)&=\\frac{5}{9}\\times\\frac{4}{8}\\times\\frac{3}{7}\\\\&=\\frac{60}{504}\\end{align*}$\n\n$\\begin{align*}P(WWW)&=\\frac{4}{9}\\times\\frac{3}{8}\\times\\frac{2}{7}\\\\&=\\frac{24}{504}\\end{align*}$\n\nAdd the two path probabilities.\n\n$\\begin{align*}P(\\text{same colour})&=\\frac{60}{504}+\\frac{24}{504}\\\\&=\\frac{84}{504}\\\\&=\\frac{1}{6}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A bag contains $4$ grey, $3$ yellow and $5$ white counters. Three counters are drawn at random without replacement. Find the probability of drawing two grey counters and one white counter, in any order.",
+    "solution_text": "Let $G$ mean grey and $W$ mean white. The required orders are $GGW$, $GWG$ and $WGG$.\n\n$\\begin{align*}P(GGW)&=\\frac{4}{12}\\times\\frac{3}{11}\\times\\frac{5}{10}\\\\&=\\frac{60}{1320}\\end{align*}$\n\n$\\begin{align*}P(GWG)&=\\frac{4}{12}\\times\\frac{5}{11}\\times\\frac{3}{10}\\\\&=\\frac{60}{1320}\\end{align*}$\n\n$\\begin{align*}P(WGG)&=\\frac{5}{12}\\times\\frac{4}{11}\\times\\frac{3}{10}\\\\&=\\frac{60}{1320}\\end{align*}$\n\nAdd all three path probabilities.\n\n$\\begin{align*}P(\\text{two greys and one white})&=\\frac{60}{1320}+\\frac{60}{1320}+\\frac{60}{1320}\\\\&=\\frac{180}{1320}\\\\&=\\frac{3}{22}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

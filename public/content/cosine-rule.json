@@ -2,20 +2,50 @@
   "skillId": "cosine-rule",
   "atomType": "R",
   "theory": {
-        "intro": "The cosine rule extends Pythagoras' theorem to any triangle. When you know **two sides and the angle between them** (the included angle), it finds the third side — the one opposite that angle.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (V) at (0,0);\n\\coordinate (B) at (4.0,0);\n\\coordinate (A) at (1.5,2.9);\n\\draw (V)--(B) node[midway,below] {$a$};\n\\draw (V)--(A) node[midway,above left] {$b$};\n\\draw (B)--(A) node[midway,above right] {$c$};\n\\pic[draw,\"$C$\",angle radius=0.7cm,angle eccentricity=1.7] {angle=B--V--A};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "The cosine rule extends Pythagoras' theorem to any triangle. When you know **two sides and the angle between them** (the included angle), it finds the third side — the one opposite that angle.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (V) at (0,0);\n\\coordinate (B) at (4.0,0);\n\\coordinate (A) at (1.5,2.9);\n\\draw (V)--(B) node[midway,below] {$a$};\n\\draw (V)--(A) node[midway,above left] {$b$};\n\\draw (B)--(A) node[midway,above right] {$c$};\n\\pic[draw,\"$C$\",angle radius=0.7cm,angle eccentricity=1.7] {angle=B--V--A};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "$c^{2}=a^{2}+b^{2}-2ab\\cos C$, where $C$ is the included angle and $c$ is the side opposite it.",
           "The **included angle** sits **between** the two known sides, and the side you are finding is always opposite it.",
           "If the included angle is obtuse, $\\cos C$ is **negative**, so $-2ab\\cos C$ adds on and the third side comes out longer.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (V) at (0,0);\n\\coordinate (B) at (4.0,0);\n\\coordinate (A) at (-1.38,2.96);\n\\draw (V)--(B) node[midway,below] {$a$};\n\\draw (V)--(A) node[midway,left] {$b$};\n\\draw (B)--(A) node[midway,above right] {$c$};\n\\pic[draw,\"$C$\",angle radius=0.65cm,angle eccentricity=1.6] {angle=B--V--A};\n\\end{tikzpicture}\n[/tikz]",
           "Keep the full value in your calculator and take the square root as the last step; do not stop at $c^{2}$.",
           "When $C=90^{\\circ}$, $\\cos C=0$ and the rule reduces to Pythagoras' theorem $c^{2}=a^{2}+b^{2}$."
         ],
-        "steps": [
+"steps": [
           "Write the cosine rule",
           "Substitute the two sides and the included angle",
           "Take the square root"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Solve $x^{2}=5^{2}+8^{2}-2(5)(8)\\cos60^{\\circ}$ for the positive value of $x$.",
+    "solution_text": "$\\begin{aligned}x&=\\sqrt{5^{2}+8^{2}-2(5)(8)\\cos60^{\\circ}}\\\\x&=\\sqrt{49}\\\\x&=7\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the length $x$, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.5,0);\n\\coordinate (C) at (2.5,4.3301);\n\\draw (A)--(B)--(C)--cycle;\n\\path (A)--(B) node[midway,below] {$7\\text{ cm}$};\n\\path (A)--(C) node[midway,above left] {$10\\text{ cm}$};\n\\path (B)--(C) node[midway,right] {$x$};\n\\pic[draw,angle radius=0.65cm,angle eccentricity=1.5,\"$60^{\\circ}$\"] {angle=B--A--C};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The $60^{\\circ}$ angle is between the two known sides; $x$ is opposite it.\n$\\begin{aligned}c^{2}&=a^{2}+b^{2}-2ab\\cos C\\\\x^{2}&=7^{2}+10^{2}-2(7)(10)\\cos60^{\\circ}\\\\x&=\\sqrt{79}\\\\x&\\approx8.89\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A triangular paddock has two sides of lengths $180$ m and $120$ m, with an included angle of $120^{\\circ}$. Find the third side, correct to the nearest metre.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.5,0);\n\\coordinate (C) at (-1.5,2.5981);\n\\draw (A)--(B)--(C)--cycle;\n\\path (A)--(B) node[midway,below] {$180\\text{ m}$};\n\\path (A)--(C) node[midway,left] {$120\\text{ m}$};\n\\path (B)--(C) node[midway,above right] {$x$};\n\\pic[draw,angle radius=0.6cm,angle eccentricity=1.5,\"$120^{\\circ}$\"] {angle=B--A--C};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Let $x$ be the third side. The given angle is the included angle.\n$\\begin{aligned}c^{2}&=a^{2}+b^{2}-2ab\\cos C\\\\x^{2}&=180^{2}+120^{2}-2(180)(120)\\cos120^{\\circ}\\\\x&=\\sqrt{68400}\\\\x&\\approx262\\text{ m}\\end{aligned}$\nSince $\\cos120^{\\circ}=-\\frac12$, the cosine term adds to the sum of the squares.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Calculate the perimeter of the triangle, correct to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (G) at (0,0);\n\\coordinate (H) at (3.6,0);\n\\coordinate (J) at (2.4,4.1569);\n\\draw (G)--(H)--(J)--cycle;\n\\path (G)--(H) node[midway,below] {$9\\text{ cm}$};\n\\path (G)--(J) node[midway,above left] {$12\\text{ cm}$};\n\\pic[draw,angle radius=0.65cm,angle eccentricity=1.5,\"$60^{\\circ}$\"] {angle=H--G--J};\n\\node[below left] at (G) {$G$};\n\\node[below right] at (H) {$H$};\n\\node[above] at (J) {$J$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned}HJ^{2}&=9^{2}+12^{2}-2(9)(12)\\cos60^{\\circ}\\\\HJ&=\\sqrt{117}\\text{ cm}\\\\P&=9+12+\\sqrt{117}\\\\P&\\approx31.8\\text{ cm}\\end{aligned}$\nUse the unrounded third side when calculating the perimeter.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

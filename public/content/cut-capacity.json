@@ -2,20 +2,47 @@
   "skillId": "cut-capacity",
   "atomType": "R",
   "theory": {
-    "intro": "A **cut** is a line that completely separates the source from the sink in a flow network. Its **capacity** is the sum of capacities of edges directed from the source side to the sink side.",
-    "facts": [
+"intro": "A **cut** is a line that completely separates the source from the sink in a flow network. Its **capacity** is the sum of capacities of edges directed from the source side to the sink side.",
+"facts": [
       "A line is a **valid cut** only if every path from source to sink crosses the cut.",
       "Only edges directed from the **source side to the sink side** are included in the cut capacity.",
       "Edges directed from the sink side back to the source side contribute **zero** capacity to the cut.",
       "Edges that do not cross the cut line are not counted."
     ],
-    "steps": [
+"steps": [
       "Check if the cut completely separates the source from the sink",
       "Identify edges crossing from the source side to the sink side",
       "Exclude backwards edges flowing from the sink side to the source side",
       "Sum the capacities of the valid forward-crossing edges"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Calculate the capacity of cut $C$ in this network.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},>=stealth]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings,mark=at position 0.6 with {\\arrow{>}}},postaction={decorate}}}\n\\definecolor{cutred}{HTML}{EF6068}\n\\coordinate (S) at (0,0);\n\\coordinate (A) at (2,1.2);\n\\coordinate (B) at (2,-1.2);\n\\coordinate (T) at (4,0);\n\\draw[midarrow] (S)--(A) node[midway,above left] {$9$};\n\\draw[midarrow] (S)--(B) node[midway,below left] {$4$};\n\\draw[midarrow] (A)--(T) node[midway,above right] {$7$};\n\\draw[midarrow] (B)--(T) node[midway,below right] {$6$};\n\\draw[dashed,cutred,thick] (0.9,1.7)--(0.9,-1.7);\n\\path (0.9,1.7) node[above,text=black] {$C$};\n\\fill (S) circle (2pt) node[left] {$S$};\n\\fill (A) circle (2pt) node[above] {$A$};\n\\fill (B) circle (2pt) node[below] {$B$};\n\\fill (T) circle (2pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Cut $C$ separates $S$ from $A$, $B$ and $T$. It crosses $SA$ and $SB$, both directed from the source side to the sink side.\n$\\begin{aligned}\\text{Cut capacity} &= 9+4\\\\&=13\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "The edge capacities are in litres per second. Cut $C$ separates $\\{S,B\\}$ from $\\{A,T\\}$. Explain why $AB$ is excluded, then calculate the cut capacity.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},>=stealth]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings,mark=at position 0.6 with {\\arrow{>}}},postaction={decorate}}}\n\\definecolor{cutred}{HTML}{EF6068}\n\\coordinate (S) at (0,0);\n\\coordinate (A) at (2,1.2);\n\\coordinate (B) at (2,-1.2);\n\\coordinate (T) at (4,0);\n\\draw[midarrow] (S)--(A) node[midway,above left] {$24$};\n\\draw[midarrow] (S)--(B) node[midway,below left] {$17$};\n\\draw[midarrow] (A)--(B) node[pos=0.35,left] {$8$};\n\\draw[midarrow] (A)--(T) node[midway,above right] {$19$};\n\\draw[midarrow] (B)--(T) node[midway,below right] {$23$};\n\\draw[dashed,cutred,thick] (0.7,1.8)--(3.3,-1.8);\n\\path (0.7,1.8) node[above,text=black] {$C$};\n\\fill (S) circle (2pt) node[left] {$S$};\n\\fill (A) circle (2pt) node[above] {$A$};\n\\fill (B) circle (2pt) node[below] {$B$};\n\\fill (T) circle (2pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Edge $AB$ goes from $A$ on the sink side to $B$ on the source side, so its capacity is not counted. It is neither added nor subtracted.\nThe forward-crossing edges are $SA$ and $BT$.\n$\\begin{aligned}\\text{Cut capacity} &= 24+23\\\\&=47\\text{ L/s}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Is the dashed line $L$ a valid cut? Give a reason.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},>=stealth]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings,mark=at position 0.6 with {\\arrow{>}}},postaction={decorate}}}\n\\definecolor{cutred}{HTML}{EF6068}\n\\coordinate (S) at (0,0);\n\\coordinate (A) at (2,1.2);\n\\coordinate (B) at (2,-1.2);\n\\coordinate (T) at (4,0);\n\\draw[midarrow] (S)--(A) node[midway,above left] {$11$};\n\\draw[midarrow] (S)--(B) node[midway,below left] {$13$};\n\\draw[midarrow] (A)--(T) node[midway,above right] {$8$};\n\\draw[midarrow] (B)--(T) node[midway,below right] {$9$};\n\\draw[dashed,cutred,thick] (0.9,1.8)--(0.9,0.1);\n\\path (0.9,1.8) node[above,text=black] {$L$};\n\\fill (S) circle (2pt) node[left] {$S$};\n\\fill (A) circle (2pt) node[above] {$A$};\n\\fill (B) circle (2pt) node[below] {$B$};\n\\fill (T) circle (2pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Line $L$ is not a valid cut. The path $S\\to B\\to T$ does not cross it, so the line does not completely separate the source from the sink."
+  },
+  {
+    "question_text": "Calculate the capacities of $C_1$ and $C_2$. Which of these two cuts has the smaller capacity?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},>=stealth]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings,mark=at position 0.6 with {\\arrow{>}}},postaction={decorate}}}\n\\definecolor{cutred}{HTML}{EF6068}\n\\coordinate (S) at (0,0);\n\\coordinate (A) at (2,1.2);\n\\coordinate (B) at (2,-1.2);\n\\coordinate (T) at (4,0);\n\\draw[midarrow] (S)--(A) node[midway,above left] {$18$};\n\\draw[midarrow] (S)--(B) node[midway,below left] {$13$};\n\\draw[midarrow] (A)--(B) node[pos=0.35,left] {$5$};\n\\draw[midarrow] (A)--(T) node[midway,above right] {$16$};\n\\draw[midarrow] (B)--(T) node[midway,below right] {$17$};\n\\draw[dashed,cutred,thick] (0.8,1.8)--(0.8,-1.8);\n\\draw[dashed,cutred,thick] (0.5,1.8)--(3.5,-1.8);\n\\path (0.8,-1.8) node[below,text=black] {$C_1$};\n\\path (3.5,-1.8) node[below,text=black] {$C_2$};\n\\fill (S) circle (2pt) node[left] {$S$};\n\\fill (A) circle (2pt) node[above] {$A$};\n\\fill (B) circle (2pt) node[below] {$B$};\n\\fill (T) circle (2pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Cut $C_1$ crosses $SA$ and $SB$, both forwards.\n$\\begin{aligned}\\text{Capacity of }C_1 &=18+13\\\\&=31\\end{aligned}$\nCut $C_2$ separates $\\{S,B\\}$ from $\\{A,T\\}$. Count $SA$ and $BT$; exclude $AB$, which goes from the sink side to the source side.\n$\\begin{aligned}\\text{Capacity of }C_2 &=18+17\\\\&=35\\end{aligned}$\nOf these two cuts, $C_1$ has the smaller capacity.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

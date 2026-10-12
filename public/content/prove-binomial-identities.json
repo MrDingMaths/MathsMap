@@ -2,20 +2,38 @@
   "skillId": "prove-binomial-identities",
   "atomType": "R",
   "theory": {
-        "intro": "An identity about binomial coefficients can be proved by substituting a chosen value for $x$ in the expansion $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$. The value you choose decides which identity comes out. For the alternating-sum and even/odd identities below, $n$ is a positive integer.",
-        "facts": [
+"intro": "An identity about binomial coefficients can be proved by substituting a chosen value for $x$ in the expansion $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$. The value you choose decides which identity comes out. For the alternating-sum and even/odd identities below, $n$ is a positive integer.",
+"facts": [
 "Substituting $x = 1$ gives the total ${^{n}C_{0}} + {^{n}C_{1}} + {^{n}C_{2}} + \\dots + {^{n}C_{n}} = 2^{n}$.",
 "Substituting $x = -1$ gives the alternating sum ${^{n}C_{0}} - {^{n}C_{1}} + {^{n}C_{2}} - \\dots + (-1)^{n} {^{n}C_{n}} = 0$.",
 "Adding those two results and dividing by $2$ gives $\\sum_{\\text{even } r} {^{n}C_{r}} = 2^{n-1}$, and subtracting the second result from the first and dividing by $2$ gives $\\sum_{\\text{odd } r} {^{n}C_{r}} = 2^{n-1}$.",
 "Substituting $x = k$ gives ${^{n}C_{0}} + k {^{n}C_{1}} + k^{2} {^{n}C_{2}} + \\dots + k^{n} {^{n}C_{n}} = (1+k)^{n}$.",
 "In every proof, state the expansion you start from and the exact value you substitute."
 ],
-        "steps": [
+"steps": [
 "State the general binomial expansion $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$ or $(a+b)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} a^{n-r} b^{r}$",
 "Substitute the chosen value(s) for the variable(s) into both the expanded form and the factored form",
 "Simplify the resulting arithmetic expressions or combine equations by addition or subtraction to establish the identity; for an even/odd sum, divide the resulting equation by $2$"
+],
+"workedExamples": [
+  {
+    "question_text": "Use the binomial expansion of $(1+x)^6$ to prove that $\\sum_{r=0}^{6}{^{6}C_r}=64$.",
+    "solution_text": "Start with the binomial expansion:\n$(1+x)^6=\\sum_{r=0}^{6}{^{6}C_r}x^r$.\nSubstitute $x=1$:\n$\\begin{aligned}\\sum_{r=0}^{6}{^{6}C_r}&=(1+1)^6\\\\&=64.\\end{aligned}$"
+  },
+  {
+    "question_text": "By substituting into the expansion of $(1+x)^7$, prove that ${^{7}C_0}+{^{7}C_2}+{^{7}C_4}+{^{7}C_6}={^{7}C_1}+{^{7}C_3}+{^{7}C_5}+{^{7}C_7}$.",
+    "solution_text": "Start with the binomial expansion:\n$(1+x)^7=\\sum_{r=0}^{7}{^{7}C_r}x^r$.\nSubstitute $x=-1$:\n$0={^{7}C_0}-{^{7}C_1}+{^{7}C_2}-{^{7}C_3}+{^{7}C_4}-{^{7}C_5}+{^{7}C_6}-{^{7}C_7}$.\nMove the odd-indexed terms to the other side:\n${^{7}C_0}+{^{7}C_2}+{^{7}C_4}+{^{7}C_6}={^{7}C_1}+{^{7}C_3}+{^{7}C_5}+{^{7}C_7}$."
+  },
+  {
+    "question_text": "For a positive integer $n$, use the expansion of $(1+x)^{2n+3}$ to prove that $\\sum_{k=0}^{n+1}{^{2n+3}C_{2k}}=2^{2n+2}$.",
+    "solution_text": "Start with the binomial expansion:\n$(1+x)^{2n+3}=\\sum_{r=0}^{2n+3}{^{2n+3}C_r}x^r$.\nLet $E=\\sum_{k=0}^{n+1}{^{2n+3}C_{2k}}$ and $O=\\sum_{k=0}^{n+1}{^{2n+3}C_{2k+1}}$.\nSubstituting $x=1$ gives $E+O=2^{2n+3}$.\nSubstituting $x=-1$ gives $E-O=0$.\nAdd the two equations and divide by $2$:\n$\\begin{aligned}2E&=2^{2n+3}\\\\E&=2^{2n+2}.\\end{aligned}$\nTherefore $\\sum_{k=0}^{n+1}{^{2n+3}C_{2k}}=2^{2n+2}$."
+  },
+  {
+    "question_text": "For a positive integer $n$, use the expansion of $(1+x)^{2n+4}$ to prove that $\\sum_{k=0}^{n+1}{^{2n+4}C_{2k+1}}=2^{2n+3}$.",
+    "solution_text": "Start with the binomial expansion:\n$(1+x)^{2n+4}=\\sum_{r=0}^{2n+4}{^{2n+4}C_r}x^r$.\nLet $E=\\sum_{k=0}^{n+2}{^{2n+4}C_{2k}}$ and $O=\\sum_{k=0}^{n+1}{^{2n+4}C_{2k+1}}$.\nSubstituting $x=1$ gives $E+O=2^{2n+4}$.\nSubstituting $x=-1$ gives $E-O=0$.\nSubtract the second equation from the first and divide by $2$:\n$\\begin{aligned}2O&=2^{2n+4}\\\\O&=2^{2n+3}.\\end{aligned}$\nTherefore $\\sum_{k=0}^{n+1}{^{2n+4}C_{2k+1}}=2^{2n+3}$."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

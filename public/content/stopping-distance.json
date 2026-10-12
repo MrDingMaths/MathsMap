@@ -2,19 +2,49 @@
   "skillId": "stopping-distance",
   "atomType": "R",
   "theory": {
-        "intro": "The **stopping distance** is the total distance a vehicle travels from spotting a hazard to stopping completely. It is the sum of the **reaction distance** and the **braking distance**.",
-        "facts": [
+"intro": "The **stopping distance** is the total distance a vehicle travels from spotting a hazard to stopping completely. It is the sum of the **reaction distance** and the **braking distance**.",
+"facts": [
           "$\\text{Stopping distance} = \\text{reaction distance} + \\text{braking distance}$",
           "$\\text{Reaction distance} = \\text{speed} \\times \\text{reaction time}$, where speed is converted to m/s by dividing by $3.6$: $v\\text{ (m/s)} = \\dfrac{v\\text{ (km/h)}}{3.6}$.",
           "The formula for **braking distance** is given in each problem (such as $d = 0.01v^2$ or $d = \\dfrac{v^2}{170}$), where $v$ is speed in km/h.",
           "Reaction distance requires speed in m/s, whereas braking distance formulas usually specify speed directly in km/h."
         ],
-        "steps": [
+"steps": [
           "Calculate the reaction distance.",
           "Calculate the braking distance.",
           "Add the reaction and braking distances."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A car travels $15$ m while the driver reacts to a hazard, then another $28$ m while braking. Calculate the stopping distance.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\definecolor{reactionBlue}{HTML}{268CFF}\n\\definecolor{brakingRed}{HTML}{EF6068}\n\\draw[->,thick,black] (0,0.9) -- (8,0.9);\n\\path (4,0.9) node[above,font=\\fontsize{10}{12}\\selectfont,text=black] {Stopping distance};\n\\draw[->,thick,reactionBlue] (0,0) -- (3,0);\n\\draw[->,thick,brakingRed] (3,0) -- (8,0);\n\\path (1.5,0) node[below,font=\\fontsize{10}{12}\\selectfont,text=black] {Reaction: 15 m};\n\\path (5.5,0) node[below,font=\\fontsize{10}{12}\\selectfont,text=black] {Braking: 28 m};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned}\\text{Stopping distance} &= \\text{reaction distance}+\\text{braking distance}\\\\&=15+28\\\\&=43\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A vehicle has a stopping distance of $85$ m and a reaction distance of $24$ m. Calculate its braking distance.",
+    "solution_text": "$\\begin{aligned}\\text{Braking distance} &= \\text{stopping distance}-\\text{reaction distance}\\\\&=85-24\\\\&=61\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A vehicle has a stopping distance of $57$ m and a braking distance of $33$ m. Calculate its reaction distance.",
+    "solution_text": "$\\begin{aligned}\\text{Reaction distance} &= \\text{stopping distance}-\\text{braking distance}\\\\&=57-33\\\\&=24\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A car travels at $78$ km/h and the driver takes $1.6$ s to react. Its braking distance is estimated by $d=0.01v^2$, where $d$ is in metres and $v$ is in km/h. Calculate the total stopping distance to one decimal place.",
+    "solution_text": "Reaction distance uses speed in m/s, so divide the speed in km/h by $3.6$.\n\n$\\begin{aligned}\\text{Reaction distance} &= \\frac{78}{3.6}\\times1.6\\\\&=\\frac{104}{3}\\text{ m}\\end{aligned}$\n\nThe braking formula requires speed in km/h, so use $v=78$.\n\n$\\begin{aligned}\\text{Braking distance} &=0.01\\times78^2\\\\&=60.84\\text{ m}\\end{aligned}$\n\nAdd the distances, retaining the unrounded reaction distance until the final step.\n\n$\\begin{aligned}\\text{Stopping distance} &=\\frac{104}{3}+60.84\\\\&\\approx95.5\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

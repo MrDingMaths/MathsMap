@@ -2,8 +2,8 @@
   "skillId": "arc-sector-segment-problems",
   "atomType": "R",
   "theory": {
-        "intro": "A **segment** is the region between a chord and the arc it cuts off. A minor segment's area is the sector area minus the area of the triangle formed by the two radii. For the minor-segment formula and the corresponding major-segment complement, use the minor central angle $0<\\theta\\leq\\pi$. The segment-perimeter formula below is for the minor segment. Work in radians throughout.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (60:3);\n\\coordinate (B) at (-60:3);\n\\fill[gray!35] (B) arc (-60:60:3) -- cycle;\n\\draw (O) circle (3);\n\\draw[thick] (O) -- (A) node[midway, above left] {$r$};\n\\draw[thick] (O) -- (B) node[midway, below left] {$r$};\n\\draw[thick] (A) -- (B);\n\\pic[draw, \"$\\theta$\", angle radius=0.8cm, angle eccentricity=1.6] {angle=B--O--A};\n\\node[above right] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "A **segment** is the region between a chord and the arc it cuts off. A minor segment's area is the sector area minus the area of the triangle formed by the two radii. For the minor-segment formula and the corresponding major-segment complement, use the minor central angle $0<\\theta\\leq\\pi$. The segment-perimeter formula below is for the minor segment. Work in radians throughout.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (60:3);\n\\coordinate (B) at (-60:3);\n\\fill[gray!35] (B) arc (-60:60:3) -- cycle;\n\\draw (O) circle (3);\n\\draw[thick] (O) -- (A) node[midway, above left] {$r$};\n\\draw[thick] (O) -- (B) node[midway, below left] {$r$};\n\\draw[thick] (A) -- (B);\n\\pic[draw, \"$\\theta$\", angle radius=0.8cm, angle eccentricity=1.6] {angle=B--O--A};\n\\node[above right] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "**Sector perimeter**: $P = l + 2r = r\\theta + 2r$.",
 "**Minor segment area**: $A = \\tfrac{1}{2}r^{2}(\\theta - \\sin\\theta)$, the sector area minus the triangle area, using the minor central angle $0<\\theta\\leq\\pi$.",
 "**Major segment area**: $A = \\pi r^{2} - \\tfrac{1}{2}r^{2}(\\theta - \\sin\\theta)$, the whole circle minus the minor segment, using the same minor central angle $0<\\theta\\leq\\pi$.",
@@ -12,13 +12,51 @@
 "**Annular sector area**: between concentric arcs of radii $R$ and $r$, $A = \\tfrac{1}{2}(R^{2} - r^{2})\\theta$.",
 "Set the calculator to **radian mode** before evaluating $\\sin\\theta$ or $\\cos\\theta$."
 ],
-        "steps": [
+"steps": [
           "Identify the geometric components (sector, triangle, annular sector, chord, or boundary radii).",
           "Ensure the central angle $\\theta$ is in radians (convert from degrees if needed).",
           "Apply the relevant composite formula (e.g. $A = \\tfrac{1}{2}r^{2}(\\theta - \\sin\\theta)$ for a minor segment, or $P = r\\theta + 2r$ for a sector perimeter).",
           "Evaluate the numerical value with the calculator in radian mode, or simplify the exact expression in terms of $\\pi$ and surds."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A circle has radius $4\\text{ cm}$. A chord subtends a minor central angle of $\\dfrac{2\\pi}{3}$ radians. Find the exact perimeter of the minor segment.",
+    "solution_text": "The perimeter is the minor arc plus the chord.\n$\\begin{align*}l&=r\\theta\\\\&=4\\times\\frac{2\\pi}{3}\\\\&=\\frac{8\\pi}{3}\\text{ cm}\\end{align*}$\nBy cosine rule:\n$\\begin{align*}c^{2}&=4^{2}+4^{2}-2(4)(4)\\cos\\frac{2\\pi}{3}\\\\&=48\\\\c&=4\\sqrt{3}\\text{ cm}\\end{align*}$\n$\\begin{align*}P&=l+c\\\\&=\\left(\\frac{8\\pi}{3}+4\\sqrt{3}\\right)\\text{ cm}\\end{align*}$"
+  },
+  {
+    "question_text": "A windscreen wiper sweeps between concentric arcs of radii $24\\text{ cm}$ and $12\\text{ cm}$ through $150^{\\circ}$. Find the exact area swept.",
+    "solution_text": "$\\theta=150\\times\\dfrac{\\pi}{180}=\\dfrac{5\\pi}{6}$ radians.\nSubtract the inner sector from the outer sector.\n$\\begin{align*}A&=\\frac12(24^{2})\\frac{5\\pi}{6}-\\frac12(12^{2})\\frac{5\\pi}{6}\\\\&=\\frac12(576-144)\\frac{5\\pi}{6}\\\\&=180\\pi\\text{ cm}^{2}\\end{align*}$"
+  },
+  {
+    "question_text": "A sector has area $10\\pi\\text{ cm}^{2}$ and arc length $5\\pi\\text{ cm}$. Find its exact radius $r$ and central angle $\\theta$.",
+    "solution_text": "$\\begin{align*}r\\theta&=5\\pi\\\\\\frac12r^{2}\\theta&=10\\pi\\end{align*}$\nSubstitute $r\\theta=5\\pi$ into the area equation.\n$\\begin{align*}\\frac12r(5\\pi)&=10\\pi\\\\r&=4\\text{ cm}\\end{align*}$\n$\\begin{align*}4\\theta&=5\\pi\\\\\\theta&=\\frac{5\\pi}{4}\\text{ radians}\\end{align*}$"
+  },
+  {
+    "question_text": "A sector subtending $135^{\\circ}$ is removed from a circle of radius $8\\text{ cm}$. Find the exact area remaining.",
+    "solution_text": "$\\begin{align*}\\theta&=(360-135)\\frac{\\pi}{180}\\\\&=\\frac{5\\pi}{4}\\text{ radians}\\end{align*}$\n$\\begin{align*}A&=\\frac12r^{2}\\theta\\\\&=\\frac12(8^{2})\\frac{5\\pi}{4}\\\\&=40\\pi\\text{ cm}^{2}\\end{align*}$"
+  },
+  {
+    "question_text": "The radius $OM$ is perpendicular to chord $AB$ at $N$. Given $ON=5\\text{ cm}$ and $NM=5\\text{ cm}$, find the exact area between chord $AB$ and the minor arc $AB$.\n[tikz]\n\\begin{tikzpicture}[x=0.28cm,y=0.28cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (O) at (0,0);\\coordinate (A) at (60:10);\\coordinate (B) at (-60:10);\\coordinate (N) at (5,0);\\coordinate (M) at (10,0);\n\\draw (O) circle (10);\\draw (O)--(A) (O)--(B) (A)--(B) (O)--(M);\n\\draw (4.4,0)--(4.4,0.6)--(5,0.6);\n\\path (O) node[left] {$O$} (A) node[above right] {$A$} (B) node[below right] {$B$} (5,1.5) node[right] {$N$} (M) node[right] {$M$};\n\\path (2.5,0) node[below] {$5\\text{ cm}$} (7.5,0) node[below] {$5\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$r=5+5=10\\text{ cm}$.\nA perpendicular from the centre bisects the chord and its central angle. Let $\\alpha=\\angle AON$.\n$\\begin{align*}\\cos\\alpha&=\\frac{5}{10}=\\frac12\\\\\\alpha&=\\frac{\\pi}{3}\\\\\\theta&=2\\alpha=\\frac{2\\pi}{3}\\end{align*}$\nSubtract the triangle area from the sector area.\n$\\begin{align*}A_{\\text{segment}}&=\\frac12(10^{2})\\frac{2\\pi}{3}-\\frac12(10^{2})\\sin\\frac{2\\pi}{3}\\\\&=\\left(\\frac{100\\pi}{3}-25\\sqrt3\\right)\\text{ cm}^{2}\\end{align*}$"
+  },
+  {
+    "question_text": "A sector has area $20\\pi\\text{ cm}^{2}$ and central angle $\\dfrac{5\\pi}{8}$ radians. Find its exact radius.",
+    "solution_text": "$\\begin{align*}A&=\\frac12r^{2}\\theta\\\\20\\pi&=\\frac12r^{2}\\frac{5\\pi}{8}\\\\r^{2}&=64\\\\r&=8\\text{ cm}\\end{align*}$"
+  },
+  {
+    "question_text": "A garden consists of triangle $ABD$ and sector $BCD$ with centre $B$, on opposite sides of $BD$. Given $AB=AD=4\\text{ m}$, $\\angle DAB=\\dfrac{2\\pi}{3}$ and $\\angle DBC=\\dfrac{\\pi}{3}$, find the exact total area.\n[tikz]\n\\begin{tikzpicture}[x=0.55cm,y=0.55cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (B) at (0,0);\\coordinate (D) at (0,6.928203);\\coordinate (A) at (-2,3.464102);\\coordinate (C) at (30:6.928203);\n\\draw (B)--(A)--(D)--cycle;\\draw (B)--(C) arc[start angle=30,end angle=90,radius=6.928203];\n\\path (A) node[left] {$A$} (B) node[below] {$B$} (C) node[right] {$C$} (D) node[above] {$D$};\n\\path (A)--(B) node[midway,left] {$4\\text{ m}$};\\path (A)--(D) node[midway,left] {$4\\text{ m}$};\n\\draw (-1.6,2.771281) arc[start angle=-60,end angle=60,radius=0.8];\\path (-0.9,3.464102) node {$\\frac{2\\pi}{3}$};\n\\draw (30:1.1) arc[start angle=30,end angle=90,radius=1.1];\\path (60:1.7) node {$\\frac{\\pi}{3}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Find the sector radius using cosine rule in triangle $ABD$.\n$\\begin{align*}BD^{2}&=4^{2}+4^{2}-2(4)(4)\\cos\\frac{2\\pi}{3}\\\\&=48\\end{align*}$\n$\\begin{align*}A_{\\triangle}&=\\frac12(4)(4)\\sin\\frac{2\\pi}{3}\\\\&=4\\sqrt3\\text{ m}^{2}\\end{align*}$\n$\\begin{align*}A_{\\text{sector}}&=\\frac12(BD^{2})\\frac{\\pi}{3}\\\\&=8\\pi\\text{ m}^{2}\\end{align*}$\n$A_{\\text{garden}}=(4\\sqrt3+8\\pi)\\text{ m}^{2}$."
+  },
+  {
+    "question_text": "Triangle $ABC$ is equilateral with side length $3\\text{ cm}$. Minor arcs $AB$, $BC$ and $CA$ have centres $C$, $A$ and $B$ respectively. Find the exact perimeter and area enclosed by the three arcs.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (B) at (0,0);\\coordinate (C) at (3,0);\\coordinate (A) at (1.5,2.598076);\n\\draw (A) arc[start angle=120,end angle=180,radius=3];\\draw (B) arc[start angle=240,end angle=300,radius=3];\\draw (C) arc[start angle=0,end angle=60,radius=3];\n\\draw (A)--(B)--(C)--cycle;\n\\path (A) node[above] {$A$} (B) node[left] {$B$} (C) node[right] {$C$};\\path (B)--(C) node[midway,above] {$3\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Each arc has radius $3\\text{ cm}$ and central angle $\\dfrac{\\pi}{3}$.\n$\\begin{align*}l&=3\\frac{\\pi}{3}=\\pi\\text{ cm}\\\\P&=3\\pi\\text{ cm}\\end{align*}$\nThe enclosed region is the triangle plus three equal segments.\n$\\begin{align*}A_{\\triangle}&=\\frac12(3^{2})\\sin\\frac{\\pi}{3}\\\\&=\\frac{9\\sqrt3}{4}\\text{ cm}^{2}\\end{align*}$\n$\\begin{align*}A_{\\text{segment}}&=\\frac12(3^{2})\\frac{\\pi}{3}-\\frac{9\\sqrt3}{4}\\\\&=\\frac{3\\pi}{2}-\\frac{9\\sqrt3}{4}\\text{ cm}^{2}\\end{align*}$\n$\\begin{align*}A&=\\frac{9\\sqrt3}{4}+3\\left(\\frac{3\\pi}{2}-\\frac{9\\sqrt3}{4}\\right)\\\\&=\\frac92(\\pi-\\sqrt3)\\text{ cm}^{2}\\end{align*}$"
+  },
+  {
+    "question_text": "A chord of length $7\\text{ cm}$ lies in a circle of radius $5\\text{ cm}$. Find the minor central angle to three decimal places and the minor arc length to two decimal places.",
+    "solution_text": "Use cosine rule in the triangle formed by the chord and two radii.\n$\\begin{align*}7^{2}&=5^{2}+5^{2}-2(5)(5)\\cos\\theta\\\\\\cos\\theta&=\\frac{1}{50}\\\\\\theta&=\\arccos\\frac{1}{50}\\\\&\\approx1.551\\text{ radians}\\end{align*}$\nUse the unrounded angle for the arc length.\n$\\begin{align*}l&=r\\theta\\\\&=5\\arccos\\frac{1}{50}\\\\&\\approx7.75\\text{ cm}\\end{align*}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

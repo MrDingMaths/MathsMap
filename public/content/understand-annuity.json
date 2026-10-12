@@ -2,8 +2,8 @@
   "skillId": "understand-annuity",
   "atomType": "R",
   "theory": {
-    "intro": "An **annuity** is a sequence of equal, regular payments into or out of an investment or loan, including regular withdrawals. A period-by-period table tracks the interest earned on the opening balance and the regular payment added or subtracted at the end.",
-    "facts": [
+"intro": "An **annuity** is a sequence of equal, regular payments into or out of an investment or loan, including regular withdrawals. A period-by-period table tracks the interest earned on the opening balance and the regular payment added or subtracted at the end.",
+"facts": [
 "Interest for each period is calculated on the **opening balance**: $I = \\text{Opening Balance} \\times r$, where $r$ is the decimal interest rate per payment/compounding period.",
 "For an investment annuity, the payment is **added** at the end: $\\text{Closing} = \\text{Opening} + I + \\text{Payment}$.",
 "For a reducing-balance loan, interest is added and the repayment is **subtracted**: $\\text{Closing} = \\text{Opening} + I - \\text{Payment}$.",
@@ -11,12 +11,30 @@
 "An investment recurrence relation is $V_{n} = V_{n-1}(1 + r) + D$, where $V_{0}$ is the initial balance and is zero only when no initial lump sum is invested.",
 "A loan recurrence relation is $V_{n} = V_{n-1}(1 + r) - D$, where $V_{0}$ is the initial loan principal."
 ],
-    "steps": [
+"steps": [
 "Calculate interest on the opening balance for the period using $I = \\text{Opening} \\times r$.",
 "Add the calculated interest to the opening balance, then add the regular deposit (for savings) or subtract the repayment (for a loan).",
 "Calculate the closing balance and carry it forward as the next period's opening balance."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A savings account starts with $\\$0$. Equal deposits of $\\$800$ are made at the end of each year, after interest is added. The annual interest rate is fixed.\n\nUse Year $2$ to find the annual interest rate, then complete the table for Years $3$ and $4$. Calculate the total interest earned over the four years.\n\nAll balances and interest amounts are in dollars.\n\n$\\begin{array}{|c|r|r|r|r|}\\hline \\text{Year}&\\text{Opening}&\\text{Interest}&\\text{Deposit}&\\text{Closing}\\\\\\hline 1&0&0&800&800\\\\2&800&40&800&1640\\\\3&1640&\\cdots&800&\\cdots\\\\4&\\cdots&\\cdots&800&\\cdots\\\\\\hline\\end{array}$",
+    "solution_text": "Equal annual deposits make this a savings annuity. Interest is calculated on the opening balance before the deposit is added.\n\n$\\begin{align*}r&=\\frac{40}{800}\\\\&=0.05=5\\%\\end{align*}$\n\nFor Year $3$:\n\n$\\begin{align*}I_3&=1640\\times0.05\\\\&=\\$82\\\\\\text{Closing}_3&=1640+82+800\\\\&=\\$2522\\end{align*}$\n\nThe closing balance becomes the next year's opening balance.\n\n$\\begin{align*}I_4&=2522\\times0.05\\\\&=\\$126.10\\\\\\text{Closing}_4&=2522+126.10+800\\\\&=\\$3448.10\\end{align*}$\n\nThe completed table, in dollars, is:\n\n$\\begin{array}{|c|r|r|r|r|}\\hline \\text{Year}&\\text{Opening}&\\text{Interest}&\\text{Deposit}&\\text{Closing}\\\\\\hline 1&0&0&800&800\\\\2&800&40&800&1640\\\\3&1640&82&800&2522\\\\4&2522&126.10&800&3448.10\\\\\\hline\\end{array}$\n\n$\\begin{align*}\\text{Total deposits}&=4\\times800\\\\&=\\$3200\\\\\\text{Total interest}&=3448.10-3200\\\\&=\\$248.10\\end{align*}$"
   },
+  {
+    "question_text": "A reducing-balance loan starts at $\\$6000$. Interest is charged at $12\\%$ p.a. compounded monthly. Repayments of $\\$500$ are made at the end of each month, after interest is charged.\n\nComplete the table for the first three months and calculate the total interest charged. Give monetary answers to the nearest cent, retaining full precision until rounding each requested result.\n\nAll amounts in the table are in dollars.\n\n$\\begin{array}{|c|r|r|r|r|}\\hline \\text{Month}&\\text{Opening}&\\text{Interest}&\\text{Repayment}&\\text{Closing}\\\\\\hline 1&6000&\\cdots&500&\\cdots\\\\2&\\cdots&\\cdots&500&\\cdots\\\\3&\\cdots&\\cdots&500&\\cdots\\\\\\hline\\end{array}$",
+    "solution_text": "The monthly interest rate is $12\\%\\div12=1\\%$. Add interest to the opening balance, then subtract the repayment.\n\n$\\begin{align*}I_1&=6000\\times0.01=60\\\\\\text{Closing}_1&=6000+60-500=5560\\\\I_2&=5560\\times0.01=55.60\\\\\\text{Closing}_2&=5560+55.60-500=5115.60\\\\I_3&=5115.60\\times0.01=51.156\\\\\\text{Closing}_3&=5115.60+51.156-500=4666.756\\end{align*}$\n\nThe completed table, in dollars, is:\n\n$\\begin{array}{|c|r|r|r|r|}\\hline \\text{Month}&\\text{Opening}&\\text{Interest}&\\text{Repayment}&\\text{Closing}\\\\\\hline 1&6000.00&60.00&500.00&5560.00\\\\2&5560.00&55.60&500.00&5115.60\\\\3&5115.60&51.16&500.00&4666.76\\\\\\hline\\end{array}$\n\nRepayments cover both the reduction in principal and the interest charged.\n\n$\\begin{align*}\\text{Principal reduction}&=6000-4666.756\\\\&=1333.244\\\\\\text{Total repayments}&=3\\times500=1500\\\\\\text{Total interest}&=1500-1333.244\\\\&=166.756\\\\&\\approx\\$166.76\\end{align*}$"
+  },
+  {
+    "question_text": "Maya starts a savings account with no initial investment. She deposits $\\$900$ at the end of each half-year. Interest is paid at $4\\%$ p.a. compounded half-yearly.\n\nWrite a recurrence relation, including the starting value, and determine the balance after four deposits to the nearest cent.",
+    "solution_text": "The half-yearly interest rate is $4\\%\\div2=2\\%$. Let $V_n$ be the balance immediately after the $n$th deposit.\n\n$V_0=0,\\qquad V_n=V_{n-1}(1.02)+900$.\n\nApply the relation to each previous balance, retaining full precision.\n\n$\\begin{align*}V_1&=0(1.02)+900\\\\&=900\\\\V_2&=900(1.02)+900\\\\&=1818\\\\V_3&=1818(1.02)+900\\\\&=2754.36\\\\V_4&=2754.36(1.02)+900\\\\&=3709.4472\\\\&\\approx\\$3709.45\\end{align*}$"
+  },
+  {
+    "question_text": "A loan is modelled by $V_n=V_{n-1}(1.02)-80$, where $V_0=5000$ and $V_n$ is the balance immediately after the $n$th monthly repayment.\n\nFind the balance after three repayments, to the nearest cent, and explain why the debt increases despite regular repayments.",
+    "solution_text": "Use the previous balance to calculate each new balance.\n\n$\\begin{align*}V_1&=5000(1.02)-80\\\\&=5020\\\\V_2&=5020(1.02)-80\\\\&=5040.40\\\\V_3&=5040.40(1.02)-80\\\\&=5061.208\\\\&\\approx\\$5061.21\\end{align*}$\n\nThe first month's interest is $5000\\times0.02=\\$100$. The $\\$80$ repayment is less than the interest charged, so the debt increases. As the balance grows, the monthly interest also increases."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

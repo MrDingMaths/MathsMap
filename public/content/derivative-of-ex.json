@@ -2,21 +2,51 @@
   "skillId": "derivative-of-ex",
   "atomType": "R",
   "theory": {
-        "intro": "The natural exponential is its own derivative: $\\dfrac{d}{dx}(e^x)=e^x$. A constant multiple keeps the same form, so $k e^x$ differentiates to $k e^x$. A constant power such as $e^3$ is just a number, so it differentiates to $0$.",
-        "facts": [
+"intro": "The natural exponential is its own derivative: $\\dfrac{d}{dx}(e^x)=e^x$. A constant multiple keeps the same form, so $k e^x$ differentiates to $k e^x$. A constant power such as $e^3$ is just a number, so it differentiates to $0$.",
+"facts": [
           "$\\dfrac{d}{dx}(e^x)=e^x$, so the rate of change of $e^x$ equals the function value at that point.",
           "$\\dfrac{d}{dx}(k e^x) = k e^x$ for any constant coefficient $k$.",
           "Sum rule: $\\dfrac{d}{dx}(e^x + g(x)) = e^x + g'(x)$.",
           "Constants differentiate to $0$, including a constant power such as $e^k$, which contains no $x$.",
           "The tangent to $y=k e^x$ at $x=x_0$ has gradient $m = k e^{x_0}$ and equation $y - y_0 = m(x - x_0)$."
         ],
-        "steps": [
+"steps": [
           "Differentiate $k e^x$ to $k e^x$.",
           "Differentiate any polynomial and power terms using the power rule.",
           "Differentiate any constant terms (including constant powers like $e^2$) to $0$.",
           "Substitute the given $x$-value if evaluating gradient or finding a tangent line."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Differentiate $f(x)=-6e^x$ with respect to $x$.",
+    "solution_text": "The derivative of $e^x$ is $e^x$. Keep the constant coefficient.\n$\\begin{aligned}f'(x)&=-6e^x\\end{aligned}$"
+  },
+  {
+    "question_text": "Differentiate $f(x)=6e^x-2x^3+7x-4$.",
+    "solution_text": "Differentiate each term, using the power rule for the polynomial terms.\n$\\begin{aligned}f'(x)&=6e^x-2(3x^2)+7-0\\\\&=6e^x-6x^2+7\\end{aligned}$"
+  },
+  {
+    "question_text": "Differentiate $y=8e^x+e^6+4e^2x$ with respect to $x$.",
+    "solution_text": "$e^6$ is a constant, and $4e^2$ is a constant coefficient multiplying $x$.\n$\\begin{aligned}\\frac{dy}{dx}&=8e^x+0+4e^2(1)\\\\&=8e^x+4e^2\\end{aligned}$"
+  },
+  {
+    "question_text": "For $f(x)=3e^x-2x^2$, find $f'(1)$ in exact form.",
+    "solution_text": "$f'(x)=3e^x-4x$.\nAt $x=1$:\n$\\begin{aligned}f'(1)&=3e^1-4(1)\\\\&=3e-4\\end{aligned}$"
+  },
+  {
+    "question_text": "Find the equation of the tangent to $y=e^x$ at $x=2$, then find its $x$-intercept.",
+    "solution_text": "At $x=2$, the point is $(2,e^2)$.\n$\\frac{dy}{dx}=e^x$, so the tangent gradient is $e^2$.\n$\\begin{aligned}y-e^2&=e^2(x-2)\\\\y&=e^2x-e^2\\end{aligned}$\nFor the $x$-intercept, set $y=0$:\n$\\begin{aligned}0&=e^2(x-1)\\\\x&=1\\end{aligned}$\nThe $x$-intercept is $(1,0)$."
+  },
+  {
+    "question_text": "Find the $x$-coordinate of the stationary point on $y=3e^x-3x$.",
+    "solution_text": "$\\frac{dy}{dx}=3e^x-3$.\nAt a stationary point, the derivative is zero.\n$\\begin{aligned}3e^x-3&=0\\\\e^x&=1\\\\x&=0\\end{aligned}$\nSince $e^0=1$ and $e^x$ is strictly increasing, this is the only solution."
+  },
+  {
+    "question_text": "Find the equation of the normal to $y=2e^x$ at $(0,2)$.",
+    "solution_text": "$\\frac{dy}{dx}=2e^x$.\nAt $x=0$, the tangent gradient is $m_T=2e^0=2$.\nThe normal gradient is $m_N=-\\frac{1}{m_T}=-\\frac12$.\n$\\begin{aligned}y-2&=-\\frac12(x-0)\\\\y&=-\\frac12x+2\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

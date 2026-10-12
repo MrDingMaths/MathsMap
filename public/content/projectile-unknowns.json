@@ -2,8 +2,8 @@
   "skillId": "projectile-unknowns",
   "atomType": "R",
   "theory": {
-    "intro": "Sometimes the launch speed or the angle of projection is unknown and a condition on the flight is given instead. Put that condition into the equations of motion and solve for the unknown.",
-    "facts": [
+"intro": "Sometimes the launch speed or the angle of projection is unknown and a condition on the flight is given instead. Put that condition into the equations of motion and solve for the unknown.",
+"facts": [
 "Two unknowns need two equations, so use the horizontal equation and the vertical equation together.",
 "For a known-point problem with nonzero horizontal launch velocity, the horizontal equation $x = Vt\\cos\\theta$ is linear in $t$, so solve it for $t$ first.",
 "For a known-point problem with known speed and unknown angle, substituting $t = \\dfrac{x}{V\\cos\\theta}$ into $y$ produces an equation containing $\\sec^{2}\\theta$.",
@@ -13,13 +13,71 @@
 "For upward projection, the range is $\\dfrac{V^{2}\\sin 2\\theta}{g}$ when the projectile lands at launch level, and the greatest height above launch is $\\dfrac{V^{2}\\sin^{2}\\theta}{2g}$.",
 "Since $\\sin 2\\theta = \\sin\\left(180^{\\circ} - 2\\theta\\right)$, two complementary angles give the same range when landing is at launch level."
 ],
-    "steps": [
+"steps": [
       "Write the horizontal and vertical equations of motion",
       "Solve the horizontal equation for the time",
       "Substitute the time into the vertical equation",
       "Solve the resulting equation for the unknown"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A particle is projected from the origin with initial speed $V$ at an angle $\\theta$ above the horizontal. Its displacement is $\\mathbf{r}(t)=Vt\\cos\\theta\\,\\mathbf{i}+(Vt\\sin\\theta-5t^2)\\mathbf{j}$ metres. After $2$ seconds, its position vector is $24\\mathbf{i}+12\\mathbf{j}$ metres. Find its initial velocity vector, speed and angle of projection. Give the angle to $1$ decimal place.",
+    "solution_text": "Substitute the known time and position into both components.\n$\\begin{aligned}24&=2V\\cos\\theta\\\\V\\cos\\theta&=12\\\\12&=2V\\sin\\theta-5(2)^2\\\\32&=2V\\sin\\theta\\\\V\\sin\\theta&=16\\end{aligned}$\nThe initial velocity is $12\\mathbf{i}+16\\mathbf{j}\\text{ m/s}$.\n$\\begin{aligned}V&=\\sqrt{12^2+16^2}\\\\&=20\\text{ m/s}\\\\\\theta&=\\tan^{-1}\\left(\\frac{16}{12}\\right)\\\\&\\approx53.1^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A ball is projected from level ground at $30^{\\circ}$ above the horizontal and returns to ground level after $4.8$ seconds. Its vertical displacement is $y=Vt\\sin30^{\\circ}-5t^2$ metres. Find its initial speed $V$.",
+    "solution_text": "At landing, $y=0$ and $t=4.8$.\n$\\begin{aligned}0&=4.8V\\sin30^{\\circ}-5(4.8)^2\\\\2.4V&=115.2\\\\V&=48\\text{ m/s}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A projectile is launched from level ground at $20\\text{ m/s}$ and lands $20\\text{ m}$ away. Its equations of motion are $x=20t\\cos\\theta$ and $y=20t\\sin\\theta-5t^2$. Find both possible angles of projection, where $0^{\\circ}<\\theta<90^{\\circ}$.",
+    "solution_text": "At landing, $y=0$. Use the positive time of flight.\n$\\begin{aligned}0&=t(20\\sin\\theta-5t)\\\\t&=4\\sin\\theta\\end{aligned}$\nSubstitute into the horizontal equation.\n$\\begin{aligned}20&=20\\cos\\theta(4\\sin\\theta)\\\\20&=40\\sin2\\theta\\\\\\sin2\\theta&=\\frac12\\\\2\\theta&=30^{\\circ}\\text{ or }150^{\\circ}\\\\\\theta&=15^{\\circ}\\text{ or }75^{\\circ}\\end{aligned}$\nBoth angles give positive flight times and the required range.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Water flows horizontally from a pipe $45\\text{ m}$ above sea level and reaches the sea $18\\text{ m}$ horizontally from the pipe. Taking the pipe as the origin, its equations are $x=Vt$ and $y=-5t^2$. Find its initial speed.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0) -- (0,3) -- (-0.5,3);\n\\draw (-0.5,0) -- (3.1,0);\n\\draw[->] (0,3) -- (1,3);\n\\path (1,3) node[above] {$V$};\n\\fill (0,3) circle (1.5pt);\n\\fill (2.4,0) circle (1.5pt);\n\\draw[<->] (-0.8,0) -- (-0.8,3);\n\\path (-0.8,1.5) node[left] {$45\\,\\mathrm{m}$};\n\\draw[<->] (0,-0.5) -- (2.4,-0.5);\n\\path (1.2,-0.5) node[below] {$18\\,\\mathrm{m}$};\n\\path (0,3) node[above left] {$O$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Sea level is $y=-45$ relative to the pipe.\n$\\begin{aligned}-45&=-5t^2\\\\t^2&=9\\\\t&=3\\text{ s}\\end{aligned}$\nUse the positive time in $x=Vt$.\n$\\begin{aligned}18&=3V\\\\V&=6\\text{ m/s}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A ball is projected from level ground at $45^{\\circ}$ above the horizontal and just clears a wall $10\\text{ m}$ high and $30\\text{ m}$ away. Its equations are $x=Vt\\cos45^{\\circ}$ and $y=Vt\\sin45^{\\circ}-5t^2$. Find its initial speed to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (-0.3,0) -- (4.1,0);\n\\draw[->] (0,0) -- (0.9,0.9);\n\\draw (0.55,0) arc[start angle=0,end angle=45,radius=0.55];\n\\path (0.85,0.3) node {$45^{\\circ}$};\n\\path (0.9,0.9) node[above left] {$V$};\n\\draw[thick] (3,0) -- (3,1);\n\\path (3,0.5) node[right] {$10\\,\\mathrm{m}$};\n\\draw[<->] (0,-0.5) -- (3,-0.5);\n\\path (1.5,-0.5) node[below] {$30\\,\\mathrm{m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Solve the horizontal equation for the time at the wall.\n$\\begin{aligned}30&=Vt\\cos45^{\\circ}\\\\t&=\\frac{30}{V\\cos45^{\\circ}}\\end{aligned}$\nSubstitute into the vertical equation at $y=10$.\n$\\begin{aligned}10&=V\\sin45^{\\circ}\\left(\\frac{30}{V\\cos45^{\\circ}}\\right)-5\\left(\\frac{30}{V\\cos45^{\\circ}}\\right)^2\\\\10&=30-\\frac{9000}{V^2}\\\\\\frac{9000}{V^2}&=20\\\\V^2&=450\\\\V&=15\\sqrt2\\text{ m/s}\\\\&\\approx21.2\\text{ m/s}\\end{aligned}$\nThe time at the wall is $2\\text{ s}$, and its positive height places it within the flight.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle is projected from the origin at $40\\text{ m/s}$ and passes through $(40,25)$, with distances in metres. Its equations are $x=40t\\cos\\theta$ and $y=40t\\sin\\theta-5t^2$. Find both possible angles of projection to $1$ decimal place, where $0^{\\circ}<\\theta<90^{\\circ}$.",
+    "solution_text": "Solve the horizontal equation for $t$.\n$\\begin{aligned}40&=40t\\cos\\theta\\\\t&=\\frac{1}{\\cos\\theta}\\end{aligned}$\nSubstitute into the vertical equation and use $\\sec^2\\theta=1+\\tan^2\\theta$.\n$\\begin{aligned}25&=40\\sin\\theta\\left(\\frac{1}{\\cos\\theta}\\right)-5\\left(\\frac{1}{\\cos\\theta}\\right)^2\\\\25&=40\\tan\\theta-5\\sec^2\\theta\\\\25&=40\\tan\\theta-5(1+\\tan^2\\theta)\\\\\\tan^2\\theta-8\\tan\\theta+6&=0\\\\\\tan\\theta&=\\frac{8\\pm\\sqrt{64-24}}{2}\\\\&=4\\pm\\sqrt{10}\\\\\\theta&\\approx40.0^{\\circ}\\text{ or }82.1^{\\circ}\\end{aligned}$\nBoth angles have positive horizontal velocity, give positive times and reach the point above ground during the flight.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A ball is launched from level ground at $30\\text{ m/s}$ and reaches a greatest height of $20\\text{ m}$. Its vertical velocity and displacement are $\\dot y=30\\sin\\theta-10t$ and $y=30t\\sin\\theta-5t^2$. Find its angle of projection to $1$ decimal place, where $0^{\\circ}<\\theta<90^{\\circ}$.",
+    "solution_text": "At greatest height, the vertical velocity is zero.\n$\\begin{aligned}0&=30\\sin\\theta-10t\\\\t&=3\\sin\\theta\\end{aligned}$\nSubstitute this time into the height equation.\n$\\begin{aligned}20&=30\\sin\\theta(3\\sin\\theta)-5(3\\sin\\theta)^2\\\\20&=45\\sin^2\\theta\\\\\\sin^2\\theta&=\\frac49\\\\\\sin\\theta&=\\frac23\\\\\\theta&=\\sin^{-1}\\left(\\frac23\\right)\\\\&\\approx41.8^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A stone is thrown from a cliff $65\\text{ m}$ above the sea at $45^{\\circ}$ below the horizontal. It lands $20\\text{ m}$ horizontally from the base. Taking the launch point as the origin, its equations are $x=Vt\\cos45^{\\circ}$ and $y=-Vt\\sin45^{\\circ}-5t^2$. Find its initial speed to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (-0.5,3) -- (0,3) -- (0,0);\n\\draw (-0.5,0) -- (3.1,0);\n\\draw[dashed] (0,3) -- (1.4,3);\n\\draw[->] (0,3) -- (0.9,2.1);\n\\draw (0.55,3) arc[start angle=0,end angle=-45,radius=0.55];\n\\path (0.95,2.7) node {$45^{\\circ}$};\n\\path (0.9,2.1) node[below right] {$V$};\n\\fill (2.4,0) circle (1.5pt);\n\\draw[<->] (-0.8,0) -- (-0.8,3);\n\\path (-0.8,1.5) node[left] {$65\\,\\mathrm{m}$};\n\\draw[<->] (0,-0.5) -- (2.4,-0.5);\n\\path (1.2,-0.5) node[below] {$20\\,\\mathrm{m}$};\n\\path (0,3) node[above left] {$O$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Solve the horizontal equation at landing for $t$.\n$\\begin{aligned}20&=Vt\\cos45^{\\circ}\\\\t&=\\frac{20}{V\\cos45^{\\circ}}\\end{aligned}$\nThe sea is at $y=-65$. Substitute the time into the vertical equation.\n$\\begin{aligned}-65&=-V\\sin45^{\\circ}\\left(\\frac{20}{V\\cos45^{\\circ}}\\right)-5\\left(\\frac{20}{V\\cos45^{\\circ}}\\right)^2\\\\-65&=-20-\\frac{4000}{V^2}\\\\\\frac{4000}{V^2}&=45\\\\V^2&=\\frac{800}{9}\\\\V&=\\frac{20\\sqrt2}{3}\\text{ m/s}\\\\&\\approx9.4\\text{ m/s}\\end{aligned}$\nThe landing time is $3\\text{ s}$. The stone moves downwards throughout, so this is its first contact with sea level.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

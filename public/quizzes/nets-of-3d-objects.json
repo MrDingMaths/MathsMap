@@ -1,9 +1,9 @@
 {
   "skillId": "nets-of-3d-objects",
   "questions": [
-    {
+{
       "id": "q1",
-      "question_text": "Which solid does this net make?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (1.2,2); \\draw (1.2,0) rectangle (2.4,2); \\draw (2.4,0) rectangle (3.6,2);\n\\draw (1.2,2)--(1.8,3.2)--(2.4,2)--cycle; \\draw (1.2,0)--(1.8,-1.2)--(2.4,0)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "Which solid does this net make?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (1.2,2); \\draw (1.2,0) rectangle (2.4,2); \\draw (2.4,0) rectangle (3.6,2);\n\\draw (1.2,2)--(1.8,{2+0.6*sqrt(3)})--(2.4,2)--cycle; \\draw (1.2,0)--(1.8,{-0.6*sqrt(3)})--(2.4,0)--cycle;\n\\end{tikzpicture}\n[/tikz]",
       "structure": "name-solid-from-net",
       "mastery": false,
       "options": [
@@ -26,9 +26,9 @@
       ],
       "solution_text": "Two triangles and three rectangles form a triangular prism."
     },
-    {
+{
       "id": "q2",
-      "question_text": "What solid does this net make?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (2,2); \\draw (0,0)--(1,-1.5)--(2,0)--cycle; \\draw (2,0)--(3.5,1)--(2,2)--cycle; \\draw (2,2)--(1,3.7)--(0,2)--cycle; \\draw (0,2)--(-1.5,1)--(0,0)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "What solid does this net make?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (2,2); \\draw (0,0)--(1,-1.5)--(2,0)--cycle; \\draw (2,0)--(3.5,1)--(2,2)--cycle; \\draw (2,2)--(1,3.5)--(0,2)--cycle; \\draw (0,2)--(-1.5,1)--(0,0)--cycle;\n\\end{tikzpicture}\n[/tikz]",
       "structure": "identify-pyramid-net",
       "mastery": false,
       "options": [
@@ -51,107 +51,107 @@
       ],
       "solution_text": "The square is the base and the four triangles meet at an apex."
     },
-    {
+{
       "id": "q3",
-      "question_text": "A net has two octagons and eight rectangles.\nWhich solid does it form?",
-      "structure": "face-inventory-prism",
+      "question_text": "Which solid does this net make?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\foreach \\i in {0,...,4}{\\draw (\\i,0) rectangle ++(1,2);}\n\\draw (2,2)--(3,2)--({3+cos(72)},{2+sin(72)})--(2.5,{2+sin(72)+sin(36)})--({2-cos(72)},{2+sin(72)})--cycle;\n\\draw (2,0)--(3,0)--({3+cos(72)},{-sin(72)})--(2.5,{-sin(72)-sin(36)})--({2-cos(72)},{-sin(72)})--cycle;\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "name-solid-from-net",
       "mastery": false,
       "options": [
-        {
-          "text": "octagonal prism",
+{
+          "text": "pentagonal prism",
           "correct": true
         },
-        {
-          "text": "octagonal pyramid",
-          "why": "Treats only one octagon as a base and assumes the eight side faces meet at an apex, ignoring the second base."
+{
+          "text": "pentagonal pyramid",
+          "why": "Treats the net as having one pentagonal base and triangular sides, ignoring the second pentagon and the rectangular sides."
         },
-        {
-          "text": "decagonal prism",
-          "why": "Adds the $2$ octagons and $8$ rectangles to get $10$ faces and uses that total as the number of sides on each base."
+{
+          "text": "rectangular prism",
+          "why": "Names the rectangular side faces instead of the pentagonal bases."
         },
-        {
-          "text": "decagonal pyramid",
-          "why": "Makes both slips: uses the total of $10$ faces as the number of base sides and counts only one base."
+{
+          "text": "heptagonal prism",
+          "why": "Uses the total of seven faces as the number of sides on each base."
         }
-      ],
-      "solution_text": "Two octagonal bases joined by rectangles form an octagonal prism."
+],
+      "solution_text": "Two matching pentagonal bases joined by five rectangles form a pentagonal prism."
     },
-    {
+{
       "id": "q4",
-      "question_text": "A square-pyramid net has a square and only three triangles.\nWhat is wrong?",
-      "structure": "missing-face",
+      "question_text": "Which solid does this net make?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle ({1.8*pi},2.2); \\draw (0.9,-0.9) circle (0.9); \\draw ({1.8*pi-0.9},3.1) circle (0.9);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "name-solid-from-net",
       "mastery": false,
       "options": [
-        {
-          "text": "One triangular side face is missing.",
+{
+          "text": "cylinder",
           "correct": true
         },
-        {
-          "text": "One square base is missing.",
-          "why": "Adds a second base as if the solid were a prism."
+{
+          "text": "cone",
+          "why": "Confuses the rectangle and two circles with the sector and one circle needed for a cone."
         },
-        {
-          "text": "All three triangles must be removed.",
-          "why": "Removes valid side faces instead of adding the fourth."
+{
+          "text": "rectangular prism",
+          "why": "Names the rectangle while ignoring the circular bases."
         },
-        {
-          "text": "The square should be a rectangle.",
-          "why": "Changes the named base instead of fixing the missing side face."
+{
+          "text": "sphere",
+          "why": "Mistakes the circular bases for a sphere, which cannot be made by folding this net."
         }
-      ],
-      "solution_text": "A square has four sides, so the pyramid needs four triangular side faces."
+],
+      "solution_text": "The rectangle wraps around the two matching circular bases to form a cylinder."
     },
-    {
+{
       "id": "q5",
-      "question_text": "Why is this not a cube net?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\foreach \\x/\\y in {-1/0,0/0,1/0,0/1,1/1,2/1}{\\draw (\\x,\\y) rectangle ++(1,1);}\n\\end{tikzpicture}\n[/tikz]",
-      "structure": "invalid-cube-net",
+      "question_text": "Which solid does this net make?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\foreach \\x/\\y in {0/0,1/0,1/1,2/1,2/2,3/2}{\\draw (\\x,\\y) rectangle ++(1,1);}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "name-solid-from-net",
       "mastery": true,
       "options": [
-        {
-          "text": "Some squares overlap when the pattern is folded.",
+{
+          "text": "cube",
           "correct": true
         },
-        {
-          "text": "It contains fewer than six squares.",
-          "why": "Miscounts the six squares in the pattern."
+{
+          "text": "square pyramid",
+          "why": "Mistakes square faces for the triangular side faces of a square pyramid."
         },
-        {
-          "text": "A cube net must contain triangles.",
-          "why": "Confuses a cube net with a pyramid net."
+{
+          "text": "triangular prism",
+          "why": "Assumes there are triangular bases even though every face is a square."
         },
-        {
-          "text": "Every cube net must be a cross.",
-          "why": "Assumes there is only one valid cube-net layout."
+{
+          "text": "hexagonal prism",
+          "why": "Uses the six faces as the number of sides on a base."
         }
-      ],
-      "solution_text": "The six squares are present, but this arrangement cannot fold without overlap."
+],
+      "solution_text": "The six equal squares fold onto the six faces of a cube."
     },
-    {
+{
       "id": "q6",
-      "question_text": "Which face inventory makes a pentagonal pyramid?",
-      "structure": "face-inventory-pyramid",
+      "question_text": "Which prism does this net make?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (2.4,1.5); \\draw (2.4,0) rectangle (3.6,1.5); \\draw (3.6,0) rectangle (4.8,1.5); \\draw (4.8,0) rectangle (6,1.5);\n\\draw (0,1.5)--(2.4,1.5)--(1.8,{1.5+0.6*sqrt(3)})--(0.6,{1.5+0.6*sqrt(3)})--cycle;\n\\draw (0,0)--(2.4,0)--(1.8,{-0.6*sqrt(3)})--(0.6,{-0.6*sqrt(3)})--cycle;\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "name-solid-from-net",
       "mastery": true,
       "options": [
-        {
-          "text": "one pentagon and five triangles",
+{
+          "text": "trapezoidal prism",
           "correct": true
         },
-        {
-          "text": "two pentagons and five rectangles",
-          "why": "Gives the face inventory of a pentagonal prism."
+{
+          "text": "rectangular prism",
+          "why": "Names the rectangular side faces instead of the trapezoidal bases."
         },
-        {
-          "text": "one pentagon and four triangles",
-          "why": "Leaves one side of the pentagonal base uncovered."
+{
+          "text": "triangular prism",
+          "why": "Mistakes the two trapezoidal bases for triangles."
         },
-        {
-          "text": "five pentagons and one triangle",
-          "why": "Reverses the roles and counts of base and side faces."
+{
+          "text": "pentagonal prism",
+          "why": "Miscounts each trapezoidal base as having five sides instead of four."
         }
-      ],
-      "solution_text": "Each side of the pentagonal base has one triangular side face."
+],
+      "solution_text": "The two matching trapezoidal bases joined by four rectangles form a trapezoidal prism."
     },
-    {
+{
       "id": "dq-73674",
       "question_text": "The net below can be folded and made into which 3D shape? [tikz]\\begin{tikzpicture}\\coordinate (A) at (0,0);\\coordinate (B) at (2,0);\\coordinate (C) at (1,1.732);\\coordinate (D) at (0.5,0.866);\\coordinate (E) at (1.5,0.866);\\coordinate (F) at (1,0);\\draw (A)--(B)--(C)--cycle;\\draw (D)--(E);\\draw (D)--(F)--(E);\\end{tikzpicture}[/tikz]",
       "structure": "identify-pyramid-net",
@@ -176,5 +176,5 @@
       ],
       "solution_text": "The net has four triangular faces. Folding four triangles together forms a triangular-based pyramid."
     }
-  ]
+]
 }

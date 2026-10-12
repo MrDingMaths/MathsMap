@@ -2,8 +2,8 @@
   "skillId": "graph-function-transformations",
   "atomType": "R",
   "theory": {
-        "intro": "A **translation** slides a graph without turning or resizing it. Adding $c$ outside $f$ moves the curve up or down; changing the input inside $f$ moves it left or right. The horizontal rule looks backwards, and trusting it is the whole skill.",
-        "facts": [
+"intro": "A **translation** slides a graph without turning or resizing it. Adding $c$ outside $f$ moves the curve up or down; changing the input inside $f$ moves it left or right. The horizontal rule looks backwards, and trusting it is the whole skill.",
+"facts": [
           "$y=f(x)+c$ with $c>0$ shifts the graph **up** $c$ units and $y=f(x)-c$ shifts it **down**, mapping $(x,y)\\to(x,y\\pm c)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.6,0) -- (3.6,0) node[right] {$x$};\n\\draw[->] (0,-2.2) -- (0,4.4) node[above] {$y$};\n\\draw[thick,gray,dashed,<->,domain=-2.7:2.7,smooth,samples=61,variable=\\x] plot ({\\x},{2-0.5*\\x*\\x});\n\\draw[thick,blue,<->,domain=-2.95:2.95,smooth,samples=61,variable=\\x] plot ({\\x},{3.2-0.5*\\x*\\x});\n\\draw[->] (-0.6,1.82) -- (-0.6,3.02) node[midway,left] {$c$};\n\\node[blue,right] at (-3.5,3.75) {$y=f(x)+c$};\n\\node[gray,right] at (-3.5,2.85) {$y=f(x)$};\n\\end{tikzpicture}\n[/tikz]",
           "$y=f(x-b)$ with $b>0$ shifts the graph **right** $b$ units and $y=f(x+b)$ shifts it **left**, mapping $(x,y)\\to(x\\pm b,y)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.6,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-2.2) -- (0,3.4) node[above] {$y$};\n\\draw[thick,gray,dashed,<->,domain=-2.7:2.7,smooth,samples=61,variable=\\x] plot ({\\x},{2-0.5*\\x*\\x});\n\\draw[thick,blue,<->,domain=-1.3:4.1,smooth,samples=61,variable=\\x] plot ({\\x},{2-0.5*(\\x-1.4)*(\\x-1.4)});\n\\draw[dotted] (0,2) -- (0,2.6);\n\\draw[dotted] (1.4,2) -- (1.4,2.6);\n\\draw[->] (0,2.45) -- (1.4,2.45) node[midway,above] {$b$};\n\\node[gray,right] at (-3.5,2.7) {$y=f(x)$};\n\\node[blue,right] at (2.9,2.7) {$y=f(x-b)$};\n\\end{tikzpicture}\n[/tikz]",
           "Subtracting $b$ inside $f$ moves the curve right, because the input must be $b$ larger to reach the same output.",
@@ -11,12 +11,63 @@
           "Combined, $y=f(x-b)+c$ shifts right $b$ and up $c$, so $(x,y)\\to(x+b,\\,y+c)$.",
           "Asymptotes and vertices move by the same translation as every other point on the curve."
         ],
-        "steps": [
+"steps": [
 "Read the translation from the equation: $+c$ or $-c$ outside $f$ shifts vertically; $(x-b)$ or $(x+b)$ inside $f$ shifts horizontally.",
 "Shift known points and vertices, and move asymptotes, by that same translation. A point that was an intercept may no longer lie on an axis after translation; determine the new graph's intercepts separately when required.",
 "Draw the new curve through the shifted key points."
+],
+"workedExamples": [
+  {
+    "question_text": "Describe how each graph is obtained from its original graph.\n(a) $y=x^{2}+5$ from $y=x^{2}$.\n(b) $y=2^{x+2}$ from $y=2^{x}$.\n(c) $y=\\sqrt{x-4}-3$ from $y=\\sqrt{x}$.",
+    "solution_text": "(a) Adding $5$ outside the function shifts the graph up $5$ units.\n\n(b) Replacing $x$ with $x+2$ shifts the graph left $2$ units.\n\n(c) Replacing $x$ with $x-4$ shifts the graph right $4$ units. Subtracting $3$ outside the function shifts it down $3$ units.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write the equation obtained when the graph of $y=\\sqrt{x}$ is translated down $2$ units.",
+    "solution_text": "Subtract $2$ from the output.\n\n$y=\\sqrt{x}-2$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write the equation obtained when the graph of $y=x^{3}$ is translated left $3$ units.",
+    "solution_text": "Replace $x$ with $x+3$.\n\n$y=(x+3)^{3}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write the equation obtained when the graph of $y=x^{3}$ is translated right $3$ units and down $2$ units.",
+    "solution_text": "Replace $x$ with $x-3$ for the horizontal translation, then subtract $2$ from the output.\n\n$y=(x-3)^{3}-2$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The graph of $y=f(x)$ is shown. Sketch $y=f(x+2)+1$, labelling the images of $A$ and $B$.\n\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{graphblue}{HTML}{268CFF}\n\\draw[->,black] (-2.5,0)--(2.6,0) node[right] {$x$};\n\\draw[->,black] (0,-2.5)--(0,2.7) node[above] {$y$};\n\\draw[graphblue,thick,<->,domain=-2.15:2.15,samples=81,smooth,variable=\\x] plot ({\\x},{0.5*\\x*\\x*\\x-1.5*\\x});\n\\fill[black] (-1,1) circle (1.8pt);\n\\path (-1,1) node[above left] {$A(-1,1)$};\n\\fill[black] (1,-1) circle (1.8pt);\n\\path (1,-1) node[below right] {$B(1,-1)$};\n\\path (1.1,2.5) node[text=graphblue] {$y=f(x)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Translate the curve left $2$ units and up $1$ unit. Subtract $2$ from each labelled $x$-coordinate and add $1$ to its $y$-coordinate.\n\n$A(-1,1)\\to A'(-3,2)$ and $B(1,-1)\\to B'(-1,0)$.\n\nThe dashed curve is the original; the solid blue curve is the translated graph.\n\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{graphblue}{HTML}{268CFF}\n\\draw[->,black] (-4.7,0)--(2.6,0) node[right] {$x$};\n\\draw[->,black] (0,-2.5)--(0,3.5) node[above] {$y$};\n\\draw[black,dashed,thick,<->,domain=-2.15:2.15,samples=81,smooth,variable=\\x] plot ({\\x},{0.5*\\x*\\x*\\x-1.5*\\x});\n\\draw[graphblue,thick,<->,domain=-4.15:0.15,samples=81,smooth,variable=\\x] plot ({\\x},{0.5*(\\x+2)*(\\x+2)*(\\x+2)-1.5*(\\x+2)+1});\n\\fill[black] (-3,2) circle (1.8pt);\n\\path (-3,2) node[above left] {$A'(-3,2)$};\n\\fill[black] (-1,0) circle (1.8pt);\n\\path (-1,0) node[below left] {$B'(-1,0)$};\n\\path (-2.7,3.3) node[text=graphblue] {$y=f(x+2)+1$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The dashed curve is $y=x^{2}$. The solid curve is its translation. Describe the translation and write the equation of the solid curve.\n\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{graphblue}{HTML}{268CFF}\n\\draw[->,black] (-2.5,0)--(4.5,0) node[right] {$x$};\n\\draw[->,black] (0,-1.5)--(0,4.3) node[above] {$y$};\n\\draw[black,dashed,thick,<->,domain=-2:2,samples=61,smooth,variable=\\x] plot ({\\x},{\\x*\\x});\n\\draw[graphblue,thick,<->,domain=-0.236:4.236,samples=61,smooth,variable=\\x] plot ({\\x},{(\\x-2)*(\\x-2)-1});\n\\fill[black] (0,0) circle (1.8pt);\n\\path (0,0) node[below left] {$(0,0)$};\n\\fill[black] (2,-1) circle (1.8pt);\n\\path (2,-1) node[below] {$(2,-1)$};\n\\path (-1.9,3.5) node[left] {$y=x^{2}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The vertex moves from $(0,0)$ to $(2,-1)$, so the translation is right $2$ units and down $1$ unit.\n\nReplace $x$ with $x-2$ and subtract $1$ from the output.\n\n$y=(x-2)^{2}-1$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The graph of $y=\\dfrac{1}{x}$ is translated left $2$ units and up $3$ units. Write its new equation, state its asymptotes and sketch the translated graph.",
+    "solution_text": "Replace $x$ with $x+2$, then add $3$ to the output.\n\n$y=\\dfrac{1}{x+2}+3$\n\nThe original asymptotes $x=0$ and $y=0$ move with the graph. The new asymptotes are $x=-2$ and $y=3$.\n\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{graphblue}{HTML}{268CFF}\n\\draw[->,black] (-5.3,0)--(2.5,0) node[right] {$x$};\n\\draw[->,black] (0,-1.5)--(0,6.5) node[above] {$y$};\n\\draw[black,dashed] (-2,-1.4)--(-2,6.3);\n\\draw[black,dashed] (-5.2,3)--(2.3,3);\n\\path (-2,6.3) node[above] {$x=-2$};\n\\path (2.3,3) node[right] {$y=3$};\n\\draw[graphblue,thick,<->,domain=-5:-2.25,samples=81,smooth,variable=\\x] plot ({\\x},{1/(\\x+2)+3});\n\\draw[graphblue,thick,<->,domain=-1.6667:2.2,samples=81,smooth,variable=\\x] plot ({\\x},{1/(\\x+2)+3});\n\\fill[black] (-3,2) circle (1.8pt);\n\\path (-3,2) node[below left] {$(-3,2)$};\n\\fill[black] (-1,4) circle (1.8pt);\n\\path (-1,4) node[above right] {$(-1,4)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

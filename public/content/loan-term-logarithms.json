@@ -2,8 +2,8 @@
   "skillId": "loan-term-logarithms",
   "atomType": "R",
   "theory": {
-    "intro": "Let $PV>0$ be the initial amount borrowed, $r>0$ the interest rate per compounding period, $M$ the regular repayment made at the end of each compounding period, and $A_n$ the balance immediately after $n$ repayments. First derive the balance expression from the repayment geometric series, then set $A_n=0$ and use logarithms to find the loan term.",
-    "facts": [
+"intro": "Let $PV>0$ be the initial amount borrowed, $r>0$ the interest rate per compounding period, $M$ the regular repayment made at the end of each compounding period, and $A_n$ the balance immediately after $n$ repayments. First derive the balance expression from the repayment geometric series, then set $A_n=0$ and use logarithms to find the loan term.",
+"facts": [
 "The repayment terms form the geometric series $M+M(1+r)+\\cdots+M(1+r)^{n-1}$, so $A_n=PV(1+r)^n-M\\left[\\dfrac{(1+r)^n-1}{r}\\right]$.",
 "Setting $A_n=0$ and isolating the growth term gives $(1+r)^n=\\dfrac{M}{M-PV\\,r}$.",
 "Taking logarithms yields $n=\\dfrac{\\log\\left(\\frac{M}{M-PV\\,r}\\right)}{\\log(1+r)}$.",
@@ -11,14 +11,28 @@
 "The number of repayments is $N=\\lceil n\\rceil$, the smallest integer greater than or equal to $n$. This keeps integer terms unchanged; a non-integer term requires an additional, smaller final repayment.",
 "For a non-integer term, the smaller final repayment equals $A_{N-1}(1+r)$. Keep the balance at full precision until rounding the final payment. For an integer term, the final repayment is the full amount $M$."
 ],
-    "steps": [
+"steps": [
 "Calculate periodic rate $r$ and verify that $M>PVr$.",
 "Write the balance as the compounded principal minus the repayment geometric series, then sum the series to derive $A_n=PV(1+r)^n-M\\left[\\dfrac{(1+r)^n-1}{r}\\right]$.",
 "Set $A_n=0$ and rearrange to $(1+r)^n=\\dfrac{M}{M-PV\\,r}$.",
 "Take logarithms of both sides to calculate $n=\\dfrac{\\log\\left(\\frac{M}{M-PV\\,r}\\right)}{\\log(1+r)}$, retaining full precision.",
 "Use $N=\\lceil n\\rceil$ repayments, keeping an integer term unchanged. If the term is non-integer and the final payment is requested, calculate $A_{N-1}(1+r)$ using the unrounded balance and round as directed."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A loan of $\\$24\\,000$ charges $12\\%$ p.a., compounded monthly. Repayments of $\\$1000$ are made at the end of each month.\n(a) Derive the balance expression from a geometric series and use logarithms to find the number of monthly repayments required.\n(b) Find the smaller final repayment, to the nearest cent.",
+    "solution_text": "(a) The monthly interest rate is $r=0.12/12=0.01$. The first month's interest is $24\\,000(0.01)=\\$240$, which is less than the repayment.\nLet $A_n$ be the balance immediately after $n$ repayments.\n$\\begin{align*} A_0&=24\\,000\\\\ A_1&=24\\,000(1.01)-1000\\\\ A_2&=24\\,000(1.01)^2-1000(1.01)-1000\\\\ A_n&=24\\,000(1.01)^n-1000(1.01)^{n-1}-\\cdots-1000 \\end{align*}$\nThe repayment terms form a geometric series with first term $1000$, common ratio $1.01$ and $n$ terms.\n$A_n=24\\,000(1.01)^n-1000\\left[\\dfrac{(1.01)^n-1}{0.01}\\right]$\nSet the balance to zero.\n$\\begin{align*} 0&=24\\,000(1.01)^n-1000\\left[\\dfrac{(1.01)^n-1}{0.01}\\right]\\\\ 0&=240(1.01)^n-1000(1.01)^n+1000\\\\ 760(1.01)^n&=1000\\\\ (1.01)^n&=\\dfrac{25}{19}\\\\ n&=\\dfrac{\\log(25/19)}{\\log1.01}\\\\ n&=27.580675\\ldots \\end{align*}$\nThere are $27$ full repayments and a smaller final repayment in month $28$.\n(b) Calculate the balance after the $27$th full repayment.\n$\\begin{align*} A_{27}&=24\\,000(1.01)^{27}-1000\\left[\\dfrac{(1.01)^{27}-1}{0.01}\\right]\\\\ A_{27}&=576.125263\\ldots \\end{align*}$\nThe remaining balance earns one more month's interest before the final repayment. Using the unrounded balance, the final repayment is $A_{27}(1.01)=\\$581.89$, to the nearest cent."
   },
+  {
+    "question_text": "A borrower owes $\\$16\\,000$ on a loan charging $12\\%$ p.a., compounded monthly. Repayments are made at the end of each month.\nExplain whether the loan will ever be repaid if the monthly repayment is:\n(a) $\\$150$\n(b) $\\$160$.",
+    "solution_text": "The first month's interest is $16\\,000(0.12/12)=\\$160$.\n(a) The $\\$150$ repayment does not cover the interest.\n$A_1=16\\,000(1.01)-150=16\\,010$\nThe balance increases, so subsequent interest charges increase. The loan will never be repaid.\n(b) The $\\$160$ repayment covers the interest exactly.\n$A_1=16\\,000(1.01)-160=16\\,000$\nThe balance remains $\\$16\\,000$ each month. No principal is repaid, so the loan will never be repaid."
+  },
+  {
+    "question_text": "A mortgage of $\\$90\\,000$ charges $6\\%$ p.a., compounded monthly. Its contract allows $120$ months for repayment.\nThe borrower makes repayments of $\\$1200$ at the end of each month. Use a geometric series and logarithms to find how many months before the contractual deadline the loan is paid off.",
+    "solution_text": "The monthly rate is $r=0.06/12=0.005$. The repayment exceeds the first month's interest of $90\\,000(0.005)=\\$450$.\nLet $A_n$ be the balance after $n$ repayments.\n$\\begin{align*} A_1&=90\\,000(1.005)-1200\\\\ A_2&=90\\,000(1.005)^2-1200(1.005)-1200\\\\ A_n&=90\\,000(1.005)^n-1200(1.005)^{n-1}-\\cdots-1200 \\end{align*}$\nThe repayment terms form a geometric series with first term $1200$, common ratio $1.005$ and $n$ terms.\n$A_n=90\\,000(1.005)^n-1200\\left[\\dfrac{(1.005)^n-1}{0.005}\\right]$\nSet the balance to zero.\n$\\begin{align*} 0&=90\\,000(1.005)^n-1200\\left[\\dfrac{(1.005)^n-1}{0.005}\\right]\\\\ 0&=450(1.005)^n-1200(1.005)^n+1200\\\\ 750(1.005)^n&=1200\\\\ (1.005)^n&=1.6\\\\ n&=\\dfrac{\\log1.6}{\\log1.005}\\\\ n&=94.235532\\ldots \\end{align*}$\nThe loan is cleared in month $95$, with a smaller final repayment.\nIt is paid off $120-95=25$ months before the deadline."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

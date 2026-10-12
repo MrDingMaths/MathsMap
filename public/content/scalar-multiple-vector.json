@@ -2,14 +2,50 @@
   "skillId": "scalar-multiple-vector",
   "atomType": "T",
   "theory": {
-    "intro": "**Scalar multiplication** multiplies a vector by a number $k$. For a non-zero original vector and $k\\ne0$, the new vector is parallel to the original: it is $|k|$ times as long, and it points the opposite way when $k$ is negative. When $k=0$, the result is the zero vector, with zero magnitude and no direction.",
-    "facts": [
+"intro": "**Scalar multiplication** multiplies a vector by a number $k$. For a non-zero original vector and $k\\ne0$, the new vector is parallel to the original: it is $|k|$ times as long, and it points the opposite way when $k$ is negative. When $k=0$, the result is the zero vector, with zero magnitude and no direction.",
+"facts": [
 "In column form, multiply each component by $k$, so $3\\begin{pmatrix}2\\\\-5\\end{pmatrix}=\\begin{pmatrix}6\\\\-15\\end{pmatrix}$.",
 "The length scales by the size of $k$: $\\left|k\\underset{\\sim}{a}\\right|=|k|\\,\\left|\\underset{\\sim}{a}\\right|$.",
 "For a non-zero original vector, a positive $k$ keeps the direction, and a negative $k$ reverses it.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\draw[->,thick] (0,0) -- (2,1) node[midway,above left] {$\\underset{\\sim}{a}$};\n\\draw[->,thick] (2.8,0) -- (6.8,2) node[midway,above left] {$2\\underset{\\sim}{a}$};\n\\draw[->,thick] (2,-1.4) -- (0,-2.4) node[midway,below] {$-\\underset{\\sim}{a}$};\n\\end{tikzpicture}\n[/tikz]",
 "If $\\underset{\\sim}{a}\\ne\\underset{\\sim}{0}$ and $k\\ne0$, then $k\\underset{\\sim}{a}$ is parallel to $\\underset{\\sim}{a}$. Also, $0\\underset{\\sim}{a}$ is the zero vector $\\underset{\\sim}{0}$, which has zero magnitude and no direction."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Find $-\\frac{3}{5}\\begin{pmatrix}10\\\\-15\\end{pmatrix}$.",
+    "solution_text": "Multiply each component by the scalar.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}-\\frac{3}{5}\\begin{pmatrix}10\\\\-15\\end{pmatrix}\\\\&=\\begin{pmatrix}(-\\frac{3}{5})(10)\\\\(-\\frac{3}{5})(-15)\\end{pmatrix}\\\\&=\\begin{pmatrix}-6\\\\9\\end{pmatrix}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "The diagram shows $\\underset{\\sim}{a}$. Each square represents one unit. Find $-2\\underset{\\sim}{a}$ as a column vector.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\draw[color=gridgrey,xstep=7mm,ystep=7mm] (0,0) grid (5,4);\n\\draw[->,thick,black] (1,3) -- (4,1);\n\\path (2.5,2) node[above right] {$\\underset{\\sim}{a}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "From tail to tip, move 3 units right and 2 units down.\n$\\underset{\\sim}{a}=\\begin{pmatrix}3\\\\-2\\end{pmatrix}$\n$\\begin{aligned}-2\\underset{\\sim}{a}&=-2\\begin{pmatrix}3\\\\-2\\end{pmatrix}\\\\&=\\begin{pmatrix}(-2)(3)\\\\(-2)(-2)\\end{pmatrix}\\\\&=\\begin{pmatrix}-6\\\\4\\end{pmatrix}\\end{aligned}$"
+  },
+  {
+    "question_text": "The diagram shows $\\underset{\\sim}{v}$ and $\\underset{\\sim}{w}$. Write $\\underset{\\sim}{w}$ in terms of $\\underset{\\sim}{v}$.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\draw[color=gridgrey,xstep=7mm,ystep=7mm] (0,0) grid (8,5);\n\\draw[->,thick,black] (1,1) -- (5,3);\n\\path (3,2) node[below right] {$\\underset{\\sim}{v}$};\n\\draw[->,thick,black] (7,4) -- (5,3);\n\\path (6,3.5) node[above] {$\\underset{\\sim}{w}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The vector $\\underset{\\sim}{w}$ is half as long as $\\underset{\\sim}{v}$ and points in the opposite direction. The scalar is therefore negative.\n$\\underset{\\sim}{w}=-\\frac{1}{2}\\underset{\\sim}{v}$"
+  },
+  {
+    "question_text": "Sketch (a) $\\frac{3}{2}\\underset{\\sim}{a}$, (b) $-\\frac{1}{2}\\underset{\\sim}{a}$ and (c) $0\\underset{\\sim}{a}$.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[->,thick,black] (0,0) -- (4,2);\n\\path (2,1) node[above left] {$\\underset{\\sim}{a}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Keep the direction and multiply the length by $\\frac{3}{2}$.\n(b) Reverse the direction and halve the length.\n(c) The zero vector has zero magnitude and no direction; represent it by a point.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{answerblue}{HTML}{268CFF}\n\\draw[->,thick,black] (0,0) -- (4,2);\n\\path (2,1) node[above left] {$\\underset{\\sim}{a}$};\n\\draw[->,thick,color=answerblue] (0,-2) -- (6,1);\n\\path (4,-0.5) node[below right] {$\\frac{3}{2}\\underset{\\sim}{a}$};\n\\draw[->,thick,color=answerblue] (2,-4) -- (0,-5);\n\\path (1,-4.5) node[above left] {$-\\frac{1}{2}\\underset{\\sim}{a}$};\n\\fill[color=answerblue] (5,-4) circle (1.5pt);\n\\path (5,-4) node[right] {$0\\underset{\\sim}{a}=\\underset{\\sim}{0}$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Find $-\\frac{3}{4}(8\\mathbf{i}-12\\mathbf{j})$ in component form.",
+    "solution_text": "Multiply both components by $-\\frac{3}{4}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}-\\frac{3}{4}(8\\mathbf{i}-12\\mathbf{j})\\\\&=\\left(-\\frac{3}{4}\\right)(8)\\mathbf{i}+\\left(-\\frac{3}{4}\\right)(-12)\\mathbf{j}\\\\&=-6\\mathbf{i}+9\\mathbf{j}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Given $-\\frac{5}{3}\\begin{pmatrix}x\\\\y\\end{pmatrix}=\\begin{pmatrix}10\\\\-15\\end{pmatrix}$, find $x$ and $y$.",
+    "solution_text": "Equate corresponding components and divide by the scalar.\n$\\begin{aligned}-\\frac{5}{3}x&=10\\\\x&=10\\div\\left(-\\frac{5}{3}\\right)\\\\x&=-6\\end{aligned}$\n$\\begin{aligned}-\\frac{5}{3}y&=-15\\\\y&=-15\\div\\left(-\\frac{5}{3}\\right)\\\\y&=9\\end{aligned}$"
+  },
+  {
+    "question_text": "Given $\\begin{pmatrix}15\\\\h\\end{pmatrix}=k\\begin{pmatrix}-6\\\\4\\end{pmatrix}$, find $k$ and $h$.",
+    "solution_text": "Use the first component to find the scalar, then apply it to the second component.\n$\\begin{aligned}-6k&=15\\\\k&=-\\frac{5}{2}\\end{aligned}$\n$\\begin{aligned}h&=\\left(-\\frac{5}{2}\\right)(4)\\\\h&=-10\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

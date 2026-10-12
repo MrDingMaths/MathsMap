@@ -2,8 +2,8 @@
   "skillId": "identify-outliers-iqr",
   "atomType": "R",
   "theory": {
-        "intro": "An **outlier** is an extreme data value that is unusually small or large. The formal **$1.5 \\times \\text{IQR}$ rule** identifies outliers objectively using fences.",
-        "facts": [
+"intro": "An **outlier** is an extreme data value that is unusually small or large. The formal **$1.5 \\times \\text{IQR}$ rule** identifies outliers objectively using fences.",
+"facts": [
 "The **interquartile range (IQR)** is the difference between the third and first quartiles: $\\text{IQR} = Q_3 - Q_1$.",
 "The **lower fence** is calculated by $\\text{Lower fence} = Q_1 - 1.5 \\times \\text{IQR}$.",
 "The **upper fence** is calculated by $\\text{Upper fence} = Q_3 + 1.5 \\times \\text{IQR}$.",
@@ -11,13 +11,31 @@
 "Data values equal to a fence value are **not** outliers, as an outlier must lie strictly beyond a fence.",
 "The **mean** and **range** are generally more affected by extreme values than the **median** and **IQR**. However, adding or removing outliers can change quartile positions and substantially change the IQR."
 ],
-        "steps": [
+"steps": [
           "Find the first quartile ($Q_1$), third quartile ($Q_3$), and calculate $\\text{IQR} = Q_3 - Q_1$.",
           "Calculate the lower fence: $\\text{Lower fence} = Q_1 - 1.5 \\times \\text{IQR}$.",
           "Calculate the upper fence: $\\text{Upper fence} = Q_3 + 1.5 \\times \\text{IQR}$.",
           "Compare data values to both fences to identify any outliers."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Identify any outliers in $4, 30, 32, 34, 35, 36, 38, 40, 42, 44, 70$ using the formal $1.5\\times\\text{IQR}$ rule. Justify your answer with calculations.",
+    "solution_text": "The median is $36$. Exclude it when finding the medians of the lower and upper halves.\n$Q_1=32,\\quad Q_3=42$\n$\\begin{align*}\\text{IQR}&=Q_3-Q_1\\\\&=42-32\\\\&=10\\end{align*}$\n$\\begin{align*}\\text{Lower fence}&=Q_1-1.5\\times\\text{IQR}\\\\&=32-1.5\\times10\\\\&=17\\end{align*}$\n$\\begin{align*}\\text{Upper fence}&=Q_3+1.5\\times\\text{IQR}\\\\&=42+1.5\\times10\\\\&=57\\end{align*}$\nSince $4<17$ and $70>57$, $4$ and $70$ are outliers. All other values lie within the fences."
+  },
+  {
+    "question_text": "The heights, in centimetres, of twelve plants are $10, 30, 32, 34, 35, 36, 38, 40, 42, 44, 46, 72$. Find both fences and identify any outliers.",
+    "solution_text": "Split the ordered data into two halves of six values. Each quartile is the mean of the two middle values in its half.\n$\\begin{align*}Q_1&=\\frac{32+34}{2}\\\\&=33\\end{align*}$\n$\\begin{align*}Q_3&=\\frac{42+44}{2}\\\\&=43\\end{align*}$\n$\\begin{align*}\\text{IQR}&=43-33\\\\&=10\\end{align*}$\n$\\begin{align*}\\text{Lower fence}&=33-1.5\\times10\\\\&=18\\text{ cm}\\end{align*}$\n$\\begin{align*}\\text{Upper fence}&=43+1.5\\times10\\\\&=58\\text{ cm}\\end{align*}$\nSince $10<18$ and $72>58$, the heights $10\\text{ cm}$ and $72\\text{ cm}$ are outliers. All other heights lie within the fences."
+  },
+  {
+    "question_text": "A dataset has five-number summary $\\text{Min}=3,\\ Q_1=18,\\ Q_2=24,\\ Q_3=30,\\ \\text{Max}=48$. Determine whether it contains any outliers.",
+    "solution_text": "$\\begin{align*}\\text{IQR}&=30-18\\\\&=12\\end{align*}$\n$\\begin{align*}\\text{Lower fence}&=18-1.5\\times12\\\\&=0\\end{align*}$\n$\\begin{align*}\\text{Upper fence}&=30+1.5\\times12\\\\&=48\\end{align*}$\nThe minimum satisfies $3\\ge0$, and the maximum equals the upper fence of $48$. There are no outliers: a value must lie strictly beyond a fence."
+  },
+  {
+    "question_text": "A dataset has $Q_1=20$ and $Q_3=32$. What is its maximum possible range if there are no outliers?",
+    "solution_text": "$\\begin{align*}\\text{IQR}&=32-20\\\\&=12\\end{align*}$\n$\\begin{align*}\\text{Lower fence}&=20-1.5\\times12\\\\&=2\\end{align*}$\n$\\begin{align*}\\text{Upper fence}&=32+1.5\\times12\\\\&=50\\end{align*}$\nValues equal to the fences are allowed. The greatest range occurs when the minimum is $2$ and the maximum is $50$.\n$\\begin{align*}\\text{Maximum possible range}&=50-2\\\\&=48\\end{align*}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

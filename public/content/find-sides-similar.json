@@ -2,19 +2,49 @@
   "skillId": "find-sides-similar",
   "atomType": "R",
   "theory": {
-        "intro": "In similar figures every pair of corresponding sides is in the same ratio, so one known pair unlocks all the rest. Find the scale factor from the pair with **both lengths given**, then multiply or divide by it.",
-        "facts": [
+"intro": "In similar figures every pair of corresponding sides is in the same ratio, so one known pair unlocks all the rest. Find the scale factor from the pair with **both lengths given**, then multiply or divide by it.",
+"facts": [
           "$k=\\frac{\\text{image length}}{\\text{original length}}$, found from the pair of corresponding sides with both lengths given.",
           "Multiply an original side by $k$ to get the matching **image** side; divide an image side by $k$ to get the **original**.",
           "If the image is smaller than the original then $k<1$, so multiplying by it correctly shortens the sides.",
           "The same working can be set out as equal fractions of corresponding sides, e.g. $\\frac{x}{6}=\\frac{14}{4}$ — keep the unknown in the numerator."
         ],
-        "steps": [
+"steps": [
           "Identify the pair of corresponding sides with both lengths given.",
           "Calculate the scale factor: divide the image length by the original length.",
           "Multiply an original side by the scale factor, or divide an image side by it, to find the unknown side."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "The pentagons are similar. Find $x$ and $y$, in centimetres.\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(1.8,0)--(1.8,1.2)--(0.9,2.4)--(0,1.2)--cycle;\n\\path (0.9,0) node[below] {$6$} (0,0.6) node[left] {$4$} (1.35,1.8) node[right] {$y$} (0.9,2.9) node {Original};\n\\draw (3.6,0)--(6.3,0)--(6.3,1.8)--(4.95,3.6)--(3.6,1.8)--cycle;\n\\path (4.95,0) node[below] {$9$} (3.6,0.9) node[left] {$x$} (5.625,2.7) node[right] {$7.5$} (4.95,4.1) node {Image};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Match the bases, vertical sides and sloping sides.\n\n| Original | Image |\n| --- | --- |\n| $6$ | $9$ |\n| $4$ | $x$ |\n| $y$ | $7.5$ |\n\n$k=\\frac{\\text{image length}}{\\text{original length}}=\\frac{9}{6}=1.5$\n\nMultiply to find the image side.\n$\\begin{align*}x&=4\\times1.5\\\\x&=6\\text{ cm}\\end{align*}$\n\nDivide to find the original side.\n$\\begin{align*}y&=7.5\\div1.5\\\\y&=5\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The rectangles are similar. Find $x$, in centimetres.\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) rectangle (3.2,2.4);\n\\path (1.6,0) node[below] {$16$} (0,1.2) node[left] {$12$} (1.6,2.9) node {Original};\n\\draw (4.8,0) rectangle (6.4,1.2);\n\\path (5.6,0) node[below] {$8$} (4.8,0.6) node[left] {$x$} (5.6,1.7) node {Image};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The $16$ cm and $8$ cm sides correspond.\n$k=\\frac{8}{16}=0.5$\n\nMultiply the original side by the scale factor, even when the factor is less than $1$.\n$\\begin{align*}x&=12\\times0.5\\\\x&=6\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Triangle $DEF$ is an enlargement of triangle $ABC$. Vertex $D$ matches $A$, $E$ matches $B$, and $F$ matches $C$. Find $x$, in centimetres.\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(1,0)--(0,2.4)--cycle;\n\\path (0,0) node[below left] {$A$} (1,0) node[below right] {$B$} (0,2.4) node[above] {$C$} (0.5,0) node[below] {$5$} (0,1.2) node[left] {$12$} (0.5,1.2) node[right] {$13$};\n\\draw (3.2,0)--(3.2,2)--(8,0)--cycle;\n\\path (3.2,0) node[below left] {$D$} (3.2,2) node[above] {$E$} (8,0) node[below right] {$F$} (3.2,1) node[left] {$10$} (5.6,1) node[above right] {$x$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$DE$ corresponds to $AB$, and $EF$ corresponds to $BC$.\n$k=\\frac{DE}{AB}=\\frac{10}{5}=2$\n\n$\\begin{align*}x&=13\\times2\\\\x&=26\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The rectangles are similar. Sam calculates $k=\\frac{6}{10}$ and says $x=2.4$ cm. Explain Sam's error and find the correct value of $x$.\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) rectangle (2.5,1);\n\\path (1.25,0) node[below] {$10\\text{ cm}$} (0,0.5) node[left] {$4\\text{ cm}$} (1.25,1.5) node {Original};\n\\draw (4,0) rectangle (7.75,1.5);\n\\path (5.875,0) node[below] {$x$} (4,0.75) node[left] {$6\\text{ cm}$} (5.875,2) node {Image};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Sam matched a short side with a long side. The $6$ cm side corresponds to the $4$ cm side; $x$ corresponds to the $10$ cm side.\n\n$k=\\frac{6}{4}=1.5$\n\n$\\begin{align*}x&=10\\times1.5\\\\x&=15\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

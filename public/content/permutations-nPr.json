@@ -2,8 +2,8 @@
   "skillId": "permutations-nPr",
   "atomType": "R",
   "theory": {
-        "intro": "A **permutation** is an ordered arrangement of distinct objects with no repetition. The number of ways to choose and arrange $r$ objects from $n$ distinct objects is $^{n}P_{r} = \\dfrac{n!}{(n-r)!} = n(n-1)(n-2)\\cdots(n-r+1)$, where $n,r$ are integers with $0\\le r\\le n$; for $r=0$, the product is defined as $1$.",
-        "facts": [
+"intro": "A **permutation** is an ordered arrangement of distinct objects with no repetition. The number of ways to choose and arrange $r$ objects from $n$ distinct objects is $^{n}P_{r} = \\dfrac{n!}{(n-r)!} = n(n-1)(n-2)\\cdots(n-r+1)$, where $n,r$ are integers with $0\\le r\\le n$; for $r=0$, the product is defined as $1$.",
+"facts": [
 "$^{n}P_{r} = \\dfrac{n!}{(n-r)!}$ counts the ordered arrangements of $r$ objects chosen from $n$ distinct objects.",
 "Arranging all $n$ objects gives $^{n}P_{n} = \\dfrac{n!}{0!} = n!$.",
 "By convention, $^{n}P_{0} = \\dfrac{n!}{n!} = 1$.",
@@ -11,12 +11,63 @@
 "Use $^{n}P_{r}$ when order matters and the objects are distinct with no repetition: queue positions, podium places, named committee roles, or digits without repeats.",
 "The recurrence relation is $^{n+1}P_{r} = {^{n}P_{r}} + r \\cdot {^{n}P_{r-1}}$, for integers $n,r$ with $1\\le r\\le n$."
 ],
-        "steps": [
+"steps": [
           "Identify the total number of available distinct objects $n$ and the number of positions $r$",
           "Apply the permutation formula $^{n}P_{r} = \\dfrac{n!}{(n-r)!}$",
           "Calculate the product of $r$ descending consecutive integers starting from $n$"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Evaluate $^{10}P_{4}$.",
+    "solution_text": "$\\begin{aligned} {}^{10}P_{4}&=\\frac{10!}{(10-4)!}\\\\&=\\frac{10!}{6!}\\\\&=10\\times9\\times8\\times7\\\\&=5040 \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A club has $13$ members. In how many ways can a president, secretary and treasurer be appointed if each member holds at most one role?",
+    "solution_text": "The roles are distinct. There are $13$ choices for president, $12$ for secretary and $11$ for treasurer.\n\n$\\begin{aligned} N&={}^{13}P_{3}\\\\&=13\\times12\\times11\\\\&=1716 \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the positive integer $n$ such that $^{n}P_{2}=90$.",
+    "solution_text": "$\\begin{aligned} {}^{n}P_{2}&=90\\\\n(n-1)&=90\\\\n^{2}-n-90&=0\\\\(n-10)(n+9)&=0 \\end{aligned}$\n\nSince $n$ is positive, $n=10$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $n$ if $^{n}P_{3}=504$.",
+    "solution_text": "$\\begin{aligned} {}^{n}P_{3}&=504\\\\n(n-1)(n-2)&=504 \\end{aligned}$\n\nTry descending products: $8\\times7\\times6=336$ and $9\\times8\\times7=504$. Hence $n=9$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $r$ if $^{10}P_{r}=720$.",
+    "solution_text": "Try descending products starting from $10$:\n\n$\\begin{aligned} {}^{10}P_{1}&=10\\\\{}^{10}P_{2}&=10\\times9=90\\\\{}^{10}P_{3}&=10\\times9\\times8=720 \\end{aligned}$\n\nThe product uses three factors, so $r=3$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve for the positive integer $n$: $^{n+1}P_{3}=30\\cdot{}^{n-1}P_{1}$.",
+    "solution_text": "The permutations require $n\\ge2$.\n\n$\\begin{aligned} (n+1)n(n-1)&=30(n-1) \\end{aligned}$\n\nDivide both sides by $n-1$, which is non-zero.\n\n$\\begin{aligned} n(n+1)&=30\\\\n^{2}+n-30&=0\\\\(n+6)(n-5)&=0 \\end{aligned}$\n\nSince $n\\ge2$, $n=5$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For integers $n,r$ with $1\\le r\\le n$, prove that $^{n+1}P_{r}={}^{n}P_{r}+r\\cdot{}^{n}P_{r-1}$.",
+    "solution_text": "Starting with the right-hand side:\n\n$\\begin{aligned} &\\mathrel{\\phantom{=}}{}^{n}P_{r}+r\\cdot{}^{n}P_{r-1}\\\\&=\\frac{n!}{(n-r)!}+\\frac{rn!}{(n-r+1)!}\\\\&=\\frac{(n-r+1)n!+rn!}{(n-r+1)!}\\\\&=\\frac{(n+1)n!}{(n+1-r)!}\\\\&=\\frac{(n+1)!}{(n+1-r)!}\\\\&={}^{n+1}P_{r} \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

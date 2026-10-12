@@ -2,8 +2,8 @@
   "skillId": "continuity-discontinuity",
   "atomType": "R",
   "theory": {
-        "intro": "A function is **continuous** at $x = a$ if you can draw its graph through that point without lifting your pen. A point where it is not continuous is a **discontinuity**. At a piecewise boundary, the neighbouring branches must approach the same finite value, and the defined value $f(a)$ must equal that value.",
-        "facts": [
+"intro": "A function is **continuous** at $x = a$ if you can draw its graph through that point without lifting your pen. A point where it is not continuous is a **discontinuity**. At a piecewise boundary, the neighbouring branches must approach the same finite value, and the defined value $f(a)$ must equal that value.",
+"facts": [
 "A graph is continuous over an interval when it has no breaks, jumps or holes.",
 "If the neighbouring subfunctions approach the finite values $g(a)$ and $h(a)$, continuity at $x = a$ requires $g(a) = h(a) = f(a)$. Check any separately defined boundary value as well. A branch that grows without bound does not approach a finite value.",
 "A **jump discontinuity** happens when the two branches reach different values at $x = a$, so the graph steps.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.8,0) -- (5.6,0) node[right] {$x$};\n\\draw[->] (0,-0.6) -- (0,4.6) node[above] {$y$};\n\\draw[thick, <-] (-0.6,0.85) -- (2.4,3.2);\n\\draw[thick, ->] (2.4,1.3) -- (5.2,2.3);\n\\fill (2.4,3.2) circle (2.5pt);\n\\draw[fill=white] (2.4,1.3) circle (2.5pt);\n\\draw (2.4,0.12) -- (2.4,-0.12);\n\\node[below] at (2.4,-0.12) {$a$};\n\\end{tikzpicture}\n[/tikz]",
@@ -11,12 +11,57 @@
 "An **infinite discontinuity** is a vertical asymptote, where the function values grow without bound near $x = a$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.8,0) -- (5.2,0) node[right] {$x$};\n\\draw[->] (0,-3.2) -- (0,3.4) node[above] {$y$};\n\\draw[dashed] (2.4,-3.1) -- (2.4,3.3);\n\\draw[thick, <->, domain=-0.6:2.05, smooth, samples=60, variable=\\x] plot ({\\x}, {1/(\\x-2.4)});\n\\draw[thick, <->, domain=2.75:5, smooth, samples=60, variable=\\x] plot ({\\x}, {1/(\\x-2.4)});\n\\node[below right] at (2.4,0) {$a$};\n\\end{tikzpicture}\n[/tikz]",
 "Polynomials, exponentials and straight lines are continuous everywhere on their natural domains."
 ],
-        "steps": [
+"steps": [
 "Find the value approached by the left subfunction at the boundary. Calculate $g(a)$ when substitution gives the finite value approached; otherwise inspect the branch's behaviour.",
 "Find the value approached by the right subfunction in the same way, and check the defined value $f(a)$, including any separately defined boundary value.",
 "Compare the results: the function is continuous at $x = a$ when both branches approach the same finite value and $f(a)$ equals it. Different values, an undefined boundary value or unbounded behaviour prevent continuity."
+],
+"workedExamples": [
+  {
+    "question_text": "Determine whether $f(x)=\\begin{cases}x^2,&x<1\\\\2x-1,&1\\le x\\le3\\\\x+1,&x>3\\end{cases}$ is continuous at $x=1$ and $x=3$.",
+    "solution_text": "Each branch is continuous within its interval. Compare the branch values at each boundary.\n\nAt $x=1$:\n$\\begin{aligned}g(1)&=1^2=1\\\\h(1)&=2(1)-1=1\\\\f(1)&=1\\end{aligned}$\nBoth branches approach the defined value, so the function is continuous at $x=1$.\n\nAt $x=3$:\n$\\begin{aligned}h(3)&=2(3)-1=5\\\\k(3)&=3+1=4\\\\f(3)&=5\\end{aligned}$\nThe branches approach different values, so there is a jump discontinuity at $x=3$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use the graph to find $f(1)$ and identify every discontinuity.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw[->] (-1.2,0)--(5.5,0) node[right] {$x$};\n\\draw[->] (0,-0.6)--(0,4.6) node[above] {$y$};\n\\foreach \\x in {1,2,3,4,5}{\\draw (\\x,0.07)--(\\x,-0.07);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.07) {$\\x$};}\n\\foreach \\y in {1,2,3,4}{\\draw (0.07,\\y)--(-0.07,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.07,\\y) {$\\y$};}\n\\draw[thick,<-] (-1,1)--(1,3);\n\\draw[thick,->] (1,1)--(5.1,1);\n\\fill[black] (1,3) circle (2.5pt);\n\\draw[fill=white] (1,1) circle (2.5pt);\n\\draw[fill=white] (4,1) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The filled point gives $f(1)=3$. The open point at $(1,1)$ is excluded.\n\nAt $x=1$, the branches approach different heights, so there is a jump discontinuity. At $x=4$, the point on the horizontal branch is missing, so there is a removable discontinuity.\n\nThe discontinuities are $x=1$ and $x=4$."
+  },
+  {
+    "question_text": "Determine whether $p(x)=\\begin{cases}x^2,&x<2\\\\7,&x=2\\\\3x-2,&x>2\\end{cases}$ is continuous at $x=2$.",
+    "solution_text": "Compare both branches with the separately defined value.\n\n$\\begin{aligned}g(2)&=2^2=4\\\\h(2)&=3(2)-2=4\\\\p(2)&=7\\end{aligned}$\nBoth branches approach $4$, but $p(2)=7$. The function has a removable discontinuity at $x=2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Determine whether $h(x)=\\begin{cases}x+2,&x\\le0\\\\\\dfrac{2}{x},&x>0\\end{cases}$ is continuous at $x=0$.",
+    "solution_text": "The left branch approaches $2$, and $h(0)=0+2=2$.\n\nFor the right branch, positive inputs closer to zero give increasingly large values:\n$\\begin{aligned}h(0.1)&=20\\\\h(0.01)&=200\\\\h(0.001)&=2000\\end{aligned}$\nThe right branch grows without bound instead of approaching $2$. The function is discontinuous at $x=0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find every discontinuity of $r(x)=\\dfrac{x(x+2)}{x^2-2x-8}$. Identify which excluded value produces a hole.",
+    "solution_text": "Use the original denominator to find excluded inputs.\n\n$\\begin{aligned}x^2-2x-8&=0\\\\(x-4)(x+2)&=0\\\\x&=4\\text{ or }x=-2\\end{aligned}$\nFor permitted inputs:\n$\\begin{aligned}r(x)&=\\frac{x(x+2)}{(x-4)(x+2)}\\\\&=\\frac{x}{x-4},\\qquad x\\ne-2,4\\end{aligned}$\nCancelling $x+2$ does not restore the original undefined value at $x=-2$. The simplified rule approaches $\\frac{-2}{-6}=\\frac13$ there, giving a hole at $(-2,\\frac13)$.\n\nAt $x=4$, the remaining denominator is zero and the function has a vertical asymptote. The discontinuities are $x=-2$ and $x=4$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Determine whether $g(x)=\\begin{cases}\\dfrac{x^2-16}{x-4},&x\\ne4\\\\8,&x=4\\end{cases}$ is continuous at $x=4$.",
+    "solution_text": "Simplify the rule away from the boundary.\n\nFor $x\\ne4$:\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{x^2-16}{x-4}\\\\&=\\frac{(x-4)(x+4)}{x-4}\\\\&=x+4\\end{aligned}$\nFrom either side of $x=4$, this approaches $4+4=8$. Since $g(4)=8$, the defined point fills the hole. The function is continuous at $x=4$."
+  },
+  {
+    "question_text": "The function $q(x)=\\begin{cases}x^2,&-2\\le x<0\\\\x,&0\\le x<1\\\\0,&1<x\\le2\\end{cases}$ has domain $D=[-2,1)\\cup(1,2]$. State every value in $D$ at which it is continuous.",
+    "solution_text": "Each branch is continuous within its interval.\n\nAt $x=0$:\n$\\begin{aligned}g(0)&=0^2=0\\\\h(0)&=0\\\\q(0)&=0\\end{aligned}$\nThe branches meet at the defined value, so the function is continuous at $x=0$.\n\nAt $x=-2$, values from within the domain approach $q(-2)=4$. At $x=2$, values from within the domain approach $q(2)=0$. Both included endpoints are continuous relative to $D$.\n\nThe input $x=1$ is excluded from $D$. The function is continuous at every value in $D$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

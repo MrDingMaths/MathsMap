@@ -2,8 +2,8 @@
   "skillId": "label-trig-sides",
   "atomType": "T",
   "theory": {
-        "intro": "The three sides of a right-angled triangle are named from one chosen acute angle. Two of those names swap if you work from the other acute angle, so always start by finding the marked angle.\n[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (4.2,0);\n\\coordinate (R) at (0,3.2);\n\\draw (P)--(Q) node[midway,below] {Adjacent};\n\\draw (Q)--(R) node[midway,above right] {Hypotenuse};\n\\draw (R)--(P) node[midway,left] {Opposite};\n\\coordinate (ra1) at ($(P)!0.32cm!(Q)$);\n\\coordinate (ra2) at ($(P)!0.32cm!(R)$);\n\\draw (ra1)--($(ra1)+(ra2)-(P)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=R--Q--P};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "The three sides of a right-angled triangle are named from one chosen acute angle. Two of those names swap if you work from the other acute angle, so always start by finding the marked angle.\n[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (4.2,0);\n\\coordinate (R) at (0,3.2);\n\\draw (P)--(Q) node[midway,below] {Adjacent};\n\\draw (Q)--(R) node[midway,above right] {Hypotenuse};\n\\draw (R)--(P) node[midway,left] {Opposite};\n\\coordinate (ra1) at ($(P)!0.32cm!(Q)$);\n\\coordinate (ra2) at ($(P)!0.32cm!(R)$);\n\\draw (ra1)--($(ra1)+(ra2)-(P)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=R--Q--P};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "The **hypotenuse** is the longest side, the one opposite the right angle.",
           "The hypotenuse is the same side whichever acute angle you work from.",
           "The **opposite** side is the side across the triangle from the marked angle; it does not touch that angle.",
@@ -12,12 +12,26 @@
           "Mark the other acute angle instead and the opposite and adjacent sides swap, while the hypotenuse stays the same side.\n[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (4.2,0);\n\\coordinate (R) at (0,3.2);\n\\draw (P)--(Q) node[midway,below] {Opposite};\n\\draw (Q)--(R) node[midway,above right] {Hypotenuse};\n\\draw (R)--(P) node[midway,left] {Adjacent};\n\\coordinate (ra1) at ($(P)!0.32cm!(Q)$);\n\\coordinate (ra2) at ($(P)!0.32cm!(R)$);\n\\draw (ra1)--($(ra1)+(ra2)-(P)$)--(ra2);\n\\pic[draw,\"$\\alpha$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=P--R--Q};\n\\end{tikzpicture}\n[/tikz]",
           "A side may be named by a single pronumeral ($p$) or by its two end vertices ($PQ$, the same side as $QP$)."
         ],
-        "steps": [
+"steps": [
           "Find the hypotenuse, opposite the right angle",
           "Find the opposite side, across from the marked angle",
           "Name the remaining side the adjacent side"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "For the marked angle $\\theta$, classify side $r$ as hypotenuse, opposite or adjacent.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,0);\n\\coordinate (C) at (0,3);\n\\draw (A)--(B) node[midway,below] {$p$};\n\\draw (B)--(C) node[midway,above right] {$r$};\n\\draw (C)--(A) node[midway,left] {$q$};\n\\draw (0.3,0)--(0.3,0.3)--(0,0.3);\n\\draw (3.4,0) arc[start angle=180,end angle=143.13,radius=0.6];\n\\node at (3.12,0.28) {$\\theta$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Side $r$ is opposite the right angle, so it is the hypotenuse.\nAlthough $r$ touches $\\theta$, the adjacent side is the other side touching $\\theta$: $p$."
+  },
+  {
+    "question_text": "Identify the hypotenuse, opposite side and adjacent side for $\\theta$ in this rotated right-angled triangle.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\begin{scope}[rotate=25]\n\\coordinate (D) at (0,0);\n\\coordinate (E) at (4,0);\n\\coordinate (F) at (0,3);\n\\draw (D)--(E) node[midway,below right] {$u$};\n\\draw (E)--(F) node[midway,above right] {$w$};\n\\draw (F)--(D) node[midway,left] {$v$};\n\\draw (0.3,0)--(0.3,0.3)--(0,0.3);\n\\draw (3.4,0) arc[start angle=180,end angle=143.13,radius=0.6];\n\\node at (3.12,0.28) {$\\theta$};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Find the hypotenuse first: $w$ is opposite the right angle.\nSide $v$ is across from $\\theta$, so it is opposite. The remaining side, $u$, is adjacent.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\begin{scope}[rotate=25]\n\\coordinate (D) at (0,0);\n\\coordinate (E) at (4,0);\n\\coordinate (F) at (0,3);\n\\draw (D)--(E) node[midway,below right] {$u$: A};\n\\draw (E)--(F) node[midway,above right] {$w$: H};\n\\draw (F)--(D) node[midway,left] {$v$: O};\n\\draw (0.3,0)--(0.3,0.3)--(0,0.3);\n\\draw (3.4,0) arc[start angle=180,end angle=143.13,radius=0.6];\n\\node at (3.12,0.28) {$\\theta$};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Name the hypotenuse, opposite side and adjacent side for each marked angle, $\\theta$ and $\\alpha$. Describe how the names change when the reference angle changes.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (L) at (0,0);\n\\coordinate (M) at (4,0);\n\\coordinate (N) at (0,3);\n\\draw (L)--(M)--(N)--cycle;\n\\draw (0.3,0)--(0.3,0.3)--(0,0.3);\n\\path (L) node[below left] {$L$};\n\\path (M) node[below right] {$M$};\n\\path (N) node[above left] {$N$};\n\\draw (3.4,0) arc[start angle=180,end angle=143.13,radius=0.6];\n\\node at (3.12,0.28) {$\\theta$};\n\\draw (0,2.4) arc[start angle=270,end angle=323.13,radius=0.6];\n\\node at (0.35,2.16) {$\\alpha$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "For $\\theta$:\nHypotenuse: $MN$, opposite the right angle at $L$.\nOpposite: $LN$, across from $\\theta$.\nAdjacent: $LM$, touching $\\theta$ and not the hypotenuse.\n\nFor $\\alpha$:\nHypotenuse: $MN$.\nOpposite: $LM$.\nAdjacent: $LN$.\n\nThe opposite and adjacent sides swap. The hypotenuse stays $MN$ because the right angle stays at $L$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,8 +2,8 @@
   "skillId": "solve-trig-equations-restricted",
   "atomType": "R",
   "theory": {
-        "intro": "To solve a trigonometric equation on a restricted domain, first get the ratio by itself. Handle boundary values directly using the unit circle or graph. Otherwise, find the acute **reference angle** from the positive value of the ratio, and use **ASTC** to decide which quadrants the solutions lie in. Sine or cosine ratios outside $[-1,1]$ have no real solutions.",
-        "facts": [
+"intro": "To solve a trigonometric equation on a restricted domain, first get the ratio by itself. Handle boundary values directly using the unit circle or graph. Otherwise, find the acute **reference angle** from the positive value of the ratio, and use **ASTC** to decide which quadrants the solutions lie in. Sine or cosine ratios outside $[-1,1]$ have no real solutions.",
+"facts": [
 "For non-boundary values, use the positive value of the ratio to find the acute reference angle $\\alpha$: $0 < |k| < 1$ for sine or cosine, and $k \\ne 0$ for tangent. Handle boundary values directly using the unit circle or graph.",
 "**ASTC** names the ratio that is positive in each quadrant. For an acute reference angle $\\alpha$, the candidate angles in $[0^{\\circ}, 360^{\\circ})$ are $\\alpha$, $180^{\\circ} - \\alpha$, $180^{\\circ} + \\alpha$ and $360^{\\circ} - \\alpha$. Only the candidates in quadrants where the ratio has the required sign solve the equation.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.5]\n\\draw (-2,0) -- (2,0);\n\\draw (0,-2) -- (0,2);\n\\node at (1,1.25) {$A$};\n\\node[font=\\small] at (1,0.75) {all $+$};\n\\node at (-1,1.25) {$S$};\n\\node[font=\\small] at (-1,0.75) {$\\sin +$};\n\\node at (-1,-0.75) {$T$};\n\\node[font=\\small] at (-1,-1.25) {$\\tan +$};\n\\node at (1,-0.75) {$C$};\n\\node[font=\\small] at (1,-1.25) {$\\cos +$};\n\\node[font=\\small] at (1.8,1.8) {$1$};\n\\node[font=\\small] at (-1.8,1.8) {$2$};\n\\node[font=\\small] at (-1.8,-1.8) {$3$};\n\\node[font=\\small] at (1.8,-1.8) {$4$};\n\\end{tikzpicture}\n[/tikz]",
 "In radians on $[0, 2\\pi)$ the same four candidate angles are $\\alpha$, $\\pi - \\alpha$, $\\pi + \\alpha$ and $2\\pi - \\alpha$. Only those matching the ratio's sign solve the equation.",
@@ -11,13 +11,43 @@
 "For a domain wider than one revolution, add or subtract $360^{\\circ}$ (or $2\\pi$) to reach the extra solutions.",
 "Boundary values such as $\\sin x = 0$ or $\\cos x = \\pm 1$ are read straight off the unit circle or the graph. Sine or cosine ratios outside $[-1,1]$ have no real solutions."
 ],
-        "steps": [
+"steps": [
 "Isolate the trigonometric ratio",
 "Handle boundary values directly; otherwise find the acute reference angle",
 "Identify valid quadrants using ASTC for non-boundary values",
 "Calculate all solutions in the given domain"
+],
+"workedExamples": [
+  {
+    "question_text": "Solve $\\sin x=-\\frac{1}{\\sqrt{2}}$ for $0\\le x<2\\pi$.",
+    "solution_text": "The acute reference angle is $\\alpha=\\sin^{-1}\\left(\\frac{1}{\\sqrt{2}}\\right)=\\frac{\\pi}{4}$.\n\nSine is negative in quadrants 3 and 4.\n\n$\\begin{align*}x&=\\pi+\\frac{\\pi}{4}=\\frac{5\\pi}{4}\\\\x&=2\\pi-\\frac{\\pi}{4}=\\frac{7\\pi}{4}\\end{align*}$\n\n[tikz]\n\\begin{tikzpicture}[x=15mm,y=15mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw[->] (-1.35,0)--(1.35,0);\n\\draw[->] (0,-1.35)--(0,1.35);\n\\draw (0,0) circle (1);\n\\draw (0,0)--(-0.7071,-0.7071);\n\\draw (0,0)--(0.7071,-0.7071);\n\\fill (-0.7071,-0.7071) circle (1.2pt);\n\\fill (0.7071,-0.7071) circle (1.2pt);\n\\path (-0.82,-0.82) node[below left] {$\\frac{5\\pi}{4}$};\n\\path (0.82,-0.82) node[below right] {$\\frac{7\\pi}{4}$};\n\\path (1.35,0) node[right] {$x$};\n\\path (0,1.35) node[above] {$y$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Solve $\\cos\\theta=-1$ for $0^{\\circ}\\le\\theta<360^{\\circ}$.",
+    "solution_text": "On the unit circle, cosine is the horizontal coordinate. The point $(-1,0)$ gives $\\cos\\theta=-1$.\n\n$\\theta=180^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[x=15mm,y=15mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw[->] (-1.4,0)--(1.4,0);\n\\draw[->] (0,-1.3)--(0,1.3);\n\\draw (0,0) circle (1);\n\\fill (-1,0) circle (1.5pt);\n\\path (-1,0) node[above left] {$(-1,0)$};\n\\path (-1,0) node[below left] {$180^{\\circ}$};\n\\path (1.4,0) node[right] {$x$};\n\\path (0,1.3) node[above] {$y$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Solve $2\\cos x+\\sqrt{2}=0$ for $0\\le x<2\\pi$.",
+    "solution_text": "$\\begin{align*}2\\cos x&=-\\sqrt{2}\\\\\\cos x&=-\\frac{1}{\\sqrt{2}}\\end{align*}$\n\nThe acute reference angle is $\\alpha=\\cos^{-1}\\left(\\frac{1}{\\sqrt{2}}\\right)=\\frac{\\pi}{4}$.\n\nCosine is negative in quadrants 2 and 3.\n\n$\\begin{align*}x&=\\pi-\\frac{\\pi}{4}=\\frac{3\\pi}{4}\\\\x&=\\pi+\\frac{\\pi}{4}=\\frac{5\\pi}{4}\\end{align*}$"
+  },
+  {
+    "question_text": "Solve $\\sec\\theta=-2$ for $0^{\\circ}\\le\\theta<360^{\\circ}$.",
+    "solution_text": "Rewrite secant using cosine.\n\n$\\begin{align*}\\frac{1}{\\cos\\theta}&=-2\\\\\\cos\\theta&=-\\frac{1}{2}\\end{align*}$\n\nThe acute reference angle is $\\alpha=\\cos^{-1}\\left(\\frac{1}{2}\\right)=60^{\\circ}$.\n\nCosine is negative in quadrants 2 and 3.\n\n$\\begin{align*}\\theta&=180^{\\circ}-60^{\\circ}=120^{\\circ}\\\\\\theta&=180^{\\circ}+60^{\\circ}=240^{\\circ}\\end{align*}$"
+  },
+  {
+    "question_text": "Solve $\\sin\\theta=-\\frac{1}{\\sqrt{2}}$ for $-180^{\\circ}\\le\\theta\\le180^{\\circ}$.",
+    "solution_text": "The acute reference angle is $\\alpha=\\sin^{-1}\\left(\\frac{1}{\\sqrt{2}}\\right)=45^{\\circ}$.\n\nSine is negative in quadrants 3 and 4. In $[0^{\\circ},360^{\\circ})$:\n\n$\\begin{align*}\\theta&=180^{\\circ}+45^{\\circ}=225^{\\circ}\\\\\\theta&=360^{\\circ}-45^{\\circ}=315^{\\circ}\\end{align*}$\n\nSubtract $360^{\\circ}$ to place both solutions in the given domain.\n\n$\\begin{align*}\\theta&=225^{\\circ}-360^{\\circ}=-135^{\\circ}\\\\\\theta&=315^{\\circ}-360^{\\circ}=-45^{\\circ}\\end{align*}$"
+  },
+  {
+    "question_text": "Solve $\\cos x=-\\frac{1}{2}$ for $0\\le x\\le4\\pi$.",
+    "solution_text": "The acute reference angle is $\\alpha=\\cos^{-1}\\left(\\frac{1}{2}\\right)=\\frac{\\pi}{3}$.\n\nCosine is negative in quadrants 2 and 3. In the first revolution:\n\n$\\begin{align*}x&=\\pi-\\frac{\\pi}{3}=\\frac{2\\pi}{3}\\\\x&=\\pi+\\frac{\\pi}{3}=\\frac{4\\pi}{3}\\end{align*}$\n\nAdd $2\\pi$ to obtain the solutions in the second revolution.\n\n$\\begin{align*}x&=\\frac{2\\pi}{3}+2\\pi=\\frac{8\\pi}{3}\\\\x&=\\frac{4\\pi}{3}+2\\pi=\\frac{10\\pi}{3}\\end{align*}$\n\nAll solutions are $x=\\frac{2\\pi}{3},\\frac{4\\pi}{3},\\frac{8\\pi}{3},\\frac{10\\pi}{3}$."
+  },
+  {
+    "question_text": "Solve $2\\tan\\theta+4=0$ for $0^{\\circ}\\le\\theta<360^{\\circ}$, giving solutions to the nearest degree.",
+    "solution_text": "$\\begin{align*}2\\tan\\theta&=-4\\\\\\tan\\theta&=-2\\end{align*}$\n\nThe acute reference angle is $\\alpha=\\tan^{-1}(2)\\approx63.4349^{\\circ}$. Keep full calculator precision until the final rounding.\n\nTangent is negative in quadrants 2 and 4.\n\n$\\begin{align*}\\theta&=180^{\\circ}-\\alpha\\approx117^{\\circ}\\\\\\theta&=360^{\\circ}-\\alpha\\approx297^{\\circ}\\end{align*}$\n\nTo the nearest degree, $\\theta=117^{\\circ},297^{\\circ}$."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
       {

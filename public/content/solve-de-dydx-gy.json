@@ -2,8 +2,8 @@
   "skillId": "solve-de-dydx-gy",
   "atomType": "R",
   "theory": {
-    "intro": "When $\\dfrac{dy}{dx}=g(y)$, $y$ depends on $x$ along a solution, so direct integration with respect to $x$ cannot treat $y$ as constant. Where $g(y)\\ne0$, turn the derivative upside down, integrate $\\dfrac{dx}{dy}=\\dfrac{1}{g(y)}$ with respect to $y$, then make $y$ the subject. Check excluded constant solutions separately. If $g(y)$ is constant, integrate directly with respect to $x$.",
-    "facts": [
+"intro": "When $\\dfrac{dy}{dx}=g(y)$, $y$ depends on $x$ along a solution, so direct integration with respect to $x$ cannot treat $y$ as constant. Where $g(y)\\ne0$, turn the derivative upside down, integrate $\\dfrac{dx}{dy}=\\dfrac{1}{g(y)}$ with respect to $y$, then make $y$ the subject. Check excluded constant solutions separately. If $g(y)$ is constant, integrate directly with respect to $x$.",
+"facts": [
 "Where $g(y)\\ne0$, $\\dfrac{dx}{dy}$ is the reciprocal of $\\dfrac{dy}{dx}$, so $\\dfrac{dy}{dx}=g(y)$ gives $\\dfrac{dx}{dy}=\\dfrac{1}{g(y)}$.",
 "Along a solution, $g(y)$ depends on $x$ through $y$. Do not treat $y$ as constant when integrating with respect to $x$; a constant $g(y)$ can be integrated directly.",
 "The integration constant appears in the equation for $x$ and stays there while you rearrange.",
@@ -14,13 +14,85 @@
 "Rearranging may need a square root, and the initial condition decides which sign to keep. When squaring a square-root equation, retain its sign restriction so that no extra solutions are introduced.",
 "Check by differentiating your answer and by substituting the initial condition. Check any constant solution $y=c$ excluded by taking the reciprocal by substituting into the original DE; it is a solution when $g(c)=0$."
 ],
-    "steps": [
+"steps": [
       "Take the reciprocal to get $\\dfrac{dx}{dy}=\\dfrac{1}{g(y)}$",
       "Integrate with respect to $y$ to find $x$ in terms of $y$",
       "Use any initial condition to find the constant",
       "Rearrange to make $y$ the subject"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Use reciprocals to solve each differential equation, giving $x$ in terms of $y$.\n(a) $\\dfrac{dy}{dx}=\\dfrac{5}{y^2}$, $y\\ne0$.\n(b) $\\dfrac{dy}{dx}=y^{-5}$, $y\\ne0$.",
+    "solution_text": "(a) Take the reciprocal and integrate with respect to $y$.\n$\\begin{align*}\\frac{dx}{dy}&=\\frac{y^2}{5}\\\\x&=\\int\\frac{y^2}{5}\\,dy\\\\&=\\frac{y^3}{15}+C\\end{align*}$\n(b)\n$\\begin{align*}\\frac{dx}{dy}&=y^5\\\\x&=\\int y^5\\,dy\\\\&=\\frac{y^6}{6}+C\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Solve $\\dfrac{dy}{dx}=2e^{-y}$, giving $y$ as a function of $x$ and stating its domain.",
+    "solution_text": "$\\begin{align*}\\frac{dx}{dy}&=\\frac12e^y\\\\x&=\\int\\frac12e^y\\,dy\\\\&=\\frac12e^y+C\\\\e^y&=2(x-C)\\\\y&=\\ln\\bigl(2(x-C)\\bigr),\\quad x>C\\end{align*}$\nThe restriction follows from $e^y>0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\dfrac{dy}{dx}=4\\sqrt{y}$ for $y>0$, giving $y$ as a function of $x$.",
+    "solution_text": "$\\begin{align*}\\frac{dx}{dy}&=\\frac14y^{-1/2}\\\\x&=\\int\\frac14y^{-1/2}\\,dy\\\\&=\\frac12\\sqrt y+C\\\\\\sqrt y&=2(x-C)\\end{align*}$\nSince $\\sqrt y>0$, retain $x>C$ when squaring.\n$y=4(x-C)^2,\\quad x>C$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the general solution of $\\dfrac{dy}{dx}=-3y$. Hence find the solution satisfying $y(2)=-4$.",
+    "solution_text": "For $y\\ne0$, take the reciprocal.\n$\\begin{align*}\\frac{dx}{dy}&=-\\frac{1}{3y}\\\\x&=\\int-\\frac{1}{3y}\\,dy\\\\&=-\\frac13\\ln|y|+C\\\\\\ln|y|&=-3x+3C\\\\|y|&=e^{3C}e^{-3x}\\\\y&=Ae^{-3x}\\end{align*}$\nHere $A$ may have either sign. Allowing $A=0$ includes the separately checked constant solution $y=0$.\nUsing $y(2)=-4$:\n$\\begin{align*}-4&=Ae^{-6}\\\\A&=-4e^6\\\\y&=-4e^{-3(x-2)}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the general solution of $\\dfrac{dy}{dx}=3(2-y)$. Hence solve the initial value problem with $y(0)=6$.",
+    "solution_text": "The constant solution is $y=2$. For $y\\ne2$:\n$\\begin{align*}\\frac{dx}{dy}&=\\frac{1}{3(2-y)}\\\\x&=\\int\\frac{1}{3(2-y)}\\,dy\\\\&=-\\frac13\\ln|2-y|+C\\\\\\ln|2-y|&=-3x+3C\\\\2-y&=Be^{-3x}\\\\y&=2+Ae^{-3x}\\end{align*}$\nAllowing $A=0$ includes $y=2$.\nUsing $y(0)=6$:\n$\\begin{align*}6&=2+A\\\\A&=4\\\\y&=2+4e^{-3x}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the nonzero general solution of $\\dfrac{dy}{dx}=4y^2$. Hence solve the initial value problem with $y(1)=-2$, stating the maximal interval containing $x=1$.",
+    "solution_text": "$\\begin{align*}\\frac{dx}{dy}&=\\frac{1}{4y^2}\\\\x&=\\int\\frac14y^{-2}\\,dy\\\\&=-\\frac{1}{4y}+C\\\\y&=\\frac{1}{4(C-x)}\\end{align*}$\nUsing $y(1)=-2$:\n$\\begin{align*}1&=\\frac18+C\\\\C&=\\frac78\\\\y&=-\\frac{2}{8x-7},\\quad x>\\frac78\\end{align*}$\nThe denominator vanishes at $x=\\frac78$. The interval containing the initial point is $\\left(\\frac78,\\infty\\right)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\dfrac{dy}{dx}=2(1+y^2)$, giving $y$ as a function of $x$.",
+    "solution_text": "$\\begin{align*}\\frac{dx}{dy}&=\\frac{1}{2(1+y^2)}\\\\x&=\\int\\frac{1}{2(1+y^2)}\\,dy\\\\&=\\frac12\\tan^{-1}y+C\\\\\\tan^{-1}y&=2(x-C)\\\\y&=\\tan\\bigl(2(x-C)\\bigr)\\end{align*}$\nUse each solution on an interval between consecutive poles. With the constant as introduced above, $C-\\frac\\pi4<x<C+\\frac\\pi4$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A curve satisfies $\\dfrac{dy}{dx}=\\dfrac{1}{2y+4}$ and passes through $(3,-5)$. Find $y$ as a function of $x$ and state its maximal domain.",
+    "solution_text": "$\\begin{align*}\\frac{dx}{dy}&=2y+4\\\\x&=\\int(2y+4)\\,dy\\\\&=y^2+4y+C\\end{align*}$\nUsing $(3,-5)$:\n$\\begin{align*}3&=25-20+C\\\\C&=-2\\\\x&=y^2+4y-2\\\\(y+2)^2&=x+6\\\\y&=-2\\pm\\sqrt{x+6}\\end{align*}$\nAt $x=3$, the branches give $1$ and $-5$. Keep the negative branch.\n$y=-2-\\sqrt{x+6},\\quad x>-6$.\nAt $x=-6$, $y=-2$ makes the original differential equation undefined.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A solution of $\\dfrac{dy}{dx}=ky$ passes through $(0,4)$ and $(3,32)$. Find $k$ and the solution.",
+    "solution_text": "The different given values rule out $k=0$. Taking reciprocals and integrating:\n$\\begin{align*}\\frac{dx}{dy}&=\\frac{1}{ky}\\\\x&=\\int\\frac{1}{ky}\\,dy\\\\&=\\frac1k\\ln|y|+C\\\\\\ln|y|&=kx-kC\\\\y&=Ae^{kx}\\end{align*}$\nUsing $(0,4)$ gives $A=4$. Using $(3,32)$:\n$\\begin{align*}32&=4e^{3k}\\\\e^{3k}&=8\\\\k&=\\frac{\\ln8}{3}\\\\&=\\ln2\\end{align*}$\nThe solution is $y=4e^{x\\ln2}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\dfrac{dy}{dx}=2\\cos^2y$ for $-\\dfrac\\pi2<y<\\dfrac\\pi2$, given $y(1)=0$.",
+    "solution_text": "$\\begin{align*}\\frac{dx}{dy}&=\\frac12\\sec^2y\\\\x&=\\int\\frac12\\sec^2y\\,dy\\\\&=\\frac12\\tan y+C\\end{align*}$\nUsing $y(1)=0$ gives $C=1$.\n$\\begin{align*}x&=\\frac12\\tan y+1\\\\\\tan y&=2(x-1)\\\\y&=\\tan^{-1}\\bigl(2(x-1)\\bigr)\\end{align*}$\nThe principal inverse tangent satisfies the given range for every real $x$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

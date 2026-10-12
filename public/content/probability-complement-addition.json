@@ -2,8 +2,8 @@
   "skillId": "probability-complement-addition",
   "atomType": "R",
   "theory": {
-        "intro": "The **complement rule** gives the chance an event does not happen: $P(A') = 1 - P(A)$. The **addition rule** gives the chance at least one of two events happens: $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$.",
-        "facts": [
+"intro": "The **complement rule** gives the chance an event does not happen: $P(A') = 1 - P(A)$. The **addition rule** gives the chance at least one of two events happens: $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$.",
+"facts": [
 "Complement rule: $P(A') = 1 - P(A)$, because $P(A) + P(A') = 1$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[blue!15, even odd rule] (0,0) rectangle (8,4.8) (4,2.4) circle (1.9);\n\\draw (0,0) rectangle (8,4.8);\n\\draw (4,2.4) circle (1.9);\n\\node[anchor=north west, font=\\small] at (0.15,4.7) {$\\xi$};\n\\node at (4,2.4) {$A$};\n\\node[below] at (4,-0.15) {$A'$};\n\\end{tikzpicture}\n[/tikz]",
 "Addition rule: $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.8);\n\\fill[blue!15] (2.9,2.4) circle (1.9);\n\\fill[blue!15] (5.1,2.4) circle (1.9);\n\\draw (2.9,2.4) circle (1.9);\n\\draw (5.1,2.4) circle (1.9);\n\\node[anchor=north west, font=\\small] at (0.15,4.7) {$\\xi$};\n\\node at (1.9,3.7) {$A$};\n\\node at (6.1,3.7) {$B$};\n\\node[below] at (4,-0.15) {$A \\cup B$};\n\\end{tikzpicture}\n[/tikz]",
 "Rearranged for the overlap, $P(A \\cap B) = P(A) + P(B) - P(A \\cup B)$.",
@@ -11,13 +11,64 @@
 "Probability of $A$ only: $P(A \\cap B') = P(A) - P(A \\cap B)$.",
 "Probability of neither event: $P(A' \\cap B') = 1 - P(A \\cup B)$."
 ],
-        "steps": [
+"steps": [
 "For an addition-rule question, draw a Venn diagram to visualise the scenario.",
 "Identify whether the events are mutually exclusive ($P(A \\cap B) = 0$) or have an overlap.",
 "Select the rule: $P(A') = 1 - P(A)$ or $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$.",
 "Substitute the given probabilities and simplify the resulting fraction or decimal."
+],
+"workedExamples": [
+  {
+    "question_text": "The probability that a parcel arrives on time is $\\frac{11}{15}$. Find the probability that it does not arrive on time.",
+    "solution_text": "Let $A$ be the event that the parcel arrives on time. Its complement is arriving late.\n\n$\\begin{aligned}P(A')&=1-P(A)\\\\&=1-\\frac{11}{15}\\\\&=\\frac{4}{15}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "One card is selected at random from $40$ cards numbered $1$ to $40$. Let $A$ be the event that its number is even and $B$ the event that its number is less than $13$.\n\n(a) Use the addition rule to find $P(A\\cup B)$.\n\n(b) Hence find the probability that neither event occurs.",
+    "solution_text": "There are $20$ even numbers, $12$ numbers less than $13$, and $6$ even numbers less than $13$. Place the overlap first, then subtract to find the other regions.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) rectangle (7,4);\n\\draw (2.6,2) circle (1.5);\n\\draw (4.4,2) circle (1.5);\n\\node at (0.35,3.65) {$S$};\n\\node at (1.8,3) {$A$};\n\\node at (5.2,3) {$B$};\n\\node at (1.8,1.9) {$14$};\n\\node at (3.5,2) {$6$};\n\\node at (5.2,1.9) {$6$};\n\\node at (6.35,0.45) {$14$};\n\\end{tikzpicture}\n[/tikz]\n\n(a)\n\n$\\begin{aligned}P(A\\cup B)&=P(A)+P(B)-P(A\\cap B)\\\\&=\\frac{20}{40}+\\frac{12}{40}-\\frac{6}{40}\\\\&=\\frac{26}{40}\\\\&=\\frac{13}{20}\\end{aligned}$\n\n(b) Neither event is the complement of the union.\n\n$\\begin{aligned}P(A'\\cap B')&=1-P(A\\cup B)\\\\&=1-\\frac{13}{20}\\\\&=\\frac{7}{20}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A bag contains $5$ red, $4$ green, $3$ blue and $8$ yellow counters. One counter is selected at random.\n\n(a) Find the probability that it is red, green or blue.\n\n(b) Hence find the probability that it is yellow.",
+    "solution_text": "A single counter has only one colour, so the colour events are mutually exclusive. There are $20$ counters altogether.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) rectangle (8,3.1);\n\\draw (1.5,1.65) circle (0.9);\n\\draw (4,1.65) circle (0.9);\n\\draw (6.5,1.65) circle (0.9);\n\\node at (0.3,2.8) {$S$};\n\\node at (1.5,2) {$R$};\n\\node at (1.5,1.3) {$5$};\n\\node at (4,2) {$G$};\n\\node at (4,1.3) {$4$};\n\\node at (6.5,2) {$B$};\n\\node at (6.5,1.3) {$3$};\n\\node at (4,0.35) {Yellow: $8$};\n\\end{tikzpicture}\n[/tikz]\n\n(a)\n\n$\\begin{aligned}P(R\\cup G\\cup B)&=P(R)+P(G)+P(B)\\\\&=\\frac{5}{20}+\\frac{4}{20}+\\frac{3}{20}\\\\&=\\frac{3}{5}\\end{aligned}$\n\n(b)\n\n$\\begin{aligned}P(Y)&=1-P(R\\cup G\\cup B)\\\\&=1-\\frac{3}{5}\\\\&=\\frac{2}{5}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two events satisfy $P(A)=0.48$, $P(B)=0.37$ and $P(A\\cup B)=0.70$.\n\n(a) Find $P(A\\cap B)$.\n\n(b) Find $P(A'\\cap B)$.",
+    "solution_text": "(a) Rearrange the addition rule to find the overlap.\n\n$\\begin{aligned}P(A\\cap B)&=P(A)+P(B)-P(A\\cup B)\\\\&=0.48+0.37-0.70\\\\&=0.15\\end{aligned}$\n\nThe remaining regions follow by subtraction.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) rectangle (7,4);\n\\draw (2.6,2) circle (1.5);\n\\draw (4.4,2) circle (1.5);\n\\node at (0.35,3.65) {$S$};\n\\node at (1.8,3) {$A$};\n\\node at (5.2,3) {$B$};\n\\node at (1.8,1.9) {$0.33$};\n\\node at (3.5,2) {$0.15$};\n\\node at (5.2,1.9) {$0.22$};\n\\node at (6.35,0.45) {$0.30$};\n\\end{tikzpicture}\n[/tikz]\n\n(b) $A'\\cap B$ is the part of $B$ outside the overlap.\n\n$\\begin{aligned}P(A'\\cap B)&=P(B)-P(A\\cap B)\\\\&=0.37-0.15\\\\&=0.22\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "At a service, the probability that a machine needs an oil change is $\\frac{7}{10}$, and the probability that it needs both an oil change and a filter change is $\\frac{1}{5}$. Find the probability that it needs an oil change without a filter change.",
+    "solution_text": "Let $O$ denote an oil change and $F$ a filter change. Remove the overlap from $O$ to find $O$ only. The shaded region is the required event; the other probabilities are unspecified.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{requiredFill}{HTML}{D4E8FF}\n\\begin{scope}\n\\clip (2.6,2) circle (1.5);\n\\fill[requiredFill] (0,0) rectangle (7,4);\n\\fill[white] (4.4,2) circle (1.5);\n\\end{scope}\n\\draw (0,0) rectangle (7,4);\n\\draw (2.6,2) circle (1.5);\n\\draw (4.4,2) circle (1.5);\n\\node at (0.35,3.65) {$S$};\n\\node at (1.8,3) {$O$};\n\\node at (5.2,3) {$F$};\n\\node at (1.8,1.9) {$\\frac{1}{2}$};\n\\node at (3.5,2) {$\\frac{1}{5}$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{aligned}P(O\\cap F')&=P(O)-P(O\\cap F)\\\\&=\\frac{7}{10}-\\frac{1}{5}\\\\&=\\frac{5}{10}\\\\&=\\frac{1}{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two events have $P(A)=\\frac{m}{m+n}$, $P(B)=\\frac{n}{m+n}$ and $P(A\\cap B)=\\frac{1}{m+n}$, where $m,n$ are positive integers and $m+n=30$. If $P(A\\cap B')=0.40$, find $m$ and $n$.",
+    "solution_text": "Subtract the overlap from $A$ to find $A$ only.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) rectangle (8,4.4);\n\\draw (3,2.2) circle (1.7);\n\\draw (5,2.2) circle (1.7);\n\\node at (0.35,4.05) {$S$};\n\\node at (2,3.3) {$A$};\n\\node at (6,3.3) {$B$};\n\\node at (2,2) {$\\frac{m-1}{30}$};\n\\node at (4,2.2) {$\\frac{1}{30}$};\n\\node at (6,2) {$\\frac{n-1}{30}$};\n\\node at (7.3,0.45) {$\\frac{1}{30}$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{aligned}P(A\\cap B')&=P(A)-P(A\\cap B)\\\\&=\\frac{m}{m+n}-\\frac{1}{m+n}\\\\&=\\frac{m-1}{30}\\end{aligned}$\n\nUse the given probability to find $m$, then use the total to find $n$.\n\n$\\begin{aligned}\\frac{m-1}{30}&=0.40\\\\m-1&=12\\\\m&=13\\end{aligned}$\n\n$\\begin{aligned}n&=30-13\\\\&=17\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Events $A$ and $B$ satisfy $P(A)=\\frac{3}{5}$, $P(B)=\\frac{1}{2}$ and $P(A\\cap B)=\\frac{3}{10}$. Find $P(A'\\cup B')$, the probability that at least one event does not occur.",
+    "solution_text": "At least one event does not occur exactly when it is not the case that both events occur. Thus $A'\\cup B'$ is the complement of $A\\cap B$. The shaded regions show this complement.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{requiredFill}{HTML}{D4E8FF}\n\\fill[requiredFill] (0,0) rectangle (7,4);\n\\begin{scope}\n\\clip (2.6,2) circle (1.5);\n\\fill[white] (4.4,2) circle (1.5);\n\\end{scope}\n\\draw (0,0) rectangle (7,4);\n\\draw (2.6,2) circle (1.5);\n\\draw (4.4,2) circle (1.5);\n\\node at (0.35,3.65) {$S$};\n\\node at (1.8,3) {$A$};\n\\node at (5.2,3) {$B$};\n\\node at (1.8,1.9) {$\\frac{3}{10}$};\n\\node at (3.5,2) {$\\frac{3}{10}$};\n\\node at (5.2,1.9) {$\\frac{1}{5}$};\n\\node at (6.35,0.45) {$\\frac{1}{5}$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{aligned}P(A'\\cup B')&=1-P(A\\cap B)\\\\&=1-\\frac{3}{10}\\\\&=\\frac{7}{10}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

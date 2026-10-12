@@ -2,21 +2,44 @@
   "skillId": "predict-from-regression-equation",
   "atomType": "R",
   "theory": {
-    "intro": "A regression equation $y = a + bx$ links two variables. To predict, decide whether the value you are given is the independent variable $x$ or the dependent variable $y$, substitute it, then solve for the other.",
-    "facts": [
+"intro": "A regression equation $y = a + bx$ links two variables. To predict, decide whether the value you are given is the independent variable $x$ or the dependent variable $y$, substitute it, then solve for the other.",
+"facts": [
       "The letter multiplied by the gradient is the **independent variable**; the letter on its own is the **dependent variable**.",
       "Substituting a value of $x$ gives $y$ straight away, with no equation to solve.",
       "Substituting a value of $y$ leaves an equation to solve for $x$: undo the constant term first, then divide by the gradient.",
       "Equations are usually written with the letters of the context, such as $M = 0.312A + 0.157$, so match each letter to its variable before substituting.",
       "Give the prediction to a sensible accuracy and keep the units of the variable you found."
     ],
-    "steps": [
+"steps": [
       "Identify whether the given value is the independent variable $x$ or the dependent variable $y$.",
       "Substitute the value into the equation.",
       "Solve for the remaining variable.",
       "State the answer with its units."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A regression equation relating armspan and height is $h = 1.15a - 29$, where $a$ is armspan in centimetres and $h$ is height in centimetres.\n(a) Identify the independent and dependent variables, then predict the height of someone with an armspan of $180$ cm.\n(b) Predict the armspan of someone whose height is $168$ cm. Give your answer correct to two decimal places.",
+    "solution_text": "(a) Armspan $a$ is the independent variable; height $h$ is the dependent variable. Substitute $a = 180$.\n$\\begin{aligned}h &= 1.15(180)-29\\\\h &= 207-29\\\\h &= 178\\end{aligned}$\nThe predicted height is $178$ cm.\n\n(b) The given height is the dependent value, so substitute $h = 168$ and solve for $a$.\n$\\begin{aligned}168 &= 1.15a-29\\\\197 &= 1.15a\\\\a &= \\frac{197}{1.15}\\\\a &\\approx 171.30\\end{aligned}$\nThe predicted armspan is $171.30$ cm.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A survey models a hotel's nightly room rate using $C = -48.25d + 295.60$, where $C$ is the cost in dollars and $d$ is the distance from a landmark in kilometres.\n(a) Predict the room rate for a hotel $2.8$ km from the landmark, correct to the nearest cent.\n(b) Predict the distance from the landmark for a hotel with a nightly room rate of $\\$130$. Give your answer correct to two decimal places.",
+    "solution_text": "(a) Distance is the independent variable, so substitute $d = 2.8$.\n$\\begin{aligned}C &= -48.25(2.8)+295.60\\\\C &= -135.10+295.60\\\\C &= 160.50\\end{aligned}$\nThe predicted nightly room rate is $\\$160.50$.\n\n(b) Cost is the dependent variable, so substitute $C = 130$.\n$\\begin{aligned}130 &= -48.25d+295.60\\\\48.25d &= 295.60-130\\\\48.25d &= 165.60\\\\d &= \\frac{165.60}{48.25}\\\\d &\\approx 3.43\\end{aligned}$\nThe predicted distance is $3.43$ km.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A survey models the number of insects caught using $I = 0.52 + 1.08s$, where $I$ is the number of insects caught and $s$ is a spider's web area in square centimetres.\nIdentify which variable is given for a web of area $48$ cm$^2$, then predict the number of insects caught, correct to the nearest whole number.",
+    "solution_text": "Web area is $s$, the independent variable, so substitute $s = 48$.\n$\\begin{aligned}I &= 0.52+1.08(48)\\\\I &= 0.52+51.84\\\\I &= 52.36\\end{aligned}$\nRounded to the nearest whole number, the model predicts $52$ insects.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

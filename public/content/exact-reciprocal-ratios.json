@@ -2,8 +2,8 @@
   "skillId": "exact-reciprocal-ratios",
   "atomType": "R",
   "theory": {
-        "intro": "Exact values of $\\sec\\theta$ and $\\operatorname{cosec}\\theta$ come from inverting the exact values of $\\cos\\theta$ and $\\sin\\theta$ where these are nonzero. Find $\\cot\\theta$ by inverting $\\tan\\theta$ only where tangent is defined and nonzero. At $\\pi/2$ and $3\\pi/2$, use $\\cot\\theta=\\cos\\theta/\\sin\\theta=0$. For angles away from quadrant boundaries, work with the acute reference angle and take the sign from ASTC.",
-        "facts": [
+"intro": "Exact values of $\\sec\\theta$ and $\\operatorname{cosec}\\theta$ come from inverting the exact values of $\\cos\\theta$ and $\\sin\\theta$ where these are nonzero. Find $\\cot\\theta$ by inverting $\\tan\\theta$ only where tangent is defined and nonzero. At $\\pi/2$ and $3\\pi/2$, use $\\cot\\theta=\\cos\\theta/\\sin\\theta=0$. For angles away from quadrant boundaries, work with the acute reference angle and take the sign from ASTC.",
+"facts": [
           "$\\begin{array}{c|ccccc}\\theta & 0 & \\frac{\\pi}{6} & \\frac{\\pi}{4} & \\frac{\\pi}{3} & \\frac{\\pi}{2} \\\\ \\hline \\operatorname{cosec}\\theta & \\text{undefined} & 2 & \\sqrt{2} & \\frac{2}{\\sqrt{3}} & 1 \\\\ \\sec\\theta & 1 & \\frac{2}{\\sqrt{3}} & \\sqrt{2} & 2 & \\text{undefined} \\\\ \\cot\\theta & \\text{undefined} & \\sqrt{3} & 1 & \\frac{1}{\\sqrt{3}} & 0 \\end{array}$",
           "Leave surds exact: $\\dfrac{2}{\\sqrt{3}}$ and $\\dfrac{1}{\\sqrt{3}}$, or rationalised as $\\dfrac{2\\sqrt{3}}{3}$ and $\\dfrac{\\sqrt{3}}{3}$.",
           "Each reciprocal shares its partner's sign: $\\operatorname{cosec}\\theta$ is positive in Q1 and Q2, $\\sec\\theta$ in Q1 and Q4, $\\cot\\theta$ in Q1 and Q3.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-3.4,0)--(3.4,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-2.6)--(0,2.6) node[above] {$y$};\n\\node at (1.7,1.6) {$A$};\n\\node[font=\\small] at (1.7,0.85) {$\\sin$, $\\cos$, $\\tan$};\n\\node at (-1.7,1.6) {$S$};\n\\node[font=\\small] at (-1.7,0.85) {$\\sin$, $\\operatorname{cosec}$};\n\\node at (-1.7,-1.6) {$T$};\n\\node[font=\\small] at (-1.7,-0.85) {$\\tan$, $\\cot$};\n\\node at (1.7,-1.6) {$C$};\n\\node[font=\\small] at (1.7,-0.85) {$\\cos$, $\\sec$};\n\\end{tikzpicture}\n[/tikz]",
@@ -11,13 +11,35 @@
           "$\\operatorname{cosec}\\theta$ and $\\cot\\theta$ are undefined at multiples of $\\pi$ ($0, \\pi, 2\\pi$); $\\sec\\theta$ is undefined at $\\frac{\\pi}{2}$ and $\\frac{3\\pi}{2}$.",
           "For a negative angle, or one beyond $2\\pi$, add or subtract $2\\pi$ (or $360^{\\circ}$) to reach a coterminal angle."
         ],
-        "steps": [
+"steps": [
 "Check whether the angle is a quadrant boundary, using a coterminal angle if needed. If it is, use the exact sine and cosine values directly; for cotangent use $\\cot\\theta=\\cos\\theta/\\sin\\theta$. State undefined when the denominator is zero",
 "For other angles, determine the quadrant and the acute reference angle",
 "Recall or compute the exact reciprocal value for the reference angle",
 "Apply the ASTC sign for that reciprocal ratio in the given quadrant"
+],
+"workedExamples": [
+  {
+    "question_text": "Find the exact values of $\\operatorname{cosec}60^{\\circ}$, $\\sec30^{\\circ}$ and $\\cot45^{\\circ}$.",
+    "solution_text": "Invert the exact sine, cosine and tangent values.\n\n$\\begin{aligned}\\operatorname{cosec}60^{\\circ}&=\\frac{1}{\\sin60^{\\circ}}=\\frac{1}{\\sqrt{3}/2}=\\frac{2}{\\sqrt{3}}\\\\\\sec30^{\\circ}&=\\frac{1}{\\cos30^{\\circ}}=\\frac{1}{\\sqrt{3}/2}=\\frac{2}{\\sqrt{3}}\\\\\\cot45^{\\circ}&=\\frac{1}{\\tan45^{\\circ}}=1\\end{aligned}$"
+  },
+  {
+    "question_text": "Find the exact values of $\\sec240^{\\circ}$ and $\\operatorname{cosec}\\frac{7\\pi}{4}$.",
+    "solution_text": "$240^{\\circ}$ is in Q3, where secant is negative. Its reference angle is $240^{\\circ}-180^{\\circ}=60^{\\circ}$.\n\n$\\begin{aligned}\\sec240^{\\circ}&=-\\sec60^{\\circ}\\\\&=-\\frac{1}{\\cos60^{\\circ}}\\\\&=-2\\end{aligned}$\n\n$\\frac{7\\pi}{4}$ is in Q4, where cosecant is negative. Its reference angle is $2\\pi-\\frac{7\\pi}{4}=\\frac{\\pi}{4}$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[->] (-2.3,0)--(2.5,0) node[right] {$x$};\n\\draw[->] (0,-2.3)--(0,2.3) node[above] {$y$};\n\\draw (0,0) circle (2);\n\\draw (0,0)--(1.4142,-1.4142);\n\\draw[dashed] (1.4142,-1.4142)--(1.4142,0);\n\\draw (1.2342,0)--(1.2342,-0.18)--(1.4142,-0.18);\n\\draw (0.7,0) arc[start angle=0,end angle=-45,radius=0.7];\n\\path (0.95,-0.48) node[inner sep=2pt] {$\\displaystyle\\frac{\\pi}{4}$};\n\\path (2.05,-1.85) node {$\\mathrm{Q4}$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{aligned}\\operatorname{cosec}\\frac{7\\pi}{4}&=-\\operatorname{cosec}\\frac{\\pi}{4}\\\\&=-\\frac{1}{\\sin(\\pi/4)}\\\\&=-\\sqrt{2}\\end{aligned}$"
+  },
+  {
+    "question_text": "Evaluate $\\sec2\\pi$, $\\operatorname{cosec}\\pi$ and $\\cot\\frac{3\\pi}{2}$, or state that the value is undefined.",
+    "solution_text": "Use sine and cosine directly at quadrant boundaries.\n\n$\\sec2\\pi=\\frac{1}{\\cos2\\pi}=\\frac{1}{1}=1$.\n\nSince $\\sin\\pi=0$, $\\operatorname{cosec}\\pi$ is undefined.\n\n$\\cot\\frac{3\\pi}{2}=\\frac{\\cos(3\\pi/2)}{\\sin(3\\pi/2)}=\\frac{0}{-1}=0$.\n\nTangent is undefined at $\\frac{3\\pi}{2}$, so its reciprocal cannot be used here."
+  },
+  {
+    "question_text": "Evaluate $\\operatorname{cosec}^{2}60^{\\circ}+\\sec120^{\\circ}\\cot45^{\\circ}$ in exact simplified form.",
+    "solution_text": "$\\operatorname{cosec}60^{\\circ}=\\frac{2}{\\sqrt{3}}$ and $\\cot45^{\\circ}=1$. Since $120^{\\circ}$ is in Q2 with reference angle $60^{\\circ}$, $\\sec120^{\\circ}=-2$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\operatorname{cosec}^{2}60^{\\circ}+\\sec120^{\\circ}\\cot45^{\\circ}\\\\&=\\left(\\frac{2}{\\sqrt{3}}\\right)^2+(-2)(1)\\\\&=\\frac{4}{3}-2\\\\&=-\\frac{2}{3}\\end{aligned}$"
+  },
+  {
+    "question_text": "Find the exact value of $\\cot\\left(-\\frac{13\\pi}{6}\\right)$.",
+    "solution_text": "Add $4\\pi$ to obtain a coterminal angle between $0$ and $2\\pi$.\n\n$-\\frac{13\\pi}{6}+4\\pi=\\frac{11\\pi}{6}$.\n\n$\\frac{11\\pi}{6}$ is in Q4, where cotangent is negative. Its reference angle is $2\\pi-\\frac{11\\pi}{6}=\\frac{\\pi}{6}$.\n\n$\\begin{aligned}\\cot\\left(-\\frac{13\\pi}{6}\\right)&=\\cot\\frac{11\\pi}{6}\\\\&=-\\cot\\frac{\\pi}{6}\\\\&=-\\frac{1}{\\tan(\\pi/6)}\\\\&=-\\sqrt{3}\\end{aligned}$"
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
       {

@@ -2,20 +2,64 @@
   "skillId": "pythagoras-3d",
   "atomType": "R",
   "theory": {
-    "intro": "Many 3D lengths come from a right-angled triangle hidden inside the solid: a diagonal across a face, the slant height of a cone, or the longest rod inside a cylinder. Keep a surd exact unless the question asks you to round.",
-    "facts": [
+"intro": "Many 3D lengths come from a right-angled triangle hidden inside the solid: a diagonal across a face, the slant height of a cone, or the longest rod inside a cylinder. Keep a surd exact unless the question asks you to round.",
+"facts": [
       "A **face diagonal** crosses one face and is the **hypotenuse** of a right-angled triangle whose shorter sides are two **edges** of that face.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.5,0);\n\\coordinate (C) at (4.5,3);\n\\coordinate (D) at (0,3);\n\\coordinate (A2) at (1.559,0.9);\n\\coordinate (B2) at (6.059,0.9);\n\\coordinate (C2) at (6.059,3.9);\n\\coordinate (D2) at (1.559,3.9);\n\\draw (A)--(B) node[midway,below] {$a$};\n\\draw (B)--(C) node[midway,right] {$b$};\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\draw (B)--(B2)--(C2)--(C);\n\\draw (D)--(D2)--(C2);\n\\draw[dashed] (A)--(A2);\n\\draw[dashed] (A2)--(B2);\n\\draw[dashed] (A2)--(D2);\n\\coordinate (ra) at ($(B)!0.32cm!(A)$);\n\\coordinate (rb) at ($(B)!0.32cm!(C)$);\n\\draw (ra)--($(ra)+(rb)-(B)$)--(rb);\n\\draw[blue,thick] (A)--(C);\n\\node at (2.15,2.15) {$d$};\n\\end{tikzpicture}\n[/tikz]",
       "To find a face diagonal, add the squares of the two edges: $d=\\sqrt{a^{2}+b^{2}}$.",
       "The **slant height** of a cone is the hypotenuse of a triangle with shorter sides the **radius** and the **perpendicular height**: $s=\\sqrt{r^{2}+h^{2}}$.\n\n[tikz]% mathsmap-solid {\"version\":1,\"kind\":\"analytic-cone\",\"radius\":1.8,\"projectedRadius\":0.6,\"height\":2.6000625471443057}\n\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (T) at (0,2.6);\n\\coordinate (P) at (1.751,-0.1385);\n\\coordinate (Q) at (-1.751,-0.1385);\n\\coordinate (R) at (1.8,0);\n\\draw[dashed] (1.75098523,0.13839566) arc (13.3420369:166.6579631:1.8 and 0.6);\n\\draw (-1.75185014,0.13839566) arc (166.6579631:373.3420369:1.8 and 0.6);\n\\draw (T)--(1.75098523,0.13839566);\n\\draw (T)--(-1.75185014,0.13839566);\n\\draw[dashed] (O)--(T);\n\\draw[dashed] (O)--(R);\n\\coordinate (ra) at ($(O)!0.3cm!(R)$);\n\\coordinate (rb) at ($(O)!0.3cm!(T)$);\n\\draw (ra)--($(ra)+(rb)-(O)$)--(rb);\n\\node at (1.0,0.26) {$r$};\n\\node at (-0.36,1.3) {$h$};\n\\node at (1.45,1.36) {$s$};\n\\end{tikzpicture}\n[/tikz]",
       "To find a shorter side instead of the hypotenuse, subtract: $a=\\sqrt{d^{2}-b^{2}}$.",
       "Leave a surd such as $\\sqrt{61}$ for an exact answer; round only when the question asks."
     ],
-    "steps": [
+"steps": [
       "Identify the right-angled triangle and its two known sides.",
       "Decide whether the unknown is the hypotenuse or a shorter side.",
       "Apply Pythagoras' theorem and round only if required."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A rectangular prism has a top face with edges $7\\text{ cm}$ and $10\\text{ cm}$. Find the diagonal $d$ across this face. Give an exact answer, then round to $2$ decimal places.",
+    "solution_text": "The face diagonal is the hypotenuse of a right-angled triangle formed by the two face edges.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,0);\n\\coordinate (C) at (0,2.8);\n\\draw (A)--(B)--(C)--cycle;\n\\draw (0.25,0)--(0.25,0.25)--(0,0.25);\n\\path (A)--(B) node[midway,below] {$10\\text{ cm}$};\n\\path (A)--(C) node[midway,left] {$7\\text{ cm}$};\n\\path (B)--(C) node[midway,above right] {$d$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{aligned}d^{2}&=7^{2}+10^{2}\\\\d^{2}&=149\\\\d&=\\sqrt{149}\\text{ cm}\\\\d&\\approx12.21\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A cone has perpendicular height $7\\text{ cm}$ and base radius $3\\text{ cm}$. Find its slant height $s$, rounded to $1$ decimal place.",
+    "solution_text": "A section through the cone's axis gives a right-angled triangle with the radius and perpendicular height as its shorter sides.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\n\\coordinate (R) at (1.5,0);\n\\coordinate (T) at (0,3.5);\n\\draw (O)--(R)--(T)--cycle;\n\\draw (0.25,0)--(0.25,0.25)--(0,0.25);\n\\path (O)--(R) node[midway,below] {$3\\text{ cm}$};\n\\path (O)--(T) node[midway,left] {$7\\text{ cm}$};\n\\path (R)--(T) node[midway,above right] {$s$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{aligned}s^{2}&=3^{2}+7^{2}\\\\s^{2}&=58\\\\s&=\\sqrt{58}\\\\s&\\approx7.6\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A cylinder has diameter $12\\text{ cm}$ and height $17\\text{ cm}$. Find the length $L$ of the longest thin straight rod that fits inside it, rounded to $1$ decimal place.",
+    "solution_text": "The longest rod joins opposite points on the bottom and top rims. A section through the cylinder's axis gives a rectangle; the rod is its diagonal.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.4,0);\n\\coordinate (C) at (2.4,3.4);\n\\coordinate (D) at (0,3.4);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(C);\n\\draw (2.15,0)--(2.15,0.25)--(2.4,0.25);\n\\path (A)--(B) node[midway,below] {$12\\text{ cm}$};\n\\path (B)--(C) node[midway,right] {$17\\text{ cm}$};\n\\path (A)--(C) node[midway,above left] {$L$};\n\\end{tikzpicture}\n[/tikz]\n\nUse the diameter and height as the shorter sides.\n\n$\\begin{aligned}L^{2}&=12^{2}+17^{2}\\\\L^{2}&=433\\\\L&=\\sqrt{433}\\\\L&\\approx20.8\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A cone has perpendicular height $10\\text{ cm}$ and slant height $14\\text{ cm}$. Find its base diameter, rounded to $2$ decimal places.",
+    "solution_text": "The slant height is the hypotenuse. First find the radius $r$ by subtracting the squares.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\n\\coordinate (R) at (2.94,0);\n\\coordinate (T) at (0,3);\n\\draw (O)--(R)--(T)--cycle;\n\\draw (0.25,0)--(0.25,0.25)--(0,0.25);\n\\path (O)--(R) node[midway,below] {$r$};\n\\path (O)--(T) node[midway,left] {$10\\text{ cm}$};\n\\path (R)--(T) node[midway,above right] {$14\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{aligned}r^{2}+10^{2}&=14^{2}\\\\r^{2}&=196-100\\\\r&=\\sqrt{96}\\text{ cm}\\end{aligned}$\n\nThe diameter is twice the radius. Keep the radius exact until the final calculation.\n\n$\\begin{aligned}d&=2\\sqrt{96}\\\\d&\\approx19.60\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A cylinder has base radius $4\\text{ cm}$. Its longest thin straight rod is $19\\text{ cm}$ long, joining opposite points on the two end rims. Find the cylinder's length $l$, rounded to $2$ decimal places.",
+    "solution_text": "First convert the radius to the diameter: $d=2\\times4=8\\text{ cm}$.\n\nA section through the axis gives a rectangle with the rod as its diagonal.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.45,0);\n\\coordinate (C) at (3.45,1.6);\n\\coordinate (D) at (0,1.6);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(C);\n\\draw (3.2,0)--(3.2,0.25)--(3.45,0.25);\n\\path (A)--(B) node[midway,below] {$l$};\n\\path (B)--(C) node[midway,right] {$8\\text{ cm}$};\n\\path (A)--(C) node[midway,above left] {$19\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\n\nThe cylinder length is a shorter side, so subtract the squares.\n\n$\\begin{aligned}l^{2}+8^{2}&=19^{2}\\\\l^{2}&=361-64\\\\l&=\\sqrt{297}\\\\l&\\approx17.23\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A pyramid has a rectangular base measuring $8\\text{ cm}$ by $6\\text{ cm}$. Its apex $E$ is directly above the centre $O$ of the base. Each apex-to-corner edge is $13\\text{ cm}$. Find the perpendicular height $h$, rounded to $1$ decimal place.",
+    "solution_text": "First find the base diagonal $AC$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.2,0);\n\\coordinate (C) at (3.2,2.4);\n\\coordinate (D) at (0,2.4);\n\\coordinate (O) at (1.6,1.2);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(C);\n\\draw (2.95,0)--(2.95,0.25)--(3.2,0.25);\n\\fill (O) circle (1.2pt);\n\\path (A)--(B) node[midway,below] {$8\\text{ cm}$};\n\\path (B)--(C) node[midway,right] {$6\\text{ cm}$};\n\\path (A) node[below left] {$A$};\n\\path (C) node[above right] {$C$};\n\\path (O) node[above left] {$O$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{aligned}AC^{2}&=8^{2}+6^{2}\\\\AC^{2}&=100\\\\AC&=10\\text{ cm}\\end{aligned}$\n\nThe centre bisects the diagonal, so $OC=\\frac{10}{2}=5\\text{ cm}$.\n\nSince the apex is directly above $O$, triangle $EOC$ is right-angled at $O$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\n\\coordinate (C) at (1.5,0);\n\\coordinate (E) at (0,3.6);\n\\draw (O)--(C)--(E)--cycle;\n\\draw (0.25,0)--(0.25,0.25)--(0,0.25);\n\\path (O)--(C) node[midway,below] {$5\\text{ cm}$};\n\\path (O)--(E) node[midway,left] {$h$};\n\\path (C)--(E) node[midway,above right] {$13\\text{ cm}$};\n\\path (O) node[below left] {$O$};\n\\path (C) node[below right] {$C$};\n\\path (E) node[above] {$E$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{aligned}h^{2}+5^{2}&=13^{2}\\\\h^{2}&=169-25\\\\h&=\\sqrt{144}\\\\h&=12.0\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,8 +2,8 @@
   "skillId": "sine-rule-angles",
   "atomType": "R",
   "theory": {
-        "intro": "To find an **angle**, use the sine rule with $\\sin$ on top: $\\dfrac{\\sin A}{a}=\\dfrac{\\sin B}{b}=\\dfrac{\\sin C}{c}$. You need a complete opposite pair and the side opposite the angle you want.",
-        "facts": [
+"intro": "To find an **angle**, use the sine rule with $\\sin$ on top: $\\dfrac{\\sin A}{a}=\\dfrac{\\sin B}{b}=\\dfrac{\\sin C}{c}$. You need a complete opposite pair and the side opposite the angle you want.",
+"facts": [
 "The sine rule for an angle is $\\dfrac{\\sin A}{a}=\\dfrac{\\sin B}{b}=\\dfrac{\\sin C}{c}$: the sine of each angle over its opposite side.",
 "Keeping $\\sin$ in the numerator means one step isolates $\\sin\\theta$, then $\\theta=\\sin^{-1}(\\ldots)$.",
 "Because $\\sin\\theta=\\sin(180^{\\circ}-\\theta)$, two triangle angles can have the same sine. For a positive sine below $1$, the calculator's $\\sin^{-1}$ gives the **acute** principal value; for sine $1$, it gives $90^{\\circ}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (L) at (-2.8,0);\n\\coordinate (R) at (2.8,0);\n\\coordinate (P) at (35:2.6);\n\\draw (L)--(R);\n\\draw (O)--(P);\n\\pic[draw,\"$\\theta$\",angle radius=0.75cm,angle eccentricity=1.7] {angle=R--O--P};\n\\pic[draw,\"$180^{\\circ}-\\theta$\",angle radius=1.3cm,angle eccentricity=1.45] {angle=P--O--L};\n\\end{tikzpicture}\n[/tikz]",
@@ -12,14 +12,37 @@
 "You need the side opposite the angle you want, plus a complete opposite pair (a side and its opposite angle).",
 "Keep the full calculator value until the last line, then round."
 ],
-        "steps": [
+"steps": [
 "Write the sine rule with $\\sin$ on top, the unknown angle's sine on top",
 "Substitute the known angle and the two sides",
 "Make $\\sin$ of the unknown angle the subject",
 "Take the inverse sine to find the principal value: acute for a positive sine below $1$, or $90^{\\circ}$ for sine $1$",
 "For an acute principal value, also consider its supplement $180^{\\circ}-\\theta$. Use the stated angle condition or clear diagram indication and check compatibility with the triangle; if both values remain valid, give both"
+],
+"workedExamples": [
+  {
+    "question_text": "Solve $\\dfrac{\\sin\\theta}{8}=\\dfrac{\\sin45^{\\circ}}{16}$ for the acute angle $\\theta$, correct to the nearest minute.",
+    "solution_text": "$\\begin{aligned}\\dfrac{\\sin\\theta}{8}&=\\dfrac{\\sin45^{\\circ}}{16}\\\\\\sin\\theta&=\\dfrac{8\\sin45^{\\circ}}{16}\\\\\\theta&=\\sin^{-1}\\left(\\dfrac{8\\sin45^{\\circ}}{16}\\right)\\\\&=20.7048\\ldots^{\\circ}\\\\&\\approx20^{\\circ}42'\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Buoys $A$, $B$ and $C$ mark a triangular sailing course. Find the acute angle $\\theta=\\angle ABC$, correct to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.1394,0);\n\\coordinate (C) at (1.2,2.07846);\n\\draw (A)--(B)--(C)--cycle;\n\\path (A)--(C) node[midway,above left] {$8\\text{ km}$};\n\\path (B)--(C) node[midway,above right] {$12\\text{ km}$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\pic[draw,angle radius=6mm,angle eccentricity=1.5,\"$60^{\\circ}$\"] {angle=B--A--C};\n\\pic[draw,angle radius=7mm,angle eccentricity=1.5,\"$\\theta$\"] {angle=C--B--A};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\theta$ is opposite $AC=8$ km. The complete opposite pair is $\\angle A=60^{\\circ}$ and $BC=12$ km.\n\n$\\begin{aligned}\\dfrac{\\sin\\theta}{8}&=\\dfrac{\\sin60^{\\circ}}{12}\\\\\\sin\\theta&=\\dfrac{8\\sin60^{\\circ}}{12}\\\\\\theta&=\\sin^{-1}\\left(\\dfrac{8\\sin60^{\\circ}}{12}\\right)\\\\&=35.2643\\ldots^{\\circ}\\\\&\\approx35.3^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A leaning brace forms triangle $ABC$. Given that $\\theta=\\angle ACB$ is obtuse, find $\\theta$, correct to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.8,0);\n\\coordinate (C) at (1.76697,1.02016);\n\\draw (A)--(B)--(C)--cycle;\n\\path (A)--(B) node[midway,below] {$12\\text{ m}$};\n\\path (B)--(C) node[midway,above right] {$8\\text{ m}$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\pic[draw,angle radius=7mm,angle eccentricity=1.5,\"$30^{\\circ}$\"] {angle=B--A--C};\n\\pic[draw,angle radius=4mm,angle eccentricity=1.6,\"$\\theta$\"] {angle=A--C--B};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\theta$ is opposite $AB=12$ m. The complete opposite pair is $\\angle A=30^{\\circ}$ and $BC=8$ m.\n\n$\\begin{aligned}\\dfrac{\\sin\\theta}{12}&=\\dfrac{\\sin30^{\\circ}}{8}\\\\\\sin\\theta&=\\dfrac{12\\sin30^{\\circ}}{8}\\end{aligned}$\n\nLet $\\alpha$ be the acute angle returned by inverse sine.\n\n$\\begin{aligned}\\alpha&=\\sin^{-1}\\left(\\dfrac{12\\sin30^{\\circ}}{8}\\right)\\\\&=48.5903\\ldots^{\\circ}\\end{aligned}$\n\nSince $\\theta$ is obtuse, use the supplement.\n\n$\\begin{aligned}\\theta&=180^{\\circ}-48.5903\\ldots^{\\circ}\\\\&=131.4096\\ldots^{\\circ}\\\\&\\approx131.4^{\\circ}\\end{aligned}$\n\nThe chosen angle is compatible with the triangle: $131.4096\\ldots^{\\circ}+30^{\\circ}<180^{\\circ}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

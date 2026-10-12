@@ -2,8 +2,8 @@
   "skillId": "variance-discrete",
   "atomType": "R",
   "theory": {
-    "intro": "The **variance** $\\mathrm{Var}(X)$ measures how far the values of $X$ spread from the mean $\\mu$. Find $E(X^{2})=\\sum x^{2}P(x)$ and subtract $\\mu^{2}$. The **standard deviation** $\\sigma$ is the square root of the variance.",
-    "facts": [
+"intro": "The **variance** $\\mathrm{Var}(X)$ measures how far the values of $X$ spread from the mean $\\mu$. Find $E(X^{2})=\\sum x^{2}P(x)$ and subtract $\\mu^{2}$. The **standard deviation** $\\sigma$ is the square root of the variance.",
+"facts": [
 "$\\mathrm{Var}(X)=E(X^{2})-\\mu^{2}$, where $\\mu=E(X)$.",
 "$E(X^{2})=\\sum x^{2}P(x)$: square each value, multiply by its probability, then add.",
 "$E(X^{2})$ and $[E(X)]^{2}$ are not generally equal: averaging the squares is not the same calculation as squaring the average. They are equal when the variance is zero.",
@@ -12,13 +12,57 @@
 "The standard deviation is $\\sigma=\\sqrt{\\mathrm{Var}(X)}$ and is measured in the same units as $X$.",
 "A variance can never be negative. A negative answer can result from reversing the subtraction, other calculation errors, invalid probabilities or premature rounding; check the probabilities and working."
 ],
-    "steps": [
+"steps": [
       "Find the mean $\\mu=\\sum xP(x)$.",
       "Find $E(X^{2})=\\sum x^{2}P(x)$.",
       "Subtract to get $\\mathrm{Var}(X)=E(X^{2})-\\mu^{2}$.",
       "Take the square root for the standard deviation $\\sigma$."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find the expected value, variance and standard deviation of $X$. Give the standard deviation correct to two decimal places.\n\n| $x$ | $-1$ | $0$ | $2$ |\n| --- | --- | --- | --- |\n| $P(X=x)$ | $0.2$ | $0.3$ | $0.5$ |",
+    "solution_text": "$\\begin{aligned} \\mu&=(-1)(0.2)+0(0.3)+2(0.5)\\\\ &=0.8 \\end{aligned}$\n\n$\\begin{aligned} E(X^{2})&=(-1)^{2}(0.2)+0^{2}(0.3)+2^{2}(0.5)\\\\ &=2.2 \\end{aligned}$\n\n$\\begin{aligned} \\mathrm{Var}(X)&=E(X^{2})-\\mu^{2}\\\\ &=2.2-0.8^{2}\\\\ &=1.56 \\end{aligned}$\n\n$\\begin{aligned} \\sigma&=\\sqrt{1.56}\\\\ &\\approx1.25 \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Use $\\mathrm{Var}(X)=\\sum(x-\\mu)^{2}P(x)$ to find the variance of $X$. Check using $E(X^{2})-\\mu^{2}$, then find the standard deviation correct to two decimal places.\n\n| $x$ | $2$ | $5$ | $8$ |\n| --- | --- | --- | --- |\n| $P(X=x)$ | $0.2$ | $0.6$ | $0.2$ |",
+    "solution_text": "$\\begin{aligned} \\mu&=2(0.2)+5(0.6)+8(0.2)\\\\ &=5 \\end{aligned}$\n\n| $x$ | $2$ | $5$ | $8$ |\n| --- | --- | --- | --- |\n| $x-\\mu$ | $-3$ | $0$ | $3$ |\n| $(x-\\mu)^{2}$ | $9$ | $0$ | $9$ |\n| $(x-\\mu)^{2}P(x)$ | $1.8$ | $0$ | $1.8$ |\n\n$\\begin{aligned} \\mathrm{Var}(X)&=1.8+0+1.8\\\\ &=3.6 \\end{aligned}$\n\nCheck with the other formula:\n\n$\\begin{aligned} E(X^{2})&=2^{2}(0.2)+5^{2}(0.6)+8^{2}(0.2)\\\\ &=28.6 \\end{aligned}$\n\n$\\begin{aligned} \\mathrm{Var}(X)&=28.6-5^{2}\\\\ &=3.6 \\end{aligned}$\n\n$\\begin{aligned} \\sigma&=\\sqrt{3.6}\\\\ &\\approx1.90 \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The probability function of $X$ is $P(X=x)=k(x+1)$ for $x\\in\\{1,2,3\\}$. Find $k$, the expected value, the variance and the standard deviation. Give exact values and round the standard deviation to two decimal places.",
+    "solution_text": "The probabilities sum to $1$.\n\n$\\begin{aligned} 2k+3k+4k&=1\\\\ 9k&=1\\\\ k&=\\frac19 \\end{aligned}$\n\n| $x$ | $1$ | $2$ | $3$ |\n| --- | --- | --- | --- |\n| $P(X=x)$ | $\\frac29$ | $\\frac39$ | $\\frac49$ |\n\n$\\begin{aligned} \\mu&=1\\left(\\frac29\\right)+2\\left(\\frac39\\right)+3\\left(\\frac49\\right)\\\\ &=\\frac{20}{9} \\end{aligned}$\n\n$\\begin{aligned} E(X^{2})&=1^{2}\\left(\\frac29\\right)+2^{2}\\left(\\frac39\\right)+3^{2}\\left(\\frac49\\right)\\\\ &=\\frac{50}{9} \\end{aligned}$\n\n$\\begin{aligned} \\mathrm{Var}(X)&=\\frac{50}{9}-\\left(\\frac{20}{9}\\right)^{2}\\\\ &=\\frac{50}{81} \\end{aligned}$\n\n$\\begin{aligned} \\sigma&=\\frac{\\sqrt{50}}9\\\\ &\\approx0.79 \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The random variable $X$ has mean $0.9$ and the distribution below. Find $a$ and $b$, then calculate the variance and standard deviation. Give the standard deviation correct to two decimal places.\n\n| $x$ | $0$ | $1$ | $2$ |\n| --- | --- | --- | --- |\n| $P(X=x)$ | $a$ | $b$ | $0.25$ |",
+    "solution_text": "Use the total probability and the given mean.\n\n$\\begin{aligned} a+b+0.25&=1\\\\ a+b&=0.75 \\end{aligned}$\n\n$\\begin{aligned} 0a+b+2(0.25)&=0.9\\\\ b&=0.4\\\\ a&=0.35 \\end{aligned}$\n\n$\\begin{aligned} E(X^{2})&=0^{2}(0.35)+1^{2}(0.4)+2^{2}(0.25)\\\\ &=1.4 \\end{aligned}$\n\n$\\begin{aligned} \\mathrm{Var}(X)&=1.4-0.9^{2}\\\\ &=0.59 \\end{aligned}$\n\n$\\begin{aligned} \\sigma&=\\sqrt{0.59}\\\\ &\\approx0.77 \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The numbers of rejects per shift for two machines are represented by $P$ and $Q$. Both have mean $2$. Calculate their variances and identify the less consistent machine.\n\n| Outcome | $0$ | $2$ | $4$ |\n| --- | --- | --- | --- |\n| Probability for $P$ | $0.2$ | $0.6$ | $0.2$ |\n| Probability for $Q$ | $0.35$ | $0.3$ | $0.35$ |",
+    "solution_text": "$\\begin{aligned} E(P^{2})&=0^{2}(0.2)+2^{2}(0.6)+4^{2}(0.2)\\\\ &=5.6 \\end{aligned}$\n\n$\\begin{aligned} \\mathrm{Var}(P)&=5.6-2^{2}\\\\ &=1.6 \\end{aligned}$\n\n$\\begin{aligned} E(Q^{2})&=0^{2}(0.35)+2^{2}(0.3)+4^{2}(0.35)\\\\ &=6.8 \\end{aligned}$\n\n$\\begin{aligned} \\mathrm{Var}(Q)&=6.8-2^{2}\\\\ &=2.8 \\end{aligned}$\n\nMachine Q is less consistent because its variance is greater. More of its probability lies away from the common mean.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "These probability distributions are reflections of each other. Calculate their variances and explain why they are equal.\n\n| Outcome | $0$ | $1$ | $2$ |\n| --- | --- | --- | --- |\n| Probability for $V$ | $0.5$ | $0.3$ | $0.2$ |\n| Probability for $W$ | $0.2$ | $0.3$ | $0.5$ |",
+    "solution_text": "$\\begin{aligned} E(V)&=0(0.5)+1(0.3)+2(0.2)\\\\ &=0.7 \\end{aligned}$\n\n$\\begin{aligned} E(V^{2})&=0^{2}(0.5)+1^{2}(0.3)+2^{2}(0.2)\\\\ &=1.1 \\end{aligned}$\n\n$\\begin{aligned} \\mathrm{Var}(V)&=1.1-0.7^{2}\\\\ &=0.61 \\end{aligned}$\n\n$\\begin{aligned} E(W)&=0(0.2)+1(0.3)+2(0.5)\\\\ &=1.3 \\end{aligned}$\n\n$\\begin{aligned} E(W^{2})&=0^{2}(0.2)+1^{2}(0.3)+2^{2}(0.5)\\\\ &=2.3 \\end{aligned}$\n\n$\\begin{aligned} \\mathrm{Var}(W)&=2.3-1.3^{2}\\\\ &=0.61 \\end{aligned}$\n\nReflection preserves each distance from the corresponding mean and its probability, so the weighted squared distances and variances are equal.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,8 +2,8 @@
   "skillId": "integrate-trig",
   "atomType": "R",
   "theory": {
-    "intro": "Integration reverses differentiation, so each derivative fact gives an integral fact. Because $\\dfrac{d}{dx}(\\cos x) = -\\sin x$, the minus sign moves across: $\\int\\sin x\\,dx = -\\cos x + C$. These formulas hold only when $x$ is measured in **radians**.",
-    "facts": [
+"intro": "Integration reverses differentiation, so each derivative fact gives an integral fact. Because $\\dfrac{d}{dx}(\\cos x) = -\\sin x$, the minus sign moves across: $\\int\\sin x\\,dx = -\\cos x + C$. These formulas hold only when $x$ is measured in **radians**.",
+"facts": [
 "$\\int\\sin x\\,dx = -\\cos x + C$, so a minus sign appears when you integrate sine.",
 "$\\int\\cos x\\,dx = \\sin x + C$, with no minus sign.",
 "$\\int\\sec^{2}x\\,dx = \\tan x + C$, because $\\dfrac{d}{dx}(\\tan x) = \\sec^{2}x$.",
@@ -15,13 +15,39 @@
 "$\\int_{0}^{2\\pi}\\sin x\\,dx = 0$, because the areas above and below the axis cancel.",
 "A definite integral of $\\sec^{2}x$ is valid only when the entire integration interval, including its endpoints, avoids every asymptote at $x = \\dfrac{\\pi}{2} + k\\pi$ for integer $k$."
 ],
-    "steps": [
+"steps": [
       "Split the integrand into separate terms and take any constant factor outside.",
       "Replace each trigonometric term by its primitive, using $\\int\\sin x\\,dx = -\\cos x$, $\\int\\cos x\\,dx = \\sin x$ and $\\int\\sec^{2}x\\,dx = \\tan x$.",
       "Add $+C$ for an indefinite integral, or write $\\left[F(x)\\right]_{a}^{b}$ for a definite one.",
       "Substitute the limits in radians and subtract, or use a given point to find $C$."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find these indefinite integrals.\n(a) $\\int 8\\sin x\\,dx$\n(b) $\\int -6\\cos x\\,dx$\n(c) $\\int 9\\sec^{2}x\\,dx$",
+    "solution_text": "(a) $\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 8\\sin x\\,dx\\\\&=8\\int\\sin x\\,dx\\\\&=-8\\cos x+C\\end{aligned}$\n\n(b) $\\begin{aligned}&\\mathrel{\\phantom{=}}\\int -6\\cos x\\,dx\\\\&=-6\\int\\cos x\\,dx\\\\&=-6\\sin x+C\\end{aligned}$\n\n(c) $\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 9\\sec^{2}x\\,dx\\\\&=9\\int\\sec^{2}x\\,dx\\\\&=9\\tan x+C\\end{aligned}$"
   },
+  {
+    "question_text": "Find $\\int\\left(7\\cos x-4\\sin x+2\\sec^{2}x\\right)dx$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\left(7\\cos x-4\\sin x+2\\sec^{2}x\\right)dx\\\\&=7\\sin x-4(-\\cos x)+2\\tan x+C\\\\&=7\\sin x+4\\cos x+2\\tan x+C\\end{aligned}$"
+  },
+  {
+    "question_text": "Evaluate these definite integrals. Angles are in radians.\n(a) $\\int_{0}^{\\frac{\\pi}{6}}3\\cos x\\,dx$\n(b) $\\int_{\\frac{\\pi}{6}}^{\\pi}2\\sin x\\,dx$\n(c) $\\int_{0}^{\\frac{\\pi}{6}}5\\sec^{2}x\\,dx$",
+    "solution_text": "(a) $\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{\\frac{\\pi}{6}}3\\cos x\\,dx\\\\&=\\left[3\\sin x\\right]_{0}^{\\frac{\\pi}{6}}\\\\&=3\\sin\\frac{\\pi}{6}-3\\sin 0\\\\&=\\frac{3}{2}\\end{aligned}$\n\n(b) $\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{\\frac{\\pi}{6}}^{\\pi}2\\sin x\\,dx\\\\&=\\left[-2\\cos x\\right]_{\\frac{\\pi}{6}}^{\\pi}\\\\&=-2\\cos\\pi-\\left(-2\\cos\\frac{\\pi}{6}\\right)\\\\&=2+\\sqrt{3}\\end{aligned}$\n\n(c) The interval $[0,\\frac{\\pi}{6}]$ contains no asymptote of $\\sec^{2}x$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{\\frac{\\pi}{6}}5\\sec^{2}x\\,dx\\\\&=\\left[5\\tan x\\right]_{0}^{\\frac{\\pi}{6}}\\\\&=5\\tan\\frac{\\pi}{6}-5\\tan 0\\\\&=\\frac{5\\sqrt{3}}{3}\\end{aligned}$"
+  },
+  {
+    "question_text": "A curve has gradient function $f'(x)=4\\cos x-\\sin x$ and passes through $(0,2)$. Find $f(x)$ and $f(\\frac{\\pi}{2})$.",
+    "solution_text": "$\\begin{aligned}f(x)&=4\\sin x+\\cos x+C\\end{aligned}$\n\nSubstitute $x=0$ and $f(0)=2$.\n$\\begin{aligned}2&=4\\sin 0+\\cos 0+C\\\\2&=1+C\\\\C&=1\\end{aligned}$\n\n$\\begin{aligned}f(x)&=4\\sin x+\\cos x+1\\\\f\\left(\\frac{\\pi}{2}\\right)&=4\\sin\\frac{\\pi}{2}+\\cos\\frac{\\pi}{2}+1\\\\&=5\\end{aligned}$"
+  },
+  {
+    "question_text": "A function satisfies $f''(x)=3\\cos x$, $f'(0)=4$ and $f(0)=2$. Find $f(x)$.",
+    "solution_text": "$f'(x)=3\\sin x+C_{1}$\n\nUse $f'(0)=4$.\n$\\begin{aligned}4&=3\\sin 0+C_{1}\\\\C_{1}&=4\\end{aligned}$\n\nIntegrate $f'(x)=3\\sin x+4$.\n$f(x)=-3\\cos x+4x+C_{2}$\n\nUse $f(0)=2$.\n$\\begin{aligned}2&=-3\\cos 0+4(0)+C_{2}\\\\2&=-3+C_{2}\\\\C_{2}&=5\\end{aligned}$\n\n$f(x)=-3\\cos x+4x+5$"
+  },
+  {
+    "question_text": "Given that $1+\\tan^{2}x=\\sec^{2}x$, find $\\int 5\\tan^{2}x\\,dx$.",
+    "solution_text": "$\\tan^{2}x=\\sec^{2}x-1$\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 5\\tan^{2}x\\,dx\\\\&=5\\int\\left(\\sec^{2}x-1\\right)dx\\\\&=5\\tan x-5x+C\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

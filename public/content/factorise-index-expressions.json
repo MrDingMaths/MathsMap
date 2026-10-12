@@ -2,8 +2,8 @@
   "skillId": "factorise-index-expressions",
   "atomType": "R",
   "theory": {
-        "intro": "There is no index law for adding powers, so $3^{n}+3^{n+1}$ cannot be combined the way $3^{n}\\times3^{n+1}$ can. Instead, factorise: writing each term as a multiple of the smallest power present turns the sum into a product, usually the simplest form.",
-        "facts": [
+"intro": "There is no index law for adding powers, so $3^{n}+3^{n+1}$ cannot be combined the way $3^{n}\\times3^{n+1}$ can. Instead, factorise: writing each term as a multiple of the smallest power present turns the sum into a product, usually the simplest form.",
+"facts": [
 "**There is no index law for addition or subtraction** — a sum of powers is handled by factorising, never by combining the indices.",
 "$a^{n+1}=a\\times a^{n}$ and $a^{n+2}=a^{2}\\times a^{n}$ — each extra unit of index is another factor of the base.",
 "Take out the **smallest** power present as the common factor: $3^{n}+3^{n+1}=3^{n}(1+3)=4\\times3^{n}$.",
@@ -13,12 +13,77 @@
 "In a fraction, factorise the numerator and the denominator separately, then cancel only a common nonzero factor. Keep the original denominator restrictions in the simplified answer.",
 "$a^{2n}-1=\\left(a^{n}\\right)^{2}-1^{2}=\\left(a^{n}+1\\right)\\left(a^{n}-1\\right)$ — a difference of two squares in disguise."
 ],
-        "steps": [
+"steps": [
 "Rewrite bases using prime factors where needed, and note any values that make the original denominator zero.",
 "If there is a common power, rewrite each term as a multiple of the smallest power present and take it out as a common factor. If there is a difference of two squares, write it as $A^{2}-B^{2}$ and factorise as $(A+B)(A-B)$.",
 "Simplify the bracket. For a fraction, factorise the numerator and denominator separately, cancel only common nonzero factors, and retain the original denominator restrictions."
+],
+"workedExamples": [
+  {
+    "question_text": "Factorise $5^{n+2}+5^n$ by taking out the common power.",
+    "solution_text": "Take out the smaller power, $5^n$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}5^{n+2}+5^n\\\\&=5^2\\times5^n+5^n\\\\&=5^n(25+1)\\\\&=26\\times5^n\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Factorise $3^{2n+1}-3^{2n-2}$ by taking out the common power.",
+    "solution_text": "The indices differ by $3$, so take out $3^{2n-2}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}3^{2n+1}-3^{2n-2}\\\\&=3^3\\times3^{2n-2}-3^{2n-2}\\\\&=3^{2n-2}(27-1)\\\\&=26\\times3^{2n-2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $5^x+5^x+5^x+5^x+5^x$, leaving your answer in index form.",
+    "solution_text": "There are five identical terms.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}5^x+5^x+5^x+5^x+5^x\\\\&=5\\times5^x\\\\&=5^{x+1}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\frac{3^{2n}-3^{n-1}}{3^n-3^{-1}}$, where $n\\ne-1$.",
+    "solution_text": "Factorise the numerator and denominator separately.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{3^{2n}-3^{n-1}}{3^n-3^{-1}}\\\\&=\\frac{3^{n-1}(3^{n+1}-1)}{3^{-1}(3^{n+1}-1)}\\\\&=\\frac{3^{n-1}}{3^{-1}}\\\\&=3^n\\end{aligned}$\nThe cancelled factor is nonzero because $n\\ne-1$. Retain this restriction.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Factorise $14^n-7^n$.",
+    "solution_text": "Split $14$ into its prime factors, then take out $7^n$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}14^n-7^n\\\\&=2^n7^n-7^n\\\\&=7^n(2^n-1)\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\frac{20^n-50^n}{5^n-2^n}$, where $n\\ne0$.",
+    "solution_text": "Rewrite the bases using primes, then factorise the numerator.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{20^n-50^n}{5^n-2^n}\\\\&=\\frac{2^{2n}5^n-2^n5^{2n}}{5^n-2^n}\\\\&=\\frac{2^n5^n(2^n-5^n)}{5^n-2^n}\\\\&=-2^n5^n\\end{aligned}$\nSince $2^n-5^n=-(5^n-2^n)$, cancelling leaves a negative sign. Retain $n\\ne0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Factorise $7^{2x}-3^{2y}$, then simplify $\\frac{49^n-1}{7^n-1}$ for $n\\ne0$.",
+    "solution_text": "Write each term as a square.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}7^{2x}-3^{2y}\\\\&=(7^x)^2-(3^y)^2\\\\&=(7^x+3^y)(7^x-3^y)\\end{aligned}$\nUse the same difference-of-two-squares rule in the fraction.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{49^n-1}{7^n-1}\\\\&=\\frac{(7^n)^2-1^2}{7^n-1}\\\\&=\\frac{(7^n+1)(7^n-1)}{7^n-1}\\\\&=7^n+1\\end{aligned}$\nRetain $n\\ne0$, which ensures the original denominator is nonzero.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Factorise $7^{n+1}+7^n$. Hence simplify $\\frac{7^{61}+7^{60}}{8}$, leaving your answer in index form.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}7^{n+1}+7^n\\\\&=7\\times7^n+7^n\\\\&=7^n(7+1)\\\\&=8\\times7^n\\end{aligned}$\nUse this result with $n=60$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{7^{61}+7^{60}}{8}\\\\&=\\frac{8\\times7^{60}}{8}\\\\&=7^{60}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Show that $3^{2m+2}+9^m$ is a multiple of $5$ for every positive integer $m$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}3^{2m+2}+9^m\\\\&=3^2\\times3^{2m}+3^{2m}\\\\&=3^{2m}(9+1)\\\\&=10\\times3^{2m}\\\\&=5\\times(2\\times3^{2m})\\end{aligned}$\nFor every positive integer $m$, $2\\times3^{2m}$ is a whole number, so the expression is a multiple of $5$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
       {

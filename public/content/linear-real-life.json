@@ -2,19 +2,57 @@
   "skillId": "linear-real-life",
   "atomType": "R",
   "theory": {
-        "intro": "Many real-life situations change at a **constant rate** from a **starting value**, so a linear relationship $y=mx+c$ models them. Here $m$ is the rate and $c$ is the starting value.",
-        "facts": [
+"intro": "Many real-life situations change at a **constant rate** from a **starting value**, so a linear relationship $y=mx+c$ models them. Here $m$ is the rate and $c$ is the starting value.",
+"facts": [
           "The **starting value** $c$ is the amount when $x=0$ — a flag fall, booking fee, or initial height.",
           "The **rate** $m$ (the gradient) is the change for each unit — a cost per km, a cost per hour, or a fall per hour.",
           "A rate that **increases** the total is positive; a rate that **decreases** it (burning, draining, using up) is negative.",
           "Substitute a value for $x$ to find $y$; substitute a value for $y$ and solve to find $x$."
         ],
-        "steps": [
+"steps": [
           "Identify the rate and starting value.",
           "Write the equation.",
           "Substitute to answer."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A hire car costs a $\\$12$ booking fee plus $\\$5$ per kilometre. Write an equation for the cost $y$ dollars of travelling $x$ kilometres.",
+    "solution_text": "Distance is the independent variable; cost is the dependent variable.\nThe rate is $5$ dollars per kilometre and the starting value is $12$ dollars.\n$y=5x+12$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A tank initially contains $15$ L of water and fills at $6$ L per hour. Write a rule for the volume $y$ litres after $x$ hours, then find the volume after $1$ hour and $30$ minutes.",
+    "solution_text": "The starting volume is $15$ L and the rate is $6$ L per hour.\n$y=6x+15$\nConvert the time to hours: $30\\div60=0.5$, so $x=1.5$.\n$\\begin{aligned}y&=6(1.5)+15\\\\&=24\\end{aligned}$\nThe tank contains $24$ L.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A car initially has $25$ L of fuel and uses $6$ L per hour. Its fuel remaining is modelled by $y=25-6x$, where $x$ is the time in hours. To the nearest minute, when does the car run out of fuel?",
+    "solution_text": "The car runs out when $y=0$.\n$\\begin{aligned}0&=25-6x\\\\6x&=25\\\\x&=\\frac{25}{6}\\end{aligned}$\nConvert hours to minutes:\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{25}{6}\\times60\\\\&=250\\end{aligned}$\nThe car runs out after $4$ h $10$ min.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The graph shows the cost of hiring a bicycle, including a booking fee. Use the graph to find the cost of hiring it for $3$ hours.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[width=7cm,height=7cm,axis lines=left,axis line style={black,-{Stealth}},xmin=0,xmax=6,ymin=0,ymax=40,xtick={0,1,...,6},ytick={0,5,...,40},grid=major,grid style={draw={rgb,255:red,204;green,204;blue,204}},scaled ticks=false,ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={Time (hours)},ylabel={Cost (dollars)}]\n\\addplot[thick,black,domain=0:6,samples=2]{5*x+5};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[width=7cm,height=7cm,axis lines=left,axis line style={black,-{Stealth}},xmin=0,xmax=6,ymin=0,ymax=40,xtick={0,1,...,6},ytick={0,5,...,40},grid=major,grid style={draw={rgb,255:red,204;green,204;blue,204}},scaled ticks=false,ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={Time (hours)},ylabel={Cost (dollars)}]\n\\addplot[thick,black,domain=0:6,samples=2]{5*x+5};\n\\addplot[dashed,color={rgb,255:red,38;green,140;blue,255}] coordinates {(3,0) (3,20) (0,20)};\n\\addplot[only marks,mark=*,mark size=2pt,color={rgb,255:red,38;green,140;blue,255}] coordinates {(3,20)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFrom $x=3$, move vertically to the line, then horizontally to the cost axis. The graph gives $y=20$.\nHiring the bicycle for $3$ hours costs $\\$20$."
+  },
+  {
+    "question_text": "An electrician charges a call-out fee plus a fixed amount per hour. Determine both charges from the table.\n\n| Time (hours) | $2$ | $4$ | $6$ |\n| --- | --- | --- | --- |\n| Job price | $\\$150$ | $\\$230$ | $\\$310$ |",
+    "solution_text": "Each extra $2$ hours increases the price by $\\$80$.\nHourly charge: $80\\div2=40$, so $\\$40$ per hour.\nFor $2$ hours, the hourly charges total $2\\times40=80$ dollars.\nCall-out fee: $150-80=70$, so $\\$70$.\nThe rule is $y=40x+70$, where $x$ is the time in hours and $y$ is the job price in dollars."
+  },
+  {
+    "question_text": "A candle is $4$ cm tall and burns down by $0.5$ cm per minute. Its height is modelled by $y=4-0.5x$, where $x$ is the time in minutes. Find the height predicted after $12$ minutes and explain the limitation of the model.",
+    "solution_text": "$\\begin{aligned}y&=4-0.5(12)\\\\&=-2\\end{aligned}$\nThe model predicts $-2$ cm, but a candle cannot have a negative height.\nIt burns out when $y=0$:\n$\\begin{aligned}0&=4-0.5x\\\\0.5x&=4\\\\x&=8\\end{aligned}$\nThe model applies for $0\\le x\\le8$. After $12$ minutes, the candle has burned out and its height is $0$ cm.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,8 +2,8 @@
   "skillId": "frequency-cumulative-graphs",
   "atomType": "R",
   "theory": {
-        "intro": "A **frequency histogram** has a column for each score, and a **frequency polygon** joins the tops of those columns. A **cumulative frequency histogram** and its **ogive** show the running total instead.",
-        "facts": [
+"intro": "A **frequency histogram** has a column for each score, and a **frequency polygon** joins the tops of those columns. A **cumulative frequency histogram** and its **ogive** show the running total instead.",
+"facts": [
 "In a **frequency histogram** the columns are equal width and touch each other, and the frequency axis starts at $0$.",
 "A **frequency polygon** joins the midpoints of the column tops and drops to the horizontal axis at an empty class at each end.",
 "In a **cumulative frequency histogram** the height of each column is the cumulative frequency $cf$.",
@@ -12,13 +12,31 @@
 "For an ungrouped discrete dataset, find $0.5 \\times n$ on the cumulative axis and draw a horizontal line to the ogive. Identify the data value of the column containing the middle observations; do not report an interpolated boundary reading as the median.",
 "For an even number of observations, check both middle positions. If their data values differ, the median is their average."
 ],
-        "steps": [
+"steps": [
 "Identify whether the graph is a frequency display (bars show individual frequencies) or a cumulative frequency display (bars show running totals).",
 "To find the mode, locate the score under the tallest column on the frequency histogram.",
 "To find the median from a cumulative frequency graph, calculate $0.5 \\times n$ using the final cumulative frequency.",
 "Draw a horizontal line to the ogive and identify the ungrouped data value containing the middle observations. For an even total, check both middle positions and average their data values if they differ."
+],
+"workedExamples": [
+  {
+    "question_text": "Sketch the frequency histogram from the table and identify the modal score.\n\n| Score $x$ | Frequency $f$ |\n|---|---|\n| $1$ | $3$ |\n| $2$ | $6$ |\n| $3$ | $0$ |\n| $4$ | $8$ |\n| $5$ | $4$ |",
+    "solution_text": "Draw touching columns of width $1$, centred at each score. Their heights are $3,6,0,8,4$; score $3$ has no visible column.\n\n[tikz]\n\\begin{tikzpicture}[x=0.9cm,y=0.45cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black,->] (0,0)--(6,0) node[right] {Score};\n\\draw[black,->] (0,0)--(0,9) node[above] {$f$};\n\\foreach \\y in {0,2,4,6,8} {\\draw[black] (-0.1,\\y)--(0,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.1,\\y) {$\\y$};}\n\\foreach \\x in {1,2,3,4,5} {\\draw[black] (\\x,0)--(\\x,-0.12);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.12) {$\\x$};}\n\\foreach \\x/\\h in {1/3,2/6,4/8,5/4} {\\draw[black] (\\x-0.5,0) rectangle (\\x+0.5,\\h);}\n\\end{tikzpicture}\n[/tikz]\n\nThe tallest column is centred at score $4$, so the mode is $4$."
+  },
+  {
+    "question_text": "Sketch the frequency polygon using the given histogram.\n\n[tikz]\n\\begin{tikzpicture}[x=0.9cm,y=0.45cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black,->] (0,0)--(6,0) node[right] {$x$};\n\\draw[black,->] (0,0)--(0,9) node[above] {$f$};\n\\foreach \\y in {0,2,4,6,8} {\\draw[black] (-0.1,\\y)--(0,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.1,\\y) {$\\y$};}\n\\foreach \\x in {1,2,3,4,5} {\\draw[black] (\\x,0)--(\\x,-0.12);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.12) {$\\x$};}\n\\foreach \\x/\\h in {2/5,3/7,5/3} {\\draw[black] (\\x-0.5,0) rectangle (\\x+0.5,\\h);}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Join the centres of the column tops, including $(4,0)$. Extend the polygon to the empty score at each end: $(1,0)$ and $(6,0)$.\n\n[tikz]\n\\begin{tikzpicture}[x=0.85cm,y=0.45cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{semanticRed}{HTML}{EF6068}\n\\draw[black,->] (0,0)--(6.7,0) node[right] {$x$};\n\\draw[black,->] (0,0)--(0,9) node[above] {$f$};\n\\foreach \\y in {0,2,4,6,8} {\\draw[black] (-0.1,\\y)--(0,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.1,\\y) {$\\y$};}\n\\foreach \\x in {1,2,3,4,5,6} {\\draw[black] (\\x,0)--(\\x,-0.12);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.12) {$\\x$};}\n\\foreach \\x/\\h in {2/5,3/7,5/3} {\\draw[black] (\\x-0.5,0) rectangle (\\x+0.5,\\h);}\n\\draw[semanticRed,thick] (1,0)--(2,5)--(3,7)--(4,0)--(5,3)--(6,0);\n\\foreach \\p in {(1,0),(2,5),(3,7),(4,0),(5,3),(6,0)} {\\fill[semanticRed] \\p circle (1.5pt);}\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Draw the cumulative frequency histogram and polygon from the table.\n\n| Score $x$ | Frequency $f$ | Cumulative frequency $cf$ |\n|---|---|---|\n| $2$ | $4$ | $4$ |\n| $3$ | $3$ | $7$ |\n| $4$ | $0$ | $7$ |\n| $5$ | $5$ | $12$ |\n| $6$ | $4$ | $16$ |",
+    "solution_text": "Draw touching columns centred at scores $2$ to $6$, with cumulative heights $4,7,7,12,16$. Join the top-right corners, starting at $(1.5,0)$.\n\n[tikz]\n\\begin{tikzpicture}[x=0.9cm,y=0.25cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{semanticRed}{HTML}{EF6068}\n\\draw[black,->] (0,0)--(6,0) node[right] {Score};\n\\draw[black,->] (0,0)--(0,18) node[above] {$cf$};\n\\foreach \\y in {0,4,8,12,16} {\\draw[black] (-0.1,\\y)--(0,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.1,\\y) {$\\y$};}\n\\foreach \\x/\\v/\\h in {1/2/4,2/3/7,3/4/7,4/5/12,5/6/16} {\\draw[black] (\\x-0.5,0) rectangle (\\x+0.5,\\h);\\draw[black] (\\x,0)--(\\x,-0.2);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.2) {$\\v$};}\n\\draw[semanticRed,thick] (0.5,0)--(1.5,4)--(2.5,7)--(3.5,7)--(4.5,12)--(5.5,16);\n\\foreach \\p in {(0.5,0),(1.5,4),(2.5,7),(3.5,7),(4.5,12),(5.5,16)} {\\fill[semanticRed] \\p circle (1.5pt);}\n\\end{tikzpicture}\n[/tikz]\n\nThe ogive is horizontal across the column for score $4$ because its frequency is $0$. Its cumulative column still has height $7$."
+  },
+  {
+    "question_text": "The cumulative frequency histogram and ogive show ungrouped test scores. Find the median score.\n\n[tikz]\n\\begin{tikzpicture}[x=0.9cm,y=0.18cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{semanticRed}{HTML}{EF6068}\n\\draw[black,->] (0,0)--(6,0) node[right] {Score};\n\\draw[black,->] (0,0)--(0,27) node[above] {$cf$};\n\\foreach \\y in {0,6,12,18,24} {\\draw[black] (-0.1,\\y)--(0,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.1,\\y) {$\\y$};}\n\\foreach \\x/\\v/\\h in {1/6/3,2/7/8,3/8/17,4/9/21,5/10/24} {\\draw[black] (\\x-0.5,0) rectangle (\\x+0.5,\\h);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,0) {$\\v$};}\n\\draw[semanticRed,thick] (0.5,0)--(1.5,3)--(2.5,8)--(3.5,17)--(4.5,21)--(5.5,24);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The final cumulative frequency gives $n=24$.\n\n$\\begin{aligned}0.5\\times n&=0.5\\times24\\\\&=12\\end{aligned}$\n\nDraw a horizontal line at $cf=12$ to the ogive.\n\n[tikz]\n\\begin{tikzpicture}[x=0.9cm,y=0.18cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{semanticRed}{HTML}{EF6068}\n\\definecolor{semanticBlue}{HTML}{268CFF}\n\\draw[black,->] (0,0)--(6,0) node[right] {Score};\n\\draw[black,->] (0,0)--(0,27) node[above] {$cf$};\n\\foreach \\y in {0,6,12,18,24} {\\draw[black] (-0.1,\\y)--(0,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.1,\\y) {$\\y$};}\n\\foreach \\x/\\v/\\h in {1/6/3,2/7/8,3/8/17,4/9/21,5/10/24} {\\draw[black] (\\x-0.5,0) rectangle (\\x+0.5,\\h);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,0) {$\\v$};}\n\\draw[semanticRed,thick] (0.5,0)--(1.5,3)--(2.5,8)--(3.5,17)--(4.5,21)--(5.5,24);\n\\draw[semanticBlue,dashed,thick] (0,12)--(2.944444,12);\n\\fill[semanticBlue] (2.944444,12) circle (2pt);\n\\end{tikzpicture}\n[/tikz]\n\nThe intersection lies in the column for score $8$, where cumulative frequency rises from $8$ to $17$. Both middle observations, positions $12$ and $13$, have score $8$. The median is $8$; an interpolated boundary reading is not the ungrouped score."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

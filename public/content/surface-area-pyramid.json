@@ -2,86 +2,123 @@
   "skillId": "surface-area-pyramid",
   "atomType": "R",
   "theory": {
-    "intro": "A right pyramid has a flat base and triangular faces meeting at the apex. Its surface area is the base plus every triangular face. Each face's height is the **slant height** $l$, so find that first if it is not marked.",
-    "facts": [
-      "Surface area $=$ area of the base $+$ the areas of all the triangular faces.",
-      "Each triangular face has area $\\tfrac{1}{2}\\times\\text{base edge}\\times\\text{slant height}$.",
-      "A **square**-based pyramid has $4$ identical triangles, so $SA=s^{2}+4\\times\\tfrac{1}{2}sl=s^{2}+2sl$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1,-1) -- (1,-1) -- (1,1) -- (-1,1) -- cycle;\n\\draw (-1,1) -- (0,2.5) -- (1,1);\n\\draw (-1,-1) -- (0,-2.5) -- (1,-1);\n\\draw (-1,-1) -- (-2.5,0) -- (-1,1);\n\\draw (1,-1) -- (2.5,0) -- (1,1);\n\\draw[dashed] (0,1) -- (0,2.5) node[pos=0.35,right] {$l$};\n\\node[above] at (0,-1) {$s$};\n\\end{tikzpicture}\n[/tikz]",
-      "A **rectangular** base has two pairs of triangles, one pair on each edge length, each pair with its own slant height.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1.5,-0.9) -- (1.5,-0.9) -- (1.5,0.9) -- (-1.5,0.9) -- cycle;\n\\draw (-1.5,0.9) -- (0,2.2) -- (1.5,0.9);\n\\draw (-1.5,-0.9) -- (0,-2.2) -- (1.5,-0.9);\n\\draw (-1.5,-0.9) -- (-3.4,0) -- (-1.5,0.9);\n\\draw (1.5,-0.9) -- (3.4,0) -- (1.5,0.9);\n\\draw[dashed] (0,0.9) -- (0,2.2) node[pos=0.35,right] {$l_{1}$};\n\\draw[dashed] (-1.5,0) -- (-3.4,0) node[pos=0.35,above] {$l_{2}$};\n\\node[above] at (0,-0.9) {$a$};\n\\node[left] at (1.5,0) {$b$};\n\\end{tikzpicture}\n[/tikz]",
-      "An **open** pyramid has no base, so add only the triangular faces.",
-      "If the slant height is not given, find it first: $l=\\sqrt{h^{2}+\\left(\\tfrac{s}{2}\\right)^{2}}$."
-    ],
-    "steps": [
+"intro": "A right pyramid has a flat base and triangular faces meeting at the apex. Its surface area is the base plus every triangular face. Each face's height is the **slant height** $l$, so find that first if it is not marked.",
+"facts": [
+"Surface area $=$ area of the base $+$ the areas of all the triangular faces.",
+"Each triangular face has area $\\tfrac{1}{2}\\times\\text{base edge}\\times\\text{slant height}$.",
+"A **right square** pyramid has $4$ identical triangles, so $SA=s^{2}+4\\times\\tfrac{1}{2}sl=s^{2}+2sl$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1,-1) -- (1,-1) -- (1,1) -- (-1,1) -- cycle;\n\\draw (-1,1) -- (0,2.5) -- (1,1);\n\\draw (-1,-1) -- (0,-2.5) -- (1,-1);\n\\draw (-1,-1) -- (-2.5,0) -- (-1,1);\n\\draw (1,-1) -- (2.5,0) -- (1,1);\n\\draw[dashed] (0,1) -- (0,2.5) node[pos=0.35,right] {$l$};\n\\node[above] at (0,-1) {$s$};\n\\end{tikzpicture}\n[/tikz]",
+"A **rectangular** base has two pairs of triangles, one pair on each edge length, each pair with its own slant height.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1.5,-0.9) -- (1.5,-0.9) -- (1.5,0.9) -- (-1.5,0.9) -- cycle;\n\\draw (-1.5,0.9) -- (0,2.2) -- (1.5,0.9);\n\\draw (-1.5,-0.9) -- (0,-2.2) -- (1.5,-0.9);\n\\draw (-1.5,-0.9) -- (-3.4,0) -- (-1.5,0.9);\n\\draw (1.5,-0.9) -- (3.4,0) -- (1.5,0.9);\n\\draw[dashed] (0,0.9) -- (0,2.2) node[pos=0.35,right] {$l_{1}$};\n\\draw[dashed] (-1.5,0) -- (-3.4,0) node[pos=0.35,above] {$l_{2}$};\n\\node[above] at (0,-0.9) {$a$};\n\\node[left] at (1.5,0) {$b$};\n\\end{tikzpicture}\n[/tikz]",
+"For a **right square pyramid**, $l=\\sqrt{h^{2}+\\left(\\tfrac{s}{2}\\right)^{2}}$, where $h$ is the perpendicular height and $s$ is the base edge length.",
+"For a **right rectangular pyramid**, use half the base dimension perpendicular to the face's base edge. For base dimensions $a$ by $b$, the faces on the $a$ edges have slant height $\\sqrt{h^{2}+(b/2)^{2}}$, and the faces on the $b$ edges have slant height $\\sqrt{h^{2}+(a/2)^{2}}$, where $h$ is the perpendicular height."
+],
+"steps": [
       "Find the slant height of each face.",
       "Find the area of the base and of each triangular face.",
       "Add them for the total surface area."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find the total surface area of this right square pyramid. Its base edge is $8\\text{ cm}$ and each triangular face has slant height $7\\text{ cm}$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-1,-1)--(1,-1)--(1,1)--(-1,1)--cycle;\n\\draw (-1,1)--(0,2.75)--(1,1);\n\\draw (-1,-1)--(0,-2.75)--(1,-1);\n\\draw (-1,-1)--(-2.75,0)--(-1,1);\n\\draw (1,-1)--(2.75,0)--(1,1);\n\\draw[dashed] (0,1)--(0,2.75);\n\\path (0,1.85) node[right] {$7\\text{ cm}$};\n\\path (0,0) node {$8\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Area of the base:\n$\\begin{aligned} A_{\\text{base}}&=8\\times8\\\\&=64\\text{ cm}^{2}\\end{aligned}$\n\nArea of the four triangular faces:\n$\\begin{aligned} A_{\\text{triangles}}&=4\\times\\left(\\frac12\\times8\\times7\\right)\\\\&=112\\text{ cm}^{2}\\end{aligned}$\n\nTotal surface area:\n$\\begin{aligned} SA&=64+112\\\\&=176\\text{ cm}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A right rectangular pyramid has a base $16\\text{ cm}$ by $6\\text{ cm}$. The faces on the $16\\text{ cm}$ edges have slant height $5\\text{ cm}$; the faces on the $6\\text{ cm}$ edges have slant height $\\sqrt{80}\\text{ cm}$. Find its total surface area to the nearest whole square centimetre.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-1.6,-0.6)--(1.6,-0.6)--(1.6,0.6)--(-1.6,0.6)--cycle;\n\\draw (-1.6,0.6)--(0,1.6)--(1.6,0.6);\n\\draw (-1.6,-0.6)--(0,-1.6)--(1.6,-0.6);\n\\draw (-1.6,-0.6)--(-3.4,0)--(-1.6,0.6);\n\\draw (1.6,-0.6)--(3.4,0)--(1.6,0.6);\n\\draw[dashed] (0,0.6)--(0,1.6);\n\\draw[dashed] (1.6,0)--(3.4,0);\n\\path (0,0) node {$16\\text{ cm}$};\n\\path (-1.6,0) node[right] {$6\\text{ cm}$};\n\\path (0,1.1) node[right] {$5\\text{ cm}$};\n\\path (2.5,0) node[above] {$\\sqrt{80}\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Area of the base:\n$\\begin{aligned} A_{\\text{base}}&=16\\times6\\\\&=96\\text{ cm}^{2}\\end{aligned}$\n\nArea of the triangles on the $16\\text{ cm}$ edges:\n$\\begin{aligned} A_{1}&=2\\times\\left(\\frac12\\times16\\times5\\right)\\\\&=80\\text{ cm}^{2}\\end{aligned}$\n\nArea of the triangles on the $6\\text{ cm}$ edges:\n$\\begin{aligned} A_{2}&=2\\times\\left(\\frac12\\times6\\times\\sqrt{80}\\right)\\\\&=6\\sqrt{80}\\text{ cm}^{2}\\end{aligned}$\n\nTotal surface area:\n$\\begin{aligned} SA&=96+80+6\\sqrt{80}\\\\&\\approx230\\text{ cm}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A right square pyramid has base edge $12\\text{ cm}$ and perpendicular height $8\\text{ cm}$. Find its total surface area.",
+    "solution_text": "Half the base edge is $6\\text{ cm}$. The perpendicular height and half the base edge form a right-angled triangle with the slant height $l$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2.4,0)--(0,3.2)--cycle;\n\\draw (0,0.22)--(0.22,0.22)--(0.22,0);\n\\path (0,1.6) node[left] {$8\\text{ cm}$};\n\\path (1.2,0) node[below] {$6\\text{ cm}$};\n\\path (1.2,1.6) node[right] {$l$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{aligned} l^{2}&=8^{2}+6^{2}\\\\l^{2}&=100\\\\l&=10\\text{ cm}\\end{aligned}$\n\nArea of the base:\n$\\begin{aligned} A_{\\text{base}}&=12\\times12\\\\&=144\\text{ cm}^{2}\\end{aligned}$\n\nArea of the four triangular faces:\n$\\begin{aligned} A_{\\text{triangles}}&=4\\times\\left(\\frac12\\times12\\times10\\right)\\\\&=240\\text{ cm}^{2}\\end{aligned}$\n\nTotal surface area:\n$\\begin{aligned} SA&=144+240\\\\&=384\\text{ cm}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A right square pyramid has total surface area $600\\text{ cm}^{2}$ and base area $100\\text{ cm}^{2}$. Find its perpendicular height to $1$ decimal place.",
+    "solution_text": "Base edge:\n$\\begin{aligned} s&=\\sqrt{100}\\\\&=10\\text{ cm}\\end{aligned}$\n\nArea of the four triangular faces:\n$\\begin{aligned} A_{\\text{triangles}}&=600-100\\\\&=500\\text{ cm}^{2}\\end{aligned}$\n\nArea of one triangular face:\n$\\begin{aligned} A_{\\text{face}}&=500\\div4\\\\&=125\\text{ cm}^{2}\\end{aligned}$\n\nFind the slant height:\n$\\begin{aligned} 125&=\\frac12\\times10\\times l\\\\125&=5l\\\\l&=25\\text{ cm}\\end{aligned}$\n\nHalf the base edge is $5\\text{ cm}$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(1,0)--(0,3.4)--cycle;\n\\draw (0,0.18)--(0.18,0.18)--(0.18,0);\n\\path (0,1.7) node[left] {$h$};\n\\path (0.5,0) node[below] {$5\\text{ cm}$};\n\\path (0.5,1.7) node[right] {$25\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{aligned} h^{2}+5^{2}&=25^{2}\\\\h^{2}&=25^{2}-5^{2}\\\\h^{2}&=600\\\\h&=\\sqrt{600}\\\\h&\\approx24.5\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A right rectangular pyramid has base dimensions $10\\text{ cm}$ by $8\\text{ cm}$ and perpendicular height $12\\text{ cm}$. Find its total surface area to $1$ decimal place.",
+    "solution_text": "The faces on the $10\\text{ cm}$ edges use half the $8\\text{ cm}$ width. The faces on the $8\\text{ cm}$ edges use half the $10\\text{ cm}$ length.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(1.2,0)--(0,3.6)--cycle;\n\\draw (0,0.2)--(0.2,0.2)--(0.2,0);\n\\path (0,1.8) node[left] {$12\\text{ cm}$};\n\\path (0.6,0) node[below] {$4\\text{ cm}$};\n\\path (0.6,1.8) node[right] {$l_{1}$};\n\\draw (4,0)--(5.5,0)--(4,3.6)--cycle;\n\\draw (4,0.2)--(4.2,0.2)--(4.2,0);\n\\path (4,1.8) node[left] {$12\\text{ cm}$};\n\\path (4.75,0) node[below] {$5\\text{ cm}$};\n\\path (4.75,1.8) node[right] {$l_{2}$};\n\\end{tikzpicture}\n[/tikz]\n\nFind the two slant heights:\n$\\begin{aligned} l_{1}^{2}&=12^{2}+4^{2}\\\\l_{1}^{2}&=160\\\\l_{1}&=\\sqrt{160}\\text{ cm}\\end{aligned}$\n\n$\\begin{aligned} l_{2}^{2}&=12^{2}+5^{2}\\\\l_{2}^{2}&=169\\\\l_{2}&=13\\text{ cm}\\end{aligned}$\n\nArea of the base:\n$\\begin{aligned} A_{\\text{base}}&=10\\times8\\\\&=80\\text{ cm}^{2}\\end{aligned}$\n\nArea of the triangles on the $10\\text{ cm}$ edges:\n$\\begin{aligned} A_{1}&=2\\times\\left(\\frac12\\times10\\times\\sqrt{160}\\right)\\\\&=10\\sqrt{160}\\text{ cm}^{2}\\end{aligned}$\n\nArea of the triangles on the $8\\text{ cm}$ edges:\n$\\begin{aligned} A_{2}&=2\\times\\left(\\frac12\\times8\\times13\\right)\\\\&=104\\text{ cm}^{2}\\end{aligned}$\n\nKeep the exact slant height until the final rounding.\n$\\begin{aligned} SA&=80+10\\sqrt{160}+104\\\\&\\approx310.5\\text{ cm}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1.125,-1.125) -- (1.125,-1.125) -- (1.125,1.125) -- (-1.125,1.125) -- cycle;\n\\draw (-1.125,1.125) -- (0,3.0) -- (1.125,1.125);\n\\draw (-1.125,-1.125) -- (0,-3.0) -- (1.125,-1.125);\n\\draw (-1.125,-1.125) -- (-3.0,0) -- (-1.125,1.125);\n\\draw (1.125,-1.125) -- (3.0,0) -- (1.125,1.125);\n\\node[below] at (0,-1.125) {$6\\text{ cm}$};\n\\draw[dashed] (0,1.125) -- (0,3.0) node[midway,right] {$5\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nFind the surface area of this right square pyramid, whose base edge is $6\\text{ cm}$ and slant height is $5\\text{ cm}$.",
         "structure": "square-slant-given",
         "solution_text": "Base: $6\\times6=36$\nTriangular faces: $4\\times\\left(\\tfrac{1}{2}\\times6\\times5\\right)=60$\n$SA=36+60$\n$=96\\text{ cm}^{2}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-0.882,-0.882) -- (0.882,-0.882) -- (0.882,0.882) -- (-0.882,0.882) -- cycle;\n\\draw (-0.882,0.882) -- (0,3.0) -- (0.882,0.882);\n\\draw (-0.882,-0.882) -- (0,-3.0) -- (0.882,-0.882);\n\\draw (-0.882,-0.882) -- (-3.0,0) -- (-0.882,0.882);\n\\draw (0.882,-0.882) -- (3.0,0) -- (0.882,0.882);\n\\node[below] at (0,-0.882) {$10\\text{ cm}$};\n\\draw[dashed] (0,0.882) -- (0,3.0) node[midway,right] {$12\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nFind the surface area of a right square pyramid with base edge $10\\text{ cm}$ and slant height $12\\text{ cm}$.",
         "structure": "square-slant-given",
         "solution_text": "Base: $10\\times10=100$\nTriangular faces: $4\\times\\left(\\tfrac{1}{2}\\times10\\times12\\right)=240$\n$SA=100+240$\n$=340\\text{ cm}^{2}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1.2,-0.8) -- (1.2,-0.8) -- (1.2,0.8) -- (-1.2,0.8) -- cycle;\n\\draw (-1.2,0.8) -- (0,2.8) -- (1.2,0.8);\n\\draw (-1.2,-0.8) -- (0,-2.8) -- (1.2,-0.8);\n\\draw (-1.2,-0.8) -- (-3.0,0) -- (-1.2,0.8);\n\\draw (1.2,-0.8) -- (3.0,0) -- (1.2,0.8);\n\\node[below] at (0,-0.8) {$12\\text{ cm}$};\n\\node[right] at (1.2,0) {$8\\text{ cm}$};\n\\draw[dashed] (0,0.8) -- (0,2.8) node[midway,right] {$10\\text{ cm}$};\n\\draw[dashed] (1.2,0) -- (3.0,0) node[midway,above] {$9\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nFind the surface area of this right rectangular pyramid.\nThe base is $12\\text{ cm}$ by $8\\text{ cm}$; the triangles on the $12\\text{ cm}$ edges have slant height $10\\text{ cm}$ and those on the $8\\text{ cm}$ edges have slant height $9\\text{ cm}$.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1.2,-0.8) -- (1.2,-0.8) -- (1.2,0.8) -- (-1.2,0.8) -- cycle;\n\\draw (-1.2,0.8) -- (0,2.8) -- (1.2,0.8);\n\\draw (-1.2,-0.8) -- (0,-2.8) -- (1.2,-0.8);\n\\draw (-1.2,-0.8) -- (-3.0,0) -- (-1.2,0.8);\n\\draw (1.2,-0.8) -- (3.0,0) -- (1.2,0.8);\n\\node[below] at (0,-0.8) {$12\\text{ cm}$};\n\\node[left] at (1.2,0) {$8\\text{ cm}$};\n\\draw[dashed] (0,0.8) -- (0,2.8);\n\\draw[thin,->] (1.5,2.5) -- (0,1.8);\n\\node[right] at (1.5,2.5) {$10\\text{ cm}$};\n\\draw[dashed] (1.2,0) -- (3.0,0);\n\\draw[thin,->] (2.1,1.0) -- (2.1,0);\n\\node[anchor=south] at (2.1,1.05) {$\\sqrt{120}\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nFind the surface area of this right rectangular pyramid, rounded to the nearest whole square centimetre.\nThe base is $12\\text{ cm}$ by $8\\text{ cm}$; the triangles on the $12\\text{ cm}$ edges have slant height $10\\text{ cm}$ and those on the $8\\text{ cm}$ edges have slant height $\\sqrt{120}\\text{ cm}$.",
         "structure": "rectangular-slant-given",
-        "solution_text": "Base: $12\\times8=96$\nFront and back triangles: $2\\times\\left(\\tfrac{1}{2}\\times12\\times10\\right)=120$\nSide triangles: $2\\times\\left(\\tfrac{1}{2}\\times8\\times9\\right)=72$\n$SA=96+120+72$\n$=288\\text{ cm}^{2}$"
+        "solution_text": "Base: $12\\times8=96$\nFront and back triangles: $2\\times\\left(\\tfrac{1}{2}\\times12\\times10\\right)=120$\nSide triangles: $2\\times\\left(\\tfrac{1}{2}\\times8\\times\\sqrt{120}\\right)=87.6356\\ldots$\n$SA=96+120+8\\sqrt{120}$\n$\\approx304\\text{ cm}^{2}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1.2,-0.6) -- (1.2,-0.6) -- (1.2,0.6) -- (-1.2,0.6) -- cycle;\n\\draw (-1.2,0.6) -- (0,2.16) -- (1.2,0.6);\n\\draw (-1.2,-0.6) -- (0,-2.16) -- (1.2,-0.6);\n\\draw (-1.2,-0.6) -- (-3.0,0) -- (-1.2,0.6);\n\\draw (1.2,-0.6) -- (3.0,0) -- (1.2,0.6);\n\\node[below] at (0,-0.6) {$20\\text{ cm}$};\n\\node[right] at (1.2,0) {$10\\text{ cm}$};\n\\draw[dashed] (0,0.6) -- (0,2.16) node[midway,right] {$13\\text{ cm}$};\n\\draw[dashed] (1.2,0) -- (3.0,0) node[midway,above] {$15\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nFind the surface area of a right rectangular pyramid whose base is $20\\text{ cm}$ by $10\\text{ cm}$, with slant height $13\\text{ cm}$ on the $20\\text{ cm}$ edges and $15\\text{ cm}$ on the $10\\text{ cm}$ edges.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1.2,-0.6) -- (1.2,-0.6) -- (1.2,0.6) -- (-1.2,0.6) -- cycle;\n\\draw (-1.2,0.6) -- (0,2.16) -- (1.2,0.6);\n\\draw (-1.2,-0.6) -- (0,-2.16) -- (1.2,-0.6);\n\\draw (-1.2,-0.6) -- (-3.0,0) -- (-1.2,0.6);\n\\draw (1.2,-0.6) -- (3.0,0) -- (1.2,0.6);\n\\node[below] at (0,-0.6) {$20\\text{ cm}$};\n\\node[left] at (1.2,0) {$10\\text{ cm}$};\n\\draw[dashed] (0,0.6) -- (0,2.16);\n\\draw[thin,->] (1.5,2.2) -- (0,1.38);\n\\node[right] at (1.5,2.2) {$13\\text{ cm}$};\n\\draw[dashed] (1.2,0) -- (3.0,0);\n\\draw[thin,->] (2.1,1.0) -- (2.1,0);\n\\node[anchor=south] at (2.1,1.05) {$\\sqrt{244}\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nFind the surface area of a right rectangular pyramid whose base is $20\\text{ cm}$ by $10\\text{ cm}$, with slant height $13\\text{ cm}$ on the $20\\text{ cm}$ edges and $\\sqrt{244}\\text{ cm}$ on the $10\\text{ cm}$ edges. Round your answer to the nearest whole square centimetre.",
         "structure": "rectangular-slant-given",
-        "solution_text": "Base: $20\\times10=200$\nFront and back triangles: $2\\times\\left(\\tfrac{1}{2}\\times20\\times13\\right)=260$\nSide triangles: $2\\times\\left(\\tfrac{1}{2}\\times10\\times15\\right)=150$\n$SA=200+260+150$\n$=610\\text{ cm}^{2}$"
+        "solution_text": "Base: $20\\times10=200$\nFront and back triangles: $2\\times\\left(\\tfrac{1}{2}\\times20\\times13\\right)=260$\nSide triangles: $2\\times\\left(\\tfrac{1}{2}\\times10\\times\\sqrt{244}\\right)=156.2049\\ldots$\n$SA=200+260+10\\sqrt{244}$\n$\\approx616\\text{ cm}^{2}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[dashed] (-0.923,-0.923) -- (0.923,-0.923) -- (0.923,0.923) -- (-0.923,0.923) -- cycle;\n\\draw (-0.923,0.923) -- (0,3.0) -- (0.923,0.923);\n\\draw (-0.923,-0.923) -- (0,-3.0) -- (0.923,-0.923);\n\\draw (-0.923,-0.923) -- (-3.0,0) -- (-0.923,0.923);\n\\draw (0.923,-0.923) -- (3.0,0) -- (0.923,0.923);\n\\node[below] at (0,-0.923) {$8\\text{ cm}$};\n\\draw[dashed] (0,0.923) -- (0,3.0) node[midway,right] {$9\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nA square-based tent has no floor.\nIts base edge is $8\\text{ cm}$ and the slant height of each sloping face is $9\\text{ cm}$.\nFind the area of canvas needed (the four triangular faces only).",
-        "structure": "open-pyramid",
-        "solution_text": "Triangular faces: $4\\times\\left(\\tfrac{1}{2}\\times8\\times9\\right)=144$\n$SA=144\\text{ cm}^{2}$"
+{
+        "question_text": "Find the surface area of a right square pyramid with base edge $9\\text{ cm}$ and slant height $8\\text{ cm}$.",
+        "structure": "square-slant-given",
+        "solution_text": "Base: $9\\times9=81$\nTriangular faces: $4\\times\\left(\\tfrac{1}{2}\\times9\\times8\\right)=144$\n$SA=81+144$\n$=225\\text{ cm}^{2}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[dashed] (-1.125,-0.562) -- (1.125,-0.562) -- (1.125,0.562) -- (-1.125,0.562) -- cycle;\n\\draw (-1.125,0.562) -- (0,2.062) -- (1.125,0.562);\n\\draw (-1.125,-0.562) -- (0,-2.062) -- (1.125,-0.562);\n\\draw (-1.125,-0.562) -- (-3.0,0) -- (-1.125,0.562);\n\\draw (1.125,-0.562) -- (3.0,0) -- (1.125,0.562);\n\\node[below] at (0,-0.562) {$12\\text{ m}$};\n\\node[right] at (1.125,0) {$6\\text{ m}$};\n\\draw[dashed] (0,0.562) -- (0,2.062) node[midway,right] {$8\\text{ m}$};\n\\draw[dashed] (1.125,0) -- (3.0,0) node[midway,above] {$10\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]\nAn open marquee has a rectangular top $12\\text{ m}$ by $6\\text{ m}$ and no floor.\nThe triangles on the $12\\text{ m}$ edges have slant height $8\\text{ m}$ and those on the $6\\text{ m}$ edges have slant height $10\\text{ m}$.\nFind the total area of the four sloping faces.",
-        "structure": "open-pyramid",
-        "solution_text": "Front and back triangles: $2\\times\\left(\\tfrac{1}{2}\\times12\\times8\\right)=96$\nSide triangles: $2\\times\\left(\\tfrac{1}{2}\\times6\\times10\\right)=60$\n$SA=96+60$\n$=156\\text{ m}^{2}$"
+{
+        "question_text": "Find the surface area of a right square pyramid with base edge $14\\text{ m}$ and slant height $15\\text{ m}$.",
+        "structure": "square-slant-given",
+        "solution_text": "Base: $14\\times14=196$\nTriangular faces: $4\\times\\left(\\tfrac{1}{2}\\times14\\times15\\right)=420$\n$SA=196+420$\n$=616\\text{ m}^{2}$"
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (Ap) at (0,3.4);\n\\coordinate (FL) at (-1.53,-0.567);\n\\coordinate (FR) at (0.736,-0.567);\n\\coordinate (BL) at (-0.736,0.567);\n\\coordinate (BR) at (1.53,0.567);\n\\coordinate (M) at (-0.397,-0.567);\n\\draw (FL) -- (FR) -- (BR);\n\\draw[dashed] (BR) -- (BL) -- (FL);\n\\draw (Ap) -- (FL);\n\\draw (Ap) -- (FR);\n\\draw (Ap) -- (BR);\n\\draw[dashed] (Ap) -- (BL);\n\\draw[dashed] (Ap) -- (O) node[midway,right] {$6\\text{ cm}$};\n\\draw[dashed] (Ap) -- (M) node[midway,left] {$l$};\n\\node[below] at (-0.397,-0.567) {$4\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nA glass paperweight is a right square pyramid with base edge $4\\text{ cm}$ and perpendicular height $6\\text{ cm}$.\nFind its surface area, correct to $1$ decimal place.",
         "structure": "square-from-height",
         "solution_text": "Half the base edge is $2\\text{ cm}$.\n$l=\\sqrt{6^{2}+2^{2}}$\n$=\\sqrt{40}$\n$=6.3246\\ldots\\text{ cm}$\nBase: $4\\times4=16$\nTriangular faces: $4\\times\\left(\\tfrac{1}{2}\\times4\\times6.3246\\ldots\\right)=50.5964\\ldots$\n$SA=16+50.5964\\ldots$\n$\\approx66.6\\text{ cm}^{2}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (Ap) at (0,3.4);\n\\coordinate (FL) at (-2.447,-0.906);\n\\coordinate (FR) at (1.179,-0.906);\n\\coordinate (BL) at (-1.179,0.906);\n\\coordinate (BR) at (2.447,0.906);\n\\coordinate (M) at (-0.634,-0.906);\n\\draw (FL) -- (FR) -- (BR);\n\\draw[dashed] (BR) -- (BL) -- (FL);\n\\draw (Ap) -- (FL);\n\\draw (Ap) -- (FR);\n\\draw (Ap) -- (BR);\n\\draw[dashed] (Ap) -- (BL);\n\\draw[dashed] (Ap) -- (O) node[midway,right] {$15\\text{ cm}$};\n\\draw[dashed] (Ap) -- (M) node[midway,left] {$l$};\n\\node[below] at (-0.634,-0.906) {$16\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nA right square pyramid has base edge $16\\text{ cm}$ and perpendicular height $15\\text{ cm}$.\nFind its surface area.",
         "structure": "square-from-height",
         "solution_text": "Half the base edge is $8\\text{ cm}$.\n$l=\\sqrt{15^{2}+8^{2}}$\n$=\\sqrt{289}$\n$=17\\text{ cm}$\nBase: $16\\times16=256$\nTriangular faces: $4\\times\\left(\\tfrac{1}{2}\\times16\\times17\\right)=544$\n$SA=256+544$\n$=800\\text{ cm}^{2}$"
       },
-      {
-        "question_text": "[tikz]% mathsmap-solid {\"version\":1,\"kind\":\"polyhedron\",\"model\":{\"version\":1,\"vertices\":{\"FL\":[-2.55,-0.945,0],\"FR\":[1.228,-0.945,0],\"BR\":[1.228,-0.945,1],\"BL\":[-2.55,-0.945,1],\"Ap\":[-0.6609999999999999,1.5740000000000003,0.5]},\"faces\":[[\"FL\",\"FR\",\"BR\",\"BL\"],[\"FL\",\"FR\",\"Ap\"],[\"FR\",\"BR\",\"Ap\"],[\"BR\",\"BL\",\"Ap\"],[\"BL\",\"FL\",\"Ap\"]],\"view\":{\"right\":[1,0,1.3219999999999998],\"up\":[0,1,1.89],\"toward\":[0.5258723513431987,0.7518144811184914,-0.39778543974523356]}}}\n\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (Ap) at (0,2.519);\n\\coordinate (FL) at (-2.55,-0.945);\n\\coordinate (FR) at (1.228,-0.945);\n\\coordinate (BL) at (-1.228,0.945);\n\\coordinate (BR) at (2.55,0.945);\n\\coordinate (M) at (-0.661,-0.945);\n\\draw (FL)--(FR);\n\\draw (FR)--(BR);\n\\draw[dashed] (BR)--(BL);\n\\draw (BL)--(FL);\n\\draw (Ap)--(FL);\n\\draw (Ap)--(FR);\n\\draw (Ap)--(BR);\n\\draw (Ap)--(BL);\n\\draw[dashed] (Ap) -- (O) node[midway,right] {$80\\text{ m}$};\n\\draw[dashed] (Ap) -- (M) node[midway,left] {$l$};\n\\node[below] at (-0.661,-0.945) {$120\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]\nA monument is a right square pyramid with base edge $120\\text{ m}$ and perpendicular height $80\\text{ m}$.\nFind the total area of its four triangular faces (the base sits on the ground and is not counted).",
-        "structure": "open-square-from-height",
-        "solution_text": "Half the base edge is $60\\text{ m}$.\n$l=\\sqrt{80^{2}+60^{2}}$\n$=\\sqrt{10000}$\n$=100\\text{ m}$\nTriangular faces: $4\\times\\left(\\tfrac{1}{2}\\times120\\times100\\right)=24000$\n$SA=24000\\text{ m}^{2}$"
+{
+        "question_text": "A right square pyramid has base edge $100\\text{ m}$ and perpendicular height $120\\text{ m}$. Find its total surface area, including the base.",
+        "structure": "square-from-height",
+        "solution_text": "Half the base edge is $50\\text{ m}$.\n$l=\\sqrt{120^{2}+50^{2}}$\n$=\\sqrt{16900}$\n$=130\\text{ m}$\nBase: $100\\times100=10000$\nTriangular faces: $4\\times\\left(\\tfrac{1}{2}\\times100\\times130\\right)=26000$\n$SA=10000+26000$\n$=36000\\text{ m}^{2}$"
       },
-      {
-        "question_text": "A right square pyramid has a surface area of $96\\text{ cm}^{2}$ and a base edge of $6\\text{ cm}$.\nFind the slant height of a triangular face.",
-        "structure": "reverse-slant",
-        "solution_text": "The surface area is the base plus the four triangles: $SA=s^{2}+2sl$.\n$96=6^{2}+2\\times6\\times l$\n$96=36+12l$\n$60=12l$\n$l=5\\text{ cm}$"
+{
+        "question_text": "A right square pyramid has a surface area of $384\\text{ cm}^{2}$ and a base area of $144\\text{ cm}^{2}$.\nFind its perpendicular height.",
+        "structure": "reverse-perp-height",
+        "solution_text": "Base edge: $\\sqrt{144}=12\\text{ cm}$\nArea of the four triangles: $384-144=240$\nArea of one triangle: $240\\div4=60$\nSlant height: $60=\\tfrac{1}{2}\\times12\\times l$, so $l=10\\text{ cm}$\nHalf the base edge is $6\\text{ cm}$.\n$h=\\sqrt{10^{2}-6^{2}}$\n$=\\sqrt{64}$\n$=8\\text{ cm}$"
       },
-      {
+{
         "question_text": "A right square pyramid has a surface area of $4704\\text{ m}^{2}$ and a base area of $1764\\text{ m}^{2}$.\nFind its perpendicular height.",
         "structure": "reverse-perp-height",
         "solution_text": "Base edge: $\\sqrt{1764}=42\\text{ m}$\nArea of the four triangles: $4704-1764=2940$\nArea of one triangle: $2940\\div4=735$\nSlant height: $735=\\tfrac{1}{2}\\times42\\times l$, so $l=35\\text{ m}$\nHalf the base edge is $21\\text{ m}$.\n$h=\\sqrt{35^{2}-21^{2}}$\n$=\\sqrt{784}$\n$=28\\text{ m}$"
       },
-      {
-        "question_text": "[tikz]% mathsmap-solid {\"version\":1,\"kind\":\"polyhedron\",\"model\":{\"version\":1,\"vertices\":{\"FL\":[-2.55,-0.945,0],\"FR\":[1.228,-0.945,0],\"BR\":[1.228,-0.945,1],\"BL\":[-2.55,-0.945,1],\"Ap\":[-0.6609999999999999,0.4720000000000001,0.5]},\"faces\":[[\"FL\",\"FR\",\"BR\",\"BL\"],[\"FL\",\"FR\",\"Ap\"],[\"FR\",\"BR\",\"Ap\"],[\"BR\",\"BL\",\"Ap\"],[\"BL\",\"FL\",\"Ap\"]],\"view\":{\"right\":[1,0,1.3219999999999998],\"up\":[0,1,1.89],\"toward\":[0.5258723513431987,0.7518144811184914,-0.39778543974523356]}}}\n\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (Ap) at (0,1.417);\n\\coordinate (FL) at (-2.55,-0.945);\n\\coordinate (FR) at (1.228,-0.945);\n\\coordinate (BL) at (-1.228,0.945);\n\\coordinate (BR) at (2.55,0.945);\n\\coordinate (M) at (-0.661,-0.945);\n\\draw (FL)--(FR);\n\\draw (FR)--(BR);\n\\draw[dashed] (BR)--(BL);\n\\draw (BL)--(FL);\n\\draw (Ap)--(FL);\n\\draw (Ap)--(FR);\n\\draw (Ap)--(BR);\n\\draw (Ap)--(BL);\n\\draw[dashed] (Ap) -- (O) node[midway,right] {$3\\text{ m}$};\n\\draw[dashed] (Ap) -- (M) node[midway,left] {$l$};\n\\node[below] at (-0.661,-0.945) {$8\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]\nA marquee is an open square pyramid (canvas sides only, no floor) with base edge $8\\text{ m}$ and perpendicular height $3\\text{ m}$.\nFind the area of canvas needed.",
-        "structure": "open-square-from-height",
-        "solution_text": "Half the base edge is $4\\text{ m}$.\n$l=\\sqrt{3^{2}+4^{2}}$\n$=\\sqrt{25}$\n$=5\\text{ m}$\nTriangular faces: $4\\times\\left(\\tfrac{1}{2}\\times8\\times5\\right)=80$\n$SA=80\\text{ m}^{2}$"
+{
+        "question_text": "A right square pyramid has base edge $18\\text{ m}$ and perpendicular height $12\\text{ m}$. Find its total surface area, including the base.",
+        "structure": "square-from-height",
+        "solution_text": "Half the base edge is $9\\text{ m}$.\n$l=\\sqrt{12^{2}+9^{2}}$\n$=\\sqrt{225}$\n$=15\\text{ m}$\nBase: $18\\times18=324$\nTriangular faces: $4\\times\\left(\\tfrac{1}{2}\\times18\\times15\\right)=540$\n$SA=324+540$\n$=864\\text{ m}^{2}$"
       }
-    ],
+],
     "mastery": [
       {
         "question_text": "A right square pyramid has a surface area of $340\\text{ cm}^{2}$ and a base edge of $10\\text{ cm}$.\nFind its perpendicular height, correct to $1$ decimal place.",

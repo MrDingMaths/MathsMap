@@ -2,8 +2,8 @@
   "skillId": "scale-factor",
   "atomType": "R",
   "theory": {
-        "intro": "Similar figures have the same shape: matching angles are equal and matching sides are in the same ratio. That ratio is the **scale factor**, $k$ — the positive number every side of the original is multiplied by to give the image. $k=\\frac{\\text{image length}}{\\text{original length}}$.",
-        "facts": [
+"intro": "Similar figures have the same shape: matching angles are equal and matching sides are in the same ratio. That ratio is the **scale factor**, $k$ — the positive number every side of the original is multiplied by to give the image. $k=\\frac{\\text{image length}}{\\text{original length}}$.",
+"facts": [
 "If $k>1$ the image is an **enlargement** — every side is longer than the matching side of the original.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) -- (1.4,0) node[midway,below] {$a$};\n\\draw (1.4,0) -- (1.4,0.9);\n\\draw (1.4,0.9) -- (0,0.9);\n\\draw (0,0.9) -- (0,0);\n\\node[above] at (0.7,0.9) {Original};\n\\draw (2.6,0) -- (5.4,0) node[midway,below] {$ka$};\n\\draw (5.4,0) -- (5.4,1.8);\n\\draw (5.4,1.8) -- (2.6,1.8);\n\\draw (2.6,1.8) -- (2.6,0);\n\\node[above] at (4.0,1.8) {Image};\n\\end{tikzpicture}\n[/tikz]",
 "If $0<k<1$ the image is a **reduction** — the same shape, but every side is shorter.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) -- (2.8,0) node[midway,below] {$a$};\n\\draw (2.8,0) -- (2.8,1.8);\n\\draw (2.8,1.8) -- (0,1.8);\n\\draw (0,1.8) -- (0,0);\n\\node[above] at (1.4,1.8) {Original};\n\\draw (4.0,0) -- (5.4,0) node[midway,below] {$ka$};\n\\draw (5.4,0) -- (5.4,0.9);\n\\draw (5.4,0.9) -- (4.0,0.9);\n\\draw (4.0,0.9) -- (4.0,0);\n\\node[above] at (4.7,0.9) {Image};\n\\end{tikzpicture}\n[/tikz]",
 "If $k=1$ the image is **congruent** to the original — the same shape and the same size.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) -- (1.6,0) node[midway,below] {$a$};\n\\draw (1.6,0) -- (1.6,1.0);\n\\draw (1.6,1.0) -- (0,1.0);\n\\draw (0,1.0) -- (0,0);\n\\node[above] at (0.8,1.0) {Original};\n\\draw (2.8,0) -- (4.4,0) node[midway,below] {$ka$};\n\\draw (4.4,0) -- (4.4,1.0);\n\\draw (4.4,1.0) -- (2.8,1.0);\n\\draw (2.8,1.0) -- (2.8,0);\n\\node[above] at (3.6,1.0) {Image};\n\\end{tikzpicture}\n[/tikz]",
@@ -12,12 +12,56 @@
 "A scale factor has no units, so convert both lengths to the same unit before dividing.",
 "Every side scales by $k$, so the perimeter scales by $k$ too."
 ],
-        "steps": [
+"steps": [
           "Identify a pair of corresponding sides.",
           "Divide the image length by the original length to find the scale factor.",
           "Multiply an original length by the scale factor, or divide an image length by it, to find unknown lengths."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A pair of corresponding sides measures $8$ cm in the original and $12$ cm in the image. Another pair measures $20$ cm in the original and $5$ cm in the image of a different figure.\nFor each pair, calculate the scale factor and classify the image. What would a scale factor of $1$ mean?",
+    "solution_text": "For the first pair:\n$\\begin{aligned}k&=\\frac{\\text{image length}}{\\text{original length}}\\\\&=\\frac{12}{8}\\\\&=1.5\\end{aligned}$\nSince $1.5>1$, the image is an enlargement.\n\nFor the second pair:\n$\\begin{aligned}k&=\\frac{5}{20}\\\\&=\\frac{1}{4}\\end{aligned}$\nSince $0<\\frac{1}{4}<1$, the image is a reduction.\n\nA scale factor of $1$ gives an image congruent to the original.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The original rectangle is $5$ cm wide. Its image is $15$ cm wide. The scale factor from original to image is $3$. Find $x$, the image height, and $y$, the original width of a different figure whose corresponding image side is $21$ cm.\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) rectangle (1.5,1.2);\n\\path (0.75,0) node[below] {$5\\text{ cm}$} (0,0.6) node[left] {$4\\text{ cm}$} (0.75,1.2) node[above] {Original};\n\\draw (3,0) rectangle (6,2.4);\n\\path (4.5,0) node[below] {$15\\text{ cm}$} (6,1.2) node[right] {$x\\text{ cm}$} (4.5,2.4) node[above] {Image};\n\\end{tikzpicture}\n[/tikz]\nDiagrams are not drawn to scale.",
+    "solution_text": "Multiply an original length by the scale factor to find its image length.\n$\\begin{aligned}x&=4\\times3\\\\&=12\\text{ cm}\\end{aligned}$\n\nDivide an image length by the scale factor to find its original length.\n$\\begin{aligned}y&=21\\div3\\\\&=7\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A photograph is projected onto a screen. The original photograph is $12$ cm high and its image is $1.8$ m high. Find the scale factor.",
+    "solution_text": "Convert both lengths to the same unit.\n$1.8\\text{ m}=180\\text{ cm}$\n\n$\\begin{aligned}k&=\\frac{\\text{image length}}{\\text{original length}}\\\\&=\\frac{180}{12}\\\\&=15\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A rectangle $150$ mm by $100$ mm is enlarged to a similar rectangle $210$ mm by $140$ mm. Find the scale factor and show that both pairs of corresponding sides give the same value.",
+    "solution_text": "Compare corresponding lengths in the order image divided by original.\n$\\begin{aligned}k&=\\frac{210}{150}\\\\&=\\frac{7}{5}\\end{aligned}$\n\n$\\begin{aligned}k&=\\frac{140}{100}\\\\&=\\frac{7}{5}\\end{aligned}$\n\nBoth pairs give the same scale factor, $\\frac{7}{5}=1.4$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two triangles are similar. The original has sides $9$ cm, $12$ cm and $15$ cm. The image side corresponding to the $9$ cm side is $12$ cm.\nFind both perimeters and compare their ratio with the ratio of corresponding sides.",
+    "solution_text": "$\\begin{aligned}k&=\\frac{12}{9}\\\\&=\\frac{4}{3}\\end{aligned}$\n\nThe other image sides are $12\\times\\frac{4}{3}=16\\text{ cm}$ and $15\\times\\frac{4}{3}=20\\text{ cm}$.\n\n$\\begin{aligned}P_{\\text{original}}&=9+12+15\\\\&=36\\text{ cm}\\end{aligned}$\n\n$\\begin{aligned}P_{\\text{image}}&=12+16+20\\\\&=48\\text{ cm}\\end{aligned}$\n\n$\\frac{P_{\\text{image}}}{P_{\\text{original}}}=\\frac{48}{36}=\\frac{4}{3}$.\nEach side is multiplied by $\\frac{4}{3}$, so their sum is multiplied by the same factor.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A regular octagon is enlarged by a scale factor of $3$. The image has a perimeter of $96$ cm. Find the side length of the original octagon.",
+    "solution_text": "A regular octagon has eight equal sides.\n$\\begin{aligned}\\text{image side}&=96\\div8\\\\&=12\\text{ cm}\\end{aligned}$\n\n$\\begin{aligned}\\text{original side}&=12\\div3\\\\&=4\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

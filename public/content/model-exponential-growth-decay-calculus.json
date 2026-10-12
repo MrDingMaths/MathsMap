@@ -2,8 +2,8 @@
   "skillId": "model-exponential-growth-decay-calculus",
   "atomType": "R",
   "theory": {
-    "intro": "The model $\\dfrac{dQ}{dt}=kQ$ has solution $Q=Ae^{kt}$, where $A$ is the initial amount. One extra pair of values fixes $k$, and the completed model then predicts any later amount. Finding a time needs a logarithm.",
-    "facts": [
+"intro": "The model $\\dfrac{dQ}{dt}=kQ$ has solution $Q=Ae^{kt}$, where $A$ is the initial amount. One extra pair of values fixes $k$, and the completed model then predicts any later amount. Finding a time needs a logarithm.",
+"facts": [
       "Substitute $t=0$ to get $A$, the initial amount.",
       "Substitute a second data pair and solve $Ae^{kt}=Q$ for $k$ using natural logarithms.",
       "$\\ln\\left(e^{x}\\right)=x$, so take logarithms of both sides once the exponential term is alone.",
@@ -13,13 +13,57 @@
       "Round only at the very end, keeping the unrounded value of $k$ in later working.",
       "Check that the answer sits in a sensible range for the context before stating it."
     ],
-    "steps": [
+"steps": [
       "Write $Q=Ae^{kt}$ and identify $A$ from the initial value.",
       "Substitute a known pair of values and solve for $k$ using logarithms.",
       "Use the completed model to predict an amount, or to solve for a time.",
       "State the answer with units, rounded as the question asks."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A sample satisfies $\\dfrac{dM}{dt}=-0.15M$, where $M$ is measured in grams and $t$ in hours. Initially, its mass is $160$ grams. Find its mass after $4$ hours, correct to $2$ decimal places.",
+    "solution_text": "Use $M=Ae^{kt}$. The initial mass gives $A=160$, and $k=-0.15$.\n$M=160e^{-0.15t}$\n$\\begin{aligned}M(4)&=160e^{-0.6}\\\\&=87.81\\text{ g}\\quad\\text{(to 2 decimal places)}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A culture satisfies $\\dfrac{dN}{dt}=kN$. Its population is $600$ initially and $1200$ after $3$ hours. Find $k$ exactly, then predict its population after $9$ hours.",
+    "solution_text": "The initial population gives $A=600$.\n$\\begin{aligned}600e^{3k}&=1200\\\\e^{3k}&=2\\\\3k&=\\ln 2\\\\k&=\\dfrac{\\ln 2}{3}\\text{ h}^{-1}\\end{aligned}$\nUse the exact value of $k$ in the prediction.\n$\\begin{aligned}N(9)&=600e^{9(\\ln 2/3)}\\\\&=600e^{3\\ln 2}\\\\&=600\\times 8\\\\&=4800\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A population follows $P=Ae^{kt}$, where $t$ is measured in years. It is $800$ when $t=2$ and $3200$ when $t=6$. Find $k$ and $A$ exactly.",
+    "solution_text": "Divide the two data equations to eliminate $A$.\n$\\begin{aligned}\\dfrac{Ae^{6k}}{Ae^{2k}}&=\\dfrac{3200}{800}\\\\e^{4k}&=4\\\\4k&=\\ln 4\\\\k&=\\dfrac{\\ln 2}{2}\\text{ year}^{-1}\\end{aligned}$\nSubstitute into the earlier data equation.\n$\\begin{aligned}Ae^{2(\\ln 2/2)}&=800\\\\2A&=800\\\\A&=400\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A quantity follows $Q=Ae^{0.1t}$, where $t$ is measured in hours. It is $240$ units when $t=5$.\n(a) Find $A$, correct to $2$ decimal places.\n(b) Find when the quantity reaches $720$ units, correct to $2$ decimal places.",
+    "solution_text": "(a)\n$\\begin{aligned}Ae^{0.5}&=240\\\\A&=240e^{-0.5}\\\\&=145.57\\text{ units}\\quad\\text{(to 2 decimal places)}\\end{aligned}$\n(b) Keep $A=240e^{-0.5}$ unrounded.\n$\\begin{aligned}240e^{-0.5}e^{0.1t}&=720\\\\e^{0.1t-0.5}&=3\\\\0.1t-0.5&=\\ln 3\\\\t&=\\dfrac{\\ln 3+0.5}{0.1}\\\\&=15.99\\text{ hours}\\quad\\text{(to 2 decimal places)}\\end{aligned}$\nThe quantity reaches $720$ units after the given observation at $t=5$ hours.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "(a) A substance satisfies $\\dfrac{dQ}{dt}=-0.04Q$, with $t$ in days. Find its half-life, correct to $2$ decimal places.\n(b) A population satisfies $\\dfrac{dP}{dt}=0.08P$, with $t$ in years. Find its doubling time, correct to $2$ decimal places.\n(c) Another substance has a half-life of $6$ hours. Find its decay constant exactly, then find when only one eighth of its initial amount remains.",
+    "solution_text": "(a) Set the amount equal to half its initial value.\n$\\begin{aligned}Ae^{-0.04t}&=\\dfrac{A}{2}\\\\e^{-0.04t}&=\\dfrac12\\\\-0.04t&=\\ln\\dfrac12\\\\t&=\\dfrac{\\ln 2}{0.04}\\\\&=17.33\\text{ days}\\quad\\text{(to 2 decimal places)}\\end{aligned}$\n(b) Set the population equal to twice its initial value.\n$\\begin{aligned}Ae^{0.08t}&=2A\\\\e^{0.08t}&=2\\\\0.08t&=\\ln 2\\\\t&=\\dfrac{\\ln 2}{0.08}\\\\&=8.66\\text{ years}\\quad\\text{(to 2 decimal places)}\\end{aligned}$\n(c) Use the half-life to determine $k$.\n$\\begin{aligned}Ae^{6k}&=\\dfrac A2\\\\e^{6k}&=\\dfrac12\\\\6k&=-\\ln 2\\\\k&=-\\dfrac{\\ln 2}{6}\\text{ h}^{-1}\\end{aligned}$\nNow solve for the time when one eighth remains.\n$\\begin{aligned}Ae^{kt}&=\\dfrac A8\\\\e^{kt}&=\\dfrac18\\\\kt&=-3\\ln 2\\\\t&=\\dfrac{-3\\ln 2}{-\\ln 2/6}\\\\&=18\\text{ hours}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A chemical satisfies $\\dfrac{dQ}{dt}=kQ$, where $Q$ is measured in grams and $t$ in hours. Its mass is $960$ grams initially and $480$ grams after $4$ hours.\n(a) Find $k$ exactly.\n(b) Find the rate of change when $Q=240$ grams, correct to $2$ decimal places.\n(c) Find the rate of change at $t=12$ hours, correct to $2$ decimal places.",
+    "solution_text": "(a) The initial mass gives $Q=960e^{kt}$.\n$\\begin{aligned}960e^{4k}&=480\\\\e^{4k}&=\\dfrac12\\\\4k&=-\\ln 2\\\\k&=-\\dfrac{\\ln 2}{4}\\text{ h}^{-1}\\end{aligned}$\n(b) Substitute the given mass directly into $\\dfrac{dQ}{dt}=kQ$.\n$\\begin{aligned}\\dfrac{dQ}{dt}&=-\\dfrac{\\ln 2}{4}\\times240\\\\&=-60\\ln 2\\\\&=-41.59\\text{ g/h}\\quad\\text{(to 2 decimal places)}\\end{aligned}$\nThe mass is decreasing at $41.59$ grams per hour.\n(c) First find the mass at $t=12$.\n$\\begin{aligned}Q(12)&=960e^{-3\\ln 2}\\\\&=120\\text{ g}\\end{aligned}$\nThen use the proportional rate model.\n$\\begin{aligned}\\left.\\dfrac{dQ}{dt}\\right|_{t=12}&=-\\dfrac{\\ln 2}{4}\\times120\\\\&=-30\\ln 2\\\\&=-20.79\\text{ g/h}\\quad\\text{(to 2 decimal places)}\\end{aligned}$\nThe mass is decreasing at $20.79$ grams per hour.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -59,42 +103,42 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "A colony satisfies $\\dfrac{dN}{dt}=kN$, with $N=500$ when $t=2$ hours and $N=1250$ when $t=6$ hours.\nFind $k$ and $A$, each correct to $2$ decimal places where needed.",
         "structure": "find-a-and-k-from-data",
-        "solution_text": "$N=Ae^{kt}$\n$\\dfrac{Ae^{6k}}{Ae^{2k}}=\\dfrac{1250}{500}$\n$e^{4k}=2.5$\n$4k=\\ln 2.5$\n$4k=0.916290\\ldots$\n$k=0.2291\\text{ per hour}$\n$Ae^{2(0.229072\\ldots)}=500$\n$A=\\dfrac{500}{1.581138\\ldots}$\n$=316.23$"
+        "solution_text": "$N=Ae^{kt}$\n$\\dfrac{Ae^{6k}}{Ae^{2k}}=\\dfrac{1250}{500}$\n$e^{4k}=2.5$\n$4k=\\ln 2.5$\n$4k=0.916290\\ldots$\n$k=0.23\\text{ per hour}$\n$Ae^{2(0.229072\\ldots)}=500$\n$A=\\dfrac{500}{1.581138\\ldots}$\n$=316.23$"
       },
-      {
+{
         "question_text": "A town's population satisfies $P=8000e^{0.06t}$, where $t$ is in years.\nFind when the population reaches $20\\,000$, correct to $1$ decimal place.",
         "structure": "time-to-reach-value",
         "solution_text": "$8000e^{0.06t}=20\\,000$\n$e^{0.06t}=2.5$\n$0.06t=\\ln 2.5$\n$0.06t=0.916290\\ldots$\n$t=15.3\\text{ years}$"
       },
-      {
+{
         "question_text": "An investment grows so that $\\dfrac{dV}{dt}=0.045V$, with $t$ in years.\nFind the doubling time, correct to $1$ decimal place.",
         "structure": "half-life-or-doubling-time",
         "solution_text": "$V=Ae^{0.045t}$\n$Ae^{0.045t}=2A$\n$e^{0.045t}=2$\n$0.045t=\\ln 2$\n$0.045t=0.693147\\ldots$\n$t=15.4\\text{ years}$"
       },
-      {
+{
         "question_text": "A chemical satisfies $\\dfrac{dQ}{dt}=-0.08Q$, where $Q$ is in grams and $t$ in hours.\nFind the rate of change of $Q$ at the moment when $Q=350$ grams.",
         "structure": "rate-at-a-given-time",
         "solution_text": "$\\dfrac{dQ}{dt}=-0.08Q$\n$=-0.08\\times 350$\n$=-28\\text{ g/h}$\nThe chemical is decreasing at $28$ grams per hour."
       },
-      {
+{
         "question_text": "A sample satisfies $\\dfrac{dM}{dt}=-0.25M$ and $M=120$ grams at $t=0$, with $t$ in hours.\nFind the mass after $4$ hours, correct to $2$ decimal places.",
         "structure": "predict-value-at-time",
         "solution_text": "$M=Ae^{kt}$\n$A=120,\\ k=-0.25$\n$M=120e^{-0.25t}$\n$M(4)=120e^{-1}$\n$=120\\times 0.367879\\ldots$\n$=44.15\\text{ g}$"
       },
-      {
+{
         "question_text": "A radioactive isotope has a half-life of $20$ days.\nFind the value of $k$ in $\\dfrac{dQ}{dt}=kQ$, correct to $4$ decimal places.",
         "structure": "half-life-or-doubling-time",
         "solution_text": "$Q=Ae^{kt}$\n$Ae^{20k}=\\dfrac{A}{2}$\n$e^{20k}=0.5$\n$20k=\\ln 0.5$\n$20k=-0.693147\\ldots$\n$k=-0.0347\\text{ per day}$"
       },
-      {
+{
         "question_text": "The graph shows $Q=200e^{-0.1t}$ grams of a decaying substance after $t$ days.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$t$ (days)}, ylabel={$Q$ (grams)}, xmin=0, xmax=27, ymin=0, ymax=230, xtick={5,10,15,20,25}, ytick={50,100,150,200}, samples=100, clip=false, ylabel near ticks]\n\\addplot[thick, domain=0:25] {200*exp(-0.1*x)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nUse the model to find the time at which $Q=50$ grams, correct to $2$ decimal places.",
         "structure": "time-to-reach-value",
         "solution_text": "$200e^{-0.1t}=50$\n$e^{-0.1t}=0.25$\n$-0.1t=\\ln 0.25$\n$-0.1t=-1.386294\\ldots$\n$t=13.86\\text{ days}$"
       }
-    ],
+],
     "mastery": [
       {
         "question_text": "A culture satisfies $\\dfrac{dN}{dt}=kN$, with $N=4000$ at $t=0$ and $N=6600$ after $5$ hours.\nFind $k$ correct to $4$ decimal places, the population after $12$ hours to the nearest whole number, and the time at which $N=20\\,000$ correct to $2$ decimal places.",

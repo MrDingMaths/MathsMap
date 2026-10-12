@@ -2,8 +2,8 @@
   "skillId": "differentiate-inverse-trig-applications",
   "atomType": "R",
   "theory": {
-    "intro": "These derivatives are used inside the ordinary rules of calculus. Once the inverse trig part has been differentiated, a gradient, a tangent, a stationary point or a rate of change is found exactly as it is for any other function.",
-    "facts": [
+"intro": "These derivatives are used inside the ordinary rules of calculus. Once the inverse trig part has been differentiated, a gradient, a tangent, a stationary point or a rate of change is found exactly as it is for any other function.",
+"facts": [
 "With the product rule, $\\dfrac{d}{dx}\\left(u\\arctan x\\right)=u'\\arctan x+\\dfrac{u}{1+x^{2}}$.",
 "With the quotient rule, differentiate the inverse trig factor in place and leave the rest of the rule unchanged.",
 "The gradient at $x=a$ is $f'(a)$, so differentiate first and substitute afterwards.",
@@ -13,13 +13,71 @@
 "If $f'(x)=0$ across an interval then $f$ is constant there, and one convenient value of $x$ gives that constant.",
 "Every angle produced by these functions is in radians, so $\\arctan 1=\\dfrac{\\pi}{4}$, not $45^{\\circ}$."
 ],
-    "steps": [
+"steps": [
       "Decide which rule the expression needs: product, quotient, or a single inverse trig term.",
       "Differentiate, using the inverse trig derivative for that factor.",
       "Simplify the derivative.",
       "Substitute the given value of $x$, solve $f'(x)=0$, or multiply by the given rate, as the question requires."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Differentiate $y=(2+x^{2})\\arctan x$ and simplify.",
+    "solution_text": "Use the product rule.\n$\\begin{aligned}u&=2+x^{2},&u'&=2x\\\\v&=\\arctan x,&v'&=\\frac{1}{1+x^{2}}\\end{aligned}$\n$\\begin{aligned}\\frac{dy}{dx}&=u'v+uv'\\\\\\frac{dy}{dx}&=2x\\arctan x+\\frac{2+x^{2}}{1+x^{2}}\\\\\\frac{dy}{dx}&=2x\\arctan x+1+\\frac{1}{1+x^{2}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find the exact gradient of $y=\\dfrac{\\arcsin x}{2x}$ when $x=\\dfrac{\\sqrt{3}}{2}$.",
+    "solution_text": "Use the quotient rule.\n$\\begin{aligned}u&=\\arcsin x,&u'&=\\frac{1}{\\sqrt{1-x^{2}}}\\\\v&=2x,&v'&=2\\end{aligned}$\n$\\begin{aligned}\\frac{dy}{dx}&=\\frac{u'v-uv'}{v^{2}}\\\\\\frac{dy}{dx}&=\\frac{\\frac{2x}{\\sqrt{1-x^{2}}}-2\\arcsin x}{4x^{2}}\\\\\\frac{dy}{dx}&=\\frac{\\frac{x}{\\sqrt{1-x^{2}}}-\\arcsin x}{2x^{2}}\\end{aligned}$\nAt $x=\\dfrac{\\sqrt{3}}{2}$, $\\sqrt{1-x^{2}}=\\dfrac12$ and $\\arcsin x=\\dfrac{\\pi}{3}$.\n$\\begin{aligned}\\left.\\frac{dy}{dx}\\right|_{x=\\sqrt{3}/2}&=\\frac{\\sqrt{3}-\\frac{\\pi}{3}}{\\frac32}\\\\\\left.\\frac{dy}{dx}\\right|_{x=\\sqrt{3}/2}&=\\frac{2\\sqrt{3}}{3}-\\frac{2\\pi}{9}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact gradient of $y=\\arccos\\left(\\dfrac{x}{4}\\right)$ when $x=2$.",
+    "solution_text": "$\\begin{aligned}\\frac{dy}{dx}&=-\\frac{\\frac14}{\\sqrt{1-\\frac{x^{2}}{16}}}\\\\\\frac{dy}{dx}&=-\\frac{1}{\\sqrt{16-x^{2}}}\\end{aligned}$\nAt $x=2$:\n$\\begin{aligned}\\left.\\frac{dy}{dx}\\right|_{x=2}&=-\\frac{1}{\\sqrt{16-4}}\\\\\\left.\\frac{dy}{dx}\\right|_{x=2}&=-\\frac{1}{2\\sqrt{3}}\\\\\\left.\\frac{dy}{dx}\\right|_{x=2}&=-\\frac{\\sqrt{3}}{6}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the equations of the tangent and the normal to $y=3\\arccos(2x)$ at $x=0$. Give each equation in the form $y=mx+b$.",
+    "solution_text": "$\\frac{dy}{dx}=-\\frac{6}{\\sqrt{1-4x^{2}}}$\nAt $x=0$, the tangent gradient is $-6$ and $y=3\\arccos 0=\\dfrac{3\\pi}{2}$.\nThe tangent is:\n$\\begin{aligned}y-\\frac{3\\pi}{2}&=-6(x-0)\\\\y&=-6x+\\frac{3\\pi}{2}\\end{aligned}$\nThe normal gradient is $-\\dfrac{1}{-6}=\\dfrac16$.\nThe normal is:\n$\\begin{aligned}y-\\frac{3\\pi}{2}&=\\frac16(x-0)\\\\y&=\\frac{x}{6}+\\frac{3\\pi}{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $-\\dfrac13<x<\\dfrac13$, let $f(x)=\\arcsin(3x)+\\arccos(3x)$. Show that $f'(x)=0$, and hence find $f(x)$.",
+    "solution_text": "$\\begin{aligned}f'(x)&=\\frac{3}{\\sqrt{1-9x^{2}}}-\\frac{3}{\\sqrt{1-9x^{2}}}\\\\f'(x)&=0\\end{aligned}$\nThe derivative is zero throughout the interval, so $f$ is constant there.\n$\\begin{aligned}f(0)&=\\arcsin 0+\\arccos 0\\\\f(0)&=\\frac{\\pi}{2}\\end{aligned}$\nTherefore $f(x)=\\dfrac{\\pi}{2}$ for $-\\dfrac13<x<\\dfrac13$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Show that $y=\\arccos\\left(\\dfrac{(x+1)^{2}}{4}\\right)$ has a maximum turning point at $x=-1$.",
+    "solution_text": "The domain is $-3\\leq x\\leq1$.\n$\\begin{aligned}\\frac{dy}{dx}&=-\\frac{\\frac{x+1}{2}}{\\sqrt{1-\\frac{(x+1)^{4}}{16}}}\\\\\\frac{dy}{dx}&=-\\frac{2(x+1)}{\\sqrt{16-(x+1)^{4}}}\\end{aligned}$\nAt $x=-1$, $\\dfrac{dy}{dx}=0$. The denominator is positive for $-3<x<1$.\nFor $-3<x<-1$, the gradient is positive. For $-1<x<1$, the gradient is negative.\nThe gradient changes from positive to negative, so $\\left(-1,\\dfrac{\\pi}{2}\\right)$ is a maximum turning point.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1.4cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{mathblue}{HTML}{268CFF}\n\\draw[->,black] (-3.6,0)--(1.6,0) node[right] {$x$};\n\\draw[->,black] (0,-0.2)--(0,2) node[above] {$y$};\n\\draw[mathblue,thick,domain=0:180,samples=101,variable=\\t] plot ({-1-2*cos(\\t)},{acos((cos(\\t))*(cos(\\t)))*pi/180});\n\\fill[black] (-3,0) circle (1.3pt);\n\\fill[black] (1,0) circle (1.3pt);\n\\fill[black] (-1,1.5708) circle (1.3pt);\n\\path (-3,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$-3$};\n\\path (1,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$1$};\n\\path (-1,1.5708) node[above left] {$(-1,\\frac{\\pi}{2})$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A plane flies directly away from an observer at a constant altitude of $4$ km and a speed of $540$ km/h. Its horizontal distance from the observer is $x$ km and its angle of elevation is $\\theta$. Find, in radians per second, the rate at which $\\theta$ is decreasing when $x=4$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,0)--(0,2.4)--(3.6,2.4)--cycle;\n\\draw[black] (0,2.1)--(0.3,2.1)--(0.3,2.4);\n\\draw[black,dashed] (0,0)--(1.3,0);\n\\draw[black] (0.8,0) arc[start angle=0,end angle=33.69,radius=0.8];\n\\draw[black,->] (3.6,2.4)--(4.5,2.4);\n\\path (0,0) node[below left] {$O$};\n\\path (0,2.4) node[above left] {$A$};\n\\path (3.6,2.4) node[above] {$P$};\n\\path (0,1.2) node[left] {$4\\text{ km}$};\n\\path (1.8,2.4) node[above] {$x\\text{ km}$};\n\\path (4.1,2.4) node[below] {$540\\text{ km/h}$};\n\\path (1.05,0.3) node {$\\theta$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "From the right-angled triangle, $\\theta=\\arctan\\left(\\dfrac4x\\right)$, where $x>0$.\n$\\begin{aligned}\\frac{d\\theta}{dx}&=\\frac{-\\frac4{x^{2}}}{1+\\frac{16}{x^{2}}}\\\\\\frac{d\\theta}{dx}&=-\\frac4{x^{2}+16}\\end{aligned}$\nWith $t$ in hours, $\\dfrac{dx}{dt}=540$.\n$\\begin{aligned}\\frac{d\\theta}{dt}&=\\frac{d\\theta}{dx}\\frac{dx}{dt}\\\\\\frac{d\\theta}{dt}&=-\\frac{2160}{x^{2}+16}\\end{aligned}$\nAt $x=4$, $\\dfrac{d\\theta}{dt}=-\\dfrac{2160}{32}=-\\dfrac{135}{2}$ radians per hour.\nIn radians per second, this is $-\\dfrac{135}{2\\times3600}=-\\dfrac{3}{160}$.\nThe angle is decreasing at $\\dfrac{3}{160}$ radians per second.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A picture $BT$ is $2$ metres tall. Its lower edge $B$ is $2$ metres above a viewer's eye $E$. The viewer stands $x$ metres from the wall, and the picture subtends angle $\\theta$ at $E$.\na. Express $\\theta$ in terms of $x$.\nb. Find the distance from the wall that maximises $\\theta$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,0)--(3.4,0)--(3.4,4);\n\\draw[black,very thick] (3.4,2)--(3.4,4);\n\\draw[black] (0,0)--(3.4,2);\n\\draw[black] (0,0)--(3.4,4);\n\\draw[black] (3.1,0)--(3.1,0.3)--(3.4,0.3);\n\\draw[black] ({1.1*cos(30.47)},{1.1*sin(30.47)}) arc[start angle=30.47,end angle=49.64,radius=1.1];\n\\path (0,0) node[below left] {$E$};\n\\path (3.4,0) node[below right] {$P$};\n\\path (3.4,2) node[left] {$B$};\n\\path (3.4,4) node[above] {$T$};\n\\path (1.7,0) node[below] {$x\\text{ m}$};\n\\path (3.4,1) node[right] {$2\\text{ m}$};\n\\path (3.4,3) node[right] {$2\\text{ m}$};\n\\path (1.15,1) node {$\\theta$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "a. The top of the picture is $4$ metres above eye level. Subtract the angle to the lower edge from the angle to the upper edge:\n$\\theta=\\arctan\\left(\\frac4x\\right)-\\arctan\\left(\\frac2x\\right),\\qquad x>0$.\n\nb.\n$\\begin{aligned}\\frac{d\\theta}{dx}&=-\\frac4{x^{2}+16}+\\frac2{x^{2}+4}\\\\\\frac{d\\theta}{dx}&=\\frac{2(8-x^{2})}{(x^{2}+16)(x^{2}+4)}\\end{aligned}$\nSet the derivative equal to zero.\n$\\begin{aligned}2(8-x^{2})&=0\\\\x^{2}&=8\\\\x&=2\\sqrt{2}\\end{aligned}$\nTake the positive root because $x$ is a distance. The denominator is positive for $x>0$; the gradient is positive for $0<x<2\\sqrt2$ and negative for $x>2\\sqrt2$.\nTherefore the angle is greatest when the viewer stands $2\\sqrt2$ metres from the wall.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

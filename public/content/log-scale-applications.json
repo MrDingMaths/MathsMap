@@ -2,8 +2,8 @@
   "skillId": "log-scale-applications",
   "atomType": "R",
   "theory": {
-    "intro": "On a logarithmic scale the useful comparison is a **ratio**, not a difference. For readings of the form $\\log_{10}Q$, subtracting two readings gives the index of the ratio between the quantities, so a gap of $k$ units means the larger quantity is $10^{k}$ times the smaller. Decibel readings require division of the gap by $10$, while pH reverses the direction of the comparison.",
-    "facts": [
+"intro": "On a logarithmic scale the useful comparison is a **ratio**, not a difference. For readings of the form $\\log_{10}Q$, subtracting two readings gives the index of the ratio between the quantities, so a gap of $k$ units means the larger quantity is $10^{k}$ times the smaller. Decibel readings require division of the gap by $10$, while pH reverses the direction of the comparison.",
+"facts": [
 "For $M=\\log_{10}A$, two earthquakes whose magnitudes differ by $k$ have amplitudes in the ratio $10^{k}$.",
 "For $pH=-\\log_{10}M$, a drop of $1$ in pH means the hydrogen-ion concentration is $10$ times greater.",
 "For $S=10\\log_{10}\\dfrac{I}{I_{0}}$, the intensity relative to the threshold of human hearing is $\\dfrac{I}{I_{0}}=10^{S/10}$.",
@@ -11,12 +11,63 @@
 "A straight line on a graph with a logarithmic vertical axis shows that equal steps in time or the horizontal variable correspond to multiplication of the quantity by a constant factor.",
 "Logarithms can be added to represent products: $\\log_{10}x+\\log_{10}y=\\log_{10}(xy)$. Simply adding logarithmic readings does not give the reading for the sum of the physical quantities."
 ],
-    "steps": [
+"steps": [
 "Write the difference between the two readings on the scale.",
 "Turn that difference into a ratio by raising the base to it, allowing for the scale's own multiplier; for concentration comparisons, reverse the pH subtraction order because of the negative sign.",
 "State the answer as a number of times."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Two earthquakes have magnitudes $6.7$ and $4.2$. Using $M=\\log_{10}A$, where $A$ is ground amplitude, find the ratio of the larger amplitude to the smaller amplitude. Give your answer to two significant figures.",
+    "solution_text": "$\\begin{aligned}A_{6.7}&=10^{6.7}\\\\A_{4.2}&=10^{4.2}\\\\\\frac{A_{6.7}}{A_{4.2}}&=\\frac{10^{6.7}}{10^{4.2}}\\\\&=10^{2.5}\\\\&\\approx320\\end{aligned}$\nThe magnitude-$6.7$ earthquake has about $320$ times the ground amplitude.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Sound level is given by $S=10\\log_{10}\\dfrac{I}{I_0}$, where $I_0$ is the threshold intensity of human hearing. A sound measures $45$ dB. Find $\\dfrac{I}{I_0}$ to two significant figures.",
+    "solution_text": "$\\begin{aligned}45&=10\\log_{10}\\frac{I}{I_0}\\\\4.5&=\\log_{10}\\frac{I}{I_0}\\\\\\frac{I}{I_0}&=10^{4.5}\\\\&\\approx3.2\\times10^4\\end{aligned}$\nThe sound intensity is about $3.2\\times10^4$ times the threshold intensity.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two machines have sound levels of $76$ dB and $69$ dB. Using $S=10\\log_{10}\\dfrac{I}{I_0}$, find the ratio of the louder machine's intensity to the quieter machine's intensity. Hence state the factor by which the louder intensity must be reduced to reach $69$ dB. Give your answer to one decimal place.",
+    "solution_text": "$\\begin{aligned}\\frac{I_{76}}{I_0}&=10^{7.6}\\\\\\frac{I_{69}}{I_0}&=10^{6.9}\\\\\\frac{I_{76}}{I_{69}}&=\\frac{10^{7.6}}{10^{6.9}}\\\\&=10^{0.7}\\\\&\\approx5.0\\end{aligned}$\nThe louder machine has about $5.0$ times the intensity. Its intensity must be divided by about $5.0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two liquids have pH readings of $3.2$ and $5.4$. Hydrogen-ion concentration $H$, in mol/L, is given by $H=10^{-pH}$. How many times greater is the concentration in the pH-$3.2$ liquid? Give your answer to two significant figures.",
+    "solution_text": "$\\begin{aligned}H_{3.2}&=10^{-3.2}\\\\H_{5.4}&=10^{-5.4}\\\\\\frac{H_{3.2}}{H_{5.4}}&=\\frac{10^{-3.2}}{10^{-5.4}}\\\\&=10^{2.2}\\\\&\\approx160\\end{aligned}$\nThe pH-$3.2$ liquid has about $160$ times the hydrogen-ion concentration. Lower pH corresponds to greater concentration.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Star magnitude is given by $m=-2.5\\log_{10}\\dfrac{B}{B_0}$, where $B$ is brightness and $B_0$ is a fixed reference brightness. Two stars have magnitudes $0.5$ and $4.5$. How many times brighter is the magnitude-$0.5$ star? Give your answer to two significant figures.",
+    "solution_text": "$\\begin{aligned}\\log_{10}\\frac{B}{B_0}&=-\\frac{m}{2.5}\\\\\\frac{B_{0.5}}{B_0}&=10^{-0.5/2.5}\\\\\\frac{B_{4.5}}{B_0}&=10^{-4.5/2.5}\\\\\\frac{B_{0.5}}{B_{4.5}}&=\\frac{10^{-0.2}}{10^{-1.8}}\\\\&=10^{1.6}\\\\&\\approx40\\end{aligned}$\nThe magnitude-$0.5$ star is about $40$ times brighter.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The graph shows $\\log_{10}N$ against time, where $N$ is a culture's population. By what factor does the population increase over the four hours shown?\n[tikz]\n\\begin{tikzpicture}[x=12mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{mathblue}{HTML}{268CFF}\n\\draw[draw=black,->] (0,0)--(4.6,0) node[right] {$t$ (hours)};\n\\draw[draw=black,->] (0,0)--(0,4.6) node[above] {$\\log_{10}N$};\n\\foreach \\x in {0,1,2,3,4} {\\draw[draw=black] (\\x,0.07)--(\\x,-0.07);\\path (\\x,-0.07) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\x$};}\n\\foreach \\y in {1,2,3,4} {\\draw[draw=black] (0.07,\\y)--(-0.07,\\y);\\path (-0.07,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\y$};}\n\\draw[draw=mathblue,thick] (0,2)--(4,4);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The graph reads $2$ at $t=0$ and $4$ at $t=4$.\n$\\begin{aligned}\\frac{N_4}{N_0}&=\\frac{10^4}{10^2}\\\\&=10^{4-2}\\\\&=100\\end{aligned}$\nThe population increases to $100$ times its starting size.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Mia says that an earthquake of magnitude $6.5$ has $2$ times the ground amplitude of an earthquake of magnitude $4.5$, because $6.5-4.5=2$. Using $M=\\log_{10}A$, explain her error and state the correct factor.",
+    "solution_text": "The magnitude difference gives the exponent of the amplitude ratio.\n$\\begin{aligned}\\frac{A_{6.5}}{A_{4.5}}&=\\frac{10^{6.5}}{10^{4.5}}\\\\&=10^2\\\\&=100\\end{aligned}$\nThe magnitude-$6.5$ earthquake has $100$ times the ground amplitude. Mia used the exponent as the ratio.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,8 +2,8 @@
   "skillId": "interpret-derivative-rate",
   "atomType": "R",
   "theory": {
-        "intro": "The **derivative** $f'(x)$ is the instantaneous rate of change of $y = f(x)$: how fast the quantity changes at one moment, not on average over an interval. So $f'(c)$ is that rate at $x = c$.",
-        "facts": [
+"intro": "The **derivative** $f'(x)$ is the instantaneous rate of change of $y = f(x)$: how fast the quantity changes at one moment, not on average over an interval. So $f'(c)$ is that rate at $x = c$.",
+"facts": [
           "If $f'(c) > 0$, the quantity is **increasing** at $x = c$, at a rate of $f'(c)$.",
           "If $f'(c) < 0$, the quantity is **decreasing** at $x = c$, at a rate of $|f'(c)|$.",
           "If $f'(c) = 0$, the quantity is **stationary** at $x = c$, neither increasing nor decreasing.",
@@ -13,13 +13,57 @@
           "Solving $f(x) = k$ finds when the quantity reaches the value $k$.",
           "Solving $f'(x) = 0$ finds when the rate of change is zero, often a maximum or minimum."
         ],
-        "steps": [
+"steps": [
           "Identify the quantity $y = f(x)$ and the variables representing input and output with their units.",
           "Differentiate $f(x)$ with respect to $x$ to obtain the instantaneous rate function $f'(x) = \\dfrac{dy}{dx}$.",
           "Substitute the specified value $x = c$ into $f'(x)$ to evaluate the numerical rate, or set $f'(x) = k$ and solve for $x$.",
           "State the final answer with correct units and clear physical interpretation (increasing, decreasing, or stationary)."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "The height of a ball is $h(t)$ metres, $t$ seconds after it is thrown. Write the mathematical operation needed to find:\na. its initial height;\nb. its rate of change of height after $4$ seconds;\nc. when its height is $12$ metres;\nd. when its height is increasing at $6\\text{ m/s}$.",
+    "solution_text": "a. Evaluate $h(0)$.\n\nb. Evaluate $h'(4)$.\n\nc. Solve $h(t)=12$.\n\n d. Solve $h'(t)=6$.\n\nThe function gives height; its derivative gives the instantaneous rate of change of height.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The volume of water in a container is $V(t)=3t^2+2t+5$ litres, where $t$ is measured in minutes. Find the instantaneous rate of change of volume after $4$ minutes and interpret the result.",
+    "solution_text": "$V'(t)=6t+2$.\n\nAt $t=4$:\n$\\begin{aligned}V'(4)&=6(4)+2\\\\&=26\\text{ L/min}\\end{aligned}$\n\nAfter $4$ minutes, the volume is increasing at $26\\text{ L/min}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A sphere has volume $V=\\frac{4}{3}\\pi r^3$, where $r$ is its radius in centimetres. Find the rate of change of volume with respect to radius when $r=5\\text{ cm}$.",
+    "solution_text": "$\\frac{dV}{dr}=4\\pi r^2$.\n\nAt $r=5$:\n$\\begin{aligned}\\frac{dV}{dr}&=4\\pi(5)^2\\\\&=100\\pi\\text{ cm}^3/\\text{cm}\\end{aligned}$\n\nThis is the rate of change with respect to radius, rather than time.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The volume $V(t)$ of water in a tank, in litres, satisfies $V'(t)=-\\frac{24}{(t+2)^2}$ for $0\\le t\\le8$, with $t$ in minutes.\na. Interpret $V'(2)=-1.5$.\nb. Explain why the volume is always decreasing over this interval, but the water leaks more slowly as time passes.",
+    "solution_text": "a. After $2$ minutes, the volume is decreasing at $1.5\\text{ L/min}$.\n\nb. The denominator is positive, so $V'(t)<0$ throughout the interval: the volume decreases.\n\nAs $t$ increases, $(t+2)^2$ increases, so the magnitude $|V'(t)|=\\frac{24}{(t+2)^2}$ decreases. The water leaks more slowly.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An insect population is modelled by $P(t)=600+120t-6t^2$, where $t$ is measured in days. Find when the population is increasing at $48$ insects per day.",
+    "solution_text": "$P'(t)=120-12t$.\n\nSet the derivative equal to the required rate:\n$\\begin{aligned}120-12t&=48\\\\12t&=72\\\\t&=6\\end{aligned}$\n\nThe population is increasing at $48$ insects per day after $6$ days.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A company's profit from producing $x$ units is $P(x)=-3x^2+180x-1200$ dollars, for $0\\le x\\le60$. Find the production level that maximises profit and the maximum profit. Justify that it is a maximum.",
+    "solution_text": "$P'(x)=-6x+180$.\n\nAt a stationary production level:\n$\\begin{aligned}-6x+180&=0\\\\6x&=180\\\\x&=30\\end{aligned}$\n\nFor $x<30$, $P'(x)>0$, so profit increases. For $x>30$, $P'(x)<0$, so profit decreases. Profit is therefore maximised at $30$ units.\n\n$\\begin{aligned}P(30)&=-3(30)^2+180(30)-1200\\\\&=-2700+5400-1200\\\\&=\\$1500\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

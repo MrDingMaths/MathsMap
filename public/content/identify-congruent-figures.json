@@ -2,20 +2,42 @@
   "skillId": "identify-congruent-figures",
   "atomType": "Cat",
   "theory": {
-        "intro": "**Congruent** figures have exactly the same shape and the same size. If a translation (slide), a reflection (flip) or a rotation (turn) moves one figure exactly on top of another, the two are congruent.",
-        "facts": [
+"intro": "**Congruent** figures have exactly the same shape and the same size. If a translation (slide), a reflection (flip) or a rotation (turn) moves one figure exactly on top of another, the two are congruent.",
+"facts": [
           "Translations, reflections and rotations do not change side lengths or angles, so the image is always congruent to the original.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw (-5.0,-0.5) -- (-3.6,-0.5) -- (-4.85,0.85) -- cycle;\n\\draw (-4.0,0.9) -- (-2.6,0.9) -- (-3.85,2.25) -- cycle;\n\\draw[dashed, -{Stealth}] (-3.6,-0.5) -- (-2.6,0.9);\n\\node at (-3.8,-1.5) {Translation};\n\\draw (-1.9,-0.4) -- (-0.5,-0.4) -- (-1.75,0.95) -- cycle;\n\\draw (1.9,-0.4) -- (0.5,-0.4) -- (1.75,0.95) -- cycle;\n\\draw[dashed] (0,-0.9) -- (0,1.6);\n\\node at (0,-1.5) {Reflection};\n\\draw (2.9,-0.4) -- (4.3,-0.4) -- (3.05,0.95) -- cycle;\n\\draw (4.3,1.0) -- (4.3,-0.4) -- (5.65,0.85) -- cycle;\n\\fill (4.3,-0.4) circle (2.2pt);\n\\node at (4.2,-1.5) {Rotation};\n\\end{tikzpicture}\n[/tikz]",
           "In congruent figures, corresponding (matching) sides are equal and corresponding angles are equal.",
           "Sides with the same number of tick marks are equal, and angles with the same mark are equal.",
           "Two circles are congruent exactly when their radii are equal.",
           "Figures with the same shape but a different size are **not** congruent.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-5.2,-0.3) -- (-3.9,-0.3) -- (-4.6,0.85) -- cycle;\n\\draw (-3.4,-0.3) -- (-2.1,-0.3) -- (-2.8,0.85) -- cycle;\n\\node[align=center] at (-3.65,-1.3) {Same shape and size:\\\\ congruent};\n\\draw (0.2,-0.3) -- (1.5,-0.3) -- (0.8,0.85) -- cycle;\n\\draw (2.2,-0.3) -- (4.28,-0.3) -- (3.16,1.54) -- cycle;\n\\node[align=center] at (2.24,-1.3) {Same shape, different size:\\\\ not congruent};\n\\end{tikzpicture}\n[/tikz]"
         ],
-        "steps": [
+"steps": [
 "If a translation, reflection or rotation is supplied, use it to explain why the figures are congruent. If congruence is given, use the figures and matching marks to identify corresponding features.",
 "Match each vertex of the original with its image, using the transformation or the matching marks.",
 "Read off the corresponding sides and angles from the matched vertices."
+],
+"workedExamples": [
+  {
+    "question_text": "$\\triangle ABC$ is translated to give $\\triangle PQR$. Explain why the triangles are congruent, and name the side corresponding to $AC$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0); \\coordinate (B) at (2.2,0); \\coordinate (C) at (0.6,1.4);\n\\coordinate (P) at (3.4,0.6); \\coordinate (Q) at (5.6,0.6); \\coordinate (R) at (4,2);\n\\draw (A)--(B)--(C)--cycle; \\draw (P)--(Q)--(R)--cycle;\n\\path (A) node[below left] {$A$} (B) node[below right] {$B$} (C) node[above] {$C$};\n\\path (P) node[below left] {$P$} (Q) node[below right] {$Q$} (R) node[above] {$R$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "A translation preserves shape and size, so the triangles are congruent.\n\nThe translation matches $A$ with $P$, $B$ with $Q$ and $C$ with $R$. Side $AC$ corresponds to side $PR$."
+  },
+  {
+    "question_text": "Quadrilateral $ABCD$ is reflected in the dashed mirror line to give $WXYZ$.\n\nExplain why the figures are congruent. Name the vertex, side and angle corresponding to $D$, $AD$ and $\\angle C$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,1.6); \\coordinate (B) at (0,0); \\coordinate (C) at (2,0); \\coordinate (D) at (0.8,1.6);\n\\coordinate (W) at (6,1.6); \\coordinate (X) at (6,0); \\coordinate (Y) at (4,0); \\coordinate (Z) at (5.2,1.6);\n\\draw (A)--(B)--(C)--(D)--cycle; \\draw (W)--(X)--(Y)--(Z)--cycle;\n\\draw[dashed] (3,-0.4)--(3,2.1);\n\\path (A) node[above left] {$A$} (B) node[below left] {$B$} (C) node[below right] {$C$} (D) node[above right] {$D$};\n\\path (W) node[above right] {$W$} (X) node[below right] {$X$} (Y) node[below left] {$Y$} (Z) node[above left] {$Z$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "A reflection preserves shape and size, so the quadrilaterals are congruent.\n\nFollowing the reflection gives $A \\leftrightarrow W$, $B \\leftrightarrow X$, $C \\leftrightarrow Y$ and $D \\leftrightarrow Z$.\n\nVertex $D$ corresponds to $Z$, side $AD$ corresponds to $WZ$, and $\\angle C$ corresponds to $\\angle Y$."
+  },
+  {
+    "question_text": "The congruent pentagons are shown in different orientations. The second is a rotated image of the first.\n\nExplain why rotation preserves congruence. Name the vertex, side and angle in $PQRST$ corresponding to $D$, $BC$ and $\\angle E$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0); \\coordinate (B) at (2.4,0); \\coordinate (C) at (2.4,0.8); \\coordinate (D) at (1,1.5); \\coordinate (E) at (0,1.5);\n\\coordinate (P) at (5.5,0); \\coordinate (Q) at (5.5,2.4); \\coordinate (R) at (4.7,2.4); \\coordinate (S) at (4,1); \\coordinate (T) at (4,0);\n\\draw (A)--(B)--(C)--(D)--(E)--cycle; \\draw (P)--(Q)--(R)--(S)--(T)--cycle;\n\\path (A) node[below left] {$A$} (B) node[below right] {$B$} (C) node[right] {$C$} (D) node[above] {$D$} (E) node[above left] {$E$};\n\\path (P) node[below right] {$P$} (Q) node[above right] {$Q$} (R) node[above left] {$R$} (S) node[left] {$S$} (T) node[below left] {$T$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "A rotation preserves side lengths and angles, so it preserves shape and size.\n\nMatch the longest side $AB$ with $PQ$, then follow the neighbouring sides around each pentagon. This gives $A \\leftrightarrow P$, $B \\leftrightarrow Q$, $C \\leftrightarrow R$, $D \\leftrightarrow S$ and $E \\leftrightarrow T$.\n\nVertex $D$ corresponds to $S$, side $BC$ corresponds to $QR$, and $\\angle E$ corresponds to $\\angle T$."
+  },
+  {
+    "question_text": "The triangles are congruent. Use the tick marks to name the vertex corresponding to $B$ and the side corresponding to $AC$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{one/.style={postaction={decorate},decoration={markings,mark=at position 0.5 with {\\draw (0,-3pt)--(0,3pt);}}},two/.style={postaction={decorate},decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-3pt)--(-2pt,3pt);\\draw (2pt,-3pt)--(2pt,3pt);}}},three/.style={postaction={decorate},decoration={markings,mark=at position 0.5 with {\\draw (-3pt,-3pt)--(-3pt,3pt);\\draw (0,-3pt)--(0,3pt);\\draw (3pt,-3pt)--(3pt,3pt);}}}}\n\\coordinate (A) at (0,0); \\coordinate (B) at (0.7,1.6); \\coordinate (C) at (2.5,0.2);\n\\coordinate (U) at (6,0); \\coordinate (V) at (5.3,1.6); \\coordinate (W) at (3.5,0.2);\n\\draw[one] (A)--(B); \\draw[two] (B)--(C); \\draw[three] (C)--(A);\n\\draw[one] (U)--(V); \\draw[two] (V)--(W); \\draw[three] (W)--(U);\n\\path (A) node[below left] {$A$} (B) node[above] {$B$} (C) node[below right] {$C$};\n\\path (U) node[below right] {$U$} (V) node[above] {$V$} (W) node[below left] {$W$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "At $B$, the single-tick side meets the double-tick side. In the second triangle these sides meet at $V$, so $B$ corresponds to $V$.\n\nSide $AC$ has three ticks. The matching side is $UW$, which also has three ticks."
+  },
+  {
+    "question_text": "The triangles are congruent. Use the angle marks to name the angle corresponding to $\\angle L$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles}\n\\coordinate (K) at (0,0); \\coordinate (L) at (2.4,0); \\coordinate (M) at (0.8,1.5);\n\\coordinate (R) at (6,1.7); \\coordinate (S) at (3.6,1.7); \\coordinate (T) at (5.2,0.2);\n\\draw (K)--(L)--(M)--cycle; \\draw (R)--(S)--(T)--cycle;\n\\pic[draw,angle radius=0.3cm] {angle=L--K--M};\n\\pic[draw,angle radius=0.3cm] {angle=M--L--K};\n\\pic[draw,angle radius=0.42cm] {angle=M--L--K};\n\\pic[draw,angle radius=0.3cm] {angle=S--R--T};\n\\pic[draw,angle radius=0.3cm] {angle=T--S--R};\n\\pic[draw,angle radius=0.42cm] {angle=T--S--R};\n\\path (K) node[below left] {$K$} (L) node[below right] {$L$} (M) node[above] {$M$};\n\\path (R) node[above right] {$R$} (S) node[above left] {$S$} (T) node[below] {$T$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\angle L$ has two arcs. The angle with two arcs in the second triangle is $\\angle S$.\n\nTherefore, $\\angle L$ corresponds to $\\angle S$."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

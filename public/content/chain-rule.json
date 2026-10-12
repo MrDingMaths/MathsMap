@@ -2,21 +2,93 @@
   "skillId": "chain-rule",
   "atomType": "R",
   "theory": {
-        "intro": "The **chain rule** differentiates a composite function $y = f(g(x))$. Let $u = g(x)$ be the inner function and $y = f(u)$ the outer function. Then $\\dfrac{dy}{dx} = \\dfrac{dy}{du} \\times \\dfrac{du}{dx}$.",
-        "facts": [
+"intro": "The **chain rule** differentiates a composite function $y = f(g(x))$. Let $u = g(x)$ be the inner function and $y = f(u)$ the outer function. Then $\\dfrac{dy}{dx} = \\dfrac{dy}{du} \\times \\dfrac{du}{dx}$.",
+"facts": [
           "In Leibniz notation, the chain rule is $\\dfrac{dy}{dx} = \\dfrac{dy}{du} \\times \\dfrac{du}{dx}$.",
           "In Lagrange notation, if $y = f(g(x))$ then $y' = f'(g(x)) \\cdot g'(x)$.",
           "For a power of a function $y = [g(x)]^{n}$, the general power rule gives $\\dfrac{dy}{dx} = n[g(x)]^{n-1}g'(x)$.",
           "Negative and fractional powers follow the same rule: $\\dfrac{d}{dx}\\left(\\dfrac{1}{g(x)}\\right) = -\\dfrac{g'(x)}{[g(x)]^{2}}$ and $\\dfrac{d}{dx}\\sqrt{g(x)} = \\dfrac{g'(x)}{2\\sqrt{g(x)}}$.",
           "Leave the inner function unchanged inside the outer derivative; never differentiate it inside the bracket."
         ],
-        "steps": [
+"steps": [
           "Identify the inner function $u = g(x)$ and outer function $y = f(u)$.",
           "Find the inner derivative $\\dfrac{du}{dx}$ and outer derivative $\\dfrac{dy}{du}$.",
           "Multiply the two derivatives: $\\dfrac{dy}{dx} = \\dfrac{dy}{du} \\times \\dfrac{du}{dx}$.",
           "Substitute $u = g(x)$ back into the result and simplify."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Differentiate $y = 2(4 - 5x)^4$ using the chain rule.",
+    "solution_text": "Let $u = 4 - 5x$, so $y = 2u^4$.\n$\\begin{align*}\\frac{du}{dx} &= -5 \\\\ \\frac{dy}{du} &= 8u^3\\end{align*}$\n$\\begin{align*}\\frac{dy}{dx} &= \\frac{dy}{du}\\times\\frac{du}{dx} \\\\ &= 8u^3\\times(-5) \\\\ &= -40(4-5x)^3\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y = 3(x^3 - 2x + 4)^5$ using the general power rule.",
+    "solution_text": "The inner function is $x^3-2x+4$, with derivative $3x^2-2$.\n$\\begin{align*}y' &= 3(5)(x^3-2x+4)^4(3x^2-2) \\\\ &= 15(3x^2-2)(x^3-2x+4)^4\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y = \\frac{4}{(3x^2+2)^3}$ by first writing it in index form.",
+    "solution_text": "$y = 4(3x^2+2)^{-3}$\n$\\begin{align*}y' &= 4(-3)(3x^2+2)^{-4}(6x) \\\\ &= -72x(3x^2+2)^{-4} \\\\ &= -\\frac{72x}{(3x^2+2)^4}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y = \\sqrt{2x^2+7}$ by first writing it in index form.",
+    "solution_text": "$y = (2x^2+7)^{\\frac12}$\n$\\begin{align*}y' &= \\frac12(2x^2+7)^{-\\frac12}(4x) \\\\ &= \\frac{2x}{\\sqrt{2x^2+7}}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y = \\sqrt[3]{4x-3}$ using fractional indices.",
+    "solution_text": "$y = (4x-3)^{\\frac13}$\n$\\begin{align*}y' &= \\frac13(4x-3)^{-\\frac23}(4) \\\\ &= \\frac{4}{3\\sqrt[3]{(4x-3)^2}}\\end{align*}$\nThe derivative is defined for $x\\ne\\frac34$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y = (8-3x)^{-\\frac25}$ and express the answer with positive indices.",
+    "solution_text": "$\\begin{align*}y' &= -\\frac25(8-3x)^{-\\frac75}(-3) \\\\ &= \\frac65(8-3x)^{-\\frac75} \\\\ &= \\frac{6}{5\\sqrt[5]{(8-3x)^7}}\\end{align*}$\nThe function and derivative require $x\\ne\\frac83$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $f(x) = (2x^2+1)^{\\frac32}$.",
+    "solution_text": "$\\begin{align*}f'(x) &= \\frac32(2x^2+1)^{\\frac12}(4x) \\\\ &= 6x\\sqrt{2x^2+1}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $y = (2x-1)^3$, find the gradient of the tangent at $x=1$, then find the equations of the tangent and normal there.",
+    "solution_text": "At $x=1$, $y=(2-1)^3=1$, so the point is $(1,1)$.\n$\\begin{align*}y' &= 3(2x-1)^2(2) \\\\ &= 6(2x-1)^2\\end{align*}$\nThe tangent gradient is $y'(1)=6$.\nThe tangent has equation\n$\\begin{align*}y-1 &= 6(x-1) \\\\ y &= 6x-5\\end{align*}$\nThe normal gradient is $-\\frac16$, so its equation is\n$\\begin{align*}y-1 &= -\\frac16(x-1) \\\\ 6y-6 &= -x+1 \\\\ x+6y-7 &= 0\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find all points on $y=(x^2-9)^3$ where the tangent is horizontal.",
+    "solution_text": "$\\begin{align*}y' &= 3(x^2-9)^2(2x) \\\\ &= 6x(x^2-9)^2\\end{align*}$\nFor a horizontal tangent, $y'=0$.\n$\\begin{align*}6x(x^2-9)^2 &= 0 \\\\ x &= 0,\\ -3,\\ 3\\end{align*}$\nAt $x=0$, $y=(-9)^3=-729$. At $x=\\pm3$, $y=0$.\nThe points are $(0,-729)$, $(-3,0)$ and $(3,0)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The normal to $y=\\sqrt{2x+a}$ at $x=3$ has gradient $-4$. Find $a$.",
+    "solution_text": "$\\begin{align*}y' &= \\frac12(2x+a)^{-\\frac12}(2) \\\\ &= \\frac{1}{\\sqrt{2x+a}}\\end{align*}$\nThe normal gradient is the negative reciprocal of the tangent gradient. At $x=3$,\n$\\begin{align*}-\\sqrt{6+a} &= -4 \\\\ \\sqrt{6+a} &= 4 \\\\ 6+a &= 16 \\\\ a &= 10\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

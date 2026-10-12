@@ -2,8 +2,8 @@
   "skillId": "solve-related-rates",
   "atomType": "R",
   "theory": {
-    "intro": "A **related rates problem** gives the rate of change of one quantity and asks for the rate of another that is linked to it by the shape of the object. Connect the two with a formula, then apply the chain rule.",
-    "facts": [
+"intro": "A **related rates problem** gives the rate of change of one quantity and asks for the rate of another that is linked to it by the shape of the object. Connect the two with a formula, then apply the chain rule.",
+"facts": [
       "Write the given rate with its sign: a shrinking, draining or falling quantity has a negative rate.",
       "Every rate carries a unit, such as cm³/s or m/min, and the unit is part of the answer.",
       "The connecting formula must contain only the two quantities named, so any third variable is replaced first.",
@@ -11,14 +11,128 @@
       "Differentiate the formula first and substitute the instantaneous value afterwards; substituting first leaves a constant, whose derivative is $0$.",
       "Link the sides of a right-angled triangle with Pythagoras, and a light with its shadow using similar triangles."
     ],
-    "steps": [
+"steps": [
       "Identify the variables, the rate given and the rate wanted",
       "Write a formula connecting the two quantities, using the shape constraint to remove any third variable",
       "Set up the chain rule",
       "Differentiate and substitute the given rate",
       "Evaluate at the given instant"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A spherical snowball has radius $r$ cm. Its radius decreases at $0.1$ cm/min. Find the rates of change of its surface area and volume when $r=4$ cm. Use $S=4\\pi r^2$ and $V=\\frac43\\pi r^3$, and give exact answers.",
+    "solution_text": "The radius is decreasing, so $\\frac{dr}{dt}=-0.1$ cm/min. The variables are $r$, $t$ and either $S$ or $V$.\n\nFor surface area:\n$\\begin{aligned} S&=4\\pi r^2\\\\ \\frac{dS}{dr}&=8\\pi r\\\\ \\frac{dS}{dt}&=\\frac{dS}{dr}\\times\\frac{dr}{dt}\\\\ &=8\\pi r(-0.1)\\\\ &=-0.8\\pi r \\end{aligned}$\n\nAt $r=4$:\n$\\begin{aligned} \\frac{dS}{dt}&=-0.8\\pi(4)\\\\ &=-3.2\\pi\\ \\text{cm}^2/\\text{min} \\end{aligned}$\n\nFor volume:\n$\\begin{aligned} V&=\\frac43\\pi r^3\\\\ \\frac{dV}{dr}&=4\\pi r^2\\\\ \\frac{dV}{dt}&=\\frac{dV}{dr}\\times\\frac{dr}{dt}\\\\ &=4\\pi r^2(-0.1)\\\\ &=-0.4\\pi r^2 \\end{aligned}$\n\nAt $r=4$:\n$\\begin{aligned} \\frac{dV}{dt}&=-0.4\\pi(4)^2\\\\ &=-6.4\\pi\\ \\text{cm}^3/\\text{min} \\end{aligned}$\n\nThe surface area decreases at $3.2\\pi$ cm²/min and the volume decreases at $6.4\\pi$ cm³/min.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A circular ripple has radius $r$ cm increasing at $3$ cm/s. Find the rate at which its enclosed area increases when $r=12$ cm. Use $A=\\pi r^2$.",
+    "solution_text": "The variables are $A$, $r$ and $t$, with $\\frac{dr}{dt}=3$ cm/s.\n\n$\\begin{aligned} A&=\\pi r^2\\\\ \\frac{dA}{dr}&=2\\pi r\\\\ \\frac{dA}{dt}&=\\frac{dA}{dr}\\times\\frac{dr}{dt}\\\\ &=2\\pi r(3)\\\\ &=6\\pi r \\end{aligned}$\n\nAt $r=12$:\n$\\begin{aligned} \\frac{dA}{dt}&=6\\pi(12)\\\\ &=72\\pi\\ \\text{cm}^2/\\text{s} \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A metal cube remains cubic as each edge lengthens at $0.04$ cm/s. Find the rates of increase of its surface area and volume when its edge length is $5$ cm. Use $S=6x^2$ and $V=x^3$.",
+    "solution_text": "Let $x$ be the edge length in centimetres, so $\\frac{dx}{dt}=0.04$ cm/s.\n\nFor surface area:\n$\\begin{aligned} S&=6x^2\\\\ \\frac{dS}{dx}&=12x\\\\ \\frac{dS}{dt}&=\\frac{dS}{dx}\\times\\frac{dx}{dt}\\\\ &=12x(0.04)\\\\ &=0.48x \\end{aligned}$\n\nAt $x=5$:\n$\\begin{aligned} \\frac{dS}{dt}&=0.48(5)\\\\ &=2.4\\ \\text{cm}^2/\\text{s} \\end{aligned}$\n\nFor volume:\n$\\begin{aligned} V&=x^3\\\\ \\frac{dV}{dx}&=3x^2\\\\ \\frac{dV}{dt}&=\\frac{dV}{dx}\\times\\frac{dx}{dt}\\\\ &=3x^2(0.04)\\\\ &=0.12x^2 \\end{aligned}$\n\nAt $x=5$:\n$\\begin{aligned} \\frac{dV}{dt}&=0.12(5)^2\\\\ &=3\\ \\text{cm}^3/\\text{s} \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A cylindrical piece of wood is $30$ cm long. Its radius decreases at $0.02$ cm/min while its length stays fixed. Find the rate of change of its volume when the radius is $5$ cm. Use $V=\\pi r^2h$.",
+    "solution_text": "The radius is decreasing, so $\\frac{dr}{dt}=-0.02$ cm/min. Replace the fixed height before differentiating.\n\n$\\begin{aligned} V&=\\pi r^2h\\\\ &=30\\pi r^2\\\\ \\frac{dV}{dr}&=60\\pi r\\\\ \\frac{dV}{dt}&=\\frac{dV}{dr}\\times\\frac{dr}{dt}\\\\ &=60\\pi r(-0.02)\\\\ &=-1.2\\pi r \\end{aligned}$\n\nAt $r=5$:\n$\\begin{aligned} \\frac{dV}{dt}&=-1.2\\pi(5)\\\\ &=-6\\pi\\ \\text{cm}^3/\\text{min} \\end{aligned}$\n\nThe volume decreases at $6\\pi$ cm³/min.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A circular plate has area increasing at $8$ cm²/min. Find the rate at which its radius increases when the radius is $4$ cm. Use $A=\\pi r^2$.",
+    "solution_text": "Here $\\frac{dA}{dt}=8$ cm²/min and $\\frac{dr}{dt}$ is wanted.\n\n$\\begin{aligned} A&=\\pi r^2\\\\ \\frac{dA}{dr}&=2\\pi r\\\\ \\frac{dr}{dA}&=\\frac{1}{2\\pi r}\\\\ \\frac{dr}{dt}&=\\frac{dr}{dA}\\times\\frac{dA}{dt}\\\\ &=\\frac{8}{2\\pi r} \\end{aligned}$\n\nAt $r=4$:\n$\\begin{aligned} \\frac{dr}{dt}&=\\frac{8}{2\\pi(4)}\\\\ &=\\frac{1}{\\pi}\\ \\text{cm}/\\text{min} \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Air enters a spherical balloon at $16\\pi$ cm³/s. Find the rate at which its radius increases when its radius is $4$ cm. Use $V=\\frac43\\pi r^3$.",
+    "solution_text": "Here $\\frac{dV}{dt}=16\\pi$ cm³/s and $\\frac{dr}{dt}$ is wanted.\n\n$\\begin{aligned} V&=\\frac43\\pi r^3\\\\ \\frac{dV}{dr}&=4\\pi r^2\\\\ \\frac{dr}{dV}&=\\frac{1}{4\\pi r^2}\\\\ \\frac{dr}{dt}&=\\frac{dr}{dV}\\times\\frac{dV}{dt}\\\\ &=\\frac{16\\pi}{4\\pi r^2}\\\\ &=\\frac{4}{r^2} \\end{aligned}$\n\nAt $r=4$:\n$\\begin{aligned} \\frac{dr}{dt}&=\\frac{4}{16}\\\\ &=\\frac14\\ \\text{cm}/\\text{s} \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A spherical bubble loses volume at $48\\pi$ cm³/s. Find the rate at which its radius changes when its volume is $\\frac{500\\pi}{3}$ cm³. Use $V=\\frac43\\pi r^3$.",
+    "solution_text": "The volume is decreasing, so $\\frac{dV}{dt}=-48\\pi$ cm³/s. First find the radius at the given instant.\n\n$\\begin{aligned} \\frac43\\pi r^3&=\\frac{500\\pi}{3}\\\\ r^3&=125\\\\ r&=5\\ \\text{cm} \\end{aligned}$\n\nDifferentiate the volume formula and use the inverse derivative.\n\n$\\begin{aligned} \\frac{dV}{dr}&=4\\pi r^2\\\\ \\frac{dr}{dt}&=\\frac{dr}{dV}\\times\\frac{dV}{dt}\\\\ &=\\frac{-48\\pi}{4\\pi r^2}\\\\ &=-\\frac{12}{r^2} \\end{aligned}$\n\nAt $r=5$:\n$\\begin{aligned} \\frac{dr}{dt}&=-\\frac{12}{25}\\ \\text{cm}/\\text{s} \\end{aligned}$\n\nThe radius decreases at $\\frac{12}{25}$ cm/s.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A cubic block remains cubic while its volume decreases at $54$ cm³/min. Find the rate at which each edge changes when the volume is $216$ cm³. Use $V=x^3$.",
+    "solution_text": "The volume is decreasing, so $\\frac{dV}{dt}=-54$ cm³/min. First find the edge length.\n\n$\\begin{aligned} x^3&=216\\\\ x&=6\\ \\text{cm} \\end{aligned}$\n\n$\\begin{aligned} \\frac{dV}{dx}&=3x^2\\\\ \\frac{dx}{dt}&=\\frac{dx}{dV}\\times\\frac{dV}{dt}\\\\ &=\\frac{-54}{3x^2} \\end{aligned}$\n\nAt $x=6$:\n$\\begin{aligned} \\frac{dx}{dt}&=\\frac{-54}{3(6)^2}\\\\ &=-0.5\\ \\text{cm}/\\text{min} \\end{aligned}$\n\nEach edge decreases at $0.5$ cm/min.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Sand forms a conical pile whose radius always equals its height. Sand is delivered at $6$ m³/min. Find the rate at which the height increases when the height is $3$ m. Use $V=\\frac13\\pi r^2h$.\n\nThe diagram is a vertical cross section through the axis.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-2,0)--(0,2)--(2,0)--cycle;\n\\draw[dashed] (0,2)--(0,0);\n\\draw (0,0.18)--(0.18,0.18)--(0.18,0);\n\\path (0,1) node[left] {$h$};\n\\path (1,0) node[below] {$r$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Here $\\frac{dV}{dt}=6$ m³/min. Since $r=h$, write the volume in terms of height only.\n\n$\\begin{aligned} V&=\\frac13\\pi r^2h\\\\ &=\\frac13\\pi h^3\\\\ \\frac{dV}{dh}&=\\pi h^2\\\\ \\frac{dh}{dt}&=\\frac{dh}{dV}\\times\\frac{dV}{dt}\\\\ &=\\frac{6}{\\pi h^2} \\end{aligned}$\n\nAt $h=3$:\n$\\begin{aligned} \\frac{dh}{dt}&=\\frac{6}{9\\pi}\\\\ &=\\frac{2}{3\\pi}\\ \\text{m}/\\text{min} \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An inverted conical tank is $10$ m deep with a top radius of $4$ m. Water enters at $8$ m³/min. Find the rate at which the water depth increases when the depth is $5$ m. Use $V=\\frac13\\pi r^2h$.\n\nThe diagram is a vertical cross section through the axis; $r$ and $h$ describe the water.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-1.6,4)--(0,0)--(1.6,4)--cycle;\n\\draw (-0.8,2)--(0.8,2);\n\\draw[dashed] (0,0)--(0,4);\n\\path (0,1) node[left] {$h$};\n\\path (0.4,2) node[above] {$r$};\n\\draw[<->] (2.1,0)--(2.1,4);\n\\path (2.1,2) node[right] {$10\\ \\mathrm{m}$};\n\\path (0.8,4) node[above] {$4\\ \\mathrm{m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Similar triangles give the radius-to-height ratio.\n\n$\\begin{aligned} \\frac{r}{h}&=\\frac{4}{10}\\\\ r&=\\frac{2h}{5} \\end{aligned}$\n\nReplace $r$ before differentiating.\n\n$\\begin{aligned} V&=\\frac13\\pi r^2h\\\\ &=\\frac13\\pi\\left(\\frac{2h}{5}\\right)^2h\\\\ &=\\frac{4\\pi h^3}{75}\\\\ \\frac{dV}{dh}&=\\frac{4\\pi h^2}{25}\\\\ \\frac{dh}{dt}&=\\frac{dh}{dV}\\times\\frac{dV}{dt}\\\\ &=\\frac{25}{4\\pi h^2}\\times8\\\\ &=\\frac{50}{\\pi h^2} \\end{aligned}$\n\nAt $h=5$:\n$\\begin{aligned} \\frac{dh}{dt}&=\\frac{50}{25\\pi}\\\\ &=\\frac{2}{\\pi}\\ \\text{m}/\\text{min} \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A conical gravel pile always has base radius twice its height. Find the delivery rate needed for the height to increase at $0.02$ m/min when the height is $4$ m. Use $V=\\frac13\\pi r^2h$.",
+    "solution_text": "Here $r=2h$ and $\\frac{dh}{dt}=0.02$ m/min. Write the volume using $h$ only.\n\n$\\begin{aligned} V&=\\frac13\\pi r^2h\\\\ &=\\frac13\\pi(2h)^2h\\\\ &=\\frac{4\\pi h^3}{3}\\\\ \\frac{dV}{dh}&=4\\pi h^2\\\\ \\frac{dV}{dt}&=\\frac{dV}{dh}\\times\\frac{dh}{dt}\\\\ &=4\\pi h^2(0.02) \\end{aligned}$\n\nAt $h=4$:\n$\\begin{aligned} \\frac{dV}{dt}&=4\\pi(4)^2(0.02)\\\\ &=1.28\\pi\\ \\text{m}^3/\\text{min} \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A kite stays $24$ m above level ground and moves horizontally away from its holder at $3$ m/s. Find the rate at which the string is let out when the string is $40$ m long. Assume the string is straight and the holder is at ground level.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(3.2,0)--(3.2,2.4)--cycle;\n\\draw (3,0)--(3,0.2)--(3.2,0.2);\n\\path (1.6,0) node[below] {$x$};\n\\path (3.2,1.2) node[right] {$24\\ \\mathrm{m}$};\n\\path (1.6,1.2) node[above left] {$s$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Let $x$ be the horizontal distance and $s$ the string length, in metres. Here $\\frac{dx}{dt}=3$ m/s.\n\nBy Pythagoras:\n$\\begin{aligned} s^2&=x^2+24^2\\\\ s&=\\sqrt{x^2+576}\\\\ \\frac{ds}{dx}&=\\frac{x}{\\sqrt{x^2+576}} \\end{aligned}$\n\nWhen $s=40$:\n$\\begin{aligned} x^2+576&=1600\\\\ x^2&=1024\\\\ x&=32\\ \\text{m} \\end{aligned}$\n\nApply the chain rule at that instant.\n\n$\\begin{aligned} \\frac{ds}{dt}&=\\frac{ds}{dx}\\times\\frac{dx}{dt}\\\\ &=\\frac{32}{40}\\times3\\\\ &=2.4\\ \\text{m}/\\text{s} \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A ladder $15$ m long rests against a vertical wall. Its foot is $9$ m from the wall.\n(a) Find the rate at which the top moves if the foot slides away at $0.2$ m/s.\n(b) At the same position, find the rate at which the foot moves if the top slides down at $0.4$ cm/s.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,4.4)--(0,0)--(3.5,0);\n\\draw (0,4)--(3,0);\n\\draw (0,0.2)--(0.2,0.2)--(0.2,0);\n\\path (0,2) node[left] {$y$};\n\\path (1.5,0) node[below] {$x$};\n\\path (1.5,2) node[above right] {$15\\ \\mathrm{m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Let $x$ and $y$ be the horizontal and vertical distances in metres. Pythagoras gives:\n\n$\\begin{aligned} x^2+y^2&=225\\\\ y&=\\sqrt{225-x^2}\\\\ \\frac{dy}{dx}&=-\\frac{x}{\\sqrt{225-x^2}} \\end{aligned}$\n\nAt $x=9$:\n$\\begin{aligned} y&=\\sqrt{225-81}\\\\ &=12\\ \\text{m} \\end{aligned}$\n\n(a) Use $\\frac{dx}{dt}=0.2$ m/s.\n\n$\\begin{aligned} \\frac{dy}{dt}&=\\frac{dy}{dx}\\times\\frac{dx}{dt}\\\\ &=-\\frac{9}{12}(0.2)\\\\ &=-0.15\\ \\text{m}/\\text{s} \\end{aligned}$\n\nThe top slides down at $0.15$ m/s.\n\n(b) The top is falling, so $\\frac{dy}{dt}=-0.4$ cm/s $=-0.004$ m/s.\n\n$\\begin{aligned} \\frac{dy}{dt}&=\\frac{dy}{dx}\\times\\frac{dx}{dt}\\\\ -0.004&=-\\frac{9}{12}\\frac{dx}{dt}\\\\ \\frac{dx}{dt}&=\\frac{2}{375}\\ \\text{m}/\\text{s}\\\\ &=\\frac{8}{15}\\ \\text{cm}/\\text{s} \\end{aligned}$\n\nThe foot slides away at $\\frac{8}{15}$ cm/s.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A person $1.8$ m tall walks away from a $9$ m streetlight at $1.6$ m/s. Find the rate at which the person's shadow lengthens.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,4)--(0,0)--(5,0)--cycle;\n\\draw (4,0)--(4,0.8);\n\\path (0,2) node[left] {$9\\ \\mathrm{m}$};\n\\path (4,0.4) node[left] {$1.8\\ \\mathrm{m}$};\n\\draw[<->] (0,-0.5)--(4,-0.5);\n\\path (2,-0.5) node[below] {$x$};\n\\draw[<->] (4,-0.5)--(5,-0.5);\n\\path (4.5,-0.5) node[below] {$s$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Let $x$ be the distance from the streetlight and $s$ the shadow length, in metres. Here $\\frac{dx}{dt}=1.6$ m/s.\n\nSimilar triangles give:\n$\\begin{aligned} \\frac{s}{s+x}&=\\frac{1.8}{9}\\\\ 9s&=1.8s+1.8x\\\\ 7.2s&=1.8x\\\\ s&=\\frac{x}{4}\\\\ \\frac{ds}{dx}&=\\frac14 \\end{aligned}$\n\n$\\begin{aligned} \\frac{ds}{dt}&=\\frac{ds}{dx}\\times\\frac{dx}{dt}\\\\ &=\\frac14(1.6)\\\\ &=0.4\\ \\text{m}/\\text{s} \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A trough is $6$ m long. Its cross section is a right isosceles triangle with the right angle at the bottom and the top horizontal. Find the inflow needed to make the water depth rise at $0.05$ cm/min when the depth is $40$ cm. Give your answer in litres per minute; $1$ L $=1000$ cm³.\n\nThe diagram shows the triangular cross section of the water.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-2,2)--(0,0)--(2,2)--cycle;\n\\draw[dashed] (0,0)--(0,2);\n\\draw (-0.16,0.16)--(0,0.32)--(0.16,0.16);\n\\path (0,1) node[right] {$h$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Use centimetres throughout, so the trough is $600$ cm long. The altitude bisects the right angle; each half is a $45^\\circ$ right triangle, so the water-surface width is $2h$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-2,2)--(0,0)--(2,2)--cycle;\n\\draw[dashed] (0,0)--(0,2);\n\\draw (-0.16,0.16)--(0,0.32)--(0.16,0.16);\n\\path (0,1) node[right] {$h$};\n\\path (-1,2) node[above] {$h$};\n\\path (1,2) node[above] {$h$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{aligned} V&=\\frac12(2h)h(600)\\\\ &=600h^2\\\\ \\frac{dV}{dh}&=1200h\\\\ \\frac{dV}{dt}&=\\frac{dV}{dh}\\times\\frac{dh}{dt}\\\\ &=1200h(0.05) \\end{aligned}$\n\nAt $h=40$:\n$\\begin{aligned} \\frac{dV}{dt}&=1200(40)(0.05)\\\\ &=2400\\ \\text{cm}^3/\\text{min}\\\\ &=2.4\\ \\text{L}/\\text{min} \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A spherical balloon's surface area increases at $10$ cm²/s. Find the rate at which its volume increases when its radius is $8$ cm. Use $S=4\\pi r^2$ and $V=\\frac43\\pi r^3$.",
+    "solution_text": "First use the surface area to find the radius rate.\n\n$\\begin{aligned} S&=4\\pi r^2\\\\ \\frac{dS}{dr}&=8\\pi r\\\\ \\frac{dS}{dt}&=\\frac{dS}{dr}\\times\\frac{dr}{dt} \\end{aligned}$\n\nAt $r=8$:\n$\\begin{aligned} 10&=64\\pi\\frac{dr}{dt}\\\\ \\frac{dr}{dt}&=\\frac{5}{32\\pi}\\ \\text{cm}/\\text{s} \\end{aligned}$\n\nNow use the volume formula at the same instant.\n\n$\\begin{aligned} V&=\\frac43\\pi r^3\\\\ \\frac{dV}{dr}&=4\\pi r^2\\\\ \\frac{dV}{dt}&=\\frac{dV}{dr}\\times\\frac{dr}{dt}\\\\ &=4\\pi(8)^2\\frac{5}{32\\pi}\\\\ &=40\\ \\text{cm}^3/\\text{s} \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

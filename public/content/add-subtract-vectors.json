@@ -17,46 +17,54 @@
       "Read the resultant from the first tail to the last tip"
     ],
 "workedExamples": [
-  {
-    "question_text": "$JKLM$ is a parallelogram with $\\overrightarrow{JK}=\\underset{\\sim}{u}$ and $\\overrightarrow{KL}=\\underset{\\sim}{v}$.\nFind $\\overrightarrow{JL}$ and $\\overrightarrow{LJ}$ in terms of $\\underset{\\sim}{u}$ and $\\underset{\\sim}{v}$.",
-    "solution_text": "$\\overrightarrow{JL}=\\overrightarrow{JK}+\\overrightarrow{KL}$\n$\\overrightarrow{JL}=\\underset{\\sim}{u}+\\underset{\\sim}{v}$\n$\\overrightarrow{LJ}=-\\overrightarrow{JL}$\n$\\overrightarrow{LJ}=-\\underset{\\sim}{u}-\\underset{\\sim}{v}$"
+{
+    "question_text": "$JKLM$ is a parallelogram with $\\overrightarrow{JK}=\\underset{\\sim}{u}$ and $\\overrightarrow{KL}=\\underset{\\sim}{v}$.\nFind $\\overrightarrow{JL}$ and $\\overrightarrow{LJ}$ in terms of $\\underset{\\sim}{u}$ and $\\underset{\\sim}{v}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\coordinate (J) at (0,0);\\coordinate (K) at (3,0);\\coordinate (L) at (4,2);\\coordinate (M) at (1,2);\n\\draw[black] (K)--(L)--(M)--(J);\n\\draw[black,->,thick] (J)--(K) node[midway,below] {$\\underset{\\sim}{u}$};\n\\draw[black,->,thick] (K)--(L) node[midway,right] {$\\underset{\\sim}{v}$};\n\\path (J) node[below left] {$J$} (K) node[below right] {$K$} (L) node[above right] {$L$} (M) node[above left] {$M$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Follow the path from $J$ through $K$ to $L$, then reverse it.\n$\\begin{aligned}\\overrightarrow{JL}&=\\overrightarrow{JK}+\\overrightarrow{KL}\\\\\\overrightarrow{JL}&=\\underset{\\sim}{u}+\\underset{\\sim}{v}\\end{aligned}$\n$\\begin{aligned}\\overrightarrow{LJ}&=-\\overrightarrow{JL}\\\\\\overrightarrow{LJ}&=-\\underset{\\sim}{u}-\\underset{\\sim}{v}\\end{aligned}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{result}{HTML}{268CFF}\n\\coordinate (J) at (0,0);\\coordinate (K) at (3,0);\\coordinate (L) at (4,2);\\coordinate (M) at (1,2);\n\\draw[black] (J)--(K)--(L)--(M)--cycle;\n\\draw[black,->,thick] (J)--(K) node[midway,below] {$\\underset{\\sim}{u}$};\n\\draw[black,->,thick] (K)--(L) node[midway,right] {$\\underset{\\sim}{v}$};\n\\draw[result,->,thick] (J)--(L) node[midway,above left,text=result] {$\\underset{\\sim}{u}+\\underset{\\sim}{v}$};\n\\path (J) node[below left] {$J$} (K) node[below right] {$K$} (L) node[above right] {$L$} (M) node[above left] {$M$};\n\\end{tikzpicture}\n[/tikz]"
   },
-  {
-    "question_text": "Two vectors start at $T$, with $\\overrightarrow{TU}=\\underset{\\sim}{p}$ and $\\overrightarrow{TV}=\\underset{\\sim}{q}$.\nFind $\\overrightarrow{UV}$ in terms of $\\underset{\\sim}{p}$ and $\\underset{\\sim}{q}$.",
-    "solution_text": "$\\overrightarrow{UV}=\\overrightarrow{UT}+\\overrightarrow{TV}$\n$\\overrightarrow{UT}=-\\overrightarrow{TU}=-\\underset{\\sim}{p}$\n$\\overrightarrow{UV}=-\\underset{\\sim}{p}+\\underset{\\sim}{q}$\n$\\overrightarrow{UV}=\\underset{\\sim}{q}-\\underset{\\sim}{p}$"
+{
+    "question_text": "Two vectors start at $T$, with $\\overrightarrow{TU}=\\underset{\\sim}{p}$ and $\\overrightarrow{TV}=\\underset{\\sim}{q}$.\nFind $\\overrightarrow{UV}$ in terms of $\\underset{\\sim}{p}$ and $\\underset{\\sim}{q}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\coordinate (T) at (0,0);\\coordinate (U) at (3,0);\\coordinate (V) at (1,2);\n\\draw[black,->,thick] (T)--(U) node[midway,below] {$\\underset{\\sim}{p}$};\n\\draw[black,->,thick] (T)--(V) node[midway,left] {$\\underset{\\sim}{q}$};\n\\path (T) node[below left] {$T$} (U) node[right] {$U$} (V) node[above] {$V$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Travel from $U$ back to $T$, then from $T$ to $V$.\n$\\begin{aligned}\\overrightarrow{UT}&=-\\overrightarrow{TU}\\\\\\overrightarrow{UT}&=-\\underset{\\sim}{p}\\end{aligned}$\n$\\begin{aligned}\\overrightarrow{UV}&=\\overrightarrow{UT}+\\overrightarrow{TV}\\\\\\overrightarrow{UV}&=-\\underset{\\sim}{p}+\\underset{\\sim}{q}\\\\\\overrightarrow{UV}&=\\underset{\\sim}{q}-\\underset{\\sim}{p}\\end{aligned}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{result}{HTML}{268CFF}\n\\coordinate (T) at (0,0);\\coordinate (U) at (3,0);\\coordinate (V) at (1,2);\n\\draw[black,->,thick] (U)--(T) node[midway,below] {$-\\underset{\\sim}{p}$};\n\\draw[black,->,thick] (T)--(V) node[midway,left] {$\\underset{\\sim}{q}$};\n\\draw[result,->,thick] (U)--(V) node[midway,above right,text=result] {$\\underset{\\sim}{q}-\\underset{\\sim}{p}$};\n\\path (T) node[below left] {$T$} (U) node[right] {$U$} (V) node[above] {$V$};\n\\end{tikzpicture}\n[/tikz]"
   },
-  {
+{
     "question_text": "Find $\\begin{pmatrix}4\\\\-3\\end{pmatrix}+\\begin{pmatrix}-7\\\\8\\end{pmatrix}$ and $\\begin{pmatrix}4\\\\-3\\end{pmatrix}-\\begin{pmatrix}-7\\\\8\\end{pmatrix}$.",
-    "solution_text": "Add corresponding components.\n$\\begin{pmatrix}4\\\\-3\\end{pmatrix}+\\begin{pmatrix}-7\\\\8\\end{pmatrix}=\\begin{pmatrix}4+(-7)\\\\-3+8\\end{pmatrix}$\n$=\\begin{pmatrix}-3\\\\5\\end{pmatrix}$\nSubtract corresponding components.\n$\\begin{pmatrix}4\\\\-3\\end{pmatrix}-\\begin{pmatrix}-7\\\\8\\end{pmatrix}=\\begin{pmatrix}4-(-7)\\\\-3-8\\end{pmatrix}$\n$=\\begin{pmatrix}11\\\\-11\\end{pmatrix}$"
+    "solution_text": "Add corresponding components.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\begin{pmatrix}4\\\\-3\\end{pmatrix}+\\begin{pmatrix}-7\\\\8\\end{pmatrix}\\\\&=\\begin{pmatrix}4+(-7)\\\\-3+8\\end{pmatrix}\\\\&=\\begin{pmatrix}-3\\\\5\\end{pmatrix}\\end{aligned}$\nSubtract corresponding components.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\begin{pmatrix}4\\\\-3\\end{pmatrix}-\\begin{pmatrix}-7\\\\8\\end{pmatrix}\\\\&=\\begin{pmatrix}4-(-7)\\\\-3-8\\end{pmatrix}\\\\&=\\begin{pmatrix}11\\\\-11\\end{pmatrix}\\end{aligned}$"
   },
-  {
+{
     "question_text": "Given $\\underset{\\sim}{a}=2\\mathbf{i}-4\\mathbf{j}$ and $\\underset{\\sim}{b}=-6\\mathbf{i}+3\\mathbf{j}$, find $\\underset{\\sim}{a}+\\underset{\\sim}{b}$, $\\underset{\\sim}{b}-\\underset{\\sim}{a}$ and $3\\underset{\\sim}{a}+\\frac{\\underset{\\sim}{b}}{2}$ in component form.",
-    "solution_text": "$\\underset{\\sim}{a}+\\underset{\\sim}{b}=(2\\mathbf{i}-4\\mathbf{j})+(-6\\mathbf{i}+3\\mathbf{j})$\n$=-4\\mathbf{i}-\\mathbf{j}$\n$\\underset{\\sim}{b}-\\underset{\\sim}{a}=(-6\\mathbf{i}+3\\mathbf{j})-(2\\mathbf{i}-4\\mathbf{j})$\n$=-8\\mathbf{i}+7\\mathbf{j}$\n$3\\underset{\\sim}{a}+\\frac{\\underset{\\sim}{b}}{2}=3(2\\mathbf{i}-4\\mathbf{j})+\\frac{1}{2}(-6\\mathbf{i}+3\\mathbf{j})$\n$=(6\\mathbf{i}-12\\mathbf{j})+(-3\\mathbf{i}+\\frac{3}{2}\\mathbf{j})$\n$=3\\mathbf{i}-\\frac{21}{2}\\mathbf{j}$"
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\underset{\\sim}{a}+\\underset{\\sim}{b}\\\\&=(2\\mathbf{i}-4\\mathbf{j})+(-6\\mathbf{i}+3\\mathbf{j})\\\\&=-4\\mathbf{i}-\\mathbf{j}\\end{aligned}$\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\underset{\\sim}{b}-\\underset{\\sim}{a}\\\\&=(-6\\mathbf{i}+3\\mathbf{j})-(2\\mathbf{i}-4\\mathbf{j})\\\\&=-8\\mathbf{i}+7\\mathbf{j}\\end{aligned}$\n$\\begin{aligned}&\\mathrel{\\phantom{=}}3\\underset{\\sim}{a}+\\frac{\\underset{\\sim}{b}}{2}\\\\&=3(2\\mathbf{i}-4\\mathbf{j})+\\frac12(-6\\mathbf{i}+3\\mathbf{j})\\\\&=(6\\mathbf{i}-12\\mathbf{j})+(-3\\mathbf{i}+\\frac32\\mathbf{j})\\\\&=3\\mathbf{i}-\\frac{21}{2}\\mathbf{j}\\end{aligned}$"
   },
-  {
+{
     "question_text": "Find $\\begin{pmatrix}3\\\\-4\\end{pmatrix}+\\begin{pmatrix}-2\\\\7\\end{pmatrix}-\\begin{pmatrix}5\\\\1\\end{pmatrix}$.",
-    "solution_text": "$\\begin{pmatrix}3\\\\-4\\end{pmatrix}+\\begin{pmatrix}-2\\\\7\\end{pmatrix}-\\begin{pmatrix}5\\\\1\\end{pmatrix}=\\begin{pmatrix}3+(-2)-5\\\\-4+7-1\\end{pmatrix}$\n$=\\begin{pmatrix}-4\\\\2\\end{pmatrix}$"
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\begin{pmatrix}3\\\\-4\\end{pmatrix}+\\begin{pmatrix}-2\\\\7\\end{pmatrix}-\\begin{pmatrix}5\\\\1\\end{pmatrix}\\\\&=\\begin{pmatrix}3+(-2)-5\\\\-4+7-1\\end{pmatrix}\\\\&=\\begin{pmatrix}-4\\\\2\\end{pmatrix}\\end{aligned}$"
   },
-  {
+{
     "question_text": "The resultant of $\\begin{pmatrix}x\\\\-2\\end{pmatrix}+\\begin{pmatrix}4\\\\y\\end{pmatrix}$ is $\\begin{pmatrix}9\\\\5\\end{pmatrix}$.\nFind $x$ and $y$.",
     "solution_text": "$\\begin{pmatrix}x+4\\\\-2+y\\end{pmatrix}=\\begin{pmatrix}9\\\\5\\end{pmatrix}$\nEquate the top components.\n$x+4=9$\n$x=5$\nEquate the bottom components.\n$-2+y=5$\n$y=7$"
   },
-  {
+{
     "question_text": "In triangle $DEF$, $\\overrightarrow{DE}=\\begin{pmatrix}4\\\\-2\\end{pmatrix}$ and $\\overrightarrow{EF}=\\begin{pmatrix}-7\\\\6\\end{pmatrix}$.\nFind $\\overrightarrow{FD}$ as a column vector.",
     "solution_text": "$\\overrightarrow{DF}=\\overrightarrow{DE}+\\overrightarrow{EF}$\n$\\overrightarrow{DF}=\\begin{pmatrix}4+(-7)\\\\-2+6\\end{pmatrix}$\n$\\overrightarrow{DF}=\\begin{pmatrix}-3\\\\4\\end{pmatrix}$\n$\\overrightarrow{FD}=-\\overrightarrow{DF}$\n$\\overrightarrow{FD}=\\begin{pmatrix}3\\\\-4\\end{pmatrix}$"
   },
-  {
+{
     "question_text": "Prove that $\\overrightarrow{JK}-\\overrightarrow{LK}+\\overrightarrow{LM}=\\overrightarrow{JM}$. State the laws used.",
-    "solution_text": "$\\overrightarrow{JK}-\\overrightarrow{LK}+\\overrightarrow{LM}$\n$=\\overrightarrow{JK}+\\overrightarrow{KL}+\\overrightarrow{LM}$ by the negative vector law.\n$=\\overrightarrow{JL}+\\overrightarrow{LM}$ by the triangle law.\n$=\\overrightarrow{JM}$ by the triangle law."
+    "solution_text": "By the negative vector law,\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\overrightarrow{JK}-\\overrightarrow{LK}+\\overrightarrow{LM}\\\\&=\\overrightarrow{JK}+\\overrightarrow{KL}+\\overrightarrow{LM}\\end{aligned}$\nApply the triangle law twice.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\overrightarrow{JK}+\\overrightarrow{KL}+\\overrightarrow{LM}\\\\&=\\overrightarrow{JL}+\\overrightarrow{LM}\\\\&=\\overrightarrow{JM}\\end{aligned}$"
   },
-  {
+{
     "question_text": "Prove that $\\overrightarrow{HJ}-\\overrightarrow{HK}-\\overrightarrow{JK}=2\\overrightarrow{KJ}$. State the laws used.",
-    "solution_text": "$\\overrightarrow{HJ}-\\overrightarrow{HK}-\\overrightarrow{JK}$\n$=\\overrightarrow{KJ}-\\overrightarrow{JK}$ by the parallelogram law of subtraction.\n$=\\overrightarrow{KJ}+\\overrightarrow{KJ}$ by the negative vector law.\n$=2\\overrightarrow{KJ}$"
+    "solution_text": "By the parallelogram law of subtraction,\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\overrightarrow{HJ}-\\overrightarrow{HK}-\\overrightarrow{JK}\\\\&=\\overrightarrow{KJ}-\\overrightarrow{JK}\\end{aligned}$\nBy the negative vector law,\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\overrightarrow{KJ}-\\overrightarrow{JK}\\\\&=\\overrightarrow{KJ}+\\overrightarrow{KJ}\\\\&=2\\overrightarrow{KJ}\\end{aligned}$"
   },
-  {
+{
     "question_text": "In triangle $EGH$, find the resultant $\\overrightarrow{EG}+\\overrightarrow{GH}+\\overrightarrow{HE}$.",
-    "solution_text": "$\\overrightarrow{EG}+\\overrightarrow{GH}+\\overrightarrow{HE}$\n$=\\overrightarrow{EH}+\\overrightarrow{HE}$ by the triangle law.\n$=\\overrightarrow{EH}-\\overrightarrow{EH}$ by the negative vector law.\n$=\\underset{\\sim}{0}$\nThe successive vectors return to their starting point $E$, so their resultant is the zero vector."
-  }
+    "solution_text": "Apply the triangle law, then the negative vector law.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\overrightarrow{EG}+\\overrightarrow{GH}+\\overrightarrow{HE}\\\\&=\\overrightarrow{EH}+\\overrightarrow{HE}\\\\&=\\overrightarrow{EH}-\\overrightarrow{EH}\\\\&=\\underset{\\sim}{0}\\end{aligned}$\nThe successive vectors return to their starting point $E$, so their resultant is the zero vector.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\coordinate (E) at (0,0);\\coordinate (G) at (3,0);\\coordinate (H) at (1,2);\n\\draw[black,->,thick] (E)--(G);\n\\draw[black,->,thick] (G)--(H);\n\\draw[black,->,thick] (H)--(E);\n\\path (E) node[below left] {$E$} (G) node[below right] {$G$} (H) node[above] {$H$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+{
+  "question_text": "The diagram shows $\\overrightarrow{AB}=\\underset{\\sim}{r}$, $\\overrightarrow{BC}=\\underset{\\sim}{s}$ and $\\overrightarrow{CD}=\\underset{\\sim}{t}$. Sketch the resultant $\\overrightarrow{AD}$ and express it in terms of these vectors.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\coordinate (A) at (0,0);\\coordinate (B) at (2,-1);\\coordinate (C) at (4,1);\\coordinate (D) at (2,3);\n\\draw[black,->,thick] (A)--(B) node[midway,below] {$\\underset{\\sim}{r}$};\n\\draw[black,->,thick] (B)--(C) node[midway,right] {$\\underset{\\sim}{s}$};\n\\draw[black,->,thick] (C)--(D) node[midway,above right] {$\\underset{\\sim}{t}$};\n\\path (A) node[left] {$A$} (B) node[below] {$B$} (C) node[right] {$C$} (D) node[above] {$D$};\n\\end{tikzpicture}\n[/tikz]",
+  "solution_text": "The vectors are connected tip to tail. Draw the resultant from the first tail $A$ to the final tip $D$.\n$\\begin{aligned}\\overrightarrow{AD}&=\\overrightarrow{AB}+\\overrightarrow{BC}+\\overrightarrow{CD}\\\\\\overrightarrow{AD}&=\\underset{\\sim}{r}+\\underset{\\sim}{s}+\\underset{\\sim}{t}\\end{aligned}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{result}{HTML}{268CFF}\n\\coordinate (A) at (0,0);\\coordinate (B) at (2,-1);\\coordinate (C) at (4,1);\\coordinate (D) at (2,3);\n\\draw[black,->,thick] (A)--(B) node[midway,below] {$\\underset{\\sim}{r}$};\n\\draw[black,->,thick] (B)--(C) node[midway,right] {$\\underset{\\sim}{s}$};\n\\draw[black,->,thick] (C)--(D) node[midway,above right] {$\\underset{\\sim}{t}$};\n\\draw[result,->,thick] (A)--(D) node[midway,left,text=result] {$\\overrightarrow{AD}$};\n\\path (A) node[left] {$A$} (B) node[below] {$B$} (C) node[right] {$C$} (D) node[above] {$D$};\n\\end{tikzpicture}\n[/tikz]"
+},
+{
+  "question_text": "Prove that $\\overrightarrow{RS}-\\overrightarrow{US}+\\overrightarrow{QR}=\\overrightarrow{QU}$. Show your steps clearly and state the laws used.",
+  "solution_text": "By the negative vector law,\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\overrightarrow{RS}-\\overrightarrow{US}+\\overrightarrow{QR}\\\\&=\\overrightarrow{RS}+\\overrightarrow{SU}+\\overrightarrow{QR}\\end{aligned}$\nUse the commutative law to arrange a connected path.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\overrightarrow{RS}+\\overrightarrow{SU}+\\overrightarrow{QR}\\\\&=\\overrightarrow{QR}+\\overrightarrow{RS}+\\overrightarrow{SU}\\end{aligned}$\nApply the triangle law twice.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\overrightarrow{QR}+\\overrightarrow{RS}+\\overrightarrow{SU}\\\\&=\\overrightarrow{QS}+\\overrightarrow{SU}\\\\&=\\overrightarrow{QU}\\end{aligned}$"
+}
 ]
 },
   "practice": {

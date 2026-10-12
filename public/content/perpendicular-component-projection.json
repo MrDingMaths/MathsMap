@@ -2,8 +2,8 @@
   "skillId": "perpendicular-component-projection",
   "atomType": "R",
   "theory": {
-    "intro": "Any vector $\\underset{\\sim}{a}$ splits into two pieces: the part pointing along $\\underset{\\sim}{b}$ and the part at right angles to it. The direction vector $\\underset{\\sim}{b}$ must be nonzero. The first piece is $\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}$, and the second is whatever is left over.",
-    "facts": [
+"intro": "Any vector $\\underset{\\sim}{a}$ splits into two pieces: the part pointing along $\\underset{\\sim}{b}$ and the part at right angles to it. The direction vector $\\underset{\\sim}{b}$ must be nonzero. The first piece is $\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}$, and the second is whatever is left over.",
+"facts": [
 "When both components are nonzero, the two pieces form a right-angled triangle with $\\underset{\\sim}{a}$ as its hypotenuse. When either component is zero, the triangle is degenerate; the decomposition formula still holds.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta, calc}\n\\coordinate (O) at (0,0);\n\\coordinate (B) at (5,0);\n\\coordinate (A) at (3.2,2.8);\n\\coordinate (P) at (3.2,0);\n\\draw[-{Stealth[length=3mm]}] (O) -- (B) node[pos=1, below right] {$\\underset{\\sim}{b}$};\n\\draw[-{Stealth[length=3mm]}] (O) -- (A) node[pos=1, above left] {$\\underset{\\sim}{a}$};\n\\draw[thick, -{Stealth[length=3mm]}] (O) -- (P) node[pos=0.5, below] {$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}$};\n\\draw[thick, dashed, -{Stealth[length=3mm]}] (P) -- (A) node[pos=0.5, right] {$\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}$};\n\\coordinate (p1) at ($(P)!0.3cm!(A)$);\n\\coordinate (p2) at ($(P)!0.3cm!(O)$);\n\\draw (p1) -- ($(p1)+(p2)-(P)$) -- (p2);\n\\end{tikzpicture}\n[/tikz]",
 "The component of $\\underset{\\sim}{a}$ **parallel** to $\\underset{\\sim}{b}$ is $\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\left(\\dfrac{\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}}{|\\underset{\\sim}{b}|^{2}}\\right)\\underset{\\sim}{b}$.",
 "The component of $\\underset{\\sim}{a}$ **perpendicular** to $\\underset{\\sim}{b}$ is $\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}$, also called the **vector rejection**.",
@@ -11,12 +11,28 @@
 "Check 2: the perpendicular component dotted with $\\underset{\\sim}{b}$ must give $0$.",
 "For nonzero vectors $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$, if $\\theta$ is the angle between them with $0\\leq\\theta\\leq180^{\\circ}$, the perpendicular component has length $|\\underset{\\sim}{a}|\\sin\\theta$."
 ],
-    "steps": [
+"steps": [
       "Find the projection of the vector onto the given direction",
       "Subtract the projection from the original vector",
       "Check the components add back and their dot product is zero"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find the component of $\\underset{\\sim}{a}=\\begin{pmatrix}4\\\\7\\end{pmatrix}$ perpendicular to $\\underset{\\sim}{b}=\\begin{pmatrix}2\\\\1\\end{pmatrix}$. Check that the parallel and perpendicular components add to $\\underset{\\sim}{a}$.",
+    "solution_text": "Find the projection first.\n$\\begin{aligned}\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}&=4(2)+7(1)=15\\\\|\\underset{\\sim}{b}|^2&=2^2+1^2=5\\\\\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}&=\\frac{15}{5}\\begin{pmatrix}2\\\\1\\end{pmatrix}=\\begin{pmatrix}6\\\\3\\end{pmatrix}\\end{aligned}$\nSubtract the projection from the original vector.\n$\\begin{aligned}\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}&=\\begin{pmatrix}4\\\\7\\end{pmatrix}-\\begin{pmatrix}6\\\\3\\end{pmatrix}\\\\&=\\begin{pmatrix}-2\\\\4\\end{pmatrix}=2\\begin{pmatrix}-1\\\\2\\end{pmatrix}\\end{aligned}$\nThe directions $\\begin{pmatrix}2\\\\1\\end{pmatrix}$ and $\\begin{pmatrix}-1\\\\2\\end{pmatrix}$ are perpendicular. Confirm both checks:\n$\\begin{aligned}\\begin{pmatrix}-2\\\\4\\end{pmatrix}\\cdot\\begin{pmatrix}2\\\\1\\end{pmatrix}&=-4+4=0\\\\\\begin{pmatrix}6\\\\3\\end{pmatrix}+\\begin{pmatrix}-2\\\\4\\end{pmatrix}&=\\begin{pmatrix}4\\\\7\\end{pmatrix}\\end{aligned}$\nThe blue projection followed by the red perpendicular component reaches the same endpoint as the original vector.\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\usetikzlibrary{arrows.meta,calc}\n\\definecolor{projectionBlue}{HTML}{268CFF}\n\\definecolor{rejectionRed}{HTML}{EF6068}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (6,3);\n\\coordinate (A) at (4,7);\n\\draw[black,dashed] (O) -- (8,4);\n\\draw[black,-{Stealth[length=2mm]}] (O) -- (2,1);\n\\path (1,0.5) node[below right] {$\\underset{\\sim}{b}$};\n\\draw[black,thick,-{Stealth[length=2mm]}] (O) -- (A);\n\\path (2,3.5) node[above left] {$\\underset{\\sim}{a}=(4,7)$};\n\\draw[projectionBlue,thick,-{Stealth[length=2mm]}] (O) -- (P);\n\\path (4,2) node[below right,text=projectionBlue] {$(6,3)$};\n\\draw[rejectionRed,thick,-{Stealth[length=2mm]}] (P) -- (A);\n\\path (5,5) node[right,text=rejectionRed] {$(-2,4)$};\n\\coordinate (U) at ($(P)!3mm!(O)$);\n\\coordinate (V) at ($(P)!3mm!(A)$);\n\\draw[black] (U) -- ($(U)+(V)-(P)$) -- (V);\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Nonzero vectors $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$ have an angle of $120^{\\circ}$ between them, and $|\\underset{\\sim}{a}|=12$. Find the exact magnitude of the component of $\\underset{\\sim}{a}$ perpendicular to $\\underset{\\sim}{b}$.",
+    "solution_text": "The projection points opposite to $\\underset{\\sim}{b}$ because the angle is obtuse. Its magnitude is $12|\\cos120^{\\circ}|=6$.\nUsing the right triangle formed by the two components:\n$\\begin{aligned}\\left|\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}\\right|^2&=12^2-6^2\\\\&=108\\\\\\left|\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}\\right|&=6\\sqrt{3}\\end{aligned}$\nEquivalently, use the booklet's perpendicular-component magnitude formula:\n$\\begin{aligned}\\left|\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}\\right|&=|\\underset{\\sim}{a}|\\sin\\theta\\\\&=12\\sin120^{\\circ}\\\\&=12\\times\\frac{\\sqrt{3}}{2}\\\\&=6\\sqrt{3}\\end{aligned}$\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\usetikzlibrary{arrows.meta}\n\\definecolor{projectionBlue}{HTML}{268CFF}\n\\definecolor{rejectionRed}{HTML}{EF6068}\n\\definecolor{angleOrange}{HTML}{EF8B2C}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (-2,0);\n\\coordinate (A) at (-2,3.464101615);\n\\draw[black,-{Stealth[length=2mm]}] (O) -- (3,0);\n\\path (3,0) node[right] {$\\underset{\\sim}{b}$};\n\\draw[black,thick,-{Stealth[length=2mm]}] (O) -- (A);\n\\path (-1,1.732) node[right] {$|\\underset{\\sim}{a}|=12$};\n\\draw[projectionBlue,thick,-{Stealth[length=2mm]}] (O) -- (P);\n\\path (-1,0) node[below,text=projectionBlue] {$6$};\n\\draw[rejectionRed,thick,-{Stealth[length=2mm]}] (P) -- (A);\n\\path (-2,1.732) node[left,text=rejectionRed] {$6\\sqrt{3}$};\n\\draw[black] (-1.75,0) -- (-1.75,0.25) -- (-2,0.25);\n\\draw[angleOrange] (0.6,0) arc[start angle=0,end angle=120,radius=0.6];\n\\path (0.45,0.8) node {$120^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

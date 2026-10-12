@@ -2,22 +2,80 @@
   "skillId": "solve-trig-equations",
   "atomType": "R",
   "theory": {
-        "intro": "To solve a trigonometric equation for $0^{\\circ}\\le\\theta<360^{\\circ}$, first rearrange it to make the trigonometric ratio the subject. For non-boundary ratios ($0<|k|<1$ for sine or cosine, or any non-zero finite $k$ for tangent), find the acute reference angle from the positive value of the ratio, then use its sign to choose the two quadrants. For boundary ratios, use unit-circle positions or exact values to find the solutions on the axes.",
-        "facts": [
+"intro": "To solve a trigonometric equation for $0^{\\circ}\\le\\theta<360^{\\circ}$, first rearrange it to make the trigonometric ratio the subject. For non-boundary ratios ($0<|k|<1$ for sine or cosine, or any non-zero finite $k$ for tangent), find the acute reference angle from the positive value of the ratio, then use its sign to choose the two quadrants. For boundary ratios, use unit-circle positions or exact values to find the solutions on the axes.",
+"facts": [
 "For non-boundary ratios ($0<|k|<1$ for sine or cosine, or any non-zero finite $k$ for tangent), enter the **positive** value of the ratio into the inverse function to get the acute reference angle $A$. For boundary ratios, use unit-circle positions or exact values instead.",
 "The sign fixes the quadrants (**ASTC**): $\\sin\\theta>0\\Rightarrow$ Q1, Q2; $\\sin\\theta<0\\Rightarrow$ Q3, Q4; $\\cos\\theta>0\\Rightarrow$ Q1, Q4; $\\cos\\theta<0\\Rightarrow$ Q2, Q3; $\\tan\\theta>0\\Rightarrow$ Q1, Q3; $\\tan\\theta<0\\Rightarrow$ Q2, Q4.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-2.8,0)--(2.8,0);\n\\draw[{Stealth}-{Stealth}] (0,-2.8)--(0,2.8);\n\\node at (3.15,0) {$x$};\n\\node at (0,3.15) {$y$};\n\\node at (1.4,1.75) {$\\mathbf{A}$};\n\\node at (1.4,1.05) {all};\n\\node at (-1.4,1.75) {$\\mathbf{S}$};\n\\node at (-1.4,1.05) {$\\sin$};\n\\node at (-1.4,-1.05) {$\\mathbf{T}$};\n\\node at (-1.4,-1.75) {$\\tan$};\n\\node at (1.4,-1.05) {$\\mathbf{C}$};\n\\node at (1.4,-1.75) {$\\cos$};\n\\end{tikzpicture}\n[/tikz]",
 "For non-boundary ratios, each chosen quadrant supplies one solution: $\\theta=A$, $180^{\\circ}-A$, $180^{\\circ}+A$ or $360^{\\circ}-A$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\coordinate (O) at (0,0);\n\\draw[{Stealth}-{Stealth}] (-2.8,0)--(2.8,0);\n\\draw[{Stealth}-{Stealth}] (0,-2.8)--(0,2.8);\n\\node at (3.15,0) {$x$};\n\\node at (0,3.15) {$y$};\n\\draw (O) circle (2.2);\n\\draw[thick] (O)--(40:2.2);\n\\draw[thick] (O)--(140:2.2);\n\\draw[thick] (O)--(220:2.2);\n\\draw[thick] (O)--(320:2.2);\n\\fill (40:2.2) circle (2pt);\n\\fill (140:2.2) circle (2pt);\n\\fill (220:2.2) circle (2pt);\n\\fill (320:2.2) circle (2pt);\n\\node[anchor=west] at (40:2.5) {$A$};\n\\node[anchor=east] at (140:2.5) {$180^{\\circ}-A$};\n\\node[anchor=east] at (220:2.5) {$180^{\\circ}+A$};\n\\node[anchor=west] at (320:2.5) {$360^{\\circ}-A$};\n\\end{tikzpicture}\n[/tikz]",
 "Rearrange first: turn $a\\,\\text{trig}\\,\\theta+b=0$ into $\\text{trig}\\,\\theta=\\text{value}$ before finding $A$.",
 "Boundary values ($\\sin\\theta=\\pm1$, $\\cos\\theta=\\pm1$, a ratio $=0$) sit on an axis and give one solution or two. Solve these using unit-circle positions or exact values, rather than the acute-reference-angle procedure."
 ],
-        "steps": [
+"steps": [
 "Rearrange first to make the trigonometric ratio the subject",
 "For boundary ratios, use unit-circle positions or exact values to find the solutions on the axes",
 "For non-boundary ratios, find the acute reference angle using the positive value",
 "For non-boundary ratios, use the sign to choose the two quadrants",
 "Write all solutions in the stated interval, using the quadrant formulas for non-boundary ratios"
+],
+"workedExamples": [
+  {
+    "question_text": "Solve $8\\sin\\theta-4=0$ for $0^{\\circ}\\le\\theta<360^{\\circ}$.",
+    "solution_text": "$\\begin{aligned}8\\sin\\theta-4&=0\\\\8\\sin\\theta&=4\\\\\\sin\\theta&=\\frac12\\end{aligned}$\n\nThe reference angle is $A=30^{\\circ}$. Sine is positive in Q1 and Q2.\n\n$\\begin{aligned}\\theta&=30^{\\circ}\\quad\\text{or}\\quad180^{\\circ}-30^{\\circ}\\\\\\theta&=30^{\\circ},150^{\\circ}\\end{aligned}$\n\n[tikz]\n\\begin{tikzpicture}[x=20mm,y=20mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{solutionblue}{HTML}{268CFF}\n\\draw[black,->] (-1.35,0)--(1.35,0) node[right] {$x$};\n\\draw[black,->] (0,-1.25)--(0,1.3) node[above] {$y$};\n\\draw[black] (0,0) circle (1);\n\\draw[solutionblue,dashed] (-1.05,0.5)--(1.05,0.5);\n\\draw[solutionblue] (0,0)--(30:1) (0,0)--(150:1);\n\\fill[solutionblue] (30:1) circle (1.5pt) (150:1) circle (1.5pt);\n\\path (30:1) node[above right] {$30^{\\circ}$} (150:1) node[above left] {$150^{\\circ}$};\n\\path (0.95,0.5) node[right,yshift=-7mm] {$y=\\frac12$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $10\\cos\\theta-5=0$ for $0^{\\circ}\\le\\theta<360^{\\circ}$.",
+    "solution_text": "$\\begin{aligned}10\\cos\\theta-5&=0\\\\10\\cos\\theta&=5\\\\\\cos\\theta&=\\frac12\\end{aligned}$\n\nThe reference angle is $A=60^{\\circ}$. Cosine is positive in Q1 and Q4.\n\n$\\begin{aligned}\\theta&=60^{\\circ}\\quad\\text{or}\\quad360^{\\circ}-60^{\\circ}\\\\\\theta&=60^{\\circ},300^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $2\\sqrt{3}\\tan\\theta-2=0$ for $0^{\\circ}\\le\\theta<360^{\\circ}$.",
+    "solution_text": "$\\begin{aligned}2\\sqrt{3}\\tan\\theta-2&=0\\\\2\\sqrt{3}\\tan\\theta&=2\\\\\\tan\\theta&=\\frac{1}{\\sqrt{3}}\\end{aligned}$\n\nThe reference angle is $A=30^{\\circ}$. Tangent is positive in Q1 and Q3.\n\n$\\begin{aligned}\\theta&=30^{\\circ}\\quad\\text{or}\\quad180^{\\circ}+30^{\\circ}\\\\\\theta&=30^{\\circ},210^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $4\\sin\\theta+2\\sqrt{3}=0$ for $0^{\\circ}\\le\\theta<360^{\\circ}$.",
+    "solution_text": "$\\begin{aligned}4\\sin\\theta+2\\sqrt{3}&=0\\\\4\\sin\\theta&=-2\\sqrt{3}\\\\\\sin\\theta&=-\\frac{\\sqrt{3}}2\\end{aligned}$\n\nUse the positive ratio to find $A=60^{\\circ}$. Sine is negative in Q3 and Q4.\n\n$\\begin{aligned}\\theta&=180^{\\circ}+60^{\\circ}\\quad\\text{or}\\quad360^{\\circ}-60^{\\circ}\\\\\\theta&=240^{\\circ},300^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $4\\cos\\theta+2\\sqrt{3}=0$ for $0^{\\circ}\\le\\theta<360^{\\circ}$.",
+    "solution_text": "$\\begin{aligned}4\\cos\\theta+2\\sqrt{3}&=0\\\\4\\cos\\theta&=-2\\sqrt{3}\\\\\\cos\\theta&=-\\frac{\\sqrt{3}}2\\end{aligned}$\n\nUse the positive ratio to find $A=30^{\\circ}$. Cosine is negative in Q2 and Q3.\n\n$\\begin{aligned}\\theta&=180^{\\circ}-30^{\\circ}\\quad\\text{or}\\quad180^{\\circ}+30^{\\circ}\\\\\\theta&=150^{\\circ},210^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $3\\tan\\theta+3=0$ for $0^{\\circ}\\le\\theta<360^{\\circ}$.",
+    "solution_text": "$\\begin{aligned}3\\tan\\theta+3&=0\\\\3\\tan\\theta&=-3\\\\\\tan\\theta&=-1\\end{aligned}$\n\nUse the positive ratio to find $A=45^{\\circ}$. Tangent is negative in Q2 and Q4.\n\n$\\begin{aligned}\\theta&=180^{\\circ}-45^{\\circ}\\quad\\text{or}\\quad360^{\\circ}-45^{\\circ}\\\\\\theta&=135^{\\circ},315^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $3\\sin\\theta+3=0$ for $0^{\\circ}\\le\\theta<360^{\\circ}$.",
+    "solution_text": "$\\begin{aligned}3\\sin\\theta+3&=0\\\\3\\sin\\theta&=-3\\\\\\sin\\theta&=-1\\end{aligned}$\n\nSine is the unit circle's $y$-coordinate. Only the bottom point has $y=-1$.\n\n$\\theta=270^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[x=20mm,y=20mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{solutionblue}{HTML}{268CFF}\n\\draw[black,->] (-1.3,0)--(1.3,0) node[right] {$x$};\n\\draw[black,->] (0,-1.35)--(0,1.3) node[above] {$y$};\n\\draw[black] (0,0) circle (1);\n\\draw[solutionblue] (0,0)--(0,-1);\n\\fill[solutionblue] (0,-1) circle (1.5pt);\n\\path (0,-1) node[right,xshift=2mm] {$(0,-1)$};\n\\path (-0.15,-1) node[left] {$270^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $7\\tan\\theta=0$ for $0^{\\circ}\\le\\theta<360^{\\circ}$.",
+    "solution_text": "$\\begin{aligned}7\\tan\\theta&=0\\\\\\tan\\theta&=0\\end{aligned}$\n\nSince $\\tan\\theta=\\frac{y}{x}$, tangent is zero at $(1,0)$ and $(-1,0)$. At both points, $x\\ne0$.\n\n$\\theta=0^{\\circ},180^{\\circ}$.\n\nThe interval excludes $360^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[x=20mm,y=20mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{solutionblue}{HTML}{268CFF}\n\\draw[black,->] (-1.4,0)--(1.4,0) node[right] {$x$};\n\\draw[black,->] (0,-1.25)--(0,1.3) node[above] {$y$};\n\\draw[black] (0,0) circle (1);\n\\fill[solutionblue] (1,0) circle (1.5pt) (-1,0) circle (1.5pt);\n\\path (1,0) node[above right] {$(1,0)$} node[below right] {$0^{\\circ}$};\n\\path (-1,0) node[above left] {$(-1,0)$} node[below left] {$180^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
       {

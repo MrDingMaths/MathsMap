@@ -1,7 +1,7 @@
 {
   "skillId": "define-derivative-tangent",
   "questions": [
-    {
+{
       "id": "q1",
       "question_text": "The tangent line to the graph of $y=f(x)$ at the point $(2, 7)$ passes through $(0, 1)$.\nWhat is the value of $f'(2)$?",
       "structure": "interpret-tangent-as-derivative",
@@ -26,57 +26,57 @@
       ],
       "solution_text": "$f'(2)=\\dfrac{7-1}{2-0}$\n$=\\dfrac{6}{2}$\n$=3$"
     },
-    {
+{
       "id": "q2",
-      "question_text": "If the tangent line to $y=f(x)$ at $x=5$ has equation $y=-2x+13$, what is the value of $f'(5)$?",
-      "structure": "interpret-tangent-as-derivative",
+      "question_text": "The graph shows a curve and its tangent at $P$. What is $f'(3)$?\n[tikz]\\begin{tikzpicture}[x=0.65cm,y=0.4cm]\\draw[->] (0,0)--(6,0) node[right] {$x$};\\draw[->] (0,0)--(0,10) node[above] {$y$};\\draw[blue,thick,domain=1:5,samples=50] plot (\\x,{0.3*(\\x-3)^2-2*\\x+9});\\draw[orange,thick] (0.5,8)--(4.5,0);\\fill (3,3) circle (2pt) node[above right] {$P(3,3)$};\\fill (1,7) circle (2pt) node[above right,xshift=12pt,yshift=24pt] {$(1,7)$};\\end{tikzpicture}[/tikz]",
+      "structure": "read-tangent-gradient-from-graph",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$-2$",
           "correct": true
         },
-        {
-          "text": "$13$",
-          "why": "Selected the $y$-intercept of the tangent line instead of its gradient."
-        },
-        {
+{
           "text": "$2$",
-          "why": "Omitted the negative sign from the gradient of the tangent line."
+          "why": "Omitted the negative sign from the gradient of the decreasing tangent."
         },
-        {
-          "text": "$5$",
-          "why": "Selected the $x$-coordinate value instead of the tangent gradient."
+{
+          "text": "$-4$",
+          "why": "Calculated only the change in height, $3-7=-4$, without dividing by the run $3-1=2$."
+        },
+{
+          "text": "$3$",
+          "why": "Used the height of the point of contact instead of the tangent gradient."
         }
-      ],
-      "solution_text": "The gradient of $y=-2x+13$ is $-2$.\n$f'(5)=-2$"
+],
+      "solution_text": "$f'(3)=\\dfrac{3-7}{3-1}=\\dfrac{-4}{2}=-2$"
     },
-    {
+{
       "id": "q3",
       "question_text": "What is the primary geometric distinction between a secant line and a tangent line to a curve?",
       "structure": "distinguish-secant-and-tangent",
       "mastery": false,
       "options": [
-        {
-          "text": "A secant line passes through two points (average rate of change); a tangent line touches at one point (instantaneous rate of change).",
+{
+          "text": "A secant line joins two distinct points on the curve; a tangent line has the same local gradient as the curve at the point of contact.",
           "correct": true
         },
-        {
+{
           "text": "A secant line touches at one point (instantaneous rate of change); a tangent line passes through two points (average rate of change).",
           "why": "Inverted the definitions of a secant line and a tangent line."
         },
-        {
+{
           "text": "A secant line is curved; a tangent line is a straight line.",
           "why": "Both secant lines and tangent lines are straight lines."
         },
-        {
+{
           "text": "A secant line only exists for linear functions; a tangent line only exists for curves.",
           "why": "Secants and tangents are defined for non-linear functions."
         }
-      ],
-      "solution_text": "A secant connects two points (average rate); a tangent touches at one point (instantaneous rate)."
+],
+      "solution_text": "A secant joins two distinct points and gives the average rate of change. A tangent has the same local gradient as the curve at the point of contact and gives the instantaneous rate of change."
     },
-    {
+{
       "id": "q4",
       "question_text": "Over the interval $[a, b]$, what does the difference quotient $\\dfrac{f(b)-f(a)}{b-a}$ calculate?",
       "structure": "distinguish-secant-and-tangent",
@@ -101,130 +101,105 @@
       ],
       "solution_text": "$\\dfrac{f(b)-f(a)}{b-a}$ is the gradient of the secant line over $[a, b]$."
     },
-    {
+{
       "id": "q5",
-      "question_text": "Which limit expression correctly defines the derivative $f'(x)$ from first principles?",
-      "structure": "identify-derivative-definition",
+      "question_text": "A secant joins $P(3,f(3))$ and $Q(3+h,f(3+h))$, where $h\\ne0$. Which expression gives its gradient?",
+      "structure": "find-symbolic-secant-gradient",
       "mastery": false,
       "options": [
-        {
-          "text": "$\\lim_{h\\to 0}\\dfrac{f(x+h)-f(x)}{h}$",
+{
+          "text": "$\\dfrac{f(3+h)-f(3)}{h}$",
           "correct": true
         },
-        {
-          "text": "$\\lim_{h\\to 0}\\dfrac{f(x+h)+f(x)}{h}$",
-          "why": "Added $f(x)$ in the numerator instead of subtracting it."
+{
+          "text": "$\\dfrac{f(3+h)+f(3)}{h}$",
+          "why": "Added the two heights instead of finding their difference."
         },
-        {
-          "text": "$\\lim_{x\\to 0}\\dfrac{f(x+h)-f(x)}{h}$",
-          "why": "Used $x\\to 0$ as the limit variable instead of $h\\to 0$."
+{
+          "text": "$\\dfrac{f(3+h)-f(3)}{3+h}$",
+          "why": "Used the second point's horizontal coordinate instead of the horizontal change $(3+h)-3=h$."
         },
-        {
-          "text": "$\\dfrac{f(x+h)-f(x)}{h}$",
-          "why": "Omitted the limit operator $\\lim_{h\\to 0}$."
+{
+          "text": "$\\dfrac{h}{f(3+h)-f(3)}$",
+          "why": "Reversed rise and run; gradient is rise divided by run."
         }
-      ],
-      "solution_text": "$f'(x)=\\lim_{h\\to 0}\\dfrac{f(x+h)-f(x)}{h}$"
+],
+      "solution_text": "Rise: $f(3+h)-f(3)$.\nRun: $(3+h)-3=h$.\n$m_{\\text{secant}}=\\dfrac{f(3+h)-f(3)}{h}$"
     },
-    {
-      "id": "q6",
-      "question_text": "Which of the following is NOT a standard notation for the first derivative of $y=f(x)$?",
-      "structure": "identify-derivative-definition",
-      "mastery": false,
-      "options": [
-        {
-          "text": "$\\dfrac{d^2y}{dx^2}$",
-          "correct": true
-        },
-        {
-          "text": "$f'(x)$",
-          "why": "This is Lagrange's standard prime notation for the first derivative."
-        },
-        {
-          "text": "$\\dfrac{dy}{dx}$",
-          "why": "This is Leibniz's standard notation for the first derivative."
-        },
-        {
-          "text": "$y'$",
-          "why": "This is a standard abbreviated notation for the first derivative."
-        }
-      ],
-      "solution_text": "$\\dfrac{d^2y}{dx^2}$ represents the second derivative, not the first derivative."
-    },
-    {
+{
       "id": "q7",
-      "question_text": "At which geometric feature on a continuous curve does the derivative $f'(x)$ fail to exist?",
-      "structure": "identify-non-differentiable-points",
+      "question_text": "The graph shows a curve and its tangent at $P$. What is $f'(2)$?\n[tikz]\\begin{tikzpicture}[x=0.7cm,y=0.5cm]\\draw[->] (0,0)--(5,0) node[right] {$x$};\\draw[->] (0,0)--(0,7) node[above] {$y$};\\draw[blue,thick,domain=0:4,samples=50] plot (\\x,{0.5*(\\x-2)^2+3});\\draw[orange,thick] (0,3)--(4.5,3);\\fill (2,3) circle (2pt) node[below] {$P(2,3)$};\\fill (4,3) circle (2pt) node[below] {$(4,3)$};\\end{tikzpicture}[/tikz]",
+      "structure": "read-tangent-gradient-from-graph",
       "mastery": false,
       "options": [
-        {
-          "text": "A sharp corner or cusp where the gradient changes abruptly.",
+{
+          "text": "$0$",
           "correct": true
         },
-        {
-          "text": "A horizontal turning point where the tangent is flat.",
-          "why": "At a horizontal turning point the derivative exists and equals 0."
+{
+          "text": "$3$",
+          "why": "Used the height of the point of contact instead of the tangent gradient."
         },
-        {
-          "text": "An inflection point where the curve changes concavity.",
-          "why": "The derivative exists at an inflection point as long as the tangent is non-vertical."
+{
+          "text": "$2$",
+          "why": "Used the horizontal change $4-2=2$ instead of dividing the rise by the run."
         },
-        {
-          "text": "An axis intercept where $y=0$.",
-          "why": "The derivative exists at intercepts on smooth curves."
+{
+          "text": "Undefined.",
+          "why": "Confused a horizontal tangent, whose gradient is zero, with a vertical line."
         }
-      ],
-      "solution_text": "The derivative fails to exist at sharp corners because left and right tangent gradients disagree."
+],
+      "solution_text": "$f'(2)=\\dfrac{3-3}{4-2}=0$"
     },
-    {
+{
       "id": "q8",
-      "question_text": "Why does the derivative $f'(a)$ fail to exist at a point $x=a$ where the tangent line is vertical?",
-      "structure": "identify-non-differentiable-points",
+      "question_text": "The graph shows a curve and its tangent at $P$. What is $f'(2)$?\n[tikz]\\begin{tikzpicture}[x=0.65cm,y=0.45cm]\\draw[->] (0,0)--(6,0) node[right] {$x$};\\draw[->] (0,0)--(0,9) node[above] {$y$};\\draw[blue,thick,domain=0.5:4.5,samples=50] plot (\\x,{0.3*(\\x-2)^2+1.5*\\x-1});\\draw[orange,thick] (0.7,0.05)--(5,6.5);\\fill (2,2) circle (2pt) node[below right] {$P(2,2)$};\\fill (4,5) circle (2pt) node[below right] {$(4,5)$};\\end{tikzpicture}[/tikz]",
+      "structure": "read-tangent-gradient-from-graph",
       "mastery": false,
       "options": [
-        {
-          "text": "The gradient of a vertical line is undefined.",
+{
+          "text": "$1.5$",
           "correct": true
         },
-        {
-          "text": "The gradient of a vertical line is always equal to 0.",
-          "why": "A horizontal line has gradient 0; a vertical line has undefined gradient."
+{
+          "text": "$3$",
+          "why": "Calculated the rise $5-2=3$ without dividing by the run $4-2=2$."
         },
-        {
-          "text": "The curve is not continuous at that point.",
-          "why": "A curve can be continuous while having a vertical tangent (e.g. $y=\\sqrt[3]{x}$ at $x=0$)."
+{
+          "text": "$-1.5$",
+          "why": "Reversed the order of subtraction for the heights but not for the horizontal coordinates."
         },
-        {
-          "text": "The left-hand and right-hand limits of the difference quotient are finite but unequal.",
-          "why": "Unequal finite one-sided limits describe a sharp corner or cusp, not a vertical tangent where the difference quotient is unbounded."
+{
+          "text": "$1.25$",
+          "why": "Divided the coordinates of $(4,5)$ to get $5/4$, incorrectly treating the tangent as passing through the origin."
         }
-      ],
-      "solution_text": "A vertical line has undefined gradient, so $f'(a)$ does not exist."
+],
+      "solution_text": "$f'(2)=\\dfrac{5-2}{4-2}=\\dfrac{3}{2}=1.5$"
     },
-    {
+{
       "id": "q9",
-      "question_text": "The tangent line to $y=f(x)$ at $x=4$ has equation $3x - y - 5 = 0$.\nDetermine the values of $f(4)$ and $f'(4)$.",
-      "structure": "interpret-tangent-as-derivative",
+      "question_text": "The graph shows a curve and its tangent at $P$. What is $f'(1.5)$?\n[tikz]\\begin{tikzpicture}[x=0.75cm,y=0.45cm]\\draw[->] (-2,0)--(4,0) node[right] {$x$};\\draw[->] (0,-5)--(0,5) node[above] {$y$};\\draw[blue,thick,domain=-0.5:3,samples=50] plot (\\x,{0.3*(\\x-1.5)^2+2.4*\\x-1.85});\\draw[orange,thick] (-1.2,-4.73)--(2.8,4.87);\\fill (1.5,1.75) circle (2pt) node[below right] {$P(1.5,1.75)$};\\fill (-1,-4.25) circle (2pt) node[below left] {$(-1,-4.25)$};\\end{tikzpicture}[/tikz]",
+      "structure": "read-tangent-gradient-from-graph",
       "mastery": true,
       "options": [
-        {
-          "text": "$f(4)=7$ and $f'(4)=3$",
+{
+          "text": "$2.4$",
           "correct": true
         },
-        {
-          "text": "$f(4)=7$ and $f'(4)=-3$",
-          "why": "Rearranged $3x-y-5=0$ as $y=-3x+5$, taking the gradient as $-3$ instead of $3$."
+{
+          "text": "$-1$",
+          "why": "Calculated $1.75+(-4.25)=-2.5$ instead of the rise $1.75-(-4.25)=6$, then divided by the correct run $2.5$."
         },
-        {
-          "text": "$f(4)=17$ and $f'(4)=3$",
-          "why": "Used the correct gradient but evaluated $3(4)+5=17$, adding the constant instead of subtracting it."
+{
+          "text": "$12$",
+          "why": "Calculated the correct rise $6$ but used $1.5+(-1)=0.5$ instead of the run $1.5-(-1)=2.5$."
         },
-        {
-          "text": "$f(4)=17$ and $f'(4)=-3$",
-          "why": "Made both sign slips: read the gradient off $y=-3x+5$ as $-3$ and then evaluated the height as $3(4)+5=17$."
+{
+          "text": "$6$",
+          "why": "Calculated only the rise $1.75-(-4.25)=6$ and omitted division by the run."
         }
-      ],
-      "solution_text": "Rearranging: $y=3x-5$\nGradient $f'(4)=3$\nAt $x=4$:\n$f(4)=3(4)-5=12-5=7$\n$f(4)=7$ and $f'(4)=3$."
+],
+      "solution_text": "$f'(1.5)=\\dfrac{1.75-(-4.25)}{1.5-(-1)}$\n$=\\dfrac{6}{2.5}$\n$=2.4$"
     }
-  ]
+]
 }

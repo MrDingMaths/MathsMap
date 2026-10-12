@@ -2,20 +2,78 @@
   "skillId": "solve-homogeneous-trig-equations",
   "atomType": "R",
   "theory": {
-        "intro": "A **homogeneous** trigonometric equation has the same total degree in $\\sin x$ and $\\cos x$ in every term. Divide through by a power of $\\cos x$ to get a polynomial in $\\tan x$, after testing $\\cos x = 0$ separately.",
-        "facts": [
+"intro": "A **homogeneous** trigonometric equation has the same total degree in $\\sin x$ and $\\cos x$ in every term. Divide through by a power of $\\cos x$ to get a polynomial in $\\tan x$, after testing $\\cos x = 0$ separately.",
+"facts": [
 "$\\sin^2 x$, $\\sin x\\cos x$ and $\\cos^2 x$ all have total degree $2$, so an expression built only from these is homogeneous of degree $2$.",
 "**Always test $\\cos x = 0$ separately**, because dividing by $\\cos^n x$ assumes $\\cos x \\ne 0$. Substitute all cosine-zero points in the specified domain into the original equation: on $0 \\le x < 2\\pi$, these are $\\frac{\\pi}{2}$ and $\\frac{3\\pi}{2}$; on $0^{\\circ} \\le x < 360^{\\circ}$, they are $90^{\\circ}$ and $270^{\\circ}$.",
 "Constant terms can be made homogeneous of degree $2$ using the Pythagorean identity: $c = c(\\sin^2 x + \\cos^2 x)$.",
 "Terms in $\\sin 2x$ or $\\cos 2x$ become homogeneous degree-2 expressions using $\\sin 2x = 2\\sin x\\cos x$ and $\\cos 2x = \\cos^2 x - \\sin^2 x$."
 ],
-        "steps": [
+"steps": [
 "Express all terms to show uniform degree in $\\sin x$ and $\\cos x$ (using Pythagorean or double angle identities if needed)",
 "Test all points where $\\cos x = 0$ in the specified domain by substituting into the original equation",
 "For $\\cos x \\ne 0$, divide every term by $\\cos^n x$ to form a polynomial in $\\tan x$",
 "Factorise, or use the quadratic formula when the quadratic does not factorise conveniently, and solve for $\\tan x$, then find all solutions for $x$ on the specified domain"
+],
+"workedExamples": [
+  {
+    "question_text": "Solve $\\sqrt{3}\\sin x+3\\cos x=0$ for $0\\le x<2\\pi$.",
+    "solution_text": "At $x=\\frac{\\pi}{2},\\frac{3\\pi}{2}$, the left side is $\\sqrt{3},-\\sqrt{3}$, so neither is a solution.\n\nFor $\\cos x\\ne0$, divide by $\\cos x$:\n$\\begin{align*}\\sqrt{3}\\tan x+3&=0\\\\\\tan x&=-\\sqrt{3}\\\\x&=\\frac{2\\pi}{3},\\frac{5\\pi}{3}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\sin^2x+\\sqrt{3}\\sin x\\cos x=0$ for $0\\le x<2\\pi$.",
+    "solution_text": "At both $x=\\frac{\\pi}{2}$ and $x=\\frac{3\\pi}{2}$, the left side is $1$, so neither is a solution.\n\nFor $\\cos x\\ne0$, divide by $\\cos^2x$:\n$\\begin{align*}\\tan^2x+\\sqrt{3}\\tan x&=0\\\\\\tan x(\\tan x+\\sqrt{3})&=0.\\end{align*}$\n\nFor $\\tan x=0$, $x=0,\\pi$.\n\nFor $\\tan x=-\\sqrt{3}$, $x=\\frac{2\\pi}{3},\\frac{5\\pi}{3}$.\n\nThe solutions are $x=0,\\frac{2\\pi}{3},\\pi,\\frac{5\\pi}{3}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $3\\sin x\\cos x+\\sqrt{3}\\cos^2x=0$ for $0\\le x<2\\pi$.",
+    "solution_text": "Factorise:\n$\\cos x(3\\sin x+\\sqrt{3}\\cos x)=0$.\n\nFor $\\cos x=0$, $x=\\frac{\\pi}{2},\\frac{3\\pi}{2}$.\n\nFor $3\\sin x+\\sqrt{3}\\cos x=0$, cosine cannot be zero. Divide by $\\cos x$:\n$\\begin{align*}3\\tan x+\\sqrt{3}&=0\\\\\\tan x&=-\\frac{1}{\\sqrt{3}}\\\\x&=\\frac{5\\pi}{6},\\frac{11\\pi}{6}.\\end{align*}$\n\nThe solutions are $x=\\frac{\\pi}{2},\\frac{5\\pi}{6},\\frac{3\\pi}{2},\\frac{11\\pi}{6}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\sin^2x+(1-\\sqrt{3})\\sin x\\cos x-\\sqrt{3}\\cos^2x=0$ for $0\\le x<2\\pi$.",
+    "solution_text": "At both $x=\\frac{\\pi}{2}$ and $x=\\frac{3\\pi}{2}$, the left side is $1$, so neither is a solution.\n\nFor $\\cos x\\ne0$, divide by $\\cos^2x$:\n$\\begin{align*}\\tan^2x+(1-\\sqrt{3})\\tan x-\\sqrt{3}&=0\\\\(\\tan x+1)(\\tan x-\\sqrt{3})&=0.\\end{align*}$\n\nFor $\\tan x=-1$, $x=\\frac{3\\pi}{4},\\frac{7\\pi}{4}$.\n\nFor $\\tan x=\\sqrt{3}$, $x=\\frac{\\pi}{3},\\frac{4\\pi}{3}$.\n\nThe solutions are $x=\\frac{\\pi}{3},\\frac{3\\pi}{4},\\frac{4\\pi}{3},\\frac{7\\pi}{4}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\sin 2x-\\sqrt{3}\\cos 2x=0$ for $0\\le x<2\\pi$.",
+    "solution_text": "If $\\cos 2x=0$, then $\\sin 2x=\\pm1$, so none of these points satisfies the equation.\n\nFor $\\cos 2x\\ne0$, divide by $\\cos 2x$:\n$\\begin{align*}\\tan 2x-\\sqrt{3}&=0\\\\\\tan 2x&=\\sqrt{3}.\\end{align*}$\n\nSince $0\\le2x<4\\pi$:\n$\\begin{align*}2x&=\\frac{\\pi}{3},\\frac{4\\pi}{3},\\frac{7\\pi}{3},\\frac{10\\pi}{3}\\\\x&=\\frac{\\pi}{6},\\frac{2\\pi}{3},\\frac{7\\pi}{6},\\frac{5\\pi}{3}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $4\\sin^2x-3\\sin x\\cos x+3\\cos^2x=2$ for $0\\le x<2\\pi$. Give non-special angles in radians correct to two decimal places.",
+    "solution_text": "Use $2=2(\\sin^2x+\\cos^2x)$:\n$\\begin{align*}4\\sin^2x-3\\sin x\\cos x+3\\cos^2x&=2\\sin^2x+2\\cos^2x\\\\2\\sin^2x-3\\sin x\\cos x+\\cos^2x&=0.\\end{align*}$\n\nAt both $x=\\frac{\\pi}{2}$ and $x=\\frac{3\\pi}{2}$, the original left side is $4\\ne2$.\n\nFor $\\cos x\\ne0$, divide by $\\cos^2x$:\n$\\begin{align*}2\\tan^2x-3\\tan x+1&=0\\\\(2\\tan x-1)(\\tan x-1)&=0.\\end{align*}$\n\nFor $\\tan x=\\frac12$, $x\\approx0.46,3.61$ radians.\n\nFor $\\tan x=1$, $x=\\frac{\\pi}{4},\\frac{5\\pi}{4}$.\n\nThe solutions are $x\\approx0.46,3.61$ radians and $x=\\frac{\\pi}{4},\\frac{5\\pi}{4}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\cos 2x-4\\sin 2x+2=0$ for $0\\le x<\\pi$. Give answers in radians correct to two decimal places.",
+    "solution_text": "Expand the double angles and use $2=2(\\sin^2x+\\cos^2x)$:\n$\\begin{align*}\\cos^2x-\\sin^2x-8\\sin x\\cos x+2\\sin^2x+2\\cos^2x&=0\\\\\\sin^2x-8\\sin x\\cos x+3\\cos^2x&=0.\\end{align*}$\n\nThe only cosine-zero point in the domain is $x=\\frac{\\pi}{2}$. Its original left side is $-1+2=1$, so it is not a solution.\n\nFor $\\cos x\\ne0$, divide by $\\cos^2x$ and use the quadratic formula:\n$\\begin{align*}\\tan^2x-8\\tan x+3&=0\\\\\\tan x&=\\frac{8\\pm\\sqrt{64-12}}{2}\\\\&=4\\pm\\sqrt{13}.\\end{align*}$\n\nBoth tangent values are positive. Each gives one first-quadrant solution in $0\\le x<\\pi$:\n$x\\approx0.38,1.44$ radians.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $3\\sin^2x+2\\sin x\\cos x+\\cos^2x=2$ for $0\\le x<\\pi$, using a double-angle identity after forming a polynomial in $\\tan x$.",
+    "solution_text": "Use $2=2(\\sin^2x+\\cos^2x)$:\n$\\sin^2x+2\\sin x\\cos x-\\cos^2x=0$.\n\nAt $x=\\frac{\\pi}{2}$, the original left side is $3\\ne2$, so it is not a solution.\n\nFor $\\cos x\\ne0$, divide by $\\cos^2x$:\n$\\begin{align*}\\tan^2x+2\\tan x-1&=0\\\\1-\\tan^2x&=2\\tan x.\\end{align*}$\n\nA root cannot have $\\tan x=\\pm1$, since neither value satisfies the polynomial. The double-angle denominator is therefore nonzero:\n$\\begin{align*}\\tan 2x&=\\frac{2\\tan x}{1-\\tan^2x}\\\\&=1.\\end{align*}$\n\nSince $0\\le2x<2\\pi$:\n$\\begin{align*}2x&=\\frac{\\pi}{4},\\frac{5\\pi}{4}\\\\x&=\\frac{\\pi}{8},\\frac{5\\pi}{8}.\\end{align*}$\n\nFor these angles, $\\tan x$ is defined and $\\tan 2x=1$ gives $1-\\tan^2x=2\\tan x$, so both satisfy the original equation.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

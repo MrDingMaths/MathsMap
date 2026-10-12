@@ -2,8 +2,8 @@
   "skillId": "probability-perm-comb",
   "atomType": "R",
   "theory": {
-    "intro": "Probability problems involving complex selections and arrangements are evaluated using classical probability: $P(E) = \\frac{\\text{favourable outcomes}}{\\text{total outcomes}}$, provided the elementary outcomes are equally likely. To obtain a valid probability, both the numerator and the denominator must count outcomes in the **same sample space**, consistently treating order as relevant or irrelevant. Combinations are used when order is irrelevant (such as choosing committees, hands of cards, or item samples), while permutations are used when position or order matters (such as seating lines, race finishes, or digit sequences). Ordered outcomes can also be counted by choosing with combinations and then arranging the selected objects.",
-    "facts": [
+"intro": "Probability problems involving complex selections and arrangements are evaluated using classical probability: $P(E) = \\frac{\\text{favourable outcomes}}{\\text{total outcomes}}$, provided the elementary outcomes are equally likely. To obtain a valid probability, both the numerator and the denominator must count outcomes in the **same sample space**, consistently treating order as relevant or irrelevant. Combinations are used when order is irrelevant (such as choosing committees, hands of cards, or item samples), while permutations are used when position or order matters (such as seating lines, race finishes, or digit sequences). Ordered outcomes can also be counted by choosing with combinations and then arranging the selected objects.",
+"facts": [
 "**Uniform convention rule**: The numerator and denominator must count outcomes consistently in the same sample space. For unordered selections, count each subset once; for ordered outcomes, count each arrangement once. Ordered outcomes may be counted using permutations or using combinations followed by arrangements.",
 "**Hypergeometric committee model**: When drawing $r$ items without replacement from a group of $a$ items of type A and $b$ items of type B ($a+b=n$), the probability of obtaining exactly $k$ items of type A is $\\frac{\\binom{a}{k} \\times \\binom{b}{r-k}}{\\binom{n}{r}}$.",
 "**Grouping in arrangements**: When calculating the probability that $k$ designated items are together in a line of $n$ items, treat them as a single block: $P = \\frac{(n-k+1)! \\times k!}{n!}$.",
@@ -11,12 +11,74 @@
 "**Complement rule for 'at least one'**: For problems involving 'at least one', calculating $P(\\text{at least one}) = 1 - P(\\text{none})$ is usually much faster than summing multiple positive cases.",
 "**Exact fractional form**: Probability answers should be simplified to exact fractions in lowest terms unless a decimal or percentage is explicitly requested."
 ],
-    "steps": [
+"steps": [
 "Determine whether the problem is ordered (permutations) or unordered (combinations), check that the elementary outcomes are equally likely and calculate the total number of outcomes in the sample space",
 "Calculate the number of favourable outcomes consistently in the same sample space, using combinations followed by arrangements where appropriate",
 "Form the probability fraction $P = \\frac{\\text{favourable outcomes}}{\\text{total outcomes}}$ and simplify to lowest terms"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A committee of $3$ is chosen uniformly at random from $6$ teachers and $5$ parents. Find the probability that all committee members are teachers.",
+    "solution_text": "Order does not matter, so count committees using combinations.\nTotal committees: $\\binom{11}{3}=165$.\nAll-teacher committees: $\\binom{6}{3}=20$.\n$\\begin{aligned}P(\\text{all teachers})&=\\frac{20}{165}\\\\&=\\frac{4}{33}\\end{aligned}$"
   },
+  {
+    "question_text": "A bag contains $5$ red and $7$ blue counters. Four counters are selected uniformly at random without replacement. Find the probability of selecting exactly $2$ red counters.",
+    "solution_text": "Choose $2$ red counters and $2$ blue counters.\nTotal selections: $\\binom{12}{4}=495$.\nFavourable selections: $\\binom{5}{2}\\binom{7}{2}=210$.\n$\\begin{aligned}P(\\text{exactly two red})&=\\frac{210}{495}\\\\&=\\frac{14}{33}\\end{aligned}$"
+  },
+  {
+    "question_text": "A committee of $5$ is selected uniformly at random from $7$ musicians and $5$ actors. Find the probability that musicians form a majority.",
+    "solution_text": "Total committees: $\\binom{12}{5}=792$.\nA musician majority means $3$, $4$ or $5$ musicians. These cases do not overlap.\nThree musicians: $\\binom{7}{3}\\binom{5}{2}=350$.\nFour musicians: $\\binom{7}{4}\\binom{5}{1}=175$.\nFive musicians: $\\binom{7}{5}\\binom{5}{0}=21$.\n$\\begin{aligned}P(\\text{musician majority})&=\\frac{350+175+21}{792}\\\\&=\\frac{91}{132}\\end{aligned}$"
+  },
+  {
+    "question_text": "A box contains $8$ working batteries and $4$ faulty batteries. Three batteries are selected uniformly at random without replacement. Find the probability that at least one is faulty.",
+    "solution_text": "The complement is selecting three working batteries.\nTotal selections: $\\binom{12}{3}=220$.\nSelections with no faulty batteries: $\\binom{8}{3}=56$.\n$\\begin{aligned}P(\\text{at least one faulty})&=1-\\frac{56}{220}\\\\&=\\frac{41}{55}\\end{aligned}$"
+  },
+  {
+    "question_text": "Seven friends, including Ava and Ben, stand in a uniformly random order in a row. Find the probability that:\n(a) Ava and Ben stand together;\n(b) Ava and Ben do not stand together.",
+    "solution_text": "Total arrangements: $7!$.\n(a) Treat Ava and Ben as one unit. Arrange the six units, then arrange the pair within their unit.\n$\\begin{aligned}P(\\text{together})&=\\frac{6!\\times2!}{7!}\\\\&=\\frac{2}{7}\\end{aligned}$\n(b) Use the complement.\n$\\begin{aligned}P(\\text{not together})&=1-\\frac{2}{7}\\\\&=\\frac{5}{7}\\end{aligned}$"
+  },
+  {
+    "question_text": "Nine distinct books—$2$ history books, $3$ science books and $4$ novels—are arranged in a uniformly random order on a shelf. Find the probability that each category forms one consecutive block.",
+    "solution_text": "Total arrangements: $9!$.\nTreat each category as one unit. Arrange the three units, then arrange the books within each unit.\n$\\begin{aligned}P(\\text{category blocks})&=\\frac{3!\\times2!\\times3!\\times4!}{9!}\\\\&=\\frac{1}{210}\\end{aligned}$"
+  },
+  {
+    "question_text": "Five boys and five girls sit in a uniformly random order in a row of ten chairs. Find the probability that boys and girls alternate.",
+    "solution_text": "Total arrangements: $10!$.\nThe two possible patterns are BGBGBGBGBG and GBGBGBGBGB. Each allows $5!$ arrangements of the boys and $5!$ arrangements of the girls.\n$\\begin{aligned}P(\\text{alternate})&=\\frac{2\\times5!\\times5!}{10!}\\\\&=\\frac{1}{126}\\end{aligned}$"
+  },
+  {
+    "question_text": "Eight friends sit uniformly at random around a circular table. Find the probability that three particular friends occupy three consecutive seats. Rotations count as the same arrangement.",
+    "solution_text": "Total circular arrangements: $(8-1)!=7!$.\nTreat the three friends as one unit with the five others. Arrange these six units around the circle, then arrange the three friends within their unit.\n$\\begin{aligned}P(\\text{three together})&=\\frac{(6-1)!\\times3!}{7!}\\\\&=\\frac{1}{7}\\end{aligned}$"
+  },
+  {
+    "question_text": "Ten people, including Noor and Eli, sit uniformly at random around a circular table with equally spaced seats. Find the probability that Eli sits directly opposite Noor.",
+    "solution_text": "Fix Noor's position. Eli has nine equally likely remaining seats, exactly one of which is opposite Noor.\nThe diagram marks Noor's fixed seat and the required seat for Eli; the other seats can be filled in any order.\n[tikz]\n\\begin{tikzpicture}[x=1mm,y=1mm]\n\\draw[draw=black] (0,0) circle (14);\n\\foreach \\a in {18,54,126,162,198,234,306,342} {\n\\draw[draw=black,fill=white] (\\a:19) circle (1.3);\n}\n\\draw[draw=black,fill=white] (90:19) circle (1.3);\n\\draw[draw=black,fill=white] (270:19) circle (1.3);\n\\path (0,24) node[text=black,font=\\fontsize{10}{12}\\selectfont] {Noor};\n\\path (0,-24) node[text=black,font=\\fontsize{10}{12}\\selectfont] {Eli};\n\\end{tikzpicture}\n[/tikz]\n$P(\\text{opposite})=\\frac{1}{9}$."
+  },
+  {
+    "question_text": "A three-digit number is selected uniformly at random from those formed using $3$ different digits from $\\{2,3,4,5,6,7\\}$. Find the probability that it is even.",
+    "solution_text": "Total numbers: ${}^{6}P_3=120$.\nChoose the restricted position first: the units digit is $2$, $4$ or $6$. Then fill the first two positions from the five remaining digits.\nFavourable numbers: $3\\times{}^{5}P_2=60$.\n$\\begin{aligned}P(\\text{even})&=\\frac{60}{120}\\\\&=\\frac{1}{2}\\end{aligned}$"
+  },
+  {
+    "question_text": "A three-digit number is selected uniformly at random from those formed using $3$ different digits from $\\{2,3,4,5,6\\}$. Find the probability that it is divisible by $3$.",
+    "solution_text": "Total numbers: ${}^{5}P_3=60$.\nThe digit sum must be divisible by $3$. The valid sets are $\\{2,3,4\\}$, $\\{2,4,6\\}$, $\\{3,4,5\\}$ and $\\{4,5,6\\}$.\nEach set gives $3!$ arrangements, so there are $4\\times3!=24$ favourable numbers.\n$\\begin{aligned}P(\\text{divisible by three})&=\\frac{24}{60}\\\\&=\\frac{2}{5}\\end{aligned}$"
+  },
+  {
+    "question_text": "The letters of PLANETS are arranged uniformly at random in a row. Find the probability that P and S are separated by at least three letters.",
+    "solution_text": "Total arrangements: $7!$.\nSubtract the cases with zero, one or two letters between P and S. Their order can be reversed in $2!$ ways.\nNo letters between: $6!\\times2!$.\nOne letter between: $5\\times5!\\times2!$.\nTwo letters between: ${}^{5}P_2\\times4!\\times2!$.\n$\\begin{aligned}P(\\text{at least three between})&=1-\\frac{6!\\times2!+5\\times5!\\times2!+{}^{5}P_2\\times4!\\times2!}{7!}\\\\&=1-\\frac{3600}{5040}\\\\&=\\frac{2}{7}\\end{aligned}$"
+  },
+  {
+    "question_text": "Three cards are selected uniformly at random without replacement from a standard deck of $52$ cards. Find the probability that all three have different suits.",
+    "solution_text": "Total hands: $\\binom{52}{3}=22100$.\nChoose three of the four suits, then one of the thirteen cards from each chosen suit.\nFavourable hands: $\\binom{4}{3}\\binom{13}{1}^{3}=8788$.\n$\\begin{aligned}P(\\text{different suits})&=\\frac{8788}{22100}\\\\&=\\frac{169}{425}\\end{aligned}$"
+  },
+  {
+    "question_text": "Six cards are selected uniformly at random without replacement from a standard deck of $52$ cards. Find the probability that all six have the same suit.",
+    "solution_text": "Total hands: $\\binom{52}{6}=20358520$.\nChoose the suit, then select six cards from its thirteen cards. The four suit cases do not overlap.\nFavourable hands: $\\binom{4}{1}\\binom{13}{6}=6864$.\n$\\begin{aligned}P(\\text{same suit})&=\\frac{6864}{20358520}\\\\&=\\frac{66}{195755}\\end{aligned}$"
+  },
+  {
+    "question_text": "Five cards are selected uniformly at random from a deck containing the four suits of each rank from $2$ to $10$ ($36$ cards in total). Find the probability of a full house: three cards of one rank and two cards of another rank.",
+    "solution_text": "Total hands: $\\binom{36}{5}=376992$.\nChoose the triple's rank from nine ranks and three of its four cards. Choose the pair's rank from the eight remaining ranks and two of its four cards.\nFavourable hands: $\\binom{9}{1}\\binom{4}{3}\\binom{8}{1}\\binom{4}{2}=1728$.\nThe triple and pair have different roles, so no division by $2$ is needed.\n$\\begin{aligned}P(\\text{full house})&=\\frac{1728}{376992}\\\\&=\\frac{6}{1309}\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,8 +2,8 @@
   "skillId": "integrate-f-dash-over-f",
   "atomType": "R",
   "theory": {
-    "intro": "When the top of a fraction is the derivative of the bottom, the primitive is a logarithm: $\\int\\dfrac{f'(x)}{f(x)}\\,dx = \\ln|f(x)| + C$. Always check the numerator first, because without $f'(x)$ the rule does not apply.",
-    "facts": [
+"intro": "When the top of a fraction is the derivative of the bottom, the primitive is a logarithm: $\\int\\dfrac{f'(x)}{f(x)}\\,dx = \\ln|f(x)| + C$. Always check the numerator first, because without $f'(x)$ the rule does not apply.",
+"facts": [
       "The denominator is $f(x)$, and it must appear to the power $1$ for this rule to work.",
       "$\\int\\dfrac{f'(x)}{f(x)}\\,dx = \\ln|f(x)| + C$ on any interval where $f(x) \\ne 0$.",
       "Differentiate the denominator and compare it with the numerator before choosing this rule.",
@@ -15,13 +15,75 @@
       "Where $f(x)$ is always positive, such as $e^{x}+1$, the modulus signs may be dropped.",
       "Check any answer by differentiating it with the chain rule."
     ],
-    "steps": [
+"steps": [
 "Identify $f(x)$ as the denominator, which must have power $1$.",
 "Differentiate $f(x)$ and check the numerator is $f'(x)$ or a constant multiple of it.",
 "Adjust for any missing constant factor.",
 "Write the answer as $k\\ln|f(x)| + C$ when the numerator is $kf'(x)$, retaining the constant adjustment from step 3."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Find $\\int\\dfrac{6x+5}{3x^{2}+5x-8}\\,dx$.",
+    "solution_text": "The denominator is $f(x)=3x^{2}+5x-8$, with derivative $f'(x)=6x+5$. The numerator matches exactly.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\dfrac{6x+5}{3x^{2}+5x-8}\\,dx\\\\&=\\ln|3x^{2}+5x-8|+C\\end{aligned}$\nThis primitive applies on any interval where $3x^{2}+5x-8\\ne0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find $\\int\\dfrac{3x}{16-x^{2}}\\,dx$.",
+    "solution_text": "For $f(x)=16-x^{2}$, we need $f'(x)=-2x$. Since $3x=-\\dfrac{3}{2}(-2x)$, take the constant adjustment outside the integral.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\dfrac{3x}{16-x^{2}}\\,dx\\\\&=-\\dfrac{3}{2}\\int\\dfrac{-2x}{16-x^{2}}\\,dx\\\\&=-\\dfrac{3}{2}\\ln|16-x^{2}|+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int\\dfrac{e^{4x}}{e^{4x}+7}\\,dx$.",
+    "solution_text": "For $f(x)=e^{4x}+7$, we need $f'(x)=4e^{4x}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\dfrac{e^{4x}}{e^{4x}+7}\\,dx\\\\&=\\dfrac{1}{4}\\int\\dfrac{4e^{4x}}{e^{4x}+7}\\,dx\\\\&=\\dfrac{1}{4}\\ln(e^{4x}+7)+C\\end{aligned}$\nThe denominator is positive for every real $x$, so modulus signs are unnecessary.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find:\na. $\\int\\dfrac{\\cos x}{6+3\\sin x}\\,dx$\nb. $\\int\\dfrac{\\sec^{2}x}{4+\\tan x}\\,dx$.",
+    "solution_text": "a. For $f(x)=6+3\\sin x$, we need $f'(x)=3\\cos x$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\dfrac{\\cos x}{6+3\\sin x}\\,dx\\\\&=\\dfrac{1}{3}\\int\\dfrac{3\\cos x}{6+3\\sin x}\\,dx\\\\&=\\dfrac{1}{3}\\ln(6+3\\sin x)+C\\end{aligned}$\nHere $6+3\\sin x\\ge3$, so the denominator is positive.\n\nb. For $f(x)=4+\\tan x$, its derivative $f'(x)=\\sec^{2}x$ matches the numerator.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\dfrac{\\sec^{2}x}{4+\\tan x}\\,dx\\\\&=\\ln|4+\\tan x|+C\\end{aligned}$\nThis applies on intervals where $\\tan x$ is defined and $4+\\tan x\\ne0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use $\\tan x=\\dfrac{\\sin x}{\\cos x}$ to evaluate $\\int_{0}^{\\pi/3}\\tan x\\,dx$ exactly.",
+    "solution_text": "The denominator is $f(x)=\\cos x$, with derivative $f'(x)=-\\sin x$. The numerator needs a factor of $-1$. Also, $\\cos x>0$ throughout $[0,\\pi/3]$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{\\pi/3}\\tan x\\,dx\\\\&=\\int_{0}^{\\pi/3}\\dfrac{\\sin x}{\\cos x}\\,dx\\\\&=-\\int_{0}^{\\pi/3}\\dfrac{-\\sin x}{\\cos x}\\,dx\\\\&=\\left[-\\ln|\\cos x|\\right]_{0}^{\\pi/3}\\\\&=-\\ln\\dfrac{1}{2}+\\ln1\\\\&=\\ln2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{1}^{2}\\dfrac{3x}{x^{2}+8}\\,dx$ as a single logarithm.",
+    "solution_text": "For $f(x)=x^{2}+8$, we need $f'(x)=2x$. The denominator is positive throughout the interval.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{1}^{2}\\dfrac{3x}{x^{2}+8}\\,dx\\\\&=\\dfrac{3}{2}\\int_{1}^{2}\\dfrac{2x}{x^{2}+8}\\,dx\\\\&=\\dfrac{3}{2}\\left[\\ln(x^{2}+8)\\right]_{1}^{2}\\\\&=\\dfrac{3}{2}(\\ln12-\\ln9)\\\\&=\\dfrac{3}{2}\\ln\\dfrac{4}{3}\\\\&=\\ln\\left(\\dfrac{4}{3}\\right)^{3/2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $\\ln(\\ln(3x))$, and hence find $\\int\\dfrac{1}{x\\ln(3x)}\\,dx$ for $x>\\dfrac{1}{3}$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\dfrac{d}{dx}\\ln(\\ln(3x))\\\\&=\\dfrac{1}{\\ln(3x)}\\times\\dfrac{3}{3x}\\\\&=\\dfrac{1}{x\\ln(3x)}\\end{aligned}$\nThe integrand is exactly this derivative. Since $x>\\dfrac{1}{3}$, we have $\\ln(3x)>0$.\n$\\int\\dfrac{1}{x\\ln(3x)}\\,dx=\\ln(\\ln(3x))+C$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A curve has gradient $\\dfrac{dy}{dx}=\\dfrac{8x}{4x^{2}+3}$ and passes through $(0,2)$. Find its equation.",
+    "solution_text": "The derivative of $4x^{2}+3$ is $8x$, matching the numerator.\n$y=\\ln(4x^{2}+3)+C$\nUsing $(0,2)$:\n$\\begin{aligned}\\ln3+C&=2\\\\C&=2-\\ln3\\end{aligned}$\n$\\begin{aligned}y&=\\ln(4x^{2}+3)+2-\\ln3\\\\y&=\\ln\\dfrac{4x^{2}+3}{3}+2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Explain why $\\int_{0}^{3}\\dfrac{2x}{x^{2}-4}\\,dx$ is not defined.",
+    "solution_text": "The denominator is zero at $x=2$, which lies inside $[0,3]$. The integrand has a vertical asymptote there.\nAlthough $2x$ is the derivative of $x^{2}-4$, the logarithmic primitive applies only on intervals where the denominator is nonzero. Substituting the endpoints into $\\ln|x^{2}-4|$ across this asymptote is invalid. The definite integral is not defined."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

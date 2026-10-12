@@ -2,8 +2,8 @@
   "skillId": "loan-repayment-effects",
   "atomType": "Com",
   "theory": {
-    "intro": "Changing how a loan is repaid changes both how long it runs and how much it costs. With otherwise unchanged loan conditions and repayments sufficient to reduce the balance, paying more each period, paying more often, or paying a lump sum can cut the balance sooner, so less interest is charged.",
-    "facts": [
+"intro": "Changing how a loan is repaid changes both how long it runs and how much it costs. With otherwise unchanged loan conditions and repayments sufficient to reduce the balance, paying more each period, paying more often, or paying a lump sum can cut the balance sooner, so less interest is charged.",
+"facts": [
 "Interest is charged on the balance owing, so lowering the balance sooner reduces interest under otherwise unchanged loan conditions.",
 "With otherwise unchanged loan conditions and repayments sufficient to reduce the balance, a larger repayment clears the loan sooner and reduces total interest.",
 "For equal repayments, total repaid $=$ repayment $\\times$ number of repayments. Add any separate payments, including a lump sum or a different final repayment.",
@@ -13,12 +13,56 @@
 "An extra payment made early reduces the balance over more remaining interest periods than the same payment made near the end, so it saves more interest under otherwise unchanged loan conditions.",
 "If repayments do not cover the interest charged, the balance increases and the loan will not be repaid at that repayment amount."
 ],
-    "steps": [
+"steps": [
       "Work out the total repaid under the first option.",
       "Work out the total repaid under the second option, adding any lump sum.",
       "Subtract to find the saving, or subtract the amount borrowed to find the interest."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A reducing balance loan of $\\$8000$ is fully repaid by $30$ equal monthly repayments of $\\$320$. Find the total amount repaid and the total interest paid.",
+    "solution_text": "$\\begin{align*}\\text{Total repaid} &= 320\\times30\\\\&=\\$9600\\end{align*}$\n$\\begin{align*}\\text{Interest} &= 9600-8000\\\\&=\\$1600\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A loan of $\\$200\\,000$ can be cleared by equal monthly repayments of $\\$1600$ over $20$ years, or equal fortnightly repayments of $\\$800$ over $17$ years. Find the difference in total interest paid.",
+    "solution_text": "Monthly repayments:\n$\\begin{align*}\\text{Total repaid} &=1600\\times12\\times20\\\\&=\\$384\\,000\\\\\\text{Interest} &=384\\,000-200\\,000\\\\&=\\$184\\,000\\end{align*}$\nFortnightly repayments:\n$\\begin{align*}\\text{Total repaid} &=800\\times26\\times17\\\\&=\\$353\\,600\\\\\\text{Interest} &=353\\,600-200\\,000\\\\&=\\$153\\,600\\end{align*}$\n$\\begin{align*}\\text{Interest saving} &=184\\,000-153\\,600\\\\&=\\$30\\,400\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A loan of $\\$90\\,000$ is scheduled to be cleared by equal monthly repayments of $\\$800$ over $15$ years. After $4$ years, the borrower pays a lump sum of $\\$20\\,000$ and continues paying $\\$800$ per month. The loan is cleared after a further $96$ equal monthly repayments. Find the overall saving and how many months earlier the loan is cleared.",
+    "solution_text": "Without the lump sum:\n$\\begin{align*}\\text{Number of repayments} &=15\\times12=180\\\\\\text{Total repaid} &=800\\times180\\\\&=\\$144\\,000\\end{align*}$\nWith the lump sum, include repayments made before and after the extra payment:\n$\\begin{align*}\\text{Number of repayments} &=4\\times12+96\\\\&=144\\\\\\text{Total repaid} &=800\\times144+20\\,000\\\\&=\\$135\\,200\\end{align*}$\n$\\begin{align*}\\text{Saving} &=144\\,000-135\\,200\\\\&=\\$8800\\\\\\text{Term reduction} &=180-144\\\\&=36\\text{ months}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A loan of $\\$30\\,000$ can be cleared by $90$ equal monthly repayments of $\\$450$. Increasing the monthly repayment to $\\$500$ clears it in $78$ equal repayments. Find the overall saving.",
+    "solution_text": "At $\\$450$ per month:\n$\\begin{align*}\\text{Total repaid} &=450\\times90\\\\&=\\$40\\,500\\end{align*}$\nAt $\\$500$ per month:\n$\\begin{align*}\\text{Total repaid} &=500\\times78\\\\&=\\$39\\,000\\end{align*}$\n$\\begin{align*}\\text{Saving} &=40\\,500-39\\,000\\\\&=\\$1500\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The graph compares two monthly repayments on a reducing balance loan of $\\$30\\,000$.\n[tikz]\\begin{tikzpicture}\n\\definecolor{loanblue}{HTML}{268CFF}\n\\definecolor{loanred}{HTML}{EF6068}\n\\definecolor{loangrid}{HTML}{CCCCCC}\n\\begin{axis}[width=10cm,height=7cm,axis lines=left,xmin=0,xmax=120,ymin=0,ymax=32000,xtick={0,20,40,60,80,100,120},ytick={0,10000,20000,30000},scaled ticks=false,ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,/pgf/number format/fixed},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={Months},ylabel={Balance owing (\\$)},ylabel style={at={(axis description cs:-0.28,0.5)},anchor=south},grid=major,grid style={draw=loangrid},axis line style={black},samples=100,clip=false]\n\\addplot[thick,loanblue,domain=0:110.411]{45000-15000*exp(x*ln(1.01))};\n\\addplot[thick,loanred,dashed,domain=0:51.338]{75000-45000*exp(x*ln(1.01))};\n\\node[anchor=west,text=loanblue,font=\\fontsize{10}{12}\\selectfont] at (axis cs:63,20000) {\\$450 per month};\n\\node[anchor=west,text=loanred,font=\\fontsize{10}{12}\\selectfont] at (axis cs:24,10000) {\\$750 per month};\n\\end{axis}\n\\path[use as bounding box] ([xshift=-4mm]current bounding box.south west) rectangle (current bounding box.north east);\n\\end{tikzpicture}[/tikz]\nRead each loan term to the nearest $10$ months. Use these estimates to estimate how much less is repaid at $\\$750$ per month.",
+    "solution_text": "Read where each curve meets the horizontal axis. The solid blue curve gives about $110$ months; the dashed red curve gives about $50$ months.\nAt $\\$450$ per month:\n$\\begin{align*}\\text{Estimated total} &=450\\times110\\\\&=\\$49\\,500\\end{align*}$\nAt $\\$750$ per month:\n$\\begin{align*}\\text{Estimated total} &=750\\times50\\\\&=\\$37\\,500\\end{align*}$\n$\\begin{align*}\\text{Estimated saving} &=49\\,500-37\\,500\\\\&=\\$12\\,000\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A reducing balance loan of $\\$10\\,000$ charges interest at $9\\%$ p.a., compounded monthly. Repayments of $\\$400$ are made at the end of each month, starting one month after borrowing. Find the balance immediately after the second repayment. Round each month's interest to the nearest cent.",
+    "solution_text": "$\\text{Monthly rate}=\\dfrac{0.09}{12}=0.0075$\nMonth 1:\n$\\begin{align*}\\text{Interest} &=10\\,000\\times0.0075\\\\&=\\$75.00\\\\\\text{Ending balance} &=10\\,000+75-400\\\\&=\\$9675.00\\end{align*}$\nUse this ending balance as the next month's starting balance.\nMonth 2:\n$\\begin{align*}\\text{Interest} &=9675\\times0.0075\\\\&=72.5625\\\\&\\approx\\$72.56\\\\\\text{Ending balance} &=9675+72.56-400\\\\&=\\$9347.56\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

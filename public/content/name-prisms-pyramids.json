@@ -2,52 +2,82 @@
   "skillId": "name-prisms-pyramids",
   "atomType": "R",
   "theory": {
-    "intro": "A prism or pyramid is named after the shape of its **base**.",
-    "facts": [
-      "A **prism** has two identical bases joined by rectangles; name it after the base, e.g. a **triangular prism**.",
-      "A **pyramid** has one base and faces that meet at a point (apex); e.g. a **square pyramid**.",
-      "A **cube** is a special square prism; a **cuboid** is a rectangular prism.",
-      "Base names: triangle → triangular, square → square, rectangle → rectangular, pentagon → pentagonal, hexagon → hexagonal."
-    ],
-    "steps": [
+"intro": "A prism or pyramid is named after the shape of its **base**.",
+"facts": [
+"A **prism** has two identical parallel bases; in a **right prism**, the side faces are rectangles. Name it after the base, e.g. a **triangular prism**.",
+"A **pyramid** has one base and triangular side faces that meet at a point (apex); e.g. a **square pyramid**.",
+"A **cube** is a special square prism; a **cuboid** is a rectangular prism.",
+"Base names: triangle → triangular, square → square, rectangle → rectangular, pentagon → pentagonal, hexagon → hexagonal."
+],
+"steps": [
       "Find the base: prisms have two matching ends, pyramids have one base and an apex.",
       "Name the shape of that base.",
       "Add 'prism' or 'pyramid'."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Name the solid. Explain how you chose its name.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,draw=black,text=black,line width=0.5pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n% Triangular prism: front vertices (0,0,0), (2.4,0,0), (1.2,1.8,0); rear vertices at z=1.\n% Faces: ABC, DEF, ABED, BCFE, CADF. Projection: (x+0.9z,y+0.6z).\n% Viewing direction towards viewer: (0.9,0.6,-1). Front ABC and side BCFE are visible.\n\\coordinate (A) at (0,0); \\coordinate (B) at (2.4,0); \\coordinate (C) at (1.2,1.8);\n\\coordinate (D) at (0.9,0.6); \\coordinate (E) at (3.3,0.6); \\coordinate (F) at (2.1,2.4);\n\\draw (A)--(B)--(C)--cycle;\n\\draw (B)--(E)--(F)--(C);\n\\draw[dashed] (A)--(D)--(E);\n\\draw[dashed] (D)--(F);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The two identical parallel bases are triangles. Name the base first, then add prism: **triangular prism**.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,draw=black,text=black,line width=0.5pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n% Same explicit prism faces, projection and viewing direction as the question.\n\\coordinate (A) at (0,0); \\coordinate (B) at (2.4,0); \\coordinate (C) at (1.2,1.8);\n\\coordinate (D) at (0.9,0.6); \\coordinate (E) at (3.3,0.6); \\coordinate (F) at (2.1,2.4);\n\\draw (A)--(B)--(C)--cycle;\n\\draw (B)--(E)--(F)--(C);\n\\draw[dashed] (A)--(D)--(E);\n\\draw[dashed] (D)--(F);\n\\path (1.2,-0.35) node {triangular base};\n\\path (3.2,2.85) node {matching base};\n% Annotation guides are separate from solid boundaries.\n% F is the identifiable upper vertex of rear triangular base DEF.\n\\draw[->,draw={rgb,255:red,38;green,140;blue,255}] (3.15,2.65)--(F);\n\\end{tikzpicture}\n[/tikz]"
   },
+  {
+    "question_text": "This solid has a rectangular base. Name it and explain your choice.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,draw=black,text=black,line width=0.5pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n% Rectangular pyramid: A=(0,0,0), B=(3,0,0), C=(3,2,0), D=(0,2,0), P=(1.5,1,2.6).\n% Faces: ABCD, ABP, BCP, CDP, DAP. Projection: (x+0.3y,z+0.2y).\n% Viewing direction towards viewer: (0.3,-1,0.2). Faces ABP and BCP are visible; D is obscured.\n\\coordinate (A) at (0,0); \\coordinate (B) at (3,0); \\coordinate (C) at (3.6,0.4); \\coordinate (D) at (0.6,0.4); \\coordinate (P) at (1.8,2.8);\n\\draw (A)--(B)--(C);\n\\draw (A)--(P)--(B) (P)--(C);\n\\draw[dashed] (A)--(D)--(C) (D)--(P);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "There is one rectangular base. The triangular side faces meet at an apex, so the solid is a **rectangular pyramid**.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,draw=black,text=black,line width=0.5pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n% Same explicit pyramid faces, projection and viewing direction as the question.\n\\coordinate (A) at (0,0); \\coordinate (B) at (3,0); \\coordinate (C) at (3.6,0.4); \\coordinate (D) at (0.6,0.4); \\coordinate (P) at (1.8,2.8);\n\\draw (A)--(B)--(C);\n\\draw (A)--(P)--(B) (P)--(C);\n\\draw[dashed] (A)--(D)--(C) (D)--(P);\n\\path (1.8,3.1) node {apex};\n\\path (1.5,-0.4) node {rectangular base};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "A cube is resting on one of its faces. Give a prism name for the cube and explain why it fits.",
+    "solution_text": "Two opposite faces are identical parallel squares. These can be its bases, so a cube is a **square prism**."
+  },
+  {
+    "question_text": "A prism has $6$ rectangular side faces. What is its name?",
+    "solution_text": "Each side of a base meets one rectangular side face. The base therefore has $6$ sides: a hexagon. The solid is a **hexagonal prism**."
+  },
+  {
+    "question_text": "A pyramid has $6$ faces altogether. Determine its name.",
+    "solution_text": "One face is the base.\n\n$\\begin{aligned}\\text{Triangular side faces} &= 6-1 \\\\ &= 5\\end{aligned}$\n\nEach triangular side face meets one side of the base. The base has $5$ sides, so the solid is a **pentagonal pyramid**."
+  },
+  {
+    "question_text": "A prism has $8$ vertices. Determine its name.",
+    "solution_text": "The vertices are shared equally between two identical bases.\n\n$\\begin{aligned}\\text{Vertices on each base} &= 8\\div2 \\\\ &= 4\\end{aligned}$\n\nEach base has $4$ sides, so the solid is a **quadrilateral prism**. The vertex count alone does not tell us whether the base is a square or a rectangle."
+  },
+  {
+    "question_text": "A pentagonal prism is resting on a rectangular side face. Does its name change? Explain.",
+    "solution_text": "Its name stays **pentagonal prism**. Its two identical parallel bases are still pentagons; the face it rests on does not change its name."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Name the solid.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.6,0);\n\\coordinate (C) at (1.3,2);\n\\coordinate (D) at (1.1,0.7);\n\\coordinate (E) at (3.7,0.7);\n\\coordinate (F) at (2.4,2.7);\n\\draw (A)--(B)--(C)--cycle;\n\\draw (B)--(E)--(F)--(C);\n\\draw (C)--(F);\n\\draw[dashed] (A)--(D)--(E);\n\\draw[dashed] (D)--(F);\n\\end{tikzpicture}\n[/tikz]",
         "structure": "name-prism-from-base",
         "solution_text": "The matching bases are triangles, so it is a triangular prism."
       },
-      {
-        "question_text": "Name the solid.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0); \\coordinate (B) at (3,0); \\coordinate (C) at (4,0.8); \\coordinate (D) at (1,0.8); \\coordinate (P) at (2,3.2);\n\\draw (A)--(B)--(C); \\draw[dashed] (C)--(D)--(A);\n\\draw (P)--(A) (P)--(B) (P)--(C); \\draw[dashed] (P)--(D);\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "The solid has a square base.\nName the solid.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0); \\coordinate (B) at (3,0); \\coordinate (C) at (4,0.8); \\coordinate (D) at (1,0.8); \\coordinate (P) at (2,3.2);\n\\draw (A)--(B)--(C); \\draw[dashed] (C)--(D)--(A);\n\\draw (P)--(A) (P)--(B) (P)--(C); \\draw[dashed] (P)--(D);\n\\end{tikzpicture}\n[/tikz]",
         "structure": "name-pyramid-from-base",
         "solution_text": "Its base is a square and it has an apex, so it is a square pyramid."
       },
-      {
+{
         "question_text": "A prism has pentagonal bases.\nWrite its full name.",
         "structure": "name-prism-from-base",
         "solution_text": "The base is a pentagon, so the solid is a pentagonal prism."
       },
-      {
+{
         "question_text": "A pyramid has a hexagonal base.\nWrite its full name.",
         "structure": "name-pyramid-from-base",
         "solution_text": "The base is a hexagon, so the solid is a hexagonal pyramid."
       },
-      {
+{
         "question_text": "Name the solid.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0); \\coordinate (B) at (3.2,0); \\coordinate (C) at (3.2,1.8); \\coordinate (D) at (0,1.8);\n\\coordinate (E) at (1,0.7); \\coordinate (F) at (4.2,0.7); \\coordinate (G) at (4.2,2.5); \\coordinate (H) at (1,2.5);\n\\draw (A)--(B)--(C)--(D)--cycle; \\draw (B)--(F)--(G)--(C); \\draw (D)--(H)--(G);\n\\draw[dashed] (A)--(E)--(F); \\draw[dashed] (E)--(H);\n\\end{tikzpicture}\n[/tikz]",
         "structure": "name-prism-from-base",
         "solution_text": "Its matching bases are rectangles, so it is a rectangular prism."
       },
-      {
+{
         "question_text": "A pyramid has four triangular faces altogether.\nWhat is its name?",
         "structure": "infer-base-from-side-faces",
         "solution_text": "Its base is a triangle, so it is a triangular pyramid."
       }
-    ],
+],
     "development": [
       {
         "question_text": "A solid has two congruent octagonal ends joined by rectangles.\nName it.",

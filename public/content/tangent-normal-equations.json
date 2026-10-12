@@ -2,8 +2,8 @@
   "skillId": "tangent-normal-equations",
   "atomType": "R",
   "theory": {
-        "intro": "The **tangent** to $y=f(x)$ at $P(x_1, y_1)$ is the straight line that touches the curve there, with gradient $m = f'(x_1)$. The **normal** is the line through $P$ at right angles to the tangent. For a finite gradient, use $y - y_1 = m(x - x_1)$. If the tangent gradient is zero, the normal is the vertical line $x = x_1$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\draw[->] (-3.8,0) -- (3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.0) -- (0,2.6) node[above] {$y$};\n\\coordinate (P) at (1,-1);\n\\coordinate (Tm) at (-0.2,-2.2);\n\\coordinate (Tp) at (3.0,1.0);\n\\coordinate (Nu) at (-1.0,1.0);\n\\coordinate (Nd) at (2.6,-2.6);\n\\draw[thick, <->, domain=-2.2:2.6, smooth, samples=60, variable=\\x] plot ({\\x}, {0.5*\\x*\\x - 1.5}) node[pos=0.03, left] {$y=f(x)$};\n\\draw[thick] (Tm) -- (Tp) node[pos=0, below left] {tangent};\n\\draw[thick] (Nu) -- (Nd) node[pos=1, below left] {normal};\n\\coordinate (a) at ($(P)!0.3cm!(Tm)$);\n\\coordinate (b) at ($(P)!0.3cm!(Nd)$);\n\\draw (a) -- ($(a)+(b)-(P)$) -- (b);\n\\fill (P) circle (2pt);\n\\node[right=6pt] at (P) {$P(x_1,y_1)$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "The **tangent** to $y=f(x)$ at $P(x_1, y_1)$ is the straight line that touches the curve there, with gradient $m = f'(x_1)$. The **normal** is the line through $P$ at right angles to the tangent. For a finite gradient, use $y - y_1 = m(x - x_1)$. If the tangent gradient is zero, the normal is the vertical line $x = x_1$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\draw[->] (-3.8,0) -- (3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.0) -- (0,2.6) node[above] {$y$};\n\\coordinate (P) at (1,-1);\n\\coordinate (Tm) at (-0.2,-2.2);\n\\coordinate (Tp) at (3.0,1.0);\n\\coordinate (Nu) at (-1.0,1.0);\n\\coordinate (Nd) at (2.6,-2.6);\n\\draw[thick, <->, domain=-2.2:2.6, smooth, samples=60, variable=\\x] plot ({\\x}, {0.5*\\x*\\x - 1.5}) node[pos=0.03, left] {$y=f(x)$};\n\\draw[thick] (Tm) -- (Tp) node[pos=0, below left] {tangent};\n\\draw[thick] (Nu) -- (Nd) node[pos=1, below left] {normal};\n\\coordinate (a) at ($(P)!0.3cm!(Tm)$);\n\\coordinate (b) at ($(P)!0.3cm!(Nd)$);\n\\draw (a) -- ($(a)+(b)-(P)$) -- (b);\n\\fill (P) circle (2pt);\n\\node[right=6pt] at (P) {$P(x_1,y_1)$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "The gradient of the tangent to $y=f(x)$ at $x=x_1$ is $m = f'(x_1)$.",
 "The point of contact is $(x_1, y_1)$, where $y_1 = f(x_1)$.",
 "The tangent has equation $y - y_1 = f'(x_1)(x - x_1)$.",
@@ -12,14 +12,65 @@
 "If the tangent is horizontal ($m=0$), the tangent is $y = y_1$ and the normal is the vertical line $x = x_1$.",
 "General form is $ax + by + c = 0$, where $a$, $b$ and $c$ are integers, with $a > 0$ or, for a horizontal line, $a = 0$ and $b > 0$."
 ],
-        "steps": [
+"steps": [
 "Find the point of contact $y_1 = f(x_1)$",
 "Differentiate $f(x)$ to find the gradient function $f'(x)$",
 "Evaluate the gradient at $x = x_1$",
 "Find the normal gradient using $m_{\\perp} = -\\dfrac{1}{m}$ if required and $m \\neq 0$; if $m = 0$, the normal is $x = x_1$",
 "For a finite gradient, substitute into $y - y_1 = m(x - x_1)$ and rearrange to the required form; for a vertical normal, use $x = x_1$"
+],
+"workedExamples": [
+  {
+    "question_text": "Find the equation of the tangent to $y=x^2-2x+3$ at $x=2$. Give your answer in gradient–intercept form and general form.",
+    "solution_text": "Find the point of contact and the tangent gradient.\n$\\begin{align*}y_1&=2^2-2(2)+3\\\\&=3\\\\f'(x)&=2x-2\\\\m&=f'(2)=2\\end{align*}$\nUse point-gradient form.\n$\\begin{align*}y-3&=2(x-2)\\\\y-3&=2x-4\\\\y&=2x-1\\end{align*}$\nIn general form, $2x-y-1=0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the equation of the normal to $y=x^2-2x+3$ at $x=2$. Give your answer in gradient–intercept form and general form.",
+    "solution_text": "$\\begin{align*}y_1&=2^2-2(2)+3\\\\&=3\\\\f'(x)&=2x-2\\\\m_t&=f'(2)=2\\\\m_n&=-\\frac{1}{2}\\end{align*}$\nThe normal passes through $(2,3)$.\n$\\begin{align*}y-3&=-\\frac12(x-2)\\\\y-3&=-\\frac{x}{2}+1\\\\y&=-\\frac{x}{2}+4\\\\x+2y-8&=0\\end{align*}$\nThe red tangent and green normal meet at the point of contact.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{tangentRed}{HTML}{EF6068}\n\\definecolor{normalGreen}{HTML}{4F9B63}\n\\draw[->,black] (-0.5,0)--(4.4,0) node[right] {$x$};\n\\draw[->,black] (0,-0.5)--(0,6.4) node[above] {$y$};\n\\draw[thick,curveBlue,domain=-0.2:3.05,samples=60,smooth,variable=\\x] plot ({\\x},{\\x*\\x-2*\\x+3});\n\\draw[thick,tangentRed] (0.3,-0.4)--(3.5,6);\n\\draw[thick,normalGreen] (-0.3,4.15)--(4,2);\n\\fill[black] (2,3) circle (1.5pt);\n\\path (2,3) node[below right] {$(2,3)$};\n\\path (3.4,5.8) node[right,text=tangentRed] {tangent};\n\\path (3.8,2.1) node[below,text=normalGreen] {normal};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the equations of the tangent and normal to $y=x^3-6x+7$ at $x=\\sqrt2$.",
+    "solution_text": "$\\begin{align*}y_1&=(\\sqrt2)^3-6\\sqrt2+7\\\\&=7-4\\sqrt2\\\\f'(x)&=3x^2-6\\\\m_t&=3(\\sqrt2)^2-6\\\\&=0\\end{align*}$\nThe tangent is horizontal, so its equation is $y=7-4\\sqrt2$.\nThe normal is vertical through the same point, so its equation is $x=\\sqrt2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The tangent to $y=4-x^2$ at $P(1,3)$ meets the coordinate axes at $A$ and $B$. Find the area of $\\triangle OAB$, where $O$ is the origin.",
+    "solution_text": "$\\begin{align*}f'(x)&=-2x\\\\m&=f'(1)=-2\\\\y-3&=-2(x-1)\\\\y&=-2x+5\\end{align*}$\nAt the $x$-intercept, $y=0$.\n$\\begin{align*}0&=-2x+5\\\\x&=\\frac52\\end{align*}$\nAt the $y$-intercept, $x=0$, so $y=5$. Thus $A(\\frac52,0)$ and $B(0,5)$.\n$\\begin{align*}\\text{Area}&=\\frac12\\times\\frac52\\times5\\\\&=\\frac{25}{4}\\text{ square units}\\end{align*}$\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{tangentRed}{HTML}{EF6068}\n\\draw[->,black] (-2.5,0)--(3.3,0) node[right] {$x$};\n\\draw[->,black] (0,-1)--(0,5.8) node[above] {$y$};\n\\draw[thick,curveBlue,domain=-2.1:2.1,samples=60,smooth,variable=\\x] plot ({\\x},{4-\\x*\\x});\n\\draw[thick,tangentRed] (-0.2,5.4)--(2.9,-0.8);\n\\fill[black] (1,3) circle (1.5pt);\n\\fill[black] (2.5,0) circle (1.5pt);\n\\fill[black] (0,5) circle (1.5pt);\n\\path (1,3) node[right] {$P(1,3)$};\n\\path (2.5,0) node[below right] {$A(\\frac52,0)$};\n\\path (0,5) node[left] {$B(0,5)$};\n\\path (0,0) node[below left] {$O$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the point where the tangents to $y=x^2-2x$ at its $x$-intercepts intersect.",
+    "solution_text": "$y=x(x-2)$, so the $x$-intercepts are $(0,0)$ and $(2,0)$.\n$f'(x)=2x-2$.\nAt $(0,0)$, the tangent gradient is $-2$.\n$\\begin{align*}y-0&=-2(x-0)\\\\y&=-2x\\end{align*}$\nAt $(2,0)$, the tangent gradient is $2$.\n$\\begin{align*}y-0&=2(x-2)\\\\y&=2x-4\\end{align*}$\nSolve the two tangent equations simultaneously.\n$\\begin{align*}-2x&=2x-4\\\\4x&=4\\\\x&=1\\\\y&=-2(1)=-2\\end{align*}$\nThe tangents intersect at $(1,-2)$.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{tangentRed}{HTML}{EF6068}\n\\definecolor{tangentOrange}{HTML}{EF8B2C}\n\\draw[->,black] (-1.2,0)--(3.2,0) node[right] {$x$};\n\\draw[->,black] (0,-2.8)--(0,3.4) node[above] {$y$};\n\\draw[thick,curveBlue,domain=-1:3,samples=60,smooth,variable=\\x] plot ({\\x},{\\x*\\x-2*\\x});\n\\draw[thick,tangentRed] (-1,2)--(1.3,-2.6);\n\\draw[thick,tangentOrange] (0.7,-2.6)--(3,2);\n\\fill[black] (0,0) circle (1.5pt);\n\\fill[black] (2,0) circle (1.5pt);\n\\fill[black] (1,-2) circle (1.5pt);\n\\path (0,0) node[above left] {$(0,0)$};\n\\path (2,0) node[above right] {$(2,0)$};\n\\path (1,-2) node[below] {$(1,-2)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The parabola $y=x^2+bx+c$ has tangent $y=3x-2$ at $(2,4)$. Find $b$ and $c$.",
+    "solution_text": "The tangent has gradient $3$.\n$\\begin{align*}f'(x)&=2x+b\\\\f'(2)&=4+b\\\\4+b&=3\\\\b&=-1\\end{align*}$\nThe point $(2,4)$ lies on the parabola.\n$\\begin{align*}4&=2^2+(-1)(2)+c\\\\4&=2+c\\\\c&=2\\end{align*}$\nThus $b=-1$ and $c=2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The line $x+4y-30=0$ is normal to $y=ax^2+2x+1$ at $x=2$. Find $a$.",
+    "solution_text": "$\\begin{align*}x+4y-30&=0\\\\y&=-\\frac14x+\\frac{15}{2}\\end{align*}$\nThe normal gradient is $-\\frac14$, so the tangent gradient is $4$.\n$\\begin{align*}f'(x)&=2ax+2\\\\f'(2)&=4a+2\\\\4a+2&=4\\\\4a&=2\\\\a&=\\frac12\\end{align*}$\nCheck the point of contact. For $a=\\frac12$ and $x=2$,\n$\\begin{align*}y&=\\frac12(2)^2+2(2)+1\\\\&=7\\end{align*}$\nThe point $(2,7)$ lies on the normal because $2+4(7)-30=0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
       {

@@ -2,19 +2,91 @@
   "skillId": "geometric-series-sum",
   "atomType": "R",
   "theory": {
-    "intro": "The **sum of a geometric series** (or **partial sum** $S_{n}$) is the sum of the first $n$ terms of a geometric sequence. It is evaluated using the formula $S_{n} = \\frac{a(1-r^{n})}{1-r} = \\frac{a(r^{n}-1)}{r-1}$ for $r \\neq 1$.",
-    "facts": [
+"intro": "The **sum of a geometric series** (or **partial sum** $S_{n}$) is the sum of the first $n$ terms of a geometric sequence. It is evaluated using the formula $S_{n} = \\frac{a(1-r^{n})}{1-r} = \\frac{a(r^{n}-1)}{r-1}$ for $r \\neq 1$.",
+"facts": [
       "The formula $S_{n} = \\frac{a(1-r^{n})}{1-r}$ is convenient when $|r| < 1$, while $S_{n} = \\frac{a(r^{n}-1)}{r-1}$ is convenient when $r > 1$.",
       "The sum identity is derived from the polynomial expansion $(r-1)(1 + r + r^{2} + \\dots + r^{n-1}) = r^{n}-1$.",
       "When the common ratio is negative ($r < 0$), the signs of the terms alternate and powers of $r$ must be evaluated with brackets.",
       "Sigma notation $\\sum_{k=1}^{n} a r^{k-1}$ denotes the sum of the first $n$ terms of a geometric series."
     ],
-    "steps": [
+"steps": [
       "Identify the first term $a$, the common ratio $r$, and the number of terms $n$.",
       "Substitute into $S_{n} = \\frac{a(1-r^{n})}{1-r}$ or $S_{n} = \\frac{a(r^{n}-1)}{r-1}$.",
       "Evaluate the numerator and denominator carefully to find the sum."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find the sum of the first 6 terms of $48 + 16 + \\frac{16}{3} + \\ldots$.",
+    "solution_text": "$a=48$, $r=\\frac13$, $n=6$.\n\n$\\begin{aligned}S_6&=\\frac{48\\left(1-\\left(\\frac13\\right)^6\\right)}{1-\\frac13}\\\\&=72\\left(1-\\frac1{729}\\right)\\\\&=\\frac{5824}{81}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find the sum of the first 5 terms of $4 - 12 + 36 - \\ldots$.",
+    "solution_text": "$a=4$, $r=-3$, $n=5$.\n\n$\\begin{aligned}S_5&=\\frac{4\\left(1-(-3)^5\\right)}{1-(-3)}\\\\&=\\frac{4(1+243)}4\\\\&=244\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the number of terms in $5 + 15 + 45 + \\ldots + 3645$, then evaluate the sum.",
+    "solution_text": "$a=5$, $r=3$. Use the last term to find $n$.\n\n$\\begin{aligned}3645&=5(3^{n-1})\\\\3^{n-1}&=729\\\\3^{n-1}&=3^6\\\\n&=7\\end{aligned}$\n\n$\\begin{aligned}S_7&=\\frac{5(3^7-1)}{3-1}\\\\&=\\frac{5(2187-1)}2\\\\&=5465\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\sum_{k=2}^{6}4(3)^{k-1}$.",
+    "solution_text": "Substitute the first few index values to identify the series.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}4(3)^1+4(3)^2+4(3)^3+\\ldots+4(3)^5\\\\&=12+36+108+\\ldots+972\\end{aligned}$\n\nThe first term is $a=12$, the common ratio is $r=3$, and there are $6-2+1=5$ terms.\n\n$\\begin{aligned}S_5&=\\frac{12(3^5-1)}{3-1}\\\\&=6(243-1)\\\\&=1452\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A geometric sequence has common ratio $-\\frac12$. The sum of its first 4 terms is 50. Find its first term.",
+    "solution_text": "$r=-\\frac12$, $n=4$, $S_4=50$.\n\n$\\begin{aligned}50&=\\frac{a\\left(1-\\left(-\\frac12\\right)^4\\right)}{1-\\left(-\\frac12\\right)}\\\\50&=\\frac{a\\left(\\frac{15}{16}\\right)}{\\frac32}\\\\50&=\\frac58a\\\\a&=80\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The sum of the first $n$ terms of $3 + 9 + 27 + \\ldots$ is 1092. Find $n$.",
+    "solution_text": "$a=3$, $r=3$.\n\n$\\begin{aligned}1092&=\\frac{3(3^n-1)}{3-1}\\\\728&=3^n-1\\\\3^n&=729\\\\3^n&=3^6\\\\n&=6\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find a formula for $S_n$ for $12 - 24 + 48 - \\ldots$. Hence find $n$ when $S_n=-252$.",
+    "solution_text": "$a=12$, $r=-2$.\n\n$\\begin{aligned}S_n&=\\frac{12\\left(1-(-2)^n\\right)}{1-(-2)}\\\\&=4\\left(1-(-2)^n\\right)\\end{aligned}$\n\nFor $S_n=-252$:\n\n$\\begin{aligned}-252&=4\\left(1-(-2)^n\\right)\\\\-63&=1-(-2)^n\\\\(-2)^n&=64\\\\(-2)^n&=(-2)^6\\\\n&=6\\end{aligned}$\n\nThe positive power value requires an even exponent, consistent with $n=6$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the smallest number of terms of $3 + 6 + 12 + \\ldots$ whose sum exceeds 1000.",
+    "solution_text": "$a=3$, $r=2$.\n\n$\\begin{aligned}S_n&=\\frac{3(2^n-1)}{2-1}\\\\&=3(2^n-1)\\end{aligned}$\n\n$\\begin{aligned}3(2^n-1)&>1000\\\\2^n&>\\frac{1003}{3}\\\\n&>\\log_2\\left(\\frac{1003}{3}\\right)\\\\n&>8.38\\ldots\\end{aligned}$\n\nThe smallest integer is $n=9$. Check the neighbouring sums:\n\n$S_8=3(256-1)=765$, $S_9=3(512-1)=1533$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The second term of a geometric sequence is 18 and the fifth term is 144. Find the sum of its first 6 terms.",
+    "solution_text": "$ar=18$ and $ar^4=144$. Divide the second equation by the first.\n\n$\\begin{aligned}r^3&=\\frac{144}{18}\\\\r^3&=8\\\\r&=2\\end{aligned}$\n\nSubstitute into $ar=18$.\n\n$\\begin{aligned}2a&=18\\\\a&=9\\end{aligned}$\n\n$\\begin{aligned}S_6&=\\frac{9(2^6-1)}{2-1}\\\\&=9(64-1)\\\\&=567\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An annual subscription costs $\\$200$ in the first year. Its price increases by 5% each subsequent year. Find the total paid over 6 years, to the nearest cent.",
+    "solution_text": "The annual payments form a geometric sequence with $a=200$, $r=1.05$ and $n=6$.\n\n$\\begin{aligned}S_6&=\\frac{200\\left(1.05^6-1\\right)}{1.05-1}\\\\&=4000\\left(1.05^6-1\\right)\\\\&=1360.3825625\\end{aligned}$\n\nThe total paid is $\\$1360.38$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,22 +2,36 @@
   "skillId": "verify-inverse-composition",
   "atomType": "R",
   "theory": {
-    "intro": "Two functions are inverses when each composition returns the original input on its domain.",
-    "facts": [
+"intro": "Two functions are inverses when each composition returns the original input on its domain.",
+"facts": [
       "Check both $f(g(x))=x$ and $g(f(x))=x$.",
       "Check the domain of each composition separately.",
       "$\\sqrt{x^2}=|x|$, so $\\sqrt{x^2}=x$ requires $x\\ge0$."
     ],
-    "steps": [
+"steps": [
       "Substitute one rule into the other",
       "Simplify both compositions",
       "State the allowed inputs"
     ],
-    "workedExample": {
-      "question_text": "For $f(x)=(x-2)^2,\\ x\\ge2$ and $g(x)=2+\\sqrt x$, verify both compositions and state their domains.",
-      "solution_text": "$f(g(x))=(\\sqrt x)^2=x\\quad(x\\ge0)$\n$g(f(x))=2+\\sqrt{(x-2)^2}=2+|x-2|=x\\quad(x\\ge2)$\n$f(g(x))=x\\ (x\\ge0),\\ g(f(x))=x\\ (x\\ge2)$"
-    }
+"workedExamples": [
+  {
+    "question_text": "For $f(x)=(x-2)^2,\\ x\\ge2$ and $g(x)=2+\\sqrt x$, verify both compositions and state their domains.",
+    "solution_text": "$f(g(x))=(\\sqrt x)^2=x\\quad(x\\ge0)$\n$g(f(x))=2+\\sqrt{(x-2)^2}=2+|x-2|=x\\quad(x\\ge2)$\n$f(g(x))=x\\ (x\\ge0),\\ g(f(x))=x\\ (x\\ge2)$"
   },
+  {
+    "question_text": "Verify that $f(x)=5x+4$ and $g(x)=\\frac{x-4}{5}$ are inverses.",
+    "solution_text": "$\\begin{align*}f(g(x))&=5\\left(\\frac{x-4}{5}\\right)+4\\\\&=x-4+4\\\\&=x\\end{align*}$\n$\\begin{align*}g(f(x))&=\\frac{5x+4-4}{5}\\\\&=x\\end{align*}$\nBoth compositions return $x$ for every real input, so $f$ and $g$ are inverses."
+  },
+  {
+    "question_text": "Verify that $f(x)=\\frac{3}{x-2}$ and $g(x)=2+\\frac{3}{x}$ are inverses. State the domain of each composition.",
+    "solution_text": "For $x\\ne0$, $g(x)-2=\\frac{3}{x}\\ne0$, so $g(x)$ is an allowed input to $f$.\n$\\begin{align*}f(g(x))&=\\frac{3}{2+\\frac{3}{x}-2}\\\\&=\\frac{3}{\\frac{3}{x}}\\\\&=x\\end{align*}$\nFor $x\\ne2$, $f(x)=\\frac{3}{x-2}\\ne0$, so $f(x)$ is an allowed input to $g$.\n$\\begin{align*}g(f(x))&=2+\\frac{3}{\\frac{3}{x-2}}\\\\&=2+(x-2)\\\\&=x\\end{align*}$\nThe domain of $f(g(x))$ is $\\mathbb R\\setminus\\{0\\}$; the domain of $g(f(x))$ is $\\mathbb R\\setminus\\{2\\}$. Both compositions return their input on these domains."
+  },
+  {
+    "question_text": "If $f(x)=6x+5$, evaluate $f^{-1}(f(2))$.",
+    "solution_text": "$\\begin{align*}f(2)&=6(2)+5\\\\&=17\\end{align*}$\nThe inverse undoes adding $5$, then multiplying by $6$:\n$f^{-1}(x)=\\frac{x-5}{6}$.\n$\\begin{align*}f^{-1}(f(2))&=f^{-1}(17)\\\\&=\\frac{17-5}{6}\\\\&=2\\end{align*}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

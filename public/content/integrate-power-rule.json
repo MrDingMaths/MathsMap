@@ -2,8 +2,8 @@
   "skillId": "integrate-power-rule",
   "atomType": "R",
   "theory": {
-    "intro": "The **power rule for integration** is $\\int x^{n}\\,dx = \\dfrac{x^{n+1}}{n+1} + C$ for every real $n \\ne -1$, on intervals where the real-valued integrand is defined. Add one to the index, then divide by the new index. It works for negative and fractional indices too.",
-    "facts": [
+"intro": "The **power rule for integration** is $\\int x^{n}\\,dx = \\dfrac{x^{n+1}}{n+1} + C$ for every real $n \\ne -1$, on intervals where the real-valued integrand is defined. Add one to the index, then divide by the new index. It works for negative and fractional indices too.",
+"facts": [
 "Add one to the index and divide by the new index: $\\int x^{n}\\,dx = \\dfrac{x^{n+1}}{n+1} + C$.",
 "The power rule requires $n \\ne -1$ and applies on intervals where the real-valued integrand is defined; when $n = -1$, dividing by $n + 1$ would mean dividing by zero.",
 "A constant factor stays where it is: $\\int kx^{n}\\,dx = \\dfrac{kx^{n+1}}{n+1} + C$.",
@@ -14,14 +14,86 @@
 "The value is negative wherever the curve lies below the $x$-axis across the interval.",
 "There is no product or quotient rule for integration, so expand brackets and split fractions first."
 ],
-    "steps": [
+"steps": [
 "Check where the original real-valued integrand is defined. For a definite integral, check that it is defined and continuous on the whole integration interval, including both endpoints; if this fails, do not use endpoint subtraction.",
 "Rewrite every term as a power of $x$, expanding brackets or splitting fractions first.",
 "Add one to each index and divide by the new index.",
 "For an indefinite integral add $+C$; for a definite integral write $\\left[F(x)\\right]_{a}^{b}$.",
 "Substitute the upper limit and subtract the value at the lower limit."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Find $\\int 8x^{3}\\,dx$.",
+    "solution_text": "Increase the index by one and divide by the new index.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 8x^{3}\\,dx\\\\&=\\frac{8x^{4}}{4}+C\\\\&=2x^{4}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find $\\int \\frac{6}{x^{4}}\\,dx$, writing your answer without negative indices.",
+    "solution_text": "Rewrite the reciprocal as a negative power. Work on an interval where $x\\ne0$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\frac{6}{x^{4}}\\,dx\\\\&=\\int6x^{-4}\\,dx\\\\&=\\frac{6x^{-3}}{-3}+C\\\\&=-\\frac{2}{x^{3}}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int 4\\sqrt{x}\\,dx$.",
+    "solution_text": "Write the square root using a fractional index, with $x\\ge0$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int4\\sqrt{x}\\,dx\\\\&=\\int4x^{\\frac12}\\,dx\\\\&=\\frac{4x^{\\frac32}}{\\frac32}+C\\\\&=\\frac{8x^{\\frac32}}{3}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{1}^{2}6x^{2}\\,dx$.",
+    "solution_text": "The integrand is continuous throughout $[1,2]$. Find a primitive, then subtract its lower-limit value from its upper-limit value.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{1}^{2}6x^{2}\\,dx\\\\&=\\left[2x^{3}\\right]_{1}^{2}\\\\&=2(2)^{3}-2(1)^{3}\\\\&=16-2\\\\&=14\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{1}^{3}(x-5)\\,dx$. The shaded region shows the interval of integration.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{regionblue}{HTML}{D4E8FF}\n\\fill[regionblue] (1,0) -- (1,-4) -- (3,-2) -- (3,0) -- cycle;\n\\draw[black,->] (-0.4,0) -- (4.3,0) node[right] {$x$};\n\\draw[black,->] (0,-5.2) -- (0,1) node[above] {$y$};\n\\draw[black,thick] (0.3,-4.7) -- (4,-1);\n\\draw[black,dashed] (1,0) -- (1,-4);\n\\draw[black,dashed] (3,0) -- (3,-2);\n\\path (1,0) node[above,font=\\fontsize{8.5}{10}\\selectfont] {$1$};\n\\path (3,0) node[above,font=\\fontsize{8.5}{10}\\selectfont] {$3$};\n\\path (2,-4.8) node {$y=x-5$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The integrand is continuous throughout $[1,3]$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{1}^{3}(x-5)\\,dx\\\\&=\\left[\\frac{x^{2}}{2}-5x\\right]_{1}^{3}\\\\&=\\left(\\frac{9}{2}-15\\right)-\\left(\\frac12-5\\right)\\\\&=-\\frac{21}{2}+\\frac92\\\\&=-6\\end{aligned}$\nThe integral is negative because the graph lies below the $x$-axis on this interval.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{0}^{2}(x+2)(x-1)\\,dx$.",
+    "solution_text": "Expand the product before integrating. The integrand is continuous throughout $[0,2]$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{2}(x+2)(x-1)\\,dx\\\\&=\\int_{0}^{2}(x^{2}+x-2)\\,dx\\\\&=\\left[\\frac{x^{3}}{3}+\\frac{x^{2}}{2}-2x\\right]_{0}^{2}\\\\&=\\left(\\frac83+2-4\\right)-0\\\\&=\\frac23\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{1}^{2}\\frac{2x^{4}+4x^{2}}{x^{2}}\\,dx$.",
+    "solution_text": "The original denominator is nonzero throughout $[1,2]$, so the integrand is continuous there. Divide each numerator term by $x^{2}$ before integrating.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{1}^{2}\\frac{2x^{4}+4x^{2}}{x^{2}}\\,dx\\\\&=\\int_{1}^{2}(2x^{2}+4)\\,dx\\\\&=\\left[\\frac{2x^{3}}{3}+4x\\right]_{1}^{2}\\\\&=\\left(\\frac{16}{3}+8\\right)-\\left(\\frac23+4\\right)\\\\&=\\frac{26}{3}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int\\frac{x^{2}-3}{\\sqrt{x}}\\,dx$.",
+    "solution_text": "The original integrand requires $x>0$. Split the fraction and rewrite each term as a power of $x$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\frac{x^{2}-3}{\\sqrt{x}}\\,dx\\\\&=\\int\\left(x^{\\frac32}-3x^{-\\frac12}\\right)\\,dx\\\\&=\\frac{x^{\\frac52}}{\\frac52}-\\frac{3x^{\\frac12}}{\\frac12}+C\\\\&=\\frac{2x^{\\frac52}}{5}-6\\sqrt{x}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{-3}^{-1}\\frac{6}{x^{3}}\\,dx$.",
+    "solution_text": "The integrand is continuous throughout $[-3,-1]$ because this interval excludes zero.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{-3}^{-1}\\frac{6}{x^{3}}\\,dx\\\\&=\\int_{-3}^{-1}6x^{-3}\\,dx\\\\&=\\left[-\\frac{3}{x^{2}}\\right]_{-3}^{-1}\\\\&=-\\frac{3}{(-1)^{2}}-\\left(-\\frac{3}{(-3)^{2}}\\right)\\\\&=-3+\\frac13\\\\&=-\\frac83\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the positive value of $k$ for which $\\int_{0}^{k}6x\\,dx=75$.",
+    "solution_text": "The integrand is continuous between the limits.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{k}6x\\,dx\\\\&=\\left[3x^{2}\\right]_{0}^{k}\\\\&=3k^{2}\\end{aligned}$\nUse the given integral value.\n$\\begin{aligned}3k^{2}&=75\\\\k^{2}&=25\\\\k&=5\\end{aligned}$\nChoose the positive root because $k>0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

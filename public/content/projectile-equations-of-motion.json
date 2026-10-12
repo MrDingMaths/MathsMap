@@ -2,8 +2,8 @@
   "skillId": "projectile-equations-of-motion",
   "atomType": "R",
   "theory": {
-    "intro": "The projectile model gives $\\underset{\\sim}{\\ddot{r}}=-g\\underset{\\sim}{j}$, with $g$ positive and up positive. Integrating once and using the initial velocity gives $\\underset{\\sim}{v}(t)$. Integrating again and using the initial position gives $\\underset{\\sim}{r}(t)$.",
-    "facts": [
+"intro": "The projectile model gives $\\underset{\\sim}{\\ddot{r}}=-g\\underset{\\sim}{j}$, with $g$ positive and up positive. Integrating once and using the initial velocity gives $\\underset{\\sim}{v}(t)$. Integrating again and using the initial position gives $\\underset{\\sim}{r}(t)$.",
+"facts": [
 "Each integration introduces a **constant of integration** in each component, found from the initial conditions.",
 "The horizontal acceleration is zero, so $\\dot{x}=V\\cos\\alpha$ stays the same for the whole flight.",
 "The vertical velocity is $\\dot{y}=-gt+V\\sin\\alpha$, dropping by $g$ every second.",
@@ -11,14 +11,58 @@
 "For a launch from height $h$, placing the origin at ground level directly below launch gives $\\underset{\\sim}{r}(0)=h\\underset{\\sim}{j}$, which adds $h$ to $y$. The booklet recommends placing the origin at the launch point instead, so $\\underset{\\sim}{r}(0)=\\underset{\\sim}{0}$ and ground level is $y=-h$.",
 "You are expected to derive the six equations unless they are given in the question, with marks allocated for the derivation."
 ],
-    "steps": [
+"steps": [
       "Write the acceleration in vector form",
       "Integrate to find the velocity",
       "Use the initial velocity to find the constants",
       "Integrate to find the position",
       "Use the initial position to find the constants"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A ball is projected from the origin at $28\\text{ m/s}$ at $30^{\\circ}$ above the horizontal. Take $g=10\\text{ m/s}^{2}$. By integrating, derive the six equations of motion and write the velocity and position in vector form.",
+    "solution_text": "Take right and up as positive. The initial velocity components are\n$\\begin{align*}\\dot{x}(0)&=28\\cos30^{\\circ}=14\\sqrt{3}\\\\\\dot{y}(0)&=28\\sin30^{\\circ}=14.\\end{align*}$\n\nThe acceleration components are $\\ddot{x}=0$ and $\\ddot{y}=-10$.\n\nIntegrate the horizontal acceleration:\n$\\begin{align*}\\dot{x}&=\\int0\\,dt=C_{1}\\\\\\dot{x}(0)&=C_{1}=14\\sqrt{3}\\\\\\dot{x}(t)&=14\\sqrt{3}.\\end{align*}$\n\nIntegrate the vertical acceleration:\n$\\begin{align*}\\dot{y}&=\\int-10\\,dt=-10t+C_{2}\\\\14&=-10(0)+C_{2}\\\\C_{2}&=14\\\\\\dot{y}(t)&=14-10t.\\end{align*}$\n\nIntegrate again and use $x(0)=y(0)=0$:\n$\\begin{align*}x&=\\int14\\sqrt{3}\\,dt=14\\sqrt{3}t+C_{3}\\\\0&=14\\sqrt{3}(0)+C_{3}\\\\C_{3}&=0\\\\x(t)&=14\\sqrt{3}t.\\end{align*}$\n$\\begin{align*}y&=\\int(14-10t)\\,dt=14t-5t^{2}+C_{4}\\\\0&=14(0)-5(0)^{2}+C_{4}\\\\C_{4}&=0\\\\y(t)&=14t-5t^{2}.\\end{align*}$\n\nThe six equations are\n$\\begin{align*}\\ddot{x}&=0,&\\ddot{y}&=-10,\\\\\\dot{x}&=14\\sqrt{3},&\\dot{y}&=14-10t,\\\\x&=14\\sqrt{3}t,&y&=14t-5t^{2}.\\end{align*}$\n\nIn vector form,\n$\\begin{align*}\\underset{\\sim}{a}(t)&=-10\\underset{\\sim}{j}\\\\\\underset{\\sim}{v}(t)&=14\\sqrt{3}\\underset{\\sim}{i}+(14-10t)\\underset{\\sim}{j}\\\\\\underset{\\sim}{r}(t)&=14\\sqrt{3}t\\underset{\\sim}{i}+(14t-5t^{2})\\underset{\\sim}{j}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A stone is projected at $18\\text{ m/s}$ at $30^{\\circ}$ below the horizontal. Take right and up as positive and $g=9.8\\text{ m/s}^{2}$. By integrating the acceleration, find its velocity vector at time $t$.",
+    "solution_text": "The downward initial component is negative:\n$\\begin{align*}\\dot{x}(0)&=18\\cos30^{\\circ}=9\\sqrt{3}\\\\\\dot{y}(0)&=-18\\sin30^{\\circ}=-9.\\end{align*}$\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,>=stealth]\n\\definecolor{componentBlue}{HTML}{268CFF}\n\\definecolor{componentRed}{HTML}{EF6068}\n\\definecolor{angleOrange}{HTML}{EF8B2C}\n\\draw[->,black,thick] (0,0)--(4.330,-2.5);\n\\draw[->,componentBlue,thick] (0,0)--(4.330,0);\n\\draw[->,componentRed,thick] (4.330,0)--(4.330,-2.5);\n\\draw[angleOrange] (0.9,0) arc[start angle=0,end angle=-30,radius=0.9];\n\\path (2.1,-1.65) node[black,font=\\fontsize{10}{12}\\selectfont] {$18\\text{ m/s}$};\n\\path (2.1,0.4) node[black,font=\\fontsize{10}{12}\\selectfont] {$\\dot{x}(0)=9\\sqrt{3}$};\n\\path (4.5,-1.2) node[right,black,font=\\fontsize{10}{12}\\selectfont] {$\\dot{y}(0)=-9$};\n\\path (1.35,-0.32) node[black,font=\\fontsize{10}{12}\\selectfont] {$30^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]\n\nIntegrate $\\underset{\\sim}{a}=-9.8\\underset{\\sim}{j}$:\n$\\underset{\\sim}{v}=C_{1}\\underset{\\sim}{i}+(-9.8t+C_{2})\\underset{\\sim}{j}$.\n\nAt $t=0$,\n$\\begin{align*}C_{1}&=9\\sqrt{3}\\\\C_{2}&=-9.\\end{align*}$\n\nTherefore,\n$\\underset{\\sim}{v}(t)=9\\sqrt{3}\\underset{\\sim}{i}-(9+9.8t)\\underset{\\sim}{j}\\text{ m/s}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A projectile starts at the origin with velocity $\\underset{\\sim}{v}(t)=13\\underset{\\sim}{i}+(16-10t)\\underset{\\sim}{j}$ metres per second. Find its position vector $\\underset{\\sim}{r}(t)$.",
+    "solution_text": "Integrate each component:\n$\\begin{align*}x&=\\int13\\,dt=13t+C_{1}\\\\y&=\\int(16-10t)\\,dt=16t-5t^{2}+C_{2}.\\end{align*}$\n\nThe projectile starts at the origin, so $x(0)=0$ and $y(0)=0$:\n$\\begin{align*}0&=13(0)+C_{1}\\\\C_{1}&=0\\\\0&=16(0)-5(0)^{2}+C_{2}\\\\C_{2}&=0.\\end{align*}$\n\nHence,\n$\\underset{\\sim}{r}(t)=13t\\underset{\\sim}{i}+(16t-5t^{2})\\underset{\\sim}{j}\\text{ m}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A ball is thrown from a platform $18\\text{ m}$ above the ground at $45\\text{ m/s}$ at an angle $\\theta$ above the horizontal, where $\\tan\\theta=\\dfrac{4}{3}$. Take $g=10\\text{ m/s}^{2}$ and the origin at ground level directly below launch. By integrating, find its velocity and position vectors.",
+    "solution_text": "Since $\\theta$ is acute and $\\tan\\theta=\\dfrac{4}{3}$,\n$\\cos\\theta=\\dfrac{3}{5}$ and $\\sin\\theta=\\dfrac{4}{5}$.\n\nThe initial conditions are\n$\\begin{align*}\\underset{\\sim}{v}(0)&=45\\left(\\dfrac{3}{5}\\right)\\underset{\\sim}{i}+45\\left(\\dfrac{4}{5}\\right)\\underset{\\sim}{j}\\\\&=27\\underset{\\sim}{i}+36\\underset{\\sim}{j}\\\\\\underset{\\sim}{r}(0)&=18\\underset{\\sim}{j}.\\end{align*}$\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,>=stealth]\n\\draw[black] (-0.5,0)--(4,0);\n\\draw[->,black] (0,0)--(0,3.5);\n\\draw[black] (0.45,0)--(0.45,2.4)--(0,2.4);\n\\draw[->,black,thick] (0,2.4)--(0.9,3.6);\n\\draw[black] (0,2.4)--(0.8,2.4);\n\\draw[black] (0.5,2.4) arc[start angle=0,end angle=53.1301,radius=0.5];\n\\path (0,0) node[below left,black,font=\\fontsize{10}{12}\\selectfont] {$O$};\n\\path (-0.1,2.4) node[left,black,font=\\fontsize{10}{12}\\selectfont] {$(0,18)$};\n\\path (0.65,1.1) node[right,black,font=\\fontsize{10}{12}\\selectfont] {$18\\text{ m}$};\n\\path (1,3.45) node[right,black,font=\\fontsize{10}{12}\\selectfont] {$45\\text{ m/s}$};\n\\path (0.7,2.7) node[black,font=\\fontsize{10}{12}\\selectfont] {$\\theta$};\n\\path (3,0) node[below,black,font=\\fontsize{10}{12}\\selectfont] {$y=0$};\n\\end{tikzpicture}\n[/tikz]\n\nIntegrate the acceleration:\n$\\begin{align*}\\underset{\\sim}{a}&=-10\\underset{\\sim}{j}\\\\\\underset{\\sim}{v}&=C_{1}\\underset{\\sim}{i}+(-10t+C_{2})\\underset{\\sim}{j}.\\end{align*}$\n\nUsing the initial velocity gives $C_{1}=27$ and $C_{2}=36$, so\n$\\underset{\\sim}{v}(t)=27\\underset{\\sim}{i}+(36-10t)\\underset{\\sim}{j}\\text{ m/s}$.\n\nIntegrate again:\n$\\underset{\\sim}{r}=(27t+C_{3})\\underset{\\sim}{i}+(36t-5t^{2}+C_{4})\\underset{\\sim}{j}$.\n\nUsing $\\underset{\\sim}{r}(0)=18\\underset{\\sim}{j}$ gives $C_{3}=0$ and $C_{4}=18$. Hence,\n$\\underset{\\sim}{r}(t)=27t\\underset{\\sim}{i}+(36t-5t^{2}+18)\\underset{\\sim}{j}\\text{ m}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A projectile has position vector $\\underset{\\sim}{r}(t)=15t\\underset{\\sim}{i}+(20t-4.9t^{2}+8)\\underset{\\sim}{j}$ metres, with $y$ measured from the ground. Find its launch speed and angle above the horizontal, giving the angle to $1$ decimal place.",
+    "solution_text": "Differentiate the position vector:\n$\\underset{\\sim}{v}(t)=15\\underset{\\sim}{i}+(20-9.8t)\\underset{\\sim}{j}$.\n\nAt launch,\n$\\underset{\\sim}{v}(0)=15\\underset{\\sim}{i}+20\\underset{\\sim}{j}$.\n\nUse the initial components to find the speed:\n$\\begin{align*}V&=\\sqrt{15^{2}+20^{2}}\\\\&=\\sqrt{625}\\\\&=25\\text{ m/s}.\\end{align*}$\n\nBoth components are positive, so the direction is above the horizontal:\n$\\begin{align*}\\alpha&=\\tan^{-1}\\left(\\dfrac{20}{15}\\right)\\\\&\\approx53.1^{\\circ}.\\end{align*}$\n\nThe launch velocity is $25\\text{ m/s}$ at $53.1^{\\circ}$ above the horizontal.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A projectile starts at the origin with speed $U$ at angle $\\beta$ above the horizontal. Its acceleration is $\\underset{\\sim}{a}=-g\\underset{\\sim}{j}$, where $g>0$. Integrate twice and use the initial conditions to derive its velocity and position vectors.",
+    "solution_text": "Integrating the acceleration gives\n$\\underset{\\sim}{v}=C_{1}\\underset{\\sim}{i}+(-gt+C_{2})\\underset{\\sim}{j}$.\n\nUse the initial velocity:\n$\\begin{align*}\\underset{\\sim}{v}(0)&=U\\cos\\beta\\,\\underset{\\sim}{i}+U\\sin\\beta\\,\\underset{\\sim}{j}\\\\C_{1}&=U\\cos\\beta\\\\C_{2}&=U\\sin\\beta.\\end{align*}$\n\nTherefore,\n$\\underset{\\sim}{v}(t)=U\\cos\\beta\\,\\underset{\\sim}{i}+(U\\sin\\beta-gt)\\underset{\\sim}{j}$.\n\nIntegrating again gives\n$\\underset{\\sim}{r}=(Ut\\cos\\beta+C_{3})\\underset{\\sim}{i}+\\left(Ut\\sin\\beta-\\dfrac{1}{2}gt^{2}+C_{4}\\right)\\underset{\\sim}{j}$.\n\nThe launch point is the origin, so $\\underset{\\sim}{r}(0)=\\underset{\\sim}{0}$. Thus $C_{3}=0$ and $C_{4}=0$, giving\n$\\underset{\\sim}{r}(t)=Ut\\cos\\beta\\,\\underset{\\sim}{i}+\\left(Ut\\sin\\beta-\\dfrac{1}{2}gt^{2}\\right)\\underset{\\sim}{j}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

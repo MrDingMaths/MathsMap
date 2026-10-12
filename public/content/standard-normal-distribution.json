@@ -2,8 +2,8 @@
   "skillId": "standard-normal-distribution",
   "atomType": "T",
   "theory": {
-    "intro": "$X\\sim N(\\mu,\\sigma^{2})$ says $X$ is normal with mean $\\mu$ and **variance** $\\sigma^{2}$, the square of the standard deviation. The **standard normal distribution** is $Z\\sim N(0,1)$, the one curve with mean $0$ and standard deviation $1$.",
-    "facts": [
+"intro": "$X\\sim N(\\mu,\\sigma^{2})$ says $X$ is normal with mean $\\mu$ and **variance** $\\sigma^{2}$, the square of the standard deviation. The **standard normal distribution** is $Z\\sim N(0,1)$, the one curve with mean $0$ and standard deviation $1$.",
+"facts": [
       "In $X\\sim N(\\mu,\\sigma^{2})$ the second number is the variance, so the standard deviation is its square root.",
       "$X\\sim N(70,25)$ and $X\\sim N(70,5^{2})$ describe the same variable, with mean $70$ and standard deviation $5$.",
       "A distribution is standard normal only when both $\\mu=0$ and $\\sigma=1$; any other pair is non-standard.",
@@ -13,12 +13,56 @@
       "A $z$ value counts standard deviations, so it has no units even when $X$ is measured in grams or hours.",
       "The score $x=\\mu+\\sigma$ always maps to $z=1$, whatever the mean and standard deviation happen to be."
     ],
-    "steps": [
+"steps": [
       "Read the first number in $N(\\mu,\\sigma^{2})$ as the mean",
       "Read the second number as the variance $\\sigma^{2}$",
       "Take the square root of the variance to get the standard deviation"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "$X\\sim N(-8,36)$ and $Y\\sim N(18,0.7^{2})$.\nState the mean and standard deviation of each variable. Is either distribution standard normal?",
+    "solution_text": "For $X$:\n$\\begin{align*}\\mu_X&=-8\\\\\\sigma_X^{2}&=36\\\\\\sigma_X&=\\sqrt{36}\\\\&=6\\end{align*}$\nFor $Y$:\n$\\begin{align*}\\mu_Y&=18\\\\\\sigma_Y^{2}&=0.7^{2}\\\\\\sigma_Y&=0.7\\end{align*}$\nNeither is standard normal. A standard normal distribution has mean $0$ and standard deviation $1$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "$X\\sim N(84,64)$.\nFind the z-score for $x=72$ and interpret it.",
+    "solution_text": "$\\begin{align*}\\sigma&=\\sqrt{64}\\\\&=8\\end{align*}$\n$\\begin{align*}z&=\\frac{x-\\mu}{\\sigma}\\\\&=\\frac{72-84}{8}\\\\&=-1.5\\end{align*}$\nThe score is $1.5$ standard deviations below the mean.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$X\\sim N(150,144)$.\nFind the raw score with z-score $-0.75$.",
+    "solution_text": "$\\begin{align*}\\sigma&=\\sqrt{144}\\\\&=12\\end{align*}$\n$\\begin{align*}x&=\\mu+z\\sigma\\\\&=150+(-0.75)(12)\\\\&=141\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$X\\sim N(40,16)$ and $Y\\sim N(240,400)$.\n(a) Show that $P(X<46)$ and $P(Y<270)$ are equal.\n(b) A score of $48$ is recorded on the $X$ scale and $270$ on the $Y$ scale. Which score is more extreme?",
+    "solution_text": "(a) The standard deviations are $\\sigma_X=\\sqrt{16}=4$ and $\\sigma_Y=\\sqrt{400}=20$.\n$\\begin{align*}z_X&=\\frac{46-40}{4}\\\\&=1.5\\end{align*}$\n$\\begin{align*}z_Y&=\\frac{270-240}{20}\\\\&=1.5\\end{align*}$\nBoth cutoffs map to $z=1.5$ on the same standard normal curve, so both probabilities equal $P(Z<1.5)$.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\fill[fill={rgb,255:red,220;green,235;blue,224}] (-3.5,0) -- plot[domain=-3.5:1.5,samples=90,variable=\\x] ({\\x},{2*exp(-((\\x)*(\\x))/2)}) -- (1.5,0) -- cycle;\n\\draw[black,thick] plot[domain=-3.5:3.5,samples=100,variable=\\x] ({\\x},{2*exp(-((\\x)*(\\x))/2)});\n\\draw[black,<->] (-3.7,0) -- (3.7,0);\n\\draw[black,dashed] (1.5,0) -- (1.5,{2*exp(-1.5*1.5/2)});\n\\draw[black] (0,0) -- (0,-0.1);\n\\draw[black] (1.5,0) -- (1.5,-0.1);\n\\path (0,-0.1) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\path (1.5,-0.1) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$1.5$};\n\\path (3.7,0) node[right] {$z$};\n\\path (1.5,-0.65) node[below] {$x=46,\\ y=270$};\n\\end{tikzpicture}\n[/tikz]\n(b)\n$\\begin{align*}z_X&=\\frac{48-40}{4}\\\\&=2\\end{align*}$\nFor $y=270$, $z_Y=1.5$. The score $48$ on the $X$ scale is more extreme: it lies $2$ standard deviations above the mean, compared with $1.5$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$X\\sim N(\\mu,8^{2})$.\nA score of $54$ has z-score $-1.25$. Find the mean.",
+    "solution_text": "$\\begin{align*}z&=\\frac{x-\\mu}{\\sigma}\\\\-1.25&=\\frac{54-\\mu}{8}\\\\-10&=54-\\mu\\\\\\mu&=64\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$X\\sim N(72,\\sigma^{2})$.\nA score of $90$ has z-score $1.2$. Find the standard deviation.",
+    "solution_text": "$\\begin{align*}z&=\\frac{x-\\mu}{\\sigma}\\\\1.2&=\\frac{90-72}{\\sigma}\\\\1.2\\sigma&=18\\\\\\sigma&=15\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

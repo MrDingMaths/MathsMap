@@ -2,8 +2,8 @@
   "skillId": "normal-distribution-shape",
   "atomType": "Cat",
   "theory": {
-    "intro": "A dataset is **normally distributed** when its display is symmetrical about the centre and rises to a single central peak, giving a **bell curve**. Most values sit near the middle and the frequencies fall away evenly on both sides.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.4,0) -- (3.7,0) node[below right,font=\\scriptsize] {Data value};\n\\draw[thick,domain=-2.9:2.9,smooth,variable=\\x] plot ({\\x},{3*exp(-\\x*\\x/2)}) node[pos=0.5,above,font=\\scriptsize] {bell curve};\n\\draw[dashed] (0,0) -- (0,3);\n\\node[below,font=\\scriptsize] at (0,-0.1) {mean $=$ median $=$ mode};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "A dataset is **normally distributed** when its display is symmetrical about the centre and rises to a single central peak, giving a **bell curve**. Most values sit near the middle and the frequencies fall away evenly on both sides.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.4,0) -- (3.7,0) node[below right,font=\\scriptsize] {Data value};\n\\draw[thick,domain=-2.9:2.9,smooth,variable=\\x] plot ({\\x},{3*exp(-\\x*\\x/2)}) node[pos=0.5,above,font=\\scriptsize] {bell curve};\n\\draw[dashed] (0,0) -- (0,3);\n\\node[below,font=\\scriptsize] at (0,-0.1) {mean $=$ median $=$ mode};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "A normal distribution is **symmetrical**: the left and right halves are mirror images about the centre.",
 "The mean, median and mode of a theoretical normal distribution are exactly equal and sit at the centre; in observed data from a normal distribution, they are approximately equal.",
 "Most of the data sits near the centre, and the frequencies decrease steadily towards both **tails**.",
@@ -13,12 +13,40 @@
 "On two normal curves drawn on the same scale, the curve whose peak is further right has the larger mean.",
 "A wider, flatter curve has the larger standard deviation; a taller, narrower curve has the smaller one."
 ],
-    "steps": [
+"steps": [
       "Check the display is roughly symmetrical",
       "Check there is a single central peak with the frequencies falling away on both sides",
       "Check the mean, median and mode are approximately equal"
-    ]
+    ],
+"workedExamples": [
+{
+    "question_text": "The histograms show two sets of test scores. For each dataset, decide whether it could be normally distributed. Give reasons.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=4mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\begin{scope}\n\\draw[black,->] (0,0)--(0,9);\n\\draw[black,->] (0,0)--(7.7,0);\n\\foreach \\x/\\h in {1/1,2/3,3/6,4/8,5/6,6/3,7/1} {\\draw[black] (\\x-0.5,0) rectangle (\\x+0.5,\\h); \\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,0) {$\\x$};}\n\\foreach \\y in {0,2,4,6,8} {\\draw[black] (-0.12,\\y)--(0,\\y); \\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.12,\\y) {$\\y$};}\n\\node[rotate=90] at (-2,4.5) {Frequency};\n\\node[below] at (4,-1.8) {Score};\n\\node[above] at (4,9) {Dataset A};\n\\end{scope}\n\\begin{scope}[yshift=-65mm]\n\\draw[black,->] (0,0)--(0,9);\n\\draw[black,->] (0,0)--(7.7,0);\n\\foreach \\x/\\h in {1/8,2/6,3/4,4/3,5/2,6/1,7/1} {\\draw[black] (\\x-0.5,0) rectangle (\\x+0.5,\\h); \\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,0) {$\\x$};}\n\\foreach \\y in {0,2,4,6,8} {\\draw[black] (-0.12,\\y)--(0,\\y); \\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.12,\\y) {$\\y$};}\n\\node[rotate=90] at (-2,4.5) {Frequency};\n\\node[below] at (4,-1.8) {Score};\n\\node[above] at (4,9) {Dataset B};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Dataset A could be normally distributed. Its frequencies match on either side of $4$ and decrease towards both tails, giving a symmetrical display with a single central peak.\n\nDataset B is not normally distributed. Its peak is at the left end, and its tail extends to the right. It is positively skewed rather than symmetrical."
   },
+{
+    "question_text": "Each row gives the frequencies for scores $2$ to $8$. Decide whether each dataset could be normally distributed. Give reasons.\n\n| Dataset / Score | 2 | 3 | 4 | 5 | 6 | 7 | 8 |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| A | 2 | 6 | 11 | 16 | 12 | 5 | 2 |\n| B | 6 | 6 | 6 | 6 | 6 | 6 | 6 |\n| C | 2 | 7 | 12 | 4 | 12 | 7 | 2 |\n| D | 1 | 2 | 3 | 5 | 8 | 14 | 7 |",
+    "solution_text": "A could be normally distributed. The frequencies rise to one central peak at $5$ and fall away on both sides. Matching frequencies are close, so the display is approximately symmetrical.\n\nB is flat: every score has frequency $6$. It has no single central peak, so it is not normally distributed.\n\nC is symmetrical, but it has two peaks at $4$ and $6$, with a dip at $5$. It is bimodal rather than bell-shaped, so it is not normally distributed.\n\nD has a peak near the right end at $7$ and a longer tail towards the lower scores. It is negatively skewed rather than symmetrical, so it is not normally distributed."
+  },
+{
+    "question_text": "The table shows the scores of $40$ students.\n\n| Score | 6 | 7 | 8 | 9 | 10 | 11 | 12 |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| Frequency | 2 | 5 | 8 | 10 | 8 | 5 | 2 |\n\nCalculate the mean, median and mode. Use the averages and the shape to justify whether the data is approximately normally distributed.",
+    "solution_text": "$\\begin{aligned}\\text{Mean}&=\\frac{6(2)+7(5)+8(8)+9(10)+10(8)+11(5)+12(2)}{40}\\\\&=\\frac{360}{40}\\\\&=9\\end{aligned}$\n\nThe cumulative frequencies are $2$, $7$, $15$, $25$, $33$, $38$, $40$. The $20$th and $21$st scores are both $9$, so the median is $9$.\n\nThe highest frequency is $10$, occurring at score $9$, so the mode is $9$.\n\nThe mean, median and mode are all $9$. The frequencies are symmetrical about $9$, rise to a single central peak and fall away towards both tails. The data could be approximately normally distributed.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "The table shows the scores of $40$ students.\n\n| Score | 6 | 7 | 8 | 9 | 10 | 11 | 12 |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| Frequency | 2 | 5 | 10 | 6 | 10 | 5 | 2 |\n\nSam says, “The mean and median are both $9$, and the frequencies are symmetrical, so the data must be normally distributed.” Check the mean and median, then explain why Sam's conclusion is wrong.",
+    "solution_text": "$\\begin{aligned}\\text{Mean}&=\\frac{6(2)+7(5)+8(10)+9(6)+10(10)+11(5)+12(2)}{40}\\\\&=\\frac{360}{40}\\\\&=9\\end{aligned}$\n\nThe cumulative frequencies are $2$, $7$, $17$, $23$, $33$, $38$, $40$. The $20$th and $21$st scores are both $9$, so the median is $9$.\n\nThe frequencies are symmetrical about $9$, but the two peaks are at $8$ and $10$, each with frequency $10$. The centre has a lower frequency of $6$.\n\nA normal distribution needs a single central peak as well as symmetry. This display is bimodal, so Sam's conclusion is wrong.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "Three normal curves are drawn on the same axes and scale.\n\n(a) Which curve has the largest mean?\n\n(b) Which curve has the largest standard deviation?\n\n(c) Which two curves have the same mean?\n\n(d) Which two curves have the same standard deviation?\n\nGive reasons.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{mmblue}{HTML}{268CFF}\n\\definecolor{mmred}{HTML}{EF6068}\n\\draw[black,->] (-0.4,0)--(12,0);\n\\node[below] at (6,-0.15) {Score};\n\\draw[black,thick,domain=0:6,samples=121,smooth,variable=\\x] plot ({\\x},{2.4*exp(-((\\x-3)*(\\x-3))/0.72)});\n\\draw[mmblue,thick,dashed,domain=-0.2:6.2,samples=121,smooth,variable=\\x] plot ({\\x},{1.2*exp(-((\\x-3)*(\\x-3))/2.88)});\n\\draw[mmred,thick,dotted,domain=6:12,samples=121,smooth,variable=\\x] plot ({\\x},{2.4*exp(-((\\x-9)*(\\x-9))/0.72)});\n\\node[above] at (3,2.4) {$A$};\n\\node[text=mmblue,anchor=west] at (4.1,0.95) {$B$};\n\\node[text=mmred,above] at (9,2.4) {$C$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Curve $C$ has the largest mean. Its peak is furthest to the right, and a normal curve's mean lies beneath its peak.\n\n(b) Curve $B$ has the largest standard deviation. It is the widest and flattest curve, so its values are the most spread out.\n\n(c) Curves $A$ and $B$ have the same mean. Their peaks lie at the same horizontal position.\n\n(d) Curves $A$ and $C$ have the same standard deviation. Their widths match; moving a curve horizontally changes its mean without changing its spread."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,8 +2,8 @@
   "skillId": "polynomial-end-behaviour",
   "atomType": "R",
   "theory": {
-        "intro": "The **end behaviour** of $P(x)$ is what $y$ does as $x \\to \\infty$ and as $x \\to -\\infty$. For a nonconstant polynomial with positive integer degree $n$ and nonzero leading coefficient $a_n$, it depends only on the **leading term** $a_{n}x^{n}$: whether $n$ is even or odd, and whether $a_{n}$ is positive or negative.",
-        "facts": [
+"intro": "The **end behaviour** of $P(x)$ is what $y$ does as $x \\to \\infty$ and as $x \\to -\\infty$. For a nonconstant polynomial with positive integer degree $n$ and nonzero leading coefficient $a_n$, it depends only on the **leading term** $a_{n}x^{n}$: whether $n$ is even or odd, and whether $a_{n}$ is positive or negative.",
+"facts": [
 "The infinite-end rules below apply to nonconstant polynomials with positive integer degree $n$ and $a_n \\ne 0$. A nonzero constant polynomial has degree $0$ and stays at its constant value at both ends. The zero polynomial stays at $0$ and has no degree, leading term or leading coefficient.",
 "As $x \\to \\infty$, $y \\to \\infty$ when the leading coefficient $a_{n} > 0$, and $y \\to -\\infty$ when $a_{n} < 0$.",
 "If the degree $n$ is **even**, both ends point in the **same direction**: $y$ has the same sign at $x \\to -\\infty$ as at $x \\to \\infty$.",
@@ -14,13 +14,27 @@
 "Odd degree with $a_{n} < 0$: up on the left and down on the right, so $y \\to \\infty$ as $x \\to -\\infty$ and $y \\to -\\infty$ as $x \\to \\infty$.",
 "For a polynomial in factored form, find the leading term by multiplying the highest-degree term of every factor."
 ],
-        "steps": [
+"steps": [
           "Identify the leading term $a_{n}x^{n}$.",
           "Determine the sign of the leading coefficient $a_{n}$ to find behaviour as $x \\to \\infty$.",
           "Check whether the degree $n$ is even or odd to determine behaviour as $x \\to -\\infty$.",
           "State the end behaviour as $x \\to \\infty$ and $x \\to -\\infty$."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Identify the leading term of $P(x)=9-\\frac{3}{2}x^{2}-\\frac{7}{2}x^{6}+4x$.",
+    "solution_text": "The highest power of $x$ is $6$, regardless of the order of the terms.\n\nThe leading term is $-\\frac{7}{2}x^{6}$."
+  },
+  {
+    "question_text": "Find the leading term of $P(x)=-2(5-3x)^{2}(2x+7)^{3}$.",
+    "solution_text": "Multiply the highest-degree terms of the factors, retaining the coefficient outside the brackets.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}-2(-3x)^{2}(2x)^{3}\\\\&=-2(9x^{2})(8x^{3})\\\\&=-144x^{5}\\end{aligned}$\n\nThe leading term is $-144x^{5}$."
+  },
+  {
+    "question_text": "For each polynomial graph, determine whether its degree is odd or even and whether its leading coefficient is positive or negative.\n\n(a)\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=8mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,<->] (-2.8,0)--(2.8,0) node[right] {$x$};\n\\draw[black,<->] (0,-3)--(0,1.6) node[above] {$y$};\n\\draw[curveblue,thick,<->,domain=-2:2,samples=100,smooth,variable=\\x] plot ({\\x},{-0.55*(\\x*\\x-1)*(\\x*\\x-1)+0.8});\n\\end{tikzpicture}\n[/tikz]\n\n(b)\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=8mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,<->] (-2.8,0)--(2.8,0) node[right] {$x$};\n\\draw[black,<->] (0,-3)--(0,3) node[above] {$y$};\n\\draw[curveblue,thick,<->,domain=-2:2,samples=100,smooth,variable=\\x] plot ({\\x},{0.4*\\x*(\\x*\\x-1)});\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Both ends point down, so the degree is **even**. The right end points down, so the leading coefficient is **negative**.\n\n(b) The left end points down and the right end points up, so the degree is **odd**. The right end points up, so the leading coefficient is **positive**.\n\nUse the right end to determine the coefficient's sign and compare both ends to determine degree parity."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

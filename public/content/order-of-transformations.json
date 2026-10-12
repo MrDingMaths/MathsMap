@@ -2,8 +2,8 @@
   "skillId": "order-of-transformations",
   "atomType": "R",
   "theory": {
-    "intro": "The order in which transformations are applied is critical because transformations along the same axis generally do not commute. Dilating then translating horizontally can produce a different curve from translating then dilating horizontally. In contrast, transformations on different axes (horizontal vs vertical) are independent and commute. Ordinary dilation factors satisfy $k>0$. The horizontal arrows below describe successive substitutions into the current expression, not movements of graph coordinates.",
-    "facts": [
+"intro": "The order in which transformations are applied is critical because transformations along the same axis generally do not commute. Dilating then translating horizontally can produce a different curve from translating then dilating horizontally. In contrast, transformations on different axes (horizontal vs vertical) are independent and commute. Ordinary dilation factors satisfy $k>0$. The horizontal arrows below describe successive substitutions into the current expression, not movements of graph coordinates.",
+"facts": [
 "Horizontal dilation by $k$ then horizontal translation right by $b$ maps $x \\mapsto \\dfrac{x}{k} \\mapsto \\dfrac{x-b}{k}$, giving $y = f\\left(\\dfrac{x-b}{k}\\right) = f\\left(\\dfrac{x}{k} - \\dfrac{b}{k}\\right)$.",
 "Horizontal translation right by $b$ then horizontal dilation by $k$ maps $x \\mapsto x - b \\mapsto \\dfrac{x}{k} - b$, giving $y = f\\left(\\dfrac{x}{k} - b\\right)$.",
 "Vertical dilation by $k$ then vertical translation up by $c$ gives $y = k f(x) + c$.",
@@ -12,12 +12,50 @@
 "Any horizontal transformation commutes with any vertical transformation.",
 "To produce $f(ax+b)$ when $a>0$: dilate horizontally by $\\dfrac{1}{a}$, then translate left by the signed displacement $\\dfrac{b}{a}$; alternatively, translate left by the signed displacement $b$, then dilate horizontally by $\\dfrac{1}{a}$. A negative signed displacement means a translation to the right. When $a<0$, use reflection in the $y$-axis and horizontal dilation by $\\dfrac{1}{|a|}$ to obtain $f(ax)$, then translate horizontally by replacing $x$ with $x+\\dfrac{b}{a}$; this is left if $\\dfrac{b}{a}>0$ and right if $\\dfrac{b}{a}<0$. The case $a=0$ cannot be obtained by these reflections, translations and nonzero dilations."
 ],
-    "steps": [
+"steps": [
       "Identify whether the transformations act on the same axis or on different axes.",
       "Apply each transformation in order by substituting $x$ or $y$ step-by-step.",
       "Compare resulting expressions to determine if order changes the final rule or features."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "For each pair, state whether the transformations commute for every function, and explain why.\n(a) Horizontal dilation by factor $4$ and vertical translation up $2$ units.\n(b) Horizontal dilation by factor $4$ and reflection in the $y$-axis.\n(c) Vertical dilation by factor $4$ and vertical translation up $2$ units.",
+    "solution_text": "(a) Both orders give $y=f\\left(\\frac{x}{4}\\right)+2$. The transformations act on different coordinates, so they commute.\n\n(b) Both orders give $y=f\\left(-\\frac{x}{4}\\right)$. The horizontal dilation and reflection commute because their coordinate scale factors multiply in either order.\n\n(c) Dilating first gives $y=4f(x)+2$. Translating first gives $y=4(f(x)+2)=4f(x)+8$. These transformations do not commute."
   },
+  {
+    "question_text": "Starting with $y=x^3$, find the final equation for each sequence.\n(a) Translate up $4$ units, then dilate vertically by factor $2$.\n(b) Dilate vertically by factor $2$, then translate up $4$ units.\nCompare the results.",
+    "solution_text": "(a) Translate up $4$ units:\n$y=x^3+4$.\nThen multiply the entire current output by $2$:\n$\\begin{aligned}y&=2(x^3+4)\\\\y&=2x^3+8\\end{aligned}$.\n\n(b) Dilate vertically by factor $2$:\n$y=2x^3$.\nThen translate up $4$ units:\n$y=2x^3+4$.\n\nThe equations differ. Translating first makes the vertical dilation scale the translation distance as well."
+  },
+  {
+    "question_text": "Starting with $y=\\frac{1}{x}$, find the final equation for each sequence.\n(a) Translate left $4$ units, then dilate horizontally by factor $3$.\n(b) Dilate horizontally by factor $3$, then translate left $4$ units.\nCompare the results.",
+    "solution_text": "(a) Translate left $4$ units:\n$y=\\frac{1}{x+4}$.\nThen replace every $x$ in the current rule with $\\frac{x}{3}$:\n$\\begin{aligned}y&=\\frac{1}{\\frac{x}{3}+4}\\\\y&=\\frac{3}{x+12}\\end{aligned}$.\n\n(b) Dilate horizontally by factor $3$:\n$\\begin{aligned}y&=\\frac{1}{\\frac{x}{3}}\\\\y&=\\frac{3}{x}\\end{aligned}$.\nThen replace $x$ with $x+4$:\n$y=\\frac{3}{x+4}$.\n\nThe final equations differ. In (a), the horizontal dilation scales the earlier translation distance."
+  },
+  {
+    "question_text": "Starting with $y=\\sqrt{x}$, find the final equation for each sequence.\n(a) Translate right $5$ units, then reflect in the $y$-axis.\n(b) Reflect in the $y$-axis, then translate right $5$ units.\nExplain whether these transformations commute.",
+    "solution_text": "(a) Translate right $5$ units:\n$y=\\sqrt{x-5}$.\nThen replace $x$ with $-x$:\n$y=\\sqrt{-x-5}$.\n\n(b) Reflect in the $y$-axis:\n$y=\\sqrt{-x}$.\nThen replace $x$ with $x-5$ in the current rule:\n$\\begin{aligned}y&=\\sqrt{-(x-5)}\\\\y&=\\sqrt{5-x}\\end{aligned}$.\n\nThe resulting rules differ, so the transformations do not commute."
+  },
+  {
+    "question_text": "Describe two sequences that transform $y=f(x)$ into $y=f(4x-12)$.\n(a) Begin with a horizontal translation, then dilate horizontally.\n(b) Begin with a horizontal dilation, then translate horizontally.",
+    "solution_text": "(a) Translate right $12$ units to obtain $y=f(x-12)$. Then dilate horizontally by factor $\\frac14$, replacing $x$ with $4x$, to obtain $y=f(4x-12)$.\n\n(b) Factor the input:\n$4x-12=4(x-3)$.\nDilate horizontally by factor $\\frac14$ to obtain $y=f(4x)$. Then translate right $3$ units to obtain $y=f(4(x-3))=f(4x-12)$.\n\nThe translation distances differ because the dilation scales a translation applied before it."
+  },
+  {
+    "question_text": "Describe three sequences that transform $y=f(x)$ into $y=f(8-2x)$, beginning with:\n(a) a translation;\n(b) a horizontal dilation;\n(c) a reflection in the $y$-axis.",
+    "solution_text": "(a) Translate left $8$ units: $y=f(x+8)$.\nDilate horizontally by factor $\\frac12$: $y=f(2x+8)$.\nReflect in the $y$-axis: $y=f(-2x+8)=f(8-2x)$.\n\n(b) Dilate horizontally by factor $\\frac12$: $y=f(2x)$.\nReflect in the $y$-axis: $y=f(-2x)$.\nTranslate right $4$ units: $y=f(-2(x-4))=f(8-2x)$.\n\n(c) Reflect in the $y$-axis: $y=f(-x)$.\nTranslate right $8$ units: $y=f(-(x-8))=f(8-x)$.\nDilate horizontally by factor $\\frac12$: $y=f(8-2x)$."
+  },
+  {
+    "question_text": "Describe two sequences of vertical dilation and vertical translation that transform $y=x^2$ into $y=3x^2+15$. Begin one sequence with the dilation and the other with the translation.",
+    "solution_text": "Dilate first: a vertical dilation by factor $3$ gives $y=3x^2$. Translating up $15$ units then gives $y=3x^2+15$.\n\nTranslate first: translating up $5$ units gives $y=x^2+5$. A vertical dilation by factor $3$ then gives $y=3(x^2+5)=3x^2+15$.\n\nWhen translating first, use $5$ units because the subsequent dilation multiplies that distance by $3$."
+  },
+  {
+    "question_text": "The vertex of $y=x^2$ is $(0,0)$. Find the final equation and vertex after each sequence, and sketch both final curves.\n(a) Translate right $6$ units, then dilate horizontally by factor $\\frac13$.\n(b) Dilate horizontally by factor $\\frac13$, then translate right $6$ units.",
+    "solution_text": "(a) Translating gives $y=(x-6)^2$. Replacing $x$ with $3x$ then gives $y=(3x-6)^2=9(x-2)^2$.\nThe vertex moves from $(0,0)$ to $(6,0)$, then to $(2,0)$.\n\n(b) Dilating gives $y=(3x)^2$. Replacing $x$ with $x-6$ then gives $y=9(x-6)^2$.\nThe vertex stays at $(0,0)$ during dilation, then moves to $(6,0)$.\n\nBoth curves have the same shape, but their vertices differ because the order changes the final horizontal displacement.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=3mm,>=stealth]\n\\definecolor{curveA}{HTML}{268CFF}\n\\definecolor{curveB}{HTML}{EF6068}\n\\draw[->,black] (-0.5,0)--(8,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\draw[->,black] (0,-1)--(0,11) node[above,font=\\fontsize{10}{12}\\selectfont] {$y$};\n\\draw[curveA,thick,<->,domain=1:3,samples=60] plot (\\x,{9*(\\x-2)*(\\x-2)});\n\\draw[curveB,thick,<->,domain=5:7,samples=60] plot (\\x,{9*(\\x-6)*(\\x-6)});\n\\fill[curveA] (2,0) circle (1.2pt);\n\\fill[curveB] (6,0) circle (1.2pt);\n\\path (2,-0.2) node[below,black,font=\\fontsize{10}{12}\\selectfont] {$(2,0)$};\n\\path (6,-0.2) node[below,black,font=\\fontsize{10}{12}\\selectfont] {$(6,0)$};\n\\path (2,10) node[curveA,font=\\fontsize{10}{12}\\selectfont] {(a)};\n\\path (6,10) node[curveB,font=\\fontsize{10}{12}\\selectfont] {(b)};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Starting with $y=3x+6$, find the intercepts of each final graph.\n(a) Translate up $2$ units, then dilate vertically by factor $2$.\n(b) Dilate vertically by factor $2$, then translate up $2$ units.\nExplain how the order affects the intercepts.",
+    "solution_text": "(a) Translate first, then dilate:\n$\\begin{aligned}y&=2(3x+6+2)\\\\y&=6x+16\\end{aligned}$.\nAt $x=0$, $y=16$, so the $y$-intercept is $(0,16)$.\nFor the $x$-intercept:\n$\\begin{aligned}0&=6x+16\\\\6x&=-16\\\\x&=-\\frac83\\end{aligned}$.\nThe $x$-intercept is $\\left(-\\frac83,0\\right)$.\n\n(b) Dilate first, then translate:\n$\\begin{aligned}y&=2(3x+6)+2\\\\y&=6x+14\\end{aligned}$.\nAt $x=0$, $y=14$, so the $y$-intercept is $(0,14)$.\nFor the $x$-intercept:\n$\\begin{aligned}0&=6x+14\\\\6x&=-14\\\\x&=-\\frac73\\end{aligned}$.\nThe $x$-intercept is $\\left(-\\frac73,0\\right)$.\n\nTranslating first makes the dilation double the added vertical displacement. Both intercepts therefore differ."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

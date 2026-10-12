@@ -2,8 +2,8 @@
   "skillId": "apply-combined-transformations",
   "atomType": "R",
   "theory": {
-    "intro": "Combined transformations apply multiple reflections, translations, and dilations to a base function $y = f(x)$. Each transformation corresponds to an algebraic substitution: horizontal transformations replace the input variable $x$ directly, while vertical transformations alter the entire output expression.",
-    "facts": [
+"intro": "Combined transformations apply multiple reflections, translations, and dilations to a base function $y = f(x)$. Each transformation corresponds to an algebraic substitution: horizontal transformations replace the input variable $x$ directly, while vertical transformations alter the entire output expression.",
+"facts": [
 "To translate $b$ units horizontally, replace $x$ with $x - b$ (right) or $x + b$ (left).",
 "To dilate horizontally by factor $k > 0$, replace $x$ with $\\dfrac{x}{k}$.",
 "To reflect in the $y$-axis, replace $x$ with $-x$.",
@@ -15,12 +15,42 @@
 "Horizontal and vertical groups commute: either group can be applied first. A translation and a dilation or reflection on the same axis generally do not commute, so preserve their specified order.",
 "Each operation acts on the current expression, including existing translation constants. For a horizontal operation, replace every occurrence of $x$; for a vertical dilation or reflection, multiply the entire current output expression."
 ],
-    "steps": [
+"steps": [
 "Apply horizontal transformations in their specified order by substituting replacements for every occurrence of $x$ in the current expression, retaining existing translation constants.",
 "Apply vertical transformations in their specified order by multiplying the entire current output expression, including existing translation constants, or adding vertical constants. The horizontal and vertical groups may be applied in either order.",
 "Simplify the resulting algebraic expression into standard form."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "The graph of $y=\\dfrac{1}{x}$ undergoes these transformations. Find the final equation in each case.\n(a) Translate $3$ units left, then dilate horizontally by factor $\\dfrac12$.\n(b) Dilate horizontally by factor $\\dfrac12$, then translate $3$ units left.",
+    "solution_text": "(a) Translate first, then replace every $x$ in the current expression with $2x$.\n$\\begin{align*}y&=\\frac{1}{x+3}\\\\y&=\\frac{1}{2x+3}\\end{align*}$\n(b) Dilate first, then replace every $x$ in the current expression with $x+3$.\n$\\begin{align*}y&=\\frac{1}{2x}\\\\y&=\\frac{1}{2(x+3)}\\\\y&=\\frac{1}{2x+6}\\end{align*}$\nThe equations differ: horizontal translation and horizontal dilation generally depend on their order."
   },
+  {
+    "question_text": "The parabola $y=3x^2+2$ is translated $2$ units right, then $3$ units up, vertically dilated by factor $2$, and reflected in the $x$-axis. Find its final equation in expanded form.",
+    "solution_text": "Translate right and up.\n$y=3(x-2)^2+5$\nMultiply the entire current output by $2$, then reflect in the $x$-axis.\n$\\begin{align*}y&=2\\bigl[3(x-2)^2+5\\bigr]\\\\y&=-2\\bigl[3(x-2)^2+5\\bigr]\\\\y&=-6(x-2)^2-10\\\\y&=-6(x^2-4x+4)-10\\\\y&=-6x^2+24x-34\\end{align*}$\nThe upward translation is also multiplied by the dilation factor and reversed by the reflection."
+  },
+  {
+    "question_text": "The curve $y=\\sqrt{x}$ is reflected in the $y$-axis, dilated horizontally by factor $2$, translated $6$ units right, dilated vertically by factor $3$, reflected in the $x$-axis, then translated $4$ units up. Find the final equation.",
+    "solution_text": "Apply the horizontal transformations in order.\n$\\begin{align*}y&=\\sqrt{-x}\\\\y&=\\sqrt{-\\frac{x}{2}}\\\\y&=\\sqrt{-\\frac{x-6}{2}}\\\\y&=\\sqrt{\\frac{6-x}{2}}\\end{align*}$\nApply the vertical transformations in order.\n$\\begin{align*}y&=3\\sqrt{\\frac{6-x}{2}}\\\\y&=-3\\sqrt{\\frac{6-x}{2}}\\\\y&=-3\\sqrt{\\frac{6-x}{2}}+4\\end{align*}$"
+  },
+  {
+    "question_text": "The point $P(-6,5)$ lies on $y=f(x)$. Find its corresponding point on $y=-2f(3x-6)+1$.",
+    "solution_text": "Rewrite the input as $3(x-2)$: dilate horizontally by factor $\\dfrac13$, then translate $2$ units right.\n$\\begin{align*}x'&=\\frac{-6}{3}+2\\\\x'&=0\\end{align*}$\nDilate vertically by factor $2$, reflect in the $x$-axis, then translate $1$ unit up.\n$\\begin{align*}y'&=-2(5)+1\\\\y'&=-9\\end{align*}$\nThe corresponding point is $P'(0,-9)$."
+  },
+  {
+    "question_text": "The graph of $y=\\dfrac{1}{x}$ is translated $2$ units right, dilated vertically by factor $4$, then translated $3$ units down. Find the transformed equation, both asymptotes and both coordinate-axis intercepts.",
+    "solution_text": "$\\begin{align*}y&=\\frac{1}{x-2}\\\\y&=\\frac{4}{x-2}\\\\y&=\\frac{4}{x-2}-3\\end{align*}$\nThe vertical asymptote moves to $x=2$. The horizontal asymptote moves to $y=-3$.\nFor the $y$-intercept, set $x=0$.\n$\\begin{align*}y&=\\frac{4}{-2}-3\\\\y&=-5\\end{align*}$\nFor the $x$-intercept, set $y=0$.\n$\\begin{align*}0&=\\frac{4}{x-2}-3\\\\3&=\\frac{4}{x-2}\\\\3(x-2)&=4\\\\x&=\\frac{10}{3}\\end{align*}$\nThe intercepts are $(0,-5)$ and $\\left(\\dfrac{10}{3},0\\right)$."
+  },
+  {
+    "question_text": "The exponential curve $y=2^x$ is translated $2$ units left, dilated vertically by factor $3$, reflected in the $x$-axis, then translated $5$ units up. Find its equation, horizontal asymptote and $y$-intercept.",
+    "solution_text": "$\\begin{align*}y&=2^{x+2}\\\\y&=3\\cdot2^{x+2}\\\\y&=-3\\cdot2^{x+2}\\\\y&=-3\\cdot2^{x+2}+5\\end{align*}$\nThe original horizontal asymptote $y=0$ becomes $y=5$.\nAt $x=0$,\n$\\begin{align*}y&=-3\\cdot2^2+5\\\\y&=-12+5\\\\y&=-7\\end{align*}$\nThe $y$-intercept is $(0,-7)$."
+  },
+  {
+    "question_text": "The graph of $y=|x|$ is translated $2$ units right, dilated vertically by factor $2$, reflected in the $x$-axis, then translated $6$ units up. Find its equation, vertex and $x$-intercepts.",
+    "solution_text": "$\\begin{align*}y&=|x-2|\\\\y&=2|x-2|\\\\y&=-2|x-2|\\\\y&=-2|x-2|+6\\end{align*}$\nThe original vertex $(0,0)$ becomes $(2,6)$.\nSet $y=0$ to find the $x$-intercepts.\n$\\begin{align*}0&=-2|x-2|+6\\\\|x-2|&=3\\\\x-2&=\\pm3\\\\x&=-1\\text{ or }5\\end{align*}$\nThe intercepts are $(-1,0)$ and $(5,0)$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

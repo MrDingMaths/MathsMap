@@ -2,8 +2,8 @@
   "skillId": "differentiability-continuity",
   "atomType": "R",
   "theory": {
-    "intro": "A function is **differentiable** at $x = a$ when it has a non-vertical tangent there, so the graph is smooth with no corner or break. Differentiable always means continuous, but continuous does not always mean differentiable.",
-    "facts": [
+"intro": "A function is **differentiable** at $x = a$ when it has a non-vertical tangent there, so the graph is smooth with no corner or break. Differentiable always means continuous, but continuous does not always mean differentiable.",
+"facts": [
 "$f(x)$ is differentiable at $x = a$ when $\\lim_{h \\to 0}\\dfrac{f(a+h)-f(a)}{h}$ exists as a finite real number, so the tangent at $x = a$ exists and is not vertical.",
 "If $f(x)$ is differentiable at $x = a$, then $f(x)$ is continuous at $x = a$.",
 "The reverse is false: a function can be continuous at $x = a$ and still not be differentiable at $x = a$.",
@@ -13,12 +13,49 @@
 "A **cusp** or a vertical tangent makes $f'(a)$ undefined even though the curve has no break.",
 "For a piecewise function whose branches are continuous at the join, compare the two branch values with the actual function value first, then compare the one-sided derivatives. The branch-value and branch-gradient procedure establishes differentiability only when the values agree and both one-sided derivatives exist as the same finite real number."
 ],
-    "steps": [
+"steps": [
 "Check continuity at the join by comparing the two branch values",
 "Differentiate each branch and compare the two finite one-sided gradients at the join",
 "Conclude differentiable only if the function is continuous and the finite one-sided gradients agree"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "The graph of $y=f(x)$ is shown. Identify every value of $x$ where differentiability fails. Which of these points is continuous?\n[tikz]\n\\begin{tikzpicture}[x=0.8cm,y=0.8cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[->,black] (-3.5,0)--(4.5,0) node[right] {$x$};\n\\draw[->,black] (0,-0.5)--(0,4.5) node[above] {$y$};\n\\draw[thick,black,<-] (-3,3)--(-1,1);\n\\draw[thick,black] (-1,1)--(2,4);\n\\draw[thick,black,->] (2,2)--(4,2);\n\\fill[black] (-1,1) circle (2pt);\n\\draw[black,fill=white] (2,4) circle (2.5pt);\n\\fill[black] (2,2) circle (2pt);\n\\draw[black] (-1,0.08)--(-1,-0.08);\n\\draw[black] (2,0.08)--(2,-0.08);\n\\node[below] at (-1,0) {$-1$};\n\\node[below] at (2,0) {$2$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "At $x=-1$, the pieces meet without a break, but the gradient changes from negative to positive. The corner is continuous but not differentiable.\n\nAt $x=2$, the open and closed markers have different heights. The function is discontinuous, so it is not differentiable.\n\nDifferentiability fails at $x=-1$ and $x=2$. Only $x=-1$ is continuous.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Determine where $f(x)=4|x-3|+2$ is continuous but not differentiable.",
+    "solution_text": "Write the absolute value function in branches:\n\n$f(x)=\\begin{cases}-4(x-3)+2,&x<3\\\\4(x-3)+2,&x\\ge3.\\end{cases}$\n\nBoth branch values at $x=3$ are $2=f(3)$, so the function is continuous there.\n\nThe left-hand gradient is $-4$ and the right-hand gradient is $4$. These differ, so the graph has a corner at $x=3$.\n\nEach branch is differentiable away from the join. Therefore, $x=3$ is the only point where the function is continuous but not differentiable.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Determine whether each function is continuous and differentiable at $x=2$.\n\n(a) $f(x)=\\sqrt[3]{x-2}$\n\n(b) $g(x)=\\sqrt[3]{(x-2)^2}$",
+    "solution_text": "(a) $f(2)=0$ and $\\lim_{x\\to2}f(x)=0$, so $f$ is continuous at $x=2$.\n\nFor $x\\ne2$:\n\n$\\begin{aligned}f'(x)&=\\frac{1}{3}(x-2)^{-2/3}\\\\&=\\frac{1}{3\\bigl(\\sqrt[3]{x-2}\\bigr)^2}.\\end{aligned}$\n\nThe gradients approach $+\\infty$ from both sides. The tangent is vertical, so $f$ is not differentiable at $x=2$.\n\n(b) $g(2)=0$ and $\\lim_{x\\to2}g(x)=0$, so $g$ is continuous at $x=2$.\n\nFor $x\\ne2$:\n\n$\\begin{aligned}g'(x)&=\\frac{2}{3}(x-2)^{-1/3}\\\\&=\\frac{2}{3\\sqrt[3]{x-2}}.\\end{aligned}$\n\nThe gradients approach $-\\infty$ from the left and $+\\infty$ from the right. The graph has a cusp, so $g$ is not differentiable at $x=2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Determine whether each function is differentiable at $x=2$.\n\n(a) $f(x)=\\begin{cases}x^2,&x\\le2\\\\4x-4,&x>2\\end{cases}$\n\n(b) $g(x)=\\begin{cases}x^2,&x\\le2\\\\3x-2,&x>2.\\end{cases}$",
+    "solution_text": "(a) Check continuity first. The two branch values are $2^2=4$ and $4(2)-4=4$, and $f(2)=4$. Both branches are continuous at the join, so $f$ is continuous there.\n\nThe branch derivatives are $2x$ and $4$. At the join, the finite one-sided gradients are $2(2)=4$ and $4$.\n\nThe values and finite one-sided gradients agree, so $f$ is differentiable at $x=2$, with $f'(2)=4$.\n\n(b) The two branch values are $2^2=4$ and $3(2)-2=4$, and $g(2)=4$. Both branches are continuous at the join, so $g$ is continuous there.\n\nThe branch derivatives are $2x$ and $3$. At the join, the one-sided gradients are $4$ and $3$.\n\nThe gradients differ, so $g$ is continuous but not differentiable at $x=2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $f(x)=\\begin{cases}x+2,&x<0\\\\x^2+2,&0\\le x<3\\\\2x+4,&x\\ge3,\\end{cases}$ determine continuity and differentiability at each join. State where the function is continuous but not differentiable.",
+    "solution_text": "At $x=0$, the adjacent branch values are $0+2=2$ and $0^2+2=2$, and $f(0)=2$. The function is continuous.\n\nThe one-sided gradients are $1$ and $2(0)=0$. These differ, so the function is not differentiable at $x=0$.\n\nAt $x=3$, the left-hand limit is $3^2+2=11$, while the right-hand limit and actual value are $2(3)+4=10$. The function is discontinuous.\n\nDifferentiability requires continuity, so the function is not differentiable at $x=3$.\n\nThe function is continuous but not differentiable at $x=0$ only.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

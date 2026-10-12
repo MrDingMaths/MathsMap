@@ -2,8 +2,8 @@
   "skillId": "area-integral-symmetry",
   "atomType": "R",
   "theory": {
-    "intro": "Over an interval $[-a,a]$, symmetry shortens the work when the function is integrable throughout the interval. An **odd** function has $\\int_{-a}^{a} f(x)\\,dx = 0$, because the two signed halves cancel. An **even** function has $\\int_{-a}^{a} f(x)\\,dx = 2\\int_{0}^{a} f(x)\\,dx$.",
-    "facts": [
+"intro": "Over an interval $[-a,a]$, symmetry shortens the work when the function is integrable throughout the interval. An **odd** function has $\\int_{-a}^{a} f(x)\\,dx = 0$, because the two signed halves cancel. An **even** function has $\\int_{-a}^{a} f(x)\\,dx = 2\\int_{0}^{a} f(x)\\,dx$.",
+"facts": [
 "A function is **even** if $f(-x)=f(x)$, so its graph is symmetric about the $y$-axis.",
 "A function is **odd** if $f(-x)=-f(x)$, so its graph has point symmetry about the origin.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1cm, y=1cm]\n\\fill[gray!35, domain=-2:0, variable=\\x] (-2,0) -- plot ({\\x},{0.35*\\x*\\x*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:2, variable=\\x] (0,0) -- plot ({\\x},{0.35*\\x*\\x*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-3,0) -- (3,0) node[right] {$x$};\n\\draw[->] (0,-3.4) -- (0,3.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.05:2.05, smooth, samples=100, variable=\\x] plot ({\\x},{0.35*\\x*\\x*\\x});\n\\node[below left] at (-2,0) {$-a$};\n\\node[below right] at (2,0) {$a$};\n\\end{tikzpicture}\n[/tikz]",
 "Test parity by substituting $-x$ for every $x$ and simplifying the signs.",
@@ -13,13 +13,50 @@
 "An odd function still encloses **area** with the $x$-axis; that area is twice the area of the half on $[0,a]$.",
 "So an integral of $0$ over $[-a,a]$ does not mean the enclosed area is $0$."
 ],
-    "steps": [
+"steps": [
 "Test each term for parity by substituting $-x$.",
 "Replace every odd term's integral over $[-a,a]$ with $0$.",
 "Replace every even term's integral over $[-a,a]$ with twice the integral over $[0,a]$.",
 "For the area under an odd or even function on $[-a,a]$, first calculate the area on $[0,a]$: split at its $x$-intercepts and add the absolute values of the resulting sub-integrals. Then double this area."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Use symmetry to evaluate $\\int_{-3\\pi}^{3\\pi}\\cos^{2}x\\sin^{3}x\\,dx$ without finding a primitive.",
+    "solution_text": "Let $f(x)=\\cos^{2}x\\sin^{3}x$.\n$\\begin{align*}f(-x)&=\\cos^{2}(-x)\\sin^{3}(-x)\\\\&=\\mathrel{-}\\cos^{2}x\\sin^{3}x\\\\&=-f(x)\\end{align*}$\nThe integrand is continuous and odd, and the limits are symmetric. The signed halves cancel, so $\\int_{-3\\pi}^{3\\pi}\\cos^{2}x\\sin^{3}x\\,dx=0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Use symmetry to evaluate $\\int_{-\\pi/8}^{\\pi/8}\\cos 4x\\,dx$.",
+    "solution_text": "$\\cos(-4x)=\\cos 4x$, so the integrand is even.\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\int_{-\\pi/8}^{\\pi/8}\\cos 4x\\,dx\\\\&=2\\int_{0}^{\\pi/8}\\cos 4x\\,dx\\\\&=2\\left[\\frac{1}{4}\\sin 4x\\right]_{0}^{\\pi/8}\\\\&=2\\left(\\frac{1}{4}-0\\right)\\\\&=\\frac{1}{2}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use symmetry to evaluate $\\int_{-\\pi}^{\\pi}(\\sin 2x+\\cos 3x+2x^{2}-4)\\,dx$.",
+    "solution_text": "$\\sin 2x$ is odd. The terms $\\cos 3x$, $2x^{2}$ and $-4$ are even. The odd term contributes zero.\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\int_{-\\pi}^{\\pi}(\\sin 2x+\\cos 3x+2x^{2}-4)\\,dx\\\\&=2\\int_{0}^{\\pi}(\\cos 3x+2x^{2}-4)\\,dx\\\\&=2\\left[\\frac{1}{3}\\sin 3x+\\frac{2x^{3}}{3}-4x\\right]_{0}^{\\pi}\\\\&=2\\left(0+\\frac{2\\pi^{3}}{3}-4\\pi\\right)\\\\&=\\frac{4\\pi^{3}}{3}-8\\pi\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use symmetry to find the total area enclosed by $y=x^{3}-36x$ and the $x$-axis.",
+    "solution_text": "$\\begin{align*}x^{3}-36x&=0\\\\x(x-6)(x+6)&=0\\\\x&=-6,\\ 0,\\ 6\\end{align*}$\nFor $f(x)=x^{3}-36x$, $f(-x)=-f(x)$, so the two enclosed regions have equal area. On $0<x<6$, $x(x-6)(x+6)<0$, so the curve lies below the $x$-axis.\n[tikz]\n\\begin{tikzpicture}[x=0.45cm,y=0.025cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{areaFill}{HTML}{D4E8FF}\n\\fill[areaFill] (-6,0) -- plot[domain=-6:0,samples=80] (\\x,{\\x*\\x*\\x-36*\\x}) -- cycle;\n\\fill[areaFill] (0,0) -- plot[domain=0:6,samples=80] (\\x,{\\x*\\x*\\x-36*\\x}) -- cycle;\n\\draw[->,black] (-7,0)--(7,0) node[right] {$x$};\n\\draw[->,black] (0,-95)--(0,95) node[above] {$y$};\n\\draw[thick,black,<->] plot[domain=-6.6:6.6,samples=120] (\\x,{\\x*\\x*\\x-36*\\x});\n\\node[below left] at (-6,0) {$-6$};\n\\node[above right] at (6,0) {$6$};\n\\node[below right] at (0,0) {$0$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{align*}A&=-2\\int_{0}^{6}(x^{3}-36x)\\,dx\\\\&=-2\\left[\\frac{x^{4}}{4}-18x^{2}\\right]_{0}^{6}\\\\&=-2(324-648)\\\\&=648\\ \\text{units}^{2}\\end{align*}$\nThe signed integral over $[-6,6]$ is zero; the total area adds the two positive areas.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use symmetry to find the area between $y=x^{4}-16x^{2}$ and the $x$-axis for $-4\\le x\\le4$.",
+    "solution_text": "For $f(x)=x^{4}-16x^{2}$, $f(-x)=f(x)$, so the graph is symmetric about the $y$-axis.\n$\\begin{align*}x^{4}-16x^{2}&=0\\\\x^{2}(x-4)(x+4)&=0\\\\x&=-4,\\ 0,\\ 4\\end{align*}$\nOn $0<x<4$, $x^{2}(x-4)(x+4)<0$. The curve stays below the $x$-axis on this half; its contact at $x=0$ does not change the sign.\n[tikz]\n\\begin{tikzpicture}[x=0.65cm,y=0.04cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{areaFill}{HTML}{D4E8FF}\n\\fill[areaFill] (-4,0) -- plot[domain=-4:4,samples=120] (\\x,{\\x*\\x*\\x*\\x-16*\\x*\\x}) -- cycle;\n\\draw[->,black] (-5,0)--(5,0) node[right] {$x$};\n\\draw[->,black] (0,-75)--(0,35) node[above] {$y$};\n\\draw[thick,black,<->] plot[domain=-4.2:4.2,samples=140] (\\x,{\\x*\\x*\\x*\\x-16*\\x*\\x});\n\\node[above left] at (-4,0) {$-4$};\n\\node[above right] at (4,0) {$4$};\n\\node[above left] at (0,0) {$0$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{align*}A&=-2\\int_{0}^{4}(x^{4}-16x^{2})\\,dx\\\\&=-2\\left[\\frac{x^{5}}{5}-\\frac{16x^{3}}{3}\\right]_{0}^{4}\\\\&=-2\\left(\\frac{1024}{5}-\\frac{1024}{3}\\right)\\\\&=\\frac{4096}{15}\\ \\text{units}^{2}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

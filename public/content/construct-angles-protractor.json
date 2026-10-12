@@ -2,18 +2,47 @@
   "skillId": "construct-angles-protractor",
   "atomType": "R",
   "theory": {
-        "intro": "To draw an angle of a given size, use a protractor to mark the second arm at the correct degree.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc}\n\\draw (2.6,0) arc (0:180:2.6);\n\\draw (2.2,0) arc (0:180:2.2);\n\\draw[gray] (-2.6,0)--(0,0);\n\\foreach \\a in {0,10,...,180}{\\draw (\\a:2.2)--(\\a:2.6);}\n\\coordinate (V) at (0,0);\n\\coordinate (A) at (3.4,0);\n\\coordinate (B) at (62:3.4);\n\\draw[very thick] (V)--(A);\n\\draw[dashed] (V)--(B);\n\\fill (62:2.4) circle (2pt);\n\\fill (V) circle (2pt);\n\\pic[draw,\"$\\theta$\",angle radius=1.1cm,angle eccentricity=1.35]{angle=A--V--B};\n\\node[below,font=\\small] at (0,-0.25) {vertex};\n\\node[below,font=\\small] at (2.0,-0.25) {base arm};\n\\node[font=\\small,anchor=west] at (62:3.5) {rule the second arm};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "To draw an angle of a given size, use a protractor to mark the second arm at the correct degree.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc}\n\\draw (2.6,0) arc (0:180:2.6);\n\\draw (2.2,0) arc (0:180:2.2);\n\\draw[gray] (-2.6,0)--(0,0);\n\\foreach \\a in {0,10,...,180}{\\draw (\\a:2.2)--(\\a:2.6);}\n\\coordinate (V) at (0,0);\n\\coordinate (A) at (3.4,0);\n\\coordinate (B) at (62:3.4);\n\\draw[very thick] (V)--(A);\n\\draw[dashed] (V)--(B);\n\\fill (62:2.4) circle (2pt);\n\\fill (V) circle (2pt);\n\\pic[draw,\"$\\theta$\",angle radius=1.1cm,angle eccentricity=1.35]{angle=A--V--B};\n\\node[below,font=\\small] at (0,-0.25) {vertex};\n\\node[below,font=\\small] at (2.0,-0.25) {base arm};\n\\node[font=\\small,anchor=west] at (62:3.5) {rule the second arm};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "Start with a base arm, then place the protractor centre on its endpoint with $0^{\\circ}$ along the arm.",
 "Mark a dot at the required degree, then rule the second arm through it.",
 "For reflex angles (greater than $180^{\\circ}$ and less than $360^{\\circ}$), draw the inner angle $360^{\\circ} -$ (reflex) and mark the outside."
 ],
-        "steps": [
+"steps": [
           "Draw a base arm and place the protractor centre on its end.",
           "Find the required degree and mark a point.",
           "Join the vertex to the point with a ruler."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Use a protractor to construct a $45^{\\circ}$ angle anticlockwise from the base arm.\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(4,0);\n\\fill (0,0) circle (1.5pt);\n\\path (0,0) node[below] {$V$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Place the protractor centre on $V$ and align its zero line with the base arm. Follow the scale starting at zero on the right. Mark $45^{\\circ}$ anticlockwise, then use a ruler to draw the second arm from $V$ through the mark.\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-2.5,0)--(2.5,0);\n\\draw (2.5,0) arc[start angle=0,end angle=180,radius=2.5];\n\\foreach \\a in {0,10,...,180}{\\draw (\\a:2.3)--(\\a:2.5);}\n\\foreach \\a in {0,30,60,90,120,150,180}{\\path (\\a:2.05) node {$\\a$};}\n\\draw[thick] (4,0)--(0,0)--(45:4);\n\\fill (45:2.5) circle (2pt);\n\\draw (0.8,0) arc[start angle=0,end angle=45,radius=0.8];\n\\path (22.5:1.25) node {$45^{\\circ}$};\n\\path (0,0) node[below] {$V$};\n\\end{tikzpicture}\n[/tikz]\nThe angle is acute because it is less than $90^{\\circ}$."
+  },
+  {
+    "question_text": "The base arm is tilted. Construct an $80^{\\circ}$ angle clockwise from it.\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(25:4);\n\\fill (0,0) circle (1.5pt);\n\\path (0,0) node[left] {$V$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Centre the protractor on $V$. Rotate it so its zero line follows the tilted base arm, with its curved edge on the clockwise side. Mark $80^{\\circ}$ clockwise from the base arm, then rule the second arm from $V$ through the mark.\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (25:4)--(0,0)--(-55:4);\n\\fill (-55:2.5) circle (2pt);\n\\draw[->] (25:0.9) arc[start angle=25,end angle=-55,radius=0.9];\n\\path (-15:1.4) node {$80^{\\circ}$};\n\\path (0,0) node[left] {$V$};\n\\end{tikzpicture}\n[/tikz]\nCheck the turn from the base arm to the second arm, rather than from a horizontal line."
+  },
+  {
+    "question_text": "You are constructing a $135^{\\circ}$ angle from a base arm pointing right. One protractor mark has paired readings $45$ and $135$. Explain which scale to use and how to finish the construction.",
+    "solution_text": "Use the scale whose zero lies along the base arm on the right. Follow that scale to $135$, mark the point and rule the second arm from the vertex through it. The paired $45$ reading belongs to the scale starting at the opposite end.\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (4,0)--(0,0)--(135:4);\n\\draw (0.9,0) arc[start angle=0,end angle=135,radius=0.9];\n\\path (67.5:1.4) node {$135^{\\circ}$};\n\\path (0,0) node[below] {$V$};\n\\end{tikzpicture}\n[/tikz]\nThe completed angle is obtuse: it is greater than $90^{\\circ}$ and less than $180^{\\circ}$."
+  },
+  {
+    "question_text": "Use a semicircular protractor to construct a reflex angle of $250^{\\circ}$. State the smaller angle you construct first.",
+    "solution_text": "Find the smaller angle:\n$\\begin{aligned}&\\mathrel{\\phantom{=}}360^{\\circ}-250^{\\circ}\\\\&=110^{\\circ}\\end{aligned}$\nDraw a base arm. Centre the protractor at its endpoint, align zero with the base arm and mark $110^{\\circ}$. Rule the second arm through the mark. Label the outside turn $250^{\\circ}$.\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (4,0)--(0,0)--(110:4);\n\\draw (0.7,0) arc[start angle=0,end angle=110,radius=0.7];\n\\path (55:1.15) node {$110^{\\circ}$};\n\\draw[->] (1.5,0) arc[start angle=0,end angle=-250,radius=1.5];\n\\path (-100:2) node {$250^{\\circ}$};\n\\path (0,0) node[below left] {$V$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Describe how to begin constructing a $100^{\\circ}$ angle with a protractor. Give the three essential alignment and drawing checks.",
+    "solution_text": "Draw a base arm and mark its endpoint as the vertex. Place the protractor centre on the vertex, with its zero line along the base arm. Follow the scale starting at that zero and mark $100^{\\circ}$. Rule the second arm through the mark.\n\nCheck that the protractor centre is on the vertex, zero is aligned with the base arm, and the second arm starts at the same vertex and passes through the degree mark."
+  },
+  {
+    "question_text": "A learner correctly marks a point $P$ at $60^{\\circ}$ from the base arm, but draws the second arm from $W$ instead of $V$. Explain the error and how to correct it.\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (V) at (0,0);\n\\coordinate (W) at (0.8,0);\n\\coordinate (P) at (60:3);\n\\draw (V)--(4,0);\n\\draw (W)--(P);\n\\fill (V) circle (1.5pt);\n\\fill (W) circle (1.5pt);\n\\fill (P) circle (2pt);\n\\path (V) node[below] {$V$};\n\\path (W) node[below] {$W$};\n\\path (P) node[above] {$P$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The second arm starts at the wrong point. Both arms must start at $V$. Erase the arm from $W$ and rule the second arm from $V$ through $P$.\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (4,0)--(0,0)--(60:4);\n\\fill (60:3) circle (2pt);\n\\draw (0.8,0) arc[start angle=0,end angle=60,radius=0.8];\n\\path (30:1.35) node {$60^{\\circ}$};\n\\path (0,0) node[below] {$V$};\n\\path (60:3) node[above left] {$P$};\n\\end{tikzpicture}\n[/tikz]"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

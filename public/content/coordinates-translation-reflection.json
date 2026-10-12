@@ -2,18 +2,52 @@
   "skillId": "coordinates-translation-reflection",
   "atomType": "R",
   "theory": {
-        "intro": "When a point is translated (slid) or reflected (flipped), its coordinates change in a predictable way.",
-        "facts": [
+"intro": "When a point is translated (slid) or reflected (flipped), its coordinates change in a predictable way.",
+"facts": [
 "A **translation** adds or subtracts the stated distance: add the horizontal distance to $x$ for right and subtract it for left; add the vertical distance to $y$ for up and subtract it for down.\n\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.6]\n\\draw[gray!30,very thin](-5,-5)grid(5,5);\n\\draw[<->](-5.5,0)--(5.5,0)node[right]{$x$};\n\\draw[<->](0,-5.5)--(0,5.5)node[above]{$y$};\n\\draw[dashed,->](-3,-2)--(1.9,-2);\n\\draw[dashed,->](2,-2)--(2,1.9);\n\\fill(-3,-2)circle(3pt)node[below left]{$P$};\n\\fill(2,2)circle(3pt)node[above right]{$P'$};\n\\node[below] at (-0.5,-2.15) {right};\n\\node[right] at (2.2,1) {up};\n\\end{tikzpicture}[/tikz]",
 "Reflecting in the **$x$-axis** keeps $x$ the same and changes the **sign of $y$**: $(x, y) \\to (x, -y)$.\n\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.62]\n\\draw[gray!30,very thin](-4,-4)grid(4,4);\n\\draw[<->](-4.6,0)--(4.6,0)node[right]{$x$};\n\\draw[<->](0,-4.6)--(0,4.6)node[above]{$y$};\n\\draw[dashed](-2.5,2)--(-2.5,-2);\n\\fill(-2.5,2)circle(3pt)node[above left]{$P$};\n\\fill(-2.5,-2)circle(3pt)node[below left]{$P'$};\n\\node[below right,font=\\small] at (0.3,-0.1) {mirror line};\n\\end{tikzpicture}[/tikz]",
 "Reflecting in the **$y$-axis** keeps $y$ the same and changes the **sign of $x$**: $(x, y) \\to (-x, y)$.\n\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.62]\n\\draw[gray!30,very thin](-4,-4)grid(4,4);\n\\draw[<->](-4.6,0)--(4.6,0)node[right]{$x$};\n\\draw[<->](0,-4.6)--(0,4.6)node[above]{$y$};\n\\draw[dashed](-2.5,2.5)--(2.5,2.5);\n\\fill(-2.5,2.5)circle(3pt)node[above left]{$P$};\n\\fill(2.5,2.5)circle(3pt)node[above right]{$P'$};\n\\node[right,font=\\small] at (0.25,-2.2) {mirror line};\n\\end{tikzpicture}[/tikz]"
 ],
-        "steps": [
+"steps": [
 "Write the starting coordinates.",
 "For a translation, add the across and up/down moves.",
 "For a reflection in the $x$-axis, negate $y$ and keep $x$ unchanged; for a reflection in the $y$-axis, negate $x$ and keep $y$ unchanged."
+],
+"workedExamples": [
+  {
+    "question_text": "Translate $A(-5,1)$ $3$ units right. Write the coordinates of $A'$.",
+    "solution_text": "Moving right adds $3$ to the first coordinate. The second coordinate stays the same.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(-5+3,1)\\\\&=(-2,1)\\end{aligned}$\nThe image is $A'(-2,1)$."
+  },
+  {
+    "question_text": "Translate $B(3,2)$ $6$ units down. Write the coordinates of $B'$.",
+    "solution_text": "Moving down subtracts $6$ from the second coordinate. The first coordinate stays the same.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(3,2-6)\\\\&=(3,-4)\\end{aligned}$\nThe image is $B'(3,-4)$."
+  },
+  {
+    "question_text": "Triangle $ABC$ has vertices $A(-4,-1)$, $B(-2,-1)$ and $C(-4,1)$. Translate it $5$ units right and $2$ units up. Write the image coordinates and draw the image.\n[tikz]\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[draw={rgb,255:red,204;green,204;blue,204},very thin,xstep=6mm,ystep=6mm](-5,-4)grid(5,4);\n\\draw[black,<->](-5.4,0)--(5.4,0);\\path(5.4,0)node[right]{$x$};\n\\draw[black,<->](0,-4.4)--(0,4.4);\\path(0,4.4)node[above]{$y$};\n\\foreach \\v in {-4,-2,2,4}{\\draw[black](\\v,.08)--(\\v,-.08);\\path(\\v,-.08)node[below,font=\\fontsize{8.5}{10}\\selectfont]{$\\v$};}\n\\foreach \\v in {-3,-2,-1,1,2,3}{\\draw[black](.08,\\v)--(-.08,\\v);\\path(-.08,\\v)node[left,font=\\fontsize{8.5}{10}\\selectfont]{$\\v$};}\n\\draw[black,thick](-4,-1)--(-2,-1)--(-4,1)--cycle;\n\\path(-4,-1)node[below left]{$A$}(-2,-1)node[below right]{$B$}(-4,1)node[above left]{$C$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Slide every vertex $5$ units right and $2$ units up.\n$\\begin{aligned}A'&=(-4+5,-1+2)=(1,1)\\\\B'&=(-2+5,-1+2)=(3,1)\\\\C'&=(-4+5,1+2)=(1,3)\\end{aligned}$\nPlot the image vertices and join them in the same order.\n[tikz]\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{imageblue}{HTML}{268CFF}\n\\draw[draw={rgb,255:red,204;green,204;blue,204},very thin,xstep=6mm,ystep=6mm](-5,-4)grid(5,4);\n\\draw[black,<->](-5.4,0)--(5.4,0);\\path(5.4,0)node[right]{$x$};\n\\draw[black,<->](0,-4.4)--(0,4.4);\\path(0,4.4)node[above]{$y$};\n\\foreach \\v in {-4,-2,2,4}{\\draw[black](\\v,.08)--(\\v,-.08);\\path(\\v,-.08)node[below,font=\\fontsize{8.5}{10}\\selectfont]{$\\v$};}\n\\foreach \\v in {-3,-2,-1,1,2,3}{\\draw[black](.08,\\v)--(-.08,\\v);\\path(-.08,\\v)node[left,font=\\fontsize{8.5}{10}\\selectfont]{$\\v$};}\n\\draw[black,thick](-4,-1)--(-2,-1)--(-4,1)--cycle;\n\\path(-4,-1)node[below left]{$A$}(-2,-1)node[below right]{$B$}(-4,1)node[above left]{$C$};\n\\draw[imageblue,thick](1,1)--(3,1)--(1,3)--cycle;\n\\path(1,1)node[below right]{$A'$}(3,1)node[right]{$B'$}(1,3)node[above right]{$C'$};\n\\draw[imageblue,dashed,->](-4,-1)--(1,-1)--(1,1);\n\\end{tikzpicture}[/tikz]"
+  },
+  {
+    "question_text": "Point $P(-3,4)$ is translated to $P'(2,1)$. Describe the translation.",
+    "solution_text": "Compare the first coordinates: from $-3$ to $2$ is $5$ units right.\nCompare the second coordinates: from $4$ to $1$ is $3$ units down.\nThe translation is $5$ units right and $3$ units down."
+  },
+  {
+    "question_text": "Reflect $D(-3,2)$ in the $x$-axis. Write the image coordinates and plot the image.\n[tikz]\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[draw={rgb,255:red,204;green,204;blue,204},very thin,xstep=7mm,ystep=7mm](-4,-4)grid(4,4);\n\\draw[black,<->](-4.4,0)--(4.4,0);\\path(4.4,0)node[right]{$x$};\n\\draw[black,<->](0,-4.4)--(0,4.4);\\path(0,4.4)node[above]{$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3}{\\draw[black](\\v,.08)--(\\v,-.08);\\path(\\v,-.08)node[below,font=\\fontsize{8.5}{10}\\selectfont]{$\\v$};\\draw[black](.08,\\v)--(-.08,\\v);\\path(-.08,\\v)node[left,font=\\fontsize{8.5}{10}\\selectfont]{$\\v$};}\n\\fill[black](-3,2)circle(2pt);\\path(-3,2)node[above left]{$D$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Keep the first coordinate $-3$. The image is $2$ units below the $x$-axis, so the second coordinate becomes $-2$.\nThe image is $D'(-3,-2)$.\n[tikz]\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{imageblue}{HTML}{268CFF}\n\\draw[draw={rgb,255:red,204;green,204;blue,204},very thin,xstep=7mm,ystep=7mm](-4,-4)grid(4,4);\n\\draw[black,<->](-4.4,0)--(4.4,0);\\path(4.4,0)node[right]{$x$};\n\\draw[black,<->](0,-4.4)--(0,4.4);\\path(0,4.4)node[above]{$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3}{\\draw[black](\\v,.08)--(\\v,-.08);\\path(\\v,-.08)node[below,font=\\fontsize{8.5}{10}\\selectfont]{$\\v$};\\draw[black](.08,\\v)--(-.08,\\v);\\path(-.08,\\v)node[left,font=\\fontsize{8.5}{10}\\selectfont]{$\\v$};}\n\\draw[imageblue,dashed](-3,2)--(-3,-2);\n\\fill[black](-3,2)circle(2pt);\\path(-3,2)node[above left]{$D$};\n\\fill[imageblue](-3,-2)circle(2pt);\\path(-3,-2)node[below left]{$D'$};\n\\end{tikzpicture}[/tikz]"
+  },
+  {
+    "question_text": "Reflect $E(2,-3)$ in the $y$-axis. Write the image coordinates and plot the image.\n[tikz]\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[draw={rgb,255:red,204;green,204;blue,204},very thin,xstep=7mm,ystep=7mm](-4,-4)grid(4,4);\n\\draw[black,<->](-4.4,0)--(4.4,0);\\path(4.4,0)node[right]{$x$};\n\\draw[black,<->](0,-4.4)--(0,4.4);\\path(0,4.4)node[above]{$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3}{\\draw[black](\\v,.08)--(\\v,-.08);\\path(\\v,-.08)node[below,font=\\fontsize{8.5}{10}\\selectfont]{$\\v$};\\draw[black](.08,\\v)--(-.08,\\v);\\path(-.08,\\v)node[left,font=\\fontsize{8.5}{10}\\selectfont]{$\\v$};}\n\\fill[black](2,-3)circle(2pt);\\path(2,-3)node[below right]{$E$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Keep the second coordinate $-3$. The image is $2$ units left of the $y$-axis, so the first coordinate becomes $-2$.\nThe image is $E'(-2,-3)$.\n[tikz]\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{imageblue}{HTML}{268CFF}\n\\draw[draw={rgb,255:red,204;green,204;blue,204},very thin,xstep=7mm,ystep=7mm](-4,-4)grid(4,4);\n\\draw[black,<->](-4.4,0)--(4.4,0);\\path(4.4,0)node[right]{$x$};\n\\draw[black,<->](0,-4.4)--(0,4.4);\\path(0,4.4)node[above]{$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3}{\\draw[black](\\v,.08)--(\\v,-.08);\\path(\\v,-.08)node[below,font=\\fontsize{8.5}{10}\\selectfont]{$\\v$};\\draw[black](.08,\\v)--(-.08,\\v);\\path(-.08,\\v)node[left,font=\\fontsize{8.5}{10}\\selectfont]{$\\v$};}\n\\draw[imageblue,dashed](2,-3)--(-2,-3);\n\\fill[black](2,-3)circle(2pt);\\path(2,-3)node[below right]{$E$};\n\\fill[imageblue](-2,-3)circle(2pt);\\path(-2,-3)node[below left]{$E'$};\n\\end{tikzpicture}[/tikz]"
+  },
+  {
+    "question_text": "For each point and its reflected image, name the mirror axis.\na. $F(-4,1)$ and $F'(4,1)$\nb. $G(2,-3)$ and $G'(2,3)$",
+    "solution_text": "a. Both points have second coordinate $1$. They are $4$ units on opposite sides of the $y$-axis. The mirror axis is the $y$-axis.\n\nb. Both points have first coordinate $2$. They are $3$ units on opposite sides of the $x$-axis. The mirror axis is the $x$-axis."
+  },
+  {
+    "question_text": "A point starts at $H(2,1)$. It is translated by $\\binom{-4}{2}$ and then by $\\binom{1}{-5}$.\na. Describe each movement, state a single translation vector that replaces both movements, and write the final coordinates.\nb. Find $x$ and $y$ in the vector $\\binom{x}{y}$ that returns the point to its starting position.",
+    "solution_text": "The top number gives the horizontal change: positive means right and negative means left. The bottom number gives the vertical change: positive means up and negative means down.\n\na. $\\binom{-4}{2}$ means $4$ units left and $2$ units up. $\\binom{1}{-5}$ means $1$ unit right and $5$ units down.\nCombine the horizontal moves: $-4+1=-3$, so move $3$ units left.\nCombine the vertical moves: $2-5=-3$, so move $3$ units down.\nThe single translation vector is $\\binom{-3}{-3}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(2-3,1-3)\\\\&=(-1,-2)\\end{aligned}$\nThe final position is $H'(-1,-2)$.\n\nb. Reverse the total movement: move $3$ units right and $3$ units up.\nThe return vector is $\\binom{x}{y}=\\binom{3}{3}$, so $x=3$ and $y=3$.\nCheck the return coordinates:\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(-1+3,-2+3)\\\\&=(2,1)\\end{aligned}$\nThis returns the point to $H(2,1)$."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

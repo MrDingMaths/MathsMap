@@ -2,19 +2,42 @@
   "skillId": "variable-rate-distance-time",
   "atomType": "T",
   "theory": {
-        "intro": "A distance–time graph can curve as well as run straight. A straight part means a constant speed; a curved part means the speed is changing. These speed interpretations assume motion along a straight path. Direction statements use distance measured from a fixed reference point, such as home; cumulative distance travelled cannot decrease.",
-        "facts": [
+"intro": "A distance–time graph can curve as well as run straight. A straight part means a constant speed; a curved part means the speed is changing. These speed interpretations assume motion along a straight path. Direction statements use distance measured from a fixed reference point, such as home; cumulative distance travelled cannot decrease.",
+"facts": [
 "A **straight** segment means a constant speed; a **curved** segment means the speed changes throughout that part.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\begin{scope}\n\\draw[->] (0,0)--(0,3.3);\n\\draw[->] (0,0)--(3.5,0);\n\\draw[thick,blue] (0,0.3)--(3.2,2.9);\n\\node[rotate=90,font=\\small] at (-0.5,1.6) {Distance};\n\\node[font=\\small] at (1.7,-0.55) {Time};\n\\node[font=\\small] at (1.7,-1.25) {Straight: constant speed};\n\\end{scope}\n\\begin{scope}[xshift=6.4cm]\n\\draw[->] (0,0)--(0,3.3);\n\\draw[->] (0,0)--(3.5,0);\n\\draw[thick,blue,domain=0:3.2,smooth,variable=\\x] plot ({\\x},{0.3+0.254*\\x*\\x});\n\\node[rotate=90,font=\\small] at (-0.5,1.6) {Distance};\n\\node[font=\\small] at (1.7,-0.55) {Time};\n\\node[font=\\small] at (1.7,-1.25) {Curved: speed changing};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
 "A curve getting **steeper** shows the object **speeding up**; a curve getting **flatter** shows it **slowing down**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\begin{scope}\n\\draw[->] (0,0)--(0,3.3);\n\\draw[->] (0,0)--(3.5,0);\n\\draw[thick,blue,domain=0:3.2,smooth,variable=\\x] plot ({\\x},{0.28*\\x*\\x});\n\\node[rotate=90,font=\\small] at (-0.5,1.6) {Distance};\n\\node[font=\\small] at (1.7,-0.55) {Time};\n\\node[font=\\small] at (1.7,-1.25) {Getting steeper: speeding up};\n\\end{scope}\n\\begin{scope}[xshift=6.4cm]\n\\draw[->] (0,0)--(0,3.3);\n\\draw[->] (0,0)--(3.5,0);\n\\draw[thick,blue,domain=0:3.2,smooth,variable=\\x] plot ({\\x},{-0.28*(\\x-3.2)*(\\x-3.2)+2.87});\n\\node[rotate=90,font=\\small] at (-0.5,1.6) {Distance};\n\\node[font=\\small] at (1.7,-0.55) {Time};\n\\node[font=\\small] at (1.7,-1.25) {Getting flatter: slowing down};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
 "When distance is measured from a fixed reference point, a rising graph means moving **away** from that point; a falling graph means moving **back towards** it. Cumulative distance travelled can rise or remain unchanged, but cannot fall.",
 "A horizontal **interval** means the object is **stopped throughout that interval**, assuming motion along a straight path. A curve with a horizontal tangent at just one instant does not establish a stopped interval."
 ],
-        "steps": [
+"steps": [
           "Check whether the segment rises, falls, or is flat.",
           "Check whether the segment is straight or curved.",
           "If it is curved, check whether it is getting steeper or flatter to describe speeding up or slowing down."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Two cyclists travel away from a checkpoint along straight paths. Describe how each cyclist’s distance from the checkpoint and speed change. Explain using the steepness of each curve.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{graphblue}{HTML}{268CFF}\n\\begin{scope}\n\\draw[black,->] (0,0)--(3.4,0);\n\\draw[black,->] (0,0)--(0,3.3);\n\\draw[graphblue,thick] (0,0) .. controls (1,0) and (2.2,1.2) .. (3,3);\n\\node[above] at (1.6,3.3) {A};\n\\node[rotate=90] at (-0.55,1.65) {Distance from checkpoint};\n\\node[below] at (1.7,-0.15) {Time};\n\\end{scope}\n\\begin{scope}[xshift=52mm]\n\\draw[black,->] (0,0)--(3.4,0);\n\\draw[black,->] (0,0)--(0,3.3);\n\\draw[graphblue,thick] (0,0) .. controls (0.7,2.1) and (2,2.8) .. (3,2.9);\n\\node[above] at (1.6,3.3) {B};\n\\node[rotate=90] at (-0.55,1.65) {Distance from checkpoint};\n\\node[below] at (1.7,-0.15) {Time};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "A: The curve rises and gets steeper. Distance from the checkpoint increases at an increasing rate, so the cyclist moves away and speeds up.\n\nB: The curve rises and gets flatter. Distance from the checkpoint increases at a decreasing rate, so the cyclist moves away and slows down.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two walkers return towards a shelter along straight paths. Describe how each walker’s distance from the shelter and speed change. Explain using the steepness of each curve.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{graphblue}{HTML}{268CFF}\n\\begin{scope}\n\\draw[black,->] (0,0)--(3.4,0);\n\\draw[black,->] (0,0)--(0,3.3);\n\\draw[graphblue,thick] (0,3) .. controls (1,3) and (2.2,1.8) .. (3,0);\n\\node[above] at (1.6,3.3) {A};\n\\node[rotate=90] at (-0.55,1.65) {Distance from shelter};\n\\node[below] at (1.7,-0.15) {Time};\n\\end{scope}\n\\begin{scope}[xshift=52mm]\n\\draw[black,->] (0,0)--(3.4,0);\n\\draw[black,->] (0,0)--(0,3.3);\n\\draw[graphblue,thick] (0,3) .. controls (0.7,0.9) and (2,0.3) .. (3,0.2);\n\\node[above] at (1.6,3.3) {B};\n\\node[rotate=90] at (-0.55,1.65) {Distance from shelter};\n\\node[below] at (1.7,-0.15) {Time};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "A: The curve falls and gets steeper. Distance from the shelter decreases at an increasing rate, so the walker moves towards the shelter and speeds up.\n\nB: The curve falls and gets flatter. Distance from the shelter decreases at a decreasing rate, so the walker moves towards the shelter and slows down.\n\nSpeed depends on steepness: a falling graph does not by itself mean slowing down.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The graph shows Leila’s distance from a cabin as she travels along a straight path. For each labelled stage, describe:\n(a) whether her distance from the cabin increases, decreases or stays the same;\n(b) whether the gradient is positive, negative or zero, and constant or varying;\n(c) her direction and how her speed changes.\n\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{graphblue}{HTML}{268CFF}\n\\draw[black,->] (0,0)--(14.7,0);\n\\draw[black,->] (0,0)--(0,4.1);\n\\draw[graphblue,thick] (0,0) .. controls (0.67,0) and (1.33,0.33) .. (2,1);\n\\draw[graphblue,thick] (2,1)--(4,3);\n\\draw[graphblue,thick] (4,3) .. controls (4.67,3.67) and (5.33,4) .. (6,4);\n\\draw[graphblue,thick] (6,4)--(8,4);\n\\draw[graphblue,thick] (8,4) .. controls (8.67,4) and (9.33,3.67) .. (10,3);\n\\draw[graphblue,thick] (10,3)--(12,1);\n\\draw[graphblue,thick] (12,1) .. controls (12.67,0.33) and (13.33,0) .. (14,0);\n\\node at (1,0.7) {A};\n\\node at (3,2.45) {B};\n\\node at (5,3.25) {C};\n\\node at (7,3.65) {D};\n\\node at (9,3.25) {E};\n\\node at (11,2.45) {F};\n\\node at (13,0.7) {G};\n\\node[rotate=90] at (-1.2,2) {Distance from cabin};\n\\node[below] at (7.2,-0.15) {Time};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "A: Distance increases; the gradient is positive and varying. Leila moves away from the cabin and speeds up because the curve gets steeper.\n\nB: Distance increases; the gradient is positive and constant. She moves away at a constant speed because the segment is straight.\n\nC: Distance increases; the gradient is positive and varying. She moves away and slows down because the curve gets flatter.\n\nD: Distance stays the same; the gradient is zero and constant. She is stopped throughout this horizontal interval.\n\nE: Distance decreases; the gradient is negative and varying. She moves towards the cabin and speeds up because the curve gets steeper.\n\nF: Distance decreases; the gradient is negative and constant. She moves towards the cabin at a constant speed because the segment is straight.\n\nG: Distance decreases; the gradient is negative and varying. She moves towards the cabin and slows down because the curve gets flatter.\n\nThese descriptions apply within each stage. A horizontal tangent at a single endpoint does not show a period of rest.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

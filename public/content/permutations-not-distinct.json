@@ -2,19 +2,61 @@
   "skillId": "permutations-not-distinct",
   "atomType": "R",
   "theory": {
-        "intro": "When some of the $n$ objects are identical, $n!$ overcounts, because swapping two identical objects gives the same arrangement. Divide by the factorial of each group of identical objects: $\\dfrac{n!}{n_1! \\, n_2! \\, \\cdots \\, n_k!}$.",
-        "facts": [
+"intro": "When some of the $n$ objects are identical, $n!$ overcounts, because swapping two identical objects gives the same arrangement. Divide by the factorial of each group of identical objects: $\\dfrac{n!}{n_1! \\, n_2! \\, \\cdots \\, n_k!}$.",
+"facts": [
 "With $n_1$ identical objects of one type, $n_2$ of another, and so on up to $n_1 + n_2 + \\cdots + n_k = n$, the distinct arrangements number $\\dfrac{n!}{n_1! \\, n_2! \\, \\cdots \\, n_k!}$.",
 "For a word such as $\\text{PARALLEL}$, count the total letters $n$ and how many times each repeated letter appears.",
 "With a restriction such as fixed ends or a group kept together, apply the restriction first, then divide by the remaining factorials.",
 "To form words one letter shorter than the supplied word, split into separate cases according to which letter is left out. For other shorter lengths, use cases according to which letters are selected or omitted."
 ],
-        "steps": [
+"steps": [
           "Count the total number of objects $n$",
           "Identify each group of identical objects and determine their frequencies $n_1, n_2, \\dots, n_k$",
           "Apply the formula $\\dfrac{n!}{n_1! \\, n_2! \\, \\cdots \\, n_k!}$ and simplify"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "How many distinct arrangements can be made using all the letters of BALLOON?",
+    "solution_text": "There are seven letters, with two identical Ls and two identical Os. Swapping either identical pair leaves the arrangement unchanged, so divide by $2!$ for each pair.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{7!}{2!2!}\\\\&=\\frac{5040}{4}\\\\&=1260\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Eight counters, identical except for colour, comprise three red, three blue and two green counters. How many distinct colour patterns can be formed in a row?",
+    "solution_text": "Divide by the factorial of each colour's frequency.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{8!}{3!3!2!}\\\\&=\\frac{40320}{6\\times6\\times2}\\\\&=560\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "How many arrangements of all the letters of BALLOON start and end with L?",
+    "solution_text": "Fix an L at each end. The five remaining letters are A, B, N, O and O. The identical end letters contribute no extra factor.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{5!}{2!}\\\\&=\\frac{120}{2}\\\\&=60\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Using all the letters of BALLOON, how many arrangements have:\n(a) the two Os together?\n(b) the two Os together and the two Ls together?",
+    "solution_text": "(a) Treat OO as one unit. The six units are OO, B, A, L, L and N. Divide by $2!$ for the remaining identical Ls; OO has only one internal arrangement.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{6!}{2!}\\\\&=360\\end{aligned}$\n\n(b) Treat OO and LL as separate units. The five units OO, LL, B, A and N are distinct. Each identical-letter block has only one internal arrangement.\n\n$5!=120$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "How many five-letter words can be formed from the six letters of LETTER? Words need not have a dictionary meaning, and each letter can be used only as often as it occurs in LETTER.",
+    "solution_text": "Split into cases according to the letter omitted.\n\nOmit L: the remaining letters are E, E, T, T and R.\n$\\frac{5!}{2!2!}=30$\n\nOmit R: the remaining letters are L, E, E, T and T.\n$\\frac{5!}{2!2!}=30$\n\nOmit one E: the remaining letters are L, E, T, T and R.\n$\\frac{5!}{2!}=60$\n\nOmit one T: the remaining letters are L, E, E, T and R.\n$\\frac{5!}{2!}=60$\n\nOmitting either copy of an identical letter gives the same remaining collection, so count that case once.\n\n$\\begin{aligned}\\text{Total}&=30+30+60+60\\\\&=180\\end{aligned}$"
+  },
+  {
+    "question_text": "How many three-letter words can be formed from the letters of DEGREE? Words need not have a dictionary meaning, and each letter can be used only as often as it occurs in DEGREE.",
+    "solution_text": "DEGREE contains three Es and the distinct letters D, G and R. Split into cases according to the number of Es used.\n\nThree Es: only EEE is possible.\n$\\frac{3!}{3!}=1$\n\nTwo Es: choose the other letter from D, G or R, then arrange the letters.\n$3\\times\\frac{3!}{2!}=9$\n\nOne E: the other two letters can be DG, DR or GR. Each collection has three distinct letters.\n$3\\times3!=18$\n\nNo Es: arrange D, G and R.\n$3!=6$\n\n$\\begin{aligned}\\text{Total}&=1+9+18+6\\\\&=34\\end{aligned}$"
+  },
+  {
+    "question_text": "How many arrangements of all the letters of BALLOON have the two Ls separated by at least one other letter?",
+    "solution_text": "Count all arrangements, then subtract those with the Ls together.\n\nAll arrangements:\n$\\frac{7!}{2!2!}=1260$\n\nWith LL together, the six units are LL, B, A, O, O and N. The Os remain identical.\n$\\frac{6!}{2!}=360$\n\n$\\begin{aligned}\\text{Separated arrangements}&=1260-360\\\\&=900\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,8 +2,8 @@
   "skillId": "perpendicular-vectors-dot",
   "atomType": "R",
   "theory": {
-    "intro": "Two non-zero vectors are **perpendicular** exactly when their dot product is zero. So to test for a right angle, work out the dot product and check whether it comes to $0$.",
-    "facts": [
+"intro": "Two non-zero vectors are **perpendicular** exactly when their dot product is zero. So to test for a right angle, work out the dot product and check whether it comes to $0$.",
+"facts": [
 "For non-zero vectors, $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}=0$ if and only if $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$ are perpendicular.",
 "This follows from $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}=|\\underset{\\sim}{a}||\\underset{\\sim}{b}|\\cos\\theta$, since $\\cos90^{\\circ}=0$.",
 "A non-zero dot product means the vectors are not perpendicular. A positive dot product means the angle is acute or $0^{\\circ}$; a negative dot product means the angle is obtuse or $180^{\\circ}$.",
@@ -11,12 +11,49 @@
 "To find an unknown component, write the dot product, set it equal to zero, and solve.",
 "Both vectors must be non-zero, since the zero vector has a zero dot product with everything and has no direction."
 ],
-    "steps": [
+"steps": [
       "Write the dot product of the two vectors",
       "Set the dot product equal to zero",
       "Solve for the unknown and reject any value making a vector zero"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Use the dot product to determine whether each pair of vectors is perpendicular.\n\n(a) $\\underset{\\sim}{u}=\\begin{pmatrix}2\\\\5\\end{pmatrix}$ and $\\underset{\\sim}{v}=\\begin{pmatrix}15\\\\-6\\end{pmatrix}$.\n\n(b) $\\underset{\\sim}{a}=\\begin{pmatrix}4\\\\-3\\end{pmatrix}$ and $\\underset{\\sim}{b}=\\begin{pmatrix}2\\\\5\\end{pmatrix}$.",
+    "solution_text": "(a)\n\n$\\begin{aligned}\\underset{\\sim}{u}\\cdot\\underset{\\sim}{v}&=(2)(15)+(5)(-6)\\\\&=30-30\\\\&=0\\end{aligned}$\n\nBoth vectors are non-zero and their dot product is zero, so they are perpendicular.\n\n(b)\n\n$\\begin{aligned}\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}&=(4)(2)+(-3)(5)\\\\&=8-15\\\\&=-7\\end{aligned}$\n\nThe dot product is not zero, so these vectors are not perpendicular.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find $m$ if $\\underset{\\sim}{u}=3\\underset{\\sim}{i}+7\\underset{\\sim}{j}$ and $\\underset{\\sim}{v}=m\\underset{\\sim}{i}-6\\underset{\\sim}{j}$ are perpendicular.",
+    "solution_text": "Perpendicular non-zero vectors have dot product zero.\n\n$\\begin{aligned}(3)(m)+(7)(-6)&=0\\\\3m-42&=0\\\\3m&=42\\\\m&=14\\end{aligned}$\n\nNeither vector is zero when $m=14$, so this value is valid.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The points $A(1,2)$, $B(5,4)$ and $C(3,8)$ are given. Use the dot product to show that $\\angle ABC=90^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\coordinate (A) at (1,2);\n\\coordinate (B) at (5,4);\n\\coordinate (C) at (3,8);\n\\draw[black] (A)--(B)--(C)--cycle;\n\\path (A) node[below left] {$A$};\n\\path (B) node[right] {$B$};\n\\path (C) node[above] {$C$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Use vectors starting at the angle's vertex, $B$.\n\n$\\begin{aligned}\\overrightarrow{BA}&=\\begin{pmatrix}1-5\\\\2-4\\end{pmatrix}=\\begin{pmatrix}-4\\\\-2\\end{pmatrix}\\\\\\overrightarrow{BC}&=\\begin{pmatrix}3-5\\\\8-4\\end{pmatrix}=\\begin{pmatrix}-2\\\\4\\end{pmatrix}\\end{aligned}$\n\n$\\begin{aligned}\\overrightarrow{BA}\\cdot\\overrightarrow{BC}&=(-4)(-2)+(-2)(4)\\\\&=8-8\\\\&=0\\end{aligned}$\n\nBoth vectors are non-zero, so $\\overrightarrow{BA}\\perp\\overrightarrow{BC}$ and $\\angle ABC=90^{\\circ}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find all values of $t$ for which $\\underset{\\sim}{u}=\\begin{pmatrix}t\\\\4\\end{pmatrix}$ and $\\underset{\\sim}{v}=\\begin{pmatrix}t+3\\\\-7\\end{pmatrix}$ are perpendicular.",
+    "solution_text": "Set the dot product equal to zero.\n\n$\\begin{aligned}(t)(t+3)+(4)(-7)&=0\\\\t^{2}+3t-28&=0\\\\(t+7)(t-4)&=0\\end{aligned}$\n\n$t=-7$ or $t=4$.\n\nThe fixed components $4$ and $-7$ ensure both vectors are non-zero, so both values are valid.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find all values of $k$ for which $\\underset{\\sim}{u}=\\begin{pmatrix}k-4\\\\k-4\\end{pmatrix}$ and $\\underset{\\sim}{v}=\\begin{pmatrix}k\\\\2\\end{pmatrix}$ are perpendicular.",
+    "solution_text": "First solve the zero-dot-product equation.\n\n$\\begin{aligned}(k-4)k+(k-4)(2)&=0\\\\(k-4)(k+2)&=0\\end{aligned}$\n\n$k=4$ or $k=-2$.\n\nWhen $k=4$, $\\underset{\\sim}{u}=\\begin{pmatrix}0\\\\0\\end{pmatrix}$. The zero vector has no direction, so reject this value.\n\nWhen $k=-2$, $\\underset{\\sim}{u}=\\begin{pmatrix}-6\\\\-6\\end{pmatrix}$ and $\\underset{\\sim}{v}=\\begin{pmatrix}-2\\\\2\\end{pmatrix}$. Both are non-zero and their dot product is zero.\n\nTherefore, $k=-2$ only.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,18 +2,40 @@
   "skillId": "read-coordinates-first-quadrant",
   "atomType": "R",
   "theory": {
-        "intro": "Coordinates name the position of a point on a grid as an ordered pair $(x, y)$. To read them, count across, then up.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.75]\n\\draw[gray!30,very thin] (0,0) grid (6,6);\n\\draw[->] (0,0)--(6.5,0) node[right] {$x$};\n\\draw[->] (0,0)--(0,6.5) node[above] {$y$};\n\\foreach \\n in {1,...,6}{\\node[below,font=\\small] at (\\n,0) {$\\n$};\\node[left,font=\\small] at (0,\\n) {$\\n$};}\n\\node[below left,font=\\small] at (0,0) {$0$};\n\\coordinate (P) at (3.5,4.5);\n\\draw[dashed,->] (P)--(3.5,0.15);\n\\draw[dashed,->] (P)--(0.15,4.5);\n\\fill (P) circle (2.5pt);\n\\node[above right,font=\\small] at (P) {$P$};\n\\node[font=\\small] at (3.5,-1.1) {read $x$ here};\n\\node[font=\\small,anchor=east] at (-0.7,4.5) {read $y$ here};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "Coordinates name the position of a point on a grid as an ordered pair $(x, y)$. To read them, count across, then up.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.75]\n\\draw[gray!30,very thin] (0,0) grid (6,6);\n\\draw[->] (0,0)--(6.5,0) node[right] {$x$};\n\\draw[->] (0,0)--(0,6.5) node[above] {$y$};\n\\foreach \\n in {1,...,6}{\\node[below,font=\\small] at (\\n,0) {$\\n$};\\node[left,font=\\small] at (0,\\n) {$\\n$};}\n\\node[below left,font=\\small] at (0,0) {$0$};\n\\coordinate (P) at (3.5,4.5);\n\\draw[dashed,->] (P)--(3.5,0.15);\n\\draw[dashed,->] (P)--(0.15,4.5);\n\\fill (P) circle (2.5pt);\n\\node[above right,font=\\small] at (P) {$P$};\n\\node[font=\\small] at (3.5,-1.1) {read $x$ here};\n\\node[font=\\small,anchor=east] at (-0.7,4.5) {read $y$ here};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "Coordinates are written $(x, y)$ — **horizontal first**, then vertical.",
           "$x$ is counted **right** from $0$; $y$ is counted **up** from $0$.",
           "The point $(0, 0)$ is the **origin**, where the axes meet."
         ],
-        "steps": [
+"steps": [
           "Drop straight down from the point to read the $x$-axis value.",
           "Look straight across to the $y$-axis to read the $y$ value.",
           "Write the pair as $(x, y)$."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Write the coordinates of $A$ and $B$. Each grid square represents $1$ unit. A student writes $B=(4.5,1.5)$. Explain the mistake.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\draw[gridcolour,xstep=8mm,ystep=8mm] (0,0) grid (5,5);\n\\draw[black,->] (0,0)--(5.5,0) node[right] {$x$};\n\\draw[black,->] (0,0)--(0,5.5) node[above] {$y$};\n\\foreach \\n in {1,...,5}{\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\fill[black] (4,2) circle (2pt);\n\\path (4,2) node[above right] {$A$};\n\\fill[black] (1.5,4.5) circle (2pt);\n\\path (1.5,4.5) node[above right] {$B$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Read down to the horizontal value, then across to the vertical value.\n\nFor $A$, read $4$ across and $2$ up: $A=(4,2)$.\n\nFor $B$, each coordinate is halfway between two whole numbers. Read $1.5$ across and $4.5$ up: $B=(1.5,4.5)$.\n\nThe student wrote the vertical coordinate first. Coordinates are written $(x,y)$.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\definecolor{methodblue}{HTML}{268CFF}\n\\draw[gridcolour,xstep=8mm,ystep=8mm] (0,0) grid (5,5);\n\\draw[black,->] (0,0)--(5.5,0) node[right] {$x$};\n\\draw[black,->] (0,0)--(0,5.5) node[above] {$y$};\n\\foreach \\n in {1,...,5}{\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[methodblue,dashed] (4,0)--(4,2)--(0,2);\n\\draw[methodblue,dashed] (1.5,0)--(1.5,4.5)--(0,4.5);\n\\fill[black] (4,2) circle (2pt);\n\\path (4,2) node[above right] {$A$};\n\\fill[black] (1.5,4.5) circle (2pt);\n\\path (1.5,4.5) node[above right] {$B$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Write the coordinates of $C$, $D$ and $O$.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\draw[gridcolour,xstep=8mm,ystep=8mm] (0,0) grid (5,5);\n\\draw[black,->] (0,0)--(5.5,0) node[right] {$x$};\n\\draw[black,->] (0,0)--(0,5.5) node[above] {$y$};\n\\foreach \\n in {1,...,5}{\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\fill[black] (0,3) circle (2pt);\n\\path (0,3) node[above right] {$C$};\n\\fill[black] (5,0) circle (2pt);\n\\path (5,0) node[above] {$D$};\n\\fill[black] (0,0) circle (2pt);\n\\path (0,0) node[above right] {$O$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$C$ is on the $y$-axis, so its horizontal coordinate is $0$. It is $3$ units up: $C=(0,3)$.\n\n$D$ is on the $x$-axis, so its vertical coordinate is $0$. It is $5$ units across: $D=(5,0)$.\n\n$O$ is the origin, where the axes meet: $O=(0,0)$."
+  },
+  {
+    "question_text": "Which two points have the same horizontal coordinate? Which two have the same vertical coordinate? Give their coordinates and describe their positions.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\draw[gridcolour,xstep=8mm,ystep=8mm] (0,0) grid (6,6);\n\\draw[black,->] (0,0)--(6.5,0) node[right] {$x$};\n\\draw[black,->] (0,0)--(0,6.5) node[above] {$y$};\n\\foreach \\n in {1,...,6}{\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\foreach \\x/\\y/\\l in {3/1/J,3/5/K,6/5/L}{\\fill[black] (\\x,\\y) circle (2pt);\\path (\\x,\\y) node[above right] {$\\l$};}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$J=(3,1)$ and $K=(3,5)$ share horizontal coordinate $3$. They lie directly above one another on the same vertical grid line.\n\n$K=(3,5)$ and $L=(6,5)$ share vertical coordinate $5$. They lie at the same height on the same horizontal grid line."
+  },
+  {
+    "question_text": "To reach $(7,3)$ from the origin, which direction do you move first, and how far? Which direction do you move next, and how far?",
+    "solution_text": "The first coordinate gives the horizontal movement: move $7$ units right.\n\nThe second coordinate gives the vertical movement: move $3$ units up."
+  },
+  {
+    "question_text": "Three corners of a rectangle are $P(2,2)$, $Q(7,2)$ and $R(7,6)$. Find the coordinates of the fourth corner, $S$.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black,->] (0,0)--(8,0) node[right] {$x$};\n\\draw[black,->] (0,0)--(0,7) node[above] {$y$};\n\\path (0,0) node[below left] {$O$};\n\\draw[black] (2,2)--(7,2)--(7,6)--(2,6)--cycle;\n\\foreach \\x/\\y in {2/2,7/2,7/6,2/6}{\\fill[black] (\\x,\\y) circle (2pt);}\n\\path (2,2) node[below] {$P(2,2)$};\n\\path (7,2) node[below] {$Q(7,2)$};\n\\path (7,6) node[above] {$R(7,6)$};\n\\path (2,6) node[above] {$S$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$S$ is directly above $P$, so it has the same horizontal coordinate, $2$.\n\n$S$ is level with $R$, so it has the same vertical coordinate, $6$.\n\n$S=(2,6)$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

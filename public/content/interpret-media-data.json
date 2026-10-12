@@ -2,18 +2,44 @@
   "skillId": "interpret-media-data",
   "atomType": "R",
   "theory": {
-        "intro": "Newspapers, websites and posters often present data as graphs, pictographs and infographics. The same reading skills apply: find the scale or key, then read the values.",
-        "facts": [
+"intro": "Newspapers, websites and posters often present data as graphs, pictographs and infographics. The same reading skills apply: find the scale or key, then read the values.",
+"facts": [
 "A **pictograph** uses a symbol to stand for a number — read the **key** first.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\node[right] at (0,2.6) {Group A}; \\node[right] at (0,1.7) {Group B};\n\\foreach \\x in {2.8,3.5,4.2,4.9} {\\fill (\\x,2.6) circle (4pt);}\n\\foreach \\x in {2.8,3.5,4.2} {\\fill (\\x,1.7) circle (4pt);}\n\\fill (2.8,0.4) circle (4pt); \\node[right] at (3.1,0.4) {$=n$ items (the key)};\n\\end{tikzpicture}\n[/tikz]",
 "For an **infographic** bar or icon, check its scale, key or value labels. Identify any missing information before drawing a conclusion.",
 "Headlines can exaggerate — always check the actual numbers behind a claim."
 ],
-        "steps": [
+"steps": [
           "Read the key or scale to see what each symbol or step represents.",
           "Count symbols or read bar heights to get each value.",
           "Combine values for totals, differences or to check a claim."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A wildlife website shows the animals released this week.\n\na. How many birds were released?\nb. Which animal group had the fewest releases, and how many?\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\node at (4,4) {Animals released this week};\n\\node[anchor=east] at (2,3) {Birds};\n\\node[anchor=east] at (2,2) {Reptiles};\n\\node[anchor=east] at (2,1) {Mammals};\n\\foreach \\x in {2.5,3.2,3.9,4.6,5.3,6} {\\draw (\\x,3) circle (2mm);}\n\\foreach \\x in {2.5,3.2,3.9} {\\draw (\\x,2) circle (2mm);}\n\\foreach \\x in {2.5,3.2,3.9,4.6} {\\draw (\\x,1) circle (2mm);}\n\\draw (2.5,0) circle (2mm);\n\\node[anchor=west] at (2.9,0) {represents 4 animals};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "a. The bird row has $6$ symbols. Each represents $4$ animals.\n$6\\times4=24$\nThere were $24$ birds released.\n\nb. Reptiles have the fewest symbols: $3$.\n$3\\times4=12$\nReptiles had the fewest releases, with $12$ animals."
+  },
+  {
+    "question_text": "Two rescue newsletters show the animals treated. How many more animals did Centre B treat than Centre A?\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\node[anchor=east] at (2,3) {Centre A};\n\\foreach \\x in {2.5,3.2,3.9,4.6} {\\draw (\\x,3) circle (2mm);}\n\\draw (2.5,2.3) circle (2mm);\n\\node[anchor=west] at (2.9,2.3) {represents 5 animals};\n\\node[anchor=east] at (2,1.2) {Centre B};\n\\foreach \\x in {2.5,3.2,3.9} {\\draw (\\x,1.2) circle (2mm);}\n\\draw (2.5,0.5) circle (2mm);\n\\node[anchor=west] at (2.9,0.5) {represents 8 animals};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Read each key before comparing the rows.\n\nCentre A: $4\\times5=20$ animals.\nCentre B: $3\\times8=24$ animals.\n\n$24-20=4$\nCentre B treated $4$ more animals."
+  },
+  {
+    "question_text": "An online report lists animals treated during a month.\n\n| Animal group | Animals treated |\n| --- | ---: |\n| Birds | 32 |\n| Reptiles | 18 |\n| Mammals | 25 |\n| Other | 15 |\n\na. Which group had the greatest number treated?\nb. How many animals were treated altogether?\nc. How many birds and mammals were treated altogether, and how many more was this than reptiles?",
+    "solution_text": "a. Birds: $32$ is the greatest value in the table.\n\nb. Add the four group totals.\n$32+18+25+15=90$\nThere were $90$ animals treated altogether.\n\nc. Birds and mammals: $32+25=57$ animals.\n$57-18=39$\nTheir combined total was $39$ more than the reptile total."
+  },
+  {
+    "question_text": "A rescue centre's webpage shows the kangaroos in its care. The bar has $8$ equal sections. What fraction of the kangaroos are joeys?\n\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\node at (4,2.3) {Kangaroos in care};\n\\draw (0,0) rectangle (8,0.8);\n\\foreach \\x in {1,2,3,4,5,6,7} {\\draw (\\x,0)--(\\x,0.8);}\n\\draw[very thick] (5,0)--(5,0.8);\n\\draw (0,1)--(0,1.15)--(5,1.15)--(5,1);\n\\draw (5.1,1)--(5.1,1.15)--(8,1.15)--(8,1);\n\\node at (2.5,1.55) {Joeys};\n\\node at (6.55,1.55) {Adults};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Joeys occupy $5$ of the $8$ equal sections.\nThe fraction of kangaroos that are joeys is $\\frac{5}{8}$."
+  },
+  {
+    "question_text": "A social-media post claims, ‘At least $40$ turtles released!’ Does its pictograph support the claim? Explain.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\node at (3.5,2) {Turtles released};\n\\foreach \\x in {1,1.8,2.6,3.4,4.2,5} {\\draw (\\x,1) circle (2mm);}\n\\draw (1,0) circle (2mm);\n\\node[anchor=west] at (1.4,0) {represents 6 turtles};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The pictograph has $6$ symbols, each representing $6$ turtles.\n$6\\times6=36$\n\nNo. It shows $36$ turtles, which is $4$ fewer than $40$. The picture does not support the claim."
+  },
+  {
+    "question_text": "An infographic shows $5$ identical symbols for a total of $30$ wildlife checks. Its second row uses the same key. How many checks does the second row represent?\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\node[anchor=east] at (2,2) {First row};\n\\foreach \\x in {2.5,3.2,3.9,4.6,5.3} {\\draw (\\x,2) circle (2mm);}\n\\node[anchor=west] at (5.7,2) {30 checks};\n\\node[anchor=east] at (2,1) {Second row};\n\\foreach \\x in {2.5,3.2,3.9,4.6,5.3,6,6.7} {\\draw (\\x,1) circle (2mm);}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Divide the known total by its number of symbols.\n$30\\div5=6$ checks per symbol.\n\nThe second row has $7$ symbols.\n$7\\times6=42$\nThe second row represents $42$ checks."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

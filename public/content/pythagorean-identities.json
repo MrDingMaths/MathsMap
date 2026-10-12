@@ -2,15 +2,129 @@
   "skillId": "pythagorean-identities",
   "atomType": "T",
   "theory": {
-        "intro": "On the unit circle a point at angle $\\theta$ has coordinates $x=\\cos\\theta$ and $y=\\sin\\theta$. Its equation $x^2+y^2=1$ becomes the **Pythagorean identity** $\\cos^{2}\\theta+\\sin^{2}\\theta=1$. Dividing that identity by $\\cos^{2}\\theta$ or $\\sin^{2}\\theta$ gives two more.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, calc, arrows.meta}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (1.147,1.638);\n\\coordinate (Q) at (1.147,0);\n\\draw[{Stealth}-{Stealth}] (-2.6,0) -- (2.6,0) node[below right] {$x$};\n\\draw[{Stealth}-{Stealth}] (0,-2.6) -- (0,2.6) node[above left] {$y$};\n\\draw (O) circle (2);\n\\draw (O) -- (P) node[midway, above left] {$1$};\n\\draw (Q) -- (P);\n\\fill (P) circle (1.5pt);\n\\node[above right] at (P) {$P(\\cos\\theta,\\sin\\theta)$};\n\\coordinate (p) at ($(Q)!0.25cm!(O)$);\n\\coordinate (q) at ($(Q)!0.25cm!(P)$);\n\\draw (p) -- ($(p)+(q)-(Q)$) -- (q);\n\\pic[draw, \"$\\theta$\", angle radius=0.45cm, angle eccentricity=1.8] {angle = Q--O--P};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "On the unit circle a point at angle $\\theta$ has coordinates $x=\\cos\\theta$ and $y=\\sin\\theta$. Its equation $x^2+y^2=1$ becomes the **Pythagorean identity** $\\cos^{2}\\theta+\\sin^{2}\\theta=1$. Dividing that identity by $\\cos^{2}\\theta$ or $\\sin^{2}\\theta$ gives two more.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, calc, arrows.meta}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (1.147,1.638);\n\\coordinate (Q) at (1.147,0);\n\\draw[{Stealth}-{Stealth}] (-2.6,0) -- (2.6,0) node[below right] {$x$};\n\\draw[{Stealth}-{Stealth}] (0,-2.6) -- (0,2.6) node[above left] {$y$};\n\\draw (O) circle (2);\n\\draw (O) -- (P) node[midway, above left] {$1$};\n\\draw (Q) -- (P);\n\\fill (P) circle (1.5pt);\n\\node[above right] at (P) {$P(\\cos\\theta,\\sin\\theta)$};\n\\coordinate (p) at ($(Q)!0.25cm!(O)$);\n\\coordinate (q) at ($(Q)!0.25cm!(P)$);\n\\draw (p) -- ($(p)+(q)-(Q)$) -- (q);\n\\pic[draw, \"$\\theta$\", angle radius=0.45cm, angle eccentricity=1.8] {angle = Q--O--P};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "$\\cos^{2}\\theta+\\sin^{2}\\theta=1$, which rearranges to $\\sin^{2}\\theta=1-\\cos^{2}\\theta$ and $\\cos^{2}\\theta=1-\\sin^{2}\\theta$.",
           "Dividing through by $\\cos^{2}\\theta$ gives $1+\\tan^{2}\\theta=\\sec^{2}\\theta$, for $\\cos\\theta\\neq 0$.",
           "Dividing through by $\\sin^{2}\\theta$ gives $1+\\cot^{2}\\theta=\\operatorname{cosec}^{2}\\theta$, for $\\sin\\theta\\neq 0$.",
           "Rearranged, these give the difference forms $\\sec^{2}\\theta-\\tan^{2}\\theta=1$ and $\\operatorname{cosec}^{2}\\theta-\\cot^{2}\\theta=1$.",
           "As a difference of squares, $1-\\sin^{2}\\theta=(1-\\sin\\theta)(1+\\sin\\theta)=\\cos^{2}\\theta$."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A point $P(u,v)$ on the unit circle has coordinates $u=\\cos\\alpha$ and $v=\\sin\\alpha$. Use Pythagoras' theorem to prove $\\cos^2\\alpha+\\sin^2\\alpha=1$.",
+    "solution_text": "The radius is $1$, so Pythagoras' theorem gives $u^2+v^2=1$. Substituting the coordinates gives\n$\\begin{align*}\\cos^2\\alpha+\\sin^2\\alpha&=1.\\end{align*}$\nThe circle equation holds in every quadrant, so the identity holds for every real $\\alpha$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Starting with $\\cos^2\\beta+\\sin^2\\beta=1$, derive the identities involving (a) tangent and secant and (b) cotangent and cosecant. State the condition for each division.",
+    "solution_text": "(a) Divide every term by $\\cos^2\\beta$, where $\\cos\\beta\\ne0$.\n$\\begin{align*}\\frac{\\cos^2\\beta}{\\cos^2\\beta}+\\frac{\\sin^2\\beta}{\\cos^2\\beta}&=\\frac{1}{\\cos^2\\beta}\\\\1+\\tan^2\\beta&=\\sec^2\\beta.\\end{align*}$\n(b) Divide every term by $\\sin^2\\beta$, where $\\sin\\beta\\ne0$.\n$\\begin{align*}\\frac{\\cos^2\\beta}{\\sin^2\\beta}+\\frac{\\sin^2\\beta}{\\sin^2\\beta}&=\\frac{1}{\\sin^2\\beta}\\\\\\cot^2\\beta+1&=\\operatorname{cosec}^2\\beta.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify using the Pythagorean identities: (a) $1-\\sin^2\\gamma$, (b) $\\tan^2\\gamma-\\sec^2\\gamma$, (c) $1+\\cot^2\\gamma$, (d) $\\operatorname{cosec}^2\\gamma-1$.",
+    "solution_text": "(a)\n$\\begin{align*}&\\mathrel{\\phantom{=}}1-\\sin^2\\gamma\\\\&=\\cos^2\\gamma.\\end{align*}$\n(b)\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\tan^2\\gamma-\\sec^2\\gamma\\\\&=\\tan^2\\gamma-(1+\\tan^2\\gamma)\\\\&=-1.\\end{align*}$\n(c)\n$\\begin{align*}&\\mathrel{\\phantom{=}}1+\\cot^2\\gamma\\\\&=\\operatorname{cosec}^2\\gamma.\\end{align*}$\n(d)\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\operatorname{cosec}^2\\gamma-1\\\\&=(1+\\cot^2\\gamma)-1\\\\&=\\cot^2\\gamma.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify: (a) $7\\cot^2\\alpha+7$, (b) $6\\sin^2\\alpha-6\\sin^2\\alpha\\cos^2\\alpha$, (c) $4-\\tan^2\\alpha+\\sec^2\\alpha$.",
+    "solution_text": "(a) Factor out $7$.\n$\\begin{align*}&\\mathrel{\\phantom{=}}7\\cot^2\\alpha+7\\\\&=7(\\cot^2\\alpha+1)\\\\&=7\\operatorname{cosec}^2\\alpha.\\end{align*}$\n(b) Factor out $6\\sin^2\\alpha$.\n$\\begin{align*}&\\mathrel{\\phantom{=}}6\\sin^2\\alpha-6\\sin^2\\alpha\\cos^2\\alpha\\\\&=6\\sin^2\\alpha(1-\\cos^2\\alpha)\\\\&=6\\sin^2\\alpha\\sin^2\\alpha\\\\&=6\\sin^4\\alpha.\\end{align*}$\n(c)\n$\\begin{align*}&\\mathrel{\\phantom{=}}4-\\tan^2\\alpha+\\sec^2\\alpha\\\\&=4-\\tan^2\\alpha+(1+\\tan^2\\alpha)\\\\&=5.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify: (a) $\\cot^2\\beta-\\dfrac{1}{\\sin^2\\beta}$, (b) $\\dfrac{5\\sec^2\\beta-5}{\\sec^2\\beta}$. Assume $\\sin\\beta\\ne0$ and $\\cos\\beta\\ne0$.",
+    "solution_text": "(a) Rewrite the reciprocal using cosecant.\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\cot^2\\beta-\\frac{1}{\\sin^2\\beta}\\\\&=\\cot^2\\beta-\\operatorname{cosec}^2\\beta\\\\&=\\cot^2\\beta-(1+\\cot^2\\beta)\\\\&=-1.\\end{align*}$\n(b) Use the secant identity, then write the ratios in sine and cosine.\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\frac{5\\sec^2\\beta-5}{\\sec^2\\beta}\\\\&=\\frac{5(\\sec^2\\beta-1)}{\\sec^2\\beta}\\\\&=\\frac{5\\tan^2\\beta}{\\sec^2\\beta}\\\\&=\\frac{5\\left(\\frac{\\sin^2\\beta}{\\cos^2\\beta}\\right)}{\\frac{1}{\\cos^2\\beta}}\\\\&=5\\sin^2\\beta.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove $(1-\\cos\\alpha)(1+\\cos\\alpha)=\\sin^2\\alpha$ by simplifying the left-hand side.",
+    "solution_text": "$\\begin{align*}\\mathrm{LHS}&=(1-\\cos\\alpha)(1+\\cos\\alpha)\\\\&=1-\\cos^2\\alpha\\\\&=\\sin^2\\alpha\\\\&=\\mathrm{RHS}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove $(1+\\cot^2\\beta)\\sin^2\\beta=1$, where $\\sin\\beta\\ne0$.",
+    "solution_text": "$\\begin{align*}\\mathrm{LHS}&=(1+\\cot^2\\beta)\\sin^2\\beta\\\\&=\\operatorname{cosec}^2\\beta\\sin^2\\beta\\\\&=\\frac{1}{\\sin^2\\beta}\\sin^2\\beta\\\\&=1\\\\&=\\mathrm{RHS}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove $(\\sin\\gamma-\\cos\\gamma)^2=1-2\\sin\\gamma\\cos\\gamma$.",
+    "solution_text": "$\\begin{align*}\\mathrm{LHS}&=(\\sin\\gamma-\\cos\\gamma)^2\\\\&=\\sin^2\\gamma-2\\sin\\gamma\\cos\\gamma+\\cos^2\\gamma\\\\&=(\\sin^2\\gamma+\\cos^2\\gamma)-2\\sin\\gamma\\cos\\gamma\\\\&=1-2\\sin\\gamma\\cos\\gamma\\\\&=\\mathrm{RHS}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove $\\sin^4\\alpha+\\sin^2\\alpha\\cos^2\\alpha=\\sin^2\\alpha$.",
+    "solution_text": "$\\begin{align*}\\mathrm{LHS}&=\\sin^4\\alpha+\\sin^2\\alpha\\cos^2\\alpha\\\\&=\\sin^2\\alpha(\\sin^2\\alpha+\\cos^2\\alpha)\\\\&=\\sin^2\\alpha(1)\\\\&=\\sin^2\\alpha\\\\&=\\mathrm{RHS}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove $\\tan\\beta(\\operatorname{cosec}^2\\beta-1)=\\cot\\beta$, where $\\sin\\beta\\ne0$ and $\\cos\\beta\\ne0$.",
+    "solution_text": "$\\begin{align*}\\mathrm{LHS}&=\\tan\\beta(\\operatorname{cosec}^2\\beta-1)\\\\&=\\tan\\beta\\cot^2\\beta\\\\&=\\frac{1}{\\cot\\beta}\\cot^2\\beta\\\\&=\\cot\\beta\\\\&=\\mathrm{RHS}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove $\\dfrac{1-\\sin^2\\gamma}{1-\\cos^2\\gamma}=\\cot^2\\gamma$, where $\\sin\\gamma\\ne0$.",
+    "solution_text": "$\\begin{align*}\\mathrm{LHS}&=\\frac{1-\\sin^2\\gamma}{1-\\cos^2\\gamma}\\\\&=\\frac{\\cos^2\\gamma}{\\sin^2\\gamma}\\\\&=\\cot^2\\gamma\\\\&=\\mathrm{RHS}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove $\\cos^4\\beta-\\sin^4\\beta=2\\cos^2\\beta-1$.",
+    "solution_text": "$\\begin{align*}\\mathrm{LHS}&=\\cos^4\\beta-\\sin^4\\beta\\\\&=(\\cos^2\\beta-\\sin^2\\beta)(\\cos^2\\beta+\\sin^2\\beta)\\\\&=(\\cos^2\\beta-\\sin^2\\beta)(1)\\\\&=\\cos^2\\beta-(1-\\cos^2\\beta)\\\\&=2\\cos^2\\beta-1\\\\&=\\mathrm{RHS}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove $\\dfrac{1+\\cos\\gamma}{\\sin^2\\gamma}=\\dfrac{1}{1-\\cos\\gamma}$, where $\\sin\\gamma\\ne0$.",
+    "solution_text": "$\\begin{align*}\\mathrm{LHS}&=\\frac{1+\\cos\\gamma}{\\sin^2\\gamma}\\\\&=\\frac{1+\\cos\\gamma}{1-\\cos^2\\gamma}\\\\&=\\frac{1+\\cos\\gamma}{(1-\\cos\\gamma)(1+\\cos\\gamma)}\\\\&=\\frac{1}{1-\\cos\\gamma}\\\\&=\\mathrm{RHS}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove $\\dfrac{1}{1-\\cos\\alpha}+\\dfrac{1}{1+\\cos\\alpha}=2\\operatorname{cosec}^2\\alpha$, where $\\sin\\alpha\\ne0$.",
+    "solution_text": "$\\begin{align*}\\mathrm{LHS}&=\\frac{1}{1-\\cos\\alpha}+\\frac{1}{1+\\cos\\alpha}\\\\&=\\frac{(1+\\cos\\alpha)+(1-\\cos\\alpha)}{(1-\\cos\\alpha)(1+\\cos\\alpha)}\\\\&=\\frac{2}{1-\\cos^2\\alpha}\\\\&=\\frac{2}{\\sin^2\\alpha}\\\\&=2\\operatorname{cosec}^2\\alpha\\\\&=\\mathrm{RHS}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $3(\\sec\\beta-\\tan\\beta)(\\sec\\beta+\\tan\\beta)+2(\\operatorname{cosec}\\beta-\\cot\\beta)(\\operatorname{cosec}\\beta+\\cot\\beta)$, where $\\sin\\beta\\ne0$ and $\\cos\\beta\\ne0$.",
+    "solution_text": "Expand each product as a difference of squares.\n$\\begin{align*}&\\mathrel{\\phantom{=}}3(\\sec\\beta-\\tan\\beta)(\\sec\\beta+\\tan\\beta)\\\\&\\quad+2(\\operatorname{cosec}\\beta-\\cot\\beta)(\\operatorname{cosec}\\beta+\\cot\\beta)\\\\&=3(\\sec^2\\beta-\\tan^2\\beta)+2(\\operatorname{cosec}^2\\beta-\\cot^2\\beta)\\\\&=3(1)+2(1)\\\\&=5.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $(\\cos\\gamma+4\\sin\\gamma)^2+(4\\cos\\gamma-\\sin\\gamma)^2$.",
+    "solution_text": "Expand both squares; their cross terms cancel.\n$\\begin{align*}&\\mathrel{\\phantom{=}}(\\cos\\gamma+4\\sin\\gamma)^2+(4\\cos\\gamma-\\sin\\gamma)^2\\\\&=\\cos^2\\gamma+8\\sin\\gamma\\cos\\gamma+16\\sin^2\\gamma\\\\&\\quad+16\\cos^2\\gamma-8\\sin\\gamma\\cos\\gamma+\\sin^2\\gamma\\\\&=17\\cos^2\\gamma+17\\sin^2\\gamma\\\\&=17(\\cos^2\\gamma+\\sin^2\\gamma)\\\\&=17.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

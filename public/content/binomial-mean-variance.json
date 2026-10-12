@@ -2,8 +2,8 @@
   "skillId": "binomial-mean-variance",
   "atomType": "R",
   "theory": {
-    "intro": "For $X\\sim\\mathrm{Bin}(n,p)$ the **mean** is $E(X)=np$ and the **variance** is $\\mathrm{Var}(X)=np(1-p)$. Each of the $n$ trials contributes a mean of $p$ and a variance of $p(1-p)$.",
-    "facts": [
+"intro": "For $X\\sim\\mathrm{Bin}(n,p)$ the **mean** is $E(X)=np$ and the **variance** is $\\mathrm{Var}(X)=np(1-p)$. Each of the $n$ trials contributes a mean of $p$ and a variance of $p(1-p)$.",
+"facts": [
 "$E(X)=np$ is the number of successes expected on average in $n$ trials.",
 "$\\mathrm{Var}(X)=np(1-p)$, which is $n$ times the variance $p(1-p)$ of one Bernoulli trial.",
 "The standard deviation is $\\sigma(X)=\\sqrt{np(1-p)}$, the square root of the variance.",
@@ -12,12 +12,26 @@
 "Once $p>0$ is known, $n=\\dfrac{E(X)}{p}$, and this must come out as a positive whole number. When $p=0$, both mean and variance are zero and these divisions cannot recover $n$.",
 "For fixed $n$, the variance $np(1-p)$ is largest when $p=0.5$ and shrinks as $p$ moves towards $0$ or $1$."
 ],
-    "steps": [
+"steps": [
       "Identify $n$ and $p$ from the context and state $X\\sim\\mathrm{Bin}(n,p)$",
       "Substitute into $E(X)=np$ and $\\mathrm{Var}(X)=np(1-p)$",
       "Take the square root of the variance if the standard deviation is required"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "$X\\sim\\mathrm{Bin}(32,0.25)$. Find $E(X)$, $\\mathrm{Var}(X)$ and $\\sigma(X)$, giving the standard deviation correct to two decimal places.",
+    "solution_text": "$\\begin{aligned} E(X)&=np\\\\ &=32(0.25)\\\\ &=8 \\end{aligned}$\n\n$\\begin{aligned} \\mathrm{Var}(X)&=np(1-p)\\\\ &=32(0.25)(0.75)\\\\ &=6 \\end{aligned}$\n\n$\\begin{aligned} \\sigma(X)&=\\sqrt{\\mathrm{Var}(X)}\\\\ &=\\sqrt{6}\\\\ &\\approx2.45 \\end{aligned}$"
   },
+  {
+    "question_text": "A student guesses independently on each of $50$ multiple-choice questions. Each question has five options, with one correct answer. Let $X$ be the number answered correctly. Find the mean, variance and standard deviation of $X$, giving the standard deviation correct to two decimal places.",
+    "solution_text": "Success: a question is answered correctly. There are $50$ independent trials, each with success probability $\\frac15$.\n\n$X\\sim\\mathrm{Bin}(50,0.2)$.\n\n$\\begin{aligned} E(X)&=np\\\\ &=50(0.2)\\\\ &=10 \\end{aligned}$\n\n$\\begin{aligned} \\mathrm{Var}(X)&=np(1-p)\\\\ &=50(0.2)(0.8)\\\\ &=8 \\end{aligned}$\n\n$\\begin{aligned} \\sigma(X)&=\\sqrt{8}\\\\ &\\approx2.83 \\end{aligned}$\n\nOn average, the student answers $10$ questions correctly."
+  },
+  {
+    "question_text": "$X\\sim\\mathrm{Bin}(n,p)$ has $E(X)=18$ and $\\mathrm{Var}(X)=7.2$. Find $n$ and $p$.",
+    "solution_text": "$np=18$ and $np(1-p)=7.2$.\n\nDivide the variance by the mean:\n\n$\\begin{aligned} 1-p&=\\frac{\\mathrm{Var}(X)}{E(X)}\\\\ &=\\frac{7.2}{18}\\\\ &=0.4 \\end{aligned}$\n\n$p=0.6$.\n\n$\\begin{aligned} n&=\\frac{E(X)}{p}\\\\ &=\\frac{18}{0.6}\\\\ &=30 \\end{aligned}$\n\nThus $n=30$ and $p=0.6$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

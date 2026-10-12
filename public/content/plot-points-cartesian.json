@@ -2,48 +2,70 @@
   "skillId": "plot-points-cartesian",
   "atomType": "R",
   "theory": {
-        "intro": "A point on the Cartesian plane is written as an **ordered pair** $(x, y)$: the $x$-coordinate first (across), then the $y$-coordinate (up or down). Coordinates need not be whole numbers — a point can sit between the gridlines.\n\n[tikz]\n\\begin{tikzpicture}[scale=0.7]\n\\draw[step=0.5,gray!18] (-3,-3) grid (3,3);\n\\draw[step=1,gray!40] (-3,-3) grid (3,3);\n\\draw[<->,thick] (-3.4,0)--(3.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[dashed,gray!70] (1.5,0)--(1.5,2);\n\\draw[dashed,gray!70] (0,2)--(1.5,2);\n\\fill (1.5,2) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (1.5,2) {$P(a,\\,b)$};\n\\node[below,font=\\footnotesize] at (1.5,-0.08) {$a$};\n\\node[left,font=\\footnotesize] at (-0.08,2) {$b$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
-          "Read or move the $x$-coordinate first (across), then the $y$-coordinate (up or down).",
-          "On these grids each small square is $0.5$ of a unit, so a value like $2.5$ sits **halfway** between the $2$ and $3$ lines.",
-          "A point on the $x$-axis has $y = 0$; a point on the $y$-axis has $x = 0$.",
-          "Points with the **same $x$-coordinate** line up vertically; points with the **same $y$-coordinate** line up horizontally.\n\n[tikz]\n\\begin{tikzpicture}[scale=0.7]\n\\draw[step=1,gray!40] (-3,-3) grid (3,3);\n\\draw[<->,thick] (-3.4,0)--(3.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[dashed,gray!70] (-2,-1.6)--(-2,2.6);\n\\fill (-2,2) circle (2.2pt);\n\\node[left,font=\\footnotesize] at (-2.15,2) {$A$};\n\\fill (-2,-1) circle (2.2pt);\n\\node[left,font=\\footnotesize] at (-2.15,-1) {$B$};\n\\draw[dashed,gray!70] (0.6,-2)--(2.9,-2);\n\\fill (1,-2) circle (2.2pt);\n\\node[below,font=\\footnotesize] at (1,-2.15) {$C$};\n\\fill (2.5,-2) circle (2.2pt);\n\\node[below,font=\\footnotesize] at (2.5,-2.15) {$D$};\n\\end{tikzpicture}\n[/tikz]"
-        ],
-        "steps": [
+"intro": "A point on the Cartesian plane is written as an **ordered pair** $(x, y)$: the $x$-coordinate first (across), then the $y$-coordinate (up or down). Coordinates need not be whole numbers — a point can sit between the gridlines.\n\n[tikz]\n\\begin{tikzpicture}[scale=0.7]\n\\draw[step=0.5,gray!18] (-3,-3) grid (3,3);\n\\draw[step=1,gray!40] (-3,-3) grid (3,3);\n\\draw[<->,thick] (-3.4,0)--(3.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[dashed,gray!70] (1.5,0)--(1.5,2);\n\\draw[dashed,gray!70] (0,2)--(1.5,2);\n\\fill (1.5,2) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (1.5,2) {$P(a,\\,b)$};\n\\node[below,font=\\footnotesize] at (1.5,-0.08) {$a$};\n\\node[left,font=\\footnotesize] at (-0.08,2) {$b$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
+"Read or move the $x$-coordinate first (across), then the $y$-coordinate (up or down).",
+"Read the grid's scale to find how much each square represents. In the first theory figure each small square is $0.5$ of a unit; in the second theory figure each square is $1$ unit. A value like $2.5$ sits **halfway** between the $2$ and $3$ lines.",
+"A point on the $x$-axis has $y = 0$; a point on the $y$-axis has $x = 0$.",
+"Points with the **same $x$-coordinate** line up vertically; points with the **same $y$-coordinate** line up horizontally.\n\n[tikz]\n\\begin{tikzpicture}[scale=0.7]\n\\draw[step=1,gray!40] (-3,-3) grid (3,3);\n\\draw[<->,thick] (-3.4,0)--(3.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[dashed,gray!70] (-2,-1.6)--(-2,2.6);\n\\fill (-2,2) circle (2.2pt);\n\\node[left,font=\\footnotesize] at (-2.15,2) {$A$};\n\\fill (-2,-1) circle (2.2pt);\n\\node[left,font=\\footnotesize] at (-2.15,-1) {$B$};\n\\draw[dashed,gray!70] (0.6,-2)--(2.9,-2);\n\\fill (1,-2) circle (2.2pt);\n\\node[below,font=\\footnotesize] at (1,-2.15) {$C$};\n\\fill (2.5,-2) circle (2.2pt);\n\\node[below,font=\\footnotesize] at (2.5,-2.15) {$D$};\n\\end{tikzpicture}\n[/tikz]"
+],
+"steps": [
           "Start at the origin $(0, 0)$.",
           "Move left or right by the $x$-coordinate.",
           "Move up or down by the $y$-coordinate.",
           "Mark and label the point."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Each small square represents $0.5$ unit on both axes.\n(a) Write the coordinates of $A$ and $B$.\n(b) Which labelled point has coordinates $(1.5,-2)$?\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,font=\\fontsize{10}{12}\\selectfont]\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\draw[step=4mm,gridcolour] (-3,-3) grid (3,3);\n\\draw[<->,black] (-3.3,0)--(3.3,0);\n\\draw[<->,black] (0,-3.3)--(0,3.3);\n\\path (3.3,0) node[right] {$x$} (0,3.3) node[above] {$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3} {\\draw[black] (\\v,-0.06)--(\\v,0.06);\\draw[black] (-0.06,\\v)--(0.06,\\v);\\path (\\v,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\\path (0,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\fill[black] (-2,1) circle (1.5pt) (1.5,-2) circle (1.5pt) (-1,-2) circle (1.5pt);\n\\path (-2,1) node[above left] {$A$} (1.5,-2) node[below right] {$B$} (-1,-2) node[below left] {$C$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Read across first, then up or down. $A$ is $2$ units left and $1$ unit up, so $A=(-2,1)$.\n\n$B$ is halfway between $1$ and $2$ across, and $2$ units down, so $B=(1.5,-2)$.\n\n(b) Starting at the origin, move $1.5$ units right and $2$ units down. This identifies $B$."
+  },
+  {
+    "question_text": "Plot and label $P(-2,1)$ and $Q(1.5,-1.5)$. Each small square represents $0.5$ unit on both axes.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,font=\\fontsize{10}{12}\\selectfont]\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\draw[step=4mm,gridcolour] (-3,-3) grid (3,3);\n\\draw[<->,black] (-3.3,0)--(3.3,0);\n\\draw[<->,black] (0,-3.3)--(0,3.3);\n\\path (3.3,0) node[right] {$x$} (0,3.3) node[above] {$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3} {\\draw[black] (\\v,-0.06)--(\\v,0.06);\\draw[black] (-0.06,\\v)--(0.06,\\v);\\path (\\v,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\\path (0,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "For $P$, start at the origin, move $2$ units left, then $1$ unit up. Mark and label the point.\n\nFor $Q$, move $1.5$ units right, then $1.5$ units down. Both coordinates fall halfway between integer gridlines.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,font=\\fontsize{10}{12}\\selectfont]\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\definecolor{answerblue}{HTML}{268CFF}\n\\draw[step=4mm,gridcolour] (-3,-3) grid (3,3);\n\\draw[<->,black] (-3.3,0)--(3.3,0);\n\\draw[<->,black] (0,-3.3)--(0,3.3);\n\\path (3.3,0) node[right,text=black] {$x$} (0,3.3) node[above,text=black] {$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3} {\\path (\\v,0) node[below,text=black,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\\path (0,\\v) node[left,text=black,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\draw[->,dashed,answerblue] (0,0)--(-2,0);\n\\draw[->,dashed,answerblue] (-2,0)--(-2,1);\n\\draw[->,dashed,answerblue] (0,0)--(1.5,0);\n\\draw[->,dashed,answerblue] (1.5,0)--(1.5,-1.5);\n\\fill[answerblue] (-2,1) circle (1.5pt) (1.5,-1.5) circle (1.5pt);\n\\path (-2,1) node[above left,text=answerblue] {$P$} (1.5,-1.5) node[below right,text=answerblue] {$Q$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "The points are $A(-1.5,2)$, $B(-1.5,-1)$ and $C(2,-1)$.\n(a) Which two points line up vertically? Which two line up horizontally?\n(b) $D$ lies directly below $A$ on the $x$-axis. Write its coordinates.\n(c) $E$ lies directly left of $C$ on the $y$-axis. Write its coordinates.",
+    "solution_text": "(a) $A$ and $B$ both have $x=-1.5$, so they line up vertically. $B$ and $C$ both have $y=-1$, so they line up horizontally.\n\n(b) $D$ keeps $A$'s $x$-coordinate. On the $x$-axis, $y=0$, so $D=(-1.5,0)$.\n\n(c) $E$ keeps $C$'s $y$-coordinate. On the $y$-axis, $x=0$, so $E=(0,-1)$.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,font=\\fontsize{10}{12}\\selectfont]\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\definecolor{answerblue}{HTML}{268CFF}\n\\draw[step=4mm,gridcolour] (-3,-2) grid (3,3);\n\\draw[<->,black] (-3.3,0)--(3.3,0);\n\\draw[<->,black] (0,-2.3)--(0,3.3);\n\\path (3.3,0) node[right,text=black] {$x$} (0,3.3) node[above,text=black] {$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3} {\\path (\\v,0) node[below,text=black,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\foreach \\v in {-2,-1,1,2,3} {\\path (0,\\v) node[left,text=black,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\draw[dashed,answerblue] (-1.5,2)--(-1.5,-1)--(2,-1);\n\\fill[black] (-1.5,2) circle (1.5pt) (-1.5,-1) circle (1.5pt) (2,-1) circle (1.5pt);\n\\path (-1.5,2) node[above left,text=black] {$A$} (-1.5,-1) node[below left,text=black] {$B$} (2,-1) node[below right,text=black] {$C$};\n\\fill[answerblue] (-1.5,0) circle (1.5pt) (0,-1) circle (1.5pt);\n\\path (-1.5,0) node[above left,text=answerblue] {$D$} (0,-1) node[above right,text=answerblue] {$E$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "$A(-1,2.5)$, $B(3,2.5)$ and $C(3,-2)$ are consecutive vertices of a rectangle whose sides are parallel to the axes. Find the coordinates of the fourth vertex $D$.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,font=\\fontsize{10}{12}\\selectfont]\n\\draw[black] (-1,2.5)--(3,2.5)--(3,-2);\n\\fill[black] (-1,2.5) circle (1.5pt) (3,2.5) circle (1.5pt) (3,-2) circle (1.5pt);\n\\path (-1,2.5) node[above left] {$A(-1,2.5)$} (3,2.5) node[above right] {$B(3,2.5)$} (3,-2) node[below right] {$C(3,-2)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$D$ is directly below $A$, so $x=-1$. It is directly left of $C$, so $y=-2$.\n\n$D=(-1,-2)$.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,font=\\fontsize{10}{12}\\selectfont]\n\\definecolor{answerblue}{HTML}{268CFF}\n\\draw[black] (-1,2.5)--(3,2.5)--(3,-2);\n\\draw[answerblue] (3,-2)--(-1,-2)--(-1,2.5);\n\\fill[black] (-1,2.5) circle (1.5pt) (3,2.5) circle (1.5pt) (3,-2) circle (1.5pt);\n\\fill[answerblue] (-1,-2) circle (1.5pt);\n\\path (-1,2.5) node[above left,text=black] {$A(-1,2.5)$} (3,2.5) node[above right,text=black] {$B(3,2.5)$} (3,-2) node[below right,text=black] {$C(3,-2)$} (-1,-2) node[below left,text=answerblue] {$D(-1,-2)$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Mia records $P$ as $(-2,1)$ and Noah records it as $(1,2)$. Write the correct coordinates and explain each mistake. Each square represents $1$ unit on both axes.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,font=\\fontsize{10}{12}\\selectfont]\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\draw[step=9mm,gridcolour] (-3,-3) grid (3,3);\n\\draw[<->,black] (-3.3,0)--(3.3,0);\n\\draw[<->,black] (0,-3.3)--(0,3.3);\n\\path (3.3,0) node[right] {$x$} (0,3.3) node[above] {$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3} {\\path (\\v,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\\path (0,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\fill[black] (1,-2) circle (1.5pt);\n\\path (1,-2) node[below right] {$P$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$P$ is $1$ unit right and $2$ units down, so $P=(1,-2)$.\n\nMia swapped the $x$- and $y$-coordinates. Noah used a positive $y$-coordinate even though $P$ is below the $x$-axis."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Write the coordinates of point $A$.\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=0.5,gray!18] (-4,-4) grid (4,4);\n\\draw[step=1,gray!40] (-4,-4) grid (4,4);\n\\draw[<->,thick] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-4,-3,-2,-1,1,2,3,4} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (-3,2) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (-3,2) {$A$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "read-noninteger-point",
+        "structure": "read-integer-point",
         "solution_text": "$A$ is $3$ units left and $2$ units up from the origin.\n$(-3, 2)$"
       },
-      {
+{
         "question_text": "Plot the point $B(3, -2)$ on the plane.\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=0.5,gray!18] (-4,-4) grid (4,4);\n\\draw[step=1,gray!40] (-4,-4) grid (4,4);\n\\draw[<->,thick] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-4,-3,-2,-1,1,2,3,4} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "plot-directions",
         "solution_text": "From the origin, move $3$ units right and $2$ units down.\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=0.5,gray!18] (-4,-4) grid (4,4);\n\\draw[step=1,gray!40] (-4,-4) grid (4,4);\n\\draw[<->,thick] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-4,-3,-2,-1,1,2,3,4} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (3,-2) circle (2.2pt);\n\\node[below right,font=\\footnotesize] at (3,-2) {$B$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Write the coordinates of point $C$.\nEach small square is $0.5$ of a unit.\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=0.5,gray!18] (-4,-4) grid (4,4);\n\\draw[step=1,gray!40] (-4,-4) grid (4,4);\n\\draw[<->,thick] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-4,-3,-2,-1,1,2,3,4} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (2,1.5) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (2,1.5) {$C$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "read-noninteger-point",
         "solution_text": "$C$ is $2$ units right, and halfway between $1$ and $2$ up.\n$(2, 1.5)$"
       },
-      {
+{
         "question_text": "Plot the point $D(-1.5, 3)$ on the plane.\nEach small square is $0.5$ of a unit.\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=0.5,gray!18] (-4,-4) grid (4,4);\n\\draw[step=1,gray!40] (-4,-4) grid (4,4);\n\\draw[<->,thick] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-4,-3,-2,-1,1,2,3,4} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "plot-directions",
         "solution_text": "From the origin, move $1.5$ units left (halfway between $-1$ and $-2$) and $3$ units up.\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=0.5,gray!18] (-4,-4) grid (4,4);\n\\draw[step=1,gray!40] (-4,-4) grid (4,4);\n\\draw[<->,thick] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-4,-3,-2,-1,1,2,3,4} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (-1.5,3) circle (2.2pt);\n\\node[above left,font=\\footnotesize] at (-1.5,3) {$D$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Write the coordinates of point $E$.\nEach small square is $0.5$ of a unit.\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=0.5,gray!18] (-4,-4) grid (4,4);\n\\draw[step=1,gray!40] (-4,-4) grid (4,4);\n\\draw[<->,thick] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-4,-3,-2,-1,1,2,3,4} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (-2.5,0) circle (2.2pt);\n\\node[above,font=\\footnotesize] at (-2.5,0.15) {$E$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "read-noninteger-point",
         "solution_text": "$E$ sits on the $x$-axis, so $y = 0$.\nIts $x$-value is halfway between $-2$ and $-3$.\n$(-2.5, 0)$"
       }
-    ],
+],
     "development": [
       {
         "question_text": "Write the coordinates of point $F$.\nEach small square is $0.5$ of a unit.\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=0.5,gray!18] (-4,-4) grid (4,4);\n\\draw[step=1,gray!40] (-4,-4) grid (4,4);\n\\draw[<->,thick] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-4,-3,-2,-1,1,2,3,4} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (-2.5,-1.5) circle (2.2pt);\n\\node[below left,font=\\footnotesize] at (-2.5,-1.5) {$F$};\n\\end{tikzpicture}\n[/tikz]",
@@ -72,21 +94,21 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "$P$, $Q$ and $R$ are three vertices of a rectangle whose sides are parallel to the axes.\nWrite the coordinates of the fourth vertex $S$.\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=0.5,gray!18] (-4,-4) grid (4,4);\n\\draw[step=1,gray!40] (-4,-4) grid (4,4);\n\\draw[<->,thick] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-4,-3,-2,-1,1,2,3,4} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\draw[thick] (-2,1.5)--(2,1.5)--(2,-1.5);\n\\fill (-2,1.5) circle (2.2pt);\n\\node[above left,font=\\footnotesize] at (-2,1.5) {$P$};\n\\fill (2,1.5) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (2,1.5) {$Q$};\n\\fill (2,-1.5) circle (2.2pt);\n\\node[below right,font=\\footnotesize] at (2,-1.5) {$R$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "rectangle-vertex",
         "solution_text": "$S$ is directly below $P$ and directly left of $R$.\n$S$ shares $P$'s $x$-value: $x = -2$.\n$S$ shares $R$'s $y$-value: $y = -1.5$.\n$(-2, -1.5)$\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=0.5,gray!18] (-4,-4) grid (4,4);\n\\draw[step=1,gray!40] (-4,-4) grid (4,4);\n\\draw[<->,thick] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-4,-3,-2,-1,1,2,3,4} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\draw[thick] (-2,1.5)--(2,1.5)--(2,-1.5);\n\\draw[thick,dashed] (2,-1.5)--(-2,-1.5)--(-2,1.5);\n\\fill (-2,1.5) circle (2.2pt);\n\\node[above left,font=\\footnotesize] at (-2,1.5) {$P$};\n\\fill (2,1.5) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (2,1.5) {$Q$};\n\\fill (2,-1.5) circle (2.2pt);\n\\node[below right,font=\\footnotesize] at (2,-1.5) {$R$};\n\\fill (-2,-1.5) circle (2.2pt);\n\\node[below left,font=\\footnotesize] at (-2,-1.5) {$S$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
-        "question_text": "A point is $4$ units right of the origin and $3$ units down.\nSam recorded it as $(-3, 4)$.\nWrite the correct coordinates and state Sam's mistake.",
+{
+        "question_text": "Sam recorded the coordinates of point $P$ as $(-3, 4)$.\nWrite the correct coordinates and state Sam's mistake.\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=1,gray!40] (-5,-5) grid (5,5);\n\\draw[<->,thick] (-5.4,0)--(5.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-5.4)--(0,5.4) node[above] {$y$};\n\\foreach \\x in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (4,-3) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (4,-3) {$P$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "diagnose-coordinates",
-        "solution_text": "Right means positive $x$, so $x = 4$.\nDown means negative $y$, so $y = -3$.\n$(4, -3)$\nSam swapped the two coordinates and used the wrong signs."
+        "solution_text": "Right means positive $x$, so $x = 4$.\nDown means negative $y$, so $y = -3$.\n$(4, -3)$\nSam swapped the two coordinates."
       },
-      {
+{
         "question_text": "Point $A(-3, 2.5)$ is plotted below.\nPoint $B$ lies directly below $A$, on the $x$-axis.\nWrite the coordinates of $B$.\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=0.5,gray!18] (-4,-4) grid (4,4);\n\\draw[step=1,gray!40] (-4,-4) grid (4,4);\n\\draw[<->,thick] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-4,-3,-2,-1,1,2,3,4} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (-3,2.5) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (-3,2.5) {$A$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "point-on-axis",
         "solution_text": "$B$ is directly below $A$, so it keeps the same $x$-value: $x = -3$.\n$B$ is on the $x$-axis, so $y = 0$.\n$(-3, 0)$\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=0.5,gray!18] (-4,-4) grid (4,4);\n\\draw[step=1,gray!40] (-4,-4) grid (4,4);\n\\draw[<->,thick] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-4,-3,-2,-1,1,2,3,4} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\draw[thick,dashed] (-3,2.5)--(-3,0);\n\\fill (-3,2.5) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (-3,2.5) {$A$};\n\\fill (-3,0) circle (2.2pt);\n\\node[below left,font=\\footnotesize] at (-3,0) {$B$};\n\\end{tikzpicture}\n[/tikz]"
       }
-    ]
+]
   }
 }

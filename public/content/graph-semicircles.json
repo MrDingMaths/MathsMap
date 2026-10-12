@@ -2,8 +2,8 @@
   "skillId": "graph-semicircles",
   "atomType": "R",
   "theory": {
-        "intro": "For $r>0$, solving the circle equation $x^2 + y^2 = r^2$ for $y$ or $x$ gives four separate **semicircle** branches. All four are **relations**. Each of $y = \\sqrt{r^2 - x^2}$ and $y = -\\sqrt{r^2 - x^2}$ separately is a **function** of $x$. The horizontal semicircles $x = \\sqrt{r^2 - y^2}$ and $x = -\\sqrt{r^2 - y^2}$ are not functions of $x$.",
-        "facts": [
+"intro": "For $r>0$, solving the circle equation $x^2 + y^2 = r^2$ for $y$ or $x$ gives four separate **semicircle** branches. All four are **relations**. Each of $y = \\sqrt{r^2 - x^2}$ and $y = -\\sqrt{r^2 - x^2}$ separately is a **function** of $x$. The horizontal semicircles $x = \\sqrt{r^2 - y^2}$ and $x = -\\sqrt{r^2 - y^2}$ are not functions of $x$.",
+"facts": [
 "$y = \\sqrt{r^2 - x^2}$ is the upper semicircle with radius $r$, domain $[-r, r]$, and range $[0, r]$.",
 "$y = -\\sqrt{r^2 - x^2}$ is the lower semicircle with radius $r$, domain $[-r, r]$, and range $[-r, 0]$.",
 "$x = \\sqrt{r^2 - y^2}$ is the right semicircle with radius $r$, domain $[0, r]$, and range $[-r, r]$.",
@@ -11,13 +11,31 @@
 "For $r>0$, each upper or lower branch separately passes the vertical line test and is a function of $x$. Together, $y = \\pm\\sqrt{r^2 - x^2}$ describes the full circle, which fails the vertical line test. Each horizontal semicircle also fails the vertical line test.",
 "The endpoints of $y = \\pm\\sqrt{r^2 - x^2}$ are $(-r, 0)$ and $(r, 0)$, while endpoints of $x = \\pm\\sqrt{r^2 - y^2}$ are $(0, -r)$ and $(0, r)$."
 ],
-        "steps": [
+"steps": [
           "Identify the radius $r = \\sqrt{r^2}$ and orientation from the sign and subject variable.",
           "State the domain and range in interval notation.",
           "Identify the coordinates of the endpoints and the peak or intercept.",
           "Sketch a circular arc of radius $r$ with equal scale on both axes."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Sketch each semicircle. State its radius, orientation, domain and range.\n(a) $y=\\sqrt{25-x^2}$\n(b) $y=-\\sqrt{25-x^2}$",
+    "solution_text": "For both semicircles, $r^2=25$, so $r=5$.\n\n(a) The positive square root gives the upper semicircle. Its endpoints are $(-5,0)$ and $(5,0)$, and its highest point is $(0,5)$.\nDomain: $[-5,5]$. Range: $[0,5]$.\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=5mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[<->,black] (-6,0)--(6,0) node[right] {$x$};\n\\draw[<->,black] (0,-1)--(0,6) node[above] {$y$};\n\\draw[thick,curveblue] (5,0) arc[start angle=0,end angle=180,radius=25mm];\n\\fill[black] (-5,0) circle[radius=1.5pt];\n\\fill[black] (5,0) circle[radius=1.5pt];\n\\fill[black] (0,5) circle[radius=1.5pt];\n\\path (-5,0) node[below] {$-5$} (5,0) node[below] {$5$} (0,5) node[above left] {$5$} (0,0) node[below left] {$O$};\n\\end{tikzpicture}\n[/tikz]\n\n(b) The negative square root gives the lower semicircle. Its endpoints are $(-5,0)$ and $(5,0)$, and its lowest point is $(0,-5)$.\nDomain: $[-5,5]$. Range: $[-5,0]$.\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=5mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[<->,black] (-6,0)--(6,0) node[right] {$x$};\n\\draw[<->,black] (0,-6)--(0,1) node[above] {$y$};\n\\draw[thick,curveblue] (-5,0) arc[start angle=180,end angle=360,radius=25mm];\n\\fill[black] (-5,0) circle[radius=1.5pt];\n\\fill[black] (5,0) circle[radius=1.5pt];\n\\fill[black] (0,-5) circle[radius=1.5pt];\n\\path (-5,0) node[above] {$-5$} (5,0) node[above] {$5$} (0,-5) node[below left] {$-5$} (0,0) node[above left] {$O$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Sketch each semicircle, labelling its endpoints and its $x$-intercept.\n(a) $x=\\sqrt{9-y^2}$\n(b) $x=-\\sqrt{9-y^2}$",
+    "solution_text": "For both semicircles, $r^2=9$, so $r=3$. Their endpoints are $(0,-3)$ and $(0,3)$.\n\n(a) Since $x\\geq0$, draw the right semicircle. Its $x$-intercept is $(3,0)$.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[<->,black] (-1,0)--(4,0) node[right] {$x$};\n\\draw[<->,black] (0,-4)--(0,4) node[above] {$y$};\n\\draw[thick,curveblue] (0,-3) arc[start angle=-90,end angle=90,radius=24mm];\n\\fill[black] (0,-3) circle[radius=1.5pt];\n\\fill[black] (0,3) circle[radius=1.5pt];\n\\fill[black] (3,0) circle[radius=1.5pt];\n\\path (0,-3) node[left] {$-3$} (0,3) node[left] {$3$} (3,0) node[below right] {$3$} (0,0) node[below left] {$O$};\n\\end{tikzpicture}\n[/tikz]\n\n(b) Since $x\\leq0$, draw the left semicircle. Its $x$-intercept is $(-3,0)$.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[<->,black] (-4,0)--(1,0) node[right] {$x$};\n\\draw[<->,black] (0,-4)--(0,4) node[above] {$y$};\n\\draw[thick,curveblue] (0,3) arc[start angle=90,end angle=270,radius=24mm];\n\\fill[black] (0,-3) circle[radius=1.5pt];\n\\fill[black] (0,3) circle[radius=1.5pt];\n\\fill[black] (-3,0) circle[radius=1.5pt];\n\\path (0,-3) node[right] {$-3$} (0,3) node[right] {$3$} (-3,0) node[below left] {$-3$} (0,0) node[below right] {$O$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Write the equation of this semicircle, centred at the origin. State its domain and range.\n[tikz]\n\\begin{tikzpicture}[x=16mm,y=16mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[<->,black] (-2.25,0)--(2.25,0) node[right] {$x$};\n\\draw[<->,black] (0,-2.25)--(0,0.6) node[above] {$y$};\n\\draw[thick,curveblue] (-1.75,0) arc[start angle=180,end angle=360,radius=28mm];\n\\fill[black] (-1.75,0) circle[radius=1.5pt];\n\\fill[black] (1.75,0) circle[radius=1.5pt];\n\\path (-1.75,0) node[above] {$-\\frac74$} (1.75,0) node[above] {$\\frac74$} (0,-1.75) node[below left] {$-\\frac74$} (0,0) node[above left] {$O$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The graph is a lower semicircle with radius $r=\\frac74$.\n$\\begin{aligned}r^2&=\\left(\\frac74\\right)^2\\\\&=\\frac{49}{16}\\end{aligned}$\nUse the lower branch $y=-\\sqrt{r^2-x^2}$.\nEquation: $y=-\\sqrt{\\frac{49}{16}-x^2}$.\nDomain: $\\left[-\\frac74,\\frac74\\right]$.\nRange: $\\left[-\\frac74,0\\right]$."
+  },
+  {
+    "question_text": "State the domain and range of the semicircle shown, using interval notation.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[<->,black] (-5,0)--(1,0) node[right] {$x$};\n\\draw[<->,black] (0,-5)--(0,5) node[above] {$y$};\n\\draw[thick,curveblue] (0,4) arc[start angle=90,end angle=270,radius=24mm];\n\\fill[black] (0,-4) circle[radius=1.5pt];\n\\fill[black] (0,4) circle[radius=1.5pt];\n\\path (0,-4) node[right] {$-4$} (0,4) node[right] {$4$} (-4,0) node[below left] {$-4$} (0,0) node[below right] {$O$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The graph extends horizontally from $x=-4$ to $x=0$, including both values.\nDomain: $[-4,0]$.\n\nIt extends vertically from $y=-4$ to $y=4$, including both values.\nRange: $[-4,4]$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,20 +2,50 @@
   "skillId": "exterior-angle-sum-polygon",
   "atomType": "R",
   "theory": {
-        "intro": "Extend one side of a convex polygon and it makes an **exterior angle** with the next side. Walking once around the polygon turns you through one full turn, so the exterior angles always add to $360^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, calc}\n\\coordinate (P1) at (2.2,-0.2);\n\\coordinate (P2) at (2.6,1.9);\n\\coordinate (P3) at (0.6,3.0);\n\\coordinate (P4) at (-1.4,1.7);\n\\coordinate (P5) at (-0.9,-0.5);\n\\draw (P1) -- (P2) -- (P3) -- (P4) -- (P5) -- cycle;\n\\coordinate (E1) at ($(P5)!1.35!(P1)$);\n\\coordinate (E2) at ($(P1)!1.5!(P2)$);\n\\coordinate (E3) at ($(P2)!1.5!(P3)$);\n\\coordinate (E4) at ($(P3)!1.5!(P4)$);\n\\coordinate (E5) at ($(P4)!1.5!(P5)$);\n\\draw[dashed] (P1) -- (E1);\n\\draw[dashed] (P2) -- (E2);\n\\draw[dashed] (P3) -- (E3);\n\\draw[dashed] (P4) -- (E4);\n\\draw[dashed] (P5) -- (E5);\n\\pic[draw, \"$a$\", angle radius=0.55cm, angle eccentricity=2] {angle = E1--P1--P2};\n\\pic[draw, \"$b$\", angle radius=0.55cm, angle eccentricity=2] {angle = E2--P2--P3};\n\\pic[draw, \"$c$\", angle radius=0.55cm, angle eccentricity=2] {angle = E3--P3--P4};\n\\pic[draw, \"$d$\", angle radius=0.55cm, angle eccentricity=2] {angle = E4--P4--P5};\n\\pic[draw, \"$e$\", angle radius=0.55cm, angle eccentricity=2] {angle = E5--P5--P1};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "Extend one side of a convex polygon and it makes an **exterior angle** with the next side. Walking once around the polygon turns you through one full turn, so the exterior angles always add to $360^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, calc}\n\\coordinate (P1) at (2.2,-0.2);\n\\coordinate (P2) at (2.6,1.9);\n\\coordinate (P3) at (0.6,3.0);\n\\coordinate (P4) at (-1.4,1.7);\n\\coordinate (P5) at (-0.9,-0.5);\n\\draw (P1) -- (P2) -- (P3) -- (P4) -- (P5) -- cycle;\n\\coordinate (E1) at ($(P5)!1.35!(P1)$);\n\\coordinate (E2) at ($(P1)!1.5!(P2)$);\n\\coordinate (E3) at ($(P2)!1.5!(P3)$);\n\\coordinate (E4) at ($(P3)!1.5!(P4)$);\n\\coordinate (E5) at ($(P4)!1.5!(P5)$);\n\\draw[dashed] (P1) -- (E1);\n\\draw[dashed] (P2) -- (E2);\n\\draw[dashed] (P3) -- (E3);\n\\draw[dashed] (P4) -- (E4);\n\\draw[dashed] (P5) -- (E5);\n\\pic[draw, \"$a$\", angle radius=0.55cm, angle eccentricity=2] {angle = E1--P1--P2};\n\\pic[draw, \"$b$\", angle radius=0.55cm, angle eccentricity=2] {angle = E2--P2--P3};\n\\pic[draw, \"$c$\", angle radius=0.55cm, angle eccentricity=2] {angle = E3--P3--P4};\n\\pic[draw, \"$d$\", angle radius=0.55cm, angle eccentricity=2] {angle = E4--P4--P5};\n\\pic[draw, \"$e$\", angle radius=0.55cm, angle eccentricity=2] {angle = E5--P5--P1};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "The exterior angles of any convex polygon add to $360^{\\circ}$.",
           "An interior angle and its exterior angle lie on a straight line, so they add to $180^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (A) at (-2.6,0);\n\\coordinate (V) at (0,0);\n\\coordinate (E) at (2.0,0);\n\\coordinate (B) at (-1.3,1.9);\n\\draw (A) -- (V);\n\\draw (V) -- (B);\n\\draw[dashed] (V) -- (E);\n\\pic[draw, \"$i$\", angle radius=0.6cm, angle eccentricity=2] {angle = B--V--A};\n\\pic[draw, \"$e$\", angle radius=0.95cm, angle eccentricity=1.65] {angle = E--V--B};\n\\end{tikzpicture}\n[/tikz]",
           "To find a missing exterior angle, subtract the known exterior angles from $360^{\\circ}$.",
           "This holds for every convex polygon, whatever the number of sides.",
           "If one exterior angle differs and the rest are equal, form an equation such as $A+B(n-1)=360$ to find the number of sides $n$."
         ],
-        "steps": [
+"steps": [
           "Add the known exterior angles.",
           "Set the total equal to $360^{\\circ}$.",
           "Solve for the unknown."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Find the exterior angle $x$ of this triangle.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (0,3);\n\\draw (A)--(B)--(C)--cycle;\n\\draw (A)--(0,-1);\n\\draw (B)--(4,0);\n\\draw (C)--(-0.7,3.7);\n\\draw (0,-0.4) arc[start angle=-90,end angle=0,radius=0.4];\n\\draw (3.4,0) arc[start angle=0,end angle=135,radius=0.4];\n\\draw (-0.283,3.283) arc[start angle=135,end angle=270,radius=0.4];\n\\path (0.6,-0.55) node {$90^{\\circ}$};\n\\path (3.55,0.6) node {$135^{\\circ}$};\n\\path (-0.65,2.75) node {$x$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The exterior angles of a convex polygon add to $360^{\\circ}$.\n\n$\\begin{align*}x+90+135&=360\\\\x+225&=360\\\\x&=135^{\\circ}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Four exterior angles of a convex pentagon are $55^{\\circ}$, $65^{\\circ}$, $80^{\\circ}$ and $95^{\\circ}$. The interior angle at the remaining vertex is $(5x+15)^{\\circ}$. Find $x$.",
+    "solution_text": "Let $E$ be the remaining exterior angle. The exterior angles add to $360^{\\circ}$.\n\n$\\begin{align*}E+55+65+80+95&=360\\\\E+295&=360\\\\E&=65^{\\circ}\\end{align*}$\n\nThe interior and exterior angles at that vertex are supplementary.\n\n$\\begin{align*}5x+15+65&=180\\\\5x+80&=180\\\\5x&=100\\\\x&=20\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the number of sides of each convex irregular polygon.\n\n(a) One exterior angle is $110^{\\circ}$ and every other exterior angle is $10^{\\circ}$.\n\n(b) Two exterior angles are each twice the size of the others. The other exterior angles are $12^{\\circ}$ each.\n\n(c) Three exterior angles are $30^{\\circ}$ each and every other exterior angle is $15^{\\circ}$.",
+    "solution_text": "Let $n$ be the number of sides. There is one exterior angle per vertex, and their sum is $360^{\\circ}$.\n\n(a) There are $n-1$ angles of $10^{\\circ}$.\n\n$\\begin{align*}110+10(n-1)&=360\\\\10(n-1)&=250\\\\n-1&=25\\\\n&=26\\end{align*}$\n\nThe polygon has $26$ sides.\n\n(b) Each special angle is $2\\times12=24^{\\circ}$. There are $n-2$ other angles.\n\n$\\begin{align*}2(24)+12(n-2)&=360\\\\48+12(n-2)&=360\\\\12(n-2)&=312\\\\n-2&=26\\\\n&=28\\end{align*}$\n\nThe polygon has $28$ sides.\n\n(c) There are $n-3$ angles of $15^{\\circ}$.\n\n$\\begin{align*}3(30)+15(n-3)&=360\\\\90+15(n-3)&=360\\\\15(n-3)&=270\\\\n-3&=18\\\\n&=21\\end{align*}$\n\nThe polygon has $21$ sides.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Four exterior angles of a convex pentagon, in order, are $80^{\\circ}$, $55^{\\circ}$, $75^{\\circ}$ and $85^{\\circ}$. Find all five interior angles in the same order.",
+    "solution_text": "Let $E$ be the fifth exterior angle. The exterior angles add to $360^{\\circ}$.\n\n$\\begin{align*}E+80+55+75+85&=360\\\\E+295&=360\\\\E&=65^{\\circ}\\end{align*}$\n\nEach interior angle is supplementary to its exterior angle.\n\n$\\begin{align*}I_1&=180-80=100^{\\circ}\\\\I_2&=180-55=125^{\\circ}\\\\I_3&=180-75=105^{\\circ}\\\\I_4&=180-85=95^{\\circ}\\\\I_5&=180-65=115^{\\circ}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

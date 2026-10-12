@@ -2,8 +2,8 @@
   "skillId": "solve-network-problems",
   "atomType": "R",
   "theory": {
-        "intro": "**Network diagrams** model real-world systems such as roads, delivery routes, and pipelines. Solving network problems involves calculating total travel times or distances along routes, comparing paths, and finding paths that meet practical constraints.",
-        "facts": [
+"intro": "**Network diagrams** model real-world systems such as roads, delivery routes, and pipelines. Solving network problems involves calculating total travel times or distances along routes, comparing paths, and finding paths that meet practical constraints.",
+"facts": [
 "The **total weight of a path** is the sum of the weights of its edges: $\\text{Weight}(A\\text{–}B\\text{–}C) = w(AB) + w(BC)$.",
 "A **path** is a walk with no repeated edges or vertices, except that the starting vertex may also be the finishing vertex in a cycle.",
 "In a **directed network**, any valid route must travel only in the direction of the edge arrows.",
@@ -11,12 +11,42 @@
 "The shortest route between two vertices is the path with the smallest sum of edge weights.",
 "A **closed walk** starts and finishes at the same vertex and may repeat other vertices or edges. A **cycle** is a closed path with no repeated edges and no repeated vertices apart from its starting and finishing vertex."
 ],
-        "steps": [
+"steps": [
           "Trace the sequence of vertices along valid edges",
           "Sum the weights of the traversed edges",
           "Compare candidate routes or interpret the total in context"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A network models water pipes connecting four storage tanks. Vertices represent tanks, edges represent pipes, and edge weights give pipe lengths in metres. What does an edge labelled $24$ between vertices $P$ and $Q$ represent?",
+    "solution_text": "A pipe connects tanks $P$ and $Q$. Its length is $24\\text{ m}$."
+  },
+  {
+    "question_text": "A shuttle travels around this one-way loop. Edge weights are travel times in minutes.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,2); \\coordinate (B) at (4,2); \\coordinate (C) at (4,0); \\coordinate (D) at (0,0);\n\\draw (A)--(B) node[midway,above] {$4$};\n\\draw (B)--(C) node[midway,right] {$3$};\n\\draw (C)--(D) node[midway,below] {$5$};\n\\draw (D)--(A) node[midway,left] {$2$};\n\\draw[->,>=stealth,line width=0.8pt] (1.6,2)--(2.4,2);\n\\draw[->,>=stealth,line width=0.8pt] (4,1.4)--(4,0.6);\n\\draw[->,>=stealth,line width=0.8pt] (2.4,0)--(1.6,0);\n\\draw[->,>=stealth,line width=0.8pt] (0,0.6)--(0,1.4);\n\\foreach \\v/\\p in {A/above left,B/above right,C/below right,D/below left}{\\fill (\\v) circle (2pt) node[\\p] {$\\v$};}\n\\end{tikzpicture}\n[/tikz]\na. Calculate the time from $A$ to $D$.\nb. Calculate the time for the walk $A\\text{–}B\\text{–}C\\text{–}D\\text{–}A\\text{–}B$.",
+    "solution_text": "a. Follow the arrows along $A\\text{–}B\\text{–}C\\text{–}D$.\n$\\begin{aligned}\\text{Time}&=4+3+5\\\\&=12\\text{ minutes}\\end{aligned}$\n\nb. Count each journey along an edge, including the second journey from $A$ to $B$.\n$\\begin{aligned}\\text{Time}&=4+3+5+2+4\\\\&=18\\text{ minutes}\\end{aligned}$\nThe supplied walk finishes at $B$, so it is not closed."
+  },
+  {
+    "question_text": "The diagram shows travel times in minutes between Home ($H$) and School ($S$).\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (H) at (0,1); \\coordinate (P) at (2.5,2.3); \\coordinate (Q) at (2.5,-0.3); \\coordinate (S) at (5,1);\n\\draw (H)--(P) node[midway,above left] {$7$};\n\\draw (P)--(S) node[midway,above right] {$9$};\n\\draw (H)--(Q) node[midway,below left] {$5$};\n\\draw (Q)--(S) node[midway,below right] {$8$};\n\\fill (H) circle (2pt) node[left] {$H$}; \\fill (P) circle (2pt) node[above] {$P$};\n\\fill (Q) circle (2pt) node[below] {$Q$}; \\fill (S) circle (2pt) node[right] {$S$};\n\\end{tikzpicture}\n[/tikz]\nCompare $H\\text{–}P\\text{–}S$ and $H\\text{–}Q\\text{–}S$. Which is faster, and by how many minutes?",
+    "solution_text": "$\\begin{aligned}\\text{Time via }P&=7+9\\\\&=16\\text{ minutes}\\end{aligned}$\n\n$\\begin{aligned}\\text{Time via }Q&=5+8\\\\&=13\\text{ minutes}\\end{aligned}$\n\n$\\begin{aligned}\\text{Time saved}&=16-13\\\\&=3\\text{ minutes}\\end{aligned}$\nThe route $H\\text{–}Q\\text{–}S$ is faster by $3\\text{ minutes}$."
+  },
+  {
+    "question_text": "The edge weights are distances in kilometres.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,1); \\coordinate (B) at (2.5,2.4); \\coordinate (C) at (2.5,-0.4); \\coordinate (D) at (5,1);\n\\draw (A)--(B) node[midway,above left] {$4$};\n\\draw (B)--(D) node[midway,above right] {$9$};\n\\draw (A)--(C) node[midway,below left] {$6$};\n\\draw (C)--(D) node[midway,below right] {$10$};\n\\draw (B)--(C) node[midway,right] {$3$};\n\\fill (A) circle (2pt) node[left] {$A$}; \\fill (B) circle (2pt) node[above] {$B$};\n\\fill (C) circle (2pt) node[below] {$C$}; \\fill (D) circle (2pt) node[right] {$D$};\n\\end{tikzpicture}\n[/tikz]\nFind a path from $A$ to $D$ with total distance $17\\text{ km}$.",
+    "solution_text": "Test the path $A\\text{–}B\\text{–}C\\text{–}D$.\n$\\begin{aligned}\\text{Distance}&=4+3+10\\\\&=17\\text{ km}\\end{aligned}$\nA suitable path is $A\\text{–}B\\text{–}C\\text{–}D$."
+  },
+  {
+    "question_text": "Cable segments have latencies in milliseconds. Route $P\\text{–}Q\\text{–}R\\text{–}S$ has total latency $43\\text{ ms}$, and route $Q\\text{–}R\\text{–}T\\text{–}U$ has total latency $50\\text{ ms}$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (P) at (0,1); \\coordinate (Q) at (1.8,1); \\coordinate (R) at (3.6,1);\n\\coordinate (S) at (5.4,2); \\coordinate (T) at (5.4,0); \\coordinate (U) at (7.2,0);\n\\draw (P)--(Q) node[midway,above] {$12$};\n\\draw (Q)--(R) node[midway,above] {$x$};\n\\draw (R)--(S) node[midway,above left] {$15$};\n\\draw (R)--(T) node[midway,below left] {$y$};\n\\draw (T)--(U) node[midway,below] {$17$};\n\\fill (P) circle (2pt) node[left] {$P$}; \\fill (Q) circle (2pt) node[below] {$Q$};\n\\fill (R) circle (2pt) node[above] {$R$}; \\fill (S) circle (2pt) node[right] {$S$};\n\\fill (T) circle (2pt) node[below] {$T$}; \\fill (U) circle (2pt) node[right] {$U$};\n\\end{tikzpicture}\n[/tikz]\nFind $x$ and $y$.",
+    "solution_text": "Use the total for the first route.\n$\\begin{aligned}12+x+15&=43\\\\27+x&=43\\\\x&=16\\end{aligned}$\n\nSubstitute $x=16$ into the second route total.\n$\\begin{aligned}16+y+17&=50\\\\33+y&=50\\\\y&=17\\end{aligned}$\nThe segment latencies are $x=16\\text{ ms}$ and $y=17\\text{ ms}$."
+  },
+  {
+    "question_text": "These are all the flight connections in a network. Each row gives the total flights available per day on that connection.\n\n| Connection | Flights per day |\n| --- | ---: |\n| Sydney–Brisbane | 8 |\n| Sydney–Melbourne | 12 |\n| Sydney–Adelaide | 6 |\n| Brisbane–Melbourne | 5 |\n\na. Find the total flights available per day across the network.\nb. The maximum numbers of passengers who can depart Sydney daily for Brisbane, Melbourne and Adelaide are $960$, $1800$ and $720$, respectively. Find the maximum daily departures from Sydney.",
+    "solution_text": "a. Count each connection once.\n$\\begin{aligned}\\text{Total flights}&=8+12+6+5\\\\&=31\\text{ flights per day}\\end{aligned}$\n\nb. Add the passenger capacities for the three connections departing Sydney.\n$\\begin{aligned}\\text{Maximum departures}&=960+1800+720\\\\&=3480\\text{ passengers per day}\\end{aligned}$"
+  },
+  {
+    "question_text": "A tanker starts at station $A$ and must visit stations $B$, $C$ and $D$ once each. Road distances are in kilometres.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0); \\coordinate (B) at (0,2.5); \\coordinate (C) at (4,2.5); \\coordinate (D) at (4,0);\n\\draw (A)--(B) node[midway,left] {$12$};\n\\draw (B)--(C) node[midway,above] {$16$};\n\\draw (C)--(D) node[midway,right] {$14$};\n\\draw (D)--(A) node[midway,below] {$23$};\n\\draw (B)--(D) node[pos=0.3,fill=white,inner sep=1pt] {$21$};\n\\fill (A) circle (2pt) node[below left] {$A$}; \\fill (B) circle (2pt) node[above left] {$B$};\n\\fill (C) circle (2pt) node[above right] {$C$}; \\fill (D) circle (2pt) node[below right] {$D$};\n\\end{tikzpicture}\n[/tikz]\na. Compare the candidate paths $A\\text{–}B\\text{–}C\\text{–}D$ and $A\\text{–}B\\text{–}D\\text{–}C$. Which is shorter?\nb. If the tanker uses the first path and then returns directly from $D$ to $A$, find its total distance.",
+    "solution_text": "a. Both candidate paths visit each required station once.\n$\\begin{aligned}\\text{First path}&=12+16+14\\\\&=42\\text{ km}\\end{aligned}$\n\n$\\begin{aligned}\\text{Second path}&=12+21+14\\\\&=47\\text{ km}\\end{aligned}$\nThe first candidate path, $A\\text{–}B\\text{–}C\\text{–}D$, is shorter.\n\nb. Include the return edge $DA$.\n$\\begin{aligned}\\text{Closed tour distance}&=42+23\\\\&=65\\text{ km}\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

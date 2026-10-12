@@ -2,8 +2,8 @@
   "skillId": "prove-congruent-triangles",
   "atomType": "R",
   "theory": {
-        "intro": "A formal proof of congruence names the two triangles with vertices in matching order, gives three pairs of equal parts with a reason for each, then states the test. Matching sides and angles of congruent triangles are then equal.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings,angles,quotes}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n  tickmark2/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-2pt,-4pt) -- (-2pt,4pt);\n                               \\draw[black] (2pt,-4pt) -- (2pt,4pt);}}}},\n}\n\\coordinate (B) at (0,0);\n\\coordinate (A) at (0.9,2.3);\n\\coordinate (C) at (2.8,0);\n\\coordinate (Q) at (4.2,0);\n\\coordinate (P) at (5.1,2.3);\n\\coordinate (R) at (7.0,0);\n\\draw[tickmark] (B)--(A);\n\\draw[tickmark2] (B)--(C);\n\\draw (A)--(C);\n\\draw[tickmark] (Q)--(P);\n\\draw[tickmark2] (Q)--(R);\n\\draw (P)--(R);\n\\pic[draw, angle radius=0.55cm] {angle=C--B--A};\n\\pic[draw, angle radius=0.55cm] {angle=R--Q--P};\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[above] at (P) {$P$};\n\\node[below left] at (Q) {$Q$};\n\\node[below right] at (R) {$R$};\n\\node at (3.5,-1.3) {$\\triangle ABC \\equiv \\triangle PQR$ (SAS)};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "A formal proof of congruence names the two triangles with vertices in matching order, gives three pairs of equal parts with a reason for each, then states the test. Matching sides and angles of congruent triangles are then equal.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings,angles,quotes}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n  tickmark2/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-2pt,-4pt) -- (-2pt,4pt);\n                               \\draw[black] (2pt,-4pt) -- (2pt,4pt);}}}},\n}\n\\coordinate (B) at (0,0);\n\\coordinate (A) at (0.9,2.3);\n\\coordinate (C) at (2.8,0);\n\\coordinate (Q) at (4.2,0);\n\\coordinate (P) at (5.1,2.3);\n\\coordinate (R) at (7.0,0);\n\\draw[tickmark] (B)--(A);\n\\draw[tickmark2] (B)--(C);\n\\draw (A)--(C);\n\\draw[tickmark] (Q)--(P);\n\\draw[tickmark2] (Q)--(R);\n\\draw (P)--(R);\n\\pic[draw, angle radius=0.55cm] {angle=C--B--A};\n\\pic[draw, angle radius=0.55cm] {angle=R--Q--P};\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[above] at (P) {$P$};\n\\node[below left] at (Q) {$Q$};\n\\node[below right] at (R) {$R$};\n\\node at (3.5,-1.3) {$\\triangle ABC \\equiv \\triangle PQR$ (SAS)};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "Keep corresponding vertices in the same order: $\\Delta ABC \\equiv \\Delta EDC$ means $A\\leftrightarrow E$, $B\\leftrightarrow D$ and $C\\leftrightarrow C$.",
           "Each line of the proof states one pair of equal parts and gives its reason.",
           "Common reasons are **given** (marked on the diagram), **common** side, **vertically opposite** angles, angles on **parallel lines**, and **equal radii**.",
@@ -12,13 +12,71 @@
           "Finish with $\\therefore$ and the abbreviated test: **SSS**, **SAS**, **AAS** or **RHS**.",
           "**Matching parts of congruent triangles are equal**, so you can then prove lines equal, parallel or perpendicular, or a triangle isosceles."
         ],
-        "steps": [
+"steps": [
           "Name the two triangles with vertices in matching order.",
           "List three pairs of equal parts, each with its reason.",
           "State the congruence test that the three pairs satisfy.",
           "If asked, use matching parts of the congruent triangles to draw a further conclusion."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "The quadrilateral has $AB=CD=7\\text{ cm}$ and $AD=CB=4\\text{ cm}$. Prove that $\\Delta ABD\\equiv\\Delta CDB$, and hence that $AD\\parallel BC$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,2);\\coordinate (B) at (3.5,2);\\coordinate (C) at (4.5,0);\\coordinate (D) at (1,0);\n\\draw (A)--(B)--(C)--(D)--cycle (B)--(D);\n\\path (A) node[above left] {$A$} (B) node[above right] {$B$} (C) node[below right] {$C$} (D) node[below left] {$D$};\n\\path (1.75,2) node[above] {$7\\text{ cm}$} (2.75,0) node[below] {$7\\text{ cm}$} (0.5,1) node[left] {$4\\text{ cm}$} (4,1) node[right] {$4\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "In $\\Delta ABD$ and $\\Delta CDB$:\n\n$AB=CD$ (given)\n\n$AD=CB$ (given)\n\n$BD$ is common.\n\n$\\therefore\\Delta ABD\\equiv\\Delta CDB$ (SSS).\n\n$\\angle ADB=\\angle CBD$ (corresponding angles in congruent triangles).\n\n$\\therefore AD\\parallel BC$ (equal alternate angles).",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$AC$ and $DB$ intersect at $E$. Given $AE=CE=5\\text{ cm}$ and $DE=BE=3\\text{ cm}$, prove that $\\Delta AED\\equiv\\Delta CEB$. Hence prove that $\\angle EAD=\\angle ECB$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (E) at (0,0);\\coordinate (A) at (-2,1);\\coordinate (C) at (2,-1);\\coordinate (D) at (-1.2,-0.8);\\coordinate (B) at (1.2,0.8);\n\\draw (A)--(C) (D)--(B) (A)--(D) (C)--(B);\n\\path (A) node[above left] {$A$} (C) node[below right] {$C$} (D) node[below left] {$D$} (B) node[above right] {$B$} (E) node[above] {$E$};\n\\path (-1,0.5) node[above left] {$5\\text{ cm}$} (1,-0.5) node[below right] {$5\\text{ cm}$} (-0.6,-0.4) node[below] {$3\\text{ cm}$} (0.6,0.4) node[above right] {$3\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "In $\\Delta AED$ and $\\Delta CEB$:\n\n$AE=CE$ (given)\n\n$\\angle AED=\\angle CEB$ (vertically opposite angles)\n\n$DE=BE$ (given).\n\nThe equal angle is included between the two equal sides.\n\n$\\therefore\\Delta AED\\equiv\\Delta CEB$ (SAS).\n\n$\\angle EAD=\\angle ECB$ (corresponding angles in congruent triangles).",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$AE$ and $BD$ intersect at $C$, with $AB\\parallel DE$ and $BC=DC=4\\text{ cm}$. Prove that $\\Delta ABC\\equiv\\Delta EDC$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (C) at (0,0);\\coordinate (A) at (-2,1);\\coordinate (E) at (2,-1);\\coordinate (B) at (-1.5,-1);\\coordinate (D) at (1.5,1);\n\\draw (A)--(E) (B)--(D) (A)--(B) (D)--(E);\n\\draw[->] (-1.82,0.28)--(-1.73,-0.08);\\draw[->] (1.68,0.28)--(1.77,-0.08);\n\\path (A) node[above left] {$A$} (B) node[below left] {$B$} (D) node[above right] {$D$} (E) node[below right] {$E$} (C) node[above] {$C$};\n\\path (-0.75,-0.5) node[below] {$4\\text{ cm}$} (0.75,0.5) node[above] {$4\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "In $\\Delta ABC$ and $\\Delta EDC$:\n\n$\\angle ACB=\\angle ECD$ (vertically opposite angles)\n\n$\\angle BAC=\\angle DEC$ (alternate angles, $AB\\parallel DE$)\n\n$BC=DC$ (given).\n\n$\\therefore\\Delta ABC\\equiv\\Delta EDC$ (AAS).",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$PQ=PR=10\\text{ cm}$, $S$ lies on $QR$, and $PS\\perp QR$. Prove that $\\Delta PSQ\\equiv\\Delta PSR$, and hence that $S$ is the midpoint of $QR$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (P) at (0,3);\\coordinate (Q) at (-1.8,0);\\coordinate (R) at (1.8,0);\\coordinate (S) at (0,0);\n\\draw (P)--(Q)--(R)--cycle (P)--(S);\\draw (0.25,0)--(0.25,0.25)--(0,0.25);\n\\path (P) node[above] {$P$} (Q) node[below left] {$Q$} (R) node[below right] {$R$} (S) node[below] {$S$};\n\\path (-0.9,1.5) node[left] {$10\\text{ cm}$} (0.9,1.5) node[right] {$10\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "In $\\Delta PSQ$ and $\\Delta PSR$:\n\n$\\angle PSQ=\\angle PSR=90^\\circ$ ($PS\\perp QR$)\n\n$PQ=PR$ (given hypotenuses)\n\n$PS$ is common.\n\n$\\therefore\\Delta PSQ\\equiv\\Delta PSR$ (RHS).\n\n$QS=RS$ (corresponding sides in congruent triangles).\n\nSince $S$ lies on $QR$, $S$ is its midpoint.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$O$ is the centre of a circle of radius $3\\text{ cm}$. $AD$ and $BC$ are diameters. Prove that $\\Delta AOB\\equiv\\Delta DOC$, and hence that $AB\\parallel CD$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\\coordinate (A) at (-1.732,1);\\coordinate (D) at (1.732,-1);\\coordinate (B) at (0,2);\\coordinate (C) at (0,-2);\n\\draw (O) circle (2);\\draw (A)--(D) (B)--(C) (A)--(B) (D)--(C);\\fill[black] (O) circle (1.2pt);\n\\path (O) node[below left] {$O$} (A) node[left] {$A$} (B) node[above] {$B$} (C) node[below] {$C$} (D) node[right] {$D$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "In $\\Delta AOB$ and $\\Delta DOC$:\n\n$OA=OD$ (radii of the same circle)\n\n$\\angle AOB=\\angle DOC$ (vertically opposite angles)\n\n$OB=OC$ (radii of the same circle).\n\n$\\therefore\\Delta AOB\\equiv\\Delta DOC$ (SAS).\n\n$\\angle OAB=\\angle ODC$ (corresponding angles in congruent triangles).\n\n$\\therefore AB\\parallel CD$ (equal alternate angles).",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$O$ is the centre of the circle. $D$ is the midpoint of chord $AB$, with $AD=DB=2\\text{ cm}$. Use congruent triangles to prove that $OD\\perp AB$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\\coordinate (A) at (-1.6,-1.2);\\coordinate (B) at (1.6,-1.2);\\coordinate (D) at (0,-1.2);\n\\draw (O) circle (2);\\draw (O)--(A)--(B)--(O) (O)--(D);\\fill[black] (O) circle (1.2pt);\n\\path (O) node[above] {$O$} (A) node[below left] {$A$} (B) node[below right] {$B$} (D) node[below] {$D$};\n\\path (-0.8,-1.2) node[below] {$2\\text{ cm}$} (0.8,-1.2) node[below] {$2\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "In $\\Delta OAD$ and $\\Delta OBD$:\n\n$OA=OB$ (radii of the same circle)\n\n$AD=BD$ (given)\n\n$OD$ is common.\n\n$\\therefore\\Delta OAD\\equiv\\Delta OBD$ (SSS).\n\n$\\angle ODA=\\angle ODB$ (corresponding angles in congruent triangles).\n\n$\\angle ODA+\\angle ODB=180^\\circ$ (angles on the straight line $AB$).\n\nThe angles are equal and sum to $180^\\circ$, so each is $90^\\circ$.\n\n$\\therefore OD\\perp AB$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$A$, $B$ and $C$ lie on a straight line, $BD\\perp AC$, and $\\angle ADB=\\angle CDB=35^\\circ$. Prove that $\\Delta ABD\\equiv\\Delta CBD$, and hence that $\\Delta ACD$ is isosceles.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (-1.68,0);\\coordinate (B) at (0,0);\\coordinate (C) at (1.68,0);\\coordinate (D) at (0,2.4);\n\\draw (A)--(C)--(D)--cycle (D)--(B);\\draw (0.25,0)--(0.25,0.25)--(0,0.25);\n\\path (A) node[below left] {$A$} (B) node[below] {$B$} (C) node[below right] {$C$} (D) node[above] {$D$};\n\\path (-0.38,1.55) node {$35^\\circ$} (0.38,1.55) node {$35^\\circ$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "In $\\Delta ABD$ and $\\Delta CBD$:\n\n$\\angle ABD=\\angle CBD=90^\\circ$ ($BD\\perp AC$)\n\n$\\angle ADB=\\angle CDB$ (given)\n\n$BD$ is common.\n\n$\\therefore\\Delta ABD\\equiv\\Delta CBD$ (AAS).\n\n$AD=CD$ (corresponding sides in congruent triangles).\n\n$\\therefore\\Delta ACD$ is isosceles (two equal sides).",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$AB=AD=3\\text{ cm}$ and $\\angle ABC=\\angle ADC=90^\\circ$. Prove that $\\Delta ABC\\equiv\\Delta ADC$, and hence that $AC$ bisects $\\angle BAD$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\\coordinate (B) at (1,1.732);\\coordinate (C) at (4,0);\\coordinate (D) at (1,-1.732);\n\\draw (A)--(B)--(C)--(D)--cycle (A)--(C);\n\\coordinate (b1) at ($(B)!0.25cm!(A)$);\\coordinate (b2) at ($(B)!0.25cm!(C)$);\\draw (b1)--($(b1)+(b2)-(B)$)--(b2);\n\\coordinate (d1) at ($(D)!0.25cm!(A)$);\\coordinate (d2) at ($(D)!0.25cm!(C)$);\\draw (d1)--($(d1)+(d2)-(D)$)--(d2);\n\\path (A) node[left] {$A$} (B) node[above] {$B$} (C) node[right] {$C$} (D) node[below] {$D$};\n\\path (0.5,0.866) node[left] {$3\\text{ cm}$} (0.5,-0.866) node[left] {$3\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "In $\\Delta ABC$ and $\\Delta ADC$:\n\n$\\angle ABC=\\angle ADC=90^\\circ$ (given)\n\n$AC$ is the common hypotenuse.\n\n$AB=AD$ (given).\n\n$\\therefore\\Delta ABC\\equiv\\Delta ADC$ (RHS).\n\n$\\angle BAC=\\angle DAC$ (corresponding angles in congruent triangles).\n\n$\\therefore AC$ bisects $\\angle BAD$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

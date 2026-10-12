@@ -2,8 +2,8 @@
   "skillId": "sample-proportion",
   "atomType": "R",
   "theory": {
-    "intro": "For $X\\sim\\mathrm{Bin}(n,p)$ the **sample proportion** is $\\hat{p}=\\dfrac{X}{n}$, the fraction of the $n$ trials that were successes. Its mean is $p$ and its variance is $\\dfrac{p(1-p)}{n}$.",
-    "facts": [
+"intro": "For $X\\sim\\mathrm{Bin}(n,p)$ the **sample proportion** is $\\hat{p}=\\dfrac{X}{n}$, the fraction of the $n$ trials that were successes. Its mean is $p$ and its variance is $\\dfrac{p(1-p)}{n}$.",
+"facts": [
       "$\\hat{p}=\\dfrac{X}{n}$ always lies between $0$ and $1$, because the count $X$ cannot exceed $n$.",
       "$E(\\hat{p})=\\dfrac{E(X)}{n}=\\dfrac{np}{n}=p$, so on average the sample proportion equals the population proportion.",
       "Dividing $X$ by $n$ divides its variance by $n^2$, giving $\\text{Var}(\\hat{p})=\\dfrac{np(1-p)}{n^2}=\\dfrac{p(1-p)}{n}$.",
@@ -13,13 +13,36 @@
       "Multiplying $n$ by $4$ halves $\\sigma(\\hat{p})$, because $n$ sits under a square root.",
       "The variance $\\dfrac{p(1-p)}{n}$ is largest when $p=0.5$ and shrinks as $p$ moves towards $0$ or $1$."
     ],
-    "steps": [
+"steps": [
       "Identify $n$ and $p$ and write $X\\sim\\mathrm{Bin}(n,p)$",
       "Write $E(\\hat{p})=p$",
       "Substitute into $\\text{Var}(\\hat{p})=\\dfrac{p(1-p)}{n}$",
       "Take the square root of the variance for the standard deviation"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "In a large city, $30\\%$ of adults own a bicycle. A random sample of $120$ adults contains $33$ bicycle owners. Find the sample proportion $\\hat{p}$ and its expected value.",
+    "solution_text": "$\\begin{align*}\\hat{p}&=\\frac{X}{n}\\\\&=\\frac{33}{120}\\\\&=0.275\\end{align*}$\n\n$\\begin{align*}E(\\hat{p})&=p\\\\&=0.30\\end{align*}$\n\nThe observed sample proportion is $0.275$; the mean across repeated samples is $0.30$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A factory produces components, each independently faulty with probability $0.20$. A random sample of $320$ components is taken. Let $X$ count faulty components and $\\hat{p}=X/320$. Find $E(\\hat{p})$, $\\operatorname{Var}(\\hat{p})$ and $\\sigma(\\hat{p})$, giving the standard deviation correct to four decimal places.",
+    "solution_text": "$X\\sim\\mathrm{Bin}(320,0.20)$.\n\n$\\begin{align*}E(\\hat{p})&=p\\\\&=0.20\\end{align*}$\n\n$\\begin{align*}\\operatorname{Var}(\\hat{p})&=\\frac{p(1-p)}{n}\\\\&=\\frac{0.20(0.80)}{320}\\\\&=0.0005\\end{align*}$\n\n$\\begin{align*}\\sigma(\\hat{p})&=\\sqrt{\\operatorname{Var}(\\hat{p})}\\\\&=\\sqrt{0.0005}\\\\&\\approx0.0224\\end{align*}$\n\nThese describe the proportion $\\hat{p}$, rather than the count $X$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "In a large population, $30\\%$ of circuit boards are faulty. Find the smallest random sample size $n$ for which the standard deviation of the sample proportion of faulty boards is less than $0.02$. Treat the sampled outcomes as independent.",
+    "solution_text": "$\\begin{align*}\\sqrt{\\frac{0.30(0.70)}{n}}&<0.02\\\\\\frac{0.21}{n}&<0.0004\\\\0.21&<0.0004n\\\\n&>525\\end{align*}$\n\nThe smallest integer greater than $525$ is $526$. A sample of $525$ gives standard deviation exactly $0.02$, so it does not satisfy the strict inequality.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

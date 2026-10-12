@@ -2,8 +2,8 @@
   "skillId": "displacement-velocity-distinction",
   "atomType": "R",
   "theory": {
-        "intro": "**Distance** and **speed** are **scalars**: they have size only. **Displacement** and **velocity** are **vectors**: they have size and direction, so they can be negative.",
-        "facts": [
+"intro": "**Distance** and **speed** are **scalars**: they have size only. **Displacement** and **velocity** are **vectors**: they have size and direction, so they can be negative.",
+"facts": [
 "**Displacement** $x$ is the position of the particle relative to a fixed origin $O$, and may be positive, zero or negative.",
 "**Distance travelled** is the total length of path covered, and is never negative.",
 "The change in displacement over an interval is $\\Delta x = x_{\\text{final}} - x_{\\text{initial}}$. If the particle reverses direction within the interval, the distance travelled is greater than $|\\Delta x|$; this comparison is not necessarily with $|x_{\\text{final}}|$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[thick, -{Stealth}] (-0.8,0) -- (5.6,0) node[right] {$x$};\n\\draw[thick] (0,-0.15) -- (0,0.15);\n\\draw[thick] (2.5,-0.15) -- (2.5,0.15);\n\\draw[thick] (4.5,-0.15) -- (4.5,0.15);\n\\node[below] at (0,-0.2) {$O$};\n\\node[below] at (2.5,-0.2) {$B$};\n\\node[below] at (4.5,-0.2) {$A$};\n\\draw[-{Stealth}] (0,0.7) -- (4.5,0.7) node[midway, above] {out to $A$};\n\\draw[dashed] (4.5,0.7) -- (4.5,1.7);\n\\draw[-{Stealth}] (4.5,1.7) -- (2.5,1.7) node[midway, above] {back to $B$};\n\\draw[-{Stealth}] (0,-1.1) -- (2.5,-1.1) node[midway, below] {displacement};\n\\end{tikzpicture}\n[/tikz]",
@@ -12,13 +12,55 @@
 "A negative velocity means the particle is travelling in the negative direction, not that it is slowing down.",
 "**At the origin** means $x = 0$, **initially** means $t = 0$, and **at rest** (or **stationary**) means $v = 0$."
 ],
-        "steps": [
+"steps": [
 "Identify whether the question asks for a scalar quantity (distance, speed) or a vector quantity (displacement, velocity).",
 "Determine the reference direction (e.g. right/up is positive, left/down is negative).",
 "Find velocity from the displacement function or the gradient of its graph. For distance travelled, check for reversals within the interval: velocity must change sign, so $v = 0$ alone does not establish a reversal.",
 "Calculate the requested quantity: displacement is $x(t)$, speed is $|v(t)|$, change in displacement is $\\Delta x = x_{\\text{final}} - x_{\\text{initial}}$, and total distance is the sum of the absolute changes in displacement between reversals."
+],
+"workedExamples": [
+  {
+    "question_text": "A particle moves along a straight line with displacement $x(t)$, with right positive. Write each request in function notation.\n\na. Find its initial displacement.\nb. Find when it is at the origin.\nc. Find when it is stationary.",
+    "solution_text": "a. Find $x(0)$.\n\nb. Solve $x(t)=0$ for $t$.\n\nc. Solve $\\dot{x}(t)=0$ for $t$. Stationary means zero velocity; the particle need not be at the origin."
+  },
+  {
+    "question_text": "A particle moves along a straight line with displacement $x=2t^2-16t+9$, where $x$ is in metres and $t\\geq0$ is in seconds. Right is positive.\n\na. Find its initial displacement.\nb. Find its velocity and speed after $2$ seconds.\nc. Find when it is stationary and its displacement then.",
+    "solution_text": "a. $\\begin{aligned}x(0)&=2(0)^2-16(0)+9\\\\&=9\\text{ m}\\end{aligned}$\n\nInitially, the particle is $9\\text{ m}$ right of the origin.\n\nb. $v(t)=\\dfrac{dx}{dt}=4t-16$.\n\n$\\begin{aligned}v(2)&=4(2)-16\\\\&=-8\\text{ m/s}\\end{aligned}$\n\nThe velocity is $-8\\text{ m/s}$, so the particle moves left. Its speed is $|-8|=8\\text{ m/s}$.\n\nc. Stationary means $v=0$.\n\n$\\begin{aligned}4t-16&=0\\\\4t&=16\\\\t&=4\\text{ s}\\end{aligned}$\n\n$\\begin{aligned}x(4)&=2(4)^2-16(4)+9\\\\&=-23\\text{ m}\\end{aligned}$\n\nThe particle is stationary after $4\\text{ s}$, at $23\\text{ m}$ left of the origin.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle's displacement is $x=t^2-4t+6$, where $x$ is in metres and $t\\geq0$ is in seconds. Right is positive. Find its change in displacement and total distance travelled in the first $5$ seconds.",
+    "solution_text": "$v(t)=\\dfrac{dx}{dt}=2t-4$.\n\n$\\begin{aligned}2t-4&=0\\\\t&=2\\text{ s}\\end{aligned}$\n\nVelocity is negative for $0\\leq t<2$ and positive for $t>2$, so the particle reverses direction at $2\\text{ s}$.\n\n$\\begin{aligned}x(0)&=6\\text{ m}\\\\x(2)&=2^2-4(2)+6\\\\&=2\\text{ m}\\\\x(5)&=5^2-4(5)+6\\\\&=11\\text{ m}\\end{aligned}$\n\n[tikz]% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"template distance-journey-solution\"}\n\\begin{tikzpicture}[x=1mm,y=1mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-6,-2.5) rectangle (94,15.8);\n\\draw[black,line width=0.5pt,<->] (-4,0)--(92,0);\n\\draw[black,line width=0.4pt] (0,-1.3)--(0,1.3);\n\\draw[black,line width=0.4pt] (8,-1.3)--(8,1.3);\n\\draw[black,line width=0.4pt] (16,-1.3)--(16,1.3);\n\\draw[black,line width=0.4pt] (24,-1.3)--(24,1.3);\n\\draw[black,line width=0.4pt] (32,-1.3)--(32,1.3);\n\\draw[black,line width=0.4pt] (40,-1.3)--(40,1.3);\n\\draw[black,line width=0.4pt] (48,-1.3)--(48,1.3);\n\\draw[black,line width=0.4pt] (56,-1.3)--(56,1.3);\n\\draw[black,line width=0.4pt] (64,-1.3)--(64,1.3);\n\\draw[black,line width=0.4pt] (72,-1.3)--(72,1.3);\n\\draw[black,line width=0.4pt] (80,-1.3)--(80,1.3);\n\\draw[black,line width=0.4pt] (88,-1.3)--(88,1.3);\n\\fill[black] (0,0) circle[radius=1];\n\\node[above,text=black] at (0,1.6) {$0$};\n\\fill[black] (16,0) circle[radius=1];\n\\node[above,text=black] at (16,1.6) {$2$};\n\\fill[black] (48,0) circle[radius=1];\n\\node[above,text=black] at (48,1.6) {$6$};\n\\fill[black] (88,0) circle[radius=1];\n\\node[above,text=black] at (88,1.6) {$11$};\n\\draw[black,line width=0.4pt,->] (48,1.8) .. controls (40,11.8) and (24,11.8) .. (16,1.8);\n\\node[above,text=black] at (32,9.3) {$4 m$};\n\\draw[black,line width=0.4pt,->] (16,1.8) .. controls (34,11.8) and (70,11.8) .. (88,1.8);\n\\node[above,text=black] at (52,9.3) {$9 m$};\n\\end{tikzpicture}[/tikz]\n\nChange in displacement: $\\Delta x=11-6=5\\text{ m}$, to the right.\n\nDistance travelled: $|2-6|+|11-2|=4+9=13\\text{ m}$.\n\nSplit the journey at each reversal and add the lengths. If velocity keeps the same sign throughout an interval, distance travelled is simply the magnitude of the change in displacement."
+  },
+  {
+    "question_text": "A stone is dropped from a platform. Its height above the ground is $h=180-5t^2$, where $h$ is in metres and $t$ is in seconds. Upwards is positive. Find how fast it is travelling when it reaches the ground.",
+    "solution_text": "At the ground, $h=0$.\n\n$\\begin{aligned}180-5t^2&=0\\\\5t^2&=180\\\\t^2&=36\\\\t&=6\\text{ s}\\end{aligned}$\n\nUse the non-negative time.\n\n$v(t)=\\dfrac{dh}{dt}=-10t$.\n\n$\\begin{aligned}v(6)&=-10(6)\\\\&=-60\\text{ m/s}\\end{aligned}$\n\nThe stone moves downwards. Its impact speed is $|-60|=60\\text{ m/s}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two particles move along the same straight line. Their displacements are $x_A=4t+7$ and $x_B=t^2+1$, measured in metres, where $t\\geq0$ is in seconds. When do they have the same velocity?",
+    "solution_text": "$v_A=\\dfrac{dx_A}{dt}=4$ and $v_B=\\dfrac{dx_B}{dt}=2t$.\n\nFor equal velocities:\n\n$\\begin{aligned}4&=2t\\\\t&=2\\text{ s}\\end{aligned}$\n\nTheir velocities are equal after $2\\text{ s}$. Equal velocity does not require equal displacement."
+  },
+  {
+    "question_text": "A particle moves along a straight line with displacement $x=t^2-7t+10$, where $x$ is in metres and $t\\geq0$ is in seconds. Right is positive. Find when it first passes through the origin and its velocity then.",
+    "solution_text": "At the origin, $x=0$.\n\n$\\begin{aligned}t^2-7t+10&=0\\\\(t-2)(t-5)&=0\\end{aligned}$\n\nThe particle is at the origin at $t=2\\text{ s}$ and $t=5\\text{ s}$, so the first crossing is at $2\\text{ s}$.\n\n$v(t)=\\dfrac{dx}{dt}=2t-7$.\n\n$\\begin{aligned}v(2)&=2(2)-7\\\\&=-3\\text{ m/s}\\end{aligned}$\n\nIt first passes through the origin after $2\\text{ s}$, moving left at $3\\text{ m/s}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A ball is thrown vertically upwards from the ground. Its height is $x=30t-5t^2$, where $x$ is in metres and $t$ is in seconds. Upwards is positive. Find when it returns to the ground and show that its return speed equals its initial speed.",
+    "solution_text": "At the ground, $x=0$.\n\n$\\begin{aligned}30t-5t^2&=0\\\\5t(6-t)&=0\\end{aligned}$\n\nThe ground times are $t=0$ and $t=6\\text{ s}$, so the ball returns after $6\\text{ s}$.\n\n$v(t)=\\dfrac{dx}{dt}=30-10t$.\n\n$\\begin{aligned}v(0)&=30\\text{ m/s}\\\\v(6)&=30-10(6)\\\\&=-30\\text{ m/s}\\end{aligned}$\n\nThe initial speed and return speed are both $30\\text{ m/s}$. The velocities have opposite signs because the directions are opposite.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

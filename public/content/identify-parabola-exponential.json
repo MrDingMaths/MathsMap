@@ -2,8 +2,8 @@
   "skillId": "identify-parabola-exponential",
   "atomType": "Cat",
   "theory": {
-        "intro": "Quadratics and exponentials are both non-linear, but their graphs look different. A quadratic gives a **parabola**; an exponential gives an **exponential curve**. Use the equation, or the shape of the graph, to tell which one you have.",
-        "facts": [
+"intro": "Quadratics and exponentials are both non-linear, but their graphs look different. A quadratic gives a **parabola**; an exponential gives an **exponential curve**. Use the equation, or the shape of the graph, to tell which one you have.",
+"facts": [
 "A **parabola** is the graph of a quadratic $y=ax^{2}+bx+c$, where $a\\ne0$. This is a polynomial whose highest power of $x$ is $2$.",
 "A parabola is a smooth, **symmetrical** U-shape with exactly **one turning point**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7cm,height=6.2cm,axis lines=middle,axis line style={-{Stealth}},xmin=-2.8,xmax=4.8,ymin=-3.4,ymax=7,xtick=\\empty,ytick=\\empty,clip=false,xlabel={$x$},ylabel={$y$}]\n\\addplot[dashed,gray] coordinates {(1,-3.2) (1,6.6)};\n\\addplot[thick,blue,<->,domain=-1.74:3.74,samples=80]{1.2*(x-1)*(x-1)-2};\n\\addplot[only marks,mark=*,mark size=2pt,black] coordinates {(1,-2)};\n\\node[rotate=90,font=\\small] at (axis cs:0.6,3.4) {line of symmetry};\n\\node[below right,font=\\small] at (axis cs:1.15,-2.15) {turning point};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
 "It opens upward when $a>0$ and downward when $a<0$.",
@@ -15,11 +15,36 @@
 "$y=(6-2x)^{2}$ expands to a term in $x^{2}$, so it is still a **parabola**.",
 "$y=-x^{2}$ is a downward **parabola**, not an exponential — the negative sign only flips it."
 ],
-        "steps": [
+"steps": [
 "Check the equation: a polynomial that simplifies to $y=ax^{2}+bx+c$ with $a\\ne0$ is quadratic (parabola); $y=ka^{x}+c$ or $y=ka^{-x}+c$ with $a>0$, $a\\ne1$ and $k\\ne0$ is exponential",
 "Check the graph: a symmetrical U-shape with one turning point is a parabola; a one-way curve with no turning point that flattens towards a horizontal line is an exponential curve"
+],
+"workedExamples": [
+  {
+    "question_text": "Is this graph a parabola or an exponential curve? Give one reason.\n\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=6mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,<->] (-3,0)--(3,0);\n\\draw[black,<->] (0,-2)--(0,5);\n\\path (3,0) node[right] {$x$} (0,5) node[above] {$y$};\n\\draw[curveblue,thick,<->,domain=-2.3:2.3,samples=80] plot (\\x,{(\\x)*(\\x)-1});\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The graph is a **parabola**. It is symmetrical and has one turning point, where the curve changes from falling to rising."
+  },
+  {
+    "question_text": "Is this graph a parabola or an exponential curve? Give one reason.\n\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{curvered}{HTML}{EF6068}\n\\draw[black,<->] (-3,0)--(3,0);\n\\draw[black,<->] (0,-1)--(0,5);\n\\path (3,0) node[right] {$x$} (0,5) node[above] {$y$};\n\\draw[curvered,thick,<->,domain=-2.2:3,samples=80] plot (\\x,{exp(-\\x*ln(2))});\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The graph is an **exponential curve**. It falls in one direction with no turning point and flattens towards the $x$-axis."
+  },
+  {
+    "question_text": "Classify each equation as a straight line, a parabola, or an exponential curve.\n\na. $y=5-2x^{2}$\n\nb. $y=-5^{-x}+3$\n\nc. $y=9-2x$\n\nd. $y=8(0.7)^{x}$",
+    "solution_text": "a. The highest power of $x$ is $2$, so the graph is a **parabola**. The negative coefficient makes it open downward.\n\nb. The fixed base $5$ has $x$ in its power, so the graph is an **exponential curve**. The outside negative sign and added $3$ do not change its type.\n\nc. The highest power of $x$ is $1$, so the graph is a **straight line**.\n\nd. The fixed base $0.7$ has $x$ in its power, so the graph is an **exponential curve**. The factor $8$ does not change its type."
+  },
+  {
+    "question_text": "Classify $y=(5-3x)^{2}$ as a straight line, a parabola, or an exponential curve.",
+    "solution_text": "Expand the squared bracket:\n\n$\\begin{aligned}y&=(5-3x)(5-3x)\\\\y&=25-15x-15x+9x^{2}\\\\y&=9x^{2}-30x+25\\end{aligned}$\n\nThe highest power of $x$ is $2$, so the graph is a **parabola**.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Which equation could produce this graph? Explain your choice.\n\nA: $y=x^{2}+4$\n\nB: $y=-x^{2}+4$\n\nC: $y=4^{x}$\n\nD: $y=4-x$\n\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,<->] (-3,0)--(3,0);\n\\draw[black,<->] (0,-2)--(0,5);\n\\path (3,0) node[right] {$x$} (0,5) node[above] {$y$};\n\\draw[curveblue,thick,<->,domain=-2.35:2.35,samples=80] plot (\\x,{4-(\\x)*(\\x)});\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The graph is symmetrical with one turning point, so it is a parabola. Eliminate C, which is exponential, and D, which is linear.\n\nIt opens downward, so its $x^{2}$ coefficient is negative. Choose **B**, $y=-x^{2}+4$.\n\nCorrect answer: B."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
       {

@@ -2,8 +2,8 @@
   "skillId": "differentiate-ln-composite",
   "atomType": "R",
   "theory": {
-    "intro": "For a **composite logarithm** $y=\\ln f(x)$ — a logarithm with a function inside — the chain rule gives $\\dfrac{dy}{dx}=\\dfrac{f'(x)}{f(x)}$. Differentiate the inside function and put it over the inside function, unchanged.",
-    "facts": [
+"intro": "For a **composite logarithm** $y=\\ln f(x)$ — a logarithm with a function inside — the chain rule gives $\\dfrac{dy}{dx}=\\dfrac{f'(x)}{f(x)}$. Differentiate the inside function and put it over the inside function, unchanged.",
+"facts": [
 "Rule: $\\dfrac{d}{dx}\\ln f(x)=\\dfrac{f'(x)}{f(x)}$, valid wherever $f(x)>0$.",
 "The derivative of the inside goes on top; the inside itself stays on the bottom, unchanged.",
 "Linear inside: $\\dfrac{d}{dx}\\ln(ax+b)=\\dfrac{a}{ax+b}$.",
@@ -13,13 +13,85 @@
 "When the logarithm sits in a product or quotient, use that rule first and $\\dfrac{f'(x)}{f(x)}$ only for the logarithm factor.",
 "Domain: $\\ln f(x)$ exists only where $f(x)>0$, so check any value of $x$ you substitute."
 ],
-    "steps": [
+"steps": [
       "Check whether a log law simplifies the logarithm before differentiating.",
       "Identify the inside function $f(x)$ and differentiate it to get $f'(x)$.",
       "Write the derivative as $\\dfrac{f'(x)}{f(x)}$.",
       "Apply the product, quotient or chain rule if the logarithm sits inside a larger expression, then simplify."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Differentiate $y=4\\ln(5x-3)+x^{2}$.",
+    "solution_text": "The inside function is $5x-3$, with derivative $5$.\n$\\begin{align*}y'&=4\\left(\\frac{5}{5x-3}\\right)+2x\\\\&=\\frac{20}{5x-3}+2x\\end{align*}$\nValid for $x>\\frac{3}{5}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Differentiate $y=\\ln(x^{2}+4x+8)$.",
+    "solution_text": "Let $u=x^{2}+4x+8$. Then $u'=2x+4$.\n$y'=\\frac{u'}{u}=\\frac{2x+4}{x^{2}+4x+8}$.\nSince $x^{2}+4x+8=(x+2)^{2}+4>0$, the derivative is valid for all real $x$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y=\\ln(3+e^{x})$.",
+    "solution_text": "Let $u=3+e^{x}$. Then $u'=e^{x}$.\n$y'=\\frac{u'}{u}=\\frac{e^{x}}{3+e^{x}}$.\nThe logarithm's argument is positive for all real $x$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $x>0$, use log laws to simplify each function, then differentiate it.\na. $y=\\ln(8x^{5})$\nb. $y=\\ln\\left(\\frac{7}{x}\\right)$\nc. $y=\\ln\\sqrt[4]{x}$",
+    "solution_text": "a.\n$\\begin{align*}y&=\\ln 8+5\\ln x\\\\y'&=\\frac{5}{x}\\end{align*}$\nb.\n$\\begin{align*}y&=\\ln 7-\\ln x\\\\y'&=-\\frac{1}{x}\\end{align*}$\nc. Write the fourth root as a power, then use the index law.\n$\\begin{align*}y&=\\ln(x^{1/4})\\\\&=\\frac{1}{4}\\ln x\\\\y'&=\\frac{1}{4x}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $x>0$, use log laws to simplify $y=\\ln\\left(\\frac{x}{x+6}\\right)$, then differentiate it. Write the derivative as a single fraction.",
+    "solution_text": "Both $x$ and $x+6$ are positive.\n$y=\\ln x-\\ln(x+6)$.\n$\\begin{align*}y'&=\\frac{1}{x}-\\frac{1}{x+6}\\\\&=\\frac{(x+6)-x}{x(x+6)}\\\\&=\\frac{6}{x(x+6)}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y=(x-2)\\ln(4x+5)$ using the product rule.",
+    "solution_text": "Let $u=x-2$ and $v=\\ln(4x+5)$. Then $u'=1$ and $v'=\\frac{4}{4x+5}$.\n$\\begin{align*}y'&=u'v+uv'\\\\&=\\ln(4x+5)+(x-2)\\frac{4}{4x+5}\\\\&=\\ln(4x+5)+\\frac{4(x-2)}{4x+5}\\end{align*}$\nValid for $x>-\\frac{5}{4}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate each function using the quotient rule.\na. $y=\\frac{\\ln(3x)}{x^{2}}$\nb. $y=\\frac{5x}{\\ln x}$",
+    "solution_text": "a. Let $u=\\ln(3x)$ and $v=x^{2}$. Then $u'=\\frac{3}{3x}=\\frac{1}{x}$ and $v'=2x$.\n$\\begin{align*}y'&=\\frac{u'v-uv'}{v^{2}}\\\\&=\\frac{\\frac{1}{x}x^{2}-\\ln(3x)(2x)}{x^{4}}\\\\&=\\frac{1-2\\ln(3x)}{x^{3}}\\end{align*}$\nValid for $x>0$.\nb. Let $u=5x$ and $v=\\ln x$. Then $u'=5$ and $v'=\\frac{1}{x}$.\n$\\begin{align*}y'&=\\frac{u'v-uv'}{v^{2}}\\\\&=\\frac{5\\ln x-5x\\frac{1}{x}}{(\\ln x)^{2}}\\\\&=\\frac{5(\\ln x-1)}{(\\ln x)^{2}}\\end{align*}$\nValid for $x>0$, $x\\ne1$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y=(3\\ln x-2)^{3}$, then find the value of $x$ for which the derivative is zero.",
+    "solution_text": "Apply the chain rule to the cube, then differentiate $3\\ln x-2$.\n$\\begin{align*}y'&=3(3\\ln x-2)^{2}\\frac{3}{x}\\\\&=\\frac{9(3\\ln x-2)^{2}}{x}\\end{align*}$\nFor $x>0$, the denominator is nonzero. The derivative is zero when\n$\\begin{align*}3\\ln x-2&=0\\\\\\ln x&=\\frac{2}{3}\\\\x&=e^{2/3}\\end{align*}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $f(x)=\\ln(5x+2)$, find $f'(2)$.",
+    "solution_text": "$f'(x)=\\frac{5}{5x+2}$.\nSince $5(2)+2=12>0$, substitution is valid.\n$\\begin{align*}f'(2)&=\\frac{5}{5(2)+2}\\\\&=\\frac{5}{12}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y=\\ln(\\ln(4x))$ using the chain rule.",
+    "solution_text": "Let $u=\\ln(4x)$.\n$\\begin{align*}u'&=\\frac{4}{4x}\\\\&=\\frac{1}{x}\\end{align*}$\nApply the logarithmic chain rule again.\n$\\begin{align*}y'&=\\frac{u'}{u}\\\\&=\\frac{\\frac{1}{x}}{\\ln(4x)}\\\\&=\\frac{1}{x\\ln(4x)}\\end{align*}$\nThe outer logarithm requires $\\ln(4x)>0$, so $x>\\frac{1}{4}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

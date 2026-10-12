@@ -2,8 +2,8 @@
   "skillId": "elevation-depression",
   "atomType": "R",
   "theory": {
-        "intro": "The height, the horizontal distance and the line of sight form a right-angled triangle. Mark the angle of elevation or depression from the horizontal, then use the usual trigonometric ratios.",
-        "facts": [
+"intro": "The height, the horizontal distance and the line of sight form a right-angled triangle. Mark the angle of elevation or depression from the horizontal, then use the usual trigonometric ratios.",
+"facts": [
           "The angle of **elevation** is measured up from the horizontal at the observer; the angle of **depression** is measured down from it.",
           "The horizontal at the top is parallel to the ground, so the angle of depression equals the angle of elevation from the bottom.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (A) at (0,2.4);\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (4,0);\n\\coordinate (H) at (4.9,2.4);\n\\draw[dashed] (A) -- (H) node[pos=0.85, above] {horizontal};\n\\draw (A) -- (C);\n\\draw (C) -- (B);\n\\draw[thick] (A) -- (B);\n\\coordinate (ra) at ($(C)!0.3cm!(A)$);\n\\coordinate (rb) at ($(C)!0.3cm!(B)$);\n\\draw (ra) -- ($(ra)+(rb)-(C)$) -- (rb);\n\\pic[draw, \"$\\theta$\", angle radius=1cm, angle eccentricity=2] {angle = B--A--H};\n\\pic[draw, \"$\\theta$\", angle radius=0.9cm, angle eccentricity=2.1] {angle = A--B--C};\n\\node[left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[below left] at (C) {$C$};\n\\end{tikzpicture}[/tikz]",
           "Mark that equal angle inside the triangle before choosing a ratio.",
@@ -12,14 +12,56 @@
           "An angle measured from a vertical wall is not an angle of depression; subtract it from $90^{\\circ}$ first.",
           "Keep the full calculator value through the working and round only on the last line, to the accuracy the question asks for."
         ],
-        "steps": [
+"steps": [
           "Draw a diagram and mark the horizontal.",
           "Mark the angle of elevation or depression inside the triangle.",
           "Choose the trigonometric ratio.",
           "Solve for the unknown.",
           "Round to the required accuracy."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "From a point on level ground $20$ m from the base of a vertical tower, the angle of elevation of its top is $30^{\\circ}$. Find the height of the tower, correct to $2$ decimal places.",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\\draw (0,0)--(4,0)--(4,2.309)--cycle;\\draw (3.75,0)--(3.75,0.25)--(4,0.25);\\draw (0.7,0) arc (0:30:0.7);\\path (1,0.25) node {$30^{\\circ}$} (2,-0.35) node {$20\\text{ m}\\ (A)$} (4.75,1.15) node {$h\\ (O)$};\\end{tikzpicture}[/tikz]\nThe height is opposite the angle; the horizontal distance is adjacent.\n$\\begin{aligned}\\tan 30^{\\circ}&=\\frac{h}{20}\\\\h&=20\\tan 30^{\\circ}\\\\h&\\approx11.55\\text{ m}\\end{aligned}$"
+  },
+  {
+    "question_text": "A boat is observed from the top of a vertical cliff $72$ m above sea level at an angle of depression of $45^{\\circ}$. Find its horizontal distance from the base of the cliff, to the nearest metre.",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\\draw (0,3)--(0,0)--(3,0)--cycle;\\draw[dashed] (0,3)--(3.8,3);\\draw (0,0.25)--(0.25,0.25)--(0.25,0);\\draw (0.7,3) arc (0:-45:0.7);\\draw (2.3,0) arc (180:135:0.7);\\path (1.15,2.75) node {$45^{\\circ}$} (2.05,0.4) node {$45^{\\circ}$} (-0.65,1.5) node {$72\\text{ m}\\ (O)$} (1.5,-0.35) node {$d\\ (A)$};\\end{tikzpicture}[/tikz]\nThe angle of elevation from the boat is also $45^{\\circ}$ because alternate angles on parallel lines are equal.\n$\\begin{aligned}\\tan45^{\\circ}&=\\frac{72}{d}\\\\d\\tan45^{\\circ}&=72\\\\d&=\\frac{72}{\\tan45^{\\circ}}\\\\d&=72\\text{ m}\\end{aligned}$"
+  },
+  {
+    "question_text": "A plane is $24$ m above level ground and $32$ m horizontally from an observer on the ground. Find its angle of elevation, correct to $2$ decimal places. Hence state the angle of depression of the observer from the plane.",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\\draw (0,0)--(4,0)--(4,3)--cycle;\\draw[dashed] (4,3)--(-0.5,3);\\draw (3.75,0)--(3.75,0.25)--(4,0.25);\\draw (0.7,0) arc (0:36.87:0.7);\\draw (3.3,3) arc (180:216.87:0.7);\\path (1,0.3) node {$\\theta$} (3,2.7) node {$\\theta$} (2,-0.35) node {$32\\text{ m}\\ (A)$} (4.75,1.5) node {$24\\text{ m}\\ (O)$};\\end{tikzpicture}[/tikz]\n$\\begin{aligned}\\tan\\theta&=\\frac{24}{32}\\\\\\theta&=\\tan^{-1}\\left(\\frac{24}{32}\\right)\\\\\\theta&\\approx36.87^{\\circ}\\end{aligned}$\nThe angle of depression is also $36.87^{\\circ}$ because alternate angles on parallel lines are equal."
+  },
+  {
+    "question_text": "A kite is $30$ m above its anchor point on level ground. Its straight, fully extended string is $50$ m long. Find the angle of elevation of the kite from the anchor point, to the nearest degree.",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\\draw (0,0)--(4,0)--(4,3)--cycle;\\draw (3.75,0)--(3.75,0.25)--(4,0.25);\\draw (0.7,0) arc (0:36.87:0.7);\\path (1,0.3) node {$\\theta$} (4.75,1.5) node {$30\\text{ m}\\ (O)$} (2,1.85) node[above,sloped,rotate=36.87] {$50\\text{ m}\\ (H)$};\\end{tikzpicture}[/tikz]\n$\\begin{aligned}\\sin\\theta&=\\frac{30}{50}\\\\\\theta&=\\sin^{-1}\\left(\\frac{30}{50}\\right)\\\\\\theta&\\approx37^{\\circ}\\end{aligned}$"
+  },
+  {
+    "question_text": "An owl is $24$ m above level ground. It sees a mouse on the ground at an angle of depression of $30^{\\circ}$. How far must it fly in a straight line to reach the mouse? Answer correct to $1$ decimal place.",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\\draw (0,2.309)--(0,0)--(4,0)--cycle;\\draw[dashed] (0,2.309)--(4.8,2.309);\\draw (0,0.25)--(0.25,0.25)--(0.25,0);\\draw (0.7,2.309) arc (0:-30:0.7);\\draw (3.3,0) arc (180:150:0.7);\\path (1.1,2.05) node {$30^{\\circ}$} (2.95,0.3) node {$30^{\\circ}$} (-0.7,1.15) node {$24\\text{ m}\\ (O)$} (2,1.5) node {$L\\ (H)$};\\end{tikzpicture}[/tikz]\nThe angle of elevation from the mouse is also $30^{\\circ}$.\n$\\begin{aligned}\\sin30^{\\circ}&=\\frac{24}{L}\\\\L\\sin30^{\\circ}&=24\\\\L&=\\frac{24}{\\sin30^{\\circ}}\\\\L&=48.0\\text{ m}\\end{aligned}$"
+  },
+  {
+    "question_text": "An observer stands $18$ m from the base of a vertical tree on level ground. The angle of elevation of its top is $45^{\\circ}$, measured from an eye height of $1.7$ m. Find the height of the tree, correct to $1$ decimal place.",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\\draw (0,0)--(3,0)--(3,3.283);\\draw (0,0)--(0,0.283);\\draw[dashed] (0,0.283)--(3,0.283);\\draw (0,0.283)--(3,3.283);\\draw (2.75,0.283)--(2.75,0.533)--(3,0.533);\\draw (0.6,0.283) arc (0:45:0.6);\\path (0.95,0.58) node {$45^{\\circ}$} (-0.7,0.14) node {$1.7\\text{ m}$} (1.5,-0.35) node {$18\\text{ m}\\ (A)$} (3.65,1.8) node {$x\\ (O)$};\\end{tikzpicture}[/tikz]\n$\\begin{aligned}\\tan45^{\\circ}&=\\frac{x}{18}\\\\x&=18\\tan45^{\\circ}\\\\x&=18\\text{ m}\\end{aligned}$\nAdd the eye height to the height above eye level.\n$\\begin{aligned}h&=18+1.7\\\\h&=19.7\\text{ m}\\end{aligned}$"
+  },
+  {
+    "question_text": "A cable joins the top of a $3$ m high shed to the top of a $9$ m pole. Their horizontal separation is $8$ m. Find the angle of elevation of the pole top from the shed top, correct to $2$ decimal places.",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\\draw (0,0)--(4,0);\\draw (0,0)--(0,1.5);\\draw (4,0)--(4,4.5);\\draw[dashed] (0,1.5)--(4,1.5);\\draw (0,1.5)--(4,4.5);\\draw (3.75,1.5)--(3.75,1.75)--(4,1.75);\\draw (0.7,1.5) arc (0:36.87:0.7);\\path (1,1.8) node {$\\theta$} (-0.5,0.75) node {$3\\text{ m}$} (4.55,0.75) node {$3\\text{ m}$} (4.75,3) node {$6\\text{ m}\\ (O)$} (2,1.15) node {$8\\text{ m}\\ (A)$};\\end{tikzpicture}[/tikz]\nThe vertical difference is $9-3=6$ m.\n$\\begin{aligned}\\tan\\theta&=\\frac{6}{8}\\\\\\theta&=\\tan^{-1}\\left(\\frac{6}{8}\\right)\\\\\\theta&\\approx36.87^{\\circ}\\end{aligned}$"
+  },
+  {
+    "question_text": "From the top of a $60$ m vertical cliff, two boats on the same side of the cliff and in line with its base have angles of depression of $30^{\\circ}$ and $45^{\\circ}$. Find the distance between them, to the nearest metre.",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\\draw (0,2.4)--(0,0)--(4.157,0);\\draw (0,2.4)--(2.4,0);\\draw (0,2.4)--(4.157,0);\\draw[dashed] (0,2.4)--(4.9,2.4);\\draw (0,0.25)--(0.25,0.25)--(0.25,0);\\draw (1.2,2.4) arc (0:-30:1.2);\\draw (0.55,2.4) arc (0:-45:0.55);\\path (1.65,2.05) node {$30^{\\circ}$} (0.8,1.95) node {$45^{\\circ}$} (-0.65,1.2) node {$60\\text{ m}$} (2.4,-0.3) node {$B_2$} (4.157,-0.3) node {$B_1$};\\draw[<->] (0,-0.7)--(2.4,-0.7);\\draw[<->] (0,-1.15)--(4.157,-1.15);\\path (1.2,-0.9) node {$d_2$} (2.08,-1.35) node {$d_1$};\\end{tikzpicture}[/tikz]\nThe corresponding angles of elevation are $30^{\\circ}$ and $45^{\\circ}$.\n$\\begin{aligned}\\tan30^{\\circ}&=\\frac{60}{d_1}\\\\d_1&=\\frac{60}{\\tan30^{\\circ}}\\\\d_1&=103.9230\\ldots\\text{ m}\\end{aligned}$\n$\\begin{aligned}\\tan45^{\\circ}&=\\frac{60}{d_2}\\\\d_2&=\\frac{60}{\\tan45^{\\circ}}\\\\d_2&=60\\text{ m}\\end{aligned}$\nSubtract the distances from the cliff base, retaining the full calculator value.\n$\\begin{aligned}B_1B_2&=\\frac{60}{\\tan30^{\\circ}}-60\\\\B_1B_2&\\approx44\\text{ m}\\end{aligned}$"
+  },
+  {
+    "question_text": "From a point on level ground $100$ m from the base of a building, the angles of elevation of the bottom and top of a vertical flagpole on its roof are $30^{\\circ}$ and $45^{\\circ}$. Find the flagpole height, correct to $1$ decimal place.",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\\draw (0,0)--(4,0)--(4,4);\\draw (0,0)--(4,2.309);\\draw (0,0)--(4,4);\\draw (3.75,0)--(3.75,0.25)--(4,0.25);\\draw (0.65,0) arc (0:30:0.65);\\draw (1.4,0) arc (0:45:1.4);\\path (1,0.22) node {$30^{\\circ}$} (1.65,0.8) node {$45^{\\circ}$} (2,-0.35) node {$100\\text{ m}$} (4.3,2.309) node {$A$} (4.3,4) node {$B$};\\draw[<->] (4.8,0)--(4.8,2.309);\\draw[<->] (5.6,0)--(5.6,4);\\path (5.05,1.15) node {$h_1$} (5.85,2) node {$h_2$};\\end{tikzpicture}[/tikz]\n$\\begin{aligned}\\tan30^{\\circ}&=\\frac{h_1}{100}\\\\h_1&=100\\tan30^{\\circ}\\end{aligned}$\n$\\begin{aligned}\\tan45^{\\circ}&=\\frac{h_2}{100}\\\\h_2&=100\\tan45^{\\circ}\\end{aligned}$\nSubtract the height of the bottom from the height of the top.\n$\\begin{aligned}AB&=h_2-h_1\\\\AB&=100\\tan45^{\\circ}-100\\tan30^{\\circ}\\\\AB&\\approx42.3\\text{ m}\\end{aligned}$"
+  },
+  {
+    "question_text": "A plane at an altitude of $800$ m begins a straight climb at $30^{\\circ}$ to the horizontal. A mountain peak $1300$ m high is $1000$ m ahead horizontally. Will the plane clear the peak, and by how much? Answer to the nearest metre.",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\\draw (0,0)--(4,0);\\draw[dashed] (0,0)--(0,3.2);\\draw[dashed] (0,3.2)--(4,3.2);\\draw (0,3.2)--(4,5.509);\\draw[dashed] (4,0)--(4,5.509);\\draw (3.75,3.2)--(3.75,3.45)--(4,3.45);\\draw (0.7,3.2) arc (0:30:0.7);\\path (1.05,3.45) node {$30^{\\circ}$} (2,-0.35) node {$1000\\text{ m}\\ (A)$} (-0.6,1.6) node {$800\\text{ m}$} (4.65,4.35) node {$x\\ (O)$};\\draw (3,0)--(4,5.2)--(5,0);\\path (5.05,2.6) node {$1300\\text{ m}$};\\end{tikzpicture}[/tikz]\n$\\begin{aligned}\\tan30^{\\circ}&=\\frac{x}{1000}\\\\x&=1000\\tan30^{\\circ}\\\\x&=577.3502\\ldots\\text{ m}\\end{aligned}$\nThe altitude at the peak is $800+1000\\tan30^{\\circ}=1377.3502\\ldots$ m, so the plane clears it.\n$\\begin{aligned}c&=800+1000\\tan30^{\\circ}-1300\\\\c&\\approx77\\text{ m}\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

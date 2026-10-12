@@ -2,7 +2,7 @@
   "skillId": "square-cube-roots",
   "atomType": "T",
   "theory": {
-"intro": "Squaring a number multiplies it by itself, and **square rooting** $\\sqrt{\\;}$ undoes that. Cubing uses a number three times in a multiplication, and **cube rooting** $\\sqrt[3]{\\;}$ undoes that.",
+"intro": "Squaring a number multiplies it by itself, and **square rooting** $\\sqrt{\\;}$ undoes that for nonnegative starting numbers. For example, $\\sqrt{(-6)^2}=6$, not $-6$. Cubing uses a number three times in a multiplication, and **cube rooting** $\\sqrt[3]{\\;}$ undoes that.",
 "facts": [
 "For $a\\geq0$, $\\sqrt{a}$ is the nonnegative number whose square is $a$. For example, $\\sqrt{49}=7$ because $7\\times7=49$.",
 "$\\sqrt[3]{a}$ asks which number used three times in a multiplication gives $a$, so $\\sqrt[3]{64}=4$ because $4\\times 4\\times 4=64$.",
@@ -12,133 +12,141 @@
 "The same idea extends to higher roots: $\\sqrt[4]{16}=2$ because $2\\times 2\\times 2\\times 2=16$."
 ],
 "workedExamples": [
-  {
+{
     "question_text": "(a) Evaluate $\\sqrt{121}$.\n(b) Evaluate $\\sqrt{0.49}$.\n(c) Which of $36$, $50$, $81$ and $90$ are perfect squares?",
     "solution_text": "(a) $11\\times11=121$, so $\\sqrt{121}=11$.\nThe square-root symbol gives the nonnegative root.\n(b) $0.7\\times0.7=0.49$, so $\\sqrt{0.49}=0.7$.\n(c) $36=6^{2}$ and $81=9^{2}$ are squares of whole numbers.\n$7^{2}=49<50<64=8^{2}$, so $50$ is not a perfect square.\n$9^{2}=81<90<100=10^{2}$, so $90$ is not a perfect square.\nThe perfect squares are $36$ and $81$."
   },
-  {
+{
     "question_text": "Evaluate $\\sqrt[3]{729}$.",
     "solution_text": "Cube rooting undoes cubing. Look for three equal factors.\n$9\\times9\\times9=81\\times9=729$.\nTherefore, $\\sqrt[3]{729}=9$."
   },
-  {
-    "question_text": "(a) A square has area $81$ cm$^{2}$. Find its side length and perimeter.\n(b) A cube has volume $125$ cm$^{3}$. Find its edge length and the total length of its $12$ edges.",
-    "solution_text": "(a) The side length is $\\sqrt{81}=9$ cm, since $9^{2}=81$.\nThe perimeter is $4\\times9=36$ cm.\n(b) The edge length is $\\sqrt[3]{125}=5$ cm, since $5^{3}=125$.\nThe total length of the edges is $12\\times5=60$ cm."
+{
+    "question_text": "(a) A square has area $81$ cm$^{2}$. Find its side length.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black] (0,0) rectangle (3,3);\n\\path (1.5,1.5) node {$81\\,\\mathrm{cm}^{2}$};\n\\end{tikzpicture}\n[/tikz]\n(b) A cube has volume $125$ cm$^{3}$. Find its edge length.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n% Closed cube: front z=0, rear z=1; projection (x,y,z) -> (x+0.8z,y+0.6z).\n% View towards viewer is proportional to (0.8,0.6,-1); front, top and right faces are visible.\n% Faces: front ABCD, rear EFGH, bottom ABFE, right BCGF, top DCGH, left ADHE.\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (3,3);\n\\coordinate (D) at (0,3);\n\\coordinate (E) at (0.8,0.6);\n\\coordinate (F) at (3.8,0.6);\n\\coordinate (G) at (3.8,3.6);\n\\coordinate (H) at (0.8,3.6);\n\\draw[black] (A)--(B)--(C)--(D)--cycle;\n\\draw[black] (D)--(H)--(G)--(C);\n\\draw[black] (B)--(F)--(G);\n\\draw[black,dashed] (A)--(E)--(H);\n\\draw[black,dashed] (E)--(F);\n\\path (1.5,1.5) node {$125\\,\\mathrm{cm}^{3}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) The side length is $\\sqrt{81}=9$ cm, since $9^{2}=81$.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black] (0,0) rectangle (3,3);\n\\path (1.5,1.5) node {$81\\,\\mathrm{cm}^{2}$};\n\\path (1.5,0) node[below] {$9\\,\\mathrm{cm}$};\n\\end{tikzpicture}\n[/tikz]\n(b) The edge length is $\\sqrt[3]{125}=5$ cm, since $5^{3}=125$.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n% Closed cube: front z=0, rear z=1; projection (x,y,z) -> (x+0.8z,y+0.6z).\n% View towards viewer is proportional to (0.8,0.6,-1); front, top and right faces are visible.\n% Faces: front ABCD, rear EFGH, bottom ABFE, right BCGF, top DCGH, left ADHE.\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (3,3);\n\\coordinate (D) at (0,3);\n\\coordinate (E) at (0.8,0.6);\n\\coordinate (F) at (3.8,0.6);\n\\coordinate (G) at (3.8,3.6);\n\\coordinate (H) at (0.8,3.6);\n\\draw[black] (A)--(B)--(C)--(D)--cycle;\n\\draw[black] (D)--(H)--(G)--(C);\n\\draw[black] (B)--(F)--(G);\n\\draw[black,dashed] (A)--(E)--(H);\n\\draw[black,dashed] (E)--(F);\n\\path (1.5,1.5) node {$125\\,\\mathrm{cm}^{3}$};\n\\path (1.5,0) node[below] {$5\\,\\mathrm{cm}$};\n\\end{tikzpicture}\n[/tikz]"
   },
-  {
+{
     "question_text": "(a) Evaluate $\\sqrt[4]{81}$.\n(b) Given that $7^{6}=117\\,649$, evaluate $\\left(\\sqrt[6]{117\\,649}\\right)^{2}$.",
     "solution_text": "(a) A fourth root asks for four equal factors.\n$3\\times3\\times3\\times3=81$, so $\\sqrt[4]{81}=3$.\n(b) The sixth root undoes the given sixth power.\n$\\sqrt[6]{117\\,649}=7$.\nThen square the result: $\\left(\\sqrt[6]{117\\,649}\\right)^{2}=7^{2}=49$."
   },
-  {
+{
     "question_text": "(a) Given that $\\sqrt[4]{2401}=7$, evaluate $7^{4}$.\n(b) Given that $16^{2}=256$, evaluate $\\sqrt{256}$.",
     "solution_text": "(a) Taking the fourth power reverses the fourth root.\n$7^{4}=2401$.\n(b) Square rooting reverses squaring for the given positive number.\n$\\sqrt{256}=16$."
   },
-  {
+{
     "question_text": "A square has area $729$ cm$^{2}$ and a cube has volume $729$ cm$^{3}$.\nWhich is longer, the square's side or the cube's edge, and by how much?",
     "solution_text": "The square's side is $\\sqrt{729}=27$ cm, since $27^{2}=729$.\nThe cube's edge is $\\sqrt[3]{729}=9$ cm, since $9^{3}=729$.\n$27-9=18$.\nThe square's side is longer by $18$ cm."
-  }
+  },
+{
+  "question_text": "Evaluate $\\sqrt[3]{-343}$.",
+  "solution_text": "$(-7)\\times(-7)\\times(-7)=49\\times(-7)=-343$.\nTherefore, $\\sqrt[3]{-343}=-7$.\nA negative number cubed is negative."
+},
+{
+  "question_text": "List all the square numbers between $30$ and $110$.",
+  "solution_text": "$5^{2}=25$ is below $30$, and $11^{2}=121$ is above $110$.\n$6^{2}=36$, $7^{2}=49$, $8^{2}=64$, $9^{2}=81$ and $10^{2}=100$.\nThe square numbers between $30$ and $110$ are $36$, $49$, $64$, $81$ and $100$."
+}
 ]
 },
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Evaluate $\\sqrt{64}$.",
         "structure": "evaluate-square-root",
         "solution_text": "$\\sqrt{64}$\n$=8$, since $8\\times 8=64$"
       },
-      {
+{
         "question_text": "Evaluate $\\sqrt{169}$.",
         "structure": "evaluate-square-root",
         "solution_text": "$\\sqrt{169}$\n$=13$, since $13\\times 13=169$"
       },
-      {
+{
         "question_text": "Evaluate $\\sqrt[3]{125}$.",
         "structure": "evaluate-cube-root",
         "solution_text": "$\\sqrt[3]{125}$\n$=5$, since $5\\times 5\\times 5=125$"
       },
-      {
+{
         "question_text": "Evaluate $\\sqrt[3]{1000}$.",
         "structure": "evaluate-cube-root",
         "solution_text": "$\\sqrt[3]{1000}$\n$=10$, since $10\\times 10\\times 10=1000$"
       },
-      {
+{
         "question_text": "Write down the square root of $225$.",
         "structure": "evaluate-square-root",
         "solution_text": "$\\sqrt{225}$\n$=15$, since $15\\times 15=225$"
       },
-      {
+{
         "question_text": "Find the side length of this square.\n[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\draw (0,0) rectangle (3.0,3.0);\n\\node at (1.5,1.5) {$36\\text{ cm}^{2}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "side-from-area",
         "solution_text": "$\\sqrt{36}$\n$=6$\nThe side length is $6$ cm.\n[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\draw (0,0) rectangle (3.0,3.0);\n\\node at (1.5,1.5) {$36\\text{ cm}^{2}$};\n\\node[below] at (1.5,0) {$6\\text{ cm}$};\n\\node[left] at (0,1.5) {$6\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
-        "question_text": "Find the edge length of this cube.\n[tikz]\n\\begin{tikzpicture}[scale=0.75]\n\\draw (0,0)--(2.6,0)--(2.6,2.6)--(0,2.6)--cycle;\n\\draw (0,2.6)--(0.9,3.5)--(3.5,3.5)--(2.6,2.6);\n\\draw (2.6,0)--(3.5,0.9)--(3.5,3.5);\n\\draw[dashed] (0,0)--(0.9,0.9);\n\\draw[dashed] (0.9,0.9)--(0.9,3.5);\n\\draw[dashed] (0.9,0.9)--(3.5,0.9);\n\\node at (1.3,1.3) {$27\\text{ cm}^{3}$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "edge-from-volume",
-        "solution_text": "$\\sqrt[3]{27}$\n$=3$\nThe edge length is $3$ cm.\n[tikz]\n\\begin{tikzpicture}[scale=0.75]\n\\draw (0,0)--(2.6,0)--(2.6,2.6)--(0,2.6)--cycle;\n\\draw (0,2.6)--(0.9,3.5)--(3.5,3.5)--(2.6,2.6);\n\\draw (2.6,0)--(3.5,0.9)--(3.5,3.5);\n\\draw[dashed] (0,0)--(0.9,0.9);\n\\draw[dashed] (0.9,0.9)--(0.9,3.5);\n\\draw[dashed] (0.9,0.9)--(3.5,0.9);\n\\node at (1.3,1.3) {$27\\text{ cm}^{3}$};\n\\node[below] at (1.3,0) {$3\\text{ cm}$};\n\\node[left] at (0,1.3) {$3\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]"
+{
+        "question_text": "Evaluate $\\sqrt{81}$.",
+        "structure": "evaluate-square-root",
+        "solution_text": "$\\sqrt{81}$\n$=9$, since $9\\times 9=81$"
       },
-      {
+{
         "question_text": "Given that $14\\times 14=196$, write down $\\sqrt{196}$.",
         "structure": "inverse-from-given-fact",
         "solution_text": "$14\\times 14=196$\n$\\sqrt{196}=14$"
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "Evaluate $\\sqrt[4]{16}$.",
         "structure": "higher-root",
         "solution_text": "$\\sqrt[4]{16}$\n$=2$, since $2\\times 2\\times 2\\times 2=16$"
       },
-      {
+{
         "question_text": "Evaluate $\\sqrt[5]{100\\,000}$.",
         "structure": "higher-root",
         "solution_text": "$\\sqrt[5]{100\\,000}$\n$=10$, since $10\\times 10\\times 10\\times 10\\times 10=100\\,000$"
       },
-      {
+{
         "question_text": "Use the fact that $5^{7}=78\\,125$ to evaluate $\\sqrt[7]{78\\,125}$.",
         "structure": "inverse-from-given-fact",
         "solution_text": "$5^{7}=78\\,125$\n$\\sqrt[7]{78\\,125}=5$"
       },
-      {
+{
         "question_text": "Given that $\\sqrt[4]{1296}=6$, evaluate $6^{4}$.",
         "structure": "inverse-from-given-fact",
         "solution_text": "$\\sqrt[4]{1296}=6$\nThe fourth power undoes the fourth root.\n$6^{4}=1296$"
       },
-      {
+{
         "question_text": "Find the side length of this square.\n[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\draw (0,0) rectangle (3.0,3.0);\n\\node at (1.5,1.5) {$196\\text{ cm}^{2}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "side-from-area",
         "solution_text": "$\\sqrt{196}$\n$=14$\nThe side length is $14$ cm.\n[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\draw (0,0) rectangle (3.0,3.0);\n\\node at (1.5,1.5) {$196\\text{ cm}^{2}$};\n\\node[below] at (1.5,0) {$14\\text{ cm}$};\n\\node[left] at (0,1.5) {$14\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
-        "question_text": "This cube is built from $216$ identical small cubes.\nHow many small cubes lie along each edge?\n[tikz]\n\\begin{tikzpicture}[scale=0.75]\n\\draw (0,0)--(2.6,0)--(2.6,2.6)--(0,2.6)--cycle;\n\\draw (0,2.6)--(0.9,3.5)--(3.5,3.5)--(2.6,2.6);\n\\draw (2.6,0)--(3.5,0.9)--(3.5,3.5);\n\\draw[dashed] (0,0)--(0.9,0.9);\n\\draw[dashed] (0.9,0.9)--(0.9,3.5);\n\\draw[dashed] (0.9,0.9)--(3.5,0.9);\n\\node at (1.3,1.3) {$216\\text{ cubes}$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "edge-from-volume",
-        "solution_text": "$\\sqrt[3]{216}$\n$=6$\nThere are $6$ small cubes along each edge.\n[tikz]\n\\begin{tikzpicture}[scale=0.75]\n\\draw (0,0)--(2.6,0)--(2.6,2.6)--(0,2.6)--cycle;\n\\draw (0,2.6)--(0.9,3.5)--(3.5,3.5)--(2.6,2.6);\n\\draw (2.6,0)--(3.5,0.9)--(3.5,3.5);\n\\draw[dashed] (0,0)--(0.9,0.9);\n\\draw[dashed] (0.9,0.9)--(0.9,3.5);\n\\draw[dashed] (0.9,0.9)--(3.5,0.9);\n\\node at (1.3,1.3) {$216\\text{ cubes}$};\n\\node[below] at (1.3,0) {$6$};\n\\node[left] at (0,1.3) {$6$};\n\\end{tikzpicture}\n[/tikz]"
+{
+        "question_text": "Evaluate $\\sqrt[3]{2744}$.",
+        "structure": "evaluate-cube-root",
+        "solution_text": "$\\sqrt[3]{2744}$\n$=14$, since $14\\times 14\\times 14=2744$"
       },
-      {
+{
         "question_text": "Evaluate $\\sqrt{0.36}$.",
         "structure": "evaluate-square-root",
         "solution_text": "$\\sqrt{0.36}$\n$=0.6$, since $0.6\\times 0.6=0.36$"
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "A cube has volume $343$ cm$^{3}$.\nFind the total length of its $12$ edges.",
-        "structure": "roots-in-context",
-        "solution_text": "$\\sqrt[3]{343}=7$, so each edge is $7$ cm long.\n$12\\times 7$\n$=84$\nThe total length of the edges is $84$ cm."
+{
+        "question_text": "Evaluate $\\sqrt[3]{-512}$.",
+        "structure": "evaluate-negative-cube-root",
+        "solution_text": "$\\sqrt[3]{-512}$\n$=-8$, since $(-8)\\times(-8)\\times(-8)=-512$"
       },
-      {
-        "question_text": "A square has area $324$ cm$^{2}$.\nFind its perimeter.",
-        "structure": "roots-in-context",
-        "solution_text": "$\\sqrt{324}=18$, so each side is $18$ cm long.\n$4\\times 18$\n$=72$\nThe perimeter is $72$ cm."
+{
+        "question_text": "Evaluate $\\sqrt{15\\,625}$.",
+        "structure": "evaluate-square-root",
+        "solution_text": "$\\sqrt{15\\,625}$\n$=125$, since $125\\times 125=15\\,625$"
       },
-      {
+{
         "question_text": "Given that $2^{10}=1024$, evaluate $\\left(\\sqrt[10]{1024}\\right)^{2}$.",
         "structure": "inverse-from-given-fact",
         "solution_text": "$\\sqrt[10]{1024}=2$, since $2^{10}=1024$\n$\\left(\\sqrt[10]{1024}\\right)^{2}=2^{2}$\n$=4$"
       },
-      {
-        "question_text": "A square has area $64$ cm$^{2}$ and a cube has volume $64$ cm$^{3}$.\nWhich is longer, the side of the square or the edge of the cube, and by how much?",
-        "structure": "compare-square-side-and-cube-edge",
-        "solution_text": "$\\sqrt{64}=8$, so the square has side length $8$ cm.\n$\\sqrt[3]{64}=4$, so the cube has edge length $4$ cm.\n$8-4$\n$=4$\nThe side of the square is longer, by $4$ cm."
+{
+        "question_text": "Given that $4^{7}=16\\,384$, evaluate $\\left(\\sqrt[7]{16\\,384}\\right)^{2}$.",
+        "structure": "inverse-from-given-fact",
+        "solution_text": "$\\sqrt[7]{16\\,384}=4$, since $4^{7}=16\\,384$\n$\\left(\\sqrt[7]{16\\,384}\\right)^{2}=4^{2}$\n$=16$"
       }
-    ]
+]
   }
 }

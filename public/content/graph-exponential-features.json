@@ -2,8 +2,8 @@
   "skillId": "graph-exponential-features",
   "atomType": "R",
   "theory": {
-        "intro": "An **exponential relationship** such as $y=a^x$, where $a>0$ and $a\\ne1$, graphs as an **exponential curve** that races upward or fades toward a horizontal **asymptote**. Its equation gives the $y$-intercept, the asymptote, and whether it grows or decays.",
-        "facts": [
+"intro": "An **exponential relationship** such as $y=a^x$, where $a>0$ and $a\\ne1$, graphs as an **exponential curve** that races upward or fades toward a horizontal **asymptote**. Its equation gives the $y$-intercept, the asymptote, and whether it grows or decays.",
+"facts": [
 "$y=a^x$ with $a>1$ is **increasing**, which is exponential **growth**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[{Stealth}-{Stealth}] (-3.4,0) -- (3.4,0);\n\\draw[{Stealth}-{Stealth}] (0,-1.6) -- (0,3.3);\n\\node at (3.65,-0.3) {$x$};\n\\node at (-0.35,3.5) {$y$};\n\\draw[thick,blue!70!black,<->,domain=-2.7:1.6,smooth,samples=80,variable=\\x] plot ({\\x},{exp(\\x*ln(2))});\n\\node[font=\\small] at (-1.85,-0.8) {horizontal asymptote};\n\\draw[-{Stealth}] (-2.2,-0.55) -- (-2.5,-0.07);\n\\end{tikzpicture}\n[/tikz]",
 "$y=a^x$ with $0<a<1$ is **decreasing**, which is exponential **decay**. For $y=a^{-x}$, the curve is decreasing when $a>1$ and increasing when $0<a<1$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[{Stealth}-{Stealth}] (-3.4,0) -- (3.4,0);\n\\draw[{Stealth}-{Stealth}] (0,-1.6) -- (0,3.3);\n\\node at (3.65,-0.3) {$x$};\n\\node at (-0.35,3.5) {$y$};\n\\draw[thick,blue!70!black,<->,domain=-1.6:2.7,smooth,samples=80,variable=\\x] plot ({\\x},{exp(-\\x*ln(2))});\n\\node[font=\\small] at (1.85,-0.8) {horizontal asymptote};\n\\draw[-{Stealth}] (2.2,-0.55) -- (2.5,-0.07);\n\\end{tikzpicture}\n[/tikz]",
 "$y=a^x$ has **$y$-intercept** $(0,1)$ because $a^0=1$; in $y=k(a)^x$ the $y$-intercept moves to $(0,k)$.",
@@ -11,12 +11,30 @@
 "The curve runs to its asymptote on one side and off toward infinity on the other.",
 "A negative coefficient, as in $y=-a^x$, flips the curve to the other side of its asymptote."
 ],
-        "steps": [
+"steps": [
 "Read the base to decide growth or decay for $y=a^x$. A negative exponent, as in $a^{-x}$, reverses whether the curve increases or decreases; a negative coefficient reverses it again. Account for both before describing the curve.",
 "Find the $y$-intercept by setting $x=0$. For $y=ka^x+c$ or $y=ka^{-x}+c$, this gives $y=k+c$, so the intercept is $(0,k+c)$.",
 "State the horizontal asymptote and describe the end behaviour."
+],
+"workedExamples": [
+  {
+    "question_text": "For $y=6^x$, state the nature of the curve, the $y$-intercept and the horizontal asymptote. Describe what happens as $x\\to\\infty$ and as $x\\to-\\infty$.",
+    "solution_text": "The base $6>1$, so the curve is increasing: exponential growth.\n\nFor $x=0$:\n$\\begin{align*}y&=6^0\\\\y&=1\\end{align*}$\n\nThe $y$-intercept is $(0,1)$. The horizontal asymptote is $y=0$.\n\nAs $x\\to\\infty$, $y\\to\\infty$. As $x\\to-\\infty$, $y\\to0$ from above.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=8mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,<->] (-2.5,0)--(1.5,0);\n\\draw[black,<->] (0,-0.6)--(0,6.5);\n\\path (1.5,0) node[below] {$x$} (0,6.5) node[left] {$y$};\n\\draw[curveblue,thick,<->,domain=-2.3:1,samples=100,smooth,variable=\\x] plot ({\\x},{exp(\\x*ln(6))});\n\\fill[black] (0,1) circle (1.5pt);\n\\path (0,1) node[above left] {$(0,1)$} (-1.4,0) node[below=5mm] {$y=0$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Explain why $y=7^{-x}$ and $y=\\left(\\frac{1}{7}\\right)^x$ describe the same curve. State its nature, $y$-intercept, horizontal asymptote and end behaviour.",
+    "solution_text": "Using index laws:\n$\\begin{align*}7^{-x}&=(7^{-1})^x\\\\&=\\left(\\frac{1}{7}\\right)^x\\end{align*}$\n\nThe equations describe the same curve. Its base $\\frac{1}{7}$ is between $0$ and $1$, so it is decreasing: exponential decay.\n\nFor $x=0$:\n$\\begin{align*}y&=7^0\\\\y&=1\\end{align*}$\n\nThe $y$-intercept is $(0,1)$ and the horizontal asymptote is $y=0$.\n\nAs $x\\to\\infty$, $y\\to0$ from above. As $x\\to-\\infty$, $y\\to\\infty$.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=8mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,<->] (-1.5,0)--(2.5,0);\n\\draw[black,<->] (0,-0.6)--(0,7.5);\n\\path (2.5,0) node[below] {$x$} (0,7.5) node[left] {$y$};\n\\draw[curveblue,thick,<->,domain=-1:2.3,samples=100,smooth,variable=\\x] plot ({\\x},{exp(-\\x*ln(7))});\n\\fill[black] (0,1) circle (1.5pt);\n\\path (0,1) node[above right] {$(0,1)$} (1.5,0) node[below=5mm] {$y=0$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "The graph of $y=-4^x+2$ is shown.\n\n(a) Read the horizontal asymptote from the graph.\n\n(b) Calculate the $y$-intercept.\n\n(c) Describe what happens as $x\\to\\infty$ and as $x\\to-\\infty$.\n\n[tikz]\n\\begin{tikzpicture}[x=12mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\draw[gridgrey,xstep=12mm,ystep=9mm] (-3,-3) grid (1,3);\n\\draw[black,<->] (-3.3,0)--(1.5,0);\n\\draw[black,<->] (0,-3.3)--(0,3.4);\n\\path (1.5,0) node[below] {$x$} (0,3.4) node[left] {$y$};\n\\foreach \\v in {-3,-2,-1,1} {\\draw[black] (\\v,0.06)--(\\v,-0.06);\\path (\\v,-0.06) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\foreach \\v in {-3,-2,-1,1,2,3} {\\draw[black] (0.06,\\v)--(-0.06,\\v);\\path (-0.06,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\draw[curveblue,thick,<->,domain=-3:1.15,samples=100,smooth,variable=\\x] plot ({\\x},{2-exp(\\x*ln(4))});\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) The left end of the curve approaches the horizontal line $y=2$ from below. The asymptote is $y=2$.\n\n(b) For $x=0$:\n$\\begin{align*}y&=-4^0+2\\\\y&=-1+2\\\\y&=1\\end{align*}$\n\nThe $y$-intercept is $(0,1)$.\n\n(c) As $x\\to\\infty$, $4^x\\to\\infty$, so $y\\to-\\infty$.\n\nAs $x\\to-\\infty$, $4^x\\to0$, so $y\\to2$ from below.\n\n[tikz]\n\\begin{tikzpicture}[x=12mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\definecolor{asymptotered}{HTML}{EF6068}\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\draw[gridgrey,xstep=12mm,ystep=9mm] (-3,-3) grid (1,3);\n\\draw[black,<->] (-3.3,0)--(1.5,0);\n\\draw[black,<->] (0,-3.3)--(0,3.4);\n\\path (1.5,0) node[below] {$x$} (0,3.4) node[left] {$y$};\n\\draw[asymptotered,dashed,thick] (-3,2)--(1.2,2);\n\\path (-2,2) node[above] {$y=2$};\n\\draw[curveblue,thick,<->,domain=-3:1.15,samples=100,smooth,variable=\\x] plot ({\\x},{2-exp(\\x*ln(4))});\n\\fill[black] (0,1) circle (1.5pt);\n\\path (0,1) node[above right] {$(0,1)$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "For each model, state whether it represents exponential growth or decay. Find the intercept on the vertical axis and explain its meaning.\n\n(a) A population is modelled by $P=1200(1.06)^t$, where $t$ is time in years.\n\n(b) The mass of a radioactive substance is modelled by $m=600(0.9)^t$, where $m$ is in grams and $t$ is time in years.",
+    "solution_text": "(a) The base $1.06>1$, so the model represents exponential growth.\n\nFor $t=0$:\n$\\begin{align*}P&=1200(1.06)^0\\\\P&=1200\\end{align*}$\n\nThe vertical intercept is $(0,1200)$: the initial population is $1200$.\n\n(b) The base $0.9$ is between $0$ and $1$, so the model represents exponential decay.\n\nFor $t=0$:\n$\\begin{align*}m&=600(0.9)^0\\\\m&=600\\end{align*}$\n\nThe vertical intercept is $(0,600)$: the initial mass is $600$ g."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
       {

@@ -2,21 +2,63 @@
   "skillId": "perm-comb-cases",
   "atomType": "R",
   "theory": {
-    "intro": "Many counting problems involve conditions where a single formula cannot account for all possibilities. In these situations, we break the problem into mutually exclusive **cases** (scenarios that cannot occur at the same time). We calculate the number of arrangements or selections for each case separately using permutations or combinations, and then add the counts together using the **addition principle**.",
-    "facts": [
+"intro": "Many counting problems involve conditions where a single formula cannot account for all possibilities. In these situations, we break the problem into mutually exclusive **cases** (scenarios that cannot occur at the same time). We calculate the number of arrangements or selections for each case separately using permutations or combinations, and then add the counts together using the **addition principle**.",
+"facts": [
       "**Addition principle for cases**: If a situation is partitioned into mutually exclusive cases $C_1, C_2, \\dots, C_k$, the total number of outcomes is $N = N(C_1) + N(C_2) + \\dots + N(C_k)$.",
       "**At least / At most restrictions**: Conditions like 'at least $2$' or 'at most $1$' naturally split into discrete cases corresponding to each exact valid count (e.g. exactly $2$, exactly $3$, etc.).",
       "**Select then arrange**: When a problem requires choosing a subset of items and then ordering some or all of them, multiply the combination count by the internal arrangement count: $\\binom{n}{r} \\times r! = \\ ^{n}P_{r}$.",
       "**Conflicting digit constraints**: When forming numbers with both magnitude conditions (restricting the leading digit) and parity/divisibility conditions (restricting the units digit), split cases based on the shared or restricted digits.",
       "**Dividing into equal unlabeled groups**: When dividing $n$ items into $k$ groups of equal size where the groups have no distinguishing labels, divide the product of combinations by $k!$ to avoid overcounting group order."
     ],
-    "steps": [
+"steps": [
       "Identify the constraint that creates distinct scenarios and define mutually exclusive cases",
       "Calculate the number of selections or arrangements for each case",
       "Apply any internal arrangements or multi-stage selections within each case",
       "Add the counts from all cases to find the total number of outcomes"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A committee of $5$ is chosen from $5$ teachers and $7$ students. How many committees contain at least $3$ students?",
+    "solution_text": "The possible numbers of students are $3$, $4$ and $5$. These cases do not overlap.\n\nExactly $3$ students: $^{7}C_{3}\\times{}^{5}C_{2}=350$.\n\nExactly $4$ students: $^{7}C_{4}\\times{}^{5}C_{1}=175$.\n\nExactly $5$ students: $^{7}C_{5}=21$.\n\nTotal:\n$\\begin{aligned}&\\mathrel{\\phantom{=}}350+175+21\\\\&=546\\end{aligned}$"
   },
+  {
+    "question_text": "A group of $4$ is selected from $3$ musicians and $6$ actors. How many groups contain at least one musician?",
+    "solution_text": "Subtract groups containing only actors from all groups.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}{}^{9}C_{4}-{}^{6}C_{4}\\\\&=126-15\\\\&=111\\end{aligned}$"
+  },
+  {
+    "question_text": "From $9$ club members, $5$ are selected for a committee. Two of these committee members become President and Secretary. In how many ways can the committee and appointments be chosen?",
+    "solution_text": "Choose the committee, then fill the two distinct positions from its members.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}{}^{9}C_{5}\\times{}^{5}P_{2}\\\\&=126\\times20\\\\&=2520\\end{aligned}$"
+  },
+  {
+    "question_text": "A speaking panel of $4$ is chosen from $6$ candidates.\n\na. How many panels and speaking orders are possible?\n\nb. How many include both Alex and Bailey, with Alex speaking first and Bailey last?",
+    "solution_text": "a. Choose the panel, then arrange its members.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}{}^{6}C_{4}\\times4!\\\\&=15\\times24\\\\&=360\\end{aligned}$\n\nb. Fix Alex and Bailey in their required positions. Choose two other speakers from the remaining four, then arrange them in the middle positions.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}{}^{4}C_{2}\\times2!\\\\&=6\\times2\\\\&=12\\end{aligned}$"
+  },
+  {
+    "question_text": "A row of $4$ books is chosen from $5$ different novels and $4$ different biographies. How many selections and arrangements contain at least $3$ biographies?",
+    "solution_text": "Exactly $3$ biographies and $1$ novel:\n$^{4}C_{3}\\times{}^{5}C_{1}\\times4!=480$.\n\nExactly $4$ biographies:\n$^{4}C_{4}\\times4!=24$.\n\nAdd the two non-overlapping cases.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}480+24\\\\&=504\\end{aligned}$"
+  },
+  {
+    "question_text": "Use the digits $\\{2,3,4,5,6,7\\}$ without repetition.\n\na. How many three-digit numbers are greater than $500$?\n\nb. How many four-digit odd numbers are greater than $4000$?",
+    "solution_text": "a. The hundreds digit is $5$, $6$ or $7$. Fill the other positions from the five remaining digits.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}3\\times{}^{5}P_{2}\\\\&=3\\times20\\\\&=60\\end{aligned}$\n\nb. Choose the first and last digits before filling the middle positions.\n\nFirst digit $4$ or $6$: the last digit can be $3$, $5$ or $7$.\n$2\\times3\\times{}^{4}P_{2}=72$.\n\nFirst digit $5$ or $7$: only two odd digits remain for the last position.\n$2\\times2\\times{}^{4}P_{2}=48$.\n\nTotal:\n$\\begin{aligned}&\\mathrel{\\phantom{=}}72+48\\\\&=120\\end{aligned}$"
+  },
+  {
+    "question_text": "How many three-digit even numbers can be formed from $\\{0,1,2,3,4,5\\}$ without repetition?",
+    "solution_text": "Deal with the last digit first, then the non-zero first digit.\n\nLast digit $0$: five choices for the first digit and four for the middle digit.\n$1\\times5\\times4=20$.\n\nLast digit $2$ or $4$: four non-zero choices remain for the first digit, then four choices for the middle digit.\n$2\\times4\\times4=32$.\n\nTotal:\n$\\begin{aligned}&\\mathrel{\\phantom{=}}20+32\\\\&=52\\end{aligned}$"
+  },
+  {
+    "question_text": "Ten students are divided into two unlabeled groups of $4$ and one group of $2$. In how many ways can this be done?",
+    "solution_text": "Choose the two groups of four; the remaining students form the group of two.\n\nThe two groups of four are interchangeable, so each division is counted $2!$ times. The group of two is distinguished by its size.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{{}^{10}C_{4}\\times{}^{6}C_{4}\\times{}^{2}C_{2}}{2!}\\\\&=\\frac{210\\times15\\times1}{2}\\\\&=1575\\end{aligned}$"
+  },
+  {
+    "question_text": "How many four-letter codes can be formed using the letters of PEPPER? Each letter may be used only as often as it occurs in the word.",
+    "solution_text": "There are three Ps, two Es and one R. Split by the letter counts, treating repeated copies as identical.\n\nThree Ps: the fourth letter is E or R.\n$2\\times\\frac{4!}{3!}=8$.\n\nTwo Ps and two Es:\n$\\frac{4!}{2!2!}=6$.\n\nTwo Ps, one E and one R:\n$\\frac{4!}{2!}=12$.\n\nOne P, two Es and one R:\n$\\frac{4!}{2!}=12$.\n\nThese exhaust the possible selections.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}8+6+12+12\\\\&=38\\end{aligned}$"
+  },
+  {
+    "question_text": "Choose distinct numbers from $\\{1,2,3,4,5,6,7\\}$, with order unimportant.\n\na. How many pairs have an even sum?\n\nb. How many selections of three numbers have an odd sum?",
+    "solution_text": "There are four odd numbers and three even numbers.\n\na. An even sum requires two odd numbers or two even numbers.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}{}^{4}C_{2}+{}^{3}C_{2}\\\\&=6+3\\\\&=9\\end{aligned}$\n\nb. An odd sum requires three odd numbers, or one odd number and two even numbers.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}{}^{4}C_{3}+{}^{4}C_{1}\\times{}^{3}C_{2}\\\\&=4+4\\times3\\\\&=16\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,16 +2,34 @@
   "skillId": "relations-and-functions",
   "atomType": "Cat",
   "theory": {
-        "intro": "A **relation** pairs values of one set (inputs $x$) with values of another set (outputs $y$). A **function** is a relation where each input has exactly one output. We show a relation as a mapping diagram or as ordered pairs $(x, y)$.",
-        "facts": [
+"intro": "A **relation** pairs values of one set (inputs $x$) with values of another set (outputs $y$). A **function** is a relation where each input has exactly one output. We show a relation as a mapping diagram or as ordered pairs $(x, y)$.",
+"facts": [
 "Every function is a relation, but not every relation is a function.",
 "A relation is a function when **every element of the specified input set has an output, and no input value is paired with two different outputs**.",
 "In a mapping diagram, a function has **exactly one arrow leaving each input**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) ellipse (0.8 and 2.2);\n\\draw (3.4,0) ellipse (0.8 and 2.2);\n\\node at (0,2.6) {$x$};\n\\node at (3.4,2.6) {$y$};\n\\node (L0) at (0,1.3) {$a$};\n\\node (L1) at (0,0) {$b$};\n\\node (L2) at (0,-1.3) {$c$};\n\\node (R0) at (3.4,1.65) {$p$};\n\\node (R1) at (3.4,0.55) {$q$};\n\\node (R2) at (3.4,-0.55) {$r$};\n\\node (R3) at (3.4,-1.65) {$s$};\n\\draw[->] (L0)--(R0);\n\\draw[->] (L1)--(R1);\n\\draw[->] (L2)--(R2);\n\\end{tikzpicture}\n[/tikz]",
 "Two inputs may send arrows to the same output, and the relation is still a function.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) ellipse (0.8 and 2.2);\n\\draw (3.4,0) ellipse (0.8 and 2.2);\n\\node at (0,2.6) {$x$};\n\\node at (3.4,2.6) {$y$};\n\\node (L0) at (0,1.3) {$a$};\n\\node (L1) at (0,0) {$b$};\n\\node (L2) at (0,-1.3) {$c$};\n\\node (R0) at (3.4,1.65) {$p$};\n\\node (R1) at (3.4,0.55) {$q$};\n\\node (R2) at (3.4,-0.55) {$r$};\n\\node (R3) at (3.4,-1.65) {$s$};\n\\draw[->] (L0)--(R0);\n\\draw[->] (L1)--(R1);\n\\draw[->] (L2)--(R1);\n\\end{tikzpicture}\n[/tikz]",
 "Adding a second arrow leaving the same input **to a different output** makes it not a function. Repeating the same association does not change whether it is a function.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) ellipse (0.8 and 2.2);\n\\draw (3.4,0) ellipse (0.8 and 2.2);\n\\node at (0,2.6) {$x$};\n\\node at (3.4,2.6) {$y$};\n\\node (L0) at (0,1.3) {$a$};\n\\node (L1) at (0,0) {$b$};\n\\node (L2) at (0,-1.3) {$c$};\n\\node (R0) at (3.4,1.65) {$p$};\n\\node (R1) at (3.4,0.55) {$q$};\n\\node (R2) at (3.4,-0.55) {$r$};\n\\node (R3) at (3.4,-1.65) {$s$};\n\\draw[->,red,line width=1.3pt] (L0)--(R0);\n\\draw[->,red,line width=1.3pt] (L0)--(R3);\n\\draw[->] (L1)--(R1);\n\\draw[->] (L2)--(R2);\n\\end{tikzpicture}\n[/tikz]",
 "In a set of ordered pairs, a **repeated $x$-value with different $y$-values** means it is not a function."
+],
+"workedExamples": [
+  {
+    "question_text": "Does this mapping diagram represent a function? Explain.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black] (0,0) ellipse (0.65 and 1.7);\n\\draw[black] (3.8,0) ellipse (0.65 and 1.7);\n\\node at (0,2) {$x$};\n\\node at (3.8,2) {$y$};\n\\node (L0) at (0,1.05) {$-5$};\n\\node (L1) at (0,0) {$2$};\n\\node (L2) at (0,-1.05) {$9$};\n\\node (R0) at (3.8,1.05) {$4$};\n\\node (R1) at (3.8,0) {$6$};\n\\node (R2) at (3.8,-1.05) {$11$};\n\\draw[black,->] (L0.east)--(R0.west);\n\\draw[black,->] (L1.east)--(R0.west);\n\\draw[black,->] (L2.east)--(R2.west);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Each input has exactly one arrow leaving it. The inputs $-5$ and $2$ share the output $4$, which is allowed. An output need not be used.\n\nThe relation is a function."
+  },
+  {
+    "question_text": "Does this mapping diagram represent a function? Explain.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black] (0,0) ellipse (0.65 and 1.7);\n\\draw[black] (3.8,0) ellipse (0.65 and 1.7);\n\\node at (0,2) {$x$};\n\\node at (3.8,2) {$y$};\n\\node (L0) at (0,1.05) {$-3$};\n\\node (L1) at (0,0) {$5$};\n\\node (L2) at (0,-1.05) {$10$};\n\\node (R0) at (3.8,1.05) {$2$};\n\\node (R1) at (3.8,0) {$7$};\n\\node (R2) at (3.8,-1.05) {$12$};\n\\draw[black,->] (L0.east)--(R0.west);\n\\draw[black,->] (L1.east)--(R1.west);\n\\draw[black,->] (L1.east)--(R2.west);\n\\draw[black,->] (L2.east)--(R0.west);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The input $5$ has two different outputs, $7$ and $12$, as the highlighted arrows show.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{functionRed}{HTML}{EF6068}\n\\draw[black] (0,0) ellipse (0.65 and 1.7);\n\\draw[black] (3.8,0) ellipse (0.65 and 1.7);\n\\node at (0,2) {$x$};\n\\node at (3.8,2) {$y$};\n\\node (L0) at (0,1.05) {$-3$};\n\\node (L1) at (0,0) {$5$};\n\\node (L2) at (0,-1.05) {$10$};\n\\node (R0) at (3.8,1.05) {$2$};\n\\node (R1) at (3.8,0) {$7$};\n\\node (R2) at (3.8,-1.05) {$12$};\n\\draw[black,->] (L0.east)--(R0.west);\n\\draw[functionRed,->,line width=1.2pt] (L1.east)--(R1.west);\n\\draw[functionRed,->,line width=1.2pt] (L1.east)--(R2.west);\n\\draw[black,->] (L2.east)--(R0.west);\n\\end{tikzpicture}\n[/tikz]\n\nA function gives each input exactly one output, so this relation is not a function."
+  },
+  {
+    "question_text": "Decide whether each relation is a function. Explain.\n\na. $P=\\{(-7,5),\\ (1,5),\\ (6,5),\\ (8,5)\\}$\n\nb. $Q=\\{(-4,2),\\ (3,9),\\ (-4,6),\\ (7,9)\\}$",
+    "solution_text": "a. The inputs $-7$, $1$, $6$ and $8$ each have exactly one output. Sharing the output $5$ is allowed, so $P$ is a function.\n\nb. The input $-4$ is paired with two different outputs, $2$ and $6$, so $Q$ is not a function."
+  },
+  {
+    "question_text": "The table lists a relation between $x$ and $y$. Does it represent a function? Explain.\n\n$\\begin{array}{c|ccccc}x&-2&1&5&1&8\\\\\\hline y&4&7&4&10&7\\end{array}$",
+    "solution_text": "Read each column as an ordered pair:\n\n$\\{(-2,4),\\ (1,7),\\ (5,4),\\ (1,10),\\ (8,7)\\}$.\n\nThe input $1$ has two different outputs, $7$ and $10$, so the relation is not a function. The shared outputs $4$ and $7$ do not cause the failure."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

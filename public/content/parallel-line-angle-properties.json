@@ -2,20 +2,41 @@
   "skillId": "parallel-line-angle-properties",
   "atomType": "R",
   "theory": {
-        "intro": "When a transversal crosses parallel lines, its positional angle pairs take predictable measures.",
-        "facts": [
+"intro": "When a transversal crosses parallel lines, its positional angle pairs take predictable measures.",
+"facts": [
 "Corresponding angles on parallel lines are **equal**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\n\\usetikzlibrary{angles,quotes}\n\\coordinate (La) at (-2.8,1.2);\n\\coordinate (Lb) at (2.8,1.2);\n\\coordinate (Ma) at (-2.8,-1.2);\n\\coordinate (Mb) at (2.8,-1.2);\n\\coordinate (Tt) at (1.7,2.4);\n\\coordinate (Tb) at (-1.7,-2.4);\n\\coordinate (P) at (intersection of La--Lb and Tb--Tt);\n\\coordinate (Q) at (intersection of Ma--Mb and Tb--Tt);\n\\draw (La) -- (Lb);\n\\draw (Ma) -- (Mb);\n\\draw (Tb) -- (Tt);\n\\draw[->] (1.85,1.2) -- (2.45,1.2);\n\\draw[->] (1.85,-1.2) -- (2.45,-1.2);\n\\pic[draw, \"$a$\", angle radius=0.6cm, angle eccentricity=1.9] {angle = Tt--P--La};\n\\pic[draw, \"$a$\", angle radius=0.6cm, angle eccentricity=1.9] {angle = Tt--Q--Ma};\n\\end{tikzpicture}\n[/tikz]",
 "Alternate angles on parallel lines are **equal**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\n\\usetikzlibrary{angles,quotes}\n\\coordinate (La) at (-2.8,1.2);\n\\coordinate (Lb) at (2.8,1.2);\n\\coordinate (Ma) at (-2.8,-1.2);\n\\coordinate (Mb) at (2.8,-1.2);\n\\coordinate (Tt) at (1.7,2.4);\n\\coordinate (Tb) at (-1.7,-2.4);\n\\coordinate (P) at (intersection of La--Lb and Tb--Tt);\n\\coordinate (Q) at (intersection of Ma--Mb and Tb--Tt);\n\\draw (La) -- (Lb);\n\\draw (Ma) -- (Mb);\n\\draw (Tb) -- (Tt);\n\\draw[->] (1.85,1.2) -- (2.45,1.2);\n\\draw[->] (1.85,-1.2) -- (2.45,-1.2);\n\\pic[draw, \"$a$\", angle radius=0.6cm, angle eccentricity=1.9] {angle = La--P--Tb};\n\\pic[draw, \"$a$\", angle radius=0.6cm, angle eccentricity=1.9] {angle = Mb--Q--Tt};\n\\end{tikzpicture}\n[/tikz]",
 "Co-interior angles between parallel lines are **supplementary**, so they add to $180^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\n\\usetikzlibrary{angles,quotes}\n\\coordinate (La) at (-2.8,1.2);\n\\coordinate (Lb) at (2.8,1.2);\n\\coordinate (Ma) at (-2.8,-1.2);\n\\coordinate (Mb) at (2.8,-1.2);\n\\coordinate (Tt) at (1.7,2.4);\n\\coordinate (Tb) at (-1.7,-2.4);\n\\coordinate (P) at (intersection of La--Lb and Tb--Tt);\n\\coordinate (Q) at (intersection of Ma--Mb and Tb--Tt);\n\\draw (La) -- (Lb);\n\\draw (Ma) -- (Mb);\n\\draw (Tb) -- (Tt);\n\\draw[->] (1.85,1.2) -- (2.45,1.2);\n\\draw[->] (1.85,-1.2) -- (2.45,-1.2);\n\\pic[draw, \"$a$\", angle radius=0.6cm, angle eccentricity=1.9] {angle = Tb--P--Lb};\n\\pic[draw, \"$b$\", angle radius=0.6cm, angle eccentricity=1.9] {angle = Mb--Q--Tt};\n\\end{tikzpicture}\n[/tikz]",
 "To use these properties, parallelism must be **known or established**. Equal corresponding angles, equal alternate angles, or co-interior angles summing to $180^{\\circ}$ establish that the crossed lines are parallel. Missing parallel marks alone do not establish that lines are not parallel."
 ],
-        "steps": [
+"steps": [
 "Check that parallelism is known or established.",
 "Identify the angle pair.",
 "Apply its property.",
 "State the reason."
+],
+"workedExamples": [
+  {
+    "question_text": "The marked lines are parallel. Find $x$ and give a reason.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (P) at (0,1);\n\\coordinate (Q) at ({-2/tan(55)},-1);\n\\draw (-2.5,1)--(2.5,1);\n\\draw (-2.5,-1)--(2.5,-1);\n\\draw ({-3/tan(55)},-2)--({1/tan(55)},2);\n\\draw[->] (1.7,1)--(2.1,1);\n\\draw[->] (1.7,-1)--(2.1,-1);\n\\draw (P) ++(0:0.45) arc[start angle=0,end angle=55,radius=0.45];\n\\draw (Q) ++(0:0.45) arc[start angle=0,end angle=55,radius=0.45];\n\\path (P) ++(27.5:0.85) node {$55^{\\circ}$};\n\\path (Q) ++(27.5:0.85) node {$x$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The marked angles are corresponding angles on parallel lines, so they are equal.\n\n$x=55^{\\circ}$"
+  },
+  {
+    "question_text": "The marked lines are parallel. Find $y$ and give a reason.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (P) at (0,1);\n\\coordinate (Q) at ({-2/tan(55)},-1);\n\\draw (-2.5,1)--(2.5,1);\n\\draw (-2.5,-1)--(2.5,-1);\n\\draw ({-3/tan(55)},-2)--({1/tan(55)},2);\n\\draw[->] (1.7,1)--(2.1,1);\n\\draw[->] (1.7,-1)--(2.1,-1);\n\\draw (P) ++(235:0.45) arc[start angle=235,end angle=360,radius=0.45];\n\\draw (Q) ++(55:0.45) arc[start angle=55,end angle=180,radius=0.45];\n\\path (P) ++(297.5:0.85) node {$125^{\\circ}$};\n\\path (Q) ++(117.5:0.85) node {$y$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The marked angles lie between the parallel lines on opposite sides of the transversal. They are alternate angles, so they are equal.\n\n$y=125^{\\circ}$"
+  },
+  {
+    "question_text": "The marked lines are parallel. Find $z$ and give a reason.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (P) at (0,1);\n\\coordinate (Q) at ({-2/tan(55)},-1);\n\\draw (-2.5,1)--(2.5,1);\n\\draw (-2.5,-1)--(2.5,-1);\n\\draw ({-3/tan(55)},-2)--({1/tan(55)},2);\n\\draw[->] (1.7,1)--(2.1,1);\n\\draw[->] (1.7,-1)--(2.1,-1);\n\\draw (P) ++(235:0.45) arc[start angle=235,end angle=360,radius=0.45];\n\\draw (Q) ++(0:0.45) arc[start angle=0,end angle=55,radius=0.45];\n\\path (P) ++(297.5:0.85) node {$125^{\\circ}$};\n\\path (Q) ++(27.5:0.85) node {$z$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The marked angles are co-interior angles between parallel lines, so they sum to $180^{\\circ}$.\n\n$\\begin{align*}z+125^{\\circ}&=180^{\\circ}\\\\z&=180^{\\circ}-125^{\\circ}\\\\z&=55^{\\circ}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Decide whether lines $\\ell$ and $m$ are parallel. Give a reason.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (P) at (0,1);\n\\coordinate (Q) at ({-2/tan(55)},-1);\n\\draw (-2.5,1)--(2.5,1);\n\\draw (-2.5,-1)--(2.5,-1);\n\\draw ({-3/tan(55)},-2)--({1/tan(55)},2);\n\\draw (P) ++(0:0.45) arc[start angle=0,end angle=55,radius=0.45];\n\\draw (Q) ++(0:0.45) arc[start angle=0,end angle=55,radius=0.45];\n\\path (P) ++(27.5:0.85) node {$55^{\\circ}$};\n\\path (Q) ++(27.5:0.85) node {$55^{\\circ}$};\n\\path (2.3,1.25) node {$\\ell$};\n\\path (2.3,-0.75) node {$m$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The corresponding angles are equal: both measure $55^{\\circ}$. Therefore $\\ell$ and $m$ are parallel."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

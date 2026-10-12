@@ -2,8 +2,8 @@
   "skillId": "graph-polynomial-with-calculus",
   "atomType": "R",
   "theory": {
-    "intro": "A polynomial in factored form gives its $x$-intercepts and how the curve meets the axis at each one. Calculus adds the stationary points between them, and the leading term fixes both ends. Together these determine the sketch.",
-    "facts": [
+"intro": "A polynomial in factored form gives its $x$-intercepts and how the curve meets the axis at each one. Calculus adds the stationary points between them, and the leading term fixes both ends. Together these determine the sketch.",
+"facts": [
 "A zero of multiplicity $2$ or more is also a stationary point, because $P'(x)$ is zero there.",
 "A zero of even multiplicity is a turning point sitting on the $x$-axis.",
 "A zero of odd multiplicity $3$ or more is a horizontal point of inflection on the $x$-axis.",
@@ -12,14 +12,44 @@
 "A polynomial of degree $n$ has at most $n-1$ stationary points.",
 "At a stationary point, $P''>0$ establishes a minimum and $P''<0$ establishes a maximum; $P''=0$ is inconclusive, so check the behaviour on either side."
 ],
-    "steps": [
+"steps": [
       "Factorise $P(x)$ and mark each $x$-intercept with its multiplicity.",
       "Find the $y$-intercept $P(0)$.",
       "Solve $P'(x)=0$ and find the coordinates and nature of each stationary point.",
       "Describe the behaviour as $x\\to\\infty$ and as $x\\to-\\infty$.",
       "Draw a smooth curve through the key points."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A cubic curve touches the $x$-axis at $x=2$, cuts it at $x=-1$, and has $y$-intercept $-4$. Find its equation, stationary points and point of inflection, then sketch it.",
+    "solution_text": "The double zero and simple zero give $P(x)=k(x-2)^2(x+1)$.\n$\\begin{align*}-4&=k(-2)^2(1)\\\\k&=-1\\\\P(x)&=-(x-2)^2(x+1)\\\\&=-x^3+3x^2-4\\end{align*}$\nFor stationary points,\n$\\begin{align*}P'(x)&=-3x^2+6x\\\\&=-3x(x-2)\\\\P'(x)&=0\\\\x&=0\\text{ or }2.\\end{align*}$\n$P''(x)=-6x+6$. Since $P''(0)=6>0$, $(0,-4)$ is a minimum. Since $P''(2)=-6<0$, $(2,0)$ is a maximum.\nFor the point of inflection,\n$\\begin{align*}P''(x)&=0\\\\-6x+6&=0\\\\x&=1\\\\P(1)&=-2.\\end{align*}$\n$P''$ changes from positive to negative at $x=1$, so $(1,-2)$ is a point of inflection.\nThe curve cuts the axis at $(-1,0)$ and touches it at $(2,0)$. The leading term is $-x^3$, so $P(x)\\to\\infty$ as $x\\to-\\infty$ and $P(x)\\to-\\infty$ as $x\\to\\infty$.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[width=7cm,height=6cm,axis lines=middle,axis line style={black},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xmin=-1.8,xmax=3.8,ymin=-7,ymax=5,xtick=\\empty,ytick=\\empty,clip=false]\n\\addplot[draw={rgb,255:red,38;green,140;blue,255},thick,<->,samples=160,domain=-1.4:3.2] {-(x-2)*(x-2)*(x+1)};\n\\addplot[only marks,mark=*,black] coordinates {(-1,0) (0,-4) (2,0) (1,-2)};\n\\node[font=\\fontsize{10}{12}\\selectfont,text=black,anchor=south east] at (axis cs:-1,0) {$(-1,0)$};\n\\node[font=\\fontsize{10}{12}\\selectfont,text=black,anchor=north east] at (axis cs:0,-4) {$(0,-4)$};\n\\node[font=\\fontsize{10}{12}\\selectfont,text=black,anchor=south] at (axis cs:2,0) {$(2,0)$};\n\\node[font=\\fontsize{10}{12}\\selectfont,text=black,anchor=north west] at (axis cs:1,-2) {$(1,-2)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Sketch $y=(x+2)^2(x-2)^2$, showing the intercepts, stationary points and end behaviour.",
+    "solution_text": "Both $x=-2$ and $x=2$ have multiplicity $2$, so the curve touches the axis at both. The $y$-intercept is $(0,16)$.\n$\\begin{align*}P(x)&=(x^2-4)^2\\\\&=x^4-8x^2+16\\\\P'(x)&=4x^3-16x\\\\&=4x(x-2)(x+2)\\\\P'(x)&=0\\\\x&=-2,\\ 0\\text{ or }2.\\end{align*}$\n$P''(x)=12x^2-16$. Since $P''(-2)=P''(2)=32>0$, $(-2,0)$ and $(2,0)$ are minima. Since $P''(0)=-16<0$, $(0,16)$ is a maximum.\nThe leading term is $x^4$, so $P(x)\\to\\infty$ as $x\\to\\pm\\infty$.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[width=7cm,height=6cm,axis lines=middle,axis line style={black},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xmin=-3.3,xmax=3.3,ymin=-5,ymax=28,xtick=\\empty,ytick=\\empty,clip=false]\n\\addplot[draw={rgb,255:red,38;green,140;blue,255},thick,<->,samples=180,domain=-2.95:2.95] {(x+2)*(x+2)*(x-2)*(x-2)};\n\\addplot[only marks,mark=*,black] coordinates {(-2,0) (2,0) (0,16)};\n\\node[font=\\fontsize{10}{12}\\selectfont,text=black,anchor=north] at (axis cs:-2,0) {$(-2,0)$};\n\\node[font=\\fontsize{10}{12}\\selectfont,text=black,anchor=north] at (axis cs:2,0) {$(2,0)$};\n\\node[font=\\fontsize{10}{12}\\selectfont,text=black,anchor=south] at (axis cs:0,16) {$(0,16)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Sketch $y=-(x+1)^3(x-3)$, showing the intercepts, stationary points and their nature, and end behaviour.",
+    "solution_text": "$x=-1$ is a triple zero, so the curve crosses at a horizontal point of inflection. $x=3$ is a simple zero, so the curve cuts the axis there. The $y$-intercept is $(0,3)$.\nUsing the product rule,\n$\\begin{align*}P'(x)&=-3(x+1)^2(x-3)-(x+1)^3\\\\&=-(x+1)^2(3x-9+x+1)\\\\&=-4(x+1)^2(x-2)\\\\P'(x)&=0\\\\x&=-1\\text{ or }2.\\end{align*}$\n$P'$ is positive on both sides of $x=-1$, so $(-1,0)$ is a stationary point where the curve keeps increasing. Its triple multiplicity establishes the horizontal inflection.\nAt $x=2$, $P'$ changes from positive to negative, so there is a maximum.\n$\\begin{align*}P(2)&=-(3)^3(-1)\\\\&=27.\\end{align*}$\nThe maximum is $(2,27)$. The leading term is $-x^4$, so $P(x)\\to-\\infty$ as $x\\to\\pm\\infty$.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[width=7cm,height=6cm,axis lines=middle,axis line style={black},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xmin=-3.2,xmax=3.6,ymin=-20,ymax=36,xtick=\\empty,ytick=\\empty,clip=false]\n\\addplot[draw={rgb,255:red,38;green,140;blue,255},thick,<->,samples=200,domain=-2.5:3.2] {-(x+1)*(x+1)*(x+1)*(x-3)};\n\\addplot[only marks,mark=*,black] coordinates {(-1,0) (3,0) (0,3) (2,27)};\n\\node[font=\\fontsize{10}{12}\\selectfont,text=black,anchor=north] at (axis cs:-1,0) {$(-1,0)$};\n\\node[font=\\fontsize{10}{12}\\selectfont,text=black,anchor=south west] at (axis cs:3,0) {$(3,0)$};\n\\node[font=\\fontsize{10}{12}\\selectfont,text=black,anchor=south east] at (axis cs:0,3) {$(0,3)$};\n\\node[font=\\fontsize{10}{12}\\selectfont,text=black,anchor=south] at (axis cs:2,27) {$(2,27)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Sketch $y=(x+1)^3(x-1)^2$, describing its behaviour at each intercept and as $x\\to\\pm\\infty$. Turning-point coordinates are not required.",
+    "solution_text": "$x=-1$ has multiplicity $3$, so the curve crosses the axis at the horizontal inflection $(-1,0)$. $x=1$ has multiplicity $2$, so the curve touches the axis there. The $y$-intercept is $(0,1)$.\nThe squared factor is positive away from $x=1$, so the sign of $P(x)$ follows the sign of $(x+1)^3$. The curve is below the axis for $x<-1$ and above it for $x>-1$, except at $x=1$.\nCalculus confirms the shape:\n$\\begin{align*}P'(x)&=3(x+1)^2(x-1)^2+2(x+1)^3(x-1)\\\\&=(x+1)^2(x-1)(5x-1).\\end{align*}$\n$P'$ is positive on both sides of $x=-1$. It changes from positive to negative at $x=\\frac15$, then from negative to positive at $x=1$. Thus there is a maximum between the intercepts and a minimum at $(1,0)$.\nThe leading term is $x^5$, so $P(x)\\to-\\infty$ as $x\\to-\\infty$ and $P(x)\\to\\infty$ as $x\\to\\infty$.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[width=7cm,height=6cm,axis lines=middle,axis line style={black},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xmin=-2.2,xmax=1.9,ymin=-4,ymax=5,xtick=\\empty,ytick=\\empty,clip=false]\n\\addplot[draw={rgb,255:red,38;green,140;blue,255},thick,<->,samples=200,domain=-1.75:1.5] {(x+1)*(x+1)*(x+1)*(x-1)*(x-1)};\n\\addplot[only marks,mark=*,black] coordinates {(-1,0) (1,0) (0,1)};\n\\node[font=\\fontsize{10}{12}\\selectfont,text=black,anchor=south east] at (axis cs:-1,0) {$(-1,0)$};\n\\node[font=\\fontsize{10}{12}\\selectfont,text=black,anchor=north] at (axis cs:1,0) {$(1,0)$};\n\\node[font=\\fontsize{10}{12}\\selectfont,text=black,anchor=south east] at (axis cs:0,1) {$(0,1)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

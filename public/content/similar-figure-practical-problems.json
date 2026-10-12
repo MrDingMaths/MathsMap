@@ -2,20 +2,57 @@
   "skillId": "similar-figure-practical-problems",
   "atomType": "R",
   "theory": {
-        "intro": "Heights and distances that are awkward to measure can be found using **similar triangles**. A tall object and a short stick or person cast shadows in the same sunlight, forming two triangles with equal angles.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, calc}\n\\coordinate (O) at (0,0);\n\\coordinate (B) at (1.5,0);\n\\coordinate (T) at (1.5,0.6);\n\\coordinate (C) at (5.4,0);\n\\coordinate (S) at (5.4,2.16);\n\\draw (O) -- (C);\n\\draw (B) -- (T);\n\\draw (C) -- (S);\n\\draw (O) -- (S);\n\\coordinate (b1) at ($(B)!0.25cm!(O)$);\n\\coordinate (b2) at ($(B)!0.25cm!(T)$);\n\\draw (b1) -- ($(b1)+(b2)-(B)$) -- (b2);\n\\coordinate (c1) at ($(C)!0.25cm!(O)$);\n\\coordinate (c2) at ($(C)!0.25cm!(S)$);\n\\draw (c1) -- ($(c1)+(c2)-(C)$) -- (c2);\n\\pic[draw, angle radius=0.55cm] {angle = C--O--S};\n\\node[right] at (1.5,0.3) {$h$};\n\\node[right] at (5.4,1.08) {$H$};\n\\draw[<->] (0,-0.55) -- (1.5,-0.55) node[midway,below] {$d$};\n\\draw[<->] (0,-1.35) -- (5.4,-1.35) node[midway,below] {$D$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "Heights and distances that are awkward to measure can be found using **similar triangles**. A tall object and a short stick or person cast shadows in the same sunlight, forming two triangles with equal angles.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, calc}\n\\coordinate (O) at (0,0);\n\\coordinate (B) at (1.5,0);\n\\coordinate (T) at (1.5,0.6);\n\\coordinate (C) at (5.4,0);\n\\coordinate (S) at (5.4,2.16);\n\\draw (O) -- (C);\n\\draw (B) -- (T);\n\\draw (C) -- (S);\n\\draw (O) -- (S);\n\\coordinate (b1) at ($(B)!0.25cm!(O)$);\n\\coordinate (b2) at ($(B)!0.25cm!(T)$);\n\\draw (b1) -- ($(b1)+(b2)-(B)$) -- (b2);\n\\coordinate (c1) at ($(C)!0.25cm!(O)$);\n\\coordinate (c2) at ($(C)!0.25cm!(S)$);\n\\draw (c1) -- ($(c1)+(c2)-(C)$) -- (c2);\n\\pic[draw, angle radius=0.55cm] {angle = C--O--S};\n\\node[right] at (1.5,0.3) {$h$};\n\\node[right] at (5.4,1.08) {$H$};\n\\draw[<->] (0,-0.55) -- (1.5,-0.55) node[midway,below] {$d$};\n\\draw[<->] (0,-1.35) -- (5.4,-1.35) node[midway,below] {$D$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "The two triangles are similar because they share equal angles: the sun's rays meet the ground at the same angle for both objects.",
           "Pair the corresponding sides — height with height, shadow with shadow.",
           "The scale factor is $k=\\dfrac{\\text{a length in one triangle}}{\\text{the matching length in the other}}$, and every pair of corresponding sides gives the same $k$.",
           "Multiply a known length by $k$, or divide by it, to find the unknown corresponding length.",
           "Check the answer is sensible — a taller object casts a longer shadow."
         ],
-        "steps": [
+"steps": [
           "Identify the two similar triangles and the pairs of corresponding sides.",
           "Find the scale factor by dividing a pair of matching sides.",
           "Multiply or divide by the scale factor to find the unknown length."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A vertical post $1.5$ m high casts a shadow $2.5$ m long. At the same time, a tree casts a shadow $10$ m long on level ground. Find the height $h$ of the tree. The diagrams are not drawn to scale.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2,0)--(0,1.2)--cycle;\n\\draw (0.18,0)--(0.18,0.18)--(0,0.18);\n\\node[left] at (0,0.6) {$1.5\\text{ m}$};\n\\node[below] at (1,0) {$2.5\\text{ m}$};\n\\node[above] at (1,1.4) {Post};\n\\draw (3.5,0)--(6.5,0)--(3.5,1.8)--cycle;\n\\draw (3.68,0)--(3.68,0.18)--(3.5,0.18);\n\\node[left] at (3.5,0.9) {$h$};\n\\node[below] at (5,0) {$10\\text{ m}$};\n\\node[above] at (5,2) {Tree};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The triangles are similar: both have a right angle, and the sunlight makes the same angle with the ground. Match shadow with shadow and height with height.\n\nPost : tree:\n$\\begin{array}{c|c|c} &\\text{Post}&\\text{Tree}\\\\\\hline\\text{Shadow (m)}&2.5&10\\\\\\text{Height (m)}&1.5&h\\end{array}$\n\n$\\begin{align*}k&=\\frac{10}{2.5}\\\\k&=4\\\\h&=1.5\\times4\\\\h&=6\\text{ m}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A person stands $8$ m from a vertical lamp post and casts a shadow $2$ m long on level ground. The lamp is $7$ m above the ground. Find the person's height $h$.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(5,0)--(5,3.5)--cycle;\n\\draw (1,0)--(1,0.7);\n\\draw (0.82,0)--(0.82,0.18)--(1,0.18);\n\\draw (4.82,0)--(4.82,0.18)--(5,0.18);\n\\node[left] at (1,0.45) {$h$};\n\\node[right] at (5,1.75) {$7\\text{ m}$};\n\\draw[<->] (0,-0.5)--(1,-0.5) node[midway,below] {$2\\text{ m}$};\n\\draw[<->] (1,-0.5)--(5,-0.5) node[midway,below] {$8\\text{ m}$};\n\\node[above left] at (0,0) {Shadow tip};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The similar triangles share the angle at the shadow tip and each has a right angle. The lamp triangle's base includes the person's shadow and the distance to the lamp.\n\n$\\begin{align*}b&=8+2\\\\b&=10\\text{ m}\\end{align*}$\n\nLamp triangle : person triangle:\n$\\begin{array}{c|c|c} &\\text{Lamp}&\\text{Person}\\\\\\hline\\text{Base (m)}&10&2\\\\\\text{Height (m)}&7&h\\end{array}$\n\n$\\begin{align*}k&=\\frac{2}{10}\\\\k&=\\frac15\\\\h&=7\\times\\frac15\\\\h&=1.4\\text{ m}\\end{align*}$\n\nTo find a lamp's height when the person's height is known, use the reverse scale factor: whole base divided by shadow length.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two cables support a vertical pole on level ground at the same angle. The cables are $6$ m and $15$ m long. The shorter cable reaches $4$ m up the pole; the longer cable reaches its top. Find the pole's height $h$. The diagram is not drawn to scale.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-3.354,0)--(0,0)--(0,3);\n\\draw (-3.354,0)--(0,3) node[midway,above left] {$15\\text{ m}$};\n\\draw (-1.342,0)--(0,1.2) node[midway,above left] {$6\\text{ m}$};\n\\draw (-0.18,0)--(-0.18,0.18)--(0,0.18);\n\\draw[<->] (0.45,0)--(0.45,1.2) node[midway,right] {$4\\text{ m}$};\n\\draw[<->] (1.6,0)--(1.6,3) node[midway,right] {$h$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The triangles are similar because both are right-angled and the cables meet the ground at the same angle. Match cable with cable and vertical height with vertical height.\n\nShort cable triangle : long cable triangle:\n$\\begin{array}{c|c|c} &\\text{Short}&\\text{Long}\\\\\\hline\\text{Cable (m)}&6&15\\\\\\text{Height (m)}&4&h\\end{array}$\n\n$\\begin{align*}k&=\\frac{15}{6}\\\\k&=2.5\\\\h&=4\\times2.5\\\\h&=10\\text{ m}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A surveyor uses two similar triangles to find the width $w$ of a chasm. Points $A$, $B$ and $C$ lie on one straight line, and points $D$, $B$ and $E$ lie on another. The marked angles at $A$ and $C$ are right angles. Find $w$.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (1.2,0);\n\\coordinate (C) at (4.8,0);\n\\coordinate (D) at (0,-0.8);\n\\coordinate (E) at (4.8,2.4);\n\\draw (A)--(C);\n\\draw (A)--(D);\n\\draw (C)--(E);\n\\draw[dashed] (D)--(E);\n\\draw (0,-0.18)--(0.18,-0.18)--(0.18,0);\n\\draw (4.62,0)--(4.62,0.18)--(4.8,0.18);\n\\node[above] at (0.6,0) {$3\\text{ m}$};\n\\node[below] at (3,0) {$9\\text{ m}$};\n\\node[left] at (0,-0.4) {$2\\text{ m}$};\n\\node[right] at (4.8,1.2) {$w$};\n\\node[above left] at (A) {$A$};\n\\node[above right,xshift=3mm,yshift=3mm] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Match $AB$ with $BC$ and $AD$ with $CE$. The triangles have equal right angles and equal vertically opposite angles at $B$.\n\nSmall triangle : large triangle:\n$\\begin{array}{c|c|c} &\\text{Small}&\\text{Large}\\\\\\hline\\text{Horizontal side (m)}&3&9\\\\\\text{Vertical side (m)}&2&w\\end{array}$\n\n$\\begin{align*}k&=\\frac93\\\\k&=3\\\\w&=2\\times3\\\\w&=6\\text{ m}\\end{align*}$\n\nIf the horizontal side is unknown instead, find the scale factor from the vertical sides and apply it to the matching horizontal side.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A person $2$ m tall and a vertical flagpole $10$ m high cast shadows in the same sunlight on level ground. The flagpole's shadow is $12$ m longer than the person's shadow. Find the person's shadow length $d$. The diagrams are not drawn to scale; lengths are in metres.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(1.8,0)--(0,1.2)--cycle;\n\\draw (0.18,0)--(0.18,0.18)--(0,0.18);\n\\node[left] at (0,0.6) {$2$};\n\\node[below] at (0.9,0) {$d$};\n\\node[above] at (0.9,1.4) {Person};\n\\draw (3.5,0)--(6.5,0)--(3.5,2)--cycle;\n\\draw (3.68,0)--(3.68,0.18)--(3.5,0.18);\n\\node[left] at (3.5,1) {$10$};\n\\node[below] at (5,0) {$d+12$};\n\\node[above] at (5,2.2) {Flagpole};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The triangles are similar, so the height ratio also gives the shadow ratio.\n\n$\\begin{align*}k&=\\frac{10}{2}\\\\k&=5\\end{align*}$\n\nThe flagpole's shadow is $5d$. Subtract the person's shadow to use the given difference.\n\n$\\begin{align*}5d-d&=12\\\\4d&=12\\\\d&=3\\text{ m}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

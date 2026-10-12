@@ -2,8 +2,8 @@
   "skillId": "solve-inverse-derivative-problems",
   "atomType": "R",
   "theory": {
-    "intro": "Tangent and normal gradients for $y=f^{-1}(x)$ come from $\\left(f^{-1}\\right)'(b)=\\dfrac{1}{f'(a)}$, where $f(a)=b$. This rule requires an inverse on a specified one-to-one domain and $f'(a)\\ne 0$. Find the pair $(a,b)$ before differentiating.",
-    "facts": [
+"intro": "Tangent and normal gradients for $y=f^{-1}(x)$ come from $\\left(f^{-1}\\right)'(b)=\\dfrac{1}{f'(a)}$, where $f(a)=b$. This rule requires an inverse on a specified one-to-one domain and $f'(a)\\ne 0$. Find the pair $(a,b)$ before differentiating.",
+"facts": [
 "The point $(b,a)$ lies on $y=f^{-1}(x)$ exactly when $f(a)=b$.",
 "When only $b$ is given, solve $f(a)=b$ for $a$ first, often by inspection.",
 "When $f'(a)\\ne 0$, the tangent to $y=f^{-1}(x)$ at $(b,a)$ has gradient $\\dfrac{1}{f'(a)}$.",
@@ -12,13 +12,47 @@
 "If an inverse branch exists at the corresponding point and $f'(a)=0$, the reflected tangent is vertical and its gradient is undefined; at a branch endpoint this is a one-sided tangent.",
 "If $b$ lies outside the range of $f$, no point of $y=f^{-1}(x)$ has that $x$-value and no gradient exists."
 ],
-    "steps": [
+"steps": [
 "Check the specified one-to-one domain and find the pair: the value $a$ with $f(a)=b$, giving the point $(b,a)$ on $y=f^{-1}(x)$.",
 "Differentiate $f$ and evaluate $f'(a)$.",
 "For $f'(a)\\ne 0$, the tangent gradient is $1/f'(a)$ and the normal gradient is $-f'(a)$.",
 "State the required gradient, or explain why no finite tangent gradient exists."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Let $f(x)=x^{3}+6x$. The point $(20,2)$ lies on $y=f^{-1}(x)$. Find the gradient of the tangent at this point.",
+    "solution_text": "The corresponding original input is $2$, since $f(2)=20$.\n$\\begin{aligned}f'(x)&=3x^{2}+6\\\\f'(2)&=18\\end{aligned}$\n$\\begin{aligned}\\left(f^{-1}\\right)'(20)&=\\frac{1}{f'(2)}\\\\&=\\frac{1}{18}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Let $f(x)=3x^{3}$. The point $(24,2)$ lies on $y=f^{-1}(x)$. Find the gradients of the tangent and normal at this point.",
+    "solution_text": "Since $f(2)=24$, evaluate the original derivative at $2$.\n$\\begin{aligned}f'(x)&=9x^{2}\\\\f'(2)&=36\\end{aligned}$\n$\\begin{aligned}m_{\\text{tangent}}&=\\frac{1}{f'(2)}\\\\&=\\frac{1}{36}\\end{aligned}$\nThe normal gradient is the negative reciprocal of the tangent gradient.\n$\\begin{aligned}m_{\\text{normal}}&=-36\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=x^{3}+7x$. Given $f(2)=22$, find $\\left(f^{-1}\\right)'(22)$.",
+    "solution_text": "Since $f(2)=22$, we have $f^{-1}(22)=2$. An explicit inverse formula is unnecessary.\n$\\begin{aligned}f'(x)&=3x^{2}+7\\\\f'(2)&=19\\end{aligned}$\n$\\begin{aligned}\\left(f^{-1}\\right)'(22)&=\\frac{1}{f'\\left(f^{-1}(22)\\right)}\\\\&=\\frac{1}{f'(2)}\\\\&=\\frac{1}{19}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=x^{3}$ for $x\\geq 0$. Find the gradient of the one-sided tangent to $y=f^{-1}(x)$ at $(0,0)$, or explain why no finite gradient exists.",
+    "solution_text": "The function is strictly increasing on $[0,\\infty)$, so this branch has an inverse. Since $f(0)=0$, the corresponding point on the inverse is $(0,0)$.\n$\\begin{aligned}f'(x)&=3x^{2}\\\\f'(0)&=0\\end{aligned}$\nThe original branch has a horizontal one-sided tangent at the origin. Reflection in $y=x$ gives a vertical one-sided tangent to the inverse. Its gradient is undefined.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=\\sqrt{x-4}-3$. Find the gradient of the tangent to $y=f^{-1}(x)$ at $x=-4$, or explain why it does not exist.",
+    "solution_text": "Since $\\sqrt{x-4}\\geq 0$, the range of $f$ is $[-3,\\infty)$.\nThe domain of $f^{-1}$ is therefore $[-3,\\infty)$. The value $-4$ lies outside this domain, so there is no point on the inverse at $x=-4$ and no tangent gradient exists."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

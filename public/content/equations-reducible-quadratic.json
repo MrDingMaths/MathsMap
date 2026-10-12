@@ -2,21 +2,79 @@
   "skillId": "equations-reducible-quadratic",
   "atomType": "R",
   "theory": {
-        "intro": "Some equations become quadratic after a **substitution**. Replacing a repeated expression with a single letter $u$ gives $au^{2}+bu+c=0$; solve that, then substitute back to find the original variable.",
-        "facts": [
+"intro": "Some equations become quadratic after a **substitution**. Replacing a repeated expression with a single letter $u$ gives $au^{2}+bu+c=0$; solve that, then substitute back to find the original variable.",
+"facts": [
           "For $ax^{4}+bx^{2}+c=0$, let $u=x^{2}$; for $ax^{6}+bx^{3}+c=0$, let $u=x^{3}$.",
           "Choose $u$ so that one power is the square of the other, for example $x^{4}=(x^{2})^{2}$.",
           "After solving for $u$, $x^{2}=u$ gives $x=\\pm\\sqrt{u}$, so each positive $u$ produces two values of $x$.",
           "$x^{2}=u$ has no real solution when $u$ is negative, so reject a negative $u$.",
           "For $u=\\sqrt{x}$, only $u\\ge0$ is allowed, so reject a negative value of $u$."
         ],
-        "steps": [
+"steps": [
           "Choose a substitution $u$ that turns the equation into a quadratic in $u$.",
           "Rewrite the equation as $au^{2}+bu+c=0$ and solve for $u$.",
           "Substitute back and solve for the original variable.",
           "Reject any value that gives no real solution, and collect the answers."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Solve $x^{4}-20x^{2}+64=0$ over the real numbers.",
+    "solution_text": "Let $u=x^{2}$.\n$\\begin{align*}u^{2}-20u+64&=0\\\\(u-4)(u-16)&=0\\end{align*}$\nBy the null factor law, $u=4$ or $u=16$.\n$\\begin{align*}x^{2}&=4&\\text{or}\\quad x^{2}&=16\\\\x&=\\pm2&\\text{or}\\quad x&=\\pm4\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $x^{4}-5x^{2}-36=0$ over the real numbers.",
+    "solution_text": "Let $u=x^{2}$.\n$\\begin{align*}u^{2}-5u-36&=0\\\\(u-9)(u+4)&=0\\end{align*}$\nBy the null factor law, $u=9$ or $u=-4$.\n$x^{2}=-4$ has no real solution.\n$\\begin{align*}x^{2}&=9\\\\x&=\\pm3\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $x^{4}+10x^{2}+9=0$ over the real numbers.",
+    "solution_text": "Let $u=x^{2}$.\n$\\begin{align*}u^{2}+10u+9&=0\\\\(u+1)(u+9)&=0\\end{align*}$\nBy the null factor law, $u=-1$ or $u=-9$.\nBoth values are negative, whereas $x^{2}\\ge0$. There are no real solutions.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $x^{6}+7x^{3}-8=0$ over the real numbers.",
+    "solution_text": "Let $u=x^{3}$.\n$\\begin{align*}u^{2}+7u-8&=0\\\\(u+8)(u-1)&=0\\end{align*}$\nBy the null factor law, $u=-8$ or $u=1$.\n$\\begin{align*}x^{3}&=-8&\\text{or}\\quad x^{3}&=1\\\\x&=-2&\\text{or}\\quad x&=1\\end{align*}$\nA negative value of $u$ is allowed because a cube can be negative.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $(x+4)^{2}-5(x+4)+6=0$.",
+    "solution_text": "Let $u=x+4$.\n$\\begin{align*}u^{2}-5u+6&=0\\\\(u-2)(u-3)&=0\\end{align*}$\nBy the null factor law, $u=2$ or $u=3$.\n$\\begin{align*}x+4&=2&\\text{or}\\quad x+4&=3\\\\x&=-2&\\text{or}\\quad x&=-1\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\frac{1}{x^{2}}+\\frac{2}{x}-15=0$.",
+    "solution_text": "The denominators require $x\\ne0$. Let $u=\\frac{1}{x}$.\n$\\begin{align*}u^{2}+2u-15&=0\\\\(u+5)(u-3)&=0\\end{align*}$\nBy the null factor law, $u=-5$ or $u=3$.\n$\\begin{align*}\\frac{1}{x}&=-5&\\text{or}\\quad\\frac{1}{x}&=3\\\\x&=-\\frac{1}{5}&\\text{or}\\quad x&=\\frac{1}{3}\\end{align*}$\nBoth values satisfy $x\\ne0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $x-4\\sqrt{x}-12=0$.",
+    "solution_text": "Let $u=\\sqrt{x}$, so $x=u^{2}$ and $u\\ge0$.\n$\\begin{align*}u^{2}-4u-12&=0\\\\(u-6)(u+2)&=0\\end{align*}$\nBy the null factor law, $u=6$ or $u=-2$.\nReject $u=-2$ because $\\sqrt{x}\\ge0$.\n$\\begin{align*}\\sqrt{x}&=6\\\\x&=36\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $4x^{4}-15x^{2}+9=0$ over the real numbers.",
+    "solution_text": "Let $u=x^{2}$. For the non-monic quadratic, the product is $36$ and the sum is $-15$. Split the middle term using $-3$ and $-12$.\n$\\begin{align*}4u^{2}-15u+9&=0\\\\4u^{2}-3u-12u+9&=0\\\\u(4u-3)-3(4u-3)&=0\\\\(u-3)(4u-3)&=0\\end{align*}$\nBy the null factor law, $u=3$ or $u=\\frac{3}{4}$.\n$\\begin{align*}x^{2}&=3&\\text{or}\\quad x^{2}&=\\frac{3}{4}\\\\x&=\\pm\\sqrt{3}&\\text{or}\\quad x&=\\pm\\frac{\\sqrt{3}}{2}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

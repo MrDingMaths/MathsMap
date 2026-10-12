@@ -2,8 +2,8 @@
   "skillId": "eulers-formula",
   "atomType": "R",
   "theory": {
-        "intro": "**Euler's formula** connects the three counts of a connected planar drawing with no crossings: with $v$ vertices, $e$ edges and $f$ faces, $v-e+f=2$. Knowing any two counts gives the third.",
-        "facts": [
+"intro": "**Euler's formula** connects the three counts of a connected planar drawing with no crossings: with $v$ vertices, $e$ edges and $f$ faces, $v-e+f=2$. Knowing any two counts gives the third.",
+"facts": [
           "For any **connected planar** drawing, $v-e+f=2$.",
           "$f$ counts the **outer (unbounded) region** as well as every enclosed region.",
           "Rearranged: $f=2-v+e$, $e=v+f-2$, $v=2+e-f$.",
@@ -14,12 +14,46 @@
           "If a stated set of values for $v$, $e$ and $f$ does not give $2$, no connected planar graph has those counts.",
           "The drawing must be **connected**: the formula does not apply to a graph drawn in two separate pieces."
         ],
-        "steps": [
+"steps": [
           "Count the vertices, edges and faces",
           "Substitute the known values into Euler's formula",
           "Rearrange to find the missing value"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "For this connected planar drawing, state what $v$, $e$ and $f$ count, find their values and verify Euler's formula.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (3,2.4);\n\\coordinate (D) at (0,2.4);\n\\coordinate (E) at (1.5,1.2);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(E)--(C);\n\\draw (B)--(E)--(D);\n\\foreach \\p in {A,B,C,D,E}{\\fill[black] (\\p) circle (2pt);}\n\\path (A) node[below left] {$A$} (B) node[below right] {$B$} (C) node[above right] {$C$} (D) node[above left] {$D$} (E) node[above,yshift=2pt] {$E$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$v$ counts vertices, $e$ counts edges and $f$ counts faces, including the outer region. The central dot is a vertex, so each corner-to-centre segment is a separate edge.\nThere are $5$ vertices, $8$ edges and $5$ faces: four enclosed regions and the outer region.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (3,2.4);\n\\coordinate (D) at (0,2.4);\n\\coordinate (E) at (1.5,1.2);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(E)--(C);\n\\draw (B)--(E)--(D);\n\\foreach \\p in {A,B,C,D,E}{\\fill[black] (\\p) circle (2pt);}\n\\path (A) node[below left] {$A$} (B) node[below right] {$B$} (C) node[above right] {$C$} (D) node[above left] {$D$} (E) node[above,yshift=2pt] {$E$};\n\\path (1.5,0.4) node {$F_1$} (2.5,1.2) node {$F_2$} (1.5,2) node {$F_3$} (0.5,1.2) node {$F_4$} (4.1,1.2) node {$F_5$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}&\\mathrel{\\phantom{=}}v-e+f\\\\&=5-8+5\\\\&=2\\end{aligned}$\nEuler's formula holds."
+  },
+  {
+    "question_text": "A connected planar graph has $13$ vertices and $20$ edges. Find the number of faces.",
+    "solution_text": "$\\begin{aligned}v-e+f&=2\\\\13-20+f&=2\\\\f&=2-13+20\\\\&=9\\end{aligned}$\nThere are $9$ faces, including the outer region."
+  },
+  {
+    "question_text": "A connected planar network of paths has $10$ junctions and encloses $6$ garden beds. Find the number of paths.",
+    "solution_text": "The beds are enclosed faces. Include the outer region:\n$\\begin{aligned}f&=6+1\\\\&=7\\end{aligned}$\n$\\begin{aligned}v-e+f&=2\\\\10-e+7&=2\\\\e&=10+7-2\\\\&=15\\end{aligned}$\nThere are $15$ paths."
+  },
+  {
+    "question_text": "A connected planar graph has $17$ edges and $7$ faces. Find the number of vertices.",
+    "solution_text": "$\\begin{aligned}v-e+f&=2\\\\v-17+7&=2\\\\v&=2+17-7\\\\&=12\\end{aligned}$\nThere are $12$ vertices."
+  },
+  {
+    "question_text": "This connected planar drawing has a loop at $D$ and two edges joining $A$ and $B$. Count its vertices and edges, use Euler's formula to find its faces, then verify the result by counting regions.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (3,2.2);\n\\coordinate (D) at (0,2.2);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw (A) .. controls (0.8,-1.2) and (2.2,-1.2) .. (B);\n\\draw (D) .. controls (-1.5,3.5) and (1.5,3.5) .. (D);\n\\foreach \\p in {A,B,C,D}{\\fill[black] (\\p) circle (2pt);}\n\\path (A) node[left] {$A$} (B) node[right] {$B$} (C) node[above right] {$C$} (D) node[left] {$D$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The loop counts as one edge. Count both edges joining $A$ and $B$ separately. Thus $v=4$ and $e=6$.\n$\\begin{aligned}v-e+f&=2\\\\4-6+f&=2\\\\f&=2-4+6\\\\&=4\\end{aligned}$\nThe four faces are the rectangle's interior, the region between the two edges $AB$, the loop's interior and the outer region.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (3,2.2);\n\\coordinate (D) at (0,2.2);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw (A) .. controls (0.8,-1.2) and (2.2,-1.2) .. (B);\n\\draw (D) .. controls (-1.5,3.5) and (1.5,3.5) .. (D);\n\\foreach \\p in {A,B,C,D}{\\fill[black] (\\p) circle (2pt);}\n\\path (A) node[left] {$A$} (B) node[right] {$B$} (C) node[above right] {$C$} (D) node[left] {$D$};\n\\path (1.5,1.1) node {$F_1$} (1.5,-0.45) node {$F_2$} (0,2.8) node {$F_3$} (4.1,1.1) node {$F_4$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}&\\mathrel{\\phantom{=}}v-e+f\\\\&=4-6+4\\\\&=2\\end{aligned}$"
+  },
+  {
+    "question_text": "Could a connected planar graph have:\n(a) $7$ vertices, $11$ edges and $5$ faces?\n(b) $7$ vertices, $11$ edges and $6$ faces?\nJustify each answer. For any possible set of counts, give a construction.",
+    "solution_text": "(a)\n$\\begin{aligned}&\\mathrel{\\phantom{=}}v-e+f\\\\&=7-11+5\\\\&=1\\end{aligned}$\nThese counts are impossible: a connected planar drawing must give $2$.\n(b)\n$\\begin{aligned}&\\mathrel{\\phantom{=}}v-e+f\\\\&=7-11+6\\\\&=2\\end{aligned}$\nSatisfying the formula alone does not establish existence. Draw a convex heptagon $ABCDEFG$ and add diagonals $AC$, $AD$, $AE$ and $AF$.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\coordinate (A) at (0,2);\n\\coordinate (B) at (1,3.4);\n\\coordinate (C) at (2.8,3.4);\n\\coordinate (D) at (4,2.2);\n\\coordinate (E) at (3.5,0.5);\n\\coordinate (F) at (1.8,-0.2);\n\\coordinate (G) at (0.2,0.5);\n\\draw (A)--(B)--(C)--(D)--(E)--(F)--(G)--cycle;\n\\draw (A)--(C) (A)--(D) (A)--(E) (A)--(F);\n\\foreach \\p in {A,B,C,D,E,F,G}{\\fill[black] (\\p) circle (2pt);}\n\\path (A) node[left] {$A$} (B) node[above left] {$B$} (C) node[above right] {$C$} (D) node[right] {$D$} (E) node[below right] {$E$} (F) node[below] {$F$} (G) node[below left] {$G$};\n\\end{tikzpicture}\n[/tikz]\nThe diagonals meet only at $A$. This connected drawing has no crossings, $7$ vertices, $7+4=11$ edges and five enclosed faces plus the outer face. Therefore, the counts in (b) are possible."
+  },
+  {
+    "question_text": "A connected planar network has $11$ junctions and $19$ paths. Sam says it encloses $10$ garden beds. Find the number of faces and decide whether Sam is correct.",
+    "solution_text": "$\\begin{aligned}v-e+f&=2\\\\11-19+f&=2\\\\f&=2-11+19\\\\&=10\\end{aligned}$\nThe outer region is one of these faces, so the number of enclosed beds is:\n$\\begin{aligned}b&=10-1\\\\&=9\\end{aligned}$\nSam is incorrect. There are $10$ faces but only $9$ enclosed beds."
+  },
+  {
+    "question_text": "A connected planar graph has twice as many edges as vertices and $9$ faces. Find its numbers of vertices and edges.",
+    "solution_text": "Let the number of vertices be $v$. Then $e=2v$.\n$\\begin{aligned}v-e+f&=2\\\\v-2v+9&=2\\\\-v&=-7\\\\v&=7\\end{aligned}$\nSubstitute into the given relationship:\n$\\begin{aligned}e&=2\\times7\\\\&=14\\end{aligned}$\nThe graph has $7$ vertices and $14$ edges."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -74,73 +108,73 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "In the graph below each vertex is a country and each edge joins two countries that share a border.\nThe drawing is connected and has no crossings.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (P) at (0,2.4);\n\\coordinate (Q) at (2.4,3.6);\n\\coordinate (R) at (4.4,2.0);\n\\coordinate (S) at (3.2,0);\n\\coordinate (T) at (0.8,0.2);\n\\draw (P)--(Q);\n\\draw (Q)--(R);\n\\draw (R)--(S);\n\\draw (S)--(T);\n\\draw (T)--(P);\n\\draw (P)--(S);\n\\draw (Q)--(S);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (S) circle (2.5pt);\n\\fill (T) circle (2.5pt);\n\\node[left] at (P) {$P$};\n\\node[above] at (Q) {$Q$};\n\\node[right] at (R) {$R$};\n\\node[below] at (S) {$S$};\n\\node[below left] at (T) {$T$};\n\\end{tikzpicture}\n[/tikz]\nUse Euler's formula to find the number of faces, then check your answer by counting the regions.",
         "structure": "find-f-from-diagram",
         "solution_text": "1. **Count the vertices, edges and faces**\n$v=5$ and $e=7$.\n2. **Substitute the known values into Euler's formula**\n$5-7+f=2$\n3. **Rearrange to find the missing value**\n$f=2-5+7$\n$=4$\nCounting the regions gives $PQS$, $QRS$, $PST$ and the outer region — $4$ faces, as expected."
       },
-      {
+{
         "question_text": "A connected planar network of walking paths in a park has $8$ junctions and $5$ faces.\nHow many paths does the network have?",
         "structure": "find-e",
         "solution_text": "$v-e+f=2$\n$8-e+5=2$\n$e=8+5-2$\n$=11$"
       },
-      {
+{
         "question_text": "A connected planar graph has $11$ edges and $5$ faces.\nHow many vertices does it have?",
         "structure": "find-v",
         "solution_text": "$v-e+f=2$\n$v-11+5=2$\n$v=2+11-5$\n$=8$"
       },
-      {
+{
         "question_text": "This connected planar drawing has a loop at $R$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (2.8,0);\n\\coordinate (R) at (2.8,2.4);\n\\coordinate (S) at (0,2.4);\n\\draw (P)--(Q);\n\\draw (Q)--(R);\n\\draw (R)--(S);\n\\draw (S)--(P);\n\\draw (R) .. controls (3.4,4.0) and (4.8,2.6) .. (R);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (S) circle (2.5pt);\n\\node[below left] at (P) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\node[above left] at (R) {$R$};\n\\node[above left] at (S) {$S$};\n\\end{tikzpicture}\n[/tikz]\nWrite down $v$, $e$ and $f$, and verify Euler's formula.",
         "structure": "loops-and-multiple-edges",
         "solution_text": "The loop is one edge, so $v=4$ and $e=5$.\nThe regions are the inside of the square, the inside of the loop and the outer region, so $f=3$.\n$v-e+f$\n$=4-5+3$\n$=2$"
       },
-      {
+{
         "question_text": "Two edges join $P$ and $Q$ in this connected planar drawing.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (2.6,0);\n\\coordinate (R) at (3.4,2.2);\n\\coordinate (S) at (1.3,3.4);\n\\coordinate (T) at (-0.8,2.2);\n\\draw (P)--(Q);\n\\draw (P) .. controls (0.9,-0.9) and (1.7,-0.9) .. (Q);\n\\draw (Q)--(R);\n\\draw (R)--(S);\n\\draw (S)--(T);\n\\draw (T)--(P);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (S) circle (2.5pt);\n\\fill (T) circle (2.5pt);\n\\node[left] at (P) {$P$};\n\\node[right] at (Q) {$Q$};\n\\node[right] at (R) {$R$};\n\\node[above] at (S) {$S$};\n\\node[left] at (T) {$T$};\n\\end{tikzpicture}\n[/tikz]\nWrite down $v$, $e$ and $f$, and verify Euler's formula.",
         "structure": "loops-and-multiple-edges",
         "solution_text": "Each of the two edges joining $P$ and $Q$ is counted separately, so $v=5$ and $e=6$.\nThe regions are the thin region between the two edges $PQ$, the region inside the rest of the drawing, and the outer region, so $f=3$.\n$v-e+f$\n$=5-6+3$\n$=2$"
       },
-      {
+{
         "question_text": "Is it possible for a connected planar graph to have $8$ vertices, $12$ edges and $5$ faces?\nJustify your answer.",
         "structure": "test-a-claim",
         "solution_text": "$v-e+f$\n$=8-12+5$\n$=1$\nEuler's formula requires $2$, so no connected planar graph has these counts."
       },
-      {
+{
         "question_text": "Is it possible for a connected planar graph to have $10$ vertices, $15$ edges and $7$ faces?\nJustify your answer.",
         "structure": "test-a-claim",
-        "solution_text": "$v-e+f$\n$=10-15+7$\n$=2$\nEuler's formula is satisfied, so these counts are possible for a connected planar graph."
+        "solution_text": "$v-e+f$\n$=10-15+7$\n$=2$\nThese counts satisfy Euler's formula, but that alone does not prove that such a graph exists.\nTo construct one, draw a convex decagon with its $10$ vertices labelled $A$ to $J$ in order. Draw the five diagonals $AC$, $AD$, $AE$, $AF$ and $AG$. They meet only at $A$, so there are no crossings.\nThe drawing is connected, has $10$ vertices and $10+5=15$ edges, and has $6$ enclosed regions plus the outer region, giving $7$ faces. Therefore, these counts are possible."
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,1.0);\n\\coordinate (B) at (1.6,3.2);\n\\coordinate (C) at (4.0,3.0);\n\\coordinate (D) at (5.2,1.0);\n\\coordinate (E) at (3.8,-0.8);\n\\coordinate (F) at (1.4,-1.0);\n\\coordinate (G) at (2.6,1.2);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(E);\n\\draw (E)--(F);\n\\draw (F)--(A);\n\\draw (G)--(B);\n\\draw (G)--(D);\n\\draw (G)--(F);\n\\draw (B)--(D);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\fill (F) circle (2.5pt);\n\\fill (G) circle (2.5pt);\n\\node[left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\node[below right] at (E) {$E$};\n\\node[below left] at (F) {$F$};\n\\node[left] at (G) {$G$};\n\\end{tikzpicture}\n[/tikz]\nThis connected planar drawing has no crossings.\nUse Euler's formula to find the number of faces.",
         "structure": "find-f-from-diagram",
         "solution_text": "$v=7$ and $e=10$.\n$v-e+f=2$\n$7-10+f=2$\n$f=2-7+10$\n$=5$"
       },
-      {
+{
         "question_text": "A connected planar network of garden paths has $6$ junctions and fences in $4$ garden beds.\nHow many paths does the network have?",
         "structure": "find-e",
         "solution_text": "The $4$ beds are the enclosed regions, and the outer region is a face as well.\n$f=4+1$\n$=5$\n$v-e+f=2$\n$6-e+5=2$\n$e=6+5-2$\n$=9$"
       },
-      {
+{
         "question_text": "A connected planar graph has $12$ edges and $7$ faces.\nHow many vertices does it have?",
         "structure": "find-v",
         "solution_text": "$v-e+f=2$\n$v-12+7=2$\n$v=2+12-7$\n$=7$"
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "A connected planar graph has $9$ vertices, and every one of them has degree $4$.\nFind the number of edges and the number of faces.",
-        "structure": "euler-with-extra-constraint",
-        "solution_text": "1. **Count the vertices, edges and faces**\nThe sum of the degrees is $2$ for every edge, so $2e$ equals the degree sum.\n$2e=9\\times 4$\n$2e=36$\n$e=18$\n2. **Substitute the known values into Euler's formula**\n$9-18+f=2$\n3. **Rearrange to find the missing value**\n$f=2-9+18$\n$=11$\nThe graph has $18$ edges and $11$ faces."
+{
+        "question_text": "A connected planar network of garden paths has $9$ junctions and $18$ paths.\nFind the number of faces and the number of garden beds fenced in by the paths.",
+        "structure": "find-f-and-enclosed-regions",
+        "solution_text": "1. **Count the vertices, edges and faces**\n$v=9$ and $e=18$.\n2. **Substitute the known values into Euler's formula**\n$9-18+f=2$\n3. **Rearrange to find the missing value**\n$f=2-9+18$\n$=11$\nThe $11$ faces include the outer region, so the number of garden beds is $11-1=10$.\nThe network has $11$ faces and fences in $10$ garden beds."
       },
-      {
+{
         "question_text": "Jo draws a connected planar network of garden paths with $7$ junctions and $9$ paths, and says the paths fence in $4$ flower beds.\nIs Jo correct?\nJustify your answer.",
         "structure": "test-a-claim",
         "solution_text": "$v-e+f=2$\n$7-9+f=2$\n$f=2-7+9$\n$=4$\nThose $4$ faces include the outer region, which is not a flower bed, so only $4-1=3$ regions are fenced in.\nJo has counted the outer region as a bed, so the network fences in $3$ beds and Jo is incorrect."
       },
-      {
+{
         "question_text": "A connected planar graph has twice as many edges as vertices, and it has $8$ faces.\nFind the number of vertices and the number of edges.",
         "structure": "euler-with-extra-constraint",
         "solution_text": "Let the number of vertices be $v$, so $e=2v$.\n$v-e+f=2$\n$v-2v+8=2$\n$-v=2-8$\n$-v=-6$\n$v=6$\nSubstituting back gives $e=2\\times 6=12$.\nThe graph has $6$ vertices and $12$ edges."
       }
-    ]
+]
   }
 }

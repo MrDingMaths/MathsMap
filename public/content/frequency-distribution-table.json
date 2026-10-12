@@ -2,8 +2,8 @@
   "skillId": "frequency-distribution-table",
   "atomType": "R",
   "theory": {
-        "intro": "A **frequency distribution table** lists each score $x$ with its **frequency** $f$, the running total $cf$, and the proportion $rf$. From the table you can read the mode, median and mean.",
-        "facts": [
+"intro": "A **frequency distribution table** lists each score $x$ with its **frequency** $f$, the running total $cf$, and the proportion $rf$. From the table you can read the mode, median and mean.",
+"facts": [
 "The **total frequency** $\\Sigma f = n$ is the number of observations in the dataset.",
 "The **cumulative frequency** $cf$ is the running total of the frequencies so far, and the last $cf$ equals $n$.",
 "The **relative frequency** of a score is $rf = \\dfrac{f}{n}$, and the relative frequencies always add to $1$.",
@@ -11,13 +11,51 @@
 "Find the **mean** from an $xf$ column: $\\overline{x} = \\dfrac{\\Sigma xf}{\\Sigma f}$.",
 "For odd $n$, the **median** is the observation at position $Mp = \\dfrac{n + 1}{2}$. For even $n$, the median is the average of the observations at positions $\\dfrac{n}{2}$ and $\\dfrac{n}{2}+1$. Use cumulative frequency to locate each required observation."
 ],
-        "steps": [
+"steps": [
 "List each distinct score $x$ in ascending order and tally the observations to determine each frequency $f$.",
 "Calculate the cumulative frequency ($cf$) column by adding each frequency to the running sum.",
 "Calculate the relative frequency column ($rf = \\frac{f}{n}$) and the product column ($xf = x \\times f$) as needed.",
 "Sum the columns to find $\\Sigma f$ and $\\Sigma xf$. The mode is the score with the largest frequency, and the mean is $\\overline{x} = \\frac{\\Sigma xf}{\\Sigma f}$. For the median, use $cf$ to locate position $\\frac{n+1}{2}$ when $n$ is odd; when $n$ is even, locate positions $\\frac{n}{2}$ and $\\frac{n}{2}+1$ and average their scores."
+],
+"workedExamples": [
+  {
+    "question_text": "Organise the dataset into a frequency table, including any missing integer score between the smallest and largest scores. State the total frequency.\n$2, 2, 3, 3, 3, 4, 4, 4, 4, 6, 6$",
+    "solution_text": "Count how often each score occurs. The score $5$ does not occur, so its frequency is $0$.\n\n| Score $x$ | Frequency $f$ |\n| --- | --- |\n| 2 | 2 |\n| 3 | 3 |\n| 4 | 4 |\n| 5 | 0 |\n| 6 | 2 |\n\n$\\begin{aligned}\\Sigma f &= 2+3+4+0+2\\\\&=11\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The table shows the number of children in each surveyed family.\n\n| Children $x$ | Frequency $f$ |\n| --- | --- |\n| 1 | 4 |\n| 2 | 8 |\n| 3 | 6 |\n| 4 | 3 |\n| 5 | 1 |\n\n(a) Complete the cumulative frequency column.\n(b) How many families were surveyed?\n(c) How many families had $3$ or fewer children?\n(d) How many families had fewer than $3$ children?",
+    "solution_text": "(a) Add each frequency to the running total.\n\n| Children $x$ | Frequency $f$ | Cumulative frequency $cf$ |\n| --- | --- | --- |\n| 1 | 4 | 4 |\n| 2 | 8 | 12 |\n| 3 | 6 | 18 |\n| 4 | 3 | 21 |\n| 5 | 1 | 22 |\n\n(b) The final cumulative frequency is $22$, so $22$ families were surveyed.\n\n(c) Read $cf$ at $x=3$: $18$ families had $3$ or fewer children.\n\n(d) Fewer than $3$ means $1$ or $2$. Read $cf$ at $x=2$: $12$ families."
+  },
+  {
+    "question_text": "State the mode or modes of the scores.\n\n| Score $x$ | Frequency $f$ |\n| --- | --- |\n| 18 | 2 |\n| 19 | 8 |\n| 20 | 5 |\n| 21 | 8 |\n| 22 | 3 |",
+    "solution_text": "The largest frequency is $8$, shared by scores $19$ and $21$.\n\nThe modes are $19$ and $21$. Report the scores, rather than their frequency."
+  },
+  {
+    "question_text": "Find the median of each distribution.\n\n(a)\n\n| Score $x$ | Frequency $f$ |\n| --- | --- |\n| 8 | 2 |\n| 9 | 3 |\n| 10 | 6 |\n| 11 | 3 |\n| 12 | 1 |\n\n(b)\n\n| Score $x$ | Frequency $f$ |\n| --- | --- |\n| 8 | 2 |\n| 9 | 4 |\n| 10 | 3 |\n| 11 | 3 |",
+    "solution_text": "(a) Calculate the cumulative frequencies.\n\n| Score $x$ | Frequency $f$ | Cumulative frequency $cf$ |\n| --- | --- | --- |\n| 8 | 2 | 2 |\n| 9 | 3 | 5 |\n| 10 | 6 | 11 |\n| 11 | 3 | 14 |\n| 12 | 1 | 15 |\n\n$n=15$\n\n$Mp=\\dfrac{15+1}{2}=8$\n\nThe cumulative frequency first exceeds $8$ at $x=10$. The eighth observation is $10$, so the median is $10$.\n\n(b)\n\n| Score $x$ | Frequency $f$ | Cumulative frequency $cf$ |\n| --- | --- | --- |\n| 8 | 2 | 2 |\n| 9 | 4 | 6 |\n| 10 | 3 | 9 |\n| 11 | 3 | 12 |\n\n$n=12$, so the middle positions are $6$ and $7$. The sixth observation is $9$ and the seventh is $10$.\n\n$\\begin{aligned}\\text{Median} &= \\dfrac{9+10}{2}\\\\&=9.5\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Complete the $xf$ column and calculate the mean score. Give the exact mean and its value rounded to $2$ decimal places.\n\n| Score $x$ | Frequency $f$ |\n| --- | --- |\n| 7 | 3 |\n| 8 | 2 |\n| 9 | 4 |\n| 10 | 0 |\n| 11 | 2 |",
+    "solution_text": "Multiply each score by its frequency.\n\n| Score $x$ | Frequency $f$ | Product $xf$ |\n| --- | --- | --- |\n| 7 | 3 | 21 |\n| 8 | 2 | 16 |\n| 9 | 4 | 36 |\n| 10 | 0 | 0 |\n| 11 | 2 | 22 |\n\n$\\Sigma f=3+2+4+0+2=11$\n\n$\\Sigma xf=21+16+36+0+22=95$\n\n$\\begin{aligned}\\overline{x} &= \\dfrac{\\Sigma xf}{\\Sigma f}\\\\&=\\dfrac{95}{11}\\\\&\\approx 8.64\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Calculate the relative frequency of each score and check that the relative frequencies sum to $1$.\n\n| Score $x$ | Frequency $f$ |\n| --- | --- |\n| 25 | 3 |\n| 26 | 5 |\n| 27 | 8 |\n| 28 | 4 |",
+    "solution_text": "$n=3+5+8+4=20$\n\nDivide each frequency by $20$.\n\n| Score $x$ | Frequency $f$ | Relative frequency $rf$ |\n| --- | --- | --- |\n| 25 | 3 | $\\dfrac{3}{20}=0.15$ |\n| 26 | 5 | $\\dfrac{5}{20}=0.25$ |\n| 27 | 8 | $\\dfrac{8}{20}=0.40$ |\n| 28 | 4 | $\\dfrac{4}{20}=0.20$ |\n\n$\\begin{aligned}\\Sigma rf &=0.15+0.25+0.40+0.20\\\\&=1\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

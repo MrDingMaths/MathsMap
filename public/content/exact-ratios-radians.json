@@ -2,8 +2,8 @@
   "skillId": "exact-ratios-radians",
   "atomType": "R",
   "theory": {
-        "intro": "To find exact trigonometric ratios in radians, first add or subtract multiples of $2\\pi$ if needed to reduce the angle to $[0, 2\\pi]$. Handle axis angles using the unit circle; otherwise determine the quadrant, find the acute reference angle with the $x$-axis ($\\theta$, $\\pi - \\theta$, $\\theta - \\pi$, or $2\\pi - \\theta$), and apply **ASTC** for the sign.",
-        "facts": [
+"intro": "To find exact trigonometric ratios in radians, first add or subtract multiples of $2\\pi$ if needed to reduce the angle to $[0, 2\\pi]$. Handle axis angles using the unit circle; otherwise determine the quadrant, find the acute reference angle with the $x$-axis ($\\theta$, $\\pi - \\theta$, $\\theta - \\pi$, or $2\\pi - \\theta$), and apply **ASTC** for the sign.",
+"facts": [
 "$\\begin{array}{c|ccccc}\\theta & 0 & \\frac{\\pi}{6} & \\frac{\\pi}{4} & \\frac{\\pi}{3} & \\frac{\\pi}{2} \\\\ \\hline \\sin\\theta & 0 & \\frac{1}{2} & \\frac{1}{\\sqrt{2}} & \\frac{\\sqrt{3}}{2} & 1 \\\\ \\cos\\theta & 1 & \\frac{\\sqrt{3}}{2} & \\frac{1}{\\sqrt{2}} & \\frac{1}{2} & 0 \\\\ \\tan\\theta & 0 & \\frac{1}{\\sqrt{3}} & 1 & \\sqrt{3} & \\text{undefined} \\end{array}$",
 "Leave exact values as unrationalised surds: $\\dfrac{1}{\\sqrt{2}}$ and $\\dfrac{1}{\\sqrt{3}}$.",
 "**Quadrant 1** ($0 < \\theta < \\frac{\\pi}{2}$): all ratios are positive with reference angle $\\theta$.",
@@ -13,14 +13,65 @@
 "For negative angles or angles beyond $2\\pi$, add or subtract multiples of $2\\pi$ to find a coterminal angle in $[0, 2\\pi]$ before determining its quadrant.",
 "Axis angles $0$, $\\dfrac{\\pi}{2}$, $\\pi$, $\\dfrac{3\\pi}{2}$ and $2\\pi$ have no quadrant or acute reference angle. Their boundary values come from the unit circle: $\\cos\\theta = x$, $\\sin\\theta = y$ and $\\tan\\theta = \\dfrac{y}{x}$ at the point $(x,y)$. Tangent is undefined when $\\cos\\theta = 0$."
 ],
-        "steps": [
+"steps": [
 "Add or subtract multiples of $2\\pi$ if needed to reduce the angle to $[0, 2\\pi]$",
 "Check for an axis angle: use the unit circle to evaluate it, with tangent undefined when cosine is zero",
 "For a non-axis angle, determine its quadrant",
 "Find the acute reference angle with the $x$-axis",
 "Apply ASTC to assign the sign and evaluate the exact ratio"
+],
+"workedExamples": [
+  {
+    "question_text": "State the exact value of $\\cos\\dfrac{\\pi}{3}$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\cos\\dfrac{\\pi}{3}\\\\&=\\cos60^\\circ\\\\&=\\dfrac12\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact value of $\\sin\\dfrac{7\\pi}{4}$.",
+    "solution_text": "The angle is in Quadrant 4, where sine is negative.\n\n$\\begin{aligned}A&=2\\pi-\\dfrac{7\\pi}{4}\\\\&=\\dfrac{\\pi}{4}\\end{aligned}$\n\n[tikz]\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\\draw[->] (-1.6,0)--(1.8,0);\\draw[->] (0,-1.6)--(0,1.6);\\draw[->] (0,0)--(1.2,-1.2);\\draw (0.55,0) arc[start angle=0,end angle=-45,radius=0.55];\\path (1.8,0) node[above] {$x$} (0,1.6) node[left] {$y$} (0,0) node[above left] {$O$} (0.85,-0.25) node {$\\frac{\\pi}{4}$} (1.2,-1.2) node[below right] {$\\frac{7\\pi}{4}$};\\end{tikzpicture}[/tikz]\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\sin\\dfrac{7\\pi}{4}\\\\&=-\\sin\\dfrac{\\pi}{4}\\\\&=-\\dfrac{1}{\\sqrt2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "State the values of $\\sin\\dfrac{3\\pi}{2}$, $\\cos\\dfrac{3\\pi}{2}$ and $\\tan\\dfrac{3\\pi}{2}$.",
+    "solution_text": "The unit-circle point at $\\dfrac{3\\pi}{2}$ is $(0,-1)$.\n\n[tikz]\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\\draw (0,0) circle[radius=1];\\draw[->] (-1.4,0)--(1.4,0);\\draw[->] (0,-1.4)--(0,1.4);\\draw (0,0)--(0,-1);\\fill (0,-1) circle[radius=1.5pt];\\path (1.4,0) node[above] {$x$} (0,1.4) node[left] {$y$} (0,0) node[above left] {$O$} (0,-1) node[below right] {$(0,-1)$};\\end{tikzpicture}[/tikz]\n\n$\\sin\\dfrac{3\\pi}{2}=-1$, $\\cos\\dfrac{3\\pi}{2}=0$.\n\nTangent is undefined because $\\tan\\theta=\\dfrac{y}{x}$ would require division by zero.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact values of (a) $\\cos\\dfrac{17\\pi}{6}$ and (b) $\\tan\\left(-\\dfrac{5\\pi}{4}\\right)$.",
+    "solution_text": "(a) Subtract one full revolution.\n\n$\\begin{aligned}\\dfrac{17\\pi}{6}-2\\pi&=\\dfrac{5\\pi}{6}\\\\A&=\\pi-\\dfrac{5\\pi}{6}\\\\&=\\dfrac{\\pi}{6}\\end{aligned}$\n\nCosine is negative in Quadrant 2.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\cos\\dfrac{17\\pi}{6}\\\\&=\\cos\\dfrac{5\\pi}{6}\\\\&=-\\cos\\dfrac{\\pi}{6}\\\\&=-\\dfrac{\\sqrt3}{2}\\end{aligned}$\n\n(b) Add one full revolution.\n\n$\\begin{aligned}-\\dfrac{5\\pi}{4}+2\\pi&=\\dfrac{3\\pi}{4}\\\\A&=\\pi-\\dfrac{3\\pi}{4}\\\\&=\\dfrac{\\pi}{4}\\end{aligned}$\n\nTangent is negative in Quadrant 2.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\tan\\left(-\\dfrac{5\\pi}{4}\\right)\\\\&=\\tan\\dfrac{3\\pi}{4}\\\\&=-\\tan\\dfrac{\\pi}{4}\\\\&=-1\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the angle $\\theta$ in Quadrant 2 for which $\\sin\\theta=\\dfrac{\\sqrt3}{2}$.",
+    "solution_text": "The acute reference angle is $\\dfrac{\\pi}{3}$ because $\\sin\\dfrac{\\pi}{3}=\\dfrac{\\sqrt3}{2}$.\n\nIn Quadrant 2:\n\n$\\begin{aligned}\\theta&=\\pi-\\dfrac{\\pi}{3}\\\\&=\\dfrac{2\\pi}{3}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use the odd-function identity for sine to find the exact value of $\\sin\\left(-\\dfrac{\\pi}{6}\\right)$.",
+    "solution_text": "Sine is odd: $\\sin(-\\theta)=-\\sin\\theta$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\sin\\left(-\\dfrac{\\pi}{6}\\right)\\\\&=-\\sin\\dfrac{\\pi}{6}\\\\&=-\\dfrac12\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate in exact form:\n\n(a) $1-\\sin^2\\dfrac{\\pi}{6}$\n\n(b) $\\sin\\dfrac{\\pi}{4}\\cos\\dfrac{\\pi}{3}+\\cos\\dfrac{\\pi}{4}\\sin\\dfrac{\\pi}{3}$\n\n(c) $\\sqrt{1+\\tan^2\\dfrac{\\pi}{3}}$.",
+    "solution_text": "(a)\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}1-\\sin^2\\dfrac{\\pi}{6}\\\\&=1-\\left(\\dfrac12\\right)^2\\\\&=1-\\dfrac14\\\\&=\\dfrac34\\end{aligned}$\n\n(b)\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\sin\\dfrac{\\pi}{4}\\cos\\dfrac{\\pi}{3}+\\cos\\dfrac{\\pi}{4}\\sin\\dfrac{\\pi}{3}\\\\&=\\dfrac{1}{\\sqrt2}\\times\\dfrac12+\\dfrac{1}{\\sqrt2}\\times\\dfrac{\\sqrt3}{2}\\\\&=\\dfrac{1}{2\\sqrt2}+\\dfrac{\\sqrt3}{2\\sqrt2}\\\\&=\\dfrac{1+\\sqrt3}{2\\sqrt2}\\end{aligned}$\n\n(c)\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\sqrt{1+\\tan^2\\dfrac{\\pi}{3}}\\\\&=\\sqrt{1+(\\sqrt3)^2}\\\\&=\\sqrt4\\\\&=2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
       {

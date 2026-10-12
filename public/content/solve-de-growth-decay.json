@@ -2,8 +2,8 @@
   "skillId": "solve-de-growth-decay",
   "atomType": "R",
   "theory": {
-    "intro": "A quantity whose rate of change is proportional to its size satisfies $\\dfrac{dN}{dt}=kN$, with solution $N=N_{0}e^{kt}$. Here $N_{0}$ is the amount when $t=0$. A second reading fixes $k$ when $N_{0}\\ne0$, the ratio of the readings is positive and the second reading is taken at a nonzero time.",
-    "facts": [
+"intro": "A quantity whose rate of change is proportional to its size satisfies $\\dfrac{dN}{dt}=kN$, with solution $N=N_{0}e^{kt}$. Here $N_{0}$ is the amount when $t=0$. A second reading fixes $k$ when $N_{0}\\ne0$, the ratio of the readings is positive and the second reading is taken at a nonzero time.",
+"facts": [
 "For a positive initial amount $N_{0}$, the quantity grows if $k>0$ and decays if $k<0$.",
 "Separating assumes $N\\ne0$ and gives $\\dfrac{1}{N}\\,dN=k\\,dt$, so $\\ln|N|=kt+C$ and $N=Ae^{kt}$. The constant function $N=0$ is also a solution, included by allowing $A=0$.",
 "Substituting $t=0$ shows $A=N_{0}$, because $e^{0}=1$.",
@@ -13,13 +13,50 @@
 "Neither the half-life nor the doubling time depends on the positive initial amount $N_{0}$.",
 "For a positive initial population and $k>0$, the model predicts unbounded growth. It takes no account of limits on food or space."
 ],
-    "steps": [
+"steps": [
       "Write the differential equation and its general solution $N=Ae^{kt}$",
       "Use the initial amount to find $A$",
       "Use the second data point to find $k$",
       "Substitute into the solution to answer the question"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A quantity $Q$ satisfies $\\dfrac{dQ}{dt}=0.2Q$, with $Q(0)=24$ and $t$ in hours. Find $Q(t)$, evaluate $Q(5)$ to two decimal places, and find when $Q$ reaches $72$, to two decimal places.",
+    "solution_text": "Separate variables and integrate:\n$\\begin{align*}\\frac{1}{Q}\\,dQ&=0.2\\,dt\\\\ \\ln|Q|&=0.2t+C\\\\ Q&=Ae^{0.2t}.\\end{align*}$\nUsing $Q(0)=24$ gives $A=24$, so $Q(t)=24e^{0.2t}$.\n$\\begin{align*}Q(5)&=24e^1\\\\ &\\approx65.24.\\end{align*}$\nFor $Q=72$:\n$\\begin{align*}72&=24e^{0.2t}\\\\ e^{0.2t}&=3\\\\ 0.2t&=\\ln3\\\\ t&=5\\ln3\\\\ &\\approx5.49\\text{ hours}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A colony initially contains $250$ bacteria. After $3$ hours it contains $2000$ bacteria. Its rate of increase is proportional to the number present. Form and solve the differential equation, finding $k$ exactly, and find the population after $4.5$ hours.",
+    "solution_text": "Let $N$ be the number of bacteria and $t$ the time in hours.\n$\\dfrac{dN}{dt}=kN$.\nSeparate variables and integrate:\n$\\begin{align*}\\frac{1}{N}\\,dN&=k\\,dt\\\\ \\ln|N|&=kt+C\\\\ N&=Ae^{kt}.\\end{align*}$\nUsing $N(0)=250$ gives $A=250$.\n$\\begin{align*}2000&=250e^{3k}\\\\ e^{3k}&=8\\\\ 3k&=\\ln8\\\\ k&=\\ln2.\\end{align*}$\nThus $N=250e^{t\\ln2}=250\\times2^t$.\n$\\begin{align*}N(4.5)&=250\\times2^{4.5}\\\\ &=4000\\sqrt2\\\\ &\\approx5657\\text{ bacteria}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A radioactive sample initially has mass $240$ g. After $6$ days, $60$ g remains. The mass satisfies $\\dfrac{dm}{dt}=km$. Find $k$ exactly, state whether the model describes growth or decay, and find the mass after $9$ days.",
+    "solution_text": "Separating and integrating gives $\\ln|m|=kt+C$, so $m=Ae^{kt}$. Using $m(0)=240$ gives $A=240$.\n$\\begin{align*}60&=240e^{6k}\\\\ e^{6k}&=\\frac14\\\\ k&=\\frac16\\ln\\frac14\\\\ &=-\\frac{\\ln2}{3}.\\end{align*}$\nSince $k<0$, the model describes decay.\n$\\begin{align*}m(t)&=240e^{-t\\ln2/3}\\\\ &=240\\left(\\frac14\\right)^{t/6}.\\end{align*}$\n$\\begin{align*}m(9)&=240\\left(\\frac14\\right)^{9/6}\\\\ &=240\\left(\\frac12\\right)^3\\\\ &=30\\text{ g}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A sample decays at a rate proportional to its mass and loses $20\\%$ of its mass in $4$ days. Find how long it takes for $25\\%$ of its original mass to remain, correct to two decimal places.",
+    "solution_text": "Let $m_0$ be the initial mass. The model is $\\dfrac{dm}{dt}=km$, with solution $m=m_0e^{kt}$.\nAfter $4$ days, $80\\%$ remains:\n$\\begin{align*}0.8m_0&=m_0e^{4k}\\\\ e^{4k}&=0.8\\\\ k&=\\frac{\\ln0.8}{4}.\\end{align*}$\nFor $25\\%$ remaining:\n$\\begin{align*}0.25m_0&=m_0e^{kt}\\\\ e^{kt}&=0.25\\\\ kt&=\\ln0.25\\\\ t&=\\frac{4\\ln0.25}{\\ln0.8}\\\\ &\\approx24.85\\text{ days}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Atmospheric pressure $P$ satisfies $\\dfrac{dP}{dh}=kP$, where $h$ is altitude in metres. The pressure is $72$ kPa at $2000$ m and $32$ kPa at $6000$ m. Find $k$ exactly and the pressure at ground level.",
+    "solution_text": "Separating and integrating gives $P=P_0e^{kh}$, where $P_0$ is the pressure at ground level.\n$\\begin{align*}72&=P_0e^{2000k}\\\\ 32&=P_0e^{6000k}.\\end{align*}$\nDivide the second equation by the first:\n$\\begin{align*}e^{4000k}&=\\frac{32}{72}\\\\ &=\\frac49.\\end{align*}$\n$\\begin{align*}k&=\\frac{1}{4000}\\ln\\frac49\\\\ &=\\frac{1}{2000}\\ln\\frac23.\\end{align*}$\nSince $e^{2000k}=\\dfrac23$:\n$\\begin{align*}72&=\\frac23P_0\\\\ P_0&=108\\text{ kPa}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

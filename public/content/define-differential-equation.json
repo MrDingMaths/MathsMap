@@ -2,8 +2,8 @@
   "skillId": "define-differential-equation",
   "atomType": "R",
   "theory": {
-    "intro": "A **differential equation** is an equation containing a derivative. Its **order** is the order of the highest derivative in it. A solution is a function, not a number, and you test one by differentiating it and substituting into the equation.",
-    "facts": [
+"intro": "A **differential equation** is an equation containing a derivative. Its **order** is the order of the highest derivative in it. A solution is a function, not a number, and you test one by differentiating it and substituting into the equation.",
+"facts": [
 "$x^2+3x=7$ is not a differential equation, because it contains no derivative.",
 "$y'+3x=7$ has order $1$, since $y'$ is the highest derivative it contains.",
 "$x^2y'''-xy'=0$ has order $3$, because $y'''$ is the highest derivative present.",
@@ -14,12 +14,63 @@
 "A **particular solution** has definite values for all its arbitrary constants, so it names one curve.",
 "A function is a solution only when substituting it makes the two sides equal throughout the solution's domain."
 ],
-    "steps": [
+"steps": [
       "Differentiate the given function",
       "Substitute into both sides of the differential equation",
       "Check whether LHS equals RHS"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Identify which equations are differential equations and state their order.\n(a) $x^2y^4-2xy=0$\n(b) $y'+3y=x^2$\n(c) $(y')^4+y''=\\cos x$\n(d) $x^2y'''-2xy'=0$",
+    "solution_text": "(a) There is no derivative, so this is not a differential equation.\n(b) The highest derivative is $y'$, so this is a first-order differential equation.\n(c) The highest derivative is $y''$, so this is a second-order differential equation. The power on $y'$ does not change its order.\n(d) The highest derivative is $y'''$, so this is a third-order differential equation.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Verify that $y=6e^{-4x}$ is a solution of $y'=-4y$.",
+    "solution_text": "Differentiate the function:\n$y'=-24e^{-4x}$\nSubstitute into the differential equation:\n$\\begin{aligned}\\mathrm{LHS}&=y'\\\\&=-24e^{-4x}\\end{aligned}$\n$\\begin{aligned}\\mathrm{RHS}&=-4y\\\\&=-4(6e^{-4x})\\\\&=-24e^{-4x}\\end{aligned}$\nLHS equals RHS for every real $x$, so the function is a solution.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Verify whether $y=x^2+2$ is a solution of $xy'-2y=0$.",
+    "solution_text": "Differentiate the function:\n$y'=2x$\nSubstitute into the differential equation:\n$\\begin{aligned}\\mathrm{LHS}&=xy'-2y\\\\&=x(2x)-2(x^2+2)\\\\&=-4\\end{aligned}$\nRHS is $0$. The two sides are unequal, so the function is not a solution.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Show that $y=4\\cos 2x-3\\sin 2x$ is a solution of $y''+4y=0$.",
+    "solution_text": "Differentiate twice:\n$\\begin{aligned}y'&=-8\\sin 2x-6\\cos 2x\\\\y''&=-16\\cos 2x+12\\sin 2x\\end{aligned}$\nSubstitute into the differential equation:\n$\\begin{aligned}\\mathrm{LHS}&=y''+4y\\\\&=-16\\cos 2x+12\\sin 2x+4(4\\cos 2x-3\\sin 2x)\\\\&=0\\end{aligned}$\nLHS equals RHS for every real $x$, so the function is a solution.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Verify that $y=Cxe^{-2x}$ satisfies $xy'=y(1-2x)$ for every constant $C$.",
+    "solution_text": "Treat $C$ as a constant and differentiate using the product rule:\n$\\begin{aligned}y'&=Ce^{-2x}-2Cxe^{-2x}\\\\&=Ce^{-2x}(1-2x)\\end{aligned}$\nSubstitute into both sides:\n$\\begin{aligned}\\mathrm{LHS}&=xy'\\\\&=Cxe^{-2x}(1-2x)\\end{aligned}$\n$\\begin{aligned}\\mathrm{RHS}&=y(1-2x)\\\\&=Cxe^{-2x}(1-2x)\\end{aligned}$\nLHS equals RHS for every constant $C$, so every function in this family is a solution.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "(a) Show that $y=e^{-2x}$ and $y=e^{3x}$ each satisfy $y''-y'-6y=0$.\n(b) Show that $y=Ae^{-2x}+Be^{3x}$ also satisfies the equation for all constants $A$ and $B$.",
+    "solution_text": "(a) For $y=e^{-2x}$:\n$\\begin{aligned}y'&=-2e^{-2x}\\\\y''&=4e^{-2x}\\end{aligned}$\n$\\begin{aligned}\\mathrm{LHS}&=y''-y'-6y\\\\&=4e^{-2x}+2e^{-2x}-6e^{-2x}\\\\&=0\\end{aligned}$\nFor $y=e^{3x}$:\n$\\begin{aligned}y'&=3e^{3x}\\\\y''&=9e^{3x}\\end{aligned}$\n$\\begin{aligned}\\mathrm{LHS}&=y''-y'-6y\\\\&=9e^{3x}-3e^{3x}-6e^{3x}\\\\&=0\\end{aligned}$\nEach function makes LHS equal RHS.\n(b) Differentiate the family:\n$\\begin{aligned}y'&=-2Ae^{-2x}+3Be^{3x}\\\\y''&=4Ae^{-2x}+9Be^{3x}\\end{aligned}$\nSubstitute into the differential equation:\n$\\begin{aligned}\\mathrm{LHS}&=y''-y'-6y\\\\&=(4Ae^{-2x}+9Be^{3x})-(-2Ae^{-2x}+3Be^{3x})-6(Ae^{-2x}+Be^{3x})\\\\&=A(4+2-6)e^{-2x}+B(9-3-6)e^{3x}\\\\&=0\\end{aligned}$\nLHS equals RHS for all constants $A$ and $B$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Show that $y=2\\sin 3x$ solves the initial value problem $y''+9y=0$, with $y(0)=0$ and $y'(0)=6$.",
+    "solution_text": "Differentiate twice:\n$\\begin{aligned}y'&=6\\cos 3x\\\\y''&=-18\\sin 3x\\end{aligned}$\nCheck the differential equation:\n$\\begin{aligned}\\mathrm{LHS}&=y''+9y\\\\&=-18\\sin 3x+9(2\\sin 3x)\\\\&=0\\end{aligned}$\nLHS equals RHS. Check both initial conditions:\n$\\begin{aligned}y(0)&=2\\sin 0=0\\\\y'(0)&=6\\cos 0=6\\end{aligned}$\nThe function satisfies the differential equation and both initial conditions, so it solves the IVP.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

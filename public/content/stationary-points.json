@@ -2,8 +2,8 @@
   "skillId": "stationary-points",
   "atomType": "R",
   "theory": {
-        "intro": "A **stationary point** is a point on $y = f(x)$ where the gradient is zero, so the tangent there is horizontal. Find one by solving $f'(x) = 0$, then read off the matching $y$-value.",
-        "facts": [
+"intro": "A **stationary point** is a point on $y = f(x)$ where the gradient is zero, so the tangent there is horizontal. Find one by solving $f'(x) = 0$, then read off the matching $y$-value.",
+"facts": [
 "$(x_0, y_0)$ is a stationary point of $y = f(x)$ exactly when $f'(x_0) = 0$ and $y_0 = f(x_0)$.",
 "The tangent at a stationary point is horizontal, with equation $y = y_0$.",
 "A quadratic has exactly one stationary point, its vertex, at $x = -\\dfrac{b}{2a}$.",
@@ -12,12 +12,57 @@
 "If $f'(x)$ has the same nonzero sign immediately on both sides of a stationary point, the point is not a turning point.",
 "Substitute the $x$-values into the original function $f(x)$, never into $f'(x)$, to get the $y$-coordinates."
 ],
-        "steps": [
+"steps": [
           "Differentiate $f(x)$ to find $f'(x)$",
           "Set $f'(x) = 0$ and solve for $x$",
           "Substitute each $x$-value into the original function $y = f(x)$ to find the $y$-coordinate"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A differentiable curve has a stationary point at $P$. What is the gradient of its tangent at $P$?",
+    "solution_text": "At a stationary point, the first derivative is zero. The tangent at $P$ is horizontal, with gradient $0$."
+  },
+  {
+    "question_text": "Find the coordinates of the stationary point of $y=2x^2-12x+7$.",
+    "solution_text": "$y'=4x-12$.\n\nSet $y'=0$:\n$\\begin{aligned}4x-12&=0\\\\4x&=12\\\\x&=3\\end{aligned}$\n\nSubstitute into the original function:\n$\\begin{aligned}y&=2(3)^2-12(3)+7\\\\&=-11\\end{aligned}$\n\nThe stationary point is $(3,-11)$."
+  },
+  {
+    "question_text": "Find the stationary points of $f(x)=x^3-3x^2-9x+4$.",
+    "solution_text": "$f'(x)=3x^2-6x-9$.\n\nSet $f'(x)=0$:\n$\\begin{aligned}3x^2-6x-9&=0\\\\3(x-3)(x+1)&=0\\\\x&=-1\\text{ or }3\\end{aligned}$\n\nSubstitute into the original function:\n$\\begin{aligned}f(-1)&=(-1)^3-3(-1)^2-9(-1)+4\\\\&=9\\end{aligned}$\n\n$\\begin{aligned}f(3)&=3^3-3(3)^2-9(3)+4\\\\&=-23\\end{aligned}$\n\nThe stationary points are $(-1,9)$ and $(3,-23)$."
+  },
+  {
+    "question_text": "Find the coordinates of the stationary point of $y=(x+2)^3-1$.",
+    "solution_text": "$y'=3(x+2)^2$.\n\nSet $y'=0$:\n$\\begin{aligned}3(x+2)^2&=0\\\\x+2&=0\\\\x&=-2\\end{aligned}$\n\n$y=(-2+2)^3-1=-1$.\n\nThe stationary point is $(-2,-1)$. The tangent there is horizontal.\n\n[tikz]\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{mathblue}{HTML}{268CFF}\n\\draw[<->,black] (-3.7,0)--(0.6,0) node[right] {$x$};\n\\draw[<->,black] (0,-3.1)--(0,1.1) node[above] {$y$};\n\\draw[mathblue,thick,<->,domain=-3.25:-0.75,samples=81] plot (\\x,{(\\x+2)*(\\x+2)*(\\x+2)-1});\n\\draw[black,dashed] (-2,0)--(-2,-1);\n\\draw[black] (-2.65,-1)--(-1.35,-1);\n\\fill[black] (-2,-1) circle (1.2pt);\n\\path (-2,-1) node[below right] {$(-2,-1)$};\n\\end{tikzpicture}[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the coordinates of the stationary point of $y=(x+1)^4+2$.",
+    "solution_text": "$y'=4(x+1)^3$.\n\nSet $y'=0$:\n$\\begin{aligned}4(x+1)^3&=0\\\\x+1&=0\\\\x&=-1\\end{aligned}$\n\n$y=(-1+1)^4+2=2$.\n\nThe stationary point is $(-1,2)$."
+  },
+  {
+    "question_text": "Find the coordinates of the stationary point of $f(x)=x^4-108x+5$.",
+    "solution_text": "$f'(x)=4x^3-108$.\n\nSet $f'(x)=0$:\n$\\begin{aligned}4x^3-108&=0\\\\4x^3&=108\\\\x^3&=27\\\\x&=3\\end{aligned}$\n\n$\\begin{aligned}f(3)&=3^4-108(3)+5\\\\&=-238\\end{aligned}$\n\nThe stationary point is $(3,-238)$."
+  },
+  {
+    "question_text": "Find all stationary points of $y=3x^4-8x^3+6$.",
+    "solution_text": "$\\begin{aligned}y'&=12x^3-24x^2\\\\&=12x^2(x-2)\\end{aligned}$\n\nSet $y'=0$:\n$\\begin{aligned}12x^2(x-2)&=0\\\\x&=0\\text{ or }2\\end{aligned}$\n\n$y(0)=6$.\n\n$\\begin{aligned}y(2)&=3(2)^4-8(2)^3+6\\\\&=-10\\end{aligned}$\n\nThe stationary points are $(0,6)$ and $(2,-10)$."
+  },
+  {
+    "question_text": "Find the coordinates of the stationary point of $y=x+\\dfrac{16}{x}$ for $x>0$.",
+    "solution_text": "Write the reciprocal as a negative power:\n$y=x+16x^{-1}$.\n\n$\\begin{aligned}y'&=1-16x^{-2}\\\\&=1-\\dfrac{16}{x^2}\\end{aligned}$\n\nSet $y'=0$:\n$\\begin{aligned}1-\\dfrac{16}{x^2}&=0\\\\x^2&=16\\end{aligned}$\n\nSince $x>0$, $x=4$.\n\n$\\begin{aligned}y&=4+\\dfrac{16}{4}\\\\&=8\\end{aligned}$\n\nThe stationary point is $(4,8)$."
+  },
+  {
+    "question_text": "Find the coordinates of the stationary point of $y=\\dfrac{x-3}{x^2}$, where $x\\ne0$.",
+    "solution_text": "Use the quotient rule:\n$\\begin{aligned}y'&=\\dfrac{x^2-(x-3)(2x)}{x^4}\\\\&=\\dfrac{-x^2+6x}{x^4}\\\\&=\\dfrac{6-x}{x^3}\\end{aligned}$\n\nA fraction is zero when its numerator is zero and its denominator is nonzero. Set $y'=0$:\n$\\begin{aligned}6-x&=0\\\\x&=6\\end{aligned}$\n\n$\\begin{aligned}y&=\\dfrac{6-3}{6^2}\\\\&=\\dfrac{1}{12}\\end{aligned}$\n\nThe stationary point is $\\left(6,\\dfrac{1}{12}\\right)$."
+  },
+  {
+    "question_text": "For what values of $k$ does $f(x)=x^3+kx^2+27x+2$ have no stationary points?",
+    "solution_text": "$f'(x)=3x^2+2kx+27$.\n\nThere are no stationary points when $f'(x)=0$ has no real roots. Its discriminant must be negative:\n$\\begin{aligned}(2k)^2-4(3)(27)&<0\\\\4k^2-324&<0\\\\k^2&<81\\\\-9&<k<9\\end{aligned}$\n\nAt $k=-9$ or $k=9$, the derivative has a repeated real root and a stationary point exists. Both endpoints are excluded."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

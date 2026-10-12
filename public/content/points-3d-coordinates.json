@@ -2,8 +2,8 @@
   "skillId": "points-3d-coordinates",
   "atomType": "T",
   "theory": {
-    "intro": "A point in space needs three numbers, written as the ordered triple $(x,y,z)$. The $x$-, $y$- and $z$-axes are at right angles to each other and meet at the origin. To reach a point, go along $x$, then across $y$, then up $z$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0)--(-2.4,-2.4) node[below left,font=\\scriptsize]{$x$};\n\\draw[->] (0,0)--(5.8,0) node[right,font=\\scriptsize]{$y$};\n\\draw[->] (0,0)--(0,3.6) node[above,font=\\scriptsize]{$z$};\n\\node[above left,font=\\scriptsize] at (0,0) {$O$};\n\\draw[dashed,gray] (0,0)--(-1.5,-1.5) node[midway,right,font=\\footnotesize]{$x$};\n\\draw[dashed,gray] (-1.5,-1.5)--(2.5,-1.5) node[midway,below,font=\\footnotesize]{$y$};\n\\draw[dashed,gray] (2.5,-1.5)--(2.5,0.5) node[midway,right,font=\\footnotesize]{$z$};\n\\fill (2.5,0.5) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (2.5,0.5) {$P(x,\\,y,\\,z)$};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "A point in space needs three numbers, written as the ordered triple $(x,y,z)$. The $x$-, $y$- and $z$-axes are at right angles to each other and meet at the origin. To reach a point, go along $x$, then across $y$, then up $z$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0)--(-2.4,-2.4) node[below left,font=\\scriptsize]{$x$};\n\\draw[->] (0,0)--(5.8,0) node[right,font=\\scriptsize]{$y$};\n\\draw[->] (0,0)--(0,3.6) node[above,font=\\scriptsize]{$z$};\n\\node[above left,font=\\scriptsize] at (0,0) {$O$};\n\\draw[dashed,gray] (0,0)--(-1.5,-1.5) node[midway,right,font=\\footnotesize]{$x$};\n\\draw[dashed,gray] (-1.5,-1.5)--(2.5,-1.5) node[midway,below,font=\\footnotesize]{$y$};\n\\draw[dashed,gray] (2.5,-1.5)--(2.5,0.5) node[midway,right,font=\\footnotesize]{$z$};\n\\fill (2.5,0.5) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (2.5,0.5) {$P(x,\\,y,\\,z)$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
       "The three **axes** are at right angles to each other and meet at the origin $(0,0,0)$.",
       "Coordinates are always written in the fixed order $(x,y,z)$.",
       "Every point on the $xy$-**plane** has $z=0$, so the $xy$-plane has equation $z=0$.",
@@ -12,13 +12,43 @@
       "The distance from a point to the $xy$-plane is $|z|$; to the $xz$-plane it is $|y|$; to the $yz$-plane it is $|x|$.",
       "The three planes cut space into eight **octants**, and the octant where $x$, $y$ and $z$ are all positive is the first octant."
     ],
-    "steps": [
+"steps": [
       "Start at the origin and move $x$ units along the $x$-axis.",
       "From there move $y$ units parallel to the $y$-axis.",
       "Finally move $z$ units parallel to the $z$-axis, up if $z$ is positive and down if it is negative.",
       "Mark and label the point."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Write the coordinates of $P$. The dashed construction path follows the $x$, $y$ and $z$ directions in order.\n\n[tikz]\n\\begin{tikzpicture}[x={(0.6cm,-0.4cm)},y={(1cm,0cm)},z={(0cm,1cm)},every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw[->] (0,0,0)--(4,0,0);\n\\draw[->] (0,0,0)--(0,5,0);\n\\draw[<->] (0,0,-3)--(0,0,3);\n\\path (4,0,0) node[below] {$x$} (0,5,0) node[right] {$y$} (0,0,3) node[above] {$z$} (0,0,0) node[above left] {$O$};\n\\draw[dashed] (0,0,0)--(3,0,0)--(3,2,0)--(3,2,-2);\n\\path (1.5,0,0) node[below left] {$3$} (3,1,0) node[above] {$2$} (3,2,-1) node[right] {$2$};\n\\fill[black] (3,2,-2) circle (2pt);\n\\path (3,2,-2) node[below right] {$P$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The path moves $3$ units in the positive $x$ direction, $2$ units in the positive $y$ direction and $2$ units down. Downward movement gives a negative $z$-coordinate.\n\n$P(3,2,-2)$"
   },
+  {
+    "question_text": "Describe how to reach $A(2,3,-1)$ from the origin, then sketch its position on labelled 3D axes.",
+    "solution_text": "Move $2$ units along the positive $x$-axis, then $3$ units parallel to the positive $y$-axis, then $1$ unit down parallel to the $z$-axis.\n\n[tikz]\n\\begin{tikzpicture}[x={(0.6cm,-0.4cm)},y={(1cm,0cm)},z={(0cm,1cm)},every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw[->] (0,0,0)--(3.5,0,0);\n\\draw[->] (0,0,0)--(0,5,0);\n\\draw[<->] (0,0,-2)--(0,0,2.5);\n\\path (3.5,0,0) node[below] {$x$} (0,5,0) node[right] {$y$} (0,0,2.5) node[above] {$z$} (0,0,0) node[above left] {$O$};\n\\draw[dashed] (0,0,0)--(2,0,0)--(2,3,0)--(2,3,-1);\n\\path (1,0,0) node[below left] {$2$} (2,1.5,0) node[above] {$3$} (2,3,-0.5) node[right] {$1$};\n\\fill[black] (2,3,-1) circle (2pt);\n\\path (2,3,-1) node[below right] {$A(2,3,-1)$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "(a) Write the coordinates of a point $6$ units along the negative $x$-axis from the origin.\n\n(b) State which axis contains $B(0,0,3)$ and describe its position.",
+    "solution_text": "(a) On the $x$-axis, $y=0$ and $z=0$. The negative direction gives $x=-6$.\n\n$(-6,0,0)$\n\n(b) Since $x=0$ and $y=0$, $B$ lies on the $z$-axis, $3$ units above the origin."
+  },
+  {
+    "question_text": "(a) Write the equation of the $xy$-plane.\n\n(b) Which coordinate plane contains $C(0,-4,7)$?\n\n(c) Describe all points lying on both the $xy$-plane and the $xz$-plane.",
+    "solution_text": "(a) Every point on the $xy$-plane has $z=0$, so its equation is $z=0$.\n\n(b) The $x$-coordinate is zero, so $C$ lies on the $yz$-plane.\n\n(c) The $xy$-plane requires $z=0$ and the $xz$-plane requires $y=0$. Their common points have the form $(x,0,0)$ and lie on the $x$-axis."
+  },
+  {
+    "question_text": "(a) Does $A(2,6,3)$ lie in the first octant?\n\n(b) Do $B(-3,4,-6)$ and $C(-7,2,-1)$ lie in the same octant?\n\n(c) Describe the side of each coordinate plane on which $B$ lies.",
+    "solution_text": "(a) All three coordinates are positive, so $A$ lies in the first octant.\n\n(b) Both points have signs $(-,+,-)$, so they lie in the same octant.\n\n(c) Since $x=-3<0$, $B$ lies on the negative side of the $yz$-plane. Since $y=4>0$, it lies on the positive side of the $xz$-plane. Since $z=-6<0$, it lies below the $xy$-plane."
+  },
+  {
+    "question_text": "Find the distance from $D(-7,3,-4)$ to each coordinate plane.",
+    "solution_text": "Use the absolute value of the coordinate perpendicular to each plane.\n\nThe $yz$-plane has equation $x=0$.\n\n$\\begin{aligned}d_{yz}&=|-7|\\\\&=7\\text{ units}\\end{aligned}$\n\nThe $xz$-plane has equation $y=0$.\n\n$\\begin{aligned}d_{xz}&=|3|\\\\&=3\\text{ units}\\end{aligned}$\n\nThe $xy$-plane has equation $z=0$.\n\n$\\begin{aligned}d_{xy}&=|-4|\\\\&=4\\text{ units}\\end{aligned}$"
+  },
+  {
+    "question_text": "The point $K(3m-12,2,m-1)$ lies on the $yz$-plane. Find $m$ and the coordinates of $K$.",
+    "solution_text": "The $yz$-plane has equation $x=0$, so set the first coordinate equal to zero.\n\n$\\begin{aligned}3m-12&=0\\\\3m&=12\\\\m&=4\\end{aligned}$\n\nSubstitute $m=4$ into the third coordinate.\n\n$\\begin{aligned}z&=m-1\\\\&=4-1\\\\&=3\\end{aligned}$\n\n$K(0,2,3)$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

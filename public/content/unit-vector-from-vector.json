@@ -2,8 +2,8 @@
   "skillId": "unit-vector-from-vector",
   "atomType": "R",
   "theory": {
-    "intro": "A **unit vector** is a vector whose magnitude is $1$. The unit vector pointing the same way as $\\underset{\\sim}{a}$ is written $\\hat{\\underset{\\sim}{a}}$, and it is found by dividing $\\underset{\\sim}{a}$ by its own magnitude. This requires a non-zero vector: the zero vector has no direction, and division by its magnitude is undefined.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (0,0)--(4,2.4) node[right]{$\\underset{\\sim}{a}$};\n\\draw[-{Stealth},thick,blue] (0,0)--({4/sqrt(21.76)},{2.4/sqrt(21.76)}) node[midway,above left]{$\\hat{\\underset{\\sim}{a}}$};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "A **unit vector** is a vector whose magnitude is $1$. The unit vector pointing the same way as $\\underset{\\sim}{a}$ is written $\\hat{\\underset{\\sim}{a}}$, and it is found by dividing $\\underset{\\sim}{a}$ by its own magnitude. This requires a non-zero vector: the zero vector has no direction, and division by its magnitude is undefined.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (0,0)--(4,2.4) node[right]{$\\underset{\\sim}{a}$};\n\\draw[-{Stealth},thick,blue] (0,0)--({4/sqrt(21.76)},{2.4/sqrt(21.76)}) node[midway,above left]{$\\hat{\\underset{\\sim}{a}}$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "$\\hat{\\underset{\\sim}{a}}=\\frac{1}{|\\underset{\\sim}{a}|}\\underset{\\sim}{a}$, so every component is divided by the magnitude.",
 "$\\hat{\\underset{\\sim}{a}}$ points the same way as $\\underset{\\sim}{a}$ and has magnitude exactly $1$.",
 "The unit vector in the opposite direction to $\\underset{\\sim}{a}$ is $-\\hat{\\underset{\\sim}{a}}$.",
@@ -12,12 +12,49 @@
 "Leave the answer exact, such as $\\frac{1}{\\sqrt{13}}(3\\underset{\\sim}{i}+2\\underset{\\sim}{j})$, unless a decimal is asked for.",
 "Check any unit vector by squaring its components: they must add to $1$."
 ],
-    "steps": [
+"steps": [
       "Find the magnitude $|\\underset{\\sim}{a}|$.",
       "Divide the vector by its magnitude, giving $\\hat{\\underset{\\sim}{a}}=\\frac{1}{|\\underset{\\sim}{a}|}\\underset{\\sim}{a}$.",
       "Check that the components of $\\hat{\\underset{\\sim}{a}}$ square and add to $1$."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find the unit vector in the direction of $\\underset{\\sim}{a}=-8\\mathbf{i}-6\\mathbf{j}$. Give your answer in exact form.",
+    "solution_text": "Find the magnitude, then divide each component by it.\n$\\begin{aligned}|\\underset{\\sim}{a}|&=\\sqrt{(-8)^2+(-6)^2}\\\\&=10\\end{aligned}$\n$\\begin{aligned}\\hat{\\underset{\\sim}{a}}&=\\frac{\\underset{\\sim}{a}}{|\\underset{\\sim}{a}|}\\\\&=\\frac{1}{10}(-8\\mathbf{i}-6\\mathbf{j})\\\\&=-\\frac45\\mathbf{i}-\\frac35\\mathbf{j}\\end{aligned}$\nThe unit vector has the same direction and one tenth of the original length.\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=5mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{unitblue}{HTML}{268CFF}\n\\draw[->,black,thick] (0,0)--(-8,-6);\n\\path (-4,-3) node[above left] {$\\underset{\\sim}{a}$};\n\\draw[->,unitblue,very thick] (0,0)--(-0.8,-0.6);\n\\path (0,0) node[above right,text=unitblue] {$\\hat{\\underset{\\sim}{a}}$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Given $\\underset{\\sim}{u}=2\\mathbf{i}+\\mathbf{j}$ and $\\underset{\\sim}{v}=-7\\mathbf{i}+3\\mathbf{j}$, find the exact unit vector in the direction of $\\underset{\\sim}{w}=\\underset{\\sim}{u}+\\underset{\\sim}{v}$.",
+    "solution_text": "Add the components first.\n$\\begin{aligned}\\underset{\\sim}{w}&=(2\\mathbf{i}+\\mathbf{j})+(-7\\mathbf{i}+3\\mathbf{j})\\\\&=-5\\mathbf{i}+4\\mathbf{j}\\end{aligned}$\n$\\begin{aligned}|\\underset{\\sim}{w}|&=\\sqrt{(-5)^2+4^2}\\\\&=\\sqrt{41}\\end{aligned}$\n$\\begin{aligned}\\hat{\\underset{\\sim}{w}}&=\\frac{\\underset{\\sim}{w}}{|\\underset{\\sim}{w}|}\\\\&=\\frac{1}{\\sqrt{41}}(-5\\mathbf{i}+4\\mathbf{j})\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The unit vector in the direction of $\\underset{\\sim}{a}$ is $\\frac{1}{5}(-3\\mathbf{i}+4\\mathbf{j})$ and $|\\underset{\\sim}{a}|=15$. Find $\\underset{\\sim}{a}$.",
+    "solution_text": "Multiply the unit vector by the required magnitude.\n$\\begin{aligned}\\underset{\\sim}{a}&=|\\underset{\\sim}{a}|\\,\\hat{\\underset{\\sim}{a}}\\\\&=15\\times\\frac15(-3\\mathbf{i}+4\\mathbf{j})\\\\&=-9\\mathbf{i}+12\\mathbf{j}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The vector $\\underset{\\sim}{a}=k\\mathbf{i}+12\\mathbf{j}$ has magnitude $13$, where $k<0$. Find the unit vector in its direction.",
+    "solution_text": "Use the magnitude to find the missing component.\n$\\begin{aligned}k^2+12^2&=13^2\\\\k^2&=25\\end{aligned}$\nSince $k<0$, $k=-5$.\n$\\begin{aligned}\\hat{\\underset{\\sim}{a}}&=\\frac{\\underset{\\sim}{a}}{|\\underset{\\sim}{a}|}\\\\&=\\frac{1}{13}(-5\\mathbf{i}+12\\mathbf{j})\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Determine whether $\\underset{\\sim}{p}=-\\frac{\\sqrt3}{2}\\mathbf{i}+\\frac12\\mathbf{j}$ is a unit vector.",
+    "solution_text": "Calculate its magnitude.\n$\\begin{aligned}|\\underset{\\sim}{p}|&=\\sqrt{\\left(-\\frac{\\sqrt3}{2}\\right)^2+\\left(\\frac12\\right)^2}\\\\&=\\sqrt{\\frac34+\\frac14}\\\\&=1\\end{aligned}$\nIts magnitude is $1$, so it is a unit vector.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

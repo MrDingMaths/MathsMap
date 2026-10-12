@@ -2,125 +2,163 @@
   "skillId": "probability-simulations",
   "atomType": "R",
   "theory": {
-        "intro": "A **simulation** models a real situation with a random device — a coin, a die, a spinner or random digits — whose outcomes have the same probabilities as the real ones. Many **trials** then give an estimate of the probability.",
-        "facts": [
-          "A **simulation** replaces a real situation with a random device whose outcomes have the same probabilities.",
-          "The device must **match the probability**: an event with probability $\\frac{1}{4}$ needs $4$ equally likely outcomes, or $\\frac{1}{4}$ of them assigned to it.",
-          "**Assign the outcomes before starting**: for $P(\\text{rain}) = 0.3$, use digits $0$ to $9$ and let $0, 1, 2$ mean rain.",
-          "One **trial** models one run of the real situation, so $5$ penalty shots make one trial of $5$ digits.",
-          "$\\text{Estimated probability} = \\dfrac{\\text{number of successful trials}}{\\text{total number of trials}}$",
-          "By the Law of Large Numbers, the more trials that are run, the closer the estimate should be to the true probability.",
-          "When a probability cannot be matched exactly, **ignore the leftovers**: for $\\frac{1}{3}$ let $0, 1, 2$ mean success, $3$ to $8$ failure, and skip $9$.",
-          "A simulation gives an **estimate**, not the exact value, so two simulations of the same situation usually differ slightly."
-        ],
-        "steps": [
+"intro": "A **simulation** models a real situation with a random device — a coin, a die, a spinner or random digits — whose outcomes have the same probabilities as the real ones. Many **trials** then give an estimate of the probability.",
+"facts": [
+"A **simulation** replaces a real situation with a random device whose outcomes have the same probabilities. Independent draws model independent events. In a multistage simulation, the model must also match whether events in the real situation are independent or dependent.",
+"The device must **match the probability** by assigning the required proportion of its equally likely outcomes to the event. For probability $\\frac{1}{4}$, assign one quarter of the outcomes: this could be $1$ of $4$ or $25$ of $100$, so exactly $4$ outcomes are not required.",
+"**Assign the outcomes before starting**: for $P(\\text{rain}) = 0.3$, use digits $0$ to $9$ and let $0, 1, 2$ mean rain.",
+"One **trial** models one run of the real situation, so $5$ penalty shots make one trial of $5$ digits.",
+"$\\text{Estimated probability} = \\dfrac{\\text{number of successful trials}}{\\text{total number of trials}}$",
+"By the Law of Large Numbers, the relative frequency approaches the true probability over many independent trials with the same probability. More trials make a close estimate more likely, but do not guarantee that the estimate gets closer every time trials are added.",
+"Sometimes **discarding selected outcomes** lets a device match a probability it cannot represent directly. For $\\frac{1}{3}$, let $0, 1, 2$ mean success, $3$ to $8$ mean failure, and skip $9$: success then uses $3$ of the $9$ retained equally likely digits. Discarding outcomes does not allow every probability to be matched; choose another device when needed.",
+"A simulation gives an **estimate**, not the exact value, so two simulations of the same situation usually differ slightly."
+],
+"steps": [
           "Choose a random device whose equally likely outcomes match the probabilities in the real situation.",
           "Assign the device's outcomes to the real events.",
           "Decide what makes up one trial, then run many trials and record the results.",
           "Estimate the probability as the number of successful trials divided by the total number of trials."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A game awards a prize with probability $\\frac{1}{8}$. Choose a suitable device from a coin, a spinner with $8$ equal sectors and a six-sided die. Explain how to use it to model one game.",
+    "solution_text": "Use the spinner with $8$ equal sectors. Label one sector 'prize' and the other seven 'no prize'. One spin models one game, giving a prize probability of $\\frac{1}{8}$."
+  },
+  {
+    "question_text": "A player wins $45\\%$ of her games. A simulation generates equally likely random two-digit numbers from $00$ to $99$. Describe an assignment that models one game.",
+    "solution_text": "There are $100$ equally likely numbers, so assign $45$ to a win. Let $00$ to $44$ mean 'win' and $45$ to $99$ mean 'loss'. Generate one number for each game."
+  },
+  {
+    "question_text": "A packet contains a bonus token with probability $\\frac{2}{3}$. Design an assignment using equally likely random digits from $0$ to $9$, discarding a digit when necessary.",
+    "solution_text": "Let $0$ to $5$ mean 'token' and $6$ to $8$ mean 'no token'. Discard $9$ and generate another digit for the same packet.\n\nOf the $9$ retained equally likely digits, $6$ represent a token, giving $\\frac{6}{9}=\\frac{2}{3}$. One retained digit models one packet."
+  },
+  {
+    "question_text": "A delivery arrives late with probability $0.25$. Leo simulates one delivery by rolling a fair six-sided die, with $1$ and $2$ meaning 'late'. Explain the fault and describe a suitable replacement.",
+    "solution_text": "Leo's assignment gives $P(\\text{late})=\\frac{2}{6}=\\frac{1}{3}$, which is greater than $0.25$. It makes late deliveries too likely.\n\nUse a spinner with $4$ equal sectors: one means 'late' and three mean 'on time'. This gives $P(\\text{late})=\\frac{1}{4}=0.25$."
+  },
+  {
+    "question_text": "A simulation models whether a seed germinates. The results of $12$ trials are G, N, G, G, N, G, N, G, G, N, G, G, where G means 'germinates' and N means 'does not germinate'. Estimate the probability that a seed germinates, as a fraction in simplest form.",
+    "solution_text": "There are $8$ germinations in $12$ trials.\n\n$\\begin{aligned}\\text{Estimated probability}&=\\frac{8}{12}\\\\&=\\frac{2}{3}\\end{aligned}$"
+  },
+  {
+    "question_text": "A player succeeds on $60\\%$ of attempts. Independent random digits model independent attempts, with $0$ to $5$ meaning 'success' and $6$ to $9$ meaning 'failure'. One trial is $4$ digits. Six trials give $0518$, $6742$, $5304$, $9861$, $2457$ and $6089$. Estimate, as a fraction in simplest form, the probability of succeeding on at least $3$ of $4$ attempts.",
+    "solution_text": "Count the digits from $0$ to $5$ in each trial.\n\n$0518$, $6742$, $5304$, $9861$, $2457$ and $6089$ contain $3$, $2$, $4$, $1$, $3$ and $1$ successes respectively.\n\nThe successful trials are $0518$, $5304$ and $2457$: $3$ of the $6$ trials.\n\n$\\begin{aligned}\\text{Estimated probability}&=\\frac{3}{6}\\\\&=\\frac{1}{2}\\end{aligned}$\n\nThe denominator counts whole trials, each modelling four attempts."
+  },
+  {
+    "question_text": "A machine produces a faulty item with probability $0.2$. Assume that faults in different items are independent. Design a digital simulation to estimate the probability that at least one of the next $3$ items is faulty. State the outcome assignment, one trial, a success rule, the number of trials and how to calculate the estimate.",
+    "solution_text": "Generate independent, equally likely random digits from $0$ to $9$. Let $0$ and $1$ mean 'faulty' and $2$ to $9$ mean 'not faulty', matching $\\frac{2}{10}=0.2$.\n\nOne trial is $3$ digits, modelling three items. A trial succeeds if at least one digit is $0$ or $1$.\n\nRun $300$ trials and record the number of successful trials.\n\n$\\text{Estimated probability}=\\frac{\\text{number of successful trials}}{300}$"
+  },
+  {
+    "question_text": "Two correctly designed simulations model an event with probability $0.4$. A short run gives $13$ successes in $25$ trials. A longer run gives $207$ successes in $500$ trials. Find both estimates, compare them with $0.4$ and explain which run you would generally expect to give a closer estimate.",
+    "solution_text": "Short-run estimate: $\\frac{13}{25}=0.52$.\n\nLonger-run estimate: $\\frac{207}{500}=0.414$.\n\nHere $0.414$ is closer to $0.4$ than $0.52$. Both results are estimates from random trials, so neither must equal the modelled probability.\n\nWith independent trials and the same event probability, more trials make a close estimate more likely. The longer run is generally more reliable, but adding trials does not guarantee a closer estimate every time."
+  },
+  {
+    "question_text": "A game awards a prize with probability $0.3$. Maya models each game by tossing a fair coin, with heads meaning 'prize'. She runs $8$ trials. Identify two separate weaknesses and explain how to fix each.",
+    "solution_text": "The coin gives a prize probability of $\\frac{1}{2}$, which does not match $0.3$. Generate equally likely random digits from $0$ to $9$ instead, with $0$, $1$ and $2$ meaning 'prize' and $3$ to $9$ meaning 'no prize'.\n\nEight trials give a highly variable estimate. After correcting the model, run many more trials, such as $400$, and divide the number of prizes by $400$.\n\nMore trials improve reliability; they cannot correct the wrong outcome probabilities."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "In a certain town the probability that a day is rainy is $0.3$.\nA simulation uses random digits from $0$ to $9$, one digit for each day.\nDescribe how to assign the digits so that the simulation models the weather correctly.",
         "structure": "assign-outcomes",
         "solution_text": "The digits $0$ to $9$ give $10$ equally likely outcomes.\n$0.3 \\times 10 = 3$, so $3$ of the $10$ digits must stand for a rainy day.\nLet $0, 1, 2$ mean 'rainy day' and let $3, 4, 5, 6, 7, 8, 9$ mean 'dry day'."
       },
-      {
+{
         "question_text": "A goalkeeper saves $1$ in every $4$ penalty shots.\nWhich random device could be used to model one penalty shot: a coin, a spinner with $4$ equal sectors, or a spinner with $5$ equal sectors?\nExplain your choice.",
         "structure": "choose-device",
-        "solution_text": "The probability of a save is $\\frac{1}{4}$, so the device needs $4$ equally likely outcomes.\nA coin gives $2$ outcomes and a spinner with $5$ equal sectors gives $5$, so neither matches.\nUse the spinner with $4$ equal sectors, labelling one sector 'save' and the other three 'goal'."
+        "solution_text": "The probability of a save is $\\frac{1}{4}$, so one quarter of the device's equally likely outcomes must represent a save.\nA coin gives $2$ outcomes and a spinner with $5$ equal sectors gives $5$, so neither matches.\nUse the spinner with $4$ equal sectors, labelling one sector 'save' and the other three 'goal'."
       },
-      {
+{
         "question_text": "About $1$ in every $3$ cereal boxes contains a toy.\nDan says he can model buying one box by tossing a coin, with heads meaning 'toy'.\nExplain why Dan's simulation is not suitable.",
         "structure": "device-mismatch",
         "solution_text": "A coin gives $2$ equally likely outcomes, so heads has probability $\\frac{1}{2}$.\nThe real probability of a toy is $\\frac{1}{3}$, and $\\frac{1}{2} \\neq \\frac{1}{3}$.\nThe coin makes a toy far more likely than it really is, so it does not model the situation."
       },
-      {
+{
         "question_text": "A spinner with $4$ equal sectors is used to model penalty shots, with one sector meaning 'save'.\nThe results of $20$ trials are shown, where S means a save and G means a goal.\n$\\begin{array}{|c|c|c|c|c|c|c|c|c|c|}\\hline G & G & S & G & G & G & S & G & G & G \\\\\\hline G & S & G & G & G & G & G & S & G & G \\\\\\hline\\end{array}$\nEstimate, as a fraction in simplest form, the probability that a shot is saved.",
         "structure": "read-trial-results",
         "solution_text": "There are $20$ trials and S appears $4$ times.\n$\\text{Estimated probability} = \\frac{4}{20}$\n$= \\frac{1}{5}$"
       },
-      {
+{
         "question_text": "About $1$ in every $6$ cereal boxes contains a toy.\nA simulation uses a fair six-sided die, rolled once for each box bought.\nDescribe how to assign the die's outcomes so that the simulation models the situation.",
         "structure": "assign-outcomes",
         "solution_text": "A die gives $6$ equally likely outcomes and the probability of a toy is $\\frac{1}{6}$.\nExactly one of the six faces must stand for a toy.\nLet a roll of $1$ mean 'the box contains a toy' and let $2, 3, 4, 5, 6$ mean 'no toy'."
       },
-      {
+{
         "question_text": "Ana uses random digits to simulate rainy days and runs $20$ trials.\nShe gets $7$ rainy days and estimates the probability of a rainy day as $0.35$.\nExplain why her estimate may not be close to the true probability, and describe how she could improve it.",
         "structure": "more-trials",
-        "solution_text": "With only $20$ trials the results can easily be unlucky, so the relative frequency can sit well away from the true probability.\nThe Law of Large Numbers says the relative frequency gets closer to the true probability as the number of trials increases.\nAna should run many more trials, such as $500$, and recalculate the relative frequency."
+        "solution_text": "With only $20$ trials the results can easily be unlucky, so the relative frequency can sit well away from the true probability.\nThe Law of Large Numbers says the relative frequency approaches the true probability over many independent trials with the same probability, but adding trials does not guarantee a closer estimate on every run.\nAna should run many more trials, such as $500$, and recalculate the relative frequency."
       },
-      {
+{
         "question_text": "A farmer models the sex of newborn calves, where a calf is female with probability $0.5$.\nA coin is tossed $100$ times, with heads meaning 'female', and heads comes up $46$ times.\na. Estimate the probability that a calf is female, as a decimal.\nb. Compare this estimate with the probability the simulation was built on.",
         "structure": "compare-to-theory",
         "solution_text": "a. $\\text{Estimated probability} = \\frac{46}{100}$\n$= 0.46$\nb. The simulation was built on a probability of $0.5$ and produced an estimate of $0.46$.\nThe estimate is close to $0.5$ but not equal to it, which is expected because $100$ trials give an estimate rather than the exact value."
       },
-      {
+{
         "question_text": "A striker scores $65\\%$ of her penalty shots.\nA simulation uses random two-digit numbers from $00$ to $99$, one number for each shot.\nDescribe a suitable assignment of the numbers.",
         "structure": "assign-outcomes",
         "solution_text": "The numbers $00$ to $99$ give $100$ equally likely outcomes.\n$65\\%$ of $100$ is $65$, so $65$ of the numbers must stand for a goal.\nLet $00$ to $64$ mean 'goal' and let $65$ to $99$ mean 'miss'."
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "A striker scores $70\\%$ of her penalty shots.\nTo estimate the probability that she scores at least $4$ of her next $5$ shots, a simulation uses random digits where $0$ to $6$ means a goal and $7$ to $9$ means a miss.\nOne trial is a group of $5$ digits.\nTen trials gave these digits.\n$\\begin{array}{|c|c|c|c|c|}\\hline 30512 & 87301 & 44290 & 61738 & 09514 \\\\\\hline 27680 & 55127 & 83094 & 41250 & 76329 \\\\\\hline\\end{array}$\nEstimate, as a fraction in simplest form, the probability that she scores at least $4$ of her next $5$ shots.",
         "structure": "grouped-trials",
         "solution_text": "Count the digits from $0$ to $6$ in each group of five.\n$30512$ has $5$ goals, $87301$ has $3$, $44290$ has $4$, $61738$ has $3$ and $09514$ has $4$.\n$27680$ has $3$, $55127$ has $4$, $83094$ has $3$, $41250$ has $5$ and $76329$ has $3$.\nFive of the ten trials gave at least $4$ goals.\n$\\text{Estimated probability} = \\frac{5}{10}$\n$= \\frac{1}{2}$"
       },
-      {
+{
         "question_text": "About $1$ in $6$ cereal boxes contains a toy.\nA simulation uses a die, where a roll of $1$ means the box contains a toy.\nOne trial is $4$ rolls, modelling four boxes bought.\nTwelve trials gave these results.\n$\\begin{array}{|c|c|c|c|c|c|}\\hline 3452 & 1624 & 5136 & 2143 & 6651 & 4125 \\\\\\hline 2314 & 6642 & 5213 & 3366 & 4152 & 2625 \\\\\\hline\\end{array}$\nEstimate, as a fraction in simplest form, the probability that at least one of four boxes contains a toy.",
         "structure": "grouped-trials",
         "solution_text": "A trial is a success when at least one of its four rolls is a $1$.\nThe successful trials are $1624$, $5136$, $2143$, $6651$, $4125$, $2314$, $5213$ and $4152$.\nThat is $8$ of the $12$ trials.\n$\\text{Estimated probability} = \\frac{8}{12}$\n$= \\frac{2}{3}$"
       },
-      {
+{
         "question_text": "In a town it rains on about $40\\%$ of days.\nTom models one day by rolling a six-sided die and calling a $1$ or a $2$ 'rain'.\nExplain why Tom's simulation does not model the situation, and describe a device that would.",
         "structure": "device-mismatch",
         "solution_text": "Tom's rule gives $P(\\text{rain}) = \\frac{2}{6} = \\frac{1}{3}$, which is about $33\\%$.\nThe real probability is $40\\%$, so the die makes rain less likely than it really is.\nUse random digits from $0$ to $9$ instead, with $0, 1, 2, 3$ meaning 'rain' and $4$ to $9$ meaning 'dry'.\nThat gives $P(\\text{rain}) = \\frac{4}{10} = 40\\%$, which matches."
       },
-      {
-        "question_text": "A newborn calf is female with probability $0.5$.\nDesign a simulation to estimate the probability that a farmer's next $3$ calves are all female.\nDescribe the device, the assignment of outcomes, what makes up one trial, and how to work out the estimate.",
+{
+        "question_text": "A newborn calf is female with probability $0.5$.\nAssume that the sexes of the farmer's next $3$ calves are independent.\nDesign a simulation to estimate the probability that a farmer's next $3$ calves are all female.\nDescribe the device, the assignment of outcomes, what makes up one trial, and how to work out the estimate.",
         "structure": "design-simulation",
         "solution_text": "A coin has $2$ equally likely outcomes, matching $P(\\text{female}) = 0.5$.\nLet a head mean 'female' and a tail mean 'male'.\nOne trial is $3$ tosses, modelling three calves, and a trial is a success when all $3$ tosses are heads.\nRun a large number of trials, such as $200$, and count the successful ones.\nEstimate the probability as the number of successful trials divided by $200$."
       },
-      {
+{
         "question_text": "The theoretical probability that three newborn calves are all female is $0.125$.\nA simulation of $200$ trials gave $30$ successes.\na. Find the estimated probability from the simulation, as a decimal.\nb. Comment on how well the simulation agrees with the theoretical probability, and say what would improve the agreement.",
         "structure": "compare-to-theory",
         "solution_text": "a. $\\text{Estimated probability} = \\frac{30}{200}$\n$= 0.15$\nb. The estimate of $0.15$ is close to $0.125$ but a little higher.\nA simulation gives an estimate from a limited number of trials, so a small difference is expected.\nRunning many more trials would be expected to bring the estimate closer to $0.125$."
       },
-      {
+{
         "question_text": "Ben and Cara each simulate rainy days with random digits, using $0, 1, 2$ for a rainy day.\nBen runs $50$ trials and gets $19$ rainy days.\nCara runs $500$ trials and gets $161$ rainy days.\na. Find each estimate as a decimal.\nb. Whose estimate would you expect to be closer to the true probability of $0.3$?\nExplain.",
         "structure": "more-trials",
-        "solution_text": "a. Ben's estimate is $\\frac{19}{50} = 0.38$.\nCara's estimate is $\\frac{161}{500} = 0.322$.\nb. By the Law of Large Numbers, the relative frequency gets closer to the true probability as the number of trials increases.\nCara ran ten times as many trials, so her estimate is expected to be closer to $0.3$, and $0.322$ is indeed closer than $0.38$."
+        "solution_text": "a. Ben's estimate is $\\frac{19}{50} = 0.38$.\nCara's estimate is $\\frac{161}{500} = 0.322$.\nb. By the Law of Large Numbers, the relative frequency approaches the true probability over many independent trials with the same probability, but adding trials does not guarantee a closer estimate every time.\nCara ran ten times as many trials, so her estimate is expected to be closer to $0.3$, and $0.322$ is indeed closer than $0.38$."
       },
-      {
+{
         "question_text": "The probability of rain on a given day is $0.25$.\nTwo students suggest simulations for one day.\nSasha spins a spinner with $4$ equal sectors and calls one sector 'rain'.\nOmar draws a random two-digit number from $00$ to $99$ and calls $00$ to $24$ 'rain'.\nDecide whether each simulation is suitable, giving a reason.",
         "structure": "device-mismatch",
         "solution_text": "Sasha's spinner has $4$ equally likely sectors, and one of them gives $P(\\text{rain}) = \\frac{1}{4} = 0.25$, which matches.\nOmar's numbers give $100$ equally likely outcomes, and $00$ to $24$ is $25$ of them.\n$\\frac{25}{100} = 0.25$, which also matches.\nBoth simulations are suitable, because the same probability can be modelled by more than one device."
       },
-      {
+{
         "question_text": "About $1$ in every $3$ cereal boxes contains a toy.\nA simulation uses random digits from $0$ to $9$, one digit for each box.\nExplain why the ten digits cannot simply be split into two groups, and describe an assignment that does model the situation.",
         "structure": "assign-outcomes",
         "solution_text": "There are $10$ digits and $10$ is not divisible by $3$, so no group of whole digits has probability exactly $\\frac{1}{3}$.\nLet $0, 1, 2$ mean 'toy' and let $3, 4, 5, 6, 7, 8$ mean 'no toy'.\nWhenever a $9$ appears, ignore it and move on to the next digit.\nOnly $9$ equally likely digits are then used, and $3$ of them mean a toy, giving $P(\\text{toy}) = \\frac{3}{9} = \\frac{1}{3}$."
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "A striker scores $80\\%$ of her penalty shots.\nDesign a simulation to estimate the probability that she scores at least $4$ of her next $5$ shots.\nDescribe the device, the assignment of outcomes, what makes up one trial, how many trials to run, and how to calculate the estimate.",
+{
+        "question_text": "A striker scores $80\\%$ of her penalty shots.\nAssume that her next $5$ shots are independent and each has scoring probability $0.8$.\nDesign a simulation to estimate the probability that she scores at least $4$ of her next $5$ shots.\nDescribe the device, the assignment of outcomes, what makes up one trial, how many trials to run, and how to calculate the estimate.",
         "structure": "design-simulation",
         "solution_text": "Random digits from $0$ to $9$ give $10$ equally likely outcomes, and $80\\%$ of $10$ is $8$.\nLet the digits $0$ to $7$ mean 'goal' and let $8$ and $9$ mean 'miss'.\nOne trial is a group of $5$ digits, modelling five penalty shots.\nA trial is a success when at least $4$ of its $5$ digits lie between $0$ and $7$.\nRun a large number of trials, such as $200$, and count the successful ones.\nEstimate the probability as the number of successful trials divided by $200$."
       },
-      {
+{
         "question_text": "Ken wants to estimate the probability that a cereal box contains a toy, which happens for $20\\%$ of boxes.\nHe rolls a six-sided die once for each box, counts a roll of $1$ as a toy, and runs $10$ trials.\nGive two separate reasons why Ken's simulation gives a poor estimate, and describe how to fix each one.",
         "structure": "diagnose-multiple-flaws",
         "solution_text": "The first fault is the device: a roll of $1$ gives $P(\\text{toy}) = \\frac{1}{6}$, which is about $17\\%$ and not $20\\%$.\nFix it by using random digits from $0$ to $9$ with $0$ and $1$ meaning 'toy', which gives $\\frac{2}{10} = 20\\%$.\nThe second fault is the number of trials: $10$ trials is far too few, so the relative frequency can easily land well away from the true value.\nFix it by running many more trials, such as $500$, before calculating the estimate."
       },
-      {
-        "question_text": "In a town the probability that a day is rainy is $0.3$.\nA simulation uses random digits where $0, 1, 2$ mean a rainy day, and one trial is a group of $3$ digits modelling three days.\nFifteen trials gave these digits.\n$\\begin{array}{|c|c|c|c|c|}\\hline 471 & 208 & 936 & 152 & 640 \\\\\\hline 815 & 023 & 769 & 344 & 507 \\\\\\hline 128 & 396 & 682 & 210 & 954 \\\\\\hline\\end{array}$\na. Estimate, as a fraction in simplest form, the probability that at least $2$ of $3$ days are rainy.\nb. The true probability is about $0.22$.\nExplain why the simulation's estimate is not exactly this value.",
+{
+        "question_text": "In a town the probability that a day is rainy is $0.3$.\nAssume that whether it rains on one day is independent of whether it rains on other days.\nA simulation uses independent random digits where $0, 1, 2$ mean a rainy day, and one trial is a group of $3$ digits modelling three days.\nFifteen trials gave these digits.\n$\\begin{array}{|c|c|c|c|c|}\\hline 471 & 208 & 936 & 152 & 640 \\\\\\hline 815 & 023 & 769 & 344 & 507 \\\\\\hline 128 & 396 & 682 & 210 & 954 \\\\\\hline\\end{array}$\na. Estimate, as a fraction in simplest form, the probability that at least $2$ of $3$ days are rainy.\nb. The true probability is about $0.22$.\nExplain why the simulation's estimate is not exactly this value.",
         "structure": "compare-to-theory",
         "solution_text": "a. Count how many of the digits $0$, $1$ and $2$ appear in each group of three.\nThe trials with at least $2$ rainy days are $208$, $152$, $023$, $128$ and $210$.\nThat is $5$ of the $15$ trials.\n$\\text{Estimated probability} = \\frac{5}{15}$\n$= \\frac{1}{3}$\nb. A simulation only estimates a probability from a limited number of trials.\nWith just $15$ trials the relative frequency can easily differ from $0.22$, and running many more trials would be expected to bring it closer."
       }
-    ]
+]
   }
 }

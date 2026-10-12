@@ -2,18 +2,56 @@
   "skillId": "recognise-angle-relationships",
   "atomType": "R",
   "theory": {
-        "intro": "Angles in a diagram often add up to a known total. Spotting the relationship lets you find a missing angle.",
-        "facts": [
+"intro": "Angles in a diagram often add up to a known total. Spotting the relationship lets you find a missing angle.",
+"facts": [
           "Two angles forming a **right angle** add to $90^{\\circ}$.\n\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw (0,0)--(2.4,0);\n\\draw (0,0)--(0,2.4);\n\\draw (0,0)--(40:2.2);\n\\draw (0.32,0)--(0.32,0.32)--(0,0.32);\n\\node at (1.17,0.43) {$a$};\n\\node at (0.53,1.13) {$b$};\n\\end{tikzpicture}[/tikz]",
           "Angles on a **straight line** add to $180^{\\circ}$.\n\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw (-2.5,0)--(2.5,0);\n\\draw (0,0)--(65:2.1);\n\\node at (-0.67,1.05) {$a$};\n\\node at (1.05,0.67) {$b$};\n\\end{tikzpicture}[/tikz]",
           "Angles **at a point** (around a vertex) add to $360^{\\circ}$.\n\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw (0,0)--(0:2.1);\n\\draw (0,0)--(110:2.1);\n\\draw (0,0)--(225:2.1);\n\\node at (0.72,1.02) {$a$};\n\\node at (-1.22,0.27) {$b$};\n\\node at (0.48,-1.15) {$c$};\n\\end{tikzpicture}[/tikz]"
         ],
-        "steps": [
+"steps": [
           "Decide which relationship the diagram shows ($90^{\\circ}$, $180^{\\circ}$ or $360^{\\circ}$).",
           "Add the known angles.",
           "Subtract from the total to find the unknown."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Find the missing angle. The square marks a right angle.\n\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\draw (0,0)--(3,0) (0,0)--(0,3) (0,0)--(24:2.8) (0,0)--(55:2.8);\n\\draw (0.3,0)--(0.3,0.3)--(0,0.3);\n\\draw (0.9,0) arc (0:24:0.9);\n\\draw (24:1.2) arc (24:55:1.2);\n\\draw (55:0.9) arc (55:90:0.9);\n\\node at (12:1.4) {$24^{\\circ}$};\n\\node at (39.5:1.7) {$31^{\\circ}$};\n\\node at (72.5:1.4) {$x^{\\circ}$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "The three angles fill a right angle, so they add to $90^{\\circ}$.\n\n$\\begin{aligned}24+31+x&=90\\\\55+x&=90\\\\x&=90-55\\\\x&=35\\end{aligned}$\n\nThe missing angle is $35^{\\circ}$. Turning the diagram would not change the right-angle total.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the missing angle. All three marked angles lie on the same side of the straight line.\n\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\draw (-3,0)--(3,0) (0,0)--(48:2.6) (0,0)--(111:2.6);\n\\draw (1,0) arc (0:48:1);\n\\draw (48:1) arc (48:111:1);\n\\draw (111:1) arc (111:180:1);\n\\node at (24:1.5) {$48^{\\circ}$};\n\\node at (79.5:1.5) {$x^{\\circ}$};\n\\node at (145.5:1.5) {$69^{\\circ}$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "The outside arms point in opposite directions. The three angles fill a half turn, so they add to $180^{\\circ}$.\n\n$\\begin{aligned}48+x+69&=180\\\\117+x&=180\\\\x&=180-117\\\\x&=63\\end{aligned}$\n\nThe missing angle is $63^{\\circ}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the missing angle. The four marked sectors fill a complete turn.\n\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\foreach \\a in {0,80,175,285}{\\draw (0,0)--(\\a:2.5);}\n\\draw (0.9,0) arc (0:80:0.9);\n\\draw (80:0.9) arc (80:175:0.9);\n\\draw (175:0.9) arc (175:285:0.9);\n\\draw (285:0.9) arc (285:360:0.9);\n\\node at (40:1.5) {$80^{\\circ}$};\n\\node at (127.5:1.5) {$95^{\\circ}$};\n\\node at (230:1.5) {$110^{\\circ}$};\n\\node at (322.5:1.5) {$x^{\\circ}$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Include every sector around the vertex: together they make $360^{\\circ}$.\n\n$\\begin{aligned}80+95+110+x&=360\\\\285+x&=360\\\\x&=360-285\\\\x&=75\\end{aligned}$\n\nThe missing angle is $75^{\\circ}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the reflex angle $r^{\\circ}$.\n\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\draw (0,0)--(0:2.6) (0,0)--(58:2.6);\n\\draw (0.8,0) arc (0:58:0.8);\n\\draw (58:1.15) arc (58:360:1.15);\n\\node at (29:1.4) {$58^{\\circ}$};\n\\node at (209:1.6) {$r^{\\circ}$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "The smaller angle and the reflex angle fill one complete turn.\n\n$\\begin{aligned}58+r&=360\\\\r&=360-58\\\\r&=302\\end{aligned}$\n\nThe reflex angle is $302^{\\circ}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Check each claim. Give a reason.\n\n(a) Two angles filling a marked right angle are measured as $36^{\\circ}$ and $49^{\\circ}$.\n\n(b) An angle and its reflex angle are measured as $83^{\\circ}$ and $277^{\\circ}$.",
+    "solution_text": "(a) $36+49=85$.\n\nThe measurements are incorrect: angles filling a right angle must add to $90^{\\circ}$.\n\n(b) $83+277=360$.\n\nThe measurements satisfy the relationship: the angle and its reflex angle fill a complete turn and add to $360^{\\circ}$."
+  },
+  {
+    "question_text": "A learner says $a+b=180^{\\circ}$ because the marked angles share a vertex. Explain whether this is correct.\n\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\draw (0,0)--(-2.8,0) (0,0)--(25:2.8) (0,0)--(85:2.6);\n\\draw (25:0.8) arc (25:85:0.8);\n\\draw (85:1) arc (85:180:1);\n\\node at (132.5:1.5) {$a$};\n\\node at (55:1.3) {$b$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "The claim is incorrect. The outside arms do not point in opposite directions, so the marked angles do not fill a straight angle. Sharing a vertex alone does not give a total of $180^{\\circ}$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

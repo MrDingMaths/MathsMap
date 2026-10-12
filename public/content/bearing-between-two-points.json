@@ -2,20 +2,57 @@
   "skillId": "bearing-between-two-points",
   "atomType": "R",
   "theory": {
-        "intro": "The bearing of $B$ from $A$ is measured **at $A$**: face north and turn clockwise until you face $B$. The bearing of $A$ from $B$ is measured at the other end, so the two are different.",
-        "facts": [
+"intro": "The bearing of $B$ from $A$ is measured **at $A$**: face north and turn clockwise until you face $B$. The bearing of $A$ from $B$ is measured at the other end, so the two are different.",
+"facts": [
 "Draw a north line at the point named after the word **from** — that is where the compass rose sits.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.3]\n\\usetikzlibrary{arrows.meta,calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.598,-1.5);\n\\draw[-{Stealth}] (A)--(0,1.9) node[above] {N};\n\\draw[thick] (A)--(B);\n\\fill (A) circle (1.6pt);\n\\fill (B) circle (1.6pt);\n\\draw[-{Stealth}] ($(A)+(90:0.85)$) arc (90:-30:0.85);\n\\node at ($(A)+(30:1.35)$) {$b^{\\circ}$};\n\\node[left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\end{tikzpicture}[/tikz]",
 "North lines are parallel, so the illustrated co-interior angles $b^{\\circ}$ and $c^{\\circ}$ add to $180^{\\circ}$. This applies to the co-interior pair, not every pair of angles made by the joining line and the north lines. The two clockwise bearings in opposite directions differ by $180^{\\circ}$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.3]\n\\usetikzlibrary{arrows.meta,angles,quotes,calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.598,-1.5);\n\\coordinate (NB) at (2.598,0.4);\n\\draw[-{Stealth}] (A)--(0,1.9) node[above] {N};\n\\draw[-{Stealth}] (B)--(NB) node[above] {N};\n\\draw[thick] (A)--(B);\n\\fill (A) circle (1.6pt);\n\\fill (B) circle (1.6pt);\n\\draw[-{Stealth}] ($(A)+(90:0.85)$) arc (90:-30:0.85);\n\\node at ($(A)+(30:1.35)$) {$b^{\\circ}$};\n\\pic[draw, \"$c^{\\circ}$\", angle radius=0.6cm, angle eccentricity=2] {angle = NB--B--A};\n\\node[left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\end{tikzpicture}[/tikz]",
 "Angles at a point add to $360^{\\circ}$, which turns an angle measured anticlockwise from north into a clockwise bearing.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.3]\n\\usetikzlibrary{arrows.meta,angles,quotes,calc}\n\\coordinate (B) at (0,0);\n\\coordinate (A) at (-2.252,1.3);\n\\coordinate (NB) at (0,1.9);\n\\draw[-{Stealth}] (B)--(NB) node[above] {N};\n\\draw[thick] (B)--(A);\n\\fill (B) circle (1.6pt);\n\\fill (A) circle (1.6pt);\n\\pic[draw, \"$c^{\\circ}$\", angle radius=0.45cm, angle eccentricity=2.6] {angle = NB--B--A};\n\\draw[-{Stealth}] ($(B)+(90:1)$) arc (90:-210:1);\n\\node at ($(B)+(-60:1.5)$) {$360^{\\circ}-c^{\\circ}$};\n\\node[above left] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\end{tikzpicture}[/tikz]",
 "Write both bearings as three-figure true bearings, e.g. $064^{\\circ}\\text{T}$ and $244^{\\circ}\\text{T}$."
 ],
-        "steps": [
+"steps": [
           "Draw a north line at each point.",
           "Mark the bearing that is given.",
           "Transfer the angle using the parallel north lines.",
           "Turn the angle into a clockwise bearing from north."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Find the true bearing of $B$ from $A$ and of $A$ from $B$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\usetikzlibrary{arrows.meta}\n\\coordinate (A) at (0,0); \\coordinate (B) at (3,1);\n\\draw[-{Stealth}] (A)--(0,2) node[above]{N};\n\\draw[-{Stealth}] (B)--(3,3) node[above]{N};\n\\draw (A)--(B);\n\\fill (A) circle (1.5pt); \\fill (B) circle (1.5pt);\n\\node[below left] at (A){$A$}; \\node[right] at (B){$B$};\n\\draw (0,0.65) arc[start angle=90,end angle=18.435,radius=0.65];\n\\node at (0.8,0.95){$072^\\circ$};\n\\draw (3,1.8) arc[start angle=90,end angle=-161.565,radius=0.8];\n\\node at (4.1,0.55){$252^\\circ$};\n\\node at (1.4,-0.7){Not to scale};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "The word **from** identifies where to stand. Measure clockwise from north at that point.\nBearing of $B$ from $A$: $072^\\circ\\text{T}$.\nBearing of $A$ from $B$: $252^\\circ\\text{T}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The bearing of $B$ from $A$ is $068^\\circ\\text{T}$. Find the bearing of $A$ from $B$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\usetikzlibrary{arrows.meta}\n\\coordinate (A) at (0,0); \\coordinate (B) at (2.967,1.199);\n\\draw[-{Stealth}] (A)--(0,2) node[above]{N};\n\\draw[-{Stealth}] (B)--(2.967,3.199) node[above]{N};\n\\draw (A)--(B);\n\\fill (A) circle (1.5pt); \\fill (B) circle (1.5pt);\n\\node[below left] at (A){$A$}; \\node[right] at (B){$B$};\n\\draw (0,0.65) arc[start angle=90,end angle=22,radius=0.65];\n\\node at (0.7,1.05){$068^\\circ$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Stand at $B$, facing north. The north lines are parallel.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\usetikzlibrary{arrows.meta}\n\\definecolor{answerblue}{HTML}{268CFF}\n\\coordinate (A) at (0,0); \\coordinate (B) at (2.967,1.199);\n\\draw[-{Stealth}] (A)--(0,2) node[above]{N};\n\\draw[-{Stealth}] (B)--(2.967,3.199) node[above]{N};\n\\draw (A)--(B);\n\\fill (A) circle (1.5pt); \\fill (B) circle (1.5pt);\n\\node[below left] at (A){$A$}; \\node[right] at (B){$B$};\n\\draw (0,0.65) arc[start angle=90,end angle=22,radius=0.65];\n\\node at (0.7,1.05){$068^\\circ$};\n\\draw[answerblue] (2.967,1.749) arc[start angle=90,end angle=202,radius=0.55];\n\\node[text=answerblue] at (2.15,1.75){$c$};\n\\draw[answerblue,-{Stealth}] (2.967,2.049) arc[start angle=90,end angle=-158,radius=0.85];\n\\node[text=answerblue] at (4.1,0.7){$b$};\n\\end{tikzpicture}[/tikz]\nCo-interior angles on parallel lines add to $180^\\circ$.\n$\\begin{aligned}c&=180^\\circ-68^\\circ\\\\&=112^\\circ\\end{aligned}$\nAngles at a point add to $360^\\circ$.\n$\\begin{aligned}b&=360^\\circ-112^\\circ\\\\&=248^\\circ\\end{aligned}$\nThe bearing of $A$ from $B$ is $248^\\circ\\text{T}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The bearing of a shelter $S$ from a lake $L$ is $283^\\circ\\text{T}$. Find the bearing of $L$ from $S$.",
+    "solution_text": "Draw north lines at $L$ and $S$, and mark the given bearing at $L$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\usetikzlibrary{arrows.meta}\n\\definecolor{answerblue}{HTML}{268CFF}\n\\coordinate (L) at (0,0); \\coordinate (S) at (-3.118,0.72);\n\\draw[-{Stealth}] (L)--(0,2) node[above]{N};\n\\draw[-{Stealth}] (S)--(-3.118,2.72) node[above]{N};\n\\draw (L)--(S);\n\\fill (L) circle (1.5pt); \\fill (S) circle (1.5pt);\n\\node[below] at (L){$L$}; \\node[left] at (S){$S$};\n\\draw[-{Stealth}] (0,0.85) arc[start angle=90,end angle=-193,radius=0.85];\n\\node at (1.1,-0.65){$283^\\circ$};\n\\draw[answerblue] (0,0.5) arc[start angle=90,end angle=167,radius=0.5];\n\\node[text=answerblue] at (-0.65,0.8){$c$};\n\\draw[answerblue,-{Stealth}] (-3.118,1.47) arc[start angle=90,end angle=-13,radius=0.75];\n\\node[text=answerblue] at (-2.1,1.45){$b$};\n\\end{tikzpicture}[/tikz]\nFirst find the remaining angle at $L$.\n$\\begin{aligned}c&=360^\\circ-283^\\circ\\\\&=77^\\circ\\end{aligned}$\nUse co-interior angles on the parallel north lines.\n$\\begin{aligned}b&=180^\\circ-77^\\circ\\\\&=103^\\circ\\end{aligned}$\nThe bearing of $L$ from $S$ is $103^\\circ\\text{T}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Only the north line at $A$ is shown. Find the true bearing of $A$ from $B$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\usetikzlibrary{arrows.meta}\n\\coordinate (A) at (0,0); \\coordinate (B) at (-1.553,-2.799);\n\\draw[-{Stealth}] (A)--(0,2) node[above]{N};\n\\draw (A)--(B);\n\\fill (A) circle (1.5pt); \\fill (B) circle (1.5pt);\n\\node[right] at (A){$A$}; \\node[below left] at (B){$B$};\n\\draw[-{Stealth}] (0,0.75) arc[start angle=90,end angle=-119,radius=0.75];\n\\node at (1,-0.4){$209^\\circ$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Draw a north line at $B$, parallel to the north line at $A$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\usetikzlibrary{arrows.meta}\n\\definecolor{answerblue}{HTML}{268CFF}\n\\coordinate (A) at (0,0); \\coordinate (B) at (-1.553,-2.799);\n\\draw[-{Stealth}] (A)--(0,2) node[above]{N};\n\\draw[answerblue,-{Stealth}] (B)--(-1.553,-0.799);\n\\node[text=answerblue,above] at (-1.553,-0.799){N};\n\\draw (A)--(B);\n\\fill (A) circle (1.5pt); \\fill (B) circle (1.5pt);\n\\node[right] at (A){$A$}; \\node[below left] at (B){$B$};\n\\draw[-{Stealth}] (0,0.75) arc[start angle=90,end angle=-119,radius=0.75];\n\\node at (1,-0.4){$209^\\circ$};\n\\draw[answerblue] (0,0.45) arc[start angle=90,end angle=241,radius=0.45];\n\\node[text=answerblue] at (-0.8,0.15){$c$};\n\\draw[answerblue,-{Stealth}] (-1.553,-2.149) arc[start angle=90,end angle=61,radius=0.65];\n\\node[text=answerblue] at (-1.05,-1.9){$b$};\n\\end{tikzpicture}[/tikz]\nAngles at a point add to $360^\\circ$.\n$\\begin{aligned}c&=360^\\circ-209^\\circ\\\\&=151^\\circ\\end{aligned}$\nCo-interior angles on parallel lines add to $180^\\circ$.\n$\\begin{aligned}b&=180^\\circ-151^\\circ\\\\&=29^\\circ\\end{aligned}$\nWrite the bearing with three digits: $029^\\circ\\text{T}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "From a lookout $P$, the bearing of a tower $Q$ is $048^\\circ\\text{T}$.\n(a) A mast $R$ lies $70^\\circ$ further clockwise from $Q$, measured at $P$. Find the bearing of $R$ from $P$.\n(b) A beacon $V$ lies $80^\\circ$ anticlockwise from $Q$, measured at $P$. Find the bearing of $V$ from $P$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\usetikzlibrary{arrows.meta}\n\\coordinate (P) at (0,0);\n\\draw[-{Stealth}] (P)--(0,3.5) node[above]{N};\n\\draw (P)--(42:3.2) node[above right]{$Q$};\n\\draw (P)--(-28:3.2) node[right]{$R$};\n\\draw (P)--(122:3.2) node[above left]{$V$};\n\\fill (P) circle (1.5pt); \\node[below left] at (P){$P$};\n\\draw (90:0.6) arc[start angle=90,end angle=42,radius=0.6];\n\\node at (66:1.05){$048^\\circ$};\n\\draw[-{Stealth}] (42:1.5) arc[start angle=42,end angle=-28,radius=1.5];\n\\node at (7:1.95){$70^\\circ$};\n\\draw[-{Stealth}] (42:2.3) arc[start angle=42,end angle=122,radius=2.3];\n\\node at (82:2.8){$80^\\circ$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "(a) Both angles are measured at $P$. Add the clockwise turn.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}48^\\circ+70^\\circ\\\\&=118^\\circ\\end{aligned}$\nThe bearing of $R$ from $P$ is $118^\\circ\\text{T}$.\n(b) Subtract the anticlockwise turn. It passes through north, so add $360^\\circ$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}48^\\circ-80^\\circ+360^\\circ\\\\&=328^\\circ\\end{aligned}$\nThe bearing of $V$ from $P$ is $328^\\circ\\text{T}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,8 +2,8 @@
   "skillId": "distance-midpoint-3d",
   "atomType": "R",
   "theory": {
-    "intro": "Distance and midpoint work in three dimensions exactly as they do in two — you just carry the $z$ terms along. The distance squares the differences and the midpoint averages the coordinates.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.3]\n\\draw[dashed,gray] (0,0)--(-1,-1) node[midway,right,font=\\footnotesize]{$x_2-x_1$};\n\\draw[dashed,gray] (-1,-1)--(3,-1) node[midway,below,font=\\footnotesize]{$y_2-y_1$};\n\\draw[dashed,gray] (3,-1)--(3,2) node[midway,right,font=\\footnotesize]{$z_2-z_1$};\n\\draw[thick,blue] (0,0)--(3,2) node[midway,above left,font=\\footnotesize]{$d$};\n\\fill (0,0) circle (2pt);\n\\node[above left,font=\\footnotesize] at (0,0) {$A(x_1,y_1,z_1)$};\n\\fill (3,2) circle (2pt);\n\\node[above right,font=\\footnotesize] at (3,2) {$B(x_2,y_2,z_2)$};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "Distance and midpoint work in three dimensions exactly as they do in two — you just carry the $z$ terms along. The distance squares the differences and the midpoint averages the coordinates.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.3]\n\\draw[dashed,gray] (0,0)--(-1,-1) node[midway,right,font=\\footnotesize]{$x_2-x_1$};\n\\draw[dashed,gray] (-1,-1)--(3,-1) node[midway,below,font=\\footnotesize]{$y_2-y_1$};\n\\draw[dashed,gray] (3,-1)--(3,2) node[midway,right,font=\\footnotesize]{$z_2-z_1$};\n\\draw[thick,blue] (0,0)--(3,2) node[midway,above left,font=\\footnotesize]{$d$};\n\\fill (0,0) circle (2pt);\n\\node[above left,font=\\footnotesize] at (0,0) {$A(x_1,y_1,z_1)$};\n\\fill (3,2) circle (2pt);\n\\node[above right,font=\\footnotesize] at (3,2) {$B(x_2,y_2,z_2)$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
       "$d=\\sqrt{(x_2-x_1)^2+(y_2-y_1)^2+(z_2-z_1)^2}$ — square each difference, add, then take the root last.",
       "Each difference is squared, so it does not matter which point you call $(x_1,y_1,z_1)$.",
       "$M=\\left(\\dfrac{x_1+x_2}{2},\\ \\dfrac{y_1+y_2}{2},\\ \\dfrac{z_1+z_2}{2}\\right)$ gives the **midpoint** of the interval $AB$.",
@@ -12,13 +12,51 @@
       "Leave a distance as an exact surd in simplest form, such as $3\\sqrt{2}$, unless the question asks you to round.",
       "A midpoint coordinate may be a fraction or a decimal, such as $2.5$, and that is a correct answer."
     ],
-    "steps": [
+"steps": [
       "Label the two points as $(x_1,y_1,z_1)$ and $(x_2,y_2,z_2)$.",
       "Choose the distance formula or the midpoint formula, and substitute.",
       "Simplify each bracket, then take the square root last for a distance.",
       "Give the answer as an exact surd in simplest form, or rounded as the question asks."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find the exact distance between each pair of points.\n\n(a) $A(-2,1)$ and $B(4,-7)$.\n\n(b) $C(-1,2,-3)$ and $D(3,-2,5)$.",
+    "solution_text": "(a) Use the two-dimensional distance formula.\n\n$\\begin{aligned} AB&=\\sqrt{(4-(-2))^2+(-7-1)^2}\\\\&=\\sqrt{6^2+(-8)^2}\\\\&=\\sqrt{100}\\\\&=10 \\end{aligned}$\n\n(b) Include the third-coordinate difference.\n\n$\\begin{aligned} CD&=\\sqrt{(3-(-1))^2+(-2-2)^2+(5-(-3))^2}\\\\&=\\sqrt{4^2+(-4)^2+8^2}\\\\&=\\sqrt{96}\\\\&=4\\sqrt{6} \\end{aligned}$"
   },
+  {
+    "question_text": "Find the midpoint of each interval.\n\n(a) $AB$, where $A(-5,2)$ and $B(4,-9)$.\n\n(b) $CD$, where $C(-4,7,-2)$ and $D(8,-1,5)$.",
+    "solution_text": "Average the matching coordinates.\n\n(a)\n\n$\\begin{aligned} M&=\\left(\\frac{-5+4}{2},\\frac{2+(-9)}{2}\\right)\\\\&=\\left(-\\frac12,-\\frac72\\right) \\end{aligned}$\n\n(b)\n\n$\\begin{aligned} N&=\\left(\\frac{-4+8}{2},\\frac{7+(-1)}{2},\\frac{-2+5}{2}\\right)\\\\&=\\left(2,3,\\frac32\\right) \\end{aligned}$\n\nThe midpoint divides the interval into two equal lengths. The sketch shows the relationship, rather than a coordinate projection.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black] (0,0)--(6,0);\n\\fill[black] (0,0) circle (1.5pt);\n\\fill[black] (3,0) circle (1.5pt);\n\\fill[black] (6,0) circle (1.5pt);\n\\draw[black] (1.5,-0.10)--(1.5,0.10);\n\\draw[black] (4.5,-0.10)--(4.5,0.10);\n\\path (0,0) node[below=5pt] {$C$};\n\\path (3,0) node[below=5pt] {$N$};\n\\path (6,0) node[below=5pt] {$D$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "$M(2,-1,4)$ is the midpoint of $AB$, where $A(-3,5,1)$. Find the coordinates of $B$, then find the exact length of $AB$.",
+    "solution_text": "Write $B=(x,y,z)$. The sum of each pair of endpoint coordinates is twice the midpoint coordinate.\n\n$\\begin{aligned} -3+x&=2(2)\\\\x&=7 \\end{aligned}$\n\n$\\begin{aligned} 5+y&=2(-1)\\\\y&=-7 \\end{aligned}$\n\n$\\begin{aligned} 1+z&=2(4)\\\\z&=7 \\end{aligned}$\n\nThus $B=(7,-7,7)$.\n\n$\\begin{aligned} AB&=\\sqrt{(7-(-3))^2+(-7-5)^2+(7-1)^2}\\\\&=\\sqrt{10^2+(-12)^2+6^2}\\\\&=\\sqrt{280}\\\\&=2\\sqrt{70} \\end{aligned}$"
+  },
+  {
+    "question_text": "$A(2,-1,4)$ and $B(2,5,k)$ are $10$ units apart. Find both possible values of $k$.",
+    "solution_text": "Substitute the coordinates and the given distance, then square both sides.\n\n$\\begin{aligned} \\sqrt{(2-2)^2+(5-(-1))^2+(k-4)^2}&=10\\\\36+(k-4)^2&=100\\\\(k-4)^2&=64 \\end{aligned}$\n\nBoth signs are possible:\n\n$\\begin{aligned} k-4&=8\\quad\\text{or}\\quad k-4=-8\\\\k&=12\\quad\\text{or}\\quad k=-4 \\end{aligned}$"
+  },
+  {
+    "question_text": "Which of $A(5,2,4)$ and $B(-1,3,6)$ is closer to $P(1,2,1)$? Justify your answer.",
+    "solution_text": "$\\begin{aligned} PA&=\\sqrt{(5-1)^2+(2-2)^2+(4-1)^2}\\\\&=\\sqrt{16+0+9}\\\\&=5 \\end{aligned}$\n\n$\\begin{aligned} PB&=\\sqrt{(-1-1)^2+(3-2)^2+(6-1)^2}\\\\&=\\sqrt{4+1+25}\\\\&=\\sqrt{30} \\end{aligned}$\n\nSince $25<30$, we have $5<\\sqrt{30}$. Point $A$ is closer to $P$."
+  },
+  {
+    "question_text": "Find the midpoint $M$ of the interval joining $A(-2,5,0)$ and $B(6,-1,4)$. Then find the exact length of $AM$.",
+    "solution_text": "$\\begin{aligned} M&=\\left(\\frac{-2+6}{2},\\frac{5+(-1)}{2},\\frac{0+4}{2}\\right)\\\\&=(2,2,2) \\end{aligned}$\n\n$\\begin{aligned} AM&=\\sqrt{(2-(-2))^2+(2-5)^2+(2-0)^2}\\\\&=\\sqrt{4^2+(-3)^2+2^2}\\\\&=\\sqrt{29} \\end{aligned}$"
+  },
+  {
+    "question_text": "Show that the triangle with vertices $A(-1,2,0)$, $B(2,5,0)$ and $C(-1,5,3)$ is equilateral.",
+    "solution_text": "$\\begin{aligned} AB&=\\sqrt{(2-(-1))^2+(5-2)^2+(0-0)^2}\\\\&=\\sqrt{9+9+0}\\\\&=3\\sqrt{2} \\end{aligned}$\n\n$\\begin{aligned} BC&=\\sqrt{(-1-2)^2+(5-5)^2+(3-0)^2}\\\\&=\\sqrt{9+0+9}\\\\&=3\\sqrt{2} \\end{aligned}$\n\n$\\begin{aligned} CA&=\\sqrt{(-1-(-1))^2+(2-5)^2+(0-3)^2}\\\\&=\\sqrt{0+9+9}\\\\&=3\\sqrt{2} \\end{aligned}$\n\nAll three sides have length $3\\sqrt{2}$, so the triangle is equilateral."
+  },
+  {
+    "question_text": "A point $P$ lies on the $z$-axis and is $\\sqrt{50}$ units from $A(3,4,2)$. Find both possible coordinates of $P$.",
+    "solution_text": "On the $z$-axis, the first two coordinates are zero, so write $P=(0,0,z)$.\n\n$\\begin{aligned} \\sqrt{(0-3)^2+(0-4)^2+(z-2)^2}&=\\sqrt{50}\\\\9+16+(z-2)^2&=50\\\\(z-2)^2&=25\\\\z-2&=5\\quad\\text{or}\\quad z-2=-5\\\\z&=7\\quad\\text{or}\\quad z=-3 \\end{aligned}$\n\nThe possible points are $(0,0,7)$ and $(0,0,-3)$."
+  },
+  {
+    "question_text": "Points $S$ and $T$ have position vectors $-\\mathbf{i}+2\\mathbf{j}+3\\mathbf{k}$ and $3\\mathbf{i}-\\mathbf{j}$ respectively. Find the exact distance $ST$.",
+    "solution_text": "The missing $\\mathbf{k}$ term in the position vector of $T$ means its third coordinate is zero. Thus $S=(-1,2,3)$ and $T=(3,-1,0)$.\n\n$\\begin{aligned} \\overrightarrow{ST}&=\\begin{pmatrix}3-(-1)\\\\-1-2\\\\0-3\\end{pmatrix}\\\\&=\\begin{pmatrix}4\\\\-3\\\\-3\\end{pmatrix} \\end{aligned}$\n\nThe distance is the magnitude of this displacement:\n\n$\\begin{aligned} ST&=\\sqrt{4^2+(-3)^2+(-3)^2}\\\\&=\\sqrt{34} \\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

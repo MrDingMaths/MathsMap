@@ -2,8 +2,8 @@
   "skillId": "coordinate-geometry-problems",
   "atomType": "R",
   "theory": {
-        "intro": "Plot the figure on the number plane, then choose the formula that tests the property in question: **distance** for lengths, **gradient** for parallel or perpendicular sides, and **midpoint** for diagonals that bisect each other.",
-        "facts": [
+"intro": "Plot the figure on the number plane, then choose the formula that tests the property in question: **distance** for lengths, **gradient** for parallel or perpendicular sides, and **midpoint** for diagonals that bisect each other.",
+"facts": [
 "**Distance** $d=\\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$ gives the length of a side or a diagonal.",
 "Classify a triangle by its sides: three equal is **equilateral**, exactly two equal is **isosceles**, all different is **scalene**.",
 "**Gradient** $m=\\dfrac{y_2-y_1}{x_2-x_1}$ applies when $x_2\\ne x_1$. For finite gradients, sides are **parallel** when their gradients are equal, and **perpendicular** (meeting at a right angle) when their gradients multiply to $-1$. Vertical lines have undefined gradient; two vertical lines are parallel, and horizontal and vertical lines are perpendicular.",
@@ -15,13 +15,71 @@
 "The **perimeter** of a figure is the sum of the lengths of all its sides.",
 "The **area of a triangle** is $A=\\tfrac12bh$, where the base $b$ and height $h$ are perpendicular."
 ],
-        "steps": [
+"steps": [
           "Find the lengths of the required sides or diagonals.",
           "Find the gradients of the required sides or diagonals.",
           "Find the midpoints of the diagonals.",
           "Compare the results and state the conclusion."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Triangle $ABC$ has vertices $A(0,0)$, $B(2,4)$ and $C(6,2)$. Calculate the gradients of its sides and hence identify its right angle.",
+    "solution_text": "$\\begin{aligned}m_{AB}&=\\frac{4-0}{2-0}=2\\\\m_{BC}&=\\frac{2-4}{6-2}=-\\frac12\\\\m_{CA}&=\\frac{0-2}{0-6}=\\frac13\\end{aligned}$\n\n$m_{AB}m_{BC}=2\\left(-\\frac12\\right)=-1$, so $AB\\perp BC$. The right angle is at $B$.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\coordinate (A) at (0,0);\\coordinate (B) at (2,4);\\coordinate (C) at (6,2);\n\\draw[black,thick] (A)--(B)--(C)--cycle;\n\\draw[black] (1.85,3.7)--(2.15,3.55)--(2.3,3.85);\n\\path (A) node[below left] {$A(0,0)$};\n\\path (B) node[above] {$B(2,4)$};\n\\path (C) node[right] {$C(6,2)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the side lengths of each triangle and classify it as equilateral, isosceles or scalene.\n\na. $A(-2,0)$, $B(2,0)$, $C(0,2\\sqrt3)$.\n\nb. $D(0,0)$, $E(2,3)$, $F(4,0)$.\n\nc. $G(0,0)$, $H(3,0)$, $J(1,2)$.",
+    "solution_text": "a.\n\n$\\begin{aligned}AB&=\\sqrt{(2-(-2))^2+(0-0)^2}=4\\\\BC&=\\sqrt{(0-2)^2+(2\\sqrt3-0)^2}=\\sqrt{4+12}=4\\\\AC&=\\sqrt{(0-(-2))^2+(2\\sqrt3-0)^2}=4\\end{aligned}$\n\nAll three sides are equal, so $\\triangle ABC$ is equilateral.\n\nb.\n\n$\\begin{aligned}DE&=\\sqrt{(2-0)^2+(3-0)^2}=\\sqrt{13}\\\\EF&=\\sqrt{(4-2)^2+(0-3)^2}=\\sqrt{13}\\\\DF&=\\sqrt{(4-0)^2+(0-0)^2}=4\\end{aligned}$\n\nExactly two sides are equal, so $\\triangle DEF$ is isosceles.\n\nc.\n\n$\\begin{aligned}GH&=\\sqrt{(3-0)^2+(0-0)^2}=3\\\\HJ&=\\sqrt{(1-3)^2+(2-0)^2}=2\\sqrt2\\\\GJ&=\\sqrt{(1-0)^2+(2-0)^2}=\\sqrt5\\end{aligned}$\n\nAll three lengths are different, so $\\triangle GHJ$ is scalene.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Triangle $PQR$ has vertices $P(0,0)$, $Q(3,1)$ and $R(2,4)$.\n\na. Find its side lengths and use Pythagoras' theorem to show that it is a right-angled isosceles triangle.\n\nb. Find its perimeter exactly.\n\nc. Find its area.",
+    "solution_text": "a.\n\n$\\begin{aligned}PQ&=\\sqrt{(3-0)^2+(1-0)^2}=\\sqrt{10}\\\\QR&=\\sqrt{(2-3)^2+(4-1)^2}=\\sqrt{10}\\\\PR&=\\sqrt{(2-0)^2+(4-0)^2}=\\sqrt{20}\\end{aligned}$\n\n$PQ=QR$, so the triangle is isosceles.\n\n$\\begin{aligned}PQ^2+QR^2&=10+10\\\\&=20\\\\&=PR^2\\end{aligned}$\n\nThe side lengths satisfy Pythagoras' theorem. The right angle is at $Q$, opposite $PR$.\n\nb.\n\n$\\begin{aligned}\\text{Perimeter}&=PQ+QR+PR\\\\&=\\sqrt{10}+\\sqrt{10}+\\sqrt{20}\\\\&=2\\sqrt{10}+2\\sqrt5\\text{ units}\\end{aligned}$\n\nc. The perpendicular sides $PQ$ and $QR$ provide the base and height.\n\n$\\begin{aligned}A&=\\frac12(PQ)(QR)\\\\&=\\frac12\\sqrt{10}\\sqrt{10}\\\\&=5\\text{ square units}\\end{aligned}$\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,thick] (0,0)--(3,1)--(2,4)--cycle;\n\\draw[black] (2.7,0.9)--(2.6,1.2)--(2.9,1.3);\n\\path (0,0) node[below left] {$P$};\n\\path (3,1) node[right] {$Q$};\n\\path (2,4) node[above] {$R$};\n\\path (1.5,0.5) node[below right] {$\\sqrt{10}$};\n\\path (2.5,2.5) node[right] {$\\sqrt{10}$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Triangle $ABC$ has vertices $A(0,0)$, $B(4,2)$ and $C(3,4)$. Use gradients to identify perpendicular sides, then find the area.",
+    "solution_text": "$\\begin{aligned}m_{AB}&=\\frac{2-0}{4-0}=\\frac12\\\\m_{BC}&=\\frac{4-2}{3-4}=-2\\end{aligned}$\n\n$m_{AB}m_{BC}=\\frac12(-2)=-1$, so $AB\\perp BC$. These sides provide the base and height.\n\n$\\begin{aligned}AB&=\\sqrt{(4-0)^2+(2-0)^2}=\\sqrt{20}\\\\BC&=\\sqrt{(3-4)^2+(4-2)^2}=\\sqrt5\\end{aligned}$\n\n$\\begin{aligned}A&=\\frac12(AB)(BC)\\\\&=\\frac12\\sqrt{20}\\sqrt5\\\\&=5\\text{ square units}\\end{aligned}$\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,thick] (0,0)--(4,2)--(3,4)--cycle;\n\\draw[black] (3.7,1.85)--(3.55,2.15)--(3.85,2.3);\n\\path (0,0) node[below left] {$A$};\n\\path (4,2) node[right] {$B$};\n\\path (3,4) node[above] {$C$};\n\\path (2,1) node[below right] {$\\sqrt{20}$};\n\\path (3.5,3) node[right] {$\\sqrt5$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Quadrilateral $ABCD$ has vertices $A(0,0)$, $B(4,1)$, $C(6,4)$ and $D(2,3)$. Show that it is a parallelogram using:\n\na. the midpoints of its diagonals;\n\nb. the gradients of its opposite sides.",
+    "solution_text": "a.\n\n$\\begin{aligned}M_{AC}&=\\left(\\frac{0+6}{2},\\frac{0+4}{2}\\right)=(3,2)\\\\M_{BD}&=\\left(\\frac{4+2}{2},\\frac{1+3}{2}\\right)=(3,2)\\end{aligned}$\n\nThe diagonals have the same midpoint, so they bisect each other. Therefore $ABCD$ is a parallelogram.\n\nb.\n\n$\\begin{aligned}m_{AB}&=\\frac{1-0}{4-0}=\\frac14\\\\m_{DC}&=\\frac{4-3}{6-2}=\\frac14\\\\m_{BC}&=\\frac{4-1}{6-4}=\\frac32\\\\m_{AD}&=\\frac{3-0}{2-0}=\\frac32\\end{aligned}$\n\n$AB\\parallel DC$ and $BC\\parallel AD$, so $ABCD$ is a parallelogram.\n\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,thick] (0,0)--(4,1)--(6,4)--(2,3)--cycle;\n\\draw[black,dashed] (0,0)--(6,4) (4,1)--(2,3);\n\\fill[black] (3,2) circle (1.5pt);\n\\path (0,0) node[below left] {$A$};\n\\path (4,1) node[below right] {$B$};\n\\path (6,4) node[above right] {$C$};\n\\path (2,3) node[above left] {$D$};\n\\path (3,2) node[above right] {$M(3,2)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Quadrilateral $ABCD$ has vertices $A(0,0)$, $B(4,2)$, $C(6,6)$ and $D(2,4)$.\n\na. Find its side lengths and diagonal lengths, then give its most precise name.\n\nb. Confirm your classification using the midpoints and gradients of its diagonals.",
+    "solution_text": "a.\n\n$\\begin{aligned}AB&=\\sqrt{(4-0)^2+(2-0)^2}=\\sqrt{20}\\\\BC&=\\sqrt{(6-4)^2+(6-2)^2}=\\sqrt{20}\\\\CD&=\\sqrt{(2-6)^2+(4-6)^2}=\\sqrt{20}\\\\DA&=\\sqrt{(0-2)^2+(0-4)^2}=\\sqrt{20}\\end{aligned}$\n\nAll four sides are equal, so $ABCD$ is a rhombus.\n\n$\\begin{aligned}AC&=\\sqrt{(6-0)^2+(6-0)^2}=6\\sqrt2\\\\BD&=\\sqrt{(2-4)^2+(4-2)^2}=2\\sqrt2\\end{aligned}$\n\nThe diagonals are unequal, so the rhombus is not a square. Its most precise name is rhombus.\n\nb.\n\n$\\begin{aligned}M_{AC}&=\\left(\\frac{0+6}{2},\\frac{0+6}{2}\\right)=(3,3)\\\\M_{BD}&=\\left(\\frac{4+2}{2},\\frac{2+4}{2}\\right)=(3,3)\\\\m_{AC}&=\\frac{6-0}{6-0}=1\\\\m_{BD}&=\\frac{4-2}{2-4}=-1\\end{aligned}$\n\n$m_{AC}m_{BD}=1(-1)=-1$, so the diagonals are perpendicular. Their shared midpoint shows that they bisect each other. Perpendicular bisecting diagonals establish a rhombus; their unequal lengths exclude a square.\n\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,thick] (0,0)--(4,2)--(6,6)--(2,4)--cycle;\n\\draw[black,dashed] (0,0)--(6,6) (4,2)--(2,4);\n\\draw[black] (3.2,3.2)--(3.4,3)--(3.2,2.8);\n\\fill[black] (3,3) circle (1.5pt);\n\\path (0,0) node[below left] {$A$};\n\\path (4,2) node[below right] {$B$};\n\\path (6,6) node[above right] {$C$};\n\\path (2,4) node[above left] {$D$};\n\\path (3,3) node[above left] {$M(3,3)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Quadrilateral $ABCD$ has vertices $A(0,0)$, $B(4,2)$, $C(3,4)$ and $D(-1,2)$.\n\na. Use side gradients to show that it is a rectangle.\n\nb. Confirm this using the lengths and midpoints of its diagonals.\n\nc. Use diagonal gradients to explain why it is not a square.",
+    "solution_text": "a.\n\n$\\begin{aligned}m_{AB}&=\\frac{2-0}{4-0}=\\frac12\\\\m_{DC}&=\\frac{4-2}{3-(-1)}=\\frac12\\\\m_{BC}&=\\frac{4-2}{3-4}=-2\\\\m_{AD}&=\\frac{2-0}{-1-0}=-2\\end{aligned}$\n\nBoth pairs of opposite sides are parallel. Also, $m_{AB}m_{BC}=\\frac12(-2)=-1$, so adjacent sides are perpendicular. Therefore $ABCD$ is a rectangle.\n\nb.\n\n$\\begin{aligned}AC&=\\sqrt{(3-0)^2+(4-0)^2}=5\\\\BD&=\\sqrt{(-1-4)^2+(2-2)^2}=5\\\\M_{AC}&=\\left(\\frac{0+3}{2},\\frac{0+4}{2}\\right)=\\left(\\frac32,2\\right)\\\\M_{BD}&=\\left(\\frac{4+(-1)}{2},\\frac{2+2}{2}\\right)=\\left(\\frac32,2\\right)\\end{aligned}$\n\nThe diagonals are equal and bisect each other, confirming that $ABCD$ is a rectangle.\n\nc.\n\n$\\begin{aligned}m_{AC}&=\\frac{4-0}{3-0}=\\frac43\\\\m_{BD}&=\\frac{2-2}{-1-4}=0\\end{aligned}$\n\nTheir product is $0$, so the diagonals are not perpendicular. The rectangle is not a square.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,thick] (0,0)--(4,2)--(3,4)--(-1,2)--cycle;\n\\draw[black,dashed] (0,0)--(3,4) (4,2)--(-1,2);\n\\draw[black] (3.7,1.85)--(3.55,2.15)--(3.85,2.3);\n\\fill[black] (1.5,2) circle (1.5pt);\n\\path (0,0) node[below] {$A$};\n\\path (4,2) node[right] {$B$};\n\\path (3,4) node[above] {$C$};\n\\path (-1,2) node[left] {$D$};\n\\path (1.5,2) node[above left] {$M$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Quadrilateral $ABCD$ has vertices $A(0,0)$, $B(3,1)$, $C(2,4)$ and $D(-1,3)$. Show that it is a square using:\n\na. opposite-side gradients, an adjacent right angle and adjacent side lengths;\n\nb. diagonal lengths, gradients and midpoints;\n\nc. all four side lengths and the diagonal lengths.",
+    "solution_text": "a.\n\n$\\begin{aligned}m_{AB}&=\\frac{1-0}{3-0}=\\frac13\\\\m_{DC}&=\\frac{4-3}{2-(-1)}=\\frac13\\\\m_{BC}&=\\frac{4-1}{2-3}=-3\\\\m_{AD}&=\\frac{3-0}{-1-0}=-3\\end{aligned}$\n\nBoth pairs of opposite sides are parallel, so $ABCD$ is a parallelogram. Since $m_{AB}m_{BC}=\\frac13(-3)=-1$, it is a rectangle.\n\n$\\begin{aligned}AB&=\\sqrt{(3-0)^2+(1-0)^2}=\\sqrt{10}\\\\BC&=\\sqrt{(2-3)^2+(4-1)^2}=\\sqrt{10}\\end{aligned}$\n\nA rectangle with equal adjacent sides is a square. Its opposite sides are equal, so all four sides equal $\\sqrt{10}$.\n\nb.\n\n$\\begin{aligned}AC&=\\sqrt{(2-0)^2+(4-0)^2}=\\sqrt{20}\\\\BD&=\\sqrt{(-1-3)^2+(3-1)^2}=\\sqrt{20}\\\\m_{AC}&=\\frac{4-0}{2-0}=2\\\\m_{BD}&=\\frac{3-1}{-1-3}=-\\frac12\\\\M_{AC}&=\\left(\\frac{0+2}{2},\\frac{0+4}{2}\\right)=(1,2)\\\\M_{BD}&=\\left(\\frac{3+(-1)}{2},\\frac{1+3}{2}\\right)=(1,2)\\end{aligned}$\n\n$m_{AC}m_{BD}=2\\left(-\\frac12\\right)=-1$. The diagonals are equal, perpendicular and bisect each other, so $ABCD$ is a square.\n\nc. Calculate the remaining side lengths directly.\n\n$\\begin{aligned}CD&=\\sqrt{(-1-2)^2+(3-4)^2}=\\sqrt{10}\\\\DA&=\\sqrt{(0-(-1))^2+(0-3)^2}=\\sqrt{10}\\end{aligned}$\n\n$AB=BC=CD=DA=\\sqrt{10}$, so $ABCD$ is a rhombus. Also, $AC=BD=\\sqrt{20}$. A rhombus with equal diagonals is a square. This proof uses lengths alone.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,thick] (0,0)--(3,1)--(2,4)--(-1,3)--cycle;\n\\draw[black,dashed] (0,0)--(2,4) (3,1)--(-1,3);\n\\draw[black] (1.1,2.2)--(1.3,2.1)--(1.2,1.9);\n\\fill[black] (1,2) circle (1.5pt);\n\\path (0,0) node[below] {$A$};\n\\path (3,1) node[right] {$B$};\n\\path (2,4) node[above] {$C$};\n\\path (-1,3) node[left] {$D$};\n\\path (1,2) node[above left] {$M(1,2)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

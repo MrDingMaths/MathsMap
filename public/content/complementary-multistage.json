@@ -2,8 +2,8 @@
   "skillId": "complementary-multistage",
   "atomType": "R",
   "theory": {
-        "intro": "The **complement** of \"at least one\" is \"none\". Listing every way to get at least one can be slow. On a tree grouping each stage into success and failure, there is only one path with none, so $P(\\text{at least one}) = 1 - P(\\text{none})$.",
-        "facts": [
+"intro": "The **complement** of \"at least one\" is \"none\". Listing every way to get at least one can be slow. On a tree grouping each stage into success and failure, there is only one path with none, so $P(\\text{at least one}) = 1 - P(\\text{none})$.",
+"facts": [
 "The complement of \"at least one\" is \"none\", so $P(\\text{at least one}) = 1 - P(\\text{none})$.",
 "The complement of \"all\" is \"at least one not\", so $P(\\text{at least one fails}) = 1 - P(\\text{all work})$.",
 "When each stage is grouped into success and failure, \"none\" is a single path on the tree, so multiply its branch probabilities. A tree showing several different non-success outcomes can have several paths with none; add their probabilities.",
@@ -12,12 +12,42 @@
 "$1 - P(\\text{exactly one})$ is **not** the probability of at least one, because 'exactly one' is only part of 'at least one'.",
 "Give the answer in the form of the given data: a fraction in simplest form, a decimal, or a percentage."
 ],
-        "steps": [
+"steps": [
           "Write down the complementary event.",
           "Find the probability of the complementary event.",
           "Subtract from 1."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A fair coin is tossed three times. Write the complementary event to ‘at least one head’.",
+    "solution_text": "The complement of ‘at least one’ is ‘none’.\nThe complementary event is ‘no heads’, so all three tosses show tails."
+  },
+  {
+    "question_text": "Four batteries are tested. The probability that none is flat is $\\frac{7}{12}$. Find the probability that at least one battery is flat.",
+    "solution_text": "The complement of ‘at least one flat battery’ is ‘no flat batteries’.\n$\\begin{aligned}P(\\text{at least one flat})&=1-P(\\text{none flat})\\\\&=1-\\frac{7}{12}\\\\&=\\frac{5}{12}\\end{aligned}$"
+  },
+  {
+    "question_text": "A student enters two races. Her probabilities of winning are $0.7$ and $0.5$, independently. Find the probability that she wins at least one race, as a decimal.",
+    "solution_text": "The complement of ‘at least one win’ is ‘no wins’. The probabilities of not winning are $0.3$ and $0.5$.\nThe tree uses $W$ for wins and $N$ for does not win. The blue path represents no wins.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont},line width=0.5pt]\n\\definecolor{complementBlue}{HTML}{268CFF}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (2.8,1.5);\n\\coordinate (B) at (2.8,-1.5);\n\\coordinate (C) at (5.6,2.3);\n\\coordinate (D) at (5.6,0.7);\n\\coordinate (E) at (5.6,-0.7);\n\\coordinate (F) at (5.6,-2.3);\n\\draw (O)--(A);\n\\draw[complementBlue,thick] (O)--(B);\n\\draw (A)--(C);\n\\draw (A)--(D);\n\\draw (B)--(E);\n\\draw[complementBlue,thick] (B)--(F);\n\\path (O)--(A) node[midway,above,fill=white] {$0.7$};\n\\path (O)--(B) node[midway,below,fill=white] {$0.3$};\n\\path (A)--(C) node[midway,above,fill=white] {$0.5$};\n\\path (A)--(D) node[midway,below,fill=white] {$0.5$};\n\\path (B)--(E) node[midway,above,fill=white] {$0.5$};\n\\path (B)--(F) node[midway,below,fill=white] {$0.5$};\n\\path (A) node[fill=white] {$W$};\n\\path (B) node[fill=white] {$N$};\n\\path (C) node[right] {$W\\quad WW$};\n\\path (D) node[right] {$N\\quad WN$};\n\\path (E) node[right] {$W\\quad NW$};\n\\path (F) node[right] {$N\\quad NN$};\n\\path (2.8,3) node {Race 1};\n\\path (5.6,3) node {Race 2};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}P(\\text{no wins})&=0.3\\times0.5\\\\&=0.15\\end{aligned}$\n$\\begin{aligned}P(\\text{at least one win})&=1-0.15\\\\&=0.85\\end{aligned}$"
+  },
+  {
+    "question_text": "A fair six-sided die is rolled three times. Find the probability of rolling at least one $5$, as a fraction in simplest form.",
+    "solution_text": "The complement is ‘no rolls show $5$’. Each roll has probability $\\frac{5}{6}$ of not showing $5$. The rolls are independent.\n$\\begin{aligned}P(\\text{no fives})&=\\frac{5}{6}\\times\\frac{5}{6}\\times\\frac{5}{6}\\\\&=\\frac{125}{216}\\end{aligned}$\n$\\begin{aligned}P(\\text{at least one five})&=1-\\frac{125}{216}\\\\&=\\frac{91}{216}\\end{aligned}$"
+  },
+  {
+    "question_text": "A bag contains $4$ red and $6$ blue counters. Two counters are drawn at random without replacement. Find the probability of drawing at least one red counter.",
+    "solution_text": "The complement is ‘both counters are blue’. After a blue counter is drawn, $5$ blue counters remain among $9$ counters.\n$\\begin{aligned}P(\\text{both blue})&=\\frac{6}{10}\\times\\frac{5}{9}\\\\&=\\frac{1}{3}\\end{aligned}$\n$\\begin{aligned}P(\\text{at least one red})&=1-\\frac{1}{3}\\\\&=\\frac{2}{3}\\end{aligned}$"
+  },
+  {
+    "question_text": "A bag contains $5$ red and $7$ blue marbles. Three marbles are selected at random without replacement. Find the probability that at least one is red.",
+    "solution_text": "The complement is ‘all three marbles are blue’. Along this path, the blue count and total each decrease by one after every draw.\n$\\begin{aligned}P(\\text{all blue})&=\\frac{7}{12}\\times\\frac{6}{11}\\times\\frac{5}{10}\\\\&=\\frac{7}{44}\\end{aligned}$\n$\\begin{aligned}P(\\text{at least one red})&=1-\\frac{7}{44}\\\\&=\\frac{37}{44}\\end{aligned}$"
+  },
+  {
+    "question_text": "Three light globes work independently. Their probabilities of working are $0.9$, $0.8$ and $0.95$. Find the probability that at least one globe does not work.",
+    "solution_text": "The complement of ‘at least one does not work’ is ‘all three work’.\n$\\begin{aligned}P(\\text{all work})&=0.9\\times0.8\\times0.95\\\\&=0.684\\end{aligned}$\n$\\begin{aligned}P(\\text{at least one does not work})&=1-P(\\text{all work})\\\\&=1-0.684\\\\&=0.316\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

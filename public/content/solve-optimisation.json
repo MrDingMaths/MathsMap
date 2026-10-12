@@ -2,8 +2,8 @@
   "skillId": "solve-optimisation",
   "atomType": "R",
   "theory": {
-    "intro": "To solve an optimisation problem, write the quantity as a function of one variable, find its stationary points and test each one. Also check points where the function is defined but its derivative is undefined. Compare the candidate values with values at endpoints belonging to the domain, and examine boundary behaviour for open or unbounded domains where applicable, then answer the question that was actually asked.",
-    "facts": [
+"intro": "To solve an optimisation problem, write the quantity as a function of one variable, find its stationary points and test each one. Also check points where the function is defined but its derivative is undefined. Compare the candidate values with values at endpoints belonging to the domain, and examine boundary behaviour for open or unbounded domains where applicable, then answer the question that was actually asked.",
+"facts": [
 "Model first: write the quantity being optimised as a function of one variable, with a stated domain.",
 "Solve $f'(x) = 0$ to find the stationary points, and keep only those lying inside the domain. Include points where $f$ is defined but $f'$ is undefined among the candidates for global extrema.",
 "Test each stationary point with $f''(x)$: negative means a local maximum and positive means a local minimum. If $f''(x) = 0$, the test is inconclusive; use a sign test for $f'$ where needed.",
@@ -12,14 +12,93 @@
 "Substitute the optimising value back into the original function, never into $f'(x)$, to get the optimum.",
 "Answer in the units of the context, converting where the variable counts hundreds or the function is in thousands."
 ],
-    "steps": [
+"steps": [
 "Write the quantity as a function of one variable and state its domain",
 "Differentiate, solve $f'(x) = 0$ and identify points where $f$ is defined but $f'$ is undefined",
 "Test stationary points using $f''(x)$ or a sign table; if $f''(x) = 0$, use a sign test where needed",
 "Compare candidate values and values at endpoints belonging to the domain; examine boundary behaviour for open or unbounded domains where applicable",
 "Answer the question in context, with units"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "The revenue from selling $x$ hundred items is $R(x)=200x-10x^{2}$ thousand dollars, for $0\\le x\\le15$. Find the number of items sold and the maximum revenue in dollars.",
+    "solution_text": "$\\begin{aligned}R'(x)&=200-20x\\\\200-20x&=0\\\\x&=10\\end{aligned}$\nSince $R''(x)=-20<0$, the stationary point is a local maximum.\nCompare it with the endpoints:\n$\\begin{aligned}R(0)&=0\\\\R(10)&=1000\\\\R(15)&=750\\end{aligned}$\nSelling $1000$ items gives the maximum revenue of $\\$1\\,000\\,000$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A quantity is modelled by $F(t)=t^{3}-9t^{2}+24t$, for $0\\le t\\le7$. Find its global maximum and minimum values.",
+    "solution_text": "$\\begin{aligned}F'(t)&=3t^{2}-18t+24\\\\3(t-2)(t-4)&=0\\\\t&=2\\text{ or }4\\\\F''(t)&=6t-18\\end{aligned}$\nBoth stationary points lie in the domain. Since $F''(2)=-6<0$ and $F''(4)=6>0$, they are a local maximum and a local minimum respectively.\nCompare all candidate values:\n$\\begin{aligned}F(0)&=0\\\\F(2)&=20\\\\F(4)&=16\\\\F(7)&=70\\end{aligned}$\nThe global maximum is $70$ at $t=7$, and the global minimum is $0$ at $t=0$. The local maximum is not the global maximum.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The average cost is $A(x)=2x+\\dfrac{32}{x}+5$ dollars, for $1\\le x\\le8$. Find the minimum average cost.",
+    "solution_text": "$\\begin{aligned}A'(x)&=2-\\frac{32}{x^{2}}\\\\2-\\frac{32}{x^{2}}&=0\\\\x^{2}&=16\\\\x&=4\\end{aligned}$\nOnly the positive root lies in the domain. Since $A''(x)=\\dfrac{64}{x^{3}}>0$, it gives a local minimum.\n$\\begin{aligned}A(1)&=39\\\\A(4)&=21\\\\A(8)&=25\\end{aligned}$\nThe minimum average cost is $\\$21$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A truck travels $240$ km at a constant speed of $v$ km/h. Its hourly cost is $\\left(25+\\dfrac{v^{2}}{100}\\right)$ dollars, for $20\\le v\\le80$. Find the speed that minimises the trip cost and the minimum cost.",
+    "solution_text": "The trip takes $\\dfrac{240}{v}$ hours.\n$\\begin{aligned}C(v)&=\\left(25+\\frac{v^{2}}{100}\\right)\\frac{240}{v}\\\\&=\\frac{6000}{v}+\\frac{12v}{5}\\\\C'(v)&=-\\frac{6000}{v^{2}}+\\frac{12}{5}\\end{aligned}$\nSet the derivative equal to zero:\n$\\begin{aligned}\\frac{12}{5}v^{2}&=6000\\\\v^{2}&=2500\\\\v&=50\\end{aligned}$\nSince $C''(v)=\\dfrac{12\\,000}{v^{3}}>0$, this is a local minimum.\n$\\begin{aligned}C(20)&=348\\\\C(50)&=240\\\\C(80)&=267\\end{aligned}$\nThe minimum trip cost is $\\$240$, at $50$ km/h.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A rectangular garden uses an existing wall for one side and $64$ m of fencing for the other three sides. Find the dimensions that maximise its area.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-0.4,2)--(4.4,2);\n\\draw (0,2)--(0,0)--(4,0)--(4,2);\n\\path (2,2) node[above]{Existing wall};\n\\path (0,1) node[left]{$x$ m};\n\\path (4,1) node[right]{$x$ m};\n\\path (2,0) node[below]{$y$ m};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Let $x$ be each perpendicular side and $y$ the side parallel to the wall.\n$\\begin{aligned}2x+y&=64\\\\y&=64-2x\\\\A(x)&=x(64-2x)\\\\&=64x-2x^{2}\\end{aligned}$\nPositive side lengths require $0<x<32$.\n$\\begin{aligned}A'(x)&=64-4x\\\\64-4x&=0\\\\x&=16\\\\A''(x)&=-4<0\\end{aligned}$\nThe area approaches $0$ at both domain boundaries, so the stationary point gives the global maximum.\n$\\begin{aligned}y&=64-2(16)\\\\&=32\\\\A(16)&=512\\end{aligned}$\nThe dimensions are $16$ m perpendicular to the wall and $32$ m parallel to it. The maximum area is $512$ m$^{2}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An open box is made by cutting squares of side $x$ cm from each corner of a $30$ cm by $12$ cm sheet and folding up the sides. Find the cut size and maximum volume.\n[tikz]\n\\begin{tikzpicture}[x=2mm,y=2mm,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) rectangle (30,12);\n\\draw[dashed] (0,3)--(3,3)--(3,0);\n\\draw[dashed] (0,9)--(3,9)--(3,12);\n\\draw[dashed] (27,0)--(27,3)--(30,3);\n\\draw[dashed] (27,12)--(27,9)--(30,9);\n\\path (15,12) node[above]{$30$ cm};\n\\path (30,6) node[right]{$12$ cm};\n\\path (1.5,0) node[below]{$x$ cm};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The box has height $x$ and base dimensions $30-2x$ and $12-2x$ cm, so $0<x<6$.\n$\\begin{aligned}V(x)&=x(30-2x)(12-2x)\\\\&=360x-84x^{2}+4x^{3}\\\\V'(x)&=360-168x+12x^{2}\\end{aligned}$\nSet the derivative equal to zero:\n$\\begin{aligned}12(x^{2}-14x+30)&=0\\\\x&=7\\pm\\sqrt{19}\\end{aligned}$\nOnly $x=7-\\sqrt{19}$ lies in the domain.\n$\\begin{aligned}V''(x)&=24x-168\\\\V''(7-\\sqrt{19})&=-24\\sqrt{19}<0\\end{aligned}$\nThe volume approaches $0$ at both domain boundaries, so this is the global maximum.\n$\\begin{aligned}V(7-\\sqrt{19})&=152\\sqrt{19}-56\\\\&\\approx606.55\\end{aligned}$\nCut squares of side $7-\\sqrt{19}\\approx2.64$ cm. The maximum volume is $606.55$ cm$^{3}$, to two decimal places.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A poster has total area $576$ cm$^{2}$ and a $3$ cm margin on every side of its photograph. Find the maximum photograph area.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) rectangle (4,4);\n\\draw (0.5,0.5) rectangle (3.5,3.5);\n\\path (2,0) node[below]{$x$ cm};\n\\path (4,2) node[right]{$y$ cm};\n\\draw[<->] (0,2)--(0.5,2);\n\\path (0.25,2) node[above]{$3$ cm};\n\\path (2,2) node{Photograph};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Let the poster dimensions be $x$ and $y$ cm. Then $y=\\dfrac{576}{x}$.\n$\\begin{aligned}A(x)&=(x-6)\\left(\\frac{576}{x}-6\\right)\\\\&=612-6x-\\frac{3456}{x}\\end{aligned}$\nThe photograph must have positive dimensions, so $6<x<96$.\n$\\begin{aligned}A'(x)&=-6+\\frac{3456}{x^{2}}\\\\-6+\\frac{3456}{x^{2}}&=0\\\\x^{2}&=576\\\\x&=24\\end{aligned}$\nSince $A''(x)=-\\dfrac{6912}{x^{3}}<0$ throughout the domain, the stationary point is a maximum. The area approaches $0$ at both boundaries.\n$\\begin{aligned}y&=\\frac{576}{24}\\\\&=24\\\\A(24)&=(24-6)^{2}\\\\&=324\\end{aligned}$\nThe maximum photograph area is $324$ cm$^{2}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A rower is at $P$, $4$ km from the nearest point $A$ on a straight shore. Her destination $B$ is $10$ km along the shore from $A$. She rows at $3$ km/h to $L$, then walks at $5$ km/h to $B$. Find where she should land to minimise her travel time.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-0.5,0)--(10.5,0);\n\\draw (0,0)--(0,4)--(4,0);\n\\draw (0.3,0)--(0.3,0.3)--(0,0.3);\n\\path (0,0) node[below left]{$A$};\n\\path (0,4) node[above]{$P$};\n\\path (4,0) node[above right]{$L$};\n\\path (10,0) node[above]{$B$};\n\\path (0,2) node[left]{$4$ km};\n\\path (2,0) node[below]{$x$ km};\n\\path (7,0) node[below]{$10-x$ km};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "By Pythagoras, the rowing distance is $\\sqrt{16+x^{2}}$ km. The walking distance is $10-x$ km.\n$\\begin{aligned}T(x)&=\\frac{\\sqrt{16+x^{2}}}{3}+\\frac{10-x}{5},\\qquad0\\le x\\le10\\\\T'(x)&=\\frac{x}{3\\sqrt{16+x^{2}}}-\\frac15\\end{aligned}$\nSet the derivative equal to zero:\n$\\begin{aligned}5x&=3\\sqrt{16+x^{2}}\\\\25x^{2}&=9(16+x^{2})\\\\16x^{2}&=144\\\\x&=3\\end{aligned}$\nThe nonnegative root satisfies the original equation. The derivative is negative for $0\\le x<3$ and positive for $3<x\\le10$, so the time decreases then increases.\n$\\begin{aligned}T(0)&=\\frac{10}{3}\\\\T(3)&=\\frac53+\\frac75=\\frac{46}{15}\\\\T(10)&=\\frac{\\sqrt{116}}3\\end{aligned}$\nThe smallest candidate value is $T(3)$. She should land $3$ km from $A$ towards $B$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A line through $P(2,1)$ meets the positive axes at $X(x,0)$ and $Y(0,y)$, where $x>2$. Given $y=\\dfrac{x}{x-2}$, find the minimum area of triangle $XOY$.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[->] (0,0)--(4.8,0);\n\\draw[->] (0,0)--(0,2.8);\n\\draw (0,2)--(4,0);\n\\fill (2,1) circle (1.2pt);\n\\path (0,0) node[below left]{$O$};\n\\path (4,0) node[below]{$X(x,0)$};\n\\path (0,2) node[left]{$Y(0,y)$};\n\\path (2,1) node[above right]{$P(2,1)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned}A(x)&=\\frac12xy\\\\&=\\frac{x^{2}}{2(x-2)},\\qquad x>2\\end{aligned}$\nUse the quotient rule:\n$\\begin{aligned}A'(x)&=\\frac{2x(x-2)-x^{2}}{2(x-2)^{2}}\\\\&=\\frac{x(x-4)}{2(x-2)^{2}}\\end{aligned}$\nThe stationary roots are $0$ and $4$; only $4$ lies in the domain. The derivative is negative for $2<x<4$ and positive for $x>4$, so the area decreases then increases. Also, $A(x)\\to\\infty$ as $x\\to2^{+}$ or $x\\to\\infty$.\n$A(4)=\\dfrac{16}{2(2)}=4$.\nThe global minimum area is $4$ square units.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A quantity is $Q(t)=\\dfrac{60t}{t^{2}+9}$, for $1\\le t\\le6$. Find the value of $t$ that maximises $Q$.",
+    "solution_text": "Use the quotient rule:\n$\\begin{aligned}Q'(t)&=\\frac{60(t^{2}+9)-60t(2t)}{(t^{2}+9)^{2}}\\\\&=\\frac{60(9-t^{2})}{(t^{2}+9)^{2}}\\end{aligned}$\nThe derivative is zero at $t=\\pm3$; only $t=3$ lies in the domain. Its denominator is positive, so $Q'(t)>0$ for $1\\le t<3$ and $Q'(t)<0$ for $3<t\\le6$. This gives a local maximum.\nCompare the candidate values:\n$\\begin{aligned}Q(1)&=6\\\\Q(3)&=10\\\\Q(6)&=8\\end{aligned}$\nThe quantity is greatest at $t=3$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has displacement $s(t)=t^{3}-6t^{2}+9t$ metres, for $0\\le t\\le5$ seconds. Find its greatest distance from the origin.",
+    "solution_text": "$\\begin{aligned}s'(t)&=3t^{2}-12t+9\\\\3(t-1)(t-3)&=0\\\\t&=1\\text{ or }3\\\\s''(t)&=6t-12\\end{aligned}$\nSince $s''(1)=-6<0$ and $s''(3)=6>0$, the stationary points are a local maximum and a local minimum respectively.\nCompare the displacement magnitudes at the stationary points and endpoints:\n$\\begin{aligned}|s(0)|&=0\\\\|s(1)|&=4\\\\|s(3)|&=0\\\\|s(5)|&=20\\end{aligned}$\nHere $s(t)=t(t-3)^{2}\\ge0$ throughout the domain. The greatest distance from the origin is $20$ m, reached at $t=5$ seconds.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

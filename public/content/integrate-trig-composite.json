@@ -2,8 +2,8 @@
   "skillId": "integrate-trig-composite",
   "atomType": "R",
   "theory": {
-    "intro": "When the derivative of the inner function appears as a factor, the integral collapses back to a single trigonometric function. So $\\int f'(x)\\cos f(x)\\,dx = \\sin f(x) + C$. Without that factor the method does not apply.",
-    "facts": [
+"intro": "When the derivative of the inner function appears as a factor, the integral collapses back to a single trigonometric function. So $\\int f'(x)\\cos f(x)\\,dx = \\sin f(x) + C$. Without that factor the method does not apply.",
+"facts": [
 "The **inner function** $f(x)$ is the expression sitting inside the trigonometric function.",
 "$\\int f'(x)\\sin f(x)\\,dx = -\\cos f(x) + C$, keeping the minus sign from $\\int\\sin x\\,dx$.",
 "$\\int f'(x)\\cos f(x)\\,dx = \\sin f(x) + C$.",
@@ -15,13 +15,78 @@
 "Check every answer by differentiating it with the chain rule.",
 "For a definite integral, first check that the integrand is continuous throughout the interval, then evaluate the primitive at the given limits without changing them. Do not evaluate a primitive across a trigonometric asymptote."
 ],
-    "steps": [
+"steps": [
 "Choose the inner function $f(x)$ and differentiate it to get $f'(x)$.",
 "Check that $f'(x)$ appears as a factor, up to a constant multiple.",
 "Write the fraction needed outside the integral so the factor inside is exactly $f'(x)$.",
 "For composite sine, cosine or secant squared, use its trigonometric primitive, copying $f(x)$ unchanged. For $[f(x)]^n$, use the reverse power rule to obtain $\\dfrac{[f(x)]^{n+1}}{n+1}$, where $n\\ne-1$. Add $+C$ for an indefinite integral; for a definite integral, check continuity throughout the interval before evaluating at the limits."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Find $\\int 3x\\sin(3x^{2}+2)\\,dx$.",
+    "solution_text": "The inner function is $f(x)=3x^{2}+2$, with $f'(x)=6x$. Adjust the constant factor.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 3x\\sin(3x^{2}+2)\\,dx\\\\&=\\frac12\\int 6x\\sin(3x^{2}+2)\\,dx\\\\&=-\\frac12\\cos(3x^{2}+2)+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find $\\int 12x^{2}\\cos(4x^{3}+1)\\,dx$.",
+    "solution_text": "The inner function is $f(x)=4x^{3}+1$, with $f'(x)=12x^{2}$. Its derivative is already present.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 12x^{2}\\cos(4x^{3}+1)\\,dx\\\\&=\\sin(4x^{3}+1)+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int 2x^{2}\\sec^{2}(4x^{3}+3)\\,dx$.",
+    "solution_text": "The inner function is $f(x)=4x^{3}+3$, with $f'(x)=12x^{2}$. Adjust the constant factor.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 2x^{2}\\sec^{2}(4x^{3}+3)\\,dx\\\\&=\\frac16\\int 12x^{2}\\sec^{2}(4x^{3}+3)\\,dx\\\\&=\\frac16\\tan(4x^{3}+3)+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "a. Differentiate $\\sin^{3}x$, and hence find $\\int\\sin^{2}x\\cos x\\,dx$.\nb. Differentiate $\\tan^{4}x$, and hence find $\\int\\tan^{3}x\\sec^{2}x\\,dx$.",
+    "solution_text": "a.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{d}{dx}(\\sin^{3}x)\\\\&=3\\sin^{2}x\\cos x\\end{aligned}$\nThe integrand is one third of this derivative.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\sin^{2}x\\cos x\\,dx\\\\&=\\frac13\\sin^{3}x+C\\end{aligned}$\nb.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{d}{dx}(\\tan^{4}x)\\\\&=4\\tan^{3}x\\sec^{2}x\\end{aligned}$\nThe integrand is one quarter of this derivative.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\tan^{3}x\\sec^{2}x\\,dx\\\\&=\\frac14\\tan^{4}x+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int\\sin x\\cos^{5}x\\,dx$.",
+    "solution_text": "The inner function is $f(x)=\\cos x$, with $f'(x)=-\\sin x$. Adjust the sign, then use the reverse power rule.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\sin x\\cos^{5}x\\,dx\\\\&=-\\int(-\\sin x)(\\cos x)^{5}\\,dx\\\\&=-\\frac{\\cos^{6}x}{6}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{0}^{\\sqrt{\\pi/2}}2x\\sin(2x^{2})\\,dx$.",
+    "solution_text": "The inner function is $f(x)=2x^{2}$, with $f'(x)=4x$. The integrand is continuous throughout the interval.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{\\sqrt{\\pi/2}}2x\\sin(2x^{2})\\,dx\\\\&=\\frac12\\int_{0}^{\\sqrt{\\pi/2}}4x\\sin(2x^{2})\\,dx\\\\&=\\left[-\\frac12\\cos(2x^{2})\\right]_{0}^{\\sqrt{\\pi/2}}\\\\&=-\\frac12\\cos\\pi+\\frac12\\cos0\\\\&=1\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{-\\pi/2}^{\\pi/2}\\cos x\\sin^{3}x\\,dx$.",
+    "solution_text": "The inner function is $f(x)=\\sin x$, with $f'(x)=\\cos x$. The integrand is continuous throughout the interval.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{-\\pi/2}^{\\pi/2}\\cos x\\sin^{3}x\\,dx\\\\&=\\left[\\frac{\\sin^{4}x}{4}\\right]_{-\\pi/2}^{\\pi/2}\\\\&=\\frac{1^{4}}4-\\frac{(-1)^{4}}4\\\\&=0\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{0}^{\\pi}\\sin x\\cos^{4}x\\,dx$.",
+    "solution_text": "The inner function is $f(x)=\\cos x$, with $f'(x)=-\\sin x$. The integrand is continuous throughout the interval.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{\\pi}\\sin x\\cos^{4}x\\,dx\\\\&=-\\int_{0}^{\\pi}(-\\sin x)(\\cos x)^{4}\\,dx\\\\&=\\left[-\\frac{\\cos^{5}x}{5}\\right]_{0}^{\\pi}\\\\&=-\\frac{(-1)^{5}}5+\\frac{1^{5}}5\\\\&=\\frac25\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{0}^{\\pi/6}\\sec^{2}x\\tan^{2}x\\,dx$.",
+    "solution_text": "The inner function is $f(x)=\\tan x$, with $f'(x)=\\sec^{2}x$. There is no trigonometric asymptote on $[0,\\pi/6]$, so the integrand is continuous throughout the interval.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{\\pi/6}\\sec^{2}x\\tan^{2}x\\,dx\\\\&=\\left[\\frac{\\tan^{3}x}{3}\\right]_{0}^{\\pi/6}\\\\&=\\frac13\\left(\\frac1{\\sqrt3}\\right)^{3}-0\\\\&=\\frac{\\sqrt3}{27}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,8 +2,8 @@
   "skillId": "projectile-features",
   "atomType": "R",
   "theory": {
-    "intro": "Once the equations of motion are known, every feature of the flight comes from them. The **time of flight** is when the projectile reaches its landing level. For an upward launch, the **greatest height** is where the vertical velocity is zero, provided the projectile remains in flight until then.",
-    "facts": [
+"intro": "Once the equations of motion are known, every feature of the flight comes from them. The **time of flight** is when the projectile reaches its landing level. For an upward launch, the **greatest height** is where the vertical velocity is zero, provided the projectile remains in flight until then.",
+"facts": [
 "For an upward launch that remains in flight until its highest point, the greatest height occurs where $\\dot{y}=0$. The speed there is nonzero if the horizontal velocity $\\dot{x}$ is nonzero.",
 "For an upward launch that reaches its highest point before landing, solve $\\dot{y}(t)=0$ for $t$, then substitute that $t$ into $y(t)$. For a downward launch, the greatest height during flight is the launch height; solving $\\dot{y}(t)=0$ gives a negative time.",
 "A projectile launched upwards from and landing on the same level lands when $y(t)=0$, which gives $t=0$ and the time of flight.",
@@ -14,11 +14,41 @@
 "For an upward launch with nonzero horizontal velocity returning to its launch level, the completed flight segment is symmetric about its highest point. With nonzero horizontal velocity, an unequal-level flight still lies on a symmetric parabola, but its completed flight segment is not symmetric. A vertical launch follows a vertical line.",
 "For an upward launch landing below its launch point, the fall takes longer than the rise. Landing below the launch point gives a landing speed greater than the launch speed."
 ],
-    "steps": [
+"steps": [
       "Find the time at which the feature occurs",
       "Substitute that time into the required equation of motion"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A ball is projected from level ground at $24\\text{ m/s}$ at $30^\\circ$ above the horizontal. Take $g=10\\text{ m/s}^2$. Find (a) the time to reach its greatest height, (b) its greatest height, (c) the time of flight, (d) the range and (e) its impact speed and direction.",
+    "solution_text": "The equations of motion are\n$\\begin{align*}\\dot{x}&=12\\sqrt{3},&x&=12\\sqrt{3}t,\\\\\\dot{y}&=12-10t,&y&=12t-5t^2.\\end{align*}$\n(a) At greatest height, $\\dot{y}=0$.\n$\\begin{align*}0&=12-10t\\\\t&=1.2\\text{ s}.\\end{align*}$\n(b) Substitute this time into $y(t)$.\n$\\begin{align*}y(1.2)&=12(1.2)-5(1.2)^2\\\\&=7.2\\text{ m}.\\end{align*}$\n(c) At landing, $y=0$.\n$\\begin{align*}0&=12t-5t^2\\\\0&=t(12-5t)\\\\t&=0\\text{ or }2.4.\\end{align*}$\nThe time of flight is $2.4\\text{ s}$; $t=0$ is the launch.\n(d) Substitute the landing time into $x(t)$.\n$\\begin{align*}x(2.4)&=12\\sqrt{3}(2.4)\\\\&=28.8\\sqrt{3}\\text{ m}.\\end{align*}$\n(e) At landing,\n$\\begin{align*}\\dot{x}(2.4)&=12\\sqrt{3}\\\\\\dot{y}(2.4)&=12-10(2.4)\\\\&=-12.\\end{align*}$\n$\\begin{align*}\\text{Speed}&=\\sqrt{(12\\sqrt{3})^2+(-12)^2}\\\\&=24\\text{ m/s},\\\\\\theta&=\\tan^{-1}\\left(\\frac{12}{12\\sqrt{3}}\\right)\\\\&=30^\\circ.\\end{align*}$\nThe ball lands at $24\\text{ m/s}$ at $30^\\circ$ below the horizontal.\n[tikz]\n\\begin{tikzpicture}[x=0.12cm,y=0.22cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\draw[->] (-2,0)--(54,0) node[right] {$x$};\n\\draw[->] (0,-1)--(0,10) node[above] {$y$};\n\\draw[thick,domain=0:49.883,samples=80,variable=\\x] plot ({\\x},{\\x/1.7320508-5*(\\x/20.78461)*(\\x/20.78461)});\n\\draw[dashed] (24.9415,0)--(24.9415,7.2);\n\\fill (24.9415,7.2) circle (1.5pt);\n\\node[above] at (24.9415,7.2) {$H=7.2\\text{ m},\\ \\dot{y}=0$};\n\\draw[<->] (0,-2)--(49.883,-2) node[midway,below] {$R=28.8\\sqrt{3}\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]"
   },
+  {
+    "question_text": "A stone is thrown from a high cliff with initial velocity $12\\mathbf{i}-5\\mathbf{j}\\text{ m/s}$. It is still in flight after $1$ second. Take $g=10\\text{ m/s}^2$. Find its speed and direction at that time, giving the angle to $1$ decimal place.",
+    "solution_text": "The initial vertical component is negative because the stone is thrown downwards.\n$\\begin{align*}\\dot{x}&=12\\\\\\dot{y}&=-5-10t\\\\\\dot{y}(1)&=-5-10(1)\\\\&=-15.\\end{align*}$\n$\\begin{align*}\\text{Speed}&=\\sqrt{12^2+(-15)^2}\\\\&=3\\sqrt{41}\\text{ m/s},\\\\\\theta&=\\tan^{-1}\\left(\\frac{15}{12}\\right)\\\\&\\approx51.3^\\circ.\\end{align*}$\nThe stone moves at $3\\sqrt{41}\\text{ m/s}$ at $51.3^\\circ$ below the horizontal."
+  },
+  {
+    "question_text": "A ball rolls horizontally off a $45\\text{ m}$ cliff at $16\\text{ m/s}$. Take the launch point as the origin and $g=10\\text{ m/s}^2$. Find (a) the time of flight, (b) the horizontal distance from the base to its landing point and (c) its impact speed and direction, to $1$ decimal place where necessary.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\draw (-1,3)--(0,3)--(0,0)--(5,0);\n\\fill (0,3) circle (1.5pt);\n\\node[above left] at (0,3) {$O$};\n\\draw[->,thick] (0,3)--(2,3) node[midway,above] {$16\\text{ m/s}$};\n\\draw[<->] (-0.6,0)--(-0.6,3) node[midway,left] {$45\\text{ m}$};\n\\node[below right] at (0,0) {Ground};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "For horizontal projection, $\\dot{y}(0)=0$.\n$\\begin{align*}\\dot{x}&=16,&x&=16t,\\\\\\dot{y}&=-10t,&y&=-5t^2.\\end{align*}$\n(a) The ground is at $y=-45$.\n$\\begin{align*}-45&=-5t^2\\\\t^2&=9\\\\t&=3\\text{ s}.\\end{align*}$\nThe negative root is outside the flight.\n(b) The horizontal distance is\n$\\begin{align*}x(3)&=16(3)\\\\&=48\\text{ m}.\\end{align*}$\n(c) At impact, $\\dot{x}=16$ and $\\dot{y}=-30$.\n$\\begin{align*}\\text{Speed}&=\\sqrt{16^2+(-30)^2}\\\\&=34\\text{ m/s},\\\\\\theta&=\\tan^{-1}\\left(\\frac{30}{16}\\right)\\\\&\\approx61.9^\\circ.\\end{align*}$\nThe ball strikes the ground at $34\\text{ m/s}$ at $61.9^\\circ$ below the horizontal."
+  },
+  {
+    "question_text": "A ball is thrown from a $60\\text{ m}$ platform at $30\\text{ m/s}$ at an angle $\\theta$ above the horizontal, where $\\tan\\theta=\\frac{3}{4}$. Take the launch point as the origin and $g=10\\text{ m/s}^2$. Find (a) the time of flight, (b) the horizontal distance from the base to its landing point, (c) its greatest height above the ground and (d) its impact speed. Give non-exact results to $2$ decimal places.",
+    "solution_text": "Since $\\cos\\theta=\\frac45$ and $\\sin\\theta=\\frac35$,\n$\\begin{align*}\\dot{x}&=24,&x&=24t,\\\\\\dot{y}&=18-10t,&y&=18t-5t^2.\\end{align*}$\n(a) The ground is at $y=-60$.\n$\\begin{align*}-60&=18t-5t^2\\\\5t^2-18t-60&=0\\\\t&=\\frac{18\\pm\\sqrt{1524}}{10}\\\\t&=\\frac{9+\\sqrt{381}}5\\approx5.70\\text{ s}.\\end{align*}$\nOnly the positive root is during the flight.\n(b) Use the exact landing time $T=\\frac{9+\\sqrt{381}}5$.\n$\\begin{align*}x(T)&=\\frac{24(9+\\sqrt{381})}{5}\\\\&\\approx136.89\\text{ m}.\\end{align*}$\n(c) At greatest height, $\\dot{y}=0$.\n$\\begin{align*}0&=18-10t\\\\t&=1.8\\text{ s},\\\\y(1.8)&=18(1.8)-5(1.8)^2\\\\&=16.2\\text{ m}.\\end{align*}$\nThe greatest height above the ground is $60+16.2=76.2\\text{ m}$.\n(d) Substitute the exact landing time into the vertical velocity.\n$\\begin{align*}\\dot{y}(T)&=18-10\\left(\\frac{9+\\sqrt{381}}5\\right)\\\\&=-2\\sqrt{381},\\\\\\text{Impact speed}&=\\sqrt{24^2+(-2\\sqrt{381})^2}\\\\&=10\\sqrt{21}\\text{ m/s}\\\\&\\approx45.83\\text{ m/s}.\\end{align*}$"
+  },
+  {
+    "question_text": "A stone is thrown from a $30\\text{ m}$ tower at $20\\text{ m/s}$ at $30^\\circ$ below the horizontal. Take the launch point as the origin and $g=10\\text{ m/s}^2$. Find the time it takes to reach the ground.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\draw (-1,3)--(0,3)--(0,0)--(5,0);\n\\draw[dashed] (0,3)--(2.7,3);\n\\draw[->,thick] (0,3)--(2.165,1.75) node[right] {$20\\text{ m/s}$};\n\\draw (0.7,3) arc[start angle=0,end angle=-30,radius=0.7];\n\\node at (1.15,2.7) {$30^\\circ$};\n\\node[above left] at (0,3) {$O$};\n\\draw[<->] (-0.6,0)--(-0.6,3) node[midway,left] {$30\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The downward initial vertical component is $-20\\sin30^\\circ=-10\\text{ m/s}$.\n$\\begin{align*}\\dot{y}&=-10-10t\\\\y&=-10t-5t^2.\\end{align*}$\nAt the ground, $y=-30$.\n$\\begin{align*}-30&=-10t-5t^2\\\\t^2+2t-6&=0\\\\t&=-1\\pm\\sqrt7.\\end{align*}$\nReject the negative root. The stone reaches the ground after $(\\sqrt7-1)\\text{ s}$."
+  },
+  {
+    "question_text": "A ball is projected from level ground at $30\\sqrt2\\text{ m/s}$ at $45^\\circ$ above the horizontal. Take $g=10\\text{ m/s}^2$. Find its speed and direction when it is $40\\text{ m}$ above the ground, giving the angle to $2$ decimal places.",
+    "solution_text": "The equations needed are\n$\\begin{align*}\\dot{x}&=30\\\\\\dot{y}&=30-10t\\\\y&=30t-5t^2.\\end{align*}$\nFirst find both times at height $40\\text{ m}$.\n$\\begin{align*}40&=30t-5t^2\\\\t^2-6t+8&=0\\\\(t-2)(t-4)&=0\\\\t&=2\\text{ or }4\\text{ s}.\\end{align*}$\nSubstitute each time into the vertical velocity.\n$\\begin{align*}\\dot{y}(2)&=30-10(2)=10\\\\\\dot{y}(4)&=30-10(4)=-10.\\end{align*}$\nAt either time,\n$\\begin{align*}\\text{Speed}&=\\sqrt{30^2+10^2}\\\\&=10\\sqrt{10}\\text{ m/s},\\\\\\theta&=\\tan^{-1}\\left(\\frac{10}{30}\\right)\\\\&\\approx18.43^\\circ.\\end{align*}$\nThe ball moves at $10\\sqrt{10}\\text{ m/s}$ at $18.43^\\circ$ above the horizontal while rising, or $18.43^\\circ$ below it while falling."
+  },
+  {
+    "question_text": "Two stones are thrown simultaneously from the same point on level ground at $28\\text{ m/s}$. One is projected at $30^\\circ$ and the other at $60^\\circ$ above the horizontal. Take $g=10\\text{ m/s}^2$. Which stone lands first, and by how long? Give the time difference to $1$ decimal place.",
+    "solution_text": "For the $30^\\circ$ stone,\n$\\begin{align*}y_{30}&=28\\sin30^\\circ\\,t-5t^2\\\\&=14t-5t^2.\\end{align*}$\nAt landing,\n$\\begin{align*}0&=t(14-5t)\\\\T_{30}&=\\frac{14}{5}\\text{ s}.\\end{align*}$\nFor the $60^\\circ$ stone,\n$\\begin{align*}y_{60}&=28\\sin60^\\circ\\,t-5t^2\\\\&=14\\sqrt3\\,t-5t^2.\\end{align*}$\nAt landing,\n$\\begin{align*}0&=t(14\\sqrt3-5t)\\\\T_{60}&=\\frac{14\\sqrt3}{5}\\text{ s}.\\end{align*}$\nIn each case, $t=0$ is the launch.\n$\\begin{align*}T_{60}-T_{30}&=\\frac{14(\\sqrt3-1)}5\\\\&\\approx2.0\\text{ s}.\\end{align*}$\nThe $30^\\circ$ stone lands first, by $2.0\\text{ s}$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

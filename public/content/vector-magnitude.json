@@ -2,8 +2,8 @@
   "skillId": "vector-magnitude",
   "atomType": "R",
   "theory": {
-    "intro": "The **magnitude** of a vector is its length, written $|\\underset{\\sim}{a}|$. Pythagoras' theorem on the components gives $|\\underset{\\sim}{a}|=\\sqrt{x^{2}+y^{2}}$. A length is never negative.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{arrows.meta,calc}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (4,3);\n\\coordinate (Q) at (4,0);\n\\draw[dashed] (O)--(Q) node[midway,below]{$x$};\n\\draw[dashed] (Q)--(P) node[midway,right]{$y$};\n\\draw[-{Stealth},thick] (O)--(P) node[midway,above left]{$|\\underset{\\sim}{a}|$};\n\\coordinate (r1) at ($(Q)!0.35cm!(O)$);\n\\coordinate (r2) at ($(Q)!0.35cm!(P)$);\n\\draw (r1)--($(r1)+(r2)-(Q)$)--(r2);\n\\node[above right] at (P) {$\\underset{\\sim}{a}$};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "The **magnitude** of a vector is its length, written $|\\underset{\\sim}{a}|$. Pythagoras' theorem on the components gives $|\\underset{\\sim}{a}|=\\sqrt{x^{2}+y^{2}}$. A length is never negative.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{arrows.meta,calc}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (4,3);\n\\coordinate (Q) at (4,0);\n\\draw[dashed] (O)--(Q) node[midway,below]{$x$};\n\\draw[dashed] (Q)--(P) node[midway,right]{$y$};\n\\draw[-{Stealth},thick] (O)--(P) node[midway,above left]{$|\\underset{\\sim}{a}|$};\n\\coordinate (r1) at ($(Q)!0.35cm!(O)$);\n\\coordinate (r2) at ($(Q)!0.35cm!(P)$);\n\\draw (r1)--($(r1)+(r2)-(Q)$)--(r2);\n\\node[above right] at (P) {$\\underset{\\sim}{a}$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
       "For $\\underset{\\sim}{a}=x\\underset{\\sim}{i}+y\\underset{\\sim}{j}$, the magnitude is $|\\underset{\\sim}{a}|=\\sqrt{x^{2}+y^{2}}$.",
       "In three dimensions the third component joins the sum: $|\\underset{\\sim}{a}|=\\sqrt{x^{2}+y^{2}+z^{2}}$.",
       "Squaring removes every sign, so $\\begin{pmatrix}3\\\\-4\\end{pmatrix}$ and $\\begin{pmatrix}-3\\\\4\\end{pmatrix}$ both have magnitude $5$.",
@@ -11,12 +11,56 @@
       "Scaling a vector by $k$ scales its magnitude by $|k|$, so $|-5\\underset{\\sim}{a}|=5|\\underset{\\sim}{a}|$.",
       "Combine the vectors first, then take the magnitude, because $|\\underset{\\sim}{a}+\\underset{\\sim}{b}|$ is usually not $|\\underset{\\sim}{a}|+|\\underset{\\sim}{b}|$."
     ],
-    "steps": [
+"steps": [
       "Write the vector in component form and read off $x$ and $y$ (and $z$ in three dimensions).",
       "Square each component and add the squares.",
       "Take the square root last, giving an exact surd or a rounded decimal as required."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find the exact magnitude of $\\underset{\\sim}{a}=-6\\underset{\\sim}{i}+9\\underset{\\sim}{j}$.",
+    "solution_text": "$\\begin{aligned}|\\underset{\\sim}{a}|&=\\sqrt{(-6)^2+9^2}\\\\&=\\sqrt{36+81}\\\\&=\\sqrt{117}\\\\&=3\\sqrt{13}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Given $\\underset{\\sim}{b}=4\\underset{\\sim}{i}-3\\underset{\\sim}{j}$, find $|-3\\underset{\\sim}{b}|$.",
+    "solution_text": "$\\begin{aligned}-3\\underset{\\sim}{b}&=-3(4\\underset{\\sim}{i}-3\\underset{\\sim}{j})\\\\&=-12\\underset{\\sim}{i}+9\\underset{\\sim}{j}\\end{aligned}$\n\n$\\begin{aligned}|-3\\underset{\\sim}{b}|&=\\sqrt{(-12)^2+9^2}\\\\&=\\sqrt{144+81}\\\\&=15\\end{aligned}$\n\nThe negative scalar reverses direction; the magnitude remains positive.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Given $\\underset{\\sim}{a}=3\\underset{\\sim}{i}+2\\underset{\\sim}{j}$ and $\\underset{\\sim}{b}=-2\\underset{\\sim}{i}+5\\underset{\\sim}{j}$, find the exact value of $|2\\underset{\\sim}{a}-\\underset{\\sim}{b}|$.",
+    "solution_text": "Combine the components first.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}2\\underset{\\sim}{a}-\\underset{\\sim}{b}\\\\&=2(3\\underset{\\sim}{i}+2\\underset{\\sim}{j})-(-2\\underset{\\sim}{i}+5\\underset{\\sim}{j})\\\\&=8\\underset{\\sim}{i}-\\underset{\\sim}{j}\\end{aligned}$\n\n$\\begin{aligned}|2\\underset{\\sim}{a}-\\underset{\\sim}{b}|&=\\sqrt{8^2+(-1)^2}\\\\&=\\sqrt{65}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The vector $\\underset{\\sim}{v}=t\\underset{\\sim}{i}+6\\underset{\\sim}{j}$ has magnitude $10$.\n(a) Find both possible values of $t$.\n(b) Find $t$ if $t<0$.",
+    "solution_text": "(a)\n\n$\\begin{aligned}\\sqrt{t^2+6^2}&=10\\\\t^2+36&=100\\\\t^2&=64\\\\t&=\\pm8\\end{aligned}$\n\n(b) Since $t<0$, $t=-8$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A walker travels $8$ km east, then $5$ km north. Find the magnitude of the final displacement, correct to two decimal places.",
+    "solution_text": "The displacement is $\\underset{\\sim}{d}=8\\underset{\\sim}{i}+5\\underset{\\sim}{j}$ km.\n\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=5mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{vectorBlue}{HTML}{268CFF}\n\\draw[->,draw=black,thick] (0,0)--(8,0);\n\\draw[->,draw=black,thick] (8,0)--(8,5);\n\\draw[->,draw=vectorBlue,thick] (0,0)--(8,5);\n\\draw[draw=black] (7.6,0)--(7.6,0.4)--(8,0.4);\n\\path (4,0) node[below] {$8\\text{ km east}$};\n\\path (8,2.5) node[right] {$5\\text{ km north}$};\n\\path (3.5,2.7) node[above left] {$\\underset{\\sim}{d}$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{aligned}|\\underset{\\sim}{d}|&=\\sqrt{8^2+5^2}\\\\&=\\sqrt{89}\\\\&\\approx9.43\\end{aligned}$\n\nThe final displacement has magnitude $9.43$ km.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $\\underset{\\sim}{a}=\\begin{pmatrix}6\\\\0\\end{pmatrix}$ and $\\underset{\\sim}{b}=\\begin{pmatrix}0\\\\8\\end{pmatrix}$. Show that $|\\underset{\\sim}{a}+\\underset{\\sim}{b}|<|\\underset{\\sim}{a}|+|\\underset{\\sim}{b}|$.",
+    "solution_text": "$\\begin{aligned}\\underset{\\sim}{a}+\\underset{\\sim}{b}&=\\begin{pmatrix}6\\\\8\\end{pmatrix}\\\\|\\underset{\\sim}{a}+\\underset{\\sim}{b}|&=\\sqrt{6^2+8^2}\\\\&=10\\end{aligned}$\n\n$\\begin{aligned}|\\underset{\\sim}{a}|&=\\sqrt{6^2+0^2}=6\\\\|\\underset{\\sim}{b}|&=\\sqrt{0^2+8^2}=8\\\\|\\underset{\\sim}{a}|+|\\underset{\\sim}{b}|&=6+8\\\\&=14\\end{aligned}$\n\nSince $10<14$, $|\\underset{\\sim}{a}+\\underset{\\sim}{b}|<|\\underset{\\sim}{a}|+|\\underset{\\sim}{b}|$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

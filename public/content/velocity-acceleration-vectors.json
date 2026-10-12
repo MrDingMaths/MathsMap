@@ -2,24 +2,66 @@
   "skillId": "velocity-acceleration-vectors",
   "atomType": "R",
   "theory": {
-    "intro": "A moving particle's position vector $\\underset{\\sim}{r}(t)=x(t)\\underset{\\sim}{i}+y(t)\\underset{\\sim}{j}$ has an $x$ part and a $y$ part. Differentiate each part separately with respect to $t$ to get **velocity** $\\underset{\\sim}{v}(t)$, then again to get **acceleration** $\\underset{\\sim}{a}(t)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-3.4,0) -- (3.9,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.6) -- (0,3.4) node[above] {$y$};\n\\draw[thick, <->, domain=-3:3, smooth, variable=\\x] plot ({\\x}, {0.25*\\x*\\x});\n\\node[right] at (-3.3,3.0) {path of the particle};\n\\coordinate (P) at (2,1);\n\\fill (P) circle (2pt);\n\\node[below right] at (P) {$P$};\n\\draw[-{Stealth}, thick] (P) -- (3.2,2.2) node[right] {$\\underset{\\sim}{v}$};\n\\draw[-{Stealth}, thick] (P) -- (2,2.3) node[above] {$\\underset{\\sim}{a}$};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
-      "Velocity is the derivative of position: $\\underset{\\sim}{v}(t)=\\dot{x}(t)\\underset{\\sim}{i}+\\dot{y}(t)\\underset{\\sim}{j}$.",
-      "Acceleration is the derivative of velocity: $\\underset{\\sim}{a}(t)=\\ddot{x}(t)\\underset{\\sim}{i}+\\ddot{y}(t)\\underset{\\sim}{j}$.",
-      "Differentiate the $\\underset{\\sim}{i}$ and $\\underset{\\sim}{j}$ components separately, because $\\underset{\\sim}{i}$ and $\\underset{\\sim}{j}$ are constant.",
-      "**Speed** is the size of the velocity, $|\\underset{\\sim}{v}|=\\sqrt{\\dot{x}^{2}+\\dot{y}^{2}}$, so it is never negative.",
-      "Speed is not $\\dot{x}+\\dot{y}$: square the components, add, then take the square root.",
-      "The velocity vector points along the tangent to the particle's path at that instant.",
-      "Velocity and acceleration need not point the same way; in circular motion they are perpendicular.",
-      "To find velocity or acceleration at $t=a$, differentiate first and substitute afterwards."
-    ],
-    "steps": [
+"intro": "A moving particle's position vector $\\underset{\\sim}{r}(t)=x(t)\\underset{\\sim}{i}+y(t)\\underset{\\sim}{j}$ has an $x$ part and a $y$ part. Differentiate each part separately with respect to $t$ to get **velocity** $\\underset{\\sim}{v}(t)$, then again to get **acceleration** $\\underset{\\sim}{a}(t)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-3.4,0) -- (3.9,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.6) -- (0,3.4) node[above] {$y$};\n\\draw[thick, <->, domain=-3:3, smooth, variable=\\x] plot ({\\x}, {0.25*\\x*\\x});\n\\node[right] at (-3.3,3.0) {path of the particle};\n\\coordinate (P) at (2,1);\n\\fill (P) circle (2pt);\n\\node[below right] at (P) {$P$};\n\\draw[-{Stealth}, thick] (P) -- (3.2,2.2) node[right] {$\\underset{\\sim}{v}$};\n\\draw[-{Stealth}, thick] (P) -- (2,2.3) node[above] {$\\underset{\\sim}{a}$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
+"Velocity is the derivative of position: $\\underset{\\sim}{v}(t)=\\dot{x}(t)\\underset{\\sim}{i}+\\dot{y}(t)\\underset{\\sim}{j}$.",
+"Acceleration is the derivative of velocity: $\\underset{\\sim}{a}(t)=\\ddot{x}(t)\\underset{\\sim}{i}+\\ddot{y}(t)\\underset{\\sim}{j}$.",
+"Differentiate the $\\underset{\\sim}{i}$ and $\\underset{\\sim}{j}$ components separately, because $\\underset{\\sim}{i}$ and $\\underset{\\sim}{j}$ are constant.",
+"**Speed** is the size of the velocity, $|\\underset{\\sim}{v}|=\\sqrt{\\dot{x}^{2}+\\dot{y}^{2}}$, so it is never negative.",
+"Speed is not $\\dot{x}+\\dot{y}$: square the components, add, then take the square root.",
+"When the velocity is non-zero, the velocity vector points along the tangent to the particle's path at that instant.",
+"Velocity and acceleration need not point the same way; in circular motion at constant non-zero speed they are perpendicular.",
+"To find velocity or acceleration at $t=a$, differentiate first and substitute afterwards."
+],
+"steps": [
       "Write the components $x(t)$ and $y(t)$ of the position vector",
       "Differentiate each component to get $\\underset{\\sim}{v}(t)$",
       "Differentiate each component of $\\underset{\\sim}{v}(t)$ to get $\\underset{\\sim}{a}(t)$",
       "Substitute the required value of $t$, and take a magnitude if speed is asked for"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A particle's position in metres is $\\underset{\\sim}{r}(t)=3t^2\\underset{\\sim}{i}+(t^3+5t)\\underset{\\sim}{j}$, where $t\\geq0$ is measured in seconds. Find its velocity and acceleration vectors, then its velocity and speed at $t=1$.",
+    "solution_text": "Differentiate each component separately.\n$\\begin{aligned}\\underset{\\sim}{v}(t)&=\\dfrac{d}{dt}(3t^2)\\underset{\\sim}{i}+\\dfrac{d}{dt}(t^3+5t)\\underset{\\sim}{j}\\\\&=6t\\underset{\\sim}{i}+(3t^2+5)\\underset{\\sim}{j}\\end{aligned}$\n$\\begin{aligned}\\underset{\\sim}{a}(t)&=6\\underset{\\sim}{i}+6t\\underset{\\sim}{j}\\end{aligned}$\nVelocity is measured in metres per second and acceleration in metres per second squared.\n$\\begin{aligned}\\underset{\\sim}{v}(1)&=6\\underset{\\sim}{i}+8\\underset{\\sim}{j}\\ \\text{m s}^{-1}\\\\|\\underset{\\sim}{v}(1)|&=\\sqrt{6^2+8^2}\\\\&=10\\ \\text{m s}^{-1}\\end{aligned}$"
   },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=e^{3t}\\underset{\\sim}{i}+\\ln(2t+1)\\underset{\\sim}{j}$ for $t\\geq0$. Find its velocity and acceleration vectors.",
+    "solution_text": "Apply the chain rule to each component.\n$\\begin{aligned}\\underset{\\sim}{v}(t)&=3e^{3t}\\underset{\\sim}{i}+\\dfrac{2}{2t+1}\\underset{\\sim}{j}\\\\\\underset{\\sim}{a}(t)&=9e^{3t}\\underset{\\sim}{i}-\\dfrac{4}{(2t+1)^2}\\underset{\\sim}{j}\\end{aligned}$"
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=te^{-2t}\\underset{\\sim}{i}+(t^2+3)\\underset{\\sim}{j}$ for $t\\geq0$. Find its velocity at $t=0$.",
+    "solution_text": "Use the product rule for the first component.\n$\\begin{aligned}\\dot{x}(t)&=e^{-2t}-2te^{-2t}\\\\\\dot{y}(t)&=2t\\\\\\underset{\\sim}{v}(t)&=(e^{-2t}-2te^{-2t})\\underset{\\sim}{i}+2t\\underset{\\sim}{j}\\\\\\underset{\\sim}{v}(0)&=(1-0)\\underset{\\sim}{i}+0\\underset{\\sim}{j}\\\\&=\\underset{\\sim}{i}\\end{aligned}$"
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=\\dfrac{2t}{t+2}\\underset{\\sim}{i}+\\sqrt{6t+1}\\underset{\\sim}{j}$ for $t\\geq0$. Find its velocity vector.",
+    "solution_text": "Use the quotient rule for the first component and the chain rule for the second.\n$\\begin{aligned}\\dot{x}(t)&=\\dfrac{2(t+2)-2t}{(t+2)^2}\\\\&=\\dfrac{4}{(t+2)^2}\\\\\\dot{y}(t)&=\\dfrac{6}{2\\sqrt{6t+1}}\\\\&=\\dfrac{3}{\\sqrt{6t+1}}\\\\\\underset{\\sim}{v}(t)&=\\dfrac{4}{(t+2)^2}\\underset{\\sim}{i}+\\dfrac{3}{\\sqrt{6t+1}}\\underset{\\sim}{j}\\end{aligned}$"
+  },
+  {
+    "question_text": "A particle's position in metres is $\\underset{\\sim}{r}(t)=3\\cos(4t)\\underset{\\sim}{i}+3\\sin(4t)\\underset{\\sim}{j}$, where $t\\geq0$ is measured in seconds and angles are in radians. Show that its speed is constant, that $\\underset{\\sim}{a}(t)=-16\\underset{\\sim}{r}(t)$, and that its velocity and acceleration are perpendicular.",
+    "solution_text": "$\\begin{aligned}\\underset{\\sim}{v}(t)&=-12\\sin(4t)\\underset{\\sim}{i}+12\\cos(4t)\\underset{\\sim}{j}\\\\|\\underset{\\sim}{v}(t)|&=\\sqrt{144\\sin^2(4t)+144\\cos^2(4t)}\\\\&=\\sqrt{144}\\\\&=12\\ \\text{m s}^{-1}\\end{aligned}$\nThe speed is independent of $t$, so it is constant.\n$\\begin{aligned}\\underset{\\sim}{a}(t)&=-48\\cos(4t)\\underset{\\sim}{i}-48\\sin(4t)\\underset{\\sim}{j}\\\\&=-16\\underset{\\sim}{r}(t)\\\\\\underset{\\sim}{v}(t)\\cdot\\underset{\\sim}{a}(t)&=576\\sin(4t)\\cos(4t)-576\\cos(4t)\\sin(4t)\\\\&=0\\end{aligned}$\nBoth vectors are non-zero, so the zero dot product establishes perpendicularity. Acceleration points towards the centre; velocity is tangent to the circle.\nAt $t=0$, the diagram shows the given position and the derived directions. The arrows show directions, not vector magnitudes.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,->] (-3.7,0)--(4.5,0) node[right] {$x$};\n\\draw[black,->] (0,-3.7)--(0,4.7) node[above] {$y$};\n\\draw[black] (0,0) circle (3);\n\\fill[black] (3,0) circle (1.5pt);\n\\path (3,0) node[below right] {$P(3,0)$};\n\\path (0,0) node[below left] {$O$};\n\\draw[black,->,thick] (3,0)--(3,2) node[right] {$\\underset{\\sim}{v}(0)$};\n\\draw[black,->,thick] (3,0)--(1,0) node[midway,above] {$\\underset{\\sim}{a}(0)$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(2t^3-9t^2)\\underset{\\sim}{i}+\\dfrac{t^4}{2}\\underset{\\sim}{j}$ for $t\\geq0$. Find its acceleration vector and the time when the first component of acceleration is zero. Is the entire acceleration vector zero then?",
+    "solution_text": "$\\begin{aligned}\\underset{\\sim}{v}(t)&=(6t^2-18t)\\underset{\\sim}{i}+2t^3\\underset{\\sim}{j}\\\\\\underset{\\sim}{a}(t)&=(12t-18)\\underset{\\sim}{i}+6t^2\\underset{\\sim}{j}\\end{aligned}$\nSet the first component equal to zero.\n$\\begin{aligned}12t-18&=0\\\\12t&=18\\\\t&=\\dfrac32\\end{aligned}$\n$\\underset{\\sim}{a}\\left(\\dfrac32\\right)=\\dfrac{27}{2}\\underset{\\sim}{j}$.\nOnly the first component is zero; the acceleration vector is non-zero."
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(2t^2+pt)\\underset{\\sim}{i}+qt^3\\underset{\\sim}{j}$, where $p$ and $q$ are constants. Given $\\underset{\\sim}{v}(2)=11\\underset{\\sim}{i}+24\\underset{\\sim}{j}$, find $p$ and $q$.",
+    "solution_text": "$\\begin{aligned}\\underset{\\sim}{v}(t)&=(4t+p)\\underset{\\sim}{i}+3qt^2\\underset{\\sim}{j}\\\\\\underset{\\sim}{v}(2)&=(8+p)\\underset{\\sim}{i}+12q\\underset{\\sim}{j}\\end{aligned}$\nEquate corresponding components.\n$\\begin{aligned}8+p&=11\\\\p&=3\\end{aligned}$\n$\\begin{aligned}12q&=24\\\\q&=2\\end{aligned}$"
+  },
+  {
+    "question_text": "A particle's position in metres is $\\underset{\\sim}{r}(t)=(t^2-6t)\\underset{\\sim}{i}+4t\\underset{\\sim}{j}$, where $t\\geq0$ is measured in seconds. Find its minimum speed and when it occurs.",
+    "solution_text": "$\\begin{aligned}\\underset{\\sim}{v}(t)&=(2t-6)\\underset{\\sim}{i}+4\\underset{\\sim}{j}\\\\|\\underset{\\sim}{v}(t)|^2&=(2t-6)^2+16\\end{aligned}$\nThe square root is increasing, so minimise the squared speed. The squared term has minimum zero.\n$\\begin{aligned}2t-6&=0\\\\t&=3\\end{aligned}$\nThis time is in the domain $t\\geq0$.\n$\\begin{aligned}|\\underset{\\sim}{v}(3)|&=\\sqrt{0+16}\\\\&=4\\ \\text{m s}^{-1}\\end{aligned}$\nThe minimum speed is $4\\ \\text{m s}^{-1}$ at $t=3\\ \\text{s}$."
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=e^t\\cos(2t)\\underset{\\sim}{i}+e^t\\sin(2t)\\underset{\\sim}{j}$. Show that $\\underset{\\sim}{a}(t)=2\\underset{\\sim}{v}(t)-5\\underset{\\sim}{r}(t)$.",
+    "solution_text": "Differentiate using the product and chain rules.\n$\\begin{aligned}\\dot{x}(t)&=e^t\\cos(2t)-2e^t\\sin(2t)\\\\\\dot{y}(t)&=e^t\\sin(2t)+2e^t\\cos(2t)\\\\\\ddot{x}(t)&=e^t\\cos(2t)-2e^t\\sin(2t)-2e^t\\sin(2t)-4e^t\\cos(2t)\\\\&=-3e^t\\cos(2t)-4e^t\\sin(2t)\\\\\\ddot{y}(t)&=e^t\\sin(2t)+2e^t\\cos(2t)+2e^t\\cos(2t)-4e^t\\sin(2t)\\\\&=-3e^t\\sin(2t)+4e^t\\cos(2t)\\end{aligned}$\nNow compare components of the required expression.\n$\\begin{aligned}2\\dot{x}(t)-5x(t)&=2(e^t\\cos(2t)-2e^t\\sin(2t))-5e^t\\cos(2t)\\\\&=-3e^t\\cos(2t)-4e^t\\sin(2t)\\\\&=\\ddot{x}(t)\\end{aligned}$\n$\\begin{aligned}2\\dot{y}(t)-5y(t)&=2(e^t\\sin(2t)+2e^t\\cos(2t))-5e^t\\sin(2t)\\\\&=-3e^t\\sin(2t)+4e^t\\cos(2t)\\\\&=\\ddot{y}(t)\\end{aligned}$\nBoth components agree, so $\\underset{\\sim}{a}(t)=2\\underset{\\sim}{v}(t)-5\\underset{\\sim}{r}(t)$."
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^2-10t)\\underset{\\sim}{i}+(t^2+4t)\\underset{\\sim}{j}$ for $t\\geq0$. Find when its velocity is parallel to $\\underset{\\sim}{i}+2\\underset{\\sim}{j}$.",
+    "solution_text": "$\\underset{\\sim}{v}(t)=(2t-10)\\underset{\\sim}{i}+(2t+4)\\underset{\\sim}{j}$.\nFor parallel vectors, the second component must be twice the first.\n$\\begin{aligned}2t+4&=2(2t-10)\\\\2t+4&=4t-20\\\\24&=2t\\\\t&=12\\end{aligned}$\nCheck the velocity is a non-zero scalar multiple of the given vector.\n$\\begin{aligned}\\underset{\\sim}{v}(12)&=14\\underset{\\sim}{i}+28\\underset{\\sim}{j}\\\\&=14(\\underset{\\sim}{i}+2\\underset{\\sim}{j})\\end{aligned}$\nThe required time is $t=12$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -64,52 +106,52 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=3\\cos 2t\\,\\underset{\\sim}{i}+3\\sin 2t\\,\\underset{\\sim}{j}$.\nFind $\\underset{\\sim}{v}(t)$.",
         "structure": "velocity-vector-from-position",
         "solution_text": "$\\underset{\\sim}{v}(t)$\n$=\\dfrac{d}{dt}(3\\cos 2t)\\underset{\\sim}{i}+\\dfrac{d}{dt}(3\\sin 2t)\\underset{\\sim}{j}$\n$=-6\\sin 2t\\,\\underset{\\sim}{i}+6\\cos 2t\\,\\underset{\\sim}{j}$"
       },
-      {
+{
         "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=e^{2t}\\underset{\\sim}{i}+\\ln(t+1)\\underset{\\sim}{j}$ for $t\\ge 0$.\nFind $\\underset{\\sim}{a}(t)$.",
         "structure": "acceleration-vector-from-position",
         "solution_text": "$\\underset{\\sim}{v}(t)$\n$=2e^{2t}\\underset{\\sim}{i}+\\dfrac{1}{t+1}\\underset{\\sim}{j}$\n$\\underset{\\sim}{a}(t)$\n$=4e^{2t}\\underset{\\sim}{i}-\\dfrac{1}{(t+1)^{2}}\\underset{\\sim}{j}$"
       },
-      {
+{
         "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=te^{-t}\\underset{\\sim}{i}+(t^{2}+1)\\underset{\\sim}{j}$.\nFind its velocity when $t=0$.",
         "structure": "velocity-at-given-time",
         "solution_text": "$\\dot{x}$\n$=e^{-t}-te^{-t}$\n$\\dot{y}$\n$=2t$\n$\\underset{\\sim}{v}(0)$\n$=(e^{0}-0)\\underset{\\sim}{i}+0\\underset{\\sim}{j}$\n$=\\underset{\\sim}{i}$"
       },
-      {
+{
         "question_text": "A particle moves on the path shown, with position vector $\\underset{\\sim}{r}(t)=4\\cos 3t\\,\\underset{\\sim}{i}+4\\sin 3t\\,\\underset{\\sim}{j}$.\nShow that its speed is constant, and state that speed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.6cm, y=0.6cm]\n\\draw[-{Stealth}] (-5.6,0) -- (5.6,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-5.6) -- (0,5.6) node[above] {$y$};\n\\draw[thick] (0,0) circle (4);\n\\node[below left] at (-4,0) {$-4$};\n\\node[below right] at (4,0) {$4$};\n\\node[above left] at (0,4) {$4$};\n\\node[below left] at (0,-4) {$-4$};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "speed-at-given-time",
+        "structure": "prove-constant-speed",
         "solution_text": "$\\underset{\\sim}{v}(t)$\n$=-12\\sin 3t\\,\\underset{\\sim}{i}+12\\cos 3t\\,\\underset{\\sim}{j}$\n$|\\underset{\\sim}{v}(t)|$\n$=\\sqrt{144\\sin^{2}3t+144\\cos^{2}3t}$\n$=\\sqrt{144(\\sin^{2}3t+\\cos^{2}3t)}$\n$=\\sqrt{144}$\n$=12$\nThe speed does not depend on $t$, so it is constant at $12$."
       },
-      {
+{
         "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=2\\cos t\\,\\underset{\\sim}{i}+2\\sin t\\,\\underset{\\sim}{j}$.\nShow that $\\underset{\\sim}{a}(t)=-\\underset{\\sim}{r}(t)$ and that $\\underset{\\sim}{a}$ is perpendicular to $\\underset{\\sim}{v}$.",
         "structure": "interpret-velocity-acceleration",
         "solution_text": "$\\underset{\\sim}{v}(t)$\n$=-2\\sin t\\,\\underset{\\sim}{i}+2\\cos t\\,\\underset{\\sim}{j}$\n$\\underset{\\sim}{a}(t)$\n$=-2\\cos t\\,\\underset{\\sim}{i}-2\\sin t\\,\\underset{\\sim}{j}$\n$=-\\left(2\\cos t\\,\\underset{\\sim}{i}+2\\sin t\\,\\underset{\\sim}{j}\\right)$\n$=-\\underset{\\sim}{r}(t)$\n$\\underset{\\sim}{v}\\cdot\\underset{\\sim}{a}$\n$=(-2\\sin t)(-2\\cos t)+(2\\cos t)(-2\\sin t)$\n$=4\\sin t\\cos t-4\\sin t\\cos t$\n$=0$\nThe dot product is zero, so $\\underset{\\sim}{a}$ is perpendicular to $\\underset{\\sim}{v}$."
       },
-      {
+{
         "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{3}-6t^{2})\\underset{\\sim}{i}+\\dfrac{t^{4}}{4}\\underset{\\sim}{j}$ for $t\\ge 0$.\nFind $\\underset{\\sim}{a}(t)$, and find the time at which the $\\underset{\\sim}{i}$ component of the acceleration is zero.",
         "structure": "interpret-velocity-acceleration",
         "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(3t^{2}-12t)\\underset{\\sim}{i}+t^{3}\\underset{\\sim}{j}$\n$\\underset{\\sim}{a}(t)$\n$=(6t-12)\\underset{\\sim}{i}+3t^{2}\\underset{\\sim}{j}$\n$6t-12=0$\n$t=2$"
       },
-      {
+{
         "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=2\\sin \\pi t\\,\\underset{\\sim}{i}+(3-t^{2})\\underset{\\sim}{j}$.\nFind its velocity when $t=\\dfrac{1}{2}$.",
         "structure": "velocity-at-given-time",
         "solution_text": "$\\underset{\\sim}{v}(t)$\n$=2\\pi\\cos \\pi t\\,\\underset{\\sim}{i}-2t\\,\\underset{\\sim}{j}$\n$\\underset{\\sim}{v}\\left(\\tfrac{1}{2}\\right)$\n$=2\\pi\\cos\\dfrac{\\pi}{2}\\,\\underset{\\sim}{i}-2\\left(\\tfrac{1}{2}\\right)\\underset{\\sim}{j}$\n$=0\\underset{\\sim}{i}-\\underset{\\sim}{j}$\n$=-\\underset{\\sim}{j}$"
       },
-      {
+{
         "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=24t\\,\\underset{\\sim}{i}+(26t-4t^{2})\\underset{\\sim}{j}$.\nFind its speed when $t=2$.",
         "structure": "speed-at-given-time",
         "solution_text": "$\\underset{\\sim}{v}(t)$\n$=24\\underset{\\sim}{i}+(26-8t)\\underset{\\sim}{j}$\n$\\underset{\\sim}{v}(2)$\n$=24\\underset{\\sim}{i}+10\\underset{\\sim}{j}$\n$|\\underset{\\sim}{v}(2)|$\n$=\\sqrt{24^{2}+10^{2}}$\n$=\\sqrt{676}$\n$=26$"
       },
-      {
+{
         "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=\\dfrac{t}{t+1}\\underset{\\sim}{i}+\\sqrt{4t+1}\\,\\underset{\\sim}{j}$ for $t\\ge 0$.\nFind $\\underset{\\sim}{v}(t)$.",
         "structure": "velocity-vector-from-position",
         "solution_text": "$\\dot{x}$\n$=\\dfrac{(1)(t+1)-t(1)}{(t+1)^{2}}$\n$=\\dfrac{1}{(t+1)^{2}}$\n$\\dot{y}$\n$=\\dfrac{4}{2\\sqrt{4t+1}}$\n$=\\dfrac{2}{\\sqrt{4t+1}}$\n$\\underset{\\sim}{v}(t)$\n$=\\dfrac{1}{(t+1)^{2}}\\underset{\\sim}{i}+\\dfrac{2}{\\sqrt{4t+1}}\\underset{\\sim}{j}$"
       }
-    ],
+],
     "mastery": [
       {
         "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}+at)\\underset{\\sim}{i}+bt^{3}\\underset{\\sim}{j}$, where $a$ and $b$ are constants.\nGiven that $\\underset{\\sim}{v}(1)=5\\underset{\\sim}{i}+6\\underset{\\sim}{j}$, find $a$ and $b$.",

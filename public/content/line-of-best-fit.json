@@ -2,8 +2,8 @@
   "skillId": "line-of-best-fit",
   "atomType": "R",
   "theory": {
-        "intro": "A **line of best fit** is a single straight line, drawn by eye, that follows the overall trend of a scatter plot. When a computer calculates it exactly it is called a **regression line**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (0,0) -- (6.2,0);\n\\draw[-{Stealth}] (0,0) -- (0,4.4);\n\\node at (6.6,0) {$x$};\n\\node at (0,4.8) {$y$};\n\\foreach \\p in {(0.8,1.3),(1.4,1.1),(2.0,1.9),(2.6,1.8),(3.2,2.6),(3.8,2.4),(4.4,3.3),(4.8,3.0)} {\\fill \\p circle (2.4pt);}\n\\draw[thick] (0.8,1.04) -- (4.8,3.24);\n\\node[right] at (0.3,3.9) {line of best fit};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "A **line of best fit** is a single straight line, drawn by eye, that follows the overall trend of a scatter plot. When a computer calculates it exactly it is called a **regression line**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (0,0) -- (6.2,0);\n\\draw[-{Stealth}] (0,0) -- (0,4.4);\n\\node at (6.6,0) {$x$};\n\\node at (0,4.8) {$y$};\n\\foreach \\p in {(0.8,1.3),(1.4,1.1),(2.0,1.9),(2.6,1.8),(3.2,2.6),(3.8,2.4),(4.4,3.3),(4.8,3.0)} {\\fill \\p circle (2.4pt);}\n\\draw[thick] (0.8,1.04) -- (4.8,3.24);\n\\node[right] at (0.3,3.9) {line of best fit};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "A line of best fit passes as close as possible to as many points as possible.",
           "It has roughly equal numbers of points above and below it.",
           "Draw it so the distances of the points from the line are as small as possible overall.",
@@ -11,13 +11,31 @@
           "The line need not pass through the origin or through every point; it is a trend line, not a join-the-dots line.",
           "A line of best fit is only appropriate when the scatter plot shows a roughly linear trend."
         ],
-        "steps": [
+"steps": [
           "Look for the overall linear trend in the scatter plot.",
           "Draw a single straight line through the cloud of points, following the trend.",
           "Balance the line so roughly equal numbers of points sit above and below it, staying as close to all the points as possible.",
           "Stop the line at the edges of the plotted data — do not extend it beyond the data range."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Draw a line of best fit by eye on this scatter plot.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[draw=black,->] (0,0)--(9,0) node[right] {$x$};\n\\draw[draw=black,->] (0,0)--(0,8) node[above] {$y$};\n\\foreach \\p in {(1,2.5),(2,2.5),(3,3.5),(4,3.5),(5,4.5),(6,4.5),(7,5.5),(8,5.5)} {\\fill[black] \\p circle (2pt);}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The points follow an upward trend. Draw one straight line through the middle of the points, keeping their distances from it small overall.\n\nOne possible line is shown. Four points lie above it and four below it. It stops at the leftmost and rightmost data points; other nearby lines may also be suitable.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{fitblue}{HTML}{268CFF}\n\\draw[draw=black,->] (0,0)--(9,0) node[right] {$x$};\n\\draw[draw=black,->] (0,0)--(0,8) node[above] {$y$};\n\\foreach \\p in {(1,2.5),(2,2.5),(3,3.5),(4,3.5),(5,4.5),(6,4.5),(7,5.5),(8,5.5)} {\\fill[black] \\p circle (2pt);}\n\\draw[fitblue,thick] (1,2.25)--(8,5.75);\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "a. Is the proposed line an appropriate line of best fit? Explain.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{fitgreen}{HTML}{4F9B63}\n\\draw[draw=black,->] (0,0)--(9,0) node[right] {$x$};\n\\draw[draw=black,->] (0,0)--(0,8) node[above] {$y$};\n\\foreach \\p in {(1,2.5),(2,2.5),(3,3.5),(4,3.5),(5,4.5),(6,4.5),(7,5.5),(8,5.5)} {\\fill[black] \\p circle (2pt);}\n\\draw[fitgreen,thick] (1,3.25)--(8,6.75);\n\\end{tikzpicture}\n[/tikz]\nb. A student replaces the proposed line with a path joining every point in order from left to right. Explain why this is unsuitable.\n\nc. Another student draws a suitable straight line through the middle of the points, then extends it beyond the leftmost and rightmost points. Explain why the extension is unsuitable.",
+    "solution_text": "a. No. All eight points lie below the proposed line. Although it follows the upward direction, it is too high. Move it down so that roughly equal numbers of points lie above and below it while keeping it close to the points.\n\nb. Joining these points produces a path that bends. A line of best fit is one straight line representing the overall trend.\n\nc. The line should stop at the edges of the recorded data. The relationship may not continue beyond that range."
+  },
+  {
+    "question_text": "The proposed line is straight, stays within the data range and has three points above it, three below it and two on it. Explain why it is still unsuitable.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{fitgreen}{HTML}{4F9B63}\n\\draw[draw=black,->] (0,0)--(9,0) node[right] {$x$};\n\\draw[draw=black,->] (0,0)--(0,8) node[above] {$y$};\n\\foreach \\p in {(1,6.5),(2,5.5),(3,5.5),(4,4.5),(5,4.5),(6,3.5),(7,3.5),(8,2.5)} {\\fill[black] \\p circle (2pt);}\n\\draw[fitgreen,thick] (1,4.5)--(8,4.5);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The points follow a downward trend, but the proposed line is horizontal. Points near both ends are far from it. Equal numbers above and below do not make it a good fit by themselves.\n\nA suitable line slopes down through the middle of the points and stays close to them overall. One possible line is shown.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{fitblue}{HTML}{268CFF}\n\\draw[draw=black,->] (0,0)--(9,0) node[right] {$x$};\n\\draw[draw=black,->] (0,0)--(0,8) node[above] {$y$};\n\\foreach \\p in {(1,6.5),(2,5.5),(3,5.5),(4,4.5),(5,4.5),(6,3.5),(7,3.5),(8,2.5)} {\\fill[black] \\p circle (2pt);}\n\\draw[fitblue,thick] (1,6.25)--(8,2.75);\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Is the proposed downward line appropriate for this scatter plot? Explain.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{fitgreen}{HTML}{4F9B63}\n\\draw[draw=black,->] (0,0)--(9,0) node[right] {$x$};\n\\draw[draw=black,->] (0,0)--(0,8) node[above] {$y$};\n\\foreach \\p in {(1,2),(2,6),(3,5),(4,3),(5,3),(6,5),(7,6),(8,2)} {\\fill[black] \\p circle (2pt);}\n\\draw[fitgreen,thick] (1,6)--(8,2);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "No. The points do not show a consistent downward trend, and several lie far from the proposed line. A straight line within the data range is suitable only when it represents the pattern of the points closely."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

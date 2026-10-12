@@ -2,8 +2,8 @@
   "skillId": "separation-of-variables",
   "atomType": "R",
   "theory": {
-    "intro": "A first order equation is **separable** when $\\dfrac{dy}{dx}$ can be written as $f(x)g(y)$. Move every $y$ to one side with $dy$ and every $x$ to the other with $dx$, then integrate both sides.",
-    "facts": [
+"intro": "A first order equation is **separable** when $\\dfrac{dy}{dx}$ can be written as $f(x)g(y)$. Move every $y$ to one side with $dy$ and every $x$ to the other with $dx$, then integrate both sides.",
+"facts": [
 "$\\dfrac{dy}{dx}=x+y$ is not separable, because $x+y$ cannot be factored into a function of $x$ alone times a function of $y$ alone.",
 "Separating gives $\\dfrac{1}{g(y)}\\,dy=f(x)\\,dx$, which assumes $g(y)\\ne 0$.",
 "One constant of integration is enough, since two constants can always be combined into one.",
@@ -13,13 +13,92 @@
 "Rename the constant whenever you operate on it, for example when $C$ becomes $3C$ or $e^{C}$.",
 "An initial condition turns the general solution into one particular solution."
 ],
-    "steps": [
+"steps": [
       "Separate the variables so that each side involves only one variable",
       "Integrate both sides, adding one constant of integration",
       "Substitute the initial condition to evaluate the constant",
       "Rearrange to make $y$ the subject"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Which equation is separable: $y'=\\sin x+y^2$ or $y'=\\sin x(y+3)$? Separate the variables in the separable equation.",
+    "solution_text": "$\\sin x(y+3)$ is a product of a function of $x$ alone and a function of $y$ alone. The sum $\\sin x+y^2$ cannot be written in this form.\nFor $y\\ne-3$,\n$\\begin{aligned}\\frac{dy}{dx}&=\\sin x(y+3)\\\\dy&=\\sin x(y+3)\\,dx\\\\\\frac{1}{y+3}\\,dy&=\\sin x\\,dx\\end{aligned}$\nThe excluded value $y=-3$ is a constant solution.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find the general solution of $\\dfrac{dy}{dx}=\\dfrac{9x^2}{y^2}$, making $y$ the subject.",
+    "solution_text": "$\\begin{aligned}y^2\\,dy&=9x^2\\,dx\\\\\\int y^2\\,dy&=\\int9x^2\\,dx\\\\\\frac{y^3}{3}&=3x^3+C\\\\y^3&=9x^3+D\\\\y&=\\sqrt[3]{9x^3+D}\\end{aligned}$\nHere $D=3C$. Use the solution on intervals where $y\\ne0$, since the differential equation is undefined at $y=0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\dfrac{dy}{dx}=3xe^{-y}$ given $y(0)=\\ln2$.",
+    "solution_text": "$\\begin{aligned}e^y\\,dy&=3x\\,dx\\\\\\int e^y\\,dy&=\\int3x\\,dx\\\\e^y&=\\frac{3x^2}{2}+C\\end{aligned}$\nFor $x=0$, $y=\\ln2$,\n$\\begin{aligned}2&=C\\\\y&=\\ln\\left(\\frac{3x^2}{2}+2\\right)\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\dfrac{dy}{dx}=3y\\sin x$ given $y(0)=-2$.",
+    "solution_text": "For $y\\ne0$,\n$\\begin{aligned}\\frac{1}{y}\\,dy&=3\\sin x\\,dx\\\\\\int\\frac{1}{y}\\,dy&=\\int3\\sin x\\,dx\\\\\\ln|y|&=-3\\cos x+C\\\\|y|&=e^Ce^{-3\\cos x}\\\\y&=Ae^{-3\\cos x}\\end{aligned}$\nHere $A=\\pm e^C$ is nonzero. Separately, $y=0$ satisfies the differential equation, so allowing $A=0$ includes the constant solution.\nFor $x=0$, $y=-2$,\n$\\begin{aligned}-2&=Ae^{-3}\\\\A&=-2e^3\\\\y&=-2e^{3-3\\cos x}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\dfrac{dy}{dx}=\\dfrac{3(y+2)}{x+2}$ for $x>-2$, given $y(0)=6$. Identify the constant solution and show how it is included in the general solution.",
+    "solution_text": "The constant solution is $y=-2$: both sides of the differential equation are zero.\nFor $y\\ne-2$,\n$\\begin{aligned}\\frac{1}{y+2}\\,dy&=\\frac{3}{x+2}\\,dx\\\\\\int\\frac{1}{y+2}\\,dy&=\\int\\frac{3}{x+2}\\,dx\\\\\\ln|y+2|&=3\\ln(x+2)+C\\\\y+2&=A(x+2)^3\\\\y&=A(x+2)^3-2\\end{aligned}$\nInitially $A\\ne0$. Allowing $A=0$ includes the checked constant solution.\nFor $x=0$, $y=6$,\n$\\begin{aligned}6&=8A-2\\\\A&=1\\\\y&=(x+2)^3-2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\dfrac{dy}{dx}=3x^2(1+y^2)$ given $y(0)=\\sqrt3$.",
+    "solution_text": "$\\begin{aligned}\\frac{1}{1+y^2}\\,dy&=3x^2\\,dx\\\\\\int\\frac{1}{1+y^2}\\,dy&=\\int3x^2\\,dx\\\\\\tan^{-1}y&=x^3+C\\end{aligned}$\nFor $x=0$, $y=\\sqrt3$,\n$\\begin{aligned}C&=\\frac{\\pi}{3}\\\\y&=\\tan\\left(x^3+\\frac{\\pi}{3}\\right)\\end{aligned}$\nThe interval containing $x=0$ is $\\sqrt[3]{-5\\pi/6}<x<\\sqrt[3]{\\pi/6}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The solution curve of $\\dfrac{dy}{dx}=-\\dfrac{2x}{3y}$ passes through $(3,2)$. Find its equation as a relation, without fractions.",
+    "solution_text": "$\\begin{aligned}3y\\,dy&=-2x\\,dx\\\\\\int3y\\,dy&=\\int-2x\\,dx\\\\\\frac{3y^2}{2}&=-x^2+C\\\\2x^2+3y^2&=D\\end{aligned}$\nHere $D=2C$. At $(3,2)$,\n$\\begin{aligned}D&=2(3)^2+3(2)^2\\\\&=30\\end{aligned}$\nThe solution curve lies on $2x^2+3y^2=30$. The initial condition selects its upper branch, where $y>0$; points with $y=0$ are excluded from the differential equation.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\dfrac{dy}{dx}=\\dfrac{2x(y^2+1)}{y(x^2+1)}$ given $y(0)=1$, leaving your answer as a relation.",
+    "solution_text": "$\\begin{aligned}\\frac{y}{y^2+1}\\,dy&=\\frac{2x}{x^2+1}\\,dx\\\\\\int\\frac{y}{y^2+1}\\,dy&=\\int\\frac{2x}{x^2+1}\\,dx\\\\\\frac12\\ln(y^2+1)&=\\ln(x^2+1)+C\\\\\\ln(y^2+1)&=2\\ln(x^2+1)+D\\\\y^2+1&=A(x^2+1)^2\\end{aligned}$\nHere $D=2C$ and $A=e^D>0$. For $x=0$, $y=1$,\n$\\begin{aligned}2&=A\\\\y^2+1&=2(x^2+1)^2\\end{aligned}$\nThe initial condition selects the positive branch.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A curve passes through $(0,2)$. Its gradient at each point equals the product of its $x$-coordinate and the square of its $y$-coordinate. Find its equation.",
+    "solution_text": "$\\begin{aligned}\\frac{dy}{dx}&=xy^2\\\\y^{-2}\\,dy&=x\\,dx\\\\\\int y^{-2}\\,dy&=\\int x\\,dx\\\\-\\frac1y&=\\frac{x^2}{2}+C\\end{aligned}$\nFor $x=0$, $y=2$, $C=-\\frac12$.\n$\\begin{aligned}-\\frac1y&=\\frac{x^2-1}{2}\\\\y&=\\frac{2}{1-x^2}\\end{aligned}$\nThe interval containing the initial point is $-1<x<1$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\dfrac{dy}{dx}=2x\\sqrt y$ given $y(0)=4$. Explain why $y=0$ satisfies the differential equation but fails this initial condition.",
+    "solution_text": "For $y>0$,\n$\\begin{aligned}y^{-1/2}\\,dy&=2x\\,dx\\\\\\int y^{-1/2}\\,dy&=\\int2x\\,dx\\\\2\\sqrt y&=x^2+C\\end{aligned}$\nFor $x=0$, $y=4$, $C=4$.\n$\\begin{aligned}\\sqrt y&=\\frac{x^2}{2}+2\\\\y&=\\left(\\frac{x^2}{2}+2\\right)^2\\end{aligned}$\nThe expression for $\\sqrt y$ is positive for every real $x$.\nFor $y=0$, both $y'$ and $2x\\sqrt y$ are zero. This constant solution was excluded when dividing by $\\sqrt y$, and it fails $y(0)=4$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Water drains from a tank. Its depth $h$ cm after $t$ minutes satisfies $\\dfrac{dh}{dt}=-\\dfrac{4}{\\sqrt h}$, with $h(0)=36$. Find the emptying time to one decimal place.",
+    "solution_text": "While $h>0$,\n$\\begin{aligned}\\sqrt h\\,dh&=-4\\,dt\\\\\\int\\sqrt h\\,dh&=\\int-4\\,dt\\\\\\frac23h^{3/2}&=-4t+C\\end{aligned}$\nFor $t=0$, $h=36$,\n$\\begin{aligned}C&=\\frac23(36)^{3/2}\\\\&=144\\end{aligned}$\nAs the depth approaches zero,\n$\\begin{aligned}0&=-4t+144\\\\t&=36\\end{aligned}$\nThe tank empties after $36.0$ minutes. The differential equation applies for $0\\le t<36$; the emptying time is the endpoint because its right side is undefined at $h=0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

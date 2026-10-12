@@ -2,8 +2,8 @@
   "skillId": "solve-binomial-problems",
   "atomType": "R",
   "theory": {
-    "intro": "A practical binomial problem is **modelled** before it is calculated: name the success, then find $n$ and $p$. Once $X \\sim \\text{Bin}(n,p)$ is written down, use $P(X=r)$, $E(X)=np$ or $\\text{Var}(X)=np(1-p)$ as the question needs, and give the answer in the words of the problem.",
-    "facts": [
+"intro": "A practical binomial problem is **modelled** before it is calculated: name the success, then find $n$ and $p$. Once $X \\sim \\text{Bin}(n,p)$ is written down, use $P(X=r)$, $E(X)=np$ or $\\text{Var}(X)=np(1-p)$ as the question needs, and give the answer in the words of the problem.",
+"facts": [
       "Naming the success fixes $p$: if the success is a miss, then $p$ is the probability of a miss.",
       "$n$ is the fixed number of trials, and every trial must be independent with the same $p$.",
       "$E(X) = np$ is the expected number of successes in $n$ trials.",
@@ -11,13 +11,35 @@
       "Given $E(X)$ and $\\text{Var}(X)$, dividing gives $1-p = \\frac{\\text{Var}(X)}{E(X)}$, and then $n = \\frac{E(X)}{p}$.",
       "A final answer is stated in the context of the problem, naming what is being counted."
     ],
-    "steps": [
+"steps": [
       "Define the success and write down $n$ and $p$.",
       "Write $X \\sim \\text{Bin}(n,p)$.",
       "Choose the formula the question needs and evaluate it.",
       "State the answer in the words of the problem."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A basketball player scores each shot independently with probability $0.4$. She takes $5$ shots. Find the probability that she scores exactly $2$, correct to four decimal places.",
+    "solution_text": "Success: a shot is scored. Let $X$ count the shots scored.\n$n=5$, $p=0.4$, so $X\\sim\\text{Bin}(5,0.4)$.\nThere are ${}^{5}C_{2}$ arrangements of two successes and three failures.\n$\\begin{aligned}P(X=2)&={}^{5}C_{2}(0.4)^2(0.6)^3\\\\&=0.3456\\end{aligned}$\nThe probability of scoring exactly two shots is $0.3456$."
   },
+  {
+    "question_text": "Each item in a batch of $20$ is defective independently with probability $0.6$. Let $X$ count the defective items. Find the expected number of defective items, $\\text{Var}(X)$ and $\\sigma(X)$. Give the standard deviation correct to two decimal places.",
+    "solution_text": "Success: an item is defective. $X\\sim\\text{Bin}(20,0.6)$.\n$\\begin{aligned}E(X)&=np\\\\&=20(0.6)\\\\&=12\\end{aligned}$\nThe expected number of defective items is $12$.\n$\\begin{aligned}\\text{Var}(X)&=np(1-p)\\\\&=20(0.6)(0.4)\\\\&=4.8\\end{aligned}$\n$\\begin{aligned}\\sigma(X)&=\\sqrt{\\text{Var}(X)}\\\\&=\\sqrt{4.8}\\\\&\\approx2.19\\end{aligned}$"
+  },
+  {
+    "question_text": "The number of shots a player scores is $X\\sim\\text{Bin}(n,p)$, with mean $12$ and standard deviation $3$. Find $n$ and $p$.",
+    "solution_text": "$\\begin{aligned}\\text{Var}(X)&=3^2\\\\&=9\\end{aligned}$\nUse $E(X)=np$ and $\\text{Var}(X)=np(1-p)$.\n$\\begin{aligned}\\frac{\\text{Var}(X)}{E(X)}&=\\frac{np(1-p)}{np}\\\\&=1-p\\end{aligned}$\n$\\begin{aligned}1-p&=\\frac{9}{12}\\\\&=0.75\\\\p&=0.25\\end{aligned}$\n$\\begin{aligned}n&=\\frac{E(X)}{p}\\\\&=\\frac{12}{0.25}\\\\&=48\\end{aligned}$\nThere are $48$ shots, each with scoring probability $0.25$."
+  },
+  {
+    "question_text": "Each component is faulty independently with probability $0.4$. A sample of $5$ components is tested. Find the probability that at least $2$ are faulty, correct to four decimal places.",
+    "solution_text": "Success: a component is faulty. Let $X$ count the faulty components, so $X\\sim\\text{Bin}(5,0.4)$.\n“At least two” means $X\\in\\{2,3,4,5\\}$. Its complement contains only $0$ and $1$.\n$\\begin{aligned}P(X=0)&=(0.6)^5\\\\&=0.07776\\end{aligned}$\n$\\begin{aligned}P(X=1)&={}^{5}C_{1}(0.4)(0.6)^4\\\\&=0.2592\\end{aligned}$\n$\\begin{aligned}P(X\\ge2)&=1-P(X=0)-P(X=1)\\\\&=1-0.07776-0.2592\\\\&=0.66304\\\\&\\approx0.6630\\end{aligned}$\nThe probability that at least two components are faulty is $0.6630$."
+  },
+  {
+    "question_text": "A driver approaches $4$ traffic lights. Each is red independently with probability $0.4$. Find, correct to four decimal places, the probability that:\na. at most $1$ light is red\nb. at least $3$ lights are red.",
+    "solution_text": "Success: a light is red. Let $X$ count the red lights, so $X\\sim\\text{Bin}(4,0.4)$.\n\na. “At most one” includes $0$ and $1$.\n$\\begin{aligned}P(X\\le1)&=P(X=0)+P(X=1)\\\\&=(0.6)^4+{}^{4}C_{1}(0.4)(0.6)^3\\\\&=0.1296+0.3456\\\\&=0.4752\\end{aligned}$\n\nb. “At least three” includes $3$ and $4$. Adding these two terms is shorter than finding the complement.\n$\\begin{aligned}P(X\\ge3)&=P(X=3)+P(X=4)\\\\&={}^{4}C_{3}(0.4)^3(0.6)+(0.4)^4\\\\&=0.1536+0.0256\\\\&=0.1792\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,23 +2,41 @@
   "skillId": "domain-range-sum-difference",
   "atomType": "R",
   "theory": {
-    "intro": "Use the shared domain, then find the outputs of the combined function.",
-    "facts": [
+"intro": "Use the shared domain, then find the outputs of the combined function.",
+"facts": [
       "$D_{f+g}=D_{f-g}=D_f\\cap D_g$.",
       "Keep excluded inputs even if an expression simplifies.",
       "Find the range from the combined rule or graph; do not add the two ranges independently.",
       "An attained extremum uses a closed endpoint. An unattained limit uses an open endpoint."
     ],
-    "steps": [
+"steps": [
       "Find both domains",
       "Take their intersection",
       "Find the combined range"
     ],
-    "workedExample": {
-      "question_text": "Let $f(x)=x^2-2(2)x$ and $g(x)=6$.\nFind the domain and range of $f+g$.",
-      "solution_text": "$f(x)+g(x)=(x-2)^2+2$\n$D=\\mathbb R,\\ R=[2,\\infty)$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{curveRed}{HTML}{EF6068}\n\\definecolor{curveGreen}{HTML}{4F9B63}\n\\draw[->] (0,0.436) -- (6.613,0.436) node[right] {$x$};\n\\draw[->] (1.067,0) -- (1.067,4.887) node[above] {$y$};\n\\draw (0,0.436) ++(0,-0.06) -- ++(0,0.12);\n\\node[below,font=\\small] at (0,0.436) {$-1$};\n\\draw (2.133,0.436) ++(0,-0.06) -- ++(0,0.12);\n\\node[below,font=\\small] at (2.133,0.436) {$1$};\n\\draw (3.2,0.436) ++(0,-0.06) -- ++(0,0.12);\n\\node[below,font=\\small] at (3.2,0.436) {$2$};\n\\draw (4.267,0.436) ++(0,-0.06) -- ++(0,0.12);\n\\node[below,font=\\small] at (4.267,0.436) {$3$};\n\\draw (5.333,0.436) ++(0,-0.06) -- ++(0,0.12);\n\\node[below,font=\\small] at (5.333,0.436) {$4$};\n\\draw (6.4,0.436) ++(0,-0.06) -- ++(0,0.12);\n\\node[below,font=\\small] at (6.4,0.436) {$5$};\n\\draw (1.067,1.309) ++(-0.06,0) -- ++(0.12,0);\n\\node[left,font=\\small] at (1.067,1.309) {$2$};\n\\draw (1.067,2.182) ++(-0.06,0) -- ++(0.12,0);\n\\node[left,font=\\small] at (1.067,2.182) {$4$};\n\\draw (1.067,3.055) ++(-0.06,0) -- ++(0.12,0);\n\\node[left,font=\\small] at (1.067,3.055) {$6$};\n\\draw (1.067,3.927) ++(-0.06,0) -- ++(0.12,0);\n\\node[left,font=\\small] at (1.067,3.927) {$8$};\n\\draw (1.067,4.8) ++(-0.06,0) -- ++(0.12,0);\n\\node[left,font=\\small] at (1.067,4.8) {$10$};\n\\draw[thick,curveBlue,<->] plot coordinates {(0.192,4.779) (0.256,4.633) (0.32,4.49) (0.384,4.35) (0.448,4.214) (0.512,4.08) (0.576,3.95) (0.64,3.823) (0.704,3.698) (0.768,3.577) (0.832,3.46) (0.896,3.345) (0.96,3.233) (1.024,3.125) (1.088,3.02) (1.152,2.918) (1.216,2.819) (1.28,2.723) (1.344,2.63) (1.408,2.541) (1.472,2.454) (1.536,2.371) (1.6,2.291) (1.664,2.214) (1.728,2.14) (1.792,2.069) (1.856,2.002) (1.92,1.937) (1.984,1.876) (2.048,1.818) (2.112,1.763) (2.176,1.711) (2.24,1.663) (2.304,1.617) (2.368,1.575) (2.432,1.535) (2.496,1.499) (2.56,1.466) (2.624,1.436) (2.688,1.41) (2.752,1.386) (2.816,1.366) (2.88,1.348) (2.944,1.334) (3.008,1.323) (3.072,1.315) (3.136,1.311) (3.2,1.309) (3.264,1.311) (3.328,1.315) (3.392,1.323) (3.456,1.334) (3.52,1.348) (3.584,1.366) (3.648,1.386) (3.712,1.41) (3.776,1.436) (3.84,1.466) (3.904,1.499) (3.968,1.535) (4.032,1.575) (4.096,1.617) (4.16,1.663) (4.224,1.711) (4.288,1.763) (4.352,1.818) (4.416,1.876) (4.48,1.937) (4.544,2.002) (4.608,2.069) (4.672,2.14) (4.736,2.214) (4.8,2.291) (4.864,2.371) (4.928,2.454) (4.992,2.541) (5.056,2.63) (5.12,2.723) (5.184,2.819) (5.248,2.918) (5.312,3.02) (5.376,3.125) (5.44,3.233) (5.504,3.345) (5.568,3.46) (5.632,3.577) (5.696,3.698) (5.76,3.823) (5.824,3.95) (5.888,4.08) (5.952,4.214) (6.016,4.35) (6.08,4.49) (6.144,4.633) (6.208,4.779)};\n\\node[anchor=west,curveBlue,font=\\normalsize] at (0,5.5) {$f(x)+g(x)$};\n\\draw[fill=black] (3.2,1.309) circle (1.4pt);\n\\node[below right,font=\\normalsize] at (3.2,1.309) {$(2,2)$};\n\\end{tikzpicture}\n[/tikz]"
-    }
+"workedExamples": [
+  {
+    "question_text": "Let $f(x)=x^2-2(2)x$ and $g(x)=6$.\nFind the domain and range of $f+g$.",
+    "solution_text": "Both functions have domain $\\mathbb R$, so their shared domain is $\\mathbb R$.\n$\\begin{aligned}f(x)+g(x)&=x^2-4x+6\\\\&=(x-2)^2+2\\end{aligned}$\nSince $(x-2)^2\\ge0$, the minimum output is $2$, attained at $x=2$.\n$D=\\mathbb R,\\quad R=[2,\\infty)$.\n[tikz]\n\\begin{tikzpicture}[x=0.8cm,y=0.45cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[black,->] (-1,0)--(5.3,0) node[right] {$x$};\n\\draw[black,->] (0,-0.5)--(0,11) node[above] {$y$};\n\\foreach \\x in {-1,1,2,3,4,5}{\\draw[black] (\\x,-0.12)--(\\x,0.12);\\path (\\x,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\x$};}\n\\foreach \\y in {2,4,6,8,10}{\\draw[black] (-0.08,\\y)--(0.08,\\y);\\path (0,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\y$};}\n\\draw[curveBlue,thick,<->,domain=-0.8:4.8,samples=81] plot (\\x,{(\\x-2)*(\\x-2)+2});\n\\path (4.8,7) node[curveBlue,right] {$f(x)+g(x)$};\n\\fill[black] (2,2) circle (1.4pt);\n\\path (2,2) node[below right] {$(2,2)$};\n\\end{tikzpicture}\n[/tikz]"
   },
+  {
+    "question_text": "Let $f(x)=\\sqrt{x+4}$ and $g(x)=\\sqrt{8-x}$.\nFind the domain of $f+g$.",
+    "solution_text": "For $f$, the radicand must be non-negative.\n$\\begin{aligned}x+4&\\ge0\\\\x&\\ge-4\\end{aligned}$\nFor $g$, the radicand must be non-negative.\n$\\begin{aligned}8-x&\\ge0\\\\x&\\le8\\end{aligned}$\nTake the intersection: both restrictions must hold.\n$D_f=[-4,\\infty),\\quad D_g=(-\\infty,8]$.\n$D_{f+g}=[-4,8]$."
+  },
+  {
+    "question_text": "Let $f(x)=\\sqrt{x+2}$ and $g(x)=\\dfrac{1}{x-3}$.\nFind the domain of $f-g$.",
+    "solution_text": "For $f$, the radicand must be non-negative.\n$\\begin{aligned}x+2&\\ge0\\\\x&\\ge-2\\end{aligned}$\nFor $g$, the denominator cannot be zero.\n$\\begin{aligned}x-3&\\ne0\\\\x&\\ne3\\end{aligned}$\nTake the intersection, keeping the excluded input $3$.\n$D_{f-g}=[-2,3)\\cup(3,\\infty)$."
+  },
+  {
+    "question_text": "Let $f(x)=x^2-6x$ and $g(x)=13$. The graph shows $y=f(x)+g(x)$.\nUse the graph to find the domain and range of $f+g$.\n[tikz]\n\\begin{tikzpicture}[x=0.75cm,y=0.4cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[black,->] (-0.5,0)--(6.5,0) node[right] {$x$};\n\\draw[black,->] (0,-0.5)--(0,14) node[above] {$y$};\n\\foreach \\x in {1,2,3,4,5,6}{\\draw[black] (\\x,-0.12)--(\\x,0.12);\\path (\\x,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\x$};}\n\\foreach \\y in {2,4,6,8,10,12}{\\draw[black] (-0.08,\\y)--(0.08,\\y);\\path (0,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\y$};}\n\\draw[curveBlue,thick,<->,domain=0:6,samples=81] plot (\\x,{(\\x-3)*(\\x-3)+4});\n\\path (4.8,10.5) node[curveBlue,right] {$f(x)+g(x)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The arrows show that the graph continues in both horizontal directions, so the domain is $\\mathbb R$.\nThe lowest point is $(3,4)$ and lies on the graph. The outputs extend upwards without bound.\n$D=\\mathbb R,\\quad R=[4,\\infty)$.\n[tikz]\n\\begin{tikzpicture}[x=0.75cm,y=0.4cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[black,->] (-0.5,0)--(6.5,0) node[right] {$x$};\n\\draw[black,->] (0,-0.5)--(0,14) node[above] {$y$};\n\\foreach \\x in {1,2,3,4,5,6}{\\draw[black] (\\x,-0.12)--(\\x,0.12);\\path (\\x,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\x$};}\n\\foreach \\y in {2,4,6,8,10,12}{\\draw[black] (-0.08,\\y)--(0.08,\\y);\\path (0,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\y$};}\n\\draw[curveBlue,thick,<->,domain=0:6,samples=81] plot (\\x,{(\\x-3)*(\\x-3)+4});\n\\path (4.8,10.5) node[curveBlue,right] {$f(x)+g(x)$};\n\\draw[black,dashed] (0,4)--(3,4)--(3,0);\n\\fill[black] (3,4) circle (1.4pt);\n\\path (3,4) node[below right] {$(3,4)$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Let $f(x)=(x-3)^2$ and $g(x)=-(x-3)^2$.\nFind the range of $f+g$.",
+    "solution_text": "$\\begin{aligned}f(x)+g(x)&=(x-3)^2-(x-3)^2\\\\&=0\\end{aligned}$\nAt every real input, the two outputs cancel. The only output of the sum is $0$.\n$R=\\{0\\}$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

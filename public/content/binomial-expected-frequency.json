@@ -2,8 +2,8 @@
   "skillId": "binomial-expected-frequency",
   "atomType": "R",
   "theory": {
-    "intro": "An **expected frequency** is a count: how many times an outcome is expected to happen. Multiply the number of repeats by the probability of that outcome. If a binomial experiment $X \\sim \\text{Bin}(n,p)$ is repeated $N$ times, the expected frequency of $r$ successes is $N \\times P(X=r)$.",
-    "facts": [
+"intro": "An **expected frequency** is a count: how many times an outcome is expected to happen. Multiply the number of repeats by the probability of that outcome. If a binomial experiment $X \\sim \\text{Bin}(n,p)$ is repeated $N$ times, the expected frequency of $r$ successes is $N \\times P(X=r)$.",
+"facts": [
       "$n$ is the number of trials inside one experiment; $N$ is the number of times the whole experiment is repeated.",
       "The expected number of successes in one binomial experiment is $E(X) = np$.",
       "The expected frequency of exactly $r$ successes over $N$ repeats is $N \\times P(X=r)$.",
@@ -11,12 +11,56 @@
       "An expected frequency may be a decimal, and is rounded only when the question asks for a practical whole-number count.",
       "A 'success' is whatever the question counts, so a faulty item or a failed seed can be the success."
     ],
-    "steps": [
+"steps": [
       "Identify $n$, $p$, $N$ and $r$.",
       "Find the probability of the required outcome.",
       "Multiply by the number of repeats."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A nursery plants $80$ trays, each containing $16$ seeds. Each seed germinates independently with probability $0.7$. The number of trays containing exactly $12$ germinating seeds is recorded. Identify $n$, $p$, $N$ and $r$.",
+    "solution_text": "One experiment is one tray. Success means a seed germinates.\n$n=16$, $p=0.7$, $N=80$, $r=12$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A grower plants $70$ trays, each containing $18$ seedlings. Each seedling survives independently with probability $0.8$.\n(a) Find the expected number of surviving seedlings in one tray.\n(b) Find the expected total number of surviving seedlings across all $70$ trays.",
+    "solution_text": "Let $X$ count surviving seedlings in one tray, so $X\\sim\\text{Bin}(18,0.8)$.\n(a) $\\begin{aligned}E(X)&=np\\\\&=18(0.8)\\\\&=14.4\\end{aligned}$\nThe expected number is $14.4$ seedlings per tray.\n(b) $\\begin{aligned}70E(X)&=70(14.4)\\\\&=1008\\end{aligned}$\nThe expected total is $1008$ surviving seedlings.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A laboratory tests $240$ dishes, each containing $6$ seeds. Each seed fails to germinate independently with probability $0.2$. Find the expected number of dishes containing exactly $2$ failed seeds, to the nearest dish.",
+    "solution_text": "Success means a seed fails to germinate. Let $X$ count failed seeds in one dish.\n$X\\sim\\text{Bin}(6,0.2)$, $N=240$, $r=2$.\n$\\begin{aligned}P(X=2)&={}^{6}C_{2}(0.2)^2(0.8)^4\\\\&=0.24576\\end{aligned}$\n$\\begin{aligned}NP(X=2)&=240(0.24576)\\\\&=58.9824\\end{aligned}$\nApproximately $59$ dishes are expected to contain exactly $2$ failed seeds.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A packing shed checks $200$ boxes, each containing $5$ fruit. Each fruit is bruised independently with probability $0.2$. Find the expected number of boxes containing at most $1$ bruised fruit, to the nearest box.",
+    "solution_text": "Let $X$ count bruised fruit in one box, so $X\\sim\\text{Bin}(5,0.2)$ and $N=200$.\nAt most $1$ means $X=0$ or $X=1$.\n$\\begin{aligned}P(X\\leq1)&=P(X=0)+P(X=1)\\\\&=(0.8)^5+{}^{5}C_{1}(0.2)(0.8)^4\\\\&=0.73728\\end{aligned}$\n$\\begin{aligned}NP(X\\leq1)&=200(0.73728)\\\\&=147.456\\end{aligned}$\nApproximately $147$ boxes are expected to contain at most $1$ bruised fruit.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A nursery sells $320$ bundles, each containing $7$ cuttings. Each cutting wilts independently with probability $0.2$.\n(a) Find the expected number of bundles containing at least $1$ wilted cutting.\n(b) Find the expected number of bundles containing at least $2$ wilted cuttings.\nGive each answer to the nearest bundle.",
+    "solution_text": "Let $X$ count wilted cuttings in one bundle, so $X\\sim\\text{Bin}(7,0.2)$ and $N=320$.\n(a) The complement of at least $1$ is $X=0$.\n$\\begin{aligned}P(X\\geq1)&=1-P(X=0)\\\\&=1-(0.8)^7\\\\&=0.7902848\\end{aligned}$\n$\\begin{aligned}NP(X\\geq1)&=320(0.7902848)\\\\&=252.891136\\end{aligned}$\nApproximately $253$ bundles.\n(b) The complement of at least $2$ is $X=0$ or $X=1$.\n$\\begin{aligned}P(X\\geq2)&=1-P(X=0)-P(X=1)\\\\&=1-(0.8)^7-{}^{7}C_{1}(0.2)(0.8)^6\\\\&=0.4232832\\end{aligned}$\n$\\begin{aligned}NP(X\\geq2)&=320(0.4232832)\\\\&=135.450624\\end{aligned}$\nApproximately $135$ bundles.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A grower plants $250$ pots, each containing $8$ seeds. Each seed germinates independently with probability $0.9$. Find the expected number of pots in which at most $6$ seeds germinate, to the nearest pot.",
+    "solution_text": "Let $X$ count germinating seeds in one pot, so $X\\sim\\text{Bin}(8,0.9)$ and $N=250$.\nThe complement of at most $6$ is $X=7$ or $X=8$.\n$\\begin{aligned}P(X\\leq6)&=1-P(X=7)-P(X=8)\\\\&=1-{}^{8}C_{7}(0.9)^7(0.1)-(0.9)^8\\\\&=0.18689527\\end{aligned}$\n$\\begin{aligned}NP(X\\leq6)&=250(0.18689527)\\\\&=46.7238175\\end{aligned}$\nApproximately $47$ pots are expected to have at most $6$ germinating seeds.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

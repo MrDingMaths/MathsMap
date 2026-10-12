@@ -2,8 +2,8 @@
   "skillId": "reverse-chain-rule-power",
   "atomType": "R",
   "theory": {
-    "intro": "The **reverse chain rule** undoes the chain rule for a power of a linear expression. For $a\\ne0$ and $n\\ne-1$, $\\int(ax+b)^n\\,dx=\\dfrac{(ax+b)^{n+1}}{a(n+1)}+C$. Increase the power by one and divide by the product of the new power and the coefficient of $x$.",
-    "facts": [
+"intro": "The **reverse chain rule** undoes the chain rule for a power of a linear expression. For $a\\ne0$ and $n\\ne-1$, $\\int(ax+b)^n\\,dx=\\dfrac{(ax+b)^{n+1}}{a(n+1)}+C$. Increase the power by one and divide by the product of the new power and the coefficient of $x$.",
+"facts": [
 "The linear expression $ax+b$ inside the bracket stays unchanged.",
 "Increase the power of the bracket by one and divide by the new power, leaving the bracket itself unchanged.",
 "Divide by the coefficient $a$ of $x$ as well as by the new power; this compensates for the factor introduced by the chain rule.",
@@ -13,13 +13,57 @@
 "Check any answer by differentiating it with the chain rule.",
 "For a definite integral, first check that the integrand is continuous on the whole integration interval. Then evaluate $[F(x)]_u^v=F(v)-F(u)$ using the original limits, without adding $+C$."
 ],
-    "steps": [
+"steps": [
 "Write the function as a constant multiple of $(ax+b)^n$, using a fractional or negative power where needed.",
 "Increase the power of the bracket by one, leaving the bracket unchanged.",
 "Divide by the product of the new power and the coefficient of $x$, and retain any outside constant.",
 "Add $+C$ for a general primitive. For a definite integral with a continuous integrand on the whole interval, substitute the limits and subtract the lower-limit value from the upper-limit value."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Find $\\int(6-3x)^4\\,dx$.",
+    "solution_text": "Increase the power to $5$ and divide by $(-3)\\times5$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int(6-3x)^4\\,dx\\\\&=\\frac{(6-3x)^5}{(-3)\\times5}+C\\\\&=-\\frac{(6-3x)^5}{15}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find $\\int8(3x-2)^3\\,dx$.",
+    "solution_text": "Retain the outside factor $8$, increase the power to $4$ and divide by $3\\times4$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int8(3x-2)^3\\,dx\\\\&=\\frac{8(3x-2)^4}{3\\times4}+C\\\\&=\\frac{2(3x-2)^4}{3}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int\\sqrt{8-3x}\\,dx$.",
+    "solution_text": "Write the square root as a fractional power.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\sqrt{8-3x}\\,dx\\\\&=\\int(8-3x)^{\\frac12}\\,dx\\\\&=\\frac{(8-3x)^{\\frac32}}{(-3)\\times\\frac32}+C\\\\&=-\\frac{2(8-3x)^{\\frac32}}{9}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int\\frac{10}{(7-2x)^4}\\,dx$.",
+    "solution_text": "Write the reciprocal using a negative power.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\frac{10}{(7-2x)^4}\\,dx\\\\&=\\int10(7-2x)^{-4}\\,dx\\\\&=\\frac{10(7-2x)^{-3}}{(-2)\\times(-3)}+C\\\\&=\\frac{5}{3(7-2x)^3}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y=(4x+3)^5$, and hence find $\\int20(4x+3)^4\\,dx$.",
+    "solution_text": "$\\begin{aligned}\\frac{dy}{dx}&=5(4x+3)^4\\times4\\\\&=20(4x+3)^4\\end{aligned}$\nHence the general primitive is\n$\\int20(4x+3)^4\\,dx=(4x+3)^5+C$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_0^1 2(2x+3)^2\\,dx$.",
+    "solution_text": "The integrand is a polynomial, so it is continuous on $[0,1]$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_0^1 2(2x+3)^2\\,dx\\\\&=\\left[\\frac{2(2x+3)^3}{2\\times3}\\right]_0^1\\\\&=\\frac{5^3}{3}-\\frac{3^3}{3}\\\\&=\\frac{125-27}{3}\\\\&=\\frac{98}{3}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

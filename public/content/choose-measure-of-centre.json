@@ -2,8 +2,8 @@
   "skillId": "choose-measure-of-centre",
   "atomType": "Cat",
   "theory": {
-        "intro": "The mean, the median and the mode are all measures of centre, but they do not all suit every dataset. Consider whether the data can be meaningfully ordered or averaged, whether it contains an extreme value, and what the reported measure needs to tell you.",
-        "facts": [
+"intro": "The mean, the median and the mode are all measures of centre, but they do not all suit every dataset. Consider whether the data can be meaningfully ordered or averaged, whether it contains an extreme value, and what the reported measure needs to tell you.",
+"facts": [
 "**Mean:** it uses every score in the dataset, but it is distorted by outliers and cannot be used with categorical data.",
 "**Median:** it is less distorted by outliers than the mean, but it ignores the size of the other scores and may not be central.",
 "**Mode:** it is not affected by outliers, but it may not be a central value.",
@@ -15,12 +15,65 @@
 "A measure of centre is a poor choice when it sits at the very top or bottom of the data instead of near the middle.",
 "The range is a measure of spread, not centre, and it is also distorted by outliers."
 ],
-        "steps": [
+"steps": [
           "Check whether the data is categorical",
           "Check the numerical data for an outlier",
           "Name the measure of centre and justify it in context"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "a. A shop records the colours of bags sold:\nblue, grey, blue, black, grey, blue, blue.\nWhich measure of centre can be used, and what is its value?\nb. A uniform shop records these T-shirt sizes sold:\nL, S, M, XL, L, M, L.\nExplain whether a mean and a median can be found. Which measure should the shop use to decide which size to stock most, and what is its value?",
+    "solution_text": "a. Colours cannot be added and have no meaningful order, so neither the mean nor the median can be used.\nBlue occurs four times, more often than any other colour.\nThe mode is blue.\nb. The sizes have the meaningful order S, M, L, XL, so a median can be found.\nIn order, the sizes are S, M, M, L, L, L, XL. The fourth size is L, so the median is L.\nThe categories cannot be added to find a mean.\nUse the mode for stocking because it identifies the size sold most often. L occurs three times, so the mode is L.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Five blocks of land sell for $\\$420\\,000$, $\\$440\\,000$, $\\$460\\,000$, $\\$480\\,000$ and $\\$1\\,200\\,000$.\nCalculate the mean and median. Which better represents a typical price?",
+    "solution_text": "$\\begin{aligned}\\overline{x}&=\\frac{420\\,000+440\\,000+460\\,000+480\\,000+1\\,200\\,000}{5}\\\\&=\\$600\\,000\\end{aligned}$\nThe prices are ordered. The third price is the median, $\\$460\\,000$.\nThe price of $\\$1\\,200\\,000$ is an outlier that pulls the mean above the four lower prices. The median better represents a typical price.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Five houses sell for $\\$610\\,000$, $\\$630\\,000$, $\\$650\\,000$, $\\$670\\,000$ and $\\$690\\,000$.\nIs the mean an appropriate measure of centre? Justify your answer.",
+    "solution_text": "$\\begin{aligned}\\overline{x}&=\\frac{610\\,000+630\\,000+650\\,000+670\\,000+690\\,000}{5}\\\\&=\\$650\\,000\\end{aligned}$\nThere is no outlier, and the mean lies among the prices. It is appropriate because it uses the value of every price.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A shoe shop stocks whole-number sizes and sells these sizes:\n$5,6,6,7,7,7,8,9$.\nThe mean size is $6.875$. Explain why the mean is not useful for ordering stock, and choose a more useful measure.",
+    "solution_text": "The shop does not stock size $6.875$, so the mean does not identify a size to order.\nSize $7$ occurs three times, more often than any other size.\nUse the mode, $7$, because it identifies the size sold most often."
+  },
+  {
+    "question_text": "A student's test marks are $2,3,7,8,9,9,9$.\nFind the mode and explain why it is a poor measure of centre.",
+    "solution_text": "The mode is $9$, which occurs three times.\nIt is the highest mark, while four of the seven marks are lower. It sits at the top of the data rather than representing its centre."
+  },
+  {
+    "question_text": "Consider the ordered scores $1,2,2,8,8,8,8$.\nFind the median and explain how this illustrates a limitation of the median.",
+    "solution_text": "There are seven scores, so the median is the fourth score, $8$.\nIt equals the highest score. Although it occupies the middle position, it sits at the top of the numerical values.\nThe median depends on position and does not use the precise value of every score."
+  },
+  {
+    "question_text": "Five blocks of land sell for $\\$350\\,000$, $\\$380\\,000$, $\\$400\\,000$, $\\$420\\,000$ and $\\$950\\,000$.\nAn agent advertises an average price of $\\$500\\,000$. Which measure of centre is the agent using?",
+    "solution_text": "$\\begin{aligned}\\overline{x}&=\\frac{350\\,000+380\\,000+400\\,000+420\\,000+950\\,000}{5}\\\\&=\\$500\\,000\\end{aligned}$\nThe median is the third ordered price, $\\$400\\,000$, and there is no mode because every price occurs once.\nThe advertised figure matches the mean.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Six employees each earn $\\$40\\,000$ a year, and the owner earns $\\$320\\,000$.\na. Which measure would the owner quote to make the pay look high?\nb. Which measure better describes a typical wage?\nJustify your choices with calculations.",
+    "solution_text": "$\\begin{aligned}\\overline{x}&=\\frac{6\\times40\\,000+320\\,000}{7}\\\\&=\\$80\\,000\\end{aligned}$\nThe fourth ordered salary is $\\$40\\,000$, so the median is $\\$40\\,000$.\na. The owner would quote the mean of $\\$80\\,000$, because the owner's large salary lifts it above every employee's wage.\nb. The median of $\\$40\\,000$ better describes a typical wage because six of the seven people earn that amount.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A student receives one test mark in each of the 30s, 40s, 50s and 60s, and two marks in the 80s.\nThe student says, “My modal score category is the 80s.” Explain why this statement could give a misleading impression of their performance.",
+    "solution_text": "The 80s is the modal category because it contains two marks, more than any other category.\nHowever, four of the six marks are below the 80s. The modal category identifies the most frequent category but does not show where most marks lie."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

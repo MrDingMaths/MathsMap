@@ -2,8 +2,8 @@
   "skillId": "cartesian-path-from-vector",
   "atomType": "R",
   "theory": {
-    "intro": "The **Cartesian equation** of a path links $x$ and $y$ with no $t$ in it. Make $t$ the subject of one component and substitute it into the other. The values $t$ can take restrict which part of the curve is traced.\n\nThe figure shows $x=t$ and $y=t^{2}$ for $t\\ge0$. The path is $y=x^{2}$ for $x\\ge0$: the right-hand half is traced, and the left-hand half is not traced.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.0,0)--(3.2,0) node[right,font=\\footnotesize] {$x$};\n\\draw[->] (0,-0.6)--(0,4.2) node[above,font=\\footnotesize] {$y$};\n\\draw[dashed,gray,domain=-1.9:0,smooth,variable=\\x] plot ({\\x},{\\x*\\x});\n\\draw[thick,blue,domain=0:1.9,smooth,variable=\\x] plot ({\\x},{\\x*\\x});\n\\node[above right,font=\\footnotesize] at (1.9,3.61) {traced};\n\\node[above left,font=\\footnotesize] at (-1.9,3.61) {not traced};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "The **Cartesian equation** of a path links $x$ and $y$ with no $t$ in it. Make $t$ the subject of one component and substitute it into the other. The values $t$ can take restrict which part of the curve is traced.\n\nThe figure shows $x=t$ and $y=t^{2}$ for $t\\ge0$. The path is $y=x^{2}$ for $x\\ge0$: the right-hand half is traced, and the left-hand half is not traced.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.0,0)--(3.2,0) node[right,font=\\footnotesize] {$x$};\n\\draw[->] (0,-0.6)--(0,4.2) node[above,font=\\footnotesize] {$y$};\n\\draw[dashed,gray,domain=-1.9:0,smooth,variable=\\x] plot ({\\x},{\\x*\\x});\n\\draw[thick,blue,domain=0:1.9,smooth,variable=\\x] plot ({\\x},{\\x*\\x});\n\\node[above right,font=\\footnotesize] at (1.9,3.61) {traced};\n\\node[above left,font=\\footnotesize] at (-1.9,3.61) {not traced};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "A Cartesian equation contains only $x$ and $y$, so an answer still containing $t$ is not finished.",
 "When both components are nonconstant linear functions of $t$, eliminating $t$ gives a straight line. If one component is constant, the path lies on a horizontal or vertical line; if both are constant, it is a point.",
 "When $x$ is a nonconstant linear function of $t$ and $y$ is genuinely quadratic in $t$ (its $t^{2}$ coefficient is nonzero), eliminating $t$ gives a parabola. If $x$ is constant, the path lies on a vertical line instead.",
@@ -12,13 +12,64 @@
 "State the restriction with the equation, because the path is often an arc or a half of the curve.",
 "Check the equation by substituting two values of $t$ and confirming both points satisfy it."
 ],
-    "steps": [
+"steps": [
       "Write the two component equations $x=x(t)$ and $y=y(t)$.",
       "Eliminate $t$, either by making it the subject and substituting, or by using $\\cos^{2}t+\\sin^{2}t=1$.",
       "Simplify to an equation in $x$ and $y$ only.",
       "State the restriction on $x$ or $y$ that the values of $t$ force."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(5-2t)\\underset{\\sim}{i}+(3t+2)\\underset{\\sim}{j}$ for $t\\ge0$. Find the Cartesian equation of its path, including its restriction, and describe the curve traced.",
+    "solution_text": "The component equations give\n$\\begin{aligned}x&=5-2t\\\\t&=\\dfrac{5-x}{2}\\end{aligned}$\nSubstitute into the other component:\n$\\begin{aligned}y&=3\\left(\\dfrac{5-x}{2}\\right)+2\\\\&=\\dfrac{19-3x}{2}.\\end{aligned}$\nSince $t\\ge0$, $x=5-2t\\le5$. The path is the ray $y=\\dfrac{19-3x}{2}$ for $x\\le5$, starting at $(5,2)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t+2)\\underset{\\sim}{i}+(t^{2}+4t+6)\\underset{\\sim}{j}$ for $t\\ge0$. Find the Cartesian equation of its path, including its restriction, and identify the curve.",
+    "solution_text": "$\\begin{aligned}x&=t+2\\\\t&=x-2\\end{aligned}$\nSubstitute into the quadratic component:\n$\\begin{aligned}y&=(x-2)^{2}+4(x-2)+6\\\\&=x^{2}-4x+4+4x-8+6\\\\&=x^{2}+2.\\end{aligned}$\nSince $t\\ge0$, $x\\ge2$. The path is the portion of the parabola $y=x^{2}+2$ with $x\\ge2$, starting at $(2,6)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}-4t)\\underset{\\sim}{i}+(t-2)\\underset{\\sim}{j}$ for $t\\ge0$. Find the Cartesian equation of its path, including its restriction.",
+    "solution_text": "Use the linear $y$-component to eliminate $t$:\n$\\begin{aligned}y&=t-2\\\\t&=y+2\\end{aligned}$\n$\\begin{aligned}x&=(y+2)^{2}-4(y+2)\\\\&=y^{2}+4y+4-4y-8\\\\&=y^{2}-4.\\end{aligned}$\nSince $t\\ge0$, $y=t-2\\ge-2$. The path is $x=y^{2}-4$ for $y\\ge-2$. It includes the lower-branch segment $-2\\le y<0$, the vertex $(-4,0)$ and the entire upper branch.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}+3)\\underset{\\sim}{i}+(2t^{2}-1)\\underset{\\sim}{j}$, where $t$ can take any real value. Find the Cartesian equation of its path, including its restriction, and describe the curve traced.",
+    "solution_text": "Both components contain $t^{2}$, so eliminate $t^{2}$ directly:\n$\\begin{aligned}x&=t^{2}+3\\\\t^{2}&=x-3\\end{aligned}$\n$\\begin{aligned}y&=2(x-3)-1\\\\&=2x-7.\\end{aligned}$\nSince $t^{2}\\ge0$, $x\\ge3$. Every $x\\ge3$ occurs for a real value of $t$. The path is the ray $y=2x-7$ for $x\\ge3$, with endpoint $(3,-1)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(-2+3\\cos t)\\underset{\\sim}{i}+(3+3\\sin t)\\underset{\\sim}{j}$ for $0\\le t\\le\\pi$. Find the Cartesian equation of its path, including its restriction, and describe the arc traced.",
+    "solution_text": "The component equations give\n$\\begin{aligned}\\cos t&=\\dfrac{x+2}{3}\\\\\\sin t&=\\dfrac{y-3}{3}.\\end{aligned}$\nUse the identity $\\cos^{2}t+\\sin^{2}t=1$:\n$\\begin{aligned}\\dfrac{(x+2)^{2}}{9}+\\dfrac{(y-3)^{2}}{9}&=1\\\\(x+2)^{2}+(y-3)^{2}&=9.\\end{aligned}$\nFor $0\\le t\\le\\pi$, $\\sin t\\ge0$, so $y\\ge3$. The path is the upper semicircle with centre $(-2,3)$ and radius $3$, traced anticlockwise from $(1,3)$ to $(-5,3)$.\n[tikz]\n\\begin{tikzpicture}[x=0.8cm,y=0.8cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,dashed] (0,0)--(3,0);\n\\draw[black,dashed] (0,0)--(-3,0);\n\\draw[black,thick] (3,0) arc[start angle=0,end angle=180,radius=3];\n\\draw[black,->] (1.5,2.598) arc[start angle=60,end angle=80,radius=3];\n\\fill[black] (0,0) circle (1.4pt);\n\\fill[black] (3,0) circle (1.4pt);\n\\fill[black] (-3,0) circle (1.4pt);\n\\path (0,0) node[below] {$(-2,3)$};\n\\path (1.5,0) node[below] {$3$};\n\\path (3,0) node[below right] {start $(1,3)$};\n\\path (-3,0) node[below left] {end $(-5,3)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle moves along the path $y=2x+5$. Its $x$-coordinate at time $t$ is $x=3t-2$. Find its position vector function.",
+    "solution_text": "Substitute the given $x$-coordinate into the path equation:\n$\\begin{aligned}y&=2(3t-2)+5\\\\&=6t-4+5\\\\&=6t+1.\\end{aligned}$\nHence $\\underset{\\sim}{r}(t)=(3t-2)\\underset{\\sim}{i}+(6t+1)\\underset{\\sim}{j}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle travels once anticlockwise around the circle $(x+2)^{2}+(y-3)^{2}=16$, starting at $(2,3)$. Find a position vector function describing this motion for $0\\le t\\le2\\pi$.",
+    "solution_text": "The circle has centre $(-2,3)$ and radius $4$. Choose\n$\\begin{aligned}x&=-2+4\\cos t\\\\y&=3+4\\sin t.\\end{aligned}$\nAt $t=0$, the position is $(2,3)$. As $t$ increases from $0$ to $\\dfrac{\\pi}{2}$, the particle moves from the rightmost point to the top point $(-2,7)$, giving the required anticlockwise direction. The interval $0\\le t\\le2\\pi$ traces one complete circuit.\nThe position vector is $\\underset{\\sim}{r}(t)=(-2+4\\cos t)\\underset{\\sim}{i}+(3+4\\sin t)\\underset{\\sim}{j}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

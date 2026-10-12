@@ -2,8 +2,8 @@
   "skillId": "evaluate-function-algebraic-argument",
   "atomType": "R",
   "theory": {
-        "intro": "The input to a function can be an expression, not just a number. $f(x+1)$ means replacing every $x$ in the rule with $(x+1)$, then expanding and simplifying. The same idea builds the difference quotient $\\dfrac{f(x+h)-f(x)}{h}$, where $h\\ne0$.",
-        "facts": [
+"intro": "The input to a function can be an expression, not just a number. $f(x+1)$ means replacing every $x$ in the rule with $(x+1)$, then expanding and simplifying. The same idea builds the difference quotient $\\dfrac{f(x+h)-f(x)}{h}$, where $h\\ne0$.",
+"facts": [
 "$f(x+1)$ means replace every $x$ in the rule with $(x+1)$, so $f(x)=x^2+5x$ gives $(x+1)^2+5(x+1)$.",
 "Expand a squared bracket in full: $(x+1)^2=x^2+2x+1$, and never write $x^2+1$.",
 "Distribute any coefficient over the whole substituted expression, so $5(x+1)=5x+5$.",
@@ -11,12 +11,70 @@
 "For the difference quotient, require $h\\ne0$ before division or cancellation. Expand $f(x+h)$, subtract $f(x)$, and simplify the numerator until every term has a factor of $h$.",
 "Cancel the $h$ in the denominator only once the numerator is a multiple of $h$, keeping the restriction $h\\ne0$. Simplification does not define the original quotient at $h=0$."
 ],
-        "steps": [
+"steps": [
           "Substitute the expression for $x$, keeping it in brackets.",
           "Expand squares and distribute coefficients.",
           "Collect like terms to simplify."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "For $g(x)=4-3x$, find $g(a+2)$ in simplest form.",
+    "solution_text": "$\\begin{align*}g(a+2)&=4-3(a+2)\\\\&=4-3a-6\\\\&=-3a-2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $f(x)=3-x^2$, find $f(x-3)$ in simplest form.",
+    "solution_text": "$\\begin{align*}f(x-3)&=3-(x-3)^2\\\\&=3-(x^2-6x+9)\\\\&=-x^2+6x-6\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find each expression in simplest form.\n(a) $f(x+2)$, where $f(x)=x^2+4x$.\n(b) $p(a+3)$, where $p(x)=(x-3)(x+5)$.",
+    "solution_text": "(a)\n$\\begin{align*}f(x+2)&=(x+2)^2+4(x+2)\\\\&=x^2+4x+4+4x+8\\\\&=x^2+8x+12\\end{align*}$\n(b)\n$\\begin{align*}p(a+3)&=((a+3)-3)((a+3)+5)\\\\&=a(a+8)\\\\&=a^2+8a\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $g(x)=x^2-4x$, find $g(-a)$ in simplest form.",
+    "solution_text": "$\\begin{align*}g(-a)&=(-a)^2-4(-a)\\\\&=a^2+4a\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $F(x)=x^2+3x$, find $F(x-h)$ in simplest form.",
+    "solution_text": "$\\begin{align*}F(x-h)&=(x-h)^2+3(x-h)\\\\&=x^2-2xh+h^2+3x-3h\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $f(x)=2x^2+3x$, find $f(k)-f(k-1)$ in simplest form.",
+    "solution_text": "$\\begin{align*}f(k)-f(k-1)&=(2k^2+3k)-\\bigl(2(k-1)^2+3(k-1)\\bigr)\\\\&=(2k^2+3k)-(2k^2-k-1)\\\\&=2k^2+3k-2k^2+k+1\\\\&=4k+1\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $f(x)=x^2+2x$ and $h\\ne0$, find $\\dfrac{f(3+h)-f(3)}{h}$ in simplest form.",
+    "solution_text": "$\\begin{align*}f(3+h)&=(3+h)^2+2(3+h)\\\\&=9+6h+h^2+6+2h\\\\&=h^2+8h+15\\end{align*}$\n$\\begin{align*}f(3)&=3^2+2(3)\\\\&=15\\end{align*}$\n$\\begin{align*}\\frac{f(3+h)-f(3)}{h}&=\\frac{(h^2+8h+15)-15}{h}\\\\&=\\frac{h^2+8h}{h}\\\\&=\\frac{h(h+8)}{h}\\\\&=h+8\\end{align*}$\nThe cancellation requires $h\\ne0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $f(x)=4x^2-x+2$ and $h\\ne0$, simplify $\\dfrac{f(x+h)-f(x)}{h}$.",
+    "solution_text": "$\\begin{align*}f(x+h)&=4(x+h)^2-(x+h)+2\\\\&=4x^2+8xh+4h^2-x-h+2\\end{align*}$\n$\\begin{align*}\\frac{f(x+h)-f(x)}{h}&=\\frac{(4x^2+8xh+4h^2-x-h+2)-(4x^2-x+2)}{h}\\\\&=\\frac{8xh+4h^2-h}{h}\\\\&=\\frac{h(8x+4h-1)}{h}\\\\&=8x+4h-1\\end{align*}$\nThe cancellation requires $h\\ne0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

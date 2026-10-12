@@ -2,8 +2,8 @@
   "skillId": "volume-capacity-problems",
   "atomType": "R",
   "theory": {
-    "intro": "**Capacity** is the amount of liquid a container can hold, measured in mL, L, kL and ML. Find the volume inside with $V = Ah$ or $V = \\pi r^{2}h$, then cross to capacity. Bottles filled, amount left and time all build on that capacity.",
-    "facts": [
+"intro": "**Capacity** is the amount of liquid a container can hold, measured in mL, L, kL and ML. Find the volume inside with $V = Ah$ or $V = \\pi r^{2}h$, then cross to capacity. Bottles filled, amount left and time all build on that capacity.",
+"facts": [
       "**Capacity comes from volume in two stages:** calculate the volume of the container, then convert that volume to a capacity.",
       "$1\\text{ cm}^{3} = 1$ mL, $1000\\text{ cm}^{3} = 1$ L, and $1\\text{ m}^{3} = 1\\text{ kL} = 1000$ L.",
       "Volumes in $\\text{cm}^{3}$ become millilitres and volumes in $\\text{m}^{3}$ become kilolitres with no arithmetic; the capacity ladder is where arithmetic starts.",
@@ -12,12 +12,91 @@
       "For a \"how many fit\" question, divide the larger capacity by the smaller and round **down**: a part-filled container is not full.",
       "Check against real objects: a mug about $300$ mL, a bucket $10$ L, a bathtub $150$ L, a rainwater tank a few thousand litres."
     ],
-    "steps": [
+"steps": [
       "Calculate the volume of the container.",
       "Convert the volume to a capacity.",
       "Use the capacity to answer the question."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A rectangular food container has internal dimensions $15$ cm by $10$ cm by $8$ cm. Find its capacity in litres.",
+    "solution_text": "Calculate the volume.\n$\\begin{aligned}V&=Ah\\\\&=(15\\times10)\\times8\\\\&=1200\\text{ cm}^{3}\\end{aligned}$\nConvert to capacity using $1\\text{ cm}^{3}=1\\text{ mL}$.\n$\\begin{aligned}C&=1200\\text{ mL}\\\\&=1.2\\text{ L}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A trough has a right-triangular cross-section with perpendicular sides $30$ cm and $40$ cm. Its internal length is $120$ cm. Find its capacity in litres.\n[tikz]\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\\draw (0,0)--(4,0)--(0,3)--cycle;\\draw (0.25,0)--(0.25,0.25)--(0,0.25);\\path (2,0) node[below] {$40\\text{ cm}$};\\path (0,1.5) node[left] {$30\\text{ cm}$};\\end{tikzpicture}[/tikz]",
+    "solution_text": "Find the triangular cross-section area, then multiply by the length.\n$\\begin{aligned}A&=\\frac{40\\times30}{2}\\\\&=600\\text{ cm}^{2}\\end{aligned}$\n$\\begin{aligned}V&=Ah\\\\&=600\\times120\\\\&=72\\,000\\text{ cm}^{3}\\end{aligned}$\nConvert to capacity.\n$\\begin{aligned}C&=72\\,000\\text{ mL}\\\\&=72\\text{ L}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A cylindrical container has internal radius $4$ cm and height $12$ cm. Find its capacity in millilitres, correct to $2$ decimal places.\n[tikz]\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\\draw (-1.2,0)--(-1.2,3.6);\\draw (1.2,0)--(1.2,3.6);\\draw (0,3.6) ellipse (1.2 and 0.35);\\draw (-1.2,0) arc[start angle=180,end angle=360,x radius=1.2,y radius=0.35];\\draw[dashed] (-1.2,0) arc[start angle=180,end angle=0,x radius=1.2,y radius=0.35];\\fill[black] (0,3.6) circle (1.5pt);\\draw (0,3.6)--(1.2,3.6);\\path (0.6,3.6) node[above,fill=white,inner sep=1pt] {$4\\text{ cm}$};\\path (1.2,1.8) node[right] {$12\\text{ cm}$};\\end{tikzpicture}[/tikz]",
+    "solution_text": "Calculate the volume.\n$\\begin{aligned}V&=\\pi r^{2}h\\\\&=\\pi\\times4^{2}\\times12\\\\&=192\\pi\\text{ cm}^{3}\\end{aligned}$\nConvert to capacity, then round.\n$\\begin{aligned}C&=192\\pi\\text{ mL}\\\\&\\approx603.19\\text{ mL}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A cylindrical tank has internal diameter $2$ m and height $1.5$ m. Find its capacity in litres, correct to the nearest litre.",
+    "solution_text": "The radius is half the diameter.\n$\\begin{aligned}r&=2\\div2\\\\&=1\\text{ m}\\end{aligned}$\n$\\begin{aligned}V&=\\pi r^{2}h\\\\&=\\pi\\times1^{2}\\times1.5\\\\&=1.5\\pi\\text{ m}^{3}\\end{aligned}$\nUse $1\\text{ m}^{3}=1000\\text{ L}$.\n$\\begin{aligned}C&=1500\\pi\\text{ L}\\\\&\\approx4712\\text{ L}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A $2.5$ L bottle of juice is poured into cylindrical glasses with internal radius $3$ cm and height $10$ cm. How many full glasses can be filled?",
+    "solution_text": "Find the capacity of one glass.\n$\\begin{aligned}V&=\\pi r^{2}h\\\\&=\\pi\\times3^{2}\\times10\\\\&=90\\pi\\text{ cm}^{3}\\end{aligned}$\nEach glass holds $90\\pi$ mL. The bottle contains $2500$ mL.\n$\\begin{aligned}N&=\\frac{2500}{90\\pi}\\\\&\\approx8.84\\end{aligned}$\nRound down: $8$ full glasses can be filled.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A cylindrical drum with internal radius $15$ cm and height $40$ cm is full of water. A gardener uses $12$ L. Find how much water remains, in litres, correct to $1$ decimal place.",
+    "solution_text": "Calculate the drum's volume and capacity.\n$\\begin{aligned}V&=\\pi r^{2}h\\\\&=\\pi\\times15^{2}\\times40\\\\&=9000\\pi\\text{ cm}^{3}\\end{aligned}$\n$\\begin{aligned}C&=9000\\pi\\text{ mL}\\\\&=9\\pi\\text{ L}\\end{aligned}$\nSubtract the water used before rounding.\n$\\begin{aligned}R&=9\\pi-12\\\\&\\approx16.3\\text{ L}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A planter is a right prism with the trapezium cross-section shown and internal length $30$ cm. A bag contains $6$ L of potting mix. Is it enough to fill the planter? State the surplus or shortfall in litres.\n[tikz]\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\\draw (0,0)--(2.8,0)--(3.5,2)--(-0.7,2)--cycle;\\draw[dashed] (1.4,0)--(1.4,2);\\draw (1.4,0.2)--(1.6,0.2)--(1.6,0);\\path (1.4,0) node[below] {$14\\text{ cm}$};\\path (1.4,2) node[above] {$21\\text{ cm}$};\\path (1.4,1) node[right,fill=white,inner sep=1pt] {$10\\text{ cm}$};\\end{tikzpicture}[/tikz]",
+    "solution_text": "Find the cross-section area and volume.\n$\\begin{aligned}A&=\\frac{10(21+14)}{2}\\\\&=175\\text{ cm}^{2}\\end{aligned}$\n$\\begin{aligned}V&=Ah\\\\&=175\\times30\\\\&=5250\\text{ cm}^{3}\\end{aligned}$\nThe planter holds $5250$ mL, or $5.25$ L.\n$\\begin{aligned}S&=6-5.25\\\\&=0.75\\text{ L}\\end{aligned}$\nThe bag is enough, with $0.75$ L to spare.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A rectangular tank has internal dimensions $1.2$ m by $50$ cm by $40$ cm. Water enters at $2$ L every $20$ seconds. How long does it take to fill the empty tank, in minutes?",
+    "solution_text": "Use centimetres for all dimensions: $1.2\\text{ m}=120\\text{ cm}$.\n$\\begin{aligned}V&=Ah\\\\&=(120\\times50)\\times40\\\\&=240\\,000\\text{ cm}^{3}\\end{aligned}$\nThe tank holds $240\\,000$ mL, or $240$ L.\nThere are $3$ periods of $20$ seconds in a minute.\n$\\begin{aligned}q&=2\\times3\\\\&=6\\text{ L/min}\\end{aligned}$\n$\\begin{aligned}t&=240\\div6\\\\&=40\\text{ min}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A juice carton has internal dimensions $9$ cm by $10$ cm by $20$ cm. It is $70\\%$ full. Each cup holds $250$ mL. How many full cups can be filled?",
+    "solution_text": "Find the carton's full capacity.\n$\\begin{aligned}V&=Ah\\\\&=(9\\times10)\\times20\\\\&=1800\\text{ cm}^{3}\\end{aligned}$\nIts full capacity is $1800$ mL.\n$\\begin{aligned}J&=0.70\\times1800\\\\&=1260\\text{ mL}\\end{aligned}$\n$\\begin{aligned}N&=1260\\div250\\\\&=5.04\\end{aligned}$\nRound down: $5$ full cups can be filled.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Container A is a cylinder with internal radius $6$ cm and height $15$ cm. Container B is a rectangular prism with internal dimensions $12$ cm by $10$ cm by $13$ cm. Which holds more, and by how many litres, correct to $2$ decimal places?",
+    "solution_text": "Calculate each volume.\n$\\begin{aligned}V_A&=\\pi r^{2}h\\\\&=\\pi\\times6^{2}\\times15\\\\&=540\\pi\\text{ cm}^{3}\\end{aligned}$\n$\\begin{aligned}V_B&=Ah\\\\&=(12\\times10)\\times13\\\\&=1560\\text{ cm}^{3}\\end{aligned}$\nTheir capacities are $0.54\\pi$ L and $1.56$ L respectively.\n$\\begin{aligned}D&=0.54\\pi-1.56\\\\&\\approx0.14\\text{ L}\\end{aligned}$\nContainer A holds more, by $0.14$ L.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "During a storm, $30$ mm of rain falls on a flat rectangular roof measuring $10$ m by $7$ m. All runoff is collected. How many litres of water are collected?",
+    "solution_text": "Treat the rainfall as a rectangular prism with depth $30\\text{ mm}=0.03\\text{ m}$.\n$\\begin{aligned}V&=Ah\\\\&=(10\\times7)\\times0.03\\\\&=2.1\\text{ m}^{3}\\end{aligned}$\nConvert to capacity.\n$\\begin{aligned}C&=2.1\\text{ kL}\\\\&=2100\\text{ L}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,21 +2,43 @@
   "skillId": "equation-line-of-best-fit",
   "atomType": "R",
   "theory": {
-    "intro": "A line of best fit has equation $y = a + bx$, where $a$ is the **$y$-intercept** and $b$ is the **gradient**. Read two points off the drawn line to find $b$, then read where the line crosses the $y$-axis to find $a$. If the drawn line does not reach the $y$-axis, use a point on the line and the calculated gradient to find $a = y - bx$.",
-    "facts": [
+"intro": "A line of best fit has equation $y = a + bx$, where $a$ is the **$y$-intercept** and $b$ is the **gradient**. Read two points off the drawn line to find $b$, then read where the line crosses the $y$-axis to find $a$. If the drawn line does not reach the $y$-axis, use a point on the line and the calculated gradient to find $a = y - bx$.",
+"facts": [
 "The **gradient** $b$ is the change in $y$ for each one-unit increase in $x$, so it is always a rate with units.",
 "The **$y$-intercept** $a$ is the value of $y$ the line predicts when $x = 0$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[-{Stealth}] (0,0) -- (8,0) node[below] {$x$};\n\\draw[-{Stealth}] (0,0) -- (0,6.4) node[right] {$y$};\n\\fill (0.6,1.45) circle (2.2pt);\n\\fill (1.5,1.42) circle (2.2pt);\n\\fill (2.4,2.55) circle (2.2pt);\n\\fill (3.3,2.5) circle (2.2pt);\n\\fill (4.1,3.55) circle (2.2pt);\n\\fill (7.0,4.72) circle (2.2pt);\n\\draw[thick] (0,0.8) -- (7.4,5.24);\n\\fill (0,0.8) circle (2.2pt);\n\\node[left] at (0,0.8) {$a$};\n\\draw[dashed] (4.5,3.5) -- (6.5,3.5) node[midway,below] {run};\n\\draw[dashed] (6.5,3.5) -- (6.5,4.7) node[midway,right] {rise};\n\\node at (2.0,5.0) {$b = \\frac{\\text{rise}}{\\text{run}}$};\n\\end{tikzpicture}\n[/tikz]",
 "Interpreting the gradient means stating that rate in context, such as 'the mark rises by $4.2$ marks per extra hour studied'.",
 "The intercept may have contextual meaning when $x = 0$ is possible, but a prediction at zero may be unreliable if zero lies outside the data range. An intercept for a $0$ cm humerus has no contextual meaning.",
 "In $y = a + bx$ the constant term is the intercept and the number multiplying $x$ is the gradient, whatever order they are written."
 ],
-    "steps": [
+"steps": [
 "Read two points that the line passes through exactly.",
 "Find the gradient $b$ as the rise divided by the run between those points.",
 "Find the $y$-intercept $a$: read it where the line crosses the vertical axis, or use $a = y - bx$ with a point on the line.",
 "Write the equation as $y = a + bx$ using the variable names in the context."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "The scatterplot shows advertising spend $A$, in thousands of dollars, and sales $S$, in thousands of dollars. A line of best fit is drawn.\n[tikz]\n\\begin{tikzpicture}[x=0.55cm,y=0.11cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\definecolor{fitcolour}{HTML}{4F9B63}\n\\draw[gridcolour,xstep=1,ystep=10] (0,0) grid (10,60);\n\\draw[->,black] (0,0)--(10.7,0);\n\\draw[->,black] (0,0)--(0,64);\n\\foreach \\x in {0,2,4,6,8,10} {\\path (\\x,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\x$};}\n\\foreach \\y in {10,20,30,40,50,60} {\\path (0,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\y$};}\n\\path (5,-9) node {Advertising spend ($\\$1000$)};\n\\path (-1.5,30) node[rotate=90] {Sales ($\\$1000$)};\n\\foreach \\x/\\y in {0/12,1/11,2/20,3/19,4/28,5/27,6/36,7/35,8/44,10/48} {\\fill[black] (\\x,\\y) circle (1.8pt);}\n\\draw[fitcolour,thick] (0,10)--(10,50);\n\\end{tikzpicture}\n[/tikz]\na. Find the gradient and interpret it.\nb. Find the equation in the form $S=a+bA$.",
+    "solution_text": "a. Read two points on the drawn line: $(0,10)$ and $(10,50)$.\n$\\begin{aligned}b&=\\frac{50-10}{10-0}\\\\&=4\\end{aligned}$\nPredicted sales increase by $\\$4000$ for each additional $\\$1000$ spent on advertising.\n\nb. The line crosses the vertical axis at $10$, so $a=10$.\n$S=10+4A$\n[tikz]\n\\begin{tikzpicture}[x=0.55cm,y=0.11cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\definecolor{fitcolour}{HTML}{4F9B63}\n\\definecolor{annotationcolour}{HTML}{268CFF}\n\\draw[gridcolour,xstep=1,ystep=10] (0,0) grid (10,60);\n\\draw[->,black] (0,0)--(10.7,0);\n\\draw[->,black] (0,0)--(0,64);\n\\foreach \\x in {0,2,4,6,8,10} {\\path (\\x,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\x$};}\n\\foreach \\y in {10,20,30,40,50,60} {\\path (0,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\y$};}\n\\path (5,-9) node {Advertising spend ($\\$1000$)};\n\\path (-1.5,30) node[rotate=90] {Sales ($\\$1000$)};\n\\foreach \\x/\\y in {0/12,1/11,2/20,3/19,4/28,5/27,6/36,7/35,8/44,10/48} {\\fill[black] (\\x,\\y) circle (1.8pt);}\n\\draw[fitcolour,thick] (0,10)--(10,50);\n\\draw[annotationcolour,dashed] (0,10)--(10,10)--(10,50);\n\\path (5,10) node[below,text=annotationcolour] {run $=10$};\n\\path (10,30) node[right,text=annotationcolour] {rise $=40$};\n\\fill[annotationcolour] (0,10) circle (2pt);\n\\fill[annotationcolour] (10,50) circle (2pt);\n\\path (0,10) node[above right,text=annotationcolour] {$(0,10)$};\n\\path (10,50) node[above left,text=annotationcolour] {$(10,50)$};\n\\end{tikzpicture}\n[/tikz]"
   },
+  {
+    "question_text": "A scatterplot compares weekly training time $t$, in hours, with predicted race time $T$, in minutes. Find the equation of the drawn line of best fit in the form $T=a+bt$.\n[tikz]\n\\begin{tikzpicture}[x=0.6cm,y=0.15cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\definecolor{fitcolour}{HTML}{4F9B63}\n\\draw[gridcolour,xstep=1,ystep=5] (0,0) grid (10,40);\n\\draw[->,black] (0,0)--(10.7,0);\n\\draw[->,black] (0,0)--(0,43);\n\\foreach \\x in {0,2,4,6,8,10} {\\path (\\x,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\x$};}\n\\foreach \\y in {5,10,15,20,25,30,35,40} {\\path (0,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\y$};}\n\\path (5,-7) node {Training (hours per week)};\n\\path (-1.3,20) node[rotate=90] {Race time (minutes)};\n\\foreach \\x/\\y in {2/34,3/27,4/28,5/21,6/22,7/15,8/16} {\\fill[black] (\\x,\\y) circle (1.8pt);}\n\\draw[fitcolour,thick] (2,32)--(8,14);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Read two points on the line: $(2,32)$ and $(7,17)$.\n$\\begin{aligned}b&=\\frac{17-32}{7-2}\\\\&=-3\\end{aligned}$\nThe line does not reach the vertical axis. Use $(2,32)$ to find the intercept.\n$\\begin{aligned}a&=32-(-3)(2)\\\\&=38\\end{aligned}$\n$T=38-3t$\nThe model predicts a decrease of $3$ minutes in race time for each additional hour of weekly training."
+  },
+  {
+    "question_text": "A study models adult height using $H=124.8+1.5L$, where $H$ is height in centimetres and $L$ is humerus length in centimetres. The recorded humerus lengths range from $30$ cm to $42$ cm.\na. Interpret the gradient.\nb. Interpret the vertical intercept and explain whether it has contextual meaning.\n\nA separate study models daily electricity use by $E=18.6+1.2d$, where $E$ is electricity use in kWh and $d$ is the number of degrees the temperature is above $25^{\\circ}\\mathrm{C}$. Recorded values satisfy $2\\le d\\le12$.\nc. Interpret this intercept and comment on the reliability of the prediction at $d=0$.",
+    "solution_text": "a. The gradient is $1.5$. Predicted adult height increases by $1.5$ cm for each additional centimetre of humerus length.\n\nb. At $L=0$, the model predicts a height of $124.8$ cm. A humerus length of $0$ cm is impossible for these adults, so the intercept has no contextual meaning.\n\nc. At $d=0$, the temperature is $25^{\\circ}\\mathrm{C}$ and the model predicts daily electricity use of $18.6$ kWh. This temperature is possible, so the intercept has a contextual interpretation. However, $d=0$ is outside the recorded range, so the prediction is extrapolation and may be unreliable."
+  },
+  {
+    "question_text": "A line of best fit is $w=4.2+0.9n$, where $w$ is predicted weight loss in pounds and $n$ is the number of weeks on a program. Ava says the gradient is $4.2$ and the vertical intercept is $0.9$.\nExplain her mistake and state the correct values.",
+    "solution_text": "The gradient is the coefficient of $n$, so it is $0.9$ pounds per week.\nThe vertical intercept is the constant term, so it is $4.2$ pounds.\nAva has swapped the coefficient and the constant term."
+  },
+  {
+    "question_text": "A line of best fit relating Mathematics marks $x$ to Physics marks $y$ passes through $(20,34)$ and $(60,62)$. Its vertical intercept is $20$.\nFind its equation in the form $y=a+bx$.",
+    "solution_text": "$\\begin{aligned}b&=\\frac{62-34}{60-20}\\\\&=\\frac{28}{40}\\\\&=0.7\\end{aligned}$\nThe given intercept is $a=20$.\n$y=20+0.7x$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

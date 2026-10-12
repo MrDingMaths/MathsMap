@@ -2,8 +2,8 @@
   "skillId": "divide-polynomials",
   "atomType": "R",
   "theory": {
-        "intro": "Dividing a polynomial by a linear polynomial works like long division of numbers: divide, multiply and subtract until what is left is too small to divide. The four parts keep their arithmetic names — dividend, divisor, quotient and remainder.",
-        "facts": [
+"intro": "Dividing a polynomial by a linear polynomial works like long division of numbers: divide, multiply and subtract until what is left is too small to divide. The four parts keep their arithmetic names — dividend, divisor, quotient and remainder.",
+"facts": [
           "In $P(x)\\div D(x)$: $P(x)$ is the **dividend**, $D(x)$ is the **divisor**, $Q(x)$ is the **quotient** and $R(x)$ is the **remainder**.",
           "At each step, **divide the leading term** of what is left by the divisor's leading term to get the next quotient term.",
           "Multiply the whole divisor by that term and **subtract**, which changes the sign of every term being taken away.",
@@ -14,13 +14,39 @@
           "If the dividend has a **missing term**, insert it with coefficient $0$ ($x^3-7x+2$ becomes $x^3+0x^2-7x+2$) so the columns line up.",
           "When $R(x)=0$ the division is exact, and $D(x)$ and $Q(x)$ are **factors** of $P(x)$."
         ],
-        "steps": [
+"steps": [
           "Divide the leading terms",
           "Multiply the divisor and subtract",
           "Repeat until the degree left is less than the divisor's",
           "Write the result"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "In $103\\div 8=12$ remainder $7$, identify the dividend, divisor, quotient and remainder.",
+    "solution_text": "The dividend is the number being divided: $103$.\nThe divisor is the number we divide by: $8$.\nThe quotient is $12$ and the remainder is $7$."
+  },
+  {
+    "question_text": "Use long division to divide $x^2+7x+6$ by $x+2$. Write the result in fraction form.",
+    "solution_text": "Divide the leading terms: $x^2\\div x=x$. Multiply the divisor by $x$ and subtract.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(x^2+7x+6)-x(x+2)\\\\&=(x^2+7x+6)-(x^2+2x)\\\\&=5x+6\\end{aligned}$\nNext, $5x\\div x=5$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(5x+6)-5(x+2)\\\\&=(5x+6)-(5x+10)\\\\&=-4\\end{aligned}$\nThe constant remainder has degree less than the linear divisor, so stop.\n$\\frac{x^2+7x+6}{x+2}=x+5-\\frac{4}{x+2}$."
+  },
+  {
+    "question_text": "Use long division to divide $6x^3+5x-7$ by $2x-1$. Write the result in fraction form.",
+    "solution_text": "Insert the missing term: $6x^3+0x^2+5x-7$.\nDivide the leading terms: $6x^3\\div 2x=3x^2$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(6x^3+0x^2+5x-7)-3x^2(2x-1)\\\\&=(6x^3+0x^2+5x-7)-(6x^3-3x^2)\\\\&=3x^2+5x-7\\end{aligned}$\nNext, $3x^2\\div 2x=\\frac32x$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(3x^2+5x-7)-\\frac32x(2x-1)\\\\&=(3x^2+5x-7)-\\left(3x^2-\\frac32x\\right)\\\\&=\\frac{13}{2}x-7\\end{aligned}$\nFinally, $\\frac{13}{2}x\\div 2x=\\frac{13}{4}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\left(\\frac{13}{2}x-7\\right)-\\frac{13}{4}(2x-1)\\\\&=\\left(\\frac{13}{2}x-7\\right)-\\left(\\frac{13}{2}x-\\frac{13}{4}\\right)\\\\&=-\\frac{15}{4}\\end{aligned}$\n$\\frac{6x^3+5x-7}{2x-1}=3x^2+\\frac32x+\\frac{13}{4}-\\frac{15}{4(2x-1)}$."
+  },
+  {
+    "question_text": "Given $\\frac{x^3+2x^2-4x+7}{x-3}=x^2+5x+11+\\frac{40}{x-3}$, write the result in the form $P(x)=D(x)Q(x)+R(x)$.",
+    "solution_text": "Multiply every term by the divisor $x-3$.\n$x^3+2x^2-4x+7=(x-3)(x^2+5x+11)+40$."
+  },
+  {
+    "question_text": "Use long division to divide $P(x)=x^3-7x+6$ by $x-1$. Write $P(x)$ as the product of $x-1$ and a quadratic polynomial, and explain what the remainder tells you.",
+    "solution_text": "Insert the missing term: $x^3+0x^2-7x+6$.\n$x^3\\div x=x^2$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(x^3+0x^2-7x+6)-x^2(x-1)\\\\&=(x^3+0x^2-7x+6)-(x^3-x^2)\\\\&=x^2-7x+6\\end{aligned}$\n$x^2\\div x=x$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(x^2-7x+6)-x(x-1)\\\\&=(x^2-7x+6)-(x^2-x)\\\\&=-6x+6\\end{aligned}$\n$-6x\\div x=-6$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(-6x+6)-(-6)(x-1)\\\\&=(-6x+6)-(-6x+6)\\\\&=0\\end{aligned}$\n$P(x)=(x-1)(x^2+x-6)$.\nThe remainder is $0$, so $x-1$ and $x^2+x-6$ are factors of $P(x)$."
+  },
+  {
+    "question_text": "A polynomial leaves a remainder of degree $2$ when divided by $D(x)$. What are the possible degrees of $D(x)$?",
+    "solution_text": "The remainder has degree less than the divisor.\n$\\deg D(x)>2$.\nThe divisor can have degree $3,4,5,\\ldots$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

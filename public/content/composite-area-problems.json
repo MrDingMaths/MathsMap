@@ -2,8 +2,8 @@
   "skillId": "composite-area-problems",
   "atomType": "R",
   "theory": {
-        "intro": "A **composite shape** is made by joining or cutting away simple shapes: rectangles, triangles, trapeziums and circle parts. Split it into those simple shapes, find each area, then add or subtract the pieces. Garden beds, floor plans and paths are solved the same way.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[thick] (0,0)--(10,0)--(10,3)--(4,3)--(4,6)--(0,6)--cycle;\n\\draw[dashed] (4,0)--(4,3);\n\\node at (2,3) {$A_1$};\n\\node at (7,1.5) {$A_2$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "A **composite shape** is made by joining or cutting away simple shapes: rectangles, triangles, trapeziums and circle parts. Split it into those simple shapes, find each area, then add or subtract the pieces. Garden beds, floor plans and paths are solved the same way.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[thick] (0,0)--(10,0)--(10,3)--(4,3)--(4,6)--(0,6)--cycle;\n\\draw[dashed] (4,0)--(4,3);\n\\node at (2,3) {$A_1$};\n\\node at (7,1.5) {$A_2$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "Rectangle $A = \\text{length}\\times\\text{width}$; triangle $A = \\frac{1}{2}\\times\\text{base}\\times\\text{height}$; trapezium $A = \\frac{1}{2}(a+b)h$.",
           "A dashed line drawn to split a figure is a construction line only — it has no area of its own.",
           "A piece **joined on** is added to the total.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[thick] (0,0)--(8,0)--(8,5)--(4,8)--(0,5)--cycle;\n\\draw[dashed] (0,5)--(8,5);\n\\node at (4,2.5) {$A_1$};\n\\node at (4,6) {$A_2$};\n\\end{tikzpicture}\n[/tikz]",
@@ -11,12 +11,91 @@
           "A length that is not marked can often be found from the marked lengths, because opposite sides of the overall rectangle must match.",
           "Keep the units consistent, and give the answer in square units ($\\text{m}^{2}$, $\\text{cm}^{2}$)."
         ],
-        "steps": [
+"steps": [
           "Split the composite shape into simple shapes.",
           "Calculate the area of each simple shape.",
           "Add or subtract the areas."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Calculate the area of this L-shaped floor.\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[thick,black] (0,0)--(8,0)--(8,2)--(3,2)--(3,5)--(0,5)--cycle;\n\\node[below] at (4,0) {$8\\text{ m}$};\n\\node[right] at (8,1) {$2\\text{ m}$};\n\\node[above] at (1.5,5) {$3\\text{ m}$};\n\\node[left] at (0,2.5) {$5\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Split the floor into two rectangles. The lower right rectangle has width $8-3=5\\text{ m}$.\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[thick,black] (0,0)--(8,0)--(8,2)--(3,2)--(3,5)--(0,5)--cycle;\n\\draw[dashed,black] (3,0)--(3,2);\n\\node at (1.5,2.5) {$A_1$};\n\\node at (5.5,1) {$A_2$};\n\\node[below] at (5.5,0) {$5\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{align*}A_1&=3\\times5\\\\&=15\\text{ m}^2\\end{align*}$\n$\\begin{align*}A_2&=5\\times2\\\\&=10\\text{ m}^2\\end{align*}$\n$\\begin{align*}A&=A_1+A_2\\\\&=15+10\\\\&=25\\text{ m}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A U-shaped floor has an overall width of $12\\text{ m}$ and height of $7\\text{ m}$. Each side arm is $3\\text{ m}$ wide and the bottom strip is $2\\text{ m}$ high. Calculate its area.\n[tikz]\n\\begin{tikzpicture}[x=4mm,y=4mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[thick,black] (0,0)--(12,0)--(12,7)--(9,7)--(9,2)--(3,2)--(3,7)--(0,7)--cycle;\n\\node[below] at (6,0) {$12\\text{ m}$};\n\\node[left] at (0,3.5) {$7\\text{ m}$};\n\\node[above] at (1.5,7) {$3\\text{ m}$};\n\\node[above] at (10.5,7) {$3\\text{ m}$};\n\\draw[<->,black] (13,0)--(13,2);\n\\node[right] at (13,1) {$2\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Split the floor into a bottom rectangle and two upper arms. Each upper arm has height $7-2=5\\text{ m}$.\n[tikz]\n\\begin{tikzpicture}[x=4mm,y=4mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[thick,black] (0,0)--(12,0)--(12,7)--(9,7)--(9,2)--(3,2)--(3,7)--(0,7)--cycle;\n\\draw[dashed,black] (0,2)--(3,2) (9,2)--(12,2);\n\\node at (6,1) {$A_1$};\n\\node at (1.5,4.5) {$A_2$};\n\\node at (10.5,4.5) {$A_2$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{align*}A_1&=12\\times2\\\\&=24\\text{ m}^2\\end{align*}$\n$\\begin{align*}A_2&=3\\times5\\\\&=15\\text{ m}^2\\end{align*}$\n$\\begin{align*}A&=A_1+2A_2\\\\&=24+2(15)\\\\&=54\\text{ m}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A shed wall consists of a rectangle $9\\text{ m}$ wide and $4\\text{ m}$ high, with a triangle of perpendicular height $2\\text{ m}$ joined along its top. Calculate the area of the wall.\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[thick,black] (0,0)--(9,0)--(9,4)--(4.5,6)--(0,4)--cycle;\n\\draw[dashed,black] (0,4)--(9,4) (4.5,4)--(4.5,6);\n\\draw[black] (4.5,4.3)--(4.8,4.3)--(4.8,4);\n\\node[below] at (4.5,0) {$9\\text{ m}$};\n\\node[right] at (9,2) {$4\\text{ m}$};\n\\node[left] at (4.5,5) {$2\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The triangle shares the rectangle's $9\\text{ m}$ side.\n$\\begin{align*}A_1&=9\\times4\\\\&=36\\text{ m}^2\\end{align*}$\n$\\begin{align*}A_2&=\\frac12\\times9\\times2\\\\&=9\\text{ m}^2\\end{align*}$\n$\\begin{align*}A&=A_1+A_2\\\\&=36+9\\\\&=45\\text{ m}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A window consists of a rectangle $4\\text{ m}$ wide and $3\\text{ m}$ high, with a semicircle joined along its top. Calculate its area to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[thick,black] (0,3)--(0,0)--(4,0)--(4,3) arc[start angle=0,end angle=180,radius=2];\n\\draw[dashed,black] (0,3)--(4,3);\n\\node[below] at (2,0) {$4\\text{ m}$};\n\\node[left] at (0,1.5) {$3\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The semicircle has diameter $4\\text{ m}$, so its radius is $2\\text{ m}$.\n$\\begin{align*}A_1&=4\\times3\\\\&=12\\text{ m}^2\\end{align*}$\n$A_2=\\frac12\\pi(2)^2=2\\pi\\text{ m}^2$\n$\\begin{align*}A&=A_1+A_2\\\\&=12+2\\pi\\\\&\\approx18.28\\text{ m}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A rectangular yard is $15\\text{ m}$ by $10\\text{ m}$. A rectangular patio is $4\\text{ m}$ by $3\\text{ m}$, and a separate triangular flower bed has base $6\\text{ m}$ and perpendicular height $3\\text{ m}$. Calculate the remaining area of the yard.",
+    "solution_text": "Subtract both areas from the whole yard.\n$A_1=15\\times10=150\\text{ m}^2$\n$A_2=4\\times3=12\\text{ m}^2$\n$A_3=\\frac12\\times6\\times3=9\\text{ m}^2$\n$\\begin{align*}A&=A_1-A_2-A_3\\\\&=150-12-9\\\\&=129\\text{ m}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A path of constant width $1\\text{ m}$ surrounds a rectangular garden $7\\text{ m}$ long and $4\\text{ m}$ wide. Calculate the area of the path.",
+    "solution_text": "Add the path width at both ends of each garden dimension.\n$L=7+2(1)=9\\text{ m}$\n$W=4+2(1)=6\\text{ m}$\n$\\begin{align*}A&=A_{\\text{outer}}-A_{\\text{garden}}\\\\&=9\\times6-7\\times4\\\\&=54-28\\\\&=26\\text{ m}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Calculate the area of this trapezium by splitting it into a rectangle and a triangle. Then check using the trapezium formula.\n[tikz]\n\\begin{tikzpicture}[x=4mm,y=4mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[thick,black] (0,0)--(12,0)--(7,6)--(0,6)--cycle;\n\\draw[black] (0,0.4)--(0.4,0.4)--(0.4,0);\n\\node[below] at (6,0) {$12\\text{ m}$};\n\\node[above] at (3.5,6) {$7\\text{ m}$};\n\\node[left] at (0,3) {$6\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The triangle's base is $12-7=5\\text{ m}$.\n[tikz]\n\\begin{tikzpicture}[x=4mm,y=4mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[thick,black] (0,0)--(12,0)--(7,6)--(0,6)--cycle;\n\\draw[dashed,black] (7,0)--(7,6);\n\\draw[black] (7,0.4)--(7.4,0.4)--(7.4,0);\n\\node at (3.5,3) {$A_1$};\n\\node at (8.5,2) {$A_2$};\n\\node[below] at (9.5,0) {$5\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]\n$A_1=7\\times6=42\\text{ m}^2$\n$A_2=\\frac12\\times5\\times6=15\\text{ m}^2$\n$\\begin{align*}A&=A_1+A_2\\\\&=42+15\\\\&=57\\text{ m}^2\\end{align*}$\nCheck using the parallel sides and perpendicular height.\n$\\begin{align*}A&=\\frac12(12+7)\\times6\\\\&=57\\text{ m}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A semicircle of diameter $4\\text{ m}$ is cut from one side of a rectangular sheet $9\\text{ m}$ by $5\\text{ m}$. Calculate the remaining area to $2$ decimal places.",
+    "solution_text": "The semicircle has radius $4\\div2=2\\text{ m}$.\n$A_1=9\\times5=45\\text{ m}^2$\n$A_2=\\frac12\\pi(2)^2=2\\pi\\text{ m}^2$\n$\\begin{align*}A&=A_1-A_2\\\\&=45-2\\pi\\\\&\\approx38.72\\text{ m}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A wall is $7\\text{ m}$ wide and $4\\text{ m}$ high. An arch cut from the wall consists of a rectangle $3\\text{ m}$ wide and $2\\text{ m}$ high, with a semicircle of diameter $3\\text{ m}$ on top. Calculate the remaining wall area to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[thick,black] (0,0)--(0,4)--(7,4)--(7,0)--(5,0)--(5,2) arc[start angle=0,end angle=180,radius=1.5] --(2,0)--cycle;\n\\draw[dashed,black] (2,2)--(5,2);\n\\node[above] at (3.5,4) {$7\\text{ m}$};\n\\node[left] at (0,2) {$4\\text{ m}$};\n\\node[below] at (3.5,0) {$3\\text{ m}$};\n\\node[right] at (5,1) {$2\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The semicircle has radius $3\\div2=1.5\\text{ m}$.\n$A_1=7\\times4=28\\text{ m}^2$\n$A_2=3\\times2=6\\text{ m}^2$\n$A_3=\\frac12\\pi(1.5)^2=1.125\\pi\\text{ m}^2$\n$\\begin{align*}A&=A_1-A_2-A_3\\\\&=28-6-1.125\\pi\\\\&\\approx18.47\\text{ m}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A racetrack lies between two ovals. Each oval consists of a rectangle with a semicircle on each short side. Both rectangles are $24\\text{ m}$ long. Their widths are $16\\text{ m}$ and $10\\text{ m}$, and each semicircle's diameter equals its rectangle's width. Calculate the track area to $2$ decimal places.",
+    "solution_text": "Each pair of semicircles forms one circle. The outer radius is $8\\text{ m}$ and the inner radius is $5\\text{ m}$.\n$\\begin{align*}A_{\\text{outer}}&=24\\times16+\\pi(8)^2\\\\&=384+64\\pi\\text{ m}^2\\end{align*}$\n$\\begin{align*}A_{\\text{inner}}&=24\\times10+\\pi(5)^2\\\\&=240+25\\pi\\text{ m}^2\\end{align*}$\n$\\begin{align*}A&=A_{\\text{outer}}-A_{\\text{inner}}\\\\&=(384+64\\pi)-(240+25\\pi)\\\\&=144+39\\pi\\\\&\\approx266.52\\text{ m}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A garden consists of a rectangle $11\\text{ m}$ by $5\\text{ m}$ with a triangle of perpendicular height $3\\text{ m}$ joined along its $11\\text{ m}$ side. Each bag of mulch covers $6\\text{ m}^2$. Only whole bags can be bought. How many bags are needed?",
+    "solution_text": "$A_1=11\\times5=55\\text{ m}^2$\n$A_2=\\frac12\\times11\\times3=16.5\\text{ m}^2$\n$\\begin{align*}A&=A_1+A_2\\\\&=55+16.5\\\\&=71.5\\text{ m}^2\\end{align*}$\n$71.5\\div6=11.9166\\ldots$\nRound up to cover the whole garden: $12$ bags.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,8 +2,8 @@
   "skillId": "solve-transformed-trig-equations",
   "atomType": "R",
   "theory": {
-    "intro": "An equation such as $2\\sin(3x)+1=2$ is solved by first making the trigonometric ratio the subject. Replacing the whole transformed angle by $u$ then turns it into a familiar equation, but the domain must be transformed with it.",
-    "facts": [
+"intro": "An equation such as $2\\sin(3x)+1=2$ is solved by first making the trigonometric ratio the subject. Replacing the whole transformed angle by $u$ then turns it into a familiar equation, but the domain must be transformed with it.",
+"facts": [
 "Rearrange first to isolate the relevant trigonometric ratio, giving $\\sin u=k$, $\\cos u=k$ or $\\tan u=k$ before any angles are found.",
 "If $u = ax$ and $p \\le x \\le q$, then $ap \\le u \\le aq$ when $a>0$, and $aq \\le u \\le ap$ when $a<0$. The domain for $u$ is $|a|$ times as wide.",
 "A wider domain for $u$ can contain more solutions, but does not always do so: $\\sin 3x = \\dfrac{1}{2}$ on $0 \\le x \\le 2\\pi$ has six, not two.",
@@ -12,13 +12,71 @@
 "If rearranging gives $\\sin u = k$ or $\\cos u = k$ with $|k|>1$, the equation has no solutions at all.",
 "Check the answer against a sketch: the number of solutions equals the number of times the curve meets the line."
 ],
-    "steps": [
+"steps": [
       "Rearrange to isolate the trigonometric ratio",
       "Let $u$ be the transformed angle and convert the domain to a domain for $u$",
       "Solve for $u$ across the whole of its domain",
       "Substitute back to find every value of $x$"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Solve $5-4\\cos x=7$ for $0\\le x\\le2\\pi$.",
+    "solution_text": "$\\begin{aligned}5-4\\cos x&=7\\\\-4\\cos x&=2\\\\\\cos x&=-\\frac12\\end{aligned}$\n\nThe reference angle is $\\frac\\pi3$. Cosine is negative in quadrants 2 and 3.\n\n$\\begin{aligned}x&=\\pi-\\frac\\pi3,\\ \\pi+\\frac\\pi3\\\\x&=\\frac{2\\pi}3,\\ \\frac{4\\pi}3\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Solve $4\\sin(3x)+1=3$ for $0\\le x\\le\\pi$.",
+    "solution_text": "$\\begin{aligned}4\\sin(3x)+1&=3\\\\4\\sin(3x)&=2\\\\\\sin(3x)&=\\frac12\\end{aligned}$\n\nLet $u=3x$. The transformed domain is $0\\le u\\le3\\pi$.\n\nThe reference angle is $\\frac\\pi6$. Sine is positive in quadrants 1 and 2. Add $2\\pi$ to the first two angles to find the remaining angles in the domain.\n\n$u=\\frac\\pi6,\\ \\frac{5\\pi}6,\\ \\frac{13\\pi}6,\\ \\frac{17\\pi}6$.\n\n$\\begin{aligned}x&=\\frac u3\\\\x&=\\frac\\pi{18},\\ \\frac{5\\pi}{18},\\ \\frac{13\\pi}{18},\\ \\frac{17\\pi}{18}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $2\\tan(3x)+2=0$ for $0\\le x\\le\\pi$.",
+    "solution_text": "$\\begin{aligned}2\\tan(3x)+2&=0\\\\2\\tan(3x)&=-2\\\\\\tan(3x)&=-1\\end{aligned}$\n\nLet $u=3x$, so $0\\le u\\le3\\pi$.\n\nThe reference angle is $\\frac\\pi4$. Tangent is negative in quadrants 2 and 4 and repeats every $\\pi$.\n\n$u=\\frac{3\\pi}4,\\ \\frac{7\\pi}4,\\ \\frac{11\\pi}4$.\n\n$\\begin{aligned}x&=\\frac u3\\\\x&=\\frac\\pi4,\\ \\frac{7\\pi}{12},\\ \\frac{11\\pi}{12}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $2\\sin\\left(2x+\\frac\\pi3\\right)=1$ for $0\\le x\\le2\\pi$.",
+    "solution_text": "$\\begin{aligned}2\\sin\\left(2x+\\frac\\pi3\\right)&=1\\\\\\sin\\left(2x+\\frac\\pi3\\right)&=\\frac12\\end{aligned}$\n\nLet $u=2x+\\frac\\pi3$. At $x=0$, $u=\\frac\\pi3$; at $x=2\\pi$, $u=\\frac{13\\pi}3$.\n\nThe transformed domain is $\\frac\\pi3\\le u\\le\\frac{13\\pi}3$.\n\nSine equals $\\frac12$ at angles $\\frac\\pi6$ and $\\frac{5\\pi}6$, repeated every $2\\pi$. Keeping only angles in the transformed domain gives\n\n$u=\\frac{5\\pi}6,\\ \\frac{13\\pi}6,\\ \\frac{17\\pi}6,\\ \\frac{25\\pi}6$.\n\n$\\begin{aligned}x&=\\frac12\\left(u-\\frac\\pi3\\right)\\\\x&=\\frac\\pi4,\\ \\frac{11\\pi}{12},\\ \\frac{5\\pi}4,\\ \\frac{23\\pi}{12}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $4\\cos(2x)-2=0$ for $-\\pi\\le x\\le\\pi$.",
+    "solution_text": "$\\begin{aligned}4\\cos(2x)-2&=0\\\\4\\cos(2x)&=2\\\\\\cos(2x)&=\\frac12\\end{aligned}$\n\nLet $u=2x$, so $-2\\pi\\le u\\le2\\pi$.\n\nIn $0\\le u\\le2\\pi$, the solutions are $u=\\frac\\pi3,\\frac{5\\pi}3$. Subtract $2\\pi$ from each to obtain the solutions in the negative half of the domain.\n\n$u=-\\frac{5\\pi}3,\\ -\\frac\\pi3,\\ \\frac\\pi3,\\ \\frac{5\\pi}3$.\n\n$\\begin{aligned}x&=\\frac u2\\\\x&=-\\frac{5\\pi}6,\\ -\\frac\\pi6,\\ \\frac\\pi6,\\ \\frac{5\\pi}6\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $4\\sin\\left(\\frac x2\\right)+1=-1$ for $0\\le x\\le4\\pi$.",
+    "solution_text": "$\\begin{aligned}4\\sin\\left(\\frac x2\\right)+1&=-1\\\\4\\sin\\left(\\frac x2\\right)&=-2\\\\\\sin\\left(\\frac x2\\right)&=-\\frac12\\end{aligned}$\n\nLet $u=\\frac x2$, so $0\\le u\\le2\\pi$.\n\nThe reference angle is $\\frac\\pi6$. Sine is negative in quadrants 3 and 4.\n\n$u=\\frac{7\\pi}6,\\ \\frac{11\\pi}6$.\n\n$\\begin{aligned}x&=2u\\\\x&=\\frac{7\\pi}3,\\ \\frac{11\\pi}3\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Explain why $2\\sin(2x)+4=1$ has no solutions for $0\\le x\\le2\\pi$.",
+    "solution_text": "$\\begin{aligned}2\\sin(2x)+4&=1\\\\2\\sin(2x)&=-3\\\\\\sin(2x)&=-\\frac32\\end{aligned}$\n\nSine lies between $-1$ and $1$, so it cannot equal $-\\frac32$. There are no solutions.\n\nThe graph confirms this: $y=2\\sin(2x)+4$ has minimum value $2$, above the line $y=1$.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveblue}{HTML}{268CFF}\n\\definecolor{linered}{HTML}{EF6068}\n\\begin{axis}[width=7cm,height=4.8cm,axis lines=middle,axis line style={black},tick style={black},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},xmin=-0.2,xmax=6.6,ymin=0,ymax=6.6,xtick={0,1.570796327,3.141592654,4.712388980,6.283185307},xticklabels={$0$,$\\frac\\pi2$,$\\pi$,$\\frac{3\\pi}2$,$2\\pi$},ytick={1,2,4,6},samples=160,clip=true]\n\\addplot[curveblue,thick,domain=0:6.283185307] {2*sin(deg(2*x))+4};\n\\addplot[linered,thick,dashed,domain=0:6.283185307] {1};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\n\nBlue curve: $y=2\\sin(2x)+4$. Red dashed line: $y=1$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $4\\cos(2x)-3=1$ for $0\\le x\\le2\\pi$.",
+    "solution_text": "$\\begin{aligned}4\\cos(2x)-3&=1\\\\4\\cos(2x)&=4\\\\\\cos(2x)&=1\\end{aligned}$\n\nLet $u=2x$, so $0\\le u\\le4\\pi$.\n\nCosine equals $1$ at the start and end of each full revolution. Include both endpoints of the domain.\n\n$u=0,\\ 2\\pi,\\ 4\\pi$.\n\n$\\begin{aligned}x&=\\frac u2\\\\x&=0,\\ \\pi,\\ 2\\pi\\end{aligned}$\n\nThe line $y=1$ meets the curve at its three maxima in the domain.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveblue}{HTML}{268CFF}\n\\definecolor{linered}{HTML}{EF6068}\n\\begin{axis}[width=7cm,height=4.8cm,axis lines=middle,axis line style={black},tick style={black},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},xmin=-0.2,xmax=6.6,ymin=-7.6,ymax=1.8,xtick={0,1.570796327,3.141592654,4.712388980,6.283185307},xticklabels={$0$,$\\frac\\pi2$,$\\pi$,$\\frac{3\\pi}2$,$2\\pi$},ytick={-7,-3,1},samples=160,clip=true]\n\\addplot[curveblue,thick,domain=0:6.283185307] {4*cos(deg(2*x))-3};\n\\addplot[linered,thick,dashed,domain=0:6.283185307] {1};\n\\addplot[only marks,mark=*,mark size=1.6pt,black] coordinates {(0,1) (3.141592654,1) (6.283185307,1)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\n\nBlue curve: $y=4\\cos(2x)-3$. Red dashed line: $y=1$. Black points mark the solutions.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,8 +2,8 @@
   "skillId": "polynomial-division-statement",
   "atomType": "R",
   "theory": {
-        "intro": "Dividing a polynomial $P(x)$ (the **dividend**) by a non-zero **divisor** $A(x)$ gives a **quotient** $Q(x)$ and a **remainder** $R(x)$, written $P(x) = A(x)Q(x) + R(x)$. Either the remainder is zero or it has lower degree than the divisor.",
-        "facts": [
+"intro": "Dividing a polynomial $P(x)$ (the **dividend**) by a non-zero **divisor** $A(x)$ gives a **quotient** $Q(x)$ and a **remainder** $R(x)$, written $P(x) = A(x)Q(x) + R(x)$. Either the remainder is zero or it has lower degree than the divisor.",
+"facts": [
 "The division identity is $P(x) = A(x)Q(x) + R(x)$, also written $P(x) = D(x)Q(x) + R(x)$ when the divisor is called $D(x)$.",
 "The remainder satisfies $\\deg(R(x)) < \\deg(A(x))$, or $R(x) = 0$ when the division is exact.",
 "If the divisor $A(x)$ is linear (degree $1$), the remainder is a constant.",
@@ -11,13 +11,61 @@
 "Where $A(x) \\ne 0$, fraction form and identity form are equivalent: $\\frac{P(x)}{A(x)} = Q(x) + \\frac{R(x)}{A(x)} \\iff P(x) = A(x)Q(x) + R(x)$. The polynomial identity holds for every $x$.",
 "When $R(x) = 0$, both the divisor $A(x)$ and the quotient $Q(x)$ are factors of $P(x)$."
 ],
-        "steps": [
+"steps": [
 "Identify dividend $P(x)$ and divisor $A(x)$.",
 "Perform division to find quotient $Q(x)$ and remainder $R(x)$.",
 "Check that $R(x) = 0$ or $\\deg(R(x)) < \\deg(A(x))$; the zero polynomial has no degree.",
 "Express the result in identity form $P(x) = A(x)Q(x) + R(x)$."
+],
+"workedExamples": [
+  {
+    "question_text": "Given $\\frac{x^{3}+3x^{2}-2x+5}{x-1}=x^{2}+4x+2+\\frac{7}{x-1}$, write the division identity and identify the dividend, divisor, quotient and remainder.",
+    "solution_text": "Multiply both sides by $x-1$:\n$x^{3}+3x^{2}-2x+5=(x-1)(x^{2}+4x+2)+7$.\nDividend: $P(x)=x^{3}+3x^{2}-2x+5$.\nDivisor: $A(x)=x-1$.\nQuotient: $Q(x)=x^{2}+4x+2$.\nRemainder: $R(x)=7$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use long division to divide $2x^{3}+5x-4$ by $2x+2$. Write the result as $P(x)=A(x)Q(x)+R(x)$.",
+    "solution_text": "Insert the missing term: $P(x)=2x^{3}+0x^{2}+5x-4$. At each step, divide the leading term by $2x$, multiply by the divisor, then subtract.\n$\\begin{aligned}2x^{3}\\div 2x&=x^{2}\\\\(2x^{3}+0x^{2}+5x-4)-x^{2}(2x+2)&=-2x^{2}+5x-4\\\\-2x^{2}\\div 2x&=-x\\\\(-2x^{2}+5x-4)-(-x)(2x+2)&=7x-4\\\\7x\\div 2x&=\\frac{7}{2}\\\\(7x-4)-\\frac{7}{2}(2x+2)&=-11\\end{aligned}$\nThus $Q(x)=x^{2}-x+\\frac{7}{2}$ and $R(x)=-11$.\n$2x^{3}+5x-4=(2x+2)\\left(x^{2}-x+\\frac{7}{2}\\right)-11$.\nThe constant remainder has degree $0$, less than the divisor's degree $1$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use long division to express $x^{3}-7x+6$ as $(x-1)Q(x)+R(x)$. What does the remainder tell you about $x-1$?",
+    "solution_text": "Write the dividend as $x^{3}+0x^{2}-7x+6$. Divide, multiply and subtract:\n$\\begin{aligned}x^{3}\\div x&=x^{2}\\\\(x^{3}+0x^{2}-7x+6)-x^{2}(x-1)&=x^{2}-7x+6\\\\x^{2}\\div x&=x\\\\(x^{2}-7x+6)-x(x-1)&=-6x+6\\\\-6x\\div x&=-6\\\\(-6x+6)-(-6)(x-1)&=0\\end{aligned}$\n$x^{3}-7x+6=(x-1)(x^{2}+x-6)+0$.\nThe remainder is zero, so $x-1$ is a factor.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use long division to divide $2x^{4}-3x^{3}+5x-6$ by $x^{2}+2$. Write the division identity and state the quotient and remainder.",
+    "solution_text": "Insert $0x^{2}$ to keep like powers aligned. Divide each leading term by $x^{2}$, multiply and subtract:\n$\\begin{aligned}2x^{4}\\div x^{2}&=2x^{2}\\\\(2x^{4}-3x^{3}+0x^{2}+5x-6)-2x^{2}(x^{2}+2)&=-3x^{3}-4x^{2}+5x-6\\\\-3x^{3}\\div x^{2}&=-3x\\\\(-3x^{3}-4x^{2}+5x-6)-(-3x)(x^{2}+2)&=-4x^{2}+11x-6\\\\-4x^{2}\\div x^{2}&=-4\\\\(-4x^{2}+11x-6)-(-4)(x^{2}+2)&=11x+2\\end{aligned}$\nStop because $11x+2$ has degree $1$, less than the divisor's degree $2$.\n$2x^{4}-3x^{3}+5x-6=(x^{2}+2)(2x^{2}-3x-4)+(11x+2)$.\nQuotient: $Q(x)=2x^{2}-3x-4$. Remainder: $R(x)=11x+2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "When $P(x)$ is divided by $(x+2)(x-5)$, the quotient is $Q(x)$ and the remainder is $2x-3$. Write this information as a division identity.",
+    "solution_text": "Use dividend equals divisor times quotient plus remainder:\n$P(x)=(x+2)(x-5)Q(x)+(2x-3)$.\nThe remainder has degree $1$, less than the divisor's degree $2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "(a) A polynomial is divided by $(x+2)(x^{2}+1)$. State the possible degrees and general form of its remainder.\n(b) Another division has remainder $4x^{3}-x+2$. State the smallest possible degree of its divisor.",
+    "solution_text": "(a) The divisor has degree $3$. A nonzero remainder can have degree $0$, $1$ or $2$; the remainder may also be zero.\nIts general form is $ax^{2}+bx+c$, where $a$, $b$ and $c$ are real constants and may be zero. The zero polynomial has no degree.\n(b) The remainder has degree $3$. The divisor must have strictly greater degree, so its smallest possible degree is $4$."
+  },
+  {
+    "question_text": "Find $a$ and $b$ so that $x^{4}+x^{3}+ax+b$ is exactly divisible by $x^{2}+1$.",
+    "solution_text": "Divide the leading terms, multiply by $x^{2}+1$ and subtract:\n$\\begin{aligned}(x^{4}+x^{3}+0x^{2}+ax+b)-x^{2}(x^{2}+1)&=x^{3}-x^{2}+ax+b\\\\(x^{3}-x^{2}+ax+b)-x(x^{2}+1)&=-x^{2}+(a-1)x+b\\\\(-x^{2}+(a-1)x+b)-(-1)(x^{2}+1)&=(a-1)x+(b+1)\\end{aligned}$\nThus $x^{4}+x^{3}+ax+b=(x^{2}+1)(x^{2}+x-1)+(a-1)x+(b+1)$.\nExact division requires the remainder to be the zero polynomial, so both coefficients vanish:\n$\\begin{aligned}a-1&=0\\\\a&=1\\\\b+1&=0\\\\b&=-1\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

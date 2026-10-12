@@ -2,8 +2,8 @@
   "skillId": "volume-revolution-x",
   "atomType": "R",
   "theory": {
-    "intro": "Spinning the region between a curve and the $x$-axis about the $x$-axis sweeps out a solid of revolution. Every thin slice is a disc of radius $|y|$, so the volume is $V=\\pi\\int_{a}^{b}y^{2}\\,dx$.",
-    "facts": [
+"intro": "Spinning the region between a curve and the $x$-axis about the $x$-axis sweeps out a solid of revolution. Every thin slice is a disc of radius $|y|$, so the volume is $V=\\pi\\int_{a}^{b}y^{2}\\,dx$.",
+"facts": [
 "A **solid of revolution** is the solid swept out when a region is spun about an axis.",
 "Rotating the region between $y=f(x)$ and the $x$-axis from $x=a$ to $x=b$ about the $x$-axis gives $V=\\pi\\int_{a}^{b}y^{2}\\,dx$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1.1cm]\n\\fill[gray!35] (1,0) -- plot[domain=1:4, samples=60, variable=\\x] ({\\x},{2.2-0.1*(\\x-1)*(\\x-1)}) -- (4,0) -- cycle;\n\\draw[->] (-0.6,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-1.6) -- (0,3.2) node[above] {$y$};\n\\draw[thick, <->, domain=0.2:5, samples=60, variable=\\x] plot ({\\x},{2.2-0.1*(\\x-1)*(\\x-1)});\n\\draw[dashed] (2.5,0) ellipse [x radius=0.22, y radius=1.975];\n\\node at (3.4,2.6) {$y=f(x)$};\n\\node[below] at (1,-0.15) {$a$};\n\\node[below] at (4,-0.15) {$b$};\n\\end{tikzpicture}[/tikz]",
 "The radius of each disc is $|y|$, the distance from the curve to the $x$-axis, so the integrand is $y^{2}$.",
@@ -13,12 +13,91 @@
 "When the region is bounded solely by the curve and the $x$-axis, the $x$-intercepts supply both limits. Specified vertical boundaries or the $y$-axis can instead supply limits.",
 "Volume is measured in cubic units, written $\\text{units}^{3}$."
 ],
-    "steps": [
+"steps": [
       "Identify the limits $x=a$ and $x=b$.",
       "Write $y^{2}$ in terms of $x$, expanding or simplifying first.",
       "Evaluate $V=\\pi\\int_{a}^{b}y^{2}\\,dx$."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "The region between $y=2x+1$, the $x$-axis, $x=1$ and $x=2$ is rotated about the $x$-axis. Find the exact volume.",
+    "solution_text": "Each disc has radius $2x+1$.\n$\\begin{aligned}V&=\\pi\\int_1^2(2x+1)^2\\,dx\\\\&=\\pi\\left[\\frac{(2x+1)^3}{6}\\right]_1^2\\\\&=\\frac{\\pi}{6}(125-27)\\\\&=\\frac{49\\pi}{3}\\ \\text{units}^3\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find the exact volumes formed by rotating these regions about the $x$-axis:\na. Between $y=x^2$, the $x$-axis, $x=1$ and $x=3$.\nb. Between $y=\\sqrt{x}$, the $x$-axis, $x=2$ and $x=6$.",
+    "solution_text": "a. Square the radius before integrating.\n$\\begin{aligned}V&=\\pi\\int_1^3(x^2)^2\\,dx\\\\&=\\pi\\int_1^3x^4\\,dx\\\\&=\\pi\\left[\\frac{x^5}{5}\\right]_1^3\\\\&=\\frac{242\\pi}{5}\\ \\text{units}^3\\end{aligned}$\nb. Squaring removes the square root.\n$\\begin{aligned}V&=\\pi\\int_2^6(\\sqrt{x})^2\\,dx\\\\&=\\pi\\int_2^6x\\,dx\\\\&=\\pi\\left[\\frac{x^2}{2}\\right]_2^6\\\\&=16\\pi\\ \\text{units}^3\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The region between $y=\\dfrac{4}{x}$ and the $x$-axis from $x=1$ to $x=2$ is rotated about the $x$-axis. Find the exact volume.",
+    "solution_text": "$\\begin{aligned}V&=\\pi\\int_1^2\\left(\\frac4x\\right)^2\\,dx\\\\&=\\pi\\int_1^2 16x^{-2}\\,dx\\\\&=\\pi\\left[-\\frac{16}{x}\\right]_1^2\\\\&=\\pi(-8+16)\\\\&=8\\pi\\ \\text{units}^3\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The region between $y=e^{3x}$ and the $x$-axis from $x=0$ to $x=1$ is rotated about the $x$-axis. Find the exact volume.",
+    "solution_text": "$\\begin{aligned}V&=\\pi\\int_0^1(e^{3x})^2\\,dx\\\\&=\\pi\\int_0^1e^{6x}\\,dx\\\\&=\\pi\\left[\\frac{e^{6x}}6\\right]_0^1\\\\&=\\frac{\\pi}{6}(e^6-1)\\ \\text{units}^3\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The region between $y=\\dfrac1{\\sqrt{x}}$ and the $x$-axis from $x=3$ to $x=9$ is rotated about the $x$-axis. Find the exact volume.",
+    "solution_text": "$\\begin{aligned}V&=\\pi\\int_3^9\\left(\\frac1{\\sqrt{x}}\\right)^2\\,dx\\\\&=\\pi\\int_3^9\\frac1x\\,dx\\\\&=\\pi[\\ln x]_3^9\\\\&=\\pi(\\ln9-\\ln3)\\\\&=\\pi\\ln3\\ \\text{units}^3\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The region bounded by $y=\\tan x$, the $x$-axis and $x=\\dfrac{\\pi}{6}$ is rotated about the $x$-axis. Find the exact volume.",
+    "solution_text": "Use $\\tan^2x=\\sec^2x-1$.\n$\\begin{aligned}V&=\\pi\\int_0^{\\pi/6}\\tan^2x\\,dx\\\\&=\\pi\\int_0^{\\pi/6}(\\sec^2x-1)\\,dx\\\\&=\\pi[\\tan x-x]_0^{\\pi/6}\\\\&=\\pi\\left(\\frac1{\\sqrt3}-\\frac\\pi6\\right)\\ \\text{units}^3\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The region between $y=\\cos x$ and the $x$-axis from $x=0$ to $x=\\dfrac{\\pi}{3}$ is rotated about the $x$-axis. Find the exact volume.",
+    "solution_text": "Use the double-angle identity $\\cos^2x=\\dfrac{1+\\cos2x}{2}$.\n$\\begin{aligned}V&=\\pi\\int_0^{\\pi/3}\\cos^2x\\,dx\\\\&=\\pi\\int_0^{\\pi/3}\\left(\\frac12+\\frac12\\cos2x\\right)\\,dx\\\\&=\\pi\\left[\\frac x2+\\frac{\\sin2x}{4}\\right]_0^{\\pi/3}\\\\&=\\pi\\left(\\frac\\pi6+\\frac{\\sqrt3}{8}\\right)\\ \\text{units}^3\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The region bounded by $y=1-x^2$ and the $x$-axis is rotated about the $x$-axis. Find the exact volume.\n[tikz]\\begin{tikzpicture}[x=18mm,y=18mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\fill[fill={rgb,255:red,212;green,232;blue,255}] (-1,0) -- plot[domain=-1:1,samples=61,variable=\\x] ({\\x},{1-(\\x)*(\\x)}) -- cycle;\n\\draw[black,->] (-1.5,0)--(1.5,0);\n\\draw[black,->] (0,-0.6)--(0,1.5);\n\\draw[black,thick] plot[domain=-1.25:1.25,samples=61,variable=\\x] ({\\x},{1-(\\x)*(\\x)});\n\\path (1.5,0) node[right] {$x$} (0,1.5) node[above] {$y$} (0.85,1.2) node {$y=1-x^2$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "The limits are the $x$-intercepts.\n$\\begin{aligned}1-x^2&=0\\\\x&=-1,\\ 1\\end{aligned}$\n$\\begin{aligned}V&=\\pi\\int_{-1}^1(1-x^2)^2\\,dx\\\\&=\\pi\\int_{-1}^1(1-2x^2+x^4)\\,dx\\\\&=\\pi\\left[x-\\frac{2x^3}{3}+\\frac{x^5}{5}\\right]_{-1}^1\\\\&=2\\pi\\left(1-\\frac23+\\frac15\\right)\\\\&=\\frac{16\\pi}{15}\\ \\text{units}^3\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The regions bounded by $y=x^3-9x$ and the $x$-axis are rotated about the $x$-axis. Find the exact total volume.\n[tikz]\\begin{tikzpicture}[x=8mm,y=1.5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\fill[fill={rgb,255:red,212;green,232;blue,255}] (-3,0) -- plot[domain=-3:0,samples=61,variable=\\x] ({\\x},{(\\x)*(\\x)*(\\x)-9*(\\x)}) -- cycle;\n\\fill[fill={rgb,255:red,212;green,232;blue,255}] (0,0) -- plot[domain=0:3,samples=61,variable=\\x] ({\\x},{(\\x)*(\\x)*(\\x)-9*(\\x)}) -- cycle;\n\\draw[black,->] (-3.8,0)--(3.8,0);\n\\draw[black,->] (0,-13)--(0,14);\n\\draw[black,thick] plot[domain=-3.4:3.4,samples=101,variable=\\x] ({\\x},{(\\x)*(\\x)*(\\x)-9*(\\x)});\n\\path (3.8,0) node[right] {$x$} (0,14) node[above] {$y$} (2.1,12) node {$y=x^3-9x$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Find the intercepts.\n$\\begin{aligned}x^3-9x&=0\\\\x(x-3)(x+3)&=0\\\\x&=-3,\\ 0,\\ 3\\end{aligned}$\nThe radius is $|x^3-9x|$. Its square is even, so integrate from $0$ to $3$ and double.\n$\\begin{aligned}V&=2\\pi\\int_0^3(x^3-9x)^2\\,dx\\\\&=2\\pi\\int_0^3(x^6-18x^4+81x^2)\\,dx\\\\&=2\\pi\\left[\\frac{x^7}{7}-\\frac{18x^5}{5}+27x^3\\right]_0^3\\\\&=2\\pi\\left(\\frac{2187}{7}-\\frac{4374}{5}+729\\right)\\\\&=\\frac{11664\\pi}{35}\\ \\text{units}^3\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The region between $y=\\sqrt{16-x^2}$ and the $x$-axis from $x=0$ to $x=4$ is rotated about the $x$-axis, forming a hemisphere. Find its exact volume by integration.",
+    "solution_text": "Squaring the radius gives $y^2=16-x^2$.\n$\\begin{aligned}V&=\\pi\\int_0^4(16-x^2)\\,dx\\\\&=\\pi\\left[16x-\\frac{x^3}{3}\\right]_0^4\\\\&=\\pi\\left(64-\\frac{64}{3}\\right)\\\\&=\\frac{128\\pi}{3}\\ \\text{units}^3\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A vessel is modelled by rotating the region between $y=2+\\sqrt{x}$ and the $x$-axis from $x=0$ to $x=4$ about the $x$-axis. Each coordinate unit represents $1$ cm. Find its exact capacity in cubic centimetres.",
+    "solution_text": "Expand the whole squared radius, including the cross term.\n$\\begin{aligned}(2+\\sqrt{x})^2&=4+4\\sqrt{x}+x\\end{aligned}$\n$\\begin{aligned}V&=\\pi\\int_0^4(4+4x^{1/2}+x)\\,dx\\\\&=\\pi\\left[4x+\\frac83x^{3/2}+\\frac{x^2}{2}\\right]_0^4\\\\&=\\pi\\left(16+\\frac{64}{3}+8\\right)\\\\&=\\frac{136\\pi}{3}\\ \\text{cm}^3\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

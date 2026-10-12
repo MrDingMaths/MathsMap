@@ -2,22 +2,73 @@
   "skillId": "bearings-problems",
   "atomType": "R",
   "theory": {
-        "intro": "Draw the journey, put a north line wherever a bearing starts, and look for the right-angled triangle inside the diagram.",
-        "facts": [
+"intro": "Draw the journey, put a north line wherever a bearing starts, and look for the right-angled triangle inside the diagram.",
+"facts": [
 "The angle used inside the triangle may be measured from either perpendicular cardinal side: north or south, or east or west. Choose the trigonometric ratio to match that angle and the sides involved. For a non-cardinal bearing, the reference angle is acute; for a cardinal bearing it can be zero or a right angle, and the journey has no non-degenerate component triangle.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.3]\n\\usetikzlibrary{arrows.meta,angles,quotes,calc}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (1.262,-1.802);\n\\coordinate (S) at (0,-2.1);\n\\draw[-{Stealth}] (O)--(0,1.9) node[above] {N};\n\\draw[dashed] (O)--(S);\n\\draw[thick] (O)--(P);\n\\fill (O) circle (1.6pt);\n\\fill (P) circle (1.6pt);\n\\draw[-{Stealth}] ($(O)+(90:0.9)$) arc (90:-55:0.9);\n\\node at ($(O)+(17.5:1.35)$) {$b^{\\circ}$};\n\\pic[draw, \"$\\theta$\", angle radius=0.7cm, angle eccentricity=2.6] {angle = S--O--P};\n\\node[left] at (O) {$O$};\n\\node[below right] at (P) {$P$};\n\\end{tikzpicture}[/tikz]",
 "For reference angles measured from north or south, the quadrant formulas are $\\theta=b$, $180^{\\circ}-b$, $b-180^{\\circ}$ or $360^{\\circ}-b$, respectively for the north-east, south-east, south-west and north-west quadrants.",
 "The distance travelled north or south and the distance travelled east or west are the two perpendicular sides of a right-angled triangle.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.35]\n\\usetikzlibrary{arrows.meta,calc}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (2.649,1.408);\n\\coordinate (V) at (0,1.408);\n\\draw[-{Stealth}] (O)--(0,2.2) node[above] {N};\n\\draw (O)--(V) node[midway,left] {$y$};\n\\draw[dashed] (V)--(P) node[midway,above] {$x$};\n\\draw[thick] (O)--(P) node[midway,below right,fill=white,inner sep=1pt] {$d$};\n\\coordinate (ra) at ($(V)!0.28cm!(O)$);\n\\coordinate (rb) at ($(V)!0.28cm!(P)$);\n\\draw (ra)--($(ra)+(rb)-(V)$)--(rb);\n\\fill (O) circle (1.6pt);\n\\fill (P) circle (1.6pt);\n\\draw[-{Stealth}] ($(O)+(90:0.85)$) arc (90:28:0.85);\n\\node at ($(O)+(59:1.25)$) {$b^{\\circ}$};\n\\node[below left] at (O) {$O$};\n\\node[right] at (P) {$P$};\n\\end{tikzpicture}[/tikz]",
 "Two legs whose bearings differ by $90^{\\circ}$ meet at a right angle, so Pythagoras' theorem applies.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.3]\n\\usetikzlibrary{arrows.meta,calc}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (1.532,1.286);\n\\coordinate (Q) at (2.625,-0.016);\n\\draw[-{Stealth}] (O)--(0,2)  node[above] {N};\n\\draw[-{Stealth}] (P)--(1.532,3) node[above] {N};\n\\draw[thick] (O)--(P);\n\\draw[thick] (P)--(Q);\n\\fill (O) circle (1.6pt);\n\\fill (P) circle (1.6pt);\n\\fill (Q) circle (1.6pt);\n\\draw[-{Stealth}] ($(O)+(90:0.9)$) arc (90:40:0.9);\n\\node at ($(O)+(65:1.25)$) {$b^{\\circ}$};\n\\draw[-{Stealth}] ($(P)+(90:0.8)$) arc (90:-50:0.8);\n\\node at ($(P)+(20:1.3)$) {$c^{\\circ}$};\n\\coordinate (ra) at ($(P)!0.3cm!(O)$);\n\\coordinate (rb) at ($(P)!0.3cm!(Q)$);\n\\draw (ra)--($(ra)+(rb)-(P)$)--(rb);\n\\node[left] at (O) {$O$};\n\\node at ($(P)+(160:0.45)$) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\end{tikzpicture}[/tikz]",
 "A bearing found from a triangle must be turned back into a clockwise angle from north and written with three digits."
 ],
-        "steps": [
+"steps": [
 "Draw the journey with a north line at each point.",
 "Mark the given distances and bearings.",
 "Find the right-angled triangle and an angle measured from either perpendicular cardinal side; for a cardinal journey, use its direction directly.",
 "Choose the ratio, or Pythagoras' theorem, and solve.",
 "State the answer in the form the question asks for."
+],
+"workedExamples": [
+  {
+    "question_text": "A bushwalker walks $5$ km from $A$ to $B$ on a bearing of $060^{\\circ}\\text{T}$. Find how far east $B$ is from $A$, correct to $2$ decimal places.",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0);\\coordinate (B) at (3,1.732);\\coordinate (C) at (3,0);\n\\draw[->] (A)--(0,2.5) node[above]{N};\\draw[->] (B)--(3,2.7) node[above]{N};\n\\draw (A)--(B) node[pos=0.72,above left]{$5\\text{ km}$};\\draw[dashed] (A)--(C) node[midway,below]{$x$};\\draw[dashed] (C)--(B);\n\\draw (2.8,0)--(2.8,0.2)--(3,0.2);\n\\draw (0,0.8) arc (90:30:0.8);\\node at (0.55,1.05){$60^{\\circ}$};\n\\draw (0.6,0) arc (0:30:0.6);\\node at (1.05,0.22){$30^{\\circ}$};\n\\node[below left] at (A){$A$};\\node[right] at (B){$B$};\n\\end{tikzpicture}[/tikz]\nThe angle from east is $90^{\\circ}-60^{\\circ}=30^{\\circ}$. The eastward distance is adjacent to this angle.\n$\\begin{align*}\\cos30^{\\circ}&=\\frac{x}{5}\\\\x&=5\\cos30^{\\circ}\\\\x&\\approx4.33\\text{ km}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A vehicle travels $8$ km from $A$ to $B$ on a bearing of $155^{\\circ}\\text{T}$. It then travels due north until it is due east of $A$. Find the distance it travels north, correct to $2$ decimal places.",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0);\\coordinate (B) at (1.268,-2.719);\\coordinate (C) at (1.268,0);\n\\draw[->] (A)--(0,1.5) node[above]{N};\\draw[->] (B)--(1.268,1) node[above]{N};\n\\draw (A)--(B) node[pos=0.75,left]{$8\\text{ km}$};\\draw[dashed] (A)--(C);\\draw[->] (B)--(C) node[midway,right]{$x$};\\draw[dashed] (A)--(0,-1.65) node[left]{S};\n\\draw (1.068,0)--(1.068,-0.2)--(1.268,-0.2);\n\\draw (0,0.65) arc (90:-65:0.65);\\node at (1,0.4){$155^{\\circ}$};\n\\draw (0,-0.9) arc (270:295:0.9);\\node at (0.72,-1.15){$25^{\\circ}$};\n\\node[left] at (A){$A$};\\node[below] at (B){$B$};\\node[right] at (C){$C$};\n\\end{tikzpicture}[/tikz]\nThe angle from south is $180^{\\circ}-155^{\\circ}=25^{\\circ}$. The return north equals the first journey's southward distance.\n$\\begin{align*}\\cos25^{\\circ}&=\\frac{x}{8}\\\\x&=8\\cos25^{\\circ}\\\\x&\\approx7.25\\text{ km}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A helicopter flies $9$ km on a bearing of $150^{\\circ}\\text{T}$, then flies $2$ km due east. How far east of its starting point is it, correct to $1$ decimal place?",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\\coordinate (P) at (1.5,-2.598);\\coordinate (Q) at (2.5,-2.598);\\coordinate (C) at (0,-2.598);\n\\draw[->] (O)--(0,1.4) node[above]{N};\\draw[->] (P)--(1.5,-1.4) node[above]{N};\\draw[->] (Q)--(2.5,-1.4) node[above]{N};\n\\draw (O)--(P) node[pos=0.72,right]{$9\\text{ km}$};\\draw[->] (P)--(Q) node[midway,below]{$2\\text{ km}$};\\draw[dashed] (O)--(C);\\draw[dashed] (C)--(P) node[midway,below]{$x$};\n\\draw (0,-2.398)--(0.2,-2.398)--(0.2,-2.598);\n\\draw (0,-0.8) arc (270:300:0.8);\\node at (0.4,-1.15){$30^{\\circ}$};\n\\node[left] at (O){$O$};\\node at (1.35,-3.25){$P$};\\node[right] at (Q){$Q$};\n\\end{tikzpicture}[/tikz]\nThe first journey makes an angle of $180^{\\circ}-150^{\\circ}=30^{\\circ}$ with south.\n$\\begin{align*}\\sin30^{\\circ}&=\\frac{x}{9}\\\\x&=9\\sin30^{\\circ}\\\\x&=4.5\\text{ km}\\end{align*}$\nAdd the second journey's eastward distance.\n$\\begin{align*}\\text{Total east}&=4.5+2\\\\&=6.5\\text{ km}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A ship sails $6$ km from $O$ to $P$ on a bearing of $040^{\\circ}\\text{T}$, then $8$ km from $P$ to $Q$ on a bearing of $130^{\\circ}\\text{T}$. Find (a) its distance from $O$ and (b) the bearing of $Q$ from $O$, to the nearest degree.",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\\coordinate (P) at (1.35,1.609);\\coordinate (Q) at (3.495,-0.191);\n\\draw[->] (O)--(0,2.5) node[above]{N};\\draw[->] (P)--(1.35,3.1) node[above]{N};\\draw[->] (Q)--(3.495,0.9) node[above]{N};\n\\draw (O)--(P);\\node[anchor=east] at (-0.45,1.65){$6\\text{ km}$};\\draw (P)--(Q) node[midway,above right]{$8\\text{ km}$};\\draw (O)--(Q) node[midway,below]{$d$};\n\\draw (1.196,1.425)--(1.38,1.271)--(1.534,1.455);\n\\draw (0,0.7) arc (90:50:0.7);\\node at (0.35,1.05){$40^{\\circ}$};\n\\draw (1.35,2.259) arc (90:-40:0.65);\\node at (2.25,1.95){$130^{\\circ}$};\n\\draw (0.386,0.46) arc (50:-3.13:0.6);\\node at (0.85,0.35){$\\theta$};\n\\node[below left] at (O){$O$};\\node[above left] at (P){$P$};\\node[right] at (Q){$Q$};\n\\end{tikzpicture}[/tikz]\nThe bearing of $O$ from $P$ is $040^{\\circ}+180^{\\circ}=220^{\\circ}$. Thus $\\angle OPQ=220^{\\circ}-130^{\\circ}=90^{\\circ}$.\n(a)\n$\\begin{align*}d^2&=6^2+8^2\\\\d^2&=100\\\\d&=10\\text{ km}\\end{align*}$\n(b)\n$\\begin{align*}\\tan\\theta&=\\frac{8}{6}\\\\\\theta&=\\tan^{-1}\\left(\\frac{8}{6}\\right)\\\\\\theta&=53.130\\ldots^{\\circ}\\end{align*}$\nThe direction to $Q$ is clockwise from $OP$.\n$\\begin{align*}\\text{Bearing}&=40^{\\circ}+53.130\\ldots^{\\circ}\\\\&\\approx093^{\\circ}\\text{T}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A walker travels $9$ km due north from $O$ to $P$, then $12$ km due east to a shelter $Q$. Find (a) the bearing of $Q$ from $O$ and (b) the bearing of $O$ from $Q$. Give both bearings to the nearest degree.",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\\coordinate (P) at (0,2.25);\\coordinate (Q) at (3,2.25);\n\\draw[->] (O)--(0,3.3) node[above]{N};\\draw[->] (Q)--(3,3.3) node[above]{N};\n\\draw (O)--(P) node[midway,left]{$9\\text{ km}$};\\draw (P)--(Q) node[midway,above]{$12\\text{ km}$};\\draw (O)--(Q);\n\\draw (0,2.05)--(0.2,2.05)--(0.2,2.25);\n\\draw (0,0.65) arc (90:36.87:0.65);\\node at (0.55,0.95){$\\theta$};\n\\node[below] at (O){$O$};\\node[left] at (P){$P$};\\node[right] at (Q){$Q$};\n\\end{tikzpicture}[/tikz]\n(a) The angle at $O$ is measured clockwise from north.\n$\\begin{align*}\\tan\\theta&=\\frac{12}{9}\\\\\\theta&=\\tan^{-1}\\left(\\frac{12}{9}\\right)\\\\\\theta&=53.130\\ldots^{\\circ}\\end{align*}$\nThe bearing of $Q$ from $O$ is $053^{\\circ}\\text{T}$.\n(b) The opposite direction differs by $180^{\\circ}$. Use the unrounded angle.\n$\\begin{align*}\\text{Return bearing}&=53.130\\ldots^{\\circ}+180^{\\circ}\\\\&\\approx233^{\\circ}\\text{T}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A helicopter flies $5$ km from town $T$ to depot $D$ on a bearing of $315^{\\circ}\\text{T}$. It then flies to site $C$ on a bearing of $225^{\\circ}\\text{T}$. The site is $13$ km from $T$. Find the bearing of $C$ from $T$, to the nearest degree.",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (T) at (0,0);\\coordinate (D) at (-0.884,0.884);\\coordinate (C) at (-3.005,-1.237);\n\\draw[->] (T)--(0,1.8) node[above]{N};\\draw[->] (D)--(-0.884,2.4) node[above]{N};\\draw[->] (C)--(-3.005,-0.2) node[above]{N};\n\\draw (T)--(D) node[midway,above right]{$5\\text{ km}$};\\draw (D)--(C);\\draw (T)--(C) node[midway,below right]{$13\\text{ km}$};\n\\draw (-0.728,0.728)--(-0.884,0.572)--(-1.04,0.728);\n\\draw (0,0.55) arc (90:-225:0.55);\\node at (0.8,-0.65){$315^{\\circ}$};\n\\draw (-0.884,1.384) arc (90:-135:0.5);\\node at (-1.75,1.5){$225^{\\circ}$};\n\\draw (-0.247,0.247) arc (135:202.38:0.35);\\node at (-0.6,0.2){$\\theta$};\n\\node[right] at (T){$T$};\\node[above left] at (D){$D$};\\node[below left] at (C){$C$};\n\\end{tikzpicture}[/tikz]\nThe bearing of $T$ from $D$ is $315^{\\circ}-180^{\\circ}=135^{\\circ}$. Thus $\\angle TDC=225^{\\circ}-135^{\\circ}=90^{\\circ}$.\n$\\begin{align*}\\cos\\theta&=\\frac{5}{13}\\\\\\theta&=\\cos^{-1}\\left(\\frac{5}{13}\\right)\\\\\\theta&=67.380\\ldots^{\\circ}\\end{align*}$\nThe turn from $TD$ to $TC$ is anticlockwise.\n$\\begin{align*}\\text{Bearing}&=315^{\\circ}-67.380\\ldots^{\\circ}\\\\&\\approx248^{\\circ}\\text{T}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two ships leave harbour $H$ together. One travels at $8$ km/h on a bearing of $030^{\\circ}\\text{T}$ and the other at $6$ km/h on a bearing of $120^{\\circ}\\text{T}$. How far apart are they after $3$ hours?",
+    "solution_text": "[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (H) at (0,0);\\coordinate (A) at (1.5,2.598);\\coordinate (B) at (1.949,-1.125);\n\\draw[->] (H)--(0,3.2) node[above]{N};\\draw[->] (A)--(1.5,3.8) node[above]{N};\\draw[->] (B)--(1.949,0.1) node[above]{N};\n\\draw (H)--(A) node[midway,above left]{$24\\text{ km}$};\\draw (H)--(B) node[midway,below left]{$18\\text{ km}$};\\draw (A)--(B) node[midway,right]{$d$};\n\\draw (0.12,0.208)--(0.328,0.088)--(0.208,-0.12);\n\\draw (0,0.8) arc (90:60:0.8);\\node at (0.3,1.15){$30^{\\circ}$};\n\\draw (0,0.6) arc (90:-30:0.6);\\node at (0.95,0.6){$120^{\\circ}$};\n\\node[left] at (H){$H$};\\node[right] at (A){$A$};\\node[below] at (B){$B$};\n\\end{tikzpicture}[/tikz]\nIn $3$ hours the ships travel $8\\times3=24$ km and $6\\times3=18$ km. Their bearings differ by $120^{\\circ}-30^{\\circ}=90^{\\circ}$, so $\\angle AHB=90^{\\circ}$.\n$\\begin{align*}d^2&=24^2+18^2\\\\d^2&=900\\\\d&=30\\text{ km}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

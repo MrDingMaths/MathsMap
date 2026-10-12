@@ -2,24 +2,58 @@
   "skillId": "rates-of-change-derivatives",
   "atomType": "R",
   "theory": {
-    "intro": "When a quantity $Q$ changes over time $t$, $\\dfrac{dQ}{dt}$ is its rate of change at that instant. A positive rate means $Q$ is rising, a negative rate means it is falling. $\\dfrac{d^{2}Q}{dt^{2}}$ tells you how the rate itself is changing.",
-    "facts": [
-      "$\\dfrac{dQ}{dt}$ has the units of $Q$ divided by the units of $t$, such as litres per minute.",
-      "$Q(a)$ is how much there is at time $a$, while $Q'(a)$ is how fast it is changing then.",
-      "A negative rate means the quantity is **decreasing**, and the size of the rate says how fast.",
-      "Solving $\\dfrac{dQ}{dt}=0$ finds the times when the quantity is momentarily neither rising nor falling.",
-      "$\\dfrac{d^{2}Q}{dt^{2}}$ is the rate of change of the rate, in units of $Q$ per unit time squared.",
-      "If $\\dfrac{dQ}{dt}<0$ and $\\dfrac{d^{2}Q}{dt^{2}}>0$, the quantity is falling but the fall is slowing.",
-      "Setting $\\dfrac{dQ}{dt}$ equal to a given rate and solving gives the time when that rate occurs.",
-      "$\\dfrac{dQ}{dt}=0$ with $\\dfrac{d^{2}Q}{dt^{2}}<0$ marks a maximum of $Q$, and positive marks a minimum."
-    ],
-    "steps": [
+"intro": "When a quantity $Q$ changes over time $t$, $\\dfrac{dQ}{dt}$ is its rate of change at that instant. A positive rate means $Q$ is rising, a negative rate means it is falling. $\\dfrac{d^{2}Q}{dt^{2}}$ tells you how the rate itself is changing.",
+"facts": [
+"$\\dfrac{dQ}{dt}$ has the units of $Q$ divided by the units of $t$, such as litres per minute.",
+"$Q(a)$ is how much there is at time $a$, while $Q'(a)$ is how fast it is changing then.",
+"A negative rate means the quantity is **decreasing**, and the size of the rate says how fast.",
+"Solving $\\dfrac{dQ}{dt}=0$ finds the times when the quantity is momentarily neither rising nor falling.",
+"$\\dfrac{d^{2}Q}{dt^{2}}$ is the rate of change of the rate, in units of $Q$ per unit time squared.",
+"If $\\dfrac{dQ}{dt}<0$ and $\\dfrac{d^{2}Q}{dt^{2}}>0$, the quantity is falling but the fall is slowing.",
+"Setting $\\dfrac{dQ}{dt}$ equal to a given rate and solving gives the time when that rate occurs.",
+"$\\dfrac{dQ}{dt}=0$ with $\\dfrac{d^{2}Q}{dt^{2}}<0$ marks a local maximum of $Q$, and $\\dfrac{d^{2}Q}{dt^{2}}>0$ marks a local minimum."
+],
+"steps": [
       "Write the quantity $Q$ as a function of time $t$, noting the units of each.",
       "Differentiate to get $\\dfrac{dQ}{dt}$, and differentiate again for $\\dfrac{d^{2}Q}{dt^{2}}$ if needed.",
       "Substitute the given time, or set the derivative equal to the required rate and solve.",
       "State the answer with its units and say whether the quantity is increasing or decreasing."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A reservoir contains $Q=160+18t-2t^{2}$ megalitres after $t$ days, for $0\\le t\\le 8$. Find the amount of water and its instantaneous rate of change at $t=3$ days. Interpret the rate.",
+    "solution_text": "$\\begin{align*}Q(3)&=160+18(3)-2(3^{2})\\\\&=196\\text{ ML}\\end{align*}$\nDifferentiate to find the rate.\n$\\begin{align*}Q'(t)&=18-4t\\\\Q'(3)&=18-4(3)\\\\&=6\\text{ ML/day}\\end{align*}$\nThe reservoir contains $196$ megalitres and is filling at $6$ megalitres per day."
   },
+  {
+    "question_text": "(a) A tank contains $V=420-\\dfrac{96}{t+2}$ litres after $t$ hours, for $t\\ge0$. Find its filling rate at $t=2$ hours.\n(b) A cyclist's distance travelled is $d=12\\sqrt{t}+2t$ metres after $t$ seconds, for $t\\ge0$. Find the speed at $t=9$ seconds.",
+    "solution_text": "(a) Write the reciprocal as a negative power.\n$\\begin{align*}V&=420-96(t+2)^{-1}\\\\V'(t)&=96(t+2)^{-2}\\\\V'(2)&=\\frac{96}{4^{2}}\\\\&=6\\text{ L/h}\\end{align*}$\nThe tank is filling at $6$ litres per hour.\n(b) Write the square root as a fractional power.\n$\\begin{align*}d&=12t^{1/2}+2t\\\\d'(t)&=6t^{-1/2}+2\\\\d'(9)&=\\frac{6}{\\sqrt{9}}+2\\\\&=4\\text{ m/s}\\end{align*}$"
+  },
+  {
+    "question_text": "A liquid drains from a tank whose volume is $V=240-8t-t^{2}$ litres after $t$ minutes, for $0\\le t\\le10$. When is the volume decreasing at $20$ litres per minute?",
+    "solution_text": "A decrease of $20$ litres per minute means $V'(t)=-20$.\n$\\begin{align*}V'(t)&=-8-2t\\\\-8-2t&=-20\\\\2t&=12\\\\t&=6\\text{ min}\\end{align*}$"
+  },
+  {
+    "question_text": "The mass of a substance is $M=t^{3}-9t^{2}+24t+20$ grams after $t$ hours, for $0\\le t\\le6$. Find when the mass is momentarily stationary and classify each stationary value as a local maximum or local minimum.",
+    "solution_text": "The mass is stationary when $M'(t)=0$.\n$\\begin{align*}M'(t)&=3t^{2}-18t+24\\\\3t^{2}-18t+24&=0\\\\t^{2}-6t+8&=0\\\\(t-2)(t-4)&=0\\\\t&=2\\text{ or }4\\end{align*}$\nUse the second derivative to classify these times.\n$\\begin{align*}M''(t)&=6t-18\\\\M''(2)&=-6<0\\\\M''(4)&=6>0\\end{align*}$\nThe mass has a local maximum at $t=2$ hours and a local minimum at $t=4$ hours."
+  },
+  {
+    "question_text": "A tank contains $Q=120-18t+2t^{2}$ litres after $t$ hours, for $0\\le t\\le4$. Find $Q'(2)$ and $Q''(2)$, including their units. Explain what both values tell you about the water.",
+    "solution_text": "$\\begin{align*}Q'(t)&=-18+4t\\\\Q'(2)&=-10\\text{ L/h}\\\\Q''(t)&=4\\\\Q''(2)&=4\\text{ L/h}^{2}\\end{align*}$\nThe volume is falling at $10$ litres per hour. The positive second derivative means the net rate is increasing; the rate of fall is slowing."
+  },
+  {
+    "question_text": "The volume of water in a tank is $V=20+18t^{2}-t^{3}$ litres after $t$ hours, for $0\\le t\\le12$. Find when the volume is increasing most rapidly and determine that rate.",
+    "solution_text": "Let $R(t)=V'(t)$ be the net filling rate.\n$\\begin{align*}R(t)&=36t-3t^{2}\\\\R'(t)&=V''(t)=36-6t\\\\36-6t&=0\\\\t&=6\\end{align*}$\nFor $0<t<6$, $R'(t)>0$; for $6<t<12$, $R'(t)<0$. The rate increases then decreases, so its maximum occurs at $t=6$ hours.\n$\\begin{align*}R(0)&=0\\\\R(6)&=36(6)-3(6^{2})\\\\&=108\\text{ L/h}\\\\R(12)&=0\\end{align*}$\nThe greatest filling rate is $108$ litres per hour at $t=6$ hours."
+  },
+  {
+    "question_text": "The mass of chemical present is $Q=15t^{2}-t^{3}$ grams after $t$ minutes, for $0\\le t\\le15$. Find when the mass is increasing while its net production rate is decreasing.",
+    "solution_text": "An increasing mass requires $Q'(t)>0$.\n$\\begin{align*}Q'(t)&=30t-3t^{2}\\\\&=3t(10-t)\\end{align*}$\nThus $Q'(t)>0$ for $0<t<10$.\nA decreasing net production rate requires $Q''(t)<0$.\n$\\begin{align*}Q''(t)&=30-6t\\\\30-6t&<0\\\\t&>5\\end{align*}$\nBoth conditions hold for $5<t<10$ minutes."
+  },
+  {
+    "question_text": "A metal plate has temperature $T=18+80e^{-0.2t}$ degrees Celsius after $t$ minutes, for $t\\ge0$.\n(a) Find its temperature and instantaneous rate of change at $t=5$ minutes, each to $1$ decimal place.\n(b) Find when it is cooling at $4$ degrees Celsius per minute, to $1$ decimal place.",
+    "solution_text": "(a)\n$\\begin{align*}T(5)&=18+80e^{-1}\\\\&\\approx47.4^{\\circ}\\text{C}\\\\T'(t)&=80(-0.2)e^{-0.2t}\\\\&=-16e^{-0.2t}\\\\T'(5)&=-16e^{-1}\\\\&\\approx-5.9^{\\circ}\\text{C/min}\\end{align*}$\nThe plate is cooling at $5.9$ degrees Celsius per minute.\n(b) Cooling at $4$ degrees Celsius per minute means $T'(t)=-4$.\n$\\begin{align*}-16e^{-0.2t}&=-4\\\\e^{-0.2t}&=\\frac14\\\\-0.2t&=\\ln\\left(\\frac14\\right)\\\\t&=\\frac{\\ln(1/4)}{-0.2}\\\\&\\approx6.9\\text{ min}\\end{align*}$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -59,63 +93,63 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "A reservoir holds $V=500-\\dfrac{100}{t+1}$ litres after $t$ hours.\nFind the rate at which it is filling when $t=4$ hours.",
         "structure": "evaluate-rate-at-time",
         "solution_text": "$V=500-100(t+1)^{-1}$\n$\\dfrac{dV}{dt}=100(t+1)^{-2}$\n$=\\dfrac{100}{(t+1)^{2}}$\n$\\text{At }t=4:$\n$\\dfrac{dV}{dt}=\\dfrac{100}{5^{2}}$\n$=4\\text{ L/h}$"
       },
-      {
+{
         "question_text": "A bacterial culture has population $P=t^{3}-12t^{2}+36t$ thousand after $t$ hours.\nFind the times at which the population is momentarily stationary.",
         "structure": "rate-equals-zero",
         "solution_text": "$P=t^{3}-12t^{2}+36t$\n$\\dfrac{dP}{dt}=3t^{2}-24t+36$\n$3t^{2}-24t+36=0$\n$t^{2}-8t+12=0$\n$(t-2)(t-6)=0$\n$t=2\\text{ h or }t=6\\text{ h}$"
       },
-      {
-        "question_text": "Water flows into a tank so that $Q=4t^{3}-30t^{2}+48t$ litres after $t$ minutes.\nFind the time at which the flow rate $\\dfrac{dQ}{dt}$ is a minimum.",
+{
+        "question_text": "Water flows into and out of a tank. Its volume is $Q=100+4t^{3}-30t^{2}+48t$ litres after $t$ minutes, for $0\\le t\\le 5$.\nFind the time at which the net flow rate $\\dfrac{dQ}{dt}$ is a minimum.",
         "structure": "second-derivative-rate",
-        "solution_text": "$Q=4t^{3}-30t^{2}+48t$\n$\\dfrac{dQ}{dt}=12t^{2}-60t+48$\n$\\dfrac{d^{2}Q}{dt^{2}}=24t-60$\n$24t-60=0$\n$t=2.5$\n$\\dfrac{d^{2}Q}{dt^{2}}$ changes from negative to positive, so the flow rate is least at $t=2.5$ minutes."
+        "solution_text": "$Q=100+4t^{3}-30t^{2}+48t$\n$\\dfrac{dQ}{dt}=12t^{2}-60t+48$\n$\\dfrac{d^{2}Q}{dt^{2}}=24t-60$\n$24t-60=0$\n$t=2.5$\n$\\dfrac{d^{2}Q}{dt^{2}}$ changes from negative to positive, so the net flow rate is least at $t=2.5$ minutes."
       },
-      {
+{
         "question_text": "For a tank of water, $\\dfrac{dV}{dt}=0$ and $\\dfrac{d^{2}V}{dt^{2}}=3$ when $t=6$ hours.\nWhat does this tell you about the volume at $t=6$ hours?",
         "structure": "interpret-sign-of-rate",
-        "solution_text": "$\\dfrac{dV}{dt}=0$, so the volume is momentarily neither rising nor falling.\n$\\dfrac{d^{2}V}{dt^{2}}=3>0$, so the rate is increasing through zero.\nThe volume is at a minimum at $t=6$ hours."
+        "solution_text": "$\\dfrac{dV}{dt}=0$, so the volume is momentarily neither rising nor falling.\n$\\dfrac{d^{2}V}{dt^{2}}=3>0$, so the rate is increasing through zero.\nThe volume is at a local minimum at $t=6$ hours."
       },
-      {
+{
         "question_text": "A metal plate cools so that $T=20+60e^{-0.5t}$ degrees Celsius after $t$ minutes.\nFind the temperature and the rate of cooling when $t=2$ minutes, each to $1$ decimal place.",
         "structure": "quantity-versus-rate",
         "solution_text": "$T=20+60e^{-0.5t}$\n$T(2)=20+60e^{-1}$\n$=20+22.0728\\ldots$\n$=42.1^{\\circ}\\text{C}$\n$\\dfrac{dT}{dt}=-30e^{-0.5t}$\n$\\text{At }t=2:$\n$\\dfrac{dT}{dt}=-30e^{-1}$\n$=-11.0^{\\circ}\\text{C/min}$\nThe plate is cooling at $11.0$ degrees Celsius per minute."
       },
-      {
+{
         "question_text": "A cyclist's distance from the start is $d=8\\sqrt{t}+3t$ metres after $t$ seconds.\nFind the speed $\\dfrac{dd}{dt}$ when $t=4$ seconds.",
         "structure": "evaluate-rate-at-time",
         "solution_text": "$d=8t^{\\frac{1}{2}}+3t$\n$\\dfrac{dd}{dt}=4t^{-\\frac{1}{2}}+3$\n$=\\dfrac{4}{\\sqrt{t}}+3$\n$\\text{At }t=4:$\n$\\dfrac{dd}{dt}=\\dfrac{4}{2}+3$\n$=5\\text{ m/s}$"
       },
-      {
+{
         "question_text": "The graph shows the volume $V$ litres of water in a tank over $8$ hours, where $V=60+20t-2.5t^{2}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$t$ (hours)}, ylabel={$V$ (litres)}, xmin=0, xmax=9.5, ymin=0, ymax=125, xtick={2,4,6,8}, ytick={20,40,60,80,100}, samples=100, clip=false, ylabel near ticks]\n\\addplot[thick, domain=0:8] {60 + 20*x - 2.5*x*x};\n\\addplot[only marks, mark=*] coordinates {(0,60) (8,60)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nUse calculus to find the time at which the tank is neither filling nor emptying, and the volume at that time.",
         "structure": "rate-equals-zero",
         "solution_text": "$V=60+20t-2.5t^{2}$\n$\\dfrac{dV}{dt}=20-5t$\n$20-5t=0$\n$t=4\\text{ h}$\n$V(4)=60+20(4)-2.5(4^{2})$\n$=60+80-40$\n$=100\\text{ L}$"
       },
-      {
+{
         "question_text": "A liquid drains so that $V=180-6t-t^{2}$ litres after $t$ minutes.\nFind the time at which the volume is decreasing at $16$ litres per minute.",
         "structure": "solve-for-time-from-rate",
         "solution_text": "$V=180-6t-t^{2}$\n$\\dfrac{dV}{dt}=-6-2t$\n$-6-2t=-16$\n$2t=10$\n$t=5\\text{ min}$"
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "A chemical is produced so that $Q=12t^{2}-t^{3}$ grams after $t$ minutes, for $0\\le t\\le 12$.\nFind the interval of time during which $Q$ is increasing but the rate of production is decreasing.",
+{
+        "question_text": "The mass of chemical present is $Q=12t^{2}-t^{3}$ grams after $t$ minutes, for $0\\le t\\le 12$. Its net production rate is $\\dfrac{dQ}{dt}$.\nFind the interval of time during which $Q$ is increasing but the net production rate is decreasing.",
         "structure": "quantity-versus-rate",
         "solution_text": "$Q=12t^{2}-t^{3}$\n$\\dfrac{dQ}{dt}=24t-3t^{2}$\n$=3t(8-t)$\n$\\dfrac{dQ}{dt}>0$ for $0<t<8$\n$\\dfrac{d^{2}Q}{dt^{2}}=24-6t$\n$\\dfrac{d^{2}Q}{dt^{2}}<0$ for $t>4$\n$4<t<8\\text{ minutes}$"
       },
-      {
+{
         "question_text": "Water is pumped into a storage tank so that the volume of water after $t$ hours is $V=27t^{2}-t^{3}$ litres, for $0\\le t\\le 18$.\nFind the time at which the volume is increasing at the greatest rate, and determine this maximum rate.",
         "structure": "second-derivative-rate",
         "solution_text": "$V=27t^{2}-t^{3}$\n$\\dfrac{dV}{dt}=54t-3t^{2}$\n$\\dfrac{d^{2}V}{dt^{2}}=54-6t$\n$54-6t=0$\n$6t=54$\n$t=9\\text{ h}$\n$\\dfrac{d^{2}V}{dt^{2}}>0\\text{ for }t<9\\text{ and }\\dfrac{d^{2}V}{dt^{2}}<0\\text{ for }t>9$, so the rate of increase is a maximum.\n$\\text{At }t=9:$\n$\\dfrac{dV}{dt}=54(9)-3(9^{2})$\n$=486-243$\n$=243\\text{ L/h}$\nThe volume is increasing most rapidly at $t=9$ hours, at a rate of $243$ litres per hour."
       },
-      {
+{
         "question_text": "A metal rod cools so that $T=25+75e^{-0.4t}$ degrees Celsius after $t$ minutes.\nFind, to $1$ decimal place, the time at which the rod is cooling at $6$ degrees Celsius per minute.",
         "structure": "solve-for-time-from-rate",
         "solution_text": "$T=25+75e^{-0.4t}$\n$\\dfrac{dT}{dt}=-30e^{-0.4t}$\n$-30e^{-0.4t}=-6$\n$e^{-0.4t}=0.2$\n$-0.4t=\\ln 0.2$\n$-0.4t=-1.6094\\ldots$\n$t=4.0\\text{ min}$"
       }
-    ]
+]
   }
 }

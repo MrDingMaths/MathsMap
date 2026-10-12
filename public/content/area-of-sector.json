@@ -2,8 +2,8 @@
   "skillId": "area-of-sector",
   "atomType": "R",
   "theory": {
-        "intro": "A sector occupies the fraction $\\frac{\\theta}{360}$ of the whole circle, where $\\theta$ is its interior angle measured in degrees. Its area is $\\frac{\\theta}{360}$ of $\\pi r^{2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.2);\n\\coordinate (B) at (110:2.2);\n\\draw[dashed] (O) circle (2.2);\n\\draw[thick] (O) -- (A) node[midway, below] {$r$};\n\\draw[thick] (O) -- (B);\n\\draw[thick] (A) arc (0:110:2.2);\n\\fill (O) circle (1.5pt);\n\\pic[draw, \"$\\theta$\", angle radius=0.7cm, angle eccentricity=2] {angle = A--O--B};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "A sector occupies the fraction $\\frac{\\theta}{360}$ of the whole circle, where $\\theta$ is its interior angle measured in degrees. Its area is $\\frac{\\theta}{360}$ of $\\pi r^{2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.2);\n\\coordinate (B) at (110:2.2);\n\\draw[dashed] (O) circle (2.2);\n\\draw[thick] (O) -- (A) node[midway, below] {$r$};\n\\draw[thick] (O) -- (B);\n\\draw[thick] (A) arc (0:110:2.2);\n\\fill (O) circle (1.5pt);\n\\pic[draw, \"$\\theta$\", angle radius=0.7cm, angle eccentricity=2] {angle = A--O--B};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "**$A = \\frac{\\theta}{360} \\times \\pi r^{2}$**, where $\\theta$ is the **interior** angle of the sector.",
           "A quadrant is the case $\\theta = 90^{\\circ}$, giving $A = \\frac{1}{4}\\pi r^{2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2);\n\\coordinate (B) at (90:2);\n\\draw[thick] (O) -- (A) node[midway, below] {$r$};\n\\draw[thick] (O) -- (B);\n\\draw[thick] (A) arc (0:90:2);\n\\coordinate (a) at ($(O)!0.3cm!(A)$);\n\\coordinate (b) at ($(O)!0.3cm!(B)$);\n\\draw (a) -- ($(a)+(b)-(O)$) -- (b);\n\\fill (O) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]",
           "A semicircle is the same sector with the angle opened to $\\theta = 180^{\\circ}$, giving $A = \\frac{1}{2}\\pi r^{2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\draw[thick] (O) -- (2,0) node[midway, below] {$r$};\n\\draw[thick] (O) -- (-2,0);\n\\draw[thick] (2,0) arc (0:180:2);\n\\fill (O) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]",
@@ -12,12 +12,63 @@
           "Use the calculator value of $\\pi$, keep the working exact and round only at the last line, to the form the question asks for.",
           "The answer is an area, so the units are square units."
         ],
-        "steps": [
+"steps": [
           "Write the formula.",
           "Substitute the interior angle and the radius.",
           "Evaluate, then round or leave in terms of $\\pi$ as asked."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A bus wiper sweeps through $110^{\\circ}$ and reaches $1.5\\text{ m}$ from its pivot. Find the area wiped, correct to $2$ decimal places.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2.4,0);\n\\draw (0,0)--(110:2.4);\n\\draw (2.4,0) arc (0:110:2.4);\n\\draw (0.55,0) arc (0:110:0.55);\n\\path (55:1.05) node {$110^{\\circ}$};\n\\path (1.2,-0.3) node {$1.5\\text{ m}$};\n\\fill (0,0) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The swept region is a sector with radius $1.5\\text{ m}$.\n\n$\\begin{aligned} A &= \\frac{\\theta}{360}\\times\\pi r^{2}\\\\ &= \\frac{110}{360}\\times\\pi(1.5)^{2}\\\\ &\\approx 2.16\\text{ m}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact area of a sector with radius $12\\text{ cm}$ and interior angle $75^{\\circ}$. Leave your answer in terms of $\\pi$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2.4,0)--(0,0)--(75:2.4);\n\\draw (2.4,0) arc (0:75:2.4);\n\\draw (0.55,0) arc (0:75:0.55);\n\\path (37.5:1.05) node {$75^{\\circ}$};\n\\path (1.2,-0.3) node {$12\\text{ cm}$};\n\\fill (0,0) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned} A &= \\frac{\\theta}{360}\\times\\pi r^{2}\\\\ &= \\frac{75}{360}\\times\\pi(12)^{2}\\\\ &= \\frac{5}{24}\\times144\\pi\\\\ &= 30\\pi\\text{ cm}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the area of this quadrant (a) in terms of $\\pi$ and (b) correct to $2$ decimal places.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2.4,0);\n\\draw (0,0)--(0,2.4);\n\\draw (2.4,0) arc (0:90:2.4);\n\\draw (0.25,0)--(0.25,0.25)--(0,0.25);\n\\path (1.2,-0.3) node {$6\\text{ cm}$};\n\\fill (0,0) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "A quadrant is one-quarter of a circle.\n\n(a) $\\begin{aligned} A &= \\frac{1}{4}\\pi r^{2}\\\\ &= \\frac{1}{4}\\times\\pi(6)^{2}\\\\ &= 9\\pi\\text{ cm}^{2}\\end{aligned}$\n\n(b) $A\\approx28.27\\text{ cm}^{2}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the area of this semicircle (a) in terms of $\\pi$ and (b) correct to $2$ decimal places. The marked length is its diameter.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-2.2,0)--(2.2,0);\n\\draw (2.2,0) arc (0:180:2.2);\n\\fill (0,0) circle (1.5pt);\n\\draw[<->] (-2.2,-0.45)--(2.2,-0.45);\n\\path (0,-0.75) node {$18\\text{ mm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Halve the diameter to find the radius.\n\n$\\begin{aligned} r &= 18\\div2\\\\ &= 9\\text{ mm}\\end{aligned}$\n\n(a) $\\begin{aligned} A &= \\frac{1}{2}\\pi r^{2}\\\\ &= \\frac{1}{2}\\times\\pi(9)^{2}\\\\ &= \\frac{81\\pi}{2}\\text{ mm}^{2}\\end{aligned}$\n\n(b) $A\\approx127.23\\text{ mm}^{2}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The marked $150^{\\circ}$ is outside the sector. A student uses $\\frac{150}{360}$ as the fraction of the circle. Explain the error, then find the sector's area (a) in terms of $\\pi$ and (b) correct to $1$ decimal place.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2.4,0);\n\\draw (0,0)--(150:2.4);\n\\draw (150:2.4) arc (150:360:2.4);\n\\draw (0.55,0) arc (0:150:0.55);\n\\path (75:1.05) node {$150^{\\circ}$};\n\\path (1.2,-0.3) node {$6\\text{ m}$};\n\\fill (0,0) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The formula uses the interior angle. The marked angle is exterior, so subtract it from $360^{\\circ}$.\n\n$\\begin{aligned} \\theta &= 360^{\\circ}-150^{\\circ}\\\\ &= 210^{\\circ}\\end{aligned}$\n\n(a) $\\begin{aligned} A &= \\frac{\\theta}{360}\\times\\pi r^{2}\\\\ &= \\frac{210}{360}\\times\\pi(6)^{2}\\\\ &= 21\\pi\\text{ m}^{2}\\end{aligned}$\n\n(b) $A\\approx66.0\\text{ m}^{2}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A pizza of diameter $16$ inches is cut into $8$ equal slices. Sam eats $3$ slices. Find the area eaten (a) in terms of $\\pi$ and (b) correct to $1$ decimal place.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) circle (2);\n\\foreach \\a in {0,45,90,135,180,225,270,315} {\\draw (0,0)--(\\a:2);}\n\\draw[<->] (-2,-2.4)--(2,-2.4);\n\\path (0,-2.7) node {$16\\text{ inches}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned} r &= 16\\div2\\\\ &= 8\\text{ inches}\\end{aligned}$\n\nThe eaten slices occupy $\\frac{3}{8}$ of the circle.\n\n(a) $\\begin{aligned} A &= \\frac{3}{8}\\times\\pi r^{2}\\\\ &= \\frac{3}{8}\\times\\pi(8)^{2}\\\\ &= 24\\pi\\text{ in}^{2}\\end{aligned}$\n\n(b) $A\\approx75.4\\text{ in}^{2}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A shop offers two pizza slices: a $45^{\\circ}$ sector from a pizza of radius $16\\text{ cm}$, or a $60^{\\circ}$ sector from a pizza of diameter $28\\text{ cm}$. Which slice has the larger area, and by how much? Give the difference correct to $2$ decimal places.",
+    "solution_text": "For the $45^{\\circ}$ slice:\n\n$\\begin{aligned} A_{1} &= \\frac{45}{360}\\times\\pi(16)^{2}\\\\ &= 32\\pi\\text{ cm}^{2}\\end{aligned}$\n\nFor the $60^{\\circ}$ slice, the radius is $28\\div2=14\\text{ cm}$.\n\n$\\begin{aligned} A_{2} &= \\frac{60}{360}\\times\\pi(14)^{2}\\\\ &= \\frac{98\\pi}{3}\\text{ cm}^{2}\\end{aligned}$\n\n$\\begin{aligned} A_{2}-A_{1} &= \\frac{98\\pi}{3}-32\\pi\\\\ &= \\frac{2\\pi}{3}\\\\ &\\approx2.09\\text{ cm}^{2}\\end{aligned}$\n\nThe $60^{\\circ}$ slice is larger by $2.09\\text{ cm}^{2}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

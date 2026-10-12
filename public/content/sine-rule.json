@@ -2,8 +2,8 @@
   "skillId": "sine-rule",
   "atomType": "R",
   "theory": {
-        "intro": "In **any** triangle, each side is proportional to the sine of the angle opposite it: $\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}=\\dfrac{c}{\\sin C}$. You only ever use **two** of the three fractions.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (4.4,0);\n\\coordinate (A) at (1.6,2.6);\n\\draw (C)--(B) node[midway,below] {$a$};\n\\draw (C)--(A) node[midway,above left] {$b$};\n\\draw (B)--(A) node[midway,above right] {$c$};\n\\pic[draw,\"$C$\",angle radius=0.7cm,angle eccentricity=1.6] {angle=B--C--A};\n\\pic[draw,\"$B$\",angle radius=0.85cm,angle eccentricity=1.5] {angle=A--B--C};\n\\pic[draw,\"$A$\",angle radius=0.6cm,angle eccentricity=1.9] {angle=C--A--B};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "In **any** triangle, each side is proportional to the sine of the angle opposite it: $\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}=\\dfrac{c}{\\sin C}$. You only ever use **two** of the three fractions.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (4.4,0);\n\\coordinate (A) at (1.6,2.6);\n\\draw (C)--(B) node[midway,below] {$a$};\n\\draw (C)--(A) node[midway,above left] {$b$};\n\\draw (B)--(A) node[midway,above right] {$c$};\n\\pic[draw,\"$C$\",angle radius=0.7cm,angle eccentricity=1.6] {angle=B--C--A};\n\\pic[draw,\"$B$\",angle radius=0.85cm,angle eccentricity=1.5] {angle=A--B--C};\n\\pic[draw,\"$A$\",angle radius=0.6cm,angle eccentricity=1.9] {angle=C--A--B};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "The sine rule for a side is $\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}=\\dfrac{c}{\\sin C}$: each side over the sine of its opposite angle.",
           "The longest side is opposite the largest angle, and the shortest side is opposite the smallest angle.",
           "Put the unknown side on top: $\\dfrac{x}{\\sin(\\text{its angle})}=\\dfrac{\\text{known side}}{\\sin(\\text{its angle})}$, then $x=\\dfrac{\\text{known side}\\times\\sin(\\text{unknown's angle})}{\\sin(\\text{known angle})}$.",
@@ -11,13 +11,43 @@
           "If the angle opposite a side you need is not marked, find it first with the angle sum: the three angles add to $180^{\\circ}$.",
           "Keep the full calculator value until the last line, then round to the accuracy asked."
         ],
-        "steps": [
+"steps": [
           "Find any needed angle using the angle sum of the triangle",
           "Write the two relevant fractions of the sine rule, unknown side on top",
           "Substitute the known side and angles",
           "Multiply to make the unknown side the subject, then evaluate"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Solve $\\dfrac{x}{\\sin40^{\\circ}}=\\dfrac{12}{\\sin70^{\\circ}}$, correct to 2 decimal places.",
+    "solution_text": "$\\begin{align*}\\frac{x}{\\sin40^{\\circ}}&=\\frac{12}{\\sin70^{\\circ}}\\\\x&=\\frac{12\\sin40^{\\circ}}{\\sin70^{\\circ}}\\\\x&\\approx8.21\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $BC$, correct to 1 decimal place.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (5,0);\n\\coordinate (C) at (2.5,2.9794);\n\\draw (A)--(B)--(C)--cycle;\n\\path (A) node[below left] {$A$} (B) node[below right] {$B$} (C) node[above] {$C$};\n\\path (2.5,0) node[below] {$10\\text{ cm}$};\n\\path (3.75,1.4897) node[above right] {$x$};\n\\pic[draw,angle radius=8mm] {angle=B--A--C};\n\\path (0.95,0.44) node {$50^{\\circ}$};\n\\pic[draw,angle radius=6mm] {angle=A--C--B};\n\\path (2.5,2.05) node {$80^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$AB=10$ cm is opposite $80^{\\circ}$, and $BC=x$ is opposite $50^{\\circ}$.\n$\\begin{align*}\\frac{x}{\\sin50^{\\circ}}&=\\frac{10}{\\sin80^{\\circ}}\\\\x&=\\frac{10\\sin50^{\\circ}}{\\sin80^{\\circ}}\\\\x&\\approx7.8\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $BC$, correct to 1 decimal place.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (5,0);\n\\coordinate (C) at (3.4873,4.156);\n\\draw (A)--(B)--(C)--cycle;\n\\path (A) node[below left] {$A$} (B) node[below right] {$B$} (C) node[above] {$C$};\n\\path (2.5,0) node[below] {$12\\text{ m}$};\n\\path (4.2437,2.078) node[right] {$x$};\n\\pic[draw,angle radius=8mm] {angle=B--A--C};\n\\path (0.95,0.44) node {$50^{\\circ}$};\n\\pic[draw,angle radius=7mm] {angle=C--B--A};\n\\path (4.15,0.6) node {$70^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Find the angle opposite the known side $AB$ first.\n$\\begin{align*}\\angle C&=180^{\\circ}-50^{\\circ}-70^{\\circ}\\\\\\angle C&=60^{\\circ}\\end{align*}$\nNow pair each side with its opposite angle.\n$\\begin{align*}\\frac{x}{\\sin50^{\\circ}}&=\\frac{12}{\\sin60^{\\circ}}\\\\x&=\\frac{12\\sin50^{\\circ}}{\\sin60^{\\circ}}\\\\x&\\approx10.6\\text{ m}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Markers $P$, $Q$ and $R$ form a triangular walking course. Find its total length, correct to 2 decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (5,0);\n\\coordinate (R) at (3.1699,1.8301);\n\\draw (P)--(Q)--(R)--cycle;\n\\path (P) node[below left] {$P$} (Q) node[below right] {$Q$} (R) node[above] {$R$};\n\\path (2.5,0) node[below] {$6\\text{ km}$};\n\\pic[draw,angle radius=10mm] {angle=Q--P--R};\n\\path (1.32,0.35) node {$30^{\\circ}$};\n\\pic[draw,angle radius=8mm] {angle=R--Q--P};\n\\path (3.95,0.43) node {$45^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$PQ$ is opposite $\\angle R$.\n$\\begin{align*}\\angle R&=180^{\\circ}-30^{\\circ}-45^{\\circ}\\\\\\angle R&=105^{\\circ}\\end{align*}$\nFind both remaining sides using the known opposite pair.\n$\\begin{align*}\\frac{QR}{\\sin30^{\\circ}}&=\\frac{6}{\\sin105^{\\circ}}\\\\QR&=\\frac{6\\sin30^{\\circ}}{\\sin105^{\\circ}}\\end{align*}$\n$\\begin{align*}\\frac{PR}{\\sin45^{\\circ}}&=\\frac{6}{\\sin105^{\\circ}}\\\\PR&=\\frac{6\\sin45^{\\circ}}{\\sin105^{\\circ}}\\end{align*}$\nKeep the full calculator values when adding the three sides.\n$\\begin{align*}\\text{Total length}&=6+\\frac{6\\sin30^{\\circ}}{\\sin105^{\\circ}}+\\frac{6\\sin45^{\\circ}}{\\sin105^{\\circ}}\\\\&\\approx13.50\\text{ km}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

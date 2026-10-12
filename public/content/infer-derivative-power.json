@@ -2,8 +2,8 @@
   "skillId": "infer-derivative-power",
   "atomType": "T",
   "theory": {
-        "intro": "Compare each power function $f(x)=x^n$ with its gradient function. The same pattern appears every time: the power drops in front as a multiplier, and the new power is one less.",
-        "facts": [
+"intro": "Compare each power function $f(x)=x^n$ with its gradient function. The same pattern appears every time: the power drops in front as a multiplier, and the new power is one less.",
+"facts": [
 "For $f(x)=x^1$, the gradient function is $f'(x)=1=1x^0$.",
 "For $f(x)=x^2$, the gradient function is $f'(x)=2x=2x^1$.",
 "For $f(x)=x^3$, the gradient function is $f'(x)=3x^2$.",
@@ -11,8 +11,38 @@
 "In general, for $f(x)=x^n$ with $n$ a positive integer, the derivative is $f'(x)=n x^{n-1}$.",
 "With a constant multiplier, $f(x)=k x^n$ gives $f'(x)=k \\cdot n x^{n-1}$.",
 "A nonconstant polynomial's derivative has degree one less than the original, so a quadratic gives a linear and a cubic gives a quadratic."
+],
+"workedExamples": [
+  {
+    "question_text": "The gradient functions of $x^2$, $x^3$ and $x^4$ are $2x$, $3x^2$ and $4x^3$. Infer the derivative of $f(x)=x^9$, then state the pattern for $f(x)=x^n$, where $n$ is a positive integer.",
+    "solution_text": "The original power becomes a multiplier, and the power decreases by one.\n$\\begin{aligned}f'(x)&=9x^{9-1}\\\\&=9x^8\\end{aligned}$\nIn general, $f(x)=x^n$ has derivative $f'(x)=nx^{n-1}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use the inferred power rule to differentiate $y=-4x^7$.",
+    "solution_text": "Keep the constant multiplier, multiply by the original power, then reduce the power by one.\n$\\begin{aligned}\\frac{dy}{dx}&=-4\\cdot7x^{7-1}\\\\&=-28x^6\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Compare $f(x)=2x^2$ and $g(x)=2x^2+9$.\n(a) Find their derivative functions and explain why they agree.\n(b) State the type of graph of each derivative and sketch the common gradient function.\n(c) What type of derivative graph would a cubic polynomial have?",
+    "solution_text": "(a)\n$\\begin{aligned}f'(x)&=2\\cdot2x\\\\&=4x\\\\g'(x)&=4x\\end{aligned}$\nThe $+9$ shifts the parabola vertically without changing the tangent gradient at any $x$.\n(b) Both derivative graphs are the straight line $y=4x$.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=1.75mm]\n\\definecolor{mathblue}{HTML}{268CFF}\n\\draw[->,black] (-2.6,0)--(2.8,0);\n\\draw[->,black] (0,-10)--(0,11);\n\\path (2.8,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\path (0,11) node[above,font=\\fontsize{10}{12}\\selectfont] {$y$};\n\\draw[mathblue,thick,domain=-2.4:2.4] plot (\\x,{4*\\x});\n\\path (1.25,8.5) node[right,text=black,font=\\fontsize{10}{12}\\selectfont] {$y=4x$};\n\\foreach \\a in {-2,-1,1,2} {\n\\draw[black] (\\a,-0.35)--(\\a,0.35);\n\\path (\\a,-0.35) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\a$};\n}\n\\foreach \\b in {-8,-4,4,8} {\n\\draw[black] (-0.09,\\b)--(0.09,\\b);\n\\path (-0.09,\\b) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\b$};\n}\n\\end{tikzpicture}\n[/tikz]\n(c) Differentiation reduces the degree from $3$ to $2$, so the derivative graph is a parabola.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $f(x)=-4x^5$, find the gradient of the tangent at $x=-2$.",
+    "solution_text": "First find the gradient function.\n$\\begin{aligned}f'(x)&=-4\\cdot5x^4\\\\&=-20x^4\\end{aligned}$\nThen substitute $x=-2$ into the derivative.\n$\\begin{aligned}f'(-2)&=-20(-2)^4\\\\&=-20(16)\\\\&=-320\\end{aligned}$\nThe tangent gradient is $-320$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

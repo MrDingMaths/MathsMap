@@ -2,8 +2,8 @@
   "skillId": "definite-integral-limit-sum",
   "atomType": "T",
   "theory": {
-    "intro": "Split $a\\le x\\le b$, where $a<b$, into strips of width $\\Delta x$ and build a rectangle on each. Each rectangle's height is a function value sampled within its own strip. Adding the signed rectangle areas gives the **Riemann sum** $\\sum f(x)\\Delta x$, an estimate of signed area. For a continuous function, the **definite integral** $\\int_{a}^{b}f(x)\\,dx$ is the limit of that sum as $\\Delta x\\to 0$. When $f(x)\\ge0$ throughout the interval, this is ordinary area.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (1,0) rectangle (2,1.909);\n\\fill[gray!35] (2,0) rectangle (3,2.338);\n\\fill[gray!35] (3,0) rectangle (4,2.700);\n\\fill[gray!35] (4,0) rectangle (5,3.019);\n\\draw (1,0) rectangle (2,1.909);\n\\draw (2,0) rectangle (3,2.338);\n\\draw (3,0) rectangle (4,2.700);\n\\draw (4,0) rectangle (5,3.019);\n\\draw[->] (-0.4,0) -- (6.4,0) node[right] {$x$};\n\\draw[->] (0,-0.4) -- (0,4.4) node[above] {$y$};\n\\draw[thick,->,domain=0:6,smooth,variable=\\x] plot ({\\x},{1.35*sqrt(\\x)});\n\\node at (4.2,4) {$y=f(x)$};\n\\node[below] at (1,-0.12) {$a$};\n\\node[below] at (5,-0.12) {$b$};\n\\draw[<->] (3,-0.85) -- (4,-0.85) node[midway,below] {$\\Delta x$};\n\\draw[<->] (5.55,0) -- (5.55,3.019) node[midway,right] {$f(x)$};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "Split $a\\le x\\le b$, where $a<b$, into strips of width $\\Delta x$ and build a rectangle on each. Each rectangle's height is a function value sampled within its own strip. Adding the signed rectangle areas gives the **Riemann sum** $\\sum f(x)\\Delta x$, an estimate of signed area. For a continuous function, the **definite integral** $\\int_{a}^{b}f(x)\\,dx$ is the limit of that sum as $\\Delta x\\to 0$. When $f(x)\\ge0$ throughout the interval, this is ordinary area.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (1,0) rectangle (2,1.909);\n\\fill[gray!35] (2,0) rectangle (3,2.338);\n\\fill[gray!35] (3,0) rectangle (4,2.700);\n\\fill[gray!35] (4,0) rectangle (5,3.019);\n\\draw (1,0) rectangle (2,1.909);\n\\draw (2,0) rectangle (3,2.338);\n\\draw (3,0) rectangle (4,2.700);\n\\draw (4,0) rectangle (5,3.019);\n\\draw[->] (-0.4,0) -- (6.4,0) node[right] {$x$};\n\\draw[->] (0,-0.4) -- (0,4.4) node[above] {$y$};\n\\draw[thick,->,domain=0:6,smooth,variable=\\x] plot ({\\x},{1.35*sqrt(\\x)});\n\\node at (4.2,4) {$y=f(x)$};\n\\node[below] at (1,-0.12) {$a$};\n\\node[below] at (5,-0.12) {$b$};\n\\draw[<->] (3,-0.85) -- (4,-0.85) node[midway,below] {$\\Delta x$};\n\\draw[<->] (5.55,0) -- (5.55,3.019) node[midway,right] {$f(x)$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "Each strip has width $\\Delta x=\\frac{b-a}{n}$, where $n$ is the number of strips.",
 "The signed area of one rectangle is height $\\times$ width, written $f(x)\\Delta x$, with $x$ sampled within that rectangle's strip.",
 "Splitting $a\\le x\\le b$ into $n$ strips creates $n+1$ boundary points $x_{0},x_{1},\\dots,x_{n}$.",
@@ -11,8 +11,45 @@
 "In $\\int_{a}^{b}f(x)\\,dx$, $a$ is the lower limit, $b$ is the upper limit and $f(x)$ is the integrand.",
 "For $a<b$, if $f(x)\\le0$ throughout the interval, the integral is nonpositive. It is zero when $f(x)=0$ throughout the interval.",
 "When $f(x)$ is a rate of change, $\\sum_{a}^{b}f(x)\\Delta x$ estimates the total change over $a\\le x\\le b$."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Calculate the Riemann sum for $f(x)=x^2$ over $0\\le x\\le4$ using two equal strips and midpoint heights.",
+    "solution_text": "Each rectangle uses the function value at its strip's midpoint.\n$\\begin{align*}\\Delta x&=\\frac{4-0}{2}=2\\\\x_1&=1,\\qquad x_2=3\\\\S&=f(1)(2)+f(3)(2)\\\\&=1^2(2)+3^2(2)\\\\&=20\\end{align*}$\nThe estimated area is $20$ square units.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=0.28cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{areaBlue}{HTML}{D4E8FF}\n\\fill[areaBlue] (0,0) rectangle (2,1);\n\\fill[areaBlue] (2,0) rectangle (4,9);\n\\draw[black] (0,0) rectangle (2,1);\n\\draw[black] (2,0) rectangle (4,9);\n\\draw[black,->] (0,0)--(4.6,0) node[right] {$x$};\n\\draw[black,->] (0,0)--(0,17) node[above] {$y$};\n\\draw[black,thick,domain=0:4,samples=60,variable=\\x] plot ({\\x},{(\\x)^2});\n\\path (2.3,15) node {$y=x^2$};\n\\fill[black] (1,1) circle (1.5pt);\n\\fill[black] (3,9) circle (1.5pt);\n\\draw[black,dashed] (3,0)--(3,9);\n\\path (1,1) node[above left] {$(1,1)$};\n\\path (3,9) node[above left] {$(3,9)$};\n\\foreach \\v in {0,2,4}{\\draw[black] (\\v,0)--(\\v,-0.3);\\path (\\v,-0.3) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Evaluate $\\lim_{\\Delta x\\to0}\\sum_{-2}^{3}4\\,\\Delta x$ using an area formula.",
+    "solution_text": "The limit is the definite integral of $4$ over $-2\\le x\\le3$. The region is a rectangle with width $5$ and height $4$.\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\lim_{\\Delta x\\to0}\\sum_{-2}^{3}4\\,\\Delta x\\\\&=\\int_{-2}^{3}4\\,dx\\\\&=(3-(-2))(4)\\\\&=20\\end{align*}$\n[tikz]\n\\begin{tikzpicture}[x=0.7cm,y=0.7cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{areaBlue}{HTML}{D4E8FF}\n\\fill[areaBlue] (-2,0) rectangle (3,4);\n\\draw[black] (-2,0)--(-2,4)--(3,4)--(3,0);\n\\draw[black,->] (-2.7,0)--(3.7,0) node[right] {$x$};\n\\draw[black,->] (0,-0.5)--(0,4.8) node[above] {$y$};\n\\path (1.6,4) node[above] {$y=4$};\n\\path (-2,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$-2$};\n\\path (3,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$3$};\n\\path (0,4) node[above left,font=\\fontsize{8.5}{10}\\selectfont] {$4$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\lim_{\\Delta x\\to0}\\sum_{1}^{4}(x+2)\\,\\Delta x$ using an area formula.",
+    "solution_text": "The limit is the area under $y=x+2$ from $x=1$ to $x=4$. The endpoint heights are $3$ and $6$, giving a trapezium of width $3$.\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\lim_{\\Delta x\\to0}\\sum_{1}^{4}(x+2)\\,\\Delta x\\\\&=\\int_1^4(x+2)\\,dx\\\\&=\\frac{4-1}{2}(3+6)\\\\&=\\frac{27}{2}\\end{align*}$\n[tikz]\n\\begin{tikzpicture}[x=0.8cm,y=0.55cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{areaBlue}{HTML}{D4E8FF}\n\\fill[areaBlue] (1,0)--(1,3)--(4,6)--(4,0)--cycle;\n\\draw[black] (1,0)--(1,3) (4,0)--(4,6);\n\\draw[black,->] (0,0)--(4.8,0) node[right] {$x$};\n\\draw[black,->] (0,0)--(0,7.2) node[above] {$y$};\n\\draw[black,thick] (0,2)--(4.5,6.5);\n\\path (2.2,5.8) node {$y=x+2$};\n\\path (1,3) node[above left] {$(1,3)$};\n\\path (4,6) node[right] {$(4,6)$};\n\\path (1,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$1$};\n\\path (4,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$4$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\lim_{\\Delta x\\to0}\\sum_{3}^{8}(x-3)\\,\\Delta x$ using an area formula.",
+    "solution_text": "The limit is the area under $y=x-3$ from $x=3$ to $x=8$. The region is a triangle with base $5$ and height $5$.\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\lim_{\\Delta x\\to0}\\sum_{3}^{8}(x-3)\\,\\Delta x\\\\&=\\int_3^8(x-3)\\,dx\\\\&=\\frac12(5)(5)\\\\&=\\frac{25}{2}\\end{align*}$\n[tikz]\n\\begin{tikzpicture}[x=0.55cm,y=0.65cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{areaBlue}{HTML}{D4E8FF}\n\\fill[areaBlue] (3,0)--(8,5)--(8,0)--cycle;\n\\draw[black] (8,0)--(8,5);\n\\draw[black,->] (0,0)--(9,0) node[right] {$x$};\n\\draw[black,->] (0,0)--(0,6) node[above] {$y$};\n\\draw[black,thick] (2,-1)--(8.5,5.5);\n\\path (5,4.5) node {$y=x-3$};\n\\path (8,5) node[right] {$(8,5)$};\n\\path (3,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$3$};\n\\path (8,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$8$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A car has positive velocity throughout $2\\le t\\le10$ seconds. Estimate how far it travels using four equal time strips and midpoint rectangles. Its velocities at $t=3$, $5$, $7$ and $9$ seconds are $7$, $10$, $15$ and $22$ m/s respectively.",
+    "solution_text": "Each velocity is sampled at the midpoint of its time strip. Velocity multiplied by strip width estimates the distance travelled during that strip.\n$\\begin{align*}\\Delta t&=\\frac{10-2}{4}=2\\text{ s}\\\\\\text{Estimated distance}&=7(2)+10(2)+15(2)+22(2)\\\\&=108\\text{ m}\\end{align*}$\nBecause velocity is positive, the estimated change in displacement also gives the estimated distance travelled.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,21 +2,43 @@
   "skillId": "domain-range-inverse",
   "atomType": "R",
   "theory": {
-    "intro": "The inverse exchanges a function’s domain and range.",
-    "facts": [
+"intro": "The inverse exchanges a function’s domain and range.",
+"facts": [
       "$D_{f^{-1}}=R_f$ and $R_{f^{-1}}=D_f$.",
       "Preserve exclusions and open or closed endpoints.",
       "Use the restricted domain when the original rule is not one-to-one everywhere."
     ],
-    "steps": [
+"steps": [
       "State the original domain and range",
       "Exchange their roles"
     ],
-    "workedExample": {
-      "question_text": "Let $f(x)=(x-2)^2+4,\\ x\\ge2$.\nState the domain and range of $f^{-1}$.",
-      "solution_text": "$D_f=[2,\\infty),\\ R_f=[4,\\infty)$\nSwap the domain and range.\n$D=[4,\\infty),\\ R=[2,\\infty)$"
-    }
+"workedExamples": [
+  {
+    "question_text": "Let $f(x)=(x-2)^2+4,\\ x\\ge2$.\nState the domain and range of $f^{-1}$.",
+    "solution_text": "$D_f=[2,\\infty),\\ R_f=[4,\\infty)$\nSwap the domain and range.\n$D=[4,\\infty),\\ R=[2,\\infty)$"
   },
+  {
+    "question_text": "Let $f(x)=\\frac{1}{x+2}-4$.\nState the domain and range of $f^{-1}$.",
+    "solution_text": "The denominator is zero at $x=-2$, and the reciprocal term cannot equal $0$.\n$D_f=\\mathbb R\\setminus\\{-2\\},\\ R_f=\\mathbb R\\setminus\\{-4\\}$\nExchange the domain and range, keeping both exclusions.\n$D_{f^{-1}}=\\mathbb R\\setminus\\{-4\\},\\ R_{f^{-1}}=\\mathbb R\\setminus\\{-2\\}$"
+  },
+  {
+    "question_text": "The function shown has domain $[1,4]$ and range $[2,8]$. State the domain and range of its inverse.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=5mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[black,->] (0,0)--(5,0) node[right] {$x$};\n\\draw[black,->] (0,0)--(0,9) node[above] {$y$};\n\\draw[curveBlue,thick] (1,2)--(4,8);\n\\fill[black] (1,2) circle (1.5pt);\n\\fill[black] (4,8) circle (1.5pt);\n\\path (1,2) node[right] {$(1,2)$};\n\\path (4,8) node[left] {$(4,8)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The included endpoints remain included when the domain and range exchange roles.\n$D_{f^{-1}}=[2,8],\\ R_{f^{-1}}=[1,4]$"
+  },
+  {
+    "question_text": "Let $f(x)=\\sqrt{4x-12}+5$.\nState the domain and range of $f^{-1}$.",
+    "solution_text": "The square root requires a non-negative radicand.\n$\\begin{aligned}4x-12&\\ge0\\\\4x&\\ge12\\\\x&\\ge3\\end{aligned}$\nThe square root takes every value in $[0,\\infty)$, so adding $5$ gives\n$D_f=[3,\\infty),\\ R_f=[5,\\infty)$.\nExchange their roles.\n$D_{f^{-1}}=[5,\\infty),\\ R_{f^{-1}}=[3,\\infty)$"
+  },
+  {
+    "question_text": "Let $f(x)=\\frac{1}{\\sqrt{x+3}}$.\nState the domain and range of $f^{-1}$.",
+    "solution_text": "The denominator must be real and non-zero.\n$\\begin{aligned}x+3&>0\\\\x&>-3\\end{aligned}$\nEvery positive output is possible. The outputs approach $0$ without reaching it and increase without bound as $x$ approaches $-3$ from above.\n$D_f=(-3,\\infty),\\ R_f=(0,\\infty)$\nExchange their roles, preserving the open endpoints.\n$D_{f^{-1}}=(0,\\infty),\\ R_{f^{-1}}=(-3,\\infty)$"
+  },
+  {
+    "question_text": "Let $f(x)=(x+1)^2-3,\\ -3<x\\le-1$.\nState the domain and range of $f^{-1}$.",
+    "solution_text": "$D_f=(-3,-1]$\nOn this interval, $x+1$ takes values in $(-2,0]$, so $(x+1)^2$ takes values in $[0,4)$.\nSubtracting $3$ gives $R_f=[-3,1)$: the minimum $-3$ is attained at $x=-1$, while the output $1$ corresponds to the excluded input $x=-3$.\nExchange the domain and range, preserving each endpoint.\n$D_{f^{-1}}=[-3,1),\\ R_{f^{-1}}=(-3,-1]$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

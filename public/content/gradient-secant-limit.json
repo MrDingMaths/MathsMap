@@ -2,14 +2,20 @@
   "skillId": "gradient-secant-limit",
   "atomType": "T",
   "theory": {
-        "intro": "The gradient of a curve at a point $P(c, f(c))$ is the gradient of the tangent there, when the tangent exists and is not vertical. To estimate it, pick a nearby point $Q(c+h, f(c+h))$ and find the gradient of the secant $PQ$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.4,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-0.4) -- (0,5.3) node[above] {$y$};\n\\draw[thick, <->, domain=0.2:4.2, smooth, variable=\\x] plot ({\\x},{0.25*\\x*\\x+0.5}) node[pos=0.97, above left] {$y=f(x)$};\n\\coordinate (P) at (1.6,1.14);\n\\coordinate (Q) at (3.6,3.74);\n\\coordinate (R) at (3.6,1.14);\n\\draw[dashed] (1.6,0) -- (P);\n\\draw[dashed] (0,1.14) -- (P);\n\\draw[dashed] (3.6,0) -- (R);\n\\draw[dashed] (0,3.74) -- (Q);\n\\coordinate (S1) at (0.9,0.23);\n\\coordinate (S2) at (4.3,4.65);\n\\draw (S1) -- (S2) node[right, font=\\normalsize] {secant};\n\\draw (P) -- (R) node[midway, below] {$h$};\n\\draw (R) -- (Q) node[midway, right, font=\\normalsize] {$f(c+h)-f(c)$};\n\\fill (P) circle (2pt) node[above left] {$P$};\n\\fill (Q) circle (2pt) node[above left] {$Q$};\n\\node[below] at (1.6,-0.05) {$c$};\n\\node[below] at (3.6,-0.05) {$c+h$};\n\\node[left] at (0,1.14) {$f(c)$};\n\\node[left] at (0,3.74) {$f(c+h)$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "The gradient of a curve at a point $P(c, f(c))$ is the gradient of the tangent there, when the tangent exists and is not vertical. To estimate it, pick a nearby point $Q(c+h, f(c+h))$ and find the gradient of the secant $PQ$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.4,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-0.4) -- (0,5.3) node[above] {$y$};\n\\draw[thick, <->, domain=0.2:4.2, smooth, variable=\\x] plot ({\\x},{0.25*\\x*\\x+0.5}) node[pos=0.97, above left] {$y=f(x)$};\n\\coordinate (P) at (1.6,1.14);\n\\coordinate (Q) at (3.6,3.74);\n\\coordinate (R) at (3.6,1.14);\n\\draw[dashed] (1.6,0) -- (P);\n\\draw[dashed] (0,1.14) -- (P);\n\\draw[dashed] (3.6,0) -- (R);\n\\draw[dashed] (0,3.74) -- (Q);\n\\coordinate (S1) at (0.9,0.23);\n\\coordinate (S2) at (4.3,4.65);\n\\draw (S1) -- (S2) node[right, font=\\normalsize] {secant};\n\\draw (P) -- (R) node[midway, below] {$h$};\n\\draw (R) -- (Q) node[midway, right, font=\\normalsize] {$f(c+h)-f(c)$};\n\\fill (P) circle (2pt) node[above left] {$P$};\n\\fill (Q) circle (2pt) node[above left] {$Q$};\n\\node[below] at (1.6,-0.05) {$c$};\n\\node[below] at (3.6,-0.05) {$c+h$};\n\\node[left] at (0,1.14) {$f(c)$};\n\\node[left] at (0,3.74) {$f(c+h)$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "The gradient of the secant through $P(c, f(c))$ and $Q(c+h, f(c+h))$ is the difference quotient $m_{\\text{secant}}=\\dfrac{f(c+h)-f(c)}{h}$, where $h\\ne 0$.",
 "As $h\\to 0$, $Q$ approaches $P$ along the curve. When the difference quotient has a finite limit, that limit is the gradient of the tangent at $P$.",
 "When this finite limit exists, working out the secant gradient for smaller and smaller $|h|$, such as $0.1$, $0.01$, $0.001$, estimates the tangent gradient at $x=c$.",
 "The gap $h$ may be positive ($Q$ right of $P$) or negative ($Q$ left of $P$). For the tangent gradient to be given by a finite two-sided limit, the difference quotient must approach the same finite value from both sides."
+],
+"workedExamples": [
+  {
+    "question_text": "For $f(x)=x^2$, find the gradient of the secant through $P(1.5,2.25)$ and $Q(1.4,1.96)$, where $h=-0.1$.\n\n[tikz]\n\\begin{tikzpicture}[x=2.5cm,y=1.2cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\definecolor{secantorange}{HTML}{EF8B2C}\n\\draw[black,->] (0,0) -- (2.1,0) node[right] {$x$};\n\\draw[black,->] (0,0) -- (0,4.3) node[above] {$y$};\n\\draw[curveblue,thick,domain=0:2,samples=60,variable=\\x] plot ({\\x},{(\\x)*(\\x)});\n\\path (1.9,3.61) node[left] {$y=x^2$};\n\\draw[secantorange,thick] (1.05,0.945) -- (1.8,3.12);\n\\fill[black] (1.5,2.25) circle (1.5pt);\n\\fill[black] (1.4,1.96) circle (1.5pt);\n\\path (1.5,2.25) node[above left] {$P(1.5,2.25)$};\n\\path (1.4,1.96) node[below right] {$Q(1.4,1.96)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Keep the same order for both changes: $Q-P$.\n\n$\\begin{align*}\\Delta y&=1.96-2.25\\\\&=-0.29\\\\\\Delta x&=1.4-1.5\\\\&=-0.1\\end{align*}$\n\n$\\begin{align*}m_{\\text{secant}}&=\\frac{f(1.5+h)-f(1.5)}{h}\\\\&=\\frac{-0.29}{-0.1}\\\\&=2.9\\end{align*}$\n\nThe secant gradient estimates the tangent gradient at $P$. A smaller $|h|$ improves this estimate for this curve."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

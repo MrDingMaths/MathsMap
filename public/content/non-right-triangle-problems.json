@@ -2,8 +2,8 @@
   "skillId": "non-right-triangle-problems",
   "atomType": "R",
   "theory": {
-        "intro": "These triangles are **not** right-angled, so you must choose a rule to match what you are given. The cosine rule, the sine rule and the area rule each fit a different set of given parts.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (5.6,0);\n\\coordinate (A) at (2.2,2.6);\n\\draw (C)--(B) node[midway,below] {$a$};\n\\draw (C)--(A) node[midway,above left] {$b$};\n\\draw (A)--(B) node[midway,above right] {$c$};\n\\pic[draw,angle radius=0.55cm] {angle=B--C--A};\n\\pic[draw,angle radius=0.55cm] {angle=A--B--C};\n\\pic[draw,angle radius=0.55cm] {angle=C--A--B};\n\\node[below left] at (C) {$C$};\n\\node[below right] at (B) {$B$};\n\\node[above] at (A) {$A$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "These triangles are **not** right-angled, so you must choose a rule to match what you are given. The cosine rule, the sine rule and the area rule each fit a different set of given parts.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (5.6,0);\n\\coordinate (A) at (2.2,2.6);\n\\draw (C)--(B) node[midway,below] {$a$};\n\\draw (C)--(A) node[midway,above left] {$b$};\n\\draw (A)--(B) node[midway,above right] {$c$};\n\\pic[draw,angle radius=0.55cm] {angle=B--C--A};\n\\pic[draw,angle radius=0.55cm] {angle=A--B--C};\n\\pic[draw,angle radius=0.55cm] {angle=C--A--B};\n\\node[below left] at (C) {$C$};\n\\node[below right] at (B) {$B$};\n\\node[above] at (A) {$A$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "**Two sides and the included angle, find the third side** $\\Rightarrow$ cosine rule $c^{2}=a^{2}+b^{2}-2ab\\cos C$.",
           "**All three sides, find an angle** $\\Rightarrow$ cosine rule rearranged $\\cos C=\\dfrac{a^{2}+b^{2}-c^{2}}{2ab}$, with the side opposite the wanted angle as $c$.",
           "**A complete opposite pair (a side and its opposite angle)** $\\Rightarrow$ sine rule: $\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}$ for a side, $\\dfrac{\\sin A}{a}=\\dfrac{\\sin B}{b}$ for an angle.",
@@ -14,13 +14,92 @@
           "A **back bearing** is the reverse direction and differs by $180^{\\circ}$.",
           "Drawing a north line at a vertex turns two bearings into the included angle of a triangle."
         ],
-        "steps": [
+"steps": [
 "Select the rule that fits what is given",
 "Apply the rule to find the first unknown",
 "If needed, apply a second rule to reach the required value",
 "If a bearing is required, convert an angle to a true bearing"
+],
+"workedExamples": [
+  {
+    "question_text": "Two sides of a triangle are $10\\text{ cm}$ and $15\\text{ cm}$, with an included angle of $60^{\\circ}$. Choose an appropriate rule and find the third side $x$, correct to one decimal place.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\\coordinate (B) at (4.5,0);\\coordinate (C) at (1.5,2.598);\n\\draw (A)--(B) node[midway,below] {$15\\text{ cm}$};\\draw (A)--(C) node[midway,above left] {$10\\text{ cm}$};\\draw (B)--(C) node[midway,above right] {$x$};\n\\pic[draw,\"$60^{\\circ}$\",angle radius=7mm,angle eccentricity=1.4] {angle=B--A--C};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Two sides and their included angle are known. Use the cosine rule to find the third side; there is no complete opposite pair for the sine rule.\n\n$\\begin{aligned}x^2&=10^2+15^2-2(10)(15)\\cos60^{\\circ}\\\\x&=\\sqrt{175}\\\\x&\\approx13.2\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "In triangle $ABC$, $BC=14\\text{ m}$, $\\angle A=75^{\\circ}$ and $\\angle B=45^{\\circ}$. Find $AC$, correct to one decimal place.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\\coordinate (B) at (4,0);\\coordinate (C) at (0.845299,3.154701);\n\\draw (A)--(B)--(C) node[midway,above right] {$14\\text{ m}$}--(A) node[midway,left] {$x$};\n\\path (A) node[below left] {$A$} (B) node[below right] {$B$} (C) node[above] {$C$};\n\\pic[draw,\"$75^{\\circ}$\",angle radius=6mm,angle eccentricity=1.5] {angle=B--A--C};\\pic[draw,\"$45^{\\circ}$\",angle radius=7mm,angle eccentricity=1.5] {angle=C--B--A};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The side $BC$ and its opposite angle $A$ form a complete pair. Use the sine rule; $AC$ is opposite $45^{\\circ}$.\n\n$\\begin{aligned}\\frac{AC}{\\sin45^{\\circ}}&=\\frac{14}{\\sin75^{\\circ}}\\\\AC&=\\frac{14\\sin45^{\\circ}}{\\sin75^{\\circ}}\\\\AC&\\approx10.2\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A triangle has sides $8\\text{ cm}$, $10\\text{ cm}$ and $12\\text{ cm}$. Find the angle $\\theta$ opposite the longest side, correct to one decimal place.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\\coordinate (B) at (4.8,0);\\coordinate (C) at (1.8,2.646);\n\\draw (A)--(B) node[midway,below] {$12\\text{ cm}$}--(C) node[midway,above right] {$10\\text{ cm}$}--(A) node[midway,above left] {$8\\text{ cm}$};\n\\pic[draw,\"$\\theta$\",angle radius=6mm,angle eccentricity=1.5] {angle=A--C--B};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "All three sides are known. Use the cosine rule for an angle, placing the opposite side $12$ in the subtracted term.\n\n$\\begin{aligned}\\cos\\theta&=\\frac{8^2+10^2-12^2}{2(8)(10)}\\\\\\cos\\theta&=\\frac{20}{160}\\\\\\theta&=\\cos^{-1}\\left(\\frac{20}{160}\\right)\\\\\\theta&\\approx82.8^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "In triangle $ABC$, $BC=9\\text{ cm}$, $AC=6\\text{ cm}$ and $\\angle A=55^{\\circ}$. Find the acute angle $B$, correct to one decimal place.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\\coordinate (B) at (4.392742,0);\\coordinate (C) at (1.377,1.966);\n\\draw (A)--(B)--(C) node[midway,above right] {$9\\text{ cm}$}--(A) node[midway,above left] {$6\\text{ cm}$};\n\\path (A) node[below left] {$A$} (B) node[below right] {$B$} (C) node[above] {$C$};\n\\pic[draw,\"$55^{\\circ}$\",angle radius=6mm,angle eccentricity=1.5] {angle=B--A--C};\\pic[draw,\"$\\theta$\",angle radius=7mm,angle eccentricity=1.5] {angle=C--B--A};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The side $9$ and its opposite angle $55^{\\circ}$ form a complete pair. Use the sine rule with sine on top.\n\n$\\begin{aligned}\\frac{\\sin B}{6}&=\\frac{\\sin55^{\\circ}}{9}\\\\\\sin B&=\\frac{6\\sin55^{\\circ}}{9}\\\\B&=\\sin^{-1}\\left(\\frac{6\\sin55^{\\circ}}{9}\\right)\\\\B&\\approx33.1^{\\circ}\\end{aligned}$\n\nUse the acute value requested.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the area of a triangle with sides $12\\text{ cm}$ and $16\\text{ cm}$ enclosing an angle of $65^{\\circ}$. Give your answer to one decimal place.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\\coordinate (B) at (4.8,0);\\coordinate (C) at (1.521,3.263);\n\\draw (A)--(B) node[midway,below] {$16\\text{ cm}$}--(C)--(A) node[midway,above left] {$12\\text{ cm}$};\n\\pic[draw,\"$65^{\\circ}$\",angle radius=7mm,angle eccentricity=1.4] {angle=B--A--C};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Two sides and their included angle are known. Use the SAS area rule.\n\n$\\begin{aligned}A&=\\frac12ab\\sin C\\\\&=\\frac12(12)(16)\\sin65^{\\circ}\\\\&\\approx87.0\\text{ cm}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "In triangle $ABC$, $AB=15\\text{ cm}$, $BC=10\\text{ cm}$ and $\\angle B=50^{\\circ}$. Find $AC$ to one decimal place, then $\\angle A$ to the nearest degree.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (B) at (0,0);\\coordinate (A) at (4.5,0);\\coordinate (C) at (1.928,2.298);\n\\draw (B)--(A) node[midway,below] {$15\\text{ cm}$}--(C)--(B) node[midway,above left] {$10\\text{ cm}$};\n\\path (B) node[below left] {$B$} (A) node[below right] {$A$} (C) node[above] {$C$};\n\\pic[draw,\"$50^{\\circ}$\",angle radius=7mm,angle eccentricity=1.4] {angle=A--B--C};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "First use the cosine rule with the two sides and included angle.\n\n$\\begin{aligned}AC^2&=15^2+10^2-2(15)(10)\\cos50^{\\circ}\\\\AC&=\\sqrt{325-300\\cos50^{\\circ}}\\\\AC&\\approx11.5\\text{ cm}\\end{aligned}$\n\nKeep the full calculator value $d=\\sqrt{325-300\\cos50^{\\circ}}$. The pair $AC$ and $50^{\\circ}$ now allows the sine rule.\n\n$\\begin{aligned}\\frac{\\sin A}{10}&=\\frac{\\sin50^{\\circ}}{d}\\\\A&=\\sin^{-1}\\left(\\frac{10\\sin50^{\\circ}}{d}\\right)\\\\A&\\approx42^{\\circ}\\end{aligned}$\n\nThe supplementary value would make the angle sum exceed $180^{\\circ}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A triangular garden has sides $10\\text{ m}$, $13\\text{ m}$ and $17\\text{ m}$. Find its area, correct to one decimal place.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0);\\coordinate (B) at (5.1,0);\\coordinate (C) at (1.941,2.288);\n\\draw (A)--(B) node[midway,below] {$17\\text{ m}$}--(C) node[midway,above right] {$13\\text{ m}$}--(A) node[midway,above left] {$10\\text{ m}$};\n\\path (A) node[below left] {$A$} (B) node[below right] {$B$} (C) node[above] {$C$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Find the angle $C$ between the $10\\text{ m}$ and $13\\text{ m}$ sides using the cosine rule.\n\n$\\begin{aligned}\\cos C&=\\frac{10^2+13^2-17^2}{2(10)(13)}\\\\C&=\\cos^{-1}\\left(-\\frac1{13}\\right)\\\\C&=94.4117\\ldots^{\\circ}\\end{aligned}$\n\nUse this unrounded angle in the area rule.\n\n$\\begin{aligned}A&=\\frac12(10)(13)\\sin C\\\\&\\approx64.8\\text{ m}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "In triangle $ABC$, $AB=40\\text{ m}$, $\\angle A=50^{\\circ}$ and $\\angle B=70^{\\circ}$. Find its area, correct to the nearest square metre.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\\coordinate (B) at (4,0);\\coordinate (C) at (2.790,3.325);\n\\draw (A)--(B) node[midway,below] {$40\\text{ m}$}--(C)--cycle;\n\\path (A) node[below left] {$A$} (B) node[below right] {$B$} (C) node[above] {$C$};\n\\pic[draw,\"$50^{\\circ}$\",angle radius=7mm,angle eccentricity=1.4] {angle=B--A--C};\\pic[draw,\"$70^{\\circ}$\",angle radius=7mm,angle eccentricity=1.4] {angle=C--B--A};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Find the third angle, then use the sine rule to obtain a second side.\n\n$\\begin{aligned}C&=180^{\\circ}-50^{\\circ}-70^{\\circ}\\\\C&=60^{\\circ}\\\\\\frac{AC}{\\sin70^{\\circ}}&=\\frac{40}{\\sin60^{\\circ}}\\\\AC&=\\frac{40\\sin70^{\\circ}}{\\sin60^{\\circ}}\\end{aligned}$\n\nThe sides $AB$ and $AC$ enclose $50^{\\circ}$. Use the unrounded side in the area rule.\n\n$\\begin{aligned}A&=\\frac12(40)\\left(\\frac{40\\sin70^{\\circ}}{\\sin60^{\\circ}}\\right)\\sin50^{\\circ}\\\\&\\approx665\\text{ m}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A ship sails $40\\text{ km}$ from $A$ to $B$ on a bearing of $045^{\\circ}\\text{T}$, then $65\\text{ km}$ from $B$ to $C$ on a bearing of $120^{\\circ}\\text{T}$. Find $AC$, correct to the nearest kilometre.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0);\\coordinate (B) at (1.414,1.414);\\coordinate (C) at (4.229,-0.211);\n\\draw (A)--(B) node[midway,left,xshift=-12mm] {$40\\text{ km}$}--(C) node[midway,above right] {$65\\text{ km}$};\\draw[dashed] (A)--(C);\n\\draw[->,dashed] (A)--(0,1.8) node[above] {$N$};\\draw[->,dashed] (B)--(1.414,3.214) node[above] {$N$};\n\\draw (0,0.65) arc[start angle=90,end angle=45,radius=0.65];\\path (0.55,1.1) node {$045^{\\circ}$};\n\\draw (1.414,2.164) arc[start angle=90,end angle=-30,radius=0.75];\\path (2.5,2.1) node {$120^{\\circ}$};\n\\path (A) node[below left] {$A$} (B) node[above left] {$B$} (C) node[right] {$C$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The back bearing of $A$ from $B$ is $225^{\\circ}$. Hence the included angle is\n\n$\\begin{aligned}\\angle ABC&=225^{\\circ}-120^{\\circ}\\\\&=105^{\\circ}.\\end{aligned}$\n\nUse the cosine rule.\n\n$\\begin{aligned}AC^2&=40^2+65^2-2(40)(65)\\cos105^{\\circ}\\\\AC&=\\sqrt{5825-5200\\cos105^{\\circ}}\\\\AC&\\approx85\\text{ km}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "From $O$, point $P$ is $20\\text{ km}$ away on a bearing of $035^{\\circ}\\text{T}$ and point $Q$ is $28\\text{ km}$ away on a bearing of $115^{\\circ}\\text{T}$. Find the area of triangle $OPQ$, correct to one decimal place.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\\coordinate (P) at (1.434,2.048);\\coordinate (Q) at (3.172,-1.479);\n\\draw (O)--(P) node[midway,left,xshift=-12mm] {$20\\text{ km}$}--(Q)--(O) node[midway,below] {$28\\text{ km}$};\n\\draw[->,dashed] (O)--(0,2) node[above] {$N$};\n\\draw (0,0.7) arc[start angle=90,end angle=55,radius=0.7];\\path (0.4,1.3) node {$035^{\\circ}$};\n\\draw (0,1) arc[start angle=90,end angle=-25,radius=1];\\path (1.5,0.55) node {$115^{\\circ}$};\n\\path (O) node[below left] {$O$} (P) node[above] {$P$} (Q) node[right] {$Q$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Both bearings are measured from the same north line at $O$.\n\n$\\begin{aligned}\\angle POQ&=115^{\\circ}-35^{\\circ}\\\\&=80^{\\circ}.\\end{aligned}$\n\nUse the two sides and this included angle in the area rule.\n\n$\\begin{aligned}A&=\\frac12(20)(28)\\sin80^{\\circ}\\\\&\\approx275.7\\text{ km}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A yacht sails $40\\text{ km}$ from $A$ to $B$ on a bearing of $045^{\\circ}\\text{T}$, then $65\\text{ km}$ from $B$ to $C$ on a bearing of $120^{\\circ}\\text{T}$. Find the bearing of $A$ from $C$, correct to the nearest degree.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0);\\coordinate (B) at (1.414,1.414);\\coordinate (C) at (4.229,-0.211);\n\\draw (A)--(B) node[midway,left,xshift=-12mm] {$40\\text{ km}$}--(C) node[midway,above right] {$65\\text{ km}$};\\draw[dashed] (A)--(C);\n\\draw[->,dashed] (A)--(0,1.8) node[above] {$N$};\\draw[->,dashed] (B)--(1.414,3.214) node[above] {$N$};\n\\draw (0,0.65) arc[start angle=90,end angle=45,radius=0.65];\\path (0.55,1.1) node {$045^{\\circ}$};\n\\draw (1.414,2.164) arc[start angle=90,end angle=-30,radius=0.75];\\path (2.5,2.1) node {$120^{\\circ}$};\n\\path (A) node[below left] {$A$} (B) node[above left] {$B$} (C) node[right] {$C$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Use the back bearing at $B$ to find the included angle, then the cosine rule for $AC$.\n\n$\\begin{aligned}\\angle ABC&=225^{\\circ}-120^{\\circ}\\\\&=105^{\\circ}\\\\AC&=\\sqrt{40^2+65^2-2(40)(65)\\cos105^{\\circ}}\\\\AC&=84.6809\\ldots\\text{ km}\\end{aligned}$\n\nUse the sine rule with the unrounded distance $d=\\sqrt{5825-5200\\cos105^{\\circ}}$.\n\n$\\begin{aligned}\\frac{\\sin\\angle ACB}{40}&=\\frac{\\sin105^{\\circ}}{d}\\\\\\angle ACB&=\\sin^{-1}\\left(\\frac{40\\sin105^{\\circ}}{d}\\right)\\\\&=27.1464\\ldots^{\\circ}\\end{aligned}$\n\nThe bearing of $B$ from $C$ is $300^{\\circ}$. The direction $CA$ lies anticlockwise from $CB$.\n\n$\\begin{aligned}\\text{Bearing of }A\\text{ from }C&=300^{\\circ}-27.1464\\ldots^{\\circ}\\\\&\\approx273^{\\circ}\\text{T}\\end{aligned}$\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\\coordinate (B) at (1.414,1.414);\\coordinate (C) at (4.229,-0.211);\n\\draw (A)--(B)--(C)--cycle;\\draw[->,dashed] (C)--(4.229,1.7) node[above] {$N$};\n\\pic[draw,\"$27.1^{\\circ}$\",angle radius=13mm,angle eccentricity=1.35] {angle=B--C--A};\n\\path (A) node[below left] {$A$} (B) node[above] {$B$} (C) node[below right] {$C$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

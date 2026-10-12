@@ -2,8 +2,8 @@
   "skillId": "integrate-trig-linear",
   "atomType": "R",
   "theory": {
-    "intro": "When the angle is a linear expression $ax + b$, where $a$ and $b$ are constants and $a \\ne 0$, integrate as usual and then divide by $a$, the coefficient of $x$. So $\\int\\cos(ax + b)\\,dx = \\dfrac{1}{a}\\sin(ax + b) + C$. The $\\dfrac{1}{a}$ undoes the $a$ that the chain rule would produce.",
-    "facts": [
+"intro": "When the angle is a linear expression $ax + b$, where $a$ and $b$ are constants and $a \\ne 0$, integrate as usual and then divide by $a$, the coefficient of $x$. So $\\int\\cos(ax + b)\\,dx = \\dfrac{1}{a}\\sin(ax + b) + C$. The $\\dfrac{1}{a}$ undoes the $a$ that the chain rule would produce.",
+"facts": [
 "$\\int\\sin(ax + b)\\,dx = -\\dfrac{1}{a}\\cos(ax + b) + C$, keeping the minus sign from $\\int\\sin x\\,dx$.",
 "$\\int\\cos(ax + b)\\,dx = \\dfrac{1}{a}\\sin(ax + b) + C$.",
 "$\\int\\sec^{2}(ax + b)\\,dx = \\dfrac{1}{a}\\tan(ax + b) + C$.",
@@ -14,13 +14,71 @@
 "Check the answer by differentiating: the chain rule should return the $a$ you divided by.",
 "For a definite integral, substitute each limit into $ax + b$ and work entirely in **radians**. For $\\sec^{2}(ax + b)$, first check that $ax + b$ never equals $\\dfrac{\\pi}{2} + n\\pi$, for any integer $n$, anywhere in the integration interval, including its endpoints; you cannot integrate across these asymptotes."
 ],
-    "steps": [
+"steps": [
 "Identify $a$, the coefficient of $x$ inside the bracket.",
 "Write the primitive of the trigonometric function, copying the bracket $ax + b$ unchanged.",
 "Multiply by $\\dfrac{1}{a}$, keeping any constant factor from the integrand.",
 "Add $+C$, or substitute the limits in radians and subtract. For a definite integral of $\\sec^{2}(ax + b)$, first check that $ax + b$ never equals $\\dfrac{\\pi}{2} + n\\pi$, for any integer $n$, anywhere in the integration interval, including its endpoints."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Find $\\int 9\\cos(3x+4)\\,dx$.",
+    "solution_text": "The coefficient of $x$ is $3$. Integrate cosine to sine and divide by $3$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 9\\cos(3x+4)\\,dx\\\\&=\\frac{9}{3}\\sin(3x+4)+C\\\\&=3\\sin(3x+4)+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find $\\int 8\\sin(6-4x)\\,dx$.",
+    "solution_text": "The coefficient of $x$ is $-4$. Keep the minus sign from integrating sine, then divide by $-4$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 8\\sin(6-4x)\\,dx\\\\&=-\\frac{8}{-4}\\cos(6-4x)+C\\\\&=2\\cos(6-4x)+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int 2\\sec^{2}\\left(\\frac{x}{6}+1\\right)\\,dx$.",
+    "solution_text": "The coefficient of $x$ is $\\frac{1}{6}$, so dividing by it multiplies by $6$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 2\\sec^{2}\\left(\\frac{x}{6}+1\\right)\\,dx\\\\&=2\\times6\\tan\\left(\\frac{x}{6}+1\\right)+C\\\\&=12\\tan\\left(\\frac{x}{6}+1\\right)+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int\\left(10\\cos 5x-3\\sin\\frac{x}{2}+12\\sec^{2}4x\\right)\\,dx$.",
+    "solution_text": "Integrate each term separately, dividing by its own inner coefficient.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\left(10\\cos 5x-3\\sin\\frac{x}{2}+12\\sec^{2}4x\\right)\\,dx\\\\&=\\frac{10}{5}\\sin 5x-3\\left(-2\\cos\\frac{x}{2}\\right)+\\frac{12}{4}\\tan4x+C\\\\&=2\\sin5x+6\\cos\\frac{x}{2}+3\\tan4x+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{0}^{\\pi/12}\\cos\\left(2x+\\frac{\\pi}{3}\\right)\\,dx$.",
+    "solution_text": "Divide by $2$, then substitute the limits into the whole angle in radians.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{\\pi/12}\\cos\\left(2x+\\frac{\\pi}{3}\\right)\\,dx\\\\&=\\left[\\frac12\\sin\\left(2x+\\frac{\\pi}{3}\\right)\\right]_{0}^{\\pi/12}\\\\&=\\frac12\\left(\\sin\\frac{\\pi}{2}-\\sin\\frac{\\pi}{3}\\right)\\\\&=\\frac12\\left(1-\\frac{\\sqrt3}{2}\\right)\\\\&=\\frac{2-\\sqrt3}{4}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{0}^{\\pi/12}\\sec^{2}(3x+\\pi)\\,dx$.",
+    "solution_text": "The angle ranges from $\\pi$ to $\\frac{5\\pi}{4}$, so the interval contains no asymptote of secant squared.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{\\pi/12}\\sec^{2}(3x+\\pi)\\,dx\\\\&=\\left[\\frac13\\tan(3x+\\pi)\\right]_{0}^{\\pi/12}\\\\&=\\frac13\\left(\\tan\\frac{5\\pi}{4}-\\tan\\pi\\right)\\\\&=\\frac13(1-0)\\\\&=\\frac13\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A function has $f'(x)=4\\cos2x$ and $f(0)=3$. Find $f(x)$ and $f\\left(\\frac{\\pi}{6}\\right)$.",
+    "solution_text": "$\\begin{aligned}f(x)&=\\int4\\cos2x\\,dx\\\\&=\\frac42\\sin2x+C\\\\&=2\\sin2x+C\\end{aligned}$\nSubstitute $x=0$ and $f(0)=3$.\n$\\begin{aligned}3&=2\\sin0+C\\\\C&=3\\end{aligned}$\n$ f(x)=2\\sin2x+3 $.\n$\\begin{aligned}f\\left(\\frac{\\pi}{6}\\right)&=2\\sin\\frac{\\pi}{3}+3\\\\&=\\sqrt3+3\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int\\frac{2}{p}\\sec^{2}(px+r)\\,dx$, where $p$ and $r$ are real constants and $p\\ne0$.",
+    "solution_text": "The inner coefficient is $p$. Divide by $p$ as well as retaining the factor $\\frac{2}{p}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\frac{2}{p}\\sec^{2}(px+r)\\,dx\\\\&=\\frac{2}{p}\\times\\frac{1}{p}\\tan(px+r)+C\\\\&=\\frac{2}{p^{2}}\\tan(px+r)+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

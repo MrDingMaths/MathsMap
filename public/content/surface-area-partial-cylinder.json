@@ -2,8 +2,8 @@
   "skillId": "surface-area-partial-cylinder",
   "atomType": "R",
   "theory": {
-    "intro": "A partial cylinder is a cylinder with something removed: a missing lid, open ends, or only half or a quarter kept. The closed-cylinder formula $A = 2\\pi r^{2} + 2\\pi rh$ still guides you, but count only the faces present and add any flat face the cut exposes.",
-    "facts": [
+"intro": "A partial cylinder is a cylinder with something removed: a missing lid, open ends, or only half or a quarter kept. The closed-cylinder formula $A = 2\\pi r^{2} + 2\\pi rh$ still guides you, but count only the faces present and add any flat face the cut exposes.",
+"facts": [
       "Each **full circular end** is $\\pi r^{2}$; the whole **curved surface** of a full cylinder is $2\\pi rh$.",
       "An **open end** removes one $\\pi r^{2}$, so an open-top cylinder is $\\pi r^{2} + 2\\pi rh$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw (-3,0)--(-3,8);\n\\draw (3,0)--(3,8) node[midway,right] {$h$};\n\\draw (0,8) ellipse (3 and 0.9);\n\\draw (0,8) ellipse (2.5 and 0.75);\n\\draw (-3,0) arc[start angle=180,end angle=360,x radius=3,y radius=0.9];\n\\draw[dashed] (-3,0) arc[start angle=180,end angle=0,x radius=3,y radius=0.9];\n\\fill (0,8) circle (2pt);\n\\draw (0,8)--(3,8) node[midway,above,fill=white,inner sep=1pt] {$r$};\n\\end{tikzpicture}\n[/tikz]",
       "A **pipe** open at both ends keeps no circular ends, leaving just the curved surface $2\\pi rh$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.35]\n\\draw (0,-4)--(20,-4);\n\\draw (0,4)--(20,4) node[midway,above] {$h$};\n\\draw (20,0) ellipse (1.4 and 4);\n\\draw (20,0) ellipse (1.05 and 3.2);\n\\draw (0,4) arc[start angle=90,end angle=270,x radius=1.4,y radius=4];\n\\draw[dashed] (0,4) arc[start angle=90,end angle=-90,x radius=1.4,y radius=4];\n\\fill (20,0) circle (2pt);\n\\draw (20,0)--(20,4) node[midway,right,fill=white,inner sep=1pt] {$r$};\n\\end{tikzpicture}\n[/tikz]",
@@ -12,12 +12,56 @@
       "Always ask: which ends are present, how much curved surface remains, and does the cut expose a **new flat face**?",
       "Keep the working exact and round only on the last line; a rounded decimal is written with $\\approx$."
     ],
-    "steps": [
+"steps": [
       "Identify which surfaces the solid actually has.",
       "Write the area of each surface that is present.",
       "Add the surface areas, then round or leave in terms of $\\pi$ as asked."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A cylindrical container has one open end, radius $3$ cm and height $7$ cm.\n(a) Write an expression for its surface area using radius $r$ and height $h$.\n(b) Calculate its surface area to $1$ decimal place.",
+    "solution_text": "Count one circular base and the full curved surface.\n(a) $A=\\pi r^{2}+2\\pi rh$.\n(b) $\\begin{align*} A&=\\pi(3)^{2}+2\\pi(3)(7)\\\\ &=9\\pi+42\\pi\\\\ &=51\\pi\\\\ &\\approx160.2\\text{ cm}^{2}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A thin cylindrical pipe is open at both ends. Its diameter is $12$ cm and its length is $24$ cm. Ignore the thickness of the material.\nFind its surface area in exact form.",
+    "solution_text": "$r=12\\div2=6\\text{ cm}$.\nBoth ends are open, so count only the curved surface.\n$\\begin{align*} A&=2\\pi rh\\\\ &=2\\pi(6)(24)\\\\ &=288\\pi\\text{ cm}^{2}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A closed half-cylinder and a half-cylinder trough open along the top both have radius $2$ cm and length $9$ cm. Both have two semicircular ends.\nTheir end cross-section is shown; the diameter forms the closed solid's flat top and the trough's opening.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-2,0) arc[start angle=180,end angle=360,radius=2];\n\\draw (-2,0)--(2,0);\n\\draw (0,0)--(0,-2);\n\\path (0,-1) node[right] {$2\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nFind both surface areas to $2$ decimal places. Explain what their difference represents.",
+    "solution_text": "The two semicircular ends together have area $\\pi r^{2}$. The curved surface has area $\\pi rh$.\nThe closed half-cylinder also has a flat top of area $2rh$.\n$\\begin{align*} A_{\\text{closed}}&=\\pi r^{2}+\\pi rh+2rh\\\\ &=\\pi(2)^{2}+\\pi(2)(9)+2(2)(9)\\\\ &=22\\pi+36\\\\ &\\approx105.12\\text{ cm}^{2}\\end{align*}$\nThe open-top trough has no flat top.\n$\\begin{align*} A_{\\text{trough}}&=\\pi r^{2}+\\pi rh\\\\ &=\\pi(2)^{2}+\\pi(2)(9)\\\\ &=22\\pi\\\\ &\\approx69.12\\text{ cm}^{2}\\end{align*}$\nThe difference is $2(2)(9)=36\\text{ cm}^{2}$, the area of the flat rectangular top.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A closed quarter-cylinder has radius $4$ cm and length $11$ cm. Its end cross-section is shown.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2,0) arc[start angle=0,end angle=90,radius=2]--cycle;\n\\draw (0.25,0)--(0.25,0.25)--(0,0.25);\n\\path (1,0) node[below] {$4\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nFind its surface area to $2$ decimal places.",
+    "solution_text": "Count two quarter-circle ends, one quarter of the full curved surface and two rectangular cut faces.\n$\\begin{align*} A&=2\\left(\\frac14\\pi r^{2}\\right)+\\frac14(2\\pi rh)+2rh\\\\ &=\\frac12\\pi(4)^{2}+\\frac12\\pi(4)(11)+2(4)(11)\\\\ &=8\\pi+22\\pi+88\\\\ &=30\\pi+88\\\\ &\\approx182.25\\text{ cm}^{2}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A semicircular gutter is open along the top and at both ends. Its radius is $6$ cm and its length is $80$ cm.\nThe end profile is shown; there is no flat top or end plate.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-2,0) arc[start angle=180,end angle=360,radius=2];\n\\draw[dotted] (0,0)--(0,-2);\n\\path (0,-1) node[right] {$6\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nFind the area of material used, to $1$ decimal place. Ignore its thickness.",
+    "solution_text": "Only half the full cylinder's curved surface remains.\n$\\begin{align*} A&=\\frac12(2\\pi rh)\\\\ &=\\pi(6)(80)\\\\ &=480\\pi\\\\ &\\approx1508.0\\text{ cm}^{2}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A cylindrical swimming pool has diameter $4$ m and depth $1.2$ m. Its inside walls and floor need coating. One tin covers $6\\text{ m}^{2}$.\nHow many whole tins are needed?",
+    "solution_text": "$r=4\\div2=2\\text{ m}$.\nCount the circular floor and curved walls.\n$\\begin{align*} A&=\\pi r^{2}+2\\pi rh\\\\ &=\\pi(2)^{2}+2\\pi(2)(1.2)\\\\ &=8.8\\pi\\text{ m}^{2}\\end{align*}$\n$\\text{Number of tins}=8.8\\pi\\div6=4.607\\ldots$.\nRound up to cover the whole surface: $5$ tins.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -94,21 +138,21 @@
       }
     ],
     "mastery": [
-      {
-        "question_text": "An open-top cylinder (a base but no lid) has a radius of $5$ cm.\nThe total of its base and curved surface is $175\\pi$ cm².\nFind the height of the cylinder.",
-        "structure": "back-out-height",
-        "solution_text": "$\\pi r^{2} + 2\\pi rh = 175\\pi$\n$\\pi(5)^{2} + 2\\pi(5)h = 175\\pi$\n$25\\pi + 10\\pi h = 175\\pi$\n$10\\pi h = 150\\pi$\n$h = 15\\text{ cm}$"
+{
+        "question_text": "A cylindrical swimming pool has a diameter of $7$ m and a height of $1.8$ m.\nThe inside walls and floor are to be repainted. One can of paint covers $7$ m².\nHow many whole cans are needed?",
+        "structure": "open-top-cylinder-paint-can-count",
+        "solution_text": "$r = \\frac{7}{2} = 3.5\\text{ m}$\nThe inside consists of one circular floor and the curved walls.\n$A = \\pi r^{2} + 2\\pi rh$\n$= \\pi(3.5)^{2} + 2\\pi(3.5)(1.8)$\n$= 12.25\\pi + 12.6\\pi$\n$= 24.85\\pi\\text{ m}^{2}$\nNumber of cans: $24.85\\pi \\div 7 = 11.15\\ldots$.\nRound up to obtain enough paint: $12$ cans are needed."
       },
-      {
-        "question_text": "A pipe is open at both ends and has a radius of $5$ cm.\nIts surface area is $300\\pi$ cm².\nFind the length of the pipe.",
-        "structure": "back-out-length",
-        "solution_text": "A pipe open at both ends has only its curved surface.\n$2\\pi rh = 300\\pi$\n$2\\pi(5)h = 300\\pi$\n$10\\pi h = 300\\pi$\n$h = 30\\text{ cm}$"
+{
+        "question_text": "A closed quarter-cylinder has a radius of $3.6$ cm and a length of $12.5$ cm.\nFind its surface area, correct to $2$ decimal places.",
+        "structure": "closed-quarter-cylinder",
+        "solution_text": "A closed quarter-cylinder has two quarter-circle ends, a quarter of the curved surface, and two flat rectangular faces.\n$A = \\frac{1}{2}\\pi r^{2} + \\frac{1}{2}\\pi rh + 2rh$\n$= \\frac{1}{2}\\pi(3.6)^{2} + \\frac{1}{2}\\pi(3.6)(12.5) + 2(3.6)(12.5)$\n$= 6.48\\pi + 22.5\\pi + 90$\n$= 28.98\\pi + 90$\n$\\approx 181.04\\text{ cm}^{2}$"
       },
-      {
+{
         "question_text": "A skateboarding half-pipe is a half-cylinder that is open along the top and at both ends, so only its curved inside surface is skated.\nIts radius is $3$ m and its length is $12$ m. This curved surface is to be resurfaced, and one tin of surfacing covers $8$ m².\nHow many whole tins are needed?",
         "structure": "gutter-tin-count",
         "solution_text": "A half-pipe open along the top and at both ends has only its curved surface, half a full cylinder's.\n$A = \\pi rh$\n$= \\pi(3)(12)$\n$= 36\\pi$\n$= 113.0973\\ldots\\text{ m}^{2}$\n$113.0973\\ldots \\div 8 = 14.137\\ldots$\n$15$ tins are needed."
       }
-    ]
+]
   }
 }

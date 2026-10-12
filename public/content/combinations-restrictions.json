@@ -2,21 +2,59 @@
   "skillId": "combinations-restrictions",
   "atomType": "R",
   "theory": {
-    "intro": "Combinations with restrictions count unordered selections subject to specific constraints, such as mandatory inclusion or exclusion of particular items, minimum/maximum category requirements ('at least' or 'at most'), complement counting, and partitioning into indistinguishable groups.",
-    "facts": [
+"intro": "Combinations with restrictions count unordered selections subject to specific constraints, such as mandatory inclusion or exclusion of particular items, minimum/maximum category requirements ('at least' or 'at most'), complement counting, and partitioning into indistinguishable groups.",
+"facts": [
 "Inclusion/Exclusion of specific items: If $k$ specific items must be included in a selection of size $r$ from $n$, fix them and choose the remaining $r - k$ items from $n - k$, giving $^{n-k}C_{r-k}$. If $k$ specific items are excluded, choose all $r$ items from $n - k$, giving $^{n-k}C_{r}$.",
 "Case splitting: When a constraint specifies 'at least' or 'at most' across multiple categories, partition the problem into mutually exclusive cases, calculate the combinations for each case, and add them together.",
 "Complement principle: When counting 'at least one' object of a certain type, subtract the count of the unwanted cases from the unrestricted total: $\\text{At least one} = \\text{Total} - \\text{None}$.",
 "Indistinguishable groups: When partitioning $n$ objects into $k$ groups of equal size where the groups are unlabeled, divide by $k!$ to account for the arbitrary order of the groups.",
 "Geometric constraints: If $k$ of $n$ points lie on one straight line and no other three points are collinear, the number of triangles formed by choosing $3$ vertices is $^{n}C_{3} - {^{k}C_{3}}$."
 ],
-    "steps": [
+"steps": [
 "Identify whether the restriction is an inclusion/exclusion constraint, a case split, a complement situation, or group division",
 "Set up the combination formula for each valid case or apply the complement rule",
 "Multiply selections within independent stages and sum across mutually exclusive cases",
 "When dividing into indistinguishable groups, divide by the factorial of the number of indistinguishable groups"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A committee of $4$ is chosen from $9$ people, including Ava and Ben. How many committees are possible if:\n(a) Ava must be included;\n(b) Ben must be excluded;\n(c) Ava must be included and Ben must be excluded?",
+    "solution_text": "(a) Fix Ava and choose the other $3$ members from the remaining $8$ people.\n$\\begin{align*}N&={}^{8}C_{3}\\\\&=56\\end{align*}$\n\n(b) Exclude Ben and choose all $4$ members from the remaining $8$ people.\n$\\begin{align*}N&={}^{8}C_{4}\\\\&=70\\end{align*}$\n\n(c) Fix Ava and exclude Ben. Choose the other $3$ members from the remaining $7$ people.\n$\\begin{align*}N&={}^{7}C_{3}\\\\&=35\\end{align*}$"
   },
+  {
+    "question_text": "A team of $4$ is chosen from $10$ players, including Mia and Noah. Exactly one of Mia and Noah must be selected. How many teams are possible?",
+    "solution_text": "Choose which of Mia and Noah is selected: $2$ choices. Exclude the other and choose $3$ teammates from the remaining $8$ players.\n$\\begin{align*}N&=2\\times{}^{8}C_{3}\\\\&=2\\times56\\\\&=112\\end{align*}$"
+  },
+  {
+    "question_text": "A panel of $5$ is chosen from $7$ scientists and $5$ engineers. How many panels contain exactly $2$ engineers?",
+    "solution_text": "Choose $2$ engineers from $5$ and $3$ scientists from $7$. Multiply the two selection counts.\n$\\begin{align*}N&={}^{5}C_{2}\\times{}^{7}C_{3}\\\\&=10\\times35\\\\&=350\\end{align*}$"
+  },
+  {
+    "question_text": "(a) A committee of $4$ is chosen from $6$ seniors and $5$ juniors. How many committees contain at most $2$ juniors?\n(b) Two distinct numbers are selected from $\\{1,2,3,\\ldots,14\\}$. How many unordered pairs have an even sum?",
+    "solution_text": "(a) The mutually exclusive cases are $0$, $1$ or $2$ juniors.\n\nNo juniors:\n$N_{0}={}^{5}C_{0}\\times{}^{6}C_{4}=15$.\n\nOne junior:\n$N_{1}={}^{5}C_{1}\\times{}^{6}C_{3}=100$.\n\nTwo juniors:\n$N_{2}={}^{5}C_{2}\\times{}^{6}C_{2}=150$.\n\n$\\begin{align*}N&=N_{0}+N_{1}+N_{2}\\\\&=15+100+150\\\\&=265\\end{align*}$\n\n(b) There are $7$ odd and $7$ even numbers. An even sum requires two odd numbers or two even numbers.\n$\\begin{align*}N&={}^{7}C_{2}+{}^{7}C_{2}\\\\&=21+21\\\\&=42\\end{align*}$"
+  },
+  {
+    "question_text": "A committee of $3$ is chosen from $6$ artists and $4$ musicians. How many committees contain at least one musician?",
+    "solution_text": "Subtract committees with no musicians from all committees.\n$\\begin{align*}N&={}^{10}C_{3}-{}^{6}C_{3}\\\\&=120-20\\\\&=100\\end{align*}$"
+  },
+  {
+    "question_text": "(a) In how many ways can $12$ students be divided into two unlabeled teams of $6$?\n(b) In how many ways can $7$ students be divided into two unlabeled groups of sizes $2$ and $5$?\n(c) In how many ways can $8$ guests be assigned to three distinct rooms holding $4$, $2$ and $2$ guests respectively?",
+    "solution_text": "(a) Choose $6$ students for one team; the others form the second team. Each division is counted twice because either team could be chosen first.\n$\\begin{align*}N&=\\frac{{}^{12}C_{6}}{2!}\\\\&=\\frac{924}{2}\\\\&=462\\end{align*}$\n\n(b) Choose the smaller group. Its size identifies it, so each division is counted once.\n$\\begin{align*}N&={}^{7}C_{2}\\\\&=21\\end{align*}$\n\n(c) Choose guests for the room holding $4$, then for one specified room holding $2$. The remaining guests occupy the last room.\n$\\begin{align*}N&={}^{8}C_{4}\\times{}^{4}C_{2}\\times{}^{2}C_{2}\\\\&=70\\times6\\times1\\\\&=420\\end{align*}$\n\nThe rooms are distinct, so do not divide by $2!$ for the two rooms with equal capacities."
+  },
+  {
+    "question_text": "Eight points are marked in a plane. Exactly four, $A$, $B$, $C$ and $D$, lie on one straight line, and no other three points are collinear. How many triangles can be formed using the points as vertices?\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(5,0);\n\\fill (0.4,0) circle (2pt);\n\\fill (1.7,0) circle (2pt);\n\\fill (3.1,0) circle (2pt);\n\\fill (4.6,0) circle (2pt);\n\\fill (0.6,1.4) circle (2pt);\n\\fill (1.4,3.2) circle (2pt);\n\\fill (3.3,2.7) circle (2pt);\n\\fill (4.7,1.9) circle (2pt);\n\\path (0.4,0) node[below] {$A$};\n\\path (1.7,0) node[below] {$B$};\n\\path (3.1,0) node[below] {$C$};\n\\path (4.6,0) node[below] {$D$};\n\\path (0.6,1.4) node[left] {$E$};\n\\path (1.4,3.2) node[above] {$F$};\n\\path (3.3,2.7) node[above] {$G$};\n\\path (4.7,1.9) node[right] {$H$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Choose any $3$ of the $8$ points, then subtract triples chosen entirely from the collinear points $A$, $B$, $C$ and $D$.\n$\\begin{align*}N&={}^{8}C_{3}-{}^{4}C_{3}\\\\&=56-4\\\\&=52\\end{align*}$\n\nOnly the four collinear triples fail to form triangles."
+  },
+  {
+    "question_text": "Seven players are divided into two unlabeled teams of $3$ and one umpire. Ella and Finn cannot be on the same team. Either may be the umpire. How many divisions are possible?",
+    "solution_text": "Choose the umpire, then divide the remaining $6$ players into two unlabeled teams.\n$\\begin{align*}T&={}^{7}C_{1}\\times\\frac{{}^{6}C_{3}}{2!}\\\\&=7\\times10\\\\&=70\\end{align*}$\n\nFor Ella and Finn to be teammates, choose the umpire from the other $5$ players. Choose their one teammate from the remaining $4$ players; the others form the second team.\n$\\begin{align*}U&={}^{5}C_{1}\\times{}^{4}C_{1}\\\\&=5\\times4\\\\&=20\\end{align*}$\n\nThis count needs no division by $2!$: the team containing Ella and Finn is identified.\n$\\begin{align*}N&=T-U\\\\&=70-20\\\\&=50\\end{align*}$"
+  },
+  {
+    "question_text": "Nine distinct points lie on a circle. How many unordered pairs of triangles can be formed using these points as vertices if the triangles have no vertices in common? The triangles may overlap.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) circle (2cm);\n\\foreach \\i in {1,...,9}{\n\\pgfmathsetmacro{\\a}{90-40*(\\i-1)}\n\\fill (\\a:2) circle (2pt);\n\\path (\\a:2.35) node {$P_{\\i}$};\n}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Choose $6$ vertices from $9$. Choose $3$ of these for one triangle; the remaining $3$ form the other.\n\nDivide by $2!$ because exchanging the two triangles gives the same pair.\n$\\begin{align*}N&={}^{9}C_{6}\\times\\frac{{}^{6}C_{3}}{2!}\\\\&=84\\times\\frac{20}{2}\\\\&=840\\end{align*}$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

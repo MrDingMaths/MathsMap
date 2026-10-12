@@ -2,8 +2,8 @@
   "skillId": "construct-flow-network",
   "atomType": "R",
   "theory": {
-    "intro": "A flow network can be given as a table instead of a diagram. Each row is the vertex an edge starts **from**, each column is the vertex it goes **to**, and the entry is that edge's capacity.",
-    "facts": [
+"intro": "A flow network can be given as a table instead of a diagram. Each row is the vertex an edge starts **from**, each column is the vertex it goes **to**, and the entry is that edge's capacity.",
+"facts": [
 "An entry in row $A$, column $B$ gives the capacity of the directed edge from $A$ to $B$.",
 "Follow the table's stated convention for entries representing no connection. A dash or a blank entry can mean there is no edge in that direction; the booklet also explicitly uses $0$ to mean no connection.",
 "The table of a flow network **need not be symmetric**: an edge in one direction does not require an edge of the same capacity in the opposite direction.",
@@ -13,13 +13,27 @@
 "Only the edges, their directions and their capacities matter; where a vertex sits on the page does not.",
 "Draw every edge with a mid-line arrowhead so its direction is clear at a glance."
 ],
-    "steps": [
+"steps": [
 "Identify the source and the sink from the table",
 "Draw and label a vertex for each row and column heading",
 "Draw a directed edge for each entry representing a connection under the table's stated convention",
 "Write each edge's capacity beside it"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "The table gives pipe capacities in kL/h. A dash means no connection.\n$\\begin{array}{c|cccc}\\text{From / To}&A&B&C&D\\\\\\hline A&-&-&-&-\\\\B&9&-&-&-\\\\C&-&7&-&11\\\\D&8&-&-&-\\end{array}$\nIdentify the source and sink, then draw the weighted directed flow network.",
+    "solution_text": "Column $C$ contains only dashes, so $C$ is the source. Row $A$ contains only dashes, so $A$ is the sink.\nRead each capacity from its starting row to its ending column: $C\\to B$ has capacity $7$, $C\\to D$ has capacity $11$, $B\\to A$ has capacity $9$ and $D\\to A$ has capacity $8$.\nPlace $C$ at the left and $A$ at the right. Label the edges with capacities in kL/h.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings,mark=at position 0.55 with {\\arrow{>}}},postaction={decorate}}}\n\\coordinate (C) at (0,1.4);\\coordinate (B) at (2.4,2.8);\\coordinate (D) at (2.4,0);\\coordinate (A) at (4.8,1.4);\n\\draw[midarrow] (C)--(B) node[pos=0.35,above left] {$7$};\n\\draw[midarrow] (C)--(D) node[pos=0.35,below left] {$11$};\n\\draw[midarrow] (B)--(A) node[pos=0.35,above right] {$9$};\n\\draw[midarrow] (D)--(A) node[pos=0.35,below right] {$8$};\n\\fill[black] (C) circle (2pt) node[left] {$C$};\n\\fill[black] (B) circle (2pt) node[above] {$B$};\n\\fill[black] (D) circle (2pt) node[below] {$D$};\n\\fill[black] (A) circle (2pt) node[right] {$A$};\n\\end{tikzpicture}[/tikz]"
   },
+  {
+    "question_text": "The network shows conveyor capacities in tonnes per hour. Represent it as a table using row and column order $P,Q,R,T$. Use a dash for no connection.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings,mark=at position 0.55 with {\\arrow{>}}},postaction={decorate}}}\n\\coordinate (R) at (4.8,1.5);\\coordinate (P) at (2.4,3);\\coordinate (Q) at (2.4,0);\\coordinate (T) at (0,1.5);\n\\draw[midarrow] (R)--(P) node[pos=0.35,above right] {$16$};\n\\draw[midarrow] (R)--(Q) node[pos=0.35,below right] {$12$};\n\\draw[midarrow] (P)--(Q) node[pos=0.35,right] {$5$};\n\\draw[midarrow] (P)--(T) node[pos=0.35,above left] {$10$};\n\\draw[midarrow] (Q)--(T) node[pos=0.35,below left] {$14$};\n\\fill[black] (R) circle (2pt) node[right] {$R$};\n\\fill[black] (P) circle (2pt) node[above] {$P$};\n\\fill[black] (Q) circle (2pt) node[below] {$Q$};\n\\fill[black] (T) circle (2pt) node[left] {$T$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Record each edge in the row of the vertex it leaves and the column of the vertex it enters.\nRow $P$ records $P\\to Q$ and $P\\to T$. Row $Q$ records $Q\\to T$. Row $R$ records $R\\to P$ and $R\\to Q$. No edge leaves $T$.\n$\\begin{array}{c|cccc}\\text{From / To}&P&Q&R&T\\\\\\hline P&-&5&-&10\\\\Q&-&-&-&14\\\\R&16&12&-&-\\\\T&-&-&-&-\\end{array}$\nThe source $R$ is drawn on the right; arrow directions determine the entries, regardless of vertex position. Capacities remain in tonnes per hour."
+  },
+  {
+    "question_text": "The table gives the capacities of a flow network. A dash means no connection. Complete the diagram to represent the table.\n$\\begin{array}{c|cccc}\\text{From / To}&S&A&B&T\\\\\\hline S&-&18&13&-\\\\A&-&-&6&15\\\\B&-&-&-&17\\\\T&-&-&-&-\\end{array}$\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings,mark=at position 0.55 with {\\arrow{>}}},postaction={decorate}}}\n\\coordinate (S) at (0,1.5);\\coordinate (A) at (2.4,3);\\coordinate (B) at (2.4,0);\\coordinate (T) at (4.8,1.5);\n\\draw[midarrow] (S)--(A) node[pos=0.35,above left] {$18$};\n\\draw[midarrow] (S)--(B) node[pos=0.35,below left] {$13$};\n\\draw[midarrow] (B)--(T) node[pos=0.35,below right] {$17$};\n\\fill[black] (S) circle (2pt) node[left] {$S$};\n\\fill[black] (A) circle (2pt) node[above] {$A$};\n\\fill[black] (B) circle (2pt) node[below] {$B$};\n\\fill[black] (T) circle (2pt) node[right] {$T$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Compare each row with the edges already drawn. Rows $S$ and $B$ are complete. Row $T$ requires no outgoing edge.\nRow $A$ requires $A\\to B$ with capacity $6$ and $A\\to T$ with capacity $15$. Add these two labelled edges with arrows pointing towards $B$ and $T$.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings,mark=at position 0.55 with {\\arrow{>}}},postaction={decorate}}}\n\\coordinate (S) at (0,1.5);\\coordinate (A) at (2.4,3);\\coordinate (B) at (2.4,0);\\coordinate (T) at (4.8,1.5);\n\\draw[midarrow] (S)--(A) node[pos=0.35,above left] {$18$};\n\\draw[midarrow] (S)--(B) node[pos=0.35,below left] {$13$};\n\\draw[midarrow] (B)--(T) node[pos=0.35,below right] {$17$};\n\\draw[midarrow] (A)--(B) node[pos=0.35,right] {$6$};\n\\draw[midarrow] (A)--(T) node[pos=0.35,above right] {$15$};\n\\fill[black] (S) circle (2pt) node[left] {$S$};\n\\fill[black] (A) circle (2pt) node[above] {$A$};\n\\fill[black] (B) circle (2pt) node[below] {$B$};\n\\fill[black] (T) circle (2pt) node[right] {$T$};\n\\end{tikzpicture}[/tikz]"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

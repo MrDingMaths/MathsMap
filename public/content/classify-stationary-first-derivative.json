@@ -2,8 +2,8 @@
   "skillId": "classify-stationary-first-derivative",
   "atomType": "R",
   "theory": {
-    "intro": "The **first-derivative test** classifies a stationary point from the sign of $f'(x)$ just left and just right of it. Positive then negative is a local maximum, negative then positive a local minimum. No sign change is a horizontal point of inflection.",
-    "facts": [
+"intro": "The **first-derivative test** classifies a stationary point from the sign of $f'(x)$ just left and just right of it. Positive then negative is a local maximum, negative then positive a local minimum. No sign change is a horizontal point of inflection.",
+"facts": [
       "The nature of a stationary point is decided by the sign of $f'$ on each side, not by $f'$ at the point.",
       "$f'$ changing from positive to negative across the point gives a **local maximum**, where the curve rises then falls.",
       "$f'$ changing from negative to positive gives a **local minimum**, where the curve falls then rises.",
@@ -12,13 +12,78 @@
       "A **slope table** lists $x$, the value of $f'(x)$ and a slope stroke $/$, $-$ or $\\backslash$ for each test value.",
       "The same test works for exponential, logarithmic and trigonometric curves; only the derivative changes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[thick,<->,domain=-1.2:1.2,smooth,variable=\\x] plot ({\\x},{1-\\x*\\x});\n\\draw[dashed] (-0.5,1) -- (0.5,1);\n\\node[font=\\small] at (0,1.9) {Local maximum};\n\\node[font=\\small] at (0,-1.9) {$f'$: $+$ then $-$};\n\\draw[thick,<->,domain=-1.2:1.2,smooth,variable=\\x] plot ({\\x+3.6},{\\x*\\x-1});\n\\draw[dashed] (3.1,-1) -- (4.1,-1);\n\\node[font=\\small] at (3.6,1.9) {Local minimum};\n\\node[font=\\small] at (3.6,-1.9) {$f'$: $-$ then $+$};\n\\draw[thick,<->,domain=-1.2:1.2,smooth,variable=\\x] plot ({\\x+7.2},{0.8*\\x*\\x*\\x});\n\\draw[dashed] (6.7,0) -- (7.7,0);\n\\node[font=\\small] at (7.2,1.9) {Horizontal inflection};\n\\node[font=\\small] at (7.2,-1.9) {$f'$: $+$ then $+$};\n\\end{tikzpicture}\n[/tikz]"
     ],
-    "steps": [
+"steps": [
       "Differentiate to find $f'(x)$ and solve $f'(x) = 0$",
       "Choose a test value on each side of every stationary point",
       "Record the sign of $f'(x)$ at each test value in a slope table",
       "Read the sign pattern to classify each stationary point"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A function has its only stationary point between $-1$ and $1$ at $x=0$. Use the slope table to classify it.\n$\\begin{array}{c|ccc}x&-1&0&1\\\\\\hline f'(x)&6&0&-3\\end{array}$",
+    "solution_text": "The derivative is positive to the left and negative to the right of $x=0$. The curve rises then falls, so $x=0$ is a local maximum.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "The derivative of a function is $f'(x)=2(x+1)(x-2)^2$. Find the stationary $x$-values and classify each using a slope table.",
+    "solution_text": "$\\begin{aligned}2(x+1)(x-2)^2&=0\\\\x&=-1,\\ 2\\end{aligned}$\n\n$\\begin{array}{c|ccccc}x&-2&-1&0&2&3\\\\\\hline f'(x)&-32&0&8&0&8\\\\\\text{Slope}&\\backslash&-&/&-&/\\end{array}$\n\nAt $x=-1$, $f'$ changes from negative to positive: a local minimum.\n\nAt $x=2$, $f'$ is positive on both sides: a horizontal point of inflection.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the stationary points of $f(x)=x^3-6x^2+9x+1$ and determine their nature using a slope table.",
+    "solution_text": "$\\begin{aligned}f'(x)&=3x^2-12x+9\\\\&=3(x-1)(x-3)\\end{aligned}$\n\nFor stationary points:\n$\\begin{aligned}3(x-1)(x-3)&=0\\\\x&=1,\\ 3\\end{aligned}$\n\n$\\begin{array}{c|ccccc}x&0&1&2&3&4\\\\\\hline f'(x)&9&0&-3&0&9\\\\\\text{Slope}&/&-&\\backslash&-&/\\end{array}$\n\n$\\begin{aligned}f(1)&=1-6+9+1=5\\\\f(3)&=27-54+27+1=1\\end{aligned}$\n\nThe sign changes from positive to negative at $x=1$, giving a local maximum at $(1,5)$.\n\nThe sign changes from negative to positive at $x=3$, giving a local minimum at $(3,1)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find and classify the stationary point of $f(x)=xe^{-3x}$ using the first-derivative test.",
+    "solution_text": "$\\begin{aligned}f'(x)&=e^{-3x}-3xe^{-3x}\\\\&=e^{-3x}(1-3x)\\end{aligned}$\n\nSince $e^{-3x}>0$, solve:\n$\\begin{aligned}1-3x&=0\\\\x&=\\frac13\\end{aligned}$\n\n$\\begin{array}{c|ccc}x&0&\\frac13&1\\\\\\hline f'(x)&1&0&-2e^{-3}\\\\\\text{Slope}&/&-&\\backslash\\end{array}$\n\n$\\begin{aligned}f\\left(\\frac13\\right)&=\\frac13e^{-1}\\\\&=\\frac{1}{3e}\\end{aligned}$\n\nThe derivative changes from positive to negative, so $\\left(\\frac13,\\frac{1}{3e}\\right)$ is a local maximum.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find and classify all stationary points of $f(x)=x^2e^{-2x}$ using the first-derivative test.",
+    "solution_text": "$\\begin{aligned}f'(x)&=2xe^{-2x}-2x^2e^{-2x}\\\\&=2xe^{-2x}(1-x)\\end{aligned}$\n\nSince $e^{-2x}>0$, the stationary points occur when:\n$\\begin{aligned}2x(1-x)&=0\\\\x&=0,\\ 1\\end{aligned}$\n\n$\\begin{array}{c|ccccc}x&-1&0&\\frac12&1&2\\\\\\hline f'(x)&-4e^2&0&\\frac{1}{2e}&0&-4e^{-4}\\\\\\text{Slope}&\\backslash&-&/&-&\\backslash\\end{array}$\n\n$f(0)=0$ and $f(1)=e^{-2}$.\n\nAt $x=0$, the sign changes from negative to positive: a local minimum at $(0,0)$.\n\nAt $x=1$, the sign changes from positive to negative: a local maximum at $(1,e^{-2})$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For each function, find and classify its stationary point using the first-derivative test.\n\na. $f(x)=3\\ln x-x$, $x>0$.\n\nb. $g(x)=x^2\\ln(2x)$, $x>0$.\n\nc. $h(x)=\\dfrac{\\ln(2x)}{x}$, $x>0$.",
+    "solution_text": "a. $f'(x)=\\dfrac3x-1$.\n\n$\\begin{aligned}\\frac3x-1&=0\\\\x&=3\\end{aligned}$\n\n$\\begin{array}{c|ccc}x&1&3&6\\\\\\hline f'(x)&2&0&-\\frac12\\\\\\text{Slope}&/&-&\\backslash\\end{array}$\n\nThe derivative changes from positive to negative. The local maximum is $(3,3\\ln3-3)$.\n\nb. Use the product and chain rules:\n$\\begin{aligned}g'(x)&=2x\\ln(2x)+x^2\\frac1x\\\\&=x\\bigl(2\\ln(2x)+1\\bigr)\\end{aligned}$\n\nSince $x>0$:\n$\\begin{aligned}2\\ln(2x)+1&=0\\\\\\ln(2x)&=-\\frac12\\\\x&=\\frac{1}{2\\sqrt e}\\end{aligned}$\n\n$\\begin{array}{c|ccc}x&\\frac{1}{2e}&\\frac{1}{2\\sqrt e}&\\frac12\\\\\\hline g'(x)&-\\frac{1}{2e}&0&\\frac12\\\\\\text{Slope}&\\backslash&-&/\\end{array}$\n\n$g\\left(\\dfrac{1}{2\\sqrt e}\\right)=\\dfrac{1}{4e}\\left(-\\dfrac12\\right)=-\\dfrac{1}{8e}$.\n\nThe derivative changes from negative to positive. The local minimum is $\\left(\\dfrac{1}{2\\sqrt e},-\\dfrac{1}{8e}\\right)$.\n\nc. Use the quotient rule:\n$\\begin{aligned}h'(x)&=\\frac{x\\left(\\frac1x\\right)-\\ln(2x)}{x^2}\\\\&=\\frac{1-\\ln(2x)}{x^2}\\end{aligned}$\n\nSince $x^2>0$:\n$\\begin{aligned}1-\\ln(2x)&=0\\\\\\ln(2x)&=1\\\\x&=\\frac e2\\end{aligned}$\n\n$\\begin{array}{c|ccc}x&\\frac12&\\frac e2&\\frac{e^2}{2}\\\\\\hline h'(x)&4&0&-4e^{-4}\\\\\\text{Slope}&/&-&\\backslash\\end{array}$\n\n$h\\left(\\dfrac e2\\right)=\\dfrac{1}{e/2}=\\dfrac2e$.\n\nThe derivative changes from positive to negative. The local maximum is $\\left(\\dfrac e2,\\dfrac2e\\right)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find and classify the stationary points of $f(x)=2\\sin x-x$ for $0\\le x\\le2\\pi$, using the first-derivative test.",
+    "solution_text": "$f'(x)=2\\cos x-1$.\n\nFor stationary points:\n$\\begin{aligned}2\\cos x-1&=0\\\\\\cos x&=\\frac12\\\\x&=\\frac\\pi3,\\ \\frac{5\\pi}3\\end{aligned}$\n\n$\\begin{array}{c|ccccc}x&0&\\frac\\pi3&\\pi&\\frac{5\\pi}3&2\\pi\\\\\\hline f'(x)&1&0&-3&0&1\\\\\\text{Slope}&/&-&\\backslash&-&/\\end{array}$\n\n$\\begin{aligned}f\\left(\\frac\\pi3\\right)&=\\sqrt3-\\frac\\pi3\\\\f\\left(\\frac{5\\pi}3\\right)&=-\\sqrt3-\\frac{5\\pi}3\\end{aligned}$\n\nAt $x=\\dfrac\\pi3$, the sign changes from positive to negative: a local maximum at $\\left(\\dfrac\\pi3,\\sqrt3-\\dfrac\\pi3\\right)$.\n\nAt $x=\\dfrac{5\\pi}3$, the sign changes from negative to positive: a local minimum at $\\left(\\dfrac{5\\pi}3,-\\sqrt3-\\dfrac{5\\pi}3\\right)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find and classify the stationary points of $f(x)=2x+2\\sin x$ for $-2\\pi<x<2\\pi$, using the first-derivative test.",
+    "solution_text": "$f'(x)=2+2\\cos x$.\n\n$\\begin{aligned}2+2\\cos x&=0\\\\\\cos x&=-1\\\\x&=-\\pi,\\ \\pi\\end{aligned}$\n\n$\\begin{array}{c|ccccc}x&-\\frac{3\\pi}2&-\\pi&0&\\pi&\\frac{3\\pi}2\\\\\\hline f'(x)&2&0&4&0&2\\\\\\text{Slope}&/&-&/&-&/\\end{array}$\n\nSince $1+\\cos x>0$ immediately on both sides of each stationary point, the derivative stays positive across both points.\n\n$f(-\\pi)=-2\\pi$ and $f(\\pi)=2\\pi$.\n\nBoth $(-\\pi,-2\\pi)$ and $(\\pi,2\\pi)$ are horizontal points of inflection.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find and classify the stationary points of $f(x)=x\\sqrt{25-x^2}$ using a slope table. Give their coordinates exactly.",
+    "solution_text": "The domain is $-5\\le x\\le5$. Differentiate for $-5<x<5$:\n$\\begin{aligned}f'(x)&=\\sqrt{25-x^2}+x\\frac{-2x}{2\\sqrt{25-x^2}}\\\\&=\\frac{25-2x^2}{\\sqrt{25-x^2}}\\end{aligned}$\n\nThe denominator is positive in this interval, so stationary points satisfy:\n$\\begin{aligned}25-2x^2&=0\\\\x^2&=\\frac{25}{2}\\\\x&=\\pm\\frac5{\\sqrt2}\\end{aligned}$\n\n$\\begin{array}{c|ccccc}x&-4&-\\frac5{\\sqrt2}&0&\\frac5{\\sqrt2}&4\\\\\\hline f'(x)&-\\frac73&0&5&0&-\\frac73\\\\\\text{Slope}&\\backslash&-&/&-&\\backslash\\end{array}$\n\n$\\begin{aligned}f\\left(-\\frac5{\\sqrt2}\\right)&=-\\frac5{\\sqrt2}\\frac5{\\sqrt2}=-\\frac{25}{2}\\\\f\\left(\\frac5{\\sqrt2}\\right)&=\\frac5{\\sqrt2}\\frac5{\\sqrt2}=\\frac{25}{2}\\end{aligned}$\n\nAt $x=-\\dfrac5{\\sqrt2}$, the derivative changes from negative to positive: a local minimum at $\\left(-\\dfrac5{\\sqrt2},-\\dfrac{25}{2}\\right)$.\n\nAt $x=\\dfrac5{\\sqrt2}$, the derivative changes from positive to negative: a local maximum at $\\left(\\dfrac5{\\sqrt2},\\dfrac{25}{2}\\right)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

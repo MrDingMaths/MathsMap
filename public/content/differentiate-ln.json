@@ -2,8 +2,8 @@
   "skillId": "differentiate-ln",
   "atomType": "R",
   "theory": {
-    "intro": "The gradient of $y=\\ln x$ at any point is the reciprocal of the $x$-coordinate: $\\dfrac{d}{dx}(\\ln x)=\\dfrac{1}{x}$. This holds only for $x>0$, where $\\ln x$ is defined.",
-    "facts": [
+"intro": "The gradient of $y=\\ln x$ at any point is the reciprocal of the $x$-coordinate: $\\dfrac{d}{dx}(\\ln x)=\\dfrac{1}{x}$. This holds only for $x>0$, where $\\ln x$ is defined.",
+"facts": [
 "Rule: $\\dfrac{d}{dx}(\\ln x)=\\dfrac{1}{x}$, valid for $x>0$.",
 "Proof: let $u(x)=\\ln x$. Differentiating $e^{\\ln x}=x$ by the chain rule gives $u'(x)e^{\\ln x}=1$, so $u'(x)\\times x=1$ and $u'(x)=\\dfrac{1}{x}$.",
 "Constant multiple: $\\dfrac{d}{dx}(k\\ln x)=\\dfrac{k}{x}$ for any constant $k$.",
@@ -13,12 +13,70 @@
 "The derivative $\\dfrac{1}{x}$ is positive for every $x>0$, so $y=\\ln x$ is always increasing.",
 "Common error: the derivative of $\\ln x$ is $\\dfrac{1}{x}$, not $\\dfrac{1}{\\ln x}$ and not $\\dfrac{\\ln x}{x}$."
 ],
-    "steps": [
+"steps": [
       "Use a log law to write the function as a constant plus a multiple of $\\ln x$, if needed.",
       "Differentiate term by term, replacing $k\\ln x$ with $\\dfrac{k}{x}$.",
       "Simplify, then substitute the given value of $x$ if a gradient is asked for."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Differentiate $y=8\\ln x$.",
+    "solution_text": "$\\begin{aligned}y'&=8\\times\\frac{1}{x}\\\\&=\\frac{8}{x}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Differentiate $f(x)=3x^{3}-2\\ln x+4$.",
+    "solution_text": "$\\begin{aligned}f'(x)&=9x^{2}-2\\times\\frac{1}{x}+0\\\\&=9x^{2}-\\frac{2}{x}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use log laws to simplify $y=4\\ln\\left(\\frac{x}{6}\\right)$, then differentiate it.",
+    "solution_text": "For $x>0$, the division law gives\n$\\begin{aligned}y&=4(\\ln x-\\ln 6)\\\\&=4\\ln x-4\\ln 6.\\end{aligned}$\nSince $4\\ln 6$ is constant,\n$\\begin{aligned}y'&=\\frac{4}{x}-0\\\\&=\\frac{4}{x}.\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $f(x)=2x^{2}+5\\ln x$, find $f'(2)$.",
+    "solution_text": "$f'(x)=4x+\\frac{5}{x}$\nSubstitute $x=2$:\n$\\begin{aligned}f'(2)&=4(2)+\\frac{5}{2}\\\\&=\\frac{21}{2}.\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the equations of the tangent and normal to $y=\\ln x+2$ at $P(1,2)$, in the form $y=mx+b$.",
+    "solution_text": "$y'=\\frac{1}{x}$\nAt $P$, the tangent has gradient $1$ and the normal has gradient $-1$.\nFor the tangent:\n$\\begin{aligned}y-2&=1(x-1)\\\\y&=x+1.\\end{aligned}$\nFor the normal:\n$\\begin{aligned}y-2&=-(x-1)\\\\y&=-x+3.\\end{aligned}$\nThe sketch shows the point of contact and both lines.\n[tikz]\n\\begin{tikzpicture}[x=1.25cm,y=0.8cm]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\definecolor{tangentred}{HTML}{EF6068}\n\\definecolor{normalgreen}{HTML}{4F9B63}\n\\draw[->,black] (-0.4,0)--(3.4,0);\n\\draw[->,black] (0,-0.7)--(0,4.4);\n\\path (3.4,0) node[right,text=black,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\path (0,4.4) node[above,text=black,font=\\fontsize{10}{12}\\selectfont] {$y$};\n\\draw[curveblue,thick,domain=0.07:3.1,samples=90] plot (\\x,{ln(\\x)+2});\n\\draw[tangentred,thick] (-0.3,0.7)--(3.1,4.1);\n\\draw[normalgreen,thick] (-0.3,3.3)--(3.1,-0.1);\n\\fill[black] (1,2) circle (1.5pt);\n\\path (1,2) node[above left,text=black,font=\\fontsize{10}{12}\\selectfont] {$P(1,2)$};\n\\path (3.1,4.1) node[above left,text=black,font=\\fontsize{10}{12}\\selectfont] {Tangent};\n\\path (3.1,-0.1) node[below left,text=black,font=\\fontsize{10}{12}\\selectfont] {Normal};\n\\path (2.7,3) node[below,text=black,font=\\fontsize{10}{12}\\selectfont] {$y=\\ln x+2$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the point on $y=\\ln x$ where the tangent has gradient $\\frac{1}{6}$. Then find the equation of the tangent.",
+    "solution_text": "$y'=\\frac{1}{x}$\nSet the derivative equal to the given gradient:\n$\\begin{aligned}\\frac{1}{x}&=\\frac{1}{6}\\\\x&=6.\\end{aligned}$\nThe point is $(6,\\ln 6)$.\nThe tangent is\n$\\begin{aligned}y-\\ln 6&=\\frac{1}{6}(x-6)\\\\y&=\\frac{x}{6}-1+\\ln 6.\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use the chain rule on $e^{\\ln x}=x$ to prove that $\\frac{d}{dx}(\\ln x)=\\frac{1}{x}$ for $x>0$.",
+    "solution_text": "Let $u=\\ln x$ and write $u'(x)$ for its derivative. With $y=e^{u}$, the chain rule gives\n$\\begin{aligned}\\frac{dy}{dx}&=\\frac{dy}{du}\\times\\frac{du}{dx}\\\\&=e^{u}u'(x)\\\\&=e^{\\ln x}u'(x)\\\\&=xu'(x).\\end{aligned}$\nThe identity gives $y=x$, so $\\frac{dy}{dx}=1$. Equating the two derivatives,\n$\\begin{aligned}xu'(x)&=1\\\\u'(x)&=\\frac{1}{x}.\\end{aligned}$\nDivision by $x$ is valid because $x>0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the value of $x>0$ for which the derivative of $y=x^{2}-18\\ln x$ is zero.",
+    "solution_text": "$y'=2x-\\frac{18}{x}$\nSet the derivative equal to zero:\n$\\begin{aligned}2x-\\frac{18}{x}&=0\\\\2x^{2}&=18\\\\x^{2}&=9\\\\x&=3.\\end{aligned}$\nOnly the positive root is in the domain.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

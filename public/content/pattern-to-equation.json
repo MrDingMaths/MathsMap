@@ -2,20 +2,30 @@
   "skillId": "pattern-to-equation",
   "atomType": "R",
   "theory": {
-        "intro": "A **growing linear pattern** adds the same number of items for each new shape, so it can be written as an equation of the form $y = mx + c$.",
-        "facts": [
+"intro": "A **growing linear pattern** adds the same number of items for each new shape, so it can be written as an equation of the form $y = mx + c$.",
+"facts": [
 "$x$ is the **shape number** and $y$ is the **number of items** in that shape.",
 "$m$ is how many items are **added** for each new shape — the jump from one shape to the next.",
 "$c$ is the value obtained by extending the numerical pattern back to $x = 0$, found by subtracting one jump from the first shape's count.",
 "This value need not represent a physically existing arrangement of zero shapes.",
 "In words, **multiply the shape number by $m$, then add $c$**, which gives $y = mx + c$."
 ],
-        "steps": [
+"steps": [
 "Find how many items are added for each new shape. This is $m$.",
 "Extend the numerical pattern back to $x = 0$ by subtracting one jump from the first shape's count. This is $c$.",
 "Write the equation $y = mx + c$."
+],
+"workedExamples": [
+  {
+    "question_text": "Each shape contains separate matchstick squares. Shapes $1$, $2$ and $3$ are shown. Each line segment represents one match.\nWrite an equation for the number of matches $y$ in shape $x$.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) rectangle (1,1);\n\\node at (0.5,-0.5) {$1$};\n\\draw (2,0) rectangle (3,1);\n\\draw (3.4,0) rectangle (4.4,1);\n\\node at (3.2,-0.5) {$2$};\n\\draw (5.4,0) rectangle (6.4,1);\n\\draw (6.8,0) rectangle (7.8,1);\n\\draw (8.2,0) rectangle (9.2,1);\n\\node at (7.3,-0.5) {$3$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The first three shapes use $4$, $8$ and $12$ matches.\nEach new shape adds $4$ matches, so $m=4$.\nExtending the numerical pattern back to $x=0$ gives $c=4-4=0$.\nThe equation is $y=4x$."
+  },
+  {
+    "question_text": "A matchstick pattern has three rows of squares. Each new shape adds one column, and neighbouring squares share sides. Shapes $1$, $2$ and $3$ are shown. Each segment between neighbouring grid intersections represents one match.\nWrite an equation for the number of matches $y$ in shape $x$.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\foreach \\r in {0,1,2,3} {\\draw (0,\\r)--(1,\\r);}\n\\foreach \\c in {0,1} {\\draw (\\c,0)--(\\c,3);}\n\\node at (0.5,-0.5) {$1$};\n\\foreach \\r in {0,1,2,3} {\\draw (2.5,\\r)--(4.5,\\r);}\n\\foreach \\c in {0,1,2} {\\draw ({2.5+\\c},0)--({2.5+\\c},3);}\n\\node at (3.5,-0.5) {$2$};\n\\foreach \\r in {0,1,2,3} {\\draw (6,\\r)--(9,\\r);}\n\\foreach \\c in {0,1,2,3} {\\draw ({6+\\c},0)--({6+\\c},3);}\n\\node at (7.5,-0.5) {$3$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The first three shapes use $10$, $17$ and $24$ matches.\nEach new column adds $4$ horizontal matches and $3$ vertical matches: $7$ matches altogether. Thus $m=7$.\nExtending the numerical pattern back to $x=0$ gives $c=10-7=3$.\nThe equation is $y=7x+3$.\nThe value $3$ comes from extending the counts backwards; it need not represent a physical shape."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

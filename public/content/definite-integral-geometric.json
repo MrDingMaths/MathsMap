@@ -2,21 +2,55 @@
   "skillId": "definite-integral-geometric",
   "atomType": "R",
   "theory": {
-    "intro": "When the region between $y=f(x)$ and the $x$-axis is made of rectangles, triangles, trapezia or parts of a circle, a definite integral can be found from area formulas alone. Area below the $x$-axis counts as negative.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0.5,0) -- (0.5,2.5) -- (3,0) -- cycle;\n\\fill[gray!35] (3,0) -- (5.5,-2.5) -- (5.5,0) -- cycle;\n\\draw[->] (-0.8,0) -- (6.6,0) node[right] {$x$};\n\\draw[->] (0,-3.6) -- (0,4.2) node[above] {$y$};\n\\draw[thick,<->] (-0.4,3.4) -- (6,-3);\n\\node at (1.4,3) {$y=f(x)$};\n\\node at (1.4,0.7) {$+$};\n\\node at (4.6,-0.9) {$-$};\n\\node[below] at (0.5,-0.12) {$a$};\n\\node[below] at (5.5,-0.12) {$b$};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "When the region between $y=f(x)$ and the $x$-axis is made of rectangles, triangles, trapezia or parts of a circle, a definite integral can be found from area formulas alone. Area below the $x$-axis counts as negative.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0.5,0) -- (0.5,2.5) -- (3,0) -- cycle;\n\\fill[gray!35] (3,0) -- (5.5,-2.5) -- (5.5,0) -- cycle;\n\\draw[->] (-0.8,0) -- (6.6,0) node[right] {$x$};\n\\draw[->] (0,-3.6) -- (0,4.2) node[above] {$y$};\n\\draw[thick,<->] (-0.4,3.4) -- (6,-3);\n\\node at (1.4,3) {$y=f(x)$};\n\\node at (1.4,0.7) {$+$};\n\\node at (4.6,-0.9) {$-$};\n\\node[below] at (0.5,-0.12) {$a$};\n\\node[below] at (5.5,-0.12) {$b$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "Sketch the region first: the integral measures the region between the curve and the $x$-axis from $x=a$ to $x=b$.",
 "Area of a rectangle $=bh$, of a triangle $=\\frac{1}{2}bh$, of a trapezium $=\\frac{h}{2}(a+b)$, and of a circle $=\\pi r^{2}$.",
 "A piece of the region below the $x$-axis contributes a **negative** amount to the integral.",
 "The **total area enclosed** counts every piece as positive, so it can differ from the value of the integral.",
 "$y=\\sqrt{r^{2}-x^{2}}$ is the upper half of the circle $x^{2}+y^{2}=r^{2}$, which has radius $r$."
 ],
-    "steps": [
+"steps": [
 "Sketch the region between the curve and the $x$-axis from $x=a$ to $x=b$.",
 "Split it into rectangles, triangles, trapezia or parts of a circle.",
 "Find each piece's area with the matching formula.",
 "Make pieces below the axis negative, then add."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Use rectangle areas to evaluate (a) $\\int_{-2}^{2}5\\,dx$ and (b) $\\int_{1}^{5}(-3)\\,dx$.\n[tikz]\n\\begin{tikzpicture}[x=0.6cm,y=0.6cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{regionFill}{HTML}{D4E8FF}\n\\fill[regionFill] (-2,0) rectangle (2,5);\n\\draw[black,->] (-3,0)--(3,0) node[right] {$x$};\n\\draw[black,->] (0,-0.5)--(0,6) node[above] {$y$};\n\\draw[black,thick] (-2.5,5)--(2.5,5) node[right] {$y=5$};\n\\draw[black] (-2,0)--(-2,5) (2,0)--(2,5);\n\\node[below] at (-2,0) {$-2$};\n\\node[below] at (2,0) {$2$};\n\\begin{scope}[xshift=6cm]\n\\fill[regionFill] (1,0) rectangle (5,-3);\n\\draw[black,->] (-0.5,0)--(6,0) node[right] {$x$};\n\\draw[black,->] (0,-4)--(0,1) node[above] {$y$};\n\\draw[black,thick] (0.5,-3)--(5.5,-3) node[right] {$y=-3$};\n\\draw[black] (1,0)--(1,-3) (5,0)--(5,-3);\n\\node[above] at (1,0) {$1$};\n\\node[above] at (5,0) {$5$};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) The rectangle lies above the axis. Its width is $2-(-2)=4$ and its height is $5$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{-2}^{2}5\\,dx\\\\&=4\\times5\\\\&=20\\end{aligned}$\n(b) The rectangle lies below the axis. Its width is $5-1=4$ and its height is $3$, so its contribution is negative.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{1}^{5}(-3)\\,dx\\\\&=-(4\\times3)\\\\&=-12\\end{aligned}$"
   },
+  {
+    "question_text": "Sketch the region and use a triangle area to evaluate $\\int_{0}^{4}(8-2x)\\,dx$.",
+    "solution_text": "The line meets the axes at $(0,8)$ and $(4,0)$. The region is a triangle above the axis, with base $4$ and height $8$.\n[tikz]\n\\begin{tikzpicture}[x=0.8cm,y=0.4cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{regionFill}{HTML}{D4E8FF}\n\\fill[regionFill] (0,0)--(0,8)--(4,0)--cycle;\n\\draw[black,->] (-0.5,0)--(5,0) node[right] {$x$};\n\\draw[black,->] (0,-1)--(0,10) node[above] {$y$};\n\\draw[black,thick] (0,8)--(4,0);\n\\node[left] at (0,8) {$8$};\n\\node[below] at (4,0) {$4$};\n\\node[right] at (2,4) {$y=8-2x$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{4}(8-2x)\\,dx\\\\&=\\frac12(4)(8)\\\\&=16\\end{aligned}$"
+  },
+  {
+    "question_text": "Sketch the region and use a trapezium area to evaluate $\\int_{-1}^{2}(2x+5)\\,dx$.",
+    "solution_text": "The parallel sides have lengths $f(-1)=3$ and $f(2)=9$. Their perpendicular separation is $2-(-1)=3$.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=0.4cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{regionFill}{HTML}{D4E8FF}\n\\fill[regionFill] (-1,0)--(-1,3)--(2,9)--(2,0)--cycle;\n\\draw[black,->] (-2,0)--(3,0) node[right] {$x$};\n\\draw[black,->] (0,-1)--(0,11) node[above] {$y$};\n\\draw[black,thick] (-1.5,2)--(2.5,10);\n\\draw[black] (-1,0)--(-1,3) (2,0)--(2,9);\n\\node[below] at (-1,0) {$-1$};\n\\node[below] at (2,0) {$2$};\n\\node[left] at (-1,3) {$(-1,3)$};\n\\node[right] at (2,9) {$(2,9)$};\n\\end{tikzpicture}\n[/tikz]\nThe region lies above the axis.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{-1}^{2}(2x+5)\\,dx\\\\&=\\frac32(3+9)\\\\&=18\\end{aligned}$"
+  },
+  {
+    "question_text": "Sketch each region and use circle areas to evaluate (a) $\\int_{-6}^{6}\\sqrt{36-x^{2}}\\,dx$ and (b) $\\int_{-6}^{0}\\sqrt{36-x^{2}}\\,dx$.",
+    "solution_text": "The graph is the upper half of $x^{2}+y^{2}=36$, a circle of radius $6$.\n[tikz]\n\\begin{tikzpicture}[x=0.35cm,y=0.35cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{regionFill}{HTML}{D4E8FF}\n\\fill[regionFill] (6,0) arc (0:180:6)--cycle;\n\\draw[black,->] (-7,0)--(8,0) node[right] {$x$};\n\\draw[black,->] (0,-1)--(0,8) node[above] {$y$};\n\\draw[black,thick] (6,0) arc (0:180:6);\n\\node[below] at (-6,0) {$-6$};\n\\node[below] at (6,0) {$6$};\n\\node[above left] at (0,6) {$6$};\n\\node[anchor=west] at (-7,9) {(a)};\n\\begin{scope}[xshift=7cm]\n\\fill[regionFill] (0,0)--(-6,0) arc (180:90:6)--cycle;\n\\draw[black,->] (-7,0)--(8,0) node[right] {$x$};\n\\draw[black,->] (0,-1)--(0,8) node[above] {$y$};\n\\draw[black,thick] (6,0) arc (0:180:6);\n\\node[below] at (-6,0) {$-6$};\n\\node[below right] at (0,0) {$0$};\n\\node[below] at (6,0) {$6$};\n\\node[above left] at (0,6) {$6$};\n\\node[anchor=west] at (-7,9) {(b)};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]\n(a) The region is a semicircle.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{-6}^{6}\\sqrt{36-x^{2}}\\,dx\\\\&=\\frac12\\pi(6)^2\\\\&=18\\pi\\end{aligned}$\n(b) The region is a quarter circle.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{-6}^{0}\\sqrt{36-x^{2}}\\,dx\\\\&=\\frac14\\pi(6)^2\\\\&=9\\pi\\end{aligned}$"
+  },
+  {
+    "question_text": "Sketch $y=2x-4$ on $0\\le x\\le5$. Use areas to find (a) $\\int_{0}^{5}(2x-4)\\,dx$ and (b) the total area between the graph and the $x$-axis.",
+    "solution_text": "The line crosses the axis at $x=2$. The triangle below the axis has base $2$ and height $4$; the triangle above has base $3$ and height $6$.\n[tikz]\n\\begin{tikzpicture}[x=0.7cm,y=0.4cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{regionFill}{HTML}{D4E8FF}\n\\fill[regionFill] (0,0)--(0,-4)--(2,0)--cycle;\n\\fill[regionFill] (2,0)--(5,6)--(5,0)--cycle;\n\\draw[black,->] (-1,0)--(6,0) node[right] {$x$};\n\\draw[black,->] (0,-5)--(0,8) node[above] {$y$};\n\\draw[black,thick] (0,-4)--(5,6);\n\\draw[black] (5,0)--(5,6);\n\\node[left] at (0,-4) {$-4$};\n\\node[below] at (2,0) {$2$};\n\\node[below] at (5,0) {$5$};\n\\node[right] at (5,6) {$(5,6)$};\n\\end{tikzpicture}\n[/tikz]\n(a) Count the area below the axis as negative.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{5}(2x-4)\\,dx\\\\&=-\\frac12(2)(4)+\\frac12(3)(6)\\\\&=-4+9\\\\&=5\\end{aligned}$\n(b) Count both areas as positive.\n$\\begin{aligned}A&=4+9\\\\&=13\\text{ square units}\\end{aligned}$"
+  },
+  {
+    "question_text": "Sketch $y=|x|$ and use areas to evaluate $\\int_{-3}^{5}|x|\\,dx$.",
+    "solution_text": "Split at $x=0$. Both triangles lie above the axis.\n[tikz]\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{regionFill}{HTML}{D4E8FF}\n\\fill[regionFill] (-3,0)--(-3,3)--(0,0)--(5,5)--(5,0)--cycle;\n\\draw[black,->] (-4,0)--(6,0) node[right] {$x$};\n\\draw[black,->] (0,-1)--(0,6) node[above] {$y$};\n\\draw[black,thick] (-3,3)--(0,0)--(5,5);\n\\draw[black] (-3,0)--(-3,3) (5,0)--(5,5);\n\\node[below] at (-3,0) {$-3$};\n\\node[below] at (5,0) {$5$};\n\\node[left] at (-3,3) {$(-3,3)$};\n\\node[right] at (5,5) {$(5,5)$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{-3}^{5}|x|\\,dx\\\\&=\\frac12(3)(3)+\\frac12(5)(5)\\\\&=\\frac92+\\frac{25}{2}\\\\&=17\\end{aligned}$"
+  },
+  {
+    "question_text": "The graph joins $(0,3)$ to $(2,7)$ and then to $(6,0)$ with straight lines. Use areas to evaluate $\\int_{0}^{6}f(x)\\,dx$.\n[tikz]\n\\begin{tikzpicture}[x=0.6cm,y=0.5cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{regionFill}{HTML}{D4E8FF}\n\\fill[regionFill] (0,0)--(0,3)--(2,7)--(6,0)--cycle;\n\\draw[black,->] (-1,0)--(7,0) node[right] {$x$};\n\\draw[black,->] (0,-1)--(0,8) node[above] {$y$};\n\\draw[black,thick] (0,3)--(2,7)--(6,0);\n\\node[left] at (0,3) {$3$};\n\\node[above] at (2,7) {$(2,7)$};\n\\node[below] at (6,0) {$6$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Split at $x=2$ into a trapezium and a triangle. Both lie above the axis.\nThe trapezium has parallel sides $3$ and $7$, separated by $2$. The triangle has base $6-2=4$ and height $7$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{6}f(x)\\,dx\\\\&=\\frac22(3+7)+\\frac12(4)(7)\\\\&=10+14\\\\&=24\\end{aligned}$"
+  },
+  {
+    "question_text": "Given $k>2$ and $\\int_{2}^{k}2x\\,dx=32$, sketch the region and find $k$ using a trapezium area.",
+    "solution_text": "The parallel sides have lengths $4$ and $2k$, separated by $k-2$.\n[tikz]\n\\begin{tikzpicture}[x=0.7cm,y=0.35cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{regionFill}{HTML}{D4E8FF}\n\\fill[regionFill] (2,0)--(2,4)--(5,10)--(5,0)--cycle;\n\\draw[black,->] (-0.5,0)--(6,0) node[right] {$x$};\n\\draw[black,->] (0,-1)--(0,12) node[above] {$y$};\n\\draw[black,thick] (0,0)--(5.5,11);\n\\draw[black] (2,0)--(2,4) (5,0)--(5,10);\n\\node[below] at (2,0) {$2$};\n\\node[below] at (5,0) {$k$};\n\\node[left] at (2,4) {$4$};\n\\node[right] at (5,10) {$2k$};\n\\node[right] at (3,6) {$y=2x$};\n\\node[below] at (3,-2) {Not to scale};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}32&=\\frac{k-2}{2}(4+2k)\\\\32&=(k-2)(k+2)\\\\32&=k^2-4\\\\k^2&=36\\\\k&=6\\end{aligned}$\nChoose the positive root because $k>2$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,8 +2,8 @@
   "skillId": "utc-problems",
   "atomType": "R",
   "theory": {
-        "intro": "**Coordinated Universal Time (UTC)** is the global time standard at the Prime Meridian ($0^{\\circ}$), with time zones defined by offsets measured in hours, including fractional hours.",
-        "facts": [
+"intro": "**Coordinated Universal Time (UTC)** is the global time standard at the Prime Meridian ($0^{\\circ}$), with time zones defined by offsets measured in hours, including fractional hours.",
+"facts": [
 "The **signed time adjustment** is the destination offset minus the origin offset: $\\text{Time adjustment} = \\text{Destination UTC offset} - \\text{Origin UTC offset}$. Add this signed adjustment to the origin time to find the corresponding destination time.",
 "A higher (more positive) UTC offset means a location is **ahead** in time.",
 "Adjust for midnight rollover: if the result is at or above $24{:}00$, subtract $24\\text{ hours}$ and advance the date by one day, including exactly midnight. If the result is negative, add $24\\text{ hours}$ and move the date back one day. Repeat these adjustments as needed for journeys spanning multiple days.",
@@ -11,13 +11,57 @@
 "$\\text{Flying Time} = \\text{Elapsed Time} - \\text{Stopovers}$, where elapsed time is measured between the departure and arrival dates and times after converting both to the same time zone.",
 "For longitude-based local solar time, $15^{\\circ}=1\\text{ hour}$. Divide the longitude difference by $15^{\\circ}$ to find the time difference; places further east are ahead. This gives local solar time, not civil time: use supplied UTC offsets for civil time zones."
 ],
-        "steps": [
+"steps": [
 "Calculate the time difference: $\\text{Destination UTC offset} - \\text{Origin UTC offset}$. For local solar time, use the longitude difference and $15^{\\circ}=1\\text{ hour}$ instead",
 "Convert the starting time to 24-hour format and adjust by the time difference to find the corresponding destination time",
 "For arrival or finishing time, add the journey or event duration, including any stopovers. For flying time, express departure and arrival in the same time zone, account for their dates, find the elapsed time and subtract the stopover time",
 "Adjust for midnight rollover: for a result at or above $24{:}00$, subtract $24\\text{ hours}$ and advance the date by one day; for a negative result, add $24\\text{ hours}$ and move the date back one day. Repeat as needed until the time is from $00{:}00$ up to but not including $24{:}00$"
+],
+"workedExamples": [
+  {
+    "question_text": "When it is $8{:}20\\text{ am}$ in Alice Springs ($\\text{UTC}+9.5$), what is the local time in Fremantle ($\\text{UTC}+8$)?",
+    "solution_text": "Fremantle is behind Alice Springs.\n$\\begin{aligned}\\text{Time difference}&=9.5-8\\\\&=1.5\\text{ h}\\\\&=1\\text{ h }30\\text{ min}\\end{aligned}$\n$\\begin{aligned}\\text{Time in Fremantle}&=08{:}20-1\\text{ h }30\\text{ min}\\\\&=06{:}50\\end{aligned}$\nIt is $6{:}50\\text{ am}$ in Fremantle.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the local day and time in each case.\n(a) It is $9{:}15\\text{ am}$ on Wednesday in Sydney ($\\text{UTC}+10$). What time is it in San Francisco ($\\text{UTC}-8$)?\n(b) It is $8{:}40\\text{ pm}$ on Monday in Anchorage ($\\text{UTC}-9$). What time is it in Tokyo ($\\text{UTC}+9$)?",
+    "solution_text": "(a) San Francisco is $10-(-8)=18\\text{ h}$ behind Sydney. Subtracting $18\\text{ h}$ crosses midnight, so use the previous day.\n$\\begin{aligned}\\text{Time in San Francisco}&=(24\\text{ h}+9\\text{ h }15\\text{ min})-18\\text{ h}\\\\&=15\\text{ h }15\\text{ min}\\end{aligned}$\nIt is $3{:}15\\text{ pm}$ on Tuesday.\n\n(b) Tokyo is $9-(-9)=18\\text{ h}$ ahead of Anchorage.\n$\\begin{aligned}\\text{Time in Tokyo}&=20{:}40+18\\text{ h}\\\\&=38{:}40\\\\&=14{:}40\\text{ on the next day}\\end{aligned}$\nIt is $2{:}40\\text{ pm}$ on Tuesday.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Sydney uses standard time ($\\text{UTC}+10$). San Francisco moves its clocks forward $1\\text{ h}$ from standard time ($\\text{UTC}-8$) for daylight saving.\nA flight leaves Sydney at $8{:}45\\text{ pm}$ on Wednesday and takes $13\\text{ h }35\\text{ min}$. Find the local arrival day and time in San Francisco.",
+    "solution_text": "San Francisco's daylight-saving offset is $-8+1=-7$. It is $10-(-7)=17\\text{ h}$ behind Sydney.\n$\\begin{aligned}\\text{Departure in San Francisco}&=20{:}45-17\\text{ h}\\\\&=03{:}45\\text{ on Wednesday}\\end{aligned}$\n$\\begin{aligned}\\text{Arrival in San Francisco}&=03{:}45+13\\text{ h }35\\text{ min}\\\\&=17{:}20\\text{ on Wednesday}\\end{aligned}$\nThe flight arrives at $5{:}20\\text{ pm}$ on Wednesday.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Brisbane ($\\text{UTC}+10$) is $4.5\\text{ h}$ ahead of New Delhi ($\\text{UTC}+5.5$).\nA passenger leaves New Delhi at $12{:}20\\text{ pm}$ on Monday, spends $2\\text{ h }30\\text{ min}$ at a stopover, and arrives in Brisbane at $8{:}10\\text{ am}$ on Tuesday. Calculate the total flying time.",
+    "solution_text": "Express departure and arrival in Brisbane time.\n$\\begin{aligned}\\text{Departure in Brisbane}&=12{:}20+4\\text{ h }30\\text{ min}\\\\&=16{:}50\\text{ on Monday}\\end{aligned}$\nFrom $16{:}50$ to midnight is $7\\text{ h }10\\text{ min}$.\n$\\begin{aligned}\\text{Elapsed time}&=7\\text{ h }10\\text{ min}+8\\text{ h }10\\text{ min}\\\\&=15\\text{ h }20\\text{ min}\\end{aligned}$\n$\\begin{aligned}\\text{Flying time}&=15\\text{ h }20\\text{ min}-2\\text{ h }30\\text{ min}\\\\&=12\\text{ h }50\\text{ min}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A flight leaves point $A(10^{\\circ}\\text{N},45^{\\circ}\\text{W})$ at $9{:}30\\text{ am}$ local solar time on Tuesday for point $B(20^{\\circ}\\text{N},75^{\\circ}\\text{E})$. The flight takes $6\\text{ h }30\\text{ min}$.\nUsing $15^{\\circ}=1\\text{ h}$, find the local solar arrival day and time at $B$.",
+    "solution_text": "The longitudes are on opposite sides of the prime meridian. Point $B$ is further east, so it is ahead.\n$\\begin{aligned}\\text{Longitude difference}&=45^{\\circ}+75^{\\circ}\\\\&=120^{\\circ}\\end{aligned}$\n$\\begin{aligned}\\text{Time difference}&=120\\div15\\\\&=8\\text{ h}\\end{aligned}$\n$\\begin{aligned}\\text{Departure time at }B&=09{:}30+8\\text{ h}\\\\&=17{:}30\\text{ on Tuesday}\\end{aligned}$\n$\\begin{aligned}\\text{Arrival time at }B&=17{:}30+6\\text{ h }30\\text{ min}\\\\&=24{:}00\\\\&=00{:}00\\text{ on Wednesday}\\end{aligned}$\nThe flight arrives at midnight at the start of Wednesday, local solar time.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An online presentation starts at $7{:}30\\text{ pm}$ on Thursday at a location with longitude $20^{\\circ}\\text{E}$ and lasts $1\\text{ h }45\\text{ min}$.\nFind the local solar day and time when it finishes at a location with longitude $140^{\\circ}\\text{E}$. Use $15^{\\circ}=1\\text{ h}$ and ignore daylight saving.",
+    "solution_text": "The second location is further east, so it is ahead.\n$\\begin{aligned}\\text{Longitude difference}&=140^{\\circ}-20^{\\circ}\\\\&=120^{\\circ}\\end{aligned}$\n$\\begin{aligned}\\text{Time difference}&=120\\div15\\\\&=8\\text{ h}\\end{aligned}$\n$\\begin{aligned}\\text{Presentation start}&=19{:}30+8\\text{ h}\\\\&=27{:}30\\\\&=03{:}30\\text{ on Friday}\\end{aligned}$\n$\\begin{aligned}\\text{Presentation finish}&=03{:}30+1\\text{ h }45\\text{ min}\\\\&=05{:}15\\text{ on Friday}\\end{aligned}$\nIt finishes at $5{:}15\\text{ am}$ on Friday, local solar time.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

@@ -2,8 +2,8 @@
   "skillId": "simplify-fractions-by-factorising",
   "atomType": "R",
   "theory": {
-        "intro": "An algebraic fraction simplifies only when its numerator and denominator share a common **factor**. Factorising both parts first makes those common factors visible so they can be cancelled.",
-        "facts": [
+"intro": "An algebraic fraction simplifies only when its numerator and denominator share a common **factor**. Factorising both parts first makes those common factors visible so they can be cancelled.",
+"facts": [
 "$\\frac{A}{B}$ can be simplified **if and only if** $A$ and $B$ share a common factor other than $1$.",
 "Only **factors** cancel, never single **terms**: $\\frac{x+3}{x+5}$ does not simplify, because $x$ is a term of each part, not a factor.",
 "The factorising tools are the common factor ($6x+8=2(3x+4)$), the difference of two squares ($x^2-25=(x-5)(x+5)$) and trinomials ($x^2+5x+6=(x+2)(x+3)$).",
@@ -14,11 +14,91 @@
 "If no common factor appears after factorising, the fraction is already in simplest form.",
 "Cancellation preserves equivalence only for values where the original expression is defined: every original denominator must be non-zero, even if its factors cancel. Division also requires a non-zero divisor."
 ],
-        "steps": [
+"steps": [
           "Factorise the numerator and denominator.",
           "Cancel any common factors."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Simplify $\\frac{18x+30}{12}$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{18x+30}{12}\\\\&=\\frac{6(3x+5)}{6\\times2}\\\\&=\\frac{3x+5}{2}\\end{aligned}$\n\nCancel the common factor $6$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\frac{x^2-64}{3x-24}$ and state the restriction on $x$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{x^2-64}{3x-24}\\\\&=\\frac{(x-8)(x+8)}{3(x-8)}\\\\&=\\frac{x+8}{3}\\end{aligned}$\n\nThe original denominator is zero when $x=8$, so $x\\ne8$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\frac{x^2+11x+30}{x^2+9x+20}$.",
+    "solution_text": "For the numerator, the product is $30$ and the sum is $11$: use $5$ and $6$. For the denominator, use $4$ and $5$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{x^2+11x+30}{x^2+9x+20}\\\\&=\\frac{(x+5)(x+6)}{(x+4)(x+5)}\\\\&=\\frac{x+6}{x+4}\\end{aligned}$\n\nKeep the original restrictions: $x\\ne-4,-5$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\frac{x^2-14x+49}{5x-35}$.",
+    "solution_text": "The numerator is a perfect square: its middle term is $-2(x)(7)=-14x$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{x^2-14x+49}{5x-35}\\\\&=\\frac{(x-7)^2}{5(x-7)}\\\\&=\\frac{x-7}{5}\\end{aligned}$\n\nOnly one factor of $x-7$ cancels. The restriction remains $x\\ne7$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\frac{49-x^2}{x-7}$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{49-x^2}{x-7}\\\\&=\\frac{(7-x)(7+x)}{x-7}\\\\&=\\frac{-(x-7)(x+7)}{x-7}\\\\&=-(x+7)\\end{aligned}$\n\nUse $7-x=-(x-7)$. The original restriction is $x\\ne7$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A student writes $\\frac{x+4}{x+9}=\\frac{4}{9}$ by cancelling $x$. Explain the error and check using $x=1$.",
+    "solution_text": "The $x$ is a term, not a common factor of the entire numerator and denominator. It cannot be cancelled.\n\nFor $x=1$,\n$\\frac{x+4}{x+9}=\\frac{5}{10}=\\frac12$.\n\nSince $\\frac12\\ne\\frac49$, the proposed simplification is incorrect. The original fraction is already in simplest form, with $x\\ne-9$."
+  },
+  {
+    "question_text": "Simplify $\\frac{x^2-49}{6}\\times\\frac{18}{x+7}$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{x^2-49}{6}\\times\\frac{18}{x+7}\\\\&=\\frac{(x-7)(x+7)}{6}\\times\\frac{18}{x+7}\\\\&=\\frac{18(x-7)}{6}\\\\&=3(x-7)\\end{aligned}$\n\nCancel $x+7$ and reduce $18\\div6$. Keep $x\\ne-7$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\frac{x^2+8x+15}{x+2}\\div\\frac{x+5}{x+2}$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{x^2+8x+15}{x+2}\\div\\frac{x+5}{x+2}\\\\&=\\frac{x^2+8x+15}{x+2}\\times\\frac{x+2}{x+5}\\\\&=\\frac{(x+3)(x+5)}{x+2}\\times\\frac{x+2}{x+5}\\\\&=x+3\\end{aligned}$\n\nMultiply by the reciprocal before cancelling. The denominators require $x\\ne-2$; the divisor must also be non-zero, so $x\\ne-5$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\frac{7}{x^2-36}-\\frac{2}{x+6}$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{7}{x^2-36}-\\frac{2}{x+6}\\\\&=\\frac{7}{(x-6)(x+6)}-\\frac{2(x-6)}{(x-6)(x+6)}\\\\&=\\frac{7-2(x-6)}{(x-6)(x+6)}\\\\&=\\frac{19-2x}{(x-6)(x+6)}\\end{aligned}$\n\nFactorise first to find the lowest common denominator. Subtract every term of $2(x-6)$. Keep $x\\ne-6,6$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the missing constants for all valid $x$.\n\n(a) $\\frac{12x+k}{6}=2x+7$\n\n(b) $\\frac{x^2+bx+c}{x^2-25}=\\frac{x+8}{x+5}$",
+    "solution_text": "(a)\n$\\begin{aligned}\\frac{12x+k}{6}&=2x+7\\\\12x+k&=6(2x+7)\\\\12x+k&=12x+42\\\\k&=42\\end{aligned}$\n\n(b) The denominator factorises as $(x-5)(x+5)$. The factor $x-5$ must cancel, leaving $x+5$ below.\n\n$\\begin{aligned}x^2+bx+c&=(x-5)(x+8)\\\\&=x^2+3x-40\\end{aligned}$\n\nMatching coefficients gives $b=3$ and $c=-40$. The original restrictions remain $x\\ne-5,5$."
+  },
+  {
+    "question_text": "Simplify $\\frac{6x^2+7x-3}{4x^2-1}$.",
+    "solution_text": "For the numerator, the product is $6(-3)=-18$ and the sum is $7$. Use $9$ and $-2$ to split the middle term.\n\n$\\begin{aligned}6x^2+7x-3&=6x^2+9x-2x-3\\\\&=3x(2x+3)-(2x+3)\\\\&=(2x+3)(3x-1)\\end{aligned}$\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{6x^2+7x-3}{4x^2-1}\\\\&=\\frac{(2x+3)(3x-1)}{(2x-1)(2x+1)}\\end{aligned}$\n\nThere is no common factor to cancel. The fraction is in simplest form, with $x\\ne-\\frac12,\\frac12$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\frac{6x^2+7x-3}{4x^2+8x+3}$.",
+    "solution_text": "Split the middle terms using product and sum, then group in pairs.\n\n$\\begin{aligned}6x^2+7x-3&=6x^2+9x-2x-3\\\\&=3x(2x+3)-(2x+3)\\\\&=(2x+3)(3x-1)\\end{aligned}$\n\n$\\begin{aligned}4x^2+8x+3&=4x^2+6x+2x+3\\\\&=2x(2x+3)+(2x+3)\\\\&=(2x+3)(2x+1)\\end{aligned}$\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{6x^2+7x-3}{4x^2+8x+3}\\\\&=\\frac{(2x+3)(3x-1)}{(2x+3)(2x+1)}\\\\&=\\frac{3x-1}{2x+1}\\end{aligned}$\n\nKeep both original restrictions: $x\\ne-\\frac32,-\\frac12$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

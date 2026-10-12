@@ -2,8 +2,8 @@
   "skillId": "area-with-y-axis",
   "atomType": "R",
   "theory": {
-    "intro": "To find the area between a curve and the $y$-axis, integrate $x$ with respect to $y$. Write the rule as $x=g(y)$ and use $y$ values as the limits, with $c<d$. If $g(y)\\geq0$ throughout $c\\leq y\\leq d$, the area is $\\int_{c}^{d} g(y)\\,dy$. For a region to the left of the $y$-axis, use $-\\int_{c}^{d} g(y)\\,dy$. If $g(y)$ changes sign, split at the $y$-intercepts and add the absolute values of the sub-integrals. Area is again positive.",
-    "facts": [
+"intro": "To find the area between a curve and the $y$-axis, integrate $x$ with respect to $y$. Write the rule as $x=g(y)$ and use $y$ values as the limits, with $c<d$. If $g(y)\\geq0$ throughout $c\\leq y\\leq d$, the area is $\\int_{c}^{d} g(y)\\,dy$. For a region to the left of the $y$-axis, use $-\\int_{c}^{d} g(y)\\,dy$. If $g(y)$ changes sign, split at the $y$-intercepts and add the absolute values of the sub-integrals. Area is again positive.",
+"facts": [
 "The area between a curve and the $y$-axis from $y=c$ to $y=d$ is $\\int_{c}^{d} g(y)\\,dy$, where $x=g(y)$, $c<d$ and $g(y)\\geq0$ throughout $c\\leq y\\leq d$. If $g(y)\\leq0$ throughout, the area is $-\\int_{c}^{d} g(y)\\,dy$; if $g(y)$ changes sign, split at the $y$-intercepts and add the absolute values of the sub-integrals.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1.1cm]\n\\fill[gray!35, domain=1:3, variable=\\y] (0,1) -- plot ({0.4*\\y*\\y+0.3},{\\y}) -- (0,3) -- cycle;\n\\draw[->] (-1,0) -- (5,0) node[right] {$x$};\n\\draw[->] (0,-0.7) -- (0,4.2) node[above] {$y$};\n\\draw[thick, <->, domain=0.2:3.5, smooth, samples=100, variable=\\y] plot ({0.4*\\y*\\y+0.3},{\\y});\n\\draw[dashed] (0,1) -- (0.7,1);\n\\draw[dashed] (0,3) -- (3.9,3);\n\\node[left] at (0,1) {$c$};\n\\node[left] at (0,3) {$d$};\n\\node[right] at (3.6,1.9) {$x=g(y)$};\n\\end{tikzpicture}\n[/tikz]",
 "A rule given as $y=f(x)$ must first be rearranged to make $x$ the subject.",
 "Limits given as $x$ values must be converted to $y$ values by substituting into the original rule.",
@@ -12,13 +12,50 @@
 "A **$y$-intercept** of the region is a value of $y$ for which $g(y)=0$.",
 "Split the integral at each $y$-intercept inside the limits and add the absolute values."
 ],
-    "steps": [
+"steps": [
       "Rearrange the rule to make $x$ the subject, giving $x=g(y)$.",
       "Convert any limits given as $x$ values into the matching $y$ values.",
       "Split the interval at each value of $y$ where $g(y)=0$.",
       "Integrate with respect to $y$ and add the absolute values of the pieces."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find the area bounded by $x=2y^2$, the $y$-axis and the lines $y=1$ and $y=2$.\n[tikz]\n\\begin{tikzpicture}[x=0.55cm,y=1.25cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{regionfill}{HTML}{D4E8FF}\n\\fill[regionfill] (0,1)--plot[domain=1:2,variable=\\t,samples=60] ({2*\\t*\\t},{\\t})--(0,2)--cycle;\n\\draw[black,->] (-0.5,0)--(9.5,0) node[right] {$x$};\n\\draw[black,->] (0,-0.3)--(0,2.7) node[above] {$y$};\n\\draw[black,thick,->] plot[domain=0:2.15,variable=\\t,samples=60] ({2*\\t*\\t},{\\t});\n\\draw[black] (0,1)--(2,1) (0,2)--(8,2);\n\\path (0,1) node[left] {$1$} (0,2) node[left] {$2$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The curve lies to the right of the $y$-axis throughout the interval.\n$\\begin{align*} A&=\\int_1^2 2y^2\\,dy\\\\&=\\left[\\frac{2y^3}{3}\\right]_1^2\\\\&=\\frac{16}{3}-\\frac{2}{3}\\\\&=\\frac{14}{3}\\ \\text{units}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find the area bounded by $x=-y^2$, the $y$-axis and the lines $y=1$ and $y=3$.\n[tikz]\n\\begin{tikzpicture}[x=0.5cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{regionfill}{HTML}{D4E8FF}\n\\fill[regionfill] (0,1)--plot[domain=1:3,variable=\\t,samples=60] ({-\\t*\\t},{\\t})--(0,3)--cycle;\n\\draw[black,->] (-10.5,0)--(0.8,0) node[right] {$x$};\n\\draw[black,->] (0,-0.3)--(0,3.7) node[above] {$y$};\n\\draw[black,thick,->] plot[domain=0:3.2,variable=\\t,samples=60] ({-\\t*\\t},{\\t});\n\\draw[black] (0,1)--(-1,1) (0,3)--(-9,3);\n\\path (0,1) node[right] {$1$} (0,3) node[right] {$3$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The curve lies to the left of the $y$-axis, so take the negative of the integral.\n$\\begin{align*} A&=-\\int_1^3(-y^2)\\,dy\\\\&=-\\left[-\\frac{y^3}{3}\\right]_1^3\\\\&=-\\left(-9+\\frac{1}{3}\\right)\\\\&=\\frac{26}{3}\\ \\text{units}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the area bounded by $y=\\sqrt{3x+1}$, the $y$-axis and the lines $y=1$ and $y=4$.\n[tikz]\n\\begin{tikzpicture}[x=0.85cm,y=0.85cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{regionfill}{HTML}{D4E8FF}\n\\fill[regionfill] (0,1)--plot[domain=1:4,variable=\\t,samples=60] ({(\\t*\\t-1)/3},{\\t})--(0,4)--cycle;\n\\draw[black,->] (-0.8,0)--(6.1,0) node[right] {$x$};\n\\draw[black,->] (0,-0.3)--(0,4.8) node[above] {$y$};\n\\draw[black,thick,->] plot[domain=0:4.2,variable=\\t,samples=60] ({(\\t*\\t-1)/3},{\\t});\n\\draw[black] (0,4)--(5,4);\n\\path (0,1) node[left] {$1$} (0,4) node[left] {$4$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Make $x$ the subject.\n$\\begin{align*} y^2&=3x+1\\\\x&=\\frac{y^2-1}{3}\\end{align*}$\nHere $x\\geq0$ for $1\\leq y\\leq4$.\n$\\begin{align*} A&=\\int_1^4\\frac{y^2-1}{3}\\,dy\\\\&=\\left[\\frac{y^3}{9}-\\frac{y}{3}\\right]_1^4\\\\&=\\left(\\frac{64}{9}-\\frac{4}{3}\\right)-\\left(\\frac{1}{9}-\\frac{1}{3}\\right)\\\\&=6\\ \\text{units}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the area between $y=x^3+2$ and the $y$-axis, from the height of the curve at $x=0$ to its height at $x=3$.\n[tikz]\n\\begin{tikzpicture}[x=1.3cm,y=0.12cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{regionfill}{HTML}{D4E8FF}\n\\fill[regionfill] (0,2)--plot[domain=0:3,variable=\\t,samples=80] ({\\t},{\\t*\\t*\\t+2})--(0,29)--cycle;\n\\draw[black,->] (-0.4,0)--(3.7,0) node[right] {$x$};\n\\draw[black,->] (0,-3)--(0,36) node[above] {$y$};\n\\draw[black,thick,->] plot[domain=-0.8:3.15,variable=\\t,samples=80] ({\\t},{\\t*\\t*\\t+2});\n\\draw[black] (0,29)--(3,29);\n\\draw[black,dashed] (3,0)--(3,29);\n\\path (3,0) node[below] {$3$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Rearrange to $x=\\sqrt[3]{y-2}$. When $x=0$, $y=2$; when $x=3$, $y=29$.\n$\\begin{align*} A&=\\int_2^{29}(y-2)^{1/3}\\,dy\\\\&=\\left[\\frac{3}{4}(y-2)^{4/3}\\right]_2^{29}\\\\&=\\frac{3}{4}(81-0)\\\\&=\\frac{243}{4}\\ \\text{units}^2\\end{align*}$\nThe converted bounds and corresponding points are shown below.\n[tikz]\n\\begin{tikzpicture}[x=1.3cm,y=0.12cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{regionfill}{HTML}{D4E8FF}\n\\fill[regionfill] (0,2)--plot[domain=0:3,variable=\\t,samples=80] ({\\t},{\\t*\\t*\\t+2})--(0,29)--cycle;\n\\draw[black,->] (-0.4,0)--(3.7,0) node[right] {$x$};\n\\draw[black,->] (0,-3)--(0,36) node[above] {$y$};\n\\draw[black,thick,->] plot[domain=-0.8:3.15,variable=\\t,samples=80] ({\\t},{\\t*\\t*\\t+2});\n\\draw[black] (0,29)--(3,29);\n\\draw[black,dashed] (3,0)--(3,29);\n\\path (0,2) node[left] {$2$} (0,29) node[left] {$29$} (3,0) node[below] {$3$} (3,29) node[above right] {$(3,29)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the total area bounded by $x=y(y-4)$, the $y$-axis and the lines $y=0$ and $y=6$.\n[tikz]\n\\begin{tikzpicture}[x=0.32cm,y=0.65cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{regionfill}{HTML}{D4E8FF}\n\\fill[regionfill] (0,0)--plot[domain=0:4,variable=\\t,samples=60] ({\\t*(\\t-4)},{\\t})--cycle;\n\\fill[regionfill] (0,4)--plot[domain=4:6,variable=\\t,samples=60] ({\\t*(\\t-4)},{\\t})--(0,6)--cycle;\n\\draw[black,->] (-5.5,0)--(15,0) node[right] {$x$};\n\\draw[black,->] (0,-0.5)--(0,7) node[above] {$y$};\n\\draw[black,thick,->] plot[domain=-0.3:6.2,variable=\\t,samples=80] ({\\t*(\\t-4)},{\\t});\n\\draw[black] (0,6)--(12,6);\n\\path (0,6) node[left] {$6$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Find where the curve meets the $y$-axis.\n$\\begin{align*} y(y-4)&=0\\\\y&=0\\ \\text{or}\\ 4\\end{align*}$\nThe curve lies left of the axis for $0<y<4$ and right for $4<y\\leq6$. Split at $y=4$ and add the positive areas.\n$\\begin{align*} A&=-\\int_0^4(y^2-4y)\\,dy+\\int_4^6(y^2-4y)\\,dy\\\\&=-\\left[\\frac{y^3}{3}-2y^2\\right]_0^4+\\left[\\frac{y^3}{3}-2y^2\\right]_4^6\\\\&=-\\left(-\\frac{32}{3}\\right)+\\left(0+\\frac{32}{3}\\right)\\\\&=\\frac{64}{3}\\ \\text{units}^2\\end{align*}$\n[tikz]\n\\begin{tikzpicture}[x=0.32cm,y=0.65cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{regionfill}{HTML}{D4E8FF}\n\\fill[regionfill] (0,0)--plot[domain=0:4,variable=\\t,samples=60] ({\\t*(\\t-4)},{\\t})--cycle;\n\\fill[regionfill] (0,4)--plot[domain=4:6,variable=\\t,samples=60] ({\\t*(\\t-4)},{\\t})--(0,6)--cycle;\n\\draw[black,->] (-5.5,0)--(15,0) node[right] {$x$};\n\\draw[black,->] (0,-0.5)--(0,7) node[above] {$y$};\n\\draw[black,thick,->] plot[domain=-0.3:6.2,variable=\\t,samples=80] ({\\t*(\\t-4)},{\\t});\n\\draw[black] (0,6)--(12,6);\n\\fill[black] (0,4) circle[radius=1.5pt];\n\\path (0,4) node[left] {$4$} (0,6) node[left] {$6$} (-4,2) node[left] {Left} (7,5.4) node[right] {Right};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

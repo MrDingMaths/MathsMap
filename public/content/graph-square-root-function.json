@@ -2,112 +2,134 @@
   "skillId": "graph-square-root-function",
   "atomType": "R",
   "theory": {
-        "intro": "The **square root function** $y = \\sqrt{x}$ forms the upper half of a horizontal parabola $y^2 = x$. It starts at the **endpoint** $(0,0)$ and increases with a decreasing gradient. Translations shift the endpoint to $(h, k)$.",
-        "facts": [
-          "The base function $y = \\sqrt{x}$ has endpoint $(0,0)$, domain $x \\ge 0$ ($[0, \\infty)$), and range $y \\ge 0$ ($[0, \\infty)$).",
-          "The function $y = \\sqrt{x - h} + k$ has endpoint $(h, k)$, domain $x \\ge h$ ($[h, \\infty)$), and range $y \\ge k$ ($[k, \\infty)$).",
-          "For $y = -\\sqrt{x - h} + k$, reflection across $y = k$ changes the range to $y \\le k$ ($(-\\infty, k]$).",
-          "For $y = \\sqrt{h - x} + k = \\sqrt{-(x - h)} + k$, reflection across $x = h$ changes the domain to $x \\le h$ ($(-\\infty, h]$).",
-          "Plot points at perfect square offsets $h+0, h+1, h+4, h+9$ to obtain exact integer coordinates."
-        ],
-        "steps": [
-          "Find the endpoint $(h, k)$ by setting the radicand equal to $0$ and evaluating $y$.",
-          "Determine the domain by solving $\\text{radicand} \\ge 0$ and state it in inequality and interval notation.",
-          "Determine the range from the endpoint $y$-value $k$ and the sign in front of the radical in inequality and interval notation.",
-          "Evaluate coordinates at perfect square offsets ($h+1, h+4$) to plot and sketch the curve."
-        ]
-      },
+"intro": "The **square root function** $y = \\sqrt{x}$ forms the upper half of a horizontal parabola $y^2 = x$. It starts at the **endpoint** $(0,0)$ and increases with a decreasing gradient. Translations shift the endpoint to $(h, k)$.",
+"facts": [
+"The base function $y = \\sqrt{x}$ has endpoint $(0,0)$, domain $x \\ge 0$ ($[0, \\infty)$), and range $y \\ge 0$ ($[0, \\infty)$).",
+"The function $y = \\sqrt{x - h} + k$ has endpoint $(h, k)$, domain $x \\ge h$ ($[h, \\infty)$), and range $y \\ge k$ ($[k, \\infty)$).",
+"For $y = -\\sqrt{x - h} + k$, reflection across $y = k$ changes the range to $y \\le k$ ($(-\\infty, k]$).",
+"For $y = \\sqrt{h - x} + k = \\sqrt{-(x - h)} + k$, reflection across $x = h$ changes the domain to $x \\le h$ ($(-\\infty, h]$).",
+"Choose $x$-values by making the actual radicand a perfect square. For $x-h$, use $h+0, h+1, h+4, h+9$; for $h-x$, use $h-0, h-1, h-4, h-9$."
+],
+"steps": [
+"Find the endpoint $(h, k)$ by setting the radicand equal to $0$ and evaluating $y$.",
+"Determine the domain by solving $\\text{radicand} \\ge 0$ and state it in inequality and interval notation.",
+"Determine the range from the endpoint $y$-value $k$ and the sign in front of the radical in inequality and interval notation.",
+"Make the actual radicand a perfect square to evaluate coordinates and sketch the curve: use $h+1, h+4$ for $x-h$, or $h-1, h-4$ for $h-x$."
+],
+"workedExamples": [
+  {
+    "question_text": "For $f(x)=\\sqrt{x-5}+2$, state the endpoint, domain and range in inequality and interval notation.",
+    "solution_text": "Set the radicand equal to zero to find the endpoint.\n$\\begin{aligned}x-5&=0\\\\x&=5\\end{aligned}$\nAt $x=5$, $f(5)=2$, so the endpoint is $(5,2)$.\nDomain: $x\\ge5$, or $[5,\\infty)$.\nSince $\\sqrt{x-5}\\ge0$, the range is $y\\ge2$, or $[2,\\infty)$."
+  },
+  {
+    "question_text": "Describe the transformations from $y=\\sqrt{x}$ to $y=-\\sqrt{7-x}+2$. State the endpoint, domain and range in inequality and interval notation.",
+    "solution_text": "Reflect across the $y$-axis, translate right $7$ units, reflect across the $x$-axis, then translate up $2$ units.\nThe endpoint moves to $(7,2)$.\nThe radicand must be non-negative.\n$\\begin{aligned}7-x&\\ge0\\\\x&\\le7\\end{aligned}$\nDomain: $x\\le7$, or $(-\\infty,7]$.\nSince the square root is subtracted, the range is $y\\le2$, or $(-\\infty,2]$.\nThe curve extends left and down from its endpoint."
+  },
+  {
+    "question_text": "Sketch $y=\\sqrt{x+1}-2$ by translating $y=\\sqrt{x}$. Construct a table using radicand values $0,1,4,9$, and label the endpoint and both intercepts.",
+    "solution_text": "Translate $y=\\sqrt{x}$ left $1$ unit and down $2$ units.\nChoose values making $x+1$ a perfect square.\n\n| $x$ | $-1$ | $0$ | $3$ | $8$ |\n| --- | --- | --- | --- | --- |\n| $y$ | $-2$ | $-1$ | $0$ | $1$ |\n\nThe endpoint is $(-1,-2)$.\nFor the $y$-intercept, set $x=0$: $y=\\sqrt{1}-2=-1$, giving $(0,-1)$.\nFor the $x$-intercept, set $y=0$.\n$\\begin{aligned}0&=\\sqrt{x+1}-2\\\\\\sqrt{x+1}&=2\\\\x+1&=4\\\\x&=3\\end{aligned}$\nThe $x$-intercept is $(3,0)$.\nDraw a smooth curve through the table points, increasing to the right with a decreasing gradient.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black,->] (-2,0)--(10,0) node[right] {$x$};\n\\draw[black,->] (0,-3)--(0,3) node[above] {$y$};\n\\draw[black,thick,->] plot[domain=0:3.2,samples=101,variable=\\t] ({\\t*\\t-1},{\\t-2});\n\\fill[black] (-1,-2) circle (1.5pt);\n\\path (-1,-2) node[below left] {$(-1,-2)$};\n\\fill[black] (0,-1) circle (1.5pt);\n\\path (0,-1) node[right] {$(0,-1)$};\n\\fill[black] (3,0) circle (1.5pt);\n\\path (3,0) node[below right] {$(3,0)$};\n\\fill[black] (8,1) circle (1.5pt);\n\\path (8,1) node[above left] {$(8,1)$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "The graph is a translation and reflection of $y=\\sqrt{x}$, with no dilation. Write its equation and state its domain and range in interval notation.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black,->] (-6,0)--(4,0) node[right] {$x$};\n\\draw[black,->] (0,-1)--(0,6) node[above] {$y$};\n\\draw[black,thick,->] plot[domain=0:2.8,samples=101,variable=\\t] ({2-\\t*\\t},{1+\\t});\n\\fill[black] (2,1) circle (1.5pt);\n\\path (2,1) node[right] {$(2,1)$};\n\\fill[black] (1,2) circle (1.5pt);\n\\path (1,2) node[right] {$(1,2)$};\n\\fill[black] (-2,3) circle (1.5pt);\n\\path (-2,3) node[above left] {$(-2,3)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The endpoint is $(2,1)$, and the curve extends left and up.\nIts equation is $y=\\sqrt{2-x}+1$.\nCheck the labelled point $(1,2)$: $\\sqrt{2-1}+1=2$.\nDomain: $(-\\infty,2]$.\nRange: $[1,\\infty)$."
+  },
+  {
+    "question_text": "The solid graph $g(x)$ is a vertical dilation of the dashed graph $f(x)=\\sqrt{x}$. Describe the dilation and write the equation of $g(x)$.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black,->] (-0.5,0)--(10.5,0) node[right] {$x$};\n\\draw[black,->] (0,-0.5)--(0,7) node[above] {$y$};\n\\draw[black,dashed,->] plot[domain=0:3.1,samples=101,variable=\\t] ({\\t*\\t},{\\t});\n\\path (6,2.45) node[below right] {$f(x)=\\sqrt{x}$};\n\\draw[black,thick,->] plot[domain=0:3.1,samples=101,variable=\\t] ({\\t*\\t},{2*\\t});\n\\path (5,4.47) node[left] {$g(x)$};\n\\fill[black] (1,2) circle (1.5pt);\n\\path (1,2) node[right] {$(1,2)$};\n\\fill[black] (9,6) circle (1.5pt);\n\\path (9,6) node[above left] {$(9,6)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "At $x=1$, $f(1)=1$ and the graph shows $g(1)=2$.\nThe vertical dilation factor is $2\\div1=2$.\nThe graph is stretched away from the $x$-axis by a factor of $2$, giving $g(x)=2\\sqrt{x}$.\nCheck the other labelled point: $g(9)=2\\sqrt{9}=6$."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "For the square root function $y = \\sqrt{x - 3}$, state the coordinates of the endpoint, the domain, and the range in both inequality and interval notation.",
         "structure": "identify-endpoint-domain-range",
         "solution_text": "Set $x - 3 = 0 \\implies x = 3$, so the endpoint is $(3, 0)$.\nDomain: $x \\ge 3$ or $[3, \\infty)$\nRange: $y \\ge 0$ or $[0, \\infty)$"
       },
-      {
+{
         "question_text": "For the function $y = \\sqrt{x} + 4$, state the endpoint, domain, and range in inequality and interval notation.",
         "structure": "identify-endpoint-domain-range",
         "solution_text": "The vertical shift is $k = 4$, so the endpoint is $(0, 4)$.\nDomain: $x \\ge 0$ or $[0, \\infty)$\nRange: $y \\ge 4$ or $[4, \\infty)$"
       },
-      {
+{
         "question_text": "For the function $y = \\sqrt{x + 2} - 1$, find the endpoint, domain, and range in inequality and interval notation.",
         "structure": "identify-endpoint-domain-range",
         "solution_text": "Set $x + 2 = 0 \\implies x = -2$, giving endpoint $(-2, -1)$.\nDomain: $x \\ge -2$ or $[-2, \\infty)$\nRange: $y \\ge -1$ or $[-1, \\infty)$"
       },
-      {
+{
         "question_text": "For the reflected function $y = -\\sqrt{x} + 3$, state the endpoint, domain, and range in both inequality and interval notation.",
         "structure": "reflected-square-root-features",
         "solution_text": "The endpoint is $(0, 3)$.\nSince the expression under the root is $x$, domain: $x \\ge 0$ or $[0, \\infty)$.\nThe negative sign reflects the curve downwards, so range: $y \\le 3$ or $(-\\infty, 3]$."
       },
-      {
+{
         "question_text": "For the function $y = \\sqrt{4 - x}$, find the endpoint, domain, and range in both inequality and interval notation.",
         "structure": "reflected-square-root-features",
         "solution_text": "Set $4 - x \\ge 0 \\implies x \\le 4$.\nEndpoint: $(4, 0)$\nDomain: $x \\le 4$ or $(-\\infty, 4]$\nRange: $y \\ge 0$ or $[0, \\infty)$"
       },
-      {
+{
         "question_text": "For the function $y = \\sqrt{x - 1} + 2$, construct a table of values at $x = 1, 2, 5, 10$ with exact integer coordinates, and hence sketch the curve.",
         "structure": "sketch-square-root-table",
-        "solution_text": "At $x = 1$: $y = \\sqrt{0} + 2 = 2 \\implies (1, 2)$\nAt $x = 2$: $y = \\sqrt{1} + 2 = 3 \\implies (2, 3)$\nAt $x = 5$: $y = \\sqrt{4} + 2 = 4 \\implies (5, 4)$\nAt $x = 10$: $y = \\sqrt{9} + 2 = 5 \\implies (10, 5)$\nPlotted points: $(1, 2), (2, 3), (5, 4), (10, 5)$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[->] (-0.8,0) -- (11.5,0) node[right] {$x$};\n\\draw[->] (0,-0.8) -- (0,6.5) node[above] {$y$};\n\\foreach \\x in {1,...,11} {\\draw (\\x,0.15) -- (\\x,-0.15); \\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\x$};}\n\\foreach \\y in {1,...,6} {\\draw (0.15,\\y) -- (-0.15,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,-{Stealth}] (1,2) -- (2,3) -- (5,4) -- (10,5);\n\\fill (1,2) circle (3pt) node[above left] {$(1, 2)$};\n\\fill (2,3) circle (2pt);\n\\fill (5,4) circle (2pt);\n\\end{tikzpicture}\n[/tikz]"
+        "solution_text": "At $x = 1$: $y = \\sqrt{0} + 2 = 2 \\implies (1, 2)$\nAt $x = 2$: $y = \\sqrt{1} + 2 = 3 \\implies (2, 3)$\nAt $x = 5$: $y = \\sqrt{4} + 2 = 4 \\implies (5, 4)$\nAt $x = 10$: $y = \\sqrt{9} + 2 = 5 \\implies (10, 5)$\nPlotted points: $(1, 2), (2, 3), (5, 4), (10, 5)$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[->] (-0.8,0) -- (11.5,0) node[right] {$x$};\n\\draw[->] (0,-0.8) -- (0,6.5) node[above] {$y$};\n\\foreach \\x in {1,...,11} {\\draw (\\x,0.15) -- (\\x,-0.15); \\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\x$};}\n\\foreach \\y in {1,...,6} {\\draw (0.15,\\y) -- (-0.15,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,-{Stealth}] plot[domain=0:3.2,samples=101,smooth,variable=\\t] ({1+\\t*\\t},{2+\\t});\n\\fill (1,2) circle (3pt) node[below right] {$(1, 2)$};\n\\fill (2,3) circle (2pt);\n\\fill (5,4) circle (2pt);\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
-        "question_text": "A square root curve has endpoint $(3, -2)$ and passes through $(4, -1)$.\nWrite its equation in the form $y = \\sqrt{x - h} + k$.",
-        "structure": "equation-from-square-root-graph",
-        "solution_text": "With endpoint $(3, -2)$, $h = 3$ and $k = -2$, so $y = \\sqrt{x - 3} - 2$.\nCheck with $(4, -1)$:\n$y = \\sqrt{4 - 3} - 2 = 1 - 2 = -1$\n$y = \\sqrt{x - 3} - 2$"
+{
+        "question_text": "For the function $y = \\sqrt{x - 6} - 2$, state the endpoint, domain, and range in both inequality and interval notation.",
+        "structure": "identify-endpoint-domain-range",
+        "solution_text": "Set $x - 6 = 0 \\implies x = 6$, so the endpoint is $(6, -2)$.\nDomain: $x \\ge 6$ or $[6, \\infty)$\nRange: $y \\ge -2$ or $[-2, \\infty)$"
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "For the function $f(x) = 2\\sqrt{x - 4} + 1$, state the endpoint, domain, and range in both inequality and interval notation.",
         "structure": "identify-endpoint-domain-range",
         "solution_text": "Set $x - 4 = 0 \\implies x = 4$, so endpoint is $(4, 1)$.\nDomain: $x \\ge 4$ or $[4, \\infty)$\nSince $2 > 0$, range: $y \\ge 1$ or $[1, \\infty)$"
       },
-      {
+{
         "question_text": "For $g(x) = -\\sqrt{x + 5} - 2$, state the endpoint, domain, and range in both inequality and interval notation.",
         "structure": "reflected-square-root-features",
         "solution_text": "Set $x + 5 = 0 \\implies x = -5$, so endpoint is $(-5, -2)$.\nDomain: $x \\ge -5$ or $[-5, \\infty)$\nNegative sign before root reflects downwards, so range: $y \\le -2$ or $(-\\infty, -2]$."
       },
-      {
+{
         "question_text": "For $h(x) = \\sqrt{9 - x} - 3$, find the endpoint, domain, and range in both inequality and interval notation.",
         "structure": "reflected-square-root-features",
         "solution_text": "Set $9 - x \\ge 0 \\implies x \\le 9$, so endpoint is $(9, -3)$.\nDomain: $x \\le 9$ or $(-\\infty, 9]$\nRange: $y \\ge -3$ or $[-3, \\infty)$"
       },
-      {
+{
         "question_text": "For $y = -\\sqrt{6 - x} + 4$, find the endpoint, domain, and range in both inequality and interval notation.",
         "structure": "reflected-square-root-features",
         "solution_text": "Set $6 - x \\ge 0 \\implies x \\le 6$, so endpoint is $(6, 4)$.\nDomain: $x \\le 6$ or $(-\\infty, 6]$\nRange: $y \\le 4$ or $(-\\infty, 4]$"
       },
-      {
+{
         "question_text": "For the function $y = \\sqrt{x + 4} - 2$, find the coordinates of its endpoint and its intercepts with both axes.",
-        "structure": "sketch-square-root-table",
+        "structure": "find-square-root-endpoint-intercepts",
         "solution_text": "Endpoint: $(-4, -2)$\n$y$-intercept at $x = 0$: $y = \\sqrt{4} - 2 = 0$, giving $(0, 0)$\n$x$-intercept at $y = 0$: $\\sqrt{x + 4} = 2 \\implies x + 4 = 4 \\implies x = 0$, giving $(0, 0)$\nEndpoint: $(-4, -2)$; intercepts: $(0, 0)$"
       },
-      {
-        "question_text": "A square root curve has endpoint $(-1, 3)$, opens downwards to the right, and passes through $(0, 2)$.\nWrite its equation in the form $y = -\\sqrt{x - h} + k$.",
-        "structure": "equation-from-square-root-graph",
-        "solution_text": "With endpoint $(-1, 3)$, $h = -1$ and $k = 3$, so $y = -\\sqrt{x + 1} + 3$.\nCheck $(0, 2)$:\n$y = -\\sqrt{0 + 1} + 3 = -1 + 3 = 2$\n$y = -\\sqrt{x + 1} + 3$"
+{
+        "question_text": "For $y = -2\\sqrt{x + 3} + 4$, state the endpoint, domain, and range in both inequality and interval notation.",
+        "structure": "reflected-square-root-features",
+        "solution_text": "Set $x + 3 = 0 \\implies x = -3$, so the endpoint is $(-3, 4)$.\nDomain: $x \\ge -3$ or $[-3, \\infty)$\nSince the square root is multiplied by $-2$, the curve extends downwards from the endpoint.\nRange: $y \\le 4$ or $(-\\infty, 4]$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[->] (-5.5,0) -- (6.5,0) node[right] {$x$};\n\\draw[->] (0,-1.2) -- (0,5.5) node[above] {$y$};\n\\foreach \\x in {-5,...,-1} {\\draw (\\x,0.15) -- (\\x,-0.15); \\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\x$};}\n\\foreach \\x in {1,...,6} {\\draw (\\x,0.15) -- (\\x,-0.15); \\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\x$};}\n\\foreach \\y in {-1,1,2,3,4,5} {\\draw (0.15,\\y) -- (-0.15,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,-{Stealth}] (5,1) -- (4,2) -- (1,3) -- (-4,4);\n\\fill (5,1) circle (3pt);\n\\fill (4,2) circle (2pt);\n\\fill (1,3) circle (2pt);\n\\end{tikzpicture}\n[/tikz]\nWrite the equation of the graphed curve and state its domain and range in interval notation.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[->] (-5.5,0) -- (6.5,0) node[right] {$x$};\n\\draw[->] (0,-1.2) -- (0,5.5) node[above] {$y$};\n\\foreach \\x in {-5,...,-1} {\\draw (\\x,0.15) -- (\\x,-0.15); \\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\x$};}\n\\foreach \\x in {1,...,6} {\\draw (\\x,0.15) -- (\\x,-0.15); \\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\x$};}\n\\foreach \\y in {-1,1,2,3,4,5} {\\draw (0.15,\\y) -- (-0.15,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,-{Stealth}] plot[domain=0:3.2,samples=101,smooth,variable=\\t] ({5-\\t*\\t},{1+\\t});\n\\fill (5,1) circle (3pt);\n\\fill (4,2) circle (2pt);\n\\fill (1,3) circle (2pt);\n\\end{tikzpicture}\n[/tikz]\nWrite the equation of the graphed curve and state its domain and range in interval notation.",
         "structure": "equation-from-square-root-graph",
         "solution_text": "From the graph, the endpoint is $(5, 1)$.\nSince the curve opens to the left ($x \\le 5$), the equation has the form $y = \\sqrt{5 - x} + 1$.\nCheck $(4, 2)$: $y = \\sqrt{5 - 4} + 1 = 1 + 1 = 2$\nEquation: $y = \\sqrt{5 - x} + 1$\nDomain: $(-\\infty, 5]$\nRange: $[1, \\infty)$"
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "Find the coordinates of the point of intersection between the curve $y = \\sqrt{x + 6}$ and the line $y = x$.",
-        "structure": "identify-endpoint-domain-range",
-        "solution_text": "Set $\\sqrt{x + 6} = x$ with condition $x \\ge 0$ (since range of square root is $y \\ge 0$):\n$x + 6 = x^2$\n$x^2 - x - 6 = 0$\n$(x - 3)(x + 2) = 0$\n$x = 3$ or $x = -2$\nSince $x \\ge 0$, discard $x = -2$, giving $x = 3$ and $y = 3$.\nPoint of intersection: $(3, 3)$"
+{
+        "question_text": "Sketch $y = \\sqrt{x + 9} - 3$ by translating $y = \\sqrt{x}$. Label the endpoint and the intercepts.",
+        "structure": "sketch-translated-square-root",
+        "solution_text": "Translate $y = \\sqrt{x}$ left $9$ units and down $3$ units.\nEndpoint: $(-9, -3)$.\nThe points $(0,0), (1,1), (4,2), (9,3)$ become $(-9,-3), (-8,-2), (-5,-1), (0,0)$.\nAt $x = 0$, $y = \\sqrt{9} - 3 = 0$.\nAt $y = 0$, $\\sqrt{x + 9} = 3 \\implies x + 9 = 9 \\implies x = 0$.\nBoth intercepts are $(0,0)$.\n[tikz]\n\\begin{tikzpicture}[scale=0.45]\n\\draw[->] (-10,0) -- (3,0) node[right] {$x$};\n\\draw[->] (0,-4) -- (0,2) node[above] {$y$};\n\\draw[thick,-{Stealth}] plot[domain=0:3.4,samples=101,smooth,variable=\\t] ({-9+\\t*\\t},{-3+\\t});\n\\fill (-9,-3) circle (3pt) node[below right] {$(-9,-3)$};\n\\fill (-8,-2) circle (2pt);\n\\fill (-5,-1) circle (2pt);\n\\fill (0,0) circle (2pt) node[above left] {$(0,0)$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Describe the sequence of transformations that maps $y = \\sqrt{x}$ onto $y = -\\sqrt{2 - x} + 5$, and state the domain and range in interval notation.",
         "structure": "reflected-square-root-features",
         "solution_text": "Rewrite as $y = -\\sqrt{-(x - 2)} + 5$.\nTransformations: reflection in the $y$-axis, translation right $2$ units, reflection in the $x$-axis, translation up $5$ units.\nDomain: $(-\\infty, 2]$\nRange: $(-\\infty, 5]$"
       },
-      {
-        "question_text": "A square root function has the form $f(x) = a\\sqrt{x - h} + k$.\nIt has endpoint $(2, -3)$ and passes through $(11, 3)$.\nFind the value of $a$ and write the complete formula.",
-        "structure": "equation-from-square-root-graph",
-        "solution_text": "From endpoint $(2, -3)$, $f(x) = a\\sqrt{x - 2} - 3$.\nSubstitute $(11, 3)$:\n$3 = a\\sqrt{11 - 2} - 3$\n$3 = a\\sqrt{9} - 3$\n$3 = 3a - 3$\n$3a = 6$\n$a = 2$\n$f(x) = 2\\sqrt{x - 2} - 3$"
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[->] (-0.5,0) -- (10.5,0) node[right] {$x$};\n\\draw[->] (0,-0.5) -- (0,10.5) node[above] {$y$};\n\\draw[thin,dashed,-{Stealth}] plot[domain=0:3.1,samples=101,smooth,variable=\\t] ({\\t*\\t},{\\t});\n\\node[below right] at (7,2) {$f(x)=\\sqrt{x}$};\n\\draw[thick,-{Stealth}] plot[domain=0:3.1,samples=101,smooth,variable=\\t] ({\\t*\\t},{3*\\t});\n\\node[right] at (5,6.71) {$g(x)$};\n\\fill (4,6) circle (2pt) node[above left] {$(4,6)$};\n\\fill (9,9) circle (2pt) node[above left] {$(9,9)$};\n\\node[below left] at (0,0) {$0$};\n\\end{tikzpicture}\n[/tikz]\nThe graph of $g(x)$ is a vertical dilation of $f(x) = \\sqrt{x}$. Describe the dilation and write the equation of $g(x)$.",
+        "structure": "identify-square-root-dilation-from-graph",
+        "solution_text": "At $x = 4$, the original graph has $f(4) = 2$ and the new graph has $g(4) = 6$.\nThe vertical dilation factor is $6 \\div 2 = 3$.\nAt $x = 9$, $f(9) = 3$ and $g(9) = 9$, confirming the same factor.\nThe graph is stretched away from the $x$-axis by a factor of $3$.\nEquation: $g(x) = 3\\sqrt{x}$."
       }
-    ]
+]
   }
 }

@@ -2,120 +2,103 @@
   "skillId": "multiply-2-digit-by-2-digit",
   "atomType": "R",
   "theory": {
-"intro": "To multiply by a 2-digit number, split **both** numbers by place value and use the area model, or use the standard algorithm.",
+"intro": "To multiply two 2-digit numbers, split **both** numbers by place value and use the area model.",
 "facts": [
-          "The area model for $2 \\times 2$ digits gives **four** part-products.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\small}]\n\\draw (0,0) rectangle (5,3);\n\\draw (3,0)--(3,3);\n\\draw (0,1.5)--(5,1.5);\n\\node[above] at (1.5,3) {tens};\n\\node[above] at (4,3) {ones};\n\\node[left] at (0,2.25) {tens};\n\\node[left] at (0,0.75) {ones};\n\\node at (1.5,2.25) {part-product};\n\\node at (4,2.25) {part-product};\n\\node at (1.5,0.75) {part-product};\n\\node at (4,0.75) {part-product};\n\\end{tikzpicture}[/tikz]",
-          "e.g. $34 \\times 26 = (30+4)(20+6)$ has parts $600, 180, 80, 24$.",
-          "The algorithm multiplies by the ones, then the tens (shifted one place), then adds."
-        ],
+"The area model for $2 \\times 2$ digits gives **four** part-products.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\small}]\n\\draw (0,0) rectangle (5,3);\n\\draw (3,0)--(3,3);\n\\draw (0,1.5)--(5,1.5);\n\\node[above] at (1.5,3) {tens};\n\\node[above] at (4,3) {ones};\n\\node[left] at (0,2.25) {tens};\n\\node[left] at (0,0.75) {ones};\n\\node at (1.5,2.25) {part-product};\n\\node at (4,2.25) {part-product};\n\\node at (1.5,0.75) {part-product};\n\\node at (4,0.75) {part-product};\n\\end{tikzpicture}[/tikz]",
+"e.g. $34 \\times 26 = (30+4)(20+6)$ has parts $600, 180, 80, 24$."
+],
 "steps": [
           "Split each number into tens and ones.",
           "Multiply every part of one by every part of the other.",
           "Add all the part-products for the total."
         ],
 "workedExamples": [
-  {
-    "question_text": "Use the area model for $24\\times37$.\n(a) Find the four part-products.\n(b) Find the total.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\small}]\n\\path[use as bounding box] (-0.7,-0.2) rectangle (4.0,4.3);\n\\draw (0,0) rectangle (3.6,3.7);\n\\draw (3,0)--(3,3.7);\n\\draw (0,0.7)--(3.6,0.7);\n\\node[above] at (1.5,3.7) {$20$};\n\\node[above] at (3.3,3.7) {$4$};\n\\node[left] at (0,2.2) {$30$};\n\\node[left] at (0,0.35) {$7$};\n\\end{tikzpicture}[/tikz]",
-    "solution_text": "(a) $20\\times30=600$, $4\\times30=120$.\n$20\\times7=140$, $4\\times7=28$.\n(b) Add all four part-products.\n$600+120+140+28=888$.\nSo $24\\times37=888$."
-  },
-  {
-    "question_text": "Use the standard algorithm to calculate $58\\times24$.",
-    "solution_text": "Multiply by the ones, then by the tens.\n$58\\times4=232$.\nThe $2$ in $24$ represents $20$, so $58\\times20=1160$.\n$\\begin{array}{r}58\\\\\\times24\\\\\\hline232\\\\1160\\\\\\hline1392\\end{array}$\nSo $58\\times24=1392$."
-  },
-  {
-    "question_text": "For $207\\times36$:\n(a) calculate the product using the standard algorithm\n(b) explain why the second partial product ends in zero.",
-    "solution_text": "(a) $207\\times6=1242$.\n$207\\times30=6210$.\n$\\begin{array}{r}207\\\\\\times36\\\\\\hline1242\\\\6210\\\\\\hline7452\\end{array}$\nSo $207\\times36=7452$.\n(b) The $3$ represents $30$. Multiplying $207$ by $3$ gives $621$; multiplying by $30$ gives $6210$. The zero keeps the tens partial product in its correct place."
-  },
-  {
-    "question_text": "A student calculates $37\\times26$ using the partial products $222$ and $74$.\nIdentify the error and give the correct product.",
-    "solution_text": "$37\\times6=222$ is correct.\nThe $2$ in $26$ represents $20$, not $2$.\nThe second partial product should be $37\\times20=740$.\n$222+740=962$.\nSo $37\\times26=962$."
-  },
-  {
-    "question_text": "Find the missing digit in $4\\square3\\times12=5676$. Check using partial products.",
-    "solution_text": "The missing digit is $7$.\nCheck $473\\times12$ by multiplying by $2$ and by $10$.\n$473\\times2=946$.\n$473\\times10=4730$.\n$946+4730=5676$.\nSo $473\\times12=5676$, as required."
+{
+    "question_text": "Use the area model for $24\\times37$.\n(a) Find the four part-products.\n(b) Find the total.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0) rectangle (5,3);\n\\draw (2.5,0)--(2.5,3);\n\\draw (0,1.5)--(5,1.5);\n\\node[above] at (1.25,3) {$20$};\n\\node[above] at (3.75,3) {$4$};\n\\node[left] at (0,2.25) {$30$};\n\\node[left] at (0,0.75) {$7$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "(a) Multiply each row label by each column label.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0) rectangle (5,3);\n\\draw (2.5,0)--(2.5,3);\n\\draw (0,1.5)--(5,1.5);\n\\node[above] at (1.25,3) {$20$};\n\\node[above] at (3.75,3) {$4$};\n\\node[left] at (0,2.25) {$30$};\n\\node[left] at (0,0.75) {$7$};\n\\node at (1.25,2.25) {$600$};\n\\node at (3.75,2.25) {$120$};\n\\node at (1.25,0.75) {$140$};\n\\node at (3.75,0.75) {$28$};\n\\end{tikzpicture}[/tikz]\n$\\begin{aligned}20\\times30&=600 & 4\\times30&=120\\\\20\\times7&=140 & 4\\times7&=28\\end{aligned}$\n(b) Add all four part-products.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}24\\times37\\\\&=600+120+140+28\\\\&=888\\end{aligned}$"
   }
 ]
 },
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Use the area model to calculate $23 \\times 14$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,3);\n\\draw (2.5,0)--(2.5,3);\n\\draw (0,1.7)--(4,1.7);\n\\node[above] at (1.25,3) {$20$};\n\\node[above] at (3.25,3) {$3$};\n\\node[left] at (0,2.35) {$10$};\n\\node[left] at (0,0.85) {$4$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "identify-four-part-products",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,3);\n\\draw (2.5,0)--(2.5,3);\n\\draw (0,1.7)--(4,1.7);\n\\node[above] at (1.25,3) {$20$};\n\\node[above] at (3.25,3) {$3$};\n\\node[left] at (0,2.35) {$10$};\n\\node[left] at (0,0.85) {$4$};\n\\node at (1.25,2.35) {$200$};\n\\node at (3.25,2.35) {$30$};\n\\node at (1.25,0.85) {$80$};\n\\node at (3.25,0.85) {$12$};\n\\end{tikzpicture}\n[/tikz]\n$23 \\times 14$\n$=200+30+80+12$\n$=322$"
       },
-      {
+{
         "question_text": "Use the area model to calculate $31 \\times 26$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,3);\n\\draw (2.5,0)--(2.5,3);\n\\draw (0,1.7)--(4,1.7);\n\\node[above] at (1.25,3) {$30$};\n\\node[above] at (3.25,3) {$1$};\n\\node[left] at (0,2.35) {$20$};\n\\node[left] at (0,0.85) {$6$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "identify-four-part-products",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,3);\n\\draw (2.5,0)--(2.5,3);\n\\draw (0,1.7)--(4,1.7);\n\\node[above] at (1.25,3) {$30$};\n\\node[above] at (3.25,3) {$1$};\n\\node[left] at (0,2.35) {$20$};\n\\node[left] at (0,0.85) {$6$};\n\\node at (1.25,2.35) {$600$};\n\\node at (3.25,2.35) {$20$};\n\\node at (1.25,0.85) {$180$};\n\\node at (3.25,0.85) {$6$};\n\\end{tikzpicture}\n[/tikz]\n$31 \\times 26$\n$=600+20+180+6$\n$=806$"
       },
-      {
+{
         "question_text": "Complete the area model, then calculate $42 \\times 35$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,3);\n\\draw (2.5,0)--(2.5,3);\n\\draw (0,1.7)--(4,1.7);\n\\node[above] at (1.25,3) {$40$};\n\\node[above] at (3.25,3) {$2$};\n\\node[left] at (0,2.35) {$30$};\n\\node[left] at (0,0.85) {$5$};\n\\node at (1.25,2.35) {$1200$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "identify-four-part-products",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,3);\n\\draw (2.5,0)--(2.5,3);\n\\draw (0,1.7)--(4,1.7);\n\\node[above] at (1.25,3) {$40$};\n\\node[above] at (3.25,3) {$2$};\n\\node[left] at (0,2.35) {$30$};\n\\node[left] at (0,0.85) {$5$};\n\\node at (1.25,2.35) {$1200$};\n\\node at (3.25,2.35) {$60$};\n\\node at (1.25,0.85) {$200$};\n\\node at (3.25,0.85) {$10$};\n\\end{tikzpicture}\n[/tikz]\n$42 \\times 35$\n$=1200+60+200+10$\n$=1470$"
       },
-      {
-        "question_text": "Use the multiplication algorithm to calculate $24 \\times 13$.",
-        "structure": "two-digit-algorithm",
-        "solution_text": "$24 \\times 3=72$.\n$24 \\times 10=240$.\n$72+240$\n$=312$"
+{
+        "question_text": "Use the area model to calculate $24 \\times 13=(20+4)(10+3)$.",
+        "structure": "two-digit-area-model-product",
+        "solution_text": "$20\\times10=200$, $4\\times10=40$.\n$20\\times3=60$, $4\\times3=12$.\n$24\\times13=200+40+60+12=312$."
       },
-      {
-        "question_text": "Use the multiplication algorithm to calculate $46 \\times 27$.",
-        "structure": "two-digit-algorithm",
-        "solution_text": "$46 \\times 7=322$.\n$46 \\times 20=920$.\n$322+920$\n$=1242$"
+{
+        "question_text": "Use the area model to calculate $46 \\times 27=(40+6)(20+7)$.",
+        "structure": "two-digit-area-model-product",
+        "solution_text": "$40\\times20=800$, $6\\times20=120$.\n$40\\times7=280$, $6\\times7=42$.\n$46\\times27=800+120+280+42=1242$."
       },
-      {
-        "question_text": "Use the multiplication algorithm to calculate $72 \\times 18$.",
-        "structure": "two-digit-algorithm",
-        "solution_text": "$72 \\times 8=576$.\n$72 \\times 10=720$.\n$576+720$\n$=1296$"
+{
+        "question_text": "Use the area model to calculate $72 \\times 18=(70+2)(10+8)$.",
+        "structure": "two-digit-area-model-product",
+        "solution_text": "$70\\times10=700$, $2\\times10=20$.\n$70\\times8=560$, $2\\times8=16$.\n$72\\times18=700+20+560+16=1296$."
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "Use the area model to calculate $58 \\times 34$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,3);\n\\draw (2.5,0)--(2.5,3);\n\\draw (0,1.7)--(4,1.7);\n\\node[above] at (1.25,3) {$50$};\n\\node[above] at (3.25,3) {$8$};\n\\node[left] at (0,2.35) {$30$};\n\\node[left] at (0,0.85) {$4$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "identify-four-part-products",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,3);\n\\draw (2.5,0)--(2.5,3);\n\\draw (0,1.7)--(4,1.7);\n\\node[above] at (1.25,3) {$50$};\n\\node[above] at (3.25,3) {$8$};\n\\node[left] at (0,2.35) {$30$};\n\\node[left] at (0,0.85) {$4$};\n\\node at (1.25,2.35) {$1500$};\n\\node at (3.25,2.35) {$240$};\n\\node at (1.25,0.85) {$200$};\n\\node at (3.25,0.85) {$32$};\n\\end{tikzpicture}\n[/tikz]\n$58 \\times 34$\n$=1500+240+200+32$\n$=1972$"
       },
-      {
+{
         "question_text": "Find all four part-products, then calculate $67 \\times 49$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,3);\n\\draw (2.5,0)--(2.5,3);\n\\draw (0,1.7)--(4,1.7);\n\\node[above] at (1.25,3) {$60$};\n\\node[above] at (3.25,3) {$7$};\n\\node[left] at (0,2.35) {$40$};\n\\node[left] at (0,0.85) {$9$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "identify-four-part-products",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,3);\n\\draw (2.5,0)--(2.5,3);\n\\draw (0,1.7)--(4,1.7);\n\\node[above] at (1.25,3) {$60$};\n\\node[above] at (3.25,3) {$7$};\n\\node[left] at (0,2.35) {$40$};\n\\node[left] at (0,0.85) {$9$};\n\\node at (1.25,2.35) {$2400$};\n\\node at (3.25,2.35) {$280$};\n\\node at (1.25,0.85) {$540$};\n\\node at (3.25,0.85) {$63$};\n\\end{tikzpicture}\n[/tikz]\n$67 \\times 49$\n$=2400+280+540+63$\n$=3283$"
       },
-      {
-        "question_text": "Use the multiplication algorithm to calculate $125 \\times 24$.",
-        "structure": "three-digit-by-two-digit",
-        "solution_text": "$125 \\times 4=500$.\n$125 \\times 20=2500$.\n$500+2500$\n$=3000$"
+{
+        "question_text": "Use the area model to calculate $75 \\times 24=(70+5)(20+4)$.",
+        "structure": "two-digit-area-model-product",
+        "solution_text": "$70\\times20=1400$, $5\\times20=100$.\n$70\\times4=280$, $5\\times4=20$.\n$75\\times24=1400+100+280+20=1800$."
       },
-      {
-        "question_text": "Use the multiplication algorithm to calculate $306 \\times 17$.",
-        "structure": "three-digit-by-two-digit",
-        "solution_text": "$306 \\times 7=2142$.\n$306 \\times 10=3060$.\n$2142+3060$\n$=5202$"
+{
+        "question_text": "Use the area model to calculate $86 \\times 17=(80+6)(10+7)$.",
+        "structure": "two-digit-area-model-product",
+        "solution_text": "$80\\times10=800$, $6\\times10=60$.\n$80\\times7=560$, $6\\times7=42$.\n$86\\times17=800+60+560+42=1462$."
       },
-      {
-        "question_text": "Use the multiplication algorithm to calculate $248 \\times 36$.",
-        "structure": "three-digit-by-two-digit",
-        "solution_text": "$248 \\times 6=1488$.\n$248 \\times 30=7440$.\n$1488+7440$\n$=8928$"
+{
+        "question_text": "Use the area model to calculate $48 \\times 36=(40+8)(30+6)$.",
+        "structure": "two-digit-area-model-product",
+        "solution_text": "$40\\times30=1200$, $8\\times30=240$.\n$40\\times6=240$, $8\\times6=48$.\n$48\\times36=1200+240+240+48=1728$."
       },
-      {
-        "question_text": "In the algorithm for $413 \\times 22$, explain why the second partial product is $8260$, not $826$.\nThen find the product.",
-        "structure": "explain-tens-placeholder",
-        "solution_text": "The second digit represents $2$ tens, so $413 \\times 20=8260$.\n$413 \\times 2=826$.\n$826+8260$\n$=9086$"
+{
+        "question_text": "Use the area model to calculate $73 \\times 22=(70+3)(20+2)$.",
+        "structure": "two-digit-area-model-product",
+        "solution_text": "$70\\times20=1400$, $3\\times20=60$.\n$70\\times2=140$, $3\\times2=6$.\n$73\\times22=1400+60+140+6=1606$."
       }
-    ],
+],
     "mastery": [
 {
-        "question_text": "An area model for $76 \\times 63$ has part-products $4200$, $210$, $360$ and $18$.\nExplain which multiplication produces each part, then find the total.",
-        "structure": "identify-four-part-products",
-        "solution_text": "$70 \\times 60=4200$, $70 \\times 3=210$, $6 \\times 60=360$, $6 \\times 3=18$.\n$4200+210+360+18$\n$=4788$"
+        "question_text": "Use the area model to calculate $76 \\times 63=(70+6)(60+3)$.",
+        "structure": "two-digit-area-model-product",
+        "solution_text": "$70\\times60=4200$, $6\\times60=360$.\n$70\\times3=210$, $6\\times3=18$.\n$76\\times63=4200+360+210+18=4788$."
       },
 {
-        "question_text": "A student uses the algorithm for $43 \\times 26$ and writes partial products $258$ and $86$.\nIdentify the error and find the product.",
-        "structure": "diagnose-tens-partial-product",
-        "solution_text": "$43 \\times 6=258$.\n$43 \\times 20=860$, not $86$.\n$258+860$\n$=1118$"
+        "question_text": "Use the area model to calculate $83 \\times 76=(80+3)(70+6)$.",
+        "structure": "two-digit-area-model-product",
+        "solution_text": "$80\\times70=5600$, $3\\times70=210$.\n$80\\times6=480$, $3\\times6=18$.\n$83\\times76=5600+210+480+18=6308$."
       },
 {
-        "question_text": "Complete the multiplication $3\\square 2 \\times 14=4508$ by finding the missing digit.",
-        "structure": "missing-digit-factor",
-        "solution_text": "The missing digit is $2$.\nCheck $322\\times14$ using the ones and tens partial products.\n$322\\times4=1288$.\n$322\\times10=3220$.\n$1288+3220=4508$.\nSo $322\\times14=4508$, as required."
+        "question_text": "Use the area model to calculate $92 \\times 84=(90+2)(80+4)$.",
+        "structure": "two-digit-area-model-product",
+        "solution_text": "$90\\times80=7200$, $2\\times80=160$.\n$90\\times4=360$, $2\\times4=8$.\n$92\\times84=7200+160+360+8=7728$."
       }
 ]
   }

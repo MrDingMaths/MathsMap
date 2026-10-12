@@ -2,19 +2,57 @@
   "skillId": "construct-3d-models",
   "atomType": "R",
   "theory": {
-    "intro": "Prisms and pyramids can be built from their flat parts (faces and edges). Counting the faces, edges and vertices helps you name and construct a solid.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (3,1.8);\n\\coordinate (D) at (0,1.8);\n\\coordinate (E) at (1.212,0.7);\n\\coordinate (F) at (4.212,0.7);\n\\coordinate (G) at (4.212,2.5);\n\\coordinate (H) at (1.212,2.5);\n\\fill[gray!30,opacity=0.45] (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw (B)--(F)--(G)--(C);\n\\draw (D)--(H)--(G);\n\\draw[dashed] (A)--(E)--(F);\n\\draw[dashed] (E)--(H);\n\\draw[very thick] (A)--(B) node[midway,below,font=\\small] {edge};\n\\fill (B) circle (0.09);\n\\node[right,font=\\small] at (3.15,-0.15) {vertex};\n\\node[font=\\small,fill=white,inner sep=1pt] at (0.6,1.0) {face};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "Prisms and pyramids can be built from their flat parts (faces and edges). Counting the faces, edges and vertices helps you name and construct a solid.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (3,1.8);\n\\coordinate (D) at (0,1.8);\n\\coordinate (E) at (1.212,0.7);\n\\coordinate (F) at (4.212,0.7);\n\\coordinate (G) at (4.212,2.5);\n\\coordinate (H) at (1.212,2.5);\n\\fill[gray!30,opacity=0.45] (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw (B)--(F)--(G)--(C);\n\\draw (D)--(H)--(G);\n\\draw[dashed] (A)--(E)--(F);\n\\draw[dashed] (E)--(H);\n\\draw[very thick] (A)--(B) node[midway,below,font=\\small] {edge};\n\\fill (B) circle (0.09);\n\\node[right,font=\\small] at (3.15,-0.15) {vertex};\n\\node[font=\\small,fill=white,inner sep=1pt] at (0.6,1.0) {face};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
       "A **prism** has two identical end faces joined by rectangles; a **pyramid** has one base and triangular faces meeting at an apex.",
       "A prism is named by its end face: a triangular prism has $2$ triangular and $3$ rectangular faces.",
       "**Faces** are flat surfaces, **edges** are where two faces meet, **vertices** are corner points.",
       "A skeletal (edges-only) model is built from straws for edges and joiners for vertices."
     ],
-    "steps": [
+"steps": [
       "Look at the end (or base) face to decide the solid's name.",
       "Count the faces, edges and vertices from the drawing or net.",
       "Build it: connect edges at the vertices to form the faces."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Plan a skeletal rectangular-prism model. How many straws and joiners are needed? Describe how to build it.",
+    "solution_text": "Make two matching rectangular frames, using four straws and four joiners for each frame. Join corresponding corners with four more straws of equal length.\n\n$\\begin{align*}\\text{Straws} &= 4+4+4 \\\\ &= 12 \\\\ \\text{Joiners} &= 4+4 \\\\ &= 8\\end{align*}$\n\nUse 12 straws and 8 joiners. Each straw represents an edge and each joiner represents a vertex."
   },
+  {
+    "question_text": "Plan a skeletal triangular-pyramid model. How many straws and joiners are needed? Describe how to build it.",
+    "solution_text": "Build a triangular base with three straws and three joiners. Add a straw from each base corner and connect their other ends at one apex joiner.\n\n$\\begin{align*}\\text{Straws} &= 3+3 \\\\ &= 6 \\\\ \\text{Joiners} &= 3+1 \\\\ &= 4\\end{align*}$\n\nUse 6 straws and 4 joiners."
+  },
+  {
+    "question_text": "The diagram is a net with six equal square faces. Name the model it makes and describe how to assemble it.\n[tikz]\n\\begin{tikzpicture}[x=12mm,y=12mm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) rectangle (1,1);\n\\draw (1,0) rectangle (2,1);\n\\draw (2,0) rectangle (3,1);\n\\draw (3,0) rectangle (4,1);\n\\draw (1,1) rectangle (2,2);\n\\draw (1,-1) rectangle (2,0);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "It makes a cube, which is a square prism with six square faces.\n\nFold the four squares in the strip to form the sides. Fold the two attached squares to close the top and bottom, then tape the meeting edges."
+  },
+  {
+    "question_text": "The diagram shows a square with one triangle attached to each side. The triangles are identical equilateral triangles, and every triangle side matches a square side. Name the model it makes, list its faces and describe how to assemble it.\n[tikz]\n\\begin{tikzpicture}[x=12mm,y=12mm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) rectangle (2,2);\n\\draw (0,0)--(1,-1.7320508)--(2,0);\n\\draw (2,0)--(3.7320508,1)--(2,2);\n\\draw (2,2)--(1,3.7320508)--(0,2);\n\\draw (0,2)--(-1.7320508,1)--(0,0);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "It makes a square pyramid: one square base and four triangular side faces.\n\nFold each triangle upwards along a square edge. Bring the four outer triangle vertices together at the apex, then tape the meeting edges."
+  },
+  {
+    "question_text": "A hexagonal-prism model has two matching hexagonal ends. List the rectangular face pieces needed to join the ends, and explain how to attach them.",
+    "solution_text": "Each hexagon has six sides, so use six rectangular joining faces.\n\nAttach one rectangle to each side of the first hexagon. Join neighbouring rectangles along their side edges, then attach the matching hexagon to the open end. The complete model has two hexagonal faces and six rectangular faces."
+  },
+  {
+    "question_text": "A pentagonal-prism model has two pentagonal ends but only four rectangular side faces. A triangular-pyramid frame has four joiners but only five straws. Explain what each model is missing.",
+    "solution_text": "The pentagonal prism needs one rectangular face for each of the five sides of its base. It is missing one rectangular side face.\n\nThe triangular pyramid needs three base edges and three edges to the apex: $3+3=6$ straws. Its four joiners are enough, but it is missing one straw edge."
+  },
+  {
+    "question_text": "A complete prism frame uses 21 straws, with one straw for each edge. Determine its base shape and the number of joiners needed.",
+    "solution_text": "For each side of one base, a prism has one edge in each of its two bases and one joining edge. Group the straws in threes.\n\n$21\\div3=7$\n\nEach base has seven sides, so the model is a heptagonal prism.\n\nThere are seven vertices in each base: $7+7=14$ joiners."
+  },
+  {
+    "question_text": "A complete pyramid frame uses 10 straws, with one straw for each edge. Determine its base shape and the number of joiners needed.",
+    "solution_text": "A pyramid has one base edge and one edge to the apex for each base side. Group the straws in pairs.\n\n$10\\div2=5$\n\nThe base has five sides, so the model is a pentagonal pyramid.\n\nThere are five base vertices and one apex: $5+1=6$ joiners."
+  },
+  {
+    "question_text": "These drawings show a model resting on its base. Its side view is the same as its front view. Identify the model and describe which face pieces to use to build it.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2,0)--(1,2)--cycle;\n\\path (1,-0.5) node {Front view};\n\\draw (4,0) rectangle (6,2);\n\\draw (4,0)--(5,1)--(6,0);\n\\draw (4,2)--(5,1)--(6,2);\n\\path (5,-0.5) node {Top view};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Build a square pyramid. The square top view shows the base outline and four edges meeting above its centre. The triangular front and side views show the apex above the base.\n\nUse one square base and four matching triangular side faces. Attach a triangle to each base edge, then bring their outer vertices together at the apex."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

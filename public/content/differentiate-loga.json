@@ -2,8 +2,8 @@
   "skillId": "differentiate-loga",
   "atomType": "R",
   "theory": {
-    "intro": "The **change of base law** turns any logarithm into a natural logarithm: $\\log_{a}x=\\dfrac{\\ln x}{\\ln a}$. Since $\\ln a$ is just a constant, $\\dfrac{d}{dx}(\\log_{a}x)=\\dfrac{1}{x\\ln a}$ for $x>0$.",
-    "facts": [
+"intro": "The **change of base law** turns any logarithm into a natural logarithm: $\\log_{a}x=\\dfrac{\\ln x}{\\ln a}$. Since $\\ln a$ is just a constant, $\\dfrac{d}{dx}(\\log_{a}x)=\\dfrac{1}{x\\ln a}$ for $x>0$.",
+"facts": [
       "Change of base: $\\log_{a}x=\\dfrac{\\ln x}{\\ln a}$, for a constant base $a>0$ with $a\\neq 1$.",
       "Rule: $\\dfrac{d}{dx}(\\log_{a}x)=\\dfrac{1}{x\\ln a}$, valid for $x>0$.",
       "The base $a$ is a constant, so $\\dfrac{1}{\\ln a}$ is a constant multiplier of $\\dfrac{1}{x}$.",
@@ -12,12 +12,63 @@
       "Common error: $\\ln a$ belongs in the denominator, so the answer is not $\\dfrac{\\ln a}{x}$ and not $\\dfrac{1}{x}\\ln a$.",
       "A base bigger than $e$ makes $\\ln a>1$, so $y=\\log_{a}x$ is less steep than $y=\\ln x$ at every $x$."
     ],
-    "steps": [
+"steps": [
       "Write the logarithm in base $e$ using $\\log_{a}x=\\dfrac{\\ln x}{\\ln a}$.",
       "Differentiate, treating $\\dfrac{1}{\\ln a}$ as a constant multiplier.",
       "State the derivative as $\\dfrac{1}{x\\ln a}$, then substitute any given value of $x$."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Use the change-of-base formula to write $y=\\log_{6}x$ with base $e$, then differentiate.",
+    "solution_text": "$\\begin{align*}y&=\\frac{\\ln x}{\\ln 6}\\\\y'&=\\frac{1}{\\ln 6}\\times\\frac{1}{x}\\\\&=\\frac{1}{x\\ln 6}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Differentiate (a) $f(x)=\\log_{13}x$ and (b) $g(x)=\\log_{\\frac{2}{3}}x$.",
+    "solution_text": "(a) $f'(x)=\\dfrac{1}{x\\ln 13}$.\n\n(b) $g'(x)=\\dfrac{1}{x\\ln(\\frac{2}{3})}$.\n\nThe same formula applies to a constant base between $0$ and $1$."
+  },
+  {
+    "question_text": "Differentiate $y=x^2-2\\log_{9}x$.",
+    "solution_text": "$\\begin{align*}y'&=2x-2\\times\\frac{1}{x\\ln 9}\\\\&=2x-\\frac{2}{x\\ln 9}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $f(x)=\\log_e x$ using the formula for logarithms of any base. Explain the simplification.",
+    "solution_text": "$\\begin{align*}f'(x)&=\\frac{1}{x\\ln e}\\\\&=\\frac{1}{x}\\end{align*}$\n\nSince $\\ln e=1$, this is the derivative of $\\ln x$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $f(x)=6\\log_{5}x$, find $f'(3)$.",
+    "solution_text": "$f'(x)=\\dfrac{6}{x\\ln 5}$.\n\n$\\begin{align*}f'(3)&=\\frac{6}{3\\ln 5}\\\\&=\\frac{2}{\\ln 5}\\end{align*}$"
+  },
+  {
+    "question_text": "Use change of base to prove $\\dfrac{d}{dx}(\\log_a x)=\\dfrac{1}{x\\ln a}$ for $x>0$, where $a>0$ and $a\\ne1$ is constant.",
+    "solution_text": "$\\begin{align*}y&=\\frac{\\ln x}{\\ln a}\\\\&=\\frac{1}{\\ln a}\\ln x\\end{align*}$\n\nSince $a$ is constant, $\\dfrac{1}{\\ln a}$ is a constant multiplier.\n\n$\\begin{align*}\\frac{dy}{dx}&=\\frac{1}{\\ln a}\\times\\frac{1}{x}\\\\&=\\frac{1}{x\\ln a}\\end{align*}$"
+  },
+  {
+    "question_text": "Find the tangent to $y=\\log_4 x$ at $x=4$ in the form $y=mx+b$, and state its $y$-intercept.",
+    "solution_text": "$y'=\\dfrac{1}{x\\ln 4}$.\n\nAt $x=4$, the point is $(4,1)$ and the gradient is $m=\\dfrac{1}{4\\ln 4}$.\n\n$\\begin{align*}y-1&=\\frac{1}{4\\ln 4}(x-4)\\\\y&=\\frac{x}{4\\ln 4}+1-\\frac{1}{\\ln 4}\\end{align*}$\n\nThe $y$-intercept is $1-\\dfrac{1}{\\ln 4}$."
+  },
+  {
+    "question_text": "At what value of $x$ does the tangent to $y=\\log_8 x$ have gradient $2$?",
+    "solution_text": "$y'=\\dfrac{1}{x\\ln 8}$.\n\n$\\begin{align*}\\frac{1}{x\\ln 8}&=2\\\\2x\\ln 8&=1\\\\x&=\\frac{1}{2\\ln 8}\\end{align*}$"
+  },
+  {
+    "question_text": "Use a log law to simplify $y=\\log_3(x^6)$ for $x>0$, then differentiate.",
+    "solution_text": "$y=6\\log_3 x$.\n\n$\\begin{align*}y'&=6\\times\\frac{1}{x\\ln 3}\\\\&=\\frac{6}{x\\ln 3}\\end{align*}$"
+  },
+  {
+    "question_text": "Can the derivative of $y=\\log_6 x$ be zero anywhere on its domain? Give a reason.",
+    "solution_text": "$y'=\\dfrac{1}{x\\ln 6}$.\n\nFor $x>0$, the denominator is positive. The numerator is $1$, so $y'$ is positive and can never be zero."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

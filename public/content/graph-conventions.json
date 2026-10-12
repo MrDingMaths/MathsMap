@@ -2,65 +2,91 @@
   "skillId": "graph-conventions",
   "atomType": "Cat",
   "theory": {
-        "intro": "Every finished data display needs certain features before a reader can understand it. Checking for these features tells you whether a display is complete.",
-        "facts": [
-          "A **title** states what the whole display is about.",
-          "Each **axis** needs a label saying what it measures (and the units).",
-          "The **scale** must go up in equal steps, and a frequency axis starts at $0$.",
-          "A **key** (legend) is needed when colours or symbols stand for different groups.",
-          "A **source** (or caption) states where the data came from."
-        ]
-      },
+"intro": "Check a data display's title, labels and any scale or key it needs so that a reader can understand it.",
+"facts": [
+"A **title** states what the whole display is about.",
+"For displays that have **axes**, each axis needs a label saying what it measures, with units where needed.",
+"On a numerical **scale**, equal numerical increments correspond to equal physical intervals. A column graph's frequency axis starts at $0$.",
+"A **key** (legend) is needed when colours or symbols stand for different groups.",
+"A **source** states where the data came from; a **caption** describes or explains a display. A caption may include a source, but they are not the same thing."
+],
+"workedExamples": [
+  {
+    "question_text": "This column graph records students’ favourite lunchtime activities. Which graph convention is missing?\n[tikz]\n\\begin{tikzpicture}[x=0.9cm,y=0.4cm]\n\\draw[black,->] (0,0)--(0,11);\n\\draw[black,->] (0,0)--(5,0);\n\\foreach \\y in {0,2,4,6,8,10} {\\draw[black] (-0.1,\\y)--(0,\\y);\\node[black,left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.1,\\y) {\\y};}\n\\draw[black] (0.6,0) rectangle (1.4,6);\n\\draw[black] (2.1,0) rectangle (2.9,10);\n\\draw[black] (3.6,0) rectangle (4.4,4);\n\\node[black,below,font=\\fontsize{10}{12}\\selectfont] at (1,0) {Reading};\n\\node[black,below,font=\\fontsize{10}{12}\\selectfont] at (2.5,0) {Sport};\n\\node[black,below,font=\\fontsize{10}{12}\\selectfont] at (4,0) {Games};\n\\node[black,below,font=\\fontsize{10}{12}\\selectfont] at (2.5,-1.2) {Activity};\n\\node[black,rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-1,5) {Number of students};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "A title is missing. The axis labels describe the categories and counts, but no title states what the whole graph is about."
+  },
+  {
+    "question_text": "The graph shows how many students borrowed each type of book. Which axis label is missing, and what should it say?\n[tikz]\n\\begin{tikzpicture}[x=0.9cm,y=0.4cm]\n\\node[black,font=\\fontsize{10}{12}\\selectfont] at (2.5,12) {Books borrowed by students};\n\\draw[black,->] (0,0)--(0,10);\n\\draw[black,->] (0,0)--(5,0);\n\\foreach \\y in {0,2,4,6,8} {\\draw[black] (-0.1,\\y)--(0,\\y);\\node[black,left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.1,\\y) {\\y};}\n\\draw[black] (0.6,0) rectangle (1.4,8);\n\\draw[black] (2.1,0) rectangle (2.9,4);\n\\draw[black] (3.6,0) rectangle (4.4,6);\n\\node[black,below,font=\\fontsize{10}{12}\\selectfont] at (1,0) {Fiction};\n\\node[black,below,font=\\fontsize{10}{12}\\selectfont] at (2.5,0) {Science};\n\\node[black,below,font=\\fontsize{10}{12}\\selectfont] at (4,0) {History};\n\\node[black,below,font=\\fontsize{10}{12}\\selectfont] at (2.5,-1.2) {Book type};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The vertical axis label is missing. It should say “Number of students” so the reader knows what the numbers count."
+  },
+  {
+    "question_text": "A column graph’s vertical frequency axis has equally spaced tick marks numbered $0, 3, 6, 9, 15, 18$. Explain what is wrong with this scale.",
+    "solution_text": "The numerical steps are $3, 3, 3, 6, 3$. The jump from $9$ to $15$ occupies the same distance as a jump of $3$.\nEqual numerical increments must correspond to equal physical intervals."
+  },
+  {
+    "question_text": "A column graph titled “Players attending training” has labelled axes and an even scale starting at $0$. Blue columns represent one team and red columns represent another, but neither team is named on the graph. Which convention is missing?",
+    "solution_text": "A key (legend) is missing. It must name the team represented by blue and the team represented by red."
+  },
+  {
+    "question_text": "This graph shows the number of seedlings planted by three classes. Which convention is missing?\n[tikz]\n\\begin{tikzpicture}[x=0.9cm,y=0.4cm]\n\\node[black,font=\\fontsize{10}{12}\\selectfont] at (2.5,11) {Seedlings planted by each class};\n\\draw[black,->] (0,0)--(0,9);\n\\draw[black,->] (0,0)--(5,0);\n\\foreach \\y in {0,2,4,6,8} {\\draw[black] (-0.1,\\y)--(0,\\y);}\n\\draw[black] (0.6,0) rectangle (1.4,4);\n\\draw[black] (2.1,0) rectangle (2.9,8);\n\\draw[black] (3.6,0) rectangle (4.4,6);\n\\node[black,below,font=\\fontsize{10}{12}\\selectfont] at (1,0) {7A};\n\\node[black,below,font=\\fontsize{10}{12}\\selectfont] at (2.5,0) {7B};\n\\node[black,below,font=\\fontsize{10}{12}\\selectfont] at (4,0) {7C};\n\\node[black,below,font=\\fontsize{10}{12}\\selectfont] at (2.5,-1.2) {Class};\n\\node[black,rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-0.9,4.5) {Number of seedlings};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "A numerical scale is missing from the vertical axis. The tick marks need numbers, including $0$ at the baseline, so the reader can determine the counts."
+  },
+  {
+    "question_text": "A column graph has a horizontal axis labelled “Method of transport”, with categories car, bus, walk and bike. Its vertical axis is labelled “Number of students”. The columns show $24, 32, 16$ and $8$ students travelling to school. Give the graph a relevant title.",
+    "solution_text": "A suitable title is “Students’ methods of transport to school”. It describes both the students counted and the transport categories."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,9.4);\\draw[->] (0,0)--(13.5,0);\\foreach \\y in {2,4,6,8} {\\draw (-0.2,\\y)--(0,\\y); \\node[left] at (-0.2,\\y) {$\\y$};}\\node[left] at (-0.2,0) {$0$};\\draw (0.8,0) rectangle (2.3,5);\\draw (3.1,0) rectangle (4.6,8);\\draw (5.4,0) rectangle (6.9,4);\\draw (7.7,0) rectangle (9.2,6);\\draw (10.0,0) rectangle (11.5,3);\\node[below] at (1.55,0) {Red};\\node[below] at (3.85,0) {Blue};\\node[below] at (6.15,0) {White};\\node[below] at (8.45,0) {Silver};\\node[below] at (10.75,0) {Black};\\node[rotate=90] at (-1.4,4) {Number of cars};\\node[below] at (6.15,-1.0) {Colour};\\end{tikzpicture}\n[/tikz]\nThis column graph has both axes labelled and an even scale.\nWhich convention is still missing?",
         "structure": "missing-title",
         "solution_text": "The axes are labelled and the scale is even, but nothing states what the whole graph is about.\nA title is missing."
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,11.4);\\draw[->] (0,0)--(11.5,0);\\foreach \\y in {2,4,6,8,10} {\\draw (-0.2,\\y)--(0,\\y); \\node[left] at (-0.2,\\y) {$\\y$};}\\node[left] at (-0.2,0) {$0$};\\draw (0.8,0) rectangle (2.3,4);\\draw (3.1,0) rectangle (4.6,9);\\draw (5.4,0) rectangle (6.9,7);\\draw (7.7,0) rectangle (9.2,5);\\node[below] at (1.55,0) {A};\\node[below] at (3.85,0) {B};\\node[below] at (6.15,0) {C};\\node[below] at (8.45,0) {D};\\node[below] at (5.00,-1.0) {Grade};\\node at (5.0,11.1) {Test grades in a class};\\end{tikzpicture}\n[/tikz]\nThis column graph has a title, a labelled horizontal axis and an even scale.\nWhich convention is missing?",
         "structure": "missing-axis-label",
         "solution_text": "The vertical axis shows numbers but does not say what they count.\nA label on the vertical axis is missing."
       },
-      {
-        "question_text": "A frequency axis is numbered $0, 2, 4, 10, 12$.\nExplain why this scale breaks a graph convention.",
+{
+        "question_text": "A frequency axis has equally spaced numbered tick marks labelled $0, 2, 4, 10, 12$.\nExplain why this scale breaks a graph convention.",
         "structure": "scale-fault",
-        "solution_text": "The steps are $2, 2, 6, 2$, which are not equal.\nA scale must go up in equal steps."
+        "solution_text": "The steps are $2, 2, 6, 2$. The jump from $4$ to $10$ is three times the other jumps, but occupies the same physical interval.\nEqual numerical increments must correspond to equal physical intervals."
       },
-      {
+{
         "question_text": "A column graph shows boys’ and girls’ heights using blue and red bars, but nothing explains what the two colours mean.\nWhich convention is missing?",
         "structure": "key-needed",
         "solution_text": "Two colours stand for two different groups, so the reader must be told which is which.\nA key (legend) is missing."
       },
-      {
-        "question_text": "Besides the bars or dots themselves, name two features that every completed data display should include.",
-        "structure": "list-required-conventions",
-        "solution_text": "A title and labels on both axes.\n(A scale, and a source or key when needed, are also expected.)"
+{
+        "question_text": "A column graph titled \"Books borrowed by each class\" has axes labelled \"Class\" and \"Number of books\". The classes are named, but the vertical axis has equally spaced tick marks with no numbers.\nWhich convention is missing?",
+        "structure": "missing-axis-scale",
+        "solution_text": "The vertical tick marks have no numbers, so the reader cannot tell how many books each column represents.\nA numerical scale on the vertical axis is missing."
       }
-    ],
+],
     "development": [
-      {
-        "question_text": "A magazine prints a column graph with a title, labelled axes and an even scale, but readers cannot check where the numbers came from.\nWhich convention is missing?",
-        "structure": "missing-data-source",
-        "solution_text": "Nothing states where the data was collected or taken from.\nA source is missing."
-      },
-      {
-        "question_text": "A vertical frequency axis is numbered $0, 5, 10, 15, 25, 30$.\nExplain why this scale is not drawn correctly.",
+{
+        "question_text": "A column graph has a title and labelled axes. Its vertical frequency axis has equally spaced tick marks numbered $0, 4, 8, 12, 20, 24$.\nDescribe the poor feature of this scale.",
         "structure": "scale-fault",
-        "solution_text": "The steps are $5, 5, 5, 10, 5$, so one step is uneven.\nA scale must increase in equal steps throughout."
+        "solution_text": "The steps are $4, 4, 4, 8, 4$. The jump from $12$ to $20$ is twice the other jumps, but occupies the same distance.\nEqual numerical increments must correspond to equal physical intervals."
       },
-      {
+{
+        "question_text": "A vertical frequency axis has equally spaced numbered tick marks labelled $0, 5, 10, 15, 25, 30$.\nExplain why this scale is not drawn correctly.",
+        "structure": "scale-fault",
+        "solution_text": "The steps are $5, 5, 5, 10, 5$. The jump from $15$ to $25$ is twice the jumps of $5$, but occupies the same physical interval.\nEqual numerical increments must correspond to equal physical intervals."
+      },
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,9.4);\\draw[->] (0,0)--(15.5,0);\\foreach \\y in {20,40,60,80} {\\draw (-0.2,\\y/10)--(0,\\y/10); \\node[left] at (-0.2,\\y/10) {$\\y$};}\\node[left] at (-0.2,0) {$0$};\\draw (0.8,0) rectangle (2.0,4);\\draw (2.6,0) rectangle (3.8,6);\\draw (4.4,0) rectangle (5.6,3);\\draw (6.2,0) rectangle (7.4,5);\\draw (8.0,0) rectangle (9.2,2);\\draw (9.8,0) rectangle (11.0,7);\\node[below] at (1.4,0) {Jan};\\node[below] at (3.2,0) {Feb};\\node[below] at (5.0,0) {Mar};\\node[below] at (6.8,0) {Apr};\\node[below] at (8.6,0) {May};\\node[below] at (10.4,0) {Jun};\\node[rotate=90] at (-1.4,4) {Rainfall (mm)};\\node[below] at (5.90,-1.0) {Month};\\end{tikzpicture}\n[/tikz]\nA student says this column graph is complete because it has axis labels, a scale and category names.\nWhat convention are they overlooking?",
         "structure": "missing-title",
         "solution_text": "The graph does not state what it is about as a whole.\nIt is still missing a title."
       },
-      {
+{
         "question_text": "A double line graph shows the temperature of two cities over a week, drawn as a solid line and a dashed line, with no explanation of which is which.\nWhich convention is missing?",
         "structure": "key-needed",
         "solution_text": "Two line styles represent two different cities, so the reader needs to be told which line is which.\nA key (legend) is missing."
       }
-    ],
+],
     "masteryOmitted": "Applying graph conventions is a single-step recognition check (spot the missing or incorrect feature). A harder in-skill twist does not exist without drifting into drawing mechanics (represent-data-graphs), graph choice (choose-graph-type), or misleading/broken-axis analysis, which belong to other skills."
   }
 }

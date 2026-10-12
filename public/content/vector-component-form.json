@@ -2,8 +2,8 @@
   "skillId": "vector-component-form",
   "atomType": "T",
   "theory": {
-    "intro": "A vector's **components** say how far it moves across and how far it moves up. The same vector can be written three ways: as an ordered pair $(4,3)$, in component form $4\\underset{\\sim}{i}+3\\underset{\\sim}{j}$, or as a column $\\begin{pmatrix}4\\\\3\\end{pmatrix}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-0.5,0)--(5.4,0) node[right] {$x$};\n\\draw[<->] (0,-0.5)--(0,4.2) node[above] {$y$};\n\\draw[->,thick,blue] (0.7,0.7)--(4.7,3.7) node[midway,above left,font=\\footnotesize] {$\\underset{\\sim}{a}$};\n\\draw[dashed,gray] (0.7,0.7)--(4.7,0.7);\n\\draw[dashed,gray] (4.7,0.7)--(4.7,3.7);\n\\node[below,font=\\footnotesize] at (2.7,0.6) {$x$ across};\n\\node[right,font=\\footnotesize] at (4.8,2.2) {$y$ up};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "A vector's **components** say how far it moves across and how far it moves up. The same vector can be written three ways: as an ordered pair $(4,3)$, in component form $4\\underset{\\sim}{i}+3\\underset{\\sim}{j}$, or as a column $\\begin{pmatrix}4\\\\3\\end{pmatrix}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-0.5,0)--(5.4,0) node[right] {$x$};\n\\draw[<->] (0,-0.5)--(0,4.2) node[above] {$y$};\n\\draw[->,thick,blue] (0.7,0.7)--(4.7,3.7) node[midway,above left,font=\\footnotesize] {$\\underset{\\sim}{a}$};\n\\draw[dashed,gray] (0.7,0.7)--(4.7,0.7);\n\\draw[dashed,gray] (4.7,0.7)--(4.7,3.7);\n\\node[below,font=\\footnotesize] at (2.7,0.6) {$x$ across};\n\\node[right,font=\\footnotesize] at (4.8,2.2) {$y$ up};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "$\\underset{\\sim}{i}$ is the vector one unit to the right and $\\underset{\\sim}{j}$ is the vector one unit up.",
 "The forms $(x,y)$, $x\\underset{\\sim}{i}+y\\underset{\\sim}{j}$ and $\\begin{pmatrix}x\\\\y\\end{pmatrix}$ all describe the same vector.",
 "A positive first component means right and a negative one means left; a positive second component means up and a negative one means down.",
@@ -12,12 +12,34 @@
 "In three dimensions a third component uses $\\underset{\\sim}{k}$, giving $x\\underset{\\sim}{i}+y\\underset{\\sim}{j}+z\\underset{\\sim}{k}=\\begin{pmatrix}x\\\\y\\\\z\\end{pmatrix}$.",
 "Printed vectors are bold, as in $\\mathbf{a}$, and handwritten ones carry a tilde underneath, as in $\\underset{\\sim}{a}$."
 ],
-    "steps": [
+"steps": [
       "Read the horizontal component: how far right (positive) or left (negative).",
       "Read the vertical component: how far up (positive) or down (negative).",
       "Write the components in that order, in the form the question asks for."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Write $\\begin{pmatrix}-5\\\\9\\end{pmatrix}$ in component form.",
+    "solution_text": "The top entry is the horizontal component and the bottom entry is the vertical component.\n$\\begin{pmatrix}-5\\\\9\\end{pmatrix}=-5\\underset{\\sim}{i}+9\\underset{\\sim}{j}$"
   },
+  {
+    "question_text": "Write $8\\underset{\\sim}{i}-5\\underset{\\sim}{j}$ as a column vector.",
+    "solution_text": "Put the coefficient of $\\underset{\\sim}{i}$ above the coefficient of $\\underset{\\sim}{j}$, keeping their signs.\n$8\\underset{\\sim}{i}-5\\underset{\\sim}{j}=\\begin{pmatrix}8\\\\-5\\end{pmatrix}$"
+  },
+  {
+    "question_text": "(a) Write $-5\\underset{\\sim}{i}$ as a column vector.\n(b) Write $\\begin{pmatrix}0\\\\4\\end{pmatrix}$ in component form.",
+    "solution_text": "(a) There is no $\\underset{\\sim}{j}$ term, so the vertical component is zero.\n$-5\\underset{\\sim}{i}=\\begin{pmatrix}-5\\\\0\\end{pmatrix}$\n\n(b) The horizontal component is zero, so omit the $\\underset{\\sim}{i}$ term.\n$\\begin{pmatrix}0\\\\4\\end{pmatrix}=4\\underset{\\sim}{j}$"
+  },
+  {
+    "question_text": "Write $-\\underset{\\sim}{j}+11\\underset{\\sim}{i}$ as a column vector.",
+    "solution_text": "Use horizontal then vertical order. The coefficient of $-\\underset{\\sim}{j}$ is $-1$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}-\\underset{\\sim}{j}+11\\underset{\\sim}{i}\\\\&=11\\underset{\\sim}{i}-\\underset{\\sim}{j}\\\\&=\\begin{pmatrix}11\\\\-1\\end{pmatrix}\\end{aligned}$"
+  },
+  {
+    "question_text": "Write the vector $\\underset{\\sim}{v}$ as (a) a column vector and (b) in component form. Each grid square represents one unit.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridColour}{HTML}{CCCCCC}\n\\draw[xstep=7mm,ystep=7mm,color=gridColour,very thin] (-2,-2) grid (4,3);\n\\draw[<->,black] (-2.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,black] (0,-2.4)--(0,3.4) node[above] {$y$};\n\\foreach \\t in {-2,-1,1,2,3,4} {\\draw[black] (\\t,0.08)--(\\t,-0.08);\\path (\\t,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\t$};}\n\\foreach \\t in {-2,-1,1,2,3} {\\draw[black] (0.08,\\t)--(-0.08,\\t);\\path (0,\\t) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\t$};}\n\\draw[->,thick,black] (3,2)--(-1,-1);\n\\path (1,1.2) node[above right] {$\\underset{\\sim}{v}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Read the movement from tail to tip: four units left and three units down. Both components are negative.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridColour}{HTML}{CCCCCC}\n\\definecolor{horizontalColour}{HTML}{268CFF}\n\\definecolor{verticalColour}{HTML}{EF6068}\n\\draw[xstep=7mm,ystep=7mm,color=gridColour,very thin] (-2,-2) grid (4,3);\n\\draw[->,thick,black] (3,2)--(-1,-1);\n\\draw[->,thick,color=horizontalColour] (3,2)--(-1,2);\n\\draw[->,thick,color=verticalColour] (-1,2)--(-1,-1);\n\\path (1,2) node[above] {$-4$};\n\\path (-1,0.5) node[left] {$-3$};\n\\path (1,0.1) node[right] {$\\underset{\\sim}{v}$};\n\\end{tikzpicture}\n[/tikz]\n\n(a) $\\underset{\\sim}{v}=\\begin{pmatrix}-4\\\\-3\\end{pmatrix}$\n\n(b) $\\underset{\\sim}{v}=-4\\underset{\\sim}{i}-3\\underset{\\sim}{j}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

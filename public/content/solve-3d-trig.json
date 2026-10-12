@@ -2,21 +2,79 @@
   "skillId": "solve-3d-trig",
   "atomType": "R",
   "theory": {
-        "intro": "A three-dimensional problem is solved by finding the right-angled triangles hidden inside it. Solve one triangle first to get a length shared with a second triangle. Then use that shared length in the second triangle.",
-        "facts": [
+"intro": "A three-dimensional problem is solved by finding the right-angled triangles hidden inside it. Solve one triangle first to get a length shared with a second triangle. Then use that shared length in the second triangle.",
+"facts": [
 "A 3D problem contains two or more triangles lying in different planes: a horizontal base, a vertical slice, or an inclined face.",
 "The two triangles are linked by a **shared edge**, such as a vertical height or a distance across the ground.",
 "Keep each intermediate length in exact form, such as $h = 30\\tan 75^{\\circ}$ or a surd, so no rounding error builds up.",
 "An **angle of elevation** is measured up from the horizontal to the line of sight; an **angle of depression** is measured down from it.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (P) at (0,0);\n\\coordinate (O) at (4.2,0);\n\\coordinate (T) at (4.2,2.8);\n\\coordinate (H) at (1.0,2.8);\n\\draw (-1.0,0) -- (5.4,0);\n\\draw (P) -- (T);\n\\draw (O) -- (T);\n\\draw[dashed] (T) -- (H);\n\\coordinate (op) at ($(O)!0.3cm!(P)$);\n\\coordinate (ot) at ($(O)!0.3cm!(T)$);\n\\draw (op) -- ($(op)+(ot)-(O)$) -- (ot);\n\\pic[draw, \"$\\alpha$\", angle radius=1.0cm, angle eccentricity=1.8] {angle=O--P--T};\n\\pic[draw, \"$\\beta$\", angle radius=1.0cm, angle eccentricity=1.8] {angle=H--T--P};\n\\node[below left] at (P) {$P$};\n\\node[below right] at (O) {$O$};\n\\node[above right] at (T) {$T$};\n\\node[font=\\small, below] at (1.4,-0.15) {angle of elevation $\\alpha$};\n\\node[font=\\small, above] at (2.2,2.95) {angle of depression $\\beta$};\n\\node[font=\\small, left] at (H) {horizontal};\n\\node[font=\\small, right] at (5.4,0) {ground};\n\\end{tikzpicture}\n[/tikz]",
 "Three-figure true bearings fix directions in the horizontal plane. If their absolute difference is $d$, the smaller angle between the directions is the smaller of $d$ and $360^{\\circ}-d$. For bearings $065^{\\circ}\\text{T}$ and $155^{\\circ}\\text{T}$, this angle is $155^{\\circ} - 65^{\\circ} = 90^{\\circ}$."
 ],
-        "steps": [
+"steps": [
           "Identify and sketch the separate 2D triangles located in the different planes of the 3D figure",
           "Use trigonometry or Pythagoras' theorem in the first triangle to express the shared connecting edge in exact form",
           "Substitute the connecting edge into the second triangle and solve for the required distance, height, or angle",
           "Evaluate the final result and round to the specified degree of accuracy"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A vertical mast has top $T$ and foot $O$. A cable from ground point $A$ to $T$ is $26\\text{ m}$ long and makes an angle of $30^{\\circ}$ with level ground. Ground point $B$ is $20\\text{ m}$ from $O$. Find the angle of elevation $\\theta$ of $T$ from $B$, correct to 1 decimal place.",
+    "solution_text": "Separate the two vertical right-angled triangles. Their shared side is the mast height $OT$.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0)--(3,0)--(3,2)--cycle;\n\\draw (2.75,0)--(2.75,0.25)--(3,0.25);\n\\path (0,0) node[below] {$A$} (3,0) node[below] {$O$} (3,2) node[above] {$T$};\n\\path (1.3,1.15) node[above left] {$26\\text{ m}$} (0.7,0.2) node[above] {$30^{\\circ}$};\n\\draw (5,0)--(8,0)--(8,2)--cycle;\n\\draw (7.75,0)--(7.75,0.25)--(8,0.25);\n\\path (5,0) node[below] {$B$} (8,0) node[below] {$O$} (8,2) node[above] {$T$};\n\\path (6.5,0) node[below] {$20\\text{ m}$} (8,1) node[right] {$OT$} (5.7,0.2) node[above] {$\\theta$};\n\\end{tikzpicture}\n[/tikz]\n\nIn $\\triangle AOT$:\n$\\begin{align*}\\sin30^{\\circ}&=\\frac{OT}{26}\\\\OT&=26\\sin30^{\\circ}\\\\OT&=13\\text{ m}\\end{align*}$\n\nIn $\\triangle BOT$:\n$\\begin{align*}\\tan\\theta&=\\frac{13}{20}\\\\\\theta&=\\tan^{-1}\\left(\\frac{13}{20}\\right)\\\\\\theta&\\approx33.0^{\\circ}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A vertical lighthouse $OT$ is $40\\text{ m}$ high. Boats $P$ and $Q$ are on bearings of $030^{\\circ}\\text{T}$ and $120^{\\circ}\\text{T}$ respectively from its foot $O$. The angles of depression from $T$ to $P$ and $Q$ are $45^{\\circ}$ and $30^{\\circ}$ respectively. Find the distance between the boats in exact form.",
+    "solution_text": "The angles of elevation from the boats equal the corresponding angles of depression. The bearings give $\\angle POQ=120^{\\circ}-30^{\\circ}=90^{\\circ}$.\n\nIn the vertical triangles:\n$\\begin{align*}OP&=\\frac{40}{\\tan45^{\\circ}}\\\\OP&=40\\text{ m}\\end{align*}$\n$\\begin{align*}OQ&=\\frac{40}{\\tan30^{\\circ}}\\\\OQ&=40\\sqrt{3}\\text{ m}\\end{align*}$\n\nUse these exact lengths in the horizontal triangle.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,2.5)--(0,0)--(4,0)--cycle;\n\\draw (0,0.25)--(0.25,0.25)--(0.25,0);\n\\path (0,2.5) node[above] {$P$} (0,0) node[below left] {$O$} (4,0) node[below right] {$Q$};\n\\path (0,1.25) node[left] {$40\\text{ m}$} (2,0) node[below] {$40\\sqrt{3}\\text{ m}$} (2,1.4) node[above right] {$PQ$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{align*}PQ^{2}&=OP^{2}+OQ^{2}\\\\PQ^{2}&=40^{2}+(40\\sqrt{3})^{2}\\\\PQ^{2}&=6400\\\\PQ&=80\\text{ m}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A rectangular prism has base $ABCD$, with $AB=9\\text{ cm}$ and $BC=12\\text{ cm}$. Vertex $G$ is directly above $C$, with $CG=7\\text{ cm}$. Find the angle $\\theta$ that space diagonal $AG$ makes with the base, correct to the nearest degree.",
+    "solution_text": "The projection of $AG$ onto the base is $AC$, so the required angle is $\\angle CAG$. First find the base diagonal.\n\n$\\begin{align*}AC^{2}&=9^{2}+12^{2}\\\\AC^{2}&=225\\\\AC&=15\\text{ cm}\\end{align*}$\n\nSince $CG$ is perpendicular to the base, $\\triangle ACG$ is right-angled at $C$.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0)--(4,0)--(4,2)--cycle;\n\\draw (3.75,0)--(3.75,0.25)--(4,0.25);\n\\path (0,0) node[below left] {$A$} (4,0) node[below right] {$C$} (4,2) node[above] {$G$};\n\\path (2,0) node[below] {$15\\text{ cm}$} (4,1) node[right] {$7\\text{ cm}$} (0.8,0.15) node[above] {$\\theta$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{align*}\\tan\\theta&=\\frac{CG}{AC}\\\\\\tan\\theta&=\\frac{7}{15}\\\\\\theta&=\\tan^{-1}\\left(\\frac{7}{15}\\right)\\\\\\theta&\\approx25^{\\circ}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A right square pyramid has base $ABCD$ of side length $20\\text{ cm}$. Its apex $T$ is directly above the base centre $O$, and $OT=14\\text{ cm}$. Point $M$ is the midpoint of $AB$. Find the angle between face $TAB$ and the base, correct to 1 decimal place.",
+    "solution_text": "Both $OM$ and $TM$ are perpendicular to $AB$, so the angle between the planes is $\\angle TMO$.\n\n$OM=\\frac{20}{2}=10\\text{ cm}$.\n\nThe perpendicular cross-section is $\\triangle TOM$.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0)--(3,0)--(3,3)--cycle;\n\\draw (2.75,0)--(2.75,0.25)--(3,0.25);\n\\path (0,0) node[below left] {$M$} (3,0) node[below right] {$O$} (3,3) node[above] {$T$};\n\\path (1.5,0) node[below] {$10\\text{ cm}$} (3,1.5) node[right] {$14\\text{ cm}$} (0.6,0.3) node[above] {$\\theta$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{align*}\\tan\\theta&=\\frac{OT}{OM}\\\\\\tan\\theta&=\\frac{14}{10}\\\\\\theta&=\\tan^{-1}\\left(\\frac{14}{10}\\right)\\\\\\theta&\\approx54.5^{\\circ}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A right square pyramid has base $ABCD$ of side length $12\\text{ cm}$. Its apex $V$ is directly above the base centre $O$, and slant edge $VA=12\\text{ cm}$. Find the exact angle $\\alpha$ that $VA$ makes with the base.",
+    "solution_text": "The projection of $VA$ onto the base is $OA$, so the required angle is $\\angle VAO$. Find half the base diagonal.\n\n$\\begin{align*}AC^{2}&=12^{2}+12^{2}\\\\AC&=12\\sqrt{2}\\text{ cm}\\\\OA&=\\frac{AC}{2}\\\\OA&=6\\sqrt{2}\\text{ cm}\\end{align*}$\n\nUse $\\triangle AOV$, right-angled at $O$.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0)--(3,0)--(3,3)--cycle;\n\\draw (2.75,0)--(2.75,0.25)--(3,0.25);\n\\path (0,0) node[below left] {$A$} (3,0) node[below right] {$O$} (3,3) node[above] {$V$};\n\\path (1.5,0) node[below] {$6\\sqrt{2}\\text{ cm}$} (1.5,1.5) node[above left] {$12\\text{ cm}$} (0.6,0.25) node[above] {$\\alpha$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{align*}\\cos\\alpha&=\\frac{OA}{VA}\\\\\\cos\\alpha&=\\frac{6\\sqrt{2}}{12}\\\\\\cos\\alpha&=\\frac{\\sqrt{2}}{2}\\\\\\alpha&=45^{\\circ}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A vertical tower has foot $F$ and top $T$. Point $P$ is due south of $F$, and point $Q$ is due east of $F$, on level ground. The angles of elevation of $T$ from $P$ and $Q$ are $30^{\\circ}$ and $45^{\\circ}$ respectively. If $PQ=100\\text{ m}$, find the exact height $h$ of the tower.",
+    "solution_text": "Express both ground distances using the same unknown height.\n\n$\\begin{align*}\\tan30^{\\circ}&=\\frac{h}{FP}\\\\FP&=\\frac{h}{\\tan30^{\\circ}}\\\\FP&=\\sqrt{3}h\\end{align*}$\n$\\begin{align*}\\tan45^{\\circ}&=\\frac{h}{FQ}\\\\FQ&=\\frac{h}{\\tan45^{\\circ}}\\\\FQ&=h\\end{align*}$\n\nSouth and east are perpendicular, so $\\triangle PFQ$ is right-angled at $F$.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,3)--(0,0)--(2,0)--cycle;\n\\draw (0,0.25)--(0.25,0.25)--(0.25,0);\n\\path (0,3) node[above] {$P$} (0,0) node[below left] {$F$} (2,0) node[below right] {$Q$};\n\\path (0,1.5) node[left] {$\\sqrt{3}h$} (1,0) node[below] {$h$} (1,1.5) node[above right] {$100\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{align*}FP^{2}+FQ^{2}&=PQ^{2}\\\\(\\sqrt{3}h)^{2}+h^{2}&=100^{2}\\\\4h^{2}&=10000\\\\h^{2}&=2500\\\\h&=50\\text{ m}\\end{align*}$\n\nTake the positive root because $h$ is a height.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A tower with foot $F$ and top $T$ stands due north of ground point $A$. A surveyor walks $60\\text{ m}$ due east from $A$ to $B$. The angles of elevation of $T$ from $A$ and $B$ are $45^{\\circ}$ and $30^{\\circ}$ respectively. Find the tower height $h$, correct to 1 decimal place.",
+    "solution_text": "The ground triangle is right-angled at $A$: $AF$ points north and $AB$ points east.\n\nFrom the vertical triangles:\n$\\begin{align*}AF&=\\frac{h}{\\tan45^{\\circ}}\\\\AF&=h\\end{align*}$\n$\\begin{align*}BF&=\\frac{h}{\\tan30^{\\circ}}\\\\BF&=\\sqrt{3}h\\end{align*}$\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,2.5)--(0,0)--(3,0)--cycle;\n\\draw (0,0.25)--(0.25,0.25)--(0.25,0);\n\\path (0,2.5) node[above] {$F$} (0,0) node[below left] {$A$} (3,0) node[below right] {$B$};\n\\path (0,1.25) node[left] {$h$} (1.5,0) node[below] {$60\\text{ m}$} (1.5,1.25) node[above right] {$\\sqrt{3}h$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{align*}BF^{2}&=AF^{2}+AB^{2}\\\\(\\sqrt{3}h)^{2}&=h^{2}+60^{2}\\\\2h^{2}&=3600\\\\h^{2}&=1800\\\\h&=30\\sqrt{2}\\text{ m}\\\\h&\\approx42.4\\text{ m}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A tower has foot $O$ and top $T$. It is due north of observer $A$ and due west of observer $B$. The observers are $80\\text{ m}$ apart, and the bearing of $B$ from $A$ is $060^{\\circ}\\text{T}$. The angle of elevation of $T$ from $A$ is $30^{\\circ}$. Find the tower height, correct to 1 decimal place.",
+    "solution_text": "Since $AO$ points north, the bearing gives $\\angle OAB=60^{\\circ}$. The horizontal triangle is right-angled at $O$.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0)--(0,2)--(3,2)--cycle;\n\\draw (0,1.75)--(0.25,1.75)--(0.25,2);\n\\path (0,0) node[below] {$A$} (0,2) node[above left] {$O$} (3,2) node[above right] {$B$};\n\\path (0,1) node[left] {$AO$} (1.6,0.9) node[below right] {$80\\text{ m}$} (0.35,0.7) node[right] {$60^{\\circ}$};\n\\draw (5,0)--(8,0)--(8,1.8)--cycle;\n\\draw (7.75,0)--(7.75,0.25)--(8,0.25);\n\\path (5,0) node[below] {$A$} (8,0) node[below] {$O$} (8,1.8) node[above] {$T$};\n\\path (6.5,0) node[below] {$AO$} (8,0.9) node[right] {$h$} (5.6,0.15) node[above] {$30^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]\n\nIn the horizontal triangle:\n$\\begin{align*}\\cos60^{\\circ}&=\\frac{AO}{80}\\\\AO&=80\\cos60^{\\circ}\\\\AO&=40\\text{ m}\\end{align*}$\n\nIn the vertical triangle:\n$\\begin{align*}\\tan30^{\\circ}&=\\frac{h}{40}\\\\h&=40\\tan30^{\\circ}\\\\h&=\\frac{40}{\\sqrt{3}}\\text{ m}\\\\h&\\approx23.1\\text{ m}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

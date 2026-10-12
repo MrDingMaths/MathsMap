@@ -2,8 +2,8 @@
   "skillId": "differentiate-inverse-trig",
   "atomType": "R",
   "theory": {
-    "intro": "Each inverse trig function has a simple derivative. For inverse sine use $x=\\sin y$, for inverse cosine use $x=\\cos y$, and for inverse tangent use $x=\\tan y$, differentiating and taking the reciprocal in each case. Two of them share the surd $\\sqrt{1-x^{2}}$ and differ only by a minus sign, so that sign is what you must watch.",
-    "facts": [
+"intro": "Each inverse trig function has a simple derivative. For inverse sine use $x=\\sin y$, for inverse cosine use $x=\\cos y$, and for inverse tangent use $x=\\tan y$, differentiating and taking the reciprocal in each case. Two of them share the surd $\\sqrt{1-x^{2}}$ and differ only by a minus sign, so that sign is what you must watch.",
+"facts": [
 "$\\dfrac{d}{dx}\\arcsin x=\\dfrac{1}{\\sqrt{1-x^{2}}}$ for $-1<x<1$.",
 "$\\dfrac{d}{dx}\\arccos x=-\\dfrac{1}{\\sqrt{1-x^{2}}}$ for $-1<x<1$: the same surd as $\\arcsin$, but negative.",
 "$\\dfrac{d}{dx}\\arctan x=\\dfrac{1}{1+x^{2}}$ for every real $x$.",
@@ -14,13 +14,51 @@
 "$\\arcsin x$ and $\\arccos x$ have vertical tangents at $x=\\pm 1$, where the derivative is undefined.",
 "The notation $\\arcsin x$ is also written $\\sin^{-1}x$; both name the same function."
 ],
-    "steps": [
+"steps": [
       "Name the inverse trig function and its inner function $f(x)$.",
       "Write the matching standard derivative, keeping the minus sign for $\\arccos$.",
       "Multiply by $f'(x)$ and substitute $f(x)$ into the formula.",
       "Simplify the denominator, clearing any fraction inside the surd."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Differentiate: (a) $y=6\\arcsin x$, (b) $y=2\\arccos x$, (c) $y=\\frac{1}{4}\\arctan x$, (d) $y=2x^{3}+5\\arctan x$.",
+    "solution_text": "(a) $\\begin{aligned}\\frac{dy}{dx}&=6\\left(\\frac{1}{\\sqrt{1-x^{2}}}\\right)\\\\&=\\frac{6}{\\sqrt{1-x^{2}}}\\end{aligned}$\n\n(b) $\\begin{aligned}\\frac{dy}{dx}&=2\\left(-\\frac{1}{\\sqrt{1-x^{2}}}\\right)\\\\&=-\\frac{2}{\\sqrt{1-x^{2}}}\\end{aligned}$\n\n(c) $\\frac{dy}{dx}=\\frac{1}{4(1+x^{2})}$\n\n(d) Differentiate each term separately.\n$\\frac{dy}{dx}=6x^{2}+\\frac{5}{1+x^{2}}$"
   },
+  {
+    "question_text": "Differentiate: (a) $y=\\arcsin(4x)$, (b) $y=\\arccos(-2x)$, (c) $y=\\arctan(6x)$.",
+    "solution_text": "(a) The inner function is $4x$, with derivative $4$.\n$\\begin{aligned}\\frac{dy}{dx}&=\\frac{4}{\\sqrt{1-(4x)^{2}}}\\\\&=\\frac{4}{\\sqrt{1-16x^{2}}}\\end{aligned}$\n\n(b) The inner derivative is $-2$. The two minus signs cancel.\n$\\begin{aligned}\\frac{dy}{dx}&=-\\frac{-2}{\\sqrt{1-(-2x)^{2}}}\\\\&=\\frac{2}{\\sqrt{1-4x^{2}}}\\end{aligned}$\n\n(c) $\\begin{aligned}\\frac{dy}{dx}&=\\frac{6}{1+(6x)^{2}}\\\\&=\\frac{6}{1+36x^{2}}\\end{aligned}$"
+  },
+  {
+    "question_text": "Differentiate: (a) $y=\\arccos(4x^{2})$, (b) $y=\\arctan\\left(\\frac{x^{3}}{4}\\right)$. (c) Find the exact gradient of $y=\\arcsin(4x^{2})$ at $x=\\frac{1}{2\\sqrt{2}}$.",
+    "solution_text": "(a) $\\begin{aligned}\\frac{dy}{dx}&=-\\frac{8x}{\\sqrt{1-(4x^{2})^{2}}}\\\\&=-\\frac{8x}{\\sqrt{1-16x^{4}}}\\end{aligned}$\n\n(b) $\\begin{aligned}\\frac{dy}{dx}&=\\frac{3x^{2}/4}{1+x^{6}/16}\\\\&=\\frac{12x^{2}}{16+x^{6}}\\end{aligned}$\n\n(c) $\\frac{dy}{dx}=\\frac{8x}{\\sqrt{1-16x^{4}}}$\nAt $x=\\frac{1}{2\\sqrt{2}}$, the numerator is $2\\sqrt{2}$ and $16x^{4}=\\frac{1}{4}$.\n$\\begin{aligned}m&=\\frac{2\\sqrt{2}}{\\sqrt{3/4}}\\\\&=\\frac{4\\sqrt{2}}{\\sqrt{3}}\\\\&=\\frac{4\\sqrt{6}}{3}\\end{aligned}$"
+  },
+  {
+    "question_text": "Differentiate: (a) $y=\\arctan(e^{5x})$, (b) $y=\\arcsin(e^{-2x})$.",
+    "solution_text": "(a) Let $u=e^{5x}$. Then $\\frac{du}{dx}=5e^{5x}$ and $\\frac{dy}{du}=\\frac{1}{1+u^{2}}$.\n$\\begin{aligned}\\frac{dy}{dx}&=\\frac{dy}{du}\\frac{du}{dx}\\\\&=\\frac{5e^{5x}}{1+(e^{5x})^{2}}\\\\&=\\frac{5e^{5x}}{1+e^{10x}}\\end{aligned}$\n\n(b) Let $u=e^{-2x}$. Then $\\frac{du}{dx}=-2e^{-2x}$.\n$\\begin{aligned}\\frac{dy}{dx}&=\\frac{-2e^{-2x}}{\\sqrt{1-(e^{-2x})^{2}}}\\\\&=-\\frac{2e^{-2x}}{\\sqrt{1-e^{-4x}}}\\end{aligned}$"
+  },
+  {
+    "question_text": "Differentiate $y=\\arccos(2\\ln x)$.",
+    "solution_text": "Let $u=2\\ln x$. Then $\\frac{du}{dx}=\\frac{2}{x}$ and $\\frac{dy}{du}=-\\frac{1}{\\sqrt{1-u^{2}}}$.\n$\\begin{aligned}\\frac{dy}{dx}&=\\frac{dy}{du}\\frac{du}{dx}\\\\&=-\\frac{2/x}{\\sqrt{1-(2\\ln x)^{2}}}\\\\&=-\\frac{2}{x\\sqrt{1-4(\\ln x)^{2}}}\\end{aligned}$"
+  },
+  {
+    "question_text": "Differentiate: (a) $y=\\arctan\\sqrt{2x}$, (b) $y=\\arcsin\\sqrt{2x}$. Simplify each answer.",
+    "solution_text": "For both parts, let $u=\\sqrt{2x}$. Then $\\frac{du}{dx}=\\frac{1}{\\sqrt{2x}}$.\n\n(a) $\\begin{aligned}\\frac{dy}{dx}&=\\frac{1/\\sqrt{2x}}{1+(\\sqrt{2x})^{2}}\\\\&=\\frac{1}{\\sqrt{2x}(1+2x)}\\end{aligned}$\n\n(b) $\\begin{aligned}\\frac{dy}{dx}&=\\frac{1/\\sqrt{2x}}{\\sqrt{1-(\\sqrt{2x})^{2}}}\\\\&=\\frac{1}{\\sqrt{2x}\\sqrt{1-2x}}\\\\&=\\frac{1}{\\sqrt{2x-4x^{2}}}\\end{aligned}$"
+  },
+  {
+    "question_text": "Differentiate: (a) $y=\\arccos\\left(\\frac{x}{8}\\right)$, (b) $y=\\arcsin\\left(\\frac{2x-1}{3}\\right)$. Write each answer without a fraction inside the surd.",
+    "solution_text": "(a) $\\begin{aligned}\\frac{dy}{dx}&=-\\frac{1/8}{\\sqrt{1-x^{2}/64}}\\\\&=-\\frac{1/8}{\\frac{1}{8}\\sqrt{64-x^{2}}}\\\\&=-\\frac{1}{\\sqrt{64-x^{2}}}\\end{aligned}$\n\n(b) $\\begin{aligned}\\frac{dy}{dx}&=\\frac{2/3}{\\sqrt{1-(2x-1)^{2}/9}}\\\\&=\\frac{2}{\\sqrt{9-(2x-1)^{2}}}\\\\&=\\frac{2}{\\sqrt{8+4x-4x^{2}}}\\\\&=\\frac{1}{\\sqrt{2+x-x^{2}}}\\end{aligned}$"
+  },
+  {
+    "question_text": "Differentiate $y=\\arctan\\left(\\frac{2x}{3}\\right)$, writing the answer as a single fraction.",
+    "solution_text": "The inner function is $\\frac{2x}{3}$, with derivative $\\frac{2}{3}$.\n$\\begin{aligned}\\frac{dy}{dx}&=\\frac{2/3}{1+4x^{2}/9}\\\\&=\\frac{(2/3)\\times9}{9+4x^{2}}\\\\&=\\frac{6}{9+4x^{2}}\\end{aligned}$"
+  },
+  {
+    "question_text": "Show that $\\arcsin\\left(\\frac{x}{5}\\right)+\\arccos\\left(\\frac{x}{5}\\right)$ is constant for $-5<x<5$, and find the constant.",
+    "solution_text": "$\\begin{aligned}\\frac{d}{dx}\\left[\\arcsin\\left(\\frac{x}{5}\\right)+\\arccos\\left(\\frac{x}{5}\\right)\\right]&=\\frac{1/5}{\\sqrt{1-x^{2}/25}}-\\frac{1/5}{\\sqrt{1-x^{2}/25}}\\\\&=0\\end{aligned}$\nThe derivative is zero throughout the interval, so the sum is constant.\nAt $x=0$, $\\arcsin0+\\arccos0=0+\\frac{\\pi}{2}=\\frac{\\pi}{2}$.\nThe constant is $\\frac{\\pi}{2}$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

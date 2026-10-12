@@ -2,8 +2,8 @@
   "skillId": "integrate-sin2-cos2",
   "atomType": "R",
   "theory": {
-    "intro": "$\\sin^{2}nx$ and $\\cos^{2}nx$ have no primitive you can write down directly, so first rewrite them using a double angle identity. That turns the square into $\\cos 2nx$, which integrates in one step.",
-    "facts": [
+"intro": "$\\sin^{2}nx$ and $\\cos^{2}nx$ have no primitive you can write down directly, so first rewrite them using a double angle identity. That turns the square into $\\cos 2nx$, which integrates in one step.",
+"facts": [
 "From $\\cos 2A = 1 - 2\\sin^{2}A$ comes $\\sin^{2}nx = \\dfrac{1 - \\cos 2nx}{2}$.",
 "From $\\cos 2A = 2\\cos^{2}A - 1$ comes $\\cos^{2}nx = \\dfrac{1 + \\cos 2nx}{2}$.",
 "Rewriting $\\sin^{2}5x$ using the double angle identity introduces $\\cos 10x$, not $\\cos 5x$.",
@@ -15,13 +15,50 @@
 "Work in radians, and for a definite integral substitute the limits without a constant of integration.",
 "Check any result by differentiating, since for $n \\ne 0$, $\\dfrac{d}{dx}\\left(\\dfrac{\\sin 2nx}{4n}\\right) = \\dfrac{\\cos 2nx}{2}$."
 ],
-    "steps": [
+"steps": [
       "Write the square using the double angle identity for $\\cos 2nx$.",
       "Take the factor $\\dfrac{1}{2}$ outside the integral.",
       "Integrate term by term, dividing the $\\cos 2nx$ term by $2n$.",
       "Substitute the limits, for a definite integral."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Use the double angle formulae to express (a) $\\sin^{2}6x$ in terms of $\\cos 12x$ and (b) $\\cos^{2}\\dfrac{x}{6}$ in terms of $\\cos\\dfrac{x}{3}$.",
+    "solution_text": "(a) Use $\\cos 2A=1-2\\sin^{2}A$ with $A=6x$.\n$\\begin{aligned}\\cos 12x&=1-2\\sin^{2}6x\\\\2\\sin^{2}6x&=1-\\cos 12x\\\\\\sin^{2}6x&=\\dfrac{1-\\cos 12x}{2}\\end{aligned}$\n(b) Use $\\cos 2A=2\\cos^{2}A-1$ with $A=\\dfrac{x}{6}$.\n$\\begin{aligned}\\cos\\dfrac{x}{3}&=2\\cos^{2}\\dfrac{x}{6}-1\\\\2\\cos^{2}\\dfrac{x}{6}&=1+\\cos\\dfrac{x}{3}\\\\\\cos^{2}\\dfrac{x}{6}&=\\dfrac{1+\\cos\\frac{x}{3}}{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find $\\int 4\\sin^{2}\\dfrac{3x}{4}\\,dx$.",
+    "solution_text": "The double angle identity gives $\\sin^{2}\\dfrac{3x}{4}=\\dfrac{1-\\cos\\frac{3x}{2}}{2}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 4\\sin^{2}\\dfrac{3x}{4}\\,dx\\\\&=2\\int\\left(1-\\cos\\dfrac{3x}{2}\\right)\\,dx\\\\&=2\\left(x-\\dfrac{2}{3}\\sin\\dfrac{3x}{2}\\right)+C\\\\&=2x-\\dfrac{4}{3}\\sin\\dfrac{3x}{2}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int\\cos^{2}8x\\,dx$.",
+    "solution_text": "Use $\\cos 16x=2\\cos^{2}8x-1$, so $\\cos^{2}8x=\\dfrac{1+\\cos 16x}{2}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\cos^{2}8x\\,dx\\\\&=\\dfrac{1}{2}\\int(1+\\cos 16x)\\,dx\\\\&=\\dfrac{1}{2}\\left(x+\\dfrac{\\sin 16x}{16}\\right)+C\\\\&=\\dfrac{x}{2}+\\dfrac{\\sin 16x}{32}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{0}^{\\frac{\\pi}{12}}\\sin^{2}4x\\,dx$, giving an exact answer.",
+    "solution_text": "Rewrite $\\sin^{2}4x=\\dfrac{1-\\cos 8x}{2}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{\\frac{\\pi}{12}}\\sin^{2}4x\\,dx\\\\&=\\dfrac{1}{2}\\int_{0}^{\\frac{\\pi}{12}}(1-\\cos 8x)\\,dx\\\\&=\\dfrac{1}{2}\\left[x-\\dfrac{\\sin 8x}{8}\\right]_{0}^{\\frac{\\pi}{12}}\\\\&=\\dfrac{1}{2}\\left(\\dfrac{\\pi}{12}-\\dfrac{\\sin\\frac{2\\pi}{3}}{8}-\\left(0-\\dfrac{\\sin 0}{8}\\right)\\right)\\\\&=\\dfrac{\\pi}{24}-\\dfrac{\\sqrt{3}}{32}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{\\frac{\\pi}{12}}^{\\frac{\\pi}{6}}(4\\cos 3x)^{2}\\,dx$, giving an exact answer.",
+    "solution_text": "Square the coefficient as well: $(4\\cos 3x)^{2}=16\\cos^{2}3x$. Use $\\cos^{2}3x=\\dfrac{1+\\cos 6x}{2}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{\\frac{\\pi}{12}}^{\\frac{\\pi}{6}}(4\\cos 3x)^{2}\\,dx\\\\&=8\\int_{\\frac{\\pi}{12}}^{\\frac{\\pi}{6}}(1+\\cos 6x)\\,dx\\\\&=8\\left[x+\\dfrac{\\sin 6x}{6}\\right]_{\\frac{\\pi}{12}}^{\\frac{\\pi}{6}}\\\\&=8\\left(\\dfrac{\\pi}{6}+\\dfrac{\\sin\\pi}{6}-\\dfrac{\\pi}{12}-\\dfrac{\\sin\\frac{\\pi}{2}}{6}\\right)\\\\&=8\\left(\\dfrac{\\pi}{12}-\\dfrac{1}{6}\\right)\\\\&=\\dfrac{2\\pi}{3}-\\dfrac{4}{3}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,18 +2,48 @@
   "skillId": "plot-points-first-quadrant",
   "atomType": "R",
   "theory": {
-        "intro": "Coordinates name a point on a grid as an ordered pair $(x, y)$. The first number is the horizontal position, the second is the vertical position.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.75]\n\\draw[gray!30,very thin] (0,0) grid (6,6);\n\\draw[->] (0,0)--(6.5,0) node[right] {$x$};\n\\draw[->] (0,0)--(0,6.5) node[above] {$y$};\n\\foreach \\n in {1,...,6}{\\node[below,font=\\small] at (\\n,0) {$\\n$};\\node[left,font=\\small] at (0,\\n) {$\\n$};}\n\\node[below left,font=\\small] at (0,0) {$0$};\n\\coordinate (P) at (3.5,4.5);\n\\draw[dashed] (P)--(3.5,0);\n\\draw[dashed] (P)--(0,4.5);\n\\fill (P) circle (2.5pt);\n\\node[above right,font=\\small] at (P) {$P(x,y)$};\n\\node[font=\\small] at (3.5,-1.1) {across first ($x$)};\n\\node[font=\\small,anchor=east] at (-0.7,4.5) {then up ($y$)};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "Coordinates name a point on a grid as an ordered pair $(x, y)$. The first number is the horizontal position, the second is the vertical position.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.75]\n\\draw[gray!30,very thin] (0,0) grid (6,6);\n\\draw[->] (0,0)--(6.5,0) node[right] {$x$};\n\\draw[->] (0,0)--(0,6.5) node[above] {$y$};\n\\foreach \\n in {1,...,6}{\\node[below,font=\\small] at (\\n,0) {$\\n$};\\node[left,font=\\small] at (0,\\n) {$\\n$};}\n\\node[below left,font=\\small] at (0,0) {$0$};\n\\coordinate (P) at (3.5,4.5);\n\\draw[dashed] (P)--(3.5,0);\n\\draw[dashed] (P)--(0,4.5);\n\\fill (P) circle (2.5pt);\n\\node[above right,font=\\small] at (P) {$P(x,y)$};\n\\node[font=\\small] at (3.5,-1.1) {across first ($x$)};\n\\node[font=\\small,anchor=east] at (-0.7,4.5) {then up ($y$)};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "Coordinates are written $(x, y)$ — **horizontal first**, then vertical.",
           "$x$ is counted along from $0$; $y$ is counted up from $0$.",
           "The point $(0, 0)$ is the **origin**, where the axes meet."
         ],
-        "steps": [
+"steps": [
           "Start at the origin $(0, 0)$.",
           "Move right by the first coordinate ($x$).",
           "Move up by the second coordinate ($y$), then mark the point."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Plot and label $A(2,5)$ and $B(5,2)$ on the grid.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[color={rgb,255:red,204;green,204;blue,204},very thin,xstep=10mm,ystep=10mm] (0,0) grid (6,6);\n\\draw[->,black] (0,0)--(6.4,0) node[right] {$x$};\n\\draw[->,black] (0,0)--(0,6.4) node[above] {$y$};\n\\foreach \\n in {1,...,6}{\\draw[black] (\\n,0.06)--(\\n,-0.06);\\draw[black] (0.06,\\n)--(-0.06,\\n);\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Start at the origin. For $A$, move $2$ units right, then $5$ units up. For $B$, move $5$ units right, then $2$ units up.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[color={rgb,255:red,204;green,204;blue,204},very thin,xstep=10mm,ystep=10mm] (0,0) grid (6,6);\n\\draw[->,black] (0,0)--(6.4,0) node[right] {$x$};\n\\draw[->,black] (0,0)--(0,6.4) node[above] {$y$};\n\\foreach \\n in {1,...,6}{\\draw[black] (\\n,0.06)--(\\n,-0.06);\\draw[black] (0.06,\\n)--(-0.06,\\n);\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[->,dashed,color={rgb,255:red,38;green,140;blue,255}] (0,0)--(2,0)--(2,5);\n\\draw[->,dashed,color={rgb,255:red,239;green,96;blue,104}] (0,0)--(5,0)--(5,2);\n\\fill[black] (2,5) circle (2pt);\\path (2,5) node[above right] {$A$};\n\\fill[black] (5,2) circle (2pt);\\path (5,2) node[above right] {$B$};\n\\end{tikzpicture}\n[/tikz]\n\nThe first coordinate gives the horizontal movement. Reversing the coordinates changes the position.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Plot and label $C(0,3)$, $D(5,0)$ and $O(0,0)$.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[color={rgb,255:red,204;green,204;blue,204},very thin,xstep=10mm,ystep=10mm] (0,0) grid (6,6);\n\\draw[->,black] (0,0)--(6.4,0) node[right] {$x$};\n\\draw[->,black] (0,0)--(0,6.4) node[above] {$y$};\n\\foreach \\n in {1,...,6}{\\draw[black] (\\n,0.06)--(\\n,-0.06);\\draw[black] (0.06,\\n)--(-0.06,\\n);\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "For $C$, move $0$ units right and $3$ units up. It lies on the $y$-axis.\n\nFor $D$, move $5$ units right and $0$ units up. It lies on the $x$-axis.\n\nFor $O$, both movements are $0$. It is the origin, where the axes meet.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[color={rgb,255:red,204;green,204;blue,204},very thin,xstep=10mm,ystep=10mm] (0,0) grid (6,6);\n\\draw[->,black] (0,0)--(6.4,0) node[right] {$x$};\n\\draw[->,black] (0,0)--(0,6.4) node[above] {$y$};\n\\foreach \\n in {1,...,6}{\\draw[black] (\\n,0.06)--(\\n,-0.06);\\draw[black] (0.06,\\n)--(-0.06,\\n);\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\fill[black] (0,3) circle (2pt);\\path (0,3) node[above right] {$C$};\n\\fill[black] (5,0) circle (2pt);\\path (5,0) node[above right] {$D$};\n\\fill[black] (0,0) circle (2pt);\\path (0,0) node[above right] {$O$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Plot and label $P(2.5,3.5)$ and $Q(4,1.5)$.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[color={rgb,255:red,204;green,204;blue,204},very thin,xstep=10mm,ystep=10mm] (0,0) grid (6,6);\n\\draw[->,black] (0,0)--(6.4,0) node[right] {$x$};\n\\draw[->,black] (0,0)--(0,6.4) node[above] {$y$};\n\\foreach \\n in {1,...,6}{\\draw[black] (\\n,0.06)--(\\n,-0.06);\\draw[black] (0.06,\\n)--(-0.06,\\n);\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "For $P$, move $2.5$ units right, then $3.5$ units up. Each half unit is halfway between consecutive whole-number grid lines.\n\nFor $Q$, move $4$ units right, then $1.5$ units up.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[color={rgb,255:red,204;green,204;blue,204},very thin,xstep=10mm,ystep=10mm] (0,0) grid (6,6);\n\\draw[->,black] (0,0)--(6.4,0) node[right] {$x$};\n\\draw[->,black] (0,0)--(0,6.4) node[above] {$y$};\n\\foreach \\n in {1,...,6}{\\draw[black] (\\n,0.06)--(\\n,-0.06);\\draw[black] (0.06,\\n)--(-0.06,\\n);\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[->,dashed,color={rgb,255:red,38;green,140;blue,255}] (0,0)--(2.5,0)--(2.5,3.5);\n\\draw[->,dashed,color={rgb,255:red,239;green,96;blue,104}] (0,0)--(4,0)--(4,1.5);\n\\fill[black] (2.5,3.5) circle (2pt);\\path (2.5,3.5) node[above right] {$P$};\n\\fill[black] (4,1.5) circle (2pt);\\path (4,1.5) node[above right] {$Q$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Match each coordinate to a labelled point: a. $(4,3)$; b. $(3,4)$; c. $(2.5,1)$; d. $(1,2.5)$.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[color={rgb,255:red,204;green,204;blue,204},very thin,xstep=10mm,ystep=10mm] (0,0) grid (6,6);\n\\draw[->,black] (0,0)--(6.4,0) node[right] {$x$};\n\\draw[->,black] (0,0)--(0,6.4) node[above] {$y$};\n\\foreach \\n in {1,...,6}{\\draw[black] (\\n,0.06)--(\\n,-0.06);\\draw[black] (0.06,\\n)--(-0.06,\\n);\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\fill[black] (4,3) circle (2pt);\\path (4,3) node[above right] {$K$};\n\\fill[black] (3,4) circle (2pt);\\path (3,4) node[above right] {$L$};\n\\fill[black] (2.5,1) circle (2pt);\\path (2.5,1) node[above right] {$M$};\n\\fill[black] (1,2.5) circle (2pt);\\path (1,2.5) node[above right] {$N$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Start at the origin and use the horizontal coordinate first, then the vertical coordinate.\n\n a. Right $4$, up $3$: $K$.\n\n b. Right $3$, up $4$: $L$.\n\n c. Right $2.5$, up $1$: $M$.\n\n d. Right $1$, up $2.5$: $N$.\n\nFor $M$, the horizontal position is halfway between $2$ and $3$. For $N$, the vertical position is halfway between $2$ and $3$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

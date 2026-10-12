@@ -2,124 +2,154 @@
   "skillId": "exponential-transformations",
   "atomType": "T",
   "theory": {
-        "intro": "An exponential curve $y=k(a)^{x}+c$ (with $a>0$, $a\\neq1$) is $y=a^{x}$ moved and reshaped by $k$ and $c$, or reflected by replacing $x$ with $-x$. Reading these off gives the horizontal asymptote, the $y$-intercept, and whether the curve grows or decays.",
-        "facts": [
-          "The horizontal asymptote is $y=c$: the curve gets closer and closer to that line but never reaches it.",
-          "Adding $c$ shifts the whole curve **up** ($c>0$) or **down** ($c<0$), carrying its asymptote with it.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-5, xmax=4.8, ymin=-1.5, ymax=8.4, samples=120, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[thick, dashed, <->, domain=-5:1.8] {exp(x*ln(2))};\n\\addplot[thick, blue, <->, domain=-5:2.2] {exp(x*ln(2))+2};\n\\addplot[dashed, red, domain=-5:4.8] {2};\n\\node[anchor=west] at (axis cs:2.1,3.48) {$y=a^{x}$};\n\\node[anchor=east, blue] at (axis cs:4.7,7.9) {$y=a^{x}+c$};\n\\node[anchor=north east, red] at (axis cs:4.7,1.85) {$y=c$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
-          "$y=-a^{x}$ is $y=a^{x}$ **reflected in the $x$-axis**, and its asymptote stays $y=0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.6, xmax=4.8, ymin=-5.5, ymax=5.5, samples=120, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[thick, dashed, <->, domain=-4.6:2.1] {exp(x*ln(2))};\n\\addplot[thick, blue, <->, domain=-3.6:2.1] {-exp(x*ln(2))};\n\\node[anchor=west] at (axis cs:2.3,4.29) {$y=a^{x}$};\n\\node[anchor=west, blue] at (axis cs:2.3,-4.29) {$y=-a^{x}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
-          "$y=a^{-x}$ is $y=a^{x}$ **reflected in the $y$-axis**, turning growth into **decay**, and its asymptote stays $y=0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.8, xmax=4.8, ymin=-1.5, ymax=5.5, samples=120, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[thick, dashed, <->, domain=-4.0:2.1] {exp(x*ln(2))};\n\\addplot[thick, blue, <->, domain=-2.1:4.0] {exp(x*ln(0.5))};\n\\node[anchor=west] at (axis cs:2.3,4.29) {$y=a^{x}$};\n\\node[anchor=east, blue] at (axis cs:-2.3,4.29) {$y=a^{-x}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
-          "The factor $k$ is the $y$-intercept of $y=k(a)^{x}$.",
-          "$|k|>1$ makes the curve change **more quickly**, and $0<|k|<1$ makes it change **more slowly**.",
-          "Find the $y$-intercept by letting $x=0$; since $a^{0}=1$, the $y$-intercept of $y=k(a)^{x}+c$ is $k+c$."
-        ],
-        "steps": [
+"intro": "An exponential curve $y=k(a)^{x}+c$ (with $a>0$, $a\\neq1$, $k\\neq0$) is $y=a^{x}$ moved and reshaped by $k$ and $c$, or reflected by replacing $x$ with $-x$. Reading these off gives the horizontal asymptote, the $y$-intercept, and whether the curve grows or decays. When $k=0$, the equation gives the constant line $y=c$.",
+"facts": [
+"For $k\\neq0$, the horizontal asymptote is $y=c$: the curve gets closer and closer to that line but never reaches it.",
+"Adding $c$ shifts the whole curve **up** ($c>0$) or **down** ($c<0$), carrying its asymptote with it.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-5, xmax=4.8, ymin=-1.5, ymax=8.4, samples=120, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[thick, dashed, <->, domain=-5:1.8] {exp(x*ln(2))};\n\\addplot[thick, blue, <->, domain=-5:2.2] {exp(x*ln(2))+2};\n\\addplot[dashed, red, domain=-5:4.8] {2};\n\\node[anchor=west] at (axis cs:2.1,3.48) {$y=a^{x}$};\n\\node[anchor=east, blue] at (axis cs:4.7,7.9) {$y=a^{x}+c$};\n\\node[anchor=north east, red] at (axis cs:4.7,1.85) {$y=c$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+"$y=-a^{x}$ is $y=a^{x}$ **reflected in the $x$-axis**, and its asymptote stays $y=0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.6, xmax=4.8, ymin=-5.5, ymax=5.5, samples=120, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[thick, dashed, <->, domain=-4.6:2.1] {exp(x*ln(2))};\n\\addplot[thick, blue, <->, domain=-3.6:2.1] {-exp(x*ln(2))};\n\\node[anchor=west] at (axis cs:2.3,4.29) {$y=a^{x}$};\n\\node[anchor=west, blue] at (axis cs:2.3,-4.29) {$y=-a^{x}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+"$y=a^{-x}$ is $y=a^{x}$ **reflected in the $y$-axis**, turning growth into **decay** when $a>1$, and its asymptote stays $y=0$. When $0<a<1$, replacing $x$ with $-x$ turns decay into growth.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.8, xmax=4.8, ymin=-1.5, ymax=5.5, samples=120, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[thick, dashed, <->, domain=-4.0:2.1] {exp(x*ln(2))};\n\\addplot[thick, blue, <->, domain=-2.1:4.0] {exp(x*ln(0.5))};\n\\node[anchor=west] at (axis cs:2.3,4.29) {$y=a^{x}$};\n\\node[anchor=east, blue] at (axis cs:-2.3,4.29) {$y=a^{-x}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+"The factor $k$ is the $y$-intercept of $y=k(a)^{x}$.",
+"$|k|>1$ makes the curve change **more quickly**, and $0<|k|<1$ makes it change **more slowly**.",
+"Find the $y$-intercept by letting $x=0$; since $a^{0}=1$, the $y$-intercept of $y=k(a)^{x}+c$ is $k+c$."
+],
+"steps": [
           "Find the $y$-intercept by letting $x=0$.",
           "Find the horizontal asymptote $y=c$.",
           "Plot one more point, such as at $x=1$.",
           "Sketch the smooth curve approaching the asymptote."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Compared with $y=3^{x}$, describe the transformations giving (a) $y=3^{x}+4$, (b) $y=3^{x}-2$, and (c) $y=-3^{x}$. State each horizontal asymptote.",
+    "solution_text": "(a) Translate up $4$. The horizontal asymptote is $y=4$.\n\n(b) Translate down $2$. The horizontal asymptote is $y=-2$.\n\n(c) Reflect in the $x$-axis. The horizontal asymptote remains $y=0$."
+  },
+  {
+    "question_text": "Explain why $y=5^{-x}$ and $y=\\left(\\frac{1}{5}\\right)^{x}$ give the same curve. Describe its relationship to $y=5^{x}$.",
+    "solution_text": "A negative power gives the reciprocal:\n\n$\\begin{aligned}5^{-x}&=(5^{-1})^{x}\\\\&=\\left(\\frac{1}{5}\\right)^{x}.\\end{aligned}$\n\nReplacing $x$ with $-x$ reflects $y=5^{x}$ in the $y$-axis. The resulting curve decreases from left to right, passes through $(0,1)$ and approaches $y=0$."
+  },
+  {
+    "question_text": "Compare each curve with $y=3^{x}$ and find its $y$-intercept: (a) $y=2(3^{x})$, (b) $y=\\frac{1}{2}(3^{x})$, (c) $y=-2(3^{x})$.",
+    "solution_text": "(a) Multiply every $y$-value by $2$. The curve changes more quickly.\n\nFor $x=0$:\n\n$\\begin{aligned}y&=2(3^{0})\\\\&=2.\\end{aligned}$\n\nThe $y$-intercept is $(0,2)$.\n\n(b) Multiply every $y$-value by $\\frac{1}{2}$. The curve changes more slowly.\n\nFor $x=0$:\n\n$\\begin{aligned}y&=\\frac{1}{2}(3^{0})\\\\&=\\frac{1}{2}.\\end{aligned}$\n\nThe $y$-intercept is $(0,\\frac{1}{2})$.\n\n(c) Multiply every $y$-value by $2$, then reflect in the $x$-axis.\n\nFor $x=0$:\n\n$\\begin{aligned}y&=-2(3^{0})\\\\&=-2.\\end{aligned}$\n\nThe $y$-intercept is $(0,-2)$. All three curves have horizontal asymptote $y=0$."
+  },
+  {
+    "question_text": "Sketch $y=2^{x}-2$. Label the $y$-intercept, horizontal asymptote and point where $x=1$.",
+    "solution_text": "Find the $y$-intercept by letting $x=0$:\n\n$\\begin{aligned}y&=2^{0}-2\\\\&=-1.\\end{aligned}$\n\nThe horizontal asymptote is $y=-2$.\n\nFor $x=1$:\n\n$\\begin{aligned}y&=2^{1}-2\\\\&=0.\\end{aligned}$\n\nDraw an increasing curve through $(0,-1)$ and $(1,0)$, approaching $y=-2$ on the left.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveblue}{HTML}{268CFF}\n\\definecolor{asymptotered}{HTML}{EF6068}\n\\begin{axis}[width=7cm,height=6cm,axis lines=middle,axis line style={black,->},xlabel={$x$},ylabel={$y$},xmin=-4,xmax=3,ymin=-3,ymax=5,xtick={-3,-2,-1,1,2},ytick={-2,-1,1,2,3,4},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},samples=120,clip=false]\n\\addplot[asymptotered,dashed,domain=-4:3] {-2};\n\\node[anchor=north] at (axis cs:1.8,-2) {$y=-2$};\n\\addplot[curveblue,thick,<->,domain=-4:2.7] {exp(x*ln(2))-2};\n\\addplot[only marks,mark=*,curveblue] coordinates {(0,-1) (1,0)};\n\\node[anchor=west] (interceptlabel) at (axis cs:0.6,-1.25) {$(0,-1)$};\n\\draw[black,thin,shorten <=2pt,shorten >=2pt] (interceptlabel.west) -- (axis cs:0,-1);\n\\node[anchor=south east] at (axis cs:1,0.25) {$(1,0)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Sketch $y=-2(3^{-x})+4$. Label the $y$-intercept, horizontal asymptote and point where $x=1$.",
+    "solution_text": "Find the $y$-intercept by letting $x=0$:\n\n$\\begin{aligned}y&=-2(3^{0})+4\\\\&=2.\\end{aligned}$\n\nThe horizontal asymptote is $y=4$.\n\nFor $x=1$:\n\n$\\begin{aligned}y&=-2(3^{-1})+4\\\\&=-\\frac{2}{3}+4\\\\&=\\frac{10}{3}.\\end{aligned}$\n\nThe negative exponent reverses the curve horizontally; the negative factor reflects it vertically. Draw an increasing curve through $(0,2)$ and $(1,\\frac{10}{3})$, approaching $y=4$ from below on the right.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveblue}{HTML}{268CFF}\n\\definecolor{asymptotered}{HTML}{EF6068}\n\\begin{axis}[width=7cm,height=6cm,axis lines=middle,axis line style={black,->},xlabel={$x$},ylabel={$y$},xmin=-1.5,xmax=4,ymin=-4,ymax=5,xtick={-1,1,2,3},ytick={-3,-2,-1,1,2,3,4},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},samples=120,clip=false]\n\\addplot[asymptotered,dashed,domain=-1.5:4] {4};\n\\node[anchor=south] at (axis cs:2.9,4) {$y=4$};\n\\addplot[curveblue,thick,<->,domain=-1.2:4] {-2*exp(-x*ln(3))+4};\n\\addplot[only marks,mark=*,curveblue] coordinates {(0,2) (1,3.333333)};\n\\node[anchor=east] (interceptlabel) at (axis cs:-0.5,2.3) {$(0,2)$};\n\\draw[black,thin,shorten <=2pt,shorten >=2pt] (interceptlabel.east) -- (axis cs:0,2);\n\\node[anchor=north west] (pointlabel) at (axis cs:1.5,2.6) {$(1,\\frac{10}{3})$};\n\\draw[black,thin,shorten <=2pt,shorten >=2pt] (pointlabel.north west) -- (axis cs:1,3.333333);\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Match the graph to one of these equations. Explain your choice using the asymptote, $y$-intercept and direction of the curve.\n\nA: $y=3^{x}-1$\n\nB: $y=3^{-x}-1$\n\nC: $y=-3^{-x}-1$\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveblue}{HTML}{268CFF}\n\\definecolor{asymptotered}{HTML}{EF6068}\n\\begin{axis}[width=7cm,height=6cm,axis lines=middle,axis line style={black,->},xlabel={$x$},ylabel={$y$},xmin=-1.8,xmax=4,ymin=-2,ymax=6,xtick={-1,1,2,3},ytick={-1,1,2,3,4,5},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},samples=120,clip=false]\n\\addplot[asymptotered,dashed,domain=-1.8:4] {-1};\n\\node[anchor=north] at (axis cs:2.7,-1) {$y=-1$};\n\\addplot[curveblue,thick,<->,domain=-1.7:4] {exp(-x*ln(3))-1};\n\\addplot[only marks,mark=*,curveblue] coordinates {(0,0)};\n\\node[anchor=south west] (originlabel) at (axis cs:0.65,0.8) {$(0,0)$};\n\\draw[black,thin,shorten <=2pt,shorten >=2pt] (originlabel.south west) -- (axis cs:0,0);\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The horizontal asymptote is $y=-1$. The curve lies above it and decreases from left to right, matching a positive exponential with exponent $-x$.\n\nCheck the $y$-intercept:\n\n$\\begin{aligned}y&=3^{0}-1\\\\&=0.\\end{aligned}$\n\nEquation B, $y=3^{-x}-1$, matches."
+  },
+  {
+    "question_text": "A drink's temperature after $t$ minutes is $T=18+48(3^{-t})$, where $T$ is measured in $^{\\circ}\\mathrm{C}$. Find its starting temperature and the temperature it approaches.",
+    "solution_text": "At the start, $t=0$:\n\n$\\begin{aligned}T&=18+48(3^{0})\\\\&=66^{\\circ}\\mathrm{C}.\\end{aligned}$\n\nAs $t$ increases, $3^{-t}$ approaches $0$. The drink's temperature approaches $18^{\\circ}\\mathrm{C}$, corresponding to the horizontal asymptote $T=18$."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Compared with $y=2^{x}$, describe the transformation that gives $y=2^{x}+3$, and state the new horizontal asymptote.",
         "structure": "describe-transformation",
         "solution_text": "The constant $c=3$ is positive.\nThe curve is translated up $3$; the asymptote moves to $y=3$."
       },
-      {
+{
         "question_text": "Compared with $y=2^{x}$, describe the transformation that gives $y=2^{x}-5$, and state the new horizontal asymptote.",
         "structure": "describe-transformation",
         "solution_text": "The constant $c=-5$ is negative.\nThe curve is translated down $5$; the asymptote moves to $y=-5$."
       },
-      {
+{
         "question_text": "Describe the transformation from $y=2^{x}$ to $y=-2^{x}$.",
         "structure": "reflect-x-axis",
         "solution_text": "The whole curve is multiplied by $-1$.\nThe curve is reflected in the $x$-axis."
       },
-      {
-        "question_text": "Describe the transformation from $y=2^{x}$ to $y=2^{-x}$, and state whether the result grows or decays.",
-        "structure": "reflect-y-axis",
-        "solution_text": "Replacing $x$ with $-x$ reflects the curve in the $y$-axis.\nThe growth curve becomes a decay curve."
+{
+        "question_text": "Why is $y=4^{-x}$ the same as $y=\\left(\\tfrac{1}{4}\\right)^{x}$?",
+        "structure": "explain-equivalent-exponentials",
+        "solution_text": "A negative power gives the reciprocal.\n$4^{-x}=(4^{-1})^{x}=\\left(\\tfrac{1}{4}\\right)^{x}$.\nThe two equations therefore give the same value of $y$ for every $x$."
       },
-      {
+{
         "question_text": "State the $y$-intercept and the horizontal asymptote of $y=3^{x}+2$.",
         "structure": "vertical-shift",
         "solution_text": "$y$-intercept: let $x=0$,\n$y=3^{0}+2$\n$=3$\nAsymptote: $y=2$"
       },
-      {
+{
         "question_text": "Sketch the graph of $y=2^{x}+1$.\nLabel the $y$-intercept, the horizontal asymptote, and the point where $x=1$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.5, xmax=3.2, ymin=-1, ymax=6, samples=120, clip=false, axis line style={-{Stealth}}, xtick={-4,-2,2}, ytick={1,2,3,4,5}]\n\\addplot[thick, dashed, domain=-4.5:2.55] {exp(x*ln(2))};\n\\node[above left] at (axis cs:2,4) {$y=2^{x}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
         "structure": "vertical-shift",
         "solution_text": "$y=2^{x}+1$\n$y$-intercept: let $x=0$,\n$y=2^{0}+1$\n$=2$\nAsymptote: $y=1$\nWhen $x=1$:\n$y=2^{1}+1$\n$=3$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.5, xmax=3.2, ymin=-1, ymax=6, samples=120, clip=false, axis line style={-{Stealth}}, xtick={-4,-2,2}, ytick={1,2,3,4,5}]\n\\addplot[thick, dashed, domain=-4.5:2.55] {exp(x*ln(2))};\n\\addplot[thick, blue, <->, domain=-4.5:2.3] {exp(x*ln(2))+1};\n\\addplot[dashed, red, domain=-4.5:3.2] {1};\n\\node[below] at (axis cs:-3,1) {$y=1$};\n\\addplot[only marks, mark=*, blue] coordinates {(0,2) (1,3)};\n\\node[above left] at (axis cs:0,2) {$(0,2)$};\n\\node[right] at (axis cs:1,3) {$(1,3)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Sketch the graph of $y=-2^{x}$.\nLabel the $y$-intercept and the point where $x=1$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.5, xmax=3.2, ymin=-6, ymax=2, samples=120, clip=false, axis line style={-{Stealth}}, xtick={-4,-2,2}, ytick={-5,-4,-3,-2,-1,1}]\n\\addplot[thick, dashed, domain=-4.5:1] {exp(x*ln(2))};\n\\node[above left] at (axis cs:1,2) {$y=2^{x}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
         "structure": "reflect-x-axis",
         "solution_text": "$y=-2^{x}$\n$y$-intercept: let $x=0$,\n$y=-2^{0}$\n$=-1$\nAsymptote: $y=0$\nWhen $x=1$:\n$y=-2^{1}$\n$=-2$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.5, xmax=3.2, ymin=-6, ymax=2, samples=120, clip=false, axis line style={-{Stealth}}, xtick={-4,-2,2}, ytick={-5,-4,-3,-2,-1,1}]\n\\addplot[thick, dashed, domain=-4.5:1] {exp(x*ln(2))};\n\\addplot[thick, blue, <->, domain=-4.5:2.55] {-exp(x*ln(2))};\n\\addplot[only marks, mark=*, blue] coordinates {(0,-1) (1,-2)};\n\\node[above left] at (axis cs:0,-1) {$(0,-1)$};\n\\node[right] at (axis cs:1,-2) {$(1,-2)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Sketch the graph of $y=2^{-x}$.\nLabel the $y$-intercept and the point where $x=1$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-3.2, xmax=4.5, ymin=-1, ymax=6, samples=120, clip=false, axis line style={-{Stealth}}, xtick={-2,2,4}, ytick={1,2,3,4,5}]\n\\addplot[thick, dashed, domain=-4.5:2.55] {exp(x*ln(2))};\n\\node[above right] at (axis cs:2,4) {$y=2^{x}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
         "structure": "reflect-y-axis",
         "solution_text": "$y=2^{-x}$\n$y$-intercept: let $x=0$,\n$y=2^{0}$\n$=1$\nAsymptote: $y=0$\nWhen $x=1$:\n$y=2^{-1}$\n$=\\tfrac{1}{2}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-3.2, xmax=4.5, ymin=-1, ymax=6, samples=120, clip=false, axis line style={-{Stealth}}, xtick={-2,2,4}, ytick={1,2,3,4,5}]\n\\addplot[thick, dashed, domain=-4.5:2.55] {exp(x*ln(2))};\n\\addplot[thick, blue, <->, domain=-2.3:4.5] {exp(-x*ln(2))};\n\\addplot[only marks, mark=*, blue] coordinates {(0,1) (1,0.5)};\n\\node[above right] at (axis cs:0,1) {$(0,1)$};\n\\node[above right] at (axis cs:1,0.5) {$(1,\\tfrac{1}{2})$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "Describe how the shape of $y=3(2^{x})$ differs from $y=2^{x}$, and state its $y$-intercept.",
         "structure": "vertical-dilation",
         "solution_text": "Here $k=3$, and $|k|>1$.\nThe curve changes more quickly (rises more steeply), and its $y$-intercept is $3$."
       },
-      {
+{
         "question_text": "State the $y$-intercept and the horizontal asymptote of $y=-2^{x}+1$.",
         "structure": "combined-transformation",
         "solution_text": "$y$-intercept: let $x=0$,\n$y=-2^{0}+1$\n$=0$\nAsymptote: $y=1$"
       },
-      {
-        "question_text": "Compared with $y=3^{x}$, describe fully the transformation that gives $y=3^{-x}+2$, and state the new horizontal asymptote.",
-        "structure": "combined-transformation",
-        "solution_text": "Replacing $x$ with $-x$ reflects the curve in the $y$-axis; the $+2$ shifts it up $2$.\nThe curve is reflected in the $y$-axis and translated up $2$; the asymptote moves to $y=2$."
+{
+        "question_text": "State the $y$-intercept and the horizontal asymptote of $y=4^{-x}+2$.",
+        "structure": "find-exponential-features",
+        "solution_text": "$y$-intercept: let $x=0$,\n$y=4^{0}+2$\n$=3$\nAsymptote: $y=2$"
       },
-      {
+{
         "question_text": "Sketch the graph of $y=3^{x}+2$.\nLabel the $y$-intercept, the horizontal asymptote, and the point where $x=1$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.5, xmax=2.5, ymin=0, ymax=8, samples=120, clip=false, axis line style={-{Stealth}}, xtick={-4,-2,2}, ytick={2,3,4,5,6,7}]\n\\addplot[thick, dashed, domain=-4.5:1.63] {exp(x*ln(3))};\n\\node[above left] at (axis cs:1.4,4.5) {$y=3^{x}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
         "structure": "vertical-shift",
         "solution_text": "$y=3^{x}+2$\n$y$-intercept: let $x=0$,\n$y=3^{0}+2$\n$=3$\nAsymptote: $y=2$\nWhen $x=1$:\n$y=3^{1}+2$\n$=5$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.5, xmax=2.5, ymin=0, ymax=8, samples=120, clip=false, axis line style={-{Stealth}}, xtick={-4,-2,2}, ytick={2,3,4,5,6,7}]\n\\addplot[thick, dashed, domain=-4.5:1.63] {exp(x*ln(3))};\n\\addplot[thick, blue, <->, domain=-4.5:1.6] {exp(x*ln(3))+2};\n\\addplot[dashed, red, domain=-4.5:2.5] {2};\n\\node[below] at (axis cs:-3,2) {$y=2$};\n\\addplot[only marks, mark=*, blue] coordinates {(0,3) (1,5)};\n\\node[above left] at (axis cs:0,3) {$(0,3)$};\n\\node[right] at (axis cs:1,5) {$(1,5)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
-        "question_text": "Sketch the graph of $y=-3(2^{x})$.\nLabel the $y$-intercept and the point where $x=1$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.5, xmax=2.5, ymin=-8, ymax=1, samples=120, clip=false, axis line style={-{Stealth}}, xtick={-4,-2,2}, ytick={-7,-6,-5,-4,-3,-2,-1}]\n\\addplot[thick, dashed, domain=-4.5:2.3] {exp(x*ln(2))};\n\\node[above left] at (axis cs:0.7,1.6) {$y=2^{x}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "Sketch the graph of $y=-3(2^{x})$.\nLabel the $y$-intercept and the point where $x=1$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.5, xmax=2.5, ymin=-8, ymax=3, samples=120, clip=false, axis line style={-{Stealth}}, xtick={-4,-2,2}, ytick={-7,-6,-5,-4,-3,-2,-1}]\n\\addplot[thick, dashed, domain=-4.5:1] {exp(x*ln(2))};\n\\node[anchor=east] at (axis cs:-1,2.3) {$y=2^{x}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
         "structure": "combined-transformation",
-        "solution_text": "$y=-3(2^{x})$\n$y$-intercept: let $x=0$,\n$y=-3(2^{0})$\n$=-3$\nAsymptote: $y=0$\nWhen $x=1$:\n$y=-3(2^{1})$\n$=-6$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.5, xmax=2.5, ymin=-8, ymax=1, samples=120, clip=false, axis line style={-{Stealth}}, xtick={-4,-2,2}, ytick={-7,-6,-5,-4,-3,-2,-1}]\n\\addplot[thick, dashed, domain=-4.5:0.32] {exp(x*ln(2))};\n\\addplot[thick, blue, <->, domain=-4.5:1.41] {-3*exp(x*ln(2))};\n\\addplot[only marks, mark=*, blue] coordinates {(0,-3) (1,-6)};\n\\node[above left] at (axis cs:0,-3) {$(0,-3)$};\n\\node[right] at (axis cs:1,-6) {$(1,-6)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+        "solution_text": "$y=-3(2^{x})$\n$y$-intercept: let $x=0$,\n$y=-3(2^{0})$\n$=-3$\nAsymptote: $y=0$\nWhen $x=1$:\n$y=-3(2^{1})$\n$=-6$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.5, xmax=2.5, ymin=-8, ymax=3, samples=120, clip=false, axis line style={-{Stealth}}, xtick={-4,-2,2}, ytick={-7,-6,-5,-4,-3,-2,-1}]\n\\addplot[thick, dashed, domain=-4.5:1] {exp(x*ln(2))};\n\\addplot[thick, blue, <->, domain=-4.5:1.41] {-3*exp(x*ln(2))};\n\\addplot[only marks, mark=*, blue] coordinates {(0,-3) (1,-6)};\n\\node[anchor=west] at (axis cs:0.65,-3) {$(0,-3)$};\n\\node[right] at (axis cs:1,-6) {$(1,-6)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Sketch the graph of $y=2^{-x}+3$.\nLabel the $y$-intercept, the horizontal asymptote, and the point where $x=1$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-3.2, xmax=4.5, ymin=1, ymax=8, samples=120, clip=false, axis line style={-{Stealth}}, xtick={-2,2,4}, ytick={3,4,5,6,7}]\n\\addplot[thick, dashed, domain=-3.2:2.32] {exp(-x*ln(2))};\n\\node[above left] at (axis cs:-2,4) {$y=2^{-x}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
         "structure": "combined-transformation",
         "solution_text": "$y=2^{-x}+3$\n$y$-intercept: let $x=0$,\n$y=2^{0}+3$\n$=4$\nAsymptote: $y=3$\nWhen $x=1$:\n$y=2^{-1}+3$\n$=\\tfrac{7}{2}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-3.2, xmax=4.5, ymin=1, ymax=8, samples=120, clip=false, axis line style={-{Stealth}}, xtick={-2,2,4}, ytick={3,4,5,6,7}]\n\\addplot[thick, dashed, domain=-3.2:1] {exp(-x*ln(2))};\n\\addplot[thick, blue, <->, domain=-2.3:4.5] {exp(-x*ln(2))+3};\n\\addplot[dashed, red, domain=-3.2:4.5] {3};\n\\node[below] at (axis cs:3,3) {$y=3$};\n\\addplot[only marks, mark=*, blue] coordinates {(0,4) (1,3.5)};\n\\node[above right] at (axis cs:0,4) {$(0,4)$};\n\\node[above right] at (axis cs:1,3.5) {$(1,\\tfrac{7}{2})$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "A cup of coffee cools so that its temperature after $t$ minutes is $T=20+60(2^{-t})$, where $T$ is in $^{\\circ}\\text{C}$.\nState the temperature the coffee approaches (the horizontal asymptote) and its temperature at the start.",
         "structure": "combined-transformation",
         "solution_text": "As $t$ grows, $2^{-t}$ approaches $0$, so $T$ approaches $20$.\nThe coffee approaches $20^{\\circ}\\text{C}$ but never reaches it.\nStart: let $t=0$,\n$T=20+60(2^{0})$\n$=80^{\\circ}\\text{C}$"
       },
-      {
-        "question_text": "Write the equation of the curve formed by reflecting $y=2^{x}$ in the $x$-axis and then translating it up $4$.\nState its horizontal asymptote and $y$-intercept.",
-        "structure": "combined-transformation",
-        "solution_text": "Reflecting in the $x$-axis gives $y=-2^{x}$; translating up $4$ adds $4$.\n$y=-2^{x}+4$\nAsymptote: $y=4$\n$y$-intercept: $-2^{0}+4=3$"
+{
+        "question_text": "State the horizontal asymptote and the $y$-intercept of $y=-3^{x}+4$.",
+        "structure": "find-exponential-features",
+        "solution_text": "Asymptote: $y=4$.\n$y$-intercept: let $x=0$,\n$y=-3^{0}+4$\n$=3$"
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "For the curve $y=-2^{x}+8$, find the $y$-intercept, the horizontal asymptote, and the $x$-intercept.",
-        "structure": "find-x-intercept",
-        "solution_text": "$y$-intercept: let $x=0$,\n$y=-2^{0}+8$\n$=7$\nAsymptote: $y=8$\n$x$-intercept: let $y=0$,\n$0=-2^{x}+8$\n$2^{x}=8$\n$x=3$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.5, xmax=4.2, ymin=-2, ymax=10, samples=120, clip=false, axis line style={-{Stealth}}, xtick={-4,-2,2,4}, ytick={2,4,6,8}]\n\\addplot[thick, blue, <->, domain=-4.5:3.3] {-exp(x*ln(2))+8};\n\\addplot[dashed, red, domain=-4.5:4.2] {8};\n\\node[below] at (axis cs:-3,8) {$y=8$};\n\\addplot[only marks, mark=*, blue] coordinates {(0,7) (3,0)};\n\\node[above right] at (axis cs:0,7) {$(0,7)$};\n\\node[above right] at (axis cs:3,0) {$(3,0)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+{
+        "question_text": "Match $y=-4^{x}+3$ to graph A, B or C.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=4.5cm, height=5cm, title={A}, axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-2.5, xmax=2.5, ymin=-5, ymax=8, samples=100, clip=true, xtick=\\empty, ytick={2,3}, yticklabels=\\empty]\n\\addplot[thick, blue, <->, domain=-2.3:1.4] {-exp(x*ln(4))+3};\n\\addplot[dashed, red, domain=-2.5:2.5] {3};\n\\addplot[only marks, mark=*] coordinates {(0,2)};\n\\node[anchor=south] at (axis cs:-1.35,3) {$3$};\n\\node[anchor=west] at (axis cs:0.65,2) {$2$};\n\\end{axis}\n\\begin{axis}[at={(4.8cm,0)}, anchor=south west, width=4.5cm, height=5cm, title={B}, axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-2.5, xmax=2.5, ymin=-5, ymax=8, samples=100, clip=true, xtick=\\empty, ytick={3,4}, yticklabels=\\empty]\n\\addplot[thick, blue, <->, domain=-2.3:1.1] {exp(x*ln(4))+3};\n\\addplot[dashed, red, domain=-2.5:2.5] {3};\n\\addplot[only marks, mark=*] coordinates {(0,4)};\n\\node[anchor=south] at (axis cs:-1.35,3) {$3$};\n\\node[anchor=west] at (axis cs:0.65,4) {$4$};\n\\end{axis}\n\\begin{axis}[at={(9.6cm,0)}, anchor=south west, width=4.5cm, height=5cm, title={C}, axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-2.5, xmax=2.5, ymin=-5, ymax=8, samples=100, clip=true, xtick=\\empty, ytick={2,3}, yticklabels=\\empty]\n\\addplot[thick, blue, <->, domain=-1.4:2.3] {-exp(-x*ln(4))+3};\n\\addplot[dashed, red, domain=-2.5:2.5] {3};\n\\addplot[only marks, mark=*] coordinates {(0,2)};\n\\node[anchor=south] at (axis cs:-1.35,3) {$3$};\n\\node[anchor=west, fill=white] at (axis cs:0.65,2) {$2$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "match-equation-to-graph",
+        "solution_text": "Let $x=0$: $y=-4^{0}+3=2$.\nThe asymptote is $y=3$.\nThe curve lies below the asymptote and decreases from left to right.\nGraph A matches."
       },
-      {
-        "question_text": "For the curve $y=2^{-x}-4$, find the $y$-intercept, the horizontal asymptote, and the $x$-intercept.",
-        "structure": "find-x-intercept",
-        "solution_text": "$y$-intercept: let $x=0$,\n$y=2^{0}-4$\n$=-3$\nAsymptote: $y=-4$\n$x$-intercept: let $y=0$,\n$0=2^{-x}-4$\n$2^{-x}=4$\n$-x=2$\n$x=-2$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.5, xmax=4.5, ymin=-6, ymax=6, samples=120, clip=false, axis line style={-{Stealth}}, xtick={-4,-2,2,4}, ytick={-4,-2,2,4}]\n\\addplot[thick, blue, <->, domain=-3.3:4.5] {exp(-x*ln(2))-4};\n\\addplot[dashed, red, domain=-4.5:4.5] {-4};\n\\node[above] at (axis cs:3,-4) {$y=-4$};\n\\addplot[only marks, mark=*, blue] coordinates {(0,-3) (-2,0)};\n\\node[above right] at (axis cs:0,-3) {$(0,-3)$};\n\\node[above left] at (axis cs:-2,0) {$(-2,0)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+{
+        "question_text": "Match $y=5^{-x}-3$ to graph A, B or C.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=4.5cm, height=5cm, title={A}, axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-2.5, xmax=2.5, ymin=-6, ymax=5, samples=100, clip=true, xtick=\\empty, ytick={-3,-2}, yticklabels=\\empty]\n\\addplot[thick, blue, <->, domain=-2.3:1.2] {exp(x*ln(5))-3};\n\\addplot[dashed, red, domain=-2.5:2.5] {-3};\n\\addplot[only marks, mark=*] coordinates {(0,-2)};\n\\node[anchor=south] at (axis cs:-1.35,-3) {$-3$};\n\\node[anchor=west] at (axis cs:0.65,-2) {$-2$};\n\\end{axis}\n\\begin{axis}[at={(4.8cm,0)}, anchor=south west, width=4.5cm, height=5cm, title={B}, axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-2.5, xmax=2.5, ymin=-6, ymax=5, samples=100, clip=true, xtick=\\empty, ytick={-3,-2}, yticklabels=\\empty]\n\\addplot[thick, blue, <->, domain=-1.2:2.3] {exp(-x*ln(5))-3};\n\\addplot[dashed, red, domain=-2.5:2.5] {-3};\n\\addplot[only marks, mark=*] coordinates {(0,-2)};\n\\node[anchor=south] at (axis cs:-1.35,-3) {$-3$};\n\\node[anchor=west] at (axis cs:0.65,-2) {$-2$};\n\\end{axis}\n\\begin{axis}[at={(9.6cm,0)}, anchor=south west, width=4.5cm, height=5cm, title={C}, axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-2.5, xmax=2.5, ymin=-6, ymax=5, samples=100, clip=true, xtick=\\empty, ytick={-4,-3}, yticklabels=\\empty]\n\\addplot[thick, blue, <->, domain=-0.6:2.3] {-exp(-x*ln(5))-3};\n\\addplot[dashed, red, domain=-2.5:2.5] {-3};\n\\addplot[only marks, mark=*] coordinates {(0,-4)};\n\\node[anchor=south] at (axis cs:-1.35,-3) {$-3$};\n\\node[anchor=west] at (axis cs:0.65,-4) {$-4$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "match-equation-to-graph",
+        "solution_text": "Let $x=0$: $y=5^{0}-3=-2$.\nThe asymptote is $y=-3$.\nThe curve lies above the asymptote and decreases from left to right.\nGraph B matches."
       },
-      {
-        "question_text": "The curve $y=3^{x}$ is reflected in the $y$-axis and then translated down $2$.\nWrite the equation of the image, and state its horizontal asymptote and $y$-intercept.",
-        "structure": "combined-transformation",
-        "solution_text": "Reflecting in the $y$-axis gives $y=3^{-x}$; translating down $2$ subtracts $2$.\n$y=3^{-x}-2$\nAsymptote: $y=-2$\n$y$-intercept: $3^{0}-2=-1$"
+{
+        "question_text": "Match $y=-4^{-x}+2$ to graph A, B or C.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=4.5cm, height=5cm, title={A}, axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-2.5, xmax=2.5, ymin=-5, ymax=7, samples=100, clip=true, xtick=\\empty, ytick={1,2}, yticklabels=\\empty]\n\\addplot[thick, blue, <->, domain=-2.3:1.3] {-exp(x*ln(4))+2};\n\\addplot[dashed, red, domain=-2.5:2.5] {2};\n\\addplot[only marks, mark=*] coordinates {(0,1)};\n\\node[anchor=south] at (axis cs:-1.35,2) {$2$};\n\\node[anchor=west] at (axis cs:0.65,1) {$1$};\n\\end{axis}\n\\begin{axis}[at={(4.8cm,0)}, anchor=south west, width=4.5cm, height=5cm, title={B}, axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-2.5, xmax=2.5, ymin=-5, ymax=7, samples=100, clip=true, xtick=\\empty, ytick={2,3}, yticklabels=\\empty]\n\\addplot[thick, blue, <->, domain=-1.1:2.3] {exp(-x*ln(4))+2};\n\\addplot[dashed, red, domain=-2.5:2.5] {2};\n\\addplot[only marks, mark=*] coordinates {(0,3)};\n\\node[anchor=south] at (axis cs:-1.35,2) {$2$};\n\\node[anchor=west] at (axis cs:0.65,3) {$3$};\n\\end{axis}\n\\begin{axis}[at={(9.6cm,0)}, anchor=south west, width=4.5cm, height=5cm, title={C}, axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-2.5, xmax=2.5, ymin=-5, ymax=7, samples=100, clip=true, xtick=\\empty, ytick={1,2}, yticklabels=\\empty]\n\\addplot[thick, blue, <->, domain=-1.3:2.3] {-exp(-x*ln(4))+2};\n\\addplot[dashed, red, domain=-2.5:2.5] {2};\n\\addplot[only marks, mark=*] coordinates {(0,1)};\n\\node[anchor=south] at (axis cs:-1.35,2) {$2$};\n\\node[anchor=west, fill=white] at (axis cs:0.65,1) {$1$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "match-equation-to-graph",
+        "solution_text": "Let $x=0$: $y=-4^{0}+2=1$.\nThe asymptote is $y=2$.\nThe curve lies below the asymptote and increases from left to right.\nGraph C matches."
       }
-    ]
+]
   }
 }

@@ -2,16 +2,38 @@
   "skillId": "complementary-trig-identities",
   "atomType": "T",
   "theory": {
-        "intro": "In a right-angled triangle the two acute angles add to $90^{\\circ}$, so each is the other's complement. Swapping them swaps the opposite and adjacent sides, so every ratio of $\\theta$ equals the co-ratio of $90^{\\circ}-\\theta$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.8,0);\n\\coordinate (C) at (4.8,2.9);\n\\draw (A) -- (B) node[midway, below] {$b$};\n\\draw (B) -- (C) node[midway, right] {$a$};\n\\draw (C) -- (A) node[midway, above left] {$c$};\n\\coordinate (p) at ($(B)!0.3cm!(A)$);\n\\coordinate (q) at ($(B)!0.3cm!(C)$);\n\\draw (p) -- ($(p)+(q)-(B)$) -- (q);\n\\pic[draw, \"$\\theta$\", angle radius=0.8cm, angle eccentricity=2] {angle = B--A--C};\n\\pic[draw, \"$90^{\\circ}-\\theta$\", angle radius=0.75cm, angle eccentricity=2] {angle = A--C--B};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "In a right-angled triangle the two acute angles add to $90^{\\circ}$, so each is the other's complement. Swapping them swaps the opposite and adjacent sides, so every ratio of $\\theta$ equals the co-ratio of $90^{\\circ}-\\theta$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.8,0);\n\\coordinate (C) at (4.8,2.9);\n\\draw (A) -- (B) node[midway, below] {$b$};\n\\draw (B) -- (C) node[midway, right] {$a$};\n\\draw (C) -- (A) node[midway, above left] {$c$};\n\\coordinate (p) at ($(B)!0.3cm!(A)$);\n\\coordinate (q) at ($(B)!0.3cm!(C)$);\n\\draw (p) -- ($(p)+(q)-(B)$) -- (q);\n\\pic[draw, \"$\\theta$\", angle radius=0.8cm, angle eccentricity=2] {angle = B--A--C};\n\\pic[draw, \"$90^{\\circ}-\\theta$\", angle radius=0.75cm, angle eccentricity=2] {angle = A--C--B};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "Two angles are **complementary** when they add to $90^{\\circ}$, so $A+B=90^{\\circ}$.",
 "For an acute angle $\\theta$, $\\sin(90^{\\circ}-\\theta)=\\cos\\theta$ and $\\cos(90^{\\circ}-\\theta)=\\sin\\theta$.",
 "For an acute angle $\\theta$, $\\tan(90^{\\circ}-\\theta)=\\cot\\theta$ and $\\cot(90^{\\circ}-\\theta)=\\tan\\theta$.",
 "For an acute angle $\\theta$, $\\sec(90^{\\circ}-\\theta)=\\operatorname{cosec}\\theta$ and $\\operatorname{cosec}(90^{\\circ}-\\theta)=\\sec\\theta$.",
 "If $A$ and $B$ are acute and a ratio equals its co-ratio, such as $\\sec A=\\operatorname{cosec} B$ or $\\tan A=\\cot B$, then $A+B=90^{\\circ}$.",
 "Complementary co-ratios divide to $1$, as $\\dfrac{\\sec 20^{\\circ}}{\\operatorname{cosec} 70^{\\circ}}=1$, and subtract to $0$, as $\\cot 35^{\\circ}-\\tan 55^{\\circ}=0$."
+],
+"workedExamples": [
+  {
+    "question_text": "Rewrite each ratio using its complementary co-ratio: (a) $\\sec 32^{\\circ}$, (b) $\\cot 63^{\\circ}$, (c) $\\operatorname{cosec} 24^{\\circ}$.",
+    "solution_text": "(a)\n$\\begin{aligned}\\sec 32^{\\circ}&=\\operatorname{cosec}(90^{\\circ}-32^{\\circ})\\\\&=\\operatorname{cosec}58^{\\circ}\\end{aligned}$\n\n(b)\n$\\begin{aligned}\\cot 63^{\\circ}&=\\tan(90^{\\circ}-63^{\\circ})\\\\&=\\tan27^{\\circ}\\end{aligned}$\n\n(c)\n$\\begin{aligned}\\operatorname{cosec}24^{\\circ}&=\\sec(90^{\\circ}-24^{\\circ})\\\\&=\\sec66^{\\circ}\\end{aligned}$"
+  },
+  {
+    "question_text": "Simplify without using a calculator: (a) $\\dfrac{\\cot29^{\\circ}+\\tan61^{\\circ}}{\\cot29^{\\circ}}$, (b) $\\sec(90^{\\circ}-\\alpha)\\sin\\alpha$, (c) $\\dfrac{\\tan(90^{\\circ}-\\alpha)}{\\cot(90^{\\circ}-\\alpha)}$, where $\\alpha$ is acute.",
+    "solution_text": "(a) The angles add to $90^{\\circ}$, so $\\tan61^{\\circ}=\\cot29^{\\circ}$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{\\cot29^{\\circ}+\\tan61^{\\circ}}{\\cot29^{\\circ}}\\\\&=\\frac{\\cot29^{\\circ}+\\cot29^{\\circ}}{\\cot29^{\\circ}}\\\\&=2\\end{aligned}$\n\n(b)\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\sec(90^{\\circ}-\\alpha)\\sin\\alpha\\\\&=\\operatorname{cosec}\\alpha\\sin\\alpha\\\\&=\\frac{1}{\\sin\\alpha}\\sin\\alpha\\\\&=1\\end{aligned}$\n\n(c)\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{\\tan(90^{\\circ}-\\alpha)}{\\cot(90^{\\circ}-\\alpha)}\\\\&=\\frac{\\cot\\alpha}{\\tan\\alpha}\\\\&=\\cot\\alpha\\cdot\\cot\\alpha\\\\&=\\cot^2\\alpha\\end{aligned}$"
+  },
+  {
+    "question_text": "For acute $\\alpha$, prove (a) $\\operatorname{cosec}(90^{\\circ}-\\alpha)=\\sec\\alpha$ and (b) $\\tan(90^{\\circ}-\\alpha)=\\cot\\alpha$, using sine and cosine complementary identities.",
+    "solution_text": "(a)\n$\\begin{aligned}\\mathrm{LHS}&=\\operatorname{cosec}(90^{\\circ}-\\alpha)\\\\&=\\frac{1}{\\sin(90^{\\circ}-\\alpha)}\\\\&=\\frac{1}{\\cos\\alpha}\\\\&=\\sec\\alpha\\\\&=\\mathrm{RHS}\\end{aligned}$\n\n(b)\n$\\begin{aligned}\\mathrm{LHS}&=\\tan(90^{\\circ}-\\alpha)\\\\&=\\frac{\\sin(90^{\\circ}-\\alpha)}{\\cos(90^{\\circ}-\\alpha)}\\\\&=\\frac{\\cos\\alpha}{\\sin\\alpha}\\\\&=\\cot\\alpha\\\\&=\\mathrm{RHS}\\end{aligned}$\n\nSince $\\alpha$ is acute, the denominators are nonzero."
+  },
+  {
+    "question_text": "(a) Find $t$ if $\\cot(2t+8^{\\circ})=\\tan(3t+7^{\\circ})$, where both arguments are acute.\n\n(b) Find $k$ if $\\sec(24^{\\circ}-k)=\\operatorname{cosec}(2k+42^{\\circ})$, where $0^{\\circ}\\leq24^{\\circ}-k<90^{\\circ}$ and $0^{\\circ}<2k+42^{\\circ}\\leq90^{\\circ}$.",
+    "solution_text": "(a) Equal co-ratios of acute angles have complementary arguments.\n\n$\\begin{aligned}(2t+8^{\\circ})+(3t+7^{\\circ})&=90^{\\circ}\\\\5t+15^{\\circ}&=90^{\\circ}\\\\5t&=75^{\\circ}\\\\t&=15^{\\circ}\\end{aligned}$\n\nThe arguments are $38^{\\circ}$ and $52^{\\circ}$; both are acute.\n\n(b) Secant on $[0^{\\circ},90^{\\circ})$ is one-to-one, and $\\operatorname{cosec}B=\\sec(90^{\\circ}-B)$ on the stated interval.\n\n$\\begin{aligned}(24^{\\circ}-k)+(2k+42^{\\circ})&=90^{\\circ}\\\\k+66^{\\circ}&=90^{\\circ}\\\\k&=24^{\\circ}\\end{aligned}$\n\nThe arguments are $0^{\\circ}$ and $90^{\\circ}$. They satisfy the restrictions, and $\\sec0^{\\circ}=\\operatorname{cosec}90^{\\circ}=1$."
+  },
+  {
+    "question_text": "Solve $\\cos\\left(\\dfrac{\\pi}{6}+x\\right)=\\sin x$ for $0\\leq x\\leq\\dfrac{\\pi}{2}$.",
+    "solution_text": "Use $\\cos u=\\sin\\left(\\dfrac{\\pi}{2}-u\\right)$.\n\n$\\begin{aligned}\\sin\\left(\\frac{\\pi}{3}-x\\right)&=\\sin x\\end{aligned}$\n\nFor the given domain, $\\dfrac{\\pi}{3}-x\\in\\left[-\\dfrac{\\pi}{6},\\dfrac{\\pi}{3}\\right]$ and $x\\in\\left[0,\\dfrac{\\pi}{2}\\right]$. Sine is one-to-one on $\\left[-\\dfrac{\\pi}{2},\\dfrac{\\pi}{2}\\right]$, so the arguments are equal.\n\n$\\begin{aligned}\\frac{\\pi}{3}-x&=x\\\\2x&=\\frac{\\pi}{3}\\\\x&=\\frac{\\pi}{6}\\end{aligned}$\n\nThis lies in the domain and gives $\\cos\\dfrac{\\pi}{3}=\\sin\\dfrac{\\pi}{6}=\\dfrac12$."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
       {

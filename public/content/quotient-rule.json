@@ -2,21 +2,72 @@
   "skillId": "quotient-rule",
   "atomType": "R",
   "theory": {
-        "intro": "The **quotient rule** differentiates a fraction $y = \\dfrac{u}{v}$ where $u$ and $v$ are differentiable functions of $x$ and $v \\ne 0$. The rule is $y' = \\dfrac{u'v - uv'}{v^{2}}$. The numerator starts with $u'v$, so the order matters.",
-        "facts": [
+"intro": "The **quotient rule** differentiates a fraction $y = \\dfrac{u}{v}$ where $u$ and $v$ are differentiable functions of $x$ and $v \\ne 0$. The rule is $y' = \\dfrac{u'v - uv'}{v^{2}}$. The numerator starts with $u'v$, so the order matters.",
+"facts": [
 "If $y = \\dfrac{u}{v}$, where $u$ and $v$ are differentiable and $v \\ne 0$, then $y' = \\dfrac{u'v - uv'}{v^{2}}$ or $\\dfrac{dy}{dx} = \\dfrac{v\\dfrac{du}{dx} - u\\dfrac{dv}{dx}}{v^{2}}$.",
 "The order $u'v - uv'$ cannot be reversed, because subtraction is not commutative.",
 "The quotient-rule formula has denominator $v^{2}$, the square of the original denominator; subsequent simplification may cancel factors.",
 "Expand and collect like terms in the numerator, but leave the denominator $v^{2}$ in factored form.",
 "Both the quotient and its derivative are undefined wherever $v(x) = 0$."
 ],
-        "steps": [
+"steps": [
           "Identify the numerator $u$ and denominator $v$.",
           "Differentiate both functions separately to find $u'$ and $v'$.",
           "Apply the quotient rule formula $y' = \\dfrac{u'v - uv'}{v^{2}}$.",
           "Expand and simplify the numerator while keeping the denominator in factored form."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Use the quotient rule to differentiate $y=\\dfrac{4x-3}{3x+2}$.",
+    "solution_text": "Let $u=4x-3$ and $v=3x+2$. Then $u'=4$ and $v'=3$.\n$\\begin{align*}y'&=\\frac{u'v-uv'}{v^2}\\\\&=\\frac{4(3x+2)-3(4x-3)}{(3x+2)^2}\\\\&=\\frac{12x+8-12x+9}{(3x+2)^2}\\\\&=\\frac{17}{(3x+2)^2}\\end{align*}$\nThe function and derivative require $x\\ne-\\dfrac23$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use the quotient rule to differentiate $y=\\dfrac{x^3}{x^2-1}$. Factorise the numerator and state any zeros of the derivative.",
+    "solution_text": "Let $u=x^3$ and $v=x^2-1$. Then $u'=3x^2$ and $v'=2x$.\n$\\begin{align*}y'&=\\frac{u'v-uv'}{v^2}\\\\&=\\frac{3x^2(x^2-1)-x^3(2x)}{(x^2-1)^2}\\\\&=\\frac{3x^4-3x^2-2x^4}{(x^2-1)^2}\\\\&=\\frac{x^2(x^2-3)}{(x^2-1)^2}\\end{align*}$\nFor a zero derivative, the numerator must be zero and the denominator nonzero.\n$\\begin{align*}x^2(x^2-3)&=0\\\\x&=0,\\ \\sqrt3,\\ -\\sqrt3\\end{align*}$\nAll three values satisfy $x\\ne\\pm1$, so these are the derivative zeros.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use the quotient rule to differentiate $y=\\dfrac{x^n-4}{x^n+4}$, where $n$ is a positive integer.",
+    "solution_text": "Let $u=x^n-4$ and $v=x^n+4$. Then $u'=nx^{n-1}$ and $v'=nx^{n-1}$.\n$\\begin{align*}y'&=\\frac{u'v-uv'}{v^2}\\\\&=\\frac{nx^{n-1}(x^n+4)-(x^n-4)nx^{n-1}}{(x^n+4)^2}\\\\&=\\frac{nx^{n-1}\\big[(x^n+4)-(x^n-4)\\big]}{(x^n+4)^2}\\\\&=\\frac{8nx^{n-1}}{(x^n+4)^2}\\end{align*}$\nThe result applies wherever $x^n+4\\ne0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use the quotient rule to differentiate $f(x)=\\dfrac{x-2}{\\sqrt{x+3}}$ and determine whether its derivative has any zeros.",
+    "solution_text": "The domain is $x>-3$. Let $u=x-2$ and $v=\\sqrt{x+3}$. Then $u'=1$ and, by the general power rule, $v'=\\dfrac{1}{2\\sqrt{x+3}}$.\n$\\begin{align*}f'(x)&=\\frac{u'v-uv'}{v^2}\\\\&=\\frac{\\sqrt{x+3}-\\dfrac{x-2}{2\\sqrt{x+3}}}{x+3}\\\\&=\\frac{2(x+3)-(x-2)}{2(x+3)\\sqrt{x+3}}\\\\&=\\frac{x+8}{2(x+3)\\sqrt{x+3}}\\end{align*}$\nA zero derivative would require $x+8=0$, giving $x=-8$. This lies outside the domain, so the derivative has no zeros.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $x>0$, use the quotient rule to differentiate $f(x)=\\dfrac{\\sqrt{x}}{2x+5}$ and state any zeros of the derivative.",
+    "solution_text": "Let $u=\\sqrt{x}$ and $v=2x+5$. Then $u'=\\dfrac{1}{2\\sqrt{x}}$ and $v'=2$.\n$\\begin{align*}f'(x)&=\\frac{u'v-uv'}{v^2}\\\\&=\\frac{\\dfrac{2x+5}{2\\sqrt{x}}-2\\sqrt{x}}{(2x+5)^2}\\\\&=\\frac{2x+5-4x}{2\\sqrt{x}(2x+5)^2}\\\\&=\\frac{5-2x}{2\\sqrt{x}(2x+5)^2}\\end{align*}$\nThe denominator is positive for $x>0$, so solve the numerator equation.\n$\\begin{align*}5-2x&=0\\\\x&=\\frac52\\end{align*}$\nSince $\\dfrac52>0$, the derivative zero is $x=\\dfrac52$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the gradient and equation of the tangent to $y=\\dfrac{3x}{x+2}$ at $x=1$.",
+    "solution_text": "Let $u=3x$ and $v=x+2$. Then $u'=3$ and $v'=1$.\n$\\begin{align*}y'&=\\frac{u'v-uv'}{v^2}\\\\&=\\frac{3(x+2)-3x}{(x+2)^2}\\\\&=\\frac{6}{(x+2)^2}\\end{align*}$\nAt $x=1$, the tangent gradient is $m=\\dfrac{6}{9}=\\dfrac23$ and the point on the curve is $(1,1)$.\nUse the point-gradient formula.\n$\\begin{align*}y-1&=\\frac23(x-1)\\\\3y-3&=2x-2\\\\2x-3y+1&=0\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The curve $y=\\dfrac{x^2+k}{x-3}$ has a horizontal tangent at $x=2$. Find $k$.",
+    "solution_text": "Treat $k$ as a constant. Let $u=x^2+k$ and $v=x-3$, so $u'=2x$ and $v'=1$.\n$\\begin{align*}y'&=\\frac{u'v-uv'}{v^2}\\\\&=\\frac{2x(x-3)-(x^2+k)}{(x-3)^2}\\\\&=\\frac{x^2-6x-k}{(x-3)^2}\\end{align*}$\nA horizontal tangent has gradient zero. At $x=2$, the denominator is nonzero.\n$\\begin{align*}0&=\\frac{4-12-k}{(2-3)^2}\\\\0&=-8-k\\\\k&=-8\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

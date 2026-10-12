@@ -2,8 +2,8 @@
   "skillId": "primitive-power-functions",
   "atomType": "R",
   "theory": {
-    "intro": "The **primitive** of $x^{n}$ is found by adding $1$ to the power, then dividing by the new power. This works for every real $n$ except $n=-1$. Always add the constant of integration $+C$.",
-    "facts": [
+"intro": "The **primitive** of $x^{n}$ is found by adding $1$ to the power, then dividing by the new power. This works for every real $n$ except $n=-1$. Always add the constant of integration $+C$.",
+"facts": [
 "$\\displaystyle\\int x^{n}\\,dx=\\dfrac{x^{n+1}}{n+1}+C$ for every real $n\\ne-1$.",
 "A constant multiplier stays out the front: $\\displaystyle\\int kx^{n}\\,dx=\\dfrac{kx^{n+1}}{n+1}+C$.",
 "Integrate a sum term by term, and write a single $+C$ at the end.",
@@ -14,13 +14,64 @@
 "Expand a product before integrating. For the algebraic quotients here that reduce to power terms, split the fraction into separate terms first; there is no reverse product or quotient rule.",
 "Check any primitive by differentiating it, which should return the original function."
 ],
-    "steps": [
+"steps": [
       "Rewrite roots, algebraic denominators and products in the form $kx^{n}$",
       "Add $1$ to each power",
       "Divide each term by its new power",
       "Add the constant of integration $+C$"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find the general primitives of: (a) $f'(x)=8x^{3}$; (b) $g'(x)=9$.",
+    "solution_text": "(a) Increase the power by $1$ and divide by the new power.\n$\\begin{aligned}f(x)&=\\frac{8x^{4}}{4}+C\\\\&=2x^{4}+C\\end{aligned}$\n(b) A constant is a power term with index $0$.\n$\\begin{aligned}g'(x)&=9x^{0}\\\\g(x)&=9x+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find the general primitive of $f'(x)=12x^{2}-8x+3$.",
+    "solution_text": "Find the primitive of each term and add one constant of integration.\n$\\begin{aligned}f(x)&=\\frac{12x^{3}}{3}-\\frac{8x^{2}}{2}+3x+C\\\\&=4x^{3}-4x^{2}+3x+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $\\frac{4}{x^{3}}$ using a negative index, then find its general primitive, writing the answer without negative indices.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{4}{x^{3}}\\\\&=4x^{-3}\\end{aligned}$\nIncrease the index from $-3$ to $-2$ and divide by $-2$.\n$\\begin{aligned}\\int4x^{-3}\\,dx&=\\frac{4x^{-2}}{-2}+C\\\\&=-\\frac{2}{x^{2}}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the general primitives of: (a) $\\sqrt[3]{x^{2}}$; (b) $\\frac{5}{\\sqrt{x}}$.",
+    "solution_text": "(a) Rewrite the root using a fractional index.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\sqrt[3]{x^{2}}\\\\&=x^{\\frac{2}{3}}\\end{aligned}$\n$\\begin{aligned}\\int x^{\\frac{2}{3}}\\,dx&=\\frac{x^{\\frac{5}{3}}}{\\frac{5}{3}}+C\\\\&=\\frac{3x^{\\frac{5}{3}}}{5}+C\\end{aligned}$\n(b) A root in the denominator gives a negative fractional index.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{5}{\\sqrt{x}}\\\\&=5x^{-\\frac{1}{2}}\\end{aligned}$\n$\\begin{aligned}\\int5x^{-\\frac{1}{2}}\\,dx&=\\frac{5x^{\\frac{1}{2}}}{\\frac{1}{2}}+C\\\\&=10\\sqrt{x}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the general primitive of $f'(x)=(x-2)(2x+3)$ after expanding.",
+    "solution_text": "Expand before finding the primitive.\n$\\begin{aligned}f'(x)&=(x-2)(2x+3)\\\\&=2x^{2}-x-6\\\\f(x)&=\\frac{2x^{3}}{3}-\\frac{x^{2}}{2}-6x+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the general primitive of $f'(x)=\\sqrt{x}\\left(2x-\\frac{3}{x}\\right)$, writing your answer with fractional indices.",
+    "solution_text": "Rewrite using indices, then expand into separate power terms.\n$\\begin{aligned}f'(x)&=x^{\\frac{1}{2}}(2x-3x^{-1})\\\\&=2x^{\\frac{3}{2}}-3x^{-\\frac{1}{2}}\\\\f(x)&=\\frac{2x^{\\frac{5}{2}}}{\\frac{5}{2}}-\\frac{3x^{\\frac{1}{2}}}{\\frac{1}{2}}+C\\\\&=\\frac{4x^{\\frac{5}{2}}}{5}-6x^{\\frac{1}{2}}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the general primitive of $f'(x)=20x^{3}-7$, then check your answer by differentiating it.",
+    "solution_text": "$\\begin{aligned}f(x)&=\\frac{20x^{4}}{4}-7x+C\\\\&=5x^{4}-7x+C\\end{aligned}$\nDifferentiate to check.\n$\\begin{aligned}\\frac{d}{dx}(5x^{4}-7x+C)&=20x^{3}-7\\\\&=f'(x)\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

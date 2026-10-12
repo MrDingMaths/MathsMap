@@ -2,8 +2,8 @@
   "skillId": "angles-any-magnitude-definitions",
   "atomType": "R",
   "theory": {
-        "intro": "For an angle of inclination $\\theta$, the trigonometric ratios are defined by a point $P(x,y)$ on a circle of radius $r=\\sqrt{x^2+y^2}$ centred at the origin: $\\cos\\theta=\\dfrac{x}{r}$, $\\sin\\theta=\\dfrac{y}{r}$, and $\\tan\\theta=\\dfrac{y}{x}$ when $x\\ne0$. Tangent is undefined when $x=0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\draw[-{Stealth}] (-2.2,0) -- (2.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-2.2) -- (0,2.2) node[above] {$y$};\n\\draw (0,0) circle (1.8);\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (1.2,1.34);\n\\coordinate (A) at (2,0);\n\\coordinate (X) at (1.2,0);\n\\draw[thick] (O) -- (P) node[midway, above left] {$r$};\n\\draw[dashed] (P) -- (X);\n\\fill (P) circle (1.5pt) node[above right] {$P(x,y)$};\n\\pic[draw, \"$\\theta$\", angle radius=0.6cm, angle eccentricity=1.8] {angle = A--O--P};\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "For an angle of inclination $\\theta$, the trigonometric ratios are defined by a point $P(x,y)$ on a circle of radius $r=\\sqrt{x^2+y^2}$ centred at the origin: $\\cos\\theta=\\dfrac{x}{r}$, $\\sin\\theta=\\dfrac{y}{r}$, and $\\tan\\theta=\\dfrac{y}{x}$ when $x\\ne0$. Tangent is undefined when $x=0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\draw[-{Stealth}] (-2.2,0) -- (2.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-2.2) -- (0,2.2) node[above] {$y$};\n\\draw (0,0) circle (1.8);\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (1.2,1.34);\n\\coordinate (A) at (2,0);\n\\coordinate (X) at (1.2,0);\n\\draw[thick] (O) -- (P) node[midway, above left] {$r$};\n\\draw[dashed] (P) -- (X);\n\\fill (P) circle (1.5pt) node[above right] {$P(x,y)$};\n\\pic[draw, \"$\\theta$\", angle radius=0.6cm, angle eccentricity=1.8] {angle = A--O--P};\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "The radius $r=\\sqrt{x^2+y^2}$ is the distance from the origin $O(0,0)$ to $P(x,y)$, with $r>0$ always.",
 "$\\cos\\theta=\\dfrac{x}{r}$ shares the sign of $x$: positive in quadrants 1 and 4 ($x>0$), and negative in quadrants 2 and 3 ($x<0$).",
 "$\\sin\\theta=\\dfrac{y}{r}$ shares the sign of $y$: positive in quadrants 1 and 2 ($y>0$), and negative in quadrants 3 and 4 ($y<0$).",
@@ -11,8 +11,26 @@
 "The **ASTC** rule identifies positive ratios: **A**ll in Q1, **S**ine in Q2, **T**angent in Q3, and **C**osine in Q4.",
 "A point on a circle of radius $r$ at angle $\\theta$ has coordinates $P(r\\cos\\theta, r\\sin\\theta)$.",
 "At $90^\\circ$ and $270^\\circ$, sine is respectively $1$ and $-1$, and cosine is $0$. Tangent is undefined because $x=0$ and division by zero is undefined. At $0^\\circ$ and $180^\\circ$, tangent is $0$."
+],
+"workedExamples": [
+  {
+    "question_text": "Use the unit circle to find sine, cosine and tangent at $90^\\circ$ and $0^\\circ$.",
+    "solution_text": "At $90^\\circ$, the unit-circle point is $(0,1)$. Sine is the $y$-coordinate and cosine is the $x$-coordinate.\n\n$\\begin{aligned}\\sin90^\\circ&=1\\\\\\cos90^\\circ&=0\\end{aligned}$\n\nTangent is undefined because $\\tan\\theta=y/x$ requires division by zero.\n\nAt $0^\\circ$, the unit-circle point is $(1,0)$.\n\n$\\begin{aligned}\\sin0^\\circ&=0\\\\\\cos0^\\circ&=1\\\\\\tan0^\\circ&=\\frac{0}{1}=0\\end{aligned}$\n\n[tikz]\n\\begin{tikzpicture}[x=1.7cm,y=1.7cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,<->] (-1.35,0)--(1.35,0);\n\\draw[black,<->] (0,-1.35)--(0,1.35);\n\\draw[black] (0,0) circle (1);\n\\fill[black] (0,1) circle (1.5pt);\n\\fill[black] (1,0) circle (1.5pt);\n\\path (0,1) node[above right] {$(0,1)$};\n\\path (1,0) node[below right] {$(1,0)$};\n\\path (1.35,0) node[above] {$x$};\n\\path (0,1.35) node[left] {$y$};\n\\path (0,0) node[below left] {$O$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "State whether $\\sin165^\\circ$, $\\cos165^\\circ$ and $\\tan165^\\circ$ are positive or negative. Explain using coordinate signs.",
+    "solution_text": "$165^\\circ$ lies in quadrant 2, where $x<0$ and $y>0$. The radius $r$ is positive.\n\n$\\begin{aligned}\\sin165^\\circ&=\\frac{y}{r}>0\\\\\\cos165^\\circ&=\\frac{x}{r}<0\\\\\\tan165^\\circ&=\\frac{y}{x}<0\\end{aligned}$\n\nSine is positive; cosine and tangent are negative."
+  },
+  {
+    "question_text": "Given that $\\sin\\theta>0$ and $\\tan\\theta<0$, determine the quadrant containing $\\theta$. Explain using the signs of $x$ and $y$.",
+    "solution_text": "$\\sin\\theta=y/r>0$ gives $y>0$, since $r>0$.\n\n$\\tan\\theta=y/x<0$ means $x$ and $y$ have opposite signs. Since $y>0$, we have $x<0$.\n\nThe point has $x<0$ and $y>0$, so $\\theta$ lies in quadrant 2."
+  },
+  {
+    "question_text": "A point $P$ lies on a circle of radius $4\\sqrt{3}$ centred at the origin. Its angle of inclination is $90^\\circ$. Find the exact coordinates of $P$.",
+    "solution_text": "Use $P(r\\cos\\theta,r\\sin\\theta)$.\n\n$\\begin{aligned}x&=4\\sqrt{3}\\cos90^\\circ\\\\&=0\\end{aligned}$\n\n$\\begin{aligned}y&=4\\sqrt{3}\\sin90^\\circ\\\\&=4\\sqrt{3}\\end{aligned}$\n\nThus $P(0,4\\sqrt{3})$, on the positive $y$-axis.\n\n[tikz]\n\\begin{tikzpicture}[x=1.7cm,y=1.7cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,<->] (-1.35,0)--(1.35,0);\n\\draw[black,<->] (0,-1.35)--(0,1.35);\n\\draw[black] (0,0) circle (1);\n\\draw[black,thick] (0,0)--(0,1);\n\\fill[black] (0,1) circle (1.5pt);\n\\path (0,1) node[above right] {$P(0,4\\sqrt{3})$};\n\\path (0,0.5) node[left] {$4\\sqrt{3}$};\n\\draw[black,->] (0.32,0) arc[start angle=0,end angle=90,radius=0.32];\n\\path (0.38,0.38) node[right] {$90^\\circ$};\n\\path (1.35,0) node[above] {$x$};\n\\path (0,1.35) node[left] {$y$};\n\\path (0,0) node[below left] {$O$};\n\\end{tikzpicture}\n[/tikz]"
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

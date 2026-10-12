@@ -2,15 +2,73 @@
   "skillId": "complementary-trig-relationships",
   "atomType": "T",
   "theory": {
-        "intro": "In a right-angled triangle the two acute angles add to $90^{\\circ}$, so each is the other's complement. The side opposite one is adjacent to the other, so the sine of an angle equals the cosine of its complement. 'Cosine' is short for 'complement's sine'. These facts use an acute angle $\\theta$, where $0^{\\circ}<\\theta<90^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (B) at (0,0);\n\\coordinate (A) at (0,5);\n\\coordinate (C) at (3.4,0);\n\\draw (A)--(B) node[midway,left] {$c$};\n\\draw (B)--(C) node[midway,below] {$a$};\n\\draw (C)--(A) node[midway,above right] {$b$};\n\\coordinate (ra1) at ($(B)!0.32cm!(A)$);\n\\coordinate (ra2) at ($(B)!0.32cm!(C)$);\n\\draw (ra1)--($(ra1)+(ra2)-(B)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.8cm,angle eccentricity=1.9] {angle=B--A--C};\n\\pic[draw,\"$90^{\\circ}-\\theta$\",angle radius=1.1cm,angle eccentricity=2] {angle=A--C--B};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "In a right-angled triangle the two acute angles add to $90^{\\circ}$, so each is the other's complement. The side opposite one is adjacent to the other, so the sine of an angle equals the cosine of its complement. 'Cosine' is short for 'complement's sine'. These facts use an acute angle $\\theta$, where $0^{\\circ}<\\theta<90^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (B) at (0,0);\n\\coordinate (A) at (0,5);\n\\coordinate (C) at (3.4,0);\n\\draw (A)--(B) node[midway,left] {$c$};\n\\draw (B)--(C) node[midway,below] {$a$};\n\\draw (C)--(A) node[midway,above right] {$b$};\n\\coordinate (ra1) at ($(B)!0.32cm!(A)$);\n\\coordinate (ra2) at ($(B)!0.32cm!(C)$);\n\\draw (ra1)--($(ra1)+(ra2)-(B)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.8cm,angle eccentricity=1.9] {angle=B--A--C};\n\\pic[draw,\"$90^{\\circ}-\\theta$\",angle radius=1.1cm,angle eccentricity=2] {angle=A--C--B};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "$\\sin\\theta=\\cos(90^{\\circ}-\\theta)$",
 "$\\cos\\theta=\\sin(90^{\\circ}-\\theta)$",
 "Two angles are **complementary** when they add to $90^{\\circ}$; each is the other's complement.",
 "Sine and cosine swap when an angle is replaced by its complement: $\\sin23^{\\circ}=\\cos67^{\\circ}$ because $23^{\\circ}+67^{\\circ}=90^{\\circ}$.",
 "For an acute angle $\\theta$, the two ratios are equal, so $\\cos\\theta-\\sin(90^{\\circ}-\\theta)=0$ and $\\dfrac{\\sin\\theta}{\\cos(90^{\\circ}-\\theta)}=1$. The denominator is positive for an acute angle; a quotient is undefined when its denominator is zero."
+],
+"workedExamples": [
+  {
+    "question_text": "In the right-angled triangle, write $\\sin\\theta$, $\\cos\\theta$ and $\\sin(90^{\\circ}-\\theta)$ as side ratios. Hence explain why $\\sin(90^{\\circ}-\\theta)=\\cos\\theta$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,3);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4,0);\n\\draw (A)--(B)--(C)--cycle;\n\\draw (0,0.25)--(0.25,0.25)--(0.25,0);\n\\path (A)--(B) node[midway,left] {$q$};\n\\path (B)--(C) node[midway,below] {$p$};\n\\path (A)--(C) node[midway,above right] {$r$};\n\\draw (0,2.5) arc[start angle=270,end angle=323.13,radius=0.5];\n\\path (0.35,2.15) node {$\\theta$};\n\\draw (3.3,0) arc[start angle=180,end angle=143.13,radius=0.7];\n\\path (2.55,0.4) node {$90^{\\circ}-\\theta$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "For $\\theta$, the opposite side is $p$, the adjacent side is $q$ and the hypotenuse is $r$.\n\n$\\sin\\theta=\\dfrac{p}{r},\\qquad\\cos\\theta=\\dfrac{q}{r}$\n\nFor $90^{\\circ}-\\theta$, the opposite side is $q$ and the hypotenuse is $r$.\n\n$\\begin{aligned}\\sin(90^{\\circ}-\\theta)&=\\dfrac{q}{r}\\\\&=\\cos\\theta\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Rewrite (a) $\\sin34^{\\circ}$ as a cosine and (b) $\\cos65^{\\circ}$ as a sine.",
+    "solution_text": "(a)\n\n$\\begin{aligned}\\sin34^{\\circ}&=\\cos(90^{\\circ}-34^{\\circ})\\\\&=\\cos56^{\\circ}\\end{aligned}$\n\n(b)\n\n$\\begin{aligned}\\cos65^{\\circ}&=\\sin(90^{\\circ}-65^{\\circ})\\\\&=\\sin25^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$\\theta$ is acute. Find $\\theta$ if $\\cos\\theta=\\sin37^{\\circ}$.",
+    "solution_text": "The angles are complementary.\n\n$\\begin{aligned}\\theta&=90^{\\circ}-37^{\\circ}\\\\&=53^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\cos29^{\\circ}-\\sin61^{\\circ}$ without a calculator.",
+    "solution_text": "$\\cos29^{\\circ}=\\sin61^{\\circ}$ because $29^{\\circ}+61^{\\circ}=90^{\\circ}$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\cos29^{\\circ}-\\sin61^{\\circ}\\\\&=\\sin61^{\\circ}-\\sin61^{\\circ}\\\\&=0\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\dfrac{-\\sin43^{\\circ}}{\\cos47^{\\circ}}$ without a calculator.",
+    "solution_text": "$\\cos47^{\\circ}=\\sin43^{\\circ}$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\dfrac{-\\sin43^{\\circ}}{\\cos47^{\\circ}}\\\\&=\\dfrac{-\\sin43^{\\circ}}{\\sin43^{\\circ}}\\\\&=-1\\end{aligned}$\n\nThe denominator is nonzero because $43^{\\circ}$ is acute.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\dfrac{2\\cos27^{\\circ}+3\\sin63^{\\circ}}{4\\sin63^{\\circ}}$ without a calculator.",
+    "solution_text": "$\\cos27^{\\circ}=\\sin63^{\\circ}$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\dfrac{2\\cos27^{\\circ}+3\\sin63^{\\circ}}{4\\sin63^{\\circ}}\\\\&=\\dfrac{2\\sin63^{\\circ}+3\\sin63^{\\circ}}{4\\sin63^{\\circ}}\\\\&=\\dfrac{5\\sin63^{\\circ}}{4\\sin63^{\\circ}}\\\\&=\\dfrac{5}{4}\\end{aligned}$\n\nThe denominator is nonzero because $63^{\\circ}$ is acute.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\sin36^{\\circ}\\cos54^{\\circ}$ without a calculator.",
+    "solution_text": "$\\cos54^{\\circ}=\\sin36^{\\circ}$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\sin36^{\\circ}\\cos54^{\\circ}\\\\&=\\sin36^{\\circ}\\times\\sin36^{\\circ}\\\\&=\\sin^{2}36^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\dfrac{\\sin24^{\\circ}}{\\cos66^{\\circ}}+\\dfrac{\\cos24^{\\circ}}{\\sin66^{\\circ}}$ without a calculator.",
+    "solution_text": "$\\cos66^{\\circ}=\\sin24^{\\circ}$ and $\\sin66^{\\circ}=\\cos24^{\\circ}$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\dfrac{\\sin24^{\\circ}}{\\cos66^{\\circ}}+\\dfrac{\\cos24^{\\circ}}{\\sin66^{\\circ}}\\\\&=\\dfrac{\\sin24^{\\circ}}{\\sin24^{\\circ}}+\\dfrac{\\cos24^{\\circ}}{\\cos24^{\\circ}}\\\\&=1+1\\\\&=2\\end{aligned}$\n\nBoth denominators are nonzero because $24^{\\circ}$ is acute.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

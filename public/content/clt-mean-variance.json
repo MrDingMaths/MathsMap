@@ -2,22 +2,56 @@
   "skillId": "clt-mean-variance",
   "atomType": "R",
   "theory": {
-    "intro": "The **standard error** $\\dfrac{\\sigma}{\\sqrt{n}}$ is the standard deviation of the sample mean $\\bar{X}$. Averaging a sample of size $n$ leaves the centre at $\\mu$ but divides the spread by $\\sqrt{n}$.",
-    "facts": [
-      "$E(\\bar{X})=\\mu$: the mean of the sample mean equals the population mean, whatever the sample size is.",
-      "$\\mathrm{sd}(\\bar{X})=\\dfrac{\\sigma}{\\sqrt{n}}$, and this is called the **standard error** of the mean.",
-      "$\\mathrm{Var}(\\bar{X})=\\dfrac{\\sigma^{2}}{n}$, so the variance divides by $n$ while the standard deviation divides by $\\sqrt{n}$.",
-      "Never divide $\\mu$ by $n$ or by $\\sqrt{n}$; averaging changes the spread only.",
-      "Because of the square root, quadrupling $n$ halves the standard error rather than quartering it.",
-      "To divide the standard error by $k$, the sample size must be multiplied by $k^{2}$.",
-      "These two results hold for a population of any shape; only the approximate normality of $\\bar{X}$ needs $n$ to be large."
-    ],
-    "steps": [
+"intro": "Throughout this skill, assume the observations are independent and drawn from the same population with finite mean $\\mu$ and finite variance $\\sigma^{2}$. The **standard error** $\\dfrac{\\sigma}{\\sqrt{n}}$ is the standard deviation of the sample mean $\\bar{X}$. Averaging a sample of size $n$ leaves the centre at $\\mu$ but divides the spread by $\\sqrt{n}$.",
+"facts": [
+"$E(\\bar{X})=\\mu$: the mean of the sample mean equals the population mean, whatever the sample size is.",
+"$\\mathrm{sd}(\\bar{X})=\\dfrac{\\sigma}{\\sqrt{n}}$, and this is called the **standard error** of the mean.",
+"$\\mathrm{Var}(\\bar{X})=\\dfrac{\\sigma^{2}}{n}$, so the variance divides by $n$ while the standard deviation divides by $\\sqrt{n}$.",
+"Never divide $\\mu$ by $n$ or by $\\sqrt{n}$; averaging changes the spread only.",
+"Because of the square root, quadrupling $n$ halves the standard error rather than quartering it.",
+"To divide the standard error by $k$, the sample size must be multiplied by $k^{2}$.",
+"Under these sampling assumptions, the mean, variance and standard-error formulas hold for a population of any shape; only the approximate normality of $\\bar{X}$ needs $n$ to be large."
+],
+"steps": [
       "Write down $\\mu$, $\\sigma$ and the sample size $n$.",
       "Use $E(\\bar{X})=\\mu$ for the centre.",
       "Use $\\mathrm{sd}(\\bar{X})=\\dfrac{\\sigma}{\\sqrt{n}}$, or $\\mathrm{Var}(\\bar{X})=\\dfrac{\\sigma^{2}}{n}$ if the variance is wanted."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A population has mean $48$ cm and standard deviation $10$ cm. Independent samples of size $25$ are taken. Find the mean, variance and standard error of the sample mean.",
+    "solution_text": "$\\begin{align*} E(\\bar X)&=\\mu\\\\ &=48\\text{ cm}\\end{align*}$\n$\\begin{align*}\\operatorname{Var}(\\bar X)&=\\frac{\\sigma^2}{n}\\\\ &=\\frac{10^2}{25}\\\\ &=4\\text{ cm}^2\\end{align*}$\n$\\begin{align*}\\operatorname{sd}(\\bar X)&=\\frac{\\sigma}{\\sqrt n}\\\\ &=\\frac{10}{\\sqrt{25}}\\\\ &=2\\text{ cm}\\end{align*}$\nThe mean stays at the population mean; averaging reduces the spread."
   },
+  {
+    "question_text": "A population has standard deviation $17$. Find the smallest sample size for which the standard error of the mean is at most $2$.",
+    "solution_text": "$\\begin{align*}\\frac{17}{\\sqrt n}&\\le 2\\\\ \\sqrt n&\\ge\\frac{17}{2}\\\\ n&\\ge72.25\\end{align*}$\nThe sample size must be an integer, so the smallest sample size is $73$."
+  },
+  {
+    "question_text": "Independent samples from the same population increase in size from $32$ to $288$. By what factor does the standard error change? What factor of increase in sample size would halve the standard error?",
+    "solution_text": "$\\begin{align*}\\frac{\\text{new standard error}}{\\text{original standard error}}&=\\frac{\\sigma/\\sqrt{288}}{\\sigma/\\sqrt{32}}\\\\ &=\\sqrt{\\frac{32}{288}}\\\\ &=\\frac13\\end{align*}$\nThe standard error becomes one-third of its original value.\nTo halve the standard error, $\\sqrt n$ must double, so the sample size must be multiplied by $2^2=4$."
+  },
+  {
+    "question_text": "For a population, samples of size $49$ have standard error $1.8$. Find the population standard deviation. For another population, samples of size $24$ have sample-mean variance $1.5$. Find its population standard deviation.",
+    "solution_text": "For the first population:\n$\\begin{align*}\\frac{\\sigma}{\\sqrt{49}}&=1.8\\\\ \\frac{\\sigma}{7}&=1.8\\\\ \\sigma&=12.6\\end{align*}$\nFor the second population:\n$\\begin{align*}\\frac{\\sigma^2}{24}&=1.5\\\\ \\sigma^2&=36\\\\ \\sigma&=6\\end{align*}$\nTake the positive square root because a standard deviation is non-negative."
+  },
+  {
+    "question_text": "Independent samples of size $18$ from a population have sample-mean variance $5$. What sample size gives sample-mean variance $2$?",
+    "solution_text": "$\\begin{align*}\\frac{\\sigma^2}{18}&=5\\\\ \\sigma^2&=90\\end{align*}$\nFor the required sample size:\n$\\begin{align*}\\frac{90}{n}&=2\\\\ n&=45\\end{align*}$"
+  },
+  {
+    "question_text": "Independent samples of size $36$ have standard error $2$. Find the sample-mean variance for samples of size $16$ from the same population.",
+    "solution_text": "$\\begin{align*}\\frac{\\sigma}{\\sqrt{36}}&=2\\\\ \\sigma&=12\\end{align*}$\nFor samples of size $16$:\n$\\begin{align*}\\operatorname{Var}(\\bar X)&=\\frac{12^2}{16}\\\\ &=9\\end{align*}$"
+  },
+  {
+    "question_text": "A population has standard deviation $20$, and samples of size $25$ are taken. By what factor must the sample size be multiplied to make the standard error $2.5$?",
+    "solution_text": "$\\begin{align*}\\frac{20}{\\sqrt n}&=2.5\\\\ \\sqrt n&=8\\\\ n&=64\\end{align*}$\n$\\begin{align*}\\text{sample-size factor}&=\\frac{64}{25}\\\\ &=2.56\\end{align*}$\nMultiply the sample size by $2.56$."
+  },
+  {
+    "question_text": "Let $X\\sim N(30,64)$. All observations are independent. Which event has the greatest probability: a single observation lies between $29$ and $31$; the mean of $4$ observations lies between $29$ and $31$; the mean of $16$ observations lies between $29$ and $31$; or all $4$ observations lie between $29$ and $31$? Justify your answer without calculating probabilities.",
+    "solution_text": "The population standard deviation is $\\sigma=8$. Each sample mean is exactly normal with mean $30$.\n$\\begin{align*}\\operatorname{sd}(X)&=8\\\\ \\operatorname{sd}(\\bar X_4)&=\\frac{8}{\\sqrt4}=4\\\\ \\operatorname{sd}(\\bar X_{16})&=\\frac{8}{\\sqrt{16}}=2\\end{align*}$\nThe mean of $16$ observations has the smallest spread, so it has the greatest probability of lying in the fixed interval centred at $30$.\nIf all $4$ observations lie in the interval, their mean also lies in it. That event therefore cannot be more likely than the four-observation mean event."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

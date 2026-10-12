@@ -2,8 +2,8 @@
   "skillId": "solve-discrete-distribution-problems",
   "atomType": "R",
   "theory": {
-    "intro": "In an applied problem, first define the random variable — usually points, or the money gained or lost on one play. Then build its probability distribution and use $E(X)$, and $\\mathrm{Var}(X)$ where the spread matters, to answer the question.",
-    "facts": [
+"intro": "In an applied problem, first define the random variable — usually points, or the money gained or lost on one play. Then build its probability distribution and use $E(X)$, and $\\mathrm{Var}(X)$ where the spread matters, to answer the question.",
+"facts": [
       "Define the random variable in words, such as $X=$ the net gain in dollars from one play.",
       "A **net gain** subtracts the cost of playing from the prize won.",
       "A game is **fair** when the expected net gain is $0$.",
@@ -11,13 +11,57 @@
       "Over $n$ plays the expected total is $n \\times E(X)$, though any single run of $n$ plays can differ.",
       "The fair price to charge for a game equals the expected prize."
     ],
-    "steps": [
+"steps": [
       "Define the random variable and list the values it can take.",
       "Find the probability of each value.",
       "Calculate $E(X)$, and the variance if the question asks about spread.",
       "Answer the question in context."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Two fair coins are tossed independently. Two heads wins $\\$8$, exactly one head wins $\\$2$, and no heads loses $\\$4$.\nLet $X$ be the return in dollars. Construct its probability distribution and calculate the expected return.",
+    "solution_text": "The four equally likely outcomes are $HH$, $HT$, $TH$ and $TT$.\n\n$\\begin{array}{c|ccc}x&-4&2&8\\\\\\hline P(X=x)&\\frac14&\\frac12&\\frac14\\\\xP(X=x)&-1&1&2\\end{array}$\n\n$\\begin{aligned}E(X)&=\\sum xP(X=x)\\\\&=-1+1+2\\\\&=2\\end{aligned}$\n\nThe expected return is $\\$2$ per play.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A game costs $\\$4$ to play. It pays $\\$18$ with probability $0.1$, $\\$6$ with probability $0.2$, and nothing otherwise.\nFind the expected net gain, decide whom the game favours, and find the entry fee that would make it fair.",
+    "solution_text": "Let $X$ be the net gain in dollars from one play. The remaining probability is $1-0.1-0.2=0.7$.\n\n$\\begin{array}{c|ccc}x&-4&2&14\\\\\\hline P(X=x)&0.7&0.2&0.1\\\\xP(X=x)&-2.8&0.4&1.4\\end{array}$\n\n$\\begin{aligned}E(X)&=-2.8+0.4+1.4\\\\&=-1\\end{aligned}$\n\nThe player loses $\\$1$ per play on average, so the game favours the operator.\n\nLet $R$ be the prize in dollars.\n\n$\\begin{aligned}E(R)&=0(0.7)+6(0.2)+18(0.1)\\\\&=3\\end{aligned}$\n\nA fair entry fee equals the expected prize, so it is $\\$3$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A stall's game has an expected net gain to the player of $-\\$0.60$ per play. Find the stall's expected profit from $350$ plays. Is this profit guaranteed?",
+    "solution_text": "The stall gains $\\$0.60$ per play on average.\n\n$\\begin{aligned}E(\\text{total profit})&=350(0.60)\\\\&=210\\end{aligned}$\n\nThe expected profit is $\\$210$. This is an average; the actual profit from $350$ plays can be higher or lower.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Game A gives a net gain of $\\$7$ with probability $0.3$ and a net loss of $\\$3$ otherwise. Game B gives a net gain of $\\$4$ with probability $0.6$ and a net loss of $\\$5$ otherwise.\nWhich game should a player choose based on expected net gain?",
+    "solution_text": "Let $A$ and $B$ be the net gains in dollars from the respective games.\n\n$\\begin{aligned}E(A)&=7(0.3)+(-3)(0.7)\\\\&=2.1-2.1\\\\&=0\\end{aligned}$\n\n$\\begin{aligned}E(B)&=4(0.6)+(-5)(0.4)\\\\&=2.4-2\\\\&=0.4\\end{aligned}$\n\nChoose Game B: its expected net gain is $\\$0.40$ per play, compared with $\\$0$ for Game A.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A bag contains $10$ counters: $5$ red, $3$ blue and $2$ gold. One counter is drawn at random. The respective prizes are $\\$k$, $\\$2k$ and $\\$4k$.\nFind the exact value of $k$ that makes an entry fee of $\\$8$ fair. Give its approximation to two decimal places.",
+    "solution_text": "Let $R$ be the prize in dollars.\n\n$\\begin{aligned}E(R)&=k\\left(\\frac5{10}\\right)+2k\\left(\\frac3{10}\\right)+4k\\left(\\frac2{10}\\right)\\\\&=\\frac{19k}{10}\\end{aligned}$\n\nFor a fair game, the expected prize equals the entry fee.\n\n$\\begin{aligned}\\frac{19k}{10}&=8\\\\19k&=80\\\\k&=\\frac{80}{19}\\\\&\\approx4.21\\end{aligned}$\n\nThe exact fair value is $k=\\frac{80}{19}$, approximately $\\$4.21$. Using the rounded value gives only an approximately fair game.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An insurer charges a $\\$120$ premium and keeps it whether or not a claim is made. With probability $0.04$, it pays a claim of $\\$1000$; otherwise it pays nothing.\nLet $X$ be the insurer's profit in dollars on one policy. Find the expected profit, variance and standard deviation, rounding the standard deviation to two decimal places.",
+    "solution_text": "A claim gives a profit of $120-1000=-880$ dollars. No claim gives a profit of $120$ dollars.\n\n$\\begin{array}{c|cc}x&-880&120\\\\\\hline P(X=x)&0.04&0.96\\\\xP(X=x)&-35.2&115.2\\\\x^2P(X=x)&30\\,976&13\\,824\\end{array}$\n\n$\\begin{aligned}\\mu=E(X)&=-35.2+115.2\\\\&=80\\end{aligned}$\n\n$\\begin{aligned}E(X^2)&=30\\,976+13\\,824\\\\&=44\\,800\\end{aligned}$\n\n$\\begin{aligned}\\mathrm{Var}(X)&=E(X^2)-\\mu^2\\\\&=44\\,800-80^2\\\\&=38\\,400\\end{aligned}$\n\n$\\begin{aligned}\\sigma&=\\sqrt{38\\,400}\\\\&\\approx195.96\\end{aligned}$\n\nThe expected profit is $\\$80$, the variance is $38\\,400$ dollars squared, and the standard deviation is approximately $\\$195.96$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

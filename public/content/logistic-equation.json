@@ -2,8 +2,8 @@
   "skillId": "logistic-equation",
   "atomType": "R",
   "theory": {
-    "intro": "The **logistic equation** $\\dfrac{dP}{dt}=kP\\left(1-\\dfrac{P}{C}\\right)$, with $k>0$ and $C>0$, models growth limited by a **carrying capacity** $C$. Growth stops when $P=C$, because the bracket is then zero. When solving the differential equation, derive the logistic formula using the supplied partial fractions rather than recalling it. The steps below apply to non-constant solutions; check $P=0$ and $P=C$ separately before inversion, since inversion and the ratio and $B=1/A$ steps do not apply to these equilibria.",
-    "facts": [
+"intro": "The **logistic equation** $\\dfrac{dP}{dt}=kP\\left(1-\\dfrac{P}{C}\\right)$, with $k>0$ and $C>0$, models growth limited by a **carrying capacity** $C$. Growth stops when $P=C$, because the bracket is then zero. When solving the differential equation, derive the logistic formula using the supplied partial fractions rather than recalling it. The steps below apply to non-constant solutions; check $P=0$ and $P=C$ separately before inversion, since inversion and the ratio and $B=1/A$ steps do not apply to these equilibria.",
+"facts": [
 "The constant solutions are $P=0$ and $P=C$, found by setting the right side equal to zero.",
 "$\\dfrac{dP}{dt}=k_{1}P(C-P)$ is the same model written differently, with $k_{1}=\\dfrac{k}{C}$.",
 "For non-constant solutions, solving with the partial fractions $\\dfrac{C}{P(C-P)}=\\dfrac{1}{P}+\\dfrac{1}{C-P}$ leads to $\\dfrac{P}{C-P}=Ae^{kt}$.",
@@ -14,14 +14,51 @@
 "Logistic growth is not exponential; it only resembles exponential growth while $P$ is small compared with $C$.",
 "If $P_{0}>C$ then $\\dfrac{dP}{dt}<0$, and $P$ falls towards $C$ from above."
 ],
-    "steps": [
+"steps": [
 "Check $P=0$ and $P=C$ separately; for non-constant solutions, invert the equation to get $\\dfrac{dt}{dP}$ and match it to the given partial fractions",
 "Integrate both sides, adding one constant of integration",
 "Exponentiate and write the constant as a single $A$ in $\\dfrac{P}{C-P}=Ae^{kt}$",
 "Substitute the initial condition to find $A$",
 "Rearrange to the form $P=\\dfrac{C}{1+Be^{-kt}}$, where $B=\\dfrac{1}{A}$"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A population satisfies $\\dfrac{dP}{dt}=0.003P(1000-P)$.\n(a) Write the equation as $kP\\left(1-\\dfrac{P}{C}\\right)$ and identify $k$ and $C$.\n(b) Find and interpret the constant solutions.\n(c) Explain without calculus when the population grows fastest.",
+    "solution_text": "(a) $\\begin{aligned}\\frac{dP}{dt}&=0.003\\times1000P\\left(1-\\frac{P}{1000}\\right)\\\\&=3P\\left(1-\\frac{P}{1000}\\right)\\end{aligned}$\nThus $k=3$ and the carrying capacity is $C=1000$.\n(b) $\\begin{aligned}0.003P(1000-P)&=0\\\\P&=0\\text{ or }1000\\end{aligned}$\nAn extinct population stays at $0$; a population at carrying capacity stays at $1000$.\n(c) The rate is a concave down quadratic in $P$, with roots $0$ and $1000$. Its maximum lies halfway between the roots, at $P=500$.\n[tikz]\\begin{tikzpicture}[x=0.055mm,y=0.045mm]\n\\definecolor{rateblue}{HTML}{268CFF}\n\\draw[->,black] (0,0)--(1100,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$P$};\n\\draw[->,black] (0,0)--(0,850) node[above,font=\\fontsize{10}{12}\\selectfont] {$\\frac{dP}{dt}$};\n\\draw[rateblue,thick,domain=0:1000,samples=61] plot (\\x,{0.003*\\x*(1000-\\x)});\n\\draw[black,dashed] (500,0)--(500,750);\n\\fill[rateblue] (500,750) circle (1.2pt);\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$} (500,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$500$} (1000,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$1000$};\n\\end{tikzpicture}[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "The area $S$ cm$^2$ occupied by a mould satisfies $\\dfrac{dS}{dt}=\\dfrac{1}{30}S(60-S)$, where $t$ is in days and $S(0)=10$.\nUse $\\dfrac{1}{S(60-S)}=\\dfrac{1}{60}\\left(\\dfrac{1}{S}+\\dfrac{1}{60-S}\\right)$ to find $S(t)$.\nFind the area after one day, correct to two decimal places, and state the limiting area.",
+    "solution_text": "The constant solutions $S=0$ and $S=60$ do not satisfy the initial condition. Invert and use the supplied partial fractions:\n$\\begin{aligned}\\frac{dt}{dS}&=\\frac{30}{S(60-S)}\\\\&=\\frac12\\left(\\frac1S+\\frac1{60-S}\\right)\\end{aligned}$\nIntegrate and combine the logarithms:\n$\\begin{aligned}t&=\\frac12\\left(\\ln|S|-\\ln|60-S|\\right)+D\\\\\\ln\\left|\\frac{S}{60-S}\\right|&=2t-2D\\\\\\frac{S}{60-S}&=Ae^{2t}\\end{aligned}$\nFor $t=0$ and $S=10$, $A=\\dfrac{10}{50}=\\dfrac15$.\n$\\begin{aligned}5S&=(60-S)e^{2t}\\\\S(5+e^{2t})&=60e^{2t}\\\\S&=\\frac{60e^{2t}}{5+e^{2t}}\\\\&=\\frac{60}{1+5e^{-2t}}\\end{aligned}$\n$\\begin{aligned}S(1)&=\\frac{60}{1+5e^{-2}}\\\\&\\approx35.79\\text{ cm}^2\\end{aligned}$\nAs $t\\to\\infty$, $e^{-2t}\\to0$, so $S\\to60$. The limiting area is $60$ cm$^2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A reserve population satisfies $\\dfrac{dP}{dt}=kP\\left(1-\\dfrac{P}{1800}\\right)$, with $P(0)=300$ and $P(3)=600$, where $t$ is in years.\nUse $\\dfrac{1800}{P(1800-P)}=\\dfrac1P+\\dfrac1{1800-P}$ to derive $P(t)$ and find $k$ exactly.\nFind $P(6)$, the exact time at which $P=1200$, and the exact time at which the population grows fastest.",
+    "solution_text": "The equilibria $P=0$ and $P=1800$ do not satisfy $P(0)=300$. Invert and integrate:\n$\\begin{aligned}\\frac{dt}{dP}&=\\frac1k\\left(\\frac1P+\\frac1{1800-P}\\right)\\\\t&=\\frac1k\\left(\\ln|P|-\\ln|1800-P|\\right)+D\\\\\\ln\\left|\\frac{P}{1800-P}\\right|&=kt-kD\\\\\\frac{P}{1800-P}&=Ae^{kt}\\end{aligned}$\nThe initial condition gives $A=\\dfrac{300}{1500}=\\dfrac15$.\n$\\begin{aligned}5P&=(1800-P)e^{kt}\\\\P(5+e^{kt})&=1800e^{kt}\\\\P&=\\frac{1800}{1+5e^{-kt}}\\end{aligned}$\nUse $P(3)=600$:\n$\\begin{aligned}600&=\\frac{1800}{1+5e^{-3k}}\\\\1+5e^{-3k}&=3\\\\e^{-3k}&=\\frac25\\\\k&=\\frac13\\ln\\frac52\\end{aligned}$\n$\\begin{aligned}P(6)&=\\frac{1800}{1+5(2/5)^2}\\\\&=1000\\end{aligned}$\nFor $P=1200$:\n$\\begin{aligned}1200&=\\frac{1800}{1+5e^{-kt}}\\\\e^{-kt}&=\\frac1{10}\\\\t&=\\frac{3\\ln10}{\\ln(5/2)}\\text{ years}\\end{aligned}$\nGrowth is fastest at $P=900$, halfway between the roots of the rate quadratic.\n$\\begin{aligned}900&=\\frac{1800}{1+5e^{-kt}}\\\\e^{-kt}&=\\frac15\\\\t&=\\frac{3\\ln5}{\\ln(5/2)}\\text{ years}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The proportion $p$ of a community who have heard a message satisfies $\\dfrac{dp}{dt}=2p(1-p)$, with $p(0)=\\dfrac14$ and $t$ in days.\nUse $\\dfrac1{p(1-p)}=\\dfrac1p+\\dfrac1{1-p}$ to find $p(t)$.\nFind the percentage who have heard it after one day, to the nearest percent, and the exact time when $75\\%$ have heard it.",
+    "solution_text": "The constant solutions $p=0$ and $p=1$ do not satisfy the initial condition.\n$\\begin{aligned}\\frac{dt}{dp}&=\\frac12\\left(\\frac1p+\\frac1{1-p}\\right)\\\\t&=\\frac12\\left(\\ln|p|-\\ln|1-p|\\right)+D\\\\\\ln\\left|\\frac{p}{1-p}\\right|&=2t-2D\\\\\\frac{p}{1-p}&=Ae^{2t}\\end{aligned}$\nAt $t=0$, $A=\\dfrac{1/4}{3/4}=\\dfrac13$.\n$\\begin{aligned}3p&=(1-p)e^{2t}\\\\p(3+e^{2t})&=e^{2t}\\\\p&=\\frac1{1+3e^{-2t}}\\end{aligned}$\nAfter one day, the percentage is $\\dfrac{100}{1+3e^{-2}}\\%\\approx71\\%$.\nFor $p=\\dfrac34$:\n$\\begin{aligned}\\frac34&=\\frac1{1+3e^{-2t}}\\\\1+3e^{-2t}&=\\frac43\\\\e^{-2t}&=\\frac19\\\\t&=\\frac12\\ln9\\\\&=\\ln3\\text{ days}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "(a) A herd satisfies $\\dfrac{dH}{dt}=0.2H\\left(1-\\dfrac{H}{1000}\\right)$ with $H(0)=1250$. Without solving the equation, describe its long-term behaviour and justify your answer.\n(b) Another population is modelled by $N=\\dfrac{2000}{1+7e^{-0.3t}}$. Find its initial and limiting populations. A later count records $2300$ animals; comment on this count in relation to the model.",
+    "solution_text": "(a) For $H>1000$, the bracket is negative, so $\\dfrac{dH}{dt}<0$. The herd decreases towards $1000$ from above. The equilibrium $H=1000$ cannot be crossed, and is approached without being reached at a finite time.\n(b) $\\begin{aligned}N(0)&=\\frac{2000}{1+7}\\\\&=250\\end{aligned}$\nAs $t\\to\\infty$, $e^{-0.3t}\\to0$, so $N\\to2000$. The initial population is $250$ and the limiting population is $2000$.\nSince $7e^{-0.3t}>0$, the model predicts $N<2000$ at every finite time. The count of $2300$ exceeds its carrying capacity, so the model does not describe this count; the assumed capacity is too low for the observed conditions.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

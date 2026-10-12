@@ -2,8 +2,8 @@
   "skillId": "factorise-polynomial-using-calculus",
   "atomType": "R",
   "theory": {
-    "intro": "To factorise a polynomial with a repeated zero, test rational candidates to find a zero, then use derivatives to find how many times it repeats. The sum or product of the zeroes then gives the rest.",
-    "facts": [
+"intro": "To factorise a polynomial with a repeated zero, test rational candidates to find a zero, then use derivatives to find how many times it repeats. The sum or product of the zeroes then gives the rest.",
+"facts": [
 "A rational zero of a monic polynomial with integer coefficients is a factor of its constant term.",
 "For a polynomial with integer coefficients and leading coefficient $a$, test rational candidates $\\dfrac{p}{q}$, where $p$ is an integer factor of the constant term and $q$ is a positive integer factor of $a$.",
 "If $P(\\alpha)=0$ and $P'(\\alpha)=0$, then $(x-\\alpha)^{2}$ is a factor of $P(x)$, so the multiplicity is at least $2$.",
@@ -15,13 +15,57 @@
 "The multiplicities of all the zeroes, including complex zeroes, add to the degree, so once the known multiplicities total $n$ there are no more zeroes.",
 "Long division by the product of the known factors is a last resort."
 ],
-    "steps": [
+"steps": [
 "Test rational candidates to find a zero of $P(x)$.",
 "Test derivatives at each zero until the first non-zero derivative, or use the degree to establish its multiplicity.",
 "Use the sum or product of the zeroes to find the remaining zeroes.",
 "Write $P(x)$ as a product of its linear factors."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Factorise $P(x)=2x^{3}+7x^{2}+4x-4$ using calculus.",
+    "solution_text": "Test integer factors of the constant term.\n$\\begin{align*}P(-2)&=-16+28-8-4\\\\&=0\\end{align*}$\nTest the derivatives at this zero.\n$\\begin{align*}P'(x)&=6x^{2}+14x+4\\\\P'(-2)&=24-28+4\\\\&=0\\\\P''(x)&=12x+14\\\\P''(-2)&=-10\\end{align*}$\nSo $-2$ has multiplicity exactly $2$.\nLet the remaining zero be $\\alpha$. Counting the repeated zero twice, use the sum of the zeroes.\n$\\begin{align*}-2-2+\\alpha&=-\\frac{7}{2}\\\\\\alpha&=\\frac{1}{2}\\end{align*}$\nInclude the leading coefficient when writing the factors.\n$\\begin{align*}P(x)&=2(x+2)^{2}\\left(x-\\frac{1}{2}\\right)\\\\&=(x+2)^{2}(2x-1)\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Factorise $P(x)=8x^{4}-12x^{3}-30x^{2}-17x-3$ using calculus. Hint: try fractions.",
+    "solution_text": "The leading coefficient is $8$, so rational candidates include fractions with denominators dividing $8$.\n$\\begin{align*}P\\left(-\\frac{1}{2}\\right)&=\\frac{1}{2}+\\frac{3}{2}-\\frac{15}{2}+\\frac{17}{2}-3\\\\&=0\\end{align*}$\nTest successive derivatives.\n$\\begin{align*}P'(x)&=32x^{3}-36x^{2}-60x-17\\\\P'\\left(-\\frac{1}{2}\\right)&=-4-9+30-17\\\\&=0\\\\P''(x)&=96x^{2}-72x-60\\\\P''\\left(-\\frac{1}{2}\\right)&=24+36-60\\\\&=0\\\\P'''(x)&=192x-72\\\\P'''\\left(-\\frac{1}{2}\\right)&=-168\\end{align*}$\nSo $-\\frac{1}{2}$ has multiplicity exactly $3$.\nLet the remaining zero be $\\alpha$. A quartic's zeroes have product equal to the constant term divided by the leading coefficient.\n$\\begin{align*}\\left(-\\frac{1}{2}\\right)^{3}\\alpha&=-\\frac{3}{8}\\\\-\\frac{\\alpha}{8}&=-\\frac{3}{8}\\\\\\alpha&=3\\end{align*}$\n$\\begin{align*}P(x)&=8\\left(x+\\frac{1}{2}\\right)^{3}(x-3)\\\\&=(2x+1)^{3}(x-3)\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Factorise $P(x)=x^{3}-9x^{2}+27x-27$ using calculus.",
+    "solution_text": "Test a factor of the constant term.\n$\\begin{align*}P(3)&=27-81+81-27\\\\&=0\\end{align*}$\n$\\begin{align*}P'(x)&=3x^{2}-18x+27\\\\P'(3)&=27-54+27\\\\&=0\\\\P''(x)&=6x-18\\\\P''(3)&=0\\end{align*}$\nThe zero at $3$ has multiplicity at least $3$. This is the whole degree, so its multiplicity is exactly $3$ and there are no remaining zeroes.\n$P(x)=(x-3)^{3}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $x^{4}-6x^{3}+10x^{2}-6x+1=0$, given that it has a repeated root.",
+    "solution_text": "Let $P(x)=x^{4}-6x^{3}+10x^{2}-6x+1$. Test a factor of the constant term.\n$\\begin{align*}P(1)&=1-6+10-6+1\\\\&=0\\end{align*}$\n$\\begin{align*}P'(x)&=4x^{3}-18x^{2}+20x-6\\\\P'(1)&=4-18+20-6\\\\&=0\\\\P''(x)&=12x^{2}-36x+20\\\\P''(1)&=-4\\end{align*}$\nSo $1$ has multiplicity exactly $2$.\nLet the remaining roots be $\\alpha$ and $\\beta$. Use their sum and product.\n$\\begin{align*}1+1+\\alpha+\\beta&=6\\\\\\alpha+\\beta&=4\\\\(1)(1)\\alpha\\beta&=1\\\\\\alpha\\beta&=1\\end{align*}$\nThe remaining roots satisfy $t^{2}-4t+1=0$.\n$\\begin{align*}t&=\\frac{4\\pm\\sqrt{16-4}}{2}\\\\&=2\\pm\\sqrt{3}\\end{align*}$\nThe solutions are $x=1$ (twice), $x=2+\\sqrt{3}$ and $x=2-\\sqrt{3}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The polynomial $P(x)=4x^{4}-20x^{3}+13x^{2}+30x+9$ has two repeated zeroes. Factorise it completely using calculus.",
+    "solution_text": "Test rational candidates, including fractions whose denominators divide $4$.\n$\\begin{align*}P(3)&=324-540+117+90+9\\\\&=0\\\\P\\left(-\\frac{1}{2}\\right)&=\\frac{1}{4}+\\frac{5}{2}+\\frac{13}{4}-15+9\\\\&=0\\end{align*}$\n$P'(x)=16x^{3}-60x^{2}+26x+30$.\n$\\begin{align*}P'(3)&=432-540+78+30\\\\&=0\\\\P'\\left(-\\frac{1}{2}\\right)&=-2-15-13+30\\\\&=0\\end{align*}$\nBoth zeroes have multiplicity at least $2$. Their lower bounds total the degree $4$, so both have multiplicity exactly $2$.\n$\\begin{align*}P(x)&=4\\left(x+\\frac{1}{2}\\right)^{2}(x-3)^{2}\\\\&=(2x+1)^{2}(x-3)^{2}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the quartic polynomial with a triple zero at $x=2$, a simple zero at $x=-3$ and $P(0)=12$. Give your answer in factored form.",
+    "solution_text": "The multiplicities give the factors; use the given value to find the scale factor.\n$P(x)=k(x-2)^{3}(x+3)$.\n$\\begin{align*}P(0)&=k(-2)^{3}(3)\\\\12&=-24k\\\\k&=-\\frac{1}{2}\\end{align*}$\n$P(x)=-\\frac{1}{2}(x-2)^{3}(x+3)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

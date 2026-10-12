@@ -2,20 +2,55 @@
   "skillId": "uniform-discrete-distribution",
   "atomType": "R",
   "theory": {
-    "intro": "A discrete random variable is **uniformly distributed** when it has finitely many values that are all equally likely. Each of the $n$ values then has probability $\\frac{1}{n}$. Equally likely elementary outcomes give a uniform variable only when its distinct values are equally likely.",
-    "facts": [
+"intro": "A discrete random variable is **uniformly distributed** when it has finitely many values that are all equally likely. Each of the $n$ values then has probability $\\frac{1}{n}$. Equally likely elementary outcomes give a uniform variable only when its distinct values are equally likely.",
+"facts": [
 "A distribution is **uniform** when every value of $X$ has the same probability.",
 "With $n$ equally likely values, $P(X=x)=\\frac{1}{n}$ for every value $x$.",
 "The histogram of a uniform distribution has bars of equal height.",
 "Uniform means equal probabilities, not equally spaced values: $\\{2,\\ 5,\\ 11\\}$ each with probability $\\frac{1}{3}$ is uniform.",
 "A fair mechanism does not always give a uniform variable: two coins give $0$, $1$ or $2$ heads with probabilities $\\frac{1}{4}$, $\\frac{1}{2}$, $\\frac{1}{4}$."
 ],
-    "steps": [
+"steps": [
 "Check that every value of $X$ has the same probability.",
 "Count the $n$ possible values and write $P(x)=\\frac{1}{n}$.",
 "Use the equal probabilities to find the required probability."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "One of six cards labelled $3$, $5$, $8$, $12$, $17$ and $24$ is chosen, with every card equally likely. Let $X$ be its label.\nWrite the probability distribution table, state whether it is uniform, and find $P(X=12)$.",
+    "solution_text": "There are six distinct, equally likely values.\n\n| $x$ | $3$ | $5$ | $8$ | $12$ | $17$ | $24$ |\n| --- | --- | --- | --- | --- | --- | --- |\n| $P(X=x)$ | $\\frac16$ | $\\frac16$ | $\\frac16$ | $\\frac16$ | $\\frac16$ | $\\frac16$ |\n\nEvery value has probability $\\frac16$, so the distribution is uniform. The values need not be equally spaced.\n\n$P(X=12)=\\frac16$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "$X$ is uniformly distributed over $\\{1,\\ 4,\\ 7,\\ 10,\\ 13,\\ 16\\}$.\nFind $P(4\\le X<13)$.",
+    "solution_text": "The favourable values are $4$, $7$ and $10$. Include $4$ and exclude $13$.\n\n$\\begin{aligned}P(4\\le X<13)&=\\frac36\\\\&=\\frac12\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A whole number from $14$ to $62$ inclusive is chosen, with every number equally likely. Let $X$ be the number.\n(a) Find $P(25<X\\le38)$.\n(b) Find the probability that $X$ is a multiple of $9$.",
+    "solution_text": "There are $62-14+1=49$ equally likely values.\n\n(a) The favourable values are $26,\\ 27,\\ \\dots,\\ 38$, giving $38-26+1=13$ values.\n\n$P(25<X\\le38)=\\frac{13}{49}$\n\n(b) The favourable values are $18$, $27$, $36$, $45$ and $54$.\n\n$P(X\\text{ is a multiple of }9)=\\frac5{49}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The histogram represents a discrete random variable $X$. Is its distribution uniform? Explain.\n[tikz]\n\\begin{tikzpicture}[x=12mm,y=100mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black,->] (-0.7,0)--(3.8,0);\n\\draw[black,->] (-0.7,0)--(-0.7,0.34);\n\\foreach \\y in {0.1,0.2,0.3} {\n\\draw[draw={rgb,255:red,204;green,204;blue,204}] (-0.7,\\y)--(3.5,\\y);\n\\draw[black] (-0.78,\\y)--(-0.7,\\y);\n\\path (-0.82,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\y$};\n}\n\\foreach \\x/\\h in {0/0.2,1/0.3,2/0.3,3/0.2} {\n\\draw[black] (\\x-0.5,0) rectangle (\\x+0.5,\\h);\n\\path (\\x,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\x$};\n}\n\\path (-0.7,0.34) node[above] {$P(X=x)$};\n\\path (3.8,0) node[right] {$x$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The bar heights give $P(X=0)=P(X=3)=0.2$ and $P(X=1)=P(X=2)=0.3$.\nThe probabilities are not all equal, so the distribution is not uniform."
+  },
+  {
+    "question_text": "Two fair coins are tossed. Let $X$ be the number of tails.\nConstruct the probability distribution of $X$ and decide whether it is uniform.",
+    "solution_text": "The four equally likely outcomes are $HH$, $HT$, $TH$ and $TT$.\n\n| Outcome | $HH$ | $HT$ | $TH$ | $TT$ |\n| --- | --- | --- | --- | --- |\n| Number of tails | $0$ | $1$ | $1$ | $2$ |\n\n| $x$ | $0$ | $1$ | $2$ |\n| --- | --- | --- | --- |\n| $P(X=x)$ | $\\frac14$ | $\\frac12$ | $\\frac14$ |\n\nThe values of $X$ have unequal probabilities, so $X$ is not uniform. Equally likely coin outcomes do not make the numbers of tails equally likely."
+  },
+  {
+    "question_text": "Two fair three-sided dice numbered $1$, $2$ and $3$ are rolled. Let $X$ be the larger number, or the common number if they match.\nConstruct the probability distribution of $X$ and decide whether it is uniform.",
+    "solution_text": "List the larger number for each of the nine equally likely ordered pairs.\n\n| First die / second die | $1$ | $2$ | $3$ |\n| --- | --- | --- | --- |\n| $1$ | $1$ | $2$ | $3$ |\n| $2$ | $2$ | $2$ | $3$ |\n| $3$ | $3$ | $3$ | $3$ |\n\nCount how often each value occurs.\n\n| $x$ | $1$ | $2$ | $3$ |\n| --- | --- | --- | --- |\n| $P(X=x)$ | $\\frac19$ | $\\frac39$ | $\\frac59$ |\n\nThe probabilities are unequal, so $X$ is not uniformly distributed."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

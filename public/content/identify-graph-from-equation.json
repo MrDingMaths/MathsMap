@@ -2,19 +2,41 @@
   "skillId": "identify-graph-from-equation",
   "atomType": "Cat",
   "theory": {
-        "intro": "The **form** of an equation tells you the shape of its graph before you plot a point. For linear, quadratic and exponential relationships, look at the powers of the variables and whether $x$ is an exponent.",
-        "facts": [
+"intro": "The **form** of an equation tells you the shape of its graph before you plot a point. For linear, quadratic and exponential relationships, look at the powers of the variables and whether $x$ is an exponent.",
+"facts": [
 "**Line:** $y=mx+c$, or a rearrangement like $x+2y=6$, has $x$ and $y$ to the power $1$ and a straight graph. Equations such as $x=-3$ give vertical straight lines; equations such as $y=6$ give horizontal straight lines.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->] (-2.8,-1.7)--(2.8,2.8);\n\\end{tikzpicture}\n[/tikz]",
 "**Parabola:** $y=ax^{2}+bx+c$, with $a\\ne0$, has highest power $2$ in $x$, giving a U-shape opening up when $a>0$ and down when $a<0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,smooth,domain=-1.2:2.2,variable=\\x] plot ({\\x},{(\\x-0.5)*(\\x-0.5)-1.5});\n\\end{tikzpicture}\n[/tikz]",
 "**Exponential:** $y=a^{x}$ has $x$ as the **exponent**, with $a>0$ and $a\\ne1$. It increases for $a>1$ and decreases for $0<a<1$; these directions are reversed for $y=a^{-x}$. Both have the $x$-axis as a horizontal asymptote. Multiplying by a negative number reflects the curve in the $x$-axis, and adding a constant moves it vertically.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,smooth,domain=-3:1.55,variable=\\x] plot ({\\x},{exp(\\x*ln(2))});\n\\end{tikzpicture}\n[/tikz]"
 ],
-        "steps": [
+"steps": [
 "Check for a straight-line equation, including $x=k$ for a vertical line and $y=k$ for a horizontal line.",
 "Is $x$ in the exponent of a positive constant base other than $1$? If so, the relationship is exponential.",
 "Otherwise, rearrange into the form $y=\\dots$ if needed. For the relationships in this section, highest power $1$ gives a line and highest power $2$ with a nonzero coefficient gives a parabola.",
 "When choosing between graphs of the same type, check whether the graph increases or decreases or the parabola opens up or down. Substitute $x=0$ to check the $y$-intercept where applicable."
+],
+"workedExamples": [
+  {
+    "question_text": "State the type of graph for each equation.\n(a) $y=8-3x$\n(b) $y=6-3x^{2}$\n(c) $y=7^{x}$\n(d) $x=-4$",
+    "solution_text": "(a) The highest power of $x$ is $1$, so the graph is a straight line.\n\n(b) The highest power of $x$ is $2$, so the graph is a parabola. The negative coefficient means it opens downwards.\n\n(c) $x$ is the exponent, so the graph is exponential.\n\n(d) $x$ is constant, so the graph is a vertical straight line."
+  },
+  {
+    "question_text": "State the type of graph for each equation.\n(a) $2x+3y-12=0$\n(b) $4y=3x^{2}$",
+    "solution_text": "(a)\n$\\begin{aligned}2x+3y-12&=0\\\\3y&=12-2x\\\\y&=4-\\frac{2}{3}x\\end{aligned}$\n\nThis has the form $y=mx+c$, so the graph is a straight line.\n\n(b)\n$\\begin{aligned}4y&=3x^{2}\\\\y&=\\frac{3}{4}x^{2}\\end{aligned}$\n\nThe highest power of $x$ is $2$, so the graph is a parabola opening upwards."
+  },
+  {
+    "question_text": "State the type of graph for each equation.\n(a) $y=4^{x}+2$\n(b) $y=-6^{-x}+3$\n\nExplain which feature of each equation identifies its type.",
+    "solution_text": "(a) $x$ is the exponent in $4^{x}$, so the graph is exponential. Adding $2$ moves the curve vertically and preserves its type.\n\n(b) $x$ occurs in the exponent $-x$, so the graph is exponential. The minus sign outside the power and the added constant preserve its type."
+  },
+  {
+    "question_text": "Which graph, A or B, could represent $y=4^{-x}$? Explain your choice.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\begin{scope}\n\\draw[black,->] (-1.5,0)--(1.7,0) node[right] {$x$};\n\\draw[black,->] (0,-0.3)--(0,3.1) node[above] {$y$};\n\\node[anchor=east] at (-1.5,2.7) {A};\n\\draw[graphBlue,thick,<->,smooth,samples=70,domain=-1.4:0.72,variable=\\x] plot ({\\x},{exp(\\x*ln(4))});\n\\end{scope}\n\\begin{scope}[shift={(5,0)}]\n\\draw[black,->] (-1.5,0)--(1.7,0) node[right] {$x$};\n\\draw[black,->] (0,-0.3)--(0,3.1) node[above] {$y$};\n\\node[anchor=east] at (-1.5,2.7) {B};\n\\draw[graphBlue,thick,<->,smooth,samples=70,domain=-0.72:1.4,variable=\\x] plot ({\\x},{exp(-\\x*ln(4))});\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$x$ is the exponent, so the graph is exponential.\n\nAs $x$ increases, $4^{-x}$ decreases towards $0$. Graph B has this shape.\n\nCorrect answer: B."
+  },
+  {
+    "question_text": "Which equation, A–C, could represent the graph shown?\n\nA. $y=3x^{2}+4$\nB. $y=-3x^{2}+4$\nC. $y=3x^{2}-4$\n\n[tikz]\n\\begin{tikzpicture}[x=12mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\draw[black,->] (-2,0)--(2.2,0) node[right] {$x$};\n\\draw[black,->] (0,-1)--(0,9.5) node[above] {$y$};\n\\draw[black] (-0.08,4)--(0.08,4);\n\\node[anchor=east,font=\\fontsize{8.5}{10}\\selectfont] at (-0.12,4) {$4$};\n\\draw[graphBlue,thick,<->,smooth,samples=70,domain=-1.25:1.25,variable=\\x] plot ({\\x},{3*(\\x)*(\\x)+4});\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The graph is a parabola opening upwards, so its $x^{2}$ coefficient is positive. This eliminates B.\n\nThe labelled $y$-intercept is $4$. For A, substituting $x=0$ gives\n\n$\\begin{aligned}y&=3(0)^{2}+4\\\\&=4\\end{aligned}$\n\nC has $y$-intercept $-4$, so it does not match.\n\nCorrect answer: A."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

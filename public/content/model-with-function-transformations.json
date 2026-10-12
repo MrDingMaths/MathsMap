@@ -2,8 +2,8 @@
   "skillId": "model-with-function-transformations",
   "atomType": "R",
   "theory": {
-    "intro": "Use exponential models for quantities that change by a fixed multiplier over equal time intervals. Use transformed sine and cosine functions to model periodic events, finding their constants from the amplitude, period, mean position and starting point.",
-    "facts": [
+"intro": "Use exponential models for quantities that change by a fixed multiplier over equal time intervals. Use transformed sine and cosine functions to model periodic events, finding their constants from the amplitude, period, mean position and starting point.",
+"facts": [
 "A quantity that changes by a fixed percentage each period is modelled by $y=kb^{x}$.",
 "In $y=kb^{x}$ the value $k$ is the amount at $x=0$; $b>1$ gives growth and $0<b<1$ gives decay.",
 "For a supplied model $y=Ae^{-mx}+c$, with $m>0$, the horizontal asymptote is $y=c$. For $A>0$, the value decreases towards $c$ as $x$ increases.",
@@ -14,12 +14,77 @@
 "Take logarithms of both sides to solve $b^{x}=p$ when the index is unknown, where $b>0$, $b\\ne1$ and $p>0$.",
 "Use radians for trigonometric models and keep solutions within the stated time interval."
 ],
-    "steps": [
+"steps": [
 "Write the supplied model or the model form specified by the question.",
 "Substitute given values and find any required constants using the multiplier, amplitude, period, mean position and starting point.",
 "Use the finished model to answer the question, isolating the exponential or trigonometric term when solving for time."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A culture initially contains $800$ bacteria and doubles every $3$ hours. Write a model for the population $N$ after $t$ hours, then find the population after $9$ hours.",
+    "solution_text": "Each $3$ hours contributes one doubling, so the number of doublings is $t/3$.\n$N(t)=800(2)^{t/3}$\nAfter $9$ hours:\n$\\begin{aligned}N(9)&=800(2)^{9/3}\\\\&=800(8)\\\\&=6400\\end{aligned}$\nThere are $6400$ bacteria.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A metal object cools according to $T(t)=120e^{-0.05t}+22$, where $T$ is in degrees Celsius and $t$ is in minutes. Find its initial temperature and its temperature after $20$ minutes, correct to one decimal place.",
+    "solution_text": "Initially, $t=0$:\n$\\begin{aligned}T(0)&=120e^0+22\\\\&=142\\end{aligned}$\nThe initial temperature is $142^{\\circ}\\mathrm{C}$.\nAfter $20$ minutes:\n$\\begin{aligned}T(20)&=120e^{-0.05(20)}+22\\\\&=120e^{-1}+22\\\\&\\approx66.1\\end{aligned}$\nThe temperature is $66.1^{\\circ}\\mathrm{C}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A radioactive sample has mass $M(t)=96(0.5)^{t/6}$ grams, where $t$ is in days. Find when its mass is $12$ grams.",
+    "solution_text": "$\\begin{aligned}96(0.5)^{t/6}&=12\\\\(0.5)^{t/6}&=\\frac18\\\\(0.5)^{t/6}&=(0.5)^3\\\\\\frac{t}{6}&=3\\\\t&=18\\end{aligned}$\nThe mass is $12$ grams after $18$ days.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An investment has value $A(n)=4000(1.06)^n$ dollars after $n$ years. After how many whole years does its value first exceed $\\$6000$?",
+    "solution_text": "Find when the value reaches $\\$6000$:\n$\\begin{aligned}4000(1.06)^n&=6000\\\\(1.06)^n&=1.5\\\\n&=\\log_{1.06}1.5\\\\n&=\\frac{\\ln1.5}{\\ln1.06}\\\\n&\\approx6.96\\end{aligned}$\nThe model increases with time. Its value first exceeds $\\$6000$ after $7$ whole years.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The depth of water in a harbour is modelled by $h(t)=2\\cos\\left(\\frac{\\pi t}{6}\\right)+5$, where $h$ is in metres and $t$ is the number of hours since high tide. Find the maximum depth, minimum depth and time between successive high tides. Find the first time the depth is $6$ metres.",
+    "solution_text": "The mean depth is $5$ metres and the amplitude is $2$ metres.\nMaximum depth: $5+2=7$ metres.\nMinimum depth: $5-2=3$ metres.\nThe time between successive high tides is the period:\n$\\begin{aligned}P&=\\frac{2\\pi}{\\pi/6}\\\\&=12\\end{aligned}$\nThe period is $12$ hours.\nFor a depth of $6$ metres:\n$\\begin{aligned}6&=2\\cos\\left(\\frac{\\pi t}{6}\\right)+5\\\\1&=2\\cos\\left(\\frac{\\pi t}{6}\\right)\\\\\\cos\\left(\\frac{\\pi t}{6}\\right)&=\\frac12\\end{aligned}$\nThe first crossing after high tide has angle $\\pi/3$.\n$\\begin{aligned}\\frac{\\pi t}{6}&=\\frac{\\pi}{3}\\\\t&=2\\end{aligned}$\nThe depth first reaches $6$ metres after $2$ hours.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A bird population has a maximum of $1800$ at the start of the year and a minimum of $1200$ six months later. The cycle repeats every $12$ months. Find $k$, $a$ and $c$ in $P(t)=k\\cos(at)+c$, where $t$ is in months since the start of the year.",
+    "solution_text": "$\\begin{aligned}\\text{Amplitude}&=\\frac{1800-1200}{2}=300\\\\c&=\\frac{1800+1200}{2}=1500\\\\a&=\\frac{2\\pi}{12}=\\frac{\\pi}{6}\\end{aligned}$\nAt $t=0$, the population is at its maximum and $\\cos0=1$, so $k=300$.\n$P(t)=300\\cos\\left(\\frac{\\pi t}{6}\\right)+1500$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Waves range from $3$ metres to $13$ metres in height and repeat every $10$ seconds. At $t=0$, the height is at the mean position and increasing. Find a model $y=k\\sin(at)+c$.",
+    "solution_text": "$\\begin{aligned}c&=\\frac{13+3}{2}=8\\\\\\text{Amplitude}&=\\frac{13-3}{2}=5\\\\a&=\\frac{2\\pi}{10}=\\frac{\\pi}{5}\\end{aligned}$\nA positive sine coefficient gives a height that starts at the mean position and increases, so $k=5$.\n$y=5\\sin\\left(\\frac{\\pi t}{5}\\right)+8$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The temperature in a room is modelled by $T(t)=10\\sin\\left(\\frac{\\pi t}{12}\\right)+16$, where $T$ is in degrees Celsius and $t$ is the number of hours after $7$ am, with $0\\le t\\le12$. At what times is the temperature $21^{\\circ}\\mathrm{C}$?",
+    "solution_text": "$\\begin{aligned}21&=10\\sin\\left(\\frac{\\pi t}{12}\\right)+16\\\\5&=10\\sin\\left(\\frac{\\pi t}{12}\\right)\\\\\\sin\\left(\\frac{\\pi t}{12}\\right)&=\\frac12\\end{aligned}$\nThe angle lies in $[0,\\pi]$, so both first-quadrant and second-quadrant solutions apply:\n$\\frac{\\pi t}{12}=\\frac{\\pi}{6}\\quad\\text{or}\\quad\\frac{5\\pi}{6}$\n$t=2\\quad\\text{or}\\quad t=10$\nThe temperature is $21^{\\circ}\\mathrm{C}$ at $9$ am and $5$ pm.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The depth of water in a bay is modelled by $d(t)=3-\\cos\\left(\\frac{\\pi t}{5}\\right)$, where $d$ is in metres and $t$ is in hours since low tide. For how long between successive low tides is the depth at least $2.5$ metres?",
+    "solution_text": "The period is $2\\pi/(\\pi/5)=10$ hours.\nFind the boundary times:\n$\\begin{aligned}2.5&=3-\\cos\\left(\\frac{\\pi t}{5}\\right)\\\\\\cos\\left(\\frac{\\pi t}{5}\\right)&=\\frac12\\end{aligned}$\nFor $0\\le t\\le10$:\n$\\frac{\\pi t}{5}=\\frac{\\pi}{3}\\quad\\text{or}\\quad\\frac{5\\pi}{3}$\n$t=\\frac53\\quad\\text{or}\\quad t=\\frac{25}{3}$\nThe sketch shows that the depth is at least $2.5$ metres between these crossings.\n[tikz]\n\\begin{tikzpicture}[x=0.6cm,y=0.8cm]\n\\definecolor{modelblue}{HTML}{268CFF}\n\\definecolor{thresholdred}{HTML}{EF6068}\n\\draw[->,black] (0,0)--(10.6,0);\n\\draw[->,black] (0,0)--(0,4.6);\n\\path (10.6,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$t$};\n\\path (0,4.6) node[above,font=\\fontsize{10}{12}\\selectfont] {$d$};\n\\draw[modelblue,thick,domain=0:10,samples=101] plot (\\x,{3-cos(36*\\x)});\n\\draw[thresholdred,dashed] (0,2.5)--(10,2.5);\n\\draw[black,dotted] ({5/3},0)--({5/3},2.5);\n\\draw[black,dotted] ({25/3},0)--({25/3},2.5);\n\\fill[black] ({5/3},2.5) circle (1.2pt);\n\\fill[black] ({25/3},2.5) circle (1.2pt);\n\\path (0,2.5) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$2.5$};\n\\path ({5/3},0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\frac53$};\n\\path ({25/3},0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\frac{25}{3}$};\n\\path (10,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$10$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}\\text{Duration}&=\\frac{25}{3}-\\frac53\\\\&=\\frac{20}{3}\\end{aligned}$\nThe depth is at least $2.5$ metres for $6$ hours $40$ minutes.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

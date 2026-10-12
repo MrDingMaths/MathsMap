@@ -2,8 +2,8 @@
   "skillId": "transform-reflections",
   "atomType": "T",
   "theory": {
-        "intro": "A **reflection** flips a graph across an axis; its size and shape do not change. Replacing $x$ by $-x$ reflects the graph in the $y$-axis, and replacing $y$ by $-y$ reflects it in the $x$-axis.",
-        "facts": [
+"intro": "A **reflection** flips a graph across an axis; its size and shape do not change. Replacing $x$ by $-x$ reflects the graph in the $y$-axis, and replacing $y$ by $-y$ reflects it in the $x$-axis.",
+"facts": [
           "Replacing $x$ by $-x$ gives $y = f(-x)$, a reflection in the $y$-axis, so each point $(x, y)$ moves to $(-x, y)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\draw[->] (-2.6,0) -- (2.6,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.0) node[above] {$y$};\n\\draw[thick, gray, <->, domain=-2.2:1.6, samples=80, smooth, variable=\\x] plot ({\\x}, {0.4*\\x*\\x*\\x + 0.5*\\x*\\x - 1.2*\\x - 0.6});\n\\draw[thick, blue, <->, domain=-1.6:2.2, samples=80, smooth, variable=\\x] plot ({\\x}, {-0.4*\\x*\\x*\\x + 0.5*\\x*\\x + 1.2*\\x - 0.6});\n\\node[gray] at (-1.5,1.55) {$y=f(x)$};\n\\node[blue] at (1.5,-1.55) {$y=f(-x)$};\n\\end{tikzpicture}\n[/tikz]",
           "Replacing $y$ by $-y$ instead gives $y = -f(x)$, a reflection in the $x$-axis, so each point $(x, y)$ moves to $(x, -y)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\draw[->] (-2.6,0) -- (2.6,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.0) node[above] {$y$};\n\\draw[thick, gray, <->, domain=-2.2:1.6, samples=80, smooth, variable=\\x] plot ({\\x}, {0.4*\\x*\\x*\\x + 0.5*\\x*\\x - 1.2*\\x - 0.6});\n\\draw[thick, blue, <->, domain=-2.2:1.6, samples=80, smooth, variable=\\x] plot ({\\x}, {-0.4*\\x*\\x*\\x - 0.5*\\x*\\x + 1.2*\\x + 0.6});\n\\node[gray] at (-1.5,1.55) {$y=f(x)$};\n\\node[blue] at (1.5,-1.55) {$y=-f(x)$};\n\\end{tikzpicture}\n[/tikz]",
           "Replacing both gives $y = -f(-x)$, sending each point $(x, y)$ to $(-x, -y)$, which is the same as a $180^\\circ$ rotation about the origin.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\draw[->] (-2.8,0) -- (2.8,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.0) node[above] {$y$};\n\\draw[thick, gray, <->, domain=-2.2:1.6, samples=80, smooth, variable=\\x] plot ({\\x}, {0.4*\\x*\\x*\\x + 0.5*\\x*\\x - 1.2*\\x - 0.6});\n\\draw[thick, blue, <->, domain=-1.6:2.2, samples=80, smooth, variable=\\x] plot ({\\x}, {0.4*\\x*\\x*\\x - 0.5*\\x*\\x - 1.2*\\x + 0.6});\n\\node[gray] at (-1.6,1.55) {$y=f(x)$};\n\\node[blue] at (1.6,-1.55) {$y=-f(-x)$};\n\\end{tikzpicture}\n[/tikz]",
@@ -12,12 +12,60 @@
           "An **even** function has $f(-x) = f(x)$, so reflecting it in the $y$-axis leaves the graph unchanged.",
           "An **odd** function has $f(-x) = -f(x)$, so reflecting it in the $y$-axis gives the same graph as reflecting it in the $x$-axis."
         ],
-        "steps": [
+"steps": [
           "Identify the required reflection: across the $x$-axis ($y \\mapsto -y$, $y = -f(x)$), across the $y$-axis ($x \\mapsto -x$, $y = f(-x)$), or both ($y = -f(-x)$)",
           "Substitute $-x$ for every occurrence of $x$ (with brackets) and/or $-y$ for $y$ in the equation",
           "Simplify the resulting algebraic expression and identify the transformed features"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Find the equation obtained when $y=\\sqrt{5x-2}$ is reflected in the $x$-axis.",
+    "solution_text": "Replace $y$ with $-y$.\n$\\begin{align*}-y&=\\sqrt{5x-2}\\\\y&=-\\sqrt{5x-2}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the equation obtained after reflection in the $y$-axis for each curve.\n(a) $y=4^{3x+2}$\n(b) $y=\\dfrac{1}{x-2}+5$",
+    "solution_text": "Replace every $x$ with $-x$.\n(a)\n$\\begin{align*}y&=4^{3(-x)+2}\\\\y&=4^{2-3x}\\end{align*}$\n(b)\n$\\begin{align*}y&=\\frac{1}{-x-2}+5\\\\y&=-\\frac{1}{x+2}+5\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the equation obtained after reflection in both coordinate axes for each curve.\n(a) $y=(x+3)(x-2)^2$\n(b) $(x-2)^2+(y+5)^2=16$",
+    "solution_text": "Replace $x$ with $-x$ and $y$ with $-y$.\n(a)\n$\\begin{align*}-y&=(-x+3)(-x-2)^2\\\\-y&=-(x-3)(x+2)^2\\\\y&=(x-3)(x+2)^2\\end{align*}$\n(b)\n$\\begin{align*}(-x-2)^2+(-y+5)^2&=16\\\\(x+2)^2+(y-5)^2&=16\\end{align*}$\nReflecting in both axes is a $180^\\circ$ rotation about the origin.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The point $P(2,3)$ lies on $y=f(x)$. Find and label its corresponding point on each graph.\n(a) $y=-f(x)$\n(b) $y=f(-x)$\n(c) $y=-f(-x)$\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[<->,black] (-3.5,0)--(3.5,0) node[right] {$x$};\n\\draw[<->,black] (0,-4)--(0,4) node[above] {$y$};\n\\fill[black] (2,3) circle (1.5pt);\n\\path (2,3) node[above right] {$P(2,3)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Keep $x$ and negate $y$: $Q(2,-3)$.\n(b) Negate $x$ and keep $y$: $R(-2,3)$.\n(c) Negate both coordinates: $S(-2,-3)$.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{reflectionblue}{HTML}{268CFF}\n\\draw[<->,black] (-3.5,0)--(3.5,0) node[right] {$x$};\n\\draw[<->,black] (0,-4)--(0,4) node[above] {$y$};\n\\fill[black] (2,3) circle (1.5pt);\n\\path (2,3) node[above right] {$P(2,3)$};\n\\fill[reflectionblue] (2,-3) circle (1.5pt);\n\\path (2,-3) node[below right,text=reflectionblue] {$Q(2,-3)$};\n\\fill[reflectionblue] (-2,3) circle (1.5pt);\n\\path (-2,3) node[above left,text=reflectionblue] {$R(-2,3)$};\n\\fill[reflectionblue] (-2,-3) circle (1.5pt);\n\\path (-2,-3) node[below left,text=reflectionblue] {$S(-2,-3)$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Let $f(x)=3+\\dfrac{1}{x-2}$ and $g(x)=-3+\\dfrac{1}{x+2}$. Determine whether $y=g(x)$ is a reflection in a coordinate axis or a $180^\\circ$ rotation of $y=f(x)$ about the origin.",
+    "solution_text": "Compare $g(x)$ with the reflected function rules.\n$\\begin{align*}f(-x)&=3+\\frac{1}{-x-2}\\\\f(-x)&=3-\\frac{1}{x+2}\\end{align*}$\n$\\begin{align*}-f(-x)&=-3+\\frac{1}{x+2}\\\\-f(-x)&=g(x)\\end{align*}$\nThe transformation is a $180^\\circ$ rotation about the origin.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Explain using function notation why reflecting $f(x)=6-2x^4+x^2$ in the $y$-axis leaves its graph unchanged.",
+    "solution_text": "$\\begin{align*}f(-x)&=6-2(-x)^4+(-x)^2\\\\f(-x)&=6-2x^4+x^2\\\\f(-x)&=f(x)\\end{align*}$\nThe function is even. Reflection in the $y$-axis leaves its graph unchanged.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "(a) Show that reflecting $f(x)=x^3-6x$ in the $x$-axis gives the same graph as reflecting it in the $y$-axis.\n(b) Explain why this holds for every odd function.",
+    "solution_text": "(a) Reflection in the $x$-axis gives:\n$\\begin{align*}-f(x)&=-(x^3-6x)\\\\-f(x)&=-x^3+6x\\end{align*}$\nReflection in the $y$-axis gives:\n$\\begin{align*}f(-x)&=(-x)^3-6(-x)\\\\f(-x)&=-x^3+6x\\end{align*}$\nBoth reflections give the same equation.\n(b) For an odd function, $f(-x)=-f(x)$ throughout its domain. The two reflected graphs therefore coincide.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

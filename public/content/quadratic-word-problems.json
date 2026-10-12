@@ -2,21 +2,93 @@
   "skillId": "quadratic-word-problems",
   "atomType": "R",
   "theory": {
-        "intro": "Many problems about area, numbers and motion lead to a quadratic equation. Choose a variable for the unknown, turn the words into an equation, and solve it. Then check which solutions make sense in the situation.",
-        "facts": [
+"intro": "Many problems about area, numbers and motion lead to a quadratic equation. Choose a variable for the unknown, turn the words into an equation, and solve it. Then check which solutions make sense in the situation.",
+"facts": [
 "Let one variable stand for the unknown, and write every other quantity in terms of it.",
 "Area of a rectangle is length $\\times$ breadth; area of a triangle is $\\frac{1}{2}\\times$ base $\\times$ perpendicular height.",
 "A quadratic can have zero, one or two real solutions. Check every solution against the situation, including positivity and any other constraints, and reject any that do not make sense with a reason.",
 "Some situations keep both solutions, such as a ball's upward and downward flight, or the two dimensions of a rectangle.",
 "State the final answer as a sentence, with correct units."
 ],
-        "steps": [
+"steps": [
           "Let a variable represent the unknown, and write the other quantities in terms of it.",
           "Write an equation that describes the situation.",
           "Rearrange to $ax^{2}+bx+c=0$ and solve, usually by factorising.",
           "Reject any solution that does not make sense, then answer in words with units."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A rectangle has area $54$ m$^{2}$. Its length is $3$ m more than its breadth. Find its dimensions.",
+    "solution_text": "Let $x$ be the breadth, in metres. The length is $x+3$ metres.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,0) rectangle (5,3);\n\\path (2.5,3) node[above] {$(x+3)\\,\\mathrm{m}$} (0,1.5) node[left] {$x\\,\\mathrm{m}$} (2.5,1.5) node {$54\\,\\mathrm{m}^{2}$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}x(x+3)&=54\\\\x^{2}+3x-54&=0\\\\(x+9)(x-6)&=0\\\\x&=-9\\ \\text{or}\\ 6\\end{aligned}$\nReject $x=-9$ because a breadth must be positive. The rectangle is $6$ m by $9$ m.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A triangle has area $28$ cm$^{2}$. Its perpendicular height is $1$ cm less than its base. Find its base and height.",
+    "solution_text": "Let $x$ be the base, in centimetres. The perpendicular height is $x-1$ centimetres.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,0)--(5,0)--(2,3)--cycle;\n\\draw[black,dashed] (2,3)--(2,0);\n\\draw[black] (2,0.3)--(2.3,0.3)--(2.3,0);\n\\path (2.5,0) node[below] {$x\\,\\mathrm{cm}$} (2,0.8) node[right,xshift=2mm] {$(x-1)\\,\\mathrm{cm}$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}\\frac12 x(x-1)&=28\\\\x(x-1)&=56\\\\x^{2}-x-56&=0\\\\(x-8)(x+7)&=0\\\\x&=8\\ \\text{or}\\ -7\\end{aligned}$\nReject $x=-7$ because a base must be positive. The base is $8$ cm and the height is $7$ cm.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The product of two consecutive positive integers is $110$. Find the integers.",
+    "solution_text": "Let $x$ be the smaller integer. The next integer is $x+1$.\n$\\begin{aligned}x(x+1)&=110\\\\x^{2}+x-110&=0\\\\(x+11)(x-10)&=0\\\\x&=-11\\ \\text{or}\\ 10\\end{aligned}$\nReject $x=-11$ because the integers are positive. The integers are $10$ and $11$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "When a positive integer is increased by $20$, the result is $10$ less than its square. Find the integer.",
+    "solution_text": "Let $x$ be the integer.\n$\\begin{aligned}x+20&=x^{2}-10\\\\x^{2}-x-30&=0\\\\(x-6)(x+5)&=0\\\\x&=6\\ \\text{or}\\ -5\\end{aligned}$\nReject $x=-5$ because the integer is positive. The integer is $6$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two positive numbers differ by $4$. The sum of their squares is $136$. Find the numbers.",
+    "solution_text": "Let $x$ be the smaller number. The larger number is $x+4$.\n$\\begin{aligned}x^{2}+(x+4)^{2}&=136\\\\2x^{2}+8x+16&=136\\\\2x^{2}+8x-120&=0\\\\x^{2}+4x-60&=0\\\\(x+10)(x-6)&=0\\\\x&=-10\\ \\text{or}\\ 6\\end{aligned}$\nReject $x=-10$ because both numbers must be positive. The numbers are $6$ and $10$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Three consecutive positive odd integers have this property: the product of the first and third is $11$ less than $8$ times the middle integer. Find the integers.",
+    "solution_text": "Let the integers be $x$, $x+2$ and $x+4$.\n$\\begin{aligned}x(x+4)&=8(x+2)-11\\\\x^{2}+4x&=8x+5\\\\x^{2}-4x-5&=0\\\\(x-5)(x+1)&=0\\\\x-5&=0\\ \\text{or}\\ x+1=0\\\\x&=5\\ \\text{or}\\ -1\\end{aligned}$\nReject $x=-1$ because all three integers must be positive. The integers are $5$, $7$ and $9$.\nCheck: $5\\times9=45$ and $8\\times7-11=45$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A ball's height $h$ metres after $t$ seconds is $h=t(10-t)$. Find the times when its height is $21$ m.",
+    "solution_text": "$\\begin{aligned}t(10-t)&=21\\\\10t-t^{2}&=21\\\\t^{2}-10t+21&=0\\\\(t-3)(t-7)&=0\\\\t&=3\\ \\text{or}\\ 7\\end{aligned}$\nBoth times lie between launch at $t=0$ and return to ground at $t=10$. The ball reaches $21$ m after $3$ s on the way up and after $7$ s on the way down.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A rectangular garden measuring $8$ m by $4$ m is surrounded by a path of uniform width. The path alone has area $64$ m$^{2}$. Find its width.",
+    "solution_text": "Let $x$ be the path width, in metres. Each outer dimension includes the path on both sides.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,0) rectangle (8,6);\n\\draw[black] (1.5,1.5) rectangle (6.5,4.5);\n\\draw[black,<->] (6.5,3)--(8,3);\n\\path (4,4.5) node[below] {$8\\,\\mathrm{m}$} (1.5,3) node[right] {$4\\,\\mathrm{m}$} (7.25,3) node[above] {$x\\,\\mathrm{m}$} (4,6) node[above] {$(8+2x)\\,\\mathrm{m}$} (0,3) node[left] {$(4+2x)\\,\\mathrm{m}$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}(8+2x)(4+2x)-8\\times4&=64\\\\4x^{2}+24x&=64\\\\x^{2}+6x-16&=0\\\\(x+8)(x-2)&=0\\\\x&=-8\\ \\text{or}\\ 2\\end{aligned}$\nReject $x=-8$ because a path width must be positive. The path is $2$ m wide.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A rectangle has perimeter $34$ cm and area $60$ cm$^{2}$. Find its dimensions.",
+    "solution_text": "Let one side be $x$ centimetres. Half the perimeter is $17$ cm, so the other side is $17-x$ centimetres.\n$\\begin{aligned}x(17-x)&=60\\\\17x-x^{2}&=60\\\\x^{2}-17x+60&=0\\\\(x-5)(x-12)&=0\\\\x&=5\\ \\text{or}\\ 12\\end{aligned}$\nBoth roots give positive side lengths and describe the same rectangle. Its dimensions are $5$ cm by $12$ cm.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A trapezium has parallel sides whose lengths differ by $4$ cm. Its perpendicular height is $2$ cm more than the shorter parallel side. Its area is $64$ cm$^{2}$. Find the shorter parallel side.",
+    "solution_text": "Let $x$ be the shorter parallel side, in centimetres. The other parallel side is $x+4$ and the height is $x+2$.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,0)--(6,0)--(4.5,3)--(1.5,3)--cycle;\n\\draw[black,dashed] (1.5,3)--(1.5,0);\n\\draw[black] (1.5,0.3)--(1.8,0.3)--(1.8,0);\n\\path (3,3) node[above] {$x\\,\\mathrm{cm}$} (3,0) node[below] {$(x+4)\\,\\mathrm{cm}$} (1.5,1.5) node[right] {$(x+2)\\,\\mathrm{cm}$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}\\frac12(x+2)(x+x+4)&=64\\\\(x+2)^{2}&=64\\\\x^{2}+4x-60&=0\\\\(x+10)(x-6)&=0\\\\x&=-10\\ \\text{or}\\ 6\\end{aligned}$\nReject $x=-10$ because a side length must be positive. The shorter parallel side is $6$ cm.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

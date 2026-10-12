@@ -2,8 +2,8 @@
   "skillId": "gradient-as-tan-inclination",
   "atomType": "R",
   "theory": {
-        "intro": "The **angle of inclination** $\\theta$ is the angle a line makes with the positive $x$-axis, measured anticlockwise, with $0^{\\circ}\\le\\theta<180^{\\circ}$. It gives the gradient by $m=\\tan\\theta$.",
-        "facts": [
+"intro": "The **angle of inclination** $\\theta$ is the angle a line makes with the positive $x$-axis, measured anticlockwise, with $0^{\\circ}\\le\\theta<180^{\\circ}$. It gives the gradient by $m=\\tan\\theta$.",
+"facts": [
           "$m=\\tan\\theta$, where $\\theta$ is the angle of inclination measured anticlockwise from the positive $x$-axis.",
           "A line sloping **up** to the right has a **positive** gradient and an **acute** angle of inclination ($0^{\\circ}<\\theta<90^{\\circ}$).\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (X) at (1.4,0);\n\\coordinate (P) at (55:2.6);\n\\coordinate (Q) at (55:-2.6);\n\\draw[{Stealth}-{Stealth}] (-3,0)--(3,0) node[right] {$x$};\n\\draw[{Stealth}-{Stealth}] (0,-3)--(0,3) node[above] {$y$};\n\\draw[blue, thick] (Q)--(P);\n\\pic[draw, \"$\\theta$\", angle radius=0.85cm, angle eccentricity=1.9] {angle=X--O--P};\n\\node at (2.05,-1.9) {$m>0$};\n\\end{tikzpicture}\n[/tikz]",
           "A line sloping **down** to the right has a **negative** gradient and an **obtuse** angle of inclination ($90^{\\circ}<\\theta<180^{\\circ}$).\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (X) at (1.4,0);\n\\coordinate (P) at (125:2.6);\n\\coordinate (Q) at (125:-2.6);\n\\draw[{Stealth}-{Stealth}] (-3,0)--(3,0) node[right] {$x$};\n\\draw[{Stealth}-{Stealth}] (0,-3)--(0,3) node[above] {$y$};\n\\draw[blue, thick] (Q)--(P);\n\\pic[draw, \"$\\theta$\", angle radius=0.85cm, angle eccentricity=1.6] {angle=X--O--P};\n\\node at (2.05,1.9) {$m<0$};\n\\end{tikzpicture}\n[/tikz]",
@@ -13,12 +13,60 @@
           "Exact cases: $\\theta=45^{\\circ}\\Rightarrow m=1$, $\\theta=60^{\\circ}\\Rightarrow m=\\sqrt{3}$, $\\theta=30^{\\circ}\\Rightarrow m=\\dfrac{1}{\\sqrt{3}}$.",
           "A vertical line has $\\theta=90^{\\circ}$ (undefined gradient); a horizontal line has $\\theta=0^{\\circ}$ and gradient $0$."
         ],
-        "steps": [
+"steps": [
           "Write tan theta equals the gradient m",
           "Take the inverse tangent to find theta",
           "If the inverse tangent is negative, add 180 degrees so theta lies between 0 and 180"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Find the gradient of each line: a. angle of inclination $35^{\\circ}$, correct to 2 decimal places; b. angle of inclination $150^{\\circ}$, exactly.",
+    "solution_text": "a. $\\begin{aligned}m&=\\tan\\theta\\\\&=\\tan35^{\\circ}\\\\&\\approx0.70\\end{aligned}$\n\nb. $\\begin{aligned}m&=\\tan150^{\\circ}\\\\&=-\\dfrac{1}{\\sqrt3}\\end{aligned}$\n\nThe obtuse inclination gives a negative gradient.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the angle of inclination of each line, correct to the nearest degree: a. $m=0.8$; b. $m=-1.2$.",
+    "solution_text": "a. $\\begin{aligned}\\tan\\theta&=0.8\\\\\\theta&=\\tan^{-1}(0.8)\\\\&\\approx39^{\\circ}\\end{aligned}$\n\nb. The calculator returns a negative angle. Add $180^{\\circ}$ before rounding.\n\n$\\begin{aligned}\\tan\\theta&=-1.2\\\\\\theta&=\\tan^{-1}(-1.2)+180^{\\circ}\\\\&\\approx130^{\\circ}\\end{aligned}$\n\n[tikz]\n\\begin{tikzpicture}[>=Stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{mathblue}{HTML}{268CFF}\n\\draw[<->,black] (-2.3,0)--(2.3,0) node[right] {$x$};\n\\draw[<->,black] (0,-2.3)--(0,2.3) node[above] {$y$};\n\\draw[<->,mathblue,thick] (-1.7,2.04)--(1.7,-2.04);\n\\draw[->,black] (0.7,0) arc[start angle=0,end angle=129.8056,radius=0.7];\n\\path (65:1.15) node {$\\theta\\approx130^{\\circ}$};\n\\path (1.4,1.65) node {$m=-1.2$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the angle of inclination of the line $2x+5y=10$, correct to the nearest degree.",
+    "solution_text": "$\\begin{aligned}5y&=-2x+10\\\\y&=-\\dfrac25x+2\\end{aligned}$\n\nThe gradient is $m=-\\dfrac25$. Add $180^{\\circ}$ to the negative inverse-tangent result.\n\n$\\begin{aligned}\\tan\\theta&=-\\dfrac25\\\\\\theta&=\\tan^{-1}\\left(-\\dfrac25\\right)+180^{\\circ}\\\\&\\approx158^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A line passes through $A(0,1)$ and $B(4,-3)$. Find its exact angle of inclination.",
+    "solution_text": "$\\begin{aligned}m&=\\dfrac{y_2-y_1}{x_2-x_1}\\\\&=\\dfrac{-3-1}{4-0}\\\\&=-1\\end{aligned}$\n\nThe inverse tangent is negative, so add $180^{\\circ}$.\n\n$\\begin{aligned}\\theta&=\\tan^{-1}(-1)+180^{\\circ}\\\\&=-45^{\\circ}+180^{\\circ}\\\\&=135^{\\circ}\\end{aligned}$\n\n[tikz]\n\\begin{tikzpicture}[>=Stealth,x=0.65cm,y=0.65cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{mathblue}{HTML}{268CFF}\n\\draw[<->,black] (-1,0)--(5,0) node[right] {$x$};\n\\draw[<->,black] (0,-4)--(0,2) node[above] {$y$};\n\\draw[<->,mathblue,thick] (-0.6,1.6)--(4.6,-3.6);\n\\fill[black] (0,1) circle (2pt) (4,-3) circle (2pt);\n\\path (0,1) node[left,xshift=-3pt] {$A(0,1)$};\n\\path (4,-3) node[right] {$B(4,-3)$};\n\\draw[dashed,black] (0,1)--(4,1)--(4,-3);\n\\path (2.8,1) node[above] {run $4$};\n\\path (4,-1) node[right] {rise $-4$};\n\\draw[->,black] (1.75,0) arc[start angle=0,end angle=135,radius=0.75];\n\\path (2,0.45) node {$135^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the angle of inclination of the vertical line $x=3$.",
+    "solution_text": "A vertical line makes a quarter turn anticlockwise from the positive $x$-direction.\n\n$\\theta=90^{\\circ}$\n\nIts gradient is undefined; inverse tangent cannot be used.\n\n[tikz]\n\\begin{tikzpicture}[>=Stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{mathblue}{HTML}{268CFF}\n\\draw[<->,black] (-0.8,0)--(3,0) node[right] {$x$};\n\\draw[<->,black] (0,-1.8)--(0,1.8) node[above] {$y$};\n\\draw[<->,mathblue,thick] (1.5,-1.8)--(1.5,1.8);\n\\path (1.5,-1.8) node[below] {$x=3$};\n\\draw[->,black] (2.05,0) arc[start angle=0,end angle=90,radius=0.55];\n\\path (2.1,0.85) node {$90^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Find the angle of inclination of the horizontal line $y=-2$.",
+    "solution_text": "A horizontal line is parallel to the $x$-axis, so its inclination is $0^{\\circ}$.\n\n$\\begin{aligned}m&=0\\\\\\theta&=\\tan^{-1}(0)\\\\&=0^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A line has angle of inclination $135^{\\circ}$ and passes through $(2,5)$ and $(x,-1)$. Find $x$.",
+    "solution_text": "$\\begin{aligned}m&=\\tan135^{\\circ}\\\\&=-1\\end{aligned}$\n\nUse the gradient between the two points.\n\n$\\begin{aligned}\\dfrac{-1-5}{x-2}&=-1\\\\\\dfrac{-6}{x-2}&=-1\\\\-6&=-(x-2)\\\\-6&=-x+2\\\\x&=8\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

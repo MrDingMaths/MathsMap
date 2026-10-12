@@ -2,8 +2,8 @@
   "skillId": "integrate-exponential-composite",
   "atomType": "R",
   "theory": {
-    "intro": "Differentiating $e^{f(x)}$ by the chain rule gives $f'(x)e^{f(x)}$, so integrating reverses that: $\\int f'(x)e^{f(x)}\\,dx = e^{f(x)} + C$. The inner derivative $f'(x)$ must already appear as a factor, up to a constant multiple.",
-    "facts": [
+"intro": "Differentiating $e^{f(x)}$ by the chain rule gives $f'(x)e^{f(x)}$, so integrating reverses that: $\\int f'(x)e^{f(x)}\\,dx = e^{f(x)} + C$. The inner derivative $f'(x)$ must already appear as a factor, up to a constant multiple.",
+"facts": [
 "The **inner function** $f(x)$ is the index of $e$.",
 "$\\int f'(x)e^{f(x)}\\,dx = e^{f(x)} + C$: the index is unchanged and the factor disappears.",
 "The factor $f'(x)$ must be present, so $\\int e^{x^{2}}\\,dx$ cannot be found by this method.",
@@ -15,13 +15,64 @@
 "A definite integral is evaluated as $\\left[e^{f(x)}\\right]_{p}^{q}$, or $\\left[a e^{f(x)}\\right]_{p}^{q}$ when a constant adjustment $a$ is present, with the limits unchanged.",
 "Check any primitive by differentiating it with the chain rule."
 ],
-    "steps": [
+"steps": [
 "Identify the inner function $f(x)$, the index of $e$.",
 "Check that $f'(x)$ appears as a factor, up to a constant multiple.",
 "Adjust for any missing constant factor, writing the integrand as $a f'(x)e^{f(x)}$ for constant $a$.",
 "Write the result as $a e^{f(x)} + C$, retaining the constant multiplier $a$."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Find $\\int (6x+5)e^{3x^{2}+5x+2}\\,dx$.",
+    "solution_text": "The inner function is $f(x)=3x^{2}+5x+2$, with $f'(x)=6x+5$. No adjustment is needed.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int (6x+5)e^{3x^{2}+5x+2}\\,dx\\\\&=e^{3x^{2}+5x+2}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find $\\int (8x+12)e^{2x^{2}+6x+5}\\,dx$.",
+    "solution_text": "The inner function is $f(x)=2x^{2}+6x+5$, with $f'(x)=4x+6$. Since $8x+12=2(4x+6)$, retain a factor of $2$ outside the integral.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int (8x+12)e^{2x^{2}+6x+5}\\,dx\\\\&=2\\int (4x+6)e^{2x^{2}+6x+5}\\,dx\\\\&=2e^{2x^{2}+6x+5}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int 3xe^{6-2x^{2}}\\,dx$.",
+    "solution_text": "The inner function is $f(x)=6-2x^{2}$, with $f'(x)=-4x$. The adjustment is negative because $3x=-\\frac{3}{4}(-4x)$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 3xe^{6-2x^{2}}\\,dx\\\\&=-\\frac{3}{4}\\int (-4x)e^{6-2x^{2}}\\,dx\\\\&=-\\frac{3}{4}e^{6-2x^{2}}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{-1}^{0}2x^{2}e^{x^{3}+2}\\,dx$, giving the exact value.",
+    "solution_text": "The inner function is $f(x)=x^{3}+2$, with $f'(x)=3x^{2}$. Adjust by $\\frac{2}{3}$, then substitute the original limits.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{-1}^{0}2x^{2}e^{x^{3}+2}\\,dx\\\\&=\\frac{2}{3}\\int_{-1}^{0}3x^{2}e^{x^{3}+2}\\,dx\\\\&=\\left[\\frac{2}{3}e^{x^{3}+2}\\right]_{-1}^{0}\\\\&=\\frac{2}{3}e^{2}-\\frac{2}{3}e^{1}\\\\&=\\frac{2}{3}(e^{2}-e)\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int \\frac{2}{x^{2}}e^{\\frac{5}{x}}\\,dx$ for $x\\ne0$.",
+    "solution_text": "Write the inner function as $f(x)=5x^{-1}$. Its derivative is $f'(x)=-5x^{-2}$, so the adjustment is $-\\frac{2}{5}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 2x^{-2}e^{\\frac{5}{x}}\\,dx\\\\&=-\\frac{2}{5}\\int (-5x^{-2})e^{\\frac{5}{x}}\\,dx\\\\&=-\\frac{2}{5}e^{\\frac{5}{x}}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int \\frac{3e^{2\\sqrt{x}}}{\\sqrt{x}}\\,dx$ for $x>0$.",
+    "solution_text": "The inner function is $f(x)=2x^{\\frac{1}{2}}$, with $f'(x)=x^{-\\frac{1}{2}}=\\frac{1}{\\sqrt{x}}$. Retain the constant multiplier $3$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int \\frac{3e^{2\\sqrt{x}}}{\\sqrt{x}}\\,dx\\\\&=3\\int \\frac{1}{\\sqrt{x}}e^{2\\sqrt{x}}\\,dx\\\\&=3e^{2\\sqrt{x}}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $e^{2x^{2}+8x+3}$, and hence find $\\int (x+2)e^{2x^{2}+8x+3}\\,dx$.",
+    "solution_text": "$\\frac{d}{dx}\\left(e^{2x^{2}+8x+3}\\right)=(4x+8)e^{2x^{2}+8x+3}$.\nSince $x+2=\\frac{1}{4}(4x+8)$, use the derivative to recognise the primitive.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int (x+2)e^{2x^{2}+8x+3}\\,dx\\\\&=\\frac{1}{4}\\int (4x+8)e^{2x^{2}+8x+3}\\,dx\\\\&=\\frac{1}{4}e^{2x^{2}+8x+3}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

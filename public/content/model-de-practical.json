@@ -2,8 +2,8 @@
   "skillId": "model-de-practical",
   "atomType": "R",
   "theory": {
-    "intro": "Modelling starts by naming the variables and writing the rate as a differential equation. \"Proportional to $Q$\" becomes $kQ$, and a rate in minus a rate out becomes a difference. Solve, then check the answer against the situation.",
-    "facts": [
+"intro": "Modelling starts by naming the variables and writing the rate as a differential equation. \"Proportional to $Q$\" becomes $kQ$, and a rate in minus a rate out becomes a difference. Solve, then check the answer against the situation.",
+"facts": [
       "\"Changes at a rate proportional to $Q$\" becomes $\\dfrac{dQ}{dt}=kQ$.",
       "\"Proportional to the difference between $Q$ and $P$\" becomes $\\dfrac{dQ}{dt}=k(Q-P)$.",
       "A quantity flowing in and out satisfies $\\dfrac{dQ}{dt}=\\text{rate in}-\\text{rate out}$.",
@@ -14,14 +14,48 @@
       "State the values of $t$ for which the model makes sense; outside them its predictions are meaningless.",
       "An **equilibrium** is a value at which $\\dfrac{dQ}{dt}=0$, so the quantity stays constant."
     ],
-    "steps": [
+"steps": [
 "Define each variable and its units",
 "Translate the description into a differential equation",
 "Write down the initial condition and any later data",
 "Check constant solutions before dividing by a quantity that can be zero, then solve by separating the variables",
 "Answer the question and check the answer against the situation"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A population of beetles increases at a rate proportional to the number $N$ present. Water in a vessel decreases at a rate proportional to the volume $V$ remaining. A hot object cools in a room at $24^{\\circ}\\mathrm{C}$ at a rate proportional to its temperature difference from the room.\nWrite a differential equation for each situation, using positive proportionality constants and defining the time units.",
+    "solution_text": "For the beetles, let $t$ be time in days and $k_1>0$.\n$\\dfrac{dN}{dt}=k_1N$.\nFor the water, let $t$ be time in minutes and $k_2>0$.\n$\\dfrac{dV}{dt}=-k_2V$.\nFor the object, let $T$ be its temperature in degrees Celsius, $t$ time in minutes and $k_3>0$.\n$\\dfrac{dT}{dt}=-k_3(T-24)$.\nWhen $T>24$, the temperature difference is positive and the rate is negative."
   },
+  {
+    "question_text": "A block of ice has mass $m$ kg after $t$ hours and satisfies $\\dfrac{dm}{dt}=-0.3m^{2/3}$, with $m(0)=27$.\nFind $m(t)$, the time when half its initial mass remains, and the interval for which the melting model applies. Give the half-mass time to two decimal places.",
+    "solution_text": "For $m>0$, separate the variables and integrate.\n$\\begin{align*}m^{-2/3}\\,dm&=-0.3\\,dt\\\\ \\int m^{-2/3}\\,dm&=\\int-0.3\\,dt\\\\ 3m^{1/3}&=-0.3t+C\\end{align*}$\nUsing $m(0)=27$ gives $C=9$.\n$\\begin{align*}3m^{1/3}&=9-0.3t\\\\ m^{1/3}&=3-0.1t\\\\ m&=(3-0.1t)^3\\end{align*}$\nHalf the initial mass is $13.5$ kg.\n$\\begin{align*}\\sqrt[3]{13.5}&=3-0.1t\\\\ t&=10\\left(3-\\sqrt[3]{13.5}\\right)\\\\ t&\\approx6.19\\ \\mathrm{hours}\\end{align*}$\nThe ice disappears when $3-0.1t=0$, giving $t=30$ hours. The melting formula applies for $0\\le t\\le30$; afterwards the mass stays zero."
+  },
+  {
+    "question_text": "A cylindrical tank drains according to $\\dfrac{dh}{dt}=k\\sqrt h$, where $h$ is the water depth in centimetres and $t$ is time in minutes. Initially $h=144$; after $4$ minutes, $h=64$.\nFind the physically valid value of $k$, the depth formula and the time when the tank empties.",
+    "solution_text": "The depth decreases, so $k<0$. For $h>0$, separate and integrate.\n$\\begin{align*}h^{-1/2}\\,dh&=k\\,dt\\\\ 2\\sqrt h&=kt+C\\end{align*}$\nUsing $h(0)=144$ gives $C=24$. Apply the later depth before squaring.\n$\\begin{align*}2\\sqrt{64}&=4k+24\\\\ 16&=4k+24\\\\ k&=-2\\end{align*}$\nThus $2\\sqrt h=24-2t$, so $h=(12-t)^2$ for $0\\le t\\le12$. The tank empties after $12$ minutes.\nSquaring first would also produce $k=-10$, but $24+4(-10)<0$ cannot equal $2\\sqrt{64}$. That value would empty the tank before the stated observation."
+  },
+  {
+    "question_text": "A metal block warms in a room at $32^{\\circ}\\mathrm{C}$. Its temperature $H$ satisfies $\\dfrac{dH}{dt}=k(H-32)$, where $t$ is in minutes. Initially $H=8$; after $6$ minutes, $H=20$.\nFind $k$ and $H(t)$. Find when the temperature reaches $29^{\\circ}\\mathrm{C}$.",
+    "solution_text": "The constant solution $H=32$ does not satisfy the initial condition. For the required solution, separate and integrate.\n$\\begin{align*}\\dfrac{dH}{H-32}&=k\\,dt\\\\ \\ln|H-32|&=kt+C\\\\ H&=32+Ae^{kt}\\end{align*}$\nUsing $H(0)=8$ gives $A=-24$.\n$\\begin{align*}20&=32-24e^{6k}\\\\ e^{6k}&=\\dfrac12\\\\ k&=-\\dfrac{\\ln2}{6}\\end{align*}$\nTherefore $H(t)=32-24e^{-(\\ln2)t/6}$, for $t\\ge0$.\nFor $H=29$:\n$\\begin{align*}29&=32-24e^{-(\\ln2)t/6}\\\\ e^{-(\\ln2)t/6}&=\\dfrac18\\\\ t&=18\\ \\mathrm{minutes}\\end{align*}$\nThe negative value of $k$ makes the block approach room temperature."
+  },
+  {
+    "question_text": "Atmospheric pressure $P$ kPa satisfies $\\dfrac{dP}{dh}=kP$, where $h$ is altitude in metres. The pressure is $60$ kPa at $2000$ m and $30$ kPa at $6000$ m.\nFind $k$ and the pressure at ground level, to the nearest kPa.",
+    "solution_text": "The constant solution $P=0$ does not satisfy the data. Separate and integrate.\n$\\begin{align*}\\dfrac{dP}{P}&=k\\,dh\\\\ \\ln|P|&=kh+C\\\\ P&=P_0e^{kh}\\end{align*}$\nThe observations give $60=P_0e^{2000k}$ and $30=P_0e^{6000k}$. Divide to eliminate $P_0$.\n$\\begin{align*}\\dfrac{30}{60}&=e^{4000k}\\\\ k&=-\\dfrac{\\ln2}{4000}\\end{align*}$\nThe units of $k$ are per metre.\n$\\begin{align*}P_0&=60e^{-2000k}\\\\ P_0&=60\\sqrt2\\\\ P_0&\\approx85\\ \\mathrm{kPa}\\end{align*}$"
+  },
+  {
+    "question_text": "An inverted conical tank has height $18$ cm and top radius $6$ cm. It is initially full. Water evaporates at a rate proportional to the area of its circular surface. After $4$ hours, the depth is $15$ cm.\nLet $r$ be the water-surface radius and $h$ the depth, both in centimetres. Given $V=\\dfrac13\\pi r^2h$, form and solve a differential equation for $r$. Find the emptying time and state one limitation of the model.",
+    "solution_text": "Let $t$ be time in hours and $k>0$. The evaporation model is $\\dfrac{dV}{dt}=-k\\pi r^2$.\nSimilar triangles give $\\dfrac hr=\\dfrac{18}{6}=3$, so $h=3r$ and $V=\\pi r^3$.\nThe diagram shows an axial cross-section; the inner horizontal segment is the water surface.\n[tikz]\\begin{tikzpicture}[x=2.5mm,y=2.5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black] (-6,18)--(0,0)--(6,18)--cycle;\n\\draw[black] (-4,12)--(4,12);\n\\draw[black,dashed] (0,0)--(0,18);\n\\draw[black,<->] (7,0)--(7,18);\n\\path (7,9) node[right] {$18\\ \\mathrm{cm}$};\n\\draw[black,<->] (0,19)--(6,19);\n\\path (3,19) node[above] {$6\\ \\mathrm{cm}$};\n\\draw[black,<->] (0,13)--(4,13);\n\\path (2,13) node[above] {$r$};\n\\draw[black,<->] (-5,0)--(-5,12);\n\\path (-5,6) node[left] {$h$};\n\\end{tikzpicture}[/tikz]\nBy the chain rule:\n$\\begin{align*}\\dfrac{dV}{dt}&=\\dfrac{dV}{dr}\\dfrac{dr}{dt}\\\\ 3\\pi r^2\\dfrac{dr}{dt}&=-k\\pi r^2\\\\ \\dfrac{dr}{dt}&=-\\dfrac k3\\end{align*}$\nThe cancellation applies while $r>0$. Integrating and using $r(0)=6$ gives $r=6-\\dfrac k3t$.\nAt $t=4$, $h=15$, so $r=5$.\n$\\begin{align*}5&=6-\\dfrac{4k}{3}\\\\ k&=\\dfrac34\\\\ r&=6-\\dfrac t4\\end{align*}$\nThe tank empties when $r=0$, after $24$ hours. The radius formula applies for $0\\le t\\le24$.\nThe model assumes constant evaporation per unit surface area; temperature and humidity may change."
+  },
+  {
+    "question_text": "A population $W$, measured in hundreds of animals, satisfies $\\dfrac{dW}{dt}=0.04W-3$, where $t$ is in years.\nInterpret both terms and find the equilibrium population in animals.",
+    "solution_text": "The term $0.04W$ represents natural growth at $4\\%$ of the current population per year. The term $-3$ represents removal of $300$ animals per year.\nAt equilibrium the rate is zero.\n$\\begin{align*}0.04W-3&=0\\\\ W&=75\\end{align*}$\nSince $W$ is measured in hundreds, the equilibrium population is $7500$ animals."
+  },
+  {
+    "question_text": "The mass $Q$ grams of a product after $t$ minutes is modelled by $Q=\\dfrac{240t}{t+6}$, for $t\\ge0$.\nShow that $\\dfrac{dQ}{dt}=\\dfrac{(240-Q)^2}{1440}$, check the initial mass, and state the limiting mass.",
+    "solution_text": "Differentiate the proposed function.\n$\\begin{align*}\\dfrac{dQ}{dt}&=\\dfrac{240(t+6)-240t}{(t+6)^2}\\\\ &=\\dfrac{1440}{(t+6)^2}\\end{align*}$\nNow substitute the function into the right-hand side.\n$\\begin{align*}240-Q&=240-\\dfrac{240t}{t+6}\\\\ &=\\dfrac{1440}{t+6}\\end{align*}$\n$\\begin{align*}\\dfrac{(240-Q)^2}{1440}&=\\dfrac{1440^2}{1440(t+6)^2}\\\\ &=\\dfrac{1440}{(t+6)^2}\\end{align*}$\nBoth sides agree, so the function satisfies the differential equation.\n$Q(0)=0$ grams. Also $Q=\\dfrac{240}{1+6/t}$ for $t>0$, so $Q\\to240$ grams as $t\\to\\infty$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

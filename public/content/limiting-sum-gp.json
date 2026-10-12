@@ -2,19 +2,73 @@
   "skillId": "limiting-sum-gp",
   "atomType": "R",
   "theory": {
-    "intro": "An infinite geometric series with a nonzero first term $a$ has a **limiting sum** $S_{\\infty}$ if and only if the common ratio satisfies strictly $|r| < 1$. The series then converges to the finite value $S_{\\infty} = \\frac{a}{1-r}$. If $a=0$, every term is zero and the limiting sum is zero regardless of the multiplier; the ratio $\\frac{a_2}{a_1}$ is undefined.",
-    "facts": [
+"intro": "An infinite geometric series with a nonzero first term $a$ has a **limiting sum** $S_{\\infty}$ if and only if the common ratio satisfies strictly $|r| < 1$. The series then converges to the finite value $S_{\\infty} = \\frac{a}{1-r}$. If $a=0$, every term is zero and the limiting sum is zero regardless of the multiplier; the ratio $\\frac{a_2}{a_1}$ is undefined.",
+"facts": [
 "When $|r| < 1$, $r^{n} \\to 0$ as $n \\to \\infty$, so the partial sum $S_{n} = \\frac{a(1-r^{n})}{1-r}$ approaches $S_{\\infty} = \\frac{a}{1-r}$.",
 "If $a \\ne 0$ and $|r| \\ge 1$, the terms do not approach zero and no limiting sum exists.",
 "An alternating geometric series with $-1 < r < 0$ converges to a positive or negative limiting sum depending on $a$.",
 "Recurring decimals can be written as infinite geometric series with $|r| < 1$ and converted to exact fractions."
 ],
-    "steps": [
+"steps": [
 "Identify the first term $a$. If $a=0$, every term is zero and the limiting sum is zero; otherwise identify the common ratio $r = \\frac{a_{2}}{a_{1}}$.",
 "For $a \\ne 0$, check whether $|r| < 1$; if $|r| \\ge 1$, state that no limiting sum exists.",
 "When $|r| < 1$, substitute $a$ and $r$ into $S_{\\infty} = \\frac{a}{1-r}$ and simplify."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Determine whether each geometric series has a limiting sum. Find it when it exists.\n(a) $15+5+\\frac{5}{3}+\\cdots$\n(b) $8-12+18-\\cdots$\n(c) $7-7+7-\\cdots$",
+    "solution_text": "(a) $a=15$ and $r=\\frac{5}{15}=\\frac13$. Since $|r|<1$, the limiting sum exists.\n$\\begin{align*}S_{\\infty}&=\\frac{a}{1-r}\\\\&=\\frac{15}{1-\\frac13}\\\\&=\\frac{45}{2}\\end{align*}$\n(b) $r=\\frac{-12}{8}=-\\frac32$. Since $|r|>1$, no limiting sum exists.\n(c) $r=-1$. Since $|r|=1$, no limiting sum exists."
   },
+  {
+    "question_text": "Find the limiting sum of $28-7+\\frac74-\\frac7{16}+\\cdots$.",
+    "solution_text": "$a=28$ and $r=\\frac{-7}{28}=-\\frac14$. Since $|r|=\\frac14<1$, the series converges.\n$\\begin{align*}S_{\\infty}&=\\frac{a}{1-r}\\\\&=\\frac{28}{1-(-\\frac14)}\\\\&=\\frac{28}{\\frac54}\\\\&=\\frac{112}{5}\\end{align*}$"
+  },
+  {
+    "question_text": "Expand $\\sum_{n=1}^{\\infty}18\\left(-\\frac13\\right)^n$ for three terms, then find its limiting sum.",
+    "solution_text": "$\\begin{align*}&\\mathrel{\\phantom{=}}\\sum_{n=1}^{\\infty}18\\left(-\\frac13\\right)^n\\\\&=-6+2-\\frac23+\\cdots\\end{align*}$\nThe first term is $a=-6$ and the common ratio is $r=-\\frac13$. Since $|r|<1$,\n$\\begin{align*}S_{\\infty}&=\\frac{-6}{1-(-\\frac13)}\\\\&=\\frac{-6}{\\frac43}\\\\&=-\\frac92\\end{align*}$"
+  },
+  {
+    "question_text": "Find the limiting sum of $6+2\\sqrt3+2+\\cdots$. Give your answer with a rational denominator.",
+    "solution_text": "$a=6$ and $r=\\frac{2\\sqrt3}{6}=\\frac{\\sqrt3}{3}$. Since $|r|<1$,\n$\\begin{align*}S_{\\infty}&=\\frac{6}{1-\\frac{\\sqrt3}{3}}\\\\&=\\frac{18}{3-\\sqrt3}\\\\&=\\frac{18(3+\\sqrt3)}{(3-\\sqrt3)(3+\\sqrt3)}\\\\&=\\frac{18(3+\\sqrt3)}{9-3}\\\\&=9+3\\sqrt3\\end{align*}$"
+  },
+  {
+    "question_text": "(a) A geometric series has first term $12$ and limiting sum $30$. Find its common ratio.\n(b) Another geometric series has common ratio $-\\frac13$ and limiting sum $21$. Find its first term.",
+    "solution_text": "(a)\n$\\begin{align*}S_{\\infty}&=\\frac{a}{1-r}\\\\30&=\\frac{12}{1-r}\\\\1-r&=\\frac{12}{30}\\\\r&=\\frac35\\end{align*}$\nSince $|\\frac35|<1$, this ratio gives a limiting sum.\n(b)\n$\\begin{align*}21&=\\frac{a}{1-(-\\frac13)}\\\\21&=\\frac{a}{\\frac43}\\\\a&=21\\times\\frac43\\\\a&=28\\end{align*}$"
+  },
+  {
+    "question_text": "The second term of a geometric sequence is $4$ and its limiting sum is $18$. Find all possible pairs of first term $a$ and common ratio $r$.",
+    "solution_text": "The second term gives $ar=4$, so $a=\\frac4r$.\n$\\begin{align*}\\frac{a}{1-r}&=18\\\\\\frac{4}{r(1-r)}&=18\\\\4&=18r-18r^2\\\\18r^2-18r+4&=0\\\\9r^2-9r+2&=0\\\\(3r-1)(3r-2)&=0\\end{align*}$\nThus $r=\\frac13$ or $r=\\frac23$. Both satisfy $|r|<1$.\nFor $r=\\frac13$, $a=\\frac4{1/3}=12$.\nFor $r=\\frac23$, $a=\\frac4{2/3}=6$.\nThe possible pairs are $(a,r)=(12,\\frac13)$ and $(6,\\frac23)$."
+  },
+  {
+    "question_text": "Use an infinite geometric series to express $0.\\overline{54}=0.545454\\ldots$ as a fraction in simplest form.",
+    "solution_text": "$\\begin{align*}0.\\overline{54}&=\\frac{54}{100}+\\frac{54}{10000}+\\frac{54}{1000000}+\\cdots\\end{align*}$\nThis geometric series has $a=\\frac{54}{100}$ and $r=\\frac1{100}$. Since $|r|<1$,\n$\\begin{align*}0.\\overline{54}&=\\frac{\\frac{54}{100}}{1-\\frac1{100}}\\\\&=\\frac{54}{99}\\\\&=\\frac6{11}\\end{align*}$"
+  },
+  {
+    "question_text": "Separate the non-repeating part and use an infinite geometric series to express $2.1\\overline{45}=2.1454545\\ldots$ as a fraction in simplest form.",
+    "solution_text": "$\\begin{align*}2.1\\overline{45}&=\\frac{21}{10}+\\frac{45}{1000}+\\frac{45}{100000}+\\cdots\\end{align*}$\nThe repeating tail has $a=\\frac{45}{1000}$ and $r=\\frac1{100}$. Since $|r|<1$,\n$\\begin{align*}S_{\\text{tail}}&=\\frac{\\frac{45}{1000}}{1-\\frac1{100}}\\\\&=\\frac1{22}\\end{align*}$\nAdding the non-repeating part,\n$\\begin{align*}2.1\\overline{45}&=\\frac{21}{10}+\\frac1{22}\\\\&=\\frac{231+5}{110}\\\\&=\\frac{118}{55}\\end{align*}$"
+  },
+  {
+    "question_text": "Find the values of $x$ for which $6+6(2x+1)+6(2x+1)^2+\\cdots$ has a limiting sum. Find that sum in terms of $x$, then find $x$ when the limiting sum is $9$.",
+    "solution_text": "$a=6$ and $r=2x+1$. A limiting sum exists when $|2x+1|<1$.\n$\\begin{align*}-1&<2x+1<1\\\\-2&<2x<0\\\\-1&<x<0\\end{align*}$\nFor this interval,\n$\\begin{align*}S_{\\infty}&=\\frac6{1-(2x+1)}\\\\&=-\\frac3x\\end{align*}$\nWhen the limiting sum is $9$,\n$\\begin{align*}-\\frac3x&=9\\\\-3&=9x\\\\x&=-\\frac13\\end{align*}$\nThis value lies in $-1<x<0$."
+  },
+  {
+    "question_text": "Explain why $1+\\frac1{x^2+3}+\\frac1{(x^2+3)^2}+\\cdots$ converges for every real $x$. Find its limiting sum in terms of $x$.",
+    "solution_text": "For every real $x$, $x^2\\ge0$, so $x^2+3\\ge3$.\nTherefore $0<r=\\frac1{x^2+3}\\le\\frac13<1$, and the series converges for every real $x$.\n$\\begin{align*}S_{\\infty}&=\\frac1{1-\\frac1{x^2+3}}\\\\&=\\frac1{\\frac{x^2+2}{x^2+3}}\\\\&=\\frac{x^2+3}{x^2+2}\\end{align*}$"
+  },
+  {
+    "question_text": "A campaign receives $800$ responses to its first advertisement. Each subsequent advertisement receives $75\\%$ as many responses as the previous one. Find the total number of responses predicted if the pattern continues indefinitely.",
+    "solution_text": "The response counts form a geometric sequence with $a=800$ and $r=0.75$. Since $|r|<1$, the predicted total is\n$\\begin{align*}S_{\\infty}&=\\frac{800}{1-0.75}\\\\&=\\frac{800}{0.25}\\\\&=3200\\end{align*}$\nThe campaign predicts $3200$ responses."
+  },
+  {
+    "question_text": "A ball is dropped from $9\\text{ m}$. After each bounce, it rises to $\\frac23$ of its previous height. Find the total vertical distance travelled.",
+    "solution_text": "The initial drop is $9\\text{ m}$. The first rebound reaches $9\\times\\frac23=6\\text{ m}$.\nEach rebound height is travelled twice: once upwards and once downwards. The complete bounce distances are $12,8,\\frac{16}{3},\\ldots$, with $a=12$ and $r=\\frac23$.\n$\\begin{align*}S_{\\text{bounces}}&=\\frac{12}{1-\\frac23}\\\\&=36\\text{ m}\\end{align*}$\n$\\begin{align*}D&=9+36\\\\&=45\\text{ m}\\end{align*}$"
+  },
+  {
+    "question_text": "Evaluate $5-2+\\frac45-\\frac8{25}+\\cdots$ by finding the limiting sum of its geometric tail.",
+    "solution_text": "The tail $-2+\\frac45-\\frac8{25}+\\cdots$ has first term $a=-2$ and common ratio $r=-\\frac25$. Since $|r|<1$,\n$\\begin{align*}S_{\\text{tail}}&=\\frac{-2}{1-(-\\frac25)}\\\\&=-\\frac{10}{7}\\end{align*}$\nAdding the initial term,\n$\\begin{align*}S&=5-\\frac{10}{7}\\\\&=\\frac{25}{7}\\end{align*}$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

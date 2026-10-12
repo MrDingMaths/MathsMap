@@ -2,8 +2,8 @@
   "skillId": "transform-translations",
   "atomType": "T",
   "theory": {
-        "intro": "A **translation** slides a graph without changing its size, shape or orientation. Replacing $x$ by $x - a$ shifts it horizontally, and replacing $y$ by $y - b$, which gives $y = f(x) + b$, shifts it vertically.",
-        "facts": [
+"intro": "A **translation** slides a graph without changing its size, shape or orientation. Replacing $x$ by $x - a$ shifts it horizontally, and replacing $y$ by $y - b$, which gives $y = f(x) + b$, shifts it vertically.",
+"facts": [
           "Replacing $x$ by $x - a$ gives $y = f(x - a)$, which shifts the graph right by $a$ units when $a > 0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\draw[->] (-2.6,0) -- (3.2,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.0) node[above] {$y$};\n\\draw[thick, gray, <->, domain=-2.2:1.6, samples=80, smooth, variable=\\x] plot ({\\x}, {0.4*\\x*\\x*\\x + 0.5*\\x*\\x - 1.2*\\x - 0.6});\n\\draw[thick, blue, <->, domain=-1.0:2.8, samples=80, smooth, variable=\\x] plot ({\\x}, {0.4*(\\x-1.2)*(\\x-1.2)*(\\x-1.2) + 0.5*(\\x-1.2)*(\\x-1.2) - 1.2*(\\x-1.2) - 0.6});\n\\draw[->, red, thick] (0.667,-1.059) -- (1.867,-1.059);\n\\node[red] at (1.267,-1.62) {right $a$};\n\\node[gray] at (-1.6,1.55) {$y=f(x)$};\n\\node[blue] at (1.9,1.55) {$y=f(x-a)$};\n\\end{tikzpicture}\n[/tikz]",
           "Replacing $y$ by $y - b$ instead gives $y = f(x) + b$, which shifts the graph up by $b$ units when $b > 0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\draw[->] (-2.8,0) -- (3.0,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,3.1) node[above] {$y$};\n\\draw[thick, gray, <->, domain=-2.2:1.6, samples=80, smooth, variable=\\x] plot ({\\x}, {0.4*\\x*\\x*\\x + 0.5*\\x*\\x - 1.2*\\x - 0.6});\n\\draw[thick, blue, <->, domain=-2.2:1.6, samples=80, smooth, variable=\\x] plot ({\\x}, {0.4*\\x*\\x*\\x + 0.5*\\x*\\x - 1.2*\\x + 0.6});\n\\draw[->, red, thick] (1.5,0.075) -- (1.5,1.275);\n\\node[red] at (2.35,0.675) {up $b$};\n\\node[gray] at (-1.3,-1.55) {$y=f(x)$};\n\\node[blue] at (-1.3,2.65) {$y=f(x)+b$};\n\\end{tikzpicture}\n[/tikz]",
           "A negative value reverses the direction: $a<0$ shifts the graph left by $|a|$ units, and $b<0$ shifts it down by $|b|$.",
@@ -13,12 +13,91 @@
           "Translations are **commutative**: shifting horizontally then vertically gives the same graph as shifting vertically then horizontally.",
           "To find an unknown translation, replace $x$ by $x - a$ and $y$ by $y - b$ in the original equation, then equate coefficients."
         ],
-        "steps": [
+"steps": [
 "Identify the replacement: $x \\mapsto x - a$ for horizontal shifts and $y \\mapsto y - b$ (or $y = f(x) + b$) for vertical shifts",
 "Substitute $(x - a)$ for each occurrence of $x$ and/or add $b$ to the function rule",
 "Expand and simplify the resulting expression, or map vertices and other known points by $(x, y) \\mapsto (x + a, y + b)$ and translate asymptote lines. A translated intercept remains an intercept only if it stays on the relevant axis. Find new $x$-intercepts by setting $y = 0$ and new $y$-intercepts by setting $x = 0$"
+],
+"workedExamples": [
+  {
+    "question_text": "Find the equation of the curve obtained when $y=\\sqrt{4x+3}$ is translated $2$ units right.",
+    "solution_text": "Replace $x$ with $x-2$.\n\n$\\begin{align*}y&=\\sqrt{4(x-2)+3}\\\\y&=\\sqrt{4x-8+3}\\\\y&=\\sqrt{4x-5}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the equation of the curve obtained when $y=\\dfrac{3}{x+2}$ is translated $4$ units down. Express your answer as a single algebraic fraction.",
+    "solution_text": "Replace $y$ with $y+4$.\n\n$\\begin{align*}y+4&=\\frac{3}{x+2}\\\\y&=\\frac{3}{x+2}-4\\\\y&=\\frac{3-4(x+2)}{x+2}\\\\y&=\\frac{-4x-5}{x+2}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the equation of the circle $(x-2)^2+(y+1)^2=25$ after a translation of $4$ units left and $3$ units up.",
+    "solution_text": "Replace $x$ with $x+4$ and $y$ with $y-3$.\n\n$\\begin{align*}((x+4)-2)^2+((y-3)+1)^2&=25\\\\(x+2)^2+(y-2)^2&=25\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the equation obtained when $y=2^x$ is translated $3$ units left and $5$ units up. Express the result using $2^x$.",
+    "solution_text": "Replace $x$ with $x+3$ and $y$ with $y-5$.\n\n$\\begin{align*}y-5&=2^{x+3}\\\\y&=2^{x+3}+5\\\\y&=2^x\\times2^3+5\\\\y&=8\\times2^x+5\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Describe the translation that maps $y=5^x$ onto $y=5^{x+2}-3$.",
+    "solution_text": "Replacing $x$ with $x+2$ translates the graph $2$ units left. Subtracting $3$ from the output translates it $3$ units down.\n\nThe translation is $2$ units left and $3$ units down.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The curve $y=\\dfrac{1}{3x+2}$ is translated horizontally to produce $y=\\dfrac{1}{3x-10}$. Determine the translation.",
+    "solution_text": "Let the translation be $a$ units right. Replace $x$ with $x-a$.\n\n$y=\\dfrac{1}{3(x-a)+2}$\n\nEquate the denominators for corresponding values of $x$.\n\n$\\begin{align*}3x-3a+2&=3x-10\\\\-3a+2&=-10\\\\-3a&=-12\\\\a&=4\\end{align*}$\n\nThe translation is $4$ units right.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The curve $y=2x^2+3$ is translated horizontally to produce $y=2x^2+16x+35$. Determine the translation.",
+    "solution_text": "Let the translation be $a$ units right. Replace $x$ with $x-a$.\n\n$\\begin{align*}y&=2(x-a)^2+3\\\\y&=2(x^2-2ax+a^2)+3\\\\y&=2x^2-4ax+2a^2+3\\end{align*}$\n\nEquate the coefficients of $x$.\n\n$\\begin{align*}-4a&=16\\\\a&=-4\\end{align*}$\n\nCheck the constant term: $2(-4)^2+3=35$.\n\nThe translation is $4$ units left.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The vertex of $y=(x+1)^2-2$ is $V(-1,-2)$. Translate the graph $3$ units right and $4$ units up. Find the new vertex and equation, then sketch the translated parabola.",
+    "solution_text": "Add $3$ to the vertex's $x$-coordinate and $4$ to its $y$-coordinate.\n\n$V'=(-1+3,-2+4)=(2,2)$.\n\nReplace $x$ with $x-3$ and $y$ with $y-4$.\n\n$\\begin{align*}y-4&=((x-3)+1)^2-2\\\\y&=(x-2)^2+2\\end{align*}$\n\nThe parabola opens upwards, has vertex $(2,2)$ and $y$-intercept $(0,6)$, and has no $x$-intercepts.\n\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{translationBlue}{HTML}{268CFF}\n\\draw[->,black] (-1,0)--(5,0) node[right] {$x$};\n\\draw[->,black] (0,-0.5)--(0,7.5) node[above] {$y$};\n\\draw[thick,translationBlue,<->,domain=-0.25:4.25,samples=80,variable=\\x] plot ({\\x},{(\\x-2)*(\\x-2)+2});\n\\fill[translationBlue] (2,2) circle (1.5pt);\n\\fill[translationBlue] (0,6) circle (1.5pt);\n\\path (2,2) node[below right] {$V'(2,2)$};\n\\path (0,6) node[left] {$(0,6)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The curve $y=\\dfrac{1}{x+1}+2$ has asymptotes $x=-1$ and $y=2$. It is translated $3$ units right and $1$ unit down. State the new asymptotes and sketch the translated curve.",
+    "solution_text": "Move the vertical asymptote $3$ units right: $x=-1+3=2$.\n\nMove the horizontal asymptote $1$ unit down: $y=2-1=1$.\n\nThe translated curve is $y=\\dfrac{1}{x-2}+1$, with asymptotes $x=2$ and $y=1$.\n\nFor the sketch, $y=0$ gives $x=1$, and $x=0$ gives $y=\\dfrac12$.\n\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{translationBlue}{HTML}{268CFF}\n\\draw[->,black] (-2,0)--(6,0) node[right] {$x$};\n\\draw[->,black] (0,-3)--(0,5) node[above] {$y$};\n\\draw[dashed,black] (2,-3)--(2,5);\n\\draw[dashed,black] (-2,1)--(6,1);\n\\path (2,5) node[above] {$x=2$};\n\\path (6,1) node[right] {$y=1$};\n\\draw[thick,translationBlue,<->,domain=-2:1.75,samples=90,variable=\\x] plot ({\\x},{1/(\\x-2)+1});\n\\draw[thick,translationBlue,<->,domain=2.25:6,samples=90,variable=\\x] plot ({\\x},{1/(\\x-2)+1});\n\\fill[translationBlue] (1,0) circle (1.5pt);\n\\fill[translationBlue] (0,0.5) circle (1.5pt);\n\\path (1,0) node[below left] {$(1,0)$};\n\\path (0,0.5) node[above left] {$(0,\\frac12)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The parabola $y=(x-2)(x-4)$ is translated $k$ units right and $k$ units up, where $k>0$. The translated parabola passes through $(7,23)$. Find $k$.",
+    "solution_text": "Replace $x$ with $x-k$ and $y$ with $y-k$.\n\n$\\begin{align*}y-k&=(x-k-2)(x-k-4)\\\\y&=(x-k-2)(x-k-4)+k\\end{align*}$\n\nSubstitute $(7,23)$ and factorise.\n\n$\\begin{align*}23&=(5-k)(3-k)+k\\\\23&=15-8k+k^2+k\\\\0&=k^2-7k-8\\\\0&=(k-8)(k+1)\\end{align*}$\n\nThus $k=8$ or $k=-1$. Since $k>0$, $k=8$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The parabola $y=x^2-9$ is translated $h$ units right, where $h>0$. The translated parabola passes through $(6,7)$. Find all possible values of $h$.",
+    "solution_text": "Replace $x$ with $x-h$.\n\n$y=(x-h)^2-9$.\n\nSubstitute $(6,7)$ and isolate the square.\n\n$\\begin{align*}7&=(6-h)^2-9\\\\(6-h)^2&=16\\\\6-h&=\\pm4\\end{align*}$\n\nTherefore $h=2$ or $h=10$. Both values satisfy $h>0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
       {

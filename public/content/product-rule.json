@@ -2,21 +2,72 @@
   "skillId": "product-rule",
   "atomType": "R",
   "theory": {
-        "intro": "The **product rule** differentiates a product of two functions $y = uv$. The derivative is not the product of the two derivatives. Instead $\\dfrac{dy}{dx} = u'v + uv'$: differentiate each factor in turn and multiply by the other.",
-        "facts": [
+"intro": "The **product rule** differentiates a product of two functions $y = uv$. The derivative is not the product of the two derivatives. Instead $\\dfrac{dy}{dx} = u'v + uv'$: differentiate each factor in turn and multiply by the other.",
+"facts": [
           "If $y = uv$, then $\\dfrac{dy}{dx} = u'v + uv'$ or $\\dfrac{dy}{dx} = v\\dfrac{du}{dx} + u\\dfrac{dv}{dx}$.",
           "Use it when an expression is a product of two variable factors, such as $x^{3}(2x - 5)$ or $(3x + 1)(x^{2} - 4)$.",
           "For simple polynomial products, expanding the brackets first and differentiating term by term gives the same derivative.",
           "If a factor is a power, surd or composite expression, differentiate it with the chain rule, then factorise common binomials.",
           "For stationary points or horizontal tangents, set $\\dfrac{dy}{dx} = 0$ and solve using the fully factorised form."
         ],
-        "steps": [
+"steps": [
           "Identify the two factors $u$ and $v$.",
           "Differentiate each factor separately to find $u'$ and $v'$.",
           "Apply the product rule formula $y' = u'v + uv'$.",
           "Expand or factorise common algebraic terms to write the derivative in simplest form."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Differentiate $y=(3x+2)(2x-5)$ using the product rule.",
+    "solution_text": "Let $u=3x+2$ and $v=2x-5$.\n$u'=3,\\qquad v'=2$.\n$\\begin{aligned}y'&=u'v+uv'\\\\&=3(2x-5)+2(3x+2)\\\\&=6x-15+6x+4\\\\&=12x-11\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y=3x^{2}(2x+1)^{4}$ using the product rule. Fully factorise your answer.",
+    "solution_text": "Let $u=3x^{2}$ and $v=(2x+1)^{4}$.\n$u'=6x$.\nUse the chain rule for $v$:\n$\\begin{aligned}v'&=4(2x+1)^{3}(2)\\\\&=8(2x+1)^{3}\\end{aligned}$\n$\\begin{aligned}y'&=u'v+uv'\\\\&=6x(2x+1)^{4}+24x^{2}(2x+1)^{3}\\\\&=6x(2x+1)^{3}[(2x+1)+4x]\\\\&=6x(2x+1)^{3}(6x+1)\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y=(3x-2)^{2}(x+4)^{3}$ using the product rule. Fully factorise your answer.",
+    "solution_text": "Let $u=(3x-2)^{2}$ and $v=(x+4)^{3}$.\nUse the chain rule for each factor:\n$\\begin{aligned}u'&=2(3x-2)(3)\\\\&=6(3x-2)\\end{aligned}$\n$v'=3(x+4)^{2}$.\n$\\begin{aligned}y'&=u'v+uv'\\\\&=6(3x-2)(x+4)^{3}+3(3x-2)^{2}(x+4)^{2}\\\\&=3(3x-2)(x+4)^{2}[2(x+4)+(3x-2)]\\\\&=3(3x-2)(x+4)^{2}(5x+6)\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y=2x(x^{2}+3)^{4}$ using the product rule. Fully factorise your answer.",
+    "solution_text": "Let $u=2x$ and $v=(x^{2}+3)^{4}$.\n$u'=2$.\nUse the chain rule for $v$:\n$\\begin{aligned}v'&=4(x^{2}+3)^{3}(2x)\\\\&=8x(x^{2}+3)^{3}\\end{aligned}$\n$\\begin{aligned}y'&=u'v+uv'\\\\&=2(x^{2}+3)^{4}+16x^{2}(x^{2}+3)^{3}\\\\&=2(x^{2}+3)^{3}[(x^{2}+3)+8x^{2}]\\\\&=6(x^{2}+3)^{3}(3x^{2}+1)\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y=4x\\sqrt{6-x}$ using the product rule. Combine terms over a single denominator, then find the values of $x$ where the tangent is horizontal.",
+    "solution_text": "Let $u=4x$ and $v=\\sqrt{6-x}$.\n$u'=4$.\nUse the chain rule for $v$:\n$\\begin{aligned}v'&=\\frac{1}{2}(6-x)^{-1/2}(-1)\\\\&=-\\frac{1}{2\\sqrt{6-x}}\\end{aligned}$\n$\\begin{aligned}y'&=u'v+uv'\\\\&=4\\sqrt{6-x}-\\frac{2x}{\\sqrt{6-x}}\\\\&=\\frac{4(6-x)-2x}{\\sqrt{6-x}}\\\\&=\\frac{6(4-x)}{\\sqrt{6-x}}\\end{aligned}$\nA horizontal tangent requires $y'=0$, with $x<6$.\n$\\begin{aligned}6(4-x)&=0\\\\x&=4\\end{aligned}$\nSince $4<6$, the tangent is horizontal at $x=4$. At $x=6$, the derivative is undefined.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use the product rule to find the coordinates of all points on $y=x(x-6)^{2}$ where the tangent is horizontal.",
+    "solution_text": "Let $u=x$ and $v=(x-6)^{2}$.\n$u'=1,\\qquad v'=2(x-6)$.\n$\\begin{aligned}y'&=u'v+uv'\\\\&=(x-6)^{2}+2x(x-6)\\\\&=(x-6)[(x-6)+2x]\\\\&=3(x-6)(x-2)\\end{aligned}$\nSet $y'=0$:\n$3(x-6)(x-2)=0$.\nBy the null factor law, $x=6$ or $x=2$.\n$\\begin{aligned}y(6)&=6(6-6)^{2}\\\\&=0\\end{aligned}$\n$\\begin{aligned}y(2)&=2(2-6)^{2}\\\\&=32\\end{aligned}$\nThe points are $(6,0)$ and $(2,32)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $y=x(2x+1)^{2}$, find the gradient of the tangent at $x=1$, then find the equations of the tangent and normal there.",
+    "solution_text": "Find the point of contact:\n$\\begin{aligned}y(1)&=1(2+1)^{2}\\\\&=9\\end{aligned}$\nLet $u=x$ and $v=(2x+1)^{2}$.\n$u'=1,\\qquad v'=4(2x+1)$.\n$\\begin{aligned}y'&=u'v+uv'\\\\&=(2x+1)^{2}+4x(2x+1)\\\\&=(2x+1)[(2x+1)+4x]\\\\&=(2x+1)(6x+1)\\end{aligned}$\nAt $x=1$:\n$\\begin{aligned}m_{\\mathrm{t}}&=y'(1)\\\\&=3(7)\\\\&=21\\end{aligned}$\nThe tangent passes through $(1,9)$:\n$\\begin{aligned}y-9&=21(x-1)\\\\y&=21x-12\\end{aligned}$\nThe normal gradient is $m_{\\mathrm{n}}=-\\frac{1}{21}$.\n$\\begin{aligned}y-9&=-\\frac{1}{21}(x-1)\\\\21y-189&=-x+1\\\\x+21y-190&=0\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

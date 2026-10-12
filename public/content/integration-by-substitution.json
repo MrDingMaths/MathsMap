@@ -2,8 +2,8 @@
   "skillId": "integration-by-substitution",
   "atomType": "R",
   "theory": {
-    "intro": "**Integration by substitution** replaces part of the integrand with a new variable $u$ so the integral becomes one you can already do. Every $x$ must go, including the one hiding in $dx$. For a definite integral, change the limits to $u$ values.",
-    "facts": [
+"intro": "**Integration by substitution** replaces part of the integrand with a new variable $u$ so the integral becomes one you can already do. Every $x$ must go, including the one hiding in $dx$. For a definite integral, change the limits to $u$ values.",
+"facts": [
       "Differentiate the substitution to get $\\dfrac{du}{dx}$, then rearrange it to write $dx$ in terms of $du$.",
       "The integral in $u$ must contain no $x$ at all; if an $x$ survives, the substitution has not been carried through.",
       "For an indefinite integral, **back-substitute** at the end by replacing every $u$ with its expression in $x$.",
@@ -13,15 +13,94 @@
       "If $u$ replaces only part of the integrand, rearrange the substitution to write the leftover $x$ in terms of $u$.",
       "Check any indefinite result by differentiating it back with the chain rule."
     ],
-    "steps": [
+"steps": [
       "Let $u$ equal the given expression and differentiate to find $\\dfrac{du}{dx}$.",
       "Rearrange to write $dx$ in terms of $du$.",
       "Change the limits to $u$ values, for a definite integral.",
       "Replace every $x$ expression and $dx$, so the integral is entirely in $u$.",
       "Integrate with respect to $u$.",
       "Back-substitute to return to $x$, for an indefinite integral."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find $\\int 6x(3x^{2}+2)^{3}\\,dx$ using $u=3x^{2}+2$. Check by differentiating.",
+    "solution_text": "Let $u=3x^{2}+2$.\n$\\begin{align*}\\frac{du}{dx}&=6x\\\\du&=6x\\,dx\\end{align*}$\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\int 6x(3x^{2}+2)^{3}\\,dx\\\\&=\\int u^{3}\\,du\\\\&=\\frac{u^{4}}{4}+C\\\\&=\\frac{(3x^{2}+2)^{4}}{4}+C\\end{align*}$\nCheck:\n$\\begin{align*}\\frac{d}{dx}\\left[\\frac{(3x^{2}+2)^{4}}{4}+C\\right]&=\\frac14\\cdot4(3x^{2}+2)^{3}\\cdot6x\\\\&=6x(3x^{2}+2)^{3}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find $\\int \\frac{8x^{3}}{2+x^{4}}\\,dx$ using $u=2+x^{4}$.",
+    "solution_text": "Let $u=2+x^{4}$.\n$\\begin{align*}\\frac{du}{dx}&=4x^{3}\\\\du&=4x^{3}\\,dx\\end{align*}$\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\int\\frac{8x^{3}}{2+x^{4}}\\,dx\\\\&=2\\int\\frac1u\\,du\\\\&=2\\ln|u|+C\\\\&=2\\ln(2+x^{4})+C\\end{align*}$\nHere $2+x^{4}>0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int 2x^{2}e^{x^{3}+4}\\,dx$ using $u=x^{3}+4$.",
+    "solution_text": "Let $u=x^{3}+4$.\n$\\begin{align*}\\frac{du}{dx}&=3x^{2}\\\\du&=3x^{2}\\,dx\\end{align*}$\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\int 2x^{2}e^{x^{3}+4}\\,dx\\\\&=\\frac23\\int e^{u}\\,du\\\\&=\\frac23e^{u}+C\\\\&=\\frac23e^{x^{3}+4}+C\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{0}^{\\pi/6}\\cos(3x)\\sin^{2}(3x)\\,dx$ using $u=\\sin(3x)$.",
+    "solution_text": "Let $u=\\sin(3x)$.\n$\\begin{align*}\\frac{du}{dx}&=3\\cos(3x)\\\\du&=3\\cos(3x)\\,dx\\end{align*}$\nWhen $x=0$, $u=0$. When $x=\\pi/6$, $u=1$.\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\int_{0}^{\\pi/6}\\cos(3x)\\sin^{2}(3x)\\,dx\\\\&=\\frac13\\int_{0}^{1}u^{2}\\,du\\\\&=\\frac13\\left[\\frac{u^{3}}3\\right]_{0}^{1}\\\\&=\\frac19\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{0}^{1}x(1-x)^{2}\\,dx$ using $u=1-x$.",
+    "solution_text": "Let $u=1-x$, so $x=1-u$.\n$\\begin{align*}\\frac{du}{dx}&=-1\\\\dx&=-du\\end{align*}$\nWhen $x=0$, $u=1$. When $x=1$, $u=0$.\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\int_{0}^{1}x(1-x)^{2}\\,dx\\\\&=-\\int_{1}^{0}(1-u)u^{2}\\,du\\\\&=\\int_{0}^{1}(u^{2}-u^{3})\\,du\\\\&=\\left[\\frac{u^{3}}3-\\frac{u^{4}}4\\right]_{0}^{1}\\\\&=\\frac13-\\frac14\\\\&=\\frac1{12}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{0}^{1}x^{3}(1-x^{2})^{2}\\,dx$ using $u=1-x^{2}$.",
+    "solution_text": "Let $u=1-x^{2}$, so $x^{2}=1-u$.\n$\\begin{align*}\\frac{du}{dx}&=-2x\\\\du&=-2x\\,dx\\\\x\\,dx&=-\\frac12\\,du\\end{align*}$\nWhen $x=0$, $u=1$. When $x=1$, $u=0$.\nWrite $x^{3}\\,dx=x^{2}(x\\,dx)$.\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\int_{0}^{1}x^{3}(1-x^{2})^{2}\\,dx\\\\&=-\\frac12\\int_{1}^{0}(1-u)u^{2}\\,du\\\\&=\\frac12\\int_{0}^{1}(u^{2}-u^{3})\\,du\\\\&=\\frac12\\left[\\frac{u^{3}}3-\\frac{u^{4}}4\\right]_{0}^{1}\\\\&=\\frac1{24}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int\\frac{x}{\\sqrt{x-2}}\\,dx$ using $x=u+2$, for $x>2$.",
+    "solution_text": "Let $x=u+2$. Then $u=x-2>0$.\n$\\begin{align*}\\frac{dx}{du}&=1\\\\dx&=du\\end{align*}$\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\int\\frac{x}{\\sqrt{x-2}}\\,dx\\\\&=\\int\\frac{u+2}{\\sqrt u}\\,du\\\\&=\\int(u^{1/2}+2u^{-1/2})\\,du\\\\&=\\frac23u^{3/2}+4u^{1/2}+C\\\\&=\\frac23(x-2)^{3/2}+4\\sqrt{x-2}+C\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{0}^{4}\\frac{x}{\\sqrt{x+5}}\\,dx$ using $x=u^{2}-5$, where $u\\geq0$.",
+    "solution_text": "Let $x=u^{2}-5$. Since $u\\geq0$, $\\sqrt{x+5}=u$.\n$\\begin{align*}\\frac{dx}{du}&=2u\\\\dx&=2u\\,du\\end{align*}$\nWhen $x=0$, $u=\\sqrt5$. When $x=4$, $u=3$.\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\int_{0}^{4}\\frac{x}{\\sqrt{x+5}}\\,dx\\\\&=\\int_{\\sqrt5}^{3}\\frac{u^{2}-5}{u}\\cdot2u\\,du\\\\&=2\\int_{\\sqrt5}^{3}(u^{2}-5)\\,du\\\\&=2\\left[\\frac{u^{3}}3-5u\\right]_{\\sqrt5}^{3}\\\\&=2\\left(-6+\\frac{10\\sqrt5}{3}\\right)\\\\&=\\frac{20\\sqrt5}{3}-12\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A curve has gradient $\\frac{dy}{dx}=\\frac{4x}{(x^{2}+2)^{2}}$ and passes through $(0,3)$. Use $u=x^{2}+2$ to find its equation.",
+    "solution_text": "Let $u=x^{2}+2$.\n$\\begin{align*}\\frac{du}{dx}&=2x\\\\du&=2x\\,dx\\end{align*}$\n$\\begin{align*}y&=\\int\\frac{4x}{(x^{2}+2)^{2}}\\,dx\\\\&=2\\int u^{-2}\\,du\\\\&=-\\frac2u+C\\\\&=-\\frac2{x^{2}+2}+C\\end{align*}$\nSubstitute $(0,3)$:\n$\\begin{align*}3&=-1+C\\\\C&=4\\end{align*}$\n$y=4-\\frac2{x^{2}+2}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact area bounded by $y=\\frac{x^{2}}{(1+x^{3})^{2}}$, the $x$-axis and the lines $x=0$ and $x=1$, using $u=1+x^{3}$.",
+    "solution_text": "The curve is non-negative on $0\\leq x\\leq1$.\nLet $u=1+x^{3}$.\n$\\begin{align*}\\frac{du}{dx}&=3x^{2}\\\\du&=3x^{2}\\,dx\\end{align*}$\nWhen $x=0$, $u=1$. When $x=1$, $u=2$.\n$\\begin{align*}A&=\\int_{0}^{1}\\frac{x^{2}}{(1+x^{3})^{2}}\\,dx\\\\&=\\frac13\\int_{1}^{2}u^{-2}\\,du\\\\&=\\frac13\\left[-\\frac1u\\right]_{1}^{2}\\\\&=\\frac13\\left(-\\frac12+1\\right)\\\\&=\\frac16\\end{align*}$\nThe area is $\\frac16$ square units.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int\\frac{1}{2+\\sqrt{x}}\\,dx$ using $x=(u-2)^{2}$, where $u\\geq2$.",
+    "solution_text": "Let $x=(u-2)^{2}$. Since $u\\geq2$, $\\sqrt{x}=u-2$ and $u=2+\\sqrt{x}$.\n$\\begin{align*}\\frac{dx}{du}&=2(u-2)\\\\dx&=2(u-2)\\,du\\end{align*}$\nRewrite the transformed quotient as a constant plus a reciprocal.\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\int\\frac{1}{2+\\sqrt{x}}\\,dx\\\\&=\\int\\frac{2(u-2)}{u}\\,du\\\\&=\\int\\left(2-\\frac4u\\right)\\,du\\\\&=2u-4\\ln|u|+C\\\\&=2(2+\\sqrt{x})-4\\ln(2+\\sqrt{x})+C\\\\&=2\\sqrt{x}-4\\ln(2+\\sqrt{x})+C\\end{align*}$\nThe constant $4$ is absorbed into $C$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

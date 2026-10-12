@@ -2,8 +2,8 @@
   "skillId": "dot-product-geometric",
   "atomType": "R",
   "theory": {
-    "intro": "The dot product can also be found from lengths and an angle. Multiply the two magnitudes together, then multiply by the cosine of the angle between the vectors.",
-    "facts": [
+"intro": "The dot product can also be found from lengths and an angle. Multiply the two magnitudes together, then multiply by the cosine of the angle between the vectors.",
+"facts": [
 "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}=|\\underset{\\sim}{a}||\\underset{\\sim}{b}|\\cos\\theta$, where $\\theta$ is the angle between the two non-zero vectors.",
 "The **angle between two non-zero vectors** is measured with the vectors drawn tail to tail, and $0^{\\circ}\\le\\theta\\le180^{\\circ}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, arrows.meta}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (4,0);\n\\coordinate (B) at (2.1,3.1);\n\\draw[-{Stealth}] (O) -- (A) node[midway, below] {$\\underset{\\sim}{a}$};\n\\draw[-{Stealth}] (O) -- (B) node[midway, above left] {$\\underset{\\sim}{b}$};\n\\pic[draw, \"$\\theta$\", angle radius=0.7cm, angle eccentricity=2] {angle = A--O--B};\n\\end{tikzpicture}\n[/tikz]",
 "The result is a scalar, and for two non-zero vectors it has the same sign as $\\cos\\theta$. A zero vector has no defined direction, and its dot product with any vector is zero.",
@@ -11,8 +11,45 @@
 "Perpendicular vectors give $\\cos90^{\\circ}=0$, so their dot product is zero.",
 "Vectors in the same direction give $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}=|\\underset{\\sim}{a}||\\underset{\\sim}{b}|$, the largest value possible for these fixed magnitudes.",
 "This formula must agree with the component formula, so the two methods make a useful check on each other."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Find the exact value of $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$ for the vectors shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\usetikzlibrary{arrows.meta}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (4,0);\n\\coordinate (B) at (135:3);\n\\draw[-{Stealth},thick] (O)--(A);\n\\draw[-{Stealth},thick] (O)--(B);\n\\path (2,0) node[below] {$|\\underset{\\sim}{a}|=9$};\n\\path (-1.1,2.8) node[anchor=west] {$|\\underset{\\sim}{b}|=2\\sqrt{2}$};\n\\draw (0.7,0) arc[start angle=0,end angle=135,radius=0.7];\n\\path (67.5:1.05) node {$135^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}\\\\&=|\\underset{\\sim}{a}||\\underset{\\sim}{b}|\\cos135^{\\circ}\\\\&=(9)(2\\sqrt{2})\\left(-\\frac{\\sqrt{2}}{2}\\right)\\\\&=-18\\end{aligned}$\n\nThe tail-to-tail angle is obtuse, so the dot product is negative.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Two vectors have magnitudes $8$ and $5$. The angle between them is $47^{\\circ}$. Find their dot product, correct to two decimal places.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\underset{\\sim}{u}\\cdot\\underset{\\sim}{v}\\\\&=(8)(5)\\cos47^{\\circ}\\\\&=40\\cos47^{\\circ}\\\\&\\approx27.28\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Vectors $\\underset{\\sim}{p}$ and $\\underset{\\sim}{q}$ have magnitudes $4$ and $9$. Find their dot product when they point:\n(a) in the same direction;\n(b) in opposite directions.",
+    "solution_text": "(a) Same direction gives $\\theta=0^{\\circ}$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\underset{\\sim}{p}\\cdot\\underset{\\sim}{q}\\\\&=(4)(9)\\cos0^{\\circ}\\\\&=36\\end{aligned}$\n\n(b) Opposite directions gives $\\theta=180^{\\circ}$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\underset{\\sim}{p}\\cdot\\underset{\\sim}{q}\\\\&=(4)(9)\\cos180^{\\circ}\\\\&=-36\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two non-zero vectors satisfy $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}=-21\\sqrt{3}$ and $|\\underset{\\sim}{b}|=7$. The angle between them is $150^{\\circ}$. Find $|\\underset{\\sim}{a}|$.",
+    "solution_text": "$\\begin{aligned}|\\underset{\\sim}{a}|(7)\\cos150^{\\circ}&=-21\\sqrt{3}\\\\7|\\underset{\\sim}{a}|\\left(-\\frac{\\sqrt{3}}{2}\\right)&=-21\\sqrt{3}\\\\-\\frac{7\\sqrt{3}}{2}|\\underset{\\sim}{a}|&=-21\\sqrt{3}\\\\|\\underset{\\sim}{a}|&=6\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two non-zero vectors satisfy $|\\underset{\\sim}{u}|=7$, $|\\underset{\\sim}{v}|=10$ and $\\underset{\\sim}{u}\\cdot\\underset{\\sim}{v}=-35$. Find the angle between them.",
+    "solution_text": "$\\begin{aligned}\\cos\\theta&=\\frac{\\underset{\\sim}{u}\\cdot\\underset{\\sim}{v}}{|\\underset{\\sim}{u}||\\underset{\\sim}{v}|}\\\\\\cos\\theta&=\\frac{-35}{(7)(10)}\\\\\\cos\\theta&=-\\frac{1}{2}\\\\\\theta&=120^{\\circ}\\end{aligned}$\n\nThe angle between vectors lies between $0^{\\circ}$ and $180^{\\circ}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

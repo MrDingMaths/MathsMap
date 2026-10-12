@@ -2,19 +2,41 @@
   "skillId": "identify-misleading-data",
   "atomType": "R",
   "theory": {
-        "intro": "A graph can give a false impression even when its numbers are correct. Spotting misleading features helps you judge data fairly.",
-        "facts": [
+"intro": "A graph can give a false impression even when its numbers are correct. Spotting misleading features helps you judge data fairly.",
+"facts": [
 "A **broken (truncated) axis** on a bar graph can exaggerate relative bar heights and make small differences look much larger. A clearly labelled restricted axis can appropriately show variation in a line graph.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw[->] (0,0)--(0,6.0); \\draw[->] (0,0)--(6.0,0);\n\\foreach \\y/\\lab in {0/68,1.5/70,3/72,4.5/74} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\small] at (-0.15,\\y) {$\\lab$};}\n\\draw (1.0,0) rectangle (2.2,1.5); \\draw (3.2,0) rectangle (4.4,5.25);\n\\node[below,font=\\small] at (1.6,0) {P}; \\node[below,font=\\small] at (3.8,0) {Q};\n\\node[rotate=90] at (-1.7,2.5) {Value};\n\\node[below] at (3.0,-1.0) {Item};\n\\node[font=\\small] at (3.0,6.6) {axis starts at $68$: gap looks huge};\n\\end{tikzpicture}\n[/tikz]",
 "The same two values on an axis starting at $0$ show the true, much smaller gap.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw[->] (0,0)--(0,6.0); \\draw[->] (0,0)--(6.0,0);\n\\foreach \\y/\\lab in {0/0,1.1/20,2.2/40,3.3/60,4.4/80} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\small] at (-0.15,\\y) {$\\lab$};}\n\\draw (1.0,0) rectangle (2.2,3.85); \\draw (3.2,0) rectangle (4.4,4.125);\n\\node[below,font=\\small] at (1.6,0) {P}; \\node[below,font=\\small] at (3.8,0) {Q};\n\\node[rotate=90] at (-1.7,2.5) {Value};\n\\node[below] at (3.0,-1.0) {Item};\n\\node[font=\\small] at (3.0,6.6) {axis starts at $0$: same data, small gap};\n\\end{tikzpicture}\n[/tikz]",
 "**Uneven scales** or different bar widths can exaggerate or hide a change.",
 "Always read the actual numbers, not just how big the bars *look*."
 ],
-        "steps": [
+"steps": [
           "Check where the vertical axis starts — is it $0$, or higher?",
           "Check the scale is even and the bars are the same width.",
           "Compare the real values to decide if the picture is fair."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A shop advert says Tuesday's sales were three times Monday's because its bar is three times as tall. Read the actual values, explain why the claim is misleading, and suggest a fairer display.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,->] (0,0)--(0,3.5);\n\\draw[black,->] (0,0)--(4.4,0);\n\\foreach \\y/\\v in {0/80,1/84,2/88,3/92} {\\draw[black] (-0.1,\\y)--(0,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.1,\\y) {$\\v$};}\n\\draw[black] (0.7,0) rectangle (1.6,1);\n\\draw[black] (2.5,0) rectangle (3.4,3);\n\\node[below] at (1.15,0) {Monday};\n\\node[below] at (2.95,0) {Tuesday};\n\\node[rotate=90] at (-0.85,1.75) {Items sold};\n\\node[above] at (2.2,3.6) {Shop sales};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Monday sold $84$ items and Tuesday sold $92$ items.\n$\\begin{aligned}92-84&=8\\\\3\\times84&=252\\end{aligned}$\nTuesday sold only $8$ more items. Three times Monday's sales would be $252$, so the claim is false.\nThe vertical axis starts at $80$, exaggerating the difference between the bar heights. Start it at $0$, keep equal intervals and use equal-width bars.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,->] (0,0)--(0,3.5);\n\\draw[black,->] (0,0)--(4.4,0);\n\\foreach \\y/\\v in {0/0,0.8/25,1.6/50,2.4/75,3.2/100} {\\draw[black] (-0.1,\\y)--(0,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.1,\\y) {$\\v$};}\n\\draw[black] (0.7,0) rectangle (1.6,2.688);\n\\draw[black] (2.5,0) rectangle (3.4,2.944);\n\\node[below] at (1.15,0) {Monday};\n\\node[below] at (2.95,0) {Tuesday};\n\\node[above] at (1.15,2.688) {$84$};\n\\node[above] at (2.95,2.944) {$92$};\n\\node[rotate=90] at (-0.85,1.75) {Items sold};\n\\node[above] at (2.2,3.6) {Shop sales};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "This graph compares orders for two drinks. Identify the misleading feature of its numerical scale and explain how to fix it.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,->] (0,0)--(0,3.6);\n\\draw[black,->] (0,0)--(4.4,0);\n\\foreach \\y/\\v in {0/0,1/10,2/30,3/40} {\\draw[black] (-0.1,\\y)--(0,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.1,\\y) {$\\v$};}\n\\draw[black] (0.7,0) rectangle (1.6,1);\n\\draw[black] (2.5,0) rectangle (3.4,2);\n\\node[below] at (1.15,0) {Tea};\n\\node[below] at (2.95,0) {Juice};\n\\node[rotate=90] at (-0.8,1.8) {Orders};\n\\node[above] at (2.2,3.7) {Drink orders};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The equally spaced ticks increase by $10$, then $20$, then $10$. Equal distances represent unequal changes, so the scale is uneven.\nUse equally spaced labels $0,10,20,30,40$. Keep tea at $10$ orders and juice at $30$ orders, and redraw the bars using that scale."
+  },
+  {
+    "question_text": "The graph shows how many boxes two stalls sold. Both bars have the correct height. Explain why the display is misleading and how to repair it.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,->] (0,0)--(0,3.6);\n\\draw[black,->] (0,0)--(5.1,0);\n\\foreach \\y/\\v in {0/0,1/4,2/8,3/12} {\\draw[black] (-0.1,\\y)--(0,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.1,\\y) {$\\v$};}\n\\draw[black] (0.7,0) rectangle (1.4,2);\n\\draw[black] (2.4,0) rectangle (4.5,3);\n\\node[below] at (1.05,0) {Stall A};\n\\node[below] at (3.45,0) {Stall B};\n\\node[rotate=90] at (-0.75,1.8) {Boxes sold};\n\\node[above] at (2.55,3.7) {Stall sales};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Stall A sold $8$ boxes and Stall B sold $12$. Stall B's bar is also wider, making its area exaggerate the difference.\nRedraw the bars with equal widths and even gaps. Keep their heights at $8$ and $12$ so height alone shows the number sold."
+  },
+  {
+    "question_text": "A school poster shows $4$ large ball symbols for football viewers and $7$ small ball symbols for tennis viewers. It gives no key.\nExplain two features that prevent a fair, reliable comparison.",
+    "solution_text": "The symbols have different sizes, so football can look more popular even though it has fewer symbols.\nThere is no key saying how many viewers each symbol represents, so viewer totals cannot be calculated. Use equal-sized symbols and a clear key with the same number of viewers per symbol."
+  },
+  {
+    "question_text": "A library recorded visitor numbers on six days: Monday $18$, Tuesday $21$, Wednesday $19$, Thursday $20$, Friday $46$ and Saturday $49$.\nIts website shows only Friday and Saturday and claims, “We have more than $40$ visitors every day.” Explain why the display and claim are misleading.",
+    "solution_text": "The display selects only the two busiest days and leaves out four days with fewer than $40$ visitors. This is cherry picking.\nThe claim is false: Monday to Thursday had only $18$ to $21$ visitors per day. Show all six days to give a fair account of the recorded week."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

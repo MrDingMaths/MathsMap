@@ -2,8 +2,8 @@
   "skillId": "volume-revolution-between-curves",
   "atomType": "R",
   "theory": {
-    "intro": "Rotating a region between two curves can give ring-shaped slices or solid discs. Use the actual outer and inner radii, measured as distances from the axis of rotation, and subtract their squares; a solid disc has inner radius $0$.",
-    "facts": [
+"intro": "Rotating a region between two curves can give ring-shaped slices or solid discs. Use the actual outer and inner radii, measured as distances from the axis of rotation, and subtract their squares; a solid disc has inner radius $0$.",
+"facts": [
 "When a slice has a hole, its cross-section is an **annulus**, the ring between an outer circle and an inner circle. When there is no hole, the cross-section is a solid disc.",
 "Rotating about the $x$-axis gives $V=\\pi\\int_{a}^{b}\\left(y_{2}^{2}-y_{1}^{2}\\right)dx$ when $y_{2}\\ge y_{1}\\ge 0$ throughout the interval. Here $y_{2}$ and $y_{1}$ are the outer and inner distances from the $x$-axis.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1.1cm]\n\\fill[gray!35] (1,0.65) -- plot[domain=1:4, samples=60, variable=\\x] ({\\x},{2.6-0.12*(\\x-2.5)*(\\x-2.5)}) -- plot[domain=4:1, samples=2, variable=\\x] ({\\x},{0.5+0.15*\\x}) -- cycle;\n\\draw[->] (-0.6,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-1.6) -- (0,3.4) node[above] {$y$};\n\\draw[thick, <->, domain=0.2:5, samples=60, variable=\\x] plot ({\\x},{2.6-0.12*(\\x-2.5)*(\\x-2.5)});\n\\draw[thick, <->, domain=0.2:4.6, samples=2, variable=\\x] plot ({\\x},{0.5+0.15*\\x});\n\\node at (4.7,2.75) {$y_{2}$};\n\\node at (4.4,0.6) {$y_{1}$};\n\\end{tikzpicture}[/tikz]",
 "The outer radius is the curve further from the axis of rotation. Radii are nonnegative distances from that axis. If a slice of the region crosses the axis, rotation gives a solid disc with inner radius $0$ and outer radius equal to the greatest distance from the axis; do not automatically subtract the squares of the two boundary coordinates. Determine the actual cross-section and split the interval where its radii change.",
@@ -12,12 +12,42 @@
 "Limits that are not given come from where the curves meet, solving $y_{2}=y_{1}$.",
 "Where one curve stops before the other, split the region and integrate each part separately."
 ],
-    "steps": [
+"steps": [
       "Find the limits, solving $y_{2}=y_{1}$ if they are not given.",
       "Decide which curve gives the outer radius and which gives the inner radius.",
       "Evaluate $\\pi\\int\\left(\\text{outer}^{2}-\\text{inner}^{2}\\right)$ over each interval."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "The region between $y=9-x^{2}$ and $y=9-3x$, from $x=0$ to $x=3$, is rotated about the $x$-axis. Find the exact volume.\n[tikz]\\begin{tikzpicture}[x=12mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\fill[fill={rgb,255:red,212;green,232;blue,255}] (0,9) -- plot[domain=0:3,samples=60,variable=\\x] ({\\x},{9-(\\x)*(\\x)}) -- cycle;\n\\draw[->] (-0.4,0)--(4,0);\n\\draw[->] (0,-0.6)--(0,11);\n\\draw[thick] plot[domain=0:3,samples=60,variable=\\x] ({\\x},{9-(\\x)*(\\x)});\n\\draw[thick] (0,9)--(3,0);\n\\path (4,0) node[right] {$x$} (0,11) node[above] {$y$} (1.7,8.3) node[right] {$y=9-x^{2}$} (0.7,3.5) node[left] {$y=9-3x$};\n\\path (0,9) node[left] {$9$} (3,0) node[below] {$3$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "On $0\\le x\\le3$, both curves are nonnegative. The outer radius is $9-x^{2}$ and the inner radius is $9-3x$.\n$\\begin{align*}V&=\\pi\\int_{0}^{3}\\left[(9-x^{2})^{2}-(9-3x)^{2}\\right]dx\\\\&=\\pi\\int_{0}^{3}(x^{4}-27x^{2}+54x)\\,dx\\\\&=\\pi\\left[\\frac{x^{5}}{5}-9x^{3}+27x^{2}\\right]_{0}^{3}\\\\&=\\pi\\left(\\frac{243}{5}-243+243\\right)\\\\&=\\frac{243\\pi}{5}\\ \\text{units}^{3}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "The region enclosed by $y=3x$ and $y=x^{2}$ is rotated about the $x$-axis. Find the exact volume.\n[tikz]\\begin{tikzpicture}[x=12mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\fill[fill={rgb,255:red,212;green,232;blue,255}] (0,0)--(3,9)--plot[domain=3:0,samples=60,variable=\\x] ({\\x},{(\\x)*(\\x)})--cycle;\n\\draw[->] (-0.4,0)--(4,0);\n\\draw[->] (0,-0.6)--(0,11);\n\\draw[thick] (0,0)--(3.4,10.2);\n\\draw[thick] plot[domain=0:3.3,samples=60,variable=\\x] ({\\x},{(\\x)*(\\x)});\n\\path (4,0) node[right] {$x$} (0,11) node[above] {$y$} (1.3,5.4) node[left] {$y=3x$} (2.7,4.5) node[right] {$y=x^{2}$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Find where the curves meet.\n$\\begin{align*}x^{2}&=3x\\\\x(x-3)&=0\\\\x&=0,\\ 3.\\end{align*}$\nFor $0<x<3$, $3x>x^{2}\\ge0$. The outer radius is $3x$ and the inner radius is $x^{2}$.\n$\\begin{align*}V&=\\pi\\int_{0}^{3}\\left[(3x)^{2}-(x^{2})^{2}\\right]dx\\\\&=\\pi\\int_{0}^{3}(9x^{2}-x^{4})\\,dx\\\\&=\\pi\\left[3x^{3}-\\frac{x^{5}}{5}\\right]_{0}^{3}\\\\&=\\pi\\left(81-\\frac{243}{5}\\right)\\\\&=\\frac{162\\pi}{5}\\ \\text{units}^{3}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The region between $y=9-x^{2}$ and $y=9-3x$ in the first quadrant is rotated about the $y$-axis. Find the exact volume.\n[tikz]\\begin{tikzpicture}[x=12mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\fill[fill={rgb,255:red,212;green,232;blue,255}] (0,9)--plot[domain=0:3,samples=60,variable=\\x] ({\\x},{9-(\\x)*(\\x)})--cycle;\n\\draw[->] (-0.4,0)--(4,0);\n\\draw[->] (0,-0.6)--(0,11);\n\\draw[thick] plot[domain=0:3,samples=60,variable=\\x] ({\\x},{9-(\\x)*(\\x)});\n\\draw[thick] (0,9)--(3,0);\n\\path (4,0) node[right] {$x$} (0,11) node[above] {$y$} (1.7,8.3) node[right] {$y=9-x^{2}$} (0.7,3.5) node[left] {$y=9-3x$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "The intersections satisfy $9-x^{2}=9-3x$, giving $x=0,3$. Their $y$-coordinates are $9,0$.\nRearrange the boundaries using their first-quadrant branches:\n$\\begin{align*}x^{2}&=9-y,\\qquad x=\\sqrt{9-y},\\\\x&=\\frac{9-y}{3}.\\end{align*}$\nFor $0<y<9$, the outer radius is $\\sqrt{9-y}$ and the inner radius is $(9-y)/3$.\n$\\begin{align*}V&=\\pi\\int_{0}^{9}\\left[(9-y)-\\frac{(9-y)^{2}}{9}\\right]dy\\\\&=\\pi\\int_{0}^{9}\\left(y-\\frac{y^{2}}{9}\\right)dy\\\\&=\\pi\\left[\\frac{y^{2}}{2}-\\frac{y^{3}}{27}\\right]_{0}^{9}\\\\&=\\pi\\left(\\frac{81}{2}-27\\right)\\\\&=\\frac{27\\pi}{2}\\ \\text{units}^{3}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A region lies below $y=\\sqrt{x-2}$ from $x=2$ to $x=8$. Its lower boundary is the $x$-axis for $2\\le x\\le5$ and $y=\\sqrt{x-5}$ for $5\\le x\\le8$. Find its exact volume when rotated about the $x$-axis.\n[tikz]\\begin{tikzpicture}[x=8mm,y=14mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\fill[fill={rgb,255:red,212;green,232;blue,255}] (2,0)--plot[domain=2:8,samples=80,variable=\\x] ({\\x},{sqrt(\\x-2)})--plot[domain=8:5,samples=60,variable=\\x] ({\\x},{sqrt(\\x-5)})--cycle;\n\\draw[->] (0,0)--(9,0);\n\\draw[->] (0,-0.4)--(0,3.3);\n\\draw[thick] plot[domain=2:8,samples=80,variable=\\x] ({\\x},{sqrt(\\x-2)});\n\\draw[thick] plot[domain=5:8,samples=60,variable=\\x] ({\\x},{sqrt(\\x-5)});\n\\draw (8,{sqrt(3)})--(8,{sqrt(6)});\n\\path (9,0) node[right] {$x$} (0,3.3) node[above] {$y$} (4.5,2.6) node {$y=\\sqrt{x-2}$} (7,0.8) node[right] {$y=\\sqrt{x-5}$};\n\\foreach \\v in {2,5,8}{\\draw (\\v,0)--(\\v,-0.08);\\path (\\v,-0.08) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Split at $x=5$, where the inner curve starts. Before $x=5$, the slices are discs with radius $\\sqrt{x-2}$. After $x=5$, they are washers with outer radius $\\sqrt{x-2}$ and inner radius $\\sqrt{x-5}$.\n$\\begin{align*}V_{1}&=\\pi\\int_{2}^{5}(x-2)\\,dx\\\\&=\\pi\\left[\\frac{(x-2)^{2}}{2}\\right]_{2}^{5}\\\\&=\\frac{9\\pi}{2}.\\end{align*}$\n$\\begin{align*}V_{2}&=\\pi\\int_{5}^{8}\\left[(x-2)-(x-5)\\right]dx\\\\&=\\pi\\int_{5}^{8}3\\,dx\\\\&=9\\pi.\\end{align*}$\n$\\begin{align*}V&=V_{1}+V_{2}\\\\&=\\frac{9\\pi}{2}+9\\pi\\\\&=\\frac{27\\pi}{2}\\ \\text{units}^{3}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

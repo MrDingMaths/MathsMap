@@ -2,81 +2,132 @@
   "skillId": "pythagoras-multistep",
   "atomType": "R",
   "theory": {
-        "intro": "Some problems need an extra length before you can reach the answer. Find an intermediate side with Pythagoras' theorem, then use that side in a second Pythagoras step.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (R) at (3,0);\n\\coordinate (Q) at (3,2.25);\n\\coordinate (P) at (-1.5,2);\n\\draw (O)--(R) node[midway,below] {$a$};\n\\draw (R)--(Q) node[midway,right] {$b$};\n\\draw (O)--(Q) node[midway,below right,fill=white,inner sep=1pt] {$y$};\n\\draw (O)--(P) node[midway,left] {$c$};\n\\draw (P)--(Q) node[midway,above] {$x$};\n\\coordinate (r1) at ($(R)!0.3cm!(O)$);\n\\coordinate (r2) at ($(R)!0.3cm!(Q)$);\n\\draw (r1)--($(r1)+(r2)-(R)$)--(r2);\n\\coordinate (o1) at ($(O)!0.3cm!(P)$);\n\\coordinate (o2) at ($(O)!0.3cm!(Q)$);\n\\draw (o1)--($(o1)+(o2)-(O)$)--(o2);\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "Some problems need an extra length before you can reach the answer. Find an intermediate side with Pythagoras' theorem, then use that side in another Pythagoras calculation or finish by subtracting or doubling a length.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (R) at (3,0);\n\\coordinate (Q) at (3,2.25);\n\\coordinate (P) at (-1.5,2);\n\\draw (O)--(R) node[midway,below] {$a$};\n\\draw (R)--(Q) node[midway,right] {$b$};\n\\draw (O)--(Q) node[midway,below right,fill=white,inner sep=1pt] {$y$};\n\\draw (O)--(P) node[midway,left] {$c$};\n\\draw (P)--(Q) node[midway,above] {$x$};\n\\coordinate (r1) at ($(R)!0.3cm!(O)$);\n\\coordinate (r2) at ($(R)!0.3cm!(Q)$);\n\\draw (r1)--($(r1)+(r2)-(R)$)--(r2);\n\\coordinate (o1) at ($(O)!0.3cm!(P)$);\n\\coordinate (o2) at ($(O)!0.3cm!(Q)$);\n\\draw (o1)--($(o1)+(o2)-(O)$)--(o2);\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "A multistep problem hides a first unknown side that you must find before the side you actually want.",
           "Find the intermediate side with $h=\\sqrt{a^{2}+b^{2}}$ or $a=\\sqrt{h^{2}-b^{2}}$, whichever fits.",
           "**Keep the intermediate value exact** — carry a surd such as $\\sqrt{52}$ and substitute its square in the next step.",
           "**Round only at the final step**; rounding an intermediate value early makes the final answer inaccurate.",
           "For a perimeter, find every missing side first, then add all the sides."
         ],
-        "steps": [
+"steps": [
           "Find the intermediate side.",
           "Find the required side.",
           "Round only at the final step."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Find $y$, then find $x$. All lengths are in centimetres. Give exact answers.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\\coordinate (R) at (2.4,0);\\coordinate (Q) at (2.4,1.8);\\coordinate (P) at (-1.8,2.4);\n\\draw (O)--(R) node[midway,below]{$8$}--(Q) node[midway,right]{$6$}--(P) node[midway,above]{$x$}--(O) node[midway,left]{$10$};\n\\draw (O)--(Q) node[midway,below right]{$y$};\n\\draw (2.15,0)--(2.15,0.25)--(2.4,0.25);\n\\draw (-0.15,0.2)--(0.05,0.35)--(0.2,0.15);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "First find the shared side.\n$\\begin{align*}y&=\\sqrt{8^{2}+6^{2}}\\\\y&=10\\text{ cm}\\end{align*}$\nThis is a shorter side of the second right-angled triangle.\n$\\begin{align*}x&=\\sqrt{10^{2}+y^{2}}\\\\x&=\\sqrt{10^{2}+10^{2}}\\\\x&=\\sqrt{200}\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $x$, then find $y$. All lengths are in centimetres. Give exact answers.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,2.4);\\coordinate (B) at (0,0);\\coordinate (C) at (1.8,0);\\coordinate (D) at (4.2,1.8);\n\\draw (A)--(B) node[midway,left]{$8$}--(C) node[midway,below]{$6$}--(D) node[midway,below right]{$y$}--(A) node[midway,above]{$15$};\n\\draw (A)--(C) node[midway,above right]{$x$};\n\\draw (0,0.25)--(0.25,0.25)--(0.25,0);\n\\draw (1.65,0.2)--(1.85,0.35)--(2,0.15);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Find the shared hypotenuse first.\n$\\begin{align*}x&=\\sqrt{6^{2}+8^{2}}\\\\x&=10\\text{ cm}\\end{align*}$\nThe second triangle has hypotenuse $15\\text{ cm}$.\n$\\begin{align*}y&=\\sqrt{15^{2}-x^{2}}\\\\y&=\\sqrt{225-100}\\\\y&=\\sqrt{125}\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The trapezium has equal sloping sides. Find $x$ and $y$, then find its perimeter to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(4.5,0) node[midway,below]{$18\\text{ cm}$}--(3.5,1.75) node[midway,right]{$y$}--(1,1.75) node[midway,above]{$10\\text{ cm}$}--cycle;\n\\draw[dashed] (1,1.75)--(1,0) node[midway,right,fill=white,inner sep=1pt]{$7\\text{ cm}$};\\draw[dashed] (3.5,1.75)--(3.5,0);\n\\path (4,0) node[above]{$x$};\n\\draw (1,0.2)--(1.2,0.2)--(1.2,0);\\draw (3.5,0.2)--(3.7,0.2)--(3.7,0);\n\\draw (0.35,0.95)--(0.65,0.8);\\draw (3.85,0.8)--(4.15,0.95);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The two end sections of the base are equal.\n$\\begin{align*}x&=(18-10)\\div2\\\\x&=4\\text{ cm}\\end{align*}$\nUse the height and one end section to find a sloping side.\n$\\begin{align*}y&=\\sqrt{4^{2}+7^{2}}\\\\y&=\\sqrt{65}\\text{ cm}\\end{align*}$\nKeep the sloping length exact until the final calculation.\n$\\begin{align*}P&=18+10+2\\sqrt{65}\\\\P&\\approx44.1\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the missing sloping side $s$, then find the perimeter of the trapezium to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(4.8,0) node[midway,below]{$24\\text{ cm}$}--(3.8,2.4) node[midway,right]{$s$}--(0,2.4) node[midway,above]{$19\\text{ cm}$}--cycle;\n\\path (0,1.2) node[left]{$12\\text{ cm}$};\\draw[dashed] (3.8,2.4)--(3.8,0);\n\\draw (0,0.2)--(0.2,0.2)--(0.2,0);\\draw (0,2.2)--(0.2,2.2)--(0.2,2.4);\\draw (3.8,0.2)--(4,0.2)--(4,0);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The horizontal leg of the right-angled triangle is $24-19=5\\text{ cm}$.\n$\\begin{align*}s&=\\sqrt{5^{2}+12^{2}}\\\\s&=13\\text{ cm}\\\\P&=24+19+12+13\\\\P&=68.0\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The horizontal diagonal bisects the vertical diagonal at right angles. The marked sides are equal in pairs. Find the two different side lengths, then find the perimeter to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-2.4,0)--(0,1.4)--(1.8,0)--(0,-1.4)--cycle;\n\\draw[dashed] (-2.4,0)--(0,0) node[midway,below]{$12\\text{ cm}$}--(1.8,0) node[midway,below]{$9\\text{ cm}$};\\draw[dashed] (0,1.4)--(0,0) node[midway,left]{$7\\text{ cm}$}--(0,-1.4);\n\\draw (0,0.2)--(0.2,0.2)--(0.2,0);\n\\draw (-1.3,0.87)--(-1.1,0.53);\\draw (-1.3,-0.53)--(-1.1,-0.87);\n\\draw (0.75,0.53)--(0.95,0.87);\\draw (0.9,0.43)--(1.1,0.77);\\draw (0.75,-0.53)--(0.95,-0.87);\\draw (0.9,-0.43)--(1.1,-0.77);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Both halves of the vertical diagonal are $7\\text{ cm}$.\n$\\begin{align*}\\text{Left side}&=\\sqrt{12^{2}+7^{2}}\\\\&=\\sqrt{193}\\text{ cm}\\\\\\text{Right side}&=\\sqrt{9^{2}+7^{2}}\\\\&=\\sqrt{130}\\text{ cm}\\end{align*}$\nAdd both pairs of sides, keeping their lengths exact.\n$\\begin{align*}P&=2\\sqrt{193}+2\\sqrt{130}\\\\P&\\approx50.6\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A pipe has radius $17\\text{ cm}$. Its water surface is $30\\text{ cm}$ wide and lies below the centre. Find the water depth $d$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) circle (2.04);\\fill (0,0) circle (1.2pt);\n\\draw (0,0)--(-1.8,-0.96) node[midway,above left]{$17\\text{ cm}$};\\draw (-1.8,-0.96)--(1.8,-0.96);\n\\path (0,-0.96) node[below]{$30\\text{ cm}$};\\draw[dashed] (0,0)--(0,-0.96);\n\\draw (0,-0.76)--(0.2,-0.76)--(0.2,-0.96);\n\\draw[<->] (2.3,-0.96)--(2.3,-2.04) node[midway,right]{$d$};\\draw[dashed] (1.8,-0.96)--(2.3,-0.96);\\draw[dashed] (0,-2.04)--(2.3,-2.04);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The perpendicular from the centre bisects the water surface, so half its width is $15\\text{ cm}$. Let $h$ be the distance from the centre to the surface.\n$\\begin{align*}h&=\\sqrt{17^{2}-15^{2}}\\\\h&=\\sqrt{64}\\\\h&=8\\text{ cm}\\end{align*}$\nSubtract this distance from the radius.\n$\\begin{align*}d&=17-8\\\\d&=9\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A tower provides signal within a radius of $25\\text{ km}$. A straight road is $9\\text{ km}$ from the tower. Find the total length $x$ of road within signal range, to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) circle (2.5);\\fill (0,0) circle (1.2pt);\\path (0,0) node[above left]{Tower};\n\\draw (-2.7,-0.9)--(2.7,-0.9);\\path (2.7,-0.9) node[right]{Road};\n\\draw[dashed] (0,0)--(0,-0.9) node[midway,left]{$9\\text{ km}$};\\draw (0,0)--(2.33238,-0.9) node[midway,above right]{$25\\text{ km}$};\n\\draw (0,-0.7)--(0.2,-0.7)--(0.2,-0.9);\n\\draw[<->] (-2.33238,-1.25)--(2.33238,-1.25) node[midway,below]{$x$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The perpendicular from the tower bisects the road segment within range. Let $h$ be half this segment.\n$\\begin{align*}h&=\\sqrt{25^{2}-9^{2}}\\\\h&=\\sqrt{544}\\text{ km}\\end{align*}$\nDouble the exact intermediate length, then round.\n$\\begin{align*}x&=2\\sqrt{544}\\\\x&\\approx46.65\\text{ km}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.4]\\coordinate (O) at (0,0);\\coordinate (R) at (6,0);\\coordinate (Q) at (6,4);\\coordinate (P) at (-6.66,9.98);\\draw (O)--(P) node[midway,left,fill=white,inner sep=1pt]{$12$};\\draw (P)--(Q) node[midway,above,fill=white,inner sep=1pt]{$x$};\\draw (Q)--(R) node[midway,right,fill=white,inner sep=1pt]{$4$};\\draw (R)--(O) node[midway,below,fill=white,inner sep=1pt]{$6$};\\draw (O)--(Q) node[midway,below right,fill=white,inner sep=1pt]{$y$};\\draw (5.6,0)--(5.6,0.4)--(6,0.4);\\coordinate (va) at ($(O)!0.5cm!(P)$);\\coordinate (vb) at ($(O)!0.5cm!(Q)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\end{tikzpicture}\n[/tikz]\nAll lengths are in centimetres.\nFirst find the intermediate side $y$, then find $x$.",
         "structure": "find-then-find",
         "solution_text": "1. **Find the intermediate side**\n$y=\\sqrt{6^{2}+4^{2}}$\n$=\\sqrt{52}$\n2. **Find the required side**\n$x=\\sqrt{12^{2}+y^{2}}$\n$=\\sqrt{12^{2}+(\\sqrt{52})^{2}}$\n$=\\sqrt{144+52}$\n$=\\sqrt{196}$\n$=14\\text{ cm}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.4]\\coordinate (O) at (0,0);\\coordinate (R) at (4,0);\\coordinate (Q) at (4,3);\\coordinate (P) at (-7.2,9.6);\\draw (O)--(P) node[midway,left,fill=white,inner sep=1pt]{$12$};\\draw (P)--(Q) node[midway,above,fill=white,inner sep=1pt]{$x$};\\draw (Q)--(R) node[midway,right,fill=white,inner sep=1pt]{$3$};\\draw (R)--(O) node[midway,below,fill=white,inner sep=1pt]{$4$};\\draw (O)--(Q) node[midway,below right,fill=white,inner sep=1pt]{$y$};\\draw (3.6,0)--(3.6,0.4)--(4,0.4);\\coordinate (va) at ($(O)!0.5cm!(P)$);\\coordinate (vb) at ($(O)!0.5cm!(Q)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\end{tikzpicture}\n[/tikz]\nAll lengths are in centimetres.\nFind the intermediate side $y$, then find $x$.",
         "structure": "find-then-find",
         "solution_text": "1. **Find the intermediate side**\n$y=\\sqrt{4^{2}+3^{2}}$\n$=\\sqrt{25}$\n$=5$\n2. **Find the required side**\n$x=\\sqrt{12^{2}+5^{2}}$\n$=\\sqrt{169}$\n$=13\\text{ cm}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.3]\\coordinate (O) at (0,0);\\coordinate (R) at (8,0);\\coordinate (Q) at (8,6);\\coordinate (P) at (-14.4,19.2);\\draw (O)--(P) node[midway,left,fill=white,inner sep=1pt]{$24$};\\draw (P)--(Q) node[midway,above,fill=white,inner sep=1pt]{$x$};\\draw (Q)--(R) node[midway,right,fill=white,inner sep=1pt]{$6$};\\draw (R)--(O) node[midway,below,fill=white,inner sep=1pt]{$8$};\\draw (O)--(Q) node[midway,below right,fill=white,inner sep=1pt]{$y$};\\draw (7.5,0)--(7.5,0.5)--(8,0.5);\\coordinate (va) at ($(O)!0.5cm!(P)$);\\coordinate (vb) at ($(O)!0.5cm!(Q)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\end{tikzpicture}\n[/tikz]\nAll lengths are in centimetres.\nFind the intermediate side $y$, then find $x$.",
         "structure": "find-then-find",
         "solution_text": "1. **Find the intermediate side**\n$y=\\sqrt{8^{2}+6^{2}}$\n$=\\sqrt{100}$\n$=10$\n2. **Find the required side**\n$x=\\sqrt{24^{2}+10^{2}}$\n$=\\sqrt{676}$\n$=26\\text{ cm}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.4]\\coordinate (O) at (0,0);\\coordinate (R) at (4,0);\\coordinate (Q) at (4,7);\\coordinate (P) at (-7.81,4.47);\\draw (O)--(P) node[midway,above left,fill=white,inner sep=1pt]{$9$};\\draw (P)--(Q) node[midway,above,fill=white,inner sep=1pt]{$x$};\\draw (Q)--(R) node[midway,right,fill=white,inner sep=1pt]{$7$};\\draw (R)--(O) node[midway,below,fill=white,inner sep=1pt]{$4$};\\draw (O)--(Q) node[midway,below right,fill=white,inner sep=1pt]{$y$};\\draw (3.6,0)--(3.6,0.4)--(4,0.4);\\coordinate (va) at ($(O)!0.5cm!(P)$);\\coordinate (vb) at ($(O)!0.5cm!(Q)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\end{tikzpicture}\n[/tikz]\nAll lengths are in centimetres.\nFind the intermediate side $y$, then find $x$.\nRound to $2$ decimal places.",
         "structure": "find-then-find",
-        "solution_text": "1. **Find the intermediate side**\n$y=\\sqrt{4^{2}+7^{2}}$\n$=\\sqrt{65}$\n2. **Find the required side**\n$x=\\sqrt{9^{2}+y^{2}}$\n$=\\sqrt{9^{2}+(\\sqrt{65})^{2}}$\n$=\\sqrt{81+65}$\n$=\\sqrt{146}$\n$\\approx12.08\\text{ cm}$"
+        "solution_text": "1. **Find the intermediate side**\n$y=\\sqrt{4^{2}+7^{2}}$\n$=\\sqrt{65}$\n$\\approx8.06\\text{ cm}$\nKeep $y=\\sqrt{65}$ in the next calculation.\n2. **Find the required side**\n$x=\\sqrt{9^{2}+y^{2}}$\n$=\\sqrt{9^{2}+(\\sqrt{65})^{2}}$\n$=\\sqrt{81+65}$\n$=\\sqrt{146}$\n$\\approx12.08\\text{ cm}$"
       }
-    ],
+],
     "development": [
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.35]\\coordinate (A) at (0,0);\\coordinate (M) at (4,0);\\coordinate (B) at (16,0);\\coordinate (T) at (4,8);\\draw (A)--(T) node[midway,above left,fill=white,inner sep=1pt]{$x$};\\draw (T)--(B) node[midway,above right,fill=white,inner sep=1pt]{$y$};\\draw[dashed] (T)--(M) node[midway,right,fill=white,inner sep=1pt]{$8\\text{ cm}$};\\draw (A)--(M) node[midway,below,fill=white,inner sep=1pt]{$4\\text{ cm}$};\\draw (M)--(B) node[midway,below,fill=white,inner sep=1pt]{$12\\text{ cm}$};\\draw (4,0.5)--(4.5,0.5)--(4.5,0);\\end{tikzpicture}\n[/tikz]\nThis triangle is split into two right-angled triangles by its perpendicular height of $8\\text{ cm}$.\nFind the perimeter of the whole triangle.\nRound to $2$ decimal places.",
-        "structure": "perimeter",
-        "solution_text": "$x=\\sqrt{4^{2}+8^{2}}$\n$=\\sqrt{80}$\n$y=\\sqrt{12^{2}+8^{2}}$\n$=\\sqrt{208}$\nThe perimeter is the sum of the two slant sides and the full base.\n$P=\\sqrt{80}+\\sqrt{208}+16$\n$\\approx39.37\\text{ cm}$"
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.35]\\coordinate (A) at (0,0);\\coordinate (B) at (14,0);\\coordinate (C) at (11,4);\\coordinate (D) at (3,4);\\draw (A)--(B) node[midway,below]{$14\\text{ cm}$};\\draw (B)--(C) node[midway,right]{$y$};\\draw (C)--(D) node[midway,above]{$8\\text{ cm}$};\\draw (D)--(A);\\draw[dashed] (D)--(3,0) node[midway,right,fill=white,inner sep=1pt]{$4\\text{ cm}$};\\draw[dashed] (C)--(11,0);\\node[below] at (12.5,0) {$x$};\\draw (3,0.4)--(3.4,0.4)--(3.4,0);\\draw (11,0.4)--(11.4,0.4)--(11.4,0);\\draw (1.3,2.15)--(1.7,1.85);\\draw (12.3,1.85)--(12.7,2.15);\\end{tikzpicture}\n[/tikz]\nThe trapezium has parallel sides of $8\\text{ cm}$ and $14\\text{ cm}$, a perpendicular height of $4\\text{ cm}$ and equal sloping sides.\nFind the missing lengths $x$ and $y$, then find the perimeter.\nRound the perimeter to $1$ decimal place.",
+        "structure": "isosceles-trapezium-perimeter",
+        "solution_text": "The two end sections of the base are equal.\n$x=(14-8)\\div2$\n$=3\\text{ cm}$\n$y=\\sqrt{3^{2}+4^{2}}$\n$=\\sqrt{25}$\n$=5\\text{ cm}$\n$P=8+14+5+5$\n$=32.0\\text{ cm}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.35]\\coordinate (TL) at (0,8);\\coordinate (BL) at (0,0);\\coordinate (BM) at (5,0);\\coordinate (R) at (12.58,4.74);\\draw (TL)--(BL) node[midway,left,fill=white,inner sep=1pt]{$8\\text{ cm}$};\\draw (BL)--(BM) node[midway,below,fill=white,inner sep=1pt]{$5\\text{ cm}$};\\draw (TL)--(BM) node[midway,above right,fill=white,inner sep=1pt]{$x$};\\draw (TL)--(R) node[midway,above,fill=white,inner sep=1pt]{$13\\text{ cm}$};\\draw (BM)--(R) node[midway,below right,fill=white,inner sep=1pt]{$y$};\\draw (0,0.5)--(0.5,0.5)--(0.5,0);\\coordinate (va) at ($(BM)!0.5cm!(TL)$);\\coordinate (vb) at ($(BM)!0.5cm!(R)$);\\draw (va)--($(va)+(vb)-(BM)$)--(vb);\\end{tikzpicture}\n[/tikz]\nFind the intermediate side $x$, then find $y$.\nGive both answers in exact form.",
         "structure": "find-then-find",
         "solution_text": "1. **Find the intermediate side**\n$x=\\sqrt{5^{2}+8^{2}}$\n$=\\sqrt{89}\\text{ cm}$\n2. **Find the required side**\n$y=\\sqrt{13^{2}-x^{2}}$\n$=\\sqrt{13^{2}-(\\sqrt{89})^{2}}$\n$=\\sqrt{169-89}$\n$=\\sqrt{80}\\text{ cm}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.3]\\coordinate (O) at (0,0);\\coordinate (R) at (10,0);\\coordinate (Q) at (10,7);\\coordinate (P) at (-8.6,12.29);\\draw (O)--(P) node[midway,left,fill=white,inner sep=1pt]{$15$};\\draw (P)--(Q) node[midway,above,fill=white,inner sep=1pt]{$x$};\\draw (Q)--(R) node[midway,right,fill=white,inner sep=1pt]{$7$};\\draw (R)--(O) node[midway,below,fill=white,inner sep=1pt]{$10$};\\draw (O)--(Q) node[midway,below right,fill=white,inner sep=1pt]{$y$};\\draw (9.5,0)--(9.5,0.5)--(10,0.5);\\coordinate (va) at ($(O)!0.5cm!(P)$);\\coordinate (vb) at ($(O)!0.5cm!(Q)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\end{tikzpicture}\n[/tikz]\nAll lengths are in centimetres.\nFind the intermediate side $y$, then find $x$.\nRound to $2$ decimal places.",
         "structure": "find-then-find",
-        "solution_text": "1. **Find the intermediate side**\n$y=\\sqrt{10^{2}+7^{2}}$\n$=\\sqrt{149}$\n2. **Find the required side**\n$x=\\sqrt{15^{2}+y^{2}}$\n$=\\sqrt{15^{2}+(\\sqrt{149})^{2}}$\n$=\\sqrt{225+149}$\n$=\\sqrt{374}$\n$\\approx19.34\\text{ cm}$"
+        "solution_text": "1. **Find the intermediate side**\n$y=\\sqrt{10^{2}+7^{2}}$\n$=\\sqrt{149}$\n$\\approx12.21\\text{ cm}$\nKeep $y=\\sqrt{149}$ in the next calculation.\n2. **Find the required side**\n$x=\\sqrt{15^{2}+y^{2}}$\n$=\\sqrt{15^{2}+(\\sqrt{149})^{2}}$\n$=\\sqrt{225+149}$\n$=\\sqrt{374}$\n$\\approx19.34\\text{ cm}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.3]\\coordinate (A) at (0,9);\\coordinate (B) at (0,0);\\coordinate (C) at (12,0);\\coordinate (D) at (16.2,5.6);\\draw (A)--(B) node[midway,left,fill=white,inner sep=1pt]{$9\\text{ cm}$};\\draw (B)--(C) node[midway,below,fill=white,inner sep=1pt]{$12\\text{ cm}$};\\draw (C)--(D) node[midway,below right,fill=white,inner sep=1pt]{$7\\text{ cm}$};\\draw (D)--(A);\\draw (A)--(C) node[midway,above right,fill=white,inner sep=1pt]{$d$};\\draw (0,0.6)--(0.6,0.6)--(0.6,0);\\coordinate (va) at ($(C)!0.5cm!(A)$);\\coordinate (vb) at ($(C)!0.5cm!(D)$);\\draw (va)--($(va)+(vb)-(C)$)--(vb);\\end{tikzpicture}\n[/tikz]\nThe quadrilateral $ABCD$ is split by the diagonal $d=AC$ into two right-angled triangles.\nFind the perimeter of $ABCD$.\nRound to $1$ decimal place.",
-        "structure": "perimeter",
-        "solution_text": "$d=\\sqrt{9^{2}+12^{2}}$\n$=\\sqrt{225}$\n$=15\\text{ cm}$\nThe fourth side $AD$ uses this diagonal.\n$AD=\\sqrt{15^{2}+7^{2}}$\n$=\\sqrt{274}$\nThe perimeter adds all four sides.\n$P=9+12+7+\\sqrt{274}$\n$\\approx44.6\\text{ cm}$"
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.3]\\coordinate (A) at (-12,0);\\coordinate (B) at (0,5);\\coordinate (C) at (9,0);\\coordinate (D) at (0,-5);\\coordinate (O) at (0,0);\\draw (A)--(B)--(C)--(D)--cycle;\\draw[dashed] (A)--(O) node[midway,below]{$12\\text{ cm}$};\\draw[dashed] (O)--(C) node[midway,above]{$9\\text{ cm}$};\\draw[dashed] (B)--(O) node[midway,left]{$5\\text{ cm}$};\\draw[dashed] (O)--(D);\\draw (0,0.6)--(0.6,0.6)--(0.6,0);\\draw (-6.15,2.9)--(-5.85,2.1);\\draw (-6.15,-2.1)--(-5.85,-2.9);\\draw (4.05,2.15)--(4.45,2.85);\\draw (4.55,2.15)--(4.95,2.85);\\draw (4.05,-2.15)--(4.45,-2.85);\\draw (4.55,-2.15)--(4.95,-2.85);\\end{tikzpicture}\n[/tikz]\nThe kite has two pairs of equal adjacent sides. Its diagonals meet at right angles, and the horizontal diagonal bisects the vertical diagonal.\nFind the missing side lengths, then find the perimeter.\nRound the perimeter to $1$ decimal place.",
+        "structure": "kite-perimeter-from-diagonals",
+        "solution_text": "Each half of the vertical diagonal is $5\\text{ cm}$.\nEach left side is $\\sqrt{12^{2}+5^{2}}=\\sqrt{169}=13\\text{ cm}$.\nEach right side is $\\sqrt{9^{2}+5^{2}}=\\sqrt{106}\\text{ cm}$.\nThe perimeter adds both pairs of equal sides.\n$P=2\\times13+2\\sqrt{106}$\n$\\approx46.6\\text{ cm}$"
       }
-    ],
+],
     "mastery": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\\draw (0,0) circle (2.5);\\fill (0,0) circle (1.5pt);\\draw (0,0)--(2,-1.5) node[midway,above right,fill=white,inner sep=1pt]{$12.5\\text{ cm}$};\\draw[dashed] (0,0)--(0,-1.5);\\draw (-2,-1.5)--(2,-1.5);\\node[above] at (-0.9,-1.5) {$20\\text{ cm}$};\\draw (0.25,-1.5)--(0.25,-1.25)--(0,-1.25);\\draw[dashed] (0,-1.5)--(0,-2.5);\\node[right] at (0.05,-2.0) {$d$};\\end{tikzpicture}\n[/tikz]\nA cylindrical pipe of radius $12.5\\text{ cm}$ holds water.\nThe flat surface of the water is $20\\text{ cm}$ wide.\nFind the depth $d$ of the water.",
         "structure": "mastery-cylinder",
         "solution_text": "1. **Find the intermediate side**\nHalf the water surface is $10\\text{ cm}$, forming a right-angled triangle with the radius.\n$\\sqrt{12.5^{2}-10^{2}}$\n$=\\sqrt{56.25}$\n$=7.5\\text{ cm}$\nThis is the distance from the centre down to the water surface.\n$d=12.5-7.5$\n$=5\\text{ cm}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.4]\\coordinate (P) at (0,0);\\coordinate (B) at (0,-6);\\coordinate (Q) at (8,0);\\draw (P)--(B) node[midway,left,fill=white,inner sep=1pt]{$6\\text{ cm}$};\\draw (B)--(Q) node[midway,below right,fill=white,inner sep=1pt]{$10\\text{ cm}$};\\draw (P)--(Q) node[midway,above,fill=white,inner sep=1pt]{$r$};\\draw (0,-0.6)--(0.6,-0.6)--(0.6,0);\\end{tikzpicture}\n[/tikz]\nA shape is made of a right-angled triangle joined to a three-quarter circle.\nThe triangle has a hypotenuse of $10\\text{ cm}$ and one side of $6\\text{ cm}$.\nIts third side $r$ is also the radius of the three-quarter circle.\nThe perimeter is made from the two triangle sides of $6\\text{ cm}$ and $10\\text{ cm}$, one radius, and the three-quarter arc.\nFind the exact perimeter (leave $\\pi$ in your answer).",
-        "structure": "perimeter",
-        "solution_text": "1. **Find the intermediate side**\n$r=\\sqrt{10^{2}-6^{2}}$\n$=\\sqrt{64}$\n$=8\\text{ cm}$\nThe arc is three-quarters of a full circle of radius $8$.\n$\\text{arc}=\\frac{3}{4}\\times2\\pi\\times8$\n$=12\\pi$\nThe perimeter adds the arc, one radius, and the two triangle sides.\n$P=12\\pi+8+6+10$\n$=12\\pi+24\\text{ cm}$"
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\\draw (0,0) circle (2.6);\\fill (0,0) circle (1.5pt);\\draw (0,0)--(2.4,-1) node[midway,above right,fill=white,inner sep=1pt]{$13\\text{ cm}$};\\draw[dashed] (0,0)--(0,-1);\\draw (-2.4,-1)--(2.4,-1);\\node[above,fill=white,inner sep=1pt] at (-1.2,-1) {$24\\text{ cm}$};\\draw (0.25,-1)--(0.25,-0.75)--(0,-0.75);\\draw[dashed] (0,-1)--(0,-2.6);\\node[right] at (0.05,-1.8) {$d$};\\end{tikzpicture}\n[/tikz]\nA cylindrical pipe of radius $13\\text{ cm}$ holds water with its flat surface below the centre of the pipe.\nThe surface of the water is $24\\text{ cm}$ wide.\nFind the depth $d$ of the water.",
+        "structure": "pipe-water-depth",
+        "solution_text": "1. **Find the intermediate side**\nHalf the water surface is $12\\text{ cm}$, forming a right-angled triangle with the radius.\n$\\sqrt{13^{2}-12^{2}}$\n$=\\sqrt{25}$\n$=5\\text{ cm}$\n2. **Find the required side**\nThe depth is the radius minus the distance from the centre to the water surface.\n$d=13-5$\n$=8\\text{ cm}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\\draw (0,0) circle (3.1);\\fill (0,0) circle (1.5pt);\\draw[dashed] (0,0)--(0,-1.4) node[midway,left,fill=white,inner sep=1pt]{$14\\text{ km}$};\\draw (0,0)--(2.766,-1.4) node[midway,above right,fill=white,inner sep=1pt]{$31\\text{ km}$};\\draw (-2.766,-1.4)--(2.766,-1.4) node[midway,below,fill=white,inner sep=1pt]{$x$};\\draw (0,-1.4)--(0.25,-1.4)--(0.25,-1.15)--(0,-1.15);\\end{tikzpicture}\n[/tikz]\nA cell tower is $14\\text{ km}$ from a straight road and provides signal within a $31\\text{ km}$ radius.\nFind $x$, the total length of road that lies within signal range.\nRound to $2$ decimal places.",
-        "structure": "mastery-cylinder",
+        "structure": "road-chord-within-signal-range",
         "solution_text": "1. **Find the intermediate side**\nHalf the road length forms a right-angled triangle with the $14\\text{ km}$ distance and the $31\\text{ km}$ radius.\n$\\sqrt{31^{2}-14^{2}}$\n$=\\sqrt{765}$\nThis is half of $x$, so double it.\n$x=2\\sqrt{765}$\n$\\approx55.32\\text{ km}$"
       }
-    ]
+]
   }
 }

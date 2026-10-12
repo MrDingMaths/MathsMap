@@ -2,21 +2,46 @@
   "skillId": "flow-capacity-analysis",
   "atomType": "R",
   "theory": {
-    "intro": "**Network flow analysis** uses the minimum cut to determine how changes to edge capacities affect maximum flow.",
-    "facts": [
+"intro": "**Network flow analysis** uses the minimum cut to determine how changes to edge capacities affect maximum flow.",
+"facts": [
 "Maximum flow equals the capacity of the minimum cut.",
 "Increasing an edge outside a minimum cut leaves that cut unchanged, so it cannot increase maximum flow.",
 "A successful upgrade must increase every cut that restricts the target flow. An edge may belong to more than one cut.",
 "If an edge's reduced capacity still allows its flow in an existing maximum-flow assignment, maximum flow is unchanged.",
 "Reducing an edge below its flow in a maximum-flow assignment may require rerouting. Recalculate the restrictive cuts before deciding whether maximum flow decreases."
 ],
-    "steps": [
+"steps": [
 "Determine the minimum cut and maximum flow of the network",
 "Compare the maximum flow to the target demand when planning an upgrade",
 "Identify which edges belong to the minimum cut bottleneck",
 "Evaluate the impact of changing specific edge capacities on the minimum cut"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A stormwater network has the pipe capacities shown, in kL/h. Each arrow shows the permitted flow direction.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (S) at (0,1.5);\n\\coordinate (A) at (3,3);\n\\coordinate (B) at (3,0);\n\\coordinate (T) at (6,1.5);\n\\draw[->] (S)--(A) node[midway,above left] {$60$};\n\\draw[->] (S)--(B) node[midway,below left] {$40$};\n\\draw[->] (A)--(T) node[midway,above right] {$50$};\n\\draw[->] (B)--(T) node[midway,below right] {$70$};\n\\draw[->] (A)--(B) node[midway,right] {$20$};\n\\fill (S) circle (2pt) node[left] {$S$};\n\\fill (A) circle (2pt) node[above] {$A$};\n\\fill (B) circle (2pt) node[below] {$B$};\n\\fill (T) circle (2pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nDetermine whether the network meets demand of $115\\text{ kL/h}$. Which single pipe could be enlarged, and by how much, to meet this demand?",
+    "solution_text": "The four source–sink cut capacities are:\n$\\begin{aligned}SA+SB&=60+40=100\\\\AT+AB+SB&=50+20+40=110\\\\AT+BT&=50+70=120\\\\SA+BT&=60+70=130\\end{aligned}$\nThe minimum cut gives maximum flow $100\\text{ kL/h}$, which is $15\\text{ kL/h}$ below demand.\nBoth cuts below $115\\text{ kL/h}$ contain $SB$. Increase $SB$ by $15\\text{ kL/h}$, from $40$ to $55\\text{ kL/h}$.\nThe four cut capacities become $115$, $125$, $120$ and $130\\text{ kL/h}$. The new maximum flow is $115\\text{ kL/h}$, so demand is met.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A water network has minimum cut $C_1$ containing pipes with capacities $42$ and $28\\text{ L/s}$. Its second-smallest cut, $C_2$, has capacity $79\\text{ L/s}$ and contains neither pipe. Every other cut has capacity at least $79\\text{ L/s}$.\nThe first pipe is enlarged from $42$ to $57\\text{ L/s}$. Find the new maximum flow. Does it meet demand of $82\\text{ L/s}$?",
+    "solution_text": "Originally, $C_1$ has capacity $42+28=70\\text{ L/s}$.\nAfter the upgrade, its capacity is $57+28=85\\text{ L/s}$.\nCut $C_2$ remains at $79\\text{ L/s}$, and every other cut retains capacity at least $79\\text{ L/s}$.\nThe new maximum flow is $79\\text{ L/s}$. Demand is not met; the shortfall is $82-79=3\\text{ L/s}$."
+  },
+  {
+    "question_text": "A road network has a unique minimum cut consisting of two roads with capacities $80$ and $55\\text{ vehicles/min}$. Roadworks reduce the first road's capacity to $62\\text{ vehicles/min}$.\nFind the new maximum flow and decide whether demand of $120\\text{ vehicles/min}$ can still be met.",
+    "solution_text": "The original maximum flow is $80+55=135\\text{ vehicles/min}$.\nThe original minimum cut now has capacity $62+55=117\\text{ vehicles/min}$.\nEvery other cut loses at most $18\\text{ vehicles/min}$ and originally had capacity greater than $135\\text{ vehicles/min}$, so this cut remains minimum.\nThe new maximum flow is $117\\text{ vehicles/min}$. Demand is not met; the shortfall is $120-117=3\\text{ vehicles/min}$."
+  },
+  {
+    "question_text": "A pipe network has maximum flow $72\\text{ L/s}$. In one maximum-flow assignment, pipe $XY$ has capacity $32\\text{ L/s}$ but carries only $21\\text{ L/s}$.\nMaintenance reduces its capacity to $25\\text{ L/s}$. Determine the new maximum flow and whether demand of $70\\text{ L/s}$ can still be met.",
+    "solution_text": "The reduced capacity still permits the assigned flow because $25>21$.\nThe same maximum-flow assignment remains feasible. Reducing a capacity cannot increase maximum flow, so maximum flow remains $72\\text{ L/s}$.\nDemand of $70\\text{ L/s}$ is still met, with $2\\text{ L/s}$ spare capacity."
+  },
+  {
+    "question_text": "A distribution network has maximum flow $160\\text{ tonnes/day}$. Its unique minimum cut contains edge $E_1$ but excludes edge $E_2$. Every other cut has capacity at least $195\\text{ tonnes/day}$.\nMaintenance reduces $E_1$ by $18\\text{ tonnes/day}$ and $E_2$ by $12\\text{ tonnes/day}$. Both resulting capacities are non-negative. In an original maximum-flow assignment, $E_2$ had $16\\text{ tonnes/day}$ of unused capacity.\nFind the resulting maximum flow and decide whether demand of $145\\text{ tonnes/day}$ is met.",
+    "solution_text": "The original minimum cut contains only $E_1$ of the two changed edges. Its new capacity is $160-18=142\\text{ tonnes/day}$.\nAny other cut loses at most $18+12=30\\text{ tonnes/day}$, leaving capacity at least $195-30=165\\text{ tonnes/day}$.\nThe new minimum cut therefore has capacity $142\\text{ tonnes/day}$, giving maximum flow $142\\text{ tonnes/day}$.\nDemand is not met; the shortfall is $145-142=3\\text{ tonnes/day}$.\nThe original unused capacity on $E_2$ alone does not establish the result after both reductions."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

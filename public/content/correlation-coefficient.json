@@ -2,8 +2,8 @@
   "skillId": "correlation-coefficient",
   "atomType": "Cat",
   "theory": {
-    "intro": "**Pearson's correlation coefficient** $r$ measures how closely a set of points follows a straight line. Its value runs from $-1$ to $1$: the sign gives the direction and the magnitude $|r|$ gives the strength.",
-    "facts": [
+"intro": "**Pearson's correlation coefficient** $r$ measures how closely a set of points follows a straight line. Its value runs from $-1$ to $1$: the sign gives the direction and the magnitude $|r|$ gives the strength.",
+"facts": [
 "A positive $r$ means $y$ tends to increase as $x$ increases; a negative $r$ means $y$ tends to decrease.",
 "Strength is read from the magnitude $|r|$: $0.75 \\leq |r| \\leq 1$ is **strong**, $0.5 \\leq |r| < 0.75$ is **moderate**, and $|r| < 0.5$ is **weak**.",
 "$r$ can never be less than $-1$ or greater than $1$, so a reported value such as $1.4$ must be an error.",
@@ -11,12 +11,30 @@
 "A strong correlation does not prove that one variable causes the other; a third **confounding** variable may be driving both.",
 "When $r$ is defined, it shares its sign with the gradient of the least-squares regression line with an intercept, but that gradient may lie outside $-1$ to $1$. An arbitrary line fitted by eye does not guarantee this sign relationship."
 ],
-    "steps": [
+"steps": [
 "Check the sign of $r$ to give the direction: positive or negative.",
 "Check the magnitude $|r|$ to give the strength: strong, moderate or weak.",
 "State both in the context of the two variables."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A swimming club records weekly training time and the time taken to swim 100 m. Pearson's correlation coefficient is $r=-0.68$.\nDescribe the direction and strength of the linear association in context.",
+    "solution_text": "$r<0$, so swimming time tends to decrease as weekly training time increases.\n$|r|=0.68$ is between $0.5$ and $0.75$, so the association is moderate.\nThere is a moderate negative linear association between weekly training time and time taken to swim 100 m."
   },
+  {
+    "question_text": "The scatterplot shows practice time and the number of typing errors for eight students.\n[tikz]\n\\begin{tikzpicture}[x=0.45cm,y=0.45cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[draw=black,->] (0,0)--(9,0);\n\\draw[draw=black,->] (0,0)--(0,9);\n\\path (4.5,-0.8) node {Practice time};\n\\path (-1,4.5) node[rotate=90] {Typing errors};\n\\foreach \\x/\\y in {1/8,2/6.8,3/7,4/5.5,5/4.8,6/3.5,7/3.8,8/2} {\\fill[black] (\\x,\\y) circle (2pt);}\n\\end{tikzpicture}\n[/tikz]\nWhich of $-0.95$, $-0.25$, $0.25$ or $0.95$ best approximates Pearson's correlation coefficient? Explain.",
+    "solution_text": "The points fall from left to right, so $r$ is negative.\nThey lie close to a straight line, so the linear association is strong and $|r|$ is close to $1$.\nThe best approximation is $r\\approx-0.95$."
+  },
+  {
+    "question_text": "Two studies use regression lines to predict an output from a machine setting. Study A has $r=0.92$ and Study B has $r=0.08$.\nWhich study provides stronger support for predictions using a linear model? Explain.",
+    "solution_text": "Study A has $|r|=0.92$, indicating a strong linear association. Its points lie relatively close to a straight line, supporting predictions within the observed range.\nStudy B has $|r|=0.08$, indicating very little linear association. Its regression line offers little support for accurate predictions.\nStudy A provides stronger support. A large $|r|$ does not guarantee accurate predictions beyond the observed range."
+  },
+  {
+    "question_text": "Across 35 towns, the number of schools and the number of medical clinics have correlation coefficient $r=0.85$.\nA resident claims that opening more schools causes more medical clinics to open. Explain why this conclusion is unsupported and identify a possible confounding variable.",
+    "solution_text": "$r=0.85$ indicates a strong positive linear association between the numbers of schools and medical clinics.\nCorrelation alone does not establish cause and effect.\nTown population is a possible confounding variable: towns with more residents tend to need both more schools and more medical clinics."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

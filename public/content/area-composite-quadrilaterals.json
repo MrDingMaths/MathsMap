@@ -2,8 +2,8 @@
   "skillId": "area-composite-quadrilaterals",
   "atomType": "R",
   "theory": {
-        "intro": "A **composite figure** is built from simpler shapes. Split it into trapeziums, kites, rhombuses, rectangles and triangles, find each part's area, then add the parts — or subtract a piece cut out of one large shape.",
-        "facts": [
+"intro": "A **composite figure** is built from simpler shapes. Split it into trapeziums, kites, rhombuses, rectangles and triangles, find each part's area, then add the parts — or subtract a piece cut out of one large shape.",
+"facts": [
           "Area of a trapezium $=\\frac{h}{2}(a+b)$, where $a$ and $b$ are the parallel sides and $h$ is the perpendicular distance between them.",
           "Area of a kite or a rhombus $=\\frac{1}{2}xy$, where $x$ and $y$ are the two diagonals.",
           "**Add** the parts when the figure is built up from pieces joined together.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (4.8,1.5);\n\\coordinate (D) at (3,3);\n\\coordinate (E) at (0,3);\n\\draw[fill=blue!15] (A)--(B)--(C)--(D)--(E)--cycle;\n\\draw[dashed] (B)--(D);\n\\node at (1.5,1.5) {$A_1$};\n\\node at (3.6,1.5) {$A_2$};\n\\end{tikzpicture}\n[/tikz]",
@@ -13,12 +13,98 @@
           "Most figures can be split in more than one way, and every split gives the same total.",
           "Keep every length in the same unit; the answer is in square units."
         ],
-        "steps": [
+"steps": [
           "Split the figure into shapes whose area formulas you know, or choose a large shape and the piece removed from it.",
           "Find the area of each part separately.",
           "Add the parts, or subtract the removed piece, and write the total in square units."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A composite figure consists of a rectangle with a trapezium on top. The rectangle is $12\\text{ cm}$ wide. The trapezium's parallel sides are $12\\text{ cm}$ and $8\\text{ cm}$, and its perpendicular height is $4\\text{ cm}$. The whole figure is $10\\text{ cm}$ high. Find its area.",
+    "solution_text": "The rectangle's height is $10-4=6\\text{ cm}$.\n$\\begin{aligned} A_1&=12\\times6\\\\&=72\\text{ cm}^2\\\\ A_2&=\\frac{4}{2}(12+8)\\\\&=40\\text{ cm}^2\\\\ A_{\\text{Total}}&=72+40\\\\&=112\\text{ cm}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A triangle sits on the shorter parallel side of a trapezium. The trapezium has parallel sides of $16\\text{ cm}$ and $10\\text{ cm}$ and perpendicular height $4\\text{ cm}$. The whole figure is $13\\text{ cm}$ high, measured perpendicular to its base. Find its area.",
+    "solution_text": "The triangle's perpendicular height is $13-4=9\\text{ cm}$.\n$\\begin{aligned} A_1&=\\frac{4}{2}(16+10)\\\\&=52\\text{ cm}^2\\\\ A_2&=\\frac{10\\times9}{2}\\\\&=45\\text{ cm}^2\\\\ A_{\\text{Total}}&=52+45\\\\&=97\\text{ cm}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the area of the hexagon using two trapeziums. Then check it using a rectangle and two triangles.\n[tikz]\n\\begin{tikzpicture}[scale=0.4,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (2,0)--(8,0)--(10,4)--(8,8)--(2,8)--(0,4)--cycle;\n\\path (5,0) node[below] {$6\\text{ cm}$};\n\\path (5,8) node[above] {$6\\text{ cm}$};\n\\draw[dashed] (0,4)--(10,4);\n\\path (5,4) node[above,fill=white] {$10\\text{ cm}$};\n\\draw[<->] (11,0)--(11,4) node[midway,right] {$4\\text{ cm}$};\n\\draw[<->] (11,4)--(11,8) node[midway,right] {$4\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nThe top endpoints are directly above the bottom endpoints. The tips lie halfway up the figure.",
+    "solution_text": "Split horizontally through the tips.\n$\\begin{aligned} A_1&=\\frac{4}{2}(6+10)\\\\&=32\\text{ cm}^2\\\\ A_2&=\\frac{4}{2}(10+6)\\\\&=32\\text{ cm}^2\\\\ A_{\\text{Total}}&=32+32\\\\&=64\\text{ cm}^2\\end{aligned}$\nFor a different split, draw vertical lines joining the top and bottom endpoints. The rectangle is $6\\text{ cm}$ wide and $8\\text{ cm}$ high. The two triangles' perpendicular heights add to $10-6=4\\text{ cm}$.\n$\\begin{aligned} A_{\\text{rectangle}}&=6\\times8\\\\&=48\\text{ cm}^2\\\\ A_{\\text{triangles}}&=\\frac{8\\times4}{2}\\\\&=16\\text{ cm}^2\\\\ A_{\\text{Total}}&=48+16\\\\&=64\\text{ cm}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A logo consists of a parallelogram joined along its full base to the shorter parallel side of a trapezium. The parallelogram has base $24\\text{ mm}$ and perpendicular height $12\\text{ mm}$. The trapezium has the same perpendicular height, and its longer parallel side is twice its shorter parallel side. Find the logo's area.",
+    "solution_text": "The trapezium's parallel sides are $24\\text{ mm}$ and $48\\text{ mm}$.\n$\\begin{aligned} A_1&=24\\times12\\\\&=288\\text{ mm}^2\\\\ A_2&=\\frac{12}{2}(24+48)\\\\&=432\\text{ mm}^2\\\\ A_{\\text{Total}}&=288+432\\\\&=720\\text{ mm}^2\\end{aligned}$\nFor a parallelogram, use the distance perpendicular to the chosen base, even when the base is vertical.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A trapezium-shaped notch is removed from a rectangular sheet. The sheet is $10\\text{ m}$ wide and $7\\text{ m}$ high. The notch has parallel sides of $10\\text{ m}$ and $4\\text{ m}$ and perpendicular height $2\\text{ m}$; its longer side runs along the sheet's full top edge. Find the remaining area.",
+    "solution_text": "$\\begin{aligned} A_1&=10\\times7\\\\&=70\\text{ m}^2\\\\ A_2&=\\frac{2}{2}(10+4)\\\\&=14\\text{ m}^2\\\\ A_{\\text{remaining}}&=70-14\\\\&=56\\text{ m}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A trapezium-shaped hole lies entirely inside a trapezium-shaped panel. The panel's parallel sides are $22\\text{ m}$ and $14\\text{ m}$, with perpendicular height $10\\text{ m}$. The hole's parallel sides are $10\\text{ m}$ and $6\\text{ m}$, with perpendicular height $3\\text{ m}$. Find the remaining area.",
+    "solution_text": "$\\begin{aligned} A_1&=\\frac{10}{2}(22+14)\\\\&=180\\text{ m}^2\\\\ A_2&=\\frac{3}{2}(10+6)\\\\&=24\\text{ m}^2\\\\ A_{\\text{remaining}}&=180-24\\\\&=156\\text{ m}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A barn wall is a rectangle with a triangle on top. It is $6\\text{ m}$ wide, both vertical sides are $3\\text{ m}$ high, and its highest point is $4.5\\text{ m}$ above the horizontal ground. Find the area to paint.",
+    "solution_text": "The triangle's perpendicular height is $4.5-3=1.5\\text{ m}$.\n$\\begin{aligned} A_1&=6\\times3\\\\&=18\\text{ m}^2\\\\ A_2&=\\frac{6\\times1.5}{2}\\\\&=4.5\\text{ m}^2\\\\ A_{\\text{Total}}&=18+4.5\\\\&=22.5\\text{ m}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A cross-section consists of a rectangle on the left and a trapezium on the right. The rectangle is $2\\text{ m}$ wide and $8\\text{ m}$ high. The total horizontal width is $5\\text{ m}$. The trapezium's parallel sides are vertical: its left side is the rectangle's full right edge, and its right side is $4\\text{ m}$ high. Find the cross-section's area.",
+    "solution_text": "The distance perpendicular to the trapezium's vertical parallel sides is $5-2=3\\text{ m}$.\n$\\begin{aligned} A_1&=2\\times8\\\\&=16\\text{ m}^2\\\\ A_2&=\\frac{3}{2}(8+4)\\\\&=18\\text{ m}^2\\\\ A_{\\text{Total}}&=16+18\\\\&=34\\text{ m}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A rectangle is joined along one full side of a rhombus. The rhombus has diagonals $12\\text{ cm}$ and $16\\text{ cm}$ and side length $10\\text{ cm}$. The rectangle's shared side is $10\\text{ cm}$ long, and its perpendicular width is $3\\text{ cm}$. Find the total area.\n[tikz]\n\\begin{tikzpicture}[scale=0.25,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-8,0)--(0,6)--(1.8,8.4)--(9.8,2.4)--(8,0)--(0,-6)--cycle;\n\\draw[dashed] (0,6)--(8,0);\n\\draw[dashed] (-8,0)--(8,0);\n\\draw[dashed] (0,-6)--(0,6);\n\\path (-4,0) node[below] {$16\\text{ cm}$};\n\\path (0,-3) node[right] {$12\\text{ cm}$};\n\\path (5.8,5.4) node[above right] {$10\\text{ cm}$};\n\\path (8.9,1.2) node[right] {$3\\text{ cm}$};\n\\draw (7.6,0.3)--(7.9,0.7)--(8.3,0.4);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The dashed shared side separates the rhombus from the rectangle.\n$\\begin{aligned} A_1&=\\frac{12\\times16}{2}\\\\&=96\\text{ cm}^2\\\\ A_2&=10\\times3\\\\&=30\\text{ cm}^2\\\\ A_{\\text{Total}}&=96+30\\\\&=126\\text{ cm}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A rhombus-shaped hole is cut from a kite-shaped card. The kite has diagonals $14\\text{ cm}$ and $20\\text{ cm}$. The hole lies entirely inside it and has diagonals $6\\text{ cm}$ and $10\\text{ cm}$. Find the remaining area.",
+    "solution_text": "$\\begin{aligned} A_1&=\\frac{14\\times20}{2}\\\\&=140\\text{ cm}^2\\\\ A_2&=\\frac{6\\times10}{2}\\\\&=30\\text{ cm}^2\\\\ A_{\\text{remaining}}&=140-30\\\\&=110\\text{ cm}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A sign consists of a central square with an isosceles triangle joined externally to each of its left and right sides. The square has side length $6\\text{ m}$. The triangle tips lie on the horizontal line through the square's centre and are $20\\text{ m}$ apart. Find the total area.",
+    "solution_text": "The two triangles' perpendicular heights add to $20-6=14\\text{ m}$; their individual heights are not needed.\n$\\begin{aligned} A_1&=6\\times6\\\\&=36\\text{ m}^2\\\\ A_2+A_3&=\\frac{6\\times14}{2}\\\\&=42\\text{ m}^2\\\\ A_{\\text{Total}}&=36+42\\\\&=78\\text{ m}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A square-shaped hole is cut from a kite-shaped card. Each square diagonal is $8\\text{ cm}$. Its left and right vertices coincide with the kite's left and right vertices, and their vertical diagonals lie on the same line. The kite extends $3\\text{ cm}$ above the square's top vertex and $5\\text{ cm}$ below its bottom vertex. Find the remaining area.",
+    "solution_text": "The kite's vertical diagonal is $3+8+5=16\\text{ cm}$. Its horizontal diagonal is $8\\text{ cm}$.\n$\\begin{aligned} A_1&=\\frac{8\\times16}{2}\\\\&=64\\text{ cm}^2\\\\ A_2&=\\frac{8\\times8}{2}\\\\&=32\\text{ cm}^2\\\\ A_{\\text{remaining}}&=64-32\\\\&=32\\text{ cm}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

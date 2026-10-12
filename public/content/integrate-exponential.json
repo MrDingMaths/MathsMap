@@ -2,8 +2,8 @@
   "skillId": "integrate-exponential",
   "atomType": "R",
   "theory": {
-    "intro": "Integrating an exponential undoes differentiating it. Since differentiating $e^{ax+b}$ multiplies by $a$, integrating it divides by $a$ when $a \\ne 0$: $\\int e^{ax+b}\\,dx = \\dfrac{1}{a}e^{ax+b} + C$. The index itself never changes. When $a=0$, the term is constant and integrates to the constant times $x$, with $+C$.",
-    "facts": [
+"intro": "Integrating an exponential undoes differentiating it. Since differentiating $e^{ax+b}$ multiplies by $a$, integrating it divides by $a$ when $a \\ne 0$: $\\int e^{ax+b}\\,dx = \\dfrac{1}{a}e^{ax+b} + C$. The index itself never changes. When $a=0$, the term is constant and integrates to the constant times $x$, with $+C$.",
+"facts": [
 "$\\int e^{x}\\,dx = e^{x} + C$, because $e^{x}$ is its own derivative.",
 "$\\int e^{ax+b}\\,dx = \\dfrac{1}{a}e^{ax+b} + C$ for constants $a \\ne 0$ and $b$.",
 "Differentiating multiplies by $a$, so integrating divides by $a$; losing that $\\dfrac{1}{a}$ is the most common error.",
@@ -15,13 +15,92 @@
 "For a definite integral write $\\left[F(x)\\right]_{p}^{q}$ and compute $F(q) - F(p)$ in that order.",
 "Check any primitive by differentiating it: the result must be the original integrand."
 ],
-    "steps": [
+"steps": [
 "Rewrite the integrand as a sum of exponential terms and constant terms, expanding brackets or splitting fractions first.",
 "For each exponential term with nonzero coefficient $a$ of $x$ in its index, write down $e$ to the same index, unchanged.",
 "Divide each exponential term by $a$, keeping any constant factor. Integrate each constant term $k$ as $kx$; do not divide by zero.",
 "Add $+C$ for an indefinite integral, or evaluate $\\left[F(x)\\right]_{p}^{q}$ for a definite one."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Find $\\int (7e^x-3)\\,dx$, including the constant of integration.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int (7e^x-3)\\,dx\\\\&=7e^x-3x+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find $\\int 8e^{5-4x}\\,dx$.",
+    "solution_text": "The coefficient of $x$ in the exponent is $-4$, so divide by $-4$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 8e^{5-4x}\\,dx\\\\&=\\frac{8}{-4}e^{5-4x}+C\\\\&=-2e^{5-4x}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int (3e^{4x}+2e^{-2x})\\,dx$.",
+    "solution_text": "Integrate each term separately.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int (3e^{4x}+2e^{-2x})\\,dx\\\\&=\\frac{3}{4}e^{4x}+\\frac{2}{-2}e^{-2x}+C\\\\&=\\frac{3}{4}e^{4x}-e^{-2x}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int \\frac{15}{e^{3x-2}}\\,dx$.",
+    "solution_text": "Rewrite the reciprocal using a negative exponent.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int \\frac{15}{e^{3x-2}}\\,dx\\\\&=\\int 15e^{2-3x}\\,dx\\\\&=\\frac{15}{-3}e^{2-3x}+C\\\\&=-5e^{2-3x}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int \\sqrt[3]{e^{4x}}\\,dx$.",
+    "solution_text": "Write the cube root as a fractional power of $e$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int \\sqrt[3]{e^{4x}}\\,dx\\\\&=\\int e^{\\frac{4x}{3}}\\,dx\\\\&=\\frac{1}{\\frac{4}{3}}e^{\\frac{4x}{3}}+C\\\\&=\\frac{3}{4}e^{\\frac{4x}{3}}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int (e^{2x}-2)^2\\,dx$.",
+    "solution_text": "Expand before integrating.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int (e^{2x}-2)^2\\,dx\\\\&=\\int (e^{4x}-4e^{2x}+4)\\,dx\\\\&=\\frac{1}{4}e^{4x}-\\frac{4}{2}e^{2x}+4x+C\\\\&=\\frac{1}{4}e^{4x}-2e^{2x}+4x+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int \\frac{e^{4x}+2e^x}{e^{2x}}\\,dx$.",
+    "solution_text": "Split the fraction and subtract exponents.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int \\frac{e^{4x}+2e^x}{e^{2x}}\\,dx\\\\&=\\int (e^{2x}+2e^{-x})\\,dx\\\\&=\\frac{1}{2}e^{2x}-2e^{-x}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_1^2 6e^{5-2x}\\,dx$, giving the exact value.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_1^2 6e^{5-2x}\\,dx\\\\&=\\left[-3e^{5-2x}\\right]_1^2\\\\&=-3e-(-3e^3)\\\\&=3(e^3-e)\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_0^1 (e^{3x}-2)(e^{3x}+2)\\,dx$, giving the exact value.",
+    "solution_text": "Expand the product, then evaluate the primitive at the upper and lower limits.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_0^1 (e^{3x}-2)(e^{3x}+2)\\,dx\\\\&=\\int_0^1 (e^{6x}-4)\\,dx\\\\&=\\left[\\frac{1}{6}e^{6x}-4x\\right]_0^1\\\\&=\\left(\\frac{e^6}{6}-4\\right)-\\frac{1}{6}\\\\&=\\frac{e^6-25}{6}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A function satisfies $f'(x)=3e^{3x-2}$ and $f\\left(\\frac{2}{3}\\right)=4$. Find $f(x)$.",
+    "solution_text": "$\\begin{aligned}f(x)&=\\int 3e^{3x-2}\\,dx\\\\&=e^{3x-2}+C\\end{aligned}$\nUsing $f\\left(\\frac{2}{3}\\right)=4$:\n$\\begin{aligned}1+C&=4\\\\C&=3\\end{aligned}$\n$ f(x)=e^{3x-2}+3$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A curve $y=f(x)$ satisfies $f''(x)=9e^{3x}$ and has a stationary point at $(0,4)$. Find $f(x)$.",
+    "solution_text": "$\\begin{aligned}f'(x)&=\\int 9e^{3x}\\,dx\\\\&=3e^{3x}+C_1\\end{aligned}$\nAt the stationary point, $f'(0)=0$.\n$\\begin{aligned}3+C_1&=0\\\\C_1&=-3\\end{aligned}$\n$ f'(x)=3e^{3x}-3$\nIntegrate again.\n$\\begin{aligned}f(x)&=\\int (3e^{3x}-3)\\,dx\\\\&=e^{3x}-3x+C_2\\end{aligned}$\nUsing $f(0)=4$:\n$\\begin{aligned}1+C_2&=4\\\\C_2&=3\\end{aligned}$\n$ f(x)=e^{3x}-3x+3$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

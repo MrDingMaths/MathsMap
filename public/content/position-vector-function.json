@@ -2,8 +2,8 @@
   "skillId": "position-vector-function",
   "atomType": "R",
   "theory": {
-    "intro": "A **position vector function** $\\underset{\\sim}{r}(t)$ gives a particle's position at time $t$, measured from the origin. Its components are the functions $x(t)$ and $y(t)$, written $\\underset{\\sim}{r}(t)=x(t)\\underset{\\sim}{i}+y(t)\\underset{\\sim}{j}$. Substituting a value of $t$ gives the position at that time.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.6,0)--(6.2,0) node[right,font=\\footnotesize] {$x$};\n\\draw[->] (0,-0.6)--(0,4.6) node[above,font=\\footnotesize] {$y$};\n\\draw[thick,blue,<->,domain=0.4:5.6,smooth,variable=\\x] plot ({\\x},{0.35*\\x*\\x-1.9*\\x+3.6});\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (4.4,2.016);\n\\draw[dashed,gray] (P)--(4.4,0);\n\\draw[dashed,gray] (P)--(0,2.016);\n\\draw[->,thick] (O)--(P) node[midway,above left,font=\\footnotesize] {$\\underset{\\sim}{r}(t)$};\n\\node[below,font=\\footnotesize] at (4.4,-0.05) {$x(t)$};\n\\node[left,font=\\footnotesize] at (-0.05,2.016) {$y(t)$};\n\\fill (P) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (P) {$P$};\n\\node[below left,font=\\footnotesize] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "A **position vector function** $\\underset{\\sim}{r}(t)$ gives a particle's position at time $t$, measured from the origin. Its components are the functions $x(t)$ and $y(t)$, written $\\underset{\\sim}{r}(t)=x(t)\\underset{\\sim}{i}+y(t)\\underset{\\sim}{j}$. Substituting a value of $t$ gives the position at that time.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.6,0)--(6.2,0) node[right,font=\\footnotesize] {$x$};\n\\draw[->] (0,-0.6)--(0,4.6) node[above,font=\\footnotesize] {$y$};\n\\draw[thick,blue,<->,domain=0.4:5.6,smooth,variable=\\x] plot ({\\x},{0.35*\\x*\\x-1.9*\\x+3.6});\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (4.4,2.016);\n\\draw[dashed,gray] (P)--(4.4,0);\n\\draw[dashed,gray] (P)--(0,2.016);\n\\draw[->,thick] (O)--(P) node[midway,above left,font=\\footnotesize] {$\\underset{\\sim}{r}(t)$};\n\\node[below,font=\\footnotesize] at (4.4,-0.05) {$x(t)$};\n\\node[left,font=\\footnotesize] at (-0.05,2.016) {$y(t)$};\n\\fill (P) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (P) {$P$};\n\\node[below left,font=\\footnotesize] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
       "$\\underset{\\sim}{r}(t)=x(t)\\underset{\\sim}{i}+y(t)\\underset{\\sim}{j}$ says the particle is $x(t)$ across and $y(t)$ up at time $t$.",
       "To find the position at a particular time, substitute that value of $t$ into both components.",
       "The pair $x=x(t)$ and $y=y(t)$ are **parametric equations** for the path, with time as the parameter.",
@@ -12,12 +12,77 @@
       "The particle is on the $y$-axis when $x(t)=0$, and on the $x$-axis when $y(t)=0$.",
       "Time is usually restricted to $t\\ge0$, so only part of the curve is traced."
     ],
-    "steps": [
+"steps": [
       "Write down the two component functions $x(t)$ and $y(t)$.",
       "Substitute the given value of $t$ into each component.",
       "State the position as a vector or as a point."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}-3t)\\underset{\\sim}{i}+(2t+1)\\underset{\\sim}{j}$. Find its position when $t=4$.",
+    "solution_text": "$\\begin{aligned}\\underset{\\sim}{r}(4)&=(4^{2}-3(4))\\underset{\\sim}{i}+(2(4)+1)\\underset{\\sim}{j}\\\\&=4\\underset{\\sim}{i}+9\\underset{\\sim}{j}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=10\\cos t\\,\\underset{\\sim}{i}+10\\sin t\\,\\underset{\\sim}{j}$. Find its exact position when $t=\\dfrac{\\pi}{6}$.",
+    "solution_text": "$\\begin{aligned}\\underset{\\sim}{r}\\left(\\frac{\\pi}{6}\\right)&=10\\cos\\frac{\\pi}{6}\\,\\underset{\\sim}{i}+10\\sin\\frac{\\pi}{6}\\,\\underset{\\sim}{j}\\\\&=10\\left(\\frac{\\sqrt{3}}{2}\\right)\\underset{\\sim}{i}+10\\left(\\frac12\\right)\\underset{\\sim}{j}\\\\&=5\\sqrt{3}\\,\\underset{\\sim}{i}+5\\underset{\\sim}{j}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle starts at $(-2,4)$. After $t$ seconds it has moved $3t$ units right and $t^{2}$ units down from its starting point. Write its position vector function for $t\\ge0$.",
+    "solution_text": "$\\begin{aligned}x(t)&=-2+3t\\\\y(t)&=4-t^{2}\\\\\\underset{\\sim}{r}(t)&=(3t-2)\\underset{\\sim}{i}+(4-t^{2})\\underset{\\sim}{j},\\qquad t\\ge0\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle moves in a straight line at a steady rate. It is at $(5,8)$ when $t=2$ seconds and at $(17,0)$ when $t=6$ seconds. Find its position vector function.",
+    "solution_text": "The coordinate changes occur over $6-2=4$ seconds.\n\n$\\begin{aligned}\\text{Horizontal change per second}&=\\frac{17-5}{4}=3\\\\\\text{Vertical change per second}&=\\frac{0-8}{4}=-2\\end{aligned}$\n\nTrack back two seconds to find the initial position.\n\n$\\begin{aligned}x(0)&=5-3(2)=-1\\\\y(0)&=8-(-2)(2)=12\\\\\\underset{\\sim}{r}(t)&=(3t-1)\\underset{\\sim}{i}+(12-2t)\\underset{\\sim}{j}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(2t+1)\\underset{\\sim}{i}+(t+9)\\underset{\\sim}{j}$, with coordinates measured in metres. Find its distance from the origin when $t=2$ seconds.",
+    "solution_text": "$\\begin{aligned}\\underset{\\sim}{r}(2)&=(2(2)+1)\\underset{\\sim}{i}+(2+9)\\underset{\\sim}{j}\\\\&=5\\underset{\\sim}{i}+11\\underset{\\sim}{j}\\\\\\left|\\underset{\\sim}{r}(2)\\right|&=\\sqrt{5^{2}+11^{2}}\\\\&=\\sqrt{146}\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}-25)\\underset{\\sim}{i}+(t^{2}-3t)\\underset{\\sim}{j}$ for $t\\ge0$.\n\n(a) Find its position when it crosses the $y$-axis.\n\n(b) Find all times when it is on the $x$-axis.",
+    "solution_text": "(a) On the $y$-axis, $x(t)=0$.\n\n$\\begin{aligned}t^{2}-25&=0\\\\t&=5\\end{aligned}$\n\nThe negative root is excluded by $t\\ge0$.\n\n$\\begin{aligned}\\underset{\\sim}{r}(5)&=(25-25)\\underset{\\sim}{i}+(25-15)\\underset{\\sim}{j}\\\\&=10\\underset{\\sim}{j}\\end{aligned}$\n\n(b) On the $x$-axis, $y(t)=0$.\n\n$\\begin{aligned}t^{2}-3t&=0\\\\t(t-3)&=0\\end{aligned}$\n\nSo $t=0$ or $t=3$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}-t-12)\\underset{\\sim}{i}+(t^{2}-16)\\underset{\\sim}{j}$ for $t\\ge0$. Show that it passes through the origin and find when this occurs.",
+    "solution_text": "At the origin, both components must be zero at the same time.\n\n$\\begin{aligned}t^{2}-t-12&=0\\\\(t-4)(t+3)&=0\\end{aligned}$\n\nFor $t\\ge0$, the only candidate is $t=4$. Check the other component:\n\n$\\begin{aligned}y(4)&=4^{2}-16\\\\&=0\\end{aligned}$\n\nBoth components are zero at $t=4$, so the particle passes through the origin then.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(1+t)\\underset{\\sim}{i}+(4-t)\\underset{\\sim}{j}$ for $t\\ge0$, where $t$ is measured in seconds. Describe its motion.",
+    "solution_text": "$x(t)=1+t$ increases by $1$ each second, and $y(t)=4-t$ decreases by $1$ each second. The particle starts at $(1,4)$ and moves in a straight line, going $1$ unit right and $1$ unit down each second.\n\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[->,black] (-0.4,0)--(5.8,0) node[right] {$x$};\n\\draw[->,black] (0,-1.1)--(0,4.9) node[above] {$y$};\n\\node[below left] at (0,0) {$O$};\n\\draw[->,thick,black] (1,4)--(5.4,-0.4);\n\\fill[black] (1,4) circle (1.5pt);\n\\fill[black] (2,3) circle (1.5pt);\n\\node[above right] at (1,4) {$(1,4),\\ t=0$};\n\\node[right] at (2,3) {$(2,3),\\ t=1$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t-7)\\underset{\\sim}{i}+(t+1)\\underset{\\sim}{j}$ for $t\\ge0$, with coordinates measured in metres and $t$ in seconds. Find when it is closest to the origin and its exact distance then.",
+    "solution_text": "Minimise the squared distance, which has its minimum at the same time as the distance.\n\n$\\begin{aligned}\\left|\\underset{\\sim}{r}(t)\\right|^{2}&=(t-7)^{2}+(t+1)^{2}\\\\&=2t^{2}-12t+50\\end{aligned}$\n\nThis quadratic opens upwards. Its minimum occurs at\n\n$\\begin{aligned}t&=-\\frac{-12}{2(2)}\\\\&=3\\text{ s}\\end{aligned}$\n\nThis time satisfies $t\\ge0$.\n\n$\\begin{aligned}\\left|\\underset{\\sim}{r}(3)\\right|&=\\sqrt{(3-7)^{2}+(3+1)^{2}}\\\\&=\\sqrt{32}\\\\&=4\\sqrt{2}\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,8 +2,8 @@
   "skillId": "area-between-curves",
   "atomType": "R",
   "theory": {
-    "intro": "The area between two curves is the integral of the upper curve minus the lower curve. Find where the curves cross first, because the curve on top can change over.",
-    "facts": [
+"intro": "The area between two curves is the integral of the upper curve minus the lower curve. Find where the curves cross first, because the curve on top can change over.",
+"facts": [
       "Between $x=a$ and $x=b$ the area is $\\int_{a}^{b}\\left[f(x)-g(x)\\right]dx$, where $f$ is the **upper** curve.",
       "The curves meet where $f(x)=g(x)$, and those $x$ values are the limits of an enclosed region.",
       "Upper minus lower still works when one or both curves lie below the $x$-axis.",
@@ -12,13 +12,27 @@
       "An integral taken straight across a crossing subtracts the swapped piece, so it understates the area.",
       "Area is measured in square units, written $\\text{units}^{2}$."
     ],
-    "steps": [
+"steps": [
       "Find where the curves meet by solving $f(x)=g(x)$.",
       "Decide which curve is upper on each interval by testing a point.",
       "Integrate upper minus lower over each interval.",
       "Add the areas of the pieces."
-    ]
+    ],
+"workedExamples": [
+{
+    "question_text": "Find the area enclosed by $y=x^{2}$ and $y=x+12$.",
+    "solution_text": "Find the intersections.\n$\\begin{align*}x^{2}&=x+12\\\\x^{2}-x-12&=0\\\\(x-4)(x+3)&=0\\\\x&=-3,\\ 4\\end{align*}$\nAt $x=0$, the line has height $12$ and the parabola has height $0$, so the line is upper.\n[tikz]\\begin{tikzpicture}[x=0.65cm,y=0.19cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{regionfill}{HTML}{D4E8FF}\n\\fill[regionfill] plot[domain=-3:4,samples=2] (\\x,{\\x+12}) -- plot[domain=4:-3,samples=65] (\\x,{\\x*\\x}) -- cycle;\n\\draw[black,->] (-4,0)--(5,0);\n\\draw[black,->] (0,-2)--(0,22);\n\\draw[black,thick] plot[domain=-3.5:4.5,samples=65] (\\x,{\\x*\\x});\n\\draw[black,thick] (-3.7,8.3)--(4.7,16.7);\n\\path (5,0) node[right] {$x$} (0,22) node[above] {$y$} (-2,17) node {$y=x+12$} (3,5) node {$y=x^{2}$};\n\\draw[black,dashed] (-3,0)--(-3,9) (4,0)--(4,16);\n\\path (-3,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$-3$} (4,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$4$};\n\\end{tikzpicture}[/tikz]\nThe light blue region lies between the curves.\n$\\begin{align*}A&=\\int_{-3}^{4}(x+12-x^{2})\\,dx\\\\&=\\left[\\frac{x^{2}}{2}+12x-\\frac{x^{3}}{3}\\right]_{-3}^{4}\\\\&=\\frac{104}{3}-\\left(-\\frac{45}{2}\\right)\\\\&=\\frac{343}{6}\\ \\text{units}^{2}\\end{align*}$"
   },
+{
+    "question_text": "Find the area of the region bounded by $y=x^{2}$, $y=(x-8)^{2}$ and the $x$-axis.",
+    "solution_text": "Find where the curves meet.\n$\\begin{align*}x^{2}&=(x-8)^{2}\\\\x^{2}&=x^{2}-16x+64\\\\16x&=64\\\\x&=4\\end{align*}$\nThe curves meet the $x$-axis at $x=0$ and $x=8$. The required region lies under $y=x^{2}$ on $[0,4]$, then under $y=(x-8)^{2}$ on $[4,8]$.\n[tikz]\\begin{tikzpicture}[x=0.6cm,y=0.19cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{regionfill}{HTML}{D4E8FF}\n\\fill[regionfill] (0,0)--plot[domain=0:4,samples=45] (\\x,{\\x*\\x})--plot[domain=4:8,samples=45] (\\x,{(\\x-8)*(\\x-8)})--cycle;\n\\draw[black,->] (-1,0)--(9,0);\n\\draw[black,->] (0,-2)--(0,23);\n\\draw[black,thick] plot[domain=-0.5:4.6,samples=50] (\\x,{\\x*\\x});\n\\draw[black,thick] plot[domain=3.4:8.5,samples=50] (\\x,{(\\x-8)*(\\x-8)});\n\\draw[black,dashed] (4,0)--(4,16);\n\\path (9,0) node[right] {$x$} (0,23) node[above] {$y$} (1.7,14) node {$y=x^{2}$} (7,17) node {$y=(x-8)^{2}$};\n\\path (4,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$4$} (8,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$8$};\n\\end{tikzpicture}[/tikz]\nSplit at $x=4$ and add the two areas above the axis.\n$\\begin{align*}A_{1}&=\\int_{0}^{4}x^{2}\\,dx\\\\&=\\left[\\frac{x^{3}}{3}\\right]_{0}^{4}\\\\&=\\frac{64}{3}\\end{align*}$\n$\\begin{align*}A_{2}&=\\int_{4}^{8}(x-8)^{2}\\,dx\\\\&=\\left[\\frac{(x-8)^{3}}{3}\\right]_{4}^{8}\\\\&=0-\\left(-\\frac{64}{3}\\right)\\\\&=\\frac{64}{3}\\end{align*}$\n$\\begin{align*}A&=A_{1}+A_{2}\\\\&=\\frac{128}{3}\\ \\text{units}^{2}\\end{align*}$"
+  },
+{
+    "question_text": "Find the area of the region bounded by $y=x^{2}$, $y=4(x-9)^{2}$ and the $x$-axis.",
+    "solution_text": "Find the intersections.\n$\\begin{align*}x^{2}&=4(x-9)^{2}\\\\3x^{2}-72x+324&=0\\\\3(x-6)(x-18)&=0\\\\x&=6,\\ 18\\end{align*}$\nThe curves meet the $x$-axis at $x=0$ and $x=9$. The region bounded by both curves and the axis uses the crossing at $x=6$; the crossing at $x=18$ belongs to a different region.\n[tikz]\\begin{tikzpicture}[x=0.5cm,y=0.1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{regionfill}{HTML}{D4E8FF}\n\\fill[regionfill] (0,0)--plot[domain=0:6,samples=50] (\\x,{\\x*\\x})--plot[domain=6:9,samples=50] (\\x,{4*(\\x-9)*(\\x-9)})--cycle;\n\\draw[black,->] (-1,0)--(10,0);\n\\draw[black,->] (0,-4)--(0,52);\n\\draw[black,thick] plot[domain=-0.5:7,samples=55] (\\x,{\\x*\\x});\n\\draw[black,thick] plot[domain=5.5:9.6,samples=55] (\\x,{4*(\\x-9)*(\\x-9)});\n\\draw[black,dashed] (6,0)--(6,36);\n\\path (10,0) node[right] {$x$} (0,52) node[above] {$y$} (2.6,28) node {$y=x^{2}$} (10,46) node[right] {$y=4(x-9)^{2}$};\n\\path (6,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$6$} (9,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$9$};\n\\end{tikzpicture}[/tikz]\nThe required region lies under $y=x^{2}$ on $[0,6]$, then under $y=4(x-9)^{2}$ on $[6,9]$. The lower boundary is the $x$-axis.\n$\\begin{align*}A_{1}&=\\int_{0}^{6}x^{2}\\,dx\\\\&=\\left[\\frac{x^{3}}{3}\\right]_{0}^{6}\\\\&=72\\end{align*}$\n$\\begin{align*}A_{2}&=\\int_{6}^{9}4(x-9)^{2}\\,dx\\\\&=\\left[\\frac{4(x-9)^{3}}{3}\\right]_{6}^{9}\\\\&=0-(-36)\\\\&=36\\end{align*}$\n$\\begin{align*}A&=A_{1}+A_{2}\\\\&=108\\ \\text{units}^{2}\\end{align*}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

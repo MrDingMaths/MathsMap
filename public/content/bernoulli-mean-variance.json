@@ -2,8 +2,8 @@
   "skillId": "bernoulli-mean-variance",
   "atomType": "T",
   "theory": {
-    "intro": "For $X \\sim \\text{Bernoulli}(p)$ the mean is $E(X)=p$ and the variance is $\\text{Var}(X)=p(1-p)$. Both come from the discrete formulas $E(X)=\\sum xP(x)$ and $\\text{Var}(X)=\\sum x^2P(x)-[E(X)]^2$. The standard deviation is $\\sigma(X)=\\sqrt{p(1-p)}$.",
-    "facts": [
+"intro": "For $X \\sim \\text{Bernoulli}(p)$ the mean is $E(X)=p$ and the variance is $\\text{Var}(X)=p(1-p)$. Both come from the discrete formulas $E(X)=\\sum xP(x)$ and $\\text{Var}(X)=\\sum x^2P(x)-[E(X)]^2$. The standard deviation is $\\sigma(X)=\\sqrt{p(1-p)}$.",
+"facts": [
       "$E(X)=p$: the mean of a Bernoulli variable is simply its probability of success.",
       "$E(X)=0(1-p)+1(p)=p$, because only the value $x=1$ contributes to the sum.",
       "$E(X^2)=0^2(1-p)+1^2(p)=p$, so $\\text{Var}(X)=p-p^2=p(1-p)$.",
@@ -13,13 +13,27 @@
       "The variance is $0$ when $p=0$ or $p=1$, because the result of the trial is then certain.",
       "The mean $p$ is not a value $X$ can take unless $p$ is $0$ or $1$."
     ],
-    "steps": [
+"steps": [
       "Write down $p$, the probability of success.",
       "Find the mean using $E(X)=p$.",
       "Find the variance using $\\text{Var}(X)=p(1-p)$.",
       "Take the square root of the variance if the standard deviation is asked for."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A biased coin shows heads with probability $0.35$. Let $X=1$ if it shows heads and $X=0$ otherwise. Construct the probability table and use the discrete expectation and variance formulas to find $E(X)$, $\\text{Var}(X)$ and $\\sigma(X)$. Give the standard deviation to three decimal places.",
+    "solution_text": "$\\begin{array}{c|cc}x&0&1\\\\\\hline P(X=x)&0.65&0.35\\end{array}$\n\n$\\begin{aligned}E(X)&=\\sum xP(X=x)\\\\&=0(0.65)+1(0.35)\\\\&=0.35\\end{aligned}$\n\n$\\begin{aligned}E(X^2)&=\\sum x^2P(X=x)\\\\&=0^2(0.65)+1^2(0.35)\\\\&=0.35\\end{aligned}$\n\n$\\begin{aligned}\\text{Var}(X)&=E(X^2)-[E(X)]^2\\\\&=0.35-(0.35)^2\\\\&=0.2275\\end{aligned}$\n\n$\\begin{aligned}\\sigma(X)&=\\sqrt{\\text{Var}(X)}\\\\&=\\sqrt{0.2275}\\\\&\\approx0.477\\end{aligned}$"
   },
+  {
+    "question_text": "$X\\sim\\text{Bernoulli}\\left(\\frac{3}{8}\\right)$. Find $E(X)$ and $\\text{Var}(X)$ as fractions.",
+    "solution_text": "$\\begin{aligned}E(X)&=p\\\\&=\\frac{3}{8}\\end{aligned}$\n\n$\\begin{aligned}\\text{Var}(X)&=p(1-p)\\\\&=\\frac{3}{8}\\left(1-\\frac{3}{8}\\right)\\\\&=\\frac{3}{8}\\cdot\\frac{5}{8}\\\\&=\\frac{15}{64}\\end{aligned}$"
+  },
+  {
+    "question_text": "A machine part passes inspection with probability $0.94$. Let $X=1$ if the part fails inspection and $X=0$ otherwise. Find $E(X)$ and $\\text{Var}(X)$.",
+    "solution_text": "Success means failing inspection.\n\n$\\begin{aligned}p&=1-0.94\\\\&=0.06\\end{aligned}$\n\n$\\begin{aligned}E(X)&=p\\\\&=0.06\\end{aligned}$\n\n$\\begin{aligned}\\text{Var}(X)&=p(1-p)\\\\&=0.06(0.94)\\\\&=0.0564\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

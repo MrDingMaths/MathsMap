@@ -2,8 +2,8 @@
   "skillId": "induction-false-proofs",
   "atomType": "Cat",
   "theory": {
-    "intro": "A proof by induction needs a true base case and a valid inductive step. A correct conditional step alone does not prove a universal claim, and the conclusion must match the indices covered by the proof.",
-    "facts": [
+"intro": "A proof by induction needs a true base case and a valid inductive step. A correct conditional step alone does not prove a universal claim, and the conclusion must match the indices covered by the proof.",
+"facts": [
 "A valid inductive step with a false base case establishes the conditional implication, but does not establish the universal claim.",
 "A true base case with no valid step proves only that one case, however many extra values are checked.",
 "The booklet asks you to state and use the inductive hypothesis. However, independently proving the next case still establishes the implication, even if the hypothesis is unused.",
@@ -12,13 +12,31 @@
 "Stepping from $n = k$ to $n = k + 1$ covers integer indices, not every real number. Statements involving real variables or angles can still be proved by induction when a separate integer index controls the induction.",
 "A single **counterexample** disproves a claim, so a false formula can be settled by one well-chosen value of $n$."
 ],
-    "steps": [
+"steps": [
 "Check the base case is tested at the right value",
 "Check the inductive hypothesis is stated for $n = k$",
 "Check the step establishes the required conditional implication",
 "Check the reasoning is justified and the conclusion matches the domain proved"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Suppose $4 + 12 + 20 + \\dots + 4(2n-1)=4n^2+5$ is true for $n=k$. Show that it is true for $n=k+1$, then explain why this does not prove the claim for all integers $n\\ge1$.",
+    "solution_text": "Assume $4+12+\\dots+4(2k-1)=4k^2+5$ for an integer $k\\ge1$.\n\nThe next term is $4(2(k+1)-1)=8k+4$. Using the assumption,\n\n$\\begin{aligned} &\\mathrel{\\phantom{=}}4+12+\\dots+4(2k-1)+(8k+4)\\\\ &=4k^2+5+8k+4\\\\ &=4(k+1)^2+5.\\end{aligned}$\n\nThe conditional step is valid. However, at $n=1$, the left side is $4$ and the right side is $4+5=9$. The base case is false, so the universal claim is false. A valid conditional step cannot replace a true base case."
   },
+  {
+    "question_text": "Prove or disprove $6+12+18+\\dots+6n=2n(n+1)+2$ for all integers $n\\ge1$.",
+    "solution_text": "At $n=1$, the left side is $6$ and the right side is $2(1)(2)+2=6$. This verifies only one case.\n\nAt $n=2$,\n\n$\\begin{aligned} LHS&=6+12=18,\\\\ RHS&=2(2)(3)+2=14.\\end{aligned}$\n\nSince $18\\ne14$, $n=2$ is a counterexample. One counterexample disproves the universal claim."
+  },
+  {
+    "question_text": "A student verifies $2+7+12+\\dots+(5n-3)=\\dfrac{n(5n-1)}{2}$ at $n=1$ and establishes the next case from the $n=k$ case for every integer $k\\ge1$. The student concludes that the formula holds for all real numbers $n\\ge1$. Explain the error and state the conclusion supported by the proof.",
+    "solution_text": "The base case and step cover integer indices: $1,2,3,\\dots$. Stepping from $k$ to $k+1$ does not reach the real numbers between these integers. The number of terms in this sum also requires an integer index.\n\nThe supported conclusion is that the formula holds for all integers $n\\ge1$. It cannot be proved for all real numbers by induction on $n$ as stated."
+  },
+  {
+    "question_text": "Two students attempt the inductive step for $2(1)(2)+2(2)(3)+\\dots+2n(n+1)=\\dfrac{2n(n+1)(n+2)}{3}$.\n\nBoth assume the formula is true at $n=k$.\n\nStudent A substitutes the hypothesis into the first $k$ terms, then factorises the resulting left side.\n\nStudent B substitutes the hypothesis into the first $k$ terms, writes the proposed next-case equation, multiplies both sides by $3$ and expands. Both sides become $2k^3+12k^2+22k+12$.\n\nDecide whether each approach establishes the inductive step. Does this step alone complete the proof?",
+    "solution_text": "Student A's approach is valid. Using the hypothesis,\n\n$\\begin{aligned} &\\mathrel{\\phantom{=}}\\frac{2k(k+1)(k+2)}{3}+2(k+1)(k+2)\\\\ &=\\frac{2(k+1)(k+2)(k+3)}{3}.\\end{aligned}$\n\nThis is the required right side for $n=k+1$.\n\nStudent B's approach is also valid. After substituting the hypothesis, the required equation is\n\n$\\frac{2k(k+1)(k+2)}{3}+2(k+1)(k+2)=\\frac{2(k+1)(k+2)(k+3)}{3}$.\n\nMultiplication by the non-zero number $3$ and expansion are reversible. Both sides simplify to $2k^3+12k^2+22k+12$, so reversing those operations verifies the required equation. This establishes the next case rather than merely assuming it.\n\nBoth approaches establish the conditional step. A complete induction proof must also verify the base case and state the conclusion for the integer domain."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

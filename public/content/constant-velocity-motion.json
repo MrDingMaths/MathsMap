@@ -2,8 +2,8 @@
   "skillId": "constant-velocity-motion",
   "atomType": "R",
   "theory": {
-    "intro": "An object moving with **constant velocity** $\\underset{\\sim}{v}$ travels in a straight line at a steady speed. Its position after time $t$ is $\\underset{\\sim}{r}(t)=\\underset{\\sim}{r}_{0}+t\\underset{\\sim}{v}$, where $\\underset{\\sim}{r}_{0}$ is its position at $t=0$.",
-    "facts": [
+"intro": "An object moving with **constant velocity** $\\underset{\\sim}{v}$ travels in a straight line at a steady speed. Its position after time $t$ is $\\underset{\\sim}{r}(t)=\\underset{\\sim}{r}_{0}+t\\underset{\\sim}{v}$, where $\\underset{\\sim}{r}_{0}$ is its position at $t=0$.",
+"facts": [
       "The **initial position** $\\underset{\\sim}{r}_{0}$ is where the object is when $t=0$.",
       "The velocity $\\underset{\\sim}{v}$ is the displacement made in each unit of time, so $t\\underset{\\sim}{v}$ is the displacement after $t$ units of time.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.4,0) -- (6.2,0) node[right] {$x$};\n\\draw[->] (0,-0.4) -- (0,4.4) node[above] {$y$};\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (2.6,0.9);\n\\coordinate (Q) at (4.8,3.4);\n\\draw[->,thick] (O) -- (P) node[midway,below right] {$\\underset{\\sim}{r}_{0}$};\n\\draw[->,thick] (P) -- (Q) node[midway,right] {$t\\underset{\\sim}{v}$};\n\\draw[->,thick,dashed] (O) -- (Q) node[midway,above left] {$\\underset{\\sim}{r}(t)$};\n\\end{tikzpicture}\n[/tikz]",
       "Two known positions give the velocity: $\\underset{\\sim}{v}=\\frac{\\underset{\\sim}{r}(t_{2})-\\underset{\\sim}{r}(t_{1})}{t_{2}-t_{1}}$.",
@@ -11,12 +11,70 @@
       "Two objects **collide** only if they are at the same position at the same value of $t$.",
       "Paths that cross need not give a collision, because the objects may pass the crossing point at different times."
     ],
-    "steps": [
+"steps": [
       "Write down the initial position and the velocity",
       "Substitute into $\\underset{\\sim}{r}(t)=\\underset{\\sim}{r}_{0}+t\\underset{\\sim}{v}$",
       "Work with the components separately to answer the question"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A particle has position $\\underset{\\sim}{r}(t)=(4+8t)\\underset{\\sim}{i}+(-3-6t)\\underset{\\sim}{j}$ metres, where $t\\geq0$ is in seconds. Find (a) its position vector when $t=2$ and (b) its speed.",
+    "solution_text": "(a) $\\begin{aligned}&\\mathrel{\\phantom{=}}\\underset{\\sim}{r}(2)\\\\&=(4+8\\times2)\\underset{\\sim}{i}+(-3-6\\times2)\\underset{\\sim}{j}\\\\&=20\\underset{\\sim}{i}-15\\underset{\\sim}{j}\\end{aligned}$ metres.\n\n(b) The velocity is $\\underset{\\sim}{v}=8\\underset{\\sim}{i}-6\\underset{\\sim}{j}$ m/s.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}|\\underset{\\sim}{v}|\\\\&=\\sqrt{8^2+(-6)^2}\\\\&=10\\end{aligned}$ m/s.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "At $t=0$, a boat has position vector $\\begin{pmatrix}-6\\\\4\\end{pmatrix}$ km. It travels with constant velocity $\\begin{pmatrix}5\\\\-2\\end{pmatrix}$ km/h. Write its position vector as a function of time, in a single column, with $t$ in hours.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\underset{\\sim}{r}(t)\\\\&=\\underset{\\sim}{r}_0+t\\underset{\\sim}{v}\\\\&=\\begin{pmatrix}-6\\\\4\\end{pmatrix}+t\\begin{pmatrix}5\\\\-2\\end{pmatrix}\\\\&=\\begin{pmatrix}-6+5t\\\\4-2t\\end{pmatrix}\\end{aligned}$ kilometres, for $t\\geq0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle moves with constant velocity. At $t=2$ s it is at $(8,-5)$, and at $t=6$ s it is at $(-4,11)$, with coordinates in metres. Find (a) its velocity vector, (b) its position vector at $t=0$ and (c) its speed.",
+    "solution_text": "(a) Divide displacement by elapsed time.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\underset{\\sim}{v}\\\\&=\\frac{1}{6-2}\\begin{pmatrix}-4-8\\\\11-(-5)\\end{pmatrix}\\\\&=\\frac14\\begin{pmatrix}-12\\\\16\\end{pmatrix}\\\\&=\\begin{pmatrix}-3\\\\4\\end{pmatrix}\\end{aligned}$ m/s.\n\n(b) Subtract the displacement made in the first two seconds.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\underset{\\sim}{r}(0)\\\\&=\\underset{\\sim}{r}(2)-2\\underset{\\sim}{v}\\\\&=\\begin{pmatrix}8\\\\-5\\end{pmatrix}-2\\begin{pmatrix}-3\\\\4\\end{pmatrix}\\\\&=\\begin{pmatrix}14\\\\-13\\end{pmatrix}\\end{aligned}$ metres.\n\n(c) $\\begin{aligned}&\\mathrel{\\phantom{=}}|\\underset{\\sim}{v}|\\\\&=\\sqrt{(-3)^2+4^2}\\\\&=5\\end{aligned}$ m/s.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has position $\\underset{\\sim}{r}(t)=(-12+3t)\\underset{\\sim}{i}+(7-2t)\\underset{\\sim}{j}$ metres, where $t\\geq0$ is in seconds. (a) Find when it reaches $(6,-5)$. (b) Find when it crosses the $y$-axis and its position then.",
+    "solution_text": "(a) Equate the first component to $6$.\n\n$\\begin{aligned}-12+3t&=6\\\\3t&=18\\\\t&=6\\end{aligned}$\n\nCheck the second component:\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}7-2\\times6\\\\&=-5\\end{aligned}$\n\nThe particle reaches $(6,-5)$ at $t=6$ s.\n\n(b) On the $y$-axis, $x=0$.\n\n$\\begin{aligned}-12+3t&=0\\\\3t&=12\\\\t&=4\\end{aligned}$\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\underset{\\sim}{r}(4)\\\\&=0\\underset{\\sim}{i}+(7-8)\\underset{\\sim}{j}\\\\&=-\\underset{\\sim}{j}\\end{aligned}$ metres.\n\nIt crosses at $(0,-1)$ when $t=4$ s.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two hikers have positions $\\underset{\\sim}{r}_A(t)=(2+2t)\\underset{\\sim}{i}+(1+t)\\underset{\\sim}{j}$ and $\\underset{\\sim}{r}_B(t)=(12-t)\\underset{\\sim}{i}+(9-2t)\\underset{\\sim}{j}$ kilometres, where $t\\geq0$ is in hours. Find their exact distance apart when $t=2$.",
+    "solution_text": "$\\underset{\\sim}{r}_A(2)=6\\underset{\\sim}{i}+3\\underset{\\sim}{j}$ km and $\\underset{\\sim}{r}_B(2)=10\\underset{\\sim}{i}+5\\underset{\\sim}{j}$ km.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\underset{\\sim}{r}_B(2)-\\underset{\\sim}{r}_A(2)\\\\&=(10-6)\\underset{\\sim}{i}+(5-3)\\underset{\\sim}{j}\\\\&=4\\underset{\\sim}{i}+2\\underset{\\sim}{j}\\end{aligned}$ km.\n\nThe distance is the magnitude of this displacement.\n\n$\\begin{aligned}d&=\\sqrt{4^2+2^2}\\\\&=\\sqrt{20}\\\\&=2\\sqrt5\\end{aligned}$ km.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Particle $A$ has position $\\underset{\\sim}{r}_A(t)=(1+2t)\\underset{\\sim}{i}+(2+t)\\underset{\\sim}{j}$ metres, where $t\\geq0$ is in seconds. (a) Particle $B$ has position $\\underset{\\sim}{r}_B(t)=(13-t)\\underset{\\sim}{i}+(14-2t)\\underset{\\sim}{j}$. Determine whether $A$ and $B$ collide, stating where and when if they do. (b) Particle $C$ has position $\\underset{\\sim}{r}_C(t)=(13-t)\\underset{\\sim}{i}+(8-2t)\\underset{\\sim}{j}$. Determine whether $A$ and $C$ collide. Show that their paths cross, and find when each passes the crossing point.",
+    "solution_text": "(a) Equate corresponding components at the same time.\n\n$\\begin{aligned}1+2t&=13-t\\\\3t&=12\\\\t&=4\\end{aligned}$\n\n$\\begin{aligned}2+t&=14-2t\\\\3t&=12\\\\t&=4\\end{aligned}$\n\nBoth components agree at $t=4$ s, and $\\underset{\\sim}{r}_A(4)=\\underset{\\sim}{r}_B(4)=9\\underset{\\sim}{i}+6\\underset{\\sim}{j}$ metres. They collide at $(9,6)$.\n\n(b) The first components agree at $t=4$ s. For the second components:\n\n$\\begin{aligned}2+t&=8-2t\\\\3t&=6\\\\t&=2\\end{aligned}$\n\nThe times differ, so $A$ and $C$ do not collide.\n\nFor a path crossing, let $u$ be the time for $A$ and $s$ the time for $C$.\n\n$\\begin{aligned}1+2u&=13-s\\\\2u+s&=12\\\\2+u&=8-2s\\\\u+2s&=6\\end{aligned}$\n\nSubstitute $s=12-2u$ into the second component equation.\n\n$\\begin{aligned}u+2(12-2u)&=6\\\\-3u&=-18\\\\u&=6\\\\s&=0\\end{aligned}$\n\nTheir paths cross at $(13,8)$. $A$ passes it at $t=6$ s; $C$ is there at $t=0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Particles have positions $\\underset{\\sim}{r}_A(t)=(2+3t)\\underset{\\sim}{i}+(-1+2t)\\underset{\\sim}{j}$ and $\\underset{\\sim}{r}_B(t)=(26-ct)\\underset{\\sim}{i}+(19-3t)\\underset{\\sim}{j}$ metres, where $t\\geq0$ is in seconds and $c$ is a constant. Find $c$ so that the particles collide.",
+    "solution_text": "The second components determine the collision time.\n\n$\\begin{aligned}-1+2t&=19-3t\\\\5t&=20\\\\t&=4\\end{aligned}$\n\nEquate the first components at $t=4$.\n\n$\\begin{aligned}2+3\\times4&=26-4c\\\\14&=26-4c\\\\4c&=12\\\\c&=3\\end{aligned}$\n\nFor $c=3$, both particles are at $(14,7)$ when $t=4$ s.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Particle $P$ has position $\\underset{\\sim}{r}_P(t)=(3+2t)\\underset{\\sim}{i}+(-4+3t)\\underset{\\sim}{j}$ metres, where $t\\geq0$ is in seconds. Particle $Q$ starts at $(23,26)$ at $t=0$ and moves with constant velocity to collide with $P$ at $t=5$ s. Find the velocity and speed of $Q$.",
+    "solution_text": "First find the required collision position.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\underset{\\sim}{r}_P(5)\\\\&=(3+10)\\underset{\\sim}{i}+(-4+15)\\underset{\\sim}{j}\\\\&=13\\underset{\\sim}{i}+11\\underset{\\sim}{j}\\end{aligned}$ metres.\n\nDivide $Q$'s displacement by the five seconds available.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\underset{\\sim}{v}_Q\\\\&=\\frac15\\left[(13-23)\\underset{\\sim}{i}+(11-26)\\underset{\\sim}{j}\\right]\\\\&=-2\\underset{\\sim}{i}-3\\underset{\\sim}{j}\\end{aligned}$ m/s.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}|\\underset{\\sim}{v}_Q|\\\\&=\\sqrt{(-2)^2+(-3)^2}\\\\&=\\sqrt{13}\\end{aligned}$ m/s.\n\nChecking the endpoint, $\\underset{\\sim}{r}_Q(5)=(23-10)\\underset{\\sim}{i}+(26-15)\\underset{\\sim}{j}=13\\underset{\\sim}{i}+11\\underset{\\sim}{j}$ metres.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

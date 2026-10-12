@@ -2,8 +2,8 @@
   "skillId": "power-rule",
   "atomType": "R",
   "theory": {
-        "intro": "A **power function** is a single term $kx^n$, where $k$ and $n$ are real constants. The **power rule** differentiates it: multiply by the power, then reduce the power by $1$. Rewrite roots and algebraic denominators in index form first.",
-        "facts": [
+"intro": "A **power function** is a single term $kx^n$, where $k$ and $n$ are real constants. The **power rule** differentiates it: multiply by the power, then reduce the power by $1$. Rewrite roots and algebraic denominators in index form first.",
+"facts": [
 "$\\dfrac{d}{dx}(x^n) = nx^{n-1}$ for any real exponent $n$, wherever the function is defined and differentiable. Treat $n=0$ directly as a constant.",
 "$\\dfrac{d}{dx}(kx^n) = knx^{n-1}$ for any constant multiplier $k$, wherever the function is defined and differentiable. If $n=0$, the derivative is $0$.",
 "A linear term gives its coefficient: $\\dfrac{d}{dx}(kx) = k$, since $x^1$ becomes $1x^0 = 1$.",
@@ -12,13 +12,71 @@
 "For $x>0$, integer $p$ and positive integer $q$, a root is a fractional index: $\\sqrt[q]{x^p} = x^{\\frac{p}{q}}$. Odd roots also allow negative inputs when the corresponding rational power is defined; check the real domain before rewriting. For example, $\\sqrt{x^2}=|x|$ for real $x$. The derivative $\\dfrac{d}{dx}(\\sqrt{x}) = \\dfrac{1}{2\\sqrt{x}}$ applies for $x>0$.",
 "Rewrite surds and algebraic denominators in index form before using the power rule."
 ],
-        "steps": [
+"steps": [
           "Rewrite roots or algebraic denominators in index form $kx^n$.",
           "Multiply the coefficient by the current power $n$.",
           "Subtract $1$ from the index to get the new power $n-1$.",
           "Convert back to positive index or surd form if required."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Differentiate $f(x)=-\\dfrac{2}{5}x^5$ with respect to $x$.",
+    "solution_text": "Multiply the coefficient by the power, then reduce the power by $1$.\n$\\begin{aligned}f'(x)&=-\\dfrac{2}{5}\\cdot5x^{5-1}\\\\&=-2x^4\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $f(x)=4x^{-7}$ with respect to $x$. Leave your answer in index notation.",
+    "solution_text": "$\\begin{aligned}f'(x)&=4(-7)x^{-7-1}\\\\&=-28x^{-8}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $f(x)=-\\dfrac{9}{4x^3}$ with respect to $x$. Express your answer as a single fraction with a positive index.",
+    "solution_text": "Rewrite using a negative index.\n$\\begin{aligned}f(x)&=-\\dfrac{9}{4}x^{-3}\\end{aligned}$\nApply the power rule, then rewrite as a fraction.\n$\\begin{aligned}f'(x)&=-\\dfrac{9}{4}(-3)x^{-4}\\\\&=\\dfrac{27}{4}x^{-4}\\\\&=\\dfrac{27}{4x^4}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $f(x)=5x^{\\frac{2}{3}}$ with respect to $x$, for $x>0$. Leave your answer in index notation.",
+    "solution_text": "$\\begin{aligned}f'(x)&=5\\cdot\\dfrac{2}{3}x^{\\frac{2}{3}-1}\\\\&=\\dfrac{10}{3}x^{-\\frac{1}{3}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate each function with respect to $x$. Express your answers in surd form.\na. $f(x)=10\\sqrt{x}$, where $x>0$.\nb. $g(x)=\\dfrac{6}{\\sqrt[3]{x}}$, where $x\\ne0$.",
+    "solution_text": "a. Rewrite the square root using a fractional index.\n$\\begin{aligned}f(x)&=10x^{\\frac{1}{2}}\\end{aligned}$\n$\\begin{aligned}f'(x)&=10\\cdot\\dfrac{1}{2}x^{\\frac{1}{2}-1}\\\\&=5x^{-\\frac{1}{2}}\\\\&=\\dfrac{5}{\\sqrt{x}}\\end{aligned}$\nb. Rewrite the reciprocal cube root using a negative fractional index.\n$\\begin{aligned}g(x)&=6x^{-\\frac{1}{3}}\\end{aligned}$\n$\\begin{aligned}g'(x)&=6\\left(-\\dfrac{1}{3}\\right)x^{-\\frac{1}{3}-1}\\\\&=-2x^{-\\frac{4}{3}}\\\\&=-\\dfrac{2}{\\sqrt[3]{x^4}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Rewrite each function as a single power of $x$, then differentiate. Express your answers in surd form. Assume $x>0$.\na. $f(x)=3x^3\\sqrt{x}$.\nb. $g(x)=\\dfrac{4x^2}{\\sqrt{x^3}}$.\nc. $h(x)=\\dfrac{2}{5x\\sqrt{x}}$.",
+    "solution_text": "a. Add the indices when multiplying powers of $x$.\n$\\begin{aligned}f(x)&=3x^3x^{\\frac{1}{2}}\\\\&=3x^{\\frac{7}{2}}\\end{aligned}$\n$\\begin{aligned}f'(x)&=3\\cdot\\dfrac{7}{2}x^{\\frac{5}{2}}\\\\&=\\dfrac{21}{2}x^2\\sqrt{x}\\end{aligned}$\nb. Subtract the denominator's index from the numerator's index.\n$\\begin{aligned}g(x)&=\\dfrac{4x^2}{x^{\\frac{3}{2}}}\\\\&=4x^{\\frac{1}{2}}\\end{aligned}$\n$\\begin{aligned}g'(x)&=4\\cdot\\dfrac{1}{2}x^{-\\frac{1}{2}}\\\\&=\\dfrac{2}{\\sqrt{x}}\\end{aligned}$\nc. Combine the powers in the denominator before rewriting.\n$\\begin{aligned}h(x)&=\\dfrac{2}{5x^{\\frac{3}{2}}}\\\\&=\\dfrac{2}{5}x^{-\\frac{3}{2}}\\end{aligned}$\n$\\begin{aligned}h'(x)&=\\dfrac{2}{5}\\left(-\\dfrac{3}{2}\\right)x^{-\\frac{5}{2}}\\\\&=-\\dfrac{3}{5x^2\\sqrt{x}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate each function with respect to $x$, where $a$, $r$, $b$, $k$ and $p$ are constants. Assume $x>0$.\na. $f(x)=ax^r$.\nb. $g(x)=bx^{2k+3}$.\nc. $h(x)=\\dfrac{p}{x^{3r}}$, where $r>0$. Express this answer as a fraction with a positive index.",
+    "solution_text": "a. Treat $a$ and $r$ as constants. For $r\\ne0$,\n$f'(x)=arx^{r-1}$.\nIf $r=0$, the function is constant and $f'(x)=0$.\nb. Use the complete exponent $2k+3$ as the multiplier.\n$\\begin{aligned}g'(x)&=b(2k+3)x^{(2k+3)-1}\\\\&=b(2k+3)x^{2k+2}\\end{aligned}$\nIf $k=-\\dfrac{3}{2}$, the function is constant and $g'(x)=0$.\nc. Rewrite the denominator using a negative index.\n$h(x)=px^{-3r}$.\n$\\begin{aligned}h'(x)&=p(-3r)x^{-3r-1}\\\\&=-\\dfrac{3rp}{x^{3r+1}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find each derivative value.\na. $f'(2)$, given $f(x)=3x^4$.\nb. $g'(9)$, given $g(x)=12\\sqrt{x}$.\nc. $h'(27)$, given $h(x)=x^{\\frac{4}{3}}$.",
+    "solution_text": "Differentiate first, then substitute the given input into the derivative.\na. $f'(x)=12x^3$.\n$\\begin{aligned}f'(2)&=12(2)^3\\\\&=96\\end{aligned}$\nb. $g(x)=12x^{\\frac{1}{2}}$, so $g'(x)=6x^{-\\frac{1}{2}}=\\dfrac{6}{\\sqrt{x}}$.\n$\\begin{aligned}g'(9)&=\\dfrac{6}{\\sqrt{9}}\\\\&=2\\end{aligned}$\nc. $h'(x)=\\dfrac{4}{3}x^{\\frac{1}{3}}$.\n$\\begin{aligned}h'(27)&=\\dfrac{4}{3}\\sqrt[3]{27}\\\\&=4\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

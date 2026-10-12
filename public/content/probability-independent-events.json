@@ -2,8 +2,8 @@
   "skillId": "probability-independent-events",
   "atomType": "R",
   "theory": {
-        "intro": "Two stages are **independent** when the first result does not change the probabilities in the second. A **probability tree** writes a probability on every branch, and the probability of a whole path is found by multiplying along it.",
-        "facts": [
+"intro": "Two stages are **independent** when the first result does not change the probabilities in the second. A **probability tree** writes a probability on every branch, and the probability of a whole path is found by multiplying along it.",
+"facts": [
           "A **probability tree** is a tree diagram with a probability written on every branch.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.95]\n\\coordinate (O) at (0,0);\n\\coordinate (N1) at (2.2,1.4);\n\\coordinate (N2) at (2.2,-1.4);\n\\coordinate (E1) at (4.8,2.4);\n\\coordinate (E2) at (4.8,0.7);\n\\coordinate (E3) at (4.8,-0.7);\n\\coordinate (E4) at (4.8,-2.4);\n\\draw (O) -- (N1) node[midway, above, fill=white, font=\\small] {$p$};\n\\draw (O) -- (N2) node[midway, below, fill=white, font=\\small] {$1-p$};\n\\draw (N1) -- (E1) node[midway, above, fill=white, font=\\small] {$p$};\n\\draw (N1) -- (E2) node[midway, below, fill=white, font=\\small] {$1-p$};\n\\draw (N2) -- (E3) node[midway, above, fill=white, font=\\small] {$p$};\n\\draw (N2) -- (E4) node[midway, below, fill=white, font=\\small] {$1-p$};\n\\node[fill=white, inner sep=2pt] at (N1) {$G$};\n\\node[fill=white, inner sep=2pt] at (N2) {$R$};\n\\node[right, font=\\small] at (E1) {$G$};\n\\node[right, font=\\small] at (E2) {$R$};\n\\node[right, font=\\small] at (E3) {$G$};\n\\node[right, font=\\small] at (E4) {$R$};\n\\node[font=\\small] at (6.2,2.4) {$GG$};\n\\node[font=\\small] at (6.2,0.7) {$GR$};\n\\node[font=\\small] at (6.2,-0.7) {$RG$};\n\\node[font=\\small] at (6.2,-2.4) {$RR$};\n\\node[font=\\small] at (2.2,3.4) {Stage $1$};\n\\node[font=\\small] at (4.8,3.4) {Stage $2$};\n\\node[font=\\small] at (6.2,3.4) {Path};\n\\end{tikzpicture}\n[/tikz]",
           "The branches leaving any one point have probabilities adding to $1$, so a missing branch is $1$ minus the ones shown.",
           "Multiply along the branches of a path to find the probability of that whole path: $P(GG) = P(G) \\times P(G)$.",
@@ -12,13 +12,57 @@
           "Adding branch probabilities instead of multiplying can give an answer greater than $1$, which is impossible.",
           "Give the answer in the form of the data: fractions in simplest form, decimals as decimals, percentages as percentages."
         ],
-        "steps": [
+"steps": [
           "Draw a tree with one set of branches for each stage.",
           "Label every branch with its single-stage probability.",
           "Multiply along the branches of each path.",
           "Add the paths that satisfy the event."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Leah plays a hockey match and a rugby match. The results are independent. Her probability of winning hockey is $\\frac{2}{5}$ and her probability of winning rugby is $\\frac{3}{4}$. In the tree, $W$ means win and $L$ means lose.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont},p/.style={fill=white,inner sep=2pt}]\n\\draw (0,0)--(2,1.5) node[midway,above,p] {$\\frac{2}{5}$};\n\\draw (0,0)--(2,-1.5) node[midway,below,p] {$?$};\n\\path (2,1.5) node[p] {$W$} (2,-1.5) node[p] {$L$};\n\\draw (2.3,1.5)--(4.6,2.4) node[midway,above,p] {$?$};\n\\draw (2.3,1.5)--(4.6,0.6) node[midway,below,p] {$?$};\n\\draw (2.3,-1.5)--(4.6,-0.6) node[midway,above,p] {$?$};\n\\draw (2.3,-1.5)--(4.6,-2.4) node[midway,below,p] {$?$};\n\\path (4.6,2.4) node[right] {$W$} (4.6,0.6) node[right] {$L$} (4.6,-0.6) node[right] {$W$} (4.6,-2.4) node[right] {$L$};\n\\path (2,3.2) node {Hockey} (4.6,3.2) node {Rugby};\n\\end{tikzpicture}\n[/tikz]\n\n(a) Complete the missing branch probabilities.\n(b) Find the probabilities that Leah wins both matches, loses both matches, and wins hockey but loses rugby.\n(c) Find the probability that she wins exactly one match. Give fractions in simplest form.",
+    "solution_text": "The hockey branches add to $1$. Independence means the rugby probabilities are the same after either hockey result.\n\n$\\begin{aligned}P(\\text{lose hockey})&=1-\\frac{2}{5}=\\frac{3}{5}\\\\P(\\text{lose rugby})&=1-\\frac{3}{4}=\\frac{1}{4}\\end{aligned}$\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont},p/.style={fill=white,inner sep=2pt}]\n\\draw (0,0)--(2,1.5) node[midway,above,p] {$\\frac{2}{5}$};\n\\draw (0,0)--(2,-1.5) node[midway,below,p] {$\\frac{3}{5}$};\n\\path (2,1.5) node[p] {$W$} (2,-1.5) node[p] {$L$};\n\\draw (2.3,1.5)--(4.6,2.4) node[midway,above,p] {$\\frac{3}{4}$};\n\\draw (2.3,1.5)--(4.6,0.6) node[midway,below,p] {$\\frac{1}{4}$};\n\\draw (2.3,-1.5)--(4.6,-0.6) node[midway,above,p] {$\\frac{3}{4}$};\n\\draw (2.3,-1.5)--(4.6,-2.4) node[midway,below,p] {$\\frac{1}{4}$};\n\\path (4.6,2.4) node[right] {$W$} (4.6,0.6) node[right] {$L$} (4.6,-0.6) node[right] {$W$} (4.6,-2.4) node[right] {$L$};\n\\path (6.3,2.4) node {$WW:\\ \\frac{3}{10}$} (6.3,0.6) node {$WL:\\ \\frac{1}{10}$} (6.3,-0.6) node {$LW:\\ \\frac{9}{20}$} (6.3,-2.4) node {$LL:\\ \\frac{3}{20}$};\n\\path (2,3.2) node {Hockey} (4.6,3.2) node {Rugby} (6.3,3.2) node {Outcome};\n\\end{tikzpicture}\n[/tikz]\n\nMultiply along each required path.\n\n$\\begin{aligned}P(WW)&=\\frac{2}{5}\\times\\frac{3}{4}=\\frac{3}{10}\\\\P(LL)&=\\frac{3}{5}\\times\\frac{1}{4}=\\frac{3}{20}\\\\P(WL)&=\\frac{2}{5}\\times\\frac{1}{4}=\\frac{1}{10}\\end{aligned}$\n\nExactly one win includes $WL$ and $LW$. Add their probabilities.\n\n$\\begin{aligned}P(\\text{exactly one win})&=\\frac{2}{5}\\times\\frac{1}{4}+\\frac{3}{5}\\times\\frac{3}{4}\\\\&=\\frac{2}{20}+\\frac{9}{20}\\\\&=\\frac{11}{20}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two machines operate independently. Each has a $6\\%$ probability of breaking down on a given day. Use the multiplication rule to find the probability that neither breaks down, as a percentage.",
+    "solution_text": "Each machine works with probability $100\\%-6\\%=94\\%=0.94$.\n\n$\\begin{aligned}P(\\text{neither breaks down})&=0.94\\times0.94\\\\&=0.8836\\\\&=88.36\\%\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A magician draws one card from each of two different decks. The draws are independent, and each card is red or black. The probability of red from deck $1$ is $0.15$. The probability of red from deck $2$ is four times this.\n\nFind the probability of:\n(a) two red cards\n(b) a red card from deck $1$ and a black card from deck $2$.\nGive decimals.",
+    "solution_text": "$\\begin{aligned}P(\\text{red from deck }2)&=4\\times0.15=0.6\\\\P(\\text{black from deck }2)&=1-0.6=0.4\\end{aligned}$\n\n(a) Multiply the two red probabilities.\n\n$\\begin{aligned}P(\\text{two reds})&=0.15\\times0.6\\\\&=0.09\\end{aligned}$\n\n(b) Use the red probability from the first deck and the black probability from the second.\n\n$\\begin{aligned}P(\\text{red then black})&=0.15\\times0.4\\\\&=0.06\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A machine works only when all three components work. The components operate independently, with working probabilities $0.8$, $0.9$ and $0.95$.\n\nBen adds these probabilities and obtains $2.65$. Explain why this is incorrect, then calculate the probability that the machine works.",
+    "solution_text": "A probability cannot exceed $1$. All three components must work, so multiply their probabilities.\n\n$\\begin{aligned}P(\\text{machine works})&=0.8\\times0.9\\times0.95\\\\&=0.684\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Mina makes a free throw with probability $\\frac{3}{5}$. Her shots are independent. She takes three shots.\n\nFind the probability of:\n(a) exactly two successful shots\n(b) exactly one successful shot.\nGive fractions in simplest form.",
+    "solution_text": "Let $M$ mean made and $X$ mean missed. Each miss has probability $\\frac{2}{5}$.\n\n(a) The possible orders are $MMX$, $MXM$ and $XMM$.\n\n$\\begin{aligned}P(MMX)&=\\frac{3}{5}\\times\\frac{3}{5}\\times\\frac{2}{5}=\\frac{18}{125}\\\\P(MXM)&=\\frac{3}{5}\\times\\frac{2}{5}\\times\\frac{3}{5}=\\frac{18}{125}\\\\P(XMM)&=\\frac{2}{5}\\times\\frac{3}{5}\\times\\frac{3}{5}=\\frac{18}{125}\\end{aligned}$\n\nAdd the three paths.\n\n$\\begin{aligned}P(\\text{exactly two made})&=\\frac{18}{125}+\\frac{18}{125}+\\frac{18}{125}\\\\&=\\frac{54}{125}\\end{aligned}$\n\n(b) The possible orders are $MXX$, $XMX$ and $XXM$. Each has probability $\\frac{3}{5}\\times\\frac{2}{5}\\times\\frac{2}{5}=\\frac{12}{125}$.\n\n$\\begin{aligned}P(\\text{exactly one made})&=\\frac{12}{125}+\\frac{12}{125}+\\frac{12}{125}\\\\&=\\frac{36}{125}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A cricket team plays two independent matches. In each match, the probabilities of a win, loss and draw are $0.5$, $0.2$ and $0.3$ respectively.\n\nFind the probability of a win and a draw, in any order.",
+    "solution_text": "Let $W$ mean win and $D$ mean draw. The required paths are $WD$ and $DW$; paths containing a loss are excluded.\n\n$\\begin{aligned}P(WD)&=0.5\\times0.3=0.15\\\\P(DW)&=0.3\\times0.5=0.15\\end{aligned}$\n\nAdd the two paths.\n\n$\\begin{aligned}P(\\text{win and draw in any order})&=0.15+0.15\\\\&=0.30\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

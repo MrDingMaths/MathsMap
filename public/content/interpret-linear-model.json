@@ -2,15 +2,38 @@
   "skillId": "interpret-linear-model",
   "atomType": "R",
   "theory": {
-        "intro": "A **linear model** uses the equation $y = mx + c$ to represent a real-world relationship. The gradient $m$ is the **rate of change**, and the $y$-intercept $c$ is the **initial value**.",
-        "facts": [
+"intro": "A **linear model** uses the equation $y = mx + c$ to represent a real-world relationship. The gradient $m$ is the **rate of change**, and the $y$-intercept $c$ is the **initial value**.",
+"facts": [
 "The **gradient** $m$ represents the rate of change of $y$ per unit increase in $x$.",
 "The **$y$-intercept** $c$ represents the initial or fixed value of $y$ when $x = 0$.",
 "To make a prediction, substitute the given input into the model and calculate the corresponding output.",
 "A prediction is reliable only if the model fits the observations and remains applicable to the situation; being within the observed range alone does not establish reliability.",
 "A linear model has **limitations** when predictions become physically impossible or when the rate of change alters."
+],
+"workedExamples": [
+  {
+    "question_text": "A mobile mechanic uses the model $C = 70t + 95$, where $C$ is the charge in dollars and $t$ is the time worked in hours.\n\na. State the gradient and explain its meaning.\nb. State the vertical intercept and explain its meaning.\nc. Predict the charge for $3$ hours of work.",
+    "solution_text": "a. The gradient is $70$ dollars per hour. Each additional hour of work increases the charge by $\\$70$.\n\nb. The vertical intercept is $95$. The fixed call-out fee is $\\$95$, before any hours of work.\n\nc. $\\begin{aligned} C &= 70(3) + 95 \\\\ &= 210 + 95 \\\\ &= 305 \\end{aligned}$\n\nThe predicted charge is $\\$305$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The volume of water remaining in a tank is modelled by $V = 2400 - 400t$, where $V$ is measured in litres and $t$ is measured in hours after draining begins.\n\na. Interpret the gradient and vertical intercept.\nb. Predict the volume after $2.5$ hours.\nc. Determine when the model predicts an empty tank.\nd. Calculate the predicted volume after $8$ hours and explain the limitation.",
+    "solution_text": "a. The gradient is $-400$ litres per hour: the volume decreases by $400$ L each hour. The vertical intercept is $2400$ L, the initial volume.\n\nb. $\\begin{aligned} V &= 2400 - 400(2.5) \\\\ &= 2400 - 1000 \\\\ &= 1400 \\end{aligned}$\n\nThe predicted volume is $1400$ L.\n\nc. $\\begin{aligned} 0 &= 2400 - 400t \\\\ 400t &= 2400 \\\\ t &= 6 \\end{aligned}$\n\nThe model predicts an empty tank after $6$ hours.\n\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=0.018mm]\n\\definecolor{modelblue}{HTML}{268CFF}\n\\draw[->,black] (0,0)--(7,0);\n\\draw[->,black] (0,0)--(0,2800);\n\\draw[thick,modelblue] (0,2400)--(6,0);\n\\fill[modelblue] (0,2400) circle (1.2pt);\n\\fill[modelblue] (6,0) circle (1.2pt);\n\\path (0,2400) node[left,font=\\fontsize{10}{12}\\selectfont,text=black] {$2400$};\n\\path (6,0) node[below,font=\\fontsize{10}{12}\\selectfont,text=black] {$6$};\n\\path (3.5,-550) node[font=\\fontsize{10}{12}\\selectfont,text=black] {Time (h)};\n\\path (-1.6,1400) node[rotate=90,font=\\fontsize{10}{12}\\selectfont,text=black] {Volume (L)};\n\\path (4.8,650) node[font=\\fontsize{10}{12}\\selectfont,text=black] {Empty at $6$ h};\n\\end{tikzpicture}\n[/tikz]\n\nd. $\\begin{aligned} V &= 2400 - 400(8) \\\\ &= 2400 - 3200 \\\\ &= -800 \\end{aligned}$\n\nA volume of $-800$ L is impossible. The draining model applies only until the tank is empty, for $0 \\le t \\le 6$. After that, the volume cannot keep decreasing at this rate.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A child's height was measured between ages $3$ and $9$. Over this interval, the height is modelled by $H = 5A + 82$, where $H$ is measured in centimetres and $A$ is the age in years.\n\na. Predict the height at age $6$ using interpolation.\nb. Predict the height at age $15$ using extrapolation.\nc. Explain why the prediction at age $15$ may be unreliable.",
+    "solution_text": "a. $\\begin{aligned} H &= 5(6) + 82 \\\\ &= 30 + 82 \\\\ &= 112 \\end{aligned}$\n\nThe predicted height is $112$ cm. Age $6$ is within the measured interval, so this is interpolation.\n\nb. $\\begin{aligned} H &= 5(15) + 82 \\\\ &= 75 + 82 \\\\ &= 157 \\end{aligned}$\n\nThe predicted height is $157$ cm. Age $15$ is outside the measured interval, so this is extrapolation.\n\nc. The model assumes growth of $5$ cm per year. Growth can change during puberty, so measurements from ages $3$ to $9$ do not establish that this rate continues to age $15$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

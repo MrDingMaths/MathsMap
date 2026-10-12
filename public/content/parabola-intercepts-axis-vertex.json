@@ -2,8 +2,8 @@
   "skillId": "parabola-intercepts-axis-vertex",
   "atomType": "R",
   "theory": {
-        "intro": "For a parabola $y=ax^2+bx+c$, where $a\\ne0$, the locating features are the $y$-intercept, any $x$-intercepts, the axis of symmetry and the vertex. This skill finds all four from the equation, without drawing the graph.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.5, xmax=6.8, ymin=-6.3, ymax=4.8, samples=100, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[smooth, thick, blue, <->, domain=-3:5] {0.5*(x+2)*(x-4)};\n\\addplot[dashed, domain=-6:4] ({1},{x});\n\\addplot[only marks, mark=*, blue] coordinates {(-2,0) (4,0) (0,-4) (1,-4.5)};\n\\node[below left] at (axis cs:-2,0) {$\\alpha$};\n\\node[below right] at (axis cs:4,0) {$\\beta$};\n\\node[anchor=east, fill=white, inner sep=1pt] at (axis cs:-0.15,-4) {$c$};\n\\node at (axis cs:1.85,-5.4) {$V$};\n\\node[anchor=west] at (axis cs:1.2,4.3) {axis of symmetry};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "For a parabola $y=ax^2+bx+c$, where $a\\ne0$, the locating features are the $y$-intercept, any $x$-intercepts, the axis of symmetry and the vertex. This skill finds all four from the equation, without drawing the graph.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.5, xmax=6.8, ymin=-6.3, ymax=4.8, samples=100, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[smooth, thick, blue, <->, domain=-3:5] {0.5*(x+2)*(x-4)};\n\\addplot[dashed, domain=-6:4] ({1},{x});\n\\addplot[only marks, mark=*, blue] coordinates {(-2,0) (4,0) (0,-4) (1,-4.5)};\n\\node[below left] at (axis cs:-2,0) {$\\alpha$};\n\\node[below right] at (axis cs:4,0) {$\\beta$};\n\\node[anchor=east, fill=white, inner sep=1pt] at (axis cs:-0.15,-4) {$c$};\n\\node at (axis cs:1.85,-5.4) {$V$};\n\\node[anchor=west] at (axis cs:1.2,4.3) {axis of symmetry};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "The **$y$-intercept** is found by substituting $x=0$, so for $y=ax^2+bx+c$ it is $y=c$.",
 "The **$x$-intercepts** are found by substituting $y=0$ and solving, factorising first if needed.",
 "By the null factor law, if $(x-\\alpha)(x-\\beta)=0$ then $x=\\alpha$ or $x=\\beta$.",
@@ -11,13 +11,39 @@
 "The **vertex** lies on the axis of symmetry, so substitute its $x$-value back into the equation to get the $y$-value.",
 "A parabola has two, one or no $x$-intercepts, but always exactly one $y$-intercept and one vertex.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.8,0) -- (10.6,0) node[right] {$x$};\n\\draw[thick,blue,<->,smooth,variable=\\x,domain=0.05:3.15] plot ({\\x},{1.2*(\\x-1.6)*(\\x-1.6)-1.2});\n\\draw[thick,blue,<->,smooth,variable=\\x,domain=4.0:6.4] plot ({\\x},{1.2*(\\x-5.2)*(\\x-5.2)});\n\\draw[thick,blue,<->,smooth,variable=\\x,domain=8.0:10.0] plot ({\\x},{1.2*(\\x-9.0)*(\\x-9.0)+1.2});\n\\fill (0.6,0) circle (2.5pt);\n\\fill (2.6,0) circle (2.5pt);\n\\fill (5.2,0) circle (2.5pt);\n\\node[below] at (1.6,-1.9) {two $x$-intercepts};\n\\node[below] at (5.2,-0.7) {one $x$-intercept};\n\\node[below] at (9.0,-0.7) {no $x$-intercepts};\n\\end{tikzpicture}\n[/tikz]"
 ],
-        "steps": [
+"steps": [
           "Find the $y$-intercept by letting $x=0$.",
           "Find the $x$-intercepts by letting $y=0$ and solving.",
           "Find the axis of symmetry $x=-\\dfrac{b}{2a}$.",
           "Find the vertex by substituting the axis value into the equation."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Find the $y$-intercept of $y=2x^2-6x-7$.",
+    "solution_text": "Let $x=0$.\n$\\begin{align*}y&=2(0)^2-6(0)-7\\\\&=-7\\end{align*}$\nThe $y$-intercept is $(0,-7)$."
+  },
+  {
+    "question_text": "Find the $x$-intercepts of $y=(3x+6)(x-4)$.",
+    "solution_text": "Let $y=0$.\n$0=(3x+6)(x-4)$\nBy the null factor law, $3x+6=0$ or $x-4=0$.\n$\\begin{align*}3x&=-6\\\\x&=-2\\end{align*}$\nThe other root is $x=4$.\nThe $x$-intercepts are $(-2,0)$ and $(4,0)$."
+  },
+  {
+    "question_text": "Find the $y$-intercept, $x$-intercepts, axis of symmetry and vertex of $y=x^2-8x+12$. Use the midpoint of the $x$-intercepts to find the axis.",
+    "solution_text": "For the $y$-intercept, let $x=0$.\n$y=12$, so the $y$-intercept is $(0,12)$.\n\nFor the $x$-intercepts, let $y=0$.\n$\\begin{align*}0&=x^2-8x+12\\\\0&=(x-2)(x-6)\\end{align*}$\nBy the null factor law, $x=2$ or $x=6$. The $x$-intercepts are $(2,0)$ and $(6,0)$.\n\nThe axis is halfway between the $x$-intercepts.\n$\\begin{align*}x&=\\frac{2+6}{2}\\\\&=4\\end{align*}$\nThe axis of symmetry is $x=4$.\n\nSubstitute $x=4$ to find the vertex.\n$\\begin{align*}y&=4^2-8(4)+12\\\\&=-4\\end{align*}$\nThe vertex is $(4,-4)$."
+  },
+  {
+    "question_text": "Find the $y$-intercept, $x$-intercepts, axis of symmetry and vertex of $y=2x^2+12x+10$. Use $x=-\\frac{b}{2a}$ to find the axis.",
+    "solution_text": "For the $y$-intercept, let $x=0$.\n$y=10$, so the $y$-intercept is $(0,10)$.\n\nFor the $x$-intercepts, let $y=0$.\n$\\begin{align*}0&=2x^2+12x+10\\\\0&=2(x^2+6x+5)\\\\0&=2(x+1)(x+5)\\end{align*}$\nBy the null factor law, $x=-1$ or $x=-5$. The $x$-intercepts are $(-1,0)$ and $(-5,0)$.\n\nHere $a=2$ and $b=12$.\n$\\begin{align*}x&=-\\frac{b}{2a}\\\\&=-\\frac{12}{2(2)}\\\\&=-3\\end{align*}$\nThe axis of symmetry is $x=-3$.\n\nSubstitute $x=-3$ to find the vertex.\n$\\begin{align*}y&=2(-3)^2+12(-3)+10\\\\&=-8\\end{align*}$\nThe vertex is $(-3,-8)$."
+  },
+  {
+    "question_text": "A parabola has an $x$-intercept at $x=-4$ and axis of symmetry $x=-1$, as shown. Use symmetry to find the other $x$-intercept.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[<->,black] (-5.5,0)--(3.5,0) node[right] {$x$};\n\\draw[<->,black] (0,-4.4)--(0,3.2) node[above] {$y$};\n\\draw[dashed,black] (-1,-4.2)--(-1,3);\n\\path (-1,2.8) node[anchor=east] {$x=-1$};\n\\draw[thick,curveBlue,<->,smooth,variable=\\x,domain=-5:3,samples=80] plot ({\\x},{0.4*(\\x+4)*(\\x-2)});\n\\fill[black] (-4,0) circle (1.8pt);\n\\path (-4,0) node[above left] {$-4$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The intercept $x=-4$ is $3$ units left of the axis $x=-1$.\nThe other intercept is $3$ units right of the axis.\n$\\begin{align*}x&=-1+3\\\\&=2\\end{align*}$\nThe other $x$-intercept is $(2,0)$.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[<->,black] (-5.5,0)--(3.5,0) node[right] {$x$};\n\\draw[<->,black] (0,-4.4)--(0,3.2) node[above] {$y$};\n\\draw[dashed,black] (-1,-4.2)--(-1,3);\n\\path (-1,2.8) node[anchor=east] {$x=-1$};\n\\draw[thick,curveBlue,<->,smooth,variable=\\x,domain=-5:3,samples=80] plot ({\\x},{0.4*(\\x+4)*(\\x-2)});\n\\fill[black] (-4,0) circle (1.8pt);\n\\fill[curveBlue] (2,0) circle (1.8pt);\n\\path (-4,0) node[above left] {$-4$};\n\\path (2,0) node[above right,text=curveBlue] {$2$};\n\\draw[<->,black] (-4,0.8)--(-1,0.8);\n\\draw[<->,black] (-1,0.8)--(2,0.8);\n\\path (-2.5,0.8) node[above] {$3$};\n\\path (0.5,0.8) node[above] {$3$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "A stall's revenue is modelled by $R=-2x^2+16x$, where $R$ is in hundreds of dollars and $x$ is the ticket price in dollars, with $0\\leq x\\leq8$. Find the ticket price that gives the maximum revenue and state that revenue.",
+    "solution_text": "The coefficient of $x^2$ is negative, so the vertex gives the maximum revenue.\n$\\begin{align*}x&=-\\frac{16}{2(-2)}\\\\&=4\\end{align*}$\nSubstitute $x=4$.\n$\\begin{align*}R&=-2(4)^2+16(4)\\\\&=32\\end{align*}$\nThe maximum revenue is $\\$3200$ at a ticket price of $\\$4$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,8 +2,8 @@
   "skillId": "apply-sum-product-roots",
   "atomType": "R",
   "theory": {
-        "intro": "Many questions ask for a quantity built from the roots without asking for the roots themselves. Rewrite that quantity in terms of the sum and product, then substitute the coefficient ratios.",
-        "facts": [
+"intro": "Many questions ask for a quantity built from the roots without asking for the roots themselves. Rewrite that quantity in terms of the sum and product, then substitute the coefficient ratios.",
+"facts": [
 "Sum of squares of two roots: $\\alpha^{2}+\\beta^{2}=(\\alpha+\\beta)^{2}-2\\alpha\\beta$.",
 "Sum of squares of three roots: $\\alpha^{2}+\\beta^{2}+\\gamma^{2}=(\\alpha+\\beta+\\gamma)^{2}-2(\\alpha\\beta+\\alpha\\gamma+\\beta\\gamma)$.",
 "Sum of squares of four roots: $\\alpha^{2}+\\beta^{2}+\\gamma^{2}+\\delta^{2}=(\\sum\\alpha)^{2}-2\\sum\\alpha\\beta$.",
@@ -13,12 +13,54 @@
 "Roots in **geometric progression**, a constant ratio apart, are $\\dfrac{\\alpha}{r}, \\alpha, \\alpha r$, so their product $\\alpha^{3}$ gives the middle root.",
 "For curve intersections, the midpoint $x$-coordinate is $\\dfrac{\\alpha+\\beta}{2}$."
 ],
-        "steps": [
+"steps": [
           "State the sum and product relationships for the roots of the given polynomial.",
           "Express the target quantity or property in terms of standard symmetric sums.",
           "Substitute the coefficient ratios into the identity and simplify."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Without finding the roots, calculate the sum of their squares for each equation.\n(a) $x^{2}-7x+5=0$\n(b) $2x^{3}-6x^{2}+5x-3=0$\n(c) $x^{4}-4x^{3}+3x^{2}+2x-7=0$",
+    "solution_text": "(a) Let the roots be $\\alpha,\\beta$.\n$\\alpha+\\beta=7,\\quad \\alpha\\beta=5$.\n$\\begin{aligned}\\alpha^{2}+\\beta^{2}&=(\\alpha+\\beta)^{2}-2\\alpha\\beta\\\\&=7^{2}-2(5)\\\\&=39\\end{aligned}$\n(b) Let the roots be $\\alpha,\\beta,\\gamma$.\n$\\alpha+\\beta+\\gamma=3,\\quad \\alpha\\beta+\\alpha\\gamma+\\beta\\gamma=\\frac52$.\n$\\begin{aligned}\\alpha^{2}+\\beta^{2}+\\gamma^{2}&=(\\alpha+\\beta+\\gamma)^{2}-2(\\alpha\\beta+\\alpha\\gamma+\\beta\\gamma)\\\\&=3^{2}-2\\left(\\frac52\\right)\\\\&=4\\end{aligned}$\n(c) Let the roots be $\\alpha,\\beta,\\gamma,\\delta$.\n$\\alpha+\\beta+\\gamma+\\delta=4$ and $\\alpha\\beta+\\alpha\\gamma+\\alpha\\delta+\\beta\\gamma+\\beta\\delta+\\gamma\\delta=3$.\n$\\begin{aligned}\\alpha^{2}+\\beta^{2}+\\gamma^{2}+\\delta^{2}&=(\\alpha+\\beta+\\gamma+\\delta)^{2}\\\\&\\quad-2(\\alpha\\beta+\\alpha\\gamma+\\alpha\\delta+\\beta\\gamma+\\beta\\delta+\\gamma\\delta)\\\\&=4^{2}-2(3)\\\\&=10\\end{aligned}$"
+  },
+  {
+    "question_text": "(a) The roots of $x^{2}-3x-2=0$ are $\\alpha,\\beta$. Find $(\\alpha+4)(\\beta+4)$ without finding the roots.\n(b) The roots of $2x^{3}-7x^{2}+4x-5=0$ are $\\alpha,\\beta,\\gamma$. Find $(\\alpha+1)(\\beta+1)(\\gamma+1)$ without finding the roots.",
+    "solution_text": "(a) $\\alpha+\\beta=3,\\quad \\alpha\\beta=-2$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(\\alpha+4)(\\beta+4)\\\\&=\\alpha\\beta+4(\\alpha+\\beta)+16\\\\&=-2+4(3)+16\\\\&=26\\end{aligned}$\n(b) $\\alpha+\\beta+\\gamma=\\frac72$, $\\alpha\\beta+\\alpha\\gamma+\\beta\\gamma=2$ and $\\alpha\\beta\\gamma=\\frac52$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(\\alpha+1)(\\beta+1)(\\gamma+1)\\\\&=\\alpha\\beta\\gamma+(\\alpha\\beta+\\alpha\\gamma+\\beta\\gamma)\\\\&\\quad+(\\alpha+\\beta+\\gamma)+1\\\\&=\\frac52+2+\\frac72+1\\\\&=9\\end{aligned}$"
+  },
+  {
+    "question_text": "The roots of $x^{3}-12x^{2}+44x-48=0$ are in arithmetic progression. Find all three roots using sums and products of roots.",
+    "solution_text": "Let the roots be $\\alpha-d,\\alpha,\\alpha+d$, with $d\\geq0$.\nUsing their sum:\n$\\begin{aligned}3\\alpha&=12\\\\\\alpha&=4\\end{aligned}$\nUsing their product:\n$\\begin{aligned}(4-d)(4)(4+d)&=48\\\\4(16-d^{2})&=48\\\\16-d^{2}&=12\\\\d^{2}&=4\\\\d&=2\\end{aligned}$\nThe roots are $2,4,6$."
+  },
+  {
+    "question_text": "The roots of $2x^{3}-21x^{2}+42x-16=0$ are real and in geometric progression. Find all three roots using sums and products of roots.",
+    "solution_text": "Let the roots be $\\frac{\\alpha}{r},\\alpha,\\alpha r$, where $r\\ne0$.\nUsing their product:\n$\\begin{aligned}\\alpha^{3}&=\\frac{16}{2}=8\\\\\\alpha&=2\\end{aligned}$\nUsing their sum:\n$\\begin{aligned}\\frac2r+2+2r&=\\frac{21}{2}\\\\4+4r+4r^{2}&=21r\\\\4r^{2}-17r+4&=0\\\\(4r-1)(r-4)&=0\\end{aligned}$\nThus $r=4$ or $r=\\frac14$. These give the same roots in reverse order: $\\frac12,2,8$."
+  },
+  {
+    "question_text": "The line $y=x-3$ meets the cubic $y=x^{3}-6x^{2}+9x-3$ at $(0,-3)$ and two other points $A$ and $B$. Find the midpoint of $AB$ without finding $A$ and $B$ separately.",
+    "solution_text": "Equate the curves:\n$\\begin{aligned}x^{3}-6x^{2}+9x-3&=x-3\\\\x^{3}-6x^{2}+8x&=0\\end{aligned}$\nLet the other intersection $x$-coordinates be $\\alpha,\\beta$. Using the sum of the three roots:\n$\\begin{aligned}0+\\alpha+\\beta&=6\\\\x_M&=\\frac{\\alpha+\\beta}{2}=3\\\\y_M&=3-3=0\\end{aligned}$\nThe midpoint is $(3,0)$."
+  },
+  {
+    "question_text": "The line $y=2x-1$ meets the parabola $y=x^{2}-6x+6$ at $A$ and $B$. Find their exact horizontal distance without finding the intersection coordinates separately.",
+    "solution_text": "Equate the curves:\n$\\begin{aligned}x^{2}-6x+6&=2x-1\\\\x^{2}-8x+7&=0\\end{aligned}$\nLet the intersection $x$-coordinates be $\\alpha,\\beta$. Then $\\alpha+\\beta=8$ and $\\alpha\\beta=7$.\n$\\begin{aligned}(\\alpha-\\beta)^{2}&=(\\alpha+\\beta)^{2}-4\\alpha\\beta\\\\&=8^{2}-4(7)\\\\&=36\\\\|\\alpha-\\beta|&=6\\end{aligned}$\nThe horizontal distance is $6$."
+  },
+  {
+    "question_text": "The line $y=-2x+k$ is tangent to the parabola $y=x^{2}-8x+3$. Use sums and products of roots to find $k$ and the point of contact.",
+    "solution_text": "Equate the curves:\n$\\begin{aligned}x^{2}-8x+3&=-2x+k\\\\x^{2}-6x+3-k&=0\\end{aligned}$\nAt tangency the intersection equation has a double root $\\alpha$.\nUsing the sum:\n$\\begin{aligned}2\\alpha&=6\\\\\\alpha&=3\\end{aligned}$\nUsing the product:\n$\\begin{aligned}\\alpha^{2}&=3-k\\\\9&=3-k\\\\k&=-6\\end{aligned}$\nThe tangent is $y=-2x-6$. At $x=3$, $y=-12$, so the point of contact is $(3,-12)$."
+  },
+  {
+    "question_text": "(a) Show that $x^{2}-4x+10=0$ has no real roots using the sum of squares of its roots.\n(b) Use the same method to show that $x^{4}-4x^{3}+9x^{2}+x-2=0$ cannot have four real roots.",
+    "solution_text": "(a) Let the roots be $\\alpha,\\beta$. Then $\\alpha+\\beta=4$ and $\\alpha\\beta=10$.\n$\\begin{aligned}\\alpha^{2}+\\beta^{2}&=(\\alpha+\\beta)^{2}-2\\alpha\\beta\\\\&=4^{2}-2(10)\\\\&=-4\\end{aligned}$\nTwo real numbers have a non-negative sum of squares. Therefore the two roots are not real.\n(b) Let the roots be $\\alpha,\\beta,\\gamma,\\delta$. Their sum is $4$ and their pair-product sum is $9$.\n$\\begin{aligned}\\alpha^{2}+\\beta^{2}+\\gamma^{2}+\\delta^{2}&=(\\alpha+\\beta+\\gamma+\\delta)^{2}\\\\&\\quad-2(\\alpha\\beta+\\alpha\\gamma+\\alpha\\delta+\\beta\\gamma+\\beta\\delta+\\gamma\\delta)\\\\&=4^{2}-2(9)\\\\&=-2\\end{aligned}$\nFour real numbers cannot have a negative sum of squares. Therefore the quartic cannot have four real roots."
+  },
+  {
+    "question_text": "The roots of $2x^{2}-5x+1=0$ are $\\alpha,\\beta$. Find quadratic equations with integer coefficients whose roots are:\n(a) $\\alpha+2,\\beta+2$\n(b) $\\alpha^{2},\\beta^{2}$.",
+    "solution_text": "$\\alpha+\\beta=\\frac52,\\quad \\alpha\\beta=\\frac12$.\n(a) Find the new sum and product:\n$\\begin{aligned}(\\alpha+2)+(\\beta+2)&=\\frac52+4=\\frac{13}{2}\\\\(\\alpha+2)(\\beta+2)&=\\alpha\\beta+2(\\alpha+\\beta)+4\\\\&=\\frac12+2\\left(\\frac52\\right)+4\\\\&=\\frac{19}{2}\\end{aligned}$\nThe equation is $x^{2}-\\frac{13}{2}x+\\frac{19}{2}=0$, or $2x^{2}-13x+19=0$.\n(b) Find the new sum and product:\n$\\begin{aligned}\\alpha^{2}+\\beta^{2}&=(\\alpha+\\beta)^{2}-2\\alpha\\beta\\\\&=\\left(\\frac52\\right)^{2}-2\\left(\\frac12\\right)\\\\&=\\frac{21}{4}\\\\\\alpha^{2}\\beta^{2}&=(\\alpha\\beta)^{2}=\\frac14\\end{aligned}$\nThe equation is $x^{2}-\\frac{21}{4}x+\\frac14=0$, or $4x^{2}-21x+1=0$."
+  },
+  {
+    "question_text": "The roots of $x^{3}-2x^{2}+4x-3=0$ are $\\alpha,\\beta,\\gamma$. Find the cubic equation whose roots are $3\\alpha,3\\beta,3\\gamma$ using sums and products of roots.",
+    "solution_text": "$\\alpha+\\beta+\\gamma=2$, $\\alpha\\beta+\\alpha\\gamma+\\beta\\gamma=4$ and $\\alpha\\beta\\gamma=3$.\nFor the new roots:\n$\\begin{aligned}3\\alpha+3\\beta+3\\gamma&=3(2)=6\\\\(3\\alpha)(3\\beta)+(3\\alpha)(3\\gamma)+(3\\beta)(3\\gamma)&=9(4)=36\\\\(3\\alpha)(3\\beta)(3\\gamma)&=27(3)=81\\end{aligned}$\nA monic cubic is $x^{3}-(\\text{root sum})x^{2}+(\\text{pair-product sum})x-\\text{root product}=0$.\nThe required equation is $x^{3}-6x^{2}+36x-81=0$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

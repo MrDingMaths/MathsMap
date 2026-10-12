@@ -2,8 +2,8 @@
   "skillId": "area-applications",
   "atomType": "R",
   "theory": {
-    "intro": "Many practical quantities are areas under a graph. If a graph gives a **rate of change**, the area under it from $t=a$ to $t=b$ is the total change over that interval. The unit of the answer comes from multiplying the units on the two axes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!20] (1,0) -- plot[domain=1:5,smooth,variable=\\x] ({\\x},{1.2+0.5*\\x-0.05*\\x*\\x}) -- (5,0) -- cycle;\n\\draw[->] (-0.4,0) -- (6.8,0);\n\\draw[->] (0,-0.4) -- (0,4.1);\n\\draw[thick,domain=0.2:6,smooth,variable=\\x] plot ({\\x},{1.2+0.5*\\x-0.05*\\x*\\x});\n\\draw (1,0.1) -- (1,-0.1) node[below] {$a$};\n\\draw (5,0.1) -- (5,-0.1) node[below] {$b$};\n\\node at (2.9,1.0) {total change};\n\\node at (4.7,3.5) {$y=R(t)$};\n\\node[below] at (3.0,-0.9) {Time};\n\\node[rotate=90] at (-1.0,1.9) {Rate};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "Many practical quantities are areas under a graph. If a graph gives a **rate of change**, the area under it from $t=a$ to $t=b$ is the total change over that interval. The unit of the answer comes from multiplying the units on the two axes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!20] (1,0) -- plot[domain=1:5,smooth,variable=\\x] ({\\x},{1.2+0.5*\\x-0.05*\\x*\\x}) -- (5,0) -- cycle;\n\\draw[->] (-0.4,0) -- (6.8,0);\n\\draw[->] (0,-0.4) -- (0,4.1);\n\\draw[thick,domain=0.2:6,smooth,variable=\\x] plot ({\\x},{1.2+0.5*\\x-0.05*\\x*\\x});\n\\draw (1,0.1) -- (1,-0.1) node[below] {$a$};\n\\draw (5,0.1) -- (5,-0.1) node[below] {$b$};\n\\node at (2.9,1.0) {total change};\n\\node at (4.7,3.5) {$y=R(t)$};\n\\node[below] at (3.0,-0.9) {Time};\n\\node[rotate=90] at (-1.0,1.9) {Rate};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "For a velocity–time graph in m/s against seconds, $\\int_a^b v(t)\\,dt$ gives displacement in metres. It also gives distance travelled when $v(t)\\geq0$ throughout the interval.",
 "Write the model as a definite integral before calculating: total change $=\\int_{a}^{b}R(t)\\,dt$.",
 "A region bounded by a curve and an axis, both measured in metres, has an area in $\\text{m}^{2}$.",
@@ -13,12 +13,77 @@
 "For equally spaced measurements, the trapezoidal rule gives an estimate: $\\frac{h}{2}\\left(f_0+f_n+2(f_1+\\cdots+f_{n-1})\\right)$, where $h$ is the spacing.",
 "To find the amount remaining after a given time, add the net change to the initial amount."
 ],
-    "steps": [
+"steps": [
 "Write the quantity as a definite integral, or use the trapezoidal rule for supplied measurements",
 "Evaluate the integral or calculate the estimate",
 "Interpret the answer with its practical unit, adding the initial amount when required"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A trolley moves in the positive direction. Its measured velocities are:\n\n| $t$ (s) | $0$ | $2$ | $4$ | $6$ |\n| --- | --- | --- | --- | --- |\n| $v$ (m/s) | $2$ | $3$ | $6$ | $5$ |\n\nUse the trapezoidal rule to estimate the distance travelled in the first $6$ seconds.",
+    "solution_text": "The velocity is nonnegative, so the area under the velocity–time graph gives distance. The spacing is $h=2$ seconds.\n\n$\\begin{aligned}d&\\approx\\frac{2}{2}\\left(2+5+2(3+6)\\right)\\\\&=25\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A lake's widths are measured along a straight baseline.\n\n| Distance (m) | $0$ | $10$ | $20$ | $30$ | $40$ |\n| --- | --- | --- | --- | --- | --- |\n| Width (m) | $0$ | $14$ | $19$ | $13$ | $0$ |\n\nUse the trapezoidal rule to estimate the surface area.",
+    "solution_text": "The spacing is $h=10$ metres. Baseline distance multiplied by width gives square metres.\n\n$\\begin{aligned}A&\\approx\\frac{10}{2}\\left(0+0+2(14+19+13)\\right)\\\\&=5(92)\\\\&=460\\text{ m}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A tank initially contains $600$ litres of water. Water enters at $R=12+3t^{2}$ litres per minute for $0\\leq t\\leq4$. Find the volume after $4$ minutes.",
+    "solution_text": "Integrate the inflow rate to find the volume added, then add the initial volume.\n\n$\\begin{aligned}V_{\\text{added}}&=\\int_0^4(12+3t^2)\\,dt\\\\&=\\left[12t+t^3\\right]_0^4\\\\&=48+64\\\\&=112\\text{ L}\\end{aligned}$\n\n$V_{\\text{final}}=600+112=712\\text{ L}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A tank initially contains $150$ litres of water. Water enters at $R=9\\sqrt{t}$ litres per hour for $0\\leq t\\leq4$. Find the volume after $4$ hours.",
+    "solution_text": "Write the square root as a power and integrate the rate.\n\n$\\begin{aligned}V_{\\text{added}}&=\\int_0^4 9t^{1/2}\\,dt\\\\&=\\left[6t^{3/2}\\right]_0^4\\\\&=6(8)\\\\&=48\\text{ L}\\end{aligned}$\n\n$V_{\\text{final}}=150+48=198\\text{ L}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A reservoir initially contains $70$ megalitres. Its net inflow rate is $R=10-4t$ megalitres per day for $0\\leq t\\leq4$. A negative rate means water is released. Find the volume after $4$ days.",
+    "solution_text": "The rate changes sign at $t=\\frac52$. The signed integral subtracts the water released from the water received.\n\n$\\begin{aligned}\\Delta V&=\\int_0^4(10-4t)\\,dt\\\\&=\\left[10t-2t^2\\right]_0^4\\\\&=40-32\\\\&=8\\text{ ML}\\end{aligned}$\n\n$V_{\\text{final}}=70+8=78\\text{ ML}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A drum initially contains $350$ litres of liquid. It loses liquid at $R=40e^{-0.5t}$ litres per minute for $0\\leq t\\leq6$. Find the volume remaining after $6$ minutes, correct to one decimal place.",
+    "solution_text": "Integrate the loss rate, then subtract the loss from the initial volume.\n\n$\\begin{aligned}V_{\\text{lost}}&=\\int_0^6 40e^{-0.5t}\\,dt\\\\&=\\left[-80e^{-0.5t}\\right]_0^6\\\\&=80(1-e^{-3})\\text{ L}\\end{aligned}$\n\n$\\begin{aligned}V_{\\text{remaining}}&=350-80(1-e^{-3})\\\\&=270+80e^{-3}\\\\&\\approx274.0\\text{ L}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A tank initially contains $450$ litres of water. Water enters at $R=\\frac{60}{t+2}$ litres per hour for $0\\leq t\\leq4$. Find the volume after $4$ hours, correct to one decimal place.",
+    "solution_text": "Integrate the inflow rate, then add the initial volume.\n\n$\\begin{aligned}V_{\\text{added}}&=\\int_0^4\\frac{60}{t+2}\\,dt\\\\&=\\left[60\\ln(t+2)\\right]_0^4\\\\&=60(\\ln6-\\ln2)\\\\&=60\\ln3\\text{ L}\\end{aligned}$\n\n$\\begin{aligned}V_{\\text{final}}&=450+60\\ln3\\\\&\\approx515.9\\text{ L}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A drainage channel has a cross-section bounded by ground level $y=0$ and the curve $y=x^2-9$. Both coordinates are measured in metres. Find the cross-sectional area.\n\n[tikz]\n\\begin{tikzpicture}[x=0.65cm,y=0.25cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\definecolor{mathsmapLightGreen}{HTML}{DCEBE0}\n\\fill[fill=mathsmapLightGreen] (-3,0) -- plot[domain=-3:3,samples=61] (\\x,{\\x*\\x-9}) -- cycle;\n\\draw[->] (-3.8,0)--(3.8,0) node[right] {$x$};\n\\draw[->] (0,-10.5)--(0,2) node[above] {$y$};\n\\draw[thick] plot[domain=-3.3:3.3,samples=61] (\\x,{\\x*\\x-9});\n\\path (-3,0) node[above] {$-3$} (3,0) node[above] {$3$};\n\\path (0,-9) node[below left] {$-9$};\n\\path (0,1) node[above left] {ground level};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The ground intersections satisfy $x^2-9=0$, so $x=\\pm3$. The channel lies below ground; take the negative of its integral.\n\n$\\begin{aligned}A&=-\\int_{-3}^{3}(x^2-9)\\,dx\\\\&=-\\left[\\frac{x^3}{3}-9x\\right]_{-3}^{3}\\\\&=-\\left((-18)-18\\right)\\\\&=36\\text{ m}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An arch window is $4$ metres high and $4$ metres wide. Its upper boundary is $y=4\\cos\\left(\\frac{\\pi x}{4}\\right)$ and its sill is $y=0$, for $-2\\leq x\\leq2$. Find the glass area, correct to one decimal place.\n\n[tikz]\n\\begin{tikzpicture}[x=0.9cm,y=0.65cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\definecolor{mathsmapLightGreen}{HTML}{DCEBE0}\n\\fill[fill=mathsmapLightGreen] (-2,0) -- plot[domain=-2:2,samples=61] (\\x,{4*cos(45*\\x)}) -- cycle;\n\\draw[->] (-2.7,0)--(2.7,0) node[right] {$x$};\n\\draw[->] (0,-0.5)--(0,4.8) node[above] {$y$};\n\\draw[thick] plot[domain=-2:2,samples=61] (\\x,{4*cos(45*\\x)});\n\\path (-2,0) node[below] {$-2$} (2,0) node[below] {$2$};\n\\path (0,4) node[above left] {$4$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The curve is nonnegative between the sill intersections, so its integral gives the glass area.\n\n$\\begin{aligned}A&=\\int_{-2}^{2}4\\cos\\left(\\frac{\\pi x}{4}\\right)\\,dx\\\\&=\\left[\\frac{16}{\\pi}\\sin\\left(\\frac{\\pi x}{4}\\right)\\right]_{-2}^{2}\\\\&=\\frac{16}{\\pi}(1-(-1))\\\\&=\\frac{32}{\\pi}\\\\&\\approx10.2\\text{ m}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

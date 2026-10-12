@@ -2,8 +2,8 @@
   "skillId": "compound-event-probability",
   "atomType": "R",
   "theory": {
-        "intro": "A **compound event** joins two events with words such as *and*, *or*, *not*, *neither … nor*, *at least* and *at most*. Each phrase selects one or more regions of a Venn diagram, or one set of cells in a two-way table.",
-        "facts": [
+"intro": "A **compound event** joins two events with words such as *and*, *or*, *not*, *neither … nor*, *at least* and *at most*. Each phrase selects one or more regions of a Venn diagram, or one set of cells in a two-way table.",
+"facts": [
 "'$A$ **and** $B$' is the overlap $A \\cap B$, and '$A$ **only**' is the part of $A$ outside $B$.",
 "'$A$ **or** $B$, **or both**' (inclusive or) is every outcome in either circle, with the overlap counted **once**.",
 "'$A$ **or** $B$, **but not both**' (exclusive or) is that same region with the overlap **removed**.",
@@ -16,12 +16,34 @@
 "In a two-way table the total is the grand total in the bottom right corner.",
 "The regions of a Venn diagram add to the total, so a missing region is the total minus the others."
 ],
-        "steps": [
+"steps": [
           "Fill in every region of the Venn diagram or table.",
           "Identify the region the words describe.",
           "Count that region and divide by the total, then simplify."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "The Venn diagram records the instruments played by 30 students. $P$ means piano and $G$ means guitar.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0) rectangle (7,4);\n\\draw (2.5,2) circle (1.5);\n\\draw (4.5,2) circle (1.5);\n\\path (1.5,3.6) node {$P$} (5.5,3.6) node {$G$};\n\\path (1.8,2) node {$10$} (3.5,2) node {$6$} (5.2,2) node {$9$} (6.4,0.5) node {$5$};\n\\end{tikzpicture}\n[/tikz]\nFind the probability that a randomly selected student plays:\na. both instruments\nb. piano only\nc. piano or guitar, or both\nd. piano or guitar, but not both\ne. no piano\nf. neither instrument\ng. at least one instrument\nh. more than one instrument\ni. at most one instrument.",
+    "solution_text": "The four regions total $10+6+9+5=30$.\na. 'Both' selects the overlap: $P(P\\cap G)=\\frac{6}{30}=\\frac15$.\nb. 'Piano only' excludes the overlap: $P(\\text{piano only})=\\frac{10}{30}=\\frac13$.\nc. Inclusive or counts all three regions inside the circles once: $P(P\\cup G)=\\frac{10+6+9}{30}=\\frac56$.\nd. Exclusive or selects the two outer regions inside the circles: $P(\\text{exactly one})=\\frac{10+9}{30}=\\frac{19}{30}$.\ne. 'No piano' includes guitar only and neither: $P(P')=\\frac{9+5}{30}=\\frac7{15}$.\nf. 'Neither' selects only the region outside both circles: $P(\\text{neither})=\\frac5{30}=\\frac16$.\ng. 'At least one' includes both instruments: $P(\\text{at least one})=\\frac{25}{30}=\\frac56$.\nh. With two instruments, 'more than one' means both: $P(\\text{more than one})=\\frac6{30}=\\frac15$.\ni. 'At most one' includes zero instruments and excludes both: $P(\\text{at most one})=\\frac{10+9+5}{30}=\\frac45$."
+  },
+  {
+    "question_text": "This two-way table records the destinations visited by 40 travellers.\n$\\begin{array}{l|r|r|r}&\\text{Fiji}&\\text{Not Fiji}&\\text{Total}\\\\\\hline\\text{Bali}&8&12&20\\\\\\text{Not Bali}&6&14&20\\\\\\hline\\text{Total}&14&26&40\\end{array}$\nOne traveller is selected at random. Find the probability that they have visited:\na. Bali and Fiji\nb. Fiji only\nc. at least one destination\nd. at most one destination\ne. neither destination\nf. no Fiji\ng. no Bali, or Fiji, or both.",
+    "solution_text": "Use the grand total, 40, as the denominator.\na. Select the Bali–Fiji cell: $P(\\text{both})=\\frac8{40}=\\frac15$.\nb. Select Fiji in the Not Bali row: $P(\\text{Fiji only})=\\frac6{40}=\\frac3{20}$.\nc. Select every data cell except neither: $P(\\text{at least one})=\\frac{8+12+6}{40}=\\frac{13}{20}$.\nd. Select every data cell except both: $P(\\text{at most one})=\\frac{12+6+14}{40}=\\frac45$.\ne. Select the Not Bali–Not Fiji cell: $P(\\text{neither})=\\frac{14}{40}=\\frac7{20}$.\nf. Select the Not Fiji column: $P(\\text{no Fiji})=\\frac{26}{40}=\\frac{13}{20}$.\ng. Select the Not Bali row and the Fiji column, counting their shared cell once: $P(\\text{no Bali or Fiji, or both})=\\frac{6+14+8}{40}=\\frac7{10}$."
+  },
+  {
+    "question_text": "Of 40 students, 24 play cricket, 18 play soccer and 8 play both. Construct a Venn diagram, then find the probability that a randomly selected student plays neither sport.",
+    "solution_text": "Place the 8 students who play both in the overlap. Subtract them from each sport total.\n$\\begin{align*}\\text{Cricket only}&=24-8=16\\\\\\text{Soccer only}&=18-8=10\\\\\\text{Neither}&=40-(16+8+10)=6\\end{align*}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0) rectangle (7,4);\n\\draw (2.5,2) circle (1.5);\n\\draw (4.5,2) circle (1.5);\n\\path (1.5,3.6) node {$C$} (5.5,3.6) node {$S$};\n\\path (1.8,2) node {$16$} (3.5,2) node {$8$} (5.2,2) node {$10$} (6.4,0.5) node {$6$};\n\\end{tikzpicture}\n[/tikz]\n$C$ represents cricket and $S$ represents soccer. The outside region contains 6 students.\n$P(\\text{neither})=\\frac6{40}=\\frac3{20}$."
+  },
+  {
+    "question_text": "Of 48 students, 29 play piano, 25 play guitar and 6 play neither. Construct a Venn diagram, then find the probability that a randomly selected student plays:\na. piano or guitar, but not both\nb. at most one instrument.",
+    "solution_text": "First find how many play at least one instrument. The two instrument totals count students who play both twice.\n$\\begin{align*}\\text{At least one}&=48-6=42\\\\\\text{Both}&=29+25-42=12\\\\\\text{Piano only}&=29-12=17\\\\\\text{Guitar only}&=25-12=13\\end{align*}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0) rectangle (7,4);\n\\draw (2.5,2) circle (1.5);\n\\draw (4.5,2) circle (1.5);\n\\path (1.5,3.6) node {$P$} (5.5,3.6) node {$G$};\n\\path (1.8,2) node {$17$} (3.5,2) node {$12$} (5.2,2) node {$13$} (6.4,0.5) node {$6$};\n\\end{tikzpicture}\n[/tikz]\na. Exclusive or excludes both and neither: $P(\\text{exactly one})=\\frac{17+13}{48}=\\frac58$.\nb. At most one also includes neither: $P(\\text{at most one})=\\frac{17+13+6}{48}=\\frac34$."
+  },
+  {
+    "question_text": "Describe the shaded region in words. Explain how it differs from '$A$ or $B$, or both', and state when the two descriptions select the same outcomes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\definecolor{regionfill}{HTML}{D4E8FF}\n\\fill[regionfill] (2.5,2) circle (1.5);\n\\fill[regionfill] (4.5,2) circle (1.5);\n\\begin{scope}\n\\clip (2.5,2) circle (1.5);\n\\fill[white] (4.5,2) circle (1.5);\n\\end{scope}\n\\draw (0,0) rectangle (7,4);\n\\draw (2.5,2) circle (1.5);\n\\draw (4.5,2) circle (1.5);\n\\path (1.5,3.6) node {$A$} (5.5,3.6) node {$B$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The shaded region represents '$A$ or $B$, but not both': exclusive or. It contains outcomes belonging to exactly one event.\nInclusive or also includes the overlap, $A\\cap B$.\nThe descriptions select the same outcomes when the events are mutually exclusive: there are no shared outcomes, so the overlap is empty."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,8 +2,8 @@
   "skillId": "derivative-of-inverse-function",
   "atomType": "R",
   "theory": {
-    "intro": "The graph of $y=f^{-1}(x)$ is the graph of an existing one-to-one branch of $y=f(x)$ reflected in the line $y=x$. At a corresponding interior point where the original derivative is finite and nonzero, reflecting a tangent of gradient $m$ produces a tangent of gradient $\\dfrac{1}{m}$, so the two derivatives are reciprocals.",
-    "facts": [
+"intro": "The graph of $y=f^{-1}(x)$ is the graph of an existing one-to-one branch of $y=f(x)$ reflected in the line $y=x$. At a corresponding interior point where the original derivative is finite and nonzero, reflecting a tangent of gradient $m$ produces a tangent of gradient $\\dfrac{1}{m}$, so the two derivatives are reciprocals.",
+"facts": [
 "If $f(a)=b$ then $f^{-1}(b)=a$, so the point $(a,b)$ on $f$ becomes the point $(b,a)$ on $f^{-1}$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n             xmin=-3.6, xmax=3.6, ymin=-3.4, ymax=3.4,\n             xtick=\\empty, ytick=\\empty, samples=100, clip=false,\n             axis line style={-{Stealth}}]\n\\addplot[thick, <->, domain=-2.1:2.1] {x*x*x/3};\n\\addplot[thick, <->, domain=-2.1:2.1, variable=\\t] ({t*t*t/3}, {t});\n\\addplot[dashed, domain=-3:3] {x};\n\\addplot[only marks, mark=*] coordinates {(1.5,1.125) (1.125,1.5)};\n\\addplot[dashed] coordinates {(1.5,1.125) (1.125,1.5)};\n\\node[below right] at (axis cs:1.5,1.125) {$(a,b)$};\n\\node[above left] at (axis cs:1.125,1.5) {$(b,a)$};\n\\node[font=\\small] at (axis cs:1.15,3.12) {$y=f(x)$};\n\\node[font=\\small] at (axis cs:2.9,1.45) {$y=f^{-1}(x)$};\n\\node[fill=white, inner sep=1pt] at (axis cs:-2.75,-2.75) {$y=x$};\n\\end{axis}\n\\end{tikzpicture}[/tikz]",
 "For an existing inverse branch, at a corresponding interior point where $f'$ is finite and nonzero, the rule is $\\left(f^{-1}\\right)'(x)=\\dfrac{1}{f'\\left(f^{-1}(x)\\right)}$, usually used as $\\left(f^{-1}\\right)'(b)=\\dfrac{1}{f'(a)}$.",
 "Evaluate $f'$ at $a$, the input of $f$, and never at $b$.",
@@ -13,12 +13,88 @@
 "The domain of $f^{-1}$ is the range of $f$, and outside that domain no gradient exists.",
 "You may instead find $f^{-1}(x)$ explicitly and differentiate it directly; the two methods agree where the reciprocal rule applies."
 ],
-    "steps": [
+"steps": [
 "Identify the pair: find the value $a$ with $f(a)=b$, so that $f^{-1}(b)=a$.",
 "Differentiate $f$ to get $f'(x)$.",
 "Check that the inverse branch exists and $a$ is an interior point with a finite nonzero derivative, then evaluate $f'(a)$ and take its reciprocal: $\\left(f^{-1}\\right)'(b)=\\dfrac{1}{f'(a)}$. Treat endpoints and zero derivatives separately."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Let $f(x)=x^{3}+6$. Find $f^{-1}(x)$ and hence $\\left(f^{-1}\\right)'(x)$.",
+    "solution_text": "Swap $x$ and $y$ and make $y$ the subject.\n$\\begin{align*}x&=y^{3}+6\\\\y^{3}&=x-6\\\\f^{-1}(x)&=\\sqrt[3]{x-6}\\\\\\left(f^{-1}\\right)'(x)&=\\frac{1}{3(x-6)^{2/3}},\\qquad x\\ne6\\end{align*}$\nAt $x=6$, the inverse has a vertical tangent and no finite derivative.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Let $f(x)=x^{2}-8$ for $x\\ge0$. Find its inverse, stating its domain, and differentiate the inverse wherever its ordinary derivative exists.",
+    "solution_text": "$\\begin{align*}x&=y^{2}-8\\\\y^{2}&=x+8\\end{align*}$\nThe inverse takes values $y\\ge0$, so choose the positive square root.\n$\\begin{align*}f^{-1}(x)&=\\sqrt{x+8},\\qquad x\\ge-8\\\\\\left(f^{-1}\\right)'(x)&=\\frac{1}{2\\sqrt{x+8}},\\qquad x>-8\\end{align*}$\nAt $x=-8$, the inverse has a vertical endpoint tangent and no finite derivative.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=x^{3}+6x$. Given $f(1)=7$, find the gradient of the tangent to $y=f^{-1}(x)$ at $(7,1)$.",
+    "solution_text": "Since $f(1)=7$, $f^{-1}(7)=1$.\n$\\begin{align*}f'(x)&=3x^{2}+6\\\\f'(1)&=9\\\\\\left(f^{-1}\\right)'(7)&=\\frac{1}{f'(1)}\\\\&=\\frac{1}{9}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=x\\ln x$ for $x>e^{-1}$. Find the gradient of the tangent to $y=f^{-1}(x)$ at $(e,e)$.",
+    "solution_text": "$f(e)=e\\ln e=e$, so $f^{-1}(e)=e$.\nUse the product rule to differentiate $f$.\n$\\begin{align*}f'(x)&=\\ln x+x\\left(\\frac{1}{x}\\right)\\\\&=\\ln x+1\\\\f'(e)&=2\\\\\\left(f^{-1}\\right)'(e)&=\\frac{1}{f'(e)}\\\\&=\\frac{1}{2}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=\\dfrac{3x+2}{x+4}$. Find the gradient of the tangent to $y=f^{-1}(x)$ at $\\left(-\\dfrac{1}{3},-1\\right)$.",
+    "solution_text": "$f(-1)=\\dfrac{-3+2}{-1+4}=-\\dfrac{1}{3}$, so $f^{-1}\\left(-\\dfrac{1}{3}\\right)=-1$.\nUse the quotient rule, then take the reciprocal.\n$\\begin{align*}f'(x)&=\\frac{3(x+4)-(3x+2)}{(x+4)^{2}}\\\\&=\\frac{10}{(x+4)^{2}}\\\\f'(-1)&=\\frac{10}{9}\\\\\\left(f^{-1}\\right)'\\left(-\\frac{1}{3}\\right)&=\\frac{1}{f'(-1)}\\\\&=\\frac{9}{10}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=x^{4}e^{x}$ for $x\\ge0$. Write the inverse relation as $x=f(y)$ and find $\\dfrac{dx}{dy}$ in terms of $y$.",
+    "solution_text": "Swap $x$ and $y$, then use the product rule.\n$\\begin{align*}x&=y^{4}e^{y}\\\\\\frac{dx}{dy}&=4y^{3}e^{y}+y^{4}e^{y}\\\\&=y^{3}e^{y}(4+y)\\end{align*}$\nThis is $dx/dy$ for the swapped relation, before taking a reciprocal.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=\\dfrac{5x-2}{2x+3}$. Write the inverse relation as $x=f(y)$ and find $\\dfrac{dx}{dy}$ in terms of $y$.",
+    "solution_text": "Swap $x$ and $y$, then use the quotient rule.\n$\\begin{align*}x&=\\frac{5y-2}{2y+3}\\\\\\frac{dx}{dy}&=\\frac{5(2y+3)-2(5y-2)}{(2y+3)^{2}}\\\\&=\\frac{19}{(2y+3)^{2}},\\qquad y\\ne-\\frac{3}{2}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=x^{3}-3x+8$ for $-1\\le x\\le1$. The point $(6,1)$ lies on $y=f^{-1}(x)$. Explain why the inverse has no finite tangent gradient there.",
+    "solution_text": "$f'(x)=3x^{2}-3<0$ for $-1<x<1$, so the given branch is strictly decreasing and has an inverse.\n$\\begin{align*}f(1)&=1-3+8=6\\\\f'(1)&=3-3=0\\end{align*}$\nThe original branch has a horizontal endpoint tangent at $(1,6)$. Reflection in $y=x$ gives a vertical endpoint tangent at $(6,1)$, so the inverse has no finite derivative there.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=\\sqrt{x-7}+2$. Find the gradient of $y=f^{-1}(x)$ at $x=-1$, or explain why it does not exist.",
+    "solution_text": "The range of $f$ is $[2,\\infty)$, so the domain of $f^{-1}$ is $[2,\\infty)$.\nSince $-1$ is outside this domain, there is no corresponding point on the inverse and no gradient."
+  },
+  {
+    "question_text": "Let $f(x)=\\sqrt{x-6}$ for $x\\ge6$.\na. Find $f^{-1}(x)$ and state its domain.\nb. For $x>0$, differentiate the inverse using the reciprocal rule and verify the result directly.",
+    "solution_text": "a. Swap $x$ and $y$.\n$\\begin{align*}x&=\\sqrt{y-6}\\\\x^{2}&=y-6\\\\f^{-1}(x)&=x^{2}+6\\end{align*}$\nIts domain is $x\\ge0$, the range of $f$.\n\nb. $f'(t)=\\dfrac{1}{2\\sqrt{t-6}}$ for $t>6$.\nFor $x>0$:\n$\\begin{align*}\\left(f^{-1}\\right)'(x)&=\\frac{1}{f'\\left(f^{-1}(x)\\right)}\\\\&=\\frac{1}{\\frac{1}{2\\sqrt{x^{2}+6-6}}}\\\\&=2x\\end{align*}$\nDirect differentiation gives the same result:\n$\\frac{d}{dx}(x^{2}+6)=2x$.\nAt $x=0$, the reciprocal rule does not apply because $f'(6)$ is undefined. The inverse has right derivative $0$ there; an ordinary two-sided derivative is not defined at this endpoint.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=x(3x-2)^{4}$ for $x\\ge1$, a strictly increasing branch. Write the inverse relation as $x=f(y)$ and find $\\dfrac{dx}{dy}$ in terms of $y$.",
+    "solution_text": "Swap $x$ and $y$. Use the product rule and include the chain-rule factor $3$ when differentiating $(3y-2)^{4}$.\n$\\begin{align*}x&=y(3y-2)^{4}\\\\\\frac{dx}{dy}&=(3y-2)^{4}+y\\cdot4(3y-2)^{3}\\cdot3\\\\&=(3y-2)^{3}\\bigl((3y-2)+12y\\bigr)\\\\&=(3y-2)^{3}(15y-2),\\qquad y\\ge1\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

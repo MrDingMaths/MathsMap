@@ -2,21 +2,51 @@
   "skillId": "time-zones-daylight-saving",
   "atomType": "R",
   "theory": {
-        "intro": "Australia has three standard time zones based on **Coordinated Universal Time (UTC)**, with some states advancing clocks by $1\\text{ hour}$ in summer.",
-        "facts": [
+"intro": "Australia has three standard time zones based on **Coordinated Universal Time (UTC)**, with some states advancing clocks by $1\\text{ hour}$ in summer.",
+"facts": [
           "**Standard time** uses AWST ($\\text{UTC}+8$), ACST ($\\text{UTC}+9.5$), and AEST ($\\text{UTC}+10$).",
           "During **daylight saving**, NSW, Victoria, Tasmania, and the ACT use AEDT ($\\text{UTC}+11$), while South Australia uses ACDT ($\\text{UTC}+10.5$).",
           "Queensland ($\\text{UTC}+10$), the Northern Territory ($\\text{UTC}+9.5$), and Western Australia ($\\text{UTC}+8$) do not observe daylight saving.",
           "In summer, Sydney ($\\text{UTC}+11$) is $1\\text{ hour}$ ahead of Brisbane, $30\\text{ minutes}$ ahead of Adelaide, and $3\\text{ hours}$ ahead of Perth.",
           "Broken Hill is in NSW but uses South Australian time ($\\text{UTC}+9.5$ in standard time, $\\text{UTC}+10.5$ in summer)."
         ],
-        "steps": [
+"steps": [
           "Identify if standard time or daylight saving time applies to each location",
           "Determine the UTC offset for each location",
           "Calculate the time difference between the locations",
           "Add the time difference if the target location is ahead, or subtract if it is behind"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "During standard time, it is $2{:}20\\text{ pm}$ in Perth ($\\text{UTC}+8$). Find the simultaneous local times in Alice Springs ($\\text{UTC}+9.5$) and Melbourne ($\\text{UTC}+10$).",
+    "solution_text": "Both destinations are ahead of Perth.\n\nAlice Springs:\n$\\begin{aligned}\\text{Time difference}&=9.5-8\\\\&=1.5\\text{ h}=1\\text{ h }30\\text{ min}\\\\\\text{Local time}&=14{:}20+1\\text{ h }30\\text{ min}\\\\&=15{:}50\\end{aligned}$\n\nIt is 3:50 pm in Alice Springs.\n\nMelbourne:\n$\\begin{aligned}\\text{Time difference}&=10-8\\\\&=2\\text{ h}\\\\\\text{Local time}&=14{:}20+2\\text{ h}\\\\&=16{:}20\\end{aligned}$\n\nIt is 4:20 pm in Melbourne.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "During summer, it is $12{:}20\\text{ am}$ on Monday in Adelaide ($\\text{UTC}+10.5$). Find the simultaneous local time and day in:\n\na. Brisbane ($\\text{UTC}+10$)\nb. Darwin ($\\text{UTC}+9.5$)\nc. Sydney ($\\text{UTC}+11$)\nd. Perth ($\\text{UTC}+8$)\ne. Broken Hill, which uses South Australian time ($\\text{UTC}+10.5$).\n\nAdelaide, Sydney and Broken Hill are observing daylight saving. Brisbane, Darwin and Perth remain on standard time.",
+    "solution_text": "a. Brisbane is $10.5-10=0.5\\text{ h}=30\\text{ min}$ behind Adelaide. Subtract 30 minutes from 00:20 Monday: **11:50 pm Sunday**.\n\nb. Darwin is $10.5-9.5=1\\text{ h}$ behind Adelaide. Subtract 1 hour from 00:20 Monday: **11:20 pm Sunday**.\n\nc. Sydney is $11-10.5=0.5\\text{ h}=30\\text{ min}$ ahead of Adelaide. Add 30 minutes to 00:20 Monday: **12:50 am Monday**.\n\nd. Perth is $10.5-8=2.5\\text{ h}=2\\text{ h }30\\text{ min}$ behind Adelaide. Subtract 2 hours 30 minutes from 00:20 Monday: **9:50 pm Sunday**.\n\ne. Broken Hill and Adelaide have the same UTC offset, so it is **12:20 am Monday** in Broken Hill.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Sydney uses $\\text{UTC}+10$ during standard time and $\\text{UTC}+11$ during daylight saving. A location uses $\\text{UTC}-6$ throughout the year.\n\na. Find the time difference when Sydney is on standard time.\nb. Find the time difference when Sydney is on daylight saving.\n\nState which location is ahead in each case.",
+    "solution_text": "a. Standard time:\n$\\begin{aligned}\\text{Time difference}&=10-(-6)\\\\&=16\\text{ h}\\end{aligned}$\n\nSydney is 16 hours ahead.\n\nb. Daylight saving:\n$\\begin{aligned}\\text{Time difference}&=11-(-6)\\\\&=17\\text{ h}\\end{aligned}$\n\nSydney is 17 hours ahead. Advancing Sydney's clocks by 1 hour increases the difference by 1 hour.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "During summer, a flight leaves Perth ($\\text{UTC}+8$) at $9{:}40\\text{ pm}$ on Thursday. The flight to Adelaide ($\\text{UTC}+10.5$) takes $2\\text{ h }55\\text{ min}$.\n\nPerth remains on standard time and Adelaide observes daylight saving. Find the local arrival time and day in Adelaide.",
+    "solution_text": "Adelaide is ahead of Perth.\n$\\begin{aligned}\\text{Time difference}&=10.5-8\\\\&=2.5\\text{ h}=2\\text{ h }30\\text{ min}\\end{aligned}$\n\nFirst convert the departure to Adelaide time.\n$\\begin{aligned}\\text{Departure in Adelaide time}&=21{:}40+2\\text{ h }30\\text{ min}\\\\&=24{:}10\\end{aligned}$\n\nSubtract 24 hours: the departure is at 00:10 Friday in Adelaide.\n\nThen add the flight duration.\n$\\begin{aligned}\\text{Arrival time}&=00{:}10+2\\text{ h }55\\text{ min}\\\\&=03{:}05\\end{aligned}$\n\nThe flight arrives at **3:05 am Friday**.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,8 +2,8 @@
   "skillId": "multiplicity-derivative",
   "atomType": "R",
   "theory": {
-    "intro": "If $P(x)=(x-\\alpha)^{m}Q(x)$ with $m>1$ and $Q(\\alpha)\\ne0$, then $\\alpha$ has exact multiplicity $m$. The product rule gives $P'(x)=(x-\\alpha)^{m-1}\\left[mQ(x)+(x-\\alpha)Q'(x)\\right]$. At $x=\\alpha$, the bracket equals $mQ(\\alpha)\\ne0$, so $\\alpha$ is a zero of multiplicity exactly $m-1$ of $P'$. Differentiating therefore counts how many times a zero repeats.",
-    "facts": [
+"intro": "If $P(x)=(x-\\alpha)^{m}Q(x)$ with $m>1$ and $Q(\\alpha)\\ne0$, then $\\alpha$ has exact multiplicity $m$. The product rule gives $P'(x)=(x-\\alpha)^{m-1}\\left[mQ(x)+(x-\\alpha)Q'(x)\\right]$. At $x=\\alpha$, the bracket equals $mQ(\\alpha)\\ne0$, so $\\alpha$ is a zero of multiplicity exactly $m-1$ of $P'$. Differentiating therefore counts how many times a zero repeats.",
+"facts": [
       "If $P(\\alpha)=0$ but $P'(\\alpha)\\ne0$, then $\\alpha$ is a zero of multiplicity $1$.",
       "If $P(\\alpha)=0$ and $P'(\\alpha)=0$, then $(x-\\alpha)^{2}$ is a factor of $P(x)$.",
       "If $P(\\alpha)$, $P'(\\alpha)$ and $P''(\\alpha)$ are all zero, then $(x-\\alpha)^{3}$ is a factor of $P(x)$.",
@@ -11,13 +11,85 @@
       "A zero of $P'(x)$ is a repeated zero of $P(x)$ only if it is also a zero of $P(x)$.",
       "A stationary point of $P$ that lies on the $x$-axis is always a repeated zero of $P$."
     ],
-    "steps": [
+"steps": [
       "Check that $P(\\alpha)=0$.",
       "Test whether $P'(\\alpha)=0$.",
       "Keep differentiating until a derivative is not zero at $x=\\alpha$.",
       "State the multiplicity as the order of the first non-zero derivative."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Use derivatives to determine the multiplicity of the stated zero in each polynomial.\n(a) $P(x)=x^{2}-7x+10$, at $x=2$.\n(b) $Q(x)=x^{3}-3x+2$, at $x=1$.\n(c) $R(x)=x^{3}+6x^{2}+12x+8$, at $x=-2$.",
+    "solution_text": "(a) $\\begin{aligned}P(2)&=4-14+10=0\\\\P'(x)&=2x-7\\\\P'(2)&=-3\\ne0\\end{aligned}$\nThe zero $2$ has multiplicity $1$.\n\n(b) $\\begin{aligned}Q(1)&=1-3+2=0\\\\Q'(x)&=3x^{2}-3\\\\Q'(1)&=0\\\\Q''(x)&=6x\\\\Q''(1)&=6\\ne0\\end{aligned}$\nThe first non-zero derivative at $x=1$ is $Q''$, so the multiplicity is $2$.\n\n(c) $\\begin{aligned}R(-2)&=-8+24-24+8=0\\\\R'(x)&=3x^{2}+12x+12\\\\R'(-2)&=12-24+12=0\\\\R''(x)&=6x+12\\\\R''(-2)&=0\\\\R'''(x)&=6\\\\R'''(-2)&=6\\ne0\\end{aligned}$\nThe first non-zero derivative at $x=-2$ is $R'''$, so the multiplicity is $3$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "(a) A polynomial satisfies $P(-5)=P'(-5)=0$ and $P''(-5)\\ne0$. Find the highest power of $(x+5)$ that divides $P(x)$.\n(b) A monic quartic $Q(x)$ satisfies $Q(4)=Q'(4)=Q''(4)=0$, $Q'''(4)\\ne0$ and $Q(-2)=0$. Write $Q(x)$ in factored form.",
+    "solution_text": "(a) The first non-zero derivative at $x=-5$ is $P''$, so the multiplicity is exactly $2$. The highest power is $(x+5)^{2}$.\n\n(b) The derivative conditions give a zero of multiplicity $3$ at $x=4$. The zero $-2$ supplies another linear factor. These account for all four factors, and the leading coefficient is $1$.\n$Q(x)=(x-4)^{3}(x+2)$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $P(x)=(x-2)^{3}Q(x)$, where $Q(2)\\ne0$. State which of $P(2)$, $P'(2)$, $P''(2)$ and $P'''(2)$ are zero.",
+    "solution_text": "Since $Q(2)\\ne0$, the zero $2$ has exact multiplicity $3$.\n$\\begin{aligned}P(2)&=0\\\\P'(2)&=0\\\\P''(2)&=0\\\\P'''(2)&\\ne0\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The polynomial $P(x)=x^{3}-75x+250$ has a double zero. Find the zeroes of $P'(x)$ and identify the double zero of $P(x)$.",
+    "solution_text": "$P'(x)=3x^{2}-75$\nSolving $P'(x)=0$,\n$\\begin{aligned}3x^{2}-75&=0\\\\x^{2}&=25\\\\x&=\\pm5\\end{aligned}$\nTest both candidates in $P$.\n$\\begin{aligned}P(5)&=125-375+250=0\\\\P(-5)&=-125+375+250=500\\end{aligned}$\nOnly $5$ is a zero of both $P$ and $P'$. Also, $P''(5)=6(5)=30\\ne0$, so $5$ is the double zero.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The polynomial $P(x)=x^{3}-6x^{2}+k$ has a double zero. Find the two possible values of $k$.",
+    "solution_text": "$\\begin{aligned}P'(x)&=3x^{2}-12x\\\\&=3x(x-4)\\end{aligned}$\nA double zero must satisfy both $P'(x)=0$ and $P(x)=0$. The candidates are $x=0$ and $x=4$.\nFor $x=0$,\n$\\begin{aligned}P(0)&=k=0\\\\k&=0\\end{aligned}$\nFor $x=4$,\n$\\begin{aligned}P(4)&=64-96+k=0\\\\k&=32\\end{aligned}$\nSince $P''(x)=6x-12$ is non-zero at both candidates, each gives exact multiplicity $2$. The possible values are $k=0$ and $k=32$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The polynomial $P(x)=x^{3}+bx^{2}+cx-4$ has a double zero at $x=2$. Find $b$ and $c$.",
+    "solution_text": "Use $P(2)=0$.\n$\\begin{aligned}8+4b+2c-4&=0\\\\2b+c&=-2\\end{aligned}$\nSince $P'(x)=3x^{2}+2bx+c$, use $P'(2)=0$.\n$\\begin{aligned}12+4b+c&=0\\\\4b+c&=-12\\end{aligned}$\nSubtract the first equation from the second.\n$\\begin{aligned}2b&=-10\\\\b&=-5\\\\c&=-2-2(-5)\\\\&=8\\end{aligned}$\nThus $b=-5$ and $c=8$. With these values, $P''(2)=12-10=2\\ne0$, confirming a double zero.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The polynomial $P(x)=ax^{3}+bx+c$ has a double zero at $x=-1$. It leaves a remainder of $16$ when divided by $x-3$. Find $a$, $b$ and $c$.",
+    "solution_text": "The double zero gives $P'(-1)=0$ and $P(-1)=0$.\n$\\begin{aligned}P'(x)&=3ax^{2}+b\\\\3a+b&=0\\\\b&=-3a\\end{aligned}$\n$\\begin{aligned}-a-b+c&=0\\\\-a+3a+c&=0\\\\c&=-2a\\end{aligned}$\nBy the remainder theorem, $P(3)=16$.\n$\\begin{aligned}27a+3b+c&=16\\\\27a-9a-2a&=16\\\\16a&=16\\\\a&=1\\\\b&=-3\\\\c&=-2\\end{aligned}$\nWith these values, $P(-1)=P'(-1)=0$ and $P''(-1)=-6\\ne0$, confirming a double zero. Also, $P(3)=27-9-2=16$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $P(x)=ux^{3}+vx^{2}+wx+z$, where $u\\ne0$. Show that if $P$ has a triple zero, it occurs at $x=-\\dfrac{v}{3u}$.",
+    "solution_text": "Let the triple zero be $\\alpha$. Then $P''(\\alpha)=0$.\n$\\begin{aligned}P'(x)&=3ux^{2}+2vx+w\\\\P''(x)&=6ux+2v\\\\6u\\alpha+2v&=0\\\\\\alpha&=-\\dfrac{v}{3u}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The equation $ux^{3}+vx^{2}+w=0$, where $u$, $v$ and $w$ are non-zero, has a double root. Show that the root is $x=-\\dfrac{2v}{3u}$ and that $27u^{2}w+4v^{3}=0$.",
+    "solution_text": "Let $P(x)=ux^{3}+vx^{2}+w$.\n$\\begin{aligned}P'(x)&=3ux^{2}+2vx\\\\&=x(3ux+2v)\\end{aligned}$\nThe candidates are $x=0$ and $x=-\\dfrac{2v}{3u}$. Since $P(0)=w\\ne0$, the double root is $x=-\\dfrac{2v}{3u}$.\nSubstitute this root into $P(x)=0$.\n$\\begin{aligned}u\\left(-\\dfrac{2v}{3u}\\right)^{3}+v\\left(-\\dfrac{2v}{3u}\\right)^{2}+w&=0\\\\-\\dfrac{8v^{3}}{27u^{2}}+\\dfrac{4v^{3}}{9u^{2}}+w&=0\\\\\\dfrac{4v^{3}}{27u^{2}}+w&=0\\\\4v^{3}+27u^{2}w&=0\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The polynomial $P(x)=x^{3}+rx+s$, where $r\\ne0$, has a double zero. Show that $4r^{3}+27s^{2}=0$.",
+    "solution_text": "Let the double zero be $\\alpha$. Use $P'(\\alpha)=0$.\n$\\begin{aligned}P'(x)&=3x^{2}+r\\\\3\\alpha^{2}+r&=0\\\\\\alpha^{2}&=-\\dfrac{r}{3}\\end{aligned}$\nUse $P(\\alpha)=0$.\n$\\begin{aligned}\\alpha^{3}+r\\alpha+s&=0\\\\\\alpha(\\alpha^{2}+r)&=-s\\\\\\alpha\\left(-\\dfrac{r}{3}+r\\right)&=-s\\\\\\dfrac{2r\\alpha}{3}&=-s\\\\\\alpha&=-\\dfrac{3s}{2r}\\end{aligned}$\nSubstitute into $\\alpha^{2}=-\\dfrac{r}{3}$.\n$\\begin{aligned}\\dfrac{9s^{2}}{4r^{2}}&=-\\dfrac{r}{3}\\\\27s^{2}&=-4r^{3}\\\\4r^{3}+27s^{2}&=0\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

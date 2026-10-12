@@ -2,8 +2,8 @@
   "skillId": "identities-contradictions",
   "atomType": "Cat",
   "theory": {
-        "intro": "Solving a linear equation can end three ways. Usually there is exactly one solution — a **conditional** equation — but an **identity** is true for every value of $x$, and a **contradiction** is true for none. Graphing $y = LHS$ and $y = RHS$ shows the difference.",
-        "facts": [
+"intro": "Solving a linear equation can end three ways. Usually there is exactly one solution — a **conditional** equation — but an **identity** is true for every value of $x$, and a **contradiction** is true for none. Graphing $y = LHS$ and $y = RHS$ shows the difference.",
+"facts": [
           "A **conditional** equation is true for one value only, so simplifying gives a single solution such as $x = 3$.",
           "For a conditional equation the graphs of $y = LHS$ and $y = RHS$ **intersect at one point**.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\small}]\n\\draw[gray!30,very thin] (-3,-3) grid (3,3);\n\\draw[<->] (-3.4,0) -- (3.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4) -- (0,3.4) node[above] {$y$};\n\\draw[thick,blue!70!black,<->] (-2.17,-3) -- (2.83,3);\n\\draw[thick,red!75!black,dashed,<->] (-0.5,3) -- (3,0.2);\n\\fill (1.5,1.4) circle (2.2pt);\n\\node[fill=white,inner sep=1pt] at (1.5,2.05) {$P$};\n\\end{tikzpicture}\n[/tikz]",
           "An **identity** is true for **all** values of $x$ (written with $\\equiv$), because both sides simplify to the same expression, leaving $0 = 0$.",
@@ -11,8 +11,30 @@
           "A **contradiction** has **no** solution, because simplifying leaves a false statement like $6 = 1$.",
           "For a contradiction the two graphs are **parallel** lines — the same gradient but a different $y$-intercept.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\small}]\n\\draw[gray!30,very thin] (-3,-3) grid (3,3);\n\\draw[<->] (-3.4,0) -- (3.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4) -- (0,3.4) node[above] {$y$};\n\\draw[thick,blue!70!black,<->] (-3,-1.5) -- (2,3);\n\\draw[thick,red!75!black,dashed,<->] (-2,-3) -- (3,1.5);\n\\end{tikzpicture}\n[/tikz]",
           "So for a pair of linear equations: different gradients give **one** solution, parallel lines **none**, and coincident lines **infinitely many**."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "State whether each equation is an identity, a contradiction or a conditional equation.\n\na. $3(x+4)+2x=5x+12$\n\nb. $2(3x-1)=6x+5$\n\nc. $4x+7=2x+13$",
+    "solution_text": "a. $\\begin{aligned}3x+12+2x&=5x+12\\\\5x+12&=5x+12\\\\0&=0\\end{aligned}$\n\nThe final statement is true for every real value of $x$, so this is an identity.\n\nb. $\\begin{aligned}6x-2&=6x+5\\\\-2&=5\\end{aligned}$\n\nThe final statement is false, so this is a contradiction. There is no solution.\n\nc. $\\begin{aligned}4x+7&=2x+13\\\\2x&=6\\\\x&=3\\end{aligned}$\n\nThere is exactly one solution, so this is a conditional equation."
+  },
+  {
+    "question_text": "Describe the graphs of $y=LHS$ and $y=RHS$ for each equation, and explain how their relationship matches the equation type.\n\na. $x+1=1+x$\n\nb. $x+1=x-2$",
+    "solution_text": "a. Both sides give $y=x+1$. The graphs have the same gradient and the same $y$-intercept, so they are coincident. Every real value of $x$ satisfies the equation: it is an identity.\n\nThe solid blue line and dashed red line lie exactly on top of each other.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{seriesblue}{HTML}{268CFF}\n\\definecolor{seriesred}{HTML}{EF6068}\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\draw[step=7mm,gridgrey,very thin] (-3,-3) grid (3,4);\n\\draw[<->,black] (-3.3,0)--(3.3,0);\n\\draw[<->,black] (0,-3.3)--(0,4.3);\n\\path (3.3,0) node[right] {$x$} (0,4.3) node[above] {$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3} {\n\\draw[black] (\\v,0.06)--(\\v,-0.06);\n\\path (\\v,-0.06) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n}\n\\foreach \\v in {-3,-2,-1,1,2,3,4} {\n\\draw[black] (0.06,\\v)--(-0.06,\\v);\n\\path (-0.06,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n}\n\\path (-0.08,-0.08) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[seriesblue,very thick,<->] (-3,-2)--(3,4);\n\\draw[seriesred,thick,dashed] (-3,-2)--(3,4);\n\\end{tikzpicture}\n[/tikz]\n\nb. The graphs are $y=x+1$ and $y=x-2$. Both have gradient $1$, but their $y$-intercepts are $1$ and $-2$. They are parallel and never meet, so no value of $x$ satisfies the equation: it is a contradiction.\n\nThe blue line represents $y=x+1$; the dashed red line represents $y=x-2$.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{seriesblue}{HTML}{268CFF}\n\\definecolor{seriesred}{HTML}{EF6068}\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\draw[step=7mm,gridgrey,very thin] (-3,-3) grid (3,4);\n\\draw[<->,black] (-3.3,0)--(3.3,0);\n\\draw[<->,black] (0,-3.3)--(0,4.3);\n\\path (3.3,0) node[right] {$x$} (0,4.3) node[above] {$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3} {\n\\draw[black] (\\v,0.06)--(\\v,-0.06);\n\\path (\\v,-0.06) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n}\n\\foreach \\v in {-3,-2,-1,1,2,3,4} {\n\\draw[black] (0.06,\\v)--(-0.06,\\v);\n\\path (-0.06,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n}\n\\path (-0.08,-0.08) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[seriesblue,thick,<->] (-3,-2)--(3,4);\n\\draw[seriesred,thick,dashed,<->] (-1,-3)--(3,1);\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "State how many simultaneous solutions each pair has. Explain using gradients and $y$-intercepts.\n\na. $y=2x+3$ and $y=-x+7$\n\nb. $3y=6x+12$ and $x+y=8- x$",
+    "solution_text": "a. The gradients are $2$ and $-1$. Different gradients mean the lines intersect at exactly one point, so there is exactly one simultaneous solution.\n\nb. Rearrange each equation to make $y$ the subject.\n\n$\\begin{aligned}3y&=6x+12\\\\y&=2x+4\\end{aligned}$\n\n$\\begin{aligned}x+y&=8-x\\\\y&=-2x+8\\end{aligned}$\n\nThe gradients are $2$ and $-2$. The lines intersect at exactly one point, so there is exactly one simultaneous solution."
+  },
+  {
+    "question_text": "Decide whether $2x+y=7$ and $3y=15-6x$ have a simultaneous solution. Explain why or why not.",
+    "solution_text": "Make $y$ the subject of each equation.\n\n$\\begin{aligned}2x+y&=7\\\\y&=-2x+7\\end{aligned}$\n\n$\\begin{aligned}3y&=15-6x\\\\y&=-2x+5\\end{aligned}$\n\nBoth lines have gradient $-2$, but their $y$-intercepts are $7$ and $5$. They are parallel, so there is no simultaneous solution."
+  },
+  {
+    "question_text": "For what value of $k$ will $kx-3y=k$ and $y=-3x+4$ have no simultaneous solution?",
+    "solution_text": "Make $y$ the subject of the first equation.\n\n$\\begin{aligned}kx-3y&=k\\\\-3y&=k-kx\\\\y&=\\frac{k}{3}x-\\frac{k}{3}\\end{aligned}$\n\nFor no solution, the lines must have equal gradients and different $y$-intercepts.\n\n$\\begin{aligned}\\frac{k}{3}&=-3\\\\k&=-9\\end{aligned}$\n\nWhen $k=-9$, the first line is $y=-3x+3$. Its $y$-intercept is $3$, while the other line's is $4$. The lines are parallel, so $k=-9$ gives no simultaneous solution."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

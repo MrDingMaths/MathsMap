@@ -2,8 +2,8 @@
   "skillId": "pdf-unknown-constant",
   "atomType": "R",
   "theory": {
-    "intro": "An unknown constant in a probability density function comes from the fact that the **total area** under $f$ is $1$. Set $\\int_{a}^{b} f(x)\\,dx = 1$ and solve for the unknown.",
-    "facts": [
+"intro": "An unknown constant in a probability density function comes from the fact that the **total area** under $f$ is $1$. Set $\\int_{a}^{b} f(x)\\,dx = 1$ and solve for the unknown.",
+"facts": [
 "The equation that determines the unknown is always $\\int_{a}^{b} f(x)\\,dx = 1$, taken over the whole domain. The figure is schematic; its coordinates are not numerical density values.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.05cm, y=1cm]\n\\fill[gray!35, domain=0.6:4.2, variable=\\x] (0.6,0) -- plot ({\\x},{0.15*\\x*\\x}) -- (4.2,0) -- cycle;\n\\draw[->] (-0.4,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-0.5) -- (0,3.0) node[above] {$f(x)$};\n\\draw[thick] (-0.3,0) -- (0.6,0);\n\\draw[thick, domain=0.6:4.2, smooth, samples=100, variable=\\x] plot ({\\x},{0.15*\\x*\\x});\n\\draw (4.2,0) -- (4.2,2.646);\n\\draw[thick] (4.2,0) -- (5.2,0);\n\\node[below] at (0.6,0) {$a$};\n\\node[below] at (4.2,0) {$b$};\n\\node at (3.1,0.5) {Area $= 1$};\n\\end{tikzpicture}\n[/tikz]",
 "A constant factor comes outside the integral, so $k\\int_{a}^{b} g(x)\\,dx = 1$ gives $k$ in one step.",
 "The unknown may be a domain endpoint rather than a coefficient, and then it appears as a limit.",
@@ -12,13 +12,71 @@
 "The constant $k$ is a scale factor, not a probability, so values of $k$ above $1$ are allowed.",
 "For a density defined in pieces, add the area of each piece before setting the total equal to $1$."
 ],
-    "steps": [
+"steps": [
 "Write $\\int_{a}^{b} f(x)\\,dx = 1$ using the domain of $f$.",
 "Integrate and substitute the limits.",
 "Solve the resulting equation for the unknown.",
 "Reject any solution that does not give an ordered, nonempty interval or makes $f(x)$ negative on the domain."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A probability density function is $f(x)=ax^2$ for $2\\le x\\le4$, and $0$ elsewhere. Find $a$.",
+    "solution_text": "The integral over the whole domain equals $1$.\n$\\begin{align*}\\int_2^4 ax^2\\,dx&=1\\\\a\\left[\\frac{x^3}{3}\\right]_2^4&=1\\\\a\\left(\\frac{64-8}{3}\\right)&=1\\\\\\frac{56a}{3}&=1\\\\a&=\\frac{3}{56}\\end{align*}$\nThis positive value gives $f(x)\\ge0$ throughout the domain.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A probability density function is $f(x)=c$ for $-2\\le x\\le7$, and $0$ elsewhere. Find $c$.",
+    "solution_text": "The constant density forms a rectangle of width $9$ and height $c$.\n$\\begin{align*}9c&=1\\\\c&=\\frac{1}{9}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A probability density function is $f(x)=ae^{2x}$ for $0\\le x\\le1$, and $0$ elsewhere. Find the exact value of $a$.",
+    "solution_text": "$\\begin{align*}\\int_0^1 ae^{2x}\\,dx&=1\\\\a\\left[\\frac{e^{2x}}{2}\\right]_0^1&=1\\\\\\frac{a(e^2-1)}{2}&=1\\\\a&=\\frac{2}{e^2-1}\\end{align*}$\nSince $a>0$ and $e^{2x}>0$, the density is nonnegative.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A probability density function is $f(x)=\\frac{k}{x}$ for $1\\le x\\le4$, and $0$ elsewhere. Find the exact value of $k$.",
+    "solution_text": "$\\begin{align*}\\int_1^4\\frac{k}{x}\\,dx&=1\\\\k[\\ln x]_1^4&=1\\\\k(\\ln4-\\ln1)&=1\\\\k\\ln4&=1\\\\k&=\\frac{1}{\\ln4}\\end{align*}$\nBoth $k$ and $x$ are positive on the domain.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A probability density function is $f(x)=\\frac{4x^3}{80}$ for $1\\le x\\le b$, and $0$ elsewhere. Find $b$.",
+    "solution_text": "$\\begin{align*}\\int_1^b\\frac{4x^3}{80}\\,dx&=1\\\\\\left[\\frac{x^4}{80}\\right]_1^b&=1\\\\\\frac{b^4-1}{80}&=1\\\\b^4&=81\\\\b&=3\\quad\\text{or}\\quad b=-3\\end{align*}$\nThe interval requires $b>1$, so reject $b=-3$. Thus $b=3$; the density is nonnegative on $[1,3]$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A probability density function is $f(x)=\\frac{2}{5}(3-x)$ for $0\\le x\\le c$, and $0$ elsewhere. Find $c$.",
+    "solution_text": "$\\begin{align*}\\frac{2}{5}\\int_0^c(3-x)\\,dx&=1\\\\\\frac{2}{5}\\left[3x-\\frac{x^2}{2}\\right]_0^c&=1\\\\6c-c^2&=5\\\\c^2-6c+5&=0\\\\(c-1)(c-5)&=0\\\\c&=1\\quad\\text{or}\\quad c=5\\end{align*}$\nBoth roots give a nonempty interval, but $3-x<0$ when $x>3$. Reject $c=5$, which includes negative density values. Therefore $c=1$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A probability density function is\n$f(x)=\\begin{cases}k,&0\\le x<3,\\\\2k,&3\\le x\\le7,\\\\0,&\\text{otherwise}.\\end{cases}$\nFind $k$.",
+    "solution_text": "Add the areas of both pieces.\n$\\begin{align*}\\int_0^3 k\\,dx+\\int_3^7 2k\\,dx&=1\\\\3k+4(2k)&=1\\\\11k&=1\\\\k&=\\frac{1}{11}\\end{align*}$\nBoth heights are positive.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A probability density function is\n$f(x)=\\begin{cases}k(3+x),&-3\\le x<0,\\\\k(3-x),&0\\le x\\le3,\\\\0,&\\text{otherwise}.\\end{cases}$\nFind $k$.",
+    "solution_text": "Split the integral where the formula changes.\n$\\begin{align*}\\int_{-3}^0 k(3+x)\\,dx+\\int_0^3 k(3-x)\\,dx&=1\\\\k\\left[3x+\\frac{x^2}{2}\\right]_{-3}^0+k\\left[3x-\\frac{x^2}{2}\\right]_0^3&=1\\\\\\frac{9k}{2}+\\frac{9k}{2}&=1\\\\9k&=1\\\\k&=\\frac{1}{9}\\end{align*}$\nThe sketch shows the two pieces meeting at height $3k=\\frac{1}{3}$. Both pieces are nonnegative.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=60mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black,->] (-3.7,0)--(3.8,0);\n\\draw[black,->] (0,-0.05)--(0,0.43);\n\\draw[black,thick] (-3,0)--(0,{1/3})--(3,0);\n\\draw[black] (-3,0.008)--(-3,-0.008) (3,0.008)--(3,-0.008);\n\\path (-3,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$-3$} (3,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$3$} (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\path (3.8,0) node[right] {$x$} (0,0.43) node[above] {$f(x)$} (0,{1/3}) node[above left] {$\\frac{1}{3}$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

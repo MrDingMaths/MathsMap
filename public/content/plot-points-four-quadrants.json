@@ -2,99 +2,129 @@
   "skillId": "plot-points-four-quadrants",
   "atomType": "R",
   "theory": {
-        "intro": "The number plane has two axes that cross at the origin $(0,0)$, dividing it into four quadrants. Each point is given by an ordered pair $(x, y)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.62]\n\\draw[gray!30,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right] {$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above] {$y$};\n\\foreach \\n in {-5,-4,-3,-2,-1,1,2,3,4,5}{\\node[below,font=\\small] at (\\n,0) {$\\n$};\\node[left,font=\\small] at (0,\\n) {$\\n$};}\n\\node[below left,font=\\small] at (0,0) {$0$};\n\\node[font=\\small] at (2.7,2.7) {$x>0,\\ y>0$};\n\\node[font=\\small] at (-2.7,2.7) {$x<0,\\ y>0$};\n\\node[font=\\small] at (-2.7,-2.7) {$x<0,\\ y<0$};\n\\node[font=\\small] at (2.7,-2.7) {$x>0,\\ y<0$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "The number plane has two axes that cross at the origin $(0,0)$, dividing it into four quadrants. Each point is given by an ordered pair $(x, y)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.62]\n\\draw[gray!30,very thin] (-5,-5) grid (5,5);\n\\draw[<->] (-5.5,0)--(5.5,0) node[right] {$x$};\n\\draw[<->] (0,-5.5)--(0,5.5) node[above] {$y$};\n\\foreach \\n in {-5,-4,-3,-2,-1,1,2,3,4,5}{\\node[below,font=\\small] at (\\n,0) {$\\n$};\\node[left,font=\\small] at (0,\\n) {$\\n$};}\n\\node[below left,font=\\small] at (0,0) {$0$};\n\\node[font=\\small] at (2.7,2.7) {$x>0,\\ y>0$};\n\\node[font=\\small] at (-2.7,2.7) {$x<0,\\ y>0$};\n\\node[font=\\small] at (-2.7,-2.7) {$x<0,\\ y<0$};\n\\node[font=\\small] at (2.7,-2.7) {$x>0,\\ y<0$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "The first number is the **$x$-coordinate** (across); the second is the **$y$-coordinate** (up or down).",
           "Right of the origin is **positive $x$**, left is **negative $x$**; up is **positive $y$**, down is **negative $y$**.",
           "The point $(0,0)$ is the **origin**, where the axes meet."
         ],
-        "steps": [
+"steps": [
           "Start at the origin $(0,0)$.",
           "Move left/right by the $x$-coordinate.",
           "Move up/down by the $y$-coordinate, then mark the point."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Write the coordinates of $A$, $B$, $C$ and $D$.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[color=black!20,very thin,xstep=6mm,ystep=6mm] (-4,-4) grid (4,4);\n\\draw[<->,black] (-4.5,0)--(4.5,0) node[right] {$x$};\n\\draw[<->,black] (0,-4.5)--(0,4.5) node[above] {$y$};\n\\foreach \\n in {-4,-3,-2,-1,1,2,3,4}{\\draw[black] (\\n,-0.08)--(\\n,0.08);\\draw[black] (-0.08,\\n)--(0.08,\\n);\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\fill[black] (2,2) circle (1.5pt);\n\\fill[black] (-2,1) circle (1.5pt);\n\\fill[black] (-1,-3) circle (1.5pt);\n\\fill[black] (2.5,-1.5) circle (1.5pt);\n\\path (2,2) node[above right] {$A$};\n\\path (-2,1) node[above left] {$B$};\n\\path (-1,-3) node[below left] {$C$};\n\\path (2.5,-1.5) node[below right] {$D$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Read the horizontal position first, then the vertical position. Left and down give negative coordinates.\n\n$A$ is $2$ units right and $2$ units up: $A=(2,2)$.\n\n$B$ is $2$ units left and $1$ unit up: $B=(-2,1)$.\n\n$C$ is $1$ unit left and $3$ units down: $C=(-1,-3)$.\n\n$D$ is halfway between $2$ and $3$ horizontally, and halfway between $-1$ and $-2$ vertically: $D=(2.5,-1.5)$."
+  },
+  {
+    "question_text": "Plot and label $P(3,2)$, $Q(-2,2)$, $R(-2,-1)$ and $S(3,-1)$ on the number plane.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[color=black!20,very thin,xstep=6mm,ystep=6mm] (-4,-4) grid (4,4);\n\\draw[<->,black] (-4.5,0)--(4.5,0) node[right] {$x$};\n\\draw[<->,black] (0,-4.5)--(0,4.5) node[above] {$y$};\n\\foreach \\n in {-4,-3,-2,-1,1,2,3,4}{\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Start at the origin for each point. Move horizontally first, then vertically.\n\n$P$: $3$ units right, then $2$ units up.\n\n$Q$: $2$ units left, then $2$ units up.\n\n$R$: $2$ units left, then $1$ unit down.\n\n$S$: $3$ units right, then $1$ unit down.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{solutionblue}{HTML}{268CFF}\n\\draw[color=black!20,very thin,xstep=6mm,ystep=6mm] (-4,-4) grid (4,4);\n\\draw[<->,black] (-4.5,0)--(4.5,0) node[right] {$x$};\n\\draw[<->,black] (0,-4.5)--(0,4.5) node[above] {$y$};\n\\foreach \\n in {-4,-3,-2,-1,1,2,3,4}{\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[solutionblue,dashed,->] (0,0)--(3,0)--(3,2);\n\\draw[solutionblue,dashed,->] (0,0)--(-2,0)--(-2,2);\n\\draw[solutionblue,dashed,->] (-2,0)--(-2,-1);\n\\draw[solutionblue,dashed,->] (3,0)--(3,-1);\n\\foreach \\p in {(3,2),(-2,2),(-2,-1),(3,-1)}{\\fill[solutionblue] \\p circle (1.5pt);}\n\\path (3,2) node[above right] {$P$};\n\\path (-2,2) node[above left] {$Q$};\n\\path (-2,-1) node[below left] {$R$};\n\\path (3,-1) node[below right] {$S$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Write the coordinates of $E$, $F$ and $O$.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[color=black!20,very thin,xstep=6mm,ystep=6mm] (-4,-4) grid (4,4);\n\\draw[<->,black] (-4.5,0)--(4.5,0) node[right] {$x$};\n\\draw[<->,black] (0,-4.5)--(0,4.5) node[above] {$y$};\n\\foreach \\n in {-4,-3,-2,-1,1,2,3,4}{\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\fill[black] (-2,0) circle (1.5pt);\n\\fill[black] (0,2) circle (1.5pt);\n\\fill[black] (0,0) circle (1.5pt);\n\\path (-2,0) node[above] {$E$};\n\\path (0,2) node[right] {$F$};\n\\path (0,0) node[above right] {$O$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$E$ is $2$ units left of the origin with no vertical movement, so $E=(-2,0)$.\n\n$F$ is $2$ units above the origin with no horizontal movement, so $F=(0,2)$.\n\n$O$ is the origin: $O=(0,0)$.\n\nOn the $x$-axis, $y=0$. On the $y$-axis, $x=0$."
+  },
+  {
+    "question_text": "Which labelled point is at $(-1,2)$?\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[color=black!20,very thin,xstep=6mm,ystep=6mm] (-3,-3) grid (3,3);\n\\draw[<->,black] (-3.5,0)--(3.5,0) node[right] {$x$};\n\\draw[<->,black] (0,-3.5)--(0,3.5) node[above] {$y$};\n\\foreach \\n in {-3,-2,-1,1,2,3}{\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\fill[black] (-1,2) circle (1.5pt);\n\\fill[black] (2,-1) circle (1.5pt);\n\\fill[black] (1,-2) circle (1.5pt);\n\\fill[black] (-2,1) circle (1.5pt);\n\\path (-1,2) node[above left] {$J$};\n\\path (2,-1) node[below right] {$K$};\n\\path (1,-2) node[below right] {$L$};\n\\path (-2,1) node[above left] {$M$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "From the origin, move $1$ unit left and $2$ units up. This reaches $J$, so the matching point is $J$."
+  },
+  {
+    "question_text": "Which two points have the same $x$-coordinate? Give their coordinates and describe their positions relative to each other.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[color=black!20,very thin,xstep=6mm,ystep=6mm] (-4,-4) grid (4,4);\n\\draw[<->,black] (-4.5,0)--(4.5,0) node[right] {$x$};\n\\draw[<->,black] (0,-4.5)--(0,4.5) node[above] {$y$};\n\\foreach \\n in {-4,-3,-2,-1,1,2,3,4}{\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\fill[black] (-2,3) circle (1.5pt);\n\\fill[black] (-2,-1) circle (1.5pt);\n\\fill[black] (3,-2) circle (1.5pt);\n\\path (-2,3) node[above left] {$U$};\n\\path (-2,-1) node[below left] {$V$};\n\\path (3,-2) node[below right] {$W$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$U=(-2,3)$ and $V=(-2,-1)$ both have $x=-2$.\n\nThey lie on the same vertical grid line, with $U$ directly above $V$."
+  },
+  {
+    "question_text": "$A(-3,2)$, $B(1,2)$ and $C(1,-2)$ are three corners of a rectangle whose sides follow the grid lines. Find the coordinates of the fourth corner $D$.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[color=black!20,very thin,xstep=6mm,ystep=6mm] (-4,-3) grid (3,3);\n\\draw[<->,black] (-4.5,0)--(3.5,0) node[right] {$x$};\n\\draw[<->,black] (0,-3.5)--(0,3.5) node[above] {$y$};\n\\foreach \\n in {-4,-3,-2,-1,1,2,3}{\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\foreach \\n in {-3,-2,-1,1,2,3}{\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[black] (-3,2)--(1,2)--(1,-2);\n\\fill[black] (-3,2) circle (1.5pt);\n\\fill[black] (1,2) circle (1.5pt);\n\\fill[black] (1,-2) circle (1.5pt);\n\\path (-3,2) node[above left] {$A$};\n\\path (1,2) node[above right] {$B$};\n\\path (1,-2) node[below right] {$C$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$D$ is directly below $A$, so its $x$-coordinate is $-3$. It is level with $C$, so its $y$-coordinate is $-2$.\n\n$D=(-3,-2)$.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{solutionblue}{HTML}{268CFF}\n\\draw[color=black!20,very thin,xstep=6mm,ystep=6mm] (-4,-3) grid (3,3);\n\\draw[<->,black] (-4.5,0)--(3.5,0) node[right] {$x$};\n\\draw[<->,black] (0,-3.5)--(0,3.5) node[above] {$y$};\n\\foreach \\n in {-4,-3,-2,-1,1,2,3}{\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\foreach \\n in {-3,-2,-1,1,2,3}{\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[black] (-3,2)--(1,2)--(1,-2);\n\\draw[solutionblue,dashed] (-3,2)--(-3,-2)--(1,-2);\n\\foreach \\p in {(-3,2),(1,2),(1,-2)}{\\fill[black] \\p circle (1.5pt);}\n\\fill[solutionblue] (-3,-2) circle (1.5pt);\n\\path (-3,2) node[above left] {$A$};\n\\path (1,2) node[above right] {$B$};\n\\path (1,-2) node[below right] {$C$};\n\\path (-3,-2) node[below left] {$D$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Three students have written the coordinates of $N$.\n\nAva: $(3,-2)$; Ben: $(-2,3)$; Cara: $(2,3)$.\n\nWho is correct? Explain the other two students' mistakes.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[color=black!20,very thin,xstep=6mm,ystep=6mm] (-4,-4) grid (4,4);\n\\draw[<->,black] (-4.5,0)--(4.5,0) node[right] {$x$};\n\\draw[<->,black] (0,-4.5)--(0,4.5) node[above] {$y$};\n\\foreach \\n in {-4,-3,-2,-1,1,2,3,4}{\\path (\\n,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};\\path (0,\\n) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\n$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\fill[black] (-2,3) circle (1.5pt);\n\\path (-2,3) node[above left] {$N$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$N$ is $2$ units left and $3$ units up, so $N=(-2,3)$. Ben is correct.\n\nAva swapped the $x$- and $y$-coordinates.\n\nCara used positive $2$ instead of negative $2$ for a point left of the origin."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Write the coordinates of point $A$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.62]\n\\draw[gray!30,very thin](-5,-5)grid(5,5);\n\\draw[<->](-5.5,0)--(5.5,0)node[right]{$x$};\n\\draw[<->](0,-5.5)--(0,5.5)node[above]{$y$};\n\\foreach \\n in {-5,-4,-3,-2,-1,1,2,3,4,5}{\\node[below,font=\\scriptsize]at(\\n,0){$\\n$};\\node[left,font=\\scriptsize]at(0,\\n){$\\n$};}\n\\node[below left,font=\\scriptsize]at(0,0){$0$};\n\\fill(-3,4)circle(2.5pt)node[above left]{$A$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "read-labelled-point",
         "solution_text": "Read $3$ units left, so $x=-3$.\nRead $4$ units up, so $y=4$.\n$A=(-3,4)$"
       },
-      {
+{
         "question_text": "Plot $B(4,-2)$ on the number plane.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.62]\n\\draw[gray!30,very thin](-5,-5)grid(5,5);\n\\draw[<->](-5.5,0)--(5.5,0)node[right]{$x$};\n\\draw[<->](0,-5.5)--(0,5.5)node[above]{$y$};\n\\foreach \\n in {-5,-4,-3,-2,-1,1,2,3,4,5}{\\node[below,font=\\scriptsize]at(\\n,0){$\\n$};\\node[left,font=\\scriptsize]at(0,\\n){$\\n$};}\n\\node[below left,font=\\scriptsize]at(0,0){$0$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "plot-given-point",
         "solution_text": "Move $4$ units right, then $2$ units down.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.62]\n\\draw[gray!30,very thin](-5,-5)grid(5,5);\n\\draw[<->](-5.5,0)--(5.5,0)node[right]{$x$};\n\\draw[<->](0,-5.5)--(0,5.5)node[above]{$y$};\n\\foreach \\n in {-5,-4,-3,-2,-1,1,2,3,4,5}{\\node[below,font=\\scriptsize]at(\\n,0){$\\n$};\\node[left,font=\\scriptsize]at(0,\\n){$\\n$};}\n\\node[below left,font=\\scriptsize]at(0,0){$0$};\n\\fill(4,-2)circle(2.5pt)node[below right]{$B$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Write the coordinates of point $C$ on the $y$-axis.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.65]\n\\draw[gray!30,very thin](-4,-4)grid(4,4);\n\\draw[<->](-4.5,0)--(4.5,0)node[right]{$x$};\n\\draw[<->](0,-4.5)--(0,4.5)node[above]{$y$};\n\\foreach \\n in {-4,-3,-2,-1,1,2,3,4}{\\node[below,font=\\scriptsize]at(\\n,0){$\\n$};\\node[left,font=\\scriptsize]at(0,\\n){$\\n$};}\n\\fill(0,-3)circle(2.5pt)node[below right]{$C$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "axis-coordinate",
         "solution_text": "A point on the $y$-axis has $x=0$.\nThe vertical coordinate is $-3$.\n$C=(0,-3)$"
       },
-      {
-        "question_text": "Point $D$ is $2$ units left and $5$ units down from the origin.\nWrite its coordinates.",
-        "structure": "coordinate-from-movement",
-        "solution_text": "Left gives $x=-2$ and down gives $y=-5$.\n$D=(-2,-5)$"
+{
+        "question_text": "Write the coordinates of point $D$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.62]\n\\draw[gray!30,very thin](-5,-5)grid(5,5);\n\\draw[<->](-5.5,0)--(5.5,0)node[right]{$x$};\n\\draw[<->](0,-5.5)--(0,5.5)node[above]{$y$};\n\\foreach \\n in {-5,-4,-3,-2,-1,1,2,3,4,5}{\\node[below,font=\\scriptsize]at(\\n,0){$\\n$};\\node[left,font=\\scriptsize]at(0,\\n){$\\n$};}\n\\node[below right,font=\\scriptsize]at(0,0){$0$};\n\\fill(-4,2)circle(2.5pt)node[above left]{$D$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-labelled-point",
+        "solution_text": "Read $4$ units left, so $x=-4$.\nRead $2$ units up, so $y=2$.\n$D=(-4,2)$"
       },
-      {
+{
         "question_text": "Write the coordinates of points $E$ and $F$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.62]\n\\draw[gray!30,very thin](-5,-5)grid(5,5);\n\\draw[<->](-5.5,0)--(5.5,0)node[right]{$x$};\n\\draw[<->](0,-5.5)--(0,5.5)node[above]{$y$};\n\\foreach \\n in {-5,-4,-3,-2,-1,1,2,3,4,5}{\\node[below,font=\\scriptsize]at(\\n,0){$\\n$};\\node[left,font=\\scriptsize]at(0,\\n){$\\n$};}\n\\fill(-4,-1)circle(2.5pt)node[below left]{$E$};\n\\fill(2,3)circle(2.5pt)node[above right]{$F$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "read-multiple-points",
         "solution_text": "$E=(-4,-1)$\n$F=(2,3)$"
       },
-      {
-        "question_text": "Which labelled point is at $(-2,3)$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.68]\n\\draw[gray!30,very thin](-4,-4)grid(4,4);\n\\draw[<->](-4.5,0)--(4.5,0)node[right]{$x$};\n\\draw[<->](0,-4.5)--(0,4.5)node[above]{$y$};\n\\fill(-2,3)circle(2.5pt)node[above left]{$P$};\\fill(3,-2)circle(2.5pt)node[below right]{$Q$};\\fill(2,-3)circle(2.5pt)node[below right]{$R$};\\fill(-3,2)circle(2.5pt)node[above left]{$S$};\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "Which labelled point is at $(-2,3)$? Each grid interval represents one unit on both axes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.68]\n\\draw[gray!30,very thin](-4,-4)grid(4,4);\n\\draw[<->](-4.5,0)--(4.5,0)node[right]{$x$};\n\\draw[<->](0,-4.5)--(0,4.5)node[above]{$y$};\n\\fill(-2,3)circle(2.5pt)node[above left]{$P$};\\fill(3,-2)circle(2.5pt)node[below right]{$Q$};\\fill(2,-3)circle(2.5pt)node[below right]{$R$};\\fill(-3,2)circle(2.5pt)node[above left]{$S$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "choose-plotted-point",
         "solution_text": "Move $2$ units left and $3$ units up from the origin.\nThe labelled point is $P$."
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "Write the coordinates of point $G$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.6]\n\\draw[gray!30,very thin](-6,-6)grid(6,6);\\draw[<->](-6.5,0)--(6.5,0)node[right]{$x$};\\draw[<->](0,-6.5)--(0,6.5)node[above]{$y$};\n\\foreach \\n in {-6,-5,-4,-3,-2,-1,1,2,3,4,5,6}{\\node[below,font=\\scriptsize]at(\\n,0){$\\n$};\\node[left,font=\\scriptsize]at(0,\\n){$\\n$};}\n\\fill(5,-4)circle(2.5pt)node[below right]{$G$};\\end{tikzpicture}\n[/tikz]",
         "structure": "read-labelled-point",
         "solution_text": "The point is $5$ units right and $4$ units down.\n$G=(5,-4)$"
       },
-      {
+{
         "question_text": "Plot $H(-5,-3)$ on the number plane.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.6]\n\\draw[gray!30,very thin](-6,-6)grid(6,6);\\draw[<->](-6.5,0)--(6.5,0)node[right]{$x$};\\draw[<->](0,-6.5)--(0,6.5)node[above]{$y$};\\foreach \\n in {-6,-5,-4,-3,-2,-1,1,2,3,4,5,6}{\\node[below,font=\\scriptsize]at(\\n,0){$\\n$};\\node[left,font=\\scriptsize]at(0,\\n){$\\n$};}\\end{tikzpicture}\n[/tikz]",
         "structure": "plot-given-point",
         "solution_text": "Move $5$ units left, then $3$ units down.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.6]\n\\draw[gray!30,very thin](-6,-6)grid(6,6);\\draw[<->](-6.5,0)--(6.5,0)node[right]{$x$};\\draw[<->](0,-6.5)--(0,6.5)node[above]{$y$};\\foreach \\n in {-6,-5,-4,-3,-2,-1,1,2,3,4,5,6}{\\node[below,font=\\scriptsize]at(\\n,0){$\\n$};\\node[left,font=\\scriptsize]at(0,\\n){$\\n$};}\\fill(-5,-3)circle(2.5pt)node[below left]{$H$};\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Write the coordinates of point $J$ on the $x$-axis.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.65]\n\\draw[gray!30,very thin](-5,-4)grid(5,4);\\draw[<->](-5.5,0)--(5.5,0)node[right]{$x$};\\draw[<->](0,-4.5)--(0,4.5)node[above]{$y$};\\foreach \\n in {-5,-4,-3,-2,-1,1,2,3,4,5}{\\node[below,font=\\scriptsize]at(\\n,0){$\\n$};}\\fill(-4,0)circle(2.5pt)node[above]{$J$};\\end{tikzpicture}\n[/tikz]",
         "structure": "axis-coordinate",
         "solution_text": "The horizontal coordinate is $-4$.\nA point on the $x$-axis has $y=0$.\n$J=(-4,0)$"
       },
-      {
-        "question_text": "A drone is $6$ units right and $2$ units down from the origin.\nRecord its position as an ordered pair.",
-        "structure": "coordinate-from-movement",
-        "solution_text": "Right gives $x=6$ and down gives $y=-2$.\n$(6,-2)$"
+{
+        "question_text": "Write the coordinates of point $I$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.6]\n\\draw[gray!30,very thin](-6,-6)grid(6,6);\n\\draw[<->](-6.5,0)--(6.5,0)node[right]{$x$};\n\\draw[<->](0,-6.5)--(0,6.5)node[above]{$y$};\n\\foreach \\n in {-6,-5,-4,-3,-2,-1,1,2,3,4,5,6}{\\node[below,font=\\scriptsize]at(\\n,0){$\\n$};\\node[left,font=\\scriptsize]at(0,\\n){$\\n$};}\n\\fill(6,-5)circle(2.5pt)node[below right]{$I$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-labelled-point",
+        "solution_text": "The point is $6$ units right and $5$ units down.\n$I=(6,-5)$"
       },
-      {
-        "question_text": "Which two points share the same $x$-coordinate?\nGive both coordinates.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.65]\n\\draw[gray!30,very thin](-5,-5)grid(5,5);\\draw[<->](-5.5,0)--(5.5,0)node[right]{$x$};\\draw[<->](0,-5.5)--(0,5.5)node[above]{$y$};\\fill(-3,4)circle(2.5pt)node[above left]{$K$};\\fill(-3,-2)circle(2.5pt)node[below left]{$L$};\\fill(4,-3)circle(2.5pt)node[below right]{$M$};\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "Which two points share the same $x$-coordinate?\nGive both coordinates. Each grid interval represents one unit on both axes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.65]\n\\draw[gray!30,very thin](-5,-5)grid(5,5);\\draw[<->](-5.5,0)--(5.5,0)node[right]{$x$};\\draw[<->](0,-5.5)--(0,5.5)node[above]{$y$};\\fill(-3,4)circle(2.5pt)node[above left]{$K$};\\fill(-3,-2)circle(2.5pt)node[below left]{$L$};\\fill(4,-3)circle(2.5pt)node[below right]{$M$};\\end{tikzpicture}\n[/tikz]",
         "structure": "identify-shared-coordinate",
         "solution_text": "$K$ and $L$ lie on the same vertical grid line.\n$K=(-3,4)$ and $L=(-3,-2)$"
       },
-      {
-        "question_text": "A point $T$ shares its vertical grid line with $U(-4,1)$ and its horizontal grid line with $V(2,-5)$.\nWrite the coordinates of $T$.",
-        "structure": "reason-coordinate-constraints",
-        "solution_text": "$T$ has the same $x$-coordinate as $U$: $x=-4$.\n$T$ has the same $y$-coordinate as $V$: $y=-5$.\n$T=(-4,-5)$"
+{
+        "question_text": "Points $U(-4,1)$, $V(2,1)$ and $W(2,-5)$ are three corners of a rectangle whose sides follow the grid lines.\nFind the fourth corner $T$.",
+        "structure": "find-missing-rectangle-vertex",
+        "solution_text": "$T$ shares $x=-4$ with $U$ and $y=-5$ with $W$.\n$T=(-4,-5)$"
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "Lina plots $N(-3,5)$ by moving $3$ units right and $5$ units down.\nIdentify both errors and state the correct movements.",
-        "structure": "critique-plotting-errors",
-        "solution_text": "A negative $x$-coordinate means move $3$ units left.\nA positive $y$-coordinate means move $5$ units up."
+{
+        "question_text": "Lina, Noah and Mia have written the coordinates of point $N$ as shown below. Each grid interval represents one unit on both axes.\nLina: $(5,-3)$; Noah: $(-3,5)$; Mia: $(3,5)$.\nWho is correct? Explain the mistakes the other two have made.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.6]\n\\draw[gray!30,very thin](-6,-6)grid(6,6);\n\\draw[<->](-6.5,0)--(6.5,0)node[right]{$x$};\n\\draw[<->](0,-6.5)--(0,6.5)node[above]{$y$};\n\\fill(-3,5)circle(2.5pt)node[above left]{$N$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "critique-coordinate-reading-errors",
+        "solution_text": "The point is $3$ units left and $5$ units up, so $N=(-3,5)$.\nNoah is correct.\nLina swapped the $x$- and $y$-coordinates.\nMia did not use a negative $x$-coordinate for a point left of the origin."
       },
-      {
+{
         "question_text": "Points $P(-2,4)$, $Q(3,4)$ and $R(3,-1)$ are three corners of a rectangle whose sides follow the grid lines.\nFind the fourth corner $S$.",
         "structure": "reason-coordinate-constraints",
         "solution_text": "$S$ shares $x=-2$ with $P$ and $y=-1$ with $R$.\n$S=(-2,-1)$"
       },
-      {
-        "question_text": "A point has a negative $x$-coordinate, a positive $y$-coordinate and is equally far from both axes.\nGive one possible coordinate pair and explain why it works.",
-        "structure": "identify-point-from-properties",
-        "solution_text": "One possible point is $(-4,4)$.\nIt is left of the $y$-axis, above the $x$-axis and $4$ units from each axis."
+{
+        "question_text": "Write the coordinates of point $T$. Each grid interval represents one unit on both axes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.65]\n\\draw[gray!30,very thin](-4,-4)grid(4,4);\n\\draw[<->](-4.5,0)--(4.5,0)node[right]{$x$};\n\\draw[<->](0,-4.5)--(0,4.5)node[above]{$y$};\n\\fill(-1.5,2.5)circle(2.5pt)node[above left]{$T$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-labelled-point",
+        "solution_text": "The point is $1.5$ units left and $2.5$ units up.\n$T=(-1.5,2.5)$"
       }
-    ]
+]
   }
 }

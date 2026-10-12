@@ -2,8 +2,8 @@
   "skillId": "graph-trig-radians",
   "atomType": "T",
   "theory": {
-        "intro": "Plotting $y = \\sin x$, $y = \\cos x$ and $y = \\tan x$ against radians displays their periodic shapes. Sine and cosine oscillate between $-1$ and $1$ with period $2\\pi$ and amplitude $1$, while tangent repeats every $\\pi$ with vertical asymptotes at odd multiples of $\\dfrac{\\pi}{2}$.",
-        "facts": [
+"intro": "Plotting $y = \\sin x$, $y = \\cos x$ and $y = \\tan x$ against radians displays their periodic shapes. Sine and cosine oscillate between $-1$ and $1$ with period $2\\pi$ and amplitude $1$, while tangent repeats every $\\pi$ with vertical asymptotes at odd multiples of $\\dfrac{\\pi}{2}$.",
+"facts": [
 "$y = \\sin x$ has period $2\\pi$, amplitude $1$, domain $(-\\infty, \\infty)$, range $[-1, 1]$, and is **odd** ($\\sin(-x) = -\\sin x$).",
 "On $[0,2\\pi]$, $y = \\sin x$ passes through $(0,0)$, reaches maximum $1$ at $x = \\dfrac{\\pi}{2}$, has $x$-intercepts at $x = 0, \\pi, 2\\pi$, and reaches minimum $-1$ at $x = \\dfrac{3\\pi}{2}$.",
 "$y = \\cos x$ has period $2\\pi$, amplitude $1$, domain $(-\\infty, \\infty)$, range $[-1, 1]$, and is **even** ($\\cos(-x) = \\cos x$).",
@@ -11,8 +11,45 @@
 "$y = \\tan x$ has period $\\pi$, no amplitude, domain consisting of all real $x$ except $x = \\dfrac{\\pi}{2} + k\\pi$ for $k\\in\\mathbb Z$, range $(-\\infty, \\infty)$, and is **odd** ($\\tan(-x) = -\\tan x$).",
 "$y = \\tan x$ has vertical asymptotes where $\\cos x = 0$. On $[0,2\\pi]$, these are $x = \\dfrac{\\pi}{2}, \\dfrac{3\\pi}{2}$, and its $x$-intercepts are at $x = 0, \\pi, 2\\pi$.",
 "The standard radian grid marks intervals of $\\dfrac{\\pi}{2}$: $\\dfrac{\\pi}{2}, \\pi, \\dfrac{3\\pi}{2}, 2\\pi$."
+],
+"workedExamples": [
+  {
+    "question_text": "Identify the function shown as $y=\\sin x$, $y=\\cos x$ or $y=\\tan x$. State its period, amplitude, intercepts and minimum points on $[-2\\pi,2\\pi]$. State its unrestricted domain and range, describe its symmetry, and identify where it is positive on $[0,2\\pi]$.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\begin{axis}[width=10cm,height=5cm,axis lines=middle,axis line style={black,->},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},xmin=-6.7,xmax=6.7,ymin=-1.4,ymax=1.4,xtick={-6.283185,-3.141593,0,3.141593,6.283185},xticklabels={$-2\\pi$,$-\\pi$,$0$,$\\pi$,$2\\pi$},ytick={-1,1},clip=true]\n\\addplot[curveBlue,thick,samples=241,domain=-6.283185:6.283185] {cos(deg(x))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The curve has a maximum at $(0,1)$ and minimum points at $(-\\pi,-1)$ and $(\\pi,-1)$, so it is $y=\\cos x$.\n\nConsecutive maxima occur at $x=-2\\pi,0,2\\pi$. Their horizontal separation is $2\\pi$, so the period is $2\\pi$. The amplitude is $1$.\n\nThe $x$-intercepts are $\\left(-\\frac{3\\pi}{2},0\\right)$, $\\left(-\\frac{\\pi}{2},0\\right)$, $\\left(\\frac{\\pi}{2},0\\right)$ and $\\left(\\frac{3\\pi}{2},0\\right)$. The $y$-intercept is $(0,1)$.\n\nUnrestricted domain: $(-\\infty,\\infty)$. Range: $[-1,1]$.\n\nReflection in the $y$-axis leaves the graph unchanged: $\\cos(-x)=\\cos x$. Cosine is even.\n\nOn $[0,2\\pi]$, the curve is above the $x$-axis for $0\\le x<\\frac{\\pi}{2}$ and $\\frac{3\\pi}{2}<x\\le2\\pi$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Sketch $y=\\tan x$ on $[-\\pi,\\pi]$, showing its intercepts and vertical asymptotes. Explain the asymptotes, and state the unrestricted domain, range, period and parity.",
+    "solution_text": "[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\begin{axis}[width=9cm,height=5.5cm,axis lines=middle,axis line style={black,->},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},xmin=-3.4,xmax=3.4,ymin=-3.5,ymax=3.5,xtick={-3.141593,-1.570796,0,1.570796,3.141593},xticklabels={$-\\pi$,$-\\frac{\\pi}{2}$,$0$,$\\frac{\\pi}{2}$,$\\pi$},ytick={-1,1},clip=true]\n\\addplot[black,dashed] coordinates {(-1.570796,-3.5) (-1.570796,3.5)};\n\\addplot[black,dashed] coordinates {(1.570796,-3.5) (1.570796,3.5)};\n\\addplot[curveBlue,thick,samples=101,domain=-3.141593:-1.849096,->] {tan(deg(x))};\n\\addplot[curveBlue,thick,samples=151,domain=-1.292496:1.292496,<->] {tan(deg(x))};\n\\addplot[curveBlue,thick,samples=101,domain=1.849096:3.141593,<-] {tan(deg(x))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\n\nThe intercepts are $(-\\pi,0)$, $(0,0)$ and $(\\pi,0)$. The vertical asymptotes are $x=-\\frac{\\pi}{2}$ and $x=\\frac{\\pi}{2}$.\n\nSince $\\tan x=\\frac{\\sin x}{\\cos x}$, tangent is undefined where $\\cos x=0$.\n\nUnrestricted domain: $\\left\\{x\\in\\mathbb R:x\\ne\\frac{\\pi}{2}+k\\pi,\\ k\\in\\mathbb Z\\right\\}$. Range: $(-\\infty,\\infty)$.\n\nEach branch repeats after $\\pi$, so the period is $\\pi$. Tangent has no amplitude.\n\nSince $\\tan(-x)=-\\tan x$, tangent is odd and its graph has rotational symmetry of $180^\\circ$ about the origin.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Sketch $y=\\sin x$ on $[0,2\\pi]$. Use the graph and exact values to solve $\\sin x=-\\frac12$ on this interval. Then use odd symmetry to find $\\sin\\left(-\\frac{\\pi}{3}\\right)$, given $\\sin\\frac{\\pi}{3}=\\frac{\\sqrt3}{2}$.",
+    "solution_text": "[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{levelRed}{HTML}{EF6068}\n\\begin{axis}[width=10cm,height=5cm,axis lines=middle,axis line style={black,->},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},xmin=-0.2,xmax=6.6,ymin=-1.4,ymax=1.4,xtick={0,1.570796,3.141593,4.712389,6.283185},xticklabels={$0$,$\\frac{\\pi}{2}$,$\\pi$,$\\frac{3\\pi}{2}$,$2\\pi$},ytick={-1,-0.5,1},yticklabels={$-1$,$-\\frac12$,$1$},clip=true]\n\\addplot[curveBlue,thick,samples=201,domain=0:6.283185] {sin(deg(x))};\n\\addplot[levelRed,dashed] coordinates {(0,-0.5) (6.283185,-0.5)};\n\\addplot[black,only marks,mark=*] coordinates {(3.665191,-0.5) (5.759587,-0.5)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\n\nThe sine curve passes through $(0,0)$, $\\left(\\frac{\\pi}{2},1\\right)$, $(\\pi,0)$, $\\left(\\frac{3\\pi}{2},-1\\right)$ and $(2\\pi,0)$.\n\nThe horizontal line $y=-\\frac12$ intersects the curve twice, in Quadrants 3 and 4. The reference angle is $\\frac{\\pi}{6}$.\n\n$\\begin{aligned}x&=\\pi+\\frac{\\pi}{6}=\\frac{7\\pi}{6}\\end{aligned}$\n\n$\\begin{aligned}x&=2\\pi-\\frac{\\pi}{6}=\\frac{11\\pi}{6}\\end{aligned}$\n\nSine is odd, so reflecting a point through the origin changes the sign of its value.\n\n$\\begin{aligned}\\sin\\left(-\\frac{\\pi}{3}\\right)&=-\\sin\\frac{\\pi}{3}\\\\&=-\\frac{\\sqrt3}{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Sketch $y=\\sin x$ and $y=\\cos x$ together on $[-\\pi,\\pi]$. Use their intersections and exact values to find every solution of $\\sin x=\\cos x$ in this interval, and give the intersection coordinates.",
+    "solution_text": "[tikz]\n\\begin{tikzpicture}\n\\definecolor{sineBlue}{HTML}{268CFF}\n\\definecolor{cosineRed}{HTML}{EF6068}\n\\begin{axis}[width=10cm,height=5cm,axis lines=middle,axis line style={black,->},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},legend style={font=\\fontsize{10}{12}\\selectfont,draw=none,at={(0.5,1.15)},anchor=south,legend columns=2},xmin=-3.4,xmax=3.4,ymin=-1.4,ymax=1.4,xtick={-3.141593,-1.570796,0,1.570796,3.141593},xticklabels={$-\\pi$,$-\\frac{\\pi}{2}$,$0$,$\\frac{\\pi}{2}$,$\\pi$},ytick={-1,1},clip=true]\n\\addplot[sineBlue,thick,samples=201,domain=-3.141593:3.141593] {sin(deg(x))};\n\\addlegendentry{$y=\\sin x$}\n\\addplot[cosineRed,thick,dashed,samples=201,domain=-3.141593:3.141593] {cos(deg(x))};\n\\addlegendentry{$y=\\cos x$}\n\\addplot[black,only marks,mark=*,forget plot] coordinates {(-2.356194,-0.707107) (0.785398,0.707107)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\n\nThe curves intersect once between $-\\pi$ and $-\\frac{\\pi}{2}$ and once between $0$ and $\\frac{\\pi}{2}$.\n\nAt the reference angle $\\frac{\\pi}{4}$, sine and cosine both equal $\\frac1{\\sqrt2}$. In Quadrant 3, both equal $-\\frac1{\\sqrt2}$.\n\nThe solutions are $x=-\\frac{3\\pi}{4}$ and $x=\\frac{\\pi}{4}$.\n\nThe intersection coordinates are $\\left(-\\frac{3\\pi}{4},-\\frac1{\\sqrt2}\\right)$ and $\\left(\\frac{\\pi}{4},\\frac1{\\sqrt2}\\right)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "How many real values of $x$ satisfy $\\cos x=1.3$? Explain using the graph's range.",
+    "solution_text": "The cosine graph has range $[-1,1]$. The horizontal line $y=1.3$ lies above every point of the graph, so there are $0$ solutions.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

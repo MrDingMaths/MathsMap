@@ -2,23 +2,57 @@
   "skillId": "grouped-summary-statistics",
   "atomType": "R",
   "theory": {
-        "intro": "Summary statistics from grouped data are **estimates** because the **class centre** represents every score in that class.",
-        "facts": [
-          "The **estimated mean** of grouped data is $\\overline{x} = \\dfrac{\\Sigma (cc \\times f)}{\\Sigma f}$, where $cc$ is the class centre and $f$ is frequency.",
-          "The **modal class** is the class interval with the highest frequency, reported as an interval rather than a single frequency.",
-          "The **median class** is the class interval containing the middle score at position $\\dfrac{n+1}{2}$ in the cumulative frequency column.",
-          "To **estimate the median from an ogive**, read horizontally from $50\\%$ of total cumulative frequency to the curve, then down to the axis.",
-          "Grouped statistics are **approximations** because using the class centre differs from the exact mean when scores cluster away from the midpoint.",
-          "An **open-ended class** (such as '$> 60$' or '$70+$') has no class centre, preventing calculation of the estimated mean."
-        ],
-        "steps": [
-          "Find the class centre ($cc$) for each class interval.",
-          "Multiply each class centre by its frequency to form the $cc \\times f$ column.",
-          "Sum the frequencies ($\\Sigma f$) and the products ($\\Sigma cc \\times f$).",
-          "Calculate the estimated mean: $\\overline{x} = \\dfrac{\\Sigma (cc \\times f)}{\\Sigma f}$.",
-          "Identify the modal class (highest frequency) and median class (cumulative frequency at $\\frac{n+1}{2}$)."
-        ]
-      },
+"intro": "Summary statistics from grouped data are **estimates** because the **class centre** represents every score in that class.",
+"facts": [
+"The **estimated mean** of grouped data is $\\overline{x} = \\dfrac{\\Sigma (cc \\times f)}{\\Sigma f}$, where $cc$ is the class centre and $f$ is frequency.",
+"The **modal class** is the class interval with the highest frequency, reported as an interval rather than a single frequency.",
+"For an odd number of scores, the **median class** contains the score at position $\\dfrac{n+1}{2}$. For an even number, check positions $\\dfrac{n}{2}$ and $\\dfrac{n}{2}+1$: if both lie in the same class, that is the median class; if they lie in different classes, the grouped table may not determine a unique class for their average.",
+"To **estimate the median from an ogive**, read horizontally from $50\\%$ of total cumulative frequency to the curve, then down to the axis.",
+"Grouped statistics are **approximations** because using the class centre may give a different mean from the exact mean; the grouped estimate can also equal the exact mean.",
+"An **open-ended class** (such as '$> 60$' or '$70+$') has no class centre, preventing calculation of the estimated mean."
+],
+"steps": [
+"Find the class centre ($cc$) for each class interval.",
+"Multiply each class centre by its frequency to form the $cc \\times f$ column.",
+"Sum the frequencies ($\\Sigma f$) and the products ($\\Sigma cc \\times f$).",
+"Calculate the estimated mean: $\\overline{x} = \\dfrac{\\Sigma (cc \\times f)}{\\Sigma f}$.",
+"Identify the modal class (highest frequency). Use cumulative frequencies to locate the middle observation for odd $n$, or both middle observations for even $n$; if the two middle observations lie in different classes, their average may not have a uniquely determined class. For an ogive estimate, read across from $50\\%$ of the total cumulative frequency, then down to the axis."
+],
+"workedExamples": [
+  {
+    "question_text": "The table shows the masses of parcels.\n\n| Mass $m$ (kg) | Frequency $f$ |\n|---|---:|\n| $0<m\\le2$ | 4 |\n| $2<m\\le6$ | 8 |\n| $6<m\\le12$ | 6 |\n| $12<m\\le20$ | 2 |\n\nEstimate the mean mass, correct to 2 decimal places.",
+    "solution_text": "Each class centre is the average of its two endpoints. For the first class, $cc=\\dfrac{0+2}{2}=1$.\n\n| Mass $m$ (kg) | $f$ | $cc$ | $cc\\times f$ |\n|---|---:|---:|---:|\n| $0<m\\le2$ | 4 | 1 | 4 |\n| $2<m\\le6$ | 8 | 4 | 32 |\n| $6<m\\le12$ | 6 | 9 | 54 |\n| $12<m\\le20$ | 2 | 16 | 32 |\n| Total | 20 | | 122 |\n\n$\\begin{align*}\\overline{x}&=\\frac{\\Sigma(cc\\times f)}{\\Sigma f}\\\\&=\\frac{122}{20}\\\\&=6.10\\text{ kg}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The table shows the ages of visitors to a museum.\n\n| Age $a$ (years) | Frequency |\n|---|---:|\n| $0<a\\le20$ | 6 |\n| $20<a\\le40$ | 10 |\n| $40<a\\le60$ | 9 |\n| $60<a\\le80$ | 6 |\n\n(a) State the modal class and find the median class.\n\n(b) One more visitor, aged 70, joins the group. Find the median class for the resulting 32 visitors.\n\n(c) A separate group has frequencies 6, 10, 10 and 6 in the same four classes. Explain whether its median class can be determined uniquely.",
+    "solution_text": "(a) The highest frequency is 10, so the modal class is $20<a\\le40$.\n\n$\\begin{align*}n&=6+10+9+6\\\\&=31\\\\\\text{Median position}&=\\frac{31+1}{2}\\\\&=16\\end{align*}$\n\nThe cumulative frequencies are 6, 16, 25 and 31. The 16th visitor lies in $20<a\\le40$, so this is the median class.\n\n(b) The cumulative frequencies become 6, 16, 25 and 32. The middle observations are at positions 16 and 17. They lie in $20<a\\le40$ and $40<a\\le60$, respectively. Their exact ages are unknown, so their average could lie in either class. A unique median class cannot be determined.\n\n(c) The cumulative frequencies are 6, 16, 26 and 32. Again, positions 16 and 17 lie in different classes. A unique median class cannot be determined from the grouped table.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The ogive shows the travel times of 60 commuters. Estimate the median travel time.\n\n[tikz]\n\\begin{tikzpicture}[x=1mm,y=1mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[step=10mm,color=gray!40,thin] (0,0) grid (60,60);\n\\draw[black,->] (0,0)--(63,0);\n\\draw[black,->] (0,0)--(0,63);\n\\foreach \\v in {0,10,20,30,40,50,60} {\n\\draw[black] (\\v,0)--(\\v,-1);\n\\path (\\v,-1) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n}\n\\foreach \\v in {10,20,30,40,50,60} {\n\\draw[black] (0,\\v)--(-1,\\v);\n\\path (-1,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n}\n\\draw[black,thick] (0,0)--(10,6)--(20,18)--(30,42)--(40,54)--(50,60);\n\\foreach \\p in {(0,0),(10,6),(20,18),(30,42),(40,54),(50,60)} {\\fill[black] \\p circle (0.6mm);}\n\\path (30,-9) node {Travel time (min)};\n\\path (-12,30) node[rotate=90] {Cumulative frequency};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{align*}\\text{50\\% line}&=0.5\\times60\\\\&=30\\end{align*}$\n\nRead horizontally from cumulative frequency 30 to the ogive, then down to the travel-time axis.\n\n[tikz]\n\\begin{tikzpicture}[x=1mm,y=1mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{medianGuide}{HTML}{ef6068}\n\\draw[step=10mm,color=gray!40,thin] (0,0) grid (60,60);\n\\draw[black,->] (0,0)--(63,0);\n\\draw[black,->] (0,0)--(0,63);\n\\foreach \\v in {0,10,20,30,40,50,60} {\n\\draw[black] (\\v,0)--(\\v,-1);\n\\path (\\v,-1) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n}\n\\foreach \\v in {10,20,30,40,50,60} {\n\\draw[black] (0,\\v)--(-1,\\v);\n\\path (-1,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n}\n\\draw[black,thick] (0,0)--(10,6)--(20,18)--(30,42)--(40,54)--(50,60);\n\\foreach \\p in {(0,0),(10,6),(20,18),(30,42),(40,54),(50,60)} {\\fill[black] \\p circle (0.6mm);}\n\\draw[medianGuide,dashed,thick] (0,30)--(25,30)--(25,0);\n\\path (27,24) node[right,text=medianGuide] {Median guides};\n\\path (25,-1) node[below,text=medianGuide,font=\\fontsize{8.5}{10}\\selectfont] {$25$};\n\\path (30,-9) node {Travel time (min)};\n\\path (-12,30) node[rotate=90] {Cumulative frequency};\n\\end{tikzpicture}\n[/tikz]\n\nThe estimated median travel time is $25\\text{ min}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Five travel times are $12,13,14,15,16$ minutes. They are grouped into the single class $10<t\\le20$.\n\n(a) Calculate the exact mean and the grouped mean estimate.\n\n(b) Explain why the grouped mean is an estimate and why it is higher in this case.",
+    "solution_text": "(a) $\\begin{align*}\\text{Exact mean}&=\\frac{12+13+14+15+16}{5}\\\\&=\\frac{70}{5}\\\\&=14\\text{ min}\\end{align*}$\n\n$\\begin{align*}cc&=\\frac{10+20}{2}\\\\&=15\\\\\\text{Grouped mean estimate}&=\\frac{15\\times5}{5}\\\\&=15\\text{ min}\\end{align*}$\n\n(b) Grouping loses the individual values. The calculation replaces each value with the class centre, 15 minutes. The actual mean is 14 minutes, so the estimate is 1 minute higher. A grouped estimate can be higher, lower or equal to the exact mean.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The table shows the ages of concert attendees.\n\n| Age $a$ (years) | Frequency |\n|---|---:|\n| $16<a\\le30$ | 12 |\n| $30<a\\le45$ | 18 |\n| $45<a\\le65$ | 14 |\n| $65<a$ | 6 |\n\nExplain why the class-centre method cannot give an estimated mean age from this table.",
+    "solution_text": "The class $65<a$ has no upper endpoint, so its class centre cannot be calculated. The class-centre method needs a centre for every class with a nonzero frequency."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -58,58 +92,58 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "The commute times (in minutes) of $60$ employees are shown in the table.\n$\\begin{array}{c|c}\\text{Time (min)}&\\text{Frequency }(f)\\\\ \\hline 0-9&8\\\\ 10-19&14\\\\ 20-29&20\\\\ 30-39&12\\\\ 40-49&6\\end{array}$\nCalculate the estimated mean commute time.",
         "structure": "estimate-mean-from-table",
         "solution_text": "$\\text{Class centres: } 4.5, 14.5, 24.5, 34.5, 44.5$\n$\\Sigma (cc \\times f) = (4.5 \\times 8) + (14.5 \\times 14) + (24.5 \\times 20) + (34.5 \\times 12) + (44.5 \\times 6)$\n$= 36 + 203 + 490 + 414 + 267$\n$= 1410$\n$\\Sigma f = 8 + 14 + 20 + 12 + 6$\n$= 60$\n$\\overline{x} = \\frac{1410}{60}$\n$= 23.5\\text{ min}$"
       },
-      {
+{
         "question_text": "In a survey of $120$ weekly grocery bills, the grouped distribution is:\n$\\begin{array}{c|c}\\text{Bill (\\$)}&\\text{Frequency }(f)\\\\ \\hline 50 \\le x < 100&18\\\\ 100 \\le x < 150&42\\\\ 150 \\le x < 200&36\\\\ 200 \\le x < 250&24\\end{array}$\nIdentify the modal class and determine the median class.",
         "structure": "modal-and-median-class",
-        "solution_text": "The greatest frequency is $42$, so $\\text{Modal class} = \\$100 \\le x < \\$150$.\n$\\text{Median position} = \\frac{120 + 1}{2}$\n$= 60.5$\n$\\text{Cumulative frequencies: } 18, 60, 96, 120$\nThe $60.5\\text{th}$ score lies in the interval $\\$150 \\le x < \\$200$.\n$\\text{Median class} = \\$150 \\le x < \\$200$"
+        "solution_text": "The greatest frequency is $42$, so $\\text{Modal class} = \\$100 \\le x < \\$150$.\n$\\text{Middle positions: } \\frac{120}{2} = 60\\text{ and }61$\n$\\text{Cumulative frequencies: }18,60,96,120$\nThe $60\\text{th}$ bill lies in $\\$100 \\le x < \\$150$, and the $61\\text{st}$ bill lies in $\\$150 \\le x < \\$200$.\nThe median is the average of these two bills. Their exact values are unknown, so their average could lie in either class; the table does not determine a unique median class.\nThe ogive method instead estimates the median by reading across from cumulative frequency $60$, which gives the boundary value $\\$150$."
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.75]\n\\draw[->] (0,0)--(0,11.4);\n\\draw[->] (0,0)--(11.5,0);\n\\foreach \\y in {20,40,60,80,100} {\\draw (-0.2,\\y/10)--(0,\\y/10); \\node[left,font=\\scriptsize] at (-0.2,\\y/10) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\draw[thick] (0.8,0)--(2.8,1.0)--(4.8,3.5)--(6.8,7.5)--(8.8,9.2)--(10.8,10.0);\n\\foreach \\p in {(0.8,0),(2.8,1.0),(4.8,3.5),(6.8,7.5),(8.8,9.2),(10.8,10.0)} {\\fill \\p circle (2.2pt);}\n\\foreach \\x/\\lbl in {0.8/0, 2.8/20, 4.8/40, 6.8/60, 8.8/80, 10.8/100} {\\draw (\\x,0)--(\\x,-0.15); \\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\lbl$};}\n\\node[rotate=90] at (-1.4,5) {Cumulative frequency};\n\\node[below] at (5.8,-1.0) {Mark};\n\\node at (5.8,11.0) {Year 11 mathematics exam marks};\n\\end{tikzpicture}\n[/tikz]\nThe ogive shows the examination marks of $100$ students.\nEstimate the median mark from the ogive.",
         "structure": "estimate-median-from-ogive",
-        "solution_text": "$\\text{Median position} = 50\\% \\text{ of } 100$\n$= 50$\nReading across at cumulative frequency $50$ to the segment between $(40, 35)$ and $(60, 75)$:\n$\\text{Mark} = 40 + \\frac{50 - 35}{75 - 35} \\times (60 - 40)$\n$= 40 + \\frac{15}{40} \\times 20$\n$= 40 + 7.5$\n$= 47.5$\n$\\text{Estimated median} \\approx 48\\text{ marks}$"
+        "solution_text": "$\\text{Median position} = 50\\% \\text{ of } 100$\n$= 50$\nRead horizontally from cumulative frequency $50$ to the ogive, then down to the mark axis.\n$\\text{Estimated median} \\approx 47.5\\text{ marks}$"
       },
-      {
+{
         "question_text": "The table gives the weekly wages of $50$ apprentices.\n$\\begin{array}{c|c}\\text{Weekly wage (\\$)}&\\text{Frequency }(f)\\\\ \\hline 600-699&10\\\\ 700-799&18\\\\ 800-899&16\\\\ 900-999&6\\end{array}$\nCalculate the estimated mean weekly wage.",
         "structure": "estimate-mean-from-table",
         "solution_text": "$\\text{Class centres: } 649.5, 749.5, 849.5, 949.5$\n$\\Sigma (cc \\times f) = (649.5 \\times 10) + (749.5 \\times 18) + (849.5 \\times 16) + (949.5 \\times 6)$\n$= 6495 + 13491 + 13592 + 5697$\n$= 39275$\n$\\Sigma f = 10 + 18 + 16 + 6$\n$= 50$\n$\\overline{x} = \\frac{39275}{50}$\n$= \\$785.50$"
       },
-      {
-        "question_text": "A grouped table has classes $0-9$ ($cc = 4.5, f = 6$), $10-19$ ($cc = 14.5, f = k$), and $20-29$ ($cc = 24.5, f = 4$).\nIf the total number of observations is $20$, find $k$ and calculate the estimated mean.",
-        "structure": "reverse-grouped-mean",
-        "solution_text": "$k = 20 - 6 - 4$\n$= 10$\n$\\Sigma (cc \\times f) = (4.5 \\times 6) + (14.5 \\times 10) + (24.5 \\times 4)$\n$= 27 + 145 + 98$\n$= 270$\n$\\overline{x} = \\frac{270}{20}$\n$= 13.5$"
+{
+        "question_text": "The table shows the masses of animals at a shelter.\n$\\begin{array}{c|c}\\text{Mass (kg)}&\\text{Frequency }(f)\\\\ \\hline 0 < m \\le 10&3\\\\ 10 < m \\le 20&7\\\\ 20 < m \\le 30&8\\\\ 30 < m \\le 40&2\\end{array}$\nCalculate the estimated mean mass.",
+        "structure": "estimate-mean-from-table",
+        "solution_text": "$\\text{Class centres: }5,15,25,35$\n$\\Sigma (cc \\times f) = (5 \\times 3)+(15 \\times 7)+(25 \\times 8)+(35 \\times 2)$\n$=15+105+200+70$\n$=390$\n$\\Sigma f=3+7+8+2=20$\n$\\overline{x}=\\frac{390}{20}$\n$=19.5\\text{ kg}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.75]\n\\draw[->] (0,0)--(0,7.4);\n\\draw[->] (0,0)--(11.5,0);\n\\foreach \\y in {10,20,30,40,50,60} {\\draw (-0.2,\\y/10)--(0,\\y/10); \\node[left,font=\\scriptsize] at (-0.2,\\y/10) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\draw[thick] (0.8,0)--(2.8,0.6)--(4.8,1.8)--(6.8,4.2)--(8.8,5.4)--(10.8,6.0);\n\\foreach \\p in {(0.8,0),(2.8,0.6),(4.8,1.8),(6.8,4.2),(8.8,5.4),(10.8,6.0)} {\\fill \\p circle (2.2pt);}\n\\foreach \\x/\\lbl in {0.8/0, 2.8/4, 4.8/6, 6.8/8, 8.8/10, 10.8/12} {\\draw (\\x,0)--(\\x,-0.15); \\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\lbl$};}\n\\node[rotate=90] at (-1.4,3.5) {Cumulative frequency};\n\\node[below] at (5.8,-1.0) {Battery life (hours)};\n\\node at (5.8,7.0) {Laptop battery endurance};\n\\end{tikzpicture}\n[/tikz]\nThe ogive shows the battery endurance (in hours) of $60$ laptops.\nEstimate the median battery life.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.75]\n\\draw[->] (0,0)--(0,7.4);\n\\draw[->] (0,0)--(11.5,0);\n\\foreach \\y in {10,20,30,40,50,60} {\\draw (-0.2,\\y/10)--(0,\\y/10); \\node[left,font=\\scriptsize] at (-0.2,\\y/10) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\draw[thick] (0.8,0)--(4.133333,0.6)--(5.8,1.8)--(7.466667,4.2)--(9.133333,5.4)--(10.8,6.0);\n\\foreach \\p in {(0.8,0),(4.133333,0.6),(5.8,1.8),(7.466667,4.2),(9.133333,5.4),(10.8,6.0)} {\\fill \\p circle (2.2pt);}\n\\foreach \\x/\\lbl in {0.8/0, 4.133333/4, 5.8/6, 7.466667/8, 9.133333/10, 10.8/12} {\\draw (\\x,0)--(\\x,-0.15); \\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\lbl$};}\n\\node[rotate=90] at (-1.4,3.5) {Cumulative frequency};\n\\node[below] at (5.8,-1.0) {Battery life (hours)};\n\\node at (5.8,7.0) {Laptop battery endurance};\n\\end{tikzpicture}\n[/tikz]\nThe ogive shows the battery endurance (in hours) of $60$ laptops.\nEstimate the median battery life.",
         "structure": "estimate-median-from-ogive",
-        "solution_text": "$\\text{Median position} = 50\\% \\text{ of } 60$\n$= 30$\nReading across from cumulative frequency $30$ on the segment between $(6, 18)$ and $(8, 42)$:\n$\\text{Battery life} = 6 + \\frac{30 - 18}{42 - 18} \\times (8 - 6)$\n$= 6 + \\frac{12}{24} \\times 2$\n$= 6 + 1$\n$= 7.0\\text{ hours}$"
+        "solution_text": "$\\text{Median position} = 50\\% \\text{ of } 60$\n$= 30$\nRead horizontally from cumulative frequency $30$ to the ogive, then down to the battery life axis.\n$\\text{Estimated median} \\approx 7.0\\text{ hours}$"
       },
-      {
+{
         "question_text": "A dataset of $5$ observations in the class $10-20$ ($cc = 15$) has actual values $11, 11, 12, 13, 13$.\nCalculate the exact mean of these $5$ values, compare it to the class centre, and explain why the grouped estimate is higher.",
         "structure": "grouped-mean-limitations-and-accuracy",
         "solution_text": "$\\text{Exact mean} = \\frac{11 + 11 + 12 + 13 + 13}{5}$\n$= \\frac{60}{5}$\n$= 12$\n$\\text{Grouped estimate} = cc = 15$\nThe grouped estimate is $3$ units higher because all actual values lie in the lower half of the interval ($11-13$), but the calculation replaces them all with the midpoint $15$."
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "A distribution with $40$ observations across classes $0-9$ ($cc = 4.5, f_1 = 8$), $10-19$ ($cc = 14.5, f_2$), $20-29$ ($cc = 24.5, f_3 = 14$), and $30-39$ ($cc = 34.5, f_4$) has an estimated mean of $20.5$.\nFind the missing frequencies $f_2$ and $f_4$.",
-        "structure": "reverse-grouped-mean",
-        "solution_text": "$f_2 + f_4 = 40 - (8 + 14)$\n$= 18$\n$\\Sigma (cc \\times f) = 20.5 \\times 40$\n$= 820$\n$(4.5 \\times 8) + 14.5 f_2 + (24.5 \\times 14) + 34.5 (18 - f_2) = 820$\n$36 + 14.5 f_2 + 343 + 621 - 34.5 f_2 = 820$\n$1000 - 20 f_2 = 820$\n$20 f_2 = 180$\n$f_2 = 9$\n$f_4 = 18 - 9$\n$= 9$"
+{
+        "question_text": "The table shows the masses of $40$ parcels.\n$\\begin{array}{c|c}\\text{Mass (kg)}&\\text{Frequency }(f)\\\\ \\hline 0 < m \\le 4&7\\\\ 4 < m \\le 10&11\\\\ 10 < m \\le 20&13\\\\ 20 < m \\le 40&9\\end{array}$\nCalculate the estimated mean mass.",
+        "structure": "estimate-mean-from-table",
+        "solution_text": "$\\text{Class centres: }2,7,15,30$\n$\\Sigma (cc \\times f)=(2 \\times 7)+(7 \\times 11)+(15 \\times 13)+(30 \\times 9)$\n$=14+77+195+270$\n$=556$\n$\\Sigma f=7+11+13+9=40$\n$\\overline{x}=\\frac{556}{40}$\n$=13.9\\text{ kg}$"
       },
-      {
+{
         "question_text": "A repair shop analyses customer invoices (in dollars):\n$\\begin{array}{c|c}\\text{Cost (\\$)}&\\text{Frequency }(f)\\\\ \\hline 100-199&12\\\\ 200-299&25\\\\ 300-399&38\\\\ 400-499&15\\\\ 500-599&10\\end{array}$\nFind the modal class, the median class, and the estimated mean invoice cost.",
         "structure": "estimate-mean-from-table",
-        "solution_text": "$\\text{Modal class} = \\$300 - \\$399\\text{ (highest frequency } 38\\text{)}$\n$\\text{Median position} = \\frac{100 + 1}{2} = 50.5$\n$\\text{Cumulative frequencies: } 12, 37, 75, 90, 100$\n$\\text{Median class} = \\$300 - \\$399$\n$\\text{Class centres: } 149.5, 249.5, 349.5, 449.5, 549.5$\n$\\Sigma (cc \\times f) = (149.5 \\times 12) + (249.5 \\times 25) + (349.5 \\times 38) + (449.5 \\times 15) + (549.5 \\times 10)$\n$= 1794 + 6237.5 + 13281 + 6742.5 + 5495$\n$= 33550$\n$\\overline{x} = \\frac{33550}{100}$\n$= \\$335.50$"
+        "solution_text": "$\\text{Modal class} = \\$300 - \\$399\\text{ (highest frequency } 38\\text{)}$\n$\\text{Middle positions: } \\frac{100}{2} = 50\\text{ and }51$\n$\\text{Cumulative frequencies: } 12, 37, 75, 90, 100$\nThe $50\\text{th}$ and $51\\text{st}$ invoices both lie in the third class, $\\$300 - \\$399$.\n$\\text{Median class} = \\$300 - \\$399$\n$\\text{Class centres: } 149.5, 249.5, 349.5, 449.5, 549.5$\n$\\Sigma (cc \\times f) = (149.5 \\times 12) + (249.5 \\times 25) + (349.5 \\times 38) + (449.5 \\times 15) + (549.5 \\times 10)$\n$= 1794 + 6237.5 + 13281 + 6742.5 + 5495$\n$= 33550$\n$\\overline{x} = \\frac{33550}{100}$\n$= \\$335.50$"
       },
-      {
+{
         "question_text": "An actual dataset of $50$ test marks has a true mean of $64.2$, but the estimated mean calculated using class centres is $62.8$.\nProvide a mathematically sound explanation for why the estimated mean is lower than the true mean.",
         "structure": "grouped-mean-limitations-and-accuracy",
         "solution_text": "The estimated mean replaces every score in a class with that class's midpoint ($cc$).\nIf the actual scores inside several classes are skewed towards the upper limits of their intervals, the true values exceed the midpoints, making the true mean higher than the estimated mean."
       }
-    ]
+]
   }
 }

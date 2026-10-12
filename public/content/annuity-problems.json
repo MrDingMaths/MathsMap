@@ -2,22 +2,60 @@
   "skillId": "annuity-problems",
   "atomType": "R",
   "theory": {
-    "intro": "Annuity problems apply future value and present value tables to real-world financial decisions. Choosing the correct table and formula depends on whether the money is accumulated in the future or borrowed upfront. The supplied tables assume payments or withdrawals occur at the end of each compounding period.",
-    "facts": [
+"intro": "Annuity problems apply future value and present value tables to real-world financial decisions. Choosing the correct table and formula depends on whether the money is accumulated in the future or borrowed upfront. The supplied tables assume payments or withdrawals occur at the end of each compounding period.",
+"facts": [
       "Use **Future Value** tables for accumulating wealth in superannuation and savings accounts.",
       "Use **Present Value** tables for reducing-balance loans, mortgages, and retirement pension withdrawals.",
       "To find what you can borrow given affordable repayments $M$, calculate $\\text{PV} = \\text{PV factor} \\times M$.",
       "The single lump sum needed today to fund a future annuity is its **present value**.",
       "Comparing financial options involves calculating the total paid or total accumulated interest under each strategy."
     ],
-    "steps": [
+"steps": [
       "Identify whether the problem involves Future Value (accumulating) or Present Value (borrowing/withdrawing).",
       "Determine the periodic interest rate $r$ and total number of periods $n$.",
       "Look up the interest factor in the corresponding table.",
       "Multiply or divide by the regular payment according to the question requirement.",
       "Calculate interest or difference between options if required."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "An employer contributes $\\$250$ each month to a worker’s superannuation fund, and the worker contributes another $\\$150$. The fund earns $6\\%$ p.a. compounded monthly. All contributions occur at month-end. Find the balance after $5$ years and the interest earned, using this future value table.\n$\\begin{array}{|c|c|c|}\\hline n&0.4\\%&0.5\\%\\\\\\hline60&67.6602&69.7700\\\\120&153.6320&163.8793\\\\\\hline\\end{array}$",
+    "solution_text": "Combine the two monthly contributions and select the future value factor.\n$\\begin{aligned}M&=250+150=400\\\\r&=6\\%\\div12=0.5\\%\\\\n&=5\\times12=60\\\\FV&=400\\times69.7700\\\\&=\\$27\\,908.00\\end{aligned}$\nSubtract the total contributions to find the interest.\n$\\begin{aligned}I&=27\\,908-60\\times400\\\\&=\\$3908.00\\end{aligned}$"
   },
+  {
+    "question_text": "Use the present value table below for both parts. Payments and withdrawals occur at month-end, and interest is $4.8\\%$ p.a. compounded monthly.\n$\\begin{array}{|c|c|c|}\\hline n&0.4\\%&0.5\\%\\\\\\hline120&95.1560&90.0735\\\\180&128.1370&118.5035\\\\\\hline\\end{array}$\na. A retiree needs $\\$600$ each month for $10$ years. Find the lump sum needed today.\nb. A borrower can afford $\\$900$ each month for $10$ years. Find the maximum loan, to the nearest dollar.",
+    "solution_text": "Both parts use present value: the amount needed or borrowed today.\n$\\begin{aligned}r&=4.8\\%\\div12=0.4\\%\\\\n&=10\\times12=120\\end{aligned}$\na. Multiply the withdrawal by the present value factor.\n$\\begin{aligned}PV&=600\\times95.1560\\\\&=\\$57\\,093.60\\end{aligned}$\nb. Multiply the affordable repayment by the same factor.\n$\\begin{aligned}PV&=900\\times95.1560\\\\&=\\$85\\,640.40\\\\&\\approx\\$85\\,640\\end{aligned}$"
+  },
+  {
+    "question_text": "A buyer can afford repayments of $\\$1000$ at the end of each month. Interest is $6\\%$ p.a. compounded monthly. Use the present value table to find how much more the buyer can borrow over $20$ years than over $15$ years, to the nearest dollar.\n$\\begin{array}{|c|c|c|}\\hline n&0.5\\%&0.6\\%\\\\\\hline180&118.5035&109.8845\\\\240&139.5808&127.0084\\\\\\hline\\end{array}$",
+    "solution_text": "Use the same monthly rate and repayment for both terms.\n$\\begin{aligned}r&=6\\%\\div12=0.5\\%\\\\n_{15}&=15\\times12=180\\\\n_{20}&=20\\times12=240\\\\PV_{15}&=1000\\times118.5035=\\$118\\,503.50\\\\PV_{20}&=1000\\times139.5808=\\$139\\,580.80\\\\\\text{Increase}&=139\\,580.80-118\\,503.50\\\\&=\\$21\\,077.30\\\\&\\approx\\$21\\,077\\end{aligned}$"
+  },
+  {
+    "question_text": "A retiree invests $\\$237\\,007$ to receive equal monthly withdrawals for $15$ years, starting one month later. The account earns $6\\%$ p.a. compounded monthly and is depleted after the final withdrawal. Use the present value table to find the monthly income, to the nearest cent, and the total interest generated. Use the rounded monthly income for the total received.\n$\\begin{array}{|c|c|c|}\\hline n&0.5\\%&0.6\\%\\\\\\hline180&118.5035&109.8845\\\\240&139.5808&127.0084\\\\\\hline\\end{array}$",
+    "solution_text": "Divide the initial investment by the present value factor.\n$\\begin{aligned}r&=6\\%\\div12=0.5\\%\\\\n&=15\\times12=180\\\\237\\,007&=118.5035M\\\\M&=\\frac{237\\,007}{118.5035}\\\\&=\\$2000.00\\end{aligned}$\nInterest is the total withdrawn less the initial investment.\n$\\begin{aligned}\\text{Total received}&=180\\times2000=\\$360\\,000.00\\\\I&=360\\,000-237\\,007\\\\&=\\$122\\,993.00\\end{aligned}$"
+  },
+  {
+    "question_text": "A loan of $\\$200\\,000$ is repaid at month-end over $25$ years. Compare rates of $7.2\\%$ and $8.4\\%$ p.a., both compounded monthly and each applying throughout the term. Use the present value table to calculate each monthly repayment to the nearest cent, then find the total saving at the lower rate using those rounded repayments.\n$\\begin{array}{|c|c|c|}\\hline n&0.6\\%&0.7\\%\\\\\\hline300&138.9683&125.2349\\\\\\hline\\end{array}$",
+    "solution_text": "Convert each annual rate to a monthly rate.\n$\\begin{aligned}r_1&=7.2\\%\\div12=0.6\\%\\\\r_2&=8.4\\%\\div12=0.7\\%\\\\n&=25\\times12=300\\\\M_1&=\\frac{200\\,000}{138.9683}\\approx\\$1439.18\\\\M_2&=\\frac{200\\,000}{125.2349}\\approx\\$1597.00\\end{aligned}$\nUse all $300$ rounded repayments under each option.\n$\\begin{aligned}\\text{Total at }7.2\\%&=300\\times1439.18=\\$431\\,754.00\\\\\\text{Total at }8.4\\%&=300\\times1597.00=\\$479\\,100.00\\\\\\text{Saving}&=479\\,100-431\\,754\\\\&=\\$47\\,346.00\\end{aligned}$"
+  },
+  {
+    "question_text": "An account earns $2\\%$ p.a. compounded annually. A lump sum must fund withdrawals of $\\$1200$ at each year-end for years $1$–$20$, followed by $\\$2400$ at each year-end for years $21$–$30$. Use the present value table to find the required initial deposit.\n$\\begin{array}{|c|c|}\\hline n&2\\%\\\\\\hline20&16.3514\\\\30&22.3965\\\\\\hline\\end{array}$",
+    "solution_text": "Subtract the $20$-year factor from the $30$-year factor to value only the withdrawals in years $21$–$30$ today.\n$\\begin{aligned}PV_{1\\text{–}20}&=1200\\times16.3514\\\\&=\\$19\\,621.68\\\\PV_{21\\text{–}30}&=2400\\times(22.3965-16.3514)\\\\&=2400\\times6.0451\\\\&=\\$14\\,508.24\\\\\\text{Initial deposit}&=19\\,621.68+14\\,508.24\\\\&=\\$34\\,129.92\\end{aligned}$"
+  },
+  {
+    "question_text": "Compare two investments over $10$ years.\na. Invest $\\$35\\,000$ today at $1.2\\%$ p.a. compounded monthly.\nb. Deposit $\\$900$ at the end of each quarter at $2.4\\%$ p.a. compounded quarterly.\nFor option b, use this future value table. Calculate both future values and their difference to the nearest cent.\n$\\begin{array}{|c|c|c|}\\hline n&0.2\\%&0.6\\%\\\\\\hline40&41.60026&45.05630\\\\\\hline\\end{array}$",
+    "solution_text": "Option a uses compound interest on a single deposit.\n$\\begin{aligned}r_a&=0.012\\div12=0.001\\\\n_a&=10\\times12=120\\\\FV_a&=35\\,000(1.001)^{120}\\\\&\\approx\\$39\\,460.02\\end{aligned}$\nOption b uses the annuity future value factor.\n$\\begin{aligned}r_b&=2.4\\%\\div4=0.6\\%\\\\n_b&=10\\times4=40\\\\FV_b&=900\\times45.05630\\\\&=\\$40\\,550.67\\\\\\text{Difference}&=40\\,550.67-39\\,460.02\\\\&=\\$1090.65\\end{aligned}$\nOption b has the greater future value."
+  },
+  {
+    "question_text": "A saver deposits $\\$1800$ at the end of each year for $7$ years. Interest is $4\\%$ p.a. compounded annually for the first $6$ years, then $5\\%$ for the seventh year. Use the future value table to find the balance immediately after the seventh deposit, to the nearest cent.\n$\\begin{array}{|c|c|c|}\\hline n&3\\%&4\\%\\\\\\hline5&5.309&5.416\\\\6&6.468&6.633\\\\\\hline\\end{array}$",
+    "solution_text": "Use the table for the first six end-of-year deposits.\n$\\begin{aligned}V_6&=1800\\times6.633\\\\&=\\$11\\,939.40\\end{aligned}$\nThe existing balance earns seventh-year interest before the final deposit is added.\n$\\begin{aligned}V_7&=11\\,939.40\\times1.05+1800\\\\&=\\$14\\,336.37\\end{aligned}$"
+  },
+  {
+    "question_text": "A buyer purchases a property for $\\$179\\,580.80$ and pays a cash deposit of $\\$40\\,000$. The remainder is borrowed over $20$ years at $6\\%$ p.a. compounded monthly, with repayments at month-end. Use the present value table to calculate the monthly repayment to the nearest dollar.\n$\\begin{array}{|c|c|c|}\\hline n&0.5\\%&0.6\\%\\\\\\hline180&118.5035&109.8845\\\\240&139.5808&127.0084\\\\\\hline\\end{array}$",
+    "solution_text": "Subtract the cash deposit before calculating the repayment.\n$\\begin{aligned}PV&=179\\,580.80-40\\,000\\\\&=\\$139\\,580.80\\\\r&=6\\%\\div12=0.5\\%\\\\n&=20\\times12=240\\\\139\\,580.80&=139.5808M\\\\M&=\\frac{139\\,580.80}{139.5808}\\\\&=\\$1000\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

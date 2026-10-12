@@ -2,99 +2,117 @@
   "skillId": "interpret-tables-graphs",
   "atomType": "R",
   "theory": {
-    "intro": "Data can be shown in a table, a column graph or a line graph. You can read single values and also combine them to find totals.",
-    "facts": [
+"intro": "Data can be shown in a table, a column graph or a line graph. You can read single values and also combine them to find totals.",
+"facts": [
       "A **table** lists each category with its value; a **column graph** shows each value as a bar height.",
       "To find a **total**, add the values of all categories together.",
       "Always check the scale of a graph — one step may be worth more than $1$."
     ],
-    "steps": [
+"steps": [
       "Read the value for each category from the table or bar height.",
       "For a total, add every value together.",
       "For a difference, subtract the smaller value from the larger."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "The table shows books borrowed from a school library.\n\n| Day | Monday | Tuesday | Wednesday | Thursday |\n|---|---:|---:|---:|---:|\n| Books | 24 | 36 | 18 | 32 |\n\n(a) How many books were borrowed on Tuesday?\n(b) How many books were borrowed altogether?\n(c) How many more books were borrowed on Tuesday than on Wednesday?",
+    "solution_text": "(a) Read the Tuesday column: $36$ books.\n\n(b) Add all four values.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}24+36+18+32\\\\&=110\\end{aligned}$\nAltogether, $110$ books were borrowed.\n\n(c) Subtract Wednesday's value from Tuesday's value.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}36-18\\\\&=18\\end{aligned}$\nTuesday had $18$ more books borrowed."
   },
+  {
+    "question_text": "A class collected $100$ cans altogether. How many cans did the Green group collect?\n\n| Group | Red | Blue | Green | Yellow |\n|---|---:|---:|---:|---:|\n| Cans | 23 | 28 | ? | 19 |",
+    "solution_text": "Add the three known values.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}23+28+19\\\\&=70\\end{aligned}$\n\nSubtract this subtotal from the total.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}100-70\\\\&=30\\end{aligned}$\n\nThe Green group collected $30$ cans."
+  },
+  {
+    "question_text": "The graph shows requests for four lunchtime activities.\n\n[tikz]\n\\begin{tikzpicture}[x=12mm,y=8mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[draw=black,->] (0,0)--(0,5.6);\n\\draw[draw=black,->] (0,0)--(5,0);\n\\foreach \\y/\\v in {0/0,1/5,2/10,3/15,4/20,5/25} {\n\\draw[draw=black] (-0.1,\\y)--(0,\\y);\n\\path (-0.15,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n}\n\\draw[draw=black] (0.5,0) rectangle (1.1,3);\n\\draw[draw=black] (1.6,0) rectangle (2.2,5);\n\\draw[draw=black] (2.7,0)--(3.3,0);\n\\draw[draw=black] (3.8,0) rectangle (4.4,2);\n\\foreach \\x/\\lab in {0.8/Art,1.9/Sport,3/Music,4.1/Chess} {\n\\path (\\x,-0.15) node[below] {\\lab};\n}\n\\path (-0.9,2.7) node[rotate=90] {Requests};\n\\path (2.5,-0.9) node[below] {Activity};\n\\path (2.5,6.1) node {Lunchtime activity requests};\n\\end{tikzpicture}\n[/tikz]\n\n(a) How many requests were there for Art?\n(b) Which activity had the most requests? Which had the fewest?\n(c) Which had more requests, Art or Chess?\n(d) How many more requests were there for Sport than for Chess?",
+    "solution_text": "(a) Each vertical scale step represents $5$ requests. The Art column reaches $15$, so Art had $15$ requests.\n\n(b) Sport has the tallest column: $25$ requests. Music has a value of $0$, so Music had the fewest requests.\n\n(c) Art had $15$ requests and Chess had $10$. Art had more requests.\n\n(d) Read Sport as $25$ and Chess as $10$, then subtract.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}25-10\\\\&=15\\end{aligned}$\nSport had $15$ more requests than Chess."
+  },
+  {
+    "question_text": "The graph shows the temperature in a classroom. What was the temperature at $11$ a.m.?\n\n[tikz]\n\\begin{tikzpicture}[x=13mm,y=8mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[draw=black!20,xstep=13mm,ystep=8mm] (0,0) grid (4,6);\n\\draw[draw=black,->] (0,0)--(0,6.5);\n\\draw[draw=black,->] (0,0)--(4.5,0);\n\\foreach \\y/\\v in {0/0,1/5,2/10,3/15,4/20,5/25,6/30} {\n\\draw[draw=black] (-0.1,\\y)--(0,\\y);\n\\path (-0.15,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n}\n\\foreach \\x/\\lab in {0/{9 a.m.},1/{10 a.m.},2/{11 a.m.},3/{12 noon},4/{1 p.m.}} {\n\\draw[draw=black] (\\x,0)--(\\x,-0.1);\n\\path (\\x,-0.15) node[below,font=\\fontsize{8.5}{10}\\selectfont] {\\lab};\n}\n\\definecolor{seriesblue}{HTML}{268CFF}\n\\draw[draw=seriesblue,thick] (0,2)--(1,3)--(2,4)--(3,5)--(4,3);\n\\foreach \\x/\\y in {0/2,1/3,2/4,3/5,4/3} {\n\\fill[seriesblue] (\\x,\\y) circle (1.8pt);\n}\n\\path (-0.9,3) node[rotate=90] {Temperature ($^\\circ$C)};\n\\path (2,-0.85) node[below] {Time};\n\\path (2,6.9) node {Classroom temperature};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Find $11$ a.m. on the horizontal axis and follow it up to the plotted point. Read across to the vertical scale: $20^\\circ\\mathrm{C}$."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "The table shows visitors to community rooms.\nHow many visited the Games room?\n$\\begin{array}{c|rrrr}\\text{Room}&\\text{Craft}&\\text{Games}&\\text{Study}&\\text{Music}\\\\\\hline\\text{Visitors}&18&27&14&21\\end{array}$",
         "structure": "read-value-from-table",
         "solution_text": "Read the Games column.\n$27\\text{ visitors}$"
       },
-      {
+{
         "question_text": "Find the total number of meals delivered.\n$\\begin{array}{c|rrrr}\\text{Day}&\\text{Mon}&\\text{Tue}&\\text{Wed}&\\text{Thu}\\\\\\hline\\text{Meals}&32&28&35&25\\end{array}$",
         "structure": "total-values-from-table",
         "solution_text": "$32+28+35+25$\n$=120\\text{ meals}$"
       },
-      {
+{
         "question_text": "How many books were borrowed from the Mobile service?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (0,0)--(0,6.4); \\draw[->] (0,0)--(7.5,0); \\foreach \\y/\\lab in {1/10,2/20,3/30,4/40,5/50} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\draw (0.4,0) rectangle (1.6,3); \\draw (2.4,0) rectangle (3.6,5); \\draw (4.4,0) rectangle (5.6,4); \\foreach \\x/\\lab in {1/Central,3/Mobile,5/East} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\node[rotate=90] at (-1.3,2.5) {Books}; \\node[below] at (3,-1.0) {Service}; \\node at (3,6.1) {Library loans};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "read-value-from-column-graph",
         "solution_text": "The Mobile bar reaches $50$.\n$50\\text{ books}$"
       },
-      {
-        "question_text": "Find the total number of volunteer shifts shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.68]\n\\draw[->] (0,0)--(0,6.4); \\draw[->] (0,0)--(9,0); \\foreach \\y/\\lab in {1/5,2/10,3/15,4/20,5/25} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\draw (0.4,0) rectangle (1.6,4); \\draw (2.4,0) rectangle (3.6,3); \\draw (4.4,0) rectangle (5.6,5); \\draw (6.4,0) rectangle (7.6,2); \\foreach \\x/\\lab in {1/North,3/South,5/West,7/East} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\node[rotate=90] at (-1.3,2.5) {Shifts}; \\node[below] at (4,-1.0) {Centre}; \\node at (4,6.1) {Volunteer shifts};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "total-values-from-column-graph",
-        "solution_text": "$20+15+25+10$\n$=70\\text{ shifts}$"
+{
+        "question_text": "Which centre had the most volunteer shifts?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.68]\n\\draw[->] (0,0)--(0,6.4); \\draw[->] (0,0)--(9,0); \\foreach \\y/\\lab in {1/5,2/10,3/15,4/20,5/25} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\draw (0.4,0) rectangle (1.6,4); \\draw (2.4,0) rectangle (3.6,3); \\draw (4.4,0) rectangle (5.6,5); \\draw (6.4,0) rectangle (7.6,2); \\foreach \\x/\\lab in {1/North,3/South,5/West,7/East} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\node[rotate=90] at (-1.3,2.5) {Shifts}; \\node[below] at (4,-1.0) {Centre}; \\node at (4,6.1) {Volunteer shifts};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "identify-largest-column",
+        "solution_text": "The West bar is the tallest.\nWest had the most volunteer shifts."
       },
-      {
+{
         "question_text": "How many more parcels did Route B deliver than Route D?\n$\\begin{array}{c|rrrr}\\text{Route}&A&B&C&D\\\\\\hline\\text{Parcels}&45&62&38&27\\end{array}$",
         "structure": "compare-two-table-values",
         "solution_text": "$62-27$\n$=35\\text{ parcels}$"
       },
-      {
-        "question_text": "The line graph shows calls received each hour.\nFind the total for the five observations.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(8.5,0); \\foreach \\y/\\lab in {1/5,2/10,3/15,4/20,5/25,6/30} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\lab in {1/9am,2.4/10am,3.8/11am,5.2/12pm,6.6/1pm} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};} \\draw[thick] (1,2)--(2.4,5)--(3.8,3)--(5.2,6)--(6.6,4); \\foreach \\p in {(1,2),(2.4,5),(3.8,3),(5.2,6),(6.6,4)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,3) {Calls}; \\node[below] at (3.8,-1.0) {Time}; \\node at (3.8,7.1) {Help-line calls};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "total-values-from-column-graph",
-        "solution_text": "$10+25+15+30+20$\n$=100\\text{ calls}$"
+{
+        "question_text": "The line graph shows calls received each hour.\nHow many calls were received at $11$ a.m.?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(8.5,0); \\foreach \\y/\\lab in {1/5,2/10,3/15,4/20,5/25,6/30} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\lab in {1/9am,2.4/10am,3.8/11am,5.2/12pm,6.6/1pm} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};} \\draw[thick] (1,2)--(2.4,5)--(3.8,3)--(5.2,6)--(6.6,4); \\foreach \\p in {(1,2),(2.4,5),(3.8,3),(5.2,6),(6.6,4)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,3) {Calls}; \\node[below] at (3.8,-1.0) {Time}; \\node at (3.8,7.1) {Help-line calls};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-value-from-line-graph",
+        "solution_text": "The point at $11$ a.m. is at $15$.\n$15\\text{ calls}$"
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "The total attendance was $150$.\nFind the missing Friday value.\n$\\begin{array}{c|rrrrr}\\text{Day}&\\text{Mon}&\\text{Tue}&\\text{Wed}&\\text{Thu}&\\text{Fri}\\\\\\hline\\text{Attendance}&26&31&29&34&?\\end{array}$",
         "structure": "find-missing-table-value-from-total",
         "solution_text": "$26+31+29+34$\n$=120$\n$150-120$\n$=30$\nFriday's attendance was $30$."
       },
-      {
-        "question_text": "How many memberships are represented by the three largest bars?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.62]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(11,0); \\foreach \\y/\\lab in {1/10,2/20,3/30,4/40,5/50,6/60} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\draw (0.4,0) rectangle (1.6,2); \\draw (2.4,0) rectangle (3.6,6); \\draw (4.4,0) rectangle (5.6,4); \\draw (6.4,0) rectangle (7.6,5); \\draw (8.4,0) rectangle (9.6,3); \\foreach \\x/\\lab in {1/Arts,3/Fitness,5/Garden,7/Sports,9/Tech} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\node[rotate=90] at (-1.3,3) {Members}; \\node[below] at (5,-1.0) {Program}; \\node at (5,7.1) {Centre members};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "total-values-from-column-graph",
-        "solution_text": "The three largest values are $60$, $50$ and $40$.\n$60+50+40$\n$=150\\text{ memberships}$"
+{
+        "question_text": "Which program has more members, Garden or Sports?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.62]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(11,0); \\foreach \\y/\\lab in {1/10,2/20,3/30,4/40,5/50,6/60} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\draw (0.4,0) rectangle (1.6,2); \\draw (2.4,0) rectangle (3.6,6); \\draw (4.4,0) rectangle (5.6,4); \\draw (6.4,0) rectangle (7.6,5); \\draw (8.4,0) rectangle (9.6,3); \\foreach \\x/\\lab in {1/Arts,3/Fitness,5/Garden,7/Sports,9/Tech} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\node[rotate=90] at (-1.3,3) {Members}; \\node[below] at (5,-1.0) {Program}; \\node at (5,7.1) {Centre members};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "compare-two-column-values",
+        "solution_text": "Garden has $40$ members and Sports has $50$ members.\nSports has more members."
       },
-      {
+{
         "question_text": "A food bank packed $184$ boxes in total.\nUse the table to find how many were Vegetable boxes.\n$\\begin{array}{c|rrrr}\\text{Box type}&\\text{Fruit}&\\text{Dry}&\\text{Chilled}&\\text{Vegetable}\\\\\\hline\\text{Boxes}&46&58&35&?\\end{array}$",
         "structure": "find-missing-table-value-from-total",
         "solution_text": "$46+58+35$\n$=139$\n$184-139$\n$=45\\text{ vegetable boxes}$"
       },
-      {
-        "question_text": "Find the combined number of visits to Clinic A and Clinic D, then compare it with Clinic C.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.68]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(9,0); \\foreach \\y/\\lab in {1/20,2/40,3/60,4/80,5/100,6/120} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\draw (0.4,0) rectangle (1.6,2); \\draw (2.4,0) rectangle (3.6,5); \\draw (4.4,0) rectangle (5.6,6); \\draw (6.4,0) rectangle (7.6,3); \\foreach \\x/\\lab in {1/A,3/B,5/C,7/D} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\node[rotate=90] at (-1.5,3) {Visits}; \\node[below] at (4,-1.0) {Clinic}; \\node at (4,7.1) {Clinic visits};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "combine-then-compare-values",
-        "solution_text": "$40+60=100$\nClinic C has $120$ visits.\n$120-100$\n$=20$\nClinics A and D together have $20$ fewer visits than Clinic C."
+{
+        "question_text": "How many more visits did Clinic C have than Clinic D?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.68]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(9,0); \\foreach \\y/\\lab in {1/20,2/40,3/60,4/80,5/100,6/120} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\draw (0.4,0) rectangle (1.6,2); \\draw (2.4,0) rectangle (3.6,5); \\draw (4.4,0) rectangle (5.6,6); \\draw (6.4,0) rectangle (7.6,3); \\foreach \\x/\\lab in {1/A,3/B,5/C,7/D} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\node[rotate=90] at (-1.5,3) {Visits}; \\node[below] at (4,-1.0) {Clinic}; \\node at (4,7.1) {Clinic visits};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "difference-between-column-values",
+        "solution_text": "Clinic C has $120$ visits and Clinic D has $60$ visits.\n$120-60$\n$=60\\text{ visits}$"
       },
-      {
-        "question_text": "A transport desk records enquiries.\nFind the difference between the total morning and afternoon enquiries.\n$\\begin{array}{c|rrr} &\\text{Bus}&\\text{Train}&\\text{Ferry}\\\\\\hline\\text{Morning}&24&31&15\\\\\\text{Afternoon}&18&27&20\\end{array}$",
-        "structure": "combine-then-compare-values",
-        "solution_text": "$24+31+15=70$\n$18+27+20=65$\n$70-65$\n$=5\\text{ enquiries}$"
+{
+        "question_text": "A transport desk records enquiries.\nHow many more train enquiries were made in the morning than in the afternoon?\n$\\begin{array}{c|rrr} &\\text{Bus}&\\text{Train}&\\text{Ferry}\\\\\\hline\\text{Morning}&24&31&15\\\\\\text{Afternoon}&18&27&20\\end{array}$",
+        "structure": "compare-two-table-values",
+        "solution_text": "Read the Train column.\n$31-27$\n$=4\\text{ enquiries}$"
       },
-      {
-        "question_text": "The graph uses a scale of $25$.\nFind the total, including the zero-valued category.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.62]\n\\draw[->] (0,0)--(0,6.4); \\draw[->] (0,0)--(11,0); \\foreach \\y/\\lab in {1/25,2/50,3/75,4/100,5/125} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\draw (0.4,0) rectangle (1.6,3); \\draw (2.4,0) rectangle (3.6,5); \\draw (4.4,0)--(5.6,0); \\draw (6.4,0) rectangle (7.6,2); \\draw (8.4,0) rectangle (9.6,4); \\foreach \\x/\\lab in {1/Repair,3/Advice,5/Legal,7/Housing,9/Health} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\node[rotate=90] at (-1.5,2.5) {Requests}; \\node[below] at (5,-1.0) {Service}; \\node at (5,6.1) {Service requests};\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "total-values-from-column-graph",
-        "solution_text": "$75+125+0+50+100$\n$=350\\text{ requests}$"
+{
+        "question_text": "Which service received the fewest requests?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.62]\n\\draw[->] (0,0)--(0,6.4); \\draw[->] (0,0)--(11,0); \\foreach \\y/\\lab in {1/25,2/50,3/75,4/100,5/125} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,0) {$0$}; \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};}\n\\draw (0.4,0) rectangle (1.6,3); \\draw (2.4,0) rectangle (3.6,5); \\draw (4.4,0)--(5.6,0); \\draw (6.4,0) rectangle (7.6,2); \\draw (8.4,0) rectangle (9.6,4); \\foreach \\x/\\lab in {1/Repair,3/Advice,5/Legal,7/Housing,9/Health} {\\node[anchor=north east,rotate=60,font=\\fontsize{10}{12}\\selectfont] at (\\x,-0.15) {\\lab};}\n\\node[rotate=90] at (-1.5,2.5) {Requests}; \\node[below] at (5,-3.0) {Service}; \\node at (5,6.1) {Service requests};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "identify-smallest-column",
+        "solution_text": "Legal received $0$ requests.\nLegal received the fewest requests."
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "The total is $255$.\nFind the missing values when C is $20$ more than D.\n$\\begin{array}{c|rrrr}\\text{Category}&A&B&C&D\\\\\\hline\\text{Value}&45&50&?&?\\end{array}$",
+{
+        "question_text": "The table shows the number of enquiries received by four centres.\nThe total was $375$. Find the missing value.\n$\\begin{array}{c|rrrr}\\text{Centre}&A&B&C&D\\\\\\hline\\text{Enquiries}&86&97&78&?\\end{array}$",
         "structure": "find-missing-table-value-from-total",
-        "solution_text": "$255-(45+50)=160$\nThe two missing values total $160$ and differ by $20$.\n$D=(160-20)\\div2=70$\n$C=70+20=90$"
+        "solution_text": "$86+97+78=261$\n$375-261=114$\nCentre D received $114$ enquiries."
       },
-      {
-        "question_text": "A column graph shows $45$, $75$, $30$, $60$ and $90$ visits.\nA report excludes the largest category.\nWhat total should the report give?",
-        "structure": "total-values-from-column-graph",
-        "solution_text": "$45+75+30+60+90$\n$=300$\n$300-90$\n$=210\\text{ visits}$"
+{
+        "question_text": "The table shows deliveries to five centres.\nHow many more deliveries did Centre E receive than Centre C?\n$\\begin{array}{c|rrrrr}\\text{Centre}&A&B&C&D&E\\\\\\hline\\text{Deliveries}&145&175&138&160&192\\end{array}$",
+        "structure": "compare-two-table-values",
+        "solution_text": "$192-138$\n$=54\\text{ deliveries}$"
       },
-      {
-        "question_text": "A table lists $18$, $27$ and $35$ calls.\nA line graph for three different hours shows $20$, $25$ and $30$ calls.\nWhich display has the larger total, and by how much?",
-        "structure": "compare-totals-across-displays",
-        "solution_text": "$18+27+35=80$\n$20+25+30=75$\n$80-75$\n$=5\\text{ calls}$\nThe table has the larger total by $5$ calls."
+{
+        "question_text": "The table shows bookings for four workshops.\nThere were $425$ bookings in total. Find the missing value.\n$\\begin{array}{c|rrrr}\\text{Workshop}&A&B&C&D\\\\\\hline\\text{Bookings}&118&96&127&?\\end{array}$",
+        "structure": "find-missing-table-value-from-total",
+        "solution_text": "$118+96+127=341$\n$425-341=84$\nWorkshop D had $84$ bookings."
       }
-    ]
+]
   }
 }

@@ -2,8 +2,8 @@
   "skillId": "differentiate-tan-reciprocal-trig",
   "atomType": "R",
   "theory": {
-    "intro": "Rewrite each function in terms of $\\sin x$ and $\\cos x$. Use the quotient rule to derive the tangent and cotangent derivatives, and the chain rule on reciprocal powers to derive the secant and cosecant derivatives. All four results assume $x$ is in **radians**.",
-    "facts": [
+"intro": "Rewrite each function in terms of $\\sin x$ and $\\cos x$. Use the quotient rule to derive the tangent and cotangent derivatives, and the chain rule on reciprocal powers to derive the secant and cosecant derivatives. All four results assume $x$ is in **radians**.",
+"facts": [
 "$\\dfrac{d}{dx}(\\tan x) = \\sec^{2}x$, where $\\sec^{2}x$ means $(\\sec x)^{2}$.",
 "$\\dfrac{d}{dx}(\\sec x) = \\sec x\\tan x$, which, like the tangent derivative, has no negative sign.",
 "$\\dfrac{d}{dx}(\\operatorname{cosec} x) = -\\operatorname{cosec} x\\cot x$.",
@@ -12,13 +12,71 @@
 "When $x$ is multiplied inside, $\\dfrac{d}{dx}(\\tan kx) = k\\sec^{2}kx$.",
 "Each derivative is undefined wherever the original function is undefined, such as $\\tan x$ at $x = \\dfrac{\\pi}{2}$."
 ],
-    "steps": [
+"steps": [
 "Rewrite the function in terms of $\\sin x$ and $\\cos x$.",
 "For tangent and cotangent, name the numerator $u$ and the denominator $v$, then differentiate each.",
 "Apply the quotient rule $y' = \\dfrac{u'v - uv'}{v^{2}}$ for tangent and cotangent; for secant and cosecant, write $(\\cos x)^{-1}$ or $(\\sin x)^{-1}$ and apply the chain rule.",
 "Simplify using $\\sin^{2}x + \\cos^{2}x = 1$ where needed, then rewrite in terms of $\\sec$, $\\operatorname{cosec}$ or $\\cot$."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Differentiate $y=8\\tan x$ with respect to $x$.",
+    "solution_text": "Use $\\dfrac{d}{dx}(\\tan x)=\\sec^{2}x$.\n$\\dfrac{dy}{dx}=8\\sec^{2}x$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Differentiate $y=4\\tan\\left(\\dfrac{x}{6}\\right)$ with respect to $x$.",
+    "solution_text": "The inner function is $\\dfrac{x}{6}$, with derivative $\\dfrac{1}{6}$.\n$\\begin{align*}\\dfrac{dy}{dx}&=4\\times\\dfrac{1}{6}\\sec^{2}\\left(\\dfrac{x}{6}\\right)\\\\&=\\dfrac{2}{3}\\sec^{2}\\left(\\dfrac{x}{6}\\right)\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y=7x^{2}+4\\tan 5x-3\\sin 4x$ with respect to $x$.",
+    "solution_text": "Differentiate each term, including the inner derivative for each trigonometric term.\n$\\begin{align*}\\dfrac{dy}{dx}&=14x+4\\left(5\\sec^{2}5x\\right)-3\\left(4\\cos 4x\\right)\\\\&=14x+20\\sec^{2}5x-12\\cos 4x\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact value of each derivative.\n(a) $f'\\left(\\dfrac{\\pi}{16}\\right)$, given $f(x)=\\tan 4x$.\n(b) $g'\\left(\\dfrac{\\pi}{4}\\right)$, given $g(x)=\\sec x$.\n(c) $h'\\left(\\dfrac{\\pi}{4}\\right)$, given $h(x)=\\operatorname{cosec}x$.",
+    "solution_text": "(a) Differentiate before substituting.\n$\\begin{align*}f'(x)&=4\\sec^{2}4x\\\\f'\\left(\\dfrac{\\pi}{16}\\right)&=4\\sec^{2}\\left(\\dfrac{\\pi}{4}\\right)\\\\&=4\\left(\\sqrt{2}\\right)^{2}\\\\&=8\\end{align*}$\n(b)\n$\\begin{align*}g'(x)&=\\sec x\\tan x\\\\g'\\left(\\dfrac{\\pi}{4}\\right)&=\\sec\\left(\\dfrac{\\pi}{4}\\right)\\tan\\left(\\dfrac{\\pi}{4}\\right)\\\\&=\\sqrt{2}\\times1\\\\&=\\sqrt{2}\\end{align*}$\n(c)\n$\\begin{align*}h'(x)&=-\\operatorname{cosec}x\\cot x\\\\h'\\left(\\dfrac{\\pi}{4}\\right)&=-\\operatorname{cosec}\\left(\\dfrac{\\pi}{4}\\right)\\cot\\left(\\dfrac{\\pi}{4}\\right)\\\\&=-\\sqrt{2}\\times1\\\\&=-\\sqrt{2}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "By writing $\\tan x=\\dfrac{\\sin x}{\\cos x}$, use the quotient rule to derive $\\dfrac{d}{dx}(\\tan x)=\\sec^{2}x$.",
+    "solution_text": "Let $u=\\sin x$ and $v=\\cos x$. Then $u'=\\cos x$ and $v'=-\\sin x$.\n$\\begin{align*}\\dfrac{d}{dx}(\\tan x)&=\\dfrac{u'v-uv'}{v^{2}}\\\\&=\\dfrac{\\cos x\\cos x-\\sin x(-\\sin x)}{\\cos^{2}x}\\\\&=\\dfrac{\\cos^{2}x+\\sin^{2}x}{\\cos^{2}x}\\\\&=\\dfrac{1}{\\cos^{2}x}\\\\&=\\sec^{2}x\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "By writing $\\sec x=(\\cos x)^{-1}$, use the chain rule to derive $\\dfrac{d}{dx}(\\sec x)=\\sec x\\tan x$.",
+    "solution_text": "Apply the chain rule to the reciprocal power.\n$\\begin{align*}\\dfrac{d}{dx}(\\sec x)&=-(\\cos x)^{-2}(-\\sin x)\\\\&=\\dfrac{\\sin x}{\\cos^{2}x}\\\\&=\\dfrac{1}{\\cos x}\\times\\dfrac{\\sin x}{\\cos x}\\\\&=\\sec x\\tan x\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "By writing $\\cot x=\\dfrac{\\cos x}{\\sin x}$, use the quotient rule to derive $\\dfrac{d}{dx}(\\cot x)=-\\operatorname{cosec}^{2}x$.",
+    "solution_text": "Let $u=\\cos x$ and $v=\\sin x$. Then $u'=-\\sin x$ and $v'=\\cos x$.\n$\\begin{align*}\\dfrac{d}{dx}(\\cot x)&=\\dfrac{u'v-uv'}{v^{2}}\\\\&=\\dfrac{(-\\sin x)\\sin x-\\cos x\\cos x}{\\sin^{2}x}\\\\&=\\dfrac{-\\sin^{2}x-\\cos^{2}x}{\\sin^{2}x}\\\\&=-\\dfrac{1}{\\sin^{2}x}\\\\&=-\\operatorname{cosec}^{2}x\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "By writing $\\operatorname{cosec}x=(\\sin x)^{-1}$, use the chain rule to derive $\\dfrac{d}{dx}(\\operatorname{cosec}x)=-\\operatorname{cosec}x\\cot x$.",
+    "solution_text": "Apply the chain rule to the reciprocal power.\n$\\begin{align*}\\dfrac{d}{dx}(\\operatorname{cosec}x)&=-(\\sin x)^{-2}\\cos x\\\\&=-\\dfrac{\\cos x}{\\sin^{2}x}\\\\&=-\\dfrac{1}{\\sin x}\\times\\dfrac{\\cos x}{\\sin x}\\\\&=-\\operatorname{cosec}x\\cot x\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

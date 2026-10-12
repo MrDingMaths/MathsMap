@@ -2,8 +2,8 @@
   "skillId": "dilate-function-graphs",
   "atomType": "R",
   "theory": {
-        "intro": "A **dilation** stretches or compresses a graph towards or away from an axis. Multiplying the output, as in $y=kf(x)$, stretches it vertically; multiplying the input, as in $y=f(ax)$, stretches it horizontally.",
-        "facts": [
+"intro": "A **dilation** stretches or compresses a graph towards or away from an axis. For positive factors $a,k>0$, multiplying the output, as in $y=kf(x)$, stretches or compresses it vertically; multiplying the input, as in $y=f(ax)$, stretches or compresses it horizontally.",
+"facts": [
           "$y=kf(x)$ is a **vertical** dilation of factor $k$ from the $x$-axis, so $(x,y)\\to(x,ky)$ and every $y$-coordinate is multiplied by $k$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.6,0) -- (3.6,0) node[right] {$x$};\n\\draw[->] (0,-2.6) -- (0,3.9) node[above] {$y$};\n\\draw[thick,gray,dashed,<->,domain=-2.9:2.9,smooth,samples=61,variable=\\x] plot ({\\x},{2-0.5*\\x*\\x});\n\\draw[thick,blue,<->,domain=-2.5:2.5,smooth,samples=61,variable=\\x] plot ({\\x},{3-0.75*\\x*\\x});\n\\node[blue,right] at (-3.5,3.2) {$y=kf(x)$};\n\\node[gray,right] at (-3.5,2.3) {$y=f(x)$};\n\\end{tikzpicture}\n[/tikz]",
           "If $k>1$ the graph stretches away from the $x$-axis; if $0<k<1$ it compresses towards it.",
           "$y=f(ax)$ is a **horizontal** dilation of factor $\\dfrac{1}{a}$ from the $y$-axis, so $(x,y)\\to\\left(\\dfrac{x}{a},y\\right)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.6,0) -- (3.6,0) node[right] {$x$};\n\\draw[->] (0,-2.2) -- (0,3.3) node[above] {$y$};\n\\draw[thick,gray,dashed,<->,domain=-2.7:2.7,smooth,samples=61,variable=\\x] plot ({\\x},{2-0.5*\\x*\\x});\n\\draw[thick,blue,<->,domain=-1.35:1.35,smooth,samples=61,variable=\\x] plot ({\\x},{2-2*\\x*\\x});\n\\node[blue,right] at (-3.5,2.9) {$y=f(ax)$};\n\\node[gray,right] at (-3.5,2.0) {$y=f(x)$};\n\\end{tikzpicture}\n[/tikz]",
@@ -11,87 +11,145 @@
           "A factor **outside** $f$, as in $kf(x)$, is vertical; a factor on the $x$ **inside** $f$, as in $f(ax)$, is horizontal.",
           "$y=f\\!\\left(\\dfrac{x}{a}\\right)$ has inside factor $\\dfrac1a$, so it is a horizontal dilation of factor $a$ and every $x$-value is multiplied by $a$."
         ],
-        "steps": [
+"steps": [
           "Decide the direction: $kf(x)$ multiplies outputs (vertical, factor $k$); $f(ax)$ multiplies inputs (horizontal, factor $\\tfrac1a$).",
           "Multiply each key point's $y$-coordinate by $k$ (vertical), or its $x$-coordinate by $\\tfrac1a$ (horizontal).",
           "Draw the new curve through the transformed key points."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Describe each dilation from $y=f(x)$:\n\na. $y=\\frac34f(x)$\n\nb. $y=f\\!\\left(\\frac{3x}{4}\\right)$",
+    "solution_text": "a. The output is multiplied by $\\frac34$: a vertical compression of factor $\\frac34$ towards the $x$-axis.\n\nb. The input multiplier is $\\frac34$, so the horizontal dilation factor is $\\frac43$. The graph stretches away from the $y$-axis.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write the new equation after each dilation.\n\na. $y=x^3$, vertically by factor $\\frac14$.\n\nb. $y=x^2-1$, horizontally by factor $3$.",
+    "solution_text": "a. Multiply the output by $\\frac14$.\n\n$y=\\frac14x^3$\n\nb. Multiply every $x$-coordinate by $3$, so replace $x$ in the rule with $\\frac{x}{3}$.\n\n$\\begin{aligned}y&=\\left(\\frac{x}{3}\\right)^2-1\\\\&=\\frac{x^2}{9}-1\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Identify a suitable dilation from the first graph to the second.\n\na. $y=x^2-4x$ and $y=2x^2-8x$.\n\nb. $y=\\frac1{x-2}$ and $y=\\frac1{4x-2}$.\n\nc. $f(x)=x(3+x)$ and $g(x)=3x(3+3x)$.",
+    "solution_text": "a. $2x^2-8x=2(x^2-4x)$. The whole output is doubled: a vertical dilation of factor $2$.\n\nb. For $f(x)=\\frac1{x-2}$, $f(4x)=\\frac1{4x-2}$. The input is multiplied by $4$: a horizontal dilation of factor $\\frac14$.\n\nc. $f(3x)=3x(3+3x)=g(x)$. Every occurrence of the input has been replaced by $3x$: a horizontal dilation of factor $\\frac13$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The graph of $y=f(x)$ consists of the two line segments shown. Sketch $y=\\frac12f(x)$, marking the images of the three labelled points.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,->] (-4,0)--(4,0) node[right] {$x$};\n\\draw[black,->] (0,-4)--(0,3.5) node[above] {$y$};\n\\draw[black,thick] (-3,-3)--(0,2)--(3,2);\n\\fill[black] (-3,-3) circle (1.5pt) node[below right] {$(-3,-3)$};\n\\fill[black] (0,2) circle (1.5pt) node[above left] {$(0,2)$};\n\\fill[black] (3,2) circle (1.5pt) node[above right] {$(3,2)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Multiply each $y$-coordinate by $\\frac12$ and keep each $x$-coordinate.\n\n$\\begin{aligned}(-3,-3)&\\mapsto(-3,-\\tfrac32)\\\\(0,2)&\\mapsto(0,1)\\\\(3,2)&\\mapsto(3,1)\\end{aligned}$\n\nJoin the image points with line segments. The dashed graph is $y=f(x)$; the blue graph is $y=\\frac12f(x)$.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{mappedBlue}{HTML}{268CFF}\n\\draw[black,->] (-4,0)--(4,0) node[right] {$x$};\n\\draw[black,->] (0,-4)--(0,3.5) node[above] {$y$};\n\\draw[black,dashed] (-3,-3)--(0,2)--(3,2);\n\\draw[mappedBlue,thick] (-3,-1.5)--(0,1)--(3,1);\n\\fill[mappedBlue] (-3,-1.5) circle (1.5pt) node[below right] {$(-3,-\\frac32)$};\n\\fill[mappedBlue] (0,1) circle (1.5pt) node[above left] {$(0,1)$};\n\\fill[mappedBlue] (3,1) circle (1.5pt) node[below right] {$(3,1)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The graph of $y=f(x)$ consists of the two line segments shown. Sketch $y=f(3x)$, marking the images of the three labelled points.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,->] (-4,0)--(4,0) node[right] {$x$};\n\\draw[black,->] (0,-4)--(0,3.5) node[above] {$y$};\n\\draw[black,thick] (-3,-3)--(0,2)--(3,2);\n\\fill[black] (-3,-3) circle (1.5pt) node[below right] {$(-3,-3)$};\n\\fill[black] (0,2) circle (1.5pt) node[above left] {$(0,2)$};\n\\fill[black] (3,2) circle (1.5pt) node[above right] {$(3,2)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The horizontal dilation factor is $\\frac13$. Divide each $x$-coordinate by $3$ and keep each $y$-coordinate.\n\n$\\begin{aligned}(-3,-3)&\\mapsto(-1,-3)\\\\(0,2)&\\mapsto(0,2)\\\\(3,2)&\\mapsto(1,2)\\end{aligned}$\n\nJoin the image points with line segments. The dashed graph is $y=f(x)$; the blue graph is $y=f(3x)$.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{mappedBlue}{HTML}{268CFF}\n\\draw[black,->] (-4,0)--(4,0) node[right] {$x$};\n\\draw[black,->] (0,-4)--(0,3.5) node[above] {$y$};\n\\draw[black,dashed] (-3,-3)--(0,2)--(3,2);\n\\draw[mappedBlue,thick] (-1,-3)--(0,2)--(1,2);\n\\fill[mappedBlue] (-1,-3) circle (1.5pt) node[below right] {$(-1,-3)$};\n\\fill[mappedBlue] (0,2) circle (1.5pt) node[above left] {$(0,2)$};\n\\fill[mappedBlue] (1,2) circle (1.5pt) node[above right] {$(1,2)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The graph of $y=f(x)$ consists of the two line segments shown. Sketch $y=\\frac12f(3x)$, marking the images of the three labelled points.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,->] (-4,0)--(4,0) node[right] {$x$};\n\\draw[black,->] (0,-4)--(0,3.5) node[above] {$y$};\n\\draw[black,thick] (-3,-3)--(0,2)--(3,2);\n\\fill[black] (-3,-3) circle (1.5pt) node[below right] {$(-3,-3)$};\n\\fill[black] (0,2) circle (1.5pt) node[above left] {$(0,2)$};\n\\fill[black] (3,2) circle (1.5pt) node[above right] {$(3,2)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Combine a horizontal dilation of factor $\\frac13$ with a vertical dilation of factor $\\frac12$.\n\n$(x,y)\\mapsto\\left(\\frac{x}{3},\\frac{y}{2}\\right)$\n\n$\\begin{aligned}(-3,-3)&\\mapsto(-1,-\\tfrac32)\\\\(0,2)&\\mapsto(0,1)\\\\(3,2)&\\mapsto(1,1)\\end{aligned}$\n\nJoin the image points with line segments. The dashed graph is $y=f(x)$; the blue graph is $y=\\frac12f(3x)$.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{mappedBlue}{HTML}{268CFF}\n\\draw[black,->] (-4,0)--(4,0) node[right] {$x$};\n\\draw[black,->] (0,-4)--(0,3.5) node[above] {$y$};\n\\draw[black,dashed] (-3,-3)--(0,2)--(3,2);\n\\draw[mappedBlue,thick] (-1,-1.5)--(0,1)--(1,1);\n\\fill[mappedBlue] (-1,-1.5) circle (1.5pt) node[below right] {$(-1,-\\frac32)$};\n\\fill[mappedBlue] (0,1) circle (1.5pt) node[above left] {$(0,1)$};\n\\fill[mappedBlue] (1,1) circle (1.5pt) node[below right] {$(1,1)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The dashed curve is $f(x)=\\sqrt{x}$. The blue curve is a vertical dilation of it. Use the labelled points to find the dilation factor and write $g(x)$.\n\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{mappedBlue}{HTML}{268CFF}\n\\draw[black,->] (-0.7,0)--(10.5,0) node[right] {$x$};\n\\draw[black,->] (0,-0.7)--(0,7.5) node[above] {$y$};\n\\draw[black,dashed,thick,->,domain=0:10,samples=81,smooth,variable=\\x] plot ({\\x},{sqrt(\\x)});\n\\draw[mappedBlue,thick,->,domain=0:10,samples=81,smooth,variable=\\x] plot ({\\x},{2*sqrt(\\x)});\n\\node at (5.5,1.6) {$f(x)=\\sqrt{x}$};\n\\node[mappedBlue] at (4,5.5) {$g(x)$};\n\\fill[black] (9,3) circle (1.5pt) node[below left] {$(9,3)$};\n\\fill[mappedBlue] (9,6) circle (1.5pt) node[above left] {$(9,6)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "At the same $x$-coordinate, the $y$-coordinate changes from $3$ to $6$.\n\n$k=\\frac63=2$\n\nThe dilation is vertical by factor $2$, so $g(x)=2f(x)=2\\sqrt{x}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=x^2$ and $g(x)=25x^2$. Explain how a vertical dilation and a horizontal dilation can each transform the graph of $f$ into the graph of $g$.",
+    "solution_text": "Vertical dilation:\n\n$g(x)=25f(x)$\n\nMultiply every $y$-coordinate by $25$: a vertical dilation of factor $25$.\n\nHorizontal dilation:\n\n$\\begin{aligned}g(x)&=25x^2\\\\&=(5x)^2\\\\&=f(5x)\\end{aligned}$\n\nDivide every $x$-coordinate by $5$: a horizontal dilation of factor $\\frac15$.\n\nBoth descriptions give the same graph.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "State the direction and factor of the dilation that gives $y=2f(x)$ from $y=f(x)$.",
         "structure": "classify-vertical",
         "solution_text": "The factor $2$ is outside $f$, multiplying the outputs.\nVertical dilation of factor $2$."
       },
-      {
+{
         "question_text": "State the direction and factor of the dilation that gives $y=f(3x)$ from $y=f(x)$.",
         "structure": "classify-horizontal",
         "solution_text": "The factor $3$ multiplies the input, giving a dilation of factor $\\dfrac13$.\nHorizontal dilation of factor $\\dfrac13$."
       },
-      {
+{
         "question_text": "State the direction and factor of the dilation that gives $y=\\dfrac13 f(x)$ from $y=f(x)$.",
         "structure": "classify-vertical",
         "solution_text": "The factor $\\dfrac13$ is outside $f$, multiplying the outputs.\nVertical dilation of factor $\\dfrac13$."
       },
-      {
-        "question_text": "The point $(2,3)$ lies on $y=f(x)$.\nFind its image on the graph of $y=2f(x)$.",
-        "structure": "map-point-vertical",
-        "solution_text": "$y=2f(x)$ multiplies each $y$-value by $2$: $(x,y)\\to(x,2y)$.\n$(2,\\,2\\times3)$\n$=(2,6)$"
+{
+        "question_text": "State the direction and factor of the dilation that gives $y=\\dfrac12 f(x)$ from $y=f(x)$.",
+        "structure": "classify-vertical",
+        "solution_text": "The factor $\\dfrac12$ is outside $f$, multiplying the outputs.\nVertical dilation of factor $\\dfrac12$."
       },
-      {
-        "question_text": "The point $(4,5)$ lies on $y=f(x)$.\nFind its image on the graph of $y=f(2x)$.",
-        "structure": "map-point-horizontal",
-        "solution_text": "$y=f(2x)$ multiplies each $x$-value by $\\dfrac12$: $(x,y)\\to\\left(\\dfrac{x}{2},y\\right)$.\n$\\left(\\dfrac{4}{2},\\,5\\right)$\n$=(2,5)$"
+{
+        "question_text": "State the direction and factor of the dilation that gives $y=f\\!\\left(\\dfrac{x}{2}\\right)$ from $y=f(x)$.",
+        "structure": "classify-horizontal",
+        "solution_text": "The inside factor is $\\dfrac12$, giving a dilation of factor $2$.\nHorizontal dilation of factor $2$."
       },
-      {
+{
         "question_text": "Write the equation obtained when the graph of $y=\\sqrt{x}$ is stretched vertically by a factor of $3$.",
         "structure": "write-dilated-equation",
         "solution_text": "A vertical stretch of factor $3$ multiplies the output by $3$.\n$y=3\\sqrt{x}$"
       },
-      {
+{
         "question_text": "The graph of $y=f(x)$ is shown.\nSketch $y=2f(x)$, marking the images of the two labelled points.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.7,0)--(2.7,0) node[right] {$x$};\n\\draw[->] (0,-2.9)--(0,2.9) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.3:2.3,smooth,samples=61,variable=\\x] plot ({\\x},{0.5*\\x*\\x*\\x-1.5*\\x});\n\\node[blue,right] at (1.5,2.6) {$y=f(x)$};\n\\fill (-1,1) circle (2pt) node[above right] {$(-1,1)$};\n\\fill (1,-1) circle (2pt) node[below left] {$(1,-1)$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "map-point-vertical",
         "solution_text": "$y=2f(x)$ is a vertical dilation of factor $2$: $(x,y)\\to(x,2y)$.\n$(-1,1)\\to(-1,2)$ and $(1,-1)\\to(1,-2)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.7,0)--(2.7,0) node[right] {$x$};\n\\draw[->] (0,-3.7)--(0,3.7) node[above] {$y$};\n\\draw[thick,gray,dashed,<->,domain=-2.3:2.3,smooth,samples=61,variable=\\x] plot ({\\x},{0.5*\\x*\\x*\\x-1.5*\\x});\n\\draw[thick,blue,<->,domain=-2.15:2.15,smooth,samples=61,variable=\\x] plot ({\\x},{\\x*\\x*\\x-3*\\x});\n\\node[gray,right] at (1.6,1.4) {$y=f(x)$};\n\\node[blue,right] at (1.3,3.2) {$y=2f(x)$};\n\\fill[gray] (-1,1) circle (1.5pt);\n\\fill[gray] (1,-1) circle (1.5pt);\n\\fill (-1,2) circle (2pt) node[above right] {$(-1,2)$};\n\\fill (1,-2) circle (2pt) node[below left] {$(1,-2)$};\n\\end{tikzpicture}\n[/tikz]"
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "Write the equation obtained when the graph of $y=x^{2}$ is compressed horizontally by a factor of $\\dfrac12$.",
         "structure": "write-dilated-equation",
         "solution_text": "A horizontal compression of factor $\\dfrac12$ means $a=2$, so replace $x$ with $2x$.\n$y=(2x)^{2}$"
       },
-      {
-        "question_text": "The point $(6,2)$ lies on $y=f(x)$.\nFind its image on the graph of $y=f\\!\\left(\\dfrac{x}{3}\\right)$.",
-        "structure": "map-point-horizontal",
-        "solution_text": "The inside factor is $\\dfrac13$, a horizontal dilation of factor $3$: $(x,y)\\to(3x,y)$.\n$(3\\times6,\\,2)$\n$=(18,2)$"
+{
+        "question_text": "Identify the dilation that takes $y=x^{2}-3x$ to $y=\\dfrac{x^{2}}{9}-x$.",
+        "structure": "identify-dilation-from-equations",
+        "solution_text": "For $f(x)=x^{2}-3x$, $f\\!\\left(\\dfrac{x}{3}\\right)=\\left(\\dfrac{x}{3}\\right)^{2}-3\\left(\\dfrac{x}{3}\\right)=\\dfrac{x^{2}}{9}-x$.\nThe inside factor is $\\dfrac13$: horizontal dilation of factor $3$."
       },
-      {
+{
         "question_text": "The graph of $y=f(x)$ is shown.\nSketch $y=f(2x)$, marking the images of the two labelled points.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.7,0)--(2.7,0) node[right] {$x$};\n\\draw[->] (0,-2.9)--(0,2.9) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.3:2.3,smooth,samples=61,variable=\\x] plot ({\\x},{0.5*\\x*\\x*\\x-1.5*\\x});\n\\node[blue,right] at (1.5,2.6) {$y=f(x)$};\n\\fill (-1,1) circle (2pt) node[above right] {$(-1,1)$};\n\\fill (1,-1) circle (2pt) node[below left] {$(1,-1)$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "map-point-horizontal",
         "solution_text": "$y=f(2x)$ is a horizontal dilation of factor $\\dfrac12$: $(x,y)\\to\\left(\\dfrac{x}{2},y\\right)$.\n$(-1,1)\\to(-0.5,1)$ and $(1,-1)\\to(0.5,-1)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.7,0)--(2.7,0) node[right] {$x$};\n\\draw[->] (0,-2.9)--(0,2.9) node[above] {$y$};\n\\draw[thick,gray,dashed,<->,domain=-2.3:2.3,smooth,samples=61,variable=\\x] plot ({\\x},{0.5*\\x*\\x*\\x-1.5*\\x});\n\\draw[thick,blue,<->,domain=-1.15:1.15,smooth,samples=61,variable=\\x] plot ({\\x},{4*\\x*\\x*\\x-3*\\x});\n\\node[gray,right] at (1.6,2.4) {$y=f(x)$};\n\\node[blue,right] at (0.7,2.0) {$y=f(2x)$};\n\\fill[gray] (-1,1) circle (1.5pt);\n\\fill[gray] (1,-1) circle (1.5pt);\n\\fill (-0.5,1) circle (2pt) node[above left] {$(-0.5,1)$};\n\\fill (0.5,-1) circle (2pt) node[below right] {$(0.5,-1)$};\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Given $f(x)=x(2+x)$, explain why $g(x)=2x(2+2x)$ is a horizontal dilation of $f$, not a vertical one.",
         "structure": "identify-dilation-from-equations",
         "solution_text": "Replacing $x$ with $2x$ in $f$ gives $f(2x)=2x(2+2x)=g(x)$.\nBecause the change is a factor on the input $x$ inside $f$, it is a horizontal dilation (of factor $\\dfrac12$), not a vertical one."
       },
-      {
+{
         "question_text": "Identify the dilation that takes $y=x^{2}-2x$ to $y=3x^{2}-6x$.",
         "structure": "identify-dilation-from-equations",
         "solution_text": "$3x^{2}-6x=3(x^{2}-2x)$\nThe whole output is multiplied by $3$: a vertical dilation of factor $3$."
       },
-      {
+{
         "question_text": "Identify the dilation that takes $y=\\dfrac{1}{x-4}$ to $y=\\dfrac{1}{2x-4}$.",
         "structure": "identify-dilation-from-equations",
         "solution_text": "$\\dfrac{1}{2x-4}$ replaces $x$ with $2x$ in $\\dfrac{1}{x-4}$: this is $f(2x)$.\nA factor on the input $x$: horizontal dilation of factor $\\dfrac12$."
       },
-      {
-        "question_text": "The dashed curve is $y=\\sqrt{x}$ and the solid curve is a dilation of it; the point $(4,2)$ maps to $(4,4)$.\nDescribe the dilation.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.6,0)--(4.7,0) node[right] {$x$};\n\\draw[->] (0,-0.5)--(0,4.6) node[above] {$y$};\n\\draw[thick,gray,dashed,->,domain=0:4.4,smooth,samples=51,variable=\\x] plot ({\\x},{2*sqrt(\\x)});\n\\draw[thick,blue,->,domain=0:4.4,smooth,samples=51,variable=\\x] plot ({\\x},{sqrt(\\x)});\n\\node[blue,right] at (3.6,1.7) {$y=\\sqrt{x}$};\n\\node[gray,right] at (2.6,3.6) {dashed};\n\\fill (4,2) circle (2pt) node[above left] {$(4,2)$};\n\\fill[gray] (4,4) circle (1.5pt) node[above left] {$(4,4)$};\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "The dashed curve is $y=\\sqrt{x}$ and the solid curve is a dilation of it; the point $(4,2)$ maps to $(4,4)$.\nDescribe the dilation.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.6,0)--(4.7,0) node[right] {$x$};\n\\draw[->] (0,-0.5)--(0,4.6) node[above] {$y$};\n\\draw[thick,gray,dashed,->,domain=0:4.4,smooth,samples=51,variable=\\x] plot ({\\x},{sqrt(\\x)});\n\\draw[thick,blue,->,domain=0:4.4,smooth,samples=51,variable=\\x] plot ({\\x},{2*sqrt(\\x)});\n\\node[gray,right] at (3.6,1.7) {$y=\\sqrt{x}$};\n\\node[blue,right] at (0.35,3.9) {$y=2\\sqrt{x}$};\n\\fill[gray] (4,2) circle (1.5pt) node[above left] {$(4,2)$};\n\\fill (4,4) circle (2pt) node[above left] {$(4,4)$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "read-graph-dilation-equation",
         "solution_text": "The $x$-coordinate stayed and the $y$-coordinate doubled: $(x,y)\\to(x,2y)$.\nVertical dilation of factor $2$, $y=2\\sqrt{x}$."
       }
-    ],
+],
     "mastery": [
       {
         "question_text": "The graph of $y=f(x)$ is shown.\nSketch $y=2f(2x)$, marking the images of the two labelled points.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.7,0)--(2.7,0) node[right] {$x$};\n\\draw[->] (0,-2.9)--(0,2.9) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.3:2.3,smooth,samples=61,variable=\\x] plot ({\\x},{0.5*\\x*\\x*\\x-1.5*\\x});\n\\node[blue,right] at (1.5,2.6) {$y=f(x)$};\n\\fill (-1,1) circle (2pt) node[above right] {$(-1,1)$};\n\\fill (1,-1) circle (2pt) node[below left] {$(1,-1)$};\n\\end{tikzpicture}\n[/tikz]",

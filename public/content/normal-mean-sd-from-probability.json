@@ -2,8 +2,8 @@
   "skillId": "normal-mean-sd-from-probability",
   "atomType": "R",
   "theory": {
-    "intro": "Sometimes the probability is given and the mean or the standard deviation is missing. Turn the probability into a $z$ value first, then substitute into $z=\\frac{x-\\mu}{\\sigma}$ and solve for the unknown.",
-    "facts": [
+"intro": "Sometimes the probability is given and the mean or the standard deviation is missing. Turn the probability into a $z$ value first, then substitute into $z=\\frac{x-\\mu}{\\sigma}$ and solve for the unknown.",
+"facts": [
 "The table gives $P(Z\\le z)$ for positive $z$, so find the probability in the body and read $z$ off the edges.",
 "If $P(X<c)$ is less than $0.5$ then $c$ lies below the mean, so $z$ is negative.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\fill[gray!35] (-3.6,0) -- plot[domain=-3.6:-1.4, samples=50, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)}) -- (-1.4,0) -- cycle;\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (-1.4,0) -- (-1.4,-0.12) node[below, font=\\small] {$c$};\n\\node[font=\\small] at (-2.5,1.1) {$P(X<c)$};\n\\end{tikzpicture}\n[/tikz]",
 "If $P(X<c)$ is greater than $0.5$ then $c$ lies above the mean, so $z$ is positive.",
@@ -14,13 +14,57 @@
 "Rearranging instead gives $\\sigma=\\frac{x-\\mu}{z}$ when the mean is known and $z\\ne0$, and $\\sigma$ is always positive. If $x=\\mu$ and the probability is $0.5$, the information does not determine the standard deviation.",
 "Check the answer by asking whether the score really does sit on the side of the mean the probability requires."
 ],
-    "steps": [
+"steps": [
       "Decide the sign of $z$ from the side of the mean the score lies on",
       "Find the size of $z$ from the table",
       "Substitute into $z=\\frac{x-\\mu}{\\sigma}$",
       "Solve for the unknown"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Use the standard normal table to find $z$ in each case.\n(a) $P(Z<z)=0.8907$.\n(b) $P(Z<z)=0.1093$.\n(c) $P(Z>z)=0.1093$.\nThe relevant table extract is:\n$\\begin{array}{c|ccc} &0.01&0.02&0.03\\\\\\hline 1.1&0.8665&0.8686&0.8708\\\\1.2&0.8869&0.8888&0.8907\\\\1.3&0.9049&0.9066&0.9082\\end{array}$",
+    "solution_text": "(a) The left-hand probability exceeds $0.5$, so $z$ is positive. The entry $0.8907$ is in row $1.2$, column $0.03$.\n$z=1.23$.\n\n(b) The left-hand probability is below $0.5$, so $z$ is negative. Use symmetry to look up its positive counterpart.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}1-0.1093\\\\&=0.8907\\end{aligned}$\nThus $z=-1.23$.\n\n(c) Convert the right-hand probability to a left-hand probability.\n$\\begin{aligned}P(Z<z)&=1-0.1093\\\\&=0.8907\\end{aligned}$\nThus $z=1.23$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "$X$ is normally distributed with standard deviation $7$. Given $P(X<68)=0.9772$, find the mean $\\mu$.\nUse the table entry $P(Z<2)=0.9772$.",
+    "solution_text": "The left-hand probability exceeds $0.5$, so $68$ is above the mean. The table gives $z=2$.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (-3.5,0) -- plot[domain=-3.5:2,samples=70,variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (2,0) -- cycle;\n\\draw[black,thick] plot[domain=-3.5:3.5,samples=90,variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[black,->] (-3.7,0)--(3.8,0) node[right] {$x$};\n\\draw[black,dashed] (2,0)--(2,{2.5*exp(-2)});\n\\draw[black] (0,0)--(0,-0.12);\n\\path (0,-0.12) node[below] {$\\mu$} (2,-0.12) node[below] {$68$} (0,1) node {$0.9772$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}z&=\\frac{x-\\mu}{\\sigma}\\\\2&=\\frac{68-\\mu}{7}\\\\14&=68-\\mu\\\\\\mu&=54\\end{aligned}$\nThe mean is $54$, below $68$ as required.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A machine fills bottles with volumes that are normally distributed with standard deviation $3$ mL. Find the mean volume required so that $0.13\\%$ of bottles contain less than $240$ mL.\nUse $P(Z<3)=0.9987$.",
+    "solution_text": "The lower-tail probability is $0.0013$, so the cutoff is below the mean. By symmetry, look up its complement.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}1-0.0013\\\\&=0.9987\\end{aligned}$\nThe table gives $z=-3$ at $240$ mL.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (-4,0) -- plot[domain=-4:-3,samples=40,variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-3,0) -- cycle;\n\\draw[black,thick] plot[domain=-4:4,samples=100,variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[black,->] (-4.2,0)--(4.3,0) node[right] {$x$};\n\\draw[black] (-3,0)--(-3,-0.12) (0,0)--(0,-0.12);\n\\path (-3,-0.12) node[below] {$240$} (0,-0.12) node[below] {$\\mu$} (-3.1,0.9) node {$0.0013$} (1.5,-0.65) node {Volume (mL)};\n\\draw[black,->] (-3.1,0.65)--(-3.45,0.04);\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}-3&=\\frac{240-\\mu}{3}\\\\-9&=240-\\mu\\\\\\mu&=249\\end{aligned}$\nSet the mean to $249$ mL. The cutoff is three standard deviations below this mean.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$X$ is normally distributed with standard deviation $12$. Given $P(X>72)=0.9332$, find the mean.\nUse $P(Z<1.5)=0.9332$.",
+    "solution_text": "Convert to a left-hand probability.\n$\\begin{aligned}P(X<72)&=1-0.9332\\\\&=0.0668\\end{aligned}$\nSince this is below $0.5$, the cutoff lies below the mean. Symmetry and the table give $z=-1.5$.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (-1.5,0) -- plot[domain=-1.5:3.5,samples=70,variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.5,0) -- cycle;\n\\draw[black,thick] plot[domain=-3.5:3.5,samples=90,variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[black,->] (-3.7,0)--(3.8,0) node[right] {$x$};\n\\draw[black,dashed] (-1.5,0)--(-1.5,{2.5*exp(-1.125)});\n\\draw[black] (0,0)--(0,-0.12);\n\\path (-1.5,-0.12) node[below] {$72$} (0,-0.12) node[below] {$\\mu$} (0.5,1) node {$0.9332$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}-1.5&=\\frac{72-\\mu}{12}\\\\-18&=72-\\mu\\\\\\mu&=90\\end{aligned}$\nThe mean is $90$. Most values exceed $72$, consistent with the given probability.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For each normal distribution, find $\\sigma$.\n(a) The mean is $60$ and $P(X<48)=0.0668$.\n(b) The mean is $60$ and $P(X>80)=0.0062$.\nUse $P(Z<1.5)=0.9332$ and $P(Z<2.5)=0.9938$.",
+    "solution_text": "(a) The cutoff is below the mean, so $z$ is negative. Since $1-0.0668=0.9332$, the table gives $z=-1.5$.\n$\\begin{aligned}-1.5&=\\frac{48-60}{\\sigma}\\\\-1.5\\sigma&=-12\\\\\\sigma&=8\\end{aligned}$\n\n(b) Convert the right-hand probability to a left-hand probability.\n$\\begin{aligned}P(X<80)&=1-0.0062\\\\&=0.9938\\end{aligned}$\nThe cutoff is above the mean, and the table gives $z=2.5$.\n$\\begin{aligned}2.5&=\\frac{80-60}{\\sigma}\\\\2.5\\sigma&=20\\\\\\sigma&=8\\end{aligned}$\nBoth standard deviations are positive. The solution sketches show the two given tails.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\begin{scope}\n\\fill[region] (-3.5,0) -- plot[domain=-3.5:-1.5,samples=40,variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-1.5,0) -- cycle;\n\\draw[black,thick] plot[domain=-3.5:3.5,samples=90,variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[black,->] (-3.7,0)--(3.8,0) node[right] {$x$};\n\\draw[black,dashed] (-1.5,0)--(-1.5,{2.5*exp(-1.125)});\n\\draw[black] (0,0)--(0,-0.12);\n\\path (-1.5,-0.12) node[below] {$48$} (0,-0.12) node[below] {$60$} (-2.5,1.3) node {$0.0668$} (-3.3,2.6) node {(a)};\n\\draw[black,->] (-2.5,1.05)--(-2.2,0.12);\n\\end{scope}\n\\begin{scope}[yshift=-35mm]\n\\fill[region] (2.5,0) -- plot[domain=2.5:3.5,samples=40,variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.5,0) -- cycle;\n\\draw[black,thick] plot[domain=-3.5:3.5,samples=90,variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[black,->] (-3.7,0)--(3.8,0) node[right] {$x$};\n\\draw[black,dashed] (2.5,0)--(2.5,{2.5*exp(-3.125)});\n\\draw[black] (0,0)--(0,-0.12);\n\\path (2.5,-0.12) node[below] {$80$} (0,-0.12) node[below] {$60$} (2.8,1.3) node {$0.0062$} (-3.3,2.6) node {(b)};\n\\draw[black,->] (2.8,1.05)--(2.9,0.04);\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Battery lives are normally distributed with mean $32$ hours. Exactly $5\\%$ have lives below $27$ hours. Use inverse normal on a calculator to find the standard deviation to one decimal place.",
+    "solution_text": "The lower-tail area is $0.05$. Use inverse normal with area $0.05$, mean $0$ and standard deviation $1$ to obtain $z\\approx-1.644853627$. Retain the full calculator value.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (-3.5,0) -- plot[domain=-3.5:-1.644853627,samples=50,variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-1.644853627,0) -- cycle;\n\\draw[black,thick] plot[domain=-3.5:3.5,samples=90,variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[black,->] (-3.7,0)--(3.8,0) node[right] {$x$};\n\\draw[black,dashed] (-1.644853627,0)--(-1.644853627,{2.5*exp(-1.644853627*1.644853627/2)});\n\\draw[black] (0,0)--(0,-0.12);\n\\path (-1.644853627,-0.12) node[below] {$27$} (0,-0.12) node[below] {$32$} (-2.6,1.2) node {$0.05$} (1.5,-0.65) node {Life (hours)};\n\\draw[black,->] (-2.6,0.95)--(-2.3,0.12);\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}z&=\\frac{27-32}{\\sigma}\\\\\\sigma&=\\frac{-5}{z}\\\\\\sigma&\\approx3.0398\\end{aligned}$\nTo one decimal place, $\\sigma=3.0$ hours. Both the score difference and $z$ are negative, giving a positive standard deviation.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

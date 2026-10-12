@@ -2,21 +2,65 @@
   "skillId": "find-equation-parabola-features",
   "atomType": "R",
   "theory": {
-        "intro": "This skill runs the process backwards: given features of a parabola, write its equation. Choose the form that matches what you are given and substitute the known numbers. Use a monic or coefficient condition to find $k$ when supplied; otherwise substitute one more point and solve for $k$.",
-        "facts": [
+"intro": "This skill runs the process backwards: given features of a parabola, write its equation. Choose the form that matches what you are given and substitute the known numbers. Use a monic or coefficient condition to find $k$ when supplied; otherwise substitute one more point and solve for $k$.",
+"facts": [
 "Given the **$x$-intercepts** $\\alpha$ and $\\beta$, use the factored form $y=k(x-\\alpha)(x-\\beta)$.",
 "Given the **vertex** $(b,c)$, use the vertex form $y=k(x-b)^2+c$.",
 "The intercepts determine the factors, or the vertex determines the vertex-form shifts, with $k$ still undetermined. Substitute **one more point** and solve for $k$ to determine the opening direction and width.",
 "The $y$-intercept is the point where $x=0$, so it can serve as that extra point.",
 "A stated condition can fix $k$ directly: **monic** means $k=1$, and \"the coefficient of $x^2$ is $3$\" means $k=3$."
 ],
-        "steps": [
+"steps": [
 "Choose factored or vertex form to match the given features.",
 "Substitute the intercepts or vertex into that form.",
 "Use a monic or coefficient condition to find $k$ when supplied; otherwise substitute a further point to form an equation in $k$.",
 "Solve for $k$ if needed and write the final equation."
+],
+"workedExamples": [
+  {
+    "question_text": "A parabola has vertex $(-3,4)$ and is monic. Write its equation.",
+    "solution_text": "Monic means $k=1$. The vertex gives $y=k(x+3)^2+4$.\n$y=(x+3)^2+4$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A parabola has $x$-intercepts at $x=-2$ and $x=5$. Write its equation in factored form if:\n(a) it is monic;\n(b) the coefficient of $x^2$ is $4$.",
+    "solution_text": "The intercepts give $y=k(x+2)(x-5)$. The coefficient of $x^2$ is $k$.\n(a) Monic means $k=1$.\n$y=(x+2)(x-5)$\n(b) The stated coefficient gives $k=4$.\n$y=4(x+2)(x-5)$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the equation of the parabola shown in vertex form.\n[tikz]\n\\begin{tikzpicture}[x=0.65cm,y=0.4cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[<->,black] (-1.5,0)--(5.5,0) node[right] {$x$};\n\\draw[<->,black] (0,-4)--(0,6.5) node[above] {$y$};\n\\node[below left] at (0,0) {$O$};\n\\draw[curveBlue,thick,<->,domain=-0.1:4.1,samples=90] plot (\\x,{-2*(\\x-2)*(\\x-2)+6});\n\\fill[black] (2,6) circle (2pt);\n\\fill[black] (0,-2) circle (2pt);\n\\node[above] at (2,6) {$(2,6)$};\n\\node[left] at (0,-2) {$(0,-2)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The vertex $(2,6)$ gives $y=k(x-2)^2+6$.\nSubstitute $(0,-2)$:\n$\\begin{aligned}-2&=k(0-2)^2+6\\\\-2&=4k+6\\\\-8&=4k\\\\k&=-2\\end{aligned}$\n$y=-2(x-2)^2+6$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the equation of the parabola shown in factored form.\n[tikz]\n\\begin{tikzpicture}[x=0.6cm,y=0.3cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[<->,black] (-5.5,0)--(3.5,0) node[right] {$x$};\n\\draw[<->,black] (0,-10)--(0,5) node[above] {$y$};\n\\node[above right] at (0,0) {$O$};\n\\draw[curveBlue,thick,<->,domain=-4.7:2.7,samples=90] plot (\\x,{(\\x+4)*(\\x-2)});\n\\fill[black] (-4,0) circle (2pt);\n\\fill[black] (2,0) circle (2pt);\n\\fill[black] (0,-8) circle (2pt);\n\\node[above left] at (-4,0) {$-4$};\n\\node[above right] at (2,0) {$2$};\n\\node[right] at (0,-8) {$(0,-8)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The intercepts give $y=k(x+4)(x-2)$.\nSubstitute the $y$-intercept $(0,-8)$:\n$\\begin{aligned}-8&=k(0+4)(0-2)\\\\-8&=-8k\\\\k&=1\\end{aligned}$\n$y=(x+4)(x-2)$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A parabola has $x$-intercepts at $x=-3$ and $x=5$ and passes through $(1,8)$. Find its equation.",
+    "solution_text": "The intercepts give $y=k(x+3)(x-5)$.\nSubstitute $(1,8)$:\n$\\begin{aligned}8&=k(1+3)(1-5)\\\\8&=-16k\\\\k&=-\\frac{1}{2}\\end{aligned}$\n$y=-\\frac{1}{2}(x+3)(x-5)$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A parabola has vertex $(-3,2)$ and passes through $(-1,10)$. Find its equation.",
+    "solution_text": "The vertex gives $y=k(x+3)^2+2$.\nSubstitute $(-1,10)$:\n$\\begin{aligned}10&=k(-1+3)^2+2\\\\10&=4k+2\\\\8&=4k\\\\k&=2\\end{aligned}$\n$y=2(x+3)^2+2$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

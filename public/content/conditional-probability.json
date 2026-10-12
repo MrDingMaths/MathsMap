@@ -2,8 +2,8 @@
   "skillId": "conditional-probability",
   "atomType": "R",
   "theory": {
-        "intro": "A **conditional probability** is the probability of one event given that another has already happened, written $P(A \\mid B)$ and read '$A$ given $B$'. Knowing $B$ happened rules out everything outside $B$, so the sample space shrinks to $B$.",
-        "facts": [
+"intro": "A **conditional probability** is the probability of one event given that another has already happened, written $P(A \\mid B)$ and read '$A$ given $B$'. Knowing $B$ happened rules out everything outside $B$, so the sample space shrinks to $B$.",
+"facts": [
 "The phrases '**given that**', '**if** … **then**', '**of**' and '**knowing that**' all signal a condition.",
 "The event named by the condition goes **after** the bar.",
 "The condition **reduces the sample space**, so $n(B)$ replaces the total as the denominator.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!20] (5,2.3) circle (1.7);\n\\begin{scope}\n\\clip (3,2.3) circle (1.7);\n\\fill[gray!45] (5,2.3) circle (1.7);\n\\end{scope}\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw[thick] (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$A$};\n\\node at (6.1,4.15) {$B$};\n\\node[font=\\small] at (4,-0.55) {given $B$: sample space is $B$};\n\\end{tikzpicture}\n[/tikz]",
@@ -15,12 +15,42 @@
 "When they are **independent** it does not, so $P(A \\mid B) = P(A)$.",
 "Give a probability as a fraction in simplest form, unless the data are decimals or percentages."
 ],
-        "steps": [
+"steps": [
           "Reduce the sample space to the condition.",
           "Count the favourable outcomes inside it.",
           "Write the fraction and simplify."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "The diagram shows counts for two events, $A$ and $B$. An outcome is selected at random.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) rectangle (7,4);\n\\draw (2.6,2) circle (1.5);\n\\draw (4.4,2) circle (1.5);\n\\node at (1.9,3) {$A$};\n\\node at (5.1,3) {$B$};\n\\node at (1.9,2) {$8$};\n\\node at (3.5,2) {$4$};\n\\node at (5.1,2) {$6$};\n\\node at (6.4,0.5) {$2$};\n\\end{tikzpicture}\n[/tikz]\na. Describe the reduced sample space for $P(A\\mid B)$ and calculate this probability.\nb. Find $P(B\\mid A)$.\nc. Find $P(A\\mid B')$.",
+    "solution_text": "a. Knowing that $B$ occurred excludes everything outside $B$. The reduced sample space contains $4+6=10$ outcomes; $4$ also belong to $A$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{conditionfill}{HTML}{D4E8FF}\n\\definecolor{overlapfill}{HTML}{E8DEF4}\n\\fill[conditionfill] (4.4,2) circle (1.5);\n\\begin{scope}\n\\clip (2.6,2) circle (1.5);\n\\fill[overlapfill] (4.4,2) circle (1.5);\n\\end{scope}\n\\draw (0,0) rectangle (7,4);\n\\draw (2.6,2) circle (1.5);\n\\draw[thick] (4.4,2) circle (1.5);\n\\node at (1.9,3) {$A$};\n\\node at (5.1,3) {$B$};\n\\node at (1.9,2) {$8$};\n\\node at (3.5,2) {$4$};\n\\node at (5.1,2) {$6$};\n\\node at (6.4,0.5) {$2$};\n\\node[anchor=north] at (3.5,-0.15) {Blue and purple: condition $B$; purple: favourable overlap};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}P(A\\mid B)&=\\frac{n(A\\cap B)}{n(B)}\\\\&=\\frac{4}{10}\\\\&=\\frac{2}{5}\\end{aligned}$\n\nb. The condition is now $A$, containing $8+4=12$ outcomes.\n$\\begin{aligned}P(B\\mid A)&=\\frac{4}{12}\\\\&=\\frac{1}{3}\\end{aligned}$\nSwapping the event and condition changes the denominator.\n\nc. The condition $B'$ includes the $8$ outcomes in $A$ only and the $2$ outside both circles. Only the $8$ in $A$ are favourable.\n$\\begin{aligned}P(A\\mid B')&=\\frac{8}{8+2}\\\\&=\\frac{4}{5}\\end{aligned}$"
+  },
+  {
+    "question_text": "The table records which team surveyed spectators support.\n\n| | Team A | Team B | Total |\n|---|---:|---:|---:|\n| Men | 84 | 56 | 140 |\n| Women | 36 | 54 | 90 |\n| Total | 120 | 110 | 230 |\n\na. Of the women surveyed, what percentage support Team B?\nb. Knowing that a randomly selected spectator supports Team B, find the probability that the spectator is a woman.",
+    "solution_text": "a. “Of the women” restricts the sample space to the women row. There are $90$ women, of whom $54$ support Team B.\n$\\begin{aligned}P(\\text{Team B}\\mid\\text{woman})&=\\frac{54}{90}\\\\&=60\\%\\end{aligned}$\n\nb. The condition restricts the sample space to the Team B column. Of its $110$ spectators, $54$ are women.\n$\\begin{aligned}P(\\text{woman}\\mid\\text{Team B})&=\\frac{54}{110}\\\\&=\\frac{27}{55}\\end{aligned}$"
+  },
+  {
+    "question_text": "In a class, $28$ students study history, $19$ study chemistry and $7$ study both. A student is chosen at random. If the student studies history, what is the probability that they also study chemistry?",
+    "solution_text": "The condition restricts the sample space to the $28$ history students. Of these, $7$ also study chemistry.\n$\\begin{aligned}P(\\text{chemistry}\\mid\\text{history})&=\\frac{7}{28}\\\\&=\\frac{1}{4}\\end{aligned}$"
+  },
+  {
+    "question_text": "For events $A$ and $B$, $P(A)=0.5$, $P(B)=0.4$ and $P(A\\cap B)=0.12$. Find:\na. $P(A\\mid B)$\nb. $P(B\\mid A)$\nc. $P(A'\\mid B)$.",
+    "solution_text": "a. The condition is $B$, so divide by $P(B)$.\n$\\begin{aligned}P(A\\mid B)&=\\frac{P(A\\cap B)}{P(B)}\\\\&=\\frac{0.12}{0.4}\\\\&=0.3\\end{aligned}$\n\nb. The condition is $A$, so divide by $P(A)$.\n$\\begin{aligned}P(B\\mid A)&=\\frac{0.12}{0.5}\\\\&=0.24\\end{aligned}$\n\nc. Inside $B$, subtract the overlap with $A$ to obtain the favourable probability.\n$\\begin{aligned}P(A'\\cap B)&=0.4-0.12\\\\&=0.28\\end{aligned}$\n$\\begin{aligned}P(A'\\mid B)&=\\frac{0.28}{0.4}\\\\&=0.7\\end{aligned}$"
+  },
+  {
+    "question_text": "A fair six-sided die is rolled twice. The rolls are independent. A student says, “Knowing that the first roll was a $6$, the next roll is less likely to be a $6$.” Explain the mistake and give the probability that the second roll is a $6$, given that the first was a $6$.",
+    "solution_text": "Independent rolls do not affect each other. Knowing the first result does not change the probabilities for the second roll.\n$P(\\text{second roll is }6\\mid\\text{first roll is }6)=\\frac{1}{6}$.\nA previous $6$ does not make another $6$ less likely."
+  },
+  {
+    "question_text": "Let $M$ mean “a club member is male” and $T$ mean “a club member prefers tennis”. Write each question in probability notation and identify which asks for a conditional probability.\na. A member is chosen from the whole club. What is the probability that the member is male and prefers tennis?\nb. Of the male members, one is chosen at random. What is the probability that he prefers tennis?\nc. Sam writes $P(M\\mid T)$ for part b. Explain the mistake.",
+    "solution_text": "a. $P(M\\cap T)$. Both attributes are required, and selection is from the whole club.\n\nb. $P(T\\mid M)$. This is conditional: “of the male members” restricts the sample space to $M$.\n\nc. Sam reversed the event and condition. $P(M\\mid T)$ asks whether a tennis-preferring member is male. Part b asks whether a male member prefers tennis."
+  },
+  {
+    "question_text": "A survey of $40$ students finds that $24$ play cricket, $18$ play soccer and $5$ play neither. One student is chosen at random. Find the probability that the student plays soccer, given that they play cricket.",
+    "solution_text": "There are $40-5=35$ students who play at least one sport. Adding the two sport totals counts the students who play both twice.\n$\\begin{aligned}n(C\\cap S)&=24+18-35\\\\&=7\\end{aligned}$\nThe completed diagram shows the four regions.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{conditionfill}{HTML}{D4E8FF}\n\\definecolor{overlapfill}{HTML}{E8DEF4}\n\\fill[conditionfill] (2.6,2) circle (1.5);\n\\begin{scope}\n\\clip (4.4,2) circle (1.5);\n\\fill[overlapfill] (2.6,2) circle (1.5);\n\\end{scope}\n\\draw (0,0) rectangle (7,4);\n\\draw[thick] (2.6,2) circle (1.5);\n\\draw (4.4,2) circle (1.5);\n\\node at (1.9,3) {$C$};\n\\node at (5.1,3) {$S$};\n\\node at (1.9,2) {$17$};\n\\node at (3.5,2) {$7$};\n\\node at (5.1,2) {$11$};\n\\node at (6.4,0.5) {$5$};\n\\node[anchor=north] at (3.5,-0.15) {Blue and purple: cricket players; purple: both sports};\n\\end{tikzpicture}\n[/tikz]\nThe condition restricts the sample space to the $24$ cricket players. Of these, $7$ also play soccer.\n$P(S\\mid C)=\\frac{7}{24}$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

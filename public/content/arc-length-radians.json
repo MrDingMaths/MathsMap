@@ -2,8 +2,8 @@
   "skillId": "arc-length-radians",
   "atomType": "R",
   "theory": {
-        "intro": "An **arc** is part of the circumference of a circle. Its length $l$ is the radius $r$ multiplied by the central angle $\\theta$, measured in radians. Convert any angle given in degrees before using the formula.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (3,0);\n\\coordinate (Q) at (-1.5,2.598);\n\\draw (O) circle (3);\n\\draw[thick] (O) -- (P) node[midway, below] {$r$};\n\\draw[thick] (O) -- (Q) node[midway, above left] {$r$};\n\\draw[thick, blue] (P) arc (0:120:3) node[midway, above right] {$l$};\n\\pic[draw, \"$\\theta$\", angle radius=0.8cm, angle eccentricity=1.6] {angle=P--O--Q};\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "An **arc** is part of the circumference of a circle. Its length $l$ is the radius $r$ multiplied by the central angle $\\theta$, measured in radians. Convert any angle given in degrees before using the formula.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (3,0);\n\\coordinate (Q) at (-1.5,2.598);\n\\draw (O) circle (3);\n\\draw[thick] (O) -- (P) node[midway, below] {$r$};\n\\draw[thick] (O) -- (Q) node[midway, above left] {$r$};\n\\draw[thick, blue] (P) arc (0:120:3) node[midway, above right] {$l$};\n\\pic[draw, \"$\\theta$\", angle radius=0.8cm, angle eccentricity=1.6] {angle=P--O--Q};\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "**$l = r\\theta$**, where $r$ is the radius and $\\theta$ is the central angle **in radians**.",
 "If the angle is in degrees, convert it first using $\\theta = \\alpha^{\\circ} \\times \\dfrac{\\pi}{180^{\\circ}}$.",
 "Rearranging gives the radius $r = \\dfrac{l}{\\theta}$ and the angle $\\theta = \\dfrac{l}{r}$.",
@@ -11,13 +11,78 @@
 "For a full turn $\\theta = 2\\pi$, so the formula gives the circumference $l = 2\\pi r$.",
 "A **minor arc** has $0 < \\theta < \\pi$, and a **major arc** has $\\pi < \\theta < 2\\pi$."
 ],
-        "steps": [
+"steps": [
           "Ensure the central angle $\\theta$ is in radians, converting from degrees if required.",
           "Write the arc length formula $l = r\\theta$.",
           "Substitute the known values (or rearrange to solve for $r$ or $\\theta$).",
           "Evaluate the expression and state the result in exact form with $\\pi$ or rounded as specified."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A circle has radius $10\\text{ cm}$. Find the exact length of an arc subtending $\\dfrac{3\\pi}{5}$ radians at its centre.",
+    "solution_text": "$\\begin{align*}l&=r\\theta\\\\l&=10\\times\\frac{3\\pi}{5}\\\\l&=6\\pi\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A circle has radius $16\\text{ m}$. Find the exact length of an arc subtending $75^{\\circ}$ at its centre.",
+    "solution_text": "$\\begin{align*}\\theta&=75^{\\circ}\\times\\frac{\\pi}{180^{\\circ}}\\\\\\theta&=\\frac{5\\pi}{12}\\text{ radians}\\end{align*}$\n\n$\\begin{align*}l&=r\\theta\\\\l&=16\\times\\frac{5\\pi}{12}\\\\l&=\\frac{20\\pi}{3}\\text{ m}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An arc of length $8\\pi\\text{ cm}$ subtends an angle of $120^{\\circ}$ at the centre of a circle. Find the exact radius.",
+    "solution_text": "$\\begin{align*}\\theta&=120^{\\circ}\\times\\frac{\\pi}{180^{\\circ}}\\\\\\theta&=\\frac{2\\pi}{3}\\text{ radians}\\end{align*}$\n\n$\\begin{align*}l&=r\\theta\\\\8\\pi&=r\\times\\frac{2\\pi}{3}\\\\r&=8\\pi\\times\\frac{3}{2\\pi}\\\\r&=12\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An arc of length $\\dfrac{7\\pi}{2}\\text{ cm}$ lies in a circle of radius $7\\text{ cm}$. Find its central angle in radians and degrees.",
+    "solution_text": "$\\begin{align*}l&=r\\theta\\\\\\frac{7\\pi}{2}&=7\\theta\\\\\\theta&=\\frac{\\pi}{2}\\text{ radians}\\end{align*}$\n\n$\\begin{align*}\\theta_{\\text{degrees}}&=\\frac{\\pi}{2}\\times\\frac{180^{\\circ}}{\\pi}\\\\\\theta_{\\text{degrees}}&=90^{\\circ}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The minor arc $AB$ of a circle of radius $6\\text{ cm}$ subtends $\\dfrac{\\pi}{3}$ radians at the centre $O$. Find the exact length of the major arc $AB$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{arcblue}{HTML}{268CFF}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (2,0);\n\\coordinate (B) at (60:2);\n\\draw (O) circle (2);\n\\draw (A)--(O)--(B);\n\\draw[arcblue,thick] (B) arc[start angle=60,end angle=360,radius=2];\n\\draw (0.5,0) arc[start angle=0,end angle=60,radius=0.5];\n\\path (O) node[below left] {$O$};\n\\path (A) node[right] {$A$};\n\\path (B) node[above right] {$B$};\n\\path (1,0) node[below] {$6\\text{ cm}$};\n\\path (30:0.95) node {$\\frac{\\pi}{3}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The two central angles sum to $2\\pi$ radians.\n\n$\\begin{align*}\\theta_{\\text{major}}&=2\\pi-\\frac{\\pi}{3}\\\\\\theta_{\\text{major}}&=\\frac{5\\pi}{3}\\end{align*}$\n\n$\\begin{align*}l_{\\text{major}}&=r\\theta_{\\text{major}}\\\\l_{\\text{major}}&=6\\times\\frac{5\\pi}{3}\\\\l_{\\text{major}}&=10\\pi\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A pendulum has length $50\\text{ cm}$. Its bob travels along a circular arc through $0.6$ radians. Find the distance travelled.",
+    "solution_text": "The pendulum length is the radius of the bob's circular path.\n\n$\\begin{align*}l&=r\\theta\\\\l&=50\\times0.6\\\\l&=30\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An athlete runs at $5\\text{ m/s}$ around a circular track of radius $250\\text{ m}$. Find the central angle subtended by her run after $2$ minutes.",
+    "solution_text": "$\\begin{align*}t&=2\\times60=120\\text{ s}\\\\l&=5\\times120=600\\text{ m}\\end{align*}$\n\n$\\begin{align*}l&=r\\theta\\\\600&=250\\theta\\\\\\theta&=\\frac{600}{250}\\\\\\theta&=2.4\\text{ radians}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A bicycle wheel has diameter $80\\text{ cm}$. It rolls without slipping through $12\\pi$ radians. Find the exact distance travelled in metres.",
+    "solution_text": "Without slipping, the distance travelled equals the arc length swept out at the wheel's rim.\n\n$\\begin{align*}r&=\\frac{80}{2}=40\\text{ cm}\\\\r&=0.4\\text{ m}\\end{align*}$\n\n$\\begin{align*}l&=r\\theta\\\\l&=0.4\\times12\\pi\\\\l&=\\frac{24\\pi}{5}\\text{ m}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A sector has arc length $\\dfrac{14\\pi}{3}\\text{ cm}$ and central angle $\\theta$, where $0<\\theta\\leq\\dfrac{7\\pi}{6}$. Find the minimum possible radius.",
+    "solution_text": "$\\begin{align*}l&=r\\theta\\\\\\theta&=\\frac{14\\pi}{3r}\\end{align*}$\n\nSince $r>0$,\n\n$\\begin{align*}\\frac{14\\pi}{3r}&\\leq\\frac{7\\pi}{6}\\\\28\\pi&\\leq7\\pi r\\\\r&\\geq4\\text{ cm}\\end{align*}$\n\nThe minimum radius is $4\\text{ cm}$, attained when $\\theta=\\dfrac{7\\pi}{6}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

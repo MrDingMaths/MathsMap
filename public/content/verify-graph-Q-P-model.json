@@ -2,8 +2,8 @@
   "skillId": "verify-graph-Q-P-model",
   "atomType": "R",
   "theory": {
-    "intro": "The equation $\\dfrac{dQ}{dt}=k(Q-P)$ is solved by $Q=P+Ae^{kt}$. To **verify** this, differentiate it and substitute back. Putting $t=0$ gives $A=Q(0)-P$, the initial difference.",
-    "facts": [
+"intro": "The equation $\\dfrac{dQ}{dt}=k(Q-P)$ is solved by $Q=P+Ae^{kt}$. To **verify** this, differentiate it and substitute back. Putting $t=0$ gives $A=Q(0)-P$, the initial difference.",
+"facts": [
 "Differentiating gives $\\dfrac{dQ}{dt}=kAe^{kt}$, and since $Ae^{kt}=Q-P$ this is $k(Q-P)$.",
 "Checking only that $Q(0)$ comes out right is not a verification, because it never uses the derivative.",
 "$A=Q(0)-P$, so $A$ is the initial difference and $P+A$ is the initial value.",
@@ -13,13 +13,50 @@
 "For $k>0$ and $A\\ne0$ the size of $Ae^{kt}$ grows without bound as $t$ increases, so the curve moves away from $Q=P$.",
 "When $A\\ne0$, find $k$ by substituting a second pair of values at a different time and taking natural logarithms. The data must give a positive value of $e^{kt}$, so the second difference $Q-P$ must be nonzero and have the same sign as $A$. If $A=0$ and both observations equal $P$, $k$ cannot be determined; a second observation different from $P$ is incompatible with the model."
 ],
-    "steps": [
+"steps": [
 "Differentiate the proposed function to find $\\dfrac{dQ}{dt}$.",
 "Rewrite $Ae^{kt}$ as $Q-P$ to show $\\dfrac{dQ}{dt}=k(Q-P)$.",
 "Substitute $t=0$ to find $A$. If $A\\ne0$, use a compatible second pair of values at a different time to find $k$; if $A=0$ and both observations equal $P$, $k$ cannot be determined.",
 "Sketch through $(0,\\,P+A)$. For $k<0$ and $A\\ne0$, sketch a curve approaching the horizontal asymptote $Q=P$; for $k>0$ and $A\\ne0$, sketch a curve moving away from $Q=P$ for $t\\ge0$. For $A=0$, sketch the constant line $Q=P$; for $k=0$, sketch the constant line $Q=P+A$."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Verify by differentiation and substitution that each function satisfies its differential equation.\n(a) $Q=28+36e^{kt}$; $\\dfrac{dQ}{dt}=k(Q-28)$.\n(b) $N=900-300e^{-kt}$; $\\dfrac{dN}{dt}=-k(N-900)$.",
+    "solution_text": "(a) Differentiate the proposed function:\n$\\begin{aligned}\\dfrac{dQ}{dt}&=36ke^{kt}.\\end{aligned}$\nSubstitute into the right-hand side:\n$\\begin{aligned}k(Q-28)&=k(28+36e^{kt}-28)\\\\&=36ke^{kt}.\\end{aligned}$\nBoth sides agree, so the function satisfies the differential equation.\n(b) Differentiate the proposed function:\n$\\begin{aligned}\\dfrac{dN}{dt}&=(-300)(-k)e^{-kt}\\\\&=300ke^{-kt}.\\end{aligned}$\nSubstitute into the right-hand side:\n$\\begin{aligned}-k(N-900)&=-k(900-300e^{-kt}-900)\\\\&=300ke^{-kt}.\\end{aligned}$\nBoth sides agree. The negative coefficient and negative exponent produce a positive derivative when $k>0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A drink cools in a room at $22^{\\circ}\\mathrm{C}$. Its temperature is modelled by $T=22+Ae^{kt}$, where $t$ is measured in minutes. Initially its temperature is $86^{\\circ}\\mathrm{C}$, and after $6$ minutes it is $54^{\\circ}\\mathrm{C}$.\n(a) Find $A$ and $k$ in exact form.\n(b) Find its temperature after $12$ minutes.\n(c) Sketch the temperature against time for $t\\ge0$, showing the initial temperature and horizontal asymptote.",
+    "solution_text": "(a) At $t=0$:\n$\\begin{aligned}86&=22+Ae^0\\\\86&=22+A\\\\A&=64.\\end{aligned}$\nHere $A$ is the initial difference from room temperature.\nAt $t=6$:\n$\\begin{aligned}54&=22+64e^{6k}\\\\32&=64e^{6k}\\\\e^{6k}&=\\dfrac12\\\\6k&=\\ln\\dfrac12\\\\k&=-\\dfrac{\\ln2}{6}.\\end{aligned}$\n(b) Using the exact value of $k$:\n$\\begin{aligned}T(12)&=22+64e^{12k}\\\\&=22+64\\left(\\dfrac12\\right)^2\\\\&=38\\,^{\\circ}\\mathrm{C}.\\end{aligned}$\n(c) Since $A>0$ and $k<0$, the curve decreases from $(0,86)$ towards $T=22$ from above, becoming less steep. It never reaches room temperature in this model.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[width=70mm,height=52mm,axis lines=left,xlabel={$t$},ylabel={$T$},xmin=0,xmax=32,ymin=0,ymax=100,xtick=\\empty,ytick={22,86},tick label style={font=\\fontsize{8.5}{10}\\selectfont},label style={font=\\fontsize{10}{12}\\selectfont},clip=false]\n\\addplot[black,dashed,domain=0:30] {22};\n\\addplot[black,thick,->,samples=100,domain=0:30] {22+64*exp(-ln(2)*x/6)};\n\\addplot[black,only marks,mark=*] coordinates {(0,86)};\n\\path (axis cs:19,22) node[below,font=\\fontsize{10}{12}\\selectfont] {$T=22$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A battery charges towards a maximum charge of $100\\%$. Initially its charge is $20\\%$, and after $4$ minutes it is $60\\%$. Its charge is modelled by $Q=P+Ae^{kt}$, where $k<0$ and $t$ is measured in minutes.\n(a) Write an expression for $Q(t)$ before determining $k$.\n(b) Find $k$ in exact form.\n(c) Sketch $Q$ against $t$ for $t\\ge0$, labelling the initial charge and asymptote.",
+    "solution_text": "(a) The limiting charge gives $P=100$. At $t=0$:\n$\\begin{aligned}20&=100+A\\\\A&=-80.\\end{aligned}$\nThus $Q(t)=100-80e^{kt}$, where $k<0$.\n(b) At $t=4$:\n$\\begin{aligned}60&=100-80e^{4k}\\\\-40&=-80e^{4k}\\\\e^{4k}&=\\dfrac12\\\\k&=-\\dfrac{\\ln2}{4}.\\end{aligned}$\n(c) Since $A<0$ and $k<0$, the curve increases from $(0,20)$ towards $Q=100$ from below, becoming less steep. The model approaches full charge without reaching it at a finite time.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[width=70mm,height=52mm,axis lines=left,xlabel={$t$},ylabel={$Q$},xmin=0,xmax=22,ymin=0,ymax=120,xtick=\\empty,ytick={20,100},tick label style={font=\\fontsize{8.5}{10}\\selectfont},label style={font=\\fontsize{10}{12}\\selectfont},clip=false]\n\\addplot[black,dashed,domain=0:20] {100};\n\\addplot[black,thick,->,samples=100,domain=0:20] {100-80*exp(-ln(2)*x/4)};\n\\addplot[black,only marks,mark=*] coordinates {(0,20)};\n\\path (axis cs:13,100) node[above,font=\\fontsize{10}{12}\\selectfont] {$Q=100$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Sketch each function for $t\\ge0$, showing its initial value and the line $Q=30$. Describe whether it has a limiting value.\n(a) $Q=30+10e^{0.2t}$.\n(b) $Q=30-10e^{0.2t}$.",
+    "solution_text": "(a) The initial value is:\n$\\begin{aligned}Q(0)&=30+10e^0\\\\&=40.\\end{aligned}$\nHere $A>0$ and $k>0$. The curve starts above $Q=30$, increases and becomes progressively steeper. It grows without bound, so there is no finite limiting value.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[width=70mm,height=52mm,axis lines=left,xlabel={$t$},ylabel={$Q$},xmin=0,xmax=9,ymin=0,ymax=90,xtick=\\empty,ytick={30,40},tick label style={font=\\fontsize{8.5}{10}\\selectfont},label style={font=\\fontsize{10}{12}\\selectfont},clip=false]\n\\addplot[black,dashed,domain=0:8.5] {30};\n\\addplot[black,thick,->,samples=100,domain=0:8] {30+10*exp(0.2*x)};\n\\addplot[black,only marks,mark=*] coordinates {(0,40)};\n\\path (axis cs:5,30) node[below,font=\\fontsize{10}{12}\\selectfont] {$Q=30$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\n(b) The initial value is:\n$\\begin{aligned}Q(0)&=30-10e^0\\\\&=20.\\end{aligned}$\nHere $A<0$ and $k>0$. The curve starts below $Q=30$, decreases and becomes progressively steeper. It falls without bound, so there is no finite limiting value. The line $Q=30$ is not an asymptote as $t\\to\\infty$ in either case.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[width=70mm,height=52mm,axis lines=middle,xlabel={$t$},ylabel={$Q$},xmin=0,xmax=9,ymin=-30,ymax=40,xtick=\\empty,ytick={20,30},tick label style={font=\\fontsize{8.5}{10}\\selectfont},label style={font=\\fontsize{10}{12}\\selectfont},clip=false]\n\\addplot[black,dashed,domain=0:8.5] {30};\n\\addplot[black,thick,->,samples=100,domain=0:8] {30-10*exp(0.2*x)};\n\\addplot[black,only marks,mark=*] coordinates {(0,20)};\n\\path (axis cs:5,30) node[above,font=\\fontsize{10}{12}\\selectfont] {$Q=30$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The graph of $Q=8+Ae^{kt}$ passes through $(0,12)$ and $(3,40)$.\nFind $A$ and $k$ in exact form. State whether the graph approaches a limiting value as $t\\to\\infty$.",
+    "solution_text": "Use the initial point:\n$\\begin{aligned}12&=8+A\\\\A&=4.\\end{aligned}$\nUse the second point:\n$\\begin{aligned}40&=8+4e^{3k}\\\\32&=4e^{3k}\\\\e^{3k}&=8\\\\3k&=\\ln8\\\\k&=\\ln2.\\end{aligned}$\nThus $Q=8+4e^{(\\ln2)t}$. Since $A>0$ and $k>0$, the curve rises away from $Q=8$ and grows without bound. It has no finite limiting value.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

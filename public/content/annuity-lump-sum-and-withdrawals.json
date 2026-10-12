@@ -2,8 +2,8 @@
   "skillId": "annuity-lump-sum-and-withdrawals",
   "atomType": "R",
   "theory": {
-    "intro": "An account with an initial principal and regular payments is modelled by splitting it into two parts: the initial **lump sum** compounding as $PV(1+r)^n$, and a geometric series of regular payments. Here $r$ is the decimal interest rate per payment period and $n$ is the number of matching periods. The formulas below apply only to end-of-period payments, with the balance measured immediately after the final payment. Formulas dividing by $r$ require $r>0$.",
-    "facts": [
+"intro": "An account with an initial principal and regular payments is modelled by splitting it into two parts: the initial **lump sum** compounding as $PV(1+r)^n$, and a geometric series of regular payments. Here $r$ is the decimal interest rate per payment period and $n$ is the number of matching periods. The formulas below apply only to end-of-period payments, with the balance measured immediately after the final payment. Formulas dividing by $r$ require $r>0$.",
+"facts": [
 "For regular **contributions**, the payment series is **added**: $FV=PV(1+r)^n+a\\left[\\dfrac{(1+r)^n-1}{r}\\right]$.",
 "For regular **withdrawals**, the payment series is **subtracted**: $A_n=PV(1+r)^n-M\\left[\\dfrac{(1+r)^n-1}{r}\\right]$.",
 "At $r=0$, contributions give $FV=PV+na$, withdrawals give $A_n=PV-nM$, and funding $n$ withdrawals with zero final balance requires $PV=nM$.",
@@ -12,14 +12,51 @@
 "A negative model balance means the fund was exhausted earlier. Only affordable full withdrawals can be made, followed by a partial final withdrawal after that period's interest is added.",
 "Keep full precision throughout working and round only the final monetary answer to cents. In the answers below, $\\operatorname{round}_2(x)$ means evaluate the complete expression $x$ at full precision and then round to two decimal places."
 ],
-    "steps": [
+"steps": [
 "Match the interest rate and number of periods to the payment dates. Compound the initial principal for all $n$ periods as $PV(1+r)^n$.",
 "Form the payment series for the question. The first end-of-period payment grows for $n-1$ periods, the next for $n-2$, and the final payment earns no interest before the balance is measured.",
 "Write the payment terms in increasing powers as $a+a(1+r)+\\cdots+a(1+r)^{n-1}$. This geometric series has first term $a$, common ratio $R=1+r$ and $n$ terms. For $r>0$, its sum is $a\\dfrac{R^n-1}{R-1}$; for $r=0$, its sum is $na$.",
 "Add the series for contributions or subtract it for withdrawals. Solve for the requested balance, initial principal or duration, retaining full precision.",
 "For exhaustion, first check that a finite positive zero-balance boundary exists. A non-integer zero-balance result means its floor counts the full withdrawals, followed by a partial withdrawal at the next period-end. An integer result means exactly that many full withdrawals exhaust the account, with no additional partial withdrawal."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "An account begins with $\\$8000$ and earns $4\\%$ p.a. compounded annually. A further $\\$1200$ is deposited at the end of each year for $6$ years. Form a geometric-series expression and find the final balance to the nearest cent.",
+    "solution_text": "The initial deposit grows for all $6$ years. The first regular deposit grows for $5$ years; the last earns no interest before the balance is measured.\n\nThe deposit series is $S=1200+1200(1.04)+\\cdots+1200(1.04)^5$, with first term $1200$, common ratio $1.04$ and $6$ terms.\n\n$\\begin{align*}S&=\\frac{1200(1.04^6-1)}{1.04-1}\\\\FV&=8000(1.04)^6+\\frac{1200(1.04^6-1)}{0.04}\\\\FV&\\approx\\$18\\,082.12\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A fund begins with $\\$40\\,000$ and earns $4\\%$ p.a. compounded annually. At the end of each year, $\\$4500$ is withdrawn. Form a geometric-series expression and find the balance after $5$ years to the nearest cent.",
+    "solution_text": "After one year, $A_1=40000(1.04)-4500$. After two years, $A_2=40000(1.04)^2-4500(1.04)-4500$.\n\nAt the end of year $5$, the withdrawal terms are $4500+4500(1.04)+\\cdots+4500(1.04)^4$. They form a geometric series with first term $4500$, common ratio $1.04$ and $5$ terms.\n\n$\\begin{align*}A_5&=40000(1.04)^5-\\frac{4500(1.04^5-1)}{1.04-1}\\\\A_5&\\approx\\$24\\,292.66\\end{align*}$\n\nThe positive balance confirms that all five withdrawals can be made.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An account starts with an initial deposit $P$ and earns $6\\%$ p.a. compounded annually. A further $\\$4000$ is deposited at the end of each year for $9$ years. Form a geometric-series equation and find the initial deposit needed for a final balance of $\\$75\\,000$, to the nearest cent.",
+    "solution_text": "The initial deposit becomes $P(1.06)^9$. The regular deposits become $4000+4000(1.06)+\\cdots+4000(1.06)^8$.\n\nThe deposit series has first term $4000$, common ratio $1.06$ and $9$ terms.\n\n$\\begin{align*}75000&=P(1.06)^9+\\frac{4000(1.06^9-1)}{0.06}\\\\P(1.06)^9&=75000-\\frac{4000(1.06^9-1)}{0.06}\\\\P&=\\frac{75000-4000(1.06^9-1)/0.06}{1.06^9}\\\\P&\\approx\\$17\\,185.62\\end{align*}$\n\nEvaluate the complete expression before rounding the initial deposit.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A retiree invests an initial amount $P$ in a fund earning $4.8\\%$ p.a. compounded monthly. The fund must provide $\\$1300$ at the end of each month for $6$ years, with zero balance immediately after the final withdrawal. Form a geometric-series equation and find $P$ to the nearest cent.",
+    "solution_text": "The monthly interest rate is $r=0.048/12=0.004$, and there are $n=6\\times12=72$ withdrawals.\n\nThe withdrawals form $1300+1300(1.004)+\\cdots+1300(1.004)^{71}$, a geometric series with first term $1300$, common ratio $1.004$ and $72$ terms.\n\n$\\begin{align*}0&=P(1.004)^{72}-\\frac{1300(1.004^{72}-1)}{0.004}\\\\P(1.004)^{72}&=\\frac{1300(1.004^{72}-1)}{0.004}\\\\P&=\\frac{1300(1.004^{72}-1)}{0.004(1.004)^{72}}\\\\P&\\approx\\$81\\,187.46\\end{align*}$\n\nThe unrounded initial amount gives exactly zero after withdrawal $72$. Rounding it to cents can leave a small balance difference.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A retirement fund begins with $\\$180\\,000$ and earns $6\\%$ p.a. compounded monthly. At the end of each month, $\\$1500$ is withdrawn.\n\n(a) Derive an expression for the balance $A_n$ immediately after $n$ withdrawals.\n\n(b) Use the model to determine whether the full withdrawals can continue for $20$ years.\n\n(c) Find how many full withdrawals can be made, and the amount available for the partial final withdrawal.",
+    "solution_text": "(a) The monthly interest rate is $r=0.06/12=0.005$. After one month, $A_1=180000(1.005)-1500$. After two months, $A_2=180000(1.005)^2-1500(1.005)-1500$.\n\nThe withdrawal terms after $n$ months form $1500+1500(1.005)+\\cdots+1500(1.005)^{n-1}$, with first term $1500$, common ratio $1.005$ and $n$ terms.\n\n$\\begin{align*}A_n&=180000(1.005)^n-\\frac{1500(1.005^n-1)}{0.005}\\\\A_n&=300000-120000(1.005)^n\\end{align*}$\n\n(b) Twenty years is $240$ months.\n\n$\\begin{align*}A_{240}&=300000-120000(1.005)^{240}\\\\A_{240}&\\approx-\\$97\\,224.54\\end{align*}$\n\nThe negative model balance means the fund is exhausted before $20$ years. It cannot provide all $240$ full withdrawals.\n\n(c) The initial monthly interest is $0.005(180000)=\\$900$, less than the $\\$1500$ withdrawal, so finite exhaustion occurs. Set the model balance to zero.\n\n$\\begin{align*}0&=300000-120000(1.005)^n\\\\120000(1.005)^n&=300000\\\\(1.005)^n&=2.5\\\\n&=\\frac{\\log 2.5}{\\log 1.005}\\\\n&\\approx183.716\\end{align*}$\n\nCheck the neighbouring whole months using the unrounded model.\n\n$\\begin{align*}A_{183}&=300000-120000(1.005)^{183}\\\\A_{183}&\\approx\\$1069.28\\\\A_{184}&=300000-120000(1.005)^{184}\\\\A_{184}&\\approx-\\$425.37\\end{align*}$\n\nThere are $183$ full withdrawals. The remaining balance earns one more month's interest before the partial withdrawal.\n\n$\\begin{align*}\\text{Final withdrawal}&=[300000-120000(1.005)^{183}](1.005)\\\\\\text{Final withdrawal}&\\approx\\$1074.63\\end{align*}$\n\nThe fund is exhausted at the end of month $184$ by this partial withdrawal.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

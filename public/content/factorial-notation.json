@@ -2,8 +2,8 @@
   "skillId": "factorial-notation",
   "atomType": "R",
   "theory": {
-        "intro": "For an integer $n \\ge 1$, the **factorial** $n!$ is the product $n \\times (n-1) \\times (n-2) \\times \\dots \\times 2 \\times 1$. By definition $0! = 1$. For integers $n \\ge 1$, each factorial also **unrolls** as $n! = n \\times (n-1)!$, which is how factorial expressions are simplified.",
-        "facts": [
+"intro": "For an integer $n \\ge 1$, the **factorial** $n!$ is the product $n \\times (n-1) \\times (n-2) \\times \\dots \\times 2 \\times 1$. By definition $0! = 1$. For integers $n \\ge 1$, each factorial also **unrolls** as $n! = n \\times (n-1)!$, which is how factorial expressions are simplified.",
+"facts": [
 "**Factorial notation**: for a whole number $n \\ge 1$, $n! = n \\times (n-1) \\times (n-2) \\times \\dots \\times 2 \\times 1$.",
 "**Zero factorial**: $0! = 1$, not $0$.",
 "**Recursive relation**: $n! = n \\times (n-1)!$ for integers $n \\ge 1$, and unrolling again gives $n! = n(n-1)(n-2)!$ for integers $n \\ge 2$.",
@@ -12,13 +12,71 @@
 "To simplify a sum or difference, take out the smallest factorial: $(n+1)! - n! = n!(n+1-1) = n \\cdot n!$.",
 "To combine fractions, unroll the larger factorial in the denominator to get a common denominator."
 ],
-        "steps": [
+"steps": [
           "Identify the factorials in the expression and determine the largest and smallest factorial terms.",
           "Unroll the larger factorials using $n! = n \\times (n-1)!$ until common factors appear.",
           "Cancel common factorial terms or factor out common factorial factors.",
           "Simplify the remaining arithmetic or algebraic expression."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Evaluate $4!$ without a calculator, and state the value of $0!$.",
+    "solution_text": "$\\begin{align*} &\\mathrel{\\phantom{=}}4!\\\\ &=4\\times3\\times2\\times1\\\\ &=24 \\end{align*}$\n\nBy definition, $0!=1$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Unroll $(n+4)!$ three times, where $n$ is a non-negative integer.",
+    "solution_text": "$\\begin{align*} &\\mathrel{\\phantom{=}}(n+4)!\\\\ &=(n+4)(n+3)!\\\\ &=(n+4)(n+3)(n+2)!\\\\ &=(n+4)(n+3)(n+2)(n+1)! \\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\frac{9!}{6!\\times3!}$ without a calculator.",
+    "solution_text": "Unroll $9!$ until $6!$ appears, and use $3!=6$.\n\n$\\begin{align*} &\\mathrel{\\phantom{=}}\\frac{9!}{6!\\times3!}\\\\ &=\\frac{9\\times8\\times7\\times6!}{6!\\times6}\\\\ &=\\frac{9\\times8\\times7}{6}\\\\ &=84 \\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\frac{(n+4)!}{(n+2)!}$ fully, where $n$ is a non-negative integer.",
+    "solution_text": "$\\begin{align*} &\\mathrel{\\phantom{=}}\\frac{(n+4)!}{(n+2)!}\\\\ &=\\frac{(n+4)(n+3)(n+2)!}{(n+2)!}\\\\ &=(n+4)(n+3)\\\\ &=n^2+7n+12 \\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\frac{(n-3)!}{n!}$, where $n$ is an integer with $n\\ge3$.",
+    "solution_text": "$\\begin{align*} &\\mathrel{\\phantom{=}}\\frac{(n-3)!}{n!}\\\\ &=\\frac{(n-3)!}{n(n-1)(n-2)(n-3)!}\\\\ &=\\frac{1}{n(n-1)(n-2)} \\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\frac{(n-2)!(n+3)!}{(n+2)!(n-3)!}$ fully, where $n$ is an integer with $n\\ge3$.",
+    "solution_text": "$\\begin{align*} &\\mathrel{\\phantom{=}}\\frac{(n-2)!(n+3)!}{(n+2)!(n-3)!}\\\\ &=\\frac{(n-2)(n-3)!\\times(n+3)(n+2)!}{(n+2)!(n-3)!}\\\\ &=(n-2)(n+3)\\\\ &=n^2+n-6 \\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Express $(n+3)!+(n+2)!+(n+1)!$ in the form $P(n)\\times(n+1)!$, where $P(n)$ is a polynomial and $n$ is a non-negative integer.",
+    "solution_text": "Take out the smallest factorial, $(n+1)!$.\n\n$\\begin{align*} &\\mathrel{\\phantom{=}}(n+3)!+(n+2)!+(n+1)!\\\\ &=(n+3)(n+2)(n+1)!+(n+2)(n+1)!+(n+1)!\\\\ &=\\big((n+3)(n+2)+(n+2)+1\\big)(n+1)!\\\\ &=(n^2+6n+9)(n+1)!\\\\ &=(n+3)^2(n+1)! \\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $\\frac{1}{(n+1)!}-\\frac{1}{(n+3)!}$ as a single fraction in simplest form, where $n$ is a non-negative integer.",
+    "solution_text": "Use $(n+3)!=(n+3)(n+2)(n+1)!$ to obtain a common denominator.\n\n$\\begin{align*} &\\mathrel{\\phantom{=}}\\frac{1}{(n+1)!}-\\frac{1}{(n+3)!}\\\\ &=\\frac{(n+3)(n+2)}{(n+3)!}-\\frac{1}{(n+3)!}\\\\ &=\\frac{(n+3)(n+2)-1}{(n+3)!}\\\\ &=\\frac{n^2+5n+5}{(n+3)!} \\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,21 +2,37 @@
   "skillId": "estimate-instantaneous-rate-graph",
   "atomType": "R",
   "theory": {
-        "intro": "To estimate $f'(c)$ from a graph, use the **tangent** at that point, drawing it if none is supplied. Pick two suitable points on the tangent whose coordinates can be read or estimated and find its gradient, $m = \\dfrac{\\text{rise}}{\\text{run}}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (0,0) grid (5,5);\n\\draw[->] (0,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.4) node[above] {$y$};\n\\draw[thick,blue,domain=0.2:4.0,smooth,variable=\\x] plot (\\x, {0.25*\\x*\\x + 1}) node[above left] {$y=f(x)$};\n\\draw[thick,red] (0.6,0.6) -- (4.6,4.6) node[right,font=\\small] {tangent};\n\\draw[dashed,gray] (1,1) -- (4,1) node[midway,below,font=\\small] {run};\n\\draw[dashed,gray] (4,1) -- (4,4) node[midway,right,font=\\small] {rise};\n\\fill (1,1) circle (2.5pt) node[below right,font=\\small] {$(x_1,y_1)$};\n\\fill (4,4) circle (2.5pt) node[below right,font=\\small] {$(x_2,y_2)$};\n\\fill (2,2) circle (2.5pt) node[below right,font=\\small] {$P$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "To estimate $f'(c)$ from a graph, use the **tangent** at that point, drawing it if none is supplied. Pick two suitable points on the tangent whose coordinates can be read or estimated and find its gradient, $m = \\dfrac{\\text{rise}}{\\text{run}}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (0,0) grid (5,5);\n\\draw[->] (0,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.4) node[above] {$y$};\n\\draw[thick,blue,domain=0.2:4.0,smooth,variable=\\x] plot (\\x, {0.25*\\x*\\x + 1}) node[above left] {$y=f(x)$};\n\\draw[thick,red] (0.6,0.6) -- (4.6,4.6) node[right,font=\\small] {tangent};\n\\draw[dashed,gray] (1,1) -- (4,1) node[midway,below,font=\\small] {run};\n\\draw[dashed,gray] (4,1) -- (4,4) node[midway,right,font=\\small] {rise};\n\\fill (1,1) circle (2.5pt) node[below right,font=\\small] {$(x_1,y_1)$};\n\\fill (4,4) circle (2.5pt) node[below right,font=\\small] {$(x_2,y_2)$};\n\\fill (2,2) circle (2.5pt) node[below right,font=\\small] {$P$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "The instantaneous rate of change at $x = c$ is $f'(c)$, the gradient of the tangent line at $x = c$.",
 "Read the two points off the **tangent line**, not off the curve.",
 "Calculate the gradient: $m = \\dfrac{y_2 - y_1}{x_2 - x_1} = \\dfrac{\\text{rise}}{\\text{run}}$.",
 "When the axes represent physical quantities, state the rate with compound units, such as $\\text{m/s}$, $^{\\circ}\\text{C/min}$ or $\\text{L/s}$.",
 "Hand-drawn tangents vary slightly, so a graph estimate is only close to the true gradient."
 ],
-        "steps": [
+"steps": [
 "Locate the specified point $P(c, f(c))$ on the curve. Use the supplied tangent, or draw a straight line with the same direction as the curve at $P$.",
 "Select two suitably spaced points $(x_1, y_1)$ and $(x_2, y_2)$ on the tangent whose coordinates can be read or estimated; they need not both be exact grid intersections.",
 "Calculate the gradient $m = \\dfrac{y_2 - y_1}{x_2 - x_1}$.",
 "State the estimated instantaneous rate of change, including appropriate units when the axes represent physical quantities."
+],
+"workedExamples": [
+  {
+    "question_text": "The graph shows $y=f(x)$ with an orange tangent at $P$, where $x=3$. Estimate $f'(3)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{tangentOrange}{HTML}{EF8B2C}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[gridGrey,very thin] (0,0) grid (6,5);\n\\draw[black,->] (0,0)--(6.5,0) node[right] {$x$};\n\\draw[black,->] (0,0)--(0,5.5) node[above] {$y$};\n\\foreach \\x in {1,2,3,4,5,6} {\\draw[black] (\\x,0)--(\\x,-0.1) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\x$};}\n\\foreach \\y/\\v in {1/2,2/4,3/6,4/8,5/10} {\\draw[black] (0,\\y)--(-0.1,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0) {$0$};\n\\draw[curveBlue,thick,domain=0:6,samples=81,variable=\\x] plot (\\x,{0.1*(\\x-3)*(\\x-3)+0.5*\\x+1});\n\\draw[tangentOrange,thick] (0,1)--(6,4);\n\\fill[black] (3,2.5) circle (2pt) node[above left] {$P$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Read two points on the tangent: $(0,2)$ and $(6,8)$. The vertical scale is $2$ units per grid square.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{tangentOrange}{HTML}{EF8B2C}\n\\draw[tangentOrange,thick] (0,0)--(4,2);\n\\draw[black,dashed] (0,0)--(4,0) node[midway,below] {run $=6$};\n\\draw[black,dashed] (4,0)--(4,2) node[midway,right] {rise $=6$};\n\\fill[black] (0,0) circle (2pt) node[above left] {$(0,2)$};\n\\fill[black] (4,2) circle (2pt) node[above left] {$(6,8)$};\n\\end{tikzpicture}\n[/tikz]\n\nThe instantaneous rate of change is the tangent's gradient.\n\n$\\begin{aligned} f'(3)&\\approx\\dfrac{8-2}{6-0}\\\\&=\\dfrac{6}{6}\\\\&=1 \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The graph shows the temperature $T$ of a cooling object after $t$ minutes. The orange tangent is drawn at $t=8$. Estimate the instantaneous rate of change of temperature at this time.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{tangentOrange}{HTML}{EF8B2C}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[gridGrey,very thin] (0,0) grid (6,5);\n\\draw[black,->] (0,0)--(6.5,0) node[right] {$t$};\n\\draw[black,->] (0,0)--(0,5.5) node[above] {$T$};\n\\foreach \\x/\\v in {1/4,2/8,3/12,4/16,5/20,6/24} {\\draw[black] (\\x,0)--(\\x,-0.1) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\foreach \\y/\\v in {1/10,2/20,3/30,4/40,5/50} {\\draw[black] (0,\\y)--(-0.1,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0) {$0$};\n\\node[below] at (3,-0.65) {Time (min)};\n\\node[rotate=90] at (-0.95,2.5) {Temperature ($^{\\circ}\\mathrm{C}$)};\n\\draw[curveBlue,thick,domain=0:6,samples=81,variable=\\x] plot (\\x,{3*exp(-(\\x-2)/3)});\n\\draw[tangentOrange,thick] (0,5)--(5,0);\n\\fill[black] (2,3) circle (2pt) node[above right] {$P$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Read the tangent's intercepts $(0,50)$ and $(20,0)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{tangentOrange}{HTML}{EF8B2C}\n\\draw[tangentOrange,thick] (0,2.5)--(4,0);\n\\draw[black,dashed] (0,2.5)--(4,2.5) node[midway,above] {run $=20$ min};\n\\draw[black,dashed] (4,2.5)--(4,0) node[midway,right] {change $=-50^{\\circ}\\mathrm{C}$};\n\\fill[black] (0,2.5) circle (2pt) node[left] {$(0,50)$};\n\\fill[black] (4,0) circle (2pt) node[below] {$(20,0)$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{aligned} T'(8)&\\approx\\dfrac{0-50}{20-0}\\\\&=\\dfrac{-50}{20}\\\\&=-2.5\\,^{\\circ}\\mathrm{C/min} \\end{aligned}$\n\nThe temperature is decreasing by approximately $2.5^{\\circ}\\mathrm{C}$ per minute at $t=8$ minutes.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

@@ -2,8 +2,8 @@
   "skillId": "max-flow-saturated-edges",
   "atomType": "R",
   "theory": {
-    "intro": "The **maximum flow** of a network is the greatest amount that can travel from the source to the sink. Pushing flow along one source-to-sink path at a time builds a possible flow, but the total must be checked before it is called the maximum.",
-    "facts": [
+"intro": "The **maximum flow** of a network is the greatest amount that can travel from the source to the sink. Pushing flow along one source-to-sink path at a time builds a possible flow, but the total must be checked before it is called the maximum.",
+"facts": [
 "The flow along a path is limited by the **smallest** remaining capacity on that path.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.5);\n\\coordinate (A) at (2.6,3.0);\n\\coordinate (B) at (2.6,0);\n\\coordinate (T) at (5.6,1.5);\n\\draw[midarrow] (S) -- (A);\n\\draw[midarrow] (S) -- (B);\n\\draw[midarrow] (A) -- (B);\n\\draw[midarrow] (A) -- (T);\n\\draw[midarrow] (B) -- (T);\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\node[below=10pt] at (2.8,-0.2) {one path: $S \\to B \\to T$};\n\\end{tikzpicture}\n[/tikz]",
 "An edge is **saturated** when its remaining capacity reaches $0$, so it can carry nothing more.",
 "After a path is used, subtract its flow from the remaining capacity of every edge on that path.",
@@ -14,13 +14,29 @@
 "The number left on each edge at the end is that edge's unused capacity.",
 "Check that the total reaches a limit the network cannot exceed, such as the total capacity leaving the source, entering the sink, or a set of bottleneck edges that together every source-to-sink path must use. This check uses the original capacities."
 ],
-    "steps": [
+"steps": [
 "List every path from the source to the sink",
 "Find the smallest remaining capacity on the path",
 "Subtract that flow from every edge on the path",
 "Add the path flows and check the maximum"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "The numbers show the capacities of the directed edges.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{flow/.style={decoration={markings,mark=at position 0.6 with {\\arrow{>}}},postaction={decorate}}}\n\\coordinate (S) at (0,1.5);\n\\coordinate (A) at (2,3);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (4.5,3);\n\\coordinate (T) at (6.5,1.5);\n\\draw[flow] (S)--(A) node[midway,above left,fill=white,inner sep=1pt] {$12$};\n\\draw[flow] (S)--(B) node[midway,below left,fill=white,inner sep=1pt] {$7$};\n\\draw[flow] (A)--(C) node[midway,above,fill=white,inner sep=1pt] {$6$};\n\\draw[flow] (A)--(B) node[midway,left,fill=white,inner sep=1pt] {$3$};\n\\draw[flow] (C)--(T) node[midway,above right,fill=white,inner sep=1pt] {$9$};\n\\draw[flow] (B)--(T) node[midway,below right,fill=white,inner sep=1pt] {$10$};\n\\fill[black] (S) circle (2pt) node[left] {$S$};\n\\fill[black] (A) circle (2pt) node[above] {$A$};\n\\fill[black] (B) circle (2pt) node[below] {$B$};\n\\fill[black] (C) circle (2pt) node[above] {$C$};\n\\fill[black] (T) circle (2pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\na. Push the greatest possible flow along $S\\to A\\to C\\to T$. Find the remaining capacity of $SA$.\nb. Continue with $S\\to A\\to B\\to T$, then $S\\to B\\to T$. Determine the maximum flow.\nc. List the saturated edges and the edges that are not saturated after this allocation.",
+    "solution_text": "a. The first path carries $\\min(12,6,9)=6$.\nThe remaining capacity of $SA$ is\n$\\begin{aligned}&\\mathrel{\\phantom{=}}12-6\\\\&=6\\end{aligned}$\nSubtract $6$ from every edge on this path: $SA$, $AC$ and $CT$ have remaining capacities $6$, $0$ and $3$.\n\nb. The three source-to-sink paths are $S\\to A\\to C\\to T$, $S\\to A\\to B\\to T$ and $S\\to B\\to T$.\nThe second path carries $\\min(6,3,10)=3$. This leaves $SA=3$, $AB=0$ and $BT=7$.\nThe third path carries $\\min(7,7)=7$. This leaves $SB=0$ and $BT=0$.\nThe total flow is\n$\\begin{aligned}&\\mathrel{\\phantom{=}}6+3+7\\\\&=16\\end{aligned}$\nEvery source-to-sink path uses either $AC$ or $BT$. Their original capacities total $6+10=16$, so the maximum flow is $16$.\n\nc. The diagram shows the final remaining capacities.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{flow/.style={decoration={markings,mark=at position 0.6 with {\\arrow{>}}},postaction={decorate}}}\n\\coordinate (S) at (0,1.5);\n\\coordinate (A) at (2,3);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (4.5,3);\n\\coordinate (T) at (6.5,1.5);\n\\draw[flow] (S)--(A) node[midway,above left,fill=white,inner sep=1pt] {$3$};\n\\draw[flow] (S)--(B) node[midway,below left,fill=white,inner sep=1pt] {$0$};\n\\draw[flow] (A)--(C) node[midway,above,fill=white,inner sep=1pt] {$0$};\n\\draw[flow] (A)--(B) node[midway,left,fill=white,inner sep=1pt] {$0$};\n\\draw[flow] (C)--(T) node[midway,above right,fill=white,inner sep=1pt] {$3$};\n\\draw[flow] (B)--(T) node[midway,below right,fill=white,inner sep=1pt] {$0$};\n\\fill[black] (S) circle (2pt) node[left] {$S$};\n\\fill[black] (A) circle (2pt) node[above] {$A$};\n\\fill[black] (B) circle (2pt) node[below] {$B$};\n\\fill[black] (C) circle (2pt) node[above] {$C$};\n\\fill[black] (T) circle (2pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nThe saturated edges are $SB$, $AC$, $AB$ and $BT$: each has zero remaining capacity.\nThe edges that are not saturated are $SA$ and $CT$: each has $3$ remaining.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Water flows from $S$ to $T$. Each edge capacity is in litres per minute.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{flow/.style={decoration={markings,mark=at position 0.6 with {\\arrow{>}}},postaction={decorate}}}\n\\coordinate (S) at (0,1.5);\n\\coordinate (A) at (2,3);\n\\coordinate (B) at (2.5,0);\n\\coordinate (C) at (4.5,3);\n\\coordinate (D) at (4.5,0);\n\\coordinate (T) at (6.5,1.5);\n\\draw[flow] (S)--(A) node[midway,above left,fill=white,inner sep=1pt] {$6$};\n\\draw[flow] (S)--(B) node[midway,below left,fill=white,inner sep=1pt] {$10$};\n\\draw[flow] (A)--(C) node[midway,above,fill=white,inner sep=1pt] {$8$};\n\\draw[flow] (A)--(B) node[midway,left,fill=white,inner sep=1pt] {$4$};\n\\draw[flow] (B)--(D) node[midway,below,fill=white,inner sep=1pt] {$8$};\n\\draw[flow] (C)--(T) node[midway,above right,fill=white,inner sep=1pt] {$9$};\n\\draw[flow] (D)--(T) node[midway,below right,fill=white,inner sep=1pt] {$11$};\n\\fill[black] (S) circle (2pt) node[left] {$S$};\n\\fill[black] (A) circle (2pt) node[above] {$A$};\n\\fill[black] (B) circle (2pt) node[below] {$B$};\n\\fill[black] (C) circle (2pt) node[above] {$C$};\n\\fill[black] (D) circle (2pt) node[below] {$D$};\n\\fill[black] (T) circle (2pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nDetermine the maximum flow by considering every source-to-sink path, starting with the top path. Explain why one path carries no additional flow.",
+    "solution_text": "The paths are $S\\to A\\to C\\to T$, $S\\to A\\to B\\to D\\to T$ and $S\\to B\\to D\\to T$.\n\nThe top path carries $\\min(6,8,9)=6$. Subtracting $6$ leaves $SA=0$, $AC=2$ and $CT=3$.\n\nThe path $S\\to A\\to B\\to D\\to T$ carries no additional flow because $SA$ is saturated. Its other edges keep their remaining capacities.\n\nThe bottom path carries $\\min(10,8,11)=8$. Subtracting $8$ leaves $SB=2$, $BD=0$ and $DT=3$.\n\nThe total flow is\n$\\begin{aligned}&\\mathrel{\\phantom{=}}6+0+8\\\\&=14\\end{aligned}$\nEvery source-to-sink path uses either $SA$ or $BD$. Their original capacities total $6+8=14$, so the maximum flow is $14$ litres per minute.\n\nA saturated edge prevents further flow along a path containing it; it does not mean every edge on that path is saturated.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

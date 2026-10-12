@@ -2,16 +2,64 @@
   "skillId": "trig-ratio-constancy",
   "atomType": "Com",
   "theory": {
-        "intro": "Enlarge a right-angled triangle and every side gets longer, but the angles do not change and neither do the trigonometric ratios. That is why one stored value of $\\sin 30^{\\circ}$ is correct for every right-angled triangle containing a $30^{\\circ}$ angle.\n[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (O1) at (0,0);\n\\coordinate (P1) at (3,0);\n\\coordinate (Q1) at (3,2.25);\n\\draw (O1)--(P1) node[midway,below] {$a$};\n\\draw (P1)--(Q1) node[midway,right] {$b$};\n\\draw (Q1)--(O1) node[midway,above left] {$c$};\n\\coordinate (s1) at ($(P1)!0.3cm!(O1)$);\n\\coordinate (s2) at ($(P1)!0.3cm!(Q1)$);\n\\draw (s1)--($(s1)+(s2)-(P1)$)--(s2);\n\\pic[draw,\"$\\theta$\",angle radius=0.5cm,angle eccentricity=1.8] {angle=P1--O1--Q1};\n\\coordinate (O2) at (4.6,0);\n\\coordinate (P2) at (9.1,0);\n\\coordinate (Q2) at (9.1,3.375);\n\\draw (O2)--(P2) node[midway,below] {$ka$};\n\\draw (P2)--(Q2) node[midway,right] {$kb$};\n\\draw (Q2)--(O2) node[midway,above left] {$kc$};\n\\coordinate (t1) at ($(P2)!0.3cm!(O2)$);\n\\coordinate (t2) at ($(P2)!0.3cm!(Q2)$);\n\\draw (t1)--($(t1)+(t2)-(P2)$)--(t2);\n\\pic[draw,\"$\\theta$\",angle radius=0.5cm,angle eccentricity=1.8] {angle=P2--O2--Q2};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "Enlarge a right-angled triangle and every side gets longer, but the angles do not change and neither do the trigonometric ratios. That is why one stored value of $\\sin 30^{\\circ}$ is correct for every right-angled triangle containing a $30^{\\circ}$ angle.\n[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (O1) at (0,0);\n\\coordinate (P1) at (3,0);\n\\coordinate (Q1) at (3,2.25);\n\\draw (O1)--(P1) node[midway,below] {$a$};\n\\draw (P1)--(Q1) node[midway,right] {$b$};\n\\draw (Q1)--(O1) node[midway,above left] {$c$};\n\\coordinate (s1) at ($(P1)!0.3cm!(O1)$);\n\\coordinate (s2) at ($(P1)!0.3cm!(Q1)$);\n\\draw (s1)--($(s1)+(s2)-(P1)$)--(s2);\n\\pic[draw,\"$\\theta$\",angle radius=0.5cm,angle eccentricity=1.8] {angle=P1--O1--Q1};\n\\coordinate (O2) at (4.6,0);\n\\coordinate (P2) at (9.1,0);\n\\coordinate (Q2) at (9.1,3.375);\n\\draw (O2)--(P2) node[midway,below] {$ka$};\n\\draw (P2)--(Q2) node[midway,right] {$kb$};\n\\draw (Q2)--(O2) node[midway,above left] {$kc$};\n\\coordinate (t1) at ($(P2)!0.3cm!(O2)$);\n\\coordinate (t2) at ($(P2)!0.3cm!(Q2)$);\n\\draw (t1)--($(t1)+(t2)-(P2)$)--(t2);\n\\pic[draw,\"$\\theta$\",angle radius=0.5cm,angle eccentricity=1.8] {angle=P2--O2--Q2};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "Two figures are **similar** when their matching angles are equal and their matching sides are all in the same ratio.",
 "Any two right-angled triangles containing the same angle $\\theta$ are similar, because their angles match: $90^{\\circ}$, $\\theta$, and $180^{\\circ}-90^{\\circ}-\\theta$.",
 "Enlarging by a scale factor $k$ multiplies **both** lengths in a ratio by $k$, and the factor cancels: $\\dfrac{kb}{kc}=\\dfrac{b}{c}$.",
 "So $\\sin\\theta$, $\\cos\\theta$ and $\\tan\\theta$ depend **only on the angle** $\\theta$, never on how big the triangle is.",
 "Change the **size** of the triangle and the ratios stay the same; change the **angle** and the ratios change.",
 "The hypotenuse is the longest side, so $\\sin\\theta$ and $\\cos\\theta$ are always between $0$ and $1$."
+],
+"workedExamples": [
+  {
+    "question_text": "Triangles A and B are similar. Calculate $\\sin\\theta$, $\\cos\\theta$ and $\\tan\\theta$ for each triangle in simplest form. Explain why the corresponding ratios agree.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0)--(2.4,0)--(2.4,1)--cycle;\n\\draw (2.2,0)--(2.2,0.2)--(2.4,0.2);\n\\path (1.2,0) node[below] {$24$} (2.4,0.5) node[right] {$10$} (1.2,0.5) node[above left] {$26$} (1.2,-0.7) node {A};\n\\draw (0.45,0) arc[start angle=0,end angle=22.62,radius=0.45];\n\\path (0.7,0.13) node {$\\theta$};\n\\draw (4,0)--(7.6,0)--(7.6,1.5)--cycle;\n\\draw (7.4,0)--(7.4,0.2)--(7.6,0.2);\n\\path (5.8,0) node[below] {$36$} (7.6,0.75) node[right] {$15$} (5.8,0.75) node[above left] {$39$} (5.8,-0.7) node {B};\n\\draw (4.45,0) arc[start angle=0,end angle=22.62,radius=0.45];\n\\path (4.7,0.13) node {$\\theta$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Relative to $\\theta$, the vertical side is opposite, the horizontal side is adjacent and the sloping side is the hypotenuse.\nTriangle A:\n$\\begin{align*}\\sin\\theta&=\\frac{10}{26}=\\frac{5}{13}\\\\\\cos\\theta&=\\frac{24}{26}=\\frac{12}{13}\\\\\\tan\\theta&=\\frac{10}{24}=\\frac{5}{12}\\end{align*}$\nTriangle B:\n$\\begin{align*}\\sin\\theta&=\\frac{15}{39}=\\frac{5}{13}\\\\\\cos\\theta&=\\frac{36}{39}=\\frac{12}{13}\\\\\\tan\\theta&=\\frac{15}{36}=\\frac{5}{12}\\end{align*}$\nTheir matching angles are equal and their corresponding sides are proportional. Every side of B is $1.5$ times the corresponding side of A. This common factor cancels in each ratio, so all three ratios agree.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A right-angled triangle has $\\cos\\theta=\\frac{11}{61}$. Every side is multiplied by $0.2$. Find the new cosine ratio and explain why it is unchanged.",
+    "solution_text": "Cosine compares the adjacent side with the hypotenuse. Both lengths are multiplied by the same factor:\n$\\begin{align*}\\cos\\theta&=\\frac{0.2\\times11}{0.2\\times61}\\\\&=\\frac{2.2}{12.2}\\\\&=\\frac{11}{61}\\end{align*}$\nThe factor $0.2$ cancels. Scaling preserves the angles, so the cosine ratio is unchanged. The same cancellation applies to sine and tangent.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Every right-angled triangle containing $60^{\\circ}$ has $\\cos60^{\\circ}=\\frac12$. Use this fixed ratio to find $x$.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0)--(2,0)--(2,3.4641)--cycle;\n\\draw (1.8,0)--(1.8,0.2)--(2,0.2);\n\\draw (0.45,0) arc[start angle=0,end angle=60,radius=0.45];\n\\path (0.65,0.38) node {$60^{\\circ}$} (1,0) node[below] {$x\\text{ cm}$} (1,1.73205) node[above left] {$23.4\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The side labelled $x$ is adjacent to $60^{\\circ}$; the hypotenuse is $23.4\\text{ cm}$.\n$\\begin{align*}\\cos60^{\\circ}&=\\frac{x}{23.4}\\\\\\frac{x}{23.4}&=\\frac12\\\\x&=23.4\\times\\frac12\\\\x&=11.7\\text{ cm}\\end{align*}$\nThe fixed cosine ratio applies regardless of the triangle's size.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An acute angle has $\\tan\\theta=\\frac23$. Which of the marked angles have this size?\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0)--(1.8,0)--(1.8,1.2)--cycle;\n\\draw (1.6,0)--(1.6,0.2)--(1.8,0.2);\n\\path (0.9,0) node[below] {$9$} (1.8,0.6) node[right] {$6$} (0.9,-0.7) node {A} (0.6,0.17) node {$\\alpha$};\n\\draw (0.35,0) arc[start angle=0,end angle=33.69,radius=0.35];\n\\draw (3.2,0)--(5.2,0)--(5.2,1.6)--cycle;\n\\draw (5,0)--(5,0.2)--(5.2,0.2);\n\\path (4.2,0) node[below] {$10$} (5.2,0.8) node[right] {$8$} (4.2,-0.7) node {B} (3.8,0.2) node {$\\beta$};\n\\draw (3.55,0) arc[start angle=0,end angle=38.66,radius=0.35];\n\\draw (6.6,0)--(9,0)--(9,1.6)--cycle;\n\\draw (8.8,0)--(8.8,0.2)--(9,0.2);\n\\path (7.8,0) node[below] {$12$} (9,0.8) node[right] {$8$} (7.8,-0.7) node {C} (7.2,0.17) node {$\\gamma$};\n\\draw (6.95,0) arc[start angle=0,end angle=33.69,radius=0.35];\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Compare opposite divided by adjacent at each marked angle:\n$\\begin{align*}\\tan\\alpha&=\\frac69=\\frac23\\\\\\tan\\beta&=\\frac8{10}=\\frac45\\\\\\tan\\gamma&=\\frac8{12}=\\frac23\\end{align*}$\nThe marked angles in A and C have the required size. Their tangent ratios agree even though their side lengths differ.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For the triangle shown, calculate $\\cos\\theta$ and $\\cos\\phi$. Explain why these values can differ within the same triangle.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0)--(3,0)--(3,4)--cycle;\n\\draw (2.8,0)--(2.8,0.2)--(3,0.2);\n\\path (1.5,0) node[below] {$9$} (3,2) node[right] {$12$} (1.5,2) node[above left] {$15$};\n\\draw (0.45,0) arc[start angle=0,end angle=53.13,radius=0.45];\n\\path (0.65,0.3) node {$\\theta$};\n\\draw (2.73,3.64) arc[start angle=233.13,end angle=270,radius=0.45];\n\\path (2.73,3.2) node {$\\phi$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The hypotenuse is $15$ for both angles. The adjacent side changes with the chosen angle:\n$\\begin{align*}\\cos\\theta&=\\frac9{15}=\\frac35\\\\\\cos\\phi&=\\frac{12}{15}=\\frac45\\end{align*}$\nThe ratios differ because $\\theta$ and $\\phi$ are different angles. A trigonometric ratio is fixed by the angle, rather than the size of the triangle.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A right-angled triangle contains a $45^{\\circ}$ angle. Its adjacent side is $8\\text{ cm}$. Use $\\tan45^{\\circ}=1$ to find the opposite side and explain why every right-angled triangle containing $45^{\\circ}$ is isosceles.",
+    "solution_text": "Let the opposite side be $b\\text{ cm}$.\n$\\begin{align*}\\tan45^{\\circ}&=\\frac b8\\\\\\frac b8&=1\\\\b&=8\\end{align*}$\nBoth shorter sides are $8\\text{ cm}$, so this triangle is isosceles.\nFor any right-angled triangle containing $45^{\\circ}$, $\\frac{O}{A}=1$, so $O=A$. Its two shorter sides are equal regardless of its size.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Explain why none of these ratios can describe an acute angle $\\theta$ in a right-angled triangle:\n(a) $\\sin\\theta=1.25$\n(b) $\\tan\\theta=-0.4$\n(c) $\\cos\\theta=0$.",
+    "solution_text": "(a) $\\sin\\theta=\\frac OH=1.25$ would require $O=1.25H$. The opposite side would exceed the hypotenuse, which must be the longest side.\n(b) $\\tan\\theta=\\frac OA$. Both lengths are positive, so their ratio cannot be negative.\n(c) $\\cos\\theta=\\frac AH=0$ would require $A=0$. A triangle cannot have a side of zero length."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

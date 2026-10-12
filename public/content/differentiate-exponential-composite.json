@@ -2,8 +2,8 @@
   "skillId": "differentiate-exponential-composite",
   "atomType": "R",
   "theory": {
-    "intro": "For $y = e^{f(x)}$ the chain rule gives $\\dfrac{dy}{dx} = f'(x)e^{f(x)}$. The index is copied down unchanged and multiplied by its own derivative. When $e^{f(x)}$ is multiplied or divided by another function, the product or quotient rule is used as well.",
-    "facts": [
+"intro": "For $y = e^{f(x)}$ the chain rule gives $\\dfrac{dy}{dx} = f'(x)e^{f(x)}$. The index is copied down unchanged and multiplied by its own derivative. When $e^{f(x)}$ is multiplied or divided by another function, the product or quotient rule is used as well.",
+"facts": [
       "$\\dfrac{d}{dx}\\left(e^{f(x)}\\right) = f'(x)e^{f(x)}$, where $f(x)$ is whatever sits in the index.",
       "The index never changes: $\\dfrac{d}{dx}\\left(e^{x^{2}}\\right) = 2xe^{x^{2}}$, not $2xe^{2x}$.",
       "Chain rule: let $u = f(x)$, so $\\dfrac{dy}{du} = e^{u}$ and $\\dfrac{dy}{dx} = \\dfrac{dy}{du} \\times \\dfrac{du}{dx}$.",
@@ -13,13 +13,71 @@
       "Factor the common $e^{f(x)}$ out of an answer, and remember $e^{f(x)}$ is never zero.",
       "Rewrite $\\sqrt{x}$ or $\\dfrac{1}{x}$ in the index as a power of $x$ before differentiating the index."
     ],
-    "steps": [
+"steps": [
       "Name the index $f(x)$ and differentiate it to get $f'(x)$.",
       "Write the derivative of $e^{f(x)}$ as $f'(x)e^{f(x)}$, leaving the index unchanged.",
       "Apply the product or quotient rule if the exponential is multiplied or divided by another function.",
       "Factor out the common exponential and simplify."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Use the chain rule to differentiate $y=e^{2x^{3}-5x}$.",
+    "solution_text": "Let $u=2x^{3}-5x$, so $\\dfrac{du}{dx}=6x^{2}-5$ and $\\dfrac{dy}{du}=e^{u}$.\n$\\begin{aligned}\\frac{dy}{dx}&=\\frac{dy}{du}\\times\\frac{du}{dx}\\\\&=e^{u}(6x^{2}-5)\\\\&=(6x^{2}-5)e^{2x^{3}-5x}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Differentiate $y=e^{8-3x}$.",
+    "solution_text": "Let $u=8-3x$, so $\\dfrac{du}{dx}=-3$ and $\\dfrac{dy}{du}=e^{u}$.\n$\\begin{aligned}\\frac{dy}{dx}&=\\frac{dy}{du}\\times\\frac{du}{dx}\\\\&=-3e^{8-3x}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y=e^{2\\sqrt{x}}$, for $x>0$.",
+    "solution_text": "Write the index as a power of $x$.\n$\\begin{aligned}u&=2x^{1/2}\\\\\\frac{du}{dx}&=x^{-1/2}\\end{aligned}$\nUsing the chain rule:\n$\\begin{aligned}\\frac{dy}{dx}&=e^{u}\\frac{du}{dx}\\\\&=x^{-1/2}e^{2\\sqrt{x}}\\\\&=\\frac{e^{2\\sqrt{x}}}{\\sqrt{x}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y=e^{-2/x}$, for $x\\ne0$.",
+    "solution_text": "Write the index as a power of $x$.\n$\\begin{aligned}u&=-2x^{-1}\\\\\\frac{du}{dx}&=2x^{-2}\\end{aligned}$\nUsing the chain rule:\n$\\begin{aligned}\\frac{dy}{dx}&=e^{u}\\frac{du}{dx}\\\\&=2x^{-2}e^{-2/x}\\\\&=\\frac{2e^{-2/x}}{x^{2}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use the product rule to differentiate $y=x^{2}e^{2-x^{2}}$, giving your answer fully factored.",
+    "solution_text": "Let $u=x^{2}$ and $v=e^{2-x^{2}}$. Then $u'=2x$ and, by the chain rule, $v'=-2xe^{2-x^{2}}$.\n$\\begin{aligned}y'&=u'v+uv'\\\\&=2xe^{2-x^{2}}+x^{2}\\left(-2xe^{2-x^{2}}\\right)\\\\&=2xe^{2-x^{2}}-2x^{3}e^{2-x^{2}}\\\\&=2x(1-x^{2})e^{2-x^{2}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use the quotient rule to differentiate $y=\\dfrac{e^{2x^{2}}}{x+1}$, for $x\\ne-1$. Give your answer in simplest form.",
+    "solution_text": "Let $u=e^{2x^{2}}$ and $v=x+1$. Then, by the chain rule, $u'=4xe^{2x^{2}}$ and $v'=1$.\n$\\begin{aligned}y'&=\\frac{u'v-uv'}{v^{2}}\\\\&=\\frac{4xe^{2x^{2}}(x+1)-e^{2x^{2}}}{(x+1)^{2}}\\\\&=\\frac{e^{2x^{2}}\\left(4x^{2}+4x-1\\right)}{(x+1)^{2}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use the chain rule to differentiate $y=\\left(e^{3x}+2\\right)^{4}$.",
+    "solution_text": "Let $u=e^{3x}+2$, so $\\dfrac{du}{dx}=3e^{3x}$ and $\\dfrac{dy}{du}=4u^{3}$.\n$\\begin{aligned}\\frac{dy}{dx}&=\\frac{dy}{du}\\times\\frac{du}{dx}\\\\&=4\\left(e^{3x}+2\\right)^{3}\\times3e^{3x}\\\\&=12e^{3x}\\left(e^{3x}+2\\right)^{3}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $f(x)=e^{x^{2}-2x}$, find $f'(-1)$ in exact form and correct to two decimal places.",
+    "solution_text": "The index has derivative $2x-2$, so $f'(x)=(2x-2)e^{x^{2}-2x}$.\nFor $x=-1$:\n$\\begin{aligned}f'(-1)&=\\left(2(-1)-2\\right)e^{(-1)^{2}-2(-1)}\\\\&=-4e^{3}\\\\&\\approx-80.34\\end{aligned}$\nThe exact value is $-4e^{3}$; to two decimal places it is $-80.34$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,8 +2,8 @@
   "skillId": "find-radius-from-circumference",
   "atomType": "R",
   "theory": {
-        "intro": "When the circumference is known, substitute it into the circumference formula and undo the multiplication with a one-step equation. Dividing $C = \\pi d$ by $\\pi$ gives the diameter; dividing $C = 2\\pi r$ by $2\\pi$ gives the radius.",
-        "facts": [
+"intro": "When the circumference is known, substitute it into the circumference formula and undo the multiplication with a one-step equation. Dividing $C = \\pi d$ by $\\pi$ gives the diameter; dividing $C = 2\\pi r$ by $2\\pi$ gives the radius.",
+"facts": [
           "$C = \\pi d$ and $C = 2\\pi r$, and the diameter is twice the radius, $d = 2r$.",
           "Dividing both sides of $C = \\pi d$ by $\\pi$ gives $d = \\frac{C}{\\pi}$.",
           "Dividing both sides of $C = 2\\pi r$ by $2\\pi$ gives $r = \\frac{C}{2\\pi}$.",
@@ -11,12 +11,70 @@
           "Use the calculator value of $\\pi$ and round only the final line, to the accuracy the question asks for.",
           "Leaving $\\pi$ in the answer, as in $d = \\frac{9}{\\pi}$, is the exact form."
         ],
-        "steps": [
+"steps": [
           "Write the formula.",
           "Substitute the given circumference.",
           "Solve for the unknown using inverse operations."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A circle has circumference $17$ cm. Find its diameter, correct to $3$ decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\draw (0,0) circle (1.8);\n\\draw (-1.8,0)--(1.8,0);\n\\fill (0,0) circle (1.5pt);\n\\path (0.9,0) node[above] {$d$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Write the formula, substitute the circumference, then divide both sides by $\\pi$.\n$\\begin{aligned}C&=\\pi d\\\\17&=\\pi d\\\\\\frac{17}{\\pi}&=d\\\\d&\\approx5.411\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A circle has circumference $21.4$ cm. Find its radius, correct to $3$ decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\draw (0,0) circle (1.8);\n\\draw (0,0)--(1.8,0);\n\\fill (0,0) circle (1.5pt);\n\\path (0.9,0) node[above] {$r$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Divide both sides by $2\\pi$ to find the radius.\n$\\begin{aligned}C&=2\\pi r\\\\21.4&=2\\pi r\\\\\\frac{21.4}{2\\pi}&=r\\\\r&\\approx3.406\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find each unknown length exactly.\n(a) A circle has circumference $15\\pi$ mm. Find its radius.\n(b) A circle has circumference $\\frac{7\\pi}{2}$ cm. Find its diameter.",
+    "solution_text": "(a) Divide by $2\\pi$; the factors of $\\pi$ cancel.\n$\\begin{aligned}C&=2\\pi r\\\\15\\pi&=2\\pi r\\\\r&=\\frac{15\\pi}{2\\pi}\\\\r&=\\frac{15}{2}\\text{ mm}\\end{aligned}$\n(b) Divide by $\\pi$.\n$\\begin{aligned}C&=\\pi d\\\\\\frac{7\\pi}{2}&=\\pi d\\\\d&=\\frac{7\\pi}{2\\pi}\\\\d&=\\frac{7}{2}\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A circular garden has edging running once around its boundary. The edging is $28$ m long.\n(a) Find the garden's radius.\n(b) Find its diameter.\nGive both answers correct to $2$ decimal places.",
+    "solution_text": "The edging length is the circumference, so $C=28$ m.\n(a)\n$\\begin{aligned}C&=2\\pi r\\\\28&=2\\pi r\\\\r&=\\frac{28}{2\\pi}\\\\r&\\approx4.46\\text{ m}\\end{aligned}$\n(b)\n$\\begin{aligned}C&=\\pi d\\\\28&=\\pi d\\\\d&=\\frac{28}{\\pi}\\\\d&\\approx8.91\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A tree trunk has circumference $180$ cm. Maya divides by $3$ to estimate its diameter.\nExplain why this gives an estimate and whether her estimate is larger or smaller than the true diameter.",
+    "solution_text": "Since $C=\\pi d$, the diameter is $d=\\frac{C}{\\pi}$. Using $\\pi\\approx3$ gives an estimate.\n$\\begin{aligned}d_{\\text{estimate}}&=\\frac{180}{3}\\\\d_{\\text{estimate}}&=60\\text{ cm}\\\\d_{\\text{true}}&=\\frac{180}{\\pi}\\\\d_{\\text{true}}&\\approx57.30\\text{ cm}\\end{aligned}$\nHer estimate is larger: $3<\\pi$, and dividing by a smaller positive number gives a larger result.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An arc has length $12$ cm and subtends an angle of $60^{\\circ}$ at the centre. Find the radius, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\draw[dashed] (0,0)--(2.6,0);\n\\draw[dashed] (0,0)--(60:2.6);\n\\draw[thick] (2.6,0) arc[start angle=0,end angle=60,radius=2.6];\n\\draw (0.55,0) arc[start angle=0,end angle=60,radius=0.55];\n\\path (30:0.95) node {$60^{\\circ}$};\n\\path (30:3.05) node {$12\\text{ cm}$};\n\\path (1.3,0) node[below] {$r$};\n\\fill (0,0) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The arc is $\\frac{60}{360}=\\frac16$ of the circumference. Substitute into the arc-length formula and use inverse operations.\n$\\begin{aligned}l&=\\frac{\\theta}{360}\\times2\\pi r\\\\12&=\\frac{60}{360}\\times2\\pi r\\\\12&=\\frac{\\pi r}{3}\\\\36&=\\pi r\\\\r&=\\frac{36}{\\pi}\\\\r&\\approx11.46\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A circular wire has radius $10$ cm. A section subtending $216^{\\circ}$ at its centre is cut out and bent into a smaller circle without stretching.\nFind the smaller circle's radius, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\draw[dashed] (0,0)--(1.8,0);\n\\draw[dashed] (0,0)--(216:1.8);\n\\draw[thick] (1.8,0) arc[start angle=0,end angle=216,radius=1.8];\n\\draw (0.45,0) arc[start angle=0,end angle=216,radius=0.45];\n\\path (108:0.85) node {$216^{\\circ}$};\n\\path (0.9,0) node[below] {$10\\text{ cm}$};\n\\fill (0,0) circle (1.5pt);\n\\draw[->] (2.2,0.3)--(3.2,0.3);\n\\draw (4.4,0.3) circle (0.95);\n\\draw (4.4,0.3)--(5.35,0.3);\n\\fill (4.4,0.3) circle (1.5pt);\n\\path (4.85,0.3) node[above] {$r$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "First find the length of the cut section.\n$\\begin{aligned}l&=\\frac{\\theta}{360}\\times2\\pi R\\\\l&=\\frac{216}{360}\\times2\\pi(10)\\\\l&=12\\pi\\text{ cm}\\end{aligned}$\nThis arc length becomes the smaller circle's circumference.\n$\\begin{aligned}C&=2\\pi r\\\\12\\pi&=2\\pi r\\\\r&=\\frac{12\\pi}{2\\pi}\\\\r&=6\\text{ cm}\\end{aligned}$\nTo $2$ decimal places, the radius is $6.00$ cm.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A belt fits tightly around a circular tank of diameter $8$ m. It is lengthened by $3$ m and held in a circle with the same centre as the tank.\nFind the gap between the tank and the belt, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\draw (0,0) circle (1.5);\n\\draw[dashed] (0,0) circle (1.9);\n\\draw (-1.5,0)--(1.5,0);\n\\fill (0,0) circle (1.5pt);\n\\path (0,0) node[above] {$8\\text{ m}$};\n\\draw[<->] (30:1.5)--(30:1.9);\n\\path (30:1.7) node[above right] {gap};\n\\path (0,2.15) node {loose belt};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Find the tight belt's length, then add $3$ m.\n$\\begin{aligned}C_{\\text{tight}}&=\\pi d\\\\C_{\\text{tight}}&=8\\pi\\text{ m}\\\\C_{\\text{loose}}&=(8\\pi+3)\\text{ m}\\end{aligned}$\nFind the loose belt's diameter.\n$\\begin{aligned}C&=\\pi D\\\\8\\pi+3&=\\pi D\\\\D&=\\frac{8\\pi+3}{\\pi}\\text{ m}\\end{aligned}$\nThe gap is half the increase in diameter.\n$\\begin{aligned}g&=\\frac{D-8}{2}\\\\g&=\\frac{\\frac{8\\pi+3}{\\pi}-8}{2}\\\\g&=\\frac{3}{2\\pi}\\text{ m}\\\\g&\\approx0.48\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

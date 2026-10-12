@@ -2,21 +2,39 @@
   "skillId": "arrange-n-objects",
   "atomType": "R",
   "theory": {
-        "intro": "A **permutation** is an ordered arrangement of distinct objects with no repetition. There are $n$ choices for the first place, $n-1$ for the second, down to $1$ for the last. So $n$ distinct objects arrange in a line in $n!$ ways.",
-        "facts": [
+"intro": "A **permutation** is an ordered arrangement of distinct objects with no repetition. There are $n$ choices for the first place, $n-1$ for the second, down to $1$ for the last. So $n$ distinct objects arrange in a line in $n!$ ways.",
+"facts": [
 "**Linear arrangement formula**: the number of ways to arrange $n$ distinct objects in a row is $n!$.",
 "**Distinct objects**: every object must be different, since identical objects need a different method.",
 "**Fixed positions**: if $k$ objects are fixed in set positions, the other $n-k$ objects arrange in $(n-k)!$ ways.",
 "**Constrained ends**: if the two end positions must be filled from a given set, fill the ends first and then the middle.",
 "**Factorial vs evaluated form**: evaluate factorials to give the number of arrangements unless the question explicitly requests factorial notation."
 ],
-        "steps": [
+"steps": [
           "Check that all objects are distinct and that order matters with no repetition allowed.",
           "Identify any restricted or fixed positions (e.g. first position, last position) and count the ways to fill them.",
           "Count the number of remaining unrestricted objects and positions.",
           "Multiply the choices together using the multiplication principle, giving $(n-k)!$ or similar."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "How many arrangements can be made using all the letters of PLANE exactly once? Explain how the multiplication principle gives the answer.",
+    "solution_text": "The five letters are distinct. There are $5$ choices for the first position, then $4$, $3$, $2$ and $1$ choices for the remaining positions.\n\nBy the multiplication principle:\n$\\begin{align*}&\\mathrel{\\phantom{=}}5\\times4\\times3\\times2\\times1\\\\&=5!\\\\&=120\\end{align*}$"
+  },
+  {
+    "question_text": "Nine performers appear one after another in a talent show. If Priya must perform first, how many orders are possible?",
+    "solution_text": "Priya's position is fixed. Arrange the remaining eight performers in the eight remaining positions.\n\n$\\begin{align*}&\\mathrel{\\phantom{=}}1\\times8!\\\\&=40320\\end{align*}$"
+  },
+  {
+    "question_text": "A test contains seven different questions. The easiest question must be first and the hardest question must be last. How many orders are possible?",
+    "solution_text": "Fix the easiest question first and the hardest question last. Arrange the remaining five questions in the middle positions.\n\n$\\begin{align*}&\\mathrel{\\phantom{=}}1\\times5!\\times1\\\\&=120\\end{align*}$"
+  },
+  {
+    "question_text": "How many six-digit even numbers can be formed using each of the digits $1,2,3,4,6,8$ exactly once?",
+    "solution_text": "Fill the restricted position first. The last digit must be $2$, $4$, $6$ or $8$, giving four choices. For each choice, arrange the five remaining digits in the other positions.\n\n$\\begin{align*}&\\mathrel{\\phantom{=}}4\\times5!\\\\&=4\\times120\\\\&=480\\end{align*}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

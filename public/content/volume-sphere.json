@@ -2,8 +2,8 @@
   "skillId": "volume-sphere",
   "atomType": "R",
   "theory": {
-        "intro": "A **sphere** is a perfectly round solid: every point on its surface is the same distance $r$, the radius, from the centre. Its volume is $V = \\frac{4}{3}\\pi r^{3}$. Because the radius is cubed, doubling $r$ multiplies the volume by $2^{3} = 8$.",
-        "facts": [
+"intro": "A **sphere** is a perfectly round solid: every point on its surface is the same distance $r$, the radius, from the centre. Its volume is $V = \\frac{4}{3}\\pi r^{3}$. Because the radius is cubed, doubling $r$ multiplies the volume by $2^{3} = 8$.",
+"facts": [
           "**$V = \\frac{4}{3}\\pi r^{3}$**, where $r$ is the radius.",
           "The formula cubes the radius ($r^{3}$), not squares it.",
           "Use the **radius**; halve a given diameter first.",
@@ -11,12 +11,63 @@
           "To find the radius from a known volume, rearrange to $r^{3} = \\frac{3V}{4\\pi}$ and take the cube root.",
           "Keep the working exact and round only at the last line."
         ],
-        "steps": [
+"steps": [
           "Write the formula",
           "Substitute the radius, halving a diameter first",
           "Evaluate, rounding or leaving in terms of $\\pi$ as asked"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Calculate the volume of this sphere, correct to 1 decimal place.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) circle (1.5);\n\\draw[dashed] (-1.5,0) arc[start angle=180,end angle=0,x radius=1.5,y radius=0.45];\n\\draw (-1.5,0) arc[start angle=180,end angle=360,x radius=1.5,y radius=0.45];\n\\fill (0,0) circle (1.2pt);\n\\draw (0,0)--(1.061,1.061);\n\\path (0.53,0.53) node[above left] {$5\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned}V&=\\frac{4}{3}\\pi r^{3}\\\\&=\\frac{4}{3}\\times\\pi\\times5^{3}\\\\&\\approx523.6\\text{ cm}^{3}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The diameter of this sphere is shown. Calculate its volume, correct to 1 decimal place.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) circle (1.5);\n\\draw[dashed] (-1.5,0) arc[start angle=180,end angle=0,x radius=1.5,y radius=0.45];\n\\draw (-1.5,0) arc[start angle=180,end angle=360,x radius=1.5,y radius=0.45];\n\\draw[<->] (-1.5,0)--(1.5,0);\n\\path (0,0) node[above,fill=white,inner sep=2pt] {$14\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Halve the diameter to find the radius.\n$\\begin{aligned}r&=14\\div2\\\\&=7\\text{ cm}\\end{aligned}$\n$\\begin{aligned}V&=\\frac{4}{3}\\pi r^{3}\\\\&=\\frac{4}{3}\\times\\pi\\times7^{3}\\\\&\\approx1436.8\\text{ cm}^{3}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A sphere has a volume of $\\frac{256}{3}\\pi\\text{ cm}^{3}$. Find its radius.",
+    "solution_text": "$\\begin{aligned}V&=\\frac{4}{3}\\pi r^{3}\\\\\\frac{256}{3}\\pi&=\\frac{4}{3}\\pi r^{3}\\\\r^{3}&=64\\\\r&=\\sqrt[3]{64}\\\\&=4\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A sphere has a volume of $600\\text{ cm}^{3}$. Find its radius, correct to 2 decimal places.",
+    "solution_text": "$\\begin{aligned}V&=\\frac{4}{3}\\pi r^{3}\\\\600&=\\frac{4}{3}\\pi r^{3}\\\\r^{3}&=\\frac{600\\times3}{4\\pi}\\\\r&=\\sqrt[3]{\\frac{1800}{4\\pi}}\\\\&\\approx5.23\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An expanding spherical storage bag contains $1000\\text{ cm}^{3}$ of water. Find its diameter, correct to 2 decimal places.",
+    "solution_text": "$\\begin{aligned}V&=\\frac{4}{3}\\pi r^{3}\\\\1000&=\\frac{4}{3}\\pi r^{3}\\\\r^{3}&=\\frac{3000}{4\\pi}\\\\r&=\\sqrt[3]{\\frac{3000}{4\\pi}}\\end{aligned}$\nDouble the unrounded radius.\n$\\begin{aligned}d&=2r\\\\&=2\\sqrt[3]{\\frac{3000}{4\\pi}}\\\\&\\approx12.41\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A ball's radius is multiplied by $4$. How many times as large is its new volume? Justify your answer.",
+    "solution_text": "Replace $r$ with $4r$ in the volume formula.\n$\\begin{aligned}V_{\\text{new}}&=\\frac{4}{3}\\pi(4r)^{3}\\\\&=64\\times\\frac{4}{3}\\pi r^{3}\\\\&=64V_{\\text{original}}\\end{aligned}$\nThe new volume is $64$ times the original volume.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Three metal spheres of radii $3$ cm, $4$ cm and $5$ cm are melted down and recast as one larger sphere. Find the radius of the new sphere.",
+    "solution_text": "The total volume is unchanged.\n$\\begin{aligned}V_{\\text{total}}&=\\frac{4}{3}\\pi(3^{3})+\\frac{4}{3}\\pi(4^{3})+\\frac{4}{3}\\pi(5^{3})\\\\&=\\frac{4}{3}\\pi(27+64+125)\\\\&=\\frac{4}{3}\\pi(216)\\end{aligned}$\nLet the new radius be $R$.\n$\\begin{aligned}\\frac{4}{3}\\pi R^{3}&=\\frac{4}{3}\\pi(216)\\\\R^{3}&=216\\\\R&=\\sqrt[3]{216}\\\\&=6\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,8 +2,8 @@
   "skillId": "differentiate-sin-cos",
   "atomType": "R",
   "theory": {
-    "intro": "The derivative of $\\sin x$ is $\\cos x$, and the derivative of $\\cos x$ is $-\\sin x$. These formulas hold only when $x$ is measured in **radians**. Sums and constant multiples differentiate term by term.",
-    "facts": [
+"intro": "The derivative of $\\sin x$ is $\\cos x$, and the derivative of $\\cos x$ is $-\\sin x$. These formulas hold only when $x$ is measured in **radians**. Sums and constant multiples differentiate term by term.",
+"facts": [
       "$\\dfrac{d}{dx}(\\sin x) = \\cos x$.",
       "$\\dfrac{d}{dx}(\\cos x) = -\\sin x$, so differentiating cosine introduces a negative sign.",
       "Both formulas require $x$ in **radians**; they are false when $x$ is measured in degrees.",
@@ -12,12 +12,63 @@
       "Differentiate a sum one term at a time, using the power rule on any $x^{n}$ terms.",
       "Differentiating repeatedly cycles $\\sin x \\to \\cos x \\to -\\sin x \\to -\\cos x \\to \\sin x$, returning to the start after four steps."
     ],
-    "steps": [
+"steps": [
       "Differentiate each term separately, keeping any constant multiple out the front.",
       "Replace $\\sin$ with $\\cos$, and $\\cos$ with $-\\sin$.",
       "Multiply by the coefficient of $x$ inside the function."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Differentiate (a) $y=8\\sin x$ and (b) $y=-6\\cos x$. Angles are measured in radians.",
+    "solution_text": "(a) Keep the constant multiple.\n$\\begin{align*}\\frac{dy}{dx}&=8\\cos x\\end{align*}$\n(b) Differentiating cosine introduces a negative sign.\n$\\begin{align*}\\frac{dy}{dx}&=-6(-\\sin x)\\\\&=6\\sin x\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Differentiate (a) $y=4\\sin 6x$ and (b) $y=10\\cos\\left(\\frac{x}{4}\\right)$. Angles are measured in radians.",
+    "solution_text": "Multiply by the coefficient of $x$ inside each function.\n(a)\n$\\begin{align*}\\frac{dy}{dx}&=4\\times6\\cos 6x\\\\&=24\\cos 6x\\end{align*}$\n(b)\n$\\begin{align*}\\frac{dy}{dx}&=10\\left(-\\frac14\\sin\\left(\\frac{x}{4}\\right)\\right)\\\\&=-\\frac52\\sin\\left(\\frac{x}{4}\\right)\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $y=3x^4+2\\sin(2\\pi x)-4\\cos(3x)$. Angles are measured in radians.",
+    "solution_text": "Differentiate each term separately.\n$\\begin{align*}\\frac{dy}{dx}&=12x^3+2\\left(2\\pi\\cos(2\\pi x)\\right)-4\\left(-3\\sin(3x)\\right)\\\\&=12x^3+4\\pi\\cos(2\\pi x)+12\\sin(3x)\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Given $f(x)=4\\cos 3x$, find $f'(x)$ and the exact value of $f'\\left(\\frac{\\pi}{18}\\right)$. Angles are measured in radians.",
+    "solution_text": "$f'(x)=-12\\sin 3x$.\nSubstitute into the derivative.\n$\\begin{align*}f'\\left(\\frac{\\pi}{18}\\right)&=-12\\sin\\left(\\frac{\\pi}{6}\\right)\\\\&=-12\\times\\frac12\\\\&=-6\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the first, second, third and fourth derivatives of $y=12\\sin\\left(\\frac{x}{2}\\right)$. Angles are measured in radians.",
+    "solution_text": "Multiply by $\\frac12$ at each differentiation, retaining the constant already obtained.\n$\\begin{align*}y'&=12\\times\\frac12\\cos\\left(\\frac{x}{2}\\right)\\\\&=6\\cos\\left(\\frac{x}{2}\\right)\\end{align*}$\n$\\begin{align*}y''&=6\\left(-\\frac12\\sin\\left(\\frac{x}{2}\\right)\\right)\\\\&=-3\\sin\\left(\\frac{x}{2}\\right)\\end{align*}$\n$\\begin{align*}y'''&=-3\\times\\frac12\\cos\\left(\\frac{x}{2}\\right)\\\\&=-\\frac32\\cos\\left(\\frac{x}{2}\\right)\\end{align*}$\n$\\begin{align*}y''''&=-\\frac32\\left(-\\frac12\\sin\\left(\\frac{x}{2}\\right)\\right)\\\\&=\\frac34\\sin\\left(\\frac{x}{2}\\right)\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the equation of the tangent to $y=3\\sin 2x$ where $x=\\frac{\\pi}{6}$, in exact general form and in the form $y=mx+b$. Angles are measured in radians.",
+    "solution_text": "$\\frac{dy}{dx}=6\\cos 2x$.\nAt $x=\\frac{\\pi}{6}$, the tangent gradient is\n$\\begin{align*}m&=6\\cos\\left(\\frac{\\pi}{3}\\right)\\\\&=3\\end{align*}$\nThe point has ordinate\n$\\begin{align*}y&=3\\sin\\left(\\frac{\\pi}{3}\\right)\\\\&=\\frac{3\\sqrt3}{2}\\end{align*}$\nUse the point and gradient.\n$\\begin{align*}y-\\frac{3\\sqrt3}{2}&=3\\left(x-\\frac{\\pi}{6}\\right)\\\\y&=3x+\\frac{3\\sqrt3-\\pi}{2}\\end{align*}$\nIn exact general form,\n$6x-2y+3\\sqrt3-\\pi=0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the equation of the normal to $y=2\\cos x$ where $x=\\frac{\\pi}{6}$, in exact general form. Angles are measured in radians.",
+    "solution_text": "$\\frac{dy}{dx}=-2\\sin x$.\nAt $x=\\frac{\\pi}{6}$, the tangent gradient is\n$\\begin{align*}m_{\\mathrm{tangent}}&=-2\\sin\\left(\\frac{\\pi}{6}\\right)\\\\&=-1\\end{align*}$\nThe normal gradient is the negative reciprocal:\n$m_{\\mathrm{normal}}=-\\frac{1}{-1}=1$.\nThe point has ordinate\n$\\begin{align*}y&=2\\cos\\left(\\frac{\\pi}{6}\\right)\\\\&=\\sqrt3\\end{align*}$\nUse the point and normal gradient.\n$\\begin{align*}y-\\sqrt3&=x-\\frac{\\pi}{6}\\\\6y-6\\sqrt3&=6x-\\pi\\end{align*}$\nIn exact general form,\n$6x-6y+6\\sqrt3-\\pi=0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

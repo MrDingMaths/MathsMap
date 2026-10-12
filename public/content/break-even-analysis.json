@@ -2,22 +2,40 @@
   "skillId": "break-even-analysis",
   "atomType": "R",
   "theory": {
-        "intro": "**Break-even analysis** models business costs and revenue with linear equations to find the production volume where total revenue equals total cost.",
-        "facts": [
+"intro": "**Break-even analysis** models business costs and revenue with linear equations to find the production volume where total revenue equals total cost.",
+"facts": [
           "Cost $C = \\text{Fixed Cost} + (\\text{Variable Cost} \\times n)$, where $n$ is the number of units produced.",
           "Revenue $R = \\text{Selling Price} \\times n$, where $n$ is the number of units sold.",
           "**Profit** is $P = R - C$, where $R > C$ gives a profit and $R < C$ gives a loss.",
           "The **break-even point** occurs where revenue equals cost ($R = C$) or profit is zero ($P = 0$).",
           "On a graph, the break-even point is the intersection point of the cost line and revenue line."
         ],
-        "steps": [
+"steps": [
           "Form the cost and revenue equations.",
           "Set revenue equal to cost ($R = C$).",
           "Solve for the number of units $n$.",
           "Find the break-even dollar value by substituting $n$.",
           "Interpret profit or loss in context."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "The graph shows the cost $C$ and revenue $R$, in dollars, for making and selling $n$ snack packs.\n[tikz]\n\\begin{tikzpicture}[x=0.8cm,y=0.8cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\path[use as bounding box] (-1.9,-0.9) rectangle (6.5,6.5);\n\\definecolor{revenueBlue}{HTML}{268CFF}\n\\definecolor{costRed}{HTML}{EF6068}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[step=1,gridGrey,very thin] (0,0) grid (6,6);\n\\draw[black,->] (0,0)--(6.4,0);\n\\draw[black,->] (0,0)--(0,6.4);\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0) {$0$};\n\\foreach \\x/\\n in {1/10,2/20,3/30,4/40,5/50,6/60}{\\draw[black] (\\x,0.07)--(\\x,-0.07);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.07) {$\\n$};}\n\\foreach \\y/\\v in {1/60,2/120,3/180,4/240,5/300,6/360}{\\draw[black] (0.07,\\y)--(-0.07,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.07,\\y) {$\\v$};}\n\\node[below] at (3,-0.6) {Snack packs ($n$)};\n\\node[rotate=90] at (-1.6,3) {Money (\\$)};\n\\draw[revenueBlue,thick] (0,0)--(6,6);\n\\draw[costRed,thick] (0,1.5)--(6,4.5);\n\\node[above left] at (5.7,5.7) {$R$};\n\\node[below right] at (5.3,4.15) {$C$};\n\\end{tikzpicture}\n[/tikz]\n(a) Use the graph to find the break-even quantity and revenue.\n(b) Use the graph to find the profit or loss when $50$ snack packs are sold.",
+    "solution_text": "[tikz]\n\\begin{tikzpicture}[x=0.8cm,y=0.8cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\path[use as bounding box] (-1.9,-0.9) rectangle (6.5,6.5);\n\\definecolor{revenueBlue}{HTML}{268CFF}\n\\definecolor{costRed}{HTML}{EF6068}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[step=1,gridGrey,very thin] (0,0) grid (6,6);\n\\draw[black,->] (0,0)--(6.4,0);\n\\draw[black,->] (0,0)--(0,6.4);\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0) {$0$};\n\\foreach \\x/\\n in {1/10,2/20,3/30,4/40,5/50,6/60}{\\draw[black] (\\x,0.07)--(\\x,-0.07);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.07) {$\\n$};}\n\\foreach \\y/\\v in {1/60,2/120,3/180,4/240,5/300,6/360}{\\draw[black] (0.07,\\y)--(-0.07,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.07,\\y) {$\\v$};}\n\\node[below] at (3,-0.6) {Snack packs ($n$)};\n\\node[rotate=90] at (-1.6,3) {Money (\\$)};\n\\draw[revenueBlue,thick] (0,0)--(6,6);\n\\draw[costRed,thick] (0,1.5)--(6,4.5);\n\\node[above left] at (5.7,5.7) {$R$};\n\\node[below right] at (5.3,4.15) {$C$};\n\\draw[black,dashed] (3,0)--(3,3)--(0,3);\n\\fill[black] (3,3) circle (1.5pt);\n\\node[above left] at (3,3) {$(30,180)$};\n\\draw[black,dashed] (5,0)--(5,5)--(0,5);\n\\draw[black,dashed] (5,4)--(0,4);\n\\fill[black] (5,5) circle (1.5pt);\n\\fill[black] (5,4) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]\n(a) The revenue and cost lines intersect at $(30,180)$. Break-even is $30$ snack packs, with revenue of $\\$180$.\n\n(b) At $n=50$, the graph gives $R=300$ and $C=240$.\n$\\begin{align*}P&=R-C\\\\&=300-240\\\\&=60\\end{align*}$\nThe profit is $\\$60$."
+  },
+  {
+    "question_text": "A bakery has fixed daily costs of $\\$360$. Each cake costs $\\$2$ to make and sells for $\\$8$. Let $n$ be the number of cakes made and sold.\n(a) Write equations for cost $C$ and revenue $R$.\n(b) Find the break-even quantity and revenue algebraically.\n(c) The bakery can sell at most $50$ cakes per day. Explain whether it can break even.",
+    "solution_text": "(a) Fixed costs are added to the production cost.\n$C=360+2n$\n$R=8n$\n\n(b) Set revenue equal to cost.\n$\\begin{align*}R&=C\\\\8n&=360+2n\\\\6n&=360\\\\n&=60\\end{align*}$\nSubstitute $n=60$ into the revenue equation.\n$\\begin{align*}R&=8(60)\\\\&=480\\end{align*}$\nBreak-even is $60$ cakes, with revenue of $\\$480$.\n\n(c) The maximum sales of $50$ cakes are below the break-even quantity of $60$. The bakery cannot break even under this limit."
+  },
+  {
+    "question_text": "A market stall has cost $C=250+3n$ and revenue $R=8n$, in dollars, where $n$ is the number of jars made and sold. Find the profit or loss when:\n(a) $40$ jars are sold\n(b) $70$ jars are sold.",
+    "solution_text": "(a) For $n=40$:\n$\\begin{align*}R&=8(40)\\\\&=320\\end{align*}$\n$\\begin{align*}C&=250+3(40)\\\\&=370\\end{align*}$\n$\\begin{align*}P&=R-C\\\\&=320-370\\\\&=-50\\end{align*}$\nThe loss is $\\$50$ because cost exceeds revenue.\n\n(b) For $n=70$:\n$\\begin{align*}R&=8(70)\\\\&=560\\end{align*}$\n$\\begin{align*}C&=250+3(70)\\\\&=460\\end{align*}$\n$\\begin{align*}P&=R-C\\\\&=560-460\\\\&=100\\end{align*}$\nThe profit is $\\$100$ because revenue exceeds cost."
+  },
+  {
+    "question_text": "A small business makes bird feeders. Its fixed costs are $\\$540$, each feeder costs $\\$6$ to make, and each sells for $\\$15$.\n(a) Form the cost and revenue equations for $n$ feeders made and sold.\n(b) Find how many feeders must be sold to earn a profit of $\\$810$.\n(c) Find the revenue at that sales volume.",
+    "solution_text": "(a) The equations are:\n$C=540+6n$\n$R=15n$\n\n(b) Set profit equal to $810$.\n$\\begin{align*}P&=R-C\\\\810&=15n-(540+6n)\\\\810&=9n-540\\\\1350&=9n\\\\n&=150\\end{align*}$\nSell $150$ feeders to earn a profit of $\\$810$.\n\n(c) For $n=150$:\n$\\begin{align*}R&=15(150)\\\\&=2250\\end{align*}$\nThe revenue is $\\$2250$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

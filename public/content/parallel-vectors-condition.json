@@ -2,8 +2,8 @@
   "skillId": "parallel-vectors-condition",
   "atomType": "R",
   "theory": {
-    "intro": "Two non-zero vectors are **parallel** when one is a non-zero scalar multiple of the other, $\\underset{\\sim}{b}=k\\underset{\\sim}{a}$ with $k\\ne0$. They point the same way if $k>0$ and opposite ways if $k<0$. The same $k$ must work in every component.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth},thick] (0,2.4)--(2,3.4) node[right]{$\\underset{\\sim}{a}$};\n\\draw[-{Stealth},thick,blue] (0,1.2)--(3,2.7) node[right]{$k\\underset{\\sim}{a}$ with $k>0$};\n\\draw[-{Stealth},thick,red] (0,0)--(-2.4,-1.2) node[left]{$k\\underset{\\sim}{a}$ with $k<0$};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "Two non-zero vectors are **parallel** when one is a non-zero scalar multiple of the other, $\\underset{\\sim}{b}=k\\underset{\\sim}{a}$ with $k\\ne0$. They point the same way if $k>0$ and opposite ways if $k<0$. The same $k$ must work in every component.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth},thick] (0,2.4)--(2,3.4) node[right]{$\\underset{\\sim}{a}$};\n\\draw[-{Stealth},thick,blue] (0,1.2)--(3,2.7) node[right]{$k\\underset{\\sim}{a}$ with $k>0$};\n\\draw[-{Stealth},thick,red] (0,0)--(-2.4,-1.2) node[left]{$k\\underset{\\sim}{a}$ with $k<0$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "Two non-zero vectors $\\underset{\\sim}{b}$ and $\\underset{\\sim}{a}$ are parallel exactly when $\\underset{\\sim}{b}=k\\underset{\\sim}{a}$ for some non-zero number $k$.",
 "Choose a non-zero component of $\\underset{\\sim}{a}$ and divide the matching component of $\\underset{\\sim}{b}$ by it to find a candidate $k$. Then check every component by multiplication, including zero components.",
 "Checking only one component is not enough: the same non-zero $k$ must work in every component.",
@@ -12,12 +12,34 @@
 "For two non-zero vectors $\\begin{pmatrix}x_{1}\\\\y_{1}\\end{pmatrix}$ and $\\begin{pmatrix}x_{2}\\\\y_{2}\\end{pmatrix}$, being parallel is the same as $x_{1}y_{2}=x_{2}y_{1}$.",
 "When comparing coefficients in expressions involving $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$, assume these underlying vectors are non-parallel and non-zero. Factorise and compare, as $6\\underset{\\sim}{a}+9\\underset{\\sim}{b}=3(2\\underset{\\sim}{a}+3\\underset{\\sim}{b})$, and check that neither resultant vector is zero."
 ],
-    "steps": [
+"steps": [
 "Check that both vectors are non-zero, then choose a non-zero component of the first vector to find the candidate scalar $k$.",
 "Check by multiplication that the same non-zero $k$ works in every component, including zero components.",
 "State whether the vectors are parallel."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Determine whether each pair is parallel.\n(a) $\\begin{pmatrix}6\\\\-10\\end{pmatrix}$ and $\\begin{pmatrix}-9\\\\15\\end{pmatrix}$.\n(b) $\\begin{pmatrix}6\\\\-10\\end{pmatrix}$ and $\\begin{pmatrix}12\\\\-19\\end{pmatrix}$.",
+    "solution_text": "(a) Find a candidate scalar from the first component.\n$\\begin{aligned}k&=\\frac{-9}{6}\\\\&=-\\frac32\\end{aligned}$\nCheck the second component: $-\\frac32(-10)=15$.\nThus $\\begin{pmatrix}-9\\\\15\\end{pmatrix}=-\\frac32\\begin{pmatrix}6\\\\-10\\end{pmatrix}$. The vectors are parallel and point in opposite directions.\n\n(b) The first component gives $k=\\frac{12}{6}=2$, but $2(-10)=-20\\ne-19$. No single scalar works in both components, so the vectors are not parallel."
   },
+  {
+    "question_text": "Let $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$ be non-parallel, non-zero vectors. Determine whether each pair is parallel.\n(a) $6\\underset{\\sim}{a}-9\\underset{\\sim}{b}$ and $-14\\underset{\\sim}{a}+21\\underset{\\sim}{b}$.\n(b) $6\\underset{\\sim}{a}-9\\underset{\\sim}{b}$ and $12\\underset{\\sim}{a}-15\\underset{\\sim}{b}$.",
+    "solution_text": "(a) Factorise both vectors.\n$\\begin{aligned}6\\underset{\\sim}{a}-9\\underset{\\sim}{b}&=3(2\\underset{\\sim}{a}-3\\underset{\\sim}{b})\\\\-14\\underset{\\sim}{a}+21\\underset{\\sim}{b}&=-7(2\\underset{\\sim}{a}-3\\underset{\\sim}{b})\\end{aligned}$\nBoth are non-zero scalar multiples of the same non-zero vector, so they are parallel.\n\n(b) Matching the coefficient of $\\underset{\\sim}{a}$ requires a scalar of $2$.\n$2(6\\underset{\\sim}{a}-9\\underset{\\sim}{b})=12\\underset{\\sim}{a}-18\\underset{\\sim}{b}$.\nThe coefficient of $\\underset{\\sim}{b}$ does not match. Since the underlying vectors are non-parallel, the two vectors are not parallel."
+  },
+  {
+    "question_text": "Find $h$ such that $\\begin{pmatrix}5\\\\h\\end{pmatrix}$ and $\\begin{pmatrix}-15\\\\24\\end{pmatrix}$ are parallel.",
+    "solution_text": "Write the second vector as a scalar multiple of the first.\n$\\begin{pmatrix}-15\\\\24\\end{pmatrix}=k\\begin{pmatrix}5\\\\h\\end{pmatrix}$.\nThe first component gives $k=-3$. Equate the second components.\n$\\begin{aligned}-3h&=24\\\\h&=-8\\end{aligned}$\nCheck: $-3\\begin{pmatrix}5\\\\-8\\end{pmatrix}=\\begin{pmatrix}-15\\\\24\\end{pmatrix}$. Both vectors are non-zero, so $h=-8$ gives parallel vectors."
+  },
+  {
+    "question_text": "Find all values of $t$ for which $\\begin{pmatrix}t\\\\4\\end{pmatrix}$ and $\\begin{pmatrix}9\\\\t\\end{pmatrix}$ are parallel.",
+    "solution_text": "Use the same scalar in both components.\n$\\begin{pmatrix}9\\\\t\\end{pmatrix}=k\\begin{pmatrix}t\\\\4\\end{pmatrix}$.\nHence $9=kt$ and $t=4k$. Substitute $k=\\frac{t}{4}$ into the first equation.\n$\\begin{aligned}9&=\\frac{t^2}{4}\\\\t^2&=36\\\\t&=\\pm6\\end{aligned}$\nFor $t=6$, the second vector is $\\frac32$ times the first. For $t=-6$, it is $-\\frac32$ times the first. Both values give non-zero parallel vectors."
+  },
+  {
+    "question_text": "Given $\\underset{\\sim}{u}=2\\mathbf{i}+5\\mathbf{j}$ and $\\underset{\\sim}{v}=\\mathbf{i}-2\\mathbf{j}$, find $\\lambda$ such that $\\underset{\\sim}{u}+\\lambda\\underset{\\sim}{v}$ is parallel to $\\mathbf{i}+\\mathbf{j}$.",
+    "solution_text": "Combine corresponding components.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\underset{\\sim}{u}+\\lambda\\underset{\\sim}{v}\\\\&=(2\\mathbf{i}+5\\mathbf{j})+\\lambda(\\mathbf{i}-2\\mathbf{j})\\\\&=(2+\\lambda)\\mathbf{i}+(5-2\\lambda)\\mathbf{j}\\end{aligned}$\nFor parallel vectors, write the result as $k(\\mathbf{i}+\\mathbf{j})$. Equating components gives $2+\\lambda=k$ and $5-2\\lambda=k$.\n$\\begin{aligned}2+\\lambda&=5-2\\lambda\\\\3\\lambda&=3\\\\\\lambda&=1\\end{aligned}$\nAt $\\lambda=1$, the resultant is $3\\mathbf{i}+3\\mathbf{j}=3(\\mathbf{i}+\\mathbf{j})$. The scalar is non-zero, so the vectors are parallel."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

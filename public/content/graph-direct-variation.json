@@ -2,8 +2,8 @@
   "skillId": "graph-direct-variation",
   "atomType": "R",
   "theory": {
-        "intro": "A relationship shows **direct variation** when $y = kx$. Its graph is always a **straight line through the origin**, and the constant of variation $k$ is the **gradient** of that line.",
-        "facts": [
+"intro": "A relationship shows **direct variation** when $y = kx$. Its graph is always a **straight line through the origin**, and the constant of variation $k$ is the **gradient** of that line.",
+"facts": [
 "The equation of a direct variation relationship has the form $y = kx$.",
 "Its graph is a **straight line through the origin** $(0,0)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0)--(5.3,0) node[right] {$x$};\n\\draw[->] (0,0)--(0,5.3) node[above] {$y$};\n\\draw[thick,blue] (0,0)--(4.6,4.14);\n\\fill (0,0) circle (2.5pt);\n\\node[below left] at (0,0) {$O$};\n\\node at (1.6,4.6) {$y=kx$};\n\\end{tikzpicture}\n[/tikz]",
 "A straight line that misses the origin is not direct variation. Its $y$-intercept is non-zero and may be above or below the origin; the example below has a positive intercept.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0)--(5.3,0) node[right] {$x$};\n\\draw[->] (0,0)--(0,5.3) node[above] {$y$};\n\\draw[thick,blue] (0,1.4)--(4.2,5.0);\n\\fill (0,1.4) circle (2.5pt);\n\\node[left] at (0,1.4) {$c$};\n\\fill (0,0) circle (2.5pt);\n\\node[below left] at (0,0) {$O$};\n\\node at (1.6,4.6) {$y=kx+c$};\n\\end{tikzpicture}\n[/tikz]",
@@ -12,13 +12,40 @@
 "In context, $k$ is the **rate** of $y$ per unit of $x$, such as dollars per hour.",
 "For lines with positive gradients drawn on matching axis scales, a steeper line means a larger $k$; a shallower line means a smaller $k$. For negative gradients on matching axis scales, a steeper downward line has a smaller signed $k$."
 ],
-        "steps": [
+"steps": [
           "Check the graph is a straight line through the origin.",
           "Choose the origin and one other point on the line (or any two points on the line).",
           "Find the gradient, $k = \\dfrac{\\text{rise}}{\\text{run}}$.",
           "Write the equation $y = kx$ using the value of $k$, and interpret it in context."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Which of graphs A, B and C show direct variation? Explain your answer for each graph.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{mathblue}{HTML}{268CFF}\n\\begin{scope}\n\\draw[black,->] (0,0)--(3.2,0) node[right] {$x$};\n\\draw[black,->] (0,0)--(0,3.2) node[above] {$y$};\n\\draw[mathblue,thick] (0,0)--(2.7,2.4);\n\\path (0,0) node[below left] {$O$};\n\\path (1.5,3.5) node {A};\n\\end{scope}\n\\begin{scope}[shift={(4.8,0)}]\n\\draw[black,->] (0,0)--(3.2,0) node[right] {$x$};\n\\draw[black,->] (0,0)--(0,3.2) node[above] {$y$};\n\\draw[mathblue,thick] (0,0.8)--(2.7,2.8);\n\\path (0,0) node[below left] {$O$};\n\\path (1.5,3.5) node {B};\n\\end{scope}\n\\begin{scope}[shift={(9.6,0)}]\n\\draw[black,->] (0,0)--(3.2,0) node[right] {$x$};\n\\draw[black,->] (0,0)--(0,3.2) node[above] {$y$};\n\\draw[mathblue,thick,domain=0.4:2.8,samples=60] plot (\\x,{1.1/\\x});\n\\path (0,0) node[below left] {$O$};\n\\path (1.5,3.5) node {C};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "A shows direct variation because it is a straight line through the origin.\n\nB does not show direct variation because its straight line misses the origin.\n\nC does not show direct variation because it is curved."
+  },
+  {
+    "equationAlignment": {
+      "mode": "continuation"
+    },
+    "question_text": "A model conversion graph relates Australian dollars $d$ to British pounds $p$. Find the gradient as a fraction, write the equation relating $p$ and $d$, and explain what the gradient represents.\n\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{mathblue}{HTML}{268CFF}\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\draw[gridgrey,very thin,xstep=9mm,ystep=9mm] (0,0) grid (6,4);\n\\draw[black,->] (0,0)--(6.5,0);\n\\draw[black,->] (0,0)--(0,4.5);\n\\path (3,-0.85) node {Australian dollars $d$};\n\\path (-1.05,2) node[rotate=90] {British pounds $p$};\n\\foreach \\x in {1,...,6} {\\draw[black] (\\x,0)--(\\x,-0.08);\\path (\\x,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\x$};}\n\\foreach \\y in {1,...,4} {\\draw[black] (0,\\y)--(-0.08,\\y);\\path (-0.12,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\y$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[mathblue,thick] (0,0)--(6,4);\n\\fill[black] (6,4) circle (1.8pt);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The graph is a straight line through the origin. Use $(0,0)$ and $(6,4)$.\n\n$\\begin{aligned} k&=\\frac{\\text{rise}}{\\text{run}}\\\\&=\\frac{4-0}{6-0}\\\\&=\\frac{2}{3}\\end{aligned}$\n\nThe equation is $p=\\frac{2}{3}d$.\n\nThe gradient represents $\\frac{2}{3}$ of a British pound per Australian dollar in this model.\n\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{mathblue}{HTML}{268CFF}\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\draw[gridgrey,very thin,xstep=9mm,ystep=9mm] (0,0) grid (6,4);\n\\draw[black,->] (0,0)--(6.5,0) node[right] {$d$};\n\\draw[black,->] (0,0)--(0,4.5) node[above] {$p$};\n\\draw[mathblue,thick] (0,0)--(6,4);\n\\fill[black] (0,0) circle (1.8pt);\n\\fill[black] (6,4) circle (1.8pt);\n\\draw[black,dashed] (0,0)--(6,0)--(6,4);\n\\path (0,0) node[below left] {$(0,0)$};\n\\path (6,4) node[above left] {$(6,4)$};\n\\path (3,-0.45) node {run $=6$};\n\\path (6.15,2) node[right] {rise $=4$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "equationAlignment": {
+      "mode": "continuation"
+    },
+    "question_text": "The graph shows the fuel $F$ in litres used over a distance $d$ in kilometres. Use the marked points P and Q to find the gradient, write the equation relating $F$ and $d$, and interpret the gradient.\n\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{mathblue}{HTML}{268CFF}\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\draw[gridgrey,very thin,xstep=9mm,ystep=9mm] (0,0) grid (6,6);\n\\draw[black,->] (0,0)--(6.5,0) node[right] {$d$ (km)};\n\\draw[black,->] (0,0)--(0,6.5) node[above] {$F$ (L)};\n\\foreach \\x/\\v in {1/40,2/80,3/120,4/160,5/200,6/240} {\\draw[black] (\\x,0)--(\\x,-0.08);\\path (\\x,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\foreach \\y/\\v in {1/2,2/4,3/6,4/8,5/10,6/12} {\\draw[black] (0,\\y)--(-0.08,\\y);\\path (-0.12,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[mathblue,thick] (0,0)--(6,6);\n\\fill[black] (2,2) circle (1.8pt);\n\\fill[black] (5,5) circle (1.8pt);\n\\path (2,2) node[above left] {P};\n\\path (5,5) node[above left] {Q};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Read P as $(80,4)$ and Q as $(200,10)$.\n\n$\\begin{aligned} k&=\\frac{\\text{rise}}{\\text{run}}\\\\&=\\frac{10-4}{200-80}\\\\&=\\frac{6}{120}\\\\&=0.05\\end{aligned}$\n\nThe line passes through the origin, so $F=0.05d$.\n\nThe gradient represents fuel use of $0.05$ litres per kilometre.\n\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{mathblue}{HTML}{268CFF}\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\draw[gridgrey,very thin,xstep=9mm,ystep=9mm] (0,0) grid (6,6);\n\\draw[black,->] (0,0)--(6.5,0) node[right] {$d$ (km)};\n\\draw[black,->] (0,0)--(0,6.5) node[above] {$F$ (L)};\n\\draw[mathblue,thick] (0,0)--(6,6);\n\\fill[black] (2,2) circle (1.8pt);\n\\fill[black] (5,5) circle (1.8pt);\n\\draw[black,dashed] (2,2)--(5,2)--(5,5);\n\\path (2,2) node[above left] {P $(80,4)$};\n\\path (5,5) node[above left] {Q $(200,10)$};\n\\path (3.5,1.55) node {run $=120$ km};\n\\path (5.15,3.5) node[right] {rise $=6$ L};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "equationAlignment": {
+      "mode": "continuation"
+    },
+    "question_text": "A plant's growth is modelled by $h=6t$, where $h$ is its increase in height in millimetres and $t$ is time in days. Complete the table for $t=0,1,2,3,4$, then draw the graph for $0\\leq t\\leq4$.\n\n| $t$ (days) | 0 | 1 | 2 | 3 | 4 |\n| --- | --- | --- | --- | --- | --- |\n| $h$ (mm) | | | | | |\n\n[tikz]\n\\begin{tikzpicture}[x=12mm,y=12mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\draw[gridgrey,very thin,xstep=12mm,ystep=12mm] (0,0) grid (4,4);\n\\draw[black,->] (0,0)--(4.5,0) node[right] {$t$ (days)};\n\\draw[black,->] (0,0)--(0,4.5) node[above] {$h$ (mm)};\n\\foreach \\x in {1,...,4} {\\draw[black] (\\x,0)--(\\x,-0.08);\\path (\\x,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\x$};}\n\\foreach \\y/\\v in {1/6,2/12,3/18,4/24} {\\draw[black] (0,\\y)--(-0.08,\\y);\\path (-0.12,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Substitute each time into $h=6t$. For $t=3$:\n\n$\\begin{aligned} h&=6(3)\\\\&=18\\end{aligned}$\n\n| $t$ (days) | 0 | 1 | 2 | 3 | 4 |\n| --- | --- | --- | --- | --- | --- |\n| $h$ (mm) | 0 | 6 | 12 | 18 | 24 |\n\nPlot $(0,0)$, $(1,6)$, $(2,12)$, $(3,18)$ and $(4,24)$, then join them with a straight line. It passes through the origin and has gradient $6$, representing growth of $6$ mm per day.\n\n[tikz]\n\\begin{tikzpicture}[x=12mm,y=12mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{mathblue}{HTML}{268CFF}\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\draw[gridgrey,very thin,xstep=12mm,ystep=12mm] (0,0) grid (4,4);\n\\draw[black,->] (0,0)--(4.5,0) node[right] {$t$ (days)};\n\\draw[black,->] (0,0)--(0,4.5) node[above] {$h$ (mm)};\n\\foreach \\x in {1,...,4} {\\draw[black] (\\x,0)--(\\x,-0.08);\\path (\\x,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\x$};}\n\\foreach \\y/\\v in {1/6,2/12,3/18,4/24} {\\draw[black] (0,\\y)--(-0.08,\\y);\\path (-0.12,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[mathblue,thick] (0,0)--(4,4);\n\\foreach \\a in {0,...,4} {\\fill[black] (\\a,\\a) circle (1.8pt);}\n\\end{tikzpicture}\n[/tikz]"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

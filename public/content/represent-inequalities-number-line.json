@@ -2,20 +2,46 @@
   "skillId": "represent-inequalities-number-line",
   "atomType": "R",
   "theory": {
-        "intro": "An inequality such as $x<3$ names every number on one side of a boundary, not a single number. On a number line the boundary is a circle and the values that work are shaded.",
-        "facts": [
+"intro": "An inequality such as $x<3$ names every number on one side of a boundary, not a single number. On a number line the boundary is a circle and the values that work are shaded.",
+"facts": [
           "An **open circle** marks a boundary that is **not** included, used for $<$ and $>$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-2.9,0)--(2.9,0);\n\\node[right] at (3,0) {$x$};\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.18) {$a$};\n\\draw[very thick,-{Stealth}] (0,0)--(2.35,0);\n\\draw[fill=white] (0,0) circle (2.4pt);\n\\node at (-1.6,0.6) {$x>a$};\n\\end{tikzpicture}\n[/tikz]",
           "A **closed circle** marks a boundary that **is** included, used for $\\le$ and $\\ge$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-2.9,0)--(2.9,0);\n\\node[right] at (3,0) {$x$};\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.18) {$a$};\n\\draw[very thick,-{Stealth}] (0,0)--(2.35,0);\n\\fill (0,0) circle (2.4pt);\n\\node at (-1.6,0.6) {$x\\ge a$};\n\\end{tikzpicture}\n[/tikz]",
           "Shade **right** towards larger values for $>$ and $\\ge$, and **left** towards smaller values for $<$ and $\\le$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-2.9,0)--(2.9,0);\n\\node[right] at (3,0) {$x$};\n\\draw (0,0.12)--(0,-0.12);\n\\node[below] at (0,-0.18) {$a$};\n\\draw[very thick,-{Stealth}] (0,0)--(-2.35,0);\n\\draw[fill=white] (0,0) circle (2.4pt);\n\\node at (1.6,0.6) {$x<a$};\n\\end{tikzpicture}\n[/tikz]",
           "When the number is written first, read the inequality from the pronumeral's side: $2<x$ says the same as $x>2$.",
           "A between inequality such as $-1<x\\le3$ is drawn as a segment with a circle at each end, one open and one closed here.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-2.9,0)--(2.9,0);\n\\node[right] at (3,0) {$x$};\n\\draw (-1.2,0.12)--(-1.2,-0.12);\n\\node[below] at (-1.2,-0.18) {$a$};\n\\draw (1.2,0.12)--(1.2,-0.12);\n\\node[below] at (1.2,-0.18) {$b$};\n\\draw[very thick] (-1.2,0)--(1.2,0);\n\\draw[fill=white] (-1.2,0) circle (2.4pt);\n\\fill (1.2,0) circle (2.4pt);\n\\node at (0,0.6) {$a<x\\le b$};\n\\end{tikzpicture}\n[/tikz]"
         ],
-        "steps": [
+"steps": [
           "Mark the boundary value on the number line.",
           "Draw an open circle for $<$ or $>$, a closed circle for $\\le$ or $\\ge$.",
           "Shade towards the values that make the inequality true."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Show each inequality on a number line.\n(a) $x<-1$\n(b) $x\\ge2$",
+    "solution_text": "(a) Draw an open circle at $-1$ because the boundary is excluded. Draw the arrow left towards smaller values.\n[tikz]\n\\begin{tikzpicture}[x=8mm,color=black]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-4.5,0)--(4.5,0);\n\\foreach \\v in {-4,...,4} {\\draw (\\v,0.1)--(\\v,-0.1);\\path (\\v,-0.15) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\draw[very thick,-{Stealth}] (-1,0)--(-4.35,0);\n\\draw[fill=white] (-1,0) circle (2.4pt);\n\\path (4.6,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\end{tikzpicture}\n[/tikz]\n(b) Draw a closed circle at $2$ because the boundary is included. Draw the arrow right towards larger values.\n[tikz]\n\\begin{tikzpicture}[x=8mm,color=black]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-4.5,0)--(4.5,0);\n\\foreach \\v in {-4,...,4} {\\draw (\\v,0.1)--(\\v,-0.1);\\path (\\v,-0.15) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\draw[very thick,-{Stealth}] (2,0)--(4.35,0);\n\\fill (2,0) circle (2.4pt);\n\\path (4.6,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Write the inequality represented by this number line.\n[tikz]\n\\begin{tikzpicture}[x=8mm,color=black]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-4.5,0)--(4.5,0);\n\\foreach \\v in {-4,...,4} {\\draw (\\v,0.1)--(\\v,-0.1);\\path (\\v,-0.15) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\draw[very thick,-{Stealth}] (-2,0)--(-4.35,0);\n\\fill (-2,0) circle (2.4pt);\n\\path (4.6,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The closed circle includes $-2$. The arrow points left towards values smaller than $-2$.\n$x\\le-2$"
+  },
+  {
+    "question_text": "Draw the graph of $0\\le x$ and the graph of $x\\le0$. Explain why they represent different solution sets.",
+    "solution_text": "$0\\le x$ means $x\\ge0$. Include $0$ and draw the arrow right.\n[tikz]\n\\begin{tikzpicture}[x=8mm,color=black]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-4.5,0)--(4.5,0);\n\\foreach \\v in {-4,...,4} {\\draw (\\v,0.1)--(\\v,-0.1);\\path (\\v,-0.15) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\draw[very thick,-{Stealth}] (0,0)--(4.35,0);\n\\fill (0,0) circle (2.4pt);\n\\path (4.6,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\end{tikzpicture}\n[/tikz]\n$x\\le0$ includes $0$ and the values to its left.\n[tikz]\n\\begin{tikzpicture}[x=8mm,color=black]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-4.5,0)--(4.5,0);\n\\foreach \\v in {-4,...,4} {\\draw (\\v,0.1)--(\\v,-0.1);\\path (\\v,-0.15) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\draw[very thick,-{Stealth}] (0,0)--(-4.35,0);\n\\fill (0,0) circle (2.4pt);\n\\path (4.6,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\end{tikzpicture}\n[/tikz]\nThe first includes positive numbers; the second includes negative numbers. Both include $0$."
+  },
+  {
+    "question_text": "Show $-1\\le x<4$ on a number line.",
+    "solution_text": "Draw a closed circle at $-1$ and an open circle at $4$. Join them to show all values between the boundaries.\n[tikz]\n\\begin{tikzpicture}[x=8mm,color=black]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-2.5,0)--(5.5,0);\n\\foreach \\v in {-2,...,5} {\\draw (\\v,0.1)--(\\v,-0.1);\\path (\\v,-0.15) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\draw[very thick] (-1,0)--(4,0);\n\\fill (-1,0) circle (2.4pt);\n\\draw[fill=white] (4,0) circle (2.4pt);\n\\path (5.6,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Write the inequality represented by this number line.\n[tikz]\n\\begin{tikzpicture}[x=8mm,color=black]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-4.5,0)--(3.5,0);\n\\foreach \\v in {-4,...,3} {\\draw (\\v,0.1)--(\\v,-0.1);\\path (\\v,-0.15) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\draw[very thick] (-2,0)--(1,0);\n\\draw[fill=white] (-2,0) circle (2.4pt);\n\\fill (1,0) circle (2.4pt);\n\\path (3.6,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The segment shows values between $-2$ and $1$. The open circle excludes $-2$; the closed circle includes $1$.\n$-2<x\\le1$"
+  },
+  {
+    "question_text": "A student drew this graph for $-1\\ge x$.\nExplain both errors and draw the correct graph.\n[tikz]\n\\begin{tikzpicture}[x=8mm,color=black]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-4.5,0)--(4.5,0);\n\\foreach \\v in {-4,...,4} {\\draw (\\v,0.1)--(\\v,-0.1);\\path (\\v,-0.15) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\draw[very thick,-{Stealth}] (-1,0)--(4.35,0);\n\\draw[fill=white] (-1,0) circle (2.4pt);\n\\path (4.6,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$-1\\ge x$ means $x\\le-1$. The circle must be closed because $-1$ is included. The arrow must point left because the other solutions are smaller than $-1$.\n[tikz]\n\\begin{tikzpicture}[x=8mm,color=black]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-4.5,0)--(4.5,0);\n\\foreach \\v in {-4,...,4} {\\draw (\\v,0.1)--(\\v,-0.1);\\path (\\v,-0.15) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\draw[very thick,-{Stealth}] (-1,0)--(-4.35,0);\n\\fill (-1,0) circle (2.4pt);\n\\path (4.6,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\end{tikzpicture}\n[/tikz]"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

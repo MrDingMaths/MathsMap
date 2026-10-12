@@ -2,20 +2,79 @@
   "skillId": "exact-trig-ratios",
   "atomType": "R",
   "theory": {
-        "intro": "The angles $30^{\\circ}$, $45^{\\circ}$ and $60^{\\circ}$ come up so often that their ratios are worth knowing exactly, without a calculator. Each exact value comes from one of two special right-angled triangles. The boundary angles $0^{\\circ}$ and $90^{\\circ}$ complete the set.",
-        "facts": [
+"intro": "The angles $30^{\\circ}$, $45^{\\circ}$ and $60^{\\circ}$ come up so often that their ratios are worth knowing exactly, without a calculator. Each exact value comes from one of two special right-angled triangles. The boundary angles $0^{\\circ}$ and $90^{\\circ}$ complete the set.",
+"facts": [
 "$\\begin{array}{c|ccccc}\\theta & 0^{\\circ} & 30^{\\circ} & 45^{\\circ} & 60^{\\circ} & 90^{\\circ} \\\\ \\hline \\sin\\theta & 0 & \\frac{1}{2} & \\frac{1}{\\sqrt{2}} & \\frac{\\sqrt{3}}{2} & 1 \\\\ \\cos\\theta & 1 & \\frac{\\sqrt{3}}{2} & \\frac{1}{\\sqrt{2}} & \\frac{1}{2} & 0 \\\\ \\tan\\theta & 0 & \\frac{1}{\\sqrt{3}} & 1 & \\sqrt{3} & \\text{undefined} \\end{array}$",
 "The **45°–45°–90°** triangle is half a unit square: both legs are $1$ and the hypotenuse is $\\sqrt{2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (A) at (0,3);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (3,0);\n\\draw (A)--(B) node[midway,left] {$1$};\n\\draw (B)--(C) node[midway,below] {$1$};\n\\draw (C)--(A) node[midway,above right] {$\\sqrt{2}$};\n\\coordinate (ra1) at ($(B)!0.3cm!(A)$);\n\\coordinate (ra2) at ($(B)!0.3cm!(C)$);\n\\draw (ra1)--($(ra1)+(ra2)-(B)$)--(ra2);\n\\pic[draw,\"$45^{\\circ}$\",angle radius=0.7cm,angle eccentricity=1.9] {angle=A--C--B};\n\\pic[draw,\"$45^{\\circ}$\",angle radius=0.8cm,angle eccentricity=2] {angle=B--A--C};\n\\end{tikzpicture}\n[/tikz]",
 "The **30°–60°–90°** triangle is half an equilateral triangle of side $2$, with $1$ opposite $30^{\\circ}$, $\\sqrt{3}$ opposite $60^{\\circ}$ and hypotenuse $2$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (A) at (0,3.464);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (2,0);\n\\draw (A)--(B) node[midway,left] {$\\sqrt{3}$};\n\\draw (B)--(C) node[midway,below] {$1$};\n\\draw (C)--(A) node[midway,above right] {$2$};\n\\coordinate (ra1) at ($(B)!0.3cm!(A)$);\n\\coordinate (ra2) at ($(B)!0.3cm!(C)$);\n\\draw (ra1)--($(ra1)+(ra2)-(B)$)--(ra2);\n\\pic[draw,\"$30^{\\circ}$\",angle radius=0.9cm,angle eccentricity=2] {angle=B--A--C};\n\\pic[draw,\"$60^{\\circ}$\",angle radius=0.62cm,angle eccentricity=1.7] {angle=A--C--B};\n\\end{tikzpicture}\n[/tikz]",
 "$\\tan90^{\\circ}$ is **undefined**, because the adjacent side shrinks to $0$ and $\\dfrac{\\text{opp}}{\\text{adj}}$ has no value.",
 "To find an unknown side, choose the ratio linking it to the known side and the given angle, substitute the exact value, then solve."
 ],
-        "steps": [
+"steps": [
           "Choose the ratio linking the known and unknown sides",
           "Substitute the exact value of the ratio",
           "Solve for the unknown side"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "State the exact values of $\\cos60^{\\circ}$, $\\sin0^{\\circ}$ and $\\tan45^{\\circ}$.",
+    "solution_text": "Read the corresponding entries in the exact-value table.\n\n$\\cos60^{\\circ}=\\frac12$\n\n$\\sin0^{\\circ}=0$\n\n$\\tan45^{\\circ}=1$"
+  },
+  {
+    "question_text": "Explain why $\\tan90^{\\circ}$ is undefined.",
+    "solution_text": "$\\tan\\theta=\\dfrac{\\sin\\theta}{\\cos\\theta}$\n\nAt $90^{\\circ}$, the numerator is $1$ and the denominator is $0$. Division by zero is undefined, so $\\tan90^{\\circ}$ is undefined."
+  },
+  {
+    "question_text": "The diagram shows half a square of side $2$. Use the triangle to find the exact values of $\\sin45^{\\circ}$, $\\cos45^{\\circ}$ and $\\tan45^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(3,0)--(0,3)--cycle;\n\\draw (0,0.25)--(0.25,0.25)--(0.25,0);\n\\draw (2.4,0) arc[start angle=180,end angle=135,radius=0.6];\n\\path (1.5,0) node[below] {$2$} (0,1.5) node[left] {$2$} (1.5,1.5) node[above right] {$h$} (2.05,0.4) node {$45^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Find the hypotenuse using Pythagoras.\n\n$\\begin{align*}h^2&=2^2+2^2\\\\h^2&=8\\\\h&=2\\sqrt2\\end{align*}$\n\nThe opposite and adjacent sides are both $2$.\n\n$\\begin{align*}\\sin45^{\\circ}&=\\frac{2}{2\\sqrt2}\\\\&=\\frac1{\\sqrt2}\\end{align*}$\n\n$\\begin{align*}\\cos45^{\\circ}&=\\frac{2}{2\\sqrt2}\\\\&=\\frac1{\\sqrt2}\\end{align*}$\n\n$\\begin{align*}\\tan45^{\\circ}&=\\frac22\\\\&=1\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An equilateral triangle of side $6$ is cut along its altitude. The resulting right triangle is shown. Find $h$, then derive the sine, cosine and tangent ratios for $30^{\\circ}$ and $60^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2,0)--(0,3.4641)--cycle;\n\\draw (0,0.25)--(0.25,0.25)--(0.25,0);\n\\draw (1.5,0) arc[start angle=180,end angle=120,radius=0.5];\n\\draw (0,2.7141) arc[start angle=270,end angle=300,radius=0.75];\n\\path (1,0) node[below] {$3$} (0,1.732) node[left] {$h$} (1,1.732) node[above right] {$6$} (1.12,0.48) node {$60^{\\circ}$} (0.35,2.25) node {$30^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{align*}h^2+3^2&=6^2\\\\h^2&=27\\\\h&=3\\sqrt3\\end{align*}$\n\nFor $30^{\\circ}$, the opposite side is $3$, the adjacent side is $3\\sqrt3$ and the hypotenuse is $6$.\n\n$\\sin30^{\\circ}=\\frac36=\\frac12$\n\n$\\cos30^{\\circ}=\\frac{3\\sqrt3}{6}=\\frac{\\sqrt3}{2}$\n\n$\\tan30^{\\circ}=\\frac3{3\\sqrt3}=\\frac1{\\sqrt3}$\n\nFor $60^{\\circ}$, the opposite and adjacent sides exchange roles.\n\n$\\sin60^{\\circ}=\\frac{3\\sqrt3}{6}=\\frac{\\sqrt3}{2}$\n\n$\\cos60^{\\circ}=\\frac36=\\frac12$\n\n$\\tan60^{\\circ}=\\frac{3\\sqrt3}{3}=\\sqrt3$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact lengths of $x$ and $y$ in centimetres.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(3.4641,0)--(0,2)--cycle;\n\\draw (0,0.25)--(0.25,0.25)--(0.25,0);\n\\draw (2.6641,0) arc[start angle=180,end angle=150,radius=0.8];\n\\path (0,1) node[left] {$x$} (1.732,0) node[below] {$y$} (1.732,1) node[above right] {$12\\text{ cm}$} (2.18,0.4) node {$30^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Sine links the opposite side $x$ to the hypotenuse.\n\n$\\begin{align*}\\sin30^{\\circ}&=\\frac{x}{12}\\\\\\frac12&=\\frac{x}{12}\\\\x&=6\\text{ cm}\\end{align*}$\n\nCosine links the adjacent side $y$ to the hypotenuse.\n\n$\\begin{align*}\\cos30^{\\circ}&=\\frac{y}{12}\\\\\\frac{\\sqrt3}{2}&=\\frac{y}{12}\\\\y&=6\\sqrt3\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact lengths of $x$ and $h$ in centimetres. Leave $x$ in the form $\\dfrac{a}{\\sqrt3}$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2,0)--(0,3.4641)--cycle;\n\\draw (0,0.25)--(0.25,0.25)--(0.25,0);\n\\draw (0,2.7141) arc[start angle=270,end angle=300,radius=0.75];\n\\path (0,1.732) node[left] {$9\\text{ cm}$} (1,0) node[below] {$x$} (1,1.732) node[above right] {$h$} (0.35,2.25) node {$30^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Tangent links the opposite side $x$ to the adjacent side $9$.\n\n$\\begin{align*}\\tan30^{\\circ}&=\\frac{x}{9}\\\\\\frac1{\\sqrt3}&=\\frac{x}{9}\\\\x&=\\frac9{\\sqrt3}\\text{ cm}\\end{align*}$\n\nCosine links the adjacent side to the hypotenuse.\n\n$\\begin{align*}\\cos30^{\\circ}&=\\frac9h\\\\\\frac{\\sqrt3}{2}&=\\frac9h\\\\h\\sqrt3&=18\\\\h&=\\frac{18}{\\sqrt3}\\\\h&=6\\sqrt3\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact value of:\n\n(a) $\\sin30^{\\circ}\\cos60^{\\circ}+\\sin^245^{\\circ}$\n\n(b) $\\dfrac{\\sin30^{\\circ}}{\\cos30^{\\circ}}$\n\n(c) $1+\\tan^230^{\\circ}$.",
+    "solution_text": "(a)\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\sin30^{\\circ}\\cos60^{\\circ}+\\sin^245^{\\circ}\\\\&=\\frac12\\times\\frac12+\\left(\\frac1{\\sqrt2}\\right)^2\\\\&=\\frac14+\\frac12\\\\&=\\frac34\\end{aligned}$\n\n(b)\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{\\sin30^{\\circ}}{\\cos30^{\\circ}}\\\\&=\\frac{\\frac12}{\\frac{\\sqrt3}{2}}\\\\&=\\frac12\\times\\frac2{\\sqrt3}\\\\&=\\frac1{\\sqrt3}\\end{aligned}$\n\n(c)\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}1+\\tan^230^{\\circ}\\\\&=1+\\left(\\frac1{\\sqrt3}\\right)^2\\\\&=1+\\frac13\\\\&=\\frac43\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The equilateral triangle has side length $8\\text{ cm}$. Find its height $x$ in exact form.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(4,0)--(2,3.4641)--cycle;\n\\draw[dashed] (2,3.4641)--(2,0);\n\\draw (2,0.25)--(2.25,0.25)--(2.25,0);\n\\path (2,0) node[below] {$8\\text{ cm}$} (1,1.732) node[above left] {$8\\text{ cm}$} (3,1.732) node[above right] {$8\\text{ cm}$} (2,1.5) node[right] {$x$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Each angle of an equilateral triangle is $60^{\\circ}$. The altitude forms a right triangle with hypotenuse $8\\text{ cm}$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2,0)--(2,3.4641)--cycle;\n\\draw (1.75,0)--(1.75,0.25)--(2,0.25);\n\\draw (0.55,0) arc[start angle=0,end angle=60,radius=0.55];\n\\path (1,1.732) node[above left] {$8\\text{ cm}$} (2,1.732) node[right] {$x$} (0.9,0.48) node {$60^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{align*}\\sin60^{\\circ}&=\\frac{x}{8}\\\\\\frac{\\sqrt3}{2}&=\\frac{x}{8}\\\\x&=4\\sqrt3\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$AB=8\\text{ cm}$, $\\angle CAB=45^{\\circ}$ and $\\angle DAB=60^{\\circ}$. Points $B$, $C$ and $D$ lie on the same perpendicular to $AB$. Find $x=CD$ in exact form.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(3,0)--(3,5.1962)--cycle;\n\\draw (0,0)--(3,3);\n\\draw (2.75,0)--(2.75,0.25)--(3,0.25);\n\\draw (0.6,0) arc[start angle=0,end angle=45,radius=0.6];\n\\draw (1.2,0) arc[start angle=0,end angle=60,radius=1.2];\n\\path (0,0) node[below left] {$A$} (3,0) node[below right] {$B$} (3,3) node[right] {$C$} (3,5.1962) node[above right] {$D$} (1.5,0) node[below] {$8\\text{ cm}$} (3,4.1) node[right] {$x$} (0.92,0.35) node {$45^{\\circ}$} (1.52,0.85) node {$60^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Use tangent to find each height.\n\n$\\begin{align*}\\tan45^{\\circ}&=\\frac{BC}{8}\\\\BC&=8\\tan45^{\\circ}\\\\BC&=8\\text{ cm}\\end{align*}$\n\n$\\begin{align*}\\tan60^{\\circ}&=\\frac{BD}{8}\\\\BD&=8\\tan60^{\\circ}\\\\BD&=8\\sqrt3\\text{ cm}\\end{align*}$\n\nSubtract the smaller height from the larger height.\n\n$\\begin{align*}x&=BD-BC\\\\&=8\\sqrt3-8\\\\&=8(\\sqrt3-1)\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

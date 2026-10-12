@@ -2,8 +2,8 @@
   "skillId": "hyperbola-transformations",
   "atomType": "T",
   "theory": {
-        "intro": "A reciprocal relationship $y=\\dfrac{k}{x}$, where $k\\ne0$, graphs as a **hyperbola**: two smooth branches that get closer and closer to two asymptotes without touching them. Changing $k$, adding $c$ or replacing $x$ with $(x-b)$ transforms this basic curve. Throughout this section, $k\\ne0$.",
-        "facts": [
+"intro": "A reciprocal relationship $y=\\dfrac{k}{x}$, where $k\\ne0$, graphs as a **hyperbola**: two smooth branches that get closer and closer to two asymptotes without touching them. Changing $k$, adding $c$ or replacing $x$ with $(x-b)$ transforms this basic curve. Throughout this section, $k\\ne0$.",
+"facts": [
           "$y=\\dfrac{k}{x}$ has a vertical asymptote $x=0$ and a horizontal asymptote $y=0$ — the two axes.",
           "When $k>0$ the branches lie in quadrants $1$ and $3$; when $k<0$ they lie in quadrants $2$ and $4$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-5.8, xmax=5.8, ymin=-5.8, ymax=5.8, samples=200, clip=false, restrict y to domain=-7:7, unbounded coords=jump, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[thick, blue, <->, domain=0.45:4.4] {2/x};\n\\addplot[thick, blue, <->, domain=-4.4:-0.45] {2/x};\n\\addplot[thick, red, dashed, <->, domain=0.45:4.4] {-2/x};\n\\addplot[thick, red, dashed, <->, domain=-4.4:-0.45] {-2/x};\n\\node[blue] at (axis cs:2.9,2.6) {$k>0$};\n\\node[red] at (axis cs:-2.9,2.6) {$k<0$};\n\\node at (axis cs:5.2,5.2) {$1$};\n\\node at (axis cs:-5.2,5.2) {$2$};\n\\node at (axis cs:-5.2,-5.2) {$3$};\n\\node at (axis cs:5.2,-5.2) {$4$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
           "The larger $|k|$ is, the further the branches sit from the axes.",
@@ -12,13 +12,39 @@
           "$y=\\dfrac{k}{x}$ has no intercepts, but a shifted hyperbola usually does.",
           "Find them by letting $x=0$ for the $y$-intercept and $y=0$ for the $x$-intercept."
         ],
-        "steps": [
+"steps": [
           "Find the vertical and horizontal asymptotes.",
           "Use the sign of $k$ to decide which regions the branches lie in.",
           "Plot a point on each branch.",
           "Sketch the two branches approaching the asymptotes."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Use a table of values to sketch $y=-\\dfrac{4}{x}$ for $x=-4,-2,-1,0,1,2,4$. State the quadrants containing its branches and describe what happens to $y$ as $x$ becomes very large positively or negatively.",
+    "solution_text": "| $x$ | $-4$ | $-2$ | $-1$ | $0$ | $1$ | $2$ | $4$ |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| $y$ | $1$ | $2$ | $4$ | Undefined | $-4$ | $-2$ | $-1$ |\n\nFor example, at $x=2$, $y=-\\dfrac{4}{2}=-2$. At $x=0$, division by zero is undefined.\n\nSince $k=-4<0$, the branches lie in quadrants $2$ and $4$. The asymptotes are $x=0$ and $y=0$; there are no intercepts.\n\nAs $x$ becomes very large positively, $y$ approaches $0$ from below. As $x$ becomes very large negatively, $y$ approaches $0$ from above.\n\nPlot the table points and draw two smooth branches approaching the axes.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\begin{axis}[width=75mm,height=75mm,axis lines=middle,axis line style={black,->},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},xmin=-5,xmax=5,ymin=-5,ymax=5,xtick={-4,-2,2,4},ytick={-4,-2,2,4},samples=100]\n\\addplot[curveBlue,thick,<->,domain=-4.7:-0.85] {-4/x};\n\\addplot[curveBlue,thick,<->,domain=0.85:4.7] {-4/x};\n\\addplot[curveBlue,only marks,mark=*] coordinates {(-4,1) (-2,2) (-1,4) (1,-4) (2,-2) (4,-1)};\n\\node[anchor=east,xshift=-3pt,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:-1,4) {$(-1,4)$};\n\\node[anchor=north east,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:1,-4) {$(1,-4)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Compared with $y=\\dfrac{1}{x}$, describe the translations giving each graph and state both asymptotes.\n\na. $y=\\dfrac{1}{x}-5$\n\nb. $y=\\dfrac{1}{x+4}$\n\nc. $y=\\dfrac{1}{x-4}+1$",
+    "solution_text": "a. Subtracting $5$ outside the fraction translates the graph down $5$ units. The asymptotes are $x=0$ and $y=-5$.\n\nb. The denominator is $x-(-4)$, so the graph translates left $4$ units. The asymptotes are $x=-4$ and $y=0$.\n\nc. The denominator $x-4$ translates the graph right $4$ units; adding $1$ translates it up $1$ unit. The asymptotes are $x=4$ and $y=1$."
+  },
+  {
+    "question_text": "Compare $y=\\dfrac{3}{x}$ and $y=\\dfrac{8}{x}$. State what their graphs have in common and explain which lies further from the axes.",
+    "solution_text": "Both have asymptotes $x=0$ and $y=0$, no intercepts, and branches in quadrants $1$ and $3$.\n\nAt $x=2$, the first graph has $y=\\dfrac{3}{2}$ and the second has $y=4$.\n\nSince $8>3$, $y=\\dfrac{8}{x}$ has the larger $|k|$. At the same nonzero $x$, its point lies further from the horizontal axis; at the same nonzero $y$, its point lies further from the vertical axis."
+  },
+  {
+    "question_text": "The graph has the form $y=\\dfrac{k}{x}$ and passes through $(3,-2)$. Find $k$ and hence its equation.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\begin{axis}[width=75mm,height=75mm,axis lines=middle,axis line style={black,->},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},xmin=-5,xmax=5,ymin=-5,ymax=5,xtick={-4,-2,2,4},ytick={-4,-2,2,4},samples=100]\n\\addplot[curveBlue,thick,<->,domain=-4.7:-1.3] {-6/x};\n\\addplot[curveBlue,thick,<->,domain=1.3:4.7] {-6/x};\n\\addplot[curveBlue,only marks,mark=*] coordinates {(3,-2)};\n\\node[anchor=north east,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:3,-2) {$(3,-2)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Substitute the given point into $y=\\dfrac{k}{x}$.\n\n$\\begin{aligned}-2&=\\dfrac{k}{3}\\\\k&=-6\\end{aligned}$\n\nThe equation is $y=-\\dfrac{6}{x}$."
+  },
+  {
+    "question_text": "Sketch $y=\\dfrac{2}{x+2}-1$, showing both intercepts and both asymptotes. Describe its transformations from $y=\\dfrac{1}{x}$.",
+    "solution_text": "For the $y$-intercept, let $x=0$.\n\n$\\begin{aligned}y&=\\dfrac{2}{0+2}-1\\\\&=0\\end{aligned}$\n\nFor the $x$-intercept, let $y=0$.\n\n$\\begin{aligned}0&=\\dfrac{2}{x+2}-1\\\\1&=\\dfrac{2}{x+2}\\\\x+2&=2\\\\x&=0\\end{aligned}$\n\nBoth intercepts are $(0,0)$. The asymptotes are $x=-2$ and $y=-1$.\n\nFrom $y=\\dfrac{1}{x}$, stretch vertically by factor $2$, then translate left $2$ units and down $1$ unit. Since $k>0$, the branches lie above-right and below-left of the intersection of the asymptotes.\n\nA point on the left branch is found by letting $x=-3$: $y=\\dfrac{2}{-3+2}-1=-3$.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{asymRed}{HTML}{EF6068}\n\\begin{axis}[width=80mm,height=80mm,axis lines=middle,axis line style={black,->},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},xmin=-6,xmax=5,ymin=-6,ymax=5,xtick={-4,-2,2,4},ytick={-4,-2,2,4},samples=100]\n\\addplot[asymRed,dashed] coordinates {(-2,-6) (-2,5)};\n\\addplot[asymRed,dashed] coordinates {(-6,-1) (5,-1)};\n\\addplot[curveBlue,thick,<->,domain=-5.7:-2.42] {2/(x+2)-1};\n\\addplot[curveBlue,thick,<->,domain=-1.65:4.7] {2/(x+2)-1};\n\\addplot[curveBlue,only marks,mark=*] coordinates {(0,0) (-3,-3)};\n\\node[anchor=south west,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:0,0) {$(0,0)$};\n\\node[anchor=north east,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:-3,-3) {$(-3,-3)$};\n\\node[anchor=north east,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:-2,4.7) {$x=-2$};\n\\node[anchor=north east,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:4.8,-1) {$y=-1$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "The hyperbola has vertical asymptote $x=2$, horizontal asymptote $y=1$, and passes through $(3,-2)$. Find its equation in the form $y=\\dfrac{k}{x-b}+c$.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{asymRed}{HTML}{EF6068}\n\\begin{axis}[width=80mm,height=80mm,axis lines=middle,axis line style={black,->},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},xmin=-4,xmax=6,ymin=-5,ymax=6,xtick={-2,2,4},ytick={-4,-2,2,4},samples=100]\n\\addplot[asymRed,dashed] coordinates {(2,-5) (2,6)};\n\\addplot[asymRed,dashed] coordinates {(-4,1) (6,1)};\n\\addplot[curveBlue,thick,<->,domain=-3.7:1.37] {-3/(x-2)+1};\n\\addplot[curveBlue,thick,<->,domain=2.53:5.7] {-3/(x-2)+1};\n\\addplot[curveBlue,only marks,mark=*] coordinates {(3,-2)};\n\\node[anchor=north west,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:3,-2) {$(3,-2)$};\n\\node[anchor=north west,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:2,5.8) {$x=2$};\n\\node[anchor=south east,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:5.8,1) {$y=1$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The asymptotes give $b=2$ and $c=1$, so $y=\\dfrac{k}{x-2}+1$.\n\nSubstitute $(3,-2)$.\n\n$\\begin{aligned}-2&=\\dfrac{k}{3-2}+1\\\\-2&=k+1\\\\k&=-3\\end{aligned}$\n\nThe equation is $y=-\\dfrac{3}{x-2}+1$. Its negative $k$ agrees with the branches lying above-left and below-right of the intersection of the asymptotes."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,8 +2,8 @@
   "skillId": "maximum-flow-minimum-cut",
   "atomType": "R",
   "theory": {
-    "intro": "The **maximum-flow minimum-cut theorem** states that the maximum flow from source to sink equals the capacity of the **minimum cut** in the network.",
-    "facts": [
+"intro": "The **maximum-flow minimum-cut theorem** states that the maximum flow from source to sink equals the capacity of the **minimum cut** in the network.",
+"facts": [
 "A **valid cut** completely separates the source from the sink. Its capacity sums only the capacities of edges directed from the source side to the sink side; edges directed back towards the source side are excluded.",
 "The **minimum cut** is the valid cut with the smallest total capacity.",
 "The **maximum flow** of any network is exactly equal to the capacity of its minimum cut.",
@@ -11,13 +11,43 @@
 "Every edge crossing the minimum cut from source to sink is fully saturated at maximum flow.",
 "Comparing selected cuts establishes maximum flow only if they include a minimum cut. Prove minimality by comparing every possible valid cut or by showing an attainable flow equal to the nominated cut capacity."
 ],
-    "steps": [
+"steps": [
 "Calculate the capacities of valid cuts separating source from sink",
 "Identify the cut with the minimum capacity, checking every possible valid cut or showing an attainable flow equal to its capacity",
 "State the maximum flow as equal to the minimum cut capacity",
 "Verify that maximum flow from path saturation matches the minimum cut"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Four valid cuts in a road network have capacities $C_1=46$, $C_2=38$, $C_3=43$ and $C_4=38$ vehicles per minute. These cuts include a minimum cut. Identify the minimum cuts and determine the maximum traffic flow.",
+    "solution_text": "$\\min(46,38,43,38)=38$.\n\nBoth $C_2$ and $C_4$ are minimum cuts. By the maximum-flow minimum-cut theorem, the maximum traffic flow is $38\\text{ vehicles/min}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "The directed network shows pipe capacities in litres per minute.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{flow/.style={thick,decoration={markings,mark=at position 0.55 with {\\arrow{>}}},postaction={decorate}}}\n\\coordinate (S) at (0,1.5);\n\\coordinate (A) at (2,3);\n\\coordinate (B) at (2,0);\n\\coordinate (T) at (5,1.5);\n\\draw[flow] (S)--(A) node[midway,above left] {$9$};\n\\draw[flow] (S)--(B) node[midway,below left] {$12$};\n\\draw[flow] (B)--(A) node[pos=0.35,left] {$4$};\n\\draw[flow] (A)--(T) node[midway,above right] {$7$};\n\\draw[flow] (B)--(T) node[midway,below right] {$8$};\n\\foreach \\v/\\p in {S/left,A/above,B/below,T/right}{\\fill[black] (\\v) circle (2pt);\\path (\\v) node[\\p] {$\\v$};}\n\\end{tikzpicture}\n[/tikz]\n(a) Calculate the capacity of the cut separating $\\{S,A\\}$ from $\\{B,T\\}$. Explain how edge $BA$ is treated.\n\n(b) Compare every possible valid cut, identify the minimum cut and determine the maximum flow.\n\n(c) Show a flow attaining this value and state the unused capacities of the forward edges crossing the minimum cut.",
+    "solution_text": "(a) The forward edges crossing the cut are $SB$ and $AT$.\n\n$\\text{Cut capacity}=12+7=19\\text{ L/min}$.\n\nEdge $BA$ points from the sink side to the source side, so its capacity is excluded.\n\n(b) Each of the two intermediate vertices can lie on either side. The four possible source-side sets give:\n\n$\\begin{aligned}\\{S\\}:&\\quad 9+12=21\\\\\\{S,A\\}:&\\quad 12+7=19\\\\\\{S,B\\}:&\\quad 9+4+8=21\\\\\\{S,A,B\\}:&\\quad 7+8=15\\end{aligned}$\n\nThe minimum cut crosses $AT$ and $BT$, as shown in red.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{decorations.markings}\n\\definecolor{cutred}{HTML}{EF6068}\n\\tikzset{flow/.style={thick,decoration={markings,mark=at position 0.55 with {\\arrow{>}}},postaction={decorate}}}\n\\coordinate (S) at (0,1.5);\n\\coordinate (A) at (2,3);\n\\coordinate (B) at (2,0);\n\\coordinate (T) at (5,1.5);\n\\draw[flow] (S)--(A) node[midway,above left] {$9$};\n\\draw[flow] (S)--(B) node[midway,below left] {$12$};\n\\draw[flow] (B)--(A) node[pos=0.35,left] {$4$};\n\\draw[flow] (A)--(T) node[midway,above right] {$7$};\n\\draw[flow] (B)--(T) node[midway,below right] {$8$};\n\\draw[cutred,thick,dashed] (4,-0.3)--(4,3.3);\n\\foreach \\v/\\p in {S/left,A/above,B/below,T/right}{\\fill[black] (\\v) circle (2pt);\\path (\\v) node[\\p] {$\\v$};}\n\\end{tikzpicture}\n[/tikz]\nBy the maximum-flow minimum-cut theorem, the maximum flow is $15\\text{ L/min}$.\n\n(c) Send $7\\text{ L/min}$ along $SAT$ and $8\\text{ L/min}$ along $SBT$. These flows respect every capacity and total $15\\text{ L/min}$, matching the minimum cut.\n\nEdges $AT$ and $BT$ are fully saturated, so each has unused capacity $0\\text{ L/min}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Path saturation establishes a maximum flow of $64\\text{ kL/h}$ in a water network. Two valid cuts have capacities $K=73\\text{ kL/h}$ and $M=64\\text{ kL/h}$. Determine whether each cut is a minimum cut, giving reasons.",
+    "solution_text": "The minimum cut capacity equals the established maximum flow, $64\\text{ kL/h}$.\n\nCut $K$ is not minimum because $73>64$.\n\nCut $M$ is minimum because its capacity equals the maximum flow.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A valid cut crosses three edges directed from the source side to the sink side with capacities $42$, $36$ and $27\\text{ L/s}$. It also crosses an edge directed back towards the source side with capacity $15\\text{ L/s}$. No other cut capacities or attainable flows are known. Calculate the cut capacity and explain what can be concluded about the maximum flow.",
+    "solution_text": "Exclude the reverse edge.\n\n$\\text{Cut capacity}=42+36+27=105\\text{ L/s}$.\n\nEvery valid cut gives an upper bound, so the maximum flow is at most $105\\text{ L/s}$. Equality requires proof that this cut is minimum, such as an attainable flow of $105\\text{ L/s}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

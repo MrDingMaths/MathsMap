@@ -2,121 +2,135 @@
   "skillId": "irregular-land-area",
   "atomType": "R",
   "theory": {
-        "intro": "The area of an **irregular block of land** is found by **dissecting** it into simple geometric shapes, such as triangles, rectangles, and trapeziums.",
-        "facts": [
-          "A diagonal $d$ divides a quadrilateral into two triangles with perpendicular heights $h_1$ and $h_2$: $A = \\dfrac{1}{2}dh_1 + \\dfrac{1}{2}dh_2$.",
-          "Total area is the sum of the individual dissected shapes: $A = A_1 + A_2 + \\dots$",
-          "**Perpendicular offsets** measured from a survey baseline create right-angled triangles and trapeziums.",
-          "Find boundary side lengths using Pythagoras' theorem ($c = \\sqrt{a^2 + b^2}$) on the right-angled offset triangles before adding them for perimeter.",
-          "Express land areas in square metres ($\\text{m}^2$) or hectares ($\\text{ha}$), where $1\\text{ ha} = 10\\,000\\text{ m}^2$."
-        ],
-        "steps": [
-          "Dissect the irregular block into simple triangles, trapeziums, or rectangles.",
-          "Calculate the area of each individual shape.",
-          "Add the individual areas to find the total area."
-        ]
-      },
+"intro": "The area of an **irregular quadrilateral block of land** is found by **dissecting** it into two triangles and adding their areas.",
+"facts": [
+"A diagonal $d$ divides a quadrilateral into two triangles with perpendicular heights $h_1$ and $h_2$: $A = \\dfrac{1}{2}dh_1 + \\dfrac{1}{2}dh_2$.",
+"Total area is the sum of the two triangle areas: $A = A_1 + A_2$.",
+"Perpendicular offsets from the opposite vertices to the diagonal give the heights of the two triangles.",
+"Find boundary side lengths using Pythagoras' theorem ($c = \\sqrt{a^2 + b^2}$) on the right-angled offset triangles before adding them for perimeter.",
+"Express areas in square metres ($\\text{m}^2$). Keep boundary lengths as square roots until the final perimeter is rounded to the nearest metre."
+],
+"steps": [
+"Dissect the irregular quadrilateral into two triangles.",
+"Calculate the area of each individual shape.",
+"Add the individual areas to find the total area."
+],
+"workedExamples": [
+  {
+    "question_text": "Calculate the area of this quadrilateral block of land. The diagonal $PR$ is $28\\text{ m}$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (1.8,1.6);\n\\coordinate (R) at (5.6,0);\n\\coordinate (S) at (3.6,-2.4);\n\\coordinate (E) at (1.8,0);\n\\coordinate (F) at (3.6,0);\n\\draw[thick] (P)--(Q)--(R)--(S)--cycle;\n\\draw[dashed] (P)--(R) (Q)--(E) (S)--(F);\n\\draw (E)--++(0,0.2)--++(0.2,0)--++(0,-0.2);\n\\draw (F)--++(0,-0.2)--++(-0.2,0)--++(0,0.2);\n\\path (P) node[left] {$P$} (Q) node[above] {$Q$} (R) node[right] {$R$} (S) node[below] {$S$};\n\\path (1.8,0.8) node[right] {$8\\text{ m}$};\n\\path (3.6,-1.2) node[right] {$12\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The diagonal divides the block into two triangles. Their perpendicular heights are $8\\text{ m}$ and $12\\text{ m}$.\n$\\begin{align*} A_1 &= \\frac12\\times28\\times8 \\\\ &=112\\text{ m}^2 \\end{align*}$\n$\\begin{align*} A_2 &= \\frac12\\times28\\times12 \\\\ &=168\\text{ m}^2 \\end{align*}$\nAdd the two triangle areas.\n$\\begin{align*} A &= A_1+A_2 \\\\ &=112+168 \\\\ &=280\\text{ m}^2 \\end{align*}$"
+  },
+  {
+    "question_text": "The diagonal $PR$ is divided at the feet of two perpendicular offsets, as shown. Calculate the area of the block to the nearest square metre.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (P) at (0,0);\n\\coordinate (E) at (1.5,0);\n\\coordinate (F) at (3.5,0);\n\\coordinate (R) at (5.2,0);\n\\coordinate (Q) at (1.5,2.3);\n\\coordinate (S) at (3.5,-1.6);\n\\draw[thick] (P)--(Q)--(R)--(S)--cycle;\n\\draw[dashed] (P)--(R) (Q)--(E) (S)--(F);\n\\draw (E)--++(0,0.2)--++(0.2,0)--++(0,-0.2);\n\\draw (F)--++(0,-0.2)--++(-0.2,0)--++(0,0.2);\n\\path (P) node[left] {$P$} (Q) node[above] {$Q$} (R) node[right] {$R$} (S) node[below] {$S$};\n\\path (E) node[below left] {$E$} (F) node[below right,xshift=3mm,yshift=-3mm] {$F$};\n\\path (0.75,0) node[above] {$11.5\\text{ m}$};\n\\path (2.5,0) node[above] {$16.2\\text{ m}$};\n\\path (4.35,0) node[above] {$13.3\\text{ m}$};\n\\path (1.5,1.15) node[left] {$18.6\\text{ m}$};\n\\path (3.5,-0.8) node[right] {$12.5\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Add all three segments to find the common base of the two triangles.\n$\\begin{align*} PR &=11.5+16.2+13.3 \\\\ &=41\\text{ m} \\end{align*}$\n$\\begin{align*} A_1 &=\\frac12\\times41\\times18.6 \\\\ &=381.3\\text{ m}^2 \\end{align*}$\n$\\begin{align*} A_2 &=\\frac12\\times41\\times12.5 \\\\ &=256.25\\text{ m}^2 \\end{align*}$\n$\\begin{align*} A &=A_1+A_2 \\\\ &=381.3+256.25 \\\\ &=637.55\\text{ m}^2 \\\\ &\\approx638\\text{ m}^2 \\end{align*}$\nThe area is $638\\text{ m}^2$ to the nearest square metre."
+  },
+  {
+    "question_text": "Calculate the area of quadrilateral $PQRS$ and its perimeter to the nearest metre. The dashed lines show a diagonal and perpendicular offsets.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (P) at (0,0);\n\\coordinate (E) at (1.2,0);\n\\coordinate (F) at (3.2,0);\n\\coordinate (R) at (4.6,0);\n\\coordinate (Q) at (1.2,1.6);\n\\coordinate (S) at (3.2,-2.4);\n\\draw[thick] (P)--(Q)--(R)--(S)--cycle;\n\\draw[dashed] (P)--(R) (Q)--(E) (S)--(F);\n\\draw (E)--++(0,0.2)--++(0.2,0)--++(0,-0.2);\n\\draw (F)--++(0,-0.2)--++(-0.2,0)--++(0,0.2);\n\\path (P) node[left] {$P$} (Q) node[above] {$Q$} (R) node[right] {$R$} (S) node[below] {$S$};\n\\path (E) node[below left] {$E$} (F) node[below right,xshift=3mm,yshift=-3mm] {$F$};\n\\path (0.6,0) node[above] {$6\\text{ m}$};\n\\path (2.2,0) node[above] {$10\\text{ m}$};\n\\path (3.9,0) node[above] {$7\\text{ m}$};\n\\path (1.2,0.8) node[left] {$8\\text{ m}$};\n\\path (3.2,-1.2) node[right] {$12\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "For area, use the whole diagonal as the base of both triangles.\n$\\begin{align*} PR &=6+10+7 \\\\ &=23\\text{ m} \\end{align*}$\n$A_1=\\frac12\\times23\\times8=92\\text{ m}^2$\n$A_2=\\frac12\\times23\\times12=138\\text{ m}^2$\n$\\begin{align*} A &=A_1+A_2 \\\\ &=92+138 \\\\ &=230\\text{ m}^2 \\end{align*}$\nFor perimeter, first find the horizontal lengths needed for the right-angled triangles.\n$ER=10+7=17\\text{ m}$ and $PF=6+10=16\\text{ m}$.\nUse Pythagoras' theorem for each boundary side.\n$\\begin{align*} PQ^2 &=6^2+8^2=100 \\\\ PQ &=10\\text{ m} \\end{align*}$\n$\\begin{align*} QR^2 &=17^2+8^2=353 \\\\ QR &=\\sqrt{353}\\text{ m} \\end{align*}$\n$\\begin{align*} RS^2 &=7^2+12^2=193 \\\\ RS &=\\sqrt{193}\\text{ m} \\end{align*}$\n$\\begin{align*} SP^2 &=16^2+12^2=400 \\\\ SP &=20\\text{ m} \\end{align*}$\nAdd only the four boundary sides, retaining square roots until the final rounding.\n$\\begin{align*} \\text{Perimeter} &=10+\\sqrt{353}+\\sqrt{193}+20 \\\\ &\\approx63\\text{ m} \\end{align*}$\nThe area is $230\\text{ m}^2$ and the perimeter is $63\\text{ m}$ to the nearest metre."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Calculate the area of this irregular quadrilateral block of land.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,2.25);\n\\coordinate (C) at (6,2.25);\n\\coordinate (B) at (2,3.75);\n\\coordinate (D) at (3.5,0);\n\\coordinate (E) at (2,2.25);\n\\coordinate (F) at (3.5,2.25);\n\\draw[thick] (A) -- (B) -- (C) -- (D) -- cycle;\n\\draw[thick] (A) -- (C) node[pos=0.8, above] {$16\\text{ m}$};\n\\draw[dashed] (B) -- (E) node[midway, left] {$4\\text{ m}$};\n\\draw[dashed] (D) -- (F) node[midway, right] {$6\\text{ m}$};\n\\draw (E) rectangle ++(0.25,0.25);\n\\draw (F) rectangle ++(-0.25,-0.25);\n\\end{tikzpicture}\n[/tikz]",
         "structure": "two-triangles-diagonal",
-        "solution_text": "1. **Dissect the irregular block into simple triangles, trapeziums, or rectangles.**\nThe diagonal of $16\\text{ m}$ splits the quadrilateral into two triangles with heights $4\\text{ m}$ and $6\\text{ m}$.\n2. **Calculate the area of each individual shape.**\n$A_1 = \\frac{1}{2} \\times 16 \\times 4$\n$= 32\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 16 \\times 6$\n$= 48\\text{ m}^2$\n3. **Add the individual areas to find the total area.**\n$A = A_1 + A_2$\n$= 32 + 48$\n$= 80\\text{ m}^2$"
+        "solution_text": "1. **Dissect the irregular quadrilateral into two triangles.**\nThe diagonal of $16\\text{ m}$ splits the quadrilateral into two triangles with heights $4\\text{ m}$ and $6\\text{ m}$.\n2. **Calculate the area of each individual shape.**\n$A_1 = \\frac{1}{2} \\times 16 \\times 4$\n$= 32\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 16 \\times 6$\n$= 48\\text{ m}^2$\n3. **Add the individual areas to find the total area.**\n$A = A_1 + A_2$\n$= 32 + 48$\n$= 80\\text{ m}^2$"
       },
-      {
+{
         "question_text": "Calculate the area of this irregular block of land.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (P) at (0,2.7);\n\\coordinate (R) at (6.6,2.7);\n\\coordinate (Q) at (2.5,4.8);\n\\coordinate (S) at (4,0);\n\\coordinate (E) at (2.5,2.7);\n\\coordinate (F) at (4,2.7);\n\\draw[thick] (P) -- (Q) -- (R) -- (S) -- cycle;\n\\draw[thick] (P) -- (R) node[pos=0.85, above] {$22\\text{ m}$};\n\\draw[dashed] (Q) -- (E) node[midway, left] {$7\\text{ m}$};\n\\draw[dashed] (S) -- (F) node[midway, right] {$9\\text{ m}$};\n\\draw (E) rectangle ++(0.25,0.25);\n\\draw (F) rectangle ++(-0.25,-0.25);\n\\end{tikzpicture}\n[/tikz]",
         "structure": "two-triangles-diagonal",
-        "solution_text": "1. **Dissect the irregular block into simple triangles, trapeziums, or rectangles.**\nThe diagonal of $22\\text{ m}$ splits the block into two triangles.\n2. **Calculate the area of each individual shape.**\n$A_1 = \\frac{1}{2} \\times 22 \\times 7$\n$= 77\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 22 \\times 9$\n$= 99\\text{ m}^2$\n3. **Add the individual areas to find the total area.**\n$A = A_1 + A_2$\n$= 77 + 99$\n$= 176\\text{ m}^2$"
+        "solution_text": "1. **Dissect the irregular quadrilateral into two triangles.**\nThe diagonal of $22\\text{ m}$ splits the block into two triangles.\n2. **Calculate the area of each individual shape.**\n$A_1 = \\frac{1}{2} \\times 22 \\times 7$\n$= 77\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 22 \\times 9$\n$= 99\\text{ m}^2$\n3. **Add the individual areas to find the total area.**\n$A = A_1 + A_2$\n$= 77 + 99$\n$= 176\\text{ m}^2$"
       },
-      {
+{
         "question_text": "Find the area of an irregular quadrilateral field with a main diagonal of $34\\text{ m}$ and perpendicular offsets of $12\\text{ m}$ and $15\\text{ m}$ on opposite sides of the diagonal.",
         "structure": "two-triangles-diagonal",
         "solution_text": "$A_1 = \\frac{1}{2} \\times 34 \\times 12$\n$= 204\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 34 \\times 15$\n$= 255\\text{ m}^2$\n$A = A_1 + A_2$\n$= 204 + 255$\n$= 459\\text{ m}^2$"
       },
-      {
-        "question_text": "A field is surveyed along a baseline $AB$.\nPerpendicular offsets are measured on one side as shown.\nCalculate the area of the field.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (6,0);\n\\coordinate (C) at (2.5,0);\n\\coordinate (P) at (2.5,2);\n\\draw[thick] (A) -- (P) -- (B) -- cycle;\n\\draw[dashed] (P) -- (C) node[midway, right] {$8\\text{ m}$};\n\\node[below] at (1.25,0) {$10\\text{ m}$};\n\\node[below] at (4.25,0) {$14\\text{ m}$};\n\\draw (C) rectangle ++(-0.25,0.25);\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "baseline-offset-dissection",
-        "solution_text": "1. **Dissect the irregular block into simple triangles, trapeziums, or rectangles.**\nThe offset splits the field into two right-angled triangles along the baseline.\n2. **Calculate the area of each individual shape.**\n$A_1 = \\frac{1}{2} \\times 10 \\times 8$\n$= 40\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 14 \\times 8$\n$= 56\\text{ m}^2$\n3. **Add the individual areas to find the total area.**\n$A = A_1 + A_2$\n$= 40 + 56$\n$= 96\\text{ m}^2$"
+{
+        "question_text": "Calculate the area of an irregular quadrilateral field with a diagonal of $24\\text{ m}$ and perpendicular heights of $8\\text{ m}$ and $5\\text{ m}$ from the opposite vertices to the diagonal.",
+        "structure": "two-triangles-diagonal",
+        "solution_text": "$A_1 = \\frac{1}{2} \\times 24 \\times 8 = 96\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 24 \\times 5 = 60\\text{ m}^2$\n$A = A_1 + A_2 = 96 + 60 = 156\\text{ m}^2$"
       },
-      {
-        "question_text": "Calculate the area of the surveyed land parcel shown below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (7.5,0);\n\\coordinate (X) at (2,0);\n\\coordinate (Y) at (5,0);\n\\coordinate (P) at (2,1.5);\n\\coordinate (Q) at (5,2.5);\n\\draw[thick] (A) -- (P) -- (Q) -- (B) -- cycle;\n\\draw[dashed] (P) -- (X) node[midway, left] {$6\\text{ m}$};\n\\draw[dashed] (Q) -- (Y) node[midway, right] {$10\\text{ m}$};\n\\node[below] at (1,0) {$8\\text{ m}$};\n\\node[below] at (3.5,0) {$12\\text{ m}$};\n\\node[below] at (6.25,0) {$10\\text{ m}$};\n\\draw (X) rectangle ++(0.25,0.25);\n\\draw (Y) rectangle ++(0.25,0.25);\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "baseline-offset-dissection",
-        "solution_text": "1. **Dissect the irregular block into simple triangles, trapeziums, or rectangles.**\nThe field is split into triangle 1, a central trapezium, and triangle 2.\n2. **Calculate the area of each individual shape.**\n$A_1 = \\frac{1}{2} \\times 8 \\times 6$\n$= 24\\text{ m}^2$\n$A_2 = \\frac{12}{2}(6 + 10)$\n$= 6 \\times 16$\n$= 96\\text{ m}^2$\n$A_3 = \\frac{1}{2} \\times 10 \\times 10$\n$= 50\\text{ m}^2$\n3. **Add the individual areas to find the total area.**\n$A = A_1 + A_2 + A_3$\n$= 24 + 96 + 50$\n$= 170\\text{ m}^2$"
+{
+        "question_text": "Calculate the area of an irregular quadrilateral block with a diagonal of $30\\text{ m}$ and perpendicular heights of $6\\text{ m}$ and $10\\text{ m}$ from the opposite vertices to the diagonal.",
+        "structure": "two-triangles-diagonal",
+        "solution_text": "$A_1 = \\frac{1}{2} \\times 30 \\times 6 = 90\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 30 \\times 10 = 150\\text{ m}^2$\n$A = A_1 + A_2 = 90 + 150 = 240\\text{ m}^2$"
       },
-      {
-        "question_text": "A block of land is formed by a rectangular yard joined to a triangular garden bed.\nThe rectangle is $15\\text{ m}$ long and $10\\text{ m}$ wide, and the triangle shares the $15\\text{ m}$ boundary with a perpendicular height of $6\\text{ m}$.\nCalculate the total area.",
-        "structure": "composite-dissection-rect-trapezium",
-        "solution_text": "1. **Dissect the irregular block into simple triangles, trapeziums, or rectangles.**\nThe block consists of a rectangle and a triangle.\n2. **Calculate the area of each individual shape.**\n$A_{\\text{rect}} = 15 \\times 10$\n$= 150\\text{ m}^2$\n$A_{\\text{tri}} = \\frac{1}{2} \\times 15 \\times 6$\n$= 45\\text{ m}^2$\n3. **Add the individual areas to find the total area.**\n$A = A_{\\text{rect}} + A_{\\text{tri}}$\n$= 150 + 45$\n$= 195\\text{ m}^2$"
+{
+        "question_text": "Calculate the area of an irregular quadrilateral garden with a diagonal of $15\\text{ m}$ and perpendicular heights of $10\\text{ m}$ and $6\\text{ m}$ from the opposite vertices to the diagonal.",
+        "structure": "two-triangles-diagonal",
+        "solution_text": "$A_1 = \\frac{1}{2} \\times 15 \\times 10 = 75\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 15 \\times 6 = 45\\text{ m}^2$\n$A = A_1 + A_2 = 75 + 45 = 120\\text{ m}^2$"
       },
-      {
-        "question_text": "An irregular quadrilateral block has an area of $120\\text{ m}^2$ and a dividing diagonal of $20\\text{ m}$.\nIf the perpendicular offset on one side of the diagonal is $5\\text{ m}$, find the perpendicular offset on the other side.",
-        "structure": "reverse-land-offset",
-        "solution_text": "$A_1 = \\frac{1}{2} \\times 20 \\times 5$\n$= 50\\text{ m}^2$\n$A_2 = 120 - 50$\n$= 70\\text{ m}^2$\n$\\frac{1}{2} \\times 20 \\times h_2 = 70$\n$10 h_2 = 70$\n$h_2 = 7\\text{ m}$"
+{
+        "question_text": "Calculate the area of an irregular quadrilateral block with a diagonal of $20\\text{ m}$ and perpendicular heights of $5\\text{ m}$ and $9\\text{ m}$ from the opposite vertices to the diagonal.",
+        "structure": "two-triangles-diagonal",
+        "solution_text": "$A_1 = \\frac{1}{2} \\times 20 \\times 5 = 50\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 20 \\times 9 = 90\\text{ m}^2$\n$A = A_1 + A_2 = 50 + 90 = 140\\text{ m}^2$"
       },
-      {
-        "question_text": "Find the perimeter of this triangular parcel of land, correct to the nearest metre.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (6,0);\n\\coordinate (C) at (2.5,0);\n\\coordinate (P) at (2.5,3);\n\\draw[thick] (A) -- (P) -- (B) -- cycle;\n\\draw[dashed] (P) -- (C) node[midway, right] {$8\\text{ m}$};\n\\node[below] at (1.25,0) {$6\\text{ m}$};\n\\node[below] at (4.25,0) {$8\\text{ m}$};\n\\draw (C) rectangle ++(-0.25,0.25);\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "A quadrilateral parcel $PQRS$ has diagonal $PR = 12\\text{ m}$. The perpendicular offsets from $Q$ and $S$ meet $PR$ at the same point, $6\\text{ m}$ from each end. The offsets are $8\\text{ m}$ and $4\\text{ m}$ respectively, on opposite sides of $PR$. Calculate the perimeter to the nearest metre.",
         "structure": "offset-perimeter-pythagoras",
-        "solution_text": "$AP = \\sqrt{6^2 + 8^2}$\n$= \\sqrt{36 + 64}$\n$= \\sqrt{100}$\n$= 10\\text{ m}$\n$PB = \\sqrt{8^2 + 8^2}$\n$= \\sqrt{64 + 64}$\n$= \\sqrt{128}\\text{ m}$\n$AB = 6 + 8$\n$= 14\\text{ m}$\n$\\text{Perimeter} = 10 + 14 + \\sqrt{128}$\n$= 24 + \\sqrt{128}$\n$\\approx 35.31\\text{ m}$\n$= 35\\text{ m}$"
+        "solution_text": "$PQ = QR = \\sqrt{6^2 + 8^2} = 10\\text{ m}$\n$RS = SP = \\sqrt{6^2 + 4^2} = \\sqrt{52}\\text{ m}$\n$\\text{Perimeter} = 10 + 10 + \\sqrt{52} + \\sqrt{52}$\n$\\approx 34.42\\text{ m}$\nRounded to the nearest metre, the perimeter is $34\\text{ m}$."
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "Calculate the total area of an irregular paddock that has a central diagonal of $45\\text{ m}$ and perpendicular offset distances of $16\\text{ m}$ and $24\\text{ m}$ to the opposite corners.",
         "structure": "two-triangles-diagonal",
-        "solution_text": "1. **Dissect the irregular block into simple triangles, trapeziums, or rectangles.**\nThe central diagonal divides the paddock into two triangles.\n2. **Calculate the area of each individual shape.**\n$A_1 = \\frac{1}{2} \\times 45 \\times 16$\n$= 360\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 45 \\times 24$\n$= 540\\text{ m}^2$\n3. **Add the individual areas to find the total area.**\n$A = A_1 + A_2$\n$= 360 + 540$\n$= 900\\text{ m}^2$"
+        "solution_text": "1. **Dissect the irregular quadrilateral into two triangles.**\nThe central diagonal divides the paddock into two triangles.\n2. **Calculate the area of each individual shape.**\n$A_1 = \\frac{1}{2} \\times 45 \\times 16$\n$= 360\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 45 \\times 24$\n$= 540\\text{ m}^2$\n3. **Add the individual areas to find the total area.**\n$A = A_1 + A_2$\n$= 360 + 540$\n$= 900\\text{ m}^2$"
       },
-      {
-        "question_text": "A field survey was conducted along a baseline $AB = 60\\text{ m}$.\nOffsets to the north boundary are $14\\text{ m}$ at $15\\text{ m}$ along $AB$ and $18\\text{ m}$ at $40\\text{ m}$ along $AB$.\nA single offset to the south boundary is $16\\text{ m}$ at $30\\text{ m}$ along $AB$.\nCalculate the total area of the field.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (6,0);\n\\coordinate (X) at (1.5,0);\n\\coordinate (Y) at (4,0);\n\\coordinate (Z) at (3,0);\n\\coordinate (P) at (1.5,1.4);\n\\coordinate (Q) at (4,1.8);\n\\coordinate (S) at (3,-1.6);\n\\draw[thick] (A) -- (P) -- (Q) -- (B) -- (S) -- cycle;\n\\draw[thick] (A) -- (B);\n\\draw[dashed] (P) -- (X) node[midway, left] {$14\\text{ m}$};\n\\draw[dashed] (Q) -- (Y) node[midway, right] {$18\\text{ m}$};\n\\draw[dashed] (S) -- (Z) node[midway, right] {$16\\text{ m}$};\n\\node[below] at (0.75,0) {$15\\text{ m}$};\n\\node[below] at (2.75,0) {$25\\text{ m}$};\n\\node[below] at (5,0) {$20\\text{ m}$};\n\\draw (X) rectangle ++(0.2,0.2);\n\\draw (Y) rectangle ++(0.2,0.2);\n\\draw (Z) rectangle ++(0.2,-0.2);\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "baseline-offset-dissection",
-        "solution_text": "1. **Dissect the irregular block into simple triangles, trapeziums, or rectangles.**\nThe baseline divides the field into north and south sections. The north section is split into two triangles and a trapezium; the south section is a single triangle with base $60\\text{ m}$.\n2. **Calculate the area of each individual shape.**\n$A_1 = \\frac{1}{2} \\times 15 \\times 14 = 105\\text{ m}^2$\n$A_2 = \\frac{25}{2}(14 + 18) = 12.5 \\times 32 = 400\\text{ m}^2$\n$A_3 = \\frac{1}{2} \\times 20 \\times 18 = 180\\text{ m}^2$\n$A_{\\text{north}} = 105 + 400 + 180 = 685\\text{ m}^2$\n$A_{\\text{south}} = \\frac{1}{2} \\times 60 \\times 16 = 480\\text{ m}^2$\n3. **Add the individual areas to find the total area.**\n$A = A_{\\text{north}} + A_{\\text{south}}$\n$= 685 + 480$\n$= 1165\\text{ m}^2$"
+{
+        "question_text": "Calculate the area of an irregular quadrilateral field with a diagonal of $60\\text{ m}$ and perpendicular heights of $14\\text{ m}$ and $18\\text{ m}$ from the opposite vertices to the diagonal.",
+        "structure": "two-triangles-diagonal",
+        "solution_text": "$A_1 = \\frac{1}{2} \\times 60 \\times 14 = 420\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 60 \\times 18 = 540\\text{ m}^2$\n$A = A_1 + A_2 = 420 + 540 = 960\\text{ m}^2$"
       },
-      {
-        "question_text": "A block of land is composed of a right-angled trapezium joined along its longest parallel edge to a triangle.\nThe trapezium has parallel edges of $12\\text{ m}$ and $20\\text{ m}$ with perpendicular height $10\\text{ m}$.\nThe triangle has base $20\\text{ m}$ and perpendicular height $8\\text{ m}$.\nFind the total area.",
-        "structure": "composite-dissection-rect-trapezium",
-        "solution_text": "1. **Dissect the irregular block into simple triangles, trapeziums, or rectangles.**\nThe block consists of a trapezium and an adjoining triangle.\n2. **Calculate the area of each individual shape.**\n$A_1 = \\frac{10}{2}(12 + 20)$\n$= 5 \\times 32$\n$= 160\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 20 \\times 8$\n$= 80\\text{ m}^2$\n3. **Add the individual areas to find the total area.**\n$A = A_1 + A_2$\n$= 160 + 80$\n$= 240\\text{ m}^2$"
+{
+        "question_text": "A diagonal of an irregular quadrilateral block is divided into three consecutive segments of $12\\text{ m}$, $20\\text{ m}$ and $8\\text{ m}$. The perpendicular heights from the opposite vertices to this diagonal are $10\\text{ m}$ and $13\\text{ m}$. Calculate the area of the block.",
+        "structure": "two-triangles-segmented-diagonal",
+        "solution_text": "$d = 12 + 20 + 8 = 40\\text{ m}$\n$A_1 = \\frac{1}{2} \\times 40 \\times 10 = 200\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 40 \\times 13 = 260\\text{ m}^2$\n$A = A_1 + A_2 = 200 + 260 = 460\\text{ m}^2$"
       },
-      {
+{
         "question_text": "Calculate the perimeter of this quadrilateral block of land $PQRS$, correct to the nearest metre.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (P) at (0,0);\n\\coordinate (R) at (6,0);\n\\coordinate (Q) at (2.4,2);\n\\coordinate (S) at (2.4,-2.5);\n\\coordinate (M) at (2.4,0);\n\\draw[thick] (P) -- (Q) -- (R) -- (S) -- cycle;\n\\draw[thick] (P) -- (R);\n\\draw[dashed] (Q) -- (S);\n\\node[left] at (P) {$P$};\n\\node[above] at (Q) {$Q$};\n\\node[right] at (R) {$R$};\n\\node[below] at (S) {$S$};\n\\node[below] at (1.2,0) {$8\\text{ m}$};\n\\node[below] at (4.2,0) {$12\\text{ m}$};\n\\node[left] at (2.4,1) {$6\\text{ m}$};\n\\node[left] at (2.4,-1.25) {$9\\text{ m}$};\n\\draw (M) rectangle ++(0.25,0.25);\n\\draw (M) rectangle ++(0.25,-0.25);\n\\end{tikzpicture}\n[/tikz]",
         "structure": "offset-perimeter-pythagoras",
         "solution_text": "$PQ = \\sqrt{8^2 + 6^2}$\n$= \\sqrt{64 + 36}$\n$= \\sqrt{100}$\n$= 10\\text{ m}$\n$QR = \\sqrt{12^2 + 6^2}$\n$= \\sqrt{144 + 36}$\n$= \\sqrt{180}\\text{ m}$\n$RS = \\sqrt{12^2 + 9^2}$\n$= \\sqrt{144 + 81}$\n$= \\sqrt{225}$\n$= 15\\text{ m}$\n$SP = \\sqrt{8^2 + 9^2}$\n$= \\sqrt{64 + 81}$\n$= \\sqrt{145}\\text{ m}$\n$\\text{Perimeter} = 10 + \\sqrt{180} + 15 + \\sqrt{145}$\n$= 25 + \\sqrt{180} + \\sqrt{145}$\n$\\approx 50.46\\text{ m}$\n$= 50\\text{ m}$"
       },
-      {
-        "question_text": "An irregular quadrilateral block $ABCD$ is surveyed with baseline $AC = 25\\text{ m}$ divided into segments of $10\\text{ m}$ and $15\\text{ m}$.\nCorner $B$ is at an offset of $12\\text{ m}$ above the line, and corner $D$ is at an offset of $8\\text{ m}$ below the line.\nCalculate the perimeter of $ABCD$ to the nearest metre.",
+{
+        "question_text": "An irregular quadrilateral block $ABCD$ is surveyed with baseline $AC = 25\\text{ m}$. Both perpendicular offsets meet $AC$ at the same division point, $10\\text{ m}$ from $A$ and $15\\text{ m}$ from $C$.\nCorner $B$ is at an offset of $12\\text{ m}$ above the line, and corner $D$ is at an offset of $8\\text{ m}$ below the line.\nCalculate the perimeter of $ABCD$ to the nearest metre.",
         "structure": "offset-perimeter-pythagoras",
         "solution_text": "$AB = \\sqrt{10^2 + 12^2} = \\sqrt{100 + 144} = \\sqrt{244}\\text{ m}$\n$BC = \\sqrt{15^2 + 12^2} = \\sqrt{225 + 144} = \\sqrt{369}\\text{ m}$\n$CD = \\sqrt{15^2 + 8^2} = \\sqrt{225 + 64} = \\sqrt{289} = 17\\text{ m}$\n$DA = \\sqrt{10^2 + 8^2} = \\sqrt{100 + 64} = \\sqrt{164}\\text{ m}$\n$\\text{Perimeter} = \\sqrt{244} + \\sqrt{369} + 17 + \\sqrt{164}$\n$\\approx 15.62 + 19.21 + 17 + 12.81$\n$= 64.64\\text{ m}$\n$= 65\\text{ m}$"
       },
-      {
-        "question_text": "A rural block of land has a diagonal of $140\\text{ m}$ and perpendicular offset heights of $35\\text{ m}$ and $45\\text{ m}$.\nCalculate its area in hectares ($1\\text{ ha} = 10\\,000\\text{ m}^2$).",
-        "structure": "land-hectare-conversion",
-        "solution_text": "1. **Dissect the irregular block into simple triangles, trapeziums, or rectangles.**\nThe diagonal splits the block into two triangles.\n2. **Calculate the area of each individual shape.**\n$A_1 = \\frac{1}{2} \\times 140 \\times 35$\n$= 2450\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 140 \\times 45$\n$= 3150\\text{ m}^2$\n3. **Add the individual areas to find the total area.**\n$A = 2450 + 3150$\n$= 5600\\text{ m}^2$\n$\\text{Area in ha} = \\frac{5600}{10\\,000}$\n$= 0.56\\text{ ha}$"
+{
+        "question_text": "Calculate the area in square metres of an irregular quadrilateral rural block with a diagonal of $135\\text{ m}$ and perpendicular heights of $37\\text{ m}$ and $49\\text{ m}$ from the opposite vertices to the diagonal.",
+        "structure": "two-triangles-diagonal",
+        "solution_text": "$A_1 = \\frac{1}{2} \\times 135 \\times 37 = 2497.5\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 135 \\times 49 = 3307.5\\text{ m}^2$\n$A = A_1 + A_2 = 2497.5 + 3307.5 = 5805\\text{ m}^2$"
       },
-      {
-        "question_text": "An irregular quadrilateral block of land has a total area of $1470\\text{ m}^2$.\nA diagonal of $42\\text{ m}$ splits the block into two triangles.\nIf one perpendicular height is $40\\text{ m}$, find the length of the other perpendicular height.",
-        "structure": "reverse-land-offset",
-        "solution_text": "$A_1 = \\frac{1}{2} \\times 42 \\times 40$\n$= 840\\text{ m}^2$\n$A_2 = 1470 - 840$\n$= 630\\text{ m}^2$\n$\\frac{1}{2} \\times 42 \\times h_2 = 630$\n$21 h_2 = 630$\n$h_2 = 30\\text{ m}$"
+{
+        "question_text": "A diagonal of an irregular quadrilateral block is divided into three consecutive segments of $17\\text{ m}$, $13\\text{ m}$ and $12\\text{ m}$. The perpendicular heights from the opposite vertices to the diagonal are $40\\text{ m}$ and $28\\text{ m}$. Calculate the area of the block.",
+        "structure": "two-triangles-segmented-diagonal",
+        "solution_text": "$d = 17 + 13 + 12 = 42\\text{ m}$\n$A_1 = \\frac{1}{2} \\times 42 \\times 40 = 840\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 42 \\times 28 = 588\\text{ m}^2$\n$A = A_1 + A_2 = 840 + 588 = 1428\\text{ m}^2$"
       },
-      {
-        "question_text": "A field is surveyed along a straight $200\\text{ m}$ baseline.\nOffsets on one side are $40\\text{ m}$ at $60\\text{ m}$ along the baseline and $50\\text{ m}$ at $140\\text{ m}$ along the baseline.\nCalculate the total area in hectares ($1\\text{ ha} = 10\\,000\\text{ m}^2$).",
-        "structure": "land-hectare-conversion",
-        "solution_text": "1. **Dissect the irregular block into simple triangles, trapeziums, or rectangles.**\nThe field consists of two end triangles and a central trapezium along the $200\\text{ m}$ baseline (segments $60\\text{ m}$, $80\\text{ m}$, $60\\text{ m}$).\n2. **Calculate the area of each individual shape.**\n$A_1 = \\frac{1}{2} \\times 60 \\times 40 = 1200\\text{ m}^2$\n$A_2 = \\frac{80}{2}(40 + 50) = 40 \\times 90 = 3600\\text{ m}^2$\n$A_3 = \\frac{1}{2} \\times 60 \\times 50 = 1500\\text{ m}^2$\n3. **Add the individual areas to find the total area.**\n$A = 1200 + 3600 + 1500$\n$= 6300\\text{ m}^2$\n$\\text{Area in ha} = \\frac{6300}{10\\,000}$\n$= 0.63\\text{ ha}$"
+{
+        "question_text": "A quadrilateral field $PQRS$ has diagonal $PR = 30\\text{ m}$. The perpendicular offset from $Q$ meets $PR$ at $E$, and the perpendicular offset from $S$ meets $PR$ at $F$, with points in the order $P,E,F,R$. The diagonal segments are $PE = 9\\text{ m}$, $EF = 13\\text{ m}$ and $FR = 8\\text{ m}$. The offsets are $QE = 12\\text{ m}$ and $SF = 15\\text{ m}$, on opposite sides of $PR$. Calculate the perimeter to the nearest metre.",
+        "structure": "offset-perimeter-pythagoras",
+        "solution_text": "$ER = 13 + 8 = 21\\text{ m}$ and $PF = 9 + 13 = 22\\text{ m}$.\n$PQ = \\sqrt{9^2 + 12^2} = 15\\text{ m}$\n$QR = \\sqrt{21^2 + 12^2} = \\sqrt{585}\\text{ m}$\n$RS = \\sqrt{8^2 + 15^2} = 17\\text{ m}$\n$SP = \\sqrt{22^2 + 15^2} = \\sqrt{709}\\text{ m}$\n$\\text{Perimeter} = 15 + \\sqrt{585} + 17 + \\sqrt{709}$\n$\\approx 82.76\\text{ m}$\nRounded to the nearest metre, the perimeter is $83\\text{ m}$."
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "A quadrilateral field $PQRS$ has a central diagonal $PR = 32\\text{ m}$ divided into segments of $12\\text{ m}$ and $20\\text{ m}$ by perpendicular offsets to $Q$ ($16\\text{ m}$) and $S$ ($15\\text{ m}$).\nCalculate the area of the field, and its perimeter to the nearest metre.",
+{
+        "question_text": "A quadrilateral field $PQRS$ has a central diagonal $PR = 32\\text{ m}$. Both perpendicular offsets meet $PR$ at the same point, $12\\text{ m}$ from $P$ and $20\\text{ m}$ from $R$. The offsets to $Q$ and $S$ are $16\\text{ m}$ and $15\\text{ m}$ respectively, on opposite sides of $PR$.\nCalculate the area of the field, and its perimeter to the nearest metre.",
         "structure": "offset-perimeter-pythagoras",
         "solution_text": "Area:\n$A = \\frac{1}{2} \\times 32 \\times 16 + \\frac{1}{2} \\times 32 \\times 15$\n$= 256 + 240$\n$= 496\\text{ m}^2$\nPerimeter:\n$PQ = \\sqrt{12^2 + 16^2} = \\sqrt{144 + 256} = \\sqrt{400} = 20\\text{ m}$\n$QR = \\sqrt{20^2 + 16^2} = \\sqrt{400 + 256} = \\sqrt{656}\\text{ m}$\n$RS = \\sqrt{20^2 + 15^2} = \\sqrt{400 + 225} = \\sqrt{625} = 25\\text{ m}$\n$SP = \\sqrt{12^2 + 15^2} = \\sqrt{144 + 225} = \\sqrt{369}\\text{ m}$\n$\\text{Perimeter} = 20 + \\sqrt{656} + 25 + \\sqrt{369}$\n$= 45 + \\sqrt{656} + \\sqrt{369}$\n$\\approx 89.82\\text{ m}$\n$= 90\\text{ m}$"
       },
-      {
-        "question_text": "A rural property is surveyed along a $280\\text{ m}$ baseline (divided into segments of $80\\text{ m}$, $120\\text{ m}$, and $80\\text{ m}$).\nTo the north, perpendicular offsets are $60\\text{ m}$ at the first mark and $75\\text{ m}$ at the second mark.\nTo the south, a single offset of $50\\text{ m}$ forms a large triangular region across the full $280\\text{ m}$ baseline.\nCalculate the total property area in hectares ($1\\text{ ha} = 10\\,000\\text{ m}^2$).",
-        "structure": "land-hectare-conversion",
-        "solution_text": "1. **Dissect the irregular block into simple triangles, trapeziums, or rectangles.**\nNorth section: two triangles and a middle trapezium. South section: one triangle with base $280\\text{ m}$.\n2. **Calculate the area of each individual shape.**\n$A_{\\text{north, 1}} = \\frac{1}{2} \\times 80 \\times 60 = 2400\\text{ m}^2$\n$A_{\\text{north, 2}} = \\frac{120}{2}(60 + 75) = 60 \\times 135 = 8100\\text{ m}^2$\n$A_{\\text{north, 3}} = \\frac{1}{2} \\times 80 \\times 75 = 3000\\text{ m}^2$\n$A_{\\text{north}} = 2400 + 8100 + 3000 = 13\\,500\\text{ m}^2$\n$A_{\\text{south}} = \\frac{1}{2} \\times 280 \\times 50 = 7000\\text{ m}^2$\n3. **Add the individual areas to find the total area.**\n$A = 13\\,500 + 7000$\n$= 20\\,500\\text{ m}^2$\n$\\text{Area in ha} = \\frac{20\\,500}{10\\,000}$\n$= 2.05\\text{ ha}$"
+{
+        "question_text": "A quadrilateral property $ABCD$ has diagonal $AC$. The perpendicular offsets from $B$ and $D$ meet $AC$ at $E$ and $F$ respectively, with points in the order $A,E,F,C$. The diagonal segments are $AE = 24\\text{ m}$, $EF = 35\\text{ m}$ and $FC = 28\\text{ m}$. The offsets are $BE = 32\\text{ m}$ and $DF = 45\\text{ m}$, on opposite sides of $AC$. Calculate the perimeter to the nearest metre.",
+        "structure": "offset-perimeter-pythagoras",
+        "solution_text": "$EC = 35 + 28 = 63\\text{ m}$ and $AF = 24 + 35 = 59\\text{ m}$.\n$AB = \\sqrt{24^2 + 32^2} = 40\\text{ m}$\n$BC = \\sqrt{63^2 + 32^2} = \\sqrt{4993}\\text{ m}$\n$CD = \\sqrt{28^2 + 45^2} = 53\\text{ m}$\n$DA = \\sqrt{59^2 + 45^2} = \\sqrt{5506}\\text{ m}$\n$\\text{Perimeter} = 40 + \\sqrt{4993} + 53 + \\sqrt{5506}$\n$\\approx 237.86\\text{ m}$\nRounded to the nearest metre, the perimeter is $238\\text{ m}$."
       },
-      {
-        "question_text": "An irregular quadrilateral block has an area of $3780\\text{ m}^2$ and a dividing diagonal of $84\\text{ m}$.\nThe perpendicular heights from the opposite vertices to the diagonal are in the ratio $4 : 5$.\nFind the length of the longer perpendicular height.",
-        "structure": "reverse-land-offset",
-        "solution_text": "$A = \\frac{1}{2} \\times 84 \\times (h_1 + h_2)$\n$3780 = 42(h_1 + h_2)$\n$h_1 + h_2 = \\frac{3780}{42}$\n$h_1 + h_2 = 90\\text{ m}$\nRatio is $4 : 5$, total parts $= 4 + 5 = 9$.\n$\\text{One part} = \\frac{90}{9} = 10\\text{ m}$\n$\\text{Longer height} = 5 \\times 10$\n$= 50\\text{ m}$"
+{
+        "question_text": "A diagonal of an irregular quadrilateral block is divided into three consecutive segments of $22.5\\text{ m}$, $15.8\\text{ m}$ and $20.7\\text{ m}$. The perpendicular heights from the opposite vertices to the diagonal are $26.4\\text{ m}$ and $18.6\\text{ m}$. Calculate the area to the nearest square metre.",
+        "structure": "two-triangles-segmented-diagonal",
+        "solution_text": "$d = 22.5 + 15.8 + 20.7 = 59\\text{ m}$\n$A_1 = \\frac{1}{2} \\times 59 \\times 26.4 = 778.8\\text{ m}^2$\n$A_2 = \\frac{1}{2} \\times 59 \\times 18.6 = 548.7\\text{ m}^2$\n$A = A_1 + A_2 = 778.8 + 548.7 = 1327.5\\text{ m}^2$\nRounded to the nearest square metre, the area is $1328\\text{ m}^2$."
       }
-    ]
+]
   }
 }

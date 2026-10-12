@@ -2,21 +2,44 @@
   "skillId": "scatter-plot",
   "atomType": "R",
   "theory": {
-        "intro": "A **scatter plot** shows bivariate data on the Cartesian plane. Each observation gives one point $(x, y)$, where $x$ is its independent-variable value and $y$ its dependent-variable value. The pattern the points form shows the relationship.",
-        "facts": [
+"intro": "A **scatter plot** shows bivariate data on the Cartesian plane. Each observation gives one point $(x, y)$, where $x$ is its independent-variable value and $y$ its dependent-variable value. The pattern the points form shows the relationship.",
+"facts": [
 "Each observation contributes **one point** $(x, y)$: $x$ is its horizontal-axis value and $y$ its vertical-axis value. Identical data pairs overlap.",
 "Choose an axis scale that fits the full range of the data. Starting near the data can help keep the points readable.",
 "When helpful, a scale that starts near the data keeps the points spread out and readable.",
 "**Label both axes** with the variable name and its units.",
 "Plot every data pair as a single dot and **never join the points** with a line.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (0,0) -- (4.8,0);\n\\draw[-{Stealth}] (0,0) -- (0,4.0);\n\\node at (5.2,0) {$x$};\n\\node at (0,4.4) {$y$};\n\\foreach \\p in {(0.7,1.0),(1.4,1.9),(2.1,1.4),(2.8,2.7),(3.5,2.2),(4.2,3.3)} {\\fill \\p circle (2.4pt);}\n\\node at (2.3,-0.95) {Correct: dots only};\n\\draw[-{Stealth}] (7.0,0) -- (11.8,0);\n\\draw[-{Stealth}] (7.0,0) -- (7.0,4.0);\n\\node at (12.2,0) {$x$};\n\\node at (7.0,4.4) {$y$};\n\\draw (7.7,1.0) -- (8.4,1.9) -- (9.1,1.4) -- (9.8,2.7) -- (10.5,2.2) -- (11.2,3.3);\n\\foreach \\p in {(7.7,1.0),(8.4,1.9),(9.1,1.4),(9.8,2.7),(10.5,2.2),(11.2,3.3)} {\\fill \\p circle (2.4pt);}\n\\node at (9.3,-0.95) {Incorrect: dots joined};\n\\end{tikzpicture}\n[/tikz]"
 ],
-        "steps": [
+"steps": [
 "Choose a scale for each axis that covers the full range of that variable's values.",
 "Label both axes with the variable name and units.",
 "Plot each data pair as a point at $(x, y)$.",
 "Check that every data pair has been plotted. Identical pairs overlap, so the number of visible dots need not equal the number of observations."
+],
+"workedExamples": [
+  {
+    "question_text": "The scatter plot shows students' heights and arm spans. What height and arm span does point $P$ represent?\n\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\path[use as bounding box] (-3,-1.5) rectangle (8.8,8.8);\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\draw[gridcolour,very thin,xstep=6mm,ystep=6mm] (0,0) grid (8,8);\n\\draw[black,->] (0,0)--(8.5,0);\n\\draw[black,->] (0,0)--(0,8.5);\n\\foreach \\t/\\v in {0/150,2/160,4/170,6/180,8/190} {\n\\draw[black] (\\t,0)--(\\t,-0.12);\n\\path (\\t,-0.15) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n\\draw[black] (0,\\t)--(-0.12,\\t);\n\\path (-0.15,\\t) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n}\n\\path (4,-1) node {Height (cm)};\n\\path (-2.4,4) node[rotate=90] {Arm span (cm)};\n\\foreach \\p in {(1,2),(3,3),(5,7),(7,5)} {\\fill[black] \\p circle (1.8pt);}\n\\fill[black] (6.2,5.6) circle (1.8pt);\n\\path (6.2,5.6) node[above right] {$P$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Each small square represents $5$ cm. Read height horizontally and arm span vertically.\n\n$P$ is one fifth of a square beyond $180$ cm horizontally, so the height is $181$ cm. It is three fifths of a square above $175$ cm vertically, so the arm span is $178$ cm.\n\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\path[use as bounding box] (-3,-1.5) rectangle (8.8,8.8);\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\definecolor{guidecolour}{HTML}{268CFF}\n\\draw[gridcolour,very thin,xstep=6mm,ystep=6mm] (0,0) grid (8,8);\n\\draw[black,->] (0,0)--(8.5,0);\n\\draw[black,->] (0,0)--(0,8.5);\n\\foreach \\t/\\v in {0/150,2/160,4/170,6/180,8/190} {\n\\draw[black] (\\t,0)--(\\t,-0.12);\n\\path (\\t,-0.15) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n\\draw[black] (0,\\t)--(-0.12,\\t);\n\\path (-0.15,\\t) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n}\n\\path (4,-1) node {Height (cm)};\n\\path (-2.4,4) node[rotate=90] {Arm span (cm)};\n\\foreach \\p in {(1,2),(3,3),(5,7),(7,5)} {\\fill[black] \\p circle (1.8pt);}\n\\draw[guidecolour,dashed] (6.2,0)--(6.2,5.6)--(0,5.6);\n\\fill[black] (6.2,5.6) circle (1.8pt);\n\\path (6.2,5.6) node[above right] {$P$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The table gives the heights and arm spans of six students. Choose suitable scales, label both axes and draw a scatter plot with height on the horizontal axis.\n\n| Student | Height (cm) | Arm span (cm) |\n| --- | --- | --- |\n| A | 153 | 151 |\n| B | 162.5 | 167.5 |\n| C | 170 | 165 |\n| D | 170 | 180 |\n| E | 182.5 | 177.5 |\n| F | 188 | 186 |",
+    "solution_text": "Heights range from $153$ to $188$ cm and arm spans from $151$ to $186$ cm. Scales from $150$ to $190$ cm, with $5$ cm per small square, cover both ranges and spread the points out clearly.\n\nPlot each row as $(\\text{height},\\text{arm span})$. For B, place the point halfway between $160$ and $165$ cm horizontally and halfway between $165$ and $170$ cm vertically. C and D share the same horizontal position because both heights are $170$ cm.\n\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\path[use as bounding box] (-3,-1.5) rectangle (8.8,8.8);\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\draw[gridcolour,very thin,xstep=6mm,ystep=6mm] (0,0) grid (8,8);\n\\draw[black,->] (0,0)--(8.5,0);\n\\draw[black,->] (0,0)--(0,8.5);\n\\foreach \\t/\\v in {0/150,2/160,4/170,6/180,8/190} {\n\\draw[black] (\\t,0)--(\\t,-0.12);\n\\path (\\t,-0.15) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n\\draw[black] (0,\\t)--(-0.12,\\t);\n\\path (-0.15,\\t) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n}\n\\path (4,-1) node {Height (cm)};\n\\path (-2.4,4) node[rotate=90] {Arm span (cm)};\n\\foreach \\p in {(0.6,0.2),(2.5,3.5),(4,3),(4,6),(6.5,5.5),(7.6,7.2)} {\\fill[black] \\p circle (1.8pt);}\n\\end{tikzpicture}\n[/tikz]\n\nAll six pairs are plotted as separate dots. Do not join the dots. A scale from $0$ to $500$ cm would crowd these points into a small region.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The scatter plot shows four students' heights and arm spans. Another student, Lina, has height $172.5$ cm and arm span $167.5$ cm. Add Lina's point to the plot.\n\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\path[use as bounding box] (-3,-1.5) rectangle (8.8,8.8);\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\draw[gridcolour,very thin,xstep=6mm,ystep=6mm] (0,0) grid (8,8);\n\\draw[black,->] (0,0)--(8.5,0);\n\\draw[black,->] (0,0)--(0,8.5);\n\\foreach \\t/\\v in {0/150,2/160,4/170,6/180,8/190} {\n\\draw[black] (\\t,0)--(\\t,-0.12);\n\\path (\\t,-0.15) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n\\draw[black] (0,\\t)--(-0.12,\\t);\n\\path (-0.15,\\t) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n}\n\\path (4,-1) node {Height (cm)};\n\\path (-2.4,4) node[rotate=90] {Arm span (cm)};\n\\foreach \\p in {(1,2),(3,3),(5,7),(7,5)} {\\fill[black] \\p circle (1.8pt);}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Lina's data pair is $(172.5,167.5)$. Place the dot halfway between heights $170$ and $175$ cm and halfway between arm spans $165$ and $170$ cm.\n\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\path[use as bounding box] (-3,-1.5) rectangle (8.8,8.8);\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\definecolor{guidecolour}{HTML}{268CFF}\n\\draw[gridcolour,very thin,xstep=6mm,ystep=6mm] (0,0) grid (8,8);\n\\draw[black,->] (0,0)--(8.5,0);\n\\draw[black,->] (0,0)--(0,8.5);\n\\foreach \\t/\\v in {0/150,2/160,4/170,6/180,8/190} {\n\\draw[black] (\\t,0)--(\\t,-0.12);\n\\path (\\t,-0.15) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n\\draw[black] (0,\\t)--(-0.12,\\t);\n\\path (-0.15,\\t) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};\n}\n\\path (4,-1) node {Height (cm)};\n\\path (-2.4,4) node[rotate=90] {Arm span (cm)};\n\\foreach \\p in {(1,2),(3,3),(5,7),(7,5)} {\\fill[black] \\p circle (1.8pt);}\n\\draw[guidecolour,dashed] (4.5,0)--(4.5,3.5)--(0,3.5);\n\\fill[black] (4.5,3.5) circle (1.8pt);\n\\path (4.5,3.5) node[above right] {Lina};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

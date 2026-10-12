@@ -2,19 +2,77 @@
   "skillId": "tangent-secant-properties",
   "atomType": "R",
   "theory": {
-        "intro": "A tangent to a circle meets the radius at $90^{\\circ}$ at the point of contact. Two tangents drawn from the same outside point are equal in length. These two facts unlock unknown angles and lengths in tangent diagrams.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, decorations.markings}\n\\tikzset{tickmark/.style={postaction={decorate, decoration={markings, mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}}}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (4.5,0);\n\\coordinate (T) at (0.888889,1.791611);\n\\coordinate (Q) at (0.888889,-1.791611);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt);\n\\node[below left] at (O) {$O$};\n\\draw (O) -- (T);\n\\draw (O) -- (Q);\n\\draw[tickmark] (P) -- (T);\n\\draw[tickmark] (P) -- (Q);\n\\draw (T) -- (Q);\n\\node[above right] at (T) {$T$};\n\\node[below right] at (Q) {$Q$};\n\\node[right] at (P) {$P$};\n\\coordinate (to) at ($(T)!0.3cm!(O)$);\n\\coordinate (tp) at ($(T)!0.3cm!(P)$);\n\\draw (to) -- ($(to)+(tp)-(T)$) -- (tp);\n\\coordinate (qo) at ($(Q)!0.3cm!(O)$);\n\\coordinate (qp) at ($(Q)!0.3cm!(P)$);\n\\draw (qo) -- ($(qo)+(qp)-(Q)$) -- (qp);\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "A tangent to a circle meets the radius at $90^{\\circ}$ at the point of contact. Two tangents drawn from the same outside point are equal in length. These two facts unlock unknown angles and lengths in tangent diagrams.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, decorations.markings}\n\\tikzset{tickmark/.style={postaction={decorate, decoration={markings, mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}}}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (4.5,0);\n\\coordinate (T) at (0.888889,1.791611);\n\\coordinate (Q) at (0.888889,-1.791611);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt);\n\\node[below left] at (O) {$O$};\n\\draw (O) -- (T);\n\\draw (O) -- (Q);\n\\draw[tickmark] (P) -- (T);\n\\draw[tickmark] (P) -- (Q);\n\\draw (T) -- (Q);\n\\node[above right] at (T) {$T$};\n\\node[below right] at (Q) {$Q$};\n\\node[right] at (P) {$P$};\n\\coordinate (to) at ($(T)!0.3cm!(O)$);\n\\coordinate (tp) at ($(T)!0.3cm!(P)$);\n\\draw (to) -- ($(to)+(tp)-(T)$) -- (tp);\n\\coordinate (qo) at ($(Q)!0.3cm!(O)$);\n\\coordinate (qp) at ($(Q)!0.3cm!(P)$);\n\\draw (qo) -- ($(qo)+(qp)-(Q)$) -- (qp);\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "A tangent meets the radius at the point of contact at $90^{\\circ}$, so $\\angle OTP = 90^{\\circ}$ where $T$ is the point of contact.",
           "The two tangents drawn to a circle from the same external point are equal in length, so $PT = PQ$.",
           "Because $PT = PQ$, $\\triangle TPQ$ is isosceles, so its base angles are equal.",
           "In quadrilateral $OTPQ$ the right angles at $T$ and $Q$ make the angles at $O$ and $P$ supplementary: $\\angle TOQ + \\angle TPQ = 180^{\\circ}$."
         ],
-        "steps": [
+"steps": [
           "Mark the right angle(s) between each tangent and its radius at the point of contact.",
           "Mark any tangent lengths that are equal because they are drawn from the same external point.",
           "Use angle sum, Pythagoras’ theorem, or the isosceles triangle formed by equal tangents to find the unknown."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "$TP$ is tangent to a circle with centre $O$ at $T$. Given $\\angle TOP=62^{\\circ}$, find $x=\\angle OPT$.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (O) at (0,0); \\coordinate (T) at (0,2); \\coordinate (P) at ({2*tan(62)},2);\n\\draw (O) circle (2); \\draw (O)--(T)--(P)--cycle;\n\\fill (O) circle (1.5pt);\n\\path (O) node[below left] {$O$} (T) node[above] {$T$} (P) node[right] {$P$};\n\\path (0.35,0.8) node {$62^{\\circ}$} ({2*tan(62)-0.8},1.8) node {$x$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "A tangent is perpendicular to the radius at the point of contact, so $\\angle OTP=90^{\\circ}$.\n\nUsing the angle sum of $\\triangle OTP$:\n$\\begin{align*}x+90^{\\circ}+62^{\\circ}&=180^{\\circ}\\\\x&=28^{\\circ}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$PA$ and $PB$ are tangents from the external point $P$. Given $PA=8.4\\text{ cm}$, find $PB$.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (A) at (1,{sqrt(3)}); \\coordinate (B) at (1,{-sqrt(3)}); \\coordinate (P) at (4,0);\n\\draw (0,0) circle (2); \\draw (A)--(P)--(B);\n\\path (A) node[above] {$A$} (B) node[below] {$B$} (P) node[right] {$P$};\n\\path (2.5,0.866) node[above right] {$8.4\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Tangents drawn from the same external point are equal in length.\n$\\begin{align*}PB&=PA\\\\PB&=8.4\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$PT$ and $PQ$ are tangents to the circle. Given $\\angle TPQ=60^{\\circ}$, find $x=\\angle PTQ$.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (T) at (1,{sqrt(3)}); \\coordinate (Q) at (1,{-sqrt(3)}); \\coordinate (P) at (4,0);\n\\draw (0,0) circle (2); \\draw (T)--(P)--(Q)--cycle;\n\\path (T) node[above] {$T$} (Q) node[below] {$Q$} (P) node[right] {$P$};\n\\path (3.1,0) node {$60^{\\circ}$} (1.35,1.1) node {$x$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$PT=PQ$ because tangents from the same external point are equal. Therefore $\\triangle TPQ$ is isosceles and its base angles are equal.\n$\\begin{align*}2x+60^{\\circ}&=180^{\\circ}\\\\2x&=120^{\\circ}\\\\x&=60^{\\circ}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$PT$ and $PQ$ are tangents to a circle with centre $O$. The smaller angle $\\angle TOQ=120^{\\circ}$. Find $\\angle TPQ$.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (O) at (0,0); \\coordinate (T) at (1,{sqrt(3)}); \\coordinate (Q) at (1,{-sqrt(3)}); \\coordinate (P) at (4,0);\n\\draw (O) circle (2); \\draw (O)--(T)--(P)--(Q)--cycle; \\fill (O) circle (1.5pt);\n\\path (O) node[left] {$O$} (T) node[above] {$T$} (Q) node[below] {$Q$} (P) node[right] {$P$};\n\\draw (0.65,-1.126) arc[start angle=-60,end angle=60,radius=1.3];\n\\path (0.7,0) node {$120^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\angle OTP=\\angle OQP=90^{\\circ}$ because each tangent is perpendicular to its radius.\n\nUsing the angle sum of quadrilateral $OTPQ$:\n$\\begin{align*}\\angle TPQ+90^{\\circ}+90^{\\circ}+120^{\\circ}&=360^{\\circ}\\\\\\angle TPQ&=60^{\\circ}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$PT$ and $PQ$ are tangents to a circle with centre $O$. The reflex angle $\\angle TOQ=240^{\\circ}$. Find $\\angle TPQ$.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (O) at (0,0); \\coordinate (T) at (1,{sqrt(3)}); \\coordinate (Q) at (1,{-sqrt(3)}); \\coordinate (P) at (4,0);\n\\draw (O) circle (2); \\draw (O)--(T)--(P)--(Q)--cycle; \\fill (O) circle (1.5pt);\n\\path (O) node[below right] {$O$} (T) node[above] {$T$} (Q) node[below] {$Q$} (P) node[right] {$P$};\n\\draw (0.45,0.7794) arc[start angle=60,end angle=300,radius=0.9];\n\\path (-1.1,0) node {$240^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Angles at a point sum to $360^{\\circ}$.\n$\\begin{align*}\\text{Smaller }\\angle TOQ&=360^{\\circ}-240^{\\circ}\\\\&=120^{\\circ}\\end{align*}$\n\nEach tangent meets its radius at $90^{\\circ}$. Using the angle sum of quadrilateral $OTPQ$:\n$\\begin{align*}\\angle TPQ+90^{\\circ}+90^{\\circ}+120^{\\circ}&=360^{\\circ}\\\\\\angle TPQ&=60^{\\circ}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$TP$ is tangent to a circle with centre $O$ at $T$.\n\n(a) Given $OT=7\\text{ cm}$ and $TP=24\\text{ cm}$, find $OP$.\n\n(b) In another circle, the diameter is $14\\text{ cm}$ and $OP=25\\text{ cm}$. Find $TP$.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (O) at (0,0); \\coordinate (T) at (0,1.4); \\coordinate (P) at (4.8,1.4);\n\\draw (O) circle (1.4); \\draw (O)--(T)--(P)--cycle; \\fill (O) circle (1.5pt);\n\\path (O) node[below left] {$O$} (T) node[above] {$T$} (P) node[right] {$P$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) $\\angle OTP=90^{\\circ}$ because a tangent is perpendicular to its radius. By Pythagoras’ theorem:\n$\\begin{align*}OP^{2}&=7^{2}+24^{2}\\\\OP^{2}&=625\\\\OP&=25\\text{ cm}\\end{align*}$\n\n(b) The radius is $14\\div2=7\\text{ cm}$. Again, $\\angle OTP=90^{\\circ}$.\n$\\begin{align*}25^{2}&=7^{2}+TP^{2}\\\\625&=49+TP^{2}\\\\TP^{2}&=576\\\\TP&=24\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$PA$ and $PB$ are tangents to a circle with centre $C$. Prove that $\\triangle PAC\\equiv\\triangle PBC$, and hence that $PA=PB$.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (C) at (0,0); \\coordinate (A) at (1,{sqrt(3)}); \\coordinate (B) at (1,{-sqrt(3)}); \\coordinate (P) at (4,0);\n\\draw (C) circle (2); \\draw (C)--(A)--(P)--(B)--cycle; \\draw (C)--(P); \\fill (C) circle (1.5pt);\n\\path (C) node[left] {$C$} (A) node[above] {$A$} (B) node[below] {$B$} (P) node[right] {$P$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "In $\\triangle PAC$ and $\\triangle PBC$:\n\n$\\angle CAP=\\angle CBP=90^{\\circ}$ (tangents are perpendicular to radii).\n\n$CA=CB$ (radii of the same circle).\n\n$PC=PC$ (common hypotenuse).\n\nTherefore $\\triangle PAC\\equiv\\triangle PBC$ (RHS).\n\nHence $PA=PB$ (matching sides of congruent triangles).",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The incircle of $\\triangle PQR$ touches $PQ$ at $X$, $QR$ at $Y$, and $RP$ at $Z$. Given $PQ=10\\text{ cm}$, $QR=12\\text{ cm}$ and $RP=14\\text{ cm}$, find $QY$ using three simultaneous equations.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (Q) at (0,0); \\coordinate (R) at (6,0); \\coordinate (P) at (1,{sqrt(24)});\n\\coordinate (I) at (2,{sqrt(24)/3}); \\coordinate (X) at (0.4,{0.4*sqrt(24)}); \\coordinate (Y) at (2,0); \\coordinate (Z) at ({22/7},{4*sqrt(24)/7});\n\\draw (P)--(Q)--(R)--cycle; \\draw (I) circle ({sqrt(24)/3});\n\\path (P) node[above] {$P$} (Q) node[below left] {$Q$} (R) node[below right] {$R$} (X) node[left] {$X$} (Y) node[below] {$Y$} (Z) node[right] {$Z$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Let $PX=PZ=p$, $QX=QY=q$ and $RY=RZ=r$. Tangents from each vertex are equal.\n$\\begin{align*}p+q&=10\\\\q+r&=12\\\\r+p&=14\\end{align*}$\n\nAdding the three equations:\n$\\begin{align*}2(p+q+r)&=36\\\\p+q+r&=18\\end{align*}$\n\nSubtracting $p+r=14$ gives $q=4$. Therefore $QY=4\\text{ cm}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

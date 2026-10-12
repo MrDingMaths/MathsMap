@@ -2,19 +2,37 @@
   "skillId": "solve-equation-graphically",
   "atomType": "R",
   "theory": {
-        "intro": "To solve $mx+c=k$ from a graph, use the line $y=mx+c$. The solution is the $x$-value of the point where the line reaches the height $y=k$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (-0.9,0) -- (4.4,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-1.5) -- (0,3.0) node[above] {$y$};\n\\draw[thick,blue!70!black,<->] (-0.6,-1.28) -- (3.8,2.24);\n\\node[right] at (3.95,2.24) {$y=mx+c$};\n\\draw[thick,red!75!black,dashed] (0,1.6) -- (3.8,1.6);\n\\node[right] at (3.95,1.6) {$y=k$};\n\\node[left] at (0,1.6) {$k$};\n\\draw[dashed] (3,1.6) -- (3,0);\n\\fill (3,1.6) circle (2.2pt);\n\\node[below] at (3,-0.1) {solution};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "To solve $mx+c=k$ from a graph, use the line $y=mx+c$. The solution is the $x$-value of the point where the line reaches the height $y=k$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (-0.9,0) -- (4.4,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-1.5) -- (0,3.0) node[above] {$y$};\n\\draw[thick,blue!70!black,<->] (-0.6,-1.28) -- (3.8,2.24);\n\\node[right] at (3.95,2.24) {$y=mx+c$};\n\\draw[thick,red!75!black,dashed] (0,1.6) -- (3.8,1.6);\n\\node[right] at (3.95,1.6) {$y=k$};\n\\node[left] at (0,1.6) {$k$};\n\\draw[dashed] (3,1.6) -- (3,0);\n\\fill (3,1.6) circle (2.2pt);\n\\node[below] at (3,-0.1) {solution};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "Every point $(x,y)$ on the line makes $y=mx+c$ true, so solving $mx+c=k$ means finding where the line's height is $k$.",
           "Draw a horizontal line at $y=k$; its intersection with the graph gives the solution.",
           "To solve $mx+c=0$, read the **$x$-intercept**, where the line crosses the $x$-axis — the horizontal line $y=0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (-0.9,0) -- (4.4,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-1.5) -- (0,3.0) node[above] {$y$};\n\\draw[thick,blue!70!black,<->] (-0.6,-1.28) -- (3.8,2.24);\n\\node[right] at (3.95,2.24) {$y=mx+c$};\n\\node[above] at (3.4,0) {$y=0$};\n\\fill (1,0) circle (2.2pt);\n\\node[below right] at (1,0) {solution};\n\\end{tikzpicture}\n[/tikz]",
           "If the intersection falls between gridlines, interpolate: halfway between two whole numbers is $0.5$."
         ],
-        "steps": [
+"steps": [
           "Draw the horizontal line $y=k$.",
           "Mark the intersection with the graph.",
           "Read off the $x$-value."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Which line and which horizontal line would you draw to solve $4x+3=11$ graphically?",
+    "solution_text": "Draw the line $y=4x+3$ and the horizontal line $y=11$. The $x$-coordinate where they meet is the solution."
+  },
+  {
+    "question_text": "Use the graph of $y=x-2$ to solve $x-2=-4$.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{graphblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,xmin=-4,xmax=4,ymin=-6,ymax=3,xtick={-4,-3,...,4},ytick={-6,-5,...,3},grid=major,grid style={draw=black!20},axis line style={black},tick style={black},ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$x$},ylabel={$y$}]\n\\addplot[graphblue,thick,<->,domain=-4:4,samples=2]{x-2};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Draw the horizontal line $y=-4$. It meets $y=x-2$ at $(-2,-4)$, so $x=-2$.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{graphblue}{HTML}{268CFF}\n\\definecolor{targetred}{HTML}{EF6068}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,xmin=-4,xmax=4,ymin=-6,ymax=3,xtick={-4,-3,...,4},ytick={-6,-5,...,3},grid=major,grid style={draw=black!20},axis line style={black},tick style={black},ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$x$},ylabel={$y$}]\n\\addplot[graphblue,thick,<->,domain=-4:4,samples=2]{x-2};\n\\addplot[targetred,thick,dashed,domain=-4:4,samples=2]{-4};\n\\draw[black,dashed] (axis cs:-2,-4)--(axis cs:-2,0);\n\\fill[black] (axis cs:-2,-4) circle (2pt);\n\\node[anchor=north west,text=black,font=\\fontsize{10}{12}\\selectfont] at (axis cs:-2,-4) {$(-2,-4)$};\n\\node[anchor=south east,text=targetred,font=\\fontsize{10}{12}\\selectfont] at (axis cs:4,-4) {$y=-4$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Use the graph of $y=4-x$ to solve $4-x=0$.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{graphblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,xmin=-1,xmax=6,ymin=-2,ymax=5,xtick={-1,0,...,6},ytick={-2,-1,...,5},grid=major,grid style={draw=black!20},axis line style={black},tick style={black},ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$x$},ylabel={$y$}]\n\\addplot[graphblue,thick,<->,domain=-1:6,samples=2]{4-x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$y=0$ is the $x$-axis. The graph crosses it at $(4,0)$, so $x=4$.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{graphblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,xmin=-1,xmax=6,ymin=-2,ymax=5,xtick={-1,0,...,6},ytick={-2,-1,...,5},grid=major,grid style={draw=black!20},axis line style={black},tick style={black},ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$x$},ylabel={$y$}]\n\\addplot[graphblue,thick,<->,domain=-1:6,samples=2]{4-x};\n\\fill[black] (axis cs:4,0) circle (2pt);\n\\node[anchor=south west,text=black,font=\\fontsize{10}{12}\\selectfont] at (axis cs:4,0) {$(4,0)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Use the graph of $y=6-2x$ to solve $6-2x=1$.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{graphblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,xmin=-1,xmax=5,ymin=-4,ymax=8,xtick={-1,0,...,5},ytick={-4,-2,...,8},minor y tick num=1,grid=both,grid style={draw=black!20},axis line style={black},tick style={black},ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$x$},ylabel={$y$}]\n\\addplot[graphblue,thick,<->,domain=-1:5,samples=2]{6-2*x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The labelled $y$-ticks increase by $2$; each small grid interval is $1$. Draw $y=1$, halfway between $y=0$ and $y=2$.\n\nThe intersection is halfway between $x=2$ and $x=3$, at $(2.5,1)$, so $x=2.5$.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{graphblue}{HTML}{268CFF}\n\\definecolor{targetred}{HTML}{EF6068}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,xmin=-1,xmax=5,ymin=-4,ymax=8,xtick={-1,0,...,5},ytick={-4,-2,...,8},minor y tick num=1,grid=both,grid style={draw=black!20},axis line style={black},tick style={black},ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$x$},ylabel={$y$}]\n\\addplot[graphblue,thick,<->,domain=-1:5,samples=2]{6-2*x};\n\\addplot[targetred,thick,dashed,domain=-1:5,samples=2]{1};\n\\draw[black,dashed] (axis cs:2.5,1)--(axis cs:2.5,0);\n\\fill[black] (axis cs:2.5,1) circle (2pt);\n\\node[anchor=south west,text=black,font=\\fontsize{10}{12}\\selectfont] at (axis cs:2.5,1) {$(2.5,1)$};\n\\node[anchor=south east,text=targetred,font=\\fontsize{10}{12}\\selectfont] at (axis cs:5,1) {$y=1$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

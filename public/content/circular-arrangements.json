@@ -2,20 +2,85 @@
   "skillId": "circular-arrangements",
   "atomType": "R",
   "theory": {
-        "intro": "Rotating a circular arrangement does not create a new one, because the objects keep the same clockwise relative order. A reflection reverses that order and is a different arrangement at a table. Fixing one object's position removes the $n$ rotations, leaving $(n-1)!$ arrangements of $n$ distinct objects. If the circle can also be flipped over, divide by $2$ when there are at least $3$ distinct objects; with $1$ or $2$ distinct objects, there is $1$ arrangement.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) circle (2);\n\\fill (90:2) circle (2.5pt);\n\\fill (30:2) circle (2.5pt);\n\\fill (-30:2) circle (2.5pt);\n\\fill (-90:2) circle (2.5pt);\n\\fill (-150:2) circle (2.5pt);\n\\fill (150:2) circle (2.5pt);\n\\node at (90:2.75) {$A$ (fixed)};\n\\node at (30:2.7) {$1$};\n\\node at (-30:2.7) {$2$};\n\\node at (-90:2.7) {$3$};\n\\node at (-150:2.7) {$\\cdots$};\n\\node at (150:2.85) {$n-1$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "Rotating a circular arrangement does not create a new one, because the objects keep the same clockwise relative order. A reflection reverses that order and is a different arrangement at a table. Fixing one object's position removes the $n$ rotations, leaving $(n-1)!$ arrangements of $n$ distinct objects. If the circle can also be flipped over, divide by $2$ when there are at least $3$ distinct objects; with $1$ or $2$ distinct objects, there is $1$ arrangement.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) circle (2);\n\\fill (90:2) circle (2.5pt);\n\\fill (30:2) circle (2.5pt);\n\\fill (-30:2) circle (2.5pt);\n\\fill (-90:2) circle (2.5pt);\n\\fill (-150:2) circle (2.5pt);\n\\fill (150:2) circle (2.5pt);\n\\node at (90:2.75) {$A$ (fixed)};\n\\node at (30:2.7) {$1$};\n\\node at (-30:2.7) {$2$};\n\\node at (-90:2.7) {$3$};\n\\node at (-150:2.7) {$\\cdots$};\n\\node at (150:2.85) {$n-1$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "Arranging $n$ distinct objects around a circle, where rotations count as the same arrangement, gives $(n-1)!$ arrangements.",
 "A keyring, bracelet or necklace can be flipped over, so a reflection is the same arrangement. For at least $3$ distinct objects, the count is $\\dfrac{(n-1)!}{2}$; with $1$ or $2$ distinct objects, the count is $1$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) circle (1.4);\n\\fill (90:1.4) circle (2.5pt);\n\\fill (0:1.4) circle (2.5pt);\n\\fill (-90:1.4) circle (2.5pt);\n\\fill (180:1.4) circle (2.5pt);\n\\node at (90:1.85) {$A$};\n\\node at (0:1.85) {$B$};\n\\node at (-90:1.85) {$C$};\n\\node at (180:1.85) {$D$};\n\\draw[dashed] (2.5,-2.1) -- (2.5,2.1);\n\\node[above] at (2.5,2.1) {flip over};\n\\begin{scope}[shift={(5,0)}]\n\\draw (0,0) circle (1.4);\n\\fill (90:1.4) circle (2.5pt);\n\\fill (0:1.4) circle (2.5pt);\n\\fill (-90:1.4) circle (2.5pt);\n\\fill (180:1.4) circle (2.5pt);\n\\node at (90:1.85) {$A$};\n\\node at (0:1.85) {$D$};\n\\node at (-90:1.85) {$C$};\n\\node at (180:1.85) {$B$};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
 "**Block method**: for $1 \\leq k < n$, treat the $k$ objects that must sit together as $1$ unit, arrange the units in $(n-k)!$ ways, then multiply by $k!$. If all $n$ objects are grouped together, the count is $(n-1)!$.",
 "**Separation**: for integer $n \\geq 3$, subtract the count with two particular people together from the total, $(n-1)! - 2(n-2)! = (n-3)(n-2)!$.",
 "**Alternating**: fix $1$ boy, arrange the other $n-1$ boys in $(n-1)!$ ways, then seat the $n$ girls in the gaps in $n!$ ways."
 ],
-        "steps": [
+"steps": [
 "Identify the total number of objects $n$ and whether the arrangement is a table (rotations only, $(n-1)!$) or a ring/necklace (rotations and reflections, $\\dfrac{(n-1)!}{2}$ for $n \\geq 3$, and $1$ arrangement for $n=1$ or $n=2$)",
 "If restrictions apply, fix reference items or group restricted items into blocks",
 "Arrange the remaining items relative to the fixed item(s) and multiply by internal permutations"
+],
+"workedExamples": [
+  {
+    "question_text": "In how many ways can $9$ distinct guests sit around a circular table? Rotations count as the same arrangement; reflections count as different arrangements.",
+    "solution_text": "Fix one guest to remove rotational repeats. Arrange the remaining $8$ guests.\n\n$\\begin{align*}(9-1)! &= 8!\\\\&=40320\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "How many different necklaces can be made from $7$ differently coloured beads if turning a necklace over gives the same arrangement?",
+    "solution_text": "Fix one bead, then arrange the other $6$ beads. Turning the necklace over pairs each clockwise order with its reverse, so divide by $2$.\n\n$\\begin{align*}\\frac{(7-1)!}{2}&=\\frac{720}{2}\\\\&=360\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Nine distinct people sit around a circular table. How many arrangements have three particular friends sitting together?",
+    "solution_text": "Treat the three friends as one unit. There are $7$ units to arrange around the circle, and $3!$ orders within the friends' unit.\n\n$\\begin{align*}(7-1)!\\times3!&=720\\times6\\\\&=4320\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Ten distinct people sit around a circular table. Three particular couples each wish to sit together. How many arrangements are possible?",
+    "solution_text": "The three couple units and four other people make $7$ units. Arrange these around the circle, then arrange each couple internally.\n\n$\\begin{align*}(7-1)!\\times2!\\times2!\\times2!&=720\\times8\\\\&=5760\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Nine distinct people sit around a circular table. How many arrangements have Alex and Sam sitting apart?",
+    "solution_text": "Count all arrangements, then subtract those with Alex and Sam together. Together, they form one of $8$ units and have $2!$ internal orders.\n\n$\\begin{align*}(9-1)!-2!(8-1)!&=40320-2\\times5040\\\\&=30240\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For an integer $n\\geq3$, find the number of arrangements of $n$ distinct people around a circular table in which two particular people sit apart.",
+    "solution_text": "There are $(n-1)!$ arrangements in total. Grouping the particular pair gives $n-1$ units and $2$ internal orders.\n\n$\\begin{align*}&\\mathrel{\\phantom{=}}(n-1)!-2(n-2)!\\\\&=(n-1)(n-2)!-2(n-2)!\\\\&=(n-3)(n-2)!\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Six distinct friends sit around a circular table, all facing the centre. How many arrangements have Mia immediately to Noah's right?",
+    "solution_text": "Fix Noah's position. Mia has one permitted seat, leaving $4$ friends to arrange in the remaining seats.\n\n$4!=24$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,0) circle (1);\n\\foreach \\a in {90,30,-30,-90,-150,150} {\\draw[black,fill=white] (\\a:1.5) circle (0.10);}\n\\node[above] at (90:1.65) {Noah};\n\\node[above left] at (150:1.65) {Mia};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Seven distinct people sit around a circular table. How many arrangements have Lee immediately between Ava and Ben?",
+    "solution_text": "Treat Ava–Lee–Ben as one unit. Lee stays in the middle, so the unit has just two orders: Ava–Lee–Ben and Ben–Lee–Ava. Together with the other four people, there are $5$ units.\n\n$\\begin{align*}(5-1)!\\times2&=24\\times2\\\\&=48\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Six boys and six girls, all distinct, sit around a circular table. How many arrangements have boys and girls alternating?",
+    "solution_text": "Fix one boy and arrange the other $5$ boys around the circle. There are $6$ gaps between consecutive boys, including the gap across the starting position. Arrange the girls in these gaps.\n\n$\\begin{align*}5!\\times6!&=120\\times720\\\\&=86400\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
       {

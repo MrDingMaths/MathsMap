@@ -2,8 +2,8 @@
   "skillId": "intersection-line-curve",
   "atomType": "R",
   "theory": {
-        "intro": "A line and a curve meet where they share the same $x$ and the same $y$. When both equations give $y$ in terms of $x$, set the two expressions equal and solve for $x$. For a circle, substitute the line's expression for $y$ into the circle's equation. For a vertical line $x=a$, substitute $x=a$ directly into the curve's equation and find $y$. The steps below apply to a nonvertical line and a parabola.",
-        "facts": [
+"intro": "A line and a curve meet where they share the same $x$ and the same $y$. When both equations give $y$ in terms of $x$, set the two expressions equal and solve for $x$. For a circle, substitute the line's expression for $y$ into the circle's equation. For a vertical line $x=a$, substitute $x=a$ directly into the curve's equation and find $y$. The steps below apply to a nonvertical line and a parabola.",
+"facts": [
 "At an intersection point both graphs have the same $x$ and the same $y$. When both equations give $y$ in terms of $x$, their two expressions for $y$ are equal.",
 "Equating a nonvertical line and a parabola gives a quadratic $ax^{2}+bx+c=0$, which you solve by factorising or the quadratic formula. For a circle, substitute the line into the circle's equation. For a reciprocal hyperbola, equate the expressions for $y$ and clear the denominator, keeping all values that make the original denominator zero excluded; for $y=\\frac{k}{x}$, $x\\ne0$. A horizontal line and a reciprocal hyperbola give a linear equation after clearing the denominator. A vertical line requires direct substitution of its $x$-value.",
 "A line can cut a curve at **two** points, and then the quadratic has two solutions.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-3.5, xmax=3.5, ymin=-4, ymax=4, samples=100, clip=false, axis line style={->}, xtick=\\empty, ytick=\\empty]\n\\addplot[smooth,thick,blue,<->,domain=-3.5:3.5] {0.45*x*x - 1.5};\n\\addplot[thick,red,<->,domain=-3.333:3.5] {0.9*x - 1};\n\\addplot[only marks,mark=*,black] coordinates {(-0.453,-1.408) (2.453,1.208)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
@@ -12,13 +12,64 @@
 "Substitute each $x$ back into the simpler equation, usually the line, to find that point's $y$.",
 "Write each answer as a coordinate pair $(x,y)$, and check it against the sketch."
 ],
-        "steps": [
+"steps": [
           "Equate the two equations.",
           "Rearrange to a quadratic $ax^{2}+bx+c=0$.",
           "Solve for the $x$-coordinate(s).",
           "Substitute back to find each $y$-coordinate."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Find the points of intersection of $y=x^{2}-x$ and $y=6$.",
+    "solution_text": "Equate the expressions for $y$ and factorise.\n$\\begin{align*}x^{2}-x&=6\\\\x^{2}-x-6&=0\\\\(x-3)(x+2)&=0\\\\x&=3\\text{ or }-2\\end{align*}$\nBoth points have $y=6$. The intersections are $(-2,6)$ and $(3,6)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A moving marker follows $y=x^{2}-4x+8$, while a straight guide follows $x+y=4$. Coordinates are measured in metres. Find where the two paths intersect.",
+    "solution_text": "Rearrange the line to $y=4-x$, then equate.\n$\\begin{align*}x^{2}-4x+8&=4-x\\\\x^{2}-3x+4&=0\\end{align*}$\nCheck for real solutions using the quadratic formula.\n$\\begin{align*}x&=\\frac{3\\pm\\sqrt{(-3)^{2}-4(1)(4)}}{2}\\\\&=\\frac{3\\pm\\sqrt{-7}}{2}\\end{align*}$\nA negative number has no real square root. The paths do not intersect.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the point of intersection of $y=x^{2}+1$ and $y=6x-8$.",
+    "solution_text": "Equate and factorise.\n$\\begin{align*}x^{2}+1&=6x-8\\\\x^{2}-6x+9&=0\\\\(x-3)^{2}&=0\\\\x&=3\\end{align*}$\nSubstitute into the line.\n$\\begin{align*}y&=6(3)-8\\\\&=10\\end{align*}$\nThe repeated root gives one intersection, $(3,10)$. The line is tangent to the parabola.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the points of intersection of the circle $x^{2}+y^{2}=10$ and the line $x+y=4$.",
+    "solution_text": "Rearrange the line to $y=4-x$ and substitute into the circle.\n$\\begin{align*}x^{2}+(4-x)^{2}&=10\\\\2x^{2}-8x+6&=0\\\\x^{2}-4x+3&=0\\\\(x-1)(x-3)&=0\\\\x&=1\\text{ or }3\\end{align*}$\nFor $x=1$, $y=4-1=3$. For $x=3$, $y=4-3=1$.\nThe intersections are $(1,3)$ and $(3,1)$.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\definecolor{linered}{HTML}{EF6068}\n\\draw[black,<->] (-4,0)--(4.5,0) node[right] {$x$};\n\\draw[black,<->] (0,-4)--(0,4.5) node[above] {$y$};\n\\draw[curveblue,thick] (0,0) circle ({sqrt(10)});\n\\draw[linered,thick,<->] (-0.2,4.2)--(4.2,-0.2);\n\\fill[black] (1,3) circle (1.2pt);\n\\fill[black] (3,1) circle (1.2pt);\n\\path (1,3) node[above right] {$(1,3)$};\n\\path (3,1) node[above right] {$(3,1)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the points of intersection of $y=\\frac{18}{x}$ and $y=2x$.",
+    "solution_text": "The hyperbola excludes $x=0$. Equate, then multiply by $x$.\n$\\begin{align*}2x&=\\frac{18}{x}\\\\2x^{2}&=18\\\\x^{2}&=9\\\\x&=3\\text{ or }-3\\end{align*}$\nBoth values satisfy $x\\ne0$.\nFor $x=3$, $y=2(3)=6$. For $x=-3$, $y=2(-3)=-6$.\nThe intersections are $(3,6)$ and $(-3,-6)$.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=3mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\definecolor{linered}{HTML}{EF6068}\n\\draw[black,<->] (-4.5,0)--(4.5,0) node[right] {$x$};\n\\draw[black,<->] (0,-12)--(0,12) node[above] {$y$};\n\\draw[curveblue,thick,<->,domain=1.6:4.3,samples=80] plot (\\x,{18/\\x});\n\\draw[curveblue,thick,<->,domain=-4.3:-1.6,samples=80] plot (\\x,{18/\\x});\n\\draw[linered,thick,<->] (-4.3,-8.6)--(4.3,8.6);\n\\fill[black] (3,6) circle (1.2pt);\n\\fill[black] (-3,-6) circle (1.2pt);\n\\path (3,6) node[below right] {$(3,6)$};\n\\path (-3,-6) node[above left] {$(-3,-6)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use the graph to read the points where $y=x^{2}-4$ intersects $y=x+2$. Then verify algebraically.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=5mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\definecolor{linered}{HTML}{EF6068}\n\\draw[gray!40,xstep=8mm,ystep=5mm] (-3,-5) grid (4,7);\n\\draw[black,<->] (-3.2,0)--(4.2,0) node[right] {$x$};\n\\draw[black,<->] (0,-5.2)--(0,7.2) node[above] {$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3,4} {\\draw[black] (\\v,-0.12)--(\\v,0.12);\\path (\\v,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\foreach \\v in {-4,-2,2,4,6} {\\draw[black] (-0.08,\\v)--(0.08,\\v);\\path (0,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\draw[curveblue,thick,<->,domain=-3:3.3,samples=100] plot (\\x,{(\\x)^2-4});\n\\draw[linered,thick,<->] (-3,-1)--(4,6);\n\\end{tikzpicture}\n[/tikz]\nThe parabola is blue and the line is red.",
+    "solution_text": "The crossings read from the grid are $(-2,0)$ and $(3,5)$.\nVerify by equating.\n$\\begin{align*}x^{2}-4&=x+2\\\\x^{2}-x-6&=0\\\\(x-3)(x+2)&=0\\\\x&=3\\text{ or }-2\\end{align*}$\nFor $x=3$, $y=3+2=5$. For $x=-2$, $y=-2+2=0$.\nThese coordinates agree with the graph.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A moving marker follows $y=x^{2}-5x+10$, and a straight guide follows $y=x+2$. Coordinates are measured in metres. Find where the paths cross.",
+    "solution_text": "At a crossing, the heights are equal.\n$\\begin{align*}x^{2}-5x+10&=x+2\\\\x^{2}-6x+8&=0\\\\(x-2)(x-4)&=0\\\\x&=2\\text{ or }4\\end{align*}$\nFor $x=2$, $y=2+2=4$. For $x=4$, $y=4+2=6$.\nThe paths cross at $(2,4)$ and $(4,6)$, with both coordinates in metres.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

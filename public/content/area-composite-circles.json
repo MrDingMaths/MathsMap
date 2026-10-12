@@ -2,8 +2,8 @@
   "skillId": "area-composite-circles",
   "atomType": "R",
   "theory": {
-        "intro": "A **composite figure** is built from circle parts (quadrants, semicircles, sectors, rings) joined to or cut out of straight-sided shapes. Split it into simple shapes, find each area, then **add** the parts present and **subtract** the parts removed.",
-        "facts": [
+"intro": "A **composite figure** is built from circle parts (quadrants, semicircles, sectors, rings) joined to or cut out of straight-sided shapes. Split it into simple shapes, find each area, then **add** the parts present and **subtract** the parts removed.",
+"facts": [
           "Circle $A = \\pi r^{2}$; semicircle $A = \\frac{\\pi r^{2}}{2}$; quadrant $A = \\frac{\\pi r^{2}}{4}$; sector $A = \\frac{\\theta}{360}\\pi r^{2}$.",
           "A dashed line drawn to split a figure is a construction line only, and has no area of its own.",
           "A curve that bulges **outwards** is a piece joined on, so its area is added.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[blue!25] (0,0) rectangle (3.8,1.6);\n\\fill[blue!25] (3.8,1.6) arc (90:-90:0.8) -- cycle;\n\\draw[thick] (0,0) -- (3.8,0);\n\\draw[thick] (0,1.6) -- (3.8,1.6);\n\\draw[thick] (0,0) -- (0,1.6);\n\\draw[thick] (3.8,1.6) arc (90:-90:0.8);\n\\draw[dashed] (3.8,0) -- (3.8,1.6);\n\\node at (4.16,0.8) {$+$};\n\\end{tikzpicture}\n[/tikz]",
@@ -12,12 +12,58 @@
           "Two semicircles of equal radius make one whole circle, as do four quadrants; combining them first saves work.",
           "Use the calculator value of $\\pi$, keep the working exact and round only on the last line, to the form the question asks for."
         ],
-        "steps": [
+"steps": [
           "Split the composite figure into simple shapes.",
           "Calculate the area of each simple shape.",
           "Add or subtract the areas."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A quadrant is joined to a rectangle. Calculate the total area to 2 decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (0,0)--(0,2)--(3,2) arc (90:0:2)--cycle;\n\\path (0,1) node[left] {$4\\text{ m}$} (1.5,2) node[above] {$6\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Split the figure into a rectangle and a quadrant. The quadrant has radius $4\\text{ m}$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (0,0)--(0,2)--(3,2) arc (90:0:2)--cycle;\n\\draw[dashed] (3,0)--(3,2);\n\\path (1.5,1) node {$A_1$} (3.7,0.7) node {$A_2$} (3,1) node[left] {$4\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{align*} A_1 &= 6\\times4\\\\ &=24\\text{ m}^2\\end{align*}$\n$\\begin{align*} A_2 &=\\frac14\\pi(4)^2\\\\ &=4\\pi\\text{ m}^2\\end{align*}$\n$\\begin{align*} A &=A_1+A_2\\\\ &=24+4\\pi\\\\ &\\approx36.57\\text{ m}^2\\end{align*}$"
+  },
+  {
+    "question_text": "A semicircle is joined along the 20 mm side of a rectangle measuring 20 mm by 15 mm. Calculate the total area to 1 decimal place. Take $\\pi=3.142$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (0,0)--(3,0) arc (-90:90:1)--(0,2)--cycle;\n\\path (1.5,0) node[below] {$15\\text{ mm}$} (0,1) node[left] {$20\\text{ mm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The semicircle has diameter $20\\text{ mm}$, so its radius is $10\\text{ mm}$.\n$\\begin{align*} A_1 &=20\\times15\\\\ &=300\\text{ mm}^2\\end{align*}$\n$\\begin{align*} A_2 &=\\frac12\\times3.142\\times10^2\\\\ &=157.1\\text{ mm}^2\\end{align*}$\n$\\begin{align*} A &=A_1+A_2\\\\ &=300+157.1\\\\ &=457.1\\text{ mm}^2\\end{align*}$"
+  },
+  {
+    "question_text": "A triangle and a semicircle share a base of length 10 cm. The triangle has perpendicular height 7 cm. Find the total area in exact form in terms of $\\pi$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (-2,0)--(0,2.8)--(2,0) arc (0:-180:2);\n\\draw[dashed] (-2,0)--(2,0);\n\\draw[dashed] (0,0)--(0,2.8);\n\\draw (0,0.2)--(0.2,0.2)--(0.2,0);\n\\path (-1,0) node[above] {$10\\text{ cm}$} (0,1.5) node[right] {$7\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The semicircle has radius $10\\div2=5\\text{ cm}$.\n$\\begin{align*} A_1 &=\\frac12\\times10\\times7\\\\ &=35\\text{ cm}^2\\end{align*}$\n$\\begin{align*} A_2 &=\\frac12\\pi(5)^2\\\\ &=\\frac{25\\pi}{2}\\text{ cm}^2\\end{align*}$\n$\\begin{align*} A &=A_1+A_2\\\\ &=\\left(35+\\frac{25\\pi}{2}\\right)\\text{ cm}^2\\end{align*}$"
+  },
+  {
+    "question_text": "A circular hole is cut from a square of side 12 cm. The circle touches all four sides. Calculate the shaded area to 2 decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region,even odd rule] (0,0) rectangle (3,3) (1.5,1.5) circle (1.5);\n\\draw[thick] (0,0) rectangle (3,3);\n\\draw[thick] (1.5,1.5) circle (1.5);\n\\path (1.5,0) node[below] {$12\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Subtract the circle from the square. The circle has diameter $12\\text{ cm}$, so its radius is $6\\text{ cm}$.\n$\\begin{align*} A_1 &=12^2\\\\ &=144\\text{ cm}^2\\end{align*}$\n$\\begin{align*} A_2 &=\\pi(6)^2\\\\ &=36\\pi\\text{ cm}^2\\end{align*}$\n$\\begin{align*} A &=A_1-A_2\\\\ &=144-36\\pi\\\\ &\\approx30.90\\text{ cm}^2\\end{align*}$"
+  },
+  {
+    "question_text": "The shaded ring lies between two circles with the same centre. Their diameters are 14 cm and 8 cm. Find the shaded area in exact form in terms of $\\pi$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region,even odd rule] (0,0) circle (2.1) (0,0) circle (1.2);\n\\draw[thick] (0,0) circle (2.1);\n\\draw[thick] (0,0) circle (1.2);\n\\draw[<->] (-1.2,0)--(1.2,0);\n\\draw[<->] (2.5,-2.1)--(2.5,2.1);\n\\path (0,0) node[above] {$8\\text{ cm}$} (2.5,0) node[right] {$14\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The outer radius is $7\\text{ cm}$ and the inner radius is $4\\text{ cm}$. Subtract the areas of the circles.\n$\\begin{align*} A_1 &=\\pi(7)^2\\\\ &=49\\pi\\text{ cm}^2\\end{align*}$\n$\\begin{align*} A_2 &=\\pi(4)^2\\\\ &=16\\pi\\text{ cm}^2\\end{align*}$\n$\\begin{align*} A &=A_1-A_2\\\\ &=49\\pi-16\\pi\\\\ &=33\\pi\\text{ cm}^2\\end{align*}$"
+  },
+  {
+    "question_text": "A sprinkler waters the region between 3 m and 8 m from its centre through an angle of $240^\\circ$. Calculate the watered area to the nearest square metre.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (0:2.4) arc (0:240:2.4)--(240:0.9) arc (240:0:0.9)--cycle;\n\\draw[thick] (0:2.4) arc (0:240:2.4)--(240:0.9) arc (240:0:0.9)--cycle;\n\\draw[dashed] (0,0)--(0:2.4);\n\\draw[dashed] (0,0)--(240:0.9);\n\\draw (0:0.4) arc (0:240:0.4);\n\\path (120:0.65) node {$240^\\circ$} (0:1.7) node[below] {$8\\text{ m}$} (240:0.55) node[right] {$3\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Subtract the inner sector from the outer sector. Both sectors have angle $240^\\circ$.\n$\\begin{align*} A_1 &=\\frac{240}{360}\\pi(8)^2\\\\ &=\\frac{128\\pi}{3}\\text{ m}^2\\end{align*}$\n$\\begin{align*} A_2 &=\\frac{240}{360}\\pi(3)^2\\\\ &=6\\pi\\text{ m}^2\\end{align*}$\n$\\begin{align*} A &=A_1-A_2\\\\ &=\\frac{110\\pi}{3}\\\\ &\\approx115\\text{ m}^2\\end{align*}$"
+  },
+  {
+    "question_text": "A triangle inside a circle has a diameter as its base and the radius as its perpendicular height. The radius is 6 cm. Calculate the shaded area outside the triangle to 2 decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (0,0) circle (2);\n\\fill[white] (-2,0)--(0,2)--(2,0)--cycle;\n\\draw[thick] (0,0) circle (2);\n\\draw[thick] (-2,0)--(0,2)--(2,0)--cycle;\n\\draw[dashed] (0,0)--(0,2);\n\\draw (0,0.2)--(0.2,0.2)--(0.2,0);\n\\path (0,1) node[right] {$6\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The triangle has base $2\\times6=12\\text{ cm}$ and perpendicular height $6\\text{ cm}$. Subtract its area from the circle.\n$\\begin{align*} A_1 &=\\pi(6)^2\\\\ &=36\\pi\\text{ cm}^2\\end{align*}$\n$\\begin{align*} A_2 &=\\frac12\\times12\\times6\\\\ &=36\\text{ cm}^2\\end{align*}$\n$\\begin{align*} A &=A_1-A_2\\\\ &=36\\pi-36\\\\ &\\approx77.10\\text{ cm}^2\\end{align*}$"
+  },
+  {
+    "question_text": "A racetrack lies between two ovals. Each oval consists of a rectangle 30 m long and two semicircular ends. The outer width is 18 m and the inner width is 12 m. Calculate the area of the track to 2 decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (0,-0.9)--(3,-0.9) arc (-90:90:0.9)--(0,0.9) arc (90:270:0.9)--cycle;\n\\fill[white] (0,-0.6)--(3,-0.6) arc (-90:90:0.6)--(0,0.6) arc (90:270:0.6)--cycle;\n\\draw[thick] (0,-0.9)--(3,-0.9) arc (-90:90:0.9)--(0,0.9) arc (90:270:0.9)--cycle;\n\\draw[thick] (0,-0.6)--(3,-0.6) arc (-90:90:0.6)--(0,0.6) arc (90:270:0.6)--cycle;\n\\draw[<->] (4.3,-0.9)--(4.3,0.9);\n\\draw[<->] (1.5,-0.6)--(1.5,0.6);\n\\draw[<->] (0,-1.3)--(3,-1.3);\n\\path (4.3,0) node[right] {$18\\text{ m}$} (1.5,0) node[right] {$12\\text{ m}$} (1.5,-1.3) node[below] {$30\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "For each oval, the two semicircles make one whole circle. The outer radius is $9\\text{ m}$ and the inner radius is $6\\text{ m}$.\n$\\begin{align*} A_1 &=30\\times18+\\pi(9)^2\\\\ &=540+81\\pi\\text{ m}^2\\end{align*}$\n$\\begin{align*} A_2 &=30\\times12+\\pi(6)^2\\\\ &=360+36\\pi\\text{ m}^2\\end{align*}$\n$\\begin{align*} A &=A_1-A_2\\\\ &=(540+81\\pi)-(360+36\\pi)\\\\ &=180+45\\pi\\\\ &\\approx321.37\\text{ m}^2\\end{align*}$"
+  },
+  {
+    "question_text": "A wall is 8 m wide and 4 m high. An archway is cut from it. The archway consists of a rectangle 4 m wide and 2 m high with a semicircle on top. Calculate the remaining wall area to 2 decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (0,0)--(0,2)--(4,2)--(4,0)--(3,0)--(3,1) arc (0:180:1)--(1,0)--cycle;\n\\draw[<->] (0,-0.5)--(4,-0.5);\n\\draw[<->] (4.4,0)--(4.4,2);\n\\draw[<->] (1,0.2)--(3,0.2);\n\\draw[<->] (3.35,0)--(3.35,1);\n\\path (2,-0.5) node[below] {$8\\text{ m}$} (4.4,1) node[right] {$4\\text{ m}$} (2,0.2) node[above] {$4\\text{ m}$} (3.35,0.5) node[right] {$2\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Subtract the rectangular opening and the semicircle from the whole wall. The semicircle has radius $4\\div2=2\\text{ m}$.\n$\\begin{align*} A_1 &=8\\times4\\\\ &=32\\text{ m}^2\\end{align*}$\n$\\begin{align*} A_2 &=4\\times2\\\\ &=8\\text{ m}^2\\end{align*}$\n$\\begin{align*} A_3 &=\\frac12\\pi(2)^2\\\\ &=2\\pi\\text{ m}^2\\end{align*}$\n$\\begin{align*} A &=A_1-A_2-A_3\\\\ &=32-8-2\\pi\\\\ &\\approx17.72\\text{ m}^2\\end{align*}$"
+  },
+  {
+    "question_text": "Shape A is a rectangle measuring 10 cm by 4 cm with a semicircle joined to a 4 cm side. Shape B is an identical rectangle with an identical semicircle cut out. Find each area in exact form and show that their sum is twice the rectangle's area.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (0,0)--(2.5,0) arc (-90:90:0.5)--(0,1)--cycle;\n\\draw[thick] (4,0)--(6.5,0) arc (270:90:0.5)--(4,1)--cycle;\n\\path (1.25,0) node[below] {$10\\text{ cm}$} (0,0.5) node[left] {$4\\text{ cm}$} (1.25,1) node[above] {A} (5.25,0) node[below] {$10\\text{ cm}$} (4,0.5) node[left] {$4\\text{ cm}$} (5.25,1) node[above] {B};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Each semicircle has radius $2\\text{ cm}$.\n$\\begin{align*} A_{\\text{rectangle}} &=10\\times4\\\\ &=40\\text{ cm}^2\\end{align*}$\n$\\begin{align*} A_{\\text{semicircle}} &=\\frac12\\pi(2)^2\\\\ &=2\\pi\\text{ cm}^2\\end{align*}$\n$A_{\\text{A}}=(40+2\\pi)\\text{ cm}^2$.\n$A_{\\text{B}}=(40-2\\pi)\\text{ cm}^2$.\n$\\begin{align*} A_{\\text{A}}+A_{\\text{B}} &=(40+2\\pi)+(40-2\\pi)\\\\ &=80\\text{ cm}^2\\end{align*}$\nThe semicircle areas cancel, leaving $2\\times40=80\\text{ cm}^2$."
+  },
+  {
+    "question_text": "Three circles of radius 2 cm are cut from a rectangular sheet. The circles touch their neighbours and the edges of the rectangle, as shown. Find the remaining area in exact form in terms of $\\pi$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (0,0) rectangle (6,2);\n\\foreach \\x in {1,3,5} {\\fill[white] (\\x,1) circle (1);\\draw[thick] (\\x,1) circle (1);}\n\\draw[thick] (0,0) rectangle (6,2);\n\\draw (3,1)--(3,2);\n\\path (3,1.5) node[right] {$2\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Each diameter is $4\\text{ cm}$. The rectangle is $12\\text{ cm}$ long and $4\\text{ cm}$ wide.\n$\\begin{align*} A_1 &=12\\times4\\\\ &=48\\text{ cm}^2\\end{align*}$\n$\\begin{align*} A_2 &=3\\times\\pi(2)^2\\\\ &=12\\pi\\text{ cm}^2\\end{align*}$\n$\\begin{align*} A &=A_1-A_2\\\\ &=(48-12\\pi)\\text{ cm}^2\\end{align*}$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

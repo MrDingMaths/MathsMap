@@ -2,20 +2,46 @@
   "skillId": "combinations-identities",
   "atomType": "R",
   "theory": {
-    "intro": "Combinatorial identities express algebraic and structural relationships between combination coefficients. Key identities include the symmetry property $^{n}C_{r} = {^{n}C_{n-r}}$, Pascal's addition identity $^{n}C_{r} + {^{n}C_{r+1}} = {^{n+1}C_{r+1}}$, and the total subset sum $\\sum_{r=0}^{n} {^{n}C_{r}} = 2^{n}$.",
-    "facts": [
+"intro": "Combinatorial identities express algebraic and structural relationships between combination coefficients. Key identities include the symmetry property $^{n}C_{r} = {^{n}C_{n-r}}$, Pascal's addition identity $^{n}C_{r} + {^{n}C_{r+1}} = {^{n+1}C_{r+1}}$, and the total subset sum $\\sum_{r=0}^{n} {^{n}C_{r}} = 2^{n}$.",
+"facts": [
 "Symmetry property: $^{n}C_{r} = {^{n}C_{n-r}}$ for integers $n \\ge 0$ and $0 \\le r \\le n$. If $^{n}C_{a} = {^{n}C_{b}}$ with distinct integer indices $0 \\le a,b \\le n$, then $a + b = n$.",
 "Pascal's identity: $^{n}C_{r} + {^{n}C_{r+1}} = {^{n+1}C_{r+1}}$ for integers $n \\ge 1$ and $0 \\le r \\le n-1$ (or equivalently $^{n-1}C_{r-1} + {^{n-1}C_{r}} = {^{n}C_{r}}$ for integers $n \\ge 2$ and $1 \\le r \\le n-1$).",
 "Sum of combinations: $\\sum_{r=0}^{n} {^{n}C_{r}} = {^{n}C_{0}} + {^{n}C_{1}} + {^{n}C_{2}} + \\dots + {^{n}C_{n}} = 2^{n}$ for integers $n \\ge 0$.",
 "Ratio identity: $\\dfrac{^{n}C_{r}}{^{n}C_{r-1}} = \\dfrac{n-r+1}{r}$ for integers $n \\ge 1$ and $1 \\le r \\le n$.",
 "Factorial proofs of symmetry, Pascal's identity and the ratio recurrence rewrite each combination as $\\dfrac{n!}{r!(n-r)!}$ and simplify, using a common denominator where needed. To establish the total-sum identity, count subsets in two ways: add the counts for each possible size, or choose whether to include or exclude each element, giving $2^{n}$ subsets."
 ],
-    "steps": [
+"steps": [
 "Identify the relevant identity and check that all combination indices are valid integers",
 "Apply the identity, use factorial algebra for a supplied algebraic proof, or count subsets by inclusion or exclusion for the total-sum identity",
 "Simplify or solve for the unknown, considering both equal and complementary lower indices, and check every solution"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Use symmetry to solve each equation, checking that the combination indices are valid.\n(a) $^{11}C_k = {}^{11}C_3$.\n(b) $^{2n}C_4 = {}^{2n}C_{n+6}$, where $4 \\ne n+6$.",
+    "solution_text": "(a) Equal combination coefficients have equal or complementary lower indices.\n$k=3$ or $k=11-3=8$.\nBoth indices lie between $0$ and $11$.\n\n(b) The distinct lower indices sum to the upper index.\n$\\begin{align*}4+(n+6)&=2n\\\\n+10&=2n\\\\n&=10\\end{align*}$\nThe upper index is $20$ and the lower indices are $4$ and $16$, so the answer is valid."
   },
+  {
+    "question_text": "Use Pascal's identity to solve each equation.\n(a) $^{n}C_3+{}^{n}C_4={}^{14}C_4$, where $n$ is a positive integer.\n(b) $^{18}C_{2x+1}+{}^{18}C_{2x}={}^{19}C_6$. Find all values of $x$ for which the lower indices are valid integers.",
+    "solution_text": "(a) Combine the adjacent coefficients using Pascal's identity.\n$^{n}C_3+{}^{n}C_4={}^{n+1}C_4$.\nFor a fixed lower index $4$, the coefficient increases with the valid upper index.\n$\\begin{align*}n+1&=14\\\\n&=13\\end{align*}$\n\n(b) Pascal's identity gives\n$^{18}C_{2x+1}+{}^{18}C_{2x}={}^{19}C_{2x+1}$.\nThe combined lower index equals $6$ or its complement $19-6=13$.\n$\\begin{align*}2x+1&=6\\\\2x&=5\\\\x&=\\frac{5}{2}\\end{align*}$\nor\n$\\begin{align*}2x+1&=13\\\\2x&=12\\\\x&=6\\end{align*}$\nThe original lower indices are $6,5$ or $13,12$. Both pairs are valid integers between $0$ and $18$."
+  },
+  {
+    "question_text": "Evaluate $^{7}C_0+{}^{7}C_1+{}^{7}C_2+\\cdots+{}^{7}C_7$. Explain the subset-counting argument behind the identity you use.",
+    "solution_text": "For a set of seven elements, $^{7}C_r$ counts the subsets with exactly $r$ elements. Adding over all possible sizes counts every subset once.\nEach element can independently be included or excluded, giving $2^7$ subsets.\n$\\begin{align*}&\\mathrel{\\phantom{=}}{}^{7}C_0+{}^{7}C_1+\\cdots+{}^{7}C_7\\\\&=2^7\\\\&=128\\end{align*}$\nThe same argument for a set of $n$ elements establishes $^{n}C_0+{}^{n}C_1+\\cdots+{}^{n}C_n=2^n$."
+  },
+  {
+    "question_text": "For integers $n\\ge1$ and $1\\le k\\le n$, prove algebraically that $^{n}C_{k-1}=\\dfrac{k}{n-k+1}\\,{}^{n}C_k$.",
+    "solution_text": "Expand the right-hand side using the factorial formula.\n$\\begin{align*}\\mathrm{RHS}&=\\frac{k}{n-k+1}\\times\\frac{n!}{k!(n-k)!}\\\\&=\\frac{k\\,n!}{(n-k+1)k(k-1)!(n-k)!}\\\\&=\\frac{n!}{(k-1)!(n-k+1)!}\\\\&={}^{n}C_{k-1}\\\\&=\\mathrm{LHS}\\end{align*}$"
+  },
+  {
+    "question_text": "For an integer $n\\ge2$, prove algebraically that $^{n+1}C_2-{}^{n}C_2=n$.",
+    "solution_text": "Use the factorial formula and unroll the factorials.\n$\\begin{align*}\\mathrm{LHS}&=\\frac{(n+1)!}{2!(n-1)!}-\\frac{n!}{2!(n-2)!}\\\\&=\\frac{n(n+1)}{2}-\\frac{n(n-1)}{2}\\\\&=\\frac{n\\big((n+1)-(n-1)\\big)}{2}\\\\&=n\\\\&=\\mathrm{RHS}\\end{align*}$"
+  },
+  {
+    "question_text": "For integers $n\\ge3$ and $3\\le r\\le n$, prove that $^{n}C_r+2\\,{}^{n}C_{r-1}+{}^{n}C_{r-2}={}^{n+2}C_r$ by applying Pascal's identity twice.",
+    "solution_text": "Split the middle term so that each pair has adjacent lower indices.\n$\\begin{align*}&\\mathrel{\\phantom{=}}{}^{n}C_r+2\\,{}^{n}C_{r-1}+{}^{n}C_{r-2}\\\\&=\\big({}^{n}C_r+{}^{n}C_{r-1}\\big)+\\big({}^{n}C_{r-1}+{}^{n}C_{r-2}\\big)\\\\&={}^{n+1}C_r+{}^{n+1}C_{r-1}\\\\&={}^{n+2}C_r\\end{align*}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

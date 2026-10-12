@@ -2,19 +2,53 @@
   "skillId": "geometric-sequence-nth-term",
   "atomType": "R",
   "theory": {
-    "intro": "A **geometric sequence** (or **geometric progression**, GP) is a sequence where each term after the first is found by multiplying the previous term by a fixed non-zero number called the **common ratio** $r$.",
-    "facts": [
+"intro": "A **geometric sequence** (or **geometric progression**, GP) is a sequence where each term after the first is found by multiplying the previous term by a fixed non-zero number called the **common ratio** $r$.",
+"facts": [
       "The **common ratio** is the quotient of any two consecutive terms: $r = \\frac{a_{n}}{a_{n-1}}$.",
       "The $n$th term of a geometric sequence with first term $a$ and common ratio $r$ is $a_{n} = a r^{n-1}$.",
       "When $r < 0$, the sequence alternates in sign between positive and negative terms.",
       "If two terms are separated by an even number of steps, $r^{k} = c$ gives two possible ratios: $r = \\pm \\sqrt[k]{c}$."
     ],
-    "steps": [
+"steps": [
       "Find the first term $a$ and calculate the common ratio $r = \\frac{a_{2}}{a_{1}}$.",
       "Write the $n$th term formula $a_{n} = a r^{n-1}$.",
       "Substitute the given value of $n$ to evaluate the term, or equate $a_{n}$ to solve for $n$."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Determine whether each sequence is geometric. For each GP, state its first term and common ratio.\n(a) $8,12,18,27,\\ldots$\n(b) $3,9,18,36,\\ldots$",
+    "solution_text": "(a) $\\begin{align*}\\frac{12}{8}&=\\frac32\\\\\\frac{18}{12}&=\\frac32\\\\\\frac{27}{18}&=\\frac32\\end{align*}$\nThe consecutive ratios are equal, so this is a GP with $a=8$ and $r=\\frac32$.\n\n(b) $\\begin{align*}\\frac93&=3\\\\\\frac{18}{9}&=2\\end{align*}$\nThe ratios differ, so this is not a GP."
   },
+  {
+    "question_text": "Consider the geometric sequence $48,-12,3,\\ldots$.\n(a) Find its common ratio and an expression for $a_n$.\n(b) Find the next term and the sixth term.",
+    "solution_text": "(a) $r=\\frac{-12}{48}=-\\frac14$ and $a=48$.\n$\\begin{align*}a_n&=ar^{n-1}\\\\&=48\\left(-\\frac14\\right)^{n-1}\\end{align*}$\n\n(b) The next term is $3\\left(-\\frac14\\right)=-\\frac34$.\n$\\begin{align*}a_6&=48\\left(-\\frac14\\right)^5\\\\&=48\\left(-\\frac1{1024}\\right)\\\\&=-\\frac3{64}\\end{align*}$"
+  },
+  {
+    "question_text": "Consider the geometric sequence $6,-12,24,-48,\\ldots$.\n(a) Which term is $-768$?\n(b) Is $100$ a term of this sequence?",
+    "solution_text": "The first term is $a=6$ and the common ratio is $r=-2$, so $a_n=6(-2)^{n-1}$.\n\n(a) $\\begin{align*}6(-2)^{n-1}&=-768\\\\(-2)^{n-1}&=-128\\\\(-2)^{n-1}&=(-2)^7\\\\n-1&=7\\\\n&=8\\end{align*}$\nThus $-768$ is the eighth term.\n\n(b) A term equal to $100$ would satisfy $6(-2)^{n-1}=100$. Taking magnitudes gives\n$\\begin{align*}2^{n-1}&=\\frac{50}{3}\\\\n-1&=\\log_2\\left(\\frac{50}{3}\\right)\\\\n&\\approx5.06\\end{align*}$\nSince $n$ is not a positive integer, $100$ is not a term."
+  },
+  {
+    "question_text": "The third term of a GP is $20$ and the sixth term is $-160$. Find its first term and common ratio.",
+    "solution_text": "Using $a_n=ar^{n-1}$ gives $ar^2=20$ and $ar^5=-160$. Divide the second equation by the first:\n$\\begin{align*}\\frac{ar^5}{ar^2}&=\\frac{-160}{20}\\\\r^3&=-8\\\\r&=-2\\end{align*}$\nSubstitute into $ar^2=20$:\n$\\begin{align*}a(-2)^2&=20\\\\4a&=20\\\\a&=5\\end{align*}$\nThe first term is $5$ and the common ratio is $-2$."
+  },
+  {
+    "question_text": "The second term of a GP is $24$ and the sixth term is $\\frac{3}{32}$. Find all possible common ratios and their corresponding first terms.",
+    "solution_text": "Using $a_n=ar^{n-1}$ gives $ar=24$ and $ar^5=\\frac3{32}$. Divide the second equation by the first:\n$\\begin{align*}\\frac{ar^5}{ar}&=\\frac{3/32}{24}\\\\r^4&=\\frac1{256}\\\\r&=\\pm\\frac14\\end{align*}$\nBoth signs are possible because the exponent is even.\n\nFor $r=\\frac14$:\n$\\begin{align*}a&=\\frac{24}{1/4}\\\\&=96\\end{align*}$\nFor $r=-\\frac14$:\n$\\begin{align*}a&=\\frac{24}{-1/4}\\\\&=-96\\end{align*}$\nThe pairs are $a=96,r=\\frac14$ and $a=-96,r=-\\frac14$."
+  },
+  {
+    "question_text": "Find the smallest value of $n$ for which a term of the geometric sequence $3,12,48,\\ldots$ exceeds $2000$.",
+    "solution_text": "Here $a=3$ and $r=4$.\n$\\begin{align*}3(4)^{n-1}&>2000\\\\4^{n-1}&>\\frac{2000}{3}\\\\n-1&>\\log_4\\left(\\frac{2000}{3}\\right)\\\\n&>5.69\\ldots\\end{align*}$\nThe smallest possible integer is $n=6$. Check the boundary terms: $a_5=768$ and $a_6=3072$. Thus the sixth term is the first to exceed $2000$."
+  },
+  {
+    "question_text": "Find the $n$th term of the GP $\\sqrt7,\\sqrt{14},2\\sqrt7,2\\sqrt{14},\\ldots$ in simplified index form.",
+    "solution_text": "The first term is $a=\\sqrt7$ and $r=\\frac{\\sqrt{14}}{\\sqrt7}=\\sqrt2$.\n$\\begin{align*}a_n&=ar^{n-1}\\\\&=\\sqrt7(\\sqrt2)^{n-1}\\\\&=\\sqrt7\\cdot2^{\\frac{n-1}{2}}\\end{align*}$"
+  },
+  {
+    "question_text": "Find the value of $n$ for the first term of the geometric sequence $729,243,81,\\ldots$ that is less than $0.2$.",
+    "solution_text": "Here $a=729$ and $r=\\frac13$.\n$\\begin{align*}729\\left(\\frac13\\right)^{n-1}&<0.2\\\\\\left(\\frac13\\right)^{n-1}&<\\frac1{3645}\\\\n-1&>\\log_{1/3}\\left(\\frac1{3645}\\right)\\\\n&>8.46\\ldots\\end{align*}$\nThe inequality reverses because the logarithm base is between $0$ and $1$.\nThe terms decrease, with $a_8=\\frac13>0.2$ and $a_9=\\frac19<0.2$. Therefore the first term below $0.2$ has $n=9$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -1,57 +1,57 @@
 {
   "skillId": "graph-polynomials-factored",
   "questions": [
-    {
+{
       "id": "q1",
       "question_text": "State the zeroes of $P(x)=(x+6)(x-2)(x-7)$.",
       "structure": "state-zeroes",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$x=-6,\\ 2,\\ 7$",
           "correct": true
         },
-        {
+{
           "text": "$x=6,\\ -2,\\ -7$",
           "why": "Read every root with the opposite sign — the factor $(x+6)$ is zero at $x=-6$, not $x=6$."
         },
-        {
+{
           "text": "$x=6,\\ 2,\\ 7$",
-          "why": "Copied the constant from each factor without solving that factor equal to zero, so the sign of $-6$ was lost."
+          "why": "Reversed only the zero from $(x+6)$: this factor is zero at $x=-6$, not $x=6$."
         },
-        {
+{
           "text": "$x=-6,\\ 2$",
           "why": "Missed the third factor — a factored cubic has three zeroes here, one per factor."
         }
-      ],
+],
       "solution_text": "$0=(x+6)(x-2)(x-7)$\n$x=-6,\\ 2,\\ 7$"
     },
-    {
+{
       "id": "q2",
-      "question_text": "Find the $y$-intercept of $y=(x-5)(x+2)(x-3)$.",
-      "structure": "y-intercept",
+      "question_text": "State the constant term of $P(x)=(x-4)(x+3)(x-2)$.",
+      "structure": "constant-term",
       "mastery": false,
       "options": [
-        {
-          "text": "$30$",
+{
+          "text": "$24$",
           "correct": true
         },
-        {
-          "text": "$-30$",
-          "why": "Sign slip in the product $(-5)(2)(-3)$ — two negative factors multiply to a positive."
+{
+          "text": "$-24$",
+          "why": "Made a sign error in $(-4)(3)(-2)$; the two negative constants multiply to a positive."
         },
-        {
-          "text": "$0$",
-          "why": "Assumed every polynomial passes through the origin; that only happens when $x$ is a factor."
+{
+          "text": "$-3$",
+          "why": "Added the constants, $-4+3-2=-3$, instead of multiplying them."
         },
-        {
-          "text": "$-5$",
-          "why": "Took the constant of the first factor only instead of multiplying the constants of all three factors."
+{
+          "text": "$-4$",
+          "why": "Used only the constant of the first factor instead of multiplying all three constants."
         }
-      ],
-      "solution_text": "$y=(0-5)(0+2)(0-3)$\n$=(-5)(2)(-3)$\n$=30$"
+],
+      "solution_text": "Constant term: $(-4)(3)(-2)=24$"
     },
-    {
+{
       "id": "q3",
       "question_text": "State the leading term of $P(x)=(3x-2)(x+5)(1-x)$.",
       "structure": "leading-term",
@@ -76,82 +76,82 @@
       ],
       "solution_text": "$(3x)(x)(-x)=-3x^{3}$\nLeading term: $-3x^{3}$"
     },
-    {
+{
       "id": "q4",
-      "question_text": "Describe the behaviour of $y=-3(x+2)(x-4)(x+6)$ as $x\\to\\infty$.",
-      "structure": "end-behaviour",
+      "question_text": "For the polynomial graph shown, determine the sign of the leading coefficient and whether the degree is odd or even.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3,0)--(3,0) node[right] {$x$};\n\\draw[<->] (0,-3)--(0,3) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.6:1.6,smooth,variable=\\x,samples=60] plot ({\\x},{1-0.5*\\x*\\x*\\x*\\x});\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "leading-characteristics-from-graph",
       "mastery": false,
       "options": [
-        {
-          "text": "$y\\to-\\infty$",
+{
+          "text": "Negative leading coefficient; even degree.",
           "correct": true
         },
-        {
-          "text": "$y\\to\\infty$",
-          "why": "Ignored the negative coefficient $-3$; the leading term $-3x^{3}$ is negative, so the right arm falls."
+{
+          "text": "Positive leading coefficient; even degree.",
+          "why": "Read the falling right end as a positive leading coefficient; a falling right end requires a negative leading coefficient."
         },
-        {
-          "text": "$y\\to0$",
-          "why": "Confused a polynomial with a curve that has a horizontal asymptote; polynomial arms never level off."
+{
+          "text": "Negative leading coefficient; odd degree.",
+          "why": "Read ends pointing in the same direction as odd degree; odd-degree polynomials have ends in opposite directions."
         },
-        {
-          "text": "$y\\to-48$",
-          "why": "Evaluated the $y$-intercept instead of describing the end behaviour of the curve."
+{
+          "text": "Positive leading coefficient; odd degree.",
+          "why": "Reversed both rules: the falling right end indicates a negative leading coefficient, and the matching end directions indicate even degree."
         }
-      ],
-      "solution_text": "Leading term: $-3(x)(x)(x)=-3x^{3}$\nThe leading term is negative, so as $x\\to\\infty$, $y\\to-\\infty$."
+],
+      "solution_text": "The right end falls, so the leading coefficient is negative. Both ends point down, so the degree is even."
     },
-    {
+{
       "id": "q5",
-      "question_text": "Which sketch shows $y=x(x-3)(x+3)$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{scope}[shift={(0,0)},scale=0.6]\n\\draw[->] (-4.6,0)--(4.6,0);\n\\draw[->] (0,-2.6)--(0,2.6);\n\\draw[thick,blue,<->,domain=-3.6:3.6,smooth,variable=\\x] plot ({\\x},{0.14*\\x*(\\x-3)*(\\x+3)});\n\\node[below,font=\\scriptsize] at (-3,-0.15) {$-3$};\n\\node[below,font=\\scriptsize] at (3,-0.15) {$3$};\n\\node at (-3.9,2.1) {$A$};\n\\end{scope}\n\\begin{scope}[shift={(7.5,0)},scale=0.6]\n\\draw[->] (-4.6,0)--(4.6,0);\n\\draw[->] (0,-2.6)--(0,2.6);\n\\draw[thick,blue,<->,domain=-3.6:3.6,smooth,variable=\\x] plot ({\\x},{-0.14*\\x*(\\x-3)*(\\x+3)});\n\\node[below,font=\\scriptsize] at (-3,-0.15) {$-3$};\n\\node[below,font=\\scriptsize] at (3,-0.15) {$3$};\n\\node at (-3.9,2.1) {$B$};\n\\end{scope}\n\\begin{scope}[shift={(0,-4.2)},scale=0.6]\n\\draw[->] (-4.9,0)--(4.9,0);\n\\draw[->] (0,-2.6)--(0,2.6);\n\\draw[thick,blue,<->,domain=-4.36:4.36,smooth,variable=\\x] plot ({\\x},{0.20*(\\x*\\x-9)});\n\\node[below,font=\\scriptsize] at (-3,-0.15) {$-3$};\n\\node[below,font=\\scriptsize] at (3,-0.15) {$3$};\n\\node at (-4.2,2.1) {$C$};\n\\end{scope}\n\\begin{scope}[shift={(7.5,-4.2)},scale=0.6]\n\\draw[->] (-5.2,0)--(3.6,0);\n\\draw[->] (0,-2.6)--(0,2.6);\n\\draw[thick,blue,<->,domain=-4.60:2.90,smooth,variable=\\x] plot ({\\x},{0.11*\\x*(\\x-2)*(\\x+4)});\n\\node[below,font=\\scriptsize] at (-4,-0.15) {$-4$};\n\\node[below,font=\\scriptsize] at (2,-0.15) {$2$};\n\\node at (-4.5,2.1) {$D$};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
-      "structure": "match-sketch",
+      "question_text": "The graph shown is a cubic with leading coefficient $1$. Which equation represents it?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3.4,0)--(3.4,0) node[right] {$x$};\n\\draw[<->] (0,-3,0)--(0,3,0) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.5:2.5,smooth,variable=\\x,samples=70] plot ({\\x},{0.5*\\x*(\\x-2)*(\\x+2)});\n\\fill (-2,0) circle (2pt) node[below left] {$-2$};\n\\fill (0,0) circle (2pt) node[above left] {$0$};\n\\fill (2,0) circle (2pt) node[below right] {$2$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "equation-from-graph",
       "mastery": false,
       "options": [
-        {
-          "text": "$A$",
+{
+          "text": "$y=x(x-2)(x+2)$",
           "correct": true
         },
-        {
-          "text": "$B$",
-          "why": "This curve falls to the right — it belongs to a negative leading term, but $x(x-3)(x+3)$ has leading term $x^{3}$."
+{
+          "text": "$y=-x(x-2)(x+2)$",
+          "why": "Used a negative leading coefficient, which makes the right end fall instead of rise."
         },
-        {
-          "text": "$C$",
-          "why": "This is a parabola through $\\pm3$ only — the factor $x$ was dropped, losing the zero at the origin."
+{
+          "text": "$y=(x-2)(x+2)$",
+          "why": "Dropped the factor $x$, losing the zero at the origin and giving a quadratic instead of a cubic."
         },
-        {
-          "text": "$D$",
-          "why": "The intercepts were misread — this curve has zeroes $-4$, $0$ and $2$, not $-3$, $0$ and $3$."
+{
+          "text": "$y=x(x-2)(x+3)$",
+          "why": "Read the left zero as $-3$ instead of $-2$."
         }
-      ],
-      "solution_text": "$y=x(x-3)(x+3)$ has zeroes $x=0,\\ 3,\\ -3$ and leading term $x^{3}$, so the curve rises to the right and passes through $-3$, $0$ and $3$.\nSketch $A$."
+],
+      "solution_text": "The zeroes are $-2$, $0$ and $2$, so the factors are $(x+2)$, $x$ and $(x-2)$. The leading coefficient is $1$, so $y=x(x-2)(x+2)$."
     },
-    {
+{
       "id": "q6",
-      "question_text": "Which equation has zeroes $x=-1$, $x=4$ and $x=\\dfrac{5}{2}$?",
-      "structure": "equation-from-zeroes",
+      "question_text": "Which monic cubic polynomial has zeroes $x=-2$, $x=3$ and $x=\\dfrac{7}{2}$?",
+      "structure": "monic-polynomial-from-zeroes",
       "mastery": false,
       "options": [
-        {
-          "text": "$y=(x+1)(x-4)(2x-5)$",
+{
+          "text": "$P(x)=(x+2)(x-3)(x-\\dfrac{7}{2})$",
           "correct": true
         },
-        {
-          "text": "$y=(x-1)(x+4)(2x+5)$",
-          "why": "Every bracket keeps the same sign as its zero, but a zero at $x=-1$ needs the factor $(x+1)$."
+{
+          "text": "$P(x)=(x-2)(x+3)(x+\\dfrac{7}{2})$",
+          "why": "Kept each zero's sign in its factor instead of using $(x-a)$ for a zero at $x=a$."
         },
-        {
-          "text": "$y=(x+1)(x-4)(x-5)$",
-          "why": "Treated the zero $\\frac{5}{2}$ as $5$ — the factor $(2x-5)$ is needed to be zero at $x=\\frac{5}{2}$."
+{
+          "text": "$P(x)=(x+2)(x-3)(x-7)$",
+          "why": "Used $7$ instead of $\\frac{7}{2}$ for the third zero."
         },
-        {
-          "text": "$y=(x+1)(x-4)(5x-2)$",
-          "why": "Swapped the coefficient and constant in the linear factor: $(5x-2)$ is zero at $x=\\frac{2}{5}$, not $\\frac{5}{2}$."
+{
+          "text": "$P(x)=(x+2)(x-3)(2x-7)$",
+          "why": "Found the correct zeroes but used leading coefficient $2$, so the polynomial is not monic."
         }
-      ],
-      "solution_text": "A zero at $x=-1$ needs $(x+1)$, at $x=4$ needs $(x-4)$, and at $x=\\dfrac{5}{2}$ needs $(2x-5)$.\n$y=(x+1)(x-4)(2x-5)$"
+],
+      "solution_text": "A zero at $x=a$ gives the factor $(x-a)$. Using three factors with leading coefficient $1$ gives the monic polynomial $P(x)=(x+2)(x-3)(x-\\dfrac{7}{2})$."
     },
-    {
+{
       "id": "q7",
       "question_text": "By factorising, find the zeroes of $y=x^{3}-25x$.",
       "structure": "factorise-first-zeroes",
@@ -176,55 +176,55 @@
       ],
       "solution_text": "$y=x^{3}-25x$\n$=x(x-5)(x+5)$\n$x=0,\\ 5,\\ -5$"
     },
-    {
+{
       "id": "q8",
-      "question_text": "Find the $y$-intercept of $y=(x-1)(x+2)(x+4)(x-6)$.",
-      "structure": "quartic-y-intercept",
+      "question_text": "State the constant term of $P(x)=(x-1)(x+2)(x+4)(x-6)$.",
+      "structure": "constant-term",
       "mastery": false,
       "options": [
-        {
+{
           "text": "$48$",
           "correct": true
         },
-        {
+{
           "text": "$-48$",
           "why": "Sign slip in $(-1)(2)(4)(-6)$ — the two negative constants multiply to a positive."
         },
-        {
+{
           "text": "$-1$",
           "why": "Added the constants of the factors instead of multiplying them."
         },
-        {
+{
           "text": "$0$",
-          "why": "Assumed a quartic passes through the origin; that needs $x$ as a factor, which this product does not have."
+          "why": "Assumed a quartic has constant term $0$; here none of the factors has constant term $0$."
         }
-      ],
-      "solution_text": "$y=(-1)(2)(4)(-6)$\n$=48$"
+],
+      "solution_text": "Constant term: $(-1)(2)(4)(-6)=48$"
     },
-    {
+{
       "id": "q9",
-      "question_text": "Which sketch shows $y=-(x+2)(x-1)(x-5)$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{scope}[shift={(0,0)},scale=0.6]\n\\draw[->] (-3.4,0)--(6.4,0);\n\\draw[->] (0,-2.6)--(0,2.6);\n\\draw[thick,blue,<->,domain=-2.76:5.62,smooth,variable=\\x] plot ({\\x},{-0.09*(\\x+2)*(\\x-1)*(\\x-5)});\n\\node[below,font=\\scriptsize] at (-2,-0.15) {$-2$};\n\\node[below,font=\\scriptsize] at (1,-0.15) {$1$};\n\\node[below,font=\\scriptsize] at (5,-0.15) {$5$};\n\\node at (-2.9,2.1) {$A$};\n\\end{scope}\n\\begin{scope}[shift={(8,0)},scale=0.6]\n\\draw[->] (-3.4,0)--(6.4,0);\n\\draw[->] (0,-2.6)--(0,2.6);\n\\draw[thick,blue,<->,domain=-2.76:5.62,smooth,variable=\\x] plot ({\\x},{0.09*(\\x+2)*(\\x-1)*(\\x-5)});\n\\node[below,font=\\scriptsize] at (-2,-0.15) {$-2$};\n\\node[below,font=\\scriptsize] at (1,-0.15) {$1$};\n\\node[below,font=\\scriptsize] at (5,-0.15) {$5$};\n\\node at (-2.9,2.1) {$B$};\n\\end{scope}\n\\begin{scope}[shift={(0,-4.2)},scale=0.6]\n\\draw[->] (-6.4,0)--(3.4,0);\n\\draw[->] (0,-2.6)--(0,2.6);\n\\draw[thick,blue,<->,domain=-5.63:2.76,smooth,variable=\\x] plot ({\\x},{-0.09*(\\x-2)*(\\x+1)*(\\x+5)});\n\\node[below,font=\\scriptsize] at (-5,-0.15) {$-5$};\n\\node[below,font=\\scriptsize] at (-1,-0.15) {$-1$};\n\\node[below,font=\\scriptsize] at (2,-0.15) {$2$};\n\\node at (-5.9,2.1) {$C$};\n\\end{scope}\n\\begin{scope}[shift={(8,-4.2)},scale=0.6]\n\\draw[->] (-2.4,0)--(6.4,0);\n\\draw[->] (0,-2.6)--(0,2.6);\n\\draw[thick,blue,<->,domain=-1.34:5.73,smooth,variable=\\x] plot ({\\x},{-0.10*\\x*(\\x-1)*(\\x-5)});\n\\node[below,font=\\scriptsize] at (1,-0.15) {$1$};\n\\node[below,font=\\scriptsize] at (5,-0.15) {$5$};\n\\node at (-1.9,2.1) {$D$};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
-      "structure": "match-sketch",
+      "question_text": "The graph shown is a cubic. Which equation represents it?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.4,0)--(5.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.5)--(0,3.5) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-3.62:4.51,smooth,variable=\\x,samples=70] plot ({\\x},{-0.1*(\\x+3)*(\\x-1)*(\\x-4)});\n\\fill (-3,0) circle (2pt) node[below left] {$-3$};\n\\fill (1,0) circle (2pt) node[above right] {$1$};\n\\fill (4,0) circle (2pt) node[above right] {$4$};\n\\fill (0,-1.2) circle (2pt);\n\\node[anchor=east] at (-0.4,-3) {$(0,-24)$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "equation-from-graph",
       "mastery": true,
       "options": [
-        {
-          "text": "$A$",
+{
+          "text": "$y=-2(x+3)(x-1)(x-4)$",
           "correct": true
         },
-        {
-          "text": "$B$",
-          "why": "This curve rises to the right, which needs a positive leading term — the front minus sign was ignored."
+{
+          "text": "$y=2(x+3)(x-1)(x-4)$",
+          "why": "Dropped the negative sign in the multiplier, giving $y=24$ at $x=0$ and a rising right end."
         },
-        {
-          "text": "$C$",
-          "why": "Every root was read with the opposite sign: this curve crosses at $-5$, $-1$ and $2$ instead of $-2$, $1$ and $5$."
+{
+          "text": "$y=-2(x-3)(x+1)(x+4)$",
+          "why": "Reversed the signs of all three zeroes when writing the factors."
         },
-        {
-          "text": "$D$",
-          "why": "This curve passes through the origin — the zero $-2$ was replaced by $0$, as if the $y$-intercept were a root."
+{
+          "text": "$y=-(x+3)(x-1)(x-4)$",
+          "why": "Used multiplier $-1$ without checking the given point; this gives $y=-12$ at $x=0$, not $-24$."
         }
-      ],
-      "solution_text": "Zeroes: $x=-2,\\ 1,\\ 5$.\nLeading term: $-x^{3}$, so as $x\\to\\infty$, $y\\to-\\infty$.\nThe only sketch crossing at $-2$, $1$ and $5$ and falling to the right is $A$."
+],
+      "solution_text": "The zeroes give $y=k(x+3)(x-1)(x-4)$. Use the $y$-intercept: $-24=k(3)(-1)(-4)=12k$, so $k=-2$. Hence $y=-2(x+3)(x-1)(x-4)$."
     }
-  ]
+]
 }

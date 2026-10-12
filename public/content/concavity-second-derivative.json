@@ -2,8 +2,8 @@
   "skillId": "concavity-second-derivative",
   "atomType": "R",
   "theory": {
-    "intro": "A curve is **concave up** where $f''(x) > 0$ and **concave down** where $f''(x) < 0$. Concave up means the gradient is increasing, so the curve bends upwards like a cup.",
-    "facts": [
+"intro": "A curve is **concave up** where $f''(x) > 0$ and **concave down** where $f''(x) < 0$. Concave up means the gradient is increasing, so the curve bends upwards like a cup.",
+"facts": [
       "$f''(x)$ is the derivative of $f'(x)$, so it measures how fast the gradient is changing.",
       "$f''(x) > 0$ means the gradient is increasing and the curve is **concave up**, bending like $\\cup$.",
       "$f''(x) < 0$ means the gradient is decreasing and the curve is **concave down**, bending like $\\cap$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[thick,<->,domain=-1.5:1.5,smooth,variable=\\x] plot ({\\x},{0.6*\\x*\\x-1});\n\\draw[dashed] (-1.4,0.08) -- (-0.6,-0.88);\n\\draw[dashed] (-0.4,-1) -- (0.4,-1);\n\\draw[dashed] (0.6,-0.88) -- (1.4,0.08);\n\\node[font=\\small] at (0,1.9) {Concave up \\ $f''>0$};\n\\node[font=\\small] at (0,-1.9) {gradient increasing};\n\\draw[thick,<->,domain=-1.5:1.5,smooth,variable=\\x] plot ({\\x+4.4},{1-0.6*\\x*\\x});\n\\draw[dashed] (3.0,-0.08) -- (3.8,0.88);\n\\draw[dashed] (4.0,1) -- (4.8,1);\n\\draw[dashed] (5.0,0.88) -- (5.8,-0.08);\n\\node[font=\\small] at (4.4,1.9) {Concave down \\ $f''<0$};\n\\node[font=\\small] at (4.4,-1.9) {gradient decreasing};\n\\end{tikzpicture}\n[/tikz]",
@@ -12,12 +12,54 @@
       "For a cubic $f''(x)$ is linear, so the curve is concave up on one side of a single value and concave down on the other.",
       "A parabola $y = ax^{2} + bx + c$ has the constant second derivative $f''(x) = 2a$, so its concavity never changes."
     ],
-    "steps": [
+"steps": [
       "Differentiate twice to find $f''(x)$",
       "Substitute the $x$-value, or solve $f''(x) > 0$ for concave up and $f''(x) < 0$ for concave down",
       "State the concavity, or the interval of $x$-values, as the answer"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find $f''(x)$ for $f(x)=2x^{3}-9x^{2}+4x+3$, and state the concavity at $x=1$.",
+    "solution_text": "$\\begin{aligned}f'(x)&=6x^{2}-18x+4\\\\f''(x)&=12x-18\\\\f''(1)&=12-18=-6\\end{aligned}$\nSince $f''(1)<0$, the curve is concave down at $x=1$."
   },
+  {
+    "question_text": "Explain why $y=-4x^{2}+7x+2$ is concave down for every real value of $x$.",
+    "solution_text": "$\\begin{aligned}y'&=-8x+7\\\\y''&=-8\\end{aligned}$\nSince $y''=-8<0$ for every real $x$, the curve is concave down everywhere."
+  },
+  {
+    "question_text": "Find the intervals on which $f(x)=2x^{3}-12x^{2}+5x-3$ is concave up and concave down.",
+    "solution_text": "$\\begin{aligned}f'(x)&=6x^{2}-24x+5\\\\f''(x)&=12x-24\\end{aligned}$\nFor concave up:\n$\\begin{aligned}12x-24&>0\\\\12x&>24\\\\x&>2\\end{aligned}$\nFor concave down:\n$\\begin{aligned}12x-24&<0\\\\12x&<24\\\\x&<2\\end{aligned}$\nThe curve is concave up on $(2,\\infty)$ and concave down on $(-\\infty,2)$."
+  },
+  {
+    "question_text": "The sketch shows $y=f(x)$. State where the curve is concave up and where it is concave down.\n[tikz]\n\\begin{tikzpicture}[x=0.85cm,y=0.85cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black,->] (-2.3,0)--(2.3,0) node[right] {$x$};\n\\draw[black,->] (0,-1.9)--(0,1.9) node[above] {$y$};\n\\draw[black] (-1,0.06)--(-1,-0.06) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$-1$};\n\\draw[black] (1,0.06)--(1,-0.06) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$1$};\n\\draw[black,thick,<->,smooth,domain=-2:2,samples=101,variable=\\x] plot ({\\x},{0.2*\\x*\\x*\\x});\n\\node[above left] at (-1.3,-0.44) {$y=f(x)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "For $x<0$, the gradient decreases as you move left to right, so the curve is concave down. For $x>0$, the gradient increases, so the curve is concave up.\nThe bending changes at the origin.\n[tikz]\n\\begin{tikzpicture}[x=0.85cm,y=0.85cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black,->] (-2.3,0)--(2.3,0) node[right] {$x$};\n\\draw[black,->] (0,-1.9)--(0,1.9) node[above] {$y$};\n\\draw[black,thick,<->,smooth,domain=-2:2,samples=101,variable=\\x] plot ({\\x},{0.2*\\x*\\x*\\x});\n\\fill[black] (0,0) circle (1.3pt);\n\\node[below right] at (0,0) {$(0,0)$};\n\\node[align=center] at (-1.3,1.1) {concave down};\n\\node[align=center] at (1.3,-1.1) {concave up};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Find the intervals on which $y=x^{4}-8x^{3}+18x^{2}+2x-5$ is concave up and concave down.",
+    "solution_text": "$\\begin{aligned}y'&=4x^{3}-24x^{2}+36x+2\\\\y''&=12x^{2}-48x+36\\\\&=12(x-1)(x-3)\\end{aligned}$\nThe signs of the factors give:\n$\\begin{array}{c|ccc}x&x<1&1<x<3&x>3\\\\\\hline x-1&-&+&+\\\\x-3&-&-&+\\\\y''&+&-&+\\end{array}$\nThe curve is concave up on $(-\\infty,1)\\cup(3,\\infty)$ and concave down on $(1,3)$."
+  },
+  {
+    "question_text": "Find where each curve is concave up and concave down.\na. $y=xe^{4x}$\nb. $y=2\\ln x$",
+    "solution_text": "a.\n$\\begin{aligned}y'&=e^{4x}+4xe^{4x}\\\\&=e^{4x}(1+4x)\\\\y''&=4e^{4x}(1+4x)+4e^{4x}\\\\&=e^{4x}(16x+8)\\end{aligned}$\nSince $e^{4x}>0$, the sign of $y''$ is the sign of $16x+8$.\n$\\begin{aligned}16x+8&>0\\\\x&>-\\frac12\\end{aligned}$\nThe curve is concave up on $(-\\frac12,\\infty)$ and concave down on $(-\\infty,-\\frac12)$.\n\nb. The natural domain is $x>0$.\n$\\begin{aligned}y'&=\\frac{2}{x}\\\\y''&=-\\frac{2}{x^{2}}\\end{aligned}$\nSince $x^{2}>0$, $y''<0$ throughout the domain. The curve is concave down on $(0,\\infty)$ and has no concave-up interval."
+  },
+  {
+    "question_text": "Find where $y=2x^{2}\\ln x$ is concave down in its natural domain.",
+    "solution_text": "The natural domain is $x>0$.\n$\\begin{aligned}y'&=4x\\ln x+2x\\\\y''&=4\\ln x+4+2\\\\&=4\\ln x+6\\end{aligned}$\nFor concave down:\n$\\begin{aligned}4\\ln x+6&<0\\\\\\ln x&<-\\frac32\\\\x&<e^{-3/2}\\end{aligned}$\nCombining this with the domain, the curve is concave down for $0<x<e^{-3/2}$."
+  },
+  {
+    "question_text": "The curve $y=\\frac{x+3}{x-2}$ has second derivative $y''=\\frac{10}{(x-2)^{3}}$. Determine its concave-up and concave-down intervals.",
+    "solution_text": "The domain excludes $x=2$.\nFor $x<2$, $(x-2)^{3}<0$, so $y''<0$.\nFor $x>2$, $(x-2)^{3}>0$, so $y''>0$.\nThe curve is concave down on $(-\\infty,2)$ and concave up on $(2,\\infty)$. The excluded value $x=2$ belongs to neither interval."
+  },
+  {
+    "question_text": "A population $P$ satisfies $\\frac{dP}{dt}<0$ and $\\frac{d^{2}P}{dt^{2}}>0$ during a study. Describe how the population and its rate of change behave.",
+    "solution_text": "$\\frac{dP}{dt}<0$ means the population is decreasing.\n$\\frac{d^{2}P}{dt^{2}}>0$ means its rate of change is increasing: the negative gradient is becoming less negative.\nThe population is decreasing at a decreasing rate, and its graph is concave up."
+  },
+  {
+    "question_text": "For what values of $a$ is $y=x^{3}+ax^{2}-4x+6$ concave down at $x=3$?",
+    "solution_text": "$\\begin{aligned}y'&=3x^{2}+2ax-4\\\\y''&=6x+2a\\end{aligned}$\nFor concave down at $x=3$:\n$\\begin{aligned}y''(3)&<0\\\\18+2a&<0\\\\2a&<-18\\\\a&<-9\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

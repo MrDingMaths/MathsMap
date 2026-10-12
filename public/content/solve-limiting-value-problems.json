@@ -2,8 +2,8 @@
   "skillId": "solve-limiting-value-problems",
   "atomType": "R",
   "theory": {
-    "intro": "In $Q=P+Ae^{kt}$ with $k<0$, the term $Ae^{kt}$ shrinks to zero, so $Q\\to P$ as $t\\to\\infty$. When $A\\ne0$, this **limiting value** $P$ is approached but never reached. With $k>0$ and $A\\ne0$, there is no finite limiting value. When $A=0$, $Q=P$ for all time, including when $k>0$.",
-    "facts": [
+"intro": "In $Q=P+Ae^{kt}$ with $k<0$, the term $Ae^{kt}$ shrinks to zero, so $Q\\to P$ as $t\\to\\infty$. When $A\\ne0$, this **limiting value** $P$ is approached but never reached. With $k>0$ and $A\\ne0$, there is no finite limiting value. When $A=0$, $Q=P$ for all time, including when $k>0$.",
+"facts": [
 "For $k<0$ the limiting value is $P$, because $e^{kt}\\to 0$ as $t\\to\\infty$.",
 "For $k>0$ and $A\\ne0$, the magnitude of $Ae^{kt}$ grows without bound, so $Q$ has no finite limiting value.",
 "For $k<0$ and $A\\ne0$, $Q$ gets as close to $P$ as we like but never equals it, so ask when $Q$ is within a stated tolerance. When $A=0$, $Q=P$ for all time.",
@@ -13,13 +13,43 @@
 "Keep $k$ in exact form, such as $\\dfrac{1}{5}\\ln\\dfrac{3}{4}$, until the final calculation.",
 "Check that a solved time is positive and sensible in the context of the question."
 ],
-    "steps": [
+"steps": [
 "Write $Q=P+Ae^{kt}$, with $P$ the fixed offset and $A=Q(0)-P$. Call $P$ the limiting value when $k<0$; if $A=0$, $Q=P$ for all time.",
 "Use a second pair of values to find $k$ in exact form.",
 "Substitute and solve for the required time or value using logarithms.",
 "Check the answer against the model's long-run behaviour and the context."
-]
+],
+"workedExamples": [
+{
+    "question_text": "A liquid has temperature $T=24+48e^{-0.2t}$, where $t\\geq0$ is measured in minutes.\n(a) Find its initial temperature.\n(b) State its limiting temperature and whether it approaches this from above or below.\n(c) Find its temperature after $5$ minutes, correct to one decimal place.\n(d) Find when its temperature reaches $36^{\\circ}\\mathrm{C}$, correct to two decimal places.",
+    "solution_text": "(a) Initially, $t=0$.\n$\\begin{aligned}T(0)&=24+48e^0\\\\&=72^{\\circ}\\mathrm{C}\\end{aligned}$\n(b) As $t\\to\\infty$, $e^{-0.2t}\\to0$, so $T\\to24^{\\circ}\\mathrm{C}$. Since $48e^{-0.2t}>0$, the temperature approaches this limit from above. It never reaches the limit at a finite time.\n$\\begin{aligned}\\text{(c)}\\quad&T(5)&=24+48e^{-1}\\\\&&\\approx41.7^{\\circ}\\mathrm{C}\\end{aligned}$\n$\\begin{aligned}\\text{(d)}\\quad&36&=24+48e^{-0.2t}\\\\&12&=48e^{-0.2t}\\\\&e^{-0.2t}&=\\frac14\\\\&-0.2t&=\\ln\\frac14\\\\&t&=\\frac{\\ln(1/4)}{-0.2}\\\\&&\\approx6.93\\end{aligned}$\nThe liquid reaches $36^{\\circ}\\mathrm{C}$ after approximately $6.93$ minutes.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+{
+    "question_text": "Water initially at $84^{\\circ}\\mathrm{C}$ cools in a room held at $20^{\\circ}\\mathrm{C}$. Its rate of change of temperature is proportional to its temperature difference from the room. After $4$ minutes, its temperature is $68^{\\circ}\\mathrm{C}$.\n(a) Find a model $T=20+Ae^{kt}$, keeping $k$ exact.\n(b) Find its temperature after $12$ minutes.\n(c) Find when it first comes within $1^{\\circ}\\mathrm{C}$ of room temperature, correct to one decimal place.",
+    "solution_text": "(a) Use $T=20+Ae^{kt}$.\n$\\begin{aligned}84&=20+A\\\\A&=64\\end{aligned}$\nAt $t=4$:\n$\\begin{aligned}68&=20+64e^{4k}\\\\48&=64e^{4k}\\\\e^{4k}&=\\frac34\\\\k&=\\frac14\\ln\\frac34\\end{aligned}$\nThus $T=20+64e^{kt}$, where $k=\\frac14\\ln\\frac34<0$.\n$\\begin{aligned}\\text{(b)}\\quad&T(12)&=20+64e^{12k}\\\\&&=20+64\\left(\\frac34\\right)^3\\\\&&=47^{\\circ}\\mathrm{C}\\end{aligned}$\n(c) The water cools towards $20^{\\circ}\\mathrm{C}$ from above. It first comes within $1^{\\circ}\\mathrm{C}$ when $T=21^{\\circ}\\mathrm{C}$.\n$\\begin{aligned}21&=20+64e^{kt}\\\\1&=64e^{kt}\\\\e^{kt}&=\\frac1{64}\\\\t&=\\frac{\\ln(1/64)}{k}\\\\&=\\frac{4\\ln(1/64)}{\\ln(3/4)}\\\\&\\approx57.8\\end{aligned}$\nIt is within $1^{\\circ}\\mathrm{C}$ of room temperature from approximately $57.8$ minutes onwards.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "A bird population follows $N=6000+Ae^{kt}$, where $t$ is measured in years. Its long-run limiting population is $6000$. Initially there are $1000$ birds, and after $5$ years there are $2000$.\n(a) Find $A$ and $k$ in exact form.\n(b) Find the time threshold after which the population exceeds half its limiting population, correct to one decimal place.",
+    "solution_text": "(a) At $t=0$:\n$\\begin{aligned}1000&=6000+A\\\\A&=-5000\\end{aligned}$\nAt $t=5$:\n$\\begin{aligned}2000&=6000-5000e^{5k}\\\\-4000&=-5000e^{5k}\\\\e^{5k}&=\\frac45\\\\k&=\\frac15\\ln\\frac45\\end{aligned}$\nThe model is $N=6000-5000e^{kt}$. Since $k<0$, the population increases towards $6000$ from below.\n(b) Half the limiting population is $3000$. Solve for the threshold:\n$\\begin{aligned}3000&=6000-5000e^{kt}\\\\-3000&=-5000e^{kt}\\\\e^{kt}&=\\frac35\\\\t&=\\frac{\\ln(3/5)}{k}\\\\&=\\frac{5\\ln(3/5)}{\\ln(4/5)}\\\\&\\approx11.4\\end{aligned}$\nThe population equals $3000$ at the exact threshold $t=\\frac{5\\ln(3/5)}{\\ln(4/5)}$ years and exceeds $3000$ afterwards. The threshold is approximately $11.4$ years.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "A quantity satisfies $\\frac{dQ}{dt}=k(Q-300)$. Initially $Q=200$, and when $t=4$, $Q=100$.\n(a) Find its model in the form $Q=300+Ae^{kt}$.\n(b) Find when the model predicts $Q=0$, correct to one decimal place.\n(c) Sketch the model for $t\\geq0$ and explain whether it has a finite limiting value.",
+    "solution_text": "(a) At $t=0$:\n$\\begin{aligned}200&=300+A\\\\A&=-100\\end{aligned}$\nAt $t=4$:\n$\\begin{aligned}100&=300-100e^{4k}\\\\-200&=-100e^{4k}\\\\e^{4k}&=2\\\\k&=\\frac14\\ln2\\end{aligned}$\nThus $Q=300-100e^{(\\ln2)t/4}$.\n$\\begin{aligned}\\text{(b)}\\quad&0&=300-100e^{kt}\\\\&e^{kt}&=3\\\\&t&=\\frac{\\ln3}{k}\\\\&&=\\frac{4\\ln3}{\\ln2}\\\\&&\\approx6.3\\end{aligned}$\n(c) The graph starts at $(0,200)$, decreases with increasing steepness, and crosses the time axis at $t=\\frac{4\\ln3}{\\ln2}$.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=0.12mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,->] (0,0)--(8.3,0);\n\\draw[black,->] (0,-125)--(0,340);\n\\path (8.3,0) node[right] {$t$};\n\\path (0,340) node[above] {$Q$};\n\\draw[black,dashed] (0,300)--(7.8,300);\n\\path (5,300) node[above] {$Q=300$};\n\\draw[black] (-0.12,200)--(0.12,200);\n\\path (0,200) node[left] {$200$};\n\\draw[black,thick,->,domain=0:8,samples=80] plot (\\x,{300-100*exp(ln(2)*\\x/4)});\n\\fill[black] (0,200) circle (1.2pt);\n\\draw[black] (6.33985,-8)--(6.33985,8);\n\\path (6.33985,0) node[above right] {$\\frac{4\\ln3}{\\ln2}$};\n\\end{tikzpicture}\n[/tikz]\nSince $k>0$ and $A=-100\\ne0$, $Q\\to-\\infty$ as $t\\to\\infty$. There is no finite limiting value; the fixed offset $300$ is not a future limit. If $Q$ represents a non-negative quantity, the physical model ends when $Q=0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,8 +2,8 @@
   "skillId": "vectors-in-geometric-figures",
   "atomType": "R",
   "theory": {
-    "intro": "A figure lets you travel from one point to another along vectors you already know. Add the steps tip to tail, and reverse a vector whenever you travel against its arrow.",
-    "facts": [
+"intro": "A figure lets you travel from one point to another along vectors you already know. Add the steps tip to tail, and reverse a vector whenever you travel against its arrow.",
+"facts": [
       "**Triangle law**: $\\overrightarrow{AB}+\\overrightarrow{BC}=\\overrightarrow{AC}$, so a journey through $B$ collapses to the direct step.",
       "**Negative vector law**: $\\overrightarrow{AB}=-\\overrightarrow{BA}$, so travelling backwards along an arrow changes its sign.",
       "**Parallelogram law of subtraction**: $\\overrightarrow{AB}-\\overrightarrow{AD}=\\overrightarrow{DB}$, the journey from $D$ back to $A$ and on to $B$.",
@@ -12,12 +12,63 @@
       "Opposite sides of a parallelogram give equal vectors, so $\\overrightarrow{AD}=\\overrightarrow{BC}$ in parallelogram $ABCD$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (4.2,2.1);\n\\coordinate (D) at (1.2,2.1);\n\\draw[->,thick] (A) -- (B);\n\\draw[->,thick] (D) -- (C);\n\\draw[->,thick] (A) -- (D);\n\\draw[->,thick] (B) -- (C);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
       "A result is proved by writing both sides in terms of the same given vectors and showing they agree."
     ],
-    "steps": [
+"steps": [
       "Choose a route through the figure from the start point to the end point",
       "Write each step in terms of the given vectors",
       "Add the steps and simplify"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "$ABCD$ is a parallelogram with $\\overrightarrow{AB}=3\\underset{\\sim}{u}$ and $\\overrightarrow{AD}=2\\underset{\\sim}{v}$. Find (a) $\\overrightarrow{AC}$ and (b) $\\overrightarrow{DB}$. The point $E$ lies on $AC$ with $AE:EC=2:5$. Find (c) $\\overrightarrow{AE}$.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0); \\coordinate (B) at (4,0); \\coordinate (C) at (5,2.5); \\coordinate (D) at (1,2.5); \\coordinate (E) at (1.428571,0.714286);\n\\draw[black,thick,->] (A)--(B) node[midway,below] {$3\\underset{\\sim}{u}$};\n\\draw[black,thick,->] (A)--(D) node[midway,left] {$2\\underset{\\sim}{v}$};\n\\draw[black] (B)--(C)--(D); \\draw[black] (A)--(C);\n\\fill[black] (E) circle (1.5pt);\n\\path (A) node[below left] {$A$} (B) node[below right] {$B$} (C) node[above right] {$C$} (D) node[above left] {$D$} (E) node[below right] {$E$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Opposite sides give $\\overrightarrow{BC}=\\overrightarrow{AD}$.\n$\\begin{aligned}\\overrightarrow{AC}&=\\overrightarrow{AB}+\\overrightarrow{BC}\\\\&=3\\underset{\\sim}{u}+2\\underset{\\sim}{v}\\end{aligned}$\n(b) Travel from $D$ through $A$ to $B$.\n$\\begin{aligned}\\overrightarrow{DB}&=\\overrightarrow{DA}+\\overrightarrow{AB}\\\\&=-2\\underset{\\sim}{v}+3\\underset{\\sim}{u}\\\\&=3\\underset{\\sim}{u}-2\\underset{\\sim}{v}\\end{aligned}$\n(c) $AE$ is two of the seven equal parts of $AC$.\n$\\begin{aligned}\\overrightarrow{AE}&=\\frac{2}{7}\\overrightarrow{AC}\\\\&=\\frac{2}{7}\\left(3\\underset{\\sim}{u}+2\\underset{\\sim}{v}\\right)\\\\&=\\frac{6}{7}\\underset{\\sim}{u}+\\frac{4}{7}\\underset{\\sim}{v}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "In quadrilateral $KLMN$, $\\overrightarrow{KL}=2\\underset{\\sim}{p}$, $\\overrightarrow{ML}=3\\underset{\\sim}{q}$ and $\\overrightarrow{MN}=\\underset{\\sim}{r}$. Write $\\overrightarrow{KN}$ in terms of the given vectors.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (K) at (0,0); \\coordinate (L) at (3.5,-0.4); \\coordinate (M) at (4.5,2.3); \\coordinate (N) at (0.8,3);\n\\draw[black,thick,->] (K)--(L) node[midway,below] {$2\\underset{\\sim}{p}$};\n\\draw[black,thick,->] (M)--(L) node[midway,right] {$3\\underset{\\sim}{q}$};\n\\draw[black,thick,->] (M)--(N) node[midway,above] {$\\underset{\\sim}{r}$};\n\\draw[black] (N)--(K);\n\\path (K) node[below left] {$K$} (L) node[below right] {$L$} (M) node[above right] {$M$} (N) node[above left] {$N$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The route $K\\to L\\to M\\to N$ travels against the arrow on $ML$, so $\\overrightarrow{LM}=-3\\underset{\\sim}{q}$.\n$\\begin{aligned}\\overrightarrow{KN}&=\\overrightarrow{KL}+\\overrightarrow{LM}+\\overrightarrow{MN}\\\\&=2\\underset{\\sim}{p}-3\\underset{\\sim}{q}+\\underset{\\sim}{r}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "In triangle $PQR$, $\\overrightarrow{PQ}=2\\underset{\\sim}{a}$ and $\\overrightarrow{PR}=3\\underset{\\sim}{b}$. The point $M$ is the midpoint of $QR$. Find (a) $\\overrightarrow{QM}$ and (b) $\\overrightarrow{PM}$.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (P) at (0,0); \\coordinate (Q) at (1,3); \\coordinate (R) at (5,0); \\coordinate (M) at (3,1.5);\n\\draw[black,thick,->] (P)--(Q) node[midway,left] {$2\\underset{\\sim}{a}$};\n\\draw[black,thick,->] (P)--(R) node[midway,below] {$3\\underset{\\sim}{b}$};\n\\draw[black] (Q)--(R); \\fill[black] (M) circle (1.5pt);\n\\path (P) node[below left] {$P$} (Q) node[above] {$Q$} (R) node[below right] {$R$} (M) node[above right] {$M$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Subtract the two vectors with common tail $P$, then halve the result.\n$\\begin{aligned}\\overrightarrow{QR}&=\\overrightarrow{PR}-\\overrightarrow{PQ}\\\\&=3\\underset{\\sim}{b}-2\\underset{\\sim}{a}\\end{aligned}$\n$\\begin{aligned}\\overrightarrow{QM}&=\\frac{1}{2}\\overrightarrow{QR}\\\\&=\\frac{3}{2}\\underset{\\sim}{b}-\\underset{\\sim}{a}\\end{aligned}$\n(b) Use the route $P\\to Q\\to M$.\n$\\begin{aligned}\\overrightarrow{PM}&=\\overrightarrow{PQ}+\\overrightarrow{QM}\\\\&=2\\underset{\\sim}{a}+\\frac{3}{2}\\underset{\\sim}{b}-\\underset{\\sim}{a}\\\\&=\\underset{\\sim}{a}+\\frac{3}{2}\\underset{\\sim}{b}\\end{aligned}$\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{solutionBlue}{HTML}{268CFF}\n\\coordinate (P) at (0,0); \\coordinate (Q) at (1,3); \\coordinate (R) at (5,0); \\coordinate (M) at (3,1.5);\n\\draw[black,thick,->] (P)--(Q) node[midway,left] {$2\\underset{\\sim}{a}$};\n\\draw[black,thick,->] (P)--(R) node[midway,below] {$3\\underset{\\sim}{b}$};\n\\draw[black] (Q)--(R);\n\\draw[solutionBlue,thick,->] (Q)--(M);\n\\draw[solutionBlue,thick,->] (P)--(M);\n\\fill[black] (M) circle (1.5pt);\n\\path (P) node[below left] {$P$} (Q) node[above] {$Q$} (R) node[below right] {$R$} (M) node[above right] {$M$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "In triangle $OAB$, $\\overrightarrow{OA}=\\underset{\\sim}{x}$ and $\\overrightarrow{OB}=\\underset{\\sim}{y}$. The point $N$ lies on $AB$ with $AN:NB=3:2$. Find (a) $\\overrightarrow{AN}$ and (b) $\\overrightarrow{ON}$.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0); \\coordinate (A) at (5,0); \\coordinate (B) at (1,3); \\coordinate (N) at (2.6,1.8);\n\\draw[black,thick,->] (O)--(A) node[midway,below] {$\\underset{\\sim}{x}$};\n\\draw[black,thick,->] (O)--(B) node[midway,left] {$\\underset{\\sim}{y}$};\n\\draw[black] (A)--(B); \\fill[black] (N) circle (1.5pt);\n\\path (O) node[below left] {$O$} (A) node[below right] {$A$} (B) node[above] {$B$} (N) node[above right] {$N$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) $AN$ is three of the five equal parts of $AB$.\n$\\begin{aligned}\\overrightarrow{AB}&=\\overrightarrow{OB}-\\overrightarrow{OA}\\\\&=\\underset{\\sim}{y}-\\underset{\\sim}{x}\\end{aligned}$\n$\\begin{aligned}\\overrightarrow{AN}&=\\frac{3}{5}\\overrightarrow{AB}\\\\&=\\frac{3}{5}\\left(\\underset{\\sim}{y}-\\underset{\\sim}{x}\\right)\\end{aligned}$\n(b) Include the initial step from $O$ to $A$.\n$\\begin{aligned}\\overrightarrow{ON}&=\\overrightarrow{OA}+\\overrightarrow{AN}\\\\&=\\underset{\\sim}{x}+\\frac{3}{5}\\left(\\underset{\\sim}{y}-\\underset{\\sim}{x}\\right)\\\\&=\\frac{2}{5}\\underset{\\sim}{x}+\\frac{3}{5}\\underset{\\sim}{y}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For the points shown, prove that $\\overrightarrow{JK}-\\overrightarrow{LK}+\\overrightarrow{LM}=\\overrightarrow{JM}$. State the vector laws used.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (J) at (0,0); \\coordinate (K) at (2,2); \\coordinate (L) at (4,0); \\coordinate (M) at (6,2);\n\\draw[black,thick,->] (J)--(K); \\draw[black,thick,->] (L)--(K); \\draw[black,thick,->] (L)--(M);\n\\path (J) node[below left] {$J$} (K) node[above] {$K$} (L) node[below] {$L$} (M) node[above right] {$M$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Reverse $\\overrightarrow{LK}$ using the negative vector law. Combine successive steps using the triangle law.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\overrightarrow{JK}-\\overrightarrow{LK}+\\overrightarrow{LM}\\\\&=\\overrightarrow{JK}+\\overrightarrow{KL}+\\overrightarrow{LM}\\\\&=\\overrightarrow{JL}+\\overrightarrow{LM}\\\\&=\\overrightarrow{JM}\\end{aligned}$\nThis equals the right-hand side.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "In triangle $OAB$, $\\overrightarrow{OA}=6\\underset{\\sim}{a}$ and $\\overrightarrow{OB}=6\\underset{\\sim}{b}$. The points $M$ and $N$ are the midpoints of $OA$ and $OB$, respectively. Find $\\overrightarrow{MN}$ and use vectors to prove that $MN$ is parallel to $AB$. Assume $A$ and $B$ are distinct.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0); \\coordinate (A) at (5,0); \\coordinate (B) at (1,3); \\coordinate (M) at (2.5,0); \\coordinate (N) at (0.5,1.5);\n\\draw[black,thick,->] (O)--(A); \\draw[black,thick,->] (O)--(B); \\draw[black] (A)--(B); \\draw[black,dashed] (M)--(N);\n\\fill[black] (M) circle (1.5pt); \\fill[black] (N) circle (1.5pt);\n\\path (2.5,-0.65) node {$6\\underset{\\sim}{a}$} (-0.1,2.2) node[left] {$6\\underset{\\sim}{b}$};\n\\path (O) node[below left] {$O$} (A) node[below right] {$A$} (B) node[above] {$B$} (M) node[below] {$M$} (N) node[left] {$N$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The midpoints give $\\overrightarrow{OM}=3\\underset{\\sim}{a}$ and $\\overrightarrow{ON}=3\\underset{\\sim}{b}$.\n$\\begin{aligned}\\overrightarrow{MN}&=\\overrightarrow{ON}-\\overrightarrow{OM}\\\\&=3\\underset{\\sim}{b}-3\\underset{\\sim}{a}\\end{aligned}$\n$\\begin{aligned}\\overrightarrow{AB}&=\\overrightarrow{OB}-\\overrightarrow{OA}\\\\&=6\\underset{\\sim}{b}-6\\underset{\\sim}{a}\\\\&=2\\overrightarrow{MN}\\end{aligned}$\nThe non-zero vectors are scalar multiples, so $MN$ is parallel to $AB$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$ABCD$ is a quadrilateral with $\\overrightarrow{BA}=2\\underset{\\sim}{v}$, $\\overrightarrow{AD}=3\\underset{\\sim}{w}$ and $\\overrightarrow{CD}=\\underset{\\sim}{u}$. The point $M$ is the midpoint of $BC$. Find $\\overrightarrow{MA}$ in terms of the given vectors.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0.5); \\coordinate (B) at (4,0); \\coordinate (C) at (4.8,2.6); \\coordinate (D) at (1,3.2); \\coordinate (M) at (4.4,1.3);\n\\draw[black,thick,->] (B)--(A) node[midway,below] {$2\\underset{\\sim}{v}$};\n\\draw[black,thick,->] (A)--(D) node[midway,left] {$3\\underset{\\sim}{w}$};\n\\draw[black,thick,->] (C)--(D) node[midway,above] {$\\underset{\\sim}{u}$};\n\\draw[black] (B)--(C); \\fill[black] (M) circle (1.5pt);\n\\path (A) node[left] {$A$} (B) node[below right] {$B$} (C) node[above right] {$C$} (D) node[above left] {$D$} (M) node[right] {$M$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "First find the whole side $BC$ by travelling through $A$ and $D$.\n$\\begin{aligned}\\overrightarrow{BC}&=\\overrightarrow{BA}+\\overrightarrow{AD}+\\overrightarrow{DC}\\\\&=2\\underset{\\sim}{v}+3\\underset{\\sim}{w}-\\underset{\\sim}{u}\\end{aligned}$\nSince $M$ is the midpoint, the reverse half-step is\n$\\begin{aligned}\\overrightarrow{MB}&=-\\frac{1}{2}\\overrightarrow{BC}\\\\&=-\\underset{\\sim}{v}-\\frac{3}{2}\\underset{\\sim}{w}+\\frac{1}{2}\\underset{\\sim}{u}\\end{aligned}$\nUse the route $M\\to B\\to A$.\n$\\begin{aligned}\\overrightarrow{MA}&=\\overrightarrow{MB}+\\overrightarrow{BA}\\\\&=-\\underset{\\sim}{v}-\\frac{3}{2}\\underset{\\sim}{w}+\\frac{1}{2}\\underset{\\sim}{u}+2\\underset{\\sim}{v}\\\\&=\\frac{1}{2}\\underset{\\sim}{u}+\\underset{\\sim}{v}-\\frac{3}{2}\\underset{\\sim}{w}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

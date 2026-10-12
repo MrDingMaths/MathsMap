@@ -2,8 +2,8 @@
   "skillId": "points-given-gradient",
   "atomType": "R",
   "theory": {
-        "intro": "To find where a curve has a tangent of gradient $m$, differentiate, solve $f'(x) = m$, then substitute each $x$-value back into $y = f(x)$ to get the coordinates. If a normal gradient $m_n \\neq 0$ is given, use $m = -\\dfrac{1}{m_n}$ first.",
-        "facts": [
+"intro": "To find where a curve has a tangent of gradient $m$, differentiate, solve $f'(x) = m$, then substitute each $x$-value back into $y = f(x)$ to get the coordinates. If a normal gradient $m_n \\neq 0$ is given, use $m = -\\dfrac{1}{m_n}$ first.",
+"facts": [
 "A tangent has gradient $m$ at the $x$-values where $f'(x) = m$.",
 "The tangent is horizontal where $f'(x) = 0$; these are stationary points, which need not be turning points.",
 "If a normal has gradient $m_n \\neq 0$, the tangent gradient is $m = -\\dfrac{1}{m_n}$, so solve $f'(x) = -\\dfrac{1}{m_n}$.",
@@ -11,13 +11,64 @@
 "Find each $y$-coordinate by substituting $x$ into $y = f(x)$, never into $f'(x)$.",
 "A polynomial of degree $n \\geq 2$ can have up to $n-1$ points with a given tangent gradient, so a cubic gives two, one or none."
 ],
-        "steps": [
+"steps": [
           "Differentiate $f(x)$ to find the gradient function $f'(x)$",
           "Set the derivative equal to the required tangent gradient",
           "Solve the equation for $x$",
           "Substitute each $x$-value into $y = f(x)$ to find the corresponding $y$-coordinate"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "For $f(x)=x^2-8x+13$, find the coordinates of the points where the tangent:\n(a) is horizontal;\n(b) has gradient $4$.",
+    "solution_text": "Differentiate:\n$\\begin{aligned}f'(x)&=2x-8\\end{aligned}$\n\n(a) A horizontal tangent has gradient $0$.\n$\\begin{aligned}2x-8&=0\\\\2x&=8\\\\x&=4\\\\f(4)&=4^2-8(4)+13\\\\&=-3\\end{aligned}$\nThe point is $(4,-3)$.\n\n(b) Set the derivative equal to $4$.\n$\\begin{aligned}2x-8&=4\\\\2x&=12\\\\x&=6\\\\f(6)&=6^2-8(6)+13\\\\&=1\\end{aligned}$\nThe point is $(6,1)$. Each ordinate comes from $f(x)$, not $f'(x)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find all points on $y=\\dfrac{x^3}{3}-2x+4$ where the tangent has gradient $7$.",
+    "solution_text": "$\\begin{aligned}f'(x)&=x^2-2\\\\x^2-2&=7\\\\x^2&=9\\\\x&=\\pm3\\end{aligned}$\n\nSubstitute both values into the curve.\n$\\begin{aligned}f(3)&=\\frac{3^3}{3}-2(3)+4\\\\&=7\\end{aligned}$\n$\\begin{aligned}f(-3)&=\\frac{(-3)^3}{3}-2(-3)+4\\\\&=1\\end{aligned}$\nThe points are $(3,7)$ and $(-3,1)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the stationary points of $y=x^4-8x^2+6$.",
+    "solution_text": "At a stationary point, the tangent is horizontal.\n$\\begin{aligned}f'(x)&=4x^3-16x\\\\4x^3-16x&=0\\\\4x(x-2)(x+2)&=0\\end{aligned}$\nThus $x=0$, $x=2$ or $x=-2$.\n\n$\\begin{aligned}f(0)&=6\\\\f(2)&=2^4-8(2)^2+6\\\\&=-10\\\\f(-2)&=(-2)^4-8(-2)^2+6\\\\&=-10\\end{aligned}$\nThe stationary points are $(0,6)$, $(2,-10)$ and $(-2,-10)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the point on $y=x^2-7x+3$ where the normal has gradient $\\dfrac13$.",
+    "solution_text": "The tangent and normal are perpendicular.\n$\\begin{aligned}m_t&=-\\frac{1}{m_n}\\\\&=-\\frac{1}{1/3}\\\\&=-3\\end{aligned}$\n\n$\\begin{aligned}f'(x)&=2x-7\\\\2x-7&=-3\\\\2x&=4\\\\x&=2\\\\f(2)&=2^2-7(2)+3\\\\&=-7\\end{aligned}$\nThe point is $(2,-7)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the point on $y=2x^2-5x+4$ where the tangent is parallel to $3x-y+2=0$.",
+    "solution_text": "Write the line in gradient-intercept form.\n$\\begin{aligned}3x-y+2&=0\\\\y&=3x+2\\end{aligned}$\nParallel lines have the same gradient, so the required tangent gradient is $3$.\n\n$\\begin{aligned}f'(x)&=4x-5\\\\4x-5&=3\\\\4x&=8\\\\x&=2\\\\f(2)&=2(2)^2-5(2)+4\\\\&=2\\end{aligned}$\nThe point is $(2,2)$.\n\nThe red tangent has the same gradient as the green given line.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\definecolor{tangentred}{HTML}{EF6068}\n\\definecolor{linegreen}{HTML}{4F9B63}\n\\draw[->,black] (-0.4,0)--(3.4,0) node[right] {$x$};\n\\draw[->,black] (0,-4.4)--(0,5.4) node[above] {$y$};\n\\draw[curveblue,thick,domain=-0.15:2.7,samples=70,variable=\\x] plot ({\\x},{2*\\x*\\x-5*\\x+4});\n\\draw[tangentred,thick,domain=0.2:3,samples=2,variable=\\x] plot ({\\x},{3*\\x-4});\n\\draw[linegreen,thick,domain=-0.3:1,samples=2,variable=\\x] plot ({\\x},{3*\\x+2});\n\\fill[black] (2,2) circle (1.5pt);\n\\path (2,2) node[right] {$(2,2)$};\n\\path (0.55,3.65) node[left] {$y=3x+2$};\n\\path (1,-1) node[right] {$y=3x-4$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the point on $y=x^2-4x+6$ where the tangent is perpendicular to $2x-y+5=0$.",
+    "solution_text": "$\\begin{aligned}2x-y+5&=0\\\\y&=2x+5\\end{aligned}$\nThe given line has gradient $2$, so the perpendicular tangent has gradient $-\\dfrac12$.\n\n$\\begin{aligned}f'(x)&=2x-4\\\\2x-4&=-\\frac12\\\\2x&=\\frac72\\\\x&=\\frac74\\end{aligned}$\n\n$\\begin{aligned}f\\left(\\frac74\\right)&=\\left(\\frac74\\right)^2-4\\left(\\frac74\\right)+6\\\\&=\\frac{49}{16}-7+6\\\\&=\\frac{33}{16}\\end{aligned}$\nThe point is $\\left(\\dfrac74,\\dfrac{33}{16}\\right)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the point on $y=x^3-3x^2+5$ with $x>1$ where the tangent is parallel to $9x-y-2=0$.",
+    "solution_text": "$\\begin{aligned}9x-y-2&=0\\\\y&=9x-2\\end{aligned}$\nThe required tangent gradient is $9$.\n\n$\\begin{aligned}f'(x)&=3x^2-6x\\\\3x^2-6x&=9\\\\3x^2-6x-9&=0\\\\3(x-3)(x+1)&=0\\end{aligned}$\nThe candidate values are $x=3$ and $x=-1$. Only $x=3$ satisfies $x>1$.\n\n$\\begin{aligned}f(3)&=3^3-3(3)^2+5\\\\&=5\\end{aligned}$\nThe point is $(3,5)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,20 +2,78 @@
   "skillId": "solve-auxiliary-angle-equations",
   "atomType": "R",
   "theory": {
-        "intro": "To solve $a\\cos x + b\\sin x = c$, first write the left side as $R\\cos(x \\pm \\alpha)$ or $R\\sin(x \\pm \\alpha)$. Divide by $R$, shift the domain to suit the new angle, then solve for $x$.",
-        "facts": [
+"intro": "To solve $a\\cos x + b\\sin x = c$, first write the left side as $R\\cos(x \\pm \\alpha)$ or $R\\sin(x \\pm \\alpha)$. Divide by $R$, shift the domain to suit the new angle, then solve for $x$.",
+"facts": [
 "There are real solutions exactly when $|c| \\le R = \\sqrt{a^2 + b^2}$, since $R$ is the largest value $a\\cos x + b\\sin x$ can reach; otherwise there are none.",
 "For $R\\cos(x - \\alpha) = c$, write $\\cos(x - \\alpha) = \\frac{c}{R}$ and shift the interval for $x$ into an interval for $(x - \\alpha)$ before finding quadrant solutions.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[|-|, thick] (0,0) node[below]{$0$} -- (6,0) node[below]{$2\\pi$} node[right=10pt]{$x$};\n\\draw[|-|, thick] (-1,-2.4) node[below]{$-\\alpha$} -- (5,-2.4) node[below left]{$2\\pi-\\alpha$} node[right=12pt]{$x-\\alpha$};\n\\draw[->, dashed] (0,-0.75) -- (-1,-2.1);\n\\draw[->, dashed] (6,-0.75) -- (5,-2.1);\n\\node at (2.5,-1.2) {subtract $\\alpha$};\n\\end{tikzpicture}\n[/tikz]",
 "Boundary solutions occur when $c = \\pm R$, producing exactly one solution in a half-open interval of length $2\\pi$; a closed interval can contain both periodic endpoint roots.",
 "In word problems such as tides or currents, the maximum occurs when the sine or cosine equals $1$, the minimum when it equals $-1$."
 ],
-        "steps": [
+"steps": [
           "Express $a\\cos x + b\\sin x$ in the auxiliary form $R\\cos(x \\pm \\alpha)$ or $R\\sin(x \\pm \\alpha)$",
           "Divide both sides by $R$ to isolate the trigonometric function",
           "Transform the given domain for $x$ to match the shifted angle $(x \\pm \\alpha)$",
           "Solve for the shifted angle across valid quadrants, then subtract or add $\\alpha$ to find $x$"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Use the auxiliary angle method to solve $2\\cos x+2\\sin x=2$ for $0\\le x\\le2\\pi$.",
+    "solution_text": "Expand the auxiliary form:\n$\\begin{align*}R\\cos(x-\\alpha)&=R\\cos x\\cos\\alpha+R\\sin x\\sin\\alpha\\end{align*}$\nComparing coefficients gives $R\\cos\\alpha=2$ and $R\\sin\\alpha=2$.\n$\\begin{align*}R^2&=2^2+2^2\\\\R&=2\\sqrt2\\\\\\tan\\alpha&=1\\end{align*}$\nBoth coefficients are positive, so choose $\\alpha=\\frac\\pi4$ in quadrant I.\n$\\begin{align*}2\\sqrt2\\cos\\left(x-\\frac\\pi4\\right)&=2\\\\\\cos\\left(x-\\frac\\pi4\\right)&=\\frac1{\\sqrt2}\\end{align*}$\nThe shifted domain is $-\\frac\\pi4\\le x-\\frac\\pi4\\le\\frac{7\\pi}4$.\n$\\begin{align*}x-\\frac\\pi4&=-\\frac\\pi4,\\ \\frac\\pi4,\\ \\frac{7\\pi}4\\\\x&=0,\\ \\frac\\pi2,\\ 2\\pi\\end{align*}$\nBoth endpoints belong to the closed domain.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $12\\cos x+5\\sin x=6.5$ for $0^\\circ\\le x\\le360^\\circ$, giving solutions to the nearest minute.",
+    "solution_text": "Expand $R\\cos(x-\\alpha)=R\\cos x\\cos\\alpha+R\\sin x\\sin\\alpha$.\nComparing coefficients gives $R\\cos\\alpha=12$ and $R\\sin\\alpha=5$.\n$\\begin{align*}R^2&=12^2+5^2\\\\R&=13\\\\\\tan\\alpha&=\\frac5{12}\\end{align*}$\nChoose the acute angle $\\alpha=\\tan^{-1}(5/12)$ and retain full precision until the final answers.\n$\\begin{align*}13\\cos(x-\\alpha)&=6.5\\\\\\cos(x-\\alpha)&=\\frac12\\end{align*}$\nThe shifted domain is $-\\alpha\\le x-\\alpha\\le360^\\circ-\\alpha$. Its solutions are:\n$\\begin{align*}x-\\alpha&=60^\\circ,\\ 300^\\circ\\\\x&=60^\\circ+\\alpha,\\ 300^\\circ+\\alpha\\\\x&\\approx82^\\circ37',\\ 322^\\circ37'\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $8\\sin x-6\\cos x=-10$ for $0^\\circ\\le x\\le360^\\circ$, giving the solution to the nearest minute.",
+    "solution_text": "Expand $R\\sin(x-\\alpha)=R\\sin x\\cos\\alpha-R\\cos x\\sin\\alpha$.\nComparing coefficients gives $R\\cos\\alpha=8$ and $R\\sin\\alpha=6$.\n$\\begin{align*}R^2&=8^2+6^2\\\\R&=10\\\\\\tan\\alpha&=\\frac34\\end{align*}$\nChoose the acute angle $\\alpha=\\tan^{-1}(3/4)$ and retain full precision.\n$\\begin{align*}10\\sin(x-\\alpha)&=-10\\\\\\sin(x-\\alpha)&=-1\\end{align*}$\nWithin $-\\alpha\\le x-\\alpha\\le360^\\circ-\\alpha$, sine reaches $-1$ only at $270^\\circ$.\n$\\begin{align*}x-\\alpha&=270^\\circ\\\\x&=270^\\circ+\\alpha\\\\x&\\approx306^\\circ52'\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $2\\sin2x+2\\cos2x=2$ for $0\\le x\\le2\\pi$ using the auxiliary angle method.",
+    "solution_text": "Expanding $R\\sin(2x+\\alpha)$ and comparing coefficients gives $R\\cos\\alpha=2$ and $R\\sin\\alpha=2$. Hence $R=2\\sqrt2$ and $\\alpha=\\frac\\pi4$.\n$\\begin{align*}2\\sqrt2\\sin\\left(2x+\\frac\\pi4\\right)&=2\\\\\\sin\\left(2x+\\frac\\pi4\\right)&=\\frac1{\\sqrt2}\\end{align*}$\nThe shifted domain is $\\frac\\pi4\\le2x+\\frac\\pi4\\le\\frac{17\\pi}4$, covering two complete periods.\n$\\begin{align*}2x+\\frac\\pi4&=\\frac\\pi4,\\ \\frac{3\\pi}4,\\ \\frac{9\\pi}4,\\ \\frac{11\\pi}4,\\ \\frac{17\\pi}4\\\\2x&=0,\\ \\frac\\pi2,\\ 2\\pi,\\ \\frac{5\\pi}2,\\ 4\\pi\\\\x&=0,\\ \\frac\\pi4,\\ \\pi,\\ \\frac{5\\pi}4,\\ 2\\pi\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\sin x-\\cos x=\\cos2x$ for $0\\le x<2\\pi$ by factorising, then using an auxiliary angle where needed.",
+    "solution_text": "$\\begin{align*}\\sin x-\\cos x&=(\\cos x-\\sin x)(\\cos x+\\sin x)\\\\(\\sin x-\\cos x)(1+\\cos x+\\sin x)&=0\\end{align*}$\nFor the first factor:\n$\\begin{align*}\\sin x-\\cos x&=0\\\\\\tan x&=1\\\\x&=\\frac\\pi4,\\ \\frac{5\\pi}4\\end{align*}$\nHere $\\cos x=0$ cannot satisfy $\\sin x=\\cos x$, so division loses no solutions.\nFor the second factor, expand $R\\cos(x-\\alpha)$ and compare coefficients: $R\\cos\\alpha=1$ and $R\\sin\\alpha=1$. Thus $R=\\sqrt2$ and $\\alpha=\\frac\\pi4$.\n$\\begin{align*}\\sqrt2\\cos\\left(x-\\frac\\pi4\\right)&=-1\\\\\\cos\\left(x-\\frac\\pi4\\right)&=-\\frac1{\\sqrt2}\\end{align*}$\nIn the shifted domain $-\\frac\\pi4\\le x-\\frac\\pi4<\\frac{7\\pi}4$:\n$\\begin{align*}x-\\frac\\pi4&=\\frac{3\\pi}4,\\ \\frac{5\\pi}4\\\\x&=\\pi,\\ \\frac{3\\pi}2\\end{align*}$\nThe complete solution set is $x=\\frac\\pi4,\\ \\pi,\\ \\frac{5\\pi}4,\\ \\frac{3\\pi}2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Express $2\\sin x-2\\cos x$ as a single sine function. Sketch $y=2\\sin x-2\\cos x$ for $0\\le x\\le2\\pi$ and use the sketch to solve $2\\sin x-2\\cos x>2$.",
+    "solution_text": "Expanding $R\\sin(x-\\alpha)$ and comparing coefficients gives $R\\cos\\alpha=2$ and $R\\sin\\alpha=2$. Hence $R=2\\sqrt2$ and $\\alpha=\\frac\\pi4$.\n$\\begin{align*}&\\mathrel{\\phantom{=}}2\\sin x-2\\cos x\\\\&=2\\sqrt2\\sin\\left(x-\\frac\\pi4\\right)\\end{align*}$\nThe amplitude is $2\\sqrt2$ and the period is $2\\pi$. The line $y=2$ intersects the curve at $x=\\frac\\pi2$ and $x=\\pi$.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[->,black] (-0.2,0)--(6.8,0) node[right]{$x$};\n\\draw[->,black] (0,-3.25)--(0,3.45) node[above]{$y$};\n\\draw[black,domain=0:6.283185,samples=120] plot (\\x,{2*sin(\\x r)-2*cos(\\x r)});\n\\draw[blue!0!black,dashed] (0,2)--(6.283185,2);\n\\path (0,2) node[left]{$2$};\n\\path (0,-2) node[left]{$-2$};\n\\path (2.356194,2.828427) node[above]{$2\\sqrt2$};\n\\path (5.497787,-2.828427) node[below]{$-2\\sqrt2$};\n\\draw[dashed,black] (1.570796,0)--(1.570796,2);\n\\draw[dashed,black] (3.141593,0)--(3.141593,2);\n\\foreach \\p/\\lab in {1.570796/{\\frac\\pi2},3.141593/{\\pi},4.712389/{\\frac{3\\pi}2},6.283185/{2\\pi}} {\n\\draw[black] (\\p,-0.08)--(\\p,0.08);\n\\path (\\p,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont]{$\\lab$};\n}\n\\end{tikzpicture}\n[/tikz]\nThe curve lies above $y=2$ between the intersections, so $\\frac\\pi2<x<\\pi$. The strict inequality excludes both boundary points.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A harbour's water depth is modelled by $d(t)=7+5\\sin t+12\\cos t$ metres, where $t\\ge0$ is hours after midnight and angles are in radians. Find the maximum depth and the first time it occurs, to the nearest minute.",
+    "solution_text": "Expand $R\\sin(t+\\alpha)=R\\sin t\\cos\\alpha+R\\cos t\\sin\\alpha$.\nComparing coefficients gives $R\\cos\\alpha=5$ and $R\\sin\\alpha=12$.\n$\\begin{align*}R^2&=5^2+12^2\\\\R&=13\\\\\\tan\\alpha&=\\frac{12}5\\end{align*}$\nChoose the acute angle $\\alpha=\\tan^{-1}(12/5)$.\n$d(t)=7+13\\sin(t+\\alpha)$.\nThe maximum depth is $7+13=20\\text{ m}$. It first occurs when the sine equals $1$:\n$\\begin{align*}t+\\alpha&=\\frac\\pi2\\\\t&=\\frac\\pi2-\\tan^{-1}\\left(\\frac{12}5\\right)\\\\t&\\approx0.394791\\text{ hours}\\end{align*}$\nThis is approximately $23.69$ minutes after midnight, so the first maximum occurs at 12:24 am.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Tide height is modelled by $h(t)=3\\sqrt3\\cos(2t)+3\\sin(2t)$ metres, where $t\\ge0$ is hours after midnight and angles are in radians. Ships can enter when $h\\ge3$. Find the first interval after midnight during which entry is unavailable, giving boundary times to the nearest minute.",
+    "solution_text": "Expand $R\\sin(2t+\\alpha)$ and compare coefficients: $R\\cos\\alpha=3$ and $R\\sin\\alpha=3\\sqrt3$.\n$\\begin{align*}R^2&=3^2+(3\\sqrt3)^2\\\\R&=6\\\\\\tan\\alpha&=\\sqrt3\\end{align*}$\nBoth coefficients are positive, so $\\alpha=\\frac\\pi3$ and $h(t)=6\\sin(2t+\\frac\\pi3)$.\nAt midnight $h(0)=3\\sqrt3>3$, so entry is initially available. Find the next two crossings of $h=3$:\n$\\begin{align*}6\\sin\\left(2t+\\frac\\pi3\\right)&=3\\\\\\sin\\left(2t+\\frac\\pi3\\right)&=\\frac12\\\\2t+\\frac\\pi3&=\\frac{5\\pi}6,\\ \\frac{13\\pi}6\\\\2t&=\\frac\\pi2,\\ \\frac{11\\pi}6\\\\t&=\\frac\\pi4,\\ \\frac{11\\pi}{12}\\end{align*}$\nBetween these crossings the sine is below $\\frac12$, so entry is unavailable for $\\frac\\pi4<t<\\frac{11\\pi}{12}$ hours after midnight. The boundary times are approximately 12:47 am and 2:53 am. Entry remains available at the exact boundaries because $h=3$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

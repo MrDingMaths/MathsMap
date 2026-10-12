@@ -2,20 +2,78 @@
   "skillId": "logarithmic-scales",
   "atomType": "Com",
   "theory": {
-        "intro": "A **logarithmic scale** measures a quantity by its order of magnitude, so small numbers describe an enormous range. On the illustrated positive base-$10$ log scale, each unit increase multiplies the quantity by ten. Related scales include the **Richter scale**, **pH** and **decibels**, but their steps work differently: a pH increase of one divides hydrogen-ion concentration by ten, and a decibel increase of ten multiplies sound intensity by ten.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.9,0) -- (6.6,0);\n\\foreach \\x in {0,1.9,3.8,5.7} \\draw (\\x,-0.18) -- (\\x,0.18);\n\\node[above] at (0,0.2) {$m$};\n\\node[above] at (1.9,0.2) {$m+1$};\n\\node[above] at (3.8,0.2) {$m+2$};\n\\node[above] at (5.7,0.2) {$m+3$};\n\\node[below] at (0,-0.22) {$A$};\n\\node[below] at (1.9,-0.22) {$10A$};\n\\node[below] at (3.8,-0.22) {$100A$};\n\\node[below] at (5.7,-0.22) {$1000A$};\n\\draw[-{Stealth}] (0.2,-1.25) -- (1.7,-1.25) node[midway, below] {$\\times 10$};\n\\draw[-{Stealth}] (2.1,-1.25) -- (3.6,-1.25) node[midway, below] {$\\times 10$};\n\\draw[-{Stealth}] (4.0,-1.25) -- (5.5,-1.25) node[midway, below] {$\\times 10$};\n\\node[left] at (-1.0,0.45) {magnitude};\n\\node[left] at (-1.0,-0.55) {value};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "A **logarithmic scale** measures a quantity by its order of magnitude, so small numbers describe an enormous range. On the illustrated positive base-$10$ log scale, each unit increase multiplies the quantity by ten. Related scales include the **Richter scale**, **pH** and **decibels**, but their steps work differently: a pH increase of one divides hydrogen-ion concentration by ten, and a decibel increase of ten multiplies sound intensity by ten.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.9,0) -- (6.6,0);\n\\foreach \\x in {0,1.9,3.8,5.7} \\draw (\\x,-0.18) -- (\\x,0.18);\n\\node[above] at (0,0.2) {$m$};\n\\node[above] at (1.9,0.2) {$m+1$};\n\\node[above] at (3.8,0.2) {$m+2$};\n\\node[above] at (5.7,0.2) {$m+3$};\n\\node[below] at (0,-0.22) {$A$};\n\\node[below] at (1.9,-0.22) {$10A$};\n\\node[below] at (3.8,-0.22) {$100A$};\n\\node[below] at (5.7,-0.22) {$1000A$};\n\\draw[-{Stealth}] (0.2,-1.25) -- (1.7,-1.25) node[midway, below] {$\\times 10$};\n\\draw[-{Stealth}] (2.1,-1.25) -- (3.6,-1.25) node[midway, below] {$\\times 10$};\n\\draw[-{Stealth}] (4.0,-1.25) -- (5.5,-1.25) node[midway, below] {$\\times 10$};\n\\node[left] at (-1.0,0.45) {magnitude};\n\\node[left] at (-1.0,-0.55) {value};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "**Richter scale:** $M=\\log_{10}A$ gives magnitude $M$ from ground amplitude $A$; reversed, $A=10^{M}$.",
 "**pH scale:** $pH=-\\log_{10}M$ uses hydrogen-ion concentration $M$ in mol/L; the minus sign makes a higher concentration a lower pH, and reversed, $M=10^{-pH}$.",
 "**Decibel scale:** $S=10\\log_{10}\\dfrac{I}{I_{0}}$ gives loudness $S$ from $\\dfrac{I}{I_{0}}$, how many times the hearing threshold is exceeded; reversed, $\\dfrac{I}{I_{0}}=10^{S/10}$.",
 "On the Richter scale or the illustrated positive base-$10$ log scale, a difference of $k$ magnitudes means the larger quantity is $10^{k}$ times the smaller, **not** $k$ times.",
 "A magnitude-$6$ earthquake has $10^{3}=1000$ times the amplitude of a magnitude-$3$ one."
 ],
-        "steps": [
+"steps": [
 "Substitute the known value into the scale's formula.",
 "Evaluate the logarithm, or its inverse $10^{(\\dots)}$, to find the unknown.",
 "To compare two readings, use the scale's formula to find each quantity, then divide in the requested order. For Richter amplitudes use $A=10^{M}$; for sound intensities use $I/I_{0}=10^{S/10}$."
+],
+"workedExamples": [
+  {
+    "question_text": "Two earthquakes have Richter magnitudes $6.5$ and $4.0$. Using $A=10^{M}$, find the ratio of the larger ground amplitude to the smaller, to the nearest whole number.",
+    "solution_text": "$\\begin{align*}\\frac{A_1}{A_2}&=\\frac{10^{6.5}}{10^{4.0}}\\\\&=10^{2.5}\\\\&\\approx316\\end{align*}$\nThe larger earthquake has about $316$ times the ground amplitude.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Earthquake magnitude $M$ and ground amplitude $A$ are related by $M=\\log_{10}A$. Make $A$ the subject, then find $A$ when $M=4.5$ to the nearest whole number.",
+    "solution_text": "Writing the logarithmic equation in index form gives $A=10^{M}$.\n$\\begin{align*}A&=10^{4.5}\\\\&\\approx31\\,623\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A solution has hydrogen-ion concentration $M=10^{-4}$ mol/L. Find its pH using $pH=-\\log_{10}M$.",
+    "solution_text": "$\\begin{align*}pH&=-\\log_{10}(10^{-4})\\\\&=-(-4)\\\\&=4\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A solution has $pH=4.2$. Rearrange $pH=-\\log_{10}M$ to make $M$ the subject, then find the hydrogen-ion concentration to $3$ significant figures.",
+    "solution_text": "$\\begin{align*}\\log_{10}M&=-pH\\\\M&=10^{-pH}\\\\&=10^{-4.2}\\\\&\\approx6.31\\times10^{-5}\\end{align*}$\nThe concentration is $6.31\\times10^{-5}$ mol/L.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A sound measures $30$ dB. Using $S=10\\log_{10}\\dfrac{I}{I_0}$, find how many times as intense it is as the threshold of human hearing.",
+    "solution_text": "$\\begin{align*}30&=10\\log_{10}\\frac{I}{I_0}\\\\3&=\\log_{10}\\frac{I}{I_0}\\\\\\frac{I}{I_0}&=10^3\\\\&=1000\\end{align*}$\nThe sound is $1000$ times as intense as the hearing threshold.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "How many times more intense is a $70$ dB sound than a $30$ dB sound? Use $\\dfrac{I}{I_0}=10^{S/10}$.",
+    "solution_text": "For $70$ dB, $I_1/I_0=10^{70/10}=10^7$.\nFor $30$ dB, $I_2/I_0=10^{30/10}=10^3$.\n$\\begin{align*}\\frac{I_1}{I_2}&=\\frac{10^7}{10^3}\\\\&=10^4\\\\&=10\\,000\\end{align*}$\nThe $70$ dB sound is $10\\,000$ times more intense.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The chart shows the Richter magnitudes of three earthquakes. Using $A=10^M$, find how many times greater the ground amplitude at Harbour was than at Valley.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw[->] (0,0)--(6.8,0);\n\\draw[->] (0,0)--(0,7.6);\n\\foreach \\y in {0,1,2,3,4,5,6,7} {\\draw (-0.12,\\y)--(0,\\y); \\path (-0.18,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\y$};}\n\\draw (0.7,0) rectangle (1.7,6);\n\\draw (2.7,0) rectangle (3.7,3);\n\\draw (4.7,0) rectangle (5.7,5);\n\\path (1.2,0) node[below] {Harbour};\n\\path (3.2,0) node[below] {Valley};\n\\path (5.2,0) node[below] {Island};\n\\path (-0.95,3.8) node[rotate=90] {Richter magnitude};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "From the chart, Harbour has magnitude $6$ and Valley has magnitude $3$.\n$\\begin{align*}\\frac{A_{\\text{Harbour}}}{A_{\\text{Valley}}}&=\\frac{10^6}{10^3}\\\\&=10^3\\\\&=1000\\end{align*}$\nThe ground amplitude at Harbour was $1000$ times greater.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "On a base-$10$ logarithmic scale, Lake Cedar has volume magnitude $6$ and Lake Birch has volume magnitude $4$. Lake Birch holds $3500$ ML. Find the volume of Lake Cedar.",
+    "solution_text": "The magnitude difference is $6-4=2$, so Lake Cedar holds $10^2=100$ times as much water.\n$\\begin{align*}V_{\\text{Cedar}}&=3500\\times100\\\\&=350\\,000\\text{ ML}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

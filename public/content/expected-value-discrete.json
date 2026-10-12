@@ -2,8 +2,8 @@
   "skillId": "expected-value-discrete",
   "atomType": "R",
   "theory": {
-    "intro": "The **expected value** $E(X)$ is the long-run average of $X$ over many repeats of an experiment. Multiply each value by its probability and add the results. It is also written $\\mu$, the mean of the distribution.",
-    "facts": [
+"intro": "The **expected value** $E(X)$ is the long-run average of $X$ over many repeats of an experiment. Multiply each value by its probability and add the results. It is also written $\\mu$, the mean of the distribution.",
+"facts": [
 "$E(X)=\\mu=\\sum xP(x)$: multiply each value by its probability, then add every product.",
 "$E(X)$ is the average value of $X$ over many repeats, not the result of a single trial.",
 "The expected value need not be a value $X$ can take: an expected $2.4$ children is a valid mean.",
@@ -11,12 +11,67 @@
 "Check that the probabilities add to $1$ before finding $E(X)$.",
 "A negative value of $x$ contributes a negative term $xP(x)$ to the sum."
 ],
-    "steps": [
+"steps": [
       "Check that the probabilities add to $1$.",
       "Multiply each value $x$ by its probability $P(x)$.",
       "Add the products to get $E(X)$."
-    ]
+    ],
+"workedExamples": [
+{
+    "question_text": "Find $E(X)$ for this distribution.\n$\\begin{array}{c|cccc}x&-2&0&3&5\\\\\\hline P(X=x)&0.2&0.1&0.4&0.3\\end{array}$",
+    "solution_text": "Multiply each outcome by its probability.\n$\\begin{array}{c|cccc}x&-2&0&3&5\\\\\\hline P(X=x)&0.2&0.1&0.4&0.3\\\\xP(X=x)&-0.4&0&1.2&1.5\\end{array}$\n$\\begin{align*}E(X)&=-0.4+0+1.2+1.5\\\\&=2.3\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+{
+    "question_text": "A distribution is given by $\\left(0,\\frac14\\right)$, $\\left(2,\\frac12\\right)$ and $\\left(4,\\frac14\\right)$. Find $E(X)$.",
+    "solution_text": "Each pair gives an outcome and its probability.\n$\\begin{array}{c|ccc}x&0&2&4\\\\[6pt]\\hline P(X=x)&\\frac14&\\frac12&\\frac14\\\\[6pt]xP(X=x)&0&1&1\\end{array}$\n$\\begin{align*}E(X)&=0+1+1\\\\&=2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "A random variable has $P(x)=\\frac{x+1}{12}$ for $x\\in\\{1,3,5\\}$. Find $E(X)$ in exact form.",
+    "solution_text": "Substitute each outcome into the probability rule, then calculate the products.\n$\\begin{array}{c|ccc}x&1&3&5\\\\[6pt]\\hline P(x)&\\frac{2}{12}&\\frac{4}{12}&\\frac{6}{12}\\\\[6pt]xP(x)&\\frac{2}{12}&\\frac{12}{12}&\\frac{30}{12}\\end{array}$\n$\\begin{align*}E(X)&=\\frac{2+12+30}{12}\\\\&=\\frac{44}{12}\\\\&=\\frac{11}{3}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "Find $k$ and hence $E(X)$.\n$\\begin{array}{c|ccc}x&0&2&4\\\\\\hline P(X=x)&0.25&k&0.35\\end{array}$",
+    "solution_text": "The probabilities sum to $1$.\n$\\begin{align*}0.25+k+0.35&=1\\\\k+0.6&=1\\\\k&=0.4\\end{align*}$\n$\\begin{array}{c|ccc}x&0&2&4\\\\\\hline P(X=x)&0.25&0.4&0.35\\\\xP(X=x)&0&0.8&1.4\\end{array}$\n$\\begin{align*}E(X)&=0+0.8+1.4\\\\&=2.2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "A random variable has $P(x)=k(x+2)$ for $x\\in\\{0,1,2\\}$. Find $k$ and $E(X)$.",
+    "solution_text": "The probabilities sum to $1$.\n$\\begin{align*}2k+3k+4k&=1\\\\9k&=1\\\\k&=\\frac19\\end{align*}$\n$\\begin{array}{c|ccc}x&0&1&2\\\\[6pt]\\hline P(x)&\\frac29&\\frac39&\\frac49\\\\[6pt]xP(x)&0&\\frac39&\\frac89\\end{array}$\n$\\begin{align*}E(X)&=0+\\frac39+\\frac89\\\\&=\\frac{11}{9}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "A bag contains four white marbles and two black marbles. Two marbles are selected at random without replacement. Let $X$ be the number of black marbles selected. Construct the probability distribution and find $E(X)$.",
+    "solution_text": "For exactly one black marble, include both drawing orders.\n$\\begin{align*}P(X=0)&=\\frac46\\times\\frac35\\\\&=\\frac25\\end{align*}$\n$\\begin{align*}P(X=1)&=\\frac26\\times\\frac45+\\frac46\\times\\frac25\\\\&=\\frac{8}{15}\\end{align*}$\n$\\begin{align*}P(X=2)&=\\frac26\\times\\frac15\\\\&=\\frac{1}{15}\\end{align*}$\n$\\begin{array}{c|ccc}x&0&1&2\\\\[6pt]\\hline P(X=x)&\\frac25&\\frac{8}{15}&\\frac{1}{15}\\\\[6pt]xP(X=x)&0&\\frac{8}{15}&\\frac{2}{15}\\end{array}$\n$\\begin{align*}E(X)&=0+\\frac{8}{15}+\\frac{2}{15}\\\\&=\\frac23\\end{align*}$\nOver many repeats, the average number of black marbles selected is $\\frac23$ per pair.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "The distribution below has $E(X)=3.4$. Find $p$ and $q$ by setting up two equations.\n$\\begin{array}{c|ccc}x&1&3&5\\\\\\hline P(X=x)&p&0.4&q\\end{array}$",
+    "solution_text": "Use the probability total and the expected value.\n$\\begin{align*}p+0.4+q&=1\\\\p+q&=0.6\\end{align*}$\n$\\begin{align*}1p+3(0.4)+5q&=3.4\\\\p+5q&=2.2\\end{align*}$\nSubstitute $p=0.6-q$ into the second equation.\n$\\begin{align*}0.6-q+5q&=2.2\\\\4q&=1.6\\\\q&=0.4\\end{align*}$\n$\\begin{align*}p&=0.6-0.4\\\\&=0.2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "Two players have expected numbers of goals per match of $1.7$ and $1.5$. Who scores more goals per match in the long run? Explain why an expected value of $1.7$ is sensible even though goals are counted in whole numbers. Find each player's expected total over $20$ matches and explain whether these totals are guaranteed.",
+    "solution_text": "The first player has the greater expected value, so their average number of goals per match is higher over many matches.\nAn expected value of $1.7$ describes a long-run average. It need not be a possible score in one match.\nFor the first player, the expected total over $20$ matches is $20(1.7)=34$ goals.\nFor the second player, the expected total over $20$ matches is $20(1.5)=30$ goals.\nThese are expected totals, not guaranteed results."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

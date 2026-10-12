@@ -2,22 +2,49 @@
   "skillId": "quartiles-from-cumulative-histogram",
   "atomType": "R",
   "theory": {
-        "intro": "A cumulative frequency histogram shows the running total of scores up to and including each value. Quartiles can be found without listing every data value; exact discrete summaries and graphical estimates use different reading methods.",
-        "facts": [
+"intro": "A cumulative frequency histogram shows the running total of scores up to and including each value. Quartiles can be found without listing every data value; exact discrete summaries and graphical estimates use different reading methods.",
+"facts": [
 "Each column's height is the **cumulative frequency** up to and including that score, so the last column's height is the total, $n$.",
 "The percentage levels are $0.25n$ for $Q_1$, $0.5n$ for $Q_2$ and $0.75n$ for $Q_3$. These guide graphical estimates; for exact discrete data, identify the central observation or pair using the median-of-halves convention.",
 "For exact discrete data, find $Q_2$ as the median of all the observations. Split the ordered data into two halves, leaving out the middle observation when $n$ is odd. Find $Q_1$ as the median of the lower half and $Q_3$ as the median of the upper half. Use cumulative heights to locate each required observation: the first column whose height reaches an observation's whole-number position gives its score. If a median uses two central observations, average their scores, including when they lie in different columns. For example, with $n=32$, $Q_3$ averages the $24$th and $25$th observations; if these scores are $15$ and $16$, then $Q_3=(15+16)/2=15.5$.",
 "For a graphical estimate from an ogive, draw horizontal lines from $0.25n$, $0.5n$ and $0.75n$ to the ogive, then read down to estimate the scores. These graphical estimates may differ from an exact median-of-halves summary.",
 "The minimum is the first observed score: the first score with positive cumulative frequency. The maximum is the last observed score: the score where the cumulative frequency first reaches $n$. Displayed endpoint columns with zero frequency do not change these values."
 ],
-        "steps": [
+"steps": [
 "Read the total frequency, $n$, from the height of the last column",
 "Find the $Q_1$ level, $0.25n$",
 "Find the $Q_2$ level, $0.5n$",
 "Find the $Q_3$ level, $0.75n$",
 "For exact data, find the median and medians of the two halves, averaging central pairs; for estimates, read from the ogive; state the first and last observed scores"
+],
+"workedExamples": [
+  {
+    "question_text": "The cumulative histogram shows delivery times recorded in whole minutes. Find the exact five-number summary using the median-of-halves convention.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=2mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[gray!40] (0,0) grid[xstep=10mm,ystep=8mm] (7,16);\n\\draw[black,->] (0,0)--(7.4,0);\n\\draw[black,->] (0,0)--(0,18);\n\\foreach \\v in {0,4,8,12,16}{\\path (0,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\foreach \\i/\\s/\\c in {0/10/0,1/11/2,2/12/4,3/13/8,4/14/12,5/15/16,6/16/16}{\\draw[black] (\\i,0) rectangle ({\\i+1},\\c);\\path ({\\i+0.5},0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\s$};\\path ({\\i+0.5},\\c) node[above] {$\\c$};}\n\\path (3.5,-4) node {Delivery time (min)};\n\\path (-1.1,8) node[rotate=90] {Cumulative frequency};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The final column gives $n=16$. Each half contains $8$ observations, so each quartile uses a central pair.\n\nThe cumulative heights locate the required observations:\n\n- $4$th and $5$th: $12$ and $13$.\n- $8$th and $9$th: $13$ and $14$.\n- $12$th and $13$th: $14$ and $15$.\n\n$\\begin{aligned}Q_1&=\\frac{12+13}{2}\\\\&=12.5\\\\Q_2&=\\frac{13+14}{2}\\\\&=13.5\\\\Q_3&=\\frac{14+15}{2}\\\\&=14.5\\end{aligned}$\n\nThe cumulative frequency at $10$ is zero, so the minimum is $11$. It first reaches $16$ at $15$, so the maximum is $15$; the unchanged height at $16$ adds no observations.\n\nThe five-number summary is $11,\\ 12.5,\\ 13.5,\\ 14.5,\\ 15$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact five-number summary of the delivery times shown in this cumulative histogram. Use the median-of-halves convention.\n[tikz]\n\\begin{tikzpicture}[x=11mm,y=2mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[gray!40] (0,0) grid[xstep=11mm,ystep=8mm] (6,20);\n\\draw[black,->] (0,0)--(6.4,0);\n\\draw[black,->] (0,0)--(0,21);\n\\foreach \\v in {0,4,8,12,16,20}{\\path (0,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\foreach \\i/\\s/\\c in {0/20/2,1/21/4,2/22/9,3/23/12,4/24/15,5/25/17}{\\draw[black] (\\i,0) rectangle ({\\i+1},\\c);\\path ({\\i+0.5},0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\s$};\\path ({\\i+0.5},\\c) node[above] {$\\c$};}\n\\path (3,-4) node {Delivery time (min)};\n\\path (-1.1,10) node[rotate=90] {Cumulative frequency};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "There are $17$ observations. The median is the $9$th observation, which is $22$.\n\nExclude the median. Each half contains $8$ observations.\n\nThe lower half's central observations are the $4$th and $5$th overall: $21$ and $22$. The upper half's central observations are the $13$th and $14$th overall, both $24$.\n\n$\\begin{aligned}Q_1&=\\frac{21+22}{2}\\\\&=21.5\\\\Q_2&=22\\\\Q_3&=\\frac{24+24}{2}\\\\&=24\\end{aligned}$\n\nThe first observed time is $20$ minutes and the last is $25$ minutes.\n\nThe five-number summary is $20,\\ 21.5,\\ 22,\\ 24,\\ 25$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact five-number summary of these delivery times from the cumulative histogram. Use the median-of-halves convention.\n[tikz]\n\\begin{tikzpicture}[x=13mm,y=2mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[gray!40] (0,0) grid[xstep=13mm,ystep=10mm] (5,20);\n\\draw[black,->] (0,0)--(5.4,0);\n\\draw[black,->] (0,0)--(0,21);\n\\foreach \\v in {0,5,10,15,20}{\\path (0,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\foreach \\i/\\s/\\c in {0/30/3,1/31/7,2/32/12,3/33/16,4/34/19}{\\draw[black] (\\i,0) rectangle ({\\i+1},\\c);\\path ({\\i+0.5},0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\s$};\\path ({\\i+0.5},\\c) node[above] {$\\c$};}\n\\path (2.5,-4) node {Delivery time (min)};\n\\path (-1.1,10) node[rotate=90] {Cumulative frequency};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "There are $19$ observations, so the median is the $10$th observation.\n\nExclude it to leave two halves of $9$ observations. Their medians are the $5$th and $15$th observations overall.\n\nThe cumulative frequency first reaches each required position at:\n\n- Position $5$: time $31$.\n- Position $10$: time $32$.\n- Position $15$: time $33$.\n\n$Q_1=31,\\qquad Q_2=32,\\qquad Q_3=33$.\n\nThe first and last observed times are $30$ and $34$ minutes.\n\nThe five-number summary is $30,\\ 31,\\ 32,\\ 33,\\ 34$."
+  },
+  {
+    "question_text": "Find the exact five-number summary of these delivery times using the cumulative histogram and the median-of-halves convention.\n[tikz]\n\\begin{tikzpicture}[x=11mm,y=1.6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[gray!40] (0,0) grid[xstep=11mm,ystep=8mm] (6,25);\n\\draw[black,->] (0,0)--(6.4,0);\n\\draw[black,->] (0,0)--(0,26);\n\\foreach \\v in {0,5,10,15,20,25}{\\path (0,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\foreach \\i/\\s/\\c in {0/40/3,1/41/7,2/42/11,3/43/11,4/44/17,5/45/22}{\\draw[black] (\\i,0) rectangle ({\\i+1},\\c);\\path ({\\i+0.5},0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\s$};\\path ({\\i+0.5},\\c) node[above] {$\\c$};}\n\\path (3,-5) node {Delivery time (min)};\n\\path (-1.1,12) node[rotate=90] {Cumulative frequency};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "There are $22$ observations. The median averages the $11$th and $12$th observations.\n\nThe cumulative frequency reaches $11$ at $42$ and stays at $11$ at $43$. Thus the $11$th observation is $42$ and the $12$th is $44$.\n\n$\\begin{aligned}Q_2&=\\frac{42+44}{2}\\\\&=43\\end{aligned}$\n\nEach half contains $11$ observations. The lower half's median is the $6$th observation overall, $41$. The upper half's median is the $17$th observation overall, $44$.\n\n$Q_1=41,\\qquad Q_3=44$.\n\nThe five-number summary is $40,\\ 41,\\ 43,\\ 44,\\ 45$. The median can be $43$ even though no delivery took exactly $43$ minutes.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

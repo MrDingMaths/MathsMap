@@ -2,8 +2,8 @@
   "skillId": "average-speed-distance-time",
   "atomType": "R",
   "theory": {
-        "intro": "**Average speed** is the total distance travelled divided by the total time taken. On a distance–time graph where distance records cumulative distance travelled, it is the gradient of the straight line joining the start and end of the journey. On a height or position graph, the endpoint gradient gives signed average change; for an object falling without reversing direction, use the distance fallen divided by the time taken.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0) -- (5.9,0) node[right] {$t$};\n\\draw[->] (0,0) -- (0,5.2) node[above] {$d$};\n\\draw[very thick,blue] (0,0) -- (2,2.4) -- (3.2,2.4) -- (5,4.4);\n\\node[above,font=\\small] at (2.6,2.45) {stopped};\n\\draw[thick,dashed,red] (0,0) -- (5,4.4) node[pos=0.75,above left,font=\\small] {average speed};\n\\fill (0,0) circle (2.5pt);\n\\fill (5,4.4) circle (2.5pt);\n\\node[rotate=90] at (-0.9,2.6) {Distance};\n\\node[below] at (2.9,-0.9) {Time};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "**Average speed** is the total distance travelled divided by the total time taken. On a distance–time graph where distance records cumulative distance travelled, it is the gradient of the straight line joining the start and end of the journey. On a height or position graph, the endpoint gradient gives signed average change; for an object falling without reversing direction, use the distance fallen divided by the time taken.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0) -- (5.9,0) node[right] {$t$};\n\\draw[->] (0,0) -- (0,5.2) node[above] {$d$};\n\\draw[very thick,blue] (0,0) -- (2,2.4) -- (3.2,2.4) -- (5,4.4);\n\\node[above,font=\\small] at (2.6,2.45) {stopped};\n\\draw[thick,dashed,red] (0,0) -- (5,4.4) node[pos=0.75,above left,font=\\small] {average speed};\n\\fill (0,0) circle (2.5pt);\n\\fill (5,4.4) circle (2.5pt);\n\\node[rotate=90] at (-0.9,2.6) {Distance};\n\\node[below] at (2.9,-0.9) {Time};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "$\\text{Average speed} = \\dfrac{\\text{Total distance}}{\\text{Total time}} = \\dfrac{\\Delta d}{\\Delta t}$, where $d$ records cumulative distance travelled.",
 "On a distance–time graph where distance records cumulative distance travelled, the gradient of a straight segment is the constant speed during that stage.",
 "A horizontal segment means the object is stopped, and that stopped time still counts in the total time.",
@@ -11,13 +11,39 @@
 "For an out-and-back trip, add the distance both ways, because distance travelled is not net displacement.",
 "Speed units are metres per second ($\\text{m/s}$) or kilometres per hour ($\\text{km/h}$)."
 ],
-        "steps": [
+"steps": [
           "Find the total distance travelled over the journey from the graph or description.",
           "Find the total time taken, including all stops and rest periods: $\\Delta t = t_{\\text{final}} - t_{\\text{start}}$.",
           "Calculate $\\text{Average speed} = \\dfrac{\\text{Total distance}}{\\text{Total time}}$.",
           "State the result with the correct speed units."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A bee flies $96\\text{ m}$ in $15\\text{ s}$ at constant speed. Find its speed.",
+    "solution_text": "$\\begin{aligned}\\text{Speed}&=\\dfrac{\\text{Distance}}{\\text{Time}}\\\\&=\\dfrac{96}{15}\\\\&=6.4\\text{ m/s}\\end{aligned}$"
+  },
+  {
+    "question_text": "The graph records a cyclist's cumulative distance travelled. Find the average speed over the whole journey, including the stop.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{journeyBlue}{HTML}{268CFF}\n\\draw[->,black] (0,0) -- (5.6,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$t$ (h)};\n\\draw[->,black] (0,0) -- (0,4.7) node[above,font=\\fontsize{10}{12}\\selectfont] {$d$ (km)};\n\\foreach \\x in {1,2,3,4,5} {\\draw[black] (\\x,0.08) -- (\\x,-0.08); \\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.08) {$\\x$};}\n\\foreach \\y/\\v in {1/12,2/24,3/36,4/48} {\\draw[black] (-0.08,\\y) -- (0.08,\\y); \\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.08,\\y) {$\\v$};}\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0) {$0$};\n\\draw[very thick,journeyBlue] (0,0) -- (2,2) -- (3,2) -- (5,4);\n\\foreach \\x/\\y in {0/0,2/2,3/2,5/4} {\\fill[black] (\\x,\\y) circle (2pt);}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The horizontal segment records a stop from $t=2$ to $t=3\\text{ h}$. This hour counts in the total time.\n\n$\\begin{aligned}\\text{Average speed}&=\\dfrac{\\Delta d}{\\Delta t}\\\\&=\\dfrac{48-0}{5-0}\\\\&=9.6\\text{ km/h}\\end{aligned}$\n\nThis is the gradient of the secant joining the journey's endpoints.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{journeyBlue}{HTML}{268CFF}\n\\definecolor{secantRed}{HTML}{EF6068}\n\\draw[->,black] (0,0) -- (5.6,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$t$ (h)};\n\\draw[->,black] (0,0) -- (0,4.7) node[above,font=\\fontsize{10}{12}\\selectfont] {$d$ (km)};\n\\foreach \\x in {1,2,3,4,5} {\\draw[black] (\\x,0.08) -- (\\x,-0.08); \\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.08) {$\\x$};}\n\\foreach \\y/\\v in {1/12,2/24,3/36,4/48} {\\draw[black] (-0.08,\\y) -- (0.08,\\y); \\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.08,\\y) {$\\v$};}\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0) {$0$};\n\\draw[very thick,journeyBlue] (0,0) -- (2,2) -- (3,2) -- (5,4);\n\\draw[thick,dashed,secantRed] (0,0) -- (5,4);\n\\foreach \\x/\\y in {0/0,2/2,3/2,5/4} {\\fill[black] (\\x,\\y) circle (2pt);}\n\\path (2.5,2) node[above,font=\\fontsize{10}{12}\\selectfont,text=black] {stopped};\n\\path (3.7,2.96) node[below right,font=\\fontsize{10}{12}\\selectfont,text=secantRed] {secant};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "The distance–time graph records a car's cumulative distance travelled at constant speed. Find its average speed.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{journeyBlue}{HTML}{268CFF}\n\\draw[->,black] (0,0) -- (5,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$t$ (h)};\n\\draw[->,black] (0,0) -- (0,4.8) node[above,font=\\fontsize{10}{12}\\selectfont] {$d$ (km)};\n\\foreach \\x/\\v in {1/0.5,2/1,3/1.5,4/2} {\\draw[black] (\\x,0.08) -- (\\x,-0.08); \\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.08) {$\\v$};}\n\\foreach \\y/\\v in {1/30,2/60,3/90,4/120} {\\draw[black] (-0.08,\\y) -- (0.08,\\y); \\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.08,\\y) {$\\v$};}\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0) {$0$};\n\\draw[very thick,journeyBlue] (0,0) -- (4,4);\n\\fill[black] (4,4) circle (2pt);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The endpoints are $(0,0)$ and $(2,120)$. The line's gradient gives the average speed.\n\n$\\begin{aligned}\\text{Average speed}&=\\dfrac{\\Delta d}{\\Delta t}\\\\&=\\dfrac{120-0}{2-0}\\\\&=60\\text{ km/h}\\end{aligned}$"
+  },
+  {
+    "question_text": "A runner travels $11\\text{ km}$ in $48\\text{ minutes}$ at constant speed. Find the speed in $\\text{km/h}$.",
+    "solution_text": "Convert the time to hours.\n\n$\\begin{aligned}\\text{Time}&=\\dfrac{48}{60}\\\\&=0.8\\text{ h}\\end{aligned}$\n\n$\\begin{aligned}\\text{Speed}&=\\dfrac{11}{0.8}\\\\&=13.75\\text{ km/h}\\end{aligned}$"
+  },
+  {
+    "question_text": "A drone travels $325\\text{ m}$ in $24\\text{ s}$ at constant speed. Find its speed in $\\text{m/s}$, rounded to $2$ decimal places.",
+    "solution_text": "$\\begin{aligned}\\text{Speed}&=\\dfrac{325}{24}\\\\&\\approx13.54\\text{ m/s}\\end{aligned}$"
+  },
+  {
+    "question_text": "A boat travels $2.85\\text{ km}$ in $2\\text{ min }30\\text{ s}$ at constant speed. Find its speed in $\\text{m/s}$.",
+    "solution_text": "Convert the distance to metres and the whole elapsed time to seconds.\n\n$\\begin{aligned}\\text{Distance}&=2.85\\times1000\\\\&=2850\\text{ m}\\end{aligned}$\n\n$\\begin{aligned}\\text{Time}&=2\\times60+30\\\\&=150\\text{ s}\\end{aligned}$\n\n$\\begin{aligned}\\text{Speed}&=\\dfrac{2850}{150}\\\\&=19\\text{ m/s}\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

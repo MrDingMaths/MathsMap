@@ -2,8 +2,8 @@
   "skillId": "surd-index-conversion",
   "atomType": "T",
   "theory": {
-        "intro": "Surd form and index form are two ways of writing the same number. To translate, read off two things: the index of the root becomes the denominator, and the power of the radicand becomes the numerator. In this skill, variables used as bases or radicands are assumed nonnegative. Root indices are integers at least $2$, and $m$ in the conversion laws is a positive integer. We work with real numbers: even roots require nonnegative radicands, and any root in a denominator must be nonzero.",
-        "facts": [
+"intro": "Surd form and index form are two ways of writing the same number. To translate, read off two things: the index of the root becomes the denominator, and the power of the radicand becomes the numerator. In this skill, variables used as bases or radicands are assumed nonnegative. Root indices are integers at least $2$, and $m$ in the conversion laws is a positive integer. We work with real numbers: even roots require nonnegative radicands, and any root in a denominator must be nonzero.",
+"facts": [
 "$\\sqrt[n]{a}=a^{\\frac{1}{n}}$ — a root with no written power has numerator $1$.",
 "$\\sqrt[n]{a^{m}}=a^{\\frac{m}{n}}$ — the **root index is the denominator and the radicand's power the numerator**, so $\\sqrt[5]{x^{3}}=x^{\\frac{3}{5}}$, not $x^{\\frac{5}{3}}$.",
 "For $a\\geq0$, $\\left(\\sqrt[n]{a}\\right)^{m}=\\sqrt[n]{a^{m}}=a^{\\frac{m}{n}}$ — rooting then powering and powering then rooting give the same index form.",
@@ -12,12 +12,119 @@
 "A nonzero root in the denominator becomes a negative index: $\\frac{1}{\\sqrt[3]{y^{2}}}=y^{-\\frac{2}{3}}$, and reversing this puts the root back underneath.",
 "For a nonnegative base, when the power divides exactly by the root index, the index simplifies: $\\sqrt[4]{y^{12}}=y^{\\frac{12}{4}}=y^{3}$ for $y\\geq0$. Without this assumption, $\\sqrt[4]{y^{12}}=|y|^{3}$."
 ],
-        "steps": [
+"steps": [
           "Write the index of the root as the denominator of the index.",
           "Write the power of the radicand as the numerator of the index.",
           "Leave any factor outside the root unchanged, and use a negative index if the root sits in a denominator."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Write $\\sqrt[6]{17}$ in index form.",
+    "solution_text": "The root index becomes the denominator; the unwritten power is $1$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\sqrt[6]{17}\\\\&=17^{\\frac{1}{6}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $\\sqrt[7]{p^{4}}$ in index form. Assume $p\\geq0$.",
+    "solution_text": "The power $4$ becomes the numerator and the root index $7$ becomes the denominator.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\sqrt[7]{p^{4}}\\\\&=p^{\\frac{4}{7}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $4r^{\\frac{1}{6}}$ in surd form. Assume $r\\geq0$.",
+    "solution_text": "The denominator $6$ gives the root index. The factor $4$ stays outside the root.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}4r^{\\frac{1}{6}}\\\\&=4\\sqrt[6]{r}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $q^{\\frac{3}{8}}$ in surd form. Assume $q\\geq0$.",
+    "solution_text": "The denominator gives the root index and the numerator gives the power.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}q^{\\frac{3}{8}}\\\\&=\\sqrt[8]{q^{3}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $\\left(\\sqrt[5]{r}\\right)^{3}$ in index form. Assume $r\\geq0$.",
+    "solution_text": "Write the root as a fractional index, then multiply the indices.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\left(\\sqrt[5]{r}\\right)^{3}\\\\&=\\left(r^{\\frac{1}{5}}\\right)^{3}\\\\&=r^{\\frac{1}{5}\\times3}\\\\&=r^{\\frac{3}{5}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $8\\sqrt[5]{z^{3}}$ in index form. Assume $z\\geq0$.",
+    "solution_text": "Only the expression inside the root gets the fractional index.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}8\\sqrt[5]{z^{3}}\\\\&=8z^{\\frac{3}{5}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $\\frac{5}{\\sqrt[4]{t^{3}}}$ in index form. Assume $t>0$.",
+    "solution_text": "Convert the root, then write the reciprocal using a negative index.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{5}{\\sqrt[4]{t^{3}}}\\\\&=\\frac{5}{t^{\\frac{3}{4}}}\\\\&=5t^{-\\frac{3}{4}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $4z^{-\\frac{3}{5}}$ in surd form. Assume $z>0$.",
+    "solution_text": "Deal with the negative index first, then convert the positive fractional index to a root.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}4z^{-\\frac{3}{5}}\\\\&=\\frac{4}{z^{\\frac{3}{5}}}\\\\&=\\frac{4}{\\sqrt[5]{z^{3}}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $(5r)^{\\frac{1}{6}}$ in surd form. Assume $r\\geq0$.",
+    "solution_text": "The brackets make $5r$ the whole base, so both factors go inside the root.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(5r)^{\\frac{1}{6}}\\\\&=\\sqrt[6]{5r}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $\\sqrt[6]{z^{18}}$ in index form, simplifying the index. Assume $z\\geq0$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\sqrt[6]{z^{18}}\\\\&=z^{\\frac{18}{6}}\\\\&=z^{3}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $\\sqrt[3]{5p^{4}q^{2}}$ in index form. Assume $p\\geq0$ and $q\\geq0$.",
+    "solution_text": "Convert the root to a fractional index, then apply the power to each factor.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\sqrt[3]{5p^{4}q^{2}}\\\\&=\\left(5p^{4}q^{2}\\right)^{\\frac{1}{3}}\\\\&=5^{\\frac{1}{3}}p^{\\frac{4}{3}}q^{\\frac{2}{3}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $\\frac{5}{6\\sqrt{t^{3}}}$ in index form. Assume $t>0$.",
+    "solution_text": "Keep the numerical coefficient as a fraction and write the reciprocal root with a negative index.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{5}{6\\sqrt{t^{3}}}\\\\&=\\frac{5}{6t^{\\frac{3}{2}}}\\\\&=\\frac{5}{6}t^{-\\frac{3}{2}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $\\left(125z^{\\frac{1}{2}}\\right)^{\\frac{1}{3}}$ in surd form. Assume $z\\geq0$.",
+    "solution_text": "Apply the outside power to both factors and multiply the indices on $z$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\left(125z^{\\frac{1}{2}}\\right)^{\\frac{1}{3}}\\\\&=125^{\\frac{1}{3}}z^{\\frac{1}{2}\\times\\frac{1}{3}}\\\\&=5z^{\\frac{1}{6}}\\\\&=5\\sqrt[6]{z}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $t^{3}\\sqrt[4]{t^{3}}$ in index form as a single power of $t$. Assume $t\\geq0$.",
+    "solution_text": "Convert the root, then add the indices of the same base.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}t^{3}\\sqrt[4]{t^{3}}\\\\&=t^{3}\\times t^{\\frac{3}{4}}\\\\&=t^{3+\\frac{3}{4}}\\\\&=t^{\\frac{15}{4}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $\\sqrt{3\\sqrt{3}}$ in index form as a single power of $3$.",
+    "solution_text": "Convert the inner root first, combine the powers inside the brackets, then apply the outside power.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\sqrt{3\\sqrt{3}}\\\\&=\\left(3\\times3^{\\frac{1}{2}}\\right)^{\\frac{1}{2}}\\\\&=\\left(3^{\\frac{3}{2}}\\right)^{\\frac{1}{2}}\\\\&=3^{\\frac{3}{4}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

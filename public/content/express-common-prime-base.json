@@ -2,8 +2,8 @@
   "skillId": "express-common-prime-base",
   "atomType": "R",
   "theory": {
-        "intro": "The product and quotient laws for collecting indices only combine powers with the same base, so $8^{2x}\\div2^{6x}$ looks impossible. It is not: $8=2^{3}$, and rewriting every composite base as a power of a prime gives one common base. The ordinary index laws then finish it.",
-        "facts": [
+"intro": "The product and quotient laws for collecting indices only combine powers with the same base, so $8^{2x}\\div2^{6x}$ looks impossible. It is not: $8=2^{3}$, and rewriting every composite base as a power of a prime gives one common base. The ordinary index laws then finish it.",
+"facts": [
 "Prime powers worth knowing on sight: $4=2^{2}$, $8=2^{3}$, $16=2^{4}$, $32=2^{5}$, $64=2^{6}$, $9=3^{2}$, $27=3^{3}$, $81=3^{4}$, $25=5^{2}$, $125=5^{3}$.",
 "**Rewrite, then multiply the indices:** $8^{2x}=\\left(2^{3}\\right)^{2x}=2^{6x}$ — the outside index multiplies the prime's index rather than adding to it.",
 "With the bases matching, $a^{m}\\times a^{n}=a^{m+n}$ and $a^{m}\\div a^{n}=a^{m-n}$ finish the job.",
@@ -11,12 +11,84 @@
 "When a plain number multiplying a power is itself a power of the same prime, rewrite it with that prime base: $32\\times2^{x}=2^{5}\\times2^{x}=2^{x+5}$, and $\\frac{1}{2}\\times2^{x}=2^{-1}\\times2^{x}=2^{x-1}$.",
 "Always choose the **smallest** possible base, so $8$, $16$ and $32$ all become powers of $2$ rather than powers of $4$."
 ],
-        "steps": [
+"steps": [
           "Write every composite base as a power of its prime factors.",
           "Multiply out the indices so each term is a prime raised to a single index.",
           "Collect the indices of each prime, adding for products and subtracting for quotients."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Simplify $49^{n}\\times7^{2n}$ as a single power of $7$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}49^{n}\\times7^{2n}\\\\&=(7^{2})^{n}\\times7^{2n}\\\\&=7^{2n}\\times7^{2n}\\\\&=7^{4n}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify each expression as a single power of $3$.\n\n(a) $27\\times3^{x}$\n\n(b) $\\frac{1}{9}\\times3^{x}$",
+    "solution_text": "(a)\n$\\begin{aligned}&\\mathrel{\\phantom{=}}27\\times3^{x}\\\\&=3^{3}\\times3^{x}\\\\&=3^{x+3}\\end{aligned}$\n\n(b)\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{1}{9}\\times3^{x}\\\\&=3^{-2}\\times3^{x}\\\\&=3^{x-2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\frac{125^{2x+1}}{25^{x+2}}$ as a single power of $5$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{125^{2x+1}}{25^{x+2}}\\\\&=\\frac{(5^{3})^{2x+1}}{(5^{2})^{x+2}}\\\\&=\\frac{5^{6x+3}}{5^{2x+4}}\\\\&=5^{6x+3-(2x+4)}\\\\&=5^{4x-1}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $16^{n}\\div8^{n}\\times2^{2n}$ as a single power of $2$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}16^{n}\\div8^{n}\\times2^{2n}\\\\&=2^{4n}\\div2^{3n}\\times2^{2n}\\\\&=2^{4n-3n+2n}\\\\&=2^{3n}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $(25^{x})^{3}\\times(5^{2x})^{2}$ as a single power of $5$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}(25^{x})^{3}\\times(5^{2x})^{2}\\\\&=(5^{2x})^{3}\\times(5^{2x})^{2}\\\\&=5^{6x}\\times5^{4x}\\\\&=5^{10x}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $20^{x}\\times35^{x}$, writing your answer with prime bases.",
+    "solution_text": "Split each base into prime factors, then collect each prime separately.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}20^{x}\\times35^{x}\\\\&=(2^{2}\\times5)^{x}\\times(5\\times7)^{x}\\\\&=2^{2x}\\times5^{x}\\times5^{x}\\times7^{x}\\\\&=2^{2x}\\times5^{2x}\\times7^{x}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\frac{18^{x-1}\\times9^{x}}{6^{x-1}}$ as a single power of $3$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{18^{x-1}\\times9^{x}}{6^{x-1}}\\\\&=\\frac{(2\\times3^{2})^{x-1}\\times(3^{2})^{x}}{(2\\times3)^{x-1}}\\\\&=\\frac{2^{x-1}\\times3^{2x-2}\\times3^{2x}}{2^{x-1}\\times3^{x-1}}\\\\&=2^{x-1-(x-1)}\\times3^{2x-2+2x-(x-1)}\\\\&=3^{3x-1}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\frac{16^{n+2}\\times2^{n-1}}{8^{n}}$ as a single power of $2$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{16^{n+2}\\times2^{n-1}}{8^{n}}\\\\&=\\frac{(2^{4})^{n+2}\\times2^{n-1}}{(2^{3})^{n}}\\\\&=\\frac{2^{4n+8}\\times2^{n-1}}{2^{3n}}\\\\&=2^{4n+8+n-1-3n}\\\\&=2^{2n+7}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify $\\frac{9^{n}\\times5^{n-2}\\times25^{2n+1}}{15^{n+1}}$, writing your answer with prime bases.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{9^{n}\\times5^{n-2}\\times25^{2n+1}}{15^{n+1}}\\\\&=\\frac{3^{2n}\\times5^{n-2}\\times5^{4n+2}}{3^{n+1}\\times5^{n+1}}\\\\&=3^{2n-(n+1)}\\times5^{n-2+4n+2-(n+1)}\\\\&=3^{n-1}\\times5^{4n-1}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\frac{14^{3}\\times7^{2}}{4^{2}\\times49^{3}}$, giving your answer as a fraction.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{14^{3}\\times7^{2}}{4^{2}\\times49^{3}}\\\\&=\\frac{2^{3}\\times7^{3}\\times7^{2}}{2^{4}\\times7^{6}}\\\\&=2^{3-4}\\times7^{5-6}\\\\&=2^{-1}\\times7^{-1}\\\\&=\\frac{1}{14}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

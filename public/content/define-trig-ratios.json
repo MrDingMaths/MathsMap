@@ -2,8 +2,8 @@
   "skillId": "define-trig-ratios",
   "atomType": "R",
   "theory": {
-        "intro": "Once the sides are named from a chosen angle, each pair of sides gives a fraction. These three fractions are the sine, cosine and tangent ratios of that angle.\n[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (4.2,0);\n\\coordinate (R) at (0,3.2);\n\\draw (P)--(Q) node[midway,below] {$A$};\n\\draw (Q)--(R) node[midway,above right] {$H$};\n\\draw (R)--(P) node[midway,left] {$O$};\n\\coordinate (ra1) at ($(P)!0.32cm!(Q)$);\n\\coordinate (ra2) at ($(P)!0.32cm!(R)$);\n\\draw (ra1)--($(ra1)+(ra2)-(P)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=R--Q--P};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "Once the sides are named from a chosen angle, each pair of sides gives a fraction. These three fractions are the sine, cosine and tangent ratios of that angle.\n[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (4.2,0);\n\\coordinate (R) at (0,3.2);\n\\draw (P)--(Q) node[midway,below] {$A$};\n\\draw (Q)--(R) node[midway,above right] {$H$};\n\\draw (R)--(P) node[midway,left] {$O$};\n\\coordinate (ra1) at ($(P)!0.32cm!(Q)$);\n\\coordinate (ra2) at ($(P)!0.32cm!(R)$);\n\\draw (ra1)--($(ra1)+(ra2)-(P)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=R--Q--P};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "$\\sin\\theta=\\dfrac{\\text{opposite}}{\\text{hypotenuse}}$",
 "$\\cos\\theta=\\dfrac{\\text{adjacent}}{\\text{hypotenuse}}$",
 "$\\tan\\theta=\\dfrac{\\text{opposite}}{\\text{adjacent}}$",
@@ -11,12 +11,30 @@
 "$\\sin\\theta$ and $\\sin\\alpha$ can differ in the same triangle because the opposite and adjacent sides depend on the chosen angle, so a ratio must name its angle.",
 "Two known sides tell you the ratio: opposite and hypotenuse $\\rightarrow$ sine; adjacent and hypotenuse $\\rightarrow$ cosine; opposite and adjacent $\\rightarrow$ tangent."
 ],
-        "steps": [
+"steps": [
           "Label the sides relative to the marked angle",
           "Choose the ratio using SOH-CAH-TOA",
           "Write the ratio as a fraction of the two side lengths"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "For the right-angled triangle shown, define sine, cosine and tangent using side names, then write each ratio for $\\theta$ in simplest form.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black] (0,0)--(4,0)--(4,3)--cycle;\n\\draw[black] (3.7,0)--(3.7,0.3)--(4,0.3);\n\\draw[black] (0.65,0) arc[start angle=0,end angle=36.87,radius=0.65];\n\\path (0.9,0.3) node {$\\theta$};\n\\path (2,0) node[below] {$16$};\n\\path (4,1.5) node[right] {$12$};\n\\path (2,1.5) node[above left] {$20$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The hypotenuse is opposite the right angle. Relative to $\\theta$, the opposite side is $12$ and the adjacent side is $16$.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black] (0,0)--(4,0)--(4,3)--cycle;\n\\draw[black] (3.7,0)--(3.7,0.3)--(4,0.3);\n\\draw[black] (0.65,0) arc[start angle=0,end angle=36.87,radius=0.65];\n\\path (0.9,0.3) node {$\\theta$};\n\\path (2,0) node[below] {$16\\ (A)$};\n\\path (4,1.5) node[right] {$12\\ (O)$};\n\\path (2,1.5) node[above left] {$20\\ (H)$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}\\sin\\theta&=\\frac{\\text{opposite}}{\\text{hypotenuse}}=\\frac{12}{20}=\\frac35\\\\\\cos\\theta&=\\frac{\\text{adjacent}}{\\text{hypotenuse}}=\\frac{16}{20}=\\frac45\\\\\\tan\\theta&=\\frac{\\text{opposite}}{\\text{adjacent}}=\\frac{12}{16}=\\frac34\\end{aligned}$"
+  },
+  {
+    "question_text": "In the triangle shown, write (a) $\\cos(\\angle BAC)$ and (b) $\\tan(\\angle ACB)$ as fractions. Side lengths are in centimetres.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black] (0,0)--(4,0)--(4,3)--cycle;\n\\draw[black] (3.7,0)--(3.7,0.3)--(4,0.3);\n\\path (0,0) node[below left] {$A$};\n\\path (4,0) node[below right] {$B$};\n\\path (4,3) node[above right] {$C$};\n\\path (2,0) node[below] {$28$};\n\\path (4,1.5) node[right] {$21$};\n\\path (2,1.5) node[above left] {$35$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The hypotenuse is $AC=35$.\n(a) From $\\angle BAC$, the adjacent side is $AB=28$.\n$\\cos(\\angle BAC)=\\frac{\\text{adjacent}}{\\text{hypotenuse}}=\\frac{28}{35}=\\frac45$.\n(b) From $\\angle ACB$, the opposite side is $AB=28$ and the adjacent side is $BC=21$.\n$\\tan(\\angle ACB)=\\frac{\\text{opposite}}{\\text{adjacent}}=\\frac{28}{21}=\\frac43$.\nChanging the reference angle swaps the opposite and adjacent sides; the hypotenuse stays the same."
+  },
+  {
+    "question_text": "Write $\\sin\\theta$, $\\cos\\theta$ and $\\tan\\theta$ using the side lengths shown.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black] (0,0)--(0,4)--(-3,0)--cycle;\n\\draw[black] (0,0.3)--(-0.3,0.3)--(-0.3,0);\n\\draw[black] (0,3.35) arc[start angle=270,end angle=233.13,radius=0.65];\n\\path (-0.3,3.05) node {$\\theta$};\n\\path (0,2) node[right] {$v$};\n\\path (-1.5,0) node[below] {$r$};\n\\path (-1.5,2) node[above left] {$s$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Name the sides from $\\theta$, regardless of the triangle's orientation.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black] (0,0)--(0,4)--(-3,0)--cycle;\n\\draw[black] (0,0.3)--(-0.3,0.3)--(-0.3,0);\n\\draw[black] (0,3.35) arc[start angle=270,end angle=233.13,radius=0.65];\n\\path (-0.3,3.05) node {$\\theta$};\n\\path (0,2) node[right] {$v\\ (A)$};\n\\path (-1.5,0) node[below] {$r\\ (O)$};\n\\path (-1.5,2) node[above left] {$s\\ (H)$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}\\sin\\theta&=\\frac{O}{H}=\\frac{r}{s}\\\\\\cos\\theta&=\\frac{A}{H}=\\frac{v}{s}\\\\\\tan\\theta&=\\frac{O}{A}=\\frac{r}{v}\\end{aligned}$"
+  },
+  {
+    "question_text": "For each right-angled triangle described below, name the two given sides relative to $\\theta$, choose the ratio that relates them, and write the equation. Do not calculate an unknown side.\n(a) The side opposite $\\theta$ is $9$ and the hypotenuse is $14$.\n(b) The side next to $\\theta$, excluding the hypotenuse, is $8$ and the hypotenuse is $11$.\n(c) The side opposite $\\theta$ is $q$ and the adjacent side is $7$.",
+    "solution_text": "(a) Opposite and hypotenuse use sine.\n$\\sin\\theta=\\frac{O}{H}=\\frac{9}{14}$.\n(b) Adjacent and hypotenuse use cosine.\n$\\cos\\theta=\\frac{A}{H}=\\frac{8}{11}$.\n(c) Opposite and adjacent use tangent.\n$\\tan\\theta=\\frac{O}{A}=\\frac{q}{7}$.\nOnly tangent uses both shorter sides, so it can be written without knowing the hypotenuse."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,21 +2,55 @@
   "skillId": "derivative-first-principles",
   "atomType": "R",
   "theory": {
-        "intro": "Differentiating **from first principles** means using the limit definition itself. Substitute the function into $\\dfrac{f(x+h)-f(x)}{h}$, expand and simplify, cancel the $h$, then let $h\\to 0$.",
-        "facts": [
-          "The first principles definition is $f'(x)=\\lim_{h\\to 0}\\dfrac{f(x+h)-f(x)}{h}$.",
-          "Finding $f(x+h)$ means expanding binomials such as $(x+h)^2=x^2+2xh+h^2$.",
-          "Every term without an $h$ in $f(x+h)$ cancels with $-f(x)$ in the numerator.",
-          "Factor $h$ out of the numerator and cancel it with the denominator $h$ before setting $h=0$, since $h\\neq 0$.",
-          "Evaluating the limit replaces every remaining $h$ with $0$."
-        ],
-        "steps": [
+"intro": "Differentiating **from first principles** means using the limit definition itself, when the limit exists and is finite. For the polynomial functions considered here, substitute the function into $\\dfrac{f(x+h)-f(x)}{h}$, expand and simplify, cancel the factor $h$, then let $h\\to 0$. After cancellation, the simplified expression is continuous at $h=0$, so substitution evaluates its limit.",
+"facts": [
+"The first principles definition is $f'(x)=\\lim_{h\\to 0}\\dfrac{f(x+h)-f(x)}{h}$, when this limit exists and is finite.",
+"For the polynomial functions considered here, finding $f(x+h)$ involves expanding expressions such as $(x+h)^2=x^2+2xh+h^2$.",
+"For these polynomials, every term without an $h$ in the expanded $f(x+h)$ cancels with $-f(x)$ in the numerator.",
+"For these polynomials, factor $h$ out of the simplified numerator and cancel it with the denominator for $h\\neq 0$ before evaluating the limit.",
+"After cancellation, the simplified polynomial expression is continuous at $h=0$, so its limit can be evaluated by substituting $h=0$. This expansion and cancellation procedure is not a universal method for every function."
+],
+"steps": [
           "Substitute into the difference quotient definition.",
           "Expand and simplify the numerator.",
           "Factor out and cancel $h$.",
           "Evaluate the limit as $h \\to 0$."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Write the first-principles definition of $f'(x)$ and explain how it relates to a secant gradient.",
+    "solution_text": "$f'(x)=\\lim_{h\\to0}\\frac{f(x+h)-f(x)}{h}.$\nFor $h\\neq0$, the quotient is the gradient of the secant through $(x,f(x))$ and $(x+h,f(x+h))$. Its limit as $h\\to0$, when it exists and is finite, gives the tangent gradient at $(x,f(x))$."
+  },
+  {
+    "question_text": "Differentiate $f(x)=8-3x$ from first principles.",
+    "solution_text": "$\\begin{align*}f'(x)&=\\lim_{h\\to0}\\frac{[8-3(x+h)]-(8-3x)}{h}\\\\&=\\lim_{h\\to0}\\frac{8-3x-3h-8+3x}{h}\\\\&=\\lim_{h\\to0}\\frac{-3h}{h}\\\\&=\\lim_{h\\to0}(-3)\\\\&=-3.\\end{align*}$\nCancel $h$ for $h\\neq0$ before evaluating the limit.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $f(x)=4x^2-2x+7$ from first principles.",
+    "solution_text": "$\\begin{align*}f'(x)&=\\lim_{h\\to0}\\frac{[4(x+h)^2-2(x+h)+7]-(4x^2-2x+7)}{h}\\\\&=\\lim_{h\\to0}\\frac{4x^2+8xh+4h^2-2x-2h+7-4x^2+2x-7}{h}\\\\&=\\lim_{h\\to0}\\frac{8xh+4h^2-2h}{h}\\\\&=\\lim_{h\\to0}\\frac{h(8x+4h-2)}{h}\\\\&=\\lim_{h\\to0}(8x+4h-2)\\\\&=8x-2.\\end{align*}$\nCancel $h$ for $h\\neq0$. The remaining polynomial is continuous at $h=0$, so substitute $h=0$ to evaluate its limit.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use first principles to find the gradient of the tangent to $f(x)=2x^2+3x-4$ at $x=-1$.",
+    "solution_text": "$\\begin{align*}f'(-1)&=\\lim_{h\\to0}\\frac{[2(-1+h)^2+3(-1+h)-4]-[2(-1)^2+3(-1)-4]}{h}\\\\&=\\lim_{h\\to0}\\frac{2-4h+2h^2-3+3h-4-(-5)}{h}\\\\&=\\lim_{h\\to0}\\frac{-h+2h^2}{h}\\\\&=\\lim_{h\\to0}\\frac{h(-1+2h)}{h}\\\\&=\\lim_{h\\to0}(-1+2h)\\\\&=-1.\\end{align*}$\nCancel $h$ for $h\\neq0$ before evaluating the limit. The tangent gradient is $-1$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $f(x)=3x^3+2x$ from first principles.",
+    "solution_text": "$\\begin{align*}f'(x)&=\\lim_{h\\to0}\\frac{[3(x+h)^3+2(x+h)]-(3x^3+2x)}{h}\\\\&=\\lim_{h\\to0}\\frac{3x^3+9x^2h+9xh^2+3h^3+2x+2h-3x^3-2x}{h}\\\\&=\\lim_{h\\to0}\\frac{9x^2h+9xh^2+3h^3+2h}{h}\\\\&=\\lim_{h\\to0}\\frac{h(9x^2+9xh+3h^2+2)}{h}\\\\&=\\lim_{h\\to0}(9x^2+9xh+3h^2+2)\\\\&=9x^2+2.\\end{align*}$\nCancel $h$ for $h\\neq0$ before evaluating the limit.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

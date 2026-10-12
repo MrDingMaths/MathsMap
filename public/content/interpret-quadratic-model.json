@@ -2,8 +2,8 @@
   "skillId": "interpret-quadratic-model",
   "atomType": "R",
   "theory": {
-    "intro": "A **quadratic model** uses a parabola to describe a real situation. The vertex gives the largest or smallest value, the intercepts show where the input or output is zero, and only part of the parabola makes sense in context.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.4,0) -- (6.4,0) node[right] {time};\n\\draw[-{Stealth}] (0,-0.4) -- (0,4.4) node[above] {height};\n\\draw[thick,blue!70!black,domain=0:5.458,samples=100,variable=\\x] plot ({\\x},{0.9+1.8*\\x-0.36*\\x*\\x});\n\\fill (0,0.9) circle (2pt);\n\\fill (2.5,3.15) circle (2pt);\n\\fill (5.458,0) circle (2pt);\n\\node[right] at (2.65,3.35) {vertex: greatest height};\n\\node[right] at (0.2,0.5) {starting height};\n\\node[below] at (5.458,-0.15) {lands};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "A **quadratic model** uses a parabola to describe a real situation. The vertex gives the largest or smallest value, the intercepts show where the input or output is zero, and only part of the parabola makes sense in context.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.4,0) -- (6.4,0) node[right] {time};\n\\draw[-{Stealth}] (0,-0.4) -- (0,4.4) node[above] {height};\n\\draw[thick,blue!70!black,domain=0:5.458,samples=100,variable=\\x] plot ({\\x},{0.9+1.8*\\x-0.36*\\x*\\x});\n\\fill (0,0.9) circle (2pt);\n\\fill (2.5,3.15) circle (2pt);\n\\fill (5.458,0) circle (2pt);\n\\node[right] at (2.65,3.35) {vertex: greatest height};\n\\node[right] at (0.2,0.5) {starting height};\n\\node[below] at (5.458,-0.15) {lands};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "The **vertex** gives the largest or smallest value: its $y$-coordinate is that value and its $x$-coordinate is when it happens.",
 "The **$y$-intercept** is the output when the input variable is zero; in a time model this often represents the starting value.",
 "An **$x$-intercept** is where the modelled quantity is zero, such as when a ball lands or a business breaks even.",
@@ -11,12 +11,39 @@
 "A model is only valid where the context makes sense, so negative times, heights and lengths are usually excluded.",
 "The parabola keeps going in both directions, but the real situation stops where the context stops."
 ],
-    "steps": [
+"steps": [
       "Read the vertex and say what the maximum or minimum means in the situation.",
       "Read the intercepts and say what they mean in the situation.",
       "State the values of the variables for which the model makes sense."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A ball is thrown upwards from a platform. Its height $h$ metres after $t$ seconds is modelled by $h=-t^{2}+6t+7$. The full parabola is shown.\nFind:\n(a) the initial height;\n(b) the maximum height and when it occurs;\n(c) when the ball reaches the ground;\n(d) the two times when the ball is $12$ m high;\n(e) the height after $2$ seconds, using the equation.\nState the time interval for which the model describes the flight.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{modelblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,axis line style={black,->},xmin=-2,xmax=8,ymin=-10,ymax=18,xtick={-2,-1,...,8},ytick={-8,-4,0,4,8,12,16},grid=major,grid style={draw=black!20},scaled ticks=false,ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$t$ (seconds)},ylabel={$h$ (metres)},clip=true]\n\\addplot[modelblue,thick,domain=-2:8,samples=101] {-x*x+6*x+7};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) The vertical intercept is $(0,7)$, so the ball starts $7$ m above the ground.\n(b) The vertex is $(3,16)$. The maximum height is $16$ m, reached after $3$ seconds.\n(c) The horizontal intercepts are $t=-1$ and $t=7$. Negative time is excluded, so the ball reaches the ground after $7$ seconds.\n(d) A horizontal line at $h=12$ meets the curve at $t=1$ and $t=5$. The ball is $12$ m high after $1$ second and after $5$ seconds.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{modelblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,axis line style={black,->},xmin=-2,xmax=8,ymin=-10,ymax=18,xtick={-2,-1,...,8},ytick={-8,-4,0,4,8,12,16},grid=major,grid style={draw=black!20},scaled ticks=false,ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$t$ (seconds)},ylabel={$h$ (metres)},clip=true]\n\\addplot[modelblue,thick,domain=-2:8,samples=101] {-x*x+6*x+7};\n\\draw[black,dashed] (axis cs:0,12)--(axis cs:5,12);\n\\draw[black,dashed] (axis cs:1,0)--(axis cs:1,12);\n\\draw[black,dashed] (axis cs:5,0)--(axis cs:5,12);\n\\addplot[only marks,mark=*,black] coordinates {(0,7) (3,16) (7,0) (1,12) (5,12)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\n(e) For $t=2$:\n$\\begin{aligned}h&=-(2)^{2}+6(2)+7\\\\&=-4+12+7\\\\&=15\\end{aligned}$\nThe height is $15$ m.\nThe flight is modelled for $0\\le t\\le7$. Negative times precede the throw; after $7$ seconds the equation gives heights below ground.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A theatre has $180$ seats and currently sells every ticket for $\\$6$. For each $\\$1$ increase in price, $10$ fewer tickets are sold.\nThe income $I$ dollars for a price increase of $\\$x$ is modelled by $I=-10x^{2}+120x+1080$. Its horizontal intercepts are $x=-6$ and $x=18$.\nRunning a session costs $\\$300$ plus $\\$2$ per ticket sold.\nFind the ticket price that maximises income, the number of tickets sold, and the profit at that price.",
+    "solution_text": "The parabola opens downwards. By symmetry, the maximum occurs midway between the intercepts:\n$x=\\frac{-6+18}{2}=6$.\nThe ticket price is $\\$6+\\$6=\\$12$.\nTickets sold: $180-10(6)=120$.\n$\\begin{aligned}I&=-10(6)^{2}+120(6)+1080\\\\&=-360+720+1080\\\\&=1440\\end{aligned}$\nThe maximum income is $\\$1440$, consistent with $120\\times12=1440$.\n$\\begin{aligned}\\text{Cost}&=300+2(120)\\\\&=540\\end{aligned}$\n$\\begin{aligned}\\text{Profit}&=1440-540\\\\&=900\\end{aligned}$\nCharging $\\$12$ gives maximum income and a profit of $\\$900$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "During the first downward movement of a bungee jump, the jumper's height $h$ metres above the ground after $t$ seconds is modelled by $h=2t^{2}-12t+23$. The graph shows $0\\le t\\le3$.\nUse the graph to find the starting height, the lowest height, and when the jumper reaches that lowest height.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{modelblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=6cm,axis lines=left,axis line style={black,->},xmin=0,xmax=3.5,ymin=0,ymax=25,xtick={0,0.5,...,3},ytick={0,5,...,25},grid=major,grid style={draw=black!20},scaled ticks=false,ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$t$ (seconds)},ylabel={$h$ (metres)}]\n\\addplot[modelblue,thick,domain=0:3,samples=81] {2*x*x-12*x+23};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The vertical intercept is $(0,23)$, so the starting height is $23$ m.\nThe parabola opens upwards and its vertex is $(3,5)$. The lowest height is $5$ m above the ground, reached after $3$ seconds.\nThe modelled downward movement ends at the vertex; extending this equation would require justification for the later motion."
+  },
+  {
+    "question_text": "A rectangle has width $w$ centimetres. Its area $A$ square centimetres is modelled by $A=w^{2}+2w$.\n(a) Use the graph to find the width when the area is $48$ cm$^{2}$, then calculate the rectangle's perimeter.\n(b) Use the equation to calculate the area when $w=4$, and find how much smaller it is than $48$ cm$^{2}$.\n(c) Explain why negative widths are excluded.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{modelblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=6cm,axis lines=left,axis line style={black,->},xmin=0,xmax=7,ymin=0,ymax=60,xtick={0,1,...,7},ytick={0,6,...,60},grid=major,grid style={draw=black!20},scaled ticks=false,ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$w$ (cm)},ylabel={$A$ (cm$^{2}$)}]\n\\addplot[modelblue,thick,domain=0:6.8,samples=101] {x*x+2*x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Read across from $A=48$ to the curve, then down to the width axis: $w=6$ cm.\nCheck: $(6)^{2}+2(6)=48$.\n$\\begin{aligned}\\text{Length}&=\\frac{48}{6}\\\\&=8\\text{ cm}\\end{aligned}$\n$\\begin{aligned}\\text{Perimeter}&=2(6+8)\\\\&=28\\text{ cm}\\end{aligned}$\n(b) For $w=4$:\n$\\begin{aligned}A&=(4)^{2}+2(4)\\\\&=16+8\\\\&=24\\text{ cm}^{2}\\end{aligned}$\nThe area is $48-24=24$ cm$^{2}$ smaller.\n(c) A rectangle's width must be positive, so $w>0$. At $w=0$ the area is zero and there is no non-degenerate rectangle.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

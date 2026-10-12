@@ -2,8 +2,8 @@
   "skillId": "fundamental-theorem-calculus",
   "atomType": "R",
   "theory": {
-    "intro": "The **Fundamental Theorem of Calculus** links area and primitives. If $F$ is any primitive of a continuous function $f$, then $\\int_{a}^{b} f(x)\\,dx = F(b) - F(a)$. Differentiating an area function undoes integrating, so the two operations are inverses.",
-    "facts": [
+"intro": "The **Fundamental Theorem of Calculus** links area and primitives. If $F$ is any primitive of a continuous function $f$, then $\\int_{a}^{b} f(x)\\,dx = F(b) - F(a)$. Differentiating an area function undoes integrating, so the two operations are inverses.",
+"facts": [
       "A **primitive** $F$ of $f$ is a function with $F'(x) = f(x)$.",
       "The **area function** $A(x) = \\int_{a}^{x} f(t)\\,dt$ measures signed area from the fixed left end $a$ to the moving right end $x$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.4,0) -- (6.4,0) node[right] {$t$};\n\\draw[->] (0,-0.5) -- (0,4.8) node[above] {$y$};\n\\fill[gray!35, domain=1.2:4, variable=\\x] (1.2,0) -- plot ({\\x},{1 + 0.12*(\\x-0.6)*(\\x-0.6)}) -- (4,0) -- cycle;\n\\draw[thick, <->, domain=0.2:5.8, smooth, variable=\\x] plot ({\\x},{1 + 0.12*(\\x-0.6)*(\\x-0.6)});\n\\draw[dashed] (1.2,0) -- (1.2,1.04);\n\\draw[dashed] (4,0) -- (4,2.39);\n\\node[below] at (1.2,0) {$a$};\n\\node[below] at (4,0) {$x$};\n\\node at (2.6,0.7) {$A(x)$};\n\\node at (3.6,4.1) {$y=f(t)$};\n\\end{tikzpicture}\n[/tikz]",
       "The first form of the theorem says $\\dfrac{d}{dx}\\int_{a}^{x} f(t)\\,dt = f(x)$, so the area function is a primitive of $f$.",
@@ -13,13 +13,50 @@
       "A definite integral is a number, while an indefinite integral is a function.",
       "Signed area counts any part of the region below the $x$-axis as negative."
     ],
-    "steps": [
+"steps": [
       "Find a primitive $F(x)$ of the integrand and write it in square brackets with the limits.",
       "Substitute the upper limit $b$ into $F$.",
       "Subtract the value of $F$ at the lower limit $a$.",
       "Simplify to a single number."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Evaluate $\\int_{1}^{3}(x+2)\\,dx$ using the Fundamental Theorem of Calculus.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=0.65cm]\n\\definecolor{regionblue}{HTML}{D4E8FF}\n\\fill[regionblue] (1,0) -- (1,3) -- (3,5) -- (3,0) -- cycle;\n\\draw[->,black] (-0.3,0) -- (3.8,0);\n\\draw[->,black] (0,-0.3) -- (0,6);\n\\draw[black,thick] (0,2) -- (3.5,5.5);\n\\draw[black] (1,0) -- (1,3);\n\\draw[black] (3,0) -- (3,5);\n\\path (3.8,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\path (0,6) node[above,font=\\fontsize{10}{12}\\selectfont] {$y$};\n\\path (1,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$1$};\n\\path (3,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$3$};\n\\path (0,2) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$2$};\n\\path (1.8,5.4) node[font=\\fontsize{10}{12}\\selectfont] {$y=x+2$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{1}^{3}(x+2)\\,dx\\\\&=\\left[\\frac{x^{2}}{2}+2x\\right]_{1}^{3}\\\\&=\\left(\\frac{9}{2}+6\\right)-\\left(\\frac{1}{2}+2\\right)\\\\&=8\\end{aligned}$\n\nThe shaded region has area $8$ square units.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Evaluate $\\int_{3}^{6}\\frac{9}{x^{2}}\\,dx$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{3}^{6}\\frac{9}{x^{2}}\\,dx\\\\&=\\int_{3}^{6}9x^{-2}\\,dx\\\\&=\\left[-\\frac{9}{x}\\right]_{3}^{6}\\\\&=-\\frac{9}{6}-\\left(-\\frac{9}{3}\\right)\\\\&=\\frac{3}{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{0}^{2}x(x+3)\\,dx$.",
+    "solution_text": "Expand the product before integrating.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{2}x(x+3)\\,dx\\\\&=\\int_{0}^{2}(x^{2}+3x)\\,dx\\\\&=\\left[\\frac{x^{3}}{3}+\\frac{3x^{2}}{2}\\right]_{0}^{2}\\\\&=\\left(\\frac{8}{3}+6\\right)-(0+0)\\\\&=\\frac{26}{3}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_{1}^{3}\\left(x+\\frac{3}{x}\\right)^{2}\\,dx$.",
+    "solution_text": "Expand the square and write the reciprocal term using a negative power.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{1}^{3}\\left(x+\\frac{3}{x}\\right)^{2}\\,dx\\\\&=\\int_{1}^{3}(x^{2}+6+9x^{-2})\\,dx\\\\&=\\left[\\frac{x^{3}}{3}+6x-\\frac{9}{x}\\right]_{1}^{3}\\\\&=(9+18-3)-\\left(\\frac{1}{3}+6-9\\right)\\\\&=24-\\left(-\\frac{8}{3}\\right)\\\\&=\\frac{80}{3}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the value of $k>0$ for which $\\int_{1}^{k}(2x+4)\\,dx=16$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{1}^{k}(2x+4)\\,dx\\\\&=\\left[x^{2}+4x\\right]_{1}^{k}\\\\&=(k^{2}+4k)-(1+4)\\\\&=k^{2}+4k-5\\end{aligned}$\n\n$\\begin{aligned}k^{2}+4k-5&=16\\\\k^{2}+4k-21&=0\\\\(k+7)(k-3)&=0\\\\k&=-7\\text{ or }3\\end{aligned}$\n\nSince $k>0$, $k=3$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

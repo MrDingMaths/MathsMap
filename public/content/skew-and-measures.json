@@ -2,140 +2,189 @@
   "skillId": "skew-and-measures",
   "atomType": "Cat",
   "theory": {
-        "intro": "The mean uses **every** value, so a long tail drags it towards that tail. The median only counts **positions** in the ordered data, and the mode sits at the peak. That difference lets you read the order of the measures from the shape.",
-        "facts": [
-          "**Positively skewed** (tail to the right): $\\text{mode} < \\text{median} < \\text{mean}$, because the long right tail pulls the mean above the other two.\n\n[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,4.4);\n\\draw[->] (0,0)--(9,0);\n\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.1)(1.0,1.5)(1.8,3.3)(2.6,2.6)(3.4,1.9)(4.4,1.25)(5.4,0.8)(6.4,0.45)(7.3,0.2)(8.2,0.08)};\n\\draw[dashed] (1.8,0)--(1.8,3.3);\n\\draw[dashed] (2.8,0)--(2.8,2.42);\n\\draw[dashed] (3.8,0)--(3.8,1.64);\n\\node[below,font=\\tiny] at (1.8,0) {Mode};\n\\node[below,font=\\tiny] at (2.8,0) {Median};\n\\node[below,font=\\tiny] at (3.8,0) {Mean};\n\\node[rotate=90,font=\\scriptsize] at (-0.7,2.0) {Frequency};\n\\node[below,font=\\scriptsize] at (4.5,-0.8) {Value};\n\\end{tikzpicture}\n[/tikz]",
-          "**Negatively skewed** (tail to the left): $\\text{mean} < \\text{median} < \\text{mode}$, because the long left tail pulls the mean below the other two.\n\n[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,4.4);\n\\draw[->] (0,0)--(9,0);\n\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.08)(1.2,0.2)(2.1,0.45)(3.1,0.8)(4.1,1.25)(5.1,1.9)(5.9,2.6)(6.7,3.3)(7.4,2.0)(8.0,0.85)(8.5,0.18)};\n\\draw[dashed] (4.7,0)--(4.7,1.64);\n\\draw[dashed] (5.7,0)--(5.7,2.42);\n\\draw[dashed] (6.7,0)--(6.7,3.3);\n\\node[below,font=\\tiny] at (4.7,0) {Mean};\n\\node[below,font=\\tiny] at (5.7,0) {Median};\n\\node[below,font=\\tiny] at (6.7,0) {Mode};\n\\node[rotate=90,font=\\scriptsize] at (-0.7,2.0) {Frequency};\n\\node[below,font=\\scriptsize] at (4.5,-0.8) {Value};\n\\end{tikzpicture}\n[/tikz]",
-          "**Symmetrical**: $\\text{mean} \\approx \\text{median} \\approx \\text{mode}$, and all three sit together at the centre of the display.\n\n[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,4.4);\n\\draw[->] (0,0)--(9,0);\n\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.08)(1.3,0.35)(2.3,1.1)(3.3,2.4)(4.25,3.3)(5.2,2.4)(6.2,1.1)(7.2,0.35)(8.2,0.08)};\n\\draw[dashed] (4.25,0)--(4.25,3.3);\n\\node[below,font=\\tiny] at (4.25,0) {Mean = Median = Mode};\n\\node[rotate=90,font=\\scriptsize] at (-0.7,2.0) {Frequency};\n\\node[below,font=\\scriptsize] at (4.5,-0.8) {Value};\n\\end{tikzpicture}\n[/tikz]",
-          "To the median one very large value counts as just one value, no matter how large it is.",
-          "The **mode** never moves off the peak and the **mean** always finishes nearest the tail, with the median between them.",
-          "It also works in reverse: a mean well **above** the median means the tail is on the right.",
-          "A mean well **below** the median means the tail is on the left.",
-          "A **uniform** distribution is symmetrical, so its mean and median are equal.",
-          "Every value in a uniform distribution occurs equally often, so it has **no mode** to compare with them."
-        ],
-        "steps": [
-          "Name the skew from the tail",
-          "Place the mode at the peak",
-          "Order the measures with the mean nearest the tail"
-        ]
-      },
+"intro": "Describe skewness from the tail of a distribution: a tail to the right is positively skewed and a tail to the left is negatively skewed. The mean uses every value and can be distorted by outliers; the median uses the middle position or positions, and the mode identifies the most frequent value.",
+"facts": [
+"**Positively skewed** means the distribution has a longer tail to the right. For a typical single-peaked shape like the booklet's illustration, the measures often follow $\\text{mode} < \\text{median} < \\text{mean}$. This is a tendency, not a rule for every dataset.",
+"**Negatively skewed** means the distribution has a longer tail to the left. For a typical single-peaked shape like the booklet's illustration, the measures often follow $\\text{mean} < \\text{median} < \\text{mode}$. This is a tendency, not a rule for every dataset.",
+"**Symmetrical** distributions have matching shapes on either side of their centre. Their mean and median are equal when defined. A symmetrical bell-shaped distribution has a central mode, but symmetrical distributions can also be bimodal or multimodal.",
+"A very large or very small value can change the mean substantially. The median is less affected by the size of an outlier, although changing the dataset can change its middle positions.",
+"On a smooth distribution curve, mark the mode or modes below the peaks. A grouped histogram identifies a modal class rather than an exact modal value.",
+"The mean, median and mode alone do not determine the shape of a distribution. Describe the shape from the data display rather than using their ordering as a reverse test.",
+"A uniform distribution has equally frequent values. Following the booklet's convention, it has **no mode**. For equally spaced values with equal frequencies, the mean and median are equal.",
+"Choose a measure of centre that represents the data and the purpose. A mean distorted by an outlier or a mode far from most values can be misleading."
+],
+"steps": [
+"Read the data or distribution display",
+"Describe the tail and peaks, or calculate the requested measures",
+"Use the display and context to explain your answer"
+],
+"workedExamples": [
+  {
+    "question_text": "Describe the shape of each distribution.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm]\n\\draw[->,black] (0,0)--(5.5,0);\\draw[->,black] (0,0)--(0,3);\\node[black,font=\\fontsize{10}{12}\\selectfont] at (2.7,3.3) {A};\\draw[thick,black] plot[smooth] coordinates {(0.2,0.1)(0.7,1.2)(1.2,2.5)(1.7,1.9)(2.3,1.1)(3,0.6)(4,0.25)(5,0.08)};\n\\begin{scope}[xshift=48mm]\n\\draw[->,black] (0,0)--(5.5,0);\\draw[->,black] (0,0)--(0,3);\\node[black,font=\\fontsize{10}{12}\\selectfont] at (2.7,3.3) {B};\\draw[thick,black] plot[smooth] coordinates {(0.2,0.08)(1.2,0.25)(2.2,0.6)(2.9,1.1)(3.5,1.9)(4,2.5)(4.5,1.2)(5,0.1)};\n\\end{scope}\n\\begin{scope}[yshift=-34mm]\n\\draw[->,black] (0,0)--(5.5,0);\\draw[->,black] (0,0)--(0,3);\\node[black,font=\\fontsize{10}{12}\\selectfont] at (2.7,3.3) {C};\\draw[thick,black] plot[smooth] coordinates {(0.2,0.08)(0.8,0.3)(1.4,0.9)(2,1.9)(2.6,2.5)(3.2,1.9)(3.8,0.9)(4.4,0.3)(5,0.08)};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "A is positively skewed: its longer tail extends to the right.\n\nB is negatively skewed: its longer tail extends to the left.\n\nC is symmetrical: its two sides mirror each other about the central peak."
+  },
+  {
+    "question_text": "Describe the shape of this waiting-time distribution.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=3mm]\n\\draw[->,black] (0,0)--(7,0);\\draw[->,black] (0,0)--(0,10);\\foreach \\a/\\h in {1/9,2/6,3/4,4/2,5/1,6/0.5}{\\draw[black] (\\a,0) rectangle ({\\a+1},\\h);}\n\\node[below,black,font=\\fontsize{10}{12}\\selectfont] at (3.5,0) {Waiting time};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The columns become shorter towards the right, forming a longer right-hand tail. The distribution is positively skewed."
+  },
+  {
+    "question_text": "Mark the mode on the horizontal axis of this distribution.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm]\n\\draw[->,black] (0,0)--(6,0);\\draw[->,black] (0,0)--(0,3.2);\\draw[thick,black] (0.2,0.1)..controls (0.6,0.2) and (0.7,2.8)..(1.5,2.8)..controls (2.3,2.8) and (2.2,0.2)..(5.6,0.1);\n\\node[below,black,font=\\fontsize{10}{12}\\selectfont] at (3,-0.4) {Time};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Place $M$ directly below the highest point of the curve. The mode corresponds to its single peak.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm]\n\\draw[->,black] (0,0)--(6,0);\\draw[->,black] (0,0)--(0,3.2);\\draw[thick,black] (0.2,0.1)..controls (0.6,0.2) and (0.7,2.8)..(1.5,2.8)..controls (2.3,2.8) and (2.2,0.2)..(5.6,0.1);\n\\draw[dashed,draw={rgb,255:red,38;green,140;blue,255}] (1.5,0)--(1.5,2.8);\n\\node[text={rgb,255:red,38;green,140;blue,255},below,font=\\fontsize{10}{12}\\selectfont] at (1.5,0) {$M$};\n\\node[below,black,font=\\fontsize{10}{12}\\selectfont] at (3,-0.4) {Time};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "A student's eight test scores were $9,6,9,6,9,5,9,4$.\n\nFind the mean, median and mode. Which measure would the student prefer to report to make their performance appear best?",
+    "solution_text": "Order the scores: $4,5,6,6,9,9,9,9$.\n\n$\\begin{aligned}\\text{Mean}&=\\frac{4+5+6+6+9+9+9+9}{8}\\\\&=\\frac{57}{8}\\\\&=7.125\\end{aligned}$\n\n$\\begin{aligned}\\text{Median}&=\\frac{6+9}{2}\\\\&=7.5\\end{aligned}$\n\nThe mode is $9$, occurring four times. The student would prefer to report the mode because it is the highest of the three measures."
+  },
+  {
+    "question_text": "For the scores $4,5,5,5,7,7,7,7,7$, find the mode, median and mean. Explain why the mode and median are less useful measures of centre here.",
+    "solution_text": "The mode is $7$, occurring five times. There are nine ordered scores, so the median is the fifth score, also $7$.\n\n$\\begin{aligned}\\text{Mean}&=\\frac{4+5+5+5+7+7+7+7+7}{9}\\\\&=\\frac{54}{9}\\\\&=6\\end{aligned}$\n\nThe mode and median both equal the largest score, so neither represents a value between the lower and upper scores. The mean, $6$, lies between the two groups."
+  },
+  {
+    "question_text": "Consider Dataset A: $14,14,15,16,17$ and Dataset B: $14,14,15,16,117$.\n\nCalculate each mean and explain why the mean represents Dataset A better. Would the median or mode better represent the centre of Dataset B?",
+    "solution_text": "$\\begin{aligned}\\text{Mean of A}&=\\frac{76}{5}\\\\&=15.2\\end{aligned}$\n\n$\\begin{aligned}\\text{Mean of B}&=\\frac{176}{5}\\\\&=35.2\\end{aligned}$\n\nDataset A's mean lies near its values. In Dataset B, the outlier $117$ pulls the mean far above the other four values.\n\nDataset B's median is $15$ and its mode is $14$. The median better represents the middle of the ordinary values; the mode is their lowest value."
+  },
+  {
+    "question_text": "Ten trains had delays of $0,0,0,0,0,1,2,3,6,38$ minutes.\n\nFind the mean, median and mode. Explain which measure passengers might use to emphasise substantial delays and which measure the operator might use to present the service favourably.",
+    "solution_text": "$\\begin{aligned}\\text{Mean}&=\\frac{50}{10}\\\\&=5\\text{ minutes}\\end{aligned}$\n\n$\\begin{aligned}\\text{Median}&=\\frac{0+1}{2}\\\\&=0.5\\text{ minutes}\\end{aligned}$\n\nThe mode is $0$ minutes.\n\nPassengers might use the mean because it includes the severe delay of $38$ minutes. The operator might use the mode to emphasise that arriving on time is the most frequent result. The mode leaves out the size of the longer delays."
+  },
+  {
+    "question_text": "A shoe store sold sizes $5,6,6,7,7,7,8,8,9,10$. Which measure of centre would help the owner decide which size to stock more of? Explain.",
+    "solution_text": "The mode is size $7$, occurring three times. It identifies the most frequently sold size, so it helps the owner decide which size to stock more of."
+  },
+  {
+    "question_text": "Seven employees earn $\\$36{,}000$ each and one employee earns $\\$436{,}000$. An advertisement reports a mean salary of $\\$86{,}000$.\n\nCheck the mean and explain why it gives a misleading impression of a typical salary.",
+    "solution_text": "$\\begin{aligned}\\text{Mean salary}&=\\frac{7\\times36{,}000+436{,}000}{8}\\\\&=\\frac{688{,}000}{8}\\\\&=86{,}000\\end{aligned}$\n\nThe mean is correctly reported as $\\$86{,}000$. However, seven of the eight employees earn $\\$36{,}000$. The single high salary pulls the mean upwards. The median, $\\$36{,}000$, better represents a typical salary."
+  },
+  {
+    "question_text": "A student's score categories were:\n\n| Score category | Number of tests |\n| --- | --- |\n| 20s | 1 |\n| 30s | 1 |\n| 40s | 1 |\n| 50s | 1 |\n| 60s | 1 |\n| 70s | 3 |\n| 80s | 0 |\n| 90s | 0 |\n\nThe student reports only that the modal category is the 70s. Explain why this can give a misleading impression.",
+    "solution_text": "The 70s is the modal category because it has the greatest frequency, three tests. However, five of the eight scores are below the 70s. Reporting only the modal category makes the overall performance appear stronger than it is."
+  },
+  {
+    "question_text": "The plots show scores for two groups. Is Group A generally higher scoring than Group B? Explain using clustering and skewness.\n\n| Group A leaves | Stem | Group B leaves |\n| ---: | :---: | :--- |\n|  | 1 | 2 4 6 8 |\n| 8 | 2 | 2 5 8 |\n| 8 5 | 3 | 2 7 |\n| 8 6 3 | 4 | 2 |\n| 8 6 4 2 | 5 | 4 |\n| 4 | 6 |  |\n\nKey: a leaf $8$ beside stem $2$ represents $28$.",
+    "solution_text": "Yes. Group A clusters in the 40s and 50s, with a tail towards lower scores, so it is negatively skewed. Group B clusters in the teens and 20s, with a tail towards higher scores, so it is positively skewed. Group A's main cluster is higher."
+  },
+  {
+    "question_text": "Twenty students took a topic test before and after teaching.\n\n| Score | Pre-test frequency | Post-test frequency |\n| --- | --- | --- |\n| 0 | 3 | 0 |\n| 1 | 7 | 1 |\n| 2 | 6 | 3 |\n| 3 | 3 | 6 |\n| 4 | 1 | 7 |\n| 5 | 0 | 3 |\n\nDescribe each distribution and explain how the scores changed.",
+    "solution_text": "The pre-test distribution is positively skewed: scores cluster towards the lower end, with a tail towards higher scores.\n\nThe post-test distribution is negatively skewed: scores cluster towards the higher end, with a tail towards lower scores.\n\nScores generally improved after teaching."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.8);\\draw[->] (0,0)--(9,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.1)(1.0,1.5)(1.8,3.3)(2.6,2.6)(3.4,1.9)(4.4,1.25)(5.4,0.8)(6.4,0.45)(7.3,0.2)(8.2,0.08)};\\node[rotate=90,font=\\scriptsize] at (-1.1,1.7) {Frequency};\\node[below,font=\\scriptsize] at (4.1,-1.0) {Finish time (min)};\\node[font=\\small] at (4.1,4.5) {Fun run finish times};\\end{tikzpicture}\n[/tikz]\nThe curve shows the distribution of the finishing times of everyone in a fun run.\nList the mean, the median and the mode of the times in order from smallest to largest.",
-        "structure": "ordering-from-curve",
-        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.8);\\draw[->] (0,0)--(9,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.1)(1.0,1.5)(1.8,3.3)(2.6,2.6)(3.4,1.9)(4.4,1.25)(5.4,0.8)(6.4,0.45)(7.3,0.2)(8.2,0.08)};\\draw[dashed] (1.8,0)--(1.8,3.3);\\draw[dashed] (2.8,0)--(2.8,2.42);\\draw[dashed] (3.8,0)--(3.8,1.64);\\node[below,font=\\tiny] at (1.8,0) {Mode};\\node[below,font=\\tiny] at (2.8,0) {Median};\\node[below,font=\\tiny] at (3.8,0) {Mean};\\node[rotate=90,font=\\scriptsize] at (-1.1,1.7) {Frequency};\\node[below,font=\\scriptsize] at (4.1,-1.0) {Finish time (min)};\\node[font=\\small] at (4.1,4.5) {Fun run finish times};\\end{tikzpicture}\n[/tikz]\n1. **Name the skew from the tail**\nThe curve rises quickly to a peak near the left and then trails away over a long stretch to the right, so the tail is on the right and the distribution is positively skewed.\n2. **Place the mode at the peak**\nThe mode is the most common finishing time, so it sits at the peak, at the left of the three marks.\n3. **Order the measures with the mean nearest the tail**\nThe mean uses every finishing time, so the few very long times drag it furthest to the right, and the median is left between the two.\nMode, median, mean."
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.4);\\draw[->] (0,0)--(9,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.1)(1.0,1.5)(1.8,3.3)(2.6,2.6)(3.4,1.9)(4.4,1.25)(5.4,0.8)(6.4,0.45)(7.3,0.2)(8.2,0.08)};\\node[below] at (4.5,0) {Finish time};\\end{tikzpicture}\n[/tikz]\nDescribe the distribution of fun run finishing times as positively or negatively skewed.",
+        "structure": "describe-skew-from-curve",
+        "solution_text": "The curve has a longer tail to the right, so the distribution is positively skewed."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,12.4);\\draw[->] (0,0)--(10.3,0);\\foreach \\y in {2,4,6,8,10} {\\draw (-0.2,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\y$};}\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\\draw (0.7,0) rectangle (2.1,1);\\draw (2.1,0) rectangle (3.5,2);\\draw (3.5,0) rectangle (4.9,4);\\draw (4.9,0) rectangle (6.3,7);\\draw (6.3,0) rectangle (7.7,11);\\draw (7.7,0) rectangle (9.1,8);\\node[below,font=\\scriptsize] at (0.7,0) {$0$};\\node[below,font=\\scriptsize] at (2.1,0) {$4$};\\node[below,font=\\scriptsize] at (3.5,0) {$8$};\\node[below,font=\\scriptsize] at (4.9,0) {$12$};\\node[below,font=\\scriptsize] at (6.3,0) {$16$};\\node[below,font=\\scriptsize] at (7.7,0) {$20$};\\node[below,font=\\scriptsize] at (9.1,0) {$24$};\\node[rotate=90,font=\\scriptsize] at (-1.1,5.5) {Number of students};\\node[below,font=\\scriptsize] at (4.9,-1.0) {Time (min)};\\node[font=\\small] at (4.9,12.1) {Puzzle finishing times};\\end{tikzpicture}\n[/tikz]\nThe histogram shows how long each of $33$ students took to finish a puzzle.\nList the mean, the median and the mode of the times in order from smallest to largest.",
-        "structure": "ordering-from-histogram",
-        "solution_text": "The tallest column is the $16\\text{--}20$ class, near the right-hand end, and the columns fall away through $7$, $4$, $2$, $1$ towards the left, so the tail is on the left and the distribution is negatively skewed.\nThe mode is at the peak, so it is the largest of the three measures.\nThe mean uses every time, so the few very short times drag it furthest to the left, and the median lies between the two.\nMean, median, mode."
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.6]\\draw[->] (0,0)--(0,12);\\draw[->] (0,0)--(7,0);\\draw (0.5,0) rectangle (1.5,1);\\draw (1.5,0) rectangle (2.5,2);\\draw (2.5,0) rectangle (3.5,4);\\draw (3.5,0) rectangle (4.5,7);\\draw (4.5,0) rectangle (5.5,11);\\draw (5.5,0) rectangle (6.5,8);\\node[below] at (3.5,0) {Time};\\end{tikzpicture}\n[/tikz]\nDescribe the distribution of puzzle finishing times as positively or negatively skewed.",
+        "structure": "describe-skew-from-histogram",
+        "solution_text": "The columns taper towards the left, giving a longer left-hand tail. The distribution is negatively skewed."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.8);\\draw[->] (0,0)--(8.8,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.08)(1.2,0.4)(2.1,1.1)(3.1,2.2)(4.1,3.3)(5.1,2.2)(6.0,1.1)(6.9,0.4)(7.8,0.08)};\\node[rotate=90,font=\\scriptsize] at (-1.1,1.7) {Frequency};\\node[below,font=\\scriptsize] at (4.05,-1.0) {Time (min)};\\node[font=\\small] at (4.05,4.5) {Jigsaw solving times};\\end{tikzpicture}\n[/tikz]\nThe curve shows the distribution of the times a large group of students took to solve a jigsaw puzzle.\nWhat can you say about the mean, the median and the mode of the times?",
-        "structure": "ordering-from-curve",
-        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.8);\\draw[->] (0,0)--(8.8,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.08)(1.2,0.4)(2.1,1.1)(3.1,2.2)(4.1,3.3)(5.1,2.2)(6.0,1.1)(6.9,0.4)(7.8,0.08)};\\draw[dashed] (4.1,0)--(4.1,3.3);\\node[below,font=\\tiny] at (4.1,0) {Mean, median, mode};\\node[rotate=90,font=\\scriptsize] at (-1.1,1.7) {Frequency};\\node[below,font=\\scriptsize] at (4.05,-1.4) {Time (min)};\\node[font=\\small] at (4.05,4.5) {Jigsaw solving times};\\end{tikzpicture}\n[/tikz]\nThe curve rises and falls at the same rate on both sides of its high point, so it is symmetrical and neither side has a longer tail.\nWith no tail to drag the mean away, the mean sits at the centre with the median, and the peak is at the centre as well.\nThe mean, the median and the mode are all approximately equal."
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.4);\\draw[->] (0,0)--(8.8,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.08)(1.25,0.4)(2.2,1.1)(3.15,2.2)(4.1,3.3)(5.05,2.2)(6,1.1)(6.95,0.4)(7.9,0.08)};\\node[below] at (4.1,0) {Time};\\end{tikzpicture}\n[/tikz]\nChoose the most appropriate description: symmetrical, bimodal, positively skewed or negatively skewed.",
+        "structure": "describe-shape-from-curve",
+        "solution_text": "Symmetrical. The two sides of the single peak are mirror images."
       },
-      {
-        "question_text": "At a walk-in clinic the waiting times have a mean of $24$ minutes, a median of $18$ minutes and a mode of $15$ minutes.\nDescribe the shape of the distribution of the waiting times.",
-        "structure": "shape-from-stated-measures",
-        "solution_text": "$\\text{mode} = 15$, $\\text{median} = 18$ and $\\text{mean} = 24$, so $\\text{mode} < \\text{median} < \\text{mean}$.\nThe mean is the largest of the three, so it has been dragged away from the peak towards a tail on the right.\nPositively skewed."
+{
+        "question_text": "The scores are $1, 2, 2, 2, 4, 4, 4, 4, 4$. Calculate the mode and explain why it is not a good measure of centre.",
+        "structure": "evaluate-mode-from-list",
+        "solution_text": "The mode is $4$, which occurs five times. It is the largest score, so it does not represent the centre of the scores."
       },
-      {
-        "question_text": "The times taken by a class to finish a timed quiz have a mean of $9.4$ minutes, a median of $10$ minutes and a mode of $11$ minutes.\nDescribe the shape of the distribution of the times.",
-        "structure": "shape-from-stated-measures",
-        "solution_text": "$\\text{mean} = 9.4$, $\\text{median} = 10$ and $\\text{mode} = 11$, so $\\text{mean} < \\text{median} < \\text{mode}$.\nThe mean is the smallest of the three, so it has been dragged away from the peak towards a tail on the left.\nNegatively skewed."
+{
+        "question_text": "The scores are $3, 4, 4, 4, 6, 6, 6, 6, 6$. Calculate the median and explain why it is not a good measure of centre.",
+        "structure": "evaluate-median-from-list",
+        "solution_text": "There are nine ordered scores, so the median is the fifth score, $6$. It is the largest score, so it does not represent the centre of the scores."
       },
-      {
-        "question_text": "A testing app records a large set of reaction times.\nThe mean is $302$ milliseconds, the median is $301$ milliseconds and the mode is $300$ milliseconds.\nDescribe the shape of the distribution of the reaction times.",
-        "structure": "shape-from-stated-measures",
-        "solution_text": "The three measures differ by at most $2$ milliseconds in times of about $300$ milliseconds, so $\\text{mean} \\approx \\text{median} \\approx \\text{mode}$.\nNo tail has dragged the mean away from the peak.\nSymmetrical."
+{
+        "question_text": "Consider Dataset 1: $10, 10, 11, 12, 13$ and Dataset 2: $10, 10, 11, 12, 113$. Would the median or mode be a better measure of centre for Dataset 2? Explain.",
+        "structure": "choose-centre-with-outlier",
+        "solution_text": "The median is $11$ and the mode is $10$. The median is the better choice because it represents the middle of the ordinary values without being distorted by the outlier $113$."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.8);\\draw[->] (0,0)--(9,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.12)(0.9,1.8)(1.6,3.4)(2.4,2.8)(3.3,2.0)(4.3,1.3)(5.3,0.85)(6.3,0.5)(7.2,0.25)(8.1,0.08)};\\draw[dashed] (1.6,0)--(1.6,3.4);\\draw[dashed] (2.7,0)--(2.7,2.53);\\draw[dashed] (3.7,0)--(3.7,1.72);\\node[below,font=\\scriptsize] at (1.6,0) {$P$};\\node[below,font=\\scriptsize] at (2.7,0) {$Q$};\\node[below,font=\\scriptsize] at (3.7,0) {$R$};\\node[rotate=90,font=\\scriptsize] at (-1.1,1.7) {Frequency};\\node[below,font=\\scriptsize] at (4.05,-1.4) {Waiting time (min)};\\node[font=\\small] at (4.05,4.5) {Clinic waiting times};\\end{tikzpicture}\n[/tikz]\nThe curve shows the distribution of the waiting times at a clinic.\nThe lines $P$, $Q$ and $R$ mark the mean, the median and the mode, in some order.\nWhich line marks the mean?",
-        "structure": "identify-marked-measure",
-        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.8);\\draw[->] (0,0)--(9,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.12)(0.9,1.8)(1.6,3.4)(2.4,2.8)(3.3,2.0)(4.3,1.3)(5.3,0.85)(6.3,0.5)(7.2,0.25)(8.1,0.08)};\\draw[dashed] (1.6,0)--(1.6,3.4);\\draw[dashed] (2.7,0)--(2.7,2.53);\\draw[dashed] (3.7,0)--(3.7,1.72);\\node[below,font=\\tiny] at (1.6,0) {Mode};\\node[below,font=\\tiny] at (2.7,0) {Median};\\node[below,font=\\tiny] at (3.7,0) {Mean};\\node[rotate=90,font=\\scriptsize] at (-1.1,1.7) {Frequency};\\node[below,font=\\scriptsize] at (4.05,-1.4) {Waiting time (min)};\\node[font=\\small] at (4.05,4.5) {Clinic waiting times};\\end{tikzpicture}\n[/tikz]\nThe peak is near the left and the curve trails away over a long stretch to the right, so the distribution is positively skewed.\nThe mean uses every waiting time, so the few very long waits drag it further to the right than the median or the mode.\nThe rightmost line, $R$."
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.4);\\draw[->] (0,0)--(9,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.12)(0.9,1.8)(1.6,3.4)(2.4,2.8)(3.3,2.0)(4.3,1.3)(5.3,0.85)(6.3,0.5)(7.2,0.25)(8.1,0.08)};\\draw[dashed] (1.6,0)--(1.6,3.4);\\draw[dashed] (2.7,0)--(2.7,2.53);\\draw[dashed] (3.7,0)--(3.7,1.72);\\node[below] at (1.6,0) {$P$};\\node[below] at (2.7,0) {$Q$};\\node[below] at (3.7,0) {$R$};\\end{tikzpicture}\n[/tikz]\nWhich marked position shows the mode of the clinic waiting-time curve?",
+        "structure": "identify-mode-on-curve",
+        "solution_text": "$P$. The mode is below the peak, where the curve is highest."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,15.4);\\draw[->] (0,0)--(10.3,0);\\foreach \\y in {3,6,9,12} {\\draw (-0.2,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\y$};}\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\\draw (0.7,0) rectangle (2.1,14);\\draw (2.1,0) rectangle (3.5,11);\\draw (3.5,0) rectangle (4.9,7);\\draw (4.9,0) rectangle (6.3,4);\\draw (6.3,0) rectangle (7.7,3);\\draw (7.7,0) rectangle (9.1,1);\\draw[dashed] (1.85,0)--(1.85,14);\\draw[dashed] (2.86,0)--(2.86,14);\\draw[dashed] (3.29,0)--(3.29,14);\\node[below,font=\\scriptsize] at (0.7,0) {$0$};\\node[below,font=\\scriptsize] at (2.1,0) {$10$};\\node[below,font=\\scriptsize] at (3.5,0) {$20$};\\node[below,font=\\scriptsize] at (4.9,0) {$30$};\\node[below,font=\\scriptsize] at (6.3,0) {$40$};\\node[below,font=\\scriptsize] at (7.7,0) {$50$};\\node[below,font=\\scriptsize] at (9.1,0) {$60$};\\node[font=\\scriptsize] at (1.85,-0.95) {$P$};\\node[font=\\scriptsize] at (2.86,-0.95) {$Q$};\\node[font=\\scriptsize] at (3.29,-0.95) {$R$};\\node[rotate=90,font=\\scriptsize] at (-1.1,7) {Number of callers};\\node[below,font=\\scriptsize] at (4.9,-1.5) {Time on hold (min)};\\node[font=\\small] at (4.9,15.1) {Time on hold};\\end{tikzpicture}\n[/tikz]\nThe histogram shows how long each of $40$ callers waited on hold at a medical centre.\nThe lines $P$, $Q$ and $R$ mark the mean, the median and the mode, in some order.\nWhich line marks the mode?",
-        "structure": "identify-marked-measure",
-        "solution_text": "The mode is the most common waiting time, so it must lie in the tallest column, the $0\\text{--}10$ class.\nOnly one of the three lines lies in that class; $Q$ and $R$ lie further to the right, out in the tail, where the median and the mean sit.\nThe leftmost line, $P$."
+{
+        "question_text": "A student scored $7, 4, 7, 4, 7, 3, 7, 2$ in eight tests. Find the mean, mode and median.",
+        "structure": "calculate-measures-from-list",
+        "solution_text": "The ordered scores are $2, 3, 4, 4, 7, 7, 7, 7$. The mean is $41 \\div 8 = 5.125$. The mode is $7$. The median is $(4 + 7) \\div 2 = 5.5$."
       },
-      {
-        "question_text": "In a fun run most runners finish in a similar time, but a few walkers take far longer, so the finishing times are positively skewed.\nExplain why the mean finishing time is greater than the median finishing time.",
-        "structure": "explain-mechanism",
-        "solution_text": "The mean is found by sharing the total of every finishing time equally, so each very long walking time adds a large amount to that total and pulls the mean up.\nThe median is only the middle time of the ordered list, so a very long time counts as one time no matter how large it is and barely moves the median.\nThe long right-hand tail therefore drags the mean above the median."
+{
+        "question_text": "A student scored $8, 5, 8, 5, 8, 4, 8, 3$ in eight tests. Which measure of centre would the student prefer to tell their parents? Explain.",
+        "structure": "choose-favourable-measure",
+        "solution_text": "The mean is $49 \\div 8 = 6.125$, the median is $(5 + 8) \\div 2 = 6.5$ and the mode is $8$. The student would prefer the mode because it makes their performance appear best."
       },
-      {
-        "question_text": "The times taken to complete a jigsaw puzzle are positively skewed.\nThe mean, the median and the mode of the times are $26$, $31$ and $40$ minutes, in some order.\nWhich of these values is the mode?",
-        "structure": "match-values-to-measures",
-        "solution_text": "For a positively skewed distribution, $\\text{mode} < \\text{median} < \\text{mean}$.\nThe mode is therefore the smallest of the three values.\n$26$ minutes."
+{
+        "question_text": "Consider Dataset 1: $12, 12, 13, 14, 15$ and Dataset 2: $12, 12, 13, 14, 115$. Explain why the mean is a good measure of centre for the first dataset but not the second.",
+        "structure": "evaluate-mean-with-outlier",
+        "solution_text": "Dataset 1 has mean $66 \\div 5 = 13.2$, near the centre of its values. Dataset 2 has mean $166 \\div 5 = 33.2$. Its outlier $115$ pulls the mean far above the other four values, so the mean does not represent a typical value."
       }
-    ],
+],
     "development": [
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,14.4);\\draw[->] (0,0)--(8.9,0);\\foreach \\y in {2,4,6,8,10,12} {\\draw (-0.2,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\y$};}\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\\draw (0.7,0) rectangle (2.1,13);\\draw (2.1,0) rectangle (3.5,9);\\draw (3.5,0) rectangle (4.9,5);\\draw (4.9,0) rectangle (6.3,3);\\draw (6.3,0) rectangle (7.7,1);\\node[below,font=\\scriptsize] at (0.7,0) {$0$};\\node[below,font=\\scriptsize] at (2.1,0) {$15$};\\node[below,font=\\scriptsize] at (3.5,0) {$30$};\\node[below,font=\\scriptsize] at (4.9,0) {$45$};\\node[below,font=\\scriptsize] at (6.3,0) {$60$};\\node[below,font=\\scriptsize] at (7.7,0) {$75$};\\node[rotate=90,font=\\scriptsize] at (-1.1,6.5) {Number of patients};\\node[below,font=\\scriptsize] at (4.2,-1.0) {Waiting time (min)};\\node[font=\\small] at (4.2,14.1) {Waiting times};\\end{tikzpicture}\n[/tikz]\nThe histogram shows how long each of $31$ patients waited at a walk-in clinic.\nList the mean, the median and the mode of the waiting times in order from smallest to largest.",
-        "structure": "ordering-from-histogram",
-        "solution_text": "1. **Name the skew from the tail**\nThe tallest column is the first one and the columns fall away through $9$, $5$, $3$, $1$ towards the right, so the tail is on the right and the distribution is positively skewed.\n2. **Place the mode at the peak**\nThe mode lies in the $0\\text{--}15$ class, at the far left, so it is the smallest of the three measures.\n3. **Order the measures with the mean nearest the tail**\nThe mean includes the few very long waits in its total, so it is dragged furthest to the right, and the median lies between the mode and the mean.\nMode, median, mean."
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.6]\\draw[->] (0,0)--(0,14);\\draw[->] (0,0)--(6,0);\\draw (0.5,0) rectangle (1.5,13);\\draw (1.5,0) rectangle (2.5,9);\\draw (2.5,0) rectangle (3.5,5);\\draw (3.5,0) rectangle (4.5,3);\\draw (4.5,0) rectangle (5.5,1);\\node[below] at (3,0) {Waiting time};\\end{tikzpicture}\n[/tikz]\nDescribe the distribution as symmetric, positively skewed, negatively skewed or bimodal.",
+        "structure": "describe-shape-from-histogram",
+        "solution_text": "Positively skewed. The columns taper towards the right, giving a longer right-hand tail."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.8);\\draw[->] (0,0)--(9.1,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.08)(1.2,0.2)(2.1,0.45)(3.1,0.8)(4.1,1.25)(5.1,1.9)(6.0,2.6)(6.8,3.3)(7.6,1.5)(8.3,0.1)};\\node[rotate=90,font=\\scriptsize] at (-1.1,1.7) {Frequency};\\node[below,font=\\scriptsize] at (4.15,-1.0) {Time used (min)};\\node[font=\\small] at (4.15,4.5) {Puzzle times};\\end{tikzpicture}\n[/tikz]\nA large group of students were given a $20$-minute lesson to complete a puzzle, and the curve shows the distribution of the times they used.\nList the mean, the median and the mode of the times in order from smallest to largest.",
-        "structure": "ordering-from-curve",
-        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.8);\\draw[->] (0,0)--(9.1,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.08)(1.2,0.2)(2.1,0.45)(3.1,0.8)(4.1,1.25)(5.1,1.9)(6.0,2.6)(6.8,3.3)(7.6,1.5)(8.3,0.1)};\\draw[dashed] (4.8,0)--(4.8,1.7);\\draw[dashed] (5.8,0)--(5.8,2.47);\\draw[dashed] (6.8,0)--(6.8,3.3);\\node[below,font=\\tiny] at (4.8,0) {Mean};\\node[below,font=\\tiny] at (5.8,0) {Median};\\node[below,font=\\tiny] at (6.8,0) {Mode};\\node[rotate=90,font=\\scriptsize] at (-1.1,1.7) {Frequency};\\node[below,font=\\scriptsize] at (4.15,-1.4) {Time used (min)};\\node[font=\\small] at (4.15,4.5) {Puzzle times};\\end{tikzpicture}\n[/tikz]\nThe peak is near the right and the curve trails away over a long stretch to the left, so the tail is on the left and the distribution is negatively skewed.\nThe mode stays at the peak, on the right of the three marks.\nThe mean uses every time, so the few students who finished very quickly drag it furthest to the left.\nMean, median, mode."
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.4);\\draw[->] (0,0)--(9.1,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.08)(1.2,0.2)(2.1,0.45)(3.1,0.8)(4.1,1.25)(5.1,1.9)(6.0,2.6)(6.8,3.3)(7.6,1.5)(8.3,0.1)};\\node[below] at (4.15,0) {Time used};\\end{tikzpicture}\n[/tikz]\nDescribe the distribution of puzzle times as symmetric, positively skewed, negatively skewed or bimodal.",
+        "structure": "describe-shape-from-curve",
+        "solution_text": "Negatively skewed. The peak is near the right and the longer tail extends to the left."
       },
-      {
-        "question_text": "Seven friends each timed how long they took to finish a logic puzzle.\nThe times, in minutes, were $4$, $5$, $5$, $6$, $7$, $9$ and $20$.\nFind the mode, the median and the mean, then describe the shape of the distribution.",
-        "structure": "shape-from-calculated-measures",
-        "solution_text": "$4, 5, 5, 6, 7, 9, 20$\n$\\text{Mode} = 5$\n$\\text{Median} = 6$\n$\\overline{x} = \\frac{56}{7}$\n$= 8$\nThe mode is the smallest and the mean the largest, so $\\text{mode} < \\text{median} < \\text{mean}$.\nThe one very long time of $20$ minutes has dragged the mean out to the right, so the distribution is positively skewed."
+{
+        "question_text": "Seven friends each timed how long they took to finish a logic puzzle.\nThe times, in minutes, were $4$, $5$, $5$, $6$, $7$, $9$ and $20$.\nFind the mode, the median and the mean.",
+        "structure": "calculate-measures-from-list",
+        "solution_text": "$4, 5, 5, 6, 7, 9, 20$\n$\\text{Mode} = 5$\n$\\text{Median} = 6$\n$\\overline{x} = \\frac{56}{7}$\n$= 8$\nThe mode is $5$ minutes, the median is $6$ minutes and the mean is $8$ minutes."
       },
-      {
-        "question_text": "Seven students were given $12$ minutes to finish a timed quiz.\nThe times they used, in minutes, were $4$, $7$, $9$, $10$, $11$, $11$ and $11$.\nFind the mode, the median and the mean, then describe the shape of the distribution.",
-        "structure": "shape-from-calculated-measures",
-        "solution_text": "$4, 7, 9, 10, 11, 11, 11$\n$\\text{Mode} = 11$\n$\\text{Median} = 10$\n$\\overline{x} = \\frac{63}{7}$\n$= 9$\nThe mean is the smallest and the mode the largest, so $\\text{mean} < \\text{median} < \\text{mode}$.\nThe one very short time of $4$ minutes has dragged the mean out to the left, so the distribution is negatively skewed."
+{
+        "question_text": "Seven students were given $12$ minutes to finish a timed quiz.\nThe times they used, in minutes, were $4$, $7$, $9$, $10$, $11$, $11$ and $11$.\nFind the mode, the median and the mean.",
+        "structure": "calculate-measures-from-list",
+        "solution_text": "$4, 7, 9, 10, 11, 11, 11$\n$\\text{Mode} = 11$\n$\\text{Median} = 10$\n$\\overline{x} = \\frac{63}{7}$\n$= 9$\nThe mode is $11$ minutes, the median is $10$ minutes and the mean is $9$ minutes."
       },
-      {
-        "question_text": "The finishing times of a marathon have a mean of $255$ minutes and a median of $248$ minutes.\nDescribe the shape of the distribution, and state whether the mode is above or below $248$ minutes.",
-        "structure": "shape-from-stated-measures",
-        "solution_text": "The mean is $7$ minutes above the median, so a tail on the right has dragged the mean up.\nA tail on the right means the distribution is positively skewed, so $\\text{mode} < \\text{median} < \\text{mean}$.\nThe mode is therefore below the median, at less than $248$ minutes."
+{
+        "question_text": "The delays of ten trains, in whole minutes, were $0, 0, 0, 0, 1, 1, 2, 3, 5, 28$. Explain which measure of centre would be best to use to argue that passengers experience substantial delays.",
+        "structure": "choose-measure-for-delay-argument",
+        "solution_text": "The mean is $40 \\div 10 = 4$ minutes, the median is $1$ minute and the mode is $0$ minutes. The mean supports the argument best because it includes the severe delay of $28$ minutes, which raises the average delay."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.8);\\draw[->] (0,0)--(9,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.08)(1.1,0.25)(2.0,0.5)(3.0,0.9)(4.0,1.35)(5.0,2.0)(5.9,2.8)(6.7,3.4)(7.5,1.6)(8.2,0.1)};\\draw[dashed] (4.7,0)--(4.7,1.8);\\draw[dashed] (5.7,0)--(5.7,2.6);\\draw[dashed] (6.7,0)--(6.7,3.4);\\node[below,font=\\scriptsize] at (4.7,0) {$P$};\\node[below,font=\\scriptsize] at (5.7,0) {$Q$};\\node[below,font=\\scriptsize] at (6.7,0) {$R$};\\node[rotate=90,font=\\scriptsize] at (-1.1,1.7) {Frequency};\\node[below,font=\\scriptsize] at (4.1,-1.4) {Time used (min)};\\node[font=\\small] at (4.1,4.5) {Time before buzzer};\\end{tikzpicture}\n[/tikz]\nStudents worked on a puzzle until a $30$-minute buzzer sounded, and the curve shows the distribution of the times they used.\nThe lines $P$, $Q$ and $R$ mark the mean, the median and the mode, in some order.\nName the measure each line marks.",
-        "structure": "identify-marked-measure",
-        "solution_text": "The peak is near the right and the curve trails away over a long stretch to the left, so the distribution is negatively skewed and $\\text{mean} < \\text{median} < \\text{mode}$.\nThe leftmost line is therefore the mean and the rightmost line, at the peak, is the mode.\n$P$ is the mean, $Q$ is the median and $R$ is the mode."
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.4);\\draw[->] (0,0)--(9,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.08)(1.1,0.25)(2.0,0.5)(3.0,0.9)(4.0,1.35)(5.0,2.0)(5.9,2.8)(6.7,3.4)(7.5,1.6)(8.2,0.1)};\\node[below] at (4.1,0) {Time used};\\end{tikzpicture}\n[/tikz]\nPlace an $M$ on the horizontal axis to show the mode.",
+        "structure": "place-mode-on-curve",
+        "solution_text": "Place $M$ directly below the single peak near the right-hand end of the curve."
       },
-      {
-        "question_text": "The times a class used to finish a timed quiz are negatively skewed.\nExplain why the mean is the smallest of the three measures of centre and the mode is the largest.",
-        "structure": "explain-mechanism",
-        "solution_text": "A negatively skewed distribution has its tail on the left, so a few students finished a long way faster than everybody else.\nThe mean shares the total of every time equally, so those few very short times pull it down further than any other measure moves.\nThe median only reports the middle time, so it barely moves, and the mode stays at the peak with the bulk of the class on the right.\nThat is why $\\text{mean} < \\text{median} < \\text{mode}$."
+{
+        "question_text": "The delays of ten trains, in whole minutes, were $0, 0, 0, 0, 0, 1, 2, 4, 6, 27$. Explain who might use the mode and why it might be an advantage to them.",
+        "structure": "interpret-mode-for-operator",
+        "solution_text": "The mode is $0$ minutes. The train operator might use it to emphasise that arriving on time is the most frequent result. This presents the service favourably while leaving out the size of the longer delays."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.8);\\draw[->] (0,0)--(9.1,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.07)(1.2,0.22)(2.2,0.5)(3.2,0.95)(4.2,1.4)(5.2,2.1)(6.1,2.9)(6.9,3.3)(7.6,1.4)(8.3,0.08)};\\node[rotate=90,font=\\scriptsize] at (-1.1,1.7) {Frequency};\\node[below,font=\\scriptsize] at (4.15,-1.0) {Time used (min)};\\node[font=\\small] at (4.15,4.5) {Quiz times};\\end{tikzpicture}\n[/tikz]\nThe curve shows the distribution of the times a large group of students used to finish a timed quiz.\nThe mean, the median and the mode of the times are $10.8$, $11.5$ and $12$ minutes, in some order.\nWhich of these values is the mean?",
-        "structure": "match-values-to-measures",
-        "solution_text": "The peak is near the right and the curve trails away to the left, so the distribution is negatively skewed.\nFor a negatively skewed distribution, $\\text{mean} < \\text{median} < \\text{mode}$, so the mean is the smallest of the three values.\n$10.8$ minutes."
+{
+        "question_text": "A shoe store sold sizes $4, 5, 5, 6, 6, 6, 7, 7, 8, 9$. Which measure of centre would be most useful to the owner when deciding which size to stock more of? Explain.",
+        "structure": "choose-mode-for-stock",
+        "solution_text": "The mode, $6$, is most useful because it identifies the size sold most frequently. This helps the owner decide which size to stock more of."
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,16.4);\\draw[->] (0,0)--(10.3,0);\\foreach \\y in {3,6,9,12,15} {\\draw (-0.2,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\y$};}\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\\draw (0.7,0) rectangle (2.1,6);\\draw (2.1,0) rectangle (3.5,15);\\draw (3.5,0) rectangle (4.9,10);\\draw (4.9,0) rectangle (6.3,5);\\draw (6.3,0) rectangle (7.7,3);\\draw (7.7,0) rectangle (9.1,1);\\node[below,font=\\scriptsize] at (0.7,0) {$20$};\\node[below,font=\\scriptsize] at (2.1,0) {$30$};\\node[below,font=\\scriptsize] at (3.5,0) {$40$};\\node[below,font=\\scriptsize] at (4.9,0) {$50$};\\node[below,font=\\scriptsize] at (6.3,0) {$60$};\\node[below,font=\\scriptsize] at (7.7,0) {$70$};\\node[below,font=\\scriptsize] at (9.1,0) {$80$};\\node[rotate=90,font=\\scriptsize] at (-1.1,7.5) {Number of runners};\\node[below,font=\\scriptsize] at (4.9,-1.0) {Finish time (min)};\\node[font=\\small] at (4.9,16.1) {Fun run results};\\end{tikzpicture}\n[/tikz]\nThe histogram shows the finishing times of $40$ runners in a fun run.\nSam says that because the tallest columns are on the left, the mean finishing time must be smaller than the median.\nExplain Sam's error and list the three measures of centre from smallest to largest.",
-        "structure": "check-stated-shape",
-        "solution_text": "Sam has decided the order from where the tall columns sit, but the measures separate because of the tail, not because of the peak.\nThe columns fall away through $10$, $5$, $3$, $1$ towards the right, so the tail is on the right and the distribution is positively skewed.\nThose few very long finishing times are all included in the total that the mean is calculated from, so they drag the mean up, above the median, rather than below it.\nMode, median, mean."
+{
+        "question_text": "Seven employees each earn $\\$32{,}000$ and one employee earns $\\$432{,}000$. An advertisement says, 'The mean salary is $\\$82{,}000$.' Explain why this summary statistic is misleading.",
+        "structure": "explain-misleading-salary-mean",
+        "solution_text": "The mean is $(7 \\times 32{,}000 + 432{,}000) \\div 8 = 82{,}000$, so the calculation is correct. The single salary of $\\$432{,}000$ pulls the mean far above what seven of the eight employees earn. The median, $\\$32{,}000$, better represents a typical employee's salary."
       },
-      {
-        "question_text": "A report on a medical centre gives the waiting times as mean $= 12$ minutes, median $= 19$ minutes and mode $= 25$ minutes, and describes the distribution as positively skewed.\nExplain why the description cannot be correct, and give the correct description.",
-        "structure": "check-stated-shape",
-        "solution_text": "The reported values give $\\text{mean} < \\text{median} < \\text{mode}$.\nA positively skewed distribution has its tail on the right, which drags the mean above the other two measures, so its mean would have to be the largest of the three.\nHere the mean is the smallest, so the tail must stretch to the left instead.\nThe distribution is negatively skewed."
+{
+        "question_text": "A student's test scores fall into these categories: 30s: one test; 40s: one; 50s: one; 60s: one; 70s: one; 80s: two; 90s: none. The student says, 'My modal score category is the 80s!' Explain why this summary statistic is misleading.",
+        "structure": "explain-misleading-modal-category",
+        "solution_text": "The 80s is the most frequent category, so the statement is correct. However, only two of the seven scores are in the 80s and five are below that category. Reporting only the modal category makes the overall performance appear stronger than it is."
       },
-      {
-        "question_text": "The finishing times of a marathon are positively skewed.\nThe three measures of centre are $232$, $246$ and $259$ minutes, in some order.\nState which measure each value is, and explain why the largest of the three is the one that the slowest runners affect most.",
-        "structure": "match-values-to-measures",
-        "solution_text": "For a positively skewed distribution, $\\text{mode} < \\text{median} < \\text{mean}$.\nThe mode is $232$ minutes, the median is $246$ minutes and the mean is $259$ minutes.\nThe mean is the largest because it is calculated from the total of every finishing time, so each very slow runner adds a large amount to that total and pulls the mean up towards the tail.\nThe median only counts positions in the ordered list and the mode stays at the peak, so neither of them is moved much by the slowest runners."
+{
+        "question_text": "The ordered scores are shown in stem-and-leaf plots.\n\nGroup A: $2\\mid4$; $3\\mid1\\ 3$; $4\\mid5\\ 6\\ 8$; $5\\mid0\\ 2\\ 4\\ 5$; $6\\mid0$.\n\nGroup B: $2\\mid0\\ 2\\ 4\\ 5$; $3\\mid0\\ 2\\ 4$; $4\\mid0\\ 5$; $5\\mid0$; $6\\mid2$.\n\nKey: $2\\mid4 = 24$.\n\nPat claims that Group A generally scored higher than Group B. Is Pat correct? Refer to clustering and skewness.",
+        "structure": "compare-clustering-and-skewness",
+        "solution_text": "Yes. Group A clusters in the 40s and 50s, with a tail towards the lower scores, so it is negatively skewed. Group B clusters in the 20s and 30s, with a tail towards the higher scores, so it is positively skewed. Group A's main cluster is higher."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,7.4);\\draw[->] (0,0)--(10.3,0);\\foreach \\y in {2,4,6} {\\draw (-0.2,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\y$};}\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\\draw (0.7,0) rectangle (2.1,6);\\draw (2.1,0) rectangle (3.5,6);\\draw (3.5,0) rectangle (4.9,6);\\draw (4.9,0) rectangle (6.3,6);\\draw (6.3,0) rectangle (7.7,6);\\draw (7.7,0) rectangle (9.1,6);\\node[below,font=\\scriptsize] at (1.4,0) {$6$};\\node[below,font=\\scriptsize] at (2.8,0) {$7$};\\node[below,font=\\scriptsize] at (4.2,0) {$8$};\\node[below,font=\\scriptsize] at (5.6,0) {$9$};\\node[below,font=\\scriptsize] at (7,0) {$10$};\\node[below,font=\\scriptsize] at (8.4,0) {$11$};\\node[rotate=90,font=\\scriptsize] at (-1.1,3) {Number of players};\\node[below,font=\\scriptsize] at (4.9,-1.0) {Time (min)};\\node[font=\\small] at (4.9,7.1) {Puzzle app times};\\end{tikzpicture}\n[/tikz]\nA puzzle app rounds each player's time to the nearest minute.\nThe histogram shows the times of $36$ players.\nIs it correct to say that the mean, the median and the mode are all equal here?\nJustify your answer.",
-        "structure": "check-stated-shape",
-        "solution_text": "Every column has the same height, so the display is flat, its two halves are mirror images and there is no tail to drag the mean away from the median.\n$\\overline{x} = \\frac{6(6 + 7 + 8 + 9 + 10 + 11)}{36}$\n$= \\frac{306}{36}$\n$= 8.5$\nThe $18$th time is $8$ minutes and the $19$th is $9$ minutes, so the median is $8.5$ minutes as well.\nEvery time occurs equally often, so this distribution has no mode at all.\nIt is not correct: the mean and the median are equal at $8.5$ minutes, but there is no mode to compare them with."
+{
+        "question_text": "A topic test was taken before and after teaching. The frequencies for scores $0, 1, 2, 3, 4, 5$ were:\n\nPre-test: $2, 8, 6, 3, 1, 0$.\n\nPost-test: $0, 1, 3, 6, 8, 2$.\n\nDescribe each distribution and comment on how the scores changed.",
+        "structure": "compare-pre-and-post-distributions",
+        "solution_text": "The pre-test distribution is positively skewed: most scores are low and the tail extends towards higher scores. The post-test distribution is negatively skewed: most scores are high and the tail extends towards lower scores. Scores generally improved after teaching."
       }
-    ]
+]
   }
 }

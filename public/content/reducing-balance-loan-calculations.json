@@ -2,8 +2,8 @@
   "skillId": "reducing-balance-loan-calculations",
   "atomType": "R",
   "theory": {
-    "intro": "Derive the balance owing from the geometric series of repayments each time. Interest is added to the current balance before each end-of-period repayment.",
-    "facts": [
+"intro": "Derive the balance owing from the geometric series of repayments each time. Interest is added to the current balance before each end-of-period repayment.",
+"facts": [
 "The initial balance is $A_0=PV$. With periodic interest rate $r$ and end-of-period repayment $M$, $A_n=A_{n-1}(1+r)-M$.",
 "Expanding gives $A_n=PV(1+r)^n-[M+M(1+r)+\\dots+M(1+r)^{n-1}]$. The repayments form a geometric series with first term $M$, common ratio $1+r$ and $n$ terms.",
 "For $r\\ne0$, summing the repayment series gives $A_n=PV(1+r)^n-M\\left[\\dfrac{(1+r)^n-1}{r}\\right]$. For zero interest, $A_n=PV-nM$.",
@@ -11,14 +11,37 @@
 "When a loan is completely paid off, total interest is total paid minus $PV$. For an ongoing loan, interest charged is total paid minus the principal reduction $PV-A_n$.",
 "The interest portion of a repayment is $rA_{n-1}$. Whether it takes most of an early repayment depends on the loan balance, interest rate and repayment amount."
 ],
-    "steps": [
+"steps": [
 "Define the initial balance $A_0=PV$, calculate the periodic interest rate $r$ and count the repayment periods. Repayments occur at the end of each period after interest is added.",
 "Write $A_1=PV(1+r)-M$ and expand $A_2=[PV(1+r)-M](1+r)-M=PV(1+r)^2-M(1+r)-M$.",
 "Extend the expansion to $A_n=PV(1+r)^n-[M+M(1+r)+\\dots+M(1+r)^{n-1}]$. Identify the repayment geometric series and derive its sum.",
 "For $r\\ne0$, use the derived equation $A_n=PV(1+r)^n-M\\left[\\dfrac{(1+r)^n-1}{r}\\right]$ and evaluate without rounding intermediate values. For $r=0$, use $A_n=PV-nM$.",
 "When totals are requested, add the actual scheduled payments, including any smaller final payment. Subtract the principal reduction from total paid to find interest charged; for a fully repaid loan, subtract $PV$."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A company borrows $\\$240\\,000$ at $6\\%$ p.a. compounded monthly and repays $\\$4500$ at the end of each month. Let $A_n$ be the balance after $n$ repayments. Write a series expression for $A_n$ and hence derive an equation for the balance.",
+    "solution_text": "The monthly growth factor is $R=1+0.06\\div12=1.005$.\n$\\begin{align*}A_0&=240\\,000\\\\A_1&=240\\,000R-4500\\\\A_2&=[240\\,000R-4500]R-4500\\\\&=240\\,000R^2-4500R-4500\\end{align*}$\nAfter $n$ repayments,\n$A_n=240\\,000R^n-[4500+4500R+\\cdots+4500R^{n-1}]$.\nThe bracketed repayments form a geometric series with first term $4500$, common ratio $R$ and $n$ terms.\n$\\begin{align*}S_n&=4500\\frac{R^n-1}{R-1}\\\\A_n&=240\\,000R^n-4500\\frac{R^n-1}{R-1}\\\\&=240\\,000(1.005)^n-4500\\frac{(1.005)^n-1}{0.005}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A loan of $\\$12\\,000$ charges interest at $12\\%$ p.a. compounded monthly. Repayments of $\\$1000$ are made at the end of each month.\n(a) Find the balance after three repayments, to the nearest cent.\n(b) Calculate the principal paid off and the interest charged during these three months.\n(c) State whether the remaining balance is more or less than half the original loan.",
+    "solution_text": "(a) The monthly growth factor is $R=1+0.12\\div12=1.01$.\n$\\begin{align*}A_0&=12\\,000\\\\A_1&=12\\,000R-1000\\\\A_2&=[12\\,000R-1000]R-1000\\\\&=12\\,000R^2-1000R-1000\\\\A_3&=12\\,000R^3-[1000+1000R+1000R^2]\\end{align*}$\nThe repayments form a geometric series with first term $1000$, common ratio $R$ and three terms.\n$\\begin{align*}A_3&=12\\,000(1.01)^3-1000\\frac{(1.01)^3-1}{0.01}\\\\&=\\$9333.51\\end{align*}$\n(b) Keeping the unrounded balance for the calculations,\n$\\begin{align*}\\text{Principal paid off}&=12\\,000-A_3\\\\&=\\$2666.49\\\\\\text{Total paid}&=3(1000)\\\\&=\\$3000\\\\\\text{Interest charged}&=3000-(12\\,000-A_3)\\\\&=\\$333.51\\end{align*}$\n(c) Half the original loan is $\\$6000$. Since $9333.51>6000$, the remaining balance is more than half.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two repayment schedules each fully repay a $\\$18\\,000$ loan, with no additional final payment.\nSchedule A has $40$ monthly payments of $\\$510$.\nSchedule B has $36$ monthly payments of $\\$560$.\nCalculate the total paid and total interest for each schedule. How much interest does Schedule B save?",
+    "solution_text": "For Schedule A,\n$\\begin{align*}\\text{Total paid}&=40(510)\\\\&=\\$20\\,400\\\\\\text{Interest}&=20\\,400-18\\,000\\\\&=\\$2400\\end{align*}$\nFor Schedule B,\n$\\begin{align*}\\text{Total paid}&=36(560)\\\\&=\\$20\\,160\\\\\\text{Interest}&=20\\,160-18\\,000\\\\&=\\$2160\\end{align*}$\n$\\begin{align*}\\text{Interest saved}&=2400-2160\\\\&=\\$240\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

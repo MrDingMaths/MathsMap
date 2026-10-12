@@ -2,8 +2,8 @@
   "skillId": "graph-linear-relationship",
   "atomType": "R",
   "theory": {
-        "intro": "To graph a linear relationship, draw its straight line on the Cartesian plane. Build a table of values, plot each $(x,y)$ column as a point, then rule one straight line through them and extend it past the outermost points.\n\n[tikz]\n\\begin{tikzpicture}[scale=0.7]\n\\draw[step=1,gray!30] (0,0) grid (5,5);\n\\draw[->,thick] (0,0)--(5.4,0) node[right] {$x$};\n\\draw[->,thick] (0,0)--(0,5.4) node[above] {$y$};\n\\draw[thick,<->,blue!70!black] (0.2,0.7)--(4.6,5.1);\n\\fill (1,1.5) circle (2.2pt);\n\\fill (2,2.5) circle (2.2pt);\n\\fill (3,3.5) circle (2.2pt);\n\\fill (4,4.5) circle (2.2pt);\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "To graph a linear relationship, draw its straight line on the Cartesian plane. Build a table of values, plot each $(x,y)$ column as a point, then rule one straight line through them and extend it past the outermost points.\n\n[tikz]\n\\begin{tikzpicture}[scale=0.7]\n\\draw[step=1,gray!30] (0,0) grid (5,5);\n\\draw[->,thick] (0,0)--(5.4,0) node[right] {$x$};\n\\draw[->,thick] (0,0)--(0,5.4) node[above] {$y$};\n\\draw[thick,<->,blue!70!black] (0.2,0.7)--(4.6,5.1);\n\\fill (1,1.5) circle (2.2pt);\n\\fill (2,2.5) circle (2.2pt);\n\\fill (3,3.5) circle (2.2pt);\n\\fill (4,4.5) circle (2.2pt);\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "A relationship written as $y = mx + c$ always graphs as a straight line.",
 "Each column of the table of values is a coordinate $(x,y)$ to plot.",
 "Two points fix a line, but plot three or more so a point off the line warns you to recheck that column.",
@@ -11,12 +11,30 @@
 "On the same axes, a line with a larger magnitude of the coefficient of $x$ is steeper. For example, $m=-3$ gives a steeper line than $m=-1$.\n\n[tikz]\n\\begin{tikzpicture}[scale=0.7]\n\\draw[->,thick] (0,0)--(7.2,0) node[right] {$x$};\n\\draw[->,thick] (0,0)--(0,5.6) node[above] {$y$};\n\\draw[thick,blue!70!black] (0,1)--(2,5);\n\\draw[thick,red!70!black] (0,1)--(4.5,3.25);\n\\draw[dotted,gray] (2,5)--(2.15,5);\n\\node[anchor=west,font=\\footnotesize,blue!70!black] at (2.25,5) {steeper};\n\\draw[dotted,gray] (4.5,3.25)--(4.65,3.25);\n\\node[anchor=west,font=\\footnotesize,red!70!black] at (4.75,3.25) {less steep};\n\\end{tikzpicture}\n[/tikz]",
 "A positive number in front of $x$ makes the line rise from left to right; a negative one makes it fall.\n\n[tikz]\n\\begin{tikzpicture}[scale=0.7]\n\\draw[->,thick] (0,0)--(7.2,0) node[right] {$x$};\n\\draw[->,thick] (0,0)--(0,5.6) node[above] {$y$};\n\\draw[thick,blue!70!black] (0.3,0.8)--(4.5,5);\n\\draw[thick,red!70!black] (0.3,5)--(4.5,0.8);\n\\draw[dotted,gray] (4.5,5)--(4.65,5);\n\\node[anchor=west,font=\\footnotesize,blue!70!black] at (4.75,5) {rises};\n\\draw[dotted,gray] (4.5,0.8)--(4.65,0.8);\n\\node[anchor=west,font=\\footnotesize,red!70!black] at (4.75,0.8) {falls};\n\\end{tikzpicture}\n[/tikz]"
 ],
-        "steps": [
+"steps": [
           "Construct a table of values.",
           "Plot the points.",
           "Draw the line."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Graph $y=\\frac{1}{2}x-2$ using a table of values with $x=-2,-1,0,1,2$.",
+    "solution_text": "Substitute each $x$-value into the equation.\n\nFor $x=-2$:\n$\\begin{aligned}y&=\\frac{1}{2}(-2)-2\\\\&=-3\\end{aligned}$\n\nFor $x=-1$:\n$\\begin{aligned}y&=\\frac{1}{2}(-1)-2\\\\&=-2.5\\end{aligned}$\n\nFor $x=0$:\n$\\begin{aligned}y&=\\frac{1}{2}(0)-2\\\\&=-2\\end{aligned}$\n\nFor $x=1$:\n$\\begin{aligned}y&=\\frac{1}{2}(1)-2\\\\&=-1.5\\end{aligned}$\n\nFor $x=2$:\n$\\begin{aligned}y&=\\frac{1}{2}(2)-2\\\\&=-1\\end{aligned}$\n\n| $x$ | $-2$ | $-1$ | $0$ | $1$ | $2$ |\n| --- | --- | --- | --- | --- | --- |\n| $y$ | $-3$ | $-2.5$ | $-2$ | $-1.5$ | $-1$ |\n\nPlot $(-2,-3),(-1,-2.5),(0,-2),(1,-1.5),(2,-1)$. The half-unit values lie midway between the horizontal integer grid lines. Rule a straight line through the points and extend it in both directions.\n\n[tikz]\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\begin{tikzpicture}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,axis line style={black,<->},xmin=-4,xmax=4,ymin=-4,ymax=2,xtick={-4,-3,-2,-1,1,2,3,4},ytick={-4,-3,-2,-1,1,2},grid=major,grid style={gridGrey},scaled ticks=false,ticklabel style={black,font=\\fontsize{8.5}{10}\\selectfont},label style={black,font=\\fontsize{10}{12}\\selectfont},xlabel={$x$},ylabel={$y$},clip=false]\n\\addplot[graphBlue,thick,<->,domain=-3.8:3.8,samples=2] {0.5*x-2};\n\\addplot[black,only marks,mark=*,mark size=1.8pt] coordinates {(-2,-3) (-1,-2.5) (0,-2) (1,-1.5) (2,-1)};\n\\node[black,font=\\fontsize{10}{12}\\selectfont,anchor=south east] at (axis cs:0,0) {$0$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Does the point $(2,-4)$ lie on the graph of $y=-3x+2$? Show your substitution.",
+    "solution_text": "For $x=2$:\n$\\begin{aligned}y&=-3(2)+2\\\\&=-4\\end{aligned}$\n\nThe calculated $y$-value matches the point's $y$-coordinate, so $(2,-4)$ lies on the line."
+  },
+  {
+    "question_text": "Which equation matches the graph: $y=-2x+4$, $y=-x+4$, or $y=-2x-4$? Use a table of values to explain.\n\n[tikz]\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\begin{tikzpicture}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,axis line style={black,<->},xmin=-1,xmax=4,ymin=-3,ymax=6,xtick={-1,1,2,3,4},ytick={-3,-2,-1,1,2,3,4,5,6},grid=major,grid style={gridGrey},scaled ticks=false,ticklabel style={black,font=\\fontsize{8.5}{10}\\selectfont},label style={black,font=\\fontsize{10}{12}\\selectfont},xlabel={$x$},ylabel={$y$},clip=false]\n\\addplot[graphBlue,thick,<->,domain=-0.8:3.4,samples=2] {-2*x+4};\n\\addplot[black,only marks,mark=*,mark size=1.8pt] coordinates {(0,4) (1,2) (2,0) (3,-2)};\n\\node[black,font=\\fontsize{10}{12}\\selectfont,anchor=south east] at (axis cs:0,0) {$0$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Read the plotted points in ascending $x$ order.\n\n| $x$ | $0$ | $1$ | $2$ | $3$ |\n| --- | --- | --- | --- | --- |\n| $y$ | $4$ | $2$ | $0$ | $-2$ |\n\nAs $x$ increases by $1$, $y$ decreases by $2$, so $m=-2$. At $x=0$, $y=4$, so $c=4$.\n\nThe equation is $y=-2x+4$."
+  },
+  {
+    "question_text": "Graph $y=2x-2$ and $y=-x-2$ on the same axes using $x=-1,0,1,2$. Compare their $y$-intercepts, directions and steepness.",
+    "solution_text": "Construct a table for each line.\n\n| $x$ | $-1$ | $0$ | $1$ | $2$ |\n| --- | --- | --- | --- | --- |\n| $y=2x-2$ | $-4$ | $-2$ | $0$ | $2$ |\n| $y=-x-2$ | $-1$ | $-2$ | $-3$ | $-4$ |\n\nPlot each row's coordinate pairs, then rule and extend both lines.\n\n[tikz]\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\definecolor{graphRed}{HTML}{EF6068}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\begin{tikzpicture}\n\\begin{axis}[width=7cm,height=7cm,axis lines=middle,axis line style={black,<->},xmin=-3,xmax=3,ymin=-5,ymax=4,xtick={-3,-2,-1,1,2,3},ytick={-5,-4,-3,-2,-1,1,2,3,4},grid=major,grid style={gridGrey},scaled ticks=false,ticklabel style={black,font=\\fontsize{8.5}{10}\\selectfont},label style={black,font=\\fontsize{10}{12}\\selectfont},xlabel={$x$},ylabel={$y$},clip=false]\n\\addplot[graphBlue,thick,<->,domain=-1.4:2.8,samples=2] {2*x-2};\n\\addplot[graphBlue,only marks,mark=*,mark size=1.8pt] coordinates {(-1,-4) (0,-2) (1,0) (2,2)};\n\\addplot[graphRed,thick,dashed,<->,domain=-2.8:2.8,samples=2] {-x-2};\n\\addplot[graphRed,only marks,mark=square*,mark size=1.8pt] coordinates {(-1,-1) (0,-2) (1,-3) (2,-4)};\n\\node[black,font=\\fontsize{10}{12}\\selectfont,anchor=south east] at (axis cs:0,0) {$0$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\n\nThe solid blue line is $y=2x-2$. The dashed red line is $y=-x-2$.\n\nBoth cross the $y$-axis at $(0,-2)$ because their constant terms are $-2$.\n\nThe blue line increases because its coefficient of $x$ is positive. The red line decreases because its coefficient is negative.\n\nThe blue line is steeper: its $y$-value changes by $2$ for each $1$ increase in $x$, while the red line's $y$-value changes by $-1$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

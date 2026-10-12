@@ -2,8 +2,8 @@
   "skillId": "cumulative-distribution-function",
   "atomType": "R",
   "theory": {
-    "intro": "The **cumulative distribution function** $F(x)$ gives $P(X \\le x)$. It is the area under the density from the left end of the domain up to $x$, so $F(x) = \\int_{a}^{x} f(t)\\,dt$.",
-    "facts": [
+"intro": "The **cumulative distribution function** $F(x)$ gives $P(X \\le x)$. It is the area under the density from the left end of the domain up to $x$, so $F(x) = \\int_{a}^{x} f(t)\\,dt$.",
+"facts": [
 "$F(x) = P(X \\le x)$ is a running total of probability, so it never decreases.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\fill[gray!35, domain=0:2.6, variable=\\x] (0,0) -- plot ({\\x},{0.45*exp(-0.45*\\x)/(1-exp(-2.25))}) -- (2.6,0) -- cycle;\n\\draw[->] (-0.6,0) -- (5.9,0) node[right] {$t$};\n\\draw[->] (0,-0.5) -- (0,3.0) node[above] {$f(t)$};\n\\draw[thick] (-0.5,0) -- (0,0);\n\\draw[thick, domain=0:5, smooth, samples=100, variable=\\x] plot ({\\x},{0.45*exp(-0.45*\\x)/(1-exp(-2.25))});\n\\draw[thick] (5,0) -- (5.7,0);\n\\draw (2.6,0) -- (2.6,{0.45*exp(-0.45*2.6)/(1-exp(-2.25))});\n\\node[below] at (0,0) {$a$};\n\\node[below] at (2.6,0) {$x$};\n\\end{tikzpicture}\n[/tikz]",
 "At the left end of the domain $F(a) = 0$. For a finite right endpoint $b$, $F(b) = 1$. Extend the support formula by $F(x) = 0$ for $x < a$ and $F(x) = 1$ for $x > b$. For support unbounded to the right, $F(x) \\to 1$ as $x \\to \\infty$.",
 "The variable of integration is written $t$ so that the upper limit $x$ is not reused inside the integral.",
@@ -12,12 +12,46 @@
 "Differentiating the cumulative distribution function returns the density, so $f(x) = F'(x)$ where $F$ is differentiable. At a jump in a piecewise density, the CDF need not be differentiable.",
 "For a density defined in pieces, each piece of $F$ starts from the probability already accumulated below it."
 ],
-    "steps": [
+"steps": [
 "Integrate the density from the left endpoint of the domain to a variable upper limit $x$.",
 "Simplify $F(x)$ and check that the total probability is $1$.",
 "Substitute the required values of $x$ into $F$ and combine them."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A continuous random variable has PDF $f(x)=\\dfrac{3x^2}{117}$ on $[2,5]$, and $0$ elsewhere. Find its CDF, confirm $F(5)=1$, and calculate $P(X\\le4)$ and $P(3\\le X\\le4)$.",
+    "solution_text": "For $2\\le x\\le5$:\n$\\begin{align*}F(x)&=\\int_2^x\\frac{3t^2}{117}\\,dt\\\\&=\\left[\\frac{t^3}{117}\\right]_2^x\\\\&=\\frac{x^3-8}{117}.\\end{align*}$\nThe complete CDF is\n$F(x)=\\begin{cases}0,&x<2,\\\\\\dfrac{x^3-8}{117},&2\\le x\\le5,\\\\1,&x>5.\\end{cases}$\n$F(5)=\\dfrac{125-8}{117}=1$.\n$\\begin{align*}P(X\\le4)&=F(4)\\\\&=\\frac{64-8}{117}\\\\&=\\frac{56}{117}.\\end{align*}$\n$\\begin{align*}P(3\\le X\\le4)&=F(4)-F(3)\\\\&=\\frac{56}{117}-\\frac{19}{117}\\\\&=\\frac{37}{117}.\\end{align*}$"
   },
+  {
+    "question_text": "A continuous random variable has PDF $f(x)=\\dfrac{2e^{2x}}{e^8-1}$ on $[0,4]$, and $0$ elsewhere. Find its CDF and the exact probability $P(X>3)$.",
+    "solution_text": "For $0\\le x\\le4$:\n$\\begin{align*}F(x)&=\\int_0^x\\frac{2e^{2t}}{e^8-1}\\,dt\\\\&=\\frac{2}{e^8-1}\\left[\\frac{e^{2t}}2\\right]_0^x\\\\&=\\frac{e^{2x}-1}{e^8-1}.\\end{align*}$\nThus\n$F(x)=\\begin{cases}0,&x<0,\\\\\\dfrac{e^{2x}-1}{e^8-1},&0\\le x\\le4,\\\\1,&x>4.\\end{cases}$\n$F(4)=1$.\n$\\begin{align*}P(X>3)&=1-F(3)\\\\&=1-\\frac{e^6-1}{e^8-1}\\\\&=\\frac{e^8-e^6}{e^8-1}.\\end{align*}$"
+  },
+  {
+    "question_text": "A continuous random variable has PDF $f(x)=\\dfrac{1}{x\\ln5}$ on $[1,5]$, and $0$ elsewhere. Find its CDF and the exact probability $P(2\\le X\\le4)$.",
+    "solution_text": "For $1\\le x\\le5$:\n$\\begin{align*}F(x)&=\\int_1^x\\frac{1}{t\\ln5}\\,dt\\\\&=\\frac1{\\ln5}[\\ln t]_1^x\\\\&=\\frac{\\ln x}{\\ln5}.\\end{align*}$\nThus\n$F(x)=\\begin{cases}0,&x<1,\\\\\\dfrac{\\ln x}{\\ln5},&1\\le x\\le5,\\\\1,&x>5.\\end{cases}$\n$F(5)=1$.\n$\\begin{align*}P(2\\le X\\le4)&=F(4)-F(2)\\\\&=\\frac{\\ln4-\\ln2}{\\ln5}\\\\&=\\frac{\\ln2}{\\ln5}.\\end{align*}$"
+  },
+  {
+    "question_text": "A continuous random variable has PDF $f(x)=\\dfrac2{x^2}$ for $x\\ge2$, and $0$ elsewhere. Find its CDF, describe its behaviour as $x\\to\\infty$, and calculate $P(3\\le X\\le6)$.",
+    "solution_text": "For $x\\ge2$:\n$\\begin{align*}F(x)&=\\int_2^x2t^{-2}\\,dt\\\\&=\\left[-\\frac2t\\right]_2^x\\\\&=1-\\frac2x.\\end{align*}$\nThus\n$F(x)=\\begin{cases}0,&x<2,\\\\1-\\dfrac2x,&x\\ge2.\\end{cases}$\n$F(2)=0$. As $x\\to\\infty$, $2/x\\to0$, so $F(x)\\to1$.\n$\\begin{align*}P(3\\le X\\le6)&=F(6)-F(3)\\\\&=\\frac23-\\frac13\\\\&=\\frac13.\\end{align*}$"
+  },
+  {
+    "question_text": "A continuous random variable has PDF\n$f(x)=\\begin{cases}\\dfrac16,&0\\le x<3,\\\\\\dfrac14,&3\\le x\\le5,\\\\0,&\\text{otherwise}.\\end{cases}$\nFind its complete CDF, sketch it, and calculate $P(2<X<4)$.",
+    "solution_text": "For $0\\le x<3$:\n$\\begin{align*}F(x)&=\\int_0^x\\frac16\\,dt\\\\&=\\frac x6.\\end{align*}$\nThe probability accumulated up to $3$ is $F(3)=\\frac12$.\nFor $3\\le x\\le5$:\n$\\begin{align*}F(x)&=\\frac12+\\int_3^x\\frac14\\,dt\\\\&=\\frac12+\\frac{x-3}4\\\\&=\\frac{x-1}4.\\end{align*}$\nThus\n$F(x)=\\begin{cases}0,&x<0,\\\\\\dfrac x6,&0\\le x<3,\\\\\\dfrac{x-1}4,&3\\le x\\le5,\\\\1,&x>5.\\end{cases}$\nBoth pieces give $F(3)=\\frac12$, and $F(5)=1$.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=3cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,->] (-0.7,0)--(6,0) node[right] {$x$};\n\\draw[black,->] (0,-0.12)--(0,1.2) node[above] {$F(x)$};\n\\draw[black,thick] (-0.6,0)--(0,0)--(3,0.5)--(5,1)--(5.8,1);\n\\draw[black,dashed] (0,0.5)--(3,0.5)--(3,0);\n\\draw[black,dashed] (0,1)--(5,1)--(5,0);\n\\path (0,0.5) node[left] {$\\frac12$} (0,1) node[left] {$1$} (3,0) node[below] {$3$} (5,0) node[below] {$5$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{align*}P(2<X<4)&=F(4)-F(2)\\\\&=\\frac34-\\frac13\\\\&=\\frac5{12}.\\end{align*}$"
+  },
+  {
+    "question_text": "A continuous random variable has PDF\n$f(x)=\\begin{cases}\\dfrac{3+x}{9},&-3\\le x\\le0,\\\\\\dfrac{3-x}{9},&0<x\\le3,\\\\0,&\\text{otherwise}.\\end{cases}$\nFind its complete CDF and sketch it.",
+    "solution_text": "For $-3\\le x\\le0$:\n$\\begin{align*}F(x)&=\\int_{-3}^x\\frac{3+t}{9}\\,dt\\\\&=\\left[\\frac{(3+t)^2}{18}\\right]_{-3}^x\\\\&=\\frac{(3+x)^2}{18}.\\end{align*}$\nThe accumulated probability is $F(0)=\\frac12$.\nFor $0<x\\le3$:\n$\\begin{align*}F(x)&=\\frac12+\\int_0^x\\frac{3-t}{9}\\,dt\\\\&=\\frac12+\\left[-\\frac{(3-t)^2}{18}\\right]_0^x\\\\&=1-\\frac{(3-x)^2}{18}.\\end{align*}$\nThus\n$F(x)=\\begin{cases}0,&x<-3,\\\\\\dfrac{(3+x)^2}{18},&-3\\le x\\le0,\\\\1-\\dfrac{(3-x)^2}{18},&0<x\\le3,\\\\1,&x>3.\\end{cases}$\nThe pieces agree at $0$, and $F(-3)=0$, $F(3)=1$.\n[tikz]\n\\begin{tikzpicture}[x=0.8cm,y=3cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,->] (-4.1,0)--(4.2,0) node[right] {$x$};\n\\draw[black,->] (0,-0.12)--(0,1.2) node[above] {$F(x)$};\n\\draw[black,thick] (-4,0)--(-3,0);\n\\draw[black,thick,domain=-3:0,samples=60,variable=\\x] plot ({\\x},{(3+\\x)*(3+\\x)/18});\n\\draw[black,thick,domain=0:3,samples=60,variable=\\x] plot ({\\x},{1-(3-\\x)*(3-\\x)/18});\n\\draw[black,thick] (3,1)--(4,1);\n\\draw[black,dashed] (0,1)--(3,1)--(3,0);\n\\path (-3,0) node[below] {$-3$} (3,0) node[below] {$3$} (0,0.5) node[left] {$\\frac12$} (0,1) node[left] {$1$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "A continuous random variable has CDF\n$F(x)=\\begin{cases}0,&x<0,\\\\\\sin x,&0\\le x\\le\\dfrac\\pi2,\\\\1,&x>\\dfrac\\pi2.\\end{cases}$\nFind its PDF and verify that the total area is $1$.",
+    "solution_text": "Differentiate the CDF on the interior of its support:\n$\\begin{align*}f(x)&=F'(x)\\\\&=\\cos x,\\qquad 0<x<\\frac\\pi2.\\end{align*}$\nA PDF is\n$f(x)=\\begin{cases}\\cos x,&0\\le x\\le\\dfrac\\pi2,\\\\0,&\\text{otherwise}.\\end{cases}$\nEndpoint values do not affect probabilities. Since $\\cos x\\ge0$ on $[0,\\frac\\pi2]$, the density is non-negative.\n$\\begin{align*}\\int_0^{\\pi/2}f(x)\\,dx&=\\int_0^{\\pi/2}\\cos x\\,dx\\\\&=[\\sin x]_0^{\\pi/2}\\\\&=1.\\end{align*}$"
+  },
+  {
+    "question_text": "A continuous random variable has CDF $F$, with $F(4)=0.3$ and $F(9)=0.8$. Find (a) $P(X\\le4)$, (b) $P(4<X\\le9)$, (c) $P(X>9)$, and (d) the probability that $X$ lies outside $[4,9]$.",
+    "solution_text": "(a) $P(X\\le4)=F(4)=0.3$.\n(b)\n$\\begin{align*}P(4<X\\le9)&=F(9)-F(4)\\\\&=0.8-0.3\\\\&=0.5.\\end{align*}$\n(c)\n$\\begin{align*}P(X>9)&=1-F(9)\\\\&=1-0.8\\\\&=0.2.\\end{align*}$\n(d) The two tails are disjoint. Since $X$ is continuous, $P(X<4)=F(4)$.\n$\\begin{align*}P(X<4\\text{ or }X>9)&=F(4)+1-F(9)\\\\&=0.3+0.2\\\\&=0.5.\\end{align*}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

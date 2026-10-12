@@ -2,19 +2,61 @@
   "skillId": "circle-equation-general",
   "atomType": "R",
   "theory": {
-        "intro": "A circle with centre $(a,b)$ and radius $r$ has equation $(x-a)^{2}+(y-b)^{2}=r^{2}$ — the circle $x^{2}+y^{2}=r^{2}$ translated $a$ across and $b$ up. **Complete the square** to reach this form from the **expanded form** $x^{2}+y^{2}+Dx+Ey+F=0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\usetikzlibrary{calc}\n\\draw[<->] (-2.6,0) -- (6.8,0) node[right] {$x$};\n\\draw[<->] (0,-2.6) -- (0,6.8) node[above] {$y$};\n\\coordinate (C) at (2,2);\n\\coordinate (P) at (4.828,4.828);\n\\coordinate (Q) at (4.828,2);\n\\draw[thick,blue] (C) circle (4);\n\\draw (C) -- (P) node[pos=0.62, above left] {$r$};\n\\draw (C) -- (Q) node[midway, below] {$x-a$};\n\\draw (Q) -- (P) node[pos=0.35, left] {$y-b$};\n\\coordinate (qa) at ($(Q)!0.4cm!(C)$);\n\\coordinate (qb) at ($(Q)!0.4cm!(P)$);\n\\draw (qa) -- ($(qa)+(qb)-(Q)$) -- (qb);\n\\fill (C) circle (2.5pt);\n\\node[below left] at (C) {$(a,b)$};\n\\fill (P) circle (2.5pt);\n\\node[above right] at (P) {$(x,y)$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "A circle with centre $(a,b)$ and radius $r$ has equation $(x-a)^{2}+(y-b)^{2}=r^{2}$ — the circle $x^{2}+y^{2}=r^{2}$ translated $a$ across and $b$ up. **Complete the square** to reach this form from the **expanded form** $x^{2}+y^{2}+Dx+Ey+F=0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\usetikzlibrary{calc}\n\\draw[<->] (-2.6,0) -- (6.8,0) node[right] {$x$};\n\\draw[<->] (0,-2.6) -- (0,6.8) node[above] {$y$};\n\\coordinate (C) at (2,2);\n\\coordinate (P) at (4.828,4.828);\n\\coordinate (Q) at (4.828,2);\n\\draw[thick,blue] (C) circle (4);\n\\draw (C) -- (P) node[pos=0.62, above left] {$r$};\n\\draw (C) -- (Q) node[midway, below] {$x-a$};\n\\draw (Q) -- (P) node[pos=0.35, left] {$y-b$};\n\\coordinate (qa) at ($(Q)!0.4cm!(C)$);\n\\coordinate (qb) at ($(Q)!0.4cm!(P)$);\n\\draw (qa) -- ($(qa)+(qb)-(Q)$) -- (qb);\n\\fill (C) circle (2.5pt);\n\\node[below left] at (C) {$(a,b)$};\n\\fill (P) circle (2.5pt);\n\\node[above right] at (P) {$(x,y)$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "In $(x-a)^{2}+(y-b)^{2}=r^{2}$ the centre is $(a,b)$ with the signs flipped: $(x-2)^{2}+(y+1)^{2}=9$ has centre $(2,-1)$ and radius $3$.",
           "The right-hand side is $r^{2}$, so the radius is its square root, left as a surd where needed: $(x-3)^{2}+(y-5)^{2}=20$ gives $r=\\sqrt{20}=2\\sqrt{5}$.",
           "To build the equation, substitute the centre and $r^{2}$: centre $(-3,2)$, radius $4$ gives $(x+3)^{2}+(y-2)^{2}=16$.",
           "Complete the square separately on $x$ and $y$: halve each linear coefficient, square it, then add and subtract that amount.",
           "A **negative** right-hand side after completing the square means no circle exists, because $r^{2}$ cannot be negative."
         ],
-        "steps": [
+"steps": [
           "Complete the square for the $x$-terms and the $y$-terms.",
           "Write in the form $(x-a)^{2}+(y-b)^{2}=r^{2}$ and state the centre and radius."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "State the centre and radius of $(x+4)^{2}+(y-2)^{2}=28$, giving the radius in simplest surd form.",
+    "solution_text": "Compare with $(x-a)^{2}+(y-b)^{2}=r^{2}$.\n\nCentre $(-4,2)$.\n\n$\\begin{align*}r&=\\sqrt{28}\\\\&=2\\sqrt{7}\\end{align*}$"
+  },
+  {
+    "question_text": "Describe the translation of $(x-3)^{2}+(y+4)^{2}=r^{2}$ compared with $x^{2}+y^{2}=r^{2}$.",
+    "solution_text": "The centre moves from $(0,0)$ to $(3,-4)$, so the translation is $3$ units right and $4$ units down. The radius stays the same."
+  },
+  {
+    "question_text": "Write the equation of the circle with centre $(-4,3)$ and radius $2\\sqrt{3}$.",
+    "solution_text": "$\\begin{align*}(x-a)^{2}+(y-b)^{2}&=r^{2}\\\\(x-(-4))^{2}+(y-3)^{2}&=(2\\sqrt{3})^{2}\\\\(x+4)^{2}+(y-3)^{2}&=12\\end{align*}$"
+  },
+  {
+    "question_text": "Sketch $(x-2)^{2}+(y+1)^{2}=4$, showing the centre and all intercepts.",
+    "solution_text": "Centre $(2,-1)$ and radius $2$.\n\nFor the $x$-intercepts, put $y=0$:\n\n$\\begin{align*}(x-2)^{2}+1&=4\\\\(x-2)^{2}&=3\\\\x&=2\\pm\\sqrt{3}\\end{align*}$\n\nFor the $y$-intercept, put $x=0$:\n\n$\\begin{align*}4+(y+1)^{2}&=4\\\\(y+1)^{2}&=0\\\\y&=-1\\end{align*}$\n\nThe circle crosses the $x$-axis at $(2-\\sqrt{3},0)$ and $(2+\\sqrt{3},0)$, and touches the $y$-axis at $(0,-1)$.\n\n[tikz]\n\\begin{tikzpicture}[x=0.9cm,y=0.9cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{circleblue}{HTML}{268CFF}\n\\draw[black,->] (-0.8,0)--(5.1,0) node[right] {$x$};\n\\draw[black,->] (0,-3.8)--(0,1.9) node[above] {$y$};\n\\draw[thick,circleblue] (2,-1) circle (2);\n\\fill[black] (2,-1) circle (1.5pt);\n\\path (2,-1) node[below right] {$(2,-1)$};\n\\draw[black,dashed] (2,-1)--(4,-1);\n\\path (3,-1) node[above] {$2$};\n\\fill[black] (0,-1) circle (1.5pt);\n\\path (0,-1) node[left] {$(0,-1)$};\n\\fill[black] ({2-sqrt(3)},0) circle (1.5pt);\n\\path ({2-sqrt(3)},0) node[above right] {$(2-\\sqrt{3},0)$};\n\\fill[black] ({2+sqrt(3)},0) circle (1.5pt);\n\\path ({2+sqrt(3)},0) node[above right] {$(2+\\sqrt{3},0)$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Find the centre and radius of $x^{2}+y^{2}+4x-8y+8=0$ by completing the square. Give the radius in simplest surd form.",
+    "solution_text": "Add and subtract $2^{2}=4$ for the $x$-terms and $(-4)^{2}=16$ for the $y$-terms.\n\n$\\begin{align*}x^{2}+4x+y^{2}-8y+8&=0\\\\(x^{2}+4x+4)-4+(y^{2}-8y+16)-16+8&=0\\\\(x+2)^{2}+(y-4)^{2}-12&=0\\\\(x+2)^{2}+(y-4)^{2}&=12\\end{align*}$\n\nCentre $(-2,4)$ and radius $\\sqrt{12}=2\\sqrt{3}$.\n\nWhen a variable has no linear term, its square already has the required form."
+  },
+  {
+    "question_text": "Show, by completing the square, that $x^{2}+y^{2}+2x-4y+8=0$ is not the equation of a circle.",
+    "solution_text": "$\\begin{align*}x^{2}+2x+y^{2}-4y+8&=0\\\\(x^{2}+2x+1)-1+(y^{2}-4y+4)-4+8&=0\\\\(x+1)^{2}+(y-2)^{2}+3&=0\\\\(x+1)^{2}+(y-2)^{2}&=-3\\end{align*}$\n\nA sum of squares cannot be negative, so there are no real points on this graph."
+  },
+  {
+    "question_text": "Determine the equation of the circle shown.\n\n[tikz]\n\\begin{tikzpicture}[x=0.75cm,y=0.75cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,->] (-6,0)--(1.2,0) node[right] {$x$};\n\\draw[black,->] (0,-1.5)--(0,5.2) node[above] {$y$};\n\\draw[black,thick] (-3,2) circle (2);\n\\fill[black] (-3,2) circle (1.5pt);\n\\path (-3,2) node[below] {$(-3,2)$};\n\\draw[black,dashed] (-3,2)--(-1,2);\n\\path (-2,2) node[above] {$2$};\n\\fill[black] (-1,2) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The marked centre is $(-3,2)$ and the marked radius is $2$.\n\n$\\begin{align*}(x-a)^{2}+(y-b)^{2}&=r^{2}\\\\(x-(-3))^{2}+(y-2)^{2}&=2^{2}\\\\(x+3)^{2}+(y-2)^{2}&=4\\end{align*}$"
+  },
+  {
+    "question_text": "Find the equation of the circle with centre $(1,-2)$ that passes through $(7,6)$.",
+    "solution_text": "The radius is the distance from the centre to the given point.\n\n$\\begin{align*}r&=\\sqrt{(7-1)^{2}+(6-(-2))^{2}}\\\\&=\\sqrt{36+64}\\\\&=10\\end{align*}$\n\n$\\begin{align*}(x-1)^{2}+(y-(-2))^{2}&=10^{2}\\\\(x-1)^{2}+(y+2)^{2}&=100\\end{align*}$"
+  },
+  {
+    "question_text": "For what values of $k$ does the graph of $x^{2}+y^{2}-8x+k=0$ not exist?",
+    "solution_text": "$\\begin{align*}x^{2}-8x+y^{2}+k&=0\\\\(x^{2}-8x+16)-16+y^{2}+k&=0\\\\(x-4)^{2}+y^{2}&=16-k\\end{align*}$\n\nThere are no real points when the right-hand side is negative.\n\n$\\begin{align*}16-k&<0\\\\k&>16\\end{align*}$\n\nAt $k=16$, the graph is the single point $(4,0)$, so this value is excluded."
+  },
+  {
+    "question_text": "The points $A(-2,1)$ and $B(6,7)$ are the ends of a diameter of a circle. Find its equation.",
+    "solution_text": "The centre is the midpoint of the diameter.\n\n$\\begin{align*}C&=\\left(\\frac{-2+6}{2},\\frac{1+7}{2}\\right)\\\\&=(2,4)\\end{align*}$\n\nThe radius is the distance from the centre to either endpoint.\n\n$\\begin{align*}r&=\\sqrt{(2-(-2))^{2}+(4-1)^{2}}\\\\&=\\sqrt{16+9}\\\\&=5\\end{align*}$\n\nThe equation is $(x-2)^{2}+(y-4)^{2}=25$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

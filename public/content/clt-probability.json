@@ -2,8 +2,8 @@
   "skillId": "clt-probability",
   "atomType": "R",
   "theory": {
-    "intro": "To find a probability for a sample mean, standardise with $z=\\dfrac{\\bar{x}-\\mu}{\\sigma/\\sqrt{n}}$. The divisor is the standard deviation of $\\bar{X}$, not of one observation, so a sample mean sits much closer to $\\mu$ than a single value does.",
-    "facts": [
+"intro": "To find a probability for a sample mean, standardise with $z=\\dfrac{\\bar{x}-\\mu}{\\sigma/\\sqrt{n}}$. The divisor is the standard deviation of $\\bar{X}$, not of one observation, so a sample mean sits much closer to $\\mu$ than a single value does.",
+"facts": [
 "By the central limit theorem $\\bar{X}$ is approximately $N\\left(\\mu,\\dfrac{\\sigma^2}{n}\\right)$ when the sample is random and $n\\ge 30$.",
 "The standard deviation of $\\bar{X}$ is $\\dfrac{\\sigma}{\\sqrt{n}}$, which is smaller than $\\sigma$ for every $n>1$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.3cm, y=1cm]\n\\draw[thick] plot[domain=-3.2:3.2, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-3.6,0) -- (3.9,0) node[right] {$\\bar{x}$};\n\\draw[dashed] (0,0) -- (0,2.4);\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$\\mu-\\frac{\\sigma}{\\sqrt{n}}$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$\\mu+\\frac{\\sigma}{\\sqrt{n}}$};\n\\end{tikzpicture}\n[/tikz]",
 "Standardise a **sample mean** with $z=\\dfrac{\\bar{x}-\\mu}{\\sigma/\\sqrt{n}}$.",
@@ -13,12 +13,63 @@
 "Because $\\dfrac{\\sigma}{\\sqrt{n}}$ is small, a sample mean only a little away from $\\mu$ can be very unlikely.",
 "Shade the required region on the curve of $\\bar{X}$ first, because the probability is the area of the shaded part."
 ],
-    "steps": [
+"steps": [
       "Write the mean and the standard deviation $\\dfrac{\\sigma}{\\sqrt{n}}$ of $\\bar{X}$",
       "Standardise each boundary value with $z=\\dfrac{\\bar{x}-\\mu}{\\sigma/\\sqrt{n}}$",
       "Shade the region on the curve and find its area"
-    ]
+    ],
+"workedExamples": [
+{
+    "question_text": "A population has mean $150$ and standard deviation $24$. An independent random sample of $64$ values has mean $154.5$. Find the $z$-score of this sample mean.",
+    "solution_text": "The standard deviation of the sample mean is\n$\\begin{align*}\\sigma_{\\bar{X}}&=\\frac{24}{\\sqrt{64}}\\\\&=3.\\end{align*}$\nStandardise using this spread:\n$\\begin{align*}z&=\\frac{154.5-150}{3}\\\\&=1.5.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+{
+    "question_text": "A population has mean $200$ g and standard deviation $30$ g. An independent random sample of $100$ items is taken. Using the empirical rule, estimate (a) $P(\\bar{X}>206)$ and (b) $P(\\bar{X}>197)$.",
+    "solution_text": "The central limit theorem gives an approximately normal sampling distribution, with\n$\\begin{align*}\\sigma_{\\bar{X}}&=\\frac{30}{\\sqrt{100}}\\\\&=3\\text{ g}.\\end{align*}$\n(a)\n$\\begin{align*}z&=\\frac{206-200}{3}\\\\&=2.\\\\P(\\bar{X}>206)&\\approx P(Z>2)\\\\&\\approx\\frac{1-0.95}{2}\\\\&=0.025.\\end{align*}$\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=0.8cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\path[use as bounding box] (-4.2,-1.3) rectangle (4.5,2.7);\n\\definecolor{regionblue}{HTML}{D4E8FF}\n\\fill[regionblue] (2,0) -- plot[domain=2:3.8,samples=40,variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.8,0) -- cycle;\n\\draw[black,thick] plot[domain=-3.8:3.8,samples=100,variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[black,->] (-4,0) -- (4.3,0);\n\\draw[black] (0,0) -- (0,-0.12);\n\\draw[black] (2,0) -- (2,-0.12);\n\\path (0,-0.12) node[below] {$200$} (2,-0.12) node[below] {$206$} (4.1,-0.65) node[anchor=north east] {$\\bar{x}\\ (\\mathrm{g})$};\n\\path (2.8,0.85) node {$\\approx0.025$};\n\\draw[black] (2.8,0.6) -- (2.5,0.06);\n\\end{tikzpicture}\n[/tikz]\n(b)\n$\\begin{align*}z&=\\frac{197-200}{3}\\\\&=-1.\\\\P(\\bar{X}>197)&\\approx P(Z>-1)\\\\&\\approx0.34+0.5\\\\&=0.84.\\end{align*}$\nThe corresponding lower-tail probabilities are approximately $P(\\bar{X}<206)=0.975$ and $P(\\bar{X}<197)=0.16$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "A population has mean $80$ and standard deviation $18$. An independent random sample of $81$ values is taken. Using the empirical rule, estimate (a) $P(76<\\bar{X}<84)$ and (b) $P(78<\\bar{X}<84)$.",
+    "solution_text": "The sampling distribution is approximately normal, with\n$\\begin{align*}\\sigma_{\\bar{X}}&=\\frac{18}{\\sqrt{81}}\\\\&=2.\\end{align*}$\n(a) The boundary $z$-scores are\n$\\begin{align*}z_{76}&=\\frac{76-80}{2}=-2,\\\\z_{84}&=\\frac{84-80}{2}=2.\\\\P(76<\\bar{X}<84)&\\approx P(-2<Z<2)\\\\&\\approx0.95.\\end{align*}$\n(b) The lower boundary now has $z_{78}=\\frac{78-80}{2}=-1$.\n$\\begin{align*}P(78<\\bar{X}<84)&\\approx P(-1<Z<2)\\\\&\\approx0.34+0.475\\\\&=0.815.\\end{align*}$\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=0.8cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{regionblue}{HTML}{D4E8FF}\n\\fill[regionblue] (-1,0) -- plot[domain=-1:2,samples=60,variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (2,0) -- cycle;\n\\draw[black,thick] plot[domain=-3.8:3.8,samples=100,variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[black,->] (-4,0) -- (4.3,0);\n\\draw[black] (-1,0) -- (-1,-0.12);\n\\draw[black] (0,0) -- (0,-0.12);\n\\draw[black] (2,0) -- (2,-0.12);\n\\path (-1,-0.12) node[below] {$78$} (0,-0.12) node[below] {$80$} (2,-0.12) node[below] {$84$} (4.3,0) node[right] {$\\bar{x}$};\n\\path (0.4,1.2) node {$\\approx0.815$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "A population has mean $110$ and standard deviation $25$. An independent random sample of $100$ values is taken. Estimate (a) $P(\\bar{X}>113)$ and (b) $P(\\bar{X}<108)$ using the table.\n$\\begin{array}{c|c}z&P(Z<z)\\\\\\hline0.80&0.7881\\\\1.20&0.8849\\end{array}$",
+    "solution_text": "The sampling distribution is approximately normal, with\n$\\begin{align*}\\sigma_{\\bar{X}}&=\\frac{25}{\\sqrt{100}}\\\\&=2.5.\\end{align*}$\n(a)\n$\\begin{align*}z&=\\frac{113-110}{2.5}\\\\&=1.2.\\\\P(\\bar{X}>113)&\\approx P(Z>1.2)\\\\&=1-0.8849\\\\&=0.1151.\\end{align*}$\n(b) Use symmetry for the negative boundary:\n$\\begin{align*}z&=\\frac{108-110}{2.5}\\\\&=-0.8.\\\\P(\\bar{X}<108)&\\approx P(Z<-0.8)\\\\&=1-P(Z<0.8)\\\\&=1-0.7881\\\\&=0.2119.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "Individual package masses are normally distributed with mean $400$ g and standard deviation $20$ g. Compare a single package with the mean of an independent random sample of $64$ packages. Find the $z$-score of $405$ g in each case and the probability of exceeding $405$ g, using the table.\n$\\begin{array}{c|c}z&P(Z<z)\\\\\\hline0.25&0.5987\\\\2.00&0.9772\\end{array}$",
+    "solution_text": "For a single package, use the population standard deviation:\n$\\begin{align*}z_X&=\\frac{405-400}{20}\\\\&=0.25.\\\\P(X>405)&=1-0.5987\\\\&=0.4013.\\end{align*}$\nFor the sample mean, use\n$\\begin{align*}\\sigma_{\\bar{X}}&=\\frac{20}{\\sqrt{64}}\\\\&=2.5\\text{ g}.\\\\z_{\\bar{X}}&=\\frac{405-400}{2.5}\\\\&=2.\\\\P(\\bar{X}>405)&=1-0.9772\\\\&=0.0228.\\end{align*}$\nBoth distributions are normal because the population is normal. The sample mean has the smaller spread and the larger $z$-score, so its right-tail probability is smaller.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "A population has mean $90$ and standard deviation $40$. Independent random samples of $100$ values are taken. Using the empirical rule, estimate (a) the boundary $c$ for which $P(\\bar{X}>c)\\approx0.16$, (b) the interval symmetric about $90$ containing the middle $95\\%$ of sample means, and (c) the width of the interval containing the middle $68\\%$.",
+    "solution_text": "The sampling distribution is approximately normal, with\n$\\begin{align*}\\sigma_{\\bar{X}}&=\\frac{40}{\\sqrt{100}}\\\\&=4.\\end{align*}$\n(a) A right-tail area of approximately $0.16$ corresponds to $z=1$.\n$\\begin{align*}c&=90+1(4)\\\\&=94.\\end{align*}$\n(b) The middle $95\\%$ corresponds approximately to $-2<Z<2$.\n$\\begin{align*}\\text{Lower boundary}&=90-2(4)=82,\\\\\\text{Upper boundary}&=90+2(4)=98.\\end{align*}$\nThe interval is approximately $82<\\bar{X}<98$.\n(c) The middle $68\\%$ corresponds approximately to $-1<Z<1$, giving boundaries $86$ and $94$.\n$\\begin{align*}\\text{Width}&=94-86\\\\&=8.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "A population has mean $100$ and standard deviation $27$. Find the size of an independent random sample for which the standard deviation of the sample mean is $3$. Then use the empirical rule to estimate $P(\\bar{X}>106)$.",
+    "solution_text": "Solve for the sample size:\n$\\begin{align*}\\frac{27}{\\sqrt{n}}&=3,\\\\\\sqrt{n}&=9,\\\\n&=81.\\end{align*}$\nSince $n=81\\ge30$, use the approximately normal sampling distribution.\n$\\begin{align*}z&=\\frac{106-100}{3}\\\\&=2.\\\\P(\\bar{X}>106)&\\approx P(Z>2)\\\\&\\approx\\frac{1-0.95}{2}\\\\&=0.025.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

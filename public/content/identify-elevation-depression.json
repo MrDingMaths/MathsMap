@@ -2,8 +2,8 @@
   "skillId": "identify-elevation-depression",
   "atomType": "Cat",
   "theory": {
-        "intro": "When you look up or down at something, the angle you turn through is measured from the **horizontal** at your eye — never from a wall, a cliff face or a slope.",
-        "facts": [
+"intro": "When you look up or down at something, the angle you turn through is measured from the **horizontal** at your eye — never from a wall, a cliff face or a slope.",
+"facts": [
           "The **line of sight** is the straight line from the observer's eye to the object.",
           "The **horizontal** through the observer's eye is the line the angle is measured from, and is usually drawn dashed.",
           "An angle of **elevation** opens upwards from the horizontal, so the object is above the observer.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,2.2);\n\\coordinate (H) at (4.9,0);\n\\draw[dashed] (A) -- (H) node[pos=0.85, above] {horizontal};\n\\draw[thick] (A) -- (B) node[midway, above, sloped] {line of sight};\n\\fill (A) circle (1.6pt);\n\\fill (B) circle (1.6pt);\n\\pic[draw, \"$\\theta$\", angle radius=0.9cm, angle eccentricity=2] {angle = H--A--B};\n\\node[left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\end{tikzpicture}[/tikz]",
@@ -12,13 +12,43 @@
           "That angle and the true angle add to $90^{\\circ}$, so subtract it from $90^{\\circ}$.",
           "The horizontal at the top is parallel to the ground, so the angle of depression equals the angle of elevation (alternate angles).\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (A) at (0,2.4);\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (4,0);\n\\coordinate (H) at (4.9,2.4);\n\\draw[dashed] (A) -- (H) node[pos=0.85, above] {horizontal};\n\\draw (A) -- (C);\n\\draw (C) -- (B);\n\\draw[thick] (A) -- (B);\n\\coordinate (ra) at ($(C)!0.3cm!(A)$);\n\\coordinate (rb) at ($(C)!0.3cm!(B)$);\n\\draw (ra) -- ($(ra)+(rb)-(C)$) -- (rb);\n\\pic[draw, \"$\\theta$\", angle radius=1cm, angle eccentricity=2] {angle = B--A--H};\n\\pic[draw, \"$\\theta$\", angle radius=0.9cm, angle eccentricity=2.1] {angle = A--B--C};\n\\node[left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[below left] at (C) {$C$};\n\\end{tikzpicture}[/tikz]"
         ],
-        "steps": [
+"steps": [
           "Find the observer's eye.",
           "Draw the horizontal at the eye.",
           "Draw the line of sight to the object.",
           "Name the angle between them."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "An observer at $A$ looks up at an observer at $B$. Identify each marked angle $\\alpha$, $\\beta$ and $\\gamma$ as an angle of elevation, depression or neither. Give reasons.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,0)--(4,3)--(4,0)--cycle;\n\\draw[black,dashed] (0,0)--(5,0);\n\\draw[black,dashed] (-0.6,3)--(4,3);\n\\draw[black] (3.75,0)--(3.75,0.25)--(4,0.25);\n\\draw[black] (0.8,0) arc[start angle=0,end angle=36.87,radius=0.8];\n\\draw[black] (3.1,3) arc[start angle=180,end angle=216.87,radius=0.9];\n\\draw[black] (3.44,2.58) arc[start angle=216.87,end angle=270,radius=0.7];\n\\path (1.1,0.35) node {$\\alpha$};\n\\path (2.85,2.6) node {$\\beta$};\n\\path (3.55,2.1) node {$\\gamma$};\n\\path (0,0) node[below left] {$A$};\n\\path (4,3) node[above right] {$B$};\n\\path (1,3) node[above] {horizontal};\n\\path (2,1.5) node[above,sloped,rotate=36.87] {line of sight};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\alpha$ is an angle of elevation: at $A$, it opens upwards from the horizontal to the line of sight.\n\n$\\beta$ is an angle of depression: at $B$, it opens downwards from the horizontal to the line of sight.\n\n$\\gamma$ is neither: it is measured from the vertical, rather than the horizontal.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A ranger at $A$ looks down at a hiker at $B$. The angle between the vertical tower wall and the line of sight is $52^{\\circ}$. Explain why this is not the angle of depression, then mark the angle of depression $\\theta$ and find its size.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,3.125)--(0,0)--(4,0)--cycle;\n\\draw[black,dashed] (0,3.125)--(5,3.125);\n\\draw[black] (0,0.25)--(0.25,0.25)--(0.25,0);\n\\draw[black] (0,2.425) arc[start angle=270,end angle=322,radius=0.7];\n\\path (0.5,2.15) node {$52^{\\circ}$};\n\\path (0,3.125) node[above left] {$A$};\n\\path (4,0) node[below right] {$B$};\n\\path (3.5,3.125) node[above] {horizontal};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The $52^{\\circ}$ angle is measured from the vertical wall. The angle of depression is measured downwards from the horizontal at $A$.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,3.125)--(0,0)--(4,0)--cycle;\n\\draw[black,dashed] (0,3.125)--(5,3.125);\n\\draw[black] (0,0.25)--(0.25,0.25)--(0.25,0);\n\\draw[black] (0,2.425) arc[start angle=270,end angle=322,radius=0.7];\n\\draw[black] (0.788,2.509) arc[start angle=322,end angle=360,radius=1];\n\\path (0.5,2.15) node {$52^{\\circ}$};\n\\path (1.25,2.75) node {$\\theta$};\n\\path (0,3.125) node[above left] {$A$};\n\\path (4,0) node[below right] {$B$};\n\\end{tikzpicture}\n[/tikz]\nAngles in a right angle sum to $90^{\\circ}$.\n$\\begin{aligned}\\theta+52^{\\circ}&=90^{\\circ}\\\\\\theta&=90^{\\circ}-52^{\\circ}\\\\\\theta&=38^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An observer at $O$ looks up at a balloon at $T$, directly above $F$. The angle between $TF$ and $TO$ is $64^{\\circ}$. Mark the angle of elevation $\\theta$ of the balloon from $O$ and find its size.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,0)--(4,0)--(4,1.951)--cycle;\n\\draw[black] (3.75,0)--(3.75,0.25)--(4,0.25);\n\\draw[black] (3.371,1.644) arc[start angle=206,end angle=270,radius=0.7];\n\\path (3.45,1.05) node {$64^{\\circ}$};\n\\path (0,0) node[below left] {$O$};\n\\path (4,0) node[below right] {$F$};\n\\path (4,1.951) node[above right] {$T$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The angle of elevation is at $O$, between the horizontal $OF$ and the line of sight $OT$.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,0)--(4,0)--(4,1.951)--cycle;\n\\draw[black] (3.75,0)--(3.75,0.25)--(4,0.25);\n\\draw[black] (3.371,1.644) arc[start angle=206,end angle=270,radius=0.7];\n\\draw[black] (0.9,0) arc[start angle=0,end angle=26,radius=0.9];\n\\path (3.45,1.05) node {$64^{\\circ}$};\n\\path (1.2,0.27) node {$\\theta$};\n\\path (0,0) node[below left] {$O$};\n\\path (4,0) node[below right] {$F$};\n\\path (4,1.951) node[above right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nAngles in a triangle sum to $180^{\\circ}$.\n$\\begin{aligned}\\theta+64^{\\circ}+90^{\\circ}&=180^{\\circ}\\\\\\theta+154^{\\circ}&=180^{\\circ}\\\\\\theta&=180^{\\circ}-154^{\\circ}\\\\\\theta&=26^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A climber at $A$ looks down at a swimmer at $B$. The cliff is vertical, and the upper horizontal is parallel to the sea. The angle between the cliff and the line of sight is $47^{\\circ}$.\n\n(a) Find the angle of depression of $B$ from $A$.\n\n(b) Find the angle of elevation of $A$ from $B$, giving a reason. Explain why these are different angles even though their sizes are equal.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,3.730)--(0,0)--(4,0)--cycle;\n\\draw[black,dashed] (0,3.730)--(5,3.730);\n\\draw[black] (0,0.25)--(0.25,0.25)--(0.25,0);\n\\draw[black,->] (2,3.730)--(2.5,3.730);\n\\draw[black,->] (2,0)--(2.5,0);\n\\draw[black] (0,3.03) arc[start angle=270,end angle=317,radius=0.7];\n\\path (0.45,2.72) node {$47^{\\circ}$};\n\\path (0,3.730) node[above left] {$A$};\n\\path (0,0) node[below left] {$C$};\n\\path (4,0) node[below right] {$B$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Let $d$ be the angle of depression at $A$, and $e$ the angle of elevation at $B$.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,3.730)--(0,0)--(4,0)--cycle;\n\\draw[black,dashed] (0,3.730)--(5,3.730);\n\\draw[black] (0,0.25)--(0.25,0.25)--(0.25,0);\n\\draw[black,->] (2,3.730)--(2.5,3.730);\n\\draw[black,->] (2,0)--(2.5,0);\n\\draw[black] (0,3.03) arc[start angle=270,end angle=317,radius=0.7];\n\\draw[black] (0.731,3.048) arc[start angle=317,end angle=360,radius=1];\n\\draw[black] (3.415,0.546) arc[start angle=137,end angle=180,radius=0.8];\n\\path (0.45,2.72) node {$47^{\\circ}$};\n\\path (1.2,3.25) node {$d$};\n\\path (2.95,0.4) node {$e$};\n\\path (0,3.730) node[above left] {$A$};\n\\path (0,0) node[below left] {$C$};\n\\path (4,0) node[below right] {$B$};\n\\end{tikzpicture}\n[/tikz]\n(a) Angles in a right angle sum to $90^{\\circ}$.\n$\\begin{aligned}d+47^{\\circ}&=90^{\\circ}\\\\d&=90^{\\circ}-47^{\\circ}\\\\d&=43^{\\circ}\\end{aligned}$\n\n(b) The line of sight crosses the two parallel horizontals, so $d$ and $e$ are alternate angles.\n$e=d=43^{\\circ}$.\n\nThe depression angle is at $A$, measured downwards from its horizontal. The elevation angle is at $B$, measured upwards from its horizontal.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

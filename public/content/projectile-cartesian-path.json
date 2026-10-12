@@ -2,8 +2,8 @@
   "skillId": "projectile-cartesian-path",
   "atomType": "R",
   "theory": {
-    "intro": "The equations $x=Vt\\cos\\alpha$ and $y=Vt\\sin\\alpha-\\dfrac{1}{2}gt^{2}$ describe the path through the parameter $t$. Making $t$ the subject of the first and substituting it into the second links $x$ and $y$ directly.",
-    "facts": [
+"intro": "The equations $x=Vt\\cos\\alpha$ and $y=Vt\\sin\\alpha-\\dfrac{1}{2}gt^{2}$ describe the path through the parameter $t$. Making $t$ the subject of the first and substituting it into the second links $x$ and $y$ directly.",
+"facts": [
 "Eliminating $t$ gives the **Cartesian equation** $y=x\\tan\\alpha-\\dfrac{gx^{2}}{2V^{2}\\cos^{2}\\alpha}$, which contains no $t$ and requires non-zero horizontal velocity, $V\\cos\\alpha\\ne 0$.",
 "Since $\\sec^{2}\\alpha=1+\\tan^{2}\\alpha$, the same path is also written $y=x\\tan\\alpha-\\dfrac{gx^{2}}{2V^{2}}\\left(1+\\tan^{2}\\alpha\\right)$.",
 "The coefficient of $x^{2}$ is negative, so the path is a parabola opening downwards.",
@@ -12,12 +12,42 @@
 "The gradient $\\dfrac{dy}{dx}$ gives the direction of motion at a point, through $\\tan\\phi=\\dfrac{dy}{dx}$.",
 "At $x=0$ the gradient equals $\\tan\\alpha$, so it gives the angle of projection."
 ],
-    "steps": [
+"steps": [
 "Make $t$ the subject of the horizontal equation",
 "Substitute into the vertical equation",
 "Simplify to a quadratic in $x$"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A projectile launched from the origin has $x=30t$ and $y=20t-5t^{2}$, with distances in metres and time in seconds.\n(a) Find its Cartesian equation.\n(b) Find its range and greatest height.\n(c) Find its angle of projection and direction of motion at $x=90$, to 1 d.p.",
+    "solution_text": "(a) Make time the subject of the horizontal equation: $t=\\dfrac{x}{30}$.\nSubstitute into the vertical equation.\n$\\begin{aligned}y&=20\\left(\\dfrac{x}{30}\\right)-5\\left(\\dfrac{x}{30}\\right)^{2}\\\\&=\\dfrac{2x}{3}-\\dfrac{x^{2}}{180}.\\end{aligned}$\n(b) At launch level, $y=0$.\n$\\begin{aligned}0&=\\dfrac{2x}{3}-\\dfrac{x^{2}}{180}\\\\0&=x\\left(\\dfrac{2}{3}-\\dfrac{x}{180}\\right).\\end{aligned}$\nThe roots are $x=0$ and $x=120$, so the range is $120\\text{ m}$.\nAt greatest height, the gradient is zero.\n$\\begin{aligned}\\dfrac{dy}{dx}&=\\dfrac{2}{3}-\\dfrac{x}{90}\\\\0&=\\dfrac{2}{3}-\\dfrac{x}{90}\\\\x&=60.\\end{aligned}$\n$\\begin{aligned}y(60)&=\\dfrac{2}{3}(60)-\\dfrac{60^{2}}{180}\\\\&=20\\text{ m}.\\end{aligned}$\n(c) At $x=0$, the gradient is $\\dfrac{2}{3}$, so the angle of projection is $\\tan^{-1}\\left(\\dfrac{2}{3}\\right)\\approx33.7^{\\circ}$ above the horizontal.\nAt $x=90$:\n$\\begin{aligned}\\left.\\dfrac{dy}{dx}\\right|_{x=90}&=\\dfrac{2}{3}-\\dfrac{90}{90}\\\\&=-\\dfrac{1}{3}.\\end{aligned}$\nThe direction is $\\tan^{-1}\\left(\\dfrac{1}{3}\\right)\\approx18.4^{\\circ}$ below the horizontal.\n[tikz]\n\\begin{tikzpicture}[x=0.05cm,y=0.1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{pathblue}{HTML}{268CFF}\n\\draw[->,black] (-5,0)--(132,0) node[right] {$x$ (m)};\n\\draw[->,black] (0,-3)--(0,28) node[above] {$y$ (m)};\n\\draw[thick,pathblue,domain=0:120,samples=80] plot (\\x,{2*\\x/3-(\\x)*(\\x)/180});\n\\fill[black] (60,20) circle (1.2pt);\n\\path (60,20) node[above] {$(60,20)$};\n\\fill[black] (90,15) circle (1.2pt);\n\\path (90,15) node[above right] {$P(90,15)$};\n\\draw[dashed,black] (75,20)--(108,9);\n\\path (108,9) node[right] {tangent at $P$};\n\\path (120,0) node[below] {$120$};\n\\path (0,0) node[below left] {$O$};\n\\end{tikzpicture}\n[/tikz]"
   },
+  {
+    "question_text": "A projectile follows $y=\\dfrac{3}{2}x-\\dfrac{x^{2}}{80}$, where $x$ and $y$ are in metres.\n(a) Find its height when $x=20$.\n(b) Find both horizontal distances at which its height is $40\\text{ m}$.",
+    "solution_text": "(a) Substitute the horizontal distance.\n$\\begin{aligned}y(20)&=\\dfrac{3}{2}(20)-\\dfrac{20^{2}}{80}\\\\&=30-5\\\\&=25\\text{ m}.\\end{aligned}$\n(b) Set the height equal to $40$.\n$\\begin{aligned}40&=\\dfrac{3}{2}x-\\dfrac{x^{2}}{80}\\\\3200&=120x-x^{2}\\\\x^{2}-120x+3200&=0\\\\(x-40)(x-80)&=0.\\end{aligned}$\nThe horizontal distances are $40\\text{ m}$ while rising and $80\\text{ m}$ while falling."
+  },
+  {
+    "question_text": "A projectile leaves level ground with $x=Vt\\cos\\theta$ and $y=Vt\\sin\\theta-\\dfrac{1}{2}gt^{2}$, where $V>0$, $g>0$ and $0^{\\circ}<\\theta<90^{\\circ}$.\n(a) Eliminate $t$ to derive its Cartesian equation.\n(b) Use this equation to derive the range formula.\n(c) Find both projection angles, to 1 d.p., if $V=20\\text{ m/s}$, $g=10\\text{ m/s}^{2}$ and the range is $30\\text{ m}$.",
+    "solution_text": "(a) From the horizontal equation, $t=\\dfrac{x}{V\\cos\\theta}$.\n$\\begin{aligned}y&=V\\sin\\theta\\left(\\dfrac{x}{V\\cos\\theta}\\right)-\\dfrac{g}{2}\\left(\\dfrac{x}{V\\cos\\theta}\\right)^{2}\\\\&=x\\tan\\theta-\\dfrac{gx^{2}}{2V^{2}}\\sec^{2}\\theta.\\end{aligned}$\n(b) At landing, $y=0$ and $x=R>0$.\n$\\begin{aligned}R\\tan\\theta&=\\dfrac{gR^{2}}{2V^{2}}\\sec^{2}\\theta\\\\R&=\\dfrac{2V^{2}\\tan\\theta}{g\\sec^{2}\\theta}\\\\&=\\dfrac{2V^{2}\\sin\\theta\\cos\\theta}{g}\\\\&=\\dfrac{V^{2}\\sin2\\theta}{g}.\\end{aligned}$\n(c) Substitute the speed, gravity and range.\n$\\begin{aligned}30&=\\dfrac{400\\sin2\\theta}{10}\\\\\\sin2\\theta&=\\dfrac{3}{4}.\\end{aligned}$\nSince $0^{\\circ}<2\\theta<180^{\\circ}$, $2\\theta\\approx48.5904^{\\circ}$ or $131.4096^{\\circ}$.\nThe projection angles are $\\theta\\approx24.3^{\\circ}$ or $65.7^{\\circ}$."
+  },
+  {
+    "question_text": "A ball is launched from a platform $15\\text{ m}$ above the ground with initial velocity $10\\mathbf{i}+10\\mathbf{j}$ metres per second. Take the launch point as the origin, rightwards and upwards as positive, and $g=10\\text{ m/s}^{2}$.\n(a) Find the Cartesian equation of its path.\n(b) Find how far from the platform's base it lands and its direction at impact, to 1 d.p.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black] (-0.8,-1.5)--(5,-1.5);\n\\draw[black] (-0.8,-1.5)--(-0.8,0)--(0,0);\n\\draw[->,black] (0,0)--(4.7,0) node[right] {$x$};\n\\draw[->,black] (0,-1.7)--(0,1.5) node[above] {$y$};\n\\draw[->,black,thick] (0,0)--(1,1) node[above right] {$10\\mathbf{i}+10\\mathbf{j}$};\n\\path (0,0) node[above left] {$O$};\n\\draw[<->,black] (-1.2,0)--(-1.2,-1.5) node[midway,left] {$15\\text{ m}$};\n\\path (3,-1.5) node[below] {ground};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Integrating the acceleration and applying the initial velocity gives $\\dot{x}=10$ and $\\dot{y}=10-10t$. Since $x(0)=y(0)=0$, $x=10t$ and $y=10t-5t^{2}$.\nFrom $x=10t$, $t=\\dfrac{x}{10}$.\n$\\begin{aligned}y&=10\\left(\\dfrac{x}{10}\\right)-5\\left(\\dfrac{x}{10}\\right)^{2}\\\\&=x-\\dfrac{x^{2}}{20}.\\end{aligned}$\n(b) Ground level is $y=-15$.\n$\\begin{aligned}-15&=x-\\dfrac{x^{2}}{20}\\\\x^{2}-20x-300&=0\\\\(x-30)(x+10)&=0.\\end{aligned}$\nRightward flight requires $x\\ge0$, so the ball lands $30\\text{ m}$ from the base.\n$\\begin{aligned}\\dfrac{dy}{dx}&=1-\\dfrac{x}{10}\\\\\\left.\\dfrac{dy}{dx}\\right|_{x=30}&=-2.\\end{aligned}$\nIts impact direction is $\\tan^{-1}(2)\\approx63.4^{\\circ}$ below the horizontal."
+  },
+  {
+    "question_text": "A projectile launched from level ground follows $y=x\\tan\\theta-\\dfrac{gx^{2}}{2V^{2}}\\sec^{2}\\theta$, with $0^{\\circ}<\\theta<90^{\\circ}$.\n(a) Use differentiation to show that its greatest height is $\\dfrac{V^{2}\\sin^{2}\\theta}{2g}$.\n(b) Find $\\theta$ if $V=30\\text{ m/s}$, $g=10\\text{ m/s}^{2}$ and the greatest height is $\\dfrac{45}{4}\\text{ m}$.",
+    "solution_text": "(a) At the vertex, the gradient is zero.\n$\\begin{aligned}\\dfrac{dy}{dx}&=\\tan\\theta-\\dfrac{gx\\sec^{2}\\theta}{V^{2}}\\\\0&=\\tan\\theta-\\dfrac{gx\\sec^{2}\\theta}{V^{2}}\\\\x&=\\dfrac{V^{2}\\tan\\theta}{g\\sec^{2}\\theta}\\\\&=\\dfrac{V^{2}\\sin\\theta\\cos\\theta}{g}.\\end{aligned}$\nSubstitute this horizontal coordinate into the path equation.\n$\\begin{aligned}H&=\\dfrac{V^{2}\\sin\\theta\\cos\\theta}{g}\\tan\\theta-\\dfrac{g\\sec^{2}\\theta}{2V^{2}}\\left(\\dfrac{V^{2}\\sin\\theta\\cos\\theta}{g}\\right)^{2}\\\\&=\\dfrac{V^{2}\\sin^{2}\\theta}{g}-\\dfrac{V^{2}\\sin^{2}\\theta}{2g}\\\\&=\\dfrac{V^{2}\\sin^{2}\\theta}{2g}.\\end{aligned}$\nThe quadratic coefficient is negative, so this vertex gives the greatest height.\n(b)\n$\\begin{aligned}\\dfrac{45}{4}&=\\dfrac{900\\sin^{2}\\theta}{20}\\\\\\sin^{2}\\theta&=\\dfrac{1}{4}\\\\\\sin\\theta&=\\dfrac{1}{2}\\\\\\theta&=30^{\\circ}.\\end{aligned}$"
+  },
+  {
+    "question_text": "A projectile leaves the origin at $30\\text{ m/s}$ and angle $\\theta$, where $0^{\\circ}<\\theta<90^{\\circ}$. Take $g=10\\text{ m/s}^{2}$.\nIts path is $y=x\\tan\\theta-\\dfrac{5x^{2}}{900}\\sec^{2}\\theta$.\nIt passes through $(45,\\dfrac{45}{4})$. Find both possible projection angles, to 1 d.p.",
+    "solution_text": "Substitute the point and use $\\sec^{2}\\theta=1+\\tan^{2}\\theta$.\n$\\begin{aligned}\\dfrac{45}{4}&=45\\tan\\theta-\\dfrac{45}{4}\\sec^{2}\\theta\\\\1&=4\\tan\\theta-\\left(1+\\tan^{2}\\theta\\right)\\\\\\tan^{2}\\theta-4\\tan\\theta+2&=0\\\\\\tan\\theta&=\\dfrac{4\\pm\\sqrt{16-8}}{2}\\\\&=2\\pm\\sqrt{2}.\\end{aligned}$\nBoth values are positive. The projection angles are $\\theta=\\tan^{-1}(2-\\sqrt{2})\\approx30.4^{\\circ}$ or $\\theta=\\tan^{-1}(2+\\sqrt{2})\\approx73.7^{\\circ}$."
+  },
+  {
+    "question_text": "A shell leaves the origin with speed $V$ and elevation $\\alpha$, where $0^{\\circ}<\\alpha<90^{\\circ}$, following $y=x\\tan\\alpha-\\dfrac{gx^{2}}{2V^{2}}\\sec^{2}\\alpha$.\n(a) Express this as a quadratic in $\\tan\\alpha$.\n(b) Find both elevations, to the nearest minute, that reach a target $1500\\text{ m}$ horizontally and $250\\text{ m}$ vertically from the gun when $V=100\\sqrt{2}\\text{ m/s}$ and $g=10\\text{ m/s}^{2}$.",
+    "solution_text": "(a) Use $\\sec^{2}\\alpha=1+\\tan^{2}\\alpha$, multiply by $2V^{2}$ and collect terms.\n$\\begin{aligned}2V^{2}y&=2xV^{2}\\tan\\alpha-gx^{2}\\left(1+\\tan^{2}\\alpha\\right)\\\\gx^{2}\\tan^{2}\\alpha-2xV^{2}\\tan\\alpha+2yV^{2}+gx^{2}&=0.\\end{aligned}$\n(b) Convert all distances to metres and use $V^{2}=20000$.\n$\\begin{aligned}22500000\\tan^{2}\\alpha-60000000\\tan\\alpha+32500000&=0\\\\9\\tan^{2}\\alpha-24\\tan\\alpha+13&=0\\\\\\tan\\alpha&=\\dfrac{24\\pm\\sqrt{576-468}}{18}\\\\&=\\dfrac{4\\pm\\sqrt{3}}{3}.\\end{aligned}$\nTaking inverse tangents without intermediate rounding gives $\\alpha\\approx37^{\\circ}5'$ or $62^{\\circ}22'$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

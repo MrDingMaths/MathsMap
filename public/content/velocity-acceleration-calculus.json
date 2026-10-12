@@ -2,8 +2,8 @@
   "skillId": "velocity-acceleration-calculus",
   "atomType": "R",
   "theory": {
-    "intro": "Velocity is the rate of change of displacement, and **acceleration** is the rate of change of velocity. Differentiate the displacement $x(t)$ once to get $v = \\dot{x}$, and again to get $a = \\ddot{x}$.",
-    "facts": [
+"intro": "Velocity is the rate of change of displacement, and **acceleration** is the rate of change of velocity. Differentiate the displacement $x(t)$ once to get $v = \\dot{x}$, and again to get $a = \\ddot{x}$.",
+"facts": [
       "The dot notation writes velocity as $\\dot{x}$ and acceleration as $\\ddot{x}$, where each dot means one differentiation with respect to time $t$.",
       "Acceleration is also written $\\dfrac{d^{2}x}{dt^{2}}$, the second derivative of displacement with respect to time.",
       "Common units are metres for $x$, $\\text{m/s}$ for $v$ and $\\text{m/s}^{2}$ for $a$.",
@@ -12,13 +12,55 @@
       "The **speed** of a particle is $|v|$, so a velocity of $-6\\text{ m/s}$ is a speed of $6\\text{ m/s}$.",
       "The particle moves in the positive direction when $v > 0$ and in the negative direction when $v < 0$."
     ],
-    "steps": [
+"steps": [
       "Differentiate the displacement $x(t)$ with respect to $t$ to find the velocity $v = \\dot{x}$.",
       "Differentiate the velocity with respect to $t$ to find the acceleration $a = \\ddot{x}$.",
       "Substitute the required time into $x$, $v$ or $a$ to evaluate it at that instant.",
       "To find when the particle is at rest, set $v = 0$ and solve for $t \\ge 0$."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A particle moves in a straight line with displacement $x(t)=2t^3-6t^2+5t-3$ metres, where $t\\ge0$ is measured in seconds. Find its velocity and acceleration functions, its initial displacement, velocity and acceleration, and its velocity and acceleration at $t=2$.",
+    "solution_text": "Differentiate displacement once for velocity and twice for acceleration.\n$\\begin{align*}v(t)&=\\dot{x}(t)=6t^2-12t+5\\\\a(t)&=\\ddot{x}(t)=12t-12\\end{align*}$\nInitial values use $t=0$.\n$\\begin{align*}x(0)&=-3\\text{ m}\\\\v(0)&=5\\text{ m/s}\\\\a(0)&=-12\\text{ m/s}^2\\end{align*}$\nAt $t=2$:\n$\\begin{align*}v(2)&=6(2)^2-12(2)+5\\\\&=5\\text{ m/s}\\\\a(2)&=12(2)-12\\\\&=12\\text{ m/s}^2\\end{align*}$"
   },
+  {
+    "question_text": "A particle has displacement $x(t)=2\\cos 4t$ metres, where $t\\ge0$ is measured in seconds. Find its velocity and acceleration functions, then evaluate both at $t=\\pi/8$.",
+    "solution_text": "Use the chain rule at each differentiation.\n$\\begin{align*}v(t)&=\\dot{x}(t)=-8\\sin 4t\\\\a(t)&=\\ddot{x}(t)=-32\\cos 4t\\end{align*}$\nAt $t=\\pi/8$, the angle is $4t=\\pi/2$.\n$\\begin{align*}v(\\pi/8)&=-8\\sin(\\pi/2)\\\\&=-8\\text{ m/s}\\\\a(\\pi/8)&=-32\\cos(\\pi/2)\\\\&=0\\text{ m/s}^2\\end{align*}$"
+  },
+  {
+    "question_text": "A particle has displacement $x(t)=t^2e^{-2t}$ metres, where $t\\ge0$ is measured in seconds. Find its velocity and acceleration as functions of time.",
+    "solution_text": "Apply the product rule, using $\\dfrac{d}{dt}e^{-2t}=-2e^{-2t}$.\n$\\begin{align*}v(t)&=2te^{-2t}-2t^2e^{-2t}\\\\&=(2t-2t^2)e^{-2t}\\end{align*}$\nDifferentiate the velocity using the product rule again.\n$\\begin{align*}a(t)&=(2-4t)e^{-2t}-2(2t-2t^2)e^{-2t}\\\\&=(4t^2-8t+2)e^{-2t}\\end{align*}$"
+  },
+  {
+    "question_text": "A particle has displacement $x(t)=1+4\\ln(t+2)$ metres, where $t\\ge0$ is measured in seconds. Find its initial velocity and initial acceleration.",
+    "solution_text": "$\\begin{align*}v(t)&=\\dot{x}(t)=\\frac{4}{t+2}\\\\a(t)&=\\ddot{x}(t)=-\\frac{4}{(t+2)^2}\\end{align*}$\nSubstitute $t=0$ after differentiating.\n$\\begin{align*}v(0)&=\\frac{4}{2}\\\\&=2\\text{ m/s}\\\\a(0)&=-\\frac{4}{2^2}\\\\&=-1\\text{ m/s}^2\\end{align*}$"
+  },
+  {
+    "question_text": "A particle moves in a straight line with displacement $x(t)=t^3-9t^2+15t+2$ metres for $t\\ge0$, with $t$ in seconds. Find every time it is at rest and its acceleration at each of those times.",
+    "solution_text": "$\\begin{align*}v(t)&=3t^2-18t+15\\\\a(t)&=6t-18\\end{align*}$\nAt rest, $v(t)=0$.\n$\\begin{align*}3t^2-18t+15&=0\\\\3(t-1)(t-5)&=0\\end{align*}$\nBoth times satisfy $t\\ge0$: $t=1\\text{ s}$ and $t=5\\text{ s}$.\n$\\begin{align*}a(1)&=6(1)-18\\\\&=-12\\text{ m/s}^2\\\\a(5)&=6(5)-18\\\\&=12\\text{ m/s}^2\\end{align*}$"
+  },
+  {
+    "question_text": "A particle has displacement $x(t)=3\\sin 3t$ metres for $0\\le t\\le2\\pi/3$, with $t$ in seconds. Find every time the particle is at rest.",
+    "solution_text": "$v(t)=9\\cos 3t$.\nAt rest, $v(t)=0$, so $\\cos 3t=0$. The time restriction gives $0\\le3t\\le2\\pi$.\n$\\begin{align*}3t&=\\frac{\\pi}{2}\\quad\\text{or}\\quad\\frac{3\\pi}{2}\\\\t&=\\frac{\\pi}{6}\\quad\\text{or}\\quad\\frac{\\pi}{2}\\end{align*}$\nThe particle is at rest at $t=\\pi/6\\text{ s}$ and $t=\\pi/2\\text{ s}$."
+  },
+  {
+    "question_text": "A particle has displacement $x(t)=t^3-6t^2+7t+4$ metres for $t\\ge0$, with $t$ in seconds. Find its velocity when its acceleration is $6\\text{ m/s}^2$.",
+    "solution_text": "$\\begin{align*}v(t)&=3t^2-12t+7\\\\a(t)&=6t-12\\end{align*}$\nFind the time when $a(t)=6$.\n$\\begin{align*}6t-12&=6\\\\6t&=18\\\\t&=3\\end{align*}$\nSubstitute this time into velocity.\n$\\begin{align*}v(3)&=3(3)^2-12(3)+7\\\\&=27-36+7\\\\&=-2\\text{ m/s}\\end{align*}$"
+  },
+  {
+    "question_text": "A particle has displacement $x(t)=t^3-6t^2-15t+8$ metres for $t\\ge0$, with $t$ in seconds. Find its displacement at the instant it is at rest.",
+    "solution_text": "$v(t)=3t^2-12t-15$.\nAt rest, $v(t)=0$.\n$\\begin{align*}3t^2-12t-15&=0\\\\3(t-5)(t+1)&=0\\end{align*}$\nThe roots are $t=5$ and $t=-1$. Since $t\\ge0$, use $t=5\\text{ s}$.\n$\\begin{align*}x(5)&=5^3-6(5)^2-15(5)+8\\\\&=125-150-75+8\\\\&=-92\\text{ m}\\end{align*}$"
+  },
+  {
+    "question_text": "A particle has displacement $x(t)=t+\\dfrac{9}{t+1}$ metres for $t\\ge0$, with $t$ in seconds. Find its acceleration at the instant it is at rest.",
+    "solution_text": "Write the reciprocal term as $9(t+1)^{-1}$ before differentiating.\n$\\begin{align*}v(t)&=1-9(t+1)^{-2}\\\\a(t)&=18(t+1)^{-3}\\end{align*}$\nAt rest, $v(t)=0$.\n$\\begin{align*}1-\\frac{9}{(t+1)^2}&=0\\\\(t+1)^2&=9\\end{align*}$\nSince $t\\ge0$, $t+1$ is positive. Thus $t+1=3$ and $t=2\\text{ s}$.\n$\\begin{align*}a(2)&=\\frac{18}{3^3}\\\\&=\\frac{2}{3}\\text{ m/s}^2\\end{align*}$"
+  },
+  {
+    "question_text": "For each displacement function, differentiate twice and show the stated relationship. Displacement is in metres and $t\\ge0$ is in seconds.\n(a) $x(t)=4\\cos 3t$: show that $\\ddot{x}=-9x$.\n(b) $x(t)=2e^{-3t}$: show that $\\ddot{x}=9x$.",
+    "solution_text": "(a)\n$\\begin{align*}\\dot{x}&=-12\\sin 3t\\\\\\ddot{x}&=-36\\cos 3t\\\\&=-9(4\\cos 3t)\\\\&=-9x\\end{align*}$\n(b)\n$\\begin{align*}\\dot{x}&=-6e^{-3t}\\\\\\ddot{x}&=18e^{-3t}\\\\&=9(2e^{-3t})\\\\&=9x\\end{align*}$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

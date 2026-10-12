@@ -2,8 +2,8 @@
   "skillId": "derivative-sum-multiple",
   "atomType": "R",
   "theory": {
-        "intro": "To differentiate a sum or difference, differentiate each term separately. A constant multiple stays out the front: $\\dfrac{d}{dx}(kf(x)) = kf'(x)$. Expand brackets or split fractions first, so every term is a power of $x$.",
-        "facts": [
+"intro": "To differentiate a sum or difference, differentiate each term separately. A constant multiple stays out the front: $\\dfrac{d}{dx}(kf(x)) = kf'(x)$. Expand brackets or split fractions first, so every term is a power of $x$.",
+"facts": [
           "**Sum rule**: $\\dfrac{d}{dx}\\left(f(x) + g(x)\\right) = f'(x) + g'(x)$.",
           "**Difference rule**: $\\dfrac{d}{dx}\\left(f(x) - g(x)\\right) = f'(x) - g'(x)$.",
           "**Constant multiple rule**: $\\dfrac{d}{dx}\\left(k \\cdot f(x)\\right) = k \\cdot f'(x)$ for any constant $k$.",
@@ -13,12 +13,46 @@
           "Divide each term of the numerator by a single-term denominator before differentiating.",
           "A constant differentiates to $0$, while a term $cx$ differentiates to $c$."
         ],
-        "steps": [
+"steps": [
           "Expand brackets or split single-denominator fractions so each term is in the form $kx^n$.",
           "Differentiate each term independently using the power rule.",
           "Simplify coefficients and combine like terms if applicable."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Differentiate $f(x)=3x^4-2x^2+7x-9$ with respect to $x$.",
+    "solution_text": "Differentiate each term separately. The constant differentiates to zero.\n$\\begin{align*}f'(x)&=3(4x^3)-2(2x)+7(1)-0\\\\&=12x^3-4x+7\\end{align*}$"
+  },
+  {
+    "question_text": "Differentiate $f(x)=(2x+3)(x-4)$ by first expanding the brackets.",
+    "solution_text": "Expand before applying the power rule.\n$\\begin{align*}f(x)&=2x^2-8x+3x-12\\\\&=2x^2-5x-12\\end{align*}$\n$\\begin{align*}f'(x)&=2(2x)-5(1)-0\\\\&=4x-5\\end{align*}$"
+  },
+  {
+    "question_text": "Differentiate $f(x)=(3x-1)^3$ by first expanding the brackets.",
+    "solution_text": "$\\begin{align*}f(x)&=(3x-1)(9x^2-6x+1)\\\\&=27x^3-18x^2+3x-9x^2+6x-1\\\\&=27x^3-27x^2+9x-1\\end{align*}$\nDifferentiate each power term.\n$\\begin{align*}f'(x)&=27(3x^2)-27(2x)+9(1)-0\\\\&=81x^2-54x+9\\end{align*}$"
+  },
+  {
+    "question_text": "Differentiate $f(x)=\\dfrac{6x^4-8x^3+10x^2}{2x^2}$ by first dividing each term by the denominator.",
+    "solution_text": "Split the fraction and simplify, with $x\\ne0$.\n$\\begin{align*}f(x)&=\\frac{6x^4}{2x^2}-\\frac{8x^3}{2x^2}+\\frac{10x^2}{2x^2}\\\\&=3x^2-4x+5\\end{align*}$\n$\\begin{align*}f'(x)&=3(2x)-4(1)+0\\\\&=6x-4\\end{align*}$"
+  },
+  {
+    "question_text": "Differentiate $f(x)=8\\sqrt{x}-\\dfrac{3}{x^2}+2x$, expressing your answer in surd and fraction form.",
+    "solution_text": "Rewrite the surd and fraction in index form, with $x>0$.\n$f(x)=8x^{\\frac12}-3x^{-2}+2x$\n$\\begin{align*}f'(x)&=8\\left(\\frac12x^{-\\frac12}\\right)-3(-2x^{-3})+2\\\\&=4x^{-\\frac12}+6x^{-3}+2\\\\&=\\frac{4}{\\sqrt{x}}+\\frac{6}{x^3}+2\\end{align*}$"
+  },
+  {
+    "question_text": "Differentiate $f(x)=a(rx+s)^2+bx+c$ with respect to $x$, where $a,r,s,b,c$ are constants.",
+    "solution_text": "Expand first; all the letters other than $x$ are constants.\n$\\begin{align*}f(x)&=a(r^2x^2+2rsx+s^2)+bx+c\\\\&=ar^2x^2+(2ars+b)x+as^2+c\\end{align*}$\n$\\begin{align*}f'(x)&=ar^2(2x)+(2ars+b)(1)+0\\\\&=2ar^2x+2ars+b\\end{align*}$"
+  },
+  {
+    "question_text": "Given $f(x)=3x^3-4x^2+2x-6$, evaluate $f'(2)$.",
+    "solution_text": "Differentiate first, then substitute into the derivative.\n$f'(x)=9x^2-8x+2$\n$\\begin{align*}f'(2)&=9(2)^2-8(2)+2\\\\&=36-16+2\\\\&=22\\end{align*}$"
+  },
+  {
+    "question_text": "Given $f(x)=\\dfrac{2x^3}{3}-3x+4$, find all values of $x$ for which $f'(x)=15$.",
+    "solution_text": "Find the derivative, then set it equal to the given value.\n$f'(x)=2x^2-3$\n$\\begin{align*}2x^2-3&=15\\\\2x^2&=18\\\\x^2&=9\\\\x&=\\pm3\\end{align*}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

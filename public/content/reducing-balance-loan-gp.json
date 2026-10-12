@@ -2,21 +2,51 @@
   "skillId": "reducing-balance-loan-gp",
   "atomType": "R",
   "theory": {
-    "intro": "A **reducing balance loan** is a compound interest loan with regular repayments. Each period, interest is charged on the current balance before the repayment is subtracted. While the debt remains outstanding, the balance and periodic interest decrease when repayments exceed the interest charged.",
-    "facts": [
+"intro": "A **reducing balance loan** is a compound interest loan with regular repayments. Each period, interest is charged on the current balance before the repayment is subtracted. While the debt remains outstanding, the balance and periodic interest decrease when repayments exceed the interest charged.",
+"facts": [
 "The **recurrence relation** is $A_{n}=A_{n-1}(1+r)-M$, where $A_{0}=PV$ is the amount borrowed and $M$ is the periodic repayment. Each period matches the repayment period, with repayment made at its end.",
 "When compounding and repayment periods match, the rate per period $r$ is the nominal annual rate divided by the number of compounding periods per year. When their frequencies differ, use the effective growth factor over one repayment period for $1+r$.",
 "Expanding $A_{1}=PV(1+r)-M$ and $A_{2}=PV(1+r)^{2}-M(1+r)-M$ displays the balance after each payment.",
 "After $n$ repayments, the subtracted repayments form a **geometric series** with first term $a=M$ and common ratio $1+r$.",
 "While the debt remains outstanding, repayments exceeding the interest charged reduce the balance and therefore reduce the interest charged in subsequent periods."
 ],
-    "steps": [
+"steps": [
 "Identify the initial principal $PV$, annual interest rate, compounding frequency, and repayment $M$.",
 "Calculate the rate per repayment period $r$, using an effective growth factor when compounding and repayment frequencies differ, and state the recurrence relation $A_{n}=A_{n-1}(1+r)-M$ with $A_{0}=PV$.",
 "Expand sequentially for $A_{1}$, $A_{2}$, and $A_{3}$ to establish the pattern of terms.",
 "Write the general expanded form $A_{n}=PV(1+r)^{n}-M(1+r)^{n-1}-\\dots-M$."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A loan of $\\$18\\,000$ charges $8.4\\%$ p.a. compounded quarterly. Repayments of $\\$900$ are made at the end of each quarter. Write the recurrence relation for the balance $A_n$ after $n$ repayments, including the initial value.",
+    "solution_text": "The quarterly interest rate is $r=\\dfrac{0.084}{4}=0.021$.\nInterest is added before each repayment is subtracted.\n$\\begin{align*}A_0&=18\\,000\\\\A_n&=A_{n-1}(1.021)-900\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A loan of $\\$20\\,000$ charges $7.2\\%$ p.a. compounded monthly. Repayments of $\\$700$ are made at the end of each month. Expand the balances after the first three repayments. Hence write an expanded series expression for $A_n$ and for the balance after $2$ years, while the debt remains outstanding.",
+    "solution_text": "The monthly interest rate is $r=\\dfrac{0.072}{12}=0.006$, so $A_0=20\\,000$ and $A_n=A_{n-1}(1.006)-700$.\nAfter the first repayment:\n$A_1=20\\,000(1.006)-700$.\nAfter the second repayment:\n$\\begin{align*}A_2&=[20\\,000(1.006)-700](1.006)-700\\\\&=20\\,000(1.006)^2-700(1.006)-700\\end{align*}$\nAfter the third repayment:\n$\\begin{align*}A_3&=[20\\,000(1.006)^2-700(1.006)-700](1.006)-700\\\\&=20\\,000(1.006)^3-700(1.006)^2-700(1.006)-700\\end{align*}$\nThe principal grows for $n$ months. The first repayment has $n-1$ remaining growth periods; the final repayment has none.\n$A_n=20\\,000(1.006)^n-700(1.006)^{n-1}-700(1.006)^{n-2}-\\cdots-700$.\nThe subtracted terms form a geometric series with first term $700$, common ratio $1.006$ and $n$ terms when written in ascending powers.\nFor $2$ years, $n=2\\times12=24$:\n$A_{24}=20\\,000(1.006)^{24}-700(1.006)^{23}-700(1.006)^{22}-\\cdots-700$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A reducing balance loan of $\\$10\\,000$ charges $12\\%$ p.a. compounded monthly, with repayments of $\\$400$ at the end of each month. Calculate the interest charged over the first $4$ months. Compare it with a flat-rate loan of $\\$10\\,000$ at $9\\%$ p.a. over the same period. Keep full precision until rounding the totals and difference to the nearest cent.",
+    "solution_text": "The monthly rate is $r=\\dfrac{0.12}{12}=0.01$. Each month's interest is $0.01$ times its starting balance.\n$\\begin{align*}I_1&=10\\,000(0.01)=100\\\\A_1&=10\\,000+100-400=9700\\\\I_2&=9700(0.01)=97\\\\A_2&=9700+97-400=9397\\\\I_3&=9397(0.01)=93.97\\\\A_3&=9397+93.97-400=9090.97\\\\I_4&=9090.97(0.01)=90.9097\\end{align*}$\nReducing balance interest:\n$\\begin{align*}I_{\\mathrm{reducing}}&=100+97+93.97+90.9097\\\\&=381.8797\\\\&\\approx\\$381.88\\end{align*}$\nFlat-rate interest is calculated on the original principal:\n$\\begin{align*}I_{\\mathrm{flat}}&=10\\,000(0.09)\\dfrac{4}{12}\\\\&=\\$300.00\\end{align*}$\nThe difference is $381.8797-300\\approx\\$81.88$. The reducing balance loan charges $\\$81.88$ more interest over these four months.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A loan of $\\$60\\,000$ charges $9.6\\%$ p.a. compounded monthly. Repayments of $\\$450$ are made at the end of each month. Explain why the balance increases despite the repayments.",
+    "solution_text": "The monthly rate is $r=\\dfrac{0.096}{12}=0.008$.\nFirst month's interest:\n$\\begin{align*}I_1&=60\\,000(0.008)\\\\&=\\$480\\end{align*}$\nBalance after the first repayment:\n$\\begin{align*}A_1&=60\\,000(1.008)-450\\\\&=\\$60\\,030\\end{align*}$\nThe repayment is $\\$30$ less than the interest charged. The balance increases, so the next month's interest is larger. With the same rate and repayment, the balance continues to increase.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

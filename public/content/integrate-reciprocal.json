@@ -2,8 +2,8 @@
   "skillId": "integrate-reciprocal",
   "atomType": "R",
   "theory": {
-    "intro": "The power rule fails at $n=-1$, so $\\dfrac{1}{x}$ has its own primitive: $\\int\\dfrac{1}{x}\\,dx = \\ln|x| + C$. For a linear denominator, $\\int\\dfrac{1}{ax+b}\\,dx = \\dfrac{1}{a}\\ln|ax+b| + C$, where $a\\ne0$ and $ax+b\\ne0$. The modulus lets the rule work for negative $x$ too.",
-    "facts": [
+"intro": "The power rule fails at $n=-1$, so $\\dfrac{1}{x}$ has its own primitive: $\\int\\dfrac{1}{x}\\,dx = \\ln|x| + C$. For a linear denominator, $\\int\\dfrac{1}{ax+b}\\,dx = \\dfrac{1}{a}\\ln|ax+b| + C$, where $a\\ne0$ and $ax+b\\ne0$. The modulus lets the rule work for negative $x$ too.",
+"facts": [
 "$\\int\\dfrac{1}{x}\\,dx = \\ln|x| + C$ for $x \\ne 0$, because $\\dfrac{d}{dx}\\ln|x| = \\dfrac{1}{x}$.",
 "The **modulus** is needed because $\\ln x$ exists only for $x>0$, while $\\dfrac{1}{x}$ has area under it for negative $x$ too.",
 "A constant factor comes straight out: $\\int\\dfrac{k}{x}\\,dx = k\\ln|x| + C$.",
@@ -14,13 +14,62 @@
 "A definite integral is undefined when $x=0$ for $\\dfrac{1}{x}$, or $x=-\\dfrac{b}{a}$ for $\\dfrac{1}{ax+b}$, lies inside the interval or at either endpoint.",
 "Split a fraction such as $\\dfrac{x+3}{x}$ into $1 + \\dfrac{3}{x}$ first, because there is no quotient rule for integration."
 ],
-    "steps": [
+"steps": [
 "Split fractions where needed, then identify the rule for each resulting term.",
 "Take constant factors outside the integral sign.",
 "Integrate each term separately: for a reciprocal term, write $\\ln$ of the modulus of the denominator, divided by the coefficient of $x$; for other powers, use the power rule with $n\\ne-1$.",
 "Add $+C$, or first check that no denominator is zero inside the interval or at either endpoint, then substitute the limits as $\\left[F(x)\\right]_{a}^{b}$ for a definite integral."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Find $\\int\\dfrac{7}{3x}\\,dx$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\dfrac{7}{3x}\\,dx\\\\&=\\dfrac{7}{3}\\int\\dfrac{1}{x}\\,dx\\\\&=\\dfrac{7}{3}\\ln|x|+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find $\\int\\dfrac{10}{4x+7}\\,dx$.",
+    "solution_text": "Divide by the coefficient of $x$, which is $4$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\dfrac{10}{4x+7}\\,dx\\\\&=\\dfrac{10}{4}\\ln|4x+7|+C\\\\&=\\dfrac{5}{2}\\ln|4x+7|+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int\\dfrac{8}{5-6x}\\,dx$.",
+    "solution_text": "The coefficient of $x$ is $-6$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\dfrac{8}{5-6x}\\,dx\\\\&=\\dfrac{8}{-6}\\ln|5-6x|+C\\\\&=-\\dfrac{4}{3}\\ln|5-6x|+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate:\n\n(a) $\\int_{e}^{e^{3}}\\dfrac{2}{x}\\,dx$.\n\n(b) $\\int_{-7}^{-3}\\dfrac{2}{x+1}\\,dx$, giving an exact answer and a value correct to 4 significant figures.",
+    "solution_text": "(a) The denominator is non-zero throughout the interval.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{e}^{e^{3}}\\dfrac{2}{x}\\,dx\\\\&=\\left[2\\ln|x|\\right]_{e}^{e^{3}}\\\\&=2(3-1)\\\\&=4\\end{aligned}$\n\n(b) The denominator is zero at $x=-1$, outside $[-7,-3]$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{-7}^{-3}\\dfrac{2}{x+1}\\,dx\\\\&=\\left[2\\ln|x+1|\\right]_{-7}^{-3}\\\\&=2(\\ln2-\\ln6)\\\\&=-2\\ln3\\\\&\\approx-2.197\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int\\dfrac{3x^{3}-4x+8}{x^{2}}\\,dx$.",
+    "solution_text": "Split the fraction and integrate each term separately.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\dfrac{3x^{3}-4x+8}{x^{2}}\\,dx\\\\&=\\int\\left(3x-\\dfrac{4}{x}+8x^{-2}\\right)\\,dx\\\\&=\\dfrac{3x^{2}}{2}-4\\ln|x|+\\dfrac{8x^{-1}}{-1}+C\\\\&=\\dfrac{3x^{2}}{2}-4\\ln|x|-\\dfrac{8}{x}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Given $f'(x)=2+\\dfrac{8}{2x+3}$ for $x>-\\dfrac{3}{2}$ and $f(-1)=1$, find $f(x)$ and hence $f(1)$.",
+    "solution_text": "$f(x)=2x+4\\ln|2x+3|+C$.\n\nUsing $f(-1)=1$:\n\n$\\begin{aligned}-2+4\\ln1+C&=1\\\\C&=3\\end{aligned}$\n\nTherefore $f(x)=2x+4\\ln|2x+3|+3$ for $x>-\\dfrac{3}{2}$.\n\n$\\begin{aligned}f(1)&=2+4\\ln5+3\\\\&=5+4\\ln5\\end{aligned}$"
+  },
+  {
+    "question_text": "Find the exact value of $a$, where $a<0$, if $\\int_{a}^{-3}\\dfrac{2}{x}\\,dx=4$.",
+    "solution_text": "Since $a<0$, the interval stays on the negative side of $x=0$.\n\n$\\begin{aligned}2\\left[\\ln|x|\\right]_{a}^{-3}&=4\\\\2(\\ln3-\\ln|a|)&=4\\\\\\ln3-\\ln|a|&=2\\\\\\ln|a|&=\\ln3-2\\\\|a|&=3e^{-2}\\end{aligned}$\n\nSince $a<0$, $a=-3e^{-2}$."
+  },
+  {
+    "question_text": "Evaluate $\\int_{0}^{5}\\dfrac{2}{2x-6}\\,dx$.",
+    "solution_text": "$\\begin{aligned}2x-6&=0\\\\x&=3\\end{aligned}$\n\nThe denominator is zero at $x=3$, inside $[0,5]$. The integral is undefined; substituting the limits into a logarithmic primitive is not valid."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

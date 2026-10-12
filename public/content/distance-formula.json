@@ -2,20 +2,50 @@
   "skillId": "distance-formula",
   "atomType": "R",
   "theory": {
-        "intro": "The **distance formula** gives the length of the interval joining two points from their coordinates. It is Pythagoras' theorem applied to the right-angled triangle whose shorter sides are the run and the rise: $d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\draw[<->] (-0.4,0)--(6.6,0) node[right]{$x$};\n\\draw[<->] (0,-0.4)--(0,4.6) node[above]{$y$};\n\\coordinate (A) at (1.6,1.0);\n\\coordinate (B) at (5.0,3.6);\n\\coordinate (C) at (5.0,1.0);\n\\draw[dashed,gray] (A)--(C)--(B);\n\\draw[thick,blue] (A)--(B);\n\\draw ($(C)+(-0.35,0)$)--($(C)+(-0.35,0.35)$)--($(C)+(0,0.35)$);\n\\fill (A) circle (2.5pt);\n\\node[below] at (A) {$A(x_1,y_1)$};\n\\fill (B) circle (2.5pt);\n\\node[above] at (B) {$B(x_2,y_2)$};\n\\node[below] at (3.9,1.0) {$x_2-x_1$};\n\\node[right] at (5.0,2.3) {$y_2-y_1$};\n\\node at (2.8,2.6) {$d$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "The **distance formula** gives the length of the interval joining two points from their coordinates. It is Pythagoras' theorem applied to the right-angled triangle whose shorter sides are the run and the rise: $d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\draw[<->] (-0.4,0)--(6.6,0) node[right]{$x$};\n\\draw[<->] (0,-0.4)--(0,4.6) node[above]{$y$};\n\\coordinate (A) at (1.6,1.0);\n\\coordinate (B) at (5.0,3.6);\n\\coordinate (C) at (5.0,1.0);\n\\draw[dashed,gray] (A)--(C)--(B);\n\\draw[thick,blue] (A)--(B);\n\\draw ($(C)+(-0.35,0)$)--($(C)+(-0.35,0.35)$)--($(C)+(0,0.35)$);\n\\fill (A) circle (2.5pt);\n\\node[below] at (A) {$A(x_1,y_1)$};\n\\fill (B) circle (2.5pt);\n\\node[above] at (B) {$B(x_2,y_2)$};\n\\node[below] at (3.9,1.0) {$x_2-x_1$};\n\\node[right] at (5.0,2.3) {$y_2-y_1$};\n\\node at (2.8,2.6) {$d$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "$d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$ — the run is $x_2 - x_1$ and the rise is $y_2 - y_1$.",
 "Squaring removes the signs, so it does not matter which point is $(x_1, y_1)$.",
 "Take the square root **last**: $\\sqrt{9 + 16} = \\sqrt{25} = 5$, not $\\sqrt{9} + \\sqrt{16} = 7$.",
 "Leave a non-whole answer as an exact surd in simplest form, such as $2\\sqrt{5}$, or round as the question asks.",
 "A horizontal interval has distance $|x_2-x_1|$ and a vertical interval has distance $|y_2-y_1|$, since distance cannot be negative."
 ],
-        "steps": [
+"steps": [
           "Label the coordinates $(x_1, y_1)$ and $(x_2, y_2)$.",
           "Substitute into $d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$.",
           "Square each bracket, add, then take the square root last, giving an exact or rounded answer as required."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Find the distance between $A(-3,1)$ and $B(3,9)$.\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=5mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black,thick] (-3,1)--(3,9);\n\\fill[black] (-3,1) circle (2pt);\n\\fill[black] (3,9) circle (2pt);\n\\path (-3,1) node[below left] {$A(-3,1)$};\n\\path (3,9) node[above right] {$B(3,9)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The horizontal and vertical distances form the shorter sides of a right-angled triangle.\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=5mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black,thick] (-3,1)--(3,9);\n\\draw[black,dashed] (-3,1)--(3,1)--(3,9);\n\\draw[black] (2.5,1)--(2.5,1.5)--(3,1.5);\n\\fill[black] (-3,1) circle (2pt);\n\\fill[black] (3,9) circle (2pt);\n\\path (-3,1) node[below left] {$A(-3,1)$};\n\\path (3,9) node[above right] {$B(3,9)$};\n\\path (0,1) node[below] {$6$};\n\\path (3,5) node[right] {$8$};\n\\path (0,5) node[above left] {$d$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}d&=\\sqrt{\\text{run}^2+\\text{rise}^2}\\\\&=\\sqrt{(3-(-3))^2+(9-1)^2}\\\\&=\\sqrt{6^2+8^2}\\\\&=\\sqrt{100}\\\\&=10\\text{ units}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the distance between $P(-4,6)$ and $Q(2,0)$. Give your answer in simplest surd form and correct to $2$ decimal places.",
+    "solution_text": "$\\begin{aligned}d&=\\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}\\\\&=\\sqrt{(2-(-4))^2+(0-6)^2}\\\\&=\\sqrt{6^2+(-6)^2}\\\\&=\\sqrt{72}\\\\&=6\\sqrt{2}\\text{ units}\\\\&\\approx8.49\\text{ units}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The distance between $A(-1,2)$ and $B(3,k)$ is $\\sqrt{41}$ units. Find the two possible values of $k$.",
+    "solution_text": "$\\begin{aligned}\\sqrt{41}&=\\sqrt{(3-(-1))^2+(k-2)^2}\\\\41&=16+(k-2)^2\\\\(k-2)^2&=25\\\\k-2&=\\pm5\\\\k&=7\\text{ or }k=-3\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Which of the points $A(-2,0)$, $B(5,3)$ and $C(1,-2)$ is closest to $D(1,2)$?",
+    "solution_text": "$\\begin{aligned}DA&=\\sqrt{(-2-1)^2+(0-2)^2}\\\\&=\\sqrt{9+4}\\\\&=\\sqrt{13}\\text{ units}\\end{aligned}$\n\n$\\begin{aligned}DB&=\\sqrt{(5-1)^2+(3-2)^2}\\\\&=\\sqrt{16+1}\\\\&=\\sqrt{17}\\text{ units}\\end{aligned}$\n\n$\\begin{aligned}DC&=\\sqrt{(1-1)^2+(-2-2)^2}\\\\&=\\sqrt{16}\\\\&=4\\text{ units}\\end{aligned}$\n\nSince $\\sqrt{13}<4<\\sqrt{17}$, point $A$ is closest to $D$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

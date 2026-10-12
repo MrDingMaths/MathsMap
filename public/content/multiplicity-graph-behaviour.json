@@ -2,8 +2,8 @@
   "skillId": "multiplicity-graph-behaviour",
   "atomType": "Cat",
   "theory": {
-    "intro": "The **multiplicity** of a zero decides how the curve meets the $x$-axis there. An odd multiplicity crosses the axis and an even multiplicity turns back without crossing. A multiplicity of $3$ or more flattens the curve against the axis.",
-    "facts": [
+"intro": "The **multiplicity** of a zero decides how the curve meets the $x$-axis there. An odd multiplicity crosses the axis and an even multiplicity turns back without crossing. A multiplicity of $3$ or more flattens the curve against the axis.",
+"facts": [
 "At a zero of multiplicity $1$ the curve cuts the $x$-axis at an angle, like a straight line.",
 "At a zero of even multiplicity the curve is tangent to the $x$-axis and bounces back, like a parabola.",
 "At a zero of odd multiplicity $3$ or more the curve has a horizontal point of inflection on the axis and crosses.",
@@ -11,13 +11,36 @@
 "A zero of multiplicity $m$ counts $m$ times towards the degree. In a complete linear factorisation, the multiplicities of all zeroes, including complex zeroes, add to the degree; the multiplicities of real $x$-intercepts alone can add to less than the degree.",
 "A negative leading coefficient reflects the whole curve in the $x$-axis but changes no touching or crossing.\n\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-3.3, xmax=5.2, ymin=-12.5, ymax=12.5, ticks=none, samples=120, clip=false, width=9cm, height=8cm]\n\\addplot[smooth, thick, <->, domain=-2.88:4.73] {-0.5*(x+1)*(x+1)*(x-4)};\n\\node[below, font=\\small] at (axis cs:-1,-0.6) {touches};\n\\node[below left, font=\\small] at (axis cs:3.9,-0.4) {cuts};\n\\end{axis}\n\\end{tikzpicture}[/tikz]"
 ],
-    "steps": [
+"steps": [
       "Write $P(x)$ in factored form and read the multiplicity of each zero.",
       "If the multiplicity is $1$, the curve cuts straight through the $x$-axis.",
       "If the multiplicity is even, the curve touches the $x$-axis and turns back.",
       "If the multiplicity is odd and at least $3$, the curve flattens along the axis as it crosses."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "For $P(x)=-(2x+1)^2(x-2)$, identify each zero and its multiplicity. Describe the graph at each intercept and its behaviour as $x\\to\\pm\\infty$.",
+    "solution_text": "The factor $2x+1$ is zero at $x=-\\frac12$. Its exponent is $2$, so the curve touches the axis at $\\left(-\\frac12,0\\right)$ and turns back.\n\nThe factor $x-2$ gives a simple zero at $x=2$, so the curve crosses the axis at $(2,0)$ with non-zero gradient.\n\nThe degree is $2+1=3$ and the leading coefficient is $-4$. Thus $P(x)\\to-\\infty$ as $x\\to\\infty$, and $P(x)\\to\\infty$ as $x\\to-\\infty$.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{solutionblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=5.5cm,axis lines=middle,axis line style={black},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xmin=-1.6,xmax=2.7,ymin=-9,ymax=10,ticks=none,samples=180,clip=false]\n\\addplot[solutionblue,thick,<->,domain=-1.25:2.25] {-(2*x+1)*(2*x+1)*(x-2)};\n\\addplot[only marks,mark=*,mark size=1.3pt,black] coordinates {(-0.5,0) (2,0)};\n\\path (axis cs:-0.5,0) node[below,font=\\fontsize{10}{12}\\selectfont,text=black] {$-\\frac12$};\n\\path (axis cs:2,0) node[above left,font=\\fontsize{10}{12}\\selectfont,text=black] {$2$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "For $y=(x+3)^3(x-2)^2$, identify the zeroes and their multiplicities. Describe the behaviour at each intercept, state the degree and describe both ends of the graph.",
+    "solution_text": "$x=-3$ has multiplicity $3$. The graph crosses the axis at $(-3,0)$ with a horizontal point of inflection.\n\n$x=2$ has multiplicity $2$. The graph is tangent to the axis at $(2,0)$ and turns back.\n\nThe degree is $3+2=5$ and the leading coefficient is positive. Thus $y\\to\\infty$ as $x\\to\\infty$, and $y\\to-\\infty$ as $x\\to-\\infty$.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{solutionblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=5.5cm,axis lines=middle,axis line style={black},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xmin=-4.8,xmax=3.2,ymin=-160,ymax=160,ticks=none,samples=240,clip=false]\n\\addplot[solutionblue,thick,<->,domain=-4.5:2.8] {(x+3)*(x+3)*(x+3)*(x-2)*(x-2)};\n\\addplot[only marks,mark=*,mark size=1.3pt,black] coordinates {(-3,0) (2,0)};\n\\path (axis cs:-3,0) node[above left,font=\\fontsize{10}{12}\\selectfont,text=black] {$-3$};\n\\path (axis cs:2,0) node[below,font=\\fontsize{10}{12}\\selectfont,text=black] {$2$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A quartic polynomial has a triple zero at $x=-2$, a simple zero at $x=1$ and passes through $(0,16)$. Find its equation and describe its behaviour at both $x$-intercepts.",
+    "solution_text": "The multiplicities account for the full degree: $3+1=4$.\n\n$y=k(x+2)^3(x-1)$\n\nUsing $(0,16)$:\n\n$\\begin{align*}16&=k(2)^3(-1)\\\\16&=-8k\\\\k&=-2\\end{align*}$\n\nHence $y=-2(x+2)^3(x-1)$.\n\nAt $(-2,0)$ the graph has a horizontal point of inflection and crosses the axis. At $(1,0)$ it crosses with non-zero gradient.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{solutionblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=5.5cm,axis lines=middle,axis line style={black},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xmin=-3.8,xmax=1.9,ymin=-50,ymax=25,ticks=none,samples=220,clip=false]\n\\addplot[solutionblue,thick,<->,domain=-3.5:1.5] {-2*(x+2)*(x+2)*(x+2)*(x-1)};\n\\addplot[only marks,mark=*,mark size=1.3pt,black] coordinates {(-2,0) (1,0) (0,16)};\n\\path (axis cs:-2,0) node[above left,font=\\fontsize{10}{12}\\selectfont,text=black] {$-2$};\n\\path (axis cs:1,0) node[above right,font=\\fontsize{10}{12}\\selectfont,text=black] {$1$};\n\\path (axis cs:0,16) node[above left,font=\\fontsize{10}{12}\\selectfont,text=black] {$(0,16)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

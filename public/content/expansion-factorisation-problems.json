@@ -2,8 +2,8 @@
   "skillId": "expansion-factorisation-problems",
   "atomType": "R",
   "theory": {
-        "intro": "Area problems — an extended room, a picture in a frame, the lawn around a shed — turn into expressions you build, expand and simplify, then often factorise again. The algebra is familiar; the work is choosing what to write down first.",
-        "facts": [
+"intro": "Area problems — an extended room, a picture in a frame, the lawn around a shed — turn into expressions you build, expand and simplify, then often factorise again. The algebra is familiar; the work is choosing what to write down first.",
+"facts": [
 "A rectangle with length $(x+a)$ and width $(x+b)$ has area $(x+a)(x+b)$ — a binomial product.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[thick, blue!70!black] (0,0) rectangle (7,3.2);\n\\node[above] at (3.5,3.2) {$x+a$};\n\\node[left] at (0,1.6) {$x+b$};\n\\node at (3.5,1.6) {Area $=(x+a)(x+b)$};\n\\end{tikzpicture}\n[/tikz]",
 "You can substitute a value into either expanded form ($x^2+9x+20$) or factorised form ($(x+4)(x+5)$). Factors of an area expression can suggest possible rectangle dimensions, but area alone does not uniquely determine the dimensions.",
 "Find a remaining region by **subtracting**: total area $-$ removed area, then simplify.",
@@ -11,13 +11,71 @@
 "To factorise $x^2+bx+c$, find two numbers with product $c$ and sum $b$, then write the two binomial factors.",
 "Check a finished expression by substituting a convenient value of $x$ into both the original description and the answer."
 ],
-        "steps": [
+"steps": [
           "Write an expression for each length.",
           "Form the product or difference the question asks for.",
           "Expand and simplify.",
           "Factorise or substitute, as the question requires."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A rectangle has length $(x+6)$ cm and width $(x+4)$ cm. Write an expression for its area in expanded form.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}(x+6)(x+4)\\\\&=x^2+4x+6x+24\\\\&=x^2+10x+24\\end{aligned}$\n\nThe area is $(x^2+10x+24)$ cm$^2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Factorise $x^2+4x-45$ using the PSF method.",
+    "solution_text": "Product: $-45$. Sum: $4$.\n\nThe factor pair is $9$ and $-5$, since $9(-5)=-45$ and $9+(-5)=4$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}x^2+4x-45\\\\&=(x+9)(x-5)\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A rectangle has length $(x+5)$ m and width $(x+2)$ m. Find its area when $x=6$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}(x+5)(x+2)\\\\&=x^2+2x+5x+10\\\\&=x^2+7x+10\\end{aligned}$\n\nFor $x=6$:\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}6^2+7(6)+10\\\\&=36+42+10\\\\&=88\\end{aligned}$\n\nThe area is $88$ m$^2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A rectangular room measures $6$ m by $7$ m. Both dimensions are increased by $x$ m.\n\n(a) Write an expanded expression for the new area.\n\n(b) Find the increase in area when $x=2$.",
+    "solution_text": "(a) The new dimensions are $(6+x)$ m and $(7+x)$ m.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(6+x)(7+x)\\\\&=42+6x+7x+x^2\\\\&=x^2+13x+42\\end{aligned}$\n\nThe new area is $(x^2+13x+42)$ m$^2$.\n\n(b) For $x=2$:\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}2^2+13(2)+42\\\\&=4+26+42\\\\&=72\\end{aligned}$\n\nThe original area is $6\\times7=42$ m$^2$.\n\nThe increase is $72-42=30$ m$^2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The outside edge of a path around a rectangular pool measures $20$ m by $12$ m. The path is $x$ m wide all the way around. Write an expanded expression for the pool area.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,thick] (0,0) rectangle (6,3.6);\n\\draw[black,thick] (0.8,0.8) rectangle (5.2,2.8);\n\\path (3,3.6) node[above] {$20\\text{ m}$};\n\\path (6,1.8) node[right] {$12\\text{ m}$};\n\\path (3,1.8) node {Pool};\n\\draw[black,<->] (0,1.8)--(0.8,1.8);\n\\path (0.4,1.8) node[above] {$x$};\n\\draw[black,<->] (3,2.8)--(3,3.6);\n\\path (3,3.2) node[right] {$x$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Subtract $x$ at both ends of each outside dimension. The pool measures $(20-2x)$ m by $(12-2x)$ m.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(20-2x)(12-2x)\\\\&=240-40x-24x+4x^2\\\\&=4x^2-64x+240\\end{aligned}$\n\nThe pool area is $(4x^2-64x+240)$ m$^2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A rectangular backyard has width $x$ m and length $(x+4)$ m. Three square paved areas, each of area $4$ m$^2$, lie inside it. The rest is lawn. Write the lawn area in expanded form, then factorised form.",
+    "solution_text": "Subtract the total paved area from the backyard area.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}x(x+4)-3(4)\\\\&=x^2+4x-12\\end{aligned}$\n\nProduct: $-12$. Sum: $4$. Factor pair: $6$ and $-2$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}x^2+4x-12\\\\&=(x+6)(x-2)\\end{aligned}$\n\nThe lawn area is $(x^2+4x-12)$ m$^2$, or $(x+6)(x-2)$ m$^2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Expand and simplify:\n\n(a) $(x+5)(x+4)-3(x+2)$\n\n(b) $(x+2)(x+7)+(x+3)(x+4)$",
+    "solution_text": "(a)\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(x+5)(x+4)-3(x+2)\\\\&=x^2+4x+5x+20-3x-6\\\\&=x^2+6x+14\\end{aligned}$\n\n(b)\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(x+2)(x+7)+(x+3)(x+4)\\\\&=x^2+7x+2x+14+x^2+4x+3x+12\\\\&=2x^2+16x+26\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Show that $(x+10)(x+3)-(x+8)(x+5)$ takes the same value for every value of $x$, and state that value.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}(x+10)(x+3)-(x+8)(x+5)\\\\&=x^2+13x+30-(x^2+13x+40)\\\\&=x^2+13x+30-x^2-13x-40\\\\&=-10\\end{aligned}$\n\nThe $x^2$ and $x$ terms cancel, so the expression equals $-10$ for every value of $x$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

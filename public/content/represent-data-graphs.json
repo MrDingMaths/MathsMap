@@ -2,20 +2,42 @@
   "skillId": "represent-data-graphs",
   "atomType": "R",
   "theory": {
-        "intro": "Data can be shown using different displays. Stem-and-leaf plots and frequency histograms require numerical data, whereas column graphs can display categorical or numerical data. Each display has a set way of placing the data onto the picture.",
-        "facts": [
+"intro": "Data can be shown using different displays. Stem-and-leaf plots and frequency histograms require numerical data, whereas column graphs can display categorical or numerical data. Each display has a set way of placing the data onto the picture.",
+"facts": [
           "A **dot plot** places one dot for each observation, stacked above its value on a number line.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (-0.6,0)--(6.4,0);\n\\foreach \\x in {0,1,2,3,4,5} {\\draw (\\x,0.1)--(\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\x/\\c in {0/1,1/3,2/4,3/2,5/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.35*\\k}) circle (2.2pt);}}\n\\node[below] at (2.5,-0.9) {Value};\n\\node at (2.5,2.3) {Dot plot};\n\\end{tikzpicture}\n[/tikz]",
           "A **stem-and-leaf plot** splits each value into a **stem** (all but the last digit) and a **leaf** (the last digit), and needs a **key**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\node at (0,1.6) {Stem};\n\\node at (1.7,1.6) {Leaf};\n\\draw (0.75,1.3)--(0.75,-0.7);\n\\draw (-0.6,1.3)--(3.0,1.3);\n\\node at (0.35,0.9) {$1$};\n\\node at (0.35,0.3) {$2$};\n\\node at (0.35,-0.3) {$3$};\n\\node[anchor=west] at (1.0,0.9) {$2\\;\\; 5\\;\\; 8$};\n\\node[anchor=west] at (1.0,0.3) {$0\\;\\; 3\\;\\; 3\\;\\; 7$};\n\\node[anchor=west] at (1.0,-0.3) {$1\\;\\; 6$};\n\\node[anchor=west,font=\\small] at (-0.6,-1.3) {Key: $2 \\mid 3$ means $23$};\n\\end{tikzpicture}\n[/tikz]",
           "A **column graph** draws an equal-width bar for each category, with gaps between the bars.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,7.4);\n\\draw[->] (0,0)--(7.6,0);\n\\foreach \\y in {2,4,6} {\\draw (-0.2,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\draw (0.6,0) rectangle (1.8,3);\n\\draw (2.2,0) rectangle (3.4,6);\n\\draw (3.8,0) rectangle (5.0,4);\n\\draw (5.4,0) rectangle (6.6,5);\n\\node[below,font=\\scriptsize] at (1.2,0) {$A$};\n\\node[below,font=\\scriptsize] at (2.8,0) {$B$};\n\\node[below,font=\\scriptsize] at (4.4,0) {$C$};\n\\node[below,font=\\scriptsize] at (6.0,0) {$D$};\n\\node[rotate=90] at (-1.1,3.5) {Frequency};\n\\node[below] at (3.6,-1.0) {Category};\n\\node at (3.6,7.1) {Column graph};\n\\end{tikzpicture}\n[/tikz]",
           "A **frequency histogram** draws the same bars for numerical scores but with **no gaps**, each column centred on its score.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,7.4);\n\\draw[->] (0,0)--(7.6,0);\n\\foreach \\y in {2,4,6} {\\draw (-0.2,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\draw (0.9,0) rectangle (2.3,3);\n\\draw (2.3,0) rectangle (3.7,6);\n\\draw (3.7,0) rectangle (5.1,4);\n\\draw (5.1,0) rectangle (6.5,5);\n\\node[below,font=\\scriptsize] at (1.6,0) {$1$};\n\\node[below,font=\\scriptsize] at (3.0,0) {$2$};\n\\node[below,font=\\scriptsize] at (4.4,0) {$3$};\n\\node[below,font=\\scriptsize] at (5.8,0) {$4$};\n\\node[rotate=90] at (-1.1,3.5) {Frequency};\n\\node[below] at (3.7,-1.0) {Score};\n\\node at (3.7,7.1) {Frequency histogram};\n\\end{tikzpicture}\n[/tikz]"
         ],
-        "steps": [
+"steps": [
           "Choose the stems from the place value of the data.",
           "Write each leaf next to its stem.",
           "Order the leaves in each row from smallest to largest.",
           "Add a key that shows how to read a stem and a leaf."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "The numbers of books borrowed by 10 students are $0,1,2,1,3,2,1,5,2,0$.\n(a) Construct a frequency table and a dot plot.\n(b) How many students borrowed exactly 1 book?\n(c) How many borrowed more than 2 books?\n(d) What percentage borrowed at least 3 books?",
+    "solution_text": "Count each value to find its frequency. Include 4 even though nobody borrowed 4 books.\n\n$\\begin{array}{c|rrrrrr}\\text{Books}&0&1&2&3&4&5\\\\\\hline\\text{Frequency}&2&3&3&1&0&1\\end{array}$\n\nDraw equally spaced ticks for every value from 0 to 5. Stack one equally sized dot for each student.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black,->] (-0.5,0)--(5.5,0);\n\\foreach \\x in {0,...,5} {\\draw[black] (\\x,0)--(\\x,-0.15);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.15) {$\\x$};}\n\\foreach \\x/\\n in {0/2,1/3,2/3,3/1,5/1} {\\foreach \\k in {1,...,\\n} {\\fill[black] (\\x,\\k) circle (1.8pt);}}\n\\node at (2.5,4) {Books borrowed};\n\\node[below] at (2.5,-0.9) {Number of books};\n\\end{tikzpicture}\n[/tikz]\n\n(b) There are 3 dots above 1, so 3 students borrowed exactly 1 book.\n\n(c) More than 2 books means 3, 4 or 5 books.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}1+0+1\\\\&=2\\text{ students}\\end{aligned}$\n\n(d) At least 3 books includes the same 2 students. Count all dots to find the total:\n$\\begin{aligned}&\\mathrel{\\phantom{=}}2+3+3+1+0+1\\\\&=10\\text{ students}\\end{aligned}$\n\n$\\begin{aligned}\\text{Percentage}&=\\frac{2}{10}\\times100\\%\\\\&=20\\%\\end{aligned}$"
+  },
+  {
+    "question_text": "Construct an ordered stem-and-leaf plot for $42,18,24,54,22,18,47,21,56$. Use all digits except the last as the stem and give a key.",
+    "solution_text": "Use stems 1 to 5. Write each final digit beside its stem, then order the leaves from smallest to largest. Keep stem 3 with no leaves because there are no values in the 30s.\n\n$\\begin{array}{c|l}\\text{Stem}&\\text{Leaf}\\\\\\hline1&8\\;8\\\\2&1\\;2\\;4\\\\3&\\\\4&2\\;7\\\\5&4\\;6\\end{array}$\n\nKey: $2\\mid4$ means 24. Each leaf represents one data value."
+  },
+  {
+    "question_text": "The stem-and-leaf plot shows scores.\n\n$\\begin{array}{c|l}\\text{Stem}&\\text{Leaf}\\\\\\hline2&3\\;8\\\\3&1\\;5\\;5\\\\4&0\\;6\\\\5&1\\end{array}$\n\nKey: $2\\mid3$ means 23.\nWhat is the highest score?",
+    "solution_text": "Read the largest stem and its largest leaf. The final row has stem 5 and leaf 1, so the highest score is 51."
+  },
+  {
+    "question_text": "The column graph shows sandwiches sold at a café.\n(a) How many salad sandwiches were sold?\n(b) How many more chicken than cheese sandwiches were sold?\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=3mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\foreach \\y in {2,4,6,8,10} {\\draw[draw=gray!40] (0,\\y)--(6,\\y);}\n\\draw[black,->] (0,0)--(0,11);\n\\draw[black,->] (0,0)--(6.2,0);\n\\foreach \\y in {0,2,4,6,8,10} {\\draw[black] (-0.1,\\y)--(0,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.1,\\y) {$\\y$};}\n\\draw[black] (0.6,0) rectangle (1.4,4);\n\\draw[black] (2.6,0) rectangle (3.4,7);\n\\draw[black] (4.6,0) rectangle (5.4,9);\n\\node[below] at (1,0) {Cheese};\n\\node[below] at (3,0) {Salad};\n\\node[below] at (5,0) {Chicken};\n\\node[rotate=90] at (-1,5) {Number sold};\n\\node[below] at (3,-2) {Sandwich type};\n\\node at (3,12.5) {Sandwiches sold};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) The salad column reaches halfway between 6 and 8, so 7 salad sandwiches were sold.\n\n(b) Read both column heights: chicken is 9 and cheese is 4. Subtract to compare them.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}9-4\\\\&=5\\text{ sandwiches}\\end{aligned}$"
+  },
+  {
+    "question_text": "The frequency histogram shows scores in a quiz.\n(a) What is the frequency of score 4?\n(b) Which scores are most frequent?\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=4mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\foreach \\y in {2,4,6,8} {\\draw[draw=gray!40] (0,\\y)--(5,\\y);}\n\\draw[black,->] (0,0)--(0,8.8);\n\\draw[black,->] (0,0)--(5.2,0);\n\\foreach \\y in {0,2,4,6,8} {\\draw[black] (-0.1,\\y)--(0,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.1,\\y) {$\\y$};}\n\\draw[black] (0.5,0) rectangle (1.5,3);\n\\draw[black] (1.5,0) rectangle (2.5,7);\n\\draw[black] (2.5,0) rectangle (3.5,5);\n\\draw[black] (3.5,0) rectangle (4.5,7);\n\\foreach \\x/\\s in {1/2,2/3,3/4,4/5} {\\draw[black] (\\x,0)--(\\x,-0.15);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.15) {$\\s$};}\n\\node[rotate=90] at (-0.9,4) {Frequency};\n\\node[below] at (2.5,-1.5) {Score};\n\\node at (2.5,10) {Quiz scores};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Read the height of the column centred on score 4. Its frequency is 5.\n\n(b) The tallest columns are centred on scores 3 and 5. Both have frequency 7, so both scores are most frequent."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

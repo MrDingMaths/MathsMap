@@ -2,20 +2,50 @@
   "skillId": "geometric-growth-decay",
   "atomType": "R",
   "theory": {
-    "intro": "Quantities that grow or decay by a constant percentage each period form a **geometric sequence**. If an initial quantity $A_{0}$ changes by a factor of $r$ each time period, the value after $n$ periods is $A_{n} = A_{0} r^{n}$.",
-    "facts": [
+"intro": "Quantities that grow or decay by a constant percentage each period form a **geometric sequence**. If an initial quantity $A_{0}$ changes by a factor of $r$ each time period, the value after $n$ periods is $A_{n} = A_{0} r^{n}$.",
+"facts": [
 "For exponential **growth** at rate $p\\%$ per period, the common ratio is $r = 1 + \\frac{p}{100} > 1$.",
 "For positive exponential **decay** at rate $p\\%$ per period, $0<p<100$ and the common ratio is $r = 1 - \\frac{p}{100}$, where $0<r<1$.",
 "In declining-balance depreciation, the salvage value after $n$ years is $V_{n} = V_{0}(1-d)^{n}$ where $d$ is the decimal annual depreciation rate and $0<d<1$.",
 "For positive initial and target values $A_{0}$ and $T$, with $r>0$ and $r\\ne1$, solving $A_{0}r^{n}=T$ gives $n=\\frac{\\ln(T/A_{0})}{\\ln(r)}$. A fractional result describes continuous interpolation only if that model is specified; whole-period valuations use integer values of $n$.",
 "For a strict threshold, solve the inequality and choose the first nonnegative integer satisfying it. Dividing by $\\ln(r)<0$ reverses the inequality for decay. If the result is $n>k$, choose the smallest integer strictly greater than $k$, even when $k$ is an integer, and check the chosen period and the preceding period."
 ],
-    "steps": [
+"steps": [
 "Identify the initial quantity $A_{0}$ and the growth or decay factor $r$ per period.",
 "Write the exponential formula $A_{n} = A_{0} r^{n}$ for the quantity after $n$ time periods.",
 "Substitute $n$ to find the future value, or solve the target equation or inequality using logarithms. Keep full precision until the final rounding; for whole-period thresholds, choose and check the first integer satisfying the condition."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "An investment of $\\$6000$ earns $5\\%$ per annum compounded annually. Write an expression for its value after $n$ years, and find its value after $3$ years.",
+    "solution_text": "Each year, the value is multiplied by $1+0.05=1.05$.\n$A_n=6000(1.05)^n$\n$\\begin{align*}A_3&=6000(1.05)^3\\\\&=\\$6945.75\\end{align*}$"
   },
+  {
+    "question_text": "A car costs $\\$24\\,000$ and loses $20\\%$ of its remaining value each year. Write an expression for its value after $n$ years, and find its value after $3$ years.",
+    "solution_text": "The car retains $80\\%$ of its value each year, so $r=0.80$.\n$V_n=24000(0.80)^n$\n$\\begin{align*}V_3&=24000(0.80)^3\\\\&=\\$12\\,288\\end{align*}$"
+  },
+  {
+    "question_text": "A sample initially has a mass of $48\\text{ g}$. Half its mass remains after each $3$-hour period. Find the mass remaining after $12$ hours.",
+    "solution_text": "$\\begin{align*}n&=\\frac{12}{3}\\\\&=4\\end{align*}$\nThere are four decay periods, each with factor $\\frac12$.\n$\\begin{align*}M_4&=48\\left(\\frac12\\right)^4\\\\&=3\\text{ g}\\end{align*}$"
+  },
+  {
+    "question_text": "Each sheet of thin glass reduces the intensity of light passing through it by $8\\%$. Find the percentage reduction after $5$ sheets, correct to two decimal places.",
+    "solution_text": "Each sheet retains $92\\%$ of the incoming intensity.\n$\\begin{align*}I_5&=I_0(0.92)^5\\\\&=0.6590815232I_0\\end{align*}$\nThe percentage reduction is\n$\\begin{aligned}&\\mathrel{\\phantom{=}}100\\bigl(1-0.6590815232\\bigr)\\%\\\\&=34.09184768\\%\\\\&\\approx34.09\\%.\\end{aligned}$"
+  },
+  {
+    "question_text": "A machine bought for $\\$20\\,000$ is worth $\\$10\\,240$ after $3$ years under reducing-balance depreciation. Find its annual depreciation rate.",
+    "solution_text": "Let $d$ be the decimal annual depreciation rate, where $0<d<1$.\n$\\begin{align*}20000(1-d)^3&=10240\\\\(1-d)^3&=0.512\\\\1-d&=\\sqrt[3]{0.512}\\\\1-d&=0.80\\\\d&=0.20\\end{align*}$\nThe annual depreciation rate is $20\\%$."
+  },
+  {
+    "question_text": "An investment earns $12\\%$ per annum compounded annually. Use logarithms to find the first complete year at whose end it exceeds twice its initial value.",
+    "solution_text": "Let the initial value be $P>0$.\n$\\begin{align*}P(1.12)^n&>2P\\\\(1.12)^n&>2\\\\n\\ln(1.12)&>\\ln2\\\\n&>\\frac{\\ln2}{\\ln(1.12)}\\end{align*}$\nThe boundary is $\\frac{\\ln2}{\\ln(1.12)}\\approx6.12$.\nCheck the neighbouring whole years:\n$\\begin{align*}(1.12)^6&\\approx1.9738<2\\\\(1.12)^7&\\approx2.2107>2\\end{align*}$\nThe first complete year is year $7$."
+  },
+  {
+    "question_text": "A ball is dropped from a height of $12\\text{ m}$. Each bounce reaches $60\\%$ of the previous height. Use logarithms to find the first bounce whose rebound height is below $1\\text{ m}$.",
+    "solution_text": "After $n$ bounces, the rebound height is $H_n=12(0.60)^n$ metres.\n$\\begin{align*}12(0.60)^n&<1\\\\(0.60)^n&<\\frac1{12}\\\\n\\ln(0.60)&<\\ln\\left(\\frac1{12}\\right)\\\\n&>\\frac{\\ln(1/12)}{\\ln(0.60)}\\end{align*}$\nDividing by $\\ln(0.60)<0$ reverses the inequality. The boundary is approximately $4.86$.\n$\\begin{align*}H_4&=12(0.60)^4=1.5552\\text{ m}\\\\H_5&=12(0.60)^5=0.93312\\text{ m}\\end{align*}$\nThe fifth bounce is the first with rebound height below $1\\text{ m}$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

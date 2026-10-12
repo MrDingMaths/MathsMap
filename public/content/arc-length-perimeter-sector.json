@@ -2,20 +2,78 @@
   "skillId": "arc-length-perimeter-sector",
   "atomType": "R",
   "theory": {
-        "intro": "An **arc** is part of the circumference. A **sector** is the region enclosed by two radii and the arc joining them, and the arc is the fraction $\\frac{\\theta}{360}$ of the whole circumference, where $\\theta$ is the angle at the centre.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.6);\n\\coordinate (B) at (70:2.6);\n\\draw (O) -- (A) node[midway,below] {$r$};\n\\draw (O) -- (B) node[midway,above left] {$r$};\n\\draw[very thick] (A) arc[start angle=0,end angle=70,radius=2.6];\n\\pic[draw,\"$\\theta$\",angle radius=0.75cm,angle eccentricity=2] {angle=A--O--B};\n\\node at (35:3.05) {$l$};\n\\fill (O) circle (1.6pt);\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "An **arc** is part of the circumference. A **sector** is the region enclosed by two radii and the arc joining them, and the arc is the fraction $\\frac{\\theta}{360}$ of the whole circumference, where $\\theta$ is the angle at the centre.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.6);\n\\coordinate (B) at (70:2.6);\n\\draw (O) -- (A) node[midway,below] {$r$};\n\\draw (O) -- (B) node[midway,above left] {$r$};\n\\draw[very thick] (A) arc[start angle=0,end angle=70,radius=2.6];\n\\pic[draw,\"$\\theta$\",angle radius=0.75cm,angle eccentricity=2] {angle=A--O--B};\n\\node at (35:3.05) {$l$};\n\\fill (O) circle (1.6pt);\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "Arc length: $l = \\frac{\\theta}{360}\\times 2\\pi r$, where $\\theta$ is the angle at the centre.",
           "Perimeter of a sector: $P = l + 2r$ — the arc plus **both** radii.",
           "A quadrant is the case $\\theta = 90^{\\circ}$, and a semicircle is the case $\\theta = 180^{\\circ}$, where the two radii together make the diameter.",
           "Angles at a point add to $360^{\\circ}$, so when the **exterior** angle is marked, the angle at the centre is $360^{\\circ}$ minus it.",
           "Use the calculator value of $\\pi$, keep the working exact, and round only on the last line to the form the question asks for."
         ],
-        "steps": [
+"steps": [
           "Write the formula.",
           "Substitute the angle at the centre and the radius.",
           "Evaluate, then round or leave in terms of $\\pi$ as asked."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "The diagram shows a sector. Explain the difference between its arc length and its perimeter.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2.5,0) node[midway,below] {$r$};\n\\draw (0,0)--(70:2.5) node[midway,above left] {$r$};\n\\draw (2.5,0) arc[start angle=0,end angle=70,radius=2.5];\n\\path (35:2.9) node {$l$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "The arc length $l$ measures only the curved edge. The perimeter includes the curved edge and both radii: $P=l+2r$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Calculate the arc length of this sector. Give an exact answer in terms of $\\pi$, then round to two decimal places.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2.5,0) node[midway,below] {$12\\text{ cm}$};\n\\draw (0,0)--(75:2.5);\n\\draw (2.5,0) arc[start angle=0,end angle=75,radius=2.5];\n\\draw (0.6,0) arc[start angle=0,end angle=75,radius=0.6];\n\\path (37.5:1.05) node {$75^\\circ$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "The arc is $\\frac{75}{360}$ of the circumference.\n$\\begin{align*}l&=\\frac{\\theta}{360}\\times2\\pi r\\\\l&=\\frac{75}{360}\\times2\\pi(12)\\\\l&=5\\pi\\text{ cm}\\\\l&\\approx15.71\\text{ cm}\\end{align*}$\nEquivalently, the diameter is $24\\text{ cm}$, so the arc-length calculation is $\\frac{75}{360}\\times\\pi\\times24$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The marked angle is the exterior angle of this sector. Calculate the arc length to two decimal places.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2.5,0) node[midway,below] {$9\\text{ m}$};\n\\draw (0,0)--(140:2.5);\n\\draw (140:2.5) arc[start angle=140,end angle=360,radius=2.5];\n\\draw (0.6,0) arc[start angle=0,end angle=140,radius=0.6];\n\\path (70:1.05) node {$140^\\circ$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Subtract the exterior angle from $360^\\circ$.\n$\\begin{align*}\\theta&=360^\\circ-140^\\circ\\\\\\theta&=220^\\circ\\end{align*}$\n$\\begin{align*}l&=\\frac{\\theta}{360}\\times2\\pi r\\\\l&=\\frac{220}{360}\\times2\\pi(9)\\\\l&=11\\pi\\text{ m}\\\\l&\\approx34.56\\text{ m}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Calculate the perimeter of this sector. Give an exact answer in terms of $\\pi$, then round to one decimal place.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2.5,0) node[midway,below] {$10\\text{ cm}$};\n\\draw (0,0)--(144:2.5);\n\\draw (2.5,0) arc[start angle=0,end angle=144,radius=2.5];\n\\draw (0.6,0) arc[start angle=0,end angle=144,radius=0.6];\n\\path (72:1.05) node {$144^\\circ$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Add both radii to the arc length.\n$\\begin{align*}P&=l+2r\\\\P&=\\frac{144}{360}\\times2\\pi(10)+2(10)\\\\P&=(8\\pi+20)\\text{ cm}\\\\P&\\approx45.1\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Calculate the perimeter of this quadrant to one decimal place.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2.5,0) node[midway,below] {$8\\text{ m}$};\n\\draw (0,0)--(0,2.5);\n\\draw (2.5,0) arc[start angle=0,end angle=90,radius=2.5];\n\\draw (0.25,0)--(0.25,0.25)--(0,0.25);\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "A quadrant has a $90^\\circ$ angle at the centre and two straight radii.\n$\\begin{align*}P&=l+2r\\\\P&=\\frac{90}{360}\\times2\\pi(8)+2(8)\\\\P&=(4\\pi+16)\\text{ m}\\\\P&\\approx28.6\\text{ m}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A student says, “The perimeter of this semicircle is half the circumference.” Explain the mistake and calculate the correct perimeter to one decimal place.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-2.5,0)--(2.5,0);\n\\draw (2.5,0) arc[start angle=0,end angle=180,radius=2.5];\n\\draw[<->] (-2.5,-0.45)--(2.5,-0.45) node[midway,below] {$12\\text{ cm}$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Half the circumference gives only the curved edge. The straight diameter must also be included. The radius is $12\\div2=6\\text{ cm}$.\n$\\begin{align*}P&=l+2r\\\\P&=\\frac{180}{360}\\times2\\pi(6)+12\\\\P&=(6\\pi+12)\\text{ cm}\\\\P&\\approx30.8\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A sector is five eighths of a whole circle of radius $8\\text{ cm}$. Calculate its perimeter to the nearest centimetre.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2.3,0) node[midway,below] {$8\\text{ cm}$};\n\\draw (0,0)--(225:2.3);\n\\draw (2.3,0) arc[start angle=0,end angle=225,radius=2.3];\n\\path (112.5:1.1) node {$\\frac58\\text{ of a circle}$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Use the given fraction of the circumference, then add both radii.\n$\\begin{align*}P&=l+2r\\\\P&=\\frac58\\times2\\pi(8)+2(8)\\\\P&=(10\\pi+16)\\text{ cm}\\\\P&\\approx47\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A sector has perimeter $28\\text{ cm}$ and radius $5\\text{ cm}$. Find its angle at the centre to one decimal place. Is a perimeter of $50\\text{ cm}$ possible for a sector with the same radius? Justify your answer.",
+    "solution_text": "Subtract both radii to find the arc length, then solve the arc-length equation using inverse operations.\n$\\begin{align*}P&=l+2r\\\\28&=l+2(5)\\\\l&=18\\text{ cm}\\end{align*}$\n$\\begin{align*}18&=\\frac{\\theta}{360}\\times2\\pi(5)\\\\18\\times360&=10\\pi\\theta\\\\\\theta&=\\frac{6480}{10\\pi}\\\\\\theta&\\approx206.3^\\circ\\end{align*}$\nFor a perimeter of $50\\text{ cm}$:\n$\\begin{align*}50&=l+10\\\\l&=40\\text{ cm}\\\\40&=\\frac{\\theta}{360}\\times10\\pi\\\\\\theta&=\\frac{40\\times360}{10\\pi}\\\\\\theta&\\approx458.4^\\circ\\end{align*}$\nThis is impossible because the angle of a sector cannot exceed $360^\\circ$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

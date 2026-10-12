@@ -2,8 +2,8 @@
   "skillId": "rate-proportional-difference",
   "atomType": "R",
   "theory": {
-    "intro": "Sometimes a quantity $Q$ changes at a rate proportional to the **difference** $Q-P$ between $Q$ and a fixed value $P$. This is written $\\dfrac{dQ}{dt}=k(Q-P)$. The bigger the magnitude of the gap $|Q-P|$, the faster the change.",
-    "facts": [
+"intro": "Sometimes a quantity $Q$ changes at a rate proportional to the **difference** $Q-P$ between $Q$ and a fixed value $P$. This is written $\\dfrac{dQ}{dt}=k(Q-P)$. The bigger the magnitude of the gap $|Q-P|$, the faster the change.",
+"facts": [
 "$P$ is the fixed value the quantity is measured against, such as room temperature or a carrying capacity.",
 "Newton's law of cooling is this model, with $P$ the surrounding temperature and $Q$ the object's temperature.",
 "If $k<0$ the magnitude of the gap $|Q-P|$ shrinks, so $Q$ moves towards $P$ when the gap is nonzero.",
@@ -14,12 +14,49 @@
 "The starting value $Q(0)$ gives the quantity at the start, while the fixed value $P$ is the value it is measured against. They can be equal; when $Q(0)=P$, the solution is the constant $Q=P$.",
 "When $Q=P$ the rate is zero, so a quantity sitting at $P$ never changes."
 ],
-    "steps": [
+"steps": [
       "Identify the fixed value $P$ that the quantity is measured against.",
       "Write the difference $Q-P$ between the quantity and that fixed value.",
       "Write $\\dfrac{dQ}{dt}=k(Q-P)$ and state the sign of $k$."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A quantity satisfies $\\dfrac{dQ}{dt}=-0.12(Q-60)$.\nIdentify the fixed value, describe what happens when $Q\\ne60$, and state what happens if $Q(0)=60$.",
+    "solution_text": "Comparing with $\\dfrac{dQ}{dt}=k(Q-P)$ gives $P=60$ and $k=-0.12<0$.\nWhen $Q\\ne60$, the magnitude of the gap $|Q-60|$ shrinks, so $Q$ approaches $60$.\nIf $Q(0)=60$, the rate is zero and $Q$ remains at $60$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A bowl of soup initially at $82^{\\circ}\\mathrm{C}$ cools in a room held at $26^{\\circ}\\mathrm{C}$. Its cooling rate is proportional to the difference between its temperature $T$ and the room temperature.\n(a) Write a differential equation in the form $\\dfrac{dT}{dt}=k(T-P)$ and identify the initial difference.\n(b) When $T=62^{\\circ}\\mathrm{C}$, the soup is cooling at $2.7^{\\circ}\\mathrm{C}$ per minute. Find $k$ and complete the equation.\n(c) State the limiting temperature.",
+    "solution_text": "(a) The fixed value is the room temperature.\n$\\dfrac{dT}{dt}=k(T-26)$, where $k<0$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}T(0)-P\\\\&=82-26\\\\&=56\\end{aligned}$\n(b) Cooling gives the signed rate $\\dfrac{dT}{dt}=-2.7$.\n$\\begin{aligned}-2.7&=k(62-26)\\\\-2.7&=36k\\\\k&=-0.075\\end{aligned}$\nThe completed equation is $\\dfrac{dT}{dt}=-0.075(T-26)$, with $t$ in minutes.\n(c) Since $k<0$, the temperature approaches $26^{\\circ}\\mathrm{C}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A frozen meal initially at $-12^{\\circ}\\mathrm{C}$ is placed in air held at $28^{\\circ}\\mathrm{C}$. Its temperature satisfies $\\dfrac{dT}{dt}=k(T-P)$ and rises towards the air temperature.\nIdentify $P$, $T(0)$ and the initial difference. Deduce the sign of $k$ and justify your answer.",
+    "solution_text": "$P=28$ and $T(0)=-12$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}T(0)-P\\\\&=-12-28\\\\&=-40\\end{aligned}$\nWhile the meal is colder than the air, $T-28<0$. It is warming, so $\\dfrac{dT}{dt}>0$.\nTherefore $k<0$: a negative constant multiplied by the negative difference gives a positive rate.\nThe model is $\\dfrac{dT}{dt}=k(T-28)$, where $k<0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "In a chemical reaction, the masses $x$ and $y$ of compounds $X$ and $Y$ always add to $640$ grams. The mass of $X$ increases at a rate proportional to the mass of $Y$.\nWrite a differential equation for $x$ in the form $\\dfrac{dx}{dt}=k(x-P)$, identifying $P$ and the sign of $k$.",
+    "solution_text": "The total mass gives $y=640-x$.\nLet $c>0$ be the proportionality constant for the rate of formation of $X$.\n$\\begin{aligned}\\frac{dx}{dt}&=cy\\\\\\frac{dx}{dt}&=c(640-x)\\\\\\frac{dx}{dt}&=-c(x-640)\\end{aligned}$\nThus $P=640$ and $k=-c<0$, giving $\\dfrac{dx}{dt}=k(x-640)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A population $N$ satisfies $\\dfrac{dN}{dt}=k(N-1500)$. Initially there are $2300$ animals, and the population is increasing.\nDeduce the sign of $k$ and describe the model's prediction for large $t$.",
+    "solution_text": "Initially, the difference is positive.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}N(0)-1500\\\\&=2300-1500\\\\&=800>0\\end{aligned}$\nSince $\\dfrac{dN}{dt}>0$, the equation requires $k>0$.\nThe positive gap $N-1500$ grows, so the population moves further above $1500$ and increases without bound in this model. Here $1500$ is a fixed reference value, rather than a limiting population.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

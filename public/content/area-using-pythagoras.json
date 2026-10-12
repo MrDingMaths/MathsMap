@@ -2,66 +2,124 @@
   "skillId": "area-using-pythagoras",
   "atomType": "R",
   "theory": {
-        "intro": "Sometimes the length an area formula needs is not given. When the figure contains a right-angled triangle, Pythagoras’ theorem finds that length first, and the area formula follows.",
-        "facts": [
-          "$a^{2}+b^{2}=h^{2}$: **add** the squares to find the hypotenuse, **subtract** them to find a shorter side.",
-          "The perpendicular height of an **isosceles triangle** comes from a right-angled triangle whose base is **half** the base of the triangle.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc,decorations.markings}\n\\tikzset{tickmark/.style={postaction={decorate, decoration={markings, mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,0);\n\\coordinate (C) at (2,3);\n\\coordinate (M) at (2,0);\n\\draw[fill=blue!15] (A)--(B)--(C)--cycle;\n\\draw[tickmark] (A)--(C);\n\\draw[tickmark] (B)--(C) node[midway,above right] {$s$};\n\\draw[dashed] (C)--(M) node[midway,right,fill=white,inner sep=1pt] {$h$};\n\\coordinate (m1) at ($(M)!0.3cm!(B)$);\n\\coordinate (m2) at ($(M)!0.3cm!(C)$);\n\\draw (m1) -- ($(m1)+(m2)-(M)$) -- (m2);\n\\node[below] at (1,-0.05) {$\\frac{b}{2}$};\n\\node[below] at (3,-0.05) {$\\frac{b}{2}$};\n\\end{tikzpicture}\n[/tikz]",
-          "The height of a **trapezium** comes from a right-angled triangle whose base is the horizontal overhang at one end.",
-          "In an isosceles trapezium each overhang is half the difference of the parallel sides.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (5,0);\n\\coordinate (C) at (4,2.6);\n\\coordinate (D) at (1,2.6);\n\\coordinate (P) at (1,0);\n\\coordinate (Q) at (4,0);\n\\draw[fill=blue!15] (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(D) node[midway,above left] {$s$};\n\\draw[dashed] (D)--(P) node[midway,right,fill=white,inner sep=1pt] {$h$};\n\\draw[dashed] (C)--(Q);\n\\coordinate (p1) at ($(P)!0.3cm!(B)$);\n\\coordinate (p2) at ($(P)!0.3cm!(D)$);\n\\draw (p1) -- ($(p1)+(p2)-(P)$) -- (p2);\n\\node[above] at (2.5,2.6) {$a$};\n\\node[below] at (2.5,0) {$b$};\n\\draw[dashed] (0,0)--(0,-1.2);\n\\draw[dashed] (1,0)--(1,-1.2);\n\\draw[dashed] (4,0)--(4,-1.2);\n\\draw[dashed] (5,0)--(5,-1.2);\n\\draw[<->] (0,-1.0)--(1,-1.0) node[midway,below] {$\\frac{b-a}{2}$};\n\\draw[<->] (4,-1.0)--(5,-1.0) node[midway,below] {$\\frac{b-a}{2}$};\n\\end{tikzpicture}\n[/tikz]",
-          "The diagonals of a **kite or rhombus** cross at right angles, so each half-diagonal is a shorter side of a right-angled triangle.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (W) at (-1.6,0);\n\\coordinate (E) at (1.6,0);\n\\coordinate (N) at (0,2.4);\n\\coordinate (S) at (0,-1.6);\n\\coordinate (O) at (0,0);\n\\draw[fill=blue!15] (W)--(N)--(E)--(S)--cycle;\n\\draw[dashed] (W)--(O) node[midway,fill=white,inner sep=1pt] {$\\frac{x}{2}$};\n\\draw[dashed] (O)--(E);\n\\draw[dashed] (O)--(N) node[midway,fill=white,inner sep=1pt] {$\\frac{y}{2}$};\n\\draw[dashed] (O)--(S);\n\\coordinate (o1) at ($(O)!0.3cm!(E)$);\n\\coordinate (o2) at ($(O)!0.3cm!(N)$);\n\\draw (o1) -- ($(o1)+(o2)-(O)$) -- (o2);\n\\draw (N)--(E) node[midway,above right] {$s$};\n\\end{tikzpicture}\n[/tikz]",
-          "Area formulas: triangle $=\\frac{bh}{2}$, trapezium $=\\frac{h}{2}(a+b)$, kite or rhombus $=\\frac{1}{2}xy$.",
-          "Keep the Pythagoras result **exact**, such as $\\sqrt{65}$, when you substitute it into the area formula.",
-          "Round **once**, at the end, and only when the question asks for a rounded answer."
-        ],
-        "steps": [
+"intro": "Sometimes the length an area formula needs is not given. When the figure contains a right-angled triangle, Pythagoras’ theorem finds that length first, and the area formula follows.",
+"facts": [
+"$a^{2}+b^{2}=h^{2}$: **add** the squares to find the hypotenuse, **subtract** them to find a shorter side.",
+"The perpendicular height of an **isosceles triangle** comes from a right-angled triangle whose base is **half** the base of the triangle.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc,decorations.markings}\n\\tikzset{tickmark/.style={postaction={decorate, decoration={markings, mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,0);\n\\coordinate (C) at (2,3);\n\\coordinate (M) at (2,0);\n\\draw[fill=blue!15] (A)--(B)--(C)--cycle;\n\\draw[tickmark] (A)--(C);\n\\draw[tickmark] (B)--(C) node[midway,above right] {$s$};\n\\draw[dashed] (C)--(M) node[midway,right,fill=white,inner sep=1pt] {$h$};\n\\coordinate (m1) at ($(M)!0.3cm!(B)$);\n\\coordinate (m2) at ($(M)!0.3cm!(C)$);\n\\draw (m1) -- ($(m1)+(m2)-(M)$) -- (m2);\n\\node[below] at (1,-0.05) {$\\frac{b}{2}$};\n\\node[below] at (3,-0.05) {$\\frac{b}{2}$};\n\\end{tikzpicture}\n[/tikz]",
+"The height of a **trapezium** comes from a right-angled triangle whose base is the horizontal overhang at one end.",
+"In an isosceles trapezium each overhang is half the difference of the parallel sides.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (5,0);\n\\coordinate (C) at (4,2.6);\n\\coordinate (D) at (1,2.6);\n\\coordinate (P) at (1,0);\n\\coordinate (Q) at (4,0);\n\\draw[fill=blue!15] (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(D) node[midway,above left] {$s$};\n\\draw[dashed] (D)--(P) node[midway,right,fill=white,inner sep=1pt] {$h$};\n\\draw[dashed] (C)--(Q);\n\\coordinate (p1) at ($(P)!0.3cm!(B)$);\n\\coordinate (p2) at ($(P)!0.3cm!(D)$);\n\\draw (p1) -- ($(p1)+(p2)-(P)$) -- (p2);\n\\node[above] at (2.5,2.6) {$a$};\n\\node[below] at (2.5,0) {$b$};\n\\draw[dashed] (0,0)--(0,-1.2);\n\\draw[dashed] (1,0)--(1,-1.2);\n\\draw[dashed] (4,0)--(4,-1.2);\n\\draw[dashed] (5,0)--(5,-1.2);\n\\draw[<->] (0,-1.0)--(1,-1.0) node[midway,below] {$\\frac{b-a}{2}$};\n\\draw[<->] (4,-1.0)--(5,-1.0) node[midway,below] {$\\frac{b-a}{2}$};\n\\end{tikzpicture}\n[/tikz]",
+"The diagonals of a **kite or rhombus** cross at right angles. In a rhombus both diagonals bisect each other, so their halves form the shorter sides of a right-angled triangle. In a general kite, the symmetry diagonal bisects only the other diagonal; its own upper and lower segments need not be equal. In this kite the full diagonals are $x$ and $y=a+b$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (W) at (-1.6,0);\n\\coordinate (E) at (1.6,0);\n\\coordinate (N) at (0,2.4);\n\\coordinate (S) at (0,-1.6);\n\\coordinate (O) at (0,0);\n\\draw (W)--(N)--(E)--(S)--cycle;\n\\draw[dashed] (W)--(O) node[midway,fill=white,inner sep=1pt] {$\\frac{x}{2}$};\n\\draw[dashed] (O)--(E);\n\\draw[dashed] (O)--(N) node[midway,fill=white,inner sep=1pt] {$a$};\n\\draw[dashed] (O)--(S) node[midway,fill=white,inner sep=1pt] {$b$};\n\\coordinate (o1) at ($(O)!0.3cm!(E)$);\n\\coordinate (o2) at ($(O)!0.3cm!(N)$);\n\\draw (o1) -- ($(o1)+(o2)-(O)$) -- (o2);\n\\draw (N)--(E) node[midway,above right] {$s$};\n\\end{tikzpicture}\n[/tikz]",
+"Area formulas: triangle $=\\frac{bh}{2}$, trapezium $=\\frac{h}{2}(a+b)$, kite or rhombus $=\\frac{1}{2}xy$, where $x$ and $y$ are the full diagonals.",
+"Keep the Pythagoras result **exact**, such as $\\sqrt{65}$, when you substitute it into the area formula.",
+"Round **once**, at the end, and only when the question asks for a rounded answer."
+],
+"steps": [
           "Find the right-angled triangle inside the figure and decide whether the missing length is the hypotenuse or a shorter side.",
           "Use Pythagoras’ theorem to find that length, keeping it exact.",
           "Substitute the length into the matching area formula and round only if the question asks."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Use Pythagoras’ theorem to find $h$, then calculate the exact area of this right-angled triangle.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(3,0)--(0,4)--cycle;\n\\draw (0.25,0)--(0.25,0.25)--(0,0.25);\n\\path (1.5,0) node[below] {$5\\text{ m}$} (0,2) node[left] {$h$} (1.5,2) node[above right] {$8\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned}h&=\\sqrt{8^{2}-5^{2}}\\\\&=\\sqrt{39}\\text{ m}\\end{aligned}$\n\n$\\begin{aligned}A&=\\frac{5\\times\\sqrt{39}}{2}\\\\&=\\frac{5\\sqrt{39}}{2}\\text{ m}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the perpendicular height $h$, then calculate the area of this isosceles triangle to $2$ decimal places.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(4,0)--(2,4)--cycle;\n\\draw[dashed] (2,0)--(2,4);\n\\draw (2,0.25)--(2.25,0.25)--(2.25,0);\n\\path (2,0) node[below] {$10\\text{ cm}$} (1,2) node[above left] {$12\\text{ cm}$} (3,2) node[above right] {$12\\text{ cm}$} (2,2) node[right,fill=white,inner sep=1pt] {$h$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The perpendicular height bisects the base, giving a half-base of $10\\div2=5\\text{ cm}$.\n\n$\\begin{aligned}h&=\\sqrt{12^{2}-5^{2}}\\\\&=\\sqrt{119}\\text{ cm}\\end{aligned}$\n\n$\\begin{aligned}A&=\\frac{10\\times\\sqrt{119}}{2}\\\\&=5\\sqrt{119}\\\\&\\approx54.54\\text{ cm}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the height $h$ of this trapezium, then calculate its area.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(5,0)--(5,3)--(2,3)--cycle;\n\\draw[dashed] (2,3)--(2,0);\n\\draw (2,0.25)--(2.25,0.25)--(2.25,0);\n\\draw (4.75,0)--(4.75,0.25)--(5,0.25);\n\\draw (4.75,3)--(4.75,2.75)--(5,2.75);\n\\path (2.5,0) node[below] {$23\\text{ cm}$} (3.5,3) node[above] {$14\\text{ cm}$} (1,1.5) node[above left] {$15\\text{ cm}$} (5,1.5) node[right] {$h$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The horizontal overhang is $23-14=9\\text{ cm}$.\n\n$\\begin{aligned}h&=\\sqrt{15^{2}-9^{2}}\\\\&=\\sqrt{144}\\\\&=12\\text{ cm}\\end{aligned}$\n\n$\\begin{aligned}A&=\\frac{12}{2}(14+23)\\\\&=222\\text{ cm}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the height $h$ of this isosceles trapezium, then calculate its area to $1$ decimal place.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(5,0)--(4,3)--(1,3)--cycle;\n\\draw[dashed] (1,3)--(1,0) (4,3)--(4,0);\n\\draw (1,0.25)--(1.25,0.25)--(1.25,0);\n\\draw (4,0.25)--(4.25,0.25)--(4.25,0);\n\\path (2.5,0) node[below] {$26\\text{ cm}$} (2.5,3) node[above] {$14\\text{ cm}$} (0.5,1.5) node[above left] {$9\\text{ cm}$} (4.5,1.5) node[above right] {$9\\text{ cm}$} (1,1.5) node[right,fill=white,inner sep=1pt] {$h$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The overhangs are equal, so each is $(26-14)\\div2=6\\text{ cm}$.\n\n$\\begin{aligned}h&=\\sqrt{9^{2}-6^{2}}\\\\&=\\sqrt{45}\\text{ cm}\\end{aligned}$\n\n$\\begin{aligned}A&=\\frac{\\sqrt{45}}{2}(14+26)\\\\&=20\\sqrt{45}\\\\&\\approx134.2\\text{ cm}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The horizontal diagonal of this kite is bisected by the vertical diagonal. Find $a$ and $b$, then calculate the area of the kite.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,2)--(2,0)--(0,-3)--(-2,0)--cycle;\n\\draw[dashed] (-2,0)--(2,0) (0,2)--(0,-3);\n\\draw (0,0.25)--(0.25,0.25)--(0.25,0);\n\\path (1,0) node[below,fill=white,inner sep=1pt] {$6\\text{ cm}$} (0,1) node[left,fill=white,inner sep=1pt] {$a$} (0,-1.5) node[left,fill=white,inner sep=1pt] {$b$} (1,1) node[above right] {$10\\text{ cm}$} (-1,1) node[above left] {$10\\text{ cm}$} (1,-1.5) node[below right] {$15\\text{ cm}$} (-1,-1.5) node[below left] {$15\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned}a&=\\sqrt{10^{2}-6^{2}}\\\\&=8\\text{ cm}\\end{aligned}$\n\n$\\begin{aligned}b&=\\sqrt{15^{2}-6^{2}}\\\\&=\\sqrt{189}\\text{ cm}\\end{aligned}$\n\nThe full horizontal diagonal is $2\\times6=12\\text{ cm}$. The full vertical diagonal is $(8+\\sqrt{189})\\text{ cm}$.\n\n$\\begin{aligned}A&=\\frac{12(8+\\sqrt{189})}{2}\\\\&=48+6\\sqrt{189}\\text{ cm}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A rhombus has side length $17\\text{ cm}$ and one diagonal of length $16\\text{ cm}$. Find its area.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-1.6,0)--(0,3)--(1.6,0)--(0,-3)--cycle;\n\\draw[dashed] (-1.6,0)--(1.6,0) (0,3)--(0,-3);\n\\draw (0,0.25)--(0.25,0.25)--(0.25,0);\n\\path (0.8,1.5) node[above right] {$17\\text{ cm}$} (0,1.5) node[left,fill=white,inner sep=1pt] {$m$};\n\\draw[<->] (-1.6,-3.5)--(1.6,-3.5);\n\\path (0,-3.5) node[below] {$16\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The diagonals bisect each other at right angles. Half the known diagonal is $16\\div2=8\\text{ cm}$.\n\n$\\begin{aligned}m&=\\sqrt{17^{2}-8^{2}}\\\\&=\\sqrt{225}\\\\&=15\\text{ cm}\\end{aligned}$\n\nThe other full diagonal is $2\\times15=30\\text{ cm}$.\n\n$\\begin{aligned}A&=\\frac{16\\times30}{2}\\\\&=240\\text{ cm}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A square has a diagonal of length $16\\text{ cm}$. Use Pythagoras’ theorem to find its area.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) rectangle (3.5,3.5);\n\\draw[dashed] (0,0)--(3.5,3.5);\n\\draw (3.25,0)--(3.25,0.25)--(3.5,0.25);\n\\path (1.75,0) node[below] {$x$} (3.5,1.75) node[right] {$x$} (1.5,1.5) node[above left,fill=white,inner sep=1pt] {$16\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned}x^{2}+x^{2}&=16^{2}\\\\2x^{2}&=256\\\\x^{2}&=128\\end{aligned}$\n\nThe area is $x^{2}$, so there is no need to find $x$.\n\n$A=128\\text{ cm}^{2}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Calculate the exact area of this equilateral triangle, giving your answer in simplified form.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(4,0)--(2,3.464)--cycle;\n\\draw[dashed] (2,3.464)--(2,0);\n\\draw (2,0.25)--(2.25,0.25)--(2.25,0);\n\\path (2,0) node[below] {$12\\text{ cm}$} (1,1.732) node[above left] {$12\\text{ cm}$} (3,1.732) node[above right] {$12\\text{ cm}$} (2,1.6) node[right,fill=white,inner sep=1pt] {$h$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The perpendicular height bisects the base, so each half is $6\\text{ cm}$.\n\n$\\begin{aligned}h&=\\sqrt{12^{2}-6^{2}}\\\\&=\\sqrt{108}\\\\&=6\\sqrt{3}\\text{ cm}\\end{aligned}$\n\n$\\begin{aligned}A&=\\frac{12\\times6\\sqrt{3}}{2}\\\\&=36\\sqrt{3}\\text{ cm}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (8,0);\n\\coordinate (C) at (0,6);\n\\draw[fill=blue!15] (A)--(B)--(C)--cycle;\n\\draw (A)--(B) node[midway,below]{$8\\text{ cm}$};\n\\draw (A)--(C) node[midway,left]{$h$};\n\\draw (B)--(C) node[midway,above right]{$10\\text{ cm}$};\n\\draw (0.56,0)--(0.56,0.56)--(0,0.56);\n\\end{tikzpicture}\n[/tikz]\nUse Pythagoras' theorem to find $h$, then find the area of the triangle, in square centimetres.",
         "structure": "right-triangle-find-leg",
         "solution_text": "$h=\\sqrt{10^{2}-8^{2}}$\n$=\\sqrt{100-64}$\n$=\\sqrt{36}$\n$=6\\text{ cm}$\n$A=\\frac{8\\times6}{2}$\n$=24\\text{ cm}^{2}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.18]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (24,0);\n\\coordinate (C) at (0,7);\n\\draw[fill=blue!15] (A)--(B)--(C)--cycle;\n\\draw (A)--(B) node[midway,below]{$24\\text{ mm}$};\n\\draw (A)--(C) node[midway,left]{$x$};\n\\draw (B)--(C) node[midway,above right]{$25\\text{ mm}$};\n\\draw (1.68,0)--(1.68,1.68)--(0,1.68);\n\\end{tikzpicture}\n[/tikz]\nUse Pythagoras' theorem to find $x$, then find the area of the triangle, in square millimetres.",
         "structure": "right-triangle-find-leg",
         "solution_text": "$x=\\sqrt{25^{2}-24^{2}}$\n$=\\sqrt{625-576}$\n$=\\sqrt{49}$\n$=7\\text{ mm}$\n$A=\\frac{24\\times7}{2}$\n$=84\\text{ mm}^{2}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.36]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (10,0);\n\\coordinate (C) at (5,12);\n\\coordinate (M) at (5,0);\n\\draw[fill=blue!15] (A)--(B)--(C)--cycle;\n\\draw (A)--(B) node[midway,below]{$10\\text{ cm}$};\n\\draw (A)--(C) node[midway,above left]{$13\\text{ cm}$};\n\\draw (B)--(C) node[midway,above right]{$13\\text{ cm}$};\n\\draw[dashed] (C)--(M) node[midway,right,fill=white,inner sep=1pt]{$h$};\n\\draw (5.72,0)--(5.72,0.72)--(5,0.72);\n\\end{tikzpicture}\n[/tikz]\nFind the perpendicular height $h$ of this isosceles triangle, then find its area, in square centimetres.",
         "structure": "isosceles-triangle-height",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.36]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (10,0);\n\\coordinate (C) at (5,12);\n\\coordinate (M) at (5,0);\n\\draw[fill=blue!15] (A)--(B)--(C)--cycle;\n\\draw (A)--(B) node[midway,below]{$10\\text{ cm}$};\n\\draw (A)--(C) node[midway,above left]{$13\\text{ cm}$};\n\\draw (B)--(C) node[midway,above right]{$13\\text{ cm}$};\n\\draw[dashed] (C)--(M) node[midway,right,fill=white,inner sep=1pt]{$12\\text{ cm}$};\n\\draw (5.72,0)--(5.72,0.72)--(5,0.72);\n\\draw[<->] (0,-2.4)--(5,-2.4) node[midway,below]{$5\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\n$h=\\sqrt{13^{2}-5^{2}}$\n$=\\sqrt{169-25}$\n$=\\sqrt{144}$\n$=12\\text{ cm}$\n$A=\\frac{10\\times12}{2}$\n$=60\\text{ cm}^{2}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.34]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (18,0);\n\\coordinate (C) at (18,6);\n\\coordinate (D) at (8,6);\n\\draw[fill=blue!15] (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(B) node[midway,below]{$18\\text{ cm}$};\n\\draw (D)--(C) node[midway,above]{$10\\text{ cm}$};\n\\draw (A)--(D) node[midway,above left]{$10\\text{ cm}$};\n\\draw (B)--(C) node[midway,right]{$h$};\n\\draw (17.01,0)--(17.01,0.99)--(18,0.99);\n\\draw (18,5.01)--(17.01,5.01)--(17.01,6);\n\\draw[<->] (0,-2.52)--(8,-2.52) node[midway,below]{$8\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nFind the height $h$ of this trapezium, then find its area, in square centimetres.",
         "structure": "right-trapezium-height",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.34]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (18,0);\n\\coordinate (C) at (18,6);\n\\coordinate (D) at (8,6);\n\\draw[fill=blue!15] (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(B) node[midway,below]{$18\\text{ cm}$};\n\\draw (D)--(C) node[midway,above]{$10\\text{ cm}$};\n\\draw (A)--(D) node[midway,above left]{$10\\text{ cm}$};\n\\draw (B)--(C) node[midway,right]{$6\\text{ cm}$};\n\\draw (17.01,0)--(17.01,0.99)--(18,0.99);\n\\draw (18,5.01)--(17.01,5.01)--(17.01,6);\n\\draw[<->] (0,-2.52)--(8,-2.52) node[midway,below]{$8\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\n$h=\\sqrt{10^{2}-8^{2}}$\n$=\\sqrt{100-64}$\n$=\\sqrt{36}$\n$=6\\text{ cm}$\n$A=\\frac{6}{2}(10+18)$\n$=84\\text{ cm}^{2}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.34]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (18,0);\n\\coordinate (C) at (14,3);\n\\coordinate (D) at (4,3);\n\\coordinate (M) at (4,0);\n\\draw[fill=blue!15] (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(B) node[midway,below]{$18\\text{ cm}$};\n\\draw (D)--(C) node[midway,above]{$10\\text{ cm}$};\n\\draw (A)--(D) node[midway,above left]{$5\\text{ cm}$};\n\\draw (B)--(C) node[midway,above right]{$5\\text{ cm}$};\n\\draw[dashed] (D)--(M) node[midway,right,fill=white,inner sep=1pt]{$h$};\n\\draw (4.9,0)--(4.9,0.9)--(4,0.9);\n\\draw[<->] (0,-1.5)--(4,-1.5) node[midway,below]{$4\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nFind the height $h$ of this isosceles trapezium, then find its area, in square centimetres.",
         "structure": "isosceles-trapezium-height",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.34]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (18,0);\n\\coordinate (C) at (14,3);\n\\coordinate (D) at (4,3);\n\\coordinate (M) at (4,0);\n\\draw[fill=blue!15] (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(B) node[midway,below]{$18\\text{ cm}$};\n\\draw (D)--(C) node[midway,above]{$10\\text{ cm}$};\n\\draw (A)--(D) node[midway,above left]{$5\\text{ cm}$};\n\\draw (B)--(C) node[midway,above right]{$5\\text{ cm}$};\n\\draw[dashed] (D)--(M) node[midway,right,fill=white,inner sep=1pt]{$3\\text{ cm}$};\n\\draw (4.9,0)--(4.9,0.9)--(4,0.9);\n\\draw[<->] (0,-1.5)--(4,-1.5) node[midway,below]{$4\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\n$h=\\sqrt{5^{2}-4^{2}}$\n$=\\sqrt{25-16}$\n$=\\sqrt{9}$\n$=3\\text{ cm}$\n$A=\\frac{3}{2}(10+18)$\n$=42\\text{ cm}^{2}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.24]\n\\coordinate (L) at (-6,0);\n\\coordinate (R) at (6,0);\n\\coordinate (P) at (0,8);\n\\coordinate (Q) at (0,-15);\n\\coordinate (O) at (0,0);\n\\draw[fill=blue!15] (P)--(R)--(Q)--(L)--cycle;\n\\draw[dashed] (L)--(O);\n\\draw[dashed] (O)--(R) node[midway,below,fill=white,inner sep=1pt]{$6\\text{ cm}$};\n\\draw[dashed] (O)--(P) node[midway,right,fill=white,inner sep=1pt]{$a$};\n\\draw[dashed] (O)--(Q) node[midway,right,fill=white,inner sep=1pt]{$15\\text{ cm}$};\n\\draw (1.35,0)--(1.35,1.35)--(0,1.35);\n\\draw (P)--(R) node[midway,above right]{$10\\text{ cm}$};\n\\draw (P)--(L) node[midway,above left]{$10\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nThe diagonals of this kite cross at right angles.\nFind $a$, then find the area of the kite, in square centimetres.",
-        "structure": "kite-missing-diagonal-part",
-        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.24]\n\\coordinate (L) at (-6,0);\n\\coordinate (R) at (6,0);\n\\coordinate (P) at (0,8);\n\\coordinate (Q) at (0,-15);\n\\coordinate (O) at (0,0);\n\\draw[fill=blue!15] (P)--(R)--(Q)--(L)--cycle;\n\\draw[dashed] (L)--(O);\n\\draw[dashed] (O)--(R) node[midway,below,fill=white,inner sep=1pt]{$6\\text{ cm}$};\n\\draw[dashed] (O)--(P) node[midway,right,fill=white,inner sep=1pt]{$8\\text{ cm}$};\n\\draw[dashed] (O)--(Q) node[midway,right,fill=white,inner sep=1pt]{$15\\text{ cm}$};\n\\draw (1.35,0)--(1.35,1.35)--(0,1.35);\n\\draw (P)--(R) node[midway,above right]{$10\\text{ cm}$};\n\\draw (P)--(L) node[midway,above left]{$10\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\n$a=\\sqrt{10^{2}-6^{2}}$\n$=\\sqrt{100-36}$\n$=\\sqrt{64}$\n$=8\\text{ cm}$\nThe horizontal diagonal is $2\\times6=12\\text{ cm}$.\n$A=\\frac{1}{2}\\times12\\times(8+15)$\n$=138\\text{ cm}^{2}$"
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.12]\n\\coordinate (L) at (-9,0);\n\\coordinate (R) at (9,0);\n\\coordinate (P) at (0,12);\n\\coordinate (Q) at (0,-40);\n\\coordinate (O) at (0,0);\n\\draw (P)--(R)--(Q)--(L)--cycle;\n\\draw[dashed] (L)--(O);\n\\draw[dashed] (O)--(R) node[midway,below,fill=white,inner sep=1pt]{$9\\text{ cm}$};\n\\draw[dashed] (O)--(P) node[midway,right,fill=white,inner sep=1pt]{$a$};\n\\draw[dashed] (O)--(Q) node[midway,right,fill=white,inner sep=1pt]{$b$};\n\\draw (1.5,0)--(1.5,1.5)--(0,1.5);\n\\draw (P)--(R) node[midway,above right]{$15\\text{ cm}$};\n\\draw (P)--(L) node[midway,above left]{$15\\text{ cm}$};\n\\draw (Q)--(R) node[midway,below right]{$41\\text{ cm}$};\n\\draw (Q)--(L) node[midway,below left]{$41\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nThe diagonals of this kite cross at right angles.\nFind $a$ and $b$, then find the area of the kite, in square centimetres.",
+        "structure": "kite-two-pythagoras-steps",
+        "solution_text": "$a=\\sqrt{15^{2}-9^{2}}$\n$=\\sqrt{225-81}$\n$=\\sqrt{144}$\n$=12\\text{ cm}$\n$b=\\sqrt{41^{2}-9^{2}}$\n$=\\sqrt{1681-81}$\n$=\\sqrt{1600}$\n$=40\\text{ cm}$\nThe horizontal diagonal is $2\\times9=18\\text{ cm}$.\n$A=\\frac{1}{2}\\times18\\times(12+40)$\n$=468\\text{ cm}^{2}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.22]\n\\coordinate (L) at (-12,0);\n\\coordinate (R) at (12,0);\n\\coordinate (P) at (0,5);\n\\coordinate (Q) at (0,-5);\n\\coordinate (O) at (0,0);\n\\draw[fill=blue!15] (P)--(R)--(Q)--(L)--cycle;\n\\draw[dashed] (L)--(O);\n\\draw[dashed] (O)--(R) node[midway,below,fill=white,inner sep=1pt]{$12\\text{ cm}$};\n\\draw[dashed] (O)--(P) node[midway,right,fill=white,inner sep=1pt]{$m$};\n\\draw[dashed] (O)--(Q) node[midway,right,fill=white,inner sep=1pt]{$m$};\n\\draw (1.08,0)--(1.08,1.08)--(0,1.08);\n\\draw (P)--(R) node[midway,above right]{$13\\text{ cm}$};\n\\draw (P)--(L) node[midway,above left]{$13\\text{ cm}$};\n\\draw (Q)--(R) node[midway,below right]{$13\\text{ cm}$};\n\\draw (Q)--(L) node[midway,below left]{$13\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nThe diagonals of a rhombus bisect each other at right angles.\nFind $m$, then find the area of the rhombus, in square centimetres.",
         "structure": "rhombus-from-side-and-diagonal",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.22]\n\\coordinate (L) at (-12,0);\n\\coordinate (R) at (12,0);\n\\coordinate (P) at (0,5);\n\\coordinate (Q) at (0,-5);\n\\coordinate (O) at (0,0);\n\\draw[fill=blue!15] (P)--(R)--(Q)--(L)--cycle;\n\\draw[dashed] (L)--(O);\n\\draw[dashed] (O)--(R) node[midway,below,fill=white,inner sep=1pt]{$12\\text{ cm}$};\n\\draw[dashed] (O)--(P) node[midway,right,fill=white,inner sep=1pt]{$5\\text{ cm}$};\n\\draw[dashed] (O)--(Q) node[midway,right,fill=white,inner sep=1pt]{$5\\text{ cm}$};\n\\draw (1.08,0)--(1.08,1.08)--(0,1.08);\n\\draw (P)--(R) node[midway,above right]{$13\\text{ cm}$};\n\\draw (P)--(L) node[midway,above left]{$13\\text{ cm}$};\n\\draw (Q)--(R) node[midway,below right]{$13\\text{ cm}$};\n\\draw (Q)--(L) node[midway,below left]{$13\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\n$m=\\sqrt{13^{2}-12^{2}}$\n$=\\sqrt{169-144}$\n$=\\sqrt{25}$\n$=5\\text{ cm}$\nThe diagonals are $2\\times12=24\\text{ cm}$ and $2\\times5=10\\text{ cm}$.\n$A=\\frac{1}{2}\\times24\\times10$\n$=120\\text{ cm}^{2}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (8.485,0);\n\\coordinate (C) at (8.485,8.485);\n\\coordinate (D) at (0,8.485);\n\\draw[fill=blue!15] (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(B) node[midway,below]{$x$};\n\\draw (B)--(C) node[midway,right]{$x$};\n\\draw[dashed] (A)--(C) node[pos=0.35,above left,fill=white,inner sep=1pt]{$12\\text{ cm}$};\n\\draw (0.7,0)--(0.7,0.7)--(0,0.7);\n\\end{tikzpicture}\n[/tikz]\nA square has a diagonal of length $12\\text{ cm}$.\nUse Pythagoras' theorem to find the area of the square, in square centimetres.",
         "structure": "square-from-diagonal",
         "solution_text": "$x^{2}+x^{2}=12^{2}$\n$2x^{2}=144$\n$x^{2}=72$\n$A=x^{2}$\n$=72\\text{ cm}^{2}$"
       }
-    ],
+],
     "development": [
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.42]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (8,0);\n\\coordinate (C) at (4,8.062);\n\\coordinate (M) at (4,0);\n\\draw[fill=blue!15] (A)--(B)--(C)--cycle;\n\\draw (A)--(B) node[midway,below]{$8\\text{ cm}$};\n\\draw (A)--(C) node[midway,above left]{$9\\text{ cm}$};\n\\draw (B)--(C) node[midway,above right]{$9\\text{ cm}$};\n\\draw[dashed] (C)--(M) node[midway,right,fill=white,inner sep=1pt]{$h$};\n\\draw (4.484,0)--(4.484,0.484)--(4,0.484);\n\\end{tikzpicture}\n[/tikz]\nFind the area of this isosceles triangle, in square centimetres, correct to $2$ decimal places.",
@@ -105,21 +163,21 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.3]\n\\coordinate (L) at (-7,0);\n\\coordinate (R) at (7,0);\n\\coordinate (P) at (0,5.657);\n\\coordinate (Q) at (0,-9.747);\n\\coordinate (O) at (0,0);\n\\draw[fill=blue!15] (P)--(R)--(Q)--(L)--cycle;\n\\draw[dashed] (L)--(O);\n\\draw[dashed] (O)--(R) node[midway,below,fill=white,inner sep=1pt]{$7\\text{ cm}$};\n\\draw[dashed] (O)--(P) node[midway,right,fill=white,inner sep=1pt]{$a$};\n\\draw[dashed] (O)--(Q) node[midway,right,fill=white,inner sep=1pt]{$b$};\n\\draw (0.877,0)--(0.877,0.877)--(0,0.877);\n\\draw (P)--(R) node[midway,above right]{$9\\text{ cm}$};\n\\draw (P)--(L) node[midway,above left]{$9\\text{ cm}$};\n\\draw (Q)--(R) node[midway,below right]{$12\\text{ cm}$};\n\\draw (Q)--(L) node[midway,below left]{$12\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nThe diagonals of this kite cross at right angles.\nFind the area of the kite, in square centimetres, correct to $2$ decimal places.",
         "structure": "kite-two-pythagoras-steps",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.3]\n\\coordinate (L) at (-7,0);\n\\coordinate (R) at (7,0);\n\\coordinate (P) at (0,5.657);\n\\coordinate (Q) at (0,-9.747);\n\\coordinate (O) at (0,0);\n\\draw[fill=blue!15] (P)--(R)--(Q)--(L)--cycle;\n\\draw[dashed] (L)--(O);\n\\draw[dashed] (O)--(R) node[midway,below,fill=white,inner sep=1pt]{$7\\text{ cm}$};\n\\draw[dashed] (O)--(P) node[midway,right,fill=white,inner sep=1pt]{$\\sqrt{32}$};\n\\draw[dashed] (O)--(Q) node[midway,right,fill=white,inner sep=1pt]{$\\sqrt{95}$};\n\\draw (0.877,0)--(0.877,0.877)--(0,0.877);\n\\draw (P)--(R) node[midway,above right]{$9\\text{ cm}$};\n\\draw (P)--(L) node[midway,above left]{$9\\text{ cm}$};\n\\draw (Q)--(R) node[midway,below right]{$12\\text{ cm}$};\n\\draw (Q)--(L) node[midway,below left]{$12\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\n$a=\\sqrt{9^{2}-7^{2}}$\n$=\\sqrt{32}\\text{ cm}$\n$b=\\sqrt{12^{2}-7^{2}}$\n$=\\sqrt{95}\\text{ cm}$\nThe horizontal diagonal is $2\\times7=14\\text{ cm}$.\n$A=\\frac{1}{2}\\times14\\times(\\sqrt{32}+\\sqrt{95})$\n$=7(\\sqrt{32}+\\sqrt{95})$\n$\\approx107.83\\text{ cm}^{2}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.32]\n\\coordinate (L) at (-8,0);\n\\coordinate (R) at (8,0);\n\\coordinate (P) at (0,6);\n\\coordinate (Q) at (0,-6);\n\\coordinate (O) at (0,0);\n\\draw[fill=blue!15] (P)--(R)--(Q)--(L)--cycle;\n\\draw[dashed] (L)--(O);\n\\draw[dashed] (O)--(R) node[midway,below,fill=white,inner sep=1pt]{$8\\text{ cm}$};\n\\draw[dashed] (O)--(P);\n\\draw[dashed] (O)--(Q);\n\\draw (0.72,0)--(0.72,0.72)--(0,0.72);\n\\end{tikzpicture}\n[/tikz]\nA rhombus has a perimeter of $40\\text{ cm}$ and one diagonal of length $16\\text{ cm}$.\nFind the area of the rhombus, in square centimetres.",
-        "structure": "rhombus-from-side-and-diagonal",
-        "solution_text": "Each side is $\\frac{40}{4}=10\\text{ cm}$, and the diagonals bisect each other at right angles.\n$m=\\sqrt{10^{2}-8^{2}}$\n$=\\sqrt{100-64}$\n$=\\sqrt{36}$\n$=6\\text{ cm}$\nThe second diagonal is $2\\times6=12\\text{ cm}$.\n$A=\\frac{1}{2}\\times16\\times12$\n$=96\\text{ cm}^{2}$"
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.24]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (25,0);\n\\coordinate (C) at (18,7.141428);\n\\coordinate (D) at (7,7.141428);\n\\coordinate (M) at (7,0);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(B) node[midway,below]{$25\\text{ cm}$};\n\\draw (D)--(C) node[midway,above]{$11\\text{ cm}$};\n\\draw (A)--(D) node[midway,above left]{$10\\text{ cm}$};\n\\draw (B)--(C) node[midway,above right]{$10\\text{ cm}$};\n\\draw[dashed] (D)--(M) node[midway,right,fill=white,inner sep=1pt]{$h$};\n\\draw (7.8,0)--(7.8,0.8)--(7,0.8);\n\\end{tikzpicture}\n[/tikz]\nFind the height $h$ of this isosceles trapezium, then find its area, in square centimetres, correct to $1$ decimal place.",
+        "structure": "isosceles-trapezium-height",
+        "solution_text": "Each overhang is $\\frac{25-11}{2}=7\\text{ cm}$.\n$h=\\sqrt{10^{2}-7^{2}}$\n$=\\sqrt{100-49}$\n$=\\sqrt{51}\\text{ cm}$\n$A=\\frac{\\sqrt{51}}{2}(11+25)$\n$=18\\sqrt{51}$\n$\\approx128.5\\text{ cm}^{2}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.28]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (18,0);\n\\coordinate (C) at (9,12);\n\\coordinate (M) at (9,0);\n\\draw[fill=blue!15] (A)--(B)--(C)--cycle;\n\\draw (A)--(B) node[midway,below]{$18\\text{ cm}$};\n\\draw (A)--(C) node[midway,above left]{$15\\text{ cm}$};\n\\draw (B)--(C) node[midway,above right]{$15\\text{ cm}$};\n\\draw[dashed] (C)--(M) node[midway,right,fill=white,inner sep=1pt]{$h$};\n\\draw (10.08,0)--(10.08,1.08)--(9,1.08);\n\\end{tikzpicture}\n[/tikz]\nRosa writes the area of this isosceles triangle as $\\frac{18\\times15}{2}=135\\text{ cm}^{2}$.\nExplain her mistake and give the correct area, in square centimetres.",
-        "structure": "isosceles-triangle-height",
-        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.28]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (18,0);\n\\coordinate (C) at (9,12);\n\\coordinate (M) at (9,0);\n\\draw[fill=blue!15] (A)--(B)--(C)--cycle;\n\\draw (A)--(B) node[midway,below]{$18\\text{ cm}$};\n\\draw (A)--(C) node[midway,above left]{$15\\text{ cm}$};\n\\draw (B)--(C) node[midway,above right]{$15\\text{ cm}$};\n\\draw[dashed] (C)--(M) node[midway,right,fill=white,inner sep=1pt]{$12\\text{ cm}$};\n\\draw (10.08,0)--(10.08,1.08)--(9,1.08);\n\\draw[<->] (0,-3.2)--(9,-3.2) node[midway,below]{$9\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nRosa used the sloping side $15\\text{ cm}$ as the height, but the height must be measured perpendicular to the base.\n$h=\\sqrt{15^{2}-9^{2}}$\n$=\\sqrt{225-81}$\n$=\\sqrt{144}$\n$=12\\text{ cm}$\n$A=\\frac{18\\times12}{2}$\n$=108\\text{ cm}^{2}$"
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.32]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (14,0);\n\\coordinate (C) at (7,12.124356);\n\\coordinate (M) at (7,0);\n\\draw (A)--(B)--(C)--cycle;\n\\draw (A)--(B) node[midway,below]{$14\\text{ cm}$};\n\\draw (A)--(C) node[midway,above left]{$14\\text{ cm}$};\n\\draw (B)--(C) node[midway,above right]{$14\\text{ cm}$};\n\\draw[dashed] (C)--(M) node[midway,right,fill=white,inner sep=1pt]{$h$};\n\\draw (7.8,0)--(7.8,0.8)--(7,0.8);\n\\end{tikzpicture}\n[/tikz]\nCalculate the exact area of this equilateral triangle, in square centimetres, giving your answer in simplified form.",
+        "structure": "equilateral-triangle-exact-area",
+        "solution_text": "The perpendicular height bisects the base, so each half is $7\\text{ cm}$.\n$h=\\sqrt{14^{2}-7^{2}}$\n$=\\sqrt{196-49}$\n$=\\sqrt{147}$\n$=7\\sqrt{3}\\text{ cm}$\n$A=\\frac{14\\times7\\sqrt{3}}{2}$\n$=49\\sqrt{3}\\text{ cm}^{2}$"
       }
-    ]
+]
   }
 }

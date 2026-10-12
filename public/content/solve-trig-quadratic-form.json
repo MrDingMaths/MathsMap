@@ -2,21 +2,79 @@
   "skillId": "solve-trig-quadratic-form",
   "atomType": "R",
   "theory": {
-        "intro": "Some trigonometric equations are quadratics in disguise. Move every term to one side, use a Pythagorean identity if two different ratios appear, then factorise and solve each factor on the given domain.",
-        "facts": [
+"intro": "Some trigonometric equations are quadratics in disguise. Move every term to one side, use a Pythagorean identity if two different ratios appear, then factorise and solve each factor on the given domain.",
+"facts": [
 "A quadratic in a ratio, such as $2\\sin^2\\theta - \\sin\\theta - 1 = 0$, factorises just like $2u^2 - u - 1 = 0$ with $u = \\sin\\theta$.",
 "If two different ratios appear, use $\\sin^2\\theta = 1 - \\cos^2\\theta$, $\\cos^2\\theta = 1 - \\sin^2\\theta$ or $\\sec^2\\theta = 1 + \\tan^2\\theta$ to get a single ratio.",
 "Before dividing by a trigonometric term, check whether it can be zero. Retain or separately check those zero cases in the original equation; division is valid when the divisor is known to be nonzero.",
 "Reject any factor giving $|\\sin\\theta| > 1$ or $|\\cos\\theta| > 1$, since no angle has such a ratio.",
 "For $k \\ge 0$, taking the square root of $\\operatorname{trig}^2\\theta = k$ gives $\\operatorname{trig}\\theta = \\pm\\sqrt{k}$; when $k = 0$, both signs give the same ratio. For $k < 0$, there are no real solutions. Check that each resulting ratio is possible and find only angles in the given domain, including any boundary angles; solutions need not appear in all four quadrants."
 ],
-        "steps": [
+"steps": [
           "Rearrange to standard form and substitute Pythagorean identities if needed",
           "Factorise the quadratic expression",
           "Apply the null factor law and reject impossible roots",
           "Solve each valid linear equation on the domain"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Solve $4\\cos^2\\theta-1=0$ for $0^\\circ\\le\\theta<360^\\circ$.",
+    "solution_text": "$\\begin{align*}4\\cos^2\\theta-1&=0\\\\\\cos^2\\theta&=\\frac14\\\\\\cos\\theta&=\\pm\\frac12\\end{align*}$\nThe reference angle is $60^\\circ$. Positive cosine gives quadrants I and IV; negative cosine gives quadrants II and III.\n$\\theta=60^\\circ,120^\\circ,240^\\circ,300^\\circ$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $2\\sin^2\\theta+\\sqrt3\\sin\\theta=0$ for $-180^\\circ\\le\\theta\\le180^\\circ$.",
+    "solution_text": "$\\begin{align*}2\\sin^2\\theta+\\sqrt3\\sin\\theta&=0\\\\\\sin\\theta(2\\sin\\theta+\\sqrt3)&=0\\end{align*}$\nBy the null factor law, $\\sin\\theta=0$ or $\\sin\\theta=-\\frac{\\sqrt3}{2}$.\nFor $\\sin\\theta=0$, the domain gives $\\theta=-180^\\circ,0^\\circ,180^\\circ$.\nFor $\\sin\\theta=-\\frac{\\sqrt3}{2}$, the reference angle is $60^\\circ$. The quadrant III and IV angles $240^\\circ,300^\\circ$ become $-120^\\circ,-60^\\circ$ after subtracting $360^\\circ$.\n$\\theta=-180^\\circ,-120^\\circ,-60^\\circ,0^\\circ,180^\\circ$.\nFactorising retains the zero cases that division by $\\sin\\theta$ would lose.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $2\\cos^2x+\\cos x-1=0$ for $0\\le x<2\\pi$.",
+    "solution_text": "$\\begin{align*}2\\cos^2x+\\cos x-1&=0\\\\(2\\cos x-1)(\\cos x+1)&=0\\end{align*}$\nBy the null factor law, $\\cos x=\\frac12$ or $\\cos x=-1$.\nFor $\\cos x=\\frac12$, cosine is positive in quadrants I and IV, giving $x=\\frac\\pi3,\\frac{5\\pi}3$.\nFor $\\cos x=-1$, $x=\\pi$.\n$x=\\frac\\pi3,\\pi,\\frac{5\\pi}3$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $2\\sin^2\\theta-3\\sin\\theta-2=0$ for $0^\\circ\\le\\theta<360^\\circ$.",
+    "solution_text": "$\\begin{align*}2\\sin^2\\theta-3\\sin\\theta-2&=0\\\\(2\\sin\\theta+1)(\\sin\\theta-2)&=0\\end{align*}$\nBy the null factor law, $\\sin\\theta=-\\frac12$ or $\\sin\\theta=2$.\nReject $\\sin\\theta=2$, since $-1\\le\\sin\\theta\\le1$.\nFor $\\sin\\theta=-\\frac12$, the reference angle is $30^\\circ$ and sine is negative in quadrants III and IV.\n$\\theta=210^\\circ,330^\\circ$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $4\\sin^2x+4\\cos x-5=0$ for $-\\pi\\le x\\le\\pi$.",
+    "solution_text": "Use $\\sin^2x=1-\\cos^2x$ to obtain one ratio.\n$\\begin{align*}4(1-\\cos^2x)+4\\cos x-5&=0\\\\-4\\cos^2x+4\\cos x-1&=0\\\\4\\cos^2x-4\\cos x+1&=0\\\\(2\\cos x-1)^2&=0\\\\\\cos x&=\\frac12\\end{align*}$\nThe repeated factor gives one ratio. The reference angle is $\\frac\\pi3$; the quadrant IV solution $\\frac{5\\pi}3$ becomes $-\\frac\\pi3$ after subtracting $2\\pi$.\n$x=-\\frac\\pi3,\\frac\\pi3$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\sec^2\\theta+\\sqrt3\\tan\\theta=1$ for $0^\\circ\\le\\theta<360^\\circ$.",
+    "solution_text": "Use $\\sec^2\\theta=1+\\tan^2\\theta$. The original equation requires $\\cos\\theta\\ne0$.\n$\\begin{align*}1+\\tan^2\\theta+\\sqrt3\\tan\\theta&=1\\\\\\tan^2\\theta+\\sqrt3\\tan\\theta&=0\\\\\\tan\\theta(\\tan\\theta+\\sqrt3)&=0\\end{align*}$\nBy the null factor law, $\\tan\\theta=0$ or $\\tan\\theta=-\\sqrt3$.\nFor $\\tan\\theta=0$, $\\theta=0^\\circ,180^\\circ$.\nFor $\\tan\\theta=-\\sqrt3$, the reference angle is $60^\\circ$ and tangent is negative in quadrants II and IV, giving $\\theta=120^\\circ,300^\\circ$.\nAll these angles satisfy $\\cos\\theta\\ne0$.\n$\\theta=0^\\circ,120^\\circ,180^\\circ,300^\\circ$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $\\tan^2x-\\sec x=5$ for $0\\le x<2\\pi$. Give answers to 3 decimal places where necessary.",
+    "solution_text": "Use $\\tan^2x=\\sec^2x-1$. The original equation requires $\\cos x\\ne0$.\n$\\begin{align*}\\sec^2x-1-\\sec x&=5\\\\\\sec^2x-\\sec x-6&=0\\\\(\\sec x-3)(\\sec x+2)&=0\\end{align*}$\nBy the null factor law, $\\sec x=3$ or $\\sec x=-2$.\nFor $\\sec x=3$, $\\cos x=\\frac13$. The reference angle is $\\alpha=\\cos^{-1}(\\frac13)\\approx1.231$. Quadrants I and IV give $x=\\alpha,2\\pi-\\alpha$.\nFor $\\sec x=-2$, $\\cos x=-\\frac12$, giving $x=\\frac{2\\pi}3,\\frac{4\\pi}3$.\nAll these angles have nonzero cosine.\n$x\\approx1.231,\\frac{2\\pi}3,\\frac{4\\pi}3,5.052$, with the fractional multiples of $\\pi$ exact.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve each equation for $0\\le x<2\\pi$.\n(a) $\\cot^2x-1=0$\n(b) $2\\cos x=\\sec x$\n(c) $\\tan x+\\frac{3}{\\tan x}=4$",
+    "solution_text": "(a) Cotangent requires $\\sin x\\ne0$.\n$\\begin{align*}\\cot^2x&=1\\\\\\cot x&=\\pm1\\\\\\tan x&=\\pm1\\end{align*}$\nThe reference angle is $\\frac\\pi4$. Both signs give $x=\\frac\\pi4,\\frac{3\\pi}4,\\frac{5\\pi}4,\\frac{7\\pi}4$.\n\n(b) Secant requires $\\cos x\\ne0$, so multiplication by $\\cos x$ is valid.\n$\\begin{align*}2\\cos x&=\\frac1{\\cos x}\\\\2\\cos^2x&=1\\\\\\cos x&=\\pm\\frac1{\\sqrt2}\\end{align*}$\n$x=\\frac\\pi4,\\frac{3\\pi}4,\\frac{5\\pi}4,\\frac{7\\pi}4$; none has zero cosine.\n\n(c) The original equation requires tangent to be defined and nonzero. Multiply by $\\tan x$.\n$\\begin{align*}\\tan^2x+3&=4\\tan x\\\\\\tan^2x-4\\tan x+3&=0\\\\(\\tan x-1)(\\tan x-3)&=0\\end{align*}$\nBy the null factor law, $\\tan x=1$ or $\\tan x=3$.\nFor $\\tan x=1$, $x=\\frac\\pi4,\\frac{5\\pi}4$.\nFor $\\tan x=3$, let $\\alpha=\\tan^{-1}(3)$. Positive tangent gives quadrants I and III, so $x=\\alpha,\\pi+\\alpha$.\n$x=\\frac\\pi4,\\tan^{-1}(3),\\frac{5\\pi}4,\\pi+\\tan^{-1}(3)$. All four satisfy the original restrictions.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

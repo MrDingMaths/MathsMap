@@ -2,8 +2,8 @@
   "skillId": "differentiate-exponential",
   "atomType": "R",
   "theory": {
-    "intro": "Differentiating $e^{ax+b}$ leaves the index untouched and multiplies by the coefficient of $x$, so $\\dfrac{d}{dx}\\left(e^{ax+b}\\right)=ae^{ax+b}$. The chain rule with $u=ax+b$ gives this result. Any constant multiple stays in front.",
-    "facts": [
+"intro": "Differentiating $e^{ax+b}$ leaves the index untouched and multiplies by the coefficient of $x$, so $\\dfrac{d}{dx}\\left(e^{ax+b}\\right)=ae^{ax+b}$. The chain rule with $u=ax+b$ gives this result. Any constant multiple stays in front.",
+"facts": [
 "$\\dfrac{d}{dx}\\left(e^{x}\\right)=e^{x}$.",
 "$\\dfrac{d}{dx}\\left(e^{ax}\\right)=ae^{ax}$, so the coefficient of $x$ in the index becomes a multiplier.",
 "$\\dfrac{d}{dx}\\left(ke^{ax+b}\\right)=kae^{ax+b}$, so the constant $b$ stays in the index and contributes no additional chain-rule multiplier; it affects the derivative's value when $k$ and $a$ are nonzero.",
@@ -13,13 +13,85 @@
 "Rewrite roots and reciprocals as a single power of $e$ first, for example $\\sqrt{e^{x}}=e^{\\frac{x}{2}}$.",
 "Do not apply the power rule directly to an exponential: $\\dfrac{d}{dx}\\left(e^{4x}\\right)\\ne 4xe^{4x-1}$, because $x$ sits in the index. Rewriting with index laws or applying the power rule to an outer power is a different operation."
 ],
-    "steps": [
+"steps": [
       "Write the function in the form $ke^{ax+b}$, using index laws on any root or reciprocal.",
       "Identify $a$, the coefficient of $x$ in the index.",
       "Multiply the coefficient by $a$ and leave the index unchanged.",
       "Differentiate any other terms separately and add them."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Differentiate $y=8e^{-\\frac{x}{4}}$.",
+    "solution_text": "Multiply by the coefficient of $x$ in the index.\n$\\begin{aligned}\\frac{dy}{dx}&=8\\left(-\\frac14\\right)e^{-\\frac{x}{4}}\\\\&=-2e^{-\\frac{x}{4}}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Differentiate $y=-3e^{8-2x}$.",
+    "solution_text": "The index stays unchanged; its derivative is $-2$.\n$\\begin{aligned}\\frac{dy}{dx}&=-3(-2)e^{8-2x}\\\\&=6e^{8-2x}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Differentiate $f(x)=\\frac{e^{4x}}{2}-3e^{5-2x}+7$.",
+    "solution_text": "Differentiate each term separately.\n$\\begin{aligned}f'(x)&=\\frac12(4)e^{4x}-3(-2)e^{5-2x}+0\\\\&=2e^{4x}+6e^{5-2x}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $y=\\frac{1}{\\sqrt[4]{e^{3x}}}$ as a single power of $e$, then differentiate.",
+    "solution_text": "$\\begin{aligned}y&=\\frac{1}{(e^{3x})^{\\frac14}}\\\\&=e^{-\\frac{3x}{4}}\\end{aligned}$\n$\\frac{dy}{dx}=-\\frac34e^{-\\frac{3x}{4}}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $y=(e^{-2x})^{4}$ as a single power of $e$, then differentiate.",
+    "solution_text": "$\\begin{aligned}y&=(e^{-2x})^4\\\\&=e^{-8x}\\end{aligned}$\n$\\frac{dy}{dx}=-8e^{-8x}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $y=\\frac{e^{4x}+3e^{2x}+2}{e^{4x}}$ as a sum of simple powers of $e$, then differentiate.",
+    "solution_text": "$\\begin{aligned}y&=\\frac{e^{4x}}{e^{4x}}+\\frac{3e^{2x}}{e^{4x}}+\\frac{2}{e^{4x}}\\\\&=1+3e^{-2x}+2e^{-4x}\\end{aligned}$\n$\\begin{aligned}\\frac{dy}{dx}&=0+3(-2)e^{-2x}+2(-4)e^{-4x}\\\\&=-6e^{-2x}-8e^{-4x}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $y=3e^{2x-4}$, find $\\frac{dy}{dx}$ and evaluate it at $x=1$. Give the value in exact form and correct to two decimal places.",
+    "solution_text": "$\\frac{dy}{dx}=6e^{2x-4}$\nAt $x=1$:\n$\\begin{aligned}y'(1)&=6e^{2(1)-4}\\\\&=6e^{-2}\\\\&=\\frac{6}{e^2}\\\\&\\approx0.81\\end{aligned}$\nThe decimal value is correct to two decimal places.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An object's displacement is $s=4e^{0.3t}$ metres, where $t$ is time in seconds. Find its velocity at $t=3$ seconds, correct to two decimal places.",
+    "solution_text": "Velocity is the derivative of displacement.\n$\\begin{aligned}v(t)&=\\frac{ds}{dt}\\\\&=4(0.3)e^{0.3t}\\\\&=1.2e^{0.3t}\\end{aligned}$\nAt $t=3$:\n$\\begin{aligned}v(3)&=1.2e^{0.9}\\\\&\\approx2.95\\end{aligned}$\nThe velocity is $2.95$ metres per second, correct to two decimal places.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use the chain rule with $u=-4x+9$ to show that $\\frac{d}{dx}(e^{-4x+9})=-4e^{-4x+9}$.",
+    "solution_text": "Let $u=-4x+9$, so $\\frac{du}{dx}=-4$.\nLet $y=e^u$, so $\\frac{dy}{du}=e^u$.\n$\\begin{aligned}\\frac{dy}{dx}&=\\frac{dy}{du}\\times\\frac{du}{dx}\\\\&=e^u(-4)\\\\&=-4e^{-4x+9}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Show by substitution that $y=4e^{-3x}$ satisfies $\\frac{dy}{dx}+3y=0$.",
+    "solution_text": "$\\frac{dy}{dx}=-12e^{-3x}$\nSubstitute the expressions for $\\frac{dy}{dx}$ and $y$ into the left-hand side.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\frac{dy}{dx}+3y\\\\&=-12e^{-3x}+3(4e^{-3x})\\\\&=-12e^{-3x}+12e^{-3x}\\\\&=0\\end{aligned}$\nThis equals the right-hand side, so the equation is satisfied.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

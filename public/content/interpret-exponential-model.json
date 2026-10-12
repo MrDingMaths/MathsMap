@@ -2,16 +2,39 @@
   "skillId": "interpret-exponential-model",
   "atomType": "R",
   "theory": {
-    "intro": "Reading an exponential model means saying what its numbers mean in the real situation. For a model of the form $y=ka^x$, with $k>0$ and $a>0$, the value of $k$ is the amount at $x=0$, and the base $a$ gives the multiplier for each unit period. The context and the constant-rate assumption determine where the model is useful.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.4,0) -- (5.6,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,4.5) node[above] {$y$};\n\\draw[thick,blue!70!black,domain=0:5.2,samples=100,variable=\\x,->] plot ({\\x},{3.6*exp(-\\x*0.5)});\n\\fill (0,3.6) circle (2pt);\n\\node[right] at (0.3,4.0) {$(0,k)$ initial value};\n\\node[below] at (3.2,-0.15) {asymptote $y=0$};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "Reading an exponential model means saying what its numbers mean in the real situation. For a model of the form $y=ka^x$, with $k>0$ and $a>0$, the value of $k$ is the amount at $x=0$, and the base $a$ gives the multiplier for each unit period. The context and the constant-rate assumption determine where the model is useful.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.4,0) -- (5.6,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,4.5) node[above] {$y$};\n\\draw[thick,blue!70!black,domain=0:5.2,samples=100,variable=\\x,->] plot ({\\x},{3.6*exp(-\\x*0.5)});\n\\fill (0,3.6) circle (2pt);\n\\node[right] at (0.3,4.0) {$(0,k)$ initial value};\n\\node[below] at (3.2,-0.15) {asymptote $y=0$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "The intercept on the vertical axis is the value of $k$, which is the amount at the start of the model.",
 "A base of $1.07$ means an increase of $7\\%$ each period, and a base of $0.93$ means a decrease of $7\\%$.",
 "A decay model has the horizontal **asymptote** $y=0$, a line the curve gets closer and closer to but never reaches.",
 "Negative time denotes a time before the chosen origin. Whether the model applies then depends on the context.",
 "The model assumes a constant percentage change each period. Changes in conditions or limits such as space and resources may make long-term predictions unreliable.",
 "The context can add its own limits, such as a count that must be a whole number."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A town's population is modelled by $P=6000(1.04)^t$, where $t$ is the number of years from the start of the model.\n(a) State the initial population and explain what the vertical intercept represents.\n(b) Identify growth or decay and state the annual percentage change.\n(c) Calculate the population after 5 years, to the nearest whole person.",
+    "solution_text": "(a) At $t=0$:\n$\\begin{align*}P&=6000(1.04)^0\\\\&=6000\\end{align*}$\nThe vertical intercept $(0,6000)$ represents the initial population of 6000 people.\n\n(b) The multiplier $1.04=1+0.04$ is greater than 1. The model represents exponential growth of $4\\%$ per year.\n\n(c) At $t=5$:\n$\\begin{align*}P&=6000(1.04)^5\\\\&=7299.9174144\\\\&\\approx7300\\end{align*}$\nThe predicted population is 7300 people.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "The mass of a substance is modelled by $m=640(0.5)^t$, where $m$ is in grams and $t$ is time in years. Its graph is shown.\n(a) Read the initial mass and the mass after 2 years from the graph.\n(b) State the percentage decrease each year.\n(c) Explain what the horizontal asymptote $m=0$ means in this context.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{modelblue}{HTML}{268CFF}\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\begin{axis}[width=7cm,height=6cm,axis lines=left,axis line style={black,-{Stealth}},xmin=0,xmax=4.4,ymin=0,ymax=700,xtick={0,1,2,3,4},ytick={0,160,320,480,640},grid=major,grid style={gridgrey},scaled ticks=false,ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$t$ (years)},ylabel={$m$ (g)},clip=true]\n\\addplot[color=modelblue,thick,domain=0:4.2,samples=100] {640*exp(x*ln(0.5))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) The curve meets the vertical axis at 640 g, so the initial mass is 640 g. Reading up from $t=2$ gives approximately 160 g.\n\n(b) $0.5=1-0.5$, so the mass decreases by $50\\%$ each year.\n\n(c) The mass approaches zero as time increases, but the model never predicts exactly zero mass. Each multiplication by 0.5 leaves a positive amount.\n\nThe dashed guides show the reading at 2 years.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{modelblue}{HTML}{268CFF}\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\begin{axis}[width=7cm,height=6cm,axis lines=left,axis line style={black,-{Stealth}},xmin=0,xmax=4.4,ymin=0,ymax=700,xtick={0,1,2,3,4},ytick={0,160,320,480,640},grid=major,grid style={gridgrey},scaled ticks=false,ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$t$ (years)},ylabel={$m$ (g)},clip=true]\n\\addplot[color=modelblue,thick,domain=0:4.2,samples=100] {640*exp(x*ln(0.5))};\n\\addplot[black,dashed] coordinates {(2,0) (2,160) (0,160)};\n\\addplot[black,only marks,mark=*] coordinates {(0,640) (2,160)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Membership of a sports club is modelled by $N=80(1.12)^t$, where $t$ is the number of years since the club opened.\nGive two limitations of this model and explain each one.",
+    "solution_text": "The model describes membership after the club opened, so this use requires $t\\ge0$. Negative time would refer to a period before the club existed.\n\nThe model assumes membership increases by $12\\%$ every year. Space and the local population limit membership, so this growth cannot continue indefinitely. Changes in the growth rate can make long-term predictions unreliable.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

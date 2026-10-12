@@ -2,8 +2,8 @@
   "skillId": "permutations-restrictions",
   "atomType": "R",
   "theory": {
-        "intro": "Deal with the restriction first, then arrange whatever is left. Objects that must stay together are treated as one **block**, and objects tied to particular positions are placed before anything else. The factorial formulas below concern distinct objects arranged in a row. Multiply counts within each case, then add non-overlapping cases or subtract unacceptable arrangements as needed.",
-        "facts": [
+"intro": "Deal with the restriction first, then arrange whatever is left. Objects that must stay together are treated as one **block**, and objects tied to particular positions are placed before anything else. The factorial formulas below concern distinct objects arranged in a row. Multiply counts within each case, then add non-overlapping cases or subtract unacceptable arrangements as needed.",
+"facts": [
 "**Block method**: treat the $k$ objects that must stay together as $1$ unit, giving $(n - k + 1)! \\times k!$ arrangements, where $n$ and $k$ are integers with $1 \\leq k \\leq n$.",
 "**Fixed position**: place the fixed object first, then arrange the other $n-1$ objects in $(n-1)!$ ways.",
 "**Alternating**: $n$ boys and $n$ girls alternate in $2 \\times (n! \\times n!)$ ways, since either a boy or a girl starts, where $n$ is a positive integer.",
@@ -12,13 +12,78 @@
 "**Considering cases**: consider all non-overlapping cases and add their counts. If cases overlap, subtract the overlap so no arrangement is counted twice.",
 "Handle the strictest restriction first, so no arrangement is counted twice."
 ],
-        "steps": [
+"steps": [
 "Identify the restriction type (block grouping, fixed positions, alternating, or slot constraints), and decide whether to use complements or cases",
 "Apply the block method or fill the restricted positions first",
 "Arrange the remaining unrestricted objects in the available spaces",
 "Multiply the arrangements within each case using the multiplication principle, then add all non-overlapping cases or subtract unacceptable arrangements from the total; account for any overlap"
+],
+"workedExamples": [
+  {
+    "question_text": "Eight different students stand in a row for a photograph. Three particular friends must stand together. How many arrangements are possible?",
+    "solution_text": "Treat the three friends as one unit. Arrange the six units, then arrange the three friends within their unit.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}6!\\times3!\\\\&=720\\times6\\\\&=4320\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Nine different performers appear in a concert. Find the number of possible orders if:\n\n(a) Ava must perform first.\n\n(b) Ava must perform first and Noah must perform last.",
+    "solution_text": "(a) Fix Ava first, then arrange the other eight performers.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}8!\\\\&=40320\\end{aligned}$\n\n(b) Fix Ava first and Noah last, then arrange the other seven performers.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}7!\\\\&=5040\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Five boys and five girls stand in a row. How many arrangements have boys and girls alternating?",
+    "solution_text": "There are two patterns: BGBGBGBGBG and GBGBGBGBGB. Each has $5!$ arrangements of the boys and $5!$ arrangements of the girls.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}5!\\times5!+5!\\times5!\\\\&=14400+14400\\\\&=28800\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Four-digit numbers are formed from $\\{1,2,3,5,7,8,9\\}$ without repetition. How many are:\n\n(a) even?\n\n(b) greater than $7000$?",
+    "solution_text": "(a) Fill the last position first: it must contain $2$ or $8$. Fill the other three positions from the six remaining digits.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}2\\times{}^{6}P_{3}\\\\&=2\\times6\\times5\\times4\\\\&=240\\end{aligned}$\n\n(b) Fill the first position first: it must contain $7$, $8$ or $9$. Fill the other three positions from the six remaining digits.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}3\\times{}^{6}P_{3}\\\\&=3\\times6\\times5\\times4\\\\&=360\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A shelf holds two different Maths books, three different Science books and five different English books. How many arrangements keep the books of each subject together?",
+    "solution_text": "Treat each subject as one unit. Arrange the three units, then arrange the books within each unit.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}3!\\times2!\\times3!\\times5!\\\\&=6\\times2\\times6\\times120\\\\&=8640\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Six boys and three girls sit in a row. How many arrangements have no two girls sitting next to each other?",
+    "solution_text": "Arrange the six boys in $6!$ ways. This creates seven gaps, including the two ends.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\foreach \\x in {0,1,2,3,4,5,6} {\\draw[black] (\\x,-0.15)--(\\x,0.15);}\n\\foreach \\x in {0.5,1.5,2.5,3.5,4.5,5.5} {\\path (\\x,0) node {B};}\n\\end{tikzpicture}\n[/tikz]\n\nPlace the three different girls into three different gaps in ${}^{7}P_{3}$ ways. At most one girl occupies each gap.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}6!\\times{}^{7}P_{3}\\\\&=720\\times7\\times6\\times5\\\\&=151200\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Seven different students stand in a row. Mia and Leo must not stand next to each other. How many arrangements are possible?",
+    "solution_text": "There are $7!$ unrestricted arrangements. If Mia and Leo stand together, treat them as one unit: there are $6!\\times2!$ unacceptable arrangements.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}7!-6!\\times2!\\\\&=5040-1440\\\\&=3600\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Four-digit numbers are formed from $\\{0,1,2,3,4,5,6\\}$ without repetition. How many are even and greater than $4000$?",
+    "solution_text": "Fill the first and last positions before the middle two. The first digit is $4$, $5$ or $6$; the last digit is even.\n\nCase 1: First digit $4$ or $6$. There are two first-digit choices and three remaining even last-digit choices. Fill the middle positions from the five remaining digits.\n\n$2\\times3\\times{}^{5}P_{2}=120$\n\nCase 2: First digit $5$. All four even digits are available for the last position. Fill the middle positions from the five remaining digits.\n\n$1\\times4\\times{}^{5}P_{2}=80$\n\nThe cases do not overlap.\n\n$120+80=200$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Five different students and two different teachers stand in a row. How many arrangements have at least two students between the teachers?",
+    "solution_text": "Subtract arrangements with zero or one student between the teachers from all $7!$ arrangements.\n\nAdjacent teachers: treat the teachers as one unit and arrange them internally.\n\n$6!\\times2!=1440$\n\nExactly one student between: choose that student in five ways. Treat the teacher–student–teacher group as one unit, arrange the five units, and order the teachers in two ways.\n\n$5\\times5!\\times2!=1200$\n\nThese unacceptable cases do not overlap.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}7!-1440-1200\\\\&=5040-1440-1200\\\\&=2400\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
       {

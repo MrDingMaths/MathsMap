@@ -2,20 +2,40 @@
   "skillId": "least-squares-regression",
   "atomType": "R",
   "theory": {
-    "intro": "The **least-squares regression line** is the line a calculator finds by making the total squared vertical distance from the points as small as possible. Its equation is written $y = a + bx$.",
-    "facts": [
+"intro": "The **least-squares regression line** is the line a calculator finds by making the total squared vertical distance from the points as small as possible. Its equation is written $y = a + bx$.",
+"facts": [
 "In two-variable statistics mode a calculator reports $a$, the **$y$-intercept**, and $b$, the **gradient**, along with $r$.",
 "A spreadsheet can display the least-squares regression equation by adding a linear trendline to a scatterplot.",
 "The gradient $b$ and the correlation coefficient $r$ always have the same sign.",
 "Round $a$ and $b$ only at the end, because rounding early changes every prediction the line makes."
 ],
-    "steps": [
+"steps": [
 "Enter the paired data into two-variable statistics mode, with the explanatory variable as $x$ and the response as $y$.",
 "Use the calculator's regression results to obtain the gradient $b$ and intercept $a$, or display the linear trendline equation in a spreadsheet.",
 "Write the equation as $y = a + bx$ using the variables of the context, rounding coefficients only as requested.",
 "For a prediction, substitute the known value into the equation and solve for the unknown variable."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "The table shows study time $t$, in hours, and examination mark $M$ for five students.\n\n| $t$ | 1 | 2 | 3 | 4 | 5 |\n|---|---|---|---|---|---|\n| $M$ | 55 | 59 | 60 | 65 | 66 |\n\n(a) Use a calculator or spreadsheet to find the least-squares regression equation for $M$ on $t$ and Pearson's $r$. Give the coefficients and $r$ correct to two decimal places.\n(b) Describe the association.\n(c) Use the unrounded regression results to predict the mark for a student who studies for $3.5$ hours.",
+    "solution_text": "(a) Enter study time as $x$ and examination mark as $y$ in two-variable statistics mode. Select linear regression in the form $y=a+bx$.\n\nThe results give $a=52.6$, $b=2.8$ and $r=0.977802\\ldots$.\n\n$M=52.60+2.80t$, with $r\\approx0.98$.\n\nIn a spreadsheet, enter the paired values in two columns. Use CORREL on those columns for $r$, and add a linear trendline to a scatterplot to display the regression equation.\n\n(b) There is a strong positive linear association between study time and examination mark.\n\n(c) For $t=3.5$:\n\n$\\begin{aligned}M&=52.6+2.8(3.5)\\\\&=52.6+9.8\\\\&=62.4\\end{aligned}$\n\nThe predicted mark is $62.4$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A survey of hotels gives the least-squares regression equation $C=300-45d$, where $C$ is the nightly room cost in dollars and $d$ is the distance from a landmark in kilometres.\n\n(a) Predict the nightly room cost at a distance of $3.2$ km.\n(b) Find the distance associated with a nightly room cost of $\\$165$.\n(c) Find the predicted costs at distances of $2$ km and $5$ km, and calculate how much the predicted cost decreases between these distances.",
+    "solution_text": "(a) Distance is the explanatory variable, so substitute $d=3.2$.\n\n$\\begin{aligned}C&=300-45(3.2)\\\\&=300-144\\\\&=156\\end{aligned}$\n\nThe predicted nightly cost is $\\$156.00$.\n\n(b) Cost is the response variable, so substitute $C=165$ and solve for $d$.\n\n$\\begin{aligned}165&=300-45d\\\\45d&=300-165\\\\45d&=135\\\\d&=\\frac{135}{45}\\\\&=3\\end{aligned}$\n\nThe associated distance is $3$ km.\n\n(c) For $d=2$:\n\n$\\begin{aligned}C&=300-45(2)\\\\&=210\\end{aligned}$\n\nFor $d=5$:\n\n$\\begin{aligned}C&=300-45(5)\\\\&=75\\end{aligned}$\n\nThe predicted costs are $\\$210.00$ and $\\$75.00$.\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}210-75\\\\&=135\\end{aligned}$\n\nThe predicted nightly cost decreases by $\\$135.00$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A calculator gives the least-squares equation $y=24.8+0.65x$ and $r=0.32$, where $x$ is daily practice time in minutes and $y$ is a performance score.\n\nA student says, “The gradient is $24.8$, the intercept is $0.65$, and the positive gradient means predictions will be reliable.”\n\n(a) Correct the student's gradient and intercept, and explain how to identify them.\n(b) Interpret the gradient.\n(c) Explain what $r$ indicates about the reliability of predictions from this equation.",
+    "solution_text": "(a) In $y=a+bx$, the constant term $a$ is the $y$-intercept and the coefficient $b$ of $x$ is the gradient.\n\nThe gradient is $0.65$ and the $y$-intercept is $24.8$. The student has swapped their roles.\n\n(b) Each additional minute of daily practice is associated with a predicted increase of $0.65$ points in the performance score.\n\n(c) $r=0.32$ indicates a weak positive linear association. The points are widely scattered about the regression line, so individual predictions are unreliable. A positive gradient gives the direction of the association, not its strength."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

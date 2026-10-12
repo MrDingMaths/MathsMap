@@ -2,8 +2,8 @@
   "skillId": "midpoint-of-interval",
   "atomType": "R",
   "theory": {
-        "intro": "The **midpoint** of an interval is the point exactly halfway between its two endpoints. Its coordinates are the **averages** (means) of the endpoints' coordinates: average the two $x$-values, then average the two $y$-values.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{tickmark/.style={postaction={decorate, decoration={markings,\n  mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,2.6);\n\\coordinate (M) at (2,1.3);\n\\draw[thick,blue,tickmark] (A) -- (M);\n\\draw[thick,blue,tickmark] (M) -- (B);\n\\fill (A) circle (2.5pt);\n\\node[below right] at (A) {$A$};\n\\fill (B) circle (2.5pt);\n\\node[below right] at (B) {$B$};\n\\fill[red] (M) circle (2.5pt);\n\\node[above left] at (M) {$M(\\overline{x},\\ \\overline{y})$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "The **midpoint** of an interval is the point exactly halfway between its two endpoints. Its coordinates are the **averages** (means) of the endpoints' coordinates: average the two $x$-values, then average the two $y$-values.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{tickmark/.style={postaction={decorate, decoration={markings,\n  mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,2.6);\n\\coordinate (M) at (2,1.3);\n\\draw[thick,blue,tickmark] (A) -- (M);\n\\draw[thick,blue,tickmark] (M) -- (B);\n\\fill (A) circle (2.5pt);\n\\node[below right] at (A) {$A$};\n\\fill (B) circle (2.5pt);\n\\node[below right] at (B) {$B$};\n\\fill[red] (M) circle (2.5pt);\n\\node[above left] at (M) {$M(\\overline{x},\\ \\overline{y})$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "$M = \\left( \\overline{x},\\ \\overline{y} \\right)$, where $\\overline{x}$ is the mean of the two $x$-coordinates and $\\overline{y}$ is the mean of the two $y$-coordinates.",
 "The mean of two numbers is $\\dfrac{a + b}{2}$ — add them and divide by $2$.",
 "Midpoint coordinates need not be whole numbers; for integer endpoint coordinates, an odd sum gives a value halfway between two consecutive integers, such as $\\dfrac{1 + 4}{2} = 2.5$.",
@@ -11,12 +11,42 @@
 "For a **vertical** interval the $x$-values are equal, so $\\overline{x}$ is that shared value.",
 "Take care with negatives: $\\dfrac{-3 + 2}{2} = \\dfrac{-1}{2} = -0.5$."
 ],
-        "steps": [
+"steps": [
           "Find $\\overline{x}$, the mean of the two $x$-coordinates.",
           "Find $\\overline{y}$, the mean of the two $y$-coordinates.",
           "Write the midpoint as $M = \\left( \\overline{x},\\ \\overline{y} \\right)$."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Find the midpoint of the interval $AB$.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{intervalblue}{HTML}{268CFF}\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\draw[xstep=7mm,ystep=7mm,color=gridgrey,thin] (-3,-1) grid (5,5);\n\\draw[<->,black] (-3.4,0)--(5.4,0) node[right] {$x$};\n\\draw[<->,black] (0,-1.4)--(0,5.4) node[above] {$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3,4,5} {\\draw[black] (\\v,-0.08)--(\\v,0.08);\\path (\\v,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\foreach \\v in {-1,1,2,3,4,5} {\\draw[black] (-0.08,\\v)--(0.08,\\v);\\path (0,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\draw[thick,intervalblue] (-2,1)--(4,5);\n\\fill[black] (-2,1) circle (2pt);\n\\fill[black] (4,5) circle (2pt);\n\\path (-2,1) node[above left] {$A$};\n\\path (4,5) node[above right] {$B$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Read the endpoints: $A(-2,1)$ and $B(4,5)$. Average the corresponding coordinates.\n$\\begin{aligned}\\overline{x}&=\\frac{-2+4}{2}\\\\&=1\\end{aligned}$\n$\\begin{aligned}\\overline{y}&=\\frac{1+5}{2}\\\\&=3\\end{aligned}$\n$M=(1,3)$.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{intervalblue}{HTML}{268CFF}\n\\definecolor{midpointred}{HTML}{EF6068}\n\\draw[<->,black] (-3,0)--(5,0) node[right] {$x$};\n\\draw[->,black] (0,-0.5)--(0,5.8) node[above] {$y$};\n\\draw[thick,intervalblue] (-2,1)--(4,5);\n\\fill[black] (-2,1) circle (2pt);\n\\fill[black] (4,5) circle (2pt);\n\\fill[midpointred] (1,3) circle (2.5pt);\n\\path (-2,1) node[above left] {$A(-2,1)$};\n\\path (4,5) node[above] {$B(4,5)$};\n\\path (1,3) node[below right] {$M(1,3)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the midpoint of the horizontal interval joining $A(-5,2)$ and $B(4,2)$.",
+    "solution_text": "Both endpoints have $y=2$, so the midpoint also has $y=2$.\n$\\begin{aligned}\\overline{x}&=\\frac{-5+4}{2}\\\\&=-0.5\\end{aligned}$\n$M=(-0.5,2)$.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{intervalblue}{HTML}{268CFF}\n\\definecolor{midpointred}{HTML}{EF6068}\n\\draw[<->,black] (-5.8,0)--(4.8,0) node[right] {$x$};\n\\draw[->,black] (0,-0.5)--(0,3.8) node[above] {$y$};\n\\draw[thick,intervalblue] (-5,2)--(4,2);\n\\fill[black] (-5,2) circle (2pt);\n\\fill[black] (4,2) circle (2pt);\n\\fill[midpointred] (-0.5,2) circle (2.5pt);\n\\path (-5,2) node[above] {$A(-5,2)$};\n\\path (4,2) node[above] {$B(4,2)$};\n\\path (-0.5,2) node[below left] {$M(-0.5,2)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the midpoint of the vertical interval joining $P(2,-4)$ and $Q(2,3)$.",
+    "solution_text": "Both endpoints have $x=2$, so the midpoint also has $x=2$.\n$\\begin{aligned}\\overline{y}&=\\frac{-4+3}{2}\\\\&=-0.5\\end{aligned}$\n$M=(2,-0.5)$.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{intervalblue}{HTML}{268CFF}\n\\definecolor{midpointred}{HTML}{EF6068}\n\\draw[->,black] (-0.5,0)--(4.6,0) node[right] {$x$};\n\\draw[<->,black] (0,-4.8)--(0,3.8) node[above] {$y$};\n\\draw[thick,intervalblue] (2,-4)--(2,3);\n\\fill[black] (2,-4) circle (2pt);\n\\fill[black] (2,3) circle (2pt);\n\\fill[midpointred] (2,-0.5) circle (2.5pt);\n\\path (2,-4) node[right] {$P(2,-4)$};\n\\path (2,3) node[right] {$Q(2,3)$};\n\\path (2,-0.5) node[below right] {$M(2,-0.5)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the midpoint of the interval joining $A(-9,6)$ and $B(4,-11)$.",
+    "solution_text": "Average the two $x$-coordinates, then the two $y$-coordinates.\n$\\begin{aligned}\\overline{x}&=\\frac{-9+4}{2}\\\\&=-2.5\\end{aligned}$\n$\\begin{aligned}\\overline{y}&=\\frac{6+(-11)}{2}\\\\&=-2.5\\end{aligned}$\n$M=(-2.5,-2.5)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

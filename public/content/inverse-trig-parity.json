@@ -2,8 +2,8 @@
   "skillId": "inverse-trig-parity",
   "atomType": "Cat",
   "theory": {
-    "intro": "$y=\\arcsin x$ and $y=\\arctan x$ are **odd**: each has $180^{\\circ}$ rotational symmetry about the origin. $y=\\arccos x$ is **neither** odd nor even: for $-1\\le x\\le1$, $\\arccos(-x)=\\pi-\\arccos x$, and neither parity identity holds throughout this domain.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.25]\n\\draw[->] (-1.9,0) -- (1.9,0) node[right] {$x$};\n\\draw[->] (0,-0.8) -- (0,3.9) node[above] {$y$};\n\\draw[thick,domain=0:3.1416,samples=80,smooth,variable=\\t] plot ({cos(deg(\\t))},{\\t});\n\\draw[dashed] (-1.7,1.5708) -- (1.7,1.5708);\n\\fill (0.6,0.9273) circle (2pt);\n\\fill (-0.6,2.2143) circle (2pt);\n\\node[right,font=\\small] at (0.66,0.9273) {$(a,\\arccos a)$};\n\\node[left,font=\\small] at (-0.66,2.2143) {$(-a,\\pi-\\arccos a)$};\n\\draw (1,0.07) -- (1,-0.07);\n\\node[below,font=\\small] at (1,-0.07) {$1$};\n\\draw (-1,0.07) -- (-1,-0.07);\n\\node[below,font=\\small] at (-1,-0.07) {$-1$};\n\\draw (0.09,1.5708) -- (-0.09,1.5708);\n\\node[below left,font=\\small] at (-0.1,1.5708) {$\\frac{\\pi}{2}$};\n\\draw (0.09,3.1416) -- (-0.09,3.1416);\n\\node[left,font=\\small] at (-0.12,3.1416) {$\\pi$};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "$y=\\arcsin x$ and $y=\\arctan x$ are **odd**: each has $180^{\\circ}$ rotational symmetry about the origin. $y=\\arccos x$ is **neither** odd nor even: for $-1\\le x\\le1$, $\\arccos(-x)=\\pi-\\arccos x$, and neither parity identity holds throughout this domain.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.25]\n\\draw[->] (-1.9,0) -- (1.9,0) node[right] {$x$};\n\\draw[->] (0,-0.8) -- (0,3.9) node[above] {$y$};\n\\draw[thick,domain=0:3.1416,samples=80,smooth,variable=\\t] plot ({cos(deg(\\t))},{\\t});\n\\draw[dashed] (-1.7,1.5708) -- (1.7,1.5708);\n\\fill (0.6,0.9273) circle (2pt);\n\\fill (-0.6,2.2143) circle (2pt);\n\\node[right,font=\\small] at (0.66,0.9273) {$(a,\\arccos a)$};\n\\node[left,font=\\small] at (-0.66,2.2143) {$(-a,\\pi-\\arccos a)$};\n\\draw (1,0.07) -- (1,-0.07);\n\\node[below,font=\\small] at (1,-0.07) {$1$};\n\\draw (-1,0.07) -- (-1,-0.07);\n\\node[below,font=\\small] at (-1,-0.07) {$-1$};\n\\draw (0.09,1.5708) -- (-0.09,1.5708);\n\\node[below left,font=\\small] at (-0.1,1.5708) {$\\frac{\\pi}{2}$};\n\\draw (0.09,3.1416) -- (-0.09,3.1416);\n\\node[left,font=\\small] at (-0.12,3.1416) {$\\pi$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "$\\arcsin(-x)=-\\arcsin x$ for $-1\\le x\\le1$, so $y=\\arcsin x$ is **odd**.",
 "$\\arctan(-x)=-\\arctan x$ for all real $x$, so $y=\\arctan x$ is odd.",
 "An **odd** function has $180^{\\circ}$ rotational symmetry about the origin, which both $y=\\arcsin x$ and $y=\\arctan x$ show.",
@@ -12,12 +12,56 @@
 "$\\arccos(-1)=\\pi$ but $\\arccos 1=0$, so $y=\\arccos x$ is not even either.",
 "For $-1\\le x\\le1$, $\\arccos(-x)+\\arccos x=\\pi$, so $y=\\arccos x$ has point symmetry about $\\left(0,\\frac{\\pi}{2}\\right)$ rather than about the origin."
 ],
-    "steps": [
+"steps": [
 "Replace $x$ with $-x$ and simplify using $\\arcsin(-x)=-\\arcsin x$, $\\arctan(-x)=-\\arctan x$ and $\\arccos(-x)=\\pi-\\arccos x$, with $-1\\le x\\le1$ for the arcsine and arccosine identities.",
 "Compare the simplified expression with $f(x)$ and with $-f(x)$.",
 "State odd if $f(-x)=-f(x)$ holds throughout the domain, even if $f(-x)=f(x)$ holds throughout the domain, and neither otherwise."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Classify $f(x)=\\arcsin x$ and $g(x)=\\arctan x$ as odd, even or neither. Give an algebraic reason for each classification.",
+    "solution_text": "For $-1\\le x\\le1$,\n$\\begin{aligned}f(-x)&=\\arcsin(-x)\\\\&=-\\arcsin x\\\\&=-f(x).\\end{aligned}$\nFor every real $x$,\n$\\begin{aligned}g(-x)&=\\arctan(-x)\\\\&=-\\arctan x\\\\&=-g(x).\\end{aligned}$\nBoth functions are odd because replacing the input by its negative reverses the sign of the output throughout their domains.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Use the graph of $y=\\arctan x$ to explain its parity. Relate the points on the graph with inputs $1$ and $-1$.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=13mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,->] (-3.5,0)--(3.5,0) node[right] {$x$};\n\\draw[black,->] (0,-1.9)--(0,1.9) node[above] {$y$};\n\\draw[black,dashed] (-3.3,1.570796)--(3.3,1.570796);\n\\draw[black,dashed] (-3.3,-1.570796)--(3.3,-1.570796);\n\\path (-3.2,1.570796) node[above right,font=\\fontsize{8.5}{10}\\selectfont] {$y=\\frac{\\pi}{2}$};\n\\path (3.2,-1.570796) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$y=-\\frac{\\pi}{2}$};\n\\draw[draw={rgb,255:red,38;green,140;blue,255},thick,<->,domain=-3.3:3.3,samples=100,variable=\\t] plot ({\\t},{rad(atan(\\t))});\n\\foreach \\a in {-1,1}{\\draw[black] (\\a,-0.05)--(\\a,0.05);\\path (\\a,-0.05) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\a$};}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The points $\\left(1,\\frac{\\pi}{4}\\right)$ and $\\left(-1,-\\frac{\\pi}{4}\\right)$ map to each other under a $180^{\\circ}$ rotation about the origin.\nThe same relationship holds for every point because $\\arctan(-x)=-\\arctan x$ for every real $x$. The graph has rotational symmetry about the origin, so the function is odd.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The graph of $f(x)=\\arccos x$ is shown. Classify the function as odd, even or neither, and explain why its rotational symmetry does not make it odd. State $\\arccos(-x)$ in terms of $\\arccos x$.\n[tikz]\n\\begin{tikzpicture}[x=22mm,y=13mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,->] (-1.4,0)--(1.4,0) node[right] {$x$};\n\\draw[black,->] (0,-0.35)--(0,3.55) node[above] {$y$};\n\\draw[draw={rgb,255:red,38;green,140;blue,255},thick,domain=0:pi,samples=100,variable=\\t] plot ({cos(deg(\\t))},{\\t});\n\\foreach \\a in {-1,1}{\\draw[black] (\\a,-0.05)--(\\a,0.05);\\path (\\a,-0.05) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\a$};}\n\\draw[black] (-0.035,1.570796)--(0.035,1.570796);\n\\path (-0.04,1.570796) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\frac{\\pi}{2}$};\n\\draw[black] (-0.035,3.141593)--(0.035,3.141593);\n\\path (0.04,3.141593) node[right,font=\\fontsize{8.5}{10}\\selectfont] {$\\pi$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Let $\\theta=\\arccos x$, where $-1\\le x\\le1$. Then $\\cos\\theta=x$ and $0\\le\\theta\\le\\pi$.\n$\\cos(\\pi-\\theta)=-\\cos\\theta=-x$.\nSince $\\pi-\\theta$ also lies in $[0,\\pi]$,\n$\\arccos(-x)=\\pi-\\arccos x$.\nThe endpoint values are $f(-1)=\\pi$ and $f(1)=0$. They are neither equal nor negatives of each other, so the function is neither even nor odd.\nThe identity gives $\\arccos(-x)+\\arccos x=\\pi$. Its centre of rotational symmetry is $\\left(0,\\frac{\\pi}{2}\\right)$; oddness requires rotational symmetry about the origin.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Simplify each expression using inverse trigonometric identities. State any domain restriction.\n(a) $4\\arctan(-x)+\\arctan x$\n(b) $\\arccos(-x)+\\arccos x$\n(c) $\\arccos(-x)+2\\arcsin(-x)+2\\arcsin x$",
+    "solution_text": "(a) For every real $x$,\n$\\begin{aligned}&\\mathrel{\\phantom{=}}4\\arctan(-x)+\\arctan x\\\\&=4(-\\arctan x)+\\arctan x\\\\&=-3\\arctan x.\\end{aligned}$\n(b) For $-1\\le x\\le1$,\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\arccos(-x)+\\arccos x\\\\&=(\\pi-\\arccos x)+\\arccos x\\\\&=\\pi.\\end{aligned}$\n(c) For $-1\\le x\\le1$,\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\arccos(-x)+2\\arcsin(-x)+2\\arcsin x\\\\&=(\\pi-\\arccos x)-2\\arcsin x+2\\arcsin x\\\\&=\\pi-\\arccos x.\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Given $\\arcsin\\frac12=\\frac{\\pi}{6}$, $\\arccos\\frac12=\\frac{\\pi}{3}$ and $\\arctan\\frac1{\\sqrt3}=\\frac{\\pi}{6}$:\n(a) find $\\arcsin\\left(-\\frac12\\right)$, $\\arccos\\left(-\\frac12\\right)$ and $\\arctan\\left(-\\frac1{\\sqrt3}\\right)$;\n(b) determine the exact value of $3\\arcsin\\left(-\\frac12\\right)-\\arccos\\left(-\\frac12\\right)+\\arcsin\\frac12$.",
+    "solution_text": "(a) Use the negative-argument identities.\n$\\begin{aligned}\\arcsin\\left(-\\frac12\\right)&=-\\arcsin\\frac12\\\\&=-\\frac{\\pi}{6}.\\end{aligned}$\n$\\begin{aligned}\\arccos\\left(-\\frac12\\right)&=\\pi-\\arccos\\frac12\\\\&=\\pi-\\frac{\\pi}{3}\\\\&=\\frac{2\\pi}{3}.\\end{aligned}$\n$\\begin{aligned}\\arctan\\left(-\\frac1{\\sqrt3}\\right)&=-\\arctan\\frac1{\\sqrt3}\\\\&=-\\frac{\\pi}{6}.\\end{aligned}$\n(b) Substitute these principal values.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}3\\arcsin\\left(-\\frac12\\right)-\\arccos\\left(-\\frac12\\right)+\\arcsin\\frac12\\\\&=3\\left(-\\frac{\\pi}{6}\\right)-\\frac{2\\pi}{3}+\\frac{\\pi}{6}\\\\&=-\\frac{\\pi}{3}-\\frac{2\\pi}{3}\\\\&=-\\pi.\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use parity identities to evaluate:\n(a) $\\arctan\\left(-\\frac12\\right)$;\n(b) $\\arctan\\left(-\\frac12\\right)+\\arccos(-1)$.\nWork in radians and give each answer correct to three decimal places. Retain full calculator precision until the final rounding.",
+    "solution_text": "(a)\n$\\begin{aligned}\\arctan\\left(-\\frac12\\right)&=-\\arctan\\frac12\\\\&=-0.4636476090\\ldots\\\\&\\approx-0.464.\\end{aligned}$\n(b) $\\arccos(-1)=\\pi-\\arccos1=\\pi$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\arctan\\left(-\\frac12\\right)+\\arccos(-1)\\\\&=\\pi-\\arctan\\frac12\\\\&=2.6779450445\\ldots\\\\&\\approx2.678.\\end{aligned}$\nBoth answers are rounded to three decimal places.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

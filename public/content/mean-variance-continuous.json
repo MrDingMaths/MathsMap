@@ -2,8 +2,8 @@
   "skillId": "mean-variance-continuous",
   "atomType": "R",
   "theory": {
-    "intro": "For a continuous variable the sum $\\sum xP(x)$ becomes an integral. The **expected value** is $\\mu=\\int_{a}^{b}xf(x)\\,dx$, and the spread is measured by the **variance** $\\text{Var}(X)=E(X^{2})-\\mu^{2}$.",
-    "facts": [
+"intro": "For a continuous variable the sum $\\sum xP(x)$ becomes an integral. The **expected value** is $\\mu=\\int_{a}^{b}xf(x)\\,dx$, and the spread is measured by the **variance** $\\text{Var}(X)=E(X^{2})-\\mu^{2}$.",
+"facts": [
       "$E(X)=\\mu=\\int_{a}^{b}xf(x)\\,dx$: multiply the density by $x$, then integrate across the support.",
       "$E(X^{2})=\\int_{a}^{b}x^{2}f(x)\\,dx$ is found the same way, with $x^{2}$ in place of $x$.",
       "$\\text{Var}(X)=E(X^{2})-\\mu^{2}$, so $\\mu^{2}$ is subtracted once, at the very end.",
@@ -11,12 +11,42 @@
       "A variance can never be negative, so a negative answer means the working must be checked.",
       "$\\mu$ is the balance point of the density, so it need not be the peak or the middle of the support."
     ],
-    "steps": [
+"steps": [
       "Find $\\mu=\\int_{a}^{b}xf(x)\\,dx$.",
       "Find $E(X^{2})=\\int_{a}^{b}x^{2}f(x)\\,dx$.",
       "Subtract to get $\\text{Var}(X)=E(X^{2})-\\mu^{2}$."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "The continuous random variable $X$ has PDF $f(x)=\\frac{2x}{81}$ for $0\\leq x\\leq9$, and $f(x)=0$ otherwise. Find $E(X)$.",
+    "solution_text": "$\\begin{align*}E(X)&=\\int_0^9 xf(x)\\,dx\\\\&=\\int_0^9\\frac{2x^2}{81}\\,dx\\\\&=\\left[\\frac{2x^3}{243}\\right]_0^9\\\\&=\\frac{2(729)}{243}\\\\&=6\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "The continuous random variable $X$ has PDF $f(x)=\\frac{2x}{49}$ for $0\\leq x\\leq7$, and $f(x)=0$ otherwise. Given $E(X)=\\frac{14}{3}$, find $\\operatorname{Var}(X)$.",
+    "solution_text": "Find the second moment first.\n\n$\\begin{align*}E(X^2)&=\\int_0^7 x^2f(x)\\,dx\\\\&=\\int_0^7\\frac{2x^3}{49}\\,dx\\\\&=\\left[\\frac{x^4}{98}\\right]_0^7\\\\&=\\frac{49}{2}\\end{align*}$\n\n$\\begin{align*}\\operatorname{Var}(X)&=E(X^2)-\\mu^2\\\\&=\\frac{49}{2}-\\left(\\frac{14}{3}\\right)^2\\\\&=\\frac{441-392}{18}\\\\&=\\frac{49}{18}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The waiting time $X$, in minutes, has PDF $f(x)=\\frac{3x^2}{512}$ for $0\\leq x\\leq8$, and $f(x)=0$ otherwise. Find the mean, variance and exact standard deviation.",
+    "solution_text": "$\\begin{align*}\\mu&=\\int_0^8 xf(x)\\,dx\\\\&=\\int_0^8\\frac{3x^3}{512}\\,dx\\\\&=\\left[\\frac{3x^4}{2048}\\right]_0^8\\\\&=6\\end{align*}$\n\n$\\begin{align*}E(X^2)&=\\int_0^8 x^2f(x)\\,dx\\\\&=\\int_0^8\\frac{3x^4}{512}\\,dx\\\\&=\\left[\\frac{3x^5}{2560}\\right]_0^8\\\\&=\\frac{192}{5}\\end{align*}$\n\n$\\begin{align*}\\operatorname{Var}(X)&=\\frac{192}{5}-6^2\\\\&=\\frac{12}{5}\\end{align*}$\n\n$\\begin{align*}\\sigma&=\\sqrt{\\frac{12}{5}}\\\\&=\\frac{2\\sqrt{15}}{5}\\end{align*}$\n\nThe mean is $6$ minutes, the variance is $\\frac{12}{5}$ square minutes, and the standard deviation is $\\frac{2\\sqrt{15}}{5}$ minutes.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The continuous random variable $X$ has PDF $f(x)=\\frac{3x^2}{125}$ for $0\\leq x\\leq5$, and $f(x)=0$ otherwise. Its mean is $\\frac{15}{4}$ and its variance is $\\frac{15}{16}$. Find the exact standard deviation, then the probability that $X$ lies within one standard deviation of its mean, correct to two decimal places.",
+    "solution_text": "$\\begin{align*}\\sigma&=\\sqrt{\\frac{15}{16}}\\\\&=\\frac{\\sqrt{15}}{4}\\end{align*}$\n\nThe interval has endpoints $L=\\frac{15-\\sqrt{15}}{4}$ and $U=\\frac{15+\\sqrt{15}}{4}$. Both lie within $[0,5]$.\n\n$\\begin{align*}P(\\mu-\\sigma\\leq X\\leq\\mu+\\sigma)&=\\int_L^U\\frac{3x^2}{125}\\,dx\\\\&=\\left[\\frac{x^3}{125}\\right]_L^U\\\\&=\\frac{(15+\\sqrt{15})^3-(15-\\sqrt{15})^3}{8000}\\\\&=\\frac{1380\\sqrt{15}}{8000}\\\\&=\\frac{69\\sqrt{15}}{400}\\\\&\\approx0.67\\end{align*}$\n\nThe shaded area represents this probability.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{probblue}{HTML}{268CFF}\n\\definecolor{probfill}{HTML}{D4E8FF}\n\\begin{axis}[width=7cm,height=5cm,axis lines=left,axis line style={draw=black},xmin=0,xmax=5.4,ymin=0,ymax=0.72,xlabel={$x$},ylabel={$f(x)$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},xtick={0,5},ytick={0.6},clip=false]\n\\addplot[draw=none,fill=probfill,domain={(15-sqrt(15))/4}:{(15+sqrt(15))/4},samples=80] {3*x*x/125} \\closedcycle;\n\\addplot[draw=black,thick,domain=0:5,samples=100] {3*x*x/125};\n\\draw[draw=probblue,dashed] (axis cs:2.781754,0) -- (axis cs:2.781754,0.18572);\n\\draw[draw=probblue,dashed] (axis cs:4.718246,0) -- (axis cs:4.718246,0.53428);\n\\draw[draw=black,dotted] (axis cs:3.75,0) -- (axis cs:3.75,0.3375);\n\\path (axis cs:2.781754,0) node[below=5pt,font=\\fontsize{10}{12}\\selectfont,text=black] {$L$};\n\\path (axis cs:4.718246,0) node[below=5pt,font=\\fontsize{10}{12}\\selectfont,text=black] {$U$};\n\\path (axis cs:3.75,0.3375) node[above left,font=\\fontsize{10}{12}\\selectfont,text=black] {$\\mu$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

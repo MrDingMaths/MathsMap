@@ -2,8 +2,8 @@
   "skillId": "find-unknown-from-circle-area",
   "atomType": "R",
   "theory": {
-        "intro": "When the **area** of a circle, semicircle, quadrant or sector is known but a length or angle is not, substitute into the formula and work backwards with **inverse operations** until the unknown stands alone.",
-        "facts": [
+"intro": "When the **area** of a circle, semicircle, quadrant or sector is known but a length or angle is not, substitute into the formula and work backwards with **inverse operations** until the unknown stands alone.",
+"facts": [
           "Circle $A = \\pi r^{2}$; semicircle $A = \\frac{\\pi r^{2}}{2}$; quadrant $A = \\frac{\\pi r^{2}}{4}$; sector $A = \\frac{\\theta}{360}\\pi r^{2}$.",
           "Undo the operations in reverse order: clear the fraction, then divide by $\\pi$, then take the square root last.",
           "$r^{2} = k$ gives $r = \\pm\\sqrt{k}$, but a radius is a length, so reject the negative solution and state that reason.",
@@ -12,12 +12,77 @@
           "A sector angle lies between $0^{\\circ}$ and $360^{\\circ}$, so an answer outside that range means no such sector exists.",
           "When the area is given as a multiple of $\\pi$, the $\\pi$ on each side cancels, often leaving an exact whole-number radius."
         ],
-        "steps": [
+"steps": [
           "Write the formula.",
           "Substitute the given values.",
           "Solve for the unknown using inverse operations."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A circle has an area of $80\\text{ cm}^{2}$. Find its radius to 2 decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (0,0) circle (1.5);\n\\fill (0,0) circle (1.5pt);\n\\draw (0,0)--(40:1.5) node[midway,below right] {$r$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned} A&=\\pi r^{2}\\\\80&=\\pi r^{2}\\\\r^{2}&=\\frac{80}{\\pi}\\\\r&=\\pm\\sqrt{\\frac{80}{\\pi}}\\end{aligned}$\nA radius is positive, so $r\\approx5.05\\text{ cm}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A semicircle has an area of $32\\text{ m}^{2}$. Find its radius to 3 decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (-1.8,0)--(1.8,0) arc[start angle=0,end angle=180,radius=1.8];\n\\fill (0,0) circle (1.5pt);\n\\node[below] at (0.9,0) {$r$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned} A&=\\frac{\\pi r^{2}}{2}\\\\32&=\\frac{\\pi r^{2}}{2}\\\\64&=\\pi r^{2}\\\\r^{2}&=\\frac{64}{\\pi}\\\\r&=\\pm\\sqrt{\\frac{64}{\\pi}}\\end{aligned}$\nA radius is positive, so $r\\approx4.514\\text{ m}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A quadrant has an area of $18\\text{ mm}^{2}$. Find its radius to 2 decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (0,0)--(2,0) arc[start angle=0,end angle=90,radius=2]--cycle;\n\\draw (0.25,0)--(0.25,0.25)--(0,0.25);\n\\node[below] at (1,0) {$r$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned} A&=\\frac{\\pi r^{2}}{4}\\\\18&=\\frac{\\pi r^{2}}{4}\\\\72&=\\pi r^{2}\\\\r^{2}&=\\frac{72}{\\pi}\\\\r&=\\pm\\sqrt{\\frac{72}{\\pi}}\\end{aligned}$\nA radius is positive, so $r\\approx4.79\\text{ mm}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A circle has an area of $50\\text{ mm}^{2}$. Find its diameter to 2 decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (0,0) circle (1.5);\n\\draw (-1.5,0)--(1.5,0);\n\\fill (0,0) circle (1.5pt);\n\\node[above] at (0,0.15) {$d$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned} A&=\\pi r^{2}\\\\50&=\\pi r^{2}\\\\r^{2}&=\\frac{50}{\\pi}\\\\r&=\\pm\\sqrt{\\frac{50}{\\pi}}\\end{aligned}$\nA radius is positive, so $r=\\sqrt{\\frac{50}{\\pi}}\\text{ mm}$.\nDouble the unrounded radius.\n$\\begin{aligned} d&=2r\\\\d&=2\\sqrt{\\frac{50}{\\pi}}\\\\d&\\approx7.98\\text{ mm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A semicircle has an area of $24\\text{ cm}^{2}$. Find its diameter to 2 decimal places.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (-1.8,0)--(1.8,0) arc[start angle=0,end angle=180,radius=1.8];\n\\fill (0,0) circle (1.5pt);\n\\node[below] at (0,-0.15) {$d$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned} A&=\\frac{\\pi r^{2}}{2}\\\\24&=\\frac{\\pi r^{2}}{2}\\\\48&=\\pi r^{2}\\\\r^{2}&=\\frac{48}{\\pi}\\\\r&=\\pm\\sqrt{\\frac{48}{\\pi}}\\end{aligned}$\nA radius is positive, so $r=\\sqrt{\\frac{48}{\\pi}}\\text{ cm}$.\nDouble the unrounded radius.\n$\\begin{aligned} d&=2r\\\\d&=2\\sqrt{\\frac{48}{\\pi}}\\\\d&\\approx7.82\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A quadrant has an area of $16\\pi\\text{ cm}^{2}$. Find its exact radius.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (0,0)--(2,0) arc[start angle=0,end angle=90,radius=2]--cycle;\n\\draw (0.25,0)--(0.25,0.25)--(0,0.25);\n\\node[below] at (1,0) {$r$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned} A&=\\frac{\\pi r^{2}}{4}\\\\16\\pi&=\\frac{\\pi r^{2}}{4}\\\\64\\pi&=\\pi r^{2}\\\\r^{2}&=64\\\\r&=\\pm8\\end{aligned}$\nA radius is positive, so $r=8\\text{ cm}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A sector has an area of $27\\pi\\text{ cm}^{2}$ and an angle at the centre of $120^{\\circ}$. Find its exact radius and diameter.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (0,0)--(2.2,0) arc[start angle=0,end angle=120,radius=2.2]--cycle;\n\\draw (0.45,0) arc[start angle=0,end angle=120,radius=0.45];\n\\node at (60:0.95) {$120^{\\circ}$};\n\\node[below] at (1.1,0) {$r$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned} A&=\\frac{\\theta}{360}\\pi r^{2}\\\\27\\pi&=\\frac{120}{360}\\pi r^{2}\\\\27\\pi&=\\frac{\\pi r^{2}}{3}\\\\81\\pi&=\\pi r^{2}\\\\r^{2}&=81\\\\r&=\\pm9\\end{aligned}$\nA radius is positive, so $r=9\\text{ cm}$.\n$\\begin{aligned} d&=2r\\\\d&=2\\times9\\\\d&=18\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A sector has an area of $48\\pi\\text{ cm}^{2}$ and a radius of $8\\text{ cm}$. Find its interior angle $\\theta$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (0,0)--(2,0) arc[start angle=0,end angle=270,radius=2]--cycle;\n\\draw (0.5,0) arc[start angle=0,end angle=270,radius=0.5];\n\\node at (135:0.9) {$\\theta$};\n\\node[above] at (1,0) {$8\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned} A&=\\frac{\\theta}{360}\\pi r^{2}\\\\48\\pi&=\\frac{\\theta}{360}\\pi(8)^{2}\\\\17280\\pi&=64\\pi\\theta\\\\\\theta&=\\frac{17280\\pi}{64\\pi}\\\\\\theta&=270^{\\circ}\\end{aligned}$\nThis is the reflex interior angle of the sector.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two circles have the same centre. The larger circle has diameter $24\\text{ cm}$. The region between the circles has area $80\\pi\\text{ cm}^{2}$. Find the exact diameter of the smaller circle.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\fill[fill={rgb,255:red,212;green,232;blue,255}] (0,0) circle (1.8);\n\\fill[white] (0,0) circle (1.2);\n\\draw[thick] (0,0) circle (1.8);\n\\draw[thick] (0,0) circle (1.2);\n\\fill (0,0) circle (1.5pt);\n\\draw (0,0)--(1.2,0) node[midway,above] {$r$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The outer radius is $R=24\\div2=12\\text{ cm}$.\n$\\begin{aligned} A&=\\pi R^{2}-\\pi r^{2}\\\\80\\pi&=\\pi(12)^{2}-\\pi r^{2}\\\\\\pi r^{2}&=144\\pi-80\\pi\\\\\\pi r^{2}&=64\\pi\\\\r^{2}&=64\\\\r&=\\pm8\\end{aligned}$\nA radius is positive, so $r=8\\text{ cm}$.\n$\\begin{aligned} d&=2r\\\\d&=2\\times8\\\\d&=16\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,8 +2,8 @@
   "skillId": "factor-theorem",
   "atomType": "R",
   "theory": {
-        "intro": "The factor theorem is the remainder theorem with a zero remainder: the divisor fits exactly. It lets you test factors by substitution, then divide to factorise cubics and quartics completely and solve $P(x)=0$.",
-        "facts": [
+"intro": "The factor theorem is the remainder theorem with a zero remainder: the divisor fits exactly. It lets you test factors by substitution, then divide to factorise cubics and quartics completely and solve $P(x)=0$.",
+"facts": [
 "**Factor theorem:** $(x-a)$ is a factor of $P(x)$ if $P(a)=0$.",
 "The value $a$ is then called a **zero** of the polynomial.",
 "In general, for $a\\ne0$, $(ax-b)$ is a factor of $P(x)$ if $P\\left(\\frac{b}{a}\\right)=0$.",
@@ -13,13 +13,59 @@
 "Once one factor $(x-a)$ is found, divide to get $P(x)=(x-a)Q(x)$, then factorise the quotient $Q(x)$.",
 "To solve $P(x)=0$, factorise fully and apply the **null factor law**: a product is zero when one factor is zero."
 ],
-        "steps": [
+"steps": [
           "Find a factor",
           "Divide",
           "Factorise the quotient",
           "Solve"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Determine whether $(x-2)$ and $(x+1)$ are factors of $P(x)=x^3-x^2-4x+4$. State the remainder for each division.",
+    "solution_text": "$\\begin{aligned}P(2)&=2^3-2^2-4(2)+4\\\\&=8-4-8+4\\\\&=0\\end{aligned}$\nBy the factor theorem, $(x-2)$ is a factor. The remainder is $0$.\n$\\begin{aligned}P(-1)&=(-1)^3-(-1)^2-4(-1)+4\\\\&=-1-1+4+4\\\\&=6\\end{aligned}$\nSince $P(-1)\\ne0$, $(x+1)$ is not a factor. The remainder is $6$."
+  },
+  {
+    "question_text": "Find $k$ if $(x+3)$ is a factor of $P(x)=x^3+kx^2-2x+3$.",
+    "solution_text": "Since $(x+3)$ is a factor, $P(-3)=0$.\n$\\begin{aligned}P(-3)&=(-3)^3+k(-3)^2-2(-3)+3\\\\&=9k-18\\end{aligned}$\n$\\begin{aligned}9k-18&=0\\\\9k&=18\\\\k&=2\\end{aligned}$"
+  },
+  {
+    "question_text": "Use the factor theorem and trial and error to find one linear factor of $P(x)=x^3+3x^2+4x+2$.",
+    "solution_text": "Any integer zero must be a factor of $2$, so the candidates are $\\pm1$ and $\\pm2$.\n$\\begin{aligned}P(1)&=1+3+4+2\\\\&=10\\end{aligned}$\n$\\begin{aligned}P(-1)&=(-1)^3+3(-1)^2+4(-1)+2\\\\&=-1+3-4+2\\\\&=0\\end{aligned}$\nSince $P(-1)=0$, $(x+1)$ is a factor."
+  },
+  {
+    "question_text": "Test all possible integer zeroes of $P(x)=x^3+x+2$. Find every integer zero.",
+    "solution_text": "Any integer zero must be a factor of $2$. Test all four candidates:\n$\\begin{aligned}P(1)&=1+1+2=4\\\\P(-1)&=-1-1+2=0\\\\P(2)&=8+2+2=12\\\\P(-2)&=-8-2+2=-8\\end{aligned}$\nOnly $P(-1)=0$, so $-1$ is the only integer zero. The corresponding factor is $(x+1)$."
+  },
+  {
+    "question_text": "Solve $x^3-3x^2-6x+8=0$ using the factor theorem and long division.",
+    "solution_text": "Let $P(x)=x^3-3x^2-6x+8$. Test factors of $8$:\n$P(1)=1-3-6+8=0$.\nThus $(x-1)$ is a factor. Divide, multiply and subtract at each step:\n$x^3\\div x=x^2$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(x^3-3x^2-6x+8)-(x^3-x^2)\\\\&=-2x^2-6x+8\\end{aligned}$\n$-2x^2\\div x=-2x$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(-2x^2-6x+8)-(-2x^2+2x)\\\\&=-8x+8\\end{aligned}$\n$-8x\\div x=-8$.\n$(-8x+8)-(-8x+8)=0$.\n$\\begin{aligned}P(x)&=(x-1)(x^2-2x-8)\\\\&=(x-1)(x-4)(x+2)\\end{aligned}$\nApply the null factor law:\n$\\begin{aligned}(x-1)(x-4)(x+2)&=0\\\\x&=1,\\ 4,\\ -2\\end{aligned}$"
+  },
+  {
+    "question_text": "Solve $3x^3-15x^2+24x-12=0$ by first taking out a common factor, then using the factor theorem and long division.",
+    "solution_text": "$3x^3-15x^2+24x-12=3(x^3-5x^2+8x-4)$.\nLet $P(x)=x^3-5x^2+8x-4$.\n$P(1)=1-5+8-4=0$, so $(x-1)$ is a factor.\nDivide, multiply and subtract:\n$x^3\\div x=x^2$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(x^3-5x^2+8x-4)-(x^3-x^2)\\\\&=-4x^2+8x-4\\end{aligned}$\n$-4x^2\\div x=-4x$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(-4x^2+8x-4)-(-4x^2+4x)\\\\&=4x-4\\end{aligned}$\n$4x\\div x=4$.\n$(4x-4)-(4x-4)=0$.\n$\\begin{aligned}3x^3-15x^2+24x-12&=3(x-1)(x^2-4x+4)\\\\&=3(x-1)(x-2)^2\\end{aligned}$\n$3(x-1)(x-2)^2=0$, so $x=1$ or $x=2$. The repeated factor gives one distinct zero at $2$."
+  },
+  {
+    "question_text": "Show that $(3x-2)$ is a factor of $P(x)=3x^3+x^2-20x+12$. Hence use long division to factorise $P(x)$ completely and state its zeroes.",
+    "solution_text": "Solve $3x-2=0$: $x=\\frac23$. The factor condition is $P\\left(\\frac23\\right)=0$.\n$\\begin{aligned}P\\left(\\frac23\\right)&=3\\left(\\frac23\\right)^3+\\left(\\frac23\\right)^2-20\\left(\\frac23\\right)+12\\\\&=\\frac89+\\frac49-\\frac{40}{3}+12\\\\&=0\\end{aligned}$\nThus $(3x-2)$ is a factor. Divide, multiply and subtract:\n$3x^3\\div3x=x^2$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(3x^3+x^2-20x+12)-(3x^3-2x^2)\\\\&=3x^2-20x+12\\end{aligned}$\n$3x^2\\div3x=x$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(3x^2-20x+12)-(3x^2-2x)\\\\&=-18x+12\\end{aligned}$\n$-18x\\div3x=-6$.\n$(-18x+12)-(-18x+12)=0$.\n$\\begin{aligned}P(x)&=(3x-2)(x^2+x-6)\\\\&=(3x-2)(x+3)(x-2)\\end{aligned}$\nThe zeroes are $x=\\frac23,\\ -3,\\ 2$."
+  },
+  {
+    "question_text": "Use trial and error and long division to factorise $P(x)=x^4-6x^3+7x^2+6x-8$ completely. Hence solve $P(x)=0$.",
+    "solution_text": "Integer zeroes must be factors of $8$.\n$P(1)=1-6+7+6-8=0$, so $(x-1)$ is a factor.\nDivide by $x-1$, multiplying and subtracting at each step:\n$x^4\\div x=x^3$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(x^4-6x^3+7x^2+6x-8)-(x^4-x^3)\\\\&=-5x^3+7x^2+6x-8\\end{aligned}$\n$-5x^3\\div x=-5x^2$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(-5x^3+7x^2+6x-8)-(-5x^3+5x^2)\\\\&=2x^2+6x-8\\end{aligned}$\n$2x^2\\div x=2x$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(2x^2+6x-8)-(2x^2-2x)\\\\&=8x-8\\end{aligned}$\n$8x\\div x=8$ and $(8x-8)-(8x-8)=0$.\nThus $P(x)=(x-1)(x^3-5x^2+2x+8)$.\nLet $Q(x)=x^3-5x^2+2x+8$.\n$Q(-1)=-1-5-2+8=0$, so $(x+1)$ is a factor of $Q(x)$.\nDivide by $x+1$:\n$x^3\\div x=x^2$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(x^3-5x^2+2x+8)-(x^3+x^2)\\\\&=-6x^2+2x+8\\end{aligned}$\n$-6x^2\\div x=-6x$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(-6x^2+2x+8)-(-6x^2-6x)\\\\&=8x+8\\end{aligned}$\n$8x\\div x=8$ and $(8x+8)-(8x+8)=0$.\n$\\begin{aligned}P(x)&=(x-1)(x+1)(x^2-6x+8)\\\\&=(x-1)(x+1)(x-2)(x-4)\\end{aligned}$\nApply the null factor law: $x=1,\\ -1,\\ 2,\\ 4$."
+  },
+  {
+    "question_text": "Show that $(x-4)$ is a factor of $P(x)=x^3-2x^2-3x-20$. Use long division and the discriminant to show that $4$ is its only real zero.",
+    "solution_text": "$P(4)=64-32-12-20=0$, so $(x-4)$ is a factor.\nDivide, multiply and subtract:\n$x^3\\div x=x^2$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(x^3-2x^2-3x-20)-(x^3-4x^2)\\\\&=2x^2-3x-20\\end{aligned}$\n$2x^2\\div x=2x$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}(2x^2-3x-20)-(2x^2-8x)\\\\&=5x-20\\end{aligned}$\n$5x\\div x=5$ and $(5x-20)-(5x-20)=0$.\nThus $P(x)=(x-4)(x^2+2x+5)$.\nFor the quadratic factor:\n$\\begin{aligned}\\Delta&=2^2-4(1)(5)\\\\&=-16<0\\end{aligned}$\nThe quadratic has no real zeroes, so $x=4$ is the only real zero of $P(x)$."
+  },
+  {
+    "question_text": "Without division, prove that $(x^2-16)$ is a factor of $P(x)=x^4+x^3-18x^2-16x+32$.",
+    "solution_text": "$x^2-16=(x-4)(x+4)$.\n$\\begin{aligned}P(4)&=256+64-288-64+32\\\\&=0\\end{aligned}$\n$\\begin{aligned}P(-4)&=256-64-288+64+32\\\\&=0\\end{aligned}$\nBy the factor theorem, $(x-4)$ and $(x+4)$ are factors. These are distinct linear factors, so their product $(x^2-16)$ is a factor of $P(x)$."
+  },
+  {
+    "question_text": "Prove that $x^n-3^n$ is divisible by $(x-3)$ for every positive integer $n$.",
+    "solution_text": "Let $P(x)=x^n-3^n$.\n$\\begin{aligned}P(3)&=3^n-3^n\\\\&=0\\end{aligned}$\nThis holds for every positive integer $n$. By the factor theorem, $(x-3)$ is a factor of $x^n-3^n$, so the division has zero remainder."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

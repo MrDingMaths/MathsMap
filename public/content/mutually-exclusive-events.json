@@ -2,8 +2,8 @@
   "skillId": "mutually-exclusive-events",
   "atomType": "Cat",
   "theory": {
-        "intro": "Two events are **mutually exclusive** when they cannot both happen: one card cannot be a heart and a spade. They are **non-mutually exclusive** when they can happen together, like a red queen. The word 'or' has two meanings that must be told apart.",
-        "facts": [
+"intro": "Two events are **mutually exclusive** when they cannot both happen: one card cannot be a heart and a spade. They are **non-mutually exclusive** when they can happen together, like a red queen. The word 'or' has two meanings that must be told apart.",
+"facts": [
 "Two events are **mutually exclusive** if no outcome belongs to both, so $A \\cap B = \\varnothing$ and their circles do not overlap.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (2.1,2.3) circle (1.7);\n\\draw (5.9,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.0,4.15) {$A$};\n\\node at (7.0,4.15) {$B$};\n\\node[font=\\small] at (4,-0.55) {mutually exclusive: no overlap};\n\\end{tikzpicture}\n[/tikz]",
 "Two events are **non-mutually exclusive** if at least one outcome belongs to both, so their circles overlap.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$A$};\n\\node at (6.1,4.15) {$B$};\n\\node[font=\\small] at (4,-0.55) {non-mutually exclusive: circles overlap};\n\\end{tikzpicture}\n[/tikz]",
 "An event and its complement are always mutually exclusive: a card is either a heart or not a heart, never both.",
@@ -15,8 +15,34 @@
 "Mutually exclusive events have no overlap, so inclusive and exclusive 'or' describe the same outcomes and the two counts simply add.",
 "A standard deck has $52$ cards: $26$ red and $26$ black, with $13$ cards in each of the four suits.",
 "The deck holds $12$ picture cards (jack, queen, king) and $40$ number cards. The number cards are Ace ($1$), $2$, $3$, $4$, $5$, $6$, $7$, $8$, $9$ and $10$."
+],
+"workedExamples": [
+  {
+    "question_text": "A fair six-sided die is rolled once. Let $A$ be rolling an even number and $B$ be rolling a number less than $4$.\na. Draw a Venn diagram showing the outcomes in each region.\nb. Are $A$ and $B$ mutually exclusive? Explain.\nc. Are rolling a number less than $4$ and rolling a number greater than $4$ mutually exclusive?",
+    "solution_text": "a. $A=\\{2,4,6\\}$ and $B=\\{1,2,3\\}$. Place $2$ in the overlap, $4,6$ in $A$ only, $1,3$ in $B$ only and $5$ outside both.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0) rectangle (7,4);\n\\draw (2.5,2) circle (1.5);\n\\draw (4.5,2) circle (1.5);\n\\node at (1.7,3.65) {$A$};\n\\node at (5.3,3.65) {$B$};\n\\node at (1.9,2) {$4,6$};\n\\node at (3.5,2) {$2$};\n\\node at (5.1,2) {$1,3$};\n\\node at (6.5,0.5) {$5$};\n\\end{tikzpicture}\n[/tikz]\n\nb. Non-mutually exclusive: the overlap contains $2$, which satisfies both conditions.\n\nc. Mutually exclusive: $\\{1,2,3\\}$ and $\\{5,6\\}$ share no outcome. Rolling $4$ belongs to neither event."
+  },
+  {
+    "question_text": "A card is drawn from a standard deck of $52$ playing cards. Find the probability that it is:\na. a club and a picture card\nb. red and a number card.\nNumber cards are Ace ($1$) through $10$; picture cards are jack, queen and king.",
+    "solution_text": "a. ‘And’ requires both conditions. The jack, queen and king of clubs give $3$ favourable cards.\n\n$P(\\text{club and picture card})=\\frac{3}{52}$\n\nb. Each red suit has $10$ number cards, so there are $20$ favourable cards.\n\n$\\begin{aligned}P(\\text{red and number card})&=\\frac{2\\times10}{52}\\\\&=\\frac{20}{52}\\\\&=\\frac{5}{13}\\end{aligned}$"
+  },
+  {
+    "question_text": "A card is drawn from a standard deck of $52$ playing cards. Find:\na. $P(\\text{black or a jack, or both})$\nb. $P(\\text{black or a jack, but not both})$.\nExplain which cards each wording includes.",
+    "solution_text": "There are $26$ black cards and $4$ jacks. The jack of spades and jack of clubs belong to both events.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0) rectangle (7,4);\n\\draw (2.5,2) circle (1.5);\n\\draw (4.5,2) circle (1.5);\n\\node at (1.7,3.65) {Black};\n\\node at (5.3,3.65) {Jack};\n\\node at (1.9,2) {$24$};\n\\node at (3.5,2) {$2$};\n\\node at (5.1,2) {$2$};\n\\node at (6.5,0.5) {$24$};\n\\end{tikzpicture}\n[/tikz]\n\na. Inclusive or includes all black cards and the two red jacks, counting each black jack once.\n\n$\\begin{aligned}P(\\text{black or jack, or both})&=\\frac{24+2+2}{52}\\\\&=\\frac{28}{52}\\\\&=\\frac{7}{13}\\end{aligned}$\n\nb. Exclusive or excludes both black jacks. Include the $24$ black cards that are not jacks and the $2$ red jacks.\n\n$\\begin{aligned}P(\\text{black or jack, but not both})&=\\frac{24+2}{52}\\\\&=\\frac{26}{52}\\\\&=\\frac{1}{2}\\end{aligned}$"
+  },
+  {
+    "question_text": "A fair six-sided die is rolled once. Find the probability of rolling neither an even number nor a number greater than $4$.",
+    "solution_text": "Even outcomes are $\\{2,4,6\\}$; outcomes greater than $4$ are $\\{5,6\\}$. ‘Neither … nor’ excludes every outcome in either event, leaving $\\{1,3\\}$.\n\n$\\begin{aligned}P(\\text{neither even nor greater than }4)&=\\frac{2}{6}\\\\&=\\frac{1}{3}\\end{aligned}$"
+  },
+  {
+    "question_text": "A card is drawn from a standard deck of $52$ playing cards.\na. Find the probability of drawing a $2$, a $4$ or a $9$.\nb. Explain why the question does not need to specify inclusive or exclusive ‘or’.",
+    "solution_text": "a. A card has only one rank, so the three events are mutually exclusive. Add their counts: four cards of each rank.\n\n$\\begin{aligned}P(\\text{a }2,\\text{ a }4\\text{ or a }9)&=\\frac{4+4+4}{52}\\\\&=\\frac{12}{52}\\\\&=\\frac{3}{13}\\end{aligned}$\n\nb. There are no shared cards. Inclusive or includes all $12$ cards; exclusive or removes the overlap, which is empty. Both wordings describe the same outcomes."
+  },
+  {
+    "question_text": "Events $A$ and $B$ are described by $A=\\{8,16,24,32,40\\}$ and $B=\\{12,24,36,40,48\\}$. Which elements must be removed from $A$ to make the events mutually exclusive?",
+    "solution_text": "The shared elements are $A\\cap B=\\{24,40\\}$.\n\nRemove $24$ and $40$ from $A$, leaving $A=\\{8,16,32\\}$. No remaining element belongs to $B$, so the events are mutually exclusive."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
       {

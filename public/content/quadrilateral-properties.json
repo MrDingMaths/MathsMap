@@ -19,26 +19,42 @@
 "State the property in full, saying which parts are equal or which angle is a right angle."
 ],
 "workedExamples": [
-  {
+{
     "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.7]\n\\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tkk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2.5pt,-4pt)--(-2.5pt,4pt);\\draw (2.5pt,-4pt)--(2.5pt,4pt);}}}}}\n\\draw (-3,0)--(0,2)--(3,0)--(0,-2)--cycle;\n\\draw[dashed,tk] (-3,0)--(0,0);\n\\draw[dashed,tk] (0,0)--(3,0);\n\\draw[dashed,tkk] (0,2)--(0,0);\n\\draw[dashed,tkk] (0,0)--(0,-2);\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\end{tikzpicture}\n[/tikz]\nWhat do the diagonal marks show? Give the most specific name guaranteed by these properties.",
     "solution_text": "Each diagonal is cut into two equal parts, and the diagonals cross at right angles.\nRhombus.\nEqual diagonals are not given, so a square is not guaranteed."
   },
-  {
+{
     "question_text": "Compare the diagonals of a rectangle and a rhombus.\nState one property they share and one property each shape has that the other need not have.",
     "solution_text": "In both shapes the diagonals bisect each other.\nA rectangle always has equal diagonals; a rhombus need not.\nA rhombus always has diagonals that cross at right angles; a rectangle need not."
   },
-  {
+{
     "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.75]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,0);\n\\coordinate (C) at (4,3);\n\\coordinate (D) at (0,3);\n\\coordinate (O) at (2,1.5);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[dashed] (A)--(C);\n\\draw[dashed] (B)--(D);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\node[above] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]\nThe diagonals of rectangle $ABCD$ meet at $O$, and $AC=21.4$ cm.\nFind $BD$ and $BO$, giving reasons.",
-    "solution_text": "$BD=21.4$ cm, since the diagonals of a rectangle are equal.\n$BO=21.4\\div2$\n$=10.7$ cm, since the diagonals bisect each other."
+    "solution_text": "$BD=21.4$ cm, since the diagonals of a rectangle are equal.\n\nThe diagonals bisect each other.\n$\\begin{aligned}BO&=21.4\\div2\\\\&=10.7\\text{ cm}\\end{aligned}$"
   },
-  {
+{
     "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.5,0);\n\\coordinate (D) at ({3.5*cos(74)},{3.5*sin(74)});\n\\coordinate (C) at ({3.5+3.5*cos(74)},{3.5*sin(74)});\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[dashed] (A)--(C);\n\\draw (0.7,0) arc[start angle=0,end angle=37,radius=0.7];\n\\node at (1.04,0.348) {$37^{\\circ}$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]\nIn rhombus $ABCD$, $\\angle BAC=37^{\\circ}$.\nFind $\\angle BAD$, giving a reason.",
-    "solution_text": "$\\angle BAD=2\\times37^{\\circ}$\n$=74^{\\circ}$, since a diagonal of a rhombus bisects the vertex angles it passes through."
+    "solution_text": "A diagonal of a rhombus bisects the vertex angles it passes through, so $\\angle CAD=37^{\\circ}$.\n$\\begin{aligned}\\angle BAD&=2\\times37^{\\circ}\\\\&=74^{\\circ}\\end{aligned}$"
   },
-  {
+{
     "question_text": "Is every parallelogram a square?\nGive a reason using diagonal properties and name a shape that shows the answer.",
     "solution_text": "No. The diagonals of every parallelogram bisect each other, but they need not be equal or cross at right angles.\nA rectangle that is not a square is a parallelogram, but its diagonals do not cross at right angles. It shows that not every parallelogram is a square."
-  }
+  },
+{
+  "question_text": "Name each quadrilateral using the most appropriate definition. Give a reason.\n\n(a) Its consecutive side lengths are $8$ cm, $14$ cm, $14$ cm and $8$ cm.\n\n(b) It has four right angles and adjacent side lengths of $5$ cm and $12$ cm.\n\n(c) Its consecutive side lengths are $9$ cm, $15$ cm, $9$ cm and $15$ cm, with angles of $72^{\\circ}$ and $108^{\\circ}$ alternating around the shape.",
+  "solution_text": "(a) Kite: it has two pairs of equal adjacent sides, with different lengths for the two pairs.\n\n(b) Rectangle: it has four right angles. Its unequal adjacent sides rule out a square.\n\n(c) Parallelogram: both pairs of opposite sides are equal. Its unequal adjacent sides rule out a rhombus, and its angles rule out a rectangle."
+},
+{
+  "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (4,0);\n\\coordinate (R) at (5,2.4);\n\\coordinate (S) at (1,2.4);\n\\coordinate (O) at (2.5,1.2);\n\\draw[black] (P)--(Q)--(R)--(S)--cycle;\n\\draw[black,dashed] (P)--(R);\n\\draw[black,dashed] (Q)--(S);\n\\path (P) node[below left] {$P$};\n\\path (Q) node[below right] {$Q$};\n\\path (R) node[above right] {$R$};\n\\path (S) node[above left] {$S$};\n\\path (O) node[below] {$O$};\n\\end{tikzpicture}\n[/tikz]\nThe diagonals of parallelogram $PQRS$ meet at $O$.\n$PO=7.2$ cm and $SO=4.6$ cm.\nFind $OR$, $OQ$, $PR$ and $QS$. Describe whether the diagonals are equal.",
+  "solution_text": "The diagonals of a parallelogram bisect each other, so $OR=7.2$ cm and $OQ=4.6$ cm.\n\n$\\begin{aligned}PR&=2\\times7.2\\\\&=14.4\\text{ cm}\\end{aligned}$\n\n$\\begin{aligned}QS&=2\\times4.6\\\\&=9.2\\text{ cm}\\end{aligned}$\n\nEach diagonal bisects the other, but their lengths are unequal."
+},
+{
+  "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\coordinate (K) at (0,0);\n\\coordinate (L) at (1.5,1.5);\n\\coordinate (M) at (4.5,0);\n\\coordinate (N) at (1.5,-1.5);\n\\coordinate (O) at (1.5,0);\n\\draw[black] (K)--(L)--(M)--(N)--cycle;\n\\draw[black,dashed] (K)--(M);\n\\draw[black,dashed] (L)--(N);\n\\path (K) node[left] {$K$};\n\\path (L) node[above] {$L$};\n\\path (M) node[right] {$M$};\n\\path (N) node[below] {$N$};\n\\path (O) node[below left] {$O$};\n\\end{tikzpicture}\n[/tikz]\nIn kite $KLMN$, $KL=KN$ and $LM=MN$. Its axis diagonal is $KM$, and the diagonals meet at $O$.\n$KN=6.4$ cm, $MN=10.8$ cm and $\\angle KNM=126^{\\circ}$.\nFind $KL$, $LM$, $\\angle KLM$ and $\\angle LOM$, giving reasons.\nMust $KO=OM$?",
+  "solution_text": "$KL=6.4$ cm and $LM=10.8$ cm, since the two pairs of adjacent sides of a kite are equal.\n\n$\\angle KLM=126^{\\circ}$, since the opposite angles between the unequal sides are equal.\n\n$\\angle LOM=90^{\\circ}$, since a kite's diagonals are perpendicular.\n\n$KM$ bisects $LN$, so $LO=ON$. The other diagonal need not bisect the axis: $KO=OM$ is not guaranteed."
+},
+{
+  "question_text": "In parallelogram $ABCD$, $\\angle DAB=76^{\\circ}$.\nFind $\\angle BCD$, giving a reason. State whether the same opposite-angle property holds for every rhombus.",
+  "solution_text": "$\\angle BCD=76^{\\circ}$, since opposite angles of a parallelogram are equal.\n\nYes. A rhombus is a parallelogram, so its opposite angles are equal."
+}
 ]
 },
   "practice": {

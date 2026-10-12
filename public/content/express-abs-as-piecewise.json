@@ -2,20 +2,50 @@
   "skillId": "express-abs-as-piecewise",
   "atomType": "R",
   "theory": {
-        "intro": "An absolute value expression $|f(x)|$ can be written as a **piecewise-defined function** by splitting at the boundary $f(x) = 0$. By definition, $|f(x)| = f(x)$ when $f(x) \\ge 0$, and $|f(x)| = -f(x)$ when $f(x) < 0$.",
-        "facts": [
+"intro": "An absolute value expression $|f(x)|$ can be written as a **piecewise-defined function** by splitting at the boundary $f(x) = 0$. By definition, $|f(x)| = f(x)$ when $f(x) \\ge 0$, and $|f(x)| = -f(x)$ when $f(x) < 0$.",
+"facts": [
           "General piecewise definition: $|f(x)| = \\begin{cases} f(x), & \\text{for } f(x) \\ge 0 \\\\ -f(x), & \\text{for } f(x) < 0 \\end{cases}$.",
           "For a linear argument $|ax + b|$ with $a > 0$: $|ax + b| = \\begin{cases} ax + b, & \\text{for } x \\ge -\\frac{b}{a} \\\\ -ax - b, & \\text{for } x < -\\frac{b}{a} \\end{cases}$.",
           "When the coefficient of $x$ is negative in $-ax + b \\ge 0$, dividing by the negative coefficient reverses the inequality sign.",
           "Quotients like $\\frac{x - c}{|x - c|}$ exclude $x = c$ from the domain, giving strict inequalities $x > c$ and $x < c$."
         ],
-        "steps": [
+"steps": [
           "Set the expression inside the absolute value to zero and solve to find the boundary value.",
           "Determine the interval where the argument is non-negative and write the positive branch.",
           "Determine the interval where the argument is negative and write the negated branch.",
           "Simplify each branch and combine into a single piecewise definition."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Write $|4x-9|$ as a piecewise-defined function.",
+    "solution_text": "Use the argument when it is non-negative and its negative otherwise.\n$|4x-9|=\\begin{cases}4x-9,&4x-9\\ge0\\\\-(4x-9),&4x-9<0\\end{cases}$\nFind the boundary and simplify the conditions.\n$\\begin{align*}4x-9&\\ge0\\\\4x&\\ge9\\\\x&\\ge\\frac94\\end{align*}$\n$|4x-9|=\\begin{cases}4x-9,&x\\ge\\frac94\\\\-4x+9,&x<\\frac94\\end{cases}$\nAt $x=\\frac94$, both expressions give zero; include this boundary in the first branch."
+  },
+  {
+    "question_text": "Write $|13-2x|$ as a piecewise-defined function.",
+    "solution_text": "Find where the argument is non-negative.\n$\\begin{align*}13-2x&\\ge0\\\\-2x&\\ge-13\\\\x&\\le\\frac{13}{2}\\end{align*}$\nDividing by $-2$ reverses the inequality.\n$|13-2x|=\\begin{cases}13-2x,&x\\le\\frac{13}{2}\\\\-(13-2x),&x>\\frac{13}{2}\\end{cases}$\n$|13-2x|=\\begin{cases}13-2x,&x\\le\\frac{13}{2}\\\\2x-13,&x>\\frac{13}{2}\\end{cases}$"
+  },
+  {
+    "question_text": "Simplify:\n(a) $|t-7|$ when $t<7$.\n(b) $|3u+12|$ when $u\\ge-4$.",
+    "solution_text": "(a) When $t<7$, the argument $t-7$ is negative.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}|t-7|\\\\&=-(t-7)\\\\&=-t+7\\end{aligned}$\n(b) When $u\\ge-4$, the argument $3u+12$ is non-negative.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}|3u+12|\\\\&=3u+12\\end{aligned}$"
+  },
+  {
+    "question_text": "Write $f(x)=\\frac{x+6}{|x+6|}$ as a piecewise-defined function.",
+    "solution_text": "The denominator is zero at $x=-6$, so exclude this value.\nFor $x>-6$, use $|x+6|=x+6$.\n$\\begin{align*}f(x)&=\\frac{x+6}{x+6}\\\\&=1\\end{align*}$\nFor $x<-6$, use $|x+6|=-(x+6)$.\n$\\begin{align*}f(x)&=\\frac{x+6}{-(x+6)}\\\\&=-1\\end{align*}$\n$f(x)=\\begin{cases}1,&x>-6\\\\-1,&x<-6\\end{cases}$\nBoth inequalities are strict because $f(-6)$ is undefined."
+  },
+  {
+    "question_text": "Simplify $f(x)=\\frac{|x-7|}{28-4x}$ across its domain and write it as a piecewise-defined function.",
+    "solution_text": "Since $28-4x=-4(x-7)$, exclude $x=7$.\nFor $x<7$, use $|x-7|=-(x-7)$.\n$\\begin{align*}f(x)&=\\frac{-(x-7)}{-4(x-7)}\\\\&=\\frac14\\end{align*}$\nFor $x>7$, use $|x-7|=x-7$.\n$\\begin{align*}f(x)&=\\frac{x-7}{-4(x-7)}\\\\&=-\\frac14\\end{align*}$\n$f(x)=\\begin{cases}\\frac14,&x<7\\\\-\\frac14,&x>7\\end{cases}$"
+  },
+  {
+    "question_text": "Write $f(x)=\\frac{x^2-16}{|x-4|}$ as a piecewise-defined function in simplest form.",
+    "solution_text": "Factor the numerator: $x^2-16=(x-4)(x+4)$. The original denominator excludes $x=4$.\nFor $x>4$, use $|x-4|=x-4$.\n$\\begin{align*}f(x)&=\\frac{(x-4)(x+4)}{x-4}\\\\&=x+4\\end{align*}$\nFor $x<4$, use $|x-4|=-(x-4)$.\n$\\begin{align*}f(x)&=\\frac{(x-4)(x+4)}{-(x-4)}\\\\&=-(x+4)\\\\&=-x-4\\end{align*}$\n$f(x)=\\begin{cases}x+4,&x>4\\\\-x-4,&x<4\\end{cases}$\nCancellation does not restore the excluded value $x=4$."
+  },
+  {
+    "question_text": "For positive constants $p$ and $q$, write $f(x)=|px+q|$ as a piecewise-defined function.",
+    "solution_text": "Find where the argument is non-negative.\n$\\begin{align*}px+q&\\ge0\\\\px&\\ge-q\\\\x&\\ge-\\frac qp\\end{align*}$\nSince $p>0$, dividing by $p$ preserves the inequality.\n$f(x)=\\begin{cases}px+q,&x\\ge-\\frac qp\\\\-(px+q),&x<-\\frac qp\\end{cases}$\n$f(x)=\\begin{cases}px+q,&x\\ge-\\frac qp\\\\-px-q,&x<-\\frac qp\\end{cases}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

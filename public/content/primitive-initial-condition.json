@@ -2,8 +2,8 @@
   "skillId": "primitive-initial-condition",
   "atomType": "R",
   "theory": {
-    "intro": "An **initial condition** is a known point on the curve, written $f(a)=b$. Find the general primitive of $f'(x)$, substitute the point to find $C$, then write $f(x)$ using that value. The answer carries no $+C$.",
-    "facts": [
+"intro": "An **initial condition** is a known point on the curve, written $f(a)=b$. Find the general primitive of $f'(x)$, substitute the point to find $C$, then write $f(x)$ using that value. The answer carries no $+C$.",
+"facts": [
       "The **specific primitive** is the one member of the family $F(x)+C$ that passes through the given point.",
       "Substituting $x=a$ and $f(x)=b$ into $F(x)+C$ gives a single equation in $C$.",
       "Once $C$ is found, the answer is one particular function with no $C$ left in it.",
@@ -13,13 +13,51 @@
       "Given a second derivative, integrate twice and use one condition at each stage.",
       "Check the answer by differentiating it and by substituting the given point."
     ],
-    "steps": [
+"steps": [
       "Find the general primitive $f(x)=F(x)+C$",
       "Substitute the initial condition $f(a)=b$",
       "Solve for $C$",
       "Write $f(x)$ with the value of $C$ substituted"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Given $f'(x)=6x^{2}-4x$ and $f(2)=5$, find $f(x)$.",
+    "solution_text": "Find the general primitive.\n$\\begin{align*}f(x)&=2x^{3}-2x^{2}+C\\end{align*}$\nSubstitute $f(2)=5$.\n$\\begin{align*}5&=2(2)^{3}-2(2)^{2}+C\\\\5&=8+C\\\\C&=-3\\end{align*}$\n$\\begin{align*}f(x)&=2x^{3}-2x^{2}-3\\end{align*}$"
   },
+  {
+    "question_text": "A curve passes through the origin and has gradient function $\\dfrac{dy}{dx}=4x^{3}-6x$. Find its equation.",
+    "solution_text": "$\\begin{align*}y&=x^{4}-3x^{2}+C\\end{align*}$\nThe origin gives $(x,y)=(0,0)$.\n$\\begin{align*}0&=(0)^{4}-3(0)^{2}+C\\\\C&=0\\end{align*}$\n$\\begin{align*}y&=x^{4}-3x^{2}\\end{align*}$"
+  },
+  {
+    "question_text": "Given $f'(x)=3x^{2}+2x-1$ and $f(-1)=4$, find $f(2)$ and the $y$-intercept of its graph.",
+    "solution_text": "$\\begin{align*}f(x)&=x^{3}+x^{2}-x+C\\end{align*}$\nSubstitute $f(-1)=4$.\n$\\begin{align*}4&=(-1)^{3}+(-1)^{2}-(-1)+C\\\\4&=1+C\\\\C&=3\\end{align*}$\n$\\begin{align*}f(x)&=x^{3}+x^{2}-x+3\\\\f(2)&=2^{3}+2^{2}-2+3\\\\&=13\\\\f(0)&=3\\end{align*}$\nThe $y$-intercept is $(0,3)$."
+  },
+  {
+    "question_text": "Given $\\dfrac{dy}{dx}=\\sqrt{x}$ and $y=7$ when $x=9$, find $y$ in terms of $x$.",
+    "solution_text": "Write the square root as a fractional power.\n$\\begin{align*}\\dfrac{dy}{dx}&=x^{\\frac12}\\\\y&=\\dfrac{x^{\\frac32}}{\\frac32}+C\\\\&=\\dfrac23x^{\\frac32}+C\\end{align*}$\nSubstitute $(9,7)$.\n$\\begin{align*}7&=\\dfrac23(9)^{\\frac32}+C\\\\7&=18+C\\\\C&=-11\\end{align*}$\n$\\begin{align*}y&=\\dfrac23x^{\\frac32}-11\\end{align*}$"
+  },
+  {
+    "question_text": "Given $f'(x)=2x^{3}-\\dfrac{6}{x^{2}}$ and $f(1)=8$, find $f(x)$ for $x>0$.",
+    "solution_text": "Rewrite the reciprocal term using a negative power.\n$\\begin{align*}f'(x)&=2x^{3}-6x^{-2}\\\\f(x)&=\\dfrac{2x^{4}}4-\\dfrac{6x^{-1}}{-1}+C\\\\&=\\dfrac{x^{4}}2+\\dfrac6x+C\\end{align*}$\nSubstitute $f(1)=8$.\n$\\begin{align*}8&=\\dfrac{1^{4}}2+\\dfrac61+C\\\\8&=\\dfrac{13}2+C\\\\C&=\\dfrac32\\end{align*}$\n$\\begin{align*}f(x)&=\\dfrac{x^{4}}2+\\dfrac6x+\\dfrac32\\end{align*}$"
+  },
+  {
+    "question_text": "Given $\\dfrac{dy}{dx}=(3x-2)^{3}$ and $y=2$ when $x=1$, find $y$ in terms of $x$.",
+    "solution_text": "Increase the power by one and divide by the new power and the coefficient of $x$.\n$\\begin{align*}y&=\\dfrac{(3x-2)^{4}}{3(4)}+C\\\\&=\\dfrac{(3x-2)^{4}}{12}+C\\end{align*}$\nSubstitute $(1,2)$.\n$\\begin{align*}2&=\\dfrac{(3(1)-2)^{4}}{12}+C\\\\2&=\\dfrac1{12}+C\\\\C&=\\dfrac{23}{12}\\end{align*}$\n$\\begin{align*}y&=\\dfrac{(3x-2)^{4}}{12}+\\dfrac{23}{12}\\end{align*}$"
+  },
+  {
+    "question_text": "Given $f'(x)=\\sqrt{2x+1}$ and $f(4)=5$, find $f(x)$.",
+    "solution_text": "$\\begin{align*}f'(x)&=(2x+1)^{\\frac12}\\\\f(x)&=\\dfrac{(2x+1)^{\\frac32}}{2\\left(\\frac32\\right)}+C\\\\&=\\dfrac{(2x+1)^{\\frac32}}3+C\\end{align*}$\nSubstitute $f(4)=5$.\n$\\begin{align*}5&=\\dfrac{(2(4)+1)^{\\frac32}}3+C\\\\5&=9+C\\\\C&=-4\\end{align*}$\n$\\begin{align*}f(x)&=\\dfrac{(2x+1)^{\\frac32}}3-4\\end{align*}$"
+  },
+  {
+    "question_text": "Given $f'(x)=(x+2)(x-2)$ and $f(3)=7$, find $f(x)$.",
+    "solution_text": "Expand before finding the primitive.\n$\\begin{align*}f'(x)&=(x+2)(x-2)\\\\&=x^{2}-4\\\\f(x)&=\\dfrac{x^{3}}3-4x+C\\end{align*}$\nSubstitute $f(3)=7$.\n$\\begin{align*}7&=\\dfrac{3^{3}}3-4(3)+C\\\\7&=-3+C\\\\C&=10\\end{align*}$\n$\\begin{align*}f(x)&=\\dfrac{x^{3}}3-4x+10\\end{align*}$"
+  },
+  {
+    "question_text": "A function has $f''(x)=12x+6$, $f'(1)=8$ and $f(1)=3$. Find $f(x)$ and hence $f(2)$.",
+    "solution_text": "Find the first primitive and use the gradient condition.\n$\\begin{align*}f'(x)&=6x^{2}+6x+C_{1}\\\\8&=6(1)^{2}+6(1)+C_{1}\\\\8&=12+C_{1}\\\\C_{1}&=-4\\\\f'(x)&=6x^{2}+6x-4\\end{align*}$\nFind the second primitive and use the point condition.\n$\\begin{align*}f(x)&=2x^{3}+3x^{2}-4x+C_{2}\\\\3&=2(1)^{3}+3(1)^{2}-4(1)+C_{2}\\\\3&=1+C_{2}\\\\C_{2}&=2\\\\f(x)&=2x^{3}+3x^{2}-4x+2\\end{align*}$\n$\\begin{align*}f(2)&=2(2)^{3}+3(2)^{2}-4(2)+2\\\\&=22\\end{align*}$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

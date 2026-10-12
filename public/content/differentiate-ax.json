@@ -2,8 +2,8 @@
   "skillId": "differentiate-ax",
   "atomType": "R",
   "theory": {
-    "intro": "Any positive base can be written with base $e$, since $a = e^{\\ln a}$ and so $a^{x} = e^{x\\ln a}$. Differentiating that form gives $\\dfrac{d}{dx}\\left(a^{x}\\right) = (\\ln a)a^{x}$. The extra factor $\\ln a$ equals $1$ only when $a = e$.",
-    "facts": [
+"intro": "Any positive base can be written with base $e$, since $a = e^{\\ln a}$ and so $a^{x} = e^{x\\ln a}$. Differentiating that form gives $\\dfrac{d}{dx}\\left(a^{x}\\right) = (\\ln a)a^{x}$. The extra factor $\\ln a$ equals $1$ only when $a = e$.",
+"facts": [
       "$a^{x} = e^{x\\ln a}$ for any base $a > 0$, because $a = e^{\\ln a}$.",
       "$\\dfrac{d}{dx}\\left(a^{x}\\right) = (\\ln a)a^{x}$, so the function is multiplied by the constant $\\ln a$.",
       "$\\dfrac{d}{dx}\\left(ka^{mx+c}\\right) = km(\\ln a)a^{mx+c}$, the chain rule contributing the extra factor $m$.",
@@ -13,13 +13,43 @@
       "Omitting $\\ln a$ is the most common error: $\\dfrac{d}{dx}\\left(3^{x}\\right) \\ne 3^{x}$, since $\\ln 3 \\ne 1$.",
       "The rule needs $a > 0$, so an expression such as $(-3)^{x}$ is not a real exponential function."
     ],
-    "steps": [
+"steps": [
       "Write the function in the form $ka^{mx+c}$ with base $a > 0$.",
       "Multiply by $\\ln a$, the natural logarithm of the base.",
       "Multiply by $m$, the coefficient of $x$ in the index.",
       "Keep the index unchanged and simplify the constant factors."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Express $y=6^x$ as a power of $e$, then differentiate.",
+    "solution_text": "$\\begin{align*}y&=\\left(e^{\\ln 6}\\right)^x\\\\&=e^{x\\ln 6}\\end{align*}$\nThe coefficient of $x$ in the index is the constant $\\ln 6$.\n$\\begin{align*}\\frac{dy}{dx}&=(\\ln 6)e^{x\\ln 6}\\\\&=(\\ln 6)6^x\\end{align*}$"
   },
+  {
+    "question_text": "Prove that $\\dfrac{d}{dx}(a^x)=(\\ln a)a^x$ for $a>0$, by writing $a^x$ as a power of $e$.",
+    "solution_text": "Since $a=e^{\\ln a}$,\n$\\begin{align*}a^x&=\\left(e^{\\ln a}\\right)^x\\\\&=e^{x\\ln a}.\\end{align*}$\nApply the chain rule, treating $\\ln a$ as a constant.\n$\\begin{align*}\\frac{d}{dx}(a^x)&=(\\ln a)e^{x\\ln a}\\\\&=(\\ln a)a^x\\end{align*}$"
+  },
+  {
+    "question_text": "Differentiate $y=5\\times 2^x+x^4$.",
+    "solution_text": "Differentiate each term, retaining the constant multiplier.\n$\\begin{align*}\\frac{dy}{dx}&=5(\\ln 2)2^x+4x^3\\end{align*}$"
+  },
+  {
+    "question_text": "Differentiate $y=e^x$ using the any-base exponential rule.",
+    "solution_text": "$\\begin{align*}\\frac{dy}{dx}&=(\\ln e)e^x\\\\&=e^x\\end{align*}$"
+  },
+  {
+    "question_text": "Differentiate $y=-4\\times 7^{\\frac{3-2x}{5}}$.",
+    "solution_text": "The derivative of the index is $-\\dfrac{2}{5}$. Multiply by this factor and by $\\ln 7$.\n$\\begin{align*}\\frac{dy}{dx}&=-4\\left(-\\frac{2}{5}\\right)(\\ln 7)7^{\\frac{3-2x}{5}}\\\\&=\\frac{8}{5}(\\ln 7)7^{\\frac{3-2x}{5}}\\end{align*}$"
+  },
+  {
+    "question_text": "For $f(x)=5^{2x-1}$, find $f'(1)$ in exact form and correct to two decimal places.",
+    "solution_text": "$f'(x)=2(\\ln 5)5^{2x-1}$\nAt $x=1$:\n$\\begin{align*}f'(1)&=2(\\ln 5)5^{2(1)-1}\\\\&=10\\ln 5\\\\&\\approx16.09\\end{align*}$\nThe rounded value is correct to two decimal places."
+  },
+  {
+    "question_text": "Find the equation of the tangent to $y=4^{2x+1}$ at $x=-\\dfrac{1}{2}$. Give it in the form $y=mx+c$ and in general form.",
+    "solution_text": "At $x=-\\dfrac{1}{2}$, $y=4^0=1$, so the point of tangency is $\\left(-\\dfrac{1}{2},1\\right)$.\n$\\frac{dy}{dx}=2(\\ln 4)4^{2x+1}$\nThe tangent gradient is\n$\\begin{align*}m&=2(\\ln 4)4^0\\\\&=2\\ln 4.\\end{align*}$\nUse the point-gradient form:\n$\\begin{align*}y-1&=2(\\ln 4)\\left(x+\\frac{1}{2}\\right)\\\\y&=2(\\ln 4)x+\\ln 4+1.\\end{align*}$\nIn general form,\n$2(\\ln 4)x-y+\\ln 4+1=0$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

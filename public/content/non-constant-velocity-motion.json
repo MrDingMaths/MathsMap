@@ -2,24 +2,89 @@
   "skillId": "non-constant-velocity-motion",
   "atomType": "R",
   "theory": {
-    "intro": "When a particle's velocity changes with time, questions ask **when** something happens. The particle is momentarily **at rest** only when both components of $\\underset{\\sim}{v}(t)$ are zero at the same time; it moves parallel to an axis when just one component is zero.",
-    "facts": [
-      "A particle is at rest when $\\dot{x}=0$ and $\\dot{y}=0$ at the same value of $t$.",
-      "If only $\\dot{y}=0$, the particle is moving parallel to the $x$-axis, not at rest.",
-      "If only $\\dot{x}=0$, the particle is moving parallel to the $y$-axis, not at rest.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-4.2,0) -- (4.8,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-3) -- (0,3.6) node[above] {$y$};\n\\draw[thick] (0,0) ellipse (3 and 2);\n\\fill (3,0) circle (2pt);\n\\fill (0,2) circle (2pt);\n\\draw[-{Stealth}, thick] (3,0) -- (3,1.4) node[right] {$\\dot{x}=0$};\n\\draw[-{Stealth}, thick] (0,2) -- (-1.6,2) node[left] {$\\dot{y}=0$};\n\\end{tikzpicture}\n[/tikz]",
-      "Speed is $|\\underset{\\sim}{v}|=\\sqrt{\\dot{x}^{2}+\\dot{y}^{2}}$, so it is never negative and is never $\\dot{x}+\\dot{y}$.",
-      "Since the square root is increasing, minimise or maximise $\\dot{x}^{2}+\\dot{y}^{2}$ instead of the speed itself.",
-      "Solve each component equation separately, then keep only the times common to both.",
-      "Reject any solution with $t<0$, or outside the interval the question states.",
-      "Substitute the time back into $\\underset{\\sim}{r}(t)$ to find where the event happens."
-    ],
-    "steps": [
-      "Differentiate $\\underset{\\sim}{r}(t)$ to get $\\underset{\\sim}{v}(t)$",
-      "Write the condition described in the question as equations in $\\dot{x}$ and $\\dot{y}$",
-      "Solve for $t$, rejecting times outside the allowed interval",
-      "Substitute that value of $t$ back to answer the question asked"
-    ]
+"intro": "When a particle's velocity changes with time, questions ask for times, speeds, positions or unknown constants. The particle is momentarily **at rest** only when both components of $\\underset{\\sim}{v}(t)$ are zero at the same time; it moves parallel to an axis when just one component is zero.",
+"facts": [
+"A particle is at rest when $\\dot{x}=0$ and $\\dot{y}=0$ at the same value of $t$.",
+"If only $\\dot{y}=0$, the particle is moving parallel to the $x$-axis, not at rest.",
+"If only $\\dot{x}=0$, the particle is moving parallel to the $y$-axis, not at rest.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-4.2,0) -- (4.8,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-3) -- (0,3.6) node[above] {$y$};\n\\draw[thick] (0,0) ellipse (3 and 2);\n\\fill (3,0) circle (2pt);\n\\fill (0,2) circle (2pt);\n\\draw[-{Stealth}, thick] (3,0) -- (3,1.4) node[right] {$\\dot{x}=0$};\n\\draw[-{Stealth}, thick] (0,2) -- (-1.6,2) node[left] {$\\dot{y}=0$};\n\\end{tikzpicture}\n[/tikz]",
+"Speed is $|\\underset{\\sim}{v}|=\\sqrt{\\dot{x}^{2}+\\dot{y}^{2}}$, so it is never negative. Adding the velocity components is not the general formula for speed.",
+"Since the square root is increasing, minimise or maximise $\\dot{x}^{2}+\\dot{y}^{2}$ over the allowed time domain instead of the speed itself, checking applicable endpoints.",
+"For rest questions, solve $\\dot{x}=0$ and $\\dot{y}=0$ separately, then keep only the times common to both. For motion parallel to the $x$-axis, require $\\dot{y}=0$ and $\\dot{x}\\ne 0$; for motion parallel to the $y$-axis, require $\\dot{x}=0$ and $\\dot{y}\\ne 0$.",
+"Reject any solution with $t<0$, or outside the interval the question states.",
+"Substitute the time back into $\\underset{\\sim}{r}(t)$ to find where the event happens."
+],
+"steps": [
+"Find $\\underset{\\sim}{v}(t)$: differentiate supplied $\\underset{\\sim}{r}(t)$, or integrate each component of supplied acceleration and use the initial velocity to find the integration constants. For constant acceleration and initial velocity $\\underset{\\sim}{u}$ at $t=0$, use $\\underset{\\sim}{v}(t)=\\underset{\\sim}{u}+t\\underset{\\sim}{a}$",
+"For rest or parallel motion, write the condition as equations in $\\dot{x}$ and $\\dot{y}$. For speed, form $|\\underset{\\sim}{v}(t)|^{2}=\\dot{x}^{2}+\\dot{y}^{2}$",
+"Solve the condition for the required time or constants, using any supplied event time and rejecting times outside the allowed interval. For extreme speed, minimise or maximise speed squared over the allowed interval, checking applicable endpoints",
+"Substitute the required time into $\\underset{\\sim}{r}(t)$ for position, or take the square root of speed squared for speed, to answer the question asked"
+],
+"workedExamples": [
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^3-9t^2+24t)\\underset{\\sim}{i}+(t^2-8t+7)\\underset{\\sim}{j}$ metres, where $t\\ge0$ is in seconds. Find when it is momentarily at rest, its position vector then, and its exact distance from the origin.",
+    "solution_text": "Differentiate each component.\n$\\begin{align*}\\underset{\\sim}{v}(t)&=(3t^2-18t+24)\\underset{\\sim}{i}+(2t-8)\\underset{\\sim}{j}\\end{align*}$\nAt rest, both velocity components must vanish together.\n$\\begin{align*}3(t-2)(t-4)&=0\\\\t&=2\\text{ or }4\\\\2t-8&=0\\\\t&=4\\end{align*}$\nThe only common time is $t=4$ seconds.\n$\\begin{align*}\\underset{\\sim}{r}(4)&=(64-144+96)\\underset{\\sim}{i}+(16-32+7)\\underset{\\sim}{j}\\\\&=16\\underset{\\sim}{i}-9\\underset{\\sim}{j}\\end{align*}$\nThe position vector is $(16\\underset{\\sim}{i}-9\\underset{\\sim}{j})$ metres. Its distance from the origin is\n$\\begin{align*}|\\underset{\\sim}{r}(4)|&=\\sqrt{16^2+(-9)^2}\\\\&=\\sqrt{337}\\text{ m}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^2-8t)\\underset{\\sim}{i}+(t^3-75t)\\underset{\\sim}{j}$ for $t\\ge0$. Determine whether it is ever at rest, and find when it moves parallel to each coordinate axis.",
+    "solution_text": "$\\begin{align*}\\underset{\\sim}{v}(t)&=(2t-8)\\underset{\\sim}{i}+(3t^2-75)\\underset{\\sim}{j}\\\\\\dot{x}=0:\\quad 2t-8&=0\\\\t&=4\\\\\\dot{y}=0:\\quad 3t^2-75&=0\\\\t^2&=25\\\\t&=5\\end{align*}$\nReject $t=-5$ because $t\\ge0$. The components never vanish together, so the particle is never at rest.\nAt $t=4$, $\\underset{\\sim}{v}(4)=-27\\underset{\\sim}{j}$, so it moves parallel to the $y$-axis.\nAt $t=5$, $\\underset{\\sim}{v}(5)=2\\underset{\\sim}{i}$, so it moves parallel to the $x$-axis.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[->,black] (0,0)--(4,0) node[right] {$x$};\n\\draw[->,black] (0,0)--(0,3) node[above] {$y$};\n\\draw[->,black,thick] (1,2.4)--(1,0.7);\n\\path (1,2.4) node[above] {$t=4$};\n\\draw[->,black,thick] (2,1.8)--(3.5,1.8);\n\\path (2.7,1.8) node[above] {$t=5$};\n\\end{tikzpicture}\n[/tikz]\nThe arrows show velocity directions only; their locations and lengths are schematic.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=3\\sin 2t\\,\\underset{\\sim}{i}+4t\\,\\underset{\\sim}{j}$ for $0\\le t\\le\\pi$. Find all times when it moves parallel to the $y$-axis.",
+    "solution_text": "$\\begin{align*}\\underset{\\sim}{v}(t)&=6\\cos 2t\\,\\underset{\\sim}{i}+4\\underset{\\sim}{j}\\end{align*}$\nParallel motion to the $y$-axis requires $\\dot{x}=0$ and $\\dot{y}\\ne0$. Here $\\dot{y}=4\\ne0$ throughout.\n$\\begin{align*}6\\cos 2t&=0\\\\\\cos 2t&=0\\end{align*}$\nSince $0\\le2t\\le2\\pi$, the solutions are\n$\\begin{align*}2t&=\\frac{\\pi}{2}\\text{ or }\\frac{3\\pi}{2}\\\\t&=\\frac{\\pi}{4}\\text{ or }\\frac{3\\pi}{4}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(e^t-2t)\\underset{\\sim}{i}+(t^2-4t)\\underset{\\sim}{j}$ for $t\\ge0$. Find the exact time when it moves parallel to the $y$-axis.",
+    "solution_text": "$\\begin{align*}\\underset{\\sim}{v}(t)&=(e^t-2)\\underset{\\sim}{i}+(2t-4)\\underset{\\sim}{j}\\end{align*}$\nSet the horizontal velocity component to zero.\n$\\begin{align*}e^t-2&=0\\\\e^t&=2\\\\t&=\\ln2\\end{align*}$\nCheck the other component.\n$\\begin{align*}\\dot{y}(\\ln2)&=2\\ln2-4\\\\&\\ne0\\end{align*}$\nSince $0<\\ln2<1$, this component is negative. The particle moves parallel to the $y$-axis at $t=\\ln2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=\\bigl(t-6\\ln(t+1)\\bigr)\\underset{\\sim}{i}+3t\\,\\underset{\\sim}{j}$ metres, where $t\\ge0$ is in seconds. Find its minimum speed and when it occurs.",
+    "solution_text": "$\\begin{align*}\\underset{\\sim}{v}(t)&=\\left(1-\\frac{6}{t+1}\\right)\\underset{\\sim}{i}+3\\underset{\\sim}{j}\\\\|\\underset{\\sim}{v}(t)|^2&=\\left(1-\\frac{6}{t+1}\\right)^2+9\\end{align*}$\nThe squared term is non-negative, so speed squared is at least $9$. This bound is attained when\n$\\begin{align*}1-\\frac{6}{t+1}&=0\\\\t+1&=6\\\\t&=5.\\end{align*}$\nThis time is in the domain. The minimum speed is $\\sqrt9=3\\text{ m s}^{-1}$, at $t=5$ seconds.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^2-4t)\\underset{\\sim}{i}+(t^2-8t)\\underset{\\sim}{j}$ metres, where $t$ is in seconds. Find its exact minimum speed on (a) $0\\le t\\le5$ and (b) $4\\le t\\le5$.",
+    "solution_text": "$\\begin{align*}\\underset{\\sim}{v}(t)&=(2t-4)\\underset{\\sim}{i}+(2t-8)\\underset{\\sim}{j}\\\\|\\underset{\\sim}{v}(t)|^2&=(2t-4)^2+(2t-8)^2\\\\&=8t^2-48t+80\\\\&=8(t-3)^2+8\\end{align*}$\n(a) The vertex $t=3$ lies in $[0,5]$. Speed squared has its global minimum there, so the minimum speed is $\\sqrt8=2\\sqrt2\\text{ m s}^{-1}$.\n(b) On $[4,5]$, $(t-3)^2$ increases as $t$ increases. The minimum therefore occurs at the left endpoint, $t=4$.\n$\\begin{align*}|\\underset{\\sim}{v}(4)|^2&=8(4-3)^2+8\\\\&=16\\\\|\\underset{\\sim}{v}(4)|&=4\\text{ m s}^{-1}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A drone has position vector $\\underset{\\sim}{r}(t)=3t\\,\\underset{\\sim}{i}+(t^2-4t)\\underset{\\sim}{j}$ kilometres, where $t$ is in hours and $0\\le t\\le5$. Find its exact maximum speed.",
+    "solution_text": "$\\begin{align*}\\underset{\\sim}{v}(t)&=3\\underset{\\sim}{i}+(2t-4)\\underset{\\sim}{j}\\\\|\\underset{\\sim}{v}(t)|^2&=9+(2t-4)^2\\end{align*}$\nThe squared term decreases to zero at $t=2$, then increases. Its maximum on this interval is at an endpoint.\n$\\begin{align*}|\\underset{\\sim}{v}(0)|^2&=9+(-4)^2=25\\\\|\\underset{\\sim}{v}(5)|^2&=9+6^2=45\\end{align*}$\nThe maximum speed is $\\sqrt{45}=3\\sqrt5\\text{ km h}^{-1}$, at $t=5$ hours.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^2+at)\\underset{\\sim}{i}+(t^3+bt)\\underset{\\sim}{j}$ for $t\\ge0$, where $a$ and $b$ are constants. It is momentarily at rest at $t=3$. Find $a$ and $b$.",
+    "solution_text": "$\\begin{align*}\\underset{\\sim}{v}(t)&=(2t+a)\\underset{\\sim}{i}+(3t^2+b)\\underset{\\sim}{j}\\end{align*}$\nBoth components vanish at $t=3$.\n$\\begin{align*}6+a&=0\\\\a&=-6\\end{align*}$\n$\\begin{align*}27+b&=0\\\\b&=-27.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle initially has velocity $(2\\underset{\\sim}{i}+\\underset{\\sim}{j})\\text{ m s}^{-1}$ and constant acceleration $(-\\underset{\\sim}{i}+2\\underset{\\sim}{j})\\text{ m s}^{-2}$. Find its speed after $3$ seconds.",
+    "solution_text": "For constant acceleration, use $\\underset{\\sim}{v}(t)=\\underset{\\sim}{u}+t\\underset{\\sim}{a}$.\n$\\begin{align*}\\underset{\\sim}{v}(3)&=(2\\underset{\\sim}{i}+\\underset{\\sim}{j})+3(-\\underset{\\sim}{i}+2\\underset{\\sim}{j})\\\\&=-\\underset{\\sim}{i}+7\\underset{\\sim}{j}\\end{align*}$\nSpeed is the magnitude of velocity.\n$\\begin{align*}|\\underset{\\sim}{v}(3)|&=\\sqrt{(-1)^2+7^2}\\\\&=5\\sqrt2\\text{ m s}^{-1}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -91,21 +156,21 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(2t^{3}-15t^{2}+24t)\\underset{\\sim}{i}+(t^{2}-8t+12)\\underset{\\sim}{j}$ for $t\\ge 0$.\nFind its exact distance from the origin at the instant it is momentarily at rest.",
         "structure": "position-at-event",
         "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(6t^{2}-30t+24)\\underset{\\sim}{i}+(2t-8)\\underset{\\sim}{j}$\n$6(t-1)(t-4)=0$\n$t=1$ or $t=4$\n$2t-8=0$\n$t=4$\nBoth components vanish only at $t=4$.\n$\\underset{\\sim}{r}(4)$\n$=(128-240+96)\\underset{\\sim}{i}+(16-32+12)\\underset{\\sim}{j}$\n$=-16\\underset{\\sim}{i}-4\\underset{\\sim}{j}$\n$|\\underset{\\sim}{r}(4)|$\n$=\\sqrt{256+16}$\n$=\\sqrt{272}$\n$=4\\sqrt{17}$"
       },
-      {
+{
         "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=\\left(t-4\\ln(t+1)\\right)\\underset{\\sim}{i}+5t\\,\\underset{\\sim}{j}$ for $t\\ge 0$.\nFind its minimum speed and the time at which it occurs.",
         "structure": "extreme-speed",
         "solution_text": "$\\underset{\\sim}{v}(t)$\n$=\\left(1-\\dfrac{4}{t+1}\\right)\\underset{\\sim}{i}+5\\underset{\\sim}{j}$\n$|\\underset{\\sim}{v}|^{2}$\n$=\\left(1-\\dfrac{4}{t+1}\\right)^{2}+25$\nThe speed is least when the squared bracket is zero.\n$1-\\dfrac{4}{t+1}=0$\n$t+1=4$\n$t=3$\n$|\\underset{\\sim}{v}(3)|$\n$=\\sqrt{0+25}$\n$=5$\nThe minimum speed is $5$, at $t=3$."
       },
-      {
+{
         "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}+at)\\underset{\\sim}{i}+(t^{3}+bt)\\underset{\\sim}{j}$ for $t\\ge 0$, where $a$ and $b$ are constants.\nThe particle is momentarily at rest when $t=2$.\nFind $a$ and $b$.",
-        "structure": "time-at-rest",
+        "structure": "constants-from-rest-condition",
         "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(2t+a)\\underset{\\sim}{i}+(3t^{2}+b)\\underset{\\sim}{j}$\nAt rest at $t=2$ means both components are zero there.\n$4+a=0$\n$a=-4$\n$12+b=0$\n$b=-12$"
       }
-    ]
+]
   }
 }

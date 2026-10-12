@@ -2,88 +2,125 @@
   "skillId": "similarity-statements",
   "atomType": "R",
   "theory": {
-        "intro": "A **similarity statement** names two similar figures with their vertices in **matching order**, joined by $\\sim$, e.g. $\\triangle ABC \\sim \\triangle LMK$. The order records which vertices correspond, so matching angles and sides can be read straight off the letters.",
-        "facts": [
-          "$\\sim$ means \"is similar to\": $ABCD \\sim EFGH$ says the two quadrilaterals are similar.",
-          "In $ABCD \\sim EFGH$ the vertices are in matching order, so $\\angle ABC = \\angle EFG$ and side $AB$ corresponds to side $EF$.",
-          "Find corresponding vertices by matching equal angles, not by matching positions on the page — a rotated or reflected figure changes nothing.",
-          "A statement with the letters out of matching order is wrong, even when the figures really are similar."
-        ],
-        "steps": [
-          "Identify the corresponding vertices by matching equal angles.",
-          "Write the vertices of both figures in matching order."
-        ]
-      },
+"intro": "A **similarity statement** names two similar figures with their vertices in **matching order**, joined by $\\sim$, e.g. $\\triangle ABC \\sim \\triangle LMK$. The order records which vertices correspond, so matching angles and sides can be read straight off the letters.",
+"facts": [
+"$\\sim$ means \"is similar to\": $ABCD \\sim EFGH$ says the two quadrilaterals are similar.",
+"In $ABCD \\sim EFGH$ the vertices are in matching order, so $\\angle ABC = \\angle EFG$ and side $AB$ corresponds to side $EF$.",
+"Find corresponding vertices using equal angles, corresponding side relationships and the order around each figure, not positions on the page. Repeated equal angles alone may not identify matching vertices; a rotated or reflected figure changes nothing.",
+"A statement with the letters out of matching order is wrong, even when the figures really are similar."
+],
+"steps": [
+"Identify the corresponding vertices using equal angles, corresponding side relationships and the order around each figure. When angles repeat, use the sides and boundary order to distinguish the vertices.",
+"Write the vertices of both figures in matching order."
+],
+"workedExamples": [
+  {
+    "question_text": "The triangles are similar. Write a similarity statement, list the corresponding sides and name the angle corresponding to $\\angle BCA$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,1.8);\n\\coordinate (B) at (3.118,1.8);\n\\coordinate (C) at (0,0);\n\\draw (A)--(B)--(C)--cycle;\n\\draw (0,1.55)--(0.25,1.55)--(0.25,1.8);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node at (0.38,0.65) {$60^{\\circ}$};\n\\coordinate (D) at (4.5,0);\n\\coordinate (E) at (4.5,2.7);\n\\coordinate (F) at (9.177,0);\n\\draw (D)--(E)--(F)--cycle;\n\\draw (4.5,0.25)--(4.75,0.25)--(4.75,0);\n\\node[below left] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\node[below right] at (F) {$F$};\n\\node at (4.88,2.05) {$60^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The right angles match $A\\leftrightarrow D$, and the $60^{\\circ}$ angles match $C\\leftrightarrow E$. The remaining vertices match $B\\leftrightarrow F$.\n$\\triangle ABC\\sim\\triangle DFE$\nThe corresponding sides are $AB$ and $DF$, $BC$ and $FE$, and $CA$ and $ED$.\n$\\angle BCA$ corresponds to $\\angle FED$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The triangles are similar. Matching arc marks indicate equal angles. Write a similarity statement and name the side corresponding to $JK$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{angles}\n\\coordinate (J) at (0,0);\n\\coordinate (K) at (2.4,0);\n\\coordinate (L) at (0.7,1.8);\n\\coordinate (R) at (7,0);\n\\coordinate (S) at (3.88,0);\n\\coordinate (T) at (6.09,2.34);\n\\draw (J)--(K)--(L)--cycle;\n\\draw (R)--(S)--(T)--cycle;\n\\pic[draw,angle radius=0.3cm] {angle=K--J--L};\n\\pic[draw,angle radius=0.3cm] {angle=L--K--J};\n\\pic[draw,angle radius=0.4cm] {angle=L--K--J};\n\\pic[draw,angle radius=0.3cm] {angle=T--R--S};\n\\pic[draw,angle radius=0.3cm] {angle=R--S--T};\n\\pic[draw,angle radius=0.4cm] {angle=R--S--T};\n\\node[below left] at (J) {$J$};\n\\node[below right] at (K) {$K$};\n\\node[above] at (L) {$L$};\n\\node[below right] at (R) {$R$};\n\\node[below left] at (S) {$S$};\n\\node[above] at (T) {$T$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The single arcs match $J\\leftrightarrow R$, and the double arcs match $K\\leftrightarrow S$. The remaining vertices match $L\\leftrightarrow T$.\n$\\triangle JKL\\sim\\triangle RST$\nSide $JK$ corresponds to side $RS$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The pentagons are similar; the second is reflected. Write a similarity statement, name the side corresponding to $CD$ and name the angle corresponding to $\\angle EAB$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,1.4);\n\\coordinate (B) at (0.6,2);\n\\coordinate (C) at (3,2);\n\\coordinate (D) at (3,0);\n\\coordinate (E) at (0,0);\n\\draw (A)--(B)--(C)--(D)--(E)--cycle;\n\\node[left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[below right] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\coordinate (P) at (7,0.98);\n\\coordinate (Q) at (6.58,1.4);\n\\coordinate (R) at (4.9,1.4);\n\\coordinate (S) at (4.9,0);\n\\coordinate (T) at (7,0);\n\\draw (P)--(Q)--(R)--(S)--(T)--cycle;\n\\node[right] at (P) {$P$};\n\\node[above] at (Q) {$Q$};\n\\node[above left] at (R) {$R$};\n\\node[below left] at (S) {$S$};\n\\node[below right] at (T) {$T$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Match the endpoints of the sloping sides: $A\\leftrightarrow P$ and $B\\leftrightarrow Q$. Follow the adjacent sides around each boundary: $C\\leftrightarrow R$, $D\\leftrightarrow S$, $E\\leftrightarrow T$.\n$ABCDE\\sim PQRST$\nSide $CD$ corresponds to side $RS$.\n$\\angle EAB$ corresponds to $\\angle TPQ$.\nMatching sides and boundary order distinguish the vertices even where angles repeat.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The intervals $KP$ and $LQ$ intersect at $O$, and $KL\\parallel PQ$. Triangles $KOL$ and $POQ$ are similar. Write a similarity statement and list the corresponding sides.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (K) at (-1.8,1.2);\n\\coordinate (L) at (-1.8,-1.2);\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (2.7,-1.8);\n\\coordinate (Q) at (2.7,1.8);\n\\draw (K)--(P);\n\\draw (L)--(Q);\n\\draw (K)--(L);\n\\draw (P)--(Q);\n\\draw[->] (-1.8,0.3)--(-1.8,-0.3);\n\\draw[->] (2.7,0.3)--(2.7,-0.3);\n\\node[above left] at (K) {$K$};\n\\node[below left] at (L) {$L$};\n\\node[above] at (O) {$O$};\n\\node[below right] at (P) {$P$};\n\\node[above right] at (Q) {$Q$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Consider the two triangles separately.\n$\\angle KOL=\\angle POQ$ (vertically opposite angles).\n$\\angle OKL=\\angle OPQ$ (alternate angles on parallel lines).\nThus $K\\leftrightarrow P$, $O\\leftrightarrow O$ and $L\\leftrightarrow Q$.\n$\\triangle KOL\\sim\\triangle POQ$\nThe corresponding sides are $KO$ and $PO$, $OL$ and $OQ$, and $KL$ and $PQ$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "In the diagram, $GH\\parallel EF$. Triangles $DGH$ and $DEF$ are similar. Write a similarity statement and name the side corresponding to $GH$.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (D) at (1.2,3);\n\\coordinate (E) at (0,0);\n\\coordinate (F) at (4,0);\n\\coordinate (G) at (0.6,1.5);\n\\coordinate (H) at (2.6,1.5);\n\\draw (D)--(E)--(F)--cycle;\n\\draw (G)--(H);\n\\draw[->] (1.3,1.5)--(1.8,1.5);\n\\draw[->] (1.6,0)--(2.1,0);\n\\node[above] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\node[below right] at (F) {$F$};\n\\node[left] at (G) {$G$};\n\\node[right] at (H) {$H$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The angle at $D$ is shared.\n$\\angle DGH=\\angle DEF$ and $\\angle DHG=\\angle DFE$ (corresponding angles on parallel lines).\nThe vertices match $D\\leftrightarrow D$, $G\\leftrightarrow E$ and $H\\leftrightarrow F$.\n$\\triangle DGH\\sim\\triangle DEF$\nSide $GH$ corresponds to side $EF$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.8,0);\n\\coordinate (C) at (1.083,2.975);\n\\draw (A) -- (B);\n\\draw (B) -- (C);\n\\draw (C) -- (A);\n\\node at (0.61,0.43) {$70^{\\circ}$};\n\\node at (2.15,0.38) {$60^{\\circ}$};\n\\node at (1.16,2.13) {$50^{\\circ}$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\coordinate (L) at (4.3,0);\n\\coordinate (M) at (8.5,0);\n\\coordinate (K) at (5.924,4.462);\n\\draw (L) -- (M);\n\\draw (M) -- (K);\n\\draw (K) -- (L);\n\\node at (4.91,0.43) {$70^{\\circ}$};\n\\node at (7.85,0.38) {$60^{\\circ}$};\n\\node at (5.998,3.62) {$50^{\\circ}$};\n\\node[below left] at (L) {$L$};\n\\node[below right] at (M) {$M$};\n\\node[above] at (K) {$K$};\n\\end{tikzpicture}\n[/tikz]\nThe two triangles are similar.\nWrite a similarity statement with the vertices in matching order.",
         "structure": "write-statement-triangles",
         "solution_text": "$\\angle A=\\angle L=70^{\\circ}$\n$\\angle B=\\angle M=60^{\\circ}$\n$\\angle C=\\angle K=50^{\\circ}$\n$\\therefore \\triangle ABC \\sim \\triangle LMK$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,2.2);\n\\coordinate (B) at (0.8,3);\n\\coordinate (C) at (4,3);\n\\coordinate (D) at (4,0);\n\\coordinate (E) at (0,0);\n\\draw (A) -- (B) -- (C) -- (D) -- (E) -- cycle;\n\\node[left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\node[below] at (E) {$E$};\n\\coordinate (L) at (5.2,1.1);\n\\coordinate (M) at (5.6,1.5);\n\\coordinate (N) at (7.2,1.5);\n\\coordinate (P) at (7.2,0);\n\\coordinate (Q) at (5.2,0);\n\\draw (L) -- (M) -- (N) -- (P) -- (Q) -- cycle;\n\\node[left] at (L) {$L$};\n\\node[above] at (M) {$M$};\n\\node[above] at (N) {$N$};\n\\node[below] at (P) {$P$};\n\\node[below] at (Q) {$Q$};\n\\end{tikzpicture}\n[/tikz]\nThe two figures are similar.\nWrite a similarity statement with the vertices in matching order.",
         "structure": "write-statement-polygon",
-        "solution_text": "Matching the equal angles around each figure: $A\\leftrightarrow L$, $B\\leftrightarrow M$, $C\\leftrightarrow N$, $D\\leftrightarrow P$, $E\\leftrightarrow Q$.\n$\\therefore ABCDE \\sim LMNPQ$"
+        "solution_text": "Matching the equal angles and corresponding sides around each figure: $A\\leftrightarrow L$, $B\\leftrightarrow M$, $C\\leftrightarrow N$, $D\\leftrightarrow P$, $E\\leftrightarrow Q$.\n$\\therefore ABCDE \\sim LMNPQ$"
       },
-      {
-        "question_text": "The pentagons $GHJKL \\sim PQRST$ are similar.\nWhich side of the second pentagon corresponds to side $JK$?",
-        "structure": "corresponding-side-from-statement",
-        "solution_text": "$J$ is the third letter and $K$ is the fourth, so they match $R$ and $S$.\nSide $JK$ corresponds to side $RS$."
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,1.8) node[left] {$G$} -- (0.6,2.4) node[above] {$H$} -- (3.2,2.4) node[above] {$J$} -- (3.2,0) node[below] {$K$} -- (0,0) node[below] {$L$} -- cycle;\n\\draw (4.5,0.9) node[left] {$P$} -- (4.8,1.2) node[above] {$Q$} -- (6.1,1.2) node[above] {$R$} -- (6.1,0) node[below] {$S$} -- (4.5,0) node[below] {$T$} -- cycle;\n\\end{tikzpicture}\n[/tikz]\nThe two pentagons are similar.\nWhich side of the second pentagon corresponds to side $JK$?",
+        "structure": "corresponding-side-from-figures",
+        "solution_text": "Matching the corresponding sides around the figures gives $J\\leftrightarrow R$ and $K\\leftrightarrow S$.\nSide $JK$ corresponds to side $RS$."
       },
-      {
-        "question_text": "Given $\\triangle DEF \\sim \\triangle STU$, which angle of $\\triangle STU$ corresponds to $\\angle EFD$?",
-        "structure": "corresponding-angle-from-statement",
-        "solution_text": "Matching the letters: $D\\leftrightarrow S$, $E\\leftrightarrow T$, $F\\leftrightarrow U$.\n$\\angle EFD$ corresponds to $\\angle TUS$."
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,2) node[above left] {$D$} -- (1.5,2) node[above right] {$E$} -- (0,0) node[below] {$F$} -- cycle;\n\\draw (0,1.75) -- (0.25,1.75) -- (0.25,2);\n\\node[anchor=east, font=\\fontsize{10}{12}\\selectfont] at (-0.35,0.7) {$37^{\\circ}$};\n\\draw (-0.23,0.7) -- (0.12,0.38);\n\\draw (3,2.6) node[above left] {$S$} -- (4.95,2.6) node[above right] {$T$} -- (3,0) node[below] {$U$} -- cycle;\n\\draw (3,2.35) -- (3.25,2.35) -- (3.25,2.6);\n\\node[anchor=east, font=\\fontsize{10}{12}\\selectfont] at (2.65,0.7) {$37^{\\circ}$};\n\\draw (2.77,0.7) -- (3.12,0.38);\n\\end{tikzpicture}\n[/tikz]\nThe two triangles are similar.\nWhich angle of the second triangle corresponds to $\\angle EFD$?",
+        "structure": "corresponding-angle-from-figures",
+        "solution_text": "The right angles match $D\\leftrightarrow S$, and the marked angles match $F\\leftrightarrow U$, so $E\\leftrightarrow T$.\n$\\angle EFD$ corresponds to $\\angle TUS$."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles}\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (2.6,0);\n\\coordinate (R) at (0.9,1.9);\n\\draw (P) -- (Q);\n\\draw (Q) -- (R);\n\\draw (R) -- (P);\n\\pic[draw, angle radius=0.4cm] {angle = Q--P--R};\n\\pic[draw, angle radius=0.3cm] {angle = R--Q--P};\n\\pic[draw, angle radius=0.42cm] {angle = R--Q--P};\n\\node[below left] at (P) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\node[above] at (R) {$R$};\n\\coordinate (X) at (7.2,0);\n\\coordinate (Y) at (3.82,0);\n\\coordinate (Z) at (6.03,2.47);\n\\draw (X) -- (Y);\n\\draw (Y) -- (Z);\n\\draw (Z) -- (X);\n\\pic[draw, angle radius=0.4cm] {angle = Z--X--Y};\n\\pic[draw, angle radius=0.3cm] {angle = X--Y--Z};\n\\pic[draw, angle radius=0.42cm] {angle = X--Y--Z};\n\\node[below right] at (X) {$X$};\n\\node[below left] at (Y) {$Y$};\n\\node[above] at (Z) {$Z$};\n\\end{tikzpicture}\n[/tikz]\nThe two triangles are similar; the second is a reflection of the first.\nEqual angles carry matching arc marks.\nWrite a similarity statement with the vertices in matching order.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles}\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (2.6,0);\n\\coordinate (R) at (0.9,1.9);\n\\draw (P) -- (Q);\n\\draw (Q) -- (R);\n\\draw (R) -- (P);\n\\pic[draw, angle radius=0.4cm] {angle = Q--P--R};\n\\pic[draw, angle radius=0.3cm] {angle = R--Q--P};\n\\pic[draw, angle radius=0.42cm] {angle = R--Q--P};\n\\node[below left] at (P) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\node[above] at (R) {$R$};\n\\coordinate (X) at (7.2,0);\n\\coordinate (Y) at (3.82,0);\n\\coordinate (Z) at (6.03,2.47);\n\\draw (X) -- (Y);\n\\draw (Y) -- (Z);\n\\draw (Z) -- (X);\n\\pic[draw, angle radius=0.4cm] {angle = Z--X--Y};\n\\pic[draw, angle radius=0.3cm] {angle = X--Y--Z};\n\\pic[draw, angle radius=0.42cm] {angle = X--Y--Z};\n\\node[below right] at (X) {$X$};\n\\node[below left] at (Y) {$Y$};\n\\node[above] at (Z) {$Z$};\n\\end{tikzpicture}\n[/tikz]\nThe two triangles are similar; the second is a reflected enlargement of the first with scale factor $1.3$.\nEqual angles carry matching arc marks.\nWrite a similarity statement with the vertices in matching order.",
         "structure": "write-statement-triangles",
-        "solution_text": "The single arcs show $\\angle P=\\angle X$ and the double arcs show $\\angle Q=\\angle Y$, so the remaining angles give $\\angle R=\\angle Z$.\nA reflection does not change the shape, so the vertices still match by equal angles.\n$\\therefore \\triangle PQR \\sim \\triangle XYZ$"
+        "solution_text": "The single arcs show $\\angle P=\\angle X$ and the double arcs show $\\angle Q=\\angle Y$, so the remaining angles give $\\angle R=\\angle Z$.\nA reflected enlargement preserves angles, so the vertices still match by equal angles.\n$\\therefore \\triangle PQR \\sim \\triangle XYZ$"
       },
-      {
-        "question_text": "The quadrilaterals $PQRS \\sim WXYZ$ are similar.\nWhich angle of the second quadrilateral corresponds to $\\angle QRS$?",
-        "structure": "corresponding-angle-from-statement",
-        "solution_text": "Matching the letters: $Q\\leftrightarrow X$, $R\\leftrightarrow Y$, $S\\leftrightarrow Z$.\n$\\angle QRS$ corresponds to $\\angle XYZ$."
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) node[below left] {$P$} -- (3,0) node[below right] {$Q$} -- (2,1.5) node[above right] {$R$} -- (0,1.5) node[above left] {$S$} -- cycle;\n\\draw (4,0) node[below left] {$W$} -- (6.4,0) node[below right] {$X$} -- (5.6,1.2) node[above right] {$Y$} -- (4,1.2) node[above left] {$Z$} -- cycle;\n\\end{tikzpicture}\n[/tikz]\nThe two quadrilaterals are similar.\nWhich angle of the second quadrilateral corresponds to $\\angle QRS$?",
+        "structure": "corresponding-angle-from-figures",
+        "solution_text": "The obtuse corners match $R\\leftrightarrow Y$. Matching the adjacent sides gives $Q\\leftrightarrow X$ and $S\\leftrightarrow Z$.\n$\\angle QRS$ corresponds to $\\angle XYZ$."
       },
-      {
-        "question_text": "Given $\\triangle ABC \\sim \\triangle FGH$, list the three pairs of corresponding sides.",
-        "structure": "corresponding-side-from-statement",
-        "solution_text": "$AB$ corresponds to $FG$\n$BC$ corresponds to $GH$\n$CA$ corresponds to $HF$"
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,1.8) node[above left] {$A$} -- (2.4,1.8) node[above right] {$B$} -- (0,0) node[below] {$C$} -- cycle;\n\\draw (0,1.55) -- (0.25,1.55) -- (0.25,1.8);\n\\node at (0.35,0.7) {$53^{\\circ}$};\n\\draw (4,2.25) node[above left] {$F$} -- (7,2.25) node[above right] {$G$} -- (4,0) node[below] {$H$} -- cycle;\n\\draw (4,2) -- (4.25,2) -- (4.25,2.25);\n\\node at (4.35,0.7) {$53^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]\nThe two triangles are similar.\nList the three pairs of corresponding sides.",
+        "structure": "corresponding-sides-from-figures",
+        "solution_text": "The right angles match $A\\leftrightarrow F$, and the marked angles match $C\\leftrightarrow H$, so $B\\leftrightarrow G$.\n$AB$ corresponds to $FG$\n$BC$ corresponds to $GH$\n$CA$ corresponds to $HF$"
       }
-    ],
+],
     "development": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (1.7,3.2);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4,0);\n\\coordinate (D) at (0.765,1.44);\n\\coordinate (E) at (2.965,1.44);\n\\draw (A) -- (B);\n\\draw (A) -- (C);\n\\draw (B) -- (C);\n\\draw (D) -- (E);\n\\draw[->] (1.7,0) -- (2.3,0);\n\\draw[->] (1.75,1.44) -- (2.35,1.44);\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[left] at (D) {$D$};\n\\node[right] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]\nIn the figure, $DE \\parallel BC$, and triangles $ADE$ and $ABC$ are similar.\nWrite a similarity statement with the vertices in matching order.",
         "structure": "write-statement-triangles",
         "solution_text": "$\\angle A$ is shared by both triangles.\n$\\angle ADE=\\angle ABC$, corresponding angles on parallel lines\n$\\angle AED=\\angle ACB$, corresponding angles on parallel lines\n$\\therefore \\triangle ADE \\sim \\triangle ABC$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (K) at (-2.2,1.2);\n\\coordinate (L) at (-1.8,-1.2);\n\\coordinate (A) at (0,0);\n\\coordinate (M) at (2.75,-1.5);\n\\coordinate (N) at (2.25,1.5);\n\\draw (K) -- (M);\n\\draw (L) -- (N);\n\\draw (K) -- (L);\n\\draw (M) -- (N);\n\\draw[->] (-2.04,0.24) -- (-1.96,-0.24);\n\\draw[->] (2.45,0.3) -- (2.55,-0.3);\n\\node[above left] at (K) {$K$};\n\\node[below left] at (L) {$L$};\n\\node[above] at (A) {$A$};\n\\node[below right] at (M) {$M$};\n\\node[above right] at (N) {$N$};\n\\end{tikzpicture}\n[/tikz]\nIn the figure, $KL \\parallel MN$ and the intervals $KM$ and $LN$ intersect at $A$.\nTriangles $KAL$ and $MAN$ are similar.\nWrite a similarity statement with the vertices in matching order.",
         "structure": "write-statement-triangles",
         "solution_text": "$\\angle KAL=\\angle MAN$, vertically opposite angles\n$\\angle AKL=\\angle AMN$, alternate angles on parallel lines\n$\\angle ALK=\\angle ANM$, alternate angles on parallel lines\n$\\therefore \\triangle KAL \\sim \\triangle MAN$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.2,0);\n\\coordinate (C) at (2.2,1.6);\n\\coordinate (D) at (0,1.6);\n\\draw (A) -- (B) -- (C) -- (D) -- cycle;\n\\coordinate (aa) at ($(A)!0.25cm!(B)$);\n\\coordinate (ab) at ($(A)!0.25cm!(D)$);\n\\draw (aa) -- ($(aa)+(ab)-(A)$) -- (ab);\n\\coordinate (da) at ($(D)!0.25cm!(A)$);\n\\coordinate (db) at ($(D)!0.25cm!(C)$);\n\\draw (da) -- ($(da)+(db)-(D)$) -- (db);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\coordinate (P) at (5.57,0.56);\n\\coordinate (Q) at (7.0,0.56);\n\\coordinate (R) at (7.0,1.6);\n\\coordinate (S) at (4.92,1.6);\n\\draw (P) -- (Q) -- (R) -- (S) -- cycle;\n\\coordinate (ra) at ($(R)!0.25cm!(Q)$);\n\\coordinate (rb) at ($(R)!0.25cm!(S)$);\n\\draw (ra) -- ($(ra)+(rb)-(R)$) -- (rb);\n\\coordinate (qa) at ($(Q)!0.25cm!(P)$);\n\\coordinate (qb) at ($(Q)!0.25cm!(R)$);\n\\draw (qa) -- ($(qa)+(qb)-(Q)$) -- (qb);\n\\node[below left] at (P) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\node[above right] at (R) {$R$};\n\\node[above left] at (S) {$S$};\n\\end{tikzpicture}\n[/tikz]\nThe two quadrilaterals are similar.\nZara writes the statement $ABCD \\sim PQRS$.\nExplain her error and write a correct similarity statement.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.2,0);\n\\coordinate (C) at (2.2,1.6);\n\\coordinate (D) at (0,1.6);\n\\draw (A) -- (B) -- (C) -- (D) -- cycle;\n\\coordinate (aa) at ($(A)!0.25cm!(B)$);\n\\coordinate (ab) at ($(A)!0.25cm!(D)$);\n\\draw (aa) -- ($(aa)+(ab)-(A)$) -- (ab);\n\\coordinate (da) at ($(D)!0.25cm!(A)$);\n\\coordinate (db) at ($(D)!0.25cm!(C)$);\n\\draw (da) -- ($(da)+(db)-(D)$) -- (db);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\coordinate (P) at (5.57,0.56);\n\\coordinate (Q) at (7.0,0.56);\n\\coordinate (R) at (7.0,1.6);\n\\coordinate (S) at (4.92,1.6);\n\\draw (P) -- (Q) -- (R) -- (S) -- cycle;\n\\coordinate (ra) at ($(R)!0.25cm!(Q)$);\n\\coordinate (rb) at ($(R)!0.25cm!(S)$);\n\\draw (ra) -- ($(ra)+(rb)-(R)$) -- (rb);\n\\coordinate (qa) at ($(Q)!0.25cm!(P)$);\n\\coordinate (qb) at ($(Q)!0.25cm!(R)$);\n\\draw (qa) -- ($(qa)+(qb)-(Q)$) -- (qb);\n\\node[below left] at (P) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\node[above right] at (R) {$R$};\n\\node[above left] at (S) {$S$};\n\\end{tikzpicture}\n[/tikz]\nThe two quadrilaterals are similar.\nWrite a similarity statement with the vertices in matching order.",
         "structure": "write-statement-polygon",
-        "solution_text": "The vertices must be listed in matching order, found by matching equal angles — $\\angle A$ is a right angle but $\\angle P$ is not, so $P$ cannot correspond to $A$.\nMatching the right angles and following the boundary: $A\\leftrightarrow R$, $B\\leftrightarrow S$, $C\\leftrightarrow P$, $D\\leftrightarrow Q$.\n$\\therefore ABCD \\sim RSPQ$"
+        "solution_text": "The acute corners match $B\\leftrightarrow S$ and the obtuse corners match $C\\leftrightarrow P$. Matching the adjacent sides and following the boundary gives $A\\leftrightarrow R$ and $D\\leftrightarrow Q$.\n$\\therefore ABCD \\sim RSPQ$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (J) at (0,0);\n\\coordinate (K) at (2,0);\n\\coordinate (L) at (2,1.5);\n\\coordinate (M) at (1,2.25);\n\\coordinate (N) at (0,1.5);\n\\draw (J) -- (K) -- (L) -- (M) -- (N) -- cycle;\n\\node[below left] at (J) {$J$};\n\\node[below right] at (K) {$K$};\n\\node[right] at (L) {$L$};\n\\node[above] at (M) {$M$};\n\\node[left] at (N) {$N$};\n\\coordinate (P) at (6.55,1.4);\n\\coordinate (Q) at (5.5,2.8);\n\\coordinate (R) at (3.4,2.8);\n\\coordinate (S) at (3.4,0);\n\\coordinate (T) at (5.5,0);\n\\draw (P) -- (Q) -- (R) -- (S) -- (T) -- cycle;\n\\node[right] at (P) {$P$};\n\\node[above] at (Q) {$Q$};\n\\node[above left] at (R) {$R$};\n\\node[below left] at (S) {$S$};\n\\node[below] at (T) {$T$};\n\\end{tikzpicture}\n[/tikz]\nThe two pentagons are similar; the second has been rotated.\nWrite a similarity statement with the vertices in matching order.",
         "structure": "write-statement-polygon",
         "solution_text": "The apex angles correspond, so $M\\leftrightarrow P$; following the boundary from there matches $N\\leftrightarrow Q$, $J\\leftrightarrow R$, $K\\leftrightarrow S$, $L\\leftrightarrow T$.\n$\\therefore JKLMN \\sim RSTPQ$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.4,0);\n\\coordinate (C) at (2.4,0.8);\n\\coordinate (D) at (0.8,0.8);\n\\coordinate (E) at (0.8,2);\n\\coordinate (F) at (0,2);\n\\draw (A) -- (B) -- (C) -- (D) -- (E) -- (F) -- cycle;\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[above right] at (D) {$D$};\n\\node[right] at (E) {$E$};\n\\node[above left] at (F) {$F$};\n\\coordinate (P) at (6.2,0.4);\n\\coordinate (Q) at (7.2,0.4);\n\\coordinate (R) at (7.2,2.9);\n\\coordinate (S) at (4.2,2.9);\n\\coordinate (T) at (4.2,1.9);\n\\coordinate (U) at (6.2,1.9);\n\\draw (P) -- (Q) -- (R) -- (S) -- (T) -- (U) -- cycle;\n\\node[left] at (P) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\node[above right] at (R) {$R$};\n\\node[above left] at (S) {$S$};\n\\node[left] at (T) {$T$};\n\\node[below left] at (U) {$U$};\n\\end{tikzpicture}\n[/tikz]\nThe two L-shapes are similar; the second has been rotated $180^{\\circ}$.\nWrite a similarity statement with the vertices in matching order.",
         "structure": "write-statement-polygon",
         "solution_text": "The long arm of the first L runs $A$ to $B$, and the matching long arm of the second runs $R$ to $S$, so $A\\leftrightarrow R$ and $B\\leftrightarrow S$; following the boundary matches $C\\leftrightarrow T$, $D\\leftrightarrow U$, $E\\leftrightarrow P$, $F\\leftrightarrow Q$.\n$\\therefore ABCDEF \\sim RSTUPQ$"
       },
-      {
-        "question_text": "The pentagons $ABCDE$ and $VWXYZ$ are similar, with $\\angle A=\\angle V$, $\\angle B=\\angle W$, $\\angle C=\\angle X$, $\\angle D=\\angle Y$ and $\\angle E=\\angle Z$.\nKai writes $ABCDE \\sim ZYXWV$.\nExplain his error and write a correct similarity statement.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,1.8) node[left] {$A$} -- (0.6,2.4) node[above] {$B$} -- (3.2,2.4) node[above] {$C$} -- (3.2,0) node[below] {$D$} -- (0,0) node[below] {$E$} -- cycle;\n\\draw (7,0.9) node[right] {$V$} -- (6.7,1.2) node[above] {$W$} -- (5.4,1.2) node[above] {$X$} -- (5.4,0) node[below] {$Y$} -- (7,0) node[below] {$Z$} -- cycle;\n\\end{tikzpicture}\n[/tikz]\nThe two pentagons are similar; the second is a reflected reduction of the first.\nWrite a similarity statement with the vertices in matching order.",
         "structure": "write-statement-polygon",
-        "solution_text": "Kai listed the second pentagon's letters in reverse: his statement pairs $\\angle A$ with $\\angle Z$, but $\\angle A=\\angle V$.\nThe vertices must be written in matching order.\n$\\therefore ABCDE \\sim VWXYZ$"
+        "solution_text": "Matching the sloping sides gives $A\\leftrightarrow V$ and $B\\leftrightarrow W$. Matching the adjacent sides and following the boundary gives $C\\leftrightarrow X$, $D\\leftrightarrow Y$ and $E\\leftrightarrow Z$.\n$\\therefore ABCDE \\sim VWXYZ$"
       }
-    ],
+],
     "masteryOmitted": "Vertex-order naming is a single-step convention; the hardest honest in-skill cases (overlapping, reflected and rotated figures) already sit in development, and any further twist crosses into similarity testing or unknown-side work owned by sibling skills."
   }
 }

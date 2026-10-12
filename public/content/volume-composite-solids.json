@@ -2,8 +2,8 @@
   "skillId": "volume-composite-solids",
   "atomType": "R",
   "theory": {
-    "intro": "A **composite solid** is built from simpler solids joined together, such as a barn made of a rectangular prism with a half-cylinder roof. Find the volume of each part, then combine them.",
-    "facts": [
+"intro": "A **composite solid** is built from simpler solids joined together, such as a barn made of a rectangular prism with a half-cylinder roof. Find the volume of each part, then combine them.",
+"facts": [
       "Split the composite solid into simple prisms and cylinders, find each volume, and **add** them.\n\n[tikz]% mathsmap-solid {\"version\":1,\"kind\":\"analytic-swept-arc\",\"radius\":3,\"depthOffset\":[3.0310889132455356,1.7500000000000004]}\n\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\coordinate (A) at (-3,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (3,4);\n\\coordinate (D) at (-3,4);\n\\coordinate (A2) at ($(A)+(30:3.5)$);\n\\coordinate (B2) at ($(B)+(30:3.5)$);\n\\coordinate (C2) at ($(C)+(30:3.5)$);\n\\coordinate (D2) at ($(D)+(30:3.5)$);\n\\coordinate (S) at ($(0,4)+(120:3)$);\n\\coordinate (S2) at ($(0,4)+(120:3)+(30:3.5)$);\n\\draw (D)--(A)--(B)--(C);\n\\draw (D) arc (180:0:3);\n\\draw (B)--(B2);\n\\draw (3,4)--(6.03108891,5.75);\n\\draw[dashed] (-3,4)--(0.03108891,5.75);\n\\draw (S)--(S2);\n\\draw[dashed] (A)--(A2);\n\\draw[dashed] (A2)--(B2)--(C2);\n\\draw[dashed] (A2)--(D2);\n\\draw (6.03108891,5.75) arc (0:120:3);\n\\draw[dashed] (1.53108891,8.34807621) arc (120:180:3);\n\n\\draw[dashed] (D)--(C);\n\\node at (-1.5,2.6) {$V_1$};\n\\node at (1.5,5.2) {$V_2$};\n\\draw (-1.5,6.59807621)--(1.53108891,8.34807621);\n\\end{tikzpicture}\n[/tikz]",
       "Where a solid is a hole cut out instead of joined on, **subtract** its volume.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.5]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (10,0);\n\\coordinate (C) at (10,6);\n\\coordinate (D) at (0,6);\n\\coordinate (A2) at ($(A)+(30:3.5)$);\n\\coordinate (B2) at ($(B)+(30:3.5)$);\n\\coordinate (C2) at ($(C)+(30:3.5)$);\n\\coordinate (D2) at ($(D)+(30:3.5)$);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw (B)--(B2);\n\\draw (C)--(C2);\n\\draw (D)--(D2);\n\\draw[dashed] (A)--(A2);\n\\draw[dashed] (A2)--(B2);\n\\draw[dashed] (A2)--(D2);\n\\draw (B2)--(C2)--(D2);\n\\draw (5,3) circle (2);\n\\draw[dashed] ($(5,3)+(30:3.5)$) circle (2);\n\\node at (2,4.5) {$V_1$};\n\\node at (5,3) {$V_2$};\n\\end{tikzpicture}\n[/tikz]",
       "Prism $V = Ah$ (a box is $V = lwh$), cylinder $V = \\pi r^{2}h$, half-cylinder $V = \\frac{1}{2}\\pi r^{2}h$.",
@@ -12,12 +12,50 @@
       "Capacity uses $1$ m³ $= 1000$ L and $1000$ cm³ $= 1$ L.",
       "All lengths must be in the same unit before the volumes are combined."
     ],
-    "steps": [
+"steps": [
       "Split the composite solid into simple prisms and cylinders.",
       "Find the volume of each simple solid.",
       "Add the volumes, or subtract any that are holes."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A shed has a rectangular cross-section topped by a semicircle, as shown. The rectangular part is $10\\text{ m}$ wide and $4\\text{ m}$ high. The shed has a uniform cross-section and is $9\\text{ m}$ long. Find its volume to $1$ decimal place.\n\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0)--(10,0)--(10,4) arc[start angle=0,end angle=180,radius=5]--cycle;\n\\draw[dashed] (0,4)--(10,4);\n\\path (5,0) node[below] {$10\\text{ m}$};\n\\path (0,2) node[left] {$4\\text{ m}$};\n\\path (5,10) node[above] {Cross-section};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Split the shed into a rectangular prism and a half-cylinder. The roof radius is $10\\div2=5\\text{ m}$.\n\n$\\begin{aligned}V_{\\text{prism}}&=Ah\\\\&=(10\\times4)\\times9\\\\&=360\\text{ m}^{3}\\end{aligned}$\n\n$\\begin{aligned}V_{\\text{roof}}&=\\frac12\\pi r^{2}h\\\\&=\\frac12\\pi(5)^{2}\\times9\\\\&=112.5\\pi\\text{ m}^{3}\\end{aligned}$\n\n$\\begin{aligned}V&=V_{\\text{prism}}+V_{\\text{roof}}\\\\&=360+112.5\\pi\\\\&\\approx713.4\\text{ m}^{3}\\end{aligned}$"
   },
+  {
+    "question_text": "A cylindrical column stands on a square concrete slab. The slab has side length $7\\text{ m}$ and thickness $0.4\\text{ m}$. The cylinder has diameter $3\\text{ m}$ and height $5\\text{ m}$ above the slab. Find the total volume to $1$ decimal place.",
+    "solution_text": "The parts meet at one face, so add their volumes. The cylinder radius is $3\\div2=1.5\\text{ m}$.\n\n$\\begin{aligned}V_{\\text{slab}}&=lwh\\\\&=7\\times7\\times0.4\\\\&=19.6\\text{ m}^{3}\\end{aligned}$\n\n$\\begin{aligned}V_{\\text{cylinder}}&=\\pi r^{2}h\\\\&=\\pi(1.5)^{2}\\times5\\\\&=11.25\\pi\\text{ m}^{3}\\end{aligned}$\n\n$\\begin{aligned}V&=19.6+11.25\\pi\\\\&\\approx54.9\\text{ m}^{3}\\end{aligned}$"
+  },
+  {
+    "question_text": "A cube of edge length $5\\text{ cm}$ stands on a cylinder of radius $4\\text{ cm}$ and height $7\\text{ cm}$. The solids meet without overlapping. Find the total volume to $1$ decimal place.",
+    "solution_text": "Find the volume of each solid, then add.\n\n$\\begin{aligned}V_{\\text{cube}}&=l^{3}\\\\&=5^{3}\\\\&=125\\text{ cm}^{3}\\end{aligned}$\n\n$\\begin{aligned}V_{\\text{cylinder}}&=\\pi r^{2}h\\\\&=\\pi(4)^{2}\\times7\\\\&=112\\pi\\text{ cm}^{3}\\end{aligned}$\n\n$\\begin{aligned}V&=125+112\\pi\\\\&\\approx476.9\\text{ cm}^{3}\\end{aligned}$"
+  },
+  {
+    "question_text": "A stepped shaft consists of two cylinders sharing the same axis. The lower cylinder has radius $4\\text{ cm}$ and height $2\\text{ cm}$. The upper cylinder has radius $1.5\\text{ cm}$ and height $9\\text{ cm}$ above the lower cylinder. Find the total volume to $1$ decimal place.",
+    "solution_text": "The cylinders meet at one face. Calculate each volume separately and add.\n\n$\\begin{aligned}V_{\\text{lower}}&=\\pi r^{2}h\\\\&=\\pi(4)^{2}\\times2\\\\&=32\\pi\\text{ cm}^{3}\\end{aligned}$\n\n$\\begin{aligned}V_{\\text{upper}}&=\\pi r^{2}h\\\\&=\\pi(1.5)^{2}\\times9\\\\&=20.25\\pi\\text{ cm}^{3}\\end{aligned}$\n\n$\\begin{aligned}V&=32\\pi+20.25\\pi\\\\&=52.25\\pi\\\\&\\approx164.1\\text{ cm}^{3}\\end{aligned}$"
+  },
+  {
+    "question_text": "A rectangular metal block measures $14\\text{ cm}$ by $9\\text{ cm}$ by $5\\text{ cm}$. Two separate cylindrical holes, each of diameter $4\\text{ cm}$, pass straight through the $5\\text{ cm}$ thickness. Find the volume of metal remaining to $1$ decimal place.\n\n[tikz]\n\\begin{tikzpicture}[x=4mm,y=4mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0) rectangle (14,9);\n\\draw (4,4.5) circle[radius=2];\n\\draw (10,4.5) circle[radius=2];\n\\draw (2,4.5)--(6,4.5);\n\\path (4,4.5) node[above] {$4\\text{ cm}$};\n\\path (7,0) node[below] {$14\\text{ cm}$};\n\\path (0,4.5) node[left] {$9\\text{ cm}$};\n\\path (7,10) node[above] {Front face; equal holes};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Each hole has radius $4\\div2=2\\text{ cm}$ and length $5\\text{ cm}$. Subtract both holes from the block.\n\n$\\begin{aligned}V_{\\text{block}}&=lwh\\\\&=14\\times9\\times5\\\\&=630\\text{ cm}^{3}\\end{aligned}$\n\n$\\begin{aligned}V_{\\text{one hole}}&=\\pi r^{2}h\\\\&=\\pi(2)^{2}\\times5\\\\&=20\\pi\\text{ cm}^{3}\\end{aligned}$\n\n$\\begin{aligned}V&=V_{\\text{block}}-2V_{\\text{one hole}}\\\\&=630-2(20\\pi)\\\\&=630-40\\pi\\\\&\\approx504.3\\text{ cm}^{3}\\end{aligned}$\n\nFor one hole, subtract its volume once."
+  },
+  {
+    "question_text": "A hollow pipe has outside radius $7\\text{ cm}$, inside radius $5\\text{ cm}$ and length $16\\text{ cm}$. Find the volume of pipe material to $1$ decimal place.\n\n[tikz]\n\\begin{tikzpicture}[x=4mm,y=4mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0) circle[radius=7];\n\\draw (0,0) circle[radius=5];\n\\draw (0,0)--(7,0);\n\\draw (0,0)--(0,-5);\n\\path (3.5,0) node[above] {$7\\text{ cm}$};\n\\path (0,-2.5) node[left] {$5\\text{ cm}$};\n\\path (0,8) node[above] {Cross-section};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Subtract the inner cylinder from the outer cylinder. Both have length $16\\text{ cm}$.\n\n$\\begin{aligned}V_{\\text{outer}}&=\\pi r^{2}h\\\\&=\\pi(7)^{2}\\times16\\\\&=784\\pi\\text{ cm}^{3}\\end{aligned}$\n\n$\\begin{aligned}V_{\\text{inner}}&=\\pi r^{2}h\\\\&=\\pi(5)^{2}\\times16\\\\&=400\\pi\\text{ cm}^{3}\\end{aligned}$\n\n$\\begin{aligned}V&=784\\pi-400\\pi\\\\&=384\\pi\\\\&\\approx1206.4\\text{ cm}^{3}\\end{aligned}$"
+  },
+  {
+    "question_text": "A tunnel is $14\\text{ m}$ long. Its opening is a semicircle of diameter $8\\text{ m}$. The concrete shell is $0.5\\text{ m}$ thick, giving an outside radius of $4.5\\text{ m}$. Find the volume of concrete to $3$ decimal places.\n\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (-4.5,0) arc[start angle=180,end angle=0,radius=4.5]--(4,0) arc[start angle=0,end angle=180,radius=4]--cycle;\n\\draw (-4,-0.7)--(4,-0.7);\n\\draw (-4,-0.5)--(-4,-0.9);\n\\draw (4,-0.5)--(4,-0.9);\n\\path (0,-0.7) node[below] {$8\\text{ m}$};\n\\path (0,5) node[above] {Cross-section};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The inside radius is $8\\div2=4\\text{ m}$. Subtract the inner half-cylinder from the outer half-cylinder.\n\n$\\begin{aligned}V_{\\text{outer}}&=\\frac12\\pi r^{2}h\\\\&=\\frac12\\pi(4.5)^{2}\\times14\\\\&=141.75\\pi\\text{ m}^{3}\\end{aligned}$\n\n$\\begin{aligned}V_{\\text{inner}}&=\\frac12\\pi r^{2}h\\\\&=\\frac12\\pi(4)^{2}\\times14\\\\&=112\\pi\\text{ m}^{3}\\end{aligned}$\n\n$\\begin{aligned}V&=141.75\\pi-112\\pi\\\\&=29.75\\pi\\\\&\\approx93.462\\text{ m}^{3}\\end{aligned}$"
+  },
+  {
+    "question_text": "A square prism stands on a cylindrical base. The base has diameter $1.6\\text{ m}$ and height $0.5\\text{ m}$. The square prism has cross-sectional area $0.8\\text{ m}^{2}$ and height $6\\text{ m}$ above the base. Find the total volume to $1$ decimal place.",
+    "solution_text": "Use the given cross-sectional area directly in $V=Ah$. The cylinder radius is $1.6\\div2=0.8\\text{ m}$.\n\n$\\begin{aligned}V_{\\text{prism}}&=Ah\\\\&=0.8\\times6\\\\&=4.8\\text{ m}^{3}\\end{aligned}$\n\n$\\begin{aligned}V_{\\text{base}}&=\\pi r^{2}h\\\\&=\\pi(0.8)^{2}\\times0.5\\\\&=0.32\\pi\\text{ m}^{3}\\end{aligned}$\n\n$\\begin{aligned}V&=4.8+0.32\\pi\\\\&\\approx5.8\\text{ m}^{3}\\end{aligned}$"
+  },
+  {
+    "question_text": "A tank has a lower rectangular chamber measuring $3\\text{ m}$ by $2\\text{ m}$ by $0.5\\text{ m}$ and an upper cylindrical chamber of radius $0.8\\text{ m}$ and height $1.5\\text{ m}$. The chambers are connected, their interiors do not overlap, and both fill completely. Ignore wall thickness. Using $1\\text{ m}^{3}=1000\\text{ L}$, find:\n(a) the total capacity in litres, to $1$ decimal place;\n(b) the time to fill the empty tank at $150\\text{ L}$ per minute, to $1$ decimal place.",
+    "solution_text": "Add the chamber volumes before converting to litres.\n\n$\\begin{aligned}V_{\\text{rectangular}}&=lwh\\\\&=3\\times2\\times0.5\\\\&=3\\text{ m}^{3}\\end{aligned}$\n\n$\\begin{aligned}V_{\\text{cylindrical}}&=\\pi r^{2}h\\\\&=\\pi(0.8)^{2}\\times1.5\\\\&=0.96\\pi\\text{ m}^{3}\\end{aligned}$\n\n$\\begin{aligned}V&=3+0.96\\pi\\text{ m}^{3}\\end{aligned}$\n\n(a)\n\n$\\begin{aligned}C&=1000(3+0.96\\pi)\\\\&\\approx6015.9\\text{ L}\\end{aligned}$\n\n(b) Divide the unrounded capacity by the filling rate.\n\n$\\begin{aligned}t&=\\frac{1000(3+0.96\\pi)}{150}\\\\&\\approx40.1\\text{ minutes}\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

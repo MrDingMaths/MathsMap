@@ -2,21 +2,72 @@
   "skillId": "induction-sums",
   "atomType": "R",
   "theory": {
-    "intro": "To prove a sum formula by induction, check it at the first value of $n$, assume it at $n = k$, then add the next term and show the $n = k + 1$ form results. Everything turns on one line: replacing the first $k$ terms by the assumed formula.",
-    "facts": [
+"intro": "To prove a sum formula by induction, check it at the first value of $n$, assume it at $n = k$, then add the next term and show the $n = k + 1$ form results. Everything turns on one line: replacing the first $k$ terms by the assumed formula.",
+"facts": [
       "The term added when $n$ moves from $k$ to $k + 1$ is found by substituting $n = k + 1$ into the general term.",
       "In the inductive step, write the left side as the first $k$ terms plus the new term, then replace them using the assumption.",
       "The target right side is the closed formula with every $n$ replaced by $k + 1$, then simplified.",
       "Taking $(k + 1)$ out as a common factor early is usually faster than expanding everything.",
       "A formula that fails at the base value cannot be proved, however convincing the inductive step looks."
     ],
-    "steps": [
+"steps": [
       "Test the base case",
       "Assume true for $n = k$",
       "Prove true for $n = k + 1$",
       "State the conclusion"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Prove by mathematical induction that $4+10+16+\\dots+(6n-2)=n(3n+1)$ for every integer $n\\ge1$.",
+    "solution_text": "1. **Test the base case**\nFor $n=1$, $LHS=4$ and $RHS=1(3+1)=4$. The base case is true.\n\n2. **Assume true for $n = k$**\nFor some integer $k\\ge1$, assume\n$4+10+\\dots+(6k-2)=k(3k+1)$.\n\n3. **Prove true for $n = k + 1$**\nThe next term is $6(k+1)-2=6k+4$. We must prove\n$4+10+\\dots+(6k-2)+(6k+4)=(k+1)(3k+4)$.\nUsing the assumption,\n$\\begin{align*}LHS&=k(3k+1)+(6k+4)\\\\&=3k^2+7k+4\\\\&=(k+1)(3k+4)\\\\&=RHS.\\end{align*}$\n\n4. **State the conclusion**\nThe statement holds for $n=1$, and its truth for $n=k$ implies its truth for $n=k+1$. Therefore, by mathematical induction, it holds for every integer $n\\ge1$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Prove by mathematical induction that $\\displaystyle\\sum_{r=0}^{n}4^r=\\frac{4^{n+1}-1}{3}$ for every integer $n\\ge0$.",
+    "solution_text": "Here $\\displaystyle\\sum_{r=0}^{n}4^r$ means the terms $4^0,4^1,\\dots,4^n$ added together.\n\n1. **Test the base case**\nFor $n=0$, $LHS=4^0=1$ and $RHS=(4^1-1)/3=1$. The base case is true.\n\n2. **Assume true for $n = k$**\nFor some integer $k\\ge0$, assume\n$\\displaystyle\\sum_{r=0}^{k}4^r=\\frac{4^{k+1}-1}{3}$.\n\n3. **Prove true for $n = k + 1$**\nThe next term is $4^{k+1}$, and the target right side is $\\frac{4^{k+2}-1}{3}$.\nUsing the assumption,\n$\\begin{align*}\\sum_{r=0}^{k+1}4^r&=\\sum_{r=0}^{k}4^r+4^{k+1}\\\\&=\\frac{4^{k+1}-1}{3}+4^{k+1}\\\\&=\\frac{4^{k+1}-1+3\\times4^{k+1}}{3}\\\\&=\\frac{4^{k+2}-1}{3}.\\end{align*}$\n\n4. **State the conclusion**\nThe statement holds for $n=0$, and its truth for $n=k$ implies its truth for $n=k+1$. Therefore, by mathematical induction, it holds for every integer $n\\ge0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove by mathematical induction that $\\displaystyle\\sum_{r=2}^{n}2^r=4(2^{n-1}-1)$ for every integer $n\\ge2$.",
+    "solution_text": "The sum starts with $2^2=4$ and ends with $2^n$.\n\n1. **Test the base case**\nThe first allowed value is $n=2$. Then $LHS=2^2=4$ and $RHS=4(2^{2-1}-1)=4$. The base case is true.\n\n2. **Assume true for $n = k$**\nFor some integer $k\\ge2$, assume\n$\\displaystyle\\sum_{r=2}^{k}2^r=4(2^{k-1}-1)$.\n\n3. **Prove true for $n = k + 1$**\nThe next term is $2^{k+1}$, and the target right side is $4(2^k-1)$.\nUsing the assumption,\n$\\begin{align*}\\sum_{r=2}^{k+1}2^r&=\\sum_{r=2}^{k}2^r+2^{k+1}\\\\&=4(2^{k-1}-1)+2^{k+1}\\\\&=2^{k+1}-4+2^{k+1}\\\\&=2^{k+2}-4\\\\&=4(2^k-1).\\end{align*}$\n\n4. **State the conclusion**\nThe statement holds for $n=2$, and its truth for $n=k$ implies its truth for $n=k+1$. Therefore, by mathematical induction, it holds for every integer $n\\ge2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove by mathematical induction that $\\displaystyle\\sum_{r=1}^{n}\\frac{3}{r(r+1)}=\\frac{3n}{n+1}$ for every integer $n\\ge1$.",
+    "solution_text": "1. **Test the base case**\nFor $n=1$, $LHS=3/(1\\times2)=3/2$ and $RHS=3/(1+1)=3/2$. The base case is true.\n\n2. **Assume true for $n = k$**\nFor some integer $k\\ge1$, assume\n$\\displaystyle\\sum_{r=1}^{k}\\frac{3}{r(r+1)}=\\frac{3k}{k+1}$.\n\n3. **Prove true for $n = k + 1$**\nThe next term is $\\frac{3}{(k+1)(k+2)}$, and the target right side is $\\frac{3(k+1)}{k+2}$.\nUsing the assumption,\n$\\begin{align*}\\sum_{r=1}^{k+1}\\frac{3}{r(r+1)}&=\\frac{3k}{k+1}+\\frac{3}{(k+1)(k+2)}\\\\&=\\frac{3k(k+2)+3}{(k+1)(k+2)}\\\\&=\\frac{3(k^2+2k+1)}{(k+1)(k+2)}\\\\&=\\frac{3(k+1)^2}{(k+1)(k+2)}\\\\&=\\frac{3(k+1)}{k+2}.\\end{align*}$\n\n4. **State the conclusion**\nThe statement holds for $n=1$, and its truth for $n=k$ implies its truth for $n=k+1$. Therefore, by mathematical induction, it holds for every integer $n\\ge1$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove by mathematical induction that $4+16+36+\\dots+4n^2=\\frac{2n(n+1)(2n+1)}{3}$ for every integer $n\\ge1$.",
+    "solution_text": "1. **Test the base case**\nFor $n=1$, $LHS=4$ and $RHS=2(1)(2)(3)/3=4$. The base case is true.\n\n2. **Assume true for $n = k$**\nFor some integer $k\\ge1$, assume\n$4+16+\\dots+4k^2=\\frac{2k(k+1)(2k+1)}{3}$.\n\n3. **Prove true for $n = k + 1$**\nThe next term is $4(k+1)^2$. Replacing every $n$ in the closed formula by $k+1$ gives the target $\\frac{2(k+1)(k+2)(2k+3)}{3}$.\nUsing the assumption and taking out the common factor $k+1$,\n$\\begin{align*}LHS&=\\frac{2k(k+1)(2k+1)}{3}+4(k+1)^2\\\\&=\\frac{2(k+1)}{3}\\left[k(2k+1)+6(k+1)\\right]\\\\&=\\frac{2(k+1)}{3}(2k^2+7k+6)\\\\&=\\frac{2(k+1)(k+2)(2k+3)}{3}\\\\&=RHS.\\end{align*}$\n\n4. **State the conclusion**\nThe statement holds for $n=1$, and its truth for $n=k$ implies its truth for $n=k+1$. Therefore, by mathematical induction, it holds for every integer $n\\ge1$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove by mathematical induction that $3(1!)+6(2!)+9(3!)+\\dots+3n(n!)=3\\left((n+1)!-1\\right)$ for every integer $n\\ge1$.",
+    "solution_text": "1. **Test the base case**\nFor $n=1$, $LHS=3(1!)=3$ and $RHS=3(2!-1)=3$. The base case is true.\n\n2. **Assume true for $n = k$**\nFor some integer $k\\ge1$, assume\n$3(1!)+6(2!)+\\dots+3k(k!)=3\\left((k+1)!-1\\right)$.\n\n3. **Prove true for $n = k + 1$**\nThe next term is $3(k+1)(k+1)!$, and the target right side is $3\\left((k+2)!-1\\right)$.\nUsing the assumption,\n$\\begin{align*}LHS&=3\\left((k+1)!-1\\right)+3(k+1)(k+1)!\\\\&=3(k+1)!\\left[1+(k+1)\\right]-3\\\\&=3(k+1)!(k+2)-3\\\\&=3(k+2)!-3\\\\&=3\\left((k+2)!-1\\right)\\\\&=RHS.\\end{align*}$\n\n4. **State the conclusion**\nThe statement holds for $n=1$, and its truth for $n=k$ implies its truth for $n=k+1$. Therefore, by mathematical induction, it holds for every integer $n\\ge1$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove by mathematical induction that $3(1\\times2)+3(2\\times2^2)+\\dots+3(n\\times2^n)=6+3(n-1)2^{n+1}$ for every integer $n\\ge1$.",
+    "solution_text": "1. **Test the base case**\nFor $n=1$, $LHS=3(1\\times2)=6$ and $RHS=6+3(1-1)2^2=6$. The base case is true.\n\n2. **Assume true for $n = k$**\nFor some integer $k\\ge1$, assume\n$3(1\\times2)+\\dots+3(k\\times2^k)=6+3(k-1)2^{k+1}$.\n\n3. **Prove true for $n = k + 1$**\nThe next term is $3(k+1)2^{k+1}$, and the target right side is $6+3k2^{k+2}$.\nUsing the assumption,\n$\\begin{align*}LHS&=6+3(k-1)2^{k+1}+3(k+1)2^{k+1}\\\\&=6+3\\times2^{k+1}\\left[(k-1)+(k+1)\\right]\\\\&=6+3\\times2^{k+1}(2k)\\\\&=6+3k2^{k+2}\\\\&=RHS.\\end{align*}$\n\n4. **State the conclusion**\nThe statement holds for $n=1$, and its truth for $n=k$ implies its truth for $n=k+1$. Therefore, by mathematical induction, it holds for every integer $n\\ge1$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

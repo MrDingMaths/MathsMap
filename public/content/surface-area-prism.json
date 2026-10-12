@@ -2,22 +2,115 @@
   "skillId": "surface-area-prism",
   "atomType": "R",
   "theory": {
-    "intro": "The **surface area** of a prism is the total area of all its faces, which is the area of its net. Find the area of every face and add them. A prism has two identical end faces plus one rectangle per side of them.",
-    "facts": [
-      "Rectangular prism: $6$ rectangular faces, in three matching pairs (front and back, two sides, top and bottom).\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw (2,0) rectangle (5,2);\n\\draw (2,2) rectangle (5,4);\n\\draw (2,4) rectangle (5,6);\n\\draw (2,6) rectangle (5,8);\n\\draw (0,2) rectangle (2,4);\n\\draw (5,2) rectangle (7,4);\n\\end{tikzpicture}\n[/tikz]",
-      "Triangular prism: $2$ triangular faces plus $3$ rectangles.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw (0,0) rectangle (2,3);\n\\draw (2,0) rectangle (4,3);\n\\draw (4,0) rectangle (6,3);\n\\draw (2,3)--(3,4.5)--(4,3);\n\\draw (2,0)--(3,-1.5)--(4,0);\n\\end{tikzpicture}\n[/tikz]",
-      "Trapezoidal prism: $2$ trapezium faces plus $4$ rectangles.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.5]\n\\draw (2,0) rectangle (5,4);\n\\draw (2,4) rectangle (5,6.15);\n\\draw (2,6.15) rectangle (5,8.55);\n\\draw (2,8.55) rectangle (5,10.7);\n\\draw (2,0)--(2,4)--(0,3.2)--(0,0.8)--cycle;\n\\draw (5,0)--(5,4)--(7,3.2)--(7,0.8)--cycle;\n\\end{tikzpicture}\n[/tikz]",
-      "For a right-angled or isosceles triangular face, a slant edge is often not given — find it with Pythagoras' theorem before working out the rectangles.",
-      "An **open** container (no lid) leaves one face off, so add only the faces that are actually there.",
-      "Keep every length in the same unit; surface area is in square units ($\\text{cm}^{2}$, $\\text{m}^{2}$)."
-    ],
-    "steps": [
+"intro": "The **surface area** of a prism is the total area of all its faces, which is the area of its net. Find the area of every face and add them. A right prism has two identical end faces plus one rectangle per side of them.",
+"facts": [
+"Rectangular prism: $6$ rectangular faces, in three matching pairs (front and back, two sides, top and bottom).\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw (2,0) rectangle (5,2);\n\\draw (2,2) rectangle (5,3);\n\\draw (2,3) rectangle (5,5);\n\\draw (2,5) rectangle (5,6);\n\\draw (0,2) rectangle (2,3);\n\\draw (5,2) rectangle (7,3);\n\\end{tikzpicture}\n[/tikz]",
+"Triangular prism: $2$ triangular faces plus $3$ rectangles.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw (0,0) rectangle (2,3);\n\\draw (2,0) rectangle (4,3);\n\\draw (4,0) rectangle (6,3);\n\\draw (2,3)--(3,{3+sqrt(3)})--(4,3);\n\\draw (2,0)--(3,{-sqrt(3)})--(4,0);\n\\end{tikzpicture}\n[/tikz]",
+"Trapezoidal prism: $2$ trapezium faces plus $4$ rectangles.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.5]\n\\draw (2,0) rectangle (5,4);\n\\draw (2,4) rectangle (5,6.15);\n\\draw (2,6.15) rectangle (5,8.55);\n\\draw (2,8.55) rectangle (5,10.7);\n\\draw (2,0)--(2,4)--(0,3.2)--(0,0.8)--cycle;\n\\draw (5,0)--(5,4)--(7,3.2)--(7,0.8)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+"For a right-angled or isosceles triangular face, a slant edge is often not given — find it with Pythagoras' theorem before working out the rectangles.",
+"An **open** container (no lid) leaves one face off, so add only the faces that are actually there.",
+"Keep every length in the same unit; surface area is in square units ($\\text{cm}^{2}$, $\\text{m}^{2}$)."
+],
+"steps": [
       "Identify every face of the prism.",
       "If a slant edge is unknown, find it using Pythagoras' theorem.",
       "Find the area of each face.",
       "Add the areas of all the faces."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Calculate the surface area of a closed rectangular prism measuring $9\\text{ cm}$ by $5\\text{ cm}$ by $2\\text{ cm}$.",
+    "solution_text": "Front and back:\n$\\begin{align*}A_1&=(9\\times2)\\times2\\\\&=36\\text{ cm}^2\\end{align*}$\nSides:\n$\\begin{align*}A_2&=(5\\times2)\\times2\\\\&=20\\text{ cm}^2\\end{align*}$\nTop and bottom:\n$\\begin{align*}A_3&=(9\\times5)\\times2\\\\&=90\\text{ cm}^2\\end{align*}$\n$\\begin{align*}\\text{SA}&=36+20+90\\\\&=146\\text{ cm}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Calculate the surface area of a cube with side length $3\\text{ cm}$.",
+    "solution_text": "The cube has six identical square faces.\n$\\begin{align*}\\text{SA}&=6\\times3^2\\\\&=6\\times9\\\\&=54\\text{ cm}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A triangular prism is $11\\text{ cm}$ long. Its right-angled cross-section is shown. Calculate its surface area.\n[tikz]\n\\begin{tikzpicture}[x=4mm,y=4mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0)--(8,0)--(0,6)--cycle;\n\\draw (0.6,0)--(0.6,0.6)--(0,0.6);\n\\path (4,0) node[below] {$8\\text{ cm}$};\n\\path (0,3) node[left] {$6\\text{ cm}$};\n\\path (4,3) node[above right] {$10\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Two triangular ends:\n$\\begin{align*}A_1&=2\\times\\frac12\\times8\\times6\\\\&=48\\text{ cm}^2\\end{align*}$\nThree rectangles:\n$\\begin{align*}A_2&=8\\times11=88\\text{ cm}^2\\\\A_3&=6\\times11=66\\text{ cm}^2\\\\A_4&=10\\times11=110\\text{ cm}^2\\end{align*}$\n$\\begin{align*}\\text{SA}&=48+88+66+110\\\\&=312\\text{ cm}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A triangular prism is $9\\text{ cm}$ long. Its isosceles cross-section has base $12\\text{ cm}$, perpendicular height $8\\text{ cm}$ and two equal sides of $10\\text{ cm}$. Calculate its surface area.\n[tikz]\n\\begin{tikzpicture}[x=3mm,y=3mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0)--(12,0)--(6,8)--cycle;\n\\draw[dashed] (6,0)--(6,8);\n\\draw (6,0.7)--(6.7,0.7)--(6.7,0);\n\\path (6,0) node[below] {$12\\text{ cm}$};\n\\path (6,4) node[right] {$8\\text{ cm}$};\n\\path (3,4) node[above left] {$10\\text{ cm}$};\n\\path (9,4) node[above right] {$10\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Two triangular ends:\n$\\begin{align*}A_1&=2\\times\\frac12\\times12\\times8\\\\&=96\\text{ cm}^2\\end{align*}$\nBottom rectangle:\n$\\begin{align*}A_2&=12\\times9\\\\&=108\\text{ cm}^2\\end{align*}$\nTwo equal side rectangles:\n$\\begin{align*}A_3&=(10\\times9)\\times2\\\\&=180\\text{ cm}^2\\end{align*}$\n$\\begin{align*}\\text{SA}&=96+108+180\\\\&=384\\text{ cm}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A triangular prism is $4\\text{ cm}$ long. Its right-angled cross-section is shown. Find $x$, then calculate the surface area.\n[tikz]\n\\begin{tikzpicture}[x=2.5mm,y=2.5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0)--(15,0)--(0,8)--cycle;\n\\draw (0.8,0)--(0.8,0.8)--(0,0.8);\n\\path (7.5,0) node[below] {$15\\text{ cm}$};\n\\path (0,4) node[left] {$8\\text{ cm}$};\n\\path (7.5,4) node[above right] {$x$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{align*}x^2&=15^2+8^2\\\\x^2&=289\\\\x&=17\\text{ cm}\\end{align*}$\nTwo triangular ends:\n$A_1=2\\times\\frac12\\times15\\times8=120\\text{ cm}^2$\nThree rectangles:\n$\\begin{align*}A_2&=15\\times4=60\\text{ cm}^2\\\\A_3&=8\\times4=32\\text{ cm}^2\\\\A_4&=17\\times4=68\\text{ cm}^2\\end{align*}$\n$\\begin{align*}\\text{SA}&=120+60+32+68\\\\&=280\\text{ cm}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A triangular prism is $8\\text{ cm}$ long. Its right-angled cross-section is shown. Find the shorter side $x$, then calculate the surface area.\n[tikz]\n\\begin{tikzpicture}[x=3mm,y=3mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0)--(12,0)--(0,5)--cycle;\n\\draw (0.7,0)--(0.7,0.7)--(0,0.7);\n\\path (6,0) node[below] {$x$};\n\\path (0,2.5) node[left] {$5\\text{ cm}$};\n\\path (6,2.5) node[above right] {$13\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The unknown is a shorter side.\n$\\begin{align*}x^2+5^2&=13^2\\\\x^2&=13^2-5^2\\\\x^2&=144\\\\x&=12\\text{ cm}\\end{align*}$\nTwo triangular ends:\n$A_1=2\\times\\frac12\\times12\\times5=60\\text{ cm}^2$\nThree rectangles:\n$\\begin{align*}A_2&=12\\times8=96\\text{ cm}^2\\\\A_3&=5\\times8=40\\text{ cm}^2\\\\A_4&=13\\times8=104\\text{ cm}^2\\end{align*}$\n$\\begin{align*}\\text{SA}&=60+96+40+104\\\\&=300\\text{ cm}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A triangular prism is $7\\text{ cm}$ long. Its isosceles cross-section is shown. Find the equal sloping side length $x$, then calculate the surface area.\n[tikz]\n\\begin{tikzpicture}[x=3.5mm,y=3.5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0)--(6,0)--(3,4)--cycle;\n\\draw[dashed] (3,0)--(3,4);\n\\draw (3,0.5)--(3.5,0.5)--(3.5,0);\n\\path (3,0) node[below] {$6\\text{ cm}$};\n\\path (3,6) node[above,draw=none,fill=none] (HeightLabel) {$4\\text{ cm}$};\n\\draw[->,shorten <=1mm] (HeightLabel.south)--(3,2.8);\n\\path (1.5,2) node[above left] {$x$};\n\\path (4.5,2) node[above right] {$x$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The perpendicular height halves the base, giving $3\\text{ cm}$ on each side.\n$\\begin{align*}x^2&=3^2+4^2\\\\x^2&=25\\\\x&=5\\text{ cm}\\end{align*}$\nTwo triangular ends:\n$A_1=2\\times\\frac12\\times6\\times4=24\\text{ cm}^2$\nBottom rectangle:\n$A_2=6\\times7=42\\text{ cm}^2$\nTwo sloping rectangles:\n$A_3=(5\\times7)\\times2=70\\text{ cm}^2$\n$\\begin{align*}\\text{SA}&=24+42+70\\\\&=136\\text{ cm}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An open box has a rectangular base $10\\text{ cm}$ by $7\\text{ cm}$ and height $3\\text{ cm}$. Calculate the total area of its five faces.",
+    "solution_text": "There is no lid. Count the base and four sides.\n$\\begin{align*}A_{\\text{base}}&=10\\times7=70\\text{ cm}^2\\\\A_{\\text{long sides}}&=(10\\times3)\\times2=60\\text{ cm}^2\\\\A_{\\text{short sides}}&=(7\\times3)\\times2=42\\text{ cm}^2\\end{align*}$\n$\\begin{align*}\\text{SA}&=70+60+42\\\\&=172\\text{ cm}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A closed trapezoidal prism is $7\\text{ cm}$ long. Its cross-section is shown. Calculate its surface area.\n[tikz]\n\\begin{tikzpicture}[x=3mm,y=3mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw (0,0)--(14,0)--(11,4)--(3,4)--cycle;\n\\draw[dashed] (3,0)--(3,4);\n\\draw (3,0.6)--(3.6,0.6)--(3.6,0);\n\\path (7,0) node[below] {$14\\text{ cm}$};\n\\path (7,4) node[above] {$8\\text{ cm}$};\n\\path (3,2) node[right] {$4\\text{ cm}$};\n\\path (1.5,2) node[left] {$5\\text{ cm}$};\n\\path (12.5,2) node[right] {$5\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Two trapezium ends:\n$\\begin{align*}A_1&=2\\times\\frac12(14+8)\\times4\\\\&=88\\text{ cm}^2\\end{align*}$\nBottom, top and two sloping rectangles:\n$\\begin{align*}A_2&=14\\times7=98\\text{ cm}^2\\\\A_3&=8\\times7=56\\text{ cm}^2\\\\A_4&=(5\\times7)\\times2=70\\text{ cm}^2\\end{align*}$\n$\\begin{align*}\\text{SA}&=88+98+56+70\\\\&=312\\text{ cm}^2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A book measures $22\\text{ cm}$ by $16\\text{ cm}$ by $3\\text{ cm}$. Plastic covers all six faces. Find the area needed for $250$ books, in square metres. Ignore overlaps and waste.",
+    "solution_text": "For one book:\n$\\begin{align*}A_1&=(22\\times3)\\times2=132\\text{ cm}^2\\\\A_2&=(16\\times3)\\times2=96\\text{ cm}^2\\\\A_3&=(22\\times16)\\times2=704\\text{ cm}^2\\\\\\text{SA}&=132+96+704\\\\&=932\\text{ cm}^2\\end{align*}$\nFor all books:\n$\\begin{align*}A&=932\\times250\\\\&=233000\\text{ cm}^2\\end{align*}$\nSince $1\\text{ m}^2=10000\\text{ cm}^2$:\n$233000\\div10000=23.3\\text{ m}^2$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A closed rectangular prism has base dimensions $9\\text{ cm}$ by $4\\text{ cm}$ and height $x\\text{ cm}$. Its surface area is $228\\text{ cm}^2$. Find $x$.",
+    "solution_text": "Add the two bases and four side faces.\n$\\begin{align*}228&=2(9\\times4)+2(9x)+2(4x)\\\\228&=72+26x\\\\26x&=156\\\\x&=6\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A closed triangular prism has an isosceles cross-section with base $12\\text{ cm}$, perpendicular height $8\\text{ cm}$ and two sloping sides of $10\\text{ cm}$. Its surface area is $288\\text{ cm}^2$. Find its length $x\\text{ cm}$.",
+    "solution_text": "Two triangular ends:\n$A_{\\text{ends}}=2\\times\\frac12\\times12\\times8=96\\text{ cm}^2$\nThe three rectangles have areas $12x$, $10x$ and $10x$.\n$\\begin{align*}288&=96+12x+10x+10x\\\\288&=96+32x\\\\32x&=192\\\\x&=6\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A closed rectangular storage crate measures $1.2\\text{ m}$ by $1\\text{ m}$ by $0.5\\text{ m}$. All six faces are painted. A tin covers $2\\text{ m}^2$ and costs $\\$9$. Find the total cost of the tins needed.",
+    "solution_text": "$\\begin{align*}A_1&=(1.2\\times0.5)\\times2=1.2\\text{ m}^2\\\\A_2&=(1\\times0.5)\\times2=1\\text{ m}^2\\\\A_3&=(1.2\\times1)\\times2=2.4\\text{ m}^2\\\\\\text{SA}&=1.2+1+2.4\\\\&=4.6\\text{ m}^2\\end{align*}$\n$4.6\\div2=2.3$\nBuy three whole tins.\n$\\text{Cost}=3\\times9=\\$27$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -62,37 +155,37 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "This triangular prism has an isosceles cross-section.\nFirst use Pythagoras' theorem to find the slant length $x$, then calculate the surface area.\n[tikz]% mathsmap-solid {\"version\":1,\"kind\":\"polyhedron\",\"model\":{\"version\":1,\"kind\":\"polyhedron\",\"vertices\":{\"A\":[0,0,0],\"B\":[8,0,0],\"C\":[4,0,3],\"A2\":[0,10,0],\"B2\":[8,10,0],\"C2\":[4,10,3]},\"faces\":[[\"C\",\"A\",\"B\"],[\"B\",\"A\",\"A2\",\"B2\"],[\"C\",\"A\",\"A2\",\"C2\"],[\"C\",\"B\",\"B2\",\"C2\"],[\"C2\",\"A2\",\"B2\"]],\"view\":{\"right\":[-0.4999999999999998,0.8660254037844387,0],\"up\":[-0.29619813272602397,-0.17101007166283433,0.9396926207859083],\"toward\":[0.8137976813493737,0.46984631039295394,0.3420201433256688]}}}\n\n\\tdplotsetmaincoords{70}{120}\n\\begin{tikzpicture}[every node/.style={font=\\large}, tdplot_main_coords, scale=0.5]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (8,0,0);\n\\coordinate (C) at (4,0,3);\n\\coordinate (A2) at (0,10,0);\n\\coordinate (B2) at (8,10,0);\n\\coordinate (C2) at (4,10,3);\n\\draw[dashed] (A)--(B);\n\\draw (B)--(C);\n\\draw[dashed] (C)--(A);\n\\draw (A2)--(B2);\n\\draw (B2)--(C2);\n\\draw (C2)--(A2);\n\\draw (B)--(B2);\n\\draw (C)--(C2);\n\\draw[dashed] (A)--(A2);\n\\draw[dashed] (4,0,0)--(C) node[pos=0.9,right] {$3\\text{ cm}$};\n\\path (A)--(B) node[midway,below] {$8\\text{ cm}$};\n\\path (A)--(C) node[pos=0.2,left] {$x$};\n\\path (B)--(B2) node[midway,below right] {$10\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "sa-isosceles-triangular-prism",
         "solution_text": "The height meets the base at its midpoint, so half the base is $4$ cm.\n$x^{2} = 4^{2} + 3^{2}$\n$= 25$\n$x = 5\\text{ cm}$\n$A_1 = 2\\times\\frac{1}{2}\\times 8\\times 3$\n$= 24\\text{ cm}^{2}$\n$A_2 = 8\\times 10$\n$= 80\\text{ cm}^{2}$\n$A_3 = (5\\times 10)\\times 2$\n$= 100\\text{ cm}^{2}$\n$\\text{SA} = A_1 + A_2 + A_3$\n$= 204\\text{ cm}^{2}$"
       },
-      {
+{
         "question_text": "This wedge is a triangular prism with a right-angled cross-section.\nFirst use Pythagoras' theorem to find the sloping length $x$, then calculate the surface area.\n[tikz]% mathsmap-solid {\"version\":1,\"kind\":\"polyhedron\",\"model\":{\"version\":1,\"kind\":\"polyhedron\",\"vertices\":{\"A\":[0,0,0],\"B\":[12,0,0],\"C\":[0,0,5],\"A2\":[0,6,0],\"B2\":[12,6,0],\"C2\":[0,6,5]},\"faces\":[[\"C\",\"A\",\"B\"],[\"B\",\"A\",\"A2\",\"B2\"],[\"C\",\"A\",\"A2\",\"C2\"],[\"C\",\"B\",\"B2\",\"C2\"],[\"C2\",\"A2\",\"B2\"]],\"view\":{\"right\":[-0.4999999999999998,0.8660254037844387,0],\"up\":[-0.29619813272602397,-0.17101007166283433,0.9396926207859083],\"toward\":[0.8137976813493737,0.46984631039295394,0.3420201433256688]}}}\n\n\\tdplotsetmaincoords{70}{120}\n\\begin{tikzpicture}[every node/.style={font=\\large}, tdplot_main_coords, scale=0.45]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (12,0,0);\n\\coordinate (C) at (0,0,5);\n\\coordinate (A2) at (0,6,0);\n\\coordinate (B2) at (12,6,0);\n\\coordinate (C2) at (0,6,5);\n\\draw[dashed] (A)--(B);\n\\draw (B)--(C);\n\\draw[dashed] (C)--(A);\n\\draw (B2)--(C2);\n\\draw (A2)--(B2);\n\\draw (A2)--(C2);\n\\draw (B)--(B2);\n\\draw (C)--(C2);\n\\draw[dashed] (A)--(A2);\n\\path (A)--(B) node[midway,below] {$12\\text{ cm}$};\n\\path (A)--(C) node[midway,above left] {$5\\text{ cm}$};\n\\path (B)--(C) node[pos=0.5,right] {$x$};\n\\path (B)--(B2) node[midway,below right] {$6\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "sa-triangular-prism-hypotenuse",
         "solution_text": "$x^{2} = 12^{2} + 5^{2}$\n$= 169$\n$x = 13\\text{ cm}$\n$A_1 = 2\\times\\frac{1}{2}\\times 12\\times 5$\n$= 60\\text{ cm}^{2}$\n$A_2 = 12\\times 6$\n$= 72\\text{ cm}^{2}$\n$A_3 = 5\\times 6$\n$= 30\\text{ cm}^{2}$\n$A_4 = 13\\times 6$\n$= 78\\text{ cm}^{2}$\n$\\text{SA} = A_1 + A_2 + A_3 + A_4$\n$= 240\\text{ cm}^{2}$"
       },
-      {
-        "question_text": "This box is open at the top.\nCalculate the total area of the five faces.\n[tikz]% mathsmap-solid {\"version\":1,\"kind\":\"polyhedron\",\"model\":{\"version\":1,\"kind\":\"polyhedron\",\"vertices\":{\"A\":[0,0,0],\"B\":[6,0,0],\"C\":[6,4,0],\"D\":[0,4,0],\"E\":[0,0,5],\"F\":[6,0,5],\"G\":[6,4,5],\"H\":[0,4,5]},\"faces\":[[\"D\",\"A\",\"B\",\"C\"],[\"B\",\"A\",\"E\",\"F\"],[\"D\",\"A\",\"E\",\"H\"],[\"C\",\"B\",\"F\",\"G\"],[\"D\",\"C\",\"G\",\"H\"],[\"H\",\"E\",\"F\",\"G\"]],\"view\":{\"right\":[-0.4999999999999998,0.8660254037844387,0],\"up\":[-0.29619813272602397,-0.17101007166283433,0.9396926207859083],\"toward\":[0.8137976813493737,0.46984631039295394,0.3420201433256688]}}}\n\n\\tdplotsetmaincoords{70}{120}\n\\begin{tikzpicture}[every node/.style={font=\\large}, tdplot_main_coords, scale=0.55]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (6,0,0);\n\\coordinate (C) at (6,4,0);\n\\coordinate (D) at (0,4,0);\n\\coordinate (E) at (0,0,5);\n\\coordinate (F) at (6,0,5);\n\\coordinate (G) at (6,4,5);\n\\coordinate (H) at (0,4,5);\n\\draw[dashed] (A)--(B);\n\\draw (B)--(F);\n\\draw (F)--(E);\n\\draw[dashed] (E)--(A);\n\\draw (B)--(C);\n\\draw (C)--(G);\n\\draw (G)--(F);\n\\draw[dashed] (A)--(D);\n\\draw (D)--(C);\n\\draw (D)--(H);\n\n\n\\draw (E)--(H);\n\\draw (H)--(G);\n\\path (A)--(B) node[midway,below] {$6\\text{ cm}$};\n\\path (B)--(C) node[midway,below right] {$4\\text{ cm}$};\n\\path (B)--(F) node[midway,right] {$5\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "This box is open at the top.\nCalculate the total area of the five faces.\n[tikz]% mathsmap-solid {\"version\":1,\"kind\":\"polyhedron\",\"model\":{\"version\":1,\"kind\":\"polyhedron\",\"vertices\":{\"A\":[0,0,0],\"B\":[6,0,0],\"C\":[6,4,0],\"D\":[0,4,0],\"E\":[0,0,5],\"F\":[6,0,5],\"G\":[6,4,5],\"H\":[0,4,5]},\"faces\":[[\"D\",\"A\",\"B\",\"C\"],[\"B\",\"A\",\"E\",\"F\"],[\"D\",\"A\",\"E\",\"H\"],[\"C\",\"B\",\"F\",\"G\"],[\"D\",\"C\",\"G\",\"H\"]],\"view\":{\"right\":[-0.4999999999999998,0.8660254037844387,0],\"up\":[-0.29619813272602397,-0.17101007166283433,0.9396926207859083],\"toward\":[0.8137976813493737,0.46984631039295394,0.3420201433256688]}}}\n\n\\tdplotsetmaincoords{70}{120}\n\\begin{tikzpicture}[every node/.style={font=\\large}, tdplot_main_coords, scale=0.55]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (6,0,0);\n\\coordinate (C) at (6,4,0);\n\\coordinate (D) at (0,4,0);\n\\coordinate (E) at (0,0,5);\n\\coordinate (F) at (6,0,5);\n\\coordinate (G) at (6,4,5);\n\\coordinate (H) at (0,4,5);\n\\draw[dashed] (A)--(B);\n\\draw (B)--(F);\n\\draw (F)--(E);\n\\draw[dashed] (A)--(0,0,{5-6*0.3420201433256688/0.8137976813493737});\n\\draw (0,0,{5-6*0.3420201433256688/0.8137976813493737})--(E);\n\\draw (B)--(C);\n\\draw (C)--(G);\n\\draw (G)--(F);\n\\draw[dashed] (A)--(D);\n\\draw (D)--(C);\n\\draw (D)--(H);\n\n\n\\draw (E)--(H);\n\\draw (H)--(G);\n\\path (A)--(B) node[midway,below] {$6\\text{ cm}$};\n\\path (B)--(C) node[midway,below right] {$4\\text{ cm}$};\n\\path (B)--(F) node[midway,right] {$5\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "sa-open-box",
         "solution_text": "The box has no top face, so add the base and the four side faces.\n$A_1 = 6\\times 4$\n$= 24\\text{ cm}^{2}$\n$A_2 = (6\\times 5)\\times 2$\n$= 60\\text{ cm}^{2}$\n$A_3 = (4\\times 5)\\times 2$\n$= 40\\text{ cm}^{2}$\n$\\text{SA} = A_1 + A_2 + A_3$\n$= 124\\text{ cm}^{2}$"
       },
-      {
-        "question_text": "This water trough is a trapezoidal prism.\nCalculate its surface area.\n[tikz]% mathsmap-solid {\"version\":1,\"kind\":\"polyhedron\",\"model\":{\"version\":1,\"kind\":\"polyhedron\",\"vertices\":{\"A\":[0,0,0],\"B\":[10,0,0],\"C\":[8,0,1.5],\"D\":[2,0,1.5],\"A2\":[0,8,0],\"B2\":[10,8,0],\"C2\":[8,8,1.5],\"D2\":[2,8,1.5]},\"faces\":[[\"C\",\"D\",\"A\",\"B\"],[\"B\",\"A\",\"A2\",\"B2\"],[\"D\",\"A\",\"A2\",\"D2\"],[\"C\",\"B\",\"B2\",\"C2\"],[\"C2\",\"D2\",\"A2\",\"B2\"]],\"view\":{\"right\":[-0.4999999999999998,0.8660254037844387,0],\"up\":[-0.29619813272602397,-0.17101007166283433,0.9396926207859083],\"toward\":[0.8137976813493737,0.46984631039295394,0.3420201433256688]},\"openTop\":true}}\n\n\\tdplotsetmaincoords{70}{120}\n\\begin{tikzpicture}[every node/.style={font=\\large}, tdplot_main_coords, scale=0.55]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (10,0,0);\n\\coordinate (C) at (8,0,1.5);\n\\coordinate (D) at (2,0,1.5);\n\\coordinate (A2) at (0,8,0);\n\\coordinate (B2) at (10,8,0);\n\\coordinate (C2) at (8,8,1.5);\n\\coordinate (D2) at (2,8,1.5);\n\\draw (A)--(4.43092214,0,0);\n\\draw[dashed] (4.43092214,0,0)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\draw (A2)--(B2);\n\\draw (B2)--(C2);\n\\draw (C2)--(D2);\n\\draw (D2)--(A2);\n\\draw (B)--(B2);\n\\draw (C)--(C2);\n\\draw (D)--(D2);\n\\draw (A)--(0,5.93939194,0);\n\\draw[dashed] (0,5.93939194,0)--(A2);\n\\path (A)--(B) node[midway,below] {$10\\text{ cm}$};\n\\path (D)--(C) node[pos=0.7,above] {$6\\text{ cm}$};\n\\path (A)--(D) node[pos=0.3,above left] {$2.5\\text{ cm}$};\n\\draw[dashed] (2,0,0)--(D) node[pos=0.25,right] {$1.5\\text{ cm}$};\n\\path (B)--(B2) node[midway,below right] {$8\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "This solid is a closed trapezoidal prism.\nBoth sloping sides of its trapezium cross-section are $2.5\\text{ cm}$.\nCalculate its surface area.\n[tikz]% mathsmap-solid {\"version\":1,\"kind\":\"polyhedron\",\"model\":{\"version\":1,\"kind\":\"polyhedron\",\"vertices\":{\"A\":[0,0,0],\"B\":[10,0,0],\"C\":[8,0,1.5],\"D\":[2,0,1.5],\"A2\":[0,8,0],\"B2\":[10,8,0],\"C2\":[8,8,1.5],\"D2\":[2,8,1.5]},\"faces\":[[\"C\",\"D\",\"A\",\"B\"],[\"B\",\"A\",\"A2\",\"B2\"],[\"D\",\"A\",\"A2\",\"D2\"],[\"C\",\"B\",\"B2\",\"C2\"],[\"C\",\"D\",\"D2\",\"C2\"],[\"C2\",\"D2\",\"A2\",\"B2\"]],\"view\":{\"right\":[-0.4999999999999998,0.8660254037844387,0],\"up\":[-0.29619813272602397,-0.17101007166283433,0.9396926207859083],\"toward\":[0.8137976813493737,0.46984631039295394,0.3420201433256688]},\"openTop\":false}}\n\n\\tdplotsetmaincoords{70}{120}\n\\begin{tikzpicture}[every node/.style={font=\\large}, tdplot_main_coords, scale=0.55]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (10,0,0);\n\\coordinate (C) at (8,0,1.5);\n\\coordinate (D) at (2,0,1.5);\n\\coordinate (A2) at (0,8,0);\n\\coordinate (B2) at (10,8,0);\n\\coordinate (C2) at (8,8,1.5);\n\\coordinate (D2) at (2,8,1.5);\n\\draw[dashed] (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw[dashed] (D)--(A);\n\\draw (A2)--(B2);\n\\draw (B2)--(C2);\n\\draw (C2)--(D2);\n\\draw (D2)--(A2);\n\\draw (B)--(B2);\n\\draw (C)--(C2);\n\\draw (D)--(D2);\n\\draw[dashed] (A)--(A2);\n\\path (A)--(B) node[midway,below,yshift=-6mm,draw=none,fill=none] (BaseLabel) {$10\\text{ cm}$};\n\\draw[->] (BaseLabel.north)--(5,0,0);\n\\path[tdplot_screen_coords] (-3.1,1.5) node[anchor=south,font=\\fontsize{10}{12}\\selectfont,draw=none,fill=none] (TopLabel) {$6\\text{ cm}$};\n\\draw[->,shorten <=1mm] (TopLabel.south)--(6.2,0,1.5);\n\\path[tdplot_screen_coords] (0,1.7) node[anchor=south west,font=\\fontsize{10}{12}\\selectfont,draw=none,fill=none] (SlantLabel) {$2.5\\text{ cm}$};\n\\draw[->,shorten <=1mm] (SlantLabel.south west)--(0.6,0,0.45);\n\\draw[dashed] (2,0,0)--(D);\n\\draw (2.35,0,0)--(2.35,0,0.35)--(2,0,0.35);\n\\coordinate (HeightMid) at (2,0,0.75);\n\\path[tdplot_screen_coords] (-6.5,-0.5) node[anchor=east,draw=none,fill=none] (HeightLabel) {$1.5\\text{ cm}$};\n\\draw[->,tdplot_screen_coords] (HeightLabel.east)--(HeightMid);\n\\path (B)--(B2) node[midway,below right,yshift=-5mm,draw=none,fill=none] (LengthLabel) {$8\\text{ cm}$};\n\\draw[->] (LengthLabel.north west)--(10,4,0);\n\\end{tikzpicture}\n[/tikz]",
         "structure": "sa-trapezoidal-prism",
         "solution_text": "$A_1 = 2\\times\\frac{1}{2}(10+6)\\times 1.5$\n$= 24\\text{ cm}^{2}$\n$A_2 = 10\\times 8$\n$= 80\\text{ cm}^{2}$\n$A_3 = 6\\times 8$\n$= 48\\text{ cm}^{2}$\n$A_4 = (2.5\\times 8)\\times 2$\n$= 40\\text{ cm}^{2}$\n$\\text{SA} = A_1 + A_2 + A_3 + A_4$\n$= 192\\text{ cm}^{2}$"
       },
-      {
-        "question_text": "A carton is a rectangular prism $60$ cm long, $40$ cm wide and $30$ cm high.\nCalculate its surface area, then convert your answer to square metres.\n[tikz]% mathsmap-solid {\"version\":1,\"kind\":\"polyhedron\",\"model\":{\"version\":1,\"kind\":\"polyhedron\",\"vertices\":{\"A\":[0,0,0],\"B\":[60,0,0],\"C\":[60,40,0],\"D\":[0,40,0],\"E\":[0,0,30],\"F\":[60,0,30],\"G\":[60,40,30],\"H\":[0,40,30]},\"faces\":[[\"D\",\"A\",\"B\",\"C\"],[\"B\",\"A\",\"E\",\"F\"],[\"D\",\"A\",\"E\",\"H\"],[\"C\",\"B\",\"F\",\"G\"],[\"D\",\"C\",\"G\",\"H\"],[\"H\",\"E\",\"F\",\"G\"]],\"view\":{\"right\":[-0.4999999999999998,0.8660254037844387,0],\"up\":[-0.29619813272602397,-0.17101007166283433,0.9396926207859083],\"toward\":[0.8137976813493737,0.46984631039295394,0.3420201433256688]}}}\n\n\\tdplotsetmaincoords{70}{120}\n\\begin{tikzpicture}[every node/.style={font=\\large}, tdplot_main_coords, scale=0.07]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (60,0,0);\n\\coordinate (C) at (60,40,0);\n\\coordinate (D) at (0,40,0);\n\\coordinate (E) at (0,0,30);\n\\coordinate (F) at (60,0,30);\n\\coordinate (G) at (60,40,30);\n\\coordinate (H) at (0,40,30);\n\\draw[dashed] (E)--(A);\n\\draw (C)--(G);\n\\path (C)--(G) node[midway,right] {$30\\text{ cm}$};\n\\draw (E)--(F);\n\\draw (F)--(G);\n\\draw (G)--(H);\n\\draw (H)--(E);\n\\draw[dashed] (A)--(D);\n\\draw (D)--(C);\n\\draw (D)--(H);\n\\draw[dashed] (A)--(B);\n\\path (A)--(B) node[midway,below] {$60\\text{ cm}$};\n\\draw (B)--(C);\n\\path (B)--(C) node[midway,below right] {$40\\text{ cm}$};\n\\draw (B)--(F);\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "sa-rectangular-prism",
-        "solution_text": "$A_1 = (60\\times 30)\\times 2$\n$= 3600\\text{ cm}^{2}$\n$A_2 = (40\\times 30)\\times 2$\n$= 2400\\text{ cm}^{2}$\n$A_3 = (60\\times 40)\\times 2$\n$= 4800\\text{ cm}^{2}$\n$\\text{SA} = 3600 + 2400 + 4800$\n$= 10800\\text{ cm}^{2}$\n$10800\\div 10000 = 1.08\\text{ m}^{2}$"
+{
+        "question_text": "A book measuring $24\\text{ cm}$ long, $18\\text{ cm}$ wide and $2\\text{ cm}$ thick is covered in plastic.\nWhat area of plastic is needed to cover $500$ identical books? Convert your answer to square metres.",
+        "structure": "sa-multiple-rectangular-prisms-covering-conversion",
+        "solution_text": "For one book:\n$A_1 = (24\\times 2)\\times 2$\n$= 96\\text{ cm}^{2}$\n$A_2 = (18\\times 2)\\times 2$\n$= 72\\text{ cm}^{2}$\n$A_3 = (24\\times 18)\\times 2$\n$= 864\\text{ cm}^{2}$\n$\\text{SA} = 96 + 72 + 864$\n$= 1032\\text{ cm}^{2}$\nArea of plastic for $500$ books:\n$1032\\times 500 = 516000\\text{ cm}^{2}$\n$516000\\div 10000 = 51.6\\text{ m}^{2}$"
       },
-      {
+{
         "question_text": "This triangular prism has a right-angled cross-section.\nThe longest side of the triangle is $10$ cm and one shorter side is $6$ cm.\nFirst find the other shorter side $x$, then calculate the surface area.\n[tikz]% mathsmap-solid {\"version\":1,\"kind\":\"polyhedron\",\"model\":{\"version\":1,\"kind\":\"polyhedron\",\"vertices\":{\"A\":[0,0,0],\"B\":[8,0,0],\"C\":[0,0,6],\"A2\":[0,9,0],\"B2\":[8,9,0],\"C2\":[0,9,6]},\"faces\":[[\"C\",\"A\",\"B\"],[\"B\",\"A\",\"A2\",\"B2\"],[\"C\",\"A\",\"A2\",\"C2\"],[\"C\",\"B\",\"B2\",\"C2\"],[\"C2\",\"A2\",\"B2\"]],\"view\":{\"right\":[-0.4999999999999998,0.8660254037844387,0],\"up\":[-0.29619813272602397,-0.17101007166283433,0.9396926207859083],\"toward\":[0.8137976813493737,0.46984631039295394,0.3420201433256688]}}}\n\n\\tdplotsetmaincoords{70}{120}\n\\begin{tikzpicture}[every node/.style={font=\\large}, tdplot_main_coords, scale=0.5]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (8,0,0);\n\\coordinate (C) at (0,0,6);\n\\coordinate (A2) at (0,9,0);\n\\coordinate (B2) at (8,9,0);\n\\coordinate (C2) at (0,9,6);\n\\draw[dashed] (A)--(B);\n\\draw (B)--(C);\n\\draw[dashed] (C)--(A);\n\\draw (B2)--(C2);\n\\draw (A2)--(B2);\n\\draw (A2)--(C2);\n\\draw (B)--(B2);\n\\draw (C)--(C2);\n\\draw[dashed] (A)--(A2);\n\\path (A)--(B) node[midway,below] {$x$};\n\\path (A)--(C) node[midway,above left] {$6\\text{ cm}$};\n\\path (B)--(C) node[pos=0.5,right] {$10\\text{ cm}$};\n\\path (B)--(B2) node[midway,below right] {$9\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "sa-triangular-prism-shorter-side",
         "solution_text": "Here $x$ is a shorter side, so subtract inside Pythagoras' theorem.\n$x^{2} = 10^{2} - 6^{2}$\n$= 64$\n$x = 8\\text{ cm}$\n$A_1 = 2\\times\\frac{1}{2}\\times 8\\times 6$\n$= 48\\text{ cm}^{2}$\n$A_2 = 8\\times 9$\n$= 72\\text{ cm}^{2}$\n$A_3 = 6\\times 9$\n$= 54\\text{ cm}^{2}$\n$A_4 = 10\\times 9$\n$= 90\\text{ cm}^{2}$\n$\\text{SA} = A_1 + A_2 + A_3 + A_4$\n$= 264\\text{ cm}^{2}$"
       }
-    ],
+],
     "mastery": [
       {
         "question_text": "The surface area of this rectangular prism is $376\\text{ cm}^{2}$.\nFind the value of $x$.\n[tikz]% mathsmap-solid {\"version\":1,\"kind\":\"polyhedron\",\"model\":{\"version\":1,\"kind\":\"polyhedron\",\"vertices\":{\"A\":[0,0,0],\"B\":[10,0,0],\"C\":[10,6,0],\"D\":[0,6,0],\"E\":[0,0,8],\"F\":[10,0,8],\"G\":[10,6,8],\"H\":[0,6,8]},\"faces\":[[\"D\",\"A\",\"B\",\"C\"],[\"B\",\"A\",\"E\",\"F\"],[\"D\",\"A\",\"E\",\"H\"],[\"C\",\"B\",\"F\",\"G\"],[\"D\",\"C\",\"G\",\"H\"],[\"H\",\"E\",\"F\",\"G\"]],\"view\":{\"right\":[-0.4999999999999998,0.8660254037844387,0],\"up\":[-0.29619813272602397,-0.17101007166283433,0.9396926207859083],\"toward\":[0.8137976813493737,0.46984631039295394,0.3420201433256688]}}}\n\n\\tdplotsetmaincoords{70}{120}\n\\begin{tikzpicture}[every node/.style={font=\\large}, tdplot_main_coords, scale=0.5]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (10,0,0);\n\\coordinate (C) at (10,6,0);\n\\coordinate (D) at (0,6,0);\n\\coordinate (E) at (0,0,8);\n\\coordinate (F) at (10,0,8);\n\\coordinate (G) at (10,6,8);\n\\coordinate (H) at (0,6,8);\n\\draw[dashed] (E)--(A);\n\\draw (C)--(G);\n\\path (C)--(G) node[midway,right] {$x$};\n\\draw (E)--(F);\n\\draw (F)--(G);\n\\draw (G)--(H);\n\\draw (H)--(E);\n\\draw[dashed] (A)--(D);\n\\draw (D)--(C);\n\\draw (D)--(H);\n\\draw[dashed] (A)--(B);\n\\path (A)--(B) node[midway,below] {$10\\text{ cm}$};\n\\draw (B)--(C);\n\\path (B)--(C) node[midway,below right] {$6\\text{ cm}$};\n\\draw (B)--(F);\n\\end{tikzpicture}\n[/tikz]",

@@ -2,8 +2,8 @@
   "skillId": "polynomial-roots-multiplicity",
   "atomType": "R",
   "theory": {
-        "intro": "A **repeated factor** changes what the curve does where it meets the $x$-axis. Multiplicities determine the behaviour at each root, while the sign of the leading term and whether the degree is odd or even determine the end behaviour. These features guide a sketch but do not determine a unique graph.",
-        "facts": [
+"intro": "A **repeated factor** changes what the curve does where it meets the $x$-axis. Multiplicities determine the behaviour at each root, while the sign of the leading term and whether the degree is odd or even determine the end behaviour. These features guide a sketch but do not determine a unique graph.",
+"facts": [
 "A factor to the power $1$ **cuts** the axis, crossing it like a straight line.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.4:3.8,smooth,variable=\\x,samples=70] plot ({\\x},{0.5*(\\x-1.2)+0.05*(\\x-1.2)*(\\x-1.2)*(\\x-1.2)});\n\\fill (1.2,0) circle (2pt);\n\\node[below right] at (1.2,0) {$x=a$};\n\\end{tikzpicture}\n[/tikz]",
 "A factor to the power $2$ **bounces**, touching the axis without crossing it.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->] (0,-1.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.4:3.8,smooth,variable=\\x,samples=70] plot ({\\x},{0.4*(\\x-1.2)*(\\x-1.2)});\n\\fill (1.2,0) circle (2pt);\n\\node[below right] at (1.2,0) {$x=a$};\n\\end{tikzpicture}\n[/tikz]",
 "A factor to the power $3$ **inflects**, flattening along the axis as it crosses.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.4:3.8,smooth,variable=\\x,samples=70] plot ({\\x},{0.16*(\\x-1.2)*(\\x-1.2)*(\\x-1.2)});\n\\fill (1.2,0) circle (2pt);\n\\node[below right] at (1.2,0) {$x=a$};\n\\end{tikzpicture}\n[/tikz]",
@@ -11,13 +11,49 @@
 "If the degree is **odd**, the two ends point in different directions.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.2,0)--(4.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-3.4:3.4,smooth,variable=\\x,samples=70] plot ({\\x},{0.16*\\x*\\x*\\x-1.0*\\x});\n\\end{tikzpicture}\n[/tikz]",
 "If the leading term is positive, $y\\to\\infty$ as $x\\to\\infty$; if it is negative, $y\\to-\\infty$."
 ],
-        "steps": [
+"steps": [
           "Determine the end behaviour from the leading term.",
           "Find the $y$-intercept by letting $x=0$.",
           "Find the $x$-intercepts by letting $y=0$.",
           "State the behaviour at each $x$-intercept and draw the curve."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "State the roots of $P(x)=(x+3)(x-2)^2(x+4)^3$, their multiplicities and the behaviour of the curve at each root.",
+    "solution_text": "Set each linear factor equal to zero. Its power gives the multiplicity.\n\n$x=-3$: single root; the curve cuts the axis.\n\n$x=2$: double root; the curve bounces off the axis.\n\n$x=-4$: triple root; the curve inflects along the axis as it crosses."
+  },
+  {
+    "question_text": "Write the monic polynomial in factored form with a double root at $x=-4$ and a triple root at $x=3$.",
+    "solution_text": "A root at $x=-4$ gives $(x+4)$, repeated twice. A root at $x=3$ gives $(x-3)$, repeated three times.\n\nMonic means the leading coefficient is $1$.\n\n$P(x)=(x+4)^2(x-3)^3$"
+  },
+  {
+    "question_text": "For the polynomial graph below, state whether the degree is odd or even and whether the leading term is positive or negative.\n\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,<->] (-3.2,0)--(3.2,0) node[right] {$x$};\n\\draw[black,<->] (0,-2.4)--(0,1.5) node[above] {$y$};\n\\draw[curveblue,thick,<->,domain=-2.6:2.6,samples=120,smooth,variable=\\x] plot ({\\x},{-0.18*(\\x*\\x-2)*(\\x*\\x-2)+0.7});\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Both ends point down. The ends point in the same direction, so the degree is even.\n\nThe right end points down, so the leading term is negative."
+  },
+  {
+    "question_text": "Factorise $P(x)=(x^2-16)^2$. State its roots, their multiplicities and the behaviour at each root.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}(x^2-16)^2\\\\&=[(x-4)(x+4)]^2\\\\&=(x-4)^2(x+4)^2\\end{aligned}$\n\nThe roots are $x=4$ and $x=-4$, both double roots. The curve bounces off the axis at each root.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Sketch $y=(x+2)^2(x-1)^3$, showing the intercepts and the behaviour at each root.",
+    "solution_text": "1. Determine the end behaviour.\n\nThe leading term is $x^5$. The left end points down and the right end points up.\n\n2. Find the $y$-intercept by letting $x=0$.\n\n$y=(2)^2(-1)^3=-4$\n\n3. Find the $x$-intercepts by letting $y=0$.\n\n$(x+2)^2(x-1)^3=0$, so $x=-2$ or $x=1$.\n\n4. Identify the behaviour at each root and draw the curve.\n\nBounce at $x=-2$; inflect along the axis at $x=1$.\n\n[tikz]\n\\begin{tikzpicture}[x=12mm,y=1mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,<->] (-3.2,0)--(2.5,0) node[right] {$x$};\n\\draw[black,<->] (0,-38)--(0,22) node[above] {$y$};\n\\draw[curveblue,thick,<->,domain=-2.8:2,samples=220,smooth,variable=\\x] plot ({\\x},{(\\x+2)*(\\x+2)*(\\x-1)*(\\x-1)*(\\x-1)});\n\\fill[black] (-2,0) circle (1.3pt);\n\\fill[black] (1,0) circle (1.3pt);\n\\fill[black] (0,-4) circle (1.3pt);\n\\node[above] at (-2,0) {$(-2,0)$};\n\\node[above] at (1,0) {$(1,0)$};\n\\node[below right] at (0,-4) {$(0,-4)$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Sketch $y=x^4-12x^3+36x^2$ by factorising first. Show the intercepts and the behaviour at each root.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}x^4-12x^3+36x^2\\\\&=x^2(x^2-12x+36)\\\\&=x^2(x-6)^2\\end{aligned}$\n\n1. Determine the end behaviour.\n\nThe leading term is $x^4$, so both ends point up.\n\n2. Find the $y$-intercept by letting $x=0$.\n\n$y=0^2(-6)^2=0$\n\n3. Find the $x$-intercepts by letting $y=0$.\n\n$x^2(x-6)^2=0$, so $x=0$ or $x=6$.\n\n4. Identify the behaviour at each root and draw the curve.\n\nBoth roots are double roots, so the curve bounces at each. The product of the two squares is non-negative, so the curve stays on or above the axis.\n\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=0.3mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,<->] (-1.8,0)--(7.8,0) node[right] {$x$};\n\\draw[black,<->] (0,-20)--(0,160) node[above] {$y$};\n\\draw[curveblue,thick,<->,domain=-1.5:7.5,samples=180,smooth,variable=\\x] plot ({\\x},{\\x*\\x*(\\x-6)*(\\x-6)});\n\\fill[black] (0,0) circle (1.3pt);\n\\fill[black] (6,0) circle (1.3pt);\n\\node[below left] at (0,0) {$(0,0)$};\n\\node[below] at (6,0) {$(6,0)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The polynomial graph below has leading coefficient $1$ or $-1$. Write its equation in factored form, using the least multiplicities consistent with the root behaviours shown.\n\n[tikz]\n\\begin{tikzpicture}[x=12mm,y=1mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,<->] (-2.5,0)--(3.2,0) node[right] {$x$};\n\\draw[black,<->] (0,-22)--(0,38) node[above] {$y$};\n\\draw[curveblue,thick,<->,domain=-2:2.8,samples=220,smooth,variable=\\x] plot ({\\x},{-(\\x+1)*(\\x+1)*(\\x+1)*(\\x-2)*(\\x-2)});\n\\fill[black] (-1,0) circle (1.3pt);\n\\fill[black] (2,0) circle (1.3pt);\n\\node[below] at (-1,0) {$-1$};\n\\node[below] at (2,0) {$2$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The curve inflects along the axis at $x=-1$, giving the factor $(x+1)^3$.\n\nIt bounces at $x=2$, giving the factor $(x-2)^2$.\n\nThe right end points down, so the leading coefficient is $-1$.\n\n$P(x)=-(x+1)^3(x-2)^2$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

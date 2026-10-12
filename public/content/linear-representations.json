@@ -2,80 +2,124 @@
   "skillId": "linear-representations",
   "atomType": "Cat",
   "theory": {
-        "intro": "One linear relationship can appear as a **pattern**, a **table of values**, an **equation**, a **set of coordinates**, and a **straight-line graph**. All five describe the same pairs of $x$- and $y$-values, so you can move between them and check that they agree.",
-        "facts": [
+"intro": "One linear relationship can appear as a **pattern**, a **table of values**, an **equation**, a **set of coordinates**, and a **straight-line graph**. All five describe the same pairs of $x$- and $y$-values, so you can move between them and check that they agree.",
+"facts": [
           "A table column with $x=a$ and $y=b$ is the coordinate $(a,b)$, and the same pair is one point on the graph.",
           "Representations of the same relationship give the same $y$-value for every shared $x$-value.\n\n[tikz]\n\\begin{tikzpicture}[scale=0.7]\n\\draw[->,thick] (-0.4,0)--(5.2,0) node[right] {$x$};\n\\draw[->,thick] (0,-0.4)--(0,5.2) node[above] {$y$};\n\\draw[thick,blue!70!black] (-0.3,0.2)--(4.4,4.9);\n\\fill (0,0.5) circle (2.2pt);\n\\fill (1,1.5) circle (2.2pt);\n\\fill (2,2.5) circle (2.2pt);\n\\fill (3,3.5) circle (2.2pt);\n\\end{tikzpicture}\n[/tikz]",
           "To decide whether two representations match, compare the $y$-values they give at the same $x$.",
           "One matching point is not enough: two different lines can still cross at a single shared point.\n\n[tikz]\n\\begin{tikzpicture}[scale=0.7]\n\\draw[->,thick] (-0.4,0)--(5.6,0) node[right] {$x$};\n\\draw[->,thick] (0,-0.4)--(0,5.6) node[above] {$y$};\n\\draw[thick,blue!70!black] (0,1)--(4,5);\n\\draw[thick,red!70!black] (0,4.5)--(4,1.5);\n\\fill (2,3) circle (2.2pt);\n\\node[font=\\footnotesize] at (2,3.6) {$P$};\n\\node[font=\\footnotesize,blue!70!black] at (4.6,4.9) {$\\ell_1$};\n\\node[font=\\footnotesize,red!70!black] at (4.6,1.3) {$\\ell_2$};\n\\end{tikzpicture}\n[/tikz]"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A pattern begins at $10$ when $x=1$ and decreases by $2$ each time $x$ increases by $1$. Complete the table, then choose the matching table.\n\n$\\begin{array}{c|cccc}x&1&2&3&4\\\\\\hline y&10&\\ldots&\\ldots&\\ldots\\end{array}$\n\n$A=\\begin{array}{c|cccc}x&1&2&3&4\\\\\\hline y&10&8&6&4\\end{array}$\n\n$B=\\begin{array}{c|cccc}x&1&2&3&4\\\\\\hline y&10&9&8&7\\end{array}$",
+    "solution_text": "Subtract $2$ for each increase of $1$ in $x$.\n\n$\\begin{array}{c|cccc}x&1&2&3&4\\\\\\hline y&10&8&6&4\\end{array}$\n\nTable $A$ has the same starting value and decrease.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use $y=-2x+3$ to complete the table.\n\n$\\begin{array}{c|cccc}x&0&1&2&3\\\\\\hline y&\\ldots&\\ldots&\\ldots&\\ldots\\end{array}$",
+    "solution_text": "For $x=0$:\n\n$\\begin{aligned}y&=-2(0)+3\\\\&=3\\end{aligned}$\n\nFor $x=1$:\n\n$\\begin{aligned}y&=-2(1)+3\\\\&=1\\end{aligned}$\n\nFor $x=2$:\n\n$\\begin{aligned}y&=-2(2)+3\\\\&=-1\\end{aligned}$\n\nFor $x=3$:\n\n$\\begin{aligned}y&=-2(3)+3\\\\&=-3\\end{aligned}$\n\n$\\begin{array}{c|cccc}x&0&1&2&3\\\\\\hline y&3&1&-1&-3\\end{array}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Read the marked points to complete a table for $x=0,1,2,3$. Which table matches the graph?\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{relationshipBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\begin{axis}[width=7cm,height=6cm,axis lines=middle,axis line style={black,->},xmin=-0.5,xmax=3.6,ymin=-0.8,ymax=9,xtick={0,1,2,3},ytick={0,2,4,6,8},grid=major,grid style={gridGrey},scaled ticks=false,ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$x$},ylabel={$y$}]\n\\addplot[relationshipBlue,thick,<->,domain=-0.3:3.4,samples=2] {2*x+1};\n\\addplot[black,only marks,mark=*,mark size=1.8pt] coordinates {(0,1) (1,3) (2,5) (3,7)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\n\n$A=\\begin{array}{c|cccc}x&0&1&2&3\\\\\\hline y&1&3&5&7\\end{array}$\n\n$B=\\begin{array}{c|cccc}x&0&1&2&3\\\\\\hline y&1&2&3&4\\end{array}$",
+    "solution_text": "The marked points are $(0,1)$, $(1,3)$, $(2,5)$ and $(3,7)$.\n\n$\\begin{array}{c|cccc}x&0&1&2&3\\\\\\hline y&1&3&5&7\\end{array}$\n\nTable $A$ matches every marked point.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Which equation matches the graph: $y=-2x+5$ or $y=-x+5$?\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{relationshipBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\begin{axis}[width=7cm,height=6cm,axis lines=middle,axis line style={black,->},xmin=-0.5,xmax=3.6,ymin=-2,ymax=6,xtick={0,1,2,3},ytick={-2,-1,0,1,2,3,4,5,6},grid=major,grid style={gridGrey},scaled ticks=false,ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$x$},ylabel={$y$}]\n\\addplot[relationshipBlue,thick,<->,domain=-0.3:3.3,samples=2] {-2*x+5};\n\\addplot[black,only marks,mark=*,mark size=1.8pt] coordinates {(0,5) (1,3) (2,1) (3,-1)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Both equations give $y=5$ at $x=0$. Read another marked point: $(1,3)$.\n\nFor $y=-2x+5$ at $x=1$:\n\n$\\begin{aligned}y&=-2(1)+5\\\\&=3\\end{aligned}$\n\nFor $y=-x+5$ at $x=1$:\n\n$\\begin{aligned}y&=-(1)+5\\\\&=4\\end{aligned}$\n\nThe graph matches $y=-2x+5$. Its other marked points, $(2,1)$ and $(3,-1)$, also agree with this equation.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the equation represented by the table. Check the column for $x=8$.\n\n$\\begin{array}{c|cccccc}x&0&1&2&3&4&8\\\\\\hline y&-4&-1&2&5&8&20\\end{array}$",
+    "solution_text": "For each increase of $1$ in $x$, $y$ increases by $3$. At $x=0$, $y=-4$.\n\n$y=3x-4$\n\nFor $x=8$:\n\n$\\begin{aligned}y&=3(8)-4\\\\&=20\\end{aligned}$\n\nThis agrees with the table.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the equation represented by the graph.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{relationshipBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\begin{axis}[width=7cm,height=6.5cm,axis lines=middle,axis line style={black,->},xmin=-1.5,xmax=3.5,ymin=-5,ymax=6,xtick={-1,0,1,2,3},ytick={-4,-2,0,2,4,6},grid=major,grid style={gridGrey},scaled ticks=false,ticklabel style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},xlabel={$x$},ylabel={$y$}]\n\\addplot[relationshipBlue,thick,<->,domain=-1.3:3.3,samples=2] {-2*x+2};\n\\addplot[black,only marks,mark=*,mark size=1.8pt] coordinates {(-1,4) (0,2) (1,0) (2,-2) (3,-4)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Read the marked points to make a table.\n\n$\\begin{array}{c|ccccc}x&-1&0&1&2&3\\\\\\hline y&4&2&0&-2&-4\\end{array}$\n\nFor each increase of $1$ in $x$, $y$ decreases by $2$. The graph crosses the $y$-axis at $(0,2)$.\n\n$y=-2x+2$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
-        "question_text": "Write each column of the table as a coordinate $(x,y)$.\n$\\begin{array}{c|cccc}x&0&1&2&3\\\\\\hline y&2&5&8&11\\end{array}$",
-        "structure": "read-coordinate-from-table",
-        "solution_text": "$(0,2),(1,5),(2,8),(3,11)$"
+{
+        "question_text": "A pattern begins at $6$ when $x=1$ and increases by $3$ each time $x$ increases by $1$.\nComplete the table: $\\begin{array}{c|cccc}x&1&2&3&4\\\\\\hline y&6&\\ldots&\\ldots&\\ldots\\end{array}$.",
+        "structure": "pattern-to-table",
+        "solution_text": "$6,9,12,15$ (add $3$ each step)\n$\\begin{array}{c|cccc}x&1&2&3&4\\\\\\hline y&6&9&12&15\\end{array}$"
       },
-      {
-        "question_text": "The table $\\begin{array}{c|ccc}x&0&1&2\\\\\\hline y&1&4&7\\end{array}$ describes a relationship.\nWhich coordinate set describes the same relationship: $A=\\{(0,1),(1,4),(2,7)\\}$ or $B=\\{(1,0),(4,1),(7,2)\\}$?",
-        "structure": "read-coordinate-from-table",
-        "solution_text": "$(0,1),(1,4),(2,7)$\n$A$"
+{
+        "question_text": "A pattern begins at $3$ when $x=1$ and increases by $4$ each time $x$ increases by $1$.\nWhich table describes the pattern: $A=\\begin{array}{c|ccc}x&1&2&3\\\\\\hline y&3&7&11\\end{array}$ or $B=\\begin{array}{c|ccc}x&1&2&3\\\\\\hline y&3&6&9\\end{array}$?",
+        "structure": "match-pattern-table",
+        "solution_text": "$3,7,11$ (add $4$ each step)\n$A$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=4,ymin=-3,ymax=8,xtick={-1,0,1,2,3,4},ytick={-2,0,2,4,6,8},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,<->,domain=-0.3:3.6,samples=2] {3*x-2};\\addplot[only marks,mark=*,mark size=1.8pt] coordinates {(0,-2) (1,1) (2,4) (3,7)};\\end{axis}\\end{tikzpicture}\n[/tikz]\nThe graph shows a linear relationship.\nIs $(2,4)$ one of its points?",
-        "structure": "spot-inconsistent-coordinate",
-        "solution_text": "At $x=2$, the graph shows $y=4$.\nYes, $(2,4)$ is a point on the line."
+{
+        "question_text": "A pattern begins at $8$ when $x=1$ and decreases by $2$ each time $x$ increases by $1$.\nComplete the table: $\\begin{array}{c|cccc}x&1&2&3&4\\\\\\hline y&8&\\ldots&\\ldots&\\ldots\\end{array}$.",
+        "structure": "pattern-to-table",
+        "solution_text": "$8,6,4,2$ (subtract $2$ each step)\n$\\begin{array}{c|cccc}x&1&2&3&4\\\\\\hline y&8&6&4&2\\end{array}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=5,ymin=-1,ymax=7,xtick={-1,0,1,2,3,4,5},ytick={0,1,2,3,4,5,6,7},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,<->,domain=-0.7:4.3,samples=2] {x+3};\\addplot[only marks,mark=*,mark size=1.8pt] coordinates {(0,3) (1,4) (2,5) (3,6)};\\end{axis}\\end{tikzpicture}\n[/tikz]\nDoes the table $\\begin{array}{c|cccc}x&0&1&2&3\\\\\\hline y&3&4&5&6\\end{array}$ describe the same relationship as the graph?",
         "structure": "match-table-graph",
         "solution_text": "$(0,3),(1,4),(2,5),(3,6)$\nYes; every column is a marked point on the line."
       },
-      {
+{
         "question_text": "A pattern begins at $4$ when $x=1$ and increases by $3$ each time $x$ increases by $1$.\nWhich table describes the same pattern: $A=\\begin{array}{c|cccc}x&1&2&3&4\\\\\\hline y&4&7&10&13\\end{array}$ or $B=\\begin{array}{c|cccc}x&1&2&3&4\\\\\\hline y&4&8&12&16\\end{array}$?",
         "structure": "match-pattern-table",
         "solution_text": "$4,7,10,13$ (add $3$ each step)\n$A$"
       }
-    ],
+],
     "development": [
-      {
-        "question_text": "Which coordinate set describes the equation $y=3x+1$: $A=\\{(0,1),(1,4),(2,7)\\}$ or $B=\\{(0,1),(1,3),(2,5)\\}$?",
-        "structure": "match-equation-coordinates",
-        "solution_text": "$x=1:\\ 3(1)+1=4$\n$A$"
+{
+        "question_text": "Use the equation $y=4x-1$ to complete the table: $\\begin{array}{c|ccccc}x&0&1&2&3&4\\\\\\hline y&\\ldots&\\ldots&\\ldots&\\ldots&\\ldots\\end{array}$.",
+        "structure": "equation-to-table",
+        "solution_text": "$x=0:\\ 4(0)-1=-1$\n$x=1:\\ 4(1)-1=3$\n$x=2:\\ 4(2)-1=7$\n$x=3:\\ 4(3)-1=11$\n$x=4:\\ 4(4)-1=15$\n$\\begin{array}{c|ccccc}x&0&1&2&3&4\\\\\\hline y&-1&3&7&11&15\\end{array}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=5,ymin=-3,ymax=7,xtick={-1,0,1,2,3,4,5},ytick={-2,0,2,4,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,<->,domain=-0.3:4.4,samples=2] {2*x-2};\\addplot[only marks,mark=*,mark size=1.8pt] coordinates {(0,-2) (1,0) (2,2) (3,4) (4,6)};\\end{axis}\\end{tikzpicture}\n[/tikz]\nThe equation is $y=2x-2$ and its graph is shown.\nIn the list $(0,-2),(1,0),(2,3),(3,4),(4,6)$, one coordinate does not belong.\nWhich one?",
-        "structure": "spot-inconsistent-coordinate",
-        "solution_text": "$x=2:\\ 2(2)-2=2$\n$(2,3)\\ne(2,2)$\n$(2,3)$ does not belong; the graph gives $(2,2)$."
+{
+        "question_text": "Use the equation $y=-3x+2$ to complete the table: $\\begin{array}{c|ccccc}x&0&1&2&3&4\\\\\\hline y&\\ldots&\\ldots&\\ldots&\\ldots&\\ldots\\end{array}$.",
+        "structure": "equation-to-table",
+        "solution_text": "$x=0:\\ -3(0)+2=2$\n$x=1:\\ -3(1)+2=-1$\n$x=2:\\ -3(2)+2=-4$\n$x=3:\\ -3(3)+2=-7$\n$x=4:\\ -3(4)+2=-10$\n$\\begin{array}{c|ccccc}x&0&1&2&3&4\\\\\\hline y&2&-1&-4&-7&-10\\end{array}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=4,ymin=-1,ymax=7,xtick={-1,0,1,2,3,4},ytick={0,2,4,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,<->,domain=-0.3:3.4,samples=2] {-2*x+6};\\addplot[only marks,mark=*,mark size=1.8pt] coordinates {(0,6) (1,4) (2,2) (3,0)};\\end{axis}\\end{tikzpicture}\n[/tikz]\nThe graph passes through the marked points.\nWhich equation matches it: $y=-2x+6$ or $y=-x+6$?",
         "structure": "match-equation-graph",
         "solution_text": "$x=1:\\ y=4$ on the graph\n$-2(1)+6=4,\\quad -(1)+6=5$\n$y=-2x+6$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=4,ymin=-1,ymax=10,xtick={-1,0,1,2,3,4},ytick={0,2,4,6,8,10},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,<->,domain=-0.3:3.4,samples=2] {2*x+3};\\addplot[only marks,mark=*,mark size=1.8pt] coordinates {(0,3) (1,5) (2,7) (3,9)};\\end{axis}\\end{tikzpicture}\n[/tikz]\nWhich table matches the displayed graph: $A=\\begin{array}{c|cccc}x&0&1&2&3\\\\\\hline y&3&5&7&9\\end{array}$ or $B=\\begin{array}{c|cccc}x&0&1&2&3\\\\\\hline y&3&4&5&6\\end{array}$?",
         "structure": "match-table-graph",
         "solution_text": "$(0,3),(1,5),(2,7),(3,9)$\n$A$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=4,ymin=-3,ymax=8,xtick={-1,0,1,2,3,4},ytick={-2,0,2,4,6,8},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,<->,domain=-0.3:3.6,samples=2] {3*x-2};\\addplot[only marks,mark=*,mark size=1.8pt] coordinates {(0,-2) (1,1) (2,4) (3,7)};\\end{axis}\\end{tikzpicture}\n[/tikz]\nThe pattern gives values $1,4,7$ at $x=1,2,3$; the equation is $y=3x-2$; the table is $\\begin{array}{c|cccc}x&0&1&2&3\\\\\\hline y&-2&1&4&7\\end{array}$; and the graph is shown.\nExplain why all four describe the same relationship.",
-        "structure": "check-representations-consistency",
-        "solution_text": "$x=1:\\ y=1;\\quad x=3:\\ y=7$\nThe columns $(0,-2),(1,1),(2,4),(3,7)$ satisfy $y=3x-2$ and lie on the line, and the pattern and graph give the same $y$ at each shared $x$."
+{
+        "question_text": "Find the equation represented by the table: $\\begin{array}{c|cccccc}x&0&1&2&3&4&12\\\\\\hline y&-3&1&5&9&13&45\\end{array}$.",
+        "structure": "table-to-equation",
+        "solution_text": "$y$ increases by $4$ each time $x$ increases by $1$, and $y=-3$ when $x=0$.\n$y=4x-3$\nAt $x=12$, $4(12)-3=45$, as shown in the table."
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=6,ymin=-1,ymax=6,xtick={-1,0,1,2,3,4,5,6},ytick={0,1,2,3,4,5,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,<->,domain=-0.5:5.5,samples=2] {-x+5};\\addplot[only marks,mark=*,mark size=1.8pt] coordinates {(0,5) (1,4) (2,3) (3,2) (4,1)};\\end{axis}\\end{tikzpicture}\n[/tikz]\nA learner says the table $\\begin{array}{c|cccc}x&0&1&2&3\\\\\\hline y&5&4&3&2\\end{array}$ matches the equation $y=-2x+5$ because both give $(0,5)$.\nThe graph shows the table's relationship.\nExplain the error and state the equation that actually matches.",
-        "structure": "one-point-not-enough",
-        "solution_text": "$x=1:\\ -2(1)+5=3$\n$3\\ne4$\nOne shared point is not enough. At $x=1$ the table and graph give $y=4$, but $y=-2x+5$ gives $3$.\n$y=-x+5$"
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-2,xmax=5,ymin=-10,ymax=10,xtick={-2,-1,0,1,2,3,4,5},xticklabels={-2,-1,0,1,{},3,4,5},ytick={-10,-8,-6,-4,-2,0,2,4,6,8,10},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,<->,domain=-1.4:4.4,samples=2] {-3*x+4};\\addplot[only marks,mark=*,mark size=1.8pt] coordinates {(-1,7) (0,4) (1,1) (2,-2) (3,-5) (4,-8)};\\node[anchor=north,font=\\small,fill=white,inner sep=1pt,yshift=-3pt] at (axis cs:2,0) {$2$};\\end{axis}\\end{tikzpicture}\n[/tikz]\nFind the equation represented by the graph.",
+        "structure": "graph-to-equation",
+        "solution_text": "$y=4$ when $x=0$.\nThe marked points show that $y$ decreases by $3$ each time $x$ increases by $1$.\n$y=-3x+4$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=5,ymin=-1,ymax=10,xtick={-1,0,1,2,3,4,5},ytick={0,2,4,6,8,10},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,<->,domain=-0.7:4.5,samples=2] {2*x+1};\\addplot[only marks,mark=*,mark size=1.8pt] coordinates {(0,1) (1,3) (2,5) (3,7) (4,9)};\\end{axis}\\end{tikzpicture}\n[/tikz]\nFour representations are claimed to describe one relationship: the pattern values $3,5,7,10$ at $x=1,2,3,4$; the equation $y=2x+1$; the table $\\begin{array}{c|ccccc}x&0&1&2&3&4\\\\\\hline y&1&3&5&7&9\\end{array}$; and the graph.\nOne representation is inconsistent.\nIdentify it and justify using two $x$-values.",
-        "structure": "check-representations-consistency",
-        "solution_text": "$x=3:\\ y=7;\\quad x=4:\\ y=9$\nAt $x=3$ every representation gives $y=7$, but at $x=4$ the equation, table and graph give $y=9$ while the pattern lists $10$.\nThe pattern is inconsistent; at $x=4$ it should be $9$, not $10$."
+{
+        "question_text": "Find the equation represented by the table: $\\begin{array}{c|ccccccc}x&0&1&2&3&4&-6&15\\\\\\hline y&11&6&1&-4&-9&41&-64\\end{array}$.",
+        "structure": "table-to-equation",
+        "solution_text": "$y$ decreases by $5$ each time $x$ increases by $1$, and $y=11$ when $x=0$.\n$y=-5x+11$\nAt $x=-6$, $-5(-6)+11=41$; at $x=15$, $-5(15)+11=-64$."
       }
-    ]
+]
   }
 }

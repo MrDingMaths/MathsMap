@@ -2,20 +2,57 @@
   "skillId": "trig-ratios-quadrant-forms",
   "atomType": "R",
   "theory": {
-        "intro": "Any angle of the form $180^{\\circ}\\pm A$ or $360^{\\circ}-A$ can be written using its acute **reference angle** $A$. Take the value of the trigonometric ratio at $A$ and attach the sign belonging to its quadrant.",
-        "facts": [
+"intro": "Any angle of the form $180^{\\circ}\\pm A$ or $360^{\\circ}-A$ can be written using its acute **reference angle** $A$. Take the value of the trigonometric ratio at $A$ and attach the sign belonging to its quadrant.",
+"facts": [
 "Q2 $(180^{\\circ}-A)$: $\\sin=\\sin A$, $\\cos=-\\cos A$, $\\tan=-\\tan A$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,arrows.meta}\n\\coordinate (O) at (0,0);\n\\coordinate (X) at (3,0);\n\\coordinate (Xn) at (-3,0);\n\\coordinate (P) at (140:2.4);\n\\draw[{Stealth}-{Stealth}] (-3,0)--(3,0);\n\\draw[{Stealth}-{Stealth}] (0,-3)--(0,3);\n\\node at (3.35,0) {$x$};\n\\node at (0,3.35) {$y$};\n\\draw (O) circle (2.4);\n\\draw[thick] (O)--(P);\n\\fill (P) circle (2pt);\n\\pic[draw,\"$\\theta$\",angle radius=0.75cm,angle eccentricity=2.3] {angle=X--O--P};\n\\pic[draw,\"$A$\",angle radius=0.4cm,angle eccentricity=2.5] {angle=P--O--Xn};\n\\node at (0,-3.6) {$\\theta=180^{\\circ}-A$};\n\\end{tikzpicture}\n[/tikz]",
 "Q3 $(180^{\\circ}+A)$: $\\sin=-\\sin A$, $\\cos=-\\cos A$, $\\tan=\\tan A$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,arrows.meta}\n\\coordinate (O) at (0,0);\n\\coordinate (X) at (3,0);\n\\coordinate (Xn) at (-3,0);\n\\coordinate (P) at (220:2.4);\n\\draw[{Stealth}-{Stealth}] (-3,0)--(3,0);\n\\draw[{Stealth}-{Stealth}] (0,-3)--(0,3);\n\\node at (3.35,0) {$x$};\n\\node at (0,3.35) {$y$};\n\\draw (O) circle (2.4);\n\\draw[thick] (O)--(P);\n\\fill (P) circle (2pt);\n\\pic[draw,\"$\\theta$\",angle radius=0.75cm,angle eccentricity=2.3] {angle=X--O--P};\n\\pic[draw,\"$A$\",angle radius=0.4cm,angle eccentricity=2.5] {angle=Xn--O--P};\n\\node at (0,-3.6) {$\\theta=180^{\\circ}+A$};\n\\end{tikzpicture}\n[/tikz]",
 "Q4 $(360^{\\circ}-A)$: $\\sin=-\\sin A$, $\\cos=\\cos A$, $\\tan=-\\tan A$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,arrows.meta}\n\\coordinate (O) at (0,0);\n\\coordinate (X) at (3,0);\n\\coordinate (P) at (320:2.4);\n\\draw[{Stealth}-{Stealth}] (-3,0)--(3,0);\n\\draw[{Stealth}-{Stealth}] (0,-3)--(0,3);\n\\node at (3.35,0) {$x$};\n\\node at (0,3.35) {$y$};\n\\draw (O) circle (2.4);\n\\draw[thick] (O)--(P);\n\\fill (P) circle (2pt);\n\\pic[draw,\"$\\theta$\",angle radius=0.75cm,angle eccentricity=2.3] {angle=X--O--P};\n\\pic[draw,\"$A$\",angle radius=0.4cm,angle eccentricity=2.5] {angle=P--O--X};\n\\node at (0,-3.6) {$\\theta=360^{\\circ}-A$};\n\\end{tikzpicture}\n[/tikz]",
 "These identities apply for any acute reference angle $A$, with $0^{\\circ}<A<90^{\\circ}$. For the exact-value tasks here, $A$ is a special angle: $\\sin 30^{\\circ}=\\tfrac{1}{2}$, $\\cos 30^{\\circ}=\\tfrac{\\sqrt{3}}{2}$, $\\tan 30^{\\circ}=\\tfrac{1}{\\sqrt{3}}$, $\\sin 45^{\\circ}=\\cos 45^{\\circ}=\\tfrac{1}{\\sqrt{2}}$, $\\tan 45^{\\circ}=1$, and the $60^{\\circ}$ values swap the $30^{\\circ}$ sine and cosine.",
 "A quick sketch of the terminal arm shows the quadrant, so the sign is read straight from ASTC."
 ],
-        "steps": [
+"steps": [
           "Find the reference angle $A$",
           "Determine the sign from the quadrant",
           "Write the exact value using $A$"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Write $\\cos 230^{\\circ}$ as a signed ratio of its acute reference angle. Do not evaluate.",
+    "solution_text": "$230^{\\circ}$ lies in Q3, where cosine is negative.\n\n$\\begin{aligned}A&=230^{\\circ}-180^{\\circ}\\\\&=50^{\\circ}\\end{aligned}$\n\n$\\cos 230^{\\circ}=-\\cos 50^{\\circ}$\n\n[tikz]\n\\begin{tikzpicture}[x=20mm,y=20mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw[<->] (-1.3,0)--(1.3,0);\n\\draw[<->] (0,-1.3)--(0,1.3);\n\\draw (0,0) circle (1);\n\\draw[thick] (0,0)--(230:1);\n\\fill (230:1) circle (1.5pt);\n\\draw[->] (0.38,0) arc[start angle=0,end angle=230,radius=0.38];\n\\draw[->] (-0.62,0) arc[start angle=180,end angle=230,radius=0.62];\n\\node at (0.2,0.65) {$230^{\\circ}$};\n\\node at (-0.8,-0.25) {$50^{\\circ}$};\n\\node[right] at (1.3,0) {$x$};\n\\node[above] at (0,1.3) {$y$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact values of:\n\n(a) $\\sin 240^{\\circ}$\n\n(b) $\\cos 240^{\\circ}$\n\n(c) $\\tan 240^{\\circ}$",
+    "solution_text": "$240^{\\circ}=180^{\\circ}+60^{\\circ}$, so the acute reference angle is $60^{\\circ}$. In Q3, sine and cosine are negative; tangent is positive.\n\n(a) $\\begin{aligned}\\sin 240^{\\circ}&=-\\sin 60^{\\circ}\\\\&=-\\frac{\\sqrt{3}}{2}\\end{aligned}$\n\n(b) $\\begin{aligned}\\cos 240^{\\circ}&=-\\cos 60^{\\circ}\\\\&=-\\frac{1}{2}\\end{aligned}$\n\n(c) $\\begin{aligned}\\tan 240^{\\circ}&=\\tan 60^{\\circ}\\\\&=\\sqrt{3}\\end{aligned}$\n\n[tikz]\n\\begin{tikzpicture}[x=20mm,y=20mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw[<->] (-1.3,0)--(1.3,0);\n\\draw[<->] (0,-1.3)--(0,1.3);\n\\draw (0,0) circle (1);\n\\draw[thick] (0,0)--(240:1);\n\\fill (240:1) circle (1.5pt);\n\\draw[->] (0.38,0) arc[start angle=0,end angle=240,radius=0.38];\n\\draw[->] (-0.62,0) arc[start angle=180,end angle=240,radius=0.62];\n\\node at (0.2,0.65) {$240^{\\circ}$};\n\\node at (-0.8,-0.3) {$60^{\\circ}$};\n\\node[right] at (1.3,0) {$x$};\n\\node[above] at (0,1.3) {$y$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact values of:\n\n(a) $\\sin 315^{\\circ}$\n\n(b) $\\cos 315^{\\circ}$\n\n(c) $\\tan 315^{\\circ}$",
+    "solution_text": "$315^{\\circ}=360^{\\circ}-45^{\\circ}$, so the acute reference angle is $45^{\\circ}$. In Q4, cosine is positive; sine and tangent are negative.\n\n(a) $\\begin{aligned}\\sin 315^{\\circ}&=-\\sin 45^{\\circ}\\\\&=-\\frac{1}{\\sqrt{2}}\\end{aligned}$\n\n(b) $\\begin{aligned}\\cos 315^{\\circ}&=\\cos 45^{\\circ}\\\\&=\\frac{1}{\\sqrt{2}}\\end{aligned}$\n\n(c) $\\begin{aligned}\\tan 315^{\\circ}&=-\\tan 45^{\\circ}\\\\&=-1\\end{aligned}$\n\n[tikz]\n\\begin{tikzpicture}[x=20mm,y=20mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw[<->] (-1.3,0)--(1.3,0);\n\\draw[<->] (0,-1.3)--(0,1.3);\n\\draw (0,0) circle (1);\n\\draw[thick] (0,0)--(315:1);\n\\fill (315:1) circle (1.5pt);\n\\draw[->] (0.38,0) arc[start angle=0,end angle=315,radius=0.38];\n\\draw[->] (315:0.62) arc[start angle=315,end angle=360,radius=0.62];\n\\node at (-0.55,0.65) {$315^{\\circ}$};\n\\node at (0.87,-0.25) {$45^{\\circ}$};\n\\node[right] at (1.3,0) {$x$};\n\\node[above] at (0,1.3) {$y$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The point $P$ lies on the unit circle at an angle of inclination of $300^{\\circ}$. Find its exact coordinates.",
+    "solution_text": "$300^{\\circ}=360^{\\circ}-60^{\\circ}$ lies in Q4, where the $x$-coordinate is positive and the $y$-coordinate is negative.\n\n$\\begin{aligned}x&=\\cos 300^{\\circ}\\\\&=\\cos 60^{\\circ}\\\\&=\\frac{1}{2}\\end{aligned}$\n\n$\\begin{aligned}y&=\\sin 300^{\\circ}\\\\&=-\\sin 60^{\\circ}\\\\&=-\\frac{\\sqrt{3}}{2}\\end{aligned}$\n\n$P=\\left(\\frac{1}{2},-\\frac{\\sqrt{3}}{2}\\right)$\n\n[tikz]\n\\begin{tikzpicture}[x=20mm,y=20mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw[<->] (-1.3,0)--(1.3,0);\n\\draw[<->] (0,-1.3)--(0,1.3);\n\\draw (0,0) circle (1);\n\\coordinate (P) at (300:1);\n\\draw[thick] (0,0)--(P);\n\\draw[dashed] (P)--(0.5,0);\n\\draw (0.5,-0.09)--(0.41,-0.09)--(0.41,0);\n\\fill (P) circle (1.5pt);\n\\draw[->] (0.35,0) arc[start angle=0,end angle=300,radius=0.35];\n\\draw[->] (300:0.62) arc[start angle=300,end angle=360,radius=0.62];\n\\node at (-0.55,0.65) {$300^{\\circ}$};\n\\node at (0.85,-0.4) {$60^{\\circ}$};\n\\node[below right] at (P) {$P$};\n\\node[right] at (1.3,0) {$x$};\n\\node[above] at (0,1.3) {$y$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact value of $\\sin 240^{\\circ}+\\cos 315^{\\circ}$.",
+    "solution_text": "Sine is negative in Q3; cosine is positive in Q4.\n\n$\\begin{aligned}\\sin 240^{\\circ}&=-\\sin 60^{\\circ}\\\\&=-\\frac{\\sqrt{3}}{2}\\end{aligned}$\n\n$\\begin{aligned}\\cos 315^{\\circ}&=\\cos 45^{\\circ}\\\\&=\\frac{1}{\\sqrt{2}}\\end{aligned}$\n\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\sin 240^{\\circ}+\\cos 315^{\\circ}\\\\&=-\\frac{\\sqrt{3}}{2}+\\frac{1}{\\sqrt{2}}\\\\&=-\\frac{\\sqrt{3}}{2}+\\frac{\\sqrt{2}}{2}\\\\&=\\frac{\\sqrt{2}-\\sqrt{3}}{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

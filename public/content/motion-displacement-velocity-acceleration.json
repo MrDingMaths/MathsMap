@@ -2,24 +2,97 @@
   "skillId": "motion-displacement-velocity-acceleration",
   "atomType": "R",
   "theory": {
-    "intro": "Displacement, velocity and acceleration are joined by calculus. Differentiating takes you from $x$ to $v$ to $a$; integrating takes you back the other way, using initial conditions to find each constant.",
-    "facts": [
-      "Differentiating goes $x \\to v \\to a$, and integrating goes $a \\to v \\to x$.",
-      "Every integration introduces a constant, so one initial condition is needed for each constant.",
-      "The **displacement** of a particle over $t = p$ to $t = q$ is $x(q) - x(p)$, and it may be negative.",
-      "The **distance travelled** is the total length of path covered, so it is never negative.",
-      "The particle changes direction at a time where $v = 0$ and $v$ changes sign there.",
-      "If the particle changes direction inside an interval, split the interval at that time and add the distance of each leg.",
-      "A particle is **speeding up** when $v$ and $a$ have the same sign, and slowing down when their signs differ.",
-      "A positive acceleration alone does not mean speeding up: a particle with $v < 0$ and $a > 0$ is slowing down."
-    ],
-    "steps": [
-      "Identify which of $x$, $v$ or $a$ is given, then differentiate or integrate to reach the one you need.",
-      "Use the given initial conditions to find the constant produced by each integration.",
-      "To find when the particle is at rest or changes direction, set $v = 0$ and solve for $t \\ge 0$.",
-      "For distance travelled, split the interval at each time of rest and add the size of each change in displacement."
-    ]
+"intro": "Displacement, velocity and acceleration are joined by calculus. Differentiating takes you from $x$ to $v$ to $a$; integrating takes you back the other way, using sufficient independent given conditions to find the constants.",
+"facts": [
+"Differentiating goes $x \\to v \\to a$, and integrating goes $a \\to v \\to x$.",
+"Every integration introduces a constant. Sufficient independent conditions are needed to find the constants; these can include displacement values at two different times.",
+"The **displacement** of a particle over $t = p$ to $t = q$ is $x(q) - x(p)$, and it may be negative.",
+"The **distance travelled** is the total length of path covered, so it is never negative.",
+"The particle changes direction at a time where $v = 0$ and $v$ changes sign there.",
+"If the particle changes direction inside an interval, split the interval at that time and add the distance of each leg.",
+"A particle is **speeding up** when $v$ and $a$ have the same sign, and slowing down when their signs differ.",
+"A positive acceleration alone does not mean speeding up: a particle with $v < 0$ and $a > 0$ is slowing down."
+],
+"steps": [
+"Identify which of $x$, $v$ or $a$ is given, then differentiate or integrate to reach the one you need.",
+"Use the given conditions to form enough independent equations to find the constants produced by integration.",
+"To find when the particle is at rest, set $v = 0$ and solve for $t \\ge 0$. Before concluding that the particle changes direction at an interior zero, check that $v$ changes sign across that time.",
+"For distance travelled, split the interval at each time of rest and add the size of each change in displacement."
+],
+"workedExamples": [
+  {
+    "question_text": "A particle has acceleration $a(t)=8t-6$ m/s² and velocity $v(2)=9$ m/s. Find its velocity as a function of time.",
+    "solution_text": "$\\begin{align*}v(t)&=\\int(8t-6)\\,dt\\\\&=4t^2-6t+C\\end{align*}$\nUsing $v(2)=9$:\n$\\begin{align*}9&=16-12+C\\\\C&=5\\end{align*}$\nTherefore $v(t)=4t^2-6t+5$ m/s.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A particle has acceleration $a(t)=12\\cos(4t)$ m/s², where $t$ is in seconds and angles are in radians. Its initial velocity is $-1$ m/s. Find $v(t)$.",
+    "solution_text": "$\\begin{align*}v(t)&=\\int12\\cos(4t)\\,dt\\\\&=3\\sin(4t)+C\\end{align*}$\nUsing $v(0)=-1$:\n$\\begin{align*}-1&=3\\sin0+C\\\\C&=-1\\end{align*}$\nTherefore $v(t)=3\\sin(4t)-1$ m/s.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has velocity $v(t)=6t^2-4t+3$ m/s. Its displacement is $8$ m when $t=1$ s. Find its displacement function.",
+    "solution_text": "$\\begin{align*}x(t)&=\\int(6t^2-4t+3)\\,dt\\\\&=2t^3-2t^2+3t+C\\end{align*}$\nUsing $x(1)=8$:\n$\\begin{align*}8&=2-2+3+C\\\\C&=5\\end{align*}$\nTherefore $x(t)=2t^3-2t^2+3t+5$ m.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has acceleration $a(t)=8t-4$ m/s², with $v(0)=3$ m/s and $x(0)=-2$ m. Find its velocity and displacement functions.",
+    "solution_text": "$\\begin{align*}v(t)&=\\int(8t-4)\\,dt\\\\&=4t^2-4t+C\\end{align*}$\nUsing $v(0)=3$ gives $C=3$, so $v(t)=4t^2-4t+3$ m/s.\n$\\begin{align*}x(t)&=\\int(4t^2-4t+3)\\,dt\\\\&=\\frac43t^3-2t^2+3t+D\\end{align*}$\nUsing $x(0)=-2$ gives $D=-2$, so $x(t)=\\frac43t^3-2t^2+3t-2$ m.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has acceleration $a(t)=18t-8$ m/s². Its displacement is $2$ m at $t=0$ and $10$ m at $t=2$ s. Find its displacement function.",
+    "solution_text": "$\\begin{align*}v(t)&=\\int(18t-8)\\,dt\\\\&=9t^2-8t+C\\end{align*}$\n$\\begin{align*}x(t)&=\\int(9t^2-8t+C)\\,dt\\\\&=3t^3-4t^2+Ct+D\\end{align*}$\nUsing $x(0)=2$ gives $D=2$. Using $x(2)=10$:\n$\\begin{align*}10&=24-16+2C+2\\\\2C&=0\\\\C&=0\\end{align*}$\nTherefore $x(t)=3t^3-4t^2+2$ m.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has displacement $x(t)=t^3+3t+2$ metres. Find its displacement from $t=1$ to $t=3$ seconds, first using the displacement function and then using a definite integral of velocity.",
+    "solution_text": "$\\begin{align*}x(1)&=1+3+2\\\\&=6\\text{ m}\\\\x(3)&=27+9+2\\\\&=38\\text{ m}\\end{align*}$\nThe displacement is $x(3)-x(1)=38-6=32$ m.\nDifferentiating gives $v(t)=3t^2+3$ m/s. Equivalently:\n$\\begin{align*}\\int_1^3v(t)\\,dt&=\\int_1^3(3t^2+3)\\,dt\\\\&=[t^3+3t]_1^3\\\\&=36-4\\\\&=32\\text{ m}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has displacement $x(t)=t^3-12t^2+36t+1$ metres for $0\\le t\\le7$ seconds.\n(a) Find its velocity and acceleration.\n(b) Find when it changes direction.\n(c) Find its displacement and distance travelled over the interval.\n(d) Find the open intervals during which it is speeding up.",
+    "solution_text": "(a)\n$\\begin{align*}v(t)&=\\frac{dx}{dt}\\\\&=3t^2-24t+36\\\\&=3(t-2)(t-6)\\end{align*}$\n$\\begin{align*}a(t)&=\\frac{dv}{dt}\\\\&=6t-24\\\\&=6(t-4)\\end{align*}$\nVelocity is measured in m/s and acceleration in m/s².\n(b) Setting $v(t)=0$ gives $t=2$ or $t=6$. Velocity is positive for $0\\le t<2$, negative for $2<t<6$, and positive for $6<t\\le7$. It changes sign at both zeros, so the particle changes direction at $2$ s and $6$ s.\n(c) The displacements at the endpoints and turning times are $x(0)=1$, $x(2)=33$, $x(6)=1$ and $x(7)=8$ metres.\n$\\begin{align*}\\text{Displacement}&=x(7)-x(0)\\\\&=8-1\\\\&=7\\text{ m}\\end{align*}$\n$\\begin{align*}\\text{Distance}&=|33-1|+|1-33|+|8-1|\\\\&=32+32+7\\\\&=71\\text{ m}\\end{align*}$\n(d) Acceleration is negative before $t=4$ and positive after $t=4$. Velocity and acceleration are both negative on $2<t<4$ and both positive on $6<t<7$. The particle is speeding up on these intervals. On $4<t<6$, positive acceleration accompanies negative velocity, so it is slowing down.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has acceleration $a(t)=12t-30$ m/s², with $v(0)=18$ m/s and $x(0)=0$ m. Find the distance it travels in the first $5$ seconds.",
+    "solution_text": "$\\begin{align*}v(t)&=\\int(12t-30)\\,dt\\\\&=6t^2-30t+C\\end{align*}$\nUsing $v(0)=18$ gives $C=18$.\n$\\begin{align*}x(t)&=\\int(6t^2-30t+18)\\,dt\\\\&=2t^3-15t^2+18t+D\\end{align*}$\nUsing $x(0)=0$ gives $D=0$.\nAt rest:\n$\\begin{align*}6t^2-30t+18&=0\\\\t^2-5t+3&=0\\\\t&=\\frac{5\\pm\\sqrt{13}}2\\end{align*}$\nBoth times lie inside $0<t<5$. Write $r=\\frac{5-\\sqrt{13}}2$ and $s=\\frac{5+\\sqrt{13}}2$. Velocity is positive before $r$, negative between $r$ and $s$, and positive after $s$.\nAt either root, $t^2=5t-3$ and $t^3=22t-15$, so:\n$\\begin{align*}x(t)&=2(22t-15)-15(5t-3)+18t\\\\&=15-13t\\end{align*}$\nThus $x(r)=\\frac{-35+13\\sqrt{13}}2$, $x(s)=\\frac{-35-13\\sqrt{13}}2$, $x(0)=0$ and $x(5)=-35$ metres.\n$\\begin{align*}\\text{Distance}&=|x(r)|+|x(s)-x(r)|+|-35-x(s)|\\\\&=\\frac{-35+13\\sqrt{13}}2+13\\sqrt{13}+\\frac{-35+13\\sqrt{13}}2\\\\&=26\\sqrt{13}-35\\text{ m}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A particle has displacement $x(t)=2te^{-t}$ metres for $t\\ge0$ seconds. Show that it changes direction exactly once and find its displacement then.",
+    "solution_text": "Using the product rule:\n$\\begin{align*}v(t)&=2e^{-t}-2te^{-t}\\\\&=2(1-t)e^{-t}\\end{align*}$\nSince $e^{-t}>0$, velocity is zero only at $t=1$. It is positive for $0\\le t<1$ and negative for $t>1$. The particle therefore changes direction exactly once, at $1$ s.\n$\\begin{align*}x(1)&=2e^{-1}\\\\&=\\frac2e\\text{ m}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The velocity–time graph shows a particle moving in a straight line for $0\\le t\\le8$ seconds. Read from the graph when it is at rest and when it moves in the negative direction.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[width=7cm,height=5.5cm,axis lines=middle,xmin=-0.5,xmax=8.6,ymin=-4.8,ymax=13.5,xtick={1,2,3,4,5,6,7,8},ytick={-4,4,8,12},xlabel={$t$ (s)},ylabel={$v$ (m/s)},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},axis line style={black},tick style={black},clip=false]\n\\addplot[black,thick,samples=101,domain=0:8] {(x-2)*(x-6)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The graph meets the time axis at $t=2$ s and $t=6$ s, so the particle is at rest at those times. It lies below the time axis for $2<t<6$, so the particle moves in the negative direction on that interval.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{motionblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=5.5cm,axis lines=middle,xmin=-0.5,xmax=8.6,ymin=-4.8,ymax=13.5,xtick={1,2,3,4,5,6,7,8},ytick={-4,4,8,12},xlabel={$t$ (s)},ylabel={$v$ (m/s)},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},axis line style={black},tick style={black},clip=false]\n\\addplot[black,thick,samples=101,domain=0:8] {(x-2)*(x-6)};\n\\addplot[motionblue,very thick,samples=51,domain=2:6] {(x-2)*(x-6)};\n\\addplot[only marks,mark=*,black] coordinates {(2,0) (6,0)};\n\\node[anchor=south west,xshift=2mm,yshift=3mm,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:2,0) {$(2,0)$};\n\\node[anchor=south east,xshift=-2mm,yshift=3mm,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:6,0) {$(6,0)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "The displacement–time graph shows a particle moving in a straight line for $0\\le t\\le7$ seconds. Read when the particle is at rest and when it is at the origin. Explain the difference.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[width=7cm,height=5.5cm,axis lines=middle,xmin=-0.5,xmax=7.6,ymin=-8.5,ymax=10.5,xtick={1,2,3,4,5,6,7},ytick={-6,-3,3,6,9},xlabel={$t$ (s)},ylabel={$x$ (m)},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},axis line style={black},tick style={black},clip=false]\n\\addplot[black,thick,samples=101,domain=0:7] {6*x-x*x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The graph has a horizontal tangent at its turning point, $t=3$ s. Its gradient, and hence the velocity, is zero there, so the particle is at rest. Its displacement then is $9$ m.\nThe graph meets the time axis at $t=0$ and $t=6$ s, so the particle is at the origin at those times. Being at rest concerns the graph's gradient; being at the origin concerns its displacement value.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{motionblue}{HTML}{268CFF}\n\\begin{axis}[width=7cm,height=5.5cm,axis lines=middle,xmin=-0.5,xmax=7.6,ymin=-8.5,ymax=10.5,xtick={1,2,3,4,5,6,7},ytick={-6,-3,3,6,9},xlabel={$t$ (s)},xlabel style={at={(axis description cs:1,0.447368)},anchor=north east,yshift=-8mm},ylabel={$x$ (m)},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},axis line style={black},tick style={black},clip=false]\n\\addplot[black,thick,samples=101,domain=0:7] {6*x-x*x};\n\\addplot[motionblue,thick,domain=2:4] {9};\n\\addplot[only marks,mark=*,black] coordinates {(0,0) (3,9) (6,0)};\n\\node[anchor=south,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:3,9) {$(3,9)$};\n\\node[anchor=south west,xshift=2mm,yshift=3mm,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:0,0) {$(0,0)$};\n\\node[anchor=south east,xshift=-2mm,yshift=3mm,font=\\fontsize{10}{12}\\selectfont,text=black] at (axis cs:6,0) {$(6,0)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

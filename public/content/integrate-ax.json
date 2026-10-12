@@ -2,8 +2,8 @@
   "skillId": "integrate-ax",
   "atomType": "R",
   "theory": {
-    "intro": "An exponential with base $a > 0$ and $a \\ne 1$ is integrated by dividing by the natural logarithm of its base: $\\int a^{x}\\,dx = \\dfrac{a^{x}}{\\ln a} + C$. Differentiating $a^{x}$ multiplies by $\\ln a$, so integrating divides by it.",
-    "facts": [
+"intro": "An exponential with base $a > 0$ and $a \\ne 1$ is integrated by dividing by the natural logarithm of its base: $\\int a^{x}\\,dx = \\dfrac{a^{x}}{\\ln a} + C$. Differentiating $a^{x}$ multiplies by $\\ln a$, so integrating divides by it.",
+"facts": [
 "$\\int a^{x}\\,dx = \\dfrac{a^{x}}{\\ln a} + C$ for a constant base $a > 0$ with $a \\ne 1$.",
 "Differentiating $a^{x}$ multiplies by $\\ln a$, so integrating $a^{x}$ divides by $\\ln a$.",
 "Multiplying by $\\ln a$ instead of dividing is the most common error.",
@@ -15,13 +15,61 @@
 "For a definite integral, evaluate $\\left[\\dfrac{a^{x}}{\\ln a}\\right]_{p}^{q}$ and leave $\\ln a$ in the exact answer.",
 "Check any primitive by differentiating it back to the integrand."
 ],
-    "steps": [
+"steps": [
 "Write the integrand in the form $ka^{mx+c}$ with base $a > 0$. The logarithm formula requires $a \\ne 1$ and $m \\ne 0$; if $a = 1$ or $m = 0$, integrate the constant instead.",
 "Keep the multiplier $k$ and write down $a$ to the same index, unchanged.",
 "Divide by $\\ln a$, and by $m$, the coefficient of $x$ in the index, to obtain $F(x) = \\dfrac{ka^{mx+c}}{m\\ln a}$.",
 "Add $+C$ for an indefinite integral, or evaluate $\\left[F(x)\\right]_{p}^{q}$ for a definite one."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Find $\\int 4\\times 11^x\\,dx$.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 4\\times 11^x\\,dx\\\\&=4\\int 11^x\\,dx\\\\&=\\frac{4\\times 11^x}{\\ln 11}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find each indefinite integral.\n(a) $\\int 8\\times 3^{4-2x}\\,dx$\n(b) $\\int 7^{x/4}\\,dx$",
+    "solution_text": "(a) The coefficient of $x$ in the index is $-2$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 8\\times 3^{4-2x}\\,dx\\\\&=\\frac{8\\times 3^{4-2x}}{-2\\ln 3}+C\\\\&=-\\frac{4\\times 3^{4-2x}}{\\ln 3}+C\\end{aligned}$\n\n(b) The coefficient of $x$ in the index is $\\frac14$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int 7^{x/4}\\,dx\\\\&=\\frac{7^{x/4}}{\\frac14\\ln 7}+C\\\\&=\\frac{4\\times 7^{x/4}}{\\ln 7}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use the exponential integration formula with base $a=e$ to find $\\int e^{4x}\\,dx$.",
+    "solution_text": "Since $\\ln e=1$,\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int e^{4x}\\,dx\\\\&=\\frac{e^{4x}}{4\\ln e}+C\\\\&=\\frac{e^{4x}}4+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int(8^x-4x)\\,dx$.",
+    "solution_text": "Integrate each term separately.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int(8^x-4x)\\,dx\\\\&=\\frac{8^x}{\\ln 8}-\\frac{4x^2}{2}+C\\\\&=\\frac{8^x}{\\ln 8}-2x^2+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Evaluate $\\int_0^2 3^{x/2}\\,dx$, giving the exact value.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_0^2 3^{x/2}\\,dx\\\\&=\\left[\\frac{2\\times 3^{x/2}}{\\ln 3}\\right]_0^2\\\\&=\\frac{2\\times 3^1-2\\times 3^0}{\\ln 3}\\\\&=\\frac4{\\ln 3}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact value of $\\int_0^2(3^x-2x)\\,dx$, then give it correct to four decimal places.",
+    "solution_text": "$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_0^2(3^x-2x)\\,dx\\\\&=\\left[\\frac{3^x}{\\ln 3}-x^2\\right]_0^2\\\\&=\\left(\\frac9{\\ln 3}-4\\right)-\\left(\\frac1{\\ln 3}-0\\right)\\\\&=\\frac8{\\ln 3}-4\\\\&\\approx3.2819\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A curve has gradient $\\frac{dy}{dx}=5^{x+2}$ and passes through $(-2,4)$. Find its equation and exact $y$-intercept.",
+    "solution_text": "Integrating gives\n$y=\\frac{5^{x+2}}{\\ln 5}+C$.\n\nSubstitute $(-2,4)$:\n$\\begin{aligned}4&=\\frac1{\\ln 5}+C\\\\C&=4-\\frac1{\\ln 5}\\end{aligned}$\n\nTherefore,\n$y=\\frac{5^{x+2}-1}{\\ln 5}+4$.\n\nAt $x=0$,\n$\\begin{aligned}y&=\\frac{25-1}{\\ln 5}+4\\\\&=\\frac{24}{\\ln 5}+4\\end{aligned}$\n\nThe $y$-intercept is $\\left(0,\\frac{24}{\\ln 5}+4\\right)$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

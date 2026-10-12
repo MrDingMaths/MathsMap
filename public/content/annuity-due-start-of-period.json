@@ -2,20 +2,38 @@
   "skillId": "annuity-due-start-of-period",
   "atomType": "R",
   "theory": {
-    "intro": "In an **annuity due**, payments are made at the **beginning** of each period and interest compounds at the end of each period. Start with a zero balance before the first payment and calculate the future value at the **end of the nth period**.",
-    "facts": [
+"intro": "In an **annuity due**, payments are made at the **beginning** of each period and interest compounds at the end of each period. Start with a zero balance before the first payment and calculate the future value at the **end of the nth period**.",
+"facts": [
 "The first deposit compounds for $n$ full periods to $a(1+r)^{n}$, while the final deposit compounds for $1$ period to $a(1+r)$.",
 "The payment series $a(1+r)+a(1+r)^2+\\dots+a(1+r)^n$ has first term $a(1+r)$ and common ratio $1+r$. Factoring out $a(1+r)$ leaves $1+(1+r)+\\dots+(1+r)^{n-1}$, whose first term is $1$.",
 "For $r\\ne0$, summing the derived geometric series gives $FV = a(1+r)\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$.",
 "For positive payments and a positive interest rate, an annuity due accumulates more interest than an ordinary annuity with identical payments, rates and valuation dates. At zero interest, both have value $na$; use this sum directly because the displayed formula divides by $r$.",
 "Derive the payment series for each problem rather than merely substitute into a memorised annuity formula. Keep full precision until the final rounding. In the solutions, $\\operatorname{round}(x,2)$ means round $x$ to the nearest cent."
 ],
-    "steps": [
+"steps": [
 "Identify $a$, the interest rate per period $r$, and the number of periods $n$. Check the payment dates and the valuation date.",
 "Write the series of terms starting from $a(1+r)$ up to $a(1+r)^{n}$, checking that there are $n$ payments and that the final payment earns one period of interest.",
 "Identify the first term and common ratio, derive the geometric-series sum, then evaluate using full precision and round as requested."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "An account contains $\\$0$ before the first payment. A deposit of $\\$a$ is made at the beginning of each year for $n$ years. Interest at rate $r$ per annum compounds annually. Derive the future value at the end of year $n$, for $r\\ne0$.",
+    "solution_text": "The first deposit earns $n$ years of interest and the final deposit earns one year.\n$FV=a(1+r)^n+a(1+r)^{n-1}+\\cdots+a(1+r)$.\nIn increasing-power order, the series has first term $a(1+r)$, common ratio $1+r$ and $n$ terms.\n$\\begin{aligned} FV&=a(1+r)\\left[1+(1+r)+\\cdots+(1+r)^{n-1}\\right]\\\\&=a(1+r)\\frac{(1+r)^n-1}{(1+r)-1}\\\\&=a(1+r)\\frac{(1+r)^n-1}{r}.\\end{aligned}$\nIf $r=0$, the deposits earn no interest and $FV=na$."
   },
+  {
+    "question_text": "A saver deposits $\\$2400$ on 1 January each year for seven years into an initially empty account earning $6\\%$ p.a. compounded annually.\n(a) Derive a geometric-series expression and calculate the balance at the end of the seventh year, to the nearest cent.\n(b) Calculate the value of the first deposit at that date, to the nearest dollar.",
+    "solution_text": "(a) The seven deposits earn seven, six, …, one years of interest.\n$FV=2400(1.06)^7+2400(1.06)^6+\\cdots+2400(1.06)$.\nIn increasing-power order, the first term is $2400(1.06)$, the common ratio is $1.06$ and there are seven terms.\n$\\begin{aligned} FV&=2400(1.06)\\left[1+1.06+\\cdots+1.06^6\\right]\\\\&=\\frac{2400(1.06)(1.06^7-1)}{1.06-1}\\\\&\\approx\\$21\\,353.92.\\end{aligned}$\n(b) The first deposit earns seven full years of interest.\n$\\begin{aligned} V&=2400(1.06)^7\\\\&\\approx\\$3609\\quad\\text{(nearest dollar)}.\\end{aligned}$"
+  },
+  {
+    "question_text": "Priya deposits $\\$320$ at the beginning of each month for three years into an initially empty account earning $6\\%$ p.a. compounded monthly. Derive a geometric-series expression and calculate the balance at the end of the three years, to the nearest cent.",
+    "solution_text": "The monthly interest rate is $r=0.06/12=0.005$, and there are $n=3\\times12=36$ deposits.\nThe first deposit earns 36 months of interest and the final deposit earns one month.\n$FV=320(1.005)^{36}+320(1.005)^{35}+\\cdots+320(1.005)$.\nIn increasing-power order, the first term is $320(1.005)$, the common ratio is $1.005$ and there are 36 terms.\n$\\begin{aligned} FV&=320(1.005)\\left[1+1.005+\\cdots+1.005^{35}\\right]\\\\&=\\frac{320(1.005)(1.005^{36}-1)}{0.005}\\\\&\\approx\\$12\\,650.49.\\end{aligned}$"
+  },
+  {
+    "question_text": "A club wants $\\$30\\,000$ at the end of five years. It will make equal deposits at the beginning of each month into an initially empty account earning $7.2\\%$ p.a. compounded monthly. Derive a geometric-series equation and find the required monthly deposit, to the nearest cent.",
+    "solution_text": "Let the monthly deposit be $M$. The monthly rate is $r=0.072/12=0.006$, and there are $n=5\\times12=60$ deposits.\nThe first deposit earns 60 months of interest and the final deposit earns one month.\n$30000=M(1.006)^{60}+M(1.006)^{59}+\\cdots+M(1.006)$.\nIn increasing-power order, the first term is $M(1.006)$, the common ratio is $1.006$ and there are 60 terms.\n$\\begin{aligned} 30000&=M(1.006)\\left[1+1.006+\\cdots+1.006^{59}\\right]\\\\30000&=\\frac{M(1.006)(1.006^{60}-1)}{0.006}\\\\M&=\\frac{30000(0.006)}{1.006(1.006^{60}-1)}\\\\M&\\approx\\$414.38.\\end{aligned}$\nKeep the accumulation factor unrounded. Rounding the deposit to cents can make the final balance slightly different from the exact target."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

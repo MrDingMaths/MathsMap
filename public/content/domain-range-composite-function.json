@@ -2,8 +2,8 @@
   "skillId": "domain-range-composite-function",
   "atomType": "R",
   "theory": {
-        "intro": "The **domain** of $f(g(x))$ requires $x$ to be in the domain of $g$, and $g(x)$ to be in the domain of $f$. The **range** is the set of all outputs produced by $f(g(x))$ over this domain.",
-        "facts": [
+"intro": "The **domain** of $f(g(x))$ requires $x$ to be in the domain of $g$, and $g(x)$ to be in the domain of $f$. The **range** is the set of all outputs produced by $f(g(x))$ over this domain.",
+"facts": [
           "For $f(g(x))$ to exist, $x$ must lie in the domain of $g(x)$ and $g(x)$ must lie in the domain of $f(x)$.",
           "Square root terms $\\sqrt{u}$ require a non-negative radicand: $u \\ge 0$.",
           "Fractions $\\dfrac{1}{u}$ require a non-zero denominator: $u \\neq 0$.",
@@ -11,13 +11,66 @@
           "To find the range, track the allowed outputs of $u = g(x)$ and find the resulting values of $f(u)$.",
           "Express all final domain and range sets in interval notation."
         ],
-        "steps": [
+"steps": [
           "Find the domain of the inner function $g(x)$.",
           "Find the values of $x$ for which the output $g(x)$ satisfies the domain conditions of the outer function $f$.",
           "Intersect these conditions to state the domain of $f(g(x))$ in interval notation.",
           "Determine the range of $g(x)$ over this domain and trace the resulting output values of $f(g(x))$ in interval notation."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Find the domain and range of each composite in interval notation.\n(a) $f(g(x))$, where $f(x)=3x+1$ and $g(x)=\\sqrt{2x+6}$.\n(b) $h(g(x))$, where $h(x)=-\\sqrt{x}+4$ and $g(x)=2x+6$.",
+    "solution_text": "(a)\n$\\begin{aligned} f(g(x))&=3\\sqrt{2x+6}+1\\\\2x+6&\\ge0\\\\x&\\ge-3\\end{aligned}$\nThe square root takes every value in $[0,\\infty)$, so multiplying by $3$ and adding $1$ gives every output in $[1,\\infty)$.\nDomain: $[-3,\\infty)$. Range: $[1,\\infty)$.\n\n(b)\n$\\begin{aligned} h(g(x))&=-\\sqrt{2x+6}+4\\\\2x+6&\\ge0\\\\x&\\ge-3\\end{aligned}$\nThe square root takes every non-negative value. Negating it and adding $4$ gives every output at or below $4$.\nDomain: $[-3,\\infty)$. Range: $(-\\infty,4]$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $g(x)=49-x^2$, $f(x)=\\sqrt{x}$ and $h(x)=-\\sqrt{x}$. Find the domain and range of $f(g(x))$ and $h(g(x))$ in interval notation.",
+    "solution_text": "$f(g(x))=\\sqrt{49-x^2}$ and $h(g(x))=-\\sqrt{49-x^2}$.\nBoth composites require:\n$\\begin{aligned}49-x^2&\\ge0\\\\x^2&\\le49\\\\-7\\le x&\\le7\\end{aligned}$\nFor $x\\in[-7,7]$, the radicand takes every value from $0$ to $49$. Its square root therefore takes every value from $0$ to $7$.\nFor $f(g(x))$: domain $[-7,7]$, range $[0,7]$.\nFor $h(g(x))$: domain $[-7,7]$, range $[-7,0]$.\nThe composite graphs show the included endpoints and maximum or minimum.\n[tikz]\n\\begin{tikzpicture}[x=0.35cm,y=0.35cm]\n\\definecolor{compblue}{HTML}{268CFF}\n\\definecolor{compred}{HTML}{EF6068}\n\\draw[->,black] (-8.5,0)--(8.5,0);\n\\draw[->,black] (0,-8.3)--(0,8.3);\n\\draw[compblue,thick,domain=0:180,samples=81] plot ({7*cos(\\x)},{7*sin(\\x)});\n\\draw[compred,thick,domain=180:360,samples=81] plot ({7*cos(\\x)},{7*sin(\\x)});\n\\fill[black] (-7,0) circle (1.2pt);\n\\fill[black] (7,0) circle (1.2pt);\n\\fill[compblue] (0,7) circle (1.2pt);\n\\fill[compred] (0,-7) circle (1.2pt);\n\\path (8.5,0) node[right,font=\\fontsize{10}{12}\\selectfont,text=black] {$x$};\n\\path (0,8.3) node[above,font=\\fontsize{10}{12}\\selectfont,text=black] {$y$};\n\\path (-7,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont,text=black] {$-7$};\n\\path (7,0) node[below right,font=\\fontsize{8.5}{10}\\selectfont,text=black] {$7$};\n\\path (0,7) node[above left,font=\\fontsize{10}{12}\\selectfont,text=compblue] {$(0,7)$};\n\\path (0,-7) node[below left,font=\\fontsize{10}{12}\\selectfont,text=compred] {$(0,-7)$};\n\\path (5,5.7) node[right,font=\\fontsize{10}{12}\\selectfont,text=compblue] {$f(g(x))$};\n\\path (5,-5.7) node[right,font=\\fontsize{10}{12}\\selectfont,text=compred] {$h(g(x))$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Find each composite's domain in interval notation.\n(a) $f(g(x))$, where $f(x)=\\dfrac{1}{x}$ and $g(x)=x-6$.\n(b) $p(q(x))$, where $p(x)=\\dfrac{3}{x-16}$ and $q(x)=x^2$.",
+    "solution_text": "(a) The inner function is defined for every real $x$, but its output cannot be zero.\n$\\begin{aligned}f(g(x))&=\\frac{1}{x-6}\\\\x-6&\\ne0\\\\x&\\ne6\\end{aligned}$\nDomain: $(-\\infty,6)\\cup(6,\\infty)$.\n\n(b) The inner function is defined for every real $x$, but its output cannot be $16$.\n$\\begin{aligned}p(q(x))&=\\frac{3}{x^2-16}\\\\x^2-16&\\ne0\\\\x&\\ne-4,\\ 4\\end{aligned}$\nDomain: $(-\\infty,-4)\\cup(-4,4)\\cup(4,\\infty)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=\\dfrac{1}{x}$ and $g(x)=\\sqrt{x-7}$. Find $f(g(x))$ and its domain and range in interval notation.",
+    "solution_text": "$f(g(x))=\\dfrac{1}{\\sqrt{x-7}}$.\nThe inner square root requires $x-7\\ge0$. The outer reciprocal also requires $\\sqrt{x-7}\\ne0$, so together:\n$\\begin{aligned}x-7&>0\\\\x&>7\\end{aligned}$\nDomain: $(7,\\infty)$.\nOver this domain, $\\sqrt{x-7}$ takes every positive value. Its reciprocal also takes every positive value; zero is never reached.\nRange: $(0,\\infty)$."
+  },
+  {
+    "question_text": "Let $f(x)=\\sqrt{x}$ and $g(x)=x^2-2x-15$. Find $f(g(x))$ and its domain and range in interval notation.",
+    "solution_text": "$\\begin{aligned}f(g(x))&=\\sqrt{x^2-2x-15}\\\\&=\\sqrt{(x-5)(x+3)}\\end{aligned}$\nThe radicand must be non-negative:\n$(x-5)(x+3)\\ge0$.\nFor $x<-3$, both factors are negative. For $-3<x<5$, the factors have opposite signs. For $x>5$, both factors are positive. Include $x=-3$ and $x=5$, where the product is zero.\nDomain: $(-\\infty,-3]\\cup[5,\\infty)$.\nOn $[5,\\infty)$, the radicand increases continuously from zero without an upper bound, so its square root takes every non-negative value.\nRange: $[0,\\infty)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=\\sqrt{x^2-16}$ and $g(x)=x+6$. Write $f(g(x))$ in the form $\\sqrt{(x+c)(x+d)}$, then state its domain in interval notation.",
+    "solution_text": "$\\begin{aligned}f(g(x))&=\\sqrt{(x+6)^2-16}\\\\&=\\sqrt{x^2+12x+20}\\\\&=\\sqrt{(x+2)(x+10)}\\end{aligned}$\nThus $c=2$ and $d=10$, in either order.\nThe inner function is defined for every real $x$. The outer square root requires:\n$(x+2)(x+10)\\ge0$.\nBoth factors are non-positive when $x\\le-10$ and non-negative when $x\\ge-2$. Between these values their product is negative.\nDomain: $(-\\infty,-10]\\cup[-2,\\infty)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=x^2-4$ and $g(x)=\\sqrt{x-6}$. Simplify $f(g(x))$ and state its domain and range in interval notation.",
+    "solution_text": "The inner function requires $x-6\\ge0$, so $x\\ge6$. The outer polynomial accepts every output of $g$.\n$\\begin{aligned}f(g(x))&=(\\sqrt{x-6})^2-4\\\\&=x-6-4\\\\&=x-10\\end{aligned}$\nSimplifying does not remove the original restriction $x\\ge6$.\nDomain: $[6,\\infty)$.\nFor $x\\ge6$, $x-10$ takes every value at or above $-4$.\nRange: $[-4,\\infty)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=\\dfrac{1}{\\sqrt{x}}$ and $g(x)=64-x^2$. Find $f(g(x))$ and its domain and range in interval notation.",
+    "solution_text": "$f(g(x))=\\dfrac{1}{\\sqrt{64-x^2}}$.\nThe square root must be defined and the denominator non-zero:\n$\\begin{aligned}64-x^2&>0\\\\x^2&<64\\\\-8<x&<8\\end{aligned}$\nDomain: $(-8,8)$.\nOver this domain, the radicand takes every value in $(0,64]$, so the denominator takes every value in $(0,8]$.\nThe reciprocal has minimum $\\dfrac18$, attained at $x=0$. As the denominator approaches zero from above, the reciprocal has no upper bound.\nRange: $\\left[\\dfrac18,\\infty\\right)$."
+  },
+  {
+    "question_text": "Let $f(x)=\\sqrt{x}$ and $g(x)=-x^2-4$. Explain why $f(g(x))$ has an empty real domain.",
+    "solution_text": "$f(g(x))=\\sqrt{-x^2-4}$.\nFor every real $x$, $x^2\\ge0$, so $-x^2-4\\le-4<0$. No output of $g$ is a valid input for the outer square root.\nDomain: $\\emptyset$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,8 +2,8 @@
   "skillId": "inverse-trig-double-compound-angle",
   "atomType": "R",
   "theory": {
-    "intro": "An expression such as $\\cos\\left(2\\arcsin x\\right)$ needs a double angle identity. Let $\\alpha$ be the inverse trigonometric value, find $\\sin\\alpha$ and $\\cos\\alpha$ from its triangle and quadrant, then substitute into the identity.",
-    "facts": [
+"intro": "An expression such as $\\cos\\left(2\\arcsin x\\right)$ needs a double angle identity. Let $\\alpha$ be the inverse trigonometric value, find $\\sin\\alpha$ and $\\cos\\alpha$ from its triangle and quadrant, then substitute into the identity.",
+"facts": [
       "$\\sin 2\\alpha=2\\sin\\alpha\\cos\\alpha$",
       "$\\cos 2\\alpha=1-2\\sin^{2}\\alpha$ is the form to use when only $\\sin\\alpha$ is known.",
       "$\\cos 2\\alpha=2\\cos^{2}\\alpha-1$ is the form to use when only $\\cos\\alpha$ is known.",
@@ -13,14 +13,79 @@
       "$\\tan(\\alpha\\pm\\beta)=\\dfrac{\\tan\\alpha\\pm\\tan\\beta}{1\\mp\\tan\\alpha\\tan\\beta}$",
       "Each inverse value's range fixes its quadrant, so settle every ratio's sign before substituting."
     ],
-    "steps": [
+"steps": [
       "Let each inverse trigonometric expression be an angle and write its trigonometric ratio",
       "Identify each angle's quadrant from the range of its inverse function",
       "Use a right-angled triangle and Pythagoras to find the remaining ratios with the correct signs",
       "Substitute into the double angle or compound angle identity",
       "Simplify to an exact value"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find the exact value of $\\sin\\left(2\\arccos\\left(-\\frac{8}{17}\\right)\\right)$.",
+    "solution_text": "Let $\\alpha=\\arccos\\left(-\\frac{8}{17}\\right)$, so $\\cos\\alpha=-\\frac{8}{17}$.\nSince $0\\leq\\alpha\\leq\\pi$ and $\\cos\\alpha<0$, $\\alpha$ is in quadrant 2.\nThe reference triangle has adjacent side $8$ and hypotenuse $17$.\n$\\begin{align*}o&=\\sqrt{17^2-8^2}\\\\&=15\\end{align*}$\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(1.6,0)--(0,3)--cycle;\n\\draw (0.18,0)--(0.18,0.18)--(0,0.18);\n\\path (0.8,0) node[below] {$8$};\n\\path (0,1.5) node[left] {$15$};\n\\path (0.8,1.5) node[above right] {$17$};\n\\draw (1.15,0) arc[start angle=180,end angle=118.07,radius=0.45];\n\\path (0.95,0.4) node[above left] {$\\pi-\\alpha$};\n\\end{tikzpicture}\n[/tikz]\nSine is positive in quadrant 2, so $\\sin\\alpha=\\frac{15}{17}$.\n$\\begin{align*}\\sin 2\\alpha&=2\\sin\\alpha\\cos\\alpha\\\\&=2\\times\\frac{15}{17}\\times\\left(-\\frac{8}{17}\\right)\\\\&=-\\frac{240}{289}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find the exact value of $\\cos\\left(2\\arcsin\\left(-\\frac{3}{7}\\right)\\right)$.",
+    "solution_text": "Let $\\alpha=\\arcsin\\left(-\\frac{3}{7}\\right)$, so $\\sin\\alpha=-\\frac{3}{7}$.\nUse the cosine double angle identity expressed in terms of sine.\n$\\begin{align*}\\cos 2\\alpha&=1-2\\sin^2\\alpha\\\\&=1-2\\left(-\\frac{3}{7}\\right)^2\\\\&=1-\\frac{18}{49}\\\\&=\\frac{31}{49}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact value of $\\cos\\left(2\\arccos\\left(-\\frac{2}{5}\\right)\\right)$.",
+    "solution_text": "Let $\\alpha=\\arccos\\left(-\\frac{2}{5}\\right)$, so $\\cos\\alpha=-\\frac{2}{5}$.\nUse the cosine double angle identity expressed in terms of cosine.\n$\\begin{align*}\\cos 2\\alpha&=2\\cos^2\\alpha-1\\\\&=2\\left(-\\frac{2}{5}\\right)^2-1\\\\&=\\frac{8}{25}-1\\\\&=-\\frac{17}{25}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact value of $\\tan\\left(2\\arctan\\left(-\\frac{2}{7}\\right)\\right)$.",
+    "solution_text": "Let $\\alpha=\\arctan\\left(-\\frac{2}{7}\\right)$, so $\\tan\\alpha=-\\frac{2}{7}$.\n$\\begin{align*}\\tan 2\\alpha&=\\frac{2\\tan\\alpha}{1-\\tan^2\\alpha}\\\\&=\\frac{2\\left(-\\frac{2}{7}\\right)}{1-\\frac{4}{49}}\\\\&=\\frac{-\\frac{4}{7}}{\\frac{45}{49}}\\\\&=-\\frac{28}{45}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact value of $\\tan\\left(2\\arccos\\left(-\\frac{3}{5}\\right)\\right)$.",
+    "solution_text": "Let $\\alpha=\\arccos\\left(-\\frac{3}{5}\\right)$, so $\\cos\\alpha=-\\frac{3}{5}$.\nSince $0\\leq\\alpha\\leq\\pi$ and $\\cos\\alpha<0$, $\\alpha$ is in quadrant 2.\n$\\begin{align*}o&=\\sqrt{5^2-3^2}\\\\&=4\\end{align*}$\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2.1,0)--(0,2.8)--cycle;\n\\draw (0.18,0)--(0.18,0.18)--(0,0.18);\n\\path (1.05,0) node[below] {$3$};\n\\path (0,1.4) node[left] {$4$};\n\\path (1.05,1.4) node[above right] {$5$};\n\\draw (1.7,0) arc[start angle=180,end angle=126.87,radius=0.4];\n\\path (1.28,0.35) node {$\\pi-\\alpha$};\n\\end{tikzpicture}\n[/tikz]\nTangent is negative in quadrant 2, so $\\tan\\alpha=-\\frac{4}{3}$.\n$\\begin{align*}\\tan 2\\alpha&=\\frac{2\\tan\\alpha}{1-\\tan^2\\alpha}\\\\&=\\frac{2\\left(-\\frac{4}{3}\\right)}{1-\\frac{16}{9}}\\\\&=\\frac{-\\frac{8}{3}}{-\\frac{7}{9}}\\\\&=\\frac{24}{7}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact value of $\\cos\\left(2\\arctan\\frac{4}{7}\\right)$.",
+    "solution_text": "Let $\\alpha=\\arctan\\frac{4}{7}$, so $\\tan\\alpha=\\frac{4}{7}$.\nSince $-\\frac{\\pi}{2}<\\alpha<\\frac{\\pi}{2}$ and $\\tan\\alpha>0$, $\\alpha$ is in quadrant 1.\nA right-angled triangle has opposite side $4$ and adjacent side $7$.\n$\\begin{align*}h&=\\sqrt{4^2+7^2}\\\\&=\\sqrt{65}\\end{align*}$\nHence $\\cos\\alpha=\\frac{7}{\\sqrt{65}}$.\n$\\begin{align*}\\cos 2\\alpha&=2\\cos^2\\alpha-1\\\\&=2\\left(\\frac{7}{\\sqrt{65}}\\right)^2-1\\\\&=\\frac{98}{65}-1\\\\&=\\frac{33}{65}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact value of $\\sin\\left(\\arctan\\left(-\\frac{3}{4}\\right)+\\arccos\\left(-\\frac{12}{13}\\right)\\right)$.",
+    "solution_text": "Let $\\alpha=\\arctan\\left(-\\frac{3}{4}\\right)$ and $\\beta=\\arccos\\left(-\\frac{12}{13}\\right)$.\nThe range of arctangent places $\\alpha$ in quadrant 4; the range of arccosine places $\\beta$ in quadrant 2.\nFor $\\alpha$, use a reference triangle with legs $3$ and $4$. For $\\beta$, use adjacent side $12$ and hypotenuse $13$.\n$\\begin{align*}h_\\alpha&=\\sqrt{3^2+4^2}=5\\\\o_\\beta&=\\sqrt{13^2-12^2}=5\\end{align*}$\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(2.4,0)--(0,1.8)--cycle;\n\\draw (0.16,0)--(0.16,0.16)--(0,0.16);\n\\path (1.2,0) node[below] {$4$};\n\\path (0,0.9) node[left] {$3$};\n\\path (1.2,0.9) node[above right] {$5$};\n\\draw (2,0) arc[start angle=180,end angle=143.13,radius=0.4];\n\\path (1.65,0.24) node {$-\\alpha$};\n\\draw (4,0)--(7,0)--(4,1.25)--cycle;\n\\draw (4.16,0)--(4.16,0.16)--(4,0.16);\n\\path (5.5,0) node[below] {$12$};\n\\path (4,0.625) node[left] {$5$};\n\\path (5.5,0.625) node[above right] {$13$};\n\\draw (6.5,0) arc[start angle=180,end angle=157.38,radius=0.5];\n\\path (5.95,0.19) node {$\\pi-\\beta$};\n\\end{tikzpicture}\n[/tikz]\nApply the quadrant signs: $\\sin\\alpha=-\\frac{3}{5}$, $\\cos\\alpha=\\frac{4}{5}$, $\\sin\\beta=\\frac{5}{13}$ and $\\cos\\beta=-\\frac{12}{13}$.\n$\\begin{align*}\\sin(\\alpha+\\beta)&=\\sin\\alpha\\cos\\beta+\\cos\\alpha\\sin\\beta\\\\&=\\left(-\\frac{3}{5}\\right)\\left(-\\frac{12}{13}\\right)+\\frac{4}{5}\\times\\frac{5}{13}\\\\&=\\frac{36}{65}+\\frac{20}{65}\\\\&=\\frac{56}{65}\\end{align*}$\nFor a difference, use $\\sin(\\alpha-\\beta)=\\sin\\alpha\\cos\\beta-\\cos\\alpha\\sin\\beta$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact value of $\\cos\\left(\\arctan\\left(-\\frac{1}{2}\\right)-\\arcsin\\frac{2}{3}\\right)$.",
+    "solution_text": "Let $\\alpha=\\arctan\\left(-\\frac{1}{2}\\right)$ and $\\beta=\\arcsin\\frac{2}{3}$.\nThe inverse-function ranges place $\\alpha$ in quadrant 4 and $\\beta$ in quadrant 1.\nFor $\\alpha$, the reference triangle has opposite side $1$, adjacent side $2$ and hypotenuse $\\sqrt{1^2+2^2}=\\sqrt{5}$.\nFor $\\beta$, the opposite side is $2$, the hypotenuse is $3$ and the adjacent side is $\\sqrt{3^2-2^2}=\\sqrt{5}$.\nThus $\\sin\\alpha=-\\frac{1}{\\sqrt{5}}$, $\\cos\\alpha=\\frac{2}{\\sqrt{5}}$, $\\sin\\beta=\\frac{2}{3}$ and $\\cos\\beta=\\frac{\\sqrt{5}}{3}$.\n$\\begin{align*}\\cos(\\alpha-\\beta)&=\\cos\\alpha\\cos\\beta+\\sin\\alpha\\sin\\beta\\\\&=\\frac{2}{\\sqrt{5}}\\times\\frac{\\sqrt{5}}{3}+\\left(-\\frac{1}{\\sqrt{5}}\\right)\\frac{2}{3}\\\\&=\\frac{2}{3}-\\frac{2}{3\\sqrt{5}}\\\\&=\\frac{10-2\\sqrt{5}}{15}\\end{align*}$\nFor a sum, use $\\cos(\\alpha+\\beta)=\\cos\\alpha\\cos\\beta-\\sin\\alpha\\sin\\beta$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact value of $\\tan\\left(\\arctan\\frac{2}{3}-\\arctan\\left(-\\frac{1}{4}\\right)\\right)$.",
+    "solution_text": "Let $\\alpha=\\arctan\\frac{2}{3}$ and $\\beta=\\arctan\\left(-\\frac{1}{4}\\right)$, so $\\tan\\alpha=\\frac{2}{3}$ and $\\tan\\beta=-\\frac{1}{4}$.\n$\\begin{align*}\\tan(\\alpha-\\beta)&=\\frac{\\tan\\alpha-\\tan\\beta}{1+\\tan\\alpha\\tan\\beta}\\\\&=\\frac{\\frac{2}{3}-\\left(-\\frac{1}{4}\\right)}{1+\\frac{2}{3}\\left(-\\frac{1}{4}\\right)}\\\\&=\\frac{\\frac{11}{12}}{\\frac{5}{6}}\\\\&=\\frac{11}{10}\\end{align*}$\nFor a sum, use $\\tan(\\alpha+\\beta)=\\frac{\\tan\\alpha+\\tan\\beta}{1-\\tan\\alpha\\tan\\beta}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

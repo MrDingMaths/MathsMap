@@ -2,20 +2,38 @@
   "skillId": "annuity-problems-gp",
   "atomType": "R",
   "theory": {
-    "intro": "Annuity problems use a geometric series to calculate required regular contributions, the time needed to reach a target, or to compare investments. For an account starting with $\\$0$, with equal payments $a$ at the end of each period, the balance immediately after payment $n$ is $FV=a+a(1+r)+\\cdots+a(1+r)^{n-1}=a\\left[\\dfrac{(1+r)^n-1}{r}\\right]$, where $r$ is the decimal interest rate per payment period and $n$ is the matching number of periods.",
-    "facts": [
+"intro": "Annuity problems use a geometric series to calculate required regular contributions, the time needed to reach a target, or to compare investments. For an account starting with $\\$0$, with equal payments $a$ at the end of each period, the balance immediately after payment $n$ is $FV=a+a(1+r)+\\cdots+a(1+r)^{n-1}=a\\left[\\dfrac{(1+r)^n-1}{r}\\right]$, where $r$ is the decimal interest rate per payment period and $n$ is the matching number of periods.",
+"facts": [
 "Establish the payment geometric series for each question before using its sum. Its common ratio is $R=1+r$; the final payment earns no interest before the balance is measured.",
 "To find the regular payment needed for a target future value, solve $a=\\dfrac{FV\\times r}{(1+r)^n-1}$.",
 "To find when a fund first exceeds a target $T$, solve $a\\dfrac{(1+r)^n-1}{r}>T$. To reach at least the target, use $\\geq$ instead. Choose the smallest whole number satisfying the relevant inequality.",
 "With fixed positive interest, unchanged positive payments and unchanged payment frequency, the balance grows exponentially with the number of periods, and doubling the number of periods more than doubles the balance. Increasing the rate also increases the balance, but this is not an exponential dependence on the rate.",
 "Keep full precision until the final answer."
 ],
-    "steps": [
+"steps": [
 "Identify payment timing, the starting balance, the decimal rate per payment period and the matching period count. Write the accumulated payments as a geometric series.",
 "Use the geometric-series sum and substitute the known values. Rearrange for the payment, or use an inequality and logarithms for the number of periods.",
 "Evaluate without intermediate rounding. Round money as requested, and choose the smallest whole period satisfying the target condition."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A business wants to accumulate $\\$40\\,000$ in five years. Its account starts with $\\$0$ and earns $8\\%$ p.a., compounded quarterly. Equal deposits are made at the end of each quarter. Use a geometric series to find the required quarterly deposit, correct to the nearest cent.",
+    "solution_text": "Let each quarterly deposit be $a$. The quarterly interest rate is $r=0.08/4=0.02$, so the growth factor is $R=1.02$. There are $n=5\\times4=20$ deposits.\n\nAt the end of the twentieth quarter, the first deposit has earned interest for nineteen quarters and the final deposit has earned none. The accumulated deposits are $a(1.02)^{19}+a(1.02)^{18}+\\cdots+a$.\n\nReading the series in reverse order gives first term $a$, common ratio $1.02$ and twenty terms.\n\n$\\begin{align*}40000&=a\\frac{1.02^{20}-1}{1.02-1}\\\\a&=\\frac{40000(0.02)}{1.02^{20}-1}\\\\a&\\approx\\$1646.27\\end{align*}$\n\nThe required quarterly deposit is $\\$1646.27$, correct to the nearest cent."
   },
+  {
+    "question_text": "An account starts with $\\$0$. A saver deposits $\\$300$ at the end of each month into the account, which earns $6\\%$ p.a., compounded monthly. Use a geometric series to find the first whole month when the balance (a) exceeds $\\$15\\,000$ and (b) reaches at least $\\$15\\,000$.",
+    "solution_text": "The monthly interest rate is $r=0.06/12=0.005$, giving growth factor $R=1.005$.\n\nImmediately after deposit $n$, the accumulated deposits are $300(1.005)^{n-1}+300(1.005)^{n-2}+\\cdots+300$. Reading in reverse order gives first term $300$, common ratio $1.005$ and $n$ terms.\n\nThe balance is $FV_n=300\\dfrac{1.005^n-1}{0.005}$.\n\n(a) For the balance to exceed the target:\n\n$\\begin{align*}300\\frac{1.005^n-1}{0.005}&>15000\\\\1.005^n-1&>0.25\\\\1.005^n&>1.25\\\\n&>\\frac{\\log1.25}{\\log1.005}\\\\n&>44.7401\\ldots\\end{align*}$\n\nThe smallest qualifying whole number is $n=45$.\n\n(b) Reaching at least the target uses $\\geq$, giving $n\\geq44.7401\\ldots$. The smallest qualifying whole number is again $45$.\n\nChecking the neighbouring balances, $FV_{44}\\approx\\$14\\,723.63$ and $FV_{45}\\approx\\$15\\,097.25$. Both conditions are first satisfied after $45$ months."
+  },
+  {
+    "question_text": "Two accounts start with $\\$0$ and earn $5\\%$ p.a., compounded annually. Plan A deposits $\\$800$ at the end of each year for ten years. Plan B deposits $\\$400$ at the end of each year for twenty years. Use geometric series to compare their final balances and find the difference in interest earned, correct to the nearest cent.",
+    "solution_text": "Plan A's accumulated deposits are $800(1.05)^9+800(1.05)^8+\\cdots+800$. Reading in reverse order gives first term $800$, common ratio $1.05$ and ten terms.\n\n$\\begin{align*}FV_A&=800\\frac{1.05^{10}-1}{0.05}\\\\FV_A&\\approx\\$10\\,062.31\\end{align*}$\n\nPlan B's accumulated deposits are $400(1.05)^{19}+400(1.05)^{18}+\\cdots+400$. Reading in reverse order gives first term $400$, common ratio $1.05$ and twenty terms.\n\n$\\begin{align*}FV_B&=400\\frac{1.05^{20}-1}{0.05}\\\\FV_B&\\approx\\$13\\,226.38\\end{align*}$\n\nBoth plans contribute $\\$8000$: $10(800)=20(400)=8000$. Their difference in interest equals their difference in final balances.\n\nUsing the unrounded balances, $FV_B-FV_A\\approx\\$3164.07$.\n\nPlan B gives the higher final balance and earns $\\$3164.07$ more interest over its longer investment period."
+  },
+  {
+    "question_text": "An account starts with $\\$0$ and receives $\\$200$ at the end of each month for five years. Compare its future value at (a) $4.8\\%$ p.a., compounded monthly, and (b) $7.2\\%$ p.a., compounded monthly. Use geometric series and find the additional interest earned at the higher rate. Give monetary answers correct to the nearest cent.",
+    "solution_text": "There are $n=5\\times12=60$ deposits.\n\n(a) The monthly rate is $r=0.048/12=0.004$. The accumulated deposits are $200(1.004)^{59}+200(1.004)^{58}+\\cdots+200$. Reading in reverse order gives first term $200$, common ratio $1.004$ and sixty terms.\n\n$\\begin{align*}FV_A&=200\\frac{1.004^{60}-1}{0.004}\\\\FV_A&\\approx\\$13\\,532.04\\end{align*}$\n\n(b) The monthly rate is $r=0.072/12=0.006$. The accumulated deposits are $200(1.006)^{59}+200(1.006)^{58}+\\cdots+200$. Reading in reverse order gives first term $200$, common ratio $1.006$ and sixty terms.\n\n$\\begin{align*}FV_B&=200\\frac{1.006^{60}-1}{0.006}\\\\FV_B&\\approx\\$14\\,392.95\\end{align*}$\n\nBoth accounts receive $60(200)=\\$12\\,000$, so the additional interest equals the difference in balances.\n\nSubtracting before rounding gives $FV_B-FV_A\\approx\\$860.91$.\n\nThe higher rate earns $\\$860.91$ more interest."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

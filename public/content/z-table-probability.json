@@ -2,8 +2,8 @@
   "skillId": "z-table-probability",
   "atomType": "R",
   "theory": {
-    "intro": "A **standard normal table** lists $P(Z<c)$, the area under the curve to the **left** of a non-negative $z$-score $c$. Every other region is built from those values using the complement, a subtraction, or the symmetry of the curve.",
-    "facts": [
+"intro": "A **standard normal table** lists $P(Z<c)$, the area under the curve to the **left** of a non-negative $z$-score $c$. Every other region is built from those values using the complement, a subtraction, or the symmetry of the curve.",
+"facts": [
 "The table gives $P(Z<c)$, the area to the left of $c$, for non-negative values of $c$.",
 "$P(Z>c) = 1 - P(Z<c)$, because the two areas together make up the whole area of $1$.",
 "$P(a<Z<b) = P(Z<b) - P(Z<a)$, so a middle strip is a difference of two left-hand areas.",
@@ -11,13 +11,85 @@
 "If an unstandardised score $x$ is given, first find $z = \\dfrac{x-\\mu}{\\sigma}$, then use the table.",
 "If an expected count is asked for, use the **expected frequency** $f = np$: the number of items $n$ times the probability $p$, rounded as the question requires."
 ],
-    "steps": [
+"steps": [
 "If an unstandardised score is given, convert it to a $z$-score using $z = \\dfrac{x-\\mu}{\\sigma}$",
 "Shade the required region under the curve",
 "Read $P(Z<c)$ from the table and adjust it to the region wanted",
 "If an expected count is asked for, multiply the probability by $n$ and round as required"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "For a standard normal random variable $Z$, find $P(Z<0.48)$ using this table.\n$\\begin{array}{|c|c|}\\hline z&0.48\\\\\\hline P(Z<z)&0.6844\\\\\\hline\\end{array}$",
+    "solution_text": "The table gives the area to the left of the stated score.\n$P(Z<0.48)=0.6844$.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (-3.6,0)--plot[domain=-3.6:0.48,samples=60,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)})--(0.48,0)--cycle;\n\\draw[black,thick] plot[domain=-3.6:3.6,samples=90,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)});\n\\draw[black,->] (-3.8,0)--(3.9,0) node[right] {$z$};\n\\draw[black] (0,0)--(0,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[black] (0.48,0)--(0.48,-0.55) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$0.48$};\n\\draw[black,dashed] (0.48,0)--(0.48,1.7824);\n\\path (-1.2,0.65) node {$0.6844$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "For a standard normal random variable $Z$, find $P(Z>1.47)$ using this table.\n$\\begin{array}{|c|c|}\\hline z&1.47\\\\\\hline P(Z<z)&0.9292\\\\\\hline\\end{array}$",
+    "solution_text": "The left and right areas together total $1$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}P(Z>1.47)\\\\&=1-P(Z<1.47)\\\\&=1-0.9292\\\\&=0.0708\\end{aligned}$\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (1.47,0)--plot[domain=1.47:3.6,samples=50,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)})--(3.6,0)--cycle;\n\\draw[black,thick] plot[domain=-3.6:3.6,samples=90,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)});\n\\draw[black,->] (-3.8,0)--(3.9,0) node[right] {$z$};\n\\draw[black] (0,0)--(0,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[black] (1.47,0)--(1.47,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$1.47$};\n\\draw[black,dashed] (1.47,0)--(1.47,0.6789);\n\\path (2.5,1.2) node {$0.0708$};\n\\draw[black] (2.35,1)--(2,0.15);\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For a standard normal random variable $Z$, find $P(0.45<Z<1.65)$ using this table.\n$\\begin{array}{|c|c|c|}\\hline z&0.45&1.65\\\\\\hline P(Z<z)&0.6736&0.9505\\\\\\hline\\end{array}$",
+    "solution_text": "Subtract the smaller left-hand area from the larger left-hand area.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}P(0.45<Z<1.65)\\\\&=P(Z<1.65)-P(Z<0.45)\\\\&=0.9505-0.6736\\\\&=0.2769\\end{aligned}$\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (0.45,0)--plot[domain=0.45:1.65,samples=50,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)})--(1.65,0)--cycle;\n\\draw[black,thick] plot[domain=-3.6:3.6,samples=90,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)});\n\\draw[black,->] (-3.8,0)--(3.9,0) node[right] {$z$};\n\\draw[black] (0,0)--(0,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[black] (0.45,0)--(0.45,-0.55) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$0.45$};\n\\draw[black] (1.65,0)--(1.65,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$1.65$};\n\\draw[black,dashed] (0.45,0)--(0.45,1.8074);\n\\draw[black,dashed] (1.65,0)--(1.65,0.5127);\n\\path (2.3,1.5) node {$0.2769$};\n\\draw[black] (1.9,1.3)--(1.1,0.5);\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For a standard normal random variable $Z$, find $P(Z<-0.92)$ using this table.\n$\\begin{array}{|c|c|}\\hline z&0.92\\\\\\hline P(Z<z)&0.8212\\\\\\hline\\end{array}$",
+    "solution_text": "Symmetry makes the left tail below $-0.92$ equal to the right tail above $0.92$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}P(Z<-0.92)\\\\&=P(Z>0.92)\\\\&=1-P(Z<0.92)\\\\&=1-0.8212\\\\&=0.1788\\end{aligned}$\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (-3.6,0)--plot[domain=-3.6:-0.92,samples=50,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)})--(-0.92,0)--cycle;\n\\draw[black,thick] plot[domain=-3.6:3.6,samples=90,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)});\n\\draw[black,->] (-3.8,0)--(3.9,0) node[right] {$z$};\n\\draw[black] (-0.92,0)--(-0.92,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$-0.92$};\n\\draw[black] (0,0)--(0,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[black,dashed] (-0.92,0)--(-0.92,1.3099);\n\\path (-2.4,1.2) node {$0.1788$};\n\\draw[black] (-2.2,1)--(-1.8,0.2);\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For a standard normal random variable $Z$, find $P(Z>-1.43)$ using this table.\n$\\begin{array}{|c|c|}\\hline z&1.43\\\\\\hline P(Z<z)&0.9236\\\\\\hline\\end{array}$",
+    "solution_text": "Reflecting the region in the mean gives the area to the left of $1.43$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}P(Z>-1.43)\\\\&=P(Z<1.43)\\\\&=0.9236\\end{aligned}$\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (-1.43,0)--plot[domain=-1.43:3.6,samples=70,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)})--(3.6,0)--cycle;\n\\draw[black,thick] plot[domain=-3.6:3.6,samples=90,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)});\n\\draw[black,->] (-3.8,0)--(3.9,0) node[right] {$z$};\n\\draw[black] (-1.43,0)--(-1.43,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$-1.43$};\n\\draw[black] (0,0)--(0,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[black,dashed] (-1.43,0)--(-1.43,0.7195);\n\\path (0.65,0.65) node {$0.9236$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For a standard normal random variable $Z$, find $P(-1.72<Z<-0.56)$ using this table.\n$\\begin{array}{|c|c|c|}\\hline z&0.56&1.72\\\\\\hline P(Z<z)&0.7123&0.9573\\\\\\hline\\end{array}$",
+    "solution_text": "Reflect the interval to positive scores, then subtract the left-hand areas.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}P(-1.72<Z<-0.56)\\\\&=P(0.56<Z<1.72)\\\\&=P(Z<1.72)-P(Z<0.56)\\\\&=0.9573-0.7123\\\\&=0.2450\\end{aligned}$\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (-1.72,0)--plot[domain=-1.72:-0.56,samples=50,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)})--(-0.56,0)--cycle;\n\\draw[black,thick] plot[domain=-3.6:3.6,samples=90,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)});\n\\draw[black,->] (-3.8,0)--(3.9,0) node[right] {$z$};\n\\draw[black] (-1.72,0)--(-1.72,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$-1.72$};\n\\draw[black] (-0.56,0)--(-0.56,-0.55) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$-0.56$};\n\\draw[black] (0,0)--(0,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[black,dashed] (-1.72,0)--(-1.72,0.4556);\n\\draw[black,dashed] (-0.56,0)--(-0.56,1.7097);\n\\path (-2.4,1.5) node {$0.2450$};\n\\draw[black] (-2,1.3)--(-1.1,0.5);\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For a standard normal random variable $Z$, find $P(-0.73<Z<1.46)$ using this table.\n$\\begin{array}{|c|c|c|}\\hline z&0.73&1.46\\\\\\hline P(Z<z)&0.7673&0.9279\\\\\\hline\\end{array}$",
+    "solution_text": "Use symmetry to find the left-hand area at the negative boundary.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}P(-0.73<Z<1.46)\\\\&=P(Z<1.46)-P(Z<-0.73)\\\\&=P(Z<1.46)-[1-P(Z<0.73)]\\\\&=0.9279-(1-0.7673)\\\\&=0.9279-0.2327\\\\&=0.6952\\end{aligned}$\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (-0.73,0)--plot[domain=-0.73:1.46,samples=60,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)})--(1.46,0)--cycle;\n\\draw[black,thick] plot[domain=-3.6:3.6,samples=90,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)});\n\\draw[black,->] (-3.8,0)--(3.9,0) node[right] {$z$};\n\\draw[black] (-0.73,0)--(-0.73,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$-0.73$};\n\\draw[black] (0,0)--(0,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[black] (1.46,0)--(1.46,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$1.46$};\n\\draw[black,dashed] (-0.73,0)--(-0.73,1.5322);\n\\draw[black,dashed] (1.46,0)--(1.46,0.6889);\n\\path (0.35,0.65) node {$0.6952$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The masses of $1200$ packets are normally distributed with a mean of $250$ g and a standard deviation of $10$ g. Find the probability that a randomly chosen packet has a mass between $242$ g and $263$ g, then find the expected number of such packets. Round the count to the nearest whole packet.\n$\\begin{array}{|c|c|c|}\\hline z&0.80&1.30\\\\\\hline P(Z<z)&0.7881&0.9032\\\\\\hline\\end{array}$",
+    "solution_text": "Standardise each boundary using $z=\\dfrac{x-\\mu}{\\sigma}$.\n$\\begin{aligned}z_{\\text{lower}}&=\\dfrac{242-250}{10}\\\\&=-0.8\\end{aligned}$\n$\\begin{aligned}z_{\\text{upper}}&=\\dfrac{263-250}{10}\\\\&=1.3\\end{aligned}$\n$\\begin{aligned}&\\mathrel{\\phantom{=}}P(242<X<263)\\\\&=P(-0.8<Z<1.3)\\\\&=P(Z<1.3)-[1-P(Z<0.8)]\\\\&=0.9032-(1-0.7881)\\\\&=0.6913\\end{aligned}$\nThe expected frequency is $f=np$.\n$\\begin{aligned}f&=1200\\times0.6913\\\\&=829.56\\\\&\\approx830\\end{aligned}$\nExpect approximately $830$ packets.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (-0.8,0)--plot[domain=-0.8:1.3,samples=60,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)})--(1.3,0)--cycle;\n\\draw[black,thick] plot[domain=-3.6:3.6,samples=90,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)});\n\\draw[black,->] (-3.8,0)--(3.9,0) node[right] {$z$};\n\\draw[black] (-0.8,0)--(-0.8,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$-0.8$};\n\\draw[black] (0,0)--(0,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[black] (1.3,0)--(1.3,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$1.3$};\n\\draw[black,dashed] (-0.8,0)--(-0.8,1.4523);\n\\draw[black,dashed] (1.3,0)--(1.3,0.8591);\n\\path (0.25,0.65) node {$0.6913$};\n\\path (-0.8,-0.8) node {$242\\text{ g}$};\n\\path (1.3,-0.8) node {$263\\text{ g}$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Examination marks are normally distributed with a mean of $55$ and a standard deviation of $12$. Use the closest probability in the table to find the approximate mark separating the top $15\\%$ from the remaining marks. Give your answer to one decimal place.\n$\\begin{array}{|c|c|c|c|}\\hline z&1.03&1.04&1.05\\\\\\hline P(Z<z)&0.8485&0.8508&0.8531\\\\\\hline\\end{array}$",
+    "solution_text": "The top $15\\%$ leaves an area of $0.85$ below the boundary. The closest table value is $0.8508$, giving $z=1.04$.\n$\\begin{aligned}x&=\\mu+z\\sigma\\\\&=55+1.04\\times12\\\\&=67.48\\\\&\\approx67.5\\end{aligned}$\nThe approximate boundary is $67.5$ marks.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (1.04,0)--plot[domain=1.04:3.6,samples=50,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)})--(3.6,0)--cycle;\n\\draw[black,thick] plot[domain=-3.6:3.6,samples=90,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)});\n\\draw[black,->] (-3.8,0)--(3.9,0) node[right] {$z$};\n\\draw[black] (0,0)--(0,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[black] (1.04,0)--(1.04,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$1.04$};\n\\draw[black,dashed] (1.04,0)--(1.04,1.1646);\n\\path (2.4,1.4) node {$\\approx15\\%$};\n\\draw[black] (2.2,1.2)--(1.8,0.25);\n\\path (1.04,-0.8) node {$67.5\\text{ marks}$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Completion times for a task are normally distributed with a mean of $80$ seconds and a standard deviation of $15$ seconds. Use the closest probability in the table to find the approximate time below which the fastest $25\\%$ of times fall. Give your answer to one decimal place.\n$\\begin{array}{|c|c|c|c|}\\hline z&0.66&0.67&0.68\\\\\\hline P(Z<z)&0.7454&0.7486&0.7517\\\\\\hline\\end{array}$",
+    "solution_text": "The fastest $25\\%$ lies below a negative boundary. By symmetry, its positive counterpart has an area of $0.75$ to the left. The closest table value is $0.7486$, so the required score is $z=-0.67$.\n$\\begin{aligned}x&=\\mu+z\\sigma\\\\&=80+(-0.67)\\times15\\\\&=69.95\\\\&\\approx70.0\\end{aligned}$\nThe approximate boundary is $70.0$ seconds.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{region}{HTML}{D4E8FF}\n\\fill[region] (-3.6,0)--plot[domain=-3.6:-0.67,samples=50,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)})--(-0.67,0)--cycle;\n\\draw[black,thick] plot[domain=-3.6:3.6,samples=90,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)});\n\\draw[black,->] (-3.8,0)--(3.9,0) node[right] {$z$};\n\\draw[black] (-0.67,0)--(-0.67,-0.55) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$-0.67$};\n\\draw[black] (0,0)--(0,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[black,dashed] (-0.67,0)--(-0.67,1.5978);\n\\path (-2.4,1.4) node {$\\approx25\\%$};\n\\draw[black] (-2.2,1.2)--(-1.5,0.3);\n\\path (-0.67,-1.2) node {$70.0\\text{ s}$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

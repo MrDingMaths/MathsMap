@@ -2,8 +2,8 @@
   "skillId": "area-under-curve",
   "atomType": "R",
   "theory": {
-    "intro": "The area between a curve and the $x$-axis is nonnegative. A nonzero region has positive area. Where $f(x)\\ge 0$ the area is $\\int_{a}^{b} f(x)\\,dx$, and where $f(x)\\le 0$ it is $-\\int_{a}^{b} f(x)\\,dx$. A region crossing the axis must be split.",
-    "facts": [
+"intro": "The area between a curve and the $x$-axis is nonnegative. A nonzero region has positive area. Where $f(x)\\ge 0$ the area is $\\int_{a}^{b} f(x)\\,dx$, and where $f(x)\\le 0$ it is $-\\int_{a}^{b} f(x)\\,dx$. A region crossing the axis must be split.",
+"facts": [
 "A **definite integral** gives signed area, counting any part below the $x$-axis as negative.",
 "An area is never negative. A nonzero region has positive area.",
 "If $f(x)\\ge 0$ on $[a,b]$, the area is $\\int_{a}^{b} f(x)\\,dx$.",
@@ -13,13 +13,57 @@
 "Across a sign change, $\\int_{a}^{b} f(x)\\,dx$ gives the area above the axis minus the area below it.",
 "An unsplit signed integral is strictly less than the total area when a below-axis piece has nonzero area. An intercept where the curve merely touches the axis does not necessarily cause cancellation."
 ],
-    "steps": [
+"steps": [
       "Find the $x$-intercepts by solving $f(x)=0$.",
       "Split the interval at each intercept that lies inside the limits.",
       "Integrate over each piece separately.",
       "Add the absolute values of the pieces."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find the area bounded by $y=2x^2$, the $x$-axis and the lines $x=1$ and $x=3$.",
+    "solution_text": "The curve is above the $x$-axis throughout $1\\le x\\le3$.\n$\\begin{align*} A&=\\int_1^3 2x^2\\,dx\\\\&=\\left[\\frac{2x^3}{3}\\right]_1^3\\\\&=18-\\frac23\\\\&=\\frac{52}{3}\\ \\text{units}^2.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find the area enclosed between $y=x^2-16$ and the $x$-axis.",
+    "solution_text": "Find the intercepts.\n$\\begin{align*} x^2-16&=0\\\\(x-4)(x+4)&=0\\\\x&=-4,\\ 4.\\end{align*}$\nThe curve lies below the $x$-axis between the intercepts.\n[tikz]\n\\begin{tikzpicture}[x=0.6cm,y=0.13cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{areaFill}{HTML}{DCEBE0}\n\\fill[areaFill] (-4,0) -- plot[domain=-4:4,samples=81] (\\x,{\\x*\\x-16}) -- cycle;\n\\draw[->,black] (-4.8,0)--(4.8,0) node[right] {$x$};\n\\draw[->,black] (0,-19)--(0,6) node[above] {$y$};\n\\draw[black,thick] plot[domain=-4.5:4.5,samples=91] (\\x,{\\x*\\x-16});\n\\path (-4,0) node[above left] {$-4$} (4,0) node[above right] {$4$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{align*} A&=-\\int_{-4}^4(x^2-16)\\,dx\\\\&=-\\left[\\frac{x^3}{3}-16x\\right]_{-4}^4\\\\&=-\\left(-\\frac{128}{3}-\\frac{128}{3}\\right)\\\\&=\\frac{256}{3}\\ \\text{units}^2.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the area enclosed between $y=8x-x^2$ and the $x$-axis.",
+    "solution_text": "Find the intercepts.\n$\\begin{align*} 8x-x^2&=0\\\\x(8-x)&=0\\\\x&=0,\\ 8.\\end{align*}$\nThe curve is above the $x$-axis between the intercepts.\n$\\begin{align*} A&=\\int_0^8(8x-x^2)\\,dx\\\\&=\\left[4x^2-\\frac{x^3}{3}\\right]_0^8\\\\&=256-\\frac{512}{3}\\\\&=\\frac{256}{3}\\ \\text{units}^2.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $y=x^3-4x$, evaluate $\\int_{-2}^3(x^3-4x)\\,dx$, then find the total area between the curve and the $x$-axis on $-2\\le x\\le3$. Explain why the answers differ.",
+    "solution_text": "Find the intercepts.\n$\\begin{align*} x^3-4x&=0\\\\x(x-2)(x+2)&=0\\\\x&=-2,\\ 0,\\ 2.\\end{align*}$\n[tikz]\n\\begin{tikzpicture}[x=0.85cm,y=0.14cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{areaFill}{HTML}{DCEBE0}\n\\fill[areaFill] (-2,0) -- plot[domain=-2:0,samples=41] (\\x,{\\x*\\x*\\x-4*\\x}) -- cycle;\n\\fill[areaFill] (0,0) -- plot[domain=0:2,samples=41] (\\x,{\\x*\\x*\\x-4*\\x}) -- cycle;\n\\fill[areaFill] (2,0) -- plot[domain=2:3,samples=41] (\\x,{\\x*\\x*\\x-4*\\x}) -- (3,0) -- cycle;\n\\draw[->,black] (-2.7,0)--(3.6,0) node[right] {$x$};\n\\draw[->,black] (0,-7)--(0,19) node[above] {$y$};\n\\draw[black,thick] plot[domain=-2.4:3.1,samples=121] (\\x,{\\x*\\x*\\x-4*\\x});\n\\draw[black,dashed] (3,0)--(3,15);\n\\path (-2,0) node[below left] {$-2$} (0,0) node[below left] {$0$} (2,0) node[above left] {$2$} (3,0) node[below] {$3$};\n\\end{tikzpicture}\n[/tikz]\nA primitive is $F(x)=\\frac{x^4}{4}-2x^2$.\n$\\begin{align*} \\int_{-2}^3(x^3-4x)\\,dx&=F(3)-F(-2)\\\\&=\\frac94-(-4)\\\\&=\\frac{25}{4}.\\end{align*}$\nSplit at $x=0$ and $x=2$.\n$\\begin{align*} I_1&=\\int_{-2}^0(x^3-4x)\\,dx=0-(-4)=4,\\\\I_2&=\\int_0^2(x^3-4x)\\,dx=-4-0=-4,\\\\I_3&=\\int_2^3(x^3-4x)\\,dx=\\frac94-(-4)=\\frac{25}{4}.\\end{align*}$\n$\\begin{align*} A&=|I_1|+|I_2|+|I_3|\\\\&=4+4+\\frac{25}{4}\\\\&=\\frac{57}{4}\\ \\text{units}^2.\\end{align*}$\nThe definite integral subtracts the below-axis area; the total area adds all three magnitudes.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use symmetry to find the area between $y=x^4-16x^2$ and the $x$-axis for $-4\\le x\\le4$.",
+    "solution_text": "$\\begin{align*} x^4-16x^2&=x^2(x-4)(x+4),\\\\f(-x)&=(-x)^4-16(-x)^2=f(x).\\end{align*}$\nThe function is even. The curve lies below the axis on both halves and touches it at $x=0$ without changing sign.\n[tikz]\n\\begin{tikzpicture}[x=0.6cm,y=0.035cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{areaFill}{HTML}{DCEBE0}\n\\fill[areaFill] (-4,0) -- plot[domain=-4:4,samples=161] (\\x,{\\x*\\x*\\x*\\x-16*\\x*\\x}) -- cycle;\n\\draw[->,black] (-4.8,0)--(4.8,0) node[right] {$x$};\n\\draw[->,black] (0,-75)--(0,40) node[above] {$y$};\n\\draw[black,thick] plot[domain=-4.2:4.2,samples=181] (\\x,{\\x*\\x*\\x*\\x-16*\\x*\\x});\n\\path (-4,0) node[above left] {$-4$} (4,0) node[above right] {$4$} (0,0) node[above left] {$0$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{align*} A&=-2\\int_0^4(x^4-16x^2)\\,dx\\\\&=-2\\left[\\frac{x^5}{5}-\\frac{16x^3}{3}\\right]_0^4\\\\&=-2\\left(\\frac{1024}{5}-\\frac{1024}{3}\\right)\\\\&=\\frac{4096}{15}\\ \\text{units}^2.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use symmetry to find the total area enclosed between $y=x^3-9x$ and the $x$-axis.",
+    "solution_text": "$\\begin{align*} x^3-9x&=x(x-3)(x+3),\\\\f(-x)&=-x^3+9x=-f(x).\\end{align*}$\nThe intercepts are $x=-3,0,3$. The function is odd, so the two enclosed regions have equal area. On $0<x<3$, the curve lies below the axis.\n[tikz]\n\\begin{tikzpicture}[x=0.75cm,y=0.17cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{areaFill}{HTML}{DCEBE0}\n\\fill[areaFill] (-3,0) -- plot[domain=-3:0,samples=61] (\\x,{\\x*\\x*\\x-9*\\x}) -- cycle;\n\\fill[areaFill] (0,0) -- plot[domain=0:3,samples=61] (\\x,{\\x*\\x*\\x-9*\\x}) -- cycle;\n\\draw[->,black] (-3.8,0)--(3.8,0) node[right] {$x$};\n\\draw[->,black] (0,-13)--(0,13) node[above] {$y$};\n\\draw[black,thick] plot[domain=-3.4:3.4,samples=141] (\\x,{\\x*\\x*\\x-9*\\x});\n\\path (-3,0) node[above left] {$-3$} (3,0) node[below right] {$3$} (0,0) node[below left] {$0$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{align*} A&=-2\\int_0^3(x^3-9x)\\,dx\\\\&=-2\\left[\\frac{x^4}{4}-\\frac{9x^2}{2}\\right]_0^3\\\\&=-2\\left(\\frac{81}{4}-\\frac{81}{2}\\right)\\\\&=\\frac{81}{2}\\ \\text{units}^2.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

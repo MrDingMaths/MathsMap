@@ -2,8 +2,8 @@
   "skillId": "binomial-random-variable",
   "atomType": "Cat",
   "theory": {
-    "intro": "A **binomial random variable** $X$ counts the number of successes in a fixed number of repeated Bernoulli trials. Four conditions must hold: $n$ is fixed, each trial has two outcomes, the trials are independent, and $p$ is the same every time.",
-    "facts": [
+"intro": "A **binomial random variable** $X$ counts the number of successes in a fixed number of repeated Bernoulli trials. Four conditions must hold: $n$ is fixed, each trial has two outcomes, the trials are independent, and $p$ is the same every time.",
+"facts": [
       "The number of trials $n$ must be fixed in advance, so 'repeat until the first success' is not binomial.",
       "Each trial must have exactly two recorded outcomes, one called a success and the other a failure.",
       "The trials must be independent, so the result of one trial does not change the chance of any other.",
@@ -13,12 +13,34 @@
       "Sampling a few items from a very large population is treated as binomial, because $p$ barely changes.",
       "'Success' is whatever the question chooses to count, so counting failures instead swaps $p$ for $1-p$."
     ],
-    "steps": [
+"steps": [
       "Identify one trial and state which outcome is counted as a success",
       "Check the four conditions: fixed $n$, two outcomes, independent trials, constant $p$",
       "If all four hold, write $X\\sim\\mathrm{Bin}(n,p)$; otherwise name the condition that fails"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A fair six-sided die is rolled independently $32$ times. Let $X$ be the number of rolls showing a number greater than $4$.\nExplain why $X$ is binomial and write its distribution.",
+    "solution_text": "Success: a roll shows $5$ or $6$.\nThere are $32$ fixed trials. Each recorded outcome is success or failure, the rolls are independent, and the success probability is constant.\n$n=32$, $p=\\dfrac{2}{6}=\\dfrac{1}{3}$.\n$X\\sim\\mathrm{Bin}\\left(32,\\dfrac{1}{3}\\right)$.\nThe die has six faces, but the count uses only two categories: greater than $4$ or not greater than $4$."
   },
+  {
+    "question_text": "For each situation, decide whether $X$ is binomial. Give a reason, or state which information is missing.\n(a) A fair coin is tossed until the first tail. $X$ counts the tosses.\n(b) A student independently guesses $16$ quiz answers. The first $8$ questions have four options each; the remaining $8$ have six options each. $X$ counts correct answers.\n(c) Seven cards are drawn without replacement from a shuffled standard deck. $X$ counts diamonds.\n(d) A pair of dice is rolled $12$ times. $X$ is the average of the twelve sums.\n(e) Eight chess games are played, with each result recorded as win, draw or loss. $X$ counts wins.",
+    "solution_text": "(a) No. The stopping rule makes the number of trials depend on the results, so $n$ is not fixed.\n(b) No. The success probability changes from $\\dfrac{1}{4}$ to $\\dfrac{1}{6}$, so $p$ is not constant.\n(c) No. Removing cards changes the probability of drawing a diamond. The trials are dependent and $p$ is not constant.\n(d) No. An average of dice sums is not a count of successes in Bernoulli trials.\n(e) There is not enough information. Counting wins groups each game into win or not win, so there are two recorded outcomes and $n=8$ is fixed. The win count is binomial if the games are independent and the probability of winning is constant; neither condition is stated."
+  },
+  {
+    "question_text": "A student guesses every answer on an $18$-question quiz. Each question has six options, exactly one correct, and the guesses are independent and uniformly random. Let $X$ count correct answers.\nWrite $X\\sim\\mathrm{Bin}(n,p)$.",
+    "solution_text": "Success: an answer is correct.\n$n=18$, $p=\\dfrac{1}{6}$.\n$X\\sim\\mathrm{Bin}\\left(18,\\dfrac{1}{6}\\right)$."
+  },
+  {
+    "question_text": "Each of $22$ seeds germinates independently with probability $0.75$. Let $X$ count seeds that germinate and $Y$ count seeds that fail to germinate.\nWrite both binomial distributions.",
+    "solution_text": "For $X$, success means germination, so $p=0.75$.\n$X\\sim\\mathrm{Bin}(22,0.75)$.\nFor $Y$, success means failure to germinate.\n$p=1-0.75=0.25$.\n$Y\\sim\\mathrm{Bin}(22,0.25)$.\nBoth counts have $22$ fixed, independent trials with constant success probabilities."
+  },
+  {
+    "question_text": "Bag A contains $3$ red and $7$ blue counters. A counter is drawn, replaced, and the bag remixed before each of $6$ draws. Let $X$ count red counters drawn.\nBag B contains $3000$ red and $7000$ blue counters. Six counters are selected at random without replacement. Let $Y$ count red counters selected.\nState which count is exactly binomial and which can be treated as approximately binomial. Write the distributions and explain.",
+    "solution_text": "For bag A, replacement and remixing make the draws independent with constant probability $p=\\dfrac{3}{10}=0.3$.\n$X\\sim\\mathrm{Bin}(6,0.3)$ exactly.\nFor bag B, removing counters changes the red proportion slightly, so the draws are not strictly independent and $p$ is not exactly constant.\nSelecting only $6$ counters from $10\\,000$ barely changes the proportion. Therefore $Y$ can be modelled approximately by $\\mathrm{Bin}(6,0.3)$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

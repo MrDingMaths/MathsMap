@@ -2,21 +2,48 @@
   "skillId": "solve-absolute-value-equations",
   "atomType": "R",
   "theory": {
-        "intro": "To **solve an absolute value equation** $|ax + b| = k$, split it into two cases: $ax + b = k$ or $ax + b = -k$. When the right-hand side is linear, $|ax + b| = cx + d$, use $ax + b = cx + d$ or $ax + b = -(cx + d)$. Solve each linear equation and substitute each candidate into the original equation to check for extraneous solutions.",
-        "facts": [
+"intro": "To **solve an absolute value equation** $|ax + b| = k$, split it into two cases: $ax + b = k$ or $ax + b = -k$. When the right-hand side is linear, $|ax + b| = cx + d$, use $ax + b = cx + d$ or $ax + b = -(cx + d)$. Solve each linear equation and substitute each candidate into the original equation to check for extraneous solutions.",
+"facts": [
 "For $k > 0$, $|ax + b| = k$ splits into two linear equations: $ax + b = k$ and $ax + b = -k$.",
 "For $k = 0$ and $a \\ne 0$, the equation $|ax + b| = 0$ has one solution given by $ax + b = 0$. If $a = 0$, every real value of $x$ is a solution when $b = 0$, and there is no solution when $b \\ne 0$.",
 "If $k < 0$, the equation $|ax + b| = k$ has **no solution** because an absolute value is never negative.",
 "In $|ax + b| = cx + d$, any candidate solution that makes $cx + d < 0$ is an **extraneous solution** and is rejected.",
 "Substitute all candidate solutions back into the original equation to verify validity."
 ],
-        "steps": [
+"steps": [
 "Check if the constant right-hand side is negative; if so, state no solution",
 "For a constant right-hand side, use Case 1 ($ax + b = k$) and Case 2 ($ax + b = -k$); for a linear right-hand side, use Case 1 ($ax + b = cx + d$) and Case 2 ($ax + b = -(cx + d)$)",
 "Solve each linear equation for $x$",
 "Substitute each candidate into the original equation and reject any that do not satisfy it"
+],
+"workedExamples": [
+  {
+    "question_text": "Solve $|3x-2|=7$.",
+    "solution_text": "Case 1:\n$\\begin{align*}3x-2&=7\\\\3x&=9\\\\x&=3\\end{align*}$\nCase 2:\n$\\begin{align*}-(3x-2)&=7\\\\3x-2&=-7\\\\3x&=-5\\\\x&=-\\frac53\\end{align*}$\nCheck $x=3$:\n$\\begin{align*}&\\mathrel{\\phantom{=}}|3(3)-2|\\\\&=|7|\\\\&=7\\end{align*}$\nCheck $x=-\\frac53$:\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\left|3\\left(-\\frac53\\right)-2\\right|\\\\&=|-7|\\\\&=7\\end{align*}$\nBoth values satisfy the original equation, so $x=3$ or $x=-\\frac53$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $|2x-9|=-3$.",
+    "solution_text": "An absolute value is non-negative, so $|2x-9|\\geq0$ for every real $x$. It cannot equal $-3$.\nThere is no solution."
+  },
+  {
+    "question_text": "Solve $\\left|\\frac{2x-1}{5}\\right|=3$.",
+    "solution_text": "Multiply both sides by $5$:\n$|2x-1|=15$.\nCase 1:\n$\\begin{align*}2x-1&=15\\\\2x&=16\\\\x&=8\\end{align*}$\nCase 2:\n$\\begin{align*}-(2x-1)&=15\\\\2x-1&=-15\\\\2x&=-14\\\\x&=-7\\end{align*}$\nCheck $x=8$:\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\left|\\frac{2(8)-1}{5}\\right|\\\\&=\\left|\\frac{15}{5}\\right|\\\\&=3\\end{align*}$\nCheck $x=-7$:\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\left|\\frac{2(-7)-1}{5}\\right|\\\\&=\\left|\\frac{-15}{5}\\right|\\\\&=3\\end{align*}$\nBoth values satisfy the original equation, so $x=8$ or $x=-7$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $|x-4|=2x-1$. Check each candidate in the original equation.",
+    "solution_text": "Case 1:\n$\\begin{align*}x-4&=2x-1\\\\-x&=3\\\\x&=-3\\end{align*}$\nCase 2:\n$\\begin{align*}-(x-4)&=2x-1\\\\-x+4&=2x-1\\\\5&=3x\\\\x&=\\frac53\\end{align*}$\nCheck $x=-3$:\n$\\begin{align*}\\mathrm{LHS}&=|-3-4|\\\\&=7\\\\\\mathrm{RHS}&=2(-3)-1\\\\&=-7\\end{align*}$\nThe sides differ, so reject $x=-3$.\nCheck $x=\\frac53$:\n$\\begin{align*}\\mathrm{LHS}&=\\left|\\frac53-4\\right|\\\\&=\\frac73\\\\\\mathrm{RHS}&=2\\left(\\frac53\\right)-1\\\\&=\\frac73\\end{align*}$\nThe sides agree, so the solution is $x=\\frac53$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

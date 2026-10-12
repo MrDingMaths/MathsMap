@@ -2,23 +2,95 @@
   "skillId": "points-of-inflection",
   "atomType": "R",
   "theory": {
-    "intro": "A **point of inflection** is a point where a curve changes concavity. Solve $f''(x) = 0$ to find the possible places, then check that $f''$ really does change sign there. If $f'(x) = 0$ as well, it is a **horizontal point of inflection**.",
-    "facts": [
-      "$f''(x) = 0$ at every point of inflection, but $f''(x) = 0$ on its own is not enough.",
-      "The concavity must actually change, so test the sign of $f''$ just left and just right of the point.",
-      "$y = x^{4}$ has $f''(0) = 0$ yet no inflection at the origin, because $f''(x) = 12x^{2}$ is positive on both sides.",
-      "A point where $f'' = 0$ without a sign change is a very flat turning point, called an **undulation point**.",
-      "A **horizontal point of inflection** has $f'(x) = 0$ as well as a change of concavity, so its tangent is horizontal.",
-      "An ordinary point of inflection has $f'(x) \\neq 0$, and is the steepest point of the curve in that neighbourhood.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[thick,<->,domain=-1.2:1.2,smooth,variable=\\x] plot ({\\x},{0.6*\\x*\\x*\\x+0.8*\\x});\n\\draw[dashed] (-1.0,-0.8) -- (1.0,0.8);\n\\fill (0,0) circle (2pt);\n\\node[font=\\small] at (0,2.5) {Point of inflection};\n\\node[font=\\footnotesize] at (0,-2.5) {$f''$ changes sign, $f' \\neq 0$};\n\\draw[thick,<->,domain=-1.2:1.2,smooth,variable=\\x] plot ({\\x+4.8},{0.8*\\x*\\x*\\x});\n\\draw[dashed] (4.3,0) -- (5.3,0);\n\\fill (4.8,0) circle (2pt);\n\\node[font=\\small] at (4.8,2.5) {Horizontal inflection};\n\\node[font=\\footnotesize] at (4.8,-2.5) {$f''$ changes sign, $f' = 0$};\n\\draw[thick,<->,domain=-1.2:1.2,smooth,variable=\\x] plot ({\\x+9.6},{0.9*\\x*\\x*\\x*\\x-0.9});\n\\draw[dashed] (9.1,-0.9) -- (10.1,-0.9);\n\\fill (9.6,-0.9) circle (2pt);\n\\node[font=\\small] at (9.6,2.5) {Undulation point};\n\\node[font=\\footnotesize] at (9.6,-2.5) {$f''$ keeps its sign};\n\\end{tikzpicture}\n[/tikz]",
-      "Substitute the $x$-value into $f(x)$ to give the $y$-coordinate of the inflection."
-    ],
-    "steps": [
+"intro": "A **point of inflection** is a point where a curve changes concavity. Solve $f''(x) = 0$ to find the possible places, then check that $f''$ really does change sign there. If $f'(x) = 0$ as well, it is a **horizontal point of inflection**.",
+"facts": [
+"At a point of inflection, $f''(x) = 0$ if the second derivative exists there, but $f''(x) = 0$ on its own is not enough.",
+"The concavity must actually change, so test the sign of $f''$ just left and just right of the point.",
+"$y = x^{4}$ has $f''(0) = 0$ yet no inflection at the origin, because $f''(x) = 12x^{2}$ is positive on both sides.",
+"A zero of $f''$ without a sign change is not an inflection and need not be a turning point. If it is also a stationary point and the gradient changes sign, it is a very flat turning point, called an **undulation point** in the booklet.",
+"A **horizontal point of inflection** has $f'(x) = 0$ as well as a change of concavity, so its tangent is horizontal.",
+"An ordinary point of inflection has $f'(x) \\neq 0$. The gradient can have a local maximum or minimum there; it is not always the steepest point of the curve. For $y = 0.6x^{3} + 0.8x$, the gradient $1.8x^{2} + 0.8$ is locally smallest at the inflection.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[thick,<->,domain=-1.2:1.2,smooth,variable=\\x] plot ({\\x},{0.6*\\x*\\x*\\x+0.8*\\x});\n\\draw[dashed] (-1.0,-0.8) -- (1.0,0.8);\n\\fill (0,0) circle (2pt);\n\\node[font=\\fontsize{10}{12}\\selectfont,align=center,text width=3.4cm,anchor=south] at (0,2.5) {Point of\\\\inflection};\n\\node[font=\\fontsize{10}{12}\\selectfont,align=center,text width=3.4cm,anchor=north] at (0,-2.5) {$f''$ changes sign,\\\\$f' \\neq 0$};\n\\draw[thick,<->,domain=-1.2:1.2,smooth,variable=\\x] plot ({\\x+4.8},{0.8*\\x*\\x*\\x});\n\\draw[dashed] (4.3,0) -- (5.3,0);\n\\fill (4.8,0) circle (2pt);\n\\node[font=\\fontsize{10}{12}\\selectfont,align=center,text width=3.4cm,anchor=south] at (4.8,2.5) {Horizontal\\\\inflection};\n\\node[font=\\fontsize{10}{12}\\selectfont,align=center,text width=3.4cm,anchor=north] at (4.8,-2.5) {$f''$ changes sign,\\\\$f' = 0$};\n\\draw[thick,<->,domain=-1.2:1.2,smooth,variable=\\x] plot ({\\x+9.6},{0.9*\\x*\\x*\\x*\\x-0.9});\n\\draw[dashed] (9.1,-0.9) -- (10.1,-0.9);\n\\fill (9.6,-0.9) circle (2pt);\n\\node[font=\\fontsize{10}{12}\\selectfont,align=center,text width=3.4cm,anchor=south] at (9.6,2.5) {Undulation\\\\point};\n\\node[font=\\fontsize{10}{12}\\selectfont,align=center,text width=3.4cm,anchor=north] at (9.6,-2.5) {$f''$ keeps its sign,\\\\$f' = 0$};\n\\end{tikzpicture}\n[/tikz]",
+"Substitute the $x$-value into $f(x)$ to give the $y$-coordinate of the inflection."
+],
+"steps": [
       "Differentiate twice to find $f''(x)$",
       "Solve $f''(x) = 0$ to find the possible points of inflection",
       "Test the sign of $f''(x)$ on each side to confirm the concavity changes",
       "Substitute into $f(x)$ for the $y$-coordinate, and into $f'(x)$ to check whether the inflection is horizontal"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find and classify the point of inflection on $f(x)=x^3-6x^2+9x+4$.",
+    "solution_text": "$\\begin{aligned}f'(x)&=3x^2-12x+9\\\\f''(x)&=6x-12\\end{aligned}$\nSolve $f''(x)=0$:\n$\\begin{aligned}6x-12&=0\\\\x&=2\\end{aligned}$\n| $x$ | $1$ | $2$ | $3$ |\n|---|---|---|---|\n| $f''(x)$ | $-6$ | $0$ | $6$ |\n| Concavity | Down | — | Up |\nThe concavity changes, so there is a point of inflection.\n$\\begin{aligned}f(2)&=8-24+18+4\\\\&=6\\\\f'(2)&=12-24+9\\\\&=-3\\end{aligned}$\nThe point of inflection is $(2,6)$. It is not horizontal because its gradient is $-3$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find and classify the points of inflection on $f(x)=x^4-8x^3+18x^2+2$.",
+    "solution_text": "$\\begin{aligned}f'(x)&=4x^3-24x^2+36x\\\\f''(x)&=12x^2-48x+36\\\\&=12(x-1)(x-3)\\end{aligned}$\nPossible inflections occur at $x=1$ and $x=3$.\n| $x$ | $0$ | $1$ | $2$ | $3$ | $4$ |\n|---|---|---|---|---|---|\n| $f''(x)$ | $36$ | $0$ | $-12$ | $0$ | $36$ |\n| Concavity | Up | — | Down | — | Up |\nThe concavity changes at both values.\n$\\begin{aligned}f(1)&=1-8+18+2\\\\&=13\\\\f(3)&=81-216+162+2\\\\&=29\\\\f'(1)&=16\\\\f'(3)&=0\\end{aligned}$\nThere is a non-horizontal inflection at $(1,13)$ and a horizontal inflection at $(3,29)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $f(x)=x^5-10x^4$, determine which roots of $f''(x)=0$ give points of inflection.",
+    "solution_text": "$\\begin{aligned}f'(x)&=5x^4-40x^3\\\\f''(x)&=20x^3-120x^2\\\\&=20x^2(x-6)\\end{aligned}$\nPossible inflections occur at $x=0$ and $x=6$.\n| $x$ | $-1$ | $0$ | $1$ | $6$ | $7$ |\n|---|---|---|---|---|---|\n| $f''(x)$ | $-140$ | $0$ | $-100$ | $0$ | $980$ |\n| Concavity | Down | — | Down | — | Up |\nThere is no change of concavity at $x=0$, so it is not an inflection.\nThe concavity changes at $x=6$.\n$\\begin{aligned}f(6)&=6^5-10(6^4)\\\\&=-5184\\\\f'(6)&=5(6^4)-40(6^3)\\\\&=-2160\\end{aligned}$\nThe only point of inflection is $(6,-5184)$, and it is not horizontal.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Both $f(x)=2x^3+1$ and $g(x)=2x^4+1$ satisfy $f'(0)=g'(0)=f''(0)=g''(0)=0$. Determine the nature of each stationary point.",
+    "solution_text": "$\\begin{aligned}f'(x)&=6x^2\\\\f''(x)&=12x\\\\g'(x)&=8x^3\\\\g''(x)&=24x^2\\end{aligned}$\n| $x$ | $-1$ | $0$ | $1$ |\n|---|---|---|---|\n| $f'(x)$ | $6$ | $0$ | $6$ |\n| $f''(x)$ | $-12$ | $0$ | $12$ |\n| $g'(x)$ | $-8$ | $0$ | $8$ |\n| $g''(x)$ | $24$ | $0$ | $24$ |\nFor $f$, concavity changes from down to up and $f'(0)=0$. Thus $(0,1)$ is a horizontal point of inflection.\nFor $g$, concavity stays up while the gradient changes from negative to positive. Thus $(0,1)$ is a very flat local minimum, called an undulation point in the booklet.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,->] (-1.4,0)--(1.4,0) node[right] {$x$};\n\\draw[black,->] (0,-1.3)--(0,2.9) node[above] {$y$};\n\\draw[curveblue,thick,<->,domain=-1:0.95,samples=65,smooth,variable=\\x] plot ({\\x},{2*\\x*\\x*\\x+1});\n\\fill[black] (0,1) circle (1.5pt);\n\\path (0,1) node[left] {$(0,1)$};\n\\path (0,-1.8) node {$f(x)=2x^3+1$};\n\\begin{scope}[xshift=45mm]\n\\draw[black,->] (-1.4,0)--(1.4,0) node[right] {$x$};\n\\draw[black,->] (0,-1.3)--(0,2.9) node[above] {$y$};\n\\draw[curveblue,thick,<->,domain=-0.95:0.95,samples=65,smooth,variable=\\x] plot ({\\x},{2*\\x*\\x*\\x*\\x+1});\n\\fill[black] (0,1) circle (1.5pt);\n\\path (0,1) node[below right] {$(0,1)$};\n\\path (0,-1.8) node {$g(x)=2x^4+1$};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A function has second derivative $f''(x)=2x^3(x+1)^2(x-3)$. Use a table of concavities to find the $x$-coordinates of its points of inflection.",
+    "solution_text": "The roots of $f''(x)=0$ are $x=-1$, $x=0$ and $x=3$.\n| $x$ | $-2$ | $-1$ | $-\\frac12$ | $0$ | $1$ | $3$ | $4$ |\n|---|---|---|---|---|---|---|---|\n| $f''(x)$ | $80$ | $0$ | $\\frac{7}{32}$ | $0$ | $-16$ | $0$ | $3200$ |\n| Concavity | Up | — | Up | — | Down | — | Up |\nThere is no change of concavity at $x=-1$.\nConcavity changes at $x=0$ and $x=3$, so these are the $x$-coordinates of the points of inflection. Their $y$-coordinates cannot be determined from the supplied second derivative alone.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the point of inflection on $y=xe^{-4x}$ and determine whether it is horizontal.",
+    "solution_text": "Use the product and chain rules.\n$\\begin{aligned}y'&=e^{-4x}-4xe^{-4x}\\\\&=(1-4x)e^{-4x}\\\\y''&=-4e^{-4x}-4(1-4x)e^{-4x}\\\\&=8(2x-1)e^{-4x}\\end{aligned}$\nSince $e^{-4x}>0$, the only root of $y''=0$ is $x=\\frac12$.\n| $x$ | $0$ | $\\frac12$ | $1$ |\n|---|---|---|---|\n| $y''$ | $-8$ | $0$ | $8e^{-4}$ |\n| Concavity | Down | — | Up |\nThe concavity changes.\n$\\begin{aligned}y\\left(\\frac12\\right)&=\\frac12e^{-2}\\\\y'\\left(\\frac12\\right)&=-e^{-2}\\end{aligned}$\nThe inflection is $\\left(\\frac12,\\frac{1}{2e^2}\\right)$ and is not horizontal.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find and classify the points of inflection on (a) $y=2\\sin x-2\\cos x$, for $0<x<2\\pi$, and (b) $y=2x+2\\sin x$, for $0<x<2\\pi$.",
+    "solution_text": "(a)\n$\\begin{aligned}y'&=2\\cos x+2\\sin x\\\\y''&=-2\\sin x+2\\cos x\\end{aligned}$\nSolve $y''=0$:\n$\\begin{aligned}\\sin x&=\\cos x\\\\\\tan x&=1\\\\x&=\\frac\\pi4,\\ \\frac{5\\pi}4\\end{aligned}$\n| $x$ | $\\frac\\pi8$ | $\\frac\\pi4$ | $\\pi$ | $\\frac{5\\pi}4$ | $\\frac{3\\pi}2$ |\n|---|---|---|---|---|---|\n| Sign of $y''$ | $+$ | $0$ | $-$ | $0$ | $+$ |\nConcavity changes at both roots. Both have $y=0$, and their gradients are $2\\sqrt2$ and $-2\\sqrt2$ respectively.\nThe inflections are $\\left(\\frac\\pi4,0\\right)$ and $\\left(\\frac{5\\pi}4,0\\right)$; neither is horizontal.\n(b)\n$\\begin{aligned}y'&=2+2\\cos x\\\\y''&=-2\\sin x\\end{aligned}$\nThe only root of $y''=0$ in the open interval is $x=\\pi$.\n$y''\\left(\\frac\\pi2\\right)=-2$ and $y''\\left(\\frac{3\\pi}2\\right)=2$, so concavity changes.\n$\\begin{aligned}y(\\pi)&=2\\pi\\\\y'(\\pi)&=0\\end{aligned}$\nThere is a horizontal point of inflection at $(\\pi,2\\pi)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find and classify the points of inflection on $y=\\ln(x^2+9)$.",
+    "solution_text": "The domain is all real $x$. Use the chain and quotient rules.\n$\\begin{aligned}y'&=\\frac{2x}{x^2+9}\\\\y''&=\\frac{2(x^2+9)-4x^2}{(x^2+9)^2}\\\\&=\\frac{18-2x^2}{(x^2+9)^2}\\end{aligned}$\nThe denominator is positive, so solve:\n$\\begin{aligned}18-2x^2&=0\\\\x^2&=9\\\\x&=\\pm3\\end{aligned}$\n| $x$ | $-4$ | $-3$ | $0$ | $3$ | $4$ |\n|---|---|---|---|---|---|\n| Sign of $y''$ | $-$ | $0$ | $+$ | $0$ | $-$ |\nConcavity changes at both roots.\n$\\begin{aligned}y(-3)&=\\ln18\\\\y(3)&=\\ln18\\\\y'(-3)&=-\\frac13\\\\y'(3)&=\\frac13\\end{aligned}$\nThe inflections are $(-3,\\ln18)$ and $(3,\\ln18)$. Neither is horizontal.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $a$ if $y=x^3-ax^2+7x+1$ has a point of inflection at $x=4$.",
+    "solution_text": "$\\begin{aligned}y'&=3x^2-2ax+7\\\\y''&=6x-2a\\end{aligned}$\nAt $x=4$, the second derivative is zero:\n$\\begin{aligned}24-2a&=0\\\\a&=12\\end{aligned}$\nCheck the concavity with this value:\n$y''=6(x-4)$.\nIt is negative for $x<4$ and positive for $x>4$, confirming an inflection at $x=4$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $a$ and $b$ if $y=x^4+ax^3+bx^2$ has a point of inflection at $(1,0)$.",
+    "solution_text": "$\\begin{aligned}y'&=4x^3+3ax^2+2bx\\\\y''&=12x^2+6ax+2b\\end{aligned}$\nSince $y''(1)=0$:\n$\\begin{aligned}12+6a+2b&=0\\\\6+3a+b&=0\\qquad(1)\\end{aligned}$\nSince the curve passes through $(1,0)$:\n$1+a+b=0\\qquad(2)$.\nSubtract (2) from (1):\n$\\begin{aligned}5+2a&=0\\\\a&=-\\frac52\\end{aligned}$\nSubstitute into (2):\n$\\begin{aligned}1-\\frac52+b&=0\\\\b&=\\frac32\\end{aligned}$\nCheck:\n$\\begin{aligned}y''&=12x^2-15x+3\\\\&=3(4x-1)(x-1)\\end{aligned}$\nNear $x=1$, the factor $4x-1$ is positive while $x-1$ changes sign. Thus the concavity changes at $(1,0)$.\nThe required values are $a=-\\frac52$ and $b=\\frac32$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

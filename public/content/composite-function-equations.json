@@ -2,20 +2,92 @@
   "skillId": "composite-function-equations",
   "atomType": "R",
   "theory": {
-        "intro": "To find the equation of a **composite function** $f(g(x))$, substitute the entire expression $g(x)$ into every $x$ in $f(x)$. Expand brackets and simplify the resulting expression.",
-        "facts": [
+"intro": "To find the equation of a **composite function** $f(g(x))$, substitute the entire expression $g(x)$ into every $x$ in $f(x)$. Expand brackets and simplify the resulting expression.",
+"facts": [
           "To form $f(g(x))$, replace each $x$ in $f(x)$ with the full expression for $g(x)$ in brackets.",
           "To form $g(f(x))$, replace each $x$ in $g(x)$ with the full expression for $f(x)$ in brackets.",
           "Function composition is not commutative: $f(g(x))$ and $g(f(x))$ are generally different expressions.",
           "For a self-composition $f(f(x))$, substitute the formula of $f(x)$ into its own variable $x$.",
           "Always expand algebraic terms and collect like terms to leave the composite rule fully simplified."
         ],
-        "steps": [
+"steps": [
           "Write the outer function with brackets around every input variable.",
           "Substitute the entire inner function expression into those brackets.",
           "Expand brackets, simplify algebraic terms, and collect like terms."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Let $f(x)=4x-3$ and $g(x)=2-3x$. Find and simplify (a) $f(g(x))$ and (b) $(g\\circ f)(x)$.",
+    "solution_text": "(a) Substitute $g(x)$ into $f$.\n$\\begin{align*}f(g(x))&=4(2-3x)-3\\\\&=8-12x-3\\\\&=5-12x\\end{align*}$\n(b) Substitute $f(x)$ into $g$.\n$\\begin{align*}(g\\circ f)(x)&=2-3(4x-3)\\\\&=2-12x+9\\\\&=11-12x\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $h(x)=3x-2$ and $k(x)=7-x$. (a) Find $h(h(x))$. (b) Show that $k(k(x))=x$.",
+    "solution_text": "(a)\n$\\begin{align*}h(h(x))&=3(3x-2)-2\\\\&=9x-6-2\\\\&=9x-8\\end{align*}$\n(b)\n$\\begin{align*}k(k(x))&=7-(7-x)\\\\&=7-7+x\\\\&=x\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=x^{2}-2x+3$ and $g(x)=2x-1$. Find and simplify (a) $f(g(x))$ and (b) $g(f(x))$.",
+    "solution_text": "(a) Replace both occurrences of $x$ in $f(x)$ with $2x-1$.\n$\\begin{align*}f(g(x))&=(2x-1)^{2}-2(2x-1)+3\\\\&=4x^{2}-4x+1-4x+2+3\\\\&=4x^{2}-8x+6\\end{align*}$\n(b)\n$\\begin{align*}g(f(x))&=2(x^{2}-2x+3)-1\\\\&=2x^{2}-4x+6-1\\\\&=2x^{2}-4x+5\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=\\sqrt{x}$ and $g(x)=x+5$. (a) Find $f(g(x))$ and $g(f(x))$. (b) Identify a composite function that produces $\\sqrt{x+10}$.",
+    "solution_text": "(a)\n$\\begin{align*}f(g(x))&=\\sqrt{x+5}\\\\g(f(x))&=\\sqrt{x}+5\\end{align*}$\n(b) Apply $g$ twice before applying $f$.\n$\\begin{align*}g(g(x))&=(x+5)+5\\\\&=x+10\\\\f(g(g(x)))&=\\sqrt{x+10}\\end{align*}$\nThe required composite function is $f(g(g(x)))$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=\\dfrac{2}{x+1}$ and $g(x)=\\dfrac{1}{x}$. Find and simplify (a) $f(g(x))$ and (b) $g(f(x))$.",
+    "solution_text": "(a) Substitute the whole fraction, then combine the denominator terms.\n$\\begin{align*}f(g(x))&=\\dfrac{2}{\\dfrac{1}{x}+1}\\\\&=\\dfrac{2}{\\dfrac{1+x}{x}}\\\\&=\\dfrac{2x}{x+1}\\end{align*}$\nThis composition requires $x\\ne0,-1$.\n(b)\n$\\begin{align*}g(f(x))&=\\dfrac{1}{\\dfrac{2}{x+1}}\\\\&=\\dfrac{x+1}{2}\\end{align*}$\nThis composition requires $x\\ne-1$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=\\dfrac{x}{x+2}$. Find and simplify $f(f(x))$.",
+    "solution_text": "Substitute the full expression into both occurrences of $x$.\n$\\begin{align*}f(f(x))&=\\dfrac{\\dfrac{x}{x+2}}{\\dfrac{x}{x+2}+2}\\\\&=\\dfrac{\\dfrac{x}{x+2}}{\\dfrac{x+2(x+2)}{x+2}}\\\\&=\\dfrac{\\dfrac{x}{x+2}}{\\dfrac{3x+4}{x+2}}\\\\&=\\dfrac{x}{3x+4}\\end{align*}$\nThe original composition requires $x\\ne-2,-\\dfrac{4}{3}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=\\sqrt{x^{2}-16}$ and $g(x)=x+6$. Express $f(g(x))$ in the form $\\sqrt{(x+a)(x+b)}$, where $a<b$ are integers.",
+    "solution_text": "Substitute first, then factor the expression under the square root.\n$\\begin{align*}f(g(x))&=\\sqrt{(x+6)^{2}-16}\\\\&=\\sqrt{x^{2}+12x+36-16}\\\\&=\\sqrt{x^{2}+12x+20}\\\\&=\\sqrt{(x+2)(x+10)}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Which function satisfies $f(f(x))=x$ for every input where the composition is defined?\nA. $f(x)=x+2$\nB. $f(x)=x-2$\nC. $f(x)=\\dfrac{x-2}{x+2}$\nD. $f(x)=\\dfrac{2x+3}{x-2}$",
+    "solution_text": "Test each function by substituting its rule into itself.\nFor A:\n$\\begin{align*}f(f(x))&=(x+2)+2\\\\&=x+4\\end{align*}$\nFor B:\n$\\begin{align*}f(f(x))&=(x-2)-2\\\\&=x-4\\end{align*}$\nFor C:\n$\\begin{align*}f(f(x))&=\\dfrac{\\dfrac{x-2}{x+2}-2}{\\dfrac{x-2}{x+2}+2}\\\\&=\\dfrac{x-2-2(x+2)}{x-2+2(x+2)}\\\\&=\\dfrac{-x-6}{3x+2}\\end{align*}$\nFor D:\n$\\begin{align*}f(f(x))&=\\dfrac{2\\left(\\dfrac{2x+3}{x-2}\\right)+3}{\\dfrac{2x+3}{x-2}-2}\\\\&=\\dfrac{2(2x+3)+3(x-2)}{2x+3-2(x-2)}\\\\&=\\dfrac{7x}{7}\\\\&=x\\end{align*}$\nFor D, $x\\ne2$, and the denominator of the outer function is $\\dfrac{7}{x-2}$, which is nonzero.\nCorrect answer: D.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=\\dfrac{px+q}{rx-p}$, where $r\\ne0$ and $p^{2}+qr\\ne0$. Show that $f(f(x))=x$ wherever the composition is defined.",
+    "solution_text": "Substitute the whole fraction and multiply the numerator and denominator by $rx-p$.\n$\\begin{align*}f(f(x))&=\\dfrac{p\\left(\\dfrac{px+q}{rx-p}\\right)+q}{r\\left(\\dfrac{px+q}{rx-p}\\right)-p}\\\\&=\\dfrac{p(px+q)+q(rx-p)}{r(px+q)-p(rx-p)}\\\\&=\\dfrac{p^{2}x+pq+qrx-pq}{rpx+rq-prx+p^{2}}\\\\&=\\dfrac{(p^{2}+qr)x}{p^{2}+qr}\\\\&=x\\end{align*}$\nThe cancellation is valid because $p^{2}+qr\\ne0$. For $x\\ne\\dfrac{p}{r}$, the outer denominator is $\\dfrac{p^{2}+qr}{rx-p}$, which is nonzero.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $f(x)=\\sqrt{x}$ and $g(x)=x^{2}-10x+25$. Find and simplify $f(g(x))$ for $x\\ge5$.",
+    "solution_text": "Substitute and factor the perfect-square radicand.\n$\\begin{align*}f(g(x))&=\\sqrt{x^{2}-10x+25}\\\\&=\\sqrt{(x-5)^{2}}\\\\&=|x-5|\\end{align*}$\nFor real $u$, $\\sqrt{u^{2}}=|u|$. Since $x\\ge5$, $x-5\\ge0$, so $f(g(x))=x-5$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

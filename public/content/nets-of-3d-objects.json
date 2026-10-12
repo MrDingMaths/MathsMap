@@ -2,100 +2,124 @@
   "skillId": "nets-of-3d-objects",
   "atomType": "R",
   "theory": {
-    "intro": "A **net** is a flat pattern of polygons that folds up to make a 3-D object. The polygons in the net are the **faces** of the solid.",
-    "facts": [
-      "A net of a **cube** is $6$ squares (e.g. a cross or T shape).",
-      "A net of a **rectangular prism** is $6$ rectangles.",
-      "A net of a **square pyramid** is $1$ square with a triangle on each of its $4$ sides.",
-      "A net of a **triangular prism** is $2$ triangles and $3$ rectangles."
-    ],
-    "steps": [
-      "Count how many polygons there are and name each shape.",
-      "Two matching polygons + rectangles → a prism; one polygon + triangles → a pyramid.",
-      "Name the solid after that base shape."
-    ]
+"intro": "A **net** shows a 3-D shape's faces and curved surfaces laid flat. It folds up to make the shape.",
+"facts": [
+"A net of a **cube** is $6$ squares (e.g. a cross or T shape).",
+"A net of a **rectangular prism** is $6$ rectangles.",
+"A net of a **square pyramid** is $1$ square with a triangle on each of its $4$ sides.",
+"A net of a **triangular prism** is $2$ triangles and $3$ rectangles.",
+"A net of a **cylinder** has two matching circles and a rectangle that wraps around them.",
+"The shapes must have matching edge lengths where they join when folded, and the net must fold without overlap."
+],
+"steps": [
+"Look at the shapes in the drawn net and how they are joined.",
+"For a prism, look for two matching bases joined by rectangles. For a pyramid, look for a base and triangular sides that meet at an apex. For a cylinder, look for two matching circles and a rectangle that wraps around them.",
+"Check that the edges fit together without overlap when folded, then name the solid."
+],
+"workedExamples": [
+  {
+    "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,draw=black]\n\\foreach \\x/\\y in {0/0,1/0,2/0,3/0,2/1,2/-1}{\\draw (\\x,\\y) rectangle ++(1,1);}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The net has six equal squares. The four squares in a row fold around the sides, and the other two close the top and bottom. It makes a cube."
   },
+  {
+    "question_text": "Name the prism made by this net.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,draw=black]\n\\foreach \\x in {0,2,4}{\\draw (\\x,0) rectangle ++(2,3);}\n\\draw (2,3)--(3,{3+sqrt(3)})--(4,3);\n\\draw (4,0)--(5,{-sqrt(3)})--(6,0);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The net has two matching triangles and three rectangles. The triangles become the two ends, and the rectangles fold around them. It makes a triangular prism."
+  },
+  {
+    "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,draw=black]\n\\draw (0,0) rectangle (2,2);\n\\draw (0,0)--(1,-2)--(2,0);\n\\draw (2,0)--(4,1)--(2,2);\n\\draw (2,2)--(1,4)--(0,2);\n\\draw (0,2)--(-2,1)--(0,0);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The square becomes the base. The four triangles fold up and meet at one point. It makes a square-based pyramid."
+  },
+  {
+    "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,draw=black]\n\\draw (0,0)--(4,0)--(2,{2*sqrt(3)})--cycle;\n\\draw (1,{sqrt(3)})--(3,{sqrt(3)})--(2,0)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The net has four matching triangles. One becomes the base, and the other three fold up and meet at one point. It makes a triangular-based pyramid."
+  },
+  {
+    "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,draw=black]\n\\draw (0,0) rectangle ({1.4*pi},2.5);\n\\draw (0.7,-0.7) circle (0.7);\n\\draw ({1.4*pi-0.7},3.2) circle (0.7);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The two matching circles become the ends. The rectangle wraps around them to make the curved surface. It makes a cylinder."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\foreach \\x/\\y in {0/1,1/1,2/1,3/1,1/0,1/2}{\\draw (\\x,\\y) rectangle ++(1,1);}\n\\end{tikzpicture}\n[/tikz]",
         "structure": "name-solid-from-net",
         "solution_text": "The net has six equal square faces and folds to a cube."
       },
-      {
-        "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (1.2,2); \\draw (1.2,0) rectangle (2.4,2); \\draw (2.4,0) rectangle (3.6,2);\n\\draw (1.2,2)--(1.8,3.1)--(2.4,2)--cycle; \\draw (1.2,0)--(1.8,-1.1)--(2.4,0)--cycle;\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "identify-pyramid-net",
+{
+        "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (1.2,2); \\draw (1.2,0) rectangle (2.4,2); \\draw (2.4,0) rectangle (3.6,2);\n\\draw (1.2,2)--(1.8,{2+0.6*sqrt(3)})--(2.4,2)--cycle; \\draw (1.2,0)--(1.8,{-0.6*sqrt(3)})--(2.4,0)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "name-solid-from-net",
         "solution_text": "The two triangles are matching bases and the three rectangles join them, so it is a triangular prism."
       },
-      {
+{
         "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (2,2); \\draw (0,0)--(1,-1.5)--(2,0)--cycle; \\draw (2,0)--(3.5,1)--(2,2)--cycle; \\draw (2,2)--(1,3.5)--(0,2)--cycle; \\draw (0,2)--(-1.5,1)--(0,0)--cycle;\n\\end{tikzpicture}\n[/tikz]",
         "structure": "name-solid-from-net",
         "solution_text": "The square is the base and the four triangles meet at an apex, so it is a square pyramid."
       },
-      {
-        "question_text": "Does this net fold to a cube?\nExplain.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\foreach \\x/\\y in {0/0,1/0,2/0,0/1,1/1,2/1}{\\draw (\\x,\\y) rectangle ++(1,1);}\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "invalid-cube-net",
-        "solution_text": "No. The $2\\times3$ rectangle makes faces overlap when folded and cannot close a cube."
-      },
-      {
-        "question_text": "List the faces needed in a net for a rectangular prism.",
-        "structure": "face-inventory-prism",
-        "solution_text": "A rectangular prism needs six rectangular faces arranged as three matching pairs."
-      },
-      {
-        "question_text": "List the faces needed in a net for a triangular pyramid.",
-        "structure": "face-inventory-pyramid",
-        "solution_text": "A triangular pyramid needs four triangular faces."
-      }
-    ],
-    "development": [
-      {
-        "question_text": "Identify the solid and name its base shape.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (1,1) rectangle (3,2); \\draw (1,0) rectangle (3,1); \\draw (1,2) rectangle (3,3); \\draw (1,3) rectangle (3,4); \\draw (0,1) rectangle (1,2); \\draw (3,1) rectangle (4,2);\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (2,1); \\draw (0,1) rectangle (2,2); \\draw (0,2) rectangle (2,3); \\draw (0,3) rectangle (2,4); \\draw (-1,1) rectangle (0,2); \\draw (2,1) rectangle (3,2);\n\\end{tikzpicture}\n[/tikz]",
         "structure": "name-solid-from-net",
-        "solution_text": "It folds to a rectangular prism, and its bases are rectangles."
+        "solution_text": "The six rectangular faces fold to a rectangular prism."
       },
-      {
-        "question_text": "One triangle is missing from this pattern.\nWhat solid could it become after the missing face is added?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (1.2,2); \\draw (1.2,0) rectangle (2.4,2); \\draw (2.4,0) rectangle (3.6,2);\n\\draw (1.2,2)--(1.8,3.1)--(2.4,2)--cycle;\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "missing-face",
-        "solution_text": "With two triangular bases and three rectangular side faces, it becomes a triangular prism."
+{
+        "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle ({2*pi},2); \\draw (1,-1) circle (1); \\draw ({2*pi-1},3) circle (1);\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "name-solid-from-net",
+        "solution_text": "The two matching circles are the bases and the rectangle wraps around them, so it is a cylinder."
       },
-      {
-        "question_text": "A net contains two pentagons and five rectangles.\nName the solid and explain the role of the pentagons.",
-        "structure": "face-inventory-prism",
-        "solution_text": "It is a pentagonal prism; the pentagons are its two identical bases."
-      },
-      {
-        "question_text": "A net contains one hexagon and six triangles.\nName the solid.",
-        "structure": "face-inventory-pyramid",
-        "solution_text": "It is a hexagonal pyramid because the hexagon is the base and the triangles meet at an apex."
-      },
-      {
-        "question_text": "Explain why the outer triangles meet at one point when this net folds.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (2,2); \\draw (0,0)--(1,-1.5)--(2,0)--cycle; \\draw (2,0)--(3.5,1)--(2,2)--cycle; \\draw (2,2)--(1,3.5)--(0,2)--cycle; \\draw (0,2)--(-1.5,1)--(0,0)--cycle;\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "identify-pyramid-net",
-        "solution_text": "Each triangle is attached to one side of the square, so their free vertices come together to form the apex."
-      },
-      {
-        "question_text": "The pattern has four triangles but no base polygon.\nWhat must be added to make a square-pyramid net?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0)--(1.2,-1.5)--(2.4,0)--cycle; \\draw (2.4,0)--(3.6,1.5)--(2.4,3)--cycle; \\draw (2.4,3)--(1.2,4.5)--(0,3)--cycle; \\draw (0,3)--(-1.2,1.5)--(0,0)--cycle;\n\\end{tikzpicture}\n[/tikz]",
-        "structure": "missing-face",
-        "solution_text": "Add one square joined to the base edge of each triangle arrangement so the four triangles surround it."
+{
+        "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0)--(2,0)--(1,{sqrt(3)})--cycle;\n\\draw (0,0)--(1,{-sqrt(3)})--(2,0); \\draw (0,0)--(-1,{sqrt(3)})--(1,{sqrt(3)}); \\draw (2,0)--(3,{sqrt(3)})--(1,{sqrt(3)});\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "name-solid-from-net",
+        "solution_text": "The four triangles fold to a triangular pyramid."
       }
-    ],
+],
+    "development": [
+{
+        "question_text": "Identify the solid.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (1,1) rectangle (3,2); \\draw (1,0) rectangle (3,1); \\draw (1,2) rectangle (3,3); \\draw (1,3) rectangle (3,4); \\draw (0,1) rectangle (1,2); \\draw (3,1) rectangle (4,2);\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "name-solid-from-net",
+        "solution_text": "It folds to a rectangular prism."
+      },
+{
+        "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (1.5,2.5); \\draw (1.5,0) rectangle (3,2.5); \\draw (3,0) rectangle (4.5,2.5);\n\\draw (0,2.5)--(0.75,{2.5+0.75*sqrt(3)})--(1.5,2.5)--cycle; \\draw (0,0)--(0.75,{-0.75*sqrt(3)})--(1.5,0)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "name-solid-from-net",
+        "solution_text": "The two matching triangular bases and three rectangular side faces fold to a triangular prism."
+      },
+{
+        "question_text": "Name the prism made by this net.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\foreach \\i in {0,...,4}{\\draw (\\i,0) rectangle ++(1,1.5);}\n\\draw (2,1.5)--(3,1.5)--({3+cos(72)},{1.5+sin(72)})--(2.5,{1.5+sin(72)+sin(36)})--({2-cos(72)},{1.5+sin(72)})--cycle;\n\\draw (2,0)--(3,0)--({3+cos(72)},{-sin(72)})--(2.5,{-sin(72)-sin(36)})--({2-cos(72)},{-sin(72)})--cycle;\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "name-solid-from-net",
+        "solution_text": "The two matching pentagonal bases and five rectangular side faces fold to a pentagonal prism."
+      },
+{
+        "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle ({1.6*pi},2.4); \\draw (0.8,-0.8) circle (0.8); \\draw ({1.6*pi-0.8},3.2) circle (0.8);\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "name-solid-from-net",
+        "solution_text": "The two matching circular bases and the rectangle that wraps around them form a cylinder."
+      },
+{
+        "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (1.6,1.6); \\draw (0,0)--(0.8,-1.8)--(1.6,0)--cycle; \\draw (1.6,0)--(3.4,0.8)--(1.6,1.6)--cycle; \\draw (1.6,1.6)--(0.8,3.4)--(0,1.6)--cycle; \\draw (0,1.6)--(-1.8,0.8)--(0,0)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "name-solid-from-net",
+        "solution_text": "The square base and four matching triangular side faces fold to a square pyramid."
+      },
+{
+        "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\foreach \\x/\\y in {0/0,1/0,1/1,2/1,2/2,3/2}{\\draw (\\x,\\y) rectangle ++(1,1);}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "name-solid-from-net",
+        "solution_text": "The six equal squares fold to a cube."
+      }
+],
     "mastery": [
-      {
-        "question_text": "A net has $2$ congruent hexagons and $6$ rectangles.\nPredict its number of faces and name the solid.",
-        "structure": "face-inventory-prism",
-        "solution_text": "It has $2+6=8$ faces and folds to a hexagonal prism."
+{
+        "question_text": "Name the prism made by this net.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (2,1.2); \\draw (2,0) rectangle (3,1.2); \\draw (3,0) rectangle (4,1.2); \\draw (4,0) rectangle (5,1.2);\n\\draw (0,1.2)--(2,1.2)--(1.5,{1.2+sqrt(3)/2})--(0.5,{1.2+sqrt(3)/2})--cycle;\n\\draw (0,0)--(2,0)--(1.5,{-sqrt(3)/2})--(0.5,{-sqrt(3)/2})--cycle;\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "name-solid-from-net",
+        "solution_text": "The two matching trapezoidal bases and four rectangular side faces fold to a trapezoidal prism."
       },
-      {
-        "question_text": "A student draws one pentagon with only four triangles around it and calls it a pentagonal-pyramid net.\nDiagnose the error.",
-        "structure": "missing-face",
-        "solution_text": "A pentagon has five sides, so it needs five triangular side faces. One triangle is missing."
+{
+        "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (1,2.8); \\draw (1,0) rectangle (2,2.8); \\draw (2,0) rectangle (3,2.8); \\draw (3,0) rectangle (4,2.8);\n\\draw (1,2.8) rectangle (2,3.8); \\draw (2,-1) rectangle (3,0);\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "name-solid-from-net",
+        "solution_text": "The two matching square bases and four rectangular side faces fold to a square prism."
       },
-      {
-        "question_text": "Two cube nets each use six squares but have different layouts.\nExplain why both can be correct.",
-        "structure": "invalid-cube-net",
-        "solution_text": "A net is valid if its squares fold onto the six different faces without overlap; more than one flat arrangement can do this."
+{
+        "question_text": "Name the solid made by this net.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (1.4,2.6); \\draw (1.4,0) rectangle (2.8,2.6); \\draw (2.8,0) rectangle (4.2,2.6);\n\\draw (0,2.6)--(0.7,{2.6+0.7*sqrt(3)})--(1.4,2.6)--cycle; \\draw (2.8,0)--(3.5,{-0.7*sqrt(3)})--(4.2,0)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "name-solid-from-net",
+        "solution_text": "The two matching triangles attach to different rectangles, but they still form the bases of a triangular prism."
       }
-    ]
+]
   }
 }

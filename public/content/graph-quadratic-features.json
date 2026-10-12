@@ -2,20 +2,50 @@
   "skillId": "graph-quadratic-features",
   "atomType": "R",
   "theory": {
-        "intro": "A **quadratic relationship** $y=kx^2+c$, where $k\\ne0$, graphs as a **parabola**. Reading the equation tells you the parabola's shape and key features before you plot a single point. The vertex and axis rules below apply to this restricted form, with no $x$ term. If $k=0$, the graph is the constant line $y=c$, with no unique vertex or axis of symmetry; it has no $x$-intercepts when $c\\ne0$ and infinitely many when $c=0$.",
-        "facts": [
+"intro": "A **quadratic relationship** $y=kx^2+c$, where $k\\ne0$, graphs as a **parabola**. Reading the equation tells you the parabola's shape and key features before you plot a single point. The vertex and axis rules below apply to this restricted form, with no $x$ term. If $k=0$, the graph is the constant line $y=c$, with no unique vertex or axis of symmetry; it has no $x$-intercepts when $c\\ne0$ and infinitely many when $c=0$.",
+"facts": [
           "$k>0$ makes the parabola **concave up**, so its turning point is a **minimum**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[dashed] (0,-1.7) -- (0,2.9);\n\\draw[thick,blue!70!black,<->,domain=-2:2,smooth,samples=60,variable=\\x] plot ({\\x},{\\x*\\x-1.5});\n\\fill (0,-1.5) circle (2pt);\n\\node[below,font=\\small] at (0,-1.78) {minimum turning point};\n\\node[above,font=\\small] at (0,3.0) {axis of symmetry};\n\\end{tikzpicture}\n[/tikz]",
           "$k<0$ makes the parabola **concave down**, so its turning point is a **maximum**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[dashed] (0,1.7) -- (0,-2.9);\n\\draw[thick,blue!70!black,<->,domain=-2:2,smooth,samples=60,variable=\\x] plot ({\\x},{1.5-\\x*\\x});\n\\fill (0,1.5) circle (2pt);\n\\node[above,font=\\small] at (0,1.78) {maximum turning point};\n\\node[below,font=\\small] at (0,-3.0) {axis of symmetry};\n\\end{tikzpicture}\n[/tikz]",
           "The **vertex** is $(0,c)$ and the **axis of symmetry** is the line $x=0$, the $y$-axis.",
           "The **$y$-intercept** is $(0,c)$ too, and $c$ is the minimum or maximum **value** of $y$.",
           "Find the **$x$-intercepts** by setting $y=0$ and solving $kx^2+c=0$; there are two, one or none, depending on the signs of $k$ and $c$."
         ],
-        "steps": [
+"steps": [
           "Read the concavity and nature from the sign of $k$.",
           "State the vertex $(0,c)$, the axis of symmetry and the $y$-intercept.",
           "Find the $x$-intercepts by solving $kx^2+c=0$."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "The graph shows $y=-2x^2+8$. State its concavity, vertex, nature of the turning point, maximum value, axis of symmetry and intercepts.\n\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=4mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[step=8mm,color={rgb,255:red,204;green,204;blue,204},thin] (-3,-2) grid (3,10);\n\\draw[<->,black] (-3.2,0)--(3.2,0) node[right] {$x$};\n\\draw[<->,black] (0,-2.5)--(0,10.5) node[above] {$y$};\n\\foreach \\x in {-2,-1,1,2} {\\draw[black] (\\x,0.12)--(\\x,-0.12);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y in {-2,2,4,6,8,10} {\\draw[black] (-0.07,\\y)--(0.07,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.07,\\y) {$\\y$};}\n\\draw[curveblue,thick,<->,domain=-2.2:2.2,samples=80,smooth,variable=\\x] plot ({\\x},{8-2*(\\x)*(\\x)});\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The curve is concave down. Its highest point is $(0,8)$, so the turning point is a maximum and the maximum value is $8$.\n\nThe two halves match across the $y$-axis, so the axis of symmetry is $x=0$.\n\nThe curve meets the $y$-axis at $(0,8)$ and the $x$-axis at $(-2,0)$ and $(2,0)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $y=3x^2-12$, state the concavity, vertex, nature of the turning point, minimum value, axis of symmetry and intercepts. Sketch the parabola, labelling its vertex and intercepts.",
+    "solution_text": "Here $k=3>0$, so the parabola is concave up with a minimum turning point.\n\nSince $c=-12$, the vertex and $y$-intercept are $(0,-12)$. The minimum value is $-12$ and the axis of symmetry is $x=0$.\n\nFor the $x$-intercepts, let $y=0$:\n$\\begin{aligned}0&=3x^2-12\\\\3x^2&=12\\\\x^2&=4\\\\x&=\\pm2\\end{aligned}$\n\nThe $x$-intercepts are $(-2,0)$ and $(2,0)$.\n\nPlot these points and draw a smooth parabola symmetric about $x=0$.\n\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=2mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[<->,black] (-3.2,0)--(3.2,0) node[right] {$x$};\n\\draw[<->,black] (0,-15)--(0,9) node[above] {$y$};\n\\draw[dashed,black] (0,-14)--(0,8);\n\\draw[curveblue,thick,<->,domain=-2.5:2.5,samples=80,smooth,variable=\\x] plot ({\\x},{3*(\\x)*(\\x)-12});\n\\fill[black] (-2,0) circle (1.5pt);\n\\fill[black] (2,0) circle (1.5pt);\n\\fill[black] (0,-12) circle (1.5pt);\n\\path (-2,0) node[above left] {$(-2,0)$};\n\\path (2,0) node[above right] {$(2,0)$};\n\\path (0,-12) node[below right] {$(0,-12)$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $y=-2x^2-5$, state the vertex, maximum value, axis of symmetry and $y$-intercept. Explain why there are no $x$-intercepts.",
+    "solution_text": "Since $k=-2<0$, the parabola is concave down with a maximum turning point.\n\nThe vertex and $y$-intercept are $(0,-5)$. The maximum value is $-5$ and the axis of symmetry is $x=0$.\n\nFor an $x$-intercept, let $y=0$:\n$\\begin{aligned}0&=-2x^2-5\\\\2x^2&=-5\\\\x^2&=-\\frac{5}{2}\\end{aligned}$\n\nA real square cannot be negative, so there are no $x$-intercepts. The whole parabola lies below the $x$-axis.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $y=4x^2$, state the concavity, vertex, nature of the turning point, axis of symmetry and intercepts. Explain why it has only one $x$-intercept.",
+    "solution_text": "Since $k=4>0$, the parabola is concave up with a minimum turning point.\n\nHere $c=0$, so the vertex and $y$-intercept are $(0,0)$ and the axis of symmetry is $x=0$.\n\nLet $y=0$:\n$\\begin{aligned}0&=4x^2\\\\x^2&=0\\\\x&=0\\end{aligned}$\n\nThere is only one $x$-intercept, $(0,0)$. The vertex touches the $x$-axis; every other point has $y>0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

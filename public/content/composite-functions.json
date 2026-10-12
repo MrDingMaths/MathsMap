@@ -2,20 +2,57 @@
   "skillId": "composite-functions",
   "atomType": "R",
   "theory": {
-        "intro": "A **composite function** applies one function to the output of another. In $f(g(x))$ or $(f \\circ g)(x)$, the inner function $g$ acts first, and its result is the input to the outer function $f$.",
-        "facts": [
+"intro": "A **composite function** applies one function to the output of another. In $f(g(x))$ or $(f \\circ g)(x)$, the inner function $g$ acts first, and its result is the input to the outer function $f$.",
+"facts": [
           "In $(f \\circ g)(x) = f(g(x))$, $g$ is the inner function and $f$ is the outer function.",
           "To evaluate $f(g(c))$, calculate the inner value $g(c)$ first, then substitute it into $f$.",
           "Function composition is not commutative: in general, $f(g(c)) \\neq g(f(c))$.",
           "For a self-composition $f(f(c))$, evaluate $f(c)$ first and substitute that result back into $f$.",
           "For tables or discrete pairs, use the output of the inner function as the input for the outer function."
         ],
-        "steps": [
+"steps": [
           "Identify the inner function and evaluate it at the given input.",
           "Substitute the resulting value into the outer function.",
           "Evaluate the outer function to obtain the final numerical answer."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Given $f(x)=4x-3$ and $g(x)=7-2x$, evaluate (a) $f(g(2))$ and (b) $g(f(2))$.",
+    "solution_text": "(a) Evaluate the inner function $g$ first.\n$\\begin{align*}g(2)&=7-2(2)\\\\&=3\\end{align*}$\n$\\begin{align*}f(g(2))&=f(3)\\\\&=4(3)-3\\\\&=9\\end{align*}$\n(b) Evaluate the inner function $f$ first.\n$\\begin{align*}f(2)&=4(2)-3\\\\&=5\\end{align*}$\n$\\begin{align*}g(f(2))&=g(5)\\\\&=7-2(5)\\\\&=-3\\end{align*}$\nThe order matters: $f(g(2))\\ne g(f(2))$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Given $f(x)=x^2-2x+3$ and $g(x)=2x+1$, evaluate (a) $(f\\circ g)(-2)$ and (b) $g(f(-2))$.",
+    "solution_text": "(a) In $(f\\circ g)(-2)$, apply $g$ first.\n$\\begin{align*}g(-2)&=2(-2)+1\\\\&=-3\\end{align*}$\n$\\begin{align*}(f\\circ g)(-2)&=f(-3)\\\\&=(-3)^2-2(-3)+3\\\\&=18\\end{align*}$\n(b) Apply $f$ first. Keep the negative input in brackets when squaring.\n$\\begin{align*}f(-2)&=(-2)^2-2(-2)+3\\\\&=11\\end{align*}$\n$\\begin{align*}g(f(-2))&=g(11)\\\\&=2(11)+1\\\\&=23\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Given $f(x)=\\sqrt{3x+4}$, $g(x)=x^2+3$ and $h(x)=\\dfrac{24}{x+1}$, evaluate (a) $f(g(1))$ and (b) $h(g(2))$.",
+    "solution_text": "(a) Find the inner output before taking the square root.\n$\\begin{align*}g(1)&=(1)^2+3\\\\&=4\\end{align*}$\n$\\begin{align*}f(g(1))&=f(4)\\\\&=\\sqrt{3(4)+4}\\\\&=4\\end{align*}$\n(b) Substitute the inner output into the whole denominator.\n$\\begin{align*}g(2)&=(2)^2+3\\\\&=7\\end{align*}$\n$\\begin{align*}h(g(2))&=h(7)\\\\&=\\frac{24}{7+1}\\\\&=3\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Given $f(x)=\\dfrac{2x+1}{x-1}$ and $g(x)=3x^2-x$, evaluate $g(f(-2))$.",
+    "solution_text": "Evaluate the rational inner function first.\n$\\begin{align*}f(-2)&=\\frac{2(-2)+1}{-2-1}\\\\&=\\frac{-3}{-3}\\\\&=1\\end{align*}$\nUse this output as the input to $g$.\n$\\begin{align*}g(f(-2))&=g(1)\\\\&=3(1)^2-1\\\\&=2\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Given $f(x)=\\dfrac{x+4}{x-1}$ and $g(x)=2x^2+3x$, evaluate $g(f(-3))$.",
+    "solution_text": "Keep the inner output exact.\n$\\begin{align*}f(-3)&=\\frac{-3+4}{-3-1}\\\\&=-\\frac14\\end{align*}$\nSubstitute the fraction into each occurrence of the input.\n$\\begin{align*}g(f(-3))&=g\\left(-\\frac14\\right)\\\\&=2\\left(-\\frac14\\right)^2+3\\left(-\\frac14\\right)\\\\&=\\frac18-\\frac34\\\\&=-\\frac58\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

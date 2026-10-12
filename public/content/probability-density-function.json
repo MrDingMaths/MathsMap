@@ -2,8 +2,8 @@
   "skillId": "probability-density-function",
   "atomType": "R",
   "theory": {
-    "intro": "A **probability density function** $f(x)$ describes a continuous random variable, and probability is the **area** under it. It is a valid density when $f(x) \\ge 0$ throughout its domain and the integral over its whole domain is exactly $1$.",
-    "facts": [
+"intro": "A **probability density function** $f(x)$ describes a continuous random variable, and probability is the **area** under it. It is a valid density when $f(x) \\ge 0$ throughout its domain and the integral over its whole domain is exactly $1$.",
+"facts": [
 "A density is valid only if $f(x) \\ge 0$ for every $x$ in its domain.",
 "A density supported on $[a,b]$ is valid only if $\\int_{a}^{b} f(x)\\,dx = 1$. For an unbounded domain, integrate over the whole domain.",
 "For a density supported on a stated interval, the density is $0$ everywhere outside that interval. A PDF may also have unbounded support, and piecewise notation is not always needed.",
@@ -13,13 +13,50 @@
 "A density value never gives $P(X = 2)$, which is always $0$ for a continuous variable.",
 "Endpoints make no difference, so $P(c < X < d) = P(c \\le X \\le d)$."
 ],
-    "steps": [
+"steps": [
 "Check that $f(x) \\ge 0$ everywhere in the domain.",
 "Integrate $f(x)$ over the whole domain and check the integral is $1$.",
 "For a density supported on a stated interval, replace any limit outside the interval with the nearer endpoint.",
 "Integrate $f(x)$ between the required limits."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Determine whether each function is a valid probability density function, taking $f(x)=0$ outside the stated interval.\n(a) $f(x)=\\dfrac{3x^2}{27}$ on $[0,3]$.\n(b) $f(x)=\\dfrac{x}{10}$ on $[0,4]$.\n(c) $f(x)=\\dfrac{3}{32}(x^2-8x+12)$ on $[0,8]$.",
+    "solution_text": "(a) $f(x)\\ge0$ throughout $[0,3]$.\n$\\begin{align*}\\int_0^3\\frac{3x^2}{27}\\,dx&=\\left[\\frac{x^3}{27}\\right]_0^3\\\\&=1\\end{align*}$\nBoth conditions hold, so this is a valid PDF.\n\n(b) $f(x)\\ge0$ throughout $[0,4]$.\n$\\begin{align*}\\int_0^4\\frac{x}{10}\\,dx&=\\left[\\frac{x^2}{20}\\right]_0^4\\\\&=\\frac45\\end{align*}$\nThe integral is not $1$, so this is not a valid PDF.\n\n(c) $f(x)=\\dfrac{3}{32}(x-2)(x-6)$ is negative when $2<x<6$.\n$\\begin{align*}\\int_0^8\\frac{3}{32}(x^2-8x+12)\\,dx&=\\frac{3}{32}\\left[\\frac{x^3}{3}-4x^2+12x\\right]_0^8\\\\&=\\frac{3}{32}\\left(\\frac{512}{3}-256+96\\right)\\\\&=1\\end{align*}$\nAlthough the integral is $1$, the function is negative on part of its domain, so it is not a valid PDF.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A probability density function $f(x)$ is zero outside $[4,10]$. Write an integral for each probability and state the value in (d).\n(a) $P(X\\le7)$.\n(b) $P(2\\le X\\le8)$.\n(c) $P(X\\ge6)$.\n(d) $P(X\\ge1)$.",
+    "solution_text": "The density is zero below $4$ and above $10$, so restrict the integration limits to its support.\n\n(a) $P(X\\le7)=\\displaystyle\\int_4^7 f(x)\\,dx$.\n\n(b) $P(2\\le X\\le8)=\\displaystyle\\int_4^8 f(x)\\,dx$.\n\n(c) $P(X\\ge6)=\\displaystyle\\int_6^{10} f(x)\\,dx$.\n\n(d) $P(X\\ge1)=\\displaystyle\\int_4^{10} f(x)\\,dx=1$, since this includes the whole support.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A continuous random variable has PDF $f(x)=\\dfrac{3x^2}{215}$ on $[1,6]$, and $0$ elsewhere. Find $P(2<X<5)$.",
+    "solution_text": "$\\begin{align*}P(2<X<5)&=\\int_2^5\\frac{3x^2}{215}\\,dx\\\\&=\\left[\\frac{x^3}{215}\\right]_2^5\\\\&=\\frac{125-8}{215}\\\\&=\\frac{117}{215}\\end{align*}$\nThe shaded region represents this probability. Including either endpoint gives the same probability because $P(X=2)=P(X=5)=0$.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=45mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{probblue}{HTML}{268CFF}\n\\definecolor{probfill}{HTML}{D4E8FF}\n\\fill[probfill] (2,0) -- plot[domain=2:5,samples=50,variable=\\x] ({\\x},{3*(\\x)*(\\x)/215}) -- (5,0) -- cycle;\n\\draw[black,->] (0,0) -- (6.7,0) node[right] {$x$};\n\\draw[black,->] (0,0) -- (0,0.68) node[above] {$f(x)$};\n\\draw[probblue,thick] plot[domain=1:6,samples=70,variable=\\x] ({\\x},{3*(\\x)*(\\x)/215});\n\\draw[black,dashed] (1,0) -- (1,{3/215});\n\\draw[black,dashed] (6,0) -- (6,{108/215});\n\\draw[black] (2,0) -- (2,{12/215});\n\\draw[black] (5,0) -- (5,{75/215});\n\\foreach \\v in {1,2,5,6}{\\draw[black] (\\v,0) -- (\\v,-0.025);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-0.025) {$\\v$};}\n\\node[above left] at (5.9,{3*5.9*5.9/215}) {$f(x)=\\frac{3x^2}{215}$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A continuous random variable has PDF $f(x)=\\dfrac{3}{2x^2}$ on $[1,3]$, and $0$ elsewhere. Find $P(X\\ge2)$.",
+    "solution_text": "The density is zero above $3$, so the upper integration limit is $3$.\n$\\begin{align*}P(X\\ge2)&=\\int_2^3\\frac{3}{2}x^{-2}\\,dx\\\\&=\\frac32\\left[-\\frac1x\\right]_2^3\\\\&=\\frac32\\left(-\\frac13+\\frac12\\right)\\\\&=\\frac14\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A continuous random variable has PDF $f(x)=\\dfrac{x}{18}$ on $[0,6]$, and $0$ elsewhere. Find $c$ such that $P(X\\le c)=\\dfrac49$.",
+    "solution_text": "$\\begin{align*}\\int_0^c\\frac{x}{18}\\,dx&=\\frac49\\\\\\left[\\frac{x^2}{36}\\right]_0^c&=\\frac49\\\\\\frac{c^2}{36}&=\\frac49\\\\c^2&=16\\\\c&=4\\end{align*}$\nReject $c=-4$ because it is outside $[0,6]$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,8 +2,8 @@
   "skillId": "solve-de-dydx-fx",
   "atomType": "R",
   "theory": {
-    "intro": "A differential equation $\\dfrac{dy}{dx}=f(x)$ is solved by integrating both sides with respect to $x$. The **general solution** $y=F(x)+C$ is a whole family of curves. An **initial condition** picks out one **particular solution**, with no $C$ left.",
-    "facts": [
+"intro": "A differential equation $\\dfrac{dy}{dx}=f(x)$ is solved by integrating both sides with respect to $x$. The **general solution** $y=F(x)+C$ is a whole family of curves. An **initial condition** picks out one **particular solution**, with no $C$ left.",
+"facts": [
       "$\\dfrac{dy}{dx}=f(x)$ says the gradient depends only on $x$, so $y=\\displaystyle\\int f(x)\\,dx$.",
       "Always finish with $y=\\ldots$, because the solution of a differential equation is an equation for $y$.",
       "The general solution carries the arbitrary constant $C$ and describes infinitely many curves.",
@@ -14,13 +14,71 @@
       "For $\\dfrac{d^2y}{dx^2}=f(x)$, integrate twice and introduce a separate constant at each stage.",
       "Check any answer by differentiating it and by substituting the initial condition."
     ],
-    "steps": [
+"steps": [
       "Integrate both sides with respect to $x$",
       "Write the general solution with $+C$",
       "Substitute the initial condition to find $C$",
       "Write the particular solution with the value of $C$"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find the general solution of $\\dfrac{dy}{dx}=9x^2-6x+2$.",
+    "solution_text": "Integrate with respect to $x$.\n$\\begin{align*}y&=\\int(9x^2-6x+2)\\,dx\\\\y&=3x^3-3x^2+2x+C\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find the general solution of each differential equation.\n(a) $y'=15e^{-3x}+2$\n(b) $y'=8\\cos 4x+6\\sin 3x$\n(c) $y'=\\dfrac{7}{x}$, where $x\\ne0$.",
+    "solution_text": "(a)\n$\\begin{align*}y&=\\int(15e^{-3x}+2)\\,dx\\\\y&=-5e^{-3x}+2x+C\\end{align*}$\n(b)\n$\\begin{align*}y&=\\int(8\\cos 4x+6\\sin 3x)\\,dx\\\\y&=2\\sin 4x-2\\cos 3x+C\\end{align*}$\n(c)\n$\\begin{align*}y&=\\int\\frac{7}{x}\\,dx\\\\y&=7\\ln|x|+C\\end{align*}$\nEach part has its own arbitrary constant.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the general solution of each differential equation.\n(a) $y'=\\sqrt{2x+5}$, where $x>-\\dfrac{5}{2}$.\n(b) $y'=6x\\cos(x^2)$.",
+    "solution_text": "(a)\n$\\begin{align*}y&=\\int(2x+5)^{1/2}\\,dx\\\\y&=\\frac{(2x+5)^{3/2}}{(3/2)\\times2}+C\\\\y&=\\frac{1}{3}(2x+5)^{3/2}+C\\end{align*}$\n(b) Since $\\dfrac{d}{dx}\\sin(x^2)=2x\\cos(x^2)$,\n$\\begin{align*}y&=\\int6x\\cos(x^2)\\,dx\\\\y&=3\\sin(x^2)+C\\end{align*}$\nEach part has its own arbitrary constant.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the general solution of each differential equation.\n(a) $xy'=8$, where $x>0$.\n(b) $\\dfrac{y'}{x}=e^{x^2+2}$, where $x\\ne0$.",
+    "solution_text": "(a) Make $y'$ the subject.\n$\\begin{align*}y'&=\\frac{8}{x}\\\\y&=\\int\\frac{8}{x}\\,dx\\\\y&=8\\ln x+C\\end{align*}$\n(b)\n$\\begin{align*}y'&=xe^{x^2+2}\\\\y&=\\int xe^{x^2+2}\\,dx\\\\y&=\\frac{1}{2}e^{x^2+2}+C\\end{align*}$\nThe stated domain restrictions still apply. Each part has its own arbitrary constant.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $y'=9x^2-4$ given that $y(2)=7$.",
+    "solution_text": "Integrate to find the general solution.\n$\\begin{align*}y&=\\int(9x^2-4)\\,dx\\\\y&=3x^3-4x+C\\end{align*}$\nSubstitute $x=2$ and $y=7$.\n$\\begin{align*}7&=3(2)^3-4(2)+C\\\\7&=16+C\\\\C&=-9\\end{align*}$\nThe particular solution is $y=3x^3-4x-9$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Given $\\dfrac{dy}{dx}=\\dfrac{10}{(5-x)(5+x)}$, $y(0)=3$ and $-5<x<5$:\n(a) Show that $\\dfrac{10}{(5-x)(5+x)}=\\dfrac{1}{5-x}+\\dfrac{1}{5+x}$.\n(b) Hence solve the initial value problem.",
+    "solution_text": "(a)\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\frac{1}{5-x}+\\frac{1}{5+x}\\\\&=\\frac{(5+x)+(5-x)}{(5-x)(5+x)}\\\\&=\\frac{10}{(5-x)(5+x)}\\end{align*}$\n(b) Integrate using the decomposition.\n$\\begin{align*}y&=\\int\\left(\\frac{1}{5-x}+\\frac{1}{5+x}\\right)\\,dx\\\\y&=-\\ln(5-x)+\\ln(5+x)+C\\\\y&=\\ln\\frac{5+x}{5-x}+C\\end{align*}$\nBoth logarithm arguments are positive on $-5<x<5$.\nUsing $y(0)=3$,\n$\\begin{align*}3&=\\ln\\frac{5}{5}+C\\\\C&=3\\end{align*}$\nThe particular solution is $y=\\ln\\dfrac{5+x}{5-x}+3$, for $-5<x<5$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A curve satisfies $y''=12x+6$.\nIts tangent at $(1,4)$ has gradient $8$.\nFind the general solution, then the equation of this curve.",
+    "solution_text": "Integrate twice, introducing a separate constant at each stage.\n$\\begin{align*}y'&=\\int(12x+6)\\,dx\\\\y'&=6x^2+6x+A\\\\y&=\\int(6x^2+6x+A)\\,dx\\\\y&=2x^3+3x^2+Ax+B\\end{align*}$\nThis is the general solution.\nThe tangent gradient gives $y'(1)=8$.\n$\\begin{align*}8&=6+6+A\\\\A&=-4\\end{align*}$\nThe point $(1,4)$ gives $y(1)=4$.\n$\\begin{align*}4&=2+3-4+B\\\\B&=3\\end{align*}$\nThe curve has equation $y=2x^3+3x^2-4x+3$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A tank contains $18$ litres of water initially. Water flows into it at a rate of $\\dfrac{dV}{dt}=10-2t$ litres per minute, for $0\\le t\\le5$.\nFind $V$ in terms of $t$.",
+    "solution_text": "Integrate the rate with respect to $t$.\n$\\begin{align*}V&=\\int(10-2t)\\,dt\\\\V&=10t-t^2+C\\end{align*}$\nThe initial volume gives $V(0)=18$.\n$\\begin{align*}18&=0-0+C\\\\C&=18\\end{align*}$\nTherefore $V=10t-t^2+18$ litres, for $0\\le t\\le5$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

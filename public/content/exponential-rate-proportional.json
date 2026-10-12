@@ -2,61 +2,105 @@
   "skillId": "exponential-rate-proportional",
   "atomType": "R",
   "theory": {
-    "intro": "If a quantity $Q$ changes at a rate proportional to how much is present, then $\\dfrac{dQ}{dt}=kQ$. The number $k$ is the **constant of proportionality**. This equation has solution $Q=Ae^{kt}$, where $A$ is the value of $Q$ at $t=0$.",
-    "facts": [
-      "If $k>0$ the quantity grows, and if $k<0$ the quantity decays.",
-      "Verify the solution by differentiating: $\\dfrac{dQ}{dt}=kAe^{kt}=kQ$.",
-      "$A=Q(0)$ is the initial value, because $e^{0}=1$.",
-      "The rate is proportional to the **amount**, not to the time, so $\\dfrac{dQ}{dt}=kt$ is a different model.",
-      "$Q=Ae^{kt}+B$ with $B\\ne 0$ does not satisfy $\\dfrac{dQ}{dt}=kQ$.",
-      "For $A>0$ and $k<0$ the graph falls towards the asymptote $Q=0$ but never reaches it.",
-      "One matching pair of values gives $k$ directly, since $k=\\dfrac{1}{Q}\\times\\dfrac{dQ}{dt}$.",
-      "If $A<0$ the whole graph lies below the $t$-axis, a reflection of the $A>0$ case."
-    ],
-    "steps": [
-      "Differentiate the given function to find $\\dfrac{dQ}{dt}$.",
-      "Rewrite the derivative in terms of $Q$.",
-      "State the value of $k$ and whether the model is growth or decay."
-    ]
+"intro": "If a quantity $Q$ changes at a rate proportional to how much is present, then $\\dfrac{dQ}{dt}=kQ$. The number $k$ is the **constant of proportionality**. This equation has solution $Q=Ae^{kt}$, where $A$ is the value of $Q$ at $t=0$.",
+"facts": [
+"For $Q>0$, if $k>0$ the quantity grows, and if $k<0$ the quantity decays. For $Q<0$, these directions of change are reversed. If $k=0$, the quantity is constant; if $A=0$, then $Q=0$ for all $t$.",
+"Verify the solution by differentiating: $\\dfrac{dQ}{dt}=kAe^{kt}=kQ$.",
+"$A=Q(0)$ is the initial value, because $e^{0}=1$.",
+"The rate is proportional to the **amount**, not to the time, so $\\dfrac{dQ}{dt}=kt$ is a different model.",
+"$Q=Ae^{kt}+B$ satisfies $\\dfrac{dQ}{dt}=kQ$ exactly when $kB=0$. When $k\\ne0$, this requires $B=0$.",
+"For $A>0$ and $k<0$ the graph falls towards the asymptote $Q=0$ but never reaches it.",
+"One matching pair of values with $Q\\ne0$ gives $k$ directly, since $k=\\dfrac{1}{Q}\\times\\dfrac{dQ}{dt}$. When $Q=0$, the equation requires $\\dfrac{dQ}{dt}=0$; this pair cannot determine $k$.",
+"If $A<0$ the whole graph lies below the $t$-axis, a reflection of the $A>0$ case."
+],
+"steps": [
+"Differentiate the given function to find $\\dfrac{dQ}{dt}$.",
+"Rewrite the derivative in terms of $Q$.",
+"State the value of $k$ and, for $Q>0$, whether the model is growth, decay or constant. For $Q<0$, use the sign of $kQ$ to describe the direction of change."
+],
+"workedExamples": [
+  {
+    "question_text": "A quantity is modelled by $Q=18e^{-0.4t}$. Verify that it satisfies $\\dfrac{dQ}{dt}=-0.4Q$, and state its initial value.",
+    "solution_text": "$\\begin{align*}\\dfrac{dQ}{dt}&=-0.4\\times18e^{-0.4t}\\\\&=-0.4Q\\end{align*}$\n\nThe model satisfies the differential equation.\n\n$\\begin{align*}Q(0)&=18e^0\\\\&=18\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A radioactive sample initially has mass $120$ grams. Its mass decreases at a rate proportional to the mass present, with decay constant of magnitude $0.07$ per day. Write a differential equation and a formula for its mass $M$ after $t$ days.",
+    "solution_text": "The mass decreases, so $k=-0.07$ per day.\n\n$\\dfrac{dM}{dt}=-0.07M$\n\nUsing $M=Ae^{kt}$, the initial mass gives $A=120$.\n\n$M=120e^{-0.07t}$ grams, for $t\\ge0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The mass $M$ of a sample satisfies $\\dfrac{dM}{dt}=kM$, where $t$ is measured in minutes. When its mass is $320$ grams, it is decreasing at $24$ grams per minute. Find $k$ and the rate of change when its mass is $100$ grams.",
+    "solution_text": "The signed rate is $-24$ grams per minute.\n\n$\\begin{align*}-24&=320k\\\\k&=-\\dfrac{24}{320}\\\\&=-0.075\\end{align*}$\n\nThus $k=-0.075$ per minute.\n\nWhen $M=100$ grams:\n\n$\\begin{align*}\\dfrac{dM}{dt}&=-0.075\\times100\\\\&=-7.5\\text{ g/min}\\end{align*}$\n\nThe mass is decreasing at $7.5$ grams per minute.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two positive quantities have models $G=30e^{0.2t}$ and $D=30e^{-0.2t}$ for $t\\ge0$. Sketch both on the same axes. Explain why the growth curve becomes steeper while the decay curve becomes less steep, and identify the decay curve's horizontal asymptote.",
+    "solution_text": "Both curves start at $30$.\n\n$\\dfrac{dG}{dt}=0.2G>0$\n\nAs $G$ increases, its rate increases, so the growth curve becomes steeper.\n\n$\\dfrac{dD}{dt}=-0.2D<0$\n\nAs $D$ decreases, the magnitude $0.2D$ of its rate decreases, so the decay curve becomes less steep. It approaches the horizontal asymptote $Q=0$ without reaching it.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{growthblue}{HTML}{268CFF}\n\\definecolor{decayred}{HTML}{EF6068}\n\\begin{axis}[width=70mm,height=52mm,axis lines=left,xmin=0,xmax=5.5,ymin=0,ymax=90,xlabel={$t$},ylabel={$Q$},xtick={0,1,2,3,4,5},ytick={0,30,60,90},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black},axis line style={black},tick style={black},clip=false]\n\\addplot[color=growthblue,thick,domain=0:5,samples=80] {30*exp(0.2*x)};\n\\addplot[color=decayred,thick,dashed,domain=0:5,samples=80] {30*exp(-0.2*x)};\n\\path (axis cs:4.4,78) node[font=\\fontsize{10}{12}\\selectfont,text=black] {$G$};\n\\path (axis cs:4.4,17) node[font=\\fontsize{10}{12}\\selectfont,text=black] {$D$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $k\\ne0$, determine when $Q=Ae^{kt}+B$ satisfies $\\dfrac{dQ}{dt}=kQ$. Hence explain why $Q=14e^{0.3t}+5$ does not satisfy an equation of the form $\\dfrac{dQ}{dt}=cQ$ for any constant $c$.",
+    "solution_text": "$\\begin{align*}\\dfrac{dQ}{dt}&=kAe^{kt}\\\\&=k(Q-B)\\\\&=kQ-kB\\end{align*}$\n\nThis equals $kQ$ exactly when $kB=0$. Since $k\\ne0$, it requires $B=0$.\n\nFor $Q=14e^{0.3t}+5$:\n\n$\\begin{align*}\\dfrac{dQ}{dt}&=4.2e^{0.3t}\\\\&=0.3(Q-5)\\\\&=0.3Q-1.5\\end{align*}$\n\nIf this were $cQ$, then $(0.3-c)Q=1.5$ for all $t$. The quantity $Q$ varies with $t$, so no constant $c$ can satisfy this identity.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A quantity has model $Q=-80e^{0.15t}$ for $t\\ge0$. Find its initial value and proportionality constant. Explain whether $Q$ increases or decreases as time passes.",
+    "solution_text": "$\\begin{align*}Q(0)&=-80e^0\\\\&=-80\\end{align*}$\n\n$\\begin{align*}\\dfrac{dQ}{dt}&=-12e^{0.15t}\\\\&=0.15Q\\end{align*}$\n\nThus $A=-80$ and $k=0.15$. Since $Q<0$, the rate $0.15Q$ is negative. The quantity decreases, becoming more negative and moving farther from zero.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Verify by differentiation that $Q=8e^{3t}$ satisfies $\\dfrac{dQ}{dt}=3Q$.",
         "structure": "verify-solution-by-differentiation",
         "solution_text": "$Q=8e^{3t}$\n$\\dfrac{dQ}{dt}=24e^{3t}$\n$=3\\left(8e^{3t}\\right)$\n$=3Q$"
       },
-      {
-        "question_text": "A quantity satisfies $\\dfrac{dQ}{dt}=-0.4Q$.\nIs this growth or decay, and why?",
+{
+        "question_text": "A positive quantity satisfies $\\dfrac{dQ}{dt}=-0.4Q$.\nIs this growth or decay, and why?",
         "structure": "identify-growth-or-decay",
         "solution_text": "$k=-0.4$\n$k<0$, so the rate is negative whenever $Q$ is positive.\nThis is exponential decay."
       },
-      {
+{
         "question_text": "The number $N$ of bacteria increases at a rate proportional to the number present, with constant of proportionality $0.6$ per hour.\nWrite a differential equation for $N$.",
         "structure": "write-de-from-description",
         "solution_text": "The rate is proportional to the amount $N$.\n$\\dfrac{dN}{dt}=0.6N$"
       },
-      {
+{
         "question_text": "A sample satisfies $Q=250e^{-0.15t}$ grams after $t$ hours.\nState the initial mass and the value of $k$.",
         "structure": "initial-value-a",
         "solution_text": "$Q=250e^{-0.15t}$\n$Q(0)=250e^{0}$\n$=250\\text{ g}$\n$k=-0.15$"
       },
-      {
+{
         "question_text": "Show that $Q=Ae^{kt}$ satisfies $\\dfrac{dQ}{dt}=kQ$ for any constants $A$ and $k$.",
         "structure": "verify-solution-by-differentiation",
         "solution_text": "$Q=Ae^{kt}$\n$\\dfrac{dQ}{dt}=kAe^{kt}$\n$=k\\left(Ae^{kt}\\right)$\n$=kQ$"
       },
-      {
-        "question_text": "The mass $M$ of a radioactive sample decreases at a rate proportional to the mass present, with constant of proportionality $0.03$ per year.\nWrite a differential equation for $M$.",
+{
+        "question_text": "The mass $M$ of a radioactive sample decreases at a rate proportional to the mass present, with magnitude of the decay constant $0.03$ per year.\nWrite a differential equation for $M$.",
         "structure": "write-de-from-description",
         "solution_text": "The mass is decreasing, so the constant is negative.\n$\\dfrac{dM}{dt}=-0.03M$"
       },
-      {
+{
         "question_text": "A quantity satisfies $\\dfrac{dQ}{dt}=0.25Q$ and $Q=40$ when $t=0$.\nWrite $Q$ in terms of $t$.",
         "structure": "find-k-from-de",
         "solution_text": "$\\dfrac{dQ}{dt}=kQ$ has solution $Q=Ae^{kt}$\n$k=0.25$\n$A=Q(0)=40$\n$Q=40e^{0.25t}$"
       }
-    ],
+],
     "development": [
       {
         "question_text": "Show that $Q=5e^{-2t}+3$ does not satisfy $\\dfrac{dQ}{dt}=kQ$ for any constant $k$.",
@@ -95,21 +139,21 @@
       }
     ],
     "mastery": [
-      {
-        "question_text": "Show that $Q=Ae^{kt}+B$ satisfies $\\dfrac{dQ}{dt}=kQ$ only when $B=0$.",
+{
+        "question_text": "For $k\\ne0$, show that $Q=Ae^{kt}+B$ satisfies $\\dfrac{dQ}{dt}=kQ$ only when $B=0$.",
         "structure": "verify-solution-by-differentiation",
         "solution_text": "$Q=Ae^{kt}+B$\n$\\dfrac{dQ}{dt}=kAe^{kt}$\n$Ae^{kt}=Q-B$\n$\\dfrac{dQ}{dt}=k\\left(Q-B\\right)$\n$=kQ-kB$\nThis equals $kQ$ for all $t$ only if $kB=0$, so $B=0$ when $k\\ne 0$."
       },
-      {
-        "question_text": "A quantity satisfies $\\dfrac{dQ}{dt}=-0.3Q$.\nExplain why the quantity decreases more slowly as time passes.",
+{
+        "question_text": "A positive quantity satisfies $\\dfrac{dQ}{dt}=-0.3Q$.\nExplain why the quantity decreases more slowly as time passes.",
         "structure": "identify-growth-or-decay",
         "solution_text": "$\\dfrac{dQ}{dt}=-0.3Q$, so the size of the rate is $0.3Q$.\nSince $k<0$ and $Q>0$, the quantity decreases, so $Q$ gets smaller as $t$ increases.\nA smaller $Q$ gives a smaller value of $0.3Q$, so the rate of decrease shrinks with the quantity.\nWhen $Q$ halves, the rate of decrease also halves."
       },
-      {
+{
         "question_text": "A quantity is given by $Q=-50e^{0.4t}$.\nFind $k$, and describe what happens to $Q$ as $t$ increases.",
         "structure": "initial-value-a",
         "solution_text": "$Q=-50e^{0.4t}$\n$\\dfrac{dQ}{dt}=-20e^{0.4t}$\n$=0.4\\left(-50e^{0.4t}\\right)$\n$=0.4Q$\n$k=0.4$\nSince $A=-50<0$, $Q$ is negative for all $t$.\n$\\dfrac{dQ}{dt}$ is negative, so $Q$ becomes more negative as $t$ increases, moving away from the asymptote $Q=0$."
       }
-    ]
+]
   }
 }

@@ -2,8 +2,8 @@
   "skillId": "identify-trees-spanning-trees",
   "atomType": "R",
   "theory": {
-        "intro": "A **tree** is a connected network with no loops, multiple edges, or cycles. A **spanning tree** connects all $n$ vertices of a graph using $n - 1$ edges.\n\nIn the diagram, bold edges form a spanning tree; thin edges are excluded from the spanning tree.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,1.5);\n\\coordinate (B) at (1.8,3.0);\n\\coordinate (C) at (4.2,3.0);\n\\coordinate (D) at (6.0,1.5);\n\\coordinate (E) at (4.2,0);\n\\coordinate (F) at (1.8,0);\n\\draw[line width=1.6pt] (A) -- (B);\n\\draw[line width=1.6pt] (B) -- (C);\n\\draw[line width=1.6pt] (C) -- (D);\n\\draw[line width=1.6pt] (D) -- (E);\n\\draw (E) -- (F);\n\\draw[line width=1.6pt] (F) -- (A);\n\\draw (B) -- (F);\n\\draw (C) -- (E);\n\\draw (B) -- (E);\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (D) circle (2.5pt) node[right] {$D$};\n\\fill (E) circle (2.5pt) node[below] {$E$};\n\\fill (F) circle (2.5pt) node[below] {$F$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "A **tree** is a connected network with no loops, multiple edges, or cycles. A **spanning tree** connects all $n$ vertices of a graph using $n - 1$ edges.\n\nIn the diagram, bold edges form a spanning tree; thin edges are excluded from the spanning tree.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,1.5);\n\\coordinate (B) at (1.8,3.0);\n\\coordinate (C) at (4.2,3.0);\n\\coordinate (D) at (6.0,1.5);\n\\coordinate (E) at (4.2,0);\n\\coordinate (F) at (1.8,0);\n\\draw[line width=1.6pt] (A) -- (B);\n\\draw[line width=1.6pt] (B) -- (C);\n\\draw[line width=1.6pt] (C) -- (D);\n\\draw[line width=1.6pt] (D) -- (E);\n\\draw (E) -- (F);\n\\draw[line width=1.6pt] (F) -- (A);\n\\draw (B) -- (F);\n\\draw (C) -- (E);\n\\draw (B) -- (E);\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (D) circle (2.5pt) node[right] {$D$};\n\\fill (E) circle (2.5pt) node[below] {$E$};\n\\fill (F) circle (2.5pt) node[below] {$F$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "A **tree** is a connected graph with no loops, multiple edges, or cycles.",
 "In a tree, there is **exactly one path** between any two vertices.",
 "A tree with $n$ vertices always has **exactly $n - 1$ edges**.",
@@ -12,12 +12,34 @@
 "For a connected graph with $V$ vertices and $E$ edges, remove $E - (V - 1)$ edges without disconnecting any vertices to form a spanning tree.",
 "A connected graph can have multiple different spanning trees."
 ],
-        "steps": [
+"steps": [
           "Count the total number of vertices $n$ and calculate the required edges $n - 1$",
           "Identify and remove loops, multiple edges, and cycle edges without disconnecting any vertices",
           "Verify that all $n$ vertices remain connected with exactly $n - 1$ edges and no cycles"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "a. A tree has $13$ vertices. How many edges does it have?\nb. A tree has $16$ edges. How many vertices does it have?",
+    "solution_text": "a. A tree has one fewer edge than vertices.\n$\\begin{aligned}\\text{Edges}&=13-1\\\\&=12\\end{aligned}$\n\nb. A tree has one more vertex than edges.\n$\\begin{aligned}\\text{Vertices}&=16+1\\\\&=17\\end{aligned}$"
+  },
+  {
+    "question_text": "Decide whether each graph is a tree. Give a reason. Crossing edges meet only at marked vertices.\n\nGraph 1:\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\coordinate (P) at (0,2);\n\\coordinate (Q) at (4,2);\n\\coordinate (R) at (0,0);\n\\coordinate (S) at (4,0);\n\\draw (P)--(Q)--(R);\n\\draw (P)--(S);\n\\foreach \\v/\\pos in {P/above left,Q/above right,R/below left,S/below right}{\\fill[black] (\\v) circle (2pt);\\path (\\v) node[\\pos] {$\\v$};}\n\\end{tikzpicture}\n[/tikz]\n\nGraph 2:\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (1,2);\n\\coordinate (R) at (2,0);\n\\coordinate (S) at (3.5,2);\n\\coordinate (T) at (3.5,0);\n\\draw (P)--(Q)--(R)--(P);\n\\draw (S)--(T);\n\\foreach \\v/\\pos in {P/below left,Q/above,R/below right,S/above,T/below}{\\fill[black] (\\v) circle (2pt);\\path (\\v) node[\\pos] {$\\v$};}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Graph 1 is a tree. Its edges form the path $R-Q-P-S$, connecting all four vertices without a cycle. The unmarked crossing adds no vertex or connection.\n\nGraph 2 is not a tree. It is disconnected and contains the cycle $P-Q-R-P$. Although it has five vertices and four edges, having $n-1$ edges alone is insufficient."
+  },
+  {
+    "question_text": "A graph has six vertices, with one edge joining every pair of distinct vertices. How many edges must be removed to leave a spanning tree?",
+    "solution_text": "Count each edge once: the first vertex joins five later vertices, the next joins four, then three, two and one.\n$\\begin{aligned}\\text{Original edges}&=5+4+3+2+1\\\\&=15\\\\\\text{Spanning-tree edges}&=6-1\\\\&=5\\\\\\text{Edges removed}&=15-5\\\\&=10\\end{aligned}$\nRemove ten edges while keeping all six vertices connected."
+  },
+  {
+    "question_text": "Draw two different spanning trees of this network. It includes a loop at $P$ and two edges between $Q$ and $R$.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\coordinate (P) at (0,1.5);\n\\coordinate (Q) at (1.5,3);\n\\coordinate (R) at (4,3);\n\\coordinate (S) at (5.5,1.5);\n\\coordinate (T) at (4,0);\n\\coordinate (U) at (1.5,0);\n\\draw (P)--(Q)--(R)--(S)--(T)--(U)--(P);\n\\draw (P)..controls (-1.2,2.5) and (-1.2,0.5)..(P);\n\\draw (Q) to[bend left=30] (R);\n\\draw (Q)--(U);\n\\draw (R)--(T);\n\\foreach \\v/\\pos in {P/above left,Q/above left,R/above right,S/right,T/below,U/below}{\\fill[black] (\\v) circle (2pt);\\path (\\v) node[\\pos] {$\\v$};}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Six vertices require five edges. First remove the loop at $P$ and the curved duplicate edge $QR$.\n\nFor the first tree, remove $QU$, $RT$ and $UP$, each from a cycle. All vertices remain connected along $P-Q-R-S-T-U$.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\coordinate (P) at (0,1.5);\n\\coordinate (Q) at (1.5,3);\n\\coordinate (R) at (4,3);\n\\coordinate (S) at (5.5,1.5);\n\\coordinate (T) at (4,0);\n\\coordinate (U) at (1.5,0);\n\\draw (P)--(Q)--(R)--(S)--(T)--(U);\n\\foreach \\v/\\pos in {P/left,Q/above,R/above,S/right,T/below,U/below}{\\fill[black] (\\v) circle (2pt);\\path (\\v) node[\\pos] {$\\v$};}\n\\end{tikzpicture}\n[/tikz]\n\nFor the second tree, instead remove $PQ$, $ST$ and $TU$. The remaining edges are $PU$, $UQ$, $QR$, $RS$ and $RT$.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\coordinate (P) at (0,1.5);\n\\coordinate (Q) at (1.5,3);\n\\coordinate (R) at (4,3);\n\\coordinate (S) at (5.5,1.5);\n\\coordinate (T) at (4,0);\n\\coordinate (U) at (1.5,0);\n\\draw (P)--(U)--(Q)--(R)--(S);\n\\draw (R)--(T);\n\\foreach \\v/\\pos in {P/left,Q/above,R/above,S/right,T/below,U/below}{\\fill[black] (\\v) circle (2pt);\\path (\\v) node[\\pos] {$\\v$};}\n\\end{tikzpicture}\n[/tikz]\n\nEach drawing retains all six original vertices, uses five original edges and has no cycles. Other spanning trees are possible."
+  },
+  {
+    "question_text": "Nine computers can be connected directly to any other computer.\na. What is the minimum number of cables needed to connect them all?\nb. A connected layout currently uses $14$ cables. How many can be removed while keeping all computers connected?",
+    "solution_text": "a. A spanning tree connects all nine computers with the fewest cables.\n$\\begin{aligned}\\text{Minimum cables}&=9-1\\\\&=8\\end{aligned}$\n\nb. Keep eight cables that form a spanning tree.\n$\\begin{aligned}\\text{Cables removed}&=14-8\\\\&=6\\end{aligned}$\nChoose the removed cables from cycles so that no computer becomes disconnected."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

@@ -2,8 +2,8 @@
   "skillId": "tangents-normals-advanced",
   "atomType": "R",
   "theory": {
-    "intro": "A **tangent** touches $y = f(x)$ at $P(x_1, y_1)$ and has gradient $m = f'(x_1)$. The **normal** is the line through $P$ at right angles to the tangent. The same method works for exponential, logarithmic and trigonometric curves.",
-    "facts": [
+"intro": "A **tangent** touches $y = f(x)$ at $P(x_1, y_1)$ and has gradient $m = f'(x_1)$. The **normal** is the line through $P$ at right angles to the tangent. The same method works for exponential, logarithmic and trigonometric curves.",
+"facts": [
 "Find the point of contact first: $y_1 = f(x_1)$, and check that the point really lies on the curve.",
 "The tangent at $P(x_1, y_1)$ has equation $y - y_1 = f'(x_1)(x - x_1)$.",
 "Whenever $f'(x_1) \\neq 0$, the normal has gradient $m_{\\perp} = -\\dfrac{1}{f'(x_1)}$, not $-f'(x_1)$ and not $\\dfrac{1}{f'(x_1)}$.",
@@ -13,14 +13,79 @@
 "A tangent is parallel to $y = mx + c$ at the values of $x$ where $f'(x) = m$.",
 "General form is $ax + by + c = 0$, where $a$, $b$ and $c$ are real constants and $a$ and $b$ are not both zero; coefficients may include logarithms or irrational numbers."
 ],
-    "steps": [
+"steps": [
 "Find the point of contact $y_1 = f(x_1)$.",
 "Differentiate to find $f'(x)$, choosing the product, quotient or chain rule as needed.",
 "Evaluate the gradient $m = f'(x_1)$.",
 "For a normal use $m_{\\perp} = -\\dfrac{1}{m}$, or write $x = x_1$ when $m = 0$.",
 "For a tangent, substitute into $y-y_1=m(x-x_1)$; for a nonvertical normal, substitute into $y-y_1=m_{\\perp}(x-x_1)$, then rearrange to the required form."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Find the equations of the tangent and normal to $y=3^x$ at the point where $x=1$.",
+    "solution_text": "The point of contact is $(1,3)$.\n$\\begin{align*}\\frac{dy}{dx}&=3^x\\ln 3\\\\m&=3\\ln 3\\end{align*}$\nThe tangent is\n$\\begin{align*}y-3&=3\\ln 3\\,(x-1)\\\\y&=(3\\ln 3)x+3-3\\ln 3.\\end{align*}$\nThe normal has gradient $-\\frac{1}{3\\ln 3}$, so its equation is\n$y-3=-\\frac{1}{3\\ln 3}(x-1)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find the equation of the tangent to $y=\\ln(4x)$ at the point where $x=\\frac14$.",
+    "solution_text": "$\\begin{align*}y_1&=\\ln\\left(4\\times\\frac14\\right)=0\\\\\\frac{dy}{dx}&=\\frac{4}{4x}=\\frac1x\\\\m&=\\frac{1}{1/4}=4\\end{align*}$\nThe tangent is\n$\\begin{align*}y-0&=4\\left(x-\\frac14\\right)\\\\y&=4x-1.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the equations of the tangent and normal to $y=x\\sin x$ where $x=2\\pi$. Give the tangent in general form with a positive coefficient of $x$.",
+    "solution_text": "$\\begin{align*}y_1&=2\\pi\\sin 2\\pi=0\\\\u&=x,\\qquad u'=1\\\\v&=\\sin x,\\qquad v'=\\cos x\\\\\\frac{dy}{dx}&=\\sin x+x\\cos x\\\\m&=\\sin 2\\pi+2\\pi\\cos 2\\pi=2\\pi\\end{align*}$\nThe tangent is\n$\\begin{align*}y-0&=2\\pi(x-2\\pi)\\\\2\\pi x-y-4\\pi^2&=0.\\end{align*}$\nThe normal has gradient $-\\frac{1}{2\\pi}$, so its equation is\n$\\begin{align*}y-0&=-\\frac{1}{2\\pi}(x-2\\pi)\\\\y&=-\\frac{x}{2\\pi}+1.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the $x$-coordinates of the points on $y=x^2e^{-2x}$ where the tangent is horizontal.",
+    "solution_text": "Use the product rule and the chain rule.\n$\\begin{align*}u&=x^2,\\qquad u'=2x\\\\v&=e^{-2x},\\qquad v'=-2e^{-2x}\\\\\\frac{dy}{dx}&=2xe^{-2x}-2x^2e^{-2x}\\\\&=2xe^{-2x}(1-x)\\end{align*}$\nA horizontal tangent has gradient zero. Since $e^{-2x}>0$,\n$\\begin{align*}x(1-x)&=0\\\\x&=0\\text{ or }1.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For $y=e^{\\sin 3x}$, find the $x$-coordinates where the tangent is horizontal in $0\\leq x\\leq\\frac{2\\pi}{3}$. Find the equations of the tangent and normal at the first of these points.",
+    "solution_text": "Use the chain rule.\n$\\frac{dy}{dx}=3\\cos 3x\\,e^{\\sin 3x}$\nSince $e^{\\sin 3x}>0$, a horizontal tangent requires $\\cos 3x=0$. In the given domain, $0\\leq3x\\leq2\\pi$.\n$\\begin{align*}3x&=\\frac\\pi2\\text{ or }\\frac{3\\pi}{2}\\\\x&=\\frac\\pi6\\text{ or }\\frac\\pi2\\end{align*}$\nAt the first point,\n$y_1=e^{\\sin(\\pi/2)}=e$.\nThe tangent is $y=e$. The normal is vertical through the same point, so its equation is $x=\\frac\\pi6$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact $x$-coordinate where $y=\\frac{\\ln x}{x^2}$, $x>0$, has a horizontal tangent.",
+    "solution_text": "Use the quotient rule.\n$\\begin{align*}u&=\\ln x,\\qquad u'=\\frac1x\\\\v&=x^2,\\qquad v'=2x\\\\\\frac{dy}{dx}&=\\frac{x^2(1/x)-2x\\ln x}{x^4}\\\\&=\\frac{1-2\\ln x}{x^3}\\end{align*}$\nSince $x>0$, the denominator is nonzero. Set the numerator equal to zero.\n$\\begin{align*}1-2\\ln x&=0\\\\\\ln x&=\\frac12\\\\x&=\\sqrt e.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the $x$ value where the tangents to each pair of curves are parallel at the same $x$ value. Give answers to 3 significant figures.\n(a) $y=2^x$ and $y=8^x$.\n(b) $y=\\ln(5x)$ and $y=\\frac{x^2}{5}$, where $x>0$.",
+    "solution_text": "(a) Equal tangent gradients give\n$\\begin{align*}2^x\\ln2&=8^x\\ln8\\\\4^x&=\\frac{\\ln2}{\\ln8}=\\frac13\\\\x\\ln4&=-\\ln3\\\\x&=-\\frac{\\ln3}{\\ln4}\\\\x&\\approx-0.792.\\end{align*}$\n(b) The derivatives are $\\frac1x$ and $\\frac{2x}{5}$. Equal tangent gradients give\n$\\begin{align*}\\frac1x&=\\frac{2x}{5}\\\\x^2&=\\frac52\\end{align*}$\nSince $x>0$,\n$\\begin{align*}x&=\\sqrt{\\frac52}\\\\x&\\approx1.58.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "(a) The tangent to $y=\\ln(2x)$ at $P$ passes through the origin. Find $P$ and the tangent's equation.\n(b) The line $y=mx$ is tangent to $y=e^{4x}$. Find the point of contact and the exact value of $m$.",
+    "solution_text": "(a) Let $P=(a,\\ln(2a))$, where $a>0$. The derivative is $\\frac1x$, so the tangent gradient is $\\frac1a$. Its gradient from the origin to $P$ is $\\frac{\\ln(2a)}a$.\n$\\begin{align*}\\frac1a&=\\frac{\\ln(2a)}a\\\\\\ln(2a)&=1\\\\2a&=e\\\\a&=\\frac e2\\end{align*}$\nThus $P=\\left(\\frac e2,1\\right)$, and the tangent is\n$\\begin{align*}y-1&=\\frac2e\\left(x-\\frac e2\\right)\\\\y&=\\frac2e x.\\end{align*}$\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{standardRed}{HTML}{EF6068}\n\\draw[black,->] (-0.35,0)--(3.4,0) node[right] {$x$};\n\\draw[black,->] (0,-1.5)--(0,2.1) node[above] {$y$};\n\\draw[black,thick,<->,domain=0.12:3.1,samples=100,smooth,variable=\\x] plot ({\\x},{ln(2*\\x)});\n\\path (3.55,1.35) node[anchor=north west,inner sep=0pt] {$y=\\ln(2x)$};\n\\draw[standardRed,thick] (0,0)--(2.5,{5/exp(1)});\n\\path (3.55,2.35) node[anchor=south west,inner sep=0pt] {$y=\\frac2e x$};\n\\fill[black] ({exp(1)/2},1) circle (1.5pt);\n\\path ({exp(1)/2},1) node[above left] {$P\\left(\\frac e2,1\\right)$};\n\\path (0,0) node[below left] {$O$};\n\\end{tikzpicture}\n[/tikz]\n(b) Let the point of contact be $(b,e^{4b})$. The derivative gives $m=4e^{4b}$. Since the tangent passes through the origin, its gradient is also $\\frac{e^{4b}}b$, with $b\\neq0$.\n$\\begin{align*}4e^{4b}&=\\frac{e^{4b}}b\\\\4b&=1\\\\b&=\\frac14\\\\m&=4e\\end{align*}$\nThe point of contact is $\\left(\\frac14,e\\right)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The tangent to $y=2\\sin^2x$ at $P\\left(\\frac\\pi4,1\\right)$ meets the $x$-axis at $A$. The normal at $P$ meets the $y$-axis at $B$. Find the exact area of $\\triangle OAB$, where $O$ is the origin.",
+    "solution_text": "$\\begin{align*}\\frac{dy}{dx}&=4\\sin x\\cos x\\\\m&=4\\sin\\frac\\pi4\\cos\\frac\\pi4=2\\end{align*}$\nThe tangent is $y-1=2\\left(x-\\frac\\pi4\\right)$. At $A$, $y=0$.\n$\\begin{align*}-1&=2\\left(x-\\frac\\pi4\\right)\\\\x&=\\frac\\pi4-\\frac12=\\frac{\\pi-2}{4}\\end{align*}$\nThe normal has gradient $-\\frac12$, so its equation is $y-1=-\\frac12\\left(x-\\frac\\pi4\\right)$. At $B$, $x=0$.\n$y=1+\\frac\\pi8=\\frac{\\pi+8}{8}$\nThus $OA=\\frac{\\pi-2}{4}$ and $OB=\\frac{\\pi+8}{8}$.\n[tikz]\n\\begin{tikzpicture}[x=20mm,y=20mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{standardBlue}{HTML}{268CFF}\n\\definecolor{standardRed}{HTML}{EF6068}\n\\definecolor{standardGreen}{HTML}{4F9B63}\n\\draw[black,->] (-0.18,0)--(1.65,0) node[right] {$x$};\n\\draw[black,->] (0,-0.2)--(0,2.35) node[above] {$y$};\n\\draw[standardBlue,thick,domain=-0.1:1.5,samples=90,smooth,variable=\\x] plot ({\\x},{2*(sin(\\x r))^2});\n\\path (1.4,2.04) node[above] {$y=2\\sin^2x$};\n\\draw[standardRed,thick] (0,-0.570796)--(1.35,2.129204);\n\\draw[standardGreen,thick] (-0.1,1.442699)--(1.55,0.617699);\n\\draw[black,dashed] (0,{1+pi/8})--({pi/4-0.5},0);\n\\fill[black] ({pi/4},1) circle (1.5pt);\n\\path ({pi/4},1) node[right] {$P$};\n\\fill[black] ({pi/4-0.5},0) circle (1.5pt);\n\\path ({pi/4-0.5},0) node[below right] {$A$};\n\\fill[black] (0,{1+pi/8}) circle (1.5pt);\n\\path (0,{1+pi/8}) node[left] {$B$};\n\\path (0,0) node[below left] {$O$};\n\\end{tikzpicture}\n[/tikz]\nThe axes are perpendicular, so\n$\\begin{align*}\\text{Area}&=\\frac12\\times OA\\times OB\\\\&=\\frac12\\times\\frac{\\pi-2}{4}\\times\\frac{\\pi+8}{8}\\\\&=\\frac{(\\pi-2)(\\pi+8)}{64}\\text{ square units}.\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

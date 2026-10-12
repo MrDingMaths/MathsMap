@@ -2,8 +2,8 @@
   "skillId": "prove-trig-identities",
   "atomType": "R",
   "theory": {
-        "intro": "To **prove** an identity, start on one side and change it step by step until it matches the other side. The booklet requires this proof convention rather than applying operations to both sides of the statement being proved.",
-        "facts": [
+"intro": "To **prove** an identity, start on one side and change it step by step until it matches the other side. The booklet requires this proof convention rather than applying operations to both sides of the statement being proved.",
+"facts": [
 "Begin with one side, usually the $\\text{LHS}$, and write a chain of equalities ending at the other side.",
 "Identities hold where the original expressions are defined. Divide or cancel only by expressions that are nonzero on that domain; for example, an original expression containing $\\sec\\theta$ already requires $\\cos\\theta \\ne 0$.",
 "Reversible operations, including cross-multiplication with nonzero denominators, can establish an equivalence, but use the booklet's one-side proof convention here. Squaring alone does not establish the converse because it can lose sign information. An already established identity may be divided by a nonzero expression to derive another identity.",
@@ -11,14 +11,72 @@
 "Useful moves: write ratios in terms of $\\sin x$ and $\\cos x$, combine fractions, multiply by a conjugate such as $1 \\pm \\sin x$, and factorise.",
 "**Pythagorean substitutions**: replace $1 - \\sin^{2}\\theta$ with $\\cos^{2}\\theta$, $1 + \\tan^{2}\\theta$ with $\\sec^{2}\\theta$, or $1 + \\cot^{2}\\theta$ with $\\operatorname{cosec}^{2}\\theta$."
 ],
-        "steps": [
+"steps": [
           "Select the more complex side (typically the LHS)",
           "Express all trigonometric ratios in terms of sin x and cos x",
           "Perform algebraic operations such as finding common denominators, expanding, or factoring conjugates",
           "Substitute Pythagorean identities to simplify terms",
           "Conclude when the expression matches the RHS"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Prove that $4\\sin x\\sec x=4\\tan x$ wherever the expressions are defined.",
+    "solution_text": "$\\begin{align*}\\text{LHS}&=4\\sin x\\sec x\\\\&=4\\sin x\\frac{1}{\\cos x}\\\\&=4\\tan x\\\\&=\\text{RHS}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove that $4(1+\\tan^{2}x)\\cos^{2}x=4$ wherever the expressions are defined.",
+    "solution_text": "$\\begin{align*}\\text{LHS}&=4(1+\\tan^{2}x)\\cos^{2}x\\\\&=4\\sec^{2}x\\cos^{2}x\\\\&=4\\frac{1}{\\cos^{2}x}\\cos^{2}x\\\\&=4\\\\&=\\text{RHS}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove that $4\\operatorname{cosec}x-4\\sin x=4\\cos x\\cot x$ wherever the expressions are defined.",
+    "solution_text": "$\\begin{align*}\\text{LHS}&=4\\operatorname{cosec}x-4\\sin x\\\\&=\\frac{4}{\\sin x}-4\\sin x\\\\&=\\frac{4(1-\\sin^{2}x)}{\\sin x}\\\\&=\\frac{4\\cos^{2}x}{\\sin x}\\\\&=4\\cos x\\cot x\\\\&=\\text{RHS}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove that $\\dfrac{4(1-\\cos x)}{\\sin x}=\\dfrac{4\\sin x}{1+\\cos x}$ wherever the expressions are defined. Use the conjugate $1+\\cos x$.",
+    "solution_text": "Since $\\sin x\\ne0$, the factor $1+\\cos x$ is nonzero.\n\n$\\begin{align*}\\text{LHS}&=\\frac{4(1-\\cos x)}{\\sin x}\\\\&=\\frac{4(1-\\cos x)(1+\\cos x)}{\\sin x(1+\\cos x)}\\\\&=\\frac{4(1-\\cos^{2}x)}{\\sin x(1+\\cos x)}\\\\&=\\frac{4\\sin^{2}x}{\\sin x(1+\\cos x)}\\\\&=\\frac{4\\sin x}{1+\\cos x}\\\\&=\\text{RHS}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove that $\\dfrac{4\\operatorname{cosec}x+4\\sec x}{1+\\tan x}=4\\operatorname{cosec}x$ wherever the expressions are defined.",
+    "solution_text": "The original expression requires $\\sin x\\ne0$, $\\cos x\\ne0$ and $\\sin x+\\cos x\\ne0$.\n\n$\\begin{align*}\\text{LHS}&=\\frac{4\\operatorname{cosec}x+4\\sec x}{1+\\tan x}\\\\&=\\frac{\\frac{4}{\\sin x}+\\frac{4}{\\cos x}}{1+\\frac{\\sin x}{\\cos x}}\\\\&=\\frac{\\frac{4(\\cos x+\\sin x)}{\\sin x\\cos x}}{\\frac{\\cos x+\\sin x}{\\cos x}}\\\\&=\\frac{4(\\cos x+\\sin x)}{\\sin x\\cos x}\\times\\frac{\\cos x}{\\cos x+\\sin x}\\\\&=\\frac{4}{\\sin x}\\\\&=4\\operatorname{cosec}x\\\\&=\\text{RHS}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove that $4(\\sin x+\\cos x)(\\sec x+\\operatorname{cosec}x)=8+4\\tan x+4\\cot x$ by simplifying each side separately to a common expression, wherever the expressions are defined.",
+    "solution_text": "$\\begin{align*}\\text{LHS}&=4(\\sin x+\\cos x)\\left(\\frac{1}{\\cos x}+\\frac{1}{\\sin x}\\right)\\\\&=\\frac{4(\\sin x+\\cos x)^{2}}{\\sin x\\cos x}\\\\&=\\frac{4(\\sin^{2}x+2\\sin x\\cos x+\\cos^{2}x)}{\\sin x\\cos x}\\\\&=\\frac{4(1+2\\sin x\\cos x)}{\\sin x\\cos x}\\\\&=\\frac{4}{\\sin x\\cos x}+8\\end{align*}$\n\n$\\begin{align*}\\text{RHS}&=8+4\\tan x+4\\cot x\\\\&=8+\\frac{4\\sin x}{\\cos x}+\\frac{4\\cos x}{\\sin x}\\\\&=8+\\frac{4(\\sin^{2}x+\\cos^{2}x)}{\\sin x\\cos x}\\\\&=8+\\frac{4}{\\sin x\\cos x}\\end{align*}$\n\nBoth sides equal $8+\\dfrac{4}{\\sin x\\cos x}$, so $\\text{LHS}=\\text{RHS}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove that $4\\sec^{4}x-4\\tan^{4}x=8\\sec^{2}x-4$ wherever the expressions are defined.",
+    "solution_text": "$\\begin{align*}\\text{LHS}&=4\\sec^{4}x-4\\tan^{4}x\\\\&=4(\\sec^{2}x-\\tan^{2}x)(\\sec^{2}x+\\tan^{2}x)\\\\&=4(\\sec^{2}x+\\tan^{2}x)\\\\&=4\\bigl(\\sec^{2}x+(\\sec^{2}x-1)\\bigr)\\\\&=8\\sec^{2}x-4\\\\&=\\text{RHS}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Prove that $\\dfrac{8\\cos^{3}x-4\\cos x}{\\sin x\\cos^{2}x-\\sin^{3}x}=4\\cot x$ wherever the expressions are defined.",
+    "solution_text": "The original denominator requires $\\sin x\\ne0$ and $\\cos^{2}x-\\sin^{2}x\\ne0$, so the common factor below may be cancelled.\n\n$\\begin{align*}\\text{LHS}&=\\frac{8\\cos^{3}x-4\\cos x}{\\sin x\\cos^{2}x-\\sin^{3}x}\\\\&=\\frac{4\\cos x(2\\cos^{2}x-1)}{\\sin x(\\cos^{2}x-\\sin^{2}x)}\\\\&=\\frac{4\\cos x(2\\cos^{2}x-1)}{\\sin x\\bigl(\\cos^{2}x-(1-\\cos^{2}x)\\bigr)}\\\\&=\\frac{4\\cos x(2\\cos^{2}x-1)}{\\sin x(2\\cos^{2}x-1)}\\\\&=\\frac{4\\cos x}{\\sin x}\\\\&=4\\cot x\\\\&=\\text{RHS}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

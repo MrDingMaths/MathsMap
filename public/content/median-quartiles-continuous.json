@@ -2,8 +2,8 @@
   "skillId": "median-quartiles-continuous",
   "atomType": "R",
   "theory": {
-    "intro": "The **median** $m$ of a continuous random variable is the value with half the probability below it, so it solves $F(m)=0.5$. The quartiles solve $F(x)=0.25$ and $F(x)=0.75$.",
-    "facts": [
+"intro": "The **median** $m$ of a continuous random variable is the value with half the probability below it, so it solves $F(m)=0.5$. The quartiles solve $F(x)=0.25$ and $F(x)=0.75$.",
+"facts": [
 "Solve $F(m)=0.5$ using the cumulative function $F$, never the density $f$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$F(x)$}, xmin=-0.5, xmax=5.2, ymin=-0.18, ymax=1.25, samples=100, clip=false, width=8cm, height=6cm, xtick=\\empty, ytick={0.5,1}]\n\\addplot[thick, domain=1:4] {(x-1)*(x-1)/9};\n\\draw[dashed] (axis cs:1,0.5) -- (axis cs:3.1213,0.5) -- (axis cs:3.1213,0);\n\\node[below] at (axis cs:1,0) {$a$};\n\\node[below] at (axis cs:3.1213,0) {$m$};\n\\node[below] at (axis cs:4,0) {$b$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
 "$Q_{1}$ solves $F(x)=0.25$ and $Q_{3}$ solves $F(x)=0.75$; the median is also written $Q_{2}$.",
 "If only the density is given, build $F(x)=\\int_{a}^{x}f(t)\\,dt$ first.",
@@ -11,12 +11,42 @@
 "Reject any solution outside $[a,b]$, since the equation often has a root the support does not contain.",
 "The interquartile range $Q_{3}-Q_{1}$ measures the width of the middle half of the distribution."
 ],
-    "steps": [
+"steps": [
       "Write the cumulative distribution function $F(x)$, integrating $f$ from $a$ to $x$ if it is not given.",
       "Set $F(x)$ equal to $0.5$ for the median, or to $0.25$ or $0.75$ for a quartile.",
       "Solve for $x$ and reject any root outside the support $[a,b]$."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A continuous random variable has CDF $F(x)=\\frac{x^{3}-8}{208}$ on $[2,6]$. Find the median, both quartiles and the 40th percentile, correct to two decimal places.",
+    "solution_text": "For the median, set $F(m)=\\frac12$.\n$\\begin{aligned}\\frac{m^{3}-8}{208}&=\\frac12\\\\m^{3}-8&=104\\\\m^{3}&=112\\\\m&=\\sqrt[3]{112}\\approx4.82\\end{aligned}$\nFor the first quartile, set $F(Q_1)=\\frac14$.\n$\\begin{aligned}\\frac{Q_1^{3}-8}{208}&=\\frac14\\\\Q_1^{3}&=60\\\\Q_1&=\\sqrt[3]{60}\\approx3.91\\end{aligned}$\nFor the third quartile, set $F(Q_3)=\\frac34$.\n$\\begin{aligned}\\frac{Q_3^{3}-8}{208}&=\\frac34\\\\Q_3^{3}&=164\\\\Q_3&=\\sqrt[3]{164}\\approx5.47\\end{aligned}$\nThe 40th percentile $c$ has cumulative probability $0.40$.\n$\\begin{aligned}\\frac{c^{3}-8}{208}&=0.40\\\\c^{3}&=91.2\\\\c&=\\sqrt[3]{91.2}\\approx4.50\\end{aligned}$\nAll four values lie in $[2,6]$.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=35mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{mathblue}{HTML}{268CFF}\n\\draw[->,black] (1.7,0)--(6.4,0) node[right] {$x$};\n\\draw[->,black] (2,-0.05)--(2,1.13) node[above] {$F(x)$};\n\\draw[mathblue,thick,domain=2:6,samples=80] plot (\\x,{((\\x)*(\\x)*(\\x)-8)/208});\n\\draw[mathblue,dashed] (2,0.25)--(3.914868,0.25)--(3.914868,0);\n\\draw[mathblue,dashed] (2,0.5)--(4.820285,0.5)--(4.820285,0);\n\\draw[mathblue,dashed] (2,0.75)--(5.473704,0.75)--(5.473704,0);\n\\foreach \\v/\\lab in {0.25/{0.25},0.5/{0.5},0.75/{0.75},1/{1}} {\\draw[black] (1.95,\\v)--(2,\\v);\\path (1.95,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\lab$};}\n\\path (2,0) node[below] {$2$};\n\\path (3.914868,0) node[below] {$Q_1$};\n\\path (4.820285,0) node[below] {$m$};\n\\path (5.473704,0) node[below] {$Q_3$};\n\\path (6,1) node[right] {$(6,1)$};\n\\end{tikzpicture}\n[/tikz]"
   },
+  {
+    "question_text": "A continuous random variable has CDF $F(x)=\\frac{x^{2}-4x}{32}$ on $[4,8]$. Find its exact median and a two decimal place approximation.",
+    "solution_text": "Set $F(m)=\\frac12$.\n$\\begin{aligned}\\frac{m^{2}-4m}{32}&=\\frac12\\\\m^{2}-4m-16&=0\\\\m&=\\frac{4\\pm\\sqrt{16+64}}{2}\\\\m&=2\\pm2\\sqrt5\\end{aligned}$\nThe root $2-2\\sqrt5$ lies outside $[4,8]$.\n$\\begin{aligned}m&=2+2\\sqrt5\\\\m&\\approx6.47\\end{aligned}$"
+  },
+  {
+    "question_text": "A continuous random variable has PDF $f(x)=\\frac{x-2}{18}$ on $[2,8]$, and zero elsewhere. Find its CDF on $[2,8]$, then find the exact median and first quartile.",
+    "solution_text": "Integrate from the lower boundary of the support.\n$\\begin{aligned}F(x)&=\\int_2^x\\frac{t-2}{18}\\,dt\\\\&=\\left[\\frac{(t-2)^2}{36}\\right]_2^x\\\\&=\\frac{(x-2)^2}{36},\\qquad2\\le x\\le8\\end{aligned}$\nFor the median, set $F(m)=\\frac12$.\n$\\begin{aligned}\\frac{(m-2)^2}{36}&=\\frac12\\\\(m-2)^2&=18\\\\m&=2\\pm3\\sqrt2\\end{aligned}$\nSince $m\\in[2,8]$, the median is $m=2+3\\sqrt2$.\nFor the first quartile, set $F(Q_1)=\\frac14$.\n$\\begin{aligned}\\frac{(Q_1-2)^2}{36}&=\\frac14\\\\(Q_1-2)^2&=9\\\\Q_1&=2\\pm3\\end{aligned}$\nReject $Q_1=-1$, which is outside the support. Hence $Q_1=5$."
+  },
+  {
+    "question_text": "A continuous random variable has PDF $f(x)=\\frac{2(4-x)}{16}$ on $[0,4]$, and zero elsewhere. Find the exact median and explain why it is not $2$.",
+    "solution_text": "$\\begin{aligned}F(x)&=\\int_0^x\\frac{2(4-t)}{16}\\,dt\\\\&=\\frac18\\left[4t-\\frac{t^2}{2}\\right]_0^x\\\\&=\\frac{8x-x^2}{16},\\qquad0\\le x\\le4\\end{aligned}$\nSet $F(m)=\\frac12$.\n$\\begin{aligned}\\frac{8m-m^2}{16}&=\\frac12\\\\m^2-8m+8&=0\\\\m&=\\frac{8\\pm\\sqrt{64-32}}2\\\\m&=4\\pm2\\sqrt2\\end{aligned}$\nReject $4+2\\sqrt2$, which is outside $[0,4]$. The median is $m=4-2\\sqrt2$.\n$F(2)=\\frac{16-4}{16}=\\frac34$, so $2$ has three quarters of the probability below it. Half the probability is reached before the midpoint."
+  },
+  {
+    "question_text": "The time $X$ minutes for a process to finish has PDF $f(x)=\\frac{3(6-x)^2}{216}$ on $[0,6]$, and zero elsewhere. Find the median time, correct to two decimal places, and interpret it.",
+    "solution_text": "$\\begin{aligned}F(x)&=\\int_0^x\\frac{3(6-t)^2}{216}\\,dt\\\\&=\\left[-\\frac{(6-t)^3}{216}\\right]_0^x\\\\&=1-\\frac{(6-x)^3}{216},\\qquad0\\le x\\le6\\end{aligned}$\nSet $F(m)=\\frac12$.\n$\\begin{aligned}1-\\frac{(6-m)^3}{216}&=\\frac12\\\\(6-m)^3&=108\\\\6-m&=\\sqrt[3]{108}\\\\m&=6-\\sqrt[3]{108}\\\\m&\\approx1.24\\end{aligned}$\nThe median lies in $[0,6]$. Half of the processes finish within approximately $1.24$ minutes."
+  },
+  {
+    "question_text": "A continuous random variable has PDF $f(x)=\\frac1{12}$ for $0\\le x<3$, $f(x)=\\frac14$ for $3\\le x\\le6$, and zero elsewhere. Find the median.",
+    "solution_text": "The cumulative probability at the change of density is $F(3)=3\\times\\frac1{12}=\\frac14$. Since $\\frac14<\\frac12$, the median lies in the second interval.\nFor $3\\le x\\le6$, accumulate the probability from the first interval before integrating the second.\n$\\begin{aligned}F(x)&=\\frac14+\\int_3^x\\frac14\\,dt\\\\&=\\frac14+\\frac{x-3}{4}\\end{aligned}$\n$\\begin{aligned}\\frac14+\\frac{m-3}{4}&=\\frac12\\\\m-3&=1\\\\m&=4\\end{aligned}$\nThe value $4$ lies in the second interval.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=30mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{mathblue}{HTML}{268CFF}\n\\draw[->,black] (-0.2,0)--(6.5,0) node[right] {$x$};\n\\draw[->,black] (0,-0.05)--(0,1.15) node[above] {$F(x)$};\n\\draw[mathblue,thick] (0,0)--(3,0.25)--(6,1);\n\\draw[mathblue,dashed] (0,0.5)--(4,0.5)--(4,0);\n\\path (3,0.25) node[below right] {$(3,\\frac14)$};\n\\path (6,1) node[right] {$(6,1)$};\n\\path (4,0) node[below] {$m=4$};\n\\path (0,0.5) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$0.5$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "The cumulative frequency polygon shows the heights of $80$ plants. Estimate the interquartile range, correct to two decimal places.\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{mathblue}{HTML}{268CFF}\n\\definecolor{housegrid}{HTML}{CCCCCC}\n\\begin{axis}[width=75mm,height=60mm,axis lines=left,xlabel={Height (cm)},ylabel={Cumulative frequency},xmin=0,xmax=52,ymin=0,ymax=84,xtick={0,10,20,30,40,50},ytick={0,10,20,30,40,50,60,70,80},grid=major,grid style={draw=housegrid},axis line style={black},tick style={black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\addplot[mathblue,thick] coordinates {(0,0) (10,8) (20,32) (30,56) (40,72) (50,80)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The total frequency is $80$. Read $Q_1$ at cumulative frequency $20$ and $Q_3$ at cumulative frequency $60$.\nOn the straight segment from $(10,8)$ to $(20,32)$:\n$\\begin{aligned}Q_1&=10+\\frac{20-8}{32-8}(20-10)\\\\&=15\\text{ cm}\\end{aligned}$\nOn the straight segment from $(30,56)$ to $(40,72)$:\n$\\begin{aligned}Q_3&=30+\\frac{60-56}{72-56}(40-30)\\\\&=32.5\\text{ cm}\\end{aligned}$\n$\\begin{aligned}\\text{IQR}&=Q_3-Q_1\\\\&=32.5-15\\\\&=17.50\\text{ cm}\\end{aligned}$\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{mathblue}{HTML}{268CFF}\n\\definecolor{mathred}{HTML}{EF6068}\n\\definecolor{housegrid}{HTML}{CCCCCC}\n\\begin{axis}[width=75mm,height=60mm,axis lines=left,xlabel={Height (cm)},ylabel={Cumulative frequency},xmin=0,xmax=52,ymin=0,ymax=84,xtick={0,10,20,30,40,50},ytick={0,10,20,30,40,50,60,70,80},grid=major,grid style={draw=housegrid},axis line style={black},tick style={black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},label style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\addplot[mathblue,thick] coordinates {(0,0) (10,8) (20,32) (30,56) (40,72) (50,80)};\n\\draw[mathred,dashed] (axis cs:0,20)--(axis cs:15,20)--(axis cs:15,0);\n\\draw[mathred,dashed] (axis cs:0,60)--(axis cs:32.5,60)--(axis cs:32.5,0);\n\\path (axis cs:15,20) node[above left,font=\\fontsize{10}{12}\\selectfont,text=black] {$Q_1=15$};\n\\path (axis cs:32.5,60) node[above left,font=\\fontsize{10}{12}\\selectfont,text=black] {$Q_3=32.5$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,8 +2,8 @@
   "skillId": "transform-trig-functions",
   "atomType": "R",
   "theory": {
-    "intro": "Transformed sine, cosine and tangent functions can be written as $y=k\\sin(a(x-b))+c$, $y=k\\cos(a(x-b))+c$ or $y=k\\tan(a(x-b))+c$. Here use $a>0$ and $k\\ne0$, so the functions are not constant. For sine and cosine, the **amplitude** is $|k|$, the **period** is $\\dfrac{2\\pi}{a}$ and the **mean position** is $y=c$. For tangent, the period is $\\dfrac{\\pi}{a}$, with no amplitude or mean position. In the booklet's convention, the **phase** is $-b$, while the horizontal translation is $b$ units right when $b>0$, or $|b|$ units left when $b<0$.",
-    "facts": [
+"intro": "Transformed sine, cosine and tangent functions can be written as $y=k\\sin(a(x-b))+c$, $y=k\\cos(a(x-b))+c$ or $y=k\\tan(a(x-b))+c$. Here use $a>0$ and $k\\ne0$, so the functions are not constant. For sine and cosine, the **amplitude** is $|k|$, the **period** is $\\dfrac{2\\pi}{a}$ and the **mean position** is $y=c$. For tangent, the period is $\\dfrac{\\pi}{a}$, with no amplitude or mean position. In the booklet's convention, the **phase** is $-b$, while the horizontal translation is $b$ units right when $b>0$, or $|b|$ units left when $b<0$.",
+"facts": [
 "The **amplitude** is $|k|$, the distance from the mean position up to a maximum.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.4,0) -- (7.9,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-1.5) -- (0,3.5) node[above] {$y$};\n\\draw[dashed] (0,1.6) -- (7.4,1.6);\n\\node[above] at (6.9,1.6) {$y=c$};\n\\draw[smooth, thick, blue, domain=0:6.2832, samples=100, variable=\\x] plot ({\\x},{1.6+1.2*sin(deg(\\x))});\n\\draw[<->] (1.5708,1.6) -- (1.5708,2.8) node[midway, right] {$|k|$};\n\\draw[<->] (0,-0.8) -- (6.2832,-0.8) node[midway, below] {period};\n\\end{tikzpicture}\n[/tikz]",
 "The **mean position** is the line $y=c$, halfway between the maximum and the minimum.",
 "For $a>0$ and $k\\ne0$, the period of $y=k\\sin(ax)$ and $y=k\\cos(ax)$ is $\\dfrac{2\\pi}{a}$, and the period of $y=k\\tan(ax)$ is $\\dfrac{\\pi}{a}$. Horizontal and vertical translations do not change these periods.",
@@ -12,13 +12,57 @@
 "A negative $k$ reflects the curve in the $x$-axis before the vertical translation by $c$. For sine and cosine, this is equivalent to reflecting the translated wave about its mean position $y=c$, and the amplitude is still $|k|$.",
 "$y=\\tan x$ has no amplitude and no mean position, because it has no maximum and no minimum."
 ],
-    "steps": [
+"steps": [
 "Write the function in factored form, keeping sine, cosine or tangent as given",
 "State the period, phase and translations; for sine and cosine, also state the amplitude and mean position",
 "Apply each dilation before its corresponding translation, including any reflection before the vertical translation",
 "For sine and cosine, sketch the mean position and one cycle, then repeat across the domain; for tangent, sketch the separate branches and repeat across its domain"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "For $f(x)=2-4\\cos\\left(\\dfrac{\\pi x}{4}\\right)$, state the amplitude, mean position, period, domain and range. Describe the reflection.",
+    "solution_text": "The coefficient of cosine is $-4$, so the amplitude is $|-4|=4$ and the mean position is $y=2$.\n\n$\\begin{aligned}\\text{Period}&=\\dfrac{2\\pi}{\\pi/4}\\\\&=8\\end{aligned}$\n\nCosine is defined for every real input, so the domain is $\\mathbb R$.\n\n$\\begin{aligned}\\text{Range}&=[2-4,\\,2+4]\\\\&=[-2,\\,6]\\end{aligned}$\n\nReflect $y=4\\cos\\left(\\dfrac{\\pi x}{4}\\right)$ in the $x$-axis, then translate $2$ units up. The reflection does not change the amplitude.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "State the period of $y=3\\tan\\left(5\\left(x-\\dfrac{\\pi}{10}\\right)\\right)-2$. Does this function have an amplitude or a mean position?",
+    "solution_text": "The original tangent period is $\\pi$. The coefficient of $x$ inside the angle is $5$.\n\n$\\text{Period}=\\dfrac{\\pi}{5}$\n\nThe horizontal and vertical translations and the vertical dilation leave this period unchanged. Tangent has no maximum or minimum, so it has no amplitude or mean position.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $2y=8\\sin\\left(3x-\\dfrac{\\pi}{2}\\right)+6$ in the form $y=k\\sin(a(x-b))+c$. State the amplitude, period, phase, horizontal translation, mean position and range.",
+    "solution_text": "$\\begin{aligned}2y&=8\\sin\\left(3x-\\dfrac{\\pi}{2}\\right)+6\\\\y&=4\\sin\\left(3x-\\dfrac{\\pi}{2}\\right)+3\\\\&=4\\sin\\left(3\\left(x-\\dfrac{\\pi}{6}\\right)\\right)+3\\end{aligned}$\n\nThus $k=4$, $a=3$, $b=\\dfrac{\\pi}{6}$ and $c=3$.\n\nAmplitude: $4$.\n\nPeriod: $\\dfrac{2\\pi}{3}$.\n\nPhase: $-\\dfrac{\\pi}{6}$, using the booklet's convention.\n\nHorizontal translation: $\\dfrac{\\pi}{6}$ right.\n\nMean position: $y=3$.\n\n$\\begin{aligned}\\text{Range}&=[3-4,\\,3+4]\\\\&=[-1,\\,7]\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The curve has the form $y=k\\cos(a(x-b))+c$, where $k>0$, $a>0$ and $0<b<\\dfrac{\\pi}{2}$. Determine $k$, $a$, $b$ and $c$, then write its equation.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{waveblue}{HTML}{268CFF}\n\\begin{axis}[width=10cm,height=6cm,axis lines=middle,axis line style={black,-{Stealth}},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},xmin=-0.2,xmax=6.65,ymin=-0.4,ymax=6,xtick={0.785398,2.356194,3.926991,5.497787,6.283185},xticklabels={$\\frac{\\pi}{4}$,$\\frac{3\\pi}{4}$,$\\frac{5\\pi}{4}$,$\\frac{7\\pi}{4}$,$2\\pi$},ytick={1,3,5},samples=180,clip=true]\n\\addplot[waveblue,thick,domain=0:6.283185] {2*cos(deg(2*(x-pi/4)))+3};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The maximum is $5$ and the minimum is $1$.\n\n$\\begin{aligned}k&=\\dfrac{5-1}{2}\\\\&=2\\end{aligned}$\n\n$\\begin{aligned}c&=\\dfrac{5+1}{2}\\\\&=3\\end{aligned}$\n\nSuccessive maxima occur at $x=\\dfrac{\\pi}{4}$ and $x=\\dfrac{5\\pi}{4}$.\n\n$\\begin{aligned}\\text{Period}&=\\dfrac{5\\pi}{4}-\\dfrac{\\pi}{4}\\\\&=\\pi\\end{aligned}$\n\n$\\begin{aligned}\\dfrac{2\\pi}{a}&=\\pi\\\\a&=2\\end{aligned}$\n\nFor positive $k$, a cosine maximum occurs at $x=b$. The stated interval for $b$ selects $b=\\dfrac{\\pi}{4}$.\n\n$y=2\\cos\\left(2\\left(x-\\dfrac{\\pi}{4}\\right)\\right)+3$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "State a sequence of transformations taking $y=\\sin x$ to $y=-3\\sin\\left(2x-\\dfrac{\\pi}{2}\\right)+1$. Sketch the transformed curve for $0\\le x\\le\\pi$, and state its amplitude and period.",
+    "solution_text": "$\\begin{aligned}y&=-3\\sin\\left(2x-\\dfrac{\\pi}{2}\\right)+1\\\\&=-3\\sin\\left(2\\left(x-\\dfrac{\\pi}{4}\\right)\\right)+1\\end{aligned}$\n\n1. Dilate horizontally by a factor of $\\dfrac12$.\n2. Translate $\\dfrac{\\pi}{4}$ right.\n3. Dilate vertically by a factor of $3$ and reflect in the $x$-axis.\n4. Translate $1$ unit up.\n\nEach dilation precedes its corresponding translation; the reflection precedes the vertical translation.\n\nThe amplitude is $3$, the mean position is $y=1$, and the period is $\\dfrac{2\\pi}{2}=\\pi$.\n\nOne cycle passes through $(0,4)$, $\\left(\\dfrac{\\pi}{4},1\\right)$, $\\left(\\dfrac{\\pi}{2},-2\\right)$, $\\left(\\dfrac{3\\pi}{4},1\\right)$ and $(\\pi,4)$.\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{waveblue}{HTML}{268CFF}\n\\begin{axis}[width=10cm,height=6cm,axis lines=middle,axis line style={black,-{Stealth}},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},xmin=-0.15,xmax=3.45,ymin=-2.8,ymax=4.8,xtick={0.785398,1.570796,2.356194,3.141593},xticklabels={$\\frac{\\pi}{4}$,$\\frac{\\pi}{2}$,$\\frac{3\\pi}{4}$,$\\pi$},ytick={-2,1,4},samples=120,clip=true]\n\\addplot[black,dashed,domain=0:3.141593] {1};\n\\addplot[waveblue,thick,domain=0:3.141593] {-3*sin(deg(2*x-pi/2))+1};\n\\addplot[waveblue,only marks,mark=*] coordinates {(0,4) (0.785398,1) (1.570796,-2) (2.356194,1) (3.141593,4)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The function $f(x)=3\\sin(2x)$ is defined only for $\\dfrac{\\pi}{12}\\le x\\le\\dfrac{\\pi}{3}$. Determine its range, giving exact values.",
+    "solution_text": "On this domain, $\\dfrac{\\pi}{6}\\le2x\\le\\dfrac{2\\pi}{3}$. Sine rises to its maximum and then falls, so check the maximum and both endpoints.\n\n$\\begin{aligned}2x&=\\dfrac{\\pi}{2}\\\\x&=\\dfrac{\\pi}{4}\\end{aligned}$\n\nThis lies in the domain, and $f\\left(\\dfrac{\\pi}{4}\\right)=3$.\n\n$\\begin{aligned}f\\left(\\dfrac{\\pi}{12}\\right)&=3\\sin\\dfrac{\\pi}{6}\\\\&=\\dfrac32\\end{aligned}$\n\n$\\begin{aligned}f\\left(\\dfrac{\\pi}{3}\\right)&=3\\sin\\dfrac{2\\pi}{3}\\\\&=\\dfrac{3\\sqrt3}{2}\\end{aligned}$\n\nThe smaller endpoint value is $\\dfrac32$.\n\n$\\text{Range}=\\left[\\dfrac32,\\,3\\right]$\n\n[tikz]\n\\begin{tikzpicture}\n\\definecolor{waveblue}{HTML}{268CFF}\n\\begin{axis}[width=8cm,height=5.5cm,axis lines=middle,axis line style={black,-{Stealth}},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},xmin=0,xmax=1.3,ymin=0,ymax=3.8,xtick={0.261799,0.785398,1.047198},xticklabels={$\\frac{\\pi}{12}$,$\\frac{\\pi}{4}$,$\\frac{\\pi}{3}$},ytick={1.5,3},yticklabels={$\\frac32$,$3$},samples=100,clip=true]\n\\addplot[waveblue,thick,domain=0.261799:1.047198] {3*sin(deg(2*x))};\n\\addplot[waveblue,only marks,mark=*] coordinates {(0.261799,1.5) (0.785398,3) (1.047198,2.598076)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

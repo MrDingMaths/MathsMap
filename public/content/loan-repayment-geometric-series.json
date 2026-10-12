@@ -2,8 +2,8 @@
   "skillId": "loan-repayment-geometric-series",
   "atomType": "R",
   "theory": {
-    "intro": "For these reducing balance loans, repayments occur at the end of each repayment period, after interest is added, with the first repayment one period after borrowing. Let $r>0$ be the effective interest rate per repayment period and $n$ be the number of repayments. Derive the repayment geometric series for each problem before setting the final balance $A_n$ to zero and solving for the periodic repayment $M$ or principal $PV$.",
-    "facts": [
+"intro": "For these reducing balance loans, repayments occur at the end of each repayment period, after interest is added, with the first repayment one period after borrowing. Let $r>0$ be the effective interest rate per repayment period and $n$ be the number of repayments. Derive the repayment geometric series for each problem before setting the final balance $A_n$ to zero and solving for the periodic repayment $M$ or principal $PV$.",
+"facts": [
 "After one repayment, $A_1=PV(1+r)-M$. After two repayments, $A_2=PV(1+r)^2-M(1+r)-M$.",
 "After $n$ repayments, $A_n=PV(1+r)^n-[M+M(1+r)+\\cdots+M(1+r)^{n-1}]$. The repayment terms form a geometric series with first term $M$, common ratio $1+r$ and $n$ terms.",
 "Setting $A_{n}=0$ gives $PV(1+r)^{n}=M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$.",
@@ -12,13 +12,43 @@
 "Shorter loan terms require higher periodic repayments but dramatically decrease the total interest charged.",
 "Keep full calculator precision until the question's specified rounding point. Round down for maximum whole-dollar borrowing. For totals, follow the question's stated convention about using rounded or unrounded repayments."
 ],
-    "steps": [
+"steps": [
 "Determine the effective interest rate $r$ per repayment period, the repayment timing and the total number of repayments $n$.",
 "Write the balances after the first two repayments and extend the pattern to $A_n$. Identify the repayment geometric series and apply its sum.",
 "Set the final balance to zero and isolate the unknown $M$ or $PV$ algebraically.",
 "Evaluate using full calculator precision and apply the specified rounding. Calculate totals using rounded or unrounded repayments as directed."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A loan of $\\$12\\,000$ charges $7.2\\%$ p.a., compounded monthly. Equal repayments are made at the end of each month, starting one month after borrowing, for $2$ years. Derive a geometric-series equation and find the monthly repayment to the nearest cent.",
+    "solution_text": "Let $M$ be the monthly repayment and $A_k$ the balance after $k$ repayments. The monthly growth factor is $R=1+0.072/12=1.006$, and there are $24$ repayments.\n$\\begin{align*} A_1&=12000R-M\\\\ A_2&=(12000R-M)R-M\\\\ &=12000R^2-MR-M\\\\ A_{24}&=12000R^{24}-[M+MR+\\cdots+MR^{23}] \\end{align*}$\nThe repayment terms form a geometric series with first term $M$, common ratio $R$ and $24$ terms. Set the final balance to zero.\n$\\begin{align*} 0&=12000R^{24}-M\\frac{R^{24}-1}{R-1}\\\\ M\\frac{R^{24}-1}{R-1}&=12000R^{24}\\\\ M&=\\frac{12000(1.006)^{24}(0.006)}{(1.006)^{24}-1}\\\\ &\\approx\\$538.36 \\end{align*}$"
   },
+  {
+    "question_text": "A borrower can afford $\\$900$ at the end of each month for $5$ years. Interest is $4.8\\%$ p.a., compounded monthly, and the first repayment is one month after borrowing. Derive a geometric-series equation and find the maximum whole-dollar loan, rounding down.",
+    "solution_text": "Let $P$ be the principal. The monthly growth factor is $R=1+0.048/12=1.004$, and there are $60$ repayments.\n$\\begin{align*} A_1&=PR-900\\\\ A_2&=(PR-900)R-900\\\\ &=PR^2-900R-900\\\\ A_{60}&=PR^{60}-[900+900R+\\cdots+900R^{59}] \\end{align*}$\nThe repayment terms form a geometric series with first term $900$, common ratio $R$ and $60$ terms.\n$\\begin{align*} 0&=PR^{60}-900\\frac{R^{60}-1}{R-1}\\\\ PR^{60}&=900\\frac{R^{60}-1}{R-1}\\\\ P&=\\frac{900[(1.004)^{60}-1]}{0.004(1.004)^{60}}\\\\ &\\approx\\$47\\,923.98 \\end{align*}$\nRounding down, the maximum whole-dollar loan is $\\$47\\,923$."
+  },
+  {
+    "question_text": "A loan of $\\$8000$ is repaid over $2$ years at $6\\%$ p.a. Interest compounds at the repayment frequency. Find each repayment to the nearest cent for a) annual repayments and b) quarterly repayments. Repayments occur at each period's end, with the first one period after borrowing.",
+    "solution_text": "a) Let the annual repayment be $M_a$. The annual growth factor is $R=1.06$, with $2$ repayments.\n$\\begin{align*} A_1&=8000R-M_a\\\\ A_2&=8000R^2-M_aR-M_a \\end{align*}$\nThe repayment terms form a geometric series with first term $M_a$, common ratio $R$ and $2$ terms.\n$\\begin{align*} 0&=8000R^2-M_a\\frac{R^2-1}{R-1}\\\\ M_a&=\\frac{8000(1.06)^2(0.06)}{(1.06)^2-1}\\\\ &\\approx\\$4363.50 \\end{align*}$\nb) Let the quarterly repayment be $M_q$. The quarterly growth factor is $R=1+0.06/4=1.015$, with $8$ repayments.\n$\\begin{align*} A_1&=8000R-M_q\\\\ A_2&=8000R^2-M_qR-M_q\\\\ A_8&=8000R^8-[M_q+M_qR+\\cdots+M_qR^7] \\end{align*}$\nThe repayment terms form a geometric series with first term $M_q$, common ratio $R$ and $8$ terms.\n$\\begin{align*} 0&=8000R^8-M_q\\frac{R^8-1}{R-1}\\\\ M_q&=\\frac{8000(1.015)^8(0.015)}{(1.015)^8-1}\\\\ &\\approx\\$1068.67 \\end{align*}$"
+  },
+  {
+    "question_text": "A car costs $\\$24\\,000$. The buyer pays a $10\\%$ deposit and borrows the remainder at $6\\%$ p.a., compounded monthly, over $3$ years. Repayments occur at each month's end, starting one month after borrowing. Find a) the monthly repayment to the nearest cent and b) the total purchase cost using that rounded repayment.",
+    "solution_text": "a) The deposit is $0.10(24000)=\\$2400$, so the principal is $P=24000-2400=\\$21\\,600$. The monthly growth factor is $R=1.005$, with $36$ repayments.\n$\\begin{align*} A_1&=21600R-M\\\\ A_2&=21600R^2-MR-M\\\\ A_{36}&=21600R^{36}-[M+MR+\\cdots+MR^{35}] \\end{align*}$\nThe repayment terms form a geometric series with first term $M$, common ratio $R$ and $36$ terms.\n$\\begin{align*} 0&=21600R^{36}-M\\frac{R^{36}-1}{R-1}\\\\ M&=\\frac{21600(1.005)^{36}(0.005)}{(1.005)^{36}-1}\\\\ &\\approx\\$657.11 \\end{align*}$\nb) Include the deposit and use the rounded repayment.\n$\\begin{align*} C&=2400+36(657.11)\\\\ &=\\$26\\,055.96 \\end{align*}$"
+  },
+  {
+    "question_text": "A mortgage of $\\$120\\,000$ charges $6\\%$ p.a., compounded monthly. Repayments occur at each month's end, starting one month after borrowing. Find the monthly repayment for a) a $20$-year term and b) a $15$-year term. Round repayments to the nearest cent. c) Calculate the interest saved with the shorter term using the rounded repayments. d) For the original mortgage, an accelerated schedule consists of $158$ payments of $\\$1100$ and a final payment of $\\$94.12$. Find the interest saved against the $20$-year schedule using these supplied amounts.",
+    "solution_text": "The monthly growth factor is $R=1.005$. Let $M$ be the monthly repayment.\n$\\begin{align*} A_1&=120000R-M\\\\ A_2&=120000R^2-MR-M\\\\ A_n&=120000R^n-[M+MR+\\cdots+MR^{n-1}] \\end{align*}$\nThe repayment terms form a geometric series with first term $M$, common ratio $R$ and $n$ terms.\n$\\begin{align*} 0&=120000R^n-M\\frac{R^n-1}{R-1}\\\\ M&=\\frac{120000R^n(R-1)}{R^n-1} \\end{align*}$\na) For $20$ years, $n=240$.\n$\\begin{align*} M_{20}&=\\frac{120000(1.005)^{240}(0.005)}{(1.005)^{240}-1}\\\\ &\\approx\\$859.72 \\end{align*}$\nb) For $15$ years, $n=180$.\n$\\begin{align*} M_{15}&=\\frac{120000(1.005)^{180}(0.005)}{(1.005)^{180}-1}\\\\ &\\approx\\$1012.63 \\end{align*}$\nc) Use the rounded repayments.\n$\\begin{align*} I_{20}&=240(859.72)-120000\\\\ &=\\$86\\,332.80\\\\ I_{15}&=180(1012.63)-120000\\\\ &=\\$62\\,273.40\\\\ S&=86332.80-62273.40\\\\ &=\\$24\\,059.40 \\end{align*}$\nd) Use the supplied accelerated schedule.\n$\\begin{align*} I_{\\mathrm{accelerated}}&=158(1100)+94.12-120000\\\\ &=\\$53\\,894.12\\\\ S&=86332.80-53894.12\\\\ &=\\$32\\,438.68 \\end{align*}$"
+  },
+  {
+    "question_text": "A company borrows $\\$200\\,000$ at $12\\%$ p.a., compounded monthly. It makes $12$ equal six-monthly repayments, with the first repayment six months after borrowing. Derive a geometric-series equation and find each repayment to the nearest cent.",
+    "solution_text": "The monthly growth factor is $1.01$. Between six-monthly repayments, the balance grows by $R=(1.01)^6$. Keep this value unrounded.\n$\\begin{align*} A_1&=200000R-M\\\\ A_2&=(200000R-M)R-M\\\\ &=200000R^2-MR-M\\\\ A_{12}&=200000R^{12}-[M+MR+\\cdots+MR^{11}] \\end{align*}$\nHere $A_k$ is the balance after $k$ six-monthly repayments. The repayment terms form a geometric series with first term $M$, common ratio $R$ and $12$ terms.\n$\\begin{align*} 0&=200000R^{12}-M\\frac{R^{12}-1}{R-1}\\\\ M&=\\frac{200000R^{12}(R-1)}{R^{12}-1}\\\\ &\\approx\\$24\\,054.62 \\end{align*}$"
+  },
+  {
+    "question_text": "A loan of $\\$15\\,000$ charges $8\\%$ p.a., compounded six-monthly. It is repaid in $6$ equal six-monthly instalments, starting six months after borrowing. a) Find each instalment to the nearest cent. b) Find the balance after the sixth repayment if each repayment is instead $\\$2861$, and explain why a balance remains. Keep full precision until each final answer.",
+    "solution_text": "a) The six-month growth factor is $R=1+0.08/2=1.04$.\n$\\begin{align*} A_1&=15000R-M\\\\ A_2&=15000R^2-MR-M\\\\ A_6&=15000R^6-[M+MR+\\cdots+MR^5] \\end{align*}$\nThe repayment terms form a geometric series with first term $M$, common ratio $R$ and $6$ terms.\n$\\begin{align*} 0&=15000R^6-M\\frac{R^6-1}{R-1}\\\\ M&=\\frac{15000(1.04)^6(0.04)}{(1.04)^6-1}\\\\ &\\approx\\$2861.43 \\end{align*}$\nb) Substitute $M=2861$ into the derived balance equation.\n$\\begin{align*} A_6&=15000(1.04)^6-2861\\frac{(1.04)^6-1}{0.04}\\\\ &\\approx\\$2.84 \\end{align*}$\nEach payment is below the exact required instalment. The unpaid shortfalls also accrue interest, leaving a balance of $\\$2.84$."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

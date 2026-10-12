@@ -2,8 +2,8 @@
   "skillId": "multistage-arrays-trees",
   "atomType": "R",
   "theory": {
-        "intro": "A **multistage experiment** has two or more steps, such as tossing a coin twice or drawing two marbles. A **two-way array** or a **tree diagram** shows every possible outcome. Multiply along the branches of a path, and add the paths that suit the event.\n\nThis tree shows two independent tosses of a fair coin, where $H$ means heads and $T$ means tails. Each branch has probability $\\frac{1}{2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.95]\n\\coordinate (O) at (0,0);\n\\coordinate (N1) at (2.4,1.4);\n\\coordinate (N2) at (2.4,-1.4);\n\\coordinate (E1) at (5.0,2.2);\n\\coordinate (E2) at (5.0,0.6);\n\\coordinate (E3) at (5.0,-0.6);\n\\coordinate (E4) at (5.0,-2.2);\n\\node[left] at (O) {Start};\n\\draw (O) -- (N1) node[midway, above left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\draw (O) -- (N2) node[midway, below left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\draw (N1) -- (E1) node[midway, above left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\draw (N1) -- (E2) node[midway, below left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\draw (N2) -- (E3) node[midway, above left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\draw (N2) -- (E4) node[midway, below left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\node[above right, inner sep=3pt] at (N1) {$H$};\n\\node[below right, inner sep=3pt] at (N2) {$T$};\n\\node[right] at (E1) {$H$};\n\\node[right] at (E2) {$T$};\n\\node[right] at (E3) {$H$};\n\\node[right] at (E4) {$T$};\n\\node[font=\\small] at (1.2,3.4) {Toss 1};\n\\node[font=\\small] at (3.7,3.4) {Toss 2};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "A **multistage experiment** has two or more steps, such as tossing a coin twice or drawing two marbles. A **two-way array** or a **tree diagram** shows every possible outcome. Multiply along the branches of a path, and add the paths that suit the event.\n\nThis tree shows two independent tosses of a fair coin, where $H$ means heads and $T$ means tails. Each branch has probability $\\frac{1}{2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.95]\n\\coordinate (O) at (0,0);\n\\coordinate (N1) at (2.4,1.4);\n\\coordinate (N2) at (2.4,-1.4);\n\\coordinate (E1) at (5.0,2.2);\n\\coordinate (E2) at (5.0,0.6);\n\\coordinate (E3) at (5.0,-0.6);\n\\coordinate (E4) at (5.0,-2.2);\n\\node[left] at (O) {Start};\n\\draw (O) -- (N1) node[midway, above left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\draw (O) -- (N2) node[midway, below left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\draw (N1) -- (E1) node[midway, above left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\draw (N1) -- (E2) node[midway, below left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\draw (N2) -- (E3) node[midway, above left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\draw (N2) -- (E4) node[midway, below left, font=\\small, inner sep=2pt] {$\\frac{1}{2}$};\n\\node[above right, inner sep=3pt] at (N1) {$H$};\n\\node[below right, inner sep=3pt] at (N2) {$T$};\n\\node[right] at (E1) {$H$};\n\\node[right] at (E2) {$T$};\n\\node[right] at (E3) {$H$};\n\\node[right] at (E4) {$T$};\n\\node[font=\\small] at (1.2,3.4) {Toss 1};\n\\node[font=\\small] at (3.7,3.4) {Toss 2};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "A **two-way array** lists the Stage 1 outcomes down one side and the Stage 2 outcomes across the top, one cell per pair.",
           "When every cell of the array is equally likely, $P(\\text{event}) = \\dfrac{\\text{favourable cells}}{\\text{total cells}}$.",
           "A **tree diagram** shows each stage as a set of branches, with the probability of that outcome written on its branch.",
@@ -15,13 +15,57 @@
           "The complement rule gives $P(\\text{at least one } E) = 1 - P(\\text{no } E)$.",
           "Check that the probabilities of all the complete paths add to $1$."
         ],
-        "steps": [
+"steps": [
 "Choose and draw the display (a two-way array or a tree diagram with labelled branches).",
 "For an array with equally likely cells, count the favourable cells and divide by the total number of cells to answer the question. For a tree, label each branch with its probability, noting whether the experiment is with or without replacement.",
 "For a tree, multiply the probabilities along each complete path to find its probability.",
 "For a tree, add the probabilities of favourable paths or apply the complement rule $1 - P(\\text{none})$ when the question asks for at least one."
+],
+"workedExamples": [
+  {
+    "question_text": "Two fair four-sided dice are rolled independently. Each die is numbered $1,2,3,4$. Use an array to find the probability that:\n(a) their sum is at least $6$;\n(b) their scores differ by $2$;\n(c) the first score is greater than the second.",
+    "solution_text": "Rows represent the first die and columns represent the second. Each cell records an ordered pair.\n$\\begin{array}{c|cccc} &1&2&3&4\\\\\\hline 1&(1,1)&(1,2)&(1,3)&(1,4)\\\\2&(2,1)&(2,2)&(2,3)&(2,4)\\\\3&(3,1)&(3,2)&(3,3)&(3,4)\\\\4&(4,1)&(4,2)&(4,3)&(4,4)\\end{array}$\nThere are $4\\times4=16$ equally likely cells.\n\n(a) The favourable pairs are $(2,4),(3,3),(3,4),(4,2),(4,3),(4,4)$.\n$\\begin{aligned}P(\\text{sum at least }6)&=\\frac{6}{16}\\\\&=\\frac{3}{8}\\end{aligned}$\n\n(b) The favourable pairs are $(1,3),(2,4),(3,1),(4,2)$. Both orders count.\n$\\begin{aligned}P(\\text{difference }2)&=\\frac{4}{16}\\\\&=\\frac{1}{4}\\end{aligned}$\n\n(c) The rows contain $0,1,2,3$ favourable cells respectively.\n$\\begin{aligned}P(\\text{first greater})&=\\frac{0+1+2+3}{16}\\\\&=\\frac{3}{8}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A student has probability $0.6$ of passing a maths test and $0.75$ of passing a science test. The results are independent. Draw a probability tree and find the probability that the student:\n(a) passes both tests;\n(b) passes science but fails maths;\n(c) passes exactly one test.",
+    "solution_text": "Let $P$ mean pass and $F$ mean fail. Independence keeps the science probabilities unchanged after either maths result.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont},x=1cm,y=1cm]\n\\node at (1.4,2.8) {Maths};\n\\node at (4.4,2.8) {Science};\n\\draw (0,0)--(2,1.4) node[midway,above left] {$0.6$};\n\\draw (0,0)--(2,-1.4) node[midway,below left] {$0.4$};\n\\node[fill=white,inner sep=2pt] at (2,1.4) {$P$};\n\\node[fill=white,inner sep=2pt] at (2,-1.4) {$F$};\n\\draw (2,1.4)--(5,2.2) node[midway,above] {$0.75$};\n\\draw (2,1.4)--(5,0.6) node[midway,below] {$0.25$};\n\\draw (2,-1.4)--(5,-0.6) node[midway,above] {$0.75$};\n\\draw (2,-1.4)--(5,-2.2) node[midway,below] {$0.25$};\n\\node[right] at (5,2.2) {$P\\quad PP$};\n\\node[right] at (5,0.6) {$F\\quad PF$};\n\\node[right] at (5,-0.6) {$P\\quad FP$};\n\\node[right] at (5,-2.2) {$F\\quad FF$};\n\\end{tikzpicture}\n[/tikz]\n(a) Multiply along the $PP$ path.\n$\\begin{aligned}P(PP)&=0.6\\times0.75\\\\&=0.45\\end{aligned}$\n\n(b) Follow the $FP$ path.\n$\\begin{aligned}P(FP)&=0.4\\times0.75\\\\&=0.30\\end{aligned}$\n\n(c) Add the two paths with exactly one pass.\n$\\begin{aligned}P(\\text{exactly one pass})&=P(PF)+P(FP)\\\\&=0.6\\times0.25+0.4\\times0.75\\\\&=0.45\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A spinner has five equal sections: three red and two blue. It is spun three times independently. Find the probability of:\n(a) three reds;\n(b) exactly two reds.",
+    "solution_text": "Let $R$ mean red and $B$ mean blue. At every stage, the red branch has probability $\\frac35$ and the blue branch has probability $\\frac25$.\nThe complete paths are:\n$\\begin{array}{cccc}RRR&RRB&RBR&RBB\\\\BRR&BRB&BBR&BBB\\end{array}$\nThere are $2\\times2\\times2=8$ colour paths, but they are not equally likely. Multiply the branch probabilities for each relevant path.\n\n(a)\n$\\begin{aligned}P(RRR)&=\\frac35\\times\\frac35\\times\\frac35\\\\&=\\frac{27}{125}\\end{aligned}$\n\n(b) Exactly two reds occur on $RRB,RBR,BRR$.\n$\\begin{aligned}P(RRB)&=\\frac35\\times\\frac35\\times\\frac25=\\frac{18}{125}\\\\P(RBR)&=\\frac35\\times\\frac25\\times\\frac35=\\frac{18}{125}\\\\P(BRR)&=\\frac25\\times\\frac35\\times\\frac35=\\frac{18}{125}\\end{aligned}$\n$\\begin{aligned}P(\\text{exactly two reds})&=P(RRB)+P(RBR)+P(BRR)\\\\&=\\frac{18}{125}+\\frac{18}{125}+\\frac{18}{125}\\\\&=\\frac{54}{125}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A fair five-section spinner numbered $1$ to $5$ is spun four times independently. Find the probability of obtaining at least one $5$.",
+    "solution_text": "The complement of at least one $5$ is no $5$s. On each spin, four of the five sections are not $5$.\n$\\begin{aligned}P(\\text{no }5\\text{s})&=\\frac45\\times\\frac45\\times\\frac45\\times\\frac45\\\\&=\\frac{256}{625}\\end{aligned}$\n$\\begin{aligned}P(\\text{at least one }5)&=1-P(\\text{no }5\\text{s})\\\\&=1-\\frac{256}{625}\\\\&=\\frac{369}{625}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A bag contains $4$ red and $5$ blue counters. Two counters are drawn at random without replacement. Draw a probability tree and find the probability of:\n(a) two red counters;\n(b) one counter of each colour;\n(c) two counters of the same colour;\n(d) at least one red counter.",
+    "solution_text": "After the first draw, eight counters remain. The second-stage probabilities depend on which colour was removed.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont},x=1cm,y=1cm]\n\\node at (1.3,3) {Draw 1};\n\\node at (4.3,3) {Draw 2};\n\\draw (0,0)--(2,1.5) node[midway,above left] {$\\frac49$};\n\\draw (0,0)--(2,-1.5) node[midway,below left] {$\\frac59$};\n\\node[fill=white,inner sep=2pt] at (2,1.5) {$R$};\n\\node[fill=white,inner sep=2pt] at (2,-1.5) {$B$};\n\\draw (2,1.5)--(5,2.4) node[midway,above] {$\\frac38$};\n\\draw (2,1.5)--(5,0.6) node[midway,below] {$\\frac58$};\n\\draw (2,-1.5)--(5,-0.6) node[midway,above] {$\\frac48$};\n\\draw (2,-1.5)--(5,-2.4) node[midway,below] {$\\frac48$};\n\\node[right] at (5,2.4) {$R\\quad RR$};\n\\node[right] at (5,0.6) {$B\\quad RB$};\n\\node[right] at (5,-0.6) {$R\\quad BR$};\n\\node[right] at (5,-2.4) {$B\\quad BB$};\n\\end{tikzpicture}\n[/tikz]\nMultiply along each path.\n$\\begin{aligned}P(RR)&=\\frac49\\times\\frac38=\\frac{12}{72}\\\\P(RB)&=\\frac49\\times\\frac58=\\frac{20}{72}\\\\P(BR)&=\\frac59\\times\\frac48=\\frac{20}{72}\\\\P(BB)&=\\frac59\\times\\frac48=\\frac{20}{72}\\end{aligned}$\nThese four path probabilities sum to $1$.\n\n(a) $P(RR)=\\frac{12}{72}=\\frac16$.\n\n(b)\n$\\begin{aligned}P(\\text{one of each})&=P(RB)+P(BR)\\\\&=\\frac{20}{72}+\\frac{20}{72}\\\\&=\\frac59\\end{aligned}$\n\n(c)\n$\\begin{aligned}P(\\text{same colour})&=P(RR)+P(BB)\\\\&=\\frac{12}{72}+\\frac{20}{72}\\\\&=\\frac49\\end{aligned}$\n\n(d) No red counters means the $BB$ path.\n$\\begin{aligned}P(\\text{at least one red})&=1-P(BB)\\\\&=1-\\frac{20}{72}\\\\&=\\frac{13}{18}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A box contains $5$ caramel chocolates and $6$ mint chocolates. Three chocolates are selected at random without replacement. Find the probability of selecting exactly one caramel chocolate.",
+    "solution_text": "Let $C$ mean caramel and $M$ mean mint. Exactly one caramel occurs on the paths $CMM,MCM,MMC$.\nThe total number remaining decreases from $11$ to $10$ to $9$. Update the remaining flavour counts along each path.\n$\\begin{aligned}P(CMM)&=\\frac5{11}\\times\\frac6{10}\\times\\frac59=\\frac{150}{990}\\\\P(MCM)&=\\frac6{11}\\times\\frac5{10}\\times\\frac59=\\frac{150}{990}\\\\P(MMC)&=\\frac6{11}\\times\\frac5{10}\\times\\frac59=\\frac{150}{990}\\end{aligned}$\nAdd the three favourable path probabilities.\n$\\begin{aligned}P(\\text{exactly one caramel})&=P(CMM)+P(MCM)+P(MMC)\\\\&=\\frac{150}{990}+\\frac{150}{990}+\\frac{150}{990}\\\\&=\\frac5{11}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
       {

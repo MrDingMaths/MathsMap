@@ -2,19 +2,42 @@
   "skillId": "continuous-uniform-distribution",
   "atomType": "R",
   "theory": {
-    "intro": "A **continuous uniform distribution** spreads probability evenly across an interval $[a,b]$, where $a<b$, so its density is the constant $f(x)=\\frac{1}{b-a}$. Every probability is then the area of a rectangle.",
-    "facts": [
+"intro": "A **continuous uniform distribution** spreads probability evenly across an interval $[a,b]$, where $a<b$, so its density is the constant $f(x)=\\frac{1}{b-a}$. Every probability is then the area of a rectangle.",
+"facts": [
 "$f(x)=\\frac{1}{b-a}$ for $a\\le x\\le b$, and $f(x)=0$ for every other value of $x$.",
 "The height $\\frac{1}{b-a}$ makes the rectangle of width $b-a$ have area $1$, as every density must.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$a$};\n\\node[below] at (5,0) {$b$};\n\\node[left] at (0,2) {$\\frac{1}{b-a}$};\n\\end{tikzpicture}\n[/tikz]",
 "For $a\\le c\\le d\\le b$, $P(c\\le X\\le d)=\\frac{d-c}{b-a}$, the width of the interval divided by the width of the whole support.",
 "For any requested interval $[c,d]$ with $c\\le d$, use the length of its intersection with $[a,b]$, divided by $b-a$. An interval running outside $[a,b]$ is cut back to the boundary, because $f(x)=0$ outside the support; a disjoint interval has probability $0$."
 ],
-    "steps": [
+"steps": [
 "Find the width of the support, $b-a$.",
 "Write the density $f(x)=\\frac{1}{b-a}$ on $[a,b]$.",
 "Multiply the density by the length of the part of the requested interval within the support; if there is no overlap, the probability is $0$."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "The continuous random variable $X$ is uniformly distributed on $[3,11]$. Find its probability density function and explain why its total area is $1$.",
+    "solution_text": "The support has width $11-3=8$, so the constant density is its reciprocal.\n$\\begin{align*}f(x)&=\\begin{cases}\\frac{1}{8},&3\\le x\\le11,\\\\0,&\\text{otherwise}.\\end{cases}\\end{align*}$\nThe density is non-negative, and the rectangle has total area\n$\\begin{align*}A&=(11-3)\\times\\frac{1}{8}\\\\&=1.\\end{align*}$\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-0.4,0) -- (0.35,0);\n\\draw[->] (0.75,0) -- (6,0) node[right] {$x$};\n\\draw (0.35,-0.1) -- (0.55,0.1) (0.55,-0.1) -- (0.75,0.1);\n\\draw[->] (0,-0.3) -- (0,2.6) node[above] {$f(x)$};\n\\draw[thick] (1,0) -- (1,1.8) -- (5,1.8) -- (5,0);\n\\draw[dashed] (0,1.8) -- (1,1.8);\n\\node[below] at (1,0) {$3$};\n\\node[below] at (5,0) {$11$};\n\\node[left] at (0,1.8) {$\\frac{1}{8}$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "$X$ is uniformly distributed on $[-2,10]$. Find:\na. $P(1\\le X\\le5)$\nb. $P(X\\le4)$\nc. $P(X>7)$.",
+    "solution_text": "The density is $\\frac{1}{10-(-2)}=\\frac{1}{12}$ on $[-2,10]$. Each probability is the area of its rectangle.\n\na.\n$\\begin{align*}P(1\\le X\\le5)&=\\int_1^5\\frac{1}{12}\\,dx\\\\&=\\left[\\frac{x}{12}\\right]_1^5\\\\&=\\frac{5-1}{12}\\\\&=\\frac{1}{3}.\\end{align*}$\nThe shaded rectangle represents this probability.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{probabilityFill}{HTML}{D4E8FF}\n\\fill[probabilityFill] (0.5,0) rectangle (2.5,1.8);\n\\draw[->] (-1.5,0) -- (5.6,0) node[right] {$x$};\n\\draw[->] (0,-0.3) -- (0,2.6) node[above] {$f(x)$};\n\\draw[thick] (-1,0) -- (-1,1.8) -- (5,1.8) -- (5,0);\n\\draw[dashed] (0.5,0) -- (0.5,1.8) (2.5,0) -- (2.5,1.8);\n\\node[below] at (-1,0) {$-2$};\n\\node[below] at (0.5,0) {$1$};\n\\node[below] at (2.5,0) {$5$};\n\\node[below] at (5,0) {$10$};\n\\node[above left] at (0,1.8) {$\\frac{1}{12}$};\n\\end{tikzpicture}\n[/tikz]\n\nb. The lower tail runs from the support boundary $-2$ to $4$.\n$\\begin{align*}P(X\\le4)&=\\frac{1}{12}\\bigl(4-(-2)\\bigr)\\\\&=\\frac{6}{12}\\\\&=\\frac{1}{2}.\\end{align*}$\n\nc. The upper tail runs from $7$ to the support boundary $10$.\n$\\begin{align*}P(X>7)&=\\frac{1}{12}(10-7)\\\\&=\\frac{3}{12}\\\\&=\\frac{1}{4}.\\end{align*}$\nIncluding or excluding an endpoint gives the same probability because $P(X=7)=0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A machine produces a cord length $X$, in centimetres, uniformly distributed on $[120,132]$. Find:\na. $P(128\\le X\\le136)$\nb. $P(115\\le X\\le123)$\nc. $P(134\\le X\\le138)$.",
+    "solution_text": "The density is $\\frac{1}{132-120}=\\frac{1}{12}$ on $[120,132]$ and $0$ outside it. Use only the part of each requested interval within the support.\n\na. The overlapping interval is $[128,132]$.\n$\\begin{align*}P(128\\le X\\le136)&=\\frac{1}{12}(132-128)\\\\&=\\frac{1}{3}.\\end{align*}$\n\nb. The overlapping interval is $[120,123]$.\n$\\begin{align*}P(115\\le X\\le123)&=\\frac{1}{12}(123-120)\\\\&=\\frac{1}{4}.\\end{align*}$\n\nc. The interval $[134,138]$ has no overlap with $[120,132]$.\n$P(134\\le X\\le138)=0$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

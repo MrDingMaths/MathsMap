@@ -2,8 +2,8 @@
   "skillId": "global-maximum-minimum",
   "atomType": "R",
   "theory": {
-    "intro": "The **global maximum** of $f(x)$ on a domain is its largest value anywhere on that domain. It can sit at a stationary point, but just as easily at an endpoint. So compare every candidate before deciding.",
-    "facts": [
+"intro": "The **global maximum** of $f(x)$ on a domain is its largest value anywhere on that domain. It can sit at a stationary point, but just as easily at an endpoint. So compare every candidate before deciding.",
+"facts": [
 "A global maximum at $x = a$ means $f(x) \\le f(a)$ for every $x$ in the domain.",
 "A global minimum at $x = a$ means $f(x) \\ge f(a)$ for every $x$ in the domain.",
 "On a closed bounded interval where $f$ is continuous, the candidates are the stationary points inside it, the two endpoints, and any point in the domain where $f'(x)$ does not exist.",
@@ -13,15 +13,52 @@
 "Continuity on a closed bounded interval guarantees a global maximum and a global minimum. A closed interval alone does not; a function with a discontinuity may have neither.",
 "State the answer as a value of $f$, or as a point, exactly as the question asks.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.4, xmax=5.4, ymin=-0.6, ymax=5.6, samples=100, clip=false,\n  xtick={0.5,4.5}, xticklabels={$a$,$b$}, ytick=\\empty, width=9cm, height=7cm]\n\\addplot[thick, domain=0.5:4.5] {x*x*x/3 - 2*x*x + 3*x + 1};\n\\addplot[only marks, mark=*] coordinates {(0.5,2.042) (1,2.333) (3,1) (4.5,4.375)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
 ],
-    "steps": [
+"steps": [
 "Check the domain and note any excluded points where $f$ is undefined",
 "Differentiate and solve $f'(x) = 0$ to find the stationary points",
 "Discard any stationary point that lies outside the domain",
 "Find any defined points in the domain where $f'(x)$ does not exist",
 "Evaluate $f$ at each remaining stationary point, each defined point where the derivative does not exist, and each included endpoint; at discontinuities or excluded boundaries, also examine the one-sided behaviour",
 "Compare the values and boundary behaviour, and state any attained global maximum and global minimum; infinite limits are not attained extrema"
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Find the global maximum and global minimum values of $f(x)=x^{3}-6x^{2}+7$ on $-1\\le x\\le 6$.",
+    "solution_text": "$\\begin{aligned}f'(x)&=3x^{2}-12x\\\\f''(x)&=6x-12\\\\3x(x-4)&=0\\\\x&=0\\\\x&=4\\end{aligned}$\nBoth stationary points lie in the domain. Since $f''(0)=-12<0$, there is a local maximum at $x=0$. Since $f''(4)=12>0$, there is a local minimum at $x=4$.\nCompare the stationary values and endpoints:\n$\\begin{aligned}f(-1)&=-1-6+7=0\\\\f(0)&=7\\\\f(4)&=64-96+7=-25\\\\f(6)&=216-216+7=7\\end{aligned}$\nThe global maximum is $7$, attained at both $x=0$ and $x=6$. The global minimum is $-25$, attained at $x=4$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find the global maximum and global minimum values of $f(x)=x^{3}-9x^{2}+4$ on $7\\le x\\le 9$.",
+    "solution_text": "$\\begin{aligned}f'(x)&=3x^{2}-18x\\\\3x(x-6)&=0\\\\x&=0\\\\x&=6\\end{aligned}$\nNeither stationary point lies in $7\\le x\\le9$, so discard both. The function is continuous and differentiable throughout this interval; compare its endpoints:\n$\\begin{aligned}f(7)&=343-441+4=-94\\\\f(9)&=729-729+4=4\\end{aligned}$\nThe global maximum is $4$, at $x=9$. The global minimum is $-94$, at $x=7$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the global maximum and global minimum values of $f(x)=x+\\dfrac{16}{x}$ on $1\\le x\\le8$.",
+    "solution_text": "$\\begin{aligned}f'(x)&=1-\\frac{16}{x^{2}}\\\\1-\\frac{16}{x^{2}}&=0\\\\x^{2}&=16\\\\x&=\\pm4\\end{aligned}$\nOnly $x=4$ lies in the domain. Here $f''(x)=\\dfrac{32}{x^{3}}>0$, so the stationary point is a local minimum.\nCompare its value with both endpoints:\n$\\begin{aligned}f(1)&=1+16=17\\\\f(4)&=4+4=8\\\\f(8)&=8+2=10\\end{aligned}$\nThe global maximum is $17$, at $x=1$. The global minimum is $8$, at $x=4$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The graph of $y=f(x)$ is shown for $0\\le x\\le4$. State its global maximum and global minimum values.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[axis lines=middle,axis line style={black},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},xmin=-0.4,xmax=4.5,ymin=-9,ymax=15,xtick={0,1,2,3,4},ytick={-8,-4,0,4,8,12},width=7cm,height=6cm,clip=false]\n\\addplot[black,thick,domain=0:4,samples=120] {8+3*x*x-x*x*x};\n\\addplot[black,only marks,mark=*] coordinates {(0,8) (4,-8)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Compare the heights across the whole displayed domain. The highest point is $(2,12)$, so the global maximum value is $12$. The lowest point is the included right endpoint $(4,-8)$, so the global minimum value is $-8$.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[axis lines=middle,axis line style={black},xlabel={$x$},ylabel={$y$},label style={font=\\fontsize{10}{12}\\selectfont,text=black},tick label style={font=\\fontsize{8.5}{10}\\selectfont,text=black},xmin=-0.4,xmax=4.8,ymin=-11,ymax=15,xtick={0,1,2,3,4},ytick={-8,-4,0,4,8,12},width=7cm,height=6cm,clip=false]\n\\addplot[black,thick,domain=0:4,samples=120] {8+3*x*x-x*x*x};\n\\addplot[black,only marks,mark=*] coordinates {(0,8) (2,12) (4,-8)};\n\\path (axis cs:2,12) node[above,font=\\fontsize{10}{12}\\selectfont,text=black] {$(2,12)$};\n\\path (axis cs:4,-8) node[below left,font=\\fontsize{10}{12}\\selectfont,text=black] {$(4,-8)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Explain why $f(x)=\\dfrac{1}{x-1}$ has neither a global maximum nor a global minimum on $-2\\le x\\le4$, $x\\ne1$.",
+    "solution_text": "$f'(x)=-\\dfrac{1}{(x-1)^{2}}$ is never zero. The function is undefined at the excluded point $x=1$.\nAs $x\\to1^{-}$, the denominator approaches zero through negative values, so $f(x)\\to-\\infty$.\nAs $x\\to1^{+}$, the denominator approaches zero through positive values, so $f(x)\\to+\\infty$.\nThe function is unbounded below and above. Neither endpoint can supply a smallest or largest value, and infinite limits are not attained function values. There is no global minimum and no global maximum.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

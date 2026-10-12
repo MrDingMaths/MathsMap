@@ -2,8 +2,8 @@
   "skillId": "normal-distribution-features",
   "atomType": "F",
   "theory": {
-    "intro": "The **normal curve** is the graph of a probability density function, so an area under it is a probability. Its total area is $1$, it is symmetrical about the mean $\\mu$, and its **points of inflection** sit at $\\mu-\\sigma$ and $\\mu+\\sigma$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.3cm, y=1cm]\n\\draw[thick] plot[domain=-3.2:3.2, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-3.6,0) -- (3.9,0) node[right] {$x$};\n\\draw[dashed] (0,0) -- (0,2.4);\n\\fill (-1,1.46) circle (2pt);\n\\fill (1,1.46) circle (2pt);\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$\\mu-\\sigma$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$\\mu+\\sigma$};\n\\node[right, font=\\small] at (1.2,1.95) {points of inflection};\n\\node[font=\\small] at (0,2.8) {area $=1$};\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "The **normal curve** is the graph of a probability density function, so an area under it is a probability. Its total area is $1$, it is symmetrical about the mean $\\mu$, and its **points of inflection** sit at $\\mu-\\sigma$ and $\\mu+\\sigma$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.3cm, y=1cm]\n\\draw[thick] plot[domain=-3.2:3.2, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-3.6,0) -- (3.9,0) node[right] {$x$};\n\\draw[dashed] (0,0) -- (0,2.4);\n\\fill (-1,1.46) circle (2pt);\n\\fill (1,1.46) circle (2pt);\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$\\mu-\\sigma$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$\\mu+\\sigma$};\n\\node[right, font=\\small] at (1.2,1.95) {points of inflection};\n\\node[font=\\small] at (0,2.8) {area $=1$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "The total area under a normal curve is $1$, because every value of the variable lies somewhere under the curve.",
 "The curve is symmetrical about the mean, so the mean, the median and the mode all sit at $x=\\mu$.",
 "The **global maximum** is the peak at $x=\\mu$; the curve falls away on both sides and never reaches the horizontal axis.",
@@ -12,8 +12,33 @@
 "A larger $\\sigma$ spreads the curve wider, and since the area stays $1$ the peak must become lower.",
 "A smaller $\\sigma$ makes the curve narrower and taller, with the values packed more tightly around the mean.",
 "Continuous data that cluster about one centre and fall away approximately evenly on both sides support an approximate normal model."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Which histogram could represent approximately normally distributed data? Give a reason. Both use the same scales.\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=3mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\begin{scope}\n\\node at (4,11) {$H$};\n\\draw[->] (0,0)--(8,0) node[right] {Score};\n\\draw[->] (0,0)--(0,10) node[above] {Frequency};\n\\foreach \\a/\\b in {1/2,2/4,3/7,4/9,5/7,6/4,7/2} {\\draw (\\a-0.5,0) rectangle (\\a+0.5,\\b);}\n\\end{scope}\n\\begin{scope}[yshift=-48mm]\n\\node at (4,11) {$J$};\n\\draw[->] (0,0)--(8,0) node[right] {Score};\n\\draw[->] (0,0)--(0,10) node[above] {Frequency};\n\\foreach \\a/\\b in {1/9,2/7,3/4,4/2,5/4,6/7,7/9} {\\draw (\\a-0.5,0) rectangle (\\a+0.5,\\b);}\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Histogram $H$ is approximately symmetrical and bell-shaped, with most values near the centre. It could represent approximately normally distributed data.\n\nHistogram $J$ is symmetrical, but has fewer values near the centre and two peaks. Symmetry alone is insufficient."
   },
+  {
+    "question_text": "$A$ and $B$ are normally distributed. Both have mean $60$, but their standard deviations are $3$ and $6$, respectively. Sketch and label their normal curves on the same axes.",
+    "solution_text": "Both peaks lie at $60$. Curve $B$ has twice the standard deviation, so it is wider and has half the peak height of curve $A$.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw[->] (-6.3,0)--(6.5,0) node[right] {$x$};\n\\draw[thick] plot[domain=-6.2:6.2,samples=120,smooth,variable=\\x] ({\\x},{2*exp(-\\x*\\x/2)});\n\\draw[thick,dashed] plot[domain=-6.2:6.2,samples=120,smooth,variable=\\x] ({\\x},{exp(-\\x*\\x/8)});\n\\path (0,2.35) node {$A$};\n\\path (3,0.65) node {$B$};\n\\draw[dotted] (0,0)--(0,2);\n\\draw (0,0)--(0,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$60$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "$C$ and $D$ are normally distributed with means $24$ and $36$, respectively. Both have standard deviation $4$. Sketch and label their normal curves on the same axes.",
+    "solution_text": "The curves have equal widths and peak heights. Their peaks lie at $24$ and $36$, so curve $D$ is shifted $12$ units to the right of curve $C$.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw[->] (-5.3,0)--(5.5,0) node[right] {$x$};\n\\draw[thick] plot[domain=-5:2,samples=100,smooth,variable=\\x] ({\\x},{2*exp(-(\\x+1.5)*(\\x+1.5)/2)});\n\\draw[thick,dashed] plot[domain=-2:5,samples=100,smooth,variable=\\x] ({\\x},{2*exp(-(\\x-1.5)*(\\x-1.5)/2)});\n\\path (-1.5,2.35) node {$C$};\n\\path (1.5,2.35) node {$D$};\n\\foreach \\a/\\b in {-2.5/20,-1.5/24,-0.5/28,0.5/32,1.5/36,2.5/40} {\\draw (\\a,0)--(\\a,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\b$};}\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "These normal curves use the same axes. Identify the curve with:\n(a) the largest mean;\n(b) the smallest mean;\n(c) the largest standard deviation;\n(d) the smallest standard deviation.\nGive reasons.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\draw[->] (-8.3,0)--(8.5,0) node[right] {$x$};\n\\draw[thick] plot[domain=-8:8,samples=160,smooth,variable=\\x] ({\\x},{exp(-\\x*\\x/8)});\n\\draw[thick,dashed] plot[domain=-0.5:6.5,samples=100,smooth,variable=\\x] ({\\x},{2*exp(-(\\x-3)*(\\x-3)/2)});\n\\draw[thick,dotted] plot[domain=-4.75:-1.25,samples=100,smooth,variable=\\x] ({\\x},{4*exp(-2*(\\x+3)*(\\x+3))});\n\\path (0,1.35) node {$K$};\n\\path (3,2.35) node {$L$};\n\\path (-3,4.35) node {$M$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Curve $L$: its peak is furthest right.\n\n(b) Curve $M$: its peak is furthest left.\n\n(c) Curve $K$: it is the widest and lowest curve, so its values have the greatest spread.\n\n(d) Curve $M$: it is the narrowest and tallest curve, so its values have the smallest spread."
+  },
+  {
+    "question_text": "$X$ is normally distributed with mean $48$ and standard deviation $5$.\n(a) Find $P(X>48)$.\n(b) The area between $43$ and $48$ is approximately $0.34$. Use symmetry to find the approximate probability $P(X>53)$.",
+    "solution_text": "(a) The total area is $1$. Symmetry divides it equally at the mean.\n\n$\\begin{aligned} &\\mathrel{\\phantom{=}}P(X>48)\\\\ &=\\frac{1}{2}\\times1\\\\ &=0.5 \\end{aligned}$\n\n(b) Since $43$ and $53$ are equally distant from $48$, the area between $48$ and $53$ is also approximately $0.34$.\n[tikz]\n\\begin{tikzpicture}[x=12mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\definecolor{regionfill}{HTML}{DCEBE0}\n\\fill[regionfill] (1,0)--plot[domain=1:3.6,samples=70,smooth,variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)})--(3.6,0)--cycle;\n\\draw[thick] plot[domain=-3.6:3.6,samples=120,smooth,variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-3.9,0)--(4.1,0) node[right] {$x$};\n\\foreach \\a/\\b in {-1/43,0/48,1/53} {\\draw[dashed] (\\a,0)--(\\a,{2.4*exp(-\\a*\\a/2)});\\draw (\\a,0)--(\\a,-0.12) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\b$};}\n\\path (-0.5,0.7) node {$0.34$};\n\\path (0.5,0.7) node {$0.34$};\n\\end{tikzpicture}\n[/tikz]\n\n$\\begin{aligned} &\\mathrel{\\phantom{=}}P(X>53)\\\\ &\\approx0.5-0.34\\\\ &=0.16 \\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

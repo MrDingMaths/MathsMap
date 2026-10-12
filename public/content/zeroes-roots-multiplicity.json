@@ -2,8 +2,8 @@
   "skillId": "zeroes-roots-multiplicity",
   "atomType": "R",
   "theory": {
-        "intro": "A **zero** of $P(x)$ is a number $\\alpha$ with $P(\\alpha) = 0$; the same value is a **root** of the equation $P(x) = 0$ and the $x$-coordinate of the $x$-intercept $(\\alpha, 0)$ of $y = P(x)$. For a real zero of a non-zero polynomial, its **multiplicity** is the power of $(x - \\alpha)$. Multiplicity decides how the curve meets the $x$-axis. The zero polynomial has every real number as a zero, but these zeroes have no finite multiplicity.",
-        "facts": [
+"intro": "A **zero** of $P(x)$ is a number $\\alpha$ with $P(\\alpha) = 0$; the same value is a **root** of the equation $P(x) = 0$ and the $x$-coordinate of the $x$-intercept $(\\alpha, 0)$ of $y = P(x)$. For a real zero of a non-zero polynomial, its **multiplicity** is the power of $(x - \\alpha)$. Multiplicity decides how the curve meets the $x$-axis. The zero polynomial has every real number as a zero, but these zeroes have no finite multiplicity.",
+"facts": [
 "If $P(\\alpha) = 0$ then $\\alpha$ is a **zero** of $P(x)$, $x = \\alpha$ is a **root** of $P(x) = 0$, and $(\\alpha, 0)$ is an **$x$-intercept**.",
 "If $P(x) = (x - \\alpha)^{m}Q(x)$ with $Q(\\alpha) \\ne 0$, then $\\alpha$ is a zero of **multiplicity $m$**.",
 "At a zero of **multiplicity 1**, the curve **cuts** straight through the $x$-axis.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.2,0) -- (3.8,0) node[right] {$x$};\n\\draw[<->] (0,-2.8) -- (0,2.8) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.2:3.2,smooth,variable=\\x,samples=60] plot ({\\x},{0.9*(\\x-1)+0.05*(\\x-1)*(\\x-1)*(\\x-1)});\n\\filldraw (1,0) circle (2pt) node[below right] {$\\alpha$};\n\\end{tikzpicture}\n[/tikz]",
@@ -11,13 +11,39 @@
 "At a zero of **odd multiplicity $\\ge 3$** ($m = 3, 5, \\ldots$), the curve **flattens** along the $x$-axis as it crosses.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.2,0) -- (3.8,0) node[right] {$x$};\n\\draw[<->] (0,-2.7) -- (0,2.7) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.2:3.2,smooth,variable=\\x,samples=60] plot ({\\x},{0.22*(\\x-1)*(\\x-1)*(\\x-1)});\n\\filldraw (1,0) circle (2pt) node[below] {$\\alpha$};\n\\end{tikzpicture}\n[/tikz]",
 "For a non-zero polynomial that factorises completely into real linear factors, the multiplicities of its real zeroes add up to its degree. This does not hold for every real polynomial: $x^{2} + 1$ has degree $2$ but no real zeroes."
 ],
-        "steps": [
+"steps": [
 "Use the supplied factors or elementary factorisation to write the real linear factors of $P(x)$ in the form $(x - \\alpha)^{m}$, combining repeated factors. Some real polynomials also have factors with no real zeroes.",
 "Identify each zero $\\alpha$ by setting each real linear factor to zero.",
 "State the multiplicity $m$ from the exponent of $(x - \\alpha)$.",
 "Determine the geometric behaviour at $(\\alpha, 0)$: single cuts, even multiplicity touches, odd multiplicity $\\ge 3$ inflects."
+],
+"workedExamples": [
+  {
+    "question_text": "For $P(x)=x^{2}-16$, state the zeroes of $P(x)$, the roots of $P(x)=0$, and the coordinates of the $x$-intercepts of $y=P(x)$.",
+    "solution_text": "$\\begin{aligned}P(x)&=(x-4)(x+4)\\end{aligned}$\n\nBy the null-factor law, $x=4$ or $x=-4$.\n\nZeroes: $4$ and $-4$.\n\nRoots of $P(x)=0$: $x=4$ and $x=-4$.\n\n$x$-intercepts: $(4,0)$ and $(-4,0)$."
+  },
+  {
+    "question_text": "Find the zeroes and their multiplicities for:\n\n(a) $P(x)=(3x-2)^{2}(x+4)^{3}$\n\n(b) $Q(x)=(x^{2}-4)(x-2)(x+5)^{2}$\n\n(c) $R(x)=x^{3}+6x^{2}+9x$.",
+    "solution_text": "(a) Set each linear factor to zero.\n\n$\\begin{aligned}3x-2&=0\\\\3x&=2\\\\x&=\\frac{2}{3}\\end{aligned}$\n\nThe zero $\\frac{2}{3}$ has multiplicity $2$; $-4$ has multiplicity $3$.\n\n(b) Factorise the difference of squares and combine repeated factors.\n\n$\\begin{aligned}Q(x)&=(x-2)(x+2)(x-2)(x+5)^{2}\\\\&=(x-2)^{2}(x+2)(x+5)^{2}\\end{aligned}$\n\nThe zeroes are $2$ with multiplicity $2$, $-2$ with multiplicity $1$, and $-5$ with multiplicity $2$.\n\n(c) Take out the common factor, then factorise the quadratic.\n\n$\\begin{aligned}R(x)&=x(x^{2}+6x+9)\\\\&=x(x+3)^{2}\\end{aligned}$\n\nThe zeroes are $0$ with multiplicity $1$ and $-3$ with multiplicity $2$."
+  },
+  {
+    "question_text": "Describe how $y=-(x+2)^{3}(x-1)^{2}(x-4)$ meets the $x$-axis at each intercept. Also state how $y=(2x-7)^{4}$ meets the axis at its zero.",
+    "solution_text": "For the first curve:\n\nAt $x=-2$, multiplicity $3$ gives a horizontal point of inflection: the curve flattens as it crosses.\n\nAt $x=1$, multiplicity $2$ makes the curve touch the axis and turn back without crossing.\n\nAt $x=4$, multiplicity $1$ makes the curve cut through the axis.\n\nFor $y=(2x-7)^{4}$, the zero is $x=\\frac{7}{2}$. Its even multiplicity $4$ makes the curve touch the axis without crossing."
+  },
+  {
+    "question_text": "A monic polynomial $P(x)$ of degree $6$ has a triple zero at $x=-2$, touches the $x$-axis at $x=1$, and crosses the axis at $x=0$. Find $P(x)$ and check that its $y$-intercept is the origin.",
+    "solution_text": "The triple zero gives $(x+2)^{3}$. Touching at $x=1$ requires even multiplicity at least $2$, and crossing at $x=0$ requires odd multiplicity at least $1$.\n\nThese minimum multiplicities total $3+2+1=6$, so they account for the whole degree.\n\nMonic means the leading coefficient is $1$.\n\n$P(x)=x(x+2)^{3}(x-1)^{2}$.\n\n$P(0)=0(2)^{3}(-1)^{2}=0$, so the $y$-intercept is $(0,0)$."
+  },
+  {
+    "question_text": "The sketch shows a polynomial of degree $4$. Identify its zeroes and determine their multiplicities, explaining how the graph and degree constrain them.\n\n[tikz]\n\\begin{tikzpicture}[x=12mm,y=12mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,<->] (-2.4,0)--(2.9,0) node[right] {$x$};\n\\draw[black,<->] (0,-2.5)--(0,1.8) node[above] {$y$};\n\\draw[curveblue,thick,<->,domain=-2:2.5,samples=160,smooth,variable=\\x] plot ({\\x},{0.15*(\\x+1)*(\\x+1)*(\\x+1)*(\\x-2)});\n\\draw[black] (-1,0.06)--(-1,-0.06);\n\\draw[black] (2,0.06)--(2,-0.06);\n\\path (-1,0) node[above] {$-1$};\n\\path (2,0) node[below right] {$2$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The zeroes are $-1$ and $2$.\n\nAt $x=-1$, the curve flattens with a horizontal tangent as it crosses. Its multiplicity is odd and at least $3$.\n\nThe zero at $x=2$ contributes at least $1$ more. Since the degree is $4$, the multiplicities must be exactly $3$ at $-1$ and $1$ at $2$."
+  },
+  {
+    "question_text": "The sketch shows a monic quartic polynomial that touches the $x$-axis at $x=-1$ and $x=2$. Find its equation and its $y$-intercept.\n\n[tikz]\n\\begin{tikzpicture}[x=12mm,y=12mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,<->] (-2,0)--(3,0) node[right] {$x$};\n\\draw[black,<->] (0,-0.6)--(0,2.5) node[above] {$y$};\n\\draw[curveblue,thick,<->,domain=-1.7:2.7,samples=160,smooth,variable=\\x] plot ({\\x},{0.3*(\\x+1)*(\\x+1)*(\\x-2)*(\\x-2)});\n\\draw[black] (-1,0.06)--(-1,-0.06);\n\\draw[black] (2,0.06)--(2,-0.06);\n\\path (-1,0) node[below] {$-1$};\n\\path (2,0) node[below] {$2$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Each touch requires even multiplicity at least $2$. Together they account for degree $4$, so both zeroes are double.\n\nThe polynomial is monic, giving $P(x)=(x+1)^{2}(x-2)^{2}$.\n\n$\\begin{aligned}P(0)&=(1)^{2}(-2)^{2}\\\\&=4\\end{aligned}$\n\nThe $y$-intercept is $(0,4)$.\n\nAnnotated sketch:\n\n[tikz]\n\\begin{tikzpicture}[x=12mm,y=3.6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,<->] (-2,0)--(3,0) node[right] {$x$};\n\\draw[black,<->] (0,-2)--(0,8.3) node[above] {$y$};\n\\draw[curveblue,thick,<->,domain=-1.7:2.7,samples=160,smooth,variable=\\x] plot ({\\x},{(\\x+1)*(\\x+1)*(\\x-2)*(\\x-2)});\n\\fill[black] (-1,0) circle (1.3pt);\n\\fill[black] (2,0) circle (1.3pt);\n\\fill[black] (0,4) circle (1.3pt);\n\\path (-1,0) node[below] {$-1$};\n\\path (2,0) node[below] {$2$};\n\\path (0,4) node[left] {$(0,4)$};\n\\end{tikzpicture}\n[/tikz]"
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

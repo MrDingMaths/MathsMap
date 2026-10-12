@@ -2,8 +2,8 @@
   "skillId": "perpendicular-component-vector",
   "atomType": "R",
   "theory": {
-    "intro": "**Resolving** a vector means splitting it into two perpendicular parts. Every vector is the sum of a horizontal part $x\\underset{\\sim}{i}$ and a vertical part $y\\underset{\\sim}{j}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{arrows.meta,calc}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (3.6,2.7);\n\\coordinate (Q) at (3.6,0);\n\\draw[-{Stealth},thick,blue] (O)--(Q) node[midway,below]{$x\\underset{\\sim}{i}$};\n\\draw[-{Stealth},thick,red] (Q)--(P) node[midway,right]{$y\\underset{\\sim}{j}$};\n\\draw[-{Stealth},thick] (O)--(P) node[midway,above left]{$\\underset{\\sim}{a}$};\n\\coordinate (r1) at ($(Q)!0.3cm!(O)$);\n\\coordinate (r2) at ($(Q)!0.3cm!(P)$);\n\\draw (r1)--($(r1)+(r2)-(Q)$)--(r2);\n\\end{tikzpicture}\n[/tikz]",
-    "facts": [
+"intro": "**Resolving** a vector means splitting it into two perpendicular parts. Every vector is the sum of a horizontal part $x\\underset{\\sim}{i}$ and a vertical part $y\\underset{\\sim}{j}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{arrows.meta,calc}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (3.6,2.7);\n\\coordinate (Q) at (3.6,0);\n\\draw[-{Stealth},thick,blue] (O)--(Q) node[midway,below]{$x\\underset{\\sim}{i}$};\n\\draw[-{Stealth},thick,red] (Q)--(P) node[midway,right]{$y\\underset{\\sim}{j}$};\n\\draw[-{Stealth},thick] (O)--(P) node[midway,above left]{$\\underset{\\sim}{a}$};\n\\coordinate (r1) at ($(Q)!0.3cm!(O)$);\n\\coordinate (r2) at ($(Q)!0.3cm!(P)$);\n\\draw (r1)--($(r1)+(r2)-(Q)$)--(r2);\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "$\\underset{\\sim}{i}=\\begin{pmatrix}1\\\\0\\end{pmatrix}$ runs one unit along the positive $x$-axis and $\\underset{\\sim}{j}=\\begin{pmatrix}0\\\\1\\end{pmatrix}$ one unit along the positive $y$-axis.",
 "Every vector splits in exactly one way as $\\underset{\\sim}{a}=x\\underset{\\sim}{i}+y\\underset{\\sim}{j}$, where $x\\underset{\\sim}{i}$ is its horizontal component vector.",
 "The vertical component vector is $y\\underset{\\sim}{j}$.",
@@ -11,13 +11,43 @@
 "Positive components mean right or up; negative components mean left or down.",
 "In component notation, read the coefficient of $\\underset{\\sim}{i}$ first and the coefficient of $\\underset{\\sim}{j}$ second, even when the terms are written in the opposite order."
 ],
-    "steps": [
+"steps": [
 "Read the horizontal and vertical components from the given notation or from the arrow's movement from tail to tip.",
 "Keep the signs: right and up are positive; left and down are negative.",
 "For component notation, write the horizontal component with $\\underset{\\sim}{i}$ and the vertical component with $\\underset{\\sim}{j}$.",
 "For column notation, write the horizontal component above the vertical component."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "State the horizontal and vertical component vectors of (a) $\\underset{\\sim}{a}=\\begin{pmatrix}-5\\\\7\\end{pmatrix}$ and (b) $\\underset{\\sim}{b}=\\begin{pmatrix}0\\\\-6\\end{pmatrix}$.",
+    "solution_text": "(a) The top entry gives the horizontal component and the bottom entry gives the vertical component.\n$\\underset{\\sim}{a}=-5\\underset{\\sim}{i}+7\\underset{\\sim}{j}$.\nThe horizontal component vector is $-5\\underset{\\sim}{i}$; the vertical component vector is $7\\underset{\\sim}{j}$.\n\n(b) $\\underset{\\sim}{b}=0\\underset{\\sim}{i}-6\\underset{\\sim}{j}$.\nThe horizontal component vector is $0\\underset{\\sim}{i}=\\underset{\\sim}{0}$; the vertical component vector is $-6\\underset{\\sim}{j}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Write $\\begin{pmatrix}-\\frac{7}{3}\\\\\\frac{5}{2}\\end{pmatrix}$ in component notation.",
+    "solution_text": "The top entry multiplies $\\underset{\\sim}{i}$ and the bottom entry multiplies $\\underset{\\sim}{j}$. Keep both signs.\n$\\begin{pmatrix}-\\frac{7}{3}\\\\\\frac{5}{2}\\end{pmatrix}=-\\frac{7}{3}\\underset{\\sim}{i}+\\frac{5}{2}\\underset{\\sim}{j}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $-\\frac{9}{4}\\underset{\\sim}{j}+\\frac{5}{6}\\underset{\\sim}{i}$ in column notation.",
+    "solution_text": "Read the coefficient of $\\underset{\\sim}{i}$ first, even though its term is written second. The horizontal component is $\\frac{5}{6}$ and the vertical component is $-\\frac{9}{4}$.\n$-\\frac{9}{4}\\underset{\\sim}{j}+\\frac{5}{6}\\underset{\\sim}{i}=\\begin{pmatrix}\\frac{5}{6}\\\\-\\frac{9}{4}\\end{pmatrix}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Write $\\underset{\\sim}{v}$ in component notation. Each grid square represents $1$ unit.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{arrows.meta}\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\draw[step=7mm,draw=gridcolour,very thin] (0,0) grid (6,5);\n\\draw[-{Stealth},draw=black,line width=0.8pt] (5,4)--(1,1);\n\\path (3,2.5) node[above left] {$\\underset{\\sim}{v}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Read from tail to tip: $4$ units left and $3$ units down. Both components are negative.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{arrows.meta}\n\\definecolor{gridcolour}{HTML}{CCCCCC}\n\\definecolor{componentblue}{HTML}{268CFF}\n\\definecolor{componentred}{HTML}{EF6068}\n\\draw[step=7mm,draw=gridcolour,very thin] (0,0) grid (6,5);\n\\draw[-{Stealth},draw=componentblue,line width=0.8pt] (5,4)--(1,4);\n\\draw[-{Stealth},draw=componentred,line width=0.8pt] (1,4)--(1,1);\n\\draw[-{Stealth},draw=black,line width=0.8pt] (5,4)--(1,1);\n\\path (3,4) node[above] {$-4\\underset{\\sim}{i}$};\n\\path (1,2.5) node[left] {$-3\\underset{\\sim}{j}$};\n\\path (3,2.5) node[below right] {$\\underset{\\sim}{v}$};\n\\draw[draw=black,line width=0.4pt] (1.25,4)--(1.25,3.75)--(1,3.75);\n\\end{tikzpicture}\n[/tikz]\n$\\underset{\\sim}{v}=-4\\underset{\\sim}{i}-3\\underset{\\sim}{j}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

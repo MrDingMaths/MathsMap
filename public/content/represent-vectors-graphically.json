@@ -2,8 +2,8 @@
   "skillId": "represent-vectors-graphically",
   "atomType": "Cat",
   "theory": {
-    "intro": "A vector is drawn as a **directed line segment**: an arrow whose length shows the magnitude and whose arrowhead shows the direction. Where on the page the arrow is drawn does not matter.",
-    "facts": [
+"intro": "A vector is drawn as a **directed line segment**: an arrow whose length shows the magnitude and whose arrowhead shows the direction. Where on the page the arrow is drawn does not matter.",
+"facts": [
       "Two vectors are **equal** when they have the same magnitude and the same direction, even when they are drawn in different places.",
       "Sliding an arrow without turning it or changing its length gives the same vector, so one vector has many directed line segments.",
       "On a grid, two vectors are equal when the same step across and up takes you from each tail to its head.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[help lines] (0,0) grid (7,5);\n\\draw[->,thick] (0,0) -- (3,2) node[midway,above left] {$\\underset{\\sim}{a}$};\n\\draw[->,thick] (4,3) -- (7,5) node[midway,above left] {$\\underset{\\sim}{a}$};\n\\draw[->,thick] (7,2) -- (4,0) node[midway,below right] {$-\\underset{\\sim}{a}$};\n\\end{tikzpicture}\n[/tikz]",
@@ -12,12 +12,30 @@
       "Two arrows that are parallel and the same length but point opposite ways are negatives, not equal vectors.",
       "Two vectors with the same direction but different lengths are parallel, but they are not equal."
     ],
-    "steps": [
+"steps": [
       "Compare the magnitudes of the two vectors",
       "Compare their directions",
       "Call them equal if both match, or negatives if the magnitudes match and the directions are opposite"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Which vector is equal to $\\underset{\\sim}{a}$, and which is its negative? Explain why the remaining vector is neither.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\draw[draw=gridgrey,xstep=7mm,ystep=7mm] (0,0) grid (8,6);\n\\draw[->,thick,black] (0,0) -- (4,2);\n\\path (2,1) node[above left] {$\\underset{\\sim}{a}$};\n\\draw[->,thick,black] (4,3) -- (8,5);\n\\path (6,4) node[above left] {$\\underset{\\sim}{b}$};\n\\draw[->,thick,black] (4,6) -- (0,4);\n\\path (2,5) node[above left] {$\\underset{\\sim}{c}$};\n\\draw[->,thick,black] (5,1) -- (7,2);\n\\path (6,1.5) node[below right] {$\\underset{\\sim}{d}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$ both go $4$ squares right and $2$ up. They have the same magnitude and direction, so $\\underset{\\sim}{b}=\\underset{\\sim}{a}$; their starting points do not matter.\n\n$\\underset{\\sim}{c}$ goes $4$ left and $2$ down. It has the same magnitude and the opposite direction, so $\\underset{\\sim}{c}=-\\underset{\\sim}{a}$.\n\n$\\underset{\\sim}{d}$ goes $2$ right and $1$ up. It points the same way as $\\underset{\\sim}{a}$ but is half as long, so it is neither equal to $\\underset{\\sim}{a}$ nor its negative."
   },
+  {
+    "question_text": "Sketch $-\\underset{\\sim}{p}$ on the grid.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\draw[draw=gridgrey,xstep=7mm,ystep=7mm] (0,0) grid (7,6);\n\\draw[->,thick,black] (1,5) -- (5,2);\n\\path (3,3.5) node[above right] {$\\underset{\\sim}{p}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\underset{\\sim}{p}$ goes $4$ squares right and $3$ down. Reverse both steps: $-\\underset{\\sim}{p}$ goes $4$ left and $3$ up, with the same length.\n\nOne possible sketch is shown. Its tail can be placed anywhere the arrow fits.\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\definecolor{answerblue}{HTML}{268CFF}\n\\draw[draw=gridgrey,xstep=7mm,ystep=7mm] (0,0) grid (7,6);\n\\draw[->,thick,black] (1,5) -- (5,2);\n\\path (3,3.5) node[above right] {$\\underset{\\sim}{p}$};\n\\draw[->,thick,draw=answerblue] (6,1) -- (2,4);\n\\path (4,2.5) node[below left] {$-\\underset{\\sim}{p}$};\n\\end{tikzpicture}\n[/tikz]\n\nReversing the original arrow also represents the negative: $\\overrightarrow{BA}=-\\overrightarrow{AB}$."
+  },
+  {
+    "question_text": "Let $A(-3,1)$, $B(2,4)$, $C(1,-2)$ and $D(6,1)$. Show that $\\overrightarrow{AB}=\\overrightarrow{CD}$.",
+    "solution_text": "From $A$ to $B$, the horizontal step is $2-(-3)=5$ and the vertical step is $4-1=3$.\n\nFrom $C$ to $D$, the horizontal step is $6-1=5$ and the vertical step is $1-(-2)=3$.\n\nBoth arrows go $5$ units right and $3$ up, so they have the same magnitude and direction. Hence $\\overrightarrow{AB}=\\overrightarrow{CD}$.\n\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=5mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\draw[draw=gridgrey,xstep=5mm,ystep=5mm] (-4,-3) grid (7,5);\n\\draw[->,thick,black] (-3,1) -- (2,4);\n\\draw[->,thick,black] (1,-2) -- (6,1);\n\\path (-3,1) node[below left] {$A$};\n\\path (2,4) node[above right] {$B$};\n\\path (1,-2) node[below left] {$C$};\n\\path (6,1) node[above right] {$D$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "$\\overrightarrow{AB}$ joins $A(-2,1)$ to $B(1,3)$. Let $C(2,-1)$ and $E(4,4)$.\n\nFind $D$ and $F$ if $\\overrightarrow{CD}=\\overrightarrow{AB}$ and $\\overrightarrow{EF}=-\\overrightarrow{AB}$.",
+    "solution_text": "From $A$ to $B$, the step is $1-(-2)=3$ units right and $3-1=2$ units up.\n\nAn equal vector repeats this step from $C$:\n\n$\\begin{align*}D&=(2+3,\\,-1+2)\\\\&=(5,1).\\end{align*}$\n\nThe negative reverses the step, giving $3$ units left and $2$ down from $E$:\n\n$\\begin{align*}F&=(4-3,\\,4-2)\\\\&=(1,2).\\end{align*}$\n\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=7mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{gridgrey}{HTML}{CCCCCC}\n\\definecolor{answerblue}{HTML}{268CFF}\n\\definecolor{answerred}{HTML}{EF6068}\n\\draw[draw=gridgrey,xstep=7mm,ystep=7mm] (-3,-2) grid (6,5);\n\\draw[->,thick,black] (-2,1) -- (1,3);\n\\draw[->,thick,draw=answerblue] (2,-1) -- (5,1);\n\\draw[->,thick,draw=answerred] (4,4) -- (1,2);\n\\path (-2,1) node[below left] {$A$};\n\\path (1,3) node[above left] {$B$};\n\\path (2,-1) node[below left] {$C$};\n\\path (5,1) node[above right] {$D(5,1)$};\n\\path (4,4) node[above right] {$E$};\n\\path (1,2) node[below left] {$F(1,2)$};\n\\end{tikzpicture}\n[/tikz]"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

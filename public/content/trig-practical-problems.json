@@ -2,124 +2,210 @@
   "skillId": "trig-practical-problems",
   "atomType": "R",
   "theory": {
-        "intro": "Real shapes like tents, sails and bridge trusses are rarely one labelled right-angled triangle. Find the right-angled triangles inside the shape, solve the one that has enough information, then carry that result into the next.",
-        "facts": [
-          "A symmetrical shape like a tent end or gable splits down its axis into two identical right-angled triangles, each holding **half** the span.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc,angles,quotes}\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (6,0);\n\\coordinate (A) at (3,3.2);\n\\coordinate (M) at (3,0);\n\\draw (B) -- (C);\n\\draw (B) -- (A);\n\\draw (A) -- (C);\n\\draw[dashed] (A) -- (M) node[midway,right] {$h$};\n\\coordinate (ma) at ($(M)!0.3cm!(C)$);\n\\coordinate (mb) at ($(M)!0.3cm!(A)$);\n\\draw (ma) -- ($(ma)+(mb)-(M)$) -- (mb);\n\\pic[draw,\"$\\theta$\",angle radius=0.7cm,angle eccentricity=2]{angle=C--B--A};\n\\node[below] at (1.5,-0.1) {$b/2$};\n\\node[below] at (4.5,-0.1) {$b/2$};\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below] at (3,-0.1) {$M$};\n\\end{tikzpicture}[/tikz]",
-          "Two right-angled triangles side by side **share a side**, usually the vertical one; find that shared side first.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc,angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (7,0);\n\\coordinate (D) at (2.8,0);\n\\coordinate (C) at (2.8,2.6);\n\\draw (A) -- (B);\n\\draw (A) -- (C);\n\\draw (C) -- (B);\n\\draw (C) -- (D) node[midway,right] {$h$};\n\\coordinate (da) at ($(D)!0.3cm!(B)$);\n\\coordinate (db) at ($(D)!0.3cm!(C)$);\n\\draw (da) -- ($(da)+(db)-(D)$) -- (db);\n\\pic[draw,\"$\\alpha$\",angle radius=0.8cm,angle eccentricity=1.9]{angle=B--A--C};\n\\pic[draw,\"$\\beta$\",angle radius=0.8cm,angle eccentricity=1.9]{angle=C--B--A};\n\\node[above] at (C) {$C$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[below] at (2.8,-0.1) {$D$};\n\\end{tikzpicture}[/tikz]",
-          "Solve one triangle at a time, choosing the one where two of the three quantities are already known.",
-          "A total length, such as a perimeter, a span or a gap, is the **sum or difference** of lengths found separately.",
-          "Keep the unrounded value on the calculator between stages and round **once**, at the end, to the accuracy asked for.",
-          "If no diagram is given, sketch one: mark the right angle first, then the known lengths and angles."
-        ],
-        "steps": [
-          "Identify the right-angled triangles in the figure",
-          "Mark the unknown and any side the triangles share",
-          "Solve the triangle that has enough information",
-          "Carry that result into the second triangle",
-          "Answer the question that was asked"
-        ]
-      },
+"intro": "Real shapes like tents, sails and bridge trusses are rarely one labelled right-angled triangle. Find the right-angled triangles inside the shape. If one has enough information, solve it and carry that result into the next; otherwise, form and solve an equation involving both triangles.",
+"facts": [
+"A symmetrical shape like a tent end or gable splits down its axis into two identical right-angled triangles, each holding **half** the span.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc,angles,quotes}\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (6,0);\n\\coordinate (A) at (3,3.2);\n\\coordinate (M) at (3,0);\n\\draw (B) -- (C);\n\\draw (B) -- (A);\n\\draw (A) -- (C);\n\\draw[dashed] (A) -- (M) node[midway,right] {$h$};\n\\coordinate (ma) at ($(M)!0.3cm!(C)$);\n\\coordinate (mb) at ($(M)!0.3cm!(A)$);\n\\draw (ma) -- ($(ma)+(mb)-(M)$) -- (mb);\n\\pic[draw,\"$\\theta$\",angle radius=0.7cm,angle eccentricity=2]{angle=C--B--A};\n\\node[below] at (1.5,-0.1) {$b/2$};\n\\node[below] at (4.5,-0.1) {$b/2$};\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below] at (3,-0.1) {$M$};\n\\end{tikzpicture}[/tikz]",
+"Two right-angled triangles side by side **share a side**, usually the vertical one; find that shared side first when one triangle has enough information, or express lengths in terms of it to form an equation.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc,angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (7,0);\n\\coordinate (D) at (2.8,0);\n\\coordinate (C) at (2.8,2.6);\n\\draw (A) -- (B);\n\\draw (A) -- (C);\n\\draw (C) -- (B);\n\\draw (C) -- (D) node[midway,right] {$h$};\n\\coordinate (da) at ($(D)!0.3cm!(B)$);\n\\coordinate (db) at ($(D)!0.3cm!(C)$);\n\\draw (da) -- ($(da)+(db)-(D)$) -- (db);\n\\pic[draw,\"$\\alpha$\",angle radius=0.8cm,angle eccentricity=1.9]{angle=B--A--C};\n\\pic[draw,\"$\\beta$\",angle radius=0.8cm,angle eccentricity=1.9]{angle=C--B--A};\n\\node[above] at (C) {$C$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[below] at (2.8,-0.1) {$D$};\n\\end{tikzpicture}[/tikz]",
+"An identified right-angled triangle has enough information for a numerical trigonometric calculation when a side and an acute angle, or two sides, are known. If neither triangle has enough information, use their shared lengths and the given total or gap to form and solve an equation involving both triangles.",
+"A total length, such as a perimeter, a span or a gap, is the **sum or difference** of lengths found separately.",
+"Keep the unrounded value on the calculator between stages and round **once**, at the end, to the accuracy asked for.",
+"If no diagram is given, sketch one: mark the right angle first, then the known lengths and angles."
+],
+"steps": [
+"Identify the right-angled triangles in the figure",
+"Mark the unknown and any side the triangles share",
+"Solve a triangle with a known side and acute angle, or two known sides; otherwise form and solve an equation involving both triangles",
+"Carry any calculated length into the other triangle where needed",
+"Answer the question that was asked"
+],
+"workedExamples": [
+  {
+    "question_text": "A symmetrical tent end is $4$ m wide. Each sloping side makes an angle of $60^{\\circ}$ with level ground. Find the height and the length of each sloping side, correct to $2$ decimal places.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\draw (0,0)--(4,0)--(2,3.464)--cycle;\\path (2,0) node[below] {$4\\text{ m}$};\\path (0.7,0.3) node {$60^{\\circ}$};\\end{tikzpicture}[/tikz]",
+    "solution_text": "The central height divides the span into two bases of $2$ m.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\draw (0,0)--(4,0)--(2,3.464)--cycle;\\draw[dashed] (2,3.464)--(2,0);\\draw (2,0.2)--(2.2,0.2)--(2.2,0);\\path (1,0) node[below] {$2\\text{ m}$};\\path (2,1.7) node[right] {$h$};\\path (1,1.732) node[above left] {$r$};\\path (0.7,0.3) node {$60^{\\circ}$};\\end{tikzpicture}[/tikz]\n$\\begin{aligned}\\tan60^{\\circ}&=\\frac{h}{2}\\\\h&=2\\tan60^{\\circ}\\\\h&\\approx3.46\\text{ m}\\end{aligned}$\n$\\begin{aligned}\\cos60^{\\circ}&=\\frac{2}{r}\\\\r&=\\frac{2}{\\cos60^{\\circ}}\\\\r&=4.00\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Each sloping side of a symmetrical A-frame tent is $3.2$ m long and makes an angle of $60^{\\circ}$ with level ground. Find the width of the tent, correct to $2$ decimal places.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\draw (0,0)--(3.2,0)--(1.6,2.771)--cycle;\\path (0.8,1.386) node[above left] {$3.2\\text{ m}$};\\path (0.65,0.3) node {$60^{\\circ}$};\\end{tikzpicture}[/tikz]",
+    "solution_text": "Draw the central height. Let $b$ be the base of one right-angled triangle; the tent width is $2b$.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\draw (0,0)--(3.2,0)--(1.6,2.771)--cycle;\\draw[dashed] (1.6,2.771)--(1.6,0);\\draw (1.6,0.2)--(1.8,0.2)--(1.8,0);\\path (0.8,0) node[below] {$b$};\\path (0.8,1.386) node[above left] {$3.2\\text{ m}$};\\path (0.65,0.3) node {$60^{\\circ}$};\\end{tikzpicture}[/tikz]\n$\\begin{aligned}\\cos60^{\\circ}&=\\frac{b}{3.2}\\\\b&=3.2\\cos60^{\\circ}\\\\b&=1.6\\text{ m}\\\\\\text{Width}&=2b\\\\\\text{Width}&=3.20\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the angle each sloping side makes with level ground in each symmetrical tent. Give both answers to $1$ decimal place.\n(a) The width is $8$ m and the central height is $3$ m.\n(b) The width is $8$ m and each sloping side is $5$ m.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\draw (0,0)--(4,0)--(2,1.5)--cycle;\\draw[dashed] (2,1.5)--(2,0);\\draw (2,0.15)--(2.15,0.15)--(2.15,0);\\path (0.65,0.2) node {$\\theta$};\\path (2,0) node[below] {$(a)\\ 8\\text{ m}$};\\path (2,0.85) node[right] {$3\\text{ m}$};\\draw (6,0)--(10,0)--(8,1.5)--cycle;\\path (6.65,0.2) node {$\\theta$};\\path (8,0) node[below] {$(b)\\ 8\\text{ m}$};\\path (7,0.75) node[above left] {$5\\text{ m}$};\\end{tikzpicture}[/tikz]",
+    "solution_text": "Each central height halves the width, giving an adjacent side of $4$ m.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\draw (0,0)--(4,0)--(4,3)--cycle;\\draw (3.75,0)--(3.75,0.25)--(4,0.25);\\path (2,0) node[below] {$4\\text{ m}$};\\path (4,1.5) node[right] {$3\\text{ m}\\ (a)$};\\path (2,1.5) node[above left] {$5\\text{ m}\\ (b)$};\\path (0.8,0.3) node {$\\theta$};\\end{tikzpicture}[/tikz]\n(a) Use the opposite and adjacent sides.\n$\\begin{aligned}\\tan\\theta&=\\frac{3}{4}\\\\\\theta&=\\tan^{-1}\\left(\\frac{3}{4}\\right)\\\\\\theta&\\approx36.9^{\\circ}\\end{aligned}$\n(b) Use the adjacent side and hypotenuse.\n$\\begin{aligned}\\cos\\theta&=\\frac{4}{5}\\\\\\theta&=\\cos^{-1}\\left(\\frac{4}{5}\\right)\\\\\\theta&\\approx36.9^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A tree snaps into two perpendicular sections. Its fallen top touches level ground $14$ m from its base. The remaining section makes an angle of $30^{\\circ}$ with the ground. Find the original tree height, correct to $1$ decimal place.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\coordinate (A) at (0,0);\\coordinate (B) at (3,1.732);\\coordinate (C) at (4,0);\\draw (A)--(B)--(C)--cycle;\\draw (2.827,1.632)--(2.927,1.459)--(3.1,1.559);\\path (2,0) node[below] {$14\\text{ m}$};\\path (0.8,0.25) node {$30^{\\circ}$};\\path (A) node[left] {$A$};\\path (B) node[above] {$B$};\\path (C) node[right] {$C$};\\end{tikzpicture}[/tikz]",
+    "solution_text": "The ground distance $AC$ is the hypotenuse. Add the two tree sections $AB$ and $BC$.\n$\\begin{aligned}\\cos30^{\\circ}&=\\frac{AB}{14}\\\\AB&=14\\cos30^{\\circ}\\end{aligned}$\n$\\begin{aligned}\\sin30^{\\circ}&=\\frac{BC}{14}\\\\BC&=14\\sin30^{\\circ}\\end{aligned}$\n$\\begin{aligned}\\text{Original height}&=14\\cos30^{\\circ}+14\\sin30^{\\circ}\\\\\\text{Original height}&\\approx19.1\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A triangular roof truss has a vertical post $CD$ meeting its horizontal base $AB$ at $D$. The left chord $AC$ is $16$ m long and makes an angle of $30^{\\circ}$ with the base. The right chord makes an angle of $60^{\\circ}$ with the base. Find $DB$, correct to $2$ decimal places.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\draw (0,0)--(4.619,0)--(3.464,2)--cycle;\\draw (3.464,2)--(3.464,0);\\draw (3.464,0.2)--(3.664,0.2)--(3.664,0);\\path (1.732,1) node[above left] {$16\\text{ m}$};\\path (0.8,0.25) node {$30^{\\circ}$};\\path (4.12,0.3) node {$60^{\\circ}$};\\path (0,0) node[below] {$A$};\\path (4.619,0) node[below] {$B$};\\path (3.464,2) node[above] {$C$};\\path (3.464,0) node[below] {$D$};\\end{tikzpicture}[/tikz]",
+    "solution_text": "First find the shared post $CD$ using the left triangle.\n$\\begin{aligned}\\sin30^{\\circ}&=\\frac{CD}{16}\\\\CD&=16\\sin30^{\\circ}\\\\CD&=8\\text{ m}\\end{aligned}$\nIn the right triangle, $CD$ is opposite $60^{\\circ}$ and $DB$ is adjacent.\n$\\begin{aligned}\\tan60^{\\circ}&=\\frac{8}{DB}\\\\DB&=\\frac{8}{\\tan60^{\\circ}}\\\\DB&\\approx4.62\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A roof has an off-centre ridge supported by a vertical post. The left rafter is $6$ m long and rises at $30^{\\circ}$. The post meets the horizontal wall top $4$ m from the right wall. Find the right rafter's angle to the horizontal, correct to the nearest minute.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\draw (0,0)--(5.519,0)--(3.119,1.8)--cycle;\\draw (3.119,1.8)--(3.119,0);\\draw (3.119,0.2)--(3.319,0.2)--(3.319,0);\\path (1.56,0.9) node[above left] {$6\\text{ m}$};\\path (4.319,0) node[below] {$4\\text{ m}$};\\path (0.8,0.25) node {$30^{\\circ}$};\\path (4.8,0.25) node {$\\theta$};\\end{tikzpicture}[/tikz]",
+    "solution_text": "First find the shared post $h$.\n$\\begin{aligned}\\sin30^{\\circ}&=\\frac{h}{6}\\\\h&=6\\sin30^{\\circ}\\\\h&=3\\text{ m}\\end{aligned}$\nUse the post and the horizontal run in the right triangle.\n$\\begin{aligned}\\tan\\theta&=\\frac{3}{4}\\\\\\theta&=\\tan^{-1}\\left(\\frac{3}{4}\\right)\\\\\\theta&=36.869897\\ldots^{\\circ}\\end{aligned}$\nConvert the decimal part of the angle to minutes.\n$\\begin{aligned}\\text{Minutes}&=0.869897\\ldots\\times60\\\\\\text{Minutes}&=52.1938\\ldots\\end{aligned}$\n$\\theta\\approx36^{\\circ}52'$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A triangular truss has a vertical altitude of $4$ m. Its foot lies between the ends of the horizontal base. The sloping sides make angles of $30^{\\circ}$ and $60^{\\circ}$ with the base. Find the perimeter, correct to $2$ decimal places.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\draw (0,0)--(4.619,0)--(3.464,2)--cycle;\\draw[dashed] (3.464,2)--(3.464,0);\\draw (3.464,0.2)--(3.664,0.2)--(3.664,0);\\path (3.464,1) node[right] {$4\\text{ m}$};\\path (0.8,0.25) node {$30^{\\circ}$};\\path (4.12,0.3) node {$60^{\\circ}$};\\end{tikzpicture}[/tikz]",
+    "solution_text": "The altitude creates two right-angled triangles. Let their horizontal bases be $p$ and $q$, and their sloping sides be $r$ and $s$.\n$\\begin{aligned}\\tan30^{\\circ}&=\\frac{4}{p}\\\\p&=\\frac{4}{\\tan30^{\\circ}}\\end{aligned}$\n$\\begin{aligned}\\tan60^{\\circ}&=\\frac{4}{q}\\\\q&=\\frac{4}{\\tan60^{\\circ}}\\end{aligned}$\n$\\begin{aligned}\\sin30^{\\circ}&=\\frac{4}{r}\\\\r&=\\frac{4}{\\sin30^{\\circ}}\\end{aligned}$\n$\\begin{aligned}\\sin60^{\\circ}&=\\frac{4}{s}\\\\s&=\\frac{4}{\\sin60^{\\circ}}\\end{aligned}$\nAdd both base sections and both sloping sides, keeping the calculator values unrounded.\n$\\begin{aligned}P&=p+q+r+s\\\\P&=\\frac{4}{\\tan30^{\\circ}}+\\frac{4}{\\tan60^{\\circ}}+\\frac{4}{\\sin30^{\\circ}}+\\frac{4}{\\sin60^{\\circ}}\\\\P&\\approx21.86\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "An observer at $D$ is $6$ m horizontally from the foot $C$ of a vertical mast. Points $A$ and $B$ lie on the mast, with $A$ above $B$. Their angles of elevation from $D$ are $60^{\\circ}$ and $30^{\\circ}$ respectively. Find $AB$, correct to $2$ decimal places.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\draw (0,0)--(3,0)--(3,5.196)--cycle;\\draw (0,0)--(3,1.732);\\draw (2.8,0)--(2.8,0.2)--(3,0.2);\\path (1.5,0) node[below] {$6\\text{ m}$};\\path (0,0) node[left] {$D$};\\path (3,0) node[right] {$C$};\\path (3,1.732) node[right] {$B$};\\path (3,5.196) node[right] {$A$};\\draw (0.8,0) arc (0:30:0.8);\\path (1.15,0.23) node {$30^{\\circ}$};\\draw (0.5,0) arc (0:60:0.5);\\path (0.5,0.8) node {$60^{\\circ}$};\\end{tikzpicture}[/tikz]",
+    "solution_text": "Both triangles have adjacent side $DC=6$ m. Find the two heights, then subtract.\n$\\begin{aligned}\\tan60^{\\circ}&=\\frac{AC}{6}\\\\AC&=6\\tan60^{\\circ}\\end{aligned}$\n$\\begin{aligned}\\tan30^{\\circ}&=\\frac{BC}{6}\\\\BC&=6\\tan30^{\\circ}\\end{aligned}$\n$\\begin{aligned}AB&=AC-BC\\\\AB&=6\\tan60^{\\circ}-6\\tan30^{\\circ}\\\\AB&\\approx6.93\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A ladder rests against a vertical wall on level ground. Its foot is $180$ cm from the wall and it makes an angle of $60^{\\circ}$ with the ground. Draw a diagram and find the ladder length to the nearest cm.",
+    "solution_text": "The ladder is the hypotenuse $L$; the horizontal distance is adjacent to $60^{\\circ}$.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\draw (0,0)--(2,0)--(2,3.464)--cycle;\\draw (1.8,0)--(1.8,0.2)--(2,0.2);\\path (1,0) node[below] {$180\\text{ cm}$};\\path (1,1.732) node[above left] {$L$};\\path (0.65,0.3) node {$60^{\\circ}$};\\end{tikzpicture}[/tikz]\n$\\begin{aligned}\\cos60^{\\circ}&=\\frac{180}{L}\\\\L&=\\frac{180}{\\cos60^{\\circ}}\\\\L&=360\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A vertical mast $AB$ is $8$ m high, and $M$ is its midpoint. Point $C$ is on level ground $8$ m horizontally from the foot $A$. Is $\\angle ACM$ exactly half of $\\angle ACB$? Calculate both angles to $1$ decimal place to support your answer.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\draw (0,0)--(4,0)--(4,4)--cycle;\\draw (0,0)--(4,2);\\draw (3.8,0)--(3.8,0.2)--(4,0.2);\\path (2,0) node[below] {$8\\text{ m}$};\\path (4,1) node[right] {$4\\text{ m}$};\\path (4,3) node[right] {$4\\text{ m}$};\\path (0,0) node[left] {$C$};\\path (4,0) node[below] {$A$};\\path (4,2) node[right] {$M$};\\path (4,4) node[above] {$B$};\\end{tikzpicture}[/tikz]",
+    "solution_text": "The midpoint gives $AM=4$ m. Both triangles are right-angled at $A$.\n$\\begin{aligned}\\tan\\angle ACM&=\\frac{4}{8}\\\\\\angle ACM&=\\tan^{-1}\\left(\\frac{4}{8}\\right)\\\\\\angle ACM&\\approx26.6^{\\circ}\\end{aligned}$\n$\\begin{aligned}\\tan\\angle ACB&=\\frac{8}{8}\\\\\\angle ACB&=45.0^{\\circ}\\end{aligned}$\nHalf of $45^{\\circ}$ is $22.5^{\\circ}$. Since $26.6^{\\circ}\\ne22.5^{\\circ}$, $\\angle ACM$ is not half of $\\angle ACB$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A drawbridge has two identical sections, each $x$ m long, hinged at opposite riverbanks. When lowered, they exactly span the river. When raised to $60^{\\circ}$ above the horizontal, their tips are $14$ m apart. Find the river width, correct to $1$ decimal place.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\draw[dashed] (0,0)--(5,0);\\draw[thick] (0,0)--(1.25,2.165);\\draw[thick] (5,0)--(3.75,2.165);\\draw[dashed] (1.25,2.165)--(3.75,2.165);\\path (2.5,2.165) node[above] {$14\\text{ m}$};\\path (0.625,1.083) node[above left] {$x\\text{ m}$};\\path (4.375,1.083) node[above right] {$x\\text{ m}$};\\path (0.65,0.3) node {$60^{\\circ}$};\\path (4.35,0.3) node {$60^{\\circ}$};\\end{tikzpicture}[/tikz]",
+    "solution_text": "The lowered sections span $2x$ m. Each raised section has horizontal projection $x\\cos60^{\\circ}$.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\draw (0,0)--(1.25,0)--(1.25,2.165)--cycle;\\draw (1.05,0)--(1.05,0.2)--(1.25,0.2);\\path (0.625,1.083) node[above left] {$x$};\\path (0.625,0) node[below] {$x\\cos60^{\\circ}$};\\path (0.55,0.3) node {$60^{\\circ}$};\\end{tikzpicture}[/tikz]\nSubtract both horizontal projections from the river width to obtain the gap.\n$\\begin{aligned}2x-2x\\cos60^{\\circ}&=14\\\\2x(1-\\cos60^{\\circ})&=14\\\\2x&=\\frac{14}{1-\\cos60^{\\circ}}\\\\2x&=28\\text{ m}\\end{aligned}$\nThe river is $28.0$ m wide.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A balloon is directly above a point between the ends of a straight, horizontal road $20$ m long. Its angles of elevation from the two ends are $30^{\\circ}$ and $60^{\\circ}$. Find its height above the road, correct to $2$ decimal places.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\draw (0,0)--(4,0)--(3,1.732)--cycle;\\path (2,0) node[below] {$20\\text{ m}$};\\path (0.75,0.25) node {$30^{\\circ}$};\\path (3.55,0.3) node {$60^{\\circ}$};\\path (3,1.732) node[above] {balloon};\\end{tikzpicture}[/tikz]",
+    "solution_text": "Draw the vertical height $h$. The two horizontal distances $p$ and $q$ add to $20$ m.\n[tikz]\\begin{tikzpicture}[draw=black,text=black]\\draw (0,0)--(4,0)--(3,1.732)--cycle;\\draw[dashed] (3,1.732)--(3,0);\\draw (3,0.18)--(3.18,0.18)--(3.18,0);\\path (1.5,0) node[below] {$p$};\\path (3.5,0) node[below] {$q$};\\path (3,0.85) node[left] {$h$};\\path (0.75,0.25) node {$30^{\\circ}$};\\path (3.55,0.3) node {$60^{\\circ}$};\\end{tikzpicture}[/tikz]\n$\\begin{aligned}\\tan30^{\\circ}&=\\frac{h}{p}\\\\p&=\\frac{h}{\\tan30^{\\circ}}\\end{aligned}$\n$\\begin{aligned}\\tan60^{\\circ}&=\\frac{h}{q}\\\\q&=\\frac{h}{\\tan60^{\\circ}}\\end{aligned}$\nNeither triangle alone determines $h$. Use the total road length.\n$\\begin{aligned}p+q&=20\\\\\\frac{h}{\\tan30^{\\circ}}+\\frac{h}{\\tan60^{\\circ}}&=20\\\\h\\left(\\frac{1}{\\tan30^{\\circ}}+\\frac{1}{\\tan60^{\\circ}}\\right)&=20\\\\h&=\\frac{20}{\\frac{1}{\\tan30^{\\circ}}+\\frac{1}{\\tan60^{\\circ}}}\\\\h&\\approx8.66\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (L) at (0,0);\\coordinate (R) at (3.6,0);\\coordinate (A) at (1.8,2.57067);\\draw (L)--(R) node[midway,below] {$3.6\\text{ m}$};\\draw (L)--(A);\\draw (A)--(R);\\pic[draw,\"$55^{\\circ}$\",angle radius=0.7cm,angle eccentricity=1.5] {angle=R--L--A};\\end{tikzpicture}\n[/tikz]\nThe end of an A-frame tent is $3.6$ m wide and each sloping side makes an angle of $55^{\\circ}$ with the ground.\nFind the height of the tent at its centre, correct to $2$ decimal places.",
         "structure": "split-isosceles-find-side",
         "solution_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (L) at (0,0);\\coordinate (R) at (3.6,0);\\coordinate (D) at (1.8,0);\\coordinate (A) at (1.8,2.57067);\\draw (L)--(R);\\draw (L)--(A);\\draw (A)--(R);\\draw[dashed] (A)--(D) node[midway,right] {$2.57\\text{ m}$};\\draw (L)--(D) node[midway,below] {$1.8\\text{ m}$};\\coordinate (va) at ($(D)!0.25cm!(R)$);\\coordinate (vb) at ($(D)!0.25cm!(A)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$55^{\\circ}$\",angle radius=0.7cm,angle eccentricity=1.5] {angle=R--L--A};\\end{tikzpicture}\n[/tikz]\nThe height splits the tent into two right-angled triangles, each with a base of $1.8$ m.\n$\\tan55^{\\circ}=\\frac{h}{1.8}$\n$h=1.8\\tan55^{\\circ}$\n$=2.5706\\ldots$\n$\\approx2.57\\text{ m}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (L) at (0,0);\\coordinate (R) at (2.27953,0);\\coordinate (A) at (1.13976,2.33686);\\draw (L)--(R);\\draw (L)--(A) node[midway,above left] {$2.6\\text{ m}$};\\draw (A)--(R);\\pic[draw,\"$64^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.55] {angle=R--L--A};\\end{tikzpicture}\n[/tikz]\nEach sloping side of this A-frame tent is $2.6$ m long and makes an angle of $64^{\\circ}$ with the ground.\nFind the width of the tent at ground level, correct to $2$ decimal places.",
         "structure": "split-isosceles-find-side",
         "solution_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (L) at (0,0);\\coordinate (R) at (2.27953,0);\\coordinate (D) at (1.13976,0);\\coordinate (A) at (1.13976,2.33686);\\draw (L)--(R);\\draw (L)--(A) node[midway,above left] {$2.6\\text{ m}$};\\draw (A)--(R);\\draw[dashed] (A)--(D);\\draw (L)--(D) node[midway,below] {$1.14\\text{ m}$};\\coordinate (va) at ($(D)!0.25cm!(R)$);\\coordinate (vb) at ($(D)!0.25cm!(A)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$64^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.55] {angle=R--L--A};\\end{tikzpicture}\n[/tikz]\nThe height splits the tent into two right-angled triangles, so the base of one of them is half the width.\n$\\cos64^{\\circ}=\\frac{b}{2.6}$\n$b=2.6\\cos64^{\\circ}$\n$=1.1397\\ldots$\nWidth $=2\\times1.1397\\ldots$\n$=2.2795\\ldots$\n$\\approx2.28\\text{ m}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.55]\\coordinate (L) at (0,0);\\coordinate (R) at (8.4,0);\\coordinate (D) at (4.2,0);\\coordinate (A) at (4.2,2.8);\\draw (L)--(R) node[midway,below] {$8.4\\text{ m}$};\\draw (L)--(A);\\draw (A)--(R);\\draw[dashed] (A)--(D) node[midway,right] {$2.8\\text{ m}$};\\coordinate (va) at ($(D)!0.4cm!(R)$);\\coordinate (vb) at ($(D)!0.4cm!(A)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=1.3cm,angle eccentricity=1.4] {angle=R--L--A};\\end{tikzpicture}\n[/tikz]\nThe gable end of a shed is $8.4$ m wide and its ridge is $2.8$ m above the top of the wall.\nFind $\\theta$, the angle each rafter makes with the horizontal, correct to the nearest degree.",
         "structure": "split-isosceles-find-angle",
         "solution_text": "Half of the gable is a right-angled triangle with a base of $4.2$ m and a height of $2.8$ m.\n$\\tan\\theta=\\frac{2.8}{4.2}$\n$\\theta=\\tan^{-1}\\left(\\frac{2.8}{4.2}\\right)$\n$=33.6900\\ldots^{\\circ}$\n$\\approx34^{\\circ}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (L) at (0,0);\\coordinate (R) at (4.8,0);\\coordinate (A) at (2.4,1.62788);\\draw (L)--(R) node[midway,below] {$4.8\\text{ m}$};\\draw (L)--(A) node[midway,above left] {$2.9\\text{ m}$};\\draw (A)--(R);\\pic[draw,\"$\\theta$\",angle radius=0.85cm,angle eccentricity=1.45] {angle=R--L--A};\\end{tikzpicture}\n[/tikz]\nAn A-frame tent is $4.8$ m wide at ground level and each sloping side is $2.9$ m long.\nFind $\\theta$, the angle a sloping side makes with the ground, correct to $1$ decimal place.",
         "structure": "split-isosceles-find-angle",
         "solution_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (L) at (0,0);\\coordinate (R) at (4.8,0);\\coordinate (D) at (2.4,0);\\coordinate (A) at (2.4,1.62788);\\draw (L)--(R);\\draw (L)--(A) node[midway,above left] {$2.9\\text{ m}$};\\draw (A)--(R);\\draw[dashed] (A)--(D);\\draw (L)--(D) node[midway,below] {$2.4\\text{ m}$};\\coordinate (va) at ($(D)!0.25cm!(R)$);\\coordinate (vb) at ($(D)!0.25cm!(A)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.85cm,angle eccentricity=1.45] {angle=R--L--A};\\end{tikzpicture}\n[/tikz]\nHalf of the tent is a right-angled triangle with a base of $2.4$ m and a hypotenuse of $2.9$ m.\n$\\cos\\theta=\\frac{2.4}{2.9}$\n$\\theta=\\cos^{-1}\\left(\\frac{2.4}{2.9}\\right)$\n$=34.1484\\ldots^{\\circ}$\n$\\approx34.1^{\\circ}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.75]\\coordinate (T) at (0,0);\\coordinate (H) at (0,5.2);\\coordinate (C) at (2.8824,0);\\draw (T)--(H) node[midway,left] {$5.2\\text{ m}$};\\draw (T)--(C);\\draw (H)--(C);\\coordinate (va) at ($(T)!0.4cm!(C)$);\\coordinate (vb) at ($(T)!0.4cm!(H)$);\\draw (va)--($(va)+(vb)-(T)$)--(vb);\\pic[draw,\"$61^{\\circ}$\",angle radius=0.9cm,angle eccentricity=1.4] {angle=H--C--T};\\end{tikzpicture}\n[/tikz]\nA triangular sail is right-angled at the tack.\nIts vertical edge is $5.2$ m and the angle at the clew is $61^{\\circ}$.\nFind the total length of edging needed to bind all three edges, correct to $1$ decimal place.",
-        "structure": "build-from-description",
-        "solution_text": "The horizontal edge is adjacent to the $61^{\\circ}$ angle and the sloping edge is the hypotenuse.\n$\\tan61^{\\circ}=\\frac{5.2}{a}$\n$a=\\frac{5.2}{\\tan61^{\\circ}}$\n$=2.8824\\ldots\\text{ m}$\n$\\sin61^{\\circ}=\\frac{5.2}{c}$\n$c=\\frac{5.2}{\\sin61^{\\circ}}$\n$=5.9453\\ldots\\text{ m}$\nEdging $=5.2+2.8824\\ldots+5.9453\\ldots$\n$=14.0278\\ldots$\n$\\approx14.0\\text{ m}$"
+{
+        "question_text": "A symmetrical gable roof spans $6$ m between two walls of equal height. Each sloping side makes an angle of $60^{\\circ}$ with the horizontal.\nFind the slant height of one side of the roof, correct to $1$ decimal place.",
+        "structure": "split-isosceles-find-slant-height",
+        "solution_text": "The vertical from the ridge divides the span into two bases of $3$ m.\n$\\cos60^{\\circ}=\\frac{3}{r}$\n$r=\\frac{3}{\\cos60^{\\circ}}$\n$=6\\text{ m}$\nThe slant height is $6.0\\text{ m}$."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (A) at (0,0);\\coordinate (D) at (3.81361,0);\\coordinate (B) at (6.05431,0);\\coordinate (C) at (3.81361,3.2);\\draw (A)--(B);\\draw (A)--(C);\\draw (C)--(B);\\draw (C)--(D) node[midway,right] {$3.2\\text{ m}$};\\coordinate (va) at ($(D)!0.3cm!(B)$);\\coordinate (vb) at ($(D)!0.3cm!(C)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$40^{\\circ}$\",angle radius=0.95cm,angle eccentricity=1.4] {angle=B--A--C};\\pic[draw,\"$55^{\\circ}$\",angle radius=0.8cm,angle eccentricity=1.45] {angle=C--B--A};\\end{tikzpicture}\n[/tikz]\nA bridge truss has a vertical post $3.2$ m high.\nThe chords meet the deck at $40^{\\circ}$ and $55^{\\circ}$.\nFind the total span of the truss along the deck, correct to $1$ decimal place.",
-        "structure": "combine-lengths",
-        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (A) at (0,0);\\coordinate (D) at (3.81361,0);\\coordinate (B) at (6.05431,0);\\coordinate (C) at (3.81361,3.2);\\draw (A)--(B);\\draw (A)--(C);\\draw (C)--(B);\\draw (C)--(D) node[midway,right] {$3.2\\text{ m}$};\\draw (A)--(D) node[midway,below] {$3.81\\text{ m}$};\\draw (D)--(B) node[midway,below] {$2.24\\text{ m}$};\\coordinate (va) at ($(D)!0.3cm!(B)$);\\coordinate (vb) at ($(D)!0.3cm!(C)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$40^{\\circ}$\",angle radius=0.95cm,angle eccentricity=1.4] {angle=B--A--C};\\pic[draw,\"$55^{\\circ}$\",angle radius=0.8cm,angle eccentricity=1.45] {angle=C--B--A};\\end{tikzpicture}\n[/tikz]\nThe post divides the span into two right-angled triangles.\n$\\tan40^{\\circ}=\\frac{3.2}{p}$\n$p=\\frac{3.2}{\\tan40^{\\circ}}$\n$=3.8136\\ldots\\text{ m}$\n$\\tan55^{\\circ}=\\frac{3.2}{q}$\n$q=\\frac{3.2}{\\tan55^{\\circ}}$\n$=2.2407\\ldots\\text{ m}$\nSpan $=3.8136\\ldots+2.2407\\ldots$\n$=6.0543\\ldots$\n$\\approx6.1\\text{ m}$"
+{
+        "question_text": "A tree snaps and its top touches the ground. The remaining section and the fallen section are perpendicular. The distance along the ground from the base of the tree to its fallen top is $10$ m, and the remaining section is inclined at $30^{\\circ}$ to horizontal ground.\nFind the height of the original tree, correct to $1$ decimal place.",
+        "structure": "snapped-tree-sum-sections",
+        "solution_text": "The two tree sections are the legs of a right-angled triangle with hypotenuse $10$ m.\nRemaining section $=10\\cos30^{\\circ}=8.6602\\ldots\\text{ m}$.\nFallen section $=10\\sin30^{\\circ}=5\\text{ m}$.\nOriginal height $=8.6602\\ldots+5=13.6602\\ldots\\text{ m}$.\nThe original tree was $13.7\\text{ m}$ high."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.35]\\coordinate (A) at (0,0);\\coordinate (D) at (3.52104,0);\\coordinate (B) at (12.97839,0);\\coordinate (C) at (3.52104,6.62211);\\draw (A)--(B);\\draw (A)--(C) node[midway,above left] {$7.5\\text{ m}$};\\draw (C)--(B);\\draw (C)--(D);\\coordinate (va) at ($(D)!0.6cm!(B)$);\\coordinate (vb) at ($(D)!0.6cm!(C)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$62^{\\circ}$\",angle radius=1cm,angle eccentricity=1.4] {angle=B--A--C};\\pic[draw,\"$35^{\\circ}$\",angle radius=1cm,angle eccentricity=1.3] {angle=C--B--A};\\node[below left] at (A) {$A$};\\node[below right] at (B) {$B$};\\node[above] at (C) {$C$};\\end{tikzpicture}\n[/tikz]\nIn this bridge truss the vertical post $CD$ joins the apex to the deck.\nGiven $AC=7.5$ m, find the length of the chord $BC$, correct to $2$ decimal places.",
-        "structure": "two-triangles-find-side",
-        "solution_text": "First find the post $CD$, the side the two triangles share.\n$\\sin62^{\\circ}=\\frac{CD}{7.5}$\n$CD=7.5\\sin62^{\\circ}$\n$=6.6221\\ldots\\text{ m}$\nNow use $CD$ in the right-hand triangle.\n$\\sin35^{\\circ}=\\frac{6.6221\\ldots}{BC}$\n$BC=\\frac{6.6221\\ldots}{\\sin35^{\\circ}}$\n$=11.5453\\ldots$\n$\\approx11.55\\text{ m}$"
+{
+        "question_text": "A triangular truss has a vertical post from its apex to the horizontal deck. The left chord is $8$ m long and makes an angle of $30^{\\circ}$ with the deck. The right chord makes an angle of $45^{\\circ}$ with the deck.\nFind the horizontal distance from the foot of the post to the right-hand end of the deck, correct to $2$ decimal places.",
+        "structure": "two-triangles-find-horizontal-run",
+        "solution_text": "First find the vertical post $h$.\n$\\sin30^{\\circ}=\\frac{h}{8}$\n$h=8\\sin30^{\\circ}=4\\text{ m}$.\nFor the right-hand triangle, $\\tan45^{\\circ}=\\frac{4}{q}$.\n$q=\\frac{4}{\\tan45^{\\circ}}=4\\text{ m}$.\nThe horizontal distance is $4.00\\text{ m}$."
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.35]\\coordinate (A) at (0,0);\\coordinate (D) at (4.28985,0);\\coordinate (B) at (12.48985,0);\\coordinate (C) at (4.28985,3.59961);\\draw (A)--(B);\\draw (A)--(C) node[midway,above left] {$5.6\\text{ m}$};\\draw (C)--(B);\\draw (C)--(D);\\draw (D)--(B) node[midway,below] {$8.2\\text{ m}$};\\coordinate (va) at ($(D)!0.6cm!(B)$);\\coordinate (vb) at ($(D)!0.6cm!(C)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$40^{\\circ}$\",angle radius=0.65cm,angle eccentricity=1.4] {angle=B--A--C};\\pic[draw,\"$\\theta$\",angle radius=0.8cm,angle eccentricity=1.35] {angle=C--B--A};\\end{tikzpicture}\n[/tikz]\nThe gable end of a barn has an off-centre ridge supported by a vertical post.\nThe left rafter is $5.6$ m long and meets the wall at $40^{\\circ}$; the foot of the post is $8.2$ m from the right-hand wall.\nFind $\\theta$, correct to the nearest degree.",
         "structure": "two-triangles-find-angle",
         "solution_text": "First find the post, the side the two triangles share.\n$\\sin40^{\\circ}=\\frac{h}{5.6}$\n$h=5.6\\sin40^{\\circ}$\n$=3.5996\\ldots\\text{ m}$\nNow use $h$ in the right-hand triangle.\n$\\tan\\theta=\\frac{3.5996\\ldots}{8.2}$\n$\\theta=\\tan^{-1}\\left(\\frac{3.5996\\ldots}{8.2}\\right)$\n$=23.7004\\ldots^{\\circ}$\n$\\approx24^{\\circ}$"
       }
-    ],
+],
     "development": [
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.4]\\coordinate (A) at (0,0);\\coordinate (D) at (3.81710,0);\\coordinate (B) at (11.06040,0);\\coordinate (C) at (3.81710,4.88567);\\draw (A)--(B);\\draw (A)--(C) node[midway,above left] {$6.2\\text{ m}$};\\draw (C)--(B);\\draw (C)--(D);\\coordinate (va) at ($(D)!0.55cm!(B)$);\\coordinate (vb) at ($(D)!0.55cm!(C)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$52^{\\circ}$\",angle radius=1.5cm,angle eccentricity=1.4] {angle=B--A--C};\\pic[draw,\"$34^{\\circ}$\",angle radius=2.0cm,angle eccentricity=1.3] {angle=C--B--A};\\end{tikzpicture}\n[/tikz]\nA gable end has rafters of different pitches meeting at a ridge supported by a vertical post.\nThe left rafter is $6.2$ m long and rises at $52^{\\circ}$; the right rafter rises at $34^{\\circ}$.\nFind the length of the right rafter, correct to $2$ decimal places.",
-        "structure": "two-triangles-find-side",
-        "solution_text": "First find the post, the side the two triangles share.\n$\\sin52^{\\circ}=\\frac{h}{6.2}$\n$h=6.2\\sin52^{\\circ}$\n$=4.8856\\ldots\\text{ m}$\nNow use $h$ in the right-hand triangle.\n$\\sin34^{\\circ}=\\frac{4.8856\\ldots}{r}$\n$r=\\frac{4.8856\\ldots}{\\sin34^{\\circ}}$\n$=8.7370\\ldots$\n$\\approx8.74\\text{ m}$"
+{
+        "question_text": "A gable end has a vertical post from the ridge to the horizontal wall top. The left rafter is $12$ m long and rises at $30^{\\circ}$; the right rafter rises at $45^{\\circ}$.\nFind the horizontal distance from the foot of the post to the right-hand wall, correct to $2$ decimal places.",
+        "structure": "two-triangles-find-horizontal-run",
+        "solution_text": "First find the shared post $h$.\n$\\sin30^{\\circ}=\\frac{h}{12}$\n$h=12\\sin30^{\\circ}=6\\text{ m}$.\nNow use the right-hand triangle.\n$\\tan45^{\\circ}=\\frac{6}{q}$\n$q=\\frac{6}{\\tan45^{\\circ}}=6\\text{ m}$.\nThe horizontal distance is $6.00\\text{ m}$."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.09]\\coordinate (A) at (0,0);\\coordinate (D) at (36.24849,0);\\coordinate (B) at (50.06129,0);\\coordinate (C) at (36.24849,28.32043);\\draw (A)--(B);\\draw (A)--(C) node[midway,above left] {$46\\text{ m}$};\\draw (C)--(B);\\draw (C)--(D);\\coordinate (va) at ($(D)!0.3cm!(B)$);\\coordinate (vb) at ($(D)!0.3cm!(C)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$38^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.4] {angle=B--A--C};\\pic[draw,\"$64^{\\circ}$\",angle radius=0.75cm,angle eccentricity=1.35] {angle=C--B--A};\\node[below left] at (A) {$A$};\\node[below right] at (B) {$B$};\\node[above] at (C) {$C$};\\end{tikzpicture}\n[/tikz]\nA surveyor runs a straight traverse line from $A$ to $B$ and sights a boundary corner $C$ off the line.\nFrom $A$ the distance $AC$ is $46$ m at $38^{\\circ}$ to the traverse; from $B$ the line $BC$ makes $64^{\\circ}$ with the traverse.\nFind the distance $BC$, correct to $2$ decimal places.",
-        "structure": "two-triangles-find-side",
-        "solution_text": "The perpendicular from $C$ to the traverse line is shared by the two right-angled triangles.\n$\\sin38^{\\circ}=\\frac{CD}{46}$\n$CD=46\\sin38^{\\circ}$\n$=28.3204\\ldots\\text{ m}$\nNow use $CD$ in the right-hand triangle.\n$\\sin64^{\\circ}=\\frac{28.3204\\ldots}{BC}$\n$BC=\\frac{28.3204\\ldots}{\\sin64^{\\circ}}$\n$=31.5094\\ldots$\n$\\approx31.51\\text{ m}$"
+{
+        "question_text": "A surveyor runs a straight horizontal traverse from $A$ to $B$. A boundary corner $C$ lies off the traverse, and its perpendicular foot $D$ lies between $A$ and $B$. The distance $AC$ is $20$ m, $\\angle CAB=30^{\\circ}$ and $\\angle CBA=60^{\\circ}$.\nFind $DB$, correct to $2$ decimal places.",
+        "structure": "two-triangles-find-horizontal-run",
+        "solution_text": "First find the shared perpendicular $CD$.\n$\\sin30^{\\circ}=\\frac{CD}{20}$\n$CD=20\\sin30^{\\circ}=10\\text{ m}$.\nNow use the right-hand triangle.\n$\\tan60^{\\circ}=\\frac{10}{DB}$\n$DB=\\frac{10}{\\tan60^{\\circ}}=5.7735\\ldots\\text{ m}$.\n$DB\\approx5.77\\text{ m}$."
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.24]\\coordinate (A) at (0,0);\\coordinate (D) at (6.41078,0);\\coordinate (B) at (19.01078,0);\\coordinate (C) at (6.41078,6.87472);\\draw (A)--(B);\\draw (A)--(C) node[midway,above left] {$9.4\\text{ m}$};\\draw (C)--(B);\\draw (C)--(D);\\draw (D)--(B) node[midway,below] {$12.6\\text{ m}$};\\coordinate (va) at ($(D)!1.0cm!(B)$);\\coordinate (vb) at ($(D)!1.0cm!(C)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$47^{\\circ}$\",angle radius=0.65cm,angle eccentricity=1.4] {angle=B--A--C};\\pic[draw,\"$\\theta$\",angle radius=0.8cm,angle eccentricity=1.35] {angle=C--B--A};\\end{tikzpicture}\n[/tikz]\nA bridge truss has a left chord $9.4$ m long meeting the deck at $47^{\\circ}$, and the foot of its vertical post is $12.6$ m from the right-hand end of the deck.\nFind $\\theta$, correct to the nearest minute.",
         "structure": "two-triangles-find-angle",
         "solution_text": "First find the post, the side the two triangles share.\n$\\sin47^{\\circ}=\\frac{h}{9.4}$\n$h=9.4\\sin47^{\\circ}$\n$=6.8747\\ldots\\text{ m}$\nNow use $h$ in the right-hand triangle.\n$\\tan\\theta=\\frac{6.8747\\ldots}{12.6}$\n$\\theta=\\tan^{-1}\\left(\\frac{6.8747\\ldots}{12.6}\\right)$\n$=28.6174\\ldots^{\\circ}$\n$=28^{\\circ}37'2.85''$\n$\\approx28^{\\circ}37'$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.75]\\coordinate (T) at (0,0);\\coordinate (D) at (1.42351,0);\\coordinate (C) at (6.32351,0);\\coordinate (H) at (1.42351,3.52330);\\draw (T)--(C);\\draw (T)--(H) node[midway,above left] {$3.8\\text{ m}$};\\draw (H)--(C);\\draw (H)--(D);\\draw (D)--(C) node[midway,below] {$4.9\\text{ m}$};\\coordinate (va) at ($(D)!0.3cm!(C)$);\\coordinate (vb) at ($(D)!0.3cm!(H)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$68^{\\circ}$\",angle radius=0.75cm,angle eccentricity=1.45] {angle=C--T--H};\\pic[draw,\"$\\theta$\",angle radius=1.0cm,angle eccentricity=1.4] {angle=H--C--T};\\end{tikzpicture}\n[/tikz]\nA triangular sail is stiffened by a vertical batten running from the head down to the foot.\nThe leading edge is $3.8$ m long and meets the foot at $68^{\\circ}$, and the batten meets the foot $4.9$ m from the clew.\nFind $\\theta$, correct to the nearest minute.",
         "structure": "two-triangles-find-angle",
         "solution_text": "First find the batten, the side the two triangles share.\n$\\sin68^{\\circ}=\\frac{h}{3.8}$\n$h=3.8\\sin68^{\\circ}$\n$=3.5233\\ldots\\text{ m}$\nNow use $h$ in the right-hand triangle.\n$\\tan\\theta=\\frac{3.5233\\ldots}{4.9}$\n$\\theta=\\tan^{-1}\\left(\\frac{3.5233\\ldots}{4.9}\\right)$\n$=35.7176\\ldots^{\\circ}$\n$=35^{\\circ}43'3.60''$\n$\\approx35^{\\circ}43'$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.45]\\coordinate (L) at (0,0);\\coordinate (R) at (9.6,0);\\coordinate (A) at (4.8,2.99937);\\draw (L)--(R) node[midway,below] {$9.6\\text{ m}$};\\draw (L)--(A);\\draw (A)--(R);\\pic[draw,\"$32^{\\circ}$\",angle radius=1cm,angle eccentricity=1.35] {angle=R--L--A};\\pic[draw,\"$32^{\\circ}$\",angle radius=1cm,angle eccentricity=1.35] {angle=A--R--L};\\end{tikzpicture}\n[/tikz]\nA gable end is $9.6$ m wide and both rafters rise at $32^{\\circ}$.\nFind the total length of timber in the two rafters and the horizontal tie beam, correct to $1$ decimal place.",
-        "structure": "combine-lengths",
-        "solution_text": "Half of the gable is a right-angled triangle with a base of $4.8$ m, and each rafter is its hypotenuse.\n$\\cos32^{\\circ}=\\frac{4.8}{r}$\n$r=\\frac{4.8}{\\cos32^{\\circ}}$\n$=5.6600\\ldots\\text{ m}$\nTimber $=2\\times5.6600\\ldots+9.6$\n$=20.9201\\ldots$\n$\\approx20.9\\text{ m}$"
+{
+        "question_text": "A triangular truss has a vertical altitude of $6$ m whose foot lies between the ends of its horizontal base. The sloping sides make angles of $30^{\\circ}$ and $60^{\\circ}$ with the base.\nFind the perimeter of the triangle, correct to $2$ decimal places.",
+        "structure": "triangle-perimeter-from-altitude-and-base-angles",
+        "solution_text": "The altitude divides the triangle into two right-angled triangles.\nLeft base $=\\frac{6}{\\tan30^{\\circ}}=10.3923\\ldots\\text{ m}$.\nRight base $=\\frac{6}{\\tan60^{\\circ}}=3.4641\\ldots\\text{ m}$.\nLeft sloping side $=\\frac{6}{\\sin30^{\\circ}}=12\\text{ m}$.\nRight sloping side $=\\frac{6}{\\sin60^{\\circ}}=6.9282\\ldots\\text{ m}$.\nPerimeter $=\\frac{6}{\\tan30^{\\circ}}+\\frac{6}{\\tan60^{\\circ}}+\\frac{6}{\\sin30^{\\circ}}+\\frac{6}{\\sin60^{\\circ}}$.\nPerimeter $=32.7846\\ldots\\text{ m}\\approx32.78\\text{ m}$."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (A) at (0,0);\\coordinate (D) at (2.69238,0);\\coordinate (B) at (6.27097,0);\\coordinate (C) at (2.69238,2.6);\\draw (A)--(B);\\draw (A)--(C);\\draw (C)--(B);\\draw (C)--(D) node[midway,right] {$2.6\\text{ m}$};\\coordinate (va) at ($(D)!0.3cm!(B)$);\\coordinate (vb) at ($(D)!0.3cm!(C)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$44^{\\circ}$\",angle radius=0.9cm,angle eccentricity=1.4] {angle=B--A--C};\\pic[draw,\"$36^{\\circ}$\",angle radius=1.05cm,angle eccentricity=1.4] {angle=C--B--A};\\end{tikzpicture}\n[/tikz]\nThe two chords of this truss meet the deck at $44^{\\circ}$ and $36^{\\circ}$, and the vertical post between them is $2.6$ m. Find how much longer the right chord is than the left chord, correct to $2$ decimal places.",
-        "structure": "combine-lengths",
-        "solution_text": "Each chord is the hypotenuse of a right-angled triangle containing the post.\n$\\sin44^{\\circ}=\\frac{2.6}{u}$\n$u=\\frac{2.6}{\\sin44^{\\circ}}$\n$=3.7428\\ldots\\text{ m}$\n$\\sin36^{\\circ}=\\frac{2.6}{v}$\n$v=\\frac{2.6}{\\sin36^{\\circ}}$\n$=4.4233\\ldots\\text{ m}$\n$v-u=4.4233\\ldots-3.7428\\ldots$\n$=0.6805\\ldots$\n$\\approx0.68\\text{ m}$"
+{
+        "question_text": "A point $D$ is $8$ m horizontally from the foot $C$ of a vertical mast. Points $A$ and $B$ lie on the mast, with $A$ above $B$. The angles of elevation from $D$ to $A$ and $B$ are $60^{\\circ}$ and $45^{\\circ}$ respectively.\nFind $AB$, correct to $2$ decimal places.",
+        "structure": "difference-of-heights-from-common-horizontal-run",
+        "solution_text": "Both right-angled triangles have horizontal base $DC=8\\text{ m}$.\n$AC=8\\tan60^{\\circ}=13.8564\\ldots\\text{ m}$.\n$BC=8\\tan45^{\\circ}=8\\text{ m}$.\n$AB=AC-BC=8\\tan60^{\\circ}-8\\tan45^{\\circ}$.\n$AB=5.8564\\ldots\\text{ m}\\approx5.86\\text{ m}$."
       },
-      {
-        "question_text": "A triangular sail is right-angled at the tack.\nIts horizontal foot measures $3.2$ m and the angle between the foot and the sloping leech is $54^{\\circ}$.\nDraw a diagram, then find the total length of edging needed for all three edges, correct to $1$ decimal place.",
-        "structure": "build-from-description",
-        "solution_text": "The foot is adjacent to the $54^{\\circ}$ angle, the vertical edge is opposite it and the leech is the hypotenuse.\n$\\tan54^{\\circ}=\\frac{b}{3.2}$\n$b=3.2\\tan54^{\\circ}$\n$=4.4044\\ldots\\text{ m}$\n$\\cos54^{\\circ}=\\frac{3.2}{c}$\n$c=\\frac{3.2}{\\cos54^{\\circ}}$\n$=5.4442\\ldots\\text{ m}$\nEdging $=3.2+4.4044\\ldots+5.4442\\ldots$\n$=13.0486\\ldots$\n$\\approx13.0\\text{ m}$"
+{
+        "question_text": "A ladder rests against a vertical wall on level ground. Its foot is $240$ cm from the wall and it makes an angle of $60^{\\circ}$ with the ground.\nDraw a diagram, then calculate the length of the ladder to the nearest cm.",
+        "structure": "ladder-length-from-horizontal-distance-and-angle",
+        "solution_text": "Sketch a right-angled triangle with the wall vertical, the ground horizontal and the ladder as the hypotenuse $L$.\n$\\cos60^{\\circ}=\\frac{240}{L}$\n$L=\\frac{240}{\\cos60^{\\circ}}=480\\text{ cm}$.\nThe ladder is $480\\text{ cm}$ long."
       },
-      {
-        "question_text": "A surveyor stands at a point $A$ on the straight bank of a canal, directly opposite a marker $M$ on the far bank.\nShe walks $68$ m along the bank to $B$, where the line $BM$ makes an angle of $41^{\\circ}$ with the bank.\nShe then walks a further $25$ m along the bank to $C$.\nDraw a diagram, then find the angle that $CM$ makes with the bank, correct to the nearest degree.",
-        "structure": "build-from-description",
-        "solution_text": "Because $M$ is directly opposite $A$, the width $AM$ is perpendicular to the bank, so $\\triangle ABM$ and $\\triangle ACM$ are both right-angled at $A$.\n$\\tan41^{\\circ}=\\frac{AM}{68}$\n$AM=68\\tan41^{\\circ}$\n$=59.1115\\ldots\\text{ m}$\n$AC=68+25$\n$=93\\text{ m}$\n$\\tan\\theta=\\frac{59.1115\\ldots}{93}$\n$\\theta=\\tan^{-1}\\left(\\frac{59.1115\\ldots}{93}\\right)$\n$=32.4403\\ldots^{\\circ}$\n$\\approx32^{\\circ}$"
+{
+        "question_text": "A vertical mast $AB$ is $12$ m high and $M$ is its midpoint. Point $C$ is on level ground $12$ m horizontally from the foot $A$.\nDetermine whether $\\angle ACM$ is exactly half of $\\angle ACB$. Calculate both angles to $1$ decimal place to support your answer.",
+        "structure": "midpoint-observation-angle-comparison",
+        "solution_text": "$AM=6\\text{ m}$ and both triangles are right-angled at $A$.\n$\\tan\\angle ACM=\\frac{6}{12}$, so $\\angle ACM=\\tan^{-1}\\left(\\frac{6}{12}\\right)=26.5650\\ldots^{\\circ}\\approx26.6^{\\circ}$.\n$\\tan\\angle ACB=\\frac{12}{12}$, so $\\angle ACB=45.0^{\\circ}$.\nHalf of $\\angle ACB$ is $22.5^{\\circ}$, so $\\angle ACM$ is not exactly half of $\\angle ACB$."
       }
-    ],
+],
     "mastery": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (P) at (0,0);\\coordinate (Q) at (4.87851,0);\\coordinate (S) at (1.50176,1.92216);\\coordinate (U) at (3.37675,1.92216);\\draw (-0.7,0)--(P);\\draw (Q)--(5.58,0);\\draw[dashed] (P)--(Q);\\draw[very thick] (P)--(S) node[midway,above left] {$x\\text{ m}$};\\draw[very thick] (Q)--(U) node[midway,above right] {$x\\text{ m}$};\\draw[dashed] (S)--(U) node[midway,above] {$15\\text{ m}$};\\pic[draw,\"$52^{\\circ}$\",angle radius=0.75cm,angle eccentricity=1.45] {angle=Q--P--S};\\pic[draw,\"$52^{\\circ}$\",angle radius=0.75cm,angle eccentricity=1.45] {angle=U--Q--P};\\end{tikzpicture}\n[/tikz]\nA drawbridge is made of two identical sections, each $x$ m long, hinged at opposite banks of a river.\nLowered, the two sections exactly span the river.\nRaised to $52^{\\circ}$ with the horizontal, their tips are $15$ m apart.\nFind the width of the river, correct to $1$ decimal place.",
         "structure": "algebraic-symmetric-length",
         "solution_text": "Lowered, the sections span the river, so the river is $2x$ m wide.\nRaised, each section covers a horizontal distance of $x\\cos52^{\\circ}$, and what is left over is the gap.\n$2x-2x\\cos52^{\\circ}=15$\n$2x(1-\\cos52^{\\circ})=15$\n$2x=\\frac{15}{1-\\cos52^{\\circ}}$\n$=39.0280\\ldots$\n$\\approx39.0\\text{ m}$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.6]\\coordinate (L) at (0,0);\\coordinate (R) at (7.4,0);\\coordinate (A) at (2.73043,3.03245);\\draw (L)--(R) node[midway,below] {$7.4\\text{ m}$};\\draw (L)--(A);\\draw (A)--(R);\\pic[draw,\"$48^{\\circ}$\",angle radius=1.2cm,angle eccentricity=1.4] {angle=R--L--A};\\pic[draw,\"$33^{\\circ}$\",angle radius=1.5cm,angle eccentricity=1.35] {angle=A--R--L};\\end{tikzpicture}\n[/tikz]\nThe end wall of a shed is $7.4$ m wide.\nIts left rafter rises at $48^{\\circ}$ and its right rafter at $33^{\\circ}$.\nFind the height of the ridge above the wall top, correct to $2$ decimal places.",
         "structure": "combine-lengths",
         "solution_text": "Dropping the vertical from the ridge makes two right-angled triangles whose bases add to $7.4$ m.\n$\\tan48^{\\circ}=\\frac{h}{p}$, so $p=\\frac{h}{\\tan48^{\\circ}}$\n$\\tan33^{\\circ}=\\frac{h}{q}$, so $q=\\frac{h}{\\tan33^{\\circ}}$\n$\\frac{h}{\\tan48^{\\circ}}+\\frac{h}{\\tan33^{\\circ}}=7.4$\n$h\\left(\\frac{1}{\\tan48^{\\circ}}+\\frac{1}{\\tan33^{\\circ}}\\right)=7.4$\n$h=\\frac{7.4}{2.4402\\ldots}$\n$=3.0324\\ldots$\n$\\approx3.03\\text{ m}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (L) at (0,0);\\coordinate (R) at (2.7,0);\\coordinate (D) at (1.35,0);\\coordinate (A) at (1.35,2.16045);\\coordinate (S) at (0.56238,0.9);\\coordinate (U) at (2.13762,0.9);\\draw (L)--(R) node[midway,below] {$2.7\\text{ m}$};\\draw (L)--(A);\\draw (A)--(R);\\draw[very thick] (S)--(U);\\draw[dashed] (D)--(1.35,0.9) node[midway,right] {$0.9\\text{ m}$};\\pic[draw,\"$58^{\\circ}$\",angle radius=0.65cm,angle eccentricity=1.5] {angle=R--L--A};\\end{tikzpicture}\n[/tikz]\nThe end of an A-frame tent is $2.7$ m wide and its sloping sides make $58^{\\circ}$ with the ground.\nA horizontal spreader bar is fixed across the tent $0.9$ m above the ground.\nFind the length of the spreader bar, correct to $2$ decimal places.",
-        "structure": "cut-at-given-height",
-        "solution_text": "At each end of the bar, the ground, the sloping side and the $0.9$ m height form a small right-angled triangle.\n$\\tan58^{\\circ}=\\frac{0.9}{d}$\n$d=\\frac{0.9}{\\tan58^{\\circ}}$\n$=0.5623\\ldots\\text{ m}$\nThe bar is what is left of the $2.7$ m width after removing $d$ at each end.\nBar $=2.7-2\\times0.5623\\ldots$\n$=1.5752\\ldots$\n$\\approx1.58\\text{ m}$"
+{
+        "question_text": "From the ends of a straight horizontal road $12$ m long, a balloon directly above a point between the ends is observed at angles of elevation of $30^{\\circ}$ and $60^{\\circ}$.\nFind the height of the balloon above the road, correct to $2$ decimal places.",
+        "structure": "shared-height-from-total-base-and-two-angles",
+        "solution_text": "Draw a vertical from the balloon to the road. Let the height be $h$ and the two horizontal distances be $p$ and $q$.\n$\\tan30^{\\circ}=\\frac{h}{p}$, so $p=\\frac{h}{\\tan30^{\\circ}}$.\n$\\tan60^{\\circ}=\\frac{h}{q}$, so $q=\\frac{h}{\\tan60^{\\circ}}$.\nSince $p+q=12$, $h\\left(\\frac{1}{\\tan30^{\\circ}}+\\frac{1}{\\tan60^{\\circ}}\\right)=12$.\n$h=\\frac{12}{\\frac{1}{\\tan30^{\\circ}}+\\frac{1}{\\tan60^{\\circ}}}=5.1961\\ldots\\text{ m}$.\nThe balloon is $5.20\\text{ m}$ above the road."
       }
-    ]
+]
   }
 }

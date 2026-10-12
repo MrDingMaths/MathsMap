@@ -2,19 +2,42 @@
   "skillId": "trapezoidal-rule",
   "atomType": "R",
   "theory": {
-        "intro": "The **trapezoidal rule** estimates the area of a shape with a curved boundary by approximating the region as one or more **trapeziums**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.5,0);\n\\coordinate (C) at (3.5,3.2);\n\\coordinate (D) at (0,2.0);\n\\draw[thick] (A) -- (B) node[midway, below] {$h$};\n\\draw[thick, dashed] (A) -- (D) node[midway, left] {$d_f$};\n\\draw[thick, dashed] (B) -- (C) node[midway, right] {$d_l$};\n\\draw[thick] plot [smooth] coordinates {(D) (1.2,2.8) (2.4,3.3) (C)};\n\\draw (A) rectangle ++(0.3,0.3);\n\\draw (B) rectangle ++(-0.3,0.3);\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "The **trapezoidal rule** estimates the area of a shape with a curved boundary by approximating the region as one or more **trapeziums**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.5,0);\n\\coordinate (C) at (3.5,3.2);\n\\coordinate (D) at (0,2.0);\n\\draw[thick] (A) -- (B) node[midway, below] {$h$};\n\\draw[thick, dashed] (A) -- (D) node[midway, left] {$d_f$};\n\\draw[thick, dashed] (B) -- (C) node[midway, right] {$d_l$};\n\\draw[thick] plot [smooth] coordinates {(D) (1.2,2.8) (2.4,3.3) (C)};\n\\draw (A) rectangle ++(0.3,0.3);\n\\draw (B) rectangle ++(-0.3,0.3);\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "**One application** uses two parallel offsets $d_f$ and $d_l$ separated by strip width $h$: $A \\approx \\dfrac{h}{2}(d_f + d_l)$.",
 "**Two applications** divide the shape into two strips of width $h$ using three offsets ($d_f$, $d_m$, $d_l$): $A \\approx \\dfrac{h}{2}(d_f + d_m) + \\dfrac{h}{2}(d_m + d_l)$.",
 "The rule **underestimates** area when the boundary curves outward, and **overestimates** area when the boundary curves inward.",
 "Using **more applications** with smaller strip widths $h$ usually gives a closer approximation by following the curved boundary more closely, but this is not guaranteed for every boundary; additional measurements alone do not establish which estimate is closer to the true area."
 ],
-        "steps": [
+"steps": [
           "Identify the strip width $h$ and the lengths of the parallel offsets.",
           "Calculate the area of each trapezium using $\\dfrac{h}{2}(a+b)$.",
           "Sum the trapezium areas to estimate the total area."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Estimate this area using one application of the trapezoidal rule. Draw the straight boundary used for the estimate and explain whether the estimate is less than or greater than the actual area.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (0,2.4)--(0,0)--(3,0)--(3,3.6);\n\\draw[thick] (0,2.4) .. controls (0.8,3.3) and (2,3.7) .. (3,3.6);\n\\path (0,1.2) node[left] {$24\\text{ m}$} (3,1.8) node[right] {$36\\text{ m}$} (1.5,0) node[below] {$20\\text{ m}$};\n\\draw (0,0.2)--(0.2,0.2)--(0.2,0);\n\\draw (2.8,0)--(2.8,0.2)--(3,0.2);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{align*} A &\\approx \\frac{h}{2}(d_f+d_l)\\\\ &\\approx \\frac{20}{2}(24+36)\\\\ &\\approx 600\\text{ m}^2 \\end{align*}$\n\nJoin the ends of the two parallel sides to form the approximating trapezium.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{estimate}{HTML}{EF6068}\n\\draw[thick] (0,2.4)--(0,0)--(3,0)--(3,3.6);\n\\draw[thick] (0,2.4) .. controls (0.8,3.3) and (2,3.7) .. (3,3.6);\n\\draw[thick,dashed,estimate] (0,2.4)--(3,3.6);\n\\path (0,1.2) node[left] {$24\\text{ m}$} (3,1.8) node[right] {$36\\text{ m}$} (1.5,0) node[below] {$20\\text{ m}$};\n\\draw (0,0.2)--(0.2,0.2)--(0.2,0);\n\\draw (2.8,0)--(2.8,0.2)--(3,0.2);\n\\end{tikzpicture}\n[/tikz]\n\nThe dashed straight boundary lies below the curve, leaving out area. The estimate is less than the actual area.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The middle offset is halfway along the $27\\text{ m}$ baseline.\n\na. Estimate the area using one application of the trapezoidal rule.\nb. Estimate the area using two applications of the trapezoidal rule.\nGive both estimates to the nearest square metre.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (0,2.08)--(0,0)--(4,0)--(4,2.92);\n\\draw[thick] (2,0)--(2,2.72);\n\\draw[thick] (0,2.08) .. controls (0.7,2.4) and (1.3,2.6) .. (2,2.72) .. controls (2.7,2.84) and (3.3,2.92) .. (4,2.92);\n\\path (0,1.04) node[left] {$20.8\\text{ m}$} (2,1.36) node[left] {$27.2\\text{ m}$} (4,1.46) node[right] {$29.2\\text{ m}$};\n\\draw (0,0.2)--(0.2,0.2)--(0.2,0);\n\\draw (2,0.2)--(2.2,0.2)--(2.2,0);\n\\draw (3.8,0)--(3.8,0.2)--(4,0.2);\n\\draw[thin] (0,-0.35)--(0,-0.65) (4,-0.35)--(4,-0.65);\n\\draw[<->] (0,-0.5)--(4,-0.5);\n\\path (2,-0.5) node[below] {$27\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "a. One application uses the full baseline width.\n\n$\\begin{align*} A &\\approx \\frac{27}{2}(20.8+29.2)\\\\ &\\approx 675\\text{ m}^2 \\end{align*}$\n\nb. Each strip has width $h=27\\div2=13.5\\text{ m}$.\n\n$\\begin{align*} A &\\approx A_1+A_2\\\\ &\\approx \\frac{13.5}{2}(20.8+27.2)+\\frac{13.5}{2}(27.2+29.2)\\\\ &\\approx 324+380.7\\\\ &\\approx 704.7\\text{ m}^2 \\end{align*}$\n\nTo the nearest square metre, the two-application estimate is $705\\text{ m}^2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Estimate the total area using two applications of the trapezoidal rule. For each strip, explain whether its estimate is greater than or less than its actual area.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[thick] (0,3)--(0,0)--(4,0)--(4,2.8);\n\\draw[thick] (2,0)--(2,1.8);\n\\draw[thick] (0,3) .. controls (0.65,2) and (1.35,1.8) .. (2,1.8) .. controls (2.65,2.55) and (3.35,2.8) .. (4,2.8);\n\\path (0,1.5) node[left] {$30\\text{ m}$} (2,0.9) node[left] {$18\\text{ m}$} (4,1.4) node[right] {$28\\text{ m}$} (1,0) node[below] {$14\\text{ m}$} (3,0) node[below] {$14\\text{ m}$};\n\\draw (0,0.2)--(0.2,0.2)--(0.2,0);\n\\draw (2,0.2)--(2.2,0.2)--(2.2,0);\n\\draw (3.8,0)--(3.8,0.2)--(4,0.2);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{align*} A &\\approx A_1+A_2\\\\ &\\approx \\frac{14}{2}(30+18)+\\frac{14}{2}(18+28)\\\\ &\\approx 336+322\\\\ &\\approx 658\\text{ m}^2 \\end{align*}$\n\nThe dashed lines show the straight boundaries used for the two trapeziums.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{estimate}{HTML}{EF6068}\n\\draw[thick] (0,3)--(0,0)--(4,0)--(4,2.8);\n\\draw[thick] (2,0)--(2,1.8);\n\\draw[thick] (0,3) .. controls (0.65,2) and (1.35,1.8) .. (2,1.8) .. controls (2.65,2.55) and (3.35,2.8) .. (4,2.8);\n\\draw[thick,dashed,estimate] (0,3)--(2,1.8)--(4,2.8);\n\\path (1,0) node[below] {Strip 1} (3,0) node[below] {Strip 2};\n\\end{tikzpicture}\n[/tikz]\n\nStrip 1: the straight boundary lies above the curve, adding area, so the estimate is greater than the actual area.\n\nStrip 2: the straight boundary lies below the curve, leaving out area, so the estimate is less than the actual area.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

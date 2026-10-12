@@ -2,20 +2,69 @@
   "skillId": "apply-chord-angle-properties",
   "atomType": "R",
   "theory": {
-        "intro": "Some circle problems need more than one property. A diagram can combine a chord property, an angle property and a cyclic quadrilateral property, sometimes side by side and sometimes with the result of one feeding into the next.",
-        "facts": [
+"intro": "Some circle problems need more than one property. A diagram can combine a chord property, an angle property and a cyclic quadrilateral property, sometimes side by side and sometimes with the result of one feeding into the next.",
+"facts": [
 "Identify every configuration first — equal or perpendicular chords, central or circumference angles, a diameter, a cyclic quadrilateral.",
 "A diameter gives the angle in a semicircle, and, because the centre lies on it, a chord perpendicular to it is bisected.",
 "Equal chords give equal angles at the centre. They also give equal angles at the circumference when the angles stand on matching arcs or corresponding segments; angles standing on opposite choices of major and minor arcs can be supplementary.",
 "Work one property at a time, using each result as an input to the next."
 ],
-        "steps": [
+"steps": [
           "List every chord, angle and quadrilateral configuration shown in the diagram.",
           "Solve using the first property that can be applied directly from the given information.",
           "Feed that result into the next applicable property.",
           "Repeat until every unknown is found, and check the results are consistent (e.g. angles sum correctly)."
-        ]
-      },
+        ],
+"workedExamples": [
+{
+    "question_text": "$AC$ is a diameter of a circle with centre $O$ and radius $6.5$ cm. $B$ lies on the circle and $AB=12$ cm.\n(a) Find $BC$.\n(b) In a separate circle, $AC$ is a diameter and $\\angle BAC=42^{\\circ}$. Find $\\angle BCA$.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (-2,0);\\coordinate (C) at (2,0);\\coordinate (B) at (1.408,1.420);\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\\draw (A)--(B)--(C)--cycle;\\fill (O) circle (0.035);\n\\node[left] at (A) {$A$};\\node[right] at (C) {$C$};\\node[above right] at (B) {$B$};\\node[below] at (O) {$O$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "(a) $\\angle ABC=90^{\\circ}$ because the angle in a semicircle is a right angle.\n$\\begin{aligned}AC&=2\\times6.5=13\\text{ cm}\\\\BC^2&=AC^2-AB^2\\\\&=13^2-12^2\\\\&=25\\\\BC&=5\\text{ cm}\\end{aligned}$\n(b) Again, $\\angle ABC=90^{\\circ}$.\n$\\begin{aligned}\\angle BCA&=180^{\\circ}-90^{\\circ}-42^{\\circ}\\\\&=48^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "$O$ is the centre of the circle and $C$ lies on the major arc $AB$. The smaller central angle $\\angle AOB=104^{\\circ}$. Find $\\angle ACB$.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\\coordinate (A) at (218:2);\\coordinate (B) at (322:2);\\coordinate (C) at (90:2);\n\\draw (O) circle (2);\\draw (A)--(O)--(B);\\draw (A)--(C)--(B);\\fill (O) circle (0.035);\n\\node[below left] at (A) {$A$};\\node[below right] at (B) {$B$};\\node[above] at (C) {$C$};\\node[above] at (O) {$O$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "The central angle and $\\angle ACB$ stand on the same minor arc $AB$.\n$\\begin{aligned}\\angle ACB&=\\frac12\\times\\angle AOB\\\\&=\\frac12\\times104^{\\circ}\\\\&=52^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "$ABCD$ is a cyclic quadrilateral with centre $O$. Side $CD$ is extended beyond $D$ to $E$. $\\angle ADE=72^{\\circ}$ and $\\angle BAD=98^{\\circ}$. Find $\\angle ADC$, $\\angle ABC$, $\\angle BCD$ and the smaller central angle $\\angle AOC$.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\\coordinate (A) at (150:2);\\coordinate (B) at (50:2);\\coordinate (C) at (294:2);\\coordinate (D) at (214:2);\\coordinate (E) at ($(C)!1.3!(D)$);\n\\draw (O) circle (2);\\draw (A)--(B)--(C)--(D)--cycle;\\draw (D)--(E);\\draw (A)--(O)--(C);\\fill (O) circle (0.035);\n\\node[above left] at (A) {$A$};\\node[above right] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[below left] at (D) {$D$};\\node[left] at (E) {$E$};\\node[right] at (O) {$O$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "$C$, $D$ and $E$ lie on a straight line.\n$\\begin{aligned}\\angle ADC&=180^{\\circ}-72^{\\circ}\\\\&=108^{\\circ}\\end{aligned}$\nAn exterior angle of a cyclic quadrilateral equals the opposite interior angle, so $\\angle ABC=72^{\\circ}$.\nOpposite angles of a cyclic quadrilateral are supplementary.\n$\\begin{aligned}\\angle BCD&=180^{\\circ}-98^{\\circ}\\\\&=82^{\\circ}\\end{aligned}$\nThe smaller central angle and $\\angle ABC$ stand on the same arc $ADC$.\n$\\begin{aligned}\\angle AOC&=2\\times\\angle ABC\\\\&=2\\times72^{\\circ}\\\\&=144^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "$A$, $B$, $C$ and $D$ lie on a circle in that order. $\\angle ABD=43^{\\circ}$. Find $\\angle ACD$, giving a reason.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (160:2);\\coordinate (B) at (74:2);\\coordinate (C) at (10:2);\\coordinate (D) at (246:2);\n\\draw (0,0) circle (2);\\draw (A)--(B)--(D);\\draw (A)--(C)--(D);\n\\node[left] at (A) {$A$};\\node[above] at (B) {$B$};\\node[right] at (C) {$C$};\\node[below] at (D) {$D$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "$\\angle ABD$ and $\\angle ACD$ stand on the same arc $AD$, so they are equal.\n$\\angle ACD=43^{\\circ}$."
+  },
+{
+    "question_text": "$O$ is the centre of a circle. Equal chords $AB$ and $CD$ have perpendicular distances $OE$ and $OF$ from the centre. $OE=6.4$ cm. Find $OF$.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\\coordinate (A) at (-1.2,1.6);\\coordinate (B) at (-1.2,-1.6);\\coordinate (C) at (1.2,1.6);\\coordinate (D) at (1.2,-1.6);\\coordinate (E) at (-1.2,0);\\coordinate (F) at (1.2,0);\n\\draw (O) circle (2);\\draw (A)--(B);\\draw (C)--(D);\\draw (E)--(O)--(F);\\fill (O) circle (0.035);\n\\draw (-1.2,0.18)--(-1.02,0.18)--(-1.02,0);\\draw (1.2,0.18)--(1.02,0.18)--(1.02,0);\n\\draw (-1.30,0.8)--(-1.10,0.8);\\draw (1.10,0.8)--(1.30,0.8);\n\\node[above left] at (A) {$A$};\\node[below left] at (B) {$B$};\\node[above right] at (C) {$C$};\\node[below right] at (D) {$D$};\\node[left] at (E) {$E$};\\node[right] at (F) {$F$};\\node[below] at (O) {$O$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Equal chords are equidistant from the centre. Therefore $OF=OE=6.4\\text{ cm}$."
+  },
+{
+    "question_text": "$AC$ is a diameter of a circle with centre $O$ and radius $17$ cm. Chord $BD$ is perpendicular to $AC$ at $M$, and $BD=30$ cm.\n(a) Find $OM$.\n(b) $M$ lies between $A$ and $O$. Find $AM$.\n(c) In another circle of radius $17$ cm, a chord is perpendicular to a diameter at a point $5$ cm from the nearer endpoint of the diameter. Find the chord length.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\\coordinate (A) at (-2,0);\\coordinate (C) at (2,0);\\coordinate (M) at (-0.9412,0);\\coordinate (B) at (-0.9412,1.7647);\\coordinate (D) at (-0.9412,-1.7647);\n\\draw (O) circle (2);\\draw (A)--(C);\\draw (B)--(D);\\fill (O) circle (0.035);\n\\draw (-0.9412,0.18)--(-0.7612,0.18)--(-0.7612,0);\n\\node[left] at (A) {$A$};\\node[right] at (C) {$C$};\\node[above] at (B) {$B$};\\node[below] at (D) {$D$};\\node[below left] at (M) {$M$};\\node[below right] at (O) {$O$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "(a) The perpendicular from the centre bisects the chord, so $BM=30\\div2=15\\text{ cm}$. Construct radius $OB$.\n$\\begin{aligned}OM^2&=OB^2-BM^2\\\\&=17^2-15^2\\\\&=64\\\\OM&=8\\text{ cm}\\end{aligned}$\n(b) $AM=OA-OM=17-8=9\\text{ cm}$.\n(c) The distance from the centre to the chord is $17-5=12\\text{ cm}$. The perpendicular bisects the chord.\n$\\begin{aligned}\\text{Half-chord length}&=\\sqrt{17^2-12^2}\\\\&=\\sqrt{145}\\text{ cm}\\\\\\text{Chord length}&=2\\sqrt{145}\\text{ cm}\\end{aligned}$\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\\coordinate (M) at (-0.9412,0);\\coordinate (B) at (-0.9412,1.7647);\\coordinate (D) at (-0.9412,-1.7647);\n\\draw (O) circle (2);\\draw (-2,0)--(2,0);\\draw (B)--(D);\\draw[dashed] (O)--(B);\\fill (O) circle (0.035);\n\\draw (-0.9412,0.18)--(-0.7612,0.18)--(-0.7612,0);\n\\node[above] at (B) {$B$};\\node[below] at (D) {$D$};\\node[below left] at (M) {$M$};\\node[below right] at (O) {$O$};\\node[right] at (-0.40,0.95) {$17\\text{ cm}$};\\node[left] at (-2.15,0.88) {$15\\text{ cm}$};\n\\end{tikzpicture}[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "$O$ is the centre of the circle. $B$ lies on the minor arc $AC$, and the smaller central angle $\\angle AOC=138^{\\circ}$. Find $\\angle ABC$, giving reasons.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\\coordinate (A) at (201:2);\\coordinate (B) at (270:2);\\coordinate (C) at (339:2);\n\\draw (O) circle (2);\\draw (A)--(O)--(C);\\draw (A)--(B)--(C);\\fill (O) circle (0.035);\n\\node[left] at (A) {$A$};\\node[below] at (B) {$B$};\\node[right] at (C) {$C$};\\node[above] at (O) {$O$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "$\\angle ABC$ stands on the major arc $AC$, so use the reflex central angle.\n$\\begin{aligned}\\text{Reflex }\\angle AOC&=360^{\\circ}-138^{\\circ}\\\\&=222^{\\circ}\\end{aligned}$\nThe angle at the centre is twice the angle at the circumference standing on the same arc.\n$\\begin{aligned}\\angle ABC&=\\frac12\\times222^{\\circ}\\\\&=111^{\\circ}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "$O$ is the centre of a circle. Chord $CD$ meets $OP$ at $P$, with $OP\\perp CD$. Prove that $\\triangle OCP\\equiv\\triangle ODP$, and hence prove $CP=PD$.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\\coordinate (C) at (-1.6,-1.2);\\coordinate (D) at (1.6,-1.2);\\coordinate (P) at (0,-1.2);\n\\draw (O) circle (2);\\draw (C)--(D);\\draw (O)--(P);\\fill (O) circle (0.035);\n\\draw (0,-1.02)--(0.18,-1.02)--(0.18,-1.2);\n\\node[above] at (O) {$O$};\\node[below left] at (C) {$C$};\\node[below right] at (D) {$D$};\\node[below] at (P) {$P$};\n\\end{tikzpicture}[/tikz]",
+    "solution_text": "Construct radii $OC$ and $OD$. In $\\triangle OCP$ and $\\triangle ODP$:\n$\\angle OPC=\\angle OPD=90^{\\circ}$ (given).\n$OC=OD$ (radii of the same circle).\n$OP$ is common.\nTherefore $\\triangle OCP\\equiv\\triangle ODP$ by RHS.\nHence $CP=PD$ because matching sides of congruent triangles are equal.\n[tikz]\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (0,0);\\coordinate (C) at (-1.6,-1.2);\\coordinate (D) at (1.6,-1.2);\\coordinate (P) at (0,-1.2);\n\\draw (O) circle (2);\\draw (C)--(D);\\draw (O)--(P);\\draw[dashed] (C)--(O)--(D);\\fill (O) circle (0.035);\n\\draw (0,-1.02)--(0.18,-1.02)--(0.18,-1.2);\n\\draw (-0.86,-0.52)--(-0.74,-0.68);\\draw (0.74,-0.68)--(0.86,-0.52);\n\\node[above] at (O) {$O$};\\node[below left] at (C) {$C$};\\node[below right] at (D) {$D$};\\node[below] at (P) {$P$};\n\\end{tikzpicture}[/tikz]"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

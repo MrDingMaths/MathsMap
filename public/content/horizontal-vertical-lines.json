@@ -2,8 +2,8 @@
   "skillId": "horizontal-vertical-lines",
   "atomType": "T",
   "theory": {
-        "intro": "A **horizontal** line runs across the page, parallel to the $x$-axis. A **vertical** line runs up the page, parallel to the $y$-axis. Each kind has its own form of equation and its own gradient.",
-        "facts": [
+"intro": "A **horizontal** line runs across the page, parallel to the $x$-axis. A **vertical** line runs up the page, parallel to the $y$-axis. Each kind has its own form of equation and its own gradient.",
+"facts": [
           "A **horizontal** line is parallel to the $x$-axis, and its equation $y = c$ says every point on it has $y$-coordinate $c$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[gray!30,very thin] (-3,-3) grid (3,3);\n\\draw[{Stealth}-{Stealth}] (-3.4,0) -- (3.4,0) node[below] {$x$};\n\\draw[{Stealth}-{Stealth}] (0,-3.4) -- (0,3.4) node[left] {$y$};\n\\draw[thick,{Stealth}-{Stealth}] (-3.2,2) -- (3.2,2);\n\\node[right] at (3.35,2) {$y=c$};\n\\fill (0,2) circle (2pt);\n\\node[anchor=north east] at (-0.08,1.92) {$c$};\n\\end{tikzpicture}\n[/tikz]",
           "A **vertical** line differs only in direction: it is parallel to the $y$-axis, and its equation $x = k$ says every point has $x$-coordinate $k$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[gray!30,very thin] (-3,-3) grid (3,3);\n\\draw[{Stealth}-{Stealth}] (-3.4,0) -- (3.4,0) node[below] {$x$};\n\\draw[{Stealth}-{Stealth}] (0,-3.4) -- (0,3.4) node[left] {$y$};\n\\draw[thick,{Stealth}-{Stealth}] (2,-3.2) -- (2,3.2);\n\\node[above] at (2,3.3) {$x=k$};\n\\fill (2,0) circle (2pt);\n\\node[anchor=north east] at (1.92,-0.08) {$k$};\n\\end{tikzpicture}\n[/tikz]",
           "The $x$-axis is the line $y = 0$, and the $y$-axis is the line $x = 0$.",
@@ -11,8 +11,26 @@
           "The gradient of a vertical line is undefined, because the run is $0$ and you cannot divide by $0$.",
           "For a line through a point and parallel to the $x$-axis, $c$ is that point's $y$-coordinate.",
           "For a line through a point and parallel to the $y$-axis, $k$ is that point's $x$-coordinate."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Write the equation and state the gradient of each line shown: (a) the horizontal line; (b) the vertical line.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[help lines,color={rgb,255:red,204;green,204;blue,204},xstep=6mm,ystep=6mm] (-5,-5) grid (5,5);\n\\draw[<->,black] (-5.4,0)--(5.4,0) node[right] {$x$};\n\\draw[<->,black] (0,-5.4)--(0,5.4) node[above] {$y$};\n\\foreach \\v in {-4,-2,2,4} {\\draw[black] (\\v,-0.1)--(\\v,0.1);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-0.1) {$\\v$};\\draw[black] (-0.1,\\v)--(0.1,\\v);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.1,\\v) {$\\v$};}\n\\draw[black,thick,<->] (-5,-4)--(5,-4);\n\\draw[black,thick,<->] (2,-5)--(2,5);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Every point on the horizontal line has $y$-coordinate $-4$, so its equation is $y=-4$. There is no rise, so its gradient is $0$.\n\n(b) Every point on the vertical line has $x$-coordinate $2$, so its equation is $x=2$. The run is $0$, so its gradient is undefined.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[help lines,color={rgb,255:red,204;green,204;blue,204},xstep=6mm,ystep=6mm] (-5,-5) grid (5,5);\n\\draw[<->,black] (-5.4,0)--(5.4,0) node[right] {$x$};\n\\draw[<->,black] (0,-5.4)--(0,5.4) node[above] {$y$};\n\\draw[black,thick,<->] (-5,-4)--(5,-4);\n\\draw[black,thick,<->] (2,-5)--(2,5);\n\\fill[black] (0,-4) circle (1.5pt);\n\\fill[black] (2,0) circle (1.5pt);\n\\node[above left] at (0,-4) {$(0,-4)$};\n\\node[above right] at (2,0) {$(2,0)$};\n\\node[below] at (-2.5,-4) {$y=-4$};\n\\node[right] at (2,3) {$x=2$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Write the equation of the line through $P(4,-2)$ that is:\n\n(a) parallel to the $x$-axis;\n\n(b) parallel to the $y$-axis.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[help lines,color={rgb,255:red,204;green,204;blue,204},xstep=6mm,ystep=6mm] (-5,-5) grid (5,5);\n\\draw[<->,black] (-5.4,0)--(5.4,0) node[right] {$x$};\n\\draw[<->,black] (0,-5.4)--(0,5.4) node[above] {$y$};\n\\fill[black] (4,-2) circle (1.5pt);\n\\node[above left] at (4,-2) {$P(4,-2)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Parallel to the $x$-axis means horizontal. Every point has the same $y$-coordinate as $P$, so the equation is $y=-2$.\n\n(b) Parallel to the $y$-axis means vertical. Every point has the same $x$-coordinate as $P$, so the equation is $x=4$.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[help lines,color={rgb,255:red,204;green,204;blue,204},xstep=6mm,ystep=6mm] (-5,-5) grid (5,5);\n\\draw[<->,black] (-5.4,0)--(5.4,0) node[right] {$x$};\n\\draw[<->,black] (0,-5.4)--(0,5.4) node[above] {$y$};\n\\draw[black,thick,<->] (-5,-2)--(5,-2);\n\\draw[black,thick,<->] (4,-5)--(4,5);\n\\fill[black] (4,-2) circle (1.5pt);\n\\node[below left] at (4,-2) {$P(4,-2)$};\n\\node[above] at (-2.5,-2) {$y=-2$};\n\\node[left] at (4,3) {$x=4$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Write the equation and state the gradient of:\n\n(a) the $x$-axis;\n\n(b) the $y$-axis.",
+    "solution_text": "(a) Every point on the $x$-axis has $y$-coordinate $0$. Its equation is $y=0$. It is horizontal, so its gradient is $0$.\n\n(b) Every point on the $y$-axis has $x$-coordinate $0$. Its equation is $x=0$. It is vertical, so its gradient is undefined.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black,thick,<->] (-5,0)--(5,0) node[right] {$x$};\n\\draw[black,thick,<->] (0,-4)--(0,4) node[above] {$y$};\n\\node[above] at (3,0) {$y=0$};\n\\node[right] at (0,2.5) {$x=0$};\n\\node[below left] at (0,0) {$(0,0)$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Find the area of the rectangle enclosed by $x=-3$, $x=2$, $y=-2$ and $y=4$. Sketch the four lines first.",
+    "solution_text": "The vertical sides are $x=-3$ and $x=2$. The horizontal sides are $y=-2$ and $y=4$.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=6mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[<->,black] (-4.5,0)--(4,0) node[right] {$x$};\n\\draw[<->,black] (0,-3.5)--(0,5) node[above] {$y$};\n\\draw[black,thick,<->] (-3,-3)--(-3,4.8);\n\\draw[black,thick,<->] (2,-3)--(2,4.8);\n\\draw[black,thick,<->] (-4,-2)--(3.5,-2);\n\\draw[black,thick,<->] (-4,4)--(3.5,4);\n\\node[above] at (-3,4.8) {$x=-3$};\n\\node[above] at (2,4.8) {$x=2$};\n\\node[right] at (3.5,4) {$y=4$};\n\\node[right] at (3.5,-2) {$y=-2$};\n\\draw[black,<->] (-3,-3.2)--(2,-3.2) node[midway,below] {$5$};\n\\draw[black,<->] (-4.2,-2)--(-4.2,4) node[midway,left] {$6$};\n\\end{tikzpicture}\n[/tikz]\n\nWidth: $2-(-3)=5$ units.\n\nHeight: $4-(-2)=6$ units.\n\n$\\begin{align*}A&=5\\times6\\\\&=30\\end{align*}$\n\nThe area is $30$ square units."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

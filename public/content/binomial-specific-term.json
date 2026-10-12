@@ -2,21 +2,47 @@
   "skillId": "binomial-specific-term",
   "atomType": "R",
   "theory": {
-        "intro": "For a non-negative integer $n$, the expansion of $(a+b)^{n}$ has a **general term** $T_{r+1} = \\binom{n}{r}a^{n-r}b^{r}$. Writing down that one term gives any required term, coefficient or constant term. The whole expression never has to be expanded.",
-        "facts": [
+"intro": "For a non-negative integer $n$, the expansion of $(a+b)^{n}$ has a **general term** $T_{r+1} = \\binom{n}{r}a^{n-r}b^{r}$. Writing down that one term gives any required term, coefficient or constant term. The whole expression never has to be expanded.",
+"facts": [
 "The **general term**, the $(r+1)\\text{-th}$ term of $(a+b)^{n}$, is $T_{r+1} = \\binom{n}{r}a^{n-r}b^{r}$, where $n$ is a non-negative integer and $r = 0, 1, 2, \\dots, n$.",
 "Here $T_{r+1}$ denotes ordinal position, counting the first term as position $1$. The booklet calls the same expression the $r\\text{-th}$ term and counts from zero, so its term $0$ is $T_1$ and its term $r$ is $T_{r+1}$.",
 "The **coefficient** of a term is the number multiplying the variables, sign included; the coefficient of $x^{3}$ in $-160x^{3}$ is $-160$.",
 "The **term independent of $x$**, also called the constant term, is the term whose overall power of $x$ is zero.",
 "If $r$ comes out as a non-integer, or outside $0 \\le r \\le n$, then no term with that power exists."
 ],
-        "steps": [
+"steps": [
 "Write down the general term $T_{r+1} = \\binom{n}{r}a^{n-r}b^{r}$",
 "Simplify the powers and separate the numerical coefficients from the variable $x$",
 "Set the power of $x$ equal to the desired power and solve for $r$",
 "Substitute $r$ back into $T_{r+1}$ to evaluate the required term or coefficient"
+],
+"workedExamples": [
+  {
+    "question_text": "Find the term containing $x^{3}$ and its coefficient in the expansion of $(2-3x)^{6}$.",
+    "solution_text": "The general term is\n$\\begin{align*}T_{r+1}&=\\binom{6}{r}2^{6-r}(-3x)^r\\\\&=\\binom{6}{r}2^{6-r}(-3)^r x^r.\\end{align*}$\nFor $x^3$, take $r=3$.\n$\\begin{align*}T_4&=\\binom{6}{3}2^3(-3)^3x^3\\\\&=20\\times8\\times(-27)x^3\\\\&=-4320x^3.\\end{align*}$\nThe term is $-4320x^3$; its coefficient is $-4320$."
+  },
+  {
+    "question_text": "Find the coefficient of $x^{-3}$ in the expansion of $\\left(2x^{2}-\\dfrac{3}{x}\\right)^{6}$.",
+    "solution_text": "The general term is\n$\\begin{align*}T_{r+1}&=\\binom{6}{r}(2x^2)^{6-r}(-3x^{-1})^r\\\\&=\\binom{6}{r}2^{6-r}(-3)^r x^{12-3r}.\\end{align*}$\nFor $x^{-3}$,\n$\\begin{align*}12-3r&=-3\\\\3r&=15\\\\r&=5.\\end{align*}$\nThe coefficient is\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\binom{6}{5}2^{6-5}(-3)^5\\\\&=6\\times2\\times(-243)\\\\&=-2916.\\end{align*}$"
+  },
+  {
+    "question_text": "Find the term independent of $x$ in the expansion of $\\left(x^{2}+\\dfrac{2}{x}\\right)^{6}$.",
+    "solution_text": "The general term is\n$\\begin{align*}T_{r+1}&=\\binom{6}{r}(x^2)^{6-r}(2x^{-1})^r\\\\&=\\binom{6}{r}2^r x^{12-3r}.\\end{align*}$\nThe constant term has power zero:\n$\\begin{align*}12-3r&=0\\\\3r&=12\\\\r&=4.\\end{align*}$\nThe constant term is\n$\\begin{align*}T_5&=\\binom{6}{4}2^4x^0\\\\&=15\\times16\\\\&=240.\\end{align*}$"
+  },
+  {
+    "question_text": "Determine whether $\\left(x^{3}+\\dfrac{2}{x^{2}}\\right)^{8}$ has a non-zero constant term.",
+    "solution_text": "The general term is\n$\\begin{align*}T_{r+1}&=\\binom{8}{r}(x^3)^{8-r}(2x^{-2})^r\\\\&=\\binom{8}{r}2^r x^{24-5r}.\\end{align*}$\nA constant term would require\n$\\begin{align*}24-5r&=0\\\\5r&=24\\\\r&=\\frac{24}{5}.\\end{align*}$\nThe index must be an integer with $0\\le r\\le8$. Since $\\frac{24}{5}$ is not an integer, no constant term exists."
+  },
+  {
+    "question_text": "Find the term containing $x^{6}y^{6}$ and its coefficient in the expansion of $(2x^{2}-3y^{3})^{5}$.",
+    "solution_text": "The general term is\n$\\begin{align*}T_{r+1}&=\\binom{5}{r}(2x^2)^{5-r}(-3y^3)^r\\\\&=\\binom{5}{r}2^{5-r}(-3)^r x^{10-2r}y^{3r}.\\end{align*}$\nFor $x^6y^6$, both $10-2r=6$ and $3r=6$ give $r=2$.\n$\\begin{align*}T_3&=\\binom{5}{2}2^3(-3)^2x^6y^6\\\\&=10\\times8\\times9x^6y^6\\\\&=720x^6y^6.\\end{align*}$\nThe term is $720x^6y^6$; its coefficient is $720$."
+  },
+  {
+    "question_text": "In the expansion of $(3+x)^n$, the coefficients of $x^2$ and $x^3$ are in the ratio $9:4$. Find the positive integer $n$.",
+    "solution_text": "The coefficients of $x^2$ and $x^3$ are $\\binom{n}{2}3^{n-2}$ and $\\binom{n}{3}3^{n-3}$ respectively, with $n\\ge3$.\nTheir ratio gives\n$\\begin{align*}\\frac{\\binom{n}{2}3^{n-2}}{\\binom{n}{3}3^{n-3}}&=\\frac94\\\\3\\frac{n!}{2!(n-2)!}\\frac{3!(n-3)!}{n!}&=\\frac94\\\\\\frac{9}{n-2}&=\\frac94\\\\9(n-2)&=36\\\\n-2&=4\\\\n&=6.\\end{align*}$"
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

@@ -2,8 +2,8 @@
   "skillId": "solve-quadratic-inequalities",
   "atomType": "R",
   "theory": {
-        "intro": "A **quadratic inequality** is solved by finding the critical values where the quadratic equals zero and identifying where the parabola lies above or below the $x$-axis.",
-        "facts": [
+"intro": "A **quadratic inequality** is solved by finding the critical values where the quadratic equals zero and identifying where the parabola lies above or below the $x$-axis.",
+"facts": [
 "Rearrange the inequality so one side is zero: $ax^{2}+bx+c>0$, $\\ge0$, $<0$, or $\\le0$.",
 "The **critical values** are the roots of the quadratic equation $ax^{2}+bx+c=0$.",
 "For a **concave-up** parabola ($a>0$) with two distinct real roots, values are positive ($y>0$) outside the roots and negative ($y<0$) between the roots.",
@@ -12,14 +12,51 @@
 "A quadratic with no real roots has the sign of its leading coefficient everywhere: positive for $a>0$ and negative for $a<0$.",
 "**Strict inequalities** ($>, <$) exclude equality boundaries, while **non-strict inequalities** ($\\ge, \\le$) include finite boundaries where equality holds. In interval notation, use parentheses for excluded boundaries and square brackets for included finite boundaries; infinity is never included."
 ],
-        "steps": [
+"steps": [
 "Rearrange all terms to one side so the inequality compares to $0$.",
 "Factorise to find the critical values (the zeroes).",
 "Determine the concavity (opens upward for $a>0$, downward for $a<0$), then sketch the parabola showing all $x$-intercepts.",
 "Identify the region where the parabola satisfies the inequality.",
 "State the solution as an inequality and in interval notation."
+],
+"workedExamples": [
+  {
+    "question_text": "Solve $(x+2)(x-5)<0$ using a sketch. State the solution as an inequality and in interval notation.",
+    "solution_text": "The intercepts of $y=(x+2)(x-5)$ occur when either factor is zero: $x=-2$ or $x=5$. The positive coefficient of $x^{2}$ gives a concave-up parabola.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=2mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{solutionblue}{HTML}{268CFF}\n\\draw[<->,black] (-3.5,0)--(6.5,0);\n\\draw[->,black] (0,-14)--(0,9);\n\\path (6.5,0) node[right] {$x$} (0,9) node[above] {$y$};\n\\draw[solutionblue,thick,<->,domain=-3:6,samples=65] plot (\\x,{(\\x+2)*(\\x-5)});\n\\fill[black] (-2,0) circle (1.5pt) (5,0) circle (1.5pt);\n\\path (-2,0) node[above left] {$-2$} (5,0) node[above right] {$5$};\n\\end{tikzpicture}\n[/tikz]\nThe graph is below the $x$-axis between the intercepts. The strict inequality excludes both endpoints.\n$-2<x<5$, or $(-2,5)$.\nFor comparison, the same graph is positive outside the intercepts: $x<-2$ or $x>5$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $x^{2}+x-12\\geq0$ using a sketch. State the solution as an inequality and in interval notation.",
+    "solution_text": "Factorise the quadratic:\n$\\begin{aligned}y&=x^{2}+x-12\\\\&=(x+4)(x-3)\\end{aligned}$\nThe intercepts are $x=-4$ and $x=3$. The parabola is concave up.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=2mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{solutionblue}{HTML}{268CFF}\n\\draw[<->,black] (-5.5,0)--(4.5,0);\n\\draw[->,black] (0,-14)--(0,9);\n\\path (4.5,0) node[right] {$x$} (0,9) node[above] {$y$};\n\\draw[solutionblue,thick,<->,domain=-5:4,samples=65] plot (\\x,{(\\x+4)*(\\x-3)});\n\\fill[black] (-4,0) circle (1.5pt) (3,0) circle (1.5pt);\n\\path (-4,0) node[above left] {$-4$} (3,0) node[above right] {$3$};\n\\end{tikzpicture}\n[/tikz]\nThe graph is on or above the $x$-axis outside the intercepts. Include both endpoints because equality is allowed.\n$x\\leq-4$ or $x\\geq3$, or $(-\\infty,-4]\\cup[3,\\infty)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $x^{2}\\leq2x+15$ using a sketch. State the solution as an inequality and in interval notation.",
+    "solution_text": "Move all terms to the left:\n$\\begin{aligned}x^{2}-2x-15&\\leq0\\\\(x-5)(x+3)&\\leq0\\end{aligned}$\nSketch $y=(x-5)(x+3)$. Its intercepts are $x=-3$ and $x=5$, and it is concave up.\n[tikz]\n\\begin{tikzpicture}[x=6.5mm,y=1.7mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{solutionblue}{HTML}{268CFF}\n\\draw[<->,black] (-4.5,0)--(6.5,0);\n\\draw[->,black] (0,-18)--(0,10);\n\\path (6.5,0) node[right] {$x$} (0,10) node[above] {$y$};\n\\draw[solutionblue,thick,<->,domain=-4:6,samples=65] plot (\\x,{(\\x-5)*(\\x+3)});\n\\fill[black] (-3,0) circle (1.5pt) (5,0) circle (1.5pt);\n\\path (-3,0) node[above left] {$-3$} (5,0) node[above right] {$5$};\n\\end{tikzpicture}\n[/tikz]\nThe graph is on or below the $x$-axis between and including the intercepts.\n$-3\\leq x\\leq5$, or $[-3,5]$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $6+x-x^{2}\\leq0$ using a sketch. State the solution as an inequality and in interval notation.",
+    "solution_text": "Write the quadratic in factored form:\n$\\begin{aligned}y&=-x^{2}+x+6\\\\&=-(x-3)(x+2)\\end{aligned}$\nThe intercepts are $x=-2$ and $x=3$. The negative coefficient of $x^{2}$ gives a concave-down parabola.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=4mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{solutionblue}{HTML}{268CFF}\n\\draw[<->,black] (-3.5,0)--(4.5,0);\n\\draw[->,black] (0,-7)--(0,8);\n\\path (4.5,0) node[right] {$x$} (0,8) node[above] {$y$};\n\\draw[solutionblue,thick,<->,domain=-3:4,samples=65] plot (\\x,{-(\\x-3)*(\\x+2)});\n\\fill[black] (-2,0) circle (1.5pt) (3,0) circle (1.5pt);\n\\path (-2,0) node[above left] {$-2$} (3,0) node[above right] {$3$};\n\\end{tikzpicture}\n[/tikz]\nThe graph is on or below the $x$-axis outside the intercepts. Include both endpoints.\n$x\\leq-2$ or $x\\geq3$, or $(-\\infty,-2]\\cup[3,\\infty)$.\nThe same graph is strictly positive between the intercepts: $-2<x<3$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Solve $2x^{2}+3x-2>0$ using a sketch. State the solution as an inequality and in interval notation.",
+    "solution_text": "Factorise:\n$\\begin{aligned}y&=2x^{2}+3x-2\\\\&=(2x-1)(x+2)\\end{aligned}$\nFind the intercepts:\n$\\begin{aligned}2x-1&=0\\\\x&=\\frac12\\end{aligned}$\nThe other intercept is $x=-2$. Since $a=2>0$, the parabola is concave up.\n[tikz]\n\\begin{tikzpicture}[x=13mm,y=3mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{solutionblue}{HTML}{268CFF}\n\\draw[<->,black] (-3,0)--(1.5,0);\n\\draw[->,black] (0,-4.5)--(0,6);\n\\path (1.5,0) node[right] {$x$} (0,6) node[above] {$y$};\n\\draw[solutionblue,thick,<->,domain=-2.7:1.2,samples=65] plot (\\x,{(2*\\x-1)*(\\x+2)});\n\\fill[black] (-2,0) circle (1.5pt) (0.5,0) circle (1.5pt);\n\\path (-2,0) node[above left] {$-2$} (0.5,0) node[above right] {$\\frac12$};\n\\end{tikzpicture}\n[/tikz]\nThe graph is above the $x$-axis outside the intercepts. Exclude both endpoints.\n$x<-2$ or $x>\\frac12$, or $(-\\infty,-2)\\cup(\\frac12,\\infty)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
       {

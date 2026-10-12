@@ -2,20 +2,68 @@
   "skillId": "combinations-nCr",
   "atomType": "R",
   "theory": {
-    "intro": "A **combination** is an unordered selection of $r$ distinct objects chosen from a set of $n$ distinct objects without replacement. Because the order of selection does not matter, the number of combinations is given by $^{n}C_{r} = \\dbinom{n}{r} = \\dfrac{n!}{r!(n-r)!} = \\dfrac{^{n}P_{r}}{r!}$.",
-    "facts": [
+"intro": "A **combination** is an unordered selection of $r$ distinct objects chosen from a set of $n$ distinct objects without replacement. Because the order of selection does not matter, the number of combinations is given by $^{n}C_{r} = \\dbinom{n}{r} = \\dfrac{n!}{r!(n-r)!} = \\dfrac{^{n}P_{r}}{r!}$.",
+"facts": [
       "$^{n}C_{r} = \\dbinom{n}{r} = \\dfrac{n!}{r!(n-r)!}$ counts the number of ways to choose $r$ objects from $n$ distinct objects when order is irrelevant.",
       "The relationship between permutations and combinations is $^{n}P_{r} = r! \\times {^{n}C_{r}}$, reflecting that each group of $r$ objects can be arranged in $r!$ distinct orders.",
       "Boundary cases: $^{n}C_{0} = 1$ (one way to choose nothing), $^{n}C_{n} = 1$ (one way to choose all objects), and $^{n}C_{1} = n$.",
       "When choosing subsets from independent categories (such as selecting $r_1$ items from group 1 and $r_2$ items from group 2), multiply the combinations: $^{n_1}C_{r_1} \\times {^{n_2}C_{r_2}}$.",
       "Geometric counting: If no three of $n$ points in a plane are collinear, the number of lines connecting pairs is $^{n}C_{2}$ and the number of triangles formed by triples of vertices is $^{n}C_{3}$."
     ],
-    "steps": [
+"steps": [
       "Identify whether the problem involves unordered selection where arrangement does not matter",
       "Identify the total number of distinct objects $n$ and the number to be chosen $r$",
       "Apply the combination formula $^{n}C_{r} = \\dfrac{n!}{r!(n-r)!}$ and simplify"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Evaluate $^{9}C_{2}$ using factorials.",
+    "solution_text": "$\\begin{align*}{}^{9}C_{2}&=\\frac{9!}{2!7!}\\\\&=\\frac{9\\times8}{2\\times1}\\\\&=36\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A badminton squad has $11$ players. In how many ways can $3$ players be selected for a team if positions do not matter?",
+    "solution_text": "Order does not matter, so choose $3$ players from $11$.\n$\\begin{align*}{}^{11}C_{3}&=\\frac{11!}{3!8!}\\\\&=\\frac{11\\times10\\times9}{3\\times2\\times1}\\\\&=165\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A committee needs $2$ Physics teachers, $3$ Maths teachers and $1$ English teacher. There are $6$ Physics teachers, $7$ Maths teachers and $4$ English teachers available. How many committees can be formed?",
+    "solution_text": "Choose the required teachers from each subject, then multiply the selection counts.\n$\\begin{align*}&\\mathrel{\\phantom{=}}{}^{6}C_{2}\\times{}^{7}C_{3}\\times{}^{4}C_{1}\\\\&=15\\times35\\times4\\\\&=2100\\end{align*}$"
+  },
+  {
+    "question_text": "$6$ distinct points are marked on a circle.\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) circle (1.6);\n\\foreach \\angle/\\label in {90/A,30/B,-30/C,-90/D,-150/E,150/F}{\n\\fill (\\angle:1.6) circle (1.5pt);\n\\path (\\angle:1.95) node {$\\label$};\n}\n\\end{tikzpicture}\n[/tikz]\n(a) How many straight lines can be drawn through pairs of points?\n(b) How many triangles can be formed using these points as vertices?",
+    "solution_text": "(a) Each pair determines one line.\n$\\begin{align*}{}^{6}C_{2}&=\\frac{6\\times5}{2\\times1}\\\\&=15\\end{align*}$\n(b) No three points on a circle are collinear, so each triple determines one triangle.\n$\\begin{align*}{}^{6}C_{3}&=\\frac{6\\times5\\times4}{3\\times2\\times1}\\\\&=20\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A coin is tossed $7$ times. How many sequences contain exactly $3$ heads?",
+    "solution_text": "Choose $3$ of the $7$ positions for heads. The remaining positions must be tails.\n$\\begin{align*}{}^{7}C_{3}&=\\frac{7!}{3!4!}\\\\&=\\frac{7\\times6\\times5}{3\\times2\\times1}\\\\&=35\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A team of $4$ players is selected from a squad of $10$. How many teams can be chosen if the captain must be included?",
+    "solution_text": "Include the captain, then choose $3$ players from the $9$ remaining.\n$\\begin{align*}{}^{9}C_{3}&=\\frac{9!}{3!6!}\\\\&=\\frac{9\\times8\\times7}{3\\times2\\times1}\\\\&=84\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A committee of $4$ people is selected from $12$ members. How many committees can be formed if one particular member must be excluded?",
+    "solution_text": "Exclude that member, then choose $4$ people from the $11$ remaining.\n$\\begin{align*}{}^{11}C_{4}&=\\frac{11!}{4!7!}\\\\&=\\frac{11\\times10\\times9\\times8}{4\\times3\\times2\\times1}\\\\&=330\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

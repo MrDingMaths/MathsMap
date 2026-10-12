@@ -2,8 +2,8 @@
   "skillId": "poly-degree-sum",
   "atomType": "R",
   "theory": {
-        "intro": "The **degree** of a polynomial is the highest power of $x$ with a non-zero coefficient. Multiplying polynomials adds their degrees. Adding or subtracting them cannot raise the degree, and can lower it if the leading terms cancel.",
-        "facts": [
+"intro": "The **degree** of a polynomial is the highest power of $x$ with a non-zero coefficient. Multiplying polynomials adds their degrees. Adding or subtracting them cannot raise the degree, and can lower it if the leading terms cancel.",
+"facts": [
 "For non-zero polynomials $P(x)$ and $Q(x)$, $\\deg(P(x) \\times Q(x)) = \\deg(P(x)) + \\deg(Q(x))$.",
 "For a non-zero polynomial $P(x)$ and a positive integer $k$, $\\deg\\left((P(x))^{k}\\right) = k \\times \\deg(P(x))$.",
 "For non-zero polynomials $P(x)$ and $Q(x)$, if their sum or difference is non-zero, $\\deg(P(x) \\pm Q(x)) \\le \\max(\\deg(P(x)), \\deg(Q(x)))$.",
@@ -11,13 +11,57 @@
 "If the two degrees are equal, the leading terms may cancel. If they do not cancel, the degree stays the same. If they cancel and the result is non-zero, its degree is lower; if all terms cancel, the result is the zero polynomial and has no degree.",
 "The zero polynomial $P(x) = 0$ has no degree."
 ],
-        "steps": [
+"steps": [
 "Identify the degree of each polynomial.",
 "For a product, add the degrees: $\\deg(P \\times Q) = \\deg(P) + \\deg(Q)$.",
 "For a sum or difference, check whether the highest-degree terms cancel.",
 "State the degree of the resulting polynomial, or state that it has no degree if it is the zero polynomial."
+],
+"workedExamples": [
+  {
+    "question_text": "Let $P(x)=(3x^{2}-2)(x^{4}+5)$ and $Q(x)=2x^{3}-x+6$. Find the degree of $P(x)Q(x)$ without expanding.",
+    "solution_text": "Multiply the leading terms of the factors.\n$\\begin{align*} \\text{Leading term of }P(x)&=3x^{2}\\times x^{4}=3x^{6}\\\\ \\text{Leading term of }P(x)Q(x)&=3x^{6}\\times2x^{3}=6x^{9}\\end{align*}$\nThe degree is $6+3=9$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "If $P(x)$ has degree $2$ and $Q(x)$ has degree $5$, find the degree of $(P(x))^{4}(Q(x))^{2}$.",
+    "solution_text": "A power repeats the same polynomial factor, so its degree is multiplied by the exponent.\n$\\begin{align*}\\deg((P(x))^{4})&=4\\times2=8\\\\\\deg((Q(x))^{2})&=2\\times5=10\\\\\\deg((P(x))^{4}(Q(x))^{2})&=8+10=18\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $P(x)=(x^{2}+2)^{3}$ and $Q(x)=(x^{3}-4)^{3}$. Find the degree of (a) $P(x)+Q(x)$ and (b) $P(x)-Q(x)$.",
+    "solution_text": "$\\begin{align*}\\deg(P(x))&=2\\times3=6\\\\\\deg(Q(x))&=3\\times3=9\\end{align*}$\nOnly $Q(x)$ has a term of degree $9$, so that term cannot cancel in either result.\n(a) The degree of $P(x)+Q(x)$ is $9$.\n(b) The degree of $P(x)-Q(x)$ is $9$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $P(x)=5x^{4}-3x^{3}+2$ and $Q(x)=5x^{4}-3x^{3}+4x^{2}-7$. Find the degree of (a) $P(x)+Q(x)$ and (b) $P(x)-Q(x)$.",
+    "solution_text": "(a)\n$\\begin{align*}P(x)+Q(x)&=(5x^{4}-3x^{3}+2)+(5x^{4}-3x^{3}+4x^{2}-7)\\\\&=10x^{4}-6x^{3}+4x^{2}-5\\end{align*}$\nThe leading terms do not cancel, so the degree is $4$.\n(b)\n$\\begin{align*}P(x)-Q(x)&=(5x^{4}-3x^{3}+2)-(5x^{4}-3x^{3}+4x^{2}-7)\\\\&=5x^{4}-3x^{3}+2-5x^{4}+3x^{3}-4x^{2}+7\\\\&=-4x^{2}+9\\end{align*}$\nThe quartic and cubic terms cancel, so the degree is $2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "For what value of $k$ does $(kx^{3}+6x^{2}-2)-(4x^{3}+3x-5)$ have degree $2$?",
+    "solution_text": "$\\begin{align*}&\\mathrel{\\phantom{=}}(kx^{3}+6x^{2}-2)-(4x^{3}+3x-5)\\\\&=(k-4)x^{3}+6x^{2}-3x+3\\end{align*}$\nThe cubic coefficient must be zero.\n$\\begin{align*}k-4&=0\\\\k&=4\\end{align*}$\nThe remaining quadratic coefficient is $6\\ne0$, so the degree is $2$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Let $P(x)=(2x^{2}+3)^{2}$ and $Q(x)=4x^{4}+12x^{2}-7x+5$. Find the degree of $P(x)-Q(x)$.",
+    "solution_text": "Expand the square, then subtract using brackets.\n$\\begin{align*}P(x)&=(2x^{2}+3)(2x^{2}+3)\\\\&=4x^{4}+6x^{2}+6x^{2}+9\\\\&=4x^{4}+12x^{2}+9\\end{align*}$\n$\\begin{align*}P(x)-Q(x)&=(4x^{4}+12x^{2}+9)-(4x^{4}+12x^{2}-7x+5)\\\\&=7x+4\\end{align*}$\nThe quartic and quadratic terms cancel. The degree is $1$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

@@ -2,8 +2,8 @@
   "skillId": "model-periodic-phenomena",
   "atomType": "R",
   "theory": {
-    "intro": "A periodic model such as $y=k\\cos(at)+c$ lets you predict a value at a given time, or find every time a stated level is reached. Because the model repeats forever, a \"when\" question is only answered inside a stated interval of time.",
-    "facts": [
+"intro": "A periodic model such as $y=k\\cos(at)+c$ lets you predict a value at a given time, or find every time a stated level is reached. Because the model repeats forever, a \"when\" question is only answered inside a stated interval of time.",
+"facts": [
 "Substitute the time into the model to predict the value at that time.",
 "The maximum value is $c+|k|$ and the minimum value is $c-|k|$.",
 "For $a\\ne0$ and a non-zero amplitude, the period $\\dfrac{2\\pi}{|a|}$ is the time from one maximum to the next.",
@@ -13,12 +13,34 @@
 "To find the time spent above a level, find all times the model equals that level, then check which intervals satisfy the condition. Include intervals adjoining the domain endpoints and add the lengths of every qualifying interval; the model may stay above or below the level throughout the domain.",
 "Predictions beyond the measurement span depend on whether the model's assumptions, such as its period, amplitude and mean position, continue to hold."
 ],
-    "steps": [
+"steps": [
       "Substitute the given value into the model and make the trigonometric term the subject.",
       "Solve for the angle, listing every angle the domain allows.",
       "Convert each angle back to a time and keep the times inside the stated domain."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "The depth of water at a harbour is modelled by $h(t)=6+2\\cos\\left(\\frac{\\pi t}{5}\\right)$, where $h$ is in metres and $t$ is the number of hours after midnight.\n(a) Find the amplitude, mean position, period, maximum depth and minimum depth.\n(b) Find the depth at 2:30 am.\n(c) Find the time of the first low tide after midnight.",
+    "solution_text": "(a) Amplitude: $2$ m. Mean position: $6$ m.\n$\\begin{aligned}P&=\\frac{2\\pi}{\\pi/5}\\\\&=10\\text{ hours}\\end{aligned}$\nSuccessive high tides are 10 hours apart.\n$\\begin{aligned}h_{\\max}&=6+2\\\\&=8\\text{ m}\\end{aligned}$\n$\\begin{aligned}h_{\\min}&=6-2\\\\&=4\\text{ m}\\end{aligned}$\n(b) At 2:30 am, $t=2.5$.\n$\\begin{aligned}h(2.5)&=6+2\\cos\\left(\\frac{\\pi(2.5)}{5}\\right)\\\\&=6+2\\cos\\left(\\frac{\\pi}{2}\\right)\\\\&=6\\text{ m}\\end{aligned}$\n(c) Low tide occurs when the cosine is $-1$. The first such angle after midnight is $\\pi$.\n$\\begin{aligned}\\frac{\\pi t}{5}&=\\pi\\\\t&=5\\end{aligned}$\nThe first low tide occurs at 5 am."
   },
+  {
+    "question_text": "The number of hours of daylight is modelled by $L(t)=12+3\\cos\\left(\\frac{2\\pi t}{360}\\right)$, where $t$ is the number of days after the longest day. Find every value of $t$ in $0\\le t\\le360$ for which there are $10.5$ hours of daylight.",
+    "solution_text": "$\\begin{aligned}12+3\\cos\\left(\\frac{2\\pi t}{360}\\right)&=10.5\\\\3\\cos\\left(\\frac{2\\pi t}{360}\\right)&=-1.5\\\\\\cos\\left(\\frac{2\\pi t}{360}\\right)&=-\\frac12\\end{aligned}$\nFor $0\\le t\\le360$, the angle lies between $0$ and $2\\pi$. Both angles in this interval must be included.\n$\\begin{aligned}\\frac{2\\pi t}{360}&=\\frac{2\\pi}{3}\\quad\\text{or}\\quad\\frac{4\\pi}{3}\\\\t&=120\\quad\\text{or}\\quad240\\end{aligned}$\nThere are 10.5 hours of daylight 120 days and 240 days after the longest day."
+  },
+  {
+    "question_text": "The depth of water in a river is modelled by $d(t)=9+4\\sin\\left(\\frac{\\pi t}{8}\\right)$, where $d$ is in metres and $t$ is the number of hours after 6 am. Find every time in $0\\le t\\le16$ when the depth is $7$ m.",
+    "solution_text": "$\\begin{aligned}9+4\\sin\\left(\\frac{\\pi t}{8}\\right)&=7\\\\4\\sin\\left(\\frac{\\pi t}{8}\\right)&=-2\\\\\\sin\\left(\\frac{\\pi t}{8}\\right)&=-\\frac12\\end{aligned}$\nThe angle lies between $0$ and $2\\pi$. Sine is $-\\frac12$ at $\\frac{7\\pi}{6}$ and $\\frac{11\\pi}{6}$.\n$\\begin{aligned}\\frac{\\pi t}{8}&=\\frac{7\\pi}{6}\\quad\\text{or}\\quad\\frac{11\\pi}{6}\\\\t&=\\frac{28}{3}\\quad\\text{or}\\quad\\frac{44}{3}\\end{aligned}$\nThese are 9 hours 20 minutes and 14 hours 40 minutes after 6 am. The depth is 7 m at 3:20 pm and 8:40 pm."
+  },
+  {
+    "question_text": "The depth in a shipping channel is modelled by $h(t)=8+2\\cos\\left(\\frac{\\pi t}{4}\\right)$, where $h$ is in metres and $t$ is in hours after midnight. For how many of the first eight hours is the depth at least $9$ m?",
+    "solution_text": "Find the times when the depth is exactly 9 m.\n$\\begin{aligned}8+2\\cos\\left(\\frac{\\pi t}{4}\\right)&=9\\\\2\\cos\\left(\\frac{\\pi t}{4}\\right)&=1\\\\\\cos\\left(\\frac{\\pi t}{4}\\right)&=\\frac12\\end{aligned}$\nFor $0\\le t\\le8$, the angle lies between $0$ and $2\\pi$.\n$\\begin{aligned}\\frac{\\pi t}{4}&=\\frac{\\pi}{3}\\quad\\text{or}\\quad\\frac{5\\pi}{3}\\\\t&=\\frac43\\quad\\text{or}\\quad\\frac{20}{3}\\end{aligned}$\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{modelblue}{HTML}{268CFF}\n\\draw[->,black] (0,0) -- (8.7,0) node[right] {$t$};\n\\draw[->,black] (0,0) -- (0,4.8) node[above] {$h$ (m)};\n\\draw[black] (-0.12,0.3) -- (0.12,0.5);\n\\draw[black] (-0.12,0.5) -- (0.12,0.7);\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\foreach \\v/\\p in {6/1,8/2.5,9/3.25,10/4}{\\draw[black] (-0.1,\\p) -- (0.1,\\p);\\path (0,\\p) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\draw[black,dashed] (0,3.25) -- (8,3.25);\n\\draw[modelblue,thick,domain=0:8,samples=121,variable=\\x] plot ({\\x},{2.5+1.5*cos(45*(\\x))});\n\\foreach \\t in {1.333333,6.666667}{\\draw[black,dashed] (\\t,0) -- (\\t,3.25);\\fill[black] (\\t,3.25) circle (1.2pt);}\n\\path (1.333333,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\frac43$};\n\\path (6.666667,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\frac{20}{3}$};\n\\draw[black] (8,-0.1) -- (8,0.1);\n\\path (8,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$8$};\n\\end{tikzpicture}\n[/tikz]\nThe curve is on or above the level for $0\\le t\\le\\frac43$ and $\\frac{20}{3}\\le t\\le8$.\n$\\begin{aligned}\\text{Total time}&=\\frac43+\\left(8-\\frac{20}{3}\\right)\\\\&=\\frac83\\text{ hours}\\end{aligned}$\nThe depth is at least 9 m for 2 hours 40 minutes."
+  },
+  {
+    "question_text": "The temperature in a room is modelled by $T(t)=19+8\\sin\\left(\\frac{\\pi t}{10}\\right)$, where $T$ is in degrees Celsius and $t$ is in hours after midnight. For how many hours in $0\\le t\\le20$ is the temperature above $23^{\\circ}\\mathrm{C}$?",
+    "solution_text": "Find the boundary times.\n$\\begin{aligned}19+8\\sin\\left(\\frac{\\pi t}{10}\\right)&=23\\\\8\\sin\\left(\\frac{\\pi t}{10}\\right)&=4\\\\\\sin\\left(\\frac{\\pi t}{10}\\right)&=\\frac12\\end{aligned}$\nFor $0\\le t\\le20$, the angle lies between $0$ and $2\\pi$.\n$\\begin{aligned}\\frac{\\pi t}{10}&=\\frac{\\pi}{6}\\quad\\text{or}\\quad\\frac{5\\pi}{6}\\\\t&=\\frac53\\quad\\text{or}\\quad\\frac{25}{3}\\end{aligned}$\nSine exceeds $\\frac12$ between these angles, so the temperature exceeds $23^{\\circ}\\mathrm{C}$ for $\\frac53<t<\\frac{25}{3}$.\n$\\begin{aligned}\\text{Duration}&=\\frac{25}{3}-\\frac53\\\\&=\\frac{20}{3}\\text{ hours}\\end{aligned}$\nThe temperature is above 23 degrees Celsius for 6 hours 40 minutes."
+  }
+]
+},
   "practice": {
     "foundation": [
 {

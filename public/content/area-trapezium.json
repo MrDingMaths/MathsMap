@@ -2,8 +2,8 @@
   "skillId": "area-trapezium",
   "atomType": "R",
   "theory": {
-        "intro": "Two identical trapeziums fit together to make a parallelogram with base $a+b$ and height $h$. One trapezium is half of that parallelogram, so its area is half of $h(a+b)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (H) at (1,0);\n\\coordinate (D) at (1,2);\n\\coordinate (E) at (4,0);\n\\draw (0,0) -- (4,0) node[midway,below] {$b$};\n\\draw (4,0) -- (6,0) node[midway,below] {$a$};\n\\draw (6,0) -- (7,2);\n\\draw (7,2) -- (3,2) node[midway,above] {$b$};\n\\draw (3,2) -- (1,2) node[midway,above] {$a$};\n\\draw (1,2) -- (0,0);\n\\draw[dashed] (4,0) -- (3,2);\n\\draw[dashed] (D) -- (H) node[midway,right] {$h$};\n\\coordinate (ra) at ($(H)!0.25cm!(D)$);\n\\coordinate (rb) at ($(H)!0.25cm!(E)$);\n\\draw (ra) -- ($(ra)+(rb)-(H)$) -- (rb);\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "Two identical trapeziums fit together to make a parallelogram with base $a+b$ and height $h$. One trapezium is half of that parallelogram, so its area is half of $h(a+b)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (H) at (1,0);\n\\coordinate (D) at (1,2);\n\\coordinate (E) at (4,0);\n\\draw (0,0) -- (4,0) node[midway,below] {$b$};\n\\draw (4,0) -- (6,0) node[midway,below] {$a$};\n\\draw (6,0) -- (7,2);\n\\draw (7,2) -- (3,2) node[midway,above] {$b$};\n\\draw (3,2) -- (1,2) node[midway,above] {$a$};\n\\draw (1,2) -- (0,0);\n\\draw[dashed] (4,0) -- (3,2);\n\\draw[dashed] (D) -- (H) node[midway,right] {$h$};\n\\coordinate (ra) at ($(H)!0.25cm!(D)$);\n\\coordinate (rb) at ($(H)!0.25cm!(E)$);\n\\draw (ra) -- ($(ra)+(rb)-(H)$) -- (rb);\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
 "**Area $=\\dfrac{h(a+b)}{2}$**, where $a$ and $b$ are the two **parallel** sides and $h$ is the perpendicular height.",
 "A trapezium is a quadrilateral with one pair of parallel sides, shown by the arrow marks in a figure.",
 "The height $h$ is the **perpendicular** distance between the parallel sides; a side that is not perpendicular to the parallel sides is not the height.",
@@ -11,12 +11,42 @@
 "The parallel sides may be drawn top and bottom, left and right, or on a slant; the formula is unchanged.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (0,3.2);\n\\coordinate (R) at (3,2.6);\n\\coordinate (S) at (3,0.8);\n\\coordinate (F) at (0,1.4);\n\\coordinate (G) at (3,1.4);\n\\draw (P) -- (Q) node[pos=0.35,left] {$b$};\n\\draw (Q) -- (R);\n\\draw (R) -- (S) node[midway,right] {$a$};\n\\draw (S) -- (P);\n\\draw[->] (0,2.4) -- (0,2.9);\n\\draw[->] (3,1.9) -- (3,2.3);\n\\draw[dashed] (F) -- (G) node[midway,above] {$h$};\n\\coordinate (ra) at ($(F)!0.25cm!(G)$);\n\\coordinate (rb) at ($(F)!0.25cm!(Q)$);\n\\draw (ra) -- ($(ra)+(rb)-(F)$) -- (rb);\n\\end{tikzpicture}\n[/tikz]",
 "All three lengths must be in the same unit, and the area is written in square units: mm$^{2}$, cm$^{2}$, m$^{2}$."
 ],
-        "steps": [
+"steps": [
           "Identify the two parallel sides $a$ and $b$ and the perpendicular height $h$.",
           "Substitute the three lengths into $A=\\dfrac{h(a+b)}{2}$.",
           "Add the parallel sides, multiply by $h$, halve, and write the answer with squared units."
-        ]
-      },
+        ],
+"workedExamples": [
+{
+    "question_text": "Find the area of this trapezium.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(4.5,0)--(3.5,2)--(1,2)--cycle;\n\\path (2.25,0) node[below] {$11\\text{ cm}$};\n\\path (2.25,2) node[above] {$6\\text{ cm}$};\n\\draw[->] (0.6,0)--(1.1,0);\n\\draw[->] (1.3,2)--(1.8,2);\n\\draw[dashed] (2.5,0)--(2.5,2);\n\\path (2.5,1) node[right,fill=white,inner sep=2pt] {$4.5\\text{ cm}$};\n\\draw (2.25,0)--(2.25,0.25)--(2.5,0.25);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The parallel sides are $6\\text{ cm}$ and $11\\text{ cm}$. The perpendicular height is $4.5\\text{ cm}$.\n\n$\\begin{aligned}A&=\\frac{h(a+b)}{2}\\\\&=\\frac{4.5(6+11)}{2}\\\\&=\\frac{4.5\\times17}{2}\\\\&=38.25\\text{ cm}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "Find the area of this trapezium.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(0,3.5)--(2.625,3.5)--(2.625,1.75)--cycle;\n\\path (0,1.75) node[left] {$8\\text{ cm}$};\n\\path (2.625,2.625) node[right,xshift=6mm] {$4\\text{ cm}$};\n\\path (1.3125,3.5) node[above] {$6\\text{ cm}$};\n\\draw[->] (0,2.3)--(0,2.8);\n\\draw[->] (2.625,2.1)--(2.625,2.6);\n\\draw (0,3.25)--(0.25,3.25)--(0.25,3.5);\n\\draw (2.375,3.5)--(2.375,3.25)--(2.625,3.25);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The arrow marks identify the vertical parallel sides: $a=8\\text{ cm}$ and $b=4\\text{ cm}$. The top side meets both at right angles, so $h=6\\text{ cm}$. The sloping side is not the height.\n\n$\\begin{aligned}A&=\\frac{h(a+b)}{2}\\\\&=\\frac{6(8+4)}{2}\\\\&=\\frac{6\\times12}{2}\\\\&=36\\text{ cm}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "Find the area of this trapezium in square metres. The diagram is not to scale.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\begin{scope}[rotate=25]\n\\draw (0,0)--(4,0)--(3.2,2)--(0.8,2)--cycle;\n\\path (2,0) node[below right] {$280\\text{ cm}$};\n\\path (2,2) node[above left] {$1.2\\text{ m}$};\n\\draw[->] (0.5,0)--(1,0);\n\\draw[->] (1.1,2)--(1.6,2);\n\\draw[dashed] (2.2,0)--(2.2,2);\n\\path (2.2,1) node[right,fill=white,inner sep=2pt] {$1.8\\text{ m}$};\n\\draw (1.95,0)--(1.95,0.25)--(2.2,0.25);\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Convert the parallel sides to the same unit before substituting.\n\n$280\\text{ cm}=2.8\\text{ m}$\n\nThe arrow-marked sides are parallel. The right-angle mark identifies the perpendicular height, $1.8\\text{ m}$.\n\n$\\begin{aligned}A&=\\frac{h(a+b)}{2}\\\\&=\\frac{1.8(1.2+2.8)}{2}\\\\&=\\frac{1.8\\times4}{2}\\\\&=3.6\\text{ m}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+{
+    "question_text": "A trapezium has a shorter parallel side of $7\\text{ cm}$. Its longer parallel side is $5\\text{ cm}$ longer, and its perpendicular height is $4\\text{ cm}$. Find its area.",
+    "solution_text": "Find the longer parallel side first.\n\n$\\begin{aligned}b&=7+5\\\\&=12\\text{ cm}\\end{aligned}$\n\n$\\begin{aligned}A&=\\frac{h(a+b)}{2}\\\\&=\\frac{4(7+12)}{2}\\\\&=\\frac{4\\times19}{2}\\\\&=38\\text{ cm}^2\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

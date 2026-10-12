@@ -2,15 +2,49 @@
   "skillId": "counting-complement-principle",
   "atomType": "R",
   "theory": {
-        "intro": "Words like **at least**, **at most**, **not**, and **excluding** can suggest a useful complement, especially when the unacceptable arrangements are easier to count directly. The complement principle uses $\\text{Acceptable} = \\text{Total} - \\text{Unacceptable}$.",
-        "facts": [],
-        "steps": [
+"intro": "Words like **at least**, **at most**, **not**, and **excluding** can suggest a useful complement, especially when the unacceptable arrangements are easier to count directly. The complement principle uses $\\text{Acceptable} = \\text{Total} - \\text{Unacceptable}$.",
+"facts": [],
+"steps": [
 "Identify the total number of unrestricted arrangements",
 "Identify the unacceptable complementary condition",
 "Calculate the number of unacceptable arrangements",
 "Subtract the unacceptable count from the total count: $\\text{Acceptable} = \\text{Total} - \\text{Unacceptable}$"
+],
+"workedExamples": [
+  {
+    "question_text": "Six distinct books are arranged on a shelf. How many arrangements have two particular books separated by at least one other book?",
+    "solution_text": "Total arrangements: $6!=720$.\n\nFor the unacceptable arrangements, treat the two particular books as one unit. Arrange the five units, then arrange the two books within their unit: $5!\\times2!=240$.\n\nAcceptable arrangements: $720-240=480$."
+  },
+  {
+    "question_text": "How many arrangements of the letters of $\\text{RADIO}$ have first two positions that are not both vowels?",
+    "solution_text": "Total arrangements: $5!=120$.\n\nThe unacceptable arrangements have vowels in both first positions. Choose these vowels in $3\\times2$ ways, then arrange the remaining three letters in $3!$ ways.\n\nAcceptable arrangements: $120-3\\times2\\times3!=84$."
+  },
+  {
+    "question_text": "Eleven students are available for four distinct relay legs. How many lineups are possible if Priya and Jack cannot both be on the team?",
+    "solution_text": "Total lineups: ${}^{11}P_4=7920$.\n\nFor the unacceptable lineups, choose Priya's leg in four ways and Jack's leg in three ways. Fill the remaining two legs from the other nine students in ${}^{9}P_2$ ways.\n\nAcceptable lineups: $7920-4\\times3\\times{}^{9}P_2=7920-864=7056$."
+  },
+  {
+    "question_text": "Three-letter codes are formed without repetition from the letters of $\\text{ORANGES}$. How many contain $\\text{O}$?",
+    "solution_text": "Total codes: ${}^{7}P_3=210$.\n\nThe unacceptable codes omit $\\text{O}$, so use only the other six letters: ${}^{6}P_3=120$.\n\nCodes containing $\\text{O}$: $210-120=90$."
+  },
+  {
+    "question_text": "How many arrangements of all the letters of $\\text{CAMPUS}$ do not begin with $\\text{C}$?",
+    "solution_text": "Total arrangements: $6!=720$.\n\nFor arrangements beginning with $\\text{C}$, fix $\\text{C}$ first and arrange the other five letters: $5!=120$.\n\nAcceptable arrangements: $720-120=600$."
+  },
+  {
+    "question_text": "Seven performers appear in a running order. How many orders are possible if Nia performs neither first nor last?",
+    "solution_text": "Total orders: $7!=5040$.\n\nThe unacceptable orders put Nia first or last. These cases are disjoint, giving $2\\times6!=1440$ orders.\n\nAcceptable orders: $5040-1440=3600$."
+  },
+  {
+    "question_text": "Six friends stand in a line. How many arrangements are possible if neither Ella nor Finn stands at either end?",
+    "solution_text": "Total arrangements: $6!=720$.\n\nElla at either end gives $2\\times5!=240$ arrangements. Finn at either end also gives $240$.\n\nArrangements with both at the ends occur in both counts. Assign Ella and Finn to the ends in two ways, then arrange the other four friends: $2\\times4!=48$.\n\nUnacceptable arrangements: $240+240-48=432$.\n\nAcceptable arrangements: $720-432=288$."
+  },
+  {
+    "question_text": "Five students and two teachers stand in a row. How many arrangements have at least three students between the teachers? All seven people are distinct.",
+    "solution_text": "Total arrangements: $7!=5040$.\n\nCount the unacceptable arrangements by the number of students between the teachers.\n\nNo students: treat the teachers as one unit, giving $6!\\times2!=1440$.\n\nOne student: choose the student in five ways, then arrange the teacher–student–teacher unit with the four remaining students, giving $5\\times5!\\times2!=1200$.\n\nTwo students: order the students between the teachers in ${}^{5}P_2$ ways, then arrange this unit with the three remaining students, giving ${}^{5}P_2\\times4!\\times2!=960$.\n\nThese cases are disjoint. Acceptable arrangements: $5040-1440-1200-960=1440$."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

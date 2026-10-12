@@ -2,8 +2,8 @@
   "skillId": "parabola-transformations",
   "atomType": "T",
   "theory": {
-        "intro": "The parabola $y=k(x-b)^2+c$ is $y=x^2$ reshaped and moved by the three numbers $k$, $b$ and $c$. Read them off the equation to describe the graph. The **vertex** is $(b,c)$.",
-        "facts": [
+"intro": "The parabola $y=k(x-b)^2+c$ is $y=x^2$ reshaped and moved by the three numbers $k$, $b$ and $c$. Read them off the equation to describe the graph. The **vertex** is $(b,c)$.",
+"facts": [
           "$k>0$ opens the parabola upward (**concave up**), and $k<0$ opens it downward (**concave down**).\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-3.6, xmax=3.6, ymin=-5, ymax=5, samples=100, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[smooth, thick, blue, <->, domain=-2.15:2.15] {x*x};\n\\addplot[smooth, thick, red, dashed, <->, domain=-2.15:2.15] {-x*x};\n\\node[blue] at (axis cs:3.0,3.2) {$k>0$};\n\\node[red] at (axis cs:3.0,-3.2) {$k<0$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
           "$y=-x^2$ is $y=x^2$ **reflected** in the $x$-axis.",
           "$|k|>1$ makes the parabola **narrower** than $y=x^2$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.6, xmax=4.6, ymin=-1.2, ymax=5.6, samples=100, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[smooth, thick, dashed, <->, domain=-1.87:1.87] {x*x};\n\\addplot[smooth, thick, blue, <->, domain=-1.29:1.29] {3*x*x};\n\\node[anchor=east] at (axis cs:-2.3,3.5) {$y=x^{2}$};\n\\node[anchor=west, blue] at (axis cs:1.6,5.0) {$|k|>1$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
@@ -12,12 +12,46 @@
           "$c$ translates the graph vertically: **up** $c$ when $c>0$ and **down** $|c|$ when $c<0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-5.0, xmax=5.0, ymin=-1.2, ymax=6.8, samples=100, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[smooth, thick, dashed, <->, domain=-2.2:2.2] {x*x};\n\\addplot[smooth, thick, blue, <->, domain=-2.14:2.14] {x*x+2};\n\\addplot[-{Stealth}, thick] coordinates {(-3.4,0) (-3.4,2)};\n\\node[anchor=east] at (axis cs:-3.5,1.0) {$c$};\n\\node[anchor=east] at (axis cs:-2.9,4.6) {$y=x^{2}$};\n\\node[anchor=west, blue] at (axis cs:2.5,6.3) {$y=x^{2}+c$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
           "The **vertex** of $y=k(x-b)^2+c$ is $(b,c)$, and changing $k$ never moves it."
         ],
-        "steps": [
+"steps": [
           "State the concavity and width from $k$.",
           "State the horizontal translation from $b$.",
           "State the vertical translation from $c$."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Compared with $y=x^2$, describe the transformations that give (a) $y=x^2+6$ and (b) $y=x^2-7$.",
+    "solution_text": "(a) $c=6$, so translate up $6$ units.\n\n(b) $c=-7$, so translate down $7$ units."
+  },
+  {
+    "question_text": "Compared with $y=x^2$, describe the transformations that give (a) $y=(x-7)^2$ and (b) $y=(x+6)^2$.",
+    "solution_text": "(a) $b=7$, so translate right $7$ units.\n\n(b) Write $x+6=x-(-6)$. Here $b=-6$, so translate left $6$ units."
+  },
+  {
+    "question_text": "Describe how $y=-x^2$ is obtained from $y=x^2$. Explain why $y=(-x)^2$ does not give this reflection.",
+    "solution_text": "Reflect $y=x^2$ in the $x$-axis: each $y$-value changes sign, giving $y=-x^2$.\n\nSince $(-x)^2=x^2$, the equation $y=(-x)^2$ gives the original parabola."
+  },
+  {
+    "question_text": "Compared with $y=x^2$, state the concavity and width of (a) $y=4x^2$ and (b) $y=-\\frac14x^2$.",
+    "solution_text": "(a) $k=4>0$, so the parabola is concave up. Since $|k|>1$, it is narrower than $y=x^2$.\n\n(b) $k=-\\frac14<0$, so the parabola is concave down. Since $0<|k|<1$, it is wider than $y=x^2$."
+  },
+  {
+    "question_text": "A fountain's water arc is modelled by $y=-(x-5)^2+12$, where $x$ and $y$ are in metres. Describe its transformations from $y=x^2$, state its vertex and axis of symmetry, and identify its highest point.",
+    "solution_text": "Here $k=-1$, $b=5$ and $c=12$.\n\nReflect in the $x$-axis, then translate right $5$ units and up $12$ units. The width is unchanged because $|k|=1$.\n\nThe vertex is $(5,12)$ and the axis of symmetry is $x=5$. Since the parabola is concave down, its highest point is $12$ m above the ground at $x=5$ m."
+  },
+  {
+    "question_text": "The parabola $y=x^2$ is reflected in the $x$-axis, then translated left $6$ units and down $4$ units. Write its equation and state its vertex.",
+    "solution_text": "Reflection gives $k=-1$. Left $6$ units gives $b=-6$, and down $4$ units gives $c=-4$.\n\n$y=-(x+6)^2-4$\n\nThe vertex is $(-6,-4)$."
+  },
+  {
+    "question_text": "The dashed graph is $y=x^2$. Sketch $y=(x-1)^2-2$ on the same axes and mark its vertex.\n\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=5mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black,<->] (-2.6,0)--(3.6,0);\n\\draw[black,<->] (0,-3)--(0,5);\n\\path (3.6,0) node[right] {$x$} (0,5) node[above] {$y$};\n\\foreach \\x in {-2,-1,1,2,3}{\\draw[black] (\\x,-0.08)--(\\x,0.08);\\path (\\x,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\x$};}\n\\foreach \\y in {-2,2,4}{\\draw[black] (-0.05,\\y)--(0.05,\\y);\\path (0,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\y$};}\n\\draw[black,dashed,thick,<->,domain=-2.15:2.15,samples=100] plot (\\x,{(\\x)*(\\x)});\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Translate the original parabola right $1$ unit and down $2$ units. Its shape is unchanged, and the vertex moves from $(0,0)$ to $(1,-2)$.\n\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=5mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,<->] (-2.6,0)--(3.6,0);\n\\draw[black,<->] (0,-3)--(0,5);\n\\path (3.6,0) node[right] {$x$} (0,5) node[above] {$y$};\n\\foreach \\x in {-2,-1,1,2,3}{\\draw[black] (\\x,-0.08)--(\\x,0.08);\\path (\\x,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\x$};}\n\\foreach \\y in {-2,2,4}{\\draw[black] (-0.05,\\y)--(0.05,\\y);\\path (0,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\y$};}\n\\draw[black,dashed,thick,<->,domain=-2.15:2.15,samples=100] plot (\\x,{(\\x)*(\\x)});\n\\draw[curveblue,thick,<->,domain=-1.5:3.5,samples=100] plot (\\x,{(\\x-1)*(\\x-1)-2});\n\\fill[curveblue] (1,-2) circle (1.5pt);\n\\path (1,-2) node[below right] {$(1,-2)$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "A parabola has vertex $(-3,7)$ and the coefficient of $x^2$ is $4$. Write its equation in the form $y=k(x-b)^2+c$.",
+    "solution_text": "The vertex gives $b=-3$ and $c=7$. The coefficient of $x^2$ is $k$, so $k=4$.\n\n$y=4(x+3)^2+7$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

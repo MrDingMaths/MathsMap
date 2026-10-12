@@ -2,21 +2,51 @@
   "skillId": "binomial-coefficient-in-product",
   "atomType": "R",
   "theory": {
-        "intro": "In a product such as $(a+bx)(c+dx)^{n}$, expand the binomial only as far as the powers of $x$ you need. Find every pair of terms whose product gives the target power, then add their contributions.",
-        "facts": [
+"intro": "In a product such as $(a+bx)(c+dx)^{n}$, expand the binomial only as far as the powers of $x$ you need. Find every pair of terms whose product gives the target power, then add their contributions.",
+"facts": [
 "When two factors are multiplied, a term in $x^{k}$ comes from a term of degree $j$ in one times degree $k-j$ in the other.",
 "In $(a+bx)(1+cx)^{n}$, the coefficient of $x^{k}$ gets two contributions: $a$ times the coefficient of $x^{k}$, plus $b$ times the coefficient of $x^{k-1}$.",
 "In $(a+bx+cx^{2})(1+dx)^{n}$, the coefficient of $x^{k}$ gets up to three contributions, one from each of $a$, $bx$ and $cx^{2}$.",
 "For the constant term in a product with reciprocal terms like $\\left(1+\\dfrac{a}{x}\\right)^{p}\\left(1+bx\\right)^{q}$, pair each term in $x^{-r}$ with the matching term in $x^{r}$.",
 "When solving for an unknown index or parameter, reject any solution that breaks the definitions, since $n$ must be a positive integer and each binomial selection index $r$ must be an integer with $0 \\le r \\le n$."
 ],
-        "steps": [
+"steps": [
           "Expand the binomial factor $(c+dx)^{n}$ up to the highest needed power of $x$ (or write its general term)",
           "Expand the other factor if necessary (e.g. expand $(a+bx)^{2}$ to $a^{2}+2abx+b^{2}x^{2}$)",
           "Identify each combination of multiplying terms that produces the target power of $x$",
           "Multiply the numerical coefficients for each combination and add them together to obtain the total coefficient"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Find the coefficient of $x^{3}$ in $(3-2x)(1+2x)^{4}$.",
+    "solution_text": "Expand only as far as $x^{3}$:\n$(1+2x)^{4}=1+8x+24x^{2}+32x^{3}+\\cdots$.\nThe contributions come from $3\\times32x^{3}$ and $-2x\\times24x^{2}$.\n$\\begin{align*}&\\mathrel{\\phantom{=}}3(32)-2(24)\\\\&=96-48\\\\&=48\\end{align*}$\nThe coefficient is $48$."
+  },
+  {
+    "question_text": "Find the coefficient of $x^{3}$ in $(2+x)^{2}(1-2x)^{4}$.",
+    "solution_text": "$(2+x)^{2}=4+4x+x^{2}$.\n$(1-2x)^{4}=1-8x+24x^{2}-32x^{3}+\\cdots$.\nPair powers $0+3$, $1+2$ and $2+1$.\n$\\begin{align*}&\\mathrel{\\phantom{=}}4(-32)+4(24)+1(-8)\\\\&=-128+96-8\\\\&=-40\\end{align*}$\nThe coefficient is $-40$."
+  },
+  {
+    "question_text": "Find the coefficient of $x^{3}$ in $(1+x)^{3}(1-2x)^{5}$.",
+    "solution_text": "$(1+x)^{3}=1+3x+3x^{2}+x^{3}$.\n$(1-2x)^{5}=1-10x+40x^{2}-80x^{3}+\\cdots$.\nPair powers $0+3$, $1+2$, $2+1$ and $3+0$.\n$\\begin{align*}&\\mathrel{\\phantom{=}}1(-80)+3(40)+3(-10)+1(1)\\\\&=-80+120-30+1\\\\&=11\\end{align*}$\nThe coefficient is $11$."
+  },
+  {
+    "question_text": "Find the constant term in $\\left(1-\\frac{x}{2}\\right)^{3}\\left(1+\\frac{2}{x}\\right)^{2}$.",
+    "solution_text": "$\\left(1-\\frac{x}{2}\\right)^{3}=1-\\frac{3}{2}x+\\frac{3}{4}x^{2}-\\frac{1}{8}x^{3}$.\n$\\left(1+\\frac{2}{x}\\right)^{2}=1+\\frac{4}{x}+\\frac{4}{x^{2}}$.\nConstant terms come from pairing powers $0+0$, $1+(-1)$ and $2+(-2)$.\n$\\begin{align*}&\\mathrel{\\phantom{=}}1(1)+\\left(-\\frac{3}{2}\\right)(4)+\\frac{3}{4}(4)\\\\&=1-6+3\\\\&=-2\\end{align*}$\nThe constant term is $-2$."
+  },
+  {
+    "question_text": "Find the term independent of $x$ in $(1+3x)^{4}\\left(1-\\frac{1}{x^{2}}\\right)^{5}$.",
+    "solution_text": "General terms from the two factors are $\\binom{4}{r}3^{r}x^{r}$ and $\\binom{5}{s}(-1)^{s}x^{-2s}$, where $0\\le r\\le4$ and $0\\le s\\le5$ are integers.\nFor a constant term, $r-2s=0$. The possible pairs are $(r,s)=(0,0),(2,1),(4,2)$.\nTheir contributions are:\n$\\begin{align*}\\binom{4}{0}3^{0}\\binom{5}{0}(-1)^{0}&=1\\\\\\binom{4}{2}3^{2}\\binom{5}{1}(-1)^{1}&=-270\\\\\\binom{4}{4}3^{4}\\binom{5}{2}(-1)^{2}&=810\\end{align*}$\nThe constant term is $1-270+810=541$."
+  },
+  {
+    "question_text": "In $(2+ax+bx^{2})(1+x)^{6}$, the coefficients of $x^{0}$, $x$ and $x^{2}$ are all $2$. Find $a$ and $b$.",
+    "solution_text": "$(1+x)^{6}=1+6x+15x^{2}+\\cdots$.\nThe constant coefficient is $2(1)=2$.\nEquating the coefficient of $x$ to $2$:\n$\\begin{align*}12+a&=2\\\\a&=-10\\end{align*}$\nEquating the coefficient of $x^{2}$ to $2$:\n$\\begin{align*}30+6a+b&=2\\\\30+6(-10)+b&=2\\\\b&=32\\end{align*}$\nThus $a=-10$ and $b=32$."
+  },
+  {
+    "question_text": "Find the coefficient of $x$ in $\\left(x+\\frac{1}{x}\\right)^{7}\\left(x-\\frac{1}{x}\\right)^{6}$.",
+    "solution_text": "Pair the six matching factors using the difference of squares:\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\left(x+x^{-1}\\right)^{7}\\left(x-x^{-1}\\right)^{6}\\\\&=\\left(x+x^{-1}\\right)\\left(x^{2}-x^{-2}\\right)^{6}\\end{align*}$\nThe general term of the second factor is $\\binom{6}{r}(-1)^{r}x^{12-4r}$, where $r$ is an integer with $0\\le r\\le6$.\nMultiplication by $x$ requires a term in $x^{0}$:\n$\\begin{align*}12-4r&=0\\\\r&=3\\end{align*}$\nMultiplication by $x^{-1}$ requires a term in $x^{2}$:\n$\\begin{align*}12-4r&=2\\\\r&=\\frac{5}{2}\\end{align*}$\nThis index is not an integer, so there is no second contribution. The coefficient is $\\binom{6}{3}(-1)^{3}=-20$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

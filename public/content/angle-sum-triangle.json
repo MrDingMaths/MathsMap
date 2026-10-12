@@ -2,8 +2,8 @@
   "skillId": "angle-sum-triangle",
   "atomType": "R",
   "theory": {
-        "intro": "The three interior angles of any triangle add to $180^{\\circ}$. Drawing a line through one vertex parallel to the opposite side shows why. Knowing two angles then gives the third.",
-        "facts": [
+"intro": "The three interior angles of any triangle add to $180^{\\circ}$. Drawing a line through one vertex parallel to the opposite side shows why. Knowing two angles then gives the third.",
+"facts": [
           "The interior angle sum of a triangle is $180^{\\circ}$: $a+b+c=180^{\\circ}$.",
           "**Proof.** Draw $DBE$ through $B$ parallel to $AC$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (C) at (4,0);\n\\coordinate (B) at (1.4,2.6);\n\\coordinate (D) at (-0.8,2.6);\n\\coordinate (E) at (3.6,2.6);\n\\draw (A) -- (B) -- (C) -- cycle;\n\\draw (D) -- (E);\n\\draw[->] (1.7,0) -- (2.35,0);\n\\draw[->] (-0.3,2.6) -- (0.35,2.6);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (C) {$C$};\n\\node[above right] at (B) {$B$};\n\\node[left] at (D) {$D$};\n\\node[right] at (E) {$E$};\n\\pic[draw, \"$x$\", angle radius=0.55cm, angle eccentricity=2] {angle = D--B--A};\n\\pic[draw, \"$y$\", angle radius=0.75cm, angle eccentricity=1.7] {angle = A--B--C};\n\\pic[draw, \"$z$\", angle radius=0.55cm, angle eccentricity=2] {angle = C--B--E};\n\\end{tikzpicture}\n[/tikz]",
           "Alternate angles on the parallel lines give $\\angle DBA=\\angle BAC$ and $\\angle EBC=\\angle BCA$.",
@@ -12,12 +12,50 @@
           "A right angle uses $90^{\\circ}$ of the sum, so the other two angles of a right-angled triangle add to $90^{\\circ}$.",
           "When angles are given as expressions, add the expressions, set the total equal to $180$ and solve."
         ],
-        "steps": [
+"steps": [
           "Write an equation using the angle sum.",
           "Simplify the equation.",
           "Solve for the unknown."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Find $a$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0);\\coordinate (B) at (4,0);\\coordinate (C) at (1.32,2.12);\n\\draw (A)--(B)--(C)--cycle;\n\\node at (0.7,0.35) {$58^{\\circ}$};\\node at (3.2,0.3) {$38^{\\circ}$};\\node at (1.45,1.55) {$a^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The interior angles of a triangle total $180^{\\circ}$.\n\n$\\begin{align*}a+58+38&=180\\\\a+96&=180\\\\a&=84\\end{align*}$\n\nThe missing angle is $84^{\\circ}$."
+  },
+  {
+    "question_text": "Find $a$ in this right-angled triangle.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(4,0)--(4,2.8)--cycle;\n\\draw (3.7,0)--(3.7,0.3)--(4,0.3);\n\\node at (0.9,0.28) {$35^{\\circ}$};\\node at (3.75,2.05) {$a^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The square marks a $90^{\\circ}$ angle.\n\n$\\begin{align*}a+35+90&=180\\\\a+125&=180\\\\a&=55\\end{align*}$\n\nThe missing angle is $55^{\\circ}$."
+  },
+  {
+    "question_text": "The marked sides are equal. Find $a$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(4,0)--(2,3.2)--cycle;\n\\draw (0.9,1.66)--(1.1,1.54);\\draw (2.9,1.54)--(3.1,1.66);\n\\node at (0.65,0.35) {$58^{\\circ}$};\\node at (2,2.5) {$a^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Equal sides have equal opposite angles, so both base angles are $58^{\\circ}$.\n\n$\\begin{align*}a+58+58&=180\\\\a+116&=180\\\\a&=64\\end{align*}$\n\nThe missing angle is $64^{\\circ}$."
+  },
+  {
+    "question_text": "The marked sides are equal. Find $a$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0)--(4,0)--(2,1.56)--cycle;\n\\draw (0.93,0.87)--(1.07,0.69);\\draw (2.93,0.69)--(3.07,0.87);\n\\node at (2,1.12) {$104^{\\circ}$};\\node at (0.7,0.22) {$a^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The two base angles are equal; each is $a^{\\circ}$.\n\n$\\begin{align*}a+a+104&=180\\\\2a+104&=180\\\\2a&=76\\\\a&=38\\end{align*}$\n\nThe missing angle is $38^{\\circ}$."
+  },
+  {
+    "question_text": "One angle in an isosceles triangle is $72^{\\circ}$. Find both possible pairs of other angles and explain why there are two answers.",
+    "solution_text": "If $72^{\\circ}$ is the angle between the equal sides, let each base angle be $a^{\\circ}$.\n\n$\\begin{align*}2a+72&=180\\\\2a&=108\\\\a&=54\\end{align*}$\n\nThe other angles are $54^{\\circ}$ and $54^{\\circ}$.\n\nIf $72^{\\circ}$ is a base angle, the other base angle is also $72^{\\circ}$.\n\n$\\begin{align*}a+72+72&=180\\\\a+144&=180\\\\a&=36\\end{align*}$\n\nThe other angles are $72^{\\circ}$ and $36^{\\circ}$. Both cases are possible because the given angle's position is unspecified."
+  },
+  {
+    "question_text": "One angle in an isosceles triangle is $152^{\\circ}$. Find the other two angles and explain why there is only one possible pair.",
+    "solution_text": "The given angle cannot be a base angle: two angles of $152^{\\circ}$ would total $304^{\\circ}$, exceeding $180^{\\circ}$. It is the angle between the equal sides.\n\nLet each base angle be $a^{\\circ}$.\n\n$\\begin{align*}2a+152&=180\\\\2a&=28\\\\a&=14\\end{align*}$\n\nThe other angles are $14^{\\circ}$ and $14^{\\circ}$."
+  },
+  {
+    "question_text": "Use algebra to explain why every angle in an equilateral triangle is $60^{\\circ}$.",
+    "solution_text": "All three angles are equal. Let each angle be $a^{\\circ}$.\n\n$\\begin{align*}a+a+a&=180\\\\3a&=180\\\\a&=60\\end{align*}$\n\nEvery angle is $60^{\\circ}$."
+  },
+  {
+    "question_text": "An isosceles triangle has an interior angle of $60^{\\circ}$. Find the other angles and explain what this tells you about the triangle.",
+    "solution_text": "If the given angle is between the equal sides, let each base angle be $a^{\\circ}$.\n\n$\\begin{align*}2a+60&=180\\\\2a&=120\\\\a&=60\\end{align*}$\n\nIf the given angle is a base angle, the other base angle is also $60^{\\circ}$.\n\n$\\begin{align*}a+60+60&=180\\\\a+120&=180\\\\a&=60\\end{align*}$\n\nBoth cases give three angles of $60^{\\circ}$, so the triangle is equilateral."
+  },
+  {
+    "question_text": "The line $DBE$ is parallel to $AC$. Explain why the interior angles of triangle $ABC$ add to $180^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0);\\coordinate (B) at (2,3);\\coordinate (C) at (4.5,0);\\coordinate (D) at (-0.7,3);\\coordinate (E) at (4.8,3);\n\\draw (A)--(B)--(C)--cycle;\\draw (D)--(E);\n\\draw[->] (1.7,0)--(2.2,0);\\draw[->] (0.3,3)--(0.8,3);\n\\node[below left] at (A) {$A$};\\node[above] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[left] at (D) {$D$};\\node[right] at (E) {$E$};\n\\node at (1.35,2.7) {$x$};\\node at (2.03,2.25) {$y$};\\node at (2.72,2.7) {$z$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Angles on the straight line $DBE$ give $x+y+z=180^{\\circ}$.\n\nAlternate angles on parallel lines give $\\angle BAC=x$ and $\\angle BCA=z$. Also, $\\angle ABC=y$.\n\nThe equal angles are marked below.\n\n[tikz]\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (A) at (0,0);\\coordinate (B) at (2,3);\\coordinate (C) at (4.5,0);\\coordinate (D) at (-0.7,3);\\coordinate (E) at (4.8,3);\n\\draw (A)--(B)--(C)--cycle;\\draw (D)--(E);\n\\draw[->] (1.7,0)--(2.2,0);\\draw[->] (0.3,3)--(0.8,3);\n\\node[below left] at (A) {$A$};\\node[above] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[left] at (D) {$D$};\\node[right] at (E) {$E$};\n\\node at (1.35,2.7) {$x$};\\node at (2.03,2.25) {$y$};\\node at (2.72,2.7) {$z$};\n\\node at (0.7,0.35) {$x$};\\node at (3.72,0.35) {$z$};\n\\end{tikzpicture}\n[/tikz]\n\nTherefore $\\angle BAC+\\angle ABC+\\angle BCA=180^{\\circ}$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

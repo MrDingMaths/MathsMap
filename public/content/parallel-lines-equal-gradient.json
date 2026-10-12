@@ -2,20 +2,50 @@
   "skillId": "parallel-lines-equal-gradient",
   "atomType": "Cat",
   "theory": {
-        "intro": "Two lines are **parallel** when they never meet, running with the same steepness. On the Cartesian plane, two lines are parallel exactly when their gradients are equal. So to test a pair of lines, find each gradient and compare.",
-        "facts": [
-          "Parallel lines have equal gradients.",
-          "Two distinct lines with equal gradients are parallel.",
-          "In the form $y = mx + c$ the gradient is the coefficient $m$, so two lines are parallel when their $m$ values match.",
-          "Gradients written differently can still be equal: $\\frac{2}{3}$ and $\\frac{4}{6}$ are the same gradient, so those lines are parallel.",
-          "Two lines with the same gradient and the same $y$-intercept are the same line, not a parallel pair.",
-          "A line parallel to a given line has the same gradient and a different intercept."
-        ],
-        "steps": [
-          "Find the gradient of each line.",
-          "Compare the gradients: equal gradients mean the lines are parallel."
-        ]
-      },
+"intro": "Two lines are **parallel** when they never meet, running with the same steepness. On the Cartesian plane, two distinct nonvertical lines are parallel exactly when their gradients are equal. So to test a pair of nonvertical lines, find each gradient and compare, checking that they are distinct lines. Distinct vertical lines are also parallel, but their gradients are undefined.",
+"facts": [
+"Parallel nonvertical lines have equal gradients.",
+"Two distinct nonvertical lines with equal gradients are parallel.",
+"In the form $y = mx + c$ the gradient is the coefficient $m$, so two distinct lines are parallel when their $m$ values match.",
+"Gradients written differently can still be equal: $\\frac{2}{3}$ and $\\frac{4}{6}$ are the same gradient, so distinct lines with these gradients are parallel.",
+"Two lines with the same gradient and the same $y$-intercept are the same line, not a parallel pair.",
+"A line parallel to a given nonvertical line has the same gradient and a different intercept.",
+"Distinct vertical lines are parallel, but their gradients are undefined."
+],
+"steps": [
+"Find the gradient of each nonvertical line.",
+"Compare the gradients: equal gradients mean distinct nonvertical lines are parallel. If their gradients and $y$-intercepts both match, they are the same line."
+],
+"workedExamples": [
+  {
+    "question_text": "Decide whether each pair of lines is parallel.\n(a) $y=\\frac{1}{2}x+2$ and $y=\\frac{1}{2}x-1$.\n(b) $y=7-3x$ and $y=3x+7$.\nThe diagram shows the lines in part (a).\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{lineBlue}{HTML}{268CFF}\n\\definecolor{lineRed}{HTML}{EF6068}\n\\draw[black,->] (-3,0)--(4,0);\n\\draw[black,->] (0,-3)--(0,4.5);\n\\path (4,0) node[below] {$x$} (0,4.5) node[left] {$y$};\n\\draw[lineBlue,thick,<->] (-3,0.5)--(4,4);\n\\draw[lineRed,thick,dashed,<->] (-3,-2.5)--(4,1);\n\\path (-2,2.5) node {$y=\\frac12x+2$} (2,-1.5) node {$y=\\frac12x-1$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Both gradients are $\\frac{1}{2}$. The intercepts are different, so the lines are parallel.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{lineBlue}{HTML}{268CFF}\n\\definecolor{lineRed}{HTML}{EF6068}\n\\definecolor{guideGreen}{HTML}{4F9B63}\n\\draw[black,->] (-3,0)--(4,0);\n\\draw[black,->] (0,-3)--(0,4.5);\n\\path (4,0) node[below] {$x$} (0,4.5) node[left] {$y$};\n\\draw[lineBlue,thick,<->] (-3,0.5)--(4,4);\n\\draw[lineRed,thick,dashed,<->] (-3,-2.5)--(4,1);\n\\draw[guideGreen,dotted,thick] (0,2)--(2,2)--(2,3);\n\\draw[guideGreen,dotted,thick] (0,-1)--(2,-1)--(2,0);\n\\path (1,2) node[below] {$2$} (2,2.5) node[right] {$1$} (1,-1) node[below] {$2$} (2,-0.5) node[right] {$1$};\n\\path (-2,2.5) node {$m=\\frac12$} (-2,-2.5) node[below] {$m=\\frac12$};\n\\end{tikzpicture}\n[/tikz]\n(b) The gradients are $-3$ and $3$. They are different, so the lines are not parallel."
+  },
+  {
+    "question_text": "Are the lines $y=-\\frac{3}{4}x+5$ and $y=2-\\frac{6x}{8}$ parallel?",
+    "solution_text": "The first gradient is $-\\frac{3}{4}$.\nThe second gradient is $-\\frac{6}{8}=-\\frac{3}{4}$.\nEqual gradients and different intercepts mean the lines are parallel."
+  },
+  {
+    "question_text": "Are the lines $y=4(2x-3)$ and $y=8x+5$ parallel?",
+    "solution_text": "$\\begin{aligned}y&=4(2x-3)\\\\y&=8x-12\\end{aligned}$\nBoth gradients are $8$. The intercepts are different, so the lines are parallel.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Which of these lines is not parallel to $y=6x-2$?\nA: $y=6x+5$\nB: $y=2(3x+4)$\nC: $3y=18x-9$\nD: $y=4-6x$",
+    "solution_text": "The given line has gradient $6$.\nA has gradient $6$.\nFor B:\n$\\begin{aligned}y&=2(3x+4)\\\\y&=6x+8\\end{aligned}$\nFor C:\n$\\begin{aligned}3y&=18x-9\\\\y&=6x-3\\end{aligned}$\nB and C also have gradient $6$. Their intercepts differ from the given line's intercept.\nD has gradient $-6$, so D is not parallel."
+  },
+  {
+    "question_text": "A line is parallel to $y=9-\\frac{7x}{10}$. What is its gradient?",
+    "solution_text": "The coefficient of $x$ is $-\\frac{7}{10}$.\nParallel nonvertical lines have equal gradients, so the parallel line has gradient $-\\frac{7}{10}$."
+  },
+  {
+    "question_text": "Identify the parallel pair among $y=5x-4$, $y=2+3x$ and $y=7+5x$.",
+    "solution_text": "The gradients are $5$, $3$ and $5$, respectively.\n$y=5x-4$ and $y=7+5x$ have equal gradients and different intercepts, so they are the parallel pair."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -50,53 +80,53 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "A line is parallel to $y = 4x - 1$.\nWhat is the gradient of that parallel line?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3,xmax=3,ymin=-7,ymax=7,xtick={-2,0,2},ytick={-6,-4,-2,0,2,4,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-1.4:1.9,samples=2] {4*x-1};\\node[blue,right] at (axis cs:1.5,5.0) {$y=4x-1$};\\end{axis}\\end{tikzpicture}\n[/tikz]",
         "structure": "gradient-of-parallel",
         "solution_text": "Parallel lines have equal gradients.\n$y=4x-1$ has gradient $4$, so any line parallel to it also has gradient $4$.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3,xmax=3,ymin=-7,ymax=7,xtick={-2,0,2},ytick={-6,-4,-2,0,2,4,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-1.4:1.9,samples=2] {4*x-1};\\addplot[thick,red,dashed,<->,domain=-2.4:0.9,samples=2] {4*x+3};\\node[blue,right] at (axis cs:1.5,5.0) {$m=4$};\\node[red,left] at (axis cs:-1.1,-0.5) {$m=4$};\\end{axis}\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "A line is parallel to $y = -2x + 5$.\nWhat is the gradient of that parallel line?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-2,xmax=5,ymin=-4,ymax=6,xtick={-2,0,2,4},ytick={-4,-2,0,2,4,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-0.4:4.4,samples=2] {-2*x+5};\\node[blue,above right] at (axis cs:2.2,1.2) {$y=-2x+5$};\\end{axis}\\end{tikzpicture}\n[/tikz]",
         "structure": "gradient-of-parallel",
         "solution_text": "Parallel lines have equal gradients.\n$y=-2x+5$ has gradient $-2$, so any line parallel to it also has gradient $-2$.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-2,xmax=5,ymin=-4,ymax=6,xtick={-2,0,2,4},ytick={-4,-2,0,2,4,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-0.4:4.4,samples=2] {-2*x+5};\\addplot[thick,red,dashed,<->,domain=-1.4:3.4,samples=2] {-2*x+1};\\node[blue,above right] at (axis cs:2.2,1.2) {$m=-2$};\\node[red,below left] at (axis cs:1.4,-1.8) {$m=-2$};\\end{axis}\\end{tikzpicture}\n[/tikz]"
       },
-      {
-        "question_text": "Are the two lines shown parallel?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-5,xmax=5,ymin=-6,ymax=6,xtick={-4,-2,0,2,4},ytick={-6,-4,-2,0,2,4,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-3.4:2.4,samples=2] {2*x+1};\\addplot[thick,red,dashed,<->,domain=-1.9:3.9,samples=2] {2*x-2};\\node[blue,above left] at (axis cs:1.6,4.2) {$A$};\\node[red,below right] at (axis cs:2.6,3.2) {$B$};\\end{axis}\\end{tikzpicture}\n[/tikz]",
-        "structure": "are-lines-parallel-graph",
-        "solution_text": "Line $A$ rises $2$ for every $1$ across, so its gradient is $2$.\nLine $B$ also rises $2$ for every $1$ across, so its gradient is $2$.\nThe gradients are equal, so the lines are parallel.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-5,xmax=5,ymin=-6,ymax=6,xtick={-4,-2,0,2,4},ytick={-6,-4,-2,0,2,4,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-3.4:2.4,samples=2] {2*x+1};\\addplot[thick,red,dashed,<->,domain=-1.9:3.9,samples=2] {2*x-2};\\node[blue,above left] at (axis cs:1.6,4.2) {$m=2$};\\node[red,below right] at (axis cs:2.6,3.2) {$m=2$};\\end{axis}\\end{tikzpicture}\n[/tikz]"
+{
+        "question_text": "Are the lines $y = \\frac{3}{5}x + 2$ and $y = \\frac{3x}{5} - 7$ parallel?",
+        "structure": "are-lines-parallel-equations",
+        "solution_text": "$y=\\frac{3}{5}x+2$ has gradient $\\frac{3}{5}$.\n$y=\\frac{3x}{5}-7$ also has gradient $\\frac{3}{5}$.\nThe gradients are equal and the intercepts are different, so the lines are parallel."
       },
-      {
-        "question_text": "Are the two lines shown parallel?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-5,xmax=5,ymin=-6,ymax=6,xtick={-4,-2,0,2,4},ytick={-6,-4,-2,0,2,4,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-3.4:2.4,samples=2] {2*x-1};\\addplot[thick,red,dashed,<->,domain=-4.6:4.6,samples=2] {x+1};\\node[blue,below right] at (axis cs:2.2,3.0) {$A$};\\node[red,above left] at (axis cs:2.6,3.8) {$B$};\\end{axis}\\end{tikzpicture}\n[/tikz]",
-        "structure": "are-lines-parallel-graph",
-        "solution_text": "Line $A$ rises $2$ for every $1$ across, so its gradient is $2$.\nLine $B$ rises $1$ for every $1$ across, so its gradient is $1$.\nThe gradients are different, so the lines are not parallel.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-5,xmax=5,ymin=-6,ymax=6,xtick={-4,-2,0,2,4},ytick={-6,-4,-2,0,2,4,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-3.4:2.4,samples=2] {2*x-1};\\addplot[thick,red,dashed,<->,domain=-4.6:4.6,samples=2] {x+1};\\node[blue,below right] at (axis cs:2.2,3.0) {$m=2$};\\node[red,above left] at (axis cs:2.6,3.8) {$m=1$};\\end{axis}\\end{tikzpicture}\n[/tikz]"
+{
+        "question_text": "Are the lines $y = -\\frac{4}{7}x + 3$ and $y = \\frac{4}{7}x - 5$ parallel?",
+        "structure": "are-lines-parallel-equations",
+        "solution_text": "$y=-\\frac{4}{7}x+3$ has gradient $-\\frac{4}{7}$.\n$y=\\frac{4}{7}x-5$ has gradient $\\frac{4}{7}$.\nThe gradients are different, so the lines are not parallel."
       },
-      {
-        "question_text": "What gradient must a line have to be parallel to the line shown?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3,xmax=3,ymin=-7,ymax=7,xtick={-2,0,2},ytick={-6,-4,-2,0,2,4,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-2.1:2.1,samples=2] {3*x};\\node[blue,right] at (axis cs:1.7,5.4) {$A$};\\end{axis}\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "A line is parallel to $y = -\\frac{5x}{6} + 4$.\nWhat is the gradient of that parallel line?",
         "structure": "gradient-of-parallel",
-        "solution_text": "The line rises $3$ for every $1$ across, so its gradient is $3$.\nParallel lines have equal gradients, so a parallel line must also have gradient $3$.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3,xmax=3,ymin=-7,ymax=7,xtick={-2,0,2},ytick={-6,-4,-2,0,2,4,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-2.1:2.1,samples=2] {3*x};\\addplot[thick,red,dashed,<->,domain=-0.7:2.4,samples=2] {3*x-4};\\node[blue,right] at (axis cs:1.7,5.4) {$m=3$};\\node[red,below right] at (axis cs:1.9,1.0) {$m=3$};\\end{axis}\\end{tikzpicture}\n[/tikz]"
+        "solution_text": "Parallel nonvertical lines have equal gradients.\n$y=-\\frac{5x}{6}+4$ has gradient $-\\frac{5}{6}$, so a line parallel to it also has gradient $-\\frac{5}{6}$."
       },
-      {
+{
         "question_text": "Line $A$ has gradient $\\frac{2}{3}$.\nIs a line with gradient $\\frac{4}{6}$ parallel to it?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3,xmax=6,ymin=-5,ymax=5,xtick={-2,0,2,4,6},ytick={-4,-2,0,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-3:5.4,samples=2] {(2/3)*x+1};\\addplot[thick,red,dashed,<->,domain=-3:5.4,samples=2] {(2/3)*x-2};\\node[blue,above left] at (axis cs:3.6,3.4) {$A$};\\node[red,below right] at (axis cs:4.6,1.1) {$B$};\\end{axis}\\end{tikzpicture}\n[/tikz]",
         "structure": "are-lines-parallel-equations",
         "solution_text": "$\\frac{4}{6}=\\frac{2}{3}$\nThe two gradients are equal, so the lines are parallel.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3,xmax=6,ymin=-5,ymax=5,xtick={-2,0,2,4,6},ytick={-4,-2,0,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-3:5.4,samples=2] {(2/3)*x+1};\\addplot[thick,red,dashed,<->,domain=-3:5.4,samples=2] {(2/3)*x-2};\\node[blue,above left] at (axis cs:3.6,3.4) {$m=\\frac{2}{3}$};\\node[red,below right] at (axis cs:4.6,1.1) {$m=\\frac{2}{3}$};\\end{axis}\\end{tikzpicture}\n[/tikz]"
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "Line $A$ passes through $(0,1)$ and $(2,5)$.\nLine $B$ passes through $(1,-1)$ and $(3,3)$.\nAre the lines parallel?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-2,xmax=4,ymin=-6,ymax=7,xtick={-2,0,2,4},ytick={-6,-4,-2,0,2,4,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-1.6:2.4,samples=2] {2*x+1};\\addplot[thick,red,dashed,<->,domain=-0.6:3.4,samples=2] {2*x-3};\\addplot[only marks,mark=*,mark size=2pt,blue] coordinates {(0,1) (2,5)};\\addplot[only marks,mark=*,mark size=2pt,red] coordinates {(1,-1) (3,3)};\\node[blue,above left] at (axis cs:1.6,4.2) {$A$};\\node[red,below right] at (axis cs:2.6,2.2) {$B$};\\end{axis}\\end{tikzpicture}\n[/tikz]",
-        "structure": "parallel-from-points",
-        "solution_text": "Gradient of $A=\\frac{5-1}{2-0}=\\frac{4}{2}=2$.\nGradient of $B=\\frac{3-(-1)}{3-1}=\\frac{4}{2}=2$.\nThe gradients are equal, so the lines are parallel.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-2,xmax=4,ymin=-6,ymax=7,xtick={-2,0,2,4},ytick={-6,-4,-2,0,2,4,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-1.6:2.4,samples=2] {2*x+1};\\addplot[thick,red,dashed,<->,domain=-0.6:3.4,samples=2] {2*x-3};\\addplot[only marks,mark=*,mark size=2pt,blue] coordinates {(0,1) (2,5)};\\addplot[only marks,mark=*,mark size=2pt,red] coordinates {(1,-1) (3,3)};\\node[blue,above left] at (axis cs:1.6,4.2) {$m=2$};\\node[red,below right] at (axis cs:2.6,2.2) {$m=2$};\\end{axis}\\end{tikzpicture}\n[/tikz]"
+{
+        "question_text": "Are the lines $y = 3(2x - 5)$ and $y = 6x + 4$ parallel?",
+        "structure": "are-lines-parallel-equations",
+        "solution_text": "$y=3(2x-5)=6x-15$ has gradient $6$.\n$y=6x+4$ has gradient $6$.\nThe gradients are equal and the intercepts are different, so the lines are parallel."
       },
-      {
+{
         "question_text": "Which two of the lines $y = 2x + 1$ (blue), $y = 3x - 2$ (red) and $y = 2x - 4$ (green) are parallel?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3,xmax=3,ymin=-7,ymax=7,xtick={-2,0,2},ytick={-6,-4,-2,0,2,4,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-3:2.9,samples=2] {2*x+1};\\addplot[thick,red,dotted,<->,domain=-1.6:2.9,samples=2] {3*x-2};\\addplot[thick,green!60!black,dashed,<->,domain=-1:3,samples=2] {2*x-4};\\node[blue,above left] at (axis cs:2.4,5.8) {$y=2x+1$};\\node[red,right] at (axis cs:2.0,4.4) {$y=3x-2$};\\node[green!60!black,below right] at (axis cs:2.9,1.8) {$y=2x-4$};\\end{axis}\\end{tikzpicture}\n[/tikz]",
         "structure": "which-lines-parallel",
         "solution_text": "$y=2x+1$ has gradient $2$.\n$y=3x-2$ has gradient $3$.\n$y=2x-4$ has gradient $2$.\nThe two lines with equal gradients are $y=2x+1$ and $y=2x-4$, so these are the parallel pair.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3,xmax=3,ymin=-7,ymax=7,xtick={-2,0,2},ytick={-6,-4,-2,0,2,4,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-3:2.9,samples=2] {2*x+1};\\addplot[thick,red,dotted,<->,domain=-1.6:2.9,samples=2] {3*x-2};\\addplot[thick,green!60!black,dashed,<->,domain=-1:3,samples=2] {2*x-4};\\node[blue,above left] at (axis cs:2.4,5.8) {$m=2$};\\node[red,right] at (axis cs:2.0,4.4) {$m=3$};\\node[green!60!black,below right] at (axis cs:2.9,1.8) {$m=2$};\\end{axis}\\end{tikzpicture}\n[/tikz]"
       },
-      {
-        "question_text": "Line $A$ has equation $y = \\frac{2}{3}x + 1$.\nLine $B$ passes through $(0,-2)$ and $(3,0)$.\nAre the lines parallel?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3,xmax=6,ymin=-5,ymax=5,xtick={-2,0,2,4,6},ytick={-4,-2,0,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-3:5.4,samples=2] {(2/3)*x+1};\\addplot[thick,red,dashed,<->,domain=-3:6,samples=2] {(2/3)*x-2};\\addplot[only marks,mark=*,mark size=2pt,red] coordinates {(0,-2) (3,0)};\\node[blue,above left] at (axis cs:3.6,3.4) {$A$};\\node[red,below right] at (axis cs:4.6,1.1) {$B$};\\end{axis}\\end{tikzpicture}\n[/tikz]",
-        "structure": "parallel-equation-and-points",
-        "solution_text": "Gradient of $B=\\frac{0-(-2)}{3-0}=\\frac{2}{3}$.\nLine $A$ has gradient $\\frac{2}{3}$.\nThe gradients are equal, so the lines are parallel.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3,xmax=6,ymin=-5,ymax=5,xtick={-2,0,2,4,6},ytick={-4,-2,0,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-3:5.4,samples=2] {(2/3)*x+1};\\addplot[thick,red,dashed,<->,domain=-3:6,samples=2] {(2/3)*x-2};\\addplot[only marks,mark=*,mark size=2pt,red] coordinates {(0,-2) (3,0)};\\node[blue,above left] at (axis cs:3.6,3.4) {$m=\\frac{2}{3}$};\\node[red,below right] at (axis cs:4.6,1.1) {$m=\\frac{2}{3}$};\\end{axis}\\end{tikzpicture}\n[/tikz]"
+{
+        "question_text": "Are the lines $y = \\frac{5}{8}x - 3$ and $y = 2 + \\frac{10x}{16}$ parallel?",
+        "structure": "are-lines-parallel-equations",
+        "solution_text": "$y=\\frac{5}{8}x-3$ has gradient $\\frac{5}{8}$.\n$y=2+\\frac{10x}{16}$ has gradient $\\frac{10}{16}=\\frac{5}{8}$.\nThe gradients are equal and the intercepts are different, so the lines are parallel."
       }
-    ]
+]
   }
 }

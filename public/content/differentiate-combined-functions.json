@@ -2,8 +2,8 @@
   "skillId": "differentiate-combined-functions",
   "atomType": "R",
   "theory": {
-    "intro": "Functions such as $x^{2}e^{3x}$ and $\\dfrac{\\ln x}{\\sin x}$ combine an exponential, logarithm or trigonometric function with an algebraic one. Name the outermost structure — product, quotient or composite — and apply that rule first.",
-    "facts": [
+"intro": "Functions such as $x^{2}e^{3x}$ and $\\dfrac{\\ln x}{\\sin x}$ combine an exponential, logarithm or trigonometric function with an algebraic one. Name the outermost structure — product, quotient or composite — and apply that rule first.",
+"facts": [
 "The **product rule** is $\\dfrac{d}{dx}(uv) = u'v + uv'$, never $u'v'$.",
 "The **quotient rule** is $\\dfrac{d}{dx}\\left(\\dfrac{u}{v}\\right) = \\dfrac{u'v - uv'}{v^{2}}$, and the order $u'v - uv'$ matters.",
 "The **chain rule** is $\\dfrac{d}{dx}f(g(x)) = g'(x)f'(g(x))$: differentiate the outside, then multiply by the inside derivative.",
@@ -13,13 +13,55 @@
 "For $u>0$ and $v>0$, a log law such as $\\ln\\dfrac{u}{v} = \\ln u - \\ln v$ can replace a quotient rule with a subtraction.",
 "Finish by factorising out the common exponential or the common power."
 ],
-    "steps": [
+"steps": [
       "Name the outermost structure: product, quotient or composite.",
       "Set up the pieces: write $u$ and $v$, or the inside function, and differentiate each.",
       "Substitute into the rule for that structure, using the chain rule on any composite piece.",
       "Factorise and simplify."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Differentiate:\n(a) $y=e^{2x^{2}+3}$\n(b) $y=\\ln(x^{2}+7)$\n(c) $y=\\sin(3x^{2})$\n(d) $y=(\\ln x)^{5}$, where $x>0$.",
+    "solution_text": "Differentiate the outside function and multiply by the inside derivative.\n(a) $y'=4xe^{2x^{2}+3}$.\n(b) $y'=\\dfrac{2x}{x^{2}+7}$.\n(c) $y'=6x\\cos(3x^{2})$.\n(d) $\\begin{aligned}y'&=5(\\ln x)^{4}\\times\\frac{1}{x}\\\\&=\\frac{5(\\ln x)^{4}}{x}.\\end{aligned}$"
   },
+  {
+    "question_text": "Differentiate:\n(a) $y=x^{2}e^{4x}$\n(b) $y=e^{2x}\\sin 3x$\n(c) $y=x^{3}e^{\\sin x}$.",
+    "solution_text": "Use $y'=u'v+uv'$, applying the chain rule within each factor where needed.\n(a) $u=x^{2}$, $u'=2x$, $v=e^{4x}$ and $v'=4e^{4x}$.\n$\\begin{aligned}y'&=2xe^{4x}+4x^{2}e^{4x}\\\\&=2xe^{4x}(1+2x).\\end{aligned}$\n(b) $u=e^{2x}$, $u'=2e^{2x}$, $v=\\sin 3x$ and $v'=3\\cos 3x$.\n$\\begin{aligned}y'&=2e^{2x}\\sin 3x+3e^{2x}\\cos 3x\\\\&=e^{2x}(2\\sin 3x+3\\cos 3x).\\end{aligned}$\n(c) $u=x^{3}$, $u'=3x^{2}$, $v=e^{\\sin x}$ and $v'=\\cos x\\,e^{\\sin x}$.\n$\\begin{aligned}y'&=3x^{2}e^{\\sin x}+x^{3}\\cos x\\,e^{\\sin x}\\\\&=x^{2}e^{\\sin x}(3+x\\cos x).\\end{aligned}$"
+  },
+  {
+    "question_text": "Differentiate:\n(a) $y=\\dfrac{\\ln x}{x^{2}}$, where $x>0$\n(b) $y=\\dfrac{e^{3x}}{\\cos 2x}$, where $\\cos 2x\\ne0$.",
+    "solution_text": "Use $y'=\\dfrac{u'v-uv'}{v^{2}}$.\n(a) $u=\\ln x$, $u'=\\dfrac{1}{x}$, $v=x^{2}$ and $v'=2x$.\n$\\begin{aligned}y'&=\\frac{x^{2}\\left(\\frac{1}{x}\\right)-2x\\ln x}{x^{4}}\\\\&=\\frac{1-2\\ln x}{x^{3}}.\\end{aligned}$\n(b) $u=e^{3x}$, $u'=3e^{3x}$, $v=\\cos 2x$ and $v'=-2\\sin 2x$.\n$\\begin{aligned}y'&=\\frac{3e^{3x}\\cos 2x-e^{3x}(-2\\sin 2x)}{\\cos^{2}2x}\\\\&=\\frac{e^{3x}(3\\cos 2x+2\\sin 2x)}{\\cos^{2}2x}.\\end{aligned}$"
+  },
+  {
+    "question_text": "Differentiate:\n(a) $y=e^{\\cos 3x}$\n(b) $y=(3x+e^{2x})^{4}$.",
+    "solution_text": "(a) The derivative of $\\cos 3x$ is $-3\\sin 3x$.\n$y'=-3\\sin 3x\\,e^{\\cos 3x}$.\n(b) Set $u=3x+e^{2x}$, so $u'=3+2e^{2x}$.\n$\\begin{aligned}y'&=4(3x+e^{2x})^{3}(3+2e^{2x})\\\\&=4(3+2e^{2x})(3x+e^{2x})^{3}.\\end{aligned}$"
+  },
+  {
+    "question_text": "Differentiate $y=(xe^{2x})^{3}$.",
+    "solution_text": "Use the chain rule on the outer power and the product rule on the inside.\n$\\begin{aligned}u&=xe^{2x}\\\\u'&=e^{2x}+2xe^{2x}\\\\&=e^{2x}(1+2x).\\end{aligned}$\n$\\begin{aligned}y'&=3(xe^{2x})^{2}e^{2x}(1+2x)\\\\&=3x^{2}e^{6x}(1+2x).\\end{aligned}$"
+  },
+  {
+    "question_text": "Differentiate:\n(a) $y=7^{2x}$\n(b) $y=\\log_{4}(3x)$, where $x>0$\n(c) $y=x^{3}2^{x}$.",
+    "solution_text": "(a) Use $\\dfrac{d}{dx}a^{f(x)}=f'(x)(\\ln a)a^{f(x)}$.\n$y'=2(\\ln 7)7^{2x}$.\n(b) Use $\\dfrac{d}{dx}\\log_{a}f(x)=\\dfrac{f'(x)}{(\\ln a)f(x)}$.\n$\\begin{aligned}y'&=\\frac{3}{(\\ln 4)(3x)}\\\\&=\\frac{1}{x\\ln 4}.\\end{aligned}$\n(c) Use the product rule, with $\\dfrac{d}{dx}2^{x}=(\\ln 2)2^{x}$.\n$\\begin{aligned}y'&=3x^{2}2^{x}+x^{3}(\\ln 2)2^{x}\\\\&=x^{2}2^{x}(3+x\\ln 2).\\end{aligned}$"
+  },
+  {
+    "question_text": "Use log laws to simplify first, then differentiate:\n(a) $y=\\ln\\left(\\dfrac{x^{3}}{2x+1}\\right)$, where $x>0$\n(b) $y=\\ln\\left(x^{2}\\sqrt{x+3}\\right)$, where $x>0$\n(c) $y=\\ln\\left(\\dfrac{1-\\cos x}{\\sin x}\\right)$, where $0<x<\\pi$. Simplify part (c) to a single trigonometric function.",
+    "solution_text": "(a) $y=3\\ln x-\\ln(2x+1)$.\n$\\begin{aligned}y'&=\\frac{3}{x}-\\frac{2}{2x+1}\\\\&=\\frac{3(2x+1)-2x}{x(2x+1)}\\\\&=\\frac{4x+3}{x(2x+1)}.\\end{aligned}$\n(b) $y=2\\ln x+\\dfrac{1}{2}\\ln(x+3)$.\n$y'=\\dfrac{2}{x}+\\dfrac{1}{2(x+3)}$.\n(c) Both $1-\\cos x$ and $\\sin x$ are positive on the given interval.\n$y=\\ln(1-\\cos x)-\\ln(\\sin x)$.\n$\\begin{aligned}y'&=\\frac{\\sin x}{1-\\cos x}-\\frac{\\cos x}{\\sin x}\\\\&=\\frac{\\sin^{2}x-\\cos x(1-\\cos x)}{\\sin x(1-\\cos x)}\\\\&=\\frac{\\sin^{2}x+\\cos^{2}x-\\cos x}{\\sin x(1-\\cos x)}\\\\&=\\frac{1-\\cos x}{\\sin x(1-\\cos x)}\\\\&=\\frac{1}{\\sin x}\\\\&=\\operatorname{cosec}x.\\end{aligned}$"
+  },
+  {
+    "question_text": "Find the exact value of:\n(a) $f'(1)$ for $f(x)=\\ln(x^{3}+2x+3)$\n(b) $g'(\\pi)$ for $g(x)=x\\sin 3x$.",
+    "solution_text": "Differentiate first, then substitute the given value.\n(a) $f'(x)=\\dfrac{3x^{2}+2}{x^{3}+2x+3}$.\n$\\begin{aligned}f'(1)&=\\frac{3(1)^{2}+2}{1^{3}+2(1)+3}\\\\&=\\frac{5}{6}.\\end{aligned}$\n(b) The product rule gives $g'(x)=\\sin 3x+3x\\cos 3x$.\n$\\begin{aligned}g'(\\pi)&=\\sin 3\\pi+3\\pi\\cos 3\\pi\\\\&=0+3\\pi(-1)\\\\&=-3\\pi.\\end{aligned}$"
+  },
+  {
+    "question_text": "Let $y=e^{3x}\\sin x$. Find $y'$ and $y''$, and show that $y''-6y'+10y=0$.",
+    "solution_text": "Apply the product rule twice.\n$\\begin{aligned}y'&=3e^{3x}\\sin x+e^{3x}\\cos x\\\\&=e^{3x}(3\\sin x+\\cos x).\\end{aligned}$\n$\\begin{aligned}y''&=3e^{3x}(3\\sin x+\\cos x)+e^{3x}(3\\cos x-\\sin x)\\\\&=e^{3x}(8\\sin x+6\\cos x).\\end{aligned}$\n$\\begin{aligned}y''-6y'+10y&=e^{3x}(8\\sin x+6\\cos x)-6e^{3x}(3\\sin x+\\cos x)+10e^{3x}\\sin x\\\\&=e^{3x}\\big[(8-18+10)\\sin x+(6-6)\\cos x\\big]\\\\&=0.\\end{aligned}$"
+  },
+  {
+    "question_text": "At what value of $x$ do the curves $y=2^{x}$ and $y=8^{x}$ have tangents with equal gradients? Give your answer correct to 3 significant figures.",
+    "solution_text": "The derivatives are $(\\ln 2)2^{x}$ and $(\\ln 8)8^{x}$. Equal tangent gradients give:\n$\\begin{aligned}(\\ln 2)2^{x}&=(\\ln 8)8^{x}\\\\2^{x}&=3\\times8^{x}\\\\\\left(\\frac{1}{4}\\right)^{x}&=3\\\\-x\\ln 4&=\\ln 3\\\\x&=-\\frac{\\ln 3}{\\ln 4}\\\\x&\\approx-0.792.\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

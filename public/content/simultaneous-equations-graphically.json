@@ -2,22 +2,66 @@
   "skillId": "simultaneous-equations-graphically",
   "atomType": "R",
   "theory": {
-        "intro": "Two distinct non-parallel straight lines meet at one **point of intersection**. Its coordinates are the one pair of $x$ and $y$ values that satisfy **both** equations, so reading the crossing point off an accurate graph solves the pair.",
-        "facts": [
+"intro": "Two distinct non-parallel straight lines meet at one **point of intersection**. Its coordinates are the one pair of $x$ and $y$ values that satisfy **both** equations, so reading the crossing point off an accurate graph solves the pair.",
+"facts": [
 "Graph both lines on the same axes, then read the coordinates of the point where they cross.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\small}]\n\\draw[gray!30,very thin] (-3,-3) grid (3,3);\n\\draw[<->] (-3.4,0) -- (3.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4) -- (0,3.4) node[above] {$y$};\n\\draw[thick,blue!70!black,<->] (-2.17,-3) -- (2.83,3);\n\\draw[thick,red!75!black,dashed,<->] (-0.5,3) -- (3,0.2);\n\\fill (1.5,1.4) circle (2.2pt);\n\\node[fill=white,inner sep=1pt] at (1.5,2.05) {$P$};\n\\end{tikzpicture}\n[/tikz]",
 "Write the solution as $(x,y)$, or as $x=\\ldots$, $y=\\ldots$; the crossing point gives both values at once.",
 "The point of intersection lies on both lines, so its coordinates make **both** equations true.",
 "Distinct lines with equal gradients are parallel and never cross, so the pair has **no solution**. Coincident lines also have equal gradients, but lie exactly on top of each other.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\small}]\n\\draw[gray!30,very thin] (-3,-3) grid (3,3);\n\\draw[<->] (-3.4,0) -- (3.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4) -- (0,3.4) node[above] {$y$};\n\\draw[thick,blue!70!black,<->] (-3,-1.5) -- (2,3);\n\\draw[thick,red!75!black,dashed,<->] (-2,-3) -- (3,1.5);\n\\end{tikzpicture}\n[/tikz]",
 "Two equations describing the **same** line lie exactly on top of each other and share every point, so the pair has **infinitely many solutions**.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\small}]\n\\draw[gray!30,very thin] (-3,-3) grid (3,3);\n\\draw[<->] (-3.4,0) -- (3.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4) -- (0,3.4) node[above] {$y$};\n\\draw[thick,blue!70!black,<->] (-3,-2.4) -- (3,3);\n\\draw[thick,red!75!black,dash pattern=on 9pt off 9pt,<->] (-3,-2.4) -- (3,3);\n\\end{tikzpicture}\n[/tikz]"
 ],
-        "steps": [
+"steps": [
 "Construct a table of values for each equation.",
 "Accurately plot the points from both tables on the same axes and join each set of points to form a straight line.",
 "Locate the point where the two lines cross.",
 "Read off its $x$ and $y$ coordinates.",
 "State the solution as $(x,y)$."
+],
+"workedExamples": [
+  {
+    "question_text": "Use the graph to solve $y=x+2$ and $y=-x+6$ simultaneously. Verify that the intersection satisfies both equations.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{seriesRed}{HTML}{EF6068}\n\\draw[draw=black!20,xstep=10mm,ystep=10mm] (-1,-1) grid (5,7);\n\\draw[<->,black] (-1.3,0)--(5.3,0) node[right] {$x$};\n\\draw[<->,black] (0,-1.3)--(0,7.3) node[above] {$y$};\n\\foreach \\v in {-1,1,2,3,4,5} {\\draw[black] (\\v,0.07)--(\\v,-0.07);\\path (\\v,-0.1) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\foreach \\v in {-1,1,2,3,4,5,6,7} {\\draw[black] (0.07,\\v)--(-0.07,\\v);\\path (-0.1,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\path (-0.1,-0.1) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[seriesBlue,thick,<->] (-1,1)--(5,7);\n\\draw[seriesRed,thick,dashed,<->] (-1,7)--(5,1);\n\\path (4,6.3) node[above left,text=seriesBlue] {$y=x+2$};\n\\path (4,1.7) node[below left,text=seriesRed] {$y=-x+6$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The blue solid line and red dashed line meet at $(2,4)$: read $x=2$ horizontally and $y=4$ vertically. The simultaneous solution is $x=2$, $y=4$.\nFor $y=x+2$, substitute $x=2$:\n$\\begin{aligned}y&=2+2\\\\y&=4\\end{aligned}$\nFor $y=-x+6$, substitute $x=2$:\n$\\begin{aligned}y&=-2+6\\\\y&=4\\end{aligned}$\nBoth equations give $y=4$, so $(2,4)$ satisfies both.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use the graph to solve $y=2x-2$ and $y=4$ simultaneously.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{seriesRed}{HTML}{EF6068}\n\\draw[draw=black!20,xstep=10mm,ystep=10mm] (-1,-3) grid (5,6);\n\\draw[<->,black] (-1.3,0)--(5.3,0) node[right] {$x$};\n\\draw[<->,black] (0,-3.3)--(0,6.3) node[above] {$y$};\n\\foreach \\v in {-1,1,2,3,4,5} {\\draw[black] (\\v,0.07)--(\\v,-0.07);\\path (\\v,-0.1) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\foreach \\v in {-3,-2,-1,1,2,3,4,5,6} {\\draw[black] (0.07,\\v)--(-0.07,\\v);\\path (-0.1,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\path (-0.1,-0.1) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[seriesBlue,thick,<->] (-0.5,-3)--(4,6);\n\\draw[seriesRed,thick,dashed,<->] (-1,4)--(5,4);\n\\path (3.4,5.5) node[left,text=seriesBlue] {$y=2x-2$};\n\\path (4.9,4.1) node[above left,text=seriesRed] {$y=4$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Follow the horizontal red dashed line $y=4$ to the blue solid line. Their intersection has $x=3$ and $y=4$.\nThe simultaneous solution is $(3,4)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Use the graph to solve $y=-x+2$ and $x=-2$ simultaneously.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{seriesRed}{HTML}{EF6068}\n\\draw[draw=black!20,xstep=10mm,ystep=10mm] (-4,-2) grid (3,6);\n\\draw[<->,black] (-4.3,0)--(3.3,0) node[right] {$x$};\n\\draw[<->,black] (0,-2.3)--(0,6.3) node[above] {$y$};\n\\foreach \\v in {-4,-3,-2,-1,1,2,3} {\\draw[black] (\\v,0.07)--(\\v,-0.07);\\path (\\v,-0.1) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\foreach \\v in {-2,-1,1,2,3,4,5,6} {\\draw[black] (0.07,\\v)--(-0.07,\\v);\\path (-0.1,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\path (-0.1,-0.1) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[seriesBlue,thick,<->] (-4,6)--(3,-1);\n\\draw[seriesRed,thick,dashed,<->] (-2,-2)--(-2,6);\n\\path (1,1.3) node[above right,text=seriesBlue] {$y=-x+2$};\n\\path (-2.1,5.7) node[left,text=seriesRed] {$x=-2$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Follow the vertical red dashed line $x=-2$ to the blue solid line. Read $y=4$ at their intersection.\nThe simultaneous solution is $(-2,4)$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The graph shows $y=x+1$ and $y=x-2$. How many simultaneous solutions do they have? Explain using the graph.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{seriesRed}{HTML}{EF6068}\n\\draw[draw=black!20,xstep=10mm,ystep=10mm] (-3,-4) grid (3,4);\n\\draw[<->,black] (-3.3,0)--(3.3,0) node[right] {$x$};\n\\draw[<->,black] (0,-4.3)--(0,4.3) node[above] {$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3} {\\draw[black] (\\v,0.07)--(\\v,-0.07);\\path (\\v,-0.1) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\foreach \\v in {-4,-3,-2,-1,1,2,3,4} {\\draw[black] (0.07,\\v)--(-0.07,\\v);\\path (-0.1,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\path (-0.1,-0.1) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[seriesBlue,thick,<->] (-3,-2)--(3,4);\n\\draw[seriesRed,thick,dashed,<->] (-2,-4)--(3,1);\n\\path (1,2.3) node[above left,text=seriesBlue] {$y=x+1$};\n\\path (1,-1.3) node[below right,text=seriesRed] {$y=x-2$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The graph shows two distinct parallel lines. Both have gradient $1$, but their $y$-intercepts are $1$ and $-2$. They never intersect, so there is no simultaneous solution.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The graph shows $y=x-1$ and $2y=2x-2$. How many simultaneous solutions do they have? Explain.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{seriesRed}{HTML}{EF6068}\n\\draw[draw=black!20,xstep=10mm,ystep=10mm] (-3,-4) grid (3,4);\n\\draw[<->,black] (-3.3,0)--(3.3,0) node[right] {$x$};\n\\draw[<->,black] (0,-4.3)--(0,4.3) node[above] {$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3} {\\draw[black] (\\v,0.07)--(\\v,-0.07);\\path (\\v,-0.1) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\foreach \\v in {-4,-3,-2,-1,1,2,3,4} {\\draw[black] (0.07,\\v)--(-0.07,\\v);\\path (-0.1,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\path (-0.1,-0.1) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[seriesBlue,thick,<->] (-3,-4)--(3,2);\n\\draw[seriesRed,thick,dashed] (-3,-4)--(3,2);\n\\path (-2.8,3.5) node[right,text=seriesBlue] {$y=x-1$: solid};\n\\path (-2.8,4.9) node[right,text=seriesRed] {$2y=2x-2$: dashed};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Divide the second equation by $2$:\n$\\begin{aligned}2y&=2x-2\\\\y&=x-1\\end{aligned}$\nBoth equations describe the same line. The solid and dashed graphs coincide, so every point on the line satisfies both equations. There are infinitely many simultaneous solutions.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The graph shows $A:y=x+1$, $B:y=-x+7$ and $C:y=2x-3$. Use the intersection of lines $A$ and $B$ to solve their equations simultaneously.\n[tikz]\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{seriesRed}{HTML}{EF6068}\n\\definecolor{seriesGreen}{HTML}{4F9B63}\n\\draw[draw=black!20,xstep=10mm,ystep=10mm] (-1,-3) grid (6,7);\n\\draw[<->,black] (-1.3,0)--(6.3,0) node[right] {$x$};\n\\draw[<->,black] (0,-3.3)--(0,7.3) node[above] {$y$};\n\\foreach \\v in {-1,1,2,3,4,5,6} {\\draw[black] (\\v,0.07)--(\\v,-0.07);\\path (\\v,-0.1) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\foreach \\v in {-3,-2,-1,1,2,3,4,5,6,7} {\\draw[black] (0.07,\\v)--(-0.07,\\v);\\path (-0.1,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\v$};}\n\\path (-0.1,-0.1) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\draw[seriesBlue,thick,<->] (-1,0)--(6,7);\n\\draw[seriesRed,thick,dashed,<->] (0,7)--(6,1);\n\\draw[seriesGreen,thick,dotted,<->] (0,-3)--(5,7);\n\\path (5.7,6.7) node[left,text=seriesBlue] {$A$};\n\\path (5.7,1.3) node[above,text=seriesRed] {$B$};\n\\path (4.8,6.6) node[left,text=seriesGreen] {$C$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Choose the blue solid line $A$ and red dashed line $B$. Their intersection is $(3,4)$; intersections involving $C$ answer a different pair.\nThe simultaneous solution for $A$ and $B$ is $x=3$, $y=4$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
       {

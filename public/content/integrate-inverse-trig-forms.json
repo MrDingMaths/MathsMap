@@ -2,8 +2,8 @@
   "skillId": "integrate-inverse-trig-forms",
   "atomType": "R",
   "theory": {
-    "intro": "Reading the inverse trig derivatives backwards gives two standard integrals, with $a>0$. The shape $\\dfrac{1}{\\sqrt{a^{2}-x^{2}}}$ integrates to $\\arcsin\\dfrac{x}{a}$, and $\\dfrac{1}{a^{2}+x^{2}}$ integrates to $\\dfrac{1}{a}\\arctan\\dfrac{x}{a}$. Only the second carries a factor $\\dfrac{1}{a}$.",
-    "facts": [
+"intro": "Reading the inverse trig derivatives backwards gives two standard integrals, with $a>0$. The shape $\\dfrac{1}{\\sqrt{a^{2}-x^{2}}}$ integrates to $\\arcsin\\dfrac{x}{a}$, and $\\dfrac{1}{a^{2}+x^{2}}$ integrates to $\\dfrac{1}{a}\\arctan\\dfrac{x}{a}$. Only the second carries a factor $\\dfrac{1}{a}$.",
+"facts": [
 "$\\displaystyle\\int\\dfrac{dx}{\\sqrt{a^{2}-x^{2}}}=\\arcsin\\dfrac{x}{a}+C$, with no extra factor in front.",
 "$\\displaystyle\\int\\dfrac{dx}{a^{2}+x^{2}}=\\dfrac{1}{a}\\arctan\\dfrac{x}{a}+C$, where the $\\dfrac{1}{a}$ is essential.",
 "$\\displaystyle\\int\\dfrac{-dx}{\\sqrt{a^{2}-x^{2}}}=\\arccos\\dfrac{x}{a}+C$: the same shape with the sign reversed.",
@@ -15,13 +15,85 @@
 "Every indefinite integral needs $+C$, and a definite integral does not.",
 "Check any primitive by differentiating it back."
 ],
-    "steps": [
+"steps": [
 "Match the integrand to $\\dfrac{1}{\\sqrt{a^{2}-x^{2}}}$ or $\\dfrac{1}{a^{2}+x^{2}}$, and read off $a$.",
 "Take any constant factor outside the integral.",
 "Write the primitive: $\\arcsin\\dfrac{x}{a}+C$, or $\\dfrac{1}{a}\\arctan\\dfrac{x}{a}+C$.",
 "For a definite integral, substitute the upper limit and subtract the value at the lower limit. At an endpoint where the integrand is undefined, evaluate the primitive through a limit from inside the interval."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "Find $\\int\\frac{4}{\\sqrt{64-x^{2}}}\\,dx$.",
+    "solution_text": "Factor out the constant and identify $a=8$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\frac{4}{\\sqrt{64-x^{2}}}\\,dx\\\\&=4\\int\\frac{1}{\\sqrt{64-x^{2}}}\\,dx\\\\&=4\\arcsin\\frac{x}{8}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find $\\int\\frac{15}{49+x^{2}}\\,dx$.",
+    "solution_text": "Here $a=7$. The arctangent primitive requires the factor $\\frac{1}{7}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\frac{15}{49+x^{2}}\\,dx\\\\&=15\\int\\frac{1}{49+x^{2}}\\,dx\\\\&=\\frac{15}{7}\\arctan\\frac{x}{7}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int\\frac{-3}{\\sqrt{16-x^{2}}}\\,dx$, expressing the answer using inverse cosine.",
+    "solution_text": "The negative numerator matches the inverse cosine derivative.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\frac{-3}{\\sqrt{16-x^{2}}}\\,dx\\\\&=3\\int\\frac{-1}{\\sqrt{16-x^{2}}}\\,dx\\\\&=3\\arccos\\frac{x}{4}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int\\frac{2}{\\sqrt{25-16x^{2}}}\\,dx$.",
+    "solution_text": "Factor out the coefficient of $x^{2}$ before matching the standard form.\n$\\begin{aligned}\\sqrt{25-16x^{2}}&=4\\sqrt{\\frac{25}{16}-x^{2}}\\end{aligned}$\nHere $a=\\frac{5}{4}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\frac{2}{\\sqrt{25-16x^{2}}}\\,dx\\\\&=\\frac{1}{2}\\int\\frac{1}{\\sqrt{\\frac{25}{16}-x^{2}}}\\,dx\\\\&=\\frac{1}{2}\\arcsin\\frac{4x}{5}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int\\frac{3}{16+25x^{2}}\\,dx$.",
+    "solution_text": "Write $16+25x^{2}=25\\left(\\frac{16}{25}+x^{2}\\right)$, so $a=\\frac{4}{5}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\frac{3}{16+25x^{2}}\\,dx\\\\&=\\frac{3}{25}\\int\\frac{1}{\\frac{16}{25}+x^{2}}\\,dx\\\\&=\\frac{3}{25}\\cdot\\frac{5}{4}\\arctan\\frac{5x}{4}+C\\\\&=\\frac{3}{20}\\arctan\\frac{5x}{4}+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact values of:\n(a) $\\int_{0}^{4}\\frac{1}{\\sqrt{16-x^{2}}}\\,dx$\n(b) $\\int_{0}^{4\\sqrt{3}}\\frac{1}{16+x^{2}}\\,dx$.",
+    "solution_text": "(a) The integrand is undefined at $x=4$. Evaluate the convergent improper integral through a limit from below.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{4}\\frac{1}{\\sqrt{16-x^{2}}}\\,dx\\\\&=\\lim_{b\\to4^{-}}\\left[\\arcsin\\frac{x}{4}\\right]_{0}^{b}\\\\&=\\frac{\\pi}{2}-0\\\\&=\\frac{\\pi}{2}\\end{aligned}$\n(b)\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{4\\sqrt{3}}\\frac{1}{16+x^{2}}\\,dx\\\\&=\\left[\\frac{1}{4}\\arctan\\frac{x}{4}\\right]_{0}^{4\\sqrt{3}}\\\\&=\\frac{1}{4}\\arctan\\sqrt{3}-\\frac{1}{4}\\arctan0\\\\&=\\frac{\\pi}{12}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A curve has $\\frac{dy}{dx}=\\frac{5}{25+x^{2}}$ and passes through $(5,\\frac{\\pi}{2})$. Find its equation.",
+    "solution_text": "$\\begin{aligned}y&=5\\int\\frac{1}{25+x^{2}}\\,dx\\\\&=\\arctan\\frac{x}{5}+C\\end{aligned}$\nSubstitute $(5,\\frac{\\pi}{2})$.\n$\\begin{aligned}\\frac{\\pi}{2}&=\\arctan1+C\\\\\\frac{\\pi}{2}&=\\frac{\\pi}{4}+C\\\\C&=\\frac{\\pi}{4}\\end{aligned}$\nThe equation is $y=\\arctan\\frac{x}{5}+\\frac{\\pi}{4}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find $\\int\\frac{5x^{2}}{\\sqrt{1-9x^{6}}}\\,dx$.",
+    "solution_text": "Write $1-9x^{6}=1-(3x^{3})^{2}$. For $f(x)=3x^{3}$, the required numerator is $f'(x)=9x^{2}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\frac{5x^{2}}{\\sqrt{1-9x^{6}}}\\,dx\\\\&=\\frac{5}{9}\\int\\frac{9x^{2}}{\\sqrt{1-(3x^{3})^{2}}}\\,dx\\\\&=\\frac{5}{9}\\arcsin(3x^{3})+C\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find:\n(a) $\\int\\frac{12x^{2}}{9+x^{6}}\\,dx$\n(b) $\\int_{0}^{\\frac{\\ln3}{3}}\\frac{e^{3x}}{1+e^{6x}}\\,dx$.",
+    "solution_text": "(a) Write $9+x^{6}=9\\left[1+\\left(\\frac{x^{3}}{3}\\right)^{2}\\right]$. For $f(x)=\\frac{x^{3}}{3}$, $f'(x)=x^{2}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int\\frac{12x^{2}}{9+x^{6}}\\,dx\\\\&=\\frac{4}{3}\\int\\frac{x^{2}}{1+\\left(\\frac{x^{3}}{3}\\right)^{2}}\\,dx\\\\&=\\frac{4}{3}\\arctan\\frac{x^{3}}{3}+C\\end{aligned}$\n(b) Write $1+e^{6x}=1+(e^{3x})^{2}$. For $f(x)=e^{3x}$, $f'(x)=3e^{3x}$.\n$\\begin{aligned}&\\mathrel{\\phantom{=}}\\int_{0}^{\\frac{\\ln3}{3}}\\frac{e^{3x}}{1+e^{6x}}\\,dx\\\\&=\\frac{1}{3}\\int_{0}^{\\frac{\\ln3}{3}}\\frac{3e^{3x}}{1+(e^{3x})^{2}}\\,dx\\\\&=\\left[\\frac{1}{3}\\arctan(e^{3x})\\right]_{0}^{\\frac{\\ln3}{3}}\\\\&=\\frac{1}{3}\\arctan3-\\frac{\\pi}{12}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the exact area bounded by $y=\\frac{8}{16+x^{2}}$, the $x$-axis, and the lines $x=-4$ and $x=4\\sqrt{3}$.",
+    "solution_text": "The curve is positive throughout the interval. The shaded region represents the required area.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=35mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{areaBlue}{HTML}{D4E8FF}\n\\fill[areaBlue] (-4,0) -- plot[domain=-4:6.928203,samples=100] (\\x,{8/(16+(\\x)*(\\x))}) -- (6.928203,0) -- cycle;\n\\draw[->,black] (-5,0)--(8,0) node[right] {$x$};\n\\draw[->,black] (0,0)--(0,0.65) node[above] {$y$};\n\\draw[black,thick] plot[domain=-5:8,samples=120] (\\x,{8/(16+(\\x)*(\\x))});\n\\draw[black] (-4,0)--(-4,0.25);\n\\draw[black] (6.928203,0)--(6.928203,0.125);\n\\path (-4,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$-4$} (6.928203,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$4\\sqrt{3}$} (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$} (3,0.52) node[right] {$y=\\frac{8}{16+x^{2}}$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{aligned}A&=\\int_{-4}^{4\\sqrt{3}}\\frac{8}{16+x^{2}}\\,dx\\\\&=\\left[2\\arctan\\frac{x}{4}\\right]_{-4}^{4\\sqrt{3}}\\\\&=2\\arctan\\sqrt{3}-2\\arctan(-1)\\\\&=\\frac{2\\pi}{3}+\\frac{\\pi}{2}\\\\&=\\frac{7\\pi}{6}\\end{aligned}$\nThe area is $\\frac{7\\pi}{6}$ square units.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

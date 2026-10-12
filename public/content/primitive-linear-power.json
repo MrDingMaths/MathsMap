@@ -2,8 +2,8 @@
   "skillId": "primitive-linear-power",
   "atomType": "R",
   "theory": {
-    "intro": "A function of the form $(ax+b)^{n}$ is a power of a **linear bracket**. To find its primitive, add $1$ to the power, then divide by both the new power and the coefficient $a$.",
-    "facts": [
+"intro": "A function of the form $(ax+b)^{n}$ is a power of a **linear bracket**. To find its primitive, add $1$ to the power, then divide by both the new power and the coefficient $a$.",
+"facts": [
 "$\\displaystyle\\int(ax+b)^{n}\\,dx=\\dfrac{(ax+b)^{n+1}}{a(n+1)}+C$ for real $n\\ne-1$ and $a\\ne0$, on intervals where the real-valued integrand is defined.",
 "The extra division by $a$ undoes the factor of $a$ that the chain rule produces.",
 "Expansion is unnecessary for this rule. Expanding remains mathematically valid for nonnegative integer powers.",
@@ -14,13 +14,50 @@
 "The rule fails at $n=-1$, since $a(n+1)$ would be zero.",
 "Check the answer by differentiating with the chain rule, which should return $(ax+b)^{n}$."
 ],
-    "steps": [
+"steps": [
       "Rewrite roots and bracket denominators as $(ax+b)^{n}$ with a single index",
       "Add $1$ to the power to get $(ax+b)^{n+1}$",
       "Divide by the new power $n+1$ and by the coefficient $a$",
       "Add the constant of integration $+C$"
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "Find the general primitive of $f'(x)=(4x+3)^3$, then check your answer by differentiating.",
+    "solution_text": "Increase the power by $1$ and divide by the new power and the coefficient of $x$.\n$\\begin{align*}f(x)&=\\frac{(4x+3)^4}{4(4)}+C\\\\&=\\frac{(4x+3)^4}{16}+C\\end{align*}$\nCheck using the chain rule:\n$\\begin{align*}\\frac{d}{dx}\\left(\\frac{(4x+3)^4}{16}+C\\right)&=\\frac{4(4x+3)^3\\times4}{16}\\\\&=(4x+3)^3\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "Find the general primitive of $f'(x)=(7-3x)^5$.",
+    "solution_text": "The coefficient of $x$ is $-3$.\n$\\begin{align*}f(x)&=\\frac{(7-3x)^6}{-3(6)}+C\\\\&=-\\frac{(7-3x)^6}{18}+C\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the general primitive of $f'(x)=14(2x+5)^6$.",
+    "solution_text": "Keep the multiplier $14$, then divide by the new power and the coefficient of $x$.\n$\\begin{align*}f(x)&=\\frac{14(2x+5)^7}{2(7)}+C\\\\&=(2x+5)^7+C\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the general primitive of $f'(x)=\\frac{8}{(5-2x)^3}$, writing your answer without a negative index.",
+    "solution_text": "Rewrite the denominator using a negative index.\n$\\begin{align*}f'(x)&=\\frac{8}{(5-2x)^3}\\\\&=8(5-2x)^{-3}\\end{align*}$\nThe new power is $-2$ and the coefficient of $x$ is $-2$.\n$\\begin{align*}f(x)&=\\frac{8(5-2x)^{-2}}{(-2)(-2)}+C\\\\&=2(5-2x)^{-2}+C\\\\&=\\frac{2}{(5-2x)^2}+C\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the general primitives of:\n(a) $f'(x)=\\sqrt{2-5x}$\n(b) $g'(x)=\\frac{4}{\\sqrt{2x+3}}$\n(c) $h'(x)=\\sqrt[3]{(3x+4)^2}$.",
+    "solution_text": "(a) Rewrite the square root using a fractional index.\n$\\begin{align*}f'(x)&=(2-5x)^{\\frac12}\\\\f(x)&=\\frac{(2-5x)^{\\frac32}}{-5\\left(\\frac32\\right)}+C\\\\&=-\\frac{2(2-5x)^{\\frac32}}{15}+C\\end{align*}$\n(b) A square root in the denominator gives an index of $-\\frac12$.\n$\\begin{align*}g'(x)&=4(2x+3)^{-\\frac12}\\\\g(x)&=\\frac{4(2x+3)^{\\frac12}}{2\\left(\\frac12\\right)}+C\\\\&=4\\sqrt{2x+3}+C\\end{align*}$\n(c) Rewrite the cube root using an index of $\\frac23$.\n$\\begin{align*}h'(x)&=(3x+4)^{\\frac23}\\\\h(x)&=\\frac{(3x+4)^{\\frac53}}{3\\left(\\frac53\\right)}+C\\\\&=\\frac{(3x+4)^{\\frac53}}{5}+C\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

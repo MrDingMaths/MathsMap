@@ -2,20 +2,78 @@
   "skillId": "inclusion-exclusion-rule",
   "atomType": "R",
   "theory": {
-        "intro": "Adding $|A|$ and $|B|$ counts the overlap twice, so the **inclusion–exclusion rule** subtracts it once: $|A \\cup B| = |A| + |B| - |A \\cap B|$. Written with $n$, this is $n(A \\cup B) = n(A) + n(B) - n(A \\cap B)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.8);\n\\draw (2.9,2.4) circle (1.9);\n\\draw (5.1,2.4) circle (1.9);\n\\node[anchor=north west, font=\\small] at (0.15,4.7) {$\\xi$};\n\\node at (1.9,3.7) {$A$};\n\\node at (6.1,3.7) {$B$};\n\\node[font=\\small] at (2.1,2.4) {$|A \\cap B'|$};\n\\node[font=\\small] at (4,2.4) {$|A \\cap B|$};\n\\node[font=\\small] at (5.9,2.4) {$|A' \\cap B|$};\n\\node[font=\\small] at (6.9,0.65) {$|(A \\cup B)'|$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "Adding $|A|$ and $|B|$ counts the overlap twice, so the **inclusion–exclusion rule** subtracts it once: $|A \\cup B| = |A| + |B| - |A \\cap B|$. Written with $n$, this is $n(A \\cup B) = n(A) + n(B) - n(A \\cap B)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.8);\n\\draw (2.9,2.4) circle (1.9);\n\\draw (5.1,2.4) circle (1.9);\n\\node[anchor=north west, font=\\small] at (0.15,4.7) {$\\xi$};\n\\node at (1.9,3.7) {$A$};\n\\node at (6.1,3.7) {$B$};\n\\node[font=\\small] at (2.1,2.4) {$|A \\cap B'|$};\n\\node[font=\\small] at (4,2.4) {$|A \\cap B|$};\n\\node[font=\\small] at (5.9,2.4) {$|A' \\cap B|$};\n\\node[font=\\small] at (6.9,0.65) {$|(A \\cup B)'|$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "For two sets, $|A \\cup B| = |A| + |B| - |A \\cap B|$.",
           "Rearranged for the overlap, $|A \\cap B| = |A| + |B| - |A \\cup B|$.",
           "For disjoint sets $|A \\cap B| = 0$, so $|A \\cup B| = |A| + |B|$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.8);\n\\draw (2.2,2.4) circle (1.6);\n\\draw (5.8,2.4) circle (1.6);\n\\node[anchor=north west, font=\\small] at (0.15,4.7) {$\\xi$};\n\\node at (2.2,3.5) {$A$};\n\\node at (5.8,3.5) {$B$};\n\\node[below] at (4,-0.15) {$A \\cap B = \\varnothing$};\n\\end{tikzpicture}\n[/tikz]",
           "In a universal set $\\xi$, the number outside both sets is $|(A \\cup B)'| = |\\xi| - |A \\cup B|$.",
           "The number in $A$ only is $|A \\cap B'| = |A| - |A \\cap B|$."
         ],
-        "steps": [
+"steps": [
           "State the inclusion–exclusion rule: $|A \\cup B| = |A| + |B| - |A \\cap B|$.",
           "Substitute the known counts into the equation.",
           "Solve for the required unknown quantity."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "In a sports club, $27$ members play basketball, $21$ play volleyball and $9$ play both. How many members play basketball or volleyball?",
+    "solution_text": "Let $B$ represent basketball and $V$ represent volleyball. Adding the two totals counts the overlap twice, so subtract it once.\n\n$\\begin{aligned}|B\\cup V|&=|B|+|V|-|B\\cap V|\\\\&=27+21-9\\\\&=39\\end{aligned}$\n\n$39$ members play basketball or volleyball.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,0) rectangle (7,4);\n\\draw[black] (2.5,2) circle (1.5);\n\\draw[black] (4.5,2) circle (1.5);\n\\path (0.3,3.7) node {$\\xi$} (1.8,3.1) node {$B$} (5.2,3.1) node {$V$};\n\\path (1.8,2) node {$18$} (3.5,2) node {$9$} (5.2,2) node {$12$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A gym has $140$ members. $86$ use weights and $97$ use cardio equipment. Every member uses at least one type of equipment. How many use both?",
+    "solution_text": "Let $W$ represent weights and $C$ represent cardio. Every member belongs to the union, so $|W\\cup C|=140$.\n\n$\\begin{aligned}|W\\cup C|&=|W|+|C|-|W\\cap C|\\\\140&=86+97-|W\\cap C|\\\\140&=183-|W\\cap C|\\\\|W\\cap C|&=43\\end{aligned}$\n\n$43$ members use both.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A survey of $72$ music students found that $43$ play piano, $14$ play both piano and guitar, and $9$ play neither. How many play guitar?",
+    "solution_text": "Let $P$ represent piano and $G$ represent guitar. Subtract those who play neither to find the union.\n\n$|P\\cup G|=72-9=63$.\n\n$\\begin{aligned}|P\\cup G|&=|P|+|G|-|P\\cap G|\\\\63&=43+|G|-14\\\\63&=29+|G|\\\\|G|&=34\\end{aligned}$\n\n$34$ students play guitar.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "In a group of $45$ students, $19$ travel to school by bus and $26$ walk. Each student uses exactly one of these methods. Let $B$ represent bus travel and $W$ represent walking. Find $|B\\cup W|$.",
+    "solution_text": "The sets are disjoint, so $|B\\cap W|=0$.\n\n$\\begin{aligned}|B\\cup W|&=|B|+|W|-|B\\cap W|\\\\&=19+26-0\\\\&=45\\end{aligned}$\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,0) rectangle (7,3.8);\n\\draw[black] (1.9,1.9) circle (1.3);\n\\draw[black] (5.1,1.9) circle (1.3);\n\\path (0.3,3.5) node {$\\xi$} (1.9,2.7) node {$B$} (5.1,2.7) node {$W$};\n\\path (1.9,1.8) node {$19$} (5.1,1.8) node {$26$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A survey found that $|A|=37$, $|B|=29$ and $|A\\cap B|=12$. Find the number in $A$ only, $|A\\cap B'|$.",
+    "solution_text": "Subtract the overlap from the total in $A$.\n\n$\\begin{aligned}|A\\cap B'|&=|A|-|A\\cap B|\\\\&=37-12\\\\&=25\\end{aligned}$\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,0) rectangle (7,4);\n\\draw[black] (2.5,2) circle (1.5);\n\\draw[black] (4.5,2) circle (1.5);\n\\path (0.3,3.7) node {$\\xi$} (1.8,3.1) node {$A$} (5.2,3.1) node {$B$};\n\\path (1.8,2) node {$25$} (3.5,2) node {$12$} (5.2,2) node {$17$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "In a class of $40$ students, $24$ study German and $19$ study French. $6$ study neither language. Find the numbers who study (a) German only and (b) French only.",
+    "solution_text": "Let $G$ represent German and $F$ represent French. First find the union and the overlap.\n\n$|G\\cup F|=40-6=34$.\n\n$\\begin{aligned}|G\\cup F|&=|G|+|F|-|G\\cap F|\\\\34&=24+19-|G\\cap F|\\\\34&=43-|G\\cap F|\\\\|G\\cap F|&=9\\end{aligned}$\n\n(a) German only:\n\n$\\begin{aligned}|G\\cap F'|&=|G|-|G\\cap F|\\\\&=24-9\\\\&=15\\end{aligned}$\n\n(b) French only:\n\n$\\begin{aligned}|G'\\cap F|&=|F|-|G\\cap F|\\\\&=19-9\\\\&=10\\end{aligned}$\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,0) rectangle (7,4);\n\\draw[black] (2.5,2) circle (1.5);\n\\draw[black] (4.5,2) circle (1.5);\n\\path (0.3,3.7) node {$\\xi$} (1.8,3.1) node {$G$} (5.2,3.1) node {$F$};\n\\path (1.8,2) node {$15$} (3.5,2) node {$9$} (5.2,2) node {$10$} (6.5,0.5) node {$6$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "In a group of $60$ students, $31$ study Art, $26$ study Music and $11$ study both. How many study neither Art nor Music?",
+    "solution_text": "Let $A$ represent Art and $M$ represent Music. Find the union, then subtract it from the group total.\n\n$\\begin{aligned}|A\\cup M|&=|A|+|M|-|A\\cap M|\\\\&=31+26-11\\\\&=46\\end{aligned}$\n\n$\\begin{aligned}|(A\\cup M)'|&=|\\xi|-|A\\cup M|\\\\&=60-46\\\\&=14\\end{aligned}$\n\n$14$ students study neither.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,0) rectangle (7,4);\n\\draw[black] (2.5,2) circle (1.5);\n\\draw[black] (4.5,2) circle (1.5);\n\\path (0.3,3.7) node {$\\xi$} (1.8,3.1) node {$A$} (5.2,3.1) node {$M$};\n\\path (1.8,2) node {$20$} (3.5,2) node {$11$} (5.2,2) node {$15$} (6.5,0.5) node {$14$};\n\\end{tikzpicture}\n[/tikz]",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The numbers in the Venn diagram show how many elements lie in each region.\n\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw[black] (0,0) rectangle (7,4);\n\\draw[black] (2.5,2) circle (1.5);\n\\draw[black] (4.5,2) circle (1.5);\n\\path (0.3,3.7) node {$\\xi$} (1.8,3.1) node {$A$} (5.2,3.1) node {$B$};\n\\path (1.8,2) node {$14$} (3.5,2) node {$6$} (5.2,2) node {$11$} (6.5,0.5) node {$4$};\n\\end{tikzpicture}\n[/tikz]\n\nFind $|A|$ and $|B|$, then confirm $|A\\cup B|$ using the inclusion–exclusion rule.",
+    "solution_text": "Each set total includes the overlap.\n\n$\\begin{aligned}|A|&=14+6\\\\&=20\\end{aligned}$\n\n$\\begin{aligned}|B|&=11+6\\\\&=17\\end{aligned}$\n\nThe overlap contains $6$ elements. Apply the inclusion–exclusion rule.\n\n$\\begin{aligned}|A\\cup B|&=|A|+|B|-|A\\cap B|\\\\&=20+17-6\\\\&=31\\end{aligned}$\n\nAdding the three regions inside the circles also gives $14+6+11=31$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {

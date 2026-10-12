@@ -2,21 +2,47 @@
   "skillId": "annuity-interest-factors",
   "atomType": "R",
   "theory": {
-    "intro": "A table of interest factors gives the value of a $\\$1$ annuity for different interest rates and periods. To find the total value, locate the factor at the periodic rate and number of periods, then multiply by the regular payment. These tables assume payments at the end of each period and a payment interval that matches the compounding period.",
-    "facts": [
+"intro": "A table of interest factors gives the value of a $\\$1$ annuity for different interest rates and periods. To find the total value, locate the factor at the periodic rate and number of periods, then multiply by the regular payment. These tables assume payments at the end of each period and a payment interval that matches the compounding period.",
+"facts": [
 "The **future value** of an annuity is $\\text{FV} = \\text{FV factor} \\times M$, where $M$ is the regular contribution.",
 "The **present value** of an annuity is $\\text{PV} = \\text{PV factor} \\times M$, giving the single sum equivalent to the annuity. Invested now, this sum can provide the regular end-of-period withdrawals until the account is exhausted. Alternatively, invested for the same term with no withdrawals, it grows to the future value of the regular contributions.",
 "The table is indexed by the **rate per period** $r$ and the **total number of periods** $n$.",
 "For compounding frequency $k$ times per year, divide the annual rate by $k$ and multiply years by $k$.",
 "Interest earned on a savings annuity is $\\text{Interest} = \\text{FV} - (n \\times M)$."
 ],
-    "steps": [
+"steps": [
       "Match the rate per period $r$ and number of periods $n$ to the compounding frequency.",
       "Locate the interest factor at the intersection of column $r$ and row $n$ in the table.",
       "Multiply the regular payment $M$ by the interest factor to find the future or present value.",
       "Subtract total contributions from the future value if interest earned is required."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "The future value table gives the following factors for end-of-year contributions.\n$\\begin{array}{c|cc} n & 5\\% & 6\\% \\\\ \\hline 4 & 4.3101 & 4.3746 \\\\ 5 & 5.5256 & 5.6371 \\end{array}$\nAn investor deposits $\\$1000$ at the end of each year for $5$ years at $6\\%$ p.a. compounded annually. Use the table to calculate the future value and interest earned.",
+    "solution_text": "Use row $n=5$ and column $r=6\\%$: the future value factor is $5.6371$.\n$\\begin{aligned} FV &= 5.6371\\times1000 \\\\ FV &= \\$5637.10 \\\\ I &= 5637.10-(5\\times1000) \\\\ I &= \\$637.10 \\end{aligned}$"
   },
+  {
+    "question_text": "The future value table gives the following factors for end-of-period contributions.\n$\\begin{array}{c|cc} n & 2\\% & 3\\% \\\\ \\hline 4 & 4.1216 & 4.1836 \\\\ 6 & 6.3081 & 6.4684 \\end{array}$\nAn investor deposits $\\$400$ at the end of each quarter for $1.5$ years at $8\\%$ p.a. compounded quarterly. Use the table to calculate the future value and interest earned.",
+    "solution_text": "$\\begin{aligned} r &= \\frac{8\\%}{4}=2\\% \\\\ n &= 1.5\\times4=6 \\end{aligned}$\nUse row $6$ and column $2\\%$: the future value factor is $6.3081$.\n$\\begin{aligned} FV &= 6.3081\\times400 \\\\ FV &= \\$2523.24 \\\\ I &= 2523.24-(6\\times400) \\\\ I &= \\$123.24 \\end{aligned}$"
+  },
+  {
+    "question_text": "The present value table gives the following factors for end-of-year payments.\n$\\begin{array}{c|cc} n & 4\\% & 6\\% \\\\ \\hline 2 & 1.89 & 1.83 \\\\ 3 & 2.78 & 2.67 \\end{array}$\nFind the single amount required now to provide payments of $\\$3000$ at the end of each year for $3$ years, earning $4\\%$ p.a. compounded annually. Use the supplied table.",
+    "solution_text": "Use row $n=3$ and column $r=4\\%$: the present value factor is $2.78$.\n$\\begin{aligned} PV &= 2.78\\times3000 \\\\ PV &= \\$8340 \\end{aligned}$"
+  },
+  {
+    "question_text": "The tables give these factors for end-of-quarter contributions.\n$\\begin{array}{c|cc} & n & r=2\\% \\\\ \\hline \\text{Present value factor} & 8 & 7.3255 \\\\ \\text{Future value factor} & 8 & 8.5830 \\end{array}$\nAn annuity receives $\\$2000$ at the end of each quarter for $2$ years at $8\\%$ p.a. compounded quarterly. Calculate its present and future values using the tables. Check that investing the present value now, with no further deposits or withdrawals, gives approximately the same future value. Give monetary answers to the nearest cent.",
+    "solution_text": "$\\begin{aligned} r &= \\frac{8\\%}{4}=2\\% \\\\ n &= 2\\times4=8 \\\\ PV &= 7.3255\\times2000 \\\\ PV &= \\$14\\,651.00 \\\\ FV &= 8.5830\\times2000 \\\\ FV &= \\$17\\,166.00 \\end{aligned}$\nCheck the single investment over all $8$ quarters.\n$\\begin{aligned} FV &= 14651(1.02)^8 \\\\ FV &\\approx \\$17\\,165.98 \\end{aligned}$\nThe values differ by $\\$0.02$ because the table factors are rounded."
+  },
+  {
+    "question_text": "The future value tables give these factors for end-of-period contributions.\n$\\begin{array}{c|cc} & n & \\text{Rate per period} \\\\ \\hline \\text{Annual factor }5.6371 & 5 & 6\\% \\\\ \\text{Monthly factor }69.7700 & 60 & 0.5\\% \\end{array}$\nPlan A deposits $\\$2400$ at the end of each year for $5$ years at $6\\%$ p.a. compounded annually. Plan B deposits $\\$200$ at the end of each month for $5$ years at $6\\%$ p.a. compounded monthly. Use the factors to find both future values and how much more interest Plan B earns.",
+    "solution_text": "For Plan B, $r=6\\%\\div12=0.5\\%$ and $n=5\\times12=60$.\n$\\begin{aligned} FV_A &= 5.6371\\times2400=\\$13\\,529.04 \\\\ FV_B &= 69.7700\\times200=\\$13\\,954.00 \\end{aligned}$\nBoth plans contribute $\\$12\\,000$ in total.\n$\\begin{aligned} I_A &= 13529.04-12000=\\$1529.04 \\\\ I_B &= 13954.00-12000=\\$1954.00 \\\\ I_B-I_A &= 1954.00-1529.04 \\\\ I_B-I_A &= \\$424.96 \\end{aligned}$\nPlan B earns $\\$424.96$ more interest."
+  },
+  {
+    "question_text": "The future value table gives these factors for end-of-year contributions.\n$\\begin{array}{c|cc} n & 3\\% & 4\\% \\\\ \\hline 5 & 5.309 & 5.416 \\\\ 6 & 6.468 & 6.633 \\end{array}$\nAn investor deposits $\\$1000$ at the end of each year for $7$ years. Interest is $4\\%$ p.a. compounded annually for the first $6$ years, then $5\\%$ for Year $7$. Use the table to find the balance after the seventh deposit.",
+    "solution_text": "Use the $6$-year factor at $4\\%$, then apply the new rate before adding the seventh deposit.\n$\\begin{aligned} V_6 &= 6.633\\times1000 \\\\ V_6 &= \\$6633 \\\\ V_7 &= 6633(1.05)+1000 \\\\ V_7 &= \\$7964.65 \\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

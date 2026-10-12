@@ -2,8 +2,8 @@
   "skillId": "find-dimension-from-volume",
   "atomType": "R",
   "theory": {
-    "intro": "When the volume is given and a measurement is missing, substitute the volume and every known measurement into $V = Ah$. Solve for the unknown using inverse operations.",
-    "facts": [
+"intro": "When the volume is given and a measurement is missing, substitute the volume and every known measurement into $V = Ah$. Solve for the unknown using inverse operations.",
+"facts": [
 "Substitute **first**: put the volume and the known measurements into $V = Ah$, and the letter still showing is the unknown.",
 "In $V = Ah$, $A$ is the area of the uniform cross-section and $h$ is the distance between the two parallel cross-sections.",
 "Finding the distance between cross-sections or the cross-sectional area needs one **division**: $h = \\frac{V}{A}$ and $A = \\frac{V}{h}$.",
@@ -14,12 +14,56 @@
 "Only a positive side length is used.",
 "Carry values exactly through the working and round only at the last line, to the form the question asks for."
 ],
-    "steps": [
+"steps": [
       "Write the formula.",
       "Substitute the volume and the known dimensions.",
       "Solve for the unknown dimension."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "A prism has a uniform cross-sectional area of $14\\text{ cm}^{2}$ and a volume of $119\\text{ cm}^{3}$. Find the distance $h$ between its parallel cross-sections.",
+    "solution_text": "$\\begin{align*}V &= Ah\\\\119 &= 14h\\\\h &= \\frac{119}{14}\\\\h &= 8.5\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A prism has a volume of $102\\text{ mm}^{3}$. The distance between its parallel cross-sections is $6\\text{ mm}$. Find the area $A$ of its uniform cross-section.",
+    "solution_text": "$\\begin{align*}V &= Ah\\\\102 &= 6A\\\\A &= \\frac{102}{6}\\\\A &= 17\\text{ mm}^{2}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The rectangular prism has a volume of $168\\text{ cm}^{3}$. Find its missing dimension $x$.\n[tikz]\n% mathsmap-solid {\"version\":1,\"kind\":\"polyhedron\",\"model\":{\"version\":1,\"kind\":\"polyhedron\",\"vertices\":{\"a\":[0,0,0],\"b\":[3,0,0],\"c\":[3,2,0],\"d\":[0,2,0],\"e\":[0,0,2],\"f\":[3,0,2],\"g\":[3,2,2],\"h\":[0,2,2]},\"faces\":[[\"a\",\"d\",\"c\",\"b\"],[\"e\",\"f\",\"g\",\"h\"],[\"a\",\"b\",\"f\",\"e\"],[\"b\",\"c\",\"g\",\"f\"],[\"c\",\"d\",\"h\",\"g\"],[\"d\",\"a\",\"e\",\"h\"]],\"view\":{\"right\":[1,0,0.5],\"up\":[0,1,0.35],\"toward\":[0.5,0.35,-1]}}}\n\\begin{tikzpicture}[draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (a) at (0,0);\n\\coordinate (b) at (3,0);\n\\coordinate (c) at (3,2);\n\\coordinate (d) at (0,2);\n\\coordinate (e) at (1,0.7);\n\\coordinate (f) at (4,0.7);\n\\coordinate (g) at (4,2.7);\n\\coordinate (h) at (1,2.7);\n\\draw (a)--(b)--(c)--(d)--cycle;\n\\draw (b)--(f)--(g)--(c);\n\\draw (d)--(h)--(g);\n\\draw[dashed] (a)--(e)--(f);\n\\draw[dashed] (e)--(h);\n\\path (a)--(b) node[midway,below] {$7\\text{ cm}$};\n\\path (b)--(c) node[midway,left] {$4\\text{ cm}$};\n\\path (b)--(f) node[midway,below right] {$x$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Use the $7\\text{ cm}$ by $4\\text{ cm}$ face as the cross-section.\n$\\begin{align*}A &= 7\\times4\\\\&=28\\text{ cm}^{2}\\end{align*}$\n$\\begin{align*}V &= Ax\\\\168 &=28x\\\\x &=\\frac{168}{28}\\\\x &=6\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A cube has a volume of $200\\text{ cm}^{3}$. Find its side length $x$, correct to $2$ decimal places.",
+    "solution_text": "$\\begin{align*}V &= x^{3}\\\\200 &= x^{3}\\\\x &= \\sqrt[3]{200}\\\\&=5.8480\\ldots\\\\&\\approx5.85\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two rectangular prisms have the same volume. Prism A has dimensions $x\\text{ cm}$, $5\\text{ cm}$ and $3\\text{ cm}$. Prism B has dimensions $8\\text{ cm}$, $6\\text{ cm}$ and $5\\text{ cm}$. Find $x$.",
+    "solution_text": "Prism B:\n$\\begin{align*}V &= (8\\times6)\\times5\\\\&=240\\text{ cm}^{3}\\end{align*}$\nPrism A:\n$\\begin{align*}A &=5\\times3\\\\&=15\\text{ cm}^{2}\\end{align*}$\n$\\begin{align*}V &=Ax\\\\240 &=15x\\\\x &=\\frac{240}{15}\\\\x &=16\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A rectangular prism measures $16\\text{ cm}$ by $9\\text{ cm}$ by $5\\text{ cm}$. Its volume is double the volume of a cube with side length $x\\text{ cm}$. Find $x$, correct to $2$ decimal places.",
+    "solution_text": "Rectangular prism:\n$\\begin{align*}V &=(16\\times9)\\times5\\\\&=720\\text{ cm}^{3}\\end{align*}$\nThe cube has half this volume.\n$\\begin{align*}V_{\\text{cube}} &=720\\div2\\\\&=360\\text{ cm}^{3}\\end{align*}$\n$\\begin{align*}360 &=x^{3}\\\\x &=\\sqrt[3]{360}\\\\&=7.1137\\ldots\\\\&\\approx7.11\\text{ cm}\\end{align*}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
 {

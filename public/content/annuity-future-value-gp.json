@@ -2,20 +2,34 @@
   "skillId": "annuity-future-value-gp",
   "atomType": "R",
   "theory": {
-    "intro": "An **annuity** involves regular equal contributions to or withdrawals from an account earning compound interest. This skill models an **ordinary contribution annuity** starting with $\\$0$, with payments made at the end of each period and matching payment and compounding periods. The **future value** ($FV$) is the sum of all payments and the compound interest each payment earns.",
-    "facts": [
+"intro": "An **annuity** involves regular equal contributions to or withdrawals from an account earning compound interest. This skill models an **ordinary contribution annuity** starting with $\\$0$, with payments made at the end of each period and matching payment and compounding periods. The **future value** ($FV$) is the sum of all payments and the compound interest each payment earns.",
+"facts": [
 "In an **ordinary annuity**, payments are made at the **end** of each period, so the final payment earns no interest.",
 "The first payment grows for $n-1$ periods to $a(1+r)^{n-1}$, and the $n\\text{th}$ payment is simply $a$.",
 "Summing the payments gives a geometric series with first term $a$, common ratio $R=1+r$, and $n$ terms.",
 "For $r\\ne0$, summing the payment series gives $FV=a\\left[\\dfrac{(1+r)^n-1}{r}\\right]$, where $r$ is the interest rate per period. At $r=0$, the balance is $na$.",
 "Total interest earned equals future value minus total contributions: $\\text{Interest}=FV-na$."
 ],
-    "steps": [
+"steps": [
 "Identify the payment $a$, the interest rate per period $r$, and the number of payments $n$. Check that payment and compounding periods match.",
 "Write the compounded value of each payment to form a geometric series. At the final payment date, the first payment has earned interest for $n-1$ periods and the final payment has earned none.",
 "Apply the geometric-series sum $S_n=a\\left[\\dfrac{R^n-1}{R-1}\\right]$ using common ratio $R=1+r$. Derive the expression from the payment series for each question, keep full precision during calculation, and round the final monetary answer as requested. If $R=1$, add the payments to obtain $na$."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A school deposits $\\$600$ at the end of each year into an account initially containing $\\$0$. The account earns $5\\%$ p.a. compounded annually. Write the balance after four deposits as a geometric series and calculate its future value to the nearest cent.",
+    "solution_text": "At the end of the first year, the balance is $600$. At the end of the second year, it is $600(1.05)+600$.\n\nAfter four deposits, the first payment has grown for three years and the final payment earns no interest:\n$FV=600(1.05)^3+600(1.05)^2+600(1.05)+600$.\n\nIn ascending powers, this geometric series has first term $a=600$, common ratio $R=1.05$ and $n=4$ terms.\n$\\begin{aligned}FV&=\\frac{600(1.05^4-1)}{1.05-1}\\\\&=\\$2586.08\\end{aligned}$"
   },
+  {
+    "question_text": "An account initially contains $\\$0$. Deposits of $\\$100$ are made at the end of each month for two years. Interest is paid at $12\\%$ p.a. compounded monthly. Use a geometric series to calculate the future value and total interest earned, each to the nearest cent.",
+    "solution_text": "Payments and compounding are monthly:\n$r=\\frac{0.12}{12}=0.01$, $R=1.01$ and $n=2\\times12=24$.\n\nThe first deposit earns interest for 23 months and the final deposit earns none:\n$FV=100(1.01)^{23}+100(1.01)^{22}+\\cdots+100$.\n\nIn ascending powers, the series has first term $a=100$, common ratio $R=1.01$ and 24 terms.\n$\\begin{aligned}FV&=\\frac{100(1.01^{24}-1)}{1.01-1}\\\\&=\\$2697.35\\end{aligned}$\n\nTotal contributions are $24\\times100=\\$2400$. Using the unrounded future value:\n$\\begin{aligned}I&=\\frac{100(1.01^{24}-1)}{0.01}-2400\\\\&=\\$297.35\\end{aligned}$"
+  },
+  {
+    "question_text": "A parent deposits $\\$400$ into an empty savings account on each of a child's first six birthdays. The account earns $6\\%$ p.a. compounded annually. Find the balance immediately after the deposit on the sixth birthday, to the nearest cent.",
+    "solution_text": "The first through sixth birthdays give six deposits. The first deposit grows for five years; the sixth earns no interest before the balance is calculated.\n\nOn the first birthday, the balance is $400$. Immediately after the second deposit, it is $400(1.06)+400$.\n\nImmediately after the sixth deposit:\n$FV=400(1.06)^5+400(1.06)^4+\\cdots+400$.\n\nIn ascending powers, the geometric series has first term $a=400$, common ratio $R=1.06$ and $n=6$ terms.\n$\\begin{aligned}FV&=\\frac{400(1.06^6-1)}{1.06-1}\\\\&=\\$2790.13\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

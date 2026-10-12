@@ -2,8 +2,8 @@
   "skillId": "graph-power-curves",
   "atomType": "R",
   "theory": {
-        "intro": "A **power curve** has the form $y=k(x-b)^{n}+c$, where $k\\ne0$ and $n\\ge2$ is a whole number; the simplest is $y=x^{n}$. Its shape depends on whether $n$ is even or odd. At a **point of inflection** the concavity changes.",
-        "facts": [
+"intro": "A **power curve** has the form $y=k(x-b)^{n}+c$, where $k\\ne0$ and $n\\ge2$ is a whole number; the simplest is $y=x^{n}$. Its shape depends on whether $n$ is even or odd. At a **point of inflection** the concavity changes.",
+"facts": [
 "For the basic graph $y=x^{n}$, an **even** power gives a **turning point** at the origin, with both arms rising and line symmetry about the $y$-axis.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3.2,0)--(3.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.2)--(0,3.2) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.33:1.33,smooth,variable=\\x] plot ({\\x},{\\x*\\x*\\x*\\x});\n\\fill (0,0) circle (2pt);\n\\node[right,font=\\small] at (0.3,-0.8) {turning point};\n\\end{tikzpicture}\n[/tikz]",
 "For the basic graph $y=x^{n}$, an **odd** power gives a point of inflection at the origin, where the concavity changes, with the arms going opposite ways and point symmetry about the origin.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3.2,0)--(3.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.2)--(0,3.2) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.25:1.25,smooth,variable=\\x] plot ({\\x},{\\x*\\x*\\x*\\x*\\x});\n\\fill (0,0) circle (2pt);\n\\node[right,font=\\small] at (0.35,-0.9) {point of inflection};\n\\end{tikzpicture}\n[/tikz]",
 "$k$ controls width and direction: $|k|>1$ makes the curve narrower and steeper, $0<|k|<1$ makes it wider, and $k<0$ reflects it in the $x$-axis. For an even power with $k<0$, both arms point downward.",
@@ -12,13 +12,39 @@
 "In $y=k(x-b)^{n}+c$ the two shifts combine, putting the turning or inflection point at $(b,c)$. Even-power curves have line symmetry about $x=b$; odd-power curves have point symmetry about $(b,c)$.",
 "As $n$ increases the curve becomes flatter near its turning or inflection point but steeper further out."
 ],
-        "steps": [
+"steps": [
 "Identify the effect of the power $n$: an even power gives a turning point, while an odd power gives a point of inflection.",
 "Identify the effect of the coefficient $k$: $|k|>1$ makes the curve narrower, $0<|k|<1$ makes it wider, and $k<0$ reflects it in the $x$-axis.",
 "Apply the horizontal shift given by $b$ and the vertical shift given by $c$: right for $b>0$, left for $b<0$, up for $c>0$ and down for $c<0$.",
 "Sketch the transformed curve and mark the turning point $(b,c)$ for an even power or the point of inflection $(b,c)$ for an odd power."
+],
+"workedExamples": [
+  {
+    "question_text": "For $y=x^{8}$ and $y=x^{9}$, state the feature at the origin and explain how the directions of the arms differ.",
+    "solution_text": "$8$ is even, so $y=x^{8}$ has a turning point at $(0,0)$. Equal positive and negative inputs give equal non-negative outputs, so both arms rise and the graph is symmetric about the $y$-axis.\n\n$9$ is odd, so $y=x^{9}$ has a point of inflection at $(0,0)$. The curve changes from concave down to concave up there. Negative inputs give negative outputs and positive inputs give positive outputs, so the arms point in opposite directions."
+  },
+  {
+    "question_text": "Compare each curve with $y=x^{4}$:\n(a) $y=6x^{4}$\n(b) $y=\\frac{1}{4}x^{4}$\n(c) $y=-6x^{4}$.",
+    "solution_text": "(a) $|k|=6>1$, so the curve is narrower and steeper.\n\n(b) $0<|k|=\\frac{1}{4}<1$, so the curve is wider and flatter.\n\n(c) $|k|=6>1$ makes the curve narrower. The negative coefficient reflects it in the $x$-axis, so both arms point downward.\n\nAll three curves retain a turning point at $(0,0)$."
+  },
+  {
+    "question_text": "Describe each transformation:\n(a) From $y=x^{5}$ to $y=x^{5}+6$.\n(b) From $y=x^{6}$ to $y=(x+6)^{6}$.\n(c) From $y=\\frac{1}{4}x^{5}$ to $y=\\frac{1}{4}(x-2)^{5}+3$.",
+    "solution_text": "(a) The constant outside the power shifts the curve $6$ units up. Its point of inflection moves to $(0,6)$.\n\n(b) Write $x+6=x-(-6)$, so $b=-6$. The curve shifts $6$ units left, moving its turning point to $(-6,0)$.\n\n(c) The coefficient stays $\\frac{1}{4}$, so the width stays the same. The curve shifts $2$ units right and $3$ units up, moving its point of inflection to $(2,3)$."
+  },
+  {
+    "question_text": "Sketch $y=(x-1)^{3}-1$, marking its point of inflection and its intercepts.",
+    "solution_text": "Shift $y=x^{3}$ right $1$ unit and down $1$ unit. The point of inflection is $(1,-1)$, and the curve is increasing.\n\nFor the $y$-intercept, use $x=0$:\n$\\begin{aligned}y&=(0-1)^{3}-1\\\\&=-2\\end{aligned}$\n\nFor the $x$-intercept, the transformed curve reaches $y=0$ when its original height is $1$. On $y=x^{3}$ this occurs at $(1,1)$; shifting gives $(2,0)$.\n\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,<->] (-1.2,0)--(3.3,0) node[right] {$x$};\n\\draw[black,<->] (0,-3.4)--(0,2.4) node[above] {$y$};\n\\draw[curveblue,thick,<->,smooth,samples=101,domain=-0.3:2.45,variable=\\x] plot ({\\x},{(\\x-1)*(\\x-1)*(\\x-1)-1});\n\\fill[black] (1,-1) circle (1.5pt);\n\\path (1,-1) node[below right] {$(1,-1)$};\n\\fill[black] (0,-2) circle (1.5pt);\n\\path (0,-2) node[left] {$(0,-2)$};\n\\fill[black] (2,0) circle (1.5pt);\n\\path (2,0) node[below right] {$(2,0)$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "The graph has the form $y=k(x-b)^{3}+c$. Which equation could represent it?\nA. $y=-3(x+1)^{3}+2$\nB. $y=3(x+1)^{3}+2$\nC. $y=-3(x-1)^{3}+2$\nD. $y=-3(x+1)^{3}-2$\n\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[black,<->] (-3.2,0)--(1.5,0) node[right] {$x$};\n\\draw[black,<->] (0,-3)--(0,6.5) node[above] {$y$};\n\\draw[curveblue,thick,<->,smooth,samples=101,domain=-2.1:0.1,variable=\\x] plot ({\\x},{-3*(\\x+1)*(\\x+1)*(\\x+1)+2});\n\\fill[black] (-1,2) circle (1.5pt);\n\\path (-1,2) node[above right] {$(-1,2)$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The curve is decreasing, so $k<0$. Its point of inflection is $(-1,2)$, so $b=-1$ and $c=2$.\n\nAmong the supplied equations, A is the only one with these features: $y=-3(x+1)^{3}+2$.\n\nCorrect answer: A."
+  },
+  {
+    "question_text": "Compare $y=x^{4}$ and $y=x^{6}$ near the origin and further out. Use $x=\\frac{1}{2}$ and $x=2$ to illustrate the comparison.",
+    "solution_text": "At $x=\\frac{1}{2}$:\n$\\begin{aligned}x^{4}&=\\frac{1}{16}\\\\x^{6}&=\\frac{1}{64}\\end{aligned}$\nThe higher-power curve stays closer to the $x$-axis and is flatter near its turning point.\n\nAt $x=2$:\n$\\begin{aligned}x^{4}&=16\\\\x^{6}&=64\\end{aligned}$\nThe higher-power curve rises more sharply further out. Both powers are even, so the same comparison applies on the negative side.\n\n[tikz]\n\\begin{tikzpicture}[x=16mm,y=6mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\definecolor{curvered}{HTML}{EF6068}\n\\draw[black,<->] (-1.7,0)--(1.7,0) node[right] {$x$};\n\\draw[black,->] (0,0)--(0,5.1) node[above] {$y$};\n\\draw[curveblue,thick,<->,smooth,samples=101,domain=-1.45:1.45,variable=\\x] plot ({\\x},{(\\x)^4});\n\\draw[curvered,thick,dashed,<->,smooth,samples=101,domain=-1.29:1.29,variable=\\x] plot ({\\x},{(\\x)^6});\n\\draw[black] (-1,0.08)--(-1,-0.08) (1,0.08)--(1,-0.08);\n\\path (-1,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$-1$};\n\\path (1,0) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$1$};\n\\path (0,0) node[below left,font=\\fontsize{8.5}{10}\\selectfont] {$0$};\n\\path (-1.8,6) node[right,text=curveblue] {solid: $y=x^{4}$};\n\\path (-1.8,5.4) node[right,text=curvered] {dashed: $y=x^{6}$};\n\\end{tikzpicture}\n[/tikz]"
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

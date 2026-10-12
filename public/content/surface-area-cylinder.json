@@ -2,8 +2,8 @@
   "skillId": "surface-area-cylinder",
   "atomType": "R",
   "theory": {
-        "intro": "A closed cylinder has three faces: two circular ends and one curved side. Unrolled, the curved side is a rectangle of length $2\\pi r$ and width $h$. Adding the faces gives $A = 2\\pi r^{2} + 2\\pi rh$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw (-3,0)--(-3,8);\n\\draw (3,0)--(3,8) node[midway,right] {$h$};\n\\draw (0,8) ellipse (3 and 0.9);\n\\draw (-3,0) arc[start angle=180,end angle=360,x radius=3,y radius=0.9];\n\\draw[dashed] (-3,0) arc[start angle=180,end angle=0,x radius=3,y radius=0.9];\n\\fill (0,8) circle (2pt);\n\\draw (0,8)--(3,8) node[midway,above,fill=white,inner sep=1pt] {$r$};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "A closed cylinder has three faces: two circular ends and one curved side. Unrolled, the curved side is a rectangle of length $2\\pi r$ and width $h$. Adding the faces gives $A = 2\\pi r^{2} + 2\\pi rh$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw (-3,0)--(-3,8);\n\\draw (3,0)--(3,8) node[midway,right] {$h$};\n\\draw (0,8) ellipse (3 and 0.9);\n\\draw (-3,0) arc[start angle=180,end angle=360,x radius=3,y radius=0.9];\n\\draw[dashed] (-3,0) arc[start angle=180,end angle=0,x radius=3,y radius=0.9];\n\\fill (0,8) circle (2pt);\n\\draw (0,8)--(3,8) node[midway,above,fill=white,inner sep=1pt] {$r$};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "**$A = 2\\pi r^{2} + 2\\pi rh$** for a **closed** cylinder, where $r$ is the radius and $h$ is the perpendicular height.",
           "$2\\pi r^{2}$ is the **two circular ends**, each of area $\\pi r^{2}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw (0,0) circle (2.2);\n\\node at (0,0) {$\\pi r^{2}$};\n\\draw (5.4,0) circle (2.2);\n\\node at (5.4,0) {$\\pi r^{2}$};\n\\end{tikzpicture}\n[/tikz]",
           "$2\\pi rh$ is the **curved surface**, which unrolls into a rectangle of length $2\\pi r$ and width $h$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw (0,0) rectangle (7,3);\n\\node at (3.5,1.5) {curved surface};\n\\node[below] at (3.5,0) {$2\\pi r$};\n\\node[right] at (7,1.5) {$h$};\n\\end{tikzpicture}\n[/tikz]",
@@ -12,12 +12,63 @@
           "A multiple of $\\pi$ such as $104\\pi$ cm² is the **exact** area, while a rounded decimal is written with $\\approx$.",
           "Surface area is measured in **square** units, so lengths in centimetres give an area in cm²."
         ],
-        "steps": [
+"steps": [
           "Write the formula.",
           "Substitute the radius (halving a given diameter first) and the height.",
           "Evaluate, then round or leave in terms of $\\pi$ as asked."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A closed cylinder has radius $r$ and height $h$. Use its net to write a formula for its total surface area.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (0,0) rectangle (4.8,1.8);\n\\draw (2.4,2.5) circle (0.7);\n\\draw (2.4,-0.7) circle (0.7);\n\\fill (2.4,2.5) circle (1pt);\n\\draw (2.4,2.5)--(3.1,2.5);\n\\path (2.75,2.5) node[above] {$r$};\n\\path (2.4,0.9) node {$2\\pi r$};\n\\path (4.8,0.9) node[right] {$h$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The two circular ends have total area $2\\pi r^{2}$.\nThe curved side unrolls into a rectangle with length $2\\pi r$ and width $h$, so its area is $2\\pi rh$.\nAdding the three faces gives $A=2\\pi r^{2}+2\\pi rh$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Find the total surface area of this closed cylinder. Give an exact answer in terms of $\\pi$, then round to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-1,0)--(-1,2.5);\n\\draw (1,0)--(1,2.5);\n\\draw (0,2.5) ellipse (1 and 0.3);\n\\draw (-1,0) arc[start angle=180,end angle=360,x radius=1,y radius=0.3];\n\\draw[dashed] (-1,0) arc[start angle=180,end angle=0,x radius=1,y radius=0.3];\n\\fill (0,2.5) circle (1pt);\n\\draw (0,2.5)--(1,2.5);\n\\path (0.5,2.5) node[above] {$3\\text{ cm}$};\n\\path (1,1.25) node[right] {$8\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned}A&=2\\pi r^{2}+2\\pi rh\\\\&=2\\pi(3)^{2}+2\\pi(3)(8)\\\\&=18\\pi+48\\pi\\\\&=66\\pi\\text{ cm}^{2}\\\\&\\approx207.35\\text{ cm}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "The marked length is the diameter. Find the total surface area of this closed cylinder to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-1.1,0)--(-1.1,2.4);\n\\draw (1.1,0)--(1.1,2.4);\n\\draw (0,2.4) ellipse (1.1 and 0.33);\n\\draw (-1.1,0) arc[start angle=180,end angle=360,x radius=1.1,y radius=0.33];\n\\draw[dashed] (-1.1,0) arc[start angle=180,end angle=0,x radius=1.1,y radius=0.33];\n\\draw[<->] (-1.1,2.4)--(1.1,2.4);\n\\path (0,2.4) node[above] {$14\\text{ cm}$};\n\\path (1.1,1.2) node[right] {$9\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Halve the diameter to find the radius.\n$\\begin{aligned}r&=\\frac{14}{2}=7\\text{ cm}\\end{aligned}$\n$\\begin{aligned}A&=2\\pi r^{2}+2\\pi rh\\\\&=2\\pi(7)^{2}+2\\pi(7)(9)\\\\&=98\\pi+126\\pi\\\\&=224\\pi\\text{ cm}^{2}\\\\&\\approx703.7\\text{ cm}^{2}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Closed cylinder A has radius $6$ cm and height $4$ cm. Closed cylinder B has radius $4$ cm and height $6$ cm. Which has the larger total surface area? Justify your answer using exact areas.",
+    "solution_text": "Cylinder A:\n$\\begin{aligned}A&=2\\pi r^{2}+2\\pi rh\\\\&=2\\pi(6)^{2}+2\\pi(6)(4)\\\\&=72\\pi+48\\pi\\\\&=120\\pi\\text{ cm}^{2}\\end{aligned}$\nCylinder B:\n$\\begin{aligned}A&=2\\pi r^{2}+2\\pi rh\\\\&=2\\pi(4)^{2}+2\\pi(4)(6)\\\\&=32\\pi+48\\pi\\\\&=80\\pi\\text{ cm}^{2}\\end{aligned}$\nCylinder A has the larger surface area because $120\\pi>80\\pi$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A cylinder has radius $7$ cm and curved surface area $168\\pi$ cm². Find its height.",
+    "solution_text": "Use the curved surface area $2\\pi rh$.\n$\\begin{aligned}2\\pi rh&=168\\pi\\\\2\\pi(7)h&=168\\pi\\\\14\\pi h&=168\\pi\\\\h&=12\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A closed cylinder has radius $5$ m and total surface area $400$ m². Find its height to $1$ decimal place.",
+    "solution_text": "$\\begin{aligned}2\\pi r^{2}+2\\pi rh&=400\\\\2\\pi(5)^{2}+2\\pi(5)h&=400\\\\50\\pi+10\\pi h&=400\\\\10\\pi h&=400-50\\pi\\\\h&=\\frac{400-50\\pi}{10\\pi}\\\\&\\approx7.7\\text{ m}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "This closed cylinder has total surface area $160\\pi$ cm². Find $x$.\n[tikz]\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\draw (-0.9,0)--(-0.9,2.7);\n\\draw (0.9,0)--(0.9,2.7);\n\\draw (0,2.7) ellipse (0.9 and 0.27);\n\\draw (-0.9,0) arc[start angle=180,end angle=360,x radius=0.9,y radius=0.27];\n\\draw[dashed] (-0.9,0) arc[start angle=180,end angle=0,x radius=0.9,y radius=0.27];\n\\fill (0,2.7) circle (1pt);\n\\draw (0,2.7)--(0.9,2.7);\n\\path (0.45,2.7) node[above] {$x\\text{ cm}$};\n\\path (0.9,1.35) node[right] {$4x\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$\\begin{aligned}2\\pi x^{2}+2\\pi x(4x)&=160\\pi\\\\2\\pi x^{2}+8\\pi x^{2}&=160\\pi\\\\10\\pi x^{2}&=160\\pi\\\\x^{2}&=16\\\\x&=4\\end{aligned}$\nTake the positive square root because the radius is a positive length.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -62,47 +113,47 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "A closed cylindrical water tank has a radius of $1.5$ m and a height of $2$ m. Find its total surface area, correct to $2$ decimal places.",
         "structure": "radius-given-round",
         "solution_text": "$A = 2\\pi r^{2} + 2\\pi rh$\n$= 2\\pi(1.5)^{2} + 2\\pi(1.5)(2)$\n$= 4.5\\pi + 6\\pi$\n$= 10.5\\pi$\n$= 32.9867\\ldots$\n$\\approx 32.99\\text{ m}^{2}$"
       },
-      {
+{
         "question_text": "A food tin is a closed cylinder with a diameter of $7$ cm and a height of $10$ cm.\nFind the total area of metal used to make it, in exact form in terms of $\\pi$.",
         "structure": "diameter-given",
         "solution_text": "$r = \\frac{7}{2} = 3.5$\n$A = 2\\pi r^{2} + 2\\pi rh$\n$= 2\\pi(3.5)^{2} + 2\\pi(3.5)(10)$\n$= 24.5\\pi + 70\\pi$\n$= 94.5\\pi\\text{ cm}^{2}$"
       },
-      {
+{
         "question_text": "A solid garden roller is a cylinder with a radius of $20$ cm and a length of $90$ cm.\nFind its total surface area, correct to the nearest square centimetre.",
         "structure": "radius-given-round",
         "solution_text": "$A = 2\\pi r^{2} + 2\\pi rh$\n$= 2\\pi(20)^{2} + 2\\pi(20)(90)$\n$= 800\\pi + 3600\\pi$\n$= 4400\\pi$\n$= 13823.0072\\ldots$\n$\\approx 13823\\text{ cm}^{2}$"
       },
-      {
+{
         "question_text": "A sealed barrel is a closed cylinder with a diameter of $60$ cm and a height of $90$ cm.\nFind its total surface area, correct to $1$ decimal place.",
         "structure": "diameter-given",
         "solution_text": "$r = \\frac{60}{2} = 30$\n$A = 2\\pi r^{2} + 2\\pi rh$\n$= 2\\pi(30)^{2} + 2\\pi(30)(90)$\n$= 1800\\pi + 5400\\pi$\n$= 7200\\pi$\n$= 22619.4671\\ldots$\n$\\approx 22619.5\\text{ cm}^{2}$"
       },
-      {
+{
         "question_text": "A cylindrical candle of radius $3$ cm and height $12$ cm is to be completely wrapped in a printed label that covers its whole surface, including the two ends.\nFind the area of label material needed, correct to $1$ decimal place.",
         "structure": "radius-given-round",
         "solution_text": "$A = 2\\pi r^{2} + 2\\pi rh$\n$= 2\\pi(3)^{2} + 2\\pi(3)(12)$\n$= 18\\pi + 72\\pi$\n$= 90\\pi$\n$= 282.7433\\ldots$\n$\\approx 282.7\\text{ cm}^{2}$"
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.32]\n\\draw (-7,0)--(-7,20);\n\\draw (7,0)--(7,20) node[midway,right] {$20\\text{ cm}$};\n\\draw (0,20) ellipse (7 and 2.1);\n\\draw (-7,0) arc[start angle=180,end angle=360,x radius=7,y radius=2.1];\n\\draw[dashed] (-7,0) arc[start angle=180,end angle=0,x radius=7,y radius=2.1];\n\\draw[{Stealth}-{Stealth}] (-7,20)--(7,20) node[midway,above,fill=white,inner sep=1pt] {$14\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nA student wrote $A = 2\\pi(14)^{2} + 2\\pi(14)(20)$ for the surface area of this closed cylinder.\nExplain the mistake, then give the correct surface area in exact form, in terms of $\\pi$.",
-        "structure": "diameter-given",
-        "solution_text": "The $14$ cm marked runs right across the circular end through the centre, so it is the diameter, not the radius. The student substituted $14$ where the radius belongs.\n$r = \\frac{14}{2} = 7$\n$A = 2\\pi r^{2} + 2\\pi rh$\n$= 2\\pi(7)^{2} + 2\\pi(7)(20)$\n$= 98\\pi + 280\\pi$\n$= 378\\pi\\text{ cm}^{2}$"
+{
+        "question_text": "A closed cylinder has a diameter of $16$ cm and a height of $18$ cm.\nFind its surface area in exact form, in terms of $\\pi$.",
+        "structure": "diameter-given-exact",
+        "solution_text": "$r = \\frac{16}{2} = 8$\n$A = 2\\pi r^{2} + 2\\pi rh$\n$= 2\\pi(8)^{2} + 2\\pi(8)(18)$\n$= 128\\pi + 288\\pi$\n$= 416\\pi\\text{ cm}^{2}$"
       },
-      {
+{
         "question_text": "A closed cylinder has a radius of $8$ mm and a height of $25$ mm.\nFind its surface area in exact form, in terms of $\\pi$.",
         "structure": "radius-given-exact",
         "solution_text": "$A = 2\\pi r^{2} + 2\\pi rh$\n$= 2\\pi(8)^{2} + 2\\pi(8)(25)$\n$= 128\\pi + 400\\pi$\n$= 528\\pi\\text{ mm}^{2}$"
       },
-      {
+{
         "question_text": "A closed cylinder has a radius of $4$ cm and a height of $10$ cm.\nA second closed cylinder has a radius of $5$ cm and a height of $6$ cm.\nFind both surface areas in exact form in terms of $\\pi$, and state which cylinder has the greater surface area.",
         "structure": "compare-two-cylinders",
         "solution_text": "First cylinder: $A = 2\\pi(4)^{2} + 2\\pi(4)(10)$\n$= 32\\pi + 80\\pi$\n$= 112\\pi\\text{ cm}^{2}$\nSecond cylinder: $A = 2\\pi(5)^{2} + 2\\pi(5)(6)$\n$= 50\\pi + 60\\pi$\n$= 110\\pi\\text{ cm}^{2}$\nThe first cylinder has the greater surface area, since $112\\pi > 110\\pi$."
       }
-    ],
+],
     "mastery": [
       {
         "question_text": "A closed cylinder has a radius of $5$ cm, and its curved surface area is $220\\pi$ cm².\nFind the height of the cylinder.",

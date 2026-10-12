@@ -2,8 +2,8 @@
   "skillId": "sketch-parabola-from-equation",
   "atomType": "R",
   "theory": {
-        "intro": "Sketching a parabola brings the features together: find the concavity, the $y$-intercept, the $x$-intercepts and the vertex, then draw a smooth curve through them. No graphing software is needed.",
-        "facts": [
+"intro": "Sketching a parabola brings the features together: find the concavity, the $y$-intercept, the $x$-intercepts and the vertex, then draw a smooth curve through them. No graphing software is needed.",
+"facts": [
           "Read the **concavity** from the coefficient of $x^2$: positive opens upward (U), negative opens downward ($\\cap$).",
           "Find the **$y$-intercept** by letting $x=0$, and the **$x$-intercepts** by letting $y=0$, factorising first if needed.",
           "The **axis of symmetry** is $x=-\\dfrac{b}{2a}$, or the midpoint of the $x$-intercepts.",
@@ -11,13 +11,35 @@
           "In vertex form $y=k(x-b)^2+c$ the vertex $(b,c)$ is read straight off, leaving only the intercepts to work out.",
           "Plot the vertex and the intercepts, join them with a smooth curve, and put arrows on both ends."
         ],
-        "steps": [
+"steps": [
           "Determine the concavity from the coefficient of $x^2$.",
           "Find the $y$-intercept.",
           "Find the $x$-intercepts.",
           "Find the vertex, then plot the points and draw the curve."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Sketch $y=-(x+2)(x-6)$, showing the intercepts and vertex.",
+    "solution_text": "The leading coefficient is negative, so the parabola is concave down.\n\nFor the $y$-intercept, let $x=0$: $y=-(2)(-6)=12$.\n\nFor the $x$-intercepts, let $y=0$:\n$\\begin{aligned}0&=-(x+2)(x-6)\\\\x&=-2\\text{ or }6\\end{aligned}$\n\nThe axis of symmetry is halfway between the $x$-intercepts: $x=\\dfrac{-2+6}{2}=2$.\n\nSubstitute $x=2$: $y=-(2+2)(2-6)=16$. The vertex is $(2,16)$.\n\nPlot the intercepts and vertex, then draw a smooth, symmetrical curve with arrows at both ends.\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=2mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[<->,black] (-4,0)--(8,0) node[right] {$x$};\n\\draw[<->,black] (0,-7)--(0,20) node[above] {$y$};\n\\draw[dashed,black] (2,-6)--(2,19);\n\\path (2,19) node[right] {$x=2$};\n\\draw[thick,curveblue,<->,domain=-2.6:6.6,samples=100] plot (\\x,{-(\\x+2)*(\\x-6)});\n\\fill[black] (-2,0) circle (1.3pt) (6,0) circle (1.3pt) (0,12) circle (1.3pt) (2,16) circle (1.3pt);\n\\path (-2,0) node[below left] {$(-2,0)$};\n\\path (6,0) node[below right] {$(6,0)$};\n\\path (0,12) node[left] {$(0,12)$};\n\\path (2,16) node[above right] {$(2,16)$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Sketch $y=x^2-8x+7$ by factorising first. Show the intercepts and vertex.",
+    "solution_text": "Factorise:\n$\\begin{aligned}y&=x^2-8x+7\\\\y&=(x-1)(x-7)\\end{aligned}$\n\nThe leading coefficient is positive, so the parabola is concave up.\n\nFor the $y$-intercept, let $x=0$: $y=7$.\n\nFor the $x$-intercepts, let $y=0$:\n$\\begin{aligned}0&=(x-1)(x-7)\\\\x&=1\\text{ or }7\\end{aligned}$\n\nThe axis of symmetry is $x=\\dfrac{1+7}{2}=4$.\n\nSubstitute $x=4$: $y=(4-1)(4-7)=-9$. The vertex is $(4,-9)$.\n\nDraw a smooth, symmetrical curve through the three intercepts and vertex.\n[tikz]\n\\begin{tikzpicture}[x=6mm,y=3mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[<->,black] (-1,0)--(9,0) node[right] {$x$};\n\\draw[<->,black] (0,-12)--(0,11) node[above] {$y$};\n\\draw[dashed,black] (4,-11)--(4,10);\n\\path (4,10) node[right] {$x=4$};\n\\draw[thick,curveblue,<->,domain=-0.3:8.3,samples=100] plot (\\x,{(\\x-1)*(\\x-7)});\n\\fill[black] (1,0) circle (1.3pt) (7,0) circle (1.3pt) (0,7) circle (1.3pt) (4,-9) circle (1.3pt);\n\\path (1,0) node[below left] {$(1,0)$};\n\\path (7,0) node[below right] {$(7,0)$};\n\\path (0,7) node[left] {$(0,7)$};\n\\path (4,-9) node[below right] {$(4,-9)$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Sketch $y=-(x-1)^2+9$, showing the intercepts and vertex.",
+    "solution_text": "The coefficient of the squared term is negative, so the parabola is concave down.\n\nFor the $y$-intercept, let $x=0$: $y=-(0-1)^2+9=8$.\n\nFor the $x$-intercepts, let $y=0$:\n$\\begin{aligned}0&=-(x-1)^2+9\\\\(x-1)^2&=9\\\\x-1&=\\pm3\\\\x&=1\\pm3\\\\x&=-2\\text{ or }4\\end{aligned}$\n\nVertex form gives the vertex $(1,9)$ and axis of symmetry $x=1$.\n\nDraw a smooth, symmetrical curve through the intercepts with a maximum at $(1,9)$.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=4mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[<->,black] (-4,0)--(6,0) node[right] {$x$};\n\\draw[<->,black] (0,-5)--(0,12) node[above] {$y$};\n\\draw[dashed,black] (1,-4)--(1,11);\n\\path (1,11) node[right] {$x=1$};\n\\draw[thick,curveblue,<->,domain=-2.6:4.6,samples=100] plot (\\x,{-(\\x-1)*(\\x-1)+9});\n\\fill[black] (-2,0) circle (1.3pt) (4,0) circle (1.3pt) (0,8) circle (1.3pt) (1,9) circle (1.3pt);\n\\path (-2,0) node[below left] {$(-2,0)$};\n\\path (4,0) node[below right] {$(4,0)$};\n\\path (0,8) node[left] {$(0,8)$};\n\\path (1,9) node[above right] {$(1,9)$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Sketch $y=-x^2-4x-4$ by factorising first. Show the intercepts and vertex, and explain whether the graph crosses or touches the $x$-axis.",
+    "solution_text": "Factorise the perfect square:\n$\\begin{aligned}y&=-x^2-4x-4\\\\y&=-(x^2+4x+4)\\\\y&=-(x+2)^2\\end{aligned}$\n\nThe leading coefficient is negative, so the parabola is concave down.\n\nFor the $y$-intercept, let $x=0$: $y=-4$.\n\nFor the $x$-intercept, let $y=0$:\n$\\begin{aligned}0&=-(x+2)^2\\\\(x+2)^2&=0\\\\x&=-2\\end{aligned}$\n\nThere is one distinct $x$-intercept. Vertex form gives the vertex $(-2,0)$ and axis $x=-2$. The graph touches the $x$-axis at its maximum; it does not cross it.\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=5mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[<->,black] (-6,0)--(2,0) node[right] {$x$};\n\\draw[<->,black] (0,-10)--(0,2) node[above] {$y$};\n\\draw[dashed,black] (-2,-9)--(-2,1.5);\n\\path (-2,-8) node[left] {$x=-2$};\n\\draw[thick,curveblue,<->,domain=-5:1,samples=100] plot (\\x,{-(\\x+2)*(\\x+2)});\n\\fill[black] (-2,0) circle (1.3pt) (0,-4) circle (1.3pt);\n\\path (-2,0) node[above left] {$(-2,0)$};\n\\path (0,-4) node[right] {$(0,-4)$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Sketch $y=2x^2+4x-16$ by taking out the common factor and factorising. Show the intercepts and vertex.",
+    "solution_text": "Take out the common factor, then factorise:\n$\\begin{aligned}y&=2x^2+4x-16\\\\y&=2(x^2+2x-8)\\\\y&=2(x+4)(x-2)\\end{aligned}$\n\nThe leading coefficient is positive, so the parabola is concave up.\n\nFor the $y$-intercept, let $x=0$: $y=-16$.\n\nFor the $x$-intercepts, let $y=0$:\n$\\begin{aligned}0&=2(x+4)(x-2)\\\\x&=-4\\text{ or }2\\end{aligned}$\n\nThe factor $2$ changes the heights, but does not change which factors are zero.\n\nThe axis of symmetry is $x=\\dfrac{-4+2}{2}=-1$.\n\nSubstitute $x=-1$: $y=2(-1+4)(-1-2)=-18$. The vertex is $(-1,-18)$.\n\nDraw a smooth, symmetrical curve through the intercepts with a minimum at $(-1,-18)$.\n[tikz]\n\\begin{tikzpicture}[x=7mm,y=2mm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{curveblue}{HTML}{268CFF}\n\\draw[<->,black] (-6,0)--(4,0) node[right] {$x$};\n\\draw[<->,black] (0,-23)--(0,10) node[above] {$y$};\n\\draw[dashed,black] (-1,-21)--(-1,9);\n\\path (-1,9) node[left] {$x=-1$};\n\\draw[thick,curveblue,<->,domain=-4.6:2.6,samples=100] plot (\\x,{2*(\\x+4)*(\\x-2)});\n\\fill[black] (-4,0) circle (1.3pt) (2,0) circle (1.3pt) (0,-16) circle (1.3pt) (-1,-18) circle (1.3pt);\n\\path (-4,0) node[above left] {$(-4,0)$};\n\\path (2,0) node[above right] {$(2,0)$};\n\\path (0,-16) node[right] {$(0,-16)$};\n\\path (-1,-18) node[below left] {$(-1,-18)$};\n\\end{tikzpicture}\n[/tikz]"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

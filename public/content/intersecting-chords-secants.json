@@ -2,18 +2,69 @@
   "skillId": "intersecting-chords-secants",
   "atomType": "R",
   "theory": {
-        "intro": "Chords, secants and tangents that meet make products of lengths that are equal. Which product rule applies depends on whether the lines cross inside the circle or meet at a point outside it. Each rule finds an unknown length once the others are known.",
-        "facts": [
+"intro": "Chords, secants and tangents that meet make products of lengths that are equal. Which product rule applies depends on whether the lines cross inside the circle or meet at a point outside it. Each rule finds an unknown length once the others are known.",
+"facts": [
           "Two chords $AB$ and $CD$ crossing inside a circle at $P$ give $AP \\times PB = CP \\times PD$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0.1839,2.1922);\n\\coordinate (B) at (1.9906,-0.9370);\n\\coordinate (C) at (2.0809,0.7142);\n\\coordinate (D) at (-1.7114,1.3827);\n\\coordinate (P) at (0.919,0.919);\n\\draw (O) circle (2.2);\n\\fill (O) circle (1.5pt);\n\\node[below] at (O) {$O$};\n\\draw (A) -- (B);\n\\draw (C) -- (D);\n\\fill (P) circle (1.5pt);\n\\node[below left] at (P) {$P$};\n\\node[above] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
           "For two secants from an outside point $P$, with $A$ and $C$ the nearer points, $PA \\times PB = PC \\times PD$ using full lengths from $P$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (-4.2,-2.6);\n\\coordinate (A) at (-1.8886,-0.6597);\n\\coordinate (B) at (0.9786,1.7470);\n\\coordinate (C) at (-0.9872,-1.7392);\n\\coordinate (D) at (1.7241,-1.0127);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt);\n\\node[below right] at (O) {$O$};\n\\draw (P) -- (B);\n\\draw (P) -- (D);\n\\fill (A) circle (1.5pt);\n\\fill (C) circle (1.5pt);\n\\node[below left] at (P) {$P$};\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[below right] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
           "A tangent $PC$ and a secant through $N$ (nearer) and $F$ (farther) from the same outside point $P$ give $PC^{2} = PN \\times PF$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (4.6,0);\n\\coordinate (C) at (0.8696,1.8010);\n\\coordinate (N) at (1.9440,-0.4682);\n\\coordinate (F) at (-1.6663,-1.1046);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt);\n\\node[left] at (O) {$O$};\n\\draw (O) -- (C);\n\\draw (P) -- (C);\n\\draw (P) -- (F);\n\\fill (N) circle (1.5pt);\n\\node[right] at (P) {$P$};\n\\node[above right] at (C) {$C$};\n\\node[below right] at (N) {$N$};\n\\node[below left] at (F) {$F$};\n\\coordinate (co) at ($(C)!0.25cm!(O)$);\n\\coordinate (cp) at ($(C)!0.25cm!(P)$);\n\\draw (co) -- ($(co)+(cp)-(C)$) -- (cp);\n\\end{tikzpicture}\n[/tikz]"
         ],
-        "steps": [
+"steps": [
 "Identify which rule applies: two chords crossing inside the circle, two secants from an external point, or a tangent and secant from an external point.",
 "Write the product equation. For chords crossing inside the circle, use the two separate parts of each chord measured from the intersection. For external secants, use the near and far intercepts measured from the external point; the far intercept includes the external length and the internal chord length.",
 "Substitute the known lengths and solve for the unknown."
+],
+"workedExamples": [
+  {
+    "question_text": "Chords $AB$ and $CD$ intersect at $P$. Given $AP=16\\text{ cm}$, $PB=6\\text{ cm}$ and $CP=12\\text{ cm}$, find $PD$. Diagram not to scale.\n\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (A) at (-5.5,0.154); \\coordinate (B) at (5.5,0.154);\n\\coordinate (C) at (0.448,-5.484); \\coordinate (D) at (3.868,3.913);\n\\coordinate (P) at (2.5,0.154);\n\\draw (0,0) circle (5.502);\n\\draw (A)--(B) (C)--(D);\n\\fill (P) circle (1.2pt);\n\\path (A) node[left] {$A$} (B) node[right] {$B$} (C) node[below] {$C$} (D) node[above] {$D$} (P) node[below right] {$P$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The products of the two intercepts of each chord are equal.\n\n$\\begin{aligned}AP\\times PB&=CP\\times PD\\\\16\\times6&=12\\times PD\\\\96&=12\\times PD\\\\PD&=8\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Two secants $PAB$ and $PCD$ meet at the external point $P$, with $A$ and $C$ the nearer intersections. Given $PA=8\\text{ cm}$, $AB=10\\text{ cm}$ and $PC=6\\text{ cm}$, find (a) $PD$ and (b) $CD$. Diagram not to scale.\n\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (P) at (-6.5,-3.922); \\coordinate (A) at (-2.5,-3.922); \\coordinate (B) at (2.5,-3.922);\n\\coordinate (C) at (-4.202,-1.993); \\coordinate (D) at (2.693,3.792);\n\\draw (0,0) circle (4.651);\n\\draw (P)--(B) (P)--(D);\n\\fill (A) circle (1.2pt); \\fill (C) circle (1.2pt);\n\\path (P) node[below left] {$P$} (A) node[below] {$A$} (B) node[below right] {$B$} (C) node[above left] {$C$} (D) node[above right] {$D$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) Measure both intercepts from $P$. The far intercept includes the external part and the chord.\n\n$\\begin{aligned}PB&=PA+AB\\\\&=8+10\\\\&=18\\text{ cm}\\end{aligned}$\n\nThe products of the secant intercepts are equal.\n\n$\\begin{aligned}PA\\times PB&=PC\\times PD\\\\8\\times18&=6\\times PD\\\\144&=6\\times PD\\\\PD&=24\\text{ cm}\\end{aligned}$\n\n(b) Subtract the external part to find the chord.\n\n$\\begin{aligned}CD&=PD-PC\\\\&=24-6\\\\&=18\\text{ cm}\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "$PC$ is tangent to the circle at $C$. The secant $PNF$ passes through the centre $O$, with $N$ nearer to $P$. Given $PC=12\\text{ cm}$ and $PN=6\\text{ cm}$, find (a) $PF$ and (b) the chord length $NF$. Diagram not to scale.\n\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=8mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (O) at (0,0); \\coordinate (P) at (5,0); \\coordinate (N) at (3,0); \\coordinate (F) at (-3,0); \\coordinate (C) at (1.8,2.4);\n\\draw (O) circle (3);\n\\draw (P)--(F) (P)--(C) (O)--(C);\n\\draw (1.65,2.2)--(1.85,2.05)--(2,2.25);\n\\fill (O) circle (1.2pt);\n\\path (O) node[below] {$O$} (P) node[right] {$P$} (N) node[below right] {$N$} (F) node[left] {$F$} (C) node[above] {$C$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) The square of the tangent length equals the product of the near and far secant intercepts.\n\n$\\begin{aligned}PC^2&=PN\\times PF\\\\12^2&=6\\times PF\\\\144&=6\\times PF\\\\PF&=24\\text{ cm}\\end{aligned}$\n\n(b) The chord excludes the external part.\n\n$\\begin{aligned}NF&=PF-PN\\\\&=24-6\\\\&=18\\text{ cm}\\end{aligned}$\n\nIf the far intercept is given instead, use the same rule to find the near intercept before subtracting.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Chords $AB$ and $CD$ intersect at $P$. Their intercepts are $AP=x\\text{ cm}$, $PB=(x+4)\\text{ cm}$, $CP=6\\text{ cm}$ and $PD=8\\text{ cm}$. Derive an equation satisfied by $x$; do not solve it. Diagram not to scale.\n\n[tikz]\n\\begin{tikzpicture}[x=5mm,y=5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (P) at (0,0); \\coordinate (A) at (-5.2111,0); \\coordinate (B) at (9.2111,0);\n\\coordinate (C) at (0,6); \\coordinate (D) at (0,-8);\n\\draw (2,-1) circle (7.2801);\n\\draw (A)--(B) (C)--(D);\n\\fill (P) circle (1.2pt);\n\\path (A) node[left] {$A$} (B) node[right] {$B$} (C) node[above] {$C$} (D) node[below] {$D$} (P) node[below left] {$P$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "Apply the intersecting-chords rule, expand and collect the terms on one side.\n\n$\\begin{aligned}AP\\times PB&=CP\\times PD\\\\x(x+4)&=6\\times8\\\\x^2+4x&=48\\\\x^2+4x-48&=0\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Chords $EF$ and $GH$ intersect at $Q$. Prove that $\\triangle EQH\\sim\\triangle GQF$, then show that $EQ\\times QF=GQ\\times QH$.\n\n[tikz]\n\\begin{tikzpicture}[x=11mm,y=11mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (E) at (-1.6,1.2); \\coordinate (F) at (1.6,-1.2);\n\\coordinate (G) at (-1.2,-1.6); \\coordinate (H) at (1.2,1.6); \\coordinate (Q) at (0,0);\n\\draw (0,0) circle (2);\n\\draw (E)--(F) (G)--(H) (E)--(H) (G)--(F);\n\\fill (Q) circle (1.2pt);\n\\path (E) node[above left] {$E$} (F) node[below right] {$F$} (G) node[below left] {$G$} (H) node[above right] {$H$} (Q) node[below] {$Q$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "In $\\triangle EQH$ and $\\triangle GQF$:\n\n$\\angle HEQ=\\angle FGQ$, since both stand on chord $HF$.\n\n$\\angle EHQ=\\angle GFQ$, since both stand on chord $EG$.\n\nTherefore $\\triangle EQH\\sim\\triangle GQF$ by equal corresponding angles.\n\nCorresponding sides are proportional:\n\n$\\frac{EQ}{GQ}=\\frac{QH}{QF}$.\n\nCross-multiplying gives $EQ\\times QF=GQ\\times QH$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "Secants $TEF$ and $THG$ meet at the external point $T$, with $E$ and $H$ the nearer intersections. Given $TE=TH$, explain why $EF=HG$.\n\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (T) at (-4,0); \\coordinate (E) at (-1.6,1.2); \\coordinate (F) at (0,2);\n\\coordinate (H) at (-1.6,-1.2); \\coordinate (G) at (0,-2);\n\\draw (0,0) circle (2);\n\\draw (T)--(F) (T)--(G);\n\\fill (E) circle (1.2pt); \\fill (H) circle (1.2pt);\n\\draw (-2.855,0.47)--(-2.745,0.73) (-2.855,-0.47)--(-2.745,-0.73);\n\\path (T) node[left] {$T$} (E) node[above left] {$E$} (F) node[above] {$F$} (H) node[below left] {$H$} (G) node[below] {$G$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The secant rule gives $TE\\times TF=TH\\times TG$.\n\nSince $TE=TH>0$, division gives $TF=TG$.\n\nThe chord lengths exclude the equal external parts:\n\n$\\begin{aligned}EF&=TF-TE\\\\HG&=TG-TH\\end{aligned}$\n\nSubtracting equal lengths from equal lengths gives $EF=HG$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A planet is modelled as a sphere of radius $R$. An observer's eyes are at $P$, height $h$ above the surface point $N$. The line $PC$ is tangent at the horizon point $C$, and $PNOF$ lies on a straight line through the centre $O$. The diagram shows a circular cross-section and is not to scale.\n\n(a) Show that $d=PC$ satisfies $d^2=h(h+2R)$.\n(b) Find $d$ to the nearest metre when $h=4\\text{ m}$ and $R=6200\\text{ km}$.\n\n[tikz]\n\\begin{tikzpicture}[x=9mm,y=9mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\coordinate (O) at (0,0); \\coordinate (P) at (0,3.125); \\coordinate (N) at (0,2.5); \\coordinate (F) at (0,-2.5); \\coordinate (C) at (1.5,2);\n\\draw (O) circle (2.5);\n\\draw (P)--(F) (P)--(C) (O)--(C);\n\\draw (1.35,1.8)--(1.15,1.95)--(1.3,2.15);\n\\fill (O) circle (1.2pt);\n\\path (O) node[left] {$O$} (P) node[above] {$P$} (N) node[left] {$N$} (F) node[below] {$F$} (C) node[right] {$C$};\n\\path (0,2.8125) node[right] {$h$} (0.75,1) node[below right] {$R$} (0.75,2.5625) node[above right] {$d$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) The near intercept is $PN=h$. The far intercept includes the diameter, so $PF=h+2R$.\n\n$\\begin{aligned}PC^2&=PN\\times PF\\\\d^2&=h(h+2R)\\end{aligned}$\n\n(b) Convert the radius to metres before substituting.\n\n$R=6200\\text{ km}=6\\,200\\,000\\text{ m}$.\n\n$\\begin{aligned}d^2&=4(4+2\\times6\\,200\\,000)\\\\&=4(12\\,400\\,004)\\\\&=49\\,600\\,016\\end{aligned}$\n\nTake the positive square root because $d$ is a length.\n\n$d=\\sqrt{49\\,600\\,016}\\text{ m}\\approx7043\\text{ m}$.",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

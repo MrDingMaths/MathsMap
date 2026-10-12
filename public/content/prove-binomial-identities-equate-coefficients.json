@@ -2,21 +2,35 @@
   "skillId": "prove-binomial-identities-equate-coefficients",
   "atomType": "R",
   "theory": {
-        "intro": "Multiplying two binomial expansions gives the same polynomial as expanding the single power, so the coefficient of each $x^{k}$ must match. Equating those coefficients proves identities about sums of products of binomial coefficients.",
-        "facts": [
+"intro": "Multiplying two binomial expansions gives the same polynomial as expanding the single power, so the coefficient of each $x^{k}$ must match. Equating those coefficients proves identities about sums of products of binomial coefficients.",
+"facts": [
 "All binomial exponents are nonnegative integers. The coefficient $^{n}C_{r}$ is used only for integer indices $0 \\leq r \\leq n$.",
 "For nonnegative integers $a,b$ and an integer $0 \\leq k \\leq a+b$, equating the coefficient of $x^{k}$ in $(1+x)^{a}(1+x)^{b}=(1+x)^{a+b}$ gives $\\sum_{r=\\max(0,k-b)}^{\\min(a,k)} {^{a}C_{r}}{^{b}C_{k-r}}={^{a+b}C_{k}}$. The bounds include exactly the pairs whose powers add to $k$.",
 "The coefficient of $x^{n}$ in $(1+x)^{n}(1+x)^{n} = (1+x)^{2n}$, with symmetry ${^{n}C_{n-r}} = {^{n}C_{r}}$, proves $({^{n}C_{0}})^{2} + ({^{n}C_{1}})^{2} + \\dots + ({^{n}C_{n}})^{2} = {^{2n}C_{n}}$.",
 "The same sum-of-squares identity follows by equating constant terms in $\\left(x+\\frac{1}{x}\\right)^{n}\\left(x+\\frac{1}{x}\\right)^{n}=\\left(x+\\frac{1}{x}\\right)^{2n}$, where $x\\ne0$. Terms from the two factors have exponents $n-2r$ and $n-2s$; their product is constant when these exponents sum to zero, so $r+s=n$.",
 "Every proof must state the product identity, the expansion of each side, and the power of $x$ whose coefficients are equated."
 ],
-        "steps": [
+"steps": [
 "Write down the supplied product identity",
 "Use the binomial theorem to find the required coefficient on the right-hand side; for a constant term, set the exponent of $x$ equal to zero",
 "Expand the factors on the left-hand side and add all products whose exponents sum to the required power",
 "Apply symmetry ${^{n}C_{n-r}}={^{n}C_{r}}$ where necessary and equate the coefficients from both sides"
+],
+"workedExamples": [
+  {
+    "question_text": "Use $(1+x)^{2}(1+x)^{8}=(1+x)^{10}$ to prove that ${^{8}C_{4}}+{^{2}C_{1}}{^{8}C_{3}}+{^{8}C_{2}}={^{10}C_{4}}$.",
+    "solution_text": "Expand each side using the binomial theorem:\n$\\begin{align*}(1+x)^{2}&={^{2}C_{0}}+{^{2}C_{1}}x+{^{2}C_{2}}x^{2}\\\\(1+x)^{8}&=\\sum_{s=0}^{8}{^{8}C_{s}}x^{s}\\\\(1+x)^{10}&=\\sum_{t=0}^{10}{^{10}C_{t}}x^{t}.\\end{align*}$\nProducts contribute to $x^{4}$ when their powers add to $4$: the pairs are $(0,4)$, $(1,3)$ and $(2,2)$.\nThe coefficient of $x^{4}$ on the left is\n$\\begin{align*}&\\mathrel{\\phantom{=}}{^{2}C_{0}}{^{8}C_{4}}+{^{2}C_{1}}{^{8}C_{3}}+{^{2}C_{2}}{^{8}C_{2}}\\\\&={^{8}C_{4}}+{^{2}C_{1}}{^{8}C_{3}}+{^{8}C_{2}}.\\end{align*}$\nThe coefficient of $x^{4}$ on the right is $^{10}C_{4}$. Equating coefficients gives\n${^{8}C_{4}}+{^{2}C_{1}}{^{8}C_{3}}+{^{8}C_{2}}={^{10}C_{4}}$."
+  },
+  {
+    "question_text": "By comparing coefficients of $x^{7}$ in $(1+x)^{7}(1+x)^{7}=(1+x)^{14}$, prove that $\\sum_{r=0}^{7}({^{7}C_{r}})^{2}={^{14}C_{7}}$.",
+    "solution_text": "The binomial theorem gives\n$\\begin{align*}(1+x)^{7}(1+x)^{7}&=\\left(\\sum_{r=0}^{7}{^{7}C_{r}}x^{r}\\right)\\left(\\sum_{s=0}^{7}{^{7}C_{s}}x^{s}\\right)\\\\(1+x)^{14}&=\\sum_{t=0}^{14}{^{14}C_{t}}x^{t}.\\end{align*}$\nOn the left, a product contributes to $x^{7}$ when $r+s=7$. For every $r$ from $0$ to $7$, the matching index is $s=7-r$.\nUsing symmetry $^{7}C_{7-r}={^{7}C_{r}}$, the coefficient on the left is\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\sum_{r=0}^{7}{^{7}C_{r}}{^{7}C_{7-r}}\\\\&=\\sum_{r=0}^{7}({^{7}C_{r}})^{2}.\\end{align*}$\nThe coefficient of $x^{7}$ on the right is $^{14}C_{7}$. Equating coefficients proves\n$\\sum_{r=0}^{7}({^{7}C_{r}})^{2}={^{14}C_{7}}$."
+  },
+  {
+    "question_text": "Use $\\left(x+\\frac{1}{x}\\right)^{5}\\left(x+\\frac{1}{x}\\right)^{5}=\\left(x+\\frac{1}{x}\\right)^{10}$ to prove that $\\sum_{r=0}^{5}({^{5}C_{r}})^{2}={^{10}C_{5}}$ by equating constant terms, where $x\\ne0$.",
+    "solution_text": "Expand each side using the binomial theorem:\n$\\begin{align*}\\left(x+\\frac{1}{x}\\right)^{5}\\left(x+\\frac{1}{x}\\right)^{5}&=\\left(\\sum_{r=0}^{5}{^{5}C_{r}}x^{5-2r}\\right)\\left(\\sum_{s=0}^{5}{^{5}C_{s}}x^{5-2s}\\right)\\\\\\left(x+\\frac{1}{x}\\right)^{10}&=\\sum_{t=0}^{10}{^{10}C_{t}}x^{10-2t}.\\end{align*}$\nOn the right, a term is constant when\n$\\begin{align*}10-2t&=0\\\\t&=5.\\end{align*}$\nThe constant term on the right is $^{10}C_{5}$.\nOn the left, the powers in a product must sum to zero:\n$\\begin{align*}(5-2r)+(5-2s)&=0\\\\r+s&=5.\\end{align*}$\nThus $s=5-r$, with both indices between $0$ and $5$. Using symmetry $^{5}C_{5-r}={^{5}C_{r}}$, the constant term on the left is\n$\\begin{align*}&\\mathrel{\\phantom{=}}\\sum_{r=0}^{5}{^{5}C_{r}}{^{5}C_{5-r}}\\\\&=\\sum_{r=0}^{5}({^{5}C_{r}})^{2}.\\end{align*}$\nEquating constant terms proves\n$\\sum_{r=0}^{5}({^{5}C_{r}})^{2}={^{10}C_{5}}$."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

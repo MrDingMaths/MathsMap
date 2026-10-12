@@ -2,15 +2,41 @@
   "skillId": "zeroes-of-function",
   "atomType": "Cat",
   "theory": {
-        "intro": "The **zeroes** of a function $f(x)$ are the input values $x$ where $f(x) = 0$, which are the **$x$-intercepts** of its graph. The **$y$-intercept** is the value $f(0)$ when $0$ is in the domain; otherwise there is no $y$-intercept and $f(0)$ is undefined. A function can have many zeroes, but at most one $y$-intercept.",
-        "facts": [
+"intro": "The **zeroes** of a function $f(x)$ are the input values $x$ where $f(x) = 0$, which are the **$x$-intercepts** of its graph. The **$y$-intercept** is the value $f(0)$ when $0$ is in the domain; otherwise there is no $y$-intercept and $f(0)$ is undefined. A function can have many zeroes, but at most one $y$-intercept.",
+"facts": [
 "A **zero** of a function $f(x)$ is any input value $x$ that satisfies $f(x) = 0$.",
 "The zeroes of $y = f(x)$ are the **$x$-intercepts** of its graph.",
 "The **$y$-intercept** of $y = f(x)$ is the function value evaluated at $x = 0$, written as $f(0)$, when $0$ is in the domain. Otherwise there is no $y$-intercept and $f(0)$ is undefined.",
 "A function can have multiple zeroes or none, but at most one $y$-intercept, whose value is $f(0)$ when $0$ is in the domain.",
 "A zero is an input value $x = c$, while an intercept is written as a coordinate pair $(c, 0)$ or single value."
+],
+"workedExamples": [
+  {
+    "question_text": "Find the zeroes and the value of $f(0)$ from the graph of $y=f(x)$.\n[tikz]\n\\begin{tikzpicture}[x=8mm,y=4mm]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[->,black] (-2,0)--(4.2,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\draw[->,black] (0,-4.7)--(0,3.2) node[above,font=\\fontsize{10}{12}\\selectfont] {$y$};\n\\foreach \\x in {-1,1,2,3,4} {\\draw[black] (\\x,0.12)--(\\x,-0.12);\\path (\\x,-0.15) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\x$};}\n\\foreach \\y in {-4,-3,-2,-1,1,2} {\\draw[black] (-0.08,\\y)--(0.08,\\y);\\path (-0.1,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\y$};}\n\\draw[<->,curveBlue,thick,domain=-1.6:3.6,samples=81] plot (\\x,{(\\x)^2-2*\\x-3});\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The graph meets the $x$-axis at $(-1,0)$ and $(3,0)$, so the zeroes are $x=-1$ and $x=3$.\n\nIt meets the $y$-axis at $(0,-3)$, so $f(0)=-3$.\n\nA zero is an input where the output is $0$; $f(0)$ is the output when the input is $0$."
+  },
+  {
+    "question_text": "For $h(x)=-2(x+3)(x-5)$, find the zeroes and the $y$-intercept.",
+    "solution_text": "Set $h(x)=0$.\n$\\begin{align*}-2(x+3)(x-5)&=0\\\\x+3&=0\\quad\\text{or}\\quad x-5=0\\\\x&=-3\\quad\\text{or}\\quad x=5\\end{align*}$\n\nThe nonzero constant factor $-2$ produces no additional zero.\n\n$\\begin{align*}h(0)&=-2(0+3)(0-5)\\\\&=-2(3)(-5)\\\\&=30\\end{align*}$\n\nZeroes: $x=-3,5$. The $y$-intercept is $(0,30)$."
+  },
+  {
+    "question_text": "Find the zero and the $y$-intercept of $g(x)=5x+20$.",
+    "solution_text": "Set $g(x)=0$.\n$\\begin{align*}5x+20&=0\\\\5x&=-20\\\\x&=-4\\end{align*}$\n\n$\\begin{align*}g(0)&=5(0)+20\\\\&=20\\end{align*}$\n\nZero: $x=-4$. The $y$-intercept is $(0,20)$."
+  },
+  {
+    "question_text": "Find the zeroes and the value of $f(0)$ for $f(x)=x^2-49$.",
+    "solution_text": "Set $f(x)=0$ and factorise the difference of two squares.\n$\\begin{align*}x^2-49&=0\\\\(x-7)(x+7)&=0\\\\x-7&=0\\quad\\text{or}\\quad x+7=0\\\\x&=7\\quad\\text{or}\\quad x=-7\\end{align*}$\n\n$\\begin{align*}f(0)&=(0)^2-49\\\\&=-49\\end{align*}$\n\nZeroes: $x=-7,7$. The $y$-intercept is $(0,-49)$."
+  },
+  {
+    "question_text": "Find the zeroes and the $y$-intercept of $f(x)=x^2-4x-21$.",
+    "solution_text": "Set $f(x)=0$. For factorisation, the product is $-21$ and the sum is $-4$. The factor pair is $-7,3$.\n\n$\\begin{align*}x^2-4x-21&=0\\\\(x-7)(x+3)&=0\\\\x-7&=0\\quad\\text{or}\\quad x+3=0\\\\x&=7\\quad\\text{or}\\quad x=-3\\end{align*}$\n\n$\\begin{align*}f(0)&=(0)^2-4(0)-21\\\\&=-21\\end{align*}$\n\nZeroes: $x=-3,7$. The $y$-intercept is $(0,-21)$."
+  },
+  {
+    "question_text": "Find the number of real zeroes and the $y$-intercept of $p(x)=x^2+16$.",
+    "solution_text": "Set $p(x)=0$.\n$\\begin{align*}x^2+16&=0\\\\x^2&=-16\\end{align*}$\n\nFor real $x$, $x^2\\geq0$, so there are no real zeroes.\n\n$\\begin{align*}p(0)&=(0)^2+16\\\\&=16\\end{align*}$\n\nThe $y$-intercept is $(0,16)$."
+  }
 ]
-      },
+},
   "practice": {
     "foundation": [
 {

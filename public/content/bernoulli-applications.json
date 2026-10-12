@@ -2,8 +2,8 @@
   "skillId": "bernoulli-applications",
   "atomType": "R",
   "theory": {
-    "intro": "To model a context with a Bernoulli variable, describe **one** trial, say which outcome counts as a success, and find its probability $p$. Then $E(X)=p$ and $\\text{Var}(X)=p(1-p)$ describe that single trial.",
-    "facts": [
+"intro": "To model a context with a Bernoulli variable, describe **one** trial, say which outcome counts as a success, and find its probability $p$. Then $E(X)=p$ and $\\text{Var}(X)=p(1-p)$ describe that single trial.",
+"facts": [
 "Choose the trial first: a Bernoulli model describes exactly one trial, never a count over many trials.",
 "State the success in words before writing $p$, because the context decides which outcome is the success.",
 "A percentage in the context becomes a probability by dividing by $100$, so $18\\%$ becomes $0.18$.",
@@ -13,12 +13,39 @@
 "For repeated independent trials, multiply the single-trial probabilities to find the chance of a stated order of results.",
 "The standard deviation is $\\sigma(X)=\\sqrt{p(1-p)}$."
 ],
-    "steps": [
+"steps": [
 "Describe one trial and say which outcome is the success.",
 "Write $p=P(X=1)$ from the information given.",
 "Answer the question using $E(X)=p$, $\\text{Var}(X)=p(1-p)$, $\\sigma(X)=\\sqrt{p(1-p)}$, or a product of single-trial probabilities."
-]
+],
+"workedExamples": [
+  {
+    "question_text": "A machine part passes inspection on $89\\%$ of checks. One part is checked. Let $X=1$ if the part fails inspection and $X=0$ otherwise. State the success and failure events, then write the Bernoulli model for $X$.",
+    "solution_text": "Success: the part fails inspection. Failure: the part passes inspection.\n\n$\\begin{aligned}p&=P(X=1)\\\\&=1-0.89\\\\&=0.11\\end{aligned}$\n\n$X\\sim\\text{Bernoulli}(0.11)$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
   },
+  {
+    "question_text": "A seed germinates with probability $0.72$. One seed is planted. Let $X=1$ if it germinates and $X=0$ otherwise. Write the Bernoulli model and find $E(X)$, $\\text{Var}(X)$ and $\\sigma(X)$. Give the standard deviation correct to three decimal places.",
+    "solution_text": "Success: the seed germinates.\n\n$X\\sim\\text{Bernoulli}(0.72)$\n\n$\\begin{aligned}E(X)&=p\\\\&=0.72\\end{aligned}$\n\n$\\begin{aligned}\\text{Var}(X)&=p(1-p)\\\\&=0.72(0.28)\\\\&=0.2016\\end{aligned}$\n\n$\\begin{aligned}\\sigma(X)&=\\sqrt{\\text{Var}(X)}\\\\&=\\sqrt{0.2016}\\\\&\\approx0.449\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A basketball player scores each free throw with probability $0.65$. The throws are independent. Find the probability that:\n\n(a) she scores both of two throws;\n\n(b) she scores the first two of four throws and misses the last two.",
+    "solution_text": "Multiply the probabilities of the outcomes in the stated order.\n\n(a) $\\begin{aligned}P(\\text{score, score})&=0.65\\times0.65\\\\&=0.4225\\end{aligned}$\n\n(b) $\\begin{aligned}P(\\text{miss})&=1-0.65\\\\&=0.35\\end{aligned}$\n\n$\\begin{aligned}P(\\text{score, score, miss, miss})&=0.65^2\\times0.35^2\\\\&=0.05175625\\end{aligned}$",
+    "equationAlignment": {
+      "mode": "continuation"
+    }
+  },
+  {
+    "question_text": "A biased coin shows heads with probability $0.4$. A student tosses it $12$ times and writes $X\\sim\\text{Bernoulli}(0.4)$, where $X$ is the number of heads. Explain why this is not a Bernoulli model, then define a correct Bernoulli variable for this coin.",
+    "solution_text": "The number of heads over $12$ tosses can take values from $0$ to $12$. A Bernoulli variable describes one trial and takes only the values $0$ and $1$.\n\nFor one toss, define $Y=1$ if the coin shows heads and $Y=0$ if it shows tails.\n\n$Y\\sim\\text{Bernoulli}(0.4)$"
+  }
+]
+},
   "practice": {
     "foundation": [
 {

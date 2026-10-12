@@ -16,21 +16,21 @@
     },
 {
       "id": "q2",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[<->] (-0.6,0)--(11.8,0);\n\\foreach \\x in {0,0.8,1.6,2.4,3.2,4.0,4.8,5.6,6.4,7.2,8.0,8.8,9.6,10.4,11.2} {\\draw (\\x,-0.12)--(\\x,0.12);}\n\\foreach \\x/\\lbl in {0.8/400,2.4/500,4.0/600,5.6/700,7.2/800,8.8/900,10.4/1000} {\\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\lbl$};}\n\\foreach \\x in {0.8,1.6,2.4,3.2,4.0,10.4} {\\node[font=\\small] at (\\x,0.5) {$\\times$};}\n\\node[below,font=\\scriptsize] at (5.6,-1.0) {Price in thousands of dollars};\n\\node[font=\\small] at (5.6,1.6) {House prices};\n\\end{tikzpicture}\n[/tikz]\nEach cross on the number line shows the price of one house in a street.\nWhich price is the outlier?",
-      "structure": "identify-outlier-display",
+      "question_text": "The prices of six houses, in thousands of dollars, are $\\$410$, $\\$460$, $\\$510$, $\\$560$, $\\$610$ and $\\$1010$.\nWhich price is the outlier?",
+      "structure": "identify-outlier-list",
       "mastery": false,
       "options": [
-        { "text": "$1000$", "correct": true },
-        { "text": "$600$", "why": "Named the largest price inside the group of close prices instead of the isolated price." },
-        { "text": "$400$", "why": "Named the smallest price, but here the isolated price is much higher, not lower, than the rest." },
-        { "text": "$500$", "why": "Named a price from the middle of the cluster instead of the value far from the rest." }
-      ],
-      "solution_text": "$400, 450, 500, 550, 600, 1000$\nThe outlier is $1000$, because it is much higher than the other five prices."
+{ "text": "$\\$1010$ thousand dollars", "correct": true },
+{ "text": "$\\$610$ thousand dollars", "why": "Named the largest price inside the group of close prices instead of the isolated price." },
+{ "text": "$\\$410$ thousand dollars", "why": "Named the smallest price, but here the isolated price is much higher, not lower, than the rest." },
+{ "text": "$\\$510$ thousand dollars", "why": "Named a price from the middle of the cluster instead of the value far from the rest." }
+],
+      "solution_text": "$\\$410, \\$460, \\$510, \\$560, \\$610, \\$1010$\nThe outlier is $\\$1010$ thousand dollars, because it is much higher than the other five prices."
     },
 {
       "id": "q3",
-      "question_text": "The heights, in metres, of seven trees in a park are $5.1$, $5.3$, $5.4$, $5.6$, $8.2$, $11.0$ and $14.5$.\nWhere is the cluster?",
-      "structure": "identify-cluster",
+      "question_text": "The dot plot shows tree heights.\n[tikz]\n\\begin{tikzpicture}[x=0.7cm,y=0.4cm]\n\\draw[<->] (4.8,0)--(14.8,0);\n\\foreach \\x in {5,6,...,14} {\\draw (\\x,-0.12)--(\\x,0.12);\\node[below] at (\\x,-0.15) {$\\x$};}\n\\foreach \\x/\\y in {5.1/1,5.3/1,5.4/2,5.6/1,8.2/1,11.0/1,14.5/1} {\\fill (\\x,\\y) circle (2pt);}\n\\foreach \\i/\\x/\\y/\\lx in {1/5.1/1/3.8,2/5.3/1/4.9,3/5.4/2/6.0,4/5.6/1/7.1,5/8.2/1/8.5,6/11.0/1/11.0,7/14.5/1/14.5} {\\node[anchor=south,font=\\fontsize{10}{12}\\selectfont] (caption\\i) at (\\lx,3.5) {$\\x$};\\draw (\\x,{\\y+0.2})--(caption\\i.south);}\n\\node[below] at (9.8,-1.1) {Height (m)};\n\\end{tikzpicture}\n[/tikz]\nWhere is the cluster?",
+      "structure": "identify-cluster-display",
       "mastery": false,
       "options": [
         { "text": "From $5.1$ m to $5.6$ m", "correct": true },
@@ -38,7 +38,7 @@
         { "text": "From $8.2$ m to $14.5$ m", "why": "Named the three widely separated heights as a cluster, but they are far apart." },
         { "text": "From $5.6$ m to $8.2$ m", "why": "Named the empty interval after the bunched values, which is the gap rather than the cluster." }
       ],
-      "solution_text": "$5.1, 5.3, 5.4, 5.6, 8.2, 11.0, 14.5$\nFour heights lie between $5.1$ m and $5.6$ m, so the cluster is from $5.1$ m to $5.6$ m."
+      "solution_text": "Four heights lie between $5.1$ m and $5.6$ m, so the cluster is from $5.1$ m to $5.6$ m."
     },
 {
       "id": "q4",
@@ -46,64 +46,64 @@
       "structure": "identify-gap",
       "mastery": false,
       "options": [
-{ "text": "Between $350$ and $600$", "correct": true },
-{ "text": "Between $200$ and $700$", "why": "Gave the full spread of the prices instead of the interval that contains no data." },
-{ "text": "Between $300$ and $350$", "why": "This is a $50$ step between neighbouring prices inside the lower cluster, rather than the much larger $250$ gap from $350$ to $600$." },
-{ "text": "Between $650$ and $700$", "why": "Chose the interval between the two highest prices, which is only $50$ wide, rather than the large empty interval." }
+{ "text": "Between $\\$350$ thousand and $\\$600$ thousand", "correct": true },
+{ "text": "Between $\\$200$ thousand and $\\$700$ thousand", "why": "Gave the full spread of the prices instead of the interval that contains no data." },
+{ "text": "Between $\\$300$ thousand and $\\$350$ thousand", "why": "This is a $\\$50$ thousand step between neighbouring prices inside the lower cluster, rather than the much larger $\\$250$ thousand gap from $\\$350$ thousand to $\\$600$ thousand." },
+{ "text": "Between $\\$650$ thousand and $\\$700$ thousand", "why": "Chose the interval between the two highest prices, which is only $\\$50$ thousand wide, rather than the large empty interval." }
 ],
-      "solution_text": "$200, 250, 300, 350, 600, 650, 700$\nThere is a gap between $350$ and $600$, because no unit is priced in that interval."
+      "solution_text": "In thousands of dollars: $\\$200, \\$250, \\$300, \\$350, \\$600, \\$650, \\$700$.\nThere is a gap between $\\$350$ thousand and $\\$600$ thousand, because no unit is priced in that interval."
     },
 {
       "id": "q5",
-      "question_text": "The daily maximum temperature, in $^{\\circ}$C, was recorded for six days: $21$, $24$, $27$, $30$, $33$, $36$.\nWhich statement about this dataset is correct?",
-      "structure": "no-outlier",
+      "question_text": "The daily maximum temperatures, in $^{\\circ}$C, were $22$, $25$, $24$, $26$, $23$ and $39$.\nWhich temperature is the outlier?",
+      "structure": "identify-outlier-list",
       "mastery": false,
       "options": [
-        { "text": "There is no outlier, because the temperatures rise in equal steps of $3^{\\circ}$C.", "correct": true },
-        { "text": "$36^{\\circ}$C is an outlier, because it is the highest temperature.", "why": "Treats the largest value as automatically an outlier, but an outlier must sit far from the rest." },
-        { "text": "$21^{\\circ}$C is an outlier, because it is the lowest temperature.", "why": "Treats the smallest value as automatically an outlier, but an outlier must sit far from the rest." },
-        { "text": "$36^{\\circ}$C is an outlier, because the spread of $15^{\\circ}$C is large.", "why": "Uses a wide spread as evidence of an outlier, but an even spread has no value far from the rest." }
-      ],
-      "solution_text": "$21, 24, 27, 30, 33, 36$\nEach temperature is $3^{\\circ}$C above the one before, so no temperature sits far from the rest and there is no outlier."
+{ "text": "$39^{\\circ}$C", "correct": true },
+{ "text": "$22^{\\circ}$C", "why": "Selected the smallest temperature even though it is close to the other temperatures from $22^{\\circ}$C to $26^{\\circ}$C." },
+{ "text": "$26^{\\circ}$C", "why": "Selected the highest temperature within the closely grouped values instead of the isolated temperature." },
+{ "text": "$17^{\\circ}$C", "why": "Calculated the range, $39-22=17$, instead of naming the outlier." }
+],
+      "solution_text": "$22, 23, 24, 25, 26, 39$\nThe outlier is $39^{\\circ}$C, because it is much higher than the other five temperatures."
     },
 {
       "id": "q6",
-      "question_text": "Each dataset below gives the heights, in metres, of five trees in a park.\nWhich dataset contains an outlier?",
-      "structure": "which-dataset-has-outlier",
+      "question_text": "Which value is the outlier in $\\frac{7}{10}, \\frac{18}{25}, \\frac{1}{5}, 0.67, \\frac{17}{25}, \\frac{69}{100}$?",
+      "structure": "identify-outlier-mixed-fractions-decimals",
       "mastery": true,
       "options": [
-        { "text": "$8$, $9$, $10$, $11$, $30$", "correct": true },
-        { "text": "$8$, $9$, $10$, $11$, $12$", "why": "The heights rise by $1$ m each time, so no height sits far from the rest." },
-        { "text": "$5$, $10$, $15$, $20$, $25$", "why": "Chose a dataset with a wide spread, but the heights are evenly spaced and none is far from the rest." },
-        { "text": "$6$, $7$, $8$, $14$, $15$", "why": "Chose a dataset with a gap, but each side of the gap holds several heights, so no single height stands alone." }
-      ],
-      "solution_text": "$8, 9, 10, 11, 30$\nThe height $30$ m is $19$ m above the next highest, while the other four heights are within $3$ m of each other, so $30$ m is the outlier."
+{ "text": "$\\frac{1}{5}$", "correct": true },
+{ "text": "$\\frac{18}{25}$", "why": "Selected the largest value, $0.72$, although it is close to the other values from $0.67$ to $0.70$." },
+{ "text": "$0.67$", "why": "Selected the smallest value within the closely grouped decimals and overlooked $\\frac{1}{5}=0.20$." },
+{ "text": "$\\frac{69}{100}$", "why": "Treated the large denominator as evidence of an outlier instead of comparing the value $0.69$ with the other values." }
+],
+      "solution_text": "Write the fractions as decimals: $0.70, 0.72, 0.20, 0.67, 0.68, 0.69$.\nIn order: $0.20, 0.67, 0.68, 0.69, 0.70, 0.72$.\nThe outlier is $\\frac{1}{5}=0.20$, because it is much lower than the other five values."
     },
 {
       "id": "q7",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,7.9);\n\\draw[->] (0,0)--(8.3,0);\n\\foreach \\y in {0,0.36,0.72,1.08,1.44,1.8,2.16,2.52,2.88,3.24,3.6,3.96,4.32,4.68,5.04,5.4,5.76,6.12,6.48} {\\draw (-0.12,\\y)--(0,\\y);}\n\\foreach \\y/\\lbl in {0/0,0.72/4,1.44/8,2.16/12,2.88/16,3.6/20,4.32/24,5.04/28,5.76/32,6.48/36} {\\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lbl$};}\n\\foreach \\x/\\lbl in {1/D1,1.9/D2,2.8/D3,3.7/D4,4.6/D5,5.5/D6,6.4/D7,7.3/D8} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lbl};}\n\\draw[thick] (1,3.24)--(1.9,3.6)--(2.8,3.96)--(3.7,3.6)--(4.6,3.24)--(5.5,6.48)--(6.4,3.6)--(7.3,3.96);\n\\foreach \\p in {(1,3.24),(1.9,3.6),(2.8,3.96),(3.7,3.6),(4.6,3.24),(5.5,6.48),(6.4,3.6),(7.3,3.96)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.1,3.24) {Temperature ($^{\\circ}$C)};\n\\node[below,font=\\scriptsize] at (4.15,-1.0) {Day};\n\\node[font=\\small] at (4.15,7.58) {Daily maximum temp};\n\\end{tikzpicture}\n[/tikz]\nThe line graph shows the daily maximum temperature over eight days.\nWhich temperature is the outlier?",
-      "structure": "identify-outlier-display",
+      "question_text": "The daily maximum temperatures, in $^{\\circ}$C, were $19$, $21$, $23$, $21$, $19$, $37$, $21$ and $23$.\nWhich temperature is the outlier?",
+      "structure": "identify-outlier-list",
       "mastery": false,
       "options": [
-        { "text": "$36^{\\circ}$C", "correct": true },
-        { "text": "$18^{\\circ}$C", "why": "Named the lowest temperature, but here the isolated value is much higher, not lower, than the rest." },
-        { "text": "$22^{\\circ}$C", "why": "Named the highest temperature inside the closely grouped days instead of the isolated day." },
-        { "text": "$20^{\\circ}$C", "why": "Named the most frequent temperature (the mode) instead of the value far from the rest." }
-      ],
-      "solution_text": "$18, 18, 20, 20, 20, 22, 22, 36$\nThe outlier is $36^{\\circ}$C, recorded on day $6$, because it is much higher than the other seven temperatures."
+{ "text": "$37^{\\circ}$C", "correct": true },
+{ "text": "$19^{\\circ}$C", "why": "Named the lowest temperature, but here the isolated value is much higher, not lower, than the rest." },
+{ "text": "$23^{\\circ}$C", "why": "Named the highest temperature inside the closely grouped values instead of the isolated temperature." },
+{ "text": "$21^{\\circ}$C", "why": "Named the most frequent temperature instead of the value far from the rest." }
+],
+      "solution_text": "$19, 19, 21, 21, 21, 23, 23, 37$\nThe outlier is $37^{\\circ}$C, because it is much higher than the other seven temperatures."
     },
 {
       "id": "q8",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[<->] (-0.6,0)--(11.6,0);\n\\foreach \\x in {0,0.55,1.1,1.65,2.2,2.75,3.3,3.85,4.4,4.95,5.5,6.05,6.6,7.15,7.7,8.25,8.8,9.35,9.9,10.45,11.0} {\\draw (\\x,-0.1)--(\\x,0.1);}\n\\foreach \\x/\\lbl in {0/0,1.1/2,2.2/4,3.3/6,4.4/8,5.5/10,6.6/12,7.7/14,8.8/16,9.9/18,11.0/20} {\\node[below,font=\\scriptsize] at (\\x,-0.13) {$\\lbl$};}\n\\foreach \\x in {1.65,2.2,2.75,3.3,3.85,9.9} {\\node[font=\\small] at (\\x,0.5) {$\\times$};}\n\\node[below,font=\\scriptsize] at (5.5,-1.0) {Height (m)};\n\\node[font=\\small] at (5.5,1.6) {Heights of six trees};\n\\end{tikzpicture}\n[/tikz]\nEach cross on the number line shows the height of one tree in a park.\nWhich statement correctly describes the display?",
-      "structure": "describe-features",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[<->] (-0.6,0)--(11.6,0);\n\\foreach \\x in {0,0.55,1.1,1.65,2.2,2.75,3.3,3.85,4.4,4.95,5.5,6.05,6.6,7.15,7.7,8.25,8.8,9.35,9.9,10.45,11.0} {\\draw (\\x,-0.1)--(\\x,0.1);}\n\\foreach \\x/\\lbl in {0/0,1.1/2,2.2/4,3.3/6,4.4/8,5.5/10,6.6/12,7.7/14,8.8/16,9.9/18,11.0/20} {\\node[below,font=\\scriptsize] at (\\x,-0.13) {$\\lbl$};}\n\\foreach \\x in {1.65,2.2,2.75,3.3,3.85,9.9} {\\node[font=\\small] at (\\x,0.5) {$\\times$};}\n\\node[below,font=\\scriptsize] at (5.5,-1.0) {Height (m)};\n\\node[font=\\small] at (5.5,1.6) {Heights of six trees};\n\\end{tikzpicture}\n[/tikz]\nEach cross on the number line shows the height of one tree in a park.\nWhich statement correctly identifies the cluster and the large gap?",
+      "structure": "identify-cluster-gap-display",
       "mastery": true,
       "options": [
-        { "text": "The heights cluster from $3$ m to $7$ m, there is a gap from $7$ m to $18$ m, and $18$ m is an outlier.", "correct": true },
-        { "text": "The heights cluster from $3$ m to $18$ m, and there is no outlier.", "why": "Treats the whole spread as one cluster and ignores the height standing far from the others." },
-        { "text": "The heights cluster from $3$ m to $7$ m, there is a gap from $7$ m to $18$ m, and $3$ m is an outlier.", "why": "Names the smallest height as the outlier, but $3$ m sits inside the cluster." },
-        { "text": "There is a gap from $3$ m to $7$ m, and the heights cluster from $7$ m to $18$ m.", "why": "Swaps the meanings of cluster and gap: the bunched values form the cluster and the empty interval is the gap." }
-      ],
-      "solution_text": "$3, 4, 5, 6, 7, 18$\nFive heights lie between $3$ m and $7$ m, so that is the cluster.\nNo tree has a height between $7$ m and $18$ m, so that interval is a gap.\nThe outlier is $18$ m, because it is much higher than the rest."
+{ "text": "The heights cluster from $3$ m to $7$ m, and the large gap is between $7$ m and $18$ m.", "correct": true },
+{ "text": "The heights cluster from $3$ m to $18$ m, and there is no gap.", "why": "Treats the full spread as a cluster and overlooks the empty interval between $7$ m and $18$ m." },
+{ "text": "The heights cluster from $3$ m to $6$ m, and the large gap is between $6$ m and $18$ m.", "why": "Leaves the height $7$ m out of the cluster and includes that recorded height inside the claimed gap." },
+{ "text": "There is a large gap between $3$ m and $7$ m, and the heights cluster from $7$ m to $18$ m.", "why": "Swaps the meanings of cluster and gap: the bunched values form the cluster and the empty interval is the gap." }
+],
+      "solution_text": "$3, 4, 5, 6, 7, 18$\nFive heights lie between $3$ m and $7$ m, so that is the cluster.\nNo tree has a height between $7$ m and $18$ m, so that interval is the large gap."
     }
 ]
 }
