@@ -1194,121 +1194,147 @@
             }
           ],
           "classification": {
-            "primarySkillId": "distance-between-points",
-            "secondarySkillIds": [],
-            "reasoningScore": 35,
-            "difficulty": "Development",
-            "difficultyReason": "Find six coordinate distances by identifying horizontal and vertical differences."
+            "primarySkillId": "distance-formula",
+            "secondarySkillIds": [
+              "distance-between-points"
+            ],
+            "reasoningScore": 55,
+            "difficulty": "Mastery",
+            "difficultyReason": "Generalise numerical coordinate differences to derive the distance formula. Combined with its prerequisite task as one complete question; all directly assessed skills are retained."
           },
           "content": {
             "id": "p5-q4-root",
             "type": "question",
             "label": "4",
-            "prompt": "In the diagram below, find each of the following lengths.",
-            "layout": "grid",
-            "columns": 3,
-            "questionDiagrams": [
-              {
-                "id": "p5-q4-diagram",
-                "format": "tikz",
-                "widthMm": 75,
-                "role": "question",
-                "reviewStatus": "needs-review",
-                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 5 p5-q4-diagram\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.7cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,dotted,line width=0.25pt,step=1] (-4,-4) grid (4,4);\n\\draw[black,->,line width=0.5pt] (-4,0)--(4.35,0) node[right] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-4)--(0,4.35) node[above] {$y$};\n\\fill[black] (-2,-2) circle (1.3pt) node[below] {$A(-2,-2)$};\n\\fill[black] (1,1) circle (1.3pt) node[above] {$B(1,1)$};\n\\fill[black] (-2,3) circle (1.3pt) node[below] {$C(-2,3)$};\n\\fill[black] (2,-1) circle (1.3pt) node[below] {$D(2,-1)$};\n\\end{tikzpicture}",
-                "spec": {
-                  "sourcePage": 5,
-                  "sourceRegion": "Question 4, coordinate diagram in the upper left column",
-                  "description": "Eight-by-eight unit grid, arrowed positive axes, four independently marked and labelled points, and no connecting segments.",
-                  "mathematics": "Grid bounds are -4 to 4 on both axes; A=(-2,-2), B=(1,1), C=(-2,3), D=(2,-1). No numeric tick labels are supplied.",
-                  "answerVisibility": "Only supplied coordinates and point markers are visible."
-                }
-              }
-            ],
+            "prompt": "",
+            "layout": "list",
             "children": [
               {
-                "id": "p5-q4-a",
-                "type": "part",
-                "label": "a",
-                "prompt": "$AB$",
-                "answerSpaceMm": 60,
-                "answer": {
-                  "short": "$AB=3\\sqrt{2}$",
-                  "worked": "The horizontal and vertical differences are both $3$.\n$$\\begin{align*}AB^2&=3^2+3^2\\\\AB^2&=18\\\\AB&=\\sqrt{18}\\\\AB&=3\\sqrt{2}\\end{align*}$$",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
+                "id": "p5-q4-root-initial",
+                "type": "group",
+                "label": null,
+                "prompt": "In the diagram below, find each of the following lengths.",
+                "layout": "grid",
+                "columns": 3,
+                "questionDiagrams": [
+                  {
+                    "id": "p5-q4-diagram",
+                    "format": "tikz",
+                    "widthMm": 75,
+                    "role": "question",
+                    "reviewStatus": "needs-review",
+                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 5 p5-q4-diagram\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.7cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,dotted,line width=0.25pt,step=1] (-4,-4) grid (4,4);\n\\draw[black,->,line width=0.5pt] (-4,0)--(4.35,0) node[right] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-4)--(0,4.35) node[above] {$y$};\n\\fill[black] (-2,-2) circle (1.3pt) node[below] {$A(-2,-2)$};\n\\fill[black] (1,1) circle (1.3pt) node[above] {$B(1,1)$};\n\\fill[black] (-2,3) circle (1.3pt) node[below] {$C(-2,3)$};\n\\fill[black] (2,-1) circle (1.3pt) node[below] {$D(2,-1)$};\n\\end{tikzpicture}",
+                    "spec": {
+                      "sourcePage": 5,
+                      "sourceRegion": "Question 4, coordinate diagram in the upper left column",
+                      "description": "Eight-by-eight unit grid, arrowed positive axes, four independently marked and labelled points, and no connecting segments.",
+                      "mathematics": "Grid bounds are -4 to 4 on both axes; A=(-2,-2), B=(1,1), C=(-2,3), D=(2,-1). No numeric tick labels are supplied.",
+                      "answerVisibility": "Only supplied coordinates and point markers are visible."
+                    }
                   }
-                }
+                ],
+                "children": [
+                  {
+                    "id": "p5-q4-a",
+                    "type": "part",
+                    "label": "a",
+                    "prompt": "$AB$",
+                    "answerSpaceMm": 60,
+                    "answer": {
+                      "short": "$AB=3\\sqrt{2}$",
+                      "worked": "The horizontal and vertical differences are both $3$.\n$$\\begin{align*}AB^2&=3^2+3^2\\\\AB^2&=18\\\\AB&=\\sqrt{18}\\\\AB&=3\\sqrt{2}\\end{align*}$$",
+                      "provenance": {
+                        "short": "source",
+                        "worked": "authored"
+                      }
+                    }
+                  },
+                  {
+                    "id": "p5-q4-b",
+                    "type": "part",
+                    "label": "b",
+                    "prompt": "$AC$",
+                    "answerSpaceMm": 44,
+                    "answer": {
+                      "short": "$AC=5$",
+                      "worked": "Both points have $x=-2$, so the interval is vertical.\n$$\\begin{align*}AC&=3-(-2)\\\\AC&=5\\end{align*}$$",
+                      "provenance": {
+                        "short": "source",
+                        "worked": "authored"
+                      }
+                    }
+                  },
+                  {
+                    "id": "p5-q4-c",
+                    "type": "part",
+                    "label": "c",
+                    "prompt": "$AD$",
+                    "answerSpaceMm": 52,
+                    "answer": {
+                      "short": "$AD=\\sqrt{17}$",
+                      "worked": "The horizontal difference is $4$ and the vertical difference is $1$.\n$$\\begin{align*}AD^2&=4^2+1^2\\\\AD^2&=17\\\\AD&=\\sqrt{17}\\end{align*}$$",
+                      "provenance": {
+                        "short": "source",
+                        "worked": "authored"
+                      }
+                    }
+                  },
+                  {
+                    "id": "p5-q4-d",
+                    "type": "part",
+                    "label": "d",
+                    "prompt": "$BC$",
+                    "answerSpaceMm": 52,
+                    "answer": {
+                      "short": "$BC=\\sqrt{13}$",
+                      "worked": "The horizontal difference is $3$ and the vertical difference is $2$.\n$$\\begin{align*}BC^2&=3^2+2^2\\\\BC^2&=13\\\\BC&=\\sqrt{13}\\end{align*}$$",
+                      "provenance": {
+                        "short": "source",
+                        "worked": "authored"
+                      }
+                    }
+                  },
+                  {
+                    "id": "p5-q4-e",
+                    "type": "part",
+                    "label": "e",
+                    "prompt": "$BD$",
+                    "answerSpaceMm": 52,
+                    "answer": {
+                      "short": "$BD=\\sqrt{5}$",
+                      "worked": "The horizontal difference is $1$ and the vertical difference is $2$.\n$$\\begin{align*}BD^2&=1^2+2^2\\\\BD^2&=5\\\\BD&=\\sqrt{5}\\end{align*}$$",
+                      "provenance": {
+                        "short": "source",
+                        "worked": "authored"
+                      }
+                    }
+                  },
+                  {
+                    "id": "p5-q4-f",
+                    "type": "part",
+                    "label": "f",
+                    "prompt": "$CD$",
+                    "answerSpaceMm": 60,
+                    "answer": {
+                      "short": "$CD=4\\sqrt{2}$",
+                      "worked": "The horizontal and vertical differences are both $4$.\n$$\\begin{align*}CD^2&=4^2+4^2\\\\CD^2&=32\\\\CD&=\\sqrt{32}\\\\CD&=4\\sqrt{2}\\end{align*}$$",
+                      "provenance": {
+                        "short": "source",
+                        "worked": "authored"
+                      }
+                    }
+                  }
+                ]
               },
               {
-                "id": "p5-q4-b",
+                "id": "p5-q5-root",
                 "type": "part",
-                "label": "b",
-                "prompt": "$AC$",
-                "answerSpaceMm": 44,
+                "label": "g",
+                "prompt": "Generalise the work you did in parts a–f to find a formula for length $AB$ given coordinates $A(x_1,y_1)$ and $B(x_2,y_2)$.",
+                "answerSpaceMm": 28,
                 "answer": {
-                  "short": "$AC=5$",
-                  "worked": "Both points have $x=-2$, so the interval is vertical.\n$$\\begin{align*}AC&=3-(-2)\\\\AC&=5\\end{align*}$$",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p5-q4-c",
-                "type": "part",
-                "label": "c",
-                "prompt": "$AD$",
-                "answerSpaceMm": 52,
-                "answer": {
-                  "short": "$AD=\\sqrt{17}$",
-                  "worked": "The horizontal difference is $4$ and the vertical difference is $1$.\n$$\\begin{align*}AD^2&=4^2+1^2\\\\AD^2&=17\\\\AD&=\\sqrt{17}\\end{align*}$$",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p5-q4-d",
-                "type": "part",
-                "label": "d",
-                "prompt": "$BC$",
-                "answerSpaceMm": 52,
-                "answer": {
-                  "short": "$BC=\\sqrt{13}$",
-                  "worked": "The horizontal difference is $3$ and the vertical difference is $2$.\n$$\\begin{align*}BC^2&=3^2+2^2\\\\BC^2&=13\\\\BC&=\\sqrt{13}\\end{align*}$$",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p5-q4-e",
-                "type": "part",
-                "label": "e",
-                "prompt": "$BD$",
-                "answerSpaceMm": 52,
-                "answer": {
-                  "short": "$BD=\\sqrt{5}$",
-                  "worked": "The horizontal difference is $1$ and the vertical difference is $2$.\n$$\\begin{align*}BD^2&=1^2+2^2\\\\BD^2&=5\\\\BD&=\\sqrt{5}\\end{align*}$$",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p5-q4-f",
-                "type": "part",
-                "label": "f",
-                "prompt": "$CD$",
-                "answerSpaceMm": 60,
-                "answer": {
-                  "short": "$CD=4\\sqrt{2}$",
-                  "worked": "The horizontal and vertical differences are both $4$.\n$$\\begin{align*}CD^2&=4^2+4^2\\\\CD^2&=32\\\\CD&=\\sqrt{32}\\\\CD&=4\\sqrt{2}\\end{align*}$$",
+                  "short": "$AB=\\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$\n\nApply Pythagoras to the horizontal and vertical coordinate differences.",
+                  "worked": "The perpendicular side lengths are $|x_2-x_1|$ and $|y_2-y_1|$.\n$$\\begin{align*}AB^2&=(x_2-x_1)^2+(y_2-y_1)^2\\\\AB&=\\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}\\end{align*}$$",
                   "provenance": {
                     "short": "source",
                     "worked": "authored"
@@ -1460,16 +1486,98 @@
             "sourcePagination": {
               "page": 5,
               "breakBefore": true
+            },
+            "intentionalDepartures": [
+              {
+                "reason": "User requested dependent follow-ups appended to preceding questions, 11 October 2026. Complete tasks and both answers retained; part labels run in one sequence.",
+                "mergedBlocks": [
+                  {
+                    "id": "p5-q5",
+                    "contentId": "p5-q5-root",
+                    "bankRef": null,
+                    "sourceReview": {
+                      "sourceIdentity": {
+                        "chapter": "11",
+                        "section": "11A",
+                        "exercise": "11A Exercises",
+                        "category": "Exercises",
+                        "questionLabel": "5",
+                        "pdfPage": 5,
+                        "printedPage": 219,
+                        "sourceReference": "evidence/pages/page-005.png"
+                      },
+                      "teachingContext": {
+                        "pdfPages": [
+                          1,
+                          2,
+                          3
+                        ],
+                        "methodNote": "Replace the numerical perpendicular coordinate differences used in Example 2 by general differences, apply Pythagoras, and take the nonnegative square root.",
+                        "mappingNote": "This question explicitly generalises question 4; distance-formula is the closest directly assessed skill."
+                      },
+                      "responses": [
+                        {
+                          "targetId": "p5-q5-root",
+                          "kind": "working"
+                        }
+                      ],
+                      "workingSpaceEstimate": {
+                        "method": "estimateWorkedWritingSpace",
+                        "helper": "src/lib/booklet-working-space.js",
+                        "estimates": [
+                          {
+                            "targetId": "p5-q5-root",
+                            "widthMm": 166,
+                            "responseKind": "working",
+                            "requiredMm": 28,
+                            "answerSpaceMm": 28,
+                            "studentWorkProjected": false,
+                            "studentDiagramIds": []
+                          }
+                        ]
+                      },
+                      "answerEvidence": {
+                        "questionId": "p5-q5",
+                        "teacherReference": [
+                          {
+                            "pdfPage": 51,
+                            "printedPage": 426,
+                            "exercise": "Chapter 11, Section A",
+                            "questionLabel": "5"
+                          }
+                        ],
+                        "matchEvidence": "Individual pixel comparison: source question 5 asks for the general length AB using A(x1,y1) and B(x2,y2). Teacher Section A 5 gives AB=√((x2−x1)²+(y2−y1)²), agreeing with the independently derived Pythagorean formula.",
+                        "conflict": null
+                      },
+                      "sourcePagination": {
+                        "page": 5,
+                        "breakBefore": false
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "origin": {
+              "projectId": "enrichment-maths-1-part13",
+              "blockId": "p5-q4",
+              "runId": "enrichment-maths-1-part13-20261008",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\enrichment-maths-1-part13-20261008\\semantic-packets\\page-005.author.json",
+                "hash": "e622e9dada095c4bd8bce9ef3082262fec5f89136ba7e6c2ab4d24063fa6b5c6"
+              }
             }
           },
           "flow": {
             "sourcePageBreakBefore": false,
             "localDifficulty": {
-              "primarySkillId": "distance-between-points",
-              "secondarySkillIds": [],
-              "reasoningScore": 35,
-              "difficulty": "Development",
-              "difficultyReason": "Find six coordinate distances by identifying horizontal and vertical differences."
+              "primarySkillId": "distance-formula",
+              "secondarySkillIds": [
+                "distance-between-points"
+              ],
+              "reasoningScore": 55,
+              "difficulty": "Mastery",
+              "difficultyReason": "Generalise numerical coordinate differences to derive the distance formula. Combined with its prerequisite task as one complete question; all directly assessed skills are retained."
             }
           },
           "snapshotKind": "local",
@@ -1477,110 +1585,6 @@
           "sourceLayoutEvidence": {
             "pageBreakBefore": true
           }
-        },
-        {
-          "id": "p5-q5",
-          "type": "question",
-          "sourceOrder": 5,
-          "sourcePageNumber": 5,
-          "sourceRefs": [
-            {
-              "pageNumber": 5
-            }
-          ],
-          "classification": {
-            "primarySkillId": "distance-formula",
-            "secondarySkillIds": [],
-            "reasoningScore": 55,
-            "difficulty": "Development",
-            "difficultyReason": "Generalise numerical coordinate differences to derive the distance formula."
-          },
-          "content": {
-            "id": "p5-q5-root",
-            "type": "question",
-            "label": "5",
-            "prompt": "Generalise the work you did in the previous question to find a formula for length $AB$ given coordinates $A(x_1,y_1)$ and $B(x_2,y_2)$.",
-            "answerSpaceMm": 28,
-            "answer": {
-              "short": "$AB=\\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$\n\nApply Pythagoras to the horizontal and vertical coordinate differences.",
-              "worked": "The perpendicular side lengths are $|x_2-x_1|$ and $|y_2-y_1|$.\n$$\\begin{align*}AB^2&=(x_2-x_1)^2+(y_2-y_1)^2\\\\AB&=\\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}\\end{align*}$$",
-              "provenance": {
-                "short": "source",
-                "worked": "authored"
-              }
-            }
-          },
-          "sourceReview": {
-            "sourceIdentity": {
-              "chapter": "11",
-              "section": "11A",
-              "exercise": "11A Exercises",
-              "category": "Exercises",
-              "questionLabel": "5",
-              "pdfPage": 5,
-              "printedPage": 219,
-              "sourceReference": "evidence/pages/page-005.png"
-            },
-            "teachingContext": {
-              "pdfPages": [
-                1,
-                2,
-                3
-              ],
-              "methodNote": "Replace the numerical perpendicular coordinate differences used in Example 2 by general differences, apply Pythagoras, and take the nonnegative square root.",
-              "mappingNote": "This question explicitly generalises question 4; distance-formula is the closest directly assessed skill."
-            },
-            "responses": [
-              {
-                "targetId": "p5-q5-root",
-                "kind": "working"
-              }
-            ],
-            "workingSpaceEstimate": {
-              "method": "estimateWorkedWritingSpace",
-              "helper": "src/lib/booklet-working-space.js",
-              "estimates": [
-                {
-                  "targetId": "p5-q5-root",
-                  "widthMm": 166,
-                  "responseKind": "working",
-                  "requiredMm": 28,
-                  "answerSpaceMm": 28,
-                  "studentWorkProjected": false,
-                  "studentDiagramIds": []
-                }
-              ]
-            },
-            "answerEvidence": {
-              "questionId": "p5-q5",
-              "teacherReference": [
-                {
-                  "pdfPage": 51,
-                  "printedPage": 426,
-                  "exercise": "Chapter 11, Section A",
-                  "questionLabel": "5"
-                }
-              ],
-              "matchEvidence": "Individual pixel comparison: source question 5 asks for the general length AB using A(x1,y1) and B(x2,y2). Teacher Section A 5 gives AB=√((x2−x1)²+(y2−y1)²), agreeing with the independently derived Pythagorean formula.",
-              "conflict": null
-            },
-            "sourcePagination": {
-              "page": 5,
-              "breakBefore": false
-            }
-          },
-          "flow": {
-            "sourcePageBreakBefore": false,
-            "localDifficulty": {
-              "primarySkillId": "distance-formula",
-              "secondarySkillIds": [],
-              "reasoningScore": 55,
-              "difficulty": "Development",
-              "difficultyReason": "Generalise numerical coordinate differences to derive the distance formula."
-            }
-          },
-          "snapshotKind": "local",
-          "bankRef": null
         },
         {
           "id": "p5-q6",
@@ -13690,23 +13694,47 @@
             "secondarySkillIds": [
               "converse-pythagoras"
             ],
-            "reasoningScore": 76,
-            "difficulty": "Mastery",
-            "difficultyReason": "Expands the defining equation and derives an odd-even contradiction."
+            "reasoningScore": 84,
+            "difficulty": "Challenge",
+            "difficultyReason": "Generalises the expansion proof and uses the triangle inequality to contradict positivity. Combined with its prerequisite task as one complete question; all directly assessed skills are retained."
           },
           "content": {
             "id": "p20-q14-root",
             "type": "question",
-            "prompt": "Suppose that $(a,b,c)$ is a Pythagorean triple. Prove that $(a+1,b+1,c+1)$ is not a Pythagorean triple.",
-            "answerSpaceMm": 68,
-            "answer": {
-              "short": "It is not a Pythagorean triple.\n\nAssuming it is gives $2(a+b)+1=2c$, contradicting odd-even parity.",
-              "worked": "Since $a^2+b^2=c^2$, suppose for a contradiction that $(a+1,b+1,c+1)$ is also a Pythagorean triple. Then\n$$\\begin{align*}\n(a+1)^2+(b+1)^2&=(c+1)^2,\\\\\na^2+2a+1+b^2+2b+1&=c^2+2c+1,\\\\\n2a+2b+1&=2c,\\\\\n2(a+b)+1&=2c.\n\\end{align*}$$\nThe left-hand side is odd and the right-hand side is even. This contradiction proves that $(a+1,b+1,c+1)$ is not a Pythagorean triple.",
-              "provenance": {
-                "short": "authored",
-                "worked": "source"
+            "prompt": "",
+            "layout": "list",
+            "children": [
+              {
+                "id": "p20-q14-root-initial",
+                "type": "part",
+                "prompt": "Suppose that $(a,b,c)$ is a Pythagorean triple. Prove that $(a+1,b+1,c+1)$ is not a Pythagorean triple.",
+                "answerSpaceMm": 68,
+                "answer": {
+                  "short": "It is not a Pythagorean triple.\n\nAssuming it is gives $2(a+b)+1=2c$, contradicting odd-even parity.",
+                  "worked": "Since $a^2+b^2=c^2$, suppose for a contradiction that $(a+1,b+1,c+1)$ is also a Pythagorean triple. Then\n$$\\begin{align*}\n(a+1)^2+(b+1)^2&=(c+1)^2,\\\\\na^2+2a+1+b^2+2b+1&=c^2+2c+1,\\\\\n2a+2b+1&=2c,\\\\\n2(a+b)+1&=2c.\n\\end{align*}$$\nThe left-hand side is odd and the right-hand side is even. This contradiction proves that $(a+1,b+1,c+1)$ is not a Pythagorean triple.",
+                  "provenance": {
+                    "short": "authored",
+                    "worked": "source"
+                  }
+                },
+                "label": "a"
+              },
+              {
+                "id": "p20-q15-root",
+                "type": "part",
+                "prompt": "With a little more work, we can generalise part a. Suppose that $(a,b,c)$ is a Pythagorean triple. Let $d$ be a positive integer. Prove that $(a+d,b+d,c+d)$ is not a Pythagorean triple. Hint: In any triangle with sides $a,b$ and $c$, we know that $a+b>c$.",
+                "answerSpaceMm": 84,
+                "answer": {
+                  "short": "It is not a Pythagorean triple for any positive integer $d$.\n\nAssuming it is gives $d=2(c-a-b)<0$ by the triangle inequality, a contradiction.",
+                  "worked": "Since $a^2+b^2=c^2$, suppose for a contradiction that $(a+d,b+d,c+d)$ is also a Pythagorean triple. Then\n$$\\begin{align*}\n(a+d)^2+(b+d)^2&=(c+d)^2,\\\\\na^2+2ad+d^2+b^2+2bd+d^2&=c^2+2cd+d^2,\\\\\n2ad+2bd+d^2&=2cd,\\\\\n2a+2b+d&=2c,\\\\\nd&=2(c-a-b).\n\\end{align*}$$\nDivision by $d$ is valid because $d>0$. The triangle inequality gives $a+b>c$, so $2(c-a-b)<0$. This contradicts $d>0$, proving that $(a+d,b+d,c+d)$ is not a Pythagorean triple.",
+                  "provenance": {
+                    "short": "authored",
+                    "worked": "source"
+                  }
+                },
+                "label": "b"
               }
-            }
+            ]
           },
           "sourceReview": {
             "sourceIdentity": {
@@ -13767,115 +13795,88 @@
             "sourcePagination": {
               "page": 20,
               "breakBefore": false
-            }
-          },
-          "flow": {
-            "sourcePageBreakBefore": false,
-            "localDifficulty": {
-              "primarySkillId": "proof-by-contradiction",
-              "secondarySkillIds": [
-                "converse-pythagoras"
-              ],
-              "reasoningScore": 76,
-              "difficulty": "Mastery",
-              "difficultyReason": "Expands the defining equation and derives an odd-even contradiction."
-            }
-          },
-          "snapshotKind": "local",
-          "bankRef": null
-        },
-        {
-          "id": "p20-q15",
-          "type": "question",
-          "sourceOrder": 15,
-          "sourcePageNumber": 20,
-          "sourceRefs": [
-            {
-              "pageNumber": 20
-            }
-          ],
-          "classification": {
-            "primarySkillId": "proof-by-contradiction",
-            "secondarySkillIds": [
-              "converse-pythagoras"
-            ],
-            "reasoningScore": 84,
-            "difficulty": "Mastery",
-            "difficultyReason": "Generalises the expansion proof and uses the triangle inequality to contradict positivity."
-          },
-          "content": {
-            "id": "p20-q15-root",
-            "type": "question",
-            "prompt": "With a little more work, we can generalise the previous question. Suppose that $(a,b,c)$ is a Pythagorean triple. Let $d$ be a positive integer. Prove that $(a+d,b+d,c+d)$ is not a Pythagorean triple. Hint: In any triangle with sides $a,b$ and $c$, we know that $a+b>c$.",
-            "answerSpaceMm": 84,
-            "answer": {
-              "short": "It is not a Pythagorean triple for any positive integer $d$.\n\nAssuming it is gives $d=2(c-a-b)<0$ by the triangle inequality, a contradiction.",
-              "worked": "Since $a^2+b^2=c^2$, suppose for a contradiction that $(a+d,b+d,c+d)$ is also a Pythagorean triple. Then\n$$\\begin{align*}\n(a+d)^2+(b+d)^2&=(c+d)^2,\\\\\na^2+2ad+d^2+b^2+2bd+d^2&=c^2+2cd+d^2,\\\\\n2ad+2bd+d^2&=2cd,\\\\\n2a+2b+d&=2c,\\\\\nd&=2(c-a-b).\n\\end{align*}$$\nDivision by $d$ is valid because $d>0$. The triangle inequality gives $a+b>c$, so $2(c-a-b)<0$. This contradicts $d>0$, proving that $(a+d,b+d,c+d)$ is not a Pythagorean triple.",
-              "provenance": {
-                "short": "authored",
-                "worked": "source"
-              }
-            }
-          },
-          "sourceReview": {
-            "sourceIdentity": {
-              "book": "Enrichment Mathematics 1",
-              "chapter": "11: The Pythagorean theorem",
-              "exercise": "11E",
-              "topic": "Pythagorean triples",
-              "questionLabel": "15",
-              "pdfPage": 20,
-              "printedPage": 234,
-              "reference": "evidence/pages/page-020.png",
-              "difficultyMarker": "†"
             },
-            "teachingContext": {
-              "pdfPages": [
-                17,
-                18,
-                19,
-                20
-              ],
-              "methodNote": "Generalise the preceding contradiction proof, expand squares and use the supplied triangle inequality.",
-              "mappingNote": "The general positive-integer statement is established by contradiction."
-            },
-            "responses": [
+            "intentionalDepartures": [
               {
-                "targetId": "p20-q15-root",
-                "kind": "working"
+                "reason": "User requested dependent follow-ups appended to preceding questions, 11 October 2026. Complete tasks and both answers retained; part labels run in one sequence.",
+                "mergedBlocks": [
+                  {
+                    "id": "p20-q15",
+                    "contentId": "p20-q15-root",
+                    "bankRef": null,
+                    "sourceReview": {
+                      "sourceIdentity": {
+                        "book": "Enrichment Mathematics 1",
+                        "chapter": "11: The Pythagorean theorem",
+                        "exercise": "11E",
+                        "topic": "Pythagorean triples",
+                        "questionLabel": "15",
+                        "pdfPage": 20,
+                        "printedPage": 234,
+                        "reference": "evidence/pages/page-020.png",
+                        "difficultyMarker": "†"
+                      },
+                      "teachingContext": {
+                        "pdfPages": [
+                          17,
+                          18,
+                          19,
+                          20
+                        ],
+                        "methodNote": "Generalise the preceding contradiction proof, expand squares and use the supplied triangle inequality.",
+                        "mappingNote": "The general positive-integer statement is established by contradiction."
+                      },
+                      "responses": [
+                        {
+                          "targetId": "p20-q15-root",
+                          "kind": "working"
+                        }
+                      ],
+                      "workingSpaceEstimate": {
+                        "method": "estimateWorkedWritingSpace",
+                        "helper": "src/lib/booklet-working-space.js",
+                        "estimates": [
+                          {
+                            "targetId": "p20-q15-root",
+                            "widthMm": 173,
+                            "responseKind": "working",
+                            "requiredMm": 84,
+                            "answerSpaceMm": 84,
+                            "studentWorkProjected": false,
+                            "studentDiagramIds": []
+                          }
+                        ]
+                      },
+                      "answerEvidence": {
+                        "questionId": "p20-q15",
+                        "teacherReference": [
+                          {
+                            "pdfPage": 57,
+                            "printedPage": 432,
+                            "exercise": "11E",
+                            "questionLabel": "15"
+                          }
+                        ],
+                        "matchEvidence": "Teacher question 15 matches the general increment stem, derives d=2(c-a-b), and applies a+b>c to contradict the positive value of d. The authored solution retains this method.",
+                        "conflict": null
+                      },
+                      "sourcePagination": {
+                        "page": 20,
+                        "breakBefore": false
+                      }
+                    }
+                  }
+                ]
               }
             ],
-            "workingSpaceEstimate": {
-              "method": "estimateWorkedWritingSpace",
-              "helper": "src/lib/booklet-working-space.js",
-              "estimates": [
-                {
-                  "targetId": "p20-q15-root",
-                  "widthMm": 173,
-                  "responseKind": "working",
-                  "requiredMm": 84,
-                  "answerSpaceMm": 84,
-                  "studentWorkProjected": false,
-                  "studentDiagramIds": []
-                }
-              ]
-            },
-            "answerEvidence": {
-              "questionId": "p20-q15",
-              "teacherReference": [
-                {
-                  "pdfPage": 57,
-                  "printedPage": 432,
-                  "exercise": "11E",
-                  "questionLabel": "15"
-                }
-              ],
-              "matchEvidence": "Teacher question 15 matches the general increment stem, derives d=2(c-a-b), and applies a+b>c to contradict the positive value of d. The authored solution retains this method.",
-              "conflict": null
-            },
-            "sourcePagination": {
-              "page": 20,
-              "breakBefore": false
+            "origin": {
+              "projectId": "enrichment-maths-1-part13",
+              "blockId": "p20-q14",
+              "runId": "enrichment-maths-1-part13-20261008",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\enrichment-maths-1-part13-20261008\\semantic-packets\\page-020.author.json",
+                "hash": "4c0e73ff2fb42cdbb814c2276debf3acd7989327a764d5c5610a99a4ea4c9fad"
+              }
             }
           },
           "flow": {
@@ -13886,8 +13887,8 @@
                 "converse-pythagoras"
               ],
               "reasoningScore": 84,
-              "difficulty": "Mastery",
-              "difficultyReason": "Generalises the expansion proof and uses the triangle inequality to contradict positivity."
+              "difficulty": "Challenge",
+              "difficultyReason": "Generalises the expansion proof and uses the triangle inequality to contradict positivity. Combined with its prerequisite task as one complete question; all directly assessed skills are retained."
             }
           },
           "snapshotKind": "local",
@@ -21427,10 +21428,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 7,
+  "revision": 8,
   "assets": [],
   "createdAt": "2026-10-08T14:42:11.988Z",
-  "updatedAt": "2026-10-08T15:40:46.291Z",
+  "updatedAt": "2026-10-11T10:53:51.887Z",
   "library": {
     "category": "import-review",
     "courseId": "",

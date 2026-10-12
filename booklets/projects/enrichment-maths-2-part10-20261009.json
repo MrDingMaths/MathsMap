@@ -6322,142 +6322,220 @@
             }
           ],
           "classification": {
-            "primarySkillId": "multiplication-principle",
+            "primarySkillId": "perm-comb-cases",
             "secondarySkillIds": [
+              "multiplication-principle",
               "permutations-restrictions"
             ],
-            "reasoningScore": 35,
-            "difficulty": "Development",
-            "difficultyReason": "Identify the independently selectable digits and apply the mirrored-digit restriction."
+            "reasoningScore": 78,
+            "difficulty": "Mastery",
+            "difficultyReason": "Count palindromes by digit length, then locate a specified ordinal across those groups. Combined with its prerequisite task as one complete question; all directly assessed skills are retained."
           },
           "content": {
             "id": "p10-q13-root",
-            "type": "group",
+            "type": "question",
             "label": "13",
-            "prompt": {
-              "format": "maths-editor-document-v1",
-              "version": 1,
-              "blocks": [
-                {
-                  "id": "p10-q13-definition-paragraph",
-                  "type": "paragraph",
-                  "align": "left",
-                  "inlines": [
+            "prompt": "",
+            "layout": "list",
+            "children": [
+              {
+                "id": "p10-q13-root-initial",
+                "type": "group",
+                "label": null,
+                "prompt": {
+                  "format": "maths-editor-document-v1",
+                  "version": 1,
+                  "blocks": [
                     {
-                      "type": "text",
-                      "text": "A "
-                    },
+                      "id": "p10-q13-definition-paragraph",
+                      "type": "paragraph",
+                      "align": "left",
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "A "
+                        },
+                        {
+                          "type": "text",
+                          "text": "palindrome",
+                          "marks": [
+                            "bold"
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "text": " is a positive integer that reads the same backwards and forwards. For example, "
+                        },
+                        {
+                          "type": "math",
+                          "latex": "123321",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": " is a palindrome. How many palindromes have:"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "layout": "grid",
+                "columns": 2,
+                "children": [
+                  {
+                    "id": "p10-q13-a",
+                    "type": "part",
+                    "label": "a",
+                    "prompt": "one digit",
+                    "answerSpaceMm": 18,
+                    "answer": {
+                      "short": "$9$",
+                      "worked": "The digit can be any of $1,2,\\ldots,9$, so there are $9$ palindromes.",
+                      "provenance": {
+                        "short": "source",
+                        "worked": "authored"
+                      }
+                    }
+                  },
+                  {
+                    "id": "p10-q13-b",
+                    "type": "part",
+                    "label": "b",
+                    "prompt": "two digits",
+                    "answerSpaceMm": 18,
+                    "answer": {
+                      "short": "$9$",
+                      "worked": "There are $9$ choices for the first digit. The second digit must equal the first.\n$$9\\times1=9.$$",
+                      "provenance": {
+                        "short": "source",
+                        "worked": "authored"
+                      }
+                    }
+                  },
+                  {
+                    "id": "p10-q13-c",
+                    "type": "part",
+                    "label": "c",
+                    "prompt": "three digits",
+                    "answerSpaceMm": 24,
+                    "answer": {
+                      "short": "$90$",
+                      "worked": "There are $9$ choices for the first digit and $10$ choices for the middle digit. The last digit is fixed by the first.\n$$9\\times10=90.$$",
+                      "provenance": {
+                        "short": "source",
+                        "worked": "authored"
+                      }
+                    }
+                  },
+                  {
+                    "id": "p10-q13-d",
+                    "type": "part",
+                    "label": "d",
+                    "prompt": "four digits",
+                    "answerSpaceMm": 24,
+                    "answer": {
+                      "short": "$90$",
+                      "worked": "There are $9$ choices for the first digit and $10$ choices for the second. The remaining digits mirror these two digits.\n$$9\\times10=90.$$",
+                      "provenance": {
+                        "short": "source",
+                        "worked": "authored"
+                      }
+                    }
+                  },
+                  {
+                    "id": "p10-q13-e",
+                    "type": "part",
+                    "label": "e",
+                    "prompt": "five digits",
+                    "answerSpaceMm": 24,
+                    "answer": {
+                      "short": "$900$",
+                      "worked": "There are $9$ choices for the first digit and $10$ choices for each of the second and middle digits. The final two digits are fixed by reflection.\n$$9\\times10\\times10=900.$$",
+                      "provenance": {
+                        "short": "source",
+                        "worked": "authored"
+                      }
+                    }
+                  },
+                  {
+                    "id": "p10-q13-f",
+                    "type": "part",
+                    "label": "f",
+                    "prompt": "six digits?",
+                    "answerSpaceMm": 24,
+                    "answer": {
+                      "short": "$900$",
+                      "worked": "There are $9$ choices for the first digit and $10$ choices for each of the next two digits. The final three digits mirror the first three.\n$$9\\times10\\times10=900.$$",
+                      "provenance": {
+                        "short": "source",
+                        "worked": "authored"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "p10-q14-root",
+                "type": "part",
+                "label": "g",
+                "prompt": {
+                  "format": "maths-editor-document-v1",
+                  "version": 1,
+                  "blocks": [
                     {
-                      "type": "text",
-                      "text": "palindrome",
-                      "marks": [
-                        "bold"
+                      "id": "p10-q14-stem",
+                      "type": "paragraph",
+                      "align": "left",
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "Determine the two millionth palindrome."
+                        }
                       ]
                     },
                     {
-                      "type": "text",
-                      "text": " is a positive integer that reads the same backwards and forwards. For example, "
-                    },
-                    {
-                      "type": "math",
-                      "latex": "123321",
-                      "display": false
-                    },
-                    {
-                      "type": "text",
-                      "text": " is a palindrome. How many palindromes have:"
+                      "id": "p10-q14-hint-text",
+                      "type": "paragraph",
+                      "align": "left",
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "Use your counts from the earlier parts."
+                        }
+                      ]
                     }
                   ]
-                }
-              ]
-            },
-            "layout": "grid",
-            "columns": 2,
-            "children": [
-              {
-                "id": "p10-q13-a",
-                "type": "part",
-                "label": "a",
-                "prompt": "one digit",
-                "answerSpaceMm": 18,
+                },
+                "answerSpaceMm": 65,
                 "answer": {
-                  "short": "$9$",
-                  "worked": "The digit can be any of $1,2,\\ldots,9$, so there are $9$ palindromes.",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p10-q13-b",
-                "type": "part",
-                "label": "b",
-                "prompt": "two digits",
-                "answerSpaceMm": 18,
-                "answer": {
-                  "short": "$9$",
-                  "worked": "There are $9$ choices for the first digit. The second digit must equal the first.\n$$9\\times1=9.$$",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p10-q13-c",
-                "type": "part",
-                "label": "c",
-                "prompt": "three digits",
-                "answerSpaceMm": 24,
-                "answer": {
-                  "short": "$90$",
-                  "worked": "There are $9$ choices for the first digit and $10$ choices for the middle digit. The last digit is fixed by the first.\n$$9\\times10=90.$$",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p10-q13-d",
-                "type": "part",
-                "label": "d",
-                "prompt": "four digits",
-                "answerSpaceMm": 24,
-                "answer": {
-                  "short": "$90$",
-                  "worked": "There are $9$ choices for the first digit and $10$ choices for the second. The remaining digits mirror these two digits.\n$$9\\times10=90.$$",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p10-q13-e",
-                "type": "part",
-                "label": "e",
-                "prompt": "five digits",
-                "answerSpaceMm": 24,
-                "answer": {
-                  "short": "$900$",
-                  "worked": "There are $9$ choices for the first digit and $10$ choices for each of the second and middle digits. The final two digits are fixed by reflection.\n$$9\\times10\\times10=900.$$",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p10-q13-f",
-                "type": "part",
-                "label": "f",
-                "prompt": "six digits?",
-                "answerSpaceMm": 24,
-                "answer": {
-                  "short": "$900$",
-                  "worked": "There are $9$ choices for the first digit and $10$ choices for each of the next two digits. The final three digits mirror the first three.\n$$9\\times10\\times10=900.$$",
+                  "short": {
+                    "format": "maths-editor-document-v1",
+                    "version": 1,
+                    "blocks": [
+                      {
+                        "id": "p10-q14-short-result",
+                        "type": "paragraph",
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "1\\,000\\,001\\,000\\,001",
+                            "display": false
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p10-q14-short-method",
+                        "type": "paragraph",
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "There are 1,999,998 palindromes with at most 12 digits, so take the second 13-digit palindrome."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "worked": "List positive palindromes in increasing numerical order. A palindrome with $2k-1$ or $2k$ digits is determined by its first $k$ digits: the first has 9 choices and each remaining digit has 10 choices.\n\n$$N_{2k-1}=N_{2k}=9\\times10^{k-1}.$$\n\nThe number with at most 12 digits is\n$$\\begin{align*}N_{\\leq12}&=2(9+90+900+9000+90000+900000)\\\\N_{\\leq12}&=1\\,999\\,998.\\end{align*}$$\n\nThus the two millionth palindrome is the second 13-digit palindrome. Mirror the first six digits of each seven-digit prefix, leaving the middle digit unrepeated:\n$$\\begin{aligned}1000000&:\\quad1\\,000\\,000\\,000\\,001\\\\1000001&:\\quad1\\,000\\,001\\,000\\,001.\\end{aligned}$$\n\nTherefore the answer is $1\\,000\\,001\\,000\\,001$.",
                   "provenance": {
                     "short": "source",
                     "worked": "authored"
@@ -6564,159 +6642,78 @@
             "sourcePagination": {
               "page": 10,
               "breakBefore": false
-            }
-          },
-          "flow": {
-            "sourcePageBreakBefore": false,
-            "localDifficulty": {
-              "primarySkillId": "multiplication-principle",
-              "secondarySkillIds": [
-                "permutations-restrictions"
-              ],
-              "reasoningScore": 35,
-              "difficulty": "Development",
-              "difficultyReason": "Identify the independently selectable digits and apply the mirrored-digit restriction."
-            }
-          },
-          "snapshotKind": "local",
-          "bankRef": null
-        },
-        {
-          "id": "p10-q14",
-          "type": "question",
-          "sourceOrder": 14,
-          "sourcePageNumber": 10,
-          "sourceRefs": [
-            {
-              "pageNumber": 10
-            }
-          ],
-          "classification": {
-            "primarySkillId": "perm-comb-cases",
-            "secondarySkillIds": [
-              "multiplication-principle"
-            ],
-            "reasoningScore": 78,
-            "difficulty": "Mastery",
-            "difficultyReason": "Count palindromes by digit length, then locate a specified ordinal across those groups."
-          },
-          "content": {
-            "id": "p10-q14-root",
-            "type": "question",
-            "label": "14",
-            "prompt": {
-              "format": "maths-editor-document-v1",
-              "version": 1,
-              "blocks": [
-                {
-                  "id": "p10-q14-stem",
-                  "type": "paragraph",
-                  "align": "left",
-                  "inlines": [
-                    {
-                      "type": "text",
-                      "text": "Determine the two millionth palindrome."
-                    }
-                  ]
-                },
-                {
-                  "id": "p10-q14-hint-text",
-                  "type": "paragraph",
-                  "align": "left",
-                  "inlines": [
-                    {
-                      "type": "text",
-                      "text": "Hint: See Question 13."
-                    }
-                  ]
-                }
-              ]
             },
-            "answerSpaceMm": 65,
-            "answer": {
-              "short": {
-                "format": "maths-editor-document-v1",
-                "version": 1,
-                "blocks": [
+            "intentionalDepartures": [
+              {
+                "reason": "User requested dependent follow-ups appended to preceding questions, 11 October 2026. Complete tasks and both answers retained; part labels run in one sequence.",
+                "mergedBlocks": [
                   {
-                    "id": "p10-q14-short-result",
-                    "type": "paragraph",
-                    "inlines": [
-                      {
-                        "type": "math",
-                        "latex": "1\\,000\\,001\\,000\\,001",
-                        "display": false
+                    "id": "p10-q14",
+                    "contentId": "p10-q14-root",
+                    "bankRef": null,
+                    "sourceReview": {
+                      "sourceIdentity": {
+                        "exercise": "24C",
+                        "questionLabel": "14†",
+                        "pdfPage": 10,
+                        "printedPage": 212
+                      },
+                      "responses": [
+                        {
+                          "targetId": "p10-q14-root",
+                          "kind": "working"
+                        }
+                      ],
+                      "teachingContext": {
+                        "pdfPages": [
+                          8,
+                          9,
+                          10
+                        ],
+                        "methodNote": "Use the multiplication principle to count constrained digit choices and sum disjoint digit-length cases. Question 13 supplies the palindrome definition and the paired counts for odd and even digit lengths.",
+                        "mappingNote": "The directly assessed method is counting independent leading-digit choices; separate digit-length cases locate the requested ordinal. Increasing numerical order is the ordinary intended convention."
+                      },
+                      "workingSpaceEstimate": {
+                        "method": "solution-steps",
+                        "estimates": [
+                          {
+                            "targetId": "p10-q14-root",
+                            "widthMm": 173,
+                            "mathematicalRows": 6,
+                            "answerSpaceMm": 65
+                          }
+                        ]
+                      },
+                      "answerEvidence": {
+                        "questionId": "p10-q14",
+                        "teacherReference": [
+                          {
+                            "pdfPage": 64,
+                            "printedPage": 393,
+                            "exercise": "24C",
+                            "questionLabel": "14"
+                          }
+                        ],
+                        "matchEvidence": "The supplied source image shows 24C question 14 asking for the two millionth palindrome and referring to Question 13. The supplied teacher image, Section C item 14, prints 1 000 001 000 001. Independent counting gives 1,999,998 palindromes through 12 digits; the second 13-digit palindrome is exactly the printed answer.",
+                        "conflict": null
+                      },
+                      "sourcePagination": {
+                        "page": 10,
+                        "breakBefore": false
                       }
-                    ]
-                  },
-                  {
-                    "id": "p10-q14-short-method",
-                    "type": "paragraph",
-                    "inlines": [
-                      {
-                        "type": "text",
-                        "text": "There are 1,999,998 palindromes with at most 12 digits, so take the second 13-digit palindrome."
-                      }
-                    ]
+                    }
                   }
                 ]
-              },
-              "worked": "List positive palindromes in increasing numerical order. A palindrome with $2k-1$ or $2k$ digits is determined by its first $k$ digits: the first has 9 choices and each remaining digit has 10 choices.\n\n$$N_{2k-1}=N_{2k}=9\\times10^{k-1}.$$\n\nThe number with at most 12 digits is\n$$\\begin{align*}N_{\\leq12}&=2(9+90+900+9000+90000+900000)\\\\N_{\\leq12}&=1\\,999\\,998.\\end{align*}$$\n\nThus the two millionth palindrome is the second 13-digit palindrome. Mirror the first six digits of each seven-digit prefix, leaving the middle digit unrepeated:\n$$\\begin{aligned}1000000&:\\quad1\\,000\\,000\\,000\\,001\\\\1000001&:\\quad1\\,000\\,001\\,000\\,001.\\end{aligned}$$\n\nTherefore the answer is $1\\,000\\,001\\,000\\,001$.",
-              "provenance": {
-                "short": "source",
-                "worked": "authored"
-              }
-            }
-          },
-          "sourceReview": {
-            "sourceIdentity": {
-              "exercise": "24C",
-              "questionLabel": "14†",
-              "pdfPage": 10,
-              "printedPage": 212
-            },
-            "responses": [
-              {
-                "targetId": "p10-q14-root",
-                "kind": "working"
               }
             ],
-            "teachingContext": {
-              "pdfPages": [
-                8,
-                9,
-                10
-              ],
-              "methodNote": "Use the multiplication principle to count constrained digit choices and sum disjoint digit-length cases. Question 13 supplies the palindrome definition and the paired counts for odd and even digit lengths.",
-              "mappingNote": "The directly assessed method is counting independent leading-digit choices; separate digit-length cases locate the requested ordinal. Increasing numerical order is the ordinary intended convention."
-            },
-            "workingSpaceEstimate": {
-              "method": "solution-steps",
-              "estimates": [
-                {
-                  "targetId": "p10-q14-root",
-                  "widthMm": 173,
-                  "mathematicalRows": 6,
-                  "answerSpaceMm": 65
-                }
-              ]
-            },
-            "answerEvidence": {
-              "questionId": "p10-q14",
-              "teacherReference": [
-                {
-                  "pdfPage": 64,
-                  "printedPage": 393,
-                  "exercise": "24C",
-                  "questionLabel": "14"
-                }
-              ],
-              "matchEvidence": "The supplied source image shows 24C question 14 asking for the two millionth palindrome and referring to Question 13. The supplied teacher image, Section C item 14, prints 1 000 001 000 001. Independent counting gives 1,999,998 palindromes through 12 digits; the second 13-digit palindrome is exactly the printed answer.",
-              "conflict": null
-            },
-            "sourcePagination": {
-              "page": 10,
-              "breakBefore": false
+            "origin": {
+              "projectId": "enrichment-maths-2-part10-20261009",
+              "blockId": "p10-q13",
+              "runId": "enrichment-maths-2-part10-20261009",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\enrichment-maths-2-part10-20261009\\semantic-packets\\page-010.author.json",
+                "hash": "4c3139790827b3fca6e3562f068b3063e4ad2c9ea3adda1fe537434a7e349c0e"
+              }
             }
           },
           "flow": {
@@ -6724,11 +6721,12 @@
             "localDifficulty": {
               "primarySkillId": "perm-comb-cases",
               "secondarySkillIds": [
-                "multiplication-principle"
+                "multiplication-principle",
+                "permutations-restrictions"
               ],
               "reasoningScore": 78,
               "difficulty": "Mastery",
-              "difficultyReason": "Count palindromes by digit length, then locate a specified ordinal across those groups."
+              "difficultyReason": "Count palindromes by digit length, then locate a specified ordinal across those groups. Combined with its prerequisite task as one complete question; all directly assessed skills are retained."
             }
           },
           "snapshotKind": "local",
@@ -34201,8 +34199,8 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 5,
+  "revision": 6,
   "assets": [],
   "createdAt": "2026-10-09T01:07:38.547Z",
-  "updatedAt": "2026-10-09T03:09:50.323Z"
+  "updatedAt": "2026-10-11T10:53:52.309Z"
 }
