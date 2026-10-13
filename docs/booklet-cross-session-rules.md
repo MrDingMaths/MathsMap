@@ -196,6 +196,23 @@ printed size, with standard green/red semantic colours. Author native maths with
 maths and must never acquire this role. Preserve the role through rich editing,
 clipboard, save/reopen and print; avoid embedded LaTeX size commands.
 
+Drawn size (12 October 2026, user requested): the marker keeps its 14 pt layout
+box, and the renderer draws the glyph larger and heavier inside it with a
+transform and a thin same-colour stroke (`correctnessMarkerTickScale`,
+`correctnessMarkerCrossScale` and `correctnessMarkerStrokeEm` in
+`public/libs/maths-editor/house-style.mjs`). Line and row heights therefore do
+not change and nothing repaginates. A text run that is only a tick or cross
+glyph (✓ ✔ ✗ ✘ ✕ ✖) is drawn the same way in print with
+`correctnessMarkerTextScale`; its stored content is unchanged. Change marker
+prominence through these constants, never with font sizes in content.
+
+A correctness cross is never the multiplication sign (12 October 2026, user
+requested): `\times` and × stay ordinary maths. `correctnessMarker(false)`
+stores `\text{✗}`, the renderer draws every role cross as ✗ whatever its stored
+latex, and a text cross is typed as ✗. Existing role markers were migrated. As a
+safety net for older content, a table cell holding only a multiplication sign is
+drawn as ✗ when the same table also contains ticks; author ✗ there in new work.
+
 Numbered teaching calculations keep a separate left-aligned red number gutter
 and blue working aligned at relation signs. Use `numberedTeachingWorking` from
 the same shared authoring module; a null number continues the preceding step.
