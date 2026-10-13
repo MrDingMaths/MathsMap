@@ -112,7 +112,11 @@ export async function verifyProjectBank(project,bankRoot,{root=process.cwd(),bas
     // Existing owners may have newer booklet-local spacing than their bank
     // copy. Verify every shared word/answer while retaining that local layout;
     // a newly promoted question still needs an exact content/presentation copy.
-    assert.deepEqual(added(b)?bank.content:mergeQuestionContent(bank.content,expectedContent),expectedContent,b.id+' content and answers');
+    if(added(b))assert.deepEqual(bank.content,expectedContent,b.id+' content and answers');
+    else assert.deepEqual(sharedQuestion(bank),sharedQuestion(normaliseQuestion(projected)),b.id+' content and answers');
+    // Existing bank paragraph IDs can differ from booklet IDs. The shared
+    // comparison below checks every word, answer and diagram independently of
+    // those IDs; preservedProject already checks the unchanged local content.
     if(added(b))assert.deepEqual(bank.presentation,projected.presentation,b.id+' presentation');
     assert.deepEqual(sharedQuestion(bank),sharedQuestion(normaliseQuestion(projectBankQuestion(b,{policy:projection}))),b.id+' sync content');
     assert.equal(links[bank.id]?.projectId,project.id);assert.equal(links[bank.id]?.blockId,b.id);

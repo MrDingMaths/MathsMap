@@ -365,3 +365,12 @@ test('adding another bank question preserves existing owner-local paragraph spac
  const bankFile=path.join(f.options.bankRoot,practiceQuestions(live)[0].bankRef.id+'.json'),bank=await read(bankFile);bank.content.answer.short='Wrong answer';await write(bankFile,bank);
  await assert.rejects(verifyProjectBank(live,f.options.bankRoot,{root:f.root,baseline:live,assessments:{...a,questions:[]}}),/content and answers/);
 });
+
+test('existing owner verification ignores paragraph identity but rejects changed answers',async t=>{
+ const f=await fixture(t);const b=practiceQuestions(f.saved)[0];b.content.prompt=fromSource('Find the side.');await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);
+ f.assessments.questions[0].contentHash=revisionHash(b.content);f.assessments.sourceContext.projectHash=revisionHash(f.saved);await write(f.args.assessmentsFile,f.assessments);
+ await importProjectBank({...f.args,apply:true});const live=await loadBookletProject(f.saved.id,f.options),local=practiceQuestions(live)[0];local.content.prompt.blocks[0].id='local-paragraph-id';
+ const check=()=>verifyProjectBank(live,f.options.bankRoot,{root:f.root,baseline:structuredClone(live),assessments:{...f.assessments,questions:[]}});
+ assert.equal((await check()).ownedAndSynced,1);
+ local.content.answer.short='3';await assert.rejects(check(),/content and answers/);
+});
