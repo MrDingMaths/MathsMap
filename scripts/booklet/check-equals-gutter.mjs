@@ -30,7 +30,9 @@ const firstMath=value=>{
   if(typeof value==='string')return /^\s*\$\$?([\s\S]*?)\$\$?/.exec(value)?.[1]??'';
   const inline=value?.blocks?.[0]?.inlines?.[0];return inline?.type==='math'?inline.latex??'':'';
 };
-const lastParagraph=value=>{const block=value?.blocks?.at?.(-1);return block?.type==='paragraph'&&block.inlines?.length===1&&block.inlines[0].type==='math'?block.inlines[0].latex??'':'';};
+// A plain-string prompt counts when its last line is one maths expression.
+const lastLineMath=value=>{const line=String(value).trimEnd().split(/\r?\n/).at(-1)??'';const match=/^\s*\$\$?([^$]+)\$\$?\s*$/.exec(line);return match?match[1]:'';};
+const lastParagraph=value=>{if(typeof value==='string')return lastLineMath(value);const block=value?.blocks?.at?.(-1);return block?.type==='paragraph'&&block.inlines?.length===1&&block.inlines[0].type==='math'?block.inlines[0].latex??'':'';};
 const field=trail=>trail.includes('answer')?(trail.includes('worked')?'worked answer':trail.includes('short')?'short answer':'answer'):trail.includes('theorySolution')?'example solution':trail.includes('examples')?'example':'prompt';
 
 // `needs` is 'gutter' where the working prints from the left edge (the opening

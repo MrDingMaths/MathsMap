@@ -6,7 +6,7 @@
  import {sourceRegionStyles} from '../lib/diagram-source-region.js';
  import {resolveArrangement,arrangementExamTitle,arrangementRowChildren} from '../lib/booklet-arrangement.js';
  import {combinedExampleTikz} from '../lib/booklet-preview.js';
- import {hasStandaloneMathTable} from '../lib/booklet-labels.js';
+ import {hasStandaloneMathTable,hasTopAlignedMathPrompt} from '../lib/booklet-labels.js';
  import {firstAnswerNode} from '../lib/booklet-exercises.js';
  let {block,arrangement,layoutOverrides={},selected='',onselect=null,onresize=null,onmeasure=null,onSpaceResize=null,onmove=null,assetUrl=s=>s,showSolutions=true,showSpaces=true,showTitle=true,fillCloze=false,answerSpaceOverrides={},diagramColourModes={},editMode=false,answerHref=null,answerPartHref=null,answerMode=null}=$props();
  // Question labels jump to the answer; a part without its own answer uses its first answered descendant.
@@ -58,7 +58,7 @@
  // A borderless side-by-side block that opens with a paragraph reads as the
  // first line of its part, so its label shares that line like ordinary prose.
  const leadsWithLayoutText=block=>block?.type==='layout'&&['parallel','scaffold','worked-rows','investigation'].includes(block.arrangement)&&!block.border&&!block.title&&block.slots?.[0]?.blocks?.[0]?.type==='paragraph';
- const leadsWithText=entry=>entry?.kind==='text'||entry?.kind==='document'&&(entry.value?.blocks?.[0]?.type==='paragraph'&&!hasStandaloneMathTable(entry.value)||leadsWithLayoutText(entry.value?.blocks?.[0]));
+ const leadsWithText=entry=>!hasTopAlignedMathPrompt(entry?.value)&&(entry?.kind==='text'||entry?.kind==='document'&&(entry.value?.blocks?.[0]?.type==='paragraph'||leadsWithLayoutText(entry.value?.blocks?.[0])));
  function labelHasTextBaseline(n){
   const first=resolved.entries.get(n.children?.[1]?.ref);
   return leadsWithText(first);

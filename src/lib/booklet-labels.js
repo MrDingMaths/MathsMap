@@ -10,6 +10,24 @@ export function hasStandaloneMathTable(value){
  const content=(first.inlines??[]).filter(i=>i.type!=='text'||String(i.text??'').trim());
  return content.length===1&&content[0].type==='math'&&/^\\begin\{(array|tabular)\}[\s\S]*\\end\{\1\}$/.test(String(content[0].latex??'').trim());
 }
+// TeX multiline displays expose the baseline of the whole stack, rather than
+// the opening expression. Their adjacent question label belongs at the top.
+export function hasTopAlignedMathPrompt(value){
+ if(hasStandaloneMathTable(value))return true;
+ let latex;
+ if(typeof value==='string'){
+  const match=value.trim().match(/^\$\$([\s\S]*)\$\$$/);
+  if(!match)return false;
+  latex=match[1];
+ }else{
+  const first=value?.blocks?.[0];
+  if(first?.type!=='paragraph')return false;
+  const content=(first.inlines??[]).filter(i=>i.type!=='text'||String(i.text??'').trim());
+  if(content.length!==1||content[0].type!=='math'||!content[0].display)return false;
+  latex=content[0].latex;
+ }
+ return /\\begin\{(?:aligned|alignedat|align\*?|gathered|gather\*?|cases|[pbvBV]?matrix)\}/.test(latex??'')&&/\\\\/.test(latex??'');
+}
 // A named response cell can carry its visible heading inside its native table.
 // Keep the stored label for answer references without printing it twice.
 export function hasEmbeddedResponseLabel(node){

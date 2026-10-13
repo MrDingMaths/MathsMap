@@ -95,4 +95,8 @@ test('the gutter check reports bare opening expressions followed by a relation l
  const example=extra=>({id:'b',type:'worked-example',examples:[{id:'e',prompt:{blocks:[math('p',String.raw`\log_2 6-\log_2 3`)]},theorySolution:String.raw`$$\begin{aligned}&=\log_2 2\\&=1\end{aligned}$$`,...extra}]});
  assert.deepEqual(missingEqualsGutter(example({})).map(h=>h.shape),['solution']);
  assert.deepEqual(missingEqualsGutter(example({equationAlignment:{mode:'continuation',align:'left'}})),[]);
+ const stringExample=extra=>({id:'b',type:'worked-example',examples:[{id:'e',prompt:String.raw`$3^3-\sqrt{9}$`,theorySolution:String.raw`$$\begin{aligned}&=27-3\\&=24\end{aligned}$$`,...extra}]});
+ assert.deepEqual(missingEqualsGutter(stringExample({})).map(h=>[h.shape,h.first]),[['solution',String.raw`3^3-\sqrt{9}`]],'a plain-string prompt is read');
+ assert.deepEqual(missingEqualsGutter(stringExample({equationAlignment:{mode:'continuation'}})),[]);
+ assert.deepEqual(missingEqualsGutter({...stringExample({}),examples:[{...stringExample({}).examples[0],prompt:'Evaluate $a$ and $b$'}]}),[],'text with several maths spans is not a bare expression');
 });

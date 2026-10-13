@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {teachingLabels,alphabeticLabel,labelledTeachingQuestion,hasEmbeddedResponseLabel,hasStandaloneMathTable,keyIdeasClozeStatements} from '../src/lib/booklet-labels.js';
+import {teachingLabels,alphabeticLabel,labelledTeachingQuestion,hasEmbeddedResponseLabel,hasStandaloneMathTable,hasTopAlignedMathPrompt,keyIdeasClozeStatements} from '../src/lib/booklet-labels.js';
 
 test('source-numbered review groups omit a redundant outer number and retain following numbering',()=>{
  const atom={id:'review-box',kind:'review'},group={id:'grouped-review',type:'question',sourceAtom:atom,content:{id:'review-root',type:'group',label:'',prompt:'',children:[{id:'review-one',label:'1',prompt:'First task'},{id:'review-two',label:'2',prompt:'Second task'},{id:'review-three',label:'3',prompt:'Third task'}]}},next={id:'next-review',type:'question',sourceAtom:atom,content:{id:'next-root',label:'',prompt:'Fourth task'}};
@@ -116,4 +116,15 @@ test('standalone math tables use top labels while prose and equations keep their
  for(const latex of ['\\frac{1}{2}','x=3','\\begin{pmatrix}1&2\\end{pmatrix}',array.latex+'=3','3+'+array.latex])assert.equal(hasStandaloneMathTable(doc([{type:'math',latex}])),false);
  assert.equal(hasStandaloneMathTable('ordinary prompt'),false);
  assert.equal(hasStandaloneMathTable({blocks:[{type:'table'}]}),false);
+});
+
+test('multiline display prompts use top labels without changing prose or inline maths',()=>{
+ const latex=String.raw`\begin{aligned}(8^4)^2\times8^3\\=8^{11}\end{aligned}`;
+ const doc=(display,inlines=[])=>({blocks:[{type:'paragraph',inlines:[...inlines,{type:'math',latex,display}]}]});
+ assert.equal(hasTopAlignedMathPrompt(doc(true)),true);
+ assert.equal(hasTopAlignedMathPrompt('$$'+latex+'$$'),true);
+ assert.equal(hasTopAlignedMathPrompt(doc(false)),false);
+ assert.equal(hasTopAlignedMathPrompt(doc(true,[{type:'text',text:'Simplify '} ])),false);
+ assert.equal(hasTopAlignedMathPrompt({blocks:[{type:'paragraph',inlines:[{type:'math',latex:'x^2',display:true}]}]}),false);
+ assert.equal(hasTopAlignedMathPrompt('ordinary prose'),false);
 });

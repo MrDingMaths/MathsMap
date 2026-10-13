@@ -5,6 +5,27 @@ import os from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {chromium} from 'playwright-core';
+import katex from 'katex';
+import {hasTopAlignedMathPrompt} from '../src/lib/booklet-labels.js';
+
+test('multiline native maths keeps its label above the second row on screen and print',async()=>{
+ const css=fs.readFileSync(new URL('../src/components/BookletArrangement.svelte',import.meta.url),'utf8').split('<style>')[1].split('</style>')[0];
+ const latex=String.raw`\begin{aligned}(8^4)^2\times8^3\\=8^8\times8^3\\=8^{11}\end{aligned}`;
+ const prompt={blocks:[{type:'paragraph',inlines:[{type:'math',display:true,latex}]}]};
+ const math=katex.renderToString(latex,{displayMode:true});
+ const browser=await chromium.launch({headless:true,channel:'chrome'});
+ try{
+  const page=await browser.newPage();
+  const katexCss=fs.readFileSync('node_modules/katex/dist/katex.min.css','utf8');
+  await page.setContent(`<style>${katexCss}${css}.booklet-arrangement{width:180mm}.katex-display{text-align:left;margin:.5em 0}</style><div class="booklet-arrangement"><div class="arr-group labelled ${hasTopAlignedMathPrompt(prompt)?'':'baseline-label'}"><div class="arr-item label-item"><b>a</b></div><div class="arr-item">${math}</div><div class="arr-item" style="height:20mm"></div></div></div>`);
+  for(const media of ['screen','print']){
+   await page.emulateMedia({media});
+   const geometry=await page.evaluate(()=>({label:document.querySelector('.label-item').getBoundingClientRect().top,math:document.querySelector('.katex-html').getBoundingClientRect().top,height:document.querySelector('.katex-html').getBoundingClientRect().height,space:document.querySelector('.arr-group').lastElementChild.getBoundingClientRect().height}));
+   assert.ok(geometry.label<geometry.math+geometry.height/3,media+': label stays beside the opening expression');
+   assert.ok(geometry.space>=20*96/25.4-.1,media+': writing space is preserved');
+  }
+ }finally{await browser.close();}
+});
 
 test('arrangement labels share tall prompt baselines on screen and in print',async()=>{
  const css=fs.readFileSync(new URL('../src/components/BookletArrangement.svelte',import.meta.url),'utf8').split('<style>')[1].split('</style>')[0];
