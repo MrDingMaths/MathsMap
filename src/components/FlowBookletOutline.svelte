@@ -5,10 +5,12 @@
   import {logicalUnits,flowNumbers,flowCommand,captureFlowClipboard,flowId,exerciseNumbers,selectedFlowIds} from '../lib/booklet-flow.js';
  import {createProjectBlock,snapshotBankQuestion,normalizeEditableProject} from '../lib/editable-booklet-model.js';
   import {feedbackText} from '../lib/booklet-feedback.js';
+  import {questionCodeSearchIndex} from '../lib/booklet-document-search.js';
   let {project,pages=[],bank=[],onrequestbank=null,onbank=null,onboundary=null,selectedBlockId='',activePage=0,selectedIds=[],onselection=null,onpick=null,documentClipboard=null,onpaste=null,disabled=false,onchange=null,onselect=null,onsection=null,onerror=null}=$props();
   let openMenus=$state({});
   let organising=$state(false),expandedTopic=$state(''),outlineQuery=$state('');
-  const matches=unit=>!outlineQuery||unit.blocks.some(b=>(label(b)+' '+contentExcerpt(b.content,10000)).toLowerCase().includes(outlineQuery.toLowerCase()));
+  const codes=$derived(questionCodeSearchIndex(project));
+  const matches=unit=>!outlineQuery.trim()||unit.blocks.some(b=>(label(b)+' '+contentExcerpt(b.content,10000)).toLowerCase().includes(outlineQuery.trim().toLowerCase())||codes.some(c=>c.blockId===b.id&&c.code.toLowerCase().includes(outlineQuery.trim().toLowerCase())));
   $effect(()=>{const id=selectedBlockId;const topic=project.sections.find(s=>s.blocks.some(b=>b.id===id))?.topicId;expandedTopic=topic??project.topics[0]?.id??'';});
   const viewTopic=$derived(activePage?project.sections.find(s=>s.blocks.some(b=>pages[activePage-1]?.blocks.some(v=>v.id===b.id)))?.topicId:undefined);
   const currentTopic=$derived(project.sections.find(s=>s.blocks.some(b=>b.id===selectedBlockId))?.topicId);
@@ -67,7 +69,7 @@
 </script>
 <nav class="flow-outline" aria-label="Booklet outline" inert={disabled}>
  <div class="outline-title"><strong>Outline</strong><details class="item-menu"><summary aria-label="Booklet organisation">•••</summary><div><button onclick={newTopic}>Add topic</button></div></details></div>
- <input class="outline-search" aria-label="Search outline" placeholder="Search outline" bind:value={outlineQuery}/>
+ <input class="outline-search" aria-label="Search outline" placeholder="Search text or question code" bind:value={outlineQuery}/>
  {#each project.topics.filter(t=>!outlineQuery||units.some(u=>project.sections.find(s=>s.id===u.sectionId)?.topicId===t.id&&matches(u))) as topic (topic.id)}
   {@const topicTicks=ticks(project.sections.filter(s=>s.topicId===topic.id).map(s=>s.id))}
   <section class="topic">

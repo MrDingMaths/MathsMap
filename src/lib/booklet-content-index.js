@@ -25,7 +25,8 @@ export function locateBookletContent(project, id) {
 export function replaceAtPath(root, path, value) {
   if (!path.length) return value;
   const [key,...tail] = path;
-  if (!root || typeof root !== 'object' || !Object.hasOwn(root,key)) throw Error('The edited content moved or was removed.');
+  if (['__proto__','prototype','constructor'].includes(key)) throw Error('Invalid project edit path');
+  if (!root || typeof root !== 'object' || (Array.isArray(root) && !/^(0|[1-9]\d*)$/.test(String(key))) || (!Object.hasOwn(root,key) && (tail.length || Array.isArray(root)))) throw Error('The edited content moved or was removed.');
   const next = Array.isArray(root) ? [...root] : {...root};
   next[key] = replaceAtPath(root[key],tail,value);
   return next;

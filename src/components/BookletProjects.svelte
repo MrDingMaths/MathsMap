@@ -30,7 +30,7 @@
   import BookletSelectionSpacing from './BookletSelectionSpacing.svelte';
   import MathsEditor from './MathsEditor.svelte';
   import {moveConnected} from '../../public/libs/maths-editor/document-dom.mjs';
-  import {documentSearchIndex} from '../lib/booklet-document-search.js';
+  import {documentSearchIndex,searchDocumentEntries} from '../lib/booklet-document-search.js';
   import {theme} from '../lib/theme.svelte.js';
   import BookletQuestionSpacing from './BookletQuestionSpacing.svelte';
   import {bookletColours,DOCUMENT_INSERT_TOOLS,applyQuestionSpacing,syncDiagramPresentation} from '../lib/booklet-document-tools.js';
@@ -166,11 +166,21 @@
   const panelTabs=$derived([['layout','Layout'],['properties','Block'],['comments','Comments',commentLocations.length],['review','Review',flagCount],['pdf','Export']]);
   const libraryGroups=$derived(project?[]:groupLibraryProjects(projects,courses));
   const commandMatches=$derived(commands.filter(([name])=>name.toLowerCase().includes(findQuery.toLowerCase())));
-  const findMatches=$derived(findQuery.trim()?findEntries.filter(e=>e.text.toLowerCase().includes(findQuery.toLowerCase())).slice(0,100):[]);
+  const findMatches=$derived(searchDocumentEntries(findEntries,findQuery));
   async function openFinder(mode){documentSelection=currentAnchor();finder=mode;findQuery='';goPageValue=String(flowActive);if(mode==='find')findEntries=documentSearchIndex(project);await tick();if(!finderDialog?.open)finderDialog?.showModal();finderInput?.focus();finderInput?.select();}
   function closeFinder(){finderDialog?.close();finder='';if(activeEditor&&inlineSession?.bookmark)restoreEditorSelection(activeEditor,inlineSession.bookmark);}
   function command(action){closeFinder();if(action==='find'||action==='goto')openFinder(action);else if(action==='outline')navigation=!navigation;else if(action==='comment')addComment();else if(action==='compare')toggleComparison();else if(action==='bank'){showBankSync=!showBankSync;refreshBankSync();}else if(action==='theme')theme.toggle();else if(action==='assembly')tool='assembly';else if(action==='arrange')arrangeSelectedQuestion();else{panel=action==='page'?'layout':action;inspectorTab=action==='page'?'page':'layout';}}
   async function locateMatch(match){
+    if(match.kind==='code'){
+      closeFinder();selectCoverageTarget(match.rootId);
+      const pages=flowMap.pages.flatMap((p,i)=>p.blocks.some(b=>b.id===match.blockId)?[i]:[]);
+      for(const index of pages){
+        await flowPreview?.revealPage(index);await tick();
+        const id=CSS.escape(match.rootId),target=canvas?.querySelector('[data-node-id="'+id+'"],[data-edit-root="'+id+'"],[data-question-id="'+id+'"]');
+        if(target){target.scrollIntoView({block:'center'});return;}
+      }
+      flowPreview?.jumpTo(match.blockId);return;
+    }
     const start=match.text.toLowerCase().indexOf(findQuery.toLowerCase()),length=findQuery.length;closeFinder();finishInline();
     const pages=flowMap.pages.flatMap((p,i)=>p.blocks.some(b=>b.id===match.blockId)?[i]:[]);for(const index of pages)await flowPreview?.revealPage(index);await tick();
     const fields=[...canvas.querySelectorAll('[data-edit-root="'+CSS.escape(match.rootId)+'"][data-edit-path="'+CSS.escape(match.pointer)+'"]')];
@@ -1036,7 +1046,7 @@
 {#if finder}<dialog bind:this={finderDialog} oncancel={e=>{e.preventDefault();closeFinder();}} class="document-finder project-screen" aria-label={finder==='commands'?'Search commands':finder==='goto'?'Go to page':'Find in document'}>
  <header><strong>{finder==='commands'?'Commands':finder==='goto'?'Go to page':'Find in document'}</strong><button aria-label="Close search" onclick={closeFinder}>×</button></header>
  {#if finder==='goto'}<form onsubmit={e=>{e.preventDefault();flowPreview?.jumpTo(flowMap.pages[Number(goPageValue)-1]?.id);closeFinder();}}><input bind:this={finderInput} aria-label="Page number" type="number" min="1" max={flowMap.pages.length} bind:value={goPageValue}/><button>Go</button></form>
- {:else}<input bind:this={finderInput} aria-label={finder==='commands'?'Search commands':'Find text'} bind:value={findQuery} placeholder={finder==='commands'?'Try “equation spacing”':'Search this booklet'} onkeydown={e=>{if(e.key==='Enter'){if(finder==='commands'&&commandMatches[0])command(commandMatches[0][1]);else if(findMatches[0])locateMatch(findMatches[0]);}}}/>
+ {:else}<input bind:this={finderInput} aria-label={finder==='commands'?'Search commands':'Find text or question code'} bind:value={findQuery} placeholder={finder==='commands'?'Try “equation spacing”':'Search text or code, e.g. p17-q3-e'} onkeydown={e=>{if(e.key==='Enter'){if(finder==='commands'&&commandMatches[0])command(commandMatches[0][1]);else if(findMatches[0])locateMatch(findMatches[0]);}}}/>
  <div class="finder-results">{#if finder==='commands'}{#each commandMatches as [label,action]}<button onclick={()=>command(action)}>{label}</button>{/each}{:else}{#each findMatches as match}<button onclick={()=>locateMatch(match)}><small>{match.label}</small>{match.text.slice(Math.max(0,match.text.toLowerCase().indexOf(findQuery.toLowerCase())-35),Math.max(0,match.text.toLowerCase().indexOf(findQuery.toLowerCase())-35)+160)}</button>{/each}{#if findQuery&&!findMatches.length}<p>No matches</p>{/if}{/if}</div>{/if}
 </dialog>{/if}
 {#if bankPicker}<BookletBankPicker {bank} {onrequestbank} destination={bankDestination} oninsert={insertBank} onclose={()=>bankPicker=false}/>{/if}
