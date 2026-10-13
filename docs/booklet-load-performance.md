@@ -326,6 +326,132 @@ current library size. Finding 2 (cold diagrams) stands: `.booklet-work/render-ca
 holds 56 diagram versions since 12 September, so automatic rewarming is deferred
 until the `_inputs.manifest` records show what changes the diagram version.
 
+## Cold-load investigation (12 October 2026)
+
+Prompted by Angle Relationships taking minutes to open, both through
+`studio.mrdingmaths.com` and on localhost. Report first; the only action taken
+is recorded under "Result" below. Readings are single samples against the
+running remote-config server on 5173, taken while a feedback repair was editing
+the same booklet (revision 493 to 523). They show where the time goes; they are
+not medians. The library is now 138 project files.
+
+### Readings
+
+Angle Relationships, default edition (Questions and short answers, 92–95 pages):
+
+| Scenario | Time to first page | Detail |
+|---|---:|---|
+| Empty browser, server diagram cache as found | 263 s | 826 diagrams compiled in the browser, 0 of 828 server lookups hit, 751 measurements |
+| Diagrams in the browser, measurements cold | 12.9 s | 0 compiled, 747 measurements |
+| Reload, same browser and zoom | 3.7–4.2 s | 0 compiled, 640–680 of 740 measurements reused |
+
+Of the 263 s, 256.5 s was waiting for diagrams. The rest: 1.3 s for modules and
+the 6.0 MB project response (parse about 20 ms), 3.4 s rendering candidate
+pages, 1.3 s building and hashing measurement keys, 0.2 s IndexedDB reads and
+0.09 s forced layout. Nothing is painted until the edition is paginated;
+off-screen pages are already virtualised (2 of 95 mounted).
+
+Other booklets in a clean headless Chrome, first visit then reload:
+
+| Booklet | File | Pages | First visit | Reload | Diagrams |
+|---|---:|---:|---:|---:|---|
+| Angle Sums of Polygons | 0.74 MB | 33 | 3.5 s | 1.0 s | 70 from the server cache |
+| Area: Parallelograms, Triangles | 3.3 MB | 69 | 5.6 s | 1.9 s | 278 from the server cache |
+
+With diagrams cached, opening time follows the number of page measurements
+(12–15 ms each), not file size.
+
+The dev server compresses nothing. A first visit transfers about 280 module
+files (8.2 MB; 2.1 MB gzipped) and the project (6.1 MB; 0.76 MB with Brotli
+quality 4 in 34 ms). Through the tunnel that is about 16 MB of home upload.
+The tunnel itself was not measured.
+
+### Causes, most costly first
+
+1. **The server diagram cache held nothing for the booklet.** Its diagrams were
+   last published on 4 October. The `_inputs.manifest` records show the diagram
+   version then changed seven times on 6–8 October: `tikz-prepare.js`,
+   `booklet-review-profile.js` (three times), `diagram-label-space.js` (twice)
+   and `graph-strokes.js` with `graph-axis-paint.js`. `booklet-review-profile.js`
+   is in the fingerprint only because `booklet-render-cache.js` imports it for
+   the measurement context; it cannot change a compiled SVG. Booklets exported
+   since 8 October are unaffected. This answers the question the 4 October note
+   deferred.
+2. **The whole edition is paginated before anything is shown**, and this edition
+   paginates 424 answer units before the first question page.
+3. **Browser caches do not travel.** IndexedDB is per origin, so the public
+   host, `localhost` and `127.0.0.1` each start empty. The measurement key also
+   includes the user agent, device pixel ratio and, for projects outside the
+   lean profile, a hash of all of `src/`.
+4. **Uncompressed transfer** through the tunnel.
+5. **Fixed overheads:** about 1.2 s per open building measurement keys, and
+   1.5–2.0 s on the server thread for the summary project list (1.0–1.2 s at 54
+   files), which delays the open request beside it.
+
+The 8 October storage cleanup is not a cause: `render-cache` is protected and
+all 59 version folders (400 MB) are present. Not measured but likely: Chrome
+throttles the timers pagination yields on when the tab is in the background,
+and in a hidden pane a booklet with images stopped paginating at an image
+decode.
+
+### Options
+
+| # | Option | Gain | Risk to output | Effort |
+|---|---|---|---|---|
+| 1 | Rewarm the diagram cache with `warm-render-cache.mjs` | 263 s to about 13 s on a new browser | None | Minutes, no code |
+| 2 | Rewarm automatically when the diagram version changes (on server start, overnight, or when a booklet opens cold); show "Compiling N diagrams" while it happens | Stops recurrence | None | Small |
+| 3 | Compress responses for non-loopback requests, in `remote/` only | About 16 MB to 3.5 MB per cold remote load | None | Small; one 5173 restart |
+| 4 | Show pages as they are paginated, questions first | First page in 1–2 s instead of 13 s | None to print; replaces the complete-document loading screen | Medium |
+| 5 | Fetch a booklet's diagrams in one request instead of one each (each has a 1.5 s timeout that falls back to compiling) | Remote first open | None | Medium |
+| 6 | Cheaper measurement keys; yield without throttled timers | About 1 s per open | None (one re-measure) | Small |
+| 7 | Share measurements between origins through the server under the same keys | 13 s to 4 s when browser and zoom match | Low; needs a browser-to-server write path | Medium |
+| 8 | Drop user agent and device pixel ratio from the measurement key | Warm opens on other machines | High; needs pagination parity proof | Not recommended |
+| 9 | Load source evidence on demand (about 60% of the payload) | Small once compressed | Medium; save and merge paths | Not recommended |
+
+Options 2, 5 and 6 edit files that are diagram or renderer cache inputs. Land
+them together when no import or repair is in flight, then rewarm once.
+
+Compared with Word: the idea worth copying is that Word stores a rendered
+picture beside each embedded object and never reruns the source program to
+display it. Studio's equivalent is the server diagram cache, which is only as
+good as its coverage. Word also shows the first page while paginating the rest
+(option 4) and keeps layout hints in the file; Studio's measurements are valid
+only for the browser version and zoom that made them, so shipped hints suit a
+provisional preview, not the final layout. Virtualised pages are already in
+place.
+
+### Result of option 1 (12 October 2026)
+
+Only option 1 was carried out, for Angle Relationships. No code changed.
+
+While the readings above were being taken, the diagram version changed again
+(`0e8cdc8a` to `b42b5d8a`) at 19:34, when a feedback repair edited
+`public/libs/maths-editor/house-style.mjs`. That file and `booklet-palette.mjs`
+are in the diagram fingerprint through the import closure, with 11 `src/lib`
+files, the 330 `tikzjax` files and `package-lock.json` (344 files in all). The
+9,456 SVGs under the previous version were orphaned for every booklet. The
+repair's own page checks had republished 2,119 entries by the time warming
+started, including most of this booklet's.
+
+`node scripts/booklet/warm-render-cache.mjs --base http://127.0.0.1:5173
+--projects angle-relationships-v1` then took 109 s for all five editions (78,
+14, 68, 92 and 146 pages, no QA findings) and left 825 diagrams published; 84
+of the files were new. Report: `.booklet-work/studio-load/warm/report.json`.
+
+Check in a clean headless Chrome at revision 523, one sample each:
+
+| Scenario | Time to first page | Detail |
+|---|---:|---|
+| First visit | 12.7 s | 0 compiled, 825 of 825 from the server cache, 739 measurements |
+| Reload | 3.1 s | 0 compiled, 0 measurements, 739 reused |
+
+Both runs gave 92 pages with identical page markers and no page errors; the
+project file was unchanged. The first visit is now measurement time (2.7 s
+rendering, 5.8 s settling fetched diagrams, 1.2 s keys), which options 4, 5
+and 6 address. The other booklets have not been checked or warmed under
+`b42b5d8a`; any not exported or page-checked since 19:34 will compile in the
+browser on its next cold open.
+
 ## Warm spacing edits
 
 Merged from the question-spacing note of 15 September 2026. This covers the
