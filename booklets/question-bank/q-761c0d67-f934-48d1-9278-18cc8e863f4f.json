@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-761c0d67-f934-48d1-9278-18cc8e863f4f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prime-factorisation",
+    "secondarySkillIds": [],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Identify and explain an incorrect factor pair in a supplied factor tree."
+  },
+  "content": {
+    "id": "p25-q3",
+    "type": "question",
+    "label": "3",
+    "prompt": "A student is asked to express 70 as a product of its prime factors. Explain why they are incorrect.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p25-q3-tree",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"claimedPrimeRed\",\"hex\":\"EF6068\",\"reason\":\"circles identify the student's claimed prime factors\"},{\"name\":\"incorrectRed\",\"hex\":\"EF6068\",\"reason\":\"cross identifies incorrect student work\"}],\"reference\":\"source page 25, p25-q3-tree\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{claimedPrimeRed}{HTML}{EF6068}\n\\definecolor{incorrectRed}{HTML}{EF6068}\n\\path[use as bounding box] (-0.15,-0.15) rectangle (5.55,3.65);\n\\draw[black,line width=0.4pt] (0,0) rectangle (4.25,3.5);\n\\draw[black,dashed,line width=0.4pt] (0.05,3.02)--(4.2,3.02);\n\\draw[black,dashed,line width=0.4pt] (0.05,2.08)--(4.2,2.08);\n\\draw[black,dashed,line width=0.4pt] (0.05,0.86)--(4.2,0.86);\n\\node (root) at (2.65,3.2) {$70$};\n\\node (ten) at (1.9,2.4) {$10$};\n\\node (seven) at (3.4,2.4) {$7$};\n\\node (fiveLeft) at (1.25,1.28) {$5$};\n\\node (fiveRight) at (2.45,1.28) {$5$};\n\\draw[black,line width=0.8pt] (root.south west)--(ten.north east);\n\\draw[black,line width=0.8pt] (root.south east)--(seven.north west);\n\\draw[black,line width=0.8pt] (ten.south west)--(fiveLeft.north east);\n\\draw[black,line width=0.8pt] (ten.south east)--(fiveRight.north west);\n\\draw[claimedPrimeRed,line width=0.8pt] (seven.center) circle[radius=0.27];\n\\draw[claimedPrimeRed,line width=0.8pt] (fiveLeft.center) circle[radius=0.27];\n\\draw[claimedPrimeRed,line width=0.8pt] (fiveRight.center) circle[radius=0.27];\n\\node[anchor=west] at (0.08,0.43) {Answer: $5\\times5\\times7$};\n\\draw[incorrectRed,line width=0.8pt] (4.6,2.27)--(5.2,3.37);\n\\draw[incorrectRed,line width=0.8pt] (4.66,3.32)--(5.18,2.48);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 25,
+          "sourceRegion": "Question 3, incorrect student work at bottom left",
+          "description": "Framed incorrect factor tree beside a red cross. The root 70 branches to 10 and 7; 10 incorrectly branches to 5 and 5. All three leaves are circled, with the student's answer beneath the tree.",
+          "mathematics": "The branch 10 = 5 × 5 is false. The correct factor pair is 2 and 5, giving 70 = 2 × 5 × 7.",
+          "answerVisibility": "The incorrect student tree, claimed answer and correctness cross remain visible as question givens. The corrective explanation appears only in answers."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$5\\times5=25$, not $10$. The prime factors of $10$ are $2$ and $5$.",
+      "worked": "The branch from $10$ is incorrect because $5\\times5=25$. It should end in $2$ and $5$.\n$$\\begin{align*}70&=10\\times7\\\\70&=2\\times5\\times7\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 18
+  },
+  "presentation": {
+    "ownerId": "p25-q3-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p25-q3-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p25-q3:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p25-q3/label",
+                  "type": "item",
+                  "ref": "p25-q3/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p25-q3/prompt",
+                  "type": "item",
+                  "ref": "p25-q3/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p25-q3-tree",
+                  "type": "item",
+                  "ref": "p25-q3-tree",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p25-q3/space",
+                  "type": "item",
+                  "ref": "p25-q3/space",
+                  "title": "Answer space",
+                  "height": 0
+                }
+              ],
+              "title": "Question 3",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p25-q3": 0
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-13T12:24:55.219Z",
+  "updatedAt": "2026-10-13T12:24:55.219Z"
+}

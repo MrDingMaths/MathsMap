@@ -9351,7 +9351,7 @@
                   "mathematics": "Cube side 1 cm. The circular opening has diameter 1 cm. Double ticks identify equal cube edges; the dashed red curve identifies the removed hemisphere.",
                   "answerVisibility": "The cube side and hollow geometry are given; radius, volumes and percentage are absent."
                 },
-                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"cavityRed\",\"hex\":\"EF6068\",\"reason\":\"dashed boundary of the hemispherical hollow\"}],\"reference\":\"source page 20 p20-q6-diagram\"}\n\\begin{tikzpicture}[x=11mm,y=11mm,line width=0.8pt,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{cavityRed}{HTML}{EF6068}\n\\coordinate (A) at (0,0); \\coordinate (B) at (2,0); \\coordinate (C) at (3,.7); \\coordinate (At) at (0,2); \\coordinate (Bt) at (2,2); \\coordinate (Ct) at (3,2.7); \\coordinate (Dt) at (1,2.7);\n\\draw (A)--(B)--(C)--(Ct)--(Dt)--(At)--cycle;\n\\draw (At)--(Bt)--(Ct) (B)--(Bt);\n\\draw[domain=0:360,samples=81,variable=\\t] plot ({1.5+cos(\\t)+.5*sin(\\t)},{2.35+.35*sin(\\t)});\n\\draw[cavityRed,dashed,line width=0.4pt,domain=180:360,samples=41,variable=\\t] plot ({1.5+cos(\\t)},{2.35+sin(\\t)});\n\\draw[line width=0.4pt] (-.09,.95)--(.09,.95) (-.09,1.05)--(.09,1.05) (1.91,.95)--(2.09,.95) (1.91,1.05)--(2.09,1.05) (.95,-.09)--(.95,.09) (1.05,-.09)--(1.05,.09);\n\\coordinate (M) at ($(B)!.5!(C)$);\n\\draw[line width=0.4pt] ($(M)+(-.01,.10)$)--($(M)+(.11,-.07)$) ($(M)+(-.11,.03)$)--($(M)+(.01,-.14)$);\n\\path (A)--(B) node[midway,below] {$1\\,\\mathrm{cm}$};\n\\node (Hollow) at (2.25,3.25) {Hollow};\n\\draw[->,line width=0.4pt] (Hollow.south west) to[out=220,in=75] (1.5,2.4);\n\\end{tikzpicture}"
+                "code": "\\usetikzlibrary{decorations.markings}\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"cavityRed\",\"hex\":\"EF6068\",\"reason\":\"dashed boundary of the hemispherical hollow\"}],\"reference\":\"source page 20 p20-q6-diagram\"}\n\\begin{tikzpicture}[x=11mm,y=11mm,line width=0.8pt,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\n\\tikzset{\ntickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw[black] (0pt,-4pt)--(0pt,4pt);}}}},\ntickmark2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw[black] (-2pt,-4pt)--(-2pt,4pt);\\draw[black] (2pt,-4pt)--(2pt,4pt);}}}},\ntickmark3/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw[black] (-3pt,-4pt)--(-3pt,4pt);\\draw[black] (0pt,-4pt)--(0pt,4pt);\\draw[black] (3pt,-4pt)--(3pt,4pt);}}}}}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{cavityRed}{HTML}{EF6068}\n\\coordinate (A) at (0,0); \\coordinate (B) at (2,0); \\coordinate (C) at (3,.7); \\coordinate (At) at (0,2); \\coordinate (Bt) at (2,2); \\coordinate (Ct) at (3,2.7); \\coordinate (Dt) at (1,2.7);\n\\draw[,tickmark2] (A)--(B);\n\\draw[] (B)--(C);\n\\draw[] (C)--(Ct);\n\\draw[] (Ct)--(Dt);\n\\draw[] (Dt)--(At);\n\\draw[,tickmark2] (At)--(A);\n\\draw[] (At)--(Bt);\n\\draw[] (Bt)--(Ct);\n\\draw[,tickmark2] (B)--(Bt);\n\\draw[domain=0:360,samples=81,variable=\\t] plot ({1.5+cos(\\t)+.5*sin(\\t)},{2.35+.35*sin(\\t)});\n\\draw[cavityRed,dashed,line width=0.4pt,domain=180:360,samples=41,variable=\\t] plot ({1.5+cos(\\t)},{2.35+sin(\\t)});\n\n\\coordinate (M) at ($(B)!.5!(C)$);\n\\draw[line width=0.4pt] ($(M)+(-.01,.10)$)--($(M)+(.11,-.07)$) ($(M)+(-.11,.03)$)--($(M)+(.01,-.14)$);\n\\path (A)--(B) node[midway,below] {$1\\,\\mathrm{cm}$};\n\\node (Hollow) at (2.25,3.25) {Hollow};\n\\draw[->,line width=0.4pt] (Hollow.south west) to[out=220,in=75] (1.5,2.4);\n\\end{tikzpicture}"
               }
             ],
             "answerSpaceMm": 47,
@@ -9391,6 +9391,15 @@
             "sourcePagination": {
               "page": 20,
               "breakBefore": false
+            },
+            "origin": {
+              "projectId": "volume-of-pyramids-cones-spheres-v1",
+              "blockId": "p20-q6-block",
+              "runId": "volume-pyramids-cones-spheres-20261007",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\volume-pyramids-cones-spheres-20261007\\semantic-packets\\page-020.author.json",
+                "hash": "5428939d0c85fc6b1089c3132b17ac135058fdc77855b71a78b511ea9b696a43"
+              }
             }
           },
           "flow": {
@@ -14527,8 +14536,8 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 9,
+  "revision": 10,
   "assets": [],
   "createdAt": "2026-10-07T13:28:58.241Z",
-  "updatedAt": "2026-10-11T13:36:54.375Z"
+  "updatedAt": "2026-10-13T10:12:55.056Z"
 }

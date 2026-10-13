@@ -823,22 +823,46 @@
                           "direction": "stack",
                           "children": [
                             {
-                              "id": "layout:p4-q3-explanation/prompt#p4-q3-fei-question-text",
-                              "type": "item",
-                              "ref": "p4-q3-explanation/prompt#p4-q3-fei-question-text",
-                              "title": "Text"
-                            },
-                            {
-                              "id": "layout:p4-q3-explanation/prompt#p4-q3-explanation-scaffold",
-                              "type": "item",
-                              "ref": "p4-q3-explanation/prompt#p4-q3-explanation-scaffold",
-                              "title": "Text"
-                            },
-                            {
-                              "id": "layout:p4-q3-explanation/space",
-                              "type": "item",
-                              "ref": "p4-q3-explanation/space",
-                              "title": "Answer space"
+                              "id": "p4-q3-explanation-label-row",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "layout:p4-q3-explanation/label",
+                                  "type": "item",
+                                  "ref": "p4-q3-explanation/label",
+                                  "width": 7,
+                                  "align": "left"
+                                },
+                                {
+                                  "id": "p4-q3-explanation-label-body",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p4-q3-explanation/prompt#p4-q3-fei-question-text",
+                                      "type": "item",
+                                      "ref": "p4-q3-explanation/prompt#p4-q3-fei-question-text",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p4-q3-explanation/prompt#p4-q3-explanation-scaffold",
+                                      "type": "item",
+                                      "ref": "p4-q3-explanation/prompt#p4-q3-explanation-scaffold",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p4-q3-explanation/space",
+                                      "type": "item",
+                                      "ref": "p4-q3-explanation/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 3,
+                              "verticalAlign": "top"
                             }
                           ],
                           "title": "Unlabelled part 1",
@@ -850,16 +874,40 @@
                           "direction": "stack",
                           "children": [
                             {
-                              "id": "layout:p4-q3-factorise/prompt",
-                              "type": "item",
-                              "ref": "p4-q3-factorise/prompt",
-                              "title": "Text"
-                            },
-                            {
-                              "id": "layout:p4-q3-factorise/space",
-                              "type": "item",
-                              "ref": "p4-q3-factorise/space",
-                              "title": "Answer space"
+                              "id": "p4-q3-factorise-label-row",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "layout:p4-q3-factorise/label",
+                                  "type": "item",
+                                  "ref": "p4-q3-factorise/label",
+                                  "width": 7,
+                                  "align": "left"
+                                },
+                                {
+                                  "id": "p4-q3-factorise-label-body",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p4-q3-factorise/prompt",
+                                      "type": "item",
+                                      "ref": "p4-q3-factorise/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p4-q3-factorise/space",
+                                      "type": "item",
+                                      "ref": "p4-q3-factorise/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 3,
+                              "verticalAlign": "top"
                             }
                           ],
                           "title": "Unlabelled part 2",
@@ -4532,7 +4580,7 @@
               {
                 "id": "p4-q3-explanation",
                 "type": "part",
-                "label": "",
+                "label": "a",
                 "prompt": {
                   "format": "maths-editor-document-v1",
                   "version": 1,
@@ -4598,7 +4646,7 @@
               {
                 "id": "p4-q3-factorise",
                 "type": "part",
-                "label": "",
+                "label": "b",
                 "prompt": "Factorise:\n$$-9x^2-3x$$",
                 "answerSpaceMm": 21,
                 "answer": {
@@ -4630,12 +4678,12 @@
               {
                 "targetId": "p4-q3-explanation",
                 "kind": "cloze",
-                "label": ""
+                "label": "a"
               },
               {
                 "targetId": "p4-q3-factorise",
                 "kind": "working",
-                "label": ""
+                "label": "b"
               }
             ],
             "workingSpaceEstimate": {
@@ -4660,7 +4708,8 @@
               "breakBefore": false
             },
             "intentionalDepartures": [
-              "User requested 9 October 2026: preserve the original handwritten student-work image because its steps, errors and annotations are the object of analysis; surrounding prompts and answers remain editable."
+              "User requested 9 October 2026: preserve the original handwritten student-work image because its steps, errors and annotations are the object of analysis; surrounding prompts and answers remain editable.",
+              "Feedback 13 October 2026 (user comment 2, part labels, all booklets): this question had unlabelled separate tasks that printed as position numbers in the answer key, so they are labelled in one sequence (parts under a sub-stem or lettered part take i, ii, iii). Labels: a, b; node ids, prompts, answers and response space are unchanged."
             ],
             "arrangementOverride": {
               "version": 1,
@@ -4779,7 +4828,16 @@
                 "evidence": "Original source image compared; final-size Questions pages 5 and neighbours visually inspected; D:/WebApps/MathsMap/.booklet-work/handwritten-analysis-20261009/factorising-negative-hcf-v1/pages/feedback-pages.json",
                 "signature": "06992556a506c6dff395b144f679ae57e12f3ded2b6450c33961ccef6c69c0e5"
               }
-            ]
+            ],
+            "origin": {
+              "projectId": "factorising-negative-hcf-v1",
+              "blockId": "p4-q3-block",
+              "runId": "factorising-negative-hcf-v1-20261007",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\factorising-negative-hcf-v1-20261007\\semantic-packets\\page-004.author.json",
+                "hash": "1ef620b7416361ad8e286cc31c6a5f2f4fe8851ee4a31f46cab38537b1b308da"
+              }
+            }
           },
           "flow": {
             "sourcePageBreakBefore": false,
@@ -8722,10 +8780,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 9,
+  "revision": 10,
   "assets": [
     "/booklet-assets/projects/factorising-negative-hcf-v1/46caf3c9db1d-image2.png"
   ],
   "createdAt": "2026-10-07T13:11:33.131Z",
-  "updatedAt": "2026-10-11T12:26:45.294Z"
+  "updatedAt": "2026-10-13T12:14:03.341Z"
 }

@@ -6670,16 +6670,40 @@
                       "direction": "stack",
                       "children": [
                         {
-                          "id": "layout:p16-q8-rate/prompt",
-                          "type": "item",
-                          "ref": "p16-q8-rate/prompt",
-                          "title": "Text"
-                        },
-                        {
-                          "id": "layout:p16-q8-rate/space",
-                          "type": "item",
-                          "ref": "p16-q8-rate/space",
-                          "title": "Answer space"
+                          "id": "p16-q8-rate-label-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "layout:p16-q8-rate/label",
+                              "type": "item",
+                              "ref": "p16-q8-rate/label",
+                              "width": 7,
+                              "align": "left"
+                            },
+                            {
+                              "id": "p16-q8-rate-label-body",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p16-q8-rate/prompt",
+                                  "type": "item",
+                                  "ref": "p16-q8-rate/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p16-q8-rate/space",
+                                  "type": "item",
+                                  "ref": "p16-q8-rate/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 3,
+                          "verticalAlign": "top"
                         }
                       ],
                       "title": "Unlabelled part 1",
@@ -6692,16 +6716,40 @@
                       "direction": "stack",
                       "children": [
                         {
-                          "id": "layout:p16-q8-reciprocal/prompt",
-                          "type": "item",
-                          "ref": "p16-q8-reciprocal/prompt",
-                          "title": "Text"
-                        },
-                        {
-                          "id": "layout:p16-q8-reciprocal/space",
-                          "type": "item",
-                          "ref": "p16-q8-reciprocal/space",
-                          "title": "Answer space"
+                          "id": "p16-q8-reciprocal-label-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "layout:p16-q8-reciprocal/label",
+                              "type": "item",
+                              "ref": "p16-q8-reciprocal/label",
+                              "width": 7,
+                              "align": "left"
+                            },
+                            {
+                              "id": "p16-q8-reciprocal-label-body",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p16-q8-reciprocal/prompt",
+                                  "type": "item",
+                                  "ref": "p16-q8-reciprocal/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p16-q8-reciprocal/space",
+                                  "type": "item",
+                                  "ref": "p16-q8-reciprocal/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 3,
+                          "verticalAlign": "top"
                         }
                       ],
                       "title": "Unlabelled part 2",
@@ -17233,7 +17281,7 @@
               {
                 "id": "p16-q8-rate",
                 "type": "part",
-                "label": "",
+                "label": "a",
                 "prompt": "Write an algebraic expression for the fraction of a bucket of blueberries that could be picked in one hour if A and B worked together.",
                 "answerSpaceMm": 36,
                 "answer": {
@@ -17248,7 +17296,7 @@
               {
                 "id": "p16-q8-reciprocal",
                 "type": "part",
-                "label": "",
+                "label": "b",
                 "prompt": "What does the reciprocal of this fraction represent?",
                 "answerSpaceMm": 18,
                 "answer": {
@@ -17275,12 +17323,12 @@
               {
                 "targetId": "p16-q8-rate",
                 "kind": "working",
-                "label": ""
+                "label": "a"
               },
               {
                 "targetId": "p16-q8-reciprocal",
                 "kind": "short",
-                "label": ""
+                "label": "b"
               }
             ],
             "workingSpaceEstimate": {
@@ -17303,6 +17351,18 @@
             "sourcePagination": {
               "page": 16,
               "breakBefore": false
+            },
+            "intentionalDepartures": [
+              "Feedback 13 October 2026 (user comment 2, part labels, all booklets): the unlabelled parts of this question are separate student tasks, so they are labelled in the question's single sequence. Labels: a, b; node ids, prompts, answers and response space are unchanged."
+            ],
+            "origin": {
+              "projectId": "algebraic-fractions-algebraic-denominator-v1",
+              "blockId": "p16-q8-block",
+              "runId": "algebraic-fractions-algebraic-denominator-v1-20261007",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\algebraic-fractions-algebraic-denominator-v1-20261007\\semantic-packets\\page-016.author.json",
+                "hash": "90f92c9f52932677bc9e32dcc04f6f545f1c5241e4a8f1f55b2674b86eaa11da"
+              }
             }
           },
           "flow": {
@@ -17496,13 +17556,55 @@
               "id": "p17-example-multiply",
               "label": "",
               "prompt": "$\\dfrac{a^2b^4}{6}\\times\\dfrac{9}{a^2b^2}$",
-              "theorySolution": "$$\\begin{aligned}&\\color{#268cff}=\\frac{9a^2b^4}{6a^2b^2}\\\\&\\color{#268cff}=\\frac{9b^2}{6}\\\\&\\color{#268cff}=\\frac{3b^2}{2}\\end{aligned}$$"
+              "theorySolution": {
+                "format": "maths-editor-document-v1",
+                "version": 1,
+                "blocks": [
+                  {
+                    "id": "p17-example-multiply-working",
+                    "type": "paragraph",
+                    "align": "left",
+                    "inlines": [
+                      {
+                        "type": "math",
+                        "display": true,
+                        "colour": "#268cff",
+                        "latex": "\\begin{aligned}&=\\frac{9a^2b^4}{6a^2b^2}\\\\&=\\frac{9b^2}{6}\\\\&=\\frac{3b^2}{2}\\end{aligned}"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "equationAlignment": {
+                "mode": "continuation"
+              }
             },
             {
               "id": "p17-example-divide",
               "label": "",
               "prompt": "$\\dfrac{3x^2}{8y^5}\\div\\dfrac{15x^3}{4y}$",
-              "theorySolution": "$$\\begin{aligned}&\\color{#268cff}=\\frac{3x^2}{8y^5}\\times\\frac{4y}{15x^3}\\\\&\\color{#268cff}=\\frac{12x^2y}{120x^3y^5}\\\\&\\color{#268cff}=\\frac{12}{120xy^4}\\\\&\\color{#268cff}=\\frac{1}{10xy^4}\\end{aligned}$$"
+              "theorySolution": {
+                "format": "maths-editor-document-v1",
+                "version": 1,
+                "blocks": [
+                  {
+                    "id": "p17-example-divide-working",
+                    "type": "paragraph",
+                    "align": "left",
+                    "inlines": [
+                      {
+                        "type": "math",
+                        "display": true,
+                        "colour": "#268cff",
+                        "latex": "\\begin{aligned}&=\\frac{3x^2}{8y^5}\\times\\frac{4y}{15x^3}\\\\&=\\frac{12x^2y}{120x^3y^5}\\\\&=\\frac{12}{120xy^4}\\\\&=\\frac{1}{10xy^4}\\end{aligned}"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "equationAlignment": {
+                "mode": "continuation"
+              }
             }
           ],
           "sourceReview": {
@@ -17524,6 +17626,18 @@
             "sourcePagination": {
               "page": 17,
               "breakBefore": false
+            },
+            "intentionalDepartures": [
+              "Feedback 13 October 2026 (user comment 12, equals-sign gutter): both examples store their working as one blue maths line (colour on the inline instead of per row, mathematics unchanged) and use continuation alignment so the opening expression sits above the right-hand sides."
+            ],
+            "origin": {
+              "projectId": "algebraic-fractions-algebraic-denominator-v1",
+              "blockId": "p17-examples-block",
+              "runId": "algebraic-fractions-algebraic-denominator-v1-20261007",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\algebraic-fractions-algebraic-denominator-v1-20261007\\semantic-packets\\page-017.author.json",
+                "hash": "68dbba9e02b28e1160d5bf5aa2792f23249c1b46e5e4c116680525cc89a3732a"
+              }
             }
           },
           "flow": {
@@ -23457,8 +23571,8 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 7,
+  "revision": 9,
   "assets": [],
   "createdAt": "2026-10-07T13:20:30.057Z",
-  "updatedAt": "2026-10-11T12:16:37.555Z"
+  "updatedAt": "2026-10-13T10:38:38.554Z"
 }
