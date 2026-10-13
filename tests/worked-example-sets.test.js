@@ -128,6 +128,10 @@ test('rendered example colours cover prose and maths, retain diagram ink and sup
     assert.equal(await colour('.example-question .text-table p'),'rgb(0, 0, 0)');
     assert.equal(await colour('.example-solution .text-table p'),'rgb(38, 140, 255)');
     assert.equal(await colour('.example-solution .text-table .katex .mord'),'rgb(38, 140, 255)');
+    const compactTable = await page.locator('.example-solution .text-table').evaluate(el=>({table:el.querySelector('table').getBoundingClientRect().width,available:el.clientWidth}));
+    assert.ok(compactTable.table < compactTable.available * .8, 'small tables must not stretch across the example');
+    const labelWidths = await page.locator('.text-table table').evaluateAll(tables=>tables.map(table=>table.rows[0].cells[0].getBoundingClientRect().width));
+    assert.ok(labelWidths[0] < labelWidths[1], 'a variable label stays narrower than a worded label');
     const phantoms = page.locator('.worked-example span[style*="transparent"]');
     assert.ok(await phantoms.count() >= 3, 'shared and both authored gutter formats render invisible relation signs');
     for (const phantom of await phantoms.all()) {
@@ -141,6 +145,7 @@ test('rendered example colours cover prose and maths, retain diagram ink and sup
       assert.equal(await colour('.example-solution .text-line'), 'rgb(38, 140, 255)');
     }
     await page.addStyleTag({content:fs.readFileSync('node_modules/katex/dist/katex.min.css','utf8')});
+    if(process.env.MATHSMAP_EXAMPLE_SCREENSHOT) await page.locator('.worked-example').nth(4).screenshot({path:process.env.MATHSMAP_EXAMPLE_SCREENSHOT});
     await page.setViewportSize({width:300,height:800});
     const fractionInk=await page.locator('.example-solution .mfrac').first().evaluate(el=>{
       const box=el.closest('.text-line').getBoundingClientRect(),math=el.closest('.katex');
@@ -151,6 +156,9 @@ test('rendered example colours cover prose and maths, retain diagram ink and sup
     assert.ok(fractionInk.padding>0,'fraction ink must have vertical clearance inside its scroll container');
     assert.equal(fractionInk.inside,true,'fraction text ink must remain inside the visible row: '+JSON.stringify(fractionInk));
     assert.equal(await page.locator('.worked-example').first().locator('.katex').first().evaluate(el=>parseFloat(getComputedStyle(el).paddingTop)),0,'non-fraction working keeps its existing spacing');
+    await page.waitForFunction(()=>document.querySelector('.worked-example:last-child .example-solution .text-line').classList.contains('horizontal-overflow'));
+    const fittingRows = await page.locator('.worked-example').first().locator('.text-line').evaluateAll(rows=>rows.map(el=>({x:getComputedStyle(el).overflowX,y:getComputedStyle(el).overflowY})));
+    assert.ok(fittingRows.every(row=>row.x==='visible'&&row.y==='visible'),'fitting working has no scroll viewport');
     const scrolling = await page.locator('.worked-example').last().locator('.example-solution .text-line').evaluate(el=>{
       const size=getComputedStyle(el.querySelector('.katex')).fontSize;
       el.scrollLeft=el.scrollWidth;
