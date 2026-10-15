@@ -5,50 +5,43 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-a4f6338766",
-   "kind": "unsupported-transition",
+   "id": "pf-64f3957e74",
+   "kind": "difficulty-jump",
    "severity": "high",
    "targets": [
     {
      "id": "p7-q11-response",
      "blockId": "p7-q11",
      "hash": "cdb13b49b22d80749c2dd877043e17105da2ce52b2ed1a14e713592ffe8d0a15"
-    },
-    {
-     "id": "p23-q20-b",
-     "blockId": "p23-q20",
-     "hash": "31ce97d453af3e0440e26ef0c012d0606a77eba6b4c7666760beab0ab0f94175"
     }
    ],
-   "finding": "Recovering separate class frequencies from cumulative counts is required but never demonstrated.",
-   "breakdown": "In p7-q11-response, students may treat '20 or fewer' as a separate class frequency. In p23-q20-b, using cumulative bar heights as frequencies repeatedly counts earlier classes when calculating the mean.",
-   "checked": "The preceding grouped-table teaching counts observations or combines separate frequencies. Later cumulative practice requests running totals but supplies no explanation of their reversal. The two targets share the same missing distinction between cumulative counts and separate class frequencies.",
-   "assumptions": "Subtraction is prior knowledge; recognising which overlapping counts to subtract needs explanation. Calculator availability does not affect this finding.",
+   "finding": "Question 11 moves from constructing and reading grouped tables directly to reconstructing class frequencies from mixed cumulative statements.",
+   "breakdown": "Students must distinguish nested counts, subtract them to recover an interval frequency, and subtract two disjoint tails from the total. Earlier questions practise adding existing classes, but none separately rehearses these reconstruction decisions before they are combined.",
+   "checked": "Checked all teaching and the preceding practice, including p4-q2-c, p5-q5-b, p6-q8 and p7-q10. These establish totals and combined frequencies, but provide neither reconstruction bridge. Although Question 11 closes the exercise, the preceding questions do not build towards its combined demands.",
+   "assumptions": "Ordinary subtraction and totals are established. Calculator availability does not affect the reasoning demand.",
    "repair": {
-    "type": "add-teaching",
-    "proposal": "Before p7-q11-response, add: 'Of 50 people, 12 received 10 or fewer emails, 32 received 20 or fewer, and 8 received more than 30. The 32 includes the first 12, so the frequency for 10 < x ≤ 20 is 32 − 12 = 20. There are 50 − 8 = 42 people receiving 30 or fewer, so the frequency for 20 < x ≤ 30 is 42 − 32 = 10. The separate frequencies are 12, 20, 10 and 8. In a cumulative table or histogram, recover each later class frequency by subtracting the preceding cumulative total.'"
+    "type": "add-question",
+    "proposal": "Immediately before Question 11, insert: (a) 'Of 50 people, 12 received 10 or fewer emails and 31 received 20 or fewer emails. How many received more than 10 but no more than 20 emails?' Answer: 19. (b) 'Of 50 people, 12 received 10 or fewer emails and 9 received more than 20 emails. How many received more than 10 but no more than 20 emails?' Answer: 29."
    },
-   "doneWhen": "Students see why cumulative counts overlap and how differences recover separate frequencies before either target.",
+   "doneWhen": "Students separately practise subtracting nested counts and subtracting two disjoint tails before combining those decisions in Question 11.",
    "from": [
-    "c1",
-    "c10"
+    "c1"
    ],
    "sequences": [
-    "grouped-frequency-tables",
-    "grouped-mean-median"
+    "grouped-frequency-tables"
    ],
    "state": "pending",
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:58:29.562Z"
+     "at": "2026-10-15T10:07:35.177Z"
     }
    ],
-   "commentId": "a46ebcd1-419a-4f6a-a304-cdb20556b027",
-   "postedAt": "2026-10-11T12:58:29.579Z"
+   "commentId": "0c2aa791-fae9-4175-9165-ad9a51a58551",
+   "postedAt": "2026-10-15T10:07:35.629Z"
   },
   {
-   "id": "pf-299363580a",
+   "id": "pf-109940df60",
    "kind": "missing-prerequisite",
    "severity": "high",
    "targets": [
@@ -66,24 +59,19 @@
      "id": "p9-q1-b",
      "blockId": "p9-q1-block",
      "hash": "850894f30496ab2268f06102727adf1344887bfaf8cfa0c7a24433573af80f71"
-    },
-    {
-     "id": "p9-q2",
-     "blockId": "p9-q2-block",
-     "hash": "ef6d177fb0eef827f8f9414c2bdcb1897eb7b547826386db883b78b509be5cd9"
     }
    ],
-   "finding": "Frequency polygons are required without teaching their vertices or closing endpoints.",
-   "breakdown": "Histogram construction does not establish whether to join class centres, boundaries or bar corners, or where to close the polygon.",
-   "checked": "The complete earlier teaching covers grouped tables, class centres and histogram construction. Neither the practice prompts nor preceding teaching explains polygon construction; completed practice solutions are not student instruction.",
-   "assumptions": "Basic plotting is prior knowledge; constructing a grouped frequency polygon is a new method.",
+   "finding": "The first histogram practice requires frequency polygons, but preceding teaching models only a histogram.",
+   "breakdown": "Students have no model for locating polygon points at class centres, joining them, retaining a zero-frequency class, or choosing the closing points.",
+   "checked": "The complete teaching contains no frequency-polygon construction. p8-information-block and p8-example-root explain class centres and histogram construction only. The completed practice graphs are answer-only and cannot supply preceding instruction.",
+   "assumptions": "General graph construction is prior knowledge; grouped frequency-polygon construction is not established by the supplied teaching. Calculator availability is immaterial.",
    "repair": {
     "type": "add-teaching",
-    "proposal": "Extend p8-example-root on the existing histogram: 'Plot (class centre, frequency): (2,3), (7,7), (12,15), (17,19), (22,6). Join consecutive points with straight lines. Close at the centres of the adjacent empty classes, (-3,0) and (27,0).' Demonstrate these points and segments."
+    "proposal": "Extend p8-example-root by plotting (2,3), (7,7), (12,15), (17,19) and (22,6) on its histogram and joining consecutive points. Close the polygon at (-3,0) and (27,0), the centres of the adjacent outside classes. State that a zero-frequency class must still have a point at its centre with height zero."
    },
-   "doneWhen": "The example models all frequency-polygon vertices, including both closing endpoints, before p9-q1.",
+   "doneWhen": "Before p9-q1-a, teaching shows how to choose the polygon points and closing points, including the treatment of a zero-frequency class.",
    "from": [
-    "c4"
+    "c2"
    ],
    "sequences": [
     "grouped-histograms"
@@ -92,14 +80,14 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:58:29.562Z"
+     "at": "2026-10-15T10:07:35.177Z"
     }
    ],
-   "commentId": "f326e1b0-0998-4daa-920a-f4c7e4ea5306",
-   "postedAt": "2026-10-11T12:58:29.584Z"
+   "commentId": "1df92a02-282e-4306-9d30-ebd6a130eccf",
+   "postedAt": "2026-10-15T10:07:35.645Z"
   },
   {
-   "id": "pf-7549ab5836",
+   "id": "pf-73c9d096c9",
    "kind": "missing-prerequisite",
    "severity": "high",
    "targets": [
@@ -127,20 +115,25 @@
      "id": "p17-q9-response",
      "blockId": "p17-q9",
      "hash": "2e213b74fa2ec72bfbe86b6354a38a6ad18f9fefb489cb80ea48398c426f7990"
+    },
+    {
+     "id": "p23-q20-b",
+     "blockId": "p23-q20",
+     "hash": "31ce97d453af3e0440e26ef0c012d0606a77eba6b4c7666760beab0ab0f94175"
     }
    ],
-   "finding": "Cumulative totals, cumulative histograms and ogive construction are required without a preceding demonstration.",
-   "breakdown": "Students must introduce running totals and change from frequency-polygon vertices at class centres to ogive vertices at upper class boundaries. They may draw ordinary bars or plot cumulative values at centres.",
-   "checked": "p8 teaches ordinary histograms. p9 requests ordinary polygons. p10 first requests cumulative constructions without explaining them. p12 subsequently teaches reading supplied ogives, not constructing them. The later targets repeat this same unsupported method rather than introduce an independent omission.",
-   "assumptions": "Addition and basic plotting are prior knowledge. Running totals and cumulative graph construction need explicit instruction.",
+   "finding": "Cumulative-frequency construction and its reversal are required without teaching the relationship between ordinary frequencies, cumulative totals and ogive points.",
+   "breakdown": "Students first need running totals and upper-boundary plotting in p10-q2. Later questions reuse that construction, and p23-q20-b requires reversing cumulative totals to recover class frequencies. The median teaching explains how to read a supplied ogive, rather than how to construct or reverse it.",
+   "checked": "Checked the complete teaching and intervening practice. p7-q11 requests reconstruction but supplies no instructional method. p8 models an ordinary histogram; p10 independently assigns cumulative construction. p12 models median reading only. Neither the earlier assignments nor their answer-only solutions supply the missing teaching.",
+   "assumptions": "Ordinary grouped histograms, addition and subtraction are established. Cumulative-frequency construction is a new variant here. Calculator availability is immaterial.",
    "repair": {
     "type": "add-teaching",
-    "proposal": "Before p10-q2, model classes 0–4, 5–9 and 10–14 with frequencies 2, 3 and 1. Explain that cumulative frequency counts all observations through each class; show totals 2, 5 and 6. Draw touching cumulative bars with those heights. Show boundaries -0.5, 4.5, 9.5 and 14.5, halfway between adjacent integer classes, and draw the ogive through (-0.5,0), (4.5,2), (9.5,5), (14.5,6). Contrast upper-boundary ogive vertices with class-centre frequency-polygon vertices. State that when equal-width classes are supplied by their centres, boundaries lie halfway between neighbouring centres."
+    "proposal": "Before p10-q2, reuse the p8 table. Model cumulative totals 3, 10, 25, 44, 50, explaining that each counts all observations through the current class. Draw cumulative bars with those heights and an ogive through (-0.5,0), (4.5,3), (9.5,10), (14.5,25), (19.5,44), (24.5,50). Explain that the points use upper class boundaries, rather than class centres, and that a zero-frequency class leaves the total unchanged. Add the reverse calculation: 'The frequency of 10–14 is 25−10=15: subtract the preceding cumulative total.'"
    },
-   "doneWhen": "Before p10-q2, students see running totals, cumulative bars and boundary-based ogive construction, including how boundaries relate to class centres.",
+   "doneWhen": "Before the first independent cumulative construction, students see running totals, cumulative bars, upper-boundary ogive points and recovery of an ordinary frequency by subtraction.",
    "from": [
-    "c5",
-    "c8"
+    "c3",
+    "c5"
    ],
    "sequences": [
     "grouped-histograms",
@@ -150,11 +143,11 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:58:29.562Z"
+     "at": "2026-10-15T10:07:35.177Z"
     }
    ],
-   "commentId": "e0354a52-f087-4374-ad94-8cc6e1252755",
-   "postedAt": "2026-10-11T12:58:29.587Z"
+   "commentId": "a9734a78-fed3-4120-8b09-16bbe61394b7",
+   "postedAt": "2026-10-15T10:07:35.658Z"
   },
   {
    "id": "pf-a077e62fb0",
@@ -172,17 +165,17 @@
      "hash": "970167f815e72c7c42bd72a70ad1943329b8c19df72ecc48ebe3babcbcf0d39e"
     }
    ],
-   "finding": "The topic does not rehearse the ordinary frequency-table mean before using its weighted-total method with class centres.",
-   "breakdown": "Students recalling only the mean of a list may divide by the number of rows or fail to connect value × frequency with the total of all observations.",
-   "checked": "p11 explicitly identifies ordinary frequency-table means as the prior method being adapted. No opening review rehearses it. The preceding histogram topic reviews midpoints and practises displays, not weighted means.",
-   "assumptions": "Ordinary frequency-table means are prior knowledge, consistent with p11 and the separate summary-statistics booklet. Arithmetic evaluation is not the missing review piece.",
+   "finding": "The topic explicitly builds on calculating a mean from an ungrouped frequency table, but does not rehearse that prior method.",
+   "breakdown": "The grouped-mean example requires weighting values by their frequencies and dividing by total frequency. Students who instead average the row values or divide by the number of classes have no opening review to expose that misunderstanding before class centres are introduced.",
+   "checked": "p11-mean-definition explicitly identifies the ungrouped frequency-table calculation as prior knowledge. Earlier teaching and the immediately preceding histogram exercise do not rehearse it. p8-review-block covers midpoints only. The grouped-mean definition supplies the new procedure but does not provide retrieval practice of the prior frequency-table method.",
+   "assumptions": "Ungrouped frequency-table means are prior knowledge, consistent with the stated course library. A calculator is assumed; numerical evaluation is not the missing review piece.",
    "repair": {
     "type": "add-review",
-    "proposal": "Before p11-mean-definition add two short items: '1. Scores 2, 4, 6 have frequencies 3, 2, 1. Find the total frequency, complete score × frequency, and find the mean. 2. Scores 1, 3, 5 have frequencies 2, 1, 3. Find the total frequency, the total of score × frequency, and the mean.' Answers: item 1 has total frequency 6, products 6, 8, 6 and mean 20/6; item 2 has total frequency 6, product total 20 and mean 20/6."
+    "proposal": "Before p11-mean-definition, add three short review items: (a) 'Scores 2, 5, 8 have frequencies 3, 2, 1. How many scores are there?' Answer: 6. (b) 'For that table, find the total of all scores.' Answer: 24. (c) 'Scores 1, 4, 7 have frequencies 2, 1, 3. Find the mean.' Answer: 4.5. Keep the review within one page."
    },
-   "doneWhen": "A short opening review checks weighting by frequency and dividing by total frequency before class centres replace exact values.",
+   "doneWhen": "The opening review rehearses weighting values and dividing by total frequency before applying that structure to class centres.",
    "from": [
-    "c7"
+    "c4"
    ],
    "sequences": [
     "grouped-mean-median"
@@ -191,14 +184,14 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:58:29.562Z"
+     "at": "2026-10-15T10:07:35.177Z"
     }
    ],
-   "commentId": "9b57d01b-f4ff-438c-b46b-2a9de362b49f",
-   "postedAt": "2026-10-11T12:58:29.589Z"
+   "commentId": "31d10845-2bf2-47d3-a416-f20233510016",
+   "postedAt": "2026-10-15T10:07:35.663Z"
   },
   {
-   "id": "pf-e71489e3dd",
+   "id": "pf-a020fba790",
    "kind": "unsupported-transition",
    "severity": "high",
    "targets": [
@@ -208,195 +201,81 @@
      "hash": "f126d56087813735438429158e3d8b31c1a616689bc10cc35390615babd88acd"
     },
     {
-     "id": "p18-q11-a",
-     "blockId": "p18-q11",
-     "hash": "f126d56087813735438429158e3d8b31c1a616689bc10cc35390615babd88acd"
+     "id": "p21-q16-response",
+     "blockId": "p21-q16",
+     "hash": "9167ca54903e5fe0281cb8df861ceccc062b8a1bce7bd27088a8de469a34e092"
+    },
+    {
+     "id": "p21-q18-answer",
+     "blockId": "p21-q18",
+     "hash": "f713a0f32de47355623c59b1d2efb2f728561ef15dcaba4ebe1f16f69c44fe0b"
+    },
+    {
+     "id": "p24-q21-a",
+     "blockId": "p24-q21",
+     "hash": "a70ff1a3b81e18fa41d77c7d687c739ada3df1948aa2f96fe7e80b7ae1dad35d"
     }
    ],
-   "finding": "The first ogive IQR tasks require quartile cumulative-frequency levels that the teaching has not supplied.",
-   "breakdown": "The median method supplies N/2 only. Students need to locate Q1 and Q3 at N/4 and 3N/4 and subtract the corresponding horizontal-axis readings.",
-   "checked": "p12 models only the median level. Earlier practice reads or constructs medians. Separate prior teaching of quartiles and IQR does not itself model their application to a grouped ogive.",
-   "assumptions": "Quartiles and IQR are prior knowledge from the separate Quartiles and Box Plots booklet; applying them to ogives is the new variant.",
+   "finding": "Graphical IQR is assigned without connecting the quartiles to cumulative-frequency heights.",
+   "breakdown": "The median example demonstrates the 50% position only. Students receive no explicit connection from the lower and upper quartiles to N/4 and 3N/4 on the cumulative-frequency axis before being asked to read and subtract their score values.",
+   "checked": "Checked all preceding teaching and practice. p12-teaching and p12-example-demonstration establish median reading, but no preceding prompt models or cues either graphical quartile position. Prior knowledge of quartiles and IQR does not itself establish their use on the newly introduced cumulative graph.",
+   "assumptions": "Quartiles and IQR are prior knowledge from the separately taught Quartiles and Box Plots content. The missing component is applying them to cumulative-frequency graphs. Calculator availability is immaterial.",
    "repair": {
-    "type": "add-teaching",
-    "proposal": "Before p18-q11-root add: 'For an ogive ending at cumulative frequency N, read Q1 at N/4 and Q3 at 3N/4. Draw horizontal guides to the ogive, then vertical guides to the score axis. Estimated IQR = Q3 − Q1.' Demonstrate on p12-example-graph using N = 48 and levels 12 and 36, marking both score readings and their difference."
+    "type": "add-cue",
+    "proposal": "Before p18-q11, add: 'For an ogive with total frequency N, locate Q1 at cumulative frequency N/4 and Q3 at cumulative frequency 3N/4. Read their score values using horizontal then vertical guides, as for the median. Estimate IQR = Q3 − Q1.'"
    },
-   "doneWhen": "Both quartile levels and subtraction of score readings are demonstrated before independent ogive IQR practice.",
-   "from": [
-    "c9"
-   ],
-   "sequences": [
-    "grouped-mean-median"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:58:29.562Z"
-    }
-   ],
-   "commentId": "1195347d-5e1e-4db7-ba0c-150f1fb51d48",
-   "postedAt": "2026-10-11T12:58:29.591Z"
-  },
-  {
-   "id": "pf-b27e1503b3",
-   "kind": "variation-sequence",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p6-q6-root",
-     "blockId": "p6-q6",
-     "hash": "e3fd11ce7d4d801a95577c4a90f71447b70e9a226bd0d848159e583cace849d1"
-    }
-   ],
-   "finding": "Compare endpoint conventions while varying only the observation near a fixed boundary.",
-   "breakdown": "The comparison exposes why an exact boundary value changes class while nearby values do not.",
-   "checked": "Inequality classes are introduced in p3 and practised in p6. Existing questions address endpoint notation and overlap but do not provide this paired run. All proposed classifications are correct.",
-   "assumptions": "Use values within both tables' shared coverage.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p6-q6-root give table A with classes 0 ≤ t < 10 and 10 ≤ t < 20, and table B with classes 0 < t ≤ 10 and 10 < t ≤ 20. Ask students to predict which observations will change class, then classify t = 9.9, 10 and 10.1 in both tables. Answers: first/first, second/first, second/second respectively. Only t varies; the tables stay fixed. Follow with: 'For 4 < h ≤ 7 and 7 < h ≤ 10, classify h = 7 and h = 8.4.' Answers: first class and second class."
-   },
-   "doneWhen": "Students predict and explain the effect of including or excluding the shared endpoint.",
-   "from": [
-    "c2"
-   ],
-   "sequences": [
-    "grouped-frequency-tables"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:58:29.562Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-59429b2ab2",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p7-q10-root",
-     "blockId": "p7-q10",
-     "hash": "4329d6b85217511dbb88c1762cda7c65d39990867f8c8249585e67cde2e18467"
-    }
-   ],
-   "finding": "Investigate how regrouping unchanged observations can change the modal class.",
-   "breakdown": "This extends the existing discussion of information lost through grouping.",
-   "checked": "Grouping and identifying modal classes are taught in p2–p3. The proposed integer classes cover all observations without overlap; the stated frequencies and modal classes are correct.",
-   "assumptions": "The classes use inclusive integer endpoints for these integer observations.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p7-q10-root offer: 'Group 8, 9, 10, 11, 12, 18 into 0–9 and 10–19, then into 5–14 and 15–24. Find each modal class. Explain what changed and what stayed the same. Does a modal class identify the most frequent exact value?' Expected answer: frequencies 2,4 give modal class 10–19; frequencies 5,1 give modal class 5–14. The observations and total are unchanged, but boundaries and class frequencies change. A modal class does not identify an exact mode; here all exact values occur once."
-   },
-   "doneWhen": "Students explain why a modal class depends on grouping as well as the observations.",
-   "from": [
-    "c3"
-   ],
-   "sequences": [
-    "grouped-frequency-tables"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:58:29.562Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-963ffa61e3",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p10-q2-b",
-     "blockId": "p10-q2",
-     "hash": "fcc9cfa5c5c683503fd0d5ec07a1ebe672790155086e3cfe8dc75366f37815c0"
-    }
-   ],
-   "finding": "Connect cumulative totals with separate frequencies and explain a horizontal ogive segment.",
-   "breakdown": "The task links the inverse count relationship already encountered in p7-q11 with the zero-frequency class in p10-q2-b.",
-   "checked": "The recovered frequencies are 4,3,2,0,1,2,5. Equal consecutive totals indicate zero observations in that class. Non-negative frequencies make cumulative totals non-decreasing. The task fits after the cumulative construction repair.",
-   "assumptions": "Cumulative construction is taught as specified in the retained finding; no additional mathematical method is needed.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p10-q2-b offer: 'A cumulative-frequency column is 4,7,9,9,10,12,17. Recover each class frequency. Explain why the ogive is horizontal across one class. Could cumulative frequency decrease?' Expected answer: 4,3,2,0,1,2,5; the fourth class contains no observations; cumulative frequency cannot decrease because each class adds a non-negative count."
-   },
-   "doneWhen": "Students explain the zero-frequency class and why cumulative totals cannot decrease.",
+   "doneWhen": "Students receive the cumulative-frequency positions and reading route for both quartiles before independently estimating graphical IQR.",
    "from": [
     "c6"
    ],
    "sequences": [
-    "grouped-histograms"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:58:29.562Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-1209cf21dc",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p16-q8-e",
-     "blockId": "p16-q8",
-     "hash": "ff706f220479ec2d683881d0becb0a95a0cd77d1c36adbeb59a155b98716a3cc"
-    },
-    {
-     "id": "p16-q8-f",
-     "blockId": "p16-q8",
-     "hash": "ff706f220479ec2d683881d0becb0a95a0cd77d1c36adbeb59a155b98716a3cc"
-    },
-    {
-     "id": "p16-q8-g",
-     "blockId": "p16-q8",
-     "hash": "ff706f220479ec2d683881d0becb0a95a0cd77d1c36adbeb59a155b98716a3cc"
-    }
-   ],
-   "finding": "Explain when adding observations to one class preserves the estimated mean.",
-   "breakdown": "The extension explains the deliberate unchanged-mean comparison in 8e–8g without changing that sequence.",
-   "checked": "The three tables have weighted totals and frequencies 1900/38, 2700/54 and 1700/34, all giving 50. If the original total frequency is N > 0 and k > 0 observations are added at centre c, the new estimate is (NM + kc)/(N + k), equal to M exactly when c = M.",
-   "assumptions": "The original table is nonempty; additions are a positive number of observations to one class. The claim concerns the grouped estimate.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p16-q8-j offer: 'In 8e–8g, the frequency of the class centred at 50 changes but the estimated mean remains 50. Explain why. If a grouped table has estimated mean M, which class can receive extra observations without changing M? Can adding observations to a class centred above M preserve M?' Expected answer: each added observation represented by M adds M to the weighted total, preserving the quotient. For positive additions to one class, its centre must equal M. A centre above M increases the estimate."
-   },
-   "doneWhen": "Students state and justify the condition that the receiving class centre equals the existing estimated mean.",
-   "from": [
-    "c11"
-   ],
-   "sequences": [
     "grouped-mean-median"
    ],
    "state": "pending",
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:58:29.562Z"
+     "at": "2026-10-15T10:07:35.177Z"
     }
-   ]
+   ],
+   "commentId": "06e72a28-5066-4a46-8f90-f12156f1d9ce",
+   "postedAt": "2026-10-15T10:07:35.668Z"
   }
  ],
  "contextQuestions": [],
  "protectedGroups": [
   {
+   "sequence": "grouped-frequency-tables",
+   "targets": [
+    "p5-q4-ungrouped-response",
+    "p5-q4-grouped-response",
+    "p5-q4-b"
+   ],
+   "observation": "Comparing two representations of the same observations exposes which information grouping removes.",
+   "varies": "Individual-value rows versus three-value class intervals.",
+   "invariant": "The dataset and total frequency."
+  },
+  {
+   "sequence": "grouped-frequency-tables",
+   "targets": [
+    "p6-q6-a",
+    "p6-q6-b"
+   ],
+   "observation": "Students must attend to which endpoint is included rather than assuming one fixed convention.",
+   "varies": "The placement of strict and inclusive inequality signs.",
+   "invariant": "A compound inequality describing one interval."
+  },
+  {
    "sequence": "grouped-mean-median",
    "targets": [
     "p16-q8-a",
     "p16-q8-b",
-    "p16-q8-c"
+    "p16-q8-c",
+    "p16-q8-d"
    ],
-   "observation": "Duplicating all observations leaves the estimated mean unchanged; scaling all class values scales the mean.",
-   "varies": "First all frequencies double, then all class endpoints double.",
-   "invariant": "The relative frequency distribution remains fixed."
+   "observation": "Doubling every frequency preserves the estimated mean; doubling class values doubles it; reversing the frequency distribution changes its location.",
+   "varies": "First the common frequency multiplier, then the class scale, then the allocation of frequencies.",
+   "invariant": "The weighted-mean method and, within each adjacent comparison, the remaining table features."
   },
   {
    "sequence": "grouped-mean-median",
@@ -405,9 +284,9 @@
     "p16-q8-f",
     "p16-q8-g"
    ],
-   "observation": "Adding or removing observations represented by the current mean leaves the estimated mean unchanged.",
-   "varies": "The frequency of the class centred at 50.",
-   "invariant": "All other classes and frequencies."
+   "observation": "Changing the frequency of a class centred at the current estimated mean preserves that mean, including when the frequency becomes zero.",
+   "varies": "Only the frequency of the class centred at 50.",
+   "invariant": "All classes, other frequencies and estimated mean."
   },
   {
    "sequence": "grouped-mean-median",
@@ -415,9 +294,9 @@
     "p16-q8-g",
     "p16-q8-h"
    ],
-   "observation": "Translating every class by one translates the estimated mean by one.",
+   "observation": "Adding one to every class endpoint adds one to the estimated mean.",
    "varies": "Every class endpoint increases by one.",
-   "invariant": "Frequencies and class widths."
+   "invariant": "Class widths and frequencies."
   },
   {
    "sequence": "grouped-mean-median",
@@ -426,24 +305,22 @@
     "p16-q8-i",
     "p16-q8-j"
    ],
-   "observation": "Changing how data are grouped can preserve or alter the midpoint-based estimate.",
-   "varies": "A class is split and then a wider grouping is used.",
-   "invariant": "Total frequency and the frequencies in the first two classes."
+   "observation": "Changing the grouping changes representative centres and can preserve or alter the estimated mean.",
+   "varies": "Splitting or merging the upper classes.",
+   "invariant": "Total frequency and the first two occupied classes."
   }
  ],
  "notReliablyReviewed": [
   {
    "sequence": "grouped-mean-median",
    "targets": [
-    "p24-q21-graph",
-    "p24-q21-a",
-    "p24-q21-b"
+    "p24-q21-graph"
    ],
-   "reason": "Page 24 is not among the attached images, and the diagram spec does not supply the curve, bar heights or class boundaries needed to judge its particular graphical demands."
+   "reason": "No page 24 image is attached, and the diagram specification does not supply the plotted values or class boundaries needed to inspect this graph reliably."
   }
  ],
- "reviewedRevision": 11,
- "reviewedAt": "2026-10-11T12:58:29.562Z",
+ "reviewedRevision": 18,
+ "reviewedAt": "2026-10-15T10:07:35.177Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -467,16 +344,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 24544,
-     "cached_input_tokens": 14592,
+     "input_tokens": 24961,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2363,
-     "reasoning_output_tokens": 209
+     "output_tokens": 1902,
+     "reasoning_output_tokens": 234
     },
-    "elapsedMs": 77614,
+    "elapsedMs": 59076,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 0
    },
    {
     "id": "grouped-histograms",
@@ -485,16 +362,16 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 33824,
-     "cached_input_tokens": 12544,
+     "input_tokens": 34241,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2076,
-     "reasoning_output_tokens": 218
+     "output_tokens": 1815,
+     "reasoning_output_tokens": 127
     },
-    "elapsedMs": 69296,
+    "elapsedMs": 56004,
     "candidates": 2,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "grouped-mean-median",
@@ -503,24 +380,24 @@
     "images": 8,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 57189,
+     "input_tokens": 57634,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 6096,
-     "reasoning_output_tokens": 127
+     "output_tokens": 5443,
+     "reasoning_output_tokens": 201
     },
-    "elapsedMs": 166621,
-    "candidates": 4,
+    "elapsedMs": 135008,
+    "candidates": 3,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    }
   ],
   "dropped": [],
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/grouped-data-v1/candidates-low-1791723399914.json",
+  "candidateFile": ".booklet-work/pedagogy-review/grouped-data-v1/candidates-low-1792058787184.json",
   "errors": []
  },
- "postedRevision": 12
+ "postedRevision": 19
 }

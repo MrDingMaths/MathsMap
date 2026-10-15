@@ -5,12 +5,12 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-1e636412b0",
+   "id": "pf-efe7c1bee9",
    "kind": "missing-prerequisite",
    "severity": "high",
    "targets": [
     {
-     "id": "p12-properties-top",
+     "id": "p12-properties-top-native-content",
      "blockId": "p12-properties-top",
      "hash": "079f2e8f02dc0d521accb7cf446cfee2b70d3171a3dd61e47cc17605cc223c77"
     },
@@ -28,29 +28,19 @@
      "id": "p13-q1-f",
      "blockId": "p13-q1",
      "hash": "14f2fc0c0e69493f5f697c5f4ba3fe8f407b4a492405550c4df52f831cff377a"
-    },
-    {
-     "id": "p14-q2-g",
-     "blockId": "p14-q2",
-     "hash": "e87b56355007f175a6de755f6cb6ee7dbf751b7b7b963fac984ab2e3e4ca0a13"
-    },
-    {
-     "id": "p14-q2-h",
-     "blockId": "p14-q2",
-     "hash": "e87b56355007f175a6de755f6cb6ee7dbf751b7b7b963fac984ab2e3e4ca0a13"
     }
    ],
-   "finding": "The equal-chord properties are required in reverse before either converse is taught.",
-   "breakdown": "Guided practice b requires equal perpendicular distances to imply equal chords; question 1e requires equal central angles to imply equal chords. The stated forward implications alone do not justify either conclusion.",
-   "checked": "p12-properties-top states only the forward implications, and both introductory examples use those directions. Earlier circle-feature and angle-identification teaching supplies neither converse. The perpendicular-bisector properties address a different relationship.",
-   "assumptions": "Triangle congruence is prior knowledge, but these converse circle properties are new content. Practice answers are not preceding instruction.",
+   "finding": "Two converse chord properties are required without being stated before use.",
+   "breakdown": "Guided practice b requires equal perpendicular distances to imply equal chords; p13-q1-e requires equal central angles to imply equal chords. The stated forward implications do not license either reversal.",
+   "checked": "The complete earlier teaching contains neither converse. The two p12 examples apply only the forward properties. The guided answer supplies the distance converse after students have already been asked to use it; it does not supply the central-angle converse.",
+   "assumptions": "Ordinary triangle congruence is prior knowledge, but these circle-specific converse properties are new. Calculator use is irrelevant.",
    "repair": {
-    "type": "add-cue",
-    "proposal": "Before p12-guided-block, add: “For chords in the same circle, these two properties also work in reverse: equal central angles imply equal chords, and equal perpendicular distances from the centre imply equal chords.”"
+    "type": "add-teaching",
+    "proposal": "After the first two chord properties, add: 'Both properties also work in reverse in the same circle: equal angles at the centre stand on equal chords; chords at equal perpendicular distances from the centre have equal lengths.'"
    },
-   "doneWhen": "Both converse properties are explicitly available before their first application.",
+   "doneWhen": "Both converse properties are explicitly available before guided practice b.",
    "from": [
-    "c5"
+    "c2"
    ],
    "sequences": [
     "chord-properties"
@@ -59,14 +49,127 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:22:28.855Z"
+     "at": "2026-10-15T09:18:56.691Z"
     }
    ],
-   "commentId": "cf162447-b061-45af-a463-d1586245a41f",
-   "postedAt": "2026-10-11T12:22:28.875Z"
+   "commentId": "552284fd-0c90-45f3-8ee9-2e09e7786d1a",
+   "postedAt": "2026-10-15T09:18:56.954Z"
   },
   {
-   "id": "pf-451d1af18c",
+   "id": "pf-e0fdc858b5",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p15-q3-root",
+     "blockId": "p15-q3",
+     "hash": "4ad50feaedd700c8f95ec2f344d268f530246c2aa83ee035497c8d41ab6f9dae"
+    }
+   ],
+   "finding": "Compare chord lengths at different distances from the centre of the same circle.",
+   "breakdown": "The follow-up connects the perpendicular distance from the centre with chord length using the existing perpendicular-bisector property and Pythagoras.",
+   "checked": "The original chord is 16 m long and 6 m from the centre. At distances 8 m and 5 m, the chord lengths are respectively 12 m and 10√3 m. The chord nearest the centre is longest.",
+   "assumptions": "Pythagoras and exact square-root notation are available prior knowledge.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional parts to p15-q3: (b) In the same circle of radius 10 m, another chord is 8 m from O. Find its length. [12 m.] (c) A third chord is 5 m from O. Find its exact length. [10√3 m.] (d) Which of the three chords is longest? [The chord 5 m from O.]"
+   },
+   "doneWhen": "The optional parts follow the existing question and retain its circle and numerical context.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "chord-properties"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:18:56.691Z"
+    }
+   ],
+   "commentId": "c5715f9f-a029-4fdc-ae04-0effd0d2ad52",
+   "postedAt": "2026-10-15T09:18:56.962Z"
+  },
+  {
+   "id": "pf-a1b12e97c5",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p28-examples",
+     "blockId": "p28-examples",
+     "hash": "28c3ad562252e2e41ce6af9da0e2b46f2299e6561c842b0e1fefae8446a8605e"
+    },
+    {
+     "id": "p28-example-2",
+     "blockId": "p28-examples",
+     "hash": "28c3ad562252e2e41ce6af9da0e2b46f2299e6561c842b0e1fefae8446a8605e"
+    }
+   ],
+   "finding": "The opening review does not rehearse recognising and calculating equal base angles in an isosceles triangle.",
+   "breakdown": "Example 2 moves directly from equal tangent lengths to dividing the remaining angle sum equally. Students need to recognise the equal sides as establishing equal base angles before that division is justified.",
+   "checked": "The topic has no review. The immediately preceding cyclic-quadrilateral exercise rehearses triangle angle sums in p26-q2-g through p26-q2-i, so that component has been removed from the candidate. Neither that topic's teaching nor its supplied practice rehearses isosceles base-angle calculations. Earlier p10-q6 identifies isosceles triangles but is not the immediately preceding exercise.",
+   "assumptions": "Isosceles triangle properties are prior knowledge. Calculator availability does not affect the finding.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p28-properties, add: (a) Triangle ABC has AB = AC. Which two angles are equal? [∠ABC and ∠BCA.] (b) An isosceles triangle has vertex angle 40°. Find each base angle. [70°.] (c) An isosceles triangle has one base angle 53°. Find its vertex angle. [74°.]"
+   },
+   "doneWhen": "A short opening review rehearses the recognition and calculation used in example 2, within one page.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "tangents-secants"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:18:56.691Z"
+    }
+   ],
+   "commentId": "836d9cfe-0182-4262-be62-e5628e9e22ab",
+   "postedAt": "2026-10-15T09:18:56.965Z"
+  },
+  {
+   "id": "pf-3297a506f1",
+   "kind": "guided-practice",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p28-guided-c",
+     "blockId": "p28-guided",
+     "hash": "07cde6bd54e66dfe05e8c455860d252220e69ef180326acdbd46b2dac74ad12e"
+    }
+   ],
+   "finding": "The guided question introduces an unmodelled congruence deduction needed to halve the angle between the tangents.",
+   "breakdown": "The preceding examples establish equal tangent lengths and calculate base angles, but do not establish that OP bisects ∠APB. Students must introduce and compare two triangles before using the modelled right-triangle angle calculation.",
+   "checked": "Earlier teaching supplies equal radii, and the current topic supplies equal tangents and perpendicular radii. These provide the ingredients for congruence but no preceding example identifies this deduction. The guided answer contains the justification, but the student-facing question gives no route to it.",
+   "assumptions": "Students already know triangle congruence; a cue is sufficient and avoids introducing a separate angle-bisector theorem.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Append: 'Use OA = OB, PA = PB and the common side OP to show that triangles OAP and OBP are congruent. What does this tell you about the two angles at P?'"
+   },
+   "doneWhen": "The question supplies a route to justify the 40° angle before calculating x = 50°.",
+   "from": [
+    "c7"
+   ],
+   "sequences": [
+    "tangents-secants"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:18:56.691Z"
+    }
+   ],
+   "commentId": "9820fcc4-6947-44a1-9e99-e4e1580c14e7",
+   "postedAt": "2026-10-15T09:18:56.967Z"
+  },
+  {
+   "id": "pf-48956913d0",
    "kind": "opening-review",
    "severity": "high",
    "targets": [
@@ -74,29 +177,19 @@
      "id": "p32-example-block",
      "blockId": "p32-example-block",
      "hash": "7e90b1a0169b04de4e6b2803095ae0ccb2cb64221ec6553b0120b86a4cdd5827"
-    },
-    {
-     "id": "p32-example-secants",
-     "blockId": "p32-example-block",
-     "hash": "7e90b1a0169b04de4e6b2803095ae0ccb2cb64221ec6553b0120b86a4cdd5827"
-    },
-    {
-     "id": "p32-example-tangent",
-     "blockId": "p32-example-block",
-     "hash": "7e90b1a0169b04de4e6b2803095ae0ccb2cb64221ec6553b0120b86a4cdd5827"
     }
    ],
-   "finding": "The opening does not rehearse distribution and linear-equation solving, although both are direct steps in the introductory secant and tangent examples.",
-   "breakdown": "Following the geometric product equation requires expanding a numerical bracket and isolating the unknown through several equivalent equations. Neither skill is rehearsed immediately beforehand.",
-   "checked": "p32-example-secants expands 8(x+8); p32-example-tangent expands 5(5+x). Both then solve linear equations. The preceding tangent teaching and supplied preceding exercise rehearse geometry rather than these algebraic operations.",
-   "assumptions": "Expansion and linear-equation solving are prior learning, consistent with the separate course booklets. Calculator availability does not replace these symbolic steps.",
+   "finding": "The introductory examples combine new circle product rules with unrehearsed bracket expansion and linear-equation solving.",
+   "breakdown": "Following the secant and tangent examples requires expanding expressions such as 8(x + 8) and isolating x after subtracting a constant and dividing by a coefficient. These substantial algebraic steps are used immediately alongside the new geometric decisions.",
+   "checked": "There is no review in this topic. The immediately preceding tangent topic teaches angle calculations, equal tangents and Pythagoras; its supplied exercise does not rehearse bracket expansion or coefficient-plus-constant equations. Earlier circle teaching also supplies no algebra review.",
+   "assumptions": "Expansion and linear equations are prior knowledge, consistent with the separately listed algebra booklets. Numerical calculator use does not supply these algebraic transformations.",
    "repair": {
     "type": "add-review",
-    "proposal": "Before p32-properties-block, add: “Expand: (a) 3(y+4), (b) 5(2+y). Solve: (c) 6y=21, (d) 4y+12=30, (e) 3(y+4)=27.” Answers: 3y+12; 10+5y; y=3.5; y=4.5; y=5."
+    "proposal": "Before p32-properties-block, add: (a) Expand 6(x + 4). [6x + 24.] (b) Solve 7x = 30. [x = 30/7.] (c) Solve 5x + 20 = 60. [x = 8.] (d) Solve 4(x + 3) = 28. [x = 4.]"
    },
-   "doneWhen": "A short opening review checks distribution and linear-equation solving before the geometric product examples.",
+   "doneWhen": "A review of at most one page rehearses expansion and the equation-solving steps used by the introductory examples.",
    "from": [
-    "c13"
+    "c10"
    ],
    "sequences": [
     "further-tangents-secants"
@@ -105,11 +198,47 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:22:28.855Z"
+     "at": "2026-10-15T09:18:56.691Z"
     }
    ],
-   "commentId": "f8639254-6691-4110-869e-1d76059c7873",
-   "postedAt": "2026-10-11T12:22:28.876Z"
+   "commentId": "0cabed06-5615-4031-bcae-3c8bb81ef7ea",
+   "postedAt": "2026-10-15T09:18:56.973Z"
+  },
+  {
+   "id": "pf-e237c530d4",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p34-q3-c",
+     "blockId": "p34-q3",
+     "hash": "d6e0d9e892d6956a9865d32fc1f31d3a92a6b54ff742253dc30ccda4b436cfc3"
+    }
+   ],
+   "finding": "Compare whole secant lengths when the tangent doubles and the external secant segment stays fixed.",
+   "breakdown": "The numerical comparison exposes the square in the tangent–secant relationship.",
+   "checked": "The original whole secant is 81/7. With tangent 18 and external segment 7, the whole secant is 324/7, exactly four times the original. Both configurations have positive internal secant lengths.",
+   "assumptions": "Only the tangent–secant rule and arithmetic available by the end of this topic are needed.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional follow-up parts to p34-q3-c: (i) In a second circle, the tangent is 18 and the external secant segment is still 7. Find the whole secant length. [324/7.] (ii) How many times the original whole secant length is this? [4 times.]"
+   },
+   "doneWhen": "The follow-up uses the existing question's lengths and gives the numerical comparison as separate parts.",
+   "from": [
+    "c11"
+   ],
+   "sequences": [
+    "further-tangents-secants"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:18:56.691Z"
+    }
+   ],
+   "commentId": "4665f346-a028-45af-9b3d-b27dce86db10",
+   "postedAt": "2026-10-15T09:18:56.976Z"
   },
   {
    "id": "pf-153d7e8503",
@@ -177,17 +306,17 @@
      "hash": "2d490dff4e49be047dc4571fee704bbcdcc5af397f54512109ffeb60e8dbc2a8"
     }
    ],
-   "finding": "Six whole mixed-practice tasks repeat earlier guided tasks without an explicit instructional purpose for the exact repetition.",
-   "breakdown": "Each pair retains the same requested quantities, numerical givens and geometric relationships. Relabelling the task does not create a new application.",
-   "checked": "Compared all six pairs: p12-guided-a-content/p36-q1-a; p18-part-a/p36-q1-d; p18-part-b/p36-q1-e; p12-guided-b-content/p38-hh; p32-guided-a/p39-vv; p32-guided-b/p39-hhh. Their complete mathematical tasks match. The supplied instructions establish neither retrieval of these particular tasks nor comparison with earlier responses.",
-   "assumptions": "The specified duplicate-task exception applies. A mixed-practice heading alone does not explicitly justify unchanged copies.",
+   "finding": "Six mixed-practice tasks repeat earlier guided tasks with unchanged numerical givens, unknowns and diagram relationships.",
+   "breakdown": "The later copies repeat complete mathematical tasks rather than providing fresh numerical applications. No explicit retrieval or comparison purpose is stated.",
+   "checked": "Compared these pairs: p12-guided-a-content/p36-q1-a; p18-part-a/p36-q1-d; p18-part-b/p36-q1-e; p12-guided-b-content/p38-hh; p32-guided-a/p39-vv; p32-guided-b/p39-hhh. The shared mixed-practice instructions do not establish a specific purpose for exact repetition. All proposed replacement answers have been checked.",
+   "assumptions": "The supplied stems and diagram specifications describe the complete tasks. The heading 'Mixed practice' alone does not establish an explicit purpose for unchanged copies.",
    "repair": {
-    "type": "remove-question",
-    "proposal": "Remove the later copies p36-q1-a, p36-q1-d, p36-q1-e, p38-hh, p39-vv and p39-hhh."
+    "type": "change-values",
+    "proposal": "Retain each later task's structure and replace its values as follows: p36-q1-a: both chords 8 cm and given central angle 62° [x = 62°]; p36-q1-d: circumference angle 41° [x = 82°]; p36-q1-e: circumference angle 29° [x = 58°]; p38-hh: both perpendicular distances 10 cm and given chord 16 cm [x = 16 cm]; p39-vv: segments 5 cm and x on one chord, 7 cm and 3 cm on the other [x = 4.2 cm]; p39-hhh: TA = 18 cm and TB = 2 cm [TP = 6 cm]."
    },
-   "doneWhen": "Each targeted whole task appears once, or its exact repetition has an explicit instructional purpose.",
+   "doneWhen": "All six later copies retain their original structures but have different numerical givens and the stated new answers.",
    "from": [
-    "c16"
+    "c12"
    ],
    "sequences": [
     "mixed-practice"
@@ -196,11 +325,47 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:22:28.855Z"
+     "at": "2026-10-15T09:18:56.691Z"
     }
    ],
-   "commentId": "bec0406a-cd8e-44bf-bb08-8f87ada5f43a",
-   "postedAt": "2026-10-11T12:22:28.879Z"
+   "commentId": "136d30ff-10eb-4f8d-95a9-37aa9867b8b7",
+   "postedAt": "2026-10-15T09:18:56.979Z"
+  },
+  {
+   "id": "pf-79902c3a39",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p42-q3",
+     "blockId": "p42-q3",
+     "hash": "0c86f3f3b7711fa7843b7128906dff676d752c57fbd87b526b5cc35ccf6865de"
+    }
+   ],
+   "finding": "Enlarge the outer circle while keeping the inner circle and chord line fixed.",
+   "breakdown": "The follow-up makes the shared perpendicular distance from the centre the fixed quantity while the outer chord changes.",
+   "checked": "The inner radius 13 cm and half-chord 5 cm give perpendicular distance 12 cm. With outer radius 20 cm, the new half-chord is √(400 − 144) = 16 cm, giving KN = 32 cm.",
+   "assumptions": "Only the chord-bisector property and Pythagoras already available in the booklet are required.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional part (b): 'The outer radius is increased to 20 cm. The inner circle and the straight line through K, L, M and N stay fixed. Find the new length KN.' [32 cm.]"
+   },
+   "doneWhen": "The additional part follows p42-q3 and explicitly keeps the inner circle and chord line fixed.",
+   "from": [
+    "c13"
+   ],
+   "sequences": [
+    "mixed-practice"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:18:56.691Z"
+    }
+   ],
+   "commentId": "3f9bcf2b-09ac-429f-87c8-767bc8338827",
+   "postedAt": "2026-10-15T09:18:56.981Z"
   },
   {
    "id": "pf-517799c2fc",
@@ -218,17 +383,17 @@
      "hash": "cd802a5e0aeb2d30b7335397ae4bdf5809f0c9421870be1a96f49593538432c5"
     }
    ],
-   "finding": "The cyclicity proofs require converse criteria that the preceding teaching never states.",
-   "breakdown": "Establishing supplementary opposite angles or an exterior angle equal to the opposite interior angle does not follow the stated direction of either cyclic-quadrilateral theorem. Students need a criterion permitting the conclusion that the quadrilateral is cyclic.",
-   "checked": "p25-definition identifies cyclic quadrilaterals by circumference membership. p25-opposite-angles and p25-exterior-angle give forward properties; the examples and guided questions apply those properties to quadrilaterals already known to be cyclic. Earlier angle and chord teaching supplies no converse cyclicity test.",
-   "assumptions": "Elementary angle sums and congruence are prior knowledge; converse cyclicity criteria are new circle-geometry content.",
+   "finding": "The proofs require a converse criterion for cyclicity that preceding teaching does not state.",
+   "breakdown": "Showing that opposite angles sum to 180° establishes cyclicity only through the converse theorem. The earlier properties concern quadrilaterals already known to be cyclic and do not justify reversing the implication.",
+   "checked": "The complete teaching supplies the definition, supplementary opposite angles and exterior-angle equality, but no converse test. In p46-q7-a, the diameter gives right angles at C and D, so the proposed supplementary-angle criterion completes the proof. The labelled challenge status does not supply this new theorem.",
+   "assumptions": "Ordinary angle sums and previously taught circle properties are available. Calculator use is irrelevant.",
    "repair": {
     "type": "add-teaching",
-    "proposal": "Before p46-q6, add: “To prove that a quadrilateral is cyclic, it is enough to show that one pair of opposite interior angles sums to 180°. Equivalently, show that an exterior angle equals the opposite interior angle. These are converse tests of the earlier cyclic-quadrilateral properties.”"
+    "proposal": "Immediately before p46-q6, add: 'To prove a quadrilateral is cyclic, you may show that a pair of opposite interior angles sums to 180°. This is the converse of the cyclic-quadrilateral angle property.'"
    },
-   "doneWhen": "Both questions have an explicitly taught criterion justifying their final cyclicity conclusion.",
+   "doneWhen": "An explicit converse criterion is available before both proofs.",
    "from": [
-    "c19"
+    "c14"
    ],
    "sequences": [
     "exam-questions"
@@ -237,147 +402,47 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:22:28.855Z"
+     "at": "2026-10-15T09:18:56.691Z"
     }
    ],
-   "commentId": "98a2b9fa-0a02-43c4-9dd1-6a6b1382a2d6",
-   "postedAt": "2026-10-11T12:22:28.880Z"
+   "commentId": "8a1fb5d3-4277-499c-b9a1-890e5f6261c6",
+   "postedAt": "2026-10-15T09:18:56.986Z"
   },
   {
-   "id": "pf-b54fe1ba37",
+   "id": "pf-90d4bce5ff",
    "kind": "extension",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p17-q6-block",
-     "blockId": "p17-q6-block",
-     "hash": "23b136d7aa089b4b6ee6cdffe75d04eaa5ab7438cecce450f9ec0600a5c10169"
+     "id": "p45-q4",
+     "blockId": "p45-q4",
+     "hash": "1a570e935ad89c12120e7e14a5dfd0ef34e4ab8f27efb49e4939562dd103b69a"
     }
    ],
-   "finding": "Extend the common-chord theorem by comparing centre separations on opposite sides and on the same side of the chord.",
-   "breakdown": "The task asks students to explain when perpendicular centre-to-chord distances are added or subtracted.",
-   "checked": "The half-chord is 4 cm. Pythagoras gives distances 3 cm and √153 cm=3√17 cm. Both configurations are possible: each proposed centre separation lies strictly between the difference and sum of the radii.",
-   "assumptions": "Pythagoras and exact square-root notation are prior knowledge, supported by the separate course booklets. The common-chord theorem is available by the end of this topic.",
+   "finding": "Use a second circumference point to connect the two intercepted arcs with supplementary opposite angles.",
+   "breakdown": "The follow-up connects the central-angle theorem with the cyclic-quadrilateral theorem using the original numerical context.",
+   "checked": "B lies on the minor arc AC, so ∠ABC = 130°. A distinct point D on the major arc gives ∠ADC = 50°. Their sum is 180°, and they are opposite angles of cyclic quadrilateral ABCD.",
+   "assumptions": "Both angle properties have already been taught.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p17-q6-block, optionally ask: “Two intersecting circles have radii 5 cm and 13 cm and a common chord 8 cm long. Find the distance between their centres when the centres are (a) on opposite sides of the chord and (b) on the same side. Explain.” Expected answers: (a) 3+3√17 cm; (b) 3√17−3 cm. Both centres lie on the chord’s perpendicular bisector."
+    "proposal": "Append optional parts: (b) A new point D lies on the major arc AC. Find ∠ADC. [50°.] (c) Find ∠ABC + ∠ADC. [180°.] (d) Explain why this agrees with a property of cyclic quadrilaterals. [A, B, C and D lie on one circle, and the opposite angles at B and D are supplementary.]"
    },
-   "doneWhen": "The optional task includes both configurations and requires an explanation of the sum or difference.",
+   "doneWhen": "The follow-up appears as separate parts of p45-q4 and uses its existing points and central angle.",
    "from": [
-    "c7"
+    "c15"
    ],
    "sequences": [
-    "chord-properties"
+    "exam-questions"
    ],
    "state": "pending",
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:22:28.855Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-d98ce45153",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p27-r",
-     "blockId": "p27-q2-continuation",
-     "hash": "dfd11b37ad0f03ad66c378380ce9538cfced0d093f4d99835e625d6529c482f2"
+     "at": "2026-10-15T09:18:56.691Z"
     }
    ],
-   "finding": "Generalise the angle relationships of a cyclic quadrilateral with parallel opposite sides.",
-   "breakdown": "Students combine cyclic opposite-angle sums with parallel-line co-interior angles.",
-   "checked": "For AB parallel to CD, A+D=180° and B+C=180°. Cyclicity gives A+C=180° and B+D=180°. Thus A=B=θ and C=D=180°−θ; all four angles are right angles exactly when θ=90°.",
-   "assumptions": "ABCD is a nondegenerate cyclic quadrilateral named in boundary order, with 0°<θ<180°. Parallel-line angle relationships are prior learning and are used in the existing exercise.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p27-r, optionally ask: “ABCD is a cyclic quadrilateral with AB parallel to CD. Let angle A=θ. Predict the other three angles, then justify your prediction. Under what condition is ABCD a rectangle?” Expected answer: B=θ, C=D=180°−θ; it is a rectangle exactly when θ=90°."
-   },
-   "doneWhen": "Students justify the symbolic angles using both taught relationships.",
-   "from": [
-    "c9"
-   ],
-   "sequences": [
-    "cyclic-quadrilaterals"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:22:28.855Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-5f958d8339",
-   "kind": "variation-sequence",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p33-q2-k",
-     "blockId": "p33-q2",
-     "hash": "c8affb18e6b1113d1cfa1fa6a12797d5df8f528f48378d94244e8049ad2288a3"
-    }
-   ],
-   "finding": "Vary the external secant length while fixing the tangent length to expose the external-times-whole product.",
-   "breakdown": "The existing questions vary several givens together. This run isolates how whole and internal secant lengths change.",
-   "checked": "With tangent length 12 cm, whole length is 144/e and internal length is 144/e−e. The proposed external lengths are positive and less than 12 cm, so every internal length is positive. All numerical answers are correct.",
-   "assumptions": "Students use the tangent–secant product rule and linear-equation solving already available in this topic.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p33-q2-k, optionally add: “A tangent is 12 cm long. A secant from the same external point has external length e and internal length x. Predict how the whole secant and x change as e increases, then find both for e=3, 4, 6 and 8 cm. Explain using e(e+x)=144.” Expected whole/internal lengths: (48,45), (36,32), (24,18), (18,10) cm; both decrease. Follow with: “A tangent is 10 cm and the external secant is 4 cm. Find the whole and internal lengths.” Expected: 25 cm and 21 cm. Only e varies in the run; tangent length stays fixed."
-   },
-   "doneWhen": "The run includes prediction, four calculations varying one given, an explanation and an unpatterned follow-up.",
-   "from": [
-    "c14"
-   ],
-   "sequences": [
-    "further-tangents-secants"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:22:28.855Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-292913e49f",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p43-q8",
-     "blockId": "p43-q8",
-     "hash": "0be54be95f8661a67b79f187fa527822a871435f070db2abd4c19acb924da1a3"
-    }
-   ],
-   "finding": "Generalise the incircle tangent-length equations into formulas and triangle inequalities.",
-   "breakdown": "Students return to the three-equation structure in question 8 and explain the meaning of positive tangent lengths.",
-   "checked": "Writing RB=RC=r, PA=PC=p and QA=QB=q gives r+q=a, r+p=b and p+q=c. Solving yields the proposed formulas, and their positivity gives exactly the three strict triangle inequalities.",
-   "assumptions": "PQR is a nondegenerate triangle with its incircle. Equal tangents and simultaneous-equation solving are available by this point.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p43-q8, optionally ask: “In triangle PQR, write RQ=a, PR=b and PQ=c. The incircle touches these sides at B, C and A respectively. Find RB, PA and QA in terms of a, b and c. Explain what their positivity tells you about the side lengths.” Expected answer: RB=(a+b−c)/2, PA=(b+c−a)/2, QA=(a+c−b)/2. Positivity gives a+b>c, b+c>a and a+c>b."
-   },
-   "doneWhen": "Students derive the formulas from equal tangents and connect positivity to all three triangle inequalities.",
-   "from": [
-    "c18"
-   ],
-   "sequences": [
-    "mixed-practice"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:22:28.855Z"
-    }
-   ]
+   "commentId": "be892d73-d5b9-4350-ba79-25c13e21bc10",
+   "postedAt": "2026-10-15T09:18:56.989Z"
   }
  ],
  "contextQuestions": [],
@@ -386,17 +451,31 @@
    "sequence": "circle-features",
    "targets": [
     "p5-a",
-    "p5-b",
-    "p5-c",
-    "p5-d",
-    "p5-e",
-    "p5-f",
-    "p5-g",
-    "p5-h"
+    "p5-b"
    ],
-   "observation": "Classification depends on endpoints and passage through the centre, while orientation is irrelevant.",
-   "varies": "Segment orientation, endpoint locations and whether the segment passes through the centre.",
-   "invariant": "A circle with a marked centre and the same three classification options."
+   "observation": "A radius stops at the centre; a diameter continues through it to the opposite circumference.",
+   "varies": "The segment's endpoint on the opposite side of the centre.",
+   "invariant": "Circle representation and upper-right circumference endpoint."
+  },
+  {
+   "sequence": "circle-features",
+   "targets": [
+    "p5-c",
+    "p5-d"
+   ],
+   "observation": "Passing through or starting at the centre is insufficient: the complete segment must have the required endpoints.",
+   "varies": "Whether the segment reaches the circumference on both sides.",
+   "invariant": "Upper-left to lower-right direction and marked centre."
+  },
+  {
+   "sequence": "circle-features",
+   "targets": [
+    "p5-e",
+    "p5-g"
+   ],
+   "observation": "A radius remains a radius when its direction changes.",
+   "varies": "Direction from the centre.",
+   "invariant": "One endpoint at the centre and one on the circumference."
   },
   {
    "sequence": "circle-features",
@@ -405,40 +484,41 @@
     "p6-q3-b",
     "p6-q3-c"
    ],
-   "observation": "A radius must end precisely at the centre and circumference.",
-   "varies": "Whether the complete segment stops at the required endpoints or extends beyond one.",
-   "invariant": "A marked centre, a circle and one candidate segment."
+   "observation": "The whole segment must terminate at the centre and circumference to be a radius.",
+   "varies": "Whether an endpoint extends beyond the circumference or centre.",
+   "invariant": "A straight segment containing a centre-to-circumference portion."
   },
   {
    "sequence": "circle-features",
    "targets": [
-    "p6-q4-a",
     "p6-q4-b",
     "p6-q4-c"
    ],
-   "observation": "A chord is a diameter when it passes through the centre, regardless of orientation.",
-   "varies": "Passage through the centre and orientation.",
-   "invariant": "Both segment endpoints lie on the circumference."
+   "observation": "A diameter's orientation does not determine its classification.",
+   "varies": "Slope of the segment.",
+   "invariant": "Two circumference endpoints and passage through the centre."
   },
   {
    "sequence": "arcs-central-angles",
    "targets": [
+    "p8-ab-task",
     "p8-xy-response",
     "p8-ay-response"
    ],
-   "observation": "The chord endpoints determine which angles are selected, even when the available vertices and segments remain unchanged.",
-   "varies": "The specified chord changes from XY to AY.",
-   "invariant": "The shared circle, point positions and drawn chords."
+   "observation": "The chord endpoints determine which pair of circumference angles to identify.",
+   "varies": "The selected chord and resulting angle vertices.",
+   "invariant": "Four circumference points and the endpoint-tracing method."
   },
   {
    "sequence": "arcs-central-angles",
    "targets": [
-    "p8-central-response",
-    "p8-circumference-response"
+    "p10-q6-a",
+    "p10-q6-b",
+    "p10-q6-c"
    ],
-   "observation": "The same chord supports an angle at the centre and an angle at the circumference.",
-   "varies": "The location of the angle's vertex and the segments students construct.",
-   "invariant": "Chord AB and its endpoints."
+   "observation": "Each pair of radii supplies equal sides of an isosceles triangle.",
+   "varies": "The number and arrangement of triangles formed by radii and chords.",
+   "invariant": "Radii of one circle have equal lengths."
   },
   {
    "sequence": "arcs-central-angles",
@@ -446,8 +526,8 @@
     "p11-q9-a",
     "p11-q9-b"
    ],
-   "observation": "A chord supports circumference angles with vertices in either of its two segments.",
-   "varies": "The segment containing the vertex.",
+   "observation": "A chord can subtend a circumference angle in either segment.",
+   "varies": "The segment containing the angle vertex.",
    "invariant": "Chord AB and the shared diagram."
   },
   {
@@ -458,9 +538,9 @@
     "p13-q1-e",
     "p13-q1-f"
    ],
-   "observation": "The set applies the central-angle and perpendicular-distance relationships in both directions; retain this coverage when adding the missing converse statements.",
-   "varies": "Whether equality of chords or equality of the associated angles/distances is given.",
-   "invariant": "Two chords in one circle linked through their central angles or perpendicular distances."
+   "observation": "The paired tasks distinguish applying a chord property forwards from applying its converse.",
+   "varies": "Whether chord equality or equality of central angles/perpendicular distances is given.",
+   "invariant": "The relationship between equal chords, equal central angles and equal perpendicular distances within one circle."
   },
   {
    "sequence": "chord-properties",
@@ -469,9 +549,9 @@
     "p13-q1-g",
     "p13-q1-h"
    ],
-   "observation": "Different givens lead to the same centre-to-chord perpendicularity conclusion.",
-   "varies": "Equal chord halves, an explicit midpoint, or equal central half-angles.",
-   "invariant": "An isosceles triangle formed by two radii and a chord, with a segment from its vertex to the chord."
+   "observation": "Different givens identify the same perpendicular from the centre to a chord.",
+   "varies": "Midpoint expressed by segment equality, midpoint terminology, or an equal-angle condition.",
+   "invariant": "The centre, chord and requested right angle."
   },
   {
    "sequence": "angle-properties",
@@ -479,19 +559,20 @@
     "p18-example-left",
     "p18-example-right"
    ],
-   "observation": "The position of the unknown determines whether to double or halve.",
-   "varies": "Whether the given angle is at the centre or circumference.",
-   "invariant": "The two angles stand on the same arc."
+   "observation": "Which angle is unknown determines whether to double or halve.",
+   "varies": "The location of the given angle and the unknown.",
+   "invariant": "The central angle is twice the circumference angle on the same arc."
   },
   {
    "sequence": "angle-properties",
    "targets": [
-    "p19-q1-c",
-    "p19-q1-d"
+    "p21-q6-a",
+    "p21-q6-b",
+    "p21-q6-c"
    ],
-   "observation": "The central-angle relationship works in both directions.",
-   "varies": "Which named angle is given and which is requested.",
-   "invariant": "The shared circle and angle endpoints."
+   "observation": "The diameter theorem remains useful when the required triangle angle is given directly, assembled or split.",
+   "varies": "Whether an additional angle must be added or subtracted.",
+   "invariant": "Two inscribed right triangles share diameter AB."
   },
   {
    "sequence": "angle-properties",
@@ -500,9 +581,9 @@
     "p23-q10-b",
     "p23-q10-c"
    ],
-   "observation": "The semicircle property follows when the central angle reaches 180°.",
+   "observation": "The semicircle theorem is the 180° central-angle case of the general relationship.",
    "varies": "The central angle changes from 140° to 180°.",
-   "invariant": "The circumference angle stands on the same arc as the central angle."
+   "invariant": "The circumference angle is half the central angle on the same arc."
   },
   {
    "sequence": "angle-properties",
@@ -510,9 +591,9 @@
     "p24-q11-a",
     "p24-q11-b"
    ],
-   "observation": "The same exterior-angle argument proves the theorem whether component angles must be added or subtracted.",
+   "observation": "The proof must combine the doubled component angles differently according to the centre's position.",
    "varies": "The centre lies inside or outside the circumference angle.",
-   "invariant": "Equal-radius triangles and a collinear extension through the centre."
+   "invariant": "Equal radii create isosceles triangles and doubled exterior angles."
   },
   {
    "sequence": "tangents-secants",
@@ -522,41 +603,20 @@
     "p29-q2-c",
     "p29-q2-d"
    ],
-   "observation": "Alternate-segment equality can be read in either direction for either chord at the contact point.",
-   "varies": "Which member of each equal-angle pair is supplied, and which chord is selected.",
-   "invariant": "The labelled circle, triangle and tangent remain the same."
+   "observation": "Alternate-segment equality can be read in either direction and for either chord through the contact point.",
+   "varies": "The named starting angle and the chord selected.",
+   "invariant": "The diagram and the two corresponding angle pairs."
   },
   {
    "sequence": "tangents-secants",
    "targets": [
-    "p29-q3-a",
-    "p29-q3-b"
+    "p29-q3-d",
+    "p29-q3-e",
+    "p29-q3-f"
    ],
-   "observation": "The two non-right angles in a radius–tangent triangle are complementary, regardless of which is unknown.",
-   "varies": "The given and unknown exchange central and external roles.",
-   "invariant": "A tangent–radius right triangle supplies the same angle-sum method."
-  },
-  {
-   "sequence": "tangents-secants",
-   "targets": [
-    "p30-q5-a",
-    "p30-q5-b",
-    "p30-q5-c"
-   ],
-   "observation": "Alternate-segment transfer followed by triangle angle sum works across orientations.",
-   "varies": "The tangent orientation, given angles and positions of unknowns.",
-   "invariant": "Two alternate-segment correspondences and one triangle angle-sum calculation."
-  },
-  {
-   "sequence": "further-tangents-secants",
-   "targets": [
-    "p34-q3-a",
-    "p34-q3-b",
-    "p34-q3-c"
-   ],
-   "observation": "Students distinguish whole lengths from the individual segments required by each product rule.",
-   "varies": "The configuration changes from intersecting chords to two secants to tangent–secant.",
-   "invariant": "x denotes a whole length rather than an internal segment."
+   "observation": "The angle between tangents depends on the interior central angle; a reflex central angle must first be converted.",
+   "varies": "The central angle value, orientation and finally whether the marked central angle is reflex.",
+   "invariant": "Two tangent–radius right angles and the quadrilateral angle sum."
   },
   {
    "sequence": "further-tangents-secants",
@@ -565,41 +625,22 @@
     "p34-q4-b",
     "p34-q4-c"
    ],
-   "observation": "Each circle-product configuration can produce a quadratic equation when two factors involve the unknown.",
-   "varies": "The geometric product rule.",
-   "invariant": "Form a product equation, expand it and rearrange to the supplied quadratic."
+   "observation": "Each circle configuration produces the same quadratic-product structure.",
+   "varies": "Intersecting chords, two secants, then tangent and secant.",
+   "invariant": "Form a product x(x+k), equate it to a known product, expand and rearrange to zero."
   },
   {
-   "sequence": "mixed-practice",
+   "sequence": "further-tangents-secants",
    "targets": [
-    "p36-q1-a",
-    "p36-q1-b",
-    "p36-q1-c"
+    "p33-q2-g",
+    "p33-q2-h",
+    "p33-q2-i",
+    "p33-q2-j",
+    "p33-q2-k"
    ],
-   "observation": "Equal chords continue to determine equal central angles when the remaining angle total changes.",
-   "varies": "A directly supplied matching angle, a straight-angle remainder, and a full-turn remainder.",
-   "invariant": "Two equal chords and their equal central angles; retain the comparison if the duplicate first item is removed or explicitly justified."
-  },
-  {
-   "sequence": "mixed-practice",
-   "targets": [
-    "p37-v",
-    "p37-w",
-    "p37-x"
-   ],
-   "observation": "Alternate-segment equality applies to acute and obtuse sectors, and selecting the tangent ray determines which angle transfers.",
-   "varies": "Acute given, obtuse given, and a supplementary sector requiring subtraction.",
-   "invariant": "An inscribed triangle and a tangent at one vertex."
-  },
-  {
-   "sequence": "mixed-practice",
-   "targets": [
-    "p40-mmm",
-    "p40-nnn"
-   ],
-   "observation": "The tangent product uses the external and whole secant lengths, whichever of those is unknown.",
-   "varies": "Unknown whole secant versus unknown external segment.",
-   "invariant": "One tangent, one secant, and a final subtraction to find the internal segment."
+   "observation": "The tangent–secant equation works whether the internal segment or the tangent is unknown.",
+   "varies": "Orientation and values, followed by the position of the unknown.",
+   "invariant": "Tangent squared equals external segment times whole secant."
   }
  ],
  "notReliablyReviewed": [
@@ -611,11 +652,20 @@
     "p24-q11-c-diagram",
     "p24-q11-d-diagram"
    ],
-   "reason": "The attached page 24 image does not show the complete proof diagrams. The proof methods were reviewed using the supplied specifications, but their visual correspondence with the angle decompositions could not be independently checked."
+   "reason": "The attached page image does not show the proof diagrams sufficiently to inspect their angle sectors visually. The proof review uses the supplied diagram specifications."
+  },
+  {
+   "sequence": "further-tangents-secants",
+   "targets": [
+    "p35-q7-circle",
+    "p35-q7-paired-triangles",
+    "p35-q8-diagram"
+   ],
+   "reason": "These recovered diagrams are described in the sequence but are not visible in the attached page image; their written mathematical specifications were reviewed."
   }
  ],
- "reviewedRevision": 7,
- "reviewedAt": "2026-10-11T12:22:28.855Z",
+ "reviewedRevision": 13,
+ "reviewedAt": "2026-10-15T09:18:56.691Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -639,16 +689,16 @@
     "images": 5,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 41637,
+     "input_tokens": 42062,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2290,
-     "reasoning_output_tokens": 147
+     "output_tokens": 1476,
+     "reasoning_output_tokens": 50
     },
-    "elapsedMs": 65452,
-    "candidates": 1,
+    "elapsedMs": 40936,
+    "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "arcs-central-angles",
@@ -657,16 +707,16 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 40589,
+     "input_tokens": 41014,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2530,
-     "reasoning_output_tokens": 164
+     "output_tokens": 2298,
+     "reasoning_output_tokens": 148
     },
-    "elapsedMs": 74610,
+    "elapsedMs": 64001,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "chord-properties",
@@ -675,16 +725,16 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 51411,
-     "cached_input_tokens": 12544,
+     "input_tokens": 51836,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4139,
-     "reasoning_output_tokens": 217
+     "output_tokens": 3548,
+     "reasoning_output_tokens": 129
     },
-    "elapsedMs": 112095,
+    "elapsedMs": 92798,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "angle-properties",
@@ -693,13 +743,13 @@
     "images": 7,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 56671,
+     "input_tokens": 57087,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4750,
-     "reasoning_output_tokens": 270
+     "output_tokens": 4374,
+     "reasoning_output_tokens": 189
     },
-    "elapsedMs": 127529,
+    "elapsedMs": 98323,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -711,13 +761,13 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 40927,
-     "cached_input_tokens": 14592,
+     "input_tokens": 41343,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2555,
-     "reasoning_output_tokens": 122
+     "output_tokens": 2801,
+     "reasoning_output_tokens": 207
     },
-    "elapsedMs": 69237,
+    "elapsedMs": 74487,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -729,16 +779,16 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 46836,
-     "cached_input_tokens": 14592,
+     "input_tokens": 47252,
+     "cached_input_tokens": 47104,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4667,
-     "reasoning_output_tokens": 294
+     "output_tokens": 3230,
+     "reasoning_output_tokens": 240
     },
-    "elapsedMs": 129972,
+    "elapsedMs": 80225,
     "candidates": 2,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 2
    },
    {
     "id": "further-tangents-secants",
@@ -747,16 +797,16 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 44555,
+     "input_tokens": 44976,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3601,
-     "reasoning_output_tokens": 148
+     "output_tokens": 3589,
+     "reasoning_output_tokens": 233
     },
-    "elapsedMs": 103606,
+    "elapsedMs": 91103,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "mixed-practice",
@@ -765,14 +815,14 @@
     "images": 8,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 78512,
-     "cached_input_tokens": 14592,
+     "input_tokens": 78928,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4562,
-     "reasoning_output_tokens": 178
+     "output_tokens": 4300,
+     "reasoning_output_tokens": 283
     },
-    "elapsedMs": 123955,
-    "candidates": 2,
+    "elapsedMs": 108738,
+    "candidates": 1,
     "discarded": [],
     "suggestions": 1
    },
@@ -783,13 +833,13 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 47413,
+     "input_tokens": 47829,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1465,
-     "reasoning_output_tokens": 147
+     "output_tokens": 1768,
+     "reasoning_output_tokens": 235
     },
-    "elapsedMs": 56967,
+    "elapsedMs": 57788,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -800,54 +850,16 @@
     "ids": [
      "c1"
     ],
-    "reason": "The missing-new-content test is not met: quarter-circle and half-circle terminology is elementary prior knowledge well below this booklet’s deductive-geometry level, with circle and sector content also taught separately in the course. The labelled drawing activity does not establish a substantial unsupported new method.",
+    "reason": "The named angle EFA explicitly identifies E and A on its arms. Selecting those named endpoints gives chord AE without requiring a new rule about choosing farther intersections. The candidate's claimed missing decision is clear in context.",
     "candidates": [
      {
       "id": "c1",
-      "sequence": "circle-features",
-      "kind": "missing-prerequisite",
-      "targets": [
-       "p4-sector-response",
-       "p7-q6-diagram-response",
-       "p7-q6-b",
-       "p7-q6-c",
-       "p7-q6-g"
-      ],
-      "finding": "Quadrant and semicircle are introduced as names beside blank drawing scaffolds without teaching their meanings before students must construct and identify them."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c2"
-    ],
-    "reason": "The mathematics is correct, but this definition-based extension was not selected among the four suggestions that best develop the booklet’s deductive and relational content.",
-    "candidates": [
-     {
-      "id": "c2",
-      "sequence": "circle-features",
-      "kind": "extension",
-      "targets": [
-       "p7-q7"
-      ],
-      "finding": "Ask students whether the feature categories can overlap."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c3"
-    ],
-    "reason": "The ambiguity test defeats it: ordinary angle notation already names E and A as the endpoints forming angle EFA. Identifying chord EA requires no exterior-secant angle-size theorem or new choice rule.",
-    "candidates": [
-     {
-      "id": "c3",
       "sequence": "arcs-central-angles",
       "kind": "unsupported-transition",
       "targets": [
        "p11-q8-d"
       ],
-      "finding": "The exterior angle EFA requires students to choose among two circle intersections on each ray, whereas all preceding angle-identification teaching uses a centre or circumference vertex with a single endpoint on each arm."
+      "finding": "The exterior angle EFA introduces two circle intersections on each arm without teaching how to choose the chord endpoints."
      }
     ]
    },
@@ -855,33 +867,33 @@
     "ids": [
      "c4"
     ],
-    "reason": "The mathematics is correct when T is a distinct point on the same open arc as P, but this suggestion was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "The mathematics is correct and the follow-up is eligible, but it is not among the four strongest suggestions retained for the booklet.",
     "candidates": [
      {
       "id": "c4",
-      "sequence": "arcs-central-angles",
+      "sequence": "angle-properties",
       "kind": "extension",
       "targets": [
-       "p11-q9"
+       "p23-q10-block"
       ],
-      "finding": "Explain how an angle's vertex location determines which arc it stands on."
+      "finding": "Extend the special-case comparison across a straight central angle."
      }
     ]
    },
    {
     "ids": [
-     "c6"
+     "c5"
     ],
-    "reason": "The proposed calculations are correct once the converses are supplied, but the run changes both the given relationship and requested quantity rather than isolating one varying feature. Its preparation also overlaps the smaller repair retained for c5.",
+    "reason": "Not retained within the four-suggestion booklet limit. Its sequence also changes from finding an individual angle to finding a sum, weakening the intended variation of one feature.",
     "candidates": [
      {
-      "id": "c6",
-      "sequence": "chord-properties",
+      "id": "c5",
+      "sequence": "cyclic-quadrilaterals",
       "kind": "variation-sequence",
       "targets": [
-       "p12-guided-block"
+       "p26-q2"
       ],
-      "finding": "Contrast each chord relationship with its converse using one unchanged circle structure."
+      "finding": "Hold one given angle fixed while changing whether the target is an interior or exterior angle at the same or opposite vertex."
      }
     ]
    },
@@ -889,120 +901,33 @@
     "ids": [
      "c8"
     ],
-    "reason": "The proof and equality condition are correct, but the task anticipates the theorem explicitly taught in the next topic. Other suggestions provide more additional value.",
+    "reason": "Existing p29-q3-d through p29-q3-f already compare the same two-tangent configuration with changed central angles, including a reflex-angle case. The proposed run repeats a relationship already exposed by that practice.",
     "candidates": [
      {
       "id": "c8",
-      "sequence": "angle-properties",
+      "sequence": "tangents-secants",
+      "kind": "variation-sequence",
+      "targets": [
+       "p29-q3"
+      ],
+      "finding": "Add a short run varying only the interior central angle in the two-tangent configuration."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c9"
+    ],
+    "reason": "The proposed extension follows a guided teaching question rather than an existing practice question, so it fails the required placement test for extensions.",
+    "candidates": [
+     {
+      "id": "c9",
+      "sequence": "tangents-secants",
       "kind": "extension",
-      "targets": [
-       "p24-q11"
-      ],
-      "finding": "Generalise the opposite-side angle calculations into a theorem about cyclic quadrilaterals."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c10"
-    ],
-    "reason": "The immediately preceding exercise defeats the missing-review claim: p27-j and p27-t use triangle angle sums, while p27-s and p27-u use equal-radius isosceles triangles and their base-angle calculations. Both named pieces are already practised immediately beforehand.",
-    "candidates": [
-     {
-      "id": "c10",
-      "sequence": "tangents-secants",
-      "kind": "opening-review",
-      "targets": [
-       "p28-examples",
-       "p28-example-1",
-       "p28-example-2"
-      ],
-      "finding": "The topic has no opening review of triangle angle sum or equal base angles in an isosceles triangle, although both are direct steps in its introductory examples."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c11"
-    ],
-    "reason": "The missing-method test is not met. Equal radii, equal tangents and the common side supply an ordinary SSS congruence deduction using assumed prior geometry. Combining these taught facts to justify angle bisection is part of the stated deductive-reasoning objective.",
-    "candidates": [
-     {
-      "id": "c11",
-      "sequence": "tangents-secants",
-      "kind": "guided-practice",
       "targets": [
        "p28-guided-c"
       ],
-      "finding": "Guided Practice c requires students to establish that OP bisects the 80-degree angle, but no preceding example or teaching states or demonstrates that deduction."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c12"
-    ],
-    "reason": "The domain 0<t<180 and all three formulas are correct, but this extension was not selected among the four strongest suggestions; its calculations closely repeat existing tangent-angle work.",
-    "candidates": [
-     {
-      "id": "c12",
-      "sequence": "tangents-secants",
-      "kind": "extension",
-      "targets": [
-       "p31-q10"
-      ],
-      "finding": "Generalise the angle relationships in the two-tangent configuration."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c15"
-    ],
-    "reason": "The positive-length argument and factorisation are correct, but this converse extension was not selected among the four strongest booklet-wide suggestions.",
-    "candidates": [
-     {
-      "id": "c15",
-      "sequence": "further-tangents-secants",
-      "kind": "extension",
-      "targets": [
-       "p34-q5"
-      ],
-      "finding": "Ask whether the converse of question 5 holds."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c17"
-    ],
-    "reason": "The sharp-jump test is not met. Earlier mixed questions p42-q3 and p42-q4 already require constructing a useful right triangle, and p42-q5 uses a difference between a radius and another segment. Question 9 is a closing challenge applying taught perpendicularity, parallel-line geometry and Pythagoras to a new configuration.",
-    "candidates": [
-     {
-      "id": "c17",
-      "sequence": "mixed-practice",
-      "kind": "difficulty-jump",
-      "targets": [
-       "p43-q9"
-      ],
-      "finding": "p43-q9 moves from supplied triangle geometry and tangent-length equations to an unmodelled auxiliary construction joining two unequal circles."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c20"
-    ],
-    "reason": "The symbolic angle calculations are correct for the nondegenerate displayed configuration, including the diameter conclusion when A+B=180°. It was not selected among the four strongest suggestions and depends on the converse preparation retained in c19.",
-    "candidates": [
-     {
-      "id": "c20",
-      "sequence": "exam-questions",
-      "kind": "extension",
-      "targets": [
-       "p46-q6"
-      ],
-      "finding": "Generalise the opposite-angle relationship in the quadrilateral formed by angle bisectors."
+      "finding": "Follow the guided configuration through a numerical change in the angle between its tangents."
      }
     ]
    }
@@ -1010,8 +935,8 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/circle-geometry-v1/candidates-low-1791721201814.json",
+  "candidateFile": ".booklet-work/pedagogy-review/circle-geometry-v1/candidates-low-1792055822918.json",
   "errors": []
  },
- "postedRevision": 8
+ "postedRevision": 14
 }

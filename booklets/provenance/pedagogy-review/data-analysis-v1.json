@@ -5,6 +5,298 @@
  "assumptions": {},
  "findings": [
   {
+   "id": "pf-3adf6d1f99",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p8-q6-block",
+     "blockId": "p8-q6-block",
+     "hash": "277b51990cac27ff472b26ec8eb02fdc750b2a2f6630df78d0852509afcb26a0"
+    }
+   ],
+   "finding": "Explain when sold and unsold loaves must have equal ranges.",
+   "breakdown": "The task generalises the existing bakery calculation using maximum, minimum and range.",
+   "checked": "For a constant daily total T, unsold values are T minus sales, reversing the endpoints and preserving their difference. The proposed counterexample has sales range 10 and unsold range 0.",
+   "assumptions": "Daily production and sales are nonnegative counts, with sales no greater than production.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After the range exercise, offer: 'If the bakery makes the same number of loaves each day, must the range sold equal the range not sold? Explain. Is equality guaranteed if production varies?' Expected answer: constant production reverses the maximum and minimum, preserving the range. Variable production does not guarantee equality: producing 50 and 60 and selling 30 and 40 leaves 20 unsold on both days."
+   },
+   "doneWhen": "The optional task asks for the endpoint explanation and a counterexample for varying production.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "range"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T07:35:24.648Z"
+    }
+   ],
+   "commentId": "617b6a76-3f3a-4442-abce-9258e78bac70",
+   "postedAt": "2026-10-11T07:37:18.280Z"
+  },
+  {
+   "id": "pf-69893ab5cf",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p14-q10c",
+     "blockId": "p14-q10-block",
+     "hash": "255f0fa0aa71d83329868df4ddfac173826c5370b128d46fe6f5b10138b2bbf0"
+    },
+    {
+     "id": "p14-q10d",
+     "blockId": "p14-q10-block",
+     "hash": "255f0fa0aa71d83329868df4ddfac173826c5370b128d46fe6f5b10138b2bbf0"
+    },
+    {
+     "id": "p14-q10e",
+     "blockId": "p14-q10-block",
+     "hash": "255f0fa0aa71d83329868df4ddfac173826c5370b128d46fe6f5b10138b2bbf0"
+    },
+    {
+     "id": "p14-q10g",
+     "blockId": "p14-q10-block",
+     "hash": "255f0fa0aa71d83329868df4ddfac173826c5370b128d46fe6f5b10138b2bbf0"
+    },
+    {
+     "id": "p14-q10h",
+     "blockId": "p14-q10-block",
+     "hash": "255f0fa0aa71d83329868df4ddfac173826c5370b128d46fe6f5b10138b2bbf0"
+    },
+    {
+     "id": "p14-q10i",
+     "blockId": "p14-q10-block",
+     "hash": "255f0fa0aa71d83329868df4ddfac173826c5370b128d46fe6f5b10138b2bbf0"
+    },
+    {
+     "id": "p14-q9",
+     "blockId": "p14-q9-block",
+     "hash": "8ce35f8ea551fb72d67f2790e88b2b7dc5efe7e80d8098a29d884dfc5d2f9f14"
+    }
+   ],
+   "finding": "Missing-observation questions require a connection from the required total to the unknown observation that preceding teaching does not state.",
+   "breakdown": "The inverse-mean callout and q8 establish the required total, but students must then independently connect that total to the sum containing the blank. The all-equal opening cases can be answered by copying the mean and do not expose this decision.",
+   "checked": "The earlier teaching supplies forward means and equal sharing. p14-inverse-mean-teaching supplies total = mean × count, but neither it nor preceding student-facing practice models subtracting the known observations. The explicit missing-value examples occur later, in p15-examples.",
+   "assumptions": "Students know multiplication and subtraction. Calculator access does not supply the missing connection.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Before p14-q10c, add: “Count all the values, including the blank. Required total = mean × number of values. Missing value = required total − total of the known values.”"
+   },
+   "doneWhen": "The connection is explicit before the first missing-value case where copying the mean fails.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "mean"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T12:11:56.702Z"
+    }
+   ],
+   "commentId": "db68bb1a-f32f-458b-990e-f2b73ecd4101",
+   "postedAt": "2026-10-15T12:11:56.875Z"
+  },
+  {
+   "id": "pf-55d09277ec",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p15-definition",
+     "blockId": "p15-definition",
+     "hash": "54c7ac67cfb732093060a289d8f31040c5fd4b829eb3a3d1a74adcc43362fbd3"
+    },
+    {
+     "id": "p15-examples",
+     "blockId": "p15-examples",
+     "hash": "7a63d62127698cdc9f51d01cf0e63db61866819b1d36b7101efc9a9acc48685c"
+    }
+   ],
+   "finding": "The mean-problems examples depend on inverse-operation equation solving without an opening rehearsal.",
+   "breakdown": "Both examples require students to remove a denominator and isolate an unknown. Substituting into the mean formula does not rehearse those algebraic operations.",
+   "checked": "No preceding teaching review rehearses equation solving. The immediately preceding mean exercise asks for totals, missing observations and counts, but does not present equations to solve; its answer explanations cannot supply the missing rehearsal.",
+   "assumptions": "Equation solving is prior knowledge from the course's algebra booklets. A calculator is assumed for arithmetic, but it does not replace the algebraic decisions shown.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p15-definition, ask: 'Solve (a) x+9=25; (b) x/4=6; (c) (13+x)/5=7.' Expected answers: 16, 24, 22."
+   },
+   "doneWhen": "Students rehearse undoing addition and division, separately and together, before the mean-problems examples.",
+   "from": [
+    "c9"
+   ],
+   "sequences": [
+    "mean-problems"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T07:35:24.648Z"
+    }
+   ],
+   "commentId": "c7231ec4-42df-4510-a58d-f6521e1cfa97",
+   "postedAt": "2026-10-11T07:37:18.273Z"
+  },
+  {
+   "id": "pf-bcb4dc085a",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p22-q8",
+     "blockId": "p22-q8-block",
+     "hash": "8e37e0de9f5d0e729049c5b85c4d13e29eac35a86f14be136b438bb547ae2987"
+    }
+   ],
+   "finding": "Compare adding an observation with replacing an extreme observation.",
+   "breakdown": "The follow-up exposes how changing the number of observations can change the middle position even when replacing an extreme leaves the median unchanged.",
+   "checked": "Adding 17 to the original eight scores gives a fifth score of 17. Adding 55 instead gives a fifth score of 18. Replacing 20 with 55 leaves the middle pair 16 and 18. The median teaching supplies every required method.",
+   "assumptions": "Each new part starts from the original dataset.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional parts after p22-q8-d: (e) Start with the original dataset and add one score of 17. What is the new median? Answer: 17. (f) Start with the original dataset and add one score of 55. What is the new median? Answer: 18. (g) Explain why adding 55 changes the median when replacing 20 with 55 does not. Answer: Adding 55 gives nine scores, whose middle score is 18; replacing 20 keeps eight scores, whose middle pair remains 16 and 18."
+   },
+   "doneWhen": "The follow-up distinguishes changes to the middle positions caused by adding and replacing observations.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "median"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T12:11:56.702Z"
+    }
+   ],
+   "commentId": "dcfe4ec6-260b-4435-9c87-4f4d81303592",
+   "postedAt": "2026-10-15T12:11:56.881Z"
+  },
+  {
+   "id": "pf-434aa1b21c",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p23-summary-group",
+     "blockId": "p23-summary-group",
+     "hash": "bd96b05e963448588b28caca1c38513e4aa77b25ffe61fcd916c2d1ebc9ded5e"
+    },
+    {
+     "id": "p23-example-group",
+     "blockId": "p23-example-group",
+     "hash": "df89f43028c7996cd95244bdad8977d4207dd02eaafa3a1d9fd7b4b9af9edd2d"
+    }
+   ],
+   "finding": "The combined worked example uses mean, mode and range without an opening rehearsal of those previously taught methods.",
+   "breakdown": "Students must retrieve and apply three separate procedures. The summary table supplies the procedures but does not check students' recall before the example combines them.",
+   "checked": "All three methods were taught earlier. The immediately preceding median topic rehearses ordering and middle values, including the mean of a middle pair, but does not rehearse a general dataset mean, mode or range in its supplied review or practice.",
+   "assumptions": "Teacher-led delivery allows the teacher to respond to review gaps. Calculator use is assumed; the missing rehearsal concerns choosing and applying the statistical procedures.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p23-summary-group, ask: '1. For 4, 9, 2, 9, 6, identify the maximum and minimum and calculate the range. 2. Find the mode: (a) 3, 5, 3, 7, 5, 3; (b) 2, 2, 4, 7, 7. 3. Calculate the mean: (a) 2, 4, 6; (b) 1, 3, 3, 5. Write the total and count before dividing.' Answers: 1. maximum 9, minimum 2, range 7; 2. 3, then 2 and 7; 3. total 12, count 3, mean 4; then total 12, count 4, mean 3."
+   },
+   "doneWhen": "A short review checks mean, mode and range before the combined example, within one page.",
+   "from": [
+    "c12"
+   ],
+   "sequences": [
+    "summary-statistics-list"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T07:35:24.648Z"
+    }
+   ],
+   "commentId": "062490cf-0e20-449a-8bfb-db0c9c34251e",
+   "postedAt": "2026-10-11T07:37:18.276Z"
+  },
+  {
+   "id": "pf-f5ee187062",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p28-q17",
+     "blockId": "p28-q17-block",
+     "hash": "326f1eadf263ec1b0e6e38cfdae3604e2146db6a8918cae6aa20b3e244f25198"
+    }
+   ],
+   "finding": "Extend preservation of the mean to a pair of unequal added observations.",
+   "breakdown": "The pair can preserve the original mean even though neither added observation equals it.",
+   "checked": "The original total is 50. Two added observations must total 10 to preserve a mean of 5, so the partner of 2 is 8. The successive means are 52/11 and 60/12 = 5. Earlier mean teaching supplies the required methods.",
+   "assumptions": "The two observations are added to the original ten-number dataset.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional parts to p28-q17: (b) Instead of adding one number, add two numbers. One is 2. What must the other number be to keep the mean at 5? Answer: 8. (c) Starting with the original dataset, add 2. What is the new mean? Answer: 52/11, approximately 4.73. (d) Then add 8. What is the mean now? Answer: 5."
+   },
+   "doneWhen": "Each part asks one question and the numerical results expose preservation of the mean by the pair.",
+   "from": [
+    "c8"
+   ],
+   "sequences": [
+    "summary-statistics-list"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T12:11:56.702Z"
+    }
+   ],
+   "commentId": "703b804b-6e07-4abb-8df9-6b89f85fb15a",
+   "postedAt": "2026-10-15T12:11:56.884Z"
+  },
+  {
+   "id": "pf-8ac2f02f06",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p32-q1",
+     "blockId": "p32-q1-block",
+     "hash": "3da781751b052b355dcb80c8d28907fd1ca06100406c4ea30ac608e3e22afa12"
+    }
+   ],
+   "finding": "Compare median positions for consecutive dataset sizes.",
+   "breakdown": "Varying only the count exposes the alternation between one middle position and a position between two adjacent observations.",
+   "checked": "The positions for counts 9, 10, 11 and 12 are 5, 5.5, 6 and 6.5. For 28 observations the position is 14.5. The existing examples explain both whole-number and half-number positions; the existing practice does not supply this consecutive-count run.",
+   "assumptions": "Half-number positions denote the two adjacent middle observations, as already taught.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append to p32-q1 the single instruction: “Predict whether each position will be a whole number before calculating.” Add parts asking for the median position when there are (e) 9, (f) 10, (g) 11 and (h) 12 data values. Answers: 5th; between 5th and 6th; 6th; between 6th and 7th. Follow with (i) 28 data values. Answer: between 14th and 15th. Only the count varies; the task and formula stay the same."
+   },
+   "doneWhen": "The four consecutive counts are followed by the unpatterned count, with no additional instructional prompts.",
+   "from": [
+    "c9"
+   ],
+   "sequences": [
+    "median-position"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T12:11:56.702Z"
+    }
+   ],
+   "commentId": "52018482-fc5d-46d2-8d56-c4559071167a",
+   "postedAt": "2026-10-15T12:11:56.886Z"
+  },
+  {
    "id": "pf-6b7d72ac42",
    "kind": "missing-prerequisite",
    "severity": "high",
@@ -107,124 +399,6 @@
    ],
    "commentId": "1692e395-ee51-4af7-9876-dab1719998f1",
    "postedAt": "2026-10-11T07:37:18.268Z"
-  },
-  {
-   "id": "pf-55d09277ec",
-   "kind": "opening-review",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p15-definition",
-     "blockId": "p15-definition",
-     "hash": "54c7ac67cfb732093060a289d8f31040c5fd4b829eb3a3d1a74adcc43362fbd3"
-    },
-    {
-     "id": "p15-examples",
-     "blockId": "p15-examples",
-     "hash": "7a63d62127698cdc9f51d01cf0e63db61866819b1d36b7101efc9a9acc48685c"
-    }
-   ],
-   "finding": "The mean-problems examples depend on inverse-operation equation solving without an opening rehearsal.",
-   "breakdown": "Both examples require students to remove a denominator and isolate an unknown. Substituting into the mean formula does not rehearse those algebraic operations.",
-   "checked": "No preceding teaching review rehearses equation solving. The immediately preceding mean exercise asks for totals, missing observations and counts, but does not present equations to solve; its answer explanations cannot supply the missing rehearsal.",
-   "assumptions": "Equation solving is prior knowledge from the course's algebra booklets. A calculator is assumed for arithmetic, but it does not replace the algebraic decisions shown.",
-   "repair": {
-    "type": "add-review",
-    "proposal": "Before p15-definition, ask: 'Solve (a) x+9=25; (b) x/4=6; (c) (13+x)/5=7.' Expected answers: 16, 24, 22."
-   },
-   "doneWhen": "Students rehearse undoing addition and division, separately and together, before the mean-problems examples.",
-   "from": [
-    "c9"
-   ],
-   "sequences": [
-    "mean-problems"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T07:35:24.648Z"
-    }
-   ],
-   "commentId": "c7231ec4-42df-4510-a58d-f6521e1cfa97",
-   "postedAt": "2026-10-11T07:37:18.273Z"
-  },
-  {
-   "id": "pf-434aa1b21c",
-   "kind": "opening-review",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p23-summary-group",
-     "blockId": "p23-summary-group",
-     "hash": "bd96b05e963448588b28caca1c38513e4aa77b25ffe61fcd916c2d1ebc9ded5e"
-    },
-    {
-     "id": "p23-example-group",
-     "blockId": "p23-example-group",
-     "hash": "df89f43028c7996cd95244bdad8977d4207dd02eaafa3a1d9fd7b4b9af9edd2d"
-    }
-   ],
-   "finding": "The combined worked example uses mean, mode and range without an opening rehearsal of those previously taught methods.",
-   "breakdown": "Students must retrieve and apply three separate procedures. The summary table supplies the procedures but does not check students' recall before the example combines them.",
-   "checked": "All three methods were taught earlier. The immediately preceding median topic rehearses ordering and middle values, including the mean of a middle pair, but does not rehearse a general dataset mean, mode or range in its supplied review or practice.",
-   "assumptions": "Teacher-led delivery allows the teacher to respond to review gaps. Calculator use is assumed; the missing rehearsal concerns choosing and applying the statistical procedures.",
-   "repair": {
-    "type": "add-review",
-    "proposal": "Before p23-summary-group, ask: '1. For 4, 9, 2, 9, 6, identify the maximum and minimum and calculate the range. 2. Find the mode: (a) 3, 5, 3, 7, 5, 3; (b) 2, 2, 4, 7, 7. 3. Calculate the mean: (a) 2, 4, 6; (b) 1, 3, 3, 5. Write the total and count before dividing.' Answers: 1. maximum 9, minimum 2, range 7; 2. 3, then 2 and 7; 3. total 12, count 3, mean 4; then total 12, count 4, mean 3."
-   },
-   "doneWhen": "A short review checks mean, mode and range before the combined example, within one page.",
-   "from": [
-    "c12"
-   ],
-   "sequences": [
-    "summary-statistics-list"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T07:35:24.648Z"
-    }
-   ],
-   "commentId": "062490cf-0e20-449a-8bfb-db0c9c34251e",
-   "postedAt": "2026-10-11T07:37:18.276Z"
-  },
-  {
-   "id": "pf-3adf6d1f99",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p8-q6-block",
-     "blockId": "p8-q6-block",
-     "hash": "277b51990cac27ff472b26ec8eb02fdc750b2a2f6630df78d0852509afcb26a0"
-    }
-   ],
-   "finding": "Explain when sold and unsold loaves must have equal ranges.",
-   "breakdown": "The task generalises the existing bakery calculation using maximum, minimum and range.",
-   "checked": "For a constant daily total T, unsold values are T minus sales, reversing the endpoints and preserving their difference. The proposed counterexample has sales range 10 and unsold range 0.",
-   "assumptions": "Daily production and sales are nonnegative counts, with sales no greater than production.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After the range exercise, offer: 'If the bakery makes the same number of loaves each day, must the range sold equal the range not sold? Explain. Is equality guaranteed if production varies?' Expected answer: constant production reverses the maximum and minimum, preserving the range. Variable production does not guarantee equality: producing 50 and 60 and selling 30 and 40 leaves 20 unsold on both days."
-   },
-   "doneWhen": "The optional task asks for the endpoint explanation and a counterexample for varying production.",
-   "from": [
-    "c2"
-   ],
-   "sequences": [
-    "range"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T07:35:24.648Z"
-    }
-   ],
-   "commentId": "617b6a76-3f3a-4442-abce-9258e78bac70",
-   "postedAt": "2026-10-11T07:37:18.280Z"
   },
   {
    "id": "pf-8f7431f039",
@@ -341,21 +515,12 @@
    "sequence": "range",
    "targets": [
     "p7-q2b",
-    "p7-q2c"
-   ],
-   "observation": "Adding the same amount to every value preserves the range.",
-   "varies": "Every value increases by 1.",
-   "invariant": "Dataset size, relative differences and range."
-  },
-  {
-   "sequence": "range",
-   "targets": [
     "p7-q2c",
     "p7-q2d"
    ],
-   "observation": "Doubling every value doubles the range.",
-   "varies": "Every value is multiplied by 2.",
-   "invariant": "Dataset size, order and relative positions."
+   "observation": "Adding the same amount to every value preserves the range; doubling every value doubles it.",
+   "varies": "A common translation, then a common scale factor.",
+   "invariant": "Five ordered values with the same relative positions and repeated minimum."
   },
   {
    "sequence": "range",
@@ -364,9 +529,19 @@
     "p7-q2e",
     "p7-q2f"
    ],
-   "observation": "Moving the maximum changes the range; moving an interior value without changing either endpoint preserves it.",
+   "observation": "Changing an extreme changes the range, while changing an interior value without crossing an extreme does not.",
    "varies": "First the maximum, then one interior value.",
-   "invariant": "Dataset size and minimum throughout; both extrema in the final pair."
+   "invariant": "The other four values at each transition."
+  },
+  {
+   "sequence": "range",
+   "targets": [
+    "p7-q2f",
+    "p7-q2g"
+   ],
+   "observation": "Moving both extremes down by the same amount preserves their difference.",
+   "varies": "Both extremes decrease by 3.",
+   "invariant": "The interior values and range."
   },
   {
    "sequence": "range",
@@ -374,19 +549,19 @@
     "p7-q2g",
     "p7-q2h"
    ],
-   "observation": "Scaling all values by 0.1 scales the range by 0.1.",
-   "varies": "Numerical scale.",
-   "invariant": "Dataset size, order and relative positions."
+   "observation": "Dividing every value by ten divides the range by ten.",
+   "varies": "The common scale factor.",
+   "invariant": "Relative positions and ordering."
   },
   {
    "sequence": "range",
    "targets": [
-    "p8-q6a",
-    "p8-q6b"
+    "p7-q2g",
+    "p7-q2i"
    ],
-   "observation": "Subtracting every sales value from the same daily total reverses the extrema while preserving their distance.",
-   "varies": "Sold quantities become unsold quantities.",
-   "invariant": "Days and range."
+   "observation": "Negating every value reverses the extremes but preserves their distance.",
+   "varies": "The sign of every value, with p7-q2h intervening.",
+   "invariant": "Absolute magnitudes and range."
   },
   {
    "sequence": "mean",
@@ -396,9 +571,42 @@
     "p12-q1-c",
     "p12-q1-d"
    ],
-   "observation": "Redistributing a fixed total among a fixed number of observations preserves the mean, including when some observations are zero.",
-   "varies": "Distribution of eight blocks across four positions.",
-   "invariant": "Total eight, count four, mean two."
+   "observation": "Redistributing a fixed total among the same number of positions preserves the mean, including when positions are empty.",
+   "varies": "Distribution of eight blocks.",
+   "invariant": "Four positions and eight blocks."
+  },
+  {
+   "sequence": "mean",
+   "targets": [
+    "p12-q1-d",
+    "p12-q1-e"
+   ],
+   "observation": "Removing one block changes each equal share by one quarter.",
+   "varies": "One occupied position loses its single block.",
+   "invariant": "Four positions and the seven-block tower."
+  },
+  {
+   "sequence": "mean",
+   "targets": [
+    "p12-q2-g",
+    "p12-q2-h",
+    "p12-q2-i",
+    "p12-q2-j"
+   ],
+   "observation": "Changing one of two observations changes the mean by half as much.",
+   "varies": "Second observation.",
+   "invariant": "First observation 7 and count two."
+  },
+  {
+   "sequence": "mean",
+   "targets": [
+    "p12-q2-n",
+    "p12-q2-o",
+    "p12-q2-p"
+   ],
+   "observation": "Signs affect the total and therefore the mean.",
+   "varies": "Signs of observations with magnitudes 6 and 16.",
+   "invariant": "Magnitudes and count."
   },
   {
    "sequence": "mean",
@@ -407,19 +615,20 @@
     "p13-q4c",
     "p13-q4d"
    ],
-   "observation": "Removing an observation equal to the mean preserves it, whereas adding a zero changes it.",
-   "varies": "Presence of an equal observation or a zero observation.",
-   "invariant": "The retained observations are all six."
+   "observation": "Removing an observation equal to the mean preserves it, whereas adding zero changes it.",
+   "varies": "Number of observations, then inclusion of zero.",
+   "invariant": "The nonzero observations are all 6."
   },
   {
    "sequence": "mean",
    "targets": [
     "p13-q4e",
-    "p13-q4f"
+    "p13-q4f",
+    "p13-q4g"
    ],
-   "observation": "Reordering observations does not change the mean.",
-   "varies": "Position of the observation five.",
-   "invariant": "Observations, count and total."
+   "observation": "Reordering preserves the mean; doubling every observation doubles it.",
+   "varies": "Order, then scale.",
+   "invariant": "Four observations and their relative multiplicities."
   },
   {
    "sequence": "mean",
@@ -430,8 +639,8 @@
     "p13-q4k",
     "p13-q4l"
    ],
-   "observation": "Changing one observation changes the mean by its change divided by the count.",
-   "varies": "Fifth observation.",
+   "observation": "A change in one observation affects the mean through the total, including a large value and a negative value.",
+   "varies": "Final observation.",
    "invariant": "First four observations and count five."
   },
   {
@@ -441,8 +650,8 @@
     "p13-q5b",
     "p13-q5c"
    ],
-   "observation": "Scaling all observations scales the mean; translating all observations translates the mean.",
-   "varies": "First doubling every observation, then adding one to every observation.",
+   "observation": "Scaling all observations scales the mean; translating all observations translates it.",
+   "varies": "Double every value, then add one to every value.",
    "invariant": "Count five and correspondence between observations."
   },
   {
@@ -453,20 +662,21 @@
     "p13-q5e",
     "p13-q5f"
    ],
-   "observation": "A change to one observation affects the mean according to the fixed count.",
+   "observation": "Changing one value changes the mean by the change divided by five.",
    "varies": "One observation at each step.",
-   "invariant": "Count five."
+   "invariant": "Count five and the other four observations."
   },
   {
    "sequence": "mean",
    "targets": [
     "p13-q5f",
     "p13-q5g",
-    "p13-q5h"
+    "p13-q5h",
+    "p13-q5i"
    ],
-   "observation": "Appending the current mean preserves the mean; appending a greater observation increases it.",
-   "varies": "The appended observation and resulting count.",
-   "invariant": "Previously listed observations are retained."
+   "observation": "Appending the current mean preserves it; an added value above it raises it.",
+   "varies": "Presence and value of an additional observation.",
+   "invariant": "The original observations; the six-value base is fixed from part g onward."
   },
   {
    "sequence": "mean",
@@ -475,9 +685,21 @@
     "p13-q5j",
     "p13-q5k"
    ],
-   "observation": "Dividing every observation by ten divides the mean by ten; reversing every sign reverses the mean's sign.",
-   "varies": "A common scale factor applied to all observations.",
-   "invariant": "Count seven and relative correspondence of observations."
+   "observation": "Dividing every observation by ten and then negating every observation has the corresponding effect on the mean.",
+   "varies": "Common scale factor.",
+   "invariant": "Count and corresponding observations."
+  },
+  {
+   "sequence": "mean",
+   "targets": [
+    "p14-q8a",
+    "p14-q8b",
+    "p14-q8c",
+    "p14-q8d"
+   ],
+   "observation": "Different count–mean pairs can give the same total; multiplying the mean by ten multiplies the total by ten.",
+   "varies": "Count and mean, followed by mean alone.",
+   "invariant": "Total in the first three parts; count in the final pair."
   },
   {
    "sequence": "mean",
@@ -487,9 +709,9 @@
     "p14-q10d",
     "p14-q10e"
    ],
-   "observation": "With four known fives and five observations overall, increasing the target mean by one increases the required missing value by five.",
+   "observation": "With four fixed known observations, changing the target mean changes the required missing value.",
    "varies": "Target mean.",
-   "invariant": "Known total twenty and count five."
+   "invariant": "Four known values of 5 and five observations altogether."
   },
   {
    "sequence": "mean",
@@ -499,9 +721,9 @@
     "p14-q10h",
     "p14-q10i"
    ],
-   "observation": "With three known fives and four observations overall, increasing the target mean by one increases the required missing value by four.",
+   "observation": "Repeat the target-mean comparison with a different total count.",
    "varies": "Target mean.",
-   "invariant": "Known total fifteen and count four."
+   "invariant": "Three known values of 5 and four observations altogether."
   },
   {
    "sequence": "mean-problems",
@@ -509,9 +731,9 @@
     "p16-q1-a",
     "p16-q1-b"
    ],
-   "observation": "Changing the target mean changes the required missing value even when the known data remain fixed.",
-   "varies": "The target mean changes from 5 to 4, alongside reduced scaffold.",
-   "invariant": "The known values 4, 2, 8 and the count of four values."
+   "observation": "With the same known observations and count, changing the target mean changes the missing value.",
+   "varies": "Target mean, with reduced scaffolding in the second part.",
+   "invariant": "Known observations 4, 2 and 8, and four observations in total."
   },
   {
    "sequence": "mean-problems",
@@ -520,9 +742,19 @@
     "p16-q1-e",
     "p16-q1-f"
    ],
-   "observation": "Appending the target mean leaves the required x unchanged; appending zero increases the total that x must supply.",
-   "varies": "No appended value, an appended 20, then an appended zero.",
-   "invariant": "The known values 10, 6, 18, the unknown x and the target mean 20."
+   "observation": "Appending the target mean preserves the required missing value; appending zero changes it because zero still contributes to the count.",
+   "varies": "Whether an extra observation is present and whether it equals the target mean or zero.",
+   "invariant": "Known observations 10, 6 and 18, the unknown x, and target mean 20."
+  },
+  {
+   "sequence": "mean-problems",
+   "targets": [
+    "p18-q10-a",
+    "p18-q10-b"
+   ],
+   "observation": "The same target-mean calculation can produce an attainable score or a score above the permitted maximum.",
+   "varies": "Original and target means.",
+   "invariant": "Five completed quizzes, one remaining quiz, maximum score 30, and a requested mean increase of 3."
   },
   {
    "sequence": "median",
@@ -530,29 +762,20 @@
     "p22-q3-a",
     "p22-q3-b"
    ],
-   "observation": "Reversing presentation order does not change the median.",
-   "varies": "Ascending versus descending presentation.",
-   "invariant": "Dataset values and frequencies."
+   "observation": "Reversing the presentation order does not change the median.",
+   "varies": "Presentation order.",
+   "invariant": "The observations and their frequencies."
   },
   {
    "sequence": "median",
    "targets": [
     "p22-q3-d",
-    "p22-q3-e"
-   ],
-   "observation": "Changing a value below the middle without crossing the middle leaves the median unchanged.",
-   "varies": "One low value changes from 3 to -3.",
-   "invariant": "Five-value count and middle value 7."
-  },
-  {
-   "sequence": "median",
-   "targets": [
     "p22-q3-e",
     "p22-q3-f"
    ],
-   "observation": "The middle written entry is not necessarily the middle ordered value.",
-   "varies": "The negative sign moves from the first entry to the third.",
-   "invariant": "Five entries, magnitudes and the two largest values."
+   "observation": "Changing a low observation can leave the median unchanged, while moving the middle observation below the others can change it.",
+   "varies": "Which observation becomes negative.",
+   "invariant": "Five observations, with the other four unchanged between adjacent parts."
   },
   {
    "sequence": "median",
@@ -562,9 +785,19 @@
     "p22-q3-i",
     "p22-q3-j"
    ],
-   "observation": "Adding a value alternates odd and even counts and can move the central position or pair.",
-   "varies": "One endpoint value is added at each step.",
-   "invariant": "The original values remain present and the datasets remain ordered."
+   "observation": "Adding an observation changes the middle position and alternates between selecting one value and averaging two.",
+   "varies": "One added observation at an end of the ordered dataset.",
+   "invariant": "All observations from the preceding part remain."
+  },
+  {
+   "sequence": "median",
+   "targets": [
+    "p22-q8-b",
+    "p22-q8-c"
+   ],
+   "observation": "Different target medians require different middle pairs.",
+   "varies": "The target median.",
+   "invariant": "The original dataset and permission to change exactly one observation."
   },
   {
    "sequence": "summary-statistics-list",
@@ -572,8 +805,8 @@
     "p24-q2-r1",
     "p24-q2-r2"
    ],
-   "observation": "Changing only the maximum can change mean and range while leaving median and mode unchanged.",
-   "varies": "The largest observation increases from 7 to 12.",
+   "observation": "Changing only the largest observation changes the mean and range while leaving median and mode unchanged.",
+   "varies": "The maximum increases from 7 to 12.",
    "invariant": "Count and the other four observations."
   },
   {
@@ -582,9 +815,9 @@
     "p24-q2-r2",
     "p24-q2-r3"
    ],
-   "observation": "Adding one to every observation increases each measure of centre by one and preserves range.",
+   "observation": "Adding one to every observation adds one to the measures of centre and preserves the range.",
    "varies": "Every observation increases by one.",
-   "invariant": "Count, relative order, frequencies and pairwise differences."
+   "invariant": "Count, relative positions and pairwise differences."
   },
   {
    "sequence": "summary-statistics-list",
@@ -592,29 +825,20 @@
     "p24-q2-r3",
     "p24-q2-r4"
    ],
-   "observation": "Doubling every observation doubles all four statistics.",
+   "observation": "Doubling every observation doubles all four summary measures.",
    "varies": "Every observation is multiplied by two.",
-   "invariant": "Count, order and frequency pattern."
+   "invariant": "Count, ordering and frequency pattern."
   },
   {
    "sequence": "summary-statistics-list",
    "targets": [
     "p24-q2-r4",
-    "p24-q2-r5"
-   ],
-   "observation": "Redistributing a fixed total can preserve all measures of centre while changing range.",
-   "varies": "Six moves from the maximum to the next-largest observation.",
-   "invariant": "Count, total, minimum, median and mode."
-  },
-  {
-   "sequence": "summary-statistics-list",
-   "targets": [
     "p24-q2-r5",
     "p24-q2-r6"
    ],
-   "observation": "Redistributing a fixed total between interior observations can change median while preserving mean, mode and range.",
-   "varies": "Three moves from the fourth observation to the third.",
-   "invariant": "Count, total, endpoints and mode."
+   "observation": "Lists with the same total can have different ranges and medians while retaining the same mean and mode.",
+   "varies": "How a fixed total is distributed among observations.",
+   "invariant": "Five observations, total 60, mean 12 and mode 6."
   },
   {
    "sequence": "summary-statistics-list",
@@ -623,24 +847,25 @@
     "p24-q2-r7",
     "p24-q2-r8"
    ],
-   "observation": "Adding observations changes both total and count and can move the median through odd and even cases.",
-   "varies": "First a new maximum, then a new minimum, is added.",
-   "invariant": "All observations already present are retained."
+   "observation": "Appending observations changes the count and the middle position as well as potentially changing the mean and range.",
+   "varies": "Append 24, then append 0.",
+   "invariant": "All existing observations are retained and the mode remains 6."
   },
   {
    "sequence": "mode",
    "targets": [
+    "p10-q2b",
     "p10-q2c",
     "p10-q2d"
    ],
-   "observation": "Replacing one singleton with another occurrence of 7 creates a second mode.",
-   "varies": "One score changes from 9 to 7.",
-   "invariant": "Five scores, two occurrences of 5, ascending presentation and the task of identifying the mode."
+   "observation": "Changing one observation can turn no mode into one mode, then two modes.",
+   "varies": "One observation changes between consecutive datasets, changing the frequency pattern.",
+   "invariant": "Five ordered observations, with 5 and 12 retained as the endpoints."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 438,
- "reviewedAt": "2026-10-11T07:35:24.648Z",
+ "reviewedRevision": 546,
+ "reviewedAt": "2026-10-15T12:11:56.702Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -664,16 +889,16 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 23219,
+     "input_tokens": 23819,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1006,
-     "reasoning_output_tokens": 412
+     "output_tokens": 540,
+     "reasoning_output_tokens": 112
     },
-    "elapsedMs": 36088,
+    "elapsedMs": 23176,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "range",
@@ -682,13 +907,13 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 27345,
-     "cached_input_tokens": 14592,
+     "input_tokens": 27951,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2964,
-     "reasoning_output_tokens": 159
+     "output_tokens": 2879,
+     "reasoning_output_tokens": 181
     },
-    "elapsedMs": 73546,
+    "elapsedMs": 77371,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -700,34 +925,34 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 27120,
+     "input_tokens": 27813,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2415,
-     "reasoning_output_tokens": 137
+     "output_tokens": 2100,
+     "reasoning_output_tokens": 123
     },
-    "elapsedMs": 63517,
-    "candidates": 1,
+    "elapsedMs": 49587,
+    "candidates": 0,
     "discarded": [],
     "suggestions": 1
    },
    {
     "id": "mean",
     "title": "Mean",
-    "blocks": 17,
+    "blocks": 18,
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 34337,
-     "cached_input_tokens": 12544,
+     "input_tokens": 35237,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5300,
-     "reasoning_output_tokens": 166
+     "output_tokens": 4937,
+     "reasoning_output_tokens": 255
     },
-    "elapsedMs": 123538,
-    "candidates": 2,
+    "elapsedMs": 121731,
+    "candidates": 1,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "mean-problems",
@@ -736,14 +961,14 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 27917,
-     "cached_input_tokens": 12544,
+     "input_tokens": 28786,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3488,
-     "reasoning_output_tokens": 122
+     "output_tokens": 3355,
+     "reasoning_output_tokens": 211
     },
-    "elapsedMs": 88821,
-    "candidates": 2,
+    "elapsedMs": 86559,
+    "candidates": 1,
     "discarded": [],
     "suggestions": 1
    },
@@ -754,13 +979,13 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 41173,
-     "cached_input_tokens": 14592,
+     "input_tokens": 41976,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3463,
-     "reasoning_output_tokens": 166
+     "output_tokens": 3431,
+     "reasoning_output_tokens": 125
     },
-    "elapsedMs": 85399,
+    "elapsedMs": 75649,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -768,17 +993,17 @@
    {
     "id": "summary-statistics-list",
     "title": "Summary statistics from a list",
-    "blocks": 32,
+    "blocks": 33,
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 44179,
-     "cached_input_tokens": 12544,
+     "input_tokens": 45430,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 6446,
-     "reasoning_output_tokens": 279
+     "output_tokens": 5649,
+     "reasoning_output_tokens": 111
     },
-    "elapsedMs": 149443,
+    "elapsedMs": 118621,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -790,51 +1015,33 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 32414,
-     "cached_input_tokens": 12544,
+     "input_tokens": 32544,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2157,
-     "reasoning_output_tokens": 248
+     "output_tokens": 2097,
+     "reasoning_output_tokens": 117
     },
-    "elapsedMs": 67269,
+    "elapsedMs": 47796,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 2
    }
   ],
   "dropped": [
    {
     "ids": [
-     "c1"
+     "c2"
     ],
-    "reason": "The mathematics is correct and available by the end of the topic, but the four-suggestion limit favours extensions that develop later practice into broader explanations.",
+    "reason": "Mathematically valid, but omitted under the four-suggestion booklet limit. Existing p10-q5 already contrasts single modes, tied modes and changing frequencies; the retained suggestions add stronger comparisons across the booklet.",
     "candidates": [
      {
-      "id": "c1",
-      "sequence": "summary-statistics",
-      "kind": "extension",
-      "targets": [
-       "p4-mean",
-       "p5-information-content"
-      ],
-      "finding": "Compare the original towers with the towers after equal sharing."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c4"
-    ],
-    "reason": "The mathematics is correct, but its frequency-preservation explanation is included in the broader retained suggestion c13.",
-    "candidates": [
-     {
-      "id": "c4",
+      "id": "c2",
       "sequence": "mode",
       "kind": "extension",
       "targets": [
-       "p10-q5"
+       "p10-q5-block"
       ],
-      "finding": "Investigate what happens to the modes when the same number is added to every score."
+      "finding": "Append observations to the original dataset to move from one mode to two modes and then to a different single mode."
      }
     ]
    },
@@ -842,17 +1049,16 @@
     "ids": [
      "c5"
     ],
-    "reason": "Assuming calculator use from the intended digital-tool mean calculation, signed addition is calculator-performed numerical evaluation. The example explicitly includes (+−3), so the proposed sign-interpretation breakdown is not established. It fails the substantial missing-review-piece test.",
+    "reason": "Mathematically valid, but omitted under the four-suggestion limit. Adding a value equal to the mean is already explored in p13-q5g and p13-q5l; c8 extends that relationship further.",
     "candidates": [
      {
       "id": "c5",
-      "sequence": "mean",
-      "kind": "opening-review",
+      "sequence": "mean-problems",
+      "kind": "extension",
       "targets": [
-       "p11-example",
-       "p11-mean-group"
+       "p16-q2"
       ],
-      "finding": "The introductory example requires signed-integer addition, but there is no opening review to rehearse it."
+      "finding": "Find an additional observation that leaves the mean unchanged."
      }
     ]
    },
@@ -860,33 +1066,16 @@
     "ids": [
      "c10"
     ],
-    "reason": "The mathematics is correct and the preceding algebraic task supports it, but the four-suggestion limit favours extensions more directly connected to interpreting summary statistics and changes to datasets.",
+    "reason": "The proposed follow-up attaches to p31-guided-a, a guided-practice task, rather than an existing practice question, so it fails the extension placement requirement.",
     "candidates": [
      {
       "id": "c10",
-      "sequence": "mean-problems",
-      "kind": "extension",
-      "targets": [
-       "p19-q13"
-      ],
-      "finding": "Generalise the consecutive-number result to three equally spaced values and identify exactly when a middle value equals the mean."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c14"
-    ],
-    "reason": "The mathematics is correct, but the middle-position explanation closely revisits the equal-sided diagrams in p20 and the odd/even examples in p31. Four other suggestions offer stronger additional investigations.",
-    "candidates": [
-     {
-      "id": "c14",
       "sequence": "median-position",
       "kind": "extension",
       "targets": [
-       "p32-q2-block"
+       "p31-guided-a"
       ],
-      "finding": "Explain why the median-position formula works for odd and even counts."
+      "finding": "Explore how adding observations changes the median position and value."
      }
     ]
    }
@@ -894,8 +1083,8 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/data-analysis-v1/candidates-low-1791704020151.json",
+  "candidateFile": ".booklet-work/pedagogy-review/data-analysis-v1/candidates-low-1792066234301.json",
   "errors": []
  },
- "postedRevision": 439
+ "postedRevision": 547
 }

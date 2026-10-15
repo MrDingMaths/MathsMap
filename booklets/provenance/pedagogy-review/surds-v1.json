@@ -5,6 +5,47 @@
  "assumptions": {},
  "findings": [
   {
+   "id": "pf-b2db2dea3d",
+   "kind": "missing-prerequisite",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p3-q2-h",
+     "blockId": "p3-q2-block",
+     "hash": "a7f1b977483327a883c3e227e8a5d1ad6a5d325b3ee49526cde6090b2b454c32"
+    },
+    {
+     "id": "p4-q4-root",
+     "blockId": "p4-q4-block",
+     "hash": "64b09a79ab811f55a9ca43441a9aea4a7760069e2f99431c91a49a6d706d904c"
+    }
+   ],
+   "finding": "Multi-digit recurring notation is required before the repeating bar is explained.",
+   "breakdown": "Students meet single-digit recurrence first, then must interpret repeating blocks, including leading zeros. No preceding instruction explains which digits the bar makes repeat.",
+   "checked": "p3-information-block and p3-q1-root introduce single-digit recurrence. The calculator investigations show decimal patterns but do not explain bar notation.",
+   "assumptions": "Recurring notation is being introduced in this sequence; answer annotations are not supplied teaching.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Before p3-q2-h add: “A bar shows the whole block that repeats: 0.\\overline{142857}=0.142857142857… . Include zeros within the repeating block: 0.\\overline{01}=0.010101… .”"
+   },
+   "doneWhen": "The repeating bar and leading zeros are explicitly interpreted before students use them.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "recurring-decimals"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T08:23:24.043Z"
+    }
+   ],
+   "commentId": "3a9bc655-a780-4237-a98e-34ded22224f8",
+   "postedAt": "2026-10-15T08:23:24.179Z"
+  },
+  {
    "id": "pf-c90b3749de",
    "kind": "unsupported-transition",
    "severity": "high",
@@ -40,17 +81,17 @@
      "hash": "53c4ac34aea595d7ed73f4d71f53c1607000a1da9feb54e27b42f9f328aa216d"
     }
    ],
-   "finding": "Question 6 introduces non-recurring prefixes before showing how to adapt the recurring-block fraction pattern.",
-   "breakdown": "Students have established denominators 9, 99 and 999 for pure recurring blocks. Applying those patterns unchanged to a decimal with a prefix gives an incorrect fraction.",
-   "checked": "p3-information-block supplies terminating-decimal place value; p4-q3 through p4-q5 establish pure recurring blocks. Neither connects those methods to a non-recurring prefix. p5-example-right and p7-q8 supply preparation later. The targeted parts vary systematically, but the first prefix conversion still lacks a supplied method.",
-   "assumptions": "Ordinary place value and fraction arithmetic are prior knowledge. A calculator does not supply the exact conversion method.",
+   "finding": "Question 6 requires conversion of decimals with non-recurring prefixes before that conversion method is supplied.",
+   "breakdown": "The preceding investigations establish fractions for pure recurring blocks. They do not show how to account for a non-recurring prefix such as the tenth in 0.1\\dot{4}.",
+   "checked": "p4-q3-root through p4-q5-root investigate pure repeats. p5-example-right and p7-q8-root subsequently supply the relevant algebraic preparation.",
+   "assumptions": "The stated booklet order is the teaching order.",
    "repair": {
-    "type": "add-teaching",
-    "proposal": "Before p5-q6-f, add: 'Use place value to shift the recurring-block fraction: 0.0 recurring 4 = (4/9)/10 = 4/90. Separate a nonzero prefix: 0.1 recurring 4 = 1/10 + 4/90 = 13/90. With two non-recurring decimal places, divide the recurring fraction by 100. Add any whole-number part separately.'"
+    "type": "reorder",
+    "proposal": "Move the complete p5-q6-block immediately after p7-q8-block. Preserve its internal comparisons and use it as mixed consolidation."
    },
-   "doneWhen": "Students see how to shift a recurring fraction and add its terminating prefix before attempting the targeted parts.",
+   "doneWhen": "All prefix conversions in Question 6 follow the relevant worked example and Question 8.",
    "from": [
-    "c1"
+    "c2"
    ],
    "sequences": [
     "recurring-decimals"
@@ -59,11 +100,15 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T13:52:56.163Z"
+     "at": "2026-10-15T08:13:57.445Z"
+    },
+    {
+     "state": "pending",
+     "at": "2026-10-15T08:23:24.043Z"
     }
    ],
-   "commentId": "df90c786-89cc-4226-8004-b57f018a14fe",
-   "postedAt": "2026-10-11T13:52:56.188Z"
+   "commentId": "8afc1128-9d86-448e-aef6-b7703bdd2278",
+   "postedAt": "2026-10-15T08:23:24.182Z"
   },
   {
    "id": "pf-23fa4fc494",
@@ -86,51 +131,15 @@
      "hash": "13311d9e41a8888954bc7c1a2de4ee27e68c3fffb4b660a1e0a3bc0847845af3"
     }
    ],
-   "finding": "The algebraic demonstrations do not state how to select the powers of ten that make the recurring tails cancel.",
-   "breakdown": "The supplied pairs work, but students must independently infer how prefix length and repeating-block length determine the multipliers. Longer blocks and prefixes require changing that selection.",
-   "checked": "The two p5 examples demonstrate one repeating digit, with and without a prefix. p6-g explicitly demonstrates a two-digit block, defeating a claim that only one-digit repetition is shown, but still supplies its multiplier without explaining its selection. p7-q8 supplies another pair; none states the general decision.",
-   "assumptions": "Multiplication by powers of ten is prior knowledge. Selecting shifts to align recurring tails is new.",
+   "finding": "The algebraic examples supply their powers of ten without stating how those multipliers are chosen.",
+   "breakdown": "Students see successful subtraction but must independently choose multipliers for longer prefixes and repeating blocks. The origin of those multiplier choices is not stated.",
+   "checked": "The two p5 examples display matching recurring tails. p6-g supplies 100x and p7-q8 supplies 10x and 100x, but neither explains the selection decision.",
+   "assumptions": "Students must choose their own multipliers in later unscaffolded parts.",
    "repair": {
     "type": "add-cue",
-    "proposal": "Add: 'If there are p non-recurring decimal digits and r digits in the repeating block, use 10^p x and 10^(p+r) x. Their recurring tails match, so subtract.' Annotate the examples: left, p=0 and r=1, giving x and 10x; right, p=1 and r=1, giving 10x and 100x; p6-g, p=0 and r=2, giving x and 100x."
+    "proposal": "At p5-example-group add: “Choose two multiples of x with identical recurring digits after the decimal point. First shift any non-recurring decimal digits before the point; then shift one complete repeating block further. Subtraction cancels the matching tails.” Annotate the left example “Use x and 10x: one repeating digit”; the right “Use 10x and 100x: one non-recurring digit, then one repeating digit”; and p6-g “Use x and 100x: two repeating digits.”"
    },
-   "doneWhen": "Each demonstrated pair of multipliers is explicitly connected to the lengths of the prefix and repeating block.",
-   "from": [
-    "c2"
-   ],
-   "sequences": [
-    "recurring-decimals"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T13:52:56.163Z"
-    }
-   ],
-   "commentId": "868334b0-0edc-4a87-bd0c-64bd2cf9fd7b",
-   "postedAt": "2026-10-11T13:52:56.189Z"
-  },
-  {
-   "id": "pf-e5b1c9d2c5",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p7-q9-root",
-     "blockId": "p7-q9",
-     "hash": "fd59b8449d3c56ee05b17869e08054e29049fb69e2665aafecf45c4b7052af56"
-    }
-   ],
-   "finding": "Explain why a tail of recurring nines can represent a terminating decimal.",
-   "breakdown": "This develops the unexpected result already encountered in p7-q8-c using the taught subtraction method.",
-   "checked": "For x=0.999…, subtraction gives 9x=9 and x=1. Consequently 0.2999…=0.3 and 0.34999…=0.35. All required conversion and place-value methods are available by the topic's end.",
-   "assumptions": "Use the same interpretation of infinite recurring decimals as the existing subtraction examples.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p7-q9-root, offer: 'Use subtraction to show that 0.999…=1. Hence explain why 0.2999…=0.3 and 0.34999…=0.35. State a rule for a terminating prefix followed by recurring nines.' Expected answer: 10x−x=9, so x=1. A recurring-nine tail adds one unit of the final prefix place: 0.2+0.1=0.3 and 0.34+0.01=0.35, with carrying where necessary."
-   },
-   "doneWhen": "The optional task includes the cancellation proof and a correct place-value generalisation.",
+   "doneWhen": "The multiplier choices are explicitly connected to prefix length and repeating-block length.",
    "from": [
     "c3"
    ],
@@ -141,13 +150,96 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T13:52:56.163Z"
+     "at": "2026-10-15T08:23:24.043Z"
     }
-   ]
+   ],
+   "commentId": "e875ecb7-d215-42c1-9605-d70bf2b09c74",
+   "postedAt": "2026-10-15T08:23:24.182Z"
   },
   {
-   "id": "pf-cbeb051b7d",
-   "kind": "missing-prerequisite",
+   "id": "pf-c76f6c0711",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p3-information-block",
+     "blockId": "p3-information-block",
+     "hash": "4905b60fa9298090cf67aec80df77c057479ae54a0ada5ead7634b894dc0d2eb"
+    },
+    {
+     "id": "p5-example-group",
+     "blockId": "p5-example-group",
+     "hash": "5e47714867c611fd2e724191f2f51b3b83920153b617bfa2877a5c19ff75bf5c"
+    }
+   ],
+   "finding": "The topic has no opening rehearsal of the decimal scaling and equation operations combined in its algebraic examples.",
+   "breakdown": "Following the examples requires multiplying recurring decimals by powers of ten, subtracting equations and dividing by a coefficient. The preceding pattern investigations do not rehearse these algebraic operations.",
+   "checked": "There are no opening review blocks. p3-q1-root through p4-q5-root investigate fraction–decimal patterns; the p5 examples combine the identified prerequisites.",
+   "assumptions": "Elementary equations are prior knowledge from the course's equation topics. The formal conversion method is explicitly taught without a calculator.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Add four short opening items: (a) Calculate 10×0.046 and 100×0.046. [0.46; 4.6] (b) Simplify 100x−10x. [90x] (c) Given 10x=6.8 and x=0.68, subtract the second equation from the first. [9x=6.12] (d) Solve 90x=27. [x=3/10] Keep the complete review within one page."
+   },
+   "doneWhen": "The opening review rehearses the substantial operations used together in the formal conversion examples.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "recurring-decimals"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T08:23:24.043Z"
+    }
+   ],
+   "commentId": "1397539b-2851-4ec1-a30e-8f904c3462f5",
+   "postedAt": "2026-10-15T08:23:24.183Z"
+  },
+  {
+   "id": "pf-fe921d60bc",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p7-q8-c",
+     "blockId": "p7-q8-block",
+     "hash": "c60536e4de395f291c90f936444ff3c9f037a33a1c5616b4a545881250ba123a"
+    }
+   ],
+   "finding": "Connect the recurring-nine result with its terminating representation.",
+   "breakdown": "The follow-up exposes that two different decimal representations can denote exactly the same number.",
+   "checked": "The existing part gives 0.0\\dot{9}=1/10. Since 0.1=1/10, their difference is exactly zero. Only fraction conversion and subtraction are needed.",
+   "assumptions": "Use the existing part's fraction result.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After the existing part labelled d, append (e) “Write 0.1 as a fraction.” [1/10] (f) “Find 0.1−0.0\\dot{9}. Explain why using your fractions.” [0, because both numbers equal 1/10.]"
+   },
+   "doneWhen": "The optional follow-up compares the two representations using exact fractions.",
+   "from": [
+    "c5"
+   ],
+   "sequences": [
+    "recurring-decimals"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T08:13:57.445Z"
+    },
+    {
+     "state": "pending",
+     "at": "2026-10-15T08:23:24.043Z"
+    }
+   ],
+   "commentId": "19093f95-f382-4917-a0d5-012799094566",
+   "postedAt": "2026-10-15T08:23:24.183Z"
+  },
+  {
+   "id": "pf-bdd990470b",
+   "kind": "unsupported-transition",
    "severity": "high",
    "targets": [
     {
@@ -174,49 +266,19 @@
      "id": "p9-identify-m",
      "blockId": "p9-identify",
      "hash": "803ef2ef3236772d84d04da92ad8a85a28963a489f6e82edffe83e63f16b1366"
-    },
-    {
-     "id": "p11-q4-a",
-     "blockId": "p11-q4-block",
-     "hash": "4a6ab5da2160a5c29ef3f6db9d54c02a9d46a2de557ed52dbb3898e7cace7937"
-    },
-    {
-     "id": "p13-q9-r02",
-     "blockId": "p13-q9",
-     "hash": "cddd9fd5b77c628b62d9a4ca98913d5e9c5fe6bc76adbb3092a3437712d0ea0e"
-    },
-    {
-     "id": "p13-q9-r03",
-     "blockId": "p13-q9",
-     "hash": "cddd9fd5b77c628b62d9a4ca98913d5e9c5fe6bc76adbb3092a3437712d0ea0e"
-    },
-    {
-     "id": "p13-q9-r04",
-     "blockId": "p13-q9",
-     "hash": "cddd9fd5b77c628b62d9a4ca98913d5e9c5fe6bc76adbb3092a3437712d0ea0e"
-    },
-    {
-     "id": "p13-q9-r05",
-     "blockId": "p13-q9",
-     "hash": "cddd9fd5b77c628b62d9a4ca98913d5e9c5fe6bc76adbb3092a3437712d0ea0e"
-    },
-    {
-     "id": "p13-q9-r08",
-     "blockId": "p13-q9",
-     "hash": "cddd9fd5b77c628b62d9a4ca98913d5e9c5fe6bc76adbb3092a3437712d0ea0e"
     }
    ],
-   "finding": "The classification activity needs exact facts about unfamiliar square roots and rational transformations that the preceding teaching does not supply.",
-   "breakdown": "Students cannot establish non-termination and non-recurrence from a finite calculator display. Naming √2 and √3 as irrational does not establish the classification of √5 or explain the classification of transformed irrational numbers.",
-   "checked": "p3-q1-c already raises the limitation of calculator displays, so that part of the original absence claim is removed. p8-rational-vs-irrational and p8-number-sets-block supply definitions and examples, but no perfect-square classification rule or preservation rule. p9-key-ideas repeats decimal criteria. Practice answers are not preceding instruction.",
-   "assumptions": "Calculator use is explicit. Basic square roots and rational arithmetic are prior knowledge; irrational-number classification is introduced here.",
+   "finding": "The identification task requires facts about irrational roots and their transformations that preceding teaching does not supply.",
+   "breakdown": "Definitions and the named example √2 do not establish that √5, √5+1, √2/2 and 2√2 are irrational. A finite calculator display cannot establish the required infinite decimal behaviour.",
+   "checked": "p3-q1-c already addresses the finite calculator display, and the fraction definition supplies a route for p9-identify-o, so those portions of the original claim are removed. p8 supplies no general classification rule for the targeted root expressions.",
+   "assumptions": "Calculator approximations support exploration but do not establish irrationality.",
    "repair": {
     "type": "add-teaching",
-    "proposal": "Before p9-identify-root, add: 'Use a calculator to approximate, but its finite display cannot establish irrationality. For a positive integer n, √n is rational exactly when n is a perfect square: √4=2, whereas √5 is irrational. Adding a rational number to an irrational number, or multiplying or dividing an irrational number by a nonzero rational number, leaves it irrational. Therefore √5+1, 2√2 and √2/2 are irrational.'"
+    "proposal": "Before p9-identify-root add: “Use the calculator to approximate; its display alone cannot establish irrationality. A square root of a positive integer that is not a perfect square is irrational. Adding an integer, or multiplying or dividing by a non-zero integer, preserves irrationality. Thus √5, √5+1, 2√2 and √2/2 are irrational.”"
    },
-   "doneWhen": "Students can classify the targeted numbers using exact properties rather than the apparent pattern of displayed digits.",
+   "doneWhen": "Students have an explicit classification basis for the unfamiliar root expressions before deciding their rationality.",
    "from": [
-    "c4"
+    "c6"
    ],
    "sequences": [
     "irrational-numbers"
@@ -225,11 +287,52 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T13:52:56.163Z"
+     "at": "2026-10-15T08:23:24.043Z"
     }
    ],
-   "commentId": "a241a262-59f4-446b-a545-015a6354b9dd",
-   "postedAt": "2026-10-11T13:52:56.192Z"
+   "commentId": "b87d0bd4-21e8-4855-ad75-e690a1bad944",
+   "postedAt": "2026-10-15T08:23:24.184Z"
+  },
+  {
+   "id": "pf-8e2b0853fc",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p24-q8-d",
+     "blockId": "p24-q8",
+     "hash": "1d0c55fd4f6d5fc3535c16b2b25e5310d331d68896d3d67ab9c7cc3db76e27c5"
+    },
+    {
+     "id": "p24-q8-f",
+     "blockId": "p24-q8",
+     "hash": "1d0c55fd4f6d5fc3535c16b2b25e5310d331d68896d3d67ab9c7cc3db76e27c5"
+    }
+   ],
+   "finding": "Parts d and e both ask students to simplify √72 without an explicit instructional purpose for the repeated task.",
+   "breakdown": "The complete expressions and required operations are unchanged.",
+   "checked": "Both prompts are √72 under the same instruction. No retrieval or comparison purpose is stated.",
+   "assumptions": "Part labels determine the later copy: p24-q8-f is labelled e.",
+   "repair": {
+    "type": "change-values",
+    "proposal": "Change p24-q8-f, the part labelled e, to √50. Answer: 5√2."
+   },
+   "doneWhen": "The later copy retains square-root simplification with a different radicand.",
+   "from": [
+    "c10"
+   ],
+   "sequences": [
+    "simplifying-surds"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T08:23:24.043Z"
+    }
+   ],
+   "commentId": "191b95d7-aa1c-4a1a-a520-edb6c5ba6807",
+   "postedAt": "2026-10-15T08:23:24.185Z"
   },
   {
    "id": "pf-43c356d820",
@@ -257,17 +360,17 @@
      "hash": "31cba13e83d59c8df2148fe8da851b1abf3ea7deb51cde488ab846619bde623d"
     }
    ],
-   "finding": "Higher-root simplification is required although extraction teaching covers only square factors.",
-   "breakdown": "Knowing a root's index or evaluating a perfect cube does not show how to extract a perfect cube or fifth power from a non-perfect radicand. The displayed highest-square-factor instruction gives the wrong selection criterion for these tasks.",
-   "checked": "p14 introduces cube roots; p17 identifies indices; p18 states square-root product laws; p21 models only square-factor extraction. p25-q14-a evaluates perfect cubes without demonstrating extraction from a non-perfect cube.",
-   "assumptions": "Ordinary index laws and basic cube roots are prior knowledge. Higher-root extraction is a new variant here; calculator access is irrelevant.",
+   "finding": "Higher-root simplification is required after teaching only square-factor extraction.",
+   "breakdown": "Students need to match the extracted factor's power to the root's index. Applying the stated highest-square-factor procedure to a cube root would give an invalid extraction.",
+   "checked": "p14 recognises cube roots, p17 names the index and p18 states square-root laws. p21 teaches square-root extraction only; p25-q14-a evaluates perfect cubes without modelling partial extraction.",
+   "assumptions": "Evaluating familiar roots is prior knowledge; extracting factors from non-perfect higher roots is a new variant. No calculator is needed.",
    "repair": {
     "type": "add-teaching",
-    "proposal": "Before p25-q14-b, add: 'For an nth root, extract perfect nth-power factors.' Model ∛54=∛(27×2)=3∛2 because 27=3³, and ⁵√96=⁵√(32×3)=2⁵√3 because 32=2⁵."
+    "proposal": "Before p25-q14 add: “Match the factor's power to the root's index: use perfect cubes for cube roots and perfect fifth powers for fifth roots.” Model ∛54=∛(27×2)=3∛2 and ⁵√96=⁵√(32×3)=2⁵√3. Include the symbolic application ∛(a⁶b³)=a²b for positive a and b."
    },
-   "doneWhen": "The root index explicitly determines the factors extracted, with cube-root and fifth-root examples before independent use.",
+   "doneWhen": "Students see index-matched extraction, including a fifth root and the symbolic form, before the targeted questions.",
    "from": [
-    "c9"
+    "c11"
    ],
    "sequences": [
     "simplifying-surds"
@@ -276,46 +379,113 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T13:52:56.163Z"
+     "at": "2026-10-15T08:23:24.043Z"
     }
    ],
-   "commentId": "33cc4a9f-813a-4042-bded-019ec48550d3",
-   "postedAt": "2026-10-11T13:52:56.193Z"
+   "commentId": "5d09e7d3-4cf5-4b90-b6cf-37421ac4092d",
+   "postedAt": "2026-10-15T08:23:24.187Z"
   },
   {
-   "id": "pf-f794b0acb9",
+   "id": "pf-65d5644b3e",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p28-q7-k",
+     "blockId": "p28-q7",
+     "hash": "eaf4caece35fe7d39cd81a106c43dc60fe3f903c702372a83fa39858e51ba52e"
+    }
+   ],
+   "finding": "Reverse simplification and collection by choosing a radicand that produces a target coefficient.",
+   "breakdown": "The follow-up connects the square factor inside a radical with the coefficient of a like surd.",
+   "checked": "The fixed terms total 10√6. Targets 20√6 and 30√6 require √N=2√6 and √N=4√6 respectively, giving N=24 and N=96. Both are positive whole numbers.",
+   "assumptions": "Students may reason backwards using the simplification and collection methods taught in this topic.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional parts after p28-q7-l: (m) “Replace 36 in 6√6+2√24+5√36 with a positive whole number so that the expression simplifies to 20√6.” [24] (n) “Replace 36 in the same expression so that it simplifies to 30√6.” [96]"
+   },
+   "doneWhen": "The optional parts require students to choose and verify the two radicands.",
+   "from": [
+    "c13"
+   ],
+   "sequences": [
+    "addition-subtraction"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T08:23:24.043Z"
+    }
+   ],
+   "commentId": "4ba3100c-b213-419f-8f13-0a20b9640a1f",
+   "postedAt": "2026-10-15T08:23:24.189Z"
+  },
+  {
+   "id": "pf-53972a6dae",
+   "kind": "worked-step-error",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p32-q3-c",
+     "blockId": "p32-q3-block",
+     "hash": "155a7328e707ed683e6cfbb5429d0bb409ba6f05a3810e2cf403c96639ea7299"
+    },
+    {
+     "id": "p34-q6-a-response",
+     "blockId": "p34-q6-block",
+     "hash": "7e8fce311882ee7f75d4e415f2b6cbdde013df9d9804cdff85dfa3b5616d8a58"
+    },
+    {
+     "id": "p34-q6-b-response",
+     "blockId": "p34-q6-block",
+     "hash": "7e8fce311882ee7f75d4e415f2b6cbdde013df9d9804cdff85dfa3b5616d8a58"
+    }
+   ],
+   "finding": "Three supplied completion lines omit radical signs, turning radical factors into ordinary coefficients.",
+   "breakdown": "Completing the printed blanks produces false equalities: the p32 line gives 24 instead of 12; the p34 lines replace √24 by 3√8 and replace √12 and √18 by 2√6 and 3√6.",
+   "checked": "Direct calculation confirms all three errors. p21, p31 and p34-example-demonstration model valid radical factorisation, but cannot make these printed equalities valid.",
+   "assumptions": "The supplied prompts accurately represent the student-facing completion lines.",
+   "repair": {
+    "type": "fix-step",
+    "proposal": "In p32-q3-c print '=2√[[2]]×3√[[2]]', giving 12. In p34-q6-a-response print '=√8×√[[3]]√8', giving 8√3. In p34-q6-b-response print '=√[[2]]√6×√[[3]]√6', giving 6√6. Retain the final-answer blanks."
+   },
+   "doneWhen": "Filling the existing numerical blanks produces valid equalities, with all required radical signs supplied.",
+   "from": [
+    "c14",
+    "c15"
+   ],
+   "sequences": [
+    "multiplying-surds"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T08:13:57.445Z"
+    },
+    {
+     "state": "pending",
+     "at": "2026-10-15T08:23:24.043Z"
+    }
+   ],
+   "commentId": "9f40f3a8-e73f-46e7-be3b-3c33a6afde78",
+   "postedAt": "2026-10-15T08:23:24.190Z"
+  },
+  {
+   "id": "pf-d6bb830a88",
    "kind": "duplicate-question",
    "severity": "high",
    "targets": [
     {
-     "id": "p24-q8-f",
-     "blockId": "p24-q8",
-     "hash": "ce6cdc380898df1d195370718a2d396e8f21efbb4b4274aa9bf8d73490a4282c"
+     "id": "p18-simplify-e-node",
+     "blockId": "p18-multiply-divide-block",
+     "hash": "be28d012ec1029656d2ab541a329d445867b38c99b4cceff79b187324c5c7306"
     },
     {
-     "id": "p24-q8-d",
-     "blockId": "p24-q8",
-     "hash": "ce6cdc380898df1d195370718a2d396e8f21efbb4b4274aa9bf8d73490a4282c"
-    },
-    {
-     "id": "p31-guided-a",
-     "blockId": "p31-guided-block",
-     "hash": "864146f813249ab7d39f1a4b963ee8bf26fd522d78678dbb0469cf516c0116bd"
-    },
-    {
-     "id": "p32-q1-b",
-     "blockId": "p32-q1",
-     "hash": "ada0629879a71443e0675ea8dab4daf433dffa44bbfdbd500a555babbde85798"
-    },
-    {
-     "id": "p31-guided-c",
-     "blockId": "p31-guided-block",
-     "hash": "864146f813249ab7d39f1a4b963ee8bf26fd522d78678dbb0469cf516c0116bd"
-    },
-    {
-     "id": "p32-q2-f",
-     "blockId": "p32-q2",
-     "hash": "4b2e575472b512059760237652eaf5b4ddf0897480f172feb3de1b2f5e997366"
+     "id": "p37-q1-a",
+     "blockId": "p37-q1-block",
+     "hash": "06c72cc6c396d3a34e113a96b9d31c8140fb4bec21b73e26097f78d9eb843b54"
     },
     {
      "id": "p36-guided-a",
@@ -326,7 +496,38 @@
      "id": "p37-q1-b",
      "blockId": "p37-q1-block",
      "hash": "06c72cc6c396d3a34e113a96b9d31c8140fb4bec21b73e26097f78d9eb843b54"
-    },
+    }
+   ],
+   "finding": "Two independent exercise parts repeat complete earlier surd-division tasks without an explicit instructional purpose.",
+   "breakdown": "p37-q1-a repeats √20÷√2, and p37-q1-b repeats √15÷√3.",
+   "checked": "Compared the complete expressions and instructions in all four copies. No explicit retrieval or comparison purpose is supplied.",
+   "assumptions": "Guided and earlier-topic student tasks are included in the duplicate criterion.",
+   "repair": {
+    "type": "change-values",
+    "proposal": "Change p37-q1-a to √22÷√2, answer √11. Change p37-q1-b to √21÷√3, answer √7. Retain the earlier copies."
+   },
+   "doneWhen": "Both later copies practise direct surd division with different values.",
+   "from": [
+    "c17"
+   ],
+   "sequences": [
+    "dividing-surds"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T08:23:24.043Z"
+    }
+   ],
+   "commentId": "ff2d7ab5-2f10-4ee3-8e41-5d15db571be6",
+   "postedAt": "2026-10-15T08:23:24.192Z"
+  },
+  {
+   "id": "pf-4ed6336123",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
     {
      "id": "p41-guided-a",
      "blockId": "p41-guided",
@@ -346,7 +547,78 @@
      "id": "p42-q1-d",
      "blockId": "p42-q1-block",
      "hash": "6c9628d91959fc39b4dfb7c377c19896df1eb531d63d6fd549eedd5177e0414f"
+    }
+   ],
+   "finding": "Two independent expansion parts repeat complete guided-practice tasks without an explicit instructional purpose.",
+   "breakdown": "Both expressions, including their values and signs, are unchanged between guided and independent practice.",
+   "checked": "Compared each guided expression with its exercise copy. No retrieval or comparison purpose is stated.",
+   "assumptions": "Guided practice precedes the exercise.",
+   "repair": {
+    "type": "change-values",
+    "proposal": "Change p42-q1-a to √3(√15−√3), answer 3√5−3. Change p42-q1-d to √10(√8−2), answer 4√5−2√10. Retain the guided originals."
+   },
+   "doneWhen": "Each later copy has different numbers while preserving its expansion structure.",
+   "from": [
+    "c22"
+   ],
+   "sequences": [
+    "distributive-law"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T08:13:57.445Z"
     },
+    {
+     "state": "pending",
+     "at": "2026-10-15T08:23:24.043Z"
+    }
+   ],
+   "commentId": "a6d497b6-f791-4b40-93b5-ee0db58d3691",
+   "postedAt": "2026-10-15T08:23:24.193Z"
+  },
+  {
+   "id": "pf-2fdee17e26",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p42-q1-block",
+     "blockId": "p42-q1-block",
+     "hash": "6c9628d91959fc39b4dfb7c377c19896df1eb531d63d6fd549eedd5177e0414f"
+    }
+   ],
+   "finding": "Vary the outside coefficient while holding the bracket fixed to expose scaling and sign changes.",
+   "breakdown": "The existing practice includes negative multipliers but no consecutive comparison that isolates their effect on both terms.",
+   "checked": "All five proposed expansions are correct and use taught distribution, multiplication and simplification. The added instruction is one prediction line.",
+   "assumptions": "Append these parts under Question 1's existing expansion instruction.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After part j add: “Predict how each result will change before expanding.” Append (k) √3(√6−√3) [3√2−3]; (l) 2√3(√6−√3) [6√2−6]; (m) −√3(√6−√3) [−3√2+3]; (n) −2√3(√6−√3) [−6√2+6]. Follow with unpatterned (o) −3√5(2√10+√5) [−30√2−15]. In k–n only the outside coefficient varies; the bracket and outside radicand stay fixed."
+   },
+   "doneWhen": "The four-part comparison is followed by the unpatterned transfer question.",
+   "from": [
+    "c23"
+   ],
+   "sequences": [
+    "distributive-law"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T08:23:24.043Z"
+    }
+   ],
+   "commentId": "ea7e03c8-80ff-4152-8917-b6cb7254da84",
+   "postedAt": "2026-10-15T08:23:24.194Z"
+  },
+  {
+   "id": "pf-116e353ea3",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
     {
      "id": "p43-part-a",
      "blockId": "p43-guided-block",
@@ -358,288 +630,73 @@
      "hash": "9ec4010d0be4bb33d6ba974548697ad8505a0351cc5c8722f76c9241a3eff4b4"
     }
    ],
-   "finding": "Seven complete practice tasks are repeated without an explicit retrieval or comparison purpose.",
-   "breakdown": "Each pair retains the expression, values and required calculation. The later copies add no distinct task.",
-   "checked": "Compared all seven pairs including their shared instructions. No pair adds a part, given or diagram. 'Expand' versus 'Simplify' in the final pair produces the same complete calculation because no additional collection or extraction is needed. The factorisation comparison in p34-q6 does not justify these separate repeats. No explicit comparison or retrieval purpose is supplied.",
-   "assumptions": "Guided practice and exercises are used in booklet order. For p24-q8, supplied sequence order places d after f.",
+   "finding": "The first independent binomial expansion repeats the complete guided task without an explicit instructional purpose.",
+   "breakdown": "Both copies ask for the expansion of (√3+1)(√2−1).",
+   "checked": "Compared the complete expressions and their enclosing instructions. No retrieval or comparison purpose is stated.",
+   "assumptions": "Guided practice precedes independent practice.",
    "repair": {
-    "type": "remove-question",
-    "proposal": "Remove the later copies p24-q8-d, p32-q1-b, p32-q2-f, p37-q1-b, p42-q1-a, p42-q1-d and p44-q1-a. Retain their corresponding earlier copies and the distinct neighbouring tasks."
+    "type": "change-values",
+    "proposal": "Change p44-q1-a to (√7+1)(√2−1). Answer: √14−√7+√2−1."
    },
-   "doneWhen": "Each named unchanged task appears once, with surrounding method coverage retained.",
+   "doneWhen": "The independent part retains the same expansion structure with different values.",
    "from": [
-    "c10",
-    "c14",
-    "c17",
-    "c22",
     "c25"
    ],
    "sequences": [
-    "simplifying-surds",
-    "multiplying-surds",
-    "dividing-surds",
-    "distributive-law",
     "expanding-binomials"
    ],
    "state": "pending",
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T13:52:56.163Z"
-    }
-   ],
-   "commentId": "e8423108-af25-4ae9-9ff8-eecc3fbec69c",
-   "postedAt": "2026-10-11T13:52:56.197Z"
-  },
-  {
-   "id": "pf-0731fe9a7c",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p25-q12",
-     "blockId": "p25-q12",
-     "hash": "a9e9d2224f0ea1c08ede39edf45ff66ff42421c1ff6e0e9680487cb7ee6825ed"
-    }
-   ],
-   "finding": "Construct all integer radicands whose simplest square-root form has remaining surd √3.",
-   "breakdown": "This connects extraction with its reverse, already demonstrated in p25-q12.",
-   "checked": "For a positive integer k, √(3k²)=k√3. Conversely, squaring √N=k√3 gives N=3k². None is an integer square root because √3 is irrational. The task needs only methods available by the topic's end.",
-   "assumptions": "k and N are positive integers.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p25-q12, offer: 'Find three positive integers N for which √N has simplest form k√3, where k is a positive integer. Describe every such N and explain your rule. Can any of these square roots be an integer?' Expected answer: examples 3, 12 and 27; all N=3k². None gives an integer square root."
-   },
-   "doneWhen": "The optional task asks for examples, the complete family and an explanation of irrationality.",
-   "from": [
-    "c11"
-   ],
-   "sequences": [
-    "simplifying-surds"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T13:52:56.163Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-be8ceb0cbd",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p30-q17",
-     "blockId": "p30-q17",
-     "hash": "f21c050d7e844d3628b79244158b0907f2cf04556e88ddf1b9952bf97e8ffc18"
-    }
-   ],
-   "finding": "Determine exactly when adding square roots equals taking the square root of the sum.",
-   "breakdown": "This explains the boundary of a plausible incorrect addition rule using previously taught surd multiplication.",
-   "checked": "For a,b≥0, squaring the proposed equality gives 2√a√b=0, equivalent to ab=0. Conversely, either zero value makes the original equality true. Both sides are nonnegative, so squaring introduces no extraneous equality. Surd multiplication is taught in p18; ordinary bracket expansion is prior algebra.",
-   "assumptions": "Ordinary algebraic expansion is prior knowledge, consistent with the separate Expanding Brackets booklet.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p30-q17, offer: 'For nonnegative a and b, investigate √a+√b=√(a+b). Test a=b=1 and a=0,b=9. Then square both sides and determine exactly when equality holds.' Expected answer: a+b+2√a√b=a+b, so ab=0. Equality holds exactly when at least one of a or b is zero."
-   },
-   "doneWhen": "The optional task includes a counterexample and a necessary-and-sufficient condition with its justification.",
-   "from": [
-    "c12"
-   ],
-   "sequences": [
-    "addition-subtraction"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T13:52:56.163Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-eb3b5f0014",
-   "kind": "worked-step-error",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p34-q6-a-response",
-     "blockId": "p34-q6-block",
-     "hash": "7e8fce311882ee7f75d4e415f2b6cbdde013df9d9804cdff85dfa3b5616d8a58"
+     "at": "2026-10-15T08:13:57.445Z"
     },
     {
-     "id": "p34-q6-b-response",
-     "blockId": "p34-q6-block",
-     "hash": "7e8fce311882ee7f75d4e415f2b6cbdde013df9d9804cdff85dfa3b5616d8a58"
-    }
-   ],
-   "finding": "The factorisation completion lines omit radicals around factors that have not been square-rooted.",
-   "breakdown": "The supplied completions assert √24=3√8, √12=2√6 and √18=3√6. These are false and model the incorrect rule √(ab)=a√b.",
-   "checked": "Independently, √24=√3√8, √12=√2√6 and √18=√3√6. The corrected products give 8√3 and 6√6 respectively. The correct p18 law and p34 demonstration do not make the printed intermediate equalities valid.",
-   "assumptions": "Students treat supplied completion lines as mathematical models. Calculator access is irrelevant.",
-   "repair": {
-    "type": "fix-step",
-    "proposal": "In a, write '= √8 × √([[3|9]])√8'. In b, write '= √([[2|9]])√6 × √([[3|9]])√6'. Keep the final-answer blanks."
-   },
-   "doneWhen": "Every completed intermediate line equals the original expression and retains each radical until it is legitimately evaluated.",
-   "from": [
-    "c13"
-   ],
-   "sequences": [
-    "multiplying-surds"
-   ],
-   "state": "pending",
-   "history": [
-    {
      "state": "pending",
-     "at": "2026-10-11T13:52:56.163Z"
+     "at": "2026-10-15T08:23:24.043Z"
     }
    ],
-   "commentId": "382fbef0-393d-421b-8c2f-30bac5132e83",
-   "postedAt": "2026-10-11T13:52:56.199Z"
+   "commentId": "3dbc87a8-9bb7-495c-a805-31fc9a931628",
+   "postedAt": "2026-10-15T08:23:24.195Z"
   },
   {
-   "id": "pf-15ef127165",
-   "kind": "opening-review",
+   "id": "pf-f010162c3a",
+   "kind": "duplicate-question",
    "severity": "high",
    "targets": [
     {
-     "id": "p36-examples-block",
-     "blockId": "p36-examples-block",
-     "hash": "b256db4bc2a7a250ebf4af323b8a9e222aa9587ad433d46159789fee44c329a0"
-    }
-   ],
-   "finding": "The dividing-surds examples directly use ordinary fraction reduction without an opening rehearsal.",
-   "breakdown": "Following √(10/15)=√(2/3) requires recognising and cancelling a common factor, independently of the surd division rule.",
-   "checked": "Older p21 teaching uses fraction reduction, confirming it is prior knowledge. The immediately preceding multiplying-surds teaching and supplied exercise do not rehearse reducing ordinary non-integer fractions. The dividing topic has no opening review.",
-   "assumptions": "Fraction reduction is prior knowledge. Teacher checking can address gaps elicited by a short review; no calculator is needed.",
-   "repair": {
-    "type": "add-review",
-    "proposal": "Before p36-rule-block, add: 'Simplify: (a) 10/15; (b) 8/6; (c) 12/18.' Expected answers: 2/3, 4/3 and 2/3."
-   },
-   "doneWhen": "A short opening review checks cancellation in proper and improper fractions before the worked examples.",
-   "from": [
-    "c16"
-   ],
-   "sequences": [
-    "dividing-surds"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T13:52:56.163Z"
-    }
-   ],
-   "commentId": "6dcab1c3-d7e3-43b2-953f-fa11febd2512",
-   "postedAt": "2026-10-11T13:52:56.201Z"
-  },
-  {
-   "id": "pf-a5213094e4",
-   "kind": "difficulty-jump",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p39-q8-a",
-     "blockId": "p39-q8-block",
-     "hash": "586d800a8fef3a2b86e6c2e1aa1300e4c0b4782803603ddd037e89df17941c23"
-    }
-   ],
-   "finding": "The first geometry application combines a representation change, an auxiliary altitude, base bisection, Pythagoras and area calculation.",
-   "breakdown": "Before applying familiar surd operations, students must construct a right triangle and distinguish its height from the labelled sloping side. The preceding symbolic practice provides no intermediate geometry task.",
-   "checked": "p16-q10 already uses Pythagoras, so geometry is not wholly absent from earlier material. It supplies the right triangle directly, however. p37–p38 practise symbolic operations. Later p39-q8-b supplies a simpler triangle application using area and height, so an existing bridge is available.",
-   "assumptions": "Triangle area, isosceles properties and Pythagoras are prior geometry knowledge from the listed course booklets. The issue is the combined transition.",
-   "repair": {
-    "type": "reorder",
-    "proposal": "Within the shared isosceles-triangle question, place p39-q8-b before p39-q8-a. The first application then finds height from the supplied area and base; the next adds finding height by Pythagoras. Keep c and d afterwards."
-   },
-   "doneWhen": "The geometry sequence begins with the existing direct area–height application before requiring an auxiliary right triangle.",
-   "from": [
-    "c18"
-   ],
-   "sequences": [
-    "dividing-surds"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T13:52:56.163Z"
-    }
-   ],
-   "commentId": "b7f0d7db-44f4-4846-be64-d59c8703e306",
-   "postedAt": "2026-10-11T13:52:56.203Z"
-  },
-  {
-   "id": "pf-615c397604",
-   "kind": "opening-review",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p41-expanding",
-     "blockId": "p41-expanding",
-     "hash": "d925222fe38e3799834b0c54394fbfe600b5e1aadad8656fccfb1935a460ad48"
+     "id": "p49-q5-b",
+     "blockId": "p49-q5-block",
+     "hash": "38e8670a35865b911687386e4cd9106923fbae02d43d00ca8fe9f192c2d9b8e9"
     },
     {
-     "id": "p41-example-1",
-     "blockId": "p41-example-group",
-     "hash": "4ee00571508d590c24e46829ee472138940a96b9f22bc0cbc13da0a3e066b5b5"
+     "id": "p50-q6-k",
+     "blockId": "p50-q6",
+     "hash": "5ece7c405eeb86991bd6e685bf7a29913c980c5790290263b2338ff9e9e5520f"
     },
     {
-     "id": "p41-example-2",
-     "blockId": "p41-example-group",
-     "hash": "4ee00571508d590c24e46829ee472138940a96b9f22bc0cbc13da0a3e066b5b5"
-    }
-   ],
-   "finding": "Ordinary distribution is used directly in the introductory examples without an opening recall task.",
-   "breakdown": "Students must recall multiplying every bracket term while applying surd multiplication. The general formula states the rule but does not elicit whether that prior algebra is fluent.",
-   "checked": "The original multiplication-review claim is defeated by p38-q7, p39-q10-d and especially p40-q11, which practise products in the immediately preceding exercise. None rehearses ordinary distribution. p41-expanding supplies the formula but no review question.",
-   "assumptions": "Ordinary distribution is prior algebra, consistent with the separate Expanding Brackets booklet. Calculator access does not affect the finding.",
-   "repair": {
-    "type": "add-review",
-    "proposal": "Before p41-expanding, add: 'Expand: (a) 2(x+3); (b) 3(2x−4).' Expected answers: 2x+6 and 6x−12."
-   },
-   "doneWhen": "The opening review checks multiplication of both bracket terms, including subtraction, before surd distribution.",
-   "from": [
-    "c21"
-   ],
-   "sequences": [
-    "distributive-law"
-   ],
-   "state": "pending",
-   "history": [
+     "id": "p48-guided-part-c",
+     "blockId": "p48-guided-block",
+     "hash": "1ad21b15e6f4faf272d1073f4a3dcce09e667e446826c359e9d6b72221a4eaed"
+    },
     {
-     "state": "pending",
-     "at": "2026-10-11T13:52:56.163Z"
+     "id": "p51-q9-a",
+     "blockId": "p51-q9",
+     "hash": "bc6b4d18bad09d95952563ae24ddd3fe1962e897d807002f989e28b5029760ae"
     }
    ],
-   "commentId": "b71c00c2-9b3b-4e19-ba02-6cbfb82d686d",
-   "postedAt": "2026-10-11T13:52:56.204Z"
-  },
-  {
-   "id": "pf-57cc485927",
-   "kind": "opening-review",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p48-examples-block",
-     "blockId": "p48-examples-block",
-     "hash": "1c397336099fa30ec323ab69dff0c0038993f618f84c89b9b91412164906cbdf"
-    }
-   ],
-   "finding": "Rationalisation uses equivalent fractions directly without an opening rehearsal of preserving value by multiplying by one.",
-   "breakdown": "Students may copy the surd multiplier without recalling why the numerator and denominator must both change.",
-   "checked": "p48-definition-block shows multiplication by a surd fraction but supplies no recall task. The immediately preceding expanding-binomials teaching and supplied exercise rehearse expansion rather than fraction equivalence. p49-q1 follows the examples.",
-   "assumptions": "Equivalent fractions are prior knowledge. No calculator is needed.",
+   "finding": "Two rationalisation tasks repeat complete earlier questions without an explicit instructional purpose.",
+   "breakdown": "5/√5 appears in both p49-q5-b and p50-q6-k; (1+√2)/√3 appears in both p48-guided-part-c and p51-q9-a.",
+   "checked": "Compared all four complete tasks. The earlier matching-numerator exercise has an explicit application purpose, but no purpose is stated for repeating its unchanged task later. The guided-to-independent copy likewise has no stated repetition purpose.",
+   "assumptions": "Exact repetition across guided and independent practice is included in the duplicate criterion.",
    "repair": {
-    "type": "add-review",
-    "proposal": "Before p48-definition-block, add: '(a) Complete 2/3=(2×5)/(3×__). (b) Evaluate 7/7 and √3/√3. (c) Complete (4/5)×(3/3)=__/15. (d) Explain why multiplying numerator and denominator by the same positive number preserves value.' Expected answers: 5; 1 and 1; 12; the multiplier is one."
+    "type": "change-values",
+    "proposal": "Change p50-q6-k to 7/√7, answer √7. Change p51-q9-a to (1+√3)/√2, answer (√2+√6)/2. Retain both earlier copies."
    },
-   "doneWhen": "A short opening review checks equivalent fractions and recognises the selected multiplier as one.",
+   "doneWhen": "Both later copies retain their original structures with different numbers.",
    "from": [
-    "c27"
+    "c27",
+    "c28"
    ],
    "sequences": [
     "rationalising-denominator"
@@ -648,47 +705,52 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T13:52:56.163Z"
+     "at": "2026-10-15T08:23:24.043Z"
     }
    ],
-   "commentId": "edba6c73-b612-41d3-8b9b-6f9e7b22f141",
-   "postedAt": "2026-10-11T13:52:56.205Z"
+   "commentId": "8c0f404d-31b4-4a2f-b819-eac7b3779a8d",
+   "postedAt": "2026-10-15T08:23:24.196Z"
   },
   {
-   "id": "pf-07f43e5fd5",
-   "kind": "difficulty-jump",
+   "id": "pf-81e7966c2c",
+   "kind": "opening-review",
    "severity": "high",
    "targets": [
     {
-     "id": "p51-q13",
-     "blockId": "p51-q13",
-     "hash": "8e4feee5e8c82be3d34c93e16886f5cc460786b26c7320f471bfa9f006cbe064"
+     "id": "p52-conjugate-definition",
+     "blockId": "p52-conjugate-definition",
+     "hash": "66fd06bf525f00f26f3ca77c53e1aebe20ccec3b1f031f972090af523e5aed59"
+    },
+    {
+     "id": "p53-rationalising-examples",
+     "blockId": "p53-rationalising-examples",
+     "hash": "aa2e0c708e09344a89f60edf5dc667efee8f64a3c65401df6ecae46fd9486ec9"
     }
    ],
-   "finding": "The final question combines squared reciprocal surd fractions, an external cancelling factor and two variables without an intermediate combined structure.",
-   "breakdown": "Students must transfer binomial squaring to fractional terms, simplify the reciprocal cross-product and cancel the external product simultaneously.",
-   "checked": "p43 models numerical surd squares; p49-q5 handles a single symbolic fraction; p51-q9 handles unsquared numerical fractions. These teach the component methods, but none supplies the combined structure or an existing bridge. Its closing position does not remove the sharp rise.",
-   "assumptions": "Ordinary algebraic fraction cancellation is prior knowledge. x and y are positive, as required for the displayed real denominators; no calculator is assumed.",
+   "finding": "The topic lacks an opening rehearsal of the earlier operations combined in its rationalisation examples.",
+   "breakdown": "The examples combine value-preserving fraction multiplication, distribution and surd multiplication while introducing conjugate selection. The conjugate-product questions rehearse the denominator calculation but not these other steps.",
+   "checked": "p48 teaches monomial rationalisation and p41 and p31 teach the other operations. Although monomial rationalisation immediately precedes this topic, the combined-method exception requires rehearsal of the earlier methods used together.",
+   "assumptions": "These operations are prior knowledge; exact arithmetic is used. Calculator access does not supply the algebraic decisions.",
    "repair": {
-    "type": "add-question",
-    "proposal": "Before p51-q13, add: '(a) Simplify 6(√2/√3−√3/√2)². (b) For x>0, simplify 3x(√x/√3−√3/√x)².' Expected answers: 1 and (x−3)². The first introduces the combined structure numerically; the second replaces one fixed quantity with a variable."
+    "type": "add-review",
+    "proposal": "Before p52-conjugate-definition add: (a) Simplify √5×2√2. [2√10] (b) Expand 3(4−√7). [12−3√7] (c) Rationalise 2/√3. [2√3/3] Include the short completion “Multiplying by √3/√3 preserves value because this multiplier equals ___.” [1] Keep the complete review within one page."
    },
-   "doneWhen": "Students encounter the combined squared-fraction structure numerically and then with one variable before the two-variable task.",
+   "doneWhen": "The opening review rehearses the three earlier operations before their combined use.",
    "from": [
-    "c29"
+    "c30"
    ],
    "sequences": [
-    "rationalising-denominator"
+    "rationalising-binomials"
    ],
    "state": "pending",
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T13:52:56.163Z"
+     "at": "2026-10-15T08:23:24.044Z"
     }
    ],
-   "commentId": "d7c1c98a-2e5a-48f6-bcb4-9d1a0b0b60b3",
-   "postedAt": "2026-10-11T13:52:56.207Z"
+   "commentId": "7eafaf15-60ab-404e-a651-acbf51f280b8",
+   "postedAt": "2026-10-15T08:23:24.197Z"
   },
   {
    "id": "pf-575cc5d253",
@@ -701,15 +763,15 @@
      "hash": "a0afd2dc903834c99f7ddbf98b66d6311fbd2ec112915fa78b9989aabc5c2ab2"
     }
    ],
-   "finding": "The infinite nested radical requires identifying its repeated tail with the whole expression, without supplying that method.",
-   "breakdown": "Finite nested-radical manipulation does not show how to turn the infinite expression into x=√(1+x). Without that recognition, the taught algebra cannot begin.",
-   "checked": "p57-q11 and p58-q12 work with finite radicals. The recurring-decimal subtraction examples align infinite decimal tails but do not identify a nested radical's tail with its whole value. Once x=√(1+x) is supplied, x²−x−1=0 has positive solution (1+√5)/2; the negative root is inadmissible.",
-   "assumptions": "Quadratic equations with irrational solutions are prior knowledge from separate course material. The infinite radical is interpreted as its limiting value.",
+   "finding": "The infinite nested radical requires a repeating-tail interpretation that preceding instruction does not supply.",
+   "breakdown": "Squaring finite nested radicals does not show how the infinite expression supplies x=√(1+x). This is a new representation-to-equation decision, rather than merely a harder calculation using the demonstrated method.",
+   "checked": "p57-q11-root and p58-q12-root concern finite radicals. Earlier recurring-decimal examples cancel recurring tails but do not identify an infinite nested radical with its own tail.",
+   "assumptions": "Quadratic solving is available from the course's separate equation topics. The stated radical is interpreted as its positive limiting value.",
    "repair": {
     "type": "add-cue",
-    "proposal": "Add: 'The infinite radical after the first 1 has the same form and value as x. Therefore x=√(1+x). Square both sides and solve, choosing the positive solution.'"
+    "proposal": "Append: “The expression under the first square root is 1 plus the same repeating radical. Write x=√(1+x), then square both sides and solve, remembering that x is positive.” The resulting answer is (1+√5)/2."
    },
-   "doneWhen": "The question supplies the repeated-tail equation while leaving its solution to students.",
+   "doneWhen": "The repeating-tail interpretation is supplied, leaving students to form and solve the quadratic.",
    "from": [
     "c31"
    ],
@@ -720,32 +782,36 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T13:52:56.163Z"
+     "at": "2026-10-15T08:13:57.445Z"
+    },
+    {
+     "state": "pending",
+     "at": "2026-10-15T08:23:24.044Z"
     }
    ],
-   "commentId": "ffb8d8e9-8f3c-4572-885e-944d2c529031",
-   "postedAt": "2026-10-11T13:52:56.209Z"
+   "commentId": "5a47d0f5-f95f-4478-8dd6-c5be74892a1e",
+   "postedAt": "2026-10-15T08:23:24.199Z"
   },
   {
-   "id": "pf-932a23193a",
+   "id": "pf-2c269356b8",
    "kind": "extension",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p57-q9-root",
-     "blockId": "p57-q9",
-     "hash": "e26d33abf9770c8127a64966441d05823706732bb388d0b1d932682778229b37"
+     "id": "p57-q10-root",
+     "blockId": "p57-q10",
+     "hash": "96783150692819019258b7256e7a8ecf82fe59ddeb761723afce0f2a522e0fc8"
     }
    ],
-   "finding": "Generalise the telescoping sum and determine when its value is rational.",
-   "breakdown": "This extends the cancellation structure explicitly established in p57-q9 rather than introducing another method.",
-   "checked": "For k≥1, rationalisation gives 1/(√k+√(k+1))=√(k+1)−√k. Summation leaves √(N+1)−1, rational exactly when N+1 is a perfect square. For positive N, this gives N=m²−1 with integer m≥2.",
-   "assumptions": "N is a positive integer. All required rationalisation, cancellation and classification methods are available by the topic's end.",
+   "finding": "Compare the sum and difference of reciprocal expressions using the existing numerical value of x.",
+   "breakdown": "The follow-up connects rationalisation with cancellation and the middle term in squared binomials.",
+   "checked": "For x=√7+√6, 1/x=√7−√6. Hence x−1/x=2√6, its square is 24, and the previously established squared sum is 28. All expressions are defined because x is positive.",
+   "assumptions": "Use the value of x already supplied in Question 10.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p57-q9-b, offer: 'For a positive integer N, simplify S_N=1/(1+√2)+1/(√2+√3)+⋯+1/(√N+√(N+1)). Explain the cancellation. For which N is S_N rational?' Expected answer: S_N=√(N+1)−1; rational exactly for N=m²−1, where m is an integer at least 2."
+    "proposal": "After p57-q10-b-ii append (iii) “Find x−1/x.” [2√6] (iv) “Find (x−1/x)².” [24] (v) “How much larger is (x+1/x)² than (x−1/x)²?” [4]"
    },
-   "doneWhen": "The optional task asks for the general sum, its cancellation explanation and the complete rationality condition.",
+   "doneWhen": "The optional follow-up compares the two squared expressions using the existing value of x.",
    "from": [
     "c32"
    ],
@@ -756,13 +822,73 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T13:52:56.163Z"
+     "at": "2026-10-15T08:13:57.445Z"
+    },
+    {
+     "state": "pending",
+     "at": "2026-10-15T08:23:24.044Z"
     }
-   ]
+   ],
+   "commentId": "d597ddba-1af9-4958-b0b6-74cf30e60337",
+   "postedAt": "2026-10-15T08:23:24.201Z"
   }
  ],
  "contextQuestions": [],
  "protectedGroups": [
+  {
+   "sequence": "surds",
+   "targets": [
+    "p14-e-response",
+    "p14-f-response",
+    "p14-g-response"
+   ],
+   "observation": "A rational root remains rational when multiplied by an integer or added to an integer.",
+   "varies": "The operation outside √16.",
+   "invariant": "The radicand and its rational square root."
+  },
+  {
+   "sequence": "surds",
+   "targets": [
+    "p14-h-response",
+    "p14-i-response",
+    "p14-j-response"
+   ],
+   "observation": "Cube roots can be rational or irrational.",
+   "varies": "Whether the radicand is a perfect cube.",
+   "invariant": "The cube-root operation."
+  },
+  {
+   "sequence": "surds",
+   "targets": [
+    "p14-l-response",
+    "p14-m-response",
+    "p14-n-response"
+   ],
+   "observation": "An outside negative sign and a change of root index have different effects on classification.",
+   "varies": "The outside sign and root index.",
+   "invariant": "The radicand 9."
+  },
+  {
+   "sequence": "surds",
+   "targets": [
+    "p14-q-response",
+    "p14-r-response",
+    "p14-s-response"
+   ],
+   "observation": "Negating a real square root differs from taking a square root of a negative number; an outside negative sign cannot make a non-real root real.",
+   "varies": "Placement of the negative sign.",
+   "invariant": "The square-root operation and radicand magnitude 1."
+  },
+  {
+   "sequence": "surds",
+   "targets": [
+    "p16-q9-i",
+    "p16-q9-j"
+   ],
+   "observation": "A fractional radicand can have either a rational or an irrational square root.",
+   "varies": "The numerator, from a perfect square to a non-square.",
+   "invariant": "The denominator 25/16 is not invariant; the shared feature is the fractional-radicand representation."
+  },
   {
    "sequence": "recurring-decimals",
    "targets": [
@@ -770,9 +896,9 @@
     "p4-q4-root",
     "p4-q5-root"
    ],
-   "observation": "The number of digits in a recurring block determines the number of nines in its denominator; leading zeros still count as block digits.",
-   "varies": "Repeating-block length and numerator, including numerators needing leading zeros.",
-   "invariant": "The entire decimal part repeats from immediately after the decimal point."
+   "observation": "The number of repeating places corresponds to the number of nines in the denominator, with leading zeros retained.",
+   "varies": "Repeating-block length increases from one to two to three digits.",
+   "invariant": "Calculator exploration is followed by reversing the observed pattern."
   },
   {
    "sequence": "recurring-decimals",
@@ -783,75 +909,32 @@
     "p5-q6-h",
     "p5-q6-i"
    ],
-   "observation": "A zero or digit outside the repeating block has a different role from one inside it.",
-   "varies": "Position and extent of the repeating block and the non-recurring prefix.",
-   "invariant": "Closely related decimal digits centred on recurring 4."
-  },
-  {
-   "sequence": "recurring-decimals",
-   "targets": [
-    "p5-q6-o",
-    "p5-q6-p",
-    "p5-q6-q"
-   ],
-   "observation": "Changing the integer part changes only the whole-number contribution; inserting a non-recurring zero scales the recurring contribution.",
-   "varies": "Integer part, then the starting position of repetition.",
-   "invariant": "Repeating block 43."
+   "observation": "Moving the start of repetition differs from including digits inside the repeating block.",
+   "varies": "Non-recurring prefix length and the placement of the recurrence mark.",
+   "invariant": "The recurring digit 4 anchors the comparison."
   },
   {
    "sequence": "recurring-decimals",
    "targets": [
     "p7-q9-a",
     "p7-q9-b",
-    "p7-q9-c"
+    "p7-q9-c",
+    "p7-q9-d",
+    "p7-q9-e"
    ],
-   "observation": "Moving the start of repetition changes the required shifts; a nonzero prefix contributes to the subtraction result.",
-   "varies": "No prefix, a zero prefix, then a nonzero prefix.",
-   "invariant": "Recurring digit 1."
+   "observation": "A recurring digit, a shifted recurrence, a nonzero prefix and a two-digit repeat require different aligned equations.",
+   "varies": "Prefix and repeating-block structure.",
+   "invariant": "Conversion to a fraction; the same five-part comparison recurs through p7-q9-y."
   },
   {
-   "sequence": "recurring-decimals",
+   "sequence": "irrational-numbers",
    "targets": [
-    "p7-q9-f",
-    "p7-q9-g",
-    "p7-q9-h"
+    "p9-identify-c",
+    "p9-identify-d"
    ],
-   "observation": "Repeat the prefix comparison with a different recurring digit.",
-   "varies": "No prefix, a zero prefix, then a nonzero prefix.",
-   "invariant": "Recurring digit 2."
-  },
-  {
-   "sequence": "recurring-decimals",
-   "targets": [
-    "p7-q9-k",
-    "p7-q9-l",
-    "p7-q9-m"
-   ],
-   "observation": "Repeat the prefix comparison with a different recurring digit.",
-   "varies": "No prefix, a zero prefix, then a nonzero prefix.",
-   "invariant": "Recurring digit 3."
-  },
-  {
-   "sequence": "recurring-decimals",
-   "targets": [
-    "p7-q9-p",
-    "p7-q9-q",
-    "p7-q9-r"
-   ],
-   "observation": "Repeat the prefix comparison with a different recurring digit.",
-   "varies": "No prefix, a zero prefix, then a nonzero prefix.",
-   "invariant": "Recurring digit 4."
-  },
-  {
-   "sequence": "recurring-decimals",
-   "targets": [
-    "p7-q9-u",
-    "p7-q9-v",
-    "p7-q9-w"
-   ],
-   "observation": "Repeat the prefix comparison with a different recurring digit.",
-   "varies": "No prefix, a zero prefix, then a nonzero prefix.",
-   "invariant": "Recurring digit 5."
+   "observation": "A terminating decimal and a recurring decimal can both be rational.",
+   "varies": "Whether the digit 3 terminates or repeats.",
+   "invariant": "The visible digit and rational classification."
   },
   {
    "sequence": "irrational-numbers",
@@ -860,74 +943,9 @@
     "p13-q9-r03",
     "p13-q9-r04"
    ],
-   "observation": "Doubling √6 gives the same decimal approximations and location as √24, preparing recognition of equivalent surd forms.",
-   "varies": "The coefficient and then the expression's representation.",
-   "invariant": "The combined classification, approximation and location task; the final two expressions have the same exact value."
-  },
-  {
-   "sequence": "surds",
-   "targets": [
-    "p14-e-response",
-    "p14-f-response",
-    "p14-g-response"
-   ],
-   "observation": "A perfect-square root remains rational when multiplied by an integer or added to an integer.",
-   "varies": "The surrounding operation.",
-   "invariant": "The root sqrt(16)."
-  },
-  {
-   "sequence": "surds",
-   "targets": [
-    "p14-j-response",
-    "p14-k-response"
-   ],
-   "observation": "Both the square root and cube root of 6 are irrational; the root index must be read.",
-   "varies": "The root index.",
-   "invariant": "The radicand 6 and the classification task."
-  },
-  {
-   "sequence": "surds",
-   "targets": [
-    "p14-l-response",
-    "p14-m-response",
-    "p14-n-response"
-   ],
-   "observation": "An outside negative changes the value without changing rationality, whereas changing the root index can change rationality.",
-   "varies": "The outside sign and then the root index.",
-   "invariant": "The radicand 9."
-  },
-  {
-   "sequence": "surds",
-   "targets": [
-    "p14-o-response",
-    "p14-p-response",
-    "p14-q-response",
-    "p14-r-response",
-    "p14-s-response"
-   ],
-   "observation": "Zero is unaffected by a negative sign, and a negative sign inside a square root has a different consequence from one outside.",
-   "varies": "Zero versus one and the location of negative signs.",
-   "invariant": "Square-root classification."
-  },
-  {
-   "sequence": "surds",
-   "targets": [
-    "p16-q9-i",
-    "p16-q9-j"
-   ],
-   "observation": "A fractional radicand can have either a rational or irrational square root.",
-   "varies": "The numerator, from 4 to 5.",
-   "invariant": "The denominator 16 is not invariant; the shared structure is a square root of a positive fraction with a perfect-square denominator."
-  },
-  {
-   "sequence": "surd-laws",
-   "targets": [
-    "p17-identify-row-3",
-    "p17-identify-row-4"
-   ],
-   "observation": "The position of 3 determines whether it is an index or a coefficient.",
-   "varies": "Position of 3 relative to the radical.",
-   "invariant": "Radicand a."
+   "observation": "Doubling sqrt(6) gives the same value and location as sqrt(24), while both differ from sqrt(6).",
+   "varies": "The multiplier and then the representation of the doubled value.",
+   "invariant": "The classification and approximation tasks; the final two rows have the same exact value."
   },
   {
    "sequence": "surd-laws",
@@ -937,30 +955,31 @@
     "p19-q1-c",
     "p19-q1-d"
    ],
-   "observation": "Squaring a square root and taking the square root of a positive number squared both return that number.",
-   "varies": "Order of squaring and rooting within each pair, then the positive number.",
-   "invariant": "The paired starting number and inverse operations."
+   "observation": "For positive inputs, reversing the order of squaring and square rooting returns the same input.",
+   "varies": "The order of the two operations within each pair.",
+   "invariant": "The input within each pair."
+  },
+  {
+   "sequence": "surd-laws",
+   "targets": [
+    "p17-identify-row-3",
+    "p17-identify-row-4"
+   ],
+   "observation": "A raised 3 is an index, whereas a baseline 3 is a coefficient.",
+   "varies": "The position and role of 3.",
+   "invariant": "The radicand a."
   },
   {
    "sequence": "surd-laws",
    "targets": [
     "p20-q8-d",
     "p20-q8-e",
-    "p20-q8-f"
-   ],
-   "observation": "A coefficient inside the squared brackets is itself squared.",
-   "varies": "Coefficient 1, 2 and 3.",
-   "invariant": "Radicand 10 and squaring the entire product."
-  },
-  {
-   "sequence": "surd-laws",
-   "targets": [
     "p20-q8-f",
     "p20-q8-g"
    ],
-   "observation": "Moving the coefficient outside the squared brackets changes whether it is squared.",
-   "varies": "Scope of the exponent.",
-   "invariant": "Coefficient 3, radicand 10 and exponent 2."
+   "observation": "A coefficient inside the squared brackets is squared; a coefficient outside them is not.",
+   "varies": "The coefficient and then the scope of the exponent, with coefficient 3 retained across the final contrast.",
+   "invariant": "The radicand 10 and exponent 2."
   },
   {
    "sequence": "surd-laws",
@@ -969,31 +988,9 @@
     "p20-q8-h",
     "p20-q8-i"
    ],
-   "observation": "An external coefficient multiplies the result of squaring the root without being squared itself.",
-   "varies": "External coefficient 3, 5 and 10.",
-   "invariant": "Squared square root of 10."
-  },
-  {
-   "sequence": "simplifying-surds",
-   "targets": [
-    "p22-q2",
-    "p22-q4",
-    "p23-q5"
-   ],
-   "observation": "Different valid extractions can reach the same simplest form, while choosing the highest square factor avoids repeated extraction.",
-   "varies": "The chosen square factor and whether further extraction remains.",
-   "invariant": "The value of the original root and the criterion for simplest form."
-  },
-  {
-   "sequence": "simplifying-surds",
-   "targets": [
-    "p24-q8-a",
-    "p24-q8-b",
-    "p24-q8-c"
-   ],
-   "observation": "An outside coefficient multiplies the extracted factor.",
-   "varies": "The coefficient: 1, 2, 3.",
-   "invariant": "The radicand 8 and its extraction √8 = 2√2."
+   "observation": "With only the root squared, the result scales directly with the outside coefficient.",
+   "varies": "The outside coefficient.",
+   "invariant": "The squared root (√10)²."
   },
   {
    "sequence": "addition-subtraction",
@@ -1002,9 +999,21 @@
     "p27-q2-b",
     "p27-q2-c"
    ],
-   "observation": "Combining like surds follows the same coefficient structure as collecting algebraic like terms, including implicit coefficients and a result with coefficient 1.",
-   "varies": "The coefficients and their difference.",
-   "invariant": "The parallel algebra and surd expressions, subtraction, and radicand 2."
+   "observation": "An implicit coefficient and a resulting coefficient of one behave just as they do in algebra.",
+   "varies": "The coefficients being subtracted and whether a coefficient of one is written.",
+   "invariant": "The common factor √2 and the algebra-to-surd comparison."
+  },
+  {
+   "sequence": "addition-subtraction",
+   "targets": [
+    "p27-q4-initial",
+    "p27-q4-a",
+    "p27-q4-b",
+    "p27-q4-c"
+   ],
+   "observation": "One radical simplification can be reused while the surrounding coefficients and operations change.",
+   "varies": "The surrounding expression and multiplier of √48.",
+   "invariant": "√48=4√3."
   },
   {
    "sequence": "addition-subtraction",
@@ -1012,33 +1021,25 @@
     "p28-q7-a",
     "p28-q7-b",
     "p28-q7-c",
-    "p28-q7-d"
-   ],
-   "observation": "Whether terms can be collected depends on their simplified radicands, and simplification also changes the coefficient.",
-   "varies": "Only the second radicand.",
-   "invariant": "The first term 2sqrt(3), second external coefficient 5, and addition."
-  },
-  {
-   "sequence": "addition-subtraction",
-   "targets": [
     "p28-q7-d",
     "p28-q7-e",
     "p28-q7-f",
     "p28-q7-g"
    ],
-   "observation": "A coefficient change affects the total, whereas a radicand change can switch between like and unlike simplified terms.",
-   "varies": "One coefficient or one radicand at each successive step.",
-   "invariant": "Two positive root terms joined by addition."
+   "observation": "Simplification determines whether terms can be collected; an expression can also remain a sum of unlike surds.",
+   "varies": "One radicand or coefficient at each transition.",
+   "invariant": "A sum of two positive radical terms."
   },
   {
    "sequence": "addition-subtraction",
    "targets": [
     "p28-q7-g",
-    "p28-q7-h"
+    "p28-q7-h",
+    "p28-q7-i"
    ],
-   "observation": "Swapping external coefficients between unequal root expressions changes the collected coefficient.",
-   "varies": "The placement of external coefficients 2 and 6.",
-   "invariant": "Radicands 30 and 120, their positions, and addition."
+   "observation": "Coefficients remain attached to their own radicals, and simplifying both radicals can reveal a common radical.",
+   "varies": "Coefficient placement, followed by multiplying both radicands by two.",
+   "invariant": "The second radicand is four times the first."
   },
   {
    "sequence": "addition-subtraction",
@@ -1047,20 +1048,30 @@
     "p28-q7-k",
     "p28-q7-l"
    ],
-   "observation": "Perfect-square roots become rational terms, which remain separate from the remaining irrational terms.",
-   "varies": "An added perfect-square-root term, then replacement of the first radicand by a perfect square.",
-   "invariant": "The term 2sqrt(24), addition, and the existing external coefficients."
+   "observation": "Perfect-square roots produce ordinary numbers, which are collected separately from the remaining surds.",
+   "varies": "An added perfect-square term, then replacement of the first radicand by a perfect square.",
+   "invariant": "The term 2√24."
   },
   {
-   "sequence": "multiplying-surds",
+   "sequence": "simplifying-surds",
    "targets": [
-    "p32-q3-a",
-    "p32-q3-b",
-    "p32-q3-explanation"
+    "p24-q8-a",
+    "p24-q8-b",
+    "p24-q8-c"
    ],
-   "observation": "Two valid orders of operations give the same result but different intermediate arithmetic.",
-   "varies": "Whether simplification precedes multiplication.",
-   "invariant": "The original expression sqrt(8) × sqrt(27)."
+   "observation": "Multiplying the original radical by a coefficient multiplies the simplified coefficient by the same amount.",
+   "varies": "The external coefficient: 1, 2, 3.",
+   "invariant": "The radicand is 8 and the task is to simplify."
+  },
+  {
+   "sequence": "simplifying-surds",
+   "targets": [
+    "p25-q12-c",
+    "p25-q12-d"
+   ],
+   "observation": "The external coefficient contributes the same square factor when the remaining radicand changes.",
+   "varies": "The radicand: 3, 5.",
+   "invariant": "The external coefficient is 3 and the expression must become one square root."
   },
   {
    "sequence": "multiplying-surds",
@@ -1072,32 +1083,32 @@
     "p33-q4-e",
     "p33-q4-f"
    ],
-   "observation": "A product may remain a surd, require extraction, or become rational as one radicand changes.",
+   "observation": "A product may need no extraction, yield a simplified surd, or become an integer depending on square factors in the product.",
    "varies": "The first radicand.",
-   "invariant": "The second factor sqrt(3), unit coefficients and the simplifying instruction."
+   "invariant": "The second factor is √3 and both coefficients are 1."
   },
   {
    "sequence": "multiplying-surds",
    "targets": [
+    "p33-q4-k",
     "p33-q4-l",
     "p33-q4-m",
     "p33-q4-n",
     "p33-q4-o"
    ],
-   "observation": "Changing the second radicand changes the product's extracted coefficient and whether a radical remains.",
-   "varies": "The second radicand: 5, 10, 20, 40.",
-   "invariant": "The first factor sqrt(20)."
+   "observation": "Holding one radical fixed exposes how the other radicand changes square-factor extraction and whether the result is rational.",
+   "varies": "The second radicand: 4, 5, 10, 20, 40.",
+   "invariant": "The first factor is √20."
   },
   {
    "sequence": "multiplying-surds",
    "targets": [
-    "p33-q5-l",
-    "p33-q5-m",
-    "p33-q5-n"
+    "p32-q3-a",
+    "p32-q3-b"
    ],
-   "observation": "The corresponding radicand comparison remains visible when coefficients multiply separately.",
-   "varies": "The second radicand: 5, 10, 20.",
-   "invariant": "The first factor 5sqrt(20) and the second coefficient 3."
+   "observation": "Simplifying before or after multiplication gives the same result, with different intermediate arithmetic.",
+   "varies": "The order of the two methods.",
+   "invariant": "The expression √8 × √27."
   },
   {
    "sequence": "dividing-surds",
@@ -1106,8 +1117,8 @@
     "p37-q4-b"
    ],
    "observation": "Simplifying before division and dividing before simplification give the same result.",
-   "varies": "Order of operations used to simplify.",
-   "invariant": "The complete expression sqrt(12)/sqrt(3)."
+   "varies": "Order of the two operations.",
+   "invariant": "The complete quotient sqrt(12)/sqrt(3)."
   },
   {
    "sequence": "dividing-surds",
@@ -1115,29 +1126,20 @@
     "p40-q11-k",
     "p40-q11-l"
    ],
-   "observation": "Changing the exponent from odd to even changes whether a radical remains.",
+   "observation": "An odd power retains a square-root factor whereas the adjacent even power produces a rational result.",
    "varies": "Exponent 3 versus 4.",
    "invariant": "Base 3sqrt(2) and denominator 4."
-  },
-  {
-   "sequence": "distributive-law",
-   "targets": [
-    "p41-guided-c",
-    "p41-guided-d"
-   ],
-   "observation": "Distribution can leave two unlike surds already in simplest form, with or without an outside coefficient.",
-   "varies": "The explicit outside coefficient and numerical radicands.",
-   "invariant": "A positive outside surd multiplies a sum of two surds; neither product needs further simplification or collection."
   },
   {
    "sequence": "expanding-binomials",
    "targets": [
     "p44-q3-a",
-    "p44-q3-b"
+    "p44-q3-b",
+    "p44-q3-c"
    ],
-   "observation": "Changing the order of terms within both brackets does not change the product.",
-   "varies": "Term order.",
-   "invariant": "The terms, signs and two factors."
+   "observation": "Reordering terms leaves a product unchanged, whereas changing a sign changes the product.",
+   "varies": "Term order from a to b, then one sign from b to c.",
+   "invariant": "The numbers 1 and 2, radicand 5 and two-binomial structure."
   },
   {
    "sequence": "expanding-binomials",
@@ -1145,19 +1147,9 @@
     "p44-q3-f",
     "p44-q3-g"
    ],
-   "observation": "Changing the common radicand changes the rational contribution while the cross-term coefficient remains the same.",
-   "varies": "The common radicand, from 5 to 7.",
-   "invariant": "The integer terms, signs and unit surd coefficients."
-  },
-  {
-   "sequence": "expanding-binomials",
-   "targets": [
-    "p44-q3-h",
-    "p44-q3-i"
-   ],
-   "observation": "Changing one integer term changes both its cross-product and the integer product.",
-   "varies": "The second bracket's integer term, from -1 to -6.",
-   "invariant": "The first bracket, common radicand and second surd coefficient."
+   "observation": "Changing the shared radicand changes the rational product and the remaining surd.",
+   "varies": "The radicand changes from 5 to 7.",
+   "invariant": "The constants +2 and −1 and the coefficient pattern."
   },
   {
    "sequence": "expanding-binomials",
@@ -1166,51 +1158,49 @@
     "p44-q3-k",
     "p44-q3-l"
    ],
-   "observation": "Conjugate factors cancel cross-products; identical factors retain and double them.",
-   "varies": "The signs and whether the two factors are identical.",
-   "invariant": "The two radical magnitudes."
+   "observation": "Conjugate products cancel cross-terms, while squared differences and sums retain them with opposite signs.",
+   "varies": "The signs and whether the brackets are conjugates or identical.",
+   "invariant": "The two surds √7 and √6."
   },
   {
    "sequence": "expanding-binomials",
    "targets": [
     "p46-q7-a",
     "p46-q7-b",
-    "p46-q7-c"
-   ],
-   "observation": "An integer product, a mixed product and a repeated-radical product behave differently despite sharing the numeral 5.",
-   "varies": "Whether each factor is 5 or sqrt(5).",
-   "invariant": "Multiplication and the underlying numeral."
-  },
-  {
-   "sequence": "expanding-binomials",
-   "targets": [
+    "p46-q7-c",
     "p46-q7-d",
     "p46-q7-e",
     "p46-q7-f"
    ],
-   "observation": "Coefficients multiply separately from radicals, and two equal radicals produce a rational factor.",
-   "varies": "The first factor: 5, sqrt(5), then 5sqrt(5).",
-   "invariant": "The second factor, 5sqrt(5)."
+   "observation": "Integer factors, surd factors and their coefficients play different roles in multiplication.",
+   "varies": "Whether each factor is 5, √5 or 5√5.",
+   "invariant": "The numerical base and radicand 5 and a product of two factors."
   },
   {
    "sequence": "expanding-binomials",
    "targets": [
     "p46-q7-l",
-    "p46-q7-m"
-   ],
-   "observation": "Changing one sign turns a binomial square into a conjugate product and removes the cross-terms.",
-   "varies": "The sign in the second bracket.",
-   "invariant": "The terms 5 and sqrt(5)."
-  },
-  {
-   "sequence": "expanding-binomials",
-   "targets": [
+    "p46-q7-m",
     "p46-q7-n",
     "p46-q7-o"
    ],
-   "observation": "Changing one coefficient makes the factors identical and changes both affected products.",
-   "varies": "The coefficient of sqrt(5) in the first bracket.",
-   "invariant": "The second bracket and both integer terms."
+   "observation": "A conjugate pair cancels cross-terms, while changing surd coefficients changes both cross-products and the rational product.",
+   "varies": "One sign and then the surd coefficients.",
+   "invariant": "Two binomial factors built from 5 and √5."
+  },
+  {
+   "sequence": "rationalising-denominator",
+   "targets": [
+    "p49-q1-a",
+    "p49-q1-b",
+    "p49-q1-c",
+    "p49-q1-d",
+    "p49-q1-e",
+    "p49-q1-f"
+   ],
+   "observation": "Multiplication by a matching square root produces an integer, including when a coefficient is present.",
+   "varies": "Radicand, coefficient and position of the missing factor.",
+   "invariant": "The two square-root factors have the same radicand."
   },
   {
    "sequence": "rationalising-denominator",
@@ -1222,9 +1212,9 @@
     "p50-q6-e",
     "p50-q6-f"
    ],
-   "observation": "Changing one neighbouring value exposes when rationalisation also permits coefficient cancellation.",
-   "varies": "Numerator or denominator radicand, one at a time.",
-   "invariant": "An integer numerator over a single square root."
+   "observation": "Rationalisation uses the same method whether the resulting integer denominator cancels fully, partly or not at all.",
+   "varies": "One numerator or radicand at each consecutive step.",
+   "invariant": "An integer numerator divided by a single square root."
   },
   {
    "sequence": "rationalising-denominator",
@@ -1234,21 +1224,20 @@
     "p50-q6-h",
     "p50-q6-i"
    ],
-   "observation": "A coefficient outside the root remains a factor in the rationalised denominator.",
-   "varies": "Denominator coefficient: 1, 2, 3, 10.",
-   "invariant": "Numerator 5 and denominator surd sqrt(6)."
+   "observation": "A coefficient outside the denominator's square root remains an outside factor after rationalisation.",
+   "varies": "The denominator coefficient: 1, 2, 3 and 10.",
+   "invariant": "Numerator 5 and denominator radicand 6."
   },
   {
    "sequence": "rationalising-denominator",
    "targets": [
-    "p50-q6-l",
     "p50-q6-m",
     "p50-q6-n",
     "p50-q6-o"
    ],
-   "observation": "The run connects cancellation, changed radicands and equivalent representations of a denominator.",
-   "varies": "First the numerator, then the radicand, then the representation sqrt(12) = 2sqrt(3).",
-   "invariant": "A single surd factor in the denominator; the last two expressions have equal values."
+   "observation": "Equivalent forms of a surd denominator lead to equivalent rationalised results.",
+   "varies": "The denominator changes from √8 to √12 and then to the equivalent form 2√3.",
+   "invariant": "Numerator 10; the final two denominators represent the same length."
   },
   {
    "sequence": "rationalising-binomials",
@@ -1257,8 +1246,8 @@
     "p52-conjugate-answer-3",
     "p52-conjugate-answer-4"
    ],
-   "observation": "Changing term order and then the sign separates conjugate formation from always placing the rational term first.",
-   "varies": "Term order and the sign between terms.",
+   "observation": "Students distinguish reordering an addition from reversing a subtraction when forming the displayed conjugate pair.",
+   "varies": "Order and sign of the same two terms.",
    "invariant": "The terms 8 and √5."
   },
   {
@@ -1270,9 +1259,9 @@
     "p55-q10-d",
     "p55-q10-e"
    ],
-   "observation": "Addition can be reordered without changing value, whereas reversing subtraction changes the sign; changing the numerator can then remove the denominator.",
-   "varies": "One change at each step: additive order, denominator sign, numerator, then subtraction order.",
-   "invariant": "The denominator terms 3 and √2 and the rationalisation method."
+   "observation": "Reordering an addition preserves value, changing the connecting sign changes the conjugate, and reversing subtraction negates the value.",
+   "varies": "Term order, connecting sign, then numerator.",
+   "invariant": "The denominator terms 3 and √2."
   },
   {
    "sequence": "rationalising-binomials",
@@ -1281,9 +1270,9 @@
     "p55-q10-j",
     "p55-q10-k"
    ],
-   "observation": "Scaling the numerator scales the rationalised expression even when its simplified presentation changes.",
+   "observation": "Scaling the numerator scales the rationalised expression.",
    "varies": "Numerator coefficient 1, 2, 4.",
-   "invariant": "Numerator surd √5 and denominator 5−√3."
+   "invariant": "Denominator 5−√3 and numerator radicand 5."
   },
   {
    "sequence": "rationalising-binomials",
@@ -1292,9 +1281,9 @@
     "p55-q10-l",
     "p55-q10-m"
    ],
-   "observation": "The surd coefficient is squared in the conjugate product, and increasing it can change the denominator's sign.",
+   "observation": "The complete surd coefficient must be squared in the conjugate product, and the resulting denominator can change sign.",
    "varies": "Denominator surd coefficient 1, 2, 3.",
-   "invariant": "Numerator 4√5, rational denominator term 5, radicand 3 and subtraction order."
+   "invariant": "Numerator 4√5, rational denominator term 5 and radicand 3."
   },
   {
    "sequence": "rationalising-binomials",
@@ -1303,14 +1292,14 @@
     "p55-q10-n",
     "p55-q10-o"
    ],
-   "observation": "The same denominator treatment works when the numerator changes from an unlike surd to a matching surd and then to a binomial.",
+   "observation": "The denominator's conjugate remains fixed while numerator multiplication becomes more involved.",
    "varies": "Numerator radicand, then addition of a second numerator term.",
-   "invariant": "Denominator 5−3√3 and its conjugate multiplier."
+   "invariant": "Denominator 5−3√3."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 13,
- "reviewedAt": "2026-10-11T13:52:56.163Z",
+ "reviewedRevision": 21,
+ "reviewedAt": "2026-10-15T08:23:24.044Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -1334,14 +1323,14 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 25655,
+     "input_tokens": 26074,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 6500,
-     "reasoning_output_tokens": 287
+     "output_tokens": 3567,
+     "reasoning_output_tokens": 149
     },
-    "elapsedMs": 161140,
-    "candidates": 2,
+    "elapsedMs": 89453,
+    "candidates": 4,
     "discarded": [],
     "suggestions": 1
    },
@@ -1352,16 +1341,16 @@
     "images": 5,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 44921,
-     "cached_input_tokens": 14592,
+     "input_tokens": 45346,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4617,
-     "reasoning_output_tokens": 68
+     "output_tokens": 4571,
+     "reasoning_output_tokens": 64
     },
-    "elapsedMs": 125661,
+    "elapsedMs": 97832,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "surds",
@@ -1370,13 +1359,13 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 32080,
+     "input_tokens": 32499,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3071,
-     "reasoning_output_tokens": 157
+     "output_tokens": 1902,
+     "reasoning_output_tokens": 88
     },
-    "elapsedMs": 87975,
+    "elapsedMs": 51913,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -1388,13 +1377,13 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 34465,
-     "cached_input_tokens": 14592,
+     "input_tokens": 34882,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2381,
-     "reasoning_output_tokens": 95
+     "output_tokens": 2586,
+     "reasoning_output_tokens": 219
     },
-    "elapsedMs": 68760,
+    "elapsedMs": 70583,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -1406,13 +1395,13 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 34836,
-     "cached_input_tokens": 14592,
+     "input_tokens": 35253,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3299,
-     "reasoning_output_tokens": 297
+     "output_tokens": 3398,
+     "reasoning_output_tokens": 397
     },
-    "elapsedMs": 98970,
+    "elapsedMs": 86181,
     "candidates": 2,
     "discarded": [],
     "suggestions": 1
@@ -1424,13 +1413,13 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 36624,
-     "cached_input_tokens": 14592,
+     "input_tokens": 37043,
+     "cached_input_tokens": 0,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4333,
-     "reasoning_output_tokens": 128
+     "output_tokens": 2724,
+     "reasoning_output_tokens": 205
     },
-    "elapsedMs": 114844,
+    "elapsedMs": 72252,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -1442,13 +1431,13 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 37387,
+     "input_tokens": 37806,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5091,
-     "reasoning_output_tokens": 237
+     "output_tokens": 2791,
+     "reasoning_output_tokens": 211
     },
-    "elapsedMs": 132805,
+    "elapsedMs": 72984,
     "candidates": 2,
     "discarded": [],
     "suggestions": 1
@@ -1460,14 +1449,14 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 37085,
+     "input_tokens": 37502,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4806,
-     "reasoning_output_tokens": 208
+     "output_tokens": 3761,
+     "reasoning_output_tokens": 171
     },
-    "elapsedMs": 129015,
-    "candidates": 3,
+    "elapsedMs": 89293,
+    "candidates": 2,
     "discarded": [],
     "suggestions": 2
    },
@@ -1478,13 +1467,13 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 30845,
+     "input_tokens": 31262,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3519,
-     "reasoning_output_tokens": 281
+     "output_tokens": 2841,
+     "reasoning_output_tokens": 100
     },
-    "elapsedMs": 100449,
+    "elapsedMs": 73937,
     "candidates": 2,
     "discarded": [],
     "suggestions": 2
@@ -1496,13 +1485,13 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 39758,
-     "cached_input_tokens": 14592,
+     "input_tokens": 40175,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4965,
-     "reasoning_output_tokens": 262
+     "output_tokens": 4176,
+     "reasoning_output_tokens": 148
     },
-    "elapsedMs": 132756,
+    "elapsedMs": 112043,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -1514,14 +1503,14 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 37965,
-     "cached_input_tokens": 14592,
+     "input_tokens": 38384,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3354,
-     "reasoning_output_tokens": 185
+     "output_tokens": 2979,
+     "reasoning_output_tokens": 330
     },
-    "elapsedMs": 100930,
-    "candidates": 3,
+    "elapsedMs": 80584,
+    "candidates": 2,
     "discarded": [],
     "suggestions": 1
    },
@@ -1532,14 +1521,14 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 37460,
+     "input_tokens": 37881,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5464,
-     "reasoning_output_tokens": 309
+     "output_tokens": 4829,
+     "reasoning_output_tokens": 203
     },
-    "elapsedMs": 146458,
-    "candidates": 1,
+    "elapsedMs": 116029,
+    "candidates": 2,
     "discarded": [],
     "suggestions": 1
    }
@@ -1547,52 +1536,18 @@
   "dropped": [
    {
     "ids": [
-     "c5"
+     "c7"
     ],
-    "reason": "The suggested exact explanations require the classification rules proposed in c4; those rules are not supplied by the existing teaching by this topic's end. A suggestion cannot depend on implementing another repair.",
+    "reason": "The calculations and rounding explanation are correct, but this calculator-rounding extension is less central to the booklet's surd relationships than the four retained suggestions.",
     "candidates": [
      {
-      "id": "c5",
-      "sequence": "irrational-numbers",
-      "kind": "variation-sequence",
-      "targets": [
-       "p9-key-ideas"
-      ],
-      "finding": "Contrast perfect-square status with adding an integer to a square root."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c6"
-    ],
-    "reason": "The mathematics is correct and rounding is available, but this was not selected among the four strongest suggestions. The calculator-approximation distinction already appears in p3-q1-c.",
-    "candidates": [
-     {
-      "id": "c6",
+      "id": "c7",
       "sequence": "irrational-numbers",
       "kind": "extension",
       "targets": [
        "p13-q9"
       ],
-      "finding": "Explain why equal rounded decimals need not represent equal exact numbers."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c7"
-    ],
-    "reason": "The construction correctly gives √3≈1.73 and uses available Pythagoras and compass methods, but it was not selected among the four strongest suggestions.",
-    "candidates": [
-     {
-      "id": "c7",
-      "sequence": "surds",
-      "kind": "extension",
-      "targets": [
-       "p16-q10"
-      ],
-      "finding": "Extend the unit-leg construction to produce an exact length of sqrt(3)."
+      "finding": "Compare rounding a doubled value with doubling an already rounded value."
      }
     ]
    },
@@ -1600,33 +1555,84 @@
     "ids": [
      "c8"
     ],
-    "reason": "The expressions are k²x and kx, equal exactly for k=0 or 1 under the stated conditions. The task is valid but was not selected among the four strongest suggestions.",
+    "reason": "The mathematics is correct, but the final comparison repeats the negative-root distinction already explicitly taught in p14-roots-block and tested in p14-identify-root. It is weaker than the four retained suggestions.",
     "candidates": [
      {
       "id": "c8",
-      "sequence": "surd-laws",
+      "sequence": "surds",
       "kind": "extension",
       "targets": [
-       "p20-q8-block"
+       "p16-q10-root"
       ],
-      "finding": "Find when a coefficient inside squared brackets gives the same result as that coefficient outside them."
+      "finding": "Reflect the constructed point across zero to connect negative surds with real-number locations."
      }
     ]
    },
    {
     "ids": [
-     "c15"
+     "c9"
     ],
-    "reason": "The identity √(km)√(kn)=k√(mn) is correct for positive integers, including 7√6 for the example. It was not selected among the four strongest suggestions.",
+    "reason": "Both squared expressions equal 72, four times part a. The extension is valid but offers less additional insight than the four retained suggestions.",
     "candidates": [
      {
-      "id": "c15",
+      "id": "c9",
+      "sequence": "surd-laws",
+      "kind": "extension",
+      "targets": [
+       "p20-q7-root"
+      ],
+      "finding": "Compare two changes to the expression in part a that produce the same squared value."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c12"
+    ],
+    "reason": "The side length 8√2 m and factor of two are correct. This valid area-scaling follow-up is omitted under the four-suggestion booklet limit.",
+    "candidates": [
+     {
+      "id": "c12",
+      "sequence": "simplifying-surds",
+      "kind": "extension",
+      "targets": [
+       "p24-q9"
+      ],
+      "finding": "Extend the square-area task to compare how multiplying area by four changes side length."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c16"
+    ],
+    "reason": "The diagonal 4√6 cm and factor of two are correct, but this repeats the area-to-length scaling opportunity in c12 and is weaker than the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c16",
       "sequence": "multiplying-surds",
       "kind": "extension",
       "targets": [
-       "p34-q7-block"
+       "p35-q9"
       ],
-      "finding": "Generalise multiplication of radicals whose radicands share a factor."
+      "finding": "Compare diagonal lengths when a square's area is multiplied by four."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c18"
+    ],
+    "reason": "Earlier practice defeats the claim that geometry and Pythagoras arrive together for the first time: p16-q10 constructs a right triangle and uses Pythagoras, and p35-q9 combines square area with a Pythagorean diagonal calculation. The isosceles-height construction extends these taught applications by one principal geometric decision; the evidence does not establish the claimed sharp jump.",
+    "candidates": [
+     {
+      "id": "c18",
+      "sequence": "dividing-surds",
+      "kind": "difficulty-jump",
+      "targets": [
+       "p39-q8-a"
+      ],
+      "finding": "The move from symbolic products and quotients to finding an isosceles triangle's area introduces several geometry decisions at once without a bridge."
      }
     ]
    },
@@ -1634,7 +1640,7 @@
     "ids": [
      "c19"
     ],
-    "reason": "All predictions and answers are correct and require available methods, but this variation sequence was not selected among the four strongest suggestions.",
+    "reason": "The answers are correct, but proposed part h exactly repeats existing p38-q6a. Even with that copy repaired, this sequence is weaker than the four retained suggestions.",
     "candidates": [
      {
       "id": "c19",
@@ -1643,7 +1649,7 @@
       "targets": [
        "p38-q6"
       ],
-      "finding": "Hold the denominator fixed while varying the numerator radicand to compare rational and irrational quotients."
+      "finding": "Keep the radicands fixed while varying only the numerator coefficient."
      }
     ]
    },
@@ -1651,33 +1657,33 @@
     "ids": [
      "c20"
     ],
-    "reason": "For y>0 the quotient is √(a/b), an integer exactly when a=k²b for a positive integer k. The valid task was not selected among the four strongest suggestions.",
+    "reason": "The proposed area 36√5 cm² and perimeter 12+12√6 cm are correct. This geometry follow-up is less central than the four retained suggestions.",
     "candidates": [
      {
       "id": "c20",
       "sequence": "dividing-surds",
       "kind": "extension",
       "targets": [
-       "p39-q9-root"
+       "p39-q8-root"
       ],
-      "finding": "Generalise the variable cancellation and find when the quotient is an integer."
+      "finding": "Compare two isosceles triangles with the same base and doubled height."
      }
     ]
    },
    {
     "ids": [
-     "c23"
+     "c21"
     ],
-    "reason": "The run varies only the second radicand and all answers, including −3√10 for the follow-up, are correct. It was not selected among the four strongest suggestions.",
+    "reason": "The immediately preceding dividing-surds exercise already practises multiplication with coefficients and radicands, including p39-q10-d and p40-q11-m through p40-q11-o. The opening-review exemption for skills practised in the preceding topic defeats this finding; distribution itself is taught in the current topic.",
     "candidates": [
      {
-      "id": "c23",
+      "id": "c21",
       "sequence": "distributive-law",
-      "kind": "variation-sequence",
+      "kind": "opening-review",
       "targets": [
-       "p41-guided-f"
+       "p41-example-group"
       ],
-      "finding": "Keep the outside factor and first bracket term fixed while varying the second radicand to expose when collection becomes possible."
+      "finding": "Both introductory examples require multiplication of surds with coefficients, but the topic has no opening review to rebuild recall of that method."
      }
     ]
    },
@@ -1685,16 +1691,16 @@
     "ids": [
      "c24"
     ],
-    "reason": "The general expression equals n for every positive integer n using available methods. The valid task was not selected among the four strongest suggestions.",
+    "reason": "The proposed answers are correct, but the first part centres on the impossibility of a whole-number choice. This is weaker than the retained reverse-simplification extension c13 and the other three selected suggestions.",
     "candidates": [
      {
       "id": "c24",
       "sequence": "distributive-law",
       "kind": "extension",
       "targets": [
-       "p42-q2"
+       "p42-q2-block"
       ],
-      "finding": "Generalise a cancellation pattern involving the same radicand in both bracket terms."
+      "finding": "Use the expression in p42-q2-a to choose an outside subtraction that cancels its √2 term."
      }
     ]
    },
@@ -1702,51 +1708,33 @@
     "ids": [
      "c26"
     ],
-    "reason": "All three identities are correct for the stated integers and positive radicand and use available expansion methods. The task was not selected among the four strongest suggestions.",
+    "reason": "The square areas 4±2√3 m² total 8 m², four times the rectangle's area. The follow-up is valid but omitted under the four-suggestion booklet limit.",
     "candidates": [
      {
       "id": "c26",
       "sequence": "expanding-binomials",
       "kind": "extension",
       "targets": [
-       "p47-q12"
+       "p46-q8-block"
       ],
-      "finding": "Use square expansions to explain identities involving paired positive and negative surd terms."
+      "finding": "Compare the rectangle in part b with squares built on its two side lengths."
      }
     ]
    },
    {
     "ids": [
-     "c28"
+     "c29"
     ],
-    "reason": "The complete tasks have different supplied contexts: p49-q5-b explicitly applies the identity just established by the shared proof ('Therefore, simplify'), whereas p50-q6-k asks students to select and carry out rationalisation without that supplied identity. The unchanged-whole-task test fails when the shared stem and givens are included.",
+    "reason": "Both lengths equal √6/3 m and doubling one dimension gives area 4/3 m². The follow-up is valid but less central than the four retained suggestions.",
     "candidates": [
      {
-      "id": "c28",
-      "sequence": "rationalising-denominator",
-      "kind": "duplicate-question",
-      "targets": [
-       "p49-q5-b",
-       "p50-q6-k"
-      ],
-      "finding": "The complete task of simplifying 5/sqrt(5) appears twice without an explicit instructional reason for the later copy."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c30"
-    ],
-    "reason": "For positive x,y and real coefficients a,b, the expression correctly simplifies to (ax−by)² using available methods. It was not selected among the four strongest suggestions.",
-    "candidates": [
-     {
-      "id": "c30",
+      "id": "c29",
       "sequence": "rationalising-denominator",
       "kind": "extension",
       "targets": [
-       "p51-q13"
+       "p51-q8-b"
       ],
-      "finding": "Generalise the cancellation structure in the final question."
+      "finding": "Use the rectangle's equivalent side expressions to connect surd simplification with area scaling."
      }
     ]
    }
@@ -1754,8 +1742,8 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/surds-v1/candidates-low-1791726511934.json",
+  "candidateFile": ".booklet-work/pedagogy-review/surds-v1/candidates-low-1792052428986.json",
   "errors": []
  },
- "postedRevision": 14
+ "postedRevision": 22
 }

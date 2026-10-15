@@ -5,42 +5,6 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-cf0016379a",
-   "kind": "variation-sequence",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p4-guided-block",
-     "blockId": "p4-guided-block",
-     "hash": "44ac188558db47ec47029e0e1b2cd47427c5621e308beaff4a3f43e2cbc73369"
-    }
-   ],
-   "finding": "Compare scaling a squared quantity with scaling its two solutions.",
-   "breakdown": "The run exposes why dividing the constant by 100 divides each solution by 10.",
-   "checked": "All proposed solutions are correct. Square-root solving and both signs are taught before this placement; the supplied practice has no equivalent scaling run.",
-   "assumptions": "Students can calculate simple decimal square roots, with calculator support if needed.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p4-guided-block, ask students to predict before solving: x²=400, x²=4, x²=0.04, x²=0.0004. Answers: ±20, ±2, ±0.2, ±0.02. Ask: 'When the constant is divided by 100, what happens to each solution?' Answer: each is divided by 10. The constant varies; the equation structure and inclusion of both signs stay fixed. Follow with x²=0.09; answer: ±0.3."
-   },
-   "doneWhen": "Students predict, solve and explain the scaling relationship, then solve the unpatterned follow-up.",
-   "from": [
-    "c1"
-   ],
-   "sequences": [
-    "one-step-quadratic-equations"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T10:51:09.846Z"
-    }
-   ],
-   "commentId": "1e574e08-cdce-47b4-be58-cd7bee71376f",
-   "postedAt": "2026-10-11T10:51:09.855Z"
-  },
-  {
    "id": "pf-c8a5eee21b",
    "kind": "extension",
    "severity": "suggestion",
@@ -51,17 +15,17 @@
      "hash": "ea20a11e6c547671fe866ba83cf0a42e7a849c933c8a18770dd824b239d7a354"
     }
    ],
-   "finding": "Generalise the sum and product of the two solutions.",
-   "breakdown": "This extends the taught opposite-sign structure without introducing another solving method.",
-   "checked": "For c>0, the solutions √c and −√c have sum 0 and product −c. The three numerical examples and general explanation are correct.",
-   "assumptions": "Multiplication of signed quantities and elementary algebra are prior knowledge.",
+   "finding": "Extend Billy’s context to connect the smallest attainable result with one or two solutions.",
+   "breakdown": "The follow-up applies the taught facts that a square is non-negative and positive squares have two signed roots.",
+   "checked": "The minimum is 10, attained only at 0; a result of 14 requires x²=4 and hence x=±2. All methods are taught in p3-definition and p4-solving-block.",
+   "assumptions": "Numbers are real.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p5-q5, offer: 'For x²=9, x²=16 and x²=23, find the sum and product of the two solutions. Predict and explain these results for x²=c, where c>0.' Expected sums: 0 throughout. Expected products: −9, −16, −23. Generally, write the solutions as r and −r, with r²=c: their sum is 0 and their product is −c."
+    "proposal": "Append to p5-q5: (a) What is the smallest possible result when Billy adds 10 to the square of a number? Answer: 10. (b) Which number gives this result? Answer: 0. (c) Which numbers give a result of 14? Answer: 2 and −2."
    },
-   "doneWhen": "The optional task includes the condition c>0 and the expected general explanation.",
+   "doneWhen": "The three follow-up parts use Billy’s existing context and include the stated answers.",
    "from": [
-    "c2"
+    "c1"
    ],
    "sequences": [
     "one-step-quadratic-equations"
@@ -70,39 +34,34 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T10:51:09.846Z"
+     "at": "2026-10-15T10:52:22.218Z"
     }
    ],
-   "commentId": "68cd606f-05fd-412b-8a0a-979d3214b94b",
-   "postedAt": "2026-10-11T10:51:09.856Z"
+   "commentId": "532ac15a-2622-4562-bac5-ff4cf9d8462c",
+   "postedAt": "2026-10-15T10:52:22.380Z"
   },
   {
-   "id": "pf-f16ca88cc7",
+   "id": "pf-6cb846f299",
    "kind": "opening-review",
    "severity": "high",
    "targets": [
-    {
-     "id": "p6-information-block",
-     "blockId": "p6-information-block",
-     "hash": "9bc643344668c782cd96c0c429feb6161dbf05d5d143c42793026d25f8430260"
-    },
     {
      "id": "p6-example-left",
      "blockId": "p6-example-block",
      "hash": "bf091f727e2f27590c0d68404b44651cdd0f9d8c96eb6b983bab6f7a54556d97"
     }
    ],
-   "finding": "The opening review does not rehearse division of both sides to undo multiplication before the worked example uses it to isolate x².",
-   "breakdown": "In p6-example-left, students must recognise that 2x²=50 requires dividing both sides by 2. Earlier square-root teaching starts with x² already isolated.",
-   "checked": "There is no review in this topic. Earlier teaching does not rehearse coefficient removal by division. The preceding p5-q5 involves undoing addition, so subtraction is excluded from this finding. Multiplication and addition are also excluded because neither is a direct step in the two worked examples.",
-   "assumptions": "Linear-equation solving is prior knowledge taught elsewhere in the course. Calculator availability does not affect choosing the inverse operation.",
+   "finding": "The topic does not rehearse dividing both sides by a coefficient before its introductory example uses that operation to isolate x².",
+   "breakdown": "In 2x²=50, students must recall that division by 2 isolates the squared unknown before applying the recently taught square-root method.",
+   "checked": "No supplied opening review rehearses coefficient division. The preceding one-step topic teaches square roots. Its p5-q5 already requires subtracting 10, so subtraction is excluded from this finding.",
+   "assumptions": "Solving linear equations by inverse operations is prior knowledge. Calculator availability does not affect the missing algebraic recall.",
    "repair": {
     "type": "add-review",
-    "proposal": "Before p6-information-block, add: 'Solve each equation. Show the operation applied to both sides: (a) 3y=21; (b) 5y=40.' Expected answers: y=7 and y=8, using division by 3 and 5 respectively."
+    "proposal": "Before p6-information-block, add: “Solve: (a) 4y=36; (b) −2y=−4.5; (c) 50=2y.” Answers: (a) 9; (b) 2.25; (c) 25. Keep the review within one page."
    },
-   "doneWhen": "A short opening review rehearses undoing multiplication by dividing both sides before the quadratic example.",
+   "doneWhen": "A short opening review rehearses dividing both sides by a coefficient before p6-example-left.",
    "from": [
-    "c3"
+    "c2"
    ],
    "sequences": [
     "two-step-quadratic-equations"
@@ -111,70 +70,29 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T10:51:09.846Z"
+     "at": "2026-10-15T10:52:22.218Z"
     }
    ],
-   "commentId": "17fd4d77-dca3-46f3-be76-cd85e985de6a",
-   "postedAt": "2026-10-11T10:51:09.858Z"
+   "commentId": "cc69bb55-8783-4c05-aace-3a46bfeef4db",
+   "postedAt": "2026-10-15T10:52:22.384Z"
   },
   {
-   "id": "pf-5ff492d7ba",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p8-q2",
-     "blockId": "p8-q2",
-     "hash": "5354fc4785f6bfc3c1662494c9ac63472c1d8e9d0908b9e8878f6043513ab3ab"
-    }
-   ],
-   "finding": "Generalise how a parameter determines the number of real solutions.",
-   "breakdown": "The task combines isolation of x² with the sign-based distinction explicitly taught in the first topic.",
-   "checked": "From 2x²+k=18, x²=(18−k)/2. There are two real solutions for k<18, one for k=18 and none for k>18. All proposed examples are correct.",
-   "assumptions": "Students can compare a parameter with a numerical threshold.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p8-q2, offer: 'For 2x²+k=18, find all real values of k giving two, one or no real solutions. Explain, then give an example of each.' Expected answer: two when k<18; one when k=18; none when k>18. Examples: k=0 gives x=±3; k=18 gives x=0; k=20 gives no real solution."
-   },
-   "doneWhen": "The optional task connects each parameter range to the sign of the isolated squared quantity.",
-   "from": [
-    "c4"
-   ],
-   "sequences": [
-    "two-step-quadratic-equations"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T10:51:09.846Z"
-    }
-   ],
-   "commentId": "00b96cce-f5ca-4726-a4f3-30fccd8e9f69",
-   "postedAt": "2026-10-11T10:51:09.858Z"
-  },
-  {
-   "id": "pf-45e7d0ceaf",
+   "id": "pf-237e33aff5",
    "kind": "missing-prerequisite",
    "severity": "high",
    "targets": [
     {
      "id": "p10-q2-b-1",
      "blockId": "p10-q2-block",
-     "hash": "2a7a6ddfc97cc04241ba26dece577692417003f0545556ea184f88b1c6ab3ddf"
+     "hash": "d873e0900a358e918ef3fd2f53306d00512216e6e5cc98b701ba09c93f26b506"
     },
     {
      "id": "p10-q2-b-2",
      "blockId": "p10-q2-block",
-     "hash": "2a7a6ddfc97cc04241ba26dece577692417003f0545556ea184f88b1c6ab3ddf"
+     "hash": "d873e0900a358e918ef3fd2f53306d00512216e6e5cc98b701ba09c93f26b506"
     },
     {
      "id": "p12-q6-b",
-     "blockId": "p12-q6",
-     "hash": "fb8a9f1dbf23a0d3385043fdf75c4569b7521a30103c49722df7e23da0883beb"
-    },
-    {
-     "id": "p12-q6-c",
      "blockId": "p12-q6",
      "hash": "fb8a9f1dbf23a0d3385043fdf75c4569b7521a30103c49722df7e23da0883beb"
     },
@@ -184,17 +102,17 @@
      "hash": "fb8a9f1dbf23a0d3385043fdf75c4569b7521a30103c49722df7e23da0883beb"
     }
    ],
-   "finding": "The radical formulas require squaring both sides, but no preceding teaching demonstrates this inverse-operation variant.",
-   "breakdown": "At p10-q2-b-1, substitution gives 8=√(4/y). Students must first obtain 64=4/y; the demonstrated quadratic method instead takes square roots of isolated squares.",
-   "checked": "All teaching through this topic was checked. p4 teaches taking square roots; p6 and p9 demonstrate that direction only. p9's general instruction to use inverse operations does not demonstrate undoing an enclosing radical. The listed Rearrange Formulas booklet does not establish that this particular variant has been taught.",
-   "assumptions": "Ordinary linear-equation manipulation is prior knowledge. Undoing an enclosing square root is treated as a new variant. A calculator does not supply the choice of inverse operation.",
+   "finding": "Practice requires removing a square root and then solving for a numerator or denominator unknown without a model of that route.",
+   "breakdown": "Students must reverse the booklet’s established solving direction: square a known value to remove a radical, then solve the resulting equation. The denominator case adds the decision to multiply through by the unknown denominator.",
+   "checked": "p4-solving-block teaches removing a square by square rooting. The p6 and p9 examples continue that direction. No supplied teaching demonstrates removing an explicit radical or solving the resulting denominator equation. For m=3 and x=18, squaring gives 9=18/y and y=2, which satisfies the original equation.",
+   "assumptions": "Ordinary linear inverse operations are prior knowledge; this radical-equation variant has not been taught in the supplied complete teaching.",
    "repair": {
     "type": "add-teaching",
-    "proposal": "Before p10-q2-b-1, add: 'To undo a square root, square both sides.' Model m=√(x/y), with m=3 and y=2: 3=√(x/2), 3²=x/2, 9=x/2, x=18. Then show the denominator variant with m=3 and x=18: 3=√(18/y), 9=18/y, 9y=18, y=2."
+    "proposal": "Before p10-q2-b-1, add: “For m=√(x/y), remove the square root by squaring both sides. If m=3 and x=18: 3=√(18/y), so 9=18/y. Multiply both sides by y: 9y=18, hence y=2. If instead m=3 and y=2 are given: 3=√(x/2), so 9=x/2 and x=18.”"
    },
-   "doneWhen": "A short model demonstrates squaring both sides and then solving when the unknown is in either position of the quotient.",
+   "doneWhen": "A short model demonstrates removing the radical and both numerator and denominator solution routes before their first use.",
    "from": [
-    "c5"
+    "c3"
    ],
    "sequences": [
     "quadratic-equations-formulas"
@@ -203,34 +121,70 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T10:51:09.846Z"
+     "at": "2026-10-15T10:52:22.218Z"
     }
    ],
-   "commentId": "6fb16c28-8d9c-451c-a0d0-b53c88f32cff",
-   "postedAt": "2026-10-11T10:51:09.860Z"
+   "commentId": "4a8e1b47-406b-4a4a-8c11-bbb9884f365e",
+   "postedAt": "2026-10-15T10:52:22.387Z"
   },
   {
-   "id": "pf-f772e96bd7",
+   "id": "pf-eb70149ed9",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p12-q2-root",
+     "blockId": "p12-q2",
+     "hash": "529cb7fd95d342cc7ac87cb0e1a8c5160ffe1d0feb524bae3dcb1c1aff055f3b"
+    }
+   ],
+   "finding": "Add a sequence showing how quadrupling d changes the magnitudes of the roots in d=6t².",
+   "breakdown": "Only d changes; the coefficient and solving method stay fixed. Consecutive outputs quadruple while root magnitudes double.",
+   "checked": "The proposed outputs 6, 24, 96 and 384 give t=±1, ±2, ±4 and ±8. The unpatterned output 150 gives t=±5. These use methods already taught, and no comparable run appears in the supplied practice.",
+   "assumptions": "Both real roots are required, consistent with the existing question.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Treat the existing question as part (a). Add one instruction: “Predict how the magnitudes of t will change before solving.” Append: (b) Find t when d=6. Answer: ±1. (c) Find t when d=24. Answer: ±2. (d) Find t when d=96. Answer: ±4. (e) Find t when d=384. Answer: ±8. Follow with (f) Find t when d=150. Answer: ±5."
+   },
+   "doneWhen": "The four-part run and unpatterned follow-up appear under the existing formula, with only the single prediction instruction added.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "quadratic-equations-formulas"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:52:22.218Z"
+    }
+   ],
+   "commentId": "f92515fe-b932-4225-9c4f-c7945955ce9e",
+   "postedAt": "2026-10-15T10:52:22.388Z"
+  },
+  {
+   "id": "pf-26829ef217",
    "kind": "extension",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p11-q5-block",
-     "blockId": "p11-q5-block",
-     "hash": "fb66fa45511b6955082918722c729375cf5fc87ca96ed13d80cb875573218de8"
+     "id": "p11-q4-root",
+     "blockId": "p11-q4-block",
+     "hash": "a5444b7374103ee3bf7cf80067afe3a371c105adf78b287d4ba9433fe2f8e967"
     }
    ],
-   "finding": "Generalise how simultaneous changes in length and girth affect estimated weight.",
-   "breakdown": "The task examines the multiplicative structure of a formula students have already used.",
-   "checked": "For positive factors a and b, replacing L by aL and g by bg multiplies Lg²/800 by ab². Doubling girth therefore requires quartering length to preserve estimated weight.",
-   "assumptions": "Elementary algebra and index laws are prior knowledge taught elsewhere in the course.",
+   "finding": "Compare doubling girth with doubling length in the existing pig-weight formula.",
+   "breakdown": "The follow-up exposes the different effects of a squared factor and a linear factor using the same pig and formula.",
+   "checked": "Using unrounded values, doubling girth gives 1459.421522… kg and doubling length gives 729.710761… kg. The first is exactly twice the second. The proposed girth answer is corrected to 1459.42 kg.",
+   "assumptions": "Use the supplied estimation formula and round only the final weight to two decimal places.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p11-q5-b-node, offer: 'Using w=Lg²/800, suppose length is multiplied by a positive factor a and girth by a positive factor b. By what factor does estimated weight change? If girth doubles, how must length change to preserve estimated weight?' Expected answer: the factor is ab²; length must become one quarter of its original value."
+    "proposal": "After part (c), append: (d) For the pig in part (a), its girth doubles while its length stays 168 cm. Estimate its weight to 2 d.p. Answer: 1459.42 kg. (e) For the pig in part (a), its length doubles while its girth stays 173 cm. Estimate its weight to 2 d.p. Answer: 729.71 kg. (f) How many times the estimate in part (e) is the estimate in part (d)? Answer: 2 times."
    },
-   "doneWhen": "The optional task specifies positive scale factors and includes the expected explanation.",
+   "doneWhen": "The follow-up retains the existing context, separates the questions into parts and uses the corrected numerical answers.",
    "from": [
-    "c8"
+    "c7"
    ],
    "sequences": [
     "quadratic-equations-formulas"
@@ -239,11 +193,11 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T10:51:09.846Z"
+     "at": "2026-10-15T10:52:22.218Z"
     }
    ],
-   "commentId": "9edc03ba-f3c3-451a-bf52-a4ec17f70996",
-   "postedAt": "2026-10-11T10:51:09.863Z"
+   "commentId": "70d2bb72-81ec-48ee-8a43-cfc4f5b446f0",
+   "postedAt": "2026-10-15T10:52:22.389Z"
   }
  ],
  "contextQuestions": [],
@@ -251,13 +205,44 @@
   {
    "sequence": "one-step-quadratic-equations",
    "targets": [
+    "p3-identify-a",
+    "p3-identify-b",
+    "p3-identify-c"
+   ],
+   "observation": "A positive, zero or negative constant determines whether there are two, one or no real solutions.",
+   "varies": "The constant, especially its sign.",
+   "invariant": "The equation has the form x²=c and students classify the number of solutions."
+  },
+  {
+   "sequence": "one-step-quadratic-equations",
+   "targets": [
     "p5-q1-a",
     "p5-q1-b",
     "p5-q1-c"
    ],
-   "observation": "The positive, zero and negative cases produce two, one and no real solutions.",
-   "varies": "The constant changes from 16 to 0 to -16.",
-   "invariant": "The equation has an isolated x², and the nonzero constants have the same magnitude."
+   "observation": "The three sign cases are connected to actual solutions or their impossibility.",
+   "varies": "The constant is 16, 0 or −16.",
+   "invariant": "The squared variable and the instruction to complete the solution statement."
+  },
+  {
+   "sequence": "two-step-quadratic-equations",
+   "targets": [
+    "p7-q1-d",
+    "p7-q1-e"
+   ],
+   "observation": "Changing the coefficient changes the isolated square and therefore the solutions.",
+   "varies": "The coefficient of x² changes from 1 to 2.",
+   "invariant": "The constant −32, right-hand side zero and equation structure."
+  },
+  {
+   "sequence": "two-step-quadratic-equations",
+   "targets": [
+    "p7-q1-e",
+    "p7-q1-f"
+   ],
+   "observation": "Changing the constant's sign changes a positive isolated square into a negative one, eliminating real solutions.",
+   "varies": "The constant changes from −32 to +32.",
+   "invariant": "The coefficient 2, constant magnitude 32 and right-hand side zero."
   },
   {
    "sequence": "quadratic-equations-formulas",
@@ -265,9 +250,9 @@
     "p9-example-left",
     "p9-example-right"
    ],
-   "observation": "The same formula supports direct evaluation and solving for its squared variable.",
-   "varies": "Which quantity is supplied and which is unknown.",
-   "invariant": "A=3x^2."
+   "observation": "The position of the unknown determines whether to evaluate or solve a quadratic.",
+   "varies": "Which variable is given and which is sought.",
+   "invariant": "The formula A=3x^2."
   },
   {
    "sequence": "quadratic-equations-formulas",
@@ -275,35 +260,14 @@
     "p12-q6-b",
     "p12-q6-c"
    ],
-   "observation": "A larger restitution coefficient gives a greater rebound height for the same drop height.",
-   "varies": "Coefficient of restitution.",
-   "invariant": "Drop height of 10 metres, formula and unknown rebound height."
-  },
-  {
-   "sequence": "two-step-quadratic-equations",
-   "targets": [
-    "p7-q1-d",
-    "p7-q1-e",
-    "p7-q1-f"
-   ],
-   "observation": "Changing the coefficient can change whether roots are integers; changing the constant's sign can change whether real solutions exist.",
-   "varies": "First the coefficient of x², then the sign of the constant.",
-   "invariant": "The constant's magnitude is 32 and the right side is zero; each adjacent comparison changes one feature."
-  },
-  {
-   "sequence": "two-step-quadratic-equations",
-   "targets": [
-    "p8-q2-i",
-    "p8-q2-j"
-   ],
-   "observation": "Identical linear terms on both sides cancel whether their signs are positive or negative.",
-   "varies": "The sign and coefficient of the matching linear terms, and the constant.",
-   "invariant": "Each equation has x² and identical linear terms on both sides."
+   "observation": "With the same drop height, a larger coefficient produces a greater rebound height.",
+   "varies": "The coefficient of restitution.",
+   "invariant": "The drop height of 10 metres and the unknown rebound height."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 46,
- "reviewedAt": "2026-10-11T10:51:09.846Z",
+ "reviewedRevision": 52,
+ "reviewedAt": "2026-10-15T10:52:22.218Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -327,16 +291,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 22636,
+     "input_tokens": 23053,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2540,
-     "reasoning_output_tokens": 468
+     "output_tokens": 1960,
+     "reasoning_output_tokens": 339
     },
-    "elapsedMs": 72708,
+    "elapsedMs": 56417,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "two-step-quadratic-equations",
@@ -345,16 +309,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 24066,
-     "cached_input_tokens": 14592,
+     "input_tokens": 24483,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3671,
-     "reasoning_output_tokens": 258
+     "output_tokens": 3298,
+     "reasoning_output_tokens": 341
     },
-    "elapsedMs": 94314,
+    "elapsedMs": 79059,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "quadratic-equations-formulas",
@@ -363,14 +327,14 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 31945,
-     "cached_input_tokens": 12544,
+     "input_tokens": 32370,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2877,
-     "reasoning_output_tokens": 101
+     "output_tokens": 3351,
+     "reasoning_output_tokens": 145
     },
-    "elapsedMs": 79413,
-    "candidates": 2,
+    "elapsedMs": 84631,
+    "candidates": 3,
     "discarded": [],
     "suggestions": 2
    }
@@ -378,57 +342,46 @@
   "dropped": [
    {
     "ids": [
-     "c6"
+     "c4"
     ],
-    "reason": "The unsupported-method test defeats this candidate: solving the quadratic is taught, and recognising that a physical length must be positive is established prior knowledge under the candidate's own assumptions. The explicit triangle context supplies the reason to reject the negative root; no substantial untaught method or misconception is demonstrated.",
+    "reason": "The proposed missing step is ordinary substitution of the explicitly given equality b=h into the triangle-area formula. p9-information-block already teaches substitution, and h×h=h² uses established notation. This adds one feature rather than an unsupported method or a sharp jump, so it falls below high severity.",
     "candidates": [
      {
-      "id": "c6",
+      "id": "c4",
       "sequence": "quadratic-equations-formulas",
       "kind": "unsupported-transition",
       "targets": [
-       "p10-q3-b-ii",
-       "p11-q4-c-node",
-       "p11-q5-b-node"
+       "p10-q3-b-ii"
       ],
-      "finding": "The sequence moves from consistently retaining both roots to reporting a single physical length without explicitly teaching that contextual selection."
+      "finding": "The equal-base-and-height question first requires students to create a squared unknown from a verbal relationship without a model or cue."
      }
     ]
    },
    {
     "ids": [
-     "c7"
+     "c5"
     ],
-    "reason": "The mathematics is correct, but the whole-booklet limit is four suggestions. This overlaps the scaling work in c1 and the more general formula investigation in c8, so it adds less distinct value than the four retained suggestions.",
+    "reason": "Recognising that a physical length cannot be negative is prior measurement knowledge well below this booklet’s level. The height and girth contexts make the restriction clear; the abstract instruction to retain both roots does not establish that negative physical lengths are valid. No substantial new method or consequential ambiguity survives the threshold test.",
     "candidates": [
      {
-      "id": "c7",
+      "id": "c5",
       "sequence": "quadratic-equations-formulas",
-      "kind": "variation-sequence",
+      "kind": "missing-prerequisite",
       "targets": [
-       "p11-q4-block"
+       "p10-q3-b-ii",
+       "p11-q4-c-node",
+       "p11-q5-b-node"
       ],
-      "finding": "Compare estimated weights when girth changes while length stays fixed."
+      "finding": "Physical-length problems require selecting the positive root, but all preceding quadratic teaching instructs students to include both signs without teaching contextual selection."
      }
     ]
    }
   ],
   "unchecked": [],
   "suppressed": [],
-  "droppedQuestions": [
-   {
-    "question": "Have students already been taught and practised solving linear equations with variable terms on both sides, including cancelling identical terms and collecting unequal terms? If not, these parts introduce an untaught collection method.",
-    "targets": [
-     "p8-q2-h",
-     "p8-q2-i",
-     "p8-q2-k",
-     "p8-q2-l"
-    ],
-    "reason": "Collecting and cancelling variable terms on both sides is ordinary multistep linear-equation knowledge taught separately in the listed Multistep Linear Equations booklet. Replacing the collected quantity by x² does not introduce a different collection method, so this does not require a teacher context question."
-   }
-  ],
-  "candidateFile": ".booklet-work/pedagogy-review/simple-quadratic-equations-v1/candidates-low-1791715783037.json",
+  "droppedQuestions": [],
+  "candidateFile": ".booklet-work/pedagogy-review/simple-quadratic-equations-v1/candidates-low-1792061474593.json",
   "errors": []
  },
- "postedRevision": 47
+ "postedRevision": 53
 }

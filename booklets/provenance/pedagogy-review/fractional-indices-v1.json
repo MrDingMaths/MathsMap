@@ -5,15 +5,10 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-c5045ffb6c",
+   "id": "pf-54d8e7a509",
    "kind": "missing-prerequisite",
    "severity": "high",
    "targets": [
-    {
-     "id": "p8-q13-root",
-     "blockId": "p8-q13",
-     "hash": "a230f5bfd4f283a27986fd23b9218090d2ffb550ff0b62f4182f11734c2b0fd4"
-    },
     {
      "id": "p8-q13-i",
      "blockId": "p8-q13",
@@ -35,18 +30,18 @@
      "hash": "09ca0761953d69b6f6c43051bea563eb533c35bfdcad87d2a072627cfb9afd03"
     }
    ],
-   "finding": "Unrestricted-variable simplification requires the principal-root rule √(y²)=|y|, but the teaching does not explain that rule or absolute-value notation.",
-   "breakdown": "Mechanically multiplying nested indices produces y, which is wrong when y is negative. The instruction that absolute value may be needed identifies an exception without explaining how to apply it.",
-   "checked": "The p3 investigations square a square root, rather than take the square root of a square. The p10 conversions do not expose the sign distinction. p14-example-left restricts its variables to non-negative values. The guided-practice answer working is not student-visible teaching.",
-   "assumptions": "Unrestricted variables may be negative. Ordinary index laws and square roots are prior knowledge; their principal-root exception is not established in the supplied teaching.",
+   "finding": "Simplifying even roots of algebraic powers requires an absolute-value distinction that the preceding teaching never explains.",
+   "breakdown": "Mechanical multiplication of exponents gives y for (y²)^(1/2), which is wrong when y is negative. The instruction that absolute value may be needed names the notation without teaching its meaning or use.",
+   "checked": "p3-q1 investigates squaring a square root, the reverse operation. p6-q9 addresses negative radicands. p8-q13-i introduces no explanatory contrast, and its answer is not teaching. p14-example-left explicitly restricts its variables to non-negative values; the later guided prompts do not explain unrestricted variables.",
+   "assumptions": "Variables are unrestricted unless stated otherwise. No calculator assumption is needed.",
    "repair": {
     "type": "add-teaching",
-    "proposal": "Before p8-q13, add: 'A square root gives the non-negative result: √(3²)=3 and √((-3)²)=3. Therefore √(y²)=|y|, where |y| is the distance of y from zero. It equals y when y≥0 and −y when y<0.' Model √(9y²)=3|y|. This supplies the same missing method for the later topic."
+    "proposal": "Before p8-q13-i, add: 'A square root gives the non-negative root. If y = −3, √(y²) = √9 = 3, not −3. Therefore √(y²) = |y|, where |y| is the distance of y from zero. If y ≥ 0, this equals y.' Qualify the p14 key idea: 'When simplifying even roots, retain the non-negative result.'"
    },
-   "doneWhen": "Students have seen the negative-value counterexample and can interpret and use absolute value before its first required application.",
+   "doneWhen": "Students see the numerical contrast and the meaning of absolute value before its first required use, and the later key idea preserves that distinction.",
    "from": [
-    "c1",
-    "c8"
+    "c2",
+    "c9"
    ],
    "sequences": [
     "fractional-indices",
@@ -56,11 +51,52 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:42:13.456Z"
+     "at": "2026-10-15T09:55:11.155Z"
     }
    ],
-   "commentId": "2ef0214a-19f9-4bc5-9bfe-3b82b361de4d",
-   "postedAt": "2026-10-11T12:42:13.470Z"
+   "commentId": "afa48a42-92b0-4669-9c38-29a989e01d6a",
+   "postedAt": "2026-10-15T09:55:11.536Z"
+  },
+  {
+   "id": "pf-f80eb68a52",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p3-q1-block",
+     "blockId": "p3-q1-block",
+     "hash": "dd95ef87943d5d56383090145fd257944a6923d8ebf275528def35d821e8dbf4"
+    },
+    {
+     "id": "p7-q12-a",
+     "blockId": "p7-q12-block",
+     "hash": "5a5b90d13b0f4265f5c2a34be97e21d590b6b1c9664346084ac69833479e8133"
+    }
+   ],
+   "finding": "The opening does not rehearse the negative-index reciprocal rule used in the numerical demonstration at p7-q12-a.",
+   "breakdown": "Students must retrieve the reciprocal operation while combining it with the newly introduced root interpretation.",
+   "checked": "The opening investigations rehearse powers of powers and roots. No preceding item retrieves negative indices before p7-q12-a demonstrates their combination with fractional indices.",
+   "assumptions": "Negative integer indices are prior learning from the separate course booklets. The targeted demonstration explicitly excludes calculators.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Add a short opening review: '(a) Write 5^(−2) using positive indices. (b) Write (2/3)^(−3) using positive indices. (c) Evaluate 4^(−1).' Answers: 1/5², (3/2)³, 1/4. Keep the review within one page."
+   },
+   "doneWhen": "Students retrieve the reciprocal rule before combining it with fractional indices.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "fractional-indices"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:55:11.155Z"
+    }
+   ],
+   "commentId": "0848665a-78b4-4435-a454-85fdd0b43773",
+   "postedAt": "2026-10-15T09:55:11.540Z"
   },
   {
    "id": "pf-3502986585",
@@ -78,17 +114,17 @@
      "hash": "bba438de6b57ba1e99cfedbd86bb673071094a00e47cca1c53b7c9d16330945d"
     }
    ],
-   "finding": "The complete calculator-free task of evaluating 16^(5/4) appears twice without an explicit instructional purpose.",
-   "breakdown": "The later copy changes neither the expression nor the required response.",
-   "checked": "Both parent prompts require evaluation without a calculator, and both parts supply exactly 16^(5/4). No retrieval or comparison instruction accompanies the repetition.",
-   "assumptions": "A different difficulty label does not establish an instructional purpose.",
+   "finding": "p13-q6-d repeats the complete evaluation task 16^(5/4) from p12-q4-d.",
+   "breakdown": "Both parts require the same numerical evaluation without a calculator, with no explicit retrieval or comparison purpose.",
+   "checked": "The expression and substantive instructions match. The other proposed pair, p12-q5-i and p13-q6-a, has different task instructions: expressing in surd form or as a rational number versus evaluating without a calculator, so it is excluded from this finding.",
+   "assumptions": "No additional instructional purpose for the unchanged evaluation is stated.",
    "repair": {
-    "type": "remove-question",
-    "proposal": "Remove p13-q6-d, retaining p12-q4-d."
+    "type": "change-values",
+    "proposal": "Replace p13-q6-d with 81^(5/4), retaining the instruction to evaluate without a calculator. Answer: 243."
    },
-   "doneWhen": "The unchanged practice task appears once.",
+   "doneWhen": "The later part retains its exponent structure with different numerical givens.",
    "from": [
-    "c5"
+    "c6"
    ],
    "sequences": [
     "further-fractional-indices"
@@ -97,21 +133,57 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:42:13.456Z"
+     "at": "2026-10-15T09:55:11.155Z"
     }
    ],
-   "commentId": "44ec8383-c98d-4453-a231-2be7c9cdea6d",
-   "postedAt": "2026-10-11T12:42:13.472Z"
+   "commentId": "a471794d-6c0c-4a09-9b39-f64eeb9eacc0",
+   "postedAt": "2026-10-15T09:55:11.540Z"
   },
   {
-   "id": "pf-c53a94301b",
+   "id": "pf-db064f6406",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p13-q6-root",
+     "blockId": "p13-q6",
+     "hash": "bba438de6b57ba1e99cfedbd86bb673071094a00e47cca1c53b7c9d16330945d"
+    }
+   ],
+   "finding": "Connect numerical fractional powers with products involving opposite and related exponents.",
+   "breakdown": "The follow-up links evaluation to the same-base product law using the existing base 64.",
+   "checked": "The product law is practised in p8-q13 and p8-q14; general fractional powers and negative powers are available by this topic. The proposed answers are 1, 64 and 4.",
+   "assumptions": "These are optional follow-up parts completed without a calculator.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p13-q6-i, add: '(j) Evaluate 64^(2/3) × 64^(−2/3).' Answer: 1. '(k) Evaluate 64^(2/3) × 64^(1/3).' Answer: 64. '(l) Evaluate 64^(2/3) × 64^(−1/3).' Answer: 4."
+   },
+   "doneWhen": "The optional parts connect numerical evaluation with adding fractional exponents.",
+   "from": [
+    "c7"
+   ],
+   "sequences": [
+    "further-fractional-indices"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:55:11.155Z"
+    }
+   ],
+   "commentId": "2b5b61a9-3a13-4a0f-ba7d-7412cfbcfa88",
+   "postedAt": "2026-10-15T09:55:11.542Z"
+  },
+  {
+   "id": "pf-c430a41815",
    "kind": "opening-review",
    "severity": "high",
    "targets": [
     {
-     "id": "p14-example-block",
-     "blockId": "p14-example-block",
-     "hash": "8f49a7189e9b1b1c0c16aaeca8cd4405b02d4870b01d90b302f26c774401714d"
+     "id": "p14-key-ideas-block",
+     "blockId": "p14-key-ideas-block",
+     "hash": "10cee9b6aedcfb8105219893985107ce2fc34dd329e8d03f2769c8d9a6f1b67a"
     },
     {
      "id": "p14-example-left",
@@ -119,17 +191,17 @@
      "hash": "8f49a7189e9b1b1c0c16aaeca8cd4405b02d4870b01d90b302f26c774401714d"
     }
    ],
-   "finding": "The first worked example uses the power-of-a-product law without rehearsing it in this topic or the immediately preceding topic.",
-   "breakdown": "Students must recognise that the outer power applies to both factors in (x^5y^3)^(1/2). Earlier root conversions and nested-power networks do not rehearse distributing a power over a product.",
-   "checked": "p13-q7 rehearses power-of-a-power through equivalent nested powers, so that piece is removed from the candidate. The preceding teaching and supplied practice contain no power-of-a-product rehearsal.",
-   "assumptions": "The power-of-a-product law is prior knowledge from Index Laws. Calculator access does not affect this finding.",
+   "finding": "The opening example combines applying a power to every factor with multiplying nested exponents, without an opening rehearsal of that combination.",
+   "breakdown": "The step from (x^5y^3)^(1/2) to x^(5/2)y^(3/2) requires both laws together. Failure to distribute the outer power leaves one factor unchanged.",
+   "checked": "p3-q1 and p3-q2 rehearse powers of powers. The immediately preceding topic teaches root conversions, same-base products and reciprocal powers, but does not rehearse applying an outer power to every factor of a product.",
+   "assumptions": "Integer index laws are prior learning. No calculator is needed.",
    "repair": {
     "type": "add-review",
-    "proposal": "Before p14-key-ideas-block, add: 'Simplify: (a) (xy)^3; (b) (x²y³)^2.' Expected answers: x³y³ and x⁴y⁶."
+    "proposal": "Before p14-key-ideas-block, add: 'Simplify using index laws: (a) (x³)²; (b) (x²y³)²; (c) (2a³b)².' Answers: x⁶, x⁴y⁶, 4a⁶b². Keep the review within one page."
    },
-   "doneWhen": "The teacher can check recall of applying an outer power to every factor before the worked example.",
+   "doneWhen": "Students rehearse applying an outer power to every factor and multiplying nested exponents before their combined fractional-index use.",
    "from": [
-    "c7"
+    "c8"
    ],
    "sequences": [
     "index-laws-and-surd-laws"
@@ -138,11 +210,47 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:42:13.456Z"
+     "at": "2026-10-15T09:55:11.155Z"
     }
    ],
-   "commentId": "ba38e354-9dcd-449d-b3cc-8dbbf0b34b7c",
-   "postedAt": "2026-10-11T12:42:13.474Z"
+   "commentId": "0ac20120-154e-4404-9bb9-611f84719838",
+   "postedAt": "2026-10-15T09:55:11.545Z"
+  },
+  {
+   "id": "pf-68ea4926cd",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p18-q10-root",
+     "blockId": "p18-q10",
+     "hash": "292142cccce8bf843aa51ab5ccf26a2cefb0f0946cea9dbb4f2f321f043d55c1"
+    }
+   ],
+   "finding": "Extend the existing numerical products by connecting an outside multiplier with the resulting exponent.",
+   "breakdown": "Students connect multiplication by the base with increasing its exponent by one.",
+   "checked": "Part h divided by part f gives 9. Also, 81√3 = 3^(9/2), and multiplying 3^(3/2) by 3 gives 3^(5/2). All required methods precede this question.",
+   "assumptions": "These are optional follow-up parts using positive numerical bases.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p18-q10-h, add: '(i) Divide the expression in part h by the expression in part f.' Answer: 9. '(j) Write 81√3 as a single power of 3.' Answer: 3^(9/2). '(k) Explain why multiplying 3√3 by 3 increases its exponent by 1 when written as a power of 3.' Answer: 3^(3/2) × 3¹ = 3^(5/2), because same-base multiplication adds exponents."
+   },
+   "doneWhen": "The optional parts connect the existing numerical expressions with the product law.",
+   "from": [
+    "c10"
+   ],
+   "sequences": [
+    "index-laws-and-surd-laws"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:55:11.155Z"
+    }
+   ],
+   "commentId": "3b0809da-43f1-45f1-9452-7aee66572dd7",
+   "postedAt": "2026-10-15T09:55:11.548Z"
   },
   {
    "id": "pf-0d8806ba21",
@@ -165,17 +273,17 @@
      "hash": "f1d34773fd63d80753742c12bf756a4ad8fc3059ee077284aaf5376d60fac470"
     }
    ],
-   "finding": "The worked examples use common-base numerical-power recognition and linear-equation solving without an opening rehearsal.",
-   "breakdown": "Students must recognise 25 and 125 as powers of 5, then solve equations such as 2x=3 and 4x−2=3. Neither skill is rehearsed in the preceding topic's supplied practice.",
-   "checked": "p19-q12 rehearses expansion throughout its six parts, so expansion is removed from the candidate. Earlier index and surd teaching does not supply the missing opening rehearsal of common-base recognition or linear equations.",
-   "assumptions": "Numerical powers and linear-equation solving are prior knowledge from other course booklets. A calculator does not supply the algebraic decisions.",
+   "finding": "The topic has no opening review of the numerical power recognition, bracket expansion and linear-equation solving combined in its worked examples.",
+   "breakdown": "Students must recognise common powers, expand an exponent and solve the resulting linear equation while learning the matching-bases method.",
+   "checked": "Earlier topics supply index laws and root conversions. Numerical powers occur in the preceding exercise, but the examples combine this recognition with separate algebraic methods, so the combined-method review exception applies. Bracket expansion and linear-equation solving are not rehearsed there.",
+   "assumptions": "These are prior skills from the listed course booklets. No calculator is needed for the proposed review.",
    "repair": {
     "type": "add-review",
-    "proposal": "Before p21-information-block, add: '1. Write as powers of the stated base: (a) 25 and 125, base 5; (b) 9 and 27, base 3. 2. Solve: (a) 2x=3; (b) 4x−2=3.' Expected answers: 5² and 5³; 3² and 3³; x=3/2; x=5/4."
+    "proposal": "Before p21-information-block, add: '(a) Complete 25 = 5^□ and 125 = 5^□. (b) Complete 9 = 3^□ and 27 = 3^□. (c) Expand 2(2x−1). (d) Solve 2x = 3 and 4x−2 = 3.' Answers: (a) 2, 3; (b) 2, 3; (c) 4x−2; (d) x = 3/2, x = 5/4. Keep the review within one page."
    },
-   "doneWhen": "Students rehearse the numerical-power recognition and linear equations used directly in the examples.",
+   "doneWhen": "Students retrieve the numerical and algebraic steps before combining them in exponential equations.",
    "from": [
-    "c10"
+    "c11"
    ],
    "sequences": [
     "exponential-equations"
@@ -184,11 +292,11 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:42:13.456Z"
+     "at": "2026-10-15T09:55:11.155Z"
     }
    ],
-   "commentId": "7e0673e2-26a2-4b49-b354-9ea62dc8b92d",
-   "postedAt": "2026-10-11T12:42:13.476Z"
+   "commentId": "fb7450da-9624-4e72-a634-8dc424a39876",
+   "postedAt": "2026-10-15T09:55:11.550Z"
   },
   {
    "id": "pf-c1b5efa5d4",
@@ -206,17 +314,17 @@
      "hash": "6be31631d973888fea881ac2106290234bffc25d30dc62ddda451fc50fc2dcc0"
     }
    ],
-   "finding": "p23-q5-d repeats the complete student task in p21-guided-2b without an explicit instructional purpose.",
-   "breakdown": "Both tasks require solving 27^(x+3)=9^(2x), with unchanged values and no additional scaffold.",
-   "checked": "Compared both complete prompts and their parent instructions. No retrieval or comparison purpose is stated.",
-   "assumptions": "The guided-practice heading alone does not justify the later unchanged copy.",
+   "finding": "p23-q5-d repeats the complete student task 27^(x+3) = 9^(2x) from p21-guided-2b.",
+   "breakdown": "The later part repeats the same givens and required operations without an explicit retrieval or comparison purpose.",
+   "checked": "The guided-practice prompt and later practice prompt are unchanged whole tasks. Neither contains an additional mathematical demand.",
+   "assumptions": "Guided practice is a student task; no separate purpose for its exact repetition is stated.",
    "repair": {
-    "type": "remove-question",
-    "proposal": "Remove p23-q5-d, retaining p21-guided-2b."
+    "type": "change-values",
+    "proposal": "Replace p23-q5-d with 125^(x+2) = 25^(2x). Answer: x = 6."
    },
-   "doneWhen": "The unchanged equation appears once as a student task.",
+   "doneWhen": "The later part retains binomial exponents and unknowns on both sides with different givens.",
    "from": [
-    "c11"
+    "c13"
    ],
    "sequences": [
     "exponential-equations"
@@ -225,49 +333,85 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:42:13.456Z"
+     "at": "2026-10-15T09:55:11.155Z"
     }
    ],
-   "commentId": "f77153c0-a8d2-493e-ba42-6a15f9eeb319",
-   "postedAt": "2026-10-11T12:42:13.477Z"
+   "commentId": "020064aa-d3b2-4e22-a378-8bdcd62b725c",
+   "postedAt": "2026-10-15T09:55:11.553Z"
   },
   {
-   "id": "pf-8610f954e0",
+   "id": "pf-8d13d1c073",
+   "kind": "difficulty-jump",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p27-q15-c",
+     "blockId": "p27-q15",
+     "hash": "9f97fe7920cdbbd759a97f24a2cb9388fca6aa4cc32b2075ed6e6486814c2d48"
+    },
+    {
+     "id": "p27-q15-d",
+     "blockId": "p27-q15",
+     "hash": "9f97fe7920cdbbd759a97f24a2cb9388fca6aa4cc32b2075ed6e6486814c2d48"
+    }
+   ],
+   "finding": "The final simultaneous system abruptly requires solving for exponential quantities before matching exponents.",
+   "breakdown": "Earlier parts first turn each equation into a linear equation in the original variables. Part d instead introduces sums of powers and shifted exponents, requiring students to recognise two exponential quantities as the linear unknowns.",
+   "checked": "p27-q15-a through c all permit matching exponents first. Earlier products and quotients do not bridge the change to sums. Although d closes the exercise, the preceding parts do not build the changed first step, and no later bridge is available.",
+   "assumptions": "Ordinary simultaneous linear equations are prior knowledge.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Add to p27-q15-d: 'Let U = 2^a and V = 3^b. Rewrite the system using U and V, noting that 2^(a+1) = 2U and 3^(b+1) = 3V. Find U and V first, then a and b.'"
+   },
+   "doneWhen": "Students have a route to U+V = 17 and 2U−3V = −11, giving U = 8, V = 9, a = 3 and b = 2.",
+   "from": [
+    "c14"
+   ],
+   "sequences": [
+    "exponential-equations"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:55:11.155Z"
+    }
+   ],
+   "commentId": "745777fa-efa8-406e-bd8f-c9503a5bb855",
+   "postedAt": "2026-10-15T09:55:11.555Z"
+  },
+  {
+   "id": "pf-5f316f4aff",
    "kind": "opening-review",
    "severity": "high",
    "targets": [
     {
-     "id": "p28-example-left",
+     "id": "p28-information-block",
+     "blockId": "p28-information-block",
+     "hash": "1812bc519a51832b84f31e6731d396e067d379e1f80002c3df8eba5f0017993b"
+    },
+    {
+     "id": "p28-example-block",
      "blockId": "p28-example-block",
      "hash": "7a788930359edc35576399b13517ecc2a4c26f9b052e50719089a0d13cce56cd"
     },
     {
-     "id": "p28-example-right",
-     "blockId": "p28-example-block",
-     "hash": "7a788930359edc35576399b13517ecc2a4c26f9b052e50719089a0d13cce56cd"
-    },
-    {
-     "id": "p29-example-left",
-     "blockId": "p29-examples",
-     "hash": "2329f85a73b91606d16943a463c202feb99a470bd2990121ce33d38b62901f86"
-    },
-    {
-     "id": "p29-example-right",
+     "id": "p29-examples",
      "blockId": "p29-examples",
      "hash": "2329f85a73b91606d16943a463c202feb99a470bd2990121ce33d38b62901f86"
     }
    ],
-   "finding": "The examples depend on decomposing numbers into distinct prime factors and extracting a common algebraic factor, without an opening rehearsal of either.",
-   "breakdown": "Students must recognise the factor structure of 12 and determine what remains after extracting 5^n from a sum. The immediately preceding exercise rehearses common-base powers and equations, rather than these factorisation operations.",
-   "checked": "The p21 examples and p22–p27 practice do not rehearse prime decomposition with distinct prime factors or common-factor extraction from sums. Both operations are direct steps in the p28–p29 examples.",
-   "assumptions": "Prime factorisation and ordinary common-factor factorisation are prior knowledge. Calculator access does not supply the recognition steps.",
+   "finding": "The worked examples combine several index laws and ordinary common-factor extraction without an opening review.",
+   "breakdown": "Students must distribute powers, combine nested and same-base powers, and retain a residual 1 when extracting a common factor. Weak recall obstructs the new factorisation application.",
+   "checked": "The preceding topic practises several index laws, but the new examples combine methods from earlier topics with algebraic common-factor extraction. The combined-method exception therefore applies. p29-teaching announces extraction but does not rehearse the underlying algebraic skill.",
+   "assumptions": "Index laws and ordinary algebraic factorisation are prior learning. No calculator is needed.",
    "repair": {
     "type": "add-review",
-    "proposal": "Before p28-information-block, add: 'Write as products of prime powers: (a) 12; (b) 18. Factorise by taking out a common factor: (c) 6y+9; (d) uv+uw.' Expected answers: 2²×3; 2×3²; 3(2y+3); u(v+w)."
+    "proposal": "Before p28-information-block, add: 'Simplify (a) 2 × 2^n, (b) (3²)^n, (c) (2 × 5)^n. Factorise by taking out the common pronumeral: (d) y+yz, (e) u²+uv.' Answers: 2^(n+1), 3^(2n), 2^n × 5^n, y(1+z), u(u+v). Keep the review within one page."
    },
-   "doneWhen": "Students rehearse both factorisation operations before the examples use them.",
+   "doneWhen": "Students retrieve the combined index laws and common-factor extraction, including the residual 1.",
    "from": [
-    "c14"
+    "c16"
    ],
    "sequences": [
     "factorising-expressions-with-indices"
@@ -276,11 +420,11 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:42:13.456Z"
+     "at": "2026-10-15T09:55:11.155Z"
     }
    ],
-   "commentId": "4db0cfbf-69f8-4382-babf-b2405d95e2e5",
-   "postedAt": "2026-10-11T12:42:13.478Z"
+   "commentId": "42dd923c-def4-42ed-81c6-4b13d49daed4",
+   "postedAt": "2026-10-15T09:55:11.556Z"
   },
   {
    "id": "pf-55db3185c1",
@@ -308,17 +452,17 @@
      "hash": "5379b7c75430b6d38efae8387f0fa757b0d20140c12120ee1e21ff4fd3e8bd05"
     }
    ],
-   "finding": "Two complete fraction-simplification tasks are repeated unchanged within p31-q3.",
-   "breakdown": "Parts l and m repeat parts h and i respectively, adding no changed value, given or decision.",
-   "checked": "Compared all four expressions and their shared common-factor instruction. No explicit retrieval or comparison purpose is supplied.",
-   "assumptions": "These are ordinary exercise parts.",
+   "finding": "Parts l and m repeat the complete tasks in h and i respectively.",
+   "breakdown": "The later pair repeats identical expressions under the same instruction without an explicit retrieval or comparison purpose.",
+   "checked": "Both pairs have unchanged numerators, denominators, exponents and instructions. The proposed replacements preserve the factorisation and cancellation structures.",
+   "assumptions": "Expressions are considered where their original denominators are non-zero.",
    "repair": {
-    "type": "remove-question",
-    "proposal": "Remove p31-q3-l and p31-q3-m, retaining p31-q3-h and p31-q3-i."
+    "type": "change-values",
+    "proposal": "Replace l with (5^n+5^(n+2))/(5^(n−1)+5^(n+1)), answer 5. Replace m with (3^(2n)−3^(n−1))/(3^n−3^(−1)), answer 3^n, where the original denominator is non-zero (n ≠ −1 for real n)."
    },
-   "doneWhen": "Each unchanged task appears once.",
+   "doneWhen": "Both later copies use different numbers while retaining their original mathematical structures.",
    "from": [
-    "c15"
+    "c17"
    ],
    "sequences": [
     "factorising-expressions-with-indices"
@@ -327,11 +471,11 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:42:13.456Z"
+     "at": "2026-10-15T09:55:11.155Z"
     }
    ],
-   "commentId": "f83dca5e-2620-48e4-b6bf-f8332482eb07",
-   "postedAt": "2026-10-11T12:42:13.481Z"
+   "commentId": "b44d0b35-881d-4112-94ea-18375ee6ae4d",
+   "postedAt": "2026-10-15T09:55:11.559Z"
   },
   {
    "id": "pf-25b1038867",
@@ -344,153 +488,15 @@
      "hash": "5998fac2945079cc46a5c61d2265a35d7255c65082ff38e9345a527d553dd6fd"
     }
    ],
-   "finding": "The first quadratic exponential equation requires an unmodelled change of variable and rejection of a negative exponential value.",
-   "breakdown": "Matching bases cannot directly solve 4^x−2^(x+1)−8=0. Students must treat 2^x as the quadratic variable, factorise, and reject 2^x=−2 before recovering x.",
-   "checked": "p21-information-block mentions a quadratic exponential equation but teaches only matching bases. The preceding examples and p33-q9-a–b do not model quadratic factorisation in an exponential quantity or the positivity check.",
-   "assumptions": "Ordinary quadratic factorisation is prior knowledge from other course booklets. Applying it to an exponential variable is a new variant.",
+   "finding": "The final equation requires recognising and solving a quadratic in an exponential expression, a variant not modelled earlier.",
+   "breakdown": "Students must recognise 4^x as (2^x)², factorise in the quantity 2^x, reject a negative exponential value and then return to x. The taught matching-exponents procedure does not supply this route.",
+   "checked": "p21-information names a quadratic exponential equation but teaches only matching bases. Its examples and p33-q9-a and b do not model quadratic substitution or the positivity check. Closing the exercise does not supply the missing method.",
+   "assumptions": "Ordinary quadratic factorisation is prior learning; its application to an exponential quantity is new here.",
    "repair": {
     "type": "add-teaching",
-    "proposal": "Before p33-q9-c, model: 'Solve 4^x−3×2^x−4=0. Let u=2^x, so 4^x=u². Then u²−3u−4=(u−4)(u+1)=0. Thus u=4 or u=−1. Since 2^x>0, reject −1. Therefore 2^x=4 and x=2.'"
+    "proposal": "Before p33-q9-c, model: 'Solve 9^x−2 × 3^x−3 = 0. Since 9^x = (3^x)², let t = 3^x. Then t²−2t−3 = (t−3)(t+1) = 0, so t = 3 or −1. Since 3^x > 0, reject −1. Thus 3^x = 3 and x = 1.'"
    },
-   "doneWhen": "A preceding model demonstrates the change of variable, quadratic factorisation, positivity check and recovery of x.",
-   "from": [
-    "c17"
-   ],
-   "sequences": [
-    "factorising-expressions-with-indices"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:42:13.456Z"
-    }
-   ],
-   "commentId": "7408680b-8029-4965-8287-4fc34dbf024b",
-   "postedAt": "2026-10-11T12:42:13.482Z"
-  },
-  {
-   "id": "pf-9ba719cb1e",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p13-q7",
-     "blockId": "p13-q7",
-     "hash": "235c97d40981a3a7045f391674b90c62dfc7617167a854171814e528bddb31b1"
-    }
-   ],
-   "finding": "Generalise when a fixed fractional power gives an integer.",
-   "breakdown": "The task connects root-first evaluation with zero and negative indices.",
-   "checked": "For every integer m, 16^(m/4)=2^m. This is an integer exactly when m≥0. The required root conversion and index laws are available by the end of the topic.",
-   "assumptions": "m is an integer.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p13-q7, optionally ask: 'For an integer m, when is 16^(m/4) an integer? Explain and calculate one example for positive, zero and negative m.' Expected answer: 16^(m/4)=2^m, so exactly m≥0; examples m=3 gives 8, m=0 gives 1, and m=−1 gives 1/2."
-   },
-   "doneWhen": "Students justify the condition and illustrate all three cases.",
-   "from": [
-    "c6"
-   ],
-   "sequences": [
-    "further-fractional-indices"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:42:13.456Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-6177893860",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p19-q12",
-     "blockId": "p19-q12",
-     "hash": "65993dc7c5f8e37277138b1ea34d5eb4564a1ed8da0173fa800838d05bb13feb"
-    }
-   ],
-   "finding": "Generalise the constant middle term in squared expressions containing reciprocal powers.",
-   "breakdown": "The task connects binomial expansion with cancellation of opposite indices.",
-   "checked": "The expansions and proposed numerical answer are correct for x>0. Expansion is practised in p19-q12, and the needed index laws and surd conversions are already available.",
-   "assumptions": "Take A and B as real constants and r as a rational number, matching the booklet's available index content.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p19-q12, optionally ask: 'For x>0 and rational r, expand (Ax^r+Bx^(−r))² and (Ax^r−Bx^(−r))². Explain why the middle term is independent of x and r. Then expand (2x^(3/4)−5x^(−3/4))² without negative or fractional indices.' Expected answers: A²x^(2r)±2AB+B²x^(−2r), because x^r×x^(−r)=1; the numerical expression gives 4√(x³)−20+25/√(x³)."
-   },
-   "doneWhen": "Students explain the constant cross term and apply the general result.",
-   "from": [
-    "c9"
-   ],
-   "sequences": [
-    "index-laws-and-surd-laws"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:42:13.456Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-802bc371f1",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p27-q15",
-     "blockId": "p27-q15",
-     "hash": "9f97fe7920cdbbd759a97f24a2cb9388fca6aa4cc32b2075ed6e6486814c2d48"
-    }
-   ],
-   "finding": "Explore when matching bases produces every real solution or no solution.",
-   "breakdown": "The task revisits matching bases and examines cancellation of the unknown terms.",
-   "checked": "For real c and d, 4^(x+c)=2^(2x+d) reduces to 2c=d. Hence every real x works when d=2c, none works otherwise, and exactly one solution is impossible.",
-   "assumptions": "x, c and d are real numbers.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p27-q15, optionally ask: 'Consider 4^(x+c)=2^(2x+d). Rewrite with base 2. When is every real x a solution? When is there no solution? Can there be exactly one solution? Give examples.' Expected answer: every x when d=2c, no x otherwise, and never exactly one. Examples: c=1,d=2 gives an identity; c=1,d=3 gives no solution."
-   },
-   "doneWhen": "Students explain both possible cases using the rewritten exponents.",
-   "from": [
-    "c13"
-   ],
-   "sequences": [
-    "exponential-equations"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:42:13.456Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-ba2ac50bbd",
-   "kind": "variation-sequence",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p29-guided-c",
-     "blockId": "p29-guided-block",
-     "hash": "f91a6fb208b9bcd75a1d09fd0eb6f8cdca5cdea0314b1fa5cd0b0258cc13f1e6"
-    }
-   ],
-   "finding": "Contrast constant exponent gaps with a variable exponent gap.",
-   "breakdown": "The sequence exposes how subtracting exponents determines the residual factor.",
-   "checked": "All proposed factorisations are correct. The preceding common-factor examples and index laws supply the methods. Existing questions contain both constant and variable gaps but no consecutive comparison holding the base and extracted factor fixed.",
-   "assumptions": "n and m may be real; all bases are positive.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p29-guided-c, ask: 'Before factorising, predict whether the bracket will depend on n.' Factorise (1) 2^(n+1)−2^n; (2) 2^(n+2)−2^n; (3) 2^(n+3)−2^n; (4) 2^(2n)−2^n. Expected answers: 2^n(2−1), 2^n(4−1), 2^n(8−1), 2^n(2^n−1). The base, subtraction and extracted factor stay fixed; the exponent gap varies. Follow with: 'Factorise 3^(2m+1)−3^(m−2).' Expected answer: 3^(m−2)(3^(m+3)−1)."
-   },
-   "doneWhen": "Students predict and explain which residual factors depend on the variable, then transfer the method to the unpatterned item.",
+   "doneWhen": "Students see quadratic recognition, factorisation, the positivity check and the return to an exponential equation before the required task.",
    "from": [
     "c18"
    ],
@@ -501,67 +507,60 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:42:13.456Z"
+     "at": "2026-10-15T09:55:11.155Z"
     }
-   ]
+   ],
+   "commentId": "6b91ee36-5afa-469d-8cd7-d563871582cd",
+   "postedAt": "2026-10-15T09:55:11.561Z"
+  },
+  {
+   "id": "pf-8515850b6f",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p31-q3-g",
+     "blockId": "p31-q3",
+     "hash": "5379b7c75430b6d38efae8387f0fa757b0d20140c12120ee1e21ff4fd3e8bd05"
+    }
+   ],
+   "finding": "Extend the existing sum with a run varying only the exponent gap.",
+   "breakdown": "The coefficient changes with the exponent gap while the base and extracted factor remain fixed.",
+   "checked": "Together with the existing gap-one expression, the additions form a four-question run. Their coefficients are 4, 10, 28 and 82. The unpatterned subtraction gives 26 × 3^n. The methods are modelled in p29.",
+   "assumptions": "Use new subpart labels so existing part labels remain distinct.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Immediately after p31-q3-g, under the existing factorisation instruction, add the single instruction 'Predict the coefficient before factorising.' Add 3^n+3^(n+2), answer 10 × 3^n; 3^n+3^(n+3), answer 28 × 3^n; and 3^n+3^(n+4), answer 82 × 3^n. Follow with 3^(n+3)−3^n, answer 26 × 3^n."
+   },
+   "doneWhen": "The run varies the exponent gap while holding the base, addition and common factor fixed, followed by an unpatterned question.",
+   "from": [
+    "c19"
+   ],
+   "sequences": [
+    "factorising-expressions-with-indices"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:55:11.155Z"
+    }
+   ],
+   "commentId": "20a6cdde-18df-4977-a4e7-91538e7cd43a",
+   "postedAt": "2026-10-15T09:55:11.564Z"
   }
  ],
  "contextQuestions": [],
  "protectedGroups": [
-  {
-   "sequence": "fractional-indices",
-   "targets": [
-    "p5-q2"
-   ],
-   "observation": "A fixed base can have different values when the fractional exponent changes.",
-   "varies": "The exponent: one half, one third, one sixth and zero.",
-   "invariant": "The base 64."
-  },
-  {
-   "sequence": "fractional-indices",
-   "targets": [
-    "p6-q6-a",
-    "p6-q6-b",
-    "p6-q6-c",
-    "p6-q6-d",
-    "p6-q6-e",
-    "p6-q6-f"
-   ],
-   "observation": "Index and root notation give the same value.",
-   "varies": "The base, root index and order of the two representations across pairs.",
-   "invariant": "Each pair represents the same root."
-  },
-  {
-   "sequence": "fractional-indices",
-   "targets": [
-    "p7-q11-a",
-    "p7-q11-b",
-    "p7-q11-c"
-   ],
-   "observation": "Matching a perfect-power base to its root index preserves the value 2.",
-   "varies": "The base and corresponding root index.",
-   "invariant": "The underlying base 2 and evaluated result."
-  },
-  {
-   "sequence": "fractional-indices",
-   "targets": [
-    "p8-q14-a",
-    "p8-q14-b",
-    "p8-q14-c"
-   ],
-   "observation": "Opposite exponents produce reciprocal factors whose product is 1.",
-   "varies": "The magnitude of the fractional exponent.",
-   "invariant": "The base and the pairing of opposite exponents."
-  },
   {
    "sequence": "further-fractional-indices",
    "targets": [
     "p11-q1-j",
     "p11-q1-k"
    ],
-   "observation": "Taking a square root before or after the fifth power gives the same fractional-index representation.",
-   "varies": "Whether the fifth power is outside or inside the root.",
-   "invariant": "Base m, square-root index and fifth power."
+   "observation": "Taking the power before or after the square root gives the same fractional-index representation.",
+   "varies": "Whether the fifth power is inside or outside the root.",
+   "invariant": "Base m, square root and fifth power."
   },
   {
    "sequence": "further-fractional-indices",
@@ -569,9 +568,9 @@
     "p11-q1-m",
     "p11-q1-n"
    ],
-   "observation": "Power-before-root and root-before-power are equivalent.",
-   "varies": "Position of the cube relative to the fourth root.",
-   "invariant": "Base 10, power 3 and root index 4."
+   "observation": "The two orders of applying the fourth root and cube agree.",
+   "varies": "Placement of the cube relative to the radical.",
+   "invariant": "Base 10, fourth root and cube."
   },
   {
    "sequence": "further-fractional-indices",
@@ -581,9 +580,9 @@
     "p12-q5-i",
     "p12-q5-j"
    ],
-   "observation": "The denominator selects the root, while the numerator determines the subsequent power.",
-   "varies": "First the denominator, then the numerator.",
-   "invariant": "Base 8; denominator 3 remains fixed in the last three parts."
+   "observation": "The denominator selects the root and the numerator selects the power.",
+   "varies": "First the root index, then the numerator.",
+   "invariant": "Base 8."
   },
   {
    "sequence": "further-fractional-indices",
@@ -593,9 +592,9 @@
     "p12-q5-m",
     "p12-q5-n"
    ],
-   "observation": "Multiplying a cube-root base by 1000 multiplies its cube root by 10 and its two-thirds power by 100.",
-   "varies": "Base 27 versus 27000, paired at numerator 1 and numerator 2.",
-   "invariant": "Denominator 3 and matched numerator within each pair."
+   "observation": "Scaling a base by 1000 scales its cube root by 10 and the square of that cube root by 100; the recurrence of p12-q4-a within this comparison has an instructional purpose.",
+   "varies": "Base 27 versus 27000, repeated for exponents 1/3 and 2/3.",
+   "invariant": "Cube-root denominator and the paired base relationship."
   },
   {
    "sequence": "further-fractional-indices",
@@ -603,19 +602,9 @@
     "p12-q5-q",
     "p12-q5-r"
    ],
-   "observation": "Negating an exponent takes the reciprocal of the result.",
-   "varies": "Exponent sign.",
+   "observation": "Changing only the exponent's sign takes the reciprocal of the result.",
+   "varies": "Positive versus negative exponent.",
    "invariant": "Base 8/27 and exponent magnitude 1/3."
-  },
-  {
-   "sequence": "further-fractional-indices",
-   "targets": [
-    "p12-q5-s",
-    "p12-q5-t"
-   ],
-   "observation": "Inverting the base and negating the exponent preserves the value.",
-   "varies": "Base orientation and exponent sign together.",
-   "invariant": "Exponent magnitude 4/3 and resulting value."
   },
   {
    "sequence": "further-fractional-indices",
@@ -624,22 +613,40 @@
     "p12-q5-bb",
     "p12-q5-cc"
    ],
-   "observation": "The scope of an exponent determines whether it applies to the whole fraction, its numerator or its denominator.",
-   "varies": "Placement of the fourth-root exponent.",
-   "invariant": "Numerator 16, denominator 9 and exponent 1/4."
+   "observation": "The scope of the fractional exponent determines which parts of a quotient are rooted.",
+   "varies": "Exponent applied to the whole quotient, numerator only or denominator only.",
+   "invariant": "Numbers 16 and 9 and exponent 1/4."
   },
   {
-   "sequence": "further-fractional-indices",
+   "sequence": "fractional-indices",
    "targets": [
-    "p13-q7-b",
-    "p13-q7-c",
-    "p13-q7-d",
-    "p13-q7-e",
-    "p13-q7-f"
+    "p5-q2"
    ],
-   "observation": "Equivalent forms can be reconstructed starting from each of the five representations.",
-   "varies": "The given node, followed by a variable base and a symbolic root index.",
-   "invariant": "The five-form equivalence structure and corner roles established in p13-q7-a."
+   "observation": "A fixed base can give different values when the exponent changes.",
+   "varies": "The exponent: 1/2, 1/3, 1/6 and 0.",
+   "invariant": "The base 64."
+  },
+  {
+   "sequence": "fractional-indices",
+   "targets": [
+    "p7-q11-a",
+    "p7-q11-b",
+    "p7-q11-c"
+   ],
+   "observation": "Different powers of 2 return to 2 under their corresponding roots.",
+   "varies": "The base and its matching root index.",
+   "invariant": "The evaluated value 2."
+  },
+  {
+   "sequence": "fractional-indices",
+   "targets": [
+    "p8-q14-a",
+    "p8-q14-b",
+    "p8-q14-c"
+   ],
+   "observation": "Opposite fractional indices cancel when powers with the same base are multiplied.",
+   "varies": "The magnitude of the opposite indices.",
+   "invariant": "The base, product structure and zero sum of indices."
   },
   {
    "sequence": "index-laws-and-surd-laws",
@@ -647,21 +654,25 @@
     "p15-q2-d",
     "p15-q2-e"
    ],
-   "observation": "Brackets determine whether the coefficient belongs inside the root.",
-   "varies": "Whether the fractional index applies to x alone or to 2x.",
-   "invariant": "Coefficient two, variable x and index one fifth."
+   "observation": "Parentheses decide whether the coefficient lies inside the root.",
+   "varies": "The scope of the fractional exponent.",
+   "invariant": "The coefficient 2, variable x and exponent 1/5."
   },
   {
    "sequence": "index-laws-and-surd-laws",
    "targets": [
+    "p15-q3-a",
     "p15-q3-b",
     "p15-q3-c",
     "p15-q3-d",
-    "p15-q3-e"
+    "p15-q3-e",
+    "p15-q3-f",
+    "p15-q3-g",
+    "p15-q3-h"
    ],
-   "observation": "Coefficient scope and index sign independently determine which factors are rooted and reciprocated.",
-   "varies": "Brackets and the sign of the one-third index.",
-   "invariant": "Coefficient sixty-four, variable x and index magnitude one third."
+   "observation": "The run contrasts powers inside a root, coefficients outside a root, and reciprocals of either a variable power or a whole product.",
+   "varies": "Exponent placement, grouping, sign and root order.",
+   "invariant": "The numerical factor 64 and variable x."
   },
   {
    "sequence": "index-laws-and-surd-laws",
@@ -669,9 +680,9 @@
     "p15-q3-k",
     "p15-q3-l"
    ],
-   "observation": "Exchanging inner and outer fractional indices preserves the variable's combined index but changes the coefficient's root.",
-   "varies": "Order of the one-third and one-half indices.",
-   "invariant": "Coefficient sixty-four, variable x and product of the variable indices."
+   "observation": "Exchanging the two fractional exponents preserves the resulting exponent on x while changing the power applied to 64.",
+   "varies": "Which of 1/2 and 1/3 is the inner exponent and which is the outer exponent.",
+   "invariant": "The coefficient 64 and variable x."
   },
   {
    "sequence": "index-laws-and-surd-laws",
@@ -679,40 +690,31 @@
     "p16-q5-b",
     "p16-q5-c"
    ],
-   "observation": "An outside coefficient remains in the numerator, whereas a coefficient inside the negative-powered base is reciprocated.",
-   "varies": "Whether brackets include the coefficient.",
-   "invariant": "Coefficient three, variable x and index minus one."
+   "observation": "A coefficient outside a negative power remains in the numerator; a coefficient inside its scope is reciprocated.",
+   "varies": "Grouping around 3x.",
+   "invariant": "The coefficient 3, variable x and exponent -1."
   },
   {
    "sequence": "index-laws-and-surd-laws",
    "targets": [
     "p16-q5-f",
-    "p16-q5-g"
-   ],
-   "observation": "Writing a numerical coefficient as a fraction or placing the variable power in its numerator gives equivalent expressions.",
-   "varies": "Placement of the negative-powered variable in the written fraction.",
-   "invariant": "Coefficient four fifths and variable power x^(-3)."
-  },
-  {
-   "sequence": "index-laws-and-surd-laws",
-   "targets": [
+    "p16-q5-g",
     "p16-q5-h",
     "p16-q5-i"
    ],
-   "observation": "An explicit unit numerator and a quotient notation describe the same coefficient multiplying the negative power.",
-   "varies": "Written representation of the coefficient and variable product.",
-   "invariant": "Coefficient one fifth and variable power x^(-3)."
+   "observation": "Writing a fractional coefficient as part of a single fraction does not change the scope of the negative exponent.",
+   "varies": "Product versus fraction representation, then numerator coefficient.",
+   "invariant": "The denominator coefficient 5 and variable power x^(-3)."
   },
   {
    "sequence": "index-laws-and-surd-laws",
    "targets": [
     "p19-q12-a",
-    "p19-q12-b",
-    "p19-q12-c"
+    "p19-q12-b"
    ],
-   "observation": "The cross term is constant because the paired indices sum to zero; changing their magnitude changes the square terms.",
-   "varies": "Binomial sign, then magnitude of the opposite indices.",
-   "invariant": "Unit coefficients and equal-but-opposite indices."
+   "observation": "Changing addition to subtraction changes the sign of the middle term while preserving the squared terms.",
+   "varies": "The sign between the two terms.",
+   "invariant": "The terms x^(1/2) and x^(-1/2), and the outer square."
   },
   {
    "sequence": "index-laws-and-surd-laws",
@@ -724,9 +726,9 @@
     "p20-q13-e",
     "p20-q13-f"
    ],
-   "observation": "Each added nesting changes the index from r to (1+r)/2, producing the pattern 1−1/2^n.",
-   "varies": "Number of nested twos.",
-   "invariant": "Base two and the repeated square-root-of-two-times-inner-expression structure."
+   "observation": "Each added nested root generates the next fractional exponent, supporting a numerical prediction and then an expression in n.",
+   "varies": "The number of twos and nested square roots.",
+   "invariant": "The base 2 and the repeated operation of multiplying by 2 before taking a square root."
   },
   {
    "sequence": "exponential-equations",
@@ -736,20 +738,19 @@
     "p24-q7-c",
     "p24-q7-d"
    ],
-   "observation": "Taking the reciprocal of the right side reverses the sign of the solution; changing the power changes its magnitude.",
-   "varies": "The right side alternates between integer powers and their reciprocals, using magnitudes 81 and 27.",
-   "invariant": "The base is 1/3 and the exponent is x."
+   "observation": "Reciprocating the right side reverses the sign of the required exponent.",
+   "varies": "The right side switches between 81 and 1/81, then between 27 and 1/27.",
+   "invariant": "The base is 1/3 and the unknown is its exponent."
   },
   {
    "sequence": "exponential-equations",
    "targets": [
-    "p24-q7-e",
     "p24-q7-f",
     "p24-q7-g"
    ],
-   "observation": "Increasing the right-side power changes the magnitude of the exponent, while taking its reciprocal reverses the sign.",
-   "varies": "The right side changes from 64 to 256 to 1/256.",
-   "invariant": "The base is 1/4 and the exponent is x."
+   "observation": "A second reciprocal pair reinforces the exponent-sign relationship.",
+   "varies": "The right side changes from 256 to 1/256.",
+   "invariant": "The base is 1/4 and the magnitude of the required exponent is unchanged."
   },
   {
    "sequence": "exponential-equations",
@@ -757,9 +758,9 @@
     "p26-q14-c",
     "p26-q14-d"
    ],
-   "observation": "A square root and its reciprocal correspond to opposite half-integer exponents.",
-   "varies": "The right side changes from sqrt(15) to its reciprocal.",
-   "invariant": "The left side is 15^y."
+   "observation": "Taking the reciprocal of a square root changes a positive half-index to a negative half-index.",
+   "varies": "The right side changes from sqrt(15) to 1/sqrt(15).",
+   "invariant": "The base is 15 and the unknown is y."
   },
   {
    "sequence": "factorising-expressions-with-indices",
@@ -769,9 +770,9 @@
     "p31-q3-c",
     "p31-q3-d"
    ],
-   "observation": "Connects multiplication, repeated addition and common-factor extraction without treating addition as an index multiplication law.",
-   "varies": "The expression and the requested operation.",
-   "invariant": "Base 2 and the shared factor 2^x."
+   "observation": "The linked questions distinguish combining equal summands from factorising terms with different exponents.",
+   "varies": "The representation changes from a product to equal summands, then to a sum whose terms differ by a factor of 2.",
+   "invariant": "Base 2 and the common power 2^x."
   },
   {
    "sequence": "factorising-expressions-with-indices",
@@ -779,14 +780,14 @@
     "p32-q5-a",
     "p32-q5-b"
    ],
-   "observation": "A symbolic factorisation simplifies an expression with large exponents without evaluating the powers.",
-   "varies": "Symbolic exponent becomes a fixed exponent and the resulting factor is divided out.",
-   "invariant": "The structure 5^(n+1)+5^n."
+   "observation": "A symbolic factorisation makes a calculation with large exponents manageable without evaluating the powers.",
+   "varies": "The symbolic exponent becomes 100 and the expression is divided by the resulting coefficient.",
+   "invariant": "Base 5 and the exponent gap of 1."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 7,
- "reviewedAt": "2026-10-11T12:42:13.456Z",
+ "reviewedRevision": 13,
+ "reviewedAt": "2026-10-15T09:55:11.156Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -810,14 +811,14 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 30629,
-     "cached_input_tokens": 14592,
+     "input_tokens": 31048,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3809,
-     "reasoning_output_tokens": 380
+     "output_tokens": 3505,
+     "reasoning_output_tokens": 211
     },
-    "elapsedMs": 105243,
-    "candidates": 2,
+    "elapsedMs": 117998,
+    "candidates": 3,
     "discarded": [],
     "suggestions": 1
    },
@@ -828,13 +829,13 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 31463,
-     "cached_input_tokens": 12544,
+     "input_tokens": 31938,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 6188,
-     "reasoning_output_tokens": 307
+     "output_tokens": 3413,
+     "reasoning_output_tokens": 388
     },
-    "elapsedMs": 164981,
+    "elapsedMs": 115992,
     "candidates": 2,
     "discarded": [],
     "suggestions": 1
@@ -846,13 +847,13 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 32431,
-     "cached_input_tokens": 12544,
+     "input_tokens": 32906,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 7871,
-     "reasoning_output_tokens": 245
+     "output_tokens": 9457,
+     "reasoning_output_tokens": 244
     },
-    "elapsedMs": 204107,
+    "elapsedMs": 229743,
     "candidates": 2,
     "discarded": [],
     "suggestions": 1
@@ -864,16 +865,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 32331,
-     "cached_input_tokens": 12544,
+     "input_tokens": 32605,
+     "cached_input_tokens": 12288,
      "cache_write_input_tokens": 0,
-     "output_tokens": 6398,
-     "reasoning_output_tokens": 285
+     "output_tokens": 6346,
+     "reasoning_output_tokens": 443
     },
-    "elapsedMs": 160662,
-    "candidates": 3,
+    "elapsedMs": 172638,
+    "candidates": 4,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "factorising-expressions-with-indices",
@@ -882,52 +883,34 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 31680,
-     "cached_input_tokens": 14592,
+     "input_tokens": 31954,
+     "cached_input_tokens": 12288,
      "cache_write_input_tokens": 0,
-     "output_tokens": 6073,
-     "reasoning_output_tokens": 228
+     "output_tokens": 7170,
+     "reasoning_output_tokens": 932
     },
-    "elapsedMs": 153426,
+    "elapsedMs": 232719,
     "candidates": 4,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    }
   ],
   "dropped": [
    {
     "ids": [
-     "c2"
+     "c1"
     ],
-    "reason": "The author deliberately teaches unit-fraction indices first and the numerator's role in Further Fractional Indices. p10-information-block explicitly supplies the general rule, followed by worked non-unit-numerator conversions and numerical practice. The first topic's symbolic index-law tasks do not require interpreting non-unit numerators as roots and powers.",
+    "reason": "The required task is symbolic index-law manipulation, which uses the previously assumed laws with fractional arithmetic; it does not require evaluating or translating a non-unit fractional power. The numerator interpretation is explicitly taught in the next topic before those tasks occur. The candidate does not identify a missing method needed for p8-q13.",
     "candidates": [
      {
-      "id": "c2",
+      "id": "c1",
       "sequence": "fractional-indices",
-      "kind": "untested-distinction",
+      "kind": "missing-prerequisite",
       "targets": [
        "p4-information",
-       "p4-conversion-block",
        "p8-q13-root"
       ],
-      "finding": "The sequence never exposes or tests the numerator's role when converting or evaluating a fractional power, although this is a central intended outcome."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c3"
-    ],
-    "reason": "The mathematics and domain are correct, but this largely restates the reciprocal cancellation already exposed by p8-q14 and its observation prompt. Four stronger suggestions are retained.",
-    "candidates": [
-     {
-      "id": "c3",
-      "sequence": "fractional-indices",
-      "kind": "extension",
-      "targets": [
-       "p8-q14"
-      ],
-      "finding": "Explain why reciprocal fractional powers always multiply to 1."
+      "finding": "The teaching defines only exponents of the form 1/n, but p8-q13 introduces general fractional exponents without teaching what their numerators mean."
      }
     ]
    },
@@ -935,10 +918,27 @@
     "ids": [
      "c4"
     ],
-    "reason": "The immediately preceding exercise already rehearses both missing pieces: p8-q13 repeatedly uses the product law, including a×a^(1/3), and p8-q14 practises negative fractional indices and reciprocal cancellation. The opening-review exemption defeats the candidate.",
+    "reason": "The proposed first two parts repeat p6-q8-f and p6-q8-c exactly. The connection can be asked using those existing answers, but offers less additional mathematical value than the retained suggestions.",
     "candidates": [
      {
       "id": "c4",
+      "sequence": "fractional-indices",
+      "kind": "extension",
+      "targets": [
+       "p6-q8-root"
+      ],
+      "finding": "Compare two roots of the same base and connect them through squaring."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c5"
+    ],
+    "reason": "The immediately preceding topic practises the product law in p8-q13 and p8-q14, and reciprocal conversion in p7-q12 and p9-q17. The new root-and-power conversion is taught in this topic. The claimed missing review pieces therefore fail the immediately-preceding-topic test.",
+    "candidates": [
+     {
+      "id": "c5",
       "sequence": "further-fractional-indices",
       "kind": "opening-review",
       "targets": [
@@ -946,7 +946,7 @@
        "p10-example-indices-2-native",
        "p10-example-indices-3-native"
       ],
-      "finding": "The topic uses product and negative-index laws directly in its examples without rehearsing them in an opening review or the immediately preceding topic."
+      "finding": "The topic has no opening rehearsal of the product law or negative-exponent/reciprocal conversion, although its worked examples use both directly."
      }
     ]
    },
@@ -954,52 +954,34 @@
     "ids": [
      "c12"
     ],
-    "reason": "This is the closing challenge after three exponential simultaneous systems. It combines already taught shifted-power identities with prior simultaneous-equation methods, reversing the order of solving the linear system and recovering the exponents. That single structural change, following extensive index-law and system practice, does not establish the claimed sharp jump.",
+    "reason": "One target is a worked model, not a repeated whole student practice task. An example followed by an identical practice item does not meet the specified accidental duplicate-practice threshold, and the candidate identifies no separate substantial learning breakdown.",
     "candidates": [
      {
       "id": "c12",
       "sequence": "exponential-equations",
-      "kind": "difficulty-jump",
+      "kind": "duplicate-question",
       "targets": [
-       "p27-q15-c",
-       "p27-q15-d"
+       "p21-example-1a",
+       "p22-q3-b"
       ],
-      "finding": "p27-q15-d abruptly changes from equating individual exponents to eliminating entire exponential expressions inside sums and differences."
+      "finding": "p22-q3-b repeats the unchanged whole task 25^x=125 from p21-example-1a without an explicit retrieval or comparison purpose."
      }
     ]
    },
    {
     "ids": [
-     "c16"
+     "c15"
     ],
-    "reason": "The common-factor route is already modelled and practised, including p31-q3-i. The shared hint is inefficient for part b rather than mathematically wrong: its numerator can also be expressed as a difference of squares using 5^(n/2). The candidate does not establish a substantial misconception or unsupported method at the high threshold.",
+    "reason": "Earlier teaching already models the relevant decision: p21-example-2-demonstration explicitly rewrites 9 as 3² and applies the power-of-a-power law, followed by extensive matching-base practice. The p28 example also shows its base decomposition and distribution. Requiring another intermediate line for the familiar 4 = 2² conversion falls below the threshold.",
     "candidates": [
      {
-      "id": "c16",
+      "id": "c15",
       "sequence": "factorising-expressions-with-indices",
-      "kind": "unsupported-transition",
+      "kind": "example-choice",
       "targets": [
-       "p33-q7",
-       "p33-q7-b"
+       "p28-example-right"
       ],
-      "finding": "The shared difference-of-squares hint directs p33-q7-b towards the wrong initial factorisation."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c19"
-    ],
-    "reason": "The stated parity result is correct, but its explanation requires arithmetic of remainders under repeated multiplication, or an equivalent general factorisation argument, neither supplied by the teaching. Omitting formal modular notation does not remove that additional method.",
-    "candidates": [
-     {
-      "id": "c19",
-      "sequence": "factorising-expressions-with-indices",
-      "kind": "extension",
-      "targets": [
-       "p33-q11"
-      ],
-      "finding": "Generalise the divisibility structure using the parity of an exponent gap."
+      "finding": "The example changes 4^n to 2^(2n) without showing the base decomposition that produces the new exponent."
      }
     ]
    }
@@ -1007,8 +989,8 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/fractional-indices-v1/candidates-low-1791722393835.json",
+  "candidateFile": ".booklet-work/pedagogy-review/fractional-indices-v1/candidates-low-1792057967054.json",
   "errors": []
  },
- "postedRevision": 8
+ "postedRevision": 14
 }

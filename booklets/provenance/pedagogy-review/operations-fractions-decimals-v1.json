@@ -5,6 +5,688 @@
  "assumptions": {},
  "findings": [
   {
+   "id": "pf-da471b2f10",
+   "kind": "missing-prerequisite",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p6-q4",
+     "blockId": "p6-q4",
+     "hash": "980a534313fd414178400cc8e6feb602506e8b657449ce179688ed4972974351"
+    },
+    {
+     "id": "p16-q9",
+     "blockId": "p16-q9-block",
+     "hash": "0806b2007f39090a6becd628d479292034a670cf95c6c1afab8afbbd43de9168"
+    },
+    {
+     "id": "p16-q10",
+     "blockId": "p16-q10-block",
+     "hash": "25647727e96dfbec654df21ec6a68b4c412120e6dfaaade029465b86ab158354"
+    }
+   ],
+   "finding": "Mixed-number conversions are required before their first teaching in topic 4.",
+   "breakdown": "p6-q4 requires converting an improper result to a mixed number. p16-q9 and p16-q10 then require operating on mixed-number inputs, including subtraction whose fractional parts require an exchange if handled separately.",
+   "checked": "The teaching in topics 1–3 supplies fraction operations and simplification but no mixed-number conversion method. p25-information and p25-example supply the relevant method later. p9-q16-c does not require improper-to-mixed conversion and is excluded.",
+   "assumptions": "Mixed-number representation is content being developed in this booklet. Calculator use does not resolve the missing representation method.",
+   "repair": {
+    "type": "add-teaching",
+    "proposal": "Before p6-q4, add: 'Divide the numerator by the denominator. The quotient is the whole part and the remainder stays over the denominator: 11 = 2 × 4 + 3, so 11/4 = 2 3/4.' Before p16-q9, add: 'Convert a mixed number to an improper fraction first: 2 1/3 = (2 × 3 + 1)/3 = 7/3. Then use the fraction method already learnt. For example, 2 1/3 − 1 1/2 = 7/3 − 3/2 = 14/6 − 9/6 = 5/6.'"
+   },
+   "doneWhen": "Both conversion directions and their use in mixed-number subtraction are demonstrated before the first tasks requiring them.",
+   "from": [
+    "c1",
+    "c5"
+   ],
+   "sequences": [
+    "operations-fractions-decimals-v1-topic-1",
+    "operations-fractions-decimals-v1-topic-2"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:58:22.412Z"
+    }
+   ],
+   "commentId": "c82e64b5-a751-4472-8570-cfeb6d7bab6f",
+   "postedAt": "2026-10-15T10:58:22.571Z"
+  },
+  {
+   "id": "pf-9d0f57b62b",
+   "kind": "guided-practice",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p10-guided-a",
+     "blockId": "p10-guided",
+     "hash": "3dd03bdc0157d4fb2ab28606e29307413dd458e5c5e10842f2132f747b9e51b6"
+    },
+    {
+     "id": "p10-guided-b",
+     "blockId": "p10-guided",
+     "hash": "3dd03bdc0157d4fb2ab28606e29307413dd458e5c5e10842f2132f747b9e51b6"
+    },
+    {
+     "id": "p10-guided-c",
+     "blockId": "p10-guided",
+     "hash": "3dd03bdc0157d4fb2ab28606e29307413dd458e5c5e10842f2132f747b9e51b6"
+    },
+    {
+     "id": "p10-guided-d",
+     "blockId": "p10-guided",
+     "hash": "3dd03bdc0157d4fb2ab28606e29307413dd458e5c5e10842f2132f747b9e51b6"
+    }
+   ],
+   "finding": "The first guided practice supplies the equivalent fractions and results that its calculation blanks ask students to generate.",
+   "breakdown": "Every part can be completed by reading the supplied model rows, without choosing the equivalence or performing the addition or subtraction.",
+   "checked": "The answerVisibility specifications confirm that all equivalence and result shading remains visible. Independent calculation in p11-guided does not change the first practice's supplied decisions.",
+   "assumptions": "Students see the permanent model rows while filling the blanks.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Before p10-guided, add: 'Cover the second and third model rows. Complete each calculation, then uncover the models to check your equivalent fractions and result.'"
+   },
+   "doneWhen": "Students generate the equivalences and results before viewing the checking models.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "operations-fractions-decimals-v1-topic-2"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:58:22.412Z"
+    }
+   ],
+   "commentId": "c9fec291-967a-49ac-9fa3-f5ed91aeb737",
+   "postedAt": "2026-10-15T10:58:22.576Z"
+  },
+  {
+   "id": "pf-0284a28c83",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p17-guided-d",
+     "blockId": "p17-guided",
+     "hash": "e15bbbf1f1e2b65f43faad17da1e06ec9fbb5b020c024b39d8caa3e32bd115e9"
+    },
+    {
+     "id": "p19-q1-c",
+     "blockId": "p19-q1-block",
+     "hash": "ac2ebef6903dd36be1c407be93ab38b5d8fa2166de1a0961576459f7ead4c91f"
+    }
+   ],
+   "finding": "p19-q1-c repeats the complete model-supported task in p17-guided-d.",
+   "breakdown": "Both ask for 2/5 − 1/3 with supplied original and equivalent operand models and the same numerical blanks.",
+   "checked": "Compared operands, blanks, givens and corrected diagram specifications. No explicit retrieval or comparison purpose accompanies the repetition.",
+   "assumptions": "The corrected p19-q1-c model specification represents the intended student task.",
+   "repair": {
+    "type": "change-values",
+    "proposal": "Change p19-q1-c to 3/5 − 1/3. Retain its scaffold and update the original and equivalent models to show three fifths and nine fifteenths. Expected completion: 9/15 − 5/15 = 4/15."
+   },
+   "doneWhen": "The later copy has different operands and matching supplied models.",
+   "from": [
+    "c8"
+   ],
+   "sequences": [
+    "operations-fractions-decimals-v1-topic-3"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:58:22.412Z"
+    }
+   ],
+   "commentId": "48b2392a-9bd7-484b-b57f-c2c70a230d34",
+   "postedAt": "2026-10-15T10:58:22.578Z"
+  },
+  {
+   "id": "pf-106ee9f4bc",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p41-q4",
+     "blockId": "p41-q4",
+     "hash": "a1e4d16f974278a5402b43fe6a24d8d22fc165eba84bfff6374cab72907f6f93"
+    }
+   ],
+   "finding": "Hold the starting number fixed while the divisor increases through 1.",
+   "breakdown": "This isolates the effect of the divisor on the quotient and its comparison with the starting number.",
+   "checked": "The existing table varies both starting numbers and divisors. All proposed quotients and comparisons are correct, and calculators are explicitly permitted.",
+   "assumptions": "Use the existing table headings.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append: 'Predict each comparison before calculating.' Add rows 12 ÷ 0.5 [24, larger], 12 ÷ 1 [12, equal], 12 ÷ 1.5 [8, smaller], and 12 ÷ 2 [6, smaller]. Follow with 7 ÷ 0.25 [28, larger]. Only the divisor changes in the four-row run."
+   },
+   "doneWhen": "The appended run varies only the divisor and is followed by the unpatterned row.",
+   "from": [
+    "c13"
+   ],
+   "sequences": [
+    "operations-fractions-decimals-v1-topic-6"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:58:22.412Z"
+    }
+   ],
+   "commentId": "7d0cbcf5-d6e2-4a24-8bdb-911d931d11b7",
+   "postedAt": "2026-10-15T10:58:22.580Z"
+  },
+  {
+   "id": "pf-a4449cc69f",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p48-q3-block",
+     "blockId": "p48-q3-block",
+     "hash": "6811ca75332226a515a14a6cafc0673d65bf619749416997c6a38417c4a79380"
+    }
+   ],
+   "finding": "Use the grid model to explain why exchanging fraction factors preserves their product.",
+   "breakdown": "The task connects the row-and-column model to multiplication order.",
+   "checked": "Both 2/3 × 3/5 and 3/5 × 2/3 give 6/15 = 2/5. For positive proper fractions a/b and c/d, exchanging factors preserves the shaded-cell count ac and total-cell count bd. The model and multiplication order are already taught.",
+   "assumptions": "The generalisation uses positive proper fractions with positive integer numerators and denominators.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p48-q3, ask: 'Draw models for 2/3 × 3/5 and 3/5 × 2/3. Explain why the shaded fraction is the same. Why does this work for any two positive proper fractions?' Expected answer: each model shades six of fifteen cells; exchanging rows and columns preserves both counts."
+   },
+   "doneWhen": "Students justify the unchanged product through the two grid counts.",
+   "from": [
+    "c25"
+   ],
+   "sequences": [
+    "operations-fractions-decimals-v1-topic-8"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T10:42:13.548Z"
+    }
+   ],
+   "commentId": "534a6c55-3be5-4078-8f94-b63f3deaedae",
+   "postedAt": "2026-10-11T10:42:13.687Z"
+  },
+  {
+   "id": "pf-98fd166c30",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p63-q6-row3",
+     "blockId": "p63-q6",
+     "hash": "c478c99b36fd9af9e42350bf83566074e21acc5cb148c8f999daf219a4875aa8"
+    },
+    {
+     "id": "p63-q7-d",
+     "blockId": "p63-q7",
+     "hash": "4a60f1975ed33eb999673673c5ba8f2fec71c17daaee4d22968363fb281bec5d"
+    },
+    {
+     "id": "p63-q7-f",
+     "blockId": "p63-q7",
+     "hash": "4a60f1975ed33eb999673673c5ba8f2fec71c17daaee4d22968363fb281bec5d"
+    }
+   ],
+   "finding": "The visual division sequence does not explicitly establish the unit of a fractional group count.",
+   "breakdown": "The leftover quarter in 3/4 ÷ 1/2 is half of a divisor-sized group, rather than one quarter of a group. Without that connection, students may append the leftover fraction of the original whole to their complete-group count.",
+   "checked": "Preceding examples and p62 practice count complete groups. p63-q6-row3 supplies aligned boundaries but no explanation of how the partial group's count is measured. Earlier fractional-quantity work uses the original whole as its unit.",
+   "assumptions": "Students are learning fractional quotients through group counting. No calculator is needed.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Beside p63-q6-row3, add: 'There is one complete half-sized group and one quarter left. That quarter is half of another half-sized group, so there are 1 1/2 groups.' At p63-q7-d, ask: 'What fraction of another three-eighths group do the remaining two eighths make?'"
+   },
+   "doneWhen": "The partial quotient is explicitly measured relative to the divisor-sized group.",
+   "from": [
+    "c33"
+   ],
+   "sequences": [
+    "operations-fractions-decimals-v1-topic-12"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T10:42:13.548Z"
+    }
+   ],
+   "commentId": "62f98a42-7f25-4487-8af6-57873220426b",
+   "postedAt": "2026-10-11T10:42:13.703Z"
+  },
+  {
+   "id": "pf-3f626a9e95",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p65-identify-j",
+     "blockId": "p65-identify-question",
+     "hash": "fb8f113dbd6288b2b365f67cc35ecdc36225a3a35964deba883747a63711cfa4"
+    },
+    {
+     "id": "p65-identify-k",
+     "blockId": "p65-identify-question",
+     "hash": "fb8f113dbd6288b2b365f67cc35ecdc36225a3a35964deba883747a63711cfa4"
+    },
+    {
+     "id": "p66-q1-j",
+     "blockId": "p66-q1",
+     "hash": "f3a55d8f0f6195e5053aefbaec698e9929c5d125926cb9770b3f250bfe9813fb"
+    },
+    {
+     "id": "p66-q1-k",
+     "blockId": "p66-q1",
+     "hash": "f3a55d8f0f6195e5053aefbaec698e9929c5d125926cb9770b3f250bfe9813fb"
+    },
+    {
+     "id": "p66-q1-l",
+     "blockId": "p66-q1",
+     "hash": "f3a55d8f0f6195e5053aefbaec698e9929c5d125926cb9770b3f250bfe9813fb"
+    },
+    {
+     "id": "p66-q1-m",
+     "blockId": "p66-q1",
+     "hash": "f3a55d8f0f6195e5053aefbaec698e9929c5d125926cb9770b3f250bfe9813fb"
+    },
+    {
+     "id": "p66-q1-o",
+     "blockId": "p66-q1",
+     "hash": "f3a55d8f0f6195e5053aefbaec698e9929c5d125926cb9770b3f250bfe9813fb"
+    },
+    {
+     "id": "p66-q1-p",
+     "blockId": "p66-q1",
+     "hash": "f3a55d8f0f6195e5053aefbaec698e9929c5d125926cb9770b3f250bfe9813fb"
+    }
+   ],
+   "finding": "The reciprocal instruction does not connect mixed-number inputs to the previously taught improper-fraction representation.",
+   "breakdown": "The swapping shortcut is demonstrated only on whole numbers and ordinary fractions. Applying it to the fractional component of a mixed number changes the wrong quantity.",
+   "checked": "p25-information and p54-rule teach conversion, so that method is not missing. However, no introductory reciprocal example or cue shows that conversion must precede swapping for a mixed number. Student-facing answer routes do not supply this connection.",
+   "assumptions": "Students know mixed-to-improper conversion and are meeting reciprocals here.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Before p65-identify-j, add: 'For a mixed number, first convert the whole value to an improper fraction, then swap the numerator and denominator: 1 1/3 = 4/3, so its reciprocal is 3/4.'"
+   },
+   "doneWhen": "The conversion decision is stated and demonstrated before mixed-number reciprocals.",
+   "from": [
+    "c20"
+   ],
+   "sequences": [
+    "operations-fractions-decimals-v1-topic-13"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:58:22.412Z"
+    }
+   ],
+   "commentId": "285484b8-46cd-419b-93a4-b1e796685473",
+   "postedAt": "2026-10-15T10:58:22.588Z"
+  },
+  {
+   "id": "pf-19c55eae78",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p67-example-left",
+     "blockId": "p67-example",
+     "hash": "5a3bb4e469efe285b05fc27f0ecbd6c57b6dcf9dbd56bbb6ddfdfd92d9f7d732"
+    },
+    {
+     "id": "p67-example-right",
+     "blockId": "p67-example",
+     "hash": "5a3bb4e469efe285b05fc27f0ecbd6c57b6dcf9dbd56bbb6ddfdfd92d9f7d732"
+    }
+   ],
+   "finding": "The reciprocal division examples use multiplication and reduction without an opening calculation review.",
+   "breakdown": "Students must calculate the new product and, in the second example, reduce 2/10 to 1/5.",
+   "checked": "Earlier topics teach both skills. The preceding reciprocal exercise finds missing reciprocal factors; it does not rehearse forward products and common-factor reduction throughout.",
+   "assumptions": "Manual fraction calculation is intended.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p67-rule, ask: 'Multiply and simplify: 2/3 × 3/5; 3/4 × 2/7. Simplify: 6/15; 12/18.' Answers: 2/5, 3/14, 2/5 and 2/3."
+   },
+   "doneWhen": "Students rehearse the calculation steps used after reciprocation.",
+   "from": [
+    "c37"
+   ],
+   "sequences": [
+    "operations-fractions-decimals-v1-topic-14"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T10:42:13.548Z"
+    }
+   ],
+   "commentId": "36683dc6-4d20-4c78-b9d6-61c8c17307e4",
+   "postedAt": "2026-10-11T10:42:13.713Z"
+  },
+  {
+   "id": "pf-f0403dce6b",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p72-q14",
+     "blockId": "p72-q14",
+     "hash": "cdb48744d1be24a0eaeaf83487d9f8516f3e7b79ac6624abbcf24f04051d329d"
+    }
+   ],
+   "finding": "Compare halving the bag size with halving both the bag size and available mass.",
+   "breakdown": "The apple context exposes how changing the divisor differs from changing both operands together.",
+   "checked": "45 ÷ 3/4 = 60 and 22 1/2 ÷ 3/4 = 30. Fraction division and mixed-number conversion are available by the end of this topic.",
+   "assumptions": "The original question becomes part a.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append: '(b) The bags now hold 3/4 kg each. How many bags can be made from 45 kg? [60] (c) How many 3/4 kg bags can be made from 22 1/2 kg? [30] (d) Explain why part c gives the same number of bags as part a. [Both the available mass and the mass per bag have been halved.]'"
+   },
+   "doneWhen": "The follow-up distinguishes changing the divisor alone from scaling both operands.",
+   "from": [
+    "c22"
+   ],
+   "sequences": [
+    "operations-fractions-decimals-v1-topic-14"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:58:22.412Z"
+    }
+   ],
+   "commentId": "0d6a9b95-1a52-4302-9b1a-a7bbca102d7a",
+   "postedAt": "2026-10-15T10:58:22.590Z"
+  },
+  {
+   "id": "pf-df02daa278",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p88-q11-d",
+     "blockId": "p88-q11",
+     "hash": "6b3556852a3c387f4844e2566ba07d898586617ea022379abd5749814dedc5d6"
+    },
+    {
+     "id": "p89-q13-j",
+     "blockId": "p89-q13",
+     "hash": "43b93b365f0250124da19dec63b0d33018c92852a59b80a3d25eb8fd0b6c75fb"
+    }
+   ],
+   "finding": "p89-q13-j repeats the complete calculation 0.07 × 0.6 from p88-q11-d.",
+   "breakdown": "The later mixed exercise repeats unchanged operands and the same required calculation.",
+   "checked": "Compared both complete prompts and their surrounding instructions. The earlier part supports an explicit decimal-place comparison; the later copy has no stated retrieval or comparison purpose.",
+   "assumptions": "Each calculation part is a complete task.",
+   "repair": {
+    "type": "change-values",
+    "proposal": "Change p89-q13-j to 0.09 × 0.4. Answer: 0.036. Leave the earlier comparison sequence unchanged."
+   },
+   "doneWhen": "The later part uses different numbers while preserving its hundredths-by-tenths structure.",
+   "from": [
+    "c26"
+   ],
+   "sequences": [
+    "operations-fractions-decimals-v1-topic-17"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:58:22.412Z"
+    }
+   ],
+   "commentId": "48fdf6e0-dd0f-4cfb-ab8a-78ee2a4953fb",
+   "postedAt": "2026-10-15T10:58:22.593Z"
+  },
+  {
+   "id": "pf-67c2f3aaa5",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p89-q14",
+     "blockId": "p89-q14",
+     "hash": "d06606ee509e9de1fb9211d7a615496928545e594da148c5b24290289b29ff26"
+    }
+   ],
+   "finding": "Use missing factors to expose opposite scaling that preserves a product.",
+   "breakdown": "Students can reverse the decimal scaling already practised using the supplied multiplication fact.",
+   "checked": "6.7 × 28 = 187.6 and 0.67 × 280 = 187.6. These can be found from 67 × 28 = 1876 using taught powers-of-ten scaling, without a new decimal-division algorithm.",
+   "assumptions": "Students use the supplied multiplication fact.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p89-q14-f, add: '(g) Complete 6.7 × □ = 187.6. [28] (h) Complete 0.67 × □ = 187.6. [280] (i) Explain why the products in parts a, g and h are equal. [Each time the first factor is divided by ten, the second is multiplied by ten.]'"
+   },
+   "doneWhen": "The follow-up connects the numerical completions to compensating factor changes.",
+   "from": [
+    "c27"
+   ],
+   "sequences": [
+    "operations-fractions-decimals-v1-topic-17"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:58:22.412Z"
+    }
+   ],
+   "commentId": "662fbe9a-3839-4a7e-91b5-65609fa5ebda",
+   "postedAt": "2026-10-15T10:58:22.597Z"
+  },
+  {
+   "id": "pf-54aa82dc5d",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p90-example-left",
+     "blockId": "p90-example-block",
+     "hash": "289b99b8acd43948f1dd08b75f9fc28ae551a27b8255ae22943427e43826cf6a"
+    },
+    {
+     "id": "p90-example-right",
+     "blockId": "p90-example-block",
+     "hash": "289b99b8acd43948f1dd08b75f9fc28ae551a27b8255ae22943427e43826cf6a"
+    }
+   ],
+   "finding": "Whole-number short division is not rehearsed before the decimal division examples depend on it.",
+   "breakdown": "The examples require quotient placement and carrying remainders through successive digits.",
+   "checked": "No opening review appears. The preceding review contains isolated division facts, not the short-division algorithm; the preceding exercise concerns multiplication.",
+   "assumptions": "Manual division is intended, as shown by division brackets and remainder marks.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p90-information-block, ask: 'Use short division: 24 ÷ 6; 508 ÷ 3, giving the remainder; 606 ÷ 3; 105 ÷ 5.' Answers: 4; 169 remainder 1; 202; 21."
+   },
+   "doneWhen": "Students rehearse short division, carrying remainders and internal zero quotient digits.",
+   "from": [
+    "c45"
+   ],
+   "sequences": [
+    "operations-fractions-decimals-v1-topic-18"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T10:42:13.548Z"
+    }
+   ],
+   "commentId": "85a50777-1e7f-454d-b76e-2d32e3d48f5a",
+   "postedAt": "2026-10-11T10:42:13.732Z"
+  },
+  {
+   "id": "pf-03cb127f86",
+   "kind": "missing-prerequisite",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p91-q1-g",
+     "blockId": "p91-q1",
+     "hash": "9bbe35214d913909d15f8178d12eed158b4b63b912009f59dc4d3b93677dcf65"
+    },
+    {
+     "id": "p91-q1-h",
+     "blockId": "p91-q1",
+     "hash": "9bbe35214d913909d15f8178d12eed158b4b63b912009f59dc4d3b93677dcf65"
+    },
+    {
+     "id": "p91-q1-i",
+     "blockId": "p91-q1",
+     "hash": "9bbe35214d913909d15f8178d12eed158b4b63b912009f59dc4d3b93677dcf65"
+    }
+   ],
+   "finding": "The exercise requires continuing division beyond the dividend's supplied digits without showing that completion step.",
+   "breakdown": "At the final supplied digit, a remainder remains. Students need to append equivalent decimal zeros and continue the algorithm.",
+   "checked": "All p90 examples, guided questions and p91-q1-a–f terminate within the supplied digits. Earlier place-value teaching establishes equivalent zeros, so a connecting demonstration is sufficient.",
+   "assumptions": "Manual division is intended; extension beyond the supplied digits is not already assumed taught.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Before p91-q1-g, add: 'If a remainder remains, append decimal zeros and continue. For example, 1.7 = 1.700, so 1.7 ÷ 4 = 0.425. The remainder after the tenths becomes 10 hundredths; after writing 2 hundredths, the remaining 2 hundredths become 20 thousandths, giving 5 thousandths.'"
+   },
+   "doneWhen": "Students see how equivalent zeros allow the existing algorithm to continue.",
+   "from": [
+    "c46"
+   ],
+   "sequences": [
+    "operations-fractions-decimals-v1-topic-18"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T10:42:13.548Z"
+    }
+   ],
+   "commentId": "eee75d5c-4d02-4f5f-8b1e-e4d30c93798a",
+   "postedAt": "2026-10-11T10:42:13.738Z"
+  },
+  {
+   "id": "pf-285d2d9f14",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p94-q15-e",
+     "blockId": "p94-q15",
+     "hash": "ea64442b02a7f82e1a4b02ea25a9ec99e4f57a812022eb88537fc8c98bcf475d"
+    },
+    {
+     "id": "p94-q15-p",
+     "blockId": "p94-q15",
+     "hash": "ea64442b02a7f82e1a4b02ea25a9ec99e4f57a812022eb88537fc8c98bcf475d"
+    },
+    {
+     "id": "p94-q15-f",
+     "blockId": "p94-q15",
+     "hash": "ea64442b02a7f82e1a4b02ea25a9ec99e4f57a812022eb88537fc8c98bcf475d"
+    },
+    {
+     "id": "p94-q15-q",
+     "blockId": "p94-q15",
+     "hash": "ea64442b02a7f82e1a4b02ea25a9ec99e4f57a812022eb88537fc8c98bcf475d"
+    }
+   ],
+   "finding": "Two complete decimal division tasks each appear twice without an explicit instructional purpose.",
+   "breakdown": "Parts e and p both give 5 ÷ 0.2; parts f and q both give 0.5 ÷ 0.2.",
+   "checked": "Compared complete tasks and the instruction 'Divide these numbers'. No retrieval or comparison instruction accompanies the matches.",
+   "assumptions": "The unchanged copies are accidental.",
+   "repair": {
+    "type": "remove-question",
+    "proposal": "Remove p94-q15-p and p94-q15-q, retaining the earlier copies and p94-q15-r."
+   },
+   "doneWhen": "Each unchanged task appears once.",
+   "from": [
+    "c47"
+   ],
+   "sequences": [
+    "operations-fractions-decimals-v1-topic-18"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T10:42:13.548Z"
+    }
+   ],
+   "commentId": "14a21808-60fe-4e31-833b-77f915989d03",
+   "postedAt": "2026-10-11T10:42:13.744Z"
+  },
+  {
+   "id": "pf-bfea79df01",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p36-q10-b",
+     "blockId": "feedback-mixed-missing-numbers",
+     "hash": "7754bb71980cc21446914f67f9be7195d9e33a07607aab41124939c0106a321c"
+    },
+    {
+     "id": "p36-q10-d",
+     "blockId": "feedback-mixed-missing-numbers",
+     "hash": "7754bb71980cc21446914f67f9be7195d9e33a07607aab41124939c0106a321c"
+    },
+    {
+     "id": "p36-q10-h",
+     "blockId": "feedback-mixed-missing-numbers",
+     "hash": "7754bb71980cc21446914f67f9be7195d9e33a07607aab41124939c0106a321c"
+    },
+    {
+     "id": "p96-q5-b",
+     "blockId": "p96-q5",
+     "hash": "d92e355ee21c5b2b107547fce3138131ddc034290ef7d8fefe8217ca145a2960"
+    },
+    {
+     "id": "p96-q5-d",
+     "blockId": "p96-q5",
+     "hash": "d92e355ee21c5b2b107547fce3138131ddc034290ef7d8fefe8217ca145a2960"
+    },
+    {
+     "id": "p96-q5-h",
+     "blockId": "p96-q5",
+     "hash": "d92e355ee21c5b2b107547fce3138131ddc034290ef7d8fefe8217ca145a2960"
+    }
+   ],
+   "finding": "Three complete missing-number tasks are repeated unchanged within the mixed-practice topic.",
+   "breakdown": "The later tasks retain the same values, blanks and required responses as the earlier tasks.",
+   "checked": "Compared the complete mathematical tasks in feedback-mixed-missing-numbers and p96-q5. Differences in box dimensions and labels do not change the tasks. No explicit retrieval or comparison purpose is stated.",
+   "assumptions": "Students receive the supplied sequence in its stated order.",
+   "repair": {
+    "type": "change-values",
+    "proposal": "Change p96-q5-b to □/4 × 7/6 = □/12 [one possible completion: 2, 7]. Change p96-q5-d to □/15 ÷ 2/5 = 3 [18]. Change p96-q5-h to 1 1/2 × □ □/□ = 5 1/4 [3 1/2; boxes 3, 1, 2]."
+   },
+   "doneWhen": "Each later copy retains its missing-number structure with different values and correct expected completions.",
+   "from": [
+    "c32"
+   ],
+   "sequences": [
+    "operations-fractions-decimals-v1-topic-19"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:58:22.412Z"
+    }
+   ],
+   "commentId": "20a57534-3d39-49b4-be64-c976f336c40b",
+   "postedAt": "2026-10-15T10:58:22.601Z"
+  },
+  {
    "id": "pf-d469c8002b",
    "kind": "opening-review",
    "severity": "high",
@@ -461,42 +1143,6 @@
    "postedAt": "2026-10-11T10:42:13.685Z"
   },
   {
-   "id": "pf-a4449cc69f",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p48-q3-block",
-     "blockId": "p48-q3-block",
-     "hash": "6811ca75332226a515a14a6cafc0673d65bf619749416997c6a38417c4a79380"
-    }
-   ],
-   "finding": "Use the grid model to explain why exchanging fraction factors preserves their product.",
-   "breakdown": "The task connects the row-and-column model to multiplication order.",
-   "checked": "Both 2/3 × 3/5 and 3/5 × 2/3 give 6/15 = 2/5. For positive proper fractions a/b and c/d, exchanging factors preserves the shaded-cell count ac and total-cell count bd. The model and multiplication order are already taught.",
-   "assumptions": "The generalisation uses positive proper fractions with positive integer numerators and denominators.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p48-q3, ask: 'Draw models for 2/3 × 3/5 and 3/5 × 2/3. Explain why the shaded fraction is the same. Why does this work for any two positive proper fractions?' Expected answer: each model shades six of fifteen cells; exchanging rows and columns preserves both counts."
-   },
-   "doneWhen": "Students justify the unchanged product through the two grid counts.",
-   "from": [
-    "c25"
-   ],
-   "sequences": [
-    "operations-fractions-decimals-v1-topic-8"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T10:42:13.548Z"
-    }
-   ],
-   "commentId": "534a6c55-3be5-4078-8f94-b63f3deaedae",
-   "postedAt": "2026-10-11T10:42:13.687Z"
-  },
-  {
    "id": "pf-6722f8fa1e",
    "kind": "opening-review",
    "severity": "high",
@@ -656,52 +1302,6 @@
    "postedAt": "2026-10-11T10:42:13.700Z"
   },
   {
-   "id": "pf-98fd166c30",
-   "kind": "unsupported-transition",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p63-q6-row3",
-     "blockId": "p63-q6",
-     "hash": "c478c99b36fd9af9e42350bf83566074e21acc5cb148c8f999daf219a4875aa8"
-    },
-    {
-     "id": "p63-q7-d",
-     "blockId": "p63-q7",
-     "hash": "4a60f1975ed33eb999673673c5ba8f2fec71c17daaee4d22968363fb281bec5d"
-    },
-    {
-     "id": "p63-q7-f",
-     "blockId": "p63-q7",
-     "hash": "4a60f1975ed33eb999673673c5ba8f2fec71c17daaee4d22968363fb281bec5d"
-    }
-   ],
-   "finding": "The visual division sequence does not explicitly establish the unit of a fractional group count.",
-   "breakdown": "The leftover quarter in 3/4 ÷ 1/2 is half of a divisor-sized group, rather than one quarter of a group. Without that connection, students may append the leftover fraction of the original whole to their complete-group count.",
-   "checked": "Preceding examples and p62 practice count complete groups. p63-q6-row3 supplies aligned boundaries but no explanation of how the partial group's count is measured. Earlier fractional-quantity work uses the original whole as its unit.",
-   "assumptions": "Students are learning fractional quotients through group counting. No calculator is needed.",
-   "repair": {
-    "type": "add-cue",
-    "proposal": "Beside p63-q6-row3, add: 'There is one complete half-sized group and one quarter left. That quarter is half of another half-sized group, so there are 1 1/2 groups.' At p63-q7-d, ask: 'What fraction of another three-eighths group do the remaining two eighths make?'"
-   },
-   "doneWhen": "The partial quotient is explicitly measured relative to the divisor-sized group.",
-   "from": [
-    "c33"
-   ],
-   "sequences": [
-    "operations-fractions-decimals-v1-topic-12"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T10:42:13.548Z"
-    }
-   ],
-   "commentId": "62f98a42-7f25-4487-8af6-57873220426b",
-   "postedAt": "2026-10-11T10:42:13.703Z"
-  },
-  {
    "id": "pf-e9cffd440f",
    "kind": "opening-review",
    "severity": "high",
@@ -736,47 +1336,6 @@
    ],
    "commentId": "96ff46f8-3f6c-4705-af92-273bd76c462a",
    "postedAt": "2026-10-11T10:42:13.709Z"
-  },
-  {
-   "id": "pf-19c55eae78",
-   "kind": "opening-review",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p67-example-left",
-     "blockId": "p67-example",
-     "hash": "5a3bb4e469efe285b05fc27f0ecbd6c57b6dcf9dbd56bbb6ddfdfd92d9f7d732"
-    },
-    {
-     "id": "p67-example-right",
-     "blockId": "p67-example",
-     "hash": "5a3bb4e469efe285b05fc27f0ecbd6c57b6dcf9dbd56bbb6ddfdfd92d9f7d732"
-    }
-   ],
-   "finding": "The reciprocal division examples use multiplication and reduction without an opening calculation review.",
-   "breakdown": "Students must calculate the new product and, in the second example, reduce 2/10 to 1/5.",
-   "checked": "Earlier topics teach both skills. The preceding reciprocal exercise finds missing reciprocal factors; it does not rehearse forward products and common-factor reduction throughout.",
-   "assumptions": "Manual fraction calculation is intended.",
-   "repair": {
-    "type": "add-review",
-    "proposal": "Before p67-rule, ask: 'Multiply and simplify: 2/3 × 3/5; 3/4 × 2/7. Simplify: 6/15; 12/18.' Answers: 2/5, 3/14, 2/5 and 2/3."
-   },
-   "doneWhen": "Students rehearse the calculation steps used after reciprocation.",
-   "from": [
-    "c37"
-   ],
-   "sequences": [
-    "operations-fractions-decimals-v1-topic-14"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T10:42:13.548Z"
-    }
-   ],
-   "commentId": "36683dc6-4d20-4c78-b9d6-61c8c17307e4",
-   "postedAt": "2026-10-11T10:42:13.713Z"
   },
   {
    "id": "pf-7058b8efa7",
@@ -902,144 +1461,6 @@
    "postedAt": "2026-10-11T10:42:13.728Z"
   },
   {
-   "id": "pf-54aa82dc5d",
-   "kind": "opening-review",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p90-example-left",
-     "blockId": "p90-example-block",
-     "hash": "289b99b8acd43948f1dd08b75f9fc28ae551a27b8255ae22943427e43826cf6a"
-    },
-    {
-     "id": "p90-example-right",
-     "blockId": "p90-example-block",
-     "hash": "289b99b8acd43948f1dd08b75f9fc28ae551a27b8255ae22943427e43826cf6a"
-    }
-   ],
-   "finding": "Whole-number short division is not rehearsed before the decimal division examples depend on it.",
-   "breakdown": "The examples require quotient placement and carrying remainders through successive digits.",
-   "checked": "No opening review appears. The preceding review contains isolated division facts, not the short-division algorithm; the preceding exercise concerns multiplication.",
-   "assumptions": "Manual division is intended, as shown by division brackets and remainder marks.",
-   "repair": {
-    "type": "add-review",
-    "proposal": "Before p90-information-block, ask: 'Use short division: 24 ÷ 6; 508 ÷ 3, giving the remainder; 606 ÷ 3; 105 ÷ 5.' Answers: 4; 169 remainder 1; 202; 21."
-   },
-   "doneWhen": "Students rehearse short division, carrying remainders and internal zero quotient digits.",
-   "from": [
-    "c45"
-   ],
-   "sequences": [
-    "operations-fractions-decimals-v1-topic-18"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T10:42:13.548Z"
-    }
-   ],
-   "commentId": "85a50777-1e7f-454d-b76e-2d32e3d48f5a",
-   "postedAt": "2026-10-11T10:42:13.732Z"
-  },
-  {
-   "id": "pf-03cb127f86",
-   "kind": "missing-prerequisite",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p91-q1-g",
-     "blockId": "p91-q1",
-     "hash": "9bbe35214d913909d15f8178d12eed158b4b63b912009f59dc4d3b93677dcf65"
-    },
-    {
-     "id": "p91-q1-h",
-     "blockId": "p91-q1",
-     "hash": "9bbe35214d913909d15f8178d12eed158b4b63b912009f59dc4d3b93677dcf65"
-    },
-    {
-     "id": "p91-q1-i",
-     "blockId": "p91-q1",
-     "hash": "9bbe35214d913909d15f8178d12eed158b4b63b912009f59dc4d3b93677dcf65"
-    }
-   ],
-   "finding": "The exercise requires continuing division beyond the dividend's supplied digits without showing that completion step.",
-   "breakdown": "At the final supplied digit, a remainder remains. Students need to append equivalent decimal zeros and continue the algorithm.",
-   "checked": "All p90 examples, guided questions and p91-q1-a–f terminate within the supplied digits. Earlier place-value teaching establishes equivalent zeros, so a connecting demonstration is sufficient.",
-   "assumptions": "Manual division is intended; extension beyond the supplied digits is not already assumed taught.",
-   "repair": {
-    "type": "add-cue",
-    "proposal": "Before p91-q1-g, add: 'If a remainder remains, append decimal zeros and continue. For example, 1.7 = 1.700, so 1.7 ÷ 4 = 0.425. The remainder after the tenths becomes 10 hundredths; after writing 2 hundredths, the remaining 2 hundredths become 20 thousandths, giving 5 thousandths.'"
-   },
-   "doneWhen": "Students see how equivalent zeros allow the existing algorithm to continue.",
-   "from": [
-    "c46"
-   ],
-   "sequences": [
-    "operations-fractions-decimals-v1-topic-18"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T10:42:13.548Z"
-    }
-   ],
-   "commentId": "eee75d5c-4d02-4f5f-8b1e-e4d30c93798a",
-   "postedAt": "2026-10-11T10:42:13.738Z"
-  },
-  {
-   "id": "pf-285d2d9f14",
-   "kind": "duplicate-question",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p94-q15-e",
-     "blockId": "p94-q15",
-     "hash": "ea64442b02a7f82e1a4b02ea25a9ec99e4f57a812022eb88537fc8c98bcf475d"
-    },
-    {
-     "id": "p94-q15-p",
-     "blockId": "p94-q15",
-     "hash": "ea64442b02a7f82e1a4b02ea25a9ec99e4f57a812022eb88537fc8c98bcf475d"
-    },
-    {
-     "id": "p94-q15-f",
-     "blockId": "p94-q15",
-     "hash": "ea64442b02a7f82e1a4b02ea25a9ec99e4f57a812022eb88537fc8c98bcf475d"
-    },
-    {
-     "id": "p94-q15-q",
-     "blockId": "p94-q15",
-     "hash": "ea64442b02a7f82e1a4b02ea25a9ec99e4f57a812022eb88537fc8c98bcf475d"
-    }
-   ],
-   "finding": "Two complete decimal division tasks each appear twice without an explicit instructional purpose.",
-   "breakdown": "Parts e and p both give 5 ÷ 0.2; parts f and q both give 0.5 ÷ 0.2.",
-   "checked": "Compared complete tasks and the instruction 'Divide these numbers'. No retrieval or comparison instruction accompanies the matches.",
-   "assumptions": "The unchanged copies are accidental.",
-   "repair": {
-    "type": "remove-question",
-    "proposal": "Remove p94-q15-p and p94-q15-q, retaining the earlier copies and p94-q15-r."
-   },
-   "doneWhen": "Each unchanged task appears once.",
-   "from": [
-    "c47"
-   ],
-   "sequences": [
-    "operations-fractions-decimals-v1-topic-18"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T10:42:13.548Z"
-    }
-   ],
-   "commentId": "14a21808-60fe-4e31-833b-77f915989d03",
-   "postedAt": "2026-10-11T10:42:13.744Z"
-  },
-  {
    "id": "pf-7bbbbcb33a",
    "kind": "extension",
    "severity": "suggestion",
@@ -1078,150 +1499,30 @@
  ],
  "contextQuestions": [
   {
-   "sequence": "operations-fractions-decimals-v1-topic-2",
+   "sequence": "operations-fractions-decimals-v1-topic-1",
    "targets": [
-    "p6-q4",
-    "p16-q9",
-    "p16-q10",
-    "p25-example-a"
+    "p8-q7-c"
    ],
-   "question": "Before starting this booklet, have students been taught both mixed-to-improper and improper-to-mixed conversion, including the quotient-and-remainder method? This determines whether the early conversion tasks need teaching and whether p25 needs a recall review."
+   "question": "Have students already learnt to obtain an L-shape's perimeter from its overall width and height by combining its horizontal and vertical boundary segments? The supplied fraction teaching does not establish this particular composite-shape reasoning."
   },
   {
-   "sequence": "operations-fractions-decimals-v1-topic-18",
+   "sequence": "operations-fractions-decimals-v1-topic-7",
    "targets": [
-    "p91-q3-root"
+    "p45-q5-h",
+    "p45-q5-j",
+    "p46-q9-comparison-b"
    ],
-   "question": "Have students already learnt to identify recurring quotients from repeated remainders and write recurring-decimal notation? The supplied teaching does not establish these skills, and the answer determines whether p91-q3 needs a short demonstration."
+   "question": "Are calculators available in topic 7, or have students already learnt decimal multiplication and division, including division by a decimal divisor? Calculator permission is explicit in the preceding topic's table, but is not stated for these tasks; the booklet teaches general decimal-operation methods later."
   }
  ],
  "protectedGroups": [
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-2",
-   "targets": [
-    "p15-q5-a",
-    "p15-q5-b"
-   ],
-   "observation": "Changing the operation changes the count of equal-sized parts while leaving their size unchanged.",
-   "varies": "Addition versus subtraction.",
-   "invariant": "Operands 3/5 and 2/5."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-2",
-   "targets": [
-    "p13-q4-shade-sum",
-    "p13-q4-shade-twelfths",
-    "p13-q4-compare"
-   ],
-   "observation": "Adding numerators and denominators separately does not preserve the actual combined amount.",
-   "varies": "The correct sum in eighths versus the claimed result in twelfths.",
-   "invariant": "The whole represented by each bar."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-3",
-   "targets": [
-    "p19-q1-d",
-    "p19-q1-e",
-    "p19-q1-f"
-   ],
-   "observation": "A fixed starting fraction makes the effect of changing the subtracted fraction visible; two quarters and one half give the same difference.",
-   "varies": "The subtracted fraction and its partition.",
-   "invariant": "Four fifths, subtraction, and student-completed subdivisions."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-3",
-   "targets": [
-    "p21-q4-a",
-    "p21-q4-b",
-    "p21-q4-c"
-   ],
-   "observation": "Reversing addition order preserves the sum; changing a numerator changes it.",
-   "varies": "Operand order, then one numerator.",
-   "invariant": "Denominators 5 and 7."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-3",
-   "targets": [
-    "p21-q5-a",
-    "p21-q5-b"
-   ],
-   "observation": "Reversing subtraction order reverses the sign.",
-   "varies": "Operand order.",
-   "invariant": "The two operand fractions."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-3",
-   "targets": [
-    "p21-q5-e",
-    "p21-q5-f",
-    "p21-q5-g"
-   ],
-   "observation": "Increasing the subtracted numerator crosses zero; reversing the resulting subtraction changes its sign.",
-   "varies": "Subtracted numerator, then operand order.",
-   "invariant": "Denominators 3 and 4."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-3",
-   "targets": [
-    "p21-q5-h",
-    "p21-q5-i"
-   ],
-   "observation": "Equivalent subtracted fractions produce equal differences.",
-   "varies": "Two thirtieths becomes one fifteenth.",
-   "invariant": "Three quarters and the value of the subtracted quantity."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-3",
-   "targets": [
-    "p22-q6-b",
-    "p22-q6-c"
-   ],
-   "observation": "An equivalent representation of an operand preserves the sum.",
-   "varies": "Four eighths becomes one half.",
-   "invariant": "One eighth and the second operand's value."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-3",
-   "targets": [
-    "p22-q6-f",
-    "p22-q6-g",
-    "p22-q6-h"
-   ],
-   "observation": "Each additional fifth increases the sum by one fifth.",
-   "varies": "The second numerator.",
-   "invariant": "One quarter and denominator 5."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-3",
-   "targets": [
-    "p22-q6-j",
-    "p22-q6-k",
-    "p22-q6-l",
-    "p22-q6-m"
-   ],
-   "observation": "Each additional ninth increases the sum by one ninth.",
-   "varies": "The first numerator.",
-   "invariant": "Denominators 9 and 5, and second operand two fifths."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-3",
-   "targets": [
-    "p22-q6-o",
-    "p22-q6-p",
-    "p22-q6-q",
-    "p22-q6-r"
-   ],
-   "observation": "The numerical numerator pattern extends to an arbitrary numerator.",
-   "varies": "The first numerator, ending with x.",
-   "invariant": "Denominators 9 and 7, and second operand three sevenths."
-  },
   {
    "sequence": "operations-fractions-decimals-v1-topic-1",
    "targets": [
     "p7-q6-d",
     "p7-q6-e"
    ],
-   "observation": "The same fraction pair gives a doubled quantity under addition and zero under subtraction.",
+   "observation": "Equal fractional operands can produce more than one whole under addition and zero under subtraction.",
    "varies": "The operation.",
    "invariant": "Both operands are 5/6."
   },
@@ -1231,30 +1532,129 @@
     "p7-q6-l",
     "p7-q6-m"
    ],
-   "observation": "Removing fewer ninths leaves more ninths.",
-   "varies": "The amount subtracted.",
-   "invariant": "The starting whole and denominator."
+   "observation": "Removing fewer ninths from one whole leaves more ninths.",
+   "varies": "The numerator of the removed fraction.",
+   "invariant": "Starting whole and denominator."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-1",
    "targets": [
-    "p6-q5-a",
-    "p6-q5-d"
+    "p7-q6-o",
+    "p7-q6-p",
+    "p7-q6-q",
+    "p7-q6-r"
    ],
-   "observation": "Rectangle perimeter still includes four sides when only two side lengths are labelled.",
-   "varies": "The number of explicit side labels and the fractional unit size.",
-   "invariant": "A rectangle with long side five times its short side."
+   "observation": "Two wholes can be expressed in matching fractional units for different denominators.",
+   "varies": "The fraction removed.",
+   "invariant": "Starting quantity of two wholes and the conversion-then-subtraction method."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-3",
+   "targets": [
+    "p19-q1-d",
+    "p19-q1-e",
+    "p19-q1-f"
+   ],
+   "observation": "Equivalent subtracted amounts can be represented with different denominators; parts d and f subtract the same amount.",
+   "varies": "The subtracted fraction.",
+   "invariant": "The starting fraction 4/5 and the model-completion task."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-3",
+   "targets": [
+    "p21-q4-a",
+    "p21-q4-b"
+   ],
+   "observation": "Reversing addends preserves the sum.",
+   "varies": "Order of the two fractions.",
+   "invariant": "The two fractional amounts and addition."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-3",
+   "targets": [
+    "p21-q5-a",
+    "p21-q5-b"
+   ],
+   "observation": "Reversing subtraction changes the sign of the difference.",
+   "varies": "Order of the two fractions.",
+   "invariant": "The two fractional amounts and subtraction."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-3",
+   "targets": [
+    "p21-q5-f",
+    "p21-q5-g"
+   ],
+   "observation": "A second reversed pair reinforces the sign change.",
+   "varies": "Order of the fractions.",
+   "invariant": "The fractions 2/3 and 3/4."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-3",
+   "targets": [
+    "p21-q5-h",
+    "p21-q5-i"
+   ],
+   "observation": "Replacing a subtrahend by an equivalent fraction preserves the difference.",
+   "varies": "2/30 becomes 1/15.",
+   "invariant": "The starting fraction 3/4 and the amount subtracted."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-3",
+   "targets": [
+    "p22-q6-a",
+    "p22-q6-b",
+    "p22-q6-c",
+    "p22-q6-d",
+    "p22-q6-e",
+    "p22-q6-f",
+    "p22-q6-g",
+    "p22-q6-h",
+    "p22-q6-i",
+    "p22-q6-j",
+    "p22-q6-k",
+    "p22-q6-l",
+    "p22-q6-m",
+    "p22-q6-n",
+    "p22-q6-o",
+    "p22-q6-p",
+    "p22-q6-q",
+    "p22-q6-r"
+   ],
+   "observation": "The sustained one-component variation connects same, related and unrelated denominators and culminates in a variable numerator.",
+   "varies": "One numerator or denominator at each adjacent step.",
+   "invariant": "Addition of two fractions; the other three components remain fixed at each step. This explicit progression justifies p22-q6-e revisiting the numerical task in p20-q3-g."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-2",
+   "targets": [
+    "p15-q5-a",
+    "p15-q5-b"
+   ],
+   "observation": "Changing the operation changes the count of fifths while the unit size remains fixed.",
+   "varies": "Addition versus subtraction.",
+   "invariant": "The operands 3/5 and 2/5."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-2",
+   "targets": [
+    "p13-q4-shade-sum",
+    "p13-q4-shade-twelfths",
+    "p13-q4-compare"
+   ],
+   "observation": "Adding numerators and denominators does not preserve the quantity represented by the actual sum.",
+   "varies": "The correct sum represented in eighths versus the proposed answer represented in twelfths.",
+   "invariant": "The whole and the original claim being tested."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-6",
    "targets": [
-    "p40-q3-a",
-    "p40-q3-b",
-    "p40-q3-c"
+    "p37-question-c",
+    "p37-question-d"
    ],
-   "observation": "Crossing 1 changes multiplication from decreasing to increasing the starting number, with equality at 1.",
-   "varies": "Multiplier: 0.99, 1.01, 1.0.",
-   "invariant": "Positive starting number, multiplication operation and classification task."
+   "observation": "A fraction greater than 1 enlarges a positive number, while a fraction equal to 1 preserves it.",
+   "varies": "The numerator changes from 11 to 10.",
+   "invariant": "Multiplication, a positive starting number and denominator 10."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-6",
@@ -1263,9 +1663,20 @@
     "p38-part-c",
     "p38-part-d"
    ],
-   "observation": "Division enlarges a positive starting number for proper fractions and reduces it when the divisor exceeds 1.",
-   "varies": "Numerator: 1, 6, 8.",
-   "invariant": "Denominator 7, division operation and positive starting number."
+   "observation": "Division by fractions below 1 enlarges the starting number; crossing above 1 reverses the effect.",
+   "varies": "The numerator changes from 1 to 6 to 8.",
+   "invariant": "Division, a positive starting number and denominator 7."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-6",
+   "targets": [
+    "p40-q3-a",
+    "p40-q3-b",
+    "p40-q3-c"
+   ],
+   "observation": "The multiplier's position relative to 1 determines the effect even when its value is close to 1.",
+   "varies": "The multiplier is 0.99, 1.01 or 1.0.",
+   "invariant": "Multiplication of a positive starting number and decimal representation."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-5",
@@ -1275,7 +1686,7 @@
     "p33-q1-c",
     "p33-q1-d"
    ],
-   "observation": "The denominator determines the place value and size of the added quantity.",
+   "observation": "Increasing the denominator by a factor of ten reduces the added quantity by a factor of ten.",
    "varies": "The power-of-ten denominator.",
    "invariant": "The starting decimal, numerator and addition operation."
   },
@@ -1287,8 +1698,8 @@
     "p33-q2-c",
     "p33-q2-d"
    ],
-   "observation": "Operand order and operation signs determine whether the same magnitudes produce a positive or negative result.",
-   "varies": "Operand order and signs.",
+   "observation": "Operand order and signs determine the direction and magnitude of the result.",
+   "varies": "Operand order, the sign of the whole number and subtraction of a negative.",
    "invariant": "The magnitudes 1 and 11/12."
   },
   {
@@ -1299,8 +1710,8 @@
     "p33-q2-g",
     "p33-q2-h"
    ],
-   "observation": "Reversed subtraction, addition to a negative whole and subtraction of a negative fraction can be compared.",
-   "varies": "Operand order and signs.",
+   "observation": "Equivalent signed expressions can produce the same difference.",
+   "varies": "Operand order and the placement of addition, subtraction and negative signs.",
    "invariant": "The magnitudes 2 and 7/5."
   },
   {
@@ -1310,23 +1721,32 @@
     "p34-q6-b",
     "p34-q6-c"
    ],
-   "observation": "Adding eight hundredths, eight tenths and eight wholes changes different place-value columns.",
-   "varies": "The unit represented by the added eight.",
-   "invariant": "The starting decimal and addition operation."
+   "observation": "The same digit contributes different amounts when it represents hundredths, tenths or whole units.",
+   "varies": "The place value of the added 8.",
+   "invariant": "The starting value 6.72 and addition."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-5",
    "targets": [
     "p35-q7-a",
     "p35-q7-b",
+    "p35-q7-c"
+   ],
+   "observation": "Changing between equivalent decimal and fraction representations leaves the sum unchanged.",
+   "varies": "The representation of each operand.",
+   "invariant": "The operand values and addition."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-5",
+   "targets": [
     "p35-q7-c",
     "p35-q7-d",
     "p35-q7-e",
     "p35-q7-f"
    ],
-   "observation": "Equivalent representations preserve a quantity, whereas changing a denominator or decimal place can change it.",
-   "varies": "One operand's representation or value, then the operation.",
-   "invariant": "Adjacent questions retain the other operand, allowing direct comparison."
+   "observation": "Changing a place value changes the quantity, whereas changing the operation changes how the quantities combine.",
+   "varies": "One operand's place value at a time, followed by addition becoming subtraction.",
+   "invariant": "Mixed decimal-fraction notation and the digits 4 and 3."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-5",
@@ -1334,9 +1754,9 @@
     "p35-q7-h",
     "p35-q7-i"
    ],
-   "observation": "Equivalent fraction and decimal representations leave the difference unchanged.",
-   "varies": "The representations of the two operands.",
-   "invariant": "The quantities 0.4 and 0.33 and their subtraction."
+   "observation": "Equivalent representations preserve a subtraction result.",
+   "varies": "Decimal versus fractional notation and the denominator used for 0.4.",
+   "invariant": "The calculation 0.4 minus 0.33."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-5",
@@ -1344,9 +1764,9 @@
     "p35-q7-j",
     "p35-q7-k"
    ],
-   "observation": "Exchanging denominators between different numerators changes the sum.",
-   "varies": "Which numerator belongs to tenths and hundredths.",
-   "invariant": "The decimal starting value, fractional numerators and addition operations."
+   "observation": "Swapping the tenths and hundredths roles of digits changes the sum.",
+   "varies": "Which added numerator represents tenths and which represents hundredths.",
+   "invariant": "The starting value 0.44, the added digits and addition."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-5",
@@ -1355,9 +1775,9 @@
     "p35-q7-m",
     "p35-q7-n"
    ],
-   "observation": "Subtracting a sum matches successive subtractions, while changing the second operation to addition changes the result.",
-   "varies": "Grouping and the sign of the final contribution.",
-   "invariant": "The quantities 1, 7/10 and 3/100."
+   "observation": "Subtracting two quantities successively equals subtracting their sum; adding the last quantity gives a different result.",
+   "varies": "Grouping and the operation applied to 3/100.",
+   "invariant": "The values 1, 7/10 and 3/100."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-5",
@@ -1365,9 +1785,9 @@
     "p35-q7-p",
     "p35-q7-q"
    ],
-   "observation": "Increasing the subtracted sum beyond the starting value changes the result's sign.",
-   "varies": "One decimal inside the brackets.",
-   "invariant": "The starting decimal, fractional addend and bracketed subtraction structure."
+   "observation": "Increasing the grouped amount being subtracted can take the result through zero.",
+   "varies": "The first term inside the brackets, from 0.4 to 0.49.",
+   "invariant": "The starting value 0.76, the added 3/10 and grouped subtraction."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-4",
@@ -1376,9 +1796,9 @@
     "p28-q3-b",
     "p28-q3-c"
    ],
-   "observation": "Two methods give the same result while using different intermediate numbers.",
-   "varies": "The calculation method and grouping of wholes and fractions.",
-   "invariant": "The operands and required sum."
+   "observation": "Two methods give the same total while using different intermediate numbers.",
+   "varies": "The calculation method and how whole bars are partitioned.",
+   "invariant": "The operands and total."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-4",
@@ -1386,19 +1806,19 @@
     "p27-q2-i",
     "p27-q2-j"
    ],
-   "observation": "Reversing subtraction reverses the sign of the result.",
-   "varies": "Operand order.",
-   "invariant": "The two mixed numbers."
+   "observation": "Reversing subtraction changes the sign of the result.",
+   "varies": "The order of the operands.",
+   "invariant": "The two mixed numbers and the magnitude of their difference."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-4",
    "targets": [
-    "p27-q2-c",
-    "p27-q2-d"
+    "p27-q2-k",
+    "p27-q2-l"
    ],
-   "observation": "Increasing one whole part by one increases the sum by one.",
-   "varies": "The first whole part.",
-   "invariant": "Both fractional parts and the second whole part."
+   "observation": "The operation determines whether the same quantities are combined or compared.",
+   "varies": "Subtraction versus addition.",
+   "invariant": "Both mixed-number operands."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-4",
@@ -1406,9 +1826,9 @@
     "p30-q8-a",
     "p30-q8-b"
    ],
-   "observation": "Independent methods check the same subtraction.",
-   "varies": "Separate-parts versus improper-fraction working.",
-   "invariant": "Operands and difference."
+   "observation": "The alternate and improper-fraction methods agree even when the first fractional part is smaller.",
+   "varies": "The required method.",
+   "invariant": "The subtraction and its result."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-4",
@@ -1418,9 +1838,9 @@
     "p32-q13-c",
     "p32-q13-d"
    ],
-   "observation": "Operand order and subtraction of a negative affect signs and magnitude; b and c express the same value.",
-   "varies": "Order, whole-number sign and operation.",
-   "invariant": "Magnitudes 1 and 11/12."
+   "observation": "Operand order and subtracting a negative affect the signed result.",
+   "varies": "Order, signs and operation.",
+   "invariant": "The magnitudes 1 and 11/12."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-4",
@@ -1430,9 +1850,9 @@
     "p32-q13-g",
     "p32-q13-h"
    ],
-   "observation": "The same magnitudes expose the effects of operand order and signed operations.",
-   "varies": "Order, whole-number sign and operation.",
-   "invariant": "Magnitudes 2 and 7/5."
+   "observation": "Signed operations can be compared while the magnitudes stay fixed.",
+   "varies": "Operand order, sign of the whole number and operation.",
+   "invariant": "The magnitudes 2 and 7/5."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-8",
@@ -1440,9 +1860,25 @@
     "p48-q2-a",
     "p48-q2-b"
    ],
-   "observation": "The same half-width can be combined with different fractions of the height; both extents determine the multiplication represented.",
-   "varies": "Selected height changes from one seventh to five sevenths.",
-   "invariant": "Two-column, seven-row grid, selected half-width and inference of factors from the model."
+   "observation": "Changing the selected number of sevenths changes the first factor while the half-width factor remains fixed.",
+   "varies": "The vertical span increases from one seventh to five sevenths.",
+   "invariant": "The two-column, seven-row grid and selected half-width."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-8",
+   "targets": [
+    "p48-q3-a",
+    "p48-q3-b",
+    "p48-q3-c",
+    "p48-q3-d",
+    "p48-q3-e",
+    "p48-q3-f",
+    "p48-q3-g",
+    "p48-q3-h"
+   ],
+   "observation": "The second row revisits each first-row grid with larger numerators, allowing comparison of one-cell products with larger intersections.",
+   "varies": "The numerators and resulting shaded area in each corresponding pair.",
+   "invariant": "The denominators and grid within the pairs a/e, b/f, c/g and d/h."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-7",
@@ -1454,9 +1890,9 @@
     "p45-q5-e",
     "p45-q5-f"
    ],
-   "observation": "With multiplier 6 and denominator 3 fixed, the result is twice the numerator, including improper and negative inputs.",
+   "observation": "Changing the numerator changes the product proportionally, including improper and negative inputs.",
    "varies": "Numerator.",
-   "invariant": "Integer multiplier and denominator."
+   "invariant": "Whole-number multiplier 6 and denominator 3."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-7",
@@ -1464,45 +1900,29 @@
     "p45-q5-f",
     "p45-q5-g"
    ],
-   "observation": "Moving the negative sign between factors preserves the product.",
+   "observation": "Placing the single negative sign in either factor gives the same negative product.",
    "varies": "Location of the negative sign.",
-   "invariant": "Factor magnitudes."
+   "invariant": "Factor magnitudes and product."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-7",
    "targets": [
     "p45-q5-h",
-    "p45-q5-i",
-    "p45-q5-j"
+    "p45-q5-i"
    ],
-   "observation": "A decimal in the numerator has a different effect from a decimal in the denominator.",
-   "varies": "Sign and position of the decimal entry.",
-   "invariant": "Multiplier 6 and the underlying digits 1 and 3."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-7",
-   "targets": [
-    "p45-q5-a",
-    "p45-q5-k",
-    "p45-q5-b",
-    "p45-q5-l"
-   ],
-   "observation": "Reversing factor order preserves each product; these pairs extend the explicit commutativity teaching rather than constitute accidental duplicates.",
-   "varies": "Factor order.",
-   "invariant": "Factor values."
+   "observation": "Negating the numerator negates the product.",
+   "varies": "Sign of the decimal numerator.",
+   "invariant": "Multiplier, denominator and numerator magnitude."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-7",
    "targets": [
     "p46-q9-comparison-a",
-    "p46-q9-comparison-b",
-    "p46-q9-reflection-1",
-    "p46-q9-reflection-2",
-    "p46-q9-reflection-3"
+    "p46-q9-comparison-b"
    ],
-   "observation": "Both calculation orders work, but their convenience depends on whether dividing first gives a whole number.",
-   "varies": "Integer factor, from 10 to 6.",
-   "invariant": "Fraction factor 4/5 and the two operation orders."
+   "observation": "Both calculation orders work, but exact divisibility affects convenience.",
+   "varies": "Whole-number factor and whether division first gives an integer.",
+   "invariant": "Fractional multiplier four fifths and the two calculation routes."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-10",
@@ -1513,9 +1933,61 @@
     "p56-q7-not-needed",
     "p56-q7-cakes"
    ],
-   "observation": "Choosing factors depends on the requested quantity; a correct multiplication can answer a different question.",
-   "varies": "The selected factors and interpretation, followed by transfer from cats and meals to cakes and layers.",
-   "invariant": "Multiply the fractional amount per group by the number of relevant groups."
+   "observation": "The sequence distinguishes quantities used in an incorrect calculation from quantities relevant to the requested amount, then transfers that distinction.",
+   "varies": "The analytical question, followed by the context.",
+   "invariant": "Multiply the amount per unit by the number of relevant units; exclude the unrelated total."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-9",
+   "targets": [
+    "p50-q1-f",
+    "p50-q1-g"
+   ],
+   "observation": "Changing only the first numerator changes only the numerator product before simplification.",
+   "varies": "First numerator, from 5 to 4.",
+   "invariant": "Both denominators and the second numerator."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-9",
+   "targets": [
+    "p51-q5-a",
+    "p51-q5-b"
+   ],
+   "observation": "Reversing the factors preserves the product.",
+   "varies": "Factor order.",
+   "invariant": "The two factors."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-9",
+   "targets": [
+    "p51-q5-b",
+    "p51-q5-c",
+    "p51-q5-d"
+   ],
+   "observation": "Multiplying 2/5 by successively smaller unit fractions produces successively smaller products.",
+   "varies": "Second denominator: 2, 3, 4.",
+   "invariant": "First factor 2/5 and second numerator 1."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-9",
+   "targets": [
+    "p51-q5-d",
+    "p51-q5-e"
+   ],
+   "observation": "Tripling the second numerator triples the product.",
+   "varies": "Second numerator, from 1 to 3.",
+   "invariant": "First factor and second denominator."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-9",
+   "targets": [
+    "p53-method-comparison-a",
+    "p53-method-comparison-b",
+    "p53-method-reflection"
+   ],
+   "observation": "Both halving methods agree, while numerator parity affects their convenience.",
+   "varies": "Even versus odd numerator and the method used.",
+   "invariant": "Denominator 9 and the operation of finding half."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-11",
@@ -1529,9 +2001,9 @@
     "p59-q5-g",
     "p59-q5-h"
    ],
-   "observation": "Changes to individual factors change the product predictably; multiplying one numerator and one denominator by the same factor preserves it.",
-   "varies": "Selected numerator or denominator values, with paired doubling in b to c.",
-   "invariant": "Two-factor fraction-product structure and cancellation method."
+   "observation": "Changes to individual factors can change or preserve the product in predictable ways.",
+   "varies": "Selected numerators and denominators, usually one at a time; c changes a numerator and denominator together.",
+   "invariant": "Two-factor multiplication with diagonal cancellation available."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-11",
@@ -1541,64 +2013,29 @@
     "p59-q5-k",
     "p59-q5-l"
    ],
-   "observation": "Equivalent improper fractions, mixed numbers and unreduced fractional parts give the same product.",
-   "varies": "Representation of the factors.",
+   "observation": "Equivalent improper, mixed and unsimplified mixed-number representations give the same product.",
+   "varies": "Representation of each factor.",
    "invariant": "The numerical values of both factors and their product."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-9",
-   "targets": [
-    "p51-q5-a",
-    "p51-q5-b"
-   ],
-   "observation": "Reversing the factors leaves the product unchanged.",
-   "varies": "Factor order.",
-   "invariant": "The two factors and their product."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-9",
-   "targets": [
-    "p51-q5-b",
-    "p51-q5-c",
-    "p51-q5-d"
-   ],
-   "observation": "Taking a smaller unit fraction of the same fraction gives a smaller product.",
-   "varies": "The second denominator: 2, 3, 4.",
-   "invariant": "First factor 2/5 and second numerator 1."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-9",
-   "targets": [
-    "p51-q5-d",
-    "p51-q5-e"
-   ],
-   "observation": "Tripling one numerator triples the product.",
-   "varies": "Second numerator: 1 to 3.",
-   "invariant": "First factor 2/5 and second denominator 4."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-9",
-   "targets": [
-    "p53-method-comparison-a",
-    "p53-method-comparison-b",
-    "p53-method-reflection"
-   ],
-   "observation": "Both halving routes agree, while an odd numerator makes doubling the denominator more convenient.",
-   "varies": "Numerator parity and chosen halving route.",
-   "invariant": "Denominator 9 and the operation of taking half."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-12",
    "targets": [
-    "p62-q1-count-a",
-    "p62-q1-count-b",
-    "p62-q1-count-c",
-    "p62-q1-count-d",
+    "p61-guided-a",
+    "p61-guided-b"
+   ],
+   "observation": "Smaller unit pieces produce more groups within the same half.",
+   "varies": "Divisor changes from one sixth to one twelfth.",
+   "invariant": "Dividend, counting interpretation and paired-circle representation."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-12",
+   "targets": [
+    "p62-q1-count",
     "p62-q1-calculations"
    ],
-   "observation": "The number of fifth-sized groups scales with the number of wholes, and each verbal count corresponds to division.",
-   "varies": "Number of wholes.",
-   "invariant": "Divisor of one fifth."
+   "observation": "The number of fifths scales with the number of wholes, and the counts become division results.",
+   "varies": "Dividend and verbal versus symbolic representation.",
+   "invariant": "Divisor one fifth."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-12",
@@ -1608,9 +2045,19 @@
     "p62-q2-c",
     "p62-q2-d"
    ],
-   "observation": "Doubling the group size halves the number of groups.",
-   "varies": "Divisor from one fifth to two fifths.",
-   "invariant": "Dividend of four wholes and shared model."
+   "observation": "Doubling group size halves the group count.",
+   "varies": "One-fifth versus two-fifths groups.",
+   "invariant": "Four wholes and the shared fifths model."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-12",
+   "targets": [
+    "p62-q4-a",
+    "p62-q4-b"
+   ],
+   "observation": "Halving group size doubles the number of groups.",
+   "varies": "One tenth versus one twentieth.",
+   "invariant": "Dividend seven tenths."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-12",
@@ -1619,9 +2066,9 @@
     "p63-q6-row2",
     "p63-q6-row3"
    ],
-   "observation": "The same quantity contains different numbers of groups as the divisor changes, including a partial group.",
-   "varies": "Divisor-sized group.",
-   "invariant": "Dividend of three quarters."
+   "observation": "The same quantity contains different numbers of differently sized groups, including an incomplete group.",
+   "varies": "Divisor one quarter, three eighths and one half.",
+   "invariant": "Dividend three quarters and aligned bar representation."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-12",
@@ -1633,9 +2080,9 @@
     "p64-q8-e",
     "p64-q8-f"
    ],
-   "observation": "Splitting a half into n equal shares gives pieces of size 1/(2n), with support gradually withdrawn.",
-   "varies": "Number of shares from two to seven and degree of completion supplied.",
-   "invariant": "Starting quantity of one half and partition interpretation."
+   "observation": "Sharing a fixed half among more equal parts makes each share smaller.",
+   "varies": "Number of shares from two to seven, with support gradually withdrawn.",
+   "invariant": "Dividend one half and the original whole."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-12",
@@ -1644,9 +2091,9 @@
     "p64-q8-h",
     "p64-q8-i"
    ],
-   "observation": "The partition pattern transfers from halves to thirds.",
+   "observation": "The equal-sharing pattern also applies to thirds.",
    "varies": "Number of shares from two to four.",
-   "invariant": "Starting quantity of one third."
+   "invariant": "Dividend one third and bar-model method."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-13",
@@ -1654,9 +2101,9 @@
     "p66-q1-e",
     "p66-q1-f"
    ],
-   "observation": "Equivalent representations of a whole number have the same reciprocal.",
-   "varies": "3/1 versus 3.",
-   "invariant": "The number and its reciprocal."
+   "observation": "Equivalent representations of the starting number have the same reciprocal.",
+   "varies": "3/1 versus 3",
+   "invariant": "Starting value and reciprocal"
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-13",
@@ -1664,19 +2111,19 @@
     "p66-q1-i",
     "p66-q1-j"
    ],
-   "observation": "Equivalent improper-fraction and mixed-number representations have the same reciprocal.",
-   "varies": "3/2 versus 1 1/2.",
-   "invariant": "The number and its reciprocal."
+   "observation": "An improper fraction and its equivalent mixed number have the same reciprocal, once the conversion cue is supplied.",
+   "varies": "3/2 versus 1 1/2",
+   "invariant": "Starting value and reciprocal"
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-13",
    "targets": [
-    "p66-q2-k",
-    "p66-q2-l"
+    "p66-q1-l",
+    "p66-q1-m"
    ],
-   "observation": "Reversing numerator and denominator reverses which reciprocal is missing.",
-   "varies": "The given factor, 9/10 versus 10/9.",
-   "invariant": "The reciprocal pair and product 90/90."
+   "observation": "The whole component contributes to the improper numerator and therefore changes the reciprocal.",
+   "varies": "Whole component, from 2 to 5",
+   "invariant": "Fractional component 3/4"
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-13",
@@ -1694,19 +2141,19 @@
     "p66-q2-q",
     "p66-q2-r"
    ],
-   "observation": "A reciprocal produces 1 whether the product is displayed as an equal-numerator-and-denominator fraction or as 1.",
-   "varies": "Within each corresponding pair g/m through l/r, only the representation of the product and the resulting support.",
-   "invariant": "The given factor, missing-factor position and required reciprocal within each pair."
+   "observation": "Writing the product as an equal-numerator-and-denominator fraction or as 1 requires the same reciprocal; the second run withdraws a visible multiplication cue.",
+   "varies": "Product representation in each corresponding pair",
+   "invariant": "Supplied factor, missing-factor position and required reciprocal"
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-14",
    "targets": [
-    "p68-q1-b",
-    "p68-q1-c"
+    "p69-q2",
+    "p69-q3"
    ],
-   "observation": "Doubling the divisor halves the number of groups, including a partial final group.",
-   "varies": "Divisor changes from 2/5 to 4/5.",
-   "invariant": "Dividend 2, fifth-sized units and calculation scaffold."
+   "observation": "Corresponding parts expose the effect of replacing a unit-fraction divisor with a non-unit fraction.",
+   "varies": "The divisor numerator.",
+   "invariant": "The corresponding dividend, divisor denominator and multiplication scaffold."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-14",
@@ -1714,11 +2161,13 @@
     "p70-q6-e",
     "p70-q6-f",
     "p70-q6-g",
-    "p70-q6-h"
+    "p70-q6-h",
+    "p70-q6-h-right",
+    "p70-q6-i-source"
    ],
-   "observation": "Equivalent dividends give equal quotients; multiplying the divisor by ten divides the quotient by ten.",
-   "varies": "Equivalent dividend representation, then divisor size, then dividend representation again.",
-   "invariant": "Division method; dividend value across the group."
+   "observation": "Equivalent dividends preserve a quotient; multiplying the divisor by ten divides the quotient by ten; halving the divisor or doubling the dividend doubles the quotient.",
+   "varies": "One operand's representation or value at each step.",
+   "invariant": "The other operand and the division operation."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-14",
@@ -1726,11 +2175,13 @@
     "p70-q7-e",
     "p70-q7-f",
     "p70-q7-g",
-    "p70-q7-h"
+    "p70-q7-h",
+    "p70-q7-h-right",
+    "p70-q7-i-source"
    ],
-   "observation": "Equivalent divisors give equal quotients; multiplying the dividend by ten multiplies the quotient by ten.",
-   "varies": "Equivalent divisor representation, then dividend size, then divisor representation again.",
-   "invariant": "Division method and divisor value."
+   "observation": "Equivalent divisors preserve the quotient; scaling the dividend scales the quotient; doubling the divisor halves it.",
+   "varies": "One operand's representation or value at each step.",
+   "invariant": "The other operand and the division operation."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-14",
@@ -1741,9 +2192,9 @@
     "p71-q8-pattern-4",
     "p71-q8-pattern-5"
    ],
-   "observation": "Halving the divisor doubles the quotient, with division by 1 separating decrease from increase.",
-   "varies": "Divisor halves successively from 4 to 1/4.",
-   "invariant": "Dividend 12."
+   "observation": "Successively halving the divisor doubles the quotient, including across one.",
+   "varies": "The divisor.",
+   "invariant": "Dividend 12 and the division operation."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-14",
@@ -1753,9 +2204,9 @@
     "p71-q9-c",
     "p71-q9-d"
    ],
-   "observation": "Multiplication and division have opposite size effects for factors above and below 1.",
-   "varies": "Operation and reciprocal factor.",
-   "invariant": "Starting number 5 and the pair 3/2, 2/3."
+   "observation": "Multiplication and division by reciprocal factors have matching or opposing effects on the starting value.",
+   "varies": "The operation and whether the second operand is above or below one.",
+   "invariant": "Starting value 5 and the reciprocal pair 3/2 and 2/3."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-14",
@@ -1765,29 +2216,9 @@
     "p72-q13-c",
     "p72-q13-d"
    ],
-   "observation": "Equivalent dividends preserve the quotient; doubling the dividend or halving the divisor doubles it.",
-   "varies": "Dividend representation, dividend value, then divisor value.",
-   "invariant": "One operand's value at each comparison."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-14",
-   "targets": [
-    "p72-q13-i",
-    "p72-q13-j"
-   ],
-   "observation": "Dividing by 1/4 and dividing by 4 produce different size effects.",
-   "varies": "Divisor changes to its reciprocal.",
-   "invariant": "Dividend 1/2."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-14",
-   "targets": [
-    "p72-q13-k",
-    "p72-q13-l"
-   ],
-   "observation": "Reversing the operands changes the quotient.",
-   "varies": "Operand order.",
-   "invariant": "The two numbers 1/3 and 4."
+   "observation": "Equivalent dividends preserve the quotient; doubling the dividend and then halving the divisor each doubles it.",
+   "varies": "One operand at each step.",
+   "invariant": "The other operand and the division operation."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-14",
@@ -1796,19 +2227,19 @@
     "p73-q16-b",
     "p73-q16-c"
    ],
-   "observation": "Only divisors are reciprocated when mixed multiplication and division are rewritten.",
-   "varies": "Operation signs.",
+   "observation": "Changing operation signs changes which operands must be reciprocated.",
+   "varies": "Multiplication and division signs.",
    "invariant": "The three fractions and their order."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-16",
    "targets": [
-    "p79-q2-c",
-    "p79-q2-d"
+    "p80-q5",
+    "p80-q6"
    ],
-   "observation": "The same three upward steps preserve the hundredfold relationship between the starting values.",
-   "varies": "Starting value: 0.5 or 0.005.",
-   "invariant": "Multiplication by 1000 and three upward steps."
+   "observation": "The same inputs expose the opposite effects of multiplication and division by 10 while preserving digit order.",
+   "varies": "Operation and initial decimal position.",
+   "invariant": "Corresponding input values and a one-place shift."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-16",
@@ -1818,31 +2249,9 @@
     "p80-q5-e",
     "p80-q5-f"
    ],
-   "observation": "Multiplication by 10 changes place value while preserving the order of digits, including the internal zero.",
-   "varies": "Decimal-point position in numbers built from 307.",
-   "invariant": "Digit order and multiplication by 10."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-16",
-   "targets": [
-    "p80-q6-c",
-    "p80-q6-d",
-    "p80-q6-e",
-    "p80-q6-f"
-   ],
-   "observation": "Division by 10 preserves the internal zero while moving the value through smaller place values.",
-   "varies": "Decimal-point position in numbers built from 307.",
-   "invariant": "Digit order and division by 10."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-16",
-   "targets": [
-    "p80-q5-root",
-    "p80-q6-root"
-   ],
-   "observation": "The same starting values expose the opposite effects of multiplication and division by 10.",
-   "varies": "Operation.",
-   "invariant": "Inputs and scale factor."
+   "observation": "Internal zeroes remain part of the digit sequence as its place value changes.",
+   "varies": "Initial decimal position.",
+   "invariant": "Significant digit sequence 307 and multiplication by 10."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-16",
@@ -1850,9 +2259,9 @@
     "p82-q14-a",
     "p82-q14-b"
    ],
-   "observation": "An extra tenfold increase in the result requires an extra factor of 10.",
-   "varies": "Target value and required multiplier.",
-   "invariant": "Starting value 5.8 and multiplication."
+   "observation": "A tenfold increase in the target requires a tenfold increase in the multiplier.",
+   "varies": "Target value.",
+   "invariant": "Starting value 5.8 and missing-multiplier structure."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-16",
@@ -1860,9 +2269,19 @@
     "p82-q15-a",
     "p82-q15-b"
    ],
-   "observation": "Scaling both dividend and quotient by the same factor leaves the divisor unchanged.",
-   "varies": "Dividend and quotient, both reduced tenfold.",
-   "invariant": "Missing divisor."
+   "observation": "Scaling both the starting value and quotient by the same factor leaves the divisor unchanged.",
+   "varies": "Starting value and quotient together.",
+   "invariant": "Missing divisor and relative decimal displacement."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-16",
+   "targets": [
+    "p82-q17-d",
+    "p82-q17-e"
+   ],
+   "observation": "Changing the operation on the right changes the divisor required on the left.",
+   "varies": "Division versus multiplication by 10 on the right.",
+   "invariant": "700 on the left, 0.7 on the right and a missing left-hand divisor."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-19",
@@ -1872,9 +2291,9 @@
     "p95-q1-c",
     "p95-q1-d"
    ],
-   "observation": "The same two fractions require different procedures depending on the operation.",
-   "varies": "The operation.",
-   "invariant": "Both operands and their order."
+   "observation": "The same operands require different fraction algorithms depending on the operation.",
+   "varies": "Operation.",
+   "invariant": "Operands 3/4 and 2/7."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-19",
@@ -1882,9 +2301,9 @@
     "p97-q7-b",
     "p97-q7-c"
    ],
-   "observation": "Brackets change which operation is performed first and therefore the result.",
-   "varies": "Brackets around the addition.",
-   "invariant": "Values, operand order and operation symbols."
+   "observation": "Brackets change which operation is performed first and therefore change the result.",
+   "varies": "Bracket placement.",
+   "invariant": "Operands and operation order."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-19",
@@ -1892,9 +2311,9 @@
     "p97-q7-d",
     "p97-q7-e"
    ],
-   "observation": "Grouping subtraction changes its precedence relative to division.",
-   "varies": "Brackets around the subtraction.",
-   "invariant": "Values, operand order and operation symbols."
+   "observation": "Subtracting before division differs from dividing before subtraction.",
+   "varies": "Brackets around the difference.",
+   "invariant": "Operands and operations."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-19",
@@ -1903,9 +2322,9 @@
     "p97-q7-g",
     "p97-q7-h"
    ],
-   "observation": "Successively grouping the addition and subtraction changes the factors evaluated before multiplication.",
+   "observation": "Successive bracket changes alter the groups calculated before multiplication.",
    "varies": "Bracket placement.",
-   "invariant": "Values, operand order and operation symbols."
+   "invariant": "Operands and operation symbols."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-19",
@@ -1913,180 +2332,37 @@
     "p97-q7-i",
     "p97-q7-j"
    ],
-   "observation": "Grouping the addition changes the expression evaluated between multiplication and division.",
-   "varies": "Brackets around the addition.",
-   "invariant": "Values, operand order and operation symbols."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-18",
-   "targets": [
-    "p92-q5-item1-node",
-    "p92-q5-item2-node"
-   ],
-   "observation": "Multiplication by 0.5 halves a positive starting number, while division by 0.5 doubles it.",
-   "varies": "Operation and resulting magnitude.",
-   "invariant": "Starting number 80 and operand 0.5."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-18",
-   "targets": [
-    "p92-q5-item3-node",
-    "p92-q5-item4-node"
-   ],
-   "observation": "The same multiplication/division contrast holds with a smaller starting number.",
-   "varies": "Operation and resulting magnitude.",
-   "invariant": "Starting number 8 and operand 0.5."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-18",
-   "targets": [
-    "p92-q5-item5-node",
-    "p92-q5-item6-node"
-   ],
-   "observation": "Scaling the dividend by one tenth scales the quotient by one tenth.",
-   "varies": "Dividend.",
-   "invariant": "Division by 0.5."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-18",
-   "targets": [
-    "p92-q5-item6-node",
-    "p92-q5-item7-node"
-   ],
-   "observation": "Multiplication and division by 0.5 have opposite effects even when the starting number is below one.",
-   "varies": "Operation.",
-   "invariant": "Starting number 0.08 and operand 0.5."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-18",
-   "targets": [
-    "p92-q6-a-node",
-    "p92-q6-b-node"
-   ],
-   "observation": "Division by a decimal unit fraction becomes multiplication by its reciprocal.",
-   "varies": "Tenths versus hundredths.",
-   "invariant": "Dividend 1500 and fraction-based explanation."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-18",
-   "targets": [
-    "p92-q8-a",
-    "p92-q8-b",
-    "p92-q8-c",
-    "p92-q8-d"
-   ],
-   "observation": "Reducing the divisor by ten increases the quotient by ten.",
-   "varies": "Divisor: 2, 0.2, 0.02, 0.002.",
-   "invariant": "Dividend 80."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-18",
-   "targets": [
-    "p92-q8-e",
-    "p92-q8-f",
-    "p92-q8-g",
-    "p92-q8-h"
-   ],
-   "observation": "The divisor-scaling relationship persists for dividend 8.",
-   "varies": "Divisor: 2, 0.2, 0.02, 0.002.",
-   "invariant": "Dividend 8."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-18",
-   "targets": [
-    "p92-q8-i",
-    "p92-q8-j",
-    "p92-q8-k",
-    "p92-q8-l"
-   ],
-   "observation": "The divisor-scaling relationship persists for a dividend below one.",
-   "varies": "Divisor: 2, 0.2, 0.02, 0.002.",
-   "invariant": "Dividend 0.8."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-18",
-   "targets": [
-    "p92-q8-m",
-    "p92-q8-n",
-    "p92-q8-o",
-    "p92-q8-p"
-   ],
-   "observation": "The divisor-scaling relationship persists for a smaller decimal dividend.",
-   "varies": "Divisor: 2, 0.2, 0.02, 0.002.",
-   "invariant": "Dividend 0.08."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-18",
-   "targets": [
-    "p93-q11-a",
-    "p93-q11-b",
-    "p93-q11-c"
-   ],
-   "observation": "Reducing the dividend by ten reduces the quotient by ten.",
-   "varies": "Dividend: 48, 4.8, 0.48.",
-   "invariant": "Divisor 6 and underlying multiplication fact."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-18",
-   "targets": [
-    "p94-q13-b",
-    "p94-q13-c",
-    "p94-q13-d",
-    "p94-q13-e",
-    "p94-q13-f",
-    "p94-q13-g",
-    "p94-q13-h"
-   ],
-   "observation": "Scaling one factor scales the product by the same factor.",
-   "varies": "One operand at each transition.",
-   "invariant": "The other operand at each transition and the underlying 27 × 48 fact."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-18",
-   "targets": [
-    "p94-q13-i",
-    "p94-q13-j",
-    "p94-q13-k",
-    "p94-q13-l"
-   ],
-   "observation": "Dividend scaling and divisor scaling have different effects on a quotient.",
-   "varies": "One operand at each transition.",
-   "invariant": "The other operand at each transition and the supplied multiplication relationship."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-18",
-   "targets": [
-    "p94-q13-m",
-    "p94-q13-n",
-    "p94-q13-o",
-    "p94-q13-p"
-   ],
-   "observation": "Changing the dividend scales the quotient directly; changing the divisor scales it inversely.",
-   "varies": "One operand at each transition.",
-   "invariant": "The other operand at each transition and the supplied multiplication relationship."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-18",
-   "targets": [
-    "p94-q15-b",
-    "p94-q15-c",
-    "p94-q15-d",
-    "p94-q15-e",
-    "p94-q15-f"
-   ],
-   "observation": "Successive divisor reductions increase the quotient; successive dividend reductions decrease it.",
-   "varies": "Divisor first, then dividend, by factors of ten.",
-   "invariant": "Dividend 50 during divisor changes; divisor 0.2 during dividend changes."
+   "observation": "Grouping the central sum changes how multiplication and division apply.",
+   "varies": "Brackets around the central sum.",
+   "invariant": "Operands and operations."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-17",
    "targets": [
-    "p87-q4-a",
-    "p87-q4-b"
+    "p87-q5-a",
+    "p87-q5-b",
+    "p87-q5-c",
+    "p87-q5-d",
+    "p87-q5-e",
+    "p87-q5-f"
    ],
-   "observation": "Multiplication by a decimal unit fraction corresponds to division by its denominator.",
-   "varies": "The multiplier changes from 0.1 to 0.01.",
-   "invariant": "The starting number, fraction-based explanation and calculation structure."
+   "observation": "Multiplication by 0.1 consistently divides the starting value by ten, including when placeholder zeros are needed.",
+   "varies": "The starting number's magnitude and position of zero digits.",
+   "invariant": "Multiplier 0.1 and the division-by-ten relationship."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-17",
+   "targets": [
+    "p87-q6-a",
+    "p87-q6-b",
+    "p87-q6-c",
+    "p87-q6-d",
+    "p87-q6-e",
+    "p87-q6-f"
+   ],
+   "observation": "Multiplication by 0.01 consistently divides the starting value by one hundred.",
+   "varies": "Starting magnitude and zero placement.",
+   "invariant": "Multiplier 0.01."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-17",
@@ -2097,9 +2373,9 @@
     "p88-q11-d",
     "p88-q11-observation"
    ],
-   "observation": "Scaling either factor down by 10 scales the product down by 10, increasing the combined decimal-place count.",
-   "varies": "One factor at a time is divided by 10.",
-   "invariant": "The significant digits 7 and 6 and the underlying product 42."
+   "observation": "Reducing one factor by ten reduces the product by ten and adds one decimal place in these examples.",
+   "varies": "One factor at each successive step.",
+   "invariant": "Underlying fact 7 × 6 = 42."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-17",
@@ -2108,20 +2384,9 @@
     "p89-q15-b",
     "p89-q15-c"
    ],
-   "observation": "Successively dividing one factor by 10 divides the product by 10.",
-   "varies": "The second factor changes from 4 to 0.4 to 0.04.",
-   "invariant": "The first factor is 3."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-17",
-   "targets": [
-    "p89-q15-d",
-    "p89-q15-e",
-    "p89-q15-f"
-   ],
-   "observation": "The same scaling relationship applies to the first factor.",
-   "varies": "The first factor changes from 0.3 to 0.03 to 0.003.",
-   "invariant": "The second factor is 4."
+   "observation": "Successive division of one factor by ten gives successive division of the product by ten.",
+   "varies": "Second factor: 4, 0.4, 0.04.",
+   "invariant": "First factor 3."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-17",
@@ -2136,42 +2401,76 @@
     "p89-q15-q",
     "p89-q15-r"
    ],
-   "observation": "Changing one factor by a factor of 10 changes the product correspondingly, even when decimal trailing zeros can be removed.",
-   "varies": "One factor at each transition is multiplied or divided by 10.",
-   "invariant": "The significant digits 6 and 5 and the underlying product 30."
+   "observation": "Changing one factor by a power of ten changes the product by the same factor, including products with removable trailing zeros.",
+   "varies": "One factor's scale at each step.",
+   "invariant": "Underlying digits 6 and 5."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-17",
    "targets": [
-    "p89-q15-s",
-    "p89-q15-t",
-    "p89-q15-u"
-   ],
-   "observation": "The product follows successive tenfold decreases in one factor.",
-   "varies": "The second factor changes from 50 to 5 to 0.5.",
-   "invariant": "The first factor is 0.7."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-17",
-   "targets": [
-    "p89-q15-w",
-    "p89-q15-x"
-   ],
-   "observation": "Dividing the first factor by 10 divides the product by 10.",
-   "varies": "The first factor changes from 0.7 to 0.07.",
-   "invariant": "The second factor is 0.05."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-17",
-   "targets": [
-    "p89-q15-x",
     "p89-q15-y",
     "p89-q15-z",
     "p89-q15-aa"
    ],
-   "observation": "Opposite tenfold changes to the factors preserve the product.",
-   "varies": "The first factor is divided by 10 while the second is multiplied by 10 at every transition.",
-   "invariant": "The product is 0.0035."
+   "observation": "Opposite changes to the two factors preserve the product.",
+   "varies": "The first factor is divided by ten while the second is multiplied by ten.",
+   "invariant": "Product 0.0035."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-18",
+   "targets": [
+    "p92-q5-item1-node",
+    "p92-q5-item2-node"
+   ],
+   "observation": "Multiplication by 0.5 halves a positive number, whereas division by 0.5 doubles it.",
+   "varies": "Operation and resulting value.",
+   "invariant": "Starting number 80 and operand 0.5."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-18",
+   "targets": [
+    "p92-q8-column-80",
+    "p92-q8-column-8",
+    "p92-q8-column-0-8",
+    "p92-q8-column-0-08"
+   ],
+   "observation": "Reducing the divisor by a factor of 10 multiplies the quotient by 10; reducing the dividend by a factor of 10 divides the quotient by 10.",
+   "varies": "Divisor within each column and dividend across columns.",
+   "invariant": "Digit relationships and the matched divisor sequence."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-18",
+   "targets": [
+    "p93-q11-a",
+    "p93-q11-b",
+    "p93-q11-c"
+   ],
+   "observation": "Dividing the dividend by 10 also divides the quotient by 10.",
+   "varies": "Dividend 48, 4.8, 0.48.",
+   "invariant": "Divisor 6."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-18",
+   "targets": [
+    "p94-q13-i",
+    "p94-q13-j",
+    "p94-q13-k",
+    "p94-q13-l"
+   ],
+   "observation": "Changes to dividend and divisor affect the quotient in different directions, and matching scaling can restore it.",
+   "varies": "One operand at each consecutive step.",
+   "invariant": "Underlying multiplication fact."
+  },
+  {
+   "sequence": "operations-fractions-decimals-v1-topic-18",
+   "targets": [
+    "p94-q15-d",
+    "p94-q15-e",
+    "p94-q15-f"
+   ],
+   "observation": "With a fixed decimal divisor, successive tenfold reductions of the dividend produce tenfold reductions of the quotient.",
+   "varies": "Dividend 50, 5, 0.5.",
+   "invariant": "Divisor 0.2."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-20",
@@ -2179,9 +2478,9 @@
     "p99-q3",
     "p99-q4"
    ],
-   "observation": "The same distance over a longer given duration produces a smaller distance over the fixed target duration.",
-   "varies": "The given travel time changes from below two hours to above two hours.",
-   "invariant": "Given distance, target duration and constant-speed assumption."
+   "observation": "The same distance travelled over different times produces different distances in two hours.",
+   "varies": "The given journey time.",
+   "invariant": "The 180 km journey, constant-speed assumption and two-hour target."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-20",
@@ -2189,21 +2488,20 @@
     "p101-q12",
     "p101-q13"
    ],
-   "observation": "With the same fraction-of relationship, the recovered whole scales with the known quantity.",
-   "varies": "The known quantity changes from one half to one quarter.",
-   "invariant": "The known quantity is one third of x."
+   "observation": "Changing the given third of a number scales the whole by the same factor.",
+   "varies": "The known fractional amount.",
+   "invariant": "The known amount is one-third of x."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-20",
    "targets": [
     "p104-q25-a",
     "p104-q25-b",
-    "p104-q25-c",
-    "p104-q25-d"
+    "p104-q25-c"
    ],
-   "observation": "The sum of all proper fractions with denominator n is (n−1)/2; these group sums organise the longer expression.",
-   "varies": "Denominator and the associated complete set of proper numerators.",
-   "invariant": "Each group contains every numerator from 1 to one less than its denominator."
+   "observation": "The sum of all proper fractions with a fixed denominator increases by one-half when the denominator increases by one.",
+   "varies": "The denominator and the corresponding complete set of proper numerators.",
+   "invariant": "Each sum includes every positive numerator below its denominator."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-20",
@@ -2214,20 +2512,9 @@
     "p105-q29-d",
     "p105-q29-e"
    ],
-   "observation": "Adding successive halves halves the remainder, which equals the last fraction included.",
-   "varies": "The number of terms in the halving sum.",
-   "invariant": "Starting value one and the ratio one half between successive terms."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-20",
-   "targets": [
-    "p105-q29",
-    "p105-q30",
-    "p106-q31"
-   ],
-   "observation": "A shrinking positive remainder connects finite repeated halving with a total approaching the whole.",
-   "varies": "Symbolic, quantity and area representations.",
-   "invariant": "Repeated halving of the remaining amount."
+   "observation": "The remainder equals the final included fraction and becomes smaller as more halving terms are included.",
+   "varies": "The number of consecutive halving terms.",
+   "invariant": "Subtract the sum beginning with one-half from one."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-20",
@@ -2235,20 +2522,9 @@
     "p106-q32-a",
     "p106-q32-b"
    ],
-   "observation": "Changing subtraction to addition reverses the adjacent-factor cancellation structure.",
-   "varies": "The sign before each unit fraction.",
-   "invariant": "Consecutive denominators from 2 through 8 and multiplication of every factor."
-  },
-  {
-   "sequence": "operations-fractions-decimals-v1-topic-20",
-   "targets": [
-    "p109-q43-m",
-    "p109-q43-n",
-    "p109-q43-o"
-   ],
-   "observation": "The numerical result persists in the symbolic generalisation because the adjacent factors multiply to n²−1.",
-   "varies": "The central integer, followed by its replacement with n.",
-   "invariant": "The expression 1/n+(n+1)(n−1)/n−(n+1)."
+   "observation": "Changing the sign changes which factors survive cancellation.",
+   "varies": "Subtraction versus addition inside each factor.",
+   "invariant": "The consecutive denominator range from 2 to 8 and the product structure."
   },
   {
    "sequence": "operations-fractions-decimals-v1-topic-20",
@@ -2258,14 +2534,14 @@
     "p110-q44-c",
     "p110-q44-d"
    ],
-   "observation": "Each added layer is undone by reversing an addition or taking a reciprocal.",
-   "varies": "The number and structure of layers surrounding x/y.",
-   "invariant": "The outer addition of 2, the target 25/11 and the requirement for a simplest-form positive fraction."
+   "observation": "Each added layer requires reversing one further operation.",
+   "varies": "The nested operations surrounding x/y.",
+   "invariant": "The outer 2 plus a reciprocal and the target 25/11."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 14,
- "reviewedAt": "2026-10-11T10:42:13.548Z",
+ "reviewedRevision": 73,
+ "reviewedAt": "2026-10-15T10:58:22.412Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -2285,36 +2561,36 @@
    {
     "id": "operations-fractions-decimals-v1-topic-1",
     "title": "Fraction addition: same denominator",
-    "blocks": 23,
+    "blocks": 25,
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 44352,
+     "input_tokens": 45623,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 6190,
-     "reasoning_output_tokens": 136
+     "output_tokens": 5588,
+     "reasoning_output_tokens": 111
     },
-    "elapsedMs": 155331,
-    "candidates": 5,
+    "elapsedMs": 121881,
+    "candidates": 1,
     "discarded": [],
     "suggestions": 2
    },
    {
     "id": "operations-fractions-decimals-v1-topic-2",
     "title": "Fraction addition: related denominator",
-    "blocks": 18,
+    "blocks": 19,
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 44443,
+     "input_tokens": 47941,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5632,
-     "reasoning_output_tokens": 222
+     "output_tokens": 6113,
+     "reasoning_output_tokens": 310
     },
-    "elapsedMs": 142075,
-    "candidates": 1,
+    "elapsedMs": 141636,
+    "candidates": 2,
     "discarded": [],
     "suggestions": 2
    },
@@ -2325,14 +2601,14 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 47033,
+     "input_tokens": 48587,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5628,
-     "reasoning_output_tokens": 220
+     "output_tokens": 6127,
+     "reasoning_output_tokens": 207
     },
-    "elapsedMs": 144823,
-    "candidates": 1,
+    "elapsedMs": 138070,
+    "candidates": 2,
     "discarded": [],
     "suggestions": 1
    },
@@ -2343,16 +2619,16 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 46594,
-     "cached_input_tokens": 12544,
+     "input_tokens": 47715,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 6388,
-     "reasoning_output_tokens": 187
+     "output_tokens": 5566,
+     "reasoning_output_tokens": 213
     },
-    "elapsedMs": 158301,
-    "candidates": 2,
+    "elapsedMs": 120409,
+    "candidates": 1,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "operations-fractions-decimals-v1-topic-5",
@@ -2361,16 +2637,16 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 44533,
-     "cached_input_tokens": 12544,
+     "input_tokens": 45473,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3974,
-     "reasoning_output_tokens": 75
+     "output_tokens": 2364,
+     "reasoning_output_tokens": 275
     },
-    "elapsedMs": 107166,
-    "candidates": 1,
+    "elapsedMs": 65264,
+    "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "operations-fractions-decimals-v1-topic-6",
@@ -2379,16 +2655,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 32818,
-     "cached_input_tokens": 14592,
+     "input_tokens": 33788,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2070,
-     "reasoning_output_tokens": 186
+     "output_tokens": 2121,
+     "reasoning_output_tokens": 236
     },
-    "elapsedMs": 55911,
+    "elapsedMs": 56238,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "operations-fractions-decimals-v1-topic-7",
@@ -2397,16 +2673,16 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 42040,
-     "cached_input_tokens": 14592,
+     "input_tokens": 42631,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5141,
-     "reasoning_output_tokens": 238
+     "output_tokens": 4258,
+     "reasoning_output_tokens": 390
     },
-    "elapsedMs": 137425,
-    "candidates": 2,
+    "elapsedMs": 97742,
+    "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "operations-fractions-decimals-v1-topic-8",
@@ -2415,16 +2691,16 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 39144,
-     "cached_input_tokens": 14592,
+     "input_tokens": 39934,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2678,
-     "reasoning_output_tokens": 108
+     "output_tokens": 2770,
+     "reasoning_output_tokens": 181
     },
-    "elapsedMs": 69053,
+    "elapsedMs": 68483,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "operations-fractions-decimals-v1-topic-9",
@@ -2433,14 +2709,14 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 36595,
+     "input_tokens": 37351,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5373,
-     "reasoning_output_tokens": 186
+     "output_tokens": 5231,
+     "reasoning_output_tokens": 142
     },
-    "elapsedMs": 135711,
-    "candidates": 3,
+    "elapsedMs": 108986,
+    "candidates": 0,
     "discarded": [],
     "suggestions": 1
    },
@@ -2451,14 +2727,14 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 36445,
+     "input_tokens": 35525,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2757,
-     "reasoning_output_tokens": 117
+     "output_tokens": 2554,
+     "reasoning_output_tokens": 140
     },
-    "elapsedMs": 74151,
-    "candidates": 1,
+    "elapsedMs": 60427,
+    "candidates": 0,
     "discarded": [],
     "suggestions": 1
    },
@@ -2469,13 +2745,13 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 38126,
+     "input_tokens": 38910,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3148,
-     "reasoning_output_tokens": 161
+     "output_tokens": 3602,
+     "reasoning_output_tokens": 209
     },
-    "elapsedMs": 86984,
+    "elapsedMs": 84646,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -2487,13 +2763,13 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 47233,
-     "cached_input_tokens": 12544,
+     "input_tokens": 49324,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4437,
-     "reasoning_output_tokens": 95
+     "output_tokens": 3778,
+     "reasoning_output_tokens": 134
     },
-    "elapsedMs": 112566,
+    "elapsedMs": 87653,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -2505,31 +2781,31 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 33333,
+     "input_tokens": 34017,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3489,
-     "reasoning_output_tokens": 215
+     "output_tokens": 3727,
+     "reasoning_output_tokens": 293
     },
-    "elapsedMs": 93973,
+    "elapsedMs": 82749,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "operations-fractions-decimals-v1-topic-14",
     "title": "Dividing fractions using the reciprocal",
     "blocks": 28,
-    "images": 1,
-    "imagesExpected": true,
+    "images": 0,
+    "imagesExpected": false,
     "usage": {
-     "input_tokens": 44745,
-     "cached_input_tokens": 12544,
+     "input_tokens": 45224,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 6656,
-     "reasoning_output_tokens": 186
+     "output_tokens": 4118,
+     "reasoning_output_tokens": 250
     },
-    "elapsedMs": 158486,
+    "elapsedMs": 93467,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -2541,14 +2817,14 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 44486,
+     "input_tokens": 45125,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3153,
-     "reasoning_output_tokens": 81
+     "output_tokens": 2468,
+     "reasoning_output_tokens": 37
     },
-    "elapsedMs": 84170,
-    "candidates": 1,
+    "elapsedMs": 61469,
+    "candidates": 0,
     "discarded": [],
     "suggestions": 2
    },
@@ -2559,13 +2835,13 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 42173,
-     "cached_input_tokens": 12544,
+     "input_tokens": 42734,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2876,
-     "reasoning_output_tokens": 67
+     "output_tokens": 3077,
+     "reasoning_output_tokens": 71
     },
-    "elapsedMs": 75349,
+    "elapsedMs": 60902,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -2573,17 +2849,17 @@
    {
     "id": "operations-fractions-decimals-v1-topic-17",
     "title": "Multiplying decimals",
-    "blocks": 22,
+    "blocks": 23,
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 40272,
+     "input_tokens": 41250,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 7866,
-     "reasoning_output_tokens": 360
+     "output_tokens": 4552,
+     "reasoning_output_tokens": 258
     },
-    "elapsedMs": 187551,
+    "elapsedMs": 88139,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -2595,13 +2871,13 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 40637,
+     "input_tokens": 41848,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 7665,
-     "reasoning_output_tokens": 195
+     "output_tokens": 4205,
+     "reasoning_output_tokens": 186
     },
-    "elapsedMs": 176961,
+    "elapsedMs": 98612,
     "candidates": 3,
     "discarded": [],
     "suggestions": 1
@@ -2609,18 +2885,18 @@
    {
     "id": "operations-fractions-decimals-v1-topic-19",
     "title": "Mixed practice: multiplication and division",
-    "blocks": 10,
+    "blocks": 11,
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 47995,
+     "input_tokens": 49585,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2538,
-     "reasoning_output_tokens": 67
+     "output_tokens": 2670,
+     "reasoning_output_tokens": 61
     },
-    "elapsedMs": 69607,
-    "candidates": 0,
+    "elapsedMs": 64022,
+    "candidates": 1,
     "discarded": [],
     "suggestions": 1
    },
@@ -2631,13 +2907,13 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 54880,
-     "cached_input_tokens": 12544,
+     "input_tokens": 56695,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4391,
-     "reasoning_output_tokens": 202
+     "output_tokens": 4039,
+     "reasoning_output_tokens": 94
     },
-    "elapsedMs": 121344,
+    "elapsedMs": 86965,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -2648,34 +2924,33 @@
     "ids": [
      "c2"
     ],
-    "reason": "The missing-prerequisite claim depends on conversion being new to these students. A stage-4 skill classification does not establish that, and the course includes a separate conversion booklet. The unresolved prior-knowledge question is retained through q4 and q5.",
+    "reason": "The mathematics and prediction-only instruction pass, but this boundary-crossing run ranks below the four retained suggestions for the booklet.",
     "candidates": [
      {
       "id": "c2",
       "sequence": "operations-fractions-decimals-v1-topic-1",
-      "kind": "missing-prerequisite",
+      "kind": "variation-sequence",
       "targets": [
-       "p6-q4",
-       "p9-q16-c"
+       "p7-q6"
       ],
-      "finding": "Mixed-number conversion is required without any preceding teaching of the conversion method."
+      "finding": "Cross the one-whole boundary while changing only one numerator."
      }
     ]
    },
    {
     "ids": [
-     "c4"
+     "c3"
     ],
-    "reason": "The task adds one geometric inference to the preceding rectangle perimeter work: horizontal and vertical segments total the full dimensions. It is a supported application of rectangle properties and addition, rather than an unsupported fraction method or a sharp multi-feature jump.",
+    "reason": "The redistribution and answers are correct, but this suggestion ranks below the four retained suggestions.",
     "candidates": [
      {
-      "id": "c4",
+      "id": "c3",
       "sequence": "operations-fractions-decimals-v1-topic-1",
-      "kind": "unsupported-transition",
+      "kind": "extension",
       "targets": [
-       "p8-q7-c"
+       "p9-q12"
       ],
-      "finding": "The L-shaped perimeter requires combining unknown boundary segments into total width and height, a reasoning step absent from the preceding perimeter tasks."
+      "finding": "Redistribute the eaten pizza without changing the total eaten."
      }
     ]
    },
@@ -2683,16 +2958,16 @@
     "ids": [
      "c6"
     ],
-    "reason": "The mathematics is correct, but p7-q6 already progresses through subtraction from one, two and larger wholes. This offers less additional value than the four retained suggestions.",
+    "reason": "The proposed equivalences and answers are correct, but this suggestion ranks below the four retained suggestions.",
     "candidates": [
      {
       "id": "c6",
-      "sequence": "operations-fractions-decimals-v1-topic-1",
+      "sequence": "operations-fractions-decimals-v1-topic-2",
       "kind": "variation-sequence",
       "targets": [
-       "p7-q6-o"
+       "p13-q3"
       ],
-      "finding": "Vary the starting whole number while keeping the subtracted fraction fixed."
+      "finding": "Vary the multiplier needed to express one third using the other operand's denominator."
      }
     ]
    },
@@ -2700,16 +2975,16 @@
     "ids": [
      "c7"
     ],
-    "reason": "The pairs and general condition are correct, but this extension was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "Both answers are correct and use available methods, but this suggestion ranks below the four retained suggestions.",
     "candidates": [
      {
       "id": "c7",
-      "sequence": "operations-fractions-decimals-v1-topic-1",
+      "sequence": "operations-fractions-decimals-v1-topic-2",
       "kind": "extension",
       "targets": [
-       "p9-q16"
+       "p16-q8"
       ],
-      "finding": "Find and explain all pairs of proper elevenths that sum to one whole."
+      "finding": "Use the chocolate-bar quantities to connect the amount remaining with completing a target total."
      }
     ]
    },
@@ -2717,16 +2992,16 @@
     "ids": [
      "c9"
     ],
-    "reason": "The unit-fraction calculations and denominator predictions are correct. The proposed sequence was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "The question combines common-denominator subtraction with signed-integer arithmetic, which is prior knowledge taught separately in Computation with Integers. It does not require a new fraction-operation method; absence of integer teaching inside this booklet does not establish the claimed unsupported transition.",
     "candidates": [
      {
       "id": "c9",
-      "sequence": "operations-fractions-decimals-v1-topic-2",
-      "kind": "variation-sequence",
+      "sequence": "operations-fractions-decimals-v1-topic-3",
+      "kind": "unsupported-transition",
       "targets": [
-       "p13-q3-f"
+       "p23-q10-b"
       ],
-      "finding": "Hold the numerators and first denominator fixed while changing the second denominator to expose when the larger denominator is sufficient."
+      "finding": "The backward pyramid requires subtracting a negative fraction, whereas the preceding instruction only demonstrates negative results from subtracting positive fractions."
      }
     ]
    },
@@ -2734,16 +3009,36 @@
     "ids": [
      "c10"
     ],
-    "reason": "The claimed necessary condition fails for fractions not in simplest form: 2/4 can be rewritten as 3/6 even though 6 is not a multiple of 4. The proposal needs additional restrictions and was not selected among the four suggestions.",
+    "reason": "The numerical answers and centre-brick relationship are correct, but this suggestion ranks below the four retained suggestions.",
     "candidates": [
      {
       "id": "c10",
-      "sequence": "operations-fractions-decimals-v1-topic-2",
+      "sequence": "operations-fractions-decimals-v1-topic-3",
       "kind": "extension",
       "targets": [
-       "p15-q5"
+       "p23-q10-a"
       ],
-      "finding": "Ask students to explain exactly when choosing the larger denominator works."
+      "finding": "Change the centre base brick and compare its effect with changing an outside brick."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c11"
+    ],
+    "reason": "Earlier practice already rehearses the claimed missing operation: p7-q6-g through n subtract fractions from one, and parts o through u subtract fractions from larger whole numbers. The alternate examples use that same operation, so the asserted new unsupported exchange does not survive the earlier-material check.",
+    "candidates": [
+     {
+      "id": "c11",
+      "sequence": "operations-fractions-decimals-v1-topic-4",
+      "kind": "example-choice",
+      "targets": [
+       "p26-example-subtraction",
+       "p28-q4-worked-part",
+       "p28-q4-your-turn",
+       "p30-q8-a"
+      ],
+      "finding": "Both demonstrations of the alternate subtraction method omit the exchange of one whole that turns a whole minus a fraction into the final mixed number."
      }
     ]
    },
@@ -2751,16 +3046,16 @@
     "ids": [
      "c12"
     ],
-    "reason": "The pyramid formula, example and rearrangement condition are correct. The task was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "The equal-addition relationship and answers are correct, but this suggestion ranks below the four retained suggestions.",
     "candidates": [
      {
       "id": "c12",
-      "sequence": "operations-fractions-decimals-v1-topic-3",
+      "sequence": "operations-fractions-decimals-v1-topic-4",
       "kind": "extension",
       "targets": [
-       "p23-q10-root"
+       "p30-q9"
       ],
-      "finding": "Explain how the base bricks determine the top of any three-brick expression pyramid."
+      "finding": "Extend the journey by adding the same distance to both activities."
      }
     ]
    },
@@ -2768,16 +3063,16 @@
     "ids": [
      "c15"
     ],
-    "reason": "The calculations are correct, but existing mixed-number practice already includes fractional subtotals crossing one. This was not selected among the four suggestions.",
+    "reason": "The answers are correct, but the proposed extra products and multiplier identification develop the relationship less strongly than the four retained suggestions.",
     "candidates": [
      {
       "id": "c15",
-      "sequence": "operations-fractions-decimals-v1-topic-4",
-      "kind": "variation-sequence",
+      "sequence": "operations-fractions-decimals-v1-topic-9",
+      "kind": "extension",
       "targets": [
-       "p26-guided-question"
+       "p51-q5"
       ],
-      "finding": "Hold the whole parts and denominators fixed while the fractional subtotal crosses one."
+      "finding": "Use the existing factor 2/5 to find a multiplier that restores a product of 1."
      }
     ]
    },
@@ -2785,33 +3080,33 @@
     "ids": [
      "c16"
     ],
-    "reason": "The identities are correct under the usual proper mixed-number conditions, but an algebraic generalisation is a less direct fit than the four retained suggestions.",
+    "reason": "The run varies one factor and all answers are correct, but it ranks below the four retained suggestions.",
     "candidates": [
      {
       "id": "c16",
-      "sequence": "operations-fractions-decimals-v1-topic-4",
-      "kind": "extension",
+      "sequence": "operations-fractions-decimals-v1-topic-10",
+      "kind": "variation-sequence",
       "targets": [
-       "p30-q8-b"
+       "p55-q1-root"
       ],
-      "finding": "Explain algebraically why the two mixed-number subtraction methods agree."
+      "finding": "Keep a mixed-number factor fixed while increasing the other factor in equal fractional steps."
      }
     ]
    },
    {
     "ids": [
-     "c18"
+     "c17"
     ],
-    "reason": "The compensation and impossibility answers are correct. This was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "The stated diagonal-first intermediate expression is incorrect: diagonal cancellation does not directly give 3/4 × 3/4 for this product. A corrected comparison is possible, but it still ranks below the four retained suggestions.",
     "candidates": [
      {
-      "id": "c18",
-      "sequence": "operations-fractions-decimals-v1-topic-5",
+      "id": "c17",
+      "sequence": "operations-fractions-decimals-v1-topic-11",
       "kind": "extension",
       "targets": [
-       "p36-q8"
+       "p60-q6"
       ],
-      "finding": "Explain how the widths of equal-perimeter rectangles must change when their heights differ."
+      "finding": "Use the same product to compare vertical and diagonal cancellation."
      }
     ]
    },
@@ -2819,16 +3114,16 @@
     "ids": [
      "c19"
     ],
-    "reason": "The products and comparisons are correct. The retained c20 extension connects both operations more directly and avoids adding another numerical run to this topic.",
+    "reason": "The partition calculations and explanation are correct, but this suggestion ranks below the four retained suggestions.",
     "candidates": [
      {
       "id": "c19",
-      "sequence": "operations-fractions-decimals-v1-topic-6",
-      "kind": "variation-sequence",
+      "sequence": "operations-fractions-decimals-v1-topic-12",
+      "kind": "extension",
       "targets": [
-       "p39-q1"
+       "p64-q8"
       ],
-      "finding": "Hold the starting number fixed while moving the multiplier through 1."
+      "finding": "Extend equal sharing from one third to two thirds."
      }
     ]
    },
@@ -2836,16 +3131,16 @@
     "ids": [
      "c23"
     ],
-    "reason": "The divisibility conclusions are correct for positive integers and fractions in simplest form. This was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "The sequence and answers are correct, but it ranks below the four retained suggestions.",
     "candidates": [
      {
       "id": "c23",
-      "sequence": "operations-fractions-decimals-v1-topic-7",
-      "kind": "extension",
+      "sequence": "operations-fractions-decimals-v1-topic-15",
+      "kind": "variation-sequence",
       "targets": [
-       "p46-q9-block"
+       "p77-q1"
       ],
-      "finding": "Generalise when multiplication by a fraction produces a whole number."
+      "finding": "Hold the starting number fixed while varying the power of 10."
      }
     ]
    },
@@ -2853,33 +3148,33 @@
     "ids": [
      "c24"
     ],
-    "reason": "The products and increments are correct. The retained c25 extension makes stronger explanatory use of the same visual model.",
+    "reason": "The calculations and place-value explanation are correct, but this suggestion ranks below the four retained suggestions.",
     "candidates": [
      {
       "id": "c24",
-      "sequence": "operations-fractions-decimals-v1-topic-8",
-      "kind": "variation-sequence",
+      "sequence": "operations-fractions-decimals-v1-topic-15",
+      "kind": "extension",
       "targets": [
-       "p48-q3-block"
+       "p77-q1"
       ],
-      "finding": "Keep one half fixed while increasing the fraction taken of it."
+      "finding": "Use 12.97 to connect successive place-value movements with inverse operations."
      }
     ]
    },
    {
     "ids": [
-     "c29"
+     "c25"
     ],
-    "reason": "The generalisation is correct for positive integer n and nonzero denominator b. It was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "The repacking answers are correct, but packaging mass is less central to the booklet's mathematical relationships than the four retained suggestions.",
     "candidates": [
      {
-      "id": "c29",
-      "sequence": "operations-fractions-decimals-v1-topic-9",
+      "id": "c25",
+      "sequence": "operations-fractions-decimals-v1-topic-16",
       "kind": "extension",
       "targets": [
-       "p53-calculations"
+       "p82-q18"
       ],
-      "finding": "Generalise the two halving methods to taking one nth of a fraction."
+      "finding": "Repack the same matches into boxes holding ten times as many matches and compare the total mass."
      }
     ]
    },
@@ -2887,33 +3182,33 @@
     "ids": [
      "c31"
     ],
-    "reason": "The coincidence condition c = m is correct for positive whole-number counts. This was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "The equivalent-quotient calculations are correct, but this duplicates the relationship developed more concretely by retained suggestion c22 and falls outside the four-suggestion limit.",
     "candidates": [
      {
       "id": "c31",
-      "sequence": "operations-fractions-decimals-v1-topic-10",
+      "sequence": "operations-fractions-decimals-v1-topic-18",
       "kind": "extension",
       "targets": [
-       "p56-q7-cakes"
+       "p93-q12"
       ],
-      "finding": "Find when Jermaine's incorrect factor choice would accidentally give the correct numerical answer."
+      "finding": "Extend the supplied division fact by changing both operands together."
      }
     ]
    },
    {
     "ids": [
-     "c32"
+     "c33"
     ],
-    "reason": "The cancellation explanation and factor-of-nine comparison are correct. This was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "The divisions recover the stated side lengths correctly, but each proposed part combines a calculation with an identification question. Splitting those prompts would be straightforward; the suggestion nevertheless ranks below the four retained suggestions.",
     "candidates": [
      {
-      "id": "c32",
-      "sequence": "operations-fractions-decimals-v1-topic-11",
+      "id": "c33",
+      "sequence": "operations-fractions-decimals-v1-topic-19",
       "kind": "extension",
       "targets": [
-       "p60-q8-root"
+       "p95-q2-block"
       ],
-      "finding": "Explain the numerator-denominator requirement for cancellation."
+      "finding": "Use the rectangle's area to recover each original side by division."
      }
     ]
    },
@@ -2921,135 +3216,16 @@
     "ids": [
      "c34"
     ],
-    "reason": "Both quotients and multiplication checks are correct. This was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "The finite sums, remainders and two-additional-regions answer are correct, but this suggestion ranks below the four retained suggestions.",
     "candidates": [
      {
       "id": "c34",
-      "sequence": "operations-fractions-decimals-v1-topic-12",
-      "kind": "extension",
-      "targets": [
-       "p64-q8"
-      ],
-      "finding": "Connect both division models to multiplication by reconstructing the starting amount."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c36"
-    ],
-    "reason": "The positive-domain conclusion is correct and follows from earlier size-effect teaching. It overlaps the retained c20 extension and was not selected.",
-    "candidates": [
-     {
-      "id": "c36",
-      "sequence": "operations-fractions-decimals-v1-topic-13",
-      "kind": "extension",
-      "targets": [
-       "p66-q2"
-      ],
-      "finding": "Explore which positive numbers can equal their own reciprocal."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c38"
-    ],
-    "reason": "The relation AB = 24 and compensation rule are correct for positive A and B. This was not selected among the four strongest booklet-wide suggestions.",
-    "candidates": [
-     {
-      "id": "c38",
-      "sequence": "operations-fractions-decimals-v1-topic-14",
-      "kind": "extension",
-      "targets": [
-       "p73-q18-block"
-      ],
-      "finding": "Generalise the relationship between the dividend and denominator in the missing-number equations."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c40"
-    ],
-    "reason": "The answers and place predictions are correct, but the existing place-value examples and practice already vary powers of ten. This was not selected.",
-    "candidates": [
-     {
-      "id": "c40",
-      "sequence": "operations-fractions-decimals-v1-topic-15",
-      "kind": "variation-sequence",
-      "targets": [
-       "p76-guided"
-      ],
-      "finding": "Keep the starting number fixed while varying the power of 10."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c41"
-    ],
-    "reason": "The net scaling rule and zero exception are correct. This was not selected among the four strongest booklet-wide suggestions.",
-    "candidates": [
-     {
-      "id": "c41",
-      "sequence": "operations-fractions-decimals-v1-topic-15",
-      "kind": "extension",
-      "targets": [
-       "p77-q1"
-      ],
-      "finding": "Explain when successive multiplication and division by powers of 10 return the starting number."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c42"
-    ],
-    "reason": "The missing factors and compensation rule are correct. The retained c44 suggestion develops the same relationship from a clearer existing comparison run.",
-    "candidates": [
-     {
-      "id": "c42",
-      "sequence": "operations-fractions-decimals-v1-topic-16",
-      "kind": "extension",
-      "targets": [
-       "p82-q17"
-      ],
-      "finding": "Explain how to compensate for a tenfold change in one factor while keeping a product unchanged."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c48"
-    ],
-    "reason": "The quotients and equal-scaling rule are correct, but its stated target is a multiplication table rather than a quotient comparison. It was not selected among the four suggestions.",
-    "candidates": [
-     {
-      "id": "c48",
-      "sequence": "operations-fractions-decimals-v1-topic-18",
-      "kind": "extension",
-      "targets": [
-       "p94-q16-root"
-      ],
-      "finding": "Explain which simultaneous changes to a dividend and divisor preserve the quotient."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c50"
-    ],
-    "reason": "Both telescoping formulas are correct for integer n ≥ 2. The first is already generalised in p60-q8, and the proposal was not selected among the four strongest suggestions.",
-    "candidates": [
-     {
-      "id": "c50",
       "sequence": "operations-fractions-decimals-v1-topic-20",
       "kind": "extension",
       "targets": [
-       "p106-q32"
+       "p106-q31"
       ],
-      "finding": "Generalise the two consecutive products and explain their cancellation."
+      "finding": "Connect the infinite area total with exact finite remainders."
      }
     ]
    }
@@ -3058,40 +3234,25 @@
   "suppressed": [],
   "droppedQuestions": [
    {
-    "question": "Have students already learnt that an improper fraction has numerator greater than or equal to denominator? If not, this part needs that definition before students classify the possible values of w.",
+    "question": "Have students already learned to recognise a recurring decimal from repeated remainders in division and to record its repeating digits using dot or bar notation? No such teaching is visible in the supplied earlier material.",
     "targets": [
-     "p9-q14-c"
+     "p91-q3"
     ],
-    "reason": "Proper and improper fraction classification is ordinary prerequisite content for the separately taught Comparing Fractions topic; this terminology question does not justify an additional teacher context check."
+    "reason": "p91-q3 explicitly tells students that the answers recur and does not require dot or bar notation. Continuing the division is addressed by c29; the format of the supplied answers alone does not establish a further required method."
    },
    {
-    "question": "Have students already been taught to find an LCM, including for three numbers such as 5, 10 and 15? The supplied earlier teaching does not establish this.",
-    "targets": [
-     "p10-information",
-     "p15-q5-k"
-    ],
-    "reason": "Common multiples are established prerequisite content, and the related-denominator examples show their use. Extending that choice to three denominators does not introduce a separate operation needing a context question."
-   },
-   {
-    "question": "Can students already convert fractions with denominator 100, including improper fractions, into decimals using place value?",
-    "targets": [
-     "p14-jing-a",
-     "p14-jing-c"
-    ],
-    "reason": "Fraction–decimal conversion is explicitly taught separately in the course library. Treat it as prior knowledge; c43 separately addresses its later opening-review requirement."
-   },
-   {
-    "question": "Before this challenge exercise, have students learnt to solve equations involving an unknown and its reciprocal, and equations such as (m−3)^2=1/4 with both possible square roots? These methods are not established in the supplied earlier teaching; the answer determines whether these parts need preparation.",
+    "question": "Before this challenge exercise, have students practised finding both values in equations such as (x−3)²=1/4 and finding reciprocal-pair solutions such as x+1/x=5/2, either by numerical reasoning or in the equation booklets? These methods are not established in the supplied earlier teaching; the answer determines whether these questions need a short preparation step.",
     "targets": [
      "p107-q35-b",
      "p107-q35-c",
-     "p107-q35-d"
+     "p107-q35-d",
+     "p107-q36"
     ],
-    "reason": "These are intentional challenge applications of equation methods taught separately in the listed quadratic-equation booklets. They do not establish a missing method in this fractions-and-decimals sequence."
+    "reason": "The course separately provides simple quadratic equations, indices and surds. These are closing challenge tasks using numerical reasoning and previously taught cancellation; their presence does not establish a missing preparation step in this fraction booklet."
    }
   ],
-  "candidateFile": ".booklet-work/pedagogy-review/operations-fractions-decimals-v1/candidates-low-1791715072175.json",
+  "candidateFile": ".booklet-work/pedagogy-review/operations-fractions-decimals-v1/candidates-low-1792061722308.json",
   "errors": []
  },
- "postedRevision": 15
+ "postedRevision": 74
 }

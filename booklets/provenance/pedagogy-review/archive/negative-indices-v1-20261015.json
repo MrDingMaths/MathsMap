@@ -1,0 +1,347 @@
+{
+ "version": 1,
+ "projectId": "negative-indices-v1",
+ "findings": [
+  {
+   "id": "pf-323a6df1a9",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p8-q12-f",
+     "blockId": "p8-q12",
+     "hash": "5f302aa2cc9495ce4b0c3740a7e25090c72e241b92f5afe0dc16048d9213bb55"
+    },
+    {
+     "id": "p8-q12-k",
+     "blockId": "p8-q12",
+     "hash": "5f302aa2cc9495ce4b0c3740a7e25090c72e241b92f5afe0dc16048d9213bb55"
+    }
+   ],
+   "finding": "The complete evaluation task 10^(-3) appears twice within Question 12.",
+   "breakdown": "Both parts require the same conversion and calculation under the same stem, with no explicit retrieval or comparison purpose.",
+   "checked": "Compared the complete prompts of p8-q12-f and p8-q12-k. Their expressions, instructions and support are unchanged.",
+   "assumptions": "No instructional purpose for the unchanged repetition is supplied.",
+   "repair": {
+    "type": "remove-question",
+    "proposal": "Remove p8-q12-k and retain p8-q12-f."
+   },
+   "doneWhen": "The unchanged task appears only once within Question 12.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "negative-index"
+   ],
+   "state": "withdrawn",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:12:58.803Z"
+    },
+    {
+     "state": "withdrawn",
+     "at": "2026-10-15T10:18:09.223Z",
+     "note": "Withdrawn before a fresh review."
+    }
+   ],
+   "commentId": "c348f280-81ae-4bc8-89e0-8ebba7be148b",
+   "postedAt": "2026-10-11T13:12:58.816Z"
+  },
+  {
+   "id": "pf-00aaeed490",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p10-response-b",
+     "blockId": "p10-rewrite-block",
+     "hash": "969c11e179d80540e038e7bd4e383d5f710794188546437252ba3f4b19d989be"
+    },
+    {
+     "id": "p11-q2-f",
+     "blockId": "p11-q2",
+     "hash": "9b8c6bc332f0744d65d62bdfc429a6c16cb15cdf9ccd5c41591c63b3a031b6a5"
+    }
+   ],
+   "finding": "p11-q2-f repeats the complete conversion task in p10-response-b.",
+   "breakdown": "Both ask students to rewrite 1/(4^3) using a negative index, without different support or an explicit retrieval or comparison purpose.",
+   "checked": "Compared both shared stems and complete expressions. The wording requires the same response; the identify and practice roles do not supply an explicit purpose for this unchanged copy.",
+   "assumptions": "No additional instructional purpose is stated.",
+   "repair": {
+    "type": "remove-question",
+    "proposal": "Remove p11-q2-f and retain p10-response-b."
+   },
+   "doneWhen": "The unchanged conversion task appears only once among these student questions.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "fractions-negative-index"
+   ],
+   "state": "withdrawn",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:12:58.803Z"
+    },
+    {
+     "state": "withdrawn",
+     "at": "2026-10-15T10:18:09.223Z",
+     "note": "Withdrawn before a fresh review."
+    }
+   ],
+   "commentId": "f9952e43-bfc3-4374-be64-c474048baf25",
+   "postedAt": "2026-10-11T13:12:58.817Z"
+  },
+  {
+   "id": "pf-443c700c85",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p11-q4",
+     "blockId": "p11-q4",
+     "hash": "4dedc7de84177018ecd7c604f450b98105a8c3b35b9319ba17906c21d5c63f58"
+    }
+   ],
+   "finding": "Explore all positive-integer-base negative-index representations of 1/64.",
+   "breakdown": "The task extends the existing smallest-base questions by asking students to explain completeness.",
+   "checked": "The representations are 2^(-6), 4^(-3), 8^(-2) and 64^(-1). Positive integer solutions of b^n = 64 require n to divide 6.",
+   "assumptions": "Positive integer powers and factor recognition are available; no calculator is needed.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p11-q4, offer: Write 1/64 as b^(-n) in every possible way, where b and n are positive integers and b > 1. Explain why your list is complete and identify the smallest base. Expected answer: 2^(-6), 4^(-3), 8^(-2), 64^(-1). Since 64 = 2^6, n must divide 6; the smallest base is 2."
+   },
+   "doneWhen": "The optional task includes all four representations and a completeness explanation.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "fractions-negative-index"
+   ],
+   "state": "withdrawn",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-09T08:54:05.554Z"
+    },
+    {
+     "state": "withdrawn",
+     "at": "2026-10-15T10:18:09.223Z",
+     "note": "Withdrawn before a fresh review."
+    }
+   ],
+   "commentId": "eda20c48-8e95-4407-985f-25d3010cc729",
+   "postedAt": "2026-10-09T09:59:42.389Z"
+  },
+  {
+   "id": "pf-d41b4f5498",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p13-rewrite-responses",
+     "blockId": "p13-rewrite-responses",
+     "hash": "81f8a068549272f92b69517f6c8aa32325e8f218763a591242762114885743b7"
+    }
+   ],
+   "finding": "Vary the denominator exponent through zero while keeping the reciprocal structure and base fixed.",
+   "breakdown": "The comparison exposes exponent sign reversal across negative, zero and positive denominator powers.",
+   "checked": "The values are 4, 2, 1, 1/2 and 1/4, each half its predecessor. All required rules have been taught, and the supplied practice has no equivalent consecutive run.",
+   "assumptions": "No calculator is needed.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p13-rewrite-responses, ask students to predict how the values change as the denominator exponent increases by 1, then evaluate 1/(2^(-2)), 1/(2^(-1)), 1/(2^0), 1/(2^1), 1/(2^2). Expected answers: 4, 2, 1, 1/2, 1/4. Only the denominator exponent varies. Follow with: Evaluate 1/(3^(-2)). Expected answer: 9."
+   },
+   "doneWhen": "Students predict, calculate and explain the halving pattern before answering the unpatterned follow-up.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "negative-denominator"
+   ],
+   "state": "withdrawn",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-09T08:54:05.554Z"
+    },
+    {
+     "state": "withdrawn",
+     "at": "2026-10-15T10:18:09.223Z",
+     "note": "Withdrawn before a fresh review."
+    }
+   ],
+   "commentId": "c2ee783e-da13-46d8-8c9c-b83f308b4379",
+   "postedAt": "2026-10-09T09:59:42.382Z"
+  },
+  {
+   "id": "pf-c1635e0f03",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p16-q5-b",
+     "blockId": "p16-q5",
+     "hash": "c084c81521463158d2af7929d87058c12901b3aa30bdbd5ea2411b0136b100ad"
+    },
+    {
+     "id": "p16-q5-l",
+     "blockId": "p16-q5",
+     "hash": "c084c81521463158d2af7929d87058c12901b3aa30bdbd5ea2411b0136b100ad"
+    }
+   ],
+   "finding": "The complete evaluation task 1/(5^3) appears twice within Question 5.",
+   "breakdown": "Both copies require the same calculation without a calculator, with no explicit retrieval or comparison purpose.",
+   "checked": "Compared the shared stem and complete expressions. Unlike equivalent expressions elsewhere in the exercise, these parts change no representation, value or required decision.",
+   "assumptions": "No instructional purpose for this unchanged repetition is supplied.",
+   "repair": {
+    "type": "remove-question",
+    "proposal": "Remove p16-q5-l and retain p16-q5-b."
+   },
+   "doneWhen": "The unchanged evaluation task appears only once within Question 5.",
+   "from": [
+    "c7"
+   ],
+   "sequences": [
+    "mixed-practice"
+   ],
+   "state": "withdrawn",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:12:58.803Z"
+    },
+    {
+     "state": "withdrawn",
+     "at": "2026-10-15T10:18:09.223Z",
+     "note": "Withdrawn before a fresh review."
+    }
+   ],
+   "commentId": "093ea654-de88-4d3f-b4aa-89280074f925",
+   "postedAt": "2026-10-11T13:12:58.818Z"
+  },
+  {
+   "id": "pf-9e3ac0af48",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p16-q5",
+     "blockId": "p16-q5",
+     "hash": "c084c81521463158d2af7929d87058c12901b3aa30bdbd5ea2411b0136b100ad"
+    }
+   ],
+   "finding": "Explain why a negative power and its reciprocal multiply to one.",
+   "breakdown": "The task connects reciprocal meaning with the multiplication index law rehearsed in p12-review-powers.",
+   "checked": "For positive integers a and n, a^(-n)=1/a^n and its reciprocal is a^n, so their product is 1. The example gives 1/9 and 9. Both proposed explanations use available methods.",
+   "assumptions": "The stated positive-integer base excludes zero.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p16-q5, optionally ask: Let A=3^(-2) and B=1/(3^(-2)). Find A and B, then explain why AB=1 in two ways. Does this hold for A=a^(-n) and B=1/(a^(-n)), where a and n are positive integers? Expected answer: A=1/9 and B=9. Their product is 1 by reciprocal multiplication, or by 3^(-2)×3^2=3^0=1. Generally, (1/a^n)×a^n=1, equivalently a^(-n)×a^n=a^0=1."
+   },
+   "doneWhen": "The optional task asks for both explanations and the general relationship.",
+   "from": [
+    "c8"
+   ],
+   "sequences": [
+    "mixed-practice"
+   ],
+   "state": "withdrawn",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T13:12:58.803Z"
+    },
+    {
+     "state": "withdrawn",
+     "at": "2026-10-15T10:18:09.223Z",
+     "note": "Withdrawn before a fresh review."
+    }
+   ]
+  },
+  {
+   "id": "pf-b6fef838c2",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p18-key-ideas",
+     "blockId": "p18-key-ideas",
+     "hash": "59030ec46b0568ab95393cea95b607c0ee6104518f072a640a75104a76dffe41"
+    }
+   ],
+   "finding": "Determine when multiplying and dividing by the same negative power produce equal values.",
+   "breakdown": "The task compares the two coefficient rules and identifies their exceptional equality cases.",
+   "checked": "For nonzero c, equality reduces to a^n = 1/a^n. With a and n positive integers, this holds exactly when a=1. If c=0, both expressions are zero for every allowed a and n.",
+   "assumptions": "Only the coefficient rules and positive integer powers are needed.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p18-key-ideas, offer: Let c be a nonzero number, and let a and n be positive integers. When are c × a^(-n) and c/a^(-n) equal? Explain using positive indices. What changes if c=0? Expected answer: They become c/a^n and c × a^n. For nonzero c they are equal exactly when a=1; if c=0, they are equal for every allowed a and n."
+   },
+   "doneWhen": "The optional task states the domain restrictions and explains both coefficient cases.",
+   "from": [
+    "c9"
+   ],
+   "sequences": [
+    "negative-coefficients"
+   ],
+   "state": "withdrawn",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-09T08:54:05.554Z"
+    },
+    {
+     "state": "withdrawn",
+     "at": "2026-10-15T10:18:09.223Z",
+     "note": "Withdrawn before a fresh review."
+    }
+   ],
+   "commentId": "1bacdd83-dc2a-4991-924a-5ef6774d815c",
+   "postedAt": "2026-10-09T09:59:42.387Z"
+  },
+  {
+   "id": "pf-d942469ad1",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p14-q6",
+     "blockId": "p14-q6",
+     "hash": "cceb0a749c89e28122878a5d33f3e2049475a778924f1ec4db9fdf4b4c7c2880"
+    }
+   ],
+   "finding": "Generalise reciprocal conversion and multiplication of powers by finding exponent pairs with a fixed product.",
+   "breakdown": "The task asks students to explain all possibilities using the same structure as p14-q6.",
+   "checked": "Conversion gives 2^(m+n) = 2^6, hence m+n = 6. The five listed ordered pairs are complete under the positive-integer restriction.",
+   "assumptions": "The multiplication index law is prior knowledge used in p12-investigation-methods.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p14-q6, offer: Find all ordered pairs of positive integers m and n for which [1/(2^(-m))] × [1/(2^(-n))] = 2^6. Explain why your list is complete. Expected answer: m+n=6, giving (1,5), (2,4), (3,3), (4,2), (5,1)."
+   },
+   "doneWhen": "The optional task includes the five pairs and explains why no others satisfy the stated conditions.",
+   "from": [
+    "c5"
+   ],
+   "sequences": [
+    "negative-denominator"
+   ],
+   "state": "withdrawn",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-09T08:54:05.554Z"
+    },
+    {
+     "state": "withdrawn",
+     "at": "2026-10-15T10:18:09.223Z",
+     "note": "Withdrawn before a fresh review."
+    }
+   ],
+   "commentId": "1d305049-fbf3-4a95-8533-18a8008a0b84",
+   "postedAt": "2026-10-09T09:59:42.385Z"
+  }
+ ]
+}

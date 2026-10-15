@@ -5,25 +5,25 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-88f3cde6d3",
+   "id": "pf-aa296a6c98",
    "kind": "variation-sequence",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p5-q3",
-     "blockId": "p5-q3-block",
-     "hash": "14e5b7ceb9d7484ebb8007d3582b85742459b8aed75a569749b33b50ff3a86bd"
+     "id": "p5-q1",
+     "blockId": "p5-q1-block",
+     "hash": "be3e15a7165c5436e95cae95b500b94b028bcd41b3c1dc076a6e3416689033c1"
     }
    ],
-   "finding": "Compare representations of one expression with different supplied outside factors.",
-   "breakdown": "The comparison exposes how the bracket contents change while the expanded expression remains fixed.",
-   "checked": "All proposed products expand to the original expressions. The division method in p4-factorising-method and the unusual supplied factors in p5-q3 provide the required methods.",
-   "assumptions": "Use the fraction arithmetic already required by p5-q3.",
+   "finding": "Compare different supplied factors for the same expression.",
+   "breakdown": "Holding the expression fixed exposes how the supplied outside factor changes the coefficients inside the brackets.",
+   "checked": "The proposed factorisations are correct and require only the division method taught in p4-factorising-method. Existing practice does not hold an expression fixed while varying its supplied factor. The sequence adds only one prediction instruction.",
+   "assumptions": "Factors are supplied, as throughout Factorising 1; students need not select an HCF.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p5-q3, ask students to predict how the bracket contents change before completing: 12x+18=2(...); 12x+18=3(...); 12x+18=6(...); 12x+18=(1/2)(...). Expected contents: 6x+9; 4x+6; 2x+3; 24x+36. Ask why all four products represent the same expression. The supplied outside factor varies and the original expression stays fixed. Follow with the unpatterned question 15y-8=4(...), whose bracket contents are 15y/4-2."
+    "proposal": "After p5-q1-o, append: 'Predict how the numbers inside the brackets will change.' (p) 12x+18=2(...); answer: 2(6x+9). (q) 12x+18=3(...); answer: 3(4x+6). (r) 12x+18=6(...); answer: 6(2x+3). Follow with the unpatterned part (s) 15x-20=5(...); answer: 5(3x-4)."
    },
-   "doneWhen": "The optional run includes prediction, comparison and an unpatterned follow-up.",
+   "doneWhen": "The three comparison parts and one unpatterned part appear under the existing instruction, with only the prediction line added.",
    "from": [
     "c1"
    ],
@@ -34,47 +34,11 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T10:24:09.904Z"
+     "at": "2026-10-15T09:38:16.944Z"
     }
    ],
-   "commentId": "d36a2f94-4186-4168-9935-3c73fbfc3233",
-   "postedAt": "2026-10-11T10:24:09.917Z"
-  },
-  {
-   "id": "pf-85d23b60d0",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p5-q3-b",
-     "blockId": "p5-q3-block",
-     "hash": "14e5b7ceb9d7484ebb8007d3582b85742459b8aed75a569749b33b50ff3a86bd"
-    }
-   ],
-   "finding": "Explain and generalise what happens when a half is taken outside brackets.",
-   "breakdown": "Students explain why the inside terms must double rather than halve.",
-   "checked": "Both identities are correct for all values of the terms. Division by the supplied factor and verification by expansion are available by the end of this topic.",
-   "assumptions": "A and B denote algebraic terms; the outside factor is the nonzero number 1/2.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p5-q3, offer: 'A student says, When I take a half outside the brackets, I halve every term inside. Explain the mistake using y-12, then complete A+B=(1/2)(...) for any two terms A and B.' Expected answer: divide each term by 1/2, so y-12=(1/2)(2y-24) and A+B=(1/2)(2A+2B). Expansion verifies the identities."
-   },
-   "doneWhen": "The optional task asks for an explanation and a general identity, with the expected answer supplied.",
-   "from": [
-    "c2"
-   ],
-   "sequences": [
-    "factorising-1"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T10:24:09.904Z"
-    }
-   ],
-   "commentId": "ac15120e-dc8d-45b2-8b65-caab79251e6e",
-   "postedAt": "2026-10-11T10:24:09.918Z"
+   "commentId": "819be16c-90b1-4e5d-8626-fa204177c56f",
+   "postedAt": "2026-10-15T09:38:17.248Z"
   },
   {
    "id": "pf-6648bd6577",
@@ -92,97 +56,138 @@
      "hash": "0e297325df2ddd64cc6a0fa590975a659c079c3c762c56aece8b2a7a7c072118"
     }
    ],
-   "finding": "p8-q2-a and p8-q2-g repeat the unchanged task 30x+18 without an explicit instructional purpose.",
-   "breakdown": "The later copy repeats the complete task rather than varying its values or conditions.",
-   "checked": "Compared the shared stem and both complete parts. Their expressions, givens and required actions are identical, with no additional parts or diagrams. The surrounding variation does not explicitly assign retrieval or comparison to the repeated expression.",
-   "assumptions": "Apply the stipulated duplicate-task exception. Calculator use is irrelevant.",
+   "finding": "p8-q2-a and p8-q2-g repeat the unchanged whole task 30x+18.",
+   "breakdown": "The later copy adds no new values, givens or decisions, and no explicit retrieval or comparison purpose is stated.",
+   "checked": "Compared both complete tasks under the shared instruction. Both have precisely the same expression and no diagrams or additional parts. The proposed replacement factorises correctly and preserves the constant 18 shared by the following questions.",
+   "assumptions": "No instructional purpose beyond the supplied material is assumed.",
    "repair": {
-    "type": "remove-question",
-    "proposal": "Remove p8-q2-g, retaining p8-q2-a and all surrounding distinct tasks."
+    "type": "change-values",
+    "proposal": "Change p8-q2-g to 33x+18. Expected answer: 3(11x+6)."
    },
-   "doneWhen": "30x+18 appears only once as an independent task in p8-q2.",
+   "doneWhen": "The later copy uses different numbers while retaining numerical-HCF factorisation.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "factorising-2"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:38:16.945Z"
+    }
+   ],
+   "commentId": "db1065ae-9d51-4886-bba9-3e13f670d2f0",
+   "postedAt": "2026-10-15T09:38:17.255Z"
+  },
+  {
+   "id": "pf-03e8e260d5",
+   "kind": "example-choice",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p17-q20",
+     "blockId": "p17-q20-block",
+     "hash": "d22b783e8516e514303d08745c2a571fcd82c4c1eadfd0242279e3cd5bc577bc"
+    },
+    {
+     "id": "p17-q20-b",
+     "blockId": "p17-q20-block",
+     "hash": "d22b783e8516e514303d08745c2a571fcd82c4c1eadfd0242279e3cd5bc577bc"
+    }
+   ],
+   "finding": "The unequal-denominator demonstration does not show how the outside factor 5/6 was selected.",
+   "breakdown": "Expanding the supplied product verifies it but leaves the forward decision unmodelled: obtaining a common denominator and then taking a common factor from the numerator. Part b immediately requires students to make that decision.",
+   "checked": "Earlier teaching models numerical and algebraic common factors. p16-q19 introduces fractional factors only with equal denominators. No preceding teaching or practice demonstrates selecting a fractional factor when denominators differ. The proposed connecting calculation is correct.",
+   "assumptions": "Equivalent fractions are prior knowledge. Selecting a fractional factor for unequal denominators is the new variant; no calculator is needed.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "After p17-q20-a and before part b, add: 'First use a common denominator: 5x/3+5y/6=(10x+5y)/6. The numerator has common factor 5, so this equals (5/6)(2x+y). Use the same approach below.'"
+   },
+   "doneWhen": "The demonstration connects the original denominators and numerators to the selected factor before students construct their own factorisations.",
    "from": [
     "c3"
    ],
    "sequences": [
-    "factorising-2"
+    "factorising-3"
    ],
    "state": "pending",
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T10:24:09.904Z"
+     "at": "2026-10-15T09:38:16.945Z"
     }
    ],
-   "commentId": "0cfeffb4-9340-47ad-9683-5f02f541bfd4",
-   "postedAt": "2026-10-11T10:24:09.919Z"
+   "commentId": "e82b12e5-854c-4434-b61f-2c559af3f05c",
+   "postedAt": "2026-10-15T09:38:17.259Z"
   },
   {
-   "id": "pf-9be0297461",
-   "kind": "extension",
-   "severity": "suggestion",
+   "id": "pf-df8eb08d66",
+   "kind": "unsupported-transition",
+   "severity": "high",
    "targets": [
     {
-     "id": "p8-q3-block",
-     "blockId": "p8-q3-block",
-     "hash": "bfbcb9a6354b9d9c15e46190a53c2754268c629de3efa23c434947858b5b0ee1"
+     "id": "p17-q22",
+     "blockId": "p17-q22-block",
+     "hash": "2f8d5cdcc66f2a7b1b895ced6d2dfe1451264fb12bfe25588324c6cf526d6d05"
+    },
+    {
+     "id": "p17-q22-a",
+     "blockId": "p17-q22-block",
+     "hash": "2f8d5cdcc66f2a7b1b895ced6d2dfe1451264fb12bfe25588324c6cf526d6d05"
+    },
+    {
+     "id": "p17-q22-b",
+     "blockId": "p17-q22-block",
+     "hash": "2f8d5cdcc66f2a7b1b895ced6d2dfe1451264fb12bfe25588324c6cf526d6d05"
     }
    ],
-   "finding": "Explain which common numerical factor produces a complete factorisation.",
-   "breakdown": "The task generalises the incomplete-factorisation contrast in p7-example-2.",
-   "checked": "The positive integer common factors greater than 1 of 24 and 36 are exactly 2, 3, 4, 6 and 12. All proposed factorisations expand correctly; only the last has inside coefficients with HCF 1. Numerical HCF selection and the completeness test are already taught.",
-   "assumptions": "Complete factorisation here means extracting the numerical HCF.",
+   "finding": "q22 introduces testing an identity through incompatible coefficient conditions without showing that method.",
+   "breakdown": "Students must recognise that one constant must satisfy both coefficient conditions. Finding a value from just one condition produces an incorrect conclusion, and preceding instruction does not explain how to check compatibility.",
+   "checked": "Earlier material teaches expansion, factorisation and a single linear equation; q21 matches one common multiplier. None demonstrates incompatible conditions for an identity. Expanding q22-a requires k=3 and k=2 simultaneously; q22-b requires k=4 and k=3 simultaneously. Both therefore have no constant solution. Its closing position does not supply the new identity-testing method.",
+   "assumptions": "Expansion and simple linear equations are available prior knowledge; coefficient comparison for identities has not been taught in the supplied complete teaching.",
    "repair": {
-    "type": "add-question",
-    "proposal": "After p8-q3, offer: 'For 24x+36, write a factorisation using each positive integer common factor greater than 1. Which is fully factorised? Explain how the terms inside the brackets tell you.' Expected answers: 2(12x+18), 3(8x+12), 4(6x+9), 6(4x+6), 12(2x+3). Only 12(2x+3) is fully factorised by numerical common factors, because the inside coefficients have HCF 1."
+    "type": "add-teaching",
+    "proposal": "Before q22, add: 'For an equation to hold for every value of the variable, coefficients of matching powers must agree. For example, kx(x+2)=3x²+8x expands to kx²+2kx=3x²+8x. The x² coefficients require k=3; the x coefficients require 2k=8, giving k=4. These conflict, so no constant k works.'"
    },
-   "doneWhen": "The optional task specifies integer factors and asks students to justify completeness.",
+   "doneWhen": "Students see how to derive and compare both conditions before attempting q22.",
    "from": [
     "c4"
    ],
    "sequences": [
-    "factorising-2"
+    "factorising-3"
    ],
    "state": "pending",
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T10:24:09.904Z"
+     "at": "2026-10-15T09:38:16.945Z"
     }
    ],
-   "commentId": "3c8dc558-a701-418e-9e34-24b7f8ee5238",
-   "postedAt": "2026-10-11T10:24:09.921Z"
+   "commentId": "ee635451-130e-49c9-9c79-f6dc09f43d9d",
+   "postedAt": "2026-10-15T09:38:17.266Z"
   },
   {
-   "id": "pf-0031c4aff7",
-   "kind": "missing-prerequisite",
-   "severity": "high",
+   "id": "pf-45213cdb55",
+   "kind": "extension",
+   "severity": "suggestion",
    "targets": [
     {
-     "id": "p10-hcf",
-     "blockId": "p10-review",
-     "hash": "6c425f7719b54c089ff78f3f68d20f8e9979dfb4b735b0ee5187d5531b4b703e"
-    },
-    {
-     "id": "p11-example-demonstrations",
-     "blockId": "p11-example-demonstrations",
-     "hash": "487de5b60f30a0cfde64ce940798b54c6b8b9ef987979c2a64dad0413472b7ee"
-    },
-    {
-     "id": "p11-key-ideas-1",
-     "blockId": "p11-key-ideas",
-     "hash": "4faf4bb16ea1dfba11fb21638c8ecc1195dba90b43189c975d4894d7fac88945"
+     "id": "p15-q11",
+     "blockId": "p15-q11-block",
+     "hash": "bc87ebb7da00638c4f6dbde52b740644ddf6e5e24efb2d2352f1094aa783fb57"
     }
    ],
-   "finding": "Algebraic HCF selection is required in the opening review before its common-variable and lowest-power rules are taught.",
-   "breakdown": "p10-hcf requires students to decide which variables are shared and which powers to extract. Earlier teaching supplies division by given algebraic factors and numerical HCF selection, but not selection of an algebraic HCF. The explicit rule appears only after the introductory examples and guided practice.",
-   "checked": "Checked p3-divide-variable, p4-factorising-method, p4-guided-practice, p6-review-task-1 and the p7 teaching. None supplies the common-variable and lowest-power selection rule. p11-key-ideas-1 does supply it, so reordering is sufficient.",
-   "assumptions": "Treat algebraic HCF selection as content introduced by this booklet, consistent with its stated outcomes. The teacher-led review assumption does not replace teaching a new selection method. Calculator use is irrelevant.",
+   "finding": "Use the existing rectangle area to compare alternative pairs of dimensions.",
+   "breakdown": "Different choices of outside factor connect equivalent products with rectangles of equal area.",
+   "checked": "The extension follows an existing practice question and uses its area expression. Both symbolic widths are correct. At a=2 the area is 24, and all three stated dimension pairs have product 24. Only previously taught factorisation and substitution are needed.",
+   "assumptions": "The original rectangle context supplies positive dimensions, hence a>2/3; the proposed rectangles are valid throughout that domain.",
    "repair": {
-    "type": "reorder",
-    "proposal": "Present the content of p11-key-ideas-1 immediately before p10-hcf: 'Find the numerical HCF. Include only variables common to every term, using the lowest power of each. Multiply these factors together.' Retain the later key-ideas completion as retrieval."
+    "type": "add-question",
+    "proposal": "Append optional parts to p15-q11: (b) 'A rectangle with the same area has length 3. Find its width.' Answer: 3a²-2a. (c) 'A rectangle with the same area has length a. Find its width.' Answer: 9a-6. (d) 'If a=2, give the length and width of each of the three rectangles.' Answers: original rectangle 6 by 4; part b rectangle 3 by 8; part c rectangle 2 by 12."
    },
-   "doneWhen": "The common-variable and lowest-power rules precede the first algebraic HCF selection.",
+   "doneWhen": "The optional follow-up parts retain the original area and compare the three correct pairs of dimensions.",
    "from": [
     "c5"
    ],
@@ -193,150 +198,78 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T10:24:09.904Z"
+     "at": "2026-10-15T09:38:16.945Z"
     }
    ],
-   "commentId": "baff1847-cb87-4d6f-b3b7-c5249077a5a9",
-   "postedAt": "2026-10-11T10:24:09.924Z"
-  },
-  {
-   "id": "pf-980d8978c9",
-   "kind": "example-choice",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p17-q20",
-     "blockId": "p17-q20-block",
-     "hash": "d22b783e8516e514303d08745c2a571fcd82c4c1eadfd0242279e3cd5bc577bc"
-    },
-    {
-     "id": "p17-q20-b-i",
-     "blockId": "p17-q20-block",
-     "hash": "d22b783e8516e514303d08745c2a571fcd82c4c1eadfd0242279e3cd5bc577bc"
-    },
-    {
-     "id": "p17-q20-b-ii",
-     "blockId": "p17-q20-block",
-     "hash": "d22b783e8516e514303d08745c2a571fcd82c4c1eadfd0242279e3cd5bc577bc"
-    },
-    {
-     "id": "p17-q20-b-iii",
-     "blockId": "p17-q20-block",
-     "hash": "d22b783e8516e514303d08745c2a571fcd82c4c1eadfd0242279e3cd5bc577bc"
-    },
-    {
-     "id": "p17-q20-b-iv",
-     "blockId": "p17-q20-block",
-     "hash": "d22b783e8516e514303d08745c2a571fcd82c4c1eadfd0242279e3cd5bc577bc"
-    },
-    {
-     "id": "p17-q20-b-v",
-     "blockId": "p17-q20-block",
-     "hash": "d22b783e8516e514303d08745c2a571fcd82c4c1eadfd0242279e3cd5bc577bc"
-    },
-    {
-     "id": "p17-q20-b-vi",
-     "blockId": "p17-q20-block",
-     "hash": "d22b783e8516e514303d08745c2a571fcd82c4c1eadfd0242279e3cd5bc577bc"
-    }
-   ],
-   "finding": "The supplied factorisation introduces 5/6 without modelling how unequal denominators lead to that outside factor.",
-   "breakdown": "Expansion in p17-q20-a verifies a supplied result but does not show how to choose it. The following parts require students to choose factors that leave no fractions inside brackets; p16-q19 uses equal denominators throughout.",
-   "checked": "Earlier teaching explains dividing by a supplied factor and extracting numerical or algebraic HCFs. Neither it nor p16-q19 demonstrates the common-denominator step for selecting a fractional factor. Recalculation confirms 5x/3+5y/6=(1/6)(10x+5y)=(5/6)(2x+y).",
-   "assumptions": "Equivalent fractions and common denominators are prior knowledge from fraction arithmetic. The missing connection is their use in factor selection here. Calculator use is irrelevant.",
-   "repair": {
-    "type": "add-cue",
-    "proposal": "After p17-q20-a and before p17-q20-b, add: 'To choose the factor, first write both terms with denominator 6: 5x/3+5y/6=10x/6+5y/6=(1/6)(10x+5y)=(5/6)(2x+y). For the next questions, use a common denominator, then factorise the numerators.'"
-   },
-   "doneWhen": "The origin of 5/6 and the route for choosing factors with unequal denominators are stated before the independent tasks.",
-   "from": [
-    "c6"
-   ],
-   "sequences": [
-    "factorising-3"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T10:24:09.904Z"
-    }
-   ],
-   "commentId": "4d2083df-cee0-4761-b27b-e2cd8d94295c",
-   "postedAt": "2026-10-11T10:24:09.925Z"
-  },
-  {
-   "id": "pf-af03a7e5d3",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p16-q18",
-     "blockId": "p16-q18-block",
-     "hash": "cfda04a6fd0acf436f232b52ffa51d3165b11be44fecea1ee3709c1f141a58ee"
-    }
-   ],
-   "finding": "Generalise how to complete a factorisation when a common factor remains inside brackets.",
-   "breakdown": "Students connect the remaining inside HCF with the additional factor needed outside.",
-   "checked": "The general identity and numerical illustration are correct. Extracting common factors, dividing terms and combining factors are available by the end of the topic; p16-q15 and p16-q18 provide the concrete structure.",
-   "assumptions": "A and B are nonzero algebraic terms with a defined HCF d. Quotients denote exact algebraic factor removal.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p16-q18, offer: 'A student writes E=h(A+B), where h is a common factor of the original terms. If A and B still have HCF d, explain how to complete the factorisation. When is h(A+B) already fully factorised by common factors? Illustrate with 12x²+18x=3x(4x+6).' Expected answer: E=hd(A/d+B/d). It is complete when the inside terms share no numerical or variable factor other than 1. In the example d=2, giving 6x(2x+3)."
-   },
-   "doneWhen": "The optional task connects a general explanation to the concrete incomplete factorisation.",
-   "from": [
-    "c8"
-   ],
-   "sequences": [
-    "factorising-3"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T10:24:09.904Z"
-    }
-   ],
-   "commentId": "731d46e7-23f4-4525-89bc-51c753d325a4",
-   "postedAt": "2026-10-11T10:24:09.929Z"
+   "commentId": "37a1efa0-9d63-4818-9bce-bf7fc7182c8b",
+   "postedAt": "2026-10-15T09:38:17.270Z"
   }
  ],
- "contextQuestions": [
-  {
-   "sequence": "factorising-3",
-   "targets": [
-    "p14-q9-d",
-    "p14-q9-e",
-    "p14-q9-f"
-   ],
-   "question": "Have students already learned to find the perimeter of rectilinear L shapes by showing that the horizontal boundary lengths total twice the overall width and the vertical lengths total twice the overall height? The supplied teaching does not establish this, and the course's separate Length booklet may cover it. The answer determines whether p14-q9-d needs a cue before the three L-shape tasks."
-  }
- ],
+ "contextQuestions": [],
  "protectedGroups": [
+  {
+   "sequence": "factorising-1",
+   "targets": [
+    "p5-q1-a",
+    "p5-q1-g"
+   ],
+   "observation": "The adjacent six-part addition and subtraction sets begin with matching term and factor structures, supporting comparison of the retained operation.",
+   "varies": "Addition becomes subtraction, and the original coefficients are scaled.",
+   "invariant": "Variable, supplied-factor format and magnitudes of the resulting coefficients."
+  },
+  {
+   "sequence": "factorising-1",
+   "targets": [
+    "p5-q2-d",
+    "p5-q2-e",
+    "p5-q2-f"
+   ],
+   "observation": "Repeated squared-term structures reinforce dividing both coefficients and variable factors.",
+   "varies": "Variable name, numerical factor and operation.",
+   "invariant": "A squared term and a linear term divided by a supplied numerical and variable factor."
+  },
   {
    "sequence": "factorising-2",
    "targets": [
     "p8-q2-a",
-    "p8-q2-b",
-    "p8-q2-c",
-    "p8-q2-d",
-    "p8-q2-e"
+    "p8-q2-b"
    ],
-   "observation": "Signs are retained during factorisation, while changing the constant can change the HCF or eliminate a nontrivial common factor.",
-   "varies": "The constant's sign or magnitude, one change at a time.",
-   "invariant": "The variable term is 30x and the task is factorisation where possible."
+   "observation": "Changing the operation preserves the HCF and changes the corresponding sign inside brackets.",
+   "varies": "Addition versus subtraction.",
+   "invariant": "Coefficients 30 and 18 and numerical HCF 6."
   },
   {
    "sequence": "factorising-2",
    "targets": [
+    "p8-q2-b",
+    "p8-q2-c",
+    "p8-q2-d"
+   ],
+   "observation": "A small change in the constant can remove or change the common factor.",
+   "varies": "Constant 18, 19 or 20.",
+   "invariant": "Variable term 30x and subtraction."
+  },
+  {
+   "sequence": "factorising-2",
+   "targets": [
+    "p8-q2-d",
+    "p8-q2-e"
+   ],
+   "observation": "Changing the operation leaves the numerical HCF unchanged.",
+   "varies": "Subtraction versus addition.",
+   "invariant": "Coefficients 30 and 20 and numerical HCF 10."
+  },
+  {
+   "sequence": "factorising-2",
+   "targets": [
+    "p8-q2-g",
     "p8-q2-h",
     "p8-q2-i",
     "p8-q2-j"
    ],
-   "observation": "The HCF depends on both coefficients and can equal either coefficient.",
-   "varies": "The coefficient of x.",
-   "invariant": "The constant is +18."
+   "observation": "With a fixed constant, changing the variable coefficient changes the HCF and the quotients.",
+   "varies": "Coefficient of x.",
+   "invariant": "Addition and constant 18; the proposed replacement for p8-q2-g preserves these."
   },
   {
    "sequence": "factorising-2",
@@ -345,9 +278,9 @@
     "p8-q2-k",
     "p8-q2-l"
    ],
-   "observation": "A one-unit change can remove a common factor, and changing the other coefficient can restore one.",
-   "varies": "First the constant, then the variable coefficient.",
-   "invariant": "A two-term expression with addition and the same variable."
+   "observation": "Changing one coefficient at a time removes a common factor and then restores one.",
+   "varies": "First the constant, then the coefficient of x.",
+   "invariant": "Addition of one variable term and one constant; each neighbouring pair shares one coefficient."
   },
   {
    "sequence": "factorising-2",
@@ -355,9 +288,9 @@
     "p9-q6-c",
     "p9-q6-d"
    ],
-   "observation": "Halving the number of recipients doubles each person's share.",
-   "varies": "The number of recipients, from six to three.",
-   "invariant": "The total number of Smarties."
+   "observation": "Halving the number of recipients doubles each person's algebraic share.",
+   "varies": "Six recipients versus three.",
+   "invariant": "Total 6x+42 Smarties."
   },
   {
    "sequence": "factorising-3",
@@ -365,9 +298,9 @@
     "p11-guided-b",
     "p11-guided-c"
    ],
-   "observation": "Changing addition to subtraction changes the sign inside brackets without changing the HCF.",
-   "varies": "The operation between terms.",
-   "invariant": "Variable powers, coefficients and common factor."
+   "observation": "Changing addition to subtraction preserves the common factor and changes the sign inside brackets.",
+   "varies": "The operation between the terms.",
+   "invariant": "Variable, coefficients and HCF."
   },
   {
    "sequence": "factorising-3",
@@ -379,7 +312,7 @@
    ],
    "observation": "Scaling both coefficients changes the outside factor while preserving the bracket.",
    "varies": "The common numerical multiplier.",
-   "invariant": "The reduced expression 3x-4."
+   "invariant": "The bracket 3x-4."
   },
   {
    "sequence": "factorising-3",
@@ -389,9 +322,9 @@
     "p12-q2-k",
     "p12-q2-l"
    ],
-   "observation": "A numerical factor can acquire an algebraic component, and that component must occur in both terms.",
-   "varies": "Variable factors attached to the same coefficients.",
-   "invariant": "Coefficients 20 and 15 and subtraction."
+   "observation": "The outside variable depends on which variable is common to both terms.",
+   "varies": "Variable factors attached to the coefficients.",
+   "invariant": "Numerical coefficients 20 and 15 and subtraction."
   },
   {
    "sequence": "factorising-3",
@@ -399,9 +332,9 @@
     "p14-q7-c",
     "p14-q7-d"
    ],
-   "observation": "Adding another term preserves the HCF only when that term shares it.",
-   "varies": "Addition of a third term.",
-   "invariant": "The first two terms and common factor a."
+   "observation": "An added term can retain the same common algebraic factor.",
+   "varies": "Addition of a squared term.",
+   "invariant": "The original two terms and common factor a."
   },
   {
    "sequence": "factorising-3",
@@ -410,9 +343,9 @@
     "p14-q8-b",
     "p14-q8-c"
    ],
-   "observation": "Changing one coefficient changes both the numerical HCF and the quotients.",
+   "observation": "Changing the second coefficient changes the numerical part of the HCF.",
    "varies": "The coefficient of xy.",
-   "invariant": "First term 8x, variables and subtraction."
+   "invariant": "First term 8x, subtraction and variable structure."
   },
   {
    "sequence": "factorising-3",
@@ -420,9 +353,9 @@
     "p14-q8-d",
     "p14-q8-e"
    ],
-   "observation": "Reversing a subtraction reverses the signs inside brackets while preserving the positive HCF.",
-   "varies": "Term order.",
-   "invariant": "Terms 8x and x² and common factor x."
+   "observation": "Reversing the subtracted terms reverses the bracket's term order.",
+   "varies": "Order of the terms.",
+   "invariant": "Term magnitudes and common factor x."
   },
   {
    "sequence": "factorising-3",
@@ -431,24 +364,14 @@
     "p14-q8-g",
     "p14-q8-h"
    ],
-   "observation": "The common factor must divide every term; adding xy removes factor 3, whereas adding 6xy preserves it.",
+   "observation": "The HCF must divide every term; adding a term can remove or retain the numerical factor 3.",
    "varies": "Presence and coefficient of the third term.",
-   "invariant": "First two terms 3x²-12x."
-  },
-  {
-   "sequence": "factorising-3",
-   "targets": [
-    "p16-q18-a",
-    "p16-q18-b"
-   ],
-   "observation": "Correcting the numerical component alone can still leave an incomplete factorisation.",
-   "varies": "The numerical factor taken outside.",
-   "invariant": "The original expression and its common variable x."
+   "invariant": "The first two terms 3x²-12x."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 15,
- "reviewedAt": "2026-10-11T10:24:09.904Z",
+ "reviewedRevision": 20,
+ "reviewedAt": "2026-10-15T09:38:16.945Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -472,16 +395,16 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 28448,
+     "input_tokens": 28088,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2700,
-     "reasoning_output_tokens": 123
+     "output_tokens": 2770,
+     "reasoning_output_tokens": 162
     },
-    "elapsedMs": 69938,
+    "elapsedMs": 67069,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "factorising-2",
@@ -490,16 +413,16 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 32222,
+     "input_tokens": 32639,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3393,
-     "reasoning_output_tokens": 116
+     "output_tokens": 4067,
+     "reasoning_output_tokens": 168
     },
-    "elapsedMs": 84280,
+    "elapsedMs": 89925,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "factorising-3",
@@ -508,43 +431,24 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 44160,
+     "input_tokens": 44552,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 7503,
-     "reasoning_output_tokens": 404
+     "output_tokens": 3933,
+     "reasoning_output_tokens": 235
     },
-    "elapsedMs": 194106,
-    "candidates": 3,
+    "elapsedMs": 98188,
+    "candidates": 2,
     "discarded": [],
     "suggestions": 1
    }
   ],
-  "dropped": [
-   {
-    "ids": [
-     "c7"
-    ],
-    "reason": "The claim that these tasks require an untaught coefficient-comparison method is defeated by direct substitution using an already practised method. In p17-q22-a, x=1 gives 8=9 regardless of k; in p17-q22-b, a=2 gives 36=40 regardless of k. Either contradiction proves that no constant works for every variable value. This final challenge can therefore be completed using prior substitution and arithmetic, without the proposed new teaching.",
-    "candidates": [
-     {
-      "id": "c7",
-      "sequence": "factorising-3",
-      "kind": "unsupported-transition",
-      "targets": [
-       "p17-q22-a",
-       "p17-q22-b"
-      ],
-      "finding": "The final questions require testing a constant against simultaneous coefficient conditions, a method absent from the preceding instruction."
-     }
-    ]
-   }
-  ],
+  "dropped": [],
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/factorising-expressions-v1/candidates-low-1791714148511.json",
+  "candidateFile": ".booklet-work/pedagogy-review/factorising-expressions-v1/candidates-low-1792057041838.json",
   "errors": []
  },
- "postedRevision": 16
+ "postedRevision": 21
 }

@@ -5,52 +5,6 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-84520b61ef",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p4-q1-a",
-     "blockId": "p4-q1",
-     "hash": "662cb7377026c2869a2bd0dbf53e5f9d34e36eedf0adb6c8d4cab46c4e801261"
-    },
-    {
-     "id": "p3-your-turn",
-     "blockId": "p3-example",
-     "hash": "e8044ae7c3caa3c8916876234cf241bd1875503100b71cde8439ff1f5319c7dc"
-    },
-    {
-     "id": "p8-q4b",
-     "blockId": "p8-q4",
-     "hash": "40181a3c5c28a5cc04a981a28fd89d91ce4232d7cf49ef1d435a28f5901b4b0e"
-    }
-   ],
-   "finding": "Use the isosceles pairs to explore why a congruent pair can have more than one valid vertex correspondence.",
-   "breakdown": "Both candidates explore the same symmetry. One combined task lets students explain alternative correspondences and contrast them with the scalene Your Turn pair.",
-   "checked": "In p4-q1-a, fixing B↔E permits either pairing of the base vertices. In p8-q4b, both QPR and PQR match LMN, and angle PRQ remains 36°. The three distinct side classes in p3-your-turn determine a unique correspondence. Matching vertices and writing congruence statements have already been taught.",
-   "assumptions": "The distinct side-tick classes in the scalene Your Turn represent distinct side lengths, as intended by the supplied diagram description.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p8-q4b, offer this optional task: 'Keep LMN as the first triangle's order. Find two valid orders for the second triangle and explain why both work. Does your choice change angle PRQ? Explain why the scalene triangles in p3-your-turn have only one complete correspondence.' Expected answer: ΔLMN ≡ ΔQPR and ΔLMN ≡ ΔPQR. The isosceles base vertices can swap while N still matches R, so angle PRQ remains 36°. Each scalene vertex joins a different pair of side lengths, fixing its match. The same base-vertex interchange explains the two valid correspondences in p4-q1-a."
-   },
-   "doneWhen": "Students explain the alternative correspondences through symmetry and distinguish them from the unique scalene correspondence.",
-   "from": [
-    "c1",
-    "c2"
-   ],
-   "sequences": [
-    "congruence",
-    "congruence-statements"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:16:20.149Z"
-    }
-   ]
-  },
-  {
    "id": "pf-0a91820d7a",
    "kind": "extension",
    "severity": "suggestion",
@@ -58,20 +12,20 @@
     {
      "id": "p15-q13",
      "blockId": "p15-q13",
-     "hash": "435daabc159e9a2cf15086cb5042e6a72f88db8ae3082db7a30cc597169adb3e"
+     "hash": "5f5c576a91351e97bcad2cec1d705aa00515d71381234b5af7ee411c0d63323c"
     }
    ],
-   "finding": "Generalise the midpoint cut by determining exactly when its two triangles are congruent.",
-   "breakdown": "This extends the existing SSS task into a necessary-and-sufficient condition and a consequence for the cut.",
-   "checked": "If AC=BC, the halves are congruent by SSS. Conversely, equality of their perimeters, together with AM=BM and the common CM, gives AC=BC even without assuming a particular correspondence. Under the SSS correspondence, the angles at M are equal and supplementary, hence both 90°.",
-   "assumptions": "ABC is a nondegenerate triangle. Students know straight angles and supplementary adjacent angles as prior angle knowledge; the course separately includes Angle Relationships.",
+   "finding": "Extend the congruence result to show that the midpoint cut is perpendicular to the base.",
+   "breakdown": "The follow-up connects equal corresponding angles in the congruent triangles with adjacent angles on a straight line.",
+   "checked": "SSS gives triangle ACM congruent to triangle BCM, with M corresponding to M. Thus angles AMC and BMC are equal. Since A, M and B are collinear, these angles sum to 180°, so each is 90°. With AB = 10 cm, AM = 5 cm. Omit the proposed CM calculation: it requires Pythagoras, whose availability is not established by the supplied teaching.",
+   "assumptions": "Midpoint and angles on a straight line are prior knowledge. No calculator is needed.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p15-q13, offer: 'M is the midpoint of AB in triangle ABC. Show that triangles ACM and BCM are congruent if and only if AC=BC. When they are congruent, what can you conclude about CM and AB? Give reasons.' Expected answer: If AC=BC, AM=BM and CM is common, so SSS proves congruence. Conversely, congruent triangles have equal perimeters; cancelling AM=BM and the common CM gives AC=BC. The SSS correspondence makes angles AMC and BMC equal. They sum to 180°, so each is 90° and CM is perpendicular to AB."
+    "proposal": "Append optional parts to p15-q13: (c) Now let AC = BC = 13 cm and AB = 10 cm. Find AM. Answer: 5 cm. (d) Explain why angle AMC is 90°. Answer: corresponding angles AMC and BMC are equal because the triangles are congruent; they sum to 180° because A, M and B lie on a straight line, so each is 90°."
    },
-   "doneWhen": "Students establish both directions and justify the perpendicularity using equal supplementary angles.",
+   "doneWhen": "The optional follow-up uses the established congruence to justify perpendicularity, with the unsupported Pythagoras calculation omitted.",
    "from": [
-    "c5"
+    "c1"
    ],
    "sequences": [
     "congruent-triangle-conditions"
@@ -80,9 +34,11 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:16:20.149Z"
+     "at": "2026-10-15T09:13:53.774Z"
     }
-   ]
+   ],
+   "commentId": "c20de0cb-9dd6-4fe8-895e-ab8a32abd760",
+   "postedAt": "2026-10-15T09:13:54.063Z"
   }
  ],
  "contextQuestions": [],
@@ -94,9 +50,9 @@
     "p5-q5",
     "p5-q6"
    ],
-   "observation": "Translations, reflections and rotations all preserve congruence, and corresponding vertices determine corresponding sides and angles.",
-   "varies": "The transformation and triangle orientation; the particular triangle shape also changes.",
-   "invariant": "The question structure, kinds of features requested, and preservation of corresponding lengths and angles."
+   "observation": "Translation, reflection and rotation all preserve congruence, and corresponding vertices determine corresponding sides and angles despite changes in orientation.",
+   "varies": "The transformation and the triangle's appearance and orientation.",
+   "invariant": "The question structure and the A–D, B–E, C–F correspondence."
   },
   {
    "sequence": "congruence-statements",
@@ -105,9 +61,9 @@
     "p7-q2c",
     "p7-q2d"
    ],
-   "observation": "A corresponding side receives the same length as the labelled side.",
-   "varies": "Identify the side, read the given length, then transfer it.",
-   "invariant": "The triangle pair and established vertex correspondence."
+   "observation": "A corresponding side has the same length as the known side.",
+   "varies": "Name the corresponding side, read the original length, then transfer the length.",
+   "invariant": "The same triangle pair and vertex correspondence."
   },
   {
    "sequence": "congruence-statements",
@@ -116,9 +72,30 @@
     "p7-q2f",
     "p7-q2g"
    ],
-   "observation": "A corresponding angle receives the same size as the labelled angle.",
-   "varies": "Identify the angle, read the given size, then transfer it.",
-   "invariant": "The triangle pair and established vertex correspondence."
+   "observation": "The same correspondence process applies to angle measures.",
+   "varies": "Name the corresponding angle, read its measure, then transfer the measure.",
+   "invariant": "The same triangle pair and matching angles."
+  },
+  {
+   "sequence": "congruence-statements",
+   "targets": [
+    "p8-q3c",
+    "p8-q3d",
+    "p8-q3e"
+   ],
+   "observation": "Different correspondence cues lead to the same step of equating matching side lengths.",
+   "varies": "Equal-side ticks, matching angle markers and matching numerical side lengths.",
+   "invariant": "A one-step equation equating a multiple of the unknown to a known corresponding length."
+  },
+  {
+   "sequence": "congruent-triangle-conditions",
+   "targets": [
+    "p9-part-e",
+    "p9-part-f"
+   ],
+   "observation": "A right-angle marker does not by itself determine which congruence test the supplied evidence supports.",
+   "varies": "The additional evidence changes from a second angle and one side to two legs.",
+   "invariant": "Both pairs consist of right triangles with unmarked hypotenuses."
   },
   {
    "sequence": "congruent-triangle-conditions",
@@ -126,14 +103,14 @@
     "p13-q6-a",
     "p13-q6-b"
    ],
-   "observation": "Equal marked side pairs do not establish SAS until the included angles have been derived and compared.",
-   "varies": "The supplied angle and its position, producing matching or non-matching apex angles.",
-   "invariant": "Two isosceles triangles with all four sloping sides equally marked."
+   "observation": "Equal marked sides in isosceles triangles still require compatible angles to establish congruence.",
+   "varies": "The supplied base or apex angles, producing matching then nonmatching derived apex angles.",
+   "invariant": "Both questions compare isosceles triangles with all four sloping sides marked equal."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 7,
- "reviewedAt": "2026-10-11T12:16:20.149Z",
+ "reviewedRevision": 10,
+ "reviewedAt": "2026-10-15T09:13:53.774Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -157,16 +134,16 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 33391,
+     "input_tokens": 34585,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1502,
-     "reasoning_output_tokens": 80
+     "output_tokens": 1151,
+     "reasoning_output_tokens": 51
     },
-    "elapsedMs": 47062,
+    "elapsedMs": 35701,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "congruence-statements",
@@ -175,16 +152,16 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 34581,
-     "cached_input_tokens": 12544,
+     "input_tokens": 34998,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2978,
-     "reasoning_output_tokens": 142
+     "output_tokens": 2706,
+     "reasoning_output_tokens": 88
     },
-    "elapsedMs": 77934,
+    "elapsedMs": 71097,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "congruent-triangle-conditions",
@@ -193,59 +170,24 @@
     "images": 8,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 57118,
+     "input_tokens": 57535,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4475,
-     "reasoning_output_tokens": 148
+     "output_tokens": 5053,
+     "reasoning_output_tokens": 351
     },
-    "elapsedMs": 125665,
-    "candidates": 1,
+    "elapsedMs": 127475,
+    "candidates": 0,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    }
   ],
-  "dropped": [
-   {
-    "ids": [
-     "c3"
-    ],
-    "reason": "The worked-example requirement defeats this candidate. p9-rhs states and illustrates the new RHS condition; it does not work through a problem using hypotenuse identification as a prior-knowledge solution step. Subsequent identification and practice questions do not independently trigger an opening-review finding.",
-    "candidates": [
-     {
-      "id": "c3",
-      "sequence": "congruent-triangle-conditions",
-      "kind": "opening-review",
-      "targets": [
-       "p9-tests",
-       "p9-rhs"
-      ],
-      "finding": "The RHS introduction relies on identifying the hypotenuse, but this topic has no review of that prerequisite and the preceding teaching does not practise it."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c4"
-    ],
-    "reason": "The proposed mathematics defeats this suggestion: item (2) guarantees congruence. With AB=5, AC=7 and angle ABC=60°, the given angle is opposite the longer given side, so only one triangle is possible. Its expected answer of insufficient information is incorrect. Moreover, p12-q4c already explicitly contrasts included and non-included angle positions.",
-    "candidates": [
-     {
-      "id": "c4",
-      "sequence": "congruent-triangle-conditions",
-      "kind": "variation-sequence",
-      "targets": [
-       "p12-q4c"
-      ],
-      "finding": "Hold two side equalities fixed while changing which angle is supplied."
-     }
-    ]
-   }
-  ],
+  "dropped": [],
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/congruence-v1/candidates-low-1791720910823.json",
+  "candidateFile": ".booklet-work/pedagogy-review/congruence-v1/candidates-low-1792055606384.json",
   "errors": []
- }
+ },
+ "postedRevision": 11
 }

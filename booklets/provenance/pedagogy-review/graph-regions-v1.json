@@ -5,7 +5,7 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-bdd34e1191",
+   "id": "pf-ff022e2de7",
    "kind": "opening-review",
    "severity": "high",
    "targets": [
@@ -15,20 +15,25 @@
      "hash": "37666b3a360687c5c02533cc52e7d51c1b7bb4eed8a36480bf66a14769479431"
     },
     {
+     "id": "p4-pair-tests-node",
+     "blockId": "p4-interpret-block",
+     "hash": "92ca59709a984b092dceca16ea1f0b94f9dca8e5e5c8f5ef20d8a7c2b0bab4c4"
+    },
+    {
      "id": "p5-example-stage1",
      "blockId": "p5-example-stages",
      "hash": "6b3fe6994bf87c4e060f7872f304925e00faeee37c2c52ecf56d15d2fb4ebab7"
     }
    ],
-   "finding": "The opening review does not rehearse rearranging an inequality to isolate a variable, although this is the first step of the worked graphing example.",
-   "breakdown": "Students can complete the review by interpreting already isolated variables without demonstrating that they can rearrange 3x+4y>24 into an inequality in y. This algebraic step determines the half-plane to shade.",
-   "checked": "The supplied teaching is complete. The number-line review contains only isolated variables, and the linear-function review rehearses equations rather than rearranging inequalities. p4-solve-node demonstrates positive-coefficient inequality solving after the review, but does not provide review rehearsal. Negative-coefficient division has been removed from this finding: it occurs in guided practice rather than the worked example, and its teaching answer explicitly explains reversal.",
-   "assumptions": "Inequality rearrangement is prior learning, consistent with the course's Inequalities booklet. No calculator is needed.",
+   "finding": "The opening review omits algebraic isolation of a variable and signed substitution used directly in the introductory teaching.",
+   "breakdown": "The review's inequalities already have x isolated. Students then need to substitute negative coordinates in p4-pair-tests-node and isolate y in p5-example-stage1 while learning how inequalities define regions.",
+   "checked": "The complete teaching contains no earlier topic. The line-graph review rehearses intercepts but does not require substituting a negative coordinate. The positive-coefficient inequality in p4-solve-node occurs after the opening review. Negative division has been removed from this finding: it is not used in the worked example, and the guided-practice responses explicitly explain reversal.",
+   "assumptions": "Algebraic isolation and signed substitution are prior knowledge, consistent with the separate algebra and Inequalities booklets. No calculator is assumed.",
    "repair": {
     "type": "add-review",
-    "proposal": "Add two short review items: 'Rearrange to make y the subject: a x+2y>6; b 3x+4y<=12.' Expected answers: a y>3-x/2; b y<=3-3x/4. These can fit alongside the existing review within one page."
+    "proposal": "Append three compact items to the existing review, keeping the complete review within one page: (a) Solve 3u + 2 > 14 [u > 4]. (b) Make y the subject of 4y > 12 - 2x [y > 3 - x/2]. (c) For (x,y) = (-4,4), evaluate 2x - 3 and decide whether y ≥ 2x - 3 [-11; yes]."
    },
-   "doneWhen": "The opening review checks inequality rearrangement before students follow the worked graphing example.",
+   "doneWhen": "The opening review checks positive-coefficient algebraic isolation and signed substitution before students use them to interpret graphical regions.",
    "from": [
     "c1"
    ],
@@ -39,32 +44,32 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:46:11.206Z"
+     "at": "2026-10-15T09:59:56.443Z"
     }
    ],
-   "commentId": "9755c820-9156-485f-aceb-3fecdb4717c6",
-   "postedAt": "2026-10-11T12:46:11.219Z"
+   "commentId": "859575b4-5097-430f-9893-8c9f3f74c5cb",
+   "postedAt": "2026-10-15T09:59:56.827Z"
   },
   {
-   "id": "pf-8c1974b07e",
+   "id": "pf-0be3088964",
    "kind": "variation-sequence",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p5-guided-block",
-     "blockId": "p5-guided-block",
-     "hash": "ba79ad14dcc3b98e226110d8e83f7a46f506e7246ea4c53d62ca33ace3508db1"
+     "id": "p7-q1",
+     "blockId": "p7-q1",
+     "hash": "4b311b53b55fa73af47d905b00f294cb54928dd702f67fa1e96ab0148e34ec0f"
     }
    ],
-   "finding": "Use a fixed boundary to compare equivalent inequalities, opposite half-planes and boundary inclusion.",
-   "breakdown": "The comparison makes students explain why an apparent change in inequality direction can preserve the region when both sides are negated.",
-   "checked": "All proposed regions are correct. p5 teaching and guided practice supply rearrangement, negative-division reversal, boundary inclusion and shading. The supplied practice does not contain this fixed-boundary comparison.",
-   "assumptions": "Students complete p5 guided practice before attempting the sequence.",
+   "finding": "Hold the boundary fixed while varying inequality direction and boundary inclusion.",
+   "breakdown": "The comparison separates which side to shade from whether the boundary is included.",
+   "checked": "The existing practice varies equations as well as inequality symbols; it contains no consecutive fixed-boundary comparison. All proposed sketches use methods taught on pages 4–6, and their stated answers are correct.",
+   "assumptions": "Sketches represent real coordinate pairs.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p5-guided-block, before multiple inequalities, ask: 'Before solving, predict which questions give the same region and which include the boundary. Sketch: 1 x+y>4; 2 -x-y<-4; 3 x+y<4; 4 x+y<=4.' All have boundary y=4-x. Questions 1 and 2 shade above a dotted boundary; 3 shades below a dotted boundary; 4 shades below a solid boundary. Each comparison changes one feature: equivalent sign reversal, required side, then inclusion. Follow with: 'Sketch 2x-3y>=6.' Expected: solid boundary y=(2/3)x-2, shading below."
+    "proposal": "After p7-q1-l, add the single instruction 'Predict what changes before each sketch.' Add further parts under the existing sketching instruction: (m) y > x + 4 [dotted; above]; (n) y < x + 4 [dotted; below]; (o) y ≤ x + 4 [solid; below]; (p) y ≥ x + 4 [solid; above]. Each boundary has intercepts (-4,0) and (0,4). The boundary stays fixed; each successive part changes either direction or inclusion. Follow with unpatterned part (q) y > 3 - 2x [dotted; above; intercepts (3/2,0) and (0,3)]."
    },
-   "doneWhen": "Students predict and explain the comparisons, then correctly graph the unpatterned inequality.",
+   "doneWhen": "The four fixed-boundary comparisons are followed by the unpatterned sketch.",
    "from": [
     "c2"
    ],
@@ -75,43 +80,11 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:46:11.206Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-bdaff1a276",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p13-q12",
-     "blockId": "p13-q12",
-     "hash": "7d831ea8db6a405e266902af9add83c6fa70e6b8e3d0ddd6c3ab51c03fcdabbe"
+     "at": "2026-10-15T09:59:56.443Z"
     }
    ],
-   "finding": "Ask students to distinguish the intersection of boundary lines from membership in a system's solution region.",
-   "breakdown": "A boundary intersection is a solution only if it satisfies every inequality; excluding that point need not make the region empty.",
-   "checked": "The three proposed systems and expected regions are mathematically correct over real coordinates. Point testing, strict and inclusive boundaries, and intersection of half-planes are supplied by p4–p6. No additional method is needed.",
-   "assumptions": "The task is optional after p13-q12.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "Task: 'The lines y=x and y=-x meet at (0,0). Describe each region and decide whether (0,0) belongs: a y>=x and y>=-x; b y>x and y>=-x; c y>=x and y<=-x. Explain your decisions and give another solution to each system.' Expected: a on or above both lines, including the origin; b above y=x and on or above y=-x, excluding the origin; c x<=y<=-x, possible only for x<=0, including both edges and the origin. Another solution to a and b is (0,1); another solution to c is (-1,0)."
-   },
-   "doneWhen": "Students justify origin membership by checking both inequalities and show that all three systems have other solutions.",
-   "from": [
-    "c3"
-   ],
-   "sequences": [
-    "linear-inequality-graphs"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:46:11.206Z"
-    }
-   ]
+   "commentId": "32185b69-2673-4247-8517-e0c1b715839c",
+   "postedAt": "2026-10-15T09:59:56.832Z"
   }
  ],
  "contextQuestions": [],
@@ -119,40 +92,27 @@
   {
    "sequence": "linear-inequality-graphs",
    "targets": [
-    "p4-pair-1-node",
-    "p4-pair-4-node"
+    "p6-unwanted-method-row",
+    "p6-required-method-row"
    ],
-   "observation": "At the same x-coordinate, changing y moves a point from above the boundary to below it and changes whether it satisfies the inequality.",
-   "varies": "y=3 versus y=-2",
-   "invariant": "x=1 and y>=2x-3"
+   "observation": "The same solution set is represented by unshaded space or by overlapping required shading.",
+   "varies": "Whether each shaded half-plane is required or unwanted.",
+   "invariant": "The inequalities, boundaries and final region R."
   },
   {
    "sequence": "linear-inequality-graphs",
    "targets": [
-    "p6-unwanted-method-row",
-    "p6-required-method-row"
+    "p3-linear-functions-a",
+    "p3-linear-functions-c"
    ],
-   "observation": "Shading unwanted half-planes and intersecting required half-planes identify the same solution set.",
-   "varies": "Shading convention",
-   "invariant": "x>-2 and y<=3"
+   "observation": "Changing the constant moves a vertical line without changing its orientation.",
+   "varies": "The fixed x coordinate.",
+   "invariant": "The form x = constant."
   }
  ],
- "notReliablyReviewed": [
-  {
-   "sequence": "linear-inequality-graphs",
-   "targets": [
-    "p12-q11-a-graph",
-    "p12-q11-b-graph",
-    "p14-q14-a-graph",
-    "p14-q14-b-graph",
-    "p14-q14-c-graph",
-    "p14-q14-d-graph"
-   ],
-   "reason": "Pages 12 and 14 were not attached. Their written diagram specifications support review of the task demands, but the visibility of the point labels and boundary styles could not be independently inspected."
-  }
- ],
- "reviewedRevision": 17,
- "reviewedAt": "2026-10-11T12:46:11.206Z",
+ "notReliablyReviewed": [],
+ "reviewedRevision": 19,
+ "reviewedAt": "2026-10-15T09:59:56.443Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -176,24 +136,42 @@
     "images": 8,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 63546,
+     "input_tokens": 63963,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4142,
-     "reasoning_output_tokens": 137
+     "output_tokens": 3923,
+     "reasoning_output_tokens": 90
     },
-    "elapsedMs": 118239,
+    "elapsedMs": 95830,
     "candidates": 1,
     "discarded": [],
     "suggestions": 2
    }
   ],
-  "dropped": [],
+  "dropped": [
+   {
+    "ids": [
+     "c3"
+    ],
+    "reason": "Part (e) asks students to enumerate every integer combination spending £19, which the extension standard excludes. Part (f) is a routine affordability check and does not develop the claimed relationship between parallel cost boundaries. The arithmetic is correct, but the proposed extension does not meet the stated threshold.",
+    "candidates": [
+     {
+      "id": "c3",
+      "sequence": "linear-inequality-graphs",
+      "kind": "extension",
+      "targets": [
+       "p15-q16-root"
+      ],
+      "finding": "Compare spending the whole budget with spending one pound less."
+     }
+    ]
+   }
+  ],
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/graph-regions-v1/candidates-low-1791722723871.json",
+  "candidateFile": ".booklet-work/pedagogy-review/graph-regions-v1/candidates-low-1792058347576.json",
   "errors": []
  },
- "postedRevision": 18
+ "postedRevision": 20
 }

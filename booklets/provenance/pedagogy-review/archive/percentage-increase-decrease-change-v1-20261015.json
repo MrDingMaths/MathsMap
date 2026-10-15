@@ -1,0 +1,338 @@
+{
+ "version": 1,
+ "projectId": "percentage-increase-decrease-change-v1",
+ "findings": [
+  {
+   "id": "pf-50e531f44a",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p28-q20-b",
+     "blockId": "p28-q20",
+     "hash": "1bc50500a5c429c28c66423bc51eacd4df3aa115c737f0093c029dbd4b511dc3"
+    },
+    {
+     "id": "p28-q20-c",
+     "blockId": "p28-q20",
+     "hash": "1bc50500a5c429c28c66423bc51eacd4df3aa115c737f0093c029dbd4b511dc3"
+    },
+    {
+     "id": "p28-q20-e",
+     "blockId": "p28-q20",
+     "hash": "1bc50500a5c429c28c66423bc51eacd4df3aa115c737f0093c029dbd4b511dc3"
+    },
+    {
+     "id": "p28-q20-f",
+     "blockId": "p28-q20",
+     "hash": "1bc50500a5c429c28c66423bc51eacd4df3aa115c737f0093c029dbd4b511dc3"
+    },
+    {
+     "id": "p29-q21-i",
+     "blockId": "p29-q21",
+     "hash": "3fc262141d9a9ae141878925fcc57bb5df3177d7b8f3552f90286e28b5349a56"
+    },
+    {
+     "id": "p29-q21-j",
+     "blockId": "p29-q21",
+     "hash": "3fc262141d9a9ae141878925fcc57bb5df3177d7b8f3552f90286e28b5349a56"
+    }
+   ],
+   "finding": "Recovering a whole from a specified nonunit fraction requires an inverse method that preceding instruction does not supply.",
+   "breakdown": "Knowing that 80% equals four fifths does not show how to recover the whole when four fifths equal 60. Students must divide by the numerator to recover one part, then multiply by the denominator. Multiplying only by the denominator gives the wrong result.",
+   "checked": "p6-method-block, p20-benchmark and p21-example model forward calculations. p28-q18 can be completed using unit fractions throughout. p28-q20 supplies a conversion hint but no inverse method. p29-q21-root subsequently models recovering a whole from one fifth only. The targeted questions require reversing nonunit fractions; their challenge status does not supply this missing method.",
+   "assumptions": "Mental calculation is intended. General fraction arithmetic may be prior knowledge, but the inverse percentage relationship is an untaught variant of the percentage methods developed here.",
+   "repair": {
+    "type": "add-teaching",
+    "proposal": "Before p28-q20-b, model: ‘80% of a number is 60. Since 80% = 4/5, four fifths are 60. One fifth is 60 ÷ 4 = 15, so the whole is 15 × 5 = 75.’"
+   },
+   "doneWhen": "Students see how to recover one fractional part and then the whole before the nonunit-fraction inverse tasks.",
+   "from": [
+    "c5"
+   ],
+   "sequences": [
+    "percentage-increase-decrease-change-v1-topic-5"
+   ],
+   "state": "withdrawn",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T10:40:24.198Z"
+    },
+    {
+     "state": "withdrawn",
+     "at": "2026-10-15T10:21:54.697Z",
+     "note": "Withdrawn before a fresh review."
+    }
+   ],
+   "commentId": "1d958c8d-2b4f-47c2-9b49-c9172e6d7bb8",
+   "postedAt": "2026-10-11T10:40:24.238Z"
+  },
+  {
+   "id": "pf-9f521c6839",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p23-q5-h",
+     "blockId": "p23-q5",
+     "hash": "6684a91d7495653e9d06a0284ecb917a1a3065e9420cf4efa1814bc0deac7ac0"
+    },
+    {
+     "id": "p25-q10-g",
+     "blockId": "p25-q10",
+     "hash": "d819b193f396ec025f0366d20ac1f68df15710b7bb6a914eb09309bff67d860a"
+    },
+    {
+     "id": "p26-q16-without-calculator-b",
+     "blockId": "p26-q16",
+     "hash": "80772a6133c8c11bd347bce159b7af94fcb620f0509083af18611fee57f6e523"
+    },
+    {
+     "id": "p27-q17-c3-a",
+     "blockId": "p27-q17",
+     "hash": "7c745c71a19d0168b9878b4613ba51bd659c9648572b886feff7aac647e823df"
+    }
+   ],
+   "finding": "Two standalone mental calculations repeat earlier complete tasks without an explicit retrieval or comparison purpose.",
+   "breakdown": "p25-q10-g repeats 5% of 80 from p23-q5-h, and p27-q17-c3-a repeats 16% of 25 from p26-q16-without-calculator-b. Neither later copy changes the mathematical task or states a purpose for repeating it.",
+   "checked": "Compared the complete tasks and their surrounding instructions. Excluded the 20%-of-45 comparison because p22-q2-e specifies alternative methods whereas p25-q10-b asks for an independent mental calculation. Retained p25-q10-d as the quarter-of-48 anchor for the adjacent three-quarters calculation, and p27-q17-c2-i as the anchor for the explicitly directed down-column comparison with 75% of 240. Removing these anchors would break their variation groups.",
+   "assumptions": "The surviving repeated calculations have no stated retrieval or comparison purpose.",
+   "repair": {
+    "type": "remove-question",
+    "proposal": "Remove p25-q10-g and p27-q17-c3-a, retaining p23-q5-h and p26-q16-without-calculator-b."
+   },
+   "doneWhen": "The two unnecessary later copies are removed while the surrounding variation groups remain intact.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "percentage-increase-decrease-change-v1-topic-5"
+   ],
+   "state": "withdrawn",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T10:40:24.198Z"
+    },
+    {
+     "state": "withdrawn",
+     "at": "2026-10-15T10:21:54.697Z",
+     "note": "Withdrawn before a fresh review."
+    }
+   ],
+   "commentId": "2ca14824-ba6b-4adc-a469-51b4b53b38d5",
+   "postedAt": "2026-10-11T10:40:24.254Z"
+  },
+  {
+   "id": "pf-6e8b416823",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p54-q10-g",
+     "blockId": "p54-q10",
+     "hash": "3a7f2d09a0d12273827abcf4a07d4965c2c2508c4c9332e233bfb15896f19639"
+    },
+    {
+     "id": "p54-q10-h",
+     "blockId": "p54-q10",
+     "hash": "3a7f2d09a0d12273827abcf4a07d4965c2c2508c4c9332e233bfb15896f19639"
+    }
+   ],
+   "finding": "Consecutive parts g and h repeat the complete task ‘Find 160% of 35’ without an explicit instructional purpose.",
+   "breakdown": "The stem, operation and values are unchanged. The second copy adds no comparison before part i asks students to increase 35 by 160%.",
+   "checked": "Compared both complete parts and the surrounding percentage-operation contrasts. No retrieval or comparison purpose is stated for the identical consecutive tasks.",
+   "assumptions": "Parts g and h are separate student tasks as supplied.",
+   "repair": {
+    "type": "remove-question",
+    "proposal": "Remove p54-q10-h and retain p54-q10-g."
+   },
+   "doneWhen": "‘Find 160% of 35’ appears once in p54-q10.",
+   "from": [
+    "c13"
+   ],
+   "sequences": [
+    "percentage-increase-decrease-change-v1-topic-10"
+   ],
+   "state": "withdrawn",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T10:40:24.198Z"
+    },
+    {
+     "state": "withdrawn",
+     "at": "2026-10-15T10:21:54.697Z",
+     "note": "Withdrawn before a fresh review."
+    }
+   ],
+   "commentId": "d6f9c674-8d90-48a2-8059-29a0f7999559",
+   "postedAt": "2026-10-11T10:40:24.257Z"
+  },
+  {
+   "id": "pf-82378c027a",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p9-q12-block",
+     "blockId": "p9-q12-block",
+     "hash": "e3719401485c69926ddedbfedbfcf7eed067fd8e49757ec6ddfcb18e0bfcf968"
+    }
+   ],
+   "finding": "Explain why reversing two successive percentage-of calculations preserves the final result.",
+   "breakdown": "This extends the multiplication structure used to calculate a percentage of a quantity.",
+   "checked": "The conversion and multiplication method is supplied by p6-method-block. Both orders give 72: 80 × 1.2 × 0.75 = 80 × 0.75 × 1.2. The general explanation uses the same method and commutative multiplication.",
+   "assumptions": "Use nonnegative starting quantities and percentage rates.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p9-q12-b, optionally ask: ‘Start with 80. Find 120% of it, then 75% of that result. Reverse the order. Predict whether the final results agree before calculating. Explain whether this holds for any nonnegative starting quantity and any two nonnegative percentages.’ Expected answer: both results are 72; both orders give Q × (a/100) × (b/100)."
+   },
+   "doneWhen": "The optional task includes a prediction, both calculations and an explanation using multiplication.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "percentage-increase-decrease-change-v1-topic-2"
+   ],
+   "state": "withdrawn",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T10:40:24.198Z"
+    },
+    {
+     "state": "withdrawn",
+     "at": "2026-10-15T10:21:54.697Z",
+     "note": "Withdrawn before a fresh review."
+    }
+   ],
+   "commentId": "3245c407-35d3-48c1-9905-fe666d163826",
+   "postedAt": "2026-10-11T10:40:24.268Z"
+  },
+  {
+   "id": "pf-a4fbdf9220",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p41-q22-response",
+     "blockId": "p41-q22",
+     "hash": "4a1b8d89bdb8fd532e115799c207f86d52c2970c964af1bc6bad7e4189454dce"
+    }
+   ],
+   "finding": "Explain when discounting a combined purchase agrees with discounting each item separately.",
+   "breakdown": "This extends the existing combined-purchase task and tests whether averaging unequal discount rates works.",
+   "checked": "The financial decrease methods are supplied by p37-example-header and p38-example. A common 15% discount gives $170 by either route. Separate discounts of 10% on $80 and 20% on $120 give $168.",
+   "assumptions": "Compare exact mathematical prices before any separate rounding to cents.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p41-q22-response, optionally ask: ‘Two items cost $80 and $120. Predict whether taking 15% off each separately gives the same total as taking 15% off their combined price, then check. Explain why this holds for any two prices with the same discount rate. Now take 10% off the $80 item and 20% off the $120 item. Is this equivalent to 15% off their total?’ Expected answer: the common-rate methods both give $170; their discount amounts add to 15% of the total. The unequal-rate calculation gives $168, so simply averaging the rates does not generally work."
+   },
+   "doneWhen": "Students explain the common-rate relationship and check the unequal-rate counterexample.",
+   "from": [
+    "c11"
+   ],
+   "sequences": [
+    "percentage-increase-decrease-change-v1-topic-8"
+   ],
+   "state": "withdrawn",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T10:40:24.198Z"
+    },
+    {
+     "state": "withdrawn",
+     "at": "2026-10-15T10:21:54.697Z",
+     "note": "Withdrawn before a fresh review."
+    }
+   ],
+   "commentId": "b3a6fa21-7ffc-4df0-a3ed-16f5fd1a12b3",
+   "postedAt": "2026-10-11T10:40:24.269Z"
+  },
+  {
+   "id": "pf-89fdbaff3b",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p54-q12",
+     "blockId": "p54-q12",
+     "hash": "d28059fc5139d756504872150c3be62cec44a93a3ebd1d7ce50886205d658fa8"
+    }
+   ],
+   "finding": "Generalise the percentage decrease needed to undo a percentage increase.",
+   "breakdown": "This extends the reversed-change comparisons by making the changed reference amount explicit.",
+   "checked": "p51-teaching supplies change divided by original. Returning from 120, 150 and 200 to 100 requires decreases of 16⅔%, 33⅓% and 50%. For p > 0, the required numerical percentage is 100p/(100 + p), which is less than p.",
+   "assumptions": "The initial increase p is positive.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p54-q12, optionally ask: ‘Start with 100. Increase it by 20%, then calculate the percentage decrease needed to return to 100. Repeat for increases of 50% and 100%. Explain why the return percentage is smaller. For an initial increase of p%, where p > 0, write an expression for the required decrease.’ Expected answers: 16⅔%, 33⅓% and 50%; the required decrease is [100p/(100 + p)]%. The same change is measured against a larger reference amount."
+   },
+   "doneWhen": "Students calculate the three return rates and explain the general expression using the larger reference amount.",
+   "from": [
+    "c14"
+   ],
+   "sequences": [
+    "percentage-increase-decrease-change-v1-topic-10"
+   ],
+   "state": "withdrawn",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T10:40:24.198Z"
+    },
+    {
+     "state": "withdrawn",
+     "at": "2026-10-15T10:21:54.697Z",
+     "note": "Withdrawn before a fresh review."
+    }
+   ],
+   "commentId": "aba78c15-28cf-4dbf-a73f-7fe5b1fb94b8",
+   "postedAt": "2026-10-11T10:40:24.272Z"
+  },
+  {
+   "id": "pf-37dee46504",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p60-q12",
+     "blockId": "p60-q12-block",
+     "hash": "f782736aafecee70db25f70da58b804d9e520467698ba61a384fa640acb9e543"
+    }
+   ],
+   "finding": "Hold monetary profit fixed while varying cost price to expose its effect on percentage profit.",
+   "breakdown": "The run separates equal dollar profits from equal percentage profits and isolates the denominator's effect.",
+   "checked": "p56-calculating supplies the required method. Profits of $20 on costs of $50, $100 and $200 give 40%, 20% and 10%. A profit of $28 on $80 gives 35%. The supplied comparison task changes both cost and monetary profit rather than isolating cost.",
+   "assumptions": "Percentage profit is measured against positive cost price.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p60-q12, optionally ask: ‘Before calculating, predict which sale has the greatest percentage profit and explain why. Calculate percentage profit for: (1) bought for $50, sold for $70; (2) bought for $100, sold for $120; (3) bought for $200, sold for $220. What stays fixed? What happens when cost price doubles?’ Expected answers: 40%, 20%, 10%; profit stays $20 and percentage profit halves. Follow with: ‘Bought for $80, sold for $108: calculate percentage profit.’ Expected answer: 35%."
+   },
+   "doneWhen": "The optional run includes prediction, three fixed-profit comparisons and the unpatterned follow-up.",
+   "from": [
+    "c15"
+   ],
+   "sequences": [
+    "percentage-increase-decrease-change-v1-topic-11"
+   ],
+   "state": "withdrawn",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T10:40:24.198Z"
+    },
+    {
+     "state": "withdrawn",
+     "at": "2026-10-15T10:21:54.697Z",
+     "note": "Withdrawn before a fresh review."
+    }
+   ],
+   "commentId": "a81927c2-0aec-402e-886c-aeb2fa05b228",
+   "postedAt": "2026-10-11T10:40:24.281Z"
+  }
+ ]
+}

@@ -5,17 +5,12 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-f67ec18f29",
+   "id": "pf-c8553565c4",
    "kind": "untested-distinction",
    "severity": "high",
    "targets": [
     {
-     "id": "p7-relation-example",
-     "blockId": "p7-relations-functions",
-     "hash": "96e4f54f594f2dec006c5539656f63463e7cd84824448ff1f23cdfeaf52b4cad"
-    },
-    {
-     "id": "p7-function-example",
+     "id": "p7-relations-functions",
      "blockId": "p7-relations-functions",
      "hash": "96e4f54f594f2dec006c5539656f63463e7cd84824448ff1f23cdfeaf52b4cad"
     },
@@ -30,17 +25,17 @@
      "hash": "bfffae30d289db16e4040f0d5bbb687e2fe3ff3caac5c840f14b39e4309711bd"
     }
    ],
-   "finding": "No teaching contrast tests whether every element of a stated input set has an output.",
-   "breakdown": "Students can use the incomplete rule 'no input has multiple outputs' and classify every supplied task correctly. The unmapped input in p7-relation-example is confounded with another input having two outputs.",
-   "checked": "Earlier relations teaching explicitly allows omitted inputs. All mapping diagrams classified as functions or non-functions in p7-identify and p8-q1 map every input at least once. The later 'at most one output' statements do not expose the missing condition for a function from a specified set.",
-   "assumptions": "The stated outcome requires exactly one output for every element of the specified first set.",
+   "finding": "The mapping examples never isolate the requirement that every element of the stated input set has an output.",
+   "breakdown": "The rule 'at most one outgoing arrow' classifies every mapping correctly here. The unused input 2 in p7-relation-example does not expose that incomplete rule because input 1 also branches.",
+   "checked": "Earlier relations teaching permits unused elements of the first set, but does not teach what changes for a function. In p7-identify and p8-q1, every non-function mapping has a branching input; none fails solely because an input has no output. The function example supplies no explicit contrast for this distinction.",
+   "assumptions": "The displayed left set is the stated input set, as required by the intended outcome's definition of a function.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p7-function-example add: 'Let X={1,2,3} and Y={5,6}. A relation has arrows 1→5 and 2→6, with no arrow from 3. Is it a function from X to Y? Explain.' Expected answer: No; input 3 has no output, whereas every element of X must have exactly one."
+    "proposal": "After p7-identify-d, add: 'Keep the input and output sets in d unchanged, but erase the arrow from d to 3. Is the resulting relation a function? Explain.' Expected answer: 'No. Input d has no output. Every element of the stated input set must have exactly one output.'"
    },
-   "doneWhen": "A supplied contrast isolates an unmapped element of the specified input set as the sole reason the relation is not a function from that set.",
+   "doneWhen": "A teaching question explicitly contrasts exactly one output per stated input with an otherwise identical mapping containing an input with no output.",
    "from": [
-    "c2"
+    "c1"
    ],
    "sequences": [
     "functions"
@@ -49,11 +44,11 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:43:25.371Z"
+     "at": "2026-10-15T09:54:46.779Z"
     }
    ],
-   "commentId": "198fd2fc-007e-45c0-8983-a34bca080e20",
-   "postedAt": "2026-10-11T12:43:25.389Z"
+   "commentId": "19d9c24e-ba64-4bd1-b0dc-eb26bdfa6cc2",
+   "postedAt": "2026-10-15T09:54:47.058Z"
   },
   {
    "id": "pf-ec1dc0cf17",
@@ -76,15 +71,51 @@
      "hash": "2fda7aa0629bc7e6e3bb28e21ba9ff0d42f82988d9cd060a1fa9b3f268348b0c"
     }
    ],
-   "finding": "The examples use unrehearsed symbolic expansion and equation-solving skills.",
-   "breakdown": "Following function notation requires students to expand a squared binomial, collect terms, rearrange equations, factorise a quadratic and obtain both zero-product solutions. These are substantial algebraic steps distinct from interpreting the notation.",
-   "checked": "p5-investigation-table-prompt rehearses simple substitution; the immediately preceding functions topic rehearses classification. Neither supplies expansion or equation-solving practice. p9 evaluates numerical inputs but does not rehearse these symbolic steps.",
-   "assumptions": "These algebraic methods are prior course knowledge, consistent with the other booklet titles. A calculator is not assumed to perform symbolic algebra.",
+   "finding": "The function-notation topic has no opening review of the binomial expansion, linear equation solving and quadratic factorisation used in its worked examples.",
+   "breakdown": "Students must expand an algebraic input and solve equations after substituting a specified output. Weak recall of these substantial algebraic methods can prevent them from following the new function-notation decisions.",
+   "checked": "The preceding functions topic and its exercise practise classification, not expansion or equation solving. Earlier relations teaching rehearses substitution only. The p10 worked examples combine expansion, linear solving and solving a quadratic by factorisation. Taking both square roots occurs in guided practice rather than a worked example, so it is excluded from this finding.",
+   "assumptions": "These algebraic methods were previously taught in the course's expansion and equation booklets. Ordinary calculator access does not supply the symbolic methods.",
    "repair": {
     "type": "add-review",
-    "proposal": "Immediately before p10-example-substitution ask: 'Expand and simplify: (a) 2(u+3); (b) (u+2)^2; (c) (u+1)^2+3(u+1).' Answers: 2u+6; u^2+4u+4; u^2+5u+4. Immediately before p10-example-solving ask: 'Solve: (a) 3u−4=11; (b) (u−4)(u+1)=0; (c) u^2−u−6=0.' Answers: 5; 4 or −1; 3 or −2. These six short items fit within one page."
+    "proposal": "Add three short opening review items: (a) Expand and simplify (x+2)^2+3(x+2). Answer: x^2+7x+10. (b) Solve 3x-4=11. Answer: x=5. (c) Solve x^2-3x-10=0 by factorising. Answer: (x-5)(x+2)=0, so x=5 or x=-2. Keep the review within one page."
    },
-   "doneWhen": "The teacher can check the algebra used directly in each example before students encounter it in function notation.",
+   "doneWhen": "The opening review rehearses binomial expansion, linear solving and solving a quadratic by factorisation before the p10 examples.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "function-notation"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:54:46.779Z"
+    }
+   ],
+   "commentId": "6456d1c2-6618-46d1-a0a9-d398e505fae7",
+   "postedAt": "2026-10-15T09:54:47.063Z"
+  },
+  {
+   "id": "pf-2a629b61d2",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p12-q7",
+     "blockId": "p12-q7",
+     "hash": "cda8795a2e92d3e46686c3f2dd029dd1e98b80f7b8e89d0e83acc2198b0cbebb"
+    }
+   ],
+   "finding": "Extend the quadratic function questions by connecting opposite inputs to a shared output and then choosing such an output.",
+   "breakdown": "The follow-up connects evaluation with finding all inputs for a specified output, using the existing function x^2+1.",
+   "checked": "For f(x)=x^2+1, f(4)=f(-4)=17 and f(a)=17 gives a=±4. Choosing output 26 gives inputs ±5. Evaluation and solving these equations are available by the end of the topic; no generalisation or enumeration is required.",
+   "assumptions": "Inputs are real, following the booklet's convention.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Add optional further parts to p12-q7, stating 'For parts i–m, use f(x)=x^2+1.' (i) Find f(4). Answer: 17. (j) Find f(-4). Answer: 17. (k) Find all a if f(a)=17. Answer: a=±4. (l) Choose a different output greater than 1. Example answer: 26. (m) Find all inputs that give your chosen output. For output 26, answer: ±5."
+   },
+   "doneWhen": "The optional follow-up asks one question per part and includes expected answers.",
    "from": [
     "c4"
    ],
@@ -95,158 +126,14 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:43:25.371Z"
+     "at": "2026-10-15T09:54:46.779Z"
     }
    ],
-   "commentId": "1b312a51-8d58-471c-9e9e-c46b69211605",
-   "postedAt": "2026-10-11T12:43:25.390Z"
+   "commentId": "6b36a16d-d01e-4830-92e9-ce490ffe218b",
+   "postedAt": "2026-10-15T09:54:47.068Z"
   },
   {
-   "id": "pf-4ae3001b48",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p15-q19",
-     "blockId": "p15-q19",
-     "hash": "f649846946ce44cf16638592522f90e13ee3efc0bce26f42172204b3ddd419b9"
-    }
-   ],
-   "finding": "Generalise when multiplying a linear function's input equals multiplying its output.",
-   "breakdown": "The task asks students to explain the constant-term discrepancy already exposed by the paired questions.",
-   "checked": "Expanding both expressions gives mka+b and mka+kb. Equality for every a is equivalent to b(1−k)=0. The required substitution, expansion and zero-product reasoning are available by this topic.",
-   "assumptions": "All parameters are real and g has its unrestricted real domain.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p15-q19 offer: 'Let g(x)=mx+b, with real parameters. Find g(ka) and kg(a). For which values of k and b are they equal for every real a? Explain.' Expected answer: mka+b and mka+kb; equality holds exactly when b=0 or k=1, for any m."
-   },
-   "doneWhen": "Students explain the general condition using the constant terms.",
-   "from": [
-    "c6"
-   ],
-   "sequences": [
-    "function-notation"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:43:25.371Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-3608a91e2b",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p20-q1-l",
-     "blockId": "p20-q1",
-     "hash": "9a89d633ef1b1a7af2502069ceda7e70727a8834936ce53ba29916563c51bbb8"
-    },
-    {
-     "id": "p21-p",
-     "blockId": "p20-q1",
-     "hash": "9a89d633ef1b1a7af2502069ceda7e70727a8834936ce53ba29916563c51bbb8"
-    }
-   ],
-   "finding": "Construct subsets of a circle that pass the vertical line test while retaining every original input.",
-   "breakdown": "Students explain the test through choosing outputs rather than recognising familiar graph shapes.",
-   "checked": "For the radius-2 circle, each input strictly between −2 and 2 has two points; each extreme input has one. Selecting exactly one point for each input gives a function. Upper and lower semicircles and mixed selections all satisfy the requirement.",
-   "assumptions": "No continuity requirement is imposed.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p21-u offer: 'Starting with the circle in p20-q1-l, retain points so the remaining relation is a function and every input from −2 to 2 is represented. Give two different choices. Must you retain the upper semicircle? Explain the rule for all possible choices.' Expected answer: Either semicircle works. More generally, retain exactly one of the two points for each −2<x<2 and retain (−2,0) and (2,0); upper and lower choices may be mixed."
-   },
-   "doneWhen": "Students justify their constructions by counting included outputs for each input.",
-   "from": [
-    "c8"
-   ],
-   "sequences": [
-    "vertical-line-test"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:43:25.371Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-eaa4fd4aad",
-   "kind": "missing-prerequisite",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p31-definition-block",
-     "blockId": "p31-definition-block",
-     "hash": "c2eb9957b9455cb4240ba85b9c96a87ecb20466f0824fe16723285d08ba25945"
-    },
-    {
-     "id": "p31-guided-a",
-     "blockId": "p31-guided-practice",
-     "hash": "a4e558ed2e3f631a94072c3111869fc5c3b5186c9dc3ceee1e4b238bd1f77cd5"
-    },
-    {
-     "id": "p32-q1-g",
-     "blockId": "p32-q1",
-     "hash": "cc10525648da70f93d5d6fee2ec65776e9ba2000898c1eacaacceb0cf1df4d69"
-    },
-    {
-     "id": "p32-q1-i",
-     "blockId": "p32-q1",
-     "hash": "cc10525648da70f93d5d6fee2ec65776e9ba2000898c1eacaacceb0cf1df4d69"
-    },
-    {
-     "id": "p32-q1-j",
-     "blockId": "p32-q1",
-     "hash": "cc10525648da70f93d5d6fee2ec65776e9ba2000898c1eacaacceb0cf1df4d69"
-    },
-    {
-     "id": "p32-q1-k",
-     "blockId": "p32-q1",
-     "hash": "cc10525648da70f93d5d6fee2ec65776e9ba2000898c1eacaacceb0cf1df4d69"
-    },
-    {
-     "id": "p33-n",
-     "blockId": "p32-q1",
-     "hash": "cc10525648da70f93d5d6fee2ec65776e9ba2000898c1eacaacceb0cf1df4d69"
-    },
-    {
-     "id": "p33-s",
-     "blockId": "p32-q1",
-     "hash": "cc10525648da70f93d5d6fee2ec65776e9ba2000898c1eacaacceb0cf1df4d69"
-    }
-   ],
-   "finding": "Definitions restrict domain and range to functions, but subsequent tasks require them for non-function relations.",
-   "breakdown": "Students who correctly recognise a right semicircle, vertical line or ellipse as not a function may conclude that the definitions do not apply. The projection method is available, but its wider scope is never stated before the first such task.",
-   "checked": "Earlier teaching explicitly distinguishes functions from other relations. p28-definition-block, p30-range-explanation and p31-definition-block define domain and range only for functions. p31-guided-a immediately requires both for a right semicircle; its responses perform the projections without explaining the scope extension.",
-   "assumptions": "Students apply the previously taught function/non-function distinction and the stated scope of the definitions.",
-   "repair": {
-    "type": "add-cue",
-    "proposal": "After p31-definition-block add: 'Domain and range also describe relations that are not functions. The same shadows on the x-axis and y-axis apply. The right semicircle below is not a function, but it still has a domain and a range.'"
-   },
-   "doneWhen": "Before p31-guided-a, students are explicitly told that the projection method applies to non-function relations.",
-   "from": [
-    "c13"
-   ],
-   "sequences": [
-    "domain-and-range"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:43:25.371Z"
-    }
-   ],
-   "commentId": "9696dec3-8dc4-4ece-99eb-b7a8798fb0cc",
-   "postedAt": "2026-10-11T12:43:25.394Z"
-  },
-  {
-   "id": "pf-c85e3ff6cc",
+   "id": "pf-0ff22641b4",
    "kind": "extension",
    "severity": "suggestion",
    "targets": [
@@ -254,29 +141,19 @@
      "id": "p32-q1-e",
      "blockId": "p32-q1",
      "hash": "cc10525648da70f93d5d6fee2ec65776e9ba2000898c1eacaacceb0cf1df4d69"
-    },
-    {
-     "id": "p32-q1-j",
-     "blockId": "p32-q1",
-     "hash": "cc10525648da70f93d5d6fee2ec65776e9ba2000898c1eacaacceb0cf1df4d69"
-    },
-    {
-     "id": "p32-q1-k",
-     "blockId": "p32-q1",
-     "hash": "cc10525648da70f93d5d6fee2ec65776e9ba2000898c1eacaacceb0cf1df4d69"
     }
    ],
-   "finding": "Explain why disconnected graph pieces need not give disconnected domains or ranges.",
-   "breakdown": "Students distinguish gaps between graph pieces from gaps in their axis projections.",
-   "checked": "The first proposed graph has domain [−2,2] and range [0,2]∪[3,5]. The proposed second pair of segments is disjoint, with domain and range both [−2,2]. Only taught projection and union methods are needed.",
-   "assumptions": "Both segments include their endpoints; the graph may be a non-function relation.",
+   "finding": "Connect the two existing segments and reconsider the domain and range.",
+   "breakdown": "The added segment fills the gaps in both projections, connecting the graph's continuity across those gaps with its domain and range.",
+   "checked": "The original segments run from closed (-3,-1) to open (-1,1), and from closed (1,2) to closed (3,3). Adding the closed segment from (-1,1) to (1,2) gives domain [-3,3] and range [-1,3]. The projection and interval methods are already taught.",
+   "assumptions": "The added segment includes both joining points, making (-1,1) included in the resulting graph.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p33-u offer: 'A graph consists of two disconnected closed line segments: A joins (−2,0) to (2,2), and B joins (−2,3) to (2,5). Find its domain and range. Explain why only one needs a union. Then give endpoints for two disconnected closed segments whose domain and range are both single intervals.' Expected answer: domain [−2,2]; range [0,2]∪[3,5], because the horizontal projections overlap but the vertical projections have a gap. A valid second example joins (−2,0) to (0,2), and (0,0) to (2,−2); both projections are [−2,2]."
+    "proposal": "Add an optional follow-up to p32-q1-e: 'Add a straight segment joining (-1,1) to (1,2), including both joining points.' (i) What is the domain of the resulting graph? Answer: [-3,3]. (ii) What is its range? Answer: [-1,3]."
    },
-   "doneWhen": "Students explain connected projections independently of whether the graph pieces meet.",
+   "doneWhen": "Both follow-up parts refer to the modified graph and have the stated domain and range.",
    "from": [
-    "c14"
+    "c5"
    ],
    "sequences": [
     "domain-and-range"
@@ -285,23 +162,34 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:43:25.371Z"
+     "at": "2026-10-15T09:54:46.779Z"
     }
-   ]
+   ],
+   "commentId": "5df1a05e-8ce6-4ba0-9924-5a51646cc603",
+   "postedAt": "2026-10-15T09:54:47.073Z"
   }
  ],
- "contextQuestions": [],
+ "contextQuestions": [
+  {
+   "sequence": "domain-and-range",
+   "targets": [
+    "p28-domain-choice-response",
+    "p30-range-response-5",
+    "p33-u"
+   ],
+   "question": "Have students already learned to interpret the marked vertical and horizontal asymptotes in these graphs, including that the particular branches approach those boundaries without attaining them? The supplied teaching does not explain this, and the other booklet titles do not establish whether it has been taught. If it is new, these tasks need a short explanation before students use the boundaries to exclude inputs or outputs."
+  }
+ ],
  "protectedGroups": [
   {
-   "sequence": "relations",
+   "sequence": "functions",
    "targets": [
-    "p3-demonstration-2",
-    "p3-demonstration-3",
-    "p3-demonstration-4"
+    "p8-q1-m",
+    "p8-q1-n"
    ],
-   "observation": "Relations may omit elements and associate one input with more than one output.",
-   "varies": "Coverage of X and repetition of a first coordinate.",
-   "invariant": "The given sets and the coordinate-membership requirement."
+   "observation": "A constant output permits a function, whereas a constant input paired with every real output does not.",
+   "varies": "Which coordinate is fixed.",
+   "invariant": "An ordered-pair description with one fixed coordinate and the other ranging over all real numbers."
   },
   {
    "sequence": "relations",
@@ -310,9 +198,9 @@
     "p6-q2-b",
     "p6-q2-c"
    ],
-   "observation": "Increasing the strict threshold removes pairs from the relation.",
-   "varies": "The offset in b>a+k, from zero to one to two.",
-   "invariant": "Both finite sets and the direction of comparison."
+   "observation": "Increasing the lower threshold removes pairs from the relation.",
+   "varies": "The added constant in b>a, b>a+1 and b>a+2.",
+   "invariant": "The sets A and B, coordinate order and strict comparison."
   },
   {
    "sequence": "relations",
@@ -320,19 +208,20 @@
     "p6-q2-d",
     "p6-q2-e"
    ],
-   "observation": "Allowing equality adds precisely the available equal-coordinate pairs.",
-   "varies": "Strict versus inclusive comparison.",
-   "invariant": "Both finite sets and the less-than direction."
+   "observation": "Allowing equality adds the available equal-coordinate pair.",
+   "varies": "Strict versus inclusive inequality.",
+   "invariant": "The sets A and B and the direction of comparison."
   },
   {
-   "sequence": "function-notation",
+   "sequence": "relations",
    "targets": [
-    "p11-q3",
-    "p11-q4"
+    "p6-q1-a",
+    "p6-q1-b",
+    "p6-q1-c"
    ],
-   "observation": "The same inputs produce different behaviour for cubic and exponential rules, especially at zero and negative inputs.",
-   "varies": "Function rule.",
-   "invariant": "Inputs 2, 0 and -2, and their order."
+   "observation": "A relation may omit an available input or associate one input with multiple outputs.",
+   "varies": "Coverage and repetition of first coordinates.",
+   "invariant": "The specified sets and valid membership of every coordinate."
   },
   {
    "sequence": "function-notation",
@@ -341,9 +230,9 @@
     "p12-q7-d",
     "p12-q7-e"
    ],
-   "observation": "A fixed quadratic rule can have two, one or no real inputs for a specified output.",
-   "varies": "Target output.",
-   "invariant": "f(x)=x^2+1."
+   "observation": "One quadratic rule can give two, one or no real inputs for different specified outputs.",
+   "varies": "The requested output: 10, 1 and 0.",
+   "invariant": "The rule f(x)=x^2+1 and the instruction to find all inputs."
   },
   {
    "sequence": "function-notation",
@@ -352,19 +241,20 @@
     "p12-q8-d",
     "p12-q8-e"
    ],
-   "observation": "Changing the constant shifts whether a fixed output has two, one or no real preimages.",
-   "varies": "Constant term.",
-   "invariant": "Squared input term and target output 5."
+   "observation": "Changing the constant term changes how many real inputs produce the fixed output.",
+   "varies": "The constant term: 1, 5 and 6.",
+   "invariant": "The squared input, target output 5 and requirement to find all real inputs."
   },
   {
    "sequence": "function-notation",
    "targets": [
-    "p15-q19-a",
-    "p15-q19-b"
+    "p15-q18-a",
+    "p15-q18-b",
+    "p15-q18-c"
    ],
-   "observation": "Multiplying the input and multiplying the output affect the constant term differently.",
-   "varies": "Multiplier 2 or 3.",
-   "invariant": "g(x)=4x+1 and comparison of g(ka) with kg(a)."
+   "observation": "Subtracting from an output differs from subtracting from an input across different rules.",
+   "varies": "The function rule.",
+   "invariant": "The paired requests f(t)-2 and f(t-2)."
   },
   {
    "sequence": "function-notation",
@@ -373,9 +263,9 @@
     "p16-q21-c",
     "p16-q21-d"
    ],
-   "observation": "Adding a constant preserves equality at opposite inputs, whereas adding a linear term breaks it.",
-   "varies": "Additional term in the quadratic rule.",
-   "invariant": "Comparison f(-x)=f(x)."
+   "observation": "Adding a constant preserves the equality at opposite inputs, while adding a linear term can destroy it.",
+   "varies": "The additional term in the square function.",
+   "invariant": "The claim f(-x)=f(x) and the method of simplifying both sides."
   },
   {
    "sequence": "vertical-line-test",
@@ -385,9 +275,9 @@
     "p20-q1-c",
     "p20-q1-d"
    ],
-   "observation": "Repeated outputs are allowed; repeated inputs with different outputs cause failure.",
-   "varies": "Whether input positions or output heights repeat.",
-   "invariant": "Classification of six isolated points by the vertical line test."
+   "observation": "Repeated outputs are permitted; repeated inputs with different outputs are not.",
+   "varies": "Whether points share horizontal or vertical coordinates.",
+   "invariant": "Six isolated points classified using the vertical line test."
   },
   {
    "sequence": "vertical-line-test",
@@ -395,9 +285,9 @@
     "p20-q1-i",
     "p20-q1-j"
    ],
-   "observation": "Vertical alignment matters even without numerical coordinate labels.",
-   "varies": "Whether two points share a horizontal position.",
-   "invariant": "Four isolated points on unnumbered Cartesian axes."
+   "observation": "Vertical alignment, rather than the number of points or their quadrants, determines failure.",
+   "varies": "Whether two points share an input.",
+   "invariant": "Four isolated points on unscaled Cartesian axes."
   },
   {
    "sequence": "vertical-line-test",
@@ -405,19 +295,40 @@
     "p21-t",
     "p21-u"
    ],
-   "observation": "A vertical line fails the test, whereas a horizontal line passes.",
-   "varies": "The orientation of the relation.",
-   "invariant": "A complete straight-line relation tested using vertical lines."
+   "observation": "A vertical line has many outputs for one input; a horizontal line has one output for each input.",
+   "varies": "Line orientation and its labelled intercept.",
+   "invariant": "A complete straight-line relation classified using the same test."
+  },
+  {
+   "sequence": "function-notation-and-graphs",
+   "targets": [
+    "p22-left-a",
+    "p22-left-f"
+   ],
+   "observation": "The same point can be read from a specified input or a specified output.",
+   "varies": "Which coordinate is supplied and which must be found.",
+   "invariant": "The graph and the point (0,-2)."
+  },
+  {
+   "sequence": "function-notation-and-graphs",
+   "targets": [
+    "p23-q1-c-ii",
+    "p23-q1-c-iv"
+   ],
+   "observation": "Two inputs can share an output at both zero and nonzero output levels.",
+   "varies": "The specified output.",
+   "invariant": "The parabola and the need to find both intersections."
   },
   {
    "sequence": "function-notation-and-graphs",
    "targets": [
     "p24-q5-b-2",
-    "p24-q5-b-3"
+    "p24-q5-b-3",
+    "p24-q5-b-4"
    ],
-   "observation": "Evaluating at an input and finding an input from an output traverse the same correspondence in opposite directions.",
-   "varies": "Which member of the pair is given.",
-   "invariant": "The table and the correspondence between input 1 and output -2."
+   "observation": "Reading a correspondence backwards may return one input or several.",
+   "varies": "The reading direction and the requested output.",
+   "invariant": "The table and its input-output correspondences."
   },
   {
    "sequence": "function-notation-and-graphs",
@@ -426,9 +337,9 @@
     "p24-q6-b-3",
     "p24-q6-b-4"
    ],
-   "observation": "A specified output can have one, zero or two corresponding inputs even when the original mapping is a function.",
-   "varies": "The requested output and its number of incoming arrows.",
-   "invariant": "The mapping diagram and the instruction to find x from f(x)."
+   "observation": "A specified output can have one input, no input or two inputs without contradicting the definition of a function.",
+   "varies": "The requested output and number of incoming arrows.",
+   "invariant": "The mapping diagram and the instruction to find x."
   },
   {
    "sequence": "interval-notation",
@@ -436,9 +347,9 @@
     "p26-q2",
     "p26-q3"
    ],
-   "observation": "Changing only the upper bracket changes whether the upper endpoint belongs to the interval.",
-   "varies": "The upper endpoint bracket: ] then ).",
-   "invariant": "Endpoint values, lower bracket and the three candidate inequalities."
+   "observation": "Changing the upper bracket changes only whether the upper endpoint belongs to the interval.",
+   "varies": "Upper-endpoint inclusion.",
+   "invariant": "Bounds 2 and 4, lower-endpoint inclusion and the offered inequality choices."
   },
   {
    "sequence": "domain-and-range",
@@ -447,19 +358,41 @@
     "p32-q1-b",
     "p32-q1-c"
    ],
-   "observation": "Endpoint inclusion and continuation change the domain and range notation while preserving the direction and initial coordinate of the graph.",
-   "varies": "The lower endpoint changes from closed to open, then the upper finite endpoint is replaced by continuation.",
-   "invariant": "Increasing straight graph with lower boundary coordinate (-2,-1); a and b also retain the same upper coordinate."
+   "observation": "An open endpoint excludes the corresponding boundary values; continuation replaces a finite bound with infinity.",
+   "varies": "The lower endpoint changes from closed to open, then the upper endpoint becomes indefinite continuation.",
+   "invariant": "Increasing straight graphs with the same lower boundary coordinates; the first two also share the same upper boundary coordinates."
   },
   {
    "sequence": "domain-and-range",
    "targets": [
-    "p31-definition-domain-content",
-    "p31-definition-range-content"
+    "p30-range-response-1",
+    "p30-range-response-2"
    ],
-   "observation": "The same graph has different horizontal and vertical projections.",
-   "varies": "The axis receiving the shadow.",
-   "invariant": "The complete curve and its coordinates."
+   "observation": "The same lower output bound can be included or excluded.",
+   "varies": "Whether output 2 is attained.",
+   "invariant": "Every output above 2 occurs, without an upper bound."
+  },
+  {
+   "sequence": "domain-and-range",
+   "targets": [
+    "p30-range-response-2",
+    "p30-range-response-3",
+    "p30-range-response-4"
+   ],
+   "observation": "An open point excludes its output from the range only when that output is not attained elsewhere.",
+   "varies": "Whether the open point's output occurs elsewhere and whether it bounds the outputs.",
+   "invariant": "Range is determined by all attained outputs, rather than by endpoint markers alone."
+  },
+  {
+   "sequence": "natural-domain-and-range",
+   "targets": [
+    "p35-q1-a",
+    "p35-q1-b",
+    "p35-q1-c"
+   ],
+   "observation": "Changing the constant inside a root changes the domain boundary.",
+   "varies": "Internal additive constant.",
+   "invariant": "Square-root form and non-negative-radicand condition."
   },
   {
    "sequence": "natural-domain-and-range",
@@ -468,9 +401,9 @@
     "p36-q4-g",
     "p36-q4-h"
    ],
-   "observation": "Changing a non-zero constant numerator or the sign outside a reciprocal leaves its natural domain unchanged.",
-   "varies": "Numerator magnitude and outside sign.",
-   "invariant": "Denominator 6x−4 and excluded input x=2/3."
+   "observation": "Changing a non-zero constant numerator or its sign does not change the denominator exclusion.",
+   "varies": "Numerator magnitude and external sign.",
+   "invariant": "Denominator 6x−4."
   },
   {
    "sequence": "natural-domain-and-range",
@@ -479,9 +412,9 @@
     "p36-q4-o",
     "p36-q4-p"
    ],
-   "observation": "Outside scaling and negation leave a square-root function's domain unchanged.",
-   "varies": "Outside multiplier.",
-   "invariant": "Radicand 8x−3 and domain x≥3/8."
+   "observation": "External scaling and reflection leave the root's domain unchanged.",
+   "varies": "External multiplier.",
+   "invariant": "Radicand 8x−3."
   },
   {
    "sequence": "natural-domain-and-range",
@@ -489,29 +422,20 @@
     "p36-q4-t",
     "p36-q4-u"
    ],
-   "observation": "Changing the numerator does not change the strict input restriction from a denominator root.",
-   "varies": "Constant numerator.",
-   "invariant": "Denominator √(5x+1) and domain x>−1/5."
+   "observation": "Changing the numerator does not change a reciprocal root's domain.",
+   "varies": "Positive numerator.",
+   "invariant": "Denominator √(5x+1)."
   },
   {
    "sequence": "natural-domain-and-range",
    "targets": [
+    "p36-q4-v",
     "p36-q4-w",
     "p36-q4-x"
    ],
-   "observation": "Negating the entire function does not change its domain.",
-   "varies": "Outside sign.",
-   "invariant": "Denominator √(1−5x) and domain x<1/5."
-  },
-  {
-   "sequence": "natural-domain-and-range",
-   "targets": [
-    "p37-q7-b-ii",
-    "p37-q7-b-iii"
-   ],
-   "observation": "The outside constant determines the minimum of an upward-opening vertex-form quadratic.",
-   "varies": "Vertical translation.",
-   "invariant": "Squared expression (x−2)² and upward opening."
+   "observation": "Reversing the radicand's sign reverses the allowed side of the boundary; changing the external sign does not.",
+   "varies": "Internal sign, then external sign.",
+   "invariant": "Boundary value 1/5 and reciprocal-root structure."
   },
   {
    "sequence": "natural-domain-and-range",
@@ -520,9 +444,9 @@
     "p38-q8-c",
     "p38-q8-d"
    ],
-   "observation": "An inside shift and then positive outside scaling leave the minimum output unchanged.",
-   "varies": "First the radicand shift, then the positive multiplier.",
-   "invariant": "Outside addition of 3 and range y≥3."
+   "observation": "A horizontal shift and positive scaling leave the translated root's minimum output unchanged.",
+   "varies": "Horizontal shift, then positive multiplier.",
+   "invariant": "Vertical translation +3 and upward root orientation."
   },
   {
    "sequence": "natural-domain-and-range",
@@ -530,9 +454,9 @@
     "p38-q8-e",
     "p38-q8-f"
    ],
-   "observation": "Increasing the magnitude of negative scaling does not change the maximum output.",
-   "varies": "Magnitude of the negative square-root coefficient.",
-   "invariant": "Radicand x−4, outside constant 5 and range y≤5."
+   "observation": "Positive scaling of the subtracted root leaves the maximum output unchanged.",
+   "varies": "Root multiplier.",
+   "invariant": "Radicand x−4 and upper bound 5."
   },
   {
    "sequence": "natural-domain-and-range",
@@ -542,29 +466,31 @@
     "p38-q9-d",
     "p38-q9-e"
    ],
-   "observation": "Positive scaling preserves a minimum; changing its sign makes the same outside constant a maximum; an inside shift preserves that maximum.",
-   "varies": "One coefficient or inside shift at each step.",
-   "invariant": "Outside constant 4 and the non-negative squared component."
+   "observation": "Positive scaling preserves a minimum, reflection changes it to a maximum, and a horizontal shift preserves that output bound.",
+   "varies": "Multiplier, sign, then horizontal shift.",
+   "invariant": "Vertical constant 4 and a squared term."
   },
   {
    "sequence": "natural-domain-and-range",
    "targets": [
     "p38-q10-b",
-    "p38-q10-c"
+    "p38-q10-c",
+    "p38-q10-d",
+    "p38-q10-e"
    ],
-   "observation": "Non-zero reciprocal scaling leaves the excluded output determined by the outside constant.",
-   "varies": "Reciprocal numerator.",
-   "invariant": "Outside addition of 2 and excluded output y=2."
+   "observation": "The vertical translation determines the omitted output; non-zero scaling and horizontal translation preserve it.",
+   "varies": "Numerator, vertical translation, then denominator translation.",
+   "invariant": "A non-zero constant reciprocal term over a linear denominator."
   },
   {
    "sequence": "natural-domain-and-range",
    "targets": [
-    "p38-q10-d",
-    "p38-q10-e"
+    "p39-q12-a",
+    "p39-q12-b"
    ],
-   "observation": "Shifting a linear denominator changes the excluded input but leaves the excluded output unchanged.",
-   "varies": "Inside shift of the denominator.",
-   "invariant": "Numerator 4, outside subtraction of 3 and range y≠−3."
+   "observation": "Moving the numerator root's boundary leaves the denominator exclusion unchanged.",
+   "varies": "Radicand translation.",
+   "invariant": "Denominator x−2."
   },
   {
    "sequence": "natural-domain-and-range",
@@ -572,9 +498,9 @@
     "p39-q12-c",
     "p39-q12-d"
    ],
-   "observation": "Changing the second radicand's constant changes only the upper domain endpoint.",
-   "varies": "Constant in the decreasing radicand.",
-   "invariant": "First root √(x+1), lower endpoint −1 and inclusive endpoints."
+   "observation": "Changing the decreasing radicand changes only the upper endpoint of the common domain.",
+   "varies": "Constant in the second radicand.",
+   "invariant": "First radicand x+1 and two-root sum."
   },
   {
    "sequence": "natural-domain-and-range",
@@ -582,14 +508,14 @@
     "p39-q12-i",
     "p39-q12-j"
    ],
-   "observation": "Moving the denominator zero moves the hole while preserving the root's lower bound.",
+   "observation": "Changing the linear denominator moves the excluded point without moving the root boundary.",
    "varies": "Denominator constant.",
-   "invariant": "Numerator √(x+3) and lower domain endpoint −3."
+   "invariant": "Numerator √(x+3)."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 4,
- "reviewedAt": "2026-10-11T12:43:25.371Z",
+ "reviewedRevision": 9,
+ "reviewedAt": "2026-10-15T09:54:46.779Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -613,16 +539,16 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 33100,
+     "input_tokens": 33517,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3653,
-     "reasoning_output_tokens": 306
+     "output_tokens": 3097,
+     "reasoning_output_tokens": 109
     },
-    "elapsedMs": 98695,
+    "elapsedMs": 141098,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "functions",
@@ -631,16 +557,16 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 31324,
-     "cached_input_tokens": 12544,
+     "input_tokens": 31741,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2339,
-     "reasoning_output_tokens": 77
+     "output_tokens": 2195,
+     "reasoning_output_tokens": 139
     },
-    "elapsedMs": 63876,
+    "elapsedMs": 110364,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "function-notation",
@@ -649,13 +575,13 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 39784,
+     "input_tokens": 40201,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4755,
-     "reasoning_output_tokens": 165
+     "output_tokens": 4495,
+     "reasoning_output_tokens": 172
     },
-    "elapsedMs": 123721,
+    "elapsedMs": 158573,
     "candidates": 2,
     "discarded": [],
     "suggestions": 1
@@ -667,16 +593,16 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 39359,
+     "input_tokens": 39776,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2702,
-     "reasoning_output_tokens": 168
+     "output_tokens": 2225,
+     "reasoning_output_tokens": 136
     },
-    "elapsedMs": 82860,
+    "elapsedMs": 102028,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 0
    },
    {
     "id": "function-notation-and-graphs",
@@ -685,16 +611,16 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 38913,
-     "cached_input_tokens": 12544,
+     "input_tokens": 39340,
+     "cached_input_tokens": 0,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3022,
-     "reasoning_output_tokens": 114
+     "output_tokens": 3029,
+     "reasoning_output_tokens": 179
     },
-    "elapsedMs": 79095,
+    "elapsedMs": 106814,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "zeroes-and-f-zero",
@@ -703,16 +629,16 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 30707,
-     "cached_input_tokens": 12544,
+     "input_tokens": 31124,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1330,
-     "reasoning_output_tokens": 135
+     "output_tokens": 885,
+     "reasoning_output_tokens": 67
     },
-    "elapsedMs": 43853,
+    "elapsedMs": 44533,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "interval-notation",
@@ -721,16 +647,16 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 40538,
-     "cached_input_tokens": 14592,
+     "input_tokens": 40955,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2544,
-     "reasoning_output_tokens": 80
+     "output_tokens": 2175,
+     "reasoning_output_tokens": 96
     },
-    "elapsedMs": 70395,
+    "elapsedMs": 55798,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "domain-and-range",
@@ -739,14 +665,14 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 55019,
+     "input_tokens": 55436,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4833,
-     "reasoning_output_tokens": 117
+     "output_tokens": 4231,
+     "reasoning_output_tokens": 246
     },
-    "elapsedMs": 129721,
-    "candidates": 2,
+    "elapsedMs": 107393,
+    "candidates": 0,
     "discarded": [],
     "suggestions": 1
    },
@@ -757,189 +683,33 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 37867,
+     "input_tokens": 39067,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 6898,
-     "reasoning_output_tokens": 465
+     "output_tokens": 3436,
+     "reasoning_output_tokens": 452
     },
-    "elapsedMs": 184047,
-    "candidates": 1,
+    "elapsedMs": 98783,
+    "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    }
   ],
   "dropped": [
    {
     "ids": [
-     "c1"
-    ],
-    "reason": "The mathematics is correct: the empty relation has zero pairs and the complete relation has twelve. Dropped under the four-suggestion limit; the retained tasks more directly develop the booklet's central distinctions.",
-    "candidates": [
-     {
-      "id": "c1",
-      "sequence": "relations",
-      "kind": "extension",
-      "targets": [
-       "p6-q3"
-      ],
-      "finding": "Find the smallest and largest possible relations between two fixed finite sets."
-     }
-    ]
-   },
-   {
-    "ids": [
      "c3"
     ],
-    "reason": "The four listed functions and the count of nine are correct and use available methods. Dropped under the four-suggestion limit in favour of tasks more closely tied to existing comparisons and graph interpretation.",
+    "reason": "The existing annotation explicitly identifies f(x) as the output. Thus 2f(-1) applies ordinary multiplication to an already defined numerical output; it does not require an untaught mathematical method. This single added operation does not meet the unsupported-transition threshold, and p15-q19 subsequently tests the input/output distinction explicitly.",
     "candidates": [
      {
       "id": "c3",
-      "sequence": "functions",
-      "kind": "extension",
-      "targets": [
-       "p8-q1"
-      ],
-      "finding": "Count and explain all functions between two small fixed sets."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c5"
-    ],
-    "reason": "The intentional-challenge and preceding-preparation checks defeat the claimed jump. p16-q21-g/h and p18-q25-c/d/f progressively require reciprocal arguments, nested fractions and cancellation inside rational rules before the final parameterised challenge. The proposed cue is correct, but no high-severity breakdown beyond the intended algebraic challenge is established.",
-    "candidates": [
-     {
-      "id": "c5",
       "sequence": "function-notation",
-      "kind": "difficulty-jump",
+      "kind": "unsupported-transition",
       "targets": [
-       "p18-q25-g"
+       "p9-d"
       ],
-      "finding": "This part jumps from reciprocal arguments to a parameterised rational argument inside a rational rule without an intermediate organisation cue."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c7"
-    ],
-    "reason": "All proposed classifications are correct when no larger input set is specified. Dropped under the four-suggestion limit; p19-c and p21-q/r already provide substantial practice interpreting complementary open and closed endpoints.",
-    "candidates": [
-     {
-      "id": "c7",
-      "sequence": "vertical-line-test",
-      "kind": "variation-sequence",
-      "targets": [
-       "p19-c"
-      ],
-      "finding": "Vary only the inclusion of the two endpoints at the shared boundary."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c9"
-    ],
-    "reason": "Reversal gives two outputs for input 3, and deleting either specified arrow repairs it on input set {1,2,3}. The task is mathematically valid, but falls outside the four retained suggestions.",
-    "candidates": [
-     {
-      "id": "c9",
-      "sequence": "function-notation-and-graphs",
-      "kind": "extension",
-      "targets": [
-       "p24-q6-b"
-      ],
-      "finding": "Reverse the familiar mapping and explain when the reversed arrows define a function."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c10"
-    ],
-    "reason": "Both expected conclusions and the counterexample are correct. Dropped under the four-suggestion limit; it is a shorter consequence of the explicit definitions than the retained generalisations.",
-    "candidates": [
-     {
-      "id": "c10",
-      "sequence": "zeroes-and-f-zero",
-      "kind": "extension",
-      "targets": [
-       "p25-key-ideas-block"
-      ],
-      "finding": "Explore when the two uses of zero describe the same point."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c11"
-    ],
-    "reason": "The endpoint conditions are correct: only A omits 2, and at least one interval must include the shared boundary. Dropped under the four-suggestion limit in favour of the broader projection extension.",
-    "candidates": [
-     {
-      "id": "c11",
-      "sequence": "interval-notation",
-      "kind": "extension",
-      "targets": [
-       "p27-q1"
-      ],
-      "finding": "Investigate when two intervals meeting at the same boundary include every real number."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c12"
-    ],
-    "reason": "The existing-teaching check defeats the claim that exclusion is unexplained throughout the investigation. The supplied response to p28-domain-choice-response explicitly excludes the asymptote, p29-union-choice models excluded boundaries with open projection markers, and the p30-range-response-5 teaching response explicitly says neither branch reaches y=0. In this teacher-led investigation, the proposed cues substantially repeat supplied teaching responses.",
-    "candidates": [
-     {
-      "id": "c12",
-      "sequence": "domain-and-range",
-      "kind": "missing-prerequisite",
-      "targets": [
-       "p28-domain-choice-response",
-       "p28-domain-match-bottom-left-response",
-       "p30-range-response-5"
-      ],
-      "finding": "Students must interpret asymptotic boundaries as values approached but not attained before any supplied teaching explains that behaviour."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c15"
-    ],
-    "reason": "The substantial-prerequisite check defeats this opening-review finding. The worked examples only translate x−2≠0 to x≠2 and x−1≥0 to x≥1, single additive shifts below the substantial algebraic demand claimed. Negative-coefficient inequality solving occurs later in guided practice, not in these worked examples, so it cannot justify the proposed opening review.",
-    "candidates": [
-     {
-      "id": "c15",
-      "sequence": "natural-domain-and-range",
-      "kind": "opening-review",
-      "targets": [
-       "p34-example-left",
-       "p34-example-right"
-      ],
-      "finding": "The topic's examples immediately require solving linear equations and inequalities, but no opening review rehearses those algebraic steps."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c16"
-    ],
-    "reason": "The proposed domains, ranges and attainment conditions are correct for real b and a≥0, and p40-q13 supplies the needed reciprocal-range reasoning. Dropped under the four-suggestion limit; the retained suggestions offer more distinct opportunities across the booklet.",
-    "candidates": [
-     {
-      "id": "c16",
-      "sequence": "natural-domain-and-range",
-      "kind": "extension",
-      "targets": [
-       "p40-q13"
-      ],
-      "finding": "Generalise when a reciprocal square-root function has an attained maximum."
+      "finding": "The first operation outside function notation is introduced without explaining that the multiplier acts on the output."
      }
     ]
    }
@@ -947,8 +717,8 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/function-notation-domain-and-range-v1/candidates-low-1791722491703.json",
+  "candidateFile": ".booklet-work/pedagogy-review/function-notation-domain-and-range-v1/candidates-low-1792058027891.json",
   "errors": []
  },
- "postedRevision": 5
+ "postedRevision": 10
 }

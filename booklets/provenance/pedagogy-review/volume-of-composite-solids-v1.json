@@ -5,25 +5,25 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-98cdb3cc9a",
-   "kind": "variation-sequence",
+   "id": "pf-01add54f4b",
+   "kind": "extension",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p6-q3-f",
-     "blockId": "p6-q3-block",
-     "hash": "86ce29d34225816993d58668b2ee26043cf4f86caf381aecc85787ad359b9242"
+     "id": "p8-q10",
+     "blockId": "p8-q10-block",
+     "hash": "42782af3111d10912d9ac0cfc8d323f33cbdbec160f4616faefe019d7dfbf968"
     }
    ],
-   "finding": "Vary wall thickness while holding a hollow cylinder's outer radius and length fixed.",
-   "breakdown": "The sequence distinguishes wall thickness from inner radius and tests whether equal increases in thickness produce equal increases in material volume.",
-   "checked": "Using V = π[R² − (R − t)²]L, the three volumes are 90π, 160π and 210π cm³. Successive increases are 70π and 50π cm³. The follow-up has inner radius 3 cm and outer radius 5 cm, giving 128π cm³. All radii are positive. Cylinder volume is rehearsed in p3-q1-e, subtraction is taught in p4-definition-block, and hollow cylinders appear in p6-q3-a and p6-q3-f.",
-   "assumptions": "Students use the taught subtraction method; no algebraic generalisation is required.",
+   "finding": "Extend the tunnel question to compare doubling its length with doubling its concrete thickness.",
+   "breakdown": "The follow-up exposes how length and shell thickness affect concrete volume differently, using the existing tunnel dimensions.",
+   "checked": "The diagram specifies an open semicircular shell without a floor slab. The review rehearses semicylinder volume, and p4-definition-block teaches subtracting component volumes. With inner radius 3 m, the proposed volumes are ½π(4²−3²)×40 = 140π and ½π(5²−3²)×20 = 160π cubic metres; their difference is 20π cubic metres. All proposed rounded answers are correct.",
+   "assumptions": "A calculator is available for rounding to three decimal places. Thickness remains radial, and the internal width remains 6 m.",
    "repair": {
     "type": "add-question",
-    "proposal": "Immediately after p6-q3-f: 'Before calculating, predict whether each extra centimetre of wall thickness adds the same material volume. Find the material volume of pipes with outer radius 5 cm and length 10 cm, whose wall thicknesses are (a) 1 cm, (b) 2 cm, (c) 3 cm. Compare successive increases and explain your prediction.' Expected volumes: 90π, 160π and 210π cm³; increases: 70π and 50π cm³. Outer radius and length stay fixed; thickness varies. Follow with: 'A pipe has inner diameter 6 cm, wall thickness 2 cm and length 8 cm. Find its material volume.' Expected answer: 128π cm³."
+    "proposal": "Retain the existing p8-q10 task as part (a), then append: (b) How much concrete is needed if the tunnel is 40 m long, with the same internal width and 1 m thickness? Answer: 140π ≈ 439.823 m³. (c) How much concrete is needed for the original 20 m tunnel if the thickness is increased to 2 m, keeping the same internal width? Answer: 160π ≈ 502.655 m³. (d) Which change uses more concrete? Answer: increasing the thickness to 2 m. (e) How much more concrete does that change use than the other change? Answer: 20π ≈ 62.832 m³. Round volumes to 3 decimal places."
    },
-   "doneWhen": "The optional sequence includes prediction, three thickness variations, comparison of volume increases and the unpatterned follow-up.",
+   "doneWhen": "The follow-up preserves the open-shell geometry and internal width, separates each question into its own part, and includes the verified expected answers.",
    "from": [
     "c2"
    ],
@@ -34,50 +34,42 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T13:29:19.264Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-db8280e2fd",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p9-q13",
-     "blockId": "p9-q13",
-     "hash": "6c8f3ace9bb05dfe0512212852617ee9b554c2274251e6ba1fbe34a36f2ce7df"
+     "at": "2026-10-15T11:00:06.350Z"
     }
    ],
-   "finding": "Explain why two different decompositions of the same stepped prism give the same volume.",
-   "breakdown": "The task returns to the introductory stepped prism and asks students to justify why different valid splits preserve its volume.",
-   "checked": "Both expressions simplify to L[aH + Wh − ah]. With 0 < a < W, 0 < h < H and L > 0, both decompositions contain positive component dimensions and cover the solid exactly once. The geometric explanation uses the decomposition and addition method taught in p4-definition-block and p4-example-block.",
-   "assumptions": "Symbolic expansion is prior algebra knowledge supported by the course's separate algebra booklets; students can also justify equality geometrically.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "Optional early-finisher task after p9-q13: 'A stepped prism has total cross-section width W, left width a, left height H, right height h and length L, where 0 < a < W, 0 < h < H and L > 0. Split it into two side-by-side rectangular prisms, then into a full-width lower prism and an upper-left prism. Write both volume expressions and explain why they agree.' Expected answer: L[aH + (W − a)h] and L[Wh + a(H − h)] both simplify to L[aH + Wh − ah]. Both splits cover the same solid without gaps or overlap."
-   },
-   "doneWhen": "The optional task specifies valid dimensions and includes both volume expressions and an explanation of their equality.",
-   "from": [
-    "c3"
-   ],
-   "sequences": [
-    "volume-composite"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T13:29:19.264Z"
-    }
-   ]
+   "commentId": "569cc40c-938b-472c-ba9f-2c9bd532aa57",
+   "postedAt": "2026-10-15T11:00:06.493Z"
   }
  ],
  "contextQuestions": [],
- "protectedGroups": [],
+ "protectedGroups": [
+  {
+   "sequence": "volume-composite",
+   "targets": [
+    "p7-q6-a",
+    "p7-q6-b",
+    "p7-q6-c"
+   ],
+   "observation": "Connects composite cross-sectional area, prism volume and capacity using one pool.",
+   "varies": "The requested quantity and its units.",
+   "invariant": "The pool dimensions and the results carried forward."
+  },
+  {
+   "sequence": "volume-composite",
+   "targets": [
+    "p8-q8-a",
+    "p8-q8-b",
+    "p8-q8-c",
+    "p8-q8-d"
+   ],
+   "observation": "Establishes sector-prism volume before incorporating a sector into a composite cross-section.",
+   "varies": "Sector angle, dimensions and orientation, followed by an added rectangular component.",
+   "invariant": "Sector area multiplied by the uniform prism length."
+  }
+ ],
  "notReliablyReviewed": [],
- "reviewedRevision": 3,
- "reviewedAt": "2026-10-11T13:29:19.264Z",
+ "reviewedRevision": 6,
+ "reviewedAt": "2026-10-15T11:00:06.350Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -101,16 +93,16 @@
     "images": 7,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 51348,
-     "cached_input_tokens": 12544,
+     "input_tokens": 51765,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4384,
-     "reasoning_output_tokens": 221
+     "output_tokens": 4556,
+     "reasoning_output_tokens": 353
     },
-    "elapsedMs": 118973,
+    "elapsedMs": 108039,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    }
   ],
   "dropped": [
@@ -118,7 +110,7 @@
     "ids": [
      "c1"
     ],
-    "reason": "The supplied question and solution diagram specifications for both introductory examples give two component widths of 7 m. This defeats the claim that the substituted second width has no shown origin: a labelled length used unchanged is explicitly exempt under the standard. The supplied evidence therefore does not establish the alleged unwritten decision.",
+    "reason": "The supplied question and solution diagram specifications for both examples explicitly give two component widths of 7 m. This defeats the claim that the working substitutes an unlabelled width: its origin is supplied directly by the diagrams, so a subtraction cue is not required under the stated standard.",
     "candidates": [
      {
       "id": "c1",
@@ -128,7 +120,7 @@
        "p4-example-left",
        "p4-example-right"
       ],
-      "finding": "Both introductory examples substitute an unlabelled second width of 7 m without showing that it comes from 14−7."
+      "finding": "Both introductory examples substitute 7 m for the shorter component's width without showing how it follows from the overall width and the labelled component width."
      }
     ]
    }
@@ -136,7 +128,8 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/volume-of-composite-solids-v1/candidates-low-1791725318160.json",
+  "candidateFile": ".booklet-work/pedagogy-review/volume-of-composite-solids-v1/candidates-low-1792061984667.json",
   "errors": []
- }
+ },
+ "postedRevision": 7
 }

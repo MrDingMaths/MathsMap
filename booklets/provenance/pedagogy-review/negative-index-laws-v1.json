@@ -5,25 +5,40 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-82eeb82c92",
-   "kind": "extension",
-   "severity": "suggestion",
+   "id": "pf-5097c20b27",
+   "kind": "duplicate-question",
+   "severity": "high",
    "targets": [
     {
-     "id": "p6-q5",
-     "blockId": "p6-q5",
-     "hash": "c358f361babe621771e68a2e588df4b34f0744d7f4d9ec0530b6868530be4018"
+     "id": "p4-q1-b",
+     "blockId": "p4-q1",
+     "hash": "a0d547294b237f54d3820647e5324a78f3dce2755916a5b578e89013db8b285a"
+    },
+    {
+     "id": "p5-q4-b",
+     "blockId": "p5-q4",
+     "hash": "4f2e9dc873ec1391014b8e20bcb0d30c80e64f41ba0138acd42fbbb372ede04b"
+    },
+    {
+     "id": "p5-q4-c",
+     "blockId": "p5-q4",
+     "hash": "4f2e9dc873ec1391014b8e20bcb0d30c80e64f41ba0138acd42fbbb372ede04b"
+    },
+    {
+     "id": "p5-q4-d",
+     "blockId": "p5-q4",
+     "hash": "4f2e9dc873ec1391014b8e20bcb0d30c80e64f41ba0138acd42fbbb372ede04b"
     }
    ],
-   "finding": "Generalise when moving a coefficient inside negatively powered brackets leaves the expression unchanged.",
-   "breakdown": "The task extends the coefficient-scope distinction explored in p6-q5.",
-   "checked": "For nonzero c and x, equality reduces to c^(n+1)=1. Over the reals, c=1 always works; c=-1 also works precisely when n is odd. This can be explained using reciprocal rules, repeated multiplication and parity.",
-   "assumptions": "n is a positive integer; c and x are nonzero real numbers.",
+   "finding": "p4-q1-b and p5-q4-b repeat the same complete conversion task, a^{-4}, without an explicit retrieval or comparison purpose.",
+   "breakdown": "The later copy changes neither the expression nor the required decision. Its replacement must preserve the deliberate progression from a^{-4} to 2a^{-4} to (2a)^{-4}.",
+   "checked": "Compared both complete instructions and expressions, the earlier p3-positive-indices-part-c, and the neighbouring practice. The initial teaching occurrence supplies preparation, but no explicit purpose is stated for repeating the independent exercise task.",
+   "assumptions": "Variables with negative indices are nonzero. Calculator availability does not affect this finding.",
    "repair": {
-    "type": "add-question",
-    "proposal": "After p6-q5, offer: 'For a positive integer n, which nonzero real values of c make cx^(-n)=(cx)^(-n) for every nonzero x? Explain using positive and negative values of c.' Expected answer: c=1 for every n; c=-1 also works when n is odd. Cancelling x^(-n) gives c^(n+1)=1; a positive c other than 1 has a power different from 1, and a negative c must have magnitude 1 and an even exponent n+1."
+    "type": "change-values",
+    "proposal": "Change p5-q4-b, c and d together to a^{-6}, 2a^{-6} and (2a)^{-6}. Answers: 1/a^6, 2/a^6 and 1/(64a^6), respectively. This replaces the later duplicate while preserving the coefficient-and-brackets comparison."
    },
-   "doneWhen": "The optional task includes the nonzero real domain and the parity-dependent answer.",
+   "doneWhen": "The later duplicate has different values and parts b–d retain their deliberate comparison.",
    "from": [
     "c1"
    ],
@@ -34,9 +49,47 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T13:08:53.499Z"
+     "at": "2026-10-15T10:21:52.299Z"
     }
-   ]
+   ],
+   "commentId": "d496d782-b285-4163-91cc-1fba56cd38dc",
+   "postedAt": "2026-10-15T10:21:52.599Z"
+  },
+  {
+   "id": "pf-6eff21d8fc",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p5-q4-d",
+     "blockId": "p5-q4",
+     "hash": "4f2e9dc873ec1391014b8e20bcb0d30c80e64f41ba0138acd42fbbb372ede04b"
+    }
+   ],
+   "finding": "Extend the coefficient-and-brackets comparison by evaluating the neighbouring expressions at the same value of a.",
+   "breakdown": "Numerical substitution makes the effect of including the coefficient in the powered base visible.",
+   "checked": "For the proposed revised exponent −6, at a=2 the values are 2/2^6=1/32 and 1/4^6=1/4096; their ratio is 128. Substitution and the required index operations use prior knowledge and this topic's practice.",
+   "assumptions": "This wording incorporates the duplicate repair to p5-q4-b–d.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Immediately after p5-q4-d, add optional follow-up parts: (i) Find 2a^{-6} when a=2. Answer: 1/32. (ii) Find (2a)^{-6} when a=2. Answer: 1/4096. (iii) How many times as large is the first value as the second? Answer: 128."
+   },
+   "doneWhen": "Each numerical comparison is a separate follow-up part using the revised question's expressions.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "negative-index-variables"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:21:52.299Z"
+    }
+   ],
+   "commentId": "a890dbcc-6b85-4c6c-a058-bd249d4c56ee",
+   "postedAt": "2026-10-15T10:21:52.603Z"
   },
   {
    "id": "pf-15dc07b0af",
@@ -54,56 +107,15 @@
      "hash": "081e69a00b04f3260a06b07f475e7d6d8d8f47b0b4368f57611973f8f19c2750"
     }
    ],
-   "finding": "p8-q2-v repeats the whole task in p7-practice-e without an explicit instructional purpose.",
-   "breakdown": "Both require expressing 7/(x^(-4)y^3) using positive indices, with identical values, factors and givens.",
-   "checked": "Compared both complete tasks and their enclosing prompts. Neither supplies a retrieval or comparison purpose; there are no differing parts or diagrams.",
-   "assumptions": "The supplied order is the intended booklet sequence.",
+   "finding": "p8-q2-v repeats the complete conversion task 7/(x^{-4}y^3) from p7-practice-e without an explicit retrieval or comparison purpose.",
+   "breakdown": "Both prompts require the same conversion of the same expression; no values, givens or decisions change.",
+   "checked": "Compared the complete expressions, surrounding instructions and teaching roles. The move from the identify block to the exercise does not state a specific retrieval or comparison purpose for this unchanged task.",
+   "assumptions": "Both tasks are used in booklet order, with x and y nonzero.",
    "repair": {
-    "type": "remove-question",
-    "proposal": "Remove p8-q2-v and retain p7-practice-e. Keep the distinct neighbouring p8-q2-w."
+    "type": "change-values",
+    "proposal": "Replace p8-q2-v with 9/(x^{-5}y^2). Answer: 9x^5/y^2."
    },
-   "doneWhen": "The unchanged task appears once.",
-   "from": [
-    "c2"
-   ],
-   "sequences": [
-    "negative-index-denominator"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T13:08:53.499Z"
-    }
-   ],
-   "commentId": "d1ac8b80-de61-4589-86a8-082b401d36d8",
-   "postedAt": "2026-10-11T13:08:53.511Z"
-  },
-  {
-   "id": "pf-16db1f6a3e",
-   "kind": "variation-sequence",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p8-q1",
-     "blockId": "p8-q1",
-     "hash": "454e51251cd8e24f0830f94aa601fa59eaaa890e18675edcab325b866e1bfa82"
-    },
-    {
-     "id": "p8-q2",
-     "blockId": "p8-q2",
-     "hash": "081e69a00b04f3260a06b07f475e7d6d8d8f47b0b4368f57611973f8f19c2750"
-    }
-   ],
-   "finding": "Compare which denominator factors move when the placement of negative indices changes.",
-   "breakdown": "The sequence isolates the distinction between a negatively powered factor and its neighbouring coefficient.",
-   "checked": "All proposed conversions are correct for nonzero variables. Each successive item changes the sign of one factor's index. Existing p8-q2 practice varies several features rather than providing this fixed-factor comparison.",
-   "assumptions": "x, a and b are nonzero.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "Between p8-q1 and p8-q2, ask: 'Before simplifying each expression, predict which factors will remain in the denominator.' Use 1/(3x^2), 1/(3x^(-2)), 1/(3^(-1)x^(-2)), 1/(3^(-1)x^2). Expected answers: 1/(3x^2), x^2/3, 3x^2, 3/x^2. The factors and index magnitudes stay fixed; one index sign changes at each step. Follow with the unpatterned item 5/(2a^(-3)b^2), giving 5a^3/(2b^2)."
-   },
-   "doneWhen": "The optional sequence includes predictions, the four controlled variations and the unpatterned follow-up.",
+   "doneWhen": "The later task retains the same structure with different numbers and the corresponding answer.",
    "from": [
     "c3"
    ],
@@ -114,9 +126,11 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T13:08:53.499Z"
+     "at": "2026-10-15T10:21:52.299Z"
     }
-   ]
+   ],
+   "commentId": "e0d1f688-4452-4004-98f0-93d8c1a886d4",
+   "postedAt": "2026-10-15T10:21:52.604Z"
   },
   {
    "id": "pf-4bb12c1fb0",
@@ -134,15 +148,51 @@
      "hash": "a8a0a434337c441b51fd6e5096fba18665eaf3e6490fa80abc14d60ea2f4fd70"
     }
    ],
-   "finding": "The reciprocal topic does not rehearse the positive quotient-power rule used directly in its second worked example.",
-   "breakdown": "Following (y/x)^3=y^3/x^3 requires recalling that an outer power applies to both numerator and denominator. A student who recalls inversion alone may power only one entry.",
-   "checked": "Searched all supplied teaching and the immediately preceding denominator exercise. Neither provides a review of positive quotient powers. p6-q5 addresses a powered product, while p9-law-block states the combined rule without rehearsing this prior component.",
-   "assumptions": "Positive quotient powers are prior knowledge from the separate Index Laws course content. These symbolic review items do not require a calculator.",
+   "finding": "The reciprocal topic lacks a review of applying a positive outer power to both numerator and denominator, although its second worked example uses that prior law directly.",
+   "breakdown": "The transition from (y/x)^3 to y^3/x^3 requires recall of the quotient-power law. The new reciprocal identity incorporates that law without separately rehearsing it.",
+   "checked": "Searched all supplied preceding teaching and practice. Earlier practice includes powers of products, but the immediately preceding denominator topic does not rehearse powers of quotients. The positive quotient-power step is substantial and is used directly in p9-example-right-item.",
+   "assumptions": "Positive index laws are prior knowledge from the course's Index Laws content. Calculator availability is immaterial.",
    "repair": {
     "type": "add-review",
-    "proposal": "Before p9-law-block, add: 'Write without brackets: (a/b)^2; (x/y)^3; (2/t)^2.' Expected answers: a^2/b^2; x^3/y^3; 4/t^2. Denominators are nonzero."
+    "proposal": "Before p9-law-block, add: 'Simplify: (a) (x/y)^2; (b) (a/b)^3; (c) (m/n)^4.' Answers: x^2/y^2, a^3/b^3 and m^4/n^4. Keep the review within one page."
    },
-   "doneWhen": "Students rehearse applying a positive outer power to both entries of a quotient before p9-example-right-item.",
+   "doneWhen": "Students rehearse distributing a positive power across a quotient before the reciprocal examples.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "negative-index-reciprocal"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:21:52.299Z"
+    }
+   ],
+   "commentId": "dba8a1c2-75e0-4712-941a-8cca0a045dd7",
+   "postedAt": "2026-10-15T10:21:52.606Z"
+  },
+  {
+   "id": "pf-5bda70d18c",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p10-q1",
+     "blockId": "p10-q1",
+     "hash": "2ad8112c6fa8370887db7abe8c05394568079ab16da0f450ab69a87bcfbb7e23"
+    }
+   ],
+   "finding": "Add a fixed-base sequence that isolates the effect of changing the magnitude of a negative exponent.",
+   "breakdown": "Existing practice changes bases alongside exponents; the proposed run exposes successive powers of the reciprocal.",
+   "checked": "All five answers are correct. The numerical bases are nonzero, and p9 teaches the complete method. Repeating p10-q1-i within this run has an explicit comparison purpose.",
+   "assumptions": "The added run remains optional practice under the existing instruction.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append to p10-q1 the single instruction 'Predict how each answer will change before simplifying.' Add (u) (2/3)^{-1}, answer 3/2; (v) (2/3)^{-2}, answer 9/4; (w) (2/3)^{-3}, answer 27/8; (x) (2/3)^{-4}, answer 81/16; then the unpatterned item (y) (3/5)^{-2}, answer 25/9. The run holds the base fixed and varies only the exponent."
+   },
+   "doneWhen": "The four fixed-base parts and one unpatterned follow-up appear under the existing question instruction, with only the prediction line added.",
    "from": [
     "c5"
    ],
@@ -153,53 +203,14 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T13:08:53.499Z"
+     "at": "2026-10-15T10:21:52.299Z"
     }
    ],
-   "commentId": "b2e3aa6d-c815-4118-8bac-906ef379b790",
-   "postedAt": "2026-10-11T13:08:53.511Z"
+   "commentId": "6abc9cc5-79b5-4ef8-9e7f-e4ffc7f80426",
+   "postedAt": "2026-10-15T10:21:52.609Z"
   },
   {
-   "id": "pf-4423feacb6",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p10-q1-i",
-     "blockId": "p10-q1",
-     "hash": "2ad8112c6fa8370887db7abe8c05394568079ab16da0f450ab69a87bcfbb7e23"
-    },
-    {
-     "id": "p10-q1-j",
-     "blockId": "p10-q1",
-     "hash": "2ad8112c6fa8370887db7abe8c05394568079ab16da0f450ab69a87bcfbb7e23"
-    }
-   ],
-   "finding": "Explain why reciprocal bases raised to the same negative integer power produce reciprocal results.",
-   "breakdown": "This generalises the existing adjacent comparison in p10-q1-i and p10-q1-j.",
-   "checked": "For nonzero a and b, the expressions become b^n/a^n and a^n/b^n, whose product is 1. The reciprocal and quotient-power methods are explicitly available in p9 teaching.",
-   "assumptions": "a and b are nonzero; n is a positive integer.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p10-q1-j, offer: 'The answers to (2/3)^(-2) and (3/2)^(-2) are reciprocals. Explain why (a/b)^(-n) and (b/a)^(-n) give reciprocal results for every positive integer n, when a and b are nonzero.' Expected answer: they equal b^n/a^n and a^n/b^n, so their product is 1."
-   },
-   "doneWhen": "The optional task retains the existing adjacent comparison and asks students to explain the general relationship.",
-   "from": [
-    "c7"
-   ],
-   "sequences": [
-    "negative-index-reciprocal"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T13:08:53.499Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-1d1ed3a79b",
+   "id": "pf-7127965224",
    "kind": "difficulty-jump",
    "severity": "high",
    "targets": [
@@ -209,27 +220,32 @@
      "hash": "7ac2ca215632df97052f3488336c9f4a7bcf2ebd71e3b73c6fc488f49105d355"
     },
     {
-     "id": "p14-q11-a",
-     "blockId": "p14-q11",
-     "hash": "aefafb75c15093782095e591a1f41b4aa4ae10d05249f64cc97bcdba5f0aed98"
+     "id": "p11-q2-q",
+     "blockId": "p11-q2",
+     "hash": "7ac2ca215632df97052f3488336c9f4a7bcf2ebd71e3b73c6fc488f49105d355"
     },
     {
-     "id": "p14-q12-a",
-     "blockId": "p14-q12",
-     "hash": "00fdb1f416bad7d9b8483d273eb08f34ebae7a722acddca67d79588107aa7f1a"
+     "id": "p11-q2-r",
+     "blockId": "p11-q2",
+     "hash": "7ac2ca215632df97052f3488336c9f4a7bcf2ebd71e3b73c6fc488f49105d355"
+    },
+    {
+     "id": "p12-q4",
+     "blockId": "p12-q4",
+     "hash": "00278a8a794070e6cf74b15b96fcbdef360c2259972a4842ff2b9b3347c4677f"
     }
    ],
-   "finding": "p11-q2-p jumps from separately practised operations to combining two powered products with a negative outer power and powered coefficients.",
-   "breakdown": "Students must distribute two outer powers, reciprocate a coefficient, multiply signed indices and combine corresponding factors. No preceding item combines these demands; p11-q2-o is a routine single-variable quotient.",
-   "checked": "p6-q5 models one positively powered product; p9-guided-e-node handles one negatively powered quotient; p11-q2-e and f handle single powered products. These supply individual methods but do not bridge their simultaneous coordination. Although p concludes the exercise's harder closing run, the preceding routine items do not build towards that combined demand. Later p14-q11-a and p14-q12-a supply simpler combinations.",
-   "assumptions": "Students know positive-index laws and signed arithmetic. Calculator availability does not affect the identified coordination demand.",
+   "finding": "The closing group p11-q2-p–r moves sharply from routine single expressions to combining two powered products before the booklet's existing intermediate practice.",
+   "breakdown": "At p11-q2-p, students must distribute two outer powers across coefficients and two variables, handle a negative outer power, and combine the results. Earlier questions practise these components separately; p12-q4 provides intermediate combinations only afterwards.",
+   "checked": "Compared the full preceding teaching, p9 guided practice, p10-q1, p11-q2-a–o and p12-q4. The component methods are available, so this is a coordination jump rather than missing teaching. Being the closing group does not supply the intermediate demand that p12-q4 already offers.",
+   "assumptions": "Ordinary index laws and signed arithmetic are prior knowledge. The issue does not depend on calculator availability.",
    "repair": {
     "type": "reorder",
-    "proposal": "Move p14-q11-a and then p14-q12-a immediately before p11-q2-p, removing their original occurrences. Retain their prompts: (a^3b^2)^3 × (a^2b^4)^(-1), followed by (3a^2b^(-2))^3 × (2a^4)^(-2). The first introduces combining two powered products with unit coefficients; the second adds powered numerical coefficients and a negative outer power of magnitude greater than one."
+    "proposal": "Move p11-q2-p, p11-q2-q and p11-q2-r together to immediately after p12-q4-r. Preserve their order and the shared-expression comparison between p and r."
    },
-   "doneWhen": "Students encounter the two existing intermediate combinations before p11-q2-p, without duplicating them.",
+   "doneWhen": "The existing intermediate powered-expression practice precedes the three combined applications.",
    "from": [
-    "c8"
+    "c6"
    ],
    "sequences": [
     "mixed-practice"
@@ -238,34 +254,34 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T13:08:53.499Z"
+     "at": "2026-10-15T10:21:52.299Z"
     }
    ],
-   "commentId": "f4ccd5c1-8837-4f0c-aceb-6c62b21261ab",
-   "postedAt": "2026-10-11T13:08:53.512Z"
+   "commentId": "855e4aa5-b73e-4fcb-9041-091aac8fdddc",
+   "postedAt": "2026-10-15T10:21:52.610Z"
   },
   {
-   "id": "pf-c95bf15b21",
+   "id": "pf-b432c6261b",
    "kind": "extension",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p13-q10-root",
+     "id": "p13-q10",
      "blockId": "p13-q10",
      "hash": "30b605948b19139c405f49b3c99e024cceac1a90720144d6038d8fc92a5f7fb0"
     }
    ],
-   "finding": "Generalise evaluation from a known fourth power to positive and negative multiples of four.",
-   "breakdown": "The task connects p13-q10's power-of-a-power reasoning with the booklet's reciprocal law.",
-   "checked": "x^4=3 guarantees x is nonzero. Consequently x^12=27, x^(-8)=1/9 and x^(4n)=3^n for every integer n, including zero. No choice between the possible real values of x is needed.",
-   "assumptions": "x is real and satisfies x^4=3; n is an integer.",
+   "finding": "Extend the given-power task to reciprocal powers without requiring students to find x.",
+   "breakdown": "The follow-up connects x^4=3 directly to the booklet's negative-index relationship.",
+   "checked": "Since x^4=3, x is nonzero, x^{-4}=1/3, x^{-8}=1/9 and x^8x^{-8}=1. These values hold for either real solution of x^4=3 and require only methods available by this topic.",
+   "assumptions": "Use the existing given x^4=3 throughout.",
    "repair": {
     "type": "add-question",
-    "proposal": "Immediately after p13-q10, offer: 'If x^4=3, find x^12 and x^(-8) without finding x. Then write a rule for x^(4n), where n is any integer, and explain why it works for negative n.' Expected answers: 27, 1/9 and x^(4n)=3^n. For n=-k with k positive, x^(-4k)=1/(x^4)^k=1/3^k; for n=0, the value is 1."
+    "proposal": "After p13-q10-d, add (e) Find x^{-4}. Answer: 1/3. (f) Find x^{-8}. Answer: 1/9. (g) Find x^8 × x^{-8}. Answer: 1."
    },
-   "doneWhen": "The optional task includes the general rule and explanations for negative and zero indices.",
+   "doneWhen": "The three separate follow-up parts retain the original given and have the stated answers.",
    "from": [
-    "c9"
+    "c7"
    ],
    "sequences": [
     "mixed-practice"
@@ -274,77 +290,25 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T13:08:53.499Z"
+     "at": "2026-10-15T10:21:52.299Z"
     }
-   ]
+   ],
+   "commentId": "a928487a-3a79-4d01-bf27-7004f9fc3cb0",
+   "postedAt": "2026-10-15T10:21:52.611Z"
   }
  ],
  "contextQuestions": [],
  "protectedGroups": [
   {
-   "sequence": "negative-index-variables",
+   "sequence": "negative-index-denominator",
    "targets": [
-    "p4-q1-e",
-    "p4-q1-f"
+    "p7-example-1",
+    "p7-example-2",
+    "p7-example-3"
    ],
-   "observation": "Brackets determine whether the coefficient is reciprocated and powered.",
-   "varies": "Whether 2 belongs to the powered base.",
-   "invariant": "Variable x and exponent −2."
-  },
-  {
-   "sequence": "negative-index-variables",
-   "targets": [
-    "p4-q1-g",
-    "p4-q1-h"
-   ],
-   "observation": "Repeats the coefficient-scope distinction with a fourth power.",
-   "varies": "Whether 3 belongs to the powered base.",
-   "invariant": "Variable m and exponent −4."
-  },
-  {
-   "sequence": "negative-index-variables",
-   "targets": [
-    "p5-q3-b",
-    "p5-q3-c",
-    "p5-q3-d"
-   ],
-   "observation": "Increasing the magnitude of a negative exponent increases the positive power in the reciprocal denominator.",
-   "varies": "Exponent −1, −2, −3.",
-   "invariant": "Base 3."
-  },
-  {
-   "sequence": "negative-index-variables",
-   "targets": [
-    "p5-q3-f",
-    "p5-q3-g",
-    "p5-q3-h",
-    "p5-q3-i",
-    "p5-q3-j"
-   ],
-   "observation": "An outside negative sign remains negative; a sign inside the powered base depends on exponent parity.",
-   "varies": "Sign placement and exponent parity in successive comparisons.",
-   "invariant": "Variable x and reciprocal conversion."
-  },
-  {
-   "sequence": "negative-index-variables",
-   "targets": [
-    "p5-q4-b",
-    "p5-q4-c",
-    "p5-q4-d"
-   ],
-   "observation": "Adding an outside coefficient differs from including it in the powered base.",
-   "varies": "Presence and scope of coefficient 2.",
-   "invariant": "Variable a and exponent −4."
-  },
-  {
-   "sequence": "negative-index-variables",
-   "targets": [
-    "p5-q4-i",
-    "p5-q4-j"
-   ],
-   "observation": "An existing numerator coefficient stays above the fraction bar; an existing divisor stays below it.",
-   "varies": "Position of 3.",
-   "invariant": "Negative-power factor x⁻⁵."
+   "observation": "The coefficient stays in its original position; only the negative-index factor changes position.",
+   "varies": "The presence and position of the coefficient 3.",
+   "invariant": "The negative-index factor x⁻² and its rewrite as x² in the numerator."
   },
   {
    "sequence": "negative-index-reciprocal",
@@ -352,40 +316,21 @@
     "p10-q1-i",
     "p10-q1-j"
    ],
-   "observation": "Reciprocal bases with the same negative exponent produce reciprocal results.",
-   "varies": "The numerator and denominator exchange positions.",
-   "invariant": "The numerical entries 2 and 3 and the exponent -2."
+   "observation": "Reciprocal starting bases raised to the same negative power produce reciprocal results.",
+   "varies": "The numerator and denominator exchange places.",
+   "invariant": "The numbers two and three and the exponent negative two."
   },
   {
    "sequence": "mixed-practice",
    "targets": [
     "p11-q1-a",
-    "p11-q1-b"
-   ],
-   "observation": "The same negative power moves in opposite directions depending on its fraction position.",
-   "varies": "Numerator versus denominator position.",
-   "invariant": "Base a and index -3."
-  },
-  {
-   "sequence": "mixed-practice",
-   "targets": [
+    "p11-q1-b",
     "p11-q1-c",
-    "p11-q1-d",
-    "p11-q1-e"
+    "p11-q1-d"
    ],
-   "observation": "Only the negatively indexed factor changes position; the coefficient follows its original fraction position.",
-   "varies": "Positions of the coefficient and negative power.",
-   "invariant": "Coefficient 2 and variable power a^-3."
-  },
-  {
-   "sequence": "mixed-practice",
-   "targets": [
-    "p11-q1-f",
-    "p11-q1-g"
-   ],
-   "observation": "Moving the negative power across the fraction bar leaves the numerical fraction unchanged.",
-   "varies": "Position of a^-3.",
-   "invariant": "Numerical numerator 5, denominator factor 2 and variable index -3."
+   "observation": "The location of the negative power determines the direction of conversion; a separate coefficient retains its role.",
+   "varies": "Numerator versus denominator placement, then presence of coefficient 2.",
+   "invariant": "Base a and exponent −3."
   },
   {
    "sequence": "mixed-practice",
@@ -393,9 +338,9 @@
     "p12-q3-c",
     "p12-q3-d"
    ],
-   "observation": "The denominator's positive index becomes the corresponding negative index without changing the coefficient.",
-   "varies": "Variable index.",
-   "invariant": "Coefficient -12 and denominator base x."
+   "observation": "Changing the denominator exponent changes the negative index without changing the coefficient or sign.",
+   "varies": "Denominator exponent 1 versus 2.",
+   "invariant": "Numerator −12 and base x."
   },
   {
    "sequence": "mixed-practice",
@@ -404,8 +349,8 @@
     "p12-q3-f",
     "p12-q3-g"
    ],
-   "observation": "Conversion preserves the magnitude of the index while changing its sign.",
-   "varies": "Denominator indices 2, 3 and 5.",
+   "observation": "The denominator exponent becomes the magnitude of the negative index.",
+   "varies": "Exponent 2, 3 and 5.",
    "invariant": "Numerator 9 and base x."
   },
   {
@@ -414,17 +359,79 @@
     "p12-q3-h",
     "p12-q3-i",
     "p12-q3-j",
-    "p12-q3-k",
-    "p12-q3-l"
+    "p12-q3-k"
    ],
-   "observation": "One feature changes at each step, separating variable-index conversion from numerical sign, coefficient and fraction reduction.",
-   "varies": "Successively the index, sign, numerator magnitude and numerical denominator.",
-   "invariant": "A reciprocal variable factor with a separate numerical denominator."
+   "observation": "The numerical denominator, leading sign and numerator coefficient remain separate from conversion of the variable power.",
+   "varies": "Exponent, then sign, then numerator coefficient.",
+   "invariant": "Numerical denominator 6 and base x."
+  },
+  {
+   "sequence": "negative-index-variables",
+   "targets": [
+    "p4-q1-e",
+    "p4-q1-f"
+   ],
+   "observation": "Brackets determine whether the coefficient belongs to the powered base.",
+   "varies": "Whether 2 is inside the base raised to -2.",
+   "invariant": "Coefficient, variable and negative exponent."
+  },
+  {
+   "sequence": "negative-index-variables",
+   "targets": [
+    "p4-q1-g",
+    "p4-q1-h"
+   ],
+   "observation": "Repeats the coefficient-scope contrast with another coefficient and exponent.",
+   "varies": "Whether 3 is inside the powered base.",
+   "invariant": "Coefficient 3, variable m and exponent -4."
+  },
+  {
+   "sequence": "negative-index-variables",
+   "targets": [
+    "p4-q2-o",
+    "p4-q2-p",
+    "p4-q2-q"
+   ],
+   "observation": "Distinguishes the effect of the second exponent's sign from the effect of changing the operation.",
+   "varies": "First the sign of the second exponent, then division versus multiplication.",
+   "invariant": "Coefficients, base and exponent magnitudes."
+  },
+  {
+   "sequence": "negative-index-variables",
+   "targets": [
+    "p5-q3-g",
+    "p5-q3-h",
+    "p5-q3-i",
+    "p5-q3-j"
+   ],
+   "observation": "Separates an external minus from a negative base and exposes the role of odd and even powers.",
+   "varies": "Exponent parity and placement of the minus, one feature at each step.",
+   "invariant": "Variable x and negative indices."
+  },
+  {
+   "sequence": "negative-index-variables",
+   "targets": [
+    "p5-q4-c",
+    "p5-q4-d"
+   ],
+   "observation": "Contrasts a retained coefficient with a coefficient raised to the negative power.",
+   "varies": "Bracketing of 2a.",
+   "invariant": "Coefficient 2, variable a and exponent -4."
+  },
+  {
+   "sequence": "negative-index-variables",
+   "targets": [
+    "p5-q4-i",
+    "p5-q4-j"
+   ],
+   "observation": "Distinguishes multiplying by 3 from dividing by 3 during reciprocal conversion.",
+   "varies": "Position of the factor 3.",
+   "invariant": "Variable power x^{-5}."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 3,
- "reviewedAt": "2026-10-11T13:08:53.499Z",
+ "reviewedRevision": 8,
+ "reviewedAt": "2026-10-15T10:21:52.299Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -448,14 +455,14 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 27274,
-     "cached_input_tokens": 12544,
+     "input_tokens": 27703,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5069,
-     "reasoning_output_tokens": 346
+     "output_tokens": 5485,
+     "reasoning_output_tokens": 507
     },
-    "elapsedMs": 131932,
-    "candidates": 0,
+    "elapsedMs": 123294,
+    "candidates": 1,
     "discarded": [],
     "suggestions": 1
    },
@@ -466,16 +473,16 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 26178,
-     "cached_input_tokens": 12544,
+     "input_tokens": 26601,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2822,
-     "reasoning_output_tokens": 46
+     "output_tokens": 2635,
+     "reasoning_output_tokens": 79
     },
-    "elapsedMs": 75554,
+    "elapsedMs": 58752,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 0
    },
    {
     "id": "negative-index-reciprocal",
@@ -484,16 +491,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 23816,
-     "cached_input_tokens": 12544,
+     "input_tokens": 24233,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2860,
-     "reasoning_output_tokens": 153
+     "output_tokens": 2665,
+     "reasoning_output_tokens": 99
     },
-    "elapsedMs": 79977,
+    "elapsedMs": 65748,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "mixed-practice",
@@ -502,59 +509,24 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 27811,
-     "cached_input_tokens": 12544,
+     "input_tokens": 28228,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4664,
-     "reasoning_output_tokens": 315
+     "output_tokens": 4022,
+     "reasoning_output_tokens": 222
     },
-    "elapsedMs": 128313,
+    "elapsedMs": 62783,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
    }
   ],
-  "dropped": [
-   {
-    "ids": [
-     "c4"
-    ],
-    "reason": "The mathematics is correct for nonzero a and b, but the task largely restates the conversion already practised in p8-q2-j through l. It is omitted in favour of four suggestions offering stronger comparisons or generalisations.",
-    "candidates": [
-     {
-      "id": "c4",
-      "sequence": "negative-index-denominator",
-      "kind": "extension",
-      "targets": [
-       "p8-q2"
-      ],
-      "finding": "Generalise the conversion of a quotient with negative powers on both sides."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c6"
-    ],
-    "reason": "The mathematics is correct, but inserting the proposed run between p10-q1-i and j separates their existing reciprocal-base comparison. The four retained suggestions include c7, which develops that comparison while preserving its order.",
-    "candidates": [
-     {
-      "id": "c6",
-      "sequence": "negative-index-reciprocal",
-      "kind": "variation-sequence",
-      "targets": [
-       "p10-q1-h"
-      ],
-      "finding": "Keep one fraction fixed while varying the magnitude of its negative exponent."
-     }
-    ]
-   }
-  ],
+  "dropped": [],
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/negative-index-laws-v1/candidates-low-1791724049256.json",
+  "candidateFile": ".booklet-work/pedagogy-review/negative-index-laws-v1/candidates-low-1792059630564.json",
   "errors": []
  },
- "postedRevision": 4
+ "postedRevision": 9
 }

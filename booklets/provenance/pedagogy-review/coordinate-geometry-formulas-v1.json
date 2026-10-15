@@ -5,6 +5,42 @@
  "assumptions": {},
  "findings": [
   {
+   "id": "pf-d14351f00b",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p3-example-group",
+     "blockId": "p3-example-group",
+     "hash": "638601aaf2e206140d61e5c5f99b21f300c23f29c2c6a845ac8f6fe90e100177"
+    }
+   ],
+   "finding": "The midpoint topic has no opening review of signed addition and formula substitution, both used directly in its introductory examples.",
+   "breakdown": "Students must substitute signed values into corresponding positions and evaluate signed sums while learning the midpoint formula. Neither prerequisite is rehearsed before these examples.",
+   "checked": "All supplied teaching was checked. This is the first topic, and it contains no review. Both introductory examples require substitution and signed addition.",
+   "assumptions": "These are prior skills, consistent with the course library. Calculator availability does not remove the substitution requirement.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p3-formula, add: (a) Calculate -4+8. (b) Calculate 3+(-5). (c) Given F=(a+b)/2, substitute a=-6 and b=10 and evaluate F. (d) Given G=(c+d)/2, substitute c=2 and d=-7 and evaluate G. Answers: 4, -2, 2, -2.5."
+   },
+   "doneWhen": "A short opening review rehearses signed addition and substitution before the midpoint teaching.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "midpoint"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:17:30.702Z"
+    }
+   ],
+   "commentId": "d56e4527-9508-4fcc-abee-a185b526abaa",
+   "postedAt": "2026-10-15T09:17:30.946Z"
+  },
+  {
    "id": "pf-8842902d42",
    "kind": "unsupported-transition",
    "severity": "high",
@@ -25,17 +61,17 @@
      "hash": "3780ed483a500a685e5e782ef2fdc3de39bd673b3d199a4ff36b2d1ec8373ed5"
     }
    ],
-   "finding": "The ratio-division scaffold identifies the fraction of each coordinate change but leaves unstated how to turn that change into the point's coordinates.",
-   "breakdown": "Students may calculate one third of the horizontal and vertical differences and report those displacements as P's coordinates, omitting the starting coordinates of A.",
-   "checked": "The complete teaching supplies midpoint averaging, not general ratio division. p7-q8-a and p7-q8-b supply the fraction-of-displacement idea, so a general formula lesson is unnecessary; the remaining missing connection is adding the displacement to A. The inverse-midpoint questions do not supply that connection for unequal division.",
-   "assumptions": "Ratio-to-fraction conversion and ordinary signed arithmetic are prior knowledge. Calculator availability does not affect this issue.",
+   "finding": "Unequal division requires a coordinate calculation that the preceding teaching does not supply.",
+   "breakdown": "Parts p7-q8-a and b identify the fraction of each displacement, but do not explain adding that fractional displacement to the starting coordinate. Students may instead multiply B's coordinates by the fraction.",
+   "checked": "The complete preceding teaching supplies midpoint averaging and inverse midpoint practice, but no unequal-division calculation. The diagram and fraction questions identify the displacement fraction without showing the coordinate offset.",
+   "assumptions": "Ratio-to-fraction conversion and basic signed arithmetic are prior knowledge; unequal coordinate division is a new variant.",
    "repair": {
-    "type": "add-cue",
-    "proposal": "At p7-q8-c add: 'Start at A and add one third of each coordinate change towards B: xP = −3 + (1/3)(3 − (−3)); yP = −1 + (1/3)(2 − (−1)). Complete these calculations.'"
+    "type": "add-teaching",
+    "proposal": "Between p7-q8-b and c, add: 'Start at A and add one third of the change from A to B in each coordinate. For x: x_P=-3+(1/3)[3-(-3)]=-1. Use the same method for y.' Leave students to calculate y and assemble P."
    },
-   "doneWhen": "The scaffold explicitly connects fractional coordinate changes to coordinates measured from A before students tackle p7-q9 and p7-q10.",
+   "doneWhen": "Students see start + fraction × signed coordinate change before completing the unequal-division tasks.",
    "from": [
-    "c1"
+    "c3"
    ],
    "sequences": [
     "midpoint"
@@ -44,11 +80,11 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:20:10.872Z"
+     "at": "2026-10-15T09:17:30.702Z"
     }
    ],
-   "commentId": "ce3f5ec3-3ef5-436d-a91e-e6b107424ed2",
-   "postedAt": "2026-10-11T12:20:10.884Z"
+   "commentId": "646f1e46-d5b6-4256-b39f-b878698f1b06",
+   "postedAt": "2026-10-15T09:17:30.949Z"
   },
   {
    "id": "pf-895cb0ceed",
@@ -61,17 +97,17 @@
      "hash": "3780ed483a500a685e5e782ef2fdc3de39bd673b3d199a4ff36b2d1ec8373ed5"
     }
    ],
-   "finding": "Generalise internal ratio division and recover midpoint averaging as its equal-ratio case.",
-   "breakdown": "The task connects fractional displacement to the existing midpoint formula.",
-   "checked": "For positive m and n, adding m/(m+n) of B−A gives P=((na+mc)/(m+n),(nb+md)/(m+n)). Setting m=n gives the midpoint. Reversing endpoints and reversing the ratio leaves both coordinates unchanged.",
-   "assumptions": "Place this after the retained c1 repair. Ordinary algebraic expansion and fraction simplification are prior knowledge.",
+   "finding": "Compare complementary division points with the midpoint of their original segment.",
+   "breakdown": "The follow-up connects unequal division with midpoint averaging using the existing endpoints.",
+   "checked": "For A=(-2,-3) and B=(4,0), P=(8/5,-6/5) and Q=(2/5,-9/5). Both midpoint calculations give (1,-3/2). The task uses only midpoint and unequal-division methods.",
+   "assumptions": "Place this after the unequal-division teaching repair.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p7-q10: 'Let A=(a,b), B=(c,d), with distinct endpoints, and let AP:PB=m:n, where m,n>0. Express P by starting at A and adding the appropriate fraction of the journey to B. Simplify. What happens when m=n? Explain why reversing both the endpoint names and the ratio gives the same point.' Expected answer: P=((na+mc)/(m+n),(nb+md)/(m+n)); equal ratios give ((a+c)/2,(b+d)/2); reversing names and ratio only exchanges numerator terms."
+    "proposal": "Append to p7-q10: (b) Find Q when AQ:QB=2:3. Answer: (2/5,-9/5). (c) Find the midpoint of PQ. Answer: (1,-3/2). (d) Find the midpoint of AB. Answer: (1,-3/2). (e) Explain why the two midpoints agree. Expected answer: P and Q are three fifths and two fifths of the way from A to B, so their average position is halfway along AB."
    },
-   "doneWhen": "The optional task states positive internal-division ratios and follows the explicit starting-coordinate cue.",
+   "doneWhen": "The optional follow-up retains the existing segment and separates each question into its own part.",
    "from": [
-    "c2"
+    "c4"
    ],
    "sequences": [
     "midpoint"
@@ -80,45 +116,11 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:20:10.872Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-e9c5dcb8ac",
-   "kind": "opening-review",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p8-example-block",
-     "blockId": "p8-example-block",
-     "hash": "39183514a722f9be2833051da053dd8036e5bbcdfab645ebb37654be32021d6f"
+     "at": "2026-10-15T09:17:30.702Z"
     }
    ],
-   "finding": "The gradient examples require fraction reduction without an opening review of that substantial prior skill.",
-   "breakdown": "Students must recognise that 2/8 and −10/8 should be reduced and preserve the negative sign when simplifying the second result.",
-   "checked": "The examples explicitly reduce 2/8 to 1/4 and −10/8 to −5/4. There is no gradient review, and the preceding midpoint exercise does not rehearse reducing such fractions. Graphical rise/run is not a worked-example step, so that proposed review piece is removed. Signed subtraction is already required repeatedly by the preceding inverse-midpoint practice, including subtraction of negative endpoint coordinates, so that piece is also removed.",
-   "assumptions": "Fraction reduction is prior knowledge from the course's fraction work. A calculator may perform the reduction, but the worked teaching explicitly presents it as an exact-fraction step.",
-   "repair": {
-    "type": "add-review",
-    "proposal": "Before p8-formula-block add: 'Simplify: (a) 6/10; (b) −12/8.' Expected answers: 3/5 and −3/2."
-   },
-   "doneWhen": "A short opening review checks fraction reduction and preservation of a negative numerator before the worked examples.",
-   "from": [
-    "c3"
-   ],
-   "sequences": [
-    "gradient"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:20:10.872Z"
-    }
-   ],
-   "commentId": "f23eea39-9bd0-4594-9ac5-41b58c10c610",
-   "postedAt": "2026-10-11T12:20:10.885Z"
+   "commentId": "15894e19-ab4c-4927-809b-5d49f0837f99",
+   "postedAt": "2026-10-15T09:17:30.950Z"
   },
   {
    "id": "pf-2fceed20e4",
@@ -131,98 +133,30 @@
      "hash": "4b9efbb2af16bddc72f6be5f72d9315432d5c5171760e0ea9aaa1ad4783f8184"
     }
    ],
-   "finding": "Hold the horizontal change fixed while the vertical change passes through zero.",
-   "breakdown": "The run isolates how vertical change controls gradient's sign and magnitude.",
-   "checked": "The five proposed gradients are 1, 1/2, 0, −1/2 and −1. All denominators are 4, so every gradient is defined. The follow-up gradient is −1/2. The supplied gradient practice has no equivalent fixed-run sequence.",
-   "assumptions": "Only the taught gradient formula and signed arithmetic are required.",
+   "finding": "A short sequence can connect changing vertical displacement with positive, zero and negative gradients.",
+   "breakdown": "Holding the first endpoint and horizontal displacement fixed makes the effect of the second y-coordinate visible.",
+   "checked": "The proposed gradients are 1, 1/2, 0, -1/2 and -1; the unpatterned follow-up has gradient -3/2. Every denominator is nonzero. Existing gradient practice contains no comparable run.",
+   "assumptions": "The stated gradient formula suffices for all proposed parts.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p9-q1: 'Before calculating, predict which gradients are positive, zero or negative, and compare their magnitudes. Find the gradient from A(1,2) to B(5,6), C(5,4), D(5,2), E(5,0), and F(5,−2).' Expected answers: 1, 1/2, 0, −1/2, −1. A and the horizontal change of 4 stay fixed; only the other endpoint's y-coordinate changes. Follow with: 'Find the gradient from (−2,5) to (4,2).' Expected answer: −1/2."
+    "proposal": "Append to p9-q1 the single instruction 'Predict how the gradient will change before calculating.' Add g (1,2) and (5,6); h (1,2) and (5,4); i (1,2) and (5,2); j (1,2) and (5,0); k (1,2) and (5,-2). Answers: 1, 1/2, 0, -1/2, -1. Follow with l (-2,5) and (4,-4), answer -3/2. Across g–k, only the second y-coordinate varies."
    },
-   "doneWhen": "Students predict before calculating and then apply the relationship to the unpatterned follow-up.",
-   "from": [
-    "c4"
-   ],
-   "sequences": [
-    "gradient"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:20:10.872Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-10d4aac42f",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p10-q4",
-     "blockId": "p10-q4",
-     "hash": "9ae6345085d2bb481069575e5755287376bfd185f96284b600f5856f74c8d823"
-    }
-   ],
-   "finding": "Use midpoint and gradient formulas to explain why the midpoint is collinear with its endpoints.",
-   "breakdown": "The task connects coordinate averaging with equal gradients.",
-   "checked": "When a≠c, both half-intervals have nonzero horizontal change (c−a)/2 and vertical change (d−b)/2. Their gradients both equal (d−b)/(c−a), and the collinearity criterion is taught in p10-q4-root.",
-   "assumptions": "Ordinary symbolic simplification is prior knowledge; midpoint and gradient formulas are taught before this placement.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p10-q4-c: 'Let A=(a,b), B=(c,d), where a≠c, and let M be their midpoint. Use the midpoint and gradient formulas to show that AM and MB have equal gradients. What does this establish?' Expected answer: M=((a+c)/2,(b+d)/2); each half has changes (c−a)/2 and (d−b)/2, so both gradients are (d−b)/(c−a). Therefore A, M and B are collinear."
-   },
-   "doneWhen": "The task retains a≠c and asks students to connect the calculation to the taught collinearity criterion.",
-   "from": [
-    "c5"
-   ],
-   "sequences": [
-    "gradient"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:20:10.872Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-5ef977627f",
-   "kind": "opening-review",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p11-distance-definition",
-     "blockId": "p11-distance-definition",
-     "hash": "2c8ea8c2a0b6b6ce00f589e908e4d85ab3617aab3a49ca3bda771af5d2122df2"
-    }
-   ],
-   "finding": "The distance-formula introduction uses the Pythagorean hypotenuse relationship without rehearsing it in an opening review.",
-   "breakdown": "A student who cannot recall the relationship cannot connect the perpendicular coordinate differences to the square-root formula for the joining interval.",
-   "checked": "p11-distance-definition represents the joining interval as the hypotenuse and uses sqrt(run²+rise²). No review rehearses Pythagoras. The preceding gradient teaching and exercise use coordinate differences and gradients, not the hypotenuse relationship. Naming Pythagoras in the later key-ideas item does not check recall before its use.",
-   "assumptions": "Pythagoras is prior knowledge from the separate course booklet. Calculator access is inferred from the distance examples' decimal approximations; evaluating squares and roots is not itself a missing review piece.",
-   "repair": {
-    "type": "add-review",
-    "proposal": "Before p11-distance-definition add: '(a) A right triangle has perpendicular sides a and b and hypotenuse c. Complete c²=___ and c=___. (b) A right triangle has perpendicular sides 6 and 8. Write an expression for its hypotenuse and calculate its length.' Expected answers: a²+b²; sqrt(a²+b²); sqrt(6²+8²)=10."
-   },
-   "doneWhen": "Students rehearse the hypotenuse relationship before meeting its coordinate-distance application.",
+   "doneWhen": "The run and its unpatterned follow-up appear under the existing gradient instruction, with only one added prediction line.",
    "from": [
     "c6"
    ],
    "sequences": [
-    "distance"
+    "gradient"
    ],
    "state": "pending",
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:20:10.872Z"
+     "at": "2026-10-15T09:17:30.702Z"
     }
    ],
-   "commentId": "be906106-1e88-4601-af28-681f74dcdd20",
-   "postedAt": "2026-10-11T12:20:10.886Z"
+   "commentId": "518819a8-4273-4156-ac46-49f2b12492ef",
+   "postedAt": "2026-10-15T09:17:30.953Z"
   },
   {
    "id": "pf-4e82ec0367",
@@ -240,15 +174,15 @@
      "hash": "7fe73ddade0f434dfd82c950f4988ee726ebe9b482bda61beec0e645ff8ed9af"
     }
    ],
-   "finding": "p12-q2-c and p12-q2-d repeat the same whole distance task without an explicit instructional purpose.",
-   "breakdown": "Both require the exact distance between (0,0) and (−6,−8), with identical givens and instructions.",
-   "checked": "Compared both complete parts under p12-q2-root: the common stem, endpoint values, required answer form and absence of diagrams are unchanged. The surrounding changed-coordinate tasks do not state a retrieval or comparison purpose for this identical pair.",
-   "assumptions": "No purpose for deliberately repeating this whole task is supplied.",
+   "finding": "Parts c and d repeat the same whole distance task without an explicit instructional purpose.",
+   "breakdown": "Both ask for the exact distance between (0,0) and (-6,-8), with identical instructions and no additional givens or diagrams.",
+   "checked": "The complete shared stem and both endpoint pairs match. No retrieval or comparison purpose distinguishes the copies.",
+   "assumptions": "No unstated purpose is inferred for the identical tasks.",
    "repair": {
-    "type": "remove-question",
-    "proposal": "Remove the later copy, p12-q2-d."
+    "type": "change-values",
+    "proposal": "Replace p12-q2-d with '(0,0) and (6,-8)'. Answer: 10."
    },
-   "doneWhen": "Only one copy of the unchanged task remains.",
+   "doneWhen": "The later copy has different coordinates while retaining the same task structure.",
    "from": [
     "c7"
    ],
@@ -259,32 +193,37 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:20:10.872Z"
+     "at": "2026-10-15T09:17:30.702Z"
     }
    ],
-   "commentId": "11f72821-e76a-4167-8609-e6108f3d77f6",
-   "postedAt": "2026-10-11T12:20:10.887Z"
+   "commentId": "1b5fd030-9d4d-47e9-900f-6a37e7392741",
+   "postedAt": "2026-10-15T09:17:30.953Z"
   },
   {
-   "id": "pf-b58d1ba31a",
-   "kind": "extension",
-   "severity": "suggestion",
+   "id": "pf-923877b044",
+   "kind": "difficulty-jump",
+   "severity": "high",
    "targets": [
     {
-     "id": "p12-q2",
-     "blockId": "p12-q2",
-     "hash": "7fe73ddade0f434dfd82c950f4988ee726ebe9b482bda61beec0e645ff8ed9af"
+     "id": "p14-q5-a",
+     "blockId": "p14-q5-block",
+     "hash": "7a8aa3363f2d9d620c34abd7042b370b368be67ec74372145980f844cc0d1611"
+    },
+    {
+     "id": "p14-q5-b",
+     "blockId": "p14-q5-block",
+     "hash": "7a8aa3363f2d9d620c34abd7042b370b368be67ec74372145980f844cc0d1611"
     }
    ],
-   "finding": "Explain equal distances under a common translation by cancelling coordinate changes.",
-   "breakdown": "The task generalises a relationship already present in two practice parts.",
-   "checked": "p12-q2-g has coordinate changes (−9,9), as does p12-q2-n. Translating both endpoints by any real (h,k) leaves their coordinate differences unchanged, so the distance formula gives the same result.",
-   "assumptions": "The task requires only the taught distance formula and ordinary algebraic cancellation.",
+   "finding": "The first inverse-distance question combines reversing the radical formula with recovering both signs of an unknown difference.",
+   "breakdown": "Earlier distance questions only evaluate known coordinates. Here students must form an equation from the given distance, square both sides, isolate a squared difference and retain two coordinate values. Earlier inverse-midpoint practice does not bridge these additional decisions.",
+   "checked": "All preceding distance teaching and practice were checked; none reverses the distance formula. In part a, 8=4+(5-a)^2 gives a=3 or 7. In part b, 29=(4-a)^2+4 gives a=-1 or 9.",
+   "assumptions": "Basic equation solving and solving square equations are prior knowledge. The gap concerns their combined application to this formula and does not depend on calculator availability.",
    "repair": {
-    "type": "add-question",
-    "proposal": "After p12-q2: 'Compare parts g and n. Explain why their distances agree without evaluating either square root. Now let A=(x₁,y₁) and B=(x₂,y₂). Both points move by (h,k). Use the distance formula to show that their distance is unchanged.' Expected answer: both original pairs have differences (−9,9); generally (x₂+h)−(x₁+h)=x₂−x₁ and (y₂+k)−(y₁+k)=y₂−y₁, so the distance expression is unchanged."
+    "type": "add-cue",
+    "proposal": "Add to p14-q5-a: 'Start with √8=√((3-1)²+(5-a)²). Square both sides and isolate (5-a)². Remember: if u²=4, then u=2 or -2.' Leave students to finish and apply the method independently in part b."
    },
-   "doneWhen": "The optional task connects the numerical pair to cancellation in the general distance formula.",
+   "doneWhen": "The first inverse-distance task supplies an equation-starting cue and prompts both signs.",
    "from": [
     "c8"
    ],
@@ -295,22 +234,128 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:20:10.873Z"
+     "at": "2026-10-15T09:17:30.702Z"
     }
-   ]
+   ],
+   "commentId": "6e515ca9-7f2c-4f69-9a02-ce09d86591e0",
+   "postedAt": "2026-10-15T09:17:30.954Z"
+  },
+  {
+   "id": "pf-044c3af974",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p12-q2",
+     "blockId": "p12-q2",
+     "hash": "7fe73ddade0f434dfd82c950f4988ee726ebe9b482bda61beec0e645ff8ed9af"
+    }
+   ],
+   "finding": "Group the existing reflection cases to make their equal distances easier to compare.",
+   "breakdown": "The supplied order separates the cases. A consecutive run exposes how squaring removes the signs of the coordinate differences.",
+   "checked": "After the duplicate repair, the four origin-based cases all have distance 10. The proposed unpatterned pair has squared distance 25+64=89. No new method is required.",
+   "assumptions": "Use the replacement for p12-q2-d from c7; reuse existing cases rather than adding copies.",
+   "repair": {
+    "type": "reorder",
+    "proposal": "At the start of p12-q2, place consecutively the pairs (0,0) and (6,8); (0,0) and (-6,8); (0,0) and (-6,-8); (0,0) and (6,-8). Add only: 'Predict which distances will be equal before calculating.' Answers: 10 each. Follow with (2,-3) and (7,5), answer √89, then the remaining existing parts."
+   },
+   "doneWhen": "The four reflection cases form one run followed by an unpatterned task, with only one added prediction line.",
+   "from": [
+    "c9"
+   ],
+   "sequences": [
+    "distance"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:17:30.702Z"
+    }
+   ],
+   "commentId": "9d0d4965-61cf-407b-ace7-ff89e023580c",
+   "postedAt": "2026-10-15T09:17:30.955Z"
+  },
+  {
+   "id": "pf-5b5682b28e",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p13-q3-block",
+     "blockId": "p13-q3-block",
+     "hash": "203ee0295e2c70ad8bcb7f53decac829be76495fbbc40e3316d6e6734cb411cc"
+    }
+   ],
+   "finding": "Use the midpoint of the tied closest points as a further distance comparison.",
+   "breakdown": "This concrete follow-up connects the booklet's midpoint and distance methods.",
+   "checked": "B=(-1,-1) and C=(-3,3) have midpoint M=(-2,1). Its distance from (2,3) is √20≈4.47, less than the distance 5 for either B or C.",
+   "assumptions": "Midpoint and distance calculations are available by this point.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional parts to p13-q3-root: (a) Find the midpoint M of B and C. Answer: (-2,1). (b) Find the distance from M to (2,3). Answer: √20≈4.47 units. (c) Which is closest to (2,3): B, C or M? Answer: M."
+   },
+   "doneWhen": "The optional parts follow the existing closest-point question and use its coordinates.",
+   "from": [
+    "c10"
+   ],
+   "sequences": [
+    "distance"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:17:30.702Z"
+    }
+   ],
+   "commentId": "02dd1149-409c-4d07-bb0c-ef8da5cf6312",
+   "postedAt": "2026-10-15T09:17:30.958Z"
   }
  ],
  "contextQuestions": [],
  "protectedGroups": [
+  {
+   "sequence": "gradient",
+   "targets": [
+    "p9-q2-a",
+    "p9-q2-b",
+    "p9-q2-c"
+   ],
+   "observation": "Reversing both endpoint assignments preserves the gradient.",
+   "varies": "Which endpoint is designated first.",
+   "invariant": "The two points, the line and its gradient."
+  },
+  {
+   "sequence": "distance",
+   "targets": [
+    "p12-q2-h",
+    "p12-q2-j",
+    "p12-q2-k"
+   ],
+   "observation": "The same distance is retained when coordinate differences change sign or the interval moves.",
+   "varies": "Endpoint positions and signs of the differences.",
+   "invariant": "Absolute coordinate differences 7 and 11."
+  },
+  {
+   "sequence": "distance",
+   "targets": [
+    "p12-q2-g",
+    "p12-q2-n"
+   ],
+   "observation": "Translating an interval preserves its length.",
+   "varies": "Both endpoints move by (−9,9).",
+   "invariant": "Coordinate differences (−9,9)."
+  },
   {
    "sequence": "midpoint",
    "targets": [
     "p5-q2-c",
     "p5-q2-d"
    ],
-   "observation": "Reversing the endpoints leaves the midpoint unchanged.",
-   "varies": "Endpoint order.",
-   "invariant": "The two endpoint locations."
+   "observation": "Reversing endpoint order leaves the midpoint unchanged; this adjacent comparison provides an instructional reason for repeating the endpoint pair.",
+   "varies": "Endpoint order",
+   "invariant": "The two endpoints and their midpoint"
   },
   {
    "sequence": "midpoint",
@@ -320,9 +365,9 @@
     "p5-q2-l",
     "p5-q2-m"
    ],
-   "observation": "Changing one endpoint coordinate affects only the corresponding midpoint coordinate.",
-   "varies": "One coordinate sign at each step.",
-   "invariant": "The other three endpoint coordinate values."
+   "observation": "Changing one endpoint coordinate changes only the corresponding midpoint coordinate.",
+   "varies": "One coordinate sign at each step",
+   "invariant": "The other three endpoint coordinates at each step"
   },
   {
    "sequence": "midpoint",
@@ -331,9 +376,9 @@
     "p5-q2-o",
     "p5-q2-p"
    ],
-   "observation": "A sign change in one coordinate changes only that component of the midpoint.",
-   "varies": "First the first endpoint's x sign, then its y sign.",
-   "invariant": "The second endpoint and the unchanged coordinate of the first endpoint."
+   "observation": "Changing the fixed endpoint's coordinate signs affects the corresponding midpoint coordinates independently.",
+   "varies": "First the x sign, then the y sign of one endpoint",
+   "invariant": "The other endpoint and all coordinate magnitudes"
   },
   {
    "sequence": "midpoint",
@@ -342,56 +387,14 @@
     "p5-q2-r",
     "p5-q2-s"
    ],
-   "observation": "Scaling both endpoints scales the midpoint by the same factor.",
-   "varies": "A common factor of ten between consecutive questions.",
-   "invariant": "Endpoint proportions and the vertical interval structure."
-  },
-  {
-   "sequence": "midpoint",
-   "targets": [
-    "p7-q8-a",
-    "p7-q8-b"
-   ],
-   "observation": "The same fraction of the horizontal and vertical displacement locates the same point on a straight segment.",
-   "varies": "The coordinate direction considered.",
-   "invariant": "Endpoints, division point and division ratio."
-  },
-  {
-   "sequence": "gradient",
-   "targets": [
-    "p9-q2-a",
-    "p9-q2-b",
-    "p9-q2-c"
-   ],
-   "observation": "Reversing both endpoint assignments leaves the gradient unchanged.",
-   "varies": "Which endpoint is labelled first.",
-   "invariant": "The interval and its gradient."
-  },
-  {
-   "sequence": "distance",
-   "targets": [
-    "p12-q2-a",
-    "p12-q2-b",
-    "p12-q2-c"
-   ],
-   "observation": "Changing the signs of coordinate displacements preserves distance because the differences are squared.",
-   "varies": "First the horizontal displacement changes sign, then the vertical displacement changes sign.",
-   "invariant": "One endpoint is the origin and the displacement magnitudes remain 6 and 8."
-  },
-  {
-   "sequence": "distance",
-   "targets": [
-    "p12-q2-g",
-    "p12-q2-n"
-   ],
-   "observation": "Translating both endpoints preserves their distance.",
-   "varies": "Both endpoints move by (−9,9).",
-   "invariant": "The coordinate differences remain (−9,9)."
+   "observation": "Scaling both endpoints by ten scales the midpoint by ten.",
+   "varies": "Common coordinate scale",
+   "invariant": "Endpoint proportions, signs and vertical alignment"
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 5,
- "reviewedAt": "2026-10-11T12:20:10.873Z",
+ "reviewedRevision": 11,
+ "reviewedAt": "2026-10-15T09:17:30.702Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -415,14 +418,14 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 34446,
-     "cached_input_tokens": 14592,
+     "input_tokens": 34941,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3897,
-     "reasoning_output_tokens": 158
+     "output_tokens": 4607,
+     "reasoning_output_tokens": 132
     },
-    "elapsedMs": 104525,
-    "candidates": 1,
+    "elapsedMs": 108505,
+    "candidates": 3,
     "discarded": [],
     "suggestions": 1
    },
@@ -433,16 +436,16 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 29912,
-     "cached_input_tokens": 14592,
+     "input_tokens": 30335,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2774,
-     "reasoning_output_tokens": 115
+     "output_tokens": 2532,
+     "reasoning_output_tokens": 185
     },
-    "elapsedMs": 77412,
+    "elapsedMs": 63562,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "distance",
@@ -451,24 +454,61 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 33037,
-     "cached_input_tokens": 14592,
+     "input_tokens": 33454,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3914,
-     "reasoning_output_tokens": 231
+     "output_tokens": 3998,
+     "reasoning_output_tokens": 250
     },
-    "elapsedMs": 103391,
+    "elapsedMs": 103346,
     "candidates": 2,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 2
    }
   ],
-  "dropped": [],
+  "dropped": [
+   {
+    "ids": [
+     "c2"
+    ],
+    "reason": "The unsupported-method test defeats this candidate. The midpoint formula explicitly identifies M as the result, and the candidate assumes students already know how to solve the resulting simple linear equations. The table introduces one change—an unknown endpoint—using those existing methods; the absence of an earlier inverse worked setup alone does not establish an unsupported transition or a sharp jump.",
+    "candidates": [
+     {
+      "id": "c2",
+      "sequence": "midpoint",
+      "kind": "unsupported-transition",
+      "targets": [
+       "p6-q4-row1",
+       "p6-q6-a"
+      ],
+      "finding": "The first missing-endpoint question precedes the sequence's only explicit setup of an inverse-midpoint equation."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c5"
+    ],
+    "reason": "The immediately preceding topic's practice defeats the missing-review claim. Inverse midpoint tasks already require signed subtraction, including subtracting negatives: p6-q4-row4 uses 4-(-1), and p6-q6-d uses -3-(-5). The subsequent ratio-division tasks also use signed coordinate differences. This prerequisite therefore need not be reviewed again at the gradient opening.",
+    "candidates": [
+     {
+      "id": "c5",
+      "sequence": "gradient",
+      "kind": "opening-review",
+      "targets": [
+       "p8-example-right",
+       "p8-formula-block"
+      ],
+      "finding": "The topic has no opening rehearsal of signed subtraction, although its second introductory example depends directly on subtracting negative coordinates."
+     }
+    ]
+   }
+  ],
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/coordinate-geometry-formulas-v1/candidates-low-1791721101075.json",
+  "candidateFile": ".booklet-work/pedagogy-review/coordinate-geometry-formulas-v1/candidates-low-1792055733184.json",
   "errors": []
  },
- "postedRevision": 6
+ "postedRevision": 12
 }

@@ -5,49 +5,44 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-3e189d9826",
-   "kind": "extension",
+   "id": "pf-b5aca03d44",
+   "kind": "variation-sequence",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p5-investigation",
-     "blockId": "p5-investigation",
-     "hash": "4eef0810696f3beaab0200b5a5b798d8bea31f2881c941ed9d6a6a7eb74c7b98"
-    },
-    {
-     "id": "p7-q2",
-     "blockId": "p7-q2",
-     "hash": "459b76d7311f740e8b285c2b32302f0ff26ba18e4a9a33a23fb41f1e12af687e"
+     "id": "p9-q2-block",
+     "blockId": "p9-q2-block",
+     "hash": "61b1f37ec098a8a7e2fb437c418d727babbff739ef7b29f8add701da3dbadc21"
     }
    ],
-   "finding": "Ask students to explain why the non-right investigation triangle does not contradict Pythagoras’ theorem.",
-   "breakdown": "This connects the numerical investigation to the theorem’s right-angle condition.",
-   "checked": "Triangle 4 gives 5.4² + 7.5² = 85.41, whereas 8² = 64. The statement in p6-theorem-introduction applies only to right-angled triangles. The task requires only that statement and the completed investigation.",
-   "assumptions": "Students have completed the investigation and read the theorem.",
+   "finding": "Vary only the longest side to expose the exact equality required for a right angle.",
+   "breakdown": "The existing parts change several lengths together; none isolates the effect of changing the longest side.",
+   "checked": "All proposed triples satisfy the triangle inequality. Their squared comparisons are correct, and the converse has been taught in p8-information-block and p8-example-content.",
+   "assumptions": "Use the existing instruction to decide whether each triangle is right-angled.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p7-q2, offer: “A student says, ‘Triangle 4 has 5.4² + 7.5² ≠ 8², so Pythagoras’ theorem is wrong.’ Explain the mistake using the theorem’s opening sentence and the investigation table.” Expected answer: the theorem concerns right-angled triangles; triangle 4 is not right-angled, so its unequal totals do not contradict it."
+    "proposal": "After p9-q2-d, add only this instruction: “Predict each result before calculating.” Add parts e: sides 6, 8, 9; f: sides 6, 8, 10; g: sides 6, 8, 11; h: sides 8, 15, 17. Answers: e not right-angled, since 100≠81; f right-angled, since 100=100; g not right-angled, since 100≠121; h right-angled, since 289=289. In e–g the shorter sides remain fixed while the longest side varies; h is the unpatterned follow-up."
    },
-   "doneWhen": "Students explain the scope of the theorem rather than merely repeat the unequal calculations.",
+   "doneWhen": "The further parts isolate the longest side before returning to an unrelated triple.",
    "from": [
     "c2"
    ],
    "sequences": [
-    "pythagoras-theorem"
+    "converse"
    ],
    "state": "pending",
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T10:48:08.428Z"
+     "at": "2026-10-15T10:47:40.821Z"
     }
    ],
-   "commentId": "3cefada0-ba00-46f8-ac5b-34300a9ff54a",
-   "postedAt": "2026-10-11T10:48:08.441Z"
+   "commentId": "d9d12897-2c82-4816-ae19-ea98fa7d84c4",
+   "postedAt": "2026-10-15T10:47:40.967Z"
   },
   {
-   "id": "pf-bb76337318",
-   "kind": "unsupported-transition",
+   "id": "pf-09daefaef5",
+   "kind": "missing-prerequisite",
    "severity": "high",
    "targets": [
     {
@@ -66,17 +61,17 @@
      "hash": "157e0ca90940b1dff90a0745a8b791db8df98c979e652f3e716d4605b715ac3e"
     }
    ],
-   "finding": "Unknown-side calculations and the choice between two possible hypotenuses are required before either application has been taught.",
-   "breakdown": "Students must construct two equations, use addition or subtraction to isolate the unknown square, take its positive root, and apply the whole-number condition. Assigning the unknown automatically to the hypotenuse misses valid shorter-side solutions.",
-   "checked": "Earlier teaching checks complete triples or scales known triples. p6-write-d-node and p6-write-f-node ask only for equations. p13-q4 supplies generating formulas, not an unknown-side method. The explicit unknown-side teaching in p16 and p20 comes after these tasks. Asking for two answers in p14-q5 signals the issue but does not teach how to obtain them.",
-   "assumptions": "Ordinary algebra and square roots may be prior knowledge. A calculator is assumed for decimal roots; it does not supply the hypotenuse assignments.",
+   "finding": "These questions require finding an unknown side in two possible hypotenuse cases before either unknown-side method has been taught.",
+   "breakdown": "Students must form and solve an equation for an unknown squared length, take its positive square root, and consider whether the unknown or the larger known side is the hypotenuse. Assigning the last entry to the hypotenuse misses required solutions.",
+   "checked": "Earlier teaching identifies the hypotenuse, writes equations, checks complete triples and generates triads by scaling. p13-q4 supplies a generation formula, but it does not model solving for an unknown side or selecting alternative hypotenuses. Those methods are taught only in later topics.",
+   "assumptions": "Basic algebra may be prior knowledge, but applying it to both geometric cases is new here. Calculator access does not resolve the missing case selection.",
    "repair": {
     "type": "add-teaching",
-    "proposal": "Before p14-q5, add: “(6,10,x) satisfies Pythagoras’ theorem. Find the possible positive lengths x. If x is longest, x² = 6² + 10² = 136, so x = √136 ≈ 11.66. If 10 is longest, 6² + x² = 10², so x² = 64 and x = 8. The side 6 cannot be longest because 10 is larger. Both lengths satisfy the theorem, but only 8 gives a whole-number triad.”"
+    "proposal": "Before p14-q5, add: “A right-angled triangle has side lengths 5, 8 and x. If x is longest, x²=5²+8²=89, so x=√89≈9.43. If 8 is longest, 5²+x²=8², so x²=64−25=39 and x=√39≈6.24. The side 5 cannot be longest because 8 is larger. Thus there are two possible positive lengths. For a Pythagorean triad, retain only whole-number lengths.”"
    },
-   "doneWhen": "Both hypotenuse assignments, the corresponding calculations and the whole-number filter are demonstrated before p14-q5.",
+   "doneWhen": "Before p14-q5, students have seen addition and subtraction cases, the positive square-root step and explicit selection of the possible hypotenuses.",
    "from": [
-    "c5"
+    "c3"
    ],
    "sequences": [
     "pythagorean-triads"
@@ -85,70 +80,34 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T10:48:08.428Z"
+     "at": "2026-10-15T10:47:40.821Z"
     }
    ],
-   "commentId": "5628c123-6ef9-45be-9647-fbb99657a6e3",
-   "postedAt": "2026-10-11T10:48:08.442Z"
+   "commentId": "10f3825e-6fc5-4043-81b3-d1bda92f71b0",
+   "postedAt": "2026-10-15T10:47:40.970Z"
   },
   {
-   "id": "pf-2673a75373",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p11-generating-guided-b",
-     "blockId": "p11-generating-guided",
-     "hash": "4dda95f5a0103224e3d00ef928dd11cf1e02ed165695944ee74b79430b8b3814"
-    }
-   ],
-   "finding": "Investigate which whole-number divisors preserve whole-number entries when reducing a triad.",
-   "breakdown": "This develops the whole-number restriction in the taught scaling rule.",
-   "checked": "The common positive whole-number divisors of 90, 400 and 410 are exactly 1, 2, 5 and 10. Dividing by 10 gives (9,40,41), which has no common integer divisor greater than 1. The task uses the division and whole-number checks already required in p11.",
-   "assumptions": "Students can identify factors of whole numbers; no formal greatest-common-divisor algorithm is required.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p11-generating-guided-b, offer: “For (90,400,410), list every positive whole number by which you can divide all three entries and still obtain whole numbers. Which resulting triad has the smallest entries? Explain why it cannot be reduced further by a whole-number divisor greater than 1.” Expected answer: divisors 1, 2, 5 and 10; smallest resulting triad (9,40,41), with no common divisor greater than 1."
-   },
-   "doneWhen": "Students connect allowable division to the requirement that every entry remain a whole number.",
-   "from": [
-    "c6"
-   ],
-   "sequences": [
-    "pythagorean-triads"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T10:48:08.428Z"
-    }
-   ],
-   "commentId": "b05b5792-f3eb-46b1-a2df-f6f21f6db5aa",
-   "postedAt": "2026-10-11T10:48:08.444Z"
-  },
-  {
-   "id": "pf-65c2e89866",
+   "id": "pf-6e7f4cdc0b",
    "kind": "variation-sequence",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p21-q3-block",
-     "blockId": "p21-q3-block",
-     "hash": "b300aac2f5bb8d852beb358e214b899283eb2bbfa4245bc81f370088a0616736"
+     "id": "p21-q1",
+     "blockId": "p21-q1-block",
+     "hash": "565a9d4800e5ebdcd15d9142d5ceaff3f50b1095f690f1b1b7e70ed284136960"
     }
    ],
-   "finding": "Keep the hypotenuse fixed while increasing one known leg.",
-   "breakdown": "The comparison exposes how increasing one leg decreases the other and makes the exchange of leg roles visible.",
-   "checked": "For hypotenuse 13, known legs 5, 9 and 12 give other legs 12, √88 and 5 respectively. All are positive and shorter than the hypotenuse. The follow-up gives √(17²−8²) = 15. p20 teaches the required method; p21-q3 has no comparable fixed-hypotenuse run.",
-   "assumptions": "Exact answers may remain unsimplified roots, consistent with the booklet.",
+   "finding": "Keep the hypotenuse fixed while increasing one leg to expose how the other leg changes.",
+   "breakdown": "The existing parts vary both given lengths, so they do not isolate the relationship between the legs for a fixed hypotenuse.",
+   "checked": "Using the shorter-side method taught in p20-example-content gives the proposed answers 24, 20, 15, 7 and 15. Every triangle is non-degenerate.",
+   "assumptions": "The new parts continue the existing instruction to calculate side lengths.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p21-q3-block, ask: “Before calculating, predict how the unknown leg changes as the known leg increases. Each right-angled triangle has hypotenuse 13 cm. Find the other leg when the known leg is (a) 5 cm, (b) 9 cm, (c) 12 cm. Give exact answers. What do you notice about (a) and (c)?” Expected answers: 12 cm, √88 cm, 5 cm; the legs exchange roles. The hypotenuse stays fixed and only the known leg varies. Follow with: “A right-angled triangle has hypotenuse 17 cm and one leg 8 cm. Find the other leg.” Expected answer: 15 cm."
+    "proposal": "After p21-q1-c, add only: “Predict how the unknown length will change before calculating.” Add right-triangle parts d: hypotenuse 25, known leg 7; e: hypotenuse 25, known leg 15; f: hypotenuse 25, known leg 20; g: hypotenuse 25, known leg 24. Answers: d 24; e 20; f 15; g 7. Follow with unpatterned part h: hypotenuse 17, known leg 8; answer 15. Across d–g only the known leg varies."
    },
-   "doneWhen": "Students predict and explain the relationship, then apply the method to the unpatterned follow-up.",
+   "doneWhen": "Students encounter the fixed-hypotenuse comparison followed by an unpatterned calculation.",
    "from": [
-    "c9"
+    "c6"
    ],
    "sequences": [
     "shorter-side"
@@ -157,40 +116,39 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T10:48:08.428Z"
+     "at": "2026-10-15T10:47:40.821Z"
     }
    ],
-   "commentId": "fa41c02b-155d-44e7-8510-e02705556e08",
-   "postedAt": "2026-10-11T10:48:08.446Z"
+   "commentId": "5730abc8-23a3-40b8-b5fe-333214d195fa",
+   "postedAt": "2026-10-15T10:47:40.972Z"
   },
   {
-   "id": "pf-361c5ceb0f",
-   "kind": "opening-review",
+   "id": "pf-4b1ac1d488",
+   "kind": "example-choice",
    "severity": "high",
    "targets": [
-    {
-     "id": "p26-information",
-     "blockId": "p26-information",
-     "hash": "65616b39ded983cd5ca1ae531f3b1172d3e79b25ecd2ce6a04af8b5df4fbc802"
-    },
     {
      "id": "p26-example-content",
      "blockId": "p26-example",
      "hash": "d8f7fe170bc00a39744e1454447ba47e5ba9bf082864c0c77a183d936d853f74"
+    },
+    {
+     "id": "p26-example-demonstration-diagram",
+     "blockId": "p26-example",
+     "hash": "d8f7fe170bc00a39744e1454447ba47e5ba9bf082864c0c77a183d936d853f74"
     }
    ],
-   "finding": "The isosceles altitude’s base-bisection property is neither rehearsed before the example nor explicitly connected to the substituted half-base.",
-   "breakdown": "The worked example uses 13.5 cm from a labelled 27 cm base. Without recalling and naming the isosceles property, students cannot justify that leg length and may infer that every perpendicular altitude halves a base.",
-   "checked": "Matching equal-side ticks are already used in p25-q2-l, so that part of c13 is removed. Neither the preceding strategy teaching nor its supplied exercise rehearses why an isosceles altitude bisects the base. p18-q4-f supplies equal-half marks directly. The p26 demonstration labels the half-base but supplies no connecting sentence; the later guided question’s equal-half marks do not explain the example’s decision.",
-   "assumptions": "The isosceles altitude property is prior geometry knowledge from the course’s geometry material. The teacher checks review responses. Calculator use does not affect the geometric decision.",
+   "finding": "The introductory example uses a 13.5 cm leg without explicitly connecting it to the given 27 cm base.",
+   "breakdown": "Students must recognise that the altitude bisects the isosceles triangle's base. The demonstration labels the half-base but does not state the geometric reason and calculation producing it.",
+   "checked": "Earlier teaching uses directly labelled lengths or equal-side marks; it does not explain this bisection. The original example marks the equal sloping sides, rather than equal base halves. The equal-half marks in p26-guided-a do not explain the example's substitution.",
+   "assumptions": "The supplied diagram description shows a half-base label rather than an explicit derivation. Calculator access does not supply the geometric decision.",
    "repair": {
-    "type": "add-review",
-    "proposal": "Before p26-information, add: “An isosceles triangle has base 18 cm. A perpendicular is drawn from the vertex between its equal sides to the base. Find the two base segments.” Expected answer: 9 cm each. Repeat with base 7 m; expected answer: 3.5 m each. Ask students to name the property used. In p26-example-content, add before substitution: “The two sloping sides are equal, so the perpendicular altitude bisects the base. Half-base = 27 ÷ 2 = 13.5 cm.”"
+    "type": "add-cue",
+    "proposal": "Before substituting, write: “The perpendicular height of an isosceles triangle bisects its base, so the right triangle's base is 27 ÷ 2 = 13.5 cm.”"
    },
-   "doneWhen": "The review checks recall of base bisection, and the worked example explicitly links that property to 13.5 cm.",
+   "doneWhen": "The example explicitly connects the full base to the half-base used in the calculation.",
    "from": [
-    "c12",
-    "c13"
+    "c8"
    ],
    "sequences": [
     "problems"
@@ -199,34 +157,70 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T10:48:08.428Z"
+     "at": "2026-10-15T10:47:40.821Z"
     }
    ],
-   "commentId": "3f6ee623-77d0-4227-ab1d-fae844a19343",
-   "postedAt": "2026-10-11T10:48:08.448Z"
+   "commentId": "1dbedd5f-4b26-47b1-9a10-eab995e7c1aa",
+   "postedAt": "2026-10-15T10:47:40.973Z"
   },
   {
-   "id": "pf-ca3f2cb04b",
-   "kind": "extension",
+   "id": "pf-78e4849696",
+   "kind": "variation-sequence",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p37-q11",
-     "blockId": "p37-q11-block",
-     "hash": "ef553d9d8b828c6217579121111dc738dd7d0474427f8be8a268f30b9048f73e"
+     "id": "p28-q3",
+     "blockId": "p28-q3-block",
+     "hash": "a5437c823e57421203b777712154d8dbbdd50f3a3343bffb96bce8e569167b9e"
     }
    ],
-   "finding": "Generalise the central length in the right-triangle spiral.",
-   "breakdown": "Students explain the repeated increase in squared length rather than repeatedly calculate roots.",
-   "checked": "Starting with squared central length 1, each new perpendicular side of length 1 adds 1 by Pythagoras’ theorem. After n triangles the length is √(n+1); length 5 requires n+1 = 25, hence n = 24. This uses the multistep structure already taught and practised.",
-   "assumptions": "n is a non-negative integer counting attached triangles; every new unit side is perpendicular to the preceding central segment.",
+   "finding": "Fix the equal sides and vary the base to expose the relationship between base length and height.",
+   "breakdown": "The existing parts change the equal sides as well as the base, preventing a direct comparison of this relationship.",
+   "checked": "All proposed bases are shorter than twice the equal side. Halving each base and applying Pythagoras gives heights 12.0, 10.2, 5.0 and 15.0 cm to one decimal place. The method is available in p26-example-content.",
+   "assumptions": "The further parts retain the existing instruction and rounding requirement.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p37-q11, offer: “Start with a central segment of length 1 and attach n successive right triangles, each with a new outer side of length 1 perpendicular to the preceding central segment. Predict the final central length before calculating. Explain your rule, then determine how many triangles produce a central length of 5.” Expected answer: √(n+1), because each triangle adds 1 to the preceding squared length; 24 triangles produce length 5."
+    "proposal": "After p28-q3-f, add only: “Predict how the height will change before calculating.” Add isosceles-triangle parts g: equal sides 13 cm, base 10 cm; h: equal sides 13 cm, base 16 cm; i: equal sides 13 cm, base 24 cm. Answers: g 12.0 cm; h 10.2 cm; i 5.0 cm. Follow with unpatterned part j: equal sides 17 cm, base 16 cm; answer 15.0 cm. Across g–i only the base varies."
    },
-   "doneWhen": "Students justify the rule through successive squared lengths and correctly interpret the triangle count.",
+   "doneWhen": "The fixed-side comparison and unpatterned follow-up appear as further parts of the height question.",
    "from": [
-    "c16"
+    "c9"
+   ],
+   "sequences": [
+    "problems"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:47:40.821Z"
+    }
+   ],
+   "commentId": "51a6f12a-6cc8-440c-8952-3412f1553e74",
+   "postedAt": "2026-10-15T10:47:40.975Z"
+  },
+  {
+   "id": "pf-cffb37d98d",
+   "kind": "difficulty-jump",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p38-q13",
+     "blockId": "p38-q13-block",
+     "hash": "b5cbeb815c90b8f9f70662dc9b8ed64473797ccda27c7f026fb270261c3c1859"
+    }
+   ],
+   "finding": "The final question requires students to discover a cut and rearrangement before they can use the length methods developed in the exercise.",
+   "breakdown": "Students must choose an opposite-side midpoint, determine how to move the cut piece and repeat the construction in a second orientation. Earlier demanding questions supply the relevant figures; they do not bridge this dissection search.",
+   "checked": "The full multistep practice includes local constructions, shared triangles, composite perimeters and repeated applications of Pythagoras. None supplies a rearrangement bridge. Although p38-q13 closes the exercise, the preceding questions do not build towards choosing cuts and moving pieces. The proposed midpoint rotations produce legs 24 and 10, or 48 and 5, giving perimeters 60 m and approximately 101.26 m.",
+   "assumptions": "No prior dissection strategy is stated. Calculator access does not resolve the construction barrier.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Add: “Try joining a corner to the midpoint of an opposite side. Rotate the small triangle through 180° about that midpoint. Repeat using the other pair of opposite sides.”"
+   },
+   "doneWhen": "Students can construct both resulting triangles from the cue and independently calculate their perimeters.",
+   "from": [
+    "c10"
    ],
    "sequences": [
     "multistep"
@@ -235,25 +229,50 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T10:48:08.428Z"
+     "at": "2026-10-15T10:47:40.821Z"
     }
    ],
-   "commentId": "4fdc1883-b24f-4b58-8f5b-364bbad9b8ec",
-   "postedAt": "2026-10-11T10:48:08.450Z"
-  }
- ],
- "contextQuestions": [
+   "commentId": "68ee7c7a-6a89-4557-aefd-96f75312f843",
+   "postedAt": "2026-10-15T10:47:40.977Z"
+  },
   {
-   "sequence": "multistep",
+   "id": "pf-b8bbaddb0f",
+   "kind": "extension",
+   "severity": "suggestion",
    "targets": [
-    "p34-q4-d",
-    "p37-q9-response",
-    "p37-q10-c",
-    "p37-q10-d"
+    {
+     "id": "p36-q6",
+     "blockId": "p36-q6",
+     "hash": "6fc944febcf281236eee1b48c23098853fcb10191262daf318b1f7e2b9f3700f"
+    }
    ],
-   "question": "Have students already been taught arc length as θ/360 × 2πr and how to find a composite shape’s perimeter while excluding shared internal edges? The supplied Pythagoras teaching does not teach these methods; the course-library titles do not establish whether students have studied them. If they have not, these tasks need a teaching bridge before p34-q4-d."
+   "finding": "Use the same water-surface width above the centre to connect the two possible water depths.",
+   "breakdown": "The follow-up distinguishes water depth from centre-to-chord distance through the symmetry of the two chord positions.",
+   "checked": "The half-width is 10 cm and the centre-to-chord distance is √(12.5²−10²)=7.5 cm. The upper depth is 12.5+7.5=20 cm; the original depth is 5 cm, so their sum is the 25 cm diameter. Only methods available by this topic are needed.",
+   "assumptions": "The pipe remains horizontal and retains the same circular cross-section.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional parts to p36-q6: (b) “The same pipe is more than half full and its water surface is still 20 cm wide. Find the water depth.” Answer: 20 cm. (c) “What is the sum of the two water depths?” Answer: 25 cm. (d) “Which measurement of the pipe equals this sum?” Answer: its diameter."
+   },
+   "doneWhen": "The follow-up asks one question per part and includes the expected answers.",
+   "from": [
+    "c11"
+   ],
+   "sequences": [
+    "multistep"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:47:40.821Z"
+    }
+   ],
+   "commentId": "a995aaf2-b2bd-4e88-ab60-b827e95ab970",
+   "postedAt": "2026-10-15T10:47:40.978Z"
   }
  ],
+ "contextQuestions": [],
  "protectedGroups": [
   {
    "sequence": "hypotenuse",
@@ -267,30 +286,42 @@
     "p3-identify-g",
     "p3-identify-h"
    ],
-   "observation": "The hypotenuse is identified by its position opposite the right angle, regardless of the triangle's orientation.",
-   "varies": "Orientation, proportions and the position of the marked right angle, including horizontal hypotenuses.",
-   "invariant": "Each figure is a triangle with a marked right angle and exactly one opposite side."
+   "observation": "The hypotenuse is determined by its position opposite the right angle, regardless of the triangle's orientation.",
+   "varies": "Orientation and the positions of the right angle and hypotenuse.",
+   "invariant": "A marked right-angled triangle and the instruction to identify its hypotenuse."
+  },
+  {
+   "sequence": "hypotenuse",
+   "targets": [
+    "p3-identify-h",
+    "p3-identify-i",
+    "p3-identify-j"
+   ],
+   "observation": "Identification requires established right-angle information rather than appearance alone.",
+   "varies": "Presence or absence of a right-angle marker.",
+   "invariant": "The request to identify a hypotenuse from a triangle diagram."
+  },
+  {
+   "sequence": "hypotenuse",
+   "targets": [
+    "p4-q2-b",
+    "p4-q2-c"
+   ],
+   "observation": "Changing the side lengths preserves the right-angle location when the longest side occupies the same position.",
+   "varies": "Numerical side lengths.",
+   "invariant": "The right-angled assumption, the longest side at the base, and the reverse-identification task."
   },
   {
    "sequence": "pythagoras-theorem",
    "targets": [
-    "p7-q1-b",
-    "p7-q1-c"
+    "p5-investigation-row-1",
+    "p5-investigation-row-2",
+    "p5-investigation-row-3",
+    "p5-investigation-row-4"
    ],
-   "observation": "The side opposite the right angle remains the hypotenuse when the triangle's orientation changes.",
-   "varies": "Orientation and side letters.",
-   "invariant": "Three labelled sides, an explicit right-angle marker and the task of writing the squared relationship."
-  },
-  {
-   "sequence": "pythagoras-theorem",
-   "targets": [
-    "p7-q1-d",
-    "p7-q1-e",
-    "p7-q1-f"
-   ],
-   "observation": "The same theorem applies to an explicitly marked right triangle embedded in a larger figure.",
-   "varies": "The surrounding figure: rectangle, semicircle and cylinder.",
-   "invariant": "A supplied right triangle with labelled legs and hypotenuse; only its equation is required."
+   "observation": "The first three rows give equal squared totals, whereas the final non-right triangle does not; this comparison supports the right-angle condition.",
+   "varies": "Side lengths, orientation and finally whether the triangle is right-angled; this is a contrast group rather than controlled single-feature variation.",
+   "invariant": "Choose the longest side, square each length and compare a² + b² with c²."
   },
   {
    "sequence": "pythagorean-triads",
@@ -300,9 +331,19 @@
     "p13-q3-cloze",
     "p13-q3-draw"
    ],
-   "observation": "Common scaling preserves the right-angle relationship, including when the lengths cease to be whole numbers.",
-   "varies": "The common scale factor: 2, 1/10, 10 and 1/7.",
-   "invariant": "Corresponding side ratios remain 3:4:5 and the triangles remain right-angled."
+   "observation": "Common scaling preserves the right-angled shape even when the lengths cease to be whole numbers.",
+   "varies": "The common scale factor: 2, 1/10, 10 and 1/7, followed by student choices.",
+   "invariant": "Corresponding side ratios remain 3:4:5."
+  },
+  {
+   "sequence": "shorter-side",
+   "targets": [
+    "p22-q5-root",
+    "p22-q6-response"
+   ],
+   "observation": "The vertical leg equals the kite’s height only when the string starts at ground level; an elevated starting point requires adding its height.",
+   "varies": "The string starts at ground level and then at hand height; numerical measurements also change.",
+   "invariant": "The string is the hypotenuse, and the horizontal distance is a perpendicular leg."
   },
   {
    "sequence": "strategy",
@@ -311,9 +352,9 @@
     "p25-q2-b",
     "p25-q2-c"
    ],
-   "observation": "Exact hypotenuse answers may be whole numbers or roots; doubling both legs doubles the hypotenuse.",
-   "varies": "One leg changes at each adjacent step; from the first to the third task both legs double.",
-   "invariant": "Right-angle position, unknown hypotenuse and addition shortcut."
+   "observation": "Changing one leg at a time can change whether the exact hypotenuse is an integer or a retained root.",
+   "varies": "One known leg length at each transition.",
+   "invariant": "The right-angle position, unknown hypotenuse and addition method."
   },
   {
    "sequence": "strategy",
@@ -321,9 +362,9 @@
     "p25-q2-c",
     "p25-q2-d"
    ],
-   "observation": "The role of a given length determines whether its square is added or subtracted.",
-   "varies": "16 changes from a leg to the hypotenuse, and the unknown changes from hypotenuse to leg.",
-   "invariant": "Given lengths 16 cm and 12 cm and the right-angle position."
+   "observation": "The same given numbers require different operations when 16 changes from a leg to the hypotenuse.",
+   "varies": "The side roles of 16 and x.",
+   "invariant": "Given lengths 16 cm and 12 cm."
   },
   {
    "sequence": "strategy",
@@ -332,19 +373,9 @@
     "p25-q2-e",
     "p25-q2-f"
    ],
-   "observation": "Exchanging leg positions or rotating the triangle does not change the shorter-side calculation.",
-   "varies": "Position of the unknown leg and orientation of the triangle.",
-   "invariant": "Hypotenuse 16 cm, known leg 12 cm and unknown shorter side."
-  },
-  {
-   "sequence": "strategy",
-   "targets": [
-    "p25-q2-f",
-    "p25-q2-g"
-   ],
-   "observation": "With the hypotenuse fixed, reducing one leg increases the other.",
-   "varies": "Known leg decreases from 12 cm to 8 cm.",
-   "invariant": "Hypotenuse 16 cm, unknown left leg and triangle orientation."
+   "observation": "The shorter-side calculation stays the same when the unknown leg changes position and the triangle rotates.",
+   "varies": "Placement of the unknown leg and orientation.",
+   "invariant": "Hypotenuse 16 cm, known leg 12 cm and the subtraction calculation."
   },
   {
    "sequence": "strategy",
@@ -352,9 +383,9 @@
     "p25-q2-h",
     "p25-q2-i"
    ],
-   "observation": "Identical numerical givens require different operations when their side roles change.",
-   "varies": "10 cm changes from hypotenuse to leg; the unknown becomes the hypotenuse.",
-   "invariant": "Given lengths 10 cm and 5 cm and upper right-angle position."
+   "observation": "The roles of the sides, rather than the two given numbers alone, determine addition or subtraction.",
+   "varies": "Whether 10 is a hypotenuse or a leg.",
+   "invariant": "Given lengths 10 cm and 5 cm."
   },
   {
    "sequence": "strategy",
@@ -362,9 +393,19 @@
     "p25-q2-i",
     "p25-q2-j"
    ],
-   "observation": "Rotating a triangle leaves the hypotenuse calculation unchanged.",
-   "varies": "Orientation and placement of the labelled legs.",
-   "invariant": "Perpendicular legs 10 cm and 5 cm and unknown hypotenuse."
+   "observation": "Rotation leaves the hypotenuse calculation unchanged.",
+   "varies": "Triangle orientation.",
+   "invariant": "Perpendicular legs 10 cm and 5 cm, with unknown hypotenuse."
+  },
+  {
+   "sequence": "problems",
+   "targets": [
+    "p26-guided-c",
+    "p26-guided-d"
+   ],
+   "observation": "The same subtraction-and-Pythagoras method applies with the exposed right triangle on either side.",
+   "varies": "The position of the sloping side and the numerical dimensions.",
+   "invariant": "A supplied perpendicular construction, a base difference giving one leg, and an unknown hypotenuse."
   },
   {
    "sequence": "multistep",
@@ -374,28 +415,34 @@
     "p33-q2-e",
     "p33-q2-f"
    ],
-   "observation": "The outer hypotenuse depends on the sum of the three given squared lengths, including when those lengths exchange positions.",
-   "varies": "One given length at a time, followed by reassignment of the same lengths to different sides.",
-   "invariant": "Two adjoining right triangles, their shared diagonal and the outer hypotenuse as the unknown."
+   "observation": "The outer hypotenuse depends on the sum of the squares of the three successive perpendicular lengths; redistributing those lengths can preserve the result.",
+   "varies": "Individual perpendicular lengths and their positions.",
+   "invariant": "The joined-triangle structure, unknown outer hypotenuse and exact-answer instruction."
   },
   {
    "sequence": "multistep",
    "targets": [
     "p35-q5-a",
-    "p35-q5-b",
-    "p35-q5-c",
-    "p35-q5-d",
-    "p35-q5-e",
-    "p35-q5-f"
+    "p35-q5-b"
    ],
-   "observation": "Students must read the locations of givens and equality marks to decide which triangle to solve first and how to assemble or divide the base.",
-   "varies": "Positions of 21 cm and 29 cm, the pair of equal segments and the target diagonal.",
-   "invariant": "A large right triangle containing a smaller right triangle, with the same two numerical givens."
+   "observation": "Moving a given length between the height and a half-base changes which intermediate length must first be calculated.",
+   "varies": "The position of the 21 cm given.",
+   "invariant": "The 29 cm internal hypotenuse, equal base segments and unknown outer hypotenuse."
+  },
+  {
+   "sequence": "multistep",
+   "targets": [
+    "p35-q5-a",
+    "p35-q5-c"
+   ],
+   "observation": "Equality marks determine which length supplies the extra base segment.",
+   "varies": "The pair of segments marked equal.",
+   "invariant": "The 29 cm internal hypotenuse, 21 cm left base segment and unknown outer hypotenuse."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 75,
- "reviewedAt": "2026-10-11T10:48:08.428Z",
+ "reviewedRevision": 82,
+ "reviewedAt": "2026-10-15T10:47:40.821Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -419,16 +466,16 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 29605,
-     "cached_input_tokens": 12544,
+     "input_tokens": 30022,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2255,
-     "reasoning_output_tokens": 179
+     "output_tokens": 2149,
+     "reasoning_output_tokens": 33
     },
-    "elapsedMs": 62961,
+    "elapsedMs": 52410,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "pythagoras-theorem",
@@ -437,13 +484,13 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 37104,
+     "input_tokens": 37521,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2776,
-     "reasoning_output_tokens": 210
+     "output_tokens": 2616,
+     "reasoning_output_tokens": 187
     },
-    "elapsedMs": 79150,
+    "elapsedMs": 65467,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -455,16 +502,16 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 34596,
-     "cached_input_tokens": 12544,
+     "input_tokens": 35013,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1952,
-     "reasoning_output_tokens": 205
+     "output_tokens": 1612,
+     "reasoning_output_tokens": 90
     },
-    "elapsedMs": 58843,
+    "elapsedMs": 45905,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "pythagorean-triads",
@@ -473,13 +520,13 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 32941,
+     "input_tokens": 33363,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3135,
-     "reasoning_output_tokens": 298
+     "output_tokens": 2891,
+     "reasoning_output_tokens": 51
     },
-    "elapsedMs": 89477,
+    "elapsedMs": 69045,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -491,16 +538,16 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 45275,
+     "input_tokens": 45689,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2345,
-     "reasoning_output_tokens": 142
+     "output_tokens": 2292,
+     "reasoning_output_tokens": 299
     },
-    "elapsedMs": 63460,
+    "elapsedMs": 61183,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "shorter-side",
@@ -509,16 +556,16 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 44139,
+     "input_tokens": 44553,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2321,
-     "reasoning_output_tokens": 106
+     "output_tokens": 2153,
+     "reasoning_output_tokens": 154
     },
-    "elapsedMs": 64173,
+    "elapsedMs": 58034,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "strategy",
@@ -527,13 +574,13 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 41790,
-     "cached_input_tokens": 14592,
+     "input_tokens": 42207,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2582,
-     "reasoning_output_tokens": 56
+     "output_tokens": 2957,
+     "reasoning_output_tokens": 131
     },
-    "elapsedMs": 68342,
+    "elapsedMs": 69346,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -545,16 +592,16 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 52722,
+     "input_tokens": 53139,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4298,
-     "reasoning_output_tokens": 130
+     "output_tokens": 3650,
+     "reasoning_output_tokens": 116
     },
-    "elapsedMs": 118624,
-    "candidates": 2,
+    "elapsedMs": 86500,
+    "candidates": 1,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "multistep",
@@ -563,14 +610,14 @@
     "images": 7,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 59092,
+     "input_tokens": 59509,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3713,
-     "reasoning_output_tokens": 238
+     "output_tokens": 3721,
+     "reasoning_output_tokens": 150
     },
-    "elapsedMs": 102328,
-    "candidates": 0,
+    "elapsedMs": 90891,
+    "candidates": 1,
     "discarded": [],
     "suggestions": 1
    }
@@ -580,33 +627,16 @@
     "ids": [
      "c1"
     ],
-    "reason": "The mathematics and placement are valid, but this recognition extension is less substantial than the four retained suggestions.",
+    "reason": "The mathematics and placement pass, but the four-suggestion limit defeats retention. The selected suggestions expose more distinct relationships; scaling is also explicitly developed later in p11-generating-definition and its example.",
     "candidates": [
      {
       "id": "c1",
-      "sequence": "hypotenuse",
+      "sequence": "pythagoras-theorem",
       "kind": "extension",
       "targets": [
-       "p3-identify-l"
+       "p7-q2"
       ],
-      "finding": "Explain how one diagonal can be the hypotenuse of two different triangles."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c3"
-    ],
-    "reason": "The proposed triangles and answers are valid. However, p8-example-content already contrasts nearly equal squared totals, 145 and 144, and the guided practice contrasts equality with inequality. Other suggestions add more to the booklet within the four-suggestion limit.",
-    "candidates": [
-     {
-      "id": "c3",
-      "sequence": "converse",
-      "kind": "variation-sequence",
-      "targets": [
-       "p8-guided-block"
-      ],
-      "finding": "Hold the two shorter sides fixed while varying the longest side across the equality case."
+      "finding": "Extend the 3–4–5 check by doubling every side and comparing the squared totals."
      }
     ]
    },
@@ -614,16 +644,33 @@
     "ids": [
      "c4"
     ],
-    "reason": "The mathematics is valid, including preservation of inequality under positive scaling. p13-q3 already explicitly compares scaled triangles and states preservation of right angles; the retained suggestions provide broader additional value.",
+    "reason": "The proposed distinction is tangential: it deliberately substitutes an even input outside the formula's stated odd-input condition and then asks why the result is not a triad. The calculations are correct, but this is weaker than the permitted extensions centred on the topic's mathematics.",
     "candidates": [
      {
       "id": "c4",
-      "sequence": "converse",
+      "sequence": "pythagorean-triads",
       "kind": "extension",
       "targets": [
-       "p9-q2-block"
+       "p13-q4-b"
       ],
-      "finding": "Explain why multiplying every side length by the same positive factor preserves whether a triangle is right-angled."
+      "finding": "Connect the formula-generated triad with the earlier scaling method."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c5"
+    ],
+    "reason": "The proposed calculations are correct, but the four-suggestion limit defeats retention. Its scaling relationship overlaps c1 and c7 and is already supported by the earlier triad-scaling teaching; the retained suggestions provide broader coverage.",
+    "candidates": [
+     {
+      "id": "c5",
+      "sequence": "hypotenuse-length",
+      "kind": "extension",
+      "targets": [
+       "p18-q5"
+      ],
+      "finding": "Compare the effects of doubling only the gate’s width and doubling both its dimensions."
      }
     ]
    },
@@ -631,101 +678,16 @@
     "ids": [
      "c7"
     ],
-    "reason": "All proposed lengths and approximations are correct, and the methods are available. The fixed-hypotenuse sequence in c9 offers a stronger comparison tied to subtraction and leg interchange within the four-suggestion limit.",
+    "reason": "The exact answer √450 cm and doubling comparison are correct, but the four-suggestion limit defeats retention. The relationship repeats the uniform scaling already taught in p11 and overlaps the other scaling suggestions.",
     "candidates": [
      {
       "id": "c7",
-      "sequence": "hypotenuse-length",
-      "kind": "variation-sequence",
-      "targets": [
-       "p18-q4"
-      ],
-      "finding": "Hold one perpendicular leg fixed and increase the other in equal steps."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c8"
-    ],
-    "reason": "The positive-scaling generalisation is correct, but it substantially revisits the scaling relationship explicitly developed in p11 and p13-q3. It is not among the four strongest suggestions.",
-    "candidates": [
-     {
-      "id": "c8",
-      "sequence": "hypotenuse-length",
-      "kind": "extension",
-      "targets": [
-       "p18-q5"
-      ],
-      "finding": "Explain how scaling both legs changes the hypotenuse."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c10"
-    ],
-    "reason": "H = 24 + s and the stated change are correct for the described kite above the holding point. This is chiefly an algebraic restatement of the existing contextual task and ranks below the retained suggestions.",
-    "candidates": [
-     {
-      "id": "c10",
-      "sequence": "shorter-side",
-      "kind": "extension",
-      "targets": [
-       "p22-q6"
-      ],
-      "finding": "Generalise how the height of the string’s starting point affects the kite’s total height."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c11"
-    ],
-    "reason": "For positive leg length s, h = √(2s²), and hypotenuse 12 gives legs √72; the comparison with 2s is correct. The task is valid but ranks below the four retained suggestions.",
-    "candidates": [
-     {
-      "id": "c11",
       "sequence": "strategy",
       "kind": "extension",
       "targets": [
-       "p25-q2-l"
+       "p25-q2"
       ],
-      "finding": "Generalise the shortcut for right-angled triangles with equal legs."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c14"
-    ],
-    "reason": "The proposed answers are correct and the comparison is useful, but the existing problems already distinguish labelled half-bases, full bases and requested full bases. The retained suggestions contribute more within the four-suggestion limit.",
-    "candidates": [
-     {
-      "id": "c14",
-      "sequence": "problems",
-      "kind": "variation-sequence",
-      "targets": [
-       "p27-q1-i"
-      ],
-      "finding": "Use matched isosceles-triangle tasks to distinguish a full base from a half-base."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c15"
-    ],
-    "reason": "For positive side lengths, h = √(s²−b²/4), positive height requires b < 2s, and the equilateral substitution is correct. The task is valid but adds symbolic simplification and triangle conditions beyond the focus of the four retained suggestions.",
-    "candidates": [
-     {
-      "id": "c15",
-      "sequence": "problems",
-      "kind": "extension",
-      "targets": [
-       "p31-q13-b"
-      ],
-      "finding": "Generalise the height calculation from equilateral to isosceles triangles."
+      "finding": "Extend the equal-leg triangle to compare scaling the legs with scaling the hypotenuse."
      }
     ]
    }
@@ -733,8 +695,8 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/pythagoras-theorem-v1/candidates-low-1791715596736.json",
+  "candidateFile": ".booklet-work/pedagogy-review/pythagoras-theorem-v1/candidates-low-1792061190661.json",
   "errors": []
  },
- "postedRevision": 76
+ "postedRevision": 83
 }

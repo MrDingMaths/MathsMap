@@ -46,6 +46,191 @@
    "postedAt": "2026-10-11T08:02:00.313Z"
   },
   {
+   "id": "pf-2b60f3f636",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p63-q2",
+     "blockId": "p63-q2-block",
+     "hash": "ff4f8e4088fada9928e698cbb7c1566b0dfea7edf39381f5d85279e709799779"
+    }
+   ],
+   "finding": "A controlled comparison can expose that a higher mean does not determine the range.",
+   "breakdown": "The existing question compares supplied statistics but does not isolate changes in spread while holding the means fixed.",
+   "checked": "All proposed means and ranges are correct. Calculating and comparing these statistics is taught on p62. The run holds both means and Rhys's data fixed while changing Ali's spread.",
+   "assumptions": "These are additional hypothetical seasons under the existing instruction to compare cricket performances.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p63-q2, append further parts under its comparison instruction. Add only this instruction: 'Predict how each comparison will change before calculating.' (a) Rhys: 10, 20, 30; Ali: 15, 25, 35. Answers: means 20 and 25; ranges 20 and 20. (b) Rhys: 10, 20, 30; Ali: 20, 25, 30. Answers: means 20 and 25; ranges 20 and 10. (c) Rhys: 10, 20, 30; Ali: 5, 25, 45. Answers: means 20 and 25; ranges 20 and 40. Follow with an unpatterned part (d): Rhys: 10, 20, 30; Ali: 12, 18, 24. Answers: means 20 and 18; ranges 20 and 12. Ali has the higher mean in (a)–(c); consistency is equal in (a), better for Ali in (b), and better for Rhys in (c). In (d), Rhys has the higher mean and Ali is more consistent."
+   },
+   "doneWhen": "Three controlled comparisons and one unpatterned comparison follow p63-q2, with only the prediction line added.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "comparing-datasets"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:39:53.946Z"
+    }
+   ],
+   "commentId": "bc6cf585-98bc-4cc6-860b-110c9d549ae7",
+   "postedAt": "2026-10-15T09:39:54.643Z"
+  },
+  {
+   "id": "pf-f870e47c7e",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p68-q1",
+     "blockId": "p68-q1-block",
+     "hash": "b2a9ae2e27dfe700af73464c36d7aea7bbdd62105bd78fc52736368040ba5d27"
+    }
+   ],
+   "finding": "Adding Tiffany's existing mean provides a concrete spreadsheet investigation of which statistics change.",
+   "breakdown": "The follow-up connects recalculation with the relationship between an added observation and the existing mean.",
+   "checked": "Tiffany's original total is 637 and her mean is 79.625. Adding 79.625 preserves that mean; the new median and mode are 82 and the range is 37. Replacing the ninth score with 82 gives 719/9. All required calculations are available through the spreadsheet functions taught in this topic.",
+   "assumptions": "Students use the spreadsheet as instructed and treat the replacement as changing the ninth score only.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p68-q1c, add optional parts: (d) Add 79.625 as Tiffany's ninth test score. What is her new mean? Answer: 79.625. (e) What is her new median? Answer: 82. (f) What is her new mode? Answer: 82. (g) What is her new range? Answer: 37. (h) Replace the ninth score with 82. What is her new mean? Answer: 719/9 = 79.888… . (i) Explain why adding 79.625 left her mean unchanged. Expected answer: the original total was eight lots of 79.625; adding another lot gives nine lots shared among nine scores."
+   },
+   "doneWhen": "The optional follow-up uses the existing dataset, separates the questions into individual parts, and supplies the checked answers.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "spreadsheets"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:39:53.946Z"
+    }
+   ],
+   "commentId": "5c8a7d43-bd83-4c35-9bc5-13e3d8c08963",
+   "postedAt": "2026-10-15T09:39:54.658Z"
+  },
+  {
+   "id": "pf-cbe6f143cf",
+   "kind": "missing-prerequisite",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p76-q10a",
+     "blockId": "p76-q10-block",
+     "hash": "9bc8fde0be7182cef14d56641e506c5b0ed35093051fa3ab73e18724a62963c2"
+    },
+    {
+     "id": "p76-q11a",
+     "blockId": "p76-q11-block",
+     "hash": "885650971c5af7443c6b061e33db6edf9ced161190c0362b824e6412c0dfa55a"
+    }
+   ],
+   "finding": "The numerical mean-update questions introduce recovering a total from a mean and count without preceding teaching of that method.",
+   "breakdown": "The raw observations are unavailable. Students must recover the original total, add or subtract the relevant observation, and update the count; averaging the given mean with the new score or subtracting an outlier directly from the mean fails.",
+   "checked": "Earlier teaching calculates means from available observations or uses spreadsheet functions. p73-q3 asks only for directions of change. No preceding instruction models recovering an unavailable total. The proposed example is correct: 3×80=240 and (240+20)/4=65. For the targets, (4×90+2)/5=72.4 and (30×648−9000)/29=360.",
+   "assumptions": "Ordinary mean calculation is prior knowledge. Recovering a total is a new variant of the statistical method in this booklet; calculator use does not supply it.",
+   "repair": {
+    "type": "add-teaching",
+    "proposal": "Before p76-q10a, add: 'Mean = total ÷ number of values, so total = mean × number of values. Three scores with mean 80 have total 3×80=240. Adding a score of 20 gives a new mean of (240+20)/4=65. When removing a value, subtract it from the total and reduce the count by one.'"
+   },
+   "doneWhen": "Students see how to recover and update both total and count before the addition and removal questions.",
+   "from": [
+    "c5"
+   ],
+   "sequences": [
+    "impact-of-outliers"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-11T08:01:09.727Z"
+    }
+   ],
+   "commentId": "902f88e0-58a2-4d56-9e4f-df6ce8b42e2a",
+   "postedAt": "2026-10-11T08:02:00.323Z"
+  },
+  {
+   "id": "pf-d62d846c7e",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p76-q10",
+     "blockId": "p76-q10-block",
+     "hash": "9bc8fde0be7182cef14d56641e506c5b0ed35093051fa3ab73e18724a62963c2"
+    }
+   ],
+   "finding": "A follow-up can contrast an added score equal to the existing mean with one above it.",
+   "breakdown": "This exposes the relationship between the added score and the direction of change in the mean using the existing test context.",
+   "checked": "Four students with mean 90 have total 360. Adding 90 gives 450/5 = 90; adding 100 gives 460/5 = 92. The follow-up uses the same operations required by p76-q10 and requires no additional method.",
+   "assumptions": "The unsupported inverse step identified in c5 is repaired before this question.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p76-q10c, add: (d) Return to the four students in part a, whose mean is 90. What score must the fifth student obtain for the mean of all five students to remain 90? Answer: 90. (e) If the fifth student instead scores 100, what is the mean of all five scores? Answer: 92."
+   },
+   "doneWhen": "The two optional parts follow p76-q10c and explicitly return to its original four students.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "impact-of-outliers"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:39:53.946Z"
+    }
+   ],
+   "commentId": "8fbc9400-b9b3-4a37-aa42-4b4e06120250",
+   "postedAt": "2026-10-15T09:39:54.664Z"
+  },
+  {
+   "id": "pf-4fafb4e7b7",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p81-q9-salary",
+     "blockId": "p81-q9-block",
+     "hash": "25cefaeec48c9cc6eea55b19177950315e7b394d8b5fc53a0bf65bef423c38c7"
+    }
+   ],
+   "finding": "Adding an employee at the quoted mean extends the contrast between the mean salary and a typical employee's salary.",
+   "breakdown": "The mean can remain $80,000 while the median remains $30,000, retaining the original question's focus on representativeness.",
+   "checked": "The eight salaries total $640,000. Adding $80,000 gives $720,000 across nine employees, preserving the mean. Seven salaries remain $30,000, so the fifth ordered salary and median are $30,000. The required mean and median methods precede this topic.",
+   "assumptions": "The original eight salaries remain unchanged when the ninth employee joins.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Immediately after p81-q9-salary, add optional follow-up parts: (i) One more employee joins. What must their salary be for the mean salary to remain $80,000? Answer: $80,000. (ii) What is the median salary for the nine employees? Answer: $30,000."
+   },
+   "doneWhen": "The numerical follow-up remains attached to the existing salary scenario and includes both checked answers.",
+   "from": [
+    "c7"
+   ],
+   "sequences": [
+    "relative-merits-centre"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:39:53.946Z"
+    }
+   ],
+   "commentId": "b505aceb-6049-4fb4-97b5-20a909a3ddaa",
+   "postedAt": "2026-10-15T09:39:54.675Z"
+  },
+  {
    "id": "pf-c9ff6485db",
    "kind": "extension",
    "severity": "suggestion",
@@ -116,47 +301,6 @@
    ],
    "commentId": "91eee41e-5248-4f68-9a96-01415d86ef3e",
    "postedAt": "2026-10-11T08:02:00.320Z"
-  },
-  {
-   "id": "pf-cbe6f143cf",
-   "kind": "missing-prerequisite",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p76-q10a",
-     "blockId": "p76-q10-block",
-     "hash": "9bc8fde0be7182cef14d56641e506c5b0ed35093051fa3ab73e18724a62963c2"
-    },
-    {
-     "id": "p76-q11a",
-     "blockId": "p76-q11-block",
-     "hash": "885650971c5af7443c6b061e33db6edf9ced161190c0362b824e6412c0dfa55a"
-    }
-   ],
-   "finding": "The numerical mean-update questions introduce recovering a total from a mean and count without preceding teaching of that method.",
-   "breakdown": "The raw observations are unavailable. Students must recover the original total, add or subtract the relevant observation, and update the count; averaging the given mean with the new score or subtracting an outlier directly from the mean fails.",
-   "checked": "Earlier teaching calculates means from available observations or uses spreadsheet functions. p73-q3 asks only for directions of change. No preceding instruction models recovering an unavailable total. The proposed example is correct: 3×80=240 and (240+20)/4=65. For the targets, (4×90+2)/5=72.4 and (30×648−9000)/29=360.",
-   "assumptions": "Ordinary mean calculation is prior knowledge. Recovering a total is a new variant of the statistical method in this booklet; calculator use does not supply it.",
-   "repair": {
-    "type": "add-teaching",
-    "proposal": "Before p76-q10a, add: 'Mean = total ÷ number of values, so total = mean × number of values. Three scores with mean 80 have total 3×80=240. Adding a score of 20 gives a new mean of (240+20)/4=65. When removing a value, subtract it from the total and reduce the count by one.'"
-   },
-   "doneWhen": "Students see how to recover and update both total and count before the addition and removal questions.",
-   "from": [
-    "c5"
-   ],
-   "sequences": [
-    "impact-of-outliers"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T08:01:09.727Z"
-    }
-   ],
-   "commentId": "902f88e0-58a2-4d56-9e4f-df6ce8b42e2a",
-   "postedAt": "2026-10-11T08:02:00.323Z"
   },
   {
    "id": "pf-faace7e7ac",
@@ -270,26 +414,6 @@
  "contextQuestions": [],
  "protectedGroups": [
   {
-   "sequence": "distribution-shape",
-   "targets": [
-    "p84-q3-a",
-    "p84-q3-b"
-   ],
-   "observation": "One peak can accompany either direction of skewness.",
-   "varies": "The direction of the longer tail.",
-   "invariant": "Unimodality and the curve-matching task."
-  },
-  {
-   "sequence": "distribution-shape",
-   "targets": [
-    "p84-q3-c",
-    "p84-q3-d"
-   ],
-   "observation": "Symmetry does not require a single peak.",
-   "varies": "One peak versus two separated peaks.",
-   "invariant": "Approximate symmetry and the curve-matching task."
-  },
-  {
    "sequence": "relative-merits-centre",
    "targets": [
     "p79-q2-a",
@@ -297,51 +421,47 @@
     "p79-q2-c",
     "p79-q2-d"
    ],
-   "observation": "Changing one extreme value can move the mean substantially while leaving the median and mode unchanged.",
-   "varies": "The final value changes from 11 to 110.",
-   "invariant": "The other four observations, dataset size, median and mode."
+   "observation": "Changing one extreme value changes the mean substantially while leaving the mode and median unchanged, allowing students to compare usefulness.",
+   "varies": "The largest observation changes from 11 to 110.",
+   "invariant": "The other four observations, dataset size, mode and median."
   },
   {
-   "sequence": "impact-of-outliers",
+   "sequence": "relative-merits-centre",
    "targets": [
-    "p70-cut-question",
-    "p70-plant-question"
+    "p79-q1-a",
+    "p79-q1-b",
+    "p79-q1-c"
    ],
-   "observation": "Removing a high value and adding a high value produce opposite changes in centre, while both affect the range.",
-   "varies": "Removing the maximum versus adding a new maximum.",
-   "invariant": "The original five tree heights and the four statistics examined."
+   "observation": "A maximum value can still represent both the majority and the middle ordered observation.",
+   "varies": "The measure calculated and evaluated.",
+   "invariant": "The dataset and its majority value of 5."
   },
   {
-   "sequence": "impact-of-outliers",
+   "sequence": "distribution-shape",
    "targets": [
-    "p73-q3a",
-    "p73-q3b",
-    "p73-q3c"
+    "p82-modality-permanent-content"
    ],
-   "observation": "The direction of mean change depends on whether the added value is below, equal to or above the existing mean.",
-   "varies": "The added player's mass relative to 95 kg.",
-   "invariant": "The original team and its mean."
+   "observation": "Distinguishes modality by the number of prominent peaks and shows that two peaks need not have equal heights.",
+   "varies": "Number and relative heights of prominent peaks.",
+   "invariant": "Histogram representation and the prominent-peak classification criterion."
   },
   {
-   "sequence": "impact-of-outliers",
+   "sequence": "distribution-shape",
    "targets": [
-    "p76-q10a",
-    "p76-q10b",
-    "p76-q10c"
+    "p82-skewness-permanent-content"
    ],
-   "observation": "One unusual score has less influence on the mean in a larger group.",
-   "varies": "Number of existing scores.",
-   "invariant": "Original mean of 90 and added score of 2."
+   "observation": "Contrasts left-tail skew, symmetry and right-tail skew.",
+   "varies": "Tail direction and balance of the two sides.",
+   "invariant": "A single prominent peak and the histogram-plus-profile representation."
   },
   {
-   "sequence": "impact-of-outliers",
+   "sequence": "surveys",
    "targets": [
-    "p77-q12-c",
-    "p77-q12-d"
+    "p88-population-extension-root"
    ],
-   "observation": "Removing opposite extremes changes centre in opposite directions but reduces range in both cases.",
-   "varies": "Removal of the minimum or maximum.",
-   "invariant": "Original five distinct ordered heights."
+   "observation": "The same surveyed group can constitute a census or a sample depending on the population of interest.",
+   "varies": "The target population changes from Year 8 students to all students in the school.",
+   "invariant": "Every Year 8 student is surveyed."
   },
   {
    "sequence": "questionnaire-design",
@@ -349,8 +469,8 @@
     "p92-part-b",
     "p92-part-c"
    ],
-   "observation": "One-sided contextual information can encourage opposite answers to the same question.",
-   "varies": "The introductory claim presents either dislike of mathematics or its usefulness for future employment.",
+   "observation": "One-sided information can encourage opposite answers to the same underlying question.",
+   "varies": "The contextual claim favours opposition to, then support for, compulsory mathematics.",
    "invariant": "The question asks whether mathematics should be compulsory."
   },
   {
@@ -359,9 +479,51 @@
     "p93-q1-a",
     "p93-q1-b"
    ],
-   "observation": "The direction of a leading question's influence depends on the information supplied.",
-   "varies": "The introduction emphasises either a budget deficit or a military threat.",
-   "invariant": "The question asks whether the government should cut military expenditure."
+   "observation": "Changing the contextual information can reverse the direction of a leading question.",
+   "varies": "Budget pressure versus a security threat.",
+   "invariant": "The question asks whether government should cut military expenditure."
+  },
+  {
+   "sequence": "impact-of-outliers",
+   "targets": [
+    "p70-cut-question",
+    "p70-plant-question"
+   ],
+   "observation": "Removing a maximum and adding a new maximum affect the same summary statistics in contrasting ways.",
+   "varies": "The operation performed on the original five-tree dataset.",
+   "invariant": "The original heights and the four statistics being considered."
+  },
+  {
+   "sequence": "impact-of-outliers",
+   "targets": [
+    "p73-q3a",
+    "p73-q3b",
+    "p73-q3c"
+   ],
+   "observation": "An added value below, equal to or above the existing mean decreases, preserves or increases it.",
+   "varies": "The new player's mass relative to 95 kg.",
+   "invariant": "The team's original mean and addition of one player."
+  },
+  {
+   "sequence": "impact-of-outliers",
+   "targets": [
+    "p76-q10a",
+    "p76-q10b",
+    "p76-q10c"
+   ],
+   "observation": "The same unusual added score has less effect on the mean of a larger group.",
+   "varies": "The original number of students.",
+   "invariant": "The original mean of 90 and the added score of 2."
+  },
+  {
+   "sequence": "impact-of-outliers",
+   "targets": [
+    "p77-q12-c",
+    "p77-q12-d"
+   ],
+   "observation": "Removing either unique extreme reduces range, while the directions of centre changes reverse.",
+   "varies": "Whether the minimum or maximum is removed.",
+   "invariant": "The original five ordered heights and the statistics requested."
   }
  ],
  "notReliablyReviewed": [
@@ -370,15 +532,13 @@
    "targets": [
     "p82-skewness-investigation-starting",
     "p82-skewness-investigation-right-tail",
-    "p82-skewness-investigation-left-tail",
-    "p82-skewness-investigation-c",
-    "p82-skewness-investigation-summary"
+    "p82-skewness-investigation-left-tail"
    ],
-   "reason": "These added investigation plots are absent from the attached source page and their entries contain only provenance references, without diagram specifications or modified datasets. The starting list is supplied, but the complete calculation and comparison activity cannot be reviewed."
+   "reason": "These added investigation diagrams are absent from the attached page images, and their sequence entries provide provenance references without plotted values or descriptions. Their data, transformations and support for the summary statements could not be independently reviewed."
   }
  ],
- "reviewedRevision": 4,
- "reviewedAt": "2026-10-11T08:01:09.727Z",
+ "reviewedRevision": 30,
+ "reviewedAt": "2026-10-15T09:39:53.946Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -402,16 +562,16 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 37600,
-     "cached_input_tokens": 14592,
+     "input_tokens": 38196,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2991,
-     "reasoning_output_tokens": 114
+     "output_tokens": 2782,
+     "reasoning_output_tokens": 89
     },
-    "elapsedMs": 78409,
+    "elapsedMs": 66162,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 2
    },
    {
     "id": "spreadsheets",
@@ -420,13 +580,13 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 25618,
+     "input_tokens": 26214,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1625,
-     "reasoning_output_tokens": 121
+     "output_tokens": 1391,
+     "reasoning_output_tokens": 49
     },
-    "elapsedMs": 48265,
+    "elapsedMs": 39166,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -438,14 +598,14 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 47699,
-     "cached_input_tokens": 12544,
+     "input_tokens": 48304,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4427,
-     "reasoning_output_tokens": 143
+     "output_tokens": 4214,
+     "reasoning_output_tokens": 120
     },
-    "elapsedMs": 109551,
-    "candidates": 2,
+    "elapsedMs": 102238,
+    "candidates": 1,
     "discarded": [],
     "suggestions": 1
    },
@@ -456,13 +616,13 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 33946,
+     "input_tokens": 34561,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2143,
-     "reasoning_output_tokens": 101
+     "output_tokens": 2227,
+     "reasoning_output_tokens": 279
     },
-    "elapsedMs": 52737,
+    "elapsedMs": 61650,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -474,34 +634,34 @@
     "images": 5,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 47801,
-     "cached_input_tokens": 12544,
+     "input_tokens": 48410,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3904,
-     "reasoning_output_tokens": 85
+     "output_tokens": 2017,
+     "reasoning_output_tokens": 212
     },
-    "elapsedMs": 91124,
+    "elapsedMs": 60864,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "surveys",
     "title": "Surveys",
-    "blocks": 3,
+    "blocks": 4,
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 28640,
+     "input_tokens": 29403,
      "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1429,
-     "reasoning_output_tokens": 67
+     "output_tokens": 1493,
+     "reasoning_output_tokens": 82
     },
-    "elapsedMs": 40742,
+    "elapsedMs": 41242,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "sampling-bias",
@@ -510,16 +670,16 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 30192,
-     "cached_input_tokens": 14592,
+     "input_tokens": 30801,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1665,
-     "reasoning_output_tokens": 164
+     "output_tokens": 1140,
+     "reasoning_output_tokens": 46
     },
-    "elapsedMs": 49692,
+    "elapsedMs": 32776,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "questionnaire-design",
@@ -528,102 +688,51 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 28230,
-     "cached_input_tokens": 12544,
+     "input_tokens": 28966,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2045,
-     "reasoning_output_tokens": 147
+     "output_tokens": 1473,
+     "reasoning_output_tokens": 197
     },
-    "elapsedMs": 58319,
+    "elapsedMs": 48995,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    }
   ],
   "dropped": [
    {
     "ids": [
-     "c2"
+     "c3"
     ],
-    "reason": "The mathematics is correct and available, but the four-suggestion limit excludes it. The retained suggestions offer broader connections; mean and range as separate comparisons are already the explicit focus of p62.",
+    "reason": "The booklet-wide limit permits at most four suggestions. This is weaker than the four retained: its recurring decimal times add an exact-fraction demand to a relationship explored more directly with the spreadsheet scores, test scores and salaries.",
     "candidates": [
      {
-      "id": "c2",
+      "id": "c3",
       "sequence": "comparing-datasets",
       "kind": "extension",
       "targets": [
-       "p63-q3"
+       "p64-q5"
       ],
-      "finding": "Construct small datasets that show why average performance and consistency are separate comparisons."
+      "finding": "Add one practice time to each sprinter's dataset while preserving its mean."
      }
     ]
    },
    {
     "ids": [
-     "c6"
+     "c8"
     ],
-    "reason": "The algebra is correct for positive integer n, but deriving and simplifying a symbolic rational expression is not established as an available method by this topic. Its proposed placement also depends on adding the teaching proposed in c5.",
+    "reason": "The missing-prerequisite test is not met. p92-questioning-bias already teaches that unclear wording can produce different interpretations and incomparable responses. Recognising that one answer cannot distinguish home access from homework use applies that principle to a new example. p94-q4-a asks for one criticism, without requiring a new technical label or specialised method; the proposed additional category does not address a substantial unsupported transition.",
     "candidates": [
      {
-      "id": "c6",
-      "sequence": "impact-of-outliers",
-      "kind": "extension",
-      "targets": [
-       "p76-q10c"
-      ],
-      "finding": "Generalise the influence of one unusual score as the original group grows."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c7"
-    ],
-    "reason": "The mathematics is correct: at least four of seven, or (n+1)/2 of an odd number n, must equal the maximum. It is excluded by the four-suggestion limit; p78 and p79 already explicitly expose a median at the numerical endpoint.",
-    "candidates": [
-     {
-      "id": "c7",
-      "sequence": "relative-merits-centre",
-      "kind": "extension",
-      "targets": [
-       "p79-q1"
-      ],
-      "finding": "Find when the median of an odd-sized dataset equals its maximum."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c10"
-    ],
-    "reason": "The core explanation is correct, but the four-suggestion limit excludes it. The retained c12 provides a broader synthesis of sampling and questioning bias, while p89 and p91 already directly address volunteer bias.",
-    "candidates": [
-     {
-      "id": "c10",
-      "sequence": "sampling-bias",
-      "kind": "extension",
-      "targets": [
-       "p91-q2"
-      ],
-      "finding": "Ask whether a much larger response count would repair the cartoon's conclusion."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c11"
-    ],
-    "reason": "The question asks for one criticism, not a newly named questionnaire fault. The taught concern with responses that are difficult to interpret already supports explaining that a single 'no' cannot distinguish lack of home internet from having it but not using it for homework. Recognising this wording problem does not establish a missing method or a breakdown meeting the high threshold.",
-    "candidates": [
-     {
-      "id": "c11",
+      "id": "c8",
       "sequence": "questionnaire-design",
       "kind": "missing-prerequisite",
       "targets": [
-       "p94-q4-a",
-       "p92-questioning-bias"
+       "p92-questioning-bias",
+       "p94-q4-a"
       ],
-      "finding": "p94-q4-a requires students to recognise the problem with combining two questions, but the teaching never explains this questionnaire fault."
+      "finding": "The first question in p94-q4-a requires students to recognise the problem of combining two independently answerable questions, but the teaching never exposes that distinction."
      }
     ]
    }
@@ -631,8 +740,8 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/data-analysis-3-v1/candidates-low-1791705581789.json",
+  "candidateFile": ".booklet-work/pedagogy-review/data-analysis-3-v1/candidates-low-1792057114502.json",
   "errors": []
  },
- "postedRevision": 5
+ "postedRevision": 31
 }

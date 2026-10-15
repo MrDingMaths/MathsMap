@@ -5,7 +5,48 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-740ba51f64",
+   "id": "pf-bdae8c3f35",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p5-example-left-node",
+     "blockId": "p5-example-block",
+     "hash": "98ccc846746106fc356a567cf845d905e81e382dbe1718871334afb44a72e9b4"
+    },
+    {
+     "id": "p5-example-right-node",
+     "blockId": "p5-example-block",
+     "hash": "98ccc846746106fc356a567cf845d905e81e382dbe1718871334afb44a72e9b4"
+    }
+   ],
+   "finding": "The opening review does not rehearse substitution into exponential expressions, including substituting a negative input into −x.",
+   "breakdown": "Obtaining the coordinates requires substitution and managing −(−1). These are substantial prior algebra steps used directly in the sketching examples.",
+   "checked": "There is no opening review. The transformation teaching explains graph features but does not rehearse these algebra skills. The outside minus sign identified in the candidate is excluded because neither worked coordinate calculation uses one.",
+   "assumptions": "Substitution and signed arithmetic are prior knowledge. Calculator evaluation of powers is not a missing review piece.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p3-formula-comparison add three short items: (a) For y=3x−4, find y when x=−1. Answer: −7. (b) For y=2^x−4, write the substituted expression and find y when x=0. Answer: 2^0−4=−3. (c) For y=3^(−x)−5, write the substituted expression and find y when x=−1. Answer: 3^(−(−1))−5=−2. Keep the review within one page."
+   },
+   "doneWhen": "Students rehearse substitution and signed inputs before using them to calculate graph coordinates.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "exponential-transformations"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:15:16.525Z"
+    }
+   ],
+   "commentId": "d32eb5de-6fe3-4f07-96fc-12d3826edc04",
+   "postedAt": "2026-10-15T10:15:17.136Z"
+  },
+  {
+   "id": "pf-ba33583079",
    "kind": "missing-prerequisite",
    "severity": "high",
    "targets": [
@@ -13,37 +54,17 @@
      "id": "p11-identify",
      "blockId": "p11-identify",
      "hash": "9b269994c4859ab208c45d17d9c4e642d49a5380024b42a69d7dd2c4df7a1d80"
-    },
-    {
-     "id": "p11-a-zero-positive",
-     "blockId": "p11-identify",
-     "hash": "9b269994c4859ab208c45d17d9c4e642d49a5380024b42a69d7dd2c4df7a1d80"
-    },
-    {
-     "id": "p11-a-zero-negative",
-     "blockId": "p11-identify",
-     "hash": "9b269994c4859ab208c45d17d9c4e642d49a5380024b42a69d7dd2c4df7a1d80"
-    },
-    {
-     "id": "p11-b-zero-positive",
-     "blockId": "p11-identify",
-     "hash": "9b269994c4859ab208c45d17d9c4e642d49a5380024b42a69d7dd2c4df7a1d80"
-    },
-    {
-     "id": "p11-b-zero-negative",
-     "blockId": "p11-identify",
-     "hash": "9b269994c4859ab208c45d17d9c4e642d49a5380024b42a69d7dd2c4df7a1d80"
     }
    ],
-   "finding": "One-sided approach notation is used before its meaning is explained.",
-   "breakdown": "Students must distinguish approaching zero through positive or negative inputs from substituting zero. The branch diagrams and asymptote definition do not explain the superscript signs.",
-   "checked": "Searched earlier exponential teaching, p10-reciprocal-definition, p10 investigations and p11-properties. None interprets the approach symbols before p11-identify.",
-   "assumptions": "Ordinary substitution and signed numbers are prior knowledge; one-sided approach notation is not established by the supplied teaching.",
+   "finding": "The behaviour questions require approach notation that preceding teaching has not introduced.",
+   "breakdown": "Students must distinguish moving without bound from approaching zero, and interpret 0+ and 0− as approach directions rather than values or arithmetic.",
+   "checked": "The exponential teaching and p10–p11 graph construction and asymptote definitions contain no explanation of these symbols. A visible reciprocal graph does not supply their meanings.",
+   "assumptions": "The notation is new within the supplied teaching; calculator access is irrelevant.",
    "repair": {
     "type": "add-teaching",
-    "proposal": "Before p11-identify, explain: '→ means approaches. x→∞ and x→−∞ describe inputs increasing or decreasing without bound. x→0+ means positive inputs such as 0.1, 0.01, 0.001 approach zero; x→0− uses negative inputs such as −0.1, −0.01, −0.001. Neither means substitute zero. For y=2/x these sequences give 20, 200, 2000 and −20, −200, −2000 respectively. y→0+ and y→0− mean approaching zero from above and below.'"
+    "proposal": "Before p11-identify explain: 'x→∞ means move right without bound; x→−∞ means move left without bound. x→0+ means approach zero through positive values; x→0− means approach zero through negative values. For y, 0+ and 0− mean approach zero from above and below.' Model on y=1/x: 'As x→∞, y→0+; as x→0+, y→∞.'"
    },
-   "doneWhen": "The notation is explicitly interpreted before students use it.",
+   "doneWhen": "Every approach symbol used in the activity has been explained, with a model translating branch behaviour into notation.",
    "from": [
     "c3"
    ],
@@ -54,39 +75,34 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:54:08.554Z"
+     "at": "2026-10-15T10:15:16.526Z"
     }
    ],
-   "commentId": "c35f919d-e57a-48a3-a781-b7f6f2cdfe52",
-   "postedAt": "2026-10-11T12:54:08.576Z"
+   "commentId": "dde258b3-958c-4d2d-ba16-040eba7c5a66",
+   "postedAt": "2026-10-15T10:15:17.146Z"
   },
   {
-   "id": "pf-05c3213971",
+   "id": "pf-38b280b00a",
    "kind": "opening-review",
    "severity": "high",
    "targets": [
     {
      "id": "p16-example-left-node",
      "blockId": "p16-example-block",
-     "hash": "867d31e091d54204f23c0506d172244f518d85abc067868bdadf229a81864c18"
-    },
-    {
-     "id": "p16-example-right-node",
-     "blockId": "p16-example-block",
-     "hash": "867d31e091d54204f23c0506d172244f518d85abc067868bdadf229a81864c18"
+     "hash": "a43cea7b3fdd67f169a8cf48f6e441241db0522a36ad56c8143b20a8d0900cc4"
     }
    ],
-   "finding": "The opening review does not rehearse solving an equation with an algebraic denominator.",
-   "breakdown": "The left sketching example requires converting −2=1/(x+1) into a linear equation. The preceding reciprocal exercise supplies evaluation and graph features, rather than this denominator-clearing decision.",
-   "checked": "Checked the exponential teaching, p10 investigations, p11-identify and p13-q4. None rehearses solving reciprocal equations. Removed signed fraction addition from the candidate because that elementary numerical calculation does not justify a separate substantial review requirement.",
-   "assumptions": "Equations with algebraic fractions are prior learning, consistent with the course library. Calculator access does not supply the algebraic decision.",
+   "finding": "The topic does not rehearse clearing a binomial denominator and solving the resulting signed linear equation before its worked intercept calculation.",
+   "breakdown": "The transition from −2=1/(x+1) to −2x−2=1 depends on substantial prior equation-solving algebra.",
+   "checked": "The preceding hyperbola topic rehearses reciprocal substitution and graph features. The current investigation uses graphing applications; its answer working is not an opening algebra review.",
+   "assumptions": "Algebraic-fraction equations and linear equation solving are prior knowledge, consistent with the separate course booklets. No calculator assumption is needed.",
    "repair": {
     "type": "add-review",
-    "proposal": "Before p14-investigation-block, add: 'Solve: (a) 2=1/(x+2); (b) −3=1/(x−1). Show the equation after multiplying by the denominator.' Expected answers: x=−3/2 and x=2/3."
+    "proposal": "Before p14-investigation-block add: (a) Expand −3(x+2). Answer: −3x−6. (b) Solve −3x−6=1. Answer: x=−7/3. (c) Solve −2=1/(x+3). Answer: x=−7/2. (d) Solve 0=1/(x−2)+3. Answer: x=5/3. Keep the review within one page."
    },
-   "doneWhen": "Students rehearse clearing an algebraic denominator before the sketching examples.",
+   "doneWhen": "Students rehearse clearing the denominator, expanding and solving before these become steps in the worked sketch.",
    "from": [
-    "c5"
+    "c4"
    ],
    "sequences": [
     "hyperbola-transformations"
@@ -95,11 +111,11 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:54:08.554Z"
+     "at": "2026-10-15T10:15:16.526Z"
     }
    ],
-   "commentId": "6fc8be1b-ebfc-49cb-bffd-a9703fbbf75f",
-   "postedAt": "2026-10-11T12:54:08.578Z"
+   "commentId": "5deb4b62-54fe-4bee-a1aa-e58be2e1e62c",
+   "postedAt": "2026-10-15T10:15:17.150Z"
   },
   {
    "id": "pf-4358622b46",
@@ -117,17 +133,17 @@
      "hash": "fb4c11e0536354685ff90f4bde9f117c3aab32a2c6d1136c9b43be4e5c2c5e6d"
     }
    ],
-   "finding": "The numerical circle demonstrations do not state how the equation constant becomes the radius.",
-   "breakdown": "The supplied sketches replace 16 with 4 and 4/9 with 2/3 without writing the square-root decision. The symbolic circle equation identifies r² but does not model either numerical conversion.",
-   "checked": "Checked p20-step-4 and p21-equation-definition-example. Neither supplies the missing numerical connecting step before the demonstrations.",
-   "assumptions": "Square roots are prior knowledge; the issue is showing which quantity to square-root, independently of calculator access.",
+   "finding": "The numerical demonstrations omit the decision that converts the equation constant into the radius.",
+   "breakdown": "The sketches use 4 and 2/3 without writing how these follow from 16 and 4/9, leaving the central distinction between r and r² implicit.",
+   "checked": "p20-step-4 and p21-equation-definition-example establish the symbolic relationship. Neither writes the numerical conversion in these demonstrations; subsequent response questions leave it to students.",
+   "assumptions": "Square roots are prior knowledge. Choosing the operation is the issue, independently of calculator access.",
    "repair": {
     "type": "add-cue",
-    "proposal": "Add beside the demonstrations: 'r²=16, so r=√16=4' and 'r²=4/9, so r=√(4/9)=2/3. Mark ±r on each axis.'"
+    "proposal": "Before the first graph write 'r²=16, so r=√16=4'. Before the second write 'r²=4/9, so r=√(4/9)=2/3'."
    },
-   "doneWhen": "Both demonstrations explicitly connect the constant, radius and intercept labels.",
+   "doneWhen": "Both demonstrations explicitly connect their equation constants to the radii used in their sketches.",
    "from": [
-    "c7"
+    "c6"
    ],
    "sequences": [
     "circles-origin"
@@ -136,11 +152,47 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:54:08.554Z"
+     "at": "2026-10-15T10:15:16.526Z"
     }
    ],
-   "commentId": "0ed76202-097d-4aed-a0f3-b9d0bde423b6",
-   "postedAt": "2026-10-11T12:54:08.579Z"
+   "commentId": "8ad3953e-1188-40a0-869f-1aaebd246b50",
+   "postedAt": "2026-10-15T10:15:17.155Z"
+  },
+  {
+   "id": "pf-918059bf6d",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p24-q6",
+     "blockId": "p24-q6",
+     "hash": "aadfd5e0c8c255c549fb2e752b68d766a8739b9f28fff68d65dbc5b0865aa7da"
+    }
+   ],
+   "finding": "Extend the existing circle question to connect its equation with sign changes and exchanged coordinates.",
+   "breakdown": "The follow-up exposes how squaring coordinates preserves membership of this particular circle.",
+   "checked": "The existing question establishes x²+y²=17. Substitution and taking both square roots suffice; the proposed answers are correct.",
+   "assumptions": "Students can use exact square roots, as the existing question already requires.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p24-q6-c add: (d) 'The point (−2,t) lies on this circle. Find both possible values of t.' Answer: t=±√13. (e) 'Does (√13,−2) lie on this circle? Explain why.' Answer: yes, because 13+4=17."
+   },
+   "doneWhen": "The optional follow-up uses the established circle to test both-root solutions and coordinate symmetry.",
+   "from": [
+    "c9"
+   ],
+   "sequences": [
+    "circles-origin"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:15:16.526Z"
+    }
+   ],
+   "commentId": "c25acd0b-7835-4d4f-ab76-e1742e47cafd",
+   "postedAt": "2026-10-15T10:15:17.157Z"
   },
   {
    "id": "pf-8359407d1c",
@@ -153,15 +205,15 @@
      "hash": "fffd7c2769993a8fd0d6005f56c8f8e3aa762a971d89208ce0c6ddb96c4e30d0"
     }
    ],
-   "finding": "The topic does not rehearse solving shifted square equations while retaining both roots.",
-   "breakdown": "The worked example combines taking both square roots with undoing a translation. Earlier origin-circle work uses signed intercepts but does not rehearse solving an equation such as (x−2)²=9.",
-   "checked": "Checked p21 demonstrations and responses and the supplied preceding practice. Removed surd simplification from the finding because p22-q1-e already rehearses extracting and simplifying a nontrivial surd in the preceding exercise.",
-   "assumptions": "Shifted square equations are prior learning from the course's quadratic-equation material.",
+   "finding": "The topic does not rehearse solving shifted-square equations before using them to find circle intercepts.",
+   "breakdown": "The worked example moves from an isolated shifted square to two solutions. Students must recall both square roots and then undo the shift.",
+   "checked": "The immediately preceding circle topic practises unshifted radius extraction. Neither it nor the current opening activities rehearse solving equations such as (x−1)²=5. Generic substitution is excluded from the finding.",
+   "assumptions": "Solving simple quadratic equations is prior knowledge from separate algebra study. Calculator use does not supply the choice of both roots or the shift.",
    "repair": {
     "type": "add-review",
-    "proposal": "Before p25-general-equation-block, add: 'Solve, giving all solutions: (a) (x−2)²=9; (b) (y+3)²=5.' Expected answers: x=−1 or 5; y=−3±√5."
+    "proposal": "Before p25-general-equation-block add: (a) Solve t²=7. Answer: t=±√7. (b) Solve (x−2)²=9. Answer: x=−1 or 5. (c) Solve (y+3)²=5. Answer: y=−3±√5. Keep the review within one page."
    },
-   "doneWhen": "Students rehearse both roots and undoing a shift before finding translated-circle intercepts.",
+   "doneWhen": "Students rehearse both-root solutions with positive and negative shifts before the intercept example.",
    "from": [
     "c10"
    ],
@@ -172,11 +224,47 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:54:08.554Z"
+     "at": "2026-10-15T10:15:16.526Z"
     }
    ],
-   "commentId": "b3aacd4b-6db2-47da-a62b-00854738a6c4",
-   "postedAt": "2026-10-11T12:54:08.580Z"
+   "commentId": "96bc330a-6aac-4e94-b049-0d73b5b1bb36",
+   "postedAt": "2026-10-15T10:15:17.162Z"
+  },
+  {
+   "id": "pf-aa32f4156d",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p28-q3-root",
+     "blockId": "p28-q3",
+     "hash": "8cf383895f1315270c1982e87236048dd1fda32479f7b93ae226e21f4dacf3a9"
+    }
+   ],
+   "finding": "Keep the centre fixed while varying the radius across the distances to both axes.",
+   "breakdown": "The run isolates the relationship between radius and zero, one or two intercepts on each axis.",
+   "checked": "The existing practice includes these outcomes but no consecutive fixed-centre run. All proposed intercepts follow from the taught substitution method.",
+   "assumptions": "Exact square-root answers are available by the end of the topic.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p29-q3-i, under the existing sketching instruction, add only: 'Predict how many intercepts each circle has on each axis before sketching.' Add (j) (x−2)²+(y−4)²=1; (k) the same left side =4; (l) =9; (m) =16; (n) =25. Expected intercepts: j none; k only (0,4); l only (0,4±√5); m (2,0) and (0,4±2√3); n (−1,0), (5,0), (0,4±√21). Follow with unpatterned (o) (x+4)²+(y−1)²=9: centre (−4,1), x-intercepts (−4±2√2,0), no y-intercepts. In j–n only the radius varies; the centre remains (2,4)."
+   },
+   "doneWhen": "The optional run compares axis-intersection thresholds while holding the centre fixed.",
+   "from": [
+    "c11"
+   ],
+   "sequences": [
+    "circle-transformations"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:15:16.526Z"
+    }
+   ],
+   "commentId": "07437158-b9c5-4aad-85fe-567ee47ff92b",
+   "postedAt": "2026-10-15T10:15:17.167Z"
   },
   {
    "id": "pf-6aa838beee",
@@ -194,15 +282,15 @@
      "hash": "123d61f1b5c3860764c837009259f013851c28a1a854f1ef4bc88b531661adec"
     }
    ],
-   "finding": "Completing-square recall is not rehearsed, and the example leaves the selection of its completing constants unwritten.",
-   "breakdown": "Students must recover how to choose 1 and 9, preserve the expression's value and recognise the resulting squares while applying the procedure to two variables. Earlier circle teaching starts from completed forms.",
-   "checked": "Searched all preceding teaching. No earlier block completes a square or explains selection of its constant. The two candidates concern the same unexposed completing-square decisions.",
-   "assumptions": "Completing the square is prior learning, consistent with the stated prerequisite and Further Quadratic Equations.",
+   "finding": "The completing-square application neither rehearses the underlying algebra nor identifies how its inserted constants are chosen.",
+   "breakdown": "Students must recover the half-coefficient rule, recognise the resulting binomial squares and compensate for added constants while meeting the circle application.",
+   "checked": "Earlier circle teaching starts with completed squares. p32-key-idea names the method, and p32-example-content inserts 1 and 9 without stating their source. Both candidates concern the same unsupported algebra recall.",
+   "assumptions": "Completing the square is prior algebra knowledge, as the candidates assume; the review recalls it rather than introducing it for the first time.",
    "repair": {
     "type": "add-review",
-    "proposal": "Before p32-key-idea, add: '1. Fill the blank and factor: (a) x²+6x+___; (b) y²−8y+___. 2. Rewrite without changing the value: (a) x²+4x=(x+___)²−___; (b) y²−6y=(y−___)²−___. Answers: 9 and (x+3)²; 16 and (y−4)²; 2,4; 3,9.' State the selection rule in the review and connect it to the example: 'Halve the linear coefficient and square it: (2/2)²=1 and (−6/2)²=9. Add and subtract these amounts to preserve the equation.'"
+    "proposal": "Before p32-key-idea add three short items: (a) Expand (x+3)² and (y−2)². Answers: x²+6x+9 and y²−4y+4. (b) Write x²+6x and y²−4y as a square minus a constant. Answers: (x+3)²−9 and (y−2)²−4. (c) Rearrange (x+3)²−9+(y−2)²−4−3=0 into centre-radius form. Answer: (x+3)²+(y−2)²=16. Include the reminder 'Halve the linear coefficient and square it; compensate for what you add.' In the example, identify 1=(2/2)² and 9=(−6/2)²."
    },
-   "doneWhen": "The review checks the completing-square decisions and the example explicitly identifies the origins of 1 and 9.",
+   "doneWhen": "The review checks forming and compensating perfect squares, and the example identifies the source of both inserted constants.",
    "from": [
     "c13",
     "c14"
@@ -214,11 +302,52 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:54:08.554Z"
+     "at": "2026-10-15T10:15:16.526Z"
     }
    ],
-   "commentId": "01b8ef38-eeae-47fe-a090-7dbceeba1ab7",
-   "postedAt": "2026-10-11T12:54:08.582Z"
+   "commentId": "4c0fddb2-04ac-4749-8ddf-e10edc9cd98e",
+   "postedAt": "2026-10-15T10:15:17.170Z"
+  },
+  {
+   "id": "pf-d4d82a2326",
+   "kind": "difficulty-jump",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p32-guided-c",
+     "blockId": "p32-guided",
+     "hash": "c52029a183f920e25e078e902cf68932c60b082e7826b926550a386e5cfcd7ac"
+    },
+    {
+     "id": "p32-guided-d",
+     "blockId": "p32-guided",
+     "hash": "c52029a183f920e25e078e902cf68932c60b082e7826b926550a386e5cfcd7ac"
+    }
+   ],
+   "finding": "The final guided part simultaneously introduces normalisation and fractional completing-square constants.",
+   "breakdown": "Unlike all preceding examples and guided parts, students must first divide every term by a common quadratic coefficient, then complete squares from odd linear coefficients.",
+   "checked": "p32-example-content and guided parts a–c use unit quadratic coefficients and even linear coefficients. No preceding task bridges either change, and the later practice provides no existing normalisation bridge to reorder.",
+   "assumptions": "Equation division and fraction arithmetic are prior knowledge. The jump concerns combining decisions in the circle procedure, not numerical calculation.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "At p32-guided-d add: 'First divide every term by 4 so the coefficients of x² and y² are 1. The linear coefficients are then −3 and 5; halve each and square to choose your completing-square constants.'"
+   },
+   "doneWhen": "The first normalised, fractional case explicitly connects both changes to the established procedure while leaving students to complete it.",
+   "from": [
+    "c15"
+   ],
+   "sequences": [
+    "completing-square-circles"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:15:16.526Z"
+    }
+   ],
+   "commentId": "f5d93f43-4819-47de-99ad-8fc1b012b6b5",
+   "postedAt": "2026-10-15T10:15:17.175Z"
   },
   {
    "id": "pf-5eec72d28e",
@@ -236,17 +365,17 @@
      "hash": "ffcc789b64f11d368bb72b0cd00796ef6601523cbaaaffdf0383f342ee0f648f"
     }
    ],
-   "finding": "The same centre-and-radius task appears in guided practice and the following exercise.",
-   "breakdown": "Both copies require completing the square for x²+6x+y²−8y=0 to determine the centre and radius.",
-   "checked": "Compared the complete equations and requirements in both group stems. There are no changed givens, diagrams or additional parts, and no explicit retrieval or comparison purpose.",
-   "assumptions": "Students complete guided practice before the exercise.",
+   "finding": "The centre-and-radius task for x²+6x+y²−8y=0 is repeated without an explicit instructional purpose.",
+   "breakdown": "Both occurrences require completing the same equation and finding the same centre and radius.",
+   "checked": "The equation, givens and required outputs are unchanged. The later instruction's 'if necessary' adds no mathematical task for this equation. No retrieval or comparison purpose is stated.",
+   "assumptions": "No unstated instructional purpose is inferred.",
    "repair": {
-    "type": "remove-question",
-    "proposal": "Remove p33-q1-f and retain p32-guided-b."
+    "type": "change-values",
+    "proposal": "Replace p33-q1-f with x²+8x+y²−6y=0. Answer: (x+4)²+(y−3)²=25; centre (−4,3), radius 5."
    },
-   "doneWhen": "The unchanged task appears once.",
+   "doneWhen": "The later copy retains the same structure with different numerical givens and updated answers.",
    "from": [
-    "c15"
+    "c16"
    ],
    "sequences": [
     "completing-square-circles"
@@ -255,39 +384,34 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:54:08.554Z"
+     "at": "2026-10-15T10:15:16.526Z"
     }
    ],
-   "commentId": "8ff1d74b-aca8-44a4-9b4b-2419ebc7bfd8",
-   "postedAt": "2026-10-11T12:54:08.584Z"
+   "commentId": "bb3d234f-a1f7-45aa-8ec3-23e579524912",
+   "postedAt": "2026-10-15T10:15:17.178Z"
   },
   {
-   "id": "pf-cd177bc5a7",
-   "kind": "unsupported-transition",
-   "severity": "high",
+   "id": "pf-c45640868e",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
    "targets": [
     {
-     "id": "p42-q7-b",
+     "id": "p42-q7-root",
      "blockId": "p42-q7-block",
      "hash": "1fb7484bae407f5190c1e57277e2842776e181fb785c09b6b40adf56f5ab54e6"
-    },
-    {
-     "id": "p43-q8-a",
-     "blockId": "p43-q8",
-     "hash": "be456b8729137549cb29740b0c4c279e90a678f2df239365ee48eecaf456e2e3"
     }
    ],
-   "finding": "The first parameter-discriminant task lacks a connection between the required intersection count and a condition on the unknown coefficient.",
-   "breakdown": "Earlier tasks calculate or classify numerical discriminants. Students must now retain k symbolically and use the intersection requirement to impose Δ≥0.",
-   "checked": "Checked p39 teaching and investigations and preceding practice through p42-q7-a. The discriminant cases are taught, but their use to determine an unknown parameter is not demonstrated.",
-   "assumptions": "Symbolic algebra and linear inequalities are prior knowledge. Calculator access does not supply the missing connection.",
+   "finding": "Add a short intercept run connecting numerical discriminants to the parameter threshold.",
+   "breakdown": "Holding the parabola and line gradient fixed isolates how changing the line intercept changes the intersection count.",
+   "checked": "For y=x²+3 and y=2x+b, Δ=4b−8. The proposed discriminants and counts are correct, and the existing question naturally leads into the parameter part.",
+   "assumptions": "Only the discriminant method already taught is required.",
    "repair": {
-    "type": "add-cue",
-    "proposal": "At p42-q7-b, add: 'Keep k in the equation: x²−2x+(3−k)=0. Its discriminant is 4−4(3−k)=4k−8. At least one intersection requires Δ≥0; solve this condition for k. Tangency requires Δ=0, and two intersections require Δ>0.'"
+    "type": "add-question",
+    "proposal": "Between p42-q7-a and the existing parameter part add: 'Predict how the number of intersections changes as the intercept increases.' Under 'Use the discriminant to determine the number of intersections with y=x²+3', add y=2x+0 [Δ=−8, none], y=2x+2 [Δ=0, one], and y=2x+3 [Δ=4, two]. Follow with unpatterned y=−4x−1 [Δ=0, one]. Then retain the parameter question. Only the intercept varies in the three-question run."
    },
-   "doneWhen": "The first parameter task models translating an intersection requirement into a discriminant condition.",
+   "doneWhen": "The optional numerical run exposes the tangency threshold before students express it using k.",
    "from": [
-    "c18"
+    "c20"
    ],
    "sequences": [
     "parabola-line-intersections"
@@ -296,11 +420,11 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:54:08.554Z"
+     "at": "2026-10-15T10:15:16.526Z"
     }
    ],
-   "commentId": "52d43283-2abe-4c21-9bb9-5622f0726202",
-   "postedAt": "2026-10-11T12:54:08.585Z"
+   "commentId": "d003956e-8c55-4a44-bf33-22a3d4efff75",
+   "postedAt": "2026-10-15T10:15:17.180Z"
   },
   {
    "id": "pf-8faf07d3c0",
@@ -313,17 +437,17 @@
      "hash": "68732d259d25f67586573ee6221d6921d9f9c5b1945e18342f1d1dc5a1cbb125"
     }
    ],
-   "finding": "The topic does not rehearse clearing an algebraic denominator before its line–hyperbola example.",
-   "breakdown": "The example moves from 4x=1/x to 4x²=1. The immediately preceding review and exercise do not rehearse multiplying an equation by an algebraic denominator.",
-   "checked": "Checked p37 reviews and the supplied parabola–line practice. Removed the both-roots claim: p41-q4-e requires x²=9, and p42-q5 explicitly practises the quadratic formula and exact surd solutions in the exercise immediately before this topic.",
-   "assumptions": "Denominator clearing is prior learning from the algebraic-fraction equation material.",
+   "finding": "The topic does not rehearse clearing an algebraic denominator before using it in the first worked intersection example.",
+   "breakdown": "Turning 4x=1/x into 4x²=1 is a substantial prior equation-solving step within the new application.",
+   "checked": "The immediately preceding parabola-line topic practises polynomial simultaneous equations and discriminants, without algebraic denominators. The earlier hyperbola example is several topics back.",
+   "assumptions": "Algebraic-fraction equations are prior knowledge from separate course study. Calculator availability does not affect this recall requirement.",
    "repair": {
     "type": "add-review",
-    "proposal": "Before p44-key-ideas-block, add: 'Multiply both sides by x and simplify: (a) 3x=6/x; (b) −2x=−8/x.' Expected equations: 3x²=6 and −2x²=−8."
+    "proposal": "Before p44-key-ideas-block add: 'Multiply both sides by x and simplify: (a) 3=6/x; (b) 2x=8/x; (c) x+1=2/x.' Expected equations: 3x=6; 2x²=8; x²+x=2. Keep the review within one page."
    },
-   "doneWhen": "Students rehearse the denominator-clearing step before the line–hyperbola example.",
+   "doneWhen": "Students rehearse clearing the denominator before using it inside the intersection method.",
    "from": [
-    "c21"
+    "c22"
    ],
    "sequences": [
     "curve-intersections"
@@ -332,11 +456,11 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:54:08.554Z"
+     "at": "2026-10-15T10:15:16.526Z"
     }
    ],
-   "commentId": "0e5736de-cc1b-4fbc-95be-1b9350be3dda",
-   "postedAt": "2026-10-11T12:54:08.586Z"
+   "commentId": "9043702b-e87d-457f-9490-9bb3368e54f6",
+   "postedAt": "2026-10-15T10:15:17.184Z"
   },
   {
    "id": "pf-1fdfecbbf2",
@@ -349,15 +473,15 @@
      "hash": "beb9f038a0bb6eec54d2a8bc2e88351bcf637790fef95ce34e9f93e332b0d06a"
     }
    ],
-   "finding": "The topic does not rehearse zero-product solving before using it to obtain cubic intercepts.",
-   "breakdown": "The example goes directly from a product equal to zero to three roots. Students must recall setting each factor to zero and solving the resulting linear equations.",
-   "checked": "Earlier quadratic teaching uses zero-product solving, but the immediately preceding power-curve topic and its supplied exercise do not rehearse it. The p64 identification tasks concern leading and constant terms.",
-   "assumptions": "Zero-product solving is prior knowledge from quadratic equations.",
+   "finding": "The topic does not rehearse solving a zero-product equation before its worked cubic-root calculation.",
+   "breakdown": "The example moves directly from a product equal to zero to three roots, requiring recall of setting individual factors equal to zero.",
+   "checked": "The current identification activities concern leading and constant terms. The immediately preceding power-transformation teaching does not rehearse zero products; the p37 quadratic review is substantially earlier.",
+   "assumptions": "The zero-product rule is established prior knowledge. This finding concerns recall rather than a new cubic rule.",
    "repair": {
     "type": "add-review",
-    "proposal": "Before p64-leading-term-block, add: 'Solve: (a) (x+2)(x−5)=0; (b) x(x−3)=0; (c) (2x+1)(3−x)=0. For (a), write the two equations obtained by setting each factor to zero.' Answers: −2,5; 0,3; −1/2,3."
+    "proposal": "Before p64-leading-term-block add: Solve (a) (x+3)(x−2)=0; (b) x(x−4)(x+1)=0; (c) (2x+1)(3−x)=0. Answers: (a) −3, 2; (b) 0, 4, −1; (c) −1/2, 3. Keep the review within one page."
    },
-   "doneWhen": "Students rehearse the zero-product property and linear-factor solving before the cubic example.",
+   "doneWhen": "Students retrieve solving individual factors, including x and non-monic factors, before the cubic sketch example.",
    "from": [
     "c29"
    ],
@@ -368,147 +492,47 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:54:08.554Z"
+     "at": "2026-10-15T10:15:16.526Z"
     }
    ],
-   "commentId": "b57302f4-4c86-4246-b28a-8e87373e1c47",
-   "postedAt": "2026-10-11T12:54:08.590Z"
+   "commentId": "486ebd59-6195-490c-9bc6-2d62babc6da0",
+   "postedAt": "2026-10-15T10:15:17.186Z"
   },
   {
-   "id": "pf-d81c3c6650",
-   "kind": "extension",
+   "id": "pf-2e65b65569",
+   "kind": "variation-sequence",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p13-q4",
-     "blockId": "p13-q4",
-     "hash": "72ff2a0c0e28cad9646de9be8bd2c2dd479ddebfecd37aa469d139f4f3902cf4"
+     "id": "p67-q1",
+     "blockId": "p67-q1",
+     "hash": "1a68b118b666f186dcabe51b7c89d85a01cf77b92c64128134670ace812e5422"
     }
    ],
-   "finding": "Explain reciprocal-curve membership and symmetry through its constant product.",
-   "breakdown": "The task connects the equation to a property of every point and explains coordinate-swapping symmetry.",
-   "checked": "Verified all products and the symmetry argument. Only substitution and elementary algebra are needed.",
-   "assumptions": "Coordinates are real; points on these curves have nonzero coordinates.",
+   "finding": "Vary only the multiplier of a factored cubic while preserving its roots.",
+   "breakdown": "The run isolates the multiplier's effects on the y-intercept and orientation from the unchanged x-intercepts.",
+   "checked": "The existing questions change factors as well as multipliers. The proposed roots, intercepts and tail directions are correct and use the taught sketching method.",
+   "assumptions": "No methods beyond those taught in this topic are needed.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p13-q4, ask: 'For y=6/x, show that every point has xy=6. Which of (2,3), (−3,−2), (−2,3) and (4,1.5) lie on the curve? Explain why swapping a point's coordinates gives another point on the curve. Does this also work for y=−6/x?' Expected: all except (−2,3); swapping preserves the product, including when the product is −6."
+    "proposal": "After p67-q1-f, under the existing sketch instruction, add: 'Predict the intercepts and tail directions before sketching.' Add (g) y=(x+2)(x−1)(x−3); (h) y=2(x+2)(x−1)(x−3); (i) y=−(x+2)(x−1)(x−3); (j) y=−2(x+2)(x−1)(x−3). All roots are −2, 1, 3; y-intercepts are 6, 12, −6, −12. Parts g–h have left tail down and right tail up; i–j have the reverse. Follow with unpatterned (k) y=−3(x+1)(x−2)(x−4): roots −1, 2, 4; y-intercept −24; left tail up and right tail down. Only the multiplier varies in g–j."
    },
-   "doneWhen": "An optional task connects reciprocal equations with constant-product symmetry.",
+   "doneWhen": "The optional run exposes invariant roots and changing scale and orientation.",
    "from": [
-    "c4"
+    "c32"
    ],
    "sequences": [
-    "hyperbolas"
+    "factored-cubics"
    ],
    "state": "pending",
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-11T12:54:08.554Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-32ec2566e0",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p31-q11",
-     "blockId": "p31-q11",
-     "hash": "270417a8af885a9e6d1db2d6c639a2f48592f7d5033f796101af4507420abfe1"
+     "at": "2026-10-15T10:15:16.526Z"
     }
    ],
-   "finding": "Generalise when a translated circle misses, touches or crosses each axis.",
-   "breakdown": "This directly develops the geometric radius comparison already explained in the translated-circle example.",
-   "checked": "Verified both substituted equations and all intersection-count conditions. The required methods are available by the topic's end.",
-   "assumptions": "a and b are real and r>0.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p31-q11, ask: 'For (x−a)²+(y−b)²=r², r>0, give conditions for zero, one or two intersections with each axis. Explain geometrically and by substitution.' Expected: the x-axis counts are zero, one, two when r<|b|, r=|b|, r>|b|; the y-axis conditions use |a|. Substitution gives (x−a)²=r²−b² and (y−b)²=r²−a²."
-   },
-   "doneWhen": "An optional task generalises the taught axis-distance comparison.",
-   "from": [
-    "c12"
-   ],
-   "sequences": [
-    "circle-transformations"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:54:08.554Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-b7c4177a7d",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p35-q4-response",
-     "blockId": "p35-q4",
-     "hash": "75982464cf251dc3f8f67c71601dc8f033f79566301cc9882ae58e5de63d8dcb"
-    }
-   ],
-   "finding": "Generalise the existence test for a circle in expanded form.",
-   "breakdown": "This extends the existing parameter question through the same completing-square structure.",
-   "checked": "Completed both squares symbolically and verified the positive, zero and negative cases.",
-   "assumptions": "u, v and w are real; only real graph points are considered.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p35-q4-response, ask: 'For x²+y²+ux+vy+w=0, find the centre and radius squared. When is the graph a circle, a single point or empty?' Expected: (x+u/2)²+(y+v/2)²=(u²+v²)/4−w, with centre (−u/2,−v/2). A positive right side gives a circle, zero gives the centre alone, and a negative right side gives no real points."
-   },
-   "doneWhen": "An optional task generalises the existing completing-square existence question.",
-   "from": [
-    "c17"
-   ],
-   "sequences": [
-    "completing-square-circles"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:54:08.554Z"
-    }
-   ]
-  },
-  {
-   "id": "pf-aff90a01fb",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p63-q6",
-     "blockId": "p63-q6",
-     "hash": "708de88a49902e70f2d0f541e9e96ccde22f0ee4e8ed303e3fd010ca698b388f"
-    }
-   ],
-   "finding": "Explain translated power-curve symmetry using exponent parity.",
-   "breakdown": "Comparing equally spaced inputs connects the even/odd distinction with the translated turning or inflection point.",
-   "checked": "Verified the equal-output and output-sum identities. The task needs only substitution and integer-power sign rules.",
-   "assumptions": "n is an integer with n≥2 and d is real.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p63-q6, ask: 'For y=2(x−3)^n+1, with integer n≥2, predict and compare the outputs at x=3−d and x=3+d. Explain what changes when n is even or odd.' Expected outputs: 2(−d)^n+1 and 2d^n+1. For even n they are equal, giving reflection symmetry about x=3. For odd n their sum is 2, giving half-turn symmetry about (3,1)."
-   },
-   "doneWhen": "An optional task explains the translated symmetry from exponent parity.",
-   "from": [
-    "c28"
-   ],
-   "sequences": [
-    "power-transformations"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-11T12:54:08.554Z"
-    }
-   ]
+   "commentId": "d3099c9f-e569-4533-a373-ce7fca4ee363",
+   "postedAt": "2026-10-15T10:15:17.195Z"
   }
  ],
  "contextQuestions": [
@@ -519,10 +543,115 @@
     "p51-q9-b",
     "p51-q9-c"
    ],
-   "question": "Have students already learned to solve quadratic inequalities by selecting intervals, including (m+6)(m−2)>0 and m²>3 or m²<3? Earlier booklet work establishes parameter-discriminant conditions, but the supplied teaching does not establish this interval-selection method. The answer determines whether these tasks need a short demonstration."
+   "question": "Before this booklet, have students learned to solve quadratic inequalities such as (m+6)(m−2)>0 and m²>3, retaining both exterior intervals? These tasks require that knowledge, but the supplied teaching does not establish whether it was taught separately."
   }
  ],
  "protectedGroups": [
+  {
+   "sequence": "hyperbolas",
+   "targets": [
+    "p10-investigation-1",
+    "p10-investigation-2"
+   ],
+   "observation": "Doubling the numerator doubles the output at every defined input.",
+   "varies": "The numerator changes from 1 to 2.",
+   "invariant": "Input values, table structure, asymptotes and branch quadrants."
+  },
+  {
+   "sequence": "hyperbolas",
+   "targets": [
+    "p11-a",
+    "p11-b",
+    "p12-q2-root"
+   ],
+   "observation": "Changing the numerator's sign reflects the graph across the x-axis and reverses the signs of its behaviour.",
+   "varies": "The sign of the numerator.",
+   "invariant": "Numerator magnitude, coordinate axes as asymptotes and absolute output values at matching inputs."
+  },
+  {
+   "sequence": "hyperbolas",
+   "targets": [
+    "p12-q1-root",
+    "p13-q3-root"
+   ],
+   "observation": "Increasing a positive numerator moves the branches farther from the axes while preserving asymptotes and quadrants.",
+   "varies": "Positive numerator magnitude.",
+   "invariant": "Reciprocal form, common axes and positive numerator sign."
+  },
+  {
+   "sequence": "hyperbolas",
+   "targets": [
+    "p13-q4-a",
+    "p13-q4-b",
+    "p13-q4-c",
+    "p13-q4-d",
+    "p13-q4-e",
+    "p13-q4-f"
+   ],
+   "observation": "The points at x=1 and x=−1 reveal the numerator's magnitude and sign and anchor each sketch.",
+   "varies": "Numerator magnitude within positive and negative groups.",
+   "invariant": "Specified anchor inputs, asymptotes and sketching task."
+  },
+  {
+   "sequence": "hyperbola-transformations",
+   "targets": [
+    "p14-a-sketch",
+    "p14-a-completion"
+   ],
+   "observation": "Increasing positive k stretches the reciprocal curve away from its asymptotes.",
+   "varies": "k=1,2,3,4.",
+   "invariant": "Positive sign, zero translations and common asymptotes."
+  },
+  {
+   "sequence": "hyperbola-transformations",
+   "targets": [
+    "p14-b-sketch",
+    "p14-b-completion"
+   ],
+   "observation": "Negative k gives branches in quadrants II and IV while its magnitude controls dilation.",
+   "varies": "Magnitude of negative k.",
+   "invariant": "Negative sign and zero translations."
+  },
+  {
+   "sequence": "hyperbola-transformations",
+   "targets": [
+    "p14-c-sketch",
+    "p14-c-completion"
+   ],
+   "observation": "An outside constant translates the graph vertically.",
+   "varies": "Vertical translation, including both signs.",
+   "invariant": "k=1 and vertical asymptote x=0."
+  },
+  {
+   "sequence": "hyperbola-transformations",
+   "targets": [
+    "p14-d-sketch",
+    "p14-d-completion"
+   ],
+   "observation": "A constant inside the denominator translates the graph horizontally, with the opposite sign to the displayed addition.",
+   "varies": "Horizontal translation, including both directions.",
+   "invariant": "k=1 and horizontal asymptote y=0."
+  },
+  {
+   "sequence": "hyperbola-transformations",
+   "targets": [
+    "p15-positive-k",
+    "p15-negative-k"
+   ],
+   "observation": "Changing the numerator sign changes branch orientation.",
+   "varies": "Sign of k.",
+   "invariant": "|k|=1 and both asymptotes."
+  },
+  {
+   "sequence": "hyperbola-transformations",
+   "targets": [
+    "p15-dilation-left-demonstration",
+    "p15-dilation-right-demonstration"
+   ],
+   "observation": "A larger numerator magnitude produces greater dilation.",
+   "varies": "k=5 versus k=10.",
+   "invariant": "Positive sign, asymptotes and coordinate frame."
+  },
   {
    "sequence": "exponential-transformations",
    "targets": [
@@ -531,9 +660,9 @@
     "p3-negative-growth-example",
     "p3-negative-decay-example"
    ],
-   "observation": "A negative exponent and a negative output factor have different effects on an exponential curve.",
-   "varies": "Exponent sign and output sign.",
-   "invariant": "Base magnitude 2 and zero vertical translation."
+   "observation": "Distinguishes the effect of an outside minus sign from a minus sign in the exponent.",
+   "varies": "Sign of the multiplier and sign of the exponent.",
+   "invariant": "Base 2, unit multiplier magnitude and zero translation."
   },
   {
    "sequence": "exponential-transformations",
@@ -542,9 +671,9 @@
     "p6-q1-b",
     "p6-q1-c"
    ],
-   "observation": "Vertical translation moves the intercept, second point and horizontal asymptote by the same amount.",
-   "varies": "Added constant.",
-   "invariant": "Base 2, output factor 1 and requested x-values."
+   "observation": "The intercept and second point move with the horizontal asymptote under vertical translation.",
+   "varies": "The additive constant.",
+   "invariant": "Base 2 and multiplier 1."
   },
   {
    "sequence": "exponential-transformations",
@@ -553,9 +682,9 @@
     "p6-q1-e",
     "p6-q1-f"
    ],
-   "observation": "Changing the base changes the growth while preserving the y-intercept and horizontal asymptote.",
+   "observation": "Changing the base changes the x=1 value while preserving the y-intercept and horizontal asymptote.",
    "varies": "Base 3, 4 and 5.",
-   "invariant": "Output factor 1, translation 0 and requested x-values."
+   "invariant": "Positive unit multiplier and zero translation."
   },
   {
    "sequence": "exponential-transformations",
@@ -564,9 +693,9 @@
     "p6-q1-h",
     "p6-q1-i"
    ],
-   "observation": "Translations also move reflected exponential curves and their asymptotes.",
-   "varies": "Added constant.",
-   "invariant": "Base 2 and output factor -1."
+   "observation": "Vertical translation also applies to a reflected exponential.",
+   "varies": "The additive constant.",
+   "invariant": "Base 2 and multiplier -1."
   },
   {
    "sequence": "exponential-transformations",
@@ -575,9 +704,9 @@
     "p7-k",
     "p7-l"
    ],
-   "observation": "The output factor controls vertical scaling and reflection while leaving the zero asymptote fixed.",
-   "varies": "Output factor.",
-   "invariant": "Exponential term 2^x and translation 0."
+   "observation": "Outside multipliers change coordinate magnitudes and can reverse the curve across the x-axis without moving its horizontal asymptote.",
+   "varies": "The outside multiplier.",
+   "invariant": "Base 2, exponent x and zero translation."
   },
   {
    "sequence": "exponential-transformations",
@@ -586,120 +715,9 @@
     "p7-q",
     "p7-r"
    ],
-   "observation": "Different reciprocal bases change decay while preserving the y-intercept and horizontal asymptote.",
+   "observation": "Reciprocal bases preserve the y-intercept and asymptote while changing the decay.",
    "varies": "Base 1/2, 1/3 and 1/4.",
-   "invariant": "Output factor 1 and translation 0."
-  },
-  {
-   "sequence": "exponential-transformations",
-   "targets": [
-    "p7-m",
-    "p7-p"
-   ],
-   "observation": "Negative-exponent and reciprocal-base notation can describe the same curve.",
-   "varies": "Algebraic representation.",
-   "invariant": "The entire function, supplied reference and sketching requirements."
-  },
-  {
-   "sequence": "hyperbolas",
-   "targets": [
-    "p10-investigation-1",
-    "p10-investigation-2"
-   ],
-   "observation": "Increasing the numerator changes the output magnitudes while preserving branch quadrants and the excluded input.",
-   "varies": "Numerator 1 to 2.",
-   "invariant": "Input values, coordinate scale and positive numerator sign."
-  },
-  {
-   "sequence": "hyperbolas",
-   "targets": [
-    "p11-a",
-    "p11-b"
-   ],
-   "observation": "Changing the numerator sign reverses output signs and one-sided behaviour while preserving both asymptotes.",
-   "varies": "Numerator sign.",
-   "invariant": "Numerator magnitude, graph scale and feature prompts."
-  },
-  {
-   "sequence": "hyperbolas",
-   "targets": [
-    "p12-q2-table-response",
-    "p12-q2-positive-infinity",
-    "p12-q2-negative-infinity"
-   ],
-   "observation": "Common inputs and axes expose the reflection and opposite directions of approach to zero.",
-   "varies": "Numerator sign.",
-   "invariant": "Numerator magnitude, inputs and asymptotes."
-  },
-  {
-   "sequence": "hyperbolas",
-   "targets": [
-    "p13-q3-same",
-    "p13-q3-different"
-   ],
-   "observation": "Increasing positive k moves the branches further from the axes while preserving quadrants and asymptotes.",
-   "varies": "Positive numerator from 1 through 5.",
-   "invariant": "Common axes and reciprocal equation form."
-  },
-  {
-   "sequence": "hyperbolas",
-   "targets": [
-    "p13-q4-a",
-    "p13-q4-b",
-    "p13-q4-c"
-   ],
-   "observation": "The anchor points are (1,k) and (−1,−k), while positive-numerator branches retain their orientation.",
-   "varies": "Positive numerator magnitude.",
-   "invariant": "Anchor inputs ±1 and sketching task."
-  },
-  {
-   "sequence": "hyperbolas",
-   "targets": [
-    "p13-q4-d",
-    "p13-q4-e",
-    "p13-q4-f"
-   ],
-   "observation": "The same anchor-point relationship holds for negative numerators, with branches in quadrants II and IV.",
-   "varies": "Negative numerator magnitude.",
-   "invariant": "Numerator sign, anchor inputs ±1 and sketching task."
-  },
-  {
-   "sequence": "hyperbola-transformations",
-   "targets": [
-    "p14-a-sketch",
-    "p14-b-sketch"
-   ],
-   "observation": "Numerator magnitude controls stretching, while numerator sign determines branch orientation.",
-   "varies": "Magnitude within each run; sign between the matched runs.",
-   "invariant": "Asymptotes x=0 and y=0, reciprocal form, and matched numerator magnitudes."
-  },
-  {
-   "sequence": "hyperbola-transformations",
-   "targets": [
-    "p14-c-sketch"
-   ],
-   "observation": "Adding a constant produces a vertical translation and changes the horizontal asymptote.",
-   "varies": "The external constant, including positive and negative values.",
-   "invariant": "Numerator 1 and denominator x."
-  },
-  {
-   "sequence": "hyperbola-transformations",
-   "targets": [
-    "p14-d-sketch"
-   ],
-   "observation": "Changing the denominator constant produces a horizontal translation with the opposite sign to the written constant.",
-   "varies": "The denominator constant, including positive and negative values.",
-   "invariant": "Numerator 1 and horizontal asymptote y=0."
-  },
-  {
-   "sequence": "hyperbola-transformations",
-   "targets": [
-    "p15-vertical-translation",
-    "p15-horizontal-translation"
-   ],
-   "observation": "Matched positive and negative shifts distinguish translation direction and which asymptote moves.",
-   "varies": "Shift sign within each pair and placement of the constant between pairs.",
-   "invariant": "Numerator 1 and shift magnitude 2."
+   "invariant": "Positive unit multiplier and zero translation."
   },
   {
    "sequence": "circles-origin",
@@ -707,9 +725,9 @@
     "p21-response-a",
     "p21-response-b"
    ],
-   "observation": "A small change in the squared-radius constant can change the radius from an integer to a surd without changing the sketch method.",
+   "observation": "A small change in the constant changes the radius from an integer to a surd without changing the sketching method.",
    "varies": "The constant changes from 36 to 37.",
-   "invariant": "Origin-centred circle equation and sketch task."
+   "invariant": "Origin-centred equation, blank axes and required sketch."
   },
   {
    "sequence": "circles-origin",
@@ -719,20 +737,34 @@
     "p23-q4-e-node",
     "p23-q4-f-node"
    ],
-   "observation": "The coordinate-triangle method works in every quadrant.",
-   "varies": "Quadrant, coordinate signs and magnitudes.",
-   "invariant": "Origin-centred circle, circumference point, radius and perpendicular-leg scaffold."
+   "observation": "The coordinate-to-radius calculation works in every quadrant using positive side lengths.",
+   "varies": "The quadrant and coordinate magnitudes.",
+   "invariant": "Origin-centred circle, circumference point, radius and perpendicular-triangle scaffold."
+  },
+  {
+   "sequence": "circles-origin",
+   "targets": [
+    "p24-q6-a",
+    "p24-q6-b"
+   ],
+   "observation": "Different coordinate pairs can have the same distance from the origin and belong to one circle.",
+   "varies": "Coordinates of the four points.",
+   "invariant": "Squared distance 17 and centre (0,0)."
   },
   {
    "sequence": "circle-transformations",
    "targets": [
-    "p25-demonstration-left-native",
-    "p25-demonstration-right-native",
-    "p25-a-native"
+    "p27-q1-a",
+    "p27-q1-b",
+    "p27-q1-c",
+    "p27-q1-d",
+    "p27-q1-e",
+    "p27-q1-f",
+    "p27-q1-g"
    ],
-   "observation": "The centre coordinate has the opposite sign to the constant written inside its bracket.",
-   "varies": "The signs and values of the bracket constants.",
-   "invariant": "The translated-circle equation form and the centre/radius identification task."
+   "observation": "Single-axis translations precede combinations, exposing how each bracket controls the centre displacement.",
+   "varies": "Axis, direction, distance and then number of translated coordinates.",
+   "invariant": "Circle radius and the reference circle centred at the origin."
   },
   {
    "sequence": "circle-transformations",
@@ -740,20 +772,9 @@
     "p28-q3-d",
     "p28-q3-e"
    ],
-   "observation": "Tangency can occur on either axis while the other axis has no intersection.",
-   "varies": "Which centre-to-axis distance equals the radius and which exceeds it.",
-   "invariant": "Exactly one tangent axis intersection and no intersection with the other axis."
-  },
-  {
-   "sequence": "circle-transformations",
-   "targets": [
-    "p30-q8",
-    "p31-q9-response",
-    "p31-q10-response"
-   ],
-   "observation": "Diameter endpoints determine the centre through their midpoint, then determine the radius and equation.",
-   "varies": "The endpoint coordinates and the amount of prompting.",
-   "invariant": "The diameter-to-centre relationship."
+   "observation": "A circle can touch one axis while missing the other, with the roles of the axes reversed.",
+   "varies": "Which axis is tangent and which is missed.",
+   "invariant": "Exactly one axis-intersection point and the same sketch-and-intercept task."
   },
   {
    "sequence": "completing-square-circles",
@@ -761,9 +782,9 @@
     "p34-q3-a",
     "p34-q3-b"
    ],
-   "observation": "Completing a single x-square produces circles tangent to the y-axis at the origin on opposite sides of that axis.",
-   "varies": "The sign and magnitude of the x-linear coefficient, hence the centre's side and radius.",
-   "invariant": "No y-linear term or constant; the origin remains an intercept and the y-axis remains tangent."
+   "observation": "A circle with centre on the x-axis can remain tangent to the y-axis at the origin on either side.",
+   "varies": "The sign and magnitude of the x linear coefficient, hence horizontal direction and radius.",
+   "invariant": "No y linear term or constant term; the origin is the sole y-intercept."
   },
   {
    "sequence": "parabola-line-intersections",
@@ -771,9 +792,9 @@
     "p38-guided-a",
     "p38-guided-b"
    ],
-   "observation": "The same parabola meets a horizontal line and then a sloping line, exposing why each x-root needs its own y-coordinate.",
-   "varies": "The line equation.",
-   "invariant": "The parabola y=x²+6x+9 and the intersection-solving procedure."
+   "observation": "The same parabola is intersected by a horizontal line and then a sloping line, exposing why corresponding y values must be found separately.",
+   "varies": "The intersecting line.",
+   "invariant": "The parabola y=x²+6x+9 and the intersection-solving objective."
   },
   {
    "sequence": "parabola-line-intersections",
@@ -781,52 +802,9 @@
     "p42-q7-a",
     "p42-q7-b"
    ],
-   "observation": "A fixed non-intersecting line becomes a family of parallel lines, inviting a boundary condition for intersection.",
-   "varies": "The line intercept changes from 1 to k.",
+   "observation": "A numerical nonintersection case leads into the boundary between intersection and nonintersection.",
+   "varies": "The line's intercept changes from 1 to k.",
    "invariant": "The parabola y=x²+3 and line gradient 2."
-  },
-  {
-   "sequence": "parabola-line-intersections",
-   "targets": [
-    "p43-q8-a",
-    "p43-q8-b",
-    "p43-q8-c"
-   ],
-   "observation": "Tangent gradients become boundary values separating lines with zero and two intersections.",
-   "varies": "The requested condition and interpretation of m.",
-   "invariant": "The parabola y=x²−2x+4 and line family y=mx."
-  },
-  {
-   "sequence": "curve-intersections",
-   "targets": [
-    "p47-q2-a",
-    "p47-q2-b",
-    "p47-q2-c"
-   ],
-   "observation": "Equating two parabolas can yield one, two or no real intersections.",
-   "varies": "The coefficients and resulting discriminant.",
-   "invariant": "Two quadratic expressions for y and the same equating-and-solving method."
-  },
-  {
-   "sequence": "curve-intersections",
-   "targets": [
-    "p51-q9-a",
-    "p51-q9-b",
-    "p51-q9-c"
-   ],
-   "observation": "The discriminant partitions the possible gradients into tangency, two intersections and no intersections.",
-   "varies": "The required number of intersections.",
-   "invariant": "The same circle, line family and parameter."
-  },
-  {
-   "sequence": "curve-intersections",
-   "targets": [
-    "p53-q13-a",
-    "p53-q13-b"
-   ],
-   "observation": "Changing the sign between the same squared expressions changes a circle equation into a hyperbola equation.",
-   "varies": "Addition versus subtraction.",
-   "invariant": "The squared expressions and parameter."
   },
   {
    "sequence": "cubic-transformations",
@@ -834,9 +812,9 @@
     "p55-k-positive",
     "p55-k-negative"
    ],
-   "observation": "Changing only the coefficient sign reverses the curve's orientation.",
-   "varies": "The sign of k.",
-   "invariant": "Coefficient magnitude, translations and axis scale."
+   "observation": "Changing the coefficient sign reverses the direction of the cubic.",
+   "varies": "Sign of the coefficient.",
+   "invariant": "Coefficient magnitude, shifts and inflection point."
   },
   {
    "sequence": "cubic-transformations",
@@ -844,9 +822,9 @@
     "p55-b-positive",
     "p55-b-negative"
    ],
-   "observation": "The sign inside the bracket determines opposite horizontal shift directions.",
-   "varies": "The sign of the horizontal translation, with magnitude 2.",
-   "invariant": "Cubic coefficient and vertical translation."
+   "observation": "The sign inside the bracket corresponds to opposite horizontal translation directions.",
+   "varies": "Sign of the horizontal translation parameter.",
+   "invariant": "Translation magnitude, coefficient and vertical shift."
   },
   {
    "sequence": "cubic-transformations",
@@ -854,40 +832,61 @@
     "p55-c-positive",
     "p55-c-negative"
    ],
-   "observation": "The sign of the added constant determines the vertical shift direction.",
-   "varies": "The sign of the vertical translation, with magnitude 2.",
-   "invariant": "Cubic coefficient and horizontal translation."
+   "observation": "Adding and subtracting the same constant move the inflection point vertically in opposite directions.",
+   "varies": "Sign of the vertical translation.",
+   "invariant": "Translation magnitude, coefficient and horizontal shift."
   },
   {
    "sequence": "cubic-transformations",
    "targets": [
-    "p55-k-positive",
     "p55-k-narrower",
     "p55-k-wider"
    ],
-   "observation": "Coefficient magnitude changes the apparent width at a common scale.",
-   "varies": "Positive coefficient magnitude: 1, 5 and 1/5.",
-   "invariant": "Inflection point, orientation and axis scale."
+   "observation": "Coefficient magnitudes above and below 1 change the apparent width relative to the basic cubic.",
+   "varies": "Positive coefficient magnitude.",
+   "invariant": "Orientation and inflection point."
   },
   {
    "sequence": "power-transformations",
    "targets": [
     "p60-power-2-example",
-    "p60-power-4-example"
+    "p60-power-3-example",
+    "p60-power-4-example",
+    "p60-power-5-example"
    ],
-   "observation": "Increasing an even exponent preserves the turning-point shape while flattening the central region and steepening the outer branches.",
-   "varies": "Exponent: 2 and 4.",
-   "invariant": "Positive unit coefficient, no translation and common coordinate scale."
+   "observation": "Parity controls the basic shape; increasing the exponent within a parity produces a flatter central region and steeper outer branches.",
+   "varies": "Exponent.",
+   "invariant": "Coefficient one, no translations, and common coordinate scale."
   },
   {
    "sequence": "power-transformations",
    "targets": [
-    "p60-power-3-example",
-    "p60-power-5-example"
+    "p60-b-positive",
+    "p60-b-negative"
    ],
-   "observation": "Increasing an odd exponent preserves the inflection-point shape while flattening the central region and steepening the outer branches.",
-   "varies": "Exponent: 3 and 5.",
-   "invariant": "Positive unit coefficient and no translation."
+   "observation": "The sign inside the bracket determines opposite horizontal shifts.",
+   "varies": "Sign of the horizontal translation.",
+   "invariant": "Cubic shape and shift magnitude two."
+  },
+  {
+   "sequence": "power-transformations",
+   "targets": [
+    "p60-c-positive",
+    "p60-c-negative"
+   ],
+   "observation": "The sign of the added constant determines the vertical direction.",
+   "varies": "Sign of the vertical translation.",
+   "invariant": "Cubic shape and shift magnitude two."
+  },
+  {
+   "sequence": "power-transformations",
+   "targets": [
+    "p60-k-narrower",
+    "p60-k-wider"
+   ],
+   "observation": "Coefficient magnitude above or below one changes the width.",
+   "varies": "Positive coefficient magnitude.",
+   "invariant": "Cubic exponent, inflection point and coordinate scale."
   },
   {
    "sequence": "power-transformations",
@@ -897,9 +896,9 @@
     "p61-q2-c",
     "p61-q2-d"
    ],
-   "observation": "Larger positive scale factors produce narrower quartic curves.",
-   "varies": "Positive coefficient.",
-   "invariant": "Exponent 4, turning point at the origin and common graph scale."
+   "observation": "Larger positive coefficients produce narrower quartics.",
+   "varies": "Coefficient.",
+   "invariant": "Fourth power and turning point at the origin."
   },
   {
    "sequence": "power-transformations",
@@ -909,9 +908,9 @@
     "p61-q3-c",
     "p61-q3-d"
    ],
-   "observation": "The sign inside the bracket determines the opposite-signed horizontal displacement.",
-   "varies": "Horizontal translation.",
-   "invariant": "Exponent 4, coefficient 3 and turning-point height 0."
+   "observation": "Horizontal translation changes the turning point's horizontal position.",
+   "varies": "Horizontal shift.",
+   "invariant": "Fourth power, coefficient three and turning-point height zero."
   },
   {
    "sequence": "power-transformations",
@@ -921,9 +920,9 @@
     "p62-q4-c",
     "p62-q4-d"
    ],
-   "observation": "The outside constant gives the turning point's vertical displacement.",
-   "varies": "Vertical translation.",
-   "invariant": "Exponent 4, coefficient 1 and symmetry axis x=0."
+   "observation": "The added constant gives the turning-point height.",
+   "varies": "Vertical shift.",
+   "invariant": "Fourth power, coefficient one and symmetry about the y-axis."
   },
   {
    "sequence": "power-transformations",
@@ -931,9 +930,41 @@
     "p63-q6-a",
     "p63-q6-b"
    ],
-   "observation": "Changing the outside constant moves the inflection point vertically while retaining its horizontal position.",
-   "varies": "Vertical translation from -2 to 4.",
-   "invariant": "Cubic exponent, positive unit coefficient and horizontal translation left by 3."
+   "observation": "Changing the vertical constant moves the inflection point vertically while retaining its horizontal position.",
+   "varies": "Vertical shift.",
+   "invariant": "Positive cubic with horizontal shift three units left."
+  },
+  {
+   "sequence": "curve-intersections",
+   "targets": [
+    "p47-q2-a",
+    "p47-q2-b",
+    "p47-q2-c"
+   ],
+   "observation": "Two parabolas can meet once, twice or not at all, matching the real-root count of the resulting quadratic.",
+   "varies": "The coefficients and resulting discriminant.",
+   "invariant": "Equate an upward-opening and a downward-opening quadratic and interpret the resulting solutions."
+  },
+  {
+   "sequence": "curve-intersections",
+   "targets": [
+    "p51-q9-a",
+    "p51-q9-b",
+    "p51-q9-c"
+   ],
+   "observation": "One discriminant expression partitions a family of lines into tangent, secant and non-intersecting cases.",
+   "varies": "The required number of intersections.",
+   "invariant": "The circle, the line family and its discriminant expression."
+  },
+  {
+   "sequence": "curve-intersections",
+   "targets": [
+    "p53-q13-a",
+    "p53-q13-b"
+   ],
+   "observation": "Changing the sign between the same squared expressions changes the recognised curve family.",
+   "varies": "Addition versus subtraction.",
+   "invariant": "The expressions x+y and x-y and the right-hand side a²."
   },
   {
    "sequence": "factored-cubics",
@@ -941,22 +972,14 @@
     "p64-demonstration-left-example",
     "p64-demonstration-right-example"
    ],
-   "observation": "The x-term must be selected by its power, including its sign, rather than by its position within the factor.",
-   "varies": "The first factor changes from 2x-3 to 3-2x.",
-   "invariant": "The other two factors and the magnitudes of the resulting leading and constant terms."
+   "observation": "Reversing one factor's sign reverses both the leading and constant terms.",
+   "varies": "2x-3 changes to 3-2x.",
+   "invariant": "The other two factors."
   }
  ],
- "notReliablyReviewed": [
-  {
-   "sequence": "completing-square-circles",
-   "targets": [
-    "p36-q6-d"
-   ],
-   "reason": "The linked DESMOS construction was not supplied as an image or specification; its particular contents were not reviewed."
-  }
- ],
- "reviewedRevision": 17,
- "reviewedAt": "2026-10-11T12:54:08.554Z",
+ "notReliablyReviewed": [],
+ "reviewedRevision": 22,
+ "reviewedAt": "2026-10-15T10:15:16.526Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -980,13 +1003,13 @@
     "images": 7,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 52965,
+     "input_tokens": 53382,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4997,
-     "reasoning_output_tokens": 286
+     "output_tokens": 5045,
+     "reasoning_output_tokens": 115
     },
-    "elapsedMs": 129978,
+    "elapsedMs": 108776,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -998,16 +1021,16 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 41038,
-     "cached_input_tokens": 14592,
+     "input_tokens": 41455,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2423,
-     "reasoning_output_tokens": 86
+     "output_tokens": 2920,
+     "reasoning_output_tokens": 147
     },
-    "elapsedMs": 71233,
+    "elapsedMs": 74775,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "hyperbola-transformations",
@@ -1016,13 +1039,13 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 52714,
-     "cached_input_tokens": 14592,
+     "input_tokens": 53134,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3357,
-     "reasoning_output_tokens": 117
+     "output_tokens": 3035,
+     "reasoning_output_tokens": 112
     },
-    "elapsedMs": 91056,
+    "elapsedMs": 75142,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -1034,14 +1057,14 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 45381,
-     "cached_input_tokens": 12544,
+     "input_tokens": 45801,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3489,
-     "reasoning_output_tokens": 175
+     "output_tokens": 3204,
+     "reasoning_output_tokens": 121
     },
-    "elapsedMs": 93674,
-    "candidates": 1,
+    "elapsedMs": 82925,
+    "candidates": 2,
     "discarded": [],
     "suggestions": 2
    },
@@ -1052,13 +1075,13 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 45020,
+     "input_tokens": 45437,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4853,
-     "reasoning_output_tokens": 230
+     "output_tokens": 4540,
+     "reasoning_output_tokens": 142
     },
-    "elapsedMs": 135712,
+    "elapsedMs": 113103,
     "candidates": 1,
     "discarded": [],
     "suggestions": 2
@@ -1070,16 +1093,16 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 38179,
-     "cached_input_tokens": 14592,
+     "input_tokens": 38596,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4154,
-     "reasoning_output_tokens": 162
+     "output_tokens": 4080,
+     "reasoning_output_tokens": 238
     },
-    "elapsedMs": 119355,
-    "candidates": 3,
+    "elapsedMs": 109025,
+    "candidates": 4,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "parabola-line-intersections",
@@ -1088,14 +1111,14 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 55531,
-     "cached_input_tokens": 12544,
+     "input_tokens": 55954,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3728,
-     "reasoning_output_tokens": 187
+     "output_tokens": 3793,
+     "reasoning_output_tokens": 118
     },
-    "elapsedMs": 107291,
-    "candidates": 1,
+    "elapsedMs": 93558,
+    "candidates": 2,
     "discarded": [],
     "suggestions": 2
    },
@@ -1106,16 +1129,16 @@
     "images": 8,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 60865,
-     "cached_input_tokens": 12544,
+     "input_tokens": 61281,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5191,
-     "reasoning_output_tokens": 202
+     "output_tokens": 5242,
+     "reasoning_output_tokens": 296
     },
-    "elapsedMs": 139699,
+    "elapsedMs": 131282,
     "candidates": 3,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 2
    },
    {
     "id": "cubic-transformations",
@@ -1124,16 +1147,16 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 55166,
-     "cached_input_tokens": 14592,
+     "input_tokens": 55582,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3757,
-     "reasoning_output_tokens": 211
+     "output_tokens": 3028,
+     "reasoning_output_tokens": 199
     },
-    "elapsedMs": 104147,
+    "elapsedMs": 81348,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "power-transformations",
@@ -1142,16 +1165,16 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 47452,
-     "cached_input_tokens": 12544,
+     "input_tokens": 47868,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2112,
-     "reasoning_output_tokens": 50
+     "output_tokens": 2427,
+     "reasoning_output_tokens": 141
     },
-    "elapsedMs": 55784,
+    "elapsedMs": 62440,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "factored-cubics",
@@ -1160,13 +1183,13 @@
     "images": 5,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 48940,
-     "cached_input_tokens": 14592,
+     "input_tokens": 49356,
+     "cached_input_tokens": 12544,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4381,
-     "reasoning_output_tokens": 162
+     "output_tokens": 4712,
+     "reasoning_output_tokens": 264
     },
-    "elapsedMs": 115897,
+    "elapsedMs": 109377,
     "candidates": 3,
     "discarded": [],
     "suggestions": 2
@@ -1175,28 +1198,9 @@
   "dropped": [
    {
     "ids": [
-     "c1"
-    ],
-    "reason": "The substantial-prerequisite test defeats this candidate: ordinary substitution into an expression is elementary prior algebra at this booklet's level, and the examples explicitly show substitution. The proposed review does not rehearse a distinct substantial prerequisite.",
-    "candidates": [
-     {
-      "id": "c1",
-      "sequence": "exponential-transformations",
-      "kind": "opening-review",
-      "targets": [
-       "p5-example-left-node",
-       "p5-example-right-node",
-       "p3-formula-comparison"
-      ],
-      "finding": "There is no opening rehearsal of substituting into algebraic expressions, although both numerical sketching examples depend directly on that prior skill."
-     }
-    ]
-   },
-   {
-    "ids": [
      "c2"
     ],
-    "reason": "The mathematics is correct, including reflection across y=2, but this was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "Mathematically correct and suitably attached to existing practice, but not selected among the four strongest booklet-wide suggestions; the supplied matching graphs already display the directional contrast.",
     "candidates": [
      {
       "id": "c2",
@@ -1205,24 +1209,42 @@
       "targets": [
        "p9-q3"
       ],
-      "finding": "Recover an exponential equation from its horizontal asymptote and two points."
+      "finding": "Compare two listed equations whose intercept and asymptote agree but whose directions differ."
      }
     ]
    },
    {
     "ids": [
-     "c6"
+     "c5"
     ],
-    "reason": "Not selected among the four strongest suggestions. Also, 'exactly one intercept' needs clarification about counting distinct points: when bc=k with both b and c nonzero, the two axis intercepts coincide at the origin.",
+    "reason": "The mathematics and placement are valid, but this is not among the four strongest booklet-wide suggestions.",
     "candidates": [
      {
-      "id": "c6",
+      "id": "c5",
       "sequence": "hyperbola-transformations",
       "kind": "extension",
       "targets": [
        "p19-q4"
       ],
-      "finding": "Generalise when a translated hyperbola crosses the coordinate axes."
+      "finding": "Translate the graph from part a and recover its numerator from a translated point."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c7"
+    ],
+    "reason": "The whole tasks are not unchanged: p21-response-d requests a sketch, whereas p22-q3-d explicitly requires the centre and all intercepts. The strict duplicate test defeats this candidate.",
+    "candidates": [
+     {
+      "id": "c7",
+      "sequence": "circles-origin",
+      "kind": "duplicate-question",
+      "targets": [
+       "p21-response-d",
+       "p22-q3-d"
+      ],
+      "finding": "The origin-centred circle x² + y² = 9/4 is assigned for sketching twice without an explicit retrieval or comparison purpose."
      }
     ]
    },
@@ -1230,67 +1252,68 @@
     "ids": [
      "c8"
     ],
-    "reason": "The radii and constant-scaling relationship are correct, but this was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "The proposed sequence is correct, but it is not selected among the four strongest booklet-wide suggestions.",
     "candidates": [
      {
       "id": "c8",
       "sequence": "circles-origin",
       "kind": "variation-sequence",
       "targets": [
-       "p22-q1"
+       "p22-q2"
       ],
-      "finding": "Compare doubling the equation constant with doubling the radius."
+      "finding": "Compare the equation constants when the radius doubles."
      }
     ]
    },
    {
     "ids": [
-     "c9"
+     "c12"
     ],
-    "reason": "The proof works for a genuine circle with r>0 and C distinct from the diameter endpoints, but this was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "The diameter-circle equation and numerical comparisons are correct, but this is not among the four strongest booklet-wide suggestions.",
     "candidates": [
      {
-      "id": "c9",
-      "sequence": "circles-origin",
+      "id": "c12",
+      "sequence": "circle-transformations",
       "kind": "extension",
       "targets": [
-       "p24-q8"
+       "p31-q11-answer"
       ],
-      "finding": "Generalise the right angle formed by joining a circumference point to the endpoints of a diameter."
+      "finding": "Use the same endpoints to compare the two radius-defined circles with a circle having AB as diameter."
      }
     ]
    },
    {
     "ids": [
-     "c11"
+     "c17"
     ],
-    "reason": "The intersection counts are correct, but c12 provides the stronger generalisation of the same axis-distance relationship; this suggestion was not selected.",
+    "reason": "The proposed completed forms and real-graph classifications are correct, but this is not among the four strongest booklet-wide suggestions.",
     "candidates": [
      {
-      "id": "c11",
-      "sequence": "circle-transformations",
-      "kind": "variation-sequence",
-      "targets": [
-       "p26-guided-block"
-      ],
-      "finding": "Hold the centre fixed and vary the radius to expose the thresholds for missing, touching and crossing each axis."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c16"
-    ],
-    "reason": "The classifications and follow-up answer are correct, but c17 provides a stronger extension of the existing existence question; this suggestion was not selected.",
-    "candidates": [
-     {
-      "id": "c16",
+      "id": "c17",
       "sequence": "completing-square-circles",
       "kind": "variation-sequence",
       "targets": [
        "p33-q2"
       ],
-      "finding": "Vary only the constant to expose the boundary between a circle, a single point and an empty graph."
+      "finding": "Extend the constant-term comparison to expose how the right-hand side after completion controls the graph."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c18"
+    ],
+    "reason": "The alleged ambiguity is resolved by context: p38 specifies y=mx+d, and p39 associates tangency with a zero discriminant of the resulting quadratic. The vertical-line question asks for coordinates, does not request a discriminant classification, and permits direct substitution. No consequential untested distinction is established.",
+    "candidates": [
+     {
+      "id": "c18",
+      "sequence": "parabola-line-intersections",
+      "kind": "untested-distinction",
+      "targets": [
+       "p39-case-zero",
+       "p41-q4-b"
+      ],
+      "finding": "The teaching associates one intersection with tangency without distinguishing the vertical line in p41-q4-b, which meets the parabola once but is not tangent."
      }
     ]
    },
@@ -1298,50 +1321,34 @@
     "ids": [
      "c19"
     ],
-    "reason": "The discriminants and intersection counts are correct, but this was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "The methods are already supplied: equate the equations, identify quadratic coefficients, and apply the stated discriminant conditions. p42-q7-a to b changes only the intercept from a number to a parameter and produces a linear inequality. Under the candidate's assumed algebra knowledge, this is a supported transfer rather than an untaught method.",
     "candidates": [
      {
       "id": "c19",
       "sequence": "parabola-line-intersections",
-      "kind": "variation-sequence",
+      "kind": "unsupported-transition",
       "targets": [
-       "p39-question-2"
+       "p42-q7-b",
+       "p43-q8-a"
       ],
-      "finding": "Vary only the height of a horizontal line to connect the sign of the discriminant with crossing the vertex level."
+      "finding": "The sequence moves from evaluating numerical discriminants to finding unknown coefficients without showing how to form and use a discriminant expression containing a parameter."
      }
     ]
    },
    {
     "ids": [
-     "c20"
+     "c21"
     ],
-    "reason": "The tangent-gradient equation and classification are correct for real h and k, but this was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "The contact points and midpoint calculations are correct. The suggestion is not among the four strongest booklet-wide choices; evaluating the parabola at the midpoint also adds a less focused comparison.",
     "candidates": [
      {
-      "id": "c20",
+      "id": "c21",
       "sequence": "parabola-line-intersections",
       "kind": "extension",
       "targets": [
-       "p43-q10-root"
+       "p43-q8-root"
       ],
-      "finding": "Generalise when a point admits zero, one or two tangents to y=x²."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c22"
-    ],
-    "reason": "Earlier practice defeats the missing-method claim: p40-q2 explicitly asks students to draw a comparison line and read intersections, while p40-q1 connects the simultaneous equation with its x-solutions. p38-teaching explains equality at intersections. The proposed cubic task transfers that taught method.",
-    "candidates": [
-     {
-      "id": "c22",
-      "sequence": "curve-intersections",
-      "kind": "unsupported-transition",
-      "targets": [
-       "p48-q3"
-      ],
-      "finding": "The first graphical equation-solving task requires students to construct a comparison graph and read solutions as x-coordinates without preceding instruction connecting those decisions."
+      "finding": "Find the contact points of the two tangents already calculated."
      }
     ]
    },
@@ -1349,17 +1356,17 @@
     "ids": [
      "c23"
     ],
-    "reason": "The unsupported-method test is not met. After the direct graphical task, this introduces one additional algebraic rearrangement using already taught equation manipulation. p46-q1 explicitly rehearses rearranging before equating; the question identifies the existing graph and requests a suitable straight line.",
+    "reason": "Earlier p40-q2 explicitly has students draw a line, read intersections and then equate the same expressions algebraically. p48-q3 transfers that connection with the second expression already visible; p48-q4-c subsequently adds rearrangement as one new feature. Existing instruction defeats the claim that graphical equation solving is first introduced here.",
     "candidates": [
      {
       "id": "c23",
       "sequence": "curve-intersections",
       "kind": "unsupported-transition",
       "targets": [
-       "p48-q4-c",
-       "p49-q5-d"
+       "p48-q3",
+       "p48-q4-c"
       ],
-      "finding": "The sequence next requires identifying a comparison line when the plotted expression is hidden inside a rearranged target equation, without modelling that matching step."
+      "finding": "Graphical equation solving is first required without showing how to select the second graph, particularly when the target equation must be rearranged to match an existing curve."
      }
     ]
    },
@@ -1367,16 +1374,17 @@
     "ids": [
      "c24"
     ],
-    "reason": "The intersection classification is correct for r>0 and k>0, including the stated nonzero-a equality case, but this was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "The claim depends on whether quadratic inequalities were taught separately, which the supplied material does not settle. Earlier p43-q8-c already requires this knowledge but does not establish how it was taught. Retain the merged context question instead of asserting an unsupported transition.",
     "candidates": [
      {
       "id": "c24",
       "sequence": "curve-intersections",
-      "kind": "extension",
+      "kind": "unsupported-transition",
       "targets": [
-       "p53-q13-d"
+       "p51-q9-b",
+       "p51-q9-c"
       ],
-      "finding": "Generalise when a circle centred at the origin meets a positive reciprocal hyperbola."
+      "finding": "The parameter problem requires solving quadratic inequalities, while the supplied preceding discriminant teaching establishes only numerical root-count tests."
      }
     ]
    },
@@ -1384,20 +1392,16 @@
     "ids": [
      "c25"
     ],
-    "reason": "Earlier material defeats the claim that coordinate substitution to determine a graph parameter is untaught: p19-q4 explicitly instructs this method. Applying it to y=kx³+c uses ordinary substitution and linear equations; two marked points produce the simultaneous equations already available from prior teaching.",
+    "reason": "The mathematics is correct, but the retained c20 sequence exposes the same discriminant threshold relationship earlier. This is not selected within the four-suggestion limit.",
     "candidates": [
      {
       "id": "c25",
-      "sequence": "cubic-transformations",
-      "kind": "unsupported-transition",
+      "sequence": "curve-intersections",
+      "kind": "variation-sequence",
       "targets": [
-       "p59-q3-root",
-       "p59-q3-a",
-       "p59-q3-b",
-       "p59-q3-c",
-       "p59-q3-d"
+       "p51-q10-a"
       ],
-      "finding": "Question 3 changes from sketching a known cubic to finding its unknown parameters without teaching how graph coordinates generate equations for those parameters."
+      "finding": "Vary only the intercept of the descending line to connect reciprocal-line intersections with the discriminant boundary."
      }
     ]
    },
@@ -1405,16 +1409,16 @@
     "ids": [
      "c26"
     ],
-    "reason": "The inflection points and intercepts are correct, but this was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "The centre, distance and triangle areas are correct, but this is not among the four strongest booklet-wide suggestions.",
     "candidates": [
      {
       "id": "c26",
-      "sequence": "cubic-transformations",
-      "kind": "variation-sequence",
+      "sequence": "curve-intersections",
+      "kind": "extension",
       "targets": [
-       "p55-shift-responses"
+       "p52-q11-d"
       ],
-      "finding": "Isolate horizontal translation and compare its effect on the inflection point and the two intercepts."
+      "finding": "Split the existing kite along its chord and relate its two triangle areas to the circle centre."
      }
     ]
    },
@@ -1422,16 +1426,36 @@
     "ids": [
      "c27"
     ],
-    "reason": "The unique real intercept and sign conditions are correct for real parameters with a≠0, but this was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "Earlier p19-q4 explicitly teaches determining an unknown graph coefficient by substituting a coordinate. Earlier simultaneous-equation work supplies solving two equations when both parameters are unknown. Applying those available methods to y=kx³+c does not establish a new unsupported method.",
     "candidates": [
      {
       "id": "c27",
       "sequence": "cubic-transformations",
+      "kind": "unsupported-transition",
+      "targets": [
+       "p59-q3-a",
+       "p59-q3-b",
+       "p59-q3-c",
+       "p59-q3-d"
+      ],
+      "finding": "Question 3 introduces determining unknown cubic parameters from graph coordinates without showing how to turn those coordinates into equations for the parameters."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c28"
+    ],
+    "reason": "The translated equation, labelled point and inflection point are correct, but this is not among the four strongest booklet-wide suggestions.",
+    "candidates": [
+     {
+      "id": "c28",
+      "sequence": "cubic-transformations",
       "kind": "extension",
       "targets": [
-       "p59-q3"
+       "p59-q3-b"
       ],
-      "finding": "Explain how the parameters determine the unique x-intercept and its position relative to the inflection point."
+      "finding": "Translate the recovered curve and track the labelled point and inflection point."
      }
     ]
    },
@@ -1439,7 +1463,7 @@
     "ids": [
      "c30"
     ],
-    "reason": "The unchanged-whole-task test is not met: p66-a-part explicitly supplies three method headings, whereas p66-c-part removes that scaffold. The equation repeats, but the complete student prompts and supplied support are not unchanged.",
+    "reason": "The complete tasks are not unchanged: p66-a supplies the three-step scaffold and p66-c removes it. The strict whole-task duplicate test therefore fails, and the scaffold change provides a meaningful difference in required independence.",
     "candidates": [
      {
       "id": "c30",
@@ -1449,7 +1473,7 @@
        "p66-a-part",
        "p66-c-part"
       ],
-      "finding": "p66-c-part repeats the complete mathematical sketching task in p66-a-part without an explicit retrieval or comparison purpose."
+      "finding": "p66-c-part repeats p66-a-part's entire mathematical sketch task without an explicit retrieval or comparison purpose."
      }
     ]
    },
@@ -1457,7 +1481,7 @@
     "ids": [
      "c31"
     ],
-    "reason": "Earlier teaching and question instructions defeat the missing-method claim. p19-q4 teaches determining a parameter by substituting a coordinate, p59-q3 applies that process to cubics, and p65-factor-intercept-cue-block supplies the root-to-factor relationship. p69-q3 and p69-q4 explicitly provide the factored template.",
+    "reason": "Earlier p19-q4 explicitly supplies coordinate substitution to determine k, and p59-q3 subsequently practises parameter recovery for cubics. p65 supplies the root-factor relationship and p69 supplies the required factored form. Combining these taught methods, including substituting the y-intercept when a root is unknown, does not establish missing teaching.",
     "candidates": [
      {
       "id": "c31",
@@ -1467,24 +1491,7 @@
        "p69-q3",
        "p69-q4"
       ],
-      "finding": "The exercise changes from sketching a supplied equation to reconstructing an equation without teaching how an additional point determines the unknown parameter."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c32"
-    ],
-    "reason": "The roots, y-intercepts and tail directions are correct, but this was not selected among the four strongest booklet-wide suggestions.",
-    "candidates": [
-     {
-      "id": "c32",
-      "sequence": "factored-cubics",
-      "kind": "variation-sequence",
-      "targets": [
-       "p67-q1-f"
-      ],
-      "finding": "Hold the roots fixed while changing the multiplier."
+      "finding": "The exercise asks students to reconstruct a factored cubic and determine k without teaching how an additional point determines that multiplier."
      }
     ]
    },
@@ -1492,16 +1499,16 @@
     "ids": [
      "c33"
     ],
-    "reason": "The three cases and nonzero-k qualification are correct, but this was not selected among the four strongest booklet-wide suggestions.",
+    "reason": "The equations and y-values are correct, but the retained c32 sequence isolates the multiplier's role more directly. This extension is not selected within the four-suggestion limit.",
     "candidates": [
      {
       "id": "c33",
       "sequence": "factored-cubics",
       "kind": "extension",
       "targets": [
-       "p69-q4"
+       "p69-q4-a"
       ],
-      "finding": "Explain when an extra point determines a unique cubic with three given distinct roots."
+      "finding": "Reuse the roots to connect a changed point value with a changed multiplier."
      }
     ]
    }
@@ -1509,8 +1516,8 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/further-non-linear-relationships-v1/candidates-low-1791723080190.json",
+  "candidateFile": ".booklet-work/pedagogy-review/further-non-linear-relationships-v1/candidates-low-1792059144633.json",
   "errors": []
  },
- "postedRevision": 18
+ "postedRevision": 23
 }
