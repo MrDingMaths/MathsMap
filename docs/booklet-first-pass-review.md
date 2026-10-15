@@ -21,7 +21,36 @@ Run it on a live booklet with no import or feedback repair in flight, once the b
 - Compact block JSON with the layout fields: answer spaces, row heights, column widths, diagram widths, gaps, minimum heights, flow and page-break fields, and cloze widths.
 - For consistency checks, the IDs and layout of similar blocks elsewhere in the booklet.
 
-Use Sol 6.1 (`gpt-6.1-sol`) at low reasoning, embed everything in the prompt (read-only workers cannot read files), and count each call against the booklet's three-worker limit. Send at most ten Questions pages or six answer pages per call, one edition per call. There is no command yet: `first-pass.mjs` and `pagemap.mjs` in the replay run folder (see [Replay](#replay)) assemble the inputs, call the workers and collect the findings, and are the reference for building one. Post the findings as Studio comments only when the teacher is ready to triage that booklet. As with pedagogy comments, an open comment makes the booklet's content coverage incomplete.
+Use Sol 6.1 (`gpt-6.1-sol`) at low reasoning, embed everything in the prompt (read-only workers cannot read files), and count each call against the booklet's three-worker limit. Send at most ten Questions pages or six answer pages per call, one edition per call. Post the findings as Studio comments only when the teacher is ready to triage that booklet. As with pedagogy comments, an open comment makes the booklet's content coverage incomplete.
+
+The command is `first-pass/review.mjs`. It lives outside `scripts/` because exports freeze that tree. Run it from PowerShell, whose Poppler `check-feedback-pages.mjs` needs, with the port-5173 server running. Launch `review` outside the outer sandbox from the first attempt, as for other Codex workers.
+
+```
+node first-pass/review.mjs map --project ID [--pages 12-30]
+node first-pass/review.mjs review --project ID [--pages 12-30] [--editions student,short,worked] [--concurrency 1-3] [--source] [--fresh]
+node first-pass/review.mjs post --project ID [--findings fp-…,fp-…]
+node first-pass/review.mjs status --project ID [--triaged] [--approve IDS] [--reject IDS] [--resolve IDS]
+```
+
+- `map` is the dry run. It paginates the Questions, Short answers and Worked solutions editions of the saved project in a headless browser, saving nothing, and prints the pages it would review and each call it would make with its prompt size. It makes no model call and no rasters.
+- `review` does the same, rasterises the selected pages with `check-feedback-pages.mjs --blocks … --editions student,short,worked --checks-only none`, and sends them to the workers. `--pages` names Questions pages, and the answer pages of their blocks come with them; front matter is skipped. `--editions` runs only the calls for the named editions, for example to repeat one that failed. A failed call is reported in `errors` and leaves the earlier findings on its pages in place. Each call carries its page images, the page map, compact layout JSON for the blocks on those pages, up to twelve comparable blocks from elsewhere (`similar`) and the teacher's earlier decisions on those blocks (`decided`). `--source` attaches up to four source pages to each Questions call when the import run kept them; it is off by default, as in the replay. Findings go to `booklets/provenance/first-pass-review/ID.json` and the project is not written. Page maps, rasters and call records are kept in `.booklet-work/first-pass-review/ID/` and reused while the booklet's printed content is unchanged. After a renderer change, `--fresh` renders again.
+- `post` adds each pending finding as a Studio comment of kind `first-pass` carrying its finding ID. The comment sits on the finding's first target in the finding's edition, so a Short answers finding appears in that edition.
+- `status` reads the comments back. A deleted comment makes its finding rejected, and a resolved one makes it repaired. Comments still open stay pending until the teacher says triage is finished. Then `--triaged` approves every comment still present and records any wording the teacher changed as `teacherNote`. `--approve` names single findings, `--reject` withdraws a comment, and `--resolve` closes an approved finding once it is repaired.
+- Later reviews pass rejected, kept and open comments on the reviewed blocks back to the worker as `decided`, which it is told not to raise again. A rejected finding also suppresses the same issue, meaning the same area and edition on an overlapping block, while that block and its layout overrides are unchanged. A kept or open finding stands for the same issue, so it is not posted twice. An unposted finding that is not found again on re-reviewed pages is dropped. A finding's ID comes from its area, edition and targets, so it is stable across runs.
+
+`first-pass.mjs` and `pagemap.mjs` in the replay run folder (see [Replay](#replay)) were the prototypes for the command.
+
+## Authorised layout repair and bounded retry (15 October 2026)
+
+The Stage 4/5 campaign explicitly authorises `first-pass/apply.mjs` to repair layout findings. Other first-pass reviews remain proposals until the teacher authorises repair.
+
+An applied finding gets at most one automatic retry. A missing verification verdict or a verification error retries the check on the same layout. A verdict that the defect is still unfixed, without a regression, restores the original layout and sends the verifier's feedback and failed patches to one new repair call. The same content, field and revision guards apply. Detected regressions are reverted immediately and never retried. After the final check, an unfixed or unverified repair is reverted and left as an open comment. Retry history is retained; recovered verification errors remain in that history without marking the recovered result failed.
+
+For this campaign, eligible findings reverted before the loop was added receive the same single retry after the original batch exits. Already consumed retries, regressions, teacher-resolved or deleted comments and changed targets are excluded. Existing open comments are resolved in place only when a retry is verified; reviews, extensions and other content changes remain comments. The campaign keeps ten parallel booklets and each canonical pool's three-worker limit. Automated layout warnings are still reported separately; a warning alone does not trigger this retry loop.
+
+Diagnosis and repair later on 15 October: retry repair workers receive the relevant page images, their phase/edition/page/block manifest and actual renderer excerpts, rather than being asked to infer effective fields from JSON alone. Verification compares blocks across repagination, includes neighbouring-page context, and uses at most twelve explicitly identified evidence images per call. A missing target is unverified, never assumed lost merely because its page number changed. Pre-save trials check response-table continuation ownership and the save function's content-before-settings ordering. Arrangement patches are canonicalised with the renderer's normaliser so their inverse patches match persisted values. Failed renders expose the underlying renderer log and reuse valid completed editions when resuming.
+
+The original defect is checked in the finding's own edition; additional editions receive a regression check, rather than being asked to show student handwriting space in an answer key. Both checks still require a positive verdict. Findings incorrectly reverted by the old cross-edition check can receive one cause-specific verification recovery, using their saved original repair and fresh scoped checks, without another author call. This does not reset their ordinary retry budget. A separate shared three-slot rendering resource bounds browser/print load while ten booklets can remain active; each booklet still shares its canonical three-worker model pool.
 
 ## Reviewer contract
 
@@ -155,6 +184,18 @@ Some comments were excluded. Three reported editor bugs. One concerned a defect 
 Every round-1 false alarm was in an answer edition: page breaks between exercises, blue ink and the rules between solutions. Round 1 also missed a portrait stranded from its speech bubble, the equals-sign gutter, a row label far from its response, wrapped factorisations, solids described in words and a photographed carton. The revision fixed both groups. These are the contract's statements about answer editions, avatars, row labels, the gutter, wrapping and drawn diagrams. Round 2's one false alarm asked for photographs of everyday objects to be redrawn; the wording was narrowed afterwards and that change is untested.
 
 Still missed: two comments caught in round 1 but not in round 2, which is run-to-run variance at low reasoning; the consistency of a chart with another booklet, which needs that booklet; and "this is not an exercise", which needs the source. Treat the first pass as a first pass: the teacher still reviews every page. Most findings beyond the teacher's comments were of kinds the teacher has asked for elsewhere, such as nested answer labels, part labels restarting within a question and compaction that keeps a question on one page.
+
+**Command recheck (15 October 2026).** `first-pass/review.mjs review` was run on the same four snapshots, one worker per booklet, with the replay's Questions pages and the answer pages of their blocks, `similar` filled and `decided` empty. It reproduced the calibration.
+
+| Booklet | Eligible | Caught | Partly | Missed | Findings | False alarms | Round 2 |
+|---|---|---|---|---|---|---|---|
+| Indices r15 | 10 | 8 | 0 | 2 | 22 | 0 | 7 / 24 / 0 |
+| Length r238 | 5 | 4 | 1 | 0 | 9 | 0 | 4 + 1 / 9 / 0 |
+| Volume r450 | 5 | 4 | 0 | 1 | 12 | 0 (1 unjudged) | 5 / 15 / 1 |
+| Properties r99 | 4 | 3 | 0 | 1 | 8 | 0 | 3 / 6 / 0 |
+| Total | 24 | 19 | 1 | 4 | 51 | 0 (1 unjudged) | 19 + 1 / 54 / 1 |
+
+Recall is unchanged at 19 of 24 with one partial. The misses are the same kinds as before (the chart that needs another booklet, "not an exercise", one dots-to-boxes), plus Volume's Key Ideas compaction, which was caught in round 2. The unjudged finding asks Volume page 15 to complete two explanation prompts in a worked example. No finding targets a block that only `similar` supplied, and no false alarm traces to it, so `similar` stays. Differences of one comment between runs are within the run-to-run variance noted above. The run folder is `.booklet-work/first-pass-recheck-20261015/`.
 
 The pedagogy rules were replayed the same day, using `runReview` with scratch provenance on the revisions the original reviews used: Data Visualisation r378, Angle Relationships r492, Data Analysis r438 and Linear Relationships r29. The table counts the final run of each booklet; Data Analysis and Linear Relationships were rerun once after the combined-methods and split-parts refinements.
 
