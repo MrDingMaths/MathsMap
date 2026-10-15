@@ -1,5 +1,11 @@
 # Efficient MathsMap skill-content campaign
 
+## Campaign efficiency precedence (2 October 2026)
+
+Moved from `AGENTS.md` on 15 October 2026, word for word.
+
+For `worked-examples-2026-09`, follow [the approved efficient campaign workflow](#efficient-mathsmap-skill-content-campaign). This supersedes conflicting campaign orchestration requirements only: batch related ready skills, share unchanged teaching evidence, automate bookkeeping, preserve accepted reviews and verify repairs within their affected scope. Keep complete independent mathematical/source review, booklet voice and stage boundaries, at most three workers, serialized revision-safe publication and historical receipts. The user's GPT-6.1 Sol Medium instruction remains in force for this campaign. Do not bypass existing runtime guards; implement and verify equivalent scoped mechanisms before replacing them. Other booklet/import workflows are unchanged.
+
 ## Required worked-example completion (11 October 2026)
 
 The user requested completion of examples for all 1,056 audited skills after the assessment audit finished. Follow [the examples-only continuation](content-worked-example-coverage.md): required assessed-method coverage, audit and repair existing examples, independent scoped review, actual rendering/diagram inspection and separate resumable records. For this run only, at most five model workers may be active together. Preserve accepted practice/quizzes, completed audit records, recorded source exceptions and the `survey-bias-ethics` publication hold; complete that skill in staging. This supersedes optional worked-example expansion and the three-worker ceiling only for this named run.

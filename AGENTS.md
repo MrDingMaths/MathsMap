@@ -4,7 +4,7 @@ Keep this file under 32,000 bytes: Codex loads only the first 32,768 bytes of it
 
 ## Booklet pedagogy review (9 October 2026, user approved)
 
-[`pedagogy/review.mjs`](docs/booklet-pedagogy-review.md) reports consequential learning barriers in a booklet's teaching sequence and proposes the smallest repair; it never edits a booklet. Its workers are Sol 6.1 at low reasoning for the review pass and medium for the challenge pass, a deliberate exception to the low default below. For a three-pass import, run it after content review and before the final export, and hold the export only for findings that add, move or replace questions. An open comment is never approval: repair only the findings the user names. Keep the tool out of `scripts/`, which exports freeze.
+[`pedagogy/review.mjs`](docs/booklet-pedagogy-review.md) reports consequential learning barriers in a booklet's teaching sequence and proposes the smallest repair; it never edits a booklet. Its workers are Sol 6.1 at low reasoning for the review pass and medium for the challenge pass, a deliberate exception to the low default below. For a three-pass import, run it after content review and before the final export, and hold the export only for findings that add, move or replace questions. An open comment is never approval: repair only the findings the user names. Keep the tool out of `scripts/`, which exports freeze. Its review and extension rules, and LLM first-pass layout comments, follow [first-pass review](docs/booklet-first-pass-review.md).
 
 ## Part labels run in one sequence (11 October 2026, user requested)
 
@@ -103,7 +103,7 @@ For `worked-examples-2026-09`, new work uses the [lean route](docs/content-campa
 
 ## Skill-content campaign efficiency (2 October 2026)
 
-For `worked-examples-2026-09`, follow [the approved efficient campaign workflow](docs/content-campaign-efficient-workflow.md). This supersedes conflicting campaign orchestration requirements only: batch related ready skills, share unchanged teaching evidence, automate bookkeeping, preserve accepted reviews and verify repairs within their affected scope. Keep complete independent mathematical/source review, booklet voice and stage boundaries, at most three workers, serialized revision-safe publication and historical receipts. The user's GPT-6.1 Sol Medium instruction remains in force for this campaign. Do not bypass existing runtime guards; implement and verify equivalent scoped mechanisms before replacing them. Other booklet/import workflows are unchanged.
+Moved word for word to [the campaign workflow](docs/content-campaign-efficient-workflow.md#campaign-efficiency-precedence-2-october-2026) on 15 October 2026.
 
 ## Graph sizing and user-directed compact layouts (2 October 2026)
 
