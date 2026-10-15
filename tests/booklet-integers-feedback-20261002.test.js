@@ -10,10 +10,14 @@ const paragraph={id:'p',type:'paragraph',inlines:[{type:'text',text:'a',marks:['
 const table=(border=false)=>({format:'maths-editor-document-v1',version:1,blocks:[{id:'t',type:'table',border,rows:[[{id:'c',type:'cell',align:'left',blocks:[structuredClone(paragraph),{id:'cloze',type:'paragraph',inlines:[{type:'cloze',answer:'less',width:22}]}]}]]}]});
 test('table part gutters render centrally without changing editable text',()=>{
  const doc=normalizeDocument(table()),snapshot=JSON.stringify(doc);
- for(const editable of [false,true])assert.match(renderDocument(doc,{editable}),/data-table-part-label style="display:inline-block;min-width:6mm"/);
+ for(const editable of [false,true])assert.match(renderDocument(doc,{editable}),/data-table-part-label style="display:inline-block;min-width:7mm"/);
  assert.equal(JSON.stringify(doc),snapshot);
  assert.doesNotMatch(renderDocument({format:doc.format,blocks:[paragraph]}),/data-table-part-label/);
  assert.equal(hasTablePartLabel({...paragraph,inlines:[{type:'math',latex:'a'},...paragraph.inlines.slice(1)]}),false);
+ const prose=table();prose.blocks[0].rows[0][0].blocks[0].inlines=[{type:'text',text:'a  ',marks:['bold']},{type:'text',text:'9 is a factor of 18'}];
+ const original=JSON.stringify(prose);
+ for(const editable of [false,true])assert.match(renderDocument(prose,{editable}),/min-width:7mm">a<\/strong>9 is a factor of 18/);
+ assert.equal(JSON.stringify(prose),original);
 });
 test('nested borderless table clozes retain baseline leaders and meaningful table suppression',()=>{
  const html=renderDocument(table());assert.match(html,/--document-cloze-bottom:-.3mm/);assert.doesNotMatch(html,/cloze-bottom:.5em/);

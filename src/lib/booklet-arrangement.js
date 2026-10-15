@@ -133,6 +133,7 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
  }
  let root;
  if(block.type==='question')root=question(block.content,0,true);
+ else if(block.type==='diagram'||block.type==='image')root=group(block.id+':content',[add(block.id,{kind:'diagram',ownerId:block.id,diagramId:block.id,value:block,title:block.alt??'Diagram'})]);
  else {
    let contents;
    if(block.examples?.length){

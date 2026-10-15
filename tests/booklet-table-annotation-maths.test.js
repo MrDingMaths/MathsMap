@@ -5,6 +5,26 @@ import {chromium} from 'playwright-core';
 import {tableAnnotationLabelHtml} from '../public/libs/maths-editor/table-annotations.mjs';
 import {renderMath} from '../src/lib/render-math.js';
 
+test('paired fraction arrows enclose numerator and denominator even with a numerator box',async()=>{
+ const browser=await chromium.launch({headless:true,channel:'chrome'});
+ try{
+  const page=await browser.newPage();
+  await page.route('http://annotation.test/module.mjs',r=>r.fulfill({contentType:'text/javascript',body:fs.readFileSync('public/libs/maths-editor/table-annotations.mjs','utf8')}));
+  await page.setContent('<div style="position:relative;margin:80px"><table data-id="t"><tr><td data-id="a" style="height:110px;width:100px;text-align:center">'+renderMath('$\\dfrac45$')+'</td><td data-id="b" style="width:100px;text-align:center">'+renderMath('$\\dfrac{\\boxed{\\rule{0pt}{5mm}\\hspace{8mm}}}{20}$')+'</td></tr></table></div>');
+  await page.addStyleTag({content:fs.readFileSync('node_modules/katex/dist/katex.min.css','utf8')});
+  const result=await page.evaluate(async()=>{
+   const {mountTableAnnotations,tableMathBoxElement}=await import('http://annotation.test/module.mjs');
+   const table=document.querySelector('table'),root=table.parentElement;
+   table.dataset.annotations=JSON.stringify(['top','bottom'].map(side=>({id:side,type:'arrow',cellId:'a',toCellId:'b',side,startAnchor:'math-box',endAnchor:'math-box',distanceMm:.8,curveMm:3,colour:'#268cff'})));
+   const mounted=mountTableAnnotations(root);await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+   const offset=table.getBoundingClientRect().top,frac=tableMathBoxElement(table.querySelector('[data-id=b]'),true).getBoundingClientRect();
+   const read=side=>root.querySelector(`[data-annotation-id=${side}] path`).getAttribute('d').match(/[-+]?(?:\d*\.)?\d+/g).map(Number);
+   const top=read('top'),bottom=read('bottom');mounted.destroy();return {top:top[7],bottom:bottom[7],fracTop:frac.top-offset,fracBottom:frac.bottom-offset,cellBottom:table.rows[0].cells[1].getBoundingClientRect().bottom-offset};
+  });
+  assert.ok(result.top<result.fracTop);assert.ok(result.bottom>result.fracBottom);assert.ok(result.bottom<result.cellBottom);assert.ok(result.bottom-result.fracBottom<8);
+ }finally{await browser.close();}
+});
+
 test('annotation labels distinguish native maths from literal text and escaped currency',()=>{
   assert.equal(tableAnnotationLabelHtml('+7',renderMath),null);
   assert.equal(tableAnnotationLabelHtml('Cost \\$7',renderMath),null);

@@ -10,6 +10,16 @@ import {teachingAnswerCategory,independentAnswerPages} from '../src/lib/booklet-
 const cell=(id,text,background)=>({id,type:'cell',background,blocks:[{id:id+'-p',type:'paragraph',inlines:[{type:'text',text}]}]});
 const table=(id,rows)=>({id,type:'table',border:true,widths:[1,1],rows});
 const doc=blocks=>({format:'maths-editor-document-v1',version:1,blocks});
+test('split table cells and a diagram are diagnosed while a canonical table is accepted',()=>{
+ const heading=table('head',[[cell('h1','Question','#d3e8fc'),cell('h2','Diagram','#d3e8fc')]]);
+ const b={id:'split',type:'question',content:{id:'root',type:'question',prompt:doc([heading]),children:[{id:'a',type:'part',prompt:doc([table('body',[[cell('given','1/2')]])]),questionDiagrams:[{id:'figure',format:'tikz',code:'\\begin{tikzpicture}\\end{tikzpicture}'}]}]}};
+ const project={settings:{layoutOverrides:{blockLayouts:{split:{arrangement:{version:1,root:{id:'row',type:'group',direction:'row',children:[{id:'given-item',type:'item',ref:'a/prompt#body'},{id:'diagram-item',type:'item',ref:'figure'}]}}}}}},sections:[{blocks:[b]}]};
+ assert.equal(importStructureFindings(project).filter(f=>f.kind==='fragmented-table').length,1);
+ heading.rows.push([cell('given-cell','1/2'),cell('diagram-cell','[tikz]\n\\begin{tikzpicture}\\end{tikzpicture}\n[/tikz]')]);
+ b.content.children[0].prompt='';b.content.children[0].questionDiagrams=[];
+ delete project.settings.layoutOverrides.blockLayouts.split;
+ assert.equal(importStructureFindings(project).filter(f=>f.kind==='fragmented-table').length,0);
+});
 test('sentence case preserves acronyms, syllabus codes, named terms and native maths',()=>{
  assert.equal(sentenceCaseHeader('Calculate PAYG Tax and Medicare Levy'),'Calculate PAYG tax and Medicare levy');
  assert.equal(sentenceCaseHeader('MA5-FIN-C-01: EARNING MONEY'),'MA5-FIN-C-01: Earning money');

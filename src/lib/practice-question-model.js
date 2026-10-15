@@ -178,6 +178,7 @@ function normaliseNode(raw = {}, depth = 0, index = 0, root = false) {
     if(value.answerSpaceStyle==='box')node.answerSpaceStyle='box';
     if (value.responseSpace === 'scaffold') node.responseSpace = 'scaffold';
   }
+  if(value.answer?.tableCells){node.answer??={};node.answer.tableCells=contentValue(value.answer.tableCells);}
   return node;
 }
 

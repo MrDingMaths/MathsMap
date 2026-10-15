@@ -1,5 +1,17 @@
 # Booklet table conventions
 
+Source tables remain one native editable table. Do not assemble its columns
+from separate one-cell documents and diagrams in an arrangement: independent
+cells lose shared row heights and can paginate out of alignment. Store editable
+`[tikz]` paragraphs inside the diagram cells, with an explicit inline width.
+Resolve proportional column weights using the table's actual width; do not
+interpret those weights as millimetres when sizing an embedded diagram.
+Retain stable answer parts and bind response cells with `sourceReview.tableResponses`;
+use `flow.tableContinuation` and row ownership for tables that cross a page.
+Bordered cells supply the response region without duplicate cloze dots or boxes.
+The import structure diagnostic checks split-cell/diagram arrangements as well
+as separate header and body-row tables. Inspect final-size rows and continuations.
+
 Genuine column and row headings use bold text and mathematics. Store their role
 as `cell.header: true`; native rendering supplies the weight without rewriting
 editable LaTeX. Do not promote the first row of raw observations, borderless

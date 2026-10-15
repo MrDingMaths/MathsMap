@@ -3,9 +3,9 @@
 export function hasTablePartLabel(paragraph) {
  const [label,space,...rest]=paragraph?.inlines??[];
  return paragraph?.type==='paragraph'&&label?.type==='text'&&
-  /^[a-z][.)]?$/.test(label.text??'')&&label.marks?.includes('bold')&&
-  space?.type==='text'&&/^\s+$/.test(space.text??'')&&rest[0]?.type==='math';
+  /^[a-z][.)]?\s*$/.test(label.text??'')&&label.marks?.includes('bold')&&
+  (/\s$/.test(label.text??'') || (space?.type==='text'&&/^\s+$/.test(space.text??'')&&rest.length>0));
 }
 export function renderTablePartLabel(html,paragraph,inCell) {
- return inCell&&hasTablePartLabel(paragraph)?html.replace('<strong>','<strong data-table-part-label style="display:inline-block;min-width:6mm">'):html;
+ return inCell&&hasTablePartLabel(paragraph)?html.replace(/<strong>([a-z][.)]?)\s*<\/strong>\s*/, '<strong data-table-part-label style="display:inline-block;min-width:7mm">$1</strong>'):html;
 }

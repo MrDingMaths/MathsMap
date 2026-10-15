@@ -104,8 +104,15 @@ export function tableCircleGeometry(cell, annotation = {}) {
 
 // Opt-in maths-box anchors follow the actual rendered outline, including the
 // MathLive editing surface. Ordinary cell annotations retain their geometry.
-export function tableMathBoxElement(cell) {
+export function tableMathBoxElement(cell, wholeFraction = false) {
   const roots=[cell,...[...cell.querySelectorAll('math-field')].map(field=>field.shadowRoot).filter(Boolean)];
+  // Paired fraction operations must enclose the full fraction: a numerator box
+  // alone would make the lower connector point to the numerator as well.
+  if(wholeFraction)for(const root of roots)for(const fraction of root.querySelectorAll('.katex-html .mfrac > .vlist-t,.ML__mfrac')){
+    const rect=fraction.getBoundingClientRect();
+    if(rect.width>0&&rect.height>0&&getComputedStyle(fraction).visibility!=='hidden')return fraction;
+  }
+  if(wholeFraction)return null;
   for(const root of roots)for(const box of root.querySelectorAll('.katex-html .fbox,.ML__box')){
     const rect=box.getBoundingClientRect();
     if(rect.width>0&&rect.height>0&&getComputedStyle(box).visibility!=='hidden')return box;
@@ -167,7 +174,7 @@ export function mountTableAnnotations(root, options = {}) {
       const elements=new Map([...table.querySelectorAll('td[data-id],th[data-id]')].map(c=>[c.dataset.id,c]));
       const bounds=(element,fractionInk=false)=>{let r=element.getBoundingClientRect();if(fractionInk&&element.matches('.mfrac > .vlist-t,.ML__mfrac')){const ink=[r,...[...element.querySelectorAll('*')].filter(e=>!e.children.length&&e.textContent.trim()).map(e=>e.getBoundingClientRect()).filter(b=>b.width>0&&b.height>0)];const left=Math.min(...ink.map(b=>b.left)),top=Math.min(...ink.map(b=>b.top)),right=Math.max(...ink.map(b=>b.right)),bottom=Math.max(...ink.map(b=>b.bottom));r={left,top,bottom,width:right-left,height:bottom-top};}return {left:(r.left-screen.left)/scale,top:(r.top-screen.top)/scale,bottom:(r.bottom-screen.top)/scale,width:r.width/scale,height:r.height/scale};};
       const cells=new Map([...elements].map(([id,c])=>[id,bounds(c)]));
-      const anchor=(id,kind)=>{const cell=elements.get(id);if(!cell)return null;if(kind!=='math-box')return cells.get(id);const box=tableMathBoxElement(cell);return box?bounds(box,true):null;};
+      const anchor=(id,kind,paired)=>{const cell=elements.get(id);if(!cell)return null;if(kind!=='math-box'&&!paired)return cells.get(id);const box=tableMathBoxElement(cell,paired);return box?bounds(box,true):kind==='math-box'?null:cells.get(id);};
       for(const a of annotations) {
         group=document.createElementNS(ns,'g');group.dataset.annotationId=a.id;svg.append(group);
         if(options?.onselect){group.setAttribute('role','button');group.setAttribute('tabindex','0');group.setAttribute('aria-label',`Edit ${a.type}: ${a.label||'unlabelled'}`);group.style.pointerEvents='visiblePainted';const select=e=>{e.preventDefault();e.stopPropagation();options.onselect(table.dataset.id,a.id);};group.addEventListener('click',select);group.addEventListener('keydown',e=>{if(['Enter',' '].includes(e.key))select(e);});}
@@ -178,7 +185,8 @@ export function mountTableAnnotations(root, options = {}) {
         if(a.type==='box')add('rect',{...common,x:c.left-rect.left+2,y:c.top-rect.top+2,width:c.width-4,height:c.height-4});
         if(a.type==='arrow'){
           const d=cells.get(a.toCellId);if(!d)continue;
-          const start=anchor(a.cellId,a.startAnchor),end=anchor(a.toCellId,a.endAnchor);
+          const paired=['top','bottom'].includes(a.side)&&annotations.some(other=>other.type==='arrow'&&other.cellId===a.cellId&&other.toCellId===a.toCellId&&other.side===(a.side==='top'?'bottom':'top'))&&tableMathBoxElement(elements.get(a.cellId),true)&&tableMathBoxElement(elements.get(a.toCellId),true);
+          const start=anchor(a.cellId,a.startAnchor,paired),end=anchor(a.toCellId,a.endAnchor,paired);
           if(!start||!end){let output=wrap.querySelector('[data-annotation-diagnostics]');if(!output){output=document.createElement('output');output.dataset.annotationDiagnostics='';output.contentEditable='false';wrap.append(output);}const message='Unresolved maths-box anchor: '+a.id;if(output.textContent!==message)output.textContent=message;continue;}
           const geometry=tableArrowGeometry(start,end,a);
           add('path',{...common,d:geometry.path,'stroke-linecap':'round'});

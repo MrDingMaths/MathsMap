@@ -22,6 +22,20 @@ test('explicit native grid frames survive save, resize and question layout resol
 });
 import {arrangementCatalog,arrangementQuestionBlock,resolveArrangement,replaceArrangementContent,shareUnchanged,applyArrangementContent,addArrangementText,removeArrangementText} from '../src/lib/booklet-arrangement.js';
 import {fromSource,hasVisibleContent} from '../src/lib/document-content.js';
+
+test('standalone diagrams keep their content after arrangement resize and save',()=>{
+ for(const type of ['diagram','image']){
+  const block={id:'standalone',type,format:type==='diagram'?'tikz':'image',code:'\\begin{tikzpicture}\\draw (0,0)--(1,1);\\end{tikzpicture}',src:'/figure.png',widthMm:80};
+  const initial=arrangementCatalog(block).initial;
+  const resized=transformArrangement(initial,'properties',arrangementItems(initial.root)[0].id,{width:65});
+  const saved=JSON.parse(JSON.stringify(resized));
+  const result=resolveArrangement(block,saved);
+  assert.deepEqual(result.missing,[]);
+  assert.equal(arrangementItems(result.tree.root)[0].width,65);
+  assert.equal(result.entries.get('standalone').value.code,block.code);
+  assert.equal(result.entries.get('standalone').kind,'diagram');
+ }
+});
 import {arrangementExamTitle,findContent} from '../src/lib/booklet-arrangement.js';
 import fs from 'node:fs';
 

@@ -1,4 +1,5 @@
 // Import diagnostics examine active content only; source inventories stay exact.
+import {arrangementCatalog} from './booklet-arrangement.js';
 const evidence = new Set(['source','sourceReview','sourceRefs','sourceLayoutEvidence','spec','provenance','answer','originalContent']);
 export function walkImportContent(value,visit,path='') {
  if(!value||typeof value!=='object')return;
@@ -34,6 +35,18 @@ export function importStructureFindings(project) {
   for(const table of headers.filter(t=>t.border!==false&&t.widths?.length>1)){
    const widths=JSON.stringify(table.widths),rows=(root.children??[]).map(part=>part.prompt?.blocks?.find(n=>n.type==='table'&&JSON.stringify(n.widths)===widths));
    if(rows.length>1&&rows.every(Boolean)&&table.rows?.flat().every(c=>c.header||c.background&&c.background!=='transparent'))findings.push({severity:'error',kind:'fragmented-table',blockId:block.id,targetId:table.id,note:'A table header and its data rows are separate tables; use one native table and retain answer-owning parts.'});
+   const layout={...project.settings?.layoutOverrides,...block.presentation?.layoutOverrides,blockLayouts:{...project.settings?.layoutOverrides?.blockLayouts,...block.presentation?.layoutOverrides?.blockLayouts}};
+   const arrangement=layout.blockLayouts?.[block.id]?.arrangement;
+   if(arrangement&&table.rows.length===1&&table.rows[0].every(c=>isTableHeader(c,0))){
+    const catalog=arrangementCatalog(block,layout);let splitRows=0;
+    walkImportContent(arrangement,n=>{
+     if(n.type!=='group'||n.direction!=='row'||n.children?.length!==table.rows[0].length||!n.children.every(c=>c.type==='item'))return;
+     const entries=n.children.map(c=>catalog.entries.get(c.ref));
+     if(entries.some(e=>!e)||!entries.some(e=>e.kind==='diagram'))return;
+     if(entries.every(e=>e.kind==='diagram'||e.kind==='document'&&e.value?.blocks?.length&&e.value.blocks.every(b=>b.type!=='table'||b.rows?.length===1&&b.rows[0].length===1)))splitRows++;
+    });
+    if(splitRows&&!findings.some(f=>f.blockId===block.id&&f.targetId===table.id&&f.kind==='fragmented-table'))findings.push({severity:'error',kind:'fragmented-table',blockId:block.id,targetId:table.id,note:'Table columns are separate cell documents and diagrams in an arrangement; use one native table with editable TikZ in its cells and stable row ownership.'});
+   }
   }
   walkImportContent(block.content,n=>{
    if(n.type==='table'&&n.border!==false&&n.rows?.length&&n.rows.every(row=>row.length===1&&!(row[0].colspan>1)))findings.push({severity:'review',kind:'single-column-table',blockId:block.id,targetId:n.id,note:'Confirm a mathematical/response purpose; a one-column table used only to frame prose duplicates its teaching container.'});

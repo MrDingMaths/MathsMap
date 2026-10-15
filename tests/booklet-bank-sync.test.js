@@ -11,6 +11,22 @@ import {normaliseQuestion} from '../src/lib/practice-question-model.js';
 import {arrangementCatalog,resolveArrangement} from '../src/lib/booklet-arrangement.js';
 import {fromSource} from '../src/lib/document-content.js';
 import {reconcileSyncLayout} from '../src/lib/question-sync-layout.js';
+
+test('sync removes deleted part spaces and inserts new given diagrams without losing layout',()=>{
+ const before={id:'b',type:'question',content:{id:'q',prompt:'Calculate',children:[{id:'a',label:'a',prompt:'Radius 2, height 3',answerSpaceMm:20},{id:'g',label:'g',prompt:'Delete this part',answerSpaceMm:20}]}};
+ const holder={arrangement:arrangementCatalog(before).initial};
+ holder.arrangement.root.gap=5;
+ const after=structuredClone(before);after.content.children.pop();
+ after.content.children[0].questionDiagrams=[{id:'cylinder',format:'tikz',code:'\\begin{tikzpicture}\\draw (0,0)--(1,1);\\end{tikzpicture}',widthMm:40}];
+ reconcileSyncLayout(before,after,holder);
+ const resolved=resolveArrangement(after,holder.arrangement),refs=[];
+ const visit=n=>{if(n.ref)refs.push(n.ref);n.children?.forEach(visit);};visit(resolved.tree.root);
+ assert.deepEqual(resolved.missing,[]);
+ assert(refs.includes('cylinder'));
+ assert(!refs.some(ref=>ref.startsWith('g/')));
+ assert.equal(resolved.tree.root.gap,5);
+ const once=structuredClone(holder);reconcileSyncLayout(before,after,holder);assert.deepEqual(holder,once);
+});
 import {applyBankRatings} from '../src/lib/booklet-bank-ratings.js';
 
 for(const initialRating of [false,true]) test('linked display ratings refresh on load, polling and save without accepting content',async t=>{

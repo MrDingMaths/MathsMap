@@ -45,6 +45,24 @@ export function reconcileSyncLayout(before, after, holder, {editable=false}={}) 
     }
    }
    const replace=n=>{if(n.children)n.children=n.children.flatMap(c=>{replace(c);return replacements.get(c)??[c];});};replace(tree);
+   // A deleted part no longer owns a response space or label. Remove its slots
+   // together, while still rejecting unknown references on surviving content.
+   const liveOwners=new Set([...catalog.entries.values()].map(entry=>entry.ownerId));
+   const deletedOwners=new Set([...oldCatalog.entries.values()].map(entry=>entry.ownerId).filter(id=>!liveOwners.has(id)));
+   const prune=n=>{
+    if(n.children)n.children=n.children.filter(child=>!deletedOwners.has(child.id?.replace(/:question$/,''))&&!(child.type==='item'&&deletedOwners.has(oldCatalog.entries.get(child.ref)?.ownerId))).map(child=>{prune(child);return child;}).filter(child=>!/:row:\d+$/.test(child.id)||child.children?.some(cell=>cell.children?.length||cell.type==='item'));
+   };prune(tree);
+   // New givens must appear in the destination's saved layout as well as its
+   // content. Insert only newly added diagrams in their existing owner's stack.
+   const present=new Set();const index=n=>{if(n.ref)present.add(n.ref);n.children?.forEach(index);};index(tree);
+   const initialItems=new Map();const collectInitial=n=>{if(n.ref)initialItems.set(n.ref,n);n.children?.forEach(collectInitial);};collectInitial(catalog.initial.root);
+   for(const [ref,entry]of catalog.entries)if(entry.kind==='diagram'&&!oldCatalog.entries.has(ref)&&!present.has(ref)){
+    let owner;const find=n=>{if(n.id===entry.ownerId+':question')owner=n;n.children?.forEach(find);};find(tree);
+    if(!owner)throw new Error('Bank sync could not place new diagram; review '+ref);
+    const node=structuredClone(initialItems.get(ref));
+    const at=owner.children.findIndex(child=>catalog.entries.get(child.ref)?.ownerId===entry.ownerId&&catalog.entries.get(child.ref)?.kind!=='label');
+    owner.children.splice(at<0?owner.children.length:at,0,node);
+   }
    const updated=[];const check=n=>{if(n.type==='item')updated.push(n);else n.children?.forEach(check);};check(tree);
    // Custom arrangements can still point at a whole native field. The renderer
    // expands that alias into its paragraphs while retaining the slot's geometry.

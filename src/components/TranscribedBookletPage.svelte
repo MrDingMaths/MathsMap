@@ -214,9 +214,9 @@
     {/if}
     {/if}
   {:else if block.type === 'diagram'}
-    {@render diagramView(block)}
+    {#if blockLayouts[block.id]?.arrangement}<BookletArrangement {block} arrangement={blockLayouts[block.id].arrangement} layoutOverrides={{blockLayouts, answerSpaces:answerSpaceOverrides}} {assetUrl} {diagramColourModes} {editMode}/>{:else}{@render diagramView(block)}{/if}
   {:else if block.type === 'image'}
-    <figure>{@render diagramView({...block,widthMm:block.widthMm??150})}{#if block.caption}<figcaption>{block.caption}</figcaption>{/if}</figure>
+    <figure>{#if blockLayouts[block.id]?.arrangement}<BookletArrangement {block} arrangement={blockLayouts[block.id].arrangement} layoutOverrides={{blockLayouts, answerSpaces:answerSpaceOverrides}} {assetUrl} {diagramColourModes} {editMode}/>{:else}{@render diagramView({...block,widthMm:block.widthMm??150})}{/if}{#if block.caption}<figcaption>{block.caption}</figcaption>{/if}</figure>
   {:else if block.presentation?.kind === 'main-section-header'}
     <BookletHeading><EditableBookletText value={block.content} rootId={block.id} pointer="/content" {...editProps()} /></BookletHeading>
   {:else if block.type === 'page-break'}

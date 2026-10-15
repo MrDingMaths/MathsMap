@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {normaliseQuestion} from '../src/lib/practice-question-model.js';
 import assert from 'node:assert/strict';
 import {tableResponseDocument} from '../src/lib/booklet-table-responses.js';
 import {teachingAnswerArrangement,resolveArrangement} from '../src/lib/booklet-arrangement.js';
@@ -7,6 +8,16 @@ import {normalizeDocument} from '../public/libs/maths-editor/document-model.mjs'
 import {templateDiagram} from '../src/lib/diagram-templates.js';
 const doc={format:'maths-editor-document-v1',version:1,blocks:[{id:'table',type:'table',rows:[[{id:'given',type:'cell',blocks:[{id:'given-p',type:'paragraph',inlines:[{type:'math',latex:'7+\\sqrt3'}]}]},{id:'result',type:'cell',blocks:[]}]]}]};
 const block=()=>({id:'activity',type:'question',sourceAtom:{kind:'identify'},sourceReview:{tableResponses:[{cellId:'result',targetId:'response'}]},content:{id:'root',prompt:doc,children:[{id:'response',label:'',prompt:'',answer:{short:'$7-\\sqrt3$',worked:'Change the sign.'}}]}});
+test('individual response cells survive bank normalisation without duplicating short answers',()=>{
+ const b=block(),node=b.content.children[0];
+ node.answer.tableCells={format:'maths-editor-document-v1',version:1,blocks:[{id:'cell-answer',type:'paragraph',inlines:[{type:'math',latex:'\\frac37'}]}]};
+ b.sourceReview.tableResponses=[{cellId:'result',targetId:node.id,field:'tableCells',nodeId:'cell-answer'}];
+ const normalised=normaliseQuestion(b);
+ assert.deepEqual(normalised.content.children[0].answer.tableCells,normalizeDocument(node.answer.tableCells));
+ const display=tableResponseDocument(doc,{...b,content:normalised.content});
+ assert.equal(display.blocks[0].rows[0][1].blocks[0].inlines[0].latex,'\\frac37');
+ assert.equal(normalised.content.children[0].answer.short,node.answer.short);
+});
 test('native table answers remain in their cells and never change the student prompt',()=>{
  const b=block(),before=structuredClone(b),stored={version:1,root:{id:'layout',type:'group',direction:'stack',children:[{id:'prompt',type:'item',ref:'root/prompt'}]}};
  const student=resolveArrangement(b,stored);assert.equal([...student.entries.values()].find(e=>e.kind==='document').displayValue,undefined);
