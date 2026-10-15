@@ -51,7 +51,7 @@ Copy feedback prompt exports selected unresolved comments, or all unresolved com
 | Remove a teaching group | Outline selection or block actions; some paths required confirmation | Margin selection → Delete; Undo restores |
 | Give correction feedback | Review → Flags; manually describe location and copy notes | Selection → comment; Copy feedback prompt |
 
-Panels overlay the workspace without changing the physical paper width. Pagination debounces while typing, defers during composition, and restores the canonical selection and viewport after reflow. Paragraph/page fragments edit their original content rather than replacing the entire field with a displayed fragment. Long ordinary paragraphs can continue at measured word boundaries; indivisible equations and protected arrangements retain their safe-break checks.
+On screens 1100 px and wider the outline and inspector panels sit beside the page, as in Word, and Fit width re-fits the display zoom to the remaining space; narrower screens show them as overlay drawers. Neither changes the physical paper width or pagination. Pagination debounces while typing, defers during composition, and restores the canonical selection and viewport after reflow. Paragraph/page fragments edit their original content rather than replacing the entire field with a displayed fragment. Long ordinary paragraphs can continue at measured word boundaries; indivisible equations and protected arrangements retain their safe-break checks.
 
 ## Implementation and verification
 

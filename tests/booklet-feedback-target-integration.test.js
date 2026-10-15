@@ -120,7 +120,7 @@ function controller(project = fixture(), initial = {}) {
     let groupSelection = [], diagramSelection = null, layoutSelection = null;
     let flexible = true, flowEdition = 'with-short', answerView = 'student';
     let selectedPageId = 'page-82', workspaceWidth = 1600, navigation = true;
-    let inlineSession = null, activeEditor = null, panel = '', error = '';
+    let inlineSession = null, activeEditor = null, panel = '', commentsOpen = false, error = '';
     const clone = value => value == null ? value : JSON.parse(JSON.stringify(value));
     const captureEditorSelection = () => null;
     const finishInline = () => { inlineSession = null; };
@@ -145,7 +145,7 @@ function controller(project = fixture(), initial = {}) {
       outlineSelections, pointerSelect, changeEdition,
       setSelections(document, text) { documentSelection = document; textSelection = text; },
       state() { return { documentSelection, textSelection, selectedBlockId, selectedTargetId,
-        selectedSectionId, selectedPageId, flowEdition, panel, error }; }
+        selectedSectionId, selectedPageId, flowEdition, panel, commentsOpen, error }; }
     };
   `);
   return { project, started, ...build({ project, initial, started, contentTarget, selectFeedbackTarget, feedbackSelectionAnchor }) };
@@ -195,6 +195,8 @@ test('actual pointer handler selects a native question and clears page 82 text',
   assert.equal(ui.state().selectedTargetId, NATIVE_Q24);
   await ui.addComment();
   assert.equal(ui.state().error, '');
+  assert.equal(ui.state().commentsOpen, true);
+  assert.equal(ui.state().panel, '', 'comments open beside the inspector without replacing its tab');
   assert.equal(ui.started[0].rootId, NATIVE_Q24);
   assert.equal(ui.started[0].quote, QUESTION);
 });
