@@ -104,6 +104,15 @@ compilation was 18 of 137 export minutes across the six FDP booklets.
 
 ### Cloze styles and source tables (4 October 2026)
 
+**Fraction-component exception (14 October 2026, user requested):** Missing
+numerators and denominators use outlined boxes in editable native mathematics,
+including existing booklets and bank questions. Preserve sufficient handwriting
+width for numerical, algebraic and formula responses. This includes dotted and
+invisible fraction-component blanks; keep supplied values and ordinary ellipses.
+Complete-fraction response spaces retain the ordinary cloze convention unless
+the user explicitly requests otherwise. Preserve source evidence and saved
+answers; do not migrate content automatically on load.
+
 Ordinary completion blanks use **editable native dotted clozes**, including when
 the source uses outlined boxes. Use the shared handwriting-sizing rule for each
 expected response; consistency does not require equal widths for different

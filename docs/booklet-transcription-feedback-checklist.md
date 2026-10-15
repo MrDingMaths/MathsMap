@@ -8,6 +8,11 @@ This checklist records the user's general feedback from the Index Laws transcrip
 
 ## Source fidelity requirements
 
+For missing numerators and denominators, apply the 14 October 2026
+[fraction-component exception](booklet-cross-session-rules.md#cloze-styles-and-source-tables-4-october-2026):
+use outlined native maths boxes with sufficient handwriting capacity. Ordinary
+complete-fraction response spaces retain the dotted-cloze default.
+
 For ordinary feedback maintenance, use the [minimum verification matrix](booklet-change-runbook.md#minimum-verification-for-feedback-maintenance) and apply only relevant categories below to the affected occurrences. Do not rerun a whole transcription checklist, every historical interaction case or all five complete editions for an ordinary repair. Shared-cause audits and explicitly local exceptions still determine content scope; a narrow verification method must not leave known applicable defects unfixed. The complete transcription/full-acceptance checks later in this document remain for new imports or required full reviews.
 
 1. **Alignment in every teaching box:** preserve source paragraph, label, equation and answer alignment. Centred labels remain centred. Check first expressions, first-line equalities and continuation equals-sign columns separately; do not simply left-align every line or centre every equation block. Related prompt/response equations use explicit `equationAlignment` on the example: `relation` aligns their relation signs and may centre the complete pair; `continuation` reserves the equals-sign gutter on the initial expression so it aligns with the right-hand working below. Keep prompt and solution independently editable. Audit all current books against source; preserve independent equations and explicit local exceptions. Verify fraction heights, equal-sign positions and box containment in screen and PDF. First-baseline question labels apply to text prompts; labels beside diagrams, tables and structured layouts remain at the top. Check both cases after shared alignment changes.
@@ -95,6 +100,8 @@ answer spaces and table row heights can also reserve writing room.
 Group related source items under their shared instruction or definition as one editable question with a, b, c parts and a native grid, even when the source numbers them individually. Preserve meaningful range, exercise and category boundaries, nested parts and original source identities in provenance. Renumber displayed questions within each exercise. Generate/review worked solutions first and estimate per-part handwriting space from mathematical steps (including TeX rows), cell-width wrapping, fractions and required drawings; save editable estimates and retain manual overrides. Inspect representative grids at final size, including pagination. Do not repeat the stem per item or use question-type allowances alone. See [practice-only import contract](booklet-practice-only-import.md).
 
 ## Part labels run in one sequence (11 October 2026, user requested)
+
+**Start at a (14 October 2026, user requested).** Every independent alphabetically labelled practice question starts at `a`, even when the source starts later. Retain later letters only when there is a substantive reason: the block continues the same question, or earlier labelled parts are visible completed demonstrations within that question. Source lettering alone is insufficient. Preserve original source labels and stable node IDs, and keep question and answer labels consistent.
 
 Label the parts of one practice question in a single sequence, whatever the source does. When a question has several runs of parts, each under its own instruction or beside its own table or dataset, the second run continues where the first stopped (`a`–`d`, then `e`–`h`), and a lone response between or after the runs takes the next label rather than none. Roman-numeral parts continue the same way (`i`–`iii`, then `iv`–`vi`). Keep each run's instruction and its grouping on the question page; only the labels change. Update any wording that names a part ("use part a").
 
