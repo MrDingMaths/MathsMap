@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {EventEmitter} from 'node:events';
 import {fileURLToPath} from 'node:url';
-import {sequences,compactBlock,visibleIds,earlierTeaching,skillFacts,sequenceImages,reviewPrompt,contract,findingId,blockHash,runReview,postFindings,reconcile,formatResults,scoreSeeded,commentNote,isStructural,runMap,KINDS,duplicateQuestionCandidates} from '../pedagogy/review.mjs';
+import {sequences,compactBlock,visibleIds,earlierTeaching,skillFacts,sequenceImages,reviewPrompt,contract,findingId,blockHash,runReview,postFindings,reconcile,withdraw,mergeFindings,formatResults,scoreSeeded,commentNote,isStructural,runMap,KINDS,duplicateQuestionCandidates} from '../pedagogy/review.mjs';
 import {runAstraTask} from '../scripts/booklet/codex-transcription.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
@@ -47,7 +47,7 @@ test('duplicate check compares whole tasks across topics, ignoring answers, IDs,
  clone.content.answer={short:'Different answer',worked:'Different solution'};clone.content.answerSpaceMm=99;
  project.sections.find(s=>s.phase==='practice'&&s.topicId!==project.sections.find(s=>s.phase==='practice').topicId).blocks.push(clone);
  const matches=duplicateQuestionCandidates(sequences(project));
- assert.equal(matches.length,1);assert.deepEqual(matches[0].targets,[original.id,'repeated']);assert.equal(matches[0].repair.type,'remove-question');assert.equal(isStructural(matches[0]),true);
+ assert.equal(matches.length,1);assert.deepEqual(matches[0].targets,[original.id,'repeated']);assert.equal(matches[0].repair.type,'change-values');assert.equal(isStructural(matches[0]),false);
  assert.equal(duplicateQuestionCandidates(sequences(project),{topics:['cylinder-volume']}).length,0);
  assert.equal(duplicateQuestionCandidates(sequences(project),{topics:['two-step-equations']}).length,1);
  clone.content.children[0].prompt='A different mathematical task';
@@ -60,7 +60,7 @@ test('deterministic duplicates enter the existing challenge even when the first 
  const result=await runReview({...space.options,runner:stubRunner({calls})});
  assert.ok(fs.readFileSync(space.projectFile).equals(before));
  assert.equal(calls.filter(c=>c.stage==='pedagogy-challenge').length,1);
- assert.equal(result.findings.length,1);assert.equal(result.findings[0].kind,'duplicate-question');assert.equal(result.holdBeforeFinalExport,true);
+ assert.equal(result.findings.length,1);assert.equal(result.findings[0].kind,'duplicate-question');assert.equal(result.holdBeforeFinalExport,false);
  const payload=calls.find(c=>c.stage==='pedagogy-challenge').payload;
  assert.deepEqual(payload.candidates[0].targets,['t1-q1','duplicate-practice']);
  assert.ok(payload.practice.some(q=>q.id==='t1-q1'));assert.ok(payload.practice.some(q=>q.id==='duplicate-practice'));
@@ -298,4 +298,33 @@ test('worker slots are shared through the canonical run directory and released o
  assert.deepEqual(fs.readdirSync(path.join(runDir,'workflow','worker-slots')),[],'every slot is released, including the failed call');
  for(const result of results){assert.equal(result.findings.length,1);assert.equal(result.errors.length,1);assert.match(result.errors[0],/triangular-prism: Codex exited 1/);}
  assert.equal(efforts.filter(value=>value==='model_reasoning_effort="low"').length,12);assert.equal(efforts.filter(value=>value==='model_reasoning_effort="medium"').length,2);
+});
+
+test('withdraw archives open pending findings and does not suppress a fresh review',async t=>{
+ const space=workspace(t,p=>{const s=p.sections.find(s=>s.phase==='practice');const q=structuredClone(s.blocks[0]);q.id='dup-practice';q.content.id='dup-root';s.blocks.push(q);});
+ await runReview({...space.options,runner:stubRunner()});
+ const posted=await postFindings({projectFile:space.projectFile,root:ROOT,provenanceDir:space.options.provenanceDir});
+ assert.equal(posted.posted.length,1);
+ const id=posted.posted[0];
+ const result=await withdraw({projectFile:space.projectFile,root:ROOT,provenanceDir:space.options.provenanceDir,archiveDir:path.join(space.dir,'archive'),stamp:'20261015'});
+ assert.deepEqual(result.withdrawn,[id]);
+ assert.equal((space.project().studio?.flags??[]).filter(f=>f.findingId===id).length,0);
+ const archived=JSON.parse(fs.readFileSync(path.join(space.dir,'archive',space.project().id+'-20261015.json'),'utf8'));
+ assert.equal(archived.findings[0].state,'withdrawn');
+ assert.equal(space.record().findings.length,0);
+ const again=await runReview({...space.options,runner:stubRunner()});
+ assert.equal(again.findings.length,1);assert.notEqual(again.findings[0].state,'rejected');
+});
+
+test('a completed review can recover a failed provenance save without repeating model calls',async t=>{
+ const space=workspace(t),runner=stubRunner({review:{'negative-index':{candidates:[candidate('example-choice',['t1-example-a'])]}}});
+ await runReview({...space.options,runner});
+ const prior=space.record(),candidateFile=path.resolve(ROOT,prior.lastRun.candidateFile),saved=JSON.parse(fs.readFileSync(candidateFile,'utf8'));
+ const challengeResultFile=path.join(space.dir,'challenge.json');
+ fs.writeFileSync(challengeResultFile,JSON.stringify({findings:saved.candidates.map(row=>({...row,from:[row.id]}))}));
+ let calls=0;
+ const result=await runReview({...space.options,resumeFrom:{candidateFile,challengeResultFile},runner:async()=>{calls++;throw Error('must not repeat model calls');}});
+ assert.equal(calls,0);assert.deepEqual(result.errors,[]);assert.equal(space.record().lastRun.recoveredFrom.newModelCalls,0);
+ const project=space.project();project.revision=(project.revision??0)+1;fs.writeFileSync(space.projectFile,JSON.stringify(project));
+ await assert.rejects(runReview({...space.options,resumeFrom:{candidateFile,challengeResultFile},runner}),/do not match the current project revision/);
 });

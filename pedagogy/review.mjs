@@ -113,8 +113,8 @@ export function duplicateQuestionCandidates(all,{topics=[]}={}){
   breakdown:'Students repeat an unchanged task without a new mathematical decision; check whether this is accidental duplication rather than purposeful retrieval.',
   checked:'Deterministic comparison of the complete posed question, including parts, givens and diagrams; ignores answers, node IDs, numeric question labels, whitespace and local layout.',
   assumptions:'No explicit retrieval or comparison purpose has yet been established for the repeated copies.',
-  repair:{type:'remove-question',proposal:'Retain the first occurrence '+group[0].id+' and remove the redundant copies '+group.slice(1).map(row=>row.id).join(', ')+' unless an explicit instructional purpose warrants retaining them.'},
-  doneWhen:'Each unnecessary repeated whole question is removed; any retained repetition has an explicit instructional purpose.'
+  repair:{type:'change-values',proposal:'Retain the first occurrence '+group[0].id+' and replace each later copy ('+group.slice(1).map(row=>row.id).join(', ')+') with a structurally identical question with different numbers, updating its answers, unless an explicit instructional purpose warrants retaining the repetition.'},
+  doneWhen:'Each unnecessary repeated whole question is replaced by a same-structure question with different numbers; any retained repetition has an explicit instructional purpose.'
  }));
 }
 
@@ -201,7 +201,12 @@ export function provenanceFile(projectId,{root=ROOT,provenanceDir}={}){return pa
 export function loadProvenance(file,project){
  return fs.existsSync(file)?read(file):{version:1,projectId:project.id,title:project.title,assumptions:{},findings:[],contextQuestions:[],protectedGroups:[],notReliablyReviewed:[]};
 }
-function saveProvenance(file,value){fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,JSON.stringify(value,null,1)+'\n');}
+function saveProvenance(file,value){
+ fs.mkdirSync(path.dirname(file),{recursive:true});
+ const temporary=file+'.'+process.pid+'-'+Date.now()+'.tmp';
+ try{fs.writeFileSync(temporary,JSON.stringify(value,null,1)+'\n',{flag:'wx'});fs.renameSync(temporary,file);}
+ finally{if(fs.existsSync(temporary))fs.unlinkSync(temporary);}
+}
 const setState=(finding,state,note)=>{if(finding.state===state)return;finding.state=state;(finding.history??=[]).push({state,at:now(),...(note?{note}:{})});};
 
 // Merge a review's findings into the record. A decided finding keeps its state;
@@ -285,7 +290,7 @@ function challengePrompt({project,all,candidates,questions,ids,stored,library,ro
  const payload={booklet:project.title,assumptions:assumptions(project,stored,library),candidates:candidates.map(({id,sequence,...rest})=>({id,topic:sequence,...rest})),contextQuestions:questions.map(({id,sequence,targets,question})=>({id,topic:sequence,targets,question})),teaching:[...teaching.entries()].sort((a,b)=>a[0]-b[0]).map(([,value])=>value),teachingComplete:complete,practice,topicOrder:all.slice(0,last+1).map(sequence=>sequence.id)};
  return contract('challenge',{root})+'\n\n'+CHALLENGE_OUTPUT+'\n\nThe first reader\'s instructions, which are the standard:\n\n'+contract('review',{root})+'\n\n'+JSON.stringify(payload);
 }
-export async function runReview({projectFile,root=ROOT,topics=[],reviewEffort='low',challengeEffort='medium',candidatesOnly=false,concurrency=LIMITS.concurrency,runner=defaultRunner,lease=defaultLease,provenanceDir,workDir,skills,library,runDir}={}){
+export async function runReview({projectFile,root=ROOT,topics=[],reviewEffort='low',challengeEffort='medium',candidatesOnly=false,concurrency=LIMITS.concurrency,runner=defaultRunner,lease=defaultLease,provenanceDir,workDir,skills,library,runDir,resumeFrom}={}){
  if(!Number.isInteger(concurrency)||concurrency<1||concurrency>LIMITS.concurrency)throw Error('Use one to three workers');
  const project=read(projectFile),all=sequences(project);
  if(!all.some(sequence=>sequence.sections.some(section=>section.phase==='teaching'&&section.blocks?.length)))throw Error('This project has no teaching content; the pedagogy review does not apply.');
@@ -296,7 +301,10 @@ export async function runReview({projectFile,root=ROOT,topics=[],reviewEffort='l
  const file=provenanceFile(project.id,{root,provenanceDir}),record=loadProvenance(file,project),blocks=blocksById(project);
  const ids=new Map(all.flatMap(sequence=>[...visibleIds(sequence)])),rejected=(record.findings??[]).filter(finding=>finding.state==='rejected'&&targetsUnchanged(finding,blocks));
  const candidates=[],context=[],groups=[],unreliable=[],rows=[],errors=[];
- await pool(selected,concurrency,async sequence=>{
+ const recovered=resumeFrom?read(resumeFrom.candidateFile):null;
+ if(recovered&&(recovered.projectId!==project.id||recovered.revision!==project.revision||recovered.errors?.length))throw Error('Saved pedagogy results do not match the current project revision or contain errors.');
+ if(recovered){candidates.push(...recovered.candidates);context.push(...recovered.contextQuestions);groups.push(...recovered.protectedGroups);unreliable.push(...recovered.notReliablyReviewed);rows.push(...recovered.sequences);}
+ else await pool(selected,concurrency,async sequence=>{
   const index=all.indexOf(sequence),own=visibleIds(sequence),images=sequenceImages(sequence,runDir);
   const decided=rejected.filter(finding=>finding.targets.some(target=>own.has(target.id))).map(finding=>({kind:finding.kind,targets:finding.targets.map(target=>target.id),finding:finding.finding}));
   const row={id:sequence.id,title:sequence.title,blocks:sequence.sections.reduce((count,section)=>count+(section.blocks?.length??0),0),images:images.files.length,imagesExpected:images.expected};rows.push(row);
@@ -334,14 +342,14 @@ export async function runReview({projectFile,root=ROOT,topics=[],reviewEffort='l
  context.sort((a,b)=>all.findIndex(sequence=>sequence.id===a.sequence)-all.findIndex(sequence=>sequence.id===b.sequence));
  context.forEach((question,i)=>{question.id='q'+(i+1);});
  fs.mkdirSync(workDir,{recursive:true});
- const candidateFile=path.join(workDir,`candidates-${reviewEffort}-${Date.now()}.json`);
- fs.writeFileSync(candidateFile,JSON.stringify({projectId:project.id,revision:project.revision??null,effort:reviewEffort,sequences:rows,candidates,contextQuestions:context,protectedGroups:groups,notReliablyReviewed:unreliable,errors},null,1)+'\n');
+ const candidateFile=resumeFrom?.candidateFile??path.join(workDir,`candidates-${reviewEffort}-${Date.now()}.json`);
+ if(!recovered)fs.writeFileSync(candidateFile,JSON.stringify({projectId:project.id,revision:project.revision??null,effort:reviewEffort,sequences:rows,candidates,contextQuestions:context,protectedGroups:groups,notReliablyReviewed:unreliable,errors},null,1)+'\n');
  if(candidatesOnly)return {projectId:project.id,effort:reviewEffort,sequences:rows.length,candidates:candidates.map(({id,sequence,kind,severity,targets,finding})=>({id,sequence,kind,severity,targets,finding})),candidateFile,errors};
 
  const found=[],dropped=[],unchecked=[],droppedQuestions=[],challenge={};let questions=context;
  if(candidates.length||context.length){
   try{
-   const {result,usage,elapsedMs}=await callWorker({runner,lease,canonicalRunDir:runDir,workDir,stage:'pedagogy-challenge',prompt:challengePrompt({project,all,candidates,questions:context,ids,stored:record.assumptions,library,root}),effort:challengeEffort});
+   const {result,usage,elapsedMs}=recovered?{result:read(resumeFrom.challengeResultFile)}:await callWorker({runner,lease,canonicalRunDir:runDir,workDir,stage:'pedagogy-challenge',prompt:challengePrompt({project,all,candidates,questions:context,ids,stored:record.assumptions,library,root}),effort:challengeEffort});
    Object.assign(challenge,{usage,elapsedMs});
    const known=new Set(candidates.map(candidate=>candidate.id)),seen=new Set();
    for(const raw of Array.isArray(result?.findings)?result.findings:[]){
@@ -367,6 +375,7 @@ export async function runReview({projectFile,root=ROOT,topics=[],reviewEffort='l
  Object.assign(record,{projectId:project.id,title:project.title,reviewedRevision:project.revision??null,reviewedAt:now(),passes:{review:{model:'gpt-6.1-sol',effort:reviewEffort,calls:rows.length},challenge:{model:'gpt-6.1-sol',effort:challengeEffort,calls:candidates.length||context.length?1:0}},importReview:importReviewStatus(runDir),questionOrder:project.settings?.questionOrder??null,findings:merged.findings,
   contextQuestions:[...(record.contextQuestions??[]).filter(row=>!inScope(row)),...questions.map(({id,...question})=>question)],protectedGroups:[...(record.protectedGroups??[]).filter(row=>!inScope(row)),...groups],notReliablyReviewed:[...(record.notReliablyReviewed??[]).filter(row=>!inScope(row)),...unreliable],
   lastRun:{sequences:rows.map(({working,...row})=>row),dropped:dropped.map(row=>({...row,candidates:row.ids.map(describe)})),unchecked:unchecked.map(row=>({...row,candidate:describe(row.id)})),suppressed:merged.suppressed,droppedQuestions,candidateFile:path.relative(root,candidateFile).replaceAll('\\','/'),errors}});
+ if(recovered)record.lastRun.recoveredFrom={candidateFile:resumeFrom.candidateFile,challengeResultFile:resumeFrom.challengeResultFile,at:now(),newModelCalls:0};
  saveProvenance(file,record);
  return {...summary(record,project),provenance:path.relative(root,file).replaceAll('\\','/'),errors};
 }
@@ -461,6 +470,40 @@ export async function reconcile({projectFile,root=ROOT,provenanceDir,approve=[],
  return {project:project.id,states,approved:(record.findings??[]).filter(finding=>finding.state==='approved').map(finding=>({id:finding.id,kind:finding.kind,targets:finding.targets.map(target=>target.id),repair:finding.repair,doneWhen:finding.doneWhen})),errors};
 }
 
+// Archive and remove every still-open pending finding of a booklet so the next
+// review starts fresh. Unlike deleting a comment in Studio this is not a rejection:
+// the findings move to an archive file and leave the live record.
+export async function withdraw({projectFile,root=ROOT,provenanceDir,archiveDir,stamp=new Date().toISOString().slice(0,10).replaceAll('-','')}={}){
+ const handle=await projectHandle(projectFile,root),project=handle.project,file=provenanceFile(project.id,{root,provenanceDir}),record=loadProvenance(file,project);
+ const flags=flagsOf(project),moved=[],commentIds=new Set();
+ for(const finding of record.findings??[]){
+  if(finding.state!=='pending')continue;
+  const flag=flags.find(row=>row.findingId===finding.id&&row.kind==='pedagogy-review');
+  if(finding.commentId&&!flag)continue; // comment already gone: reconcile owns that
+  if(flag?.resolved)continue;
+  if(flag)commentIds.add(flag.id);
+  moved.push(finding);
+ }
+ if(!moved.length)return {project:project.id,withdrawn:[],archive:null};
+ const dir=archiveDir??path.join(path.dirname(file),'archive'),archive=path.join(dir,project.id+'-'+stamp+'.json');
+ const previous=fs.existsSync(archive)?read(archive):{version:1,projectId:project.id,findings:[]};
+ for(const finding of moved)setState(finding,'withdrawn','Withdrawn before a fresh review.');
+ previous.findings.push(...moved);
+ fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(archive,JSON.stringify(previous,null,1)+'\n');
+ if(commentIds.size){
+  project.studio={...project.studio,flags:flags.filter(flag=>!commentIds.has(flag.id))};
+  await handle.save();
+  const saved=read(handle.file);
+  const left=moved.filter(finding=>flagsOf(saved).some(flag=>flag.findingId===finding.id));
+  if(left.length)throw Error('The saved project still has comments for '+left.map(finding=>finding.id).join(', '));
+  record.postedRevision=saved.revision??null;
+ }
+ const gone=new Set(moved.map(finding=>finding.id));
+ record.findings=record.findings.filter(finding=>!gone.has(finding.id));
+ saveProvenance(file,record);
+ return {project:project.id,withdrawn:[...gone],archive:path.relative(root,archive).replaceAll('\\','/')};
+}
+
 // ---- format results (after final pagination only) ---------------------------------
 
 export function formatResults(project,pages){
@@ -533,6 +576,7 @@ export async function main(args=process.argv.slice(2)){
  else if(command==='review')result=await runReview({projectFile,topics:list('--topics'),reviewEffort:values['--review-effort']??'low',candidatesOnly:flags.has('--candidates-only'),concurrency:Number(values['--concurrency']??LIMITS.concurrency),provenanceDir});
  else if(command==='post'){if(!live||values['--project-file'])throw Error('Comments are posted only to a live project: use --project ID');result=await postFindings({projectFile,provenanceDir,suggestions:flags.has('--suggestions'),...(values['--findings']?{findingIds:list('--findings')}:{})});}
  else if(command==='status')result=await reconcile({projectFile,approve:list('--approve'),defer:list('--defer'),resolve:list('--resolve'),reject:list('--reject'),assume:values['--assume'],provenanceDir});
+ else if(command==='withdraw'){if(!live||values['--project-file'])throw Error('Withdraw works on a live project: use --project ID');result=await withdraw({projectFile,provenanceDir});}
  else if(command==='format'){if(!values['--exports'])throw Error('format needs --exports DIR');result=runFormat({projectFile,exportDir:values['--exports'],provenanceDir});}
  else if(command==='seeded')result=await runSeeded({reviewEffort:values['--review-effort']??'low'});
  else throw Error('Use map|review|post|status|format --project ID, or seeded. See docs/booklet-pedagogy-review.md');
