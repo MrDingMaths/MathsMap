@@ -60,6 +60,12 @@ function questionKeys(entries){
 
 export function packShortAnswerRows(entries,widths,columnWidthMm){
   const rows=[],keys=questionKeys(entries),parts=new Map();
+  const starts=entries.map(({block})=>{
+    const ids=new Set(block.presentation?.shortAnswerGroupStarts??[]);
+    const contains=node=>!!node&&(ids.has(node.id)||(node.children??[]).some(contains));
+    return contains(block.content);
+  });
+  const crossesBoundary=(i,count)=>starts.slice(i+1,i+count).some(Boolean);
   for(const key of keys)parts.set(key,(parts.get(key)??0)+1);
   // Parts of a multipart question never share a row with another question:
   // 3i 3j ends the row and 4a starts the next. Single answers (3 4 5) may share.
@@ -72,10 +78,10 @@ export function packShortAnswerRows(entries,widths,columnWidthMm){
     for(const candidate of [3,2]){
       const cell=(columnWidthMm-SHORT_ANSWER_GRID_GAP_MM*(candidate-1))/candidate;
       const fits=size=>size>0&&i+size<=entries.length&&entries.slice(i,i+size).every((entry,j)=>entry.section.topicId===entries[i].section.topicId&&Number.isFinite(widths[i+j])&&widths[i+j]+.2<=cell);
-      if(together(i,candidate)&&fits(candidate)){count=columns=candidate;break;}
+      if(together(i,candidate)&&!crossesBoundary(i,candidate)&&fits(candidate)){count=columns=candidate;break;}
       // A short last row keeps the columns of the row above: 9g 9h sit under 9d 9e.
       let rest=0;
-      while(rest<candidate&&i+rest<entries.length&&group(i+rest)===group(i))rest++;
+      while(rest<candidate&&i+rest<entries.length&&group(i+rest)===group(i)&&(!rest||!starts[i+rest]))rest++;
       if(rest<candidate&&previous?.columns===candidate&&previous.group===group(i)&&fits(rest)){count=rest;columns=candidate;break;}
     }
     const row=rows.length;
@@ -98,14 +104,24 @@ export function shortAnswerRows(entries){
   return rows;
 }
 
+// An explicitly widened completed table needs its authored width. Ordinary
+// answers and the existing column-width table setting retain two columns.
+export function needsFullPageShortTable(block,columnWidthMm){
+  if(block.presentation?.shortAnswerTableFullWidth!==true)return false;
+  const visit=node=>isDocument(node?.answer?.short)&&node.answer.short.blocks.some(b=>b.type==='table'&&Number(b.widthMm)>columnWidthMm+.2)||(node?.children??[]).some(visit);
+  return visit(block.content);
+}
+
 const sameCarry=(a,b)=>a.length===b.length&&a.every((entry,i)=>entry.block===b[i].block&&entry.shortRow===b[i].shortRow&&entry.shortColumns===b[i].shortColumns);
+const sameBands=(a,b)=>a.length===b.length&&a.every((band,i)=>band.length===b[i].length&&band.every((column,j)=>sameCarry(column,b[i][j])));
+const copyBands=bands=>bands.map(band=>band.map(column=>[...column]));
 
 export async function paginateShortAnswerGrid(project,edition,measure,{cancelled=()=>false,onprogress=()=>{},previous=null,context=''}={}){
   const sections=flowEditionSections(project,'short'),pages=[],issues=[];
   const labelWidths=new Map(sections.map(s=>[s.topicId,exerciseLabelWidth(sections.filter(t=>t.topicId===s.topicId).flatMap(t=>t.blocks),'short')]));
   const metadata=sections.map(s=>({...s,blocks:undefined,labelWidthMm:labelWidths.get(s.topicId)}));
   const reuse=paginationReuse(project,edition,previous,context,{compactAnswers:true});
-  const input=reuse.get('short-grid-inputs',{metadata},sections.flatMap(section=>section.blocks.map(block=>({blocks:[block]}))),false);
+  const input=reuse.get('short-grid-inputs',{metadata,fullWidthTableBands:1},sections.flatMap(section=>section.blocks.map(block=>({blocks:[block]}))),false);
   if(input.unchanged){
     Object.assign(input.entry,input.prior);
     const rowCache=reuse.get('short-grid-rows',input.prior.rowMetadata,input.prior.rowUnits,false);
@@ -127,25 +143,42 @@ export async function paginateShortAnswerGrid(project,edition,measure,{cancelled
     batch.forEach(({index},j)=>{const width=result.answerWidthsMm?.[j];if(Number.isFinite(width)&&width>0)widths[index]=width;});
   }
   const rows=packShortAnswerRows(entries,widths,columnWidthMm);
-  const rowMetadata={metadata,columnWidthMm},rowUnits=rows.map(row=>({blocks:row.map(e=>e.block)}));
+  const rowMetadata={metadata,columnWidthMm,fullWidthTableBands:1},rowUnits=rows.map(row=>({blocks:row.map(e=>e.block)}));
   const cached=reuse.get('short-grid-rows',rowMetadata,rowUnits,false);
-  let columns=[[],[]],column=0,begin=0;
-  const make=()=>({id:`compact-short-${pages.length}`,pageNumber:pages.length+1,mode:'short',flexible:true,compactAnswers:true,showAnswerHeading:pages.length===0,columns:columns.map(c=>[...c]),blocks:columns.flat().map(e=>e.block),section:columns.flat()[0]?.section,breakReason:'overflow'});
-  const flush=()=>{if(columns.some(c=>c.length))pages.push(make());columns=[[],[]];column=0;};
+  let columns=[[],[]],bands=[],column=0,begin=0;
+  const make=()=>{
+    const answerBands=[...copyBands(bands),...(columns.some(c=>c.length)?[columns.map(c=>[...c])]:[])];
+    const projected=bands.length?answerBands.flat():columns.map(c=>[...c]);
+    return {id:`compact-short-${pages.length}`,pageNumber:pages.length+1,mode:'short',flexible:true,compactAnswers:true,showAnswerHeading:pages.length===0,columns:projected,...(bands.length?{answerBands}:{}),blocks:projected.flat().map(e=>e.block),section:projected.flat()[0]?.section,breakReason:'overflow'};
+  };
+  const flush=()=>{if(bands.length||columns.some(c=>c.length))pages.push(make());columns=[[],[]];bands=[];column=0;};
   const resume=cached.prior?.checkpoints[cached.first];
-  if(resume){begin=cached.first;pages.push(...cached.prior.pages.slice(0,resume.pageCount));issues.push(...cached.prior.issues.slice(0,resume.issueCount));columns=resume.columns.map(c=>[...c]);column=resume.column;cached.entry.checkpoints=cached.prior.checkpoints.slice(0,begin);}
+  if(resume){begin=cached.first;pages.push(...cached.prior.pages.slice(0,resume.pageCount));issues.push(...cached.prior.issues.slice(0,resume.issueCount));columns=resume.columns.map(c=>[...c]);bands=copyBands(resume.bands??[]);column=resume.column;cached.entry.checkpoints=cached.prior.checkpoints.slice(0,begin);}
   for(let i=begin;i<rows.length;i++){
     check();const row=rows[i],prior=cached.prior?.checkpoints[i];
-    if(i>begin&&prior&&cached.suffix(i)&&column===prior.column&&columns.every((c,j)=>sameCarry(c,prior.columns[j]))){
-      pages.push(...cached.prior.pages.slice(prior.pageCount));issues.push(...cached.prior.issues.slice(prior.issueCount));cached.entry.checkpoints.push(...cached.prior.checkpoints.slice(i));columns=[[],[]];break;
+    if(i>begin&&prior&&cached.suffix(i)&&column===prior.column&&sameBands(bands,prior.bands??[])&&columns.every((c,j)=>sameCarry(c,prior.columns[j]))){
+      pages.push(...cached.prior.pages.slice(prior.pageCount));issues.push(...cached.prior.issues.slice(prior.issueCount));cached.entry.checkpoints.push(...cached.prior.checkpoints.slice(i));columns=[[],[]];bands=[];break;
     }
-    cached.entry.checkpoints.push({pageCount:pages.length,issueCount:issues.length,columns:columns.map(c=>[...c]),column});
+    cached.entry.checkpoints.push({pageCount:pages.length,issueCount:issues.length,columns:columns.map(c=>[...c]),bands:copyBands(bands),column});
+    if(row.length===1&&needsFullPageShortTable(row[0].block,columnWidthMm)){
+      if(columns.some(c=>c.length)){bands.push(columns.map(c=>[...c]));columns=[[],[]];column=0;}
+      bands.push([[...row]]);
+      let size=await measure(make());check();
+      if(size.height>size.capacity-(96/25.4*0.5)){
+        bands.pop();if(bands.length)flush();bands.push([[...row]]);
+        size=await measure(make());check();
+        if(size.height>size.capacity-(96/25.4*0.5))issues.push({kind:'oversized-content',id:row[0].block.id,sectionId:row[0].section.sourceSectionId,message:'The completed answer table cannot fit safely on a full-width page.'});
+      }
+      onprogress({complete:i+1,total:rows.length,pages:pages.length});
+      continue;
+    }
     while(true){
       columns[column].push(...row);const size=await measure(make());check();
       // Inline fractions can paint below the measured row box. Retain half a
       // millimetre beyond the shared footer reserve instead of fitting past it.
       if(size.height<=size.capacity-(96/25.4*0.5))break;
       columns[column].splice(-row.length);
+      if(!columns[column].length&&bands.length){flush();continue;}
       if(!columns[column].length){
         issues.push({kind:'oversized-content',id:row[0].block.id,sectionId:row[0].section.sourceSectionId,message:'An answer row cannot fit safely. Adjust its answer diagram or working layout.'});
         columns[column].push(...row);break;
@@ -156,7 +189,8 @@ export async function paginateShortAnswerGrid(project,edition,measure,{cancelled
   }
   flush();
   const sectionById=new Map(sections.map(s=>[s.id,s]));
-  const resultPages=pages.map((p,i)=>({...p,pageNumber:i+1,totalPages:pages.length,section:sectionById.get(p.section?.id)??p.section,columns:p.columns.map(c=>c.map(e=>({...e,section:sectionById.get(e.section.id)??e.section})))}));
+  const refresh=e=>({...e,section:sectionById.get(e.section.id)??e.section});
+  const resultPages=pages.map((p,i)=>({...p,pageNumber:i+1,totalPages:pages.length,section:sectionById.get(p.section?.id)??p.section,columns:p.columns.map(c=>c.map(refresh)),...(p.answerBands?{answerBands:p.answerBands.map(b=>b.map(c=>c.map(refresh)))}:{})}));
   cached.entry.pages=resultPages;cached.entry.issues=issues;
   input.entry.pages=resultPages;input.entry.issues=issues;
   input.entry.rowMetadata=rowMetadata;input.entry.rowUnits=rowUnits;

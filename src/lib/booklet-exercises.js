@@ -9,7 +9,13 @@ export {COMPACT_ANSWERS} from './booklet-creation.js';
 
 export function compactAnswerLabel(number,parts=[]){
  const labels=[...(number==null?[]:[String(number)]),...parts.map(String)].filter(Boolean);
- return labels.reduce((text,label,index)=>text+(index&&/^\d+$/.test(label)?`(${label})`:(index&&label.length>1&&!/^[ivxlcdm]+$/i.test(label)?' ':'')+label),'');
+ return labels.reduce((text,label,index)=>text+(index&&/^\d+$/.test(label)?`(${label})`:(index&&label.length>1&&!/^[ivxlcdm]+$/i.test(label)&&! /^[a-z]{2}$/.test(label)?' ':'')+label),'');
+}
+
+// Local answer-edition labels retain the current question number after reordering.
+export function answerDisplayLabel(block,node,number,parts=[],mode=null){
+ const suffix=block.presentation?.answerPartLabels?.[mode]?.[node.id];
+ return typeof suffix==='string'?`${number??''}${suffix}`:compactAnswerLabel(number,parts);
 }
 
 // A supplied matching figure is a structural container, not another response.
@@ -31,10 +37,11 @@ export function firstAnswerNode(node,responses=[],mode=null){
 // unlabelled response, or whose part labels repeat elsewhere in the parent, keeps
 // its position number and its instruction as context.
 export function arrangesLabelledParts(node,parent){
- if(!parent?.children||node.label==null||String(node.label).trim()||!node.children?.length)return false;
+ if(!parent?.children||String(node.label??'').trim()||!node.children?.length||node.answer?.short||node.answer?.worked)return false;
  const text=n=>String(n.label??'').trim();
- const labels=parent.children.flatMap(sibling=>sibling.label!=null&&!text(sibling)&&sibling.children?.length?sibling.children:[sibling]).map(text);
- return node.children.every(child=>text(child)&&labels.filter(label=>label===text(child)).length===1);
+ const arranged=n=>!text(n)&&n.children?.length&&!n.answer?.short&&!n.answer?.worked?n.children.flatMap(arranged):[n];
+ const labels=parent.children.flatMap(arranged).map(text);
+ return node.children.flatMap(arranged).every(child=>text(child)&&labels.filter(label=>label===text(child)).length===1);
 }
 
 function answerPartLabel(node,index=0,parent=null){
@@ -250,6 +257,20 @@ export function answerFragments(block, mode = null) {
     else units.push({node,path});
   };
   visit(root);
+  // Source grids may store their columns in physical row order (a, f, k,
+  // b, g, l). Answer editions follow the actual part labels instead. Only
+  // reorder a complete, unambiguous flat letter sequence; dependent groups,
+  // nested tasks and unlabelled responses retain their authored order.
+  const labels=units.map(({node,path})=>[...path.slice(1),node]
+    .map(n=>n._answerDisplay?.label).filter(label=>label!=null));
+  if(units.length>1&&units.every(({node})=>!node.children?.length&&!node.dependsOn?.length)
+    &&labels.every(parts=>parts.length===1&&/^[a-z]+$/.test(parts[0]))
+    &&!labels.every(parts=>/^[ivxlcdm]+$/.test(parts[0]))
+    &&new Set(labels.map(parts=>parts[0])).size===units.length){
+    const rank=label=>[...label].reduce((n,c)=>n*26+c.charCodeAt(0)-96,0);
+    const ranks=new Map(units.map((unit,index)=>[unit,rank(labels[index][0])]));
+    units.sort((a,b)=>ranks.get(a)-ranks.get(b));
+  }
   return units.map(({node,path},index)=>{
     let content=node;
     for(const ancestor of [...path].reverse())content={...ancestor,children:[content]};
@@ -326,7 +347,7 @@ export function exerciseLabelWidth(blocks,mode=null) {
     const walk=(node,path=[],index=0,parent=null)=>{
       const next=answerNodePath(block.content,node,path,index,parent);
       if(node.children?.length&&!answeredAsGroup(node))node.children.forEach((c,i)=>walk(c,next,i,node));
-      else length=Math.max(length,compactAnswerLabel(block.sourceOrder,next).length);
+      else length=Math.max(length,answerDisplayLabel(block,node,block.sourceOrder,next,mode).length);
     };
     walk(block.content);
   }

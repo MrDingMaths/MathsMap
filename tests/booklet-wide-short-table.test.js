@@ -1,0 +1,31 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {needsFullPageShortTable,shortAnswerRows} from '../src/lib/booklet-short-answer-grid.js';
+import {paginateFlow} from '../src/lib/booklet-pagination.js';
+import {normalizeEditableProject} from '../src/lib/editable-booklet-model.js';
+const block=(width,flag)=>({presentation:{shortAnswerTableFullWidth:flag},content:{children:[{answer:{short:{format:'maths-editor-document-v1',version:1,blocks:[{type:'table',widthMm:width,rows:[]}]}}}]}});
+test('full-page tables require both the existing opt-in and a width above one column',()=>{
+  assert.equal(needsFullPageShortTable(block(165,true),86),true);
+  assert.equal(needsFullPageShortTable(block(82,true),86),false);
+  assert.equal(needsFullPageShortTable(block(165,false),86),false);
+});
+test('a wide table flows between two-column bands without losing answers or cached order',async()=>{
+ const ordinary=id=>({id,type:'question',content:{id:id+'-root',answer:{short:'Answer.',worked:'Working.'}}});
+ const wide={...block(165,true),id:'wide',type:'question'};
+ const project=normalizeEditableProject({id:'wide-answer-pagination',title:'Answers',settings:{paginationMode:'flexible',exerciseOrganisation:'topic',compactAnswers:{}},topics:[{id:'t',title:'Tables'}],sections:[{id:'s',topicId:'t',phase:'practice',blocks:[ordinary('before'),wide,ordinary('after')]}]});
+ const measure=async page=>({height:(page.answerBands??[page.columns]).reduce((sum,band)=>sum+Math.max(...band.map(c=>shortAnswerRows(c).reduce((h,row)=>h+(row[0].block.id==='wide'?20:12),0))),0),capacity:100});
+ const result=await paginateFlow(project,'short',measure);
+ assert.equal(result.pages.length,1);
+ assert.deepEqual(result.pages[0].answerBands.map(b=>b.length),[2,1,2]);
+ assert.deepEqual(result.pages.flatMap(p=>p.blocks.map(b=>b.id)),['before','wide','after']);
+ assert.equal(result.issues.length,0);
+ const reused=await paginateFlow(project,'short',measure,{previous:result});
+ assert.deepEqual(reused.pages,result.pages);
+ const changed=structuredClone(project);changed.sections[0].blocks[2].content.answer.short='Tall answer.';
+ const tallMeasure=async page=>({height:(page.answerBands??[page.columns]).reduce((sum,band)=>sum+Math.max(...band.map(c=>shortAnswerRows(c).reduce((h,row)=>h+(row[0].block.id==='wide'?20:row[0].block.content.answer?.short==='Tall answer.'?40:12),0))),0),capacity:60});
+ const resumed=await paginateFlow(changed,'short',tallMeasure,{previous:result});
+ const fresh=await paginateFlow(changed,'short',tallMeasure);
+ assert.deepEqual(resumed.pages,fresh.pages);
+ assert.equal(fresh.pages.length,2);
+ assert.deepEqual(fresh.pages.flatMap(p=>p.blocks.map(b=>b.id)),['before','wide','after']);
+});

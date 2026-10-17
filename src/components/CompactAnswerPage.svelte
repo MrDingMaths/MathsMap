@@ -16,8 +16,9 @@
     <article class="booklet-page compact-answer-page" data-short-answer-probe={page.shortAnswerProbe?true:undefined} data-page-number={page.pageNumber} data-house-style={project.settings.houseStyleVersion}>
       {#if page.showAnswerHeading}<header id={`${anchorPrefix}answer-section-${page.mode}`}>{page.mode==='short'?'Short answers':'Worked solutions'}</header>{/if}
       <main>
-        <div class="answer-columns" style={`grid-template-columns:repeat(${page.columns.length},minmax(0,1fr));gap:${settings.gutterMm}mm`}>
-          {#each page.columns as entries}
+        {#each page.answerBands??[page.columns] as columns}
+        <div class="answer-columns" style={`grid-template-columns:repeat(${columns.length},minmax(0,1fr));gap:${settings.gutterMm}mm`}>
+          {#each columns as entries}
             {@const rows=shortAnswerRows(entries)}
             <div class="answer-column">
               {#each rows as row,index}
@@ -38,6 +39,7 @@
             </div>
           {/each}
         </div>
+        {/each}
       </main>
       <BookletFooter pageNumber={page.pageNumber} totalPages={page.totalPages??pages.length}/>
     </article>
@@ -47,6 +49,7 @@
   .preview-frame{width:210mm}.preview-page{width:210mm}.booklet-page{position:relative;box-sizing:border-box;width:210mm;height:297mm;padding:10mm 15mm;background:white;color:var(--booklet-ink);font-family:'Nunito',system-ui,sans-serif;overflow:visible}
   header{font-size:13pt;font-weight:800;margin:0 0 3mm;padding-bottom:2mm;border-bottom:.25mm solid var(--booklet-border)}
   .answer-columns{display:grid;align-items:start}.answer-column{min-width:0}.answer-fragment{min-width:0}
+  .answer-columns+.answer-columns{margin-top:3mm}
   .answer-row{break-inside:avoid;min-width:0}.answer-row-grid{display:grid;align-items:start;min-width:0}
   .answer-continuation{font-size:9.5pt;line-height:1.22;margin:0 0 1mm}
   .answer-width-probe{width:max-content}

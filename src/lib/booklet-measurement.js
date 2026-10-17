@@ -26,7 +26,7 @@ export function measurementKeyFor(project,options={}) {
   return page=>{
     const section=Object.fromEntries(Object.entries(page.section).filter(([key])=>key!=='blocks'));
     const metadata=lean?printableProject({sections:[{...section,blocks:[]}]},page.mode).sections[0]:section;
-    return JSON.stringify([context,page.isCover?cover:null,metadata,page.isCover,page.compactAnswers,page.shortAnswerProbe,page.showTopicHeading,page.showDifficultyHeading,page.showAnswerHeading,page.mode,page.columns?.map(c=>c.map(e=>[e.section.exerciseNumber,e.section.topicTitle,e.labelWidthMm,e.block.flow?.answerFragment,e.shortRow,e.shortColumns])),page.blocks.map(block=>signature(block,page.mode,page.section.phase))]);
+    return JSON.stringify([context,page.isCover?cover:null,metadata,page.isCover,page.compactAnswers,page.shortAnswerProbe,page.showTopicHeading,page.showDifficultyHeading,page.showAnswerHeading,page.mode,page.columns?.map(c=>c.map(e=>[e.section.exerciseNumber,e.section.topicTitle,e.labelWidthMm,e.block.flow?.answerFragment,e.shortRow,e.shortColumns])),page.answerBands?.map(band=>band.length),page.blocks.map(block=>signature(block,page.mode,page.section.phase))]);
   };
 }
 

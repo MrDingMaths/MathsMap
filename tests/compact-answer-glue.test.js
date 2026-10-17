@@ -1,9 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {execFileSync} from 'node:child_process';
 import {chromium} from 'playwright-core';
 import {renderMath} from '../src/lib/render-math.js';
 import {compactAnswerProseGlue} from '../src/lib/compact-answer-glue.js';
+
+test('long TeX without terminal punctuation finishes without backtracking',()=>{
+  const source='$\\begin{aligned}'+Array.from({length:12},()=>String.raw`\frac{a^4}{4}&=\left(\frac{a^2}{2}\right)^2`).join(String.raw`\\`)+String.raw`\end{aligned}$`;
+  const script=`import {compactAnswerProseGlue as glue} from './src/lib/compact-answer-glue.js';const source=${JSON.stringify(source)};if(glue(source)!==source)throw Error('Changed unpunctuated TeX');`;
+  execFileSync(process.execPath,['--input-type=module','-e',script],{timeout:5000});
+});
 
 test('compact prose glue preserves editable mathematical source and excludes math/currency',()=>{
   for(const original of ['$x=2$.','$x=-2$, $y=3$.','The $x$-axis and y-axis.','Amount \\$36; x-axis.',String.raw`$x-axis=0$`]){

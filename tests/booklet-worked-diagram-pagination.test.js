@@ -14,6 +14,22 @@ const entries=result=>result.pages.flatMap(page=>page.columns.flat());
 const measured=capacity=>async page=>({height:page.columns.flat().reduce((sum,e)=>{const answer=leaf(e.block).answer;return sum+(answer?.worked?70:0)+(answer?.solutionDiagrams?.length??0)*20+(e.block.flow.answerContinuation?5:0);},0),capacity});
 const label=block=>{let node=block.content,path=[];while(true){path=answerNodePath(block.content,node,path);if(!node.children?.length)return compactAnswerLabel(block.sourceOrder,path);node=node.children[0];}};
 
+test('an optional worked-only break moves a whole answer without empty pages and survives cache reuse',async()=>{
+ const project=fixture(),first=project.sections[0].blocks[0];
+ first.content={id:'first-root',answer:{short:'1',worked:'First answer'}};
+ const next={...structuredClone(first),id:'next',content:{id:'next-root',children:[{id:'next-a',label:'a',answer:{short:'2',worked:'Second answer'}},{id:'next-b',label:'b',answer:{short:'3',worked:'Third answer'}}]},flow:{workedPageBreakBefore:true}};
+ project.sections[0].blocks.push(next);
+ const measure=async page=>({height:page.columns.flat().length*10,capacity:1000,answerColumnWidthMm:86,answerWidthsMm:page.blocks.map(()=>20)});
+ const unbroken=await paginateCompactAnswers({...project,sections:[{...project.sections[0],blocks:[first,{...next,flow:{}}]}]},'worked',measure);
+ assert.equal(unbroken.pages.length,1);
+ const result=await paginateCompactAnswers(project,'worked',measure,{previous:unbroken});
+ assert.deepEqual(result.pages.map(p=>p.blocks.map(b=>b.id)),[['q'],['next','next']]);
+ assert.deepEqual((await paginateCompactAnswers(project,'worked',()=>{throw Error('unchanged pagination must reuse');},{previous:result})).pages,result.pages);
+ assert.equal((await paginateCompactAnswers(project,'short',measure)).pages.length,1);
+ first.flow={workedPageBreakBefore:true};
+ assert.equal((await paginateCompactAnswers(project,'worked',measure)).pages.length,2,'a break at the first answer creates no blank page');
+});
+
 test('measured oversized worked text and a whole ordered diagram group paginate with full labels',async()=>{
  const project=fixture(),before=structuredClone(project),result=await paginateCompactAnswers(project,'worked',measured(100));
  assert.deepEqual(result.issues,[]);assert.equal(result.pages.length,2);
@@ -85,4 +101,29 @@ test('coverage accepts only explicit figure continuations and catches missing or
  assertAnswerRenderCoverage([primary,continuation],ids,project,'worked');
  for(const invalid of [[primary,primary],[primary,{...continuation,label:'1b'}],[primary,{...continuation,editableFields:1}],[primary,{...continuation,continuation:'text'}]])assert.throws(()=>assertAnswerRenderCoverage(invalid,ids,project,'worked'));
  for(const badIds of [ids.slice(1),[...ids,ids[0]]])assert.throws(()=>assertAnswerRenderCoverage([primary,continuation],badIds,project,'worked'));
+});
+
+
+test('opted-in written working fills remaining space before its whole diagram group',async()=>{
+ const project=fixture();project.sections[0].blocks[0].flow={workedAllowDiagramContinuation:true};
+ project.sections[0].blocks.unshift({id:'previous',type:'question',content:{id:'previous-root',answer:{worked:'Previous answer'}}});
+ const result=await paginateCompactAnswers(project,'worked',measured(150));
+ assert.deepEqual(result.issues,[]);
+ assert.deepEqual(result.pages.map(p=>p.blocks.map(b=>b.id)),[['previous','q'],['q']]);
+ assert.deepEqual(leaf(result.pages[0].blocks[1]).answer.worked,worked);
+ assert.equal(result.pages[1].blocks[0].flow.answerContinuation,'solution-diagrams');
+ assert.deepEqual(leaf(result.pages[1].blocks[0]).answer.solutionDiagrams,figures);
+ const cached=await paginateCompactAnswers(project,'worked',()=>{throw Error('must reuse unchanged pagination');},{previous:result});
+ assert.deepEqual(cached.pages,result.pages);
+ const edited=updateProjectContent(project,'leaf','/answer/worked','Changed working');
+ assert.deepEqual((await paginateCompactAnswers(edited,'worked',measured(150),{previous:result})).pages,(await paginateCompactAnswers(edited,'worked',measured(150))).pages);
+});
+
+test('opted-in working that cannot fit the remaining space moves to a fresh page whole',async()=>{
+ const project=fixture();project.sections[0].blocks[0].flow={workedAllowDiagramContinuation:true};
+ project.sections[0].blocks.unshift({id:'previous',type:'question',content:{id:'previous-root',answer:{worked:'Previous answer'}}});
+ const result=await paginateCompactAnswers(project,'worked',measured(120));
+ assert.deepEqual(result.issues,[]);
+ assert.deepEqual(result.pages.map(p=>p.blocks.map(b=>b.id)),[['previous'],['q']]);
+ assert.ok(entries(result).every(e=>!e.block.flow.answerContinuation));
 });

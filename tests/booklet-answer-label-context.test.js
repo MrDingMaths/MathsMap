@@ -3,6 +3,15 @@ import assert from 'node:assert/strict';
 import {fromSource} from '../src/lib/document-content.js';
 import {compactAnswerLabel,answerNodePath,answerNodeContext,answerFragments,exerciseLabelWidth} from '../src/lib/booklet-exercises.js';
 
+test('nested layout wrappers stay transparent while repeated labels retain their context',()=>{
+ const q={sourceOrder:1,content:{id:'root',children:[{id:'a',label:'a',answer:{short:'1',worked:'1'}},{id:'outer',label:'',children:[{id:'inner',label:'',children:[{id:'g',label:'g',answer:{short:'7',worked:'7'}},{id:'h',label:'h',answer:{short:'8',worked:'8'}}]}]}]}};
+ const fragments=answerFragments(q,'worked');
+ const suffix=(node,root,path=[],index=0,parent=null)=>{const next=answerNodePath(root,node,path,index,parent);return node.children?.length?suffix(node.children[0],root,next,0,node):compactAnswerLabel(1,next);};
+ assert.deepEqual(fragments.map(f=>suffix(f.content,f.content)),['1a','1g','1h']);
+ q.content.children[1].children[0].children[0].label='a';
+ assert.match(suffix(answerFragments(q,'worked')[1].content,answerFragments(q,'worked')[1].content),/\(2\)/);
+});
+
 const part=(id,label,short,prompt='')=>({id,type:'part',label,prompt,source:{reference:id},answer:{short,worked:`Working for ${id}: ${short}`}});
 const group=(id,prompt,children,label='')=>({id,type:'group',label,prompt,children});
 const block=(number,children,prompt='')=>({sourceOrder:number,content:{id:`question-${number}`,type:'question',label:String(number),prompt,children}});

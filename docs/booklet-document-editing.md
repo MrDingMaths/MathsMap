@@ -34,7 +34,7 @@ Arbitrary TikZ remains code-based internally. Use a comment and feedback export 
 
 ## Comments and feedback
 
-Select text or an object and use Add comment or Ctrl+Alt+M. The Comments panel also supports booklet-wide notes. Existing `studio.flags` are displayed without replacing their IDs or resolved state. Comments can be edited, deleted, resolved and reopened; deletion is undoable.
+Select text or an object and use Add comment or Ctrl+backtick (`); Ctrl+Alt+M also works. The shortcut focuses the comment box, preserving any open draft and its target. The Comments panel also supports booklet-wide notes. Existing `studio.flags` are displayed without replacing their IDs or resolved state. Comments can be edited, deleted, resolved and reopened; deletion is undoable.
 
 All applicable occurrences is the default scope; This occurrence only is an explicit local exception. A margin indicator opens comments belonging to a group, including notes on its question parts. Comments follow stable project content references. Removed targets and changed content remain visible for attention; matching text elsewhere is never used as a replacement target.
 

@@ -4,7 +4,7 @@ import {setTableRowHeights,setTablePadding,tablePadding} from '../../public/libs
 // One value for every like item in the selected blocks. Answer editions keep
 // their own spacing, and source evidence is never an editing target.
 const skipped=new Set(['answer','source','sourceAtom','sourceReview','sourceLayoutEvidence','originalDiagram','originalGraph','mathematicalModel','bankRef','classification','flow']);
-const PARAGRAPH={lineHeight:[1.4,1,4],spaceBefore:[0,0,40],spaceAfter:[2,0,40]};
+const PARAGRAPH={lineHeight:[1.4,1,3],spaceBefore:[0,0,40],spaceAfter:[2,0,40]};
 const TABLE={rowHeight:[10,4,80],padding:[2,0,20]};
 const EXAMPLE={aboveMm:[2,0,120],belowMm:[4,0,120],gapMm:[3,0,120],minHeightMm:[29,0,120]};
 const QUESTION={height:[0,0,180],gap:[2,0,30]};

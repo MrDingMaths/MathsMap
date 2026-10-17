@@ -1,10 +1,12 @@
 <script>
- const LAYOUT_TABS = [['layout','Spacing'],['arrange','Arrange'],['page','Page']];
+ import {tick} from 'svelte';
+ const LAYOUT_TABS = [['layout','Spacing'],['tables','Tables'],['arrange','Arrange'],['page','Page']];
  let { value = 'layout', onchange, id = 'inspector', tabs = LAYOUT_TABS, label = 'Properties', controls = `${id}-content`, strip = false } = $props();
- function key(event, index) {
+ async function key(event, index) {
   if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
   event.preventDefault(); const count = tabs.length, next = event.key === 'Home' ? 0 : event.key === 'End' ? count - 1 : (index + (event.key === 'ArrowRight' ? 1 : count - 1)) % count;
-  onchange(tabs[next][0]); event.currentTarget.parentElement.children[next].focus();
+  const tablist=event.currentTarget.parentElement;
+  onchange(tabs[next][0]);await tick();tablist.children[next]?.focus();
  }
 </script>
 <div class="inspector-tabs" class:strip role="tablist" aria-label={label}>

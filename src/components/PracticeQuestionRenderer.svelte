@@ -1,4 +1,5 @@
 <script>
+  import {isKeyIdeaNumber,keyIdeaNumber} from '../lib/booklet-labels.js';
   import { onDestroy } from 'svelte';
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
   import BookletArrangement from './BookletArrangement.svelte';
@@ -10,8 +11,9 @@
   import Tikz from './Tikz.svelte';
   import { estimateAnswerSpaceMm, allDiagrams } from '../lib/practice-question-model.js';
   import { setoutMathChain } from '../lib/inline-content.js';
+  import { compactAnswerProseGlue } from '../lib/compact-answer-glue.js';
   import { isRewriteTableQuestion, shortAnswerDisplay, combinedExampleTikz, visibleImportedQuestionTitle } from '../lib/booklet-preview.js';
-  import {compactAnswerDisplay,answerDiagramStyle,answerDiagramWidth,compactAnswerLabel,answerNodePath,answerNodeContext,isGivenFigureNode,firstAnswerNode} from '../lib/booklet-exercises.js';
+  import {compactAnswerDisplay,answerDiagramStyle,answerDiagramWidth,answerDisplayLabel,answerNodePath,answerNodeContext,isGivenFigureNode,firstAnswerNode} from '../lib/booklet-exercises.js';
   import {normaliseShortAnswer,SHORT_ANSWER_INK} from '../lib/short-answer-style.js';
   import {teachingAnswerCategory,retainsTeachingPromptWithAnswers} from '../lib/booklet-answer-options.js';
   import {hasEmbeddedResponseLabel,hasTopAlignedMathPrompt} from '../lib/booklet-labels.js';
@@ -28,7 +30,7 @@
   const letter = (index) => String.fromCharCode(97 + index);
   const shortValue = value => teachingAnswerCategory(question)||question.sourceAtom ? value : normaliseShortAnswer(value);
   const nodeLabel = (node, index, depth) => depth === 0 && number != null ? String(number) : node.label != null ? String(node.label) : node.children?.length ? '' : letter(index);
-  const leafLabel = (path) => compactAnswerLabel(number,path);
+  const leafLabel = (path,node) => answerDisplayLabel(question,node,number,path,showShortAnswers?'short':'worked');
   // Question-side labels jump to the answer; part answers carry their own anchor.
   const partHref = (node, depth) => depth === 0 || !answerPartHref || !firstAnswerNode(node,question.sourceReview?.responses??[],answerMode) ? answerHref : answerPartHref + firstAnswerNode(node,question.sourceReview?.responses??[],answerMode).id;
   const sourceDiagram = (id) => id ? allDiagrams(question).find((diagram) => diagram.id === id) : null;
@@ -143,7 +145,7 @@
   {/if}
 {/snippet}
 
-{#snippet labelText(label, node, depth)}{#if answerHref&&label}<a class="answer-jump" href={partHref(node,depth)}>{label}</a>{:else}{label}{/if}{/snippet}
+{#snippet labelText(label, node, depth)}<span class:key-idea-number={isKeyIdeaNumber(question,label)}>{#if answerHref&&label}<a class="answer-jump" href={partHref(node,depth)}>{keyIdeaNumber(question,label)}</a>{:else}{keyIdeaNumber(question,label)}{/if}</span>{/snippet}
 
 {#snippet renderQuestionNode(node, depth = 0, index = 0, applications = null)}
   {@const label = hasEmbeddedResponseLabel(node) ? '' : nodeLabel(node, index, depth)}
@@ -195,6 +197,13 @@
   {/if}
 {/snippet}
 
+{#snippet groupedAnswerAnchors(node)}
+  {#each node.children ?? [] as child}
+    <span id={answerAnchorPrefix?answerAnchorPrefix+'part-'+child.id:undefined} aria-hidden="true"></span>
+    {@render groupedAnswerAnchors(child)}
+  {/each}
+{/snippet}
+
 {#snippet renderAnswerNode(node, path = [], index = 0, contexts = [], parent = null)}
   {@const nextPath = answerNodePath(question.content,node,path,index,parent)}
   {@const context = answerNodeContext(question.content,node,index,parent)}
@@ -207,11 +216,12 @@
     </div>
     {@render sharedSolutionFigures(node)}
   {:else}
-    <article class="answer-item" id={answerAnchorPrefix?answerAnchorPrefix+'part-'+node.id:undefined} data-node-id={node.id} style={compactAnswerSettings?'':questionLayoutStyle(node,blockLayouts)}><div class="answer-label" style={compactAnswerSettings?`flex:0 0 ${answerLabelWidthMm}mm;width:${answerLabelWidthMm}mm`:''}>{#if answerLink}<a href={answerLink}>{leafLabel(nextPath)}</a>{:else}{leafLabel(nextPath)}{/if}</div><div class="answer-content">
+    <article class="answer-item" class:full-column-answer={compactAnswerSettings&&showShortAnswers&&question.presentation?.shortAnswerTableFullWidth===true&&node.answer?.short?.blocks?.some(block=>block.type==='table')} id={answerAnchorPrefix?answerAnchorPrefix+'part-'+node.id:undefined} data-node-id={node.id} style={compactAnswerSettings?'':questionLayoutStyle(node,blockLayouts)}><div class="answer-label" style={compactAnswerSettings?`flex:0 0 ${answerLabelWidthMm}mm;width:${answerLabelWidthMm}mm`:''}>{#if answerLink}<a href={answerLink}>{leafLabel(nextPath,node)}</a>{:else}{leafLabel(nextPath,node)}{/if}</div><div class="answer-content">
+      {#if groupAnswer}{@render groupedAnswerAnchors(node)}{/if}
       {#if nextContexts.length}<div class="answer-context"><EditableBookletText value={nextContexts.join(' · ')} rootId={node.id} pointer="/prompt" editMode={false} /></div>{/if}
       {#if showShortAnswers}{#if node.answer?.short}<EditableBookletText value={shortAnswerDisplay(shortValue(node.answer.short))} displayValue={compactAnswerSettings?compactAnswerDisplay(shortAnswerDisplay(shortValue(node.answer.short))):null} rootId={node.id} pointer="/answer/short" {editMode} edited={isEdited(node.id, '/answer/short')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{:else if !node.answer?.solutionDiagrams?.length&&!parent?.sharedSolutionDiagrams?.length}<span class="muted">No short answer supplied.</span>{/if}{/if}
       {#if showShortAnswers}{@render solutionFigures(node)}{/if}
-      {#if showWorkedSolutions}<div class="worked-content">{#if node.answer?.worked}<EditableBookletText value={compactAnswerSettings||editMode ? node.answer.worked : setoutMathChain(node.answer.worked, { stackFirstTerm: true })} displayValue={compactAnswerSettings?setoutMathChain(node.answer.worked,{stackFirstTerm:false}):null} rootId={node.id} pointer="/answer/worked" {editMode} edited={isEdited(node.id, '/answer/worked')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{/if}{@render solutionFigures(node)}</div>{/if}
+      {#if showWorkedSolutions}<div class="worked-content">{#if node.answer?.worked}<EditableBookletText value={compactAnswerSettings||editMode ? node.answer.worked : setoutMathChain(node.answer.worked, { stackFirstTerm: true })} displayValue={compactAnswerSettings?compactAnswerProseGlue(setoutMathChain(node.answer.worked,{stackFirstTerm:false})):null} rootId={node.id} pointer="/answer/worked" {editMode} edited={isEdited(node.id, '/answer/worked')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{/if}{@render solutionFigures(node)}</div>{/if}
     </div></article>
     {#if groupAnswer}{@render sharedSolutionFigures(node)}{/if}
   {/if}
@@ -242,6 +252,7 @@
 </div>
 
 <style>
+  .key-idea-number{font-weight:400}
   .practice-question :global(.tikz-wrap){margin:0;min-height:0;overflow:visible}
   .practice-question.short-answer-key,.short-answer-key .answer-label,.short-answer-key .answer-label a{color:var(--short-answer-ink)}
   .short-answer-key :global(.editable-table th),.short-answer-key :global(.booklet-content th){color:inherit}
@@ -255,6 +266,8 @@
   .compact-answer .answer-item,.compact-answer .answer-children > .answer-item{display:flex!important;gap:2mm;padding:.8mm 0;border-bottom:.15mm solid var(--booklet-border)}
   .compact-answer .answer-label{flex:0 0 var(--answer-label-width);align-self:flex-start}
   .compact-answer .answer-content{flex:1;min-width:0}
+  .compact-answer .answer-item.full-column-answer{display:block!important}
+  .compact-answer .full-column-answer > .answer-label{margin-bottom:1mm}
   .compact-answer .answer-label a{color:inherit;text-decoration:none}
   .short-answer-key .answer-item,.short-answer-key .answer-children > .answer-item{border-bottom:0}
   .compact-answer .answer-content{text-align:left}
@@ -286,6 +299,7 @@
   .diagrams-beside > .answer-space { grid-column:1 / -1; }
   .question-line { display: flex; align-items: baseline; gap: var(--label-gap); }
   .question-line.tabular-prompt { align-items: flex-start; }
+  .question-line.tabular-prompt :global(.document-content > [data-table-wrap]:first-child) { margin-top:0!important; }
   .part-label { flex: none; min-width: var(--label-width); font-weight: 700; }
   .answer-jump { color: inherit; text-decoration: none; }
   .exam-label { display: block; font: inherit; font-weight: 800; }

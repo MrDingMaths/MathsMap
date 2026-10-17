@@ -25,6 +25,15 @@ test('actual widths choose three, two or one cells without reordering or crossin
   assert.deepEqual(shortAnswerRows(rows.flat()).map(r=>r.length),[3,2,1,2,1]);
 });
 
+test('explicit group starts prevent sharing a short-answer row with the preceding group',()=>{
+ const entries=Array.from({length:8},(_,i)=>({block:{...block('q'),presentation:{shortAnswerGroupStarts:['p4']},content:{id:'p'+i,answer:{short:'$2$'}}},section:{topicId:'t'}}));
+ const rows=packShortAnswerRows(entries,entries.map(()=>5),80);
+ assert.deepEqual(rows.map(row=>row.map(e=>e.block.content.id)),[['p0','p1','p2'],['p3'],['p4','p5','p6'],['p7']]);
+ assert.equal(rows[1][0].shortColumns,3);
+ const unchanged=packShortAnswerRows(entries.map(e=>({...e,block:{...e.block,presentation:{}}})),entries.map(()=>5),80);
+ assert.deepEqual(unchanged.map(row=>row.length),[3,3,2]);
+});
+
 test('brief mathematical methods span the column while final results can share',()=>{
  for(const value of ['$\\frac{30a}{5}=6a$',fromSource('$\\frac{3a+21}{3}=a+7$'),'$6+4=10$','$x=8/2=4$','$\\frac{80}{3}\\approx26.67$'])assert.equal(canShareShortAnswer(block('q',value)),false);
  for(const value of ['$6a$','$\\frac{3a+21}{3}$','$x=-2$',fromSource('$\\bar{x}=15$'),'$x_1=3$','$\\approx63.6\\%$','$\\angle XYZ=\\angle XZY$','$m=2,\\ c=3,\\ y=2x+3$','$3=\\log_2 8$','$x=2; y=3$'])assert.equal(canShareShortAnswer(block('q',value)),true,value);

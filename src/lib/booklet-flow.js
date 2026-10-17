@@ -241,7 +241,7 @@ export function flowEditionSections(project, edition='student') {
   const startsExercise = section => exerciseStarts.get(section.topicId)===section;
   const make = (section,mode) => ({...section,id:`${section.id}:${mode}`,sourceSectionId:section.id,mode,topicTitle:topics.get(section.topicId) ?? section.title,
     title:section.phase === 'front-matter' ? section.title : `${topics.get(section.topicId) ?? ''}${mode === 'student' ? '' : mode === 'short' ? ' · Short answers':' · Worked solutions'}`,
-    pageBreakBefore:mode==='student'&&startsExercise(section)?true:section.pageBreakBefore,
+    pageBreakBefore:mode==='student'&&startsExercise(section)?section.blocks[0]?.flow?.exercisePageBreakBefore!==false:section.pageBreakBefore,
     exerciseNumber:section.phase==='front-matter'?undefined:exercises[section.topicId],
     ...(project.settings?.numberPracticeTopicsOnly&&section.phase!=='front-matter'&&!exercises[section.topicId]?{unnumberedTopic:true}:{}),
     difficultyTitle:section.phase==='practice'&&exercises[section.topicId]?(startsExercise(section)?`Exercise ${exercises[section.topicId]}`:null):section.phase === 'practice' && section.showDifficultyHeading!==false ? section.title : null,

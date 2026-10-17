@@ -4,6 +4,8 @@ import {compactAnswerLabel,exerciseLabelWidth,answerNodePath,answerFragments} fr
 test('named answer views have readable separation and a matching gutter',()=>{
  assert.equal(compactAnswerLabel(1,['a','Front']),'1a Front');
  assert.equal(compactAnswerLabel(12,['b','ii']),'12bii');
+ assert.equal(compactAnswerLabel(10,['aa']),'10aa');
+ assert.equal(compactAnswerLabel(5,['bb']),'5bb');
  assert.equal(compactAnswerLabel(null,['a','Top']),'a Top');
  const width=exerciseLabelWidth([{sourceOrder:1,content:{id:'root',children:[{label:'a',children:[{label:'Front'}]}]}}]);
  assert.equal(width,'1a Front'.length*2.1);

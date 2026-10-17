@@ -20,6 +20,7 @@ import {validateContentScope,PRACTICE_ONLY_PROMPT,normalizePracticeInventory,val
 import {planTaskAssignments,createAuthorAssignmentQueue,assignmentPayload} from './author-assignments.mjs';
 import {workerConcurrency,withWorkerSlot} from './worker-pool.mjs';
 import {FIRST_PASS_PATTERNS} from './first-pass-patterns.mjs';
+import {COMPACT_IMPORT_PROMPT} from '../../src/lib/booklet-import-spacing.js';
 import {anchorResolved} from '../../public/libs/maths-editor/annotated-equation.mjs';
 import {contentNodes} from '../../src/lib/booklet-content-verification.js';
 import {reviewIssueMatchesExercise} from './import-verification.mjs';
@@ -107,6 +108,7 @@ export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=
   }
   if(stage==='author'){add('execution',`You are the assigned Sol ${configuration.effort} authoring worker. Complete this assignment directly; do not spawn, delegate to, or wait for other agents, and do not call collaboration tools. Return the final required JSON when finished. Report missing evidence as a finding instead of waiting.`);add('schema',isLeanReview(manifest)?COMPACT_SCHEMA.split('Each block: sourcePageNumber')[0]+'Each block retains sourcePageNumber and sourceRefs:[{pageNumber}]. Use sourceAtom for teaching headers and sourceReview.responses:[{targetId,kind:"none|cloze|inline|short|working|tick-cross"}] where response requirements control printed labels or space. Retain meaningful shared-source identities and taught-method references. Do not create per-block visualAudit, presentationRequirements, approval signatures or an exhaustive arrangement-review register. Preserve source-supported arrangements in editable content.':COMPACT_SCHEMA);add('solutions',COMPACT_SOLUTIONS);add('first-pass-patterns',FIRST_PASS_PATTERNS);}
   if(stage==='author'&&isLeanReview(manifest)){
+   add('compact-defaults',COMPACT_IMPORT_PROMPT);
    const selected=new Set(config.classificationSkillIds??[]),catalog=JSON.parse(read(new URL('../../data/skills.json',import.meta.url))),skills=catalog.filter(skill=>selected.has(skill.id));
    const missing=[...selected].filter(id=>!skills.some(skill=>skill.id===id));
    if(missing.length)throw Error('Unknown authoring classification skills: '+missing.join(', '));

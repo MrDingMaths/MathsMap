@@ -4,11 +4,59 @@ import {normalizeDocument,fromSource,renderDocument,paragraph} from '../public/l
 import {locateDocumentNode,removeDocumentNode,transformDocumentLayout} from '../public/libs/maths-editor/document-operations.mjs';
 import {hasVisibleContent} from '../src/lib/document-content.js';
 import {createEditableProject} from '../src/lib/editable-booklet-model.js';
-import {bookletLayoutSelection,applyBookletLayout} from '../src/lib/booklet-direct-layout.js';
+import {bookletLayoutSelection,applyBookletLayout,containerSpacingFields} from '../src/lib/booklet-direct-layout.js';
 import {arrangementItems} from '../public/libs/maths-editor/arrangement-model.mjs';
 import {resolveArrangement} from '../src/lib/booklet-arrangement.js';
 const p=(id,text=id)=>({...paragraph([{type:'text',text,marks:[]}]),id});
 const nested=()=>normalizeDocument({blocks:[{id:'layout',type:'layout',columns:2,slots:[{id:'left',blocks:[p('a'),p('b')]},{id:'right',blocks:[{id:'table',type:'table',rows:[[{id:'cell',blocks:[p('cell-p')]}]]}]}]},p('last')]});
+
+test('selected container spacing edits renderer fields without changing nested content or surrounding arrangement',()=>{
+ const project=createEditableProject({id:'container',title:'Container',sections:[{id:'s',title:'Theory',blocks:[{id:'b',type:'callout',content:nested()}]}]});
+ const resolved=resolveArrangement(project.sections[0].blocks[0]),item=arrangementItems(resolved.tree.root).find(i=>resolved.entries.get(i.ref)?.value?.blocks?.[0]?.id==='layout'),selection={blockId:'b',id:item.id};
+ let next=applyBookletLayout(project,selection,'document-spacing',{property:'padding',value:0});
+ next=applyBookletLayout(next,selection,'document-spacing',{property:'margin',value:0});
+ const doc=next.sections[0].blocks[0].content;
+ assert.equal(doc.blocks[0].padding,0);assert.equal(doc.blocks[0].margin,0);
+ assert.deepEqual(doc.blocks[0].slots,project.sections[0].blocks[0].content.blocks[0].slots);
+ assert.deepEqual(bookletLayoutSelection(next,selection).tree,resolved.tree);
+ assert.match(renderDocument(doc),/margin:0mm 0;padding:0mm/);
+ for(const options of [{property:'spaceBefore',value:0},{property:'padding',value:-1},{property:'padding',value:21},{property:'padding',value:NaN}])assert.throws(()=>applyBookletLayout(project,selection,'document-spacing',options),/supported container spacing/);
+ assert.deepEqual(containerSpacingFields({type:'layout',arrangement:'speech-bubble'}).map(f=>f[0]),['margin','paddingHorizontalMm','paddingVerticalMm']);
+});
+
+test('main-panel spacing fields match rendered document types and their limits',()=>{
+ for(const [type,property,value,pattern]of [['paragraph','indent',8,/padding-left:8mm/],['spacer','height',22,/height:22mm/],['list','indent',9,/padding-left:9mm/],['image','spaceAfter',5,/margin-bottom:5mm/],['table','marginBefore',0,/margin:0mm/]]){
+  const nodes={paragraph:p('node'),spacer:{id:'node',type:'spacer',height:15},list:{id:'node',type:'list',items:[{id:'li',blocks:[p('list-p')]}]},image:{id:'node',type:'image',src:'data:image/png;base64,AA=='},table:{id:'node',type:'table',rows:[[{id:'cell',blocks:[p('cell-p')]}]]}};
+  const project=createEditableProject({id:'fields',title:'Fields',sections:[{id:'s',title:'Theory',blocks:[{id:'b',type:'callout',content:normalizeDocument({blocks:[nodes[type]]})}]}]});
+  const resolved=resolveArrangement(project.sections[0].blocks[0]),selection={blockId:'b',id:arrangementItems(resolved.tree.root)[0].id};
+  const next=applyBookletLayout(project,selection,'document-spacing',{property,value});
+  assert.match(renderDocument(next.sections[0].blocks[0].content),pattern);
+ }
+ assert.equal(containerSpacingFields({type:'paragraph'}).find(f=>f[0]==='lineHeight')[3],3);
+ assert.deepEqual(containerSpacingFields({type:'layout',arrangement:'scaffold',slots:[{},{}]}).map(f=>f[0]),['margin','padding','gap']);
+ assert.deepEqual(containerSpacingFields({type:'layout',arrangement:'cards',slots:[{},{}]}).map(f=>f[0]),['margin','padding','paddingHorizontalMm','paddingVerticalMm','gap']);
+});
+
+test('optional speech and card frame padding preserves old output and supports zero without migration',()=>{
+ for(const [arrangement,labelled,multiple,original]of [['speech-bubble',false,false,'padding:2mm 4mm'],['speech-bubble',false,true,'padding:4mm;'],['cards',true,true,'padding:2mm;'],['cards',false,true,'padding:2mm;']]){
+  const raw={blocks:[{id:'frame',type:'layout',arrangement,columns:multiple?2:1,slots:Array.from({length:multiple?2:1},(_,i)=>({id:'slot-'+i,...(labelled?{label:String(i+1)}:{}),blocks:[p('text-'+i)]}))}]};
+  const doc=normalizeDocument(raw);assert.equal(Object.hasOwn(doc.blocks[0],'paddingHorizontalMm'),false);assert.equal(Object.hasOwn(doc.blocks[0],'paddingVerticalMm'),false);
+  assert.ok(renderDocument(doc).includes(original));
+  const overridden=normalizeDocument({blocks:[{...doc.blocks[0],paddingHorizontalMm:0,paddingVerticalMm:1}]});
+  assert.ok(renderDocument(overridden).includes('padding:1mm 0mm'));
+  assert.deepEqual(overridden.blocks[0].slots,doc.blocks[0].slots);
+ }
+});
+
+test('selected-group answer heights update both saved arrangement and response overrides without changing answers',()=>{
+ const project=createEditableProject({id:'spaces',title:'Spaces',sections:[{id:'s',title:'Exercise',blocks:[{id:'q',type:'question',content:{id:'root',children:[{id:'a',label:'a',prompt:'First',answerSpaceMm:20,answer:{short:'1',worked:'One'}},{id:'b',label:'b',prompt:'Second',answerSpaceMm:25,answer:{short:'2',worked:'Two'}}]}}]}]});
+ const selection={blockId:'q',id:'root:parts'},state=bookletLayoutSelection(project,selection);
+ assert.equal(state.spaces.length,2);assert.equal(state.spaceHeight,'');
+ const next=applyBookletLayout(project,selection,'answer-spaces',{value:12});
+ assert.equal(bookletLayoutSelection(next,selection).spaceHeight,12);
+ assert.equal(next.settings.layoutOverrides.answerSpaces.a,12);assert.equal(next.settings.layoutOverrides.answerSpaces.b,12);
+ assert.deepEqual(next.sections,project.sections);
+});
 test('intentional blank lines survive normalization and rendering; placeholders collapse',()=>{
  const blank=normalizeDocument({blocks:[{...p('blank',''),preserveEmpty:true}]}),placeholder=fromSource('');
  assert.equal(hasVisibleContent(blank),true);assert.equal(hasVisibleContent(placeholder),false);assert.match(renderDocument(blank),/data-preserve-empty="true"/);

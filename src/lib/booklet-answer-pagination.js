@@ -26,6 +26,9 @@ export async function paginateCompactAnswers(project,edition,measure,{cancelled=
     const prior=cached.prior?.checkpoints[i];
     if(i>begin&&prior&&cached.suffix(i)&&column===prior.column&&columns.every((c,j)=>samePageCarry(c,prior.columns[j]))){pages.push(...cached.prior.pages.slice(prior.pageCount).map(p=>({...p})));issues.push(...cached.prior.issues.slice(prior.issueCount));cached.entry.checkpoints.push(...cached.prior.checkpoints.slice(i));columns=Array.from({length:count},()=>[]);break;}
     cached.entry.checkpoints.push(checkpoint);
+    // A local worked-answer break leaves Questions and short answers untouched.
+    // Flush once per owning block, before any of its answer fragments.
+    if(block.flow?.workedPageBreakBefore===true)flush();
       const fragments=units[i].fragments??answerFragments(block,mode);
       for(let f=0;f<fragments.length;f++){
         const fragment=fragments[f];
@@ -36,6 +39,22 @@ export async function paginateCompactAnswers(project,edition,measure,{cancelled=
           const size=await measure(make());check();
           if(size.height<=size.capacity-footerReserve+.2)break;
           columns[column].pop();
+          // Opt in to filling the remaining page with the complete written
+          // field, followed by the intact solution diagram group.
+          if(columns[column].length&&block.flow?.workedAllowDiagramContinuation===true){
+            const split=workedAnswerDiagramFragments(fragment);
+            if(split){
+              columns[column].push({...entry,block:split[0]});
+              const textSize=await measure(make());check();
+              columns[column].pop();
+              if(textSize.height<=textSize.capacity-footerReserve+.2){
+                const remaining=columns[column];columns[column]=[{...entry,block:split[1]}];
+                const diagramSize=await measure(make());check();
+                columns[column]=remaining;
+                if(diagramSize.height<=diagramSize.capacity-footerReserve+.2){fragments.splice(f,1,...split);f--;break;}
+              }
+            }
+          }
           if(!columns[column].length){
             const split=workedAnswerDiagramFragments(fragment);
             if(split){

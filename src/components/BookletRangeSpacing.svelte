@@ -13,7 +13,7 @@
 <div class="selection-spacing" role="group" aria-label="Selected paragraph spacing">
  <p>{targets.length} selected paragraphs</p>
  <div class="presets">{#each [1,1.15,1.5,2]as value}<button aria-pressed={common('lineHeight',1.4)===value} onclick={()=>{preview('lineHeight',value);commit();}}>{value===1?'Single':value===2?'Double':value}</button>{/each}</div>
- {#each properties as [property,label,fallback]}<label>{label}<input aria-label={label} type="number" min={property==='lineHeight'?1:0} step={property==='lineHeight'?.05:.5} value={common(property,fallback)} placeholder={common(property,fallback)===''?'Mixed':''} oninput={e=>preview(property,e.currentTarget.value)} onchange={commit} onkeydown={key}/></label>{/each}
+ {#each properties as [property,label,fallback]}<label>{label}<input aria-label={label} type="number" min={property==='lineHeight'?1:0} max={property==='lineHeight'?3:300} step={property==='lineHeight'?.05:.5} value={common(property,fallback)} placeholder={common(property,fallback)===''?'Mixed':''} oninput={e=>preview(property,e.currentTarget.value)} onchange={commit} onkeydown={key}/></label>{/each}
 </div>
 <style>
  .presets{display:flex;gap:5px}.presets button{flex:1}button[aria-pressed=true]{outline:2px solid #52769a}label{display:grid;gap:6px;margin:12px 0}input,button{min-height:32px;font:inherit;color:inherit;background:var(--panel,#fff);border:1px solid var(--border,#cbd5e1);border-radius:5px;padding:6px;box-sizing:border-box}input{width:100%}p{font-size:13px}

@@ -7,6 +7,20 @@ import {spawnSync} from 'node:child_process';
 import {chromium} from 'playwright-core';
 import katex from 'katex';
 import {hasTopAlignedMathPrompt} from '../src/lib/booklet-labels.js';
+import {renderDocument} from '../public/libs/maths-editor/document-model.mjs';
+import {alignNativeTableLabel} from '../src/lib/booklet-table-label.js';
+
+test('labels beside native tables share the opening row baseline on screen and print',async()=>{
+ const css=fs.readFileSync(new URL('../src/components/BookletArrangement.svelte',import.meta.url),'utf8').split('<style>')[1].split('</style>')[0].replaceAll(':global(',':is(');
+ const browser=await chromium.launch({headless:true,channel:'chrome'});
+ try{const page=await browser.newPage();
+ const table=renderDocument({blocks:[{type:'table',border:false,padding:0,rowHeights:[12,10],rows:[[{type:'cell',verticalAlign:'middle',blocks:[{type:'paragraph',inlines:[{type:'text',text:'Opening row'}]}]}],[{type:'cell',blocks:[{type:'paragraph',inlines:[{type:'text',text:'Second row'}]}]}]]}]});
+ await page.setContent(`<style>${css}.booklet-arrangement{width:160mm}.probe{display:inline-block;width:0;height:0}</style><div class="booklet-arrangement"><div class="arr-group labelled baseline-label"><div class="arr-item label-item">a<span class="probe"></span></div><div class="arr-item"><div class="document-content">${table}</div></div><div class="arr-item arr-space" style="height:18mm"></div></div></div>`);
+ await page.locator('td p').first().evaluate(el=>el.insertAdjacentHTML('beforeend','<span class="probe"></span>'));
+ await page.evaluate(source=>{window.nativeTableLabelAction=(0,eval)('('+source+')')(document.querySelector('.labelled'),true);},alignNativeTableLabel.toString());
+ for(const media of ['screen','print']){await page.emulateMedia({media});const y=await page.locator('.probe').evaluateAll(ns=>ns.map(n=>n.getBoundingClientRect().bottom));assert.ok(Math.abs(y[0]-y[1])<.5,media+': label follows the first table row, including row height');assert.ok(await page.locator('.arr-space').evaluate(el=>el.getBoundingClientRect().height)>=18*96/25.4-.1);}
+ }finally{await browser.close();}
+});
 
 test('multiline native maths keeps its label above the second row on screen and print',async()=>{
  const css=fs.readFileSync(new URL('../src/components/BookletArrangement.svelte',import.meta.url),'utf8').split('<style>')[1].split('</style>')[0];
@@ -88,7 +102,7 @@ test('default question-grid cells share first baselines while writing heights an
  const css=fs.readFileSync(new URL('../src/components/BookletArrangement.svelte',import.meta.url),'utf8').split('<style>')[1].split('</style>')[0].replaceAll(':global(',':is(');
  const browser=await chromium.launch({headless:true,channel:'chrome'});
  try{const page=await browser.newPage();
- const cell=(id,tall,automatic=true,vertical='start')=>`<div id="${id}" data-arrangement-id="${id}" class="arr-group labelled baseline-label ${automatic?'auto-row-baseline':''}" style="--arr-vertical:${vertical};--arr-gap:2mm"><div class="arr-item label-item"><b>${id}</b><span class="baseline"></span></div><div class="arr-item"><span class="math ${tall?'tall':''}"></span>g(x)<span class="baseline"></span></div><div class="arr-item"><div class="arr-space" style="height:20mm"></div></div></div>`;
+ const cell=(id,tall,automatic=true,vertical='start')=>`<div id="${id}" data-arrangement-id="${id}" class="arr-group labelled baseline-label ${automatic?'auto-row-baseline':''}" style="--arr-vertical:${vertical};--arr-self-vertical:${automatic?'auto':vertical};--arr-gap:2mm"><div class="arr-item label-item"><b>${id}</b><span class="baseline"></span></div><div class="arr-item"><span class="math ${tall?'tall':''}"></span>g(x)<span class="baseline"></span></div><div class="arr-item"><div class="arr-space" style="height:20mm"></div></div></div>`;
  await page.setContent(`<style>${css}.booklet-arrangement{width:180mm}.arr-row{grid-template-columns:repeat(3,minmax(0,1fr));--arr-gap:2mm}.baseline{display:inline-block;width:0;height:0}.math{display:inline-block;height:3mm;width:1mm}.math.tall{height:10mm;vertical-align:-2mm}</style><div class="booklet-arrangement"><div class="arr-group arr-row">${cell('a',false)}${cell('b',true)}${cell('c',false)}</div><div class="arr-group arr-row" id="manual" style="min-height:50mm">${cell('d',false,false,'center')}${cell('e',true,false,'start')}</div></div>`);
  for(const media of ['screen','print']){await page.emulateMedia({media});const actual=await page.evaluate(()=>({baselines:['a','b','c'].map(id=>document.querySelector('#'+id+' .baseline').getBoundingClientRect().bottom),spaces:[...document.querySelectorAll('.arr-space')].map(e=>e.getBoundingClientRect().height),manual:getComputedStyle(document.querySelector('#d')).alignSelf}));assert.ok(Math.max(...actual.baselines)-Math.min(...actual.baselines)<.1,media+': fraction and ordinary prompts must share first baseline');assert.ok(actual.spaces.every(h=>Math.abs(h-20*96/25.4)<.1),media+': preserve each20mm handwriting region');assert.equal(actual.manual,'center',media+': explicit manual alignment wins');}
  }finally{await browser.close();}

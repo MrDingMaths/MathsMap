@@ -1,6 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {expectedAnswerNodeIds,assertAnswerNodeCoverage} from '../scripts/booklet/check-compact-exercises.mjs';
+import {expectedAnswerNodeIds,assertAnswerNodeCoverage,assertAnswerRenderCoverage} from '../scripts/booklet/check-compact-exercises.mjs';
+
+test('consolidated answer tables count inline native diagrams and still reject missing or duplicated models',()=>{
+ const answer={format:'maths-editor-document-v1',blocks:[{type:'table',rows:[[{blocks:[{id:'model',type:'paragraph',inlines:[{type:'text',text:'[tikz]\\begin{tikzpicture}\\draw (0,0)--(1,0);\\end{tikzpicture}[/tikz]'}]}]}]]}]};
+ const p=project({id:'root',children:[leaf('a')],answer:{short:answer,worked:answer}});
+ for(const mode of ['short','worked']){
+  assert.doesNotThrow(()=>assertAnswerRenderCoverage([{id:'root'}],['model'],p,mode));
+  assert.throws(()=>assertAnswerRenderCoverage([{id:'root'}],[],p,mode));
+  assert.throws(()=>assertAnswerRenderCoverage([{id:'root'}],['model','model'],p,mode));
+ }
+});
 
 const leaf=id=>({id,type:'part',answer:{short:'1',worked:'One observation.'}});
 const project=content=>({id:'answer-coverage',settings:{},topics:[{id:'topic',title:'Topic'}],sections:[{id:'practice',topicId:'topic',phase:'practice',role:'practice',blocks:[{id:'question',type:'question',content}]}]});

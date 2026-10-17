@@ -1,5 +1,26 @@
 import {arrangementCatalog} from './booklet-arrangement.js';
 
+// Structural commands clone blocks, including ones they did not change. Only
+// content/type changes need their saved layout pointers reconciled.
+export function reconcileProjectLayouts(before, next) {
+ const previous=new Map(before.sections.flatMap(s=>s.blocks).map(b=>[b.id,b]));
+ let layouts=next.settings.layoutOverrides.blockLayouts,changed=false;
+ for(const block of next.sections.flatMap(s=>s.blocks)){
+  const old=previous.get(block.id),holder=layouts[block.id];
+  if(!old||old===block||!holder?.arrangement)continue;
+  if(old.type===block.type&&(block.type==='question'
+   ?JSON.stringify(old.content)===JSON.stringify(block.content)
+   :JSON.stringify(old)===JSON.stringify(block)))continue;
+  const updated=structuredClone(holder);
+  reconcileSyncLayout(old,block,updated,{editable:true});
+  if(JSON.stringify(updated)!==JSON.stringify(holder)){
+   if(!changed)layouts={...layouts};
+   layouts[block.id]=updated;changed=true;
+  }
+ }
+ return changed?{...next,settings:{...next.settings,layoutOverrides:{...next.settings.layoutOverrides,blockLayouts:layouts}}}:next;
+}
+
 // Layout belongs to the destination. Only replace its content pointers; retain
 // group structure, item IDs, sizing and spacing when a field changes format.
 export function reconcileSyncLayout(before, after, holder, {editable=false}={}) {
@@ -18,6 +39,15 @@ export function reconcileSyncLayout(before, after, holder, {editable=false}={}) 
  const visit=value=>{
   if(!value||typeof value!=='object')return;
   if(value.arrangement?.root){
+   // Turning a single response into a multipart question changes the owner of
+   // the old writing space. Recompose that structure so every appended part is
+   // present, retaining sizes of surviving diagram and text slots.
+   if(before.content?.answer&&!before.content?.children?.length&&after.content?.children?.length&&!after.content?.answer){
+    const prior=new Map();const collect=n=>{if(n.ref)prior.set(n.ref,n);n.children?.forEach(collect);};collect(value.arrangement.root);
+    const next=structuredClone(catalog.initial.root);
+    const preserve=n=>{const old=prior.get(n.ref);if(old)for(const key of ['width','height','weight','align'])if(old[key]!==undefined)n[key]=old[key];n.children?.forEach(preserve);};preserve(next);
+    value.arrangement.root=next;
+   }
    const tree=value.arrangement.root,items=[];
    const collect=n=>{if(n.type==='item')items.push(n);else n.children?.forEach(collect);};collect(tree);
    const replacements=new Map();

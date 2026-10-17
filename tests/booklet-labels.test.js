@@ -1,6 +1,36 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {teachingLabels,alphabeticLabel,labelledTeachingQuestion,hasEmbeddedResponseLabel,hasStandaloneMathTable,hasTopAlignedMathPrompt,keyIdeasClozeStatements} from '../src/lib/booklet-labels.js';
+import {hasNativeTableBaseline} from '../src/lib/booklet-labels.js';
+import {isKeyIdeaNumber,keyIdeaNumber} from '../src/lib/booklet-labels.js';
+
+test('Key Ideas ignores only empty non-response roots and preserves introductions and nested tasks',()=>{
+ const statement={id:'statement',label:'1',prompt:'A statement'};
+ const block={pedagogyRole:'key-ideas',content:{id:'root',prompt:'',children:[statement]},sourceReview:{responses:[{targetId:'root',kind:'none'},{targetId:'statement',kind:'cloze'}]}};
+ assert.deepEqual(keyIdeasClozeStatements(block),[statement]);
+ assert.equal(keyIdeasClozeStatements({...block,content:{...block.content,prompt:'Keep this introduction'}}),null);
+ assert.equal(keyIdeasClozeStatements({...block,sourceReview:{responses:[...block.sourceReview.responses,{targetId:'diagram',kind:'none'}]}}),null);
+ assert.equal(keyIdeasClozeStatements({...block,content:{...block.content,children:[{...statement,children:[statement]}]}}),null);
+});
+
+test('Key Ideas numeric labels use plain decimal punctuation without renumbering source continuations',()=>{
+ const block={sourceAtom:{kind:'key-ideas'}};
+ for(const [input,expected] of [['1','1.'],['3','3.'],['12.','12.'],['a','a'],['','']])assert.equal(keyIdeaNumber(block,input),expected);
+ assert.equal(isKeyIdeaNumber(block,'a'),false);
+ assert.equal(keyIdeaNumber({sourceAtom:{kind:'example'}},'1'),'1');
+});
+
+test('native table baseline detection distinguishes first-row text from TeX stacks',()=>{
+ for(const border of [false,true])assert.equal(hasNativeTableBaseline({blocks:[{type:'table',border,rows:[[],[]]}]}),true);
+ assert.equal(hasNativeTableBaseline({blocks:[{type:'paragraph'},{type:'table'}]}),false);
+ assert.equal(hasNativeTableBaseline({blocks:[{type:'paragraph',inlines:[{type:'math',latex:String.raw`\begin{array}{c}a\\b\end{array}`}]}]}),false);
+ assert.equal(hasNativeTableBaseline('Text'),false);
+});
+
+test('native table prompts align labels with the first row, including borderless scaffolds',()=>{
+ for(const border of [true,false])assert.equal(hasTopAlignedMathPrompt({blocks:[{type:'table',border,rows:[[],[]]}]}),true);
+ assert.equal(hasTopAlignedMathPrompt({blocks:[{type:'paragraph',inlines:[{type:'text',text:'Ordinary prompt'}]},{type:'table',rows:[]}]}),false);
+});
 
 test('source-numbered review groups omit a redundant outer number and retain following numbering',()=>{
  const atom={id:'review-box',kind:'review'},group={id:'grouped-review',type:'question',sourceAtom:atom,content:{id:'review-root',type:'group',label:'',prompt:'',children:[{id:'review-one',label:'1',prompt:'First task'},{id:'review-two',label:'2',prompt:'Second task'},{id:'review-three',label:'3',prompt:'Third task'}]}},next={id:'next-review',type:'question',sourceAtom:atom,content:{id:'next-root',label:'',prompt:'Fourth task'}};
@@ -118,12 +148,13 @@ test('standalone math tables use top labels while prose and equations keep their
  assert.equal(hasStandaloneMathTable({blocks:[{type:'table'}]}),false);
 });
 
-test('multiline display prompts use top labels without changing prose or inline maths',()=>{
+test('standalone multiline prompts use top labels in inline and display encodings',()=>{
  const latex=String.raw`\begin{aligned}(8^4)^2\times8^3\\=8^{11}\end{aligned}`;
  const doc=(display,inlines=[])=>({blocks:[{type:'paragraph',inlines:[...inlines,{type:'math',latex,display}]}]});
  assert.equal(hasTopAlignedMathPrompt(doc(true)),true);
  assert.equal(hasTopAlignedMathPrompt('$$'+latex+'$$'),true);
- assert.equal(hasTopAlignedMathPrompt(doc(false)),false);
+ assert.equal(hasTopAlignedMathPrompt(doc(false)),true);
+ assert.equal(hasTopAlignedMathPrompt('$'+latex+'$'),true);
  assert.equal(hasTopAlignedMathPrompt(doc(true,[{type:'text',text:'Simplify '} ])),false);
  assert.equal(hasTopAlignedMathPrompt({blocks:[{type:'paragraph',inlines:[{type:'math',latex:'x^2',display:true}]}]}),false);
  assert.equal(hasTopAlignedMathPrompt('ordinary prose'),false);

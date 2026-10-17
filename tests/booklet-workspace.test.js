@@ -27,9 +27,35 @@ test('manual breaks paginate without empty pages and removal rejoins content',as
  project=setPageBoundary(project,'d','remove');assert.equal((await paginateFlow(project,'student',measure)).pages.length,1);
  project=setPageBoundary(project,'d','after');assert.equal((await paginateFlow(project,'student',measure)).pages.length,1);
 });
+
+test('removing an exercise boundary joins the preceding teaching in all question editions',async()=>{
+ const project=fixture(),measure=async p=>({capacity:100,height:p.blocks.length*20});project.settings.exerciseOrganisation='topic';
+ project.sections[1].blocks[0].flow={pageBreakBefore:false};
+ for(const edition of ['student','with-short','with-worked']){
+  const before=await paginateFlow(project,edition,measure);
+  assert.notEqual(before.pages.find(p=>p.blocks.some(b=>b.id==='a')),before.pages.find(p=>p.blocks.some(b=>b.id==='c')));
+  const joined=await paginateFlow(setPageBoundary(project,'c','remove'),edition,measure);
+  assert.equal(joined.pages.find(p=>p.blocks.some(b=>b.id==='a')),joined.pages.find(p=>p.blocks.some(b=>b.id==='c')));
+ }
+});
 test('boundary labels distinguish imported source boundaries and explicit user breaks',()=>{
  const project=fixture();project.sections[1].blocks[1].flow={sourcePageBreakBefore:true};
  assert.equal(pageBoundaryKind(project,'d'),'source');assert.equal(pageBoundaryKind(setPageBoundary(project,'d','before'),'d'),'manual');assert.equal(pageBoundaryKind(setPageBoundary(project,'d','remove'),'d'),'automatic');
+});
+
+test('removing source pagination survives serialization without discarding source evidence',async()=>{
+ const project=fixture();project.sections=project.sections.slice(1);
+ const target=project.sections[0].blocks[1];
+ target.flow={sourcePageBreakBefore:true};target.sourceReview={sourcePagination:{page:71,breakBefore:true}};
+ const measure=async p=>({capacity:100,height:p.blocks.length*20});
+ assert.equal((await paginateFlow(project,'student',measure)).pages.length,2);
+ const reopened=JSON.parse(JSON.stringify(setPageBoundary(project,target.id,'remove')));
+ const saved=reopened.sections[0].blocks[1];
+ assert.equal(saved.flow.sourcePageBreakBefore,true);
+ assert.equal(saved.flow.pageBreakBefore,false);
+ assert.deepEqual(saved.sourceReview,target.sourceReview);
+ assert.equal(pageBoundaryKind(reopened,target.id),'automatic');
+ for(const edition of ['student','with-short','with-worked'])assert.equal((await paginateFlow(reopened,edition,measure)).pages.filter(p=>p.mode==='student').length,1);
 });
 test('untitled bank questions show skill and maths, and search includes later parts',()=>{
  const question={id:'opaque-id',title:'',classification:{primarySkillId:'indices'},content:{prompt:'Simplify',children:[{prompt:'$(x^7)^4$'},{prompt:'A distinctive later expression'}]}};

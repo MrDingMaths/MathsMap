@@ -33,6 +33,7 @@
   import {documentSearchIndex,searchDocumentEntries} from '../lib/booklet-document-search.js';
   import {theme} from '../lib/theme.svelte.js';
   import BookletQuestionSpacing from './BookletQuestionSpacing.svelte';
+  import BookletLayoutActions from './BookletLayoutActions.svelte';
   import {bookletColours,DOCUMENT_INSERT_TOOLS,applyQuestionSpacing,syncDiagramPresentation} from '../lib/booklet-document-tools.js';
   import {applyBlockSpacing} from '../lib/booklet-bulk-spacing.js';
   import {captureBookletTextRange,applyBookletTextRange,copyBookletTextRange,replaceBookletTextRange,documentTextLength,joinDocumentParagraph,selectedBookletParagraphs,setBookletParagraphSpacing} from '../lib/booklet-text-selection.js';
@@ -41,7 +42,7 @@
   import {replaceParagraphSlice} from '../lib/booklet-document-fragments.js';
   import {canKeepPageEditor} from '../lib/booklet-pagination-work.js';
   import {answerDiagramWidth,withAnswerDiagramWidth} from '../lib/booklet-exercises.js';
-  import {reconcileSyncLayout} from '../lib/question-sync-layout.js';
+  import {reconcileProjectLayouts} from '../lib/question-sync-layout.js';
   import { adoptHouseStyle, BOOKLET_HOUSE_STYLE, houseStyleVariables } from '../lib/booklet-house-style.js';
   import {teachingLabels} from '../lib/booklet-labels.js';
   import { independentAnswerPages } from '../lib/booklet-answer-options.js';
@@ -241,6 +242,16 @@
   function editorExample(){const id=activeEditor?.closest?.('.worked-example-row[data-example-id]')?.dataset.exampleId,found=id&&project.sections.flatMap(s=>s.blocks).flatMap(b=>b.examples??[]).find(e=>e.id===id);return found?{id,layout:found.rowLayout??{}}:null;}
   function applyExampleRow(id,patch){finishInline();history.boundary();const has=b=>b.examples?.some(e=>e.id===id);change({...project,sections:project.sections.map(s=>s.blocks.some(has)?{...s,blocks:s.blocks.map(b=>has(b)?{...b,examples:b.examples.map(e=>e.id===id?{...e,rowLayout:{...e.rowLayout,...patch}}:e)}:b)}:s)});history.boundary();}
   function nativeLayoutPanel(node,config){return config.editor?.documentController.mountLayoutPanel(node,{category:config.category});}
+  const panelHasFocus=()=>!!document.activeElement?.closest('.workspace-panel,[data-equation-control]');
+  async function editSelectedDocument(){
+    const info=directLayout;if(!info)return;
+    const item=canvas?.querySelector(`[data-arrangement-block="${CSS.escape(info.block.id)}"] [data-arrangement-id="${CSS.escape(info.node.id)}"]`);
+    const origin=item?.querySelector('[data-host-id]'),view=origin&&documentSession.hosts.get(origin.dataset.hostId);
+    if(!view){error='Bring the selected table into view, then try again.';return;}
+    requestEdit({...view,hostId:origin.dataset.hostId,origin});await tick();
+    const c=activeEditor?.documentController,table=c?.surface.querySelector('table');
+    if(table)c.select(table.querySelector('td p,th p')??table);
+  }
   function deleteSelectedParagraph(){const c=activeEditor?.documentController;if(c?.selected?.type==='paragraph'){history.boundary();c.deleteNode(c.selectedId);history.boundary();}}
   function paragraphProperty(key,value){if(!activeEditor)return;history.boundary();activeEditor.documentController.modify(n=>{if(n.type==='paragraph')n[key]=Number(value);});history.boundary();}
   const inlineEditing={get session(){return inlineSession;},close:finishInline,
@@ -250,7 +261,7 @@
     afterPagination(saved){if(!saved||saved.keepMounted)return;const fields=[...canvas.querySelectorAll('[data-edit-root="'+CSS.escape(saved.rootId)+'"][data-edit-path="'+CSS.escape(saved.pointer)+'"]')].filter(el=>!saved.renderMode||el.closest('[data-page-mode]')?.dataset.pageMode===saved.renderMode);const nodeId=saved.bookmark?.start?.nodeId,offset=saved.bookmark?.start?.offset??0;const field=fields.find(el=>{const value=documentSession.hosts.get(el.dataset.hostId)?.value;return nodeId&&(value?.blocks&&locateDocumentNode(value,nodeId)||el.querySelector('[data-id="'+CSS.escape(nodeId)+'"]'))&&(!el.hasAttribute('data-fragment-start')||offset>=Number(el.dataset.fragmentStart)&&offset<=Number(el.dataset.fragmentEnd));})??fields.find(el=>el.closest('.flow-paper'));paginationSelection=saved.bookmark;const view=field&&documentSession.hosts.get(field.dataset.hostId);if(view){requestEdit({...saved,...view,hostId:field.dataset.hostId,origin:field});}else{finishInline();documentSelection=null;}paginationSelection=null;},
     host(session){return {
       get copiedTabs(){return copiedDocumentTabs;},set copiedTabs(value){copiedDocumentTabs=value;},
-      ready(editor){activeEditor=editor;attachEditor();if(session.bookmark)restoreEditorSelection(editor,session.bookmark);else placeEditorAtPoint(editor,session.point);documentSelection=currentAnchor();},
+      ready(editor){const keepPanelFocus=panelHasFocus();activeEditor=editor;attachEditor();if(!keepPanelFocus){if(session.bookmark)restoreEditorSelection(editor,session.bookmark);else placeEditorAtPoint(editor,session.point);}documentSelection=currentAnchor();},
       selection(bookmark){if(inlineSession?.key===session.key){inlineSession.bookmark=bookmark;documentSelection=currentAnchor();documentSession.select(documentSelection);const c=activeEditor?.documentController;nativeTable=!!(c?.selectedId&&c.surface.querySelector(`[data-id="${CSS.escape(c.selectedId)}"]`)?.closest('table'));}},
       detached(bookmark){if(inlineSession?.key===session.key&&bookmark)inlineSession.bookmark=bookmark;},
       beforeInput(){selectionBeforeEdit=currentAnchor();}, boundary(){history.boundary();}, composition(value){composing=value;if(!value)queueSave();}, undo:direction=>direction<0?undo():redo(),adjacent:editAdjacent,
@@ -321,6 +332,7 @@
   function formatDocument(name,value){history.boundary();if((textSelection?.crossSurface||textSelection?.ranges.length>1)&&['bold','italic','underline','colour'].includes(name)){const next=applyBookletTextRange(project,textSelection,name,value);finishInline();change(next);textSelection=null;return;}if(activeEditor&&inlineSession?.bookmark&&!activeEditor.contains(document.activeElement))restoreEditorSelection(activeEditor,inlineSession.bookmark);runEditorCommand(activeEditor,name,value);history.boundary();}
   async function replaceSelection(doc){const selection=textSelection;if(!selection)return;const first=selection.ranges[0],next=replaceBookletTextRange(project,selection,doc);finishInline();history.boundary();change(next);history.boundary();textSelection=null;window.getSelection()?.removeAllRanges();await tick();try{await flowPreview?.waitUntilReady();}catch{}const field=canvas?.querySelector('[data-edit-root="'+CSS.escape(first.rootId)+'"][data-edit-path="'+CSS.escape(first.pointer)+'"]');field?.querySelector('.clickable')?.click();if(inlineSession)inlineSession.point={offset:first.start+documentTextLength(doc)};}
   const spacingBlockIds=$derived(groupSelection.length?selectedFlowIds(project,groupSelection):selectedBlock?[selectedBlock.id]:[]);
+  function applyQuickLayout(next){finishInline();history.boundary();change(next);history.boundary();}
   // Arrangement values leave the open text editor alone; document values are
   // written to the project, so the editor's own copy is committed first.
   function spaceBlocks(key,value){try{const arrangement=key==='height'||key==='gap';if(!arrangement)finishInline();history.boundary();const next=applyBlockSpacing(project,spacingBlockIds,key,value);if(next!==project){change(next);if(arrangement)immediateLayoutGeneration=documentGeneration;}history.boundary();}catch(e){error=e.message;}}
@@ -350,6 +362,7 @@
     finishInline();const next=nextGroupSelection(project,{selection:groupSelection,anchor:selectionAnchor,ids,shift:!!event.shiftKey,toggle:!!(event.ctrlKey||event.metaKey)});
     groupSelection=next.selection;selectionAnchor=next.anchor;
     const first=contentTarget(project,groupSelection.includes(ids[0])?ids[0]:groupSelection[0]);selectedBlockId=first?.block?.id??ids[0];selectedSectionId=first?.section.id??selectedSectionId;selectedTargetId='';
+    if(groupSelection.length===1&&first?.block){const block=first.block,tree=resolveArrangement(block,project.settings.layoutOverrides.blockLayouts?.[block.id]?.arrangement,project.settings.layoutOverrides).tree;layoutSelection={blockId:block.id,id:tree.root.id,ids:[tree.root.id]};}else layoutSelection=null;
     selectCommentTarget(selectedBlockId);
   }
   // One structural change per move: a single undo step, with ids preserved so
@@ -381,7 +394,7 @@
     await tick();await flowPreview?.waitUntilReady();flowPreview?.jumpTo(block.id);await tick();
     document.querySelectorAll('.document-insert[open]').forEach(menu=>menu.open=false);const root=canvas.querySelector(`[data-document-group~="${CSS.escape(block.id)}"]`);const field=root?.querySelector('.atom-body .clickable,.body-box .clickable,.practice .clickable')??root?.querySelector('.clickable');field?.click();
   }catch(e){error=e.message;}}
-  async function addComment(){try{const edition=flexible?flowEdition:answerView;const anchor=feedbackSelectionAnchor(project,{documentSelection,textSelection},selectedTargetId||selectedBlockId,edition,inlineSession?currentAnchor():null);finishInline();documentSelection=anchor;commentsOpen=true;await tick();commentsPanel?.start(anchor);}catch(e){error=e.message;}}
+  async function addComment(){try{if(commentsPanel?.focusDraft?.()){commentsOpen=true;return;}const edition=flexible?flowEdition:answerView;const anchor=feedbackSelectionAnchor(project,{documentSelection,textSelection},selectedTargetId||selectedBlockId,edition,inlineSession?currentAnchor():null);finishInline();documentSelection=anchor;commentsOpen=true;await tick();commentsPanel?.start(anchor);}catch(e){error=e.message;}}
   let commentsPanel=$state(),exportedFeedback=$state('');
   async function flushDocument(){if(composing)throw Error('Finish the current text input first.');clearTimeout(saveTimer);while(saveInFlight)await new Promise(r=>setTimeout(r,20));if(saveConflict)throw Error('Resolve the save conflict first.');if(saveState!=='Saved')await persist();while(saveInFlight)await new Promise(r=>setTimeout(r,20));if(saveState!=='Saved')throw Error('Save failed. Your comments and edits are retained; retry saving before copying feedback.');}
   async function copyComments(ids){try{await flushDocument();exportedFeedback=feedbackPrompt(project,ids);try{await navigator.clipboard.writeText(exportedFeedback);status='Feedback prompt copied.';}catch{status='Select and copy the feedback prompt below.';}}catch(e){error=e.message;}}
@@ -450,7 +463,7 @@
       if(slice)for(const key of ['start','end'])if(bookmark?.[key]?.nodeId===slice.nodeId)bookmark[key].offset-=slice.start;
       inlineSession={...inlineSession,hostId:request.hostId,value,redistributing:false,hostNodeId:value?.blocks?.[0]?.id,fragmentIds:isDocument(value)?value.blocks.map(b=>b.id):null,paragraphSlice:slice,paragraphBase:original,bookmark,point:request.point};
       const c=activeEditor?.documentController;if(c){c.doc=isDocument(value)?normalizeDocument(value):fromSource(value);c.lastHostDocument=c.doc;c.render(null);}
-      tick().then(()=>{attachEditor();if(bookmark)restoreEditorSelection(activeEditor,bookmark);else placeEditorAtPoint(activeEditor,request.point);});return;
+      tick().then(()=>{attachEditor();if(!panelHasFocus()){if(bookmark)restoreEditorSelection(activeEditor,bookmark);else placeEditorAtPoint(activeEditor,request.point);}});return;
     }
     finishInline();groupSelection=[];
     const arrangement=request.origin?.closest('[data-arrangement-id]'),blockElement=arrangement?.closest('[data-arrangement-block]');
@@ -756,10 +769,7 @@
 
   function change(next, { rememberBefore = true, typingKey=null,structural=true,changedIds } = {}) {
     if(next===project)return;
-    const previousBlocks=new Map(project?.sections.flatMap(s=>s.blocks).map(b=>[b.id,b])??[]);
-    let layouts=next.settings.layoutOverrides.blockLayouts,layoutsChanged=false;
-    if(structural)for(const block of next.sections.flatMap(s=>s.blocks)){const old=previousBlocks.get(block.id),holder=layouts[block.id];if(old&&old!==block&&holder?.arrangement){const updated=clone(holder);reconcileSyncLayout(old,block,updated,{editable:true});if(JSON.stringify(updated)!==JSON.stringify(holder)){if(!layoutsChanged)layouts={...layouts};layouts[block.id]=updated;layoutsChanged=true;}}}
-    if(layoutsChanged)next={...next,settings:{...next.settings,layoutOverrides:{...next.settings.layoutOverrides,blockLayouts:layouts}}};
+    if(structural)next=reconcileProjectLayouts(project,next);
     documentSession.dispatch(reconcileFeedback(project,next),{remember:rememberBefore,typingKey,changedIds,selectionBefore:selectionBeforeEdit??documentSession.selection??currentAnchor(),selectionAfter:currentAnchor(),layoutImpact:structural?'structure':'content'});
     selectionBeforeEdit=null;undoStack=history.past;redoStack=history.future;
     saveState = 'Unsaved changes';
@@ -916,6 +926,7 @@
   function partLayoutNodes(block){const nodes=[];const visit=node=>{if(node.children?.length)nodes.push(node);node.children?.forEach(visit);};if(block.content){visit(block.content);if(nodes[0]!==block.content)nodes.unshift(block.content);}return nodes;}
   // A saved arrangement stores its rows, so regroup them with the content.
   function setPartLayout(node, value) {
+    finishInline();
     const columns=value==='list'?null:Number(value.split(':')[1]);
     try {
       let next=updateProjectContent(project,node.id,'/layout',columns?'grid':'list');
@@ -1023,7 +1034,7 @@
       if(mod&&['f','g','k'].includes(k)){e.preventDefault();e.stopImmediatePropagation();openFinder({f:'find',g:'goto',k:'commands'}[k]);return;}
       if((textSelection?.crossSurface||textSelection?.ranges.length>1)&&['Delete','Backspace'].includes(e.key)){e.preventDefault();e.stopImmediatePropagation();const next=applyBookletTextRange(project,textSelection,'delete');finishInline();change(next);textSelection=null;return;}
       if((textSelection?.crossSurface||textSelection?.ranges.length>1)&&!mod&&!e.altKey&&!e.isComposing&&(e.key.length===1||e.key==='Enter')){e.preventDefault();e.stopImmediatePropagation();selecting=false;replaceSelection(plainTextDocument(e.key==='Enter'?'\n':e.key));return;}
-      if(mod&&e.altKey&&k==='m'){e.preventDefault();addComment();return;}
+      if((e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.shiftKey&&(e.code==='Backquote'||k==='`'))||(mod&&e.altKey&&k==='m')){e.preventDefault();e.stopImmediatePropagation();if(!e.repeat&&!e.isComposing&&!composing)addComment();return;}
       if(mod&&k==='p'){e.preventDefault();printProject();return;}
       if(mod&&k==='s'){e.preventDefault();flushDocument().catch(err=>error=err.message);return;}
       if(e.target.closest('input,textarea,select,[contenteditable=true],math-field,maths-editor'))return;
@@ -1081,7 +1092,7 @@
   {#if project&&!flexible}<button disabled={!!editSession||!!busy} onclick={createFlexibleCopy}>Create flexible copy</button>{/if}
    <div class="toolbar-actions" inert={!!opening||printing}><span class="tool-group"><button data-equation-control title="Undo (Ctrl+Z)" onclick={undo} disabled={!undoStack.length}>Undo</button><button data-equation-control title="Redo (Ctrl+Y)" onclick={redo} disabled={!redoStack.length}>Redo</button></span>
    <span class="tool-group"><button title="Find in document (Ctrl+F)" aria-label="Find in document" onclick={()=>openFinder('find')}>Find</button><button title="Commands (Ctrl+K)" aria-label="Search commands" onclick={()=>openFinder('commands')}>Commands</button></span>
-   {#if project}<span class="tool-group panel-switch" role="group" aria-label="Panels" data-equation-control onpointerdown={e=>{if(e.target.closest('button'))e.preventDefault();}}><button bind:this={layoutPanelButton} class:on={panel==='layout'} aria-expanded={panel==='layout'} aria-controls="booklet-layout-spacing" onclick={()=>{inspectorTab='layout';panel='layout';}}>Spacing</button><details class="document-insert" class:on={commentsOpen}><summary>Comments {commentLocations.length||''}</summary><div><button onclick={addComment}>Add comment</button><button aria-expanded={commentsOpen} aria-controls="booklet-comments-pane" onclick={()=>commentsOpen=!commentsOpen}>{commentsOpen?'Hide comments':'Show comments'}</button></div></details><button class:on={panel==='review'} aria-expanded={panel==='review'} onclick={()=>togglePanel('review')}>Review {flagCount?`(${flagCount})`:''}</button><button class:on={panel==='pdf'} aria-expanded={panel==='pdf'} onclick={()=>togglePanel('pdf')}>Export</button></span>{/if}
+   {#if project}<span class="tool-group panel-switch" role="group" aria-label="Panels" data-equation-control onpointerdown={e=>{if(e.target.closest('button'))e.preventDefault();}}><button bind:this={layoutPanelButton} class:on={panel==='layout'} aria-expanded={panel==='layout'} aria-controls="booklet-layout-spacing" onclick={()=>{inspectorTab='layout';panel='layout';}}>Spacing</button><details class="document-insert" class:on={commentsOpen}><summary>Comments {commentLocations.length||''}</summary><div><button onclick={addComment} aria-keyshortcuts="Control+`" title="Add comment (Ctrl + backtick)">Add comment <kbd>Ctrl + `</kbd></button><button aria-expanded={commentsOpen} aria-controls="booklet-comments-pane" onclick={()=>commentsOpen=!commentsOpen}>{commentsOpen?'Hide comments':'Show comments'}</button></div></details><button class:on={panel==='review'} aria-expanded={panel==='review'} onclick={()=>togglePanel('review')}>Review {flagCount?`(${flagCount})`:''}</button><button class:on={panel==='pdf'} aria-expanded={panel==='pdf'} onclick={()=>togglePanel('pdf')}>Export</button></span>{/if}
    <details class="menu"><summary>File</summary><div><small class="menu-heading">Booklet</small><button onclick={createNew}>New booklet</button>{#if project}<button onclick={()=>panel='metadata'}>Project details</button>{#if project.library?.category==='master'}<button disabled={!!editSession||!!busy} onclick={()=>creation={source:project}}>Create class booklet</button>{/if}<button onclick={duplicateCurrent}>Duplicate booklet</button><button disabled={!!editSession||!!busy||librarySaveInFlight} onclick={toggleArchived}>{project.library?.archivedAt?'Restore booklet':'Archive booklet'}</button><small class="menu-heading">Check</small><button disabled={!sourceUrl} aria-pressed={comparison} onclick={toggleComparison}>{comparison?'Exit comparison':'Compare source'}</button><button onclick={checkCurrentPage}>Check page</button><small class="menu-heading">View</small><button onclick={()=>theme.toggle()}>Toggle theme</button><details class="submenu"><summary>Advanced{bankUpdates.length?` (${bankUpdates.length})`:''}</summary><button onclick={()=>{showBankSync=!showBankSync;refreshBankSync();}}>Bank sync{bankUpdates.length?` (${bankUpdates.length})`:''}</button><button onclick={()=>tool='assembly'}>Assembly</button><button onclick={()=>panel='properties'}>Block properties</button></details><hr/><button class="danger" onclick={removeCurrent}>Delete booklet</button>{:else}<small class="menu-heading">View</small><button onclick={()=>theme.toggle()}>Toggle theme</button>{/if}</div></details></div>
  </header>
  {#if opening}<div class="workspace-loading project-screen" aria-busy={!opening.error}>
@@ -1168,11 +1179,22 @@
      <div id="booklet-inspector-content" role="tabpanel" aria-labelledby={'booklet-inspector-'+inspectorTab}>
       {#if inspectorTab==='page'}<BookletPageControls block={selectedBlock} onboundary={pageBoundary} onlayout={pageLayout}/>
       {:else}
-       {#if inspectorTab==='layout'}
-        {#if spacingBlockIds.length}<section class="spacing-scope-section" aria-labelledby="whole-question-spacing-heading"><h3 id="whole-question-spacing-heading">{spacingBlockIds.length>1?spacingBlockIds.length+' selected blocks':selectedBlock?.type==='question'?'Whole question '+(questionNumbers[selectedBlock.id]??''):'Whole block'}</h3><BookletQuestionSpacing {project} blockIds={spacingBlockIds} onchange={spaceBlocks}/></section>{/if}
+       {#if inspectorTab==='layout'||inspectorTab==='tables'}
+        {#if spacingBlockIds.length}<section class="spacing-scope-section" aria-labelledby="whole-question-spacing-heading"><h3 id="whole-question-spacing-heading">{spacingBlockIds.length>1?spacingBlockIds.length+' selected blocks':selectedBlock?.type==='question'?'Whole question '+(questionNumbers[selectedBlock.id]??''):'Whole block'}</h3>
+         <BookletQuestionSpacing {project} blockIds={spacingBlockIds} category={inspectorTab} onchange={spaceBlocks}/>
+         {#if flexible&&selectedBlock}<BookletLayoutActions {project} blockId={selectedBlock.id} selection={layoutSelection?{...layoutSelection,nativeId:activeEditor?.documentController?.selectedId}:null} pageMap={flowEdition==='student'?flowMap:{pages:[],ready:false}} options={exportSettings} onfinish={finishInline} onchange={applyQuickLayout}/>{/if}
+         {#if inspectorTab==='layout'&&spacingBlockIds.length===1&&selectedBlock?.type==='question'}
+          {#each partLayoutNodes(selectedBlock).filter(node=>node.children?.length) as node (node.id)}
+           {@const custom=!!savedArrangement(selectedBlock.id)&&!regridParts(savedArrangement(selectedBlock.id),node,2)}
+           {@const current=node.layout==='grid'?'grid:'+(node.columns??2):'list'}
+           <label>{node===selectedBlock.content?'Part layout':'Layout of part '+(node.label??'')}<select aria-label={node===selectedBlock.content?'Part layout':'Layout of part '+(node.label??'')} value={current} disabled={custom} onchange={event=>setPartLayout(node,event.currentTarget.value)}><option value="list">List</option>{#each [2,3,4] as count}<option value={'grid:'+count}>{count} columns</option>{/each}{#if node.layout==='grid'&&node.columns>4}<option value={current}>{node.columns} columns</option>{/if}</select></label>
+           {#if custom}<small>These parts have a custom arrangement. Use Detailed arrangement… to move them.</small>{/if}
+          {/each}
+         {/if}
+         </section>{/if}
         <section class="spacing-scope-section" aria-labelledby="selected-item-spacing-heading"><h3 id="selected-item-spacing-heading">Selected item</h3>
-         {#if rangeParagraphs.length}<BookletRangeSpacing targets={rangeParagraphs} {canvas} oncommit={spaceSelectedParagraphs}/>{:else if activeEditor}{#key activeEditor}<BookletSelectionSpacing editor={activeEditor} questionLabel={selectedBlock?.type==='question'?'Question '+(questionNumbers[selectedBlock.id]??''):'Content'} onboundary={()=>history.boundary()} row={editorRow} onrow={applyEditorRow} example={editorExample} onexample={applyExampleRow}/>{/key}
-         {:else}<BookletDirectLayout info={directLayout} selection={layoutSelection} category={inspectorTab} oncommand={itemCommand}/>{#if selectedDiagram}{#if !directLayout}<label>Diagram width (mm)<input type="number" min="5" max="190" value={selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/></label>{/if}<button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button>{/if}{/if}
+         {#if inspectorTab==='layout'&&rangeParagraphs.length}<BookletRangeSpacing targets={rangeParagraphs} {canvas} oncommit={spaceSelectedParagraphs}/>{:else if activeEditor}{#key activeEditor}<BookletSelectionSpacing editor={activeEditor} category={inspectorTab} questionLabel={selectedBlock?.type==='question'?'Question '+(questionNumbers[selectedBlock.id]??''):'Content'} onboundary={()=>history.boundary()} row={editorRow} onrow={applyEditorRow} example={editorExample} onexample={applyExampleRow}/>{/key}
+         {:else}<BookletDirectLayout info={directLayout} selection={layoutSelection} category={inspectorTab} oncommand={itemCommand} onedit={editSelectedDocument}/>{#if selectedDiagram}{#if !directLayout}<label>Diagram width (mm)<input type="number" min="5" max="190" value={selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/></label>{/if}<button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button>{/if}{/if}
         </section>
        {:else if activeEditor}{#key activeEditor}{#key inspectorTab}<div class="native-layout-fields" use:nativeLayoutPanel={{editor:activeEditor,category:inspectorTab}}></div>{/key}{/key}
        {:else}<BookletDirectLayout info={directLayout} selection={layoutSelection} category={inspectorTab} oncommand={layoutCommand}/>

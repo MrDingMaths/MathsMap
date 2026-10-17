@@ -6,9 +6,11 @@
  import {createProjectBlock,snapshotBankQuestion,normalizeEditableProject} from '../lib/editable-booklet-model.js';
   import {feedbackText} from '../lib/booklet-feedback.js';
   import {questionCodeSearchIndex} from '../lib/booklet-document-search.js';
+  import {BLOCK_ROLES,blockRole,changeBlockRole} from '../lib/booklet-layout-actions.js';
   let {project,pages=[],bank=[],onrequestbank=null,onbank=null,onboundary=null,selectedBlockId='',activePage=0,selectedIds=[],onselection=null,onpick=null,documentClipboard=null,onpaste=null,disabled=false,onchange=null,onselect=null,onsection=null,onerror=null}=$props();
   let openMenus=$state({});
   let organising=$state(false),expandedTopic=$state(''),outlineQuery=$state('');
+  let allBlocksView=$state(false);
   const codes=$derived(questionCodeSearchIndex(project));
   const matches=unit=>!outlineQuery.trim()||unit.blocks.some(b=>(label(b)+' '+contentExcerpt(b.content,10000)).toLowerCase().includes(outlineQuery.trim().toLowerCase())||codes.some(c=>c.blockId===b.id&&c.code.toLowerCase().includes(outlineQuery.trim().toLowerCase())));
   $effect(()=>{const id=selectedBlockId;const topic=project.sections.find(s=>s.blocks.some(b=>b.id===id))?.topicId;expandedTopic=topic??project.topics[0]?.id??'';});
@@ -70,6 +72,16 @@
 <nav class="flow-outline" aria-label="Booklet outline" inert={disabled}>
  <div class="outline-title"><strong>Outline</strong><details class="item-menu"><summary aria-label="Booklet organisation">•••</summary><div><button onclick={newTopic}>Add topic</button></div></details></div>
  <input class="outline-search" aria-label="Search outline" placeholder="Search text or question code" bind:value={outlineQuery}/>
+ <label><input type="checkbox" bind:checked={allBlocksView}/>Show every block in page order</label>
+ {#if allBlocksView}
+  {#each project.sections.flatMap(s=>s.blocks.map(b=>({block:b,section:s}))).filter(({block:b})=>!outlineQuery||matches({blocks:[b]})) as item (item.block.id)}
+   {@const b=item.block}{@const p=pages.find(p=>p.blocks.some(v=>v.id===b.id||v.flow?.continuationOf===b.id))}
+   <div class="outline-block" data-outline-block={b.id}>
+    <button onclick={()=>onselect?.(b.id,item.section.id)}>{p?'p'+p.pageNumber+' · ':''}{label(b)}</button>
+    <label>Role<select aria-label={'Role for '+b.id} value={blockRole(b)} onchange={e=>attempt(()=>commit(changeBlockRole(project,b.id,e.currentTarget.value)))}>{#each BLOCK_ROLES as [role,title]}<option value={role}>{title}</option>{/each}</select></label>
+   </div>
+  {/each}
+ {:else}
  {#each project.topics.filter(t=>!outlineQuery||units.some(u=>project.sections.find(s=>s.id===u.sectionId)?.topicId===t.id&&matches(u))) as topic (topic.id)}
   {@const topicTicks=ticks(project.sections.filter(s=>s.topicId===topic.id).map(s=>s.id))}
   <section class="topic">
@@ -107,6 +119,7 @@
    {/if}
   </section>
  {/each}
+ {/if}
 </nav>
 <style>
  .flow-outline{font:14px system-ui;color:inherit}.outline-title,.topic-heading,.section-heading{display:flex;align-items:center;justify-content:space-between;gap:6px}.outline-title{margin-bottom:12px}.topic{border-bottom:1px solid var(--border,#e0e5eb);padding:4px 0}.topic-toggle{display:flex;align-items:baseline;gap:6px;text-align:left;flex:1}.topic-toggle strong{font-weight:600}.section-heading>button{color:var(--text-muted,#647181);font-size:12px;text-align:left}.section{padding-left:10px}.content-item{display:flex;align-items:start;border-radius:5px;margin:2px 0}.group-check{flex:none;width:15px;height:15px;margin:0 2px 0 4px;accent-color:#268cff;cursor:pointer}.section-heading>button{flex:1}.active{color:#183b58;background:#e8f2fc;box-shadow:inset 3px 0 #268cff}.picked{color:#183b58;background:#e8f2fc}.topic-heading.in-view .topic-toggle strong{box-shadow:inset 0 -2px #438ccc}.content-item.in-view{box-shadow:inset 2px 0 #438ccc88}.item-menu{position:relative}.item-menu>summary{cursor:pointer;list-style:none;padding:5px;font-size:13px;min-width:24px;text-align:center}.item-menu>div{position:absolute;right:0;top:100%;z-index:30;width:200px;max-height:360px;overflow:auto;padding:10px;border:1px solid var(--border,#ccd5df);border-radius:6px;background:var(--panel,#fff);box-shadow:0 4px 18px #0002}.item-menu>div button{display:block;width:100%;text-align:left;border:0;border-radius:4px;background:transparent;margin:1px 0}.item-menu>div button:hover:not(:disabled){background:var(--app-canvas,#eef1f5)}.item-menu label{display:grid;gap:4px;margin:8px 0}.item-menu .check{display:flex;align-items:center}button,input,select{font:inherit;color:inherit;background:transparent;border:0;min-height:32px;box-sizing:border-box;max-width:100%;border-radius:4px}button{cursor:pointer}input,select{border:1px solid var(--border,#ccd5df);background:var(--panel,#fff);padding:4px;width:100%}input[type=checkbox]{width:auto;min-height:0}button:hover,summary:hover{background:#268cff12}:focus-visible{outline:2px solid #268cff;outline-offset:1px}button:disabled{opacity:.45}

@@ -6,6 +6,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {fromSource} from '../../src/lib/document-content.js';
 
 const RELATION=String.raw`(?:=|<|>|\\(?:approx|leq?|geq?|neq?|equiv)(?![a-zA-Z]))`;
 const STARTS=new RegExp('^'+RELATION),ANY=new RegExp(RELATION);
@@ -41,6 +42,11 @@ const field=trail=>trail.includes('answer')?(trail.includes('worked')?'worked an
 export function missingEqualsGutter(value) {
   const hits=[];
   const walk=(node,owner,trail,cell)=>{
+    // Legacy answer/prompt fields are still editable source strings. Inspect
+    // their maths through the same native-document model as newer booklets.
+    if(typeof node==='string'&&['prompt','short','worked','theorySolution','solution_text','question_text'].includes(trail.at(-1))&&node.includes('$')){
+      walk(fromSource(node),owner,[...trail,'parsed-source'],cell);return;
+    }
     if(!node||typeof node!=='object')return;
     if(Array.isArray(node)){for(const child of node)walk(child,owner,trail,cell);return;}
     const next=typeof node.id==='string'&&(node.type==='question'||node.type==='part'||node.content||node.sourceAtom||trail.at(-1)==='examples')?node.id:owner;

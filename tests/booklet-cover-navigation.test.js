@@ -51,7 +51,7 @@ test('compact contents retain unnumbered syllabus, all topics, and only included
 // This checks DOM destinations/layout classes; final-size PDF inspection remains
 // a separate acceptance gate.
 const built = await build({
-  stdin:{contents:"import {render} from 'svelte/server'; import Cover from './src/components/BookletCover.svelte'; import Page from './src/components/TranscribedBookletPage.svelte'; export const cover = props => render(Cover,{props}).body; export const page = props => render(Page,{props}).body;", resolveDir:process.cwd()},
+  stdin:{contents:"import {render} from 'svelte/server'; import Cover from './src/components/BookletCover.svelte'; import Page from './src/components/TranscribedBookletPage.svelte'; import Practice from './src/components/PracticeQuestionRenderer.svelte'; export const practice = props => render(Practice,{props}).body; export const cover = props => render(Cover,{props}).body; export const page = props => render(Page,{props}).body;", resolveDir:process.cwd()},
   bundle:true, platform:'node', format:'esm', write:false,
   plugins:[{name:'cover-components', setup(builder) {
     // Browser-only TikZ startup is outside this diagram-free DOM fixture.
@@ -62,6 +62,20 @@ const built = await build({
   }}],
 });
 const rendered = await import('data:text/javascript;base64,' + Buffer.from(built.outputFiles[0].text).toString('base64'));
+
+test('a consolidated answer retains each nested part destination once in both answer editions', () => {
+ const content={id:'q',type:'question',label:'12',prompt:'Compare changes.',answer:{short:'Completed table',worked:'Completed table'},children:[
+  {id:'a',type:'part',label:'a',children:[{id:'a-mean',type:'part',label:'i',answer:{short:'increase',worked:'The mean increases.'}}]},
+  {id:'b',type:'part',label:'b',answer:{short:'decrease',worked:'The mean decreases.'}}
+ ]};
+ for(const mode of ['short','worked']){
+  const prefix=`print-answer-${mode}-`;
+  const html=rendered.practice({question:{id:'block',type:'question',content},number:12,showSpaces:false,showShortAnswers:mode==='short',showWorkedSolutions:mode==='worked',answerAnchorPrefix:prefix});
+  for(const id of ['q','a','a-mean','b'])assert.equal(html.split(`id="${prefix}part-${id}"`).length-1,1);
+  assert.equal(html.split('Completed table').length-1,1);
+  assert.doesNotMatch(html,/The mean increases|The mean decreases/);
+ }
+});
 
 test('named review exercises use the title column and keep their original destinations', () => {
   const bookletPages=[coverPage(),

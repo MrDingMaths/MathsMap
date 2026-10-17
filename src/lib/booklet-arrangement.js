@@ -16,7 +16,7 @@ export function arrangementQuestionBlock(question,number=null){
  return {...question,type:'question',sourceOrder:number??question.sourceOrder};
 }
 
-export const practiceContinuation=block=>block.type==='question'&&(block.flow?.fragment>0||block.flow?.continuationOf||block.continuationOf)&&!block.sourceAtom&&!teachingAnswerCategory(block);
+export const practiceContinuation=block=>block.type==='question'&&(block.flow?.fragment>0||block.flow?.continuationOf||block.continuationOf)&&(!block.sourceAtom||block.sourceAtom.kind==='instruction'&&block.flow?.repeatSharedStem===false)&&!teachingAnswerCategory(block);
 // Only a leading structural label is positioned outside the row's grid.
 // Matching endpoints at the end of a row are real columns.
 export const arrangementRowChildren=(node,entries)=>(node.children??[]).filter((child,index)=>index!==0||entries.get(child.ref)?.kind!=='label');
@@ -91,7 +91,7 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
    const prose=field(n,'prompt');
    if(hideStem){
     const continuationTable=block.flow?.tableContinuation?.tableId;
-    const retained=prose.filter(item=>entries.get(item.ref)?.nodeId===continuationTable);
+    const retained=continuationTable?prose.filter(item=>entries.get(item.ref)?.nodeId===continuationTable):[];
     emptyRefs.add(n.id+'/prompt');
     for(const item of prose)if(!retained.includes(item)){entries.delete(item.ref);emptyRefs.add(item.ref);}
     prose.splice(0,prose.length,...retained);
@@ -118,7 +118,8 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
    }
    else if(['beside-prompt','right-of-prompt'].includes(n.diagramPlacement)&&pics.length){const text=group(n.id+':text',[...prose,...children.length?[childGroup]:[]]);const images=group(n.id+':diagrams',pics);body=[group(n.id+':beside',n.diagramPlacement==='beside-prompt'?[images,text]:[text,images],'row')];}
    else body=[...(n.diagramPlacement==='before-prompt'?pics:[]),...prose,...(n.diagramPlacement!=='before-prompt'?pics:[]),...field(n,'afterDiagramPrompt'),...children.length?[childGroup]:[]];
-   if(!children.length){body.push(add(n.id+'/space',{kind:'space',ownerId:n.id,value:n.responseSpace==='scaffold'?0:estimateAnswerSpaceMm(n),title:'Answer space'}));}
+   if(!allChildren.length){body.push(add(n.id+'/space',{kind:'space',ownerId:n.id,value:n.responseSpace==='scaffold'?0:estimateAnswerSpaceMm(n),title:'Answer space'}));}
+   else if(!children.length)emptyRefs.add(n.id+'/space');
    field(n,'answer/short','answer-short');field(n,'answer/worked','answer-worked');
    for(const d of n.answer?.solutionDiagrams??[])add(d.id,{kind:'diagram',ownerId:n.id,diagramId:d.id,value:d,role:'answer-worked',title:d.alt??'Solution diagram'});
    return {...group(n.id+':question',[...labelItem,...body]),title:root?'Question '+(label??''):label?'Part '+label:'Unlabelled part '+(index+1)};

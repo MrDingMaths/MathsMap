@@ -128,6 +128,7 @@
 {/snippet}
 
 {#snippet questionView(block, number, answerHref = null)}
+  {#if block.presentation?.studentRole==='your-turn'&&solutionMode==='student'}<h3>Your turn</h3>{/if}
   {@const visibleNumber=usesReviewNumbers(block)?(labels[block.content.id]===''?null:Number(labels[block.content.id]??1)):usesTeachingLetters(block)?null:number}
   {@const trailing=page.blocks.find(b=>b.id===block.pairedBlockId&&!(block.sourceAtom&&b.sourceAtom))}
   {@const questionMode = teachingQuestionMode(block, {showReviewAnswers, showIdentifyAnswers, showGuidedPracticeAnswers, showKeyIdeasAnswers}, solutionMode)}

@@ -8,6 +8,7 @@ import {chromium} from 'playwright-core';
 import {inspectPrintedPdf} from './pdf-layout-qa.mjs';
 import {isPractice,flowEditionSections,exerciseNumbers} from '../../src/lib/booklet-flow.js';
 import {isGivenFigureNode} from '../../src/lib/booklet-exercises.js';
+import {documentTikzEntries} from '../../src/lib/document-tikz.js';
 import {rendererSignature,qaSignature,layoutCacheKey,readLayoutCache,writeLayoutCache,contentAssetSignatures} from './verification-cache.mjs';
 import {inspectContentCoverage} from '../../src/lib/booklet-content-verification.js';
 import {loadRun} from './transcription.mjs';
@@ -99,7 +100,7 @@ export function assertAnswerRenderCoverage(labels,diagramIds,project,mode){
  const expected=[];
  const visit=node=>{
   if(node.children?.length&&!node.answer?.[mode])node.children.forEach(visit);
-  else expected.push(...(node.answer?.solutionDiagrams??[]).map(d=>d.id));
+  else expected.push(...(node.answer?.solutionDiagrams??[]).map(d=>d.id),...documentTikzEntries(node.answer?.[mode]).map(d=>d.id));
   expected.push(...(node.sharedSolutionDiagrams??[]).map(d=>d.id));
  };
  flowEditionSections(project,mode).flatMap(section=>section.blocks).forEach(block=>visit(block.content));

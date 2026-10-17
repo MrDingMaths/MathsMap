@@ -127,6 +127,13 @@ function rawAnswer(value) {
   };
 }
 
+// A native completed table can answer its response group as one editable entry.
+// General parent summaries remain outside the canonical question contract.
+function hasCompletedTableAnswers(node){
+ const answer=node?.answer,values=[answer?.short,answer?.worked].filter(value=>value!=null&&text(value)!=='');
+ return values.length>0&&!answer?.solutionDiagrams?.length&&values.every(value=>isDocument(value)&&value.blocks.some(block=>block.type==='table')&&value.blocks.every(block=>block.type==='table'||block.type==='paragraph'));
+}
+
 function normaliseLayout(value) {
   const columns = Number(value?.columns);
   if (value?.layout === 'grid' || (Number.isInteger(columns) && columns >= 2 && columns <= 6)) {
@@ -167,13 +174,16 @@ function normaliseNode(raw = {}, depth = 0, index = 0, root = false) {
   if(value.teachingMapping)node.teachingMapping=deepCopy(value.teachingMapping);
   if(['before-prompt','beside-prompt','right-of-prompt'].includes(value.diagramPlacement))node.diagramPlacement=value.diagramPlacement;
   if(value.dependsOn?.length)node.dependsOn=unique(value.dependsOn);
-  if (!children.length) {
+  // Completed tables may answer a group once while retaining its response leaves.
+  if (!children.length || hasCompletedTableAnswers(value)) {
     const answer = rawAnswer(value);
     node.answer = {
       short: answer.short == null || text(answer.short) === '' ? null : contentValue(answer.short),
       worked: contentValue(answer.worked),
       solutionDiagrams: normaliseDiagrams(answer.solutionDiagrams, 'solution'),
     };
+  }
+  if (!children.length) {
     node.answerSpaceMm = clampSpace(value.answerSpaceMm ?? value.defaultAnswerSpaceMm ?? value.responseSpaceMm, null);
     if(value.answerSpaceStyle==='box')node.answerSpaceStyle='box';
     if (value.responseSpace === 'scaffold') node.responseSpace = 'scaffold';
@@ -284,7 +294,7 @@ export function containsParentAnswers(value) {
   let found = false;
   walkRaw(value, (node) => {
     if (!rawChildren(node).length) return;
-    if (hasOwn(node, 'answer') || hasOwn(node, 'shortAnswer') || hasOwn(node, 'workedSolution') || hasOwn(node, 'solutionDiagrams') || hasOwn(node, 'answerSpaceMm')) found = true;
+    if (hasOwn(node, 'answer')&&!hasCompletedTableAnswers(node) || hasOwn(node, 'shortAnswer') || hasOwn(node, 'workedSolution') || hasOwn(node, 'solutionDiagrams') || hasOwn(node, 'answerSpaceMm')) found = true;
   });
   return found;
 }
@@ -374,7 +384,7 @@ function validateNode(node, path, errors, warnings, depth, diagramIds, inherited
     if (!node.answer || typeof node.answer !== 'object') errors.push(path + '.answer is required on a leaf');
     if (node.answer && !text(node.answer.worked)) errors.push(path + '.answer.worked is required on a leaf');
     if (node.answer && node.answer.short != null && !balancedMath(node.answer.short)) errors.push(path + '.answer.short has unbalanced maths delimiters');
-  } else if (hasOwn(node, 'answer')) {
+  } else if (hasOwn(node, 'answer')&&!hasCompletedTableAnswers(node)) {
     errors.push(path + '.answer is only allowed on leaf nodes');
   }
   for (const [field, value] of [['prompt', node.prompt], ['answer.short', node.answer?.short], ['answer.worked', node.answer?.worked]]) {

@@ -10,7 +10,60 @@ import {sharedQuestion,mergeQuestionContent,questionKey} from '../src/lib/questi
 import {normaliseQuestion} from '../src/lib/practice-question-model.js';
 import {arrangementCatalog,resolveArrangement} from '../src/lib/booklet-arrangement.js';
 import {fromSource} from '../src/lib/document-content.js';
-import {reconcileSyncLayout} from '../src/lib/question-sync-layout.js';
+import {reconcileSyncLayout,reconcileProjectLayouts} from '../src/lib/question-sync-layout.js';
+import {flowCommand} from '../src/lib/booklet-flow.js';
+import {createDocumentHistory} from '../src/lib/booklet-document-controller.js';
+
+test('question moves with stale layout refs survive undo, redo and save/reopen',async t=>{
+ const f=await fixture(t),project=structuredClone(f.project),block=project.sections[0].blocks[0];
+ const other=structuredClone(block);other.id='other-block';other.content.id='other-content';other.bankRef=null;delete other.canonicalId;other.snapshotKind='local';
+ project.sections[0].blocks.push(other);
+ project.sections.push({...project.sections[0],id:'destination',blocks:[]});
+ const holder={arrangement:arrangementCatalog(block,{editable:true}).initial};
+ holder.arrangement.root.children.push({id:'stale',type:'item',ref:block.content.id+'/prompt#removed'});
+ project.settings.layoutOverrides.blockLayouts[block.id]=holder;
+ const original=structuredClone(project),history=createDocumentHistory();
+ const within=reconcileProjectLayouts(project,flowCommand(project,{type:'move',ids:[block.id],sectionId:project.sections[0].id}));
+ assert.deepEqual(within.sections[0].blocks.map(b=>b.id),[other.id,block.id]);
+ history.record(project,null);
+ const across=reconcileProjectLayouts(within,flowCommand(within,{type:'move',ids:[block.id],sectionId:'destination'}));
+ assert.deepEqual(across.sections.at(-1).blocks.map(b=>b.id),[block.id]);
+ assert.deepEqual(across.settings.layoutOverrides,original.settings.layoutOverrides);
+ assert.deepEqual(across.sections.at(-1).blocks[0].bankRef,block.bankRef);
+ assert.deepEqual(history.step(across,null).project,original);
+ const redone=history.step(original,null,1).project;
+ assert.deepEqual(redone,across);
+ const saved=await saveBookletProject(redone,{...f.options,expectedRevision:project.revision});
+ const reopened=await loadBookletProject(saved.id,f.options);
+ assert.deepEqual(reopened.sections.map(s=>s.blocks.map(b=>b.id)),saved.sections.map(s=>s.blocks.map(b=>b.id)));
+ assert.deepEqual(reopened.settings.layoutOverrides,saved.settings.layoutOverrides);
+ assert.deepEqual(reopened.sections.at(-1).blocks[0].bankRef,saved.sections.at(-1).blocks[0].bankRef);
+ const edited=structuredClone(across);edited.sections.at(-1).blocks[0].content.prompt='Changed task';
+ assert.throws(()=>reconcileProjectLayouts(across,edited),/could not preserve layout references/);
+ assert.deepEqual(project,original);
+});
+
+test('editor content changes still expand saved paragraph slots',()=>{
+ const block={id:'b',type:'question',content:{id:'q',prompt:'Find x'}};
+ const before={sections:[{blocks:[block]}],settings:{layoutOverrides:{blockLayouts:{b:{arrangement:arrangementCatalog(block).initial}}}}};
+ const after=structuredClone(before);after.sections[0].blocks[0].content.prompt=fromSource('Find x\n\nThen explain');
+ const result=reconcileProjectLayouts(before,after),holder=result.settings.layoutOverrides.blockLayouts.b;
+ assert.deepEqual(resolveArrangement(result.sections[0].blocks[0],holder.arrangement,{editable:true}).missing,[]);
+ assert.equal(holder.arrangement.root.children.filter(n=>n.ref?.includes('/prompt#')).length,2);
+});
+
+test('a single response extended into parts keeps all new responses and diagram sizing',()=>{
+ const before={id:'block',type:'question',content:{id:'q',prompt:'Compare f and g.',questionDiagrams:[{id:'figure',format:'tikz',code:'geometry',widthMm:48}],answerSpaceMm:32,answer:{short:'f'}}};
+ const holder={arrangement:arrangementCatalog(before).initial};
+ const find=n=>{if(n.ref==='figure')n.width=51;n.children?.forEach(find);};find(holder.arrangement.root);
+ const after=structuredClone(before);delete after.content.answer;delete after.content.answerSpaceMm;
+ after.content.children=['a','b','c'].map(label=>({id:label,type:'part',label,prompt:'Compare.',answerSpaceMm:24,answer:{short:'value'}}));
+ reconcileSyncLayout(before,after,holder);
+ const refs=[];const collect=n=>{if(n.ref)refs.push(n.ref);if(n.ref==='figure')assert.equal(n.width,51);n.children?.forEach(collect);};collect(holder.arrangement.root);
+ assert(!refs.includes('q/space'));for(const label of ['a','b','c'])assert(refs.includes(label+'/space'));
+ assert.deepEqual(resolveArrangement(after,holder.arrangement).missing,[]);
+ const once=structuredClone(holder);reconcileSyncLayout(before,after,holder);assert.deepEqual(holder,once);
+});
 
 test('sync removes deleted part spaces and inserts new given diagrams without losing layout',()=>{
  const before={id:'b',type:'question',content:{id:'q',prompt:'Calculate',children:[{id:'a',label:'a',prompt:'Radius 2, height 3',answerSpaceMm:20},{id:'g',label:'g',prompt:'Delete this part',answerSpaceMm:20}]}};
@@ -70,6 +123,21 @@ async function fixture(t){
  const result=await promoteProjectQuestion(p.id,{blockId:b.id,mode:'create'},options);
  return{...options,options,project:result.project,bank:result.question,readBank:async()=>JSON.parse(await fs.readFile(path.join(options.bankRoot,result.question.id+'.json'),'utf8'))};
 }
+
+test('completed parent answers publish through owner sync and survive a pinned consumer update',async t=>{
+ const f=await fixture(t),copy=await duplicateBookletProject(f.project.id,f.options);
+ const block=f.project.sections[0].blocks[0],root=block.content;
+ root.children=[{id:'cell-response',type:'part',label:'a',prompt:'Complete the cell.',answer:{short:'2',worked:'$1+1=2$'}}];
+ const table={format:'maths-editor-document-v1',version:1,blocks:[{id:'completed',type:'table',rows:[[{id:'completed-cell',type:'cell',blocks:[{id:'completed-value',type:'paragraph',inlines:[{type:'math',latex:'2',display:false}]}]}]]}]};
+ root.answer={short:table,worked:JSON.parse(JSON.stringify(table).replaceAll('completed','worked-table'))};
+ const saved=await saveBookletProject(f.project,{...f.options,expectedRevision:f.project.revision});
+ const bank=await f.readBank();assert.equal(bank.content.answer.short.blocks[0].rows[0][0].blocks[0].inlines[0].latex,'2');
+ assert.ok(bank.content.children[0].id.endsWith('cell-response'));
+ const status=(await getProjectBankSync(copy.id,f.options)).items[0];assert.equal(status.state,'update');
+ const updated=await resolveProjectBankSync(copy.id,{...status,action:'use-bank',expectedRevision:copy.revision},f.options);
+ assert.equal(updated.sections[0].blocks[0].content.answer.worked.blocks[0].rows[0][0].blocks[0].inlines[0].latex,'2');
+ assert.equal((await getProjectBankSync(saved.id,f.options)).items[0].state,'synced');
+});
 
 test('class library copies isolate content and archived originals retain bank ownership',async t=>{
  const f=await fixture(t), before=await f.readBank();

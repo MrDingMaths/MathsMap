@@ -48,7 +48,7 @@ export function setPageBoundary(project, blockId, action) {
   const entries = next.sections.flatMap(s => s.blocks.map(b => ({ section: s, block: b })));
   const at = entries.findIndex(e => e.block.id === first.id);
   if (action === 'before') {
-    first.flow = { ...first.flow, pageBreakBefore: true };
+    first.flow = { ...first.flow, pageBreakBefore: true, exercisePageBreakBefore: true };
     // An explicit separator takes precedence over an earlier keep-with-next,
     // without discarding that preference if this break is later removed.
     if(entries[at-1]?.block.flow?.keepWithNext){
@@ -64,7 +64,7 @@ export function setPageBoundary(project, blockId, action) {
   } else if (action === 'remove') {
     first.flow = { ...first.flow, pageBreakBefore: false, continueBefore: null };
     const section=entries[at].section;
-    if(section.blocks[0]?.id===first.id)section.pageBreakBefore=false;
+    if(section.blocks[0]?.id===first.id){section.pageBreakBefore=false;if(section.phase==='practice')first.flow.exercisePageBreakBefore=false;}
     for (let i = at - 1; i >= 0 && entries[i].block.type === 'page-break'; i--) {
       const { section, block } = entries[i]; section.blocks = section.blocks.filter(b => b.id !== block.id);
     }
@@ -76,6 +76,6 @@ export function setPageBoundary(project, blockId, action) {
 export function startExerciseOnNewPage(project, topicId) {
   const next = structuredClone(project);
   const section = next.sections.find(s => s.topicId === topicId && s.phase === 'practice' && s.blocks.length);
-  if (section) { section.pageBreakBefore = true; section.blocks[0].flow = { ...section.blocks[0].flow, pageBreakBefore: true }; }
+  if (section) { section.pageBreakBefore = true; section.blocks[0].flow = { ...section.blocks[0].flow, pageBreakBefore: true, exercisePageBreakBefore: true }; }
   return next;
 }

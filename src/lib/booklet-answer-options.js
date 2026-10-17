@@ -1,6 +1,8 @@
 // Teaching activities have their own answer switches; independent exercises use
 // the canvas/PDF answer mode. Match semantic kinds, never editable heading text.
 export function teachingAnswerCategory(block) {
+  if(block?.presentation?.studentRole==='demonstration')return 'theory';
+  if(block?.presentation?.studentRole==='your-turn')return 'guided';
   if(isKeyIdeas(block))return 'keyIdeas';
   const kind = block?.sourceAtom?.kind ?? block?.pedagogyRole ?? block?.variant;
   // A source Example may contain both its demonstration and separate student
@@ -24,6 +26,7 @@ export function retainsTeachingPromptWithAnswers(block) {
 export function blockClozeAnswers(block,options,mode='student') {return isKeyIdeas(block)?options.showKeyIdeasAnswers===true:mode!=='student';}
 
 export function teachingQuestionMode(block, options, independentMode = 'student') {
+  if(independentMode==='student'&&block?.presentation?.hideStudentSolutions)return 'student';
   const category = teachingAnswerCategory(block);
   if (category === 'theory') return 'worked';
   if (!category) return independentMode;

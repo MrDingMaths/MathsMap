@@ -1,4 +1,5 @@
 <script>
+ import {containerSpacingFields} from '../lib/booklet-direct-layout.js';
  import {untrack,getContext} from 'svelte';
  import BookletInspectorTabs from './BookletInspectorTabs.svelte';
  import BookletPageControls from './BookletPageControls.svelte';
@@ -91,8 +92,8 @@
       {#if entry?.kind==='space'}<label>Answer height (mm)<input type="number" min="0" max="180" value={node.height??entry.value} onchange={e=>setProperties({height:Number(e.currentTarget.value)})}/></label>{/if}
      </div>
      {#if entry&&['document','text'].includes(entry.kind)}<label class="check"><input type="checkbox" checked={!!node.keepInline} onchange={e=>setProperties({keepInline:e.currentTarget.checked})}/>Keep equation and answer on one line</label>{/if}
-     {#if entry?.kind==='document'&&['paragraph','table','spacer'].includes(entry.value.blocks[0]?.type)}
-      {@const content=entry.value.blocks[0]}<details class="internal-spacing"><summary>Inside {content.type}</summary><div class="property-grid">{#each content.type==='table'?[['marginBefore','Above'],['marginAfter','Below']]:content.type==='spacer'?[['height','Height']]:[['spaceBefore','Above'],['spaceAfter','Below'],['indent','Indent']] as [property,label]}<label>{label} (mm)<input type="number" min="0" step=".5" value={content[property]??0} onchange={e=>internalSpace(property,e.currentTarget.value)}/></label>{/each}</div></details>
+     {#if entry?.kind==='document'&&containerSpacingFields(entry.value.blocks[0]).length}
+      {@const content=entry.value.blocks[0]}<details class="internal-spacing"><summary>Inside {content.type}</summary><div class="property-grid">{#each containerSpacingFields(content) as [property,label,fallback,max=20,min=0]}<label>{label}<input type="number" {min} {max} step={property==='lineHeight'?.05:.5} value={content[property]??fallback} onchange={e=>{if(e.currentTarget.value!==''&&e.currentTarget.validity.valid)internalSpace(property,e.currentTarget.value);}}/></label>{/each}</div></details>
      {/if}
      <div class="commands"><button onclick={()=>setProperties({before:0,after:0,inset:0,gap:0})}>Reset spacing</button>{#if entry?.kind==='space'}<button onclick={()=>setProperties({height:15})}>Restore answer space</button><button onclick={()=>setProperties({height:0})}>Remove answer space</button>{/if}</div>
     {/if}

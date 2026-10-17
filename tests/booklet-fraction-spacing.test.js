@@ -22,4 +22,8 @@ test('nested matrices and fraction-free equation blocks retain their own row spa
  assert.equal(spaceFractionSteps(latex),String.raw`\begin{aligned}\frac12&=\begin{pmatrix}1\\2\end{pmatrix}\\[8pt]x&=2\end{aligned}`);
  const plain=String.raw`\begin{aligned}x&=2\\x+1&=3\end{aligned}`;assert.equal(spaceFractionSteps(plain),plain);
 });
+test('only rows beside a fraction receive extra spacing',()=>{
+ const latex=String.raw`\begin{align*}4x&=28\\x&=7\\y&=\frac{146}{3}\\y&=48\frac23\\z&=0\\w&=1\end{align*}`;
+ assert.equal(spaceFractionSteps(latex),String.raw`\begin{align*}4x&=28\\x&=7\\[8pt]y&=\frac{146}{3}\\[8pt]y&=48\frac23\\[8pt]z&=0\\w&=1\end{align*}`);
+});
 

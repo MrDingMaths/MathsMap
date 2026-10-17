@@ -10,20 +10,26 @@ export function hasStandaloneMathTable(value){
  const content=(first.inlines??[]).filter(i=>i.type!=='text'||String(i.text??'').trim());
  return content.length===1&&content[0].type==='math'&&/^\\begin\{(array|tabular)\}[\s\S]*\\end\{\1\}$/.test(String(content[0].latex??'').trim());
 }
+// A native table exposes the first row's baseline, including a tall fraction
+// or cloze. TeX arrays and multiline displays instead expose a stack baseline.
+export const hasNativeTableBaseline=value=>value?.blocks?.[0]?.type==='table';
 // TeX multiline displays expose the baseline of the whole stack, rather than
 // the opening expression. Their adjacent question label belongs at the top.
 export function hasTopAlignedMathPrompt(value){
+ // Native tables expose a synthetic baseline for the entire table. Labels
+ // belong beside its opening row, including borderless calculation scaffolds.
+ if(value?.blocks?.[0]?.type==='table')return true;
  if(hasStandaloneMathTable(value))return true;
  let latex;
  if(typeof value==='string'){
-  const match=value.trim().match(/^\$\$([\s\S]*)\$\$$/);
+  const match=value.trim().match(/^\${1,2}([\s\S]*?)\${1,2}$/);
   if(!match)return false;
   latex=match[1];
  }else{
   const first=value?.blocks?.[0];
   if(first?.type!=='paragraph')return false;
   const content=(first.inlines??[]).filter(i=>i.type!=='text'||String(i.text??'').trim());
-  if(content.length!==1||content[0].type!=='math'||!content[0].display)return false;
+  if(content.length!==1||content[0].type!=='math')return false;
   latex=content[0].latex;
  }
  return /\\begin\{(?:aligned|alignedat|align\*?|gathered|gather\*?|cases|[pbvBV]?matrix)\}/.test(latex??'')&&/\\\\/.test(latex??'');
@@ -98,10 +104,18 @@ export function teachingLabels(blocks=[]){
  return labels;
 }
 export function keyIdeasClozeStatements(block){
- if(block?.pedagogyRole!=='key-ideas'||!block.sourceReview?.responses?.length||!block.sourceReview.responses.every(r=>r.kind==='cloze'))return null;
+ if(block?.pedagogyRole!=='key-ideas'||!block.sourceReview?.responses?.length)return null;
+ // An empty grouping root is not a response. Keep actual introductions and
+ // diagrams in the full renderer rather than dropping them from a compact list.
+ const root=block.content;
+ const emptyPrompt=!root?.prompt||(root.prompt?.blocks?.length===0);
+ if(root?.children?.length&&!emptyPrompt)return null;
+ if(!block.sourceReview.responses.every(r=>r.kind==='cloze'||r.kind==='none'&&r.targetId===root?.id&&emptyPrompt))return null;
  const statements=block.content?.children?.length?block.content.children:[block.content];
  return statements.every(part=>part&&!part.children?.length)?statements:null;
 }
+export const isKeyIdeaNumber=(block,label)=>[block?.sourceAtom?.kind,block?.pedagogyRole,block?.variant].includes('key-ideas')&&/^\d+\.?$/.test(String(label??''));
+export const keyIdeaNumber=(block,label)=>isKeyIdeaNumber(block,label)?String(label).replace(/\.?$/,'.'):label;
 export function labelledTeachingQuestion(block,labels){
  if(usesReviewNumbers(block))return {...block,sourceOrder:labels[block.content.id]===''?null:Number(labels[block.content.id]??1)};
  if(!usesTeachingLetters(block))return block;

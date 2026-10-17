@@ -1,13 +1,13 @@
 <script>
  import {blockSpacing,BLOCK_SPACING_FIELDS} from '../lib/booklet-bulk-spacing.js';
- let {project,blockIds=[],onchange}=$props();
+ let {project,blockIds=[],onchange,category='layout'}=$props();
  const state=$derived(blockSpacing(project,blockIds));
  const groups=$derived([
   ['Answer spaces',[['height','Height (mm)',state.counts.spaces],['gap','Gap between parts (mm)',state.counts.stacks]]],
   ['Text',[['lineHeight','Line spacing',state.counts.paragraphs],['spaceBefore','Space before (mm)',state.counts.spaced],['spaceAfter','Space after (mm)',state.counts.spaced]]],
   ['Tables',[['rowHeight','Row height (mm)',state.counts.rows],['padding','Cell padding (mm)',state.counts.tables]]],
   ['Worked examples',[['aboveMm','Space above (mm)',state.counts.examples],['belowMm','Space below (mm)',state.counts.examples],['gapMm','Column gap (mm)',state.counts.examples],['minHeightMm','Minimum height (mm)',state.counts.examples]]],
- ].map(([title,fields])=>[title,fields.filter(f=>f[2])]).filter(([,fields])=>fields.length));
+ ].filter(([title])=>category==='tables'?title==='Tables':title!=='Tables').map(([title,fields])=>[title,fields.filter(f=>f[2])]).filter(([,fields])=>fields.length));
  function commit(key,input){if(input.value===''||!input.validity.valid)return;onchange(key,Number(input.value));}
 </script>
 <section aria-label="Whole block spacing">

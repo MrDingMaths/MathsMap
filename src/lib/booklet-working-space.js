@@ -1,13 +1,24 @@
 import {contentSource} from './document-content.js';
 
 // Authoring-time estimate only: never replace a saved/manual answerSpaceMm on load.
-export function estimateWorkedWritingSpace(node, {widthMm=80, responseKind='working', preserveExplicit=true, studentWork, studentDiagrams}={}) {
+export function estimateWorkedWritingSpace(node, {widthMm=80, responseKind='working', preserveExplicit=true, studentWork, studentDiagrams,responseContext=null}={}) {
   if(node.responseSpace==='scaffold'||['cloze','inline','none'].includes(responseKind))return 0;
   if(preserveExplicit&&node.answerSpaceMm!=null&&Number.isFinite(Number(node.answerSpaceMm)))return Math.max(0,Number(node.answerSpaceMm));
+  // Opt-in response-aware pilot: native response cells already own handwriting
+  // capacity. Callers must identify a reviewed binding, never infer it from a table.
+  if(responseContext?.kind==='table-cell'&&responseContext.providesWritingSpace===true)return 0;
+  if(responseContext?.kind==='cloze')return 0;
+  if(responseContext?.kind==='short'&&responseContext.expectedAnswer!=null){
+    const expected=contentSource(responseContext.expectedAnswer).trim();
+    if(expected&&!/\\(?:d?frac|tfrac|begin)|\n/.test(expected)&&!(studentDiagrams??node.answer?.solutionDiagrams??[]).length){
+      const capacity=Math.max(1,Math.floor((widthMm-6)/2.2));
+      return Math.max(8,Math.ceil(expected.length/capacity)*8+2);
+    }
+  }
   if(responseKind==='tick-cross')return 6;
   // A reviewed student-work projection excludes teacher explanations and optional
   // solution figures without altering the complete editable worked solution.
-  const source=contentSource(studentWork??node.answer?.worked).trim();
+  const source=contentSource(studentWork??responseContext?.studentWork??node.answer?.worked).trim();
   const figures=studentDiagrams??(studentWork===undefined?node.answer?.solutionDiagrams??[]:[]);
   if(!source&&!figures.length)throw new Error('Generate/review the worked solution before sizing '+node.id);
   const capacity=Math.max(12,Math.floor(widthMm/2.1));
