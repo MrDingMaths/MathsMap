@@ -1,5 +1,7 @@
 import {equationRowSpacing,setEquationRowSpacing} from './equation-spacing.mjs';
 import {captureSelection} from './math-selection.mjs';
+import {editableMathLatex,storedMathLatex} from './math-latex.mjs';
+import {BOOKLET_HOUSE_STYLE} from './house-style.mjs';
 // MathLive interaction shared by structured prose, tables and question editors.
 export function installMathEditing(editor) {
  const {host,surface}=editor, bar=document.createElement('div');bar.className='me-math-tools';bar.hidden=true;bar.setAttribute('role','toolbar');bar.setAttribute('aria-label','Equation tools');editor.inspector.after(bar);
@@ -8,14 +10,19 @@ export function installMathEditing(editor) {
  const refreshSpacing=()=>{const state=active?equationRowSpacing(active.getValue('latex')):{supported:false};spacingLabel.hidden=!state.supported;spacing.value=state.valueMm==null?'':Number(state.valueMm.toFixed(3));spacing.placeholder=state.mixed?'Mixed':'';spacing.title='Extra space between equation rows; paragraph line spacing does not change this.';};
  spacing.onchange=()=>{const mf=field();if(!mf||!spacing.value.trim())return;try{rememberLocation();mf.setValue(setEquationRowSpacing(mf.getValue('latex'),Number(spacing.value)),{silenceNotifications:true});commit();refreshSpacing();}catch(e){editor.message.textContent=e.message;refreshSpacing();}};
  const setActive=mf=>{
+  const previous=active;
   surface.querySelectorAll('.me-equation-selected').forEach(node=>node.classList.remove('me-equation-selected'));
   active=mf?.isConnected&&!host.readonly?mf:null;
+  if(!active&&previous&&document.activeElement===previous)previous.blur();
   active?.closest('[data-math]')?.classList.add('me-equation-selected');
   bar.hidden=!active;refreshSpacing();
   if(active)colour.value=active.closest('[data-colour]')?.dataset.colour??'#24282d';
   if(!active)selection=null;
  };
- const field=()=>document.activeElement?.matches('math-field')&&surface.contains(document.activeElement)?document.activeElement:active?.isConnected?active:null;
+ // Clicking empty prose can leave MathLive as document.activeElement until the
+ // browser establishes a caret. Honour the explicit pointer/focus selection,
+ // otherwise the next insert/format command edits the previous equation.
+ const field=()=>active?.isConnected?active:null;
  const commit=()=>{editor.capture();editor.remember();editor.emit();};
  const button=(label,action)=>editor.button(bar,label,action);
  const rememberSelection=()=>{const mf=field();if(mf&&document.activeElement===mf)selection=JSON.parse(JSON.stringify(mf.selection));};
@@ -24,9 +31,9 @@ export function installMathEditing(editor) {
  const style=(value,operation='toggle')=>{const mf=restoreField();if(!mf)return false;mf.applyStyle(value,{operation});rememberSelection();commit();return true;};
  const selectBlock=target=>{const block=target?.closest?.('[data-type="annotated-equation"]');if(block&&!target.closest('[data-equation-label]')&&!host.readonly){setActive(null);block.classList.add('me-equation-selected');}};
  editor.mathEditing={field,activate:setActive,reset:()=>setActive(null),refresh:()=>setActive(field()),applyStyle:style,selectBlock};
- editor.formatMath=mark=>{const mf=restoreField();if(!mf)return false;if(mark==='underline'){mf.executeCommand(['insert','\\underline{#0}']);rememberSelection();commit();}else style(mark==='bold'?{variantStyle:'bold'}:{variantStyle:'italic'});return true;};
+ editor.formatMath=mark=>{const mf=restoreField();if(!mf)return false;if(mark==='underline'){mf.executeCommand(['insert','\\underline{#0}']);rememberSelection();commit();}else style(mark==='bold'?{variant:'normal',variantStyle:'bolditalic'}:{variantStyle:'italic'});return true;};
  const palette=()=>{const mf=field(),api=window.MathsEditor?.Palette;if(!mf||!api||host.readonly)return;rememberSelection();api.open(mf,{onInsert:latex=>{if(!mf.isConnected||host.readonly)return;restoreField();mf.executeCommand(['insert',latex]);rememberSelection();commit();},onClose:()=>{if(mf.isConnected&&!host.readonly)restoreField();}});};
- button('Symbols',palette);button('Bold maths',()=>style({variantStyle:'bold'}));button('Italic maths',()=>style({variantStyle:'italic'}));
+ button('Symbols',palette);button('Bold maths',()=>style({variant:'normal',variantStyle:'bolditalic'}));button('Italic maths',()=>style({variantStyle:'italic'}));
  button('Text before equation',()=>{const mf=field();if(mf&&!host.readonly)exit(mf,false);});
  button('Text after equation',()=>{const mf=field();if(mf&&!host.readonly)exit(mf,true);});
  button('Delete equation',()=>{const mf=field();if(mf&&!host.readonly)remove(mf);});
@@ -39,10 +46,11 @@ export function installMathEditing(editor) {
   if(next!==latex)mf.setValue(next,{silenceNotifications:true});
   island.dataset.colour=value;island.style.color=value;colour.value=value;commit();};
  colour.onchange=()=>equationColour(colour.value);colourLabel.append(colour);bar.append(colourLabel);
- button('Blue equation',()=>equationColour('#268cff'));
+ for(const [label,token] of [['Black','ink'],['Red','red'],['Blue','blue']])
+  button(`${label} equation`,()=>equationColour(BOOKLET_HOUSE_STYLE.colours[token]));
  const selectedColourLabel=document.createElement('label');selectedColourLabel.textContent='Selected maths colour ';
  const selectedColour=document.createElement('input');selectedColour.type='color';selectedColour.value='#24282d';selectedColour.setAttribute('aria-label','Selected maths colour');selectedColour.oninput=()=>style({color:selectedColour.value});selectedColourLabel.append(selectedColour);bar.append(selectedColourLabel);
- button('Edit LaTeX',()=>{const mf=field();if(!mf||host.readonly)return;dialog?.remove();dialog=document.createElement('dialog');dialog.className='me-latex-dialog';dialog.setAttribute('aria-label','Edit equation LaTeX');const label=document.createElement('label');label.textContent='Equation LaTeX';const input=document.createElement('textarea');input.setAttribute('aria-label','Equation LaTeX');input.value=mf.getValue('latex');label.append(input);const preview=document.createElement('div');preview.className='me-latex-preview';const update=()=>{preview.innerHTML=window.MathLive.convertLatexToMarkup(input.value);};input.oninput=update;update();dialog.append(label,preview);editor.button(dialog,'Apply equation',()=>{if(mf.isConnected&&!host.readonly){mf.setValue(input.value,{silenceNotifications:true});commit();}dialog.close();});editor.button(dialog,'Cancel',()=>dialog.close());dialog.addEventListener('close',()=>{dialog.remove();dialog=null;if(mf.isConnected)mf.focus();});host.append(dialog);dialog.addEventListener('keydown',e=>e.stopPropagation());dialog.showModal();input.focus();});
+ button('Edit LaTeX',()=>{const mf=field();if(!mf||host.readonly)return;dialog?.remove();dialog=document.createElement('dialog');dialog.className='me-latex-dialog';dialog.setAttribute('aria-label','Edit equation LaTeX');const label=document.createElement('label');label.textContent='Equation LaTeX';const input=document.createElement('textarea');input.setAttribute('aria-label','Equation LaTeX');input.value=storedMathLatex(mf.getValue('latex'));label.append(input);const preview=document.createElement('div');preview.className='me-latex-preview';const update=()=>{preview.innerHTML=window.MathLive.convertLatexToMarkup(input.value);};input.oninput=update;update();dialog.append(label,preview);editor.button(dialog,'Apply equation',()=>{if(mf.isConnected&&!host.readonly){mf.setValue(editableMathLatex(input.value),{silenceNotifications:true});commit();}dialog.close();});editor.button(dialog,'Cancel',()=>dialog.close());dialog.addEventListener('close',()=>{dialog.remove();dialog=null;if(mf.isConnected)mf.focus();});host.append(dialog);dialog.addEventListener('keydown',e=>e.stopPropagation());dialog.showModal();input.focus();});
  const hint=document.createElement('span');hint.textContent='Tab: symbols · Escape: text after · Shift+Escape: text before · Backspace/Delete removes an empty equation';bar.append(hint);
  const focus=e=>{
   if(e.target.matches?.('math-field')&&surface.contains(e.target)){setActive(e.target);rememberLocation();}

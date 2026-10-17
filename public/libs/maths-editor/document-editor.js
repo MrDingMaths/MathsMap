@@ -5,6 +5,7 @@ import {standardBookletContent} from './booklet-palette.mjs';
 import {readClipboard,plainTextDocument} from './document-clipboard.mjs';
 import {reconcileDocumentDOM} from './document-dom.mjs';
 import {captureSelection,restoreSelection,patchMathValues} from './math-selection.mjs';
+import {storedMathLatex} from './math-latex.mjs';
 import {mountEquationAnnotations} from './annotated-equation.mjs';
 import {installMathEditing} from './math-editing.mjs';
 import {equationControls} from './equation-controls.mjs';
@@ -29,6 +30,8 @@ export class DocumentEditor {
     host.append(this.toolbar,this.inspector,this.surface,this.message);
     this.buildToolbar(); this.installLayoutEvents(); this.render(); this.remember();
     this.destroyMathEditing=installMathEditing(this);
+    this.selectionRevision=0;
+    this.surface.addEventListener('pointerdown',()=>{this.selectionRevision++;},true);
     this.surface.addEventListener('beforeinput',e=>{if(!this.host.readonly&&e.target.matches?.('math-field')){this.capture();this.remember();}});
     this.surface.addEventListener('beforeinput',e=>{if(e.inputType==='insertParagraph'&&!e.isComposing&&!this.host.readonly&&this.splitParagraph())e.preventDefault();});
     this.surface.addEventListener('click',e=>{if(e.target.closest('a')&&!e.ctrlKey&&!e.metaKey)e.preventDefault();});
@@ -60,7 +63,7 @@ export class DocumentEditor {
   restoreRange() { if(this.range && this.surface.contains(this.range.commonAncestorContainer)) { const s=window.getSelection(); s.removeAllRanges(); s.addRange(this.range); } }
   select(target) { if(target.closest?.('[data-resize-handles],[data-table-annotations]'))return;const n=target.closest?.('[data-id]'); const changed=n&&this.selectedId!==n.dataset.id;if(n) this.selectedId=n.dataset.id; if(n?.dataset.type!=='inline-image')this.saveRange(); if(changed)this.properties(); }
   get selected() { let found; visitDocument(this.doc,n=>{if(n.id===this.selectedId)found=n;}); return found; }
-  capture() { this.surface.querySelectorAll('p:has([data-editor-placeholder])').forEach(p=>{if(p.textContent.replaceAll('\u200b','').trim()||p.querySelector('[data-math],[data-cloze],img'))p.querySelectorAll('[data-editor-placeholder]').forEach(n=>n.remove());});this.surface.querySelectorAll('[data-math-caret]').forEach(n=>n.toggleAttribute('data-empty-caret',!n.textContent.replaceAll('\u200b','')&&!n.querySelector('[data-math],br,img')));this.doc = this.read(this.surface); this.surface.querySelectorAll('[data-math-preview-host]').forEach(el=>{const mf=el.querySelector('math-field'),preview=el.querySelector('[data-math-preview]');if(preview&&this.host.renderMathPreview){const value=mf.getValue('latex');if(preview.dataset.latex!==value){preview.innerHTML=this.host.renderMathPreview(tableMathLatex(value,el.dataset.mathBold==='true'),el.dataset.display==='true');preview.dataset.latex=value;}}}); if(this.host.dataset.houseStyleVersion||this.host.classList.contains('booklet-document-field')){const previous=this.doc,next=standardBookletContent(previous);if(shareDocument(previous,next)!==previous){this.doc=next;if(!patchMathValues(this,previous,next))this.render();}} }
+  capture() { this.surface.querySelectorAll('p:has([data-editor-placeholder])').forEach(p=>{if(p.textContent.replaceAll('\u200b','').trim()||p.querySelector('[data-math],[data-cloze],img'))p.querySelectorAll('[data-editor-placeholder]').forEach(n=>n.remove());});this.surface.querySelectorAll('[data-math-caret]').forEach(n=>n.toggleAttribute('data-empty-caret',!n.textContent.replaceAll('\u200b','')&&!n.querySelector('[data-math],br,img')));this.doc = this.read(this.surface); this.surface.querySelectorAll('[data-math-preview-host]').forEach(el=>{const mf=el.querySelector('math-field'),preview=el.querySelector('[data-math-preview]');if(preview&&this.host.renderMathPreview){const value=storedMathLatex(mf.getValue('latex'));if(preview.dataset.latex!==value){preview.innerHTML=this.host.renderMathPreview(tableMathLatex(value,el.dataset.mathBold==='true'),el.dataset.display==='true');preview.dataset.latex=value;}}}); if(this.host.dataset.houseStyleVersion||this.host.classList.contains('booklet-document-field')){const previous=this.doc,next=standardBookletContent(previous);if(shareDocument(previous,next)!==previous){this.doc=next;if(!patchMathValues(this,previous,next))this.render();}} }
   read(root, original = this.doc) {
     const originals=new Map(), seen=new Set(); visitDocument(original,n=>originals.set(n.id,n));
     const identity=el=>{let id=el.dataset.id;if(!id || seen.has(id))id=uid();seen.add(id);el.dataset.id=id;return id;};
@@ -70,9 +73,9 @@ export class DocumentEditor {
       if(node.getAttribute('aria-hidden')==='true')return [];
       colour=node.dataset.colour??colour;
       if(node.matches('[data-type=inline-image],img')) {const img=node.matches('img')?node:node.querySelector('img');let data={};try{data=JSON.parse(node.dataset.image??'{}');}catch{}return [{...data,...copy(originals.get(node.dataset.id)??{}),id:identity(node),type:'inline-image',src:img?.getAttribute('src')??'',alt:img?.alt??'',width:data.width??Math.min(80,(img?.width||76)*25.4/96),aspectRatio:data.aspectRatio??((img?.width||1)/(img?.height||1))}];}
-      if(node.matches('[data-math],math-field')) { const mf=node.matches('math-field')?node:node.querySelector('math-field'),mathMarks=mathInlineMarks(node,marks); return [{type:'math',latex:(!root.isConnected?mf?.dataset.clipboardLatex:undefined) ?? mf?.getValue?.('latex') ?? node.dataset.latex ?? mf?.textContent ?? '',display:node.dataset.display==='true',...(mathMarks.length?{marks:mathMarks}:{}),...(node.dataset.semanticRole==='correctness-marker'?{semanticRole:'correctness-marker'}:{}),...(colour?{colour}:{})}]; }
+      if(node.matches('[data-math],math-field')) { const mf=node.matches('math-field')?node:node.querySelector('math-field'),mathMarks=mathInlineMarks(node,marks); return [{type:'math',latex:(!root.isConnected?mf?.dataset.clipboardLatex:undefined) ?? (mf?.getValue?storedMathLatex(mf.getValue('latex')):undefined) ?? node.dataset.latex ?? mf?.textContent ?? '',display:node.dataset.display==='true',...(mathMarks.length?{marks:mathMarks}:{}),...(node.dataset.semanticRole==='correctness-marker'?{semanticRole:'correctness-marker'}:{}),...(colour?{colour}:{})}]; }
       if(node.hasAttribute('data-tab'))return [{type:'tab'}];
-      if(node.hasAttribute('data-cloze')) return [{type:'cloze',answer:node.dataset.cloze,width:Number(node.dataset.width),...(node.dataset.clozeEnclosure==='sqrt'?{enclosure:'sqrt'}:{}),...(node.dataset.joinPrevious==='true'?{joinPrevious:true}:{}),lines:Number(node.dataset.lines)||1,expectedResponse:node.dataset.expectedResponse,reviewStatus:node.dataset.reviewStatus}];
+      if(node.hasAttribute('data-cloze')) {let radicand;try{radicand=JSON.parse(node.dataset.radicand);}catch{}return [{type:'cloze',answer:node.dataset.cloze,width:Number(node.dataset.width),...(node.dataset.clozeEnclosure==='sqrt'?{enclosure:'sqrt',...(Array.isArray(radicand)?{radicand}:{})}:{}),...(node.dataset.clozePosition==='superscript'?{position:'superscript'}:{}),...(node.dataset.joinPrevious==='true'?{joinPrevious:true}:{}),lines:Number(node.dataset.lines)||1,expectedResponse:node.dataset.expectedResponse,reviewStatus:node.dataset.reviewStatus}];}
       if(node.hasAttribute('data-image-pending'))return [];
       if(['SCRIPT','STYLE','IFRAME','OBJECT'].includes(node.tagName))return [];
       if(node.hasAttribute('data-editor-placeholder'))return [];
@@ -137,7 +140,7 @@ export class DocumentEditor {
     }
     if(!p||!this.surface.contains(p)||p.closest('li')||!p.contains(range.endContainer))return false;
     this.capture();this.remember();const at=locateDocumentNode(this.doc,p.dataset.id);if(!at)return false;
-    this.surface.querySelectorAll('math-field').forEach(m=>m.dataset.clipboardLatex=m.getValue('latex'));
+    this.surface.querySelectorAll('math-field').forEach(m=>m.dataset.clipboardLatex=storedMathLatex(m.getValue('latex')));
     const before=document.createRange(),after=document.createRange();before.selectNodeContents(p);before.setEnd(range.startContainer,range.startOffset);after.selectNodeContents(p);after.setStart(range.endContainer,range.endOffset);
     const read=fragment=>{const root=document.createElement('div'),node=p.cloneNode(false);node.append(fragment);root.append(node);return this.read(root).blocks[0];};
     const left={...at.node,...read(before.cloneContents()),id:at.node.id,preserveEmpty:true},right={...at.node,...read(after.cloneContents()),id:uid(),preserveEmpty:true};
@@ -147,7 +150,16 @@ export class DocumentEditor {
   deleteNode(id=this.selectedId){this.transact(doc=>{this.selectedId=removeDocumentNode(doc,id,{allowEmptyRoot:!!this.host.documentHost});});}
   insert(node) { this.transact(doc=>{ let at=locateDocumentNode(doc,this.selectedId);while(at&&at.nodes!==at.parent.blocks)at=locateDocumentNode(doc,at.parent.id);const nodes=at?.nodes??doc.blocks;nodes.splice(at?at.index+1:nodes.length,0,node); this.selectedId=node.id; }); }
   insertMath(latex='', display=false) {
-    if(this.host.readonly)return; this.restoreRange();
+    if(this.host.readonly)return;
+    // The Math command also opens the equation at the caret. A browser text
+    // range around an active MathLive island is not its internal selection.
+    const active=this.mathEditing?.field();
+    if(active&&!latex){active.focus({preventScroll:true});return active;}
+    // Prefer the live prose caret after a cell click over the last keyup range.
+    // Toolbar pointer handlers deliberately preserve that current selection.
+    const selection=window.getSelection();
+    if(selection?.rangeCount&&this.surface.contains(selection.anchorNode))this.saveRange();
+    this.restoreRange();
     const island=document.createElement('span'); island.dataset.math='true'; island.dataset.display=String(display); if(display)island.style.display='block'; island.contentEditable='false';
     const mf=document.createElement('math-field'); mf.value=latex; island.append(mf);
     const sel=window.getSelection();
@@ -156,7 +168,7 @@ export class DocumentEditor {
     island.insertAdjacentHTML('beforebegin','<span data-math-caret>\u200b</span>');
     island.insertAdjacentHTML('afterend','<span data-math-caret>\u200b</span>');
     const index=[...this.surface.querySelectorAll('math-field')].indexOf(mf);
-    this.capture();this.render(null);const current=this.surface.querySelectorAll('math-field')[index];current?.focus({preventScroll:true});this.mathEditing?.activate(current);this.remember();this.emit();return current;
+    this.capture();this.render(null);const current=this.surface.querySelectorAll('math-field')[index];this.mathEditing?.activate(current);const bookmark=captureSelection(this);restoreSelection(this,bookmark);this.remember();this.emit();return current;
   }
   mark(mark) { if(this.host.readonly)return; if(this.formatMath?.(mark))return; this.restoreRange(); const sel=window.getSelection(); if(!sel?.rangeCount || !this.surface.contains(sel.anchorNode) || sel.isCollapsed)return;
     document.execCommand(mark, false); this.saveRange(); this.capture(); this.remember(); this.emit(); }
@@ -188,7 +200,7 @@ export class DocumentEditor {
     // MathLive owns selection inside its shadow tree.
     if(e.target.closest?.('math-field'))return;
     const s=window.getSelection(); if(!s?.rangeCount || s.isCollapsed)return;
-    e.preventDefault();this.surface.querySelectorAll('math-field').forEach(m=>m.dataset.clipboardLatex=m.getValue('latex'));
+    e.preventDefault();this.surface.querySelectorAll('math-field').forEach(m=>m.dataset.clipboardLatex=storedMathLatex(m.getValue('latex')));
     const root=document.createElement('div'),range=s.getRangeAt(0);root.append(range.cloneContents());
     let ancestor=range.commonAncestorContainer.nodeType===1?range.commonAncestorContainer:range.commonAncestorContainer.parentElement;
     while(ancestor && ancestor!==this.surface){if(ancestor.hasAttribute('data-math-caret')||['B','STRONG','I','EM','U','LI','UL','OL'].includes(ancestor.tagName)){const mark=ancestor.cloneNode(false);mark.append(...root.childNodes);root.append(mark);}ancestor=ancestor.parentElement;}

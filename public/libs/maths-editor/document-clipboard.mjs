@@ -1,4 +1,5 @@
 import {normalizeDocument,paragraph,uid,safeLink,mathInlineMarks} from './document-model.mjs';
+import {storedMathLatex} from './math-latex.mjs';
 
 export function plainTextDocument(text){return normalizeDocument({blocks:String(text).replace(/\r\n?/g,'\n').split('\n').map(line=>paragraph([{type:'text',text:line,marks:[]}]))});}
 
@@ -24,7 +25,7 @@ export function readClipboard(data,{plain=false}={}){
     if(node.matches('[data-math],math-field')) {
       const field=node.matches('math-field')?node:node.querySelector('math-field'),mathMarks=mathInlineMarks(node,marks);
       const latex=field?.dataset.clipboardLatex??node.dataset.latex??field?.textContent;
-      if(latex!=null)return [{type:'math',latex,display:node.dataset.display==='true',...(mathMarks.length?{marks:mathMarks}:{})}];
+      if(latex!=null)return [{type:'math',latex:storedMathLatex(latex),display:node.dataset.display==='true',...(mathMarks.length?{marks:mathMarks}:{})}];
       // An unknown external math box has no editable source; retain ordinary text.
     }
     const next=new Set(marks),style=node.style;

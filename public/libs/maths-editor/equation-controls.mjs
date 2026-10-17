@@ -1,12 +1,13 @@
 import {uid,paragraph,visitDocument,toSource,normalizeDocument,renderDocument} from './document-model.mjs';
 import {equationTargets,changeEquation,anchorResolved} from './annotated-equation.mjs';
+import {editableMathLatex,storedMathLatex} from './math-latex.mjs';
 export const equationControls={
  equationProperties(n){
-  const wrap=document.createElement('label');wrap.textContent='Equation ';const field=document.createElement('math-field');field.value=n.latex;field.readOnly=this.host.readonly;field.setAttribute('aria-label','Equation');field.style.cssText='min-width:180px;max-width:100%';
+  const wrap=document.createElement('label');wrap.textContent='Equation ';const field=document.createElement('math-field');field.value=editableMathLatex(n.latex);field.readOnly=this.host.readonly;field.setAttribute('aria-label','Equation');field.style.cssText='min-width:180px;max-width:100%';
   const finish=()=>{this.finishEquationEdit?.();};
-  const apply=()=>{if(this.rendering||this.host.readonly||!field.isConnected)return;this.capture();let current;visitDocument(this.doc,x=>{if(x.id===n.id)current=x;});if(!current||current.latex===field.value)return;changeEquation(current,field.value);this.doc=normalizeDocument(this.doc);
+  const apply=()=>{if(this.rendering||this.host.readonly||!field.isConnected)return;this.capture();let current;visitDocument(this.doc,x=>{if(x.id===n.id)current=x;});if(!current||current.latex===storedMathLatex(field.value))return;changeEquation(current,storedMathLatex(field.value));this.doc=normalizeDocument(this.doc);
    const element=this.surface.querySelector('[data-id="'+CSS.escape(n.id)+'"]');if(element)element.outerHTML=renderDocument({blocks:[current]},{editable:true,annotationMath:latex=>MathLive.convertLatexToMarkup(latex)});
-   this.equationObserver?.update();this.mathEditing?.selectBlock(this.surface.querySelector(`[data-id="${CSS.escape(n.id)}"]`));this.finishEquationEdit=()=>{this.remember();this.finishEquationEdit=null;};refreshTargets(field.value);this.emit();
+   this.equationObserver?.update();this.mathEditing?.selectBlock(this.surface.querySelector(`[data-id="${CSS.escape(n.id)}"]`));this.finishEquationEdit=()=>{this.remember();this.finishEquationEdit=null;};refreshTargets(storedMathLatex(field.value));this.emit();
   };
   field.addEventListener('input',apply);field.addEventListener('change',()=>{if(field.isConnected){apply();finish();}});field.addEventListener('focusout',finish);wrap.append(field);this.inspector.append(wrap);
   this.field('Equation size (pt)',n.fontSize,v=>this.modify(x=>x.fontSize=v));this.field('Equation width (mm)',n.width,v=>this.modify(x=>x.width=v));this.field('Annotation gap (mm)',n.gap,v=>this.modify(x=>x.gap=v));

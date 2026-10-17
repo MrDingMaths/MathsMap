@@ -1,4 +1,5 @@
 // Reconcile a native field without replacing its live mathematics or text nodes.
+import {editableMathLatex} from './math-latex.mjs';
 // moveBefore preserves custom-element state and browser selection on supported hosts.
 export function moveConnected(parent,node,before=null){
   if(node.parentNode===parent&&node.nextSibling===before)return;
@@ -19,7 +20,7 @@ export function reconcileDocumentDOM(surface,html){
         if(node.nodeType===3){if(node.data!==fresh.data)node.data=fresh.data;}
         else if(node.nodeType===1){
           attributes(node,fresh);
-          if(node.matches('[data-math]')){const field=node.querySelector('math-field'),next=fresh.querySelector('math-field');if(field&&next&&field.getValue('latex')!==next.textContent)field.setValue(next.textContent,{silenceNotifications:true});const preview=node.querySelector('[data-math-preview]'),newPreview=fresh.querySelector('[data-math-preview]');if(preview&&newPreview&&preview.innerHTML!==newPreview.innerHTML)preview.innerHTML=newPreview.innerHTML;}
+          if(node.matches('[data-math]')){const field=node.querySelector('math-field'),next=fresh.querySelector('math-field');if(field&&next&&field.getValue('latex')!==next.textContent)field.setValue(editableMathLatex(next.textContent),{silenceNotifications:true});const preview=node.querySelector('[data-math-preview]'),newPreview=fresh.querySelector('[data-math-preview]');if(preview&&newPreview&&preview.innerHTML!==newPreview.innerHTML)preview.innerHTML=newPreview.innerHTML;}
           else if(node.tagName!=='MATH-FIELD')patch(node,fresh);
         }
       }

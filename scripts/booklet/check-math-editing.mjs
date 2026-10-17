@@ -10,5 +10,56 @@ try{
  await mf.evaluate(e=>{e.executeCommand('selectAll');});await mf.press('Control+b');assert.match(await mf.evaluate(e=>e.getValue('latex')),/mathbf|boldsymbol|bm/);
  const saved=await page.evaluate(()=>window.mathTestEditor.document);await page.evaluate(doc=>window.mathTestEditor.document=doc,saved);assert.deepEqual(await page.evaluate(()=>window.mathTestEditor.document),saved);
  await mf.click();await mf.press('Escape');await page.keyboard.press('Alt+=');assert.equal(await page.locator('dialog maths-editor math-field').count(),2);
- assert.deepEqual(errors,[]);console.log('PASS: maths formatting, symbol palette inside modal, keyboard exit/re-entry, LaTeX apply/cancel, save/reload and Alt+= insertion.');
+ await page.waitForFunction(()=>document.activeElement?.tagName==='MATH-FIELD');
+ await page.keyboard.type('z+2');
+ await page.waitForFunction(()=>/z.*2/.test(window.mathTestEditor.document.blocks[0].inlines.filter(n=>n.type==='math').at(-1).latex));
+ assert.match(await page.evaluate(()=>window.mathTestEditor.document.blocks[0].inlines.filter(n=>n.type==='math').at(-1).latex),/z.*2/);
+ const count=await page.locator('dialog maths-editor math-field').count();
+ const inserted=await page.locator('dialog maths-editor math-field').last().evaluate(e=>e.getValue('latex'));
+ await page.evaluate(async()=>{const {runEditorCommand}=await import('/src/lib/booklet-editor-dom.js');const button=document.createElement('button');button.textContent='Insert or edit equation';button.dataset.equationControl='';button.onpointerdown=e=>e.preventDefault();button.onclick=()=>runEditorCommand(window.mathTestEditor,'math');window.mathTestEditor.parentElement.append(button);});
+ await page.getByRole('button',{name:'Insert or edit equation',exact:true}).click();
+ assert.equal(await page.locator('dialog maths-editor math-field').count(),count);
+ assert.equal(await page.locator('dialog maths-editor math-field').last().evaluate(e=>e.getValue('latex')),inserted);
+ assert.equal(await page.evaluate(()=>document.activeElement.tagName),'MATH-FIELD');
+ await page.evaluate(async()=>{const {fromSource}=await import('/src/lib/document-content.js');window.mathTestEditor.document=fromSource('Before $\\boldsymbol{x_i}$ and $\\mathbf{A}$ after.');});
+ await mf.click();await mf.press('End');await page.keyboard.type('+y');
+ await page.waitForFunction(()=>/y\}?$/.test(window.mathTestEditor.document.blocks[0].inlines.filter(n=>n.type==='math')[0].latex));
+ const italicSaved=await page.evaluate(()=>window.mathTestEditor.document);
+ const maths=italicSaved.blocks[0].inlines.filter(n=>n.type==='math');
+ assert.match(maths[0].latex,/\\boldsymbol\{x(?:_i)?\}/);assert.doesNotMatch(maths[0].latex,/mathbfit/);
+ assert.equal(maths[1].latex,String.raw`\mathbf{A}`);
+ await page.evaluate(doc=>window.mathTestEditor.document=doc,italicSaved);await mf.click();
+ await mf.evaluate(e=>e.executeCommand('selectAll'));await page.getByRole('button',{name:'Bold maths',exact:true}).click();
+ const formatted=await page.evaluate(()=>window.mathTestEditor.document);
+ assert.doesNotMatch(JSON.stringify(formatted),/mathbfit/);
+ const {documentHtml}=await import('../../src/lib/document-content.js');
+ assert.doesNotMatch(documentHtml(formatted),/katex-error/);
+ // The live Studio host reconciles DOM instead of rebuilding it, and its
+ // formatting controls sit outside the editable field.
+ await page.evaluate(async()=>{
+  const {installBookletEditorHost}=await import('/src/lib/booklet-editor-dom.js');
+  const old=window.mathTestEditor,button=document.querySelector('button[data-equation-control]');
+  old.parentElement.close();const container=document.createElement('div'),e=document.createElement('maths-editor');e.setAttribute('structured','');e.setAttribute('controls','contextual');container.append(e,button);document.body.replaceChildren(container);window.mathTestEditor=e;
+  const host={boundary(){},beforeInput(){},selection(){},composition(){},ready(){},detached(){},undo(){},adjacent(){}};
+  e.documentHost=host;installBookletEditorHost(e,host);
+  e.document={blocks:[{id:'table',type:'table',rows:[[{id:'heading',header:true,blocks:[{id:'heading-p',type:'paragraph',inlines:[{type:'math',latex:'\\boldsymbol{x}'}]}]},{id:'empty',blocks:[{id:'empty-p',type:'paragraph',inlines:[]}]}]]}]};
+ });
+ const liveField=page.locator('maths-editor math-field').first();
+ await liveField.click();await liveField.press('End');await page.keyboard.type('+f');
+ await page.waitForFunction(()=>window.mathTestEditor.document.blocks[0].rows[0][0].blocks[0].inlines[0].latex.endsWith('f'));
+ assert.match(await page.evaluate(()=>window.mathTestEditor.document.blocks[0].rows[0][0].blocks[0].inlines[0].latex),/\\boldsymbol\{x\}/);
+ await page.locator('[data-id="empty-p"]').click();
+ await page.waitForFunction(()=>document.activeElement===window.mathTestEditor.documentController.surface&&!window.mathTestEditor.documentController.mathEditing.field());
+ await page.getByRole('button',{name:'Insert or edit equation',exact:true}).click();
+ await page.waitForFunction(()=>document.activeElement?.tagName==='MATH-FIELD');
+ await page.keyboard.type('a+1');
+ await page.waitForFunction(()=>window.mathTestEditor.document.blocks[0].rows[0][1].blocks[0].inlines.some(n=>n.type==='math'&&n.latex==='a+1'));
+ const tableSaved=await page.evaluate(()=>window.mathTestEditor.document);
+ await page.evaluate(doc=>window.mathTestEditor.document=doc,tableSaved);
+ assert.deepEqual(await page.evaluate(()=>window.mathTestEditor.document),tableSaved);
+ assert.doesNotMatch(documentHtml(tableSaved),/katex-error/);
+ await page.evaluate(async doc=>{const {documentHtml}=await import('/src/lib/document-content.js');document.querySelectorAll('dialog').forEach(e=>e.remove());const proof=document.createElement('div');proof.id='math-print-proof';proof.style.cssText='background:white;color:black;width:500px;padding:12px';proof.innerHTML=documentHtml(doc);document.body.replaceChildren(proof);await document.fonts.ready;},tableSaved);
+ await page.emulateMedia({media:'print'});
+ await page.locator('#math-print-proof').screenshot({path:'tmp/studio-verification/math-editing-print.png'});
+ assert.deepEqual(errors,[]);console.log('PASS: formatting, palette, LaTeX apply/cancel, save/reopen, italic preservation, intentional upright maths, active-equation Math command and typing into new equations.');
 }finally{await browser.close();}

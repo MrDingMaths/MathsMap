@@ -1,4 +1,5 @@
 import {spaceFractionSteps} from './equation-spacing.mjs';
+import {editableMathLatex} from './math-latex.mjs';
 // Selection belongs to the editing session, never to the saved document.
 const copy = value => value == null ? null : JSON.parse(JSON.stringify(value));
 const ownerOf = (surface, node) => (node.nodeType === 1 ? node : node.parentElement)?.closest('[data-id]') ?? surface;
@@ -47,13 +48,14 @@ export function restoreSelection(editor, bookmark) {
     const owner = bookmark.nodeId ? surface.querySelector(`[data-id="${CSS.escape(bookmark.nodeId)}"]`) : surface;
     const fields = owner?.querySelectorAll('math-field'), field = fields?.length === bookmark.mathCount ? fields[bookmark.mathIndex] : null;
     if (field) {
+      const revision=editor.selectionRevision??0;
       editor.mathEditing?.activate(field);
       const focus = () => {
         field.focus({preventScroll:true});
         if (bookmark.selection) field.selection = copy(bookmark.selection);
         else field.position = bookmark.position ?? -1;
       };
-      const mounted=()=>{if(field.isConnected&&[surface,document.body].includes(document.activeElement))focus();};
+      const mounted=()=>{if(field.isConnected&&(editor.selectionRevision??0)===revision&&[surface,document.body].includes(document.activeElement))focus();};
       field.addEventListener('mount',mounted,{once:true});
       focus();
       // Retry across mounting without resetting a caret the user already moved.
@@ -81,6 +83,6 @@ export function patchMathValues(editor, previous, next) {
   if(before!==shape(next))return false;
   const fields=[...editor.surface.querySelectorAll('[data-math] math-field')];
   if(fields.length!==count||values.length!==count*2)return false;
-  fields.forEach((field,index)=>{const latex=spaceFractionSteps(values[count+index]);if(field.getValue('latex')!==latex)field.setValue(latex,{silenceNotifications:true});});
+  fields.forEach((field,index)=>{const latex=editableMathLatex(spaceFractionSteps(values[count+index]));if(field.getValue('latex')!==latex)field.setValue(latex,{silenceNotifications:true});});
   return true;
 }
