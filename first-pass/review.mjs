@@ -328,9 +328,21 @@ export const targetsUnchanged=(finding,project,index)=>finding.targets.every(tar
 
 export function provenanceFile(projectId,{root=ROOT,provenanceDir}={}){return path.join(provenanceDir??path.join(root,'booklets','provenance','first-pass-review'),projectId+'.json');}
 export function loadProvenance(file,project){
- return fs.existsSync(file)?read(file):{version:1,projectId:project.id,title:project.title,findings:[],notReliablyReviewed:[]};
+ return fs.existsSync(file)?whileLocked(()=>read(file)):{version:1,projectId:project.id,title:project.title,findings:[],notReliablyReviewed:[]};
 }
-export function saveProvenance(file,value){fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,JSON.stringify(value,null,1)+'\n');}
+// Windows can hold a file open for another process for some seconds (UNKNOWN, EBUSY, EPERM):
+// wait and retry for up to about two minutes before giving up.
+const LOCKED=new Set(['UNKNOWN','EBUSY','EPERM','EACCES']);
+export function whileLocked(action){
+ for(let attempt=1;;attempt++){
+  try{return action();}
+  catch(error){if(attempt>=30||!LOCKED.has(error.code))throw error;Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,Math.min(500*attempt,6000));}
+ }
+}
+export function saveProvenance(file,value){
+ fs.mkdirSync(path.dirname(file),{recursive:true});const text=JSON.stringify(value,null,1)+'\n';
+ whileLocked(()=>fs.writeFileSync(file,text));
+}
 export const setState=(finding,state,note)=>{if(finding.state===state)return;finding.state=state;(finding.history??=[]).push({state,at:now(),...(note?{note}:{})});};
 
 // Merge a run's findings into the record. A rejected finding suppresses the same
@@ -468,6 +480,7 @@ export async function postFindings({projectFile,root=ROOT,provenanceDir,findingI
  if(selected)for(const id of selected)if(!record.findings.some(finding=>finding.id===id))throw Error('Unknown finding '+id);
  for(const finding of record.findings??[]){
   if(selected&&!selected.has(finding.id)||finding.state!=='pending')continue;
+  if(finding.groupedUnder)continue; // listed on its pattern's representative comment
   if(flagOf(project,finding)){present.push(finding.id);continue;}
   if(finding.commentId)continue; // posted before and since deleted: status records the rejection
   if(!targetsUnchanged(finding,project,index)){setState(finding,'stale','A target changed before posting.');stale.push(finding.id);continue;}
@@ -497,12 +510,19 @@ export async function reconcile({projectFile,root=ROOT,provenanceDir,triaged=fal
  const byId=new Map((record.findings??[]).map(finding=>[finding.id,finding]));
  for(const id of [...approve,...reject,...resolve])if(!byId.has(id))errors.push('Unknown finding '+id);
  for(const finding of record.findings??[]){
+  // Closed findings no longer apply; grouped ones follow their representative below.
+  if(finding.state==='closed'||finding.groupedUnder)continue;
   const flag=flagOf(project,finding);
   if(finding.commentId&&!flag){if(['pending','approved','stale'].includes(finding.state))setState(finding,'rejected','Its comment was deleted in Studio.');continue;}
   if(flag?.resolved){setState(finding,'repaired','Its comment was resolved in Studio.');continue;}
   if(flag&&text(flag.note)!==text(finding.postedNote??'')&&flag.note)finding.teacherNote=flag.note;
   if(finding.state==='pending'&&(flag?feedbackStatus(project,flag)==='Target removed':!targetsUnchanged(finding,project,index)))setState(finding,'stale',flag?'Its target was removed.':'A target changed before posting.');
   if(triaged&&flag&&['pending','stale'].includes(finding.state)&&feedbackStatus(project,flag)!=='Target removed')setState(finding,'approved','Comment kept after triage.');
+ }
+ // One decision per pattern: a grouped finding takes its representative's decision.
+ for(const finding of record.findings??[]){
+  const representative=finding.groupedUnder&&byId.get(finding.groupedUnder);
+  if(representative&&['pending','stale'].includes(finding.state)&&['approved','rejected','repaired','closed'].includes(representative.state))setState(finding,representative.state,'Follows its pattern comment '+representative.id+'.');
  }
  for(const id of approve){
   const finding=byId.get(id);if(!finding||finding.state==='approved')continue;
@@ -535,12 +555,17 @@ export async function reconcile({projectFile,root=ROOT,provenanceDir,triaged=fal
 export async function main(args=process.argv.slice(2)){
  const command=args[0],values={},flags=new Set();
  for(let i=1;i<args.length;i++){
-  if(['--fresh','--source','--dry','--triaged'].includes(args[i])){flags.add(args[i]);continue;}
+  if(['--fresh','--source','--dry','--triaged','--queues'].includes(args[i])){flags.add(args[i]);continue;}
   if(!['--project','--project-file','--pages','--editions','--concurrency','--provenance-dir','--base','--findings','--approve','--reject','--resolve'].includes(args[i])||args[i+1]===undefined)throw Error('Invalid option '+args[i]);
   values[args[i]]=args[++i];
  }
  const list=name=>values[name]?.split(',').map(item=>item.trim()).filter(Boolean)??[],live=values['--project']&&path.join(ROOT,'booklets','projects',values['--project']+'.json');
  const projectFile=values['--project-file']?path.resolve(values['--project-file']):live,provenanceDir=values['--provenance-dir']&&path.resolve(values['--provenance-dir']);
+ // Queue view (17 October 2026): every booklet with a provenance file unless --project names one.
+ if(command==='status'&&flags.has('--queues')){
+  const {queueStatus}=await import('./queues.mjs'),result=await queueStatus({ids:values['--project']?[values['--project']]:undefined,provenanceDir});
+  console.log(JSON.stringify(result,null,1));if(result.errors.length)process.exitCode=1;return result;
+ }
  if(!projectFile)throw Error('Name a booklet with --project ID or --project-file FILE');
  const log=message=>console.error(message),options={projectFile,provenanceDir,pages:parsePages(values['--pages']),editions:values['--editions']?list('--editions'):EDITIONS,base:values['--base']??BASE,fresh:flags.has('--fresh'),log};
  let result;
@@ -548,7 +573,12 @@ export async function main(args=process.argv.slice(2)){
  else if(command==='review')result=await runReview({...options,concurrency:Number(values['--concurrency']??LIMITS.concurrency),source:flags.has('--source')});
  else if(command==='post'){if(!live||values['--project-file'])throw Error('Comments are posted only to a live project: use --project ID');result=await postFindings({projectFile,provenanceDir,...(values['--findings']?{findingIds:list('--findings')}:{})});}
  else if(command==='status')result=await reconcile({projectFile,provenanceDir,triaged:flags.has('--triaged'),approve:list('--approve'),reject:list('--reject'),resolve:list('--resolve')});
- else throw Error('Use map|review|post|status --project ID. See docs/booklet-first-pass-review.md');
+ else if(command==='confirm'||command==='group'){
+  if(!live||values['--project-file'])throw Error('Queues act only on a live project: use --project ID');
+  const queues=await import('./queues.mjs');
+  result=await(command==='confirm'?queues.confirmStale:queues.groupComments)({projectFile,provenanceDir,dry:flags.has('--dry'),base:values['--base']??BASE,log});
+ }
+ else throw Error('Use map|review|post|status|confirm|group --project ID. See docs/booklet-first-pass-review.md');
  console.log(JSON.stringify(result,null,2));if(result.errors?.length)process.exitCode=1;return result;
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url))main().catch(error=>{console.error(error.message);process.exitCode=1;});

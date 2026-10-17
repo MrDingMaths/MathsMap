@@ -30,7 +30,13 @@ node first-pass/review.mjs map --project ID [--pages 12-30]
 node first-pass/review.mjs review --project ID [--pages 12-30] [--editions student,short,worked] [--concurrency 1-3] [--source] [--fresh]
 node first-pass/review.mjs post --project ID [--findings fp-…,fp-…]
 node first-pass/review.mjs status --project ID [--triaged] [--approve IDS] [--reject IDS] [--resolve IDS]
+node first-pass/review.mjs status --queues [--project ID]
+node first-pass/review.mjs confirm --project ID [--dry]
+node first-pass/apply.mjs --project ID --queue a,b [--findings IDS]
+node first-pass/review.mjs group --project ID [--dry]
 ```
+
+The last four are described in [Queues for pending findings](#queues-for-pending-findings-17-october-2026).
 
 - `map` is the dry run. It paginates the Questions, Short answers and Worked solutions editions of the saved project in a headless browser, saving nothing, and prints the pages it would review and each call it would make with its prompt size. It makes no model call and no rasters.
 - `review` does the same, rasterises the selected pages with `check-feedback-pages.mjs --blocks … --editions student,short,worked --checks-only none`, and sends them to the workers. `--pages` names Questions pages, and the answer pages of their blocks come with them; front matter is skipped. `--editions` runs only the calls for the named editions, for example to repeat one that failed. A failed call is reported in `errors` and leaves the earlier findings on its pages in place. Each call carries its page images, the page map, compact layout JSON for the blocks on those pages, up to twelve comparable blocks from elsewhere (`similar`) and the teacher's earlier decisions on those blocks (`decided`). `--source` attaches up to four source pages to each Questions call when the import run kept them; it is off by default, as in the replay. Findings go to `booklets/provenance/first-pass-review/ID.json` and the project is not written. Page maps, rasters and call records are kept in `.booklet-work/first-pass-review/ID/` and reused while the booklet's printed content is unchanged. After a renderer change, `--fresh` renders again.
@@ -52,6 +58,49 @@ Diagnosis and repair later on 15 October: retry repair workers receive the relev
 
 The original defect is checked in the finding's own edition; additional editions receive a regression check, rather than being asked to show student handwriting space in an answer key. Both checks still require a positive verdict. Findings incorrectly reverted by the old cross-edition check can receive one cause-specific verification recovery, using their saved original repair and fresh scoped checks, without another author call. This does not reset their ordinary retry budget. A separate shared three-slot rendering resource bounds browser/print load while ten booklets can remain active; each booklet still shares its canonical three-worker model pool.
 
+## Queues for pending findings (17 October 2026)
+
+User requested. The teacher's review is the slowest step, so a pending finding reaches the teacher only when the decision is theirs. On 17 October 1,242 findings were pending. Most were apply comments, and many of them were failures of the tool, not decisions. `status --queues` sorts every pending finding into one queue and records it on the finding as `queue: {name, reason, at, revision}`. Finding IDs never change.
+
+| Queue | What it holds | What happens |
+|---|---|---|
+| a, technical failure | The repair worker returned nothing, failed, could not see or reach the field or page it needed, had a renderer field refused by the guard, or its repair could not be verified | Rerun once with the widened worker access below |
+| b, mechanical rule | A pagination, labels, spacing, table, diagram, answers or alignment finding that needs no content change, where the worker declined or the repair did not take | Rerun once through the same guarded apply and verification |
+| c, content or teaching decision | Response-format findings, duplicates, reviews and extensions, and anything needing an edit the layout tool may not make: TikZ, answer or prompt text, inline colour or bold, a new diagram, a block's role | Stays a Studio comment, grouped by pattern |
+| d, stale | A target changed or was removed since the finding | Confirmed against the current revision and closed, or re-anchored and queued again |
+
+Queues come from the finding's area and targets and from the worker's own note on its earlier attempt, tested in a fixed order in `first-pass/queues.mjs`; the first rule that matches decides. A comment the teacher has deleted or resolved gets no queue: `status` records that decision first.
+
+**Rerunning (a) and (b).** `apply.mjs --queue a,b` reruns the named findings whatever their earlier outcome. Each finding gets one queue rerun (`queueRerun`, which keeps the earlier outcome and note). Its in-run retry is used only if no earlier attempt consumed one, so the single verified retry still holds. A repaired finding's open comment is resolved in place. A finding that fails again keeps its comment and is grouped with queue (c).
+
+**What the repair worker now sees.** About a third of earlier refusals came from the worker missing a field or page. Each block in a repair prompt now carries:
+- every node's id path and pointer;
+- the layout of the containers around each target, and of its section;
+- the saved arrangements and answer spaces, with the project pointer of each arrangement node;
+- the answer-edition overrides: `presentation.answerPartLabels`, `shortAnswerGroupStarts`, `shortAnswerTableFullWidth`, and `settings.compactAnswers.diagramWidths` and `diagramStyles`;
+- the blocks immediately before and after, which may also be patched;
+- for a block over 40,000 characters, its layout outline and the full subtree of each target.
+
+The worker gets the rendered pages of its blocks on the first attempt, not only on a retry. It also gets a catalogue of the fields the renderer reads, checked against the code, with the excerpts that read them, and its earlier attempt's note. The guard admits the renderer fields that workers had been refused: `responseSpace`, `backgroundColor`, `borderWidthMm`, `diagramPlacement`, `direction`, `weight`, `tail`, `gapMm` and `diagramWidthMm`. It also admits source response labels and the per-diagram answer-edition sizes. A patch that names an arrangement node is rewritten to that node's project pointer. A patch under objects that do not exist yet becomes one patch that creates the outermost missing object, normalised as the save will store it. The content check is unchanged.
+
+The trial step also refuses:
+- a patch that leaves an empty entry in a list;
+- an arrangement whose references name no content node. These run the same structural preflight as the render; on 17 October, 18 verification renders failed it after saving and returned no verdict.
+
+A save the project refuses changes nothing, and its findings stay comments. Provenance writes and repair saves retry through brief Windows file locks. A repair save first checks whether its patches already landed.
+
+**Confirming (d).** `confirm` closes a finding whose target was removed. For a changed target, one worker call per edition, with at most twelve current page images, asks whether the issue still shows. One that no longer shows becomes `closed`, and its comment is resolved with the reason. One that still shows is re-anchored to the current block hashes and queued again. One the pages cannot settle stays in (d). Nothing is closed if the booklet was saved during the check.
+
+**Grouping (c).** `group` folds repeated instances of one pattern into one comment, so the teacher decides once. A pattern is a set of comments within one booklet with the same area and edition, the same opening verb ("Move the 5 cm label…", "Make the headers bold…") and overlapping wording. Duplicates, reviews and extensions each carry their own proposal and are never grouped. The representative comment lists every affected block and finding. Each other instance records `groupedUnder` and takes the representative's decision in `status`: deleting the comment rejects them all, and keeping it approves them all. A comment the teacher has edited is left alone. A duplicate that a pedagogy duplicate-question comment already raises on the same block is not posted again; it is recorded as `coveredBy`. Unposted queue (c) findings are posted.
+
+**Skips.** Before each confirm, apply or group, skip a booklet if any of these holds:
+- a `lean-import.mjs`, `lean-review.mjs` or `lean-route.mjs` process holds it, or some other process names it;
+- another campaign's run folder touched it within three hours;
+- the teacher wrote or edited an unresolved comment of their own on it within the last day; resolved comments do not hold the booklet (18 October 2026, user requested);
+- it was saved within the last hour.
+
+Workers stay Sol 6.1 at low reasoning, within each booklet's three-worker lease.
+
 ## Reviewer contract
 
 <!-- contract:first-pass:start -->
@@ -67,7 +116,7 @@ What you are given:
 
 How the booklet should look (house conventions):
 - Pagination: in the Questions edition every exercise starts on a new page. Short answers and Worked solutions flow continuously, exercise after exercise, with no page breaks between exercises. A review fits on one page. Key Ideas sit on the same page as the table or teaching they summarise. A question stays with its parts and its table, a worked example with its "Your turn", and a continued table repeats its header row.
-- Response format: an open response (explain, describe, show working) gets plain unruled working space. A cloze is used only where the answer goes in a particular place: a symbol between two numbers, a value inside an equation or sentence, a cell of a table. Ordinary clozes are dotted, sit on the text baseline, are sized to the expected answer and stay inside their column; allow 2.2 mm per handwritten character plus 6 mm, at least 8 mm, and 8 mm between written lines. Boxes are used only with a purpose: cards to place, the base and index of a power, a dedicated writing region. Within a question and on a page, clozes have one size and style. Table cells are themselves the writing space and carry no dots.
+- Response format: an open response (explain, describe, show working) gets plain unruled working space. A cloze is used only where the answer goes in a particular place: a symbol between two numbers, a value inside an equation or sentence, a cell of a table. Ordinary clozes are dotted, sit on the text baseline, are sized to the expected answer and stay inside their column; allow 2.2 mm per handwritten character plus 6 mm, at least 8 mm, and 8 mm between written lines. Boxes are used only with a purpose: cards to place, the base and index of a power, missing fraction numerators and denominators, a dedicated writing region. Missing numerator and denominator boxes are required, including in teaching and in-place answer scaffolds; never suggest replacing them with dots. Size each box for its expected handwritten response. A complete-fraction response outside a fraction retains the ordinary dotted-cloze default. A blank for a whole fraction, term or expression is one dotted cloze on the baseline with no vinculum and no numerator or denominator boxes: "…… + …… − …… = 7/12", not three empty fractions. Never report missing numerator or denominator boxes as boxes where dots would do. Within a question and on a page, clozes have one size and style. Table cells are themselves the writing space and carry no dots.
 - Tables: a table in the source stays one native table. Header cells are bold on light blue `#d3e8fc`; statistical tables are centred; ordinary grid lines are grey `#cccccc`. Layout containers, calculation scaffolds and separators between question parts have no borders; real tables and solution tables keep theirs. Columns are wide enough that equations and short entries do not wrap, and descriptive first-column labels fit on one line. A factorisation or equation split over two lines to fit a narrow column counts as wrapped: widen the column instead.
 - Labels: a part label sits at the top left, on the first line of its content, aligned with the other parts, with a clear indent before the content. Parts of one question run in one sequence (a, b, c …), and a new question starts again at a. Grouped sub-tasks use ai, aii, bi. Investigations, paired "Worked example / Your turn" blocks and Key Ideas carry no part letters unless the source gives them; when such a block is lettered and the similar blocks before it are not, the fix is to remove the letters, not to move them. A row label such as "English expression:" or "Decimal:" sits close to its response, as in the similar rows elsewhere, not across a wide empty column.
 - Ink and alignment: worked-example questions in the teaching are black and their solutions blue, including inline maths. Numbered steps have red numbers in a left gutter with blue working. When working opens with a bare expression and each later line begins with =, the opening expression is indented by the width of "= " so that it sits directly above the right-hand sides and the = signs stack in one column to its left; an opening expression that starts flush with the = signs is missing this gutter. Pronumerals are italic, and ordinary text and diagram labels are not bold. Ticks and crosses in activities are large and clear.
@@ -98,7 +147,7 @@ What to look for, in this order:
    - A block in the wrong role: a practice task inside a theory, example or review block; teaching activities under an exercise heading; theory presented as review. A worked example must pose a question and then answer it, and must not be merged into the theory before it.
 
 4. Response format and scaffolds.
-   - Cloze lines given for an open response; boxes where dots would do; clozes of different sizes or styles in one question or page; dots above the baseline; a cloze running past its column; dots inside table cells; clozes that the source does not have.
+   - Cloze lines given for an open response; boxes where dots would do (never the boxes of a missing numerator or denominator); an empty fraction with a vinculum where students write a whole fraction or expression, which should be one dotted cloze; clozes of different sizes or styles in one question or page; dots above the baseline; a cloze running past its column; dots inside table cells; clozes that the source does not have.
    - A cloze that looks wrong: unequal widths for parallel answers, or unbalanced brackets around blanks.
    - A source scaffold that is missing: a dot-plot axis, the first line of working, an axis scale on a graph students must draw.
    - A drill that over-scaffolds once the method is known: the same scaffold repeated for every part, or a first item that only repeats the conversion factor. Propose asking directly while keeping the question stem.
