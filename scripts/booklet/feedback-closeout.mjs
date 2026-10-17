@@ -9,6 +9,8 @@ import {isDeepStrictEqual} from 'node:util';
 import {loadBookletProject,saveBookletProject,getProjectBankSync} from './project-studio-server.mjs';
 import {beginRunPhase,endRunPhase,readRunEvents,buildRunReceipt} from './run-observability.mjs';
 import {updateFeedback} from '../../src/lib/booklet-feedback.js';
+import {assertRepairScope,changedPaths,structuralPreflight} from './feedback-preflight.mjs';
+import {normalizeEditableProject} from '../../src/lib/editable-booklet-model.js';
 
 const sha=value=>createHash('sha256').update(value).digest('hex');
 const UNAVAILABLE='unavailable';
@@ -42,17 +44,37 @@ export async function snapshotInput(runDir,project){
  }
 }
 const blocksById=project=>new Map(project.sections.flatMap(section=>section.blocks).map(block=>[block.id,block]));
-// Save through the shared transaction, then reload from disk and compare the
-// blocks the repair changed. Normalisation by the save may not alter them.
-export async function saveRepair({candidate,expectedRevision,changedBlockIds=[],runDir,options={}}){
+// The transaction return is the canonical saved expectation: it already includes
+// validation/normalisation, preserved lineage, bank revisions and ratings. Compare
+// every field on readback, rather than duplicating or bypassing those transforms.
+export function verifyRepairReadback(saved,reloaded,{expectedRevision,changedBlockIds=[]}={}){
+ const wanted=blocksById(saved),actual=blocksById(reloaded);
+ const mismatched=changedBlockIds.filter(id=>!wanted.has(id)||!isDeepStrictEqual(actual.get(id),wanted.get(id)));
+ const projectPaths=changedPaths(saved,reloaded);
+ const readback={revision:reloaded.revision,expectedRevision:expectedRevision+1,blocksChecked:changedBlockIds.length,mismatched,projectPaths};
+ if(reloaded.revision!==expectedRevision+1||mismatched.length||projectPaths.length)throw Object.assign(Error('Saved project does not match the repair candidate: '+JSON.stringify(readback)),{readback});
+ return readback;
+}
+export async function saveRepair({candidate,expectedRevision,changedBlockIds=[],allowedPaths=[],runDir,options={}}){
  if(!Number.isInteger(expectedRevision))throw Error('saveRepair requires the expected input revision');
+ const before=await loadBookletProject(candidate.id,{...options,refreshRatings:false});
+ if(before.revision!==expectedRevision)throw Error('Project changed in another session; reload before saving');
+ const scope=assertRepairScope(before,candidate,{blockIds:changedBlockIds,allowedPaths});
+ const preflight=structuralPreflight(candidate,{blockIds:changedBlockIds});
+ if(runDir){await fs.mkdir(runDir,{recursive:true});await fs.writeFile(path.join(runDir,'preflight.json'),JSON.stringify({...preflight,scope},null,2)+'\n');}
+ if(preflight.issues.length)throw Error('Repair structural preflight failed: '+JSON.stringify(preflight.issues));
  const saved=await saveBookletProject(candidate,{...options,expectedRevision});
- const reloaded=await loadBookletProject(saved.id,{...options,refreshRatings:false}),wanted=blocksById(candidate),actual=blocksById(reloaded);
- const mismatched=changedBlockIds.filter(id=>!wanted.has(id)||!isDeepStrictEqual(JSON.parse(JSON.stringify(actual.get(id)??null)),JSON.parse(JSON.stringify(wanted.get(id)))));
+ const reloaded=await loadBookletProject(saved.id,{...options,refreshRatings:false});
+ // Reload normalises the persisted JSON. Use that same projection for fields
+ // omitted by JSON serialization (undefined), retaining all meaningful metadata.
+ const canonical=JSON.parse(JSON.stringify(normalizeEditableProject(saved)));
+ let readback,failure;
+ try{readback=verifyRepairReadback(canonical,JSON.parse(JSON.stringify(reloaded)),{expectedRevision,changedBlockIds});}
+ catch(error){readback=error.readback;failure=error;}
  const bankSync=await getProjectBankSync(saved.id,options);
- const readback={revision:reloaded.revision,expectedRevision:expectedRevision+1,blocksChecked:changedBlockIds.length,mismatched,bankSyncItems:bankSync.items?.length??0};
+ readback.bankSyncItems=bankSync.items?.length??0;
  if(runDir){await fs.mkdir(runDir,{recursive:true});await fs.writeFile(path.join(runDir,'saved.json'),JSON.stringify(reloaded,null,2)+'\n');await fs.writeFile(path.join(runDir,'readback.json'),JSON.stringify({...readback,bankSync},null,2)+'\n');}
- if(reloaded.revision!==expectedRevision+1||mismatched.length)throw Object.assign(Error('Saved project does not match the repair candidate: '+JSON.stringify(readback)),{readback});
+ if(failure)throw failure;
  return {project:reloaded,readback,bankSync};
 }
 // A comment is resolved only against recorded evidence: a specific statement of

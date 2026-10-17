@@ -16,8 +16,15 @@ import {trackProcessPhase} from './run-observability.mjs';
 import {publishBrowserDiagrams,diagramInputFiles} from './render-cache-server.mjs';
 import {ensureSelectedPdfRasters} from './pdf-rasters.mjs';
 import {accumulateTikzCompilation,expectedAnswerNodeIds,assertAnswerRenderCoverage} from './check-compact-exercises.mjs';
+import {structuralPreflight,assertRepairScope} from './feedback-preflight.mjs';
 
 export const FEEDBACK_EDITIONS=['student','short','worked','with-short','with-worked'];
+// Explicit global-spacing maintenance may inspect dense samples while retaining
+// complete page maps and full-DOM checks. Ordinary feedback selection is unchanged.
+export function selectDenseFeedbackPages(selected,scores,count){
+ const densePages=[...selected].sort((a,b)=>(scores[b-1]??0)-(scores[a-1]??0)||a-b).slice(0,count);
+ return {densePages,selected:[...new Set(densePages.flatMap(p=>[p-1,p,p+1]))].filter(p=>selected.includes(p)).sort((a,b)=>a-b)};
+}
 const TIKZ_COUNTERS=['compiles','memoryHits','idbHits','serverHits','driverHits','failures'];
 const within=(pages,count)=>[...new Set(pages)].filter(page=>Number.isInteger(page)&&page>=1&&page<=count).sort((a,b)=>a-b);
 
@@ -94,6 +101,8 @@ async function main(){
  const args=process.argv.slice(2),arg=(name,fallback)=>{const i=args.indexOf(name);return i<0?fallback:args[i+1];},all=name=>args.flatMap((value,i)=>value===name?[args[i+1]]:[]),flag=name=>args.includes(name);
  const out=path.resolve(arg('--out')??(()=>{throw Error('--out DIRECTORY is required');})()),base=arg('--base','http://127.0.0.1:5173').replace(/\/$/,'');
  const editions=arg('--editions','student').split(',');
+ const sampleDense=Number(arg('--sample-dense','0'));
+ if(!Number.isInteger(sampleDense)||sampleDense<0||sampleDense>10)throw Error('--sample-dense takes an integer from 1 to 10');
  if(editions.some(edition=>!FEEDBACK_EDITIONS.includes(edition))||new Set(editions).size!==editions.length)throw Error('Select distinct supported editions');
  const blockIds=arg('--blocks','').split(',').filter(Boolean),byBlocks=blockIds.length>0;
  const capture=flag('--capture-baseline'),candidateFile=arg('--project-file'),baselineFile=arg('--baseline-project-file'),projectId=arg('--project');
@@ -108,6 +117,14 @@ async function main(){
  const baselineProject=baselineFile?read(baselineFile):null;
  if(!/^[a-zA-Z0-9._-]+$/.test(candidate.id)||(baselineProject&&baselineProject.id!==candidate.id))throw Error('Baseline and candidate must be the same valid project');
  fs.mkdirSync(out,{recursive:true});
+ if(byBlocks){
+  const preflight=structuralPreflight(candidate,{blockIds});
+  // An explicit before-snapshot also enables scope enforcement before launching
+  // the browser. Project-level exceptions must be named, never inferred.
+  if(baselineProject)preflight.scope=assertRepairScope(baselineProject,candidate,{blockIds,allowedPaths:all('--allow-path')});
+  fs.writeFileSync(path.join(out,'preflight.json'),JSON.stringify(preflight,null,2)+'\n');
+  if(preflight.issues.length)throw Error('Repair structural preflight failed: '+JSON.stringify(preflight.issues));
+ }
  const id=candidate.id,mapFile=edition=>path.join(out,`${id}-${edition}.baseline.pages.json`),reportFile=path.join(out,capture?'baseline-report.json':'feedback-pages.json');
  // Stop before any rendering when a comparison has nothing to compare with.
  // With a baseline project, combined editions default to the Questions
@@ -226,12 +243,16 @@ async function main(){
     const onlyChecks=checksOnly.includes(edition),isDerived=derived.includes(edition);
     const baseline=onlyChecks||byBlocks?{pages:[],revision:null,projectHash:null}:isDerived?{pages:[],revision:baselineProject.revision??null,projectHash:null,derivedFrom:'student'}:readPageManifest(mapFile(edition));
     const selection=onlyChecks?{changed:null,checksOnly:true,boundaries:[],selected:[]}:byBlocks?selectBlockPages({pages:result.pages,blockIds,edition,extra}):isDerived?deriveCombinedSelection({pages:result.pages,studentPages:student.pages,studentSelected:student.selected,extra}):selectFeedbackPages({before:baseline.pages,after:result.pages,edition,extra});
+    if(sampleDense&&!onlyChecks){
+     const scores=await page.locator('.project-print .print-page').evaluateAll(pages=>pages.map(p=>(p.textContent?.length??0)+p.querySelectorAll('svg').length*120+p.querySelectorAll('tr').length*40));
+     Object.assign(selection,selectDenseFeedbackPages(selection.selected,scores,sampleDense),{selectionPolicy:'dense-spacing-sample'});
+    }
     requireBoundedDevelopmentExport({projectId:id,edition,hasBaseline:true,selectedPages:selection.selected.length,totalPages:result.pages.length,reason:fullReason});
     if(edition==='student')Object.assign(student,{pages:result.pages,selected:selection.selected});
     if(byBlocks&&edition==='student'){const present=new Set(result.pages.flatMap(p=>p.blocks??[])),unknown=blockIds.filter(id=>!present.has(id));if(unknown.length)report.failures.push({edition,kind:'unknown-block',blocks:unknown});}
     const plan=inspectionPlan({edition,selected:selection.selected,boundaries:selection.boundaries,pages:result.pages,studentPages:student.pages,studentSelected:student.selected});
     const issues=result.qa.flatMap((p,i)=>p.issues.map(issue=>({page:i+1,...issue}))).concat(result.diagrams.issues);
-    const entry={baseline:{pages:baseline.pages.length,revision:baseline.revision,projectHash:baseline.projectHash},pageCount:result.pages.length,...selection,inspection:plan,inspectHere:plan.filter(p=>p.inspectIn===edition).map(p=>p.page),
+    const entry={baseline:{pages:baseline.pages.length,revision:baseline.revision,projectHash:baseline.projectHash},pageCount:result.pages.length,pages:result.pages,...selection,inspection:plan,inspectHere:plan.filter(p=>p.inspectIn===edition).map(p=>p.page),
      issues,missingLinks:result.info.missingLinks,links:result.info.links,diagramFigures:result.diagrams.figures.length,diagramVisualFindings:result.diagrams.visualFindings,timings:result.timings,tikz:result.tikz,diagramVersion:result.diagramVersion,printed:[],pdf:null,images:[]};
     report.editionsReport[edition]=entry;
     if(issues.length)report.failures.push({edition,kind:'layout',count:issues.length});

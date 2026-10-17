@@ -1,11 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
-import {boundaryPages,selectFeedbackPages,selectBlockPages,inspectionPlan,deriveCombinedSelection,answerSignature,overrideTouchesDiagramInputs,diagramInputUrls,tikzDelta,parseOverrides} from '../scripts/booklet/check-feedback-pages.mjs';
+import {boundaryPages,selectFeedbackPages,selectBlockPages,inspectionPlan,deriveCombinedSelection,answerSignature,overrideTouchesDiagramInputs,diagramInputUrls,tikzDelta,parseOverrides,selectDenseFeedbackPages} from '../scripts/booklet/check-feedback-pages.mjs';
 import {diagramInputFiles} from '../scripts/booklet/render-cache-server.mjs';
 import {requireBoundedDevelopmentExport} from '../scripts/booklet/page-review.mjs';
 
 const pages=(count,{answersFrom=Infinity,changed=[],mode='short'}={})=>Array.from({length:count},(_,i)=>({page:i+1,blocks:['b'+(i+1)],hash:changed.includes(i+1)?'new'+(i+1):'h'+(i+1),isAnswer:i+1>=answersFrom,isCover:i===0,answerSectionStart:i+1===answersFrom,mode:i+1>=answersFrom?mode:'student'}));
+test('explicit dense sampling ranks affected pages and keeps their selected neighbours',()=>{
+ assert.deepEqual(selectDenseFeedbackPages([2,3,4,5,8],[0,10,50,20,40,0,0,100],2),{densePages:[8,3],selected:[2,3,4,8]});
+ assert.deepEqual(selectDenseFeedbackPages([],[],2),{densePages:[],selected:[]});
+});
 
 test('question editions select changed pages and pagination neighbours only',()=>{
  const result=selectFeedbackPages({before:pages(12),after:pages(12,{changed:[5,9]}),edition:'student'});

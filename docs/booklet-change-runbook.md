@@ -9,6 +9,28 @@ Accepted 11 September 2026; feedback verification narrowed by user request on 16
 - Map affected patterns to questions, diagrams, physical pages and editions. Include pagination neighbours, inserted/deleted pages, shifted tails, answer-section transitions and navigation when affected.
 - Record the required checks and final review coverage at the start. Do not automatically export every edition of every book for a local change; do not narrow a shared change to the user's named example.
 
+### Structural preflight for feedback repairs (16 October 2026)
+
+Before the first repair render, inspect the affected content and its saved presentation together. This is a short inspection within scope discovery, not an extra review stage or export.
+
+Run the read-only structural inventory before rendering:
+
+```text
+node scripts/booklet/feedback-preflight.mjs --project-file .booklet-work/RUN/candidate.json --before .booklet-work/RUN/before.json --blocks BLOCK_ID,BLOCK_ID --out .booklet-work/RUN/preflight.json
+```
+
+The report includes saved arrangements, fixed widths, table cells and annotations, response owners, dependency links and diagram/presentation overrides. Broken arrangement references and missing dependencies fail the check; stored widths and annotations are reported for inspection, never automatically removed. Table-cell completeness and mathematical correctness still require comparison with the before-snapshot and source.
+
+`check-feedback-pages.mjs --blocks` runs this preflight before launching its browser. Add `--baseline-project-file .booklet-work/RUN/before.json` to enforce repair scope there too. The standalone command's `--before` does the same without rendering. Unnamed block changes, unrelated ordering changes and project settings changes fail. Named blocks may move and their own project-level `blockLayouts` entries may change. Declare any other intentional setting or section-metadata change with a precise, repeatable `--allow-path /settings/compactAnswers/diagramWidths/DIAGRAM_ID` JSON pointer; do not grant a whole settings/sections tree. Paths use JSON-pointer escaping (`~1` for `/`, `~0` for `~`).
+
+`saveRepair` enforces the same guard before its revision-safe transaction using `changedBlockIds` and optional `allowedPaths`. Include precise paths for intentional comment-resolution fields too. It writes `preflight.json` alongside the existing before-snapshot/readback when `runDir` is supplied. Readback compares every persisted field with the transaction's normalized canonical result, including preserved source lineage, bank revisions and ratings. It neither drops metadata from comparison nor repeats the save after a verification failure. These checks strengthen the existing discovery/save steps; they add no review stage.
+
+- Check project-level and block-level layout overrides, including fixed item widths and saved arrangement references. A saved arrangement can constrain a rebuilt table or omit a newly added prompt. Update only the obsolete overrides and references; preserve unrelated manual layout choices.
+- Inventory every fragment of a table or answer grid before consolidating it. Include both halves of side-by-side tables, all rows, givens, response owners and answers. Check that the completed answer contains every original cell, rather than assuming the first table is the whole task. Preserve stable answer identities and bank relationships.
+- Inspect heading paragraphs for explicit line breaks before changing column widths. Remove an unwanted forced break as part of the authorised repair, then size columns for the complete heading and existing response space. Check the result at final size.
+- For detached labels, distinguish the shared renderer's baseline or leading-margin behaviour from local cell padding and vertical alignment. Repair the shared cause centrally, then change local settings only where needed; retain meaningful arrangements and explicit exceptions.
+- If automated checks report warnings outside the repair, compare them with the saved before-snapshot once using the smallest relevant check. Match the affected content or block as well as the warning, since physical page numbers may shift. Record confirmed pre-existing findings once; fix new findings caused by the repair and rerun only their dependent checks.
+
 ### Minimum verification for feedback maintenance
 
 **Lean local repairs (5 October 2026, user-approved).** A repair confined to named blocks of one booklet uses the first matching row below and nothing more. The 5 October Earning Money repair (7 comments, 8 blocks, 23 minutes) printed 1,070 pages, rasterised 496 and inspected 36; its only automated catches were the first layout check and the answer-coverage check, and its only visual catch was on the answer pages. Studio reopens, the interaction script, readback, the bank comparison, `repo:check` and the combined-edition page inspections found nothing. For these repairs:
@@ -172,6 +194,8 @@ Keep tool output to changed fields, compact check summaries and actionable failu
 - For bounded feedback, inspect the changed arrangements and pagination neighbours once in the question layout. Combined editions receive automated checks only unless their covers, transitions or footers changed (superseded 5 October 2026; previously every affected combined-edition path and boundary was inspected). Preserve the full-acceptance exceptions.
 - Studio virtualizes offscreen pages. Scroll the affected page into view and wait for its content to mount before asserting table/editor behaviour. The hidden print section is populated only after print preparation; an empty section is not evidence that content is missing.
 - Tools for the points above: `check-feedback-pages.mjs` (`--blocks` selection or page map, one browser), `check-feedback-studio.mjs` (only when editor code or a Studio control changed; mounts each named block's page before reading it, then reopens and compares) and `feedback-closeout.mjs` (`startFeedbackJob` at the first discovery action, write-once `snapshotInput`, `saveRepair` with expected revision and block readback, `resolveComments` only against recorded inspected pages or checks, `writeFeedbackReceipt` with recorded work counts and `unavailable` for anything unrecorded).
+
+**Cleanup sequencing (16 October 2026).** Follow [run-folder pruning](booklet-storage.md#pruning-run-folders) only after the repair closes. Preview first, inspect the preview, then check for active import, review and export processes immediately before applying it. Await and inspect that process check before launching cleanup; do not batch the check and mutation or chain them unconditionally. If another session starts work during the preview, defer cleanup. If the process check is unavailable, defer cleanup rather than treating the failure as an empty process list. A deferred cleanup does not invalidate the completed repair.
 - Batch source-backed cloze/table repairs with their response mapping and mathematical checks. Reuse the existing repair, transaction and review helpers; avoid ad hoc duplicate closeout scripts. Durable preferences belong in the cross-session guidance and shared authoring prompt, not only a repair receipt.
 
 Completion requires the agreed quality gates to pass, not merely a faster run. Report what changed, the verification result and any real limitations concisely.

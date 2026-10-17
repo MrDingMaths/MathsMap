@@ -6,7 +6,8 @@ import path from 'node:path';
 import {createEditableProject} from '../src/lib/editable-booklet-model.js';
 import {fromSource} from '../src/lib/document-content.js';
 import {saveBookletProject,loadBookletProject} from '../scripts/booklet/project-studio-server.mjs';
-import {snapshotInput,saveRepair,resolveComments,startFeedbackJob,finishFeedbackJob,feedbackWorkCounts,writeFeedbackReceipt} from '../scripts/booklet/feedback-closeout.mjs';
+import {snapshotInput,saveRepair,verifyRepairReadback,resolveComments,startFeedbackJob,finishFeedbackJob,feedbackWorkCounts,writeFeedbackReceipt} from '../scripts/booklet/feedback-closeout.mjs';
+import {assertRepairScope,structuralPreflight} from '../scripts/booklet/feedback-preflight.mjs';
 import {beginRunPhase,endRunPhase} from '../scripts/booklet/run-observability.mjs';
 
 async function temporary(fn){const root=await fs.mkdtemp(path.join(os.tmpdir(),'mathsmap-closeout-'));try{await fn(root);}finally{await fs.rm(root,{recursive:true,force:true});}}
@@ -30,7 +31,8 @@ test('repairs save against the expected revision and read back the changed block
  // A concurrent save moved the revision: the stale repair must not overwrite it.
  await assert.rejects(saveRepair({candidate,expectedRevision:created.revision,changedBlockIds:['b1'],options}),/another session/);
  assert.equal((await loadBookletProject('closeout',{...options,refreshRatings:false})).revision,created.revision+1);
- await assert.rejects(saveRepair({candidate,expectedRevision:created.revision+1,changedBlockIds:['missing'],options}),/does not match the repair candidate/);
+ await assert.rejects(saveRepair({candidate,expectedRevision:created.revision+1,changedBlockIds:['missing'],options}),/scope block not found/);
+ assert.equal((await loadBookletProject('closeout',{...options,refreshRatings:false})).revision,created.revision+1,'invalid scope fails before writing');
  await assert.rejects(saveRepair({candidate,changedBlockIds:[],options}),/expected input revision/);
 }));
 
@@ -48,6 +50,76 @@ test('comments resolve only against recorded evidence and keep the original note
  assert.equal(c1.resolved,true);assert.equal(c1.resolvedAt,'2026-10-04T06:00:00.000Z');assert.equal(c1.note,'Please change this.');assert.equal(c2.resolved,true);
  assert.deepEqual(done,project.studio.flags[2]);assert.equal(project.studio.flags[0].resolved,undefined,'the input project is not mutated');
 });
+
+test('scope rejects unrelated block edits, order changes, and broad width edits',()=>{
+ const before=make(),candidate=structuredClone(before);
+ candidate.sections[0].blocks[0].content=fromSource('Authorised repair');
+ assert.doesNotThrow(()=>assertRepairScope(before,candidate,{blockIds:['b1']}));
+ candidate.sections[0].blocks[1].content=fromSource('Accidental repair');
+ assert.throws(()=>assertRepairScope(before,candidate,{blockIds:['b1']}),/block:b2/);
+ candidate.sections[0].blocks[1]=structuredClone(before.sections[0].blocks[1]);
+ candidate.settings.layoutOverrides={blockLayouts:{b1:{width:20},b2:{width:20}}};
+ assert.throws(()=>assertRepairScope(before,candidate,{blockIds:['b1']}),/b2/);
+ assert.doesNotThrow(()=>assertRepairScope(before,candidate,{blockIds:['b1'],allowedPaths:['/settings/layoutOverrides/blockLayouts/b2']}));
+ assert.throws(()=>assertRepairScope(before,candidate,{blockIds:['b1'],allowedPaths:['/sections']}),/Use block IDs/);
+ const ordered=make();ordered.sections[0].blocks.push({id:'b3',type:'rich-text',content:fromSource('Third')});
+ const reordered=structuredClone(ordered);reordered.sections[0].blocks.reverse();
+ assert.throws(()=>assertRepairScope(ordered,reordered,{blockIds:['b1']}),/outside its declared scope/);
+});
+
+test('preflight inventories table cells, annotations, widths, response owners and dependency groups',()=>{
+ const project=make(),block=project.sections[0].blocks[0];
+ block.content={type:'group',id:'root',children:[{id:'response',responseSpace:30,dependsOn:['b2'],answer:{short:'3'}}],prompt:{blocks:[{id:'table',type:'table',rows:[[{id:'cell',type:'cell',blocks:[]}]],annotations:[{type:'box'}],width:70}]}};
+ block.presentation={layoutOverrides:{blockLayouts:{b1:{arrangement:{version:1,root:{id:'layout',type:'group',direction:'stack',children:[{id:'missing',type:'item',ref:'deleted/prompt'}]}}}}}};
+ const untouched=structuredClone(project),report=structuralPreflight(project,{blockIds:['b1']});
+ assert.equal(report.blocks[0].tables[0].cells[0],1);
+ assert.equal(report.blocks[0].annotations.length,1);
+ assert.ok(report.blocks[0].widths.some(w=>w.width===70));
+ assert.equal(report.blocks[0].responses[0].id,'response');
+ assert.equal(report.blocks[0].dependencies[0].target,'b2');
+ assert.ok(report.issues.some(i=>i.kind==='missing-arrangement-ref'));
+ assert.deepEqual(project,untouched,'preflight never mutates saved layouts');
+ block.content.children[0].dependsOn=['deleted'];
+ assert.ok(structuralPreflight(project,{blockIds:['b1']}).issues.some(i=>i.kind==='missing-dependency'));
+});
+
+test('readback accepts canonical lineage enrichment but rejects corruption anywhere',()=>{
+ const canonical=make();canonical.revision=2;
+ canonical.sections[0].blocks[0].sourceReview={origin:{projectId:'original',blockId:'b1',runId:'source'}};
+ assert.deepEqual(verifyRepairReadback(canonical,structuredClone(canonical),{expectedRevision:1,changedBlockIds:['b1']}).projectPaths,[]);
+ for(const mutate of [p=>{p.sections[0].blocks[0].sourceReview.origin.runId='wrong';},p=>{p.title='Corrupted';},p=>{p.sections[0].blocks[1].content=fromSource('Corrupt unrelated block');},p=>{p.revision=3;}]){
+  const reloaded=structuredClone(canonical);mutate(reloaded);
+  assert.throws(()=>verifyRepairReadback(canonical,reloaded,{expectedRevision:1,changedBlockIds:['b1']}),/does not match/);
+ }
+});
+
+test('save scope stops unrelated changes before the transaction and accepts preserved origins',()=>temporary(async root=>{
+ const options={projectRoot:path.join(root,'projects'),bankRoot:path.join(root,'bank')};
+ const input=make();input.sections[0].blocks[0].sourceReview={origin:{projectId:'original',blockId:'source',runId:'run'}};
+ const created=await saveBookletProject(input,{...options,create:true});
+ const candidate=structuredClone(created);delete candidate.sections[0].blocks[0].sourceReview;
+ candidate.sections[0].blocks[0].content=fromSource('Changed');candidate.sections[0].blocks[1].content=fromSource('Accidental');
+ await assert.rejects(saveRepair({candidate,expectedRevision:created.revision,changedBlockIds:['b1'],options}),/block:b2/);
+ assert.equal((await loadBookletProject(created.id,{...options,refreshRatings:false})).revision,created.revision);
+ candidate.sections[0].blocks[1]=structuredClone(created.sections[0].blocks[1]);
+ const done=await saveRepair({candidate,expectedRevision:created.revision,changedBlockIds:['b1'],options});
+ assert.deepEqual(done.project.sections[0].blocks[0].sourceReview.origin,input.sections[0].blocks[0].sourceReview.origin);
+ assert.deepEqual(done.readback.projectPaths,[]);
+}));
+
+test('readback accepts source origins first discovered during the save transaction',()=>temporary(async root=>{
+ const options={projectRoot:path.join(root,'booklets','projects'),bankRoot:path.join(root,'booklets','bank')};
+ const input=make();input.source={...input.source,runId:'fixture'};input.sections[0].blocks[0].sourcePageNumber=1;
+ const packetDir=path.join(root,'.booklet-work/full-imports/fixture/semantic-packets');
+ await fs.mkdir(packetDir,{recursive:true});
+ await fs.writeFile(path.join(packetDir,'page-001.author.json'),JSON.stringify(input));
+ const created=await saveBookletProject(input,{...options,create:true}),candidate=structuredClone(created);
+ assert.equal(candidate.sections[0].blocks[0].sourceReview?.origin,undefined);
+ candidate.sections[0].blocks[0].content=fromSource('Repaired with newly discovered origin');
+ const done=await saveRepair({candidate,expectedRevision:created.revision,changedBlockIds:['b1'],options});
+ assert.equal(done.project.sections[0].blocks[0].sourceReview.origin.runId,'fixture');
+ assert.deepEqual(done.readback.projectPaths,[]);
+}));
 
 test('receipts time the whole job from discovery and mark unrecorded work unavailable',()=>temporary(async root=>{
  assert.equal(feedbackWorkCounts(root).completeJob.elapsedMs,'unavailable');assert.equal(feedbackWorkCounts(root).exports,'unavailable');
