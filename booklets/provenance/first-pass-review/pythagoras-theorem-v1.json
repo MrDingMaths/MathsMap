@@ -18,7 +18,7 @@
     {
      "id": "p5-investigation",
      "blockId": "p5-investigation",
-     "hash": "eeebd55795068f98d34e5445bd401d5121f4f16e685906a8b9290bab9bd696e0"
+     "hash": "2e4e8d749f86d219650609aaf866c66385107a49caed32ea42e9e06ecf81d146"
     }
    ],
    "comment": "Reduce the investigation diagrams to about 40 mm high, tighten their row gaps and reduce the table’s answer rows to 8 mm. Tighten the review’s surplus working space so the investigation fits below it on page 5.",
@@ -32,12 +32,32 @@
      "at": "2026-10-15T10:40:22.693Z"
     }
    ],
-   "applyOutcome": "reverted",
-   "applyNote": "The previous size reductions did not shrink the rendered diagrams. The supplied excerpts do not show how custom arrangement item widths control diagram scaling, so a reliable layout patch cannot be determined. Fit the investigation below the review by reducing its rendered diagram heights to about 40 mm while keeping labels readable and table answer rows at least 8 mm high.",
+   "applyOutcome": "comment",
+   "applyNote": "Page 6 is blank: the investigation’s diagrams and table are not visible. The supplied code does not show how arrangement item widths determine rendered diagram sizes, and previous width reductions had no effect. A reliable pagination patch needs the investigation’s resolved arrangement and diagram-sizing renderer code; reducing review handwriting space or table rows alone cannot fix the missing rendering.",
    "commentId": "e4f39cc7-0bf5-40da-be08-bf0789c62bea",
    "postedAt": "2026-10-15T10:47:41.329Z",
    "postedNote": "[First pass · pagination · fp-76020d97bf · Questions p. 5]\nReduce the investigation diagrams to about 40 mm high, tighten their row gaps and reduce the table’s answer rows to 8 mm. Tighten the review’s surplus working space so the investigation fits below it on page 5.\nGain: Uses the large empty region beneath the review and keeps the topic opening together.\nAlso affects: p5-investigation",
-   "retryUsed": true
+   "retryUsed": true,
+   "queue": {
+    "name": "a",
+    "reason": "not-exposed",
+    "at": "2026-10-17T10:32:18.800Z",
+    "revision": 91
+   },
+   "confirmation": {
+    "at": "2026-10-17T10:32:18.799Z",
+    "revision": 89,
+    "present": true,
+    "note": "Review retains surplus space on page 5; investigation is absent below it and page 6 is blank."
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T10:32:37.664Z",
+    "previous": {
+     "outcome": "reverted",
+     "note": "The previous size reductions did not shrink the rendered diagrams. The supplied excerpts do not show how custom arrangement item widths control diagram scaling, so a reliable layout patch cannot be determined. Fit the investigation below the review by reducing its rendered diagram heights to about 40 mm while keeping labels readable and table answer rows at least 8 mm high."
+    }
+   }
   },
   {
    "id": "fp-c7ab12e029",
@@ -96,18 +116,32 @@
    "gain": "Keeps the six-part teaching activity on one page.",
    "proposal": "",
    "revision": 79,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:40:22.693Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T10:33:58.881Z",
+     "note": "Applied and verified (first-pass apply)."
     }
    ],
-   "applyOutcome": "comment",
+   "applyOutcome": "repaired",
    "applyNote": "Patch on p6-theorem-demonstration/layoutOverrides/blockLayouts/p6-theorem-demonstration/arrangement/root/children/1/children/0/width is not a layout field.",
    "commentId": "eb3d3e30-521c-4a23-8078-52798a9a840f",
    "postedAt": "2026-10-15T10:47:41.330Z",
-   "postedNote": "[First pass · pagination · fp-ac635f4656 · Questions p. 7]\nCompact the square-area demonstration and its vertical gaps, and reduce the practice diagrams to about 28 mm high so parts a–f fit together on page 7.\nGain: Keeps the six-part teaching activity on one page.\nAlso affects: p6-write-block"
+   "postedNote": "[First pass · pagination · fp-ac635f4656 · Questions p. 7]\nCompact the square-area demonstration and its vertical gaps, and reduce the practice diagrams to about 28 mm high so parts a–f fit together on page 7.\nGain: Keeps the six-part teaching activity on one page.\nAlso affects: p6-write-block",
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T10:32:37.664Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "Patch on p6-theorem-demonstration/layoutOverrides/blockLayouts/p6-theorem-demonstration/arrangement/root/children/1/children/0/width is not a layout field."
+    }
+   },
+   "applyReason": "Reduce the square-area demonstration and its gaps, and cap the taller practice diagrams at about 28 mm high so parts a–f can fit together on page 7 while retaining all 12 mm answer spaces."
   },
   {
    "id": "fp-83e50c7ee2",
@@ -144,10 +178,24 @@
     }
    ],
    "applyOutcome": "comment",
-   "applyNote": "No rendered page or current gap settings are supplied, so exact spacing reductions that would bring Key Ideas onto page 11 cannot be determined. The guided answer spaces match the supplied working-space estimates; reducing them would risk inadequate handwriting space.",
+   "applyNote": "Page 11 confirms excess spacing within the worked example, but no renderer-supported controls for its diagram-to-solution and solution-to-comparison gaps are supplied. The guided practice reserves 22 mm and 49 mm for working, matching the supplied estimates. Exact patches to reclaim enough height for Key Ideas require the worked-example renderer’s spacing controls; reducing handwriting space or guessing arrangement references would be unsafe.",
    "commentId": "e1a739c9-6d43-41b0-bb0a-85d10880aff8",
    "postedAt": "2026-10-15T10:47:41.331Z",
-   "postedNote": "[First pass · pagination · fp-83e50c7ee2 · Questions p. 11]\nTighten the large gaps between the example diagram, calculations and conclusion, and remove surplus space beneath the guided practice so Key Ideas fit at the bottom of page 11.\nGain: Keeps Key Ideas with the teaching they summarise.\nAlso affects: p8-guided-block, p8-key-ideas-block"
+   "postedNote": "[First pass · pagination · fp-83e50c7ee2 · Questions p. 11]\nTighten the large gaps between the example diagram, calculations and conclusion, and remove surplus space beneath the guided practice so Key Ideas fit at the bottom of page 11.\nGain: Keeps Key Ideas with the teaching they summarise.\nAlso affects: p8-guided-block, p8-key-ideas-block",
+   "queue": {
+    "name": "a",
+    "reason": "not-exposed",
+    "at": "2026-10-17T10:34:00.994Z",
+    "revision": 91
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T10:32:37.664Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "No rendered page or current gap settings are supplied, so exact spacing reductions that would bring Key Ideas onto page 11 cannot be determined. The guided answer spaces match the supplied working-space estimates; reducing them would risk inadequate handwriting space."
+    }
+   }
   },
   {
    "id": "fp-8924446a0e",
@@ -241,17 +289,17 @@
     {
      "id": "p12-q1-a-conclusion-first",
      "blockId": "p12-q1",
-     "hash": "1ce2d92c5f7c6089f96ff6f44a263da22093b51eeb552c907c6e7a9ea3b0cbaf"
+     "hash": "236ad603f8412aba4e746e475123c89c31d482a7682e6ecf491fd8fdd93548ef"
     },
     {
      "id": "p12-q1-a-conclusion-second",
      "blockId": "p12-q1",
-     "hash": "1ce2d92c5f7c6089f96ff6f44a263da22093b51eeb552c907c6e7a9ea3b0cbaf"
+     "hash": "236ad603f8412aba4e746e475123c89c31d482a7682e6ecf491fd8fdd93548ef"
     },
     {
      "id": "p12-q2",
      "blockId": "p12-q2",
-     "hash": "2875b866bd22cdc773d0ef54f12c8cdc3ef6d6a312d7f357709613d7dc6f5ef9"
+     "hash": "50c90d0f68e1e4b2e51ac1f6af86a576fceda9b6f058d4b428a4a10941419dd0"
     }
    ],
    "comment": "Replace the dotted conclusion lines in 1a and the dotted answer lines in 2a–c with plain working space.",
@@ -269,7 +317,19 @@
    "applyNote": "The supplied data does not establish the supported schema for converting clozes to plain response fields while preserving their answers and the explicit layout references. An exact conversion patch would require guessing that schema.",
    "commentId": "9c8f9356-09de-491b-981c-2ac666d8be33",
    "postedAt": "2026-10-15T10:47:41.333Z",
-   "postedNote": "[First pass · response · fp-9fd69f1332 · Questions p. 18]\nReplace the dotted conclusion lines in 1a and the dotted answer lines in 2a–c with plain working space.\nGain: Provides unruled space for conclusions and student-generated triads.\nAlso at: p12-q1-a-conclusion-second, p12-q2"
+   "postedNote": "[First pass · response · fp-9fd69f1332 · Questions p. 18]\nReplace the dotted conclusion lines in 1a and the dotted answer lines in 2a–c with plain working space.\nGain: Provides unruled space for conclusions and student-generated triads.\nAlso at: p12-q1-a-conclusion-second, p12-q2",
+   "queue": {
+    "name": "c",
+    "reason": "response-format",
+    "at": "2026-10-17T10:32:18.800Z",
+    "revision": 91
+   },
+   "confirmation": {
+    "at": "2026-10-17T10:32:18.799Z",
+    "revision": 89,
+    "present": true,
+    "note": "Dotted conclusion lines remain in 1a, and dotted answer lines remain in 2a–c."
+   }
   },
   {
    "id": "fp-37f5ca332c",
@@ -281,25 +341,45 @@
     {
      "id": "p13-q3",
      "blockId": "p13-q3",
-     "hash": "bfe3019feed45a3767c52aa6fb02c21dcf2d7d0961938d341c38c387228fc4ff"
+     "hash": "61ecc568ce31818a1a6b54d77e6d4ca01544d464d6f0b777da2a043600cd0c77"
     }
    ],
    "comment": "Widen the sum column in a’s proof scaffold so both substitution terms fit on each line, and align the equals signs vertically.",
    "gain": "Makes the calculation readable without blanks wrapping onto separate lines.",
    "proposal": "",
    "revision": 79,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:40:22.693Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T10:33:58.881Z",
+     "note": "Applied and verified (first-pass apply)."
     }
    ],
-   "applyOutcome": "comment",
+   "applyOutcome": "repaired",
    "applyNote": "Patch on p13-q3-proof-r2-right/paddingLeft is not a layout field.",
    "commentId": "6437711c-0b7b-45b1-83d3-3e8ef375ec29",
    "postedAt": "2026-10-15T10:47:41.335Z",
-   "postedNote": "[First pass · alignment · fp-37f5ca332c · Questions p. 19]\nWiden the sum column in a’s proof scaffold so both substitution terms fit on each line, and align the equals signs vertically.\nGain: Makes the calculation readable without blanks wrapping onto separate lines."
+   "postedNote": "[First pass · alignment · fp-37f5ca332c · Questions p. 19]\nWiden the sum column in a’s proof scaffold so both substitution terms fit on each line, and align the equals signs vertically.\nGain: Makes the calculation readable without blanks wrapping onto separate lines.",
+   "confirmation": {
+    "at": "2026-10-17T10:32:18.800Z",
+    "revision": 89,
+    "present": true,
+    "note": "The first substitution row wraps its second term onto another line, and equals signs are not vertically aligned."
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T10:32:37.664Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "Patch on p13-q3-proof-r2-right/paddingLeft is not a layout field."
+    }
+   },
+   "applyReason": "Widen the sum column to keep both substitution terms on one line, and use paragraph alignment and indentation to stack the equals signs."
   },
   {
    "id": "fp-b8e421a6a3",
@@ -311,7 +391,7 @@
     {
      "id": "p13-q3",
      "blockId": "p13-q3",
-     "hash": "bfe3019feed45a3767c52aa6fb02c21dcf2d7d0961938d341c38c387228fc4ff"
+     "hash": "1c5b6a3c7b20e21c665b16da9a529a1191decda85cd7a9db57bd788c440e5a9f"
     }
    ],
    "comment": "Remove the two dotted lines beneath a’s calculation and leave plain space for the proof’s conclusion.",
@@ -329,7 +409,19 @@
    "applyNote": "Would change content in p13-q3.",
    "commentId": "4dae903b-6267-487a-8b45-de22e19f04aa",
    "postedAt": "2026-10-15T10:47:41.335Z",
-   "postedNote": "[First pass · response · fp-b8e421a6a3 · Questions p. 19]\nRemove the two dotted lines beneath a’s calculation and leave plain space for the proof’s conclusion.\nGain: Uses the open-response format for written reasoning."
+   "postedNote": "[First pass · response · fp-b8e421a6a3 · Questions p. 19]\nRemove the two dotted lines beneath a’s calculation and leave plain space for the proof’s conclusion.\nGain: Uses the open-response format for written reasoning.",
+   "queue": {
+    "name": "c",
+    "reason": "response-format",
+    "at": "2026-10-17T10:32:18.800Z",
+    "revision": 91
+   },
+   "confirmation": {
+    "at": "2026-10-17T10:32:18.800Z",
+    "revision": 89,
+    "present": true,
+    "note": "Two dotted conclusion lines remain beneath a’s calculation."
+   }
   },
   {
    "id": "fp-4101938181",
@@ -341,12 +433,12 @@
     {
      "id": "p17-q1-b",
      "blockId": "p17-q1",
-     "hash": "2d5bad934bdf90b2029a6cedb7deb7354d770e0312989ec7d728074fd61f3602"
+     "hash": "9b2323a2046bb4cd6c1998f95f233f74cb1b51c3ef172dbb05e79b6ba54273a1"
     },
     {
      "id": "p17-q1-c",
      "blockId": "p17-q1",
-     "hash": "2d5bad934bdf90b2029a6cedb7deb7354d770e0312989ec7d728074fd61f3602"
+     "hash": "9b2323a2046bb4cd6c1998f95f233f74cb1b51c3ef172dbb05e79b6ba54273a1"
     }
    ],
    "comment": "Keep the calculation scaffold in a only; give b and c plain working space under their diagrams.",
@@ -364,7 +456,19 @@
    "applyNote": "Patch on p17-q1-b/responseSpace is not a layout field.",
    "commentId": "e431f47b-248f-4677-9365-77bdb057c1e4",
    "postedAt": "2026-10-15T10:47:41.335Z",
-   "postedNote": "[First pass · response · fp-4101938181 · Questions p. 25]\nKeep the calculation scaffold in a only; give b and c plain working space under their diagrams.\nGain: Lets students practise the method independently without repeating the full scaffold.\nAlso at: p17-q1-c"
+   "postedNote": "[First pass · response · fp-4101938181 · Questions p. 25]\nKeep the calculation scaffold in a only; give b and c plain working space under their diagrams.\nGain: Lets students practise the method independently without repeating the full scaffold.\nAlso at: p17-q1-c",
+   "queue": {
+    "name": "c",
+    "reason": "response-format",
+    "at": "2026-10-17T10:32:18.800Z",
+    "revision": 91
+   },
+   "confirmation": {
+    "at": "2026-10-17T10:32:18.800Z",
+    "revision": 89,
+    "present": true,
+    "note": "Calculation scaffolds remain beneath both b and c."
+   }
   },
   {
    "id": "fp-fedbf70bb6",
@@ -551,7 +655,13 @@
    "applyNote": "Step 1 is embedded in the solution diagram’s TikZ code. Placing every step number in a left gutter requires changing that code, which is outside the permitted layout edits. Step 2 can be moved beside its calculation, but that alone would not resolve the full finding.",
    "commentId": "fb987d3f-f4d7-4f95-8821-604b787f61b9",
    "postedAt": "2026-10-15T10:47:41.340Z",
-   "postedNote": "[First pass · alignment · fp-30dd77538d · Questions p. 36]\nPlace each red step number in a left gutter beside its working. Move step 2 beside the substitution line instead of leaving it on a separate line above.\nGain: Makes the numbered steps read directly with the working they identify."
+   "postedNote": "[First pass · alignment · fp-30dd77538d · Questions p. 36]\nPlace each red step number in a left gutter beside its working. Move step 2 beside the substitution line instead of leaving it on a separate line above.\nGain: Makes the numbered steps read directly with the working they identify.",
+   "queue": {
+    "name": "c",
+    "reason": "content",
+    "at": "2026-10-17T07:27:19.852Z",
+    "revision": 91
+   }
   },
   {
    "id": "fp-a00120f1ed",
@@ -580,18 +690,32 @@
    "gain": "Keeps the related numerical and algebraic parts together and removes the almost empty continuation page.",
    "proposal": "",
    "revision": 79,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:40:22.693Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T10:33:58.881Z",
+     "note": "Applied and verified (first-pass apply)."
     }
    ],
-   "applyOutcome": "comment",
+   "applyOutcome": "repaired",
    "applyNote": "The proposed 40 mm maximum for Question 11 leaves too little room for six handwritten working lines in its narrow columns. No page image or measured available height is supplied to establish an alternative that keeps Question 13 together with adequate working space.",
    "commentId": "94013b87-4322-4026-a887-076aeddd2d05",
    "postedAt": "2026-10-15T10:47:41.341Z",
-   "postedNote": "[First pass · pagination · fp-a00120f1ed · Questions p. 43]\nKeep Question 13 together on page 43. Reduce Question 11’s maximum working space from 69 mm to about 40 mm and Question 12’s from 60 mm to about 35 mm to bring part b back from page 44.\nGain: Keeps the related numerical and algebraic parts together and removes the almost empty continuation page.\nAlso affects: p31-q12, p31-q13"
+   "postedNote": "[First pass · pagination · fp-a00120f1ed · Questions p. 43]\nKeep Question 13 together on page 43. Reduce Question 11’s maximum working space from 69 mm to about 40 mm and Question 12’s from 60 mm to about 35 mm to bring part b back from page 44.\nGain: Keeps the related numerical and algebraic parts together and removes the almost empty continuation page.\nAlso affects: p31-q12, p31-q13",
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T10:32:37.664Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "The proposed 40 mm maximum for Question 11 leaves too little room for six handwritten working lines in its narrow columns. No page image or measured available height is supplied to establish an alternative that keeps Question 13 together with adequate working space."
+    }
+   },
+   "applyReason": "Place Question 13’s parts side by side and reduce Question 12’s working space to 48 mm so both parts fit on page 42. Preserve Question 11’s working space and both Question 13 answer spaces."
   },
   {
    "id": "fp-ad6c0f19a2",
@@ -603,12 +727,12 @@
     {
      "id": "p31-q12",
      "blockId": "p31-q12",
-     "hash": "889a8e95d5787e85467ef909702397b34bf580ab4efc3f90bc9e5c339c75ef88"
+     "hash": "7b1efec01a1b4f777fe15f3cd7fec34a1ca05e5517460aa856df1bc08063e97c"
     },
     {
      "id": "p31-q13",
      "blockId": "p31-q13",
-     "hash": "7942bd644fd044705f5fc45229bc8c09820d19be0de6050aafce5a952cfa4bba"
+     "hash": "328e0f2eec2fb0fd40c0b201e495fa8eae6eb248c7f0ce54a584451413e7fdd9"
     }
    ],
    "comment": "Add simple diagrams: a rectangle labelled with diagonal 10 cm and sides w and 2w for Question 12, and equilateral triangles labelled 10 cm and x cm for Question 13.",
@@ -626,7 +750,13 @@
    "applyNote": "Adding the rectangle and triangle diagrams requires new diagram content, which is outside layout-only repair.",
    "commentId": "45cfd66a-e721-4d0b-b7ba-c6714e5afe7c",
    "postedAt": "2026-10-15T10:47:41.342Z",
-   "postedNote": "[First pass · diagram · fp-ad6c0f19a2 · Questions p. 43]\nAdd simple diagrams: a rectangle labelled with diagonal 10 cm and sides w and 2w for Question 12, and equilateral triangles labelled 10 cm and x cm for Question 13.\nGain: Shows the given dimensions on the shapes students need to analyse.\nAlso at: p31-q13"
+   "postedNote": "[First pass · diagram · fp-ad6c0f19a2 · Questions p. 43]\nAdd simple diagrams: a rectangle labelled with diagonal 10 cm and sides w and 2w for Question 12, and equilateral triangles labelled 10 cm and x cm for Question 13.\nGain: Shows the given dimensions on the shapes students need to analyse.\nAlso at: p31-q13",
+   "queue": {
+    "name": "c",
+    "reason": "content",
+    "at": "2026-10-17T07:27:19.852Z",
+    "revision": 91
+   }
   },
   {
    "id": "fp-78df9dbc54",
@@ -656,7 +786,13 @@
    "applyNote": "The radii colour is defined inside the TikZ code. Changing TikZ code is prohibited by this repair contract.",
    "commentId": "37fc266a-1c42-4aa1-b7c2-86c6cf7ff422",
    "postedAt": "2026-10-15T10:47:41.343Z",
-   "postedNote": "[First pass · diagram · fp-78df9dbc54 · Questions p. 43]\nChange the pale red dashed radii to black dashed lines.\nGain: Keeps the construction lines clear when printed."
+   "postedNote": "[First pass · diagram · fp-78df9dbc54 · Questions p. 43]\nChange the pale red dashed radii to black dashed lines.\nGain: Keeps the construction lines clear when printed.",
+   "queue": {
+    "name": "c",
+    "reason": "content",
+    "at": "2026-10-17T07:27:19.852Z",
+    "revision": 91
+   }
   },
   {
    "id": "fp-e2db37a36b",
@@ -686,7 +822,13 @@
    "applyNote": "Adding a rectangle labelled 5 m by 24 m requires a new diagram; this cannot be fixed with layout-only patches.",
    "commentId": "9d22de7a-c2c6-45ba-9679-9307b02456a3",
    "postedAt": "2026-10-15T10:47:41.344Z",
-   "postedNote": "[First pass · diagram · fp-e2db37a36b · Questions p. 56]\nAdd a simple rectangle labelled 5 m by 24 m beside the stem, leaving students to draw the possible cuts.\nGain: Shows the given dimensions on the shape students must cut and rearrange."
+   "postedNote": "[First pass · diagram · fp-e2db37a36b · Questions p. 56]\nAdd a simple rectangle labelled 5 m by 24 m beside the stem, leaving students to draw the possible cuts.\nGain: Shows the given dimensions on the shape students must cut and rearrange.",
+   "queue": {
+    "name": "c",
+    "reason": "content",
+    "at": "2026-10-17T07:27:19.852Z",
+    "revision": 91
+   }
   },
   {
    "id": "fp-69703902f5",
@@ -713,7 +855,7 @@
     {
      "id": "p31-q13-b",
      "blockId": "p31-q13",
-     "hash": "7942bd644fd044705f5fc45229bc8c09820d19be0de6050aafce5a952cfa4bba"
+     "hash": "328e0f2eec2fb0fd40c0b201e495fa8eae6eb248c7f0ce54a584451413e7fdd9"
     },
     {
      "id": "p34-q4-a",
@@ -730,11 +872,16 @@
    "gain": "Makes successive calculation steps easier to follow and keeps solution spacing consistent.",
    "proposal": "",
    "revision": 79,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:40:22.693Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T07:27:19.840Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -1112,77 +1259,51 @@
   },
   "errors": []
  },
- "postedRevision": 86,
+ "postedRevision": 91,
  "apply": {
-  "at": "2026-10-15T12:51:31.251Z",
+  "at": "2026-10-17T10:33:59.041Z",
   "applied": [
-   "fp-c7ab12e029",
-   "fp-8924446a0e",
-   "fp-5f950223ed",
-   "fp-79f8c37a94",
-   "fp-d0d7ce9253",
-   "fp-427a9fd68d",
-   "fp-fedbf70bb6"
-  ],
-  "reverted": [
-   "fp-76020d97bf"
-  ],
-  "comment": [
    "fp-ac635f4656",
-   "fp-83e50c7ee2",
-   "fp-9fd69f1332",
    "fp-37f5ca332c",
-   "fp-b8e421a6a3",
-   "fp-4101938181",
-   "fp-30dd77538d",
-   "fp-a00120f1ed",
-   "fp-ad6c0f19a2",
-   "fp-78df9dbc54",
-   "fp-e2db37a36b",
-   "fp-69703902f5"
+   "fp-a00120f1ed"
+  ],
+  "reverted": [],
+  "comment": [
+   "fp-76020d97bf",
+   "fp-83e50c7ee2"
   ],
   "left": [],
   "stale": [],
-  "retries": [
-   {
-    "id": "fp-76020d97bf",
-    "kind": "repair",
-    "note": "Table rows are shorter, but the diagrams remain large and the investigation still occupies a separate page.",
-    "historical": true
-   },
-   {
-    "id": "fp-427a9fd68d",
-    "kind": "repair",
-    "note": "Part b's c assignment blank still wraps onto a second line.",
-    "historical": true
-   },
-   {
-    "id": "fp-fedbf70bb6",
-    "kind": "repair",
-    "note": "Both solution cards still have outer black borders around their inner tables.",
-    "historical": true
-   }
-  ],
+  "retries": [],
   "verificationAttempts": [
    {
-    "at": "2026-10-15T12:51:31.101Z",
+    "at": "2026-10-17T10:33:58.872Z",
     "findings": [
      {
-      "id": "fp-427a9fd68d",
+      "id": "fp-ac635f4656",
       "fixed": true,
       "regressed": false,
       "unverified": false,
-      "note": "student: Part b now keeps the c assignment and its blank on the same line. Handwriting space is preserved, with no visible clipping, overlap or lost content in the surrounding blocks."
+      "note": "student: The square-area demonstration is compacted and all practice parts a–f fit together on page 7, with clear diagrams and ample answer space. No clipping, overlap or lost content is visible."
      },
      {
-      "id": "fp-fedbf70bb6",
+      "id": "fp-37f5ca332c",
       "fixed": true,
       "regressed": false,
       "unverified": false,
-      "note": "student: Both Jayden working blocks have the outer black rectangle removed and retain the inner solution table borders. No clipping, overlap, lost content or cramped working space is visible."
+      "note": "student: The widened sum column keeps both substitution terms on one line, and the equals signs align vertically. No clipping, overlap, lost content or cramped working space is visible."
+     },
+     {
+      "id": "fp-a00120f1ed",
+      "fixed": true,
+      "regressed": false,
+      "unverified": false,
+      "note": "student: Question 13 parts a and b now appear side by side on the same student page, with working space beneath both. Question 11 retains its working space; no clipping, overlap, lost content or cramped working space is visible."
      }
     ],
-    "automated": []
+    "automated": [
+     "layout ×7"
+    ]
    }
   ]
  },

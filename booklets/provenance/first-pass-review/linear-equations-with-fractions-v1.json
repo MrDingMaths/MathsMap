@@ -60,18 +60,32 @@
    "gain": "Makes it clear which working the cross marks.",
    "proposal": "",
    "revision": 10,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:08:59.136Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T07:55:06.474Z",
+     "note": "Applied and verified (first-pass apply)."
     }
    ],
-   "applyOutcome": "comment",
+   "applyOutcome": "repaired",
    "applyNote": "The incorrect working is embedded in the prompt, while the cross is a separate diagram placed after the prompt. No supported layout field or placement value is supplied for positioning it beside that working; an exact patch would require guessing.",
    "commentId": "784ee30b-fecc-4898-b744-138986b939cc",
    "postedAt": "2026-10-15T10:12:57.516Z",
-   "postedNote": "[First pass · alignment · fp-5ed36bd8ba · Questions p. 8]\nMove the red cross beside the incorrect working; it currently sits apart from it above part a.\nGain: Makes it clear which working the cross marks."
+   "postedNote": "[First pass · alignment · fp-5ed36bd8ba · Questions p. 8]\nMove the red cross beside the incorrect working; it currently sits apart from it above part a.\nGain: Makes it clear which working the cross marks.",
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T07:54:11.168Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "The incorrect working is embedded in the prompt, while the cross is a separate diagram placed after the prompt. No supported layout field or placement value is supplied for positioning it beside that working; an exact patch would require guessing."
+    }
+   },
+   "applyReason": "Place the cross beside the prompt containing the incorrect working, keeping it above the response parts."
   },
   {
    "id": "fp-84eb865620",
@@ -101,7 +115,13 @@
    "applyNote": "Patch on p8-q11-preference/responseSpace is not a layout field.",
    "commentId": "4356b65c-9e25-41c3-a8d9-38ee654e677e",
    "postedAt": "2026-10-15T10:12:57.519Z",
-   "postedNote": "[First pass · response · fp-84eb865620 · Questions p. 11]\nReplace the dotted line in 11c with plain unruled response space.\nGain: Uses the open-response format for the student's preference."
+   "postedNote": "[First pass · response · fp-84eb865620 · Questions p. 11]\nReplace the dotted line in 11c with plain unruled response space.\nGain: Uses the open-response format for the student's preference.",
+   "queue": {
+    "name": "d",
+    "reason": "target-changed",
+    "at": "2026-10-17T11:27:03.794Z",
+    "revision": 17
+   }
   },
   {
    "id": "fp-0e446dc476",
@@ -132,7 +152,14 @@
      "at": "2026-10-15T10:08:59.136Z"
     }
    ],
-   "applyOutcome": "left"
+   "applyOutcome": "left",
+   "queue": {
+    "name": "c",
+    "reason": "duplicate",
+    "at": "2026-10-17T07:27:18.842Z",
+    "revision": 17,
+    "coveredBy": "feb285a6-5053-4841-a05a-5fa33565f152"
+   }
   },
   {
    "id": "fp-5522cbddc2",
@@ -239,10 +266,24 @@
     }
    ],
    "applyOutcome": "comment",
-   "applyNote": "Patch on p11-q2/content/blocks is not a layout field.",
+   "applyNote": "The leading “2.” belongs to an ordered list, not a label field. Removing it requires converting the list to a plain paragraph; no supported layout field supplied here suppresses the list marker. Changing /content/blocks would repeat the rejected structural patch.",
    "commentId": "2c40bd73-5fec-4f93-8669-cf34c813029e",
    "postedAt": "2026-10-15T10:12:57.521Z",
-   "postedNote": "[First pass · labels · fp-b64f72cfa6 · Questions p. 16]\nRemove the leading “2.” from “Read the example carefully and answer the questions.” Keep the question number on “Solve these equations” on page 17.\nGain: Removes the repeated question 2 number."
+   "postedNote": "[First pass · labels · fp-b64f72cfa6 · Questions p. 16]\nRemove the leading “2.” from “Read the example carefully and answer the questions.” Keep the question number on “Solve these equations” on page 17.\nGain: Removes the repeated question 2 number.",
+   "queue": {
+    "name": "a",
+    "reason": "not-exposed",
+    "at": "2026-10-17T07:55:08.512Z",
+    "revision": 17
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T07:54:11.168Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "Patch on p11-q2/content/blocks is not a layout field."
+    }
+   }
   }
  ],
  "notReliablyReviewed": [
@@ -422,23 +463,33 @@
   },
   "errors": []
  },
- "postedRevision": 14,
+ "postedRevision": 16,
  "apply": {
-  "at": "2026-10-15T10:10:12.776Z",
+  "at": "2026-10-17T07:55:06.529Z",
   "applied": [
-   "fp-c3fdaf98f0",
-   "fp-5522cbddc2",
-   "fp-0a0079a378"
+   "fp-5ed36bd8ba"
   ],
   "reverted": [],
   "comment": [
-   "fp-5ed36bd8ba",
-   "fp-84eb865620",
    "fp-b64f72cfa6"
   ],
-  "left": [
-   "fp-0e446dc476"
-  ],
-  "stale": []
+  "left": [],
+  "stale": [],
+  "retries": [],
+  "verificationAttempts": [
+   {
+    "at": "2026-10-17T07:55:06.470Z",
+    "findings": [
+     {
+      "id": "fp-5ed36bd8ba",
+      "fixed": true,
+      "regressed": false,
+      "unverified": false,
+      "note": "student: The red cross is now beside the incorrect-example block and above the response parts. No clipping, overlap, lost content or cramped working space is visible."
+     }
+    ],
+    "automated": []
+   }
+  ]
  }
 }

@@ -20,11 +20,16 @@
    "gain": "Keeps the fraction scaffold compact and gives appropriate space for each numerator.",
    "proposal": "",
    "revision": 10,
-   "state": "pending",
+   "state": "rejected",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T09:25:54.821Z"
+    },
+    {
+     "state": "rejected",
+     "at": "2026-10-17T06:10:02.477Z",
+     "note": "Rejected by the user."
     }
    ],
    "applyOutcome": "comment",
@@ -118,10 +123,27 @@
     }
    ],
    "applyOutcome": "comment",
-   "applyNote": "Neither block exposes an outer-border field, and no supported layout-override schema is supplied. Removing the borders while retaining the heading strips requires the renderer's border setting; an exact-field patch cannot be determined from this input.",
+   "applyNote": "The grey outer borders are visible on pages 3–4 and 9–10, but neither guided-practice block exposes a border field. The supplied renderer fields support borders on tables, not guided-practice wrappers. Removing these borders while retaining the coloured heading strips requires a supported wrapper-border control; no exact-field patch can be determined.",
    "commentId": "7a903de1-54bd-4f56-8347-feaf149b0d0e",
    "postedAt": "2026-10-15T09:36:03.413Z",
-   "postedNote": "[First pass · table · fp-4992303d3b · Questions p. 3]\nRemove the grey outer borders around the guided-practice working areas on pages 3–4 and 9–10; retain the coloured heading strips.\nGain: Leaves plain working space without framing the practice as a table.\nAlso at: p7-guided-block"
+   "postedNote": "[First pass · table · fp-4992303d3b · Questions p. 3]\nRemove the grey outer borders around the guided-practice working areas on pages 3–4 and 9–10; retain the coloured heading strips.\nGain: Leaves plain working space without framing the practice as a table.\nAlso at: p7-guided-block\nSame pattern at 1 more place; one decision covers all:\n- p16-example-group (p. 23) · fp-7fa666e59c: Remove the outer grey borders around the worked-example layouts on pages 23 and 24; keep the orange example headings.",
+   "queue": {
+    "name": "a",
+    "reason": "not-exposed",
+    "at": "2026-10-17T07:27:17.615Z",
+    "revision": 19
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T07:53:33.672Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "Neither block exposes an outer-border field, and no supported layout-override schema is supplied. Removing the borders while retaining the heading strips requires the renderer's border setting; an exact-field patch cannot be determined from this input."
+    }
+   },
+   "patternMembers": [
+    "fp-7fa666e59c"
+   ]
   },
   {
    "id": "fp-d05c016cb0",
@@ -152,7 +174,16 @@
      "at": "2026-10-15T09:25:54.821Z"
     }
    ],
-   "applyOutcome": "left"
+   "applyOutcome": "left",
+   "queue": {
+    "name": "c",
+    "reason": "duplicate",
+    "at": "2026-10-17T07:27:17.615Z",
+    "revision": 19
+   },
+   "commentId": "4cf9ee93-ecbb-4819-94c8-be3ac10b26f4",
+   "postedAt": "2026-10-17T07:54:09.319Z",
+   "postedNote": "[First pass · duplicate · fp-d05c016cb0 · Questions p. 5]\nExercise 1j repeats guided practice c on page 4, and 1k repeats guided practice b on page 3. Change the later copies to use different numbers.\nGain: Provides fresh practice with the same method.\nProposal: For 1j use 2x/3 + 5x/4 = 23; answer x = 12. For 1k use x/5 + x/6 = 11; answer x = 30.\nAlso at: p4-q1-k"
   },
   {
    "id": "fp-bdedfdab6c",
@@ -292,7 +323,13 @@
    "applyNote": "This requires changing the working’s maths colour, which is outside the permitted layout fields.",
    "commentId": "f57cb95a-8a7e-414a-914c-f839ad102e0f",
    "postedAt": "2026-10-15T09:36:03.413Z",
-   "postedNote": "[First pass · alignment · fp-072ddda973 · Questions p. 18]\nMake the working in the cross multiplying column blue, including the inline maths; keep the given equation black and the operation annotations red.\nGain: Matches the teaching convention and the common denominator column."
+   "postedNote": "[First pass · alignment · fp-072ddda973 · Questions p. 18]\nMake the working in the cross multiplying column blue, including the inline maths; keep the given equation black and the operation annotations red.\nGain: Matches the teaching convention and the common denominator column.",
+   "queue": {
+    "name": "c",
+    "reason": "content",
+    "at": "2026-10-17T07:27:17.615Z",
+    "revision": 19
+   }
   },
   {
    "id": "fp-9cabc32864",
@@ -351,14 +388,34 @@
     {
      "state": "pending",
      "at": "2026-10-15T09:25:54.821Z"
+    },
+    {
+     "state": "pending",
+     "at": "2026-10-17T07:54:09.319Z",
+     "note": "Grouped under pattern comment fp-4992303d3b."
     }
    ],
-   "applyOutcome": "reverted",
-   "applyNote": "The outer grey borders remain visible on pages 21–22 after setting the content group’s border to false. The supplied renderer excerpts do not show which field controls the teaching box’s outer border, so a different safe patch cannot be established. Provide the teaching-box wrapper renderer and its layout settings.",
+   "applyOutcome": "comment",
+   "applyNote": "The grey outer border is visible on page 21, but the supplied renderer excerpts still omit the teaching-box wrapper and its border control. The content-group border change already failed. Provide the wrapper renderer and supported layout settings so an exact patch can remove the border while preserving the orange heading.",
    "commentId": "85e7d174-962d-4824-9f5e-25fe205d03cc",
    "postedAt": "2026-10-15T09:36:03.416Z",
    "postedNote": "[First pass · table · fp-7fa666e59c · Questions p. 23]\nRemove the outer grey borders around the worked-example layouts on pages 23 and 24; keep the orange example headings.\nGain: Removes table borders from layout containers.",
-   "retryUsed": true
+   "retryUsed": true,
+   "queue": {
+    "name": "a",
+    "reason": "not-exposed",
+    "at": "2026-10-17T07:27:17.615Z",
+    "revision": 19
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T07:53:33.672Z",
+    "previous": {
+     "outcome": "reverted",
+     "note": "The outer grey borders remain visible on pages 21–22 after setting the content group’s border to false. The supplied renderer excerpts do not show which field controls the teaching box’s outer border, so a different safe patch cannot be established. Provide the teaching-box wrapper renderer and its layout settings."
+    }
+   },
+   "groupedUnder": "fp-4992303d3b"
   }
  ],
  "notReliablyReviewed": [
@@ -635,36 +692,18 @@
   },
   "errors": []
  },
- "postedRevision": 15,
+ "postedRevision": 18,
  "apply": {
-  "at": "2026-10-15T12:45:29.733Z",
-  "applied": [
-   "fp-d0b72f3c84",
-   "fp-bdedfdab6c",
-   "fp-10b2b8fab8",
-   "fp-833cda4ffb",
-   "fp-9cabc32864"
-  ],
-  "reverted": [
+  "at": "2026-10-17T07:54:00.866Z",
+  "applied": [],
+  "reverted": [],
+  "comment": [
+   "fp-4992303d3b",
    "fp-7fa666e59c"
   ],
-  "comment": [
-   "fp-58284fa943",
-   "fp-4992303d3b",
-   "fp-072ddda973"
-  ],
-  "left": [
-   "fp-d05c016cb0"
-  ],
+  "left": [],
   "stale": [],
-  "retries": [
-   {
-    "id": "fp-7fa666e59c",
-    "kind": "repair",
-    "note": "Outer borders remain visible around the worked-example layouts; headings remain intact.",
-    "historical": true
-   }
-  ],
+  "retries": [],
   "verificationAttempts": []
  },
  "applyHistory": [

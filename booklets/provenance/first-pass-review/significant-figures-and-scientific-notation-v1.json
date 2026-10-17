@@ -13,7 +13,7 @@
     {
      "id": "p5-guided-group",
      "blockId": "p5-guided-group",
-     "hash": "49ea919b48b670255a9d425d9870e5755ab2f0113e61165460e8d20d35e40876"
+     "hash": "d3f1f4fa1cec40f2c60e765c76aae9c439516355eea144f1c2afee27bb1abf85"
     }
    ],
    "comment": "Reduce the guided-practice diagrams and the large gaps between rows so all six parts fit on page 6, retaining room for working.",
@@ -27,11 +27,26 @@
      "at": "2026-10-15T10:42:42.730Z"
     }
    ],
-   "applyOutcome": "comment",
-   "applyNote": "Patch on p5-guided-root/gapMm is not a layout field.",
+   "applyOutcome": "reverted",
+   "applyNote": "Reverted after verification: no verdict returned.",
    "commentId": "1e1b3c2c-eb8f-4e94-9564-6a0911f0288e",
    "postedAt": "2026-10-15T10:54:09.632Z",
-   "postedNote": "[First pass · pagination · fp-20e673e93b · Questions p. 6]\nReduce the guided-practice diagrams and the large gaps between rows so all six parts fit on page 6, retaining room for working.\nGain: Keeps the guided practice together and avoids the two-part spill onto page 7."
+   "postedNote": "[First pass · pagination · fp-20e673e93b · Questions p. 6]\nReduce the guided-practice diagrams and the large gaps between rows so all six parts fit on page 6, retaining room for working.\nGain: Keeps the guided practice together and avoids the two-part spill onto page 7.",
+   "queue": {
+    "name": "a",
+    "reason": "unverified",
+    "at": "2026-10-17T11:11:05.498Z",
+    "revision": 23
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T11:09:31.880Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "Patch on p5-guided-root/gapMm is not a layout field."
+    }
+   },
+   "retryUsed": true
   },
   {
    "id": "fp-c334fac1dc",
@@ -93,10 +108,24 @@
     }
    ],
    "applyOutcome": "comment",
-   "applyNote": "The supplied block has no explicit trailing gap, minimum height or reserved space to remove. The rounding block and rendered page are missing, so the cause of the empty region cannot be identified reliably.",
+   "applyNote": "The empty region is visible on page 13, but no saved arrangement, minimum height or trailing spacing field accounts for it. The block contains 32 empty response parts with answerSpaceMm already set to 0. The supplied renderer excerpts do not establish how to suppress their remaining layout space while preserving their answers, so an exact-field patch would be a guess.",
    "commentId": "6bdc569e-6c5e-47fe-b0cc-2db1693fa271",
    "postedAt": "2026-10-15T10:54:09.634Z",
-   "postedNote": "[First pass · spacing · fp-05540c71ec · Questions p. 13]\nRemove the large empty region below the identification table and place the rounding instructions directly beneath it. This also leaves room for the worked examples on this page.\nGain: Keeps the rounding method and its examples together and removes unused space."
+   "postedNote": "[First pass · spacing · fp-05540c71ec · Questions p. 13]\nRemove the large empty region below the identification table and place the rounding instructions directly beneath it. This also leaves room for the worked examples on this page.\nGain: Keeps the rounding method and its examples together and removes unused space.",
+   "queue": {
+    "name": "a",
+    "reason": "not-exposed",
+    "at": "2026-10-17T11:11:05.498Z",
+    "revision": 23
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T11:09:31.880Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "The supplied block has no explicit trailing gap, minimum height or reserved space to remove. The rounding block and rendered page are missing, so the cause of the empty region cannot be identified reliably."
+    }
+   }
   },
   {
    "id": "fp-99173f9c83",
@@ -126,7 +155,13 @@
    "applyNote": "The labels aa–ff are inline text, with no label-gutter field. A supported gutter or paragraph-indent schema is needed to widen their gutter without changing text or guessing layout fields.",
    "commentId": "4896d4f6-2daa-43ca-8f6e-129149057b0a",
    "postedAt": "2026-10-15T10:54:09.637Z",
-   "postedNote": "[First pass · labels · fp-99173f9c83 · Questions p. 13]\nGive the labels aa–ff a wider label gutter so their numbers have the same clear indent as the single-letter items.\nGain: Separates the double-letter labels from the numbers."
+   "postedNote": "[First pass · labels · fp-99173f9c83 · Questions p. 13]\nGive the labels aa–ff a wider label gutter so their numbers have the same clear indent as the single-letter items.\nGain: Separates the double-letter labels from the numbers.",
+   "queue": {
+    "name": "c",
+    "reason": "content",
+    "at": "2026-10-17T07:27:20.205Z",
+    "revision": 23
+   }
   },
   {
    "id": "fp-8208dedb5c",
@@ -166,7 +201,13 @@
    "applyNote": "The result blanks in p11-q3-a and p11-q3-b can be changed from 15 and 17 to 20 mm; p11-q3-c is already 20 mm. However, no supported font-size field or layoutOverrides schema is supplied for setting scaffold labels to 10 pt, so the complete fix cannot be specified without guessing.",
    "commentId": "a13dfe58-a1bb-4d79-bdfa-1730176e153b",
    "postedAt": "2026-10-15T10:54:09.639Z",
-   "postedNote": "[First pass · response · fp-8208dedb5c · Questions p. 15]\nUse equal 20 mm result blanks and reduce the scaffold labels to 10 pt so each result, including its significant-figure annotation, fits on one line.\nGain: Keeps the three parallel scaffolds consistent and prevents the annotation in c wrapping below its equation.\nAlso affects: p11-q3-b, p11-q3-c"
+   "postedNote": "[First pass · response · fp-8208dedb5c · Questions p. 15]\nUse equal 20 mm result blanks and reduce the scaffold labels to 10 pt so each result, including its significant-figure annotation, fits on one line.\nGain: Keeps the three parallel scaffolds consistent and prevents the annotation in c wrapping below its equation.\nAlso affects: p11-q3-b, p11-q3-c",
+   "queue": {
+    "name": "c",
+    "reason": "response-format",
+    "at": "2026-10-17T07:27:20.205Z",
+    "revision": 23
+   }
   },
   {
    "id": "fp-712960ab57",
@@ -178,7 +219,7 @@
     {
      "id": "p18-examples",
      "blockId": "p18-examples",
-     "hash": "5f505b201dc9a611cdfec3752e2d1f184ba31ed3c52ec778d452a0ff7ba55014"
+     "hash": "a4e17bc076eff073f0217e3d4ab4b4ab5a3a63bfcd88e1e8a35a5048c2e951d3"
     }
    ],
    "comment": "Indent the opening numbers and decimal-shift working by the width of '= ' so they align with the right-hand sides of the final equations.",
@@ -196,7 +237,19 @@
    "applyNote": "The opening number shares a prompt string with the instruction, and no supported field for indenting only that number and its decimal-shift diagram is supplied. An exact layout patch cannot be specified safely without the layout-override schema; TikZ edits are prohibited.",
    "commentId": "1b5cf9cc-a5df-49a4-b9ae-073fa3c66220",
    "postedAt": "2026-10-15T10:54:09.640Z",
-   "postedNote": "[First pass · alignment · fp-712960ab57 · Questions p. 24]\nIndent the opening numbers and decimal-shift working by the width of '= ' so they align with the right-hand sides of the final equations.\nGain: Gives both worked examples a consistent equals-sign gutter."
+   "postedNote": "[First pass · alignment · fp-712960ab57 · Questions p. 24]\nIndent the opening numbers and decimal-shift working by the width of '= ' so they align with the right-hand sides of the final equations.\nGain: Gives both worked examples a consistent equals-sign gutter.",
+   "queue": {
+    "name": "c",
+    "reason": "content",
+    "at": "2026-10-17T11:09:23.529Z",
+    "revision": 23
+   },
+   "confirmation": {
+    "at": "2026-10-17T11:09:23.529Z",
+    "revision": 21,
+    "present": true,
+    "note": "Opening numbers align with the final right-hand sides, but decimal-shift working still starts too far left in both examples."
+   }
   },
   {
    "id": "fp-cc9ccfef1d",
@@ -338,43 +391,48 @@
     {
      "id": "p4-q1",
      "blockId": "p4-q1",
-     "hash": "4945b6c6abade678654416fac6558e2eed99c553a67f076067ccd4fa812691d7"
+     "hash": "bf45ecba5ca58f6315043d42d5acc4ff455de947922847ac23625e3697e26177"
     },
     {
      "id": "p4-q2",
      "blockId": "p4-q2",
-     "hash": "09a0f8ee549fd05b410dd7a5f52c89c047c1c734696f4c63521836157fc178d4"
+     "hash": "0c5db4fdfe415fc029888375d5c0ccf8642e509c90ed367f212807a1bab0e07d"
     },
     {
      "id": "p6-q2",
      "blockId": "p6-q2",
-     "hash": "46fd74146a2ff3413f48db41fa777f005411f34343aa9515792762bc596b4a39"
+     "hash": "74af17920f3639b174b8b54ad20b86cf100781fc9c720e3017a6a3aa51401f40"
     },
     {
      "id": "p12-q5",
      "blockId": "p12-q5",
-     "hash": "f3ee351cc8648e2a770f2aa984e44495a78468d81b824932ea14b3731a4dff87"
+     "hash": "8c853eaa1c6e733c3c627a3bbbb801cb77ae7916f26fb7fe63c38480fe3d47c7"
     },
     {
      "id": "p17-q2-block",
      "blockId": "p17-q2-block",
-     "hash": "0c6f7d4a7a07327b45677a82c19f3236f2920a5797a84572eb9de045bde83ea5"
+     "hash": "2429ea6f8f6d75fe9599291f8fa7ecdae5554c12f3b7f149ed0a070d216098cb"
     },
     {
      "id": "p17-q3-block",
      "blockId": "p17-q3-block",
-     "hash": "baef488e4f7fbcf90a1d2be98aabacd565a453e16c8929174f9f5a7e1c9cfca6"
+     "hash": "da8a56def5fc19558b1a2cd394e99c99ec454607134641ff395ab373651fa64f"
     }
    ],
    "comment": "Show each table question as a compact completed table. Replace the row lists and semicolon-separated entries with the original column headings and aligned cells.",
    "gain": "Students can match each answer directly to its table cell.",
    "proposal": "",
    "revision": 13,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:42:42.730Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T11:08:38.416Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -393,18 +451,23 @@
     {
      "id": "p12-q7-block",
      "blockId": "p12-q7-block",
-     "hash": "af796be54a53c163574080667575ef03a6246afc7cfa5e1f60009a2989fa7b15"
+     "hash": "f8651b3f8439aab29a6fd0f3490d3720c498313d4ec3e1b8fc2ce4a179134537"
     }
    ],
    "comment": "Replace labels 7(1)–7(9) with 7a–7i and remove the repeated a:–i: prefixes inside the answers.",
    "gain": "Each answer has one clear label matching its question part.",
    "proposal": "",
    "revision": 13,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:42:42.730Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T11:08:38.416Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -423,33 +486,38 @@
     {
      "id": "p4-q1",
      "blockId": "p4-q1",
-     "hash": "4945b6c6abade678654416fac6558e2eed99c553a67f076067ccd4fa812691d7"
+     "hash": "bf45ecba5ca58f6315043d42d5acc4ff455de947922847ac23625e3697e26177"
     },
     {
      "id": "p4-q2",
      "blockId": "p4-q2",
-     "hash": "09a0f8ee549fd05b410dd7a5f52c89c047c1c734696f4c63521836157fc178d4"
+     "hash": "0c5db4fdfe415fc029888375d5c0ccf8642e509c90ed367f212807a1bab0e07d"
     },
     {
      "id": "p6-q2",
      "blockId": "p6-q2",
-     "hash": "46fd74146a2ff3413f48db41fa777f005411f34343aa9515792762bc596b4a39"
+     "hash": "74af17920f3639b174b8b54ad20b86cf100781fc9c720e3017a6a3aa51401f40"
     },
     {
      "id": "p12-q5",
      "blockId": "p12-q5",
-     "hash": "f3ee351cc8648e2a770f2aa984e44495a78468d81b824932ea14b3731a4dff87"
+     "hash": "8c853eaa1c6e733c3c627a3bbbb801cb77ae7916f26fb7fe63c38480fe3d47c7"
     }
    ],
    "comment": "Present each table question as one compact completed table. The prefix tables are prose lists, and the conversion and rounding tables are answered row by row across pages 1–2 and 5.",
    "gain": "Makes answers easy to match to the question's rows and columns.",
    "proposal": "",
    "revision": 13,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:42:42.730Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T11:08:38.416Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -503,18 +571,23 @@
     {
      "id": "p12-q7-block",
      "blockId": "p12-q7-block",
-     "hash": "af796be54a53c163574080667575ef03a6246afc7cfa5e1f60009a2989fa7b15"
+     "hash": "f8651b3f8439aab29a6fd0f3490d3720c498313d4ec3e1b8fc2ce4a179134537"
     }
    ],
    "comment": "Replace 7(1)–7(9) and the separate a:–i: prefixes with single labels 7a–7i in the left gutter.",
    "gain": "Removes duplicate numbering and matches the other multipart solutions.",
    "proposal": "",
    "revision": 13,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:42:42.730Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T11:08:38.416Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -540,11 +613,16 @@
    "gain": "Makes each solution easy to locate by its part label.",
    "proposal": "",
    "revision": 13,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:42:42.730Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T11:08:38.416Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -563,23 +641,28 @@
     {
      "id": "p17-q2-block",
      "blockId": "p17-q2-block",
-     "hash": "0c6f7d4a7a07327b45677a82c19f3236f2920a5797a84572eb9de045bde83ea5"
+     "hash": "2429ea6f8f6d75fe9599291f8fa7ecdae5554c12f3b7f149ed0a070d216098cb"
     },
     {
      "id": "p17-q3-block",
      "blockId": "p17-q3-block",
-     "hash": "baef488e4f7fbcf90a1d2be98aabacd565a453e16c8929174f9f5a7e1c9cfca6"
+     "hash": "da8a56def5fc19558b1a2cd394e99c99ec454607134641ff395ab373651fa64f"
     }
    ],
    "comment": "Present each table question as one compact completed table, retaining its column headings, rather than a vertical list of calculations.",
    "gain": "Shows the corresponding forms side by side and makes the completed cells easy to check.",
    "proposal": "",
    "revision": 13,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:42:42.730Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T11:08:38.416Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -887,29 +970,36 @@
  },
  "postedRevision": 17,
  "apply": {
-  "at": "2026-10-15T10:44:41.511Z",
-  "applied": [
-   "fp-c334fac1dc",
-   "fp-cc9ccfef1d",
-   "fp-562be0a0e7",
-   "fp-537404d3cf",
-   "fp-76aebfaf38"
+  "at": "2026-10-17T11:11:03.552Z",
+  "applied": [],
+  "reverted": [
+   "fp-20e673e93b"
   ],
-  "reverted": [],
   "comment": [
-   "fp-20e673e93b",
-   "fp-05540c71ec",
-   "fp-99173f9c83",
-   "fp-8208dedb5c",
-   "fp-712960ab57",
-   "fp-352003ce88",
-   "fp-0bd2a7e8ab",
-   "fp-e18b15bd8c",
-   "fp-b6a601ed5d",
-   "fp-60ad89ed25",
-   "fp-68b47c3dbf"
+   "fp-05540c71ec"
   ],
   "left": [],
-  "stale": []
+  "stale": [],
+  "retries": [
+   {
+    "id": "fp-20e673e93b",
+    "kind": "verification",
+    "note": "check-feedback-pages wrote no report (exit 1); see .booklet-work/first-pass-review/significant-figures-and-scientific-notation-v1/after-c78710be8000/pages-73979b3db1.log"
+   }
+  ],
+  "verificationAttempts": [
+   {
+    "at": "2026-10-17T11:10:43.485Z",
+    "findings": [],
+    "automated": [],
+    "error": "check-feedback-pages wrote no report (exit 1); see .booklet-work/first-pass-review/significant-figures-and-scientific-notation-v1/after-c78710be8000/pages-73979b3db1.log"
+   },
+   {
+    "at": "2026-10-17T11:11:03.328Z",
+    "findings": [],
+    "automated": [],
+    "error": "check-feedback-pages wrote no report (exit 1); see .booklet-work/first-pass-review/significant-figures-and-scientific-notation-v1/after-c78710be8000/pages-73979b3db1.log"
+   }
+  ]
  }
 }

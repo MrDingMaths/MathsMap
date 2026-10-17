@@ -32,7 +32,14 @@
      "at": "2026-10-15T10:58:04.801Z"
     }
    ],
-   "applyOutcome": "left"
+   "applyOutcome": "left",
+   "queue": {
+    "name": "c",
+    "reason": "duplicate",
+    "at": "2026-10-17T07:27:20.821Z",
+    "revision": 22,
+    "coveredBy": "ec8b789e-ffa7-45e3-966b-ec7e494cead5"
+   }
   },
   {
    "id": "fp-a9049d5359",
@@ -62,7 +69,13 @@
    "applyNote": "Patch on p6-example-demonstration/theorySolution/blocks is not a layout field.",
    "commentId": "2141a0c1-0bb3-45a7-a0b2-204e732002a0",
    "postedAt": "2026-10-15T11:05:32.507Z",
-   "postedNote": "[First pass · spacing · fp-a9049d5359 · Questions p. 8]\nPlace each calculation beside its area label on the same line, and reduce the gaps between calculation rows.\nGain: Makes the worked example easier to follow and removes the wide empty separation between labels and working."
+   "postedNote": "[First pass · spacing · fp-a9049d5359 · Questions p. 8]\nPlace each calculation beside its area label on the same line, and reduce the gaps between calculation rows.\nGain: Makes the worked example easier to follow and removes the wide empty separation between labels and working.",
+   "queue": {
+    "name": "c",
+    "reason": "content",
+    "at": "2026-10-17T07:27:20.821Z",
+    "revision": 22
+   }
   },
   {
    "id": "fp-6aced816a6",
@@ -86,19 +99,33 @@
    "gain": "Removes the almost empty teaching page and puts the method beside its demonstration.",
    "proposal": "",
    "revision": 12,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:58:04.801Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T09:52:39.711Z",
+     "note": "Applied and verified (first-pass apply)."
     }
    ],
    "retryUsed": true,
-   "applyOutcome": "reverted",
+   "applyOutcome": "repaired",
    "applyNote": "Reverted after verification: The example remains on page 12 with unchanged diagrams and spacing; it has not joined Key Ideas on page 11.. Retry: The previous diagram and gap reductions had no rendered effect. No page images or effective pagination settings are supplied to establish a safe alternative that fits the example with Key Ideas on page 11.",
    "commentId": "bb9d68bd-1e4e-4d86-a356-15a281ded731",
    "postedAt": "2026-10-15T11:05:32.509Z",
-   "postedNote": "[First pass · pagination · fp-6aced816a6 · Questions p. 11]\nKeep Key Ideas with the worked example. Tighten the example's diagram rows and vertical gaps so both fit on page 11.\nGain: Removes the almost empty teaching page and puts the method beside its demonstration.\nAlso affects: p8-example-block"
+   "postedNote": "[First pass · pagination · fp-6aced816a6 · Questions p. 11]\nKeep Key Ideas with the worked example. Tighten the example's diagram rows and vertical gaps so both fit on page 11.\nGain: Removes the almost empty teaching page and puts the method beside its demonstration.\nAlso affects: p8-example-block",
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T09:51:32.521Z",
+    "previous": {
+     "outcome": "reverted",
+     "note": "Reverted after verification: The example remains on page 12 with unchanged diagrams and spacing; it has not joined Key Ideas on page 11.. Retry: The previous diagram and gap reductions had no rendered effect. No page images or effective pagination settings are supplied to establish a safe alternative that fits the example with Key Ideas on page 11."
+    }
+   },
+   "applyReason": "Reduce both diagram rows and the saved arrangement's vertical gaps so the example fits below Key Ideas; keep the two blocks together."
   },
   {
    "id": "fp-d0ee07674b",
@@ -130,11 +157,28 @@
     }
    ],
    "retryUsed": true,
-   "applyOutcome": "reverted",
-   "applyNote": "Reverted after verification: Question 7’s diagram is smaller, but question 8 still does not fit beneath it on the shown page.. Retry: Reducing the diagram to 55 mm did not bring question 8 onto page 19. No page image or adjustable gap measurements are supplied to identify a different safe tightening; preserve both questions’ working space.",
+   "applyOutcome": "comment",
+   "applyNote": "Question 8 needs about 86 mm for its prompt and 70 mm working space. Reducing question 7’s diagram to about 48 mm high would still leave insufficient room on page 19. No adjustable surplus gap is identified; fitting both questions would require reducing their needed working space or further shrinking question 6’s diagrams.",
    "commentId": "f7ca7c63-d150-48e8-98af-90bbe9a32ca6",
    "postedAt": "2026-10-15T11:05:32.512Z",
-   "postedNote": "[First pass · pagination · fp-d0ee07674b · Questions p. 20]\nReduce question 7’s diagram to about 48 mm high and tighten the space below it so question 8, including its working space, fits beneath it on page 19.\nGain: Keeps the final question with the exercise instead of leaving it alone on page 20.\nAlso affects: p12-q8-block"
+   "postedNote": "[First pass · pagination · fp-d0ee07674b · Questions p. 20]\nReduce question 7’s diagram to about 48 mm high and tighten the space below it so question 8, including its working space, fits beneath it on page 19.\nGain: Keeps the final question with the exercise instead of leaving it alone on page 20.\nAlso affects: p12-q8-block\nSame pattern at 1 more place; one decision covers all:\n- p16-q8 (p. 25) · fp-f183013246: Reduce the 85 mm working space under part b to about 55 mm so parts c–d fit below a–b on page 25.",
+   "queue": {
+    "name": "b",
+    "reason": "declined",
+    "at": "2026-10-17T09:52:41.852Z",
+    "revision": 22
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T09:51:32.521Z",
+    "previous": {
+     "outcome": "reverted",
+     "note": "Reverted after verification: Question 7’s diagram is smaller, but question 8 still does not fit beneath it on the shown page.. Retry: Reducing the diagram to 55 mm did not bring question 8 onto page 19. No page image or adjustable gap measurements are supplied to identify a different safe tightening; preserve both questions’ working space."
+    }
+   },
+   "patternMembers": [
+    "fp-f183013246"
+   ]
   },
   {
    "id": "fp-83f956de01",
@@ -146,30 +190,50 @@
     {
      "id": "p13-guided-a",
      "blockId": "p13-guided-block",
-     "hash": "e125f7da8d8362585d7a63ca05683e209168e899299495734337a95303331b93"
+     "hash": "cc8f25b5a8b96cfb8b555475b9c1fe012bab16ecc3cca5467bc7f9d5a313f105"
     },
     {
      "id": "p13-guided-b",
      "blockId": "p13-guided-block",
-     "hash": "e125f7da8d8362585d7a63ca05683e209168e899299495734337a95303331b93"
+     "hash": "cc8f25b5a8b96cfb8b555475b9c1fe012bab16ecc3cca5467bc7f9d5a313f105"
     }
    ],
    "comment": "Align the formula and corresponding answer lines across a and b; they currently start noticeably lower in b.",
    "gain": "Gives the paired tasks a consistent working layout.",
    "proposal": "",
    "revision": 12,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:58:04.801Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T09:52:39.711Z",
+     "note": "Applied and verified (first-pass apply)."
     }
    ],
-   "applyOutcome": "comment",
+   "applyOutcome": "repaired",
    "applyNote": "The corresponding paragraphs already have identical spacing. No rendered image or supported diagram-height alignment field is supplied, so an exact adjustment to align the scaffolds cannot be determined without guessing.",
    "commentId": "6122bf7e-9570-4206-ae9d-1bcae24f3d8a",
    "postedAt": "2026-10-15T11:05:32.512Z",
-   "postedNote": "[First pass · alignment · fp-83f956de01 · Questions p. 21]\nAlign the formula and corresponding answer lines across a and b; they currently start noticeably lower in b.\nGain: Gives the paired tasks a consistent working layout.\nAlso affects: p13-guided-b"
+   "postedNote": "[First pass · alignment · fp-83f956de01 · Questions p. 21]\nAlign the formula and corresponding answer lines across a and b; they currently start noticeably lower in b.\nGain: Gives the paired tasks a consistent working layout.\nAlso affects: p13-guided-b",
+   "confirmation": {
+    "at": "2026-10-17T09:51:31.295Z",
+    "revision": 19,
+    "present": true,
+    "note": "The formula and both answer lines in b still sit noticeably lower than their counterparts in a."
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T09:51:32.521Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "The corresponding paragraphs already have identical spacing. No rendered image or supported diagram-height alignment field is supplied, so an exact adjustment to align the scaffolds cannot be determined without guessing."
+    }
+   },
+   "applyReason": "Add 10 mm above a’s formula to compensate for its shorter diagram and align both formulas and their corresponding answer lines."
   },
   {
    "id": "fp-0b4a65d03a",
@@ -324,7 +388,13 @@
    "applyNote": "Adding labelled cone diagrams requires new diagram content; layout-only patches cannot create them.",
    "commentId": "943d26a8-7dd3-4564-9e2d-d51770560011",
    "postedAt": "2026-10-15T11:05:32.513Z",
-   "postedNote": "[First pass · diagram · fp-a8c3bf2952 · Questions p. 23]\nAdd a small labelled cone to questions 4, 5, 7 and 9, marking the given radius or base area and placing the surface-area information beside it.\nGain: Makes the dimensions and given information visible alongside the solid.\nAlso at: p15-q5, p15-q7-block, p17-q9"
+   "postedNote": "[First pass · diagram · fp-a8c3bf2952 · Questions p. 23]\nAdd a small labelled cone to questions 4, 5, 7 and 9, marking the given radius or base area and placing the surface-area information beside it.\nGain: Makes the dimensions and given information visible alongside the solid.\nAlso at: p15-q5, p15-q7-block, p17-q9",
+   "queue": {
+    "name": "c",
+    "reason": "content",
+    "at": "2026-10-17T07:27:20.821Z",
+    "revision": 22
+   }
   },
   {
    "id": "fp-f183013246",
@@ -348,13 +418,33 @@
     {
      "state": "pending",
      "at": "2026-10-15T10:58:04.801Z"
+    },
+    {
+     "state": "pending",
+     "at": "2026-10-17T09:52:42.366Z",
+     "note": "Grouped under pattern comment fp-d0ee07674b."
     }
    ],
    "applyOutcome": "comment",
-   "applyNote": "Part b needs about nine handwritten rows. Reducing its working space to 55 mm would not preserve the required 8 mm between lines. Keep the 85 mm space; the supplied evidence does not establish another safe change that would fit c–d on page 25.",
+   "applyNote": "Keep part b’s 85 mm working space: its nine handwritten rows need at least 72 mm. Reducing it to 55 mm would leave inadequate room, and the supplied layout evidence does not establish another modest change that safely fits c–d on page 25.",
    "commentId": "405f7392-2457-46cf-a71a-0cb812211db4",
    "postedAt": "2026-10-15T11:05:32.514Z",
-   "postedNote": "[First pass · pagination · fp-f183013246 · Questions p. 25]\nReduce the 85 mm working space under part b to about 55 mm so parts c–d fit below a–b on page 25.\nGain: Keeps question 8 together and uses the large empty lower region."
+   "postedNote": "[First pass · pagination · fp-f183013246 · Questions p. 25]\nReduce the 85 mm working space under part b to about 55 mm so parts c–d fit below a–b on page 25.\nGain: Keeps question 8 together and uses the large empty lower region.",
+   "queue": {
+    "name": "a",
+    "reason": "not-exposed",
+    "at": "2026-10-17T07:27:20.821Z",
+    "revision": 22
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T09:51:32.521Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "Part b needs about nine handwritten rows. Reducing its working space to 55 mm would not preserve the required 8 mm between lines. Keep the 85 mm space; the supplied evidence does not establish another safe change that would fit c–d on page 25."
+    }
+   },
+   "groupedUnder": "fp-d0ee07674b"
   },
   {
    "id": "fp-823c171d3d",
@@ -459,7 +549,13 @@
    "applyNote": "Changing the red dashed ellipse and radius to black requires editing TikZ code, which the permitted layout fields exclude.",
    "commentId": "35160842-91a5-431c-8cd2-2ff880b0c9e0",
    "postedAt": "2026-10-15T11:05:32.515Z",
-   "postedNote": "[First pass · diagram · fp-540c9fd342 · Questions p. 33]\nChange the red dashed ellipse and radius to black.\nGain: Keeps the diagram consistent with the other solids and suitable for black-and-white printing."
+   "postedNote": "[First pass · diagram · fp-540c9fd342 · Questions p. 33]\nChange the red dashed ellipse and radius to black.\nGain: Keeps the diagram consistent with the other solids and suitable for black-and-white printing.",
+   "queue": {
+    "name": "c",
+    "reason": "content",
+    "at": "2026-10-17T07:27:20.821Z",
+    "revision": 22
+   }
   },
   {
    "id": "fp-65f6c2dd2b",
@@ -528,11 +624,16 @@
    "gain": "Keeps all three solutions together and removes the oversized gaps.",
    "proposal": "",
    "revision": 12,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:58:04.801Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T09:50:51.075Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -803,138 +904,38 @@
   },
   "errors": []
  },
- "postedRevision": 17,
+ "postedRevision": 22,
  "apply": {
-  "at": "2026-10-15T11:00:47.121Z",
+  "at": "2026-10-17T09:52:39.816Z",
   "applied": [
-   "fp-0b4a65d03a",
-   "fp-4a9db4a659",
-   "fp-7baeb0b206",
-   "fp-823c171d3d",
-   "fp-90af0cc953",
-   "fp-65f6c2dd2b"
-  ],
-  "reverted": [
    "fp-6aced816a6",
-   "fp-d0ee07674b"
+   "fp-83f956de01"
   ],
+  "reverted": [],
   "comment": [
-   "fp-a9049d5359",
-   "fp-83f956de01",
-   "fp-a8c3bf2952",
-   "fp-f183013246",
-   "fp-540c9fd342",
-   "fp-ac7d472049"
+   "fp-d0ee07674b",
+   "fp-f183013246"
   ],
-  "left": [
-   "fp-d5c19ebc35"
-  ],
+  "left": [],
   "stale": [],
-  "retries": [
-   {
-    "id": "fp-6aced816a6",
-    "kind": "repair",
-    "note": "The example remains on page 12 with unchanged diagrams and spacing; it has not joined Key Ideas on page 11."
-   },
-   {
-    "id": "fp-d0ee07674b",
-    "kind": "repair",
-    "note": "Question 7’s diagram is smaller, but question 8 still does not fit beneath it on the shown page."
-   }
-  ],
+  "retries": [],
   "verificationAttempts": [
    {
-    "at": "2026-10-15T10:59:50.452Z",
+    "at": "2026-10-17T09:52:39.703Z",
     "findings": [
      {
       "id": "fp-6aced816a6",
-      "fixed": false,
-      "regressed": false,
-      "note": "The example remains on page 12 with unchanged diagrams and spacing; it has not joined Key Ideas on page 11."
-     },
-     {
-      "id": "fp-d0ee07674b",
-      "fixed": false,
-      "regressed": false,
-      "note": "Question 7’s diagram is smaller, but question 8 still does not fit beneath it on the shown page."
-     },
-     {
-      "id": "fp-0b4a65d03a",
       "fixed": true,
       "regressed": false,
-      "note": "The guided-practice blanks and question 1a blanks now have matching lengths within each group."
+      "unverified": false,
+      "note": "student: Key Ideas and the complete worked example now fit together on student page 11. Diagram rows and gaps are reduced without clipping, overlap or lost content; neighbouring exercise and guided practice remain intact."
      },
      {
-      "id": "fp-4a9db4a659",
+      "id": "fp-83f956de01",
       "fixed": true,
       "regressed": false,
-      "note": "Question 5 now starts on page 24 with its stem and all three parts together."
-     },
-     {
-      "id": "fp-7baeb0b206",
-      "fixed": true,
-      "regressed": false,
-      "note": "The horizontal cone in part b is slightly enlarged, with measurements remaining clear and separated."
-     },
-     {
-      "id": "fp-823c171d3d",
-      "fixed": true,
-      "regressed": false,
-      "note": "Part c now fits on page 26, with working space retained beneath parts a and b."
-     },
-     {
-      "id": "fp-90af0cc953",
-      "fixed": true,
-      "regressed": false,
-      "note": "All four dotted answer lines now appear equal in length, with adequate handwriting space."
-     },
-     {
-      "id": "fp-65f6c2dd2b",
-      "fixed": true,
-      "regressed": false,
-      "note": "Question 9 now fits beneath question 8 with its complete stem and diagram, without visible collisions or clipping."
-     }
-    ],
-    "automated": []
-   },
-   {
-    "at": "2026-10-15T11:00:47.014Z",
-    "findings": [
-     {
-      "id": "fp-0b4a65d03a",
-      "fixed": true,
-      "regressed": false,
-      "note": "Guided-practice blanks now match in length, and question 1a’s two blanks match; no visible collisions."
-     },
-     {
-      "id": "fp-4a9db4a659",
-      "fixed": true,
-      "regressed": false,
-      "note": "Question 5 starts on page 24 with its stem and all three parts together, retaining ample working space."
-     },
-     {
-      "id": "fp-7baeb0b206",
-      "fixed": true,
-      "regressed": false,
-      "note": "The horizontal cone in part b is slightly larger, with measurements clear and no overlap."
-     },
-     {
-      "id": "fp-823c171d3d",
-      "fixed": true,
-      "regressed": false,
-      "note": "Part c now fits on page 26 beneath parts a and b, with adequate working space."
-     },
-     {
-      "id": "fp-90af0cc953",
-      "fixed": true,
-      "regressed": false,
-      "note": "All four dotted answer lines now have matching lengths and sufficient handwriting space."
-     },
-     {
-      "id": "fp-65f6c2dd2b",
-      "fixed": true,
-      "regressed": false,
-      "note": "Question 9 and its readable diagram fit beneath question 8 on page 34 without clipping or cramped spacing."
+      "unverified": false,
+      "note": "student: The formulas and corresponding answer lines in guided practice a and b now align. No clipping, overlap, lost content or cramped working space is visible."
      }
     ],
     "automated": []

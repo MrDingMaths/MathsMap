@@ -13,12 +13,12 @@
     {
      "id": "p4-example",
      "blockId": "p4-example",
-     "hash": "95a4878fcb5335a60c089aaf7bba41b6bcead6f3f5d7eb505d2c7d5185bf3b8f"
+     "hash": "3d6ff13129bcad8665c9ec9e906826eddef822c98fd49fdfa31b8228638d720c"
     },
     {
      "id": "p9-volume-example-block",
      "blockId": "p9-volume-example-block",
-     "hash": "7148d94238df8b4a30a6744c6574a63278b812babd5ce93ef287407b3a5660dd"
+     "hash": "1c4bec26d7597d877fa72a5fefa87e08b78a77e2faf255bac448c9094a41bed3"
     }
    ],
    "comment": "Keep the step numbers red in a left gutter, but make the step descriptions blue and align their working consistently beside them.",
@@ -36,7 +36,19 @@
    "applyNote": "Making the step descriptions blue requires text-colour edits, which the permitted layout fields exclude. On page 4, the numbers and descriptions also share single text runs, so preserving red numbers requires restructuring those runs.",
    "commentId": "7a9e8ed0-9c7c-4d18-94ca-8cab374a4aaf",
    "postedAt": "2026-10-15T10:46:05.046Z",
-   "postedNote": "[First pass · alignment · fp-19a218018b · Questions p. 4]\nKeep the step numbers red in a left gutter, but make the step descriptions blue and align their working consistently beside them.\nGain: Makes both teaching examples follow the same clear solution layout.\nAlso at: p9-volume-example-block"
+   "postedNote": "[First pass · alignment · fp-19a218018b · Questions p. 4]\nKeep the step numbers red in a left gutter, but make the step descriptions blue and align their working consistently beside them.\nGain: Makes both teaching examples follow the same clear solution layout.\nAlso at: p9-volume-example-block",
+   "queue": {
+    "name": "c",
+    "reason": "content",
+    "at": "2026-10-17T10:32:47.934Z",
+    "revision": 17
+   },
+   "confirmation": {
+    "at": "2026-10-17T10:32:47.934Z",
+    "revision": 15,
+    "present": true,
+    "note": "Step descriptions remain red in both examples, and working is inconsistently aligned beside them."
+   }
   },
   {
    "id": "fp-0f3b98056e",
@@ -88,26 +100,46 @@
     {
      "id": "p7-q7",
      "blockId": "p7-q7",
-     "hash": "6e3d73c248184aaecabf49e9c063f80810f349802f77d8af21c05a9452770d43"
+     "hash": "317a68ba4113bf55abd3db7573f80714e610e8ce42ed054fa4b9d89806590a30"
     }
    ],
    "comment": "Reduce question 5's working spaces from 32, 16 and 38 mm to about 20, 10 and 22 mm, and keep question 7 together on page 8.",
    "gain": "Brings 7b beside its stem and part a while retaining sufficient working space.",
    "proposal": "",
    "revision": 7,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:42:48.356Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T10:33:24.207Z",
+     "note": "Applied and verified (first-pass apply)."
     }
    ],
-   "applyOutcome": "reverted",
+   "applyOutcome": "repaired",
    "applyNote": "The previous reduction still splits question 7. Further shrinking question 5 would compromise working space. The supplied renderer excerpts do not establish a supported question-level grouping control or the arrangement references needed to keep question 7 together safely.",
    "commentId": "a0d38f10-f990-4db5-bc14-ea2ad30a72a8",
    "postedAt": "2026-10-15T10:46:05.048Z",
    "postedNote": "[First pass · pagination · fp-68c9a16b97 · Questions p. 8]\nReduce question 5's working spaces from 32, 16 and 38 mm to about 20, 10 and 22 mm, and keep question 7 together on page 8.\nGain: Brings 7b beside its stem and part a while retaining sufficient working space.\nAlso affects: p7-q7",
-   "retryUsed": true
+   "retryUsed": true,
+   "confirmation": {
+    "at": "2026-10-17T10:32:47.934Z",
+    "revision": 15,
+    "present": true,
+    "note": "Question 5 retains large working spaces on page 8, while question 7 remains on page 9."
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T10:32:48.776Z",
+    "previous": {
+     "outcome": "reverted",
+     "note": "The previous reduction still splits question 7. Further shrinking question 5 would compromise working space. The supplied renderer excerpts do not establish a supported question-level grouping control or the arrangement references needed to keep question 7 together safely."
+    }
+   },
+   "applyReason": "Reduce question 5's reserved space as requested and use the supported block flow control to keep question 7 together if it cannot fit on page 8."
   },
   {
    "id": "fp-e55ed50eb5",
@@ -164,7 +196,7 @@
     {
      "id": "p10-q2a-scaffold-list",
      "blockId": "p10-q2-block",
-     "hash": "1f567b35748f5d1289fdd643e70bf5b0cdf0746b80767ee63ba53855cd8f1fdc"
+     "hash": "f85e8eb4b5011abbfd903a6a300857baa1cd260f4aa79521c41e3996566145c6"
     }
    ],
    "comment": "Reduce the scaffold labels to about 10 pt and shorten the volume-ratio blank so it fits beside “Volumes in ratio:”.",
@@ -179,10 +211,30 @@
     }
    ],
    "applyOutcome": "comment",
-   "applyNote": "The requested 10 pt label size is outside the permitted layout fields. The full volume-ratio response also needs about 41 mm of handwriting space; without the rendered page or a supported font-size override, I cannot reliably fit it beside the label.",
+   "applyNote": "The renderer supports paragraph fontSize, but font-size changes are outside the permitted patch fields. The full volume-ratio response needs about 41 mm of handwriting space; shortening it enough to fit beside the current label would leave inadequate space. Permit 10 pt scaffold labels to complete this repair.",
    "commentId": "f50f922e-abdd-4d7d-a4c3-76847db22202",
    "postedAt": "2026-10-15T10:46:05.049Z",
-   "postedNote": "[First pass · spacing · fp-0454cf18eb · Questions p. 13]\nReduce the scaffold labels to about 10 pt and shorten the volume-ratio blank so it fits beside “Volumes in ratio:”.\nGain: Keeps each scaffold step on one line and brings the ratio table closer to the diagram."
+   "postedNote": "[First pass · spacing · fp-0454cf18eb · Questions p. 13]\nReduce the scaffold labels to about 10 pt and shorten the volume-ratio blank so it fits beside “Volumes in ratio:”.\nGain: Keeps each scaffold step on one line and brings the ratio table closer to the diagram.",
+   "queue": {
+    "name": "b",
+    "reason": "declined",
+    "at": "2026-10-17T10:33:25.277Z",
+    "revision": 17
+   },
+   "confirmation": {
+    "at": "2026-10-17T10:32:47.934Z",
+    "revision": 15,
+    "present": true,
+    "note": "Scaffold labels remain large, and the volume-ratio blank sits below “Volumes in ratio:” rather than beside it."
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T10:32:48.777Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "The requested 10 pt label size is outside the permitted layout fields. The full volume-ratio response also needs about 41 mm of handwriting space; without the rendered page or a supported font-size override, I cannot reliably fit it beside the label."
+    }
+   }
   },
   {
    "id": "fp-5b19c2465f",
@@ -194,28 +246,33 @@
     {
      "id": "p5-q1",
      "blockId": "p5-q1",
-     "hash": "71c065b8d48b1695f60283fa85ab0196a57d4b991ac752061d70e5e861332124"
+     "hash": "2d456f8529f1881b8ef86d9dc802254d4db23c41938e999060277e50f0b2efd8"
     },
     {
      "id": "p10-q1-block",
      "blockId": "p10-q1-block",
-     "hash": "171cf6ca4b37c036bdad53e56bec9be264ba50cb3d96d8398421beb6351302d6"
+     "hash": "6f7eaf07d4bf38c7507bf3bdf0ea4aecbac9e30ee20685dd27bde509e3d42fc1"
     },
     {
      "id": "p12-q12",
      "blockId": "p12-q12",
-     "hash": "542c981d3722fd91275aca3eb2e8c2d2bfcb2261cdb30e77bb328b28b31daa19"
+     "hash": "af91f0178d0dd231a4adc4ee9a040131438da0c38b6c547c8509a0844383a6f6"
     }
    ],
    "comment": "Show each table question’s answers as one compact completed table. Replace the prose entries for both questions 1 and the separate “7 Row” entries with tables.",
    "gain": "Makes corresponding values easy to compare and answers easy to locate.",
    "proposal": "",
    "revision": 7,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:42:48.356Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T10:31:47.195Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -234,28 +291,33 @@
     {
      "id": "p5-q1-a",
      "blockId": "p5-q1",
-     "hash": "71c065b8d48b1695f60283fa85ab0196a57d4b991ac752061d70e5e861332124"
+     "hash": "2d456f8529f1881b8ef86d9dc802254d4db23c41938e999060277e50f0b2efd8"
     },
     {
      "id": "p10-q1a-node",
      "blockId": "p10-q1-block",
-     "hash": "171cf6ca4b37c036bdad53e56bec9be264ba50cb3d96d8398421beb6351302d6"
+     "hash": "6f7eaf07d4bf38c7507bf3bdf0ea4aecbac9e30ee20685dd27bde509e3d42fc1"
     },
     {
      "id": "p12-q12",
      "blockId": "p12-q12",
-     "hash": "542c981d3722fd91275aca3eb2e8c2d2bfcb2261cdb30e77bb328b28b31daa19"
+     "hash": "af91f0178d0dd231a4adc4ee9a040131438da0c38b6c547c8509a0844383a6f6"
     }
    ],
    "comment": "Show each table question as one compact completed table. The triangle and cube tables are answered in prose, and question 7 on page 6 is answered row by row. Keep any supporting working below each table.",
    "gain": "Students can match the answers directly to the question tables.",
    "proposal": "",
    "revision": 7,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:42:48.356Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T10:31:47.195Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -274,18 +336,23 @@
     {
      "id": "p12-q12",
      "blockId": "p12-q12",
-     "hash": "542c981d3722fd91275aca3eb2e8c2d2bfcb2261cdb30e77bb328b28b31daa19"
+     "hash": "af91f0178d0dd231a4adc4ee9a040131438da0c38b6c547c8509a0844383a6f6"
     }
    ],
    "comment": "Replace the separate row-by-row solutions with one compact completed table, retaining the length, area and volume headers.",
    "gain": "Makes the completed ratios easy to compare and matches the table question.",
    "proposal": "",
    "revision": 7,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:42:48.356Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T10:31:47.195Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -457,34 +524,34 @@
   },
   "errors": []
  },
- "postedRevision": 12,
+ "postedRevision": 17,
  "apply": {
-  "at": "2026-10-15T12:48:42.158Z",
+  "at": "2026-10-17T10:33:24.278Z",
   "applied": [
-   "fp-0f3b98056e",
-   "fp-e55ed50eb5"
-  ],
-  "reverted": [
    "fp-68c9a16b97"
   ],
+  "reverted": [],
   "comment": [
-   "fp-19a218018b",
-   "fp-0454cf18eb",
-   "fp-5b19c2465f",
-   "fp-52321f2ed4",
-   "fp-63f6a2a813"
+   "fp-0454cf18eb"
   ],
   "left": [],
   "stale": [],
-  "retries": [
+  "retries": [],
+  "verificationAttempts": [
    {
-    "id": "fp-68c9a16b97",
-    "kind": "repair",
-    "note": "Question 5's spaces are reduced, but page 8 still contains only question 7's stem and part a; part b remains elsewhere. Working space remains adequate.",
-    "historical": true
+    "at": "2026-10-17T10:33:24.200Z",
+    "findings": [
+     {
+      "id": "fp-68c9a16b97",
+      "fixed": true,
+      "regressed": false,
+      "unverified": false,
+      "note": "student: Question 5’s working spaces are reduced, allowing question 6 onto page 8. Question 7 remains together on page 9 under the permitted fallback. No clipping, overlap, lost content or cramped working space is visible."
+     }
+    ],
+    "automated": []
    }
-  ],
-  "verificationAttempts": []
+  ]
  },
  "applyHistory": [
   {

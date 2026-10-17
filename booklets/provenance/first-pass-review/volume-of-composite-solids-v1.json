@@ -13,7 +13,7 @@
     {
      "id": "p3-q1",
      "blockId": "p3-q1",
-     "hash": "2ff6a3cf521834fd49b7d29b1c4c234369da09823bdcc6f8afe22d9dae5ac6cc"
+     "hash": "c2307d45b6031530e6cb94a76d71cc437ea7e8d5a56d75a597a0e6e887778005"
     }
    ],
    "comment": "Start the review on page 3 and shorten the repeated scaffolds in a–c so all nine parts fit on one page.",
@@ -31,7 +31,19 @@
    "applyNote": "The review can start on a new page by setting /flow/sourcePageBreakBefore to true, but fitting all nine parts cannot be established from the supplied data. Shortening the repeated scaffolds would change protected wording or mathematics; no rendered page or supported spacing fields are supplied for a layout-only alternative.",
    "commentId": "bd8e91f9-0a03-46dc-8e69-21fa064b2d0f",
    "postedAt": "2026-10-15T11:00:06.697Z",
-   "postedNote": "[First pass · pagination · fp-8fdd8aa60a · Questions p. 2]\nStart the review on page 3 and shorten the repeated scaffolds in a–c so all nine parts fit on one page.\nGain: Keeps the opening review together."
+   "postedNote": "[First pass · pagination · fp-8fdd8aa60a · Questions p. 2]\nStart the review on page 3 and shorten the repeated scaffolds in a–c so all nine parts fit on one page.\nGain: Keeps the opening review together.",
+   "queue": {
+    "name": "c",
+    "reason": "content",
+    "at": "2026-10-17T09:51:59.055Z",
+    "revision": 10
+   },
+   "confirmation": {
+    "at": "2026-10-17T09:51:59.054Z",
+    "revision": 10,
+    "present": true,
+    "note": "The review starts on page 2, with lengthy scaffolds for a–c; parts d–i continue on page 3."
+   }
   },
   {
    "id": "fp-67bceaa77f",
@@ -43,12 +55,12 @@
     {
      "id": "p3-q1",
      "blockId": "p3-q1",
-     "hash": "2ff6a3cf521834fd49b7d29b1c4c234369da09823bdcc6f8afe22d9dae5ac6cc"
+     "hash": "c2307d45b6031530e6cb94a76d71cc437ea7e8d5a56d75a597a0e6e887778005"
     },
     {
      "id": "p4-example-block",
      "blockId": "p4-example-block",
-     "hash": "38dac53b17038aafc22c551a05c9751b867a6e1778a462dfe39a2caaa20ffd1d"
+     "hash": "a3ffb50088014f68abe3d745694da71537ed93f7bf9e6a0a407e47bd2d675152"
     },
     {
      "id": "p4-guided-block",
@@ -68,10 +80,30 @@
     }
    ],
    "applyOutcome": "comment",
-   "applyNote": "The outer borders are not represented in the supplied block fields. The layoutOverrides schema is not supplied, so an exact border-removal patch cannot be specified without guessing.",
+   "applyNote": "The outer borders are visible on pages 2–5, but the supplied renderer fields expose no border control for review, worked-example or guided-practice containers. The table border field affects only the already borderless scaffold in guided practice a. Removing these outer borders while preserving the heading bars requires a renderer-supported container border control.",
    "commentId": "82b12a5f-59e5-466d-8fed-dc528bb3a4cd",
    "postedAt": "2026-10-15T11:00:06.699Z",
-   "postedNote": "[First pass · table · fp-67bceaa77f · Questions p. 2]\nRemove the thin outer borders around the review, worked example and guided practice; keep their coloured heading bars.\nGain: Removes table-style borders from layout containers.\nAlso at: p4-example-block, p4-guided-block"
+   "postedNote": "[First pass · table · fp-67bceaa77f · Questions p. 2]\nRemove the thin outer borders around the review, worked example and guided practice; keep their coloured heading bars.\nGain: Removes table-style borders from layout containers.\nAlso at: p4-example-block, p4-guided-block",
+   "queue": {
+    "name": "a",
+    "reason": "not-exposed",
+    "at": "2026-10-17T09:51:59.055Z",
+    "revision": 10
+   },
+   "confirmation": {
+    "at": "2026-10-17T09:51:59.055Z",
+    "revision": 10,
+    "present": true,
+    "note": "Thin outer borders remain around the review, worked example and guided practice."
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T09:52:05.033Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "The outer borders are not represented in the supplied block fields. The layoutOverrides schema is not supplied, so an exact border-removal patch cannot be specified without guessing."
+    }
+   }
   },
   {
    "id": "fp-cb917c3916",
@@ -83,18 +115,23 @@
     {
      "id": "p4-example-block",
      "blockId": "p4-example-block",
-     "hash": "38dac53b17038aafc22c551a05c9751b867a6e1778a462dfe39a2caaa20ffd1d"
+     "hash": "a3ffb50088014f68abe3d745694da71537ed93f7bf9e6a0a407e47bd2d675152"
     }
    ],
    "comment": "Use blue for all worked solution lines in both columns; retain the matching green and red only for the component highlights in the diagrams.",
    "gain": "Makes the worked solutions follow the teaching colour convention.",
    "proposal": "",
    "revision": 4,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:57:11.564Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T09:51:36.468Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -131,7 +168,13 @@
    "applyNote": "Marking the cylinder diameter requires changing TikZ code, and removing the separate sentence changes wording. Both are outside the permitted layout-only patches.",
    "commentId": "6965dde5-04de-41c0-9b58-d271d84172b6",
    "postedAt": "2026-10-15T11:00:06.700Z",
-   "postedNote": "[First pass · diagram · fp-d88b3c04f6 · Questions p. 7]\nMark the cylinder's 8 cm diameter on its diagram and remove the separate diameter sentence.\nGain: Places the required measurement directly on the solid."
+   "postedNote": "[First pass · diagram · fp-d88b3c04f6 · Questions p. 7]\nMark the cylinder's 8 cm diameter on its diagram and remove the separate diameter sentence.\nGain: Places the required measurement directly on the solid.",
+   "queue": {
+    "name": "c",
+    "reason": "content",
+    "at": "2026-10-17T07:27:20.829Z",
+    "revision": 10
+   }
   },
   {
    "id": "fp-271d725d8f",
@@ -218,23 +261,28 @@
     {
      "id": "p9-q12-a",
      "blockId": "p9-q12",
-     "hash": "d8105d7cc3de71af4189b5f462953c6819a0a0a288d0b1468ff92aaa89060247"
+     "hash": "a12809b89059c937bffddf6fef3ff207d34aeb235dac14e571e00cf0ce1134a0"
     },
     {
      "id": "p9-q12-b",
      "blockId": "p9-q12",
-     "hash": "d8105d7cc3de71af4189b5f462953c6819a0a0a288d0b1468ff92aaa89060247"
+     "hash": "a12809b89059c937bffddf6fef3ff207d34aeb235dac14e571e00cf0ce1134a0"
     }
    ],
    "comment": "Move 12a to page 8 so both parts of question 12 stay together; there is ample room above question 13.",
    "gain": "Keeps the height calculation beside the volume calculation that uses it.",
    "proposal": "",
    "revision": 4,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T10:57:11.564Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T09:51:36.468Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -407,41 +455,15 @@
  },
  "postedRevision": 8,
  "apply": {
-  "at": "2026-10-15T10:57:56.494Z",
-  "applied": [
-   "fp-271d725d8f",
-   "fp-50be083dee"
-  ],
+  "at": "2026-10-17T09:52:12.522Z",
+  "applied": [],
   "reverted": [],
   "comment": [
-   "fp-8fdd8aa60a",
-   "fp-67bceaa77f",
-   "fp-cb917c3916",
-   "fp-d88b3c04f6",
-   "fp-c299b89f50"
+   "fp-67bceaa77f"
   ],
   "left": [],
   "stale": [],
   "retries": [],
-  "verificationAttempts": [
-   {
-    "at": "2026-10-15T10:57:56.447Z",
-    "findings": [
-     {
-      "id": "fp-271d725d8f",
-      "fixed": true,
-      "regressed": false,
-      "note": "Question 6 starts on page 10 with its pool diagram and parts a–c together; no visible regression."
-     },
-     {
-      "id": "fp-50be083dee",
-      "fixed": true,
-      "regressed": false,
-      "note": "Diagram 5b is smaller, leaving clear separation between its 10 cm label and the part c label; no visible regression."
-     }
-    ],
-    "automated": []
-   }
-  ]
+  "verificationAttempts": []
  }
 }

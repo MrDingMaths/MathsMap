@@ -20,18 +20,32 @@
    "gain": "Aligns the expression and solution with a clear equals-sign gutter.",
    "proposal": "",
    "revision": 17,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T09:31:19.496Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T07:55:30.581Z",
+     "note": "Applied and verified (first-pass apply)."
     }
    ],
-   "applyOutcome": "comment",
+   "applyOutcome": "repaired",
    "applyNote": "Patch on p4-example-working/paddingLeftMm is not a layout field.",
    "commentId": "4af4e104-d88f-447c-94d9-dde657b2d881",
    "postedAt": "2026-10-15T09:36:56.177Z",
-   "postedNote": "[First pass · alignment · fp-cb917c3916 · Questions p. 3]\nIndent the opening expression by the width of '= ' so it sits above the right-hand side of the blue solution.\nGain: Aligns the expression and solution with a clear equals-sign gutter."
+   "postedNote": "[First pass · alignment · fp-cb917c3916 · Questions p. 3]\nIndent the opening expression by the width of '= ' so it sits above the right-hand side of the blue solution.\nGain: Aligns the expression and solution with a clear equals-sign gutter.",
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T07:54:00.605Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "Patch on p4-example-working/paddingLeftMm is not a layout field."
+    }
+   },
+   "applyReason": "Indent the opening expression to align it with the right-hand side below, leaving a gutter for the equals sign."
   },
   {
    "id": "fp-8119751db2",
@@ -112,7 +126,14 @@
      "at": "2026-10-15T09:31:19.496Z"
     }
    ],
-   "applyOutcome": "left"
+   "applyOutcome": "left",
+   "queue": {
+    "name": "c",
+    "reason": "duplicate",
+    "at": "2026-10-17T07:27:17.716Z",
+    "revision": 26,
+    "coveredBy": "b0ef569e-4f38-4ff0-a624-6ae17d59ef3f"
+   }
   },
   {
    "id": "fp-6089ee3cb2",
@@ -124,17 +145,17 @@
     {
      "id": "p11-john-row",
      "blockId": "p11-q3-block",
-     "hash": "2e576f37eed0818fc15814e5b13d61a1842aef8c8f8200529605eee80e2f6bdd"
+     "hash": "9916c94505a77ef531e283e6d71b4fc593c4345548d7bc147b5870c62fef88e6"
     },
     {
      "id": "p11-louis-row",
      "blockId": "p11-q3-block",
-     "hash": "2e576f37eed0818fc15814e5b13d61a1842aef8c8f8200529605eee80e2f6bdd"
+     "hash": "9916c94505a77ef531e283e6d71b4fc593c4345548d7bc147b5870c62fef88e6"
     },
     {
      "id": "p11-eric-row",
      "blockId": "p11-q3-block",
-     "hash": "2e576f37eed0818fc15814e5b13d61a1842aef8c8f8200529605eee80e2f6bdd"
+     "hash": "9916c94505a77ef531e283e6d71b4fc593c4345548d7bc147b5870c62fef88e6"
     }
    ],
    "comment": "Reduce the work panels to one column width and place each set of questions beside its panel. The panels currently have a large blank right half while the questions sit underneath. This should let a and b fit together on page 13.",
@@ -149,10 +170,30 @@
     }
    ],
    "applyOutcome": "comment",
-   "applyNote": "The panels are in each group's prompt, while the questions are in its children. The supplied grid already specifies two columns but does not place these beside each other. A supported field for placing the prompt and children in adjacent columns is needed to make an exact layout patch.",
+   "applyNote": "The supplied arrangement schema supports rows, but does not show how resolveArrangement references a group's prompt separately from its children while preserving its a–c label. Provide the supported reference IDs for each work panel and response group; otherwise an exact side-by-side patch would require guessing.",
    "commentId": "1f9a1e2c-94a3-4f5a-a9e3-bded1aa68d58",
    "postedAt": "2026-10-15T09:36:56.179Z",
-   "postedNote": "[First pass · pagination · fp-6089ee3cb2 · Questions p. 13]\nReduce the work panels to one column width and place each set of questions beside its panel. The panels currently have a large blank right half while the questions sit underneath. This should let a and b fit together on page 13.\nGain: Uses the empty panel space and reduces the spread of Question 3.\nAlso at: p11-louis-row, p11-eric-row"
+   "postedNote": "[First pass · pagination · fp-6089ee3cb2 · Questions p. 13]\nReduce the work panels to one column width and place each set of questions beside its panel. The panels currently have a large blank right half while the questions sit underneath. This should let a and b fit together on page 13.\nGain: Uses the empty panel space and reduces the spread of Question 3.\nAlso at: p11-louis-row, p11-eric-row",
+   "queue": {
+    "name": "a",
+    "reason": "not-exposed",
+    "at": "2026-10-17T07:53:59.612Z",
+    "revision": 26
+   },
+   "confirmation": {
+    "at": "2026-10-17T07:53:59.612Z",
+    "revision": 22,
+    "present": true,
+    "note": "The work panels still span nearly the full page width with large blank right halves, and their questions remain underneath. Parts a and b are still on separate pages 13 and 14."
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T07:54:00.605Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "The panels are in each group's prompt, while the questions are in its children. The supplied grid already specifies two columns but does not place these beside each other. A supported field for placing the prompt and children in adjacent columns is needed to make an exact layout patch."
+    }
+   }
   },
   {
    "id": "fp-4f0cbb9ca9",
@@ -183,7 +224,16 @@
      "at": "2026-10-15T09:31:19.496Z"
     }
    ],
-   "applyOutcome": "left"
+   "applyOutcome": "left",
+   "queue": {
+    "name": "c",
+    "reason": "duplicate",
+    "at": "2026-10-17T07:27:17.716Z",
+    "revision": 26
+   },
+   "commentId": "30b4ba7c-488e-4744-8e5d-b1a63bec2ed4",
+   "postedAt": "2026-10-17T07:55:31.963Z",
+   "postedNote": "[First pass · duplicate · fp-4f0cbb9ca9 · Questions p. 16]\n6b repeats 6a with the two terms reversed. Change b to use different numbers.\nGain: Provides another distinct expansion task.\nProposal: Replace 6b with 4x(x+3)+2x(x+2). Answer: 6x²+16x.\nAlso affects: p13-q6-b"
   },
   {
    "id": "fp-58a4a989e7",
@@ -214,7 +264,16 @@
      "at": "2026-10-15T09:31:19.496Z"
     }
    ],
-   "applyOutcome": "left"
+   "applyOutcome": "left",
+   "queue": {
+    "name": "c",
+    "reason": "duplicate",
+    "at": "2026-10-17T07:27:17.716Z",
+    "revision": 26
+   },
+   "commentId": "b128da45-5ed8-40c4-a68d-03f6c903decb",
+   "postedAt": "2026-10-17T07:55:31.964Z",
+   "postedNote": "[First pass · duplicate · fp-58a4a989e7 · Questions p. 16]\n5a repeats 4a with the two terms reversed. Change the later copy's numbers.\nGain: Avoids repeating the same calculation.\nProposal: Replace 5a with 2(x+4)+3(x+1). Answer: 5x+11.\nAlso affects: p12-q5-a"
   },
   {
    "id": "fp-62408c3088",
@@ -246,10 +305,24 @@
     }
    ],
    "applyOutcome": "comment",
-   "applyNote": "The supplied fields provide no label-only vertical offset. Moving a and b down to their expression baselines while preserving the arrows requires a supported label-position field or layout override schema; neither is supplied.",
+   "applyNote": "Labels a and b visibly sit above their expressions. The supplied renderer fields still provide no label-only vertical offset, and the arrangement excerpts do not establish addressable label references. An exact patch cannot safely align the labels while keeping the arrows above and matching c and d.",
    "commentId": "95dfea7f-c2e0-4bad-a7cb-081afc1fdf2a",
    "postedAt": "2026-10-15T09:36:56.185Z",
-   "postedNote": "[First pass · labels · fp-62408c3088 · Questions p. 24]\nMove labels a and b down to the first line of their expressions, keeping the arrows above. Align the labels and content indents with c and d.\nGain: All four parts have labels beside their content.\nAlso at: p20-guided-b-node"
+   "postedNote": "[First pass · labels · fp-62408c3088 · Questions p. 24]\nMove labels a and b down to the first line of their expressions, keeping the arrows above. Align the labels and content indents with c and d.\nGain: All four parts have labels beside their content.\nAlso at: p20-guided-b-node",
+   "queue": {
+    "name": "a",
+    "reason": "not-exposed",
+    "at": "2026-10-17T07:27:17.716Z",
+    "revision": 26
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T07:54:00.605Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "The supplied fields provide no label-only vertical offset. Moving a and b down to their expression baselines while preserving the arrows requires a supported label-position field or layout override schema; neither is supplied."
+    }
+   }
   },
   {
    "id": "fp-fbf52236fa",
@@ -325,7 +398,14 @@
      "at": "2026-10-15T09:31:19.496Z"
     }
    ],
-   "applyOutcome": "left"
+   "applyOutcome": "left",
+   "queue": {
+    "name": "c",
+    "reason": "duplicate",
+    "at": "2026-10-17T07:27:17.716Z",
+    "revision": 26,
+    "coveredBy": "b0ef569e-4f38-4ff0-a624-6ae17d59ef3f"
+   }
   },
   {
    "id": "fp-f70893efac",
@@ -366,7 +446,16 @@
      "at": "2026-10-15T09:31:19.496Z"
     }
    ],
-   "applyOutcome": "left"
+   "applyOutcome": "left",
+   "queue": {
+    "name": "c",
+    "reason": "duplicate",
+    "at": "2026-10-17T07:27:17.716Z",
+    "revision": 26
+   },
+   "commentId": "9cb4352b-cb1c-4dd3-9c0b-cdf883f92e09",
+   "postedAt": "2026-10-17T07:55:31.962Z",
+   "postedNote": "[First pass · duplicate · fp-f70893efac · Worked solutions p. 2]\n2j repeats 2a, and 2t repeats 2k. Change the later copies to use different numbers.\nGain: Adds variation to the repeated practice.\nProposal: 2j: x(x+5), answer x²+5x. 2t: −4x(3−x), answer −12x+4x².\nAlso at: p5-q2-j, p5-q2-k, p5-q2-t"
   },
   {
    "id": "fp-b1b687110e",
@@ -397,7 +486,16 @@
      "at": "2026-10-15T09:31:19.496Z"
     }
    ],
-   "applyOutcome": "left"
+   "applyOutcome": "left",
+   "queue": {
+    "name": "c",
+    "reason": "duplicate",
+    "at": "2026-10-17T07:27:17.716Z",
+    "revision": 26
+   },
+   "commentId": "e77bc4cf-12b1-4861-8199-7d6846fffacc",
+   "postedAt": "2026-10-17T07:55:31.962Z",
+   "postedNote": "[First pass · duplicate · fp-b1b687110e · Worked solutions p. 4]\n5b repeats 5a exactly. Change the numbers in 5b.\nGain: Makes the second cloze a fresh task.\nProposal: 5b: 3(□+5)=3x+15. Missing term: x.\nAlso affects: p7-q5-b"
   },
   {
    "id": "fp-4fc0637a0e",
@@ -409,18 +507,23 @@
     {
      "id": "p11-eric-simplify-node",
      "blockId": "p11-q3-block",
-     "hash": "2e576f37eed0818fc15814e5b13d61a1842aef8c8f8200529605eee80e2f6bdd"
+     "hash": "9916c94505a77ef531e283e6d71b4fc593c4345548d7bc147b5870c62fef88e6"
     }
    ],
    "comment": "Indent the opening expression in 3cii by the width of “= ” so it aligns with the right-hand sides below.",
    "gain": "Gives the working a consistent equals-sign gutter.",
    "proposal": "",
    "revision": 17,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T09:31:19.496Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T07:27:17.710Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -654,28 +757,34 @@
   },
   "errors": []
  },
- "postedRevision": 21,
+ "postedRevision": 25,
  "apply": {
-  "at": "2026-10-15T09:33:18.174Z",
+  "at": "2026-10-17T07:55:30.668Z",
   "applied": [
-   "fp-8119751db2",
-   "fp-fbf52236fa"
+   "fp-cb917c3916"
   ],
   "reverted": [],
   "comment": [
-   "fp-cb917c3916",
    "fp-6089ee3cb2",
-   "fp-62408c3088",
-   "fp-4fc0637a0e"
+   "fp-62408c3088"
   ],
-  "left": [
-   "fp-070f486c73",
-   "fp-4f0cbb9ca9",
-   "fp-58a4a989e7",
-   "fp-79134e0436",
-   "fp-f70893efac",
-   "fp-b1b687110e"
-  ],
-  "stale": []
+  "left": [],
+  "stale": [],
+  "retries": [],
+  "verificationAttempts": [
+   {
+    "at": "2026-10-17T07:55:30.575Z",
+    "findings": [
+     {
+      "id": "fp-cb917c3916",
+      "fixed": true,
+      "regressed": false,
+      "unverified": false,
+      "note": "student: The opening expression now aligns with the right-hand side of the blue solution, leaving a gutter for the equals sign. No visible regression."
+     }
+    ],
+    "automated": []
+   }
+  ]
  }
 }

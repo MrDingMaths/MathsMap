@@ -13,18 +13,23 @@
     {
      "id": "p3-examples",
      "blockId": "p3-examples",
-     "hash": "5edfc1788dabb33e80bc044b1cbff188919b8ca708b10870a68bc31e802540e8"
+     "hash": "53f1439731a15f303787dee20159008935dd7dfa6f0597b178fbc3eabdadf6e7"
     }
    ],
    "comment": "Make the right example’s final line blue, including the equals sign and all terms.",
    "gain": "Keeps the worked solutions consistently blue.",
    "proposal": "",
    "revision": 8,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T09:27:41.450Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T09:31:31.114Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -61,7 +66,13 @@
    "applyNote": "Adding a labelled room diagram requires new diagram content and cannot be done with layout-only patches.",
    "commentId": "a8cdb56e-1463-40c4-9d6b-f55f8353d38f",
    "postedAt": "2026-10-15T09:32:30.083Z",
-   "postedNote": "[First pass · diagram · fp-0be334558c · Questions p. 7]\nAdd a simple room diagram labelled 4 m and 5 m, showing both dimensions increased by x m.\nGain: Makes the original and extended dimensions visible beside the area question."
+   "postedNote": "[First pass · diagram · fp-0be334558c · Questions p. 7]\nAdd a simple room diagram labelled 4 m and 5 m, showing both dimensions increased by x m.\nGain: Makes the original and extended dimensions visible beside the area question.",
+   "queue": {
+    "name": "c",
+    "reason": "content",
+    "at": "2026-10-17T07:27:17.676Z",
+    "revision": 16
+   }
   },
   {
    "id": "fp-2f786fa30b",
@@ -123,10 +134,24 @@
     }
    ],
    "applyOutcome": "comment",
-   "applyNote": "Parts b–f each require five lines of working in the supplied space estimates. Their 40 mm allows the required 8 mm per line; reducing to 32 mm would leave inadequate handwriting space. The layout also reserves 52 mm minimum heights for these parts, so reducing answerSpaceMm alone would not compact the rows.",
+   "applyNote": "Part g already fits below a–f on printed page 11. Keep the 40 mm working spaces for b–f: their five lines require this space. No pagination repair is needed.",
    "commentId": "ba8b8c87-45e7-4d30-b135-c3931462903a",
    "postedAt": "2026-10-15T09:32:30.084Z",
-   "postedNote": "[First pass · pagination · fp-c4853d53dd · Questions p. 10]\nReduce the paired rows’ working spaces from 40 mm to about 32 mm so part g fits below a–f on page 10.\nGain: Keeps the whole question together and removes the isolated continuation on page 11."
+   "postedNote": "[First pass · pagination · fp-c4853d53dd · Questions p. 10]\nReduce the paired rows’ working spaces from 40 mm to about 32 mm so part g fits below a–f on page 10.\nGain: Keeps the whole question together and removes the isolated continuation on page 11.",
+   "queue": {
+    "name": "a",
+    "reason": "not-exposed",
+    "at": "2026-10-17T09:32:51.297Z",
+    "revision": 16
+   },
+   "queueRerun": {
+    "queue": "b",
+    "at": "2026-10-17T09:32:33.278Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "Parts b–f each require five lines of working in the supplied space estimates. Their 40 mm allows the required 8 mm per line; reducing to 32 mm would leave inadequate handwriting space. The layout also reserves 52 mm minimum heights for these parts, so reducing answerSpaceMm alone would not compact the rows."
+    }
+   }
   },
   {
    "id": "fp-042137ac07",
@@ -208,7 +233,7 @@
     {
      "id": "p10-rule",
      "blockId": "p10-rule",
-     "hash": "fe48cbb51c98e5a8131d5b14773dbf76f5a9a4177c74088dc136e9a3601cf89c"
+     "hash": "258e3cb07d56a986516b346799848892e5cb9054f565a466527e3011d858aa4a"
     }
    ],
    "comment": "Each right-hand expansion repeats its left-hand neighbour: a/b, c/d, e/f, g/h, i/j and k/l. Change the later copies to use x+4 as the first factor.",
@@ -220,9 +245,32 @@
     {
      "state": "pending",
      "at": "2026-10-15T09:27:41.450Z"
+    },
+    {
+     "state": "stale",
+     "at": "2026-10-17T07:27:17.624Z",
+     "note": "A target changed before posting."
+    },
+    {
+     "state": "pending",
+     "at": "2026-10-17T09:32:30.733Z",
+     "note": "Confirmed still present on revision 15."
     }
    ],
-   "applyOutcome": "left"
+   "applyOutcome": "left",
+   "queue": {
+    "name": "c",
+    "reason": "duplicate",
+    "at": "2026-10-17T09:32:30.735Z",
+    "revision": 16,
+    "coveredBy": "7868702e-901b-46a4-97f2-e24e6e6b5ac5"
+   },
+   "confirmation": {
+    "at": "2026-10-17T09:32:30.733Z",
+    "revision": 15,
+    "present": true,
+    "note": "All six right-hand expansions still repeat their left-hand neighbours with x+5 as the first factor."
+   }
   },
   {
    "id": "fp-166393c7b7",
@@ -249,10 +297,24 @@
     }
    ],
    "applyOutcome": "comment",
-   "applyNote": "The supplied lists expose indentation but no marker-colour or gutter styling fields. A supported layout-override schema is needed to make the step numbers red in a left gutter while preserving blue working; guessing fields would not provide a reliable fix.",
+   "applyNote": "The supplied renderer fields expose no list-marker colour or separate marker-gutter control. Indentation alone cannot make the step numbers red while preserving blue working. This needs renderer support; an exact-field layout patch cannot reliably fix it.",
    "commentId": "23744a84-5862-4ad5-8de1-5c7a43312e0e",
    "postedAt": "2026-10-15T09:32:30.086Z",
-   "postedNote": "[First pass · alignment · fp-166393c7b7 · Questions p. 16]\nMake the numbered step markers red in a left gutter; keep the working blue.\nGain: Matches the teaching convention for numbered solutions."
+   "postedNote": "[First pass · alignment · fp-166393c7b7 · Questions p. 16]\nMake the numbered step markers red in a left gutter; keep the working blue.\nGain: Matches the teaching convention for numbered solutions.",
+   "queue": {
+    "name": "a",
+    "reason": "not-exposed",
+    "at": "2026-10-17T07:27:17.676Z",
+    "revision": 16
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T09:32:33.278Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "The supplied lists expose indentation but no marker-colour or gutter styling fields. A supported layout-override schema is needed to make the step numbers red in a left gutter while preserving blue working; guessing fields would not provide a reliable fix."
+    }
+   }
   },
   {
    "id": "fp-860ed6dc0f",
@@ -279,10 +341,24 @@
     }
    ],
    "applyOutcome": "comment",
-   "applyNote": "The supplied JSON exposes no text-region width or column-width setting. Without the supported layout field, I cannot reliably widen the prompt region.",
+   "applyNote": "The example visibly wraps “35” onto a second line, but the supplied renderer fields expose no prompt-width control for worked examples. The textWidthMm override applies only to questions with adjacent diagrams. Widening this region requires a renderer change; an exact supported layout patch cannot be determined from the supplied evidence.",
    "commentId": "05e18e02-0281-41eb-aed3-e666d7bef059",
    "postedAt": "2026-10-15T09:32:30.087Z",
-   "postedNote": "[First pass · spacing · fp-860ed6dc0f · Questions p. 19]\nWiden the example's text region so “product: 35” stays on one line.\nGain: Removes the isolated 35 and unnecessary height in the example."
+   "postedNote": "[First pass · spacing · fp-860ed6dc0f · Questions p. 19]\nWiden the example's text region so “product: 35” stays on one line.\nGain: Removes the isolated 35 and unnecessary height in the example.",
+   "queue": {
+    "name": "a",
+    "reason": "not-exposed",
+    "at": "2026-10-17T07:27:17.676Z",
+    "revision": 16
+   },
+   "queueRerun": {
+    "queue": "a",
+    "at": "2026-10-17T09:32:33.278Z",
+    "previous": {
+     "outcome": "comment",
+     "note": "The supplied JSON exposes no text-region width or column-width setting. Without the supported layout field, I cannot reliably widen the prompt region."
+    }
+   }
   },
   {
    "id": "fp-706dc76ef8",
@@ -294,22 +370,22 @@
     {
      "id": "p13-q3-a",
      "blockId": "p13-q3",
-     "hash": "ab6d207fa1bc35d6511a5cafb15de73e560222674c26fd727c07f18b8c47d710"
+     "hash": "45160d52165f7a0818eae538330925b71d26c2734a6409e451c6d1848dcf9590"
     },
     {
      "id": "p13-q3-b",
      "blockId": "p13-q3",
-     "hash": "ab6d207fa1bc35d6511a5cafb15de73e560222674c26fd727c07f18b8c47d710"
+     "hash": "45160d52165f7a0818eae538330925b71d26c2734a6409e451c6d1848dcf9590"
     },
     {
      "id": "p13-q3-e",
      "blockId": "p13-q3",
-     "hash": "ab6d207fa1bc35d6511a5cafb15de73e560222674c26fd727c07f18b8c47d710"
+     "hash": "45160d52165f7a0818eae538330925b71d26c2734a6409e451c6d1848dcf9590"
     },
     {
      "id": "p13-q3-f",
      "blockId": "p13-q3",
-     "hash": "ab6d207fa1bc35d6511a5cafb15de73e560222674c26fd727c07f18b8c47d710"
+     "hash": "45160d52165f7a0818eae538330925b71d26c2734a6409e451c6d1848dcf9590"
     }
    ],
    "comment": "Parts e and f repeat a and b unchanged. Give e and f different numbers.",
@@ -321,9 +397,32 @@
     {
      "state": "pending",
      "at": "2026-10-15T09:27:41.450Z"
+    },
+    {
+     "state": "stale",
+     "at": "2026-10-17T09:31:31.118Z",
+     "note": "A target changed before posting."
+    },
+    {
+     "state": "pending",
+     "at": "2026-10-17T09:32:30.734Z",
+     "note": "Confirmed still present on revision 15."
     }
    ],
-   "applyOutcome": "left"
+   "applyOutcome": "left",
+   "queue": {
+    "name": "c",
+    "reason": "duplicate",
+    "at": "2026-10-17T09:32:30.735Z",
+    "revision": 16,
+    "coveredBy": "895221a0-a40a-4746-94b5-806d421833b1"
+   },
+   "confirmation": {
+    "at": "2026-10-17T09:32:30.733Z",
+    "revision": 15,
+    "present": true,
+    "note": "Parts e and f still repeat a and b: x²+3x+2 and x²+7x+6."
+   }
   },
   {
    "id": "fp-01574768a4",
@@ -335,7 +434,7 @@
     {
      "id": "p16-q8-block",
      "blockId": "p16-q8-block",
-     "hash": "9dff8430258086cf63061c1cbb2356de1ae24ad93880191c5ce0f604dad3004e"
+     "hash": "f99ea732f75fad0a85c7c0085ae6fda0fe7f4216ae559ad5e1f3b5b35e9f46c3"
     },
     {
      "id": "p16-q10",
@@ -352,18 +451,29 @@
    "gain": "Uses the large empty lower region on page 24 and keeps the backyard question together.",
    "proposal": "",
    "revision": 8,
-   "state": "pending",
+   "state": "closed",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T09:27:41.450Z"
+    },
+    {
+     "state": "closed",
+     "at": "2026-10-17T09:32:30.734Z",
+     "note": "Confirmed against revision 15: The whole backyard question, including parts a–c, now fits below Question 9 on page 24."
     }
    ],
    "applyOutcome": "comment",
    "applyNote": "The proposal does not match the supplied blocks: Question 9 is the backyard question with parts a–c; Question 10 is a single factorisation task with no parts. Clarify whether the intended changes are 24 mm for Question 10 and 10/16/16 mm for Question 9a–c, and specify the Question 8 row tightening.",
    "commentId": "8c776563-256b-4b13-92ab-7018fd63e9d3",
    "postedAt": "2026-10-15T09:32:30.088Z",
-   "postedNote": "[First pass · pagination · fp-01574768a4 · Questions p. 25]\nTighten the rows of Question 8 on page 24, reduce Question 9's working space to 24 mm, and use 10 mm for Question 10a and 16 mm each for b–c so the whole backyard question fits below Question 9 on page 24.\nGain: Uses the large empty lower region on page 24 and keeps the backyard question together.\nAlso affects: p16-q10, p16-q9"
+   "postedNote": "[First pass · pagination · fp-01574768a4 · Questions p. 25]\nTighten the rows of Question 8 on page 24, reduce Question 9's working space to 24 mm, and use 10 mm for Question 10a and 16 mm each for b–c so the whole backyard question fits below Question 9 on page 24.\nGain: Uses the large empty lower region on page 24 and keeps the backyard question together.\nAlso affects: p16-q10, p16-q9",
+   "confirmation": {
+    "at": "2026-10-17T09:32:30.734Z",
+    "revision": 15,
+    "present": false,
+    "note": "The whole backyard question, including parts a–c, now fits below Question 9 on page 24."
+   }
   },
   {
    "id": "fp-2e934e6e23",
@@ -375,23 +485,28 @@
     {
      "id": "p12-q1-block",
      "blockId": "p12-q1-block",
-     "hash": "f483758c9dff5855745d10e89a530ef44197f6cf6d75d0519ce06f8b98bc8403"
+     "hash": "6a45efa43299ab5c89de338769c3460a2c6126039337fb428a0c7d3c0d7a063f"
     },
     {
      "id": "p12-q2-block",
      "blockId": "p12-q2-block",
-     "hash": "45e14eded922201509929e065558b16f814d5aee82bffe492a408afe2d9fe97f"
+     "hash": "9d5472b5db4ea6353ccedc97e8af703f9e65cd8126f567f92d5ce91c664b9f22"
     }
    ],
    "comment": "Show each table question as one compact completed table instead of listing its missing entries row by row.",
    "gain": "Keeps each answer in its table context and makes checking easier.",
    "proposal": "",
    "revision": 8,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T09:27:41.450Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T09:31:31.120Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -410,23 +525,28 @@
     {
      "id": "p12-q1-block",
      "blockId": "p12-q1-block",
-     "hash": "f483758c9dff5855745d10e89a530ef44197f6cf6d75d0519ce06f8b98bc8403"
+     "hash": "6a45efa43299ab5c89de338769c3460a2c6126039337fb428a0c7d3c0d7a063f"
     },
     {
      "id": "p12-q2-block",
      "blockId": "p12-q2-block",
-     "hash": "45e14eded922201509929e065558b16f814d5aee82bffe492a408afe2d9fe97f"
+     "hash": "9d5472b5db4ea6353ccedc97e8af703f9e65cd8126f567f92d5ce91c664b9f22"
     }
    ],
    "comment": "Show each table question as one compact completed table, rather than separate numbered rows of working.",
    "gain": "Keeps each answer in the same structure as its question and makes the entries easier to compare.",
    "proposal": "",
    "revision": 8,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T09:27:41.450Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T09:31:31.120Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -445,22 +565,22 @@
     {
      "id": "p13-q3-a",
      "blockId": "p13-q3",
-     "hash": "ab6d207fa1bc35d6511a5cafb15de73e560222674c26fd727c07f18b8c47d710"
+     "hash": "45160d52165f7a0818eae538330925b71d26c2734a6409e451c6d1848dcf9590"
     },
     {
      "id": "p13-q3-e",
      "blockId": "p13-q3",
-     "hash": "ab6d207fa1bc35d6511a5cafb15de73e560222674c26fd727c07f18b8c47d710"
+     "hash": "45160d52165f7a0818eae538330925b71d26c2734a6409e451c6d1848dcf9590"
     },
     {
      "id": "p13-q3-b",
      "blockId": "p13-q3",
-     "hash": "ab6d207fa1bc35d6511a5cafb15de73e560222674c26fd727c07f18b8c47d710"
+     "hash": "45160d52165f7a0818eae538330925b71d26c2734a6409e451c6d1848dcf9590"
     },
     {
      "id": "p13-q3-f",
      "blockId": "p13-q3",
-     "hash": "ab6d207fa1bc35d6511a5cafb15de73e560222674c26fd727c07f18b8c47d710"
+     "hash": "45160d52165f7a0818eae538330925b71d26c2734a6409e451c6d1848dcf9590"
     }
    ],
    "comment": "3e repeats 3a, and 3f repeats 3b. Give the later copies different numbers while keeping the PSF format.",
@@ -472,9 +592,32 @@
     {
      "state": "pending",
      "at": "2026-10-15T09:27:41.450Z"
+    },
+    {
+     "state": "stale",
+     "at": "2026-10-17T09:31:31.120Z",
+     "note": "A target changed before posting."
+    },
+    {
+     "state": "pending",
+     "at": "2026-10-17T09:32:30.735Z",
+     "note": "Confirmed still present on revision 15."
     }
    ],
-   "applyOutcome": "left"
+   "applyOutcome": "left",
+   "queue": {
+    "name": "c",
+    "reason": "duplicate",
+    "at": "2026-10-17T09:32:30.735Z",
+    "revision": 16,
+    "coveredBy": "895221a0-a40a-4746-94b5-806d421833b1"
+   },
+   "confirmation": {
+    "at": "2026-10-17T09:32:30.734Z",
+    "revision": 15,
+    "present": true,
+    "note": "3e still repeats 3a (x² + 3x + 2), and 3f still repeats 3b (x² + 7x + 6)."
+   }
   },
   {
    "id": "fp-565bdb1c0e",
@@ -493,11 +636,16 @@
    "gain": "Lets students find each solution in part order.",
    "proposal": "",
    "revision": 8,
-   "state": "pending",
+   "state": "repaired",
    "history": [
     {
      "state": "pending",
      "at": "2026-10-15T09:27:41.450Z"
+    },
+    {
+     "state": "repaired",
+     "at": "2026-10-17T09:31:31.120Z",
+     "note": "Its comment was resolved in Studio."
     }
    ],
    "applyOutcome": "comment",
@@ -727,29 +875,17 @@
  },
  "postedRevision": 12,
  "apply": {
-  "at": "2026-10-15T09:29:40.051Z",
-  "applied": [
-   "fp-2f786fa30b",
-   "fp-042137ac07",
-   "fp-9d304ed706"
-  ],
+  "at": "2026-10-17T09:32:50.794Z",
+  "applied": [],
   "reverted": [],
   "comment": [
-   "fp-e74e5ea5d4",
-   "fp-0be334558c",
    "fp-c4853d53dd",
    "fp-166393c7b7",
-   "fp-860ed6dc0f",
-   "fp-01574768a4",
-   "fp-2e934e6e23",
-   "fp-a07e14691c",
-   "fp-565bdb1c0e"
+   "fp-860ed6dc0f"
   ],
-  "left": [
-   "fp-0e14c7d20f",
-   "fp-706dc76ef8",
-   "fp-3f043dfe3e"
-  ],
-  "stale": []
+  "left": [],
+  "stale": [],
+  "retries": [],
+  "verificationAttempts": []
  }
 }
