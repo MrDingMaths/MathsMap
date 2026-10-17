@@ -109,6 +109,15 @@ Keep archive objects, manifests and receipts together. These archives provide lo
 
 ## Prevent future Git growth
 
+The 18 October 2026 working-tree settlement raises the tracked-file budget to
+1700 MiB for saved booklet convention/layout repairs, synchronised bank records,
+pinned bank revision baselines and first-pass review records. Inspection of the
+three newly oversized projects found growth in editable sections and saved layout
+settings, rather than generated exports or automatic project histories. Narrow
+11/14/12 MiB limits cover Data Visualisation 1, Linear Relationships and Operations
+with Fractions and Decimals respectively; the default 10 MiB limit remains.
+This allowance records storage growth only and does not grant content acceptance.
+
 The 2 October 2026 working-tree settlement raises the tracked-file budget to
 1100 MiB for 24 original Stage 4 Word/PDF sources (113,982,377 bytes), the current
 Pythagoras project and pinned bank baselines, published theory/practice updates,
