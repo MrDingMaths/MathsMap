@@ -79,7 +79,9 @@ Do not migrate accepted projects automatically. These preferences add no review 
 
 ## Cloze styles and source tables (4 October 2026)
 
-For future imports and authorised feedback repairs, ordinary completion blanks use editable native dotted clozes, sized consistently with the shared handwriting rule for their expected responses. Prefer dots even when the source uses outlined boxes. Keep boxes only where they serve a specific mathematical or response purpose, such as card placement, a dedicated writing region, or meaningful table cells; source decoration alone is insufficient. Explicit user instructions to retain a local box remain exceptions. Preserve source evidence and record intentional departures. Do not automatically migrate accepted projects on load.
+For future imports and authorised feedback repairs, ordinary completion blanks use editable native dotted clozes, sized consistently with the shared handwriting rule for their expected responses. Prefer dots even when the source uses outlined boxes, except that missing fraction numerators and denominators retain outlined native maths boxes (17 October 2026, user reaffirmed). First-pass review must not suggest replacing these boxes with dots. Keep boxes only where they serve a specific mathematical or response purpose, such as card placement, a dedicated writing region, or meaningful table cells; source decoration alone is insufficient. Explicit user instructions to retain a local box remain exceptions. Preserve source evidence and record intentional departures. Do not automatically migrate accepted projects on load.
+
+Full fraction scaffolds keep a boxed numerator, boxed denominator and vinculum; never automatically replace the scaffold with dots (17 October 2026).
 
 Keep source tables as native editable tables, preserving row/column relationships, givens, reading order and meaningful borders; do not replace their cells with separate cards. Bordered table cells already provide the writing space and normally have no cloze dots or duplicate response boxes inside them. Preserve actual card activities as cards. The Integers magic-square conversion is an explicit user-requested departure from its separate source boxes. See [the cross-session convention](docs/booklet-cross-session-rules.md#cloze-styles-and-source-tables-4-october-2026).
 
@@ -107,9 +109,13 @@ Moved word for word to [the campaign workflow](docs/content-campaign-efficient-w
 
 ## Graph sizing and user-directed compact layouts (2 October 2026)
 
-Use the [graph sizing convention](docs/booklet-cross-session-rules.md#graph-sizing-and-user-directed-compact-layouts-2-october-2026) for future authoring and graph-sizing repairs. Routine supplied question graphs start around 70 mm wide; simple short-answer graphs start around 50 mm. These are reference sizes, not hard caps: the Further Transformations repairs retained readable short-answer graphs at 50–65 mm and reviewed question exceptions at 75 mm. Do not stretch graphs to fill a page or answer column merely because space is available. Preserve mathematical features, 10 pt ordinary labels, graph tick sizes, meaningful paired arrangements and sufficient space on grids students must draw on. Keep question, short-answer and worked-solution widths independently editable; preserve manual overrides. Check representative dense graphs within the existing early sample and selected final-size review, without an additional approval stage or routine model call. Do not automatically resize accepted projects on load or duplication.
+Follow the full [graph sizing convention](docs/booklet-cross-session-rules.md#graph-sizing-and-user-directed-compact-layouts-2-october-2026): question graphs start around 70 mm, simple short answers around 50 mm, with reviewed exceptions. Preserve mathematical features, 10 pt labels, ticks, meaningful arrangements, drawing space and manual overrides; edit edition widths independently. Use existing selected reviews. Never resize accepted projects on load or duplication.
 
 Compact-layout tuning remains user-directed. The import-efficiency work must not introduce a new automatic compact-spacing policy or discretionary gap, padding and minimum-height reductions. Continue established house style, source fidelity and required handwriting space; preventing oversized graphs is an explicit convention.
+
+## Tighter unreviewed layouts (17 October 2026, user requested)
+
+The [calibrated spacing exception](docs/booklet-cross-session-rules.md#tighter-unreviewed-layouts-17-october-2026-user-requested) permits tighter future import defaults and revision-checked maintenance of unreviewed, sweep-complete booklets. Any teacher flag with no `kind` and an `at` means reviewed. Preserve changed fields, repairs and exceptions; never migrate on load. Working-space reductions remain limited to the three named pilots until the teacher approves wider use. Studio actions change only explicitly selected layouts, with undo and save/reopen verification.
 
 ## Future imports: three-pass precedence (28 September 2026)
 

@@ -104,14 +104,20 @@ compilation was 18 of 137 export minutes across the six FDP booklets.
 
 ### Cloze styles and source tables (4 October 2026)
 
-**Fraction-component exception (14 October 2026, user requested):** Missing
+**Fraction-component exception (14 October 2026, reaffirmed 17 October 2026, user requested):** Missing
 numerators and denominators use outlined boxes in editable native mathematics,
 including existing booklets and bank questions. Preserve sufficient handwriting
 width for numerical, algebraic and formula responses. This includes dotted and
 invisible fraction-component blanks; keep supplied values and ordinary ellipses.
-Complete-fraction response spaces retain the ordinary cloze convention unless
-the user explicitly requests otherwise. Preserve source evidence and saved
-answers; do not migrate content automatically on load.
+**Full fraction scaffolds (17 October 2026, user reaffirmed):** retain a boxed
+numerator, boxed denominator and the vinculum between them, including when both
+components are missing. Never automatically replace that scaffold with cloze
+dots. An ordinary unstructured answer space outside a fraction still uses the
+dotted-cloze convention. Preserve source evidence and saved
+answers; do not migrate content automatically on load. Keep numerator and denominator
+boxes in teaching and in-place answer scaffolds too. First-pass reviewers must
+not recommend converting these boxes to dots; withdraw such Studio comments
+and reject their saved findings. This supersedes earlier teaching-block exceptions.
 
 Ordinary completion blanks use **editable native dotted clozes**, including when
 the source uses outlined boxes. Use the shared handwriting-sizing rule for each
@@ -137,6 +143,9 @@ rules without adding a review stage. This supersedes older blanket instructions
 to preserve outlined missing-value boxes.
 
 ### Graph sizing and user-directed compact layouts (2 October 2026)
+
+The 17 October unreviewed-layout exception below supersedes the automatic-spacing
+restriction only within its named scope; all graph-readability requirements remain.
 
 Size graphs for the information or student drawing they must carry, rather than
 stretching them to the available page or column width. For newly authored routine
@@ -170,6 +179,72 @@ introduce a new automatic compact-spacing policy or discretionary reductions in
 gaps, padding or minimum heights. Existing house style, source fidelity and
 required handwriting space still apply. Oversized-graph prevention is expressly
 included in future authoring.
+
+### Tighter unreviewed layouts (17 October 2026, user requested)
+
+The user authorised Parts 3 and 4 of the review-speed handover. New imports use
+explicit compact authoring values; legacy normalisation/rendering defaults stay
+unchanged. A teacher review is any `studio.flags` entry with no `kind` and an `at`,
+including resolved comments. Never migrate those booklets or class copies.
+
+Calibration on 17 October used 17 reviewed booklets, verified archived earliest
+revisions, stable node/row identities, and effective arrangement/diagram overrides.
+Ten of 27 reviewed booklets were excluded for partial initial imports, post-feedback
+baselines or copy lineage. Paragraph spacing overridden by table cells, answers,
+source evidence and copied presentation payloads were not counted as body spacing.
+Current reviewed layouts are preference evidence, not blanket acceptance of every
+individual field. The local analysis is `.booklet-work/review-speed-20261017/calibration.json`.
+
+| Context | Matched values | Import/current medians (mm) | Changed values: import/current medians (mm) |
+| --- | ---: | ---: | ---: |
+| Paragraph after | 5,144 | 2 / 2 | 2 / 1 (1,077 changes) |
+| Paragraph before | 5,144 | 0 / 0 | 0 / 1 (35 changes) |
+| Arrangement stack gap | 13,938 | 2 / 2 | 2 / 1 (2,900 changes) |
+| Arrangement row gap | 3,367 | 2 / 2 | 2.5 / 2.5 (16 changes) |
+| Body row height | 1,882 | 10 / 10 | 13 / 10 (279 changes) |
+| Ordinary table padding | 360 | 1 / 1 | 1 / 1.2 (21 changes) |
+| Alignment-table padding | 643 | 0 / 0 | 2 / 0.9 (8 changes) |
+| Supplied figures in part grids | 689 | 43 / 42 | 43 / 32 (68 changes) |
+
+Authoring starts with paragraph before/after 0/1 mm, stack/row gaps 1/2 mm,
+ordinary table padding 1 mm and borderless alignment padding 0. Body rows use
+content plus a small margin and response capacity, with 10 mm as the maintenance
+floor for ordinary one-line response rows. Simple supplied figures in tables/part
+grids start around 32 mm, with larger readable exceptions. Graph reference sizes
+remain 70/50 mm for questions/short answers. Preserve card/bubble templates,
+meaningful layouts, drawing grids, all cloze/column widths and handwriting rules.
+These figures are starting values, not permission to remove mathematical space.
+Preserve legacy worked-row and other native renderer paths: never create an
+arrangement merely to change a gap if its presence selects another renderer.
+Use the existing row/container fields, or retain the layout when no compatible
+field exists. Generated arrangement gaps in these inactive paths are excluded
+from calibration. Unknown blank-cell response capacity retains its existing height.
+
+Maintenance is explicit and revision-checked, after the sweep. Change only fields
+still equal to import values with no intervening recorded change. Preserve manual
+overrides, first-pass/sweep repairs, intentional departures and authorised feedback.
+Keep before/candidate snapshots and respect other run candidates; never edit their
+files. Exclude front matter. Missing evidence means leave the field alone. Compare
+page counts and changed pages/neighbours, inspect dense Questions pages at final
+size, and reject newly introduced block splits before saving.
+
+Working-space estimates may use reviewed student-work projections, response kinds,
+and explicit table-response bindings; never infer that every table supplies a
+response space. The bounded, reduction-only candidate was compared with 7,331
+unchanged answer bodies having recorded import widths/estimates: mean absolute
+error against current reviewed allowances was 4.30 mm, versus 4.40 mm for the
+stored estimates. On 3,226 changed allowances it was 9.04 versus 9.99 mm. It
+underestimated 720 current allowances, so these results do not establish safe
+general rollout. Working-space reductions are restricted to `fractional-indices-v1`,
+`compound-interest-depreciation-v1` and `area-parallelograms-triangles-v1`; show
+before/after pages and await teacher approval before any wider application.
+
+Studio's explicit actions preview fit with the actual paginator, apply as one undo
+step and reject stale/unsuccessful previews. Matching siblings preserves target
+content, answers, IDs and response minima. Role changes never invent a Your turn;
+they require existing compatible questions. The space inspector edits supported
+container fields and exposes break origins. Without using a control, existing
+booklet rendering remains unchanged.
 
 ### Opening syllabus and multiple-choice options (25 September 2026)
 
