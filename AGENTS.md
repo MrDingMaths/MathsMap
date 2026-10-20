@@ -2,9 +2,11 @@
 
 Keep this file under 32,000 bytes: Codex loads only the first 32,768 bytes of it. Put detail in `docs/` and link it from here. `npm run repo:check` enforces the limit.
 
-## Booklet pedagogy review (9 October 2026, user approved)
+## Streamlined textbook imports (18 October 2026, user approved)
 
-[`pedagogy/review.mjs`](docs/booklet-pedagogy-review.md) reports consequential learning barriers in a booklet's teaching sequence and proposes the smallest repair; it never edits a booklet. Its workers are Sol 6.1 at low reasoning for the review pass and medium for the challenge pass, a deliberate exception to the low default below. For a three-pass import, run it after content review and before the final export, and hold the export only for findings that add, move or replace questions. An open comment is never approval: repair only the findings the user names. Keep the tool out of `scripts/`, which exports freeze. Its review and extension rules, and LLM first-pass layout comments, follow [first-pass review](docs/booklet-first-pass-review.md).
+Unstarted work follows [the streamlined import](docs/booklet-three-pass-import.md#streamlined-textbook-imports-18-october-2026-user-approved): no pedagogy stage; combine concise coverage and source organisation; reuse completed work and proven ordinary layout inspections. Keep independent content review, final checks and requested editions. Adopt at the next launch or completed boundary; preserve active workers. This supersedes conflicting stage rules below.
+
+Separately requested [pedagogy reviews](docs/booklet-pedagogy-review.md) retain their low review/medium challenge settings, named-user approval for repairs and [first-pass rules](docs/booklet-first-pass-review.md). Keep the tool outside `scripts/`.
 
 ## Part labels run in one sequence (11 October 2026, user requested)
 
@@ -152,3 +154,5 @@ For new imports, use the [direct compact workflow](docs/booklet-direct-compact-i
 Keep application code, tests, reusable authoring tools, current booklet/bank content and referenced assets in Git. Local render caches, extracted evidence, run logs and automatic project revision histories are not release files. Preserve original source documents and useful recovery/evidence records locally when cleaning temporary renders.
 
 Follow [the storage policy](docs/booklet-storage.md): keep fast autosaving separate from five-minute recovery checkpoints; repeated fine adjustments must not create a whole-booklet backup on every save. Studio retains the latest 20 loose checkpoints plus explicit milestones and archives older snapshots with verified hashes. Keep the ignored `booklets/.storage-archives/` objects, manifests and receipts together. Never apply project-history pruning to bank baselines. Preview maintenance before applying it; check live references and completed-run receipts before archiving staging payloads. Run `npm run repo:check` before committing; keep generated files out of Git and review justified source/content growth against `booklets/storage-policy.json`.
+
+Omit [example cues](docs/booklet-source-example-cues.md).

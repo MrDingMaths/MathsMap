@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {loadRun,parsePageSelection} from './transcription.mjs';
 import {validateSemanticResult} from './semantic-workflow.mjs';
+import {omitSourceExampleCues} from './source-example-cues.mjs';
 import {answerMatchText,answerMatchingIssues,approvedAnswerConflict,derivedAnswerDiagramEntries} from './answer-evidence.mjs';
 import {contentProject} from '../../src/lib/booklet-source-content.js';
 import {assignBookletAvatars} from '../../src/lib/booklet-avatars.js';
@@ -122,6 +123,8 @@ project.source.sourceHashes={pdf:manifest.source.pdfHash,...(manifest.source.doc
 project.source.contentScope=config.contentScope??'all';
 project.source.referencePages={context:manifest.contextPages??[],teacher:manifest.teacherPages??[]};
 reconcileReviewedCategoryLayouts(project);
+// Omit textbook example-reference cues; retain original packets and evidence.
+project=omitSourceExampleCues(project).project;
 const validation=validateEditableProject(project),output=path.resolve(arg('--out'));
 const mathErrors=[];
 const semanticErrors=[];

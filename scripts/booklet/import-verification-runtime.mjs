@@ -84,7 +84,14 @@ export function unrelatedProjectAssetFile(file,project,root=process.cwd()){
  if(!match){
   const owned=/^public\/booklet-assets\/([a-zA-Z0-9_-]+)\//.exec(file);
   if(owned&&!['shared','projects'].includes(owned[1].toLowerCase())){
+   // Existing Studio masters use the same private asset namespace as imports,
+   // even when they have no canonical transcription run. Prove ownership from
+   // an actual project ID; unknown directories and shared assets stay strict.
    try{
+    const owner=JSON.parse(fs.readFileSync(path.join(root,'booklets/projects',owned[1]+'.json'),'utf8'));
+    if(owner.id===owned[1])match=owned;
+   }catch{}
+   if(!match)try{
     const run=JSON.parse(fs.readFileSync(path.join(root,'.booklet-work/full-imports',owned[1],'manifest.json'),'utf8'));
     if(run.format==='mathsmap-booklet-transcription-run-v1'&&run.id===owned[1])match=owned;
    }catch{}

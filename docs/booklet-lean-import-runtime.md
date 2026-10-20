@@ -1,5 +1,7 @@
 # Lean import runtime
 
+Textbook work not yet started follows the [18 October 2026 streamlined policy](booklet-three-pass-import.md#streamlined-textbook-imports-18-october-2026-user-approved), including combined concise source indexing/organisation, reuse of proven ordinary early layouts and no pedagogy stage. Preserve running workers and completed evidence; adopt on the next launch or completed boundary.
+
 > Since 5 October 2026 new imports use the [lean review route](booklet-three-pass-import.md#lean-review-route-no-ledger-5-october-2026-user-approved) for review, export and visual inspection. `lean-import.mjs inventory|author|sample` below still apply; its `review`, `export` and `visual` commands remain for runs already using them.
 
 Implemented 3 October 2026 after the six-booklet FDP timing review. This is an explicit execution option for runs already recording `textbook-three-pass-v1`, Sol 6.1 medium and Standard speed. It does not migrate historical manifests, waive a check, change application APIs, publish to the bank or tune spacing.
@@ -75,6 +77,10 @@ node scripts/booklet/lean-import.mjs visual --run-id BOOKLET-RUN-ID --project PR
 Preparation requires a settled project and all five passed edition manifests, and the queue is guarded by the same renderer, project and asset hashes as the export. `review --runs` then dispatches the pending page inspections through the shared pool alongside any content review; standalone pages are inspected; since 5 October 2026 combined editions queue only their covers, transitions and flagged pages (see the [lean cut](booklet-three-pass-import.md#lean-cut-5-october-2026-user-approved)). When no page is pending, record the final review with `visual-review.mjs final-record` and then `review-workflow.mjs final-review`. A booklet is not delivered while this queue has pending pages.
 
 ## Measure before claiming savings
+
+Low-risk efficiency changes (20 October 2026): newly generated author assignments run the existing blocking maths-text lint before their results enter the assignment cache. Retained successful assignment caches and worker prompts are unchanged. Layout samples and final lean exports report the existing solid/image acceptance issues before copying or launching the frozen renderer; this is an earlier diagnostic, not a new review or an exemption. Unreferenced private assets belonging to another verified Studio project can be ignored by the existing scoped export guard, as can those belonging to a registered import run. Own assets, shared/unknown namespaces, referenced assets, project bytes, frozen runtime and PDFs remain guarded.
+
+The ICE-EM campaign's local `repair-queue.mjs` accepts explicitly diagnosed chapter failures with `enqueue RUN_ID DIAGNOSED_CAUSE`. Its `run` mode processes nearer-delivery repairs first, reserves ownership and runs each ticket once through the ordinary chapter pipeline. Tickets bind the failure, project and config bytes and become stale if these change. The queue waits for the historical continuation dispatcher to drain, preserving its active workers and avoiding an admission race with its already-loaded scheduling code. It never infers acceptance from a retry, removes dead leases, or automatically retries a failed repair. Queue files, logs and its dated tests stay in the canonical campaign folder.
 
 Every pool event records the number of active workers, so slot occupancy is measured rather than inferred from overlapping call durations. Checkpoints (after ten newly completed source pages, thirty active minutes and at command exit) store receipt summaries. Read complete-job coverage and unavailable metrics; preserve the canonical source page, review, export and local-replay counts.
 

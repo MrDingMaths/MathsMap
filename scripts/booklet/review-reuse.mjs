@@ -178,11 +178,12 @@ export function reuseCandidate(block,context){
  let currentBlocks;
  if(context.projectFileHash){
   if(!fs.existsSync(context.projectFile))return null;
-  if(sha(fs.readFileSync(context.projectFile,'utf8'))!==context.projectFileHash)currentBlocks=(read(context.projectFile).sections??[]).flatMap(section=>section.blocks??[]);
+  const currentHash=context.currentProjectHash?context.currentProjectHash():sha(fs.readFileSync(context.projectFile,'utf8'));
+  if(currentHash!==context.projectFileHash)currentBlocks=(read(context.projectFile).sections??[]).flatMap(section=>section.blocks??[]);
  }
  const reference=block.sourceReview?.reuse;
- const hash=reuseContentHash(block),requested=reference?.projectId&&reference.projectId!==context.projectId?null:reference?.blockId??block.provenance?.reuse?.blockId;
- const matching=context.blocks.filter(b=>(!requested||b.id===requested)&&reuseContentHash(b)===hash&&(!currentBlocks||currentBlocks.some(current=>current.id===b.id&&reuseContentHash(current)===hash)));
+ const hash=context.hashBlock?context.hashBlock(block):reuseContentHash(block),requested=reference?.projectId&&reference.projectId!==context.projectId?null:reference?.blockId??block.provenance?.reuse?.blockId;
+ const matching=context.blocks.filter(b=>(!requested||b.id===requested)&&(context.hashBlock?context.hashBlock(b):reuseContentHash(b))===hash&&(!currentBlocks||currentBlocks.some(current=>current.id===b.id&&reuseContentHash(current)===hash)));
  for(const candidate of matching)context.requestedBlockIds?.add(candidate.id);
  const matches=matching.filter(b=>context.accepted.has(b.id)||context.baselines?.has(b.id));
  if(matches.length!==1)return null;

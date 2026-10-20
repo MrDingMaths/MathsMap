@@ -104,9 +104,28 @@ export function validatePracticeAuthor(result,inventory,{continuations=[]}={}) {
       const range=String(q.sourceLabel??q.sourceReview?.sourceIdentity?.questionLabel??'').match(/^\s*Q?(\d+)\s*[-–—]\s*Q?(\d+)\s*$/i);
       const partNumbers=new Set(localParts.map(e=>String(e.sourceLabel??'').match(/^\s*Q?(\d+)(?:\b|\()/i)?.[1]).filter(Boolean).map(Number));
       const groupedRangeRoot=distinctLocalParts&&range&&Number(range[2])>=Number(range[1])&&partNumbers.size===Number(range[2])-Number(range[1])+1&&[...partNumbers].every(n=>n>=Number(range[1])&&n<=Number(range[2]));
-      const numberedNestedRoot=distinctLocalParts&&!range&&/^\s*(?:\d+\s*[A-Z]\s*(?:Exercises\s*[,]?\s*)?)?Q?\d+\.?\s*[†‡*!]*\s*$/i.test(String(q.sourceLabel??''))&&
+      const numberedNestedRoot=distinctLocalParts&&!range&&/^\s*(?:(?:Exercises?\s*\d+\s*[A-Z]\s*,\s*)|(?:\d+\s*[A-Z]\s*(?:Exercises\s*[,]?\s*)?))?Q?\d+\.?\s*[†‡*!]*\s*$/i.test(String(q.sourceLabel??''))&&
        questions.filter(entry=>entry.sharedStemId===q.sharedStemId).length===1&&
        (q.sourceReview?.sourceIdentity?.pdfPages??[inventory.pageNumber]).length===1;
+      // A source-labelled unnumbered task can still be one whole question.
+      // Independent source parts must own every native child, on this page only.
+      const identity=q.sourceReview?.sourceIdentity??q.presentation?.sourceIdentity;
+      const sourcePartLabels=localParts.map(entry=>String(entry.sourceLabel??'').trim());
+      const declaredLabels=identity?.questionLabels;
+      const declaredUnnumbered=/\bunnumbered(?: shared)? task\b/i.test(String(q.sourceLabel??identity?.questionLabel??''));
+      const numberedSourceGroup=Array.isArray(declaredLabels)&&declaredLabels.length===localParts.length&&declaredLabels.length>1&&
+       declaredLabels.every(label=>/^\d+$/.test(String(label)))&&new Set(declaredLabels.map(String)).size===declaredLabels.length&&
+       declaredLabels.every(label=>sourcePartLabels.includes(String(label)));
+      const sourceWholeTask=declaredUnnumbered||numberedSourceGroup;
+      const wholeRootMapping=mappings.some(mapping=>(mapping.targetId===block.id||mapping.targetId===block.content.id)&&(!mapping.field||mapping.field==='/prompt'));
+      if(sourceWholeTask&&!wholeRootMapping)throw Error('Unnumbered whole-task instruction must map to its own root: '+q.id);
+      const unnumberedWholeRoot=sourceWholeTask&&distinctLocalParts&&wholeRootMapping&&
+       sourcePartLabels.every(label=>/^(?:\d+|[a-z])$/i.test(label))&&new Set(sourcePartLabels).size===localParts.length&&
+       questions.filter(entry=>entry.sharedStemId===q.sharedStemId).length===1&&
+       block.sourceRefs?.length===1&&block.sourceRefs[0].pageNumber===inventory.pageNumber&&
+       (identity?.pdfPage==null||identity.pdfPage===inventory.pageNumber)&&
+       (q.sourceReview?.sourceIdentity?.pdfPages??[inventory.pageNumber]).length===1&&
+       block.content.children?.length===localParts.length&&block.content.children.every(child=>localTargets.includes(child.id));
       const continuedRoot=distinctLocalParts&&
        result.sharedContentContinuations?.some(ref=>ref.blockId===block.id&&ref.reason?.trim()&&ref.canonicalPageNumber<inventory.pageNumber&&
         [ref.canonicalPageNumber,inventory.pageNumber].every(page=>q.sourceReview?.sourceIdentity?.pdfPages?.includes(page)&&block.sourceRefs?.some(r=>r.pageNumber===page)));
@@ -118,13 +137,13 @@ export function validatePracticeAuthor(result,inventory,{continuations=[]}={}) {
       // An independently inventoried continuation root represents the whole
       // shared question. Its individual parts still map locally; the assignment
       // coalescer checks explicit ownership and byte-identical complete copies.
-      if(!declaredRoot&&!continuedRoot&&!groupedRangeRoot&&!numberedNestedRoot){if(!part||targets.has(part.targetId))throw Error('Shared-stem items require distinct part targets: '+q.id);targets.add(part.targetId);}
+      if(!declaredRoot&&!continuedRoot&&!groupedRangeRoot&&!numberedNestedRoot&&!unnumberedWholeRoot){if(!part||targets.has(part.targetId))throw Error('Shared-stem items require distinct part targets: '+q.id);targets.add(part.targetId);}
       const fullWidthReason=block.sourceReview?.grouping?.layoutReason??
        (Array.isArray(block.sourceReview?.arrangements)?block.sourceReview.arrangements.find(row=>row.targetId===block.content.id&&row.layout==='list'&&(row.columns==null||row.columns===1)&&row.description?.trim())?.description:null);
       const listPreset=block.content.layout==='list'&&(!block.sourceReview?.arrangements?.length||
        block.sourceReview.arrangements.every(row=>row.targetId===block.content.id&&row.layout==='list'&&(row.columns==null||row.columns===1)&&
         JSON.stringify(row.order)===JSON.stringify((block.content.children??[]).map(child=>child.id))));
-      const stackedPreset=(numberedNestedRoot||declaredRoot)&&(block.content.layout==null||listPreset);
+      const stackedPreset=(numberedNestedRoot||unnumberedWholeRoot||declaredRoot)&&(block.content.layout==null||listPreset);
       if(!stackedPreset&&block.content.layout!=='grid'&&!(block.content.layout==='list'&&fullWidthReason?.trim()))throw Error('Shared-stem question requires an editable part grid or a reviewed full-width layout: '+block.id);
       if(!block.sourceReview?.workingSpaceEstimate)throw Error('Shared-stem question requires reviewed solution-informed spacing: '+block.id);
     }

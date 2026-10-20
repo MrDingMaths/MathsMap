@@ -1,5 +1,11 @@
 # Cross-session transcription and rendering rules
 
+## Calculator screens and right-angle markers (19 October 2026, user requested)
+
+Retain original calculator-screen screenshots as instructional interface evidence, including status indicators, input notation and output precision. Do not replace screens with native typeset imitations. Keep surrounding instructions, mathematical explanations and ordinary equations editable, retain original source evidence, and record each screen as an authorised raster exception with a final-size inspection. This applies across booklets and future imports.
+
+Check right-angle markers at their final printed size in questions and answer diagrams. Keep them small relative to the incident edges. A unitless TikZ interpolation such as `!0.4!` means forty percent of an edge, not a fixed marker length; use an appropriate fixed distance for ordinary 2D squares. Preserve the incident directions and projected geometry of solid diagrams rather than imposing an unprojected square.
+
 ## Sentence-case headers and native table structure (4 October 2026)
 
 Use sentence case for displayed section, teaching-box and table headers, preserving proper names, acronyms, syllabus codes, case-sensitive unit symbols such as km and mL, and native mathematics. Retain original source headings in evidence. Store the chosen text; do not impose case with CSS. Generated exercise headings and shared teaching-header defaults follow the same convention.

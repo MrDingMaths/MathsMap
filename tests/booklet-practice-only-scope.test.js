@@ -163,3 +163,667 @@ test('source exercise labels remain present in answer and question navigation',(
  assert.equal(exerciseNumbers(p).t,'1A');
  const s=flowEditionSections(p,'with-short');assert.ok(s.every(x=>x.exerciseNumber==='1A'));assert.equal(s[0].difficultyTitle,'Exercise 1A');
 });
+
+// Staged regression: the source's exercise context is not another printed question number.
+function nestedPrefixed(label='Exercise 3A, 2'){
+ const i=inventory(),a=author(),b=a.sections[0].blocks[0];i.entries[0].sharedStemId='stem';i.entries[0].sourceLabel=label;
+ i.entries.push(...['a','b'].map(id=>({id:'source-'+id,kind:'part',parentId:'q',sourceLabel:'2('+id+')',description:'Existing nested response'})));
+ delete b.content.answer;b.content.layout='grid';b.content.columns=2;b.content.children=['a','b'].map(id=>({id:'part-'+id,type:'part',prompt:'Calculate.',answer:{short:'1',worked:'Substitute and simplify.'}}));b.sourceReview={workingSpaceEstimate:{method:'Reviewed solution-informed spacing'}};a.inventoryMappings.push(...['a','b'].map(id=>({inventoryId:'source-'+id,targetId:'part-'+id,field:'/prompt'})));return {i,a};
+}
+test('exercise-prefixed numeric source labels preserve one whole question with distinct nested parts',()=>{
+ for(const label of ['Exercise3A,2','Exercise 5A, 1','Exercises 3A, Q2','Exercise 12B, Q42.','3AExercises,1','3A Exercises, Q2','3A 2','2','2.']){const {i,a}=nestedPrefixed(label);assert.doesNotThrow(()=>validatePracticeAuthor(a,i),label);assert.equal(i.entries[0].sourceLabel,label);}
+});
+test('numeric-prefix recognition does not admit prose, ranges, multiple roots or duplicate part ownership',()=>{
+ for(const label of ['Review3A,2','Exercise Review,2','Exercise3A, Algebra','Exercise3A,2–3','Exercise3A,2a','Exercise3A,2.5','Exercise3A2','Calculate the following','2–3']){const {i,a}=nestedPrefixed(label);assert.throws(()=>validatePracticeAuthor(a,i),/Shared-stem items require distinct part targets/,label);}
+ {const {i,a}=nestedPrefixed();i.entries.push({id:'other-question',kind:'question',description:'Another printed question',sourceLabel:'3',sharedStemId:'stem'});a.inventoryMappings.push({inventoryId:'other-question',targetId:'q'});assert.throws(()=>validatePracticeAuthor(a,i),/Shared-stem items require distinct part targets/);}
+ {const {i,a}=nestedPrefixed();a.inventoryMappings.at(-1).targetId='part-a';assert.throws(()=>validatePracticeAuthor(a,i),/Shared-stem items require distinct part targets/);}
+ {const {i,a}=nestedPrefixed();i.entries[0].sourceReview={sourceIdentity:{pdfPages:[3,4]}};assert.throws(()=>validatePracticeAuthor(a,i),/Shared-stem items require distinct part targets/);}
+ {const {i,a}=nestedPrefixed();a.inventoryMappings.at(-1).targetId='q';assert.throws(()=>validatePracticeAuthor(a,i),/Shared-stem items require distinct part targets/);}
+});
+
+// Exact inventory ownership shapes from ICE-EM7 chapter10 original pages14/16/19.
+const sourceWholeTaskCases=[
+ {
+  "name": "p14-evens-odds",
+  "inventory": {
+   "pageNumber": 14,
+   "entries": [
+    {
+     "id": "p14-evens-odds",
+     "kind": "question",
+     "sharedStemId": "p14-evens-odds",
+     "presentation": {
+      "sourceIdentity": {
+       "pdfPage": 14,
+       "printedPage": 288,
+       "exercise": "10B Problem-solving",
+       "category": "Evens and odds",
+       "questionLabel": "Unnumbered shared task; statements 1–5"
+      },
+      "layout": "One shared task with five vertically ordered editable parts, displayed a–e while retaining printed statement numbers in provenance."
+     }
+    },
+    {
+     "id": "p14-evens-odds-1",
+     "kind": "part",
+     "parentId": "p14-evens-odds",
+     "sharedStemId": "p14-evens-odds",
+     "sourceLabel": "1",
+     "presentation": {
+      "displayLabel": "a"
+     }
+    },
+    {
+     "id": "p14-evens-odds-2",
+     "kind": "part",
+     "parentId": "p14-evens-odds",
+     "sharedStemId": "p14-evens-odds",
+     "sourceLabel": "2",
+     "presentation": {
+      "displayLabel": "b"
+     }
+    },
+    {
+     "id": "p14-evens-odds-3",
+     "kind": "part",
+     "parentId": "p14-evens-odds",
+     "sharedStemId": "p14-evens-odds",
+     "sourceLabel": "3",
+     "presentation": {
+      "displayLabel": "c"
+     }
+    },
+    {
+     "id": "p14-evens-odds-4",
+     "kind": "part",
+     "parentId": "p14-evens-odds",
+     "sharedStemId": "p14-evens-odds",
+     "sourceLabel": "4",
+     "presentation": {
+      "displayLabel": "d"
+     }
+    },
+    {
+     "id": "p14-evens-odds-5",
+     "kind": "part",
+     "parentId": "p14-evens-odds",
+     "sharedStemId": "p14-evens-odds",
+     "sourceLabel": "5",
+     "presentation": {
+      "displayLabel": "e"
+     }
+    }
+   ]
+  },
+  "packet": {
+   "pageNumber": 14,
+   "sections": [
+    {
+     "id": "source-task",
+     "phase": "practice",
+     "blocks": [
+      {
+       "id": "p14-evens-odds-question",
+       "type": "question",
+       "sourceRefs": [
+        {
+         "pageNumber": 14
+        }
+       ],
+       "content": {
+        "id": "p14-evens-odds-root",
+        "type": "question",
+        "prompt": {
+         "format": "maths-editor-document-v1",
+         "version": 1,
+         "blocks": [
+          {
+           "id": "p14-evens-odds-title",
+           "type": "paragraph",
+           "align": "left",
+           "inlines": [
+            {
+             "type": "text",
+             "text": "Evens and odds",
+             "marks": [
+              "bold"
+             ]
+            }
+           ]
+          },
+          {
+           "id": "p14-evens-odds-instruction",
+           "type": "paragraph",
+           "align": "left",
+           "inlines": [
+            {
+             "type": "text",
+             "text": "Two whole numbers are added together. If their sum is odd, which statements below are always true? Which are always false? Which are sometimes true and sometimes false?"
+            }
+           ]
+          }
+         ]
+        },
+        "children": [
+         {
+          "id": "p14-evens-odds-a",
+          "type": "part",
+          "prompt": "Retained source item."
+         },
+         {
+          "id": "p14-evens-odds-b",
+          "type": "part",
+          "prompt": "Retained source item."
+         },
+         {
+          "id": "p14-evens-odds-c",
+          "type": "part",
+          "prompt": "Retained source item."
+         },
+         {
+          "id": "p14-evens-odds-d",
+          "type": "part",
+          "prompt": "Retained source item."
+         },
+         {
+          "id": "p14-evens-odds-e",
+          "type": "part",
+          "prompt": "Retained source item."
+         }
+        ]
+       },
+       "sourceReview": {
+        "sourceIdentity": {
+         "pdfPage": 14,
+         "printedPage": 288,
+         "exercise": "10B Problem-solving",
+         "category": "Evens and odds",
+         "questionLabel": "Unnumbered shared task; statements 1–5"
+        },
+        "workingSpaceEstimate": {
+         "method": "solution-steps",
+         "estimates": [
+          {
+           "targetId": "p14-evens-odds-a",
+           "widthMm": 166,
+           "mathematicalRows": 3,
+           "answerSpaceMm": 24
+          },
+          {
+           "targetId": "p14-evens-odds-b",
+           "widthMm": 166,
+           "mathematicalRows": 2,
+           "answerSpaceMm": 16
+          },
+          {
+           "targetId": "p14-evens-odds-c",
+           "widthMm": 166,
+           "mathematicalRows": 2,
+           "answerSpaceMm": 16
+          },
+          {
+           "targetId": "p14-evens-odds-d",
+           "widthMm": 166,
+           "mathematicalRows": 3,
+           "answerSpaceMm": 24
+          },
+          {
+           "targetId": "p14-evens-odds-e",
+           "widthMm": 166,
+           "mathematicalRows": 3,
+           "answerSpaceMm": 24
+          }
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "inventoryMappings": [
+    {
+     "inventoryId": "p14-evens-odds",
+     "targetId": "p14-evens-odds-root",
+     "field": "/prompt"
+    },
+    {
+     "inventoryId": "p14-evens-odds-1",
+     "targetId": "p14-evens-odds-a",
+     "field": "/prompt"
+    },
+    {
+     "inventoryId": "p14-evens-odds-2",
+     "targetId": "p14-evens-odds-b",
+     "field": "/prompt"
+    },
+    {
+     "inventoryId": "p14-evens-odds-3",
+     "targetId": "p14-evens-odds-c",
+     "field": "/prompt"
+    },
+    {
+     "inventoryId": "p14-evens-odds-4",
+     "targetId": "p14-evens-odds-d",
+     "field": "/prompt"
+    },
+    {
+     "inventoryId": "p14-evens-odds-5",
+     "targetId": "p14-evens-odds-e",
+     "field": "/prompt"
+    }
+   ]
+  }
+ },
+ {
+  "name": "p16-obstinate-task",
+  "inventory": {
+   "pageNumber": 16,
+   "entries": [
+    {
+     "id": "p16-obstinate-task",
+     "kind": "question",
+     "sourceLabel": "Obstinate numbers — unnumbered task",
+     "sharedStemId": "p16-obstinate-task",
+     "presentation": "Four related parts under one instruction. Context defines each pair as a prime number and a power of two whose sum is the given number. Source has one horizontal row of four parts; use a readable native grid."
+    },
+    {
+     "id": "p16-obstinate-a",
+     "kind": "part",
+     "sourceLabel": "a",
+     "parentId": "p16-obstinate-task",
+     "sharedStemId": "p16-obstinate-task"
+    },
+    {
+     "id": "p16-obstinate-b",
+     "kind": "part",
+     "sourceLabel": "b",
+     "parentId": "p16-obstinate-task",
+     "sharedStemId": "p16-obstinate-task"
+    },
+    {
+     "id": "p16-obstinate-c",
+     "kind": "part",
+     "sourceLabel": "c",
+     "parentId": "p16-obstinate-task",
+     "sharedStemId": "p16-obstinate-task"
+    },
+    {
+     "id": "p16-obstinate-d",
+     "kind": "part",
+     "sourceLabel": "d",
+     "parentId": "p16-obstinate-task",
+     "sharedStemId": "p16-obstinate-task"
+    }
+   ]
+  },
+  "packet": {
+   "pageNumber": 16,
+   "sections": [
+    {
+     "id": "source-task",
+     "phase": "practice",
+     "blocks": [
+      {
+       "id": "p16-obstinate-block",
+       "type": "question",
+       "sourceRefs": [
+        {
+         "pageNumber": 16
+        }
+       ],
+       "content": {
+        "id": "p16-obstinate-root",
+        "type": "question",
+        "prompt": {
+         "format": "maths-editor-document-v1",
+         "version": 1,
+         "blocks": [
+          {
+           "id": "p16-obstinate-heading",
+           "type": "paragraph",
+           "inlines": [
+            {
+             "type": "text",
+             "text": "Obstinate numbers",
+             "marks": [
+              "bold"
+             ]
+            }
+           ]
+          },
+          {
+           "id": "p16-obstinate-given",
+           "type": "paragraph",
+           "inlines": [
+            {
+             "type": "text",
+             "text": "Write each number as the sum of a prime number and a power of two."
+            }
+           ]
+          },
+          {
+           "id": "p16-obstinate-instruction",
+           "type": "paragraph",
+           "inlines": [
+            {
+             "type": "text",
+             "text": "Try to find as many pairs as you can for these numbers:"
+            }
+           ]
+          }
+         ]
+        },
+        "layout": "grid",
+        "columns": 4,
+        "children": [
+         {
+          "id": "p16-obstinate-part-a",
+          "type": "part",
+          "prompt": "Retained source item."
+         },
+         {
+          "id": "p16-obstinate-part-b",
+          "type": "part",
+          "prompt": "Retained source item."
+         },
+         {
+          "id": "p16-obstinate-part-c",
+          "type": "part",
+          "prompt": "Retained source item."
+         },
+         {
+          "id": "p16-obstinate-part-d",
+          "type": "part",
+          "prompt": "Retained source item."
+         }
+        ]
+       },
+       "sourceReview": {
+        "sourceIdentity": {
+         "exercise": "10B",
+         "questionLabel": "Obstinate numbers — unnumbered task",
+         "partLabels": [
+          "a",
+          "b",
+          "c",
+          "d"
+         ],
+         "pdfPage": 16,
+         "printedPage": 290
+        },
+        "workingSpaceEstimate": {
+         "method": "solution-steps",
+         "estimates": [
+          {
+           "targetId": "p16-obstinate-part-a",
+           "widthMm": 36,
+           "mathematicalRows": 5,
+           "answerSpaceMm": 46
+          },
+          {
+           "targetId": "p16-obstinate-part-b",
+           "widthMm": 36,
+           "mathematicalRows": 4,
+           "answerSpaceMm": 46
+          },
+          {
+           "targetId": "p16-obstinate-part-c",
+           "widthMm": 36,
+           "mathematicalRows": 5,
+           "answerSpaceMm": 46
+          },
+          {
+           "targetId": "p16-obstinate-part-d",
+           "widthMm": 36,
+           "mathematicalRows": 6,
+           "answerSpaceMm": 54
+          }
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "inventoryMappings": [
+    {
+     "inventoryId": "p16-obstinate-task",
+     "targetId": "p16-obstinate-root",
+     "field": "/prompt"
+    },
+    {
+     "inventoryId": "p16-obstinate-a",
+     "targetId": "p16-obstinate-part-a"
+    },
+    {
+     "inventoryId": "p16-obstinate-b",
+     "targetId": "p16-obstinate-part-b"
+    },
+    {
+     "inventoryId": "p16-obstinate-c",
+     "targetId": "p16-obstinate-part-c"
+    },
+    {
+     "inventoryId": "p16-obstinate-d",
+     "targetId": "p16-obstinate-part-d"
+    }
+   ]
+  }
+ },
+ {
+  "name": "p19-question-lattice",
+  "inventory": {
+   "pageNumber": 19,
+   "entries": [
+    {
+     "id": "p19-question-lattice",
+     "kind": "question",
+     "sharedStemId": "p19-stem-lattice",
+     "presentation": {
+      "groupId": "p19-group-lattice",
+      "sourceIdentity": {
+       "book": "ICE-EM Mathematics 7, third edition",
+       "chapter": "10 Review and problem-solving",
+       "exercise": "Unheaded lattice-multiplication practice preceding 10C Number bases",
+       "questionLabels": [
+        "1",
+        "2",
+        "3"
+       ],
+       "pdfPage": 19,
+       "printedPage": 293
+      },
+      "layout": "One shared parent instruction with three editable alphabetical parts in printed numerical order. Source places the items in one horizontal row.",
+      "teachingContext": {
+       "inspectedTeachingPdfPages": [
+        19
+       ],
+       "taughtMethod": "Lattice multiplication of decimals: add diagonals from bottom right, carry into the next diagonal and locate the decimal point using the bold diagonal.",
+       "limitation": "The beginning of the worked example is on an unavailable preceding page."
+      }
+     }
+    },
+    {
+     "id": "p19-part-1",
+     "kind": "part",
+     "parentId": "p19-question-lattice",
+     "sourceLabel": "1",
+     "sharedStemId": "p19-stem-lattice",
+     "presentation": {
+      "displayLabel": "a",
+      "sourceIdentity": {
+       "pdfPage": 19,
+       "printedPage": 293,
+       "questionLabel": "1"
+      },
+      "teachingContext": {
+       "inspectedTeachingPdfPages": [
+        19
+       ],
+       "taughtMethod": "Decimal lattice multiplication.",
+       "mappingRationale": "Directly applies the demonstrated lattice method to two three-decimal-place factors."
+      },
+      "requiredResponseSpace": "Space to construct and complete a three-by-three lattice and record the decimal product; physical dimensions require authoring-stage estimation."
+     }
+    },
+    {
+     "id": "p19-part-2",
+     "kind": "part",
+     "parentId": "p19-question-lattice",
+     "sourceLabel": "2",
+     "sharedStemId": "p19-stem-lattice",
+     "presentation": {
+      "displayLabel": "b",
+      "sourceIdentity": {
+       "pdfPage": 19,
+       "printedPage": 293,
+       "questionLabel": "2"
+      },
+      "teachingContext": {
+       "inspectedTeachingPdfPages": [
+        19
+       ],
+       "taughtMethod": "Decimal lattice multiplication.",
+       "mappingRationale": "Applies the demonstrated method to factors with four and three significant digits and different decimal-place counts."
+      },
+      "requiredResponseSpace": "Space to construct and complete a four-by-three lattice and record the decimal product; physical dimensions require authoring-stage estimation."
+     }
+    },
+    {
+     "id": "p19-part-3",
+     "kind": "part",
+     "parentId": "p19-question-lattice",
+     "sourceLabel": "3",
+     "sharedStemId": "p19-stem-lattice",
+     "presentation": {
+      "displayLabel": "c",
+      "sourceIdentity": {
+       "pdfPage": 19,
+       "printedPage": 293,
+       "questionLabel": "3"
+      },
+      "teachingContext": {
+       "inspectedTeachingPdfPages": [
+        19
+       ],
+       "taughtMethod": "Decimal lattice multiplication.",
+       "mappingRationale": "Extends the demonstrated method to two four-significant-digit decimal factors."
+      },
+      "requiredResponseSpace": "Space to construct and complete a four-by-four lattice and record the decimal product; physical dimensions require authoring-stage estimation."
+     }
+    }
+   ]
+  },
+  "packet": {
+   "pageNumber": 19,
+   "sections": [
+    {
+     "id": "source-task",
+     "phase": "practice",
+     "blocks": [
+      {
+       "id": "p19-question-lattice",
+       "type": "question",
+       "sourceRefs": [
+        {
+         "pageNumber": 19
+        }
+       ],
+       "content": {
+        "id": "p19-question-lattice-root",
+        "type": "question",
+        "prompt": "Try these problems using this method.",
+        "layout": "grid",
+        "columns": 3,
+        "children": [
+         {
+          "id": "p19-question-lattice-a",
+          "type": "part",
+          "prompt": "Retained source item."
+         },
+         {
+          "id": "p19-question-lattice-b",
+          "type": "part",
+          "prompt": "Retained source item."
+         },
+         {
+          "id": "p19-question-lattice-c",
+          "type": "part",
+          "prompt": "Retained source item."
+         }
+        ]
+       },
+       "sourceReview": {
+        "sourceIdentity": {
+         "book": "ICE-EM Mathematics 7, third edition",
+         "chapter": "10 Review and problem-solving",
+         "exercise": "10B — The grid method of multiplying decimals",
+         "questionLabels": [
+          "1",
+          "2",
+          "3"
+         ],
+         "pdfPage": 19,
+         "printedPage": 293
+        },
+        "workingSpaceEstimate": {
+         "method": "solution-steps",
+         "estimates": [
+          {
+           "targetId": "p19-question-lattice-a",
+           "widthMm": 50,
+           "mathematicalRows": 7,
+           "answerSpaceMm": 65
+          },
+          {
+           "targetId": "p19-question-lattice-b",
+           "widthMm": 50,
+           "mathematicalRows": 8,
+           "answerSpaceMm": 73
+          },
+          {
+           "targetId": "p19-question-lattice-c",
+           "widthMm": 50,
+           "mathematicalRows": 9,
+           "answerSpaceMm": 83
+          }
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "inventoryMappings": [
+    {
+     "inventoryId": "p19-question-lattice",
+     "targetId": "p19-question-lattice-root",
+     "field": "/prompt"
+    },
+    {
+     "inventoryId": "p19-part-1",
+     "targetId": "p19-question-lattice-a",
+     "field": "/prompt"
+    },
+    {
+     "inventoryId": "p19-part-2",
+     "targetId": "p19-question-lattice-b",
+     "field": "/prompt"
+    },
+    {
+     "inventoryId": "p19-part-3",
+     "targetId": "p19-question-lattice-c",
+     "field": "/prompt"
+    }
+   ]
+  }
+ }
+];
+const wholeTaskFixture=(index=0)=>structuredClone(sourceWholeTaskCases[index]);
+for(const[index,row]of sourceWholeTaskCases.entries())test('source-evidenced unnumbered whole root: '+row.name,()=>{const f=wholeTaskFixture(index);assert.doesNotThrow(()=>validatePracticeAuthor(f.packet,f.inventory));});
+test('unnumbered whole root rejects orphaned source parts',()=>{const f=wholeTaskFixture();f.inventory.entries[1].parentId='missing';assert.throws(()=>validatePracticeAuthor(f.packet,f.inventory),/distinct part targets|whole-task/);});
+test('unnumbered whole root rejects a sibling question sharing the stem',()=>{const f=wholeTaskFixture();const q=structuredClone(f.inventory.entries[0]);q.id+='-sibling';f.inventory.entries.push(q);f.packet.inventoryMappings.push({inventoryId:q.id,targetId:f.packet.sections[0].blocks[0].content.id,field:'/prompt'});assert.throws(()=>validatePracticeAuthor(f.packet,f.inventory),/distinct part targets/);});
+test('unnumbered whole root rejects duplicate part targets',()=>{const f=wholeTaskFixture();const q=f.inventory.entries[0];const parts=f.packet.inventoryMappings.filter(m=>m.inventoryId!==q.id);parts[1].targetId=parts[0].targetId;assert.throws(()=>validatePracticeAuthor(f.packet,f.inventory),/distinct part targets/);});
+test('generic prose does not declare an unnumbered whole source task',()=>{const f=wholeTaskFixture();f.inventory.entries[0].presentation.sourceIdentity.questionLabel='Discussion';assert.throws(()=>validatePracticeAuthor(f.packet,f.inventory),/distinct part targets/);});
+test('unnumbered whole instruction cannot be remapped into its child',()=>{const f=wholeTaskFixture();f.packet.inventoryMappings.find(m=>m.inventoryId===f.inventory.entries[0].id).targetId=f.packet.sections[0].blocks[0].content.children[0].id;assert.throws(()=>validatePracticeAuthor(f.packet,f.inventory),/whole-task instruction/);});
+test('unnumbered whole source root retains same-page and spacing guards',()=>{let f=wholeTaskFixture();f.packet.sections[0].blocks[0].sourceRefs.push({pageNumber:13});assert.throws(()=>validatePracticeAuthor(f.packet,f.inventory),/distinct part targets/);f=wholeTaskFixture();delete f.packet.sections[0].blocks[0].sourceReview.workingSpaceEstimate;assert.throws(()=>validatePracticeAuthor(f.packet,f.inventory),/solution-informed spacing/);});

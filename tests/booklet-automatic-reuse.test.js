@@ -3,13 +3,13 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {discoverReuseContexts,findAuthorReuseCandidates,materializeAutomaticReuse,AUTHOR_REUSE_CONTRACT} from '../scripts/booklet/automatic-reuse.mjs';
+import {discoverReuseContexts,findAuthorReuseCandidates,materializeAutomaticReuse,assertCurrentAutomaticReuse,AUTHOR_REUSE_CONTRACT} from '../scripts/booklet/automatic-reuse.mjs';
 import {reuseCandidate,reuseContentHash} from '../scripts/booklet/review-reuse.mjs';
 import {contentHash,recordContentResult,runContentReview} from '../scripts/booklet/lean-review.mjs';
 import {assignmentPayload,runAuthorAssignment} from '../scripts/booklet/author-assignments.mjs';
 import {validateSemanticResult} from '../scripts/booklet/semantic-workflow.mjs';
 import {TRANSCRIPTION_DEFAULT} from '../scripts/booklet/transcription-settings.mjs';
-const prior=()=>({id:'old',type:'question',number:3,sourcePageNumber:2,sourceRefs:[{pageNumber:2}],classification:{primarySkillId:'stage4'},sourceReview:{teachingContext:{pages:[1]},responses:[{targetId:'n',kind:'working'}]},content:{id:'n',prompt:'A map has scale 1:25000. Find the distance represented by 4 cm.',answer:{short:'1 km',worked:'4 x 25000 = 100000 cm = 1 km'}}});
+const prior=()=>({id:'old',type:'question',number:3,sourcePageNumber:2,sourceRefs:[{pageNumber:2}],classification:{primarySkillId:'stage4'},sourceReview:{teachingContext:{pages:[1]},responses:[{targetId:'n',kind:'working'}]},content:{id:'n',type:'question',prompt:'A map has scale 1:25000. Find the distance represented by 4 cm.',answer:{short:'1 km',worked:'4 x 25000 = 100000 cm = 1 km'}}});
 function fixture(t){
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'auto-reuse-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
  const projectFile=path.join(root,'booklets/projects/stage4.json'),runDir=path.join(root,'.booklet-work/full-imports/stage4-run');
@@ -18,7 +18,7 @@ function fixture(t){
  fs.writeFileSync(projectFile,JSON.stringify(project));const table=path.join(runDir,'lean-review/reviewed.json');fs.writeFileSync(table,JSON.stringify({questions:{old:{hash:contentHash(block),outcome:'passed',note:'Independently checked'}}}));
  return {root,projectFile,runDir,block,project,table};
 }
-function packet(candidate){return {pageNumber:41,sections:[{id:'s5',title:'Map scales',phase:'practice',blocks:[{type:'reuse',reuseKey:candidate.key,id:'p41-q7',sourceEquivalent:true,number:7,classification:{primarySkillId:'stage5'},sourceReview:{teachingContext:{pages:[40]}}},{id:'new',type:'paragraph',content:'New content'}]}],inventoryMappings:[{inventoryId:'i7',targetId:'old'},{inventoryId:'i7-part',targetId:'n',field:'/prompt'}],answerEvidence:[{questionId:'n',teacherReference:'New source page 12',matchEvidence:'New prompt matched'}]};}
+function packet(candidate){return {pageNumber:41,sections:[{id:'s5',title:'Map scales',phase:'practice',blocks:[{type:'reuse',reuseKey:candidate.key,id:'p41-q7',sourceEquivalent:true,number:7,classification:{primarySkillId:'stage5'},sourceReview:{sourceIdentity:{questionLabel:'7',pdfPage:41},teachingContext:{pages:[40]}}},{id:'new',type:'paragraph',content:'New content'}]}],inventoryMappings:[{inventoryId:'i7',targetId:'old'},{inventoryId:'i7-part',targetId:'n',field:'/prompt'}],answerEvidence:[{questionId:'n',teacherReference:'New source page 12',matchEvidence:'New prompt matched'}]};}
 test('discovers accepted content automatically across the library and excludes current/missing acceptance',t=>{
  const f=fixture(t),catalog=discoverReuseContexts({root:f.root});assert.equal(catalog.contexts.length,1);
  const candidates=findAuthorReuseCandidates('Stage 5 Similarity Question 7. '+f.block.content.prompt,catalog);assert.equal(candidates.length,1);
@@ -64,7 +64,7 @@ test('normal content command discovers copied acceptance without reuse options a
   calls++;const payload=JSON.parse(prompt.split('\n\n').at(-1));assert.equal(payload.reuseCandidates[0].blockId,'old');assert.match(prompt,/Do not independently rederive/);
   return {result:{records:[{id:copy.id,outcome:'passed',sourceEquivalent:true,classificationVerified:true,taughtMethodEquivalent:true,note:'New source and method verified'}]}};
  }});
- assert.equal(calls,1);assert.equal(result.remaining,0);const reviewed=JSON.parse(fs.readFileSync(result.reviewed));assert.equal(reviewed.questions[copy.id].reuse.outcome,'verified');
+ assert.deepEqual(result.errors,[]);assert.equal(calls,1);assert.equal(result.remaining,0);const reviewed=JSON.parse(fs.readFileSync(result.reviewed));assert.equal(reviewed.questions[copy.id].reuse.outcome,'verified');
 });
 
 test('assignment author publishes deterministic copies through normal coverage validation',async t=>{
@@ -84,4 +84,114 @@ test('later pages extend the accepted shortlist from the same prior project',t=>
  fs.writeFileSync(f.table,JSON.stringify({questions:{old:{hash:contentHash(f.block),outcome:'passed'},second:{hash:contentHash(second),outcome:'passed'}}}));
  const catalog=discoverReuseContexts({root:f.root});assert.equal(findAuthorReuseCandidates(f.block.content.prompt,catalog)[0].blockId,'old');
  assert.equal(findAuthorReuseCandidates(second.content.prompt,catalog)[0].blockId,'second');
+});
+
+test('ineligible retrieval blocks never load provenance or inspect mathematical content',()=>{
+ let provenance=0;const block={id:'unreviewed',get content(){throw Error('Ineligible content must not be scanned');}};
+ const candidates=findAuthorReuseCandidates('map scale distance 4 cm',{contexts:[{blocks:[block],eligible:new Set(),originalFor:()=>{provenance++;throw Error('Unaccepted source lookup');}}]});
+ assert.deepEqual(candidates,[]);assert.equal(provenance,0);
+});
+
+test('discovered snapshot hashes are isolated to frozen blocks while mutable questions still change',t=>{
+ const f=fixture(t),catalog=discoverReuseContexts({root:f.root}),context=catalog.contexts[0],snapshot=context.blocks[0];
+ assert.equal(Object.isFrozen(snapshot),true);assert.equal(Object.isFrozen(snapshot.content.answer),true);
+ const initial=context.hashBlock(snapshot);assert.equal(initial,reuseContentHash(snapshot));assert.equal(context.hashBlock(snapshot),initial);
+ assert.throws(()=>{snapshot.content.answer.short='wrong';},TypeError);
+ const mutable=structuredClone(snapshot);assert.equal(context.hashBlock(mutable),initial);mutable.content.answer.short='wrong';assert.notEqual(context.hashBlock(mutable),initial);assert.equal(reuseCandidate(mutable,context),null);
+ assert.equal(reuseCandidate(structuredClone(snapshot),context).blockId,'old');
+});
+
+test('cached snapshot scanning retains duplicate ambiguity and resolves only explicit block identity',t=>{
+ const f=fixture(t),duplicate=structuredClone(f.block);duplicate.id='duplicate';duplicate.content.id='duplicate-root';duplicate.sourceReview.responses[0].targetId='duplicate-root';
+ f.project.sections[0].blocks.push(duplicate);fs.writeFileSync(f.projectFile,JSON.stringify(f.project));fs.writeFileSync(f.table,JSON.stringify({questions:Object.fromEntries(f.project.sections[0].blocks.map(b=>[b.id,{hash:contentHash(b),outcome:'passed'}]))}));
+ const context=discoverReuseContexts({root:f.root}).contexts[0];
+ assert.equal(reuseCandidate(structuredClone(f.block),context),null,'equal mathematical copies remain ambiguous');
+ const identified=structuredClone(f.block);identified.sourceReview.reuse={projectId:'stage4',blockId:'old'};assert.equal(reuseCandidate(identified,context).blockId,'old');
+});
+
+test('cached snapshots still reread changed project files and acceptance pins on every candidate',t=>{
+ const f=fixture(t),context=discoverReuseContexts({root:f.root}).contexts[0],copy=structuredClone(f.block);
+ assert.equal(reuseCandidate(copy,context).blockId,'old');
+ f.project.sections[0].blocks[0].content.answer.short='changed task';fs.writeFileSync(f.projectFile,JSON.stringify(f.project));assert.equal(reuseCandidate(copy,context),null,'fresh live blocks must still match');
+ f.project.sections[0].blocks[0]=f.block;fs.writeFileSync(f.projectFile,JSON.stringify(f.project));
+ // f.block was intentionally mutated through f.project; restore original values.
+ f.block.content.answer.short='1 km';fs.writeFileSync(f.projectFile,JSON.stringify(f.project));assert.equal(reuseCandidate(copy,context).blockId,'old');
+ fs.writeFileSync(f.table,JSON.stringify({questions:{old:{hash:contentHash(f.block),outcome:'failed'}}}));assert.equal(reuseCandidate(copy,context),null,'cached mathematics never waives changed acceptance pins');
+});
+
+test('fresh discovery after an edited project creates a different frozen snapshot and hash',t=>{
+ const f=fixture(t),before=discoverReuseContexts({root:f.root}).contexts[0],firstHash=before.hashBlock(before.blocks[0]);
+ f.block.content.answer.short='2 km';fs.writeFileSync(f.projectFile,JSON.stringify(f.project));const after=discoverReuseContexts({root:f.root}).contexts[0];
+ assert.notEqual(after.blocks[0],before.blocks[0]);assert.notEqual(after.hashBlock(after.blocks[0]),firstHash);assert.equal(before.hashBlock(before.blocks[0]),firstHash);
+});
+
+test('advisory snapshot digest checks current metadata each call and rejects deleted projects',t=>{
+ const f=fixture(t),context=discoverReuseContexts({root:f.root}).contexts[0],original=context.currentProjectHash();
+ assert.equal(original,context.projectFileHash);f.block.content.answer.short='2 km';fs.writeFileSync(f.projectFile,JSON.stringify(f.project));assert.notEqual(context.currentProjectHash(),original);assert.equal(reuseCandidate(prior(),context),null);
+ fs.unlinkSync(f.projectFile);assert.equal(reuseCandidate(prior(),context),null);
+});
+
+test('same-length project edits with restored modification time are detected through change time',t=>{
+ const f=fixture(t),fixed=new Date('2020-01-01T00:00:00.000Z');fs.utimesSync(f.projectFile,fixed,fixed);
+ const context=discoverReuseContexts({root:f.root}).contexts[0],before=fs.statSync(f.projectFile);f.block.content.answer.short='2 km';fs.writeFileSync(f.projectFile,JSON.stringify(f.project));fs.utimesSync(f.projectFile,fixed,fixed);const after=fs.statSync(f.projectFile);
+ assert.equal(after.size,before.size);assert.equal(after.mtimeMs,before.mtimeMs);assert.notEqual(after.ctimeMs,before.ctimeMs);assert.notEqual(context.currentProjectHash(),context.projectFileHash);assert.equal(reuseCandidate(prior(),context),null);
+});
+
+test('spoofed unchanged stat may retain advisory suggestions but final materialization still reads actual project bytes',t=>{
+ const f=fixture(t),catalog=discoverReuseContexts({root:f.root}),candidate=findAuthorReuseCandidates(f.block.content.prompt,catalog)[0],before=fs.statSync(f.projectFile),stat=fs.statSync;
+ f.block.content.answer.short='2 km';fs.writeFileSync(f.projectFile,JSON.stringify(f.project));
+ fs.statSync=function(file,...args){return path.resolve(String(file))===path.resolve(f.projectFile)?before:stat.call(this,file,...args);};
+ try{
+  const suggested=findAuthorReuseCandidates(f.block.content.prompt,catalog);assert.equal(suggested[0].blockId,'old','retrieval is advisory under a mocked metadata identity');
+  assert.throws(()=>materializeAutomaticReuse(packet(candidate),[candidate]),/acceptance changed/,'final copy reloads current project bytes and validates acceptance');
+ }finally{fs.statSync=stat;}
+});
+
+test('unchanged-stat metadata never caches acceptance pins or generic context bytes',t=>{
+ const f=fixture(t),catalog=discoverReuseContexts({root:f.root});assert.equal(findAuthorReuseCandidates(f.block.content.prompt,catalog).length,1);
+ fs.writeFileSync(f.table,JSON.stringify({questions:{old:{hash:contentHash(f.block),outcome:'failed'}}}));assert.equal(reuseCandidate(f.block,catalog.contexts[0]),null,'acceptance pin bytes stay fresh even when project stat is unchanged');
+});
+
+test('snapshot creation and changed-file digest reject metadata changes during their reads',t=>{
+ const f=fixture(t),stat=fs.statSync;let reads=0;
+ fs.statSync=function(file,...args){const result=stat.call(this,file,...args);if(path.resolve(String(file))===path.resolve(f.projectFile)&&++reads>1)return {...result,ctimeMs:result.ctimeMs+1};return result;};
+ try{assert.equal(discoverReuseContexts({root:f.root}).contexts.length,0,'an unstable initial snapshot cannot enter the catalog');}finally{fs.statSync=stat;}
+ const context=discoverReuseContexts({root:f.root}).contexts[0];f.block.content.answer.short='2 km';fs.writeFileSync(f.projectFile,JSON.stringify(f.project));reads=0;
+ fs.statSync=function(file,...args){const result=stat.call(this,file,...args);if(path.resolve(String(file))===path.resolve(f.projectFile)&&++reads>1)return {...result,ctimeMs:result.ctimeMs+1};return result;};
+ try{assert.throws(()=>context.currentProjectHash(),/changed during retrieval/);}finally{fs.statSync=stat;}
+});
+
+test('new placeholder root evidence resolves only to its marked copy and preserves native priority',t=>{
+ const f=fixture(t),c=findAuthorReuseCandidates(f.block.content.prompt,discoverReuseContexts({root:f.root}))[0],input=packet(c),first=input.sections[0].blocks[0],second={...structuredClone(first),id:'other-copy'};
+ input.sections[0].blocks=[first,second];input.inventoryMappings.forEach(m=>Object.assign(m,{reuseKey:c.key,reuseCopyId:first.id}));input.answerEvidence=[{questionId:first.id,reuseKey:c.key,reuseCopyId:first.id},{questionId:second.id,reuseKey:c.key,reuseCopyId:second.id},{questionId:'n',reuseKey:c.key,reuseCopyId:first.id}];
+ const out=materializeAutomaticReuse(input,[c]);assert.deepEqual(out.answerEvidence.map(e=>e.questionId),['p41-q7-old','other-copy-old','p41-q7-n']);assert.ok(out.answerEvidence.every(e=>!('reuseKey'in e)&&!('reuseCopyId'in e)));
+ const collision=packet(c);collision.sections[0].blocks[0].id='n';collision.answerEvidence=[{questionId:'n',reuseKey:c.key,reuseCopyId:'n'}];assert.equal(materializeAutomaticReuse(collision,[c]).answerEvidence[0].questionId,'n-n','original native node wins over identical placeholder alias');
+});
+
+test('repeated placeholder or unmarked original roots cannot ambiguously acquire source evidence',t=>{
+ const f=fixture(t),c=findAuthorReuseCandidates(f.block.content.prompt,discoverReuseContexts({root:f.root}))[0],input=packet(c);input.sections[0].blocks=[input.sections[0].blocks[0],structuredClone(input.sections[0].blocks[0])];assert.throws(()=>materializeAutomaticReuse(input,[c]),/Invalid or ambiguous automatic reuse selection/);
+ const repeated=packet(c);repeated.sections[0].blocks=[repeated.sections[0].blocks[0],{...structuredClone(repeated.sections[0].blocks[0]),id:'another'}];repeated.answerEvidence=[{questionId:'old'}];assert.throws(()=>materializeAutomaticReuse(repeated,[c]),/Ambiguous reused node mapping/);
+ const wrong=packet(c);wrong.answerEvidence=[{questionId:'p41-q7',reuseKey:c.key,reuseCopyId:'another'}];assert.equal(materializeAutomaticReuse(wrong,[c]).answerEvidence[0].questionId,'p41-q7','wrong-copy marker never binds another copy');
+});
+
+test('new source identity survives while every old identity is removed without changing accepted mathematics',t=>{
+ const f=fixture(t);f.block.sourceReview.sourceIdentity={exercise:'Old exercise',questionLabel:'3',pdfPage:2};f.block.content.sourceReview={sourceIdentity:{exercise:'Nested old',questionLabel:'3'}};fs.writeFileSync(f.projectFile,JSON.stringify(f.project));fs.writeFileSync(f.table,JSON.stringify({questions:{old:{hash:contentHash(f.block),outcome:'passed'}}}));
+ const c=findAuthorReuseCandidates(f.block.content.prompt,discoverReuseContexts({root:f.root}))[0],missing=packet(c);delete missing.sections[0].blocks[0].sourceReview.sourceIdentity;assert.throws(()=>materializeAutomaticReuse(missing,[c]),/explicit numeric whole-question source label/);
+ const input=packet(c),identity={exercise:'New exercise',questionLabel:'7',pdfPage:41};input.sections[0].blocks[0].sourceReview.sourceIdentity=identity;input.answerEvidence=[{questionId:'p41-q7',reuseKey:c.key,reuseCopyId:'p41-q7',teacherReference:[{pdfPage:12,exercise:'New exercise',questionLabel:'7'}]}];
+ const out=materializeAutomaticReuse(input,[c],{runId:'new-run'}),copy=out.sections[0].blocks[0];assert.deepEqual(copy.sourceReview.sourceIdentity,identity);assert.notEqual(copy.sourceReview.sourceIdentity,identity);assert.equal(copy.content.sourceReview.sourceIdentity,undefined);assert.equal(reuseContentHash(copy),reuseContentHash(c.block));assert.equal(out.answerEvidence[0].questionId,copy.id);assert.equal(out.answerEvidence[0].teacherReference[0].questionLabel,'7');assert.equal(copy.sourceReview.origin.projectId,c.origin.projectId);assert.equal(copy.bankRef,undefined);assert.equal(copy.verification,undefined);assert.equal(copy.content.label,'7','only the explicit new whole-question label is rebound');
+});
+
+test('already materialized reuse rechecks exactly used proof and rejects edited copies',t=>{
+ const f=fixture(t),c=findAuthorReuseCandidates(f.block.content.prompt,discoverReuseContexts({root:f.root}))[0],out=materializeAutomaticReuse(packet(c),[c]);
+ assert.doesNotThrow(()=>assertCurrentAutomaticReuse(out,[c]));const changed=structuredClone(out);changed.sections[0].blocks[0].content.answer.short='2 km';assert.throws(()=>assertCurrentAutomaticReuse(changed,[c]),/reuse/);
+ fs.writeFileSync(f.table,JSON.stringify({questions:{old:{hash:contentHash(f.block),outcome:'passed',note:'Changed proof'},unrelated:{outcome:'passed'}}}));assert.throws(()=>assertCurrentAutomaticReuse(out,[c]),/proof changed/);
+ assert.doesNotThrow(()=>assertCurrentAutomaticReuse({sections:[{blocks:[{id:'ordinary',type:'paragraph',content:'No prior mathematics used'}]}]},[c]));
+});
+
+
+test('fresh numeric whole-question labels rebind locally and validation rejects stale copies without renewing acceptance',t=>{
+ const f=fixture(t);f.block.content.label='3';fs.writeFileSync(f.projectFile,JSON.stringify(f.project));fs.writeFileSync(f.table,JSON.stringify({questions:{old:{hash:contentHash(f.block),outcome:'passed'}}}));const c=findAuthorReuseCandidates(f.block.content.prompt,discoverReuseContexts({root:f.root}))[0],input=packet(c);input.sections[0].blocks[0].sourceReview.sourceIdentity={questionLabel:'7',pdfPage:41};const priorBytes=fs.readFileSync(f.table,'utf8'),out=materializeAutomaticReuse(input,[c]),b=out.sections[0].blocks[0];assert.equal(b.content.label,'7');assert.equal(reuseContentHash(b),reuseContentHash(c.block));assert.doesNotThrow(()=>assertCurrentAutomaticReuse(out,[c]));assert.equal(fs.readFileSync(f.table,'utf8'),priorBytes);b.content.label='3';assert.throws(()=>assertCurrentAutomaticReuse(out,[c]),/reuse changed/);
+});
+test('unsupported fresh question labels require ordinary authoring, never heuristic numbering',t=>{
+ const f=fixture(t),c=findAuthorReuseCandidates(f.block.content.prompt,discoverReuseContexts({root:f.root}))[0];for(const label of ['Unnumbered','5a','5–6','',null,-1,0]){const input=packet(c);input.sections[0].blocks[0].sourceReview.sourceIdentity={questionLabel:label,pdfPage:41};assert.throws(()=>materializeAutomaticReuse(input,[c]),/explicit numeric whole-question source label/)}const input=packet(c);input.sections[0].blocks[0].sourceReview.sourceIdentity={questionLabel:11,pdfPage:41};input.sections[0].blocks[0].number=999;assert.equal(materializeAutomaticReuse(input,[c]).sections[0].blocks[0].content.label,'11');
 });

@@ -354,3 +354,150 @@ test('replacement-shaped repair patches are rejected before an existing field ca
  const right=applyCorrections(blocks,[{patches:[{targetId:'q',field:'/content/prompt',original:'Original',corrected:'New'}]}]);assert.equal(right.applied.length,1);assert.equal(blocks[0].content.prompt,'New');
  const deletion=applyCorrections(blocks,[{patches:[{targetId:'q',field:'/content/obsolete',original:'Old'}]}]);assert.equal(deletion.applied.length,1);assert.equal(Object.hasOwn(blocks[0].content,'obsolete'),false);
 });
+
+// External teaching evidence must remain original pinned source material in a
+// canonical sibling run. These fixtures contain no project/cache symlinks.
+import {externalTeachingSources,splitExternalTeachingBatches} from '../scripts/booklet/lean-review.mjs';
+function externalEvidenceFixture(t,{pages=[1,2,3,4]}={}){
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'lean-external-teaching-'));
+ const resolvedRoot=path.resolve(root);
+ t.after(()=>{assert.ok(path.basename(resolvedRoot).startsWith('lean-external-teaching-'));assert.equal(path.dirname(resolvedRoot),path.resolve(os.tmpdir()));fs.rmSync(resolvedRoot,{recursive:true,force:true});});
+ const runDir=path.join(root,'current'),sibling=path.join(root,'prior-chapter'),runId='prior-chapter';
+ const write=(file,value)=>{fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,typeof value==='string'?value:JSON.stringify(value));return file;};
+ const digest=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+ const localPins={},externalPins={};
+ for(const relative of ['source/booklet.pdf','evidence/pages/page-006.png'])localPins[relative]=digest(write(path.join(runDir,relative),'current '+relative));
+ write(path.join(runDir,'manifest.json'),{id:'current',selectedPages:[6],contextPages:[],source:{pdfHash:localPins['source/booklet.pdf']},pins:{runFiles:localPins}});
+ for(const relative of ['source/booklet.pdf',...pages.map(page=>'evidence/pages/page-'+String(page).padStart(3,'0')+'.png')])externalPins[relative]=digest(write(path.join(sibling,relative),'earlier original '+relative));
+ const manifest={id:runId,selectedPages:pages.slice(0,1),contextPages:pages.slice(1),source:{pdfHash:externalPins['source/booklet.pdf']},pins:{runFiles:externalPins}},manifestFile=path.join(sibling,'manifest.json');write(manifestFile,manifest);
+ const references=pages.map(pdfPage=>({runId,pdfPage,imageHash:externalPins['evidence/pages/page-'+String(pdfPage).padStart(3,'0')+'.png']}));
+ const block=question('external-practice');block.sourceReview={teachingContext:{pdfPages:[],externalSources:references,methodNote:'Use earlier original chapter teaching.'}};
+ const section={id:'external-practice',phase:'practice',blocks:[block]},project={...fixture(),source:{contentScope:'practice-only'},sections:[section]},batch={section,rows:[{block}]},pageImage=page=>path.join(runDir,'evidence/pages/page-'+String(page).padStart(3,'0')+'.png');
+ return {root,runDir,sibling,runId,manifest,manifestFile,write,digest,references,block,section,project,batch,pageImage};
+}
+
+test('external teaching pins canonical sibling original PDF and every prepared PNG, including context pages',t=>{
+ const w=externalEvidenceFixture(t),refs=externalTeachingSources(w.block,w.runDir),pdf=path.join(w.sibling,'source/booklet.pdf');
+ assert.equal(refs.length,5);assert.deepEqual(refs.filter(row=>row.kind==='external-teaching').map(row=>row.pdfPage),[1,2,3,4]);
+ for(const ref of refs){assert.equal(ref.runId,w.runId);assert.equal(ref.hash,w.digest(ref.path));if(ref.kind==='external-teaching'){assert.equal(ref.sourcePdf,pdf);assert.equal(ref.sourcePdfHash,w.manifest.source.pdfHash);}}
+ assert.deepEqual(refs.find(row=>row.kind==='external-teaching-pdf'),{kind:'external-teaching-pdf',runId:w.runId,path:pdf,hash:w.manifest.source.pdfHash});
+ w.block.sourceReview.teachingContext.externalSources.push(w.references[0]);assert.equal(externalTeachingSources(w.block,w.runDir).length,5,'identical original evidence is attached once');
+});
+
+test('external-only teaching is valid practice evidence and retains complete references and prompt evidence',t=>{
+ const w=externalEvidenceFixture(t),evidence=practiceContentEvidence(w.project,w.batch,w.runDir);
+ assert.deepEqual(w.block.sourceReview.teachingContext.pdfPages,[]);assert.deepEqual(evidence.questions[0].teachingContext.externalSources,w.references);
+ assert.equal(evidence.files.filter(row=>row.kind==='external-teaching').length,4);assert.equal(evidence.files.filter(row=>row.kind==='external-teaching-pdf').length,1);
+ const payload=JSON.parse(contentPrompt({project:w.project,batch:w.batch,evidence}).split('\n\n').at(-1));
+ assert.deepEqual(payload.originalPdfEvidence.questions[0].teachingContext.externalSources,w.references);
+ assert.equal(payload.originalPdfEvidence.files.filter(row=>row.kind==='external-teaching').length,4);
+ const images=contentImages(w.batch,w.pageImage,{limit:5,evidence});assert.equal(images.length,5);for(const row of evidence.files.filter(row=>row.kind==='external-teaching'))assert.ok(images.includes(row.path),'every selected external image is attached');
+ assert.ok(!images.some(file=>file.endsWith('.pdf')));assert.throws(()=>contentImages(w.batch,w.pageImage,{limit:4,evidence}),/split the review batch/);
+});
+
+test('external teaching rejects traversal, absolute paths, current run, invalid hashes and nonarrays',async t=>{
+ for(const [name,patch] of [['traversal',{runId:'../prior-chapter'}],['absolute',{runId:path.resolve('prior-chapter')}],['current',{runId:'current'}],['zero page',{pdfPage:0}],['fraction page',{pdfPage:1.5}],['unhashed',{imageHash:''}]])await t.test(name,sub=>{const w=externalEvidenceFixture(sub);w.block.sourceReview.teachingContext.externalSources=[{...w.references[0],...patch}];assert.throws(()=>externalTeachingSources(w.block,w.runDir),/Invalid external|canonical sibling/);});
+ const w=externalEvidenceFixture(t);w.block.sourceReview.teachingContext.externalSources={runId:'prior-chapter'};assert.throws(()=>externalTeachingSources(w.block,w.runDir),/must be an array/);
+});
+
+test('external teaching rejects wrong manifest identity, unprepared pages and absent or inconsistent original pins',async t=>{
+ const variants=[['manifest identity',w=>w.manifest.id='other'],['unprepared page',w=>{w.manifest.selectedPages=[];w.manifest.contextPages=[];}],['unpinned image',w=>delete w.manifest.pins.runFiles['evidence/pages/page-001.png']],['wrong image reference',w=>w.block.sourceReview.teachingContext.externalSources[0].imageHash='0'.repeat(64)],['unpinned PDF',w=>delete w.manifest.pins.runFiles['source/booklet.pdf']],['wrong PDF identity',w=>w.manifest.source.pdfHash='0'.repeat(64)]];
+ for(const [name,change] of variants)await t.test(name,sub=>{const w=externalEvidenceFixture(sub);change(w);w.write(w.manifestFile,w.manifest);assert.throws(()=>externalTeachingSources(w.block,w.runDir),/missing or changed/);});
+});
+
+test('external teaching rejects changed or missing original PNG and PDF bytes',async t=>{
+ for(const [name,relative,remove] of [['changed image','evidence/pages/page-001.png',false],['missing image','evidence/pages/page-001.png',true],['changed PDF','source/booklet.pdf',false],['missing PDF','source/booklet.pdf',true]])await t.test(name,sub=>{const w=externalEvidenceFixture(sub),file=path.join(w.sibling,relative);if(remove)fs.unlinkSync(file);else fs.appendFileSync(file,'changed after pin');assert.throws(()=>externalTeachingSources(w.block,w.runDir),/missing or changed/);});
+});
+
+test('external teaching rejects symlinked sibling, PNG and PDF even when linked bytes match pins',async t=>{
+ for(const [name,relative,type] of [['sibling','',process.platform==='win32'?'junction':'dir'],['image','evidence/pages/page-001.png','file'],['PDF','source/booklet.pdf','file']])await t.test(name,sub=>{
+  const w=externalEvidenceFixture(sub),file=relative?path.join(w.sibling,relative):path.join(w.root,'alias-chapter'),target=relative?path.join(w.root,'linked-'+path.basename(relative)):w.sibling;
+  if(relative){fs.copyFileSync(file,target);fs.unlinkSync(file);}else {w.block.sourceReview.teachingContext.externalSources=w.references.map(ref=>({...ref,runId:'alias-chapter'}));w.manifest.id='alias-chapter';w.write(w.manifestFile,w.manifest);}
+  try{fs.symlinkSync(target,file,type);}catch(error){if(['EPERM','EACCES','ENOTSUP'].includes(error.code)){sub.skip('Host does not permit this symlink type');return;}throw error;}
+  assert.throws(()=>externalTeachingSources(w.block,w.runDir),/canonical sibling|missing or changed/);
+ });
+});
+
+test('local-only source behavior stays unchanged and does not need an external run manifest',t=>{
+ assert.deepEqual(externalTeachingSources({},path.join(os.tmpdir(),'no-external-manifest')),[]);
+ const w=practiceEvidenceFixture(t),before=practiceContentEvidence(w.project,w.batch,w.runDir);
+ w.block.sourceReview.teachingContext.externalSources=[];const after=practiceContentEvidence(w.project,w.batch,w.runDir);
+ assert.deepEqual(after.files,before.files);assert.deepEqual(contentImages(w.batch,()=>'',{evidence:after}),contentImages(w.batch,()=>'',{evidence:before}));
+ const batches=[{rows:[{block:{id:'local-a'}}]},{rows:[{block:{id:'local-b'}}]}],result=splitExternalTeachingBatches(batches,{project:{},runDir:'missing',pageImage:()=>'',limit:0});assert.deepEqual(result,batches);assert.equal(result[0],batches[0]);
+});
+
+test('external image budget recursively splits batches while retaining whole questions, row order and batch metadata',t=>{
+ const w=externalEvidenceFixture(t),rows=w.references.map((ref,index)=>{const block=structuredClone(w.block);block.id='whole-'+index;block.content.children=[{id:'part-'+index,prompt:'Keep in parent'}];block.sourceReview.teachingContext.externalSources=[ref];return {block,tag:'row-'+index};}),batch={...w.batch,rows,marker:'preserve batch context'};
+ const result=splitExternalTeachingBatches([batch],{project:w.project,runDir:w.runDir,pageImage:w.pageImage,limit:2});
+ assert.equal(result.length,4);assert.deepEqual(result.flatMap(item=>item.rows),rows);assert.equal(batch.rows.length,4);
+ for(const [index,item]of result.entries()){assert.equal(item.rows.length,1);assert.equal(item.rows[0],rows[index]);assert.equal(item.rows[0].block.content.children.length,1);assert.equal(item.section,batch.section);assert.equal(item.marker,batch.marker);const evidence=practiceContentEvidence(w.project,item,w.runDir);assert.equal(contentImages(item,w.pageImage,{limit:2,evidence}).length,2);}
+ assert.throws(()=>splitExternalTeachingBatches([w.batch],{project:w.project,runDir:w.runDir,pageImage:w.pageImage,limit:4}),/One question requires more.*external-practice/);
+});
+
+test('external original files and manifest pins cannot change during the independent content call',async t=>{
+ for(const [name,change]of [['PNG bytes',w=>fs.appendFileSync(path.join(w.sibling,'evidence/pages/page-001.png'),'changed')],['PDF bytes',w=>fs.appendFileSync(path.join(w.sibling,'source/booklet.pdf'),'changed')],['manifest pins',w=>{w.manifest.pins.runFiles['evidence/pages/page-001.png']='0'.repeat(64);w.write(w.manifestFile,w.manifest);}],['manifest prepared pages',w=>{w.manifest.selectedPages=[];w.manifest.contextPages=[];w.write(w.manifestFile,w.manifest);}]])await t.test(name,async sub=>{
+  const w=externalEvidenceFixture(sub,{pages:[1]}),projectFile=w.write(path.join(w.runDir,'candidate.json'),w.project);let calls=0;
+  const result=await runContentReview({runDir:w.runDir,projectFile,root:w.root,skills:[],runner:async()=>{calls++;change(w);return {result:passAll([w.block.id])};}});
+  assert.equal(calls,1);assert.equal(result.passed,0);assert.equal(result.remaining,1);assert.equal(result.errors.length,1);assert.match(result.errors[0].error,/changed during the call|missing or changed/);assert.equal(loadReviewed(path.join(w.runDir,'lean-review')).questions[w.block.id],undefined);
+ });
+});
+
+import {externalTeachingBinding} from '../scripts/booklet/lean-review.mjs';
+function acceptExternalEvidence(w){
+ const state={questions:{},pages:{}};w.batch.practiceEvidence=practiceContentEvidence(w.project,w.batch,w.runDir);w.batch.projectId=w.project.id;
+ recordContentResult({batch:w.batch,result:passAll([w.block.id]),state,dir:path.join(w.runDir,'lean-review')});
+ return state;
+}
+
+test('external teaching acceptance binds references without discarding accepted mathematical snapshots',t=>{
+ const w=externalEvidenceFixture(t,{pages:[1]}),state=acceptExternalEvidence(w),row=state.questions[w.block.id],accepted=structuredClone(row.acceptedVersion),printable=contentHash(w.block),refs=structuredClone(w.references);
+ assert.equal(row.externalTeachingBinding,externalTeachingBinding(w.block));assert.deepEqual(pendingBlocks(w.project,state),[]);
+ for(const change of [block=>block.sourceReview.teachingContext.externalSources[0].imageHash='0'.repeat(64),block=>block.sourceReview.teachingContext.externalSources[0].runId='another-chapter',block=>block.sourceReview.teachingContext.externalSources[0].pdfPage=2,block=>delete block.sourceReview.teachingContext.externalSources]){
+  w.block.sourceReview.teachingContext.externalSources=structuredClone(refs);change(w.block);
+  assert.equal(contentHash(w.block),printable,'source metadata changes must not pretend mathematics changed');assert.deepEqual(pendingBlocks(w.project,state).map(item=>item.block.id),[w.block.id]);assert.deepEqual(state.questions[w.block.id].acceptedVersion,accepted,'prior mathematical acceptance remains available for compatibility review');
+ }
+ w.block.sourceReview.teachingContext.externalSources=refs;assert.deepEqual(pendingBlocks(w.project,state),[]);
+ const legacy=question('legacy'),project={sections:[{phase:'practice',blocks:[legacy]}]},legacyState={questions:{legacy:{hash:contentHash(legacy),outcome:'passed'}},pages:{}};assert.deepEqual(pendingBlocks(project,legacyState),[],'legacy local-only rows keep null external binding');
+});
+
+test('external teaching correction records reviewed input references and leaves corrected references pending',t=>{
+ const w=externalEvidenceFixture(t,{pages:[1,2]}),state=acceptExternalEvidence(w),beforeHash=contentHash(w.block),original=structuredClone(w.block.sourceReview.teachingContext.externalSources),inputBinding=externalTeachingBinding(w.block),priorMathematics=state.questions[w.block.id].acceptedVersion.mathematicalHash,corrected=[original[1]];
+ const result={records:[{id:w.block.id,outcome:'passed',note:'Checked supplied input'}],corrections:[{id:'narrow-reference',reason:'Select the relevant original teaching page',patches:[{targetId:w.block.id,field:'/sourceReview/teachingContext/externalSources',original,corrected}]}]};
+ const summary=recordContentResult({batch:w.batch,result,state,dir:path.join(w.runDir,'lean-review')});assert.equal(summary.applied,1);assert.deepEqual(w.block.sourceReview.teachingContext.externalSources,corrected);
+ assert.equal(contentHash(w.block),beforeHash);assert.equal(state.questions[w.block.id].externalTeachingBinding,inputBinding);assert.notEqual(state.questions[w.block.id].externalTeachingBinding,externalTeachingBinding(w.block));assert.equal(state.questions[w.block.id].acceptedVersion.mathematicalHash,priorMathematics);assert.equal(pendingBlocks(w.project,state).length,1);
+});
+
+test('external teaching correction cannot immediately accept references newly added to a locally reviewed input',t=>{
+ const w=externalEvidenceFixture(t,{pages:[1]});w.block.sourceReview.teachingContext.externalSources=[];w.block.sourceReview.teachingContext.pdfPages=[6];const state=acceptExternalEvidence(w),printable=contentHash(w.block);
+ const result={records:[{id:w.block.id,outcome:'passed'}],corrections:[{id:'add-earlier-teaching',reason:'Use earlier chapter teaching',patches:[{targetId:w.block.id,field:'/sourceReview/teachingContext/externalSources',original:[],corrected:w.references}]}]};
+ recordContentResult({batch:w.batch,result,state,dir:path.join(w.runDir,'lean-review')});assert.equal(state.questions[w.block.id].externalTeachingBinding,null);assert.notEqual(externalTeachingBinding(w.block),null);assert.equal(contentHash(w.block),printable);assert.equal(pendingBlocks(w.project,state).length,1);
+});
+
+test('external teaching export and deliverable status reject corrupted original PDF even after acceptance',async t=>{
+ const w=externalEvidenceFixture(t,{pages:[1]}),state=acceptExternalEvidence(w),projectFile=w.write(path.join(w.runDir,'candidate.json'),w.project);w.write(path.join(w.runDir,'lean-review/reviewed.json'),state);assert.deepEqual(pendingBlocks(w.project,state),[]);
+ fs.appendFileSync(path.join(w.sibling,'source/booklet.pdf'),'corrupted after mathematical acceptance');let renders=0;
+ await assert.rejects(runLeanExport({runDir:w.runDir,projectId:w.project.id,projectFile,out:path.join(w.runDir,'new-export')},{exportRuntime:async()=>{renders++;},rasterize:async()=>({images:[]})}),/External original teaching evidence is missing or changed/);assert.equal(renders,0,'invalid source evidence is rejected before starting an export');
+ assert.throws(()=>reviewStatus({runDir:w.runDir,projectFile,exportDir:path.join(w.runDir,'prior-export')}),/External original teaching evidence is missing or changed/,'an old reviewed/exported status cannot grant deliverable after its external source changes');
+});
+
+
+test('unkeyed practice requires complete pinned answer-chapter absence evidence and still needs independent review',t=>{
+ const w=practiceEvidenceFixture(t),answer=w.block.sourceReview.answerEvidence;
+ answer.questionId=w.block.id;answer.teacherReference=[];answer.matchEvidence='Unnumbered activity has no keyed answer.';
+ assert.throws(()=>practiceContentEvidence(w.project,w.batch,w.runDir),/lacks answer-book/);
+ answer.answerKeyAbsence={searchedTeacherPages:[30,31],reason:'Search all prepared original chapter answer pages; independently verify absence.'};
+ const evidence=practiceContentEvidence(w.project,w.batch,w.runDir),pageImage=p=>path.join(w.runDir,'evidence/pages/page-'+String(p).padStart(3,'0')+'.png');
+ assert.equal(evidence.files.filter(f=>f.kind==='answer').length,2);
+ const images=contentImages(w.batch,pageImage,{limit:4,evidence});for(const p of [30,31])assert.ok(images.includes(path.join(w.runDir,'evidence/teacher/pages/page-'+String(p).padStart(3,'0')+'.png')));
+ assert.match(contentPrompt({project:w.project,batch:w.batch,evidence}),/absence assertion itself grants no acceptance/);
+ assert.equal(loadReviewed(w.dir).questions[w.block.id],undefined);
+ const valid=structuredClone(answer);
+ for(const change of [a=>a.answerKeyAbsence.searchedTeacherPages=[30],a=>a.answerKeyAbsence.searchedTeacherPages=[30,32],a=>a.answerKeyAbsence.searchedTeacherPages=[30,30],a=>a.answerKeyAbsence.reason='',a=>a.answerKeyAbsence.reason={},a=>a.questionId='wrong',a=>a.teacherReference=[{pdfPage:30,exercise:'6A',questionLabel:'1'}]]){
+  w.block.sourceReview.answerEvidence=structuredClone(valid);change(w.block.sourceReview.answerEvidence);assert.throws(()=>practiceContentEvidence(w.project,w.batch,w.runDir),/Invalid or incomplete/);
+ }
+ w.block.sourceReview.answerEvidence=structuredClone(valid);w.block.sourceReview.answerEvidence.answerKeyAbsence.reason+=' Changed assertion.';assert.notEqual(practiceContentEvidence(w.project,w.batch,w.runDir).binding,evidence.binding);
+ w.block.sourceReview.answerEvidence=structuredClone(valid);
+ const image=path.join(w.runDir,'evidence/teacher/pages/page-030.png'),bytes=fs.readFileSync(image);fs.appendFileSync(image,'changed');assert.throws(()=>practiceContentEvidence(w.project,w.batch,w.runDir),/missing or changed/);fs.writeFileSync(image,bytes);
+ const manifestFile=path.join(w.runDir,'manifest.json'),manifest=JSON.parse(fs.readFileSync(manifestFile));const pin=manifest.pins.runFiles['evidence/teacher/pages/page-031.png'];delete manifest.pins.runFiles['evidence/teacher/pages/page-031.png'];fs.writeFileSync(manifestFile,JSON.stringify(manifest));assert.throws(()=>practiceContentEvidence(w.project,w.batch,w.runDir),/missing or changed/);manifest.pins.runFiles['evidence/teacher/pages/page-031.png']=pin;fs.writeFileSync(manifestFile,JSON.stringify(manifest));
+ fs.appendFileSync(path.join(w.runDir,'source/teacher.pdf'),'changed');assert.throws(()=>practiceContentEvidence(w.project,w.batch,w.runDir),/missing or changed/);
+});

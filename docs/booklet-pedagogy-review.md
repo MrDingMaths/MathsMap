@@ -1,5 +1,7 @@
 # Booklet pedagogy review
 
+Textbook-import precedence (18 October 2026, user approved): pedagogy review and its challenge pass are excluded from textbook imports, including work not yet started in existing campaigns. Do not create a reference-teaching wrapper to reintroduce this stage. Preserve completed reviews and active calls; adopt at the next safe boundary. This tool remains available for separately requested pedagogy reviews. See [streamlined textbook imports](booklet-three-pass-import.md#streamlined-textbook-imports-18-october-2026-user-approved).
+
 Campaign save recovery (15 October 2026): provenance is saved by atomic replacement. If a review completed both model passes but failed only while saving provenance, `runReview` can recover from the saved candidate file and challenge response through `resumeFrom`, without new model calls. Recovery requires the candidate file's project ID and revision to match the live project and preserves the original pass results; a changed revision or candidate errors stop recovery.
 
 User approved, 9 October 2026; scope widened by the user the same day to review coverage, difficulty jumps and suggestions. A read-only review that reports what stands in the way of learning in a booklet's teaching sequence and proposes the smallest repair for each problem. It gives no score. The tool is [`pedagogy/review.mjs`](../pedagogy/review.mjs); it lives outside `scripts/` because a new file there fails any export in flight.

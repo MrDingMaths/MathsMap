@@ -91,6 +91,16 @@ scope checks remain active. Publication rechecks external PDFs; the receipt
 retains their references and per-question rationales. No external teaching block
 is added to the bank schema.
 
+Cumulative booklet reviews can retain original teaching from an earlier prepared
+chapter in `sourceReview.teachingContext.externalSources`, as
+`[{runId, pdfPage, imageHash}]`. The run must be a canonical sibling of the
+current run. Review verifies the earlier manifest, prepared page, original PDF
+and page-image pins before and after the call, and directly attaches the selected
+teaching images. External references do not use local `pdfPages` or
+`sourceEvidenceImages`. Whole questions remain intact when image limits require
+smaller review batches; a single question exceeding the limit requires a focused,
+complete teaching selection. These references supply evidence, not acceptance.
+
 Retain image inspection notes, independent counts, mathematical corrections,
 final-size representative acceptance and all final edition evidence. Counts and
 hashes alone never establish source fidelity or visual acceptance. Original PDF

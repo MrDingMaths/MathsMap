@@ -12,6 +12,7 @@ import {prepareReviewQueue} from './visual-review-queue.mjs';
 import {ensureSelectedPdfRasters} from './pdf-rasters.mjs';
 import {isLeanReview,leanLayoutProfile} from './lean-profile.mjs';
 import {leanPreExportLint} from './import-pre-final.mjs';
+import {importDiagramPreflight} from './import-diagram-preflight.mjs';
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^﻿/,''));
 const pageImage=(runDir,page)=>path.join(runDir,'evidence','pages','page-'+String(page).padStart(3,'0')+'.png');
 
@@ -76,8 +77,11 @@ export async function runLayoutSample({runDir,projectId,projectFile,out,limit=8,
  const sample=selectLayoutSample(project,{limit});if(!sample.length)throw Error('The candidate has no authored blocks to sample');
  const coversPracticeAnswers=hasPractice(project);editions??=coversPracticeAnswers?['student','short','worked']:['student'];
  const lint=leanPreExportLint(project),run=exportRuntime??(await import('./import-verification-runtime.mjs')).exportWithFrozenRuntime;
- let receipt=null,exportError=null;
- try{receipt=await run({out,projectId,runDir,projectFile,visibilityReviews,regenerationReason,extraArgs:['--draft','--editions',editions.join(',')]});}
+ let receipt=null,exportError=null,diagramIssues=[];
+ try{
+  diagramIssues=importDiagramPreflight(project,{file:visibilityReviews});
+  if(diagramIssues.length)throw Error('Diagram review required before rendering: '+JSON.stringify(diagramIssues));
+  receipt=await run({out,projectId,runDir,projectFile,visibilityReviews,regenerationReason,extraArgs:['--draft','--editions',editions.join(',')]});}
  catch(error){exportError=error.message;}
  const reportFile=path.join(out,'report.json'),report=fs.existsSync(reportFile)?read(reportFile).report?.[projectId]??{}:{},pages=[],automatedIssues={},missingEditions=[];
  if(!exportError&&!report.student?.pdf?.path)throw Error('Draft render has no PDF page map for student');
@@ -89,7 +93,7 @@ export async function runLayoutSample({runDir,projectId,projectFile,out,limit=8,
   for(const image of images.images)pages.push({edition,page:image.page,blocks:entry.map.find(p=>p.page===image.page)?.blocks??[],image:image.path});
  }
  const ok=!exportError&&!missingEditions.length&&!lint.blocking.length&&!Object.keys(automatedIssues).length;
- const result={ok,plan:sample,pages,editions,coversPracticeAnswers,lint,automatedIssues,missingEditions,exportError,receipt:receipt?.runtimeManifest??null,visualAcceptance:false,
+ const result={ok,plan:sample,pages,editions,coversPracticeAnswers,lint,diagramIssues,automatedIssues,missingEditions,exportError,receipt:receipt?.runtimeManifest??null,visualAcceptance:false,
   next:(ok?'':'This sample did not pass: repair the lint, automated issues or render failure listed here and sample again before authoring more. ')+(coversPracticeAnswers?'':'This candidate has no practice answers yet, so short and worked layouts are untested: sample again once the first exercise is authored. ')+'Look at these pages at final size. Fix shared causes (arrangement, diagram width, page splits) in the candidate and in the instructions for the remaining pages before authoring them; nothing here records an acceptance.'};
  fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'layout-sample.json'),JSON.stringify(result,null,2)+'\n');
  return {...result,file:path.join(out,'layout-sample.json')};

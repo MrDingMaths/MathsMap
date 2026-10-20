@@ -16,6 +16,7 @@ import {fileURLToPath} from 'node:url';
 import {isLeanReview,questionReviewContent,selectLeanVisualPages,LEAN_EDITORIAL_PROMPT} from './lean-profile.mjs';
 import {leanPreExportLint} from './import-pre-final.mjs';
 import {solidAcceptance,imageSourceHash} from '../audit-solid-visibility.mjs';
+import {importDiagramPreflight} from './import-diagram-preflight.mjs';
 import {loadReuseContext,reuseCandidate,reuseContentHash,changedReviewFields,REUSE_CONTRACT} from './review-reuse.mjs';
 import {originalSource} from './source-lineage.mjs';
 import {discoverReuseContexts} from './automatic-reuse.mjs';
@@ -133,12 +134,13 @@ export function reviewableBlocks(project){
 // Pending means never reviewed, or printable content changed since its review.
 // A block that failed review stays failed until its content changes or the
 // caller asks for failed blocks again.
+export const externalTeachingBinding=block=>{const refs=block.sourceReview?.teachingContext?.externalSources;return Array.isArray(refs)&&!refs.length||refs==null?null:sha(JSON.stringify(refs));};
 export function pendingBlocks(project,state,{retryFailed=false}={}){
  return reviewableBlocks(project).filter(({block,section})=>{
   const row=state.questions[block.id];
   // Raster reviews are supplied to the export gate; repeating the same content
   // review cannot supply them. Native geometry decisions can be returned here.
-  return !row||row.hash!==contentHash(block)||(row.acceptedVersion?.mathematicalHash&&row.acceptedVersion.mathematicalHash!==reuseContentHash(block))||(project.source?.contentScope==='practice-only'&&row.practiceEvidenceVersion!==PRACTICE_CONTENT_EVIDENCE_VERSION)||(retryFailed&&row.outcome!=='passed')||(row.outcome==='passed'&&solidAcceptance({title:project.title,section:{title:section.title,block}},state.diagrams??{}).some(issue=>issue.status!=='image-review'));
+  return !row||row.hash!==contentHash(block)||(row.externalTeachingBinding??null)!==externalTeachingBinding(block)||(row.acceptedVersion?.mathematicalHash&&row.acceptedVersion.mathematicalHash!==reuseContentHash(block))||(project.source?.contentScope==='practice-only'&&row.practiceEvidenceVersion!==PRACTICE_CONTENT_EVIDENCE_VERSION)||(retryFailed&&row.outcome!=='passed')||(row.outcome==='passed'&&solidAcceptance({title:project.title,section:{title:section.title,block}},state.diagrams??{}).some(issue=>issue.status!=='image-review'));
  });
 }
 // Consecutive blocks of one section, up to four blocks or the character budget.
@@ -184,7 +186,7 @@ export function contentPrompt({project,batch,skills=[],reuse,evidence}){
  if(reuse)payload.reuseCandidates=batch.rows.filter(row=>row.reuse).map(row=>({id:row.block.id,...row.reuse}));
  if(evidence)payload.originalPdfEvidence=evidence;
  const teachingFields='For worked-example blocks, keep the task and givens in prompt and completed working in theorySolution or steps, preserving every source step, annotation and meaningful equation alignment. Question and part nodes render answers from answer.short and answer.worked; do not put their solutions in an unsupported theorySolution field. Provided working that students must interpret or critique is question data and stays in prompt. Do not place completed answers in prompt merely to keep them visible. Check source tables and unlabelled response rows retain clear answer association, and duplicate source part labels have unambiguous displayed references with original identities retained.';
- return CONTENT_CONTRACT+' '+DIAGRAM_REVIEW_CONTRACT+' '+teachingFields+' Companion blocks, when supplied, are unchanged context from the same teaching group. Use them to assess the complete source group; do not report their content as missing from an assigned block, return records or corrections for them, or repeat their accepted review.'+(evidence?' Original PDF evidence supplies teaching for practice-only imports. Inspect every linked teaching page needed to establish each taught method, including images beyond the attached previews. Independently derive every answer, then compare both answers against the original answer-book pages by chapter/exercise/question label AND mathematical content. Inspect all linked answer pages; a path/hash or previous author comparison is not verification. Original question and answer PDFs are immutable evidence. Resolve substantive discrepancies in the editable answers, retaining source defects in reviewer notes. Report unavailable or ambiguous evidence as failed, never acceptance.':'')+(reuse?' '+REUSE_CONTRACT:'')+'\n\n'+JSON.stringify(payload);
+ return CONTENT_CONTRACT+' '+DIAGRAM_REVIEW_CONTRACT+' '+teachingFields+' Companion blocks, when supplied, are unchanged context from the same teaching group. Use them to assess the complete source group; do not report their content as missing from an assigned block, return records or corrections for them, or repeat their accepted review.'+(evidence?' Original PDF evidence supplies teaching for practice-only imports. Inspect every linked teaching page needed to establish each taught method, including images beyond the attached previews. Independently derive every answer, then compare both answers against the original answer-book pages by chapter/exercise/question label AND mathematical content. Inspect all linked answer pages; a path/hash or previous author comparison is not verification. An explicit answerKeyAbsence is only an author/coordinator claim: independently inspect ALL attached searched answer pages against the full source task and verify that no matching keyed answer exists. If genuinely unkeyed, independently derive and review every answer from the original question and taught method; do not fabricate answer references or force unrelated key answers. Missing/changed original files or an unresolved match must fail; the absence assertion itself grants no acceptance. Original question and answer PDFs are immutable evidence. Resolve substantive discrepancies in the editable answers, retaining source defects in reviewer notes. Report unavailable or ambiguous evidence as failed, never acceptance.':'')+(reuse?' '+REUSE_CONTRACT:'')+'\n\n'+JSON.stringify(payload);
 }
 export function practiceContentEvidence(project,batch,runDir){
  if(project.source?.contentScope!=='practice-only')return null;
@@ -200,14 +202,23 @@ export function practiceContentEvidence(project,batch,runDir){
  let teacherPdf;
  if(manifest.source?.teacherPdf){teacherPdf=pin('source/teacher.pdf','answer-pdf');if(sha(fs.readFileSync(teacherPdf))!==manifest.source.teacherPdfHash)throw Error('Original answer PDF hash differs from manifest');}
  for(const {block} of batch.rows){
-  const own=sourcePagesFor(block).own,teaching=block.sourceReview?.teachingContext?.pdfPages??[],answerEvidence=block.sourceReview?.answerEvidence;
-  if(!own.length||!teaching.length)throw Error('Practice question needs original question and teaching page references: '+block.id);
+  const own=sourcePagesFor(block).own,teaching=block.sourceReview?.teachingContext?.pdfPages??[],external=externalTeachingSources(block,runDir),answerEvidence=block.sourceReview?.answerEvidence;
+  if(!own.length||!teaching.length&&!external.length)throw Error('Practice question needs original question and teaching page references: '+block.id);
+  for(const ref of external)if(!artifacts.has(ref.path))artifacts.set(ref.path,ref);
   for(const page of [...own,...teaching]){
    if(!Number.isInteger(page)||page<1||![...(manifest.selectedPages??[]),...(manifest.contextPages??[])].includes(page))throw Error('Unprepared original teaching/question page: '+page);
    pin('evidence/pages/page-'+String(page).padStart(3,'0')+'.png',own.includes(page)?'question':'teaching',page);
   }
   const refs=answerEvidence?.teacherReference??[];
-  if(teacherPdf&&!refs.length)throw Error('Practice question lacks answer-book match references: '+block.id);
+  const absence=answerEvidence?.answerKeyAbsence;
+  if(absence!==undefined){
+   const pages=absence?.searchedTeacherPages,prepared=manifest.teacherPages??[];
+   if(!teacherPdf||refs.length||answerEvidence.questionId!==block.id||typeof absence?.reason!=='string'||!absence.reason.trim()||!Array.isArray(pages)||!pages.length||pages.some(p=>!Number.isInteger(p)||p<1)||new Set(pages).size!==pages.length||pages.length!==prepared.length||prepared.some(p=>!pages.includes(p)))throw Error('Invalid or incomplete original answer-key absence evidence: '+block.id);
+   // Full prepared answer-chapter coverage is an assertion to independently
+   // verify, never acceptance. Pin and deliver every actual searched image.
+   for(const page of pages)pin('evidence/teacher/pages/page-'+String(page).padStart(3,'0')+'.png','answer',page);
+  }
+  if(teacherPdf&&!refs.length&&!absence)throw Error('Practice question lacks answer-book match references or explicit complete answer-key absence evidence: '+block.id);
   for(const ref of refs){
    const page=ref.pdfPage;
    if(!teacherPdf||!Number.isInteger(page)||!(manifest.teacherPages??[]).includes(page)||!String(ref.exercise??'').trim()||!String(ref.questionLabel??'').trim())throw Error('Unprepared or incomplete original answer reference: '+block.id);
@@ -217,6 +228,23 @@ export function practiceContentEvidence(project,batch,runDir){
  }
  const files=[...artifacts.values()],binding=sha(JSON.stringify({files,questions}));
  return {version:PRACTICE_CONTENT_EVIDENCE_VERSION,sourcePdf,teacherPdf,files,questions,binding};
+}
+// Cumulative exercises may use earlier source chapters. Resolve only canonical
+// sibling runs and verify original PDF/image pins; arbitrary paths remain invalid.
+export function externalTeachingSources(block,runDir){
+ const refs=block.sourceReview?.teachingContext?.externalSources??[];
+ if(!Array.isArray(refs))throw Error('External teaching sources must be an array');
+ const base=path.resolve(runDir,'..'),files=new Map();
+ for(const ref of refs){
+  if(!ref||typeof ref.runId!=='string'||!/^[-a-zA-Z0-9_]+$/.test(ref.runId)||!Number.isInteger(ref.pdfPage)||ref.pdfPage<1||typeof ref.imageHash!=='string'||!/^[a-f0-9]{64}$/.test(ref.imageHash))throw Error('Invalid external teaching source reference');
+  const directory=path.join(base,ref.runId),manifestFile=path.join(directory,'manifest.json');
+  if(path.resolve(directory)===path.resolve(runDir)||!fs.existsSync(manifestFile)||fs.realpathSync(directory)!==directory)throw Error('External teaching source must be a canonical sibling run');
+  const manifest=read(manifestFile),relative='evidence/pages/page-'+String(ref.pdfPage).padStart(3,'0')+'.png',file=path.join(directory,relative),pdf=path.join(directory,'source/booklet.pdf');
+  if(manifest.id!==ref.runId||![...(manifest.selectedPages??[]),...(manifest.contextPages??[])].includes(ref.pdfPage)||manifest.pins?.runFiles?.[relative]!==ref.imageHash||!fs.existsSync(file)||!fs.existsSync(pdf)||fs.realpathSync(file)!==file||fs.realpathSync(pdf)!==pdf||sha(fs.readFileSync(file))!==ref.imageHash||!manifest.source?.pdfHash||manifest.pins?.runFiles?.['source/booklet.pdf']!==manifest.source.pdfHash||sha(fs.readFileSync(pdf))!==manifest.source.pdfHash)throw Error('External original teaching evidence is missing or changed: '+ref.runId+' page '+ref.pdfPage);
+  files.set(file,{kind:'external-teaching',runId:ref.runId,pdfPage:ref.pdfPage,path:file,hash:ref.imageHash,sourcePdf:pdf,sourcePdfHash:manifest.source.pdfHash});
+  files.set(pdf,{kind:'external-teaching-pdf',runId:ref.runId,path:pdf,hash:manifest.source.pdfHash});
+ }
+ return [...files.values()];
 }
 export function supplementalSourceImages(batch,runDir){
  const references=[...new Set(batch.rows.flatMap(({block})=>block.sourceReview?.sourceEvidenceImages??[]))];
@@ -232,7 +260,7 @@ export function supplementalSourceImages(batch,runDir){
 export function contentImages(batch,pageImage,{limit=LIMITS.sourceImages,supplementalImages=[],evidence}={}){
  const own=[],related=[];
  for(const {block} of batch.rows){const pages=sourcePagesFor(block);own.push(...pages.own);related.push(...pages.related);}
- const required=[...new Set([...own.map(pageImage).filter(file=>fs.existsSync(file)),...supplementalImages,...(evidence?.files??[]).filter(ref=>ref.kind==='answer').map(ref=>ref.path)])];
+ const required=[...new Set([...own.map(pageImage).filter(file=>fs.existsSync(file)),...supplementalImages,...(evidence?.files??[]).filter(ref=>['answer','external-teaching'].includes(ref.kind)).map(ref=>ref.path)])];
  if(required.length>limit)throw Error('Required source images exceed the content batch limit; split the review batch');
  const previews=evidence?[...['teaching','answer'].flatMap(kind=>evidence.files.filter(ref=>ref.kind===kind).slice(0,1).map(ref=>ref.path)),...evidence.files.filter(ref=>['teaching','answer'].includes(ref.kind)).map(ref=>ref.path)]:related.map(pageImage).filter(file=>fs.existsSync(file));
  return [...new Set([...required,...previews])].slice(0,limit);
@@ -303,7 +331,8 @@ export function recordContentResult({batch,result,state,dir}){
   const reuseIncomplete=incompatible||reuse&&!verifiedReuse&&record.mathematicsReviewed!==true;
   if(reuseIncomplete){state.questions[block.id]={...retained,hash:null,outcome:'pending',note:'Reuse source, classification or taught-method comparison was incomplete; full review required',attempts,at:now(),reuse:reuseReceipt(reuse,'fallback')};summary.pending++;continue;}
   const outcome=record.outcome==='passed'?'passed':'failed';
-  state.questions[block.id]={...retained,hash:contentHash(block),outcome,note:String(record.note??'').slice(0,600),attempts,at:now(),...(batch.practiceEvidence?{practiceEvidenceVersion:batch.practiceEvidence.version,practiceEvidenceBinding:batch.practiceEvidence.binding}:{}),...(reuse?{reuse:reuseReceipt(reuse,verifiedReuse?'verified':'full-review')}:{})};
+  const reviewedExternalBinding=externalTeachingBinding(inputBlocks.get(block.id)??block);
+  state.questions[block.id]={...retained,hash:contentHash(block),outcome,note:String(record.note??'').slice(0,600),attempts,at:now(),...(reviewedExternalBinding||previous?.externalTeachingBinding||externalTeachingBinding(block)?{externalTeachingBinding:reviewedExternalBinding}:{}),...(batch.practiceEvidence?{practiceEvidenceVersion:batch.practiceEvidence.version,practiceEvidenceBinding:batch.practiceEvidence.binding}:{}),...(reuse?{reuse:reuseReceipt(reuse,verifiedReuse?'verified':'full-review')}:{})};
   if(outcome==='passed'){
    const source=originalSource(block,{runDir:path.dirname(dir),projectId:batch.projectId})??(reuse?{block:reuse.originalSourceBlock,origin:reuse.origin}:null);
    const original=previous?.acceptedVersion?.original??previous?.acceptedVersion?.snapshot??source?.block??block;
@@ -328,6 +357,16 @@ async function pool(items,concurrency,work){
  const queue=[...items.entries()];
  await Promise.all(Array.from({length:Math.max(1,Math.min(concurrency,queue.length))},async()=>{while(queue.length){const [index,item]=queue.shift();await work(item,index);}}));
 }
+export function splitExternalTeachingBatches(batches,{project,runDir,pageImage,limit=LIMITS.sourceImages}){
+ const split=batch=>{
+  if(!batch.rows.some(({block})=>block.sourceReview?.teachingContext?.externalSources?.length))return [batch];
+  const evidence=practiceContentEvidence(project,batch,runDir),required=new Set([...batch.rows.flatMap(({block})=>sourcePagesFor(block).own.map(pageImage)),...supplementalSourceImages(batch,runDir),...(evidence?.files??[]).filter(ref=>['answer','external-teaching'].includes(ref.kind)).map(ref=>ref.path)]);
+  if(required.size<=limit)return [batch];
+  if(batch.rows.length===1)throw Error('One question requires more original teaching/source images than the content batch limit; provide a complete focused teaching selection: '+batch.rows[0].block.id);
+  const middle=Math.ceil(batch.rows.length/2);return [...split({...batch,rows:batch.rows.slice(0,middle)}),...split({...batch,rows:batch.rows.slice(middle)})];
+ };
+ return batches.flatMap(split);
+}
 export async function runContentReview({runDir,projectFile,reuseProjectFile,reuseRunDir,concurrency=3,limit=Infinity,retryFailed=false,runner,skills,root=ROOT}){
  if(!Number.isInteger(concurrency)||concurrency<1||concurrency>3)throw Error('Use one to three workers');
  const dir=path.join(runDir,'lean-review'),handle=openProject(projectFile,{root}),state=loadReviewed(dir);
@@ -341,8 +380,8 @@ export async function runContentReview({runDir,projectFile,reuseProjectFile,reus
  const localReuse=localIds.length?loadReuseContext({projectFile,runDir,blockIds:localIds}):null;
  const reuseReferencesRecorded=recordReuseFallbacks(handle.project,state,reuse);
  if(reuseReferencesRecorded)saveReviewed(dir,state);
- const batches=batchBlocks(pendingBlocks(handle.project,state,{retryFailed})).slice(0,limit),totals={batches:batches.length,passed:0,failed:0,pending:0,applied:0,rejected:0,errors:[]};
  const pageImage=page=>path.join(runDir,'evidence','pages','page-'+String(page).padStart(3,'0')+'.png');
+ const batches=splitExternalTeachingBatches(batchBlocks(pendingBlocks(handle.project,state,{retryFailed})),{project:handle.project,runDir,pageImage}).slice(0,limit),totals={batches:batches.length,passed:0,failed:0,pending:0,applied:0,rejected:0,errors:[]};
  let saving=Promise.resolve();
  await pool(batches,concurrency,async(batch,index)=>{
   batch.reuseContext=reuse;batch.projectId=handle.project.id;batch.project=handle.project;batch.teachingHash=sha(JSON.stringify(teachingFor(handle.project,batch.section)));
@@ -352,6 +391,7 @@ export async function runContentReview({runDir,projectFile,reuseProjectFile,reus
    const evidence=practiceContentEvidence(handle.project,batch,runDir);batch.practiceEvidence=evidence;
    const {result}=await runner({cwd:root,runDir,prompt:contentPrompt({project:handle.project,batch,skills,reuse,evidence}),images:contentImages(batch,pageImage,{supplementalImages:supplementalSourceImages(batch,runDir),evidence}),out,profile:'review',stage:'lean-content'});
    if(evidence)for(const ref of evidence.files)if(!fs.existsSync(ref.path)||sha(fs.readFileSync(ref.path))!==ref.hash)throw Error('Original review evidence changed during the call: '+ref.path);
+   if(evidence&&batch.rows.some(({block})=>block.sourceReview?.teachingContext?.externalSources?.length)&&practiceContentEvidence(handle.project,batch,runDir).binding!==evidence.binding)throw Error('External original teaching references changed during the call');
    // Results are applied and saved one at a time.
    saving=saving.then(async()=>{
     const summary=recordContentResult({batch,result,state,dir});
@@ -476,6 +516,7 @@ export function visualPlan({project,report,state,previousReport}){
 export async function runLeanExport({runDir,projectId,projectFile,out,visibilityReviews,regenerationReason,previousExportDir,resumeCheckedExport=false},{exportRuntime,rasterize}={}){
  if(!out||!projectId||!projectFile)throw Error('Export needs the project ID, the project file and an output directory');
  const project=read(projectFile);if(!isLeanReview(project))throw Error('The lean review route requires a three-pass project');
+ for(const {block} of reviewableBlocks(project))externalTeachingSources(block,runDir);
  // A delimiter or render error prints broken text wherever it occurs. It is
  // found without rendering, so it should never cost an export.
  const lint=leanPreExportLint(project);
@@ -492,7 +533,11 @@ export async function runLeanExport({runDir,projectId,projectFile,out,visibility
  // Later editor/tool changes cannot change those bytes; their frozen renderer,
  // project content and referenced assets remain guarded by artifact review.
  if(resumeCheckedExport)(await import('./import-verification-runtime.mjs')).verifyCompletedFrozenExport({out,projectId,projectFile,artifactReview:true});
- else await exportRuntime({out,projectId,runDir,projectFile,visibilityReviews,regenerationReason,extraArgs:['--draft','--editions',EDITIONS.join(',')]});
+ else {
+  const diagramIssues=importDiagramPreflight(project,{file:visibilityReviews});
+  if(diagramIssues.length)throw Error('Diagram review required before rendering: '+JSON.stringify(diagramIssues));
+  await exportRuntime({out,projectId,runDir,projectFile,visibilityReviews,regenerationReason,extraArgs:['--draft','--editions',EDITIONS.join(',')]});
+ }
  return prepareExportVisualPlan({runDir,projectId,projectFile,out,previousExportDir},{rasterize});
 }
 // A failed automated checker can still have rendered all five PDFs. Inspect
@@ -647,6 +692,7 @@ export function exportProblems({exportDir,project,report,projectHash}){
 }
 export function reviewStatus({runDir,projectFile,exportDir,projectHash}){
  const state=loadReviewed(path.join(runDir,'lean-review')),project=read(projectFile),all=reviewableBlocks(project),count=outcome=>Object.values(state.pages).filter(row=>row.outcome===outcome).length;
+ for(const {block} of all)externalTeachingSources(block,runDir);
  const shadingPending=leanShadingIssues(inventoryShading(ROOT,[path.relative(ROOT,path.resolve(projectFile)).replaceAll('\\','/')]),state).length;
  if(exportDir){
   const report=read(path.join(exportDir,'report.json')).report?.[project.id];

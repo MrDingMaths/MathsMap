@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import {createSemanticTasks,runSemanticPackets,semanticCacheInfo,validateSemanticResult,wordExcerpts} from '../scripts/booklet/semantic-workflow.mjs';
+import {contentHash} from '../scripts/booklet/lean-review.mjs';
 import {TRANSCRIPTION_DEFAULT} from '../scripts/booklet/transcription-settings.mjs';
 import {compactTikzPrompt,hasTikzVisual} from '../scripts/booklet/token-efficient-prompts.mjs';
 import {readAttemptReceipt,recordAttempt,summarizeAttemptEvents} from '../scripts/booklet/semantic-run-metrics.mjs';
@@ -796,4 +797,51 @@ test('inventoried selection alternatives stay given while the selection requires
  assert.throws(()=>validate(packet,unconfirmed),/Response leaf lacks short\/worked answers a/);
  const undeclared=structuredClone(packet);undeclared.sections[0].blocks[0].sourceReview.responses[0].kind='working';
  assert.throws(()=>validate(undeclared),/Response leaf lacks short\/worked answers a/);
+});
+
+// A library shortlist is advisory; only used copies own prior proof dependencies.
+function publicationLibrary(t,options){
+ const root=path.resolve('.'),id='publication-fixture-'+path.basename(options.runDir),projectFile=path.join(root,'booklets/projects',id+'.json'),runDir=path.join(root,'.booklet-work/full-imports',id),block=author(4).sections[0].blocks[0];
+ block.content.prompt='Unique source content 4. Solve the equation.';
+ fs.mkdirSync(path.join(runDir,'lean-review'),{recursive:true});
+ const table=path.join(runDir,'lean-review/reviewed.json'),project={id,runId:id,updatedAt:new Date().toISOString(),sections:[{blocks:[block]}]};
+ fs.writeFileSync(projectFile,JSON.stringify(project));fs.writeFileSync(table,JSON.stringify({questions:{[block.id]:{hash:contentHash(block),outcome:'passed',note:'Original independent proof'}}}));
+ const dispose=()=>{if(fs.existsSync(projectFile))fs.unlinkSync(projectFile);fs.rmSync(runDir,{recursive:true,force:true});};t.after(dispose);return {id,block,project,projectFile,table,dispose};
+}
+test('in-flight unrelated accepted-library addition publishes once, including assignment materialization',async t=>{
+ for(const assigned of [false,true]){
+  const options={...fixture(t),pages:[4]};options.manifest={...options.manifest,reviewProfile:'textbook-three-pass-v1',...(assigned?{pipelinePolicy:'bounded-three-pass-v1'}:{})};options.config.automaticReuse=true;
+  let calls=0,added=false;const report=await runSemanticPackets(options,{...quiet,verifyPublication:()=>{if(!added){publicationLibrary(t,options);added=true;}},runner:async()=>{calls++;return {result:assigned?{packets:[author(4)]}:author(4),metrics:{}};}});
+  assert.equal(report.ok,true,JSON.stringify(report));assert.equal(calls,1);assert.ok(fs.existsSync(path.join(options.runDir,'semantic-packets/page-004.author.json')));
+ }
+});
+test('materialized assigned reuse rechecks original proof, mathematics, origin and amendments at publication',async t=>{
+ for(const change of ['revoke','math','origin','amendment']){
+  const options={...fixture(t),pages:[4]};options.manifest={...options.manifest,reviewProfile:'textbook-three-pass-v1',pipelinePolicy:'bounded-three-pass-v1'};options.config.automaticReuse=true;
+  const f=publicationLibrary(t,options),candidate=createSemanticTasks(options)[0].reuseCandidates.find(c=>c.projectId===f.id);assert.ok(candidate);
+  const packet={pageNumber:4,sections:[{id:'s-4',title:'Equations',blocks:[{type:'reuse',reuseKey:candidate.key,id:'newcopy',sourceEquivalent:true,improvementsCompatible:true,sourceReview:{sourceIdentity:{questionLabel:'4',pdfPage:4}}}]}],inventoryMappings:[{inventoryId:'src-4',targetId:'q-4'}]};let calls=0;
+  const report=await runSemanticPackets(options,{...quiet,verifyPublication:task=>{
+   if(change==='revoke')fs.writeFileSync(f.table,JSON.stringify({questions:{}}));
+   if(change==='math'){f.project.sections[0].blocks[0].content.answer.short='2';fs.writeFileSync(f.projectFile,JSON.stringify(f.project));}
+   if(change==='origin')task.reuseCandidates.find(c=>c.projectId===f.id).origin.hash='changed-origin';
+   if(change==='amendment')task.reuseCandidates.find(c=>c.projectId===f.id).amendmentHash='changed-amendment';
+  },runner:async()=>{calls++;return {result:{packets:[packet]},metrics:{}};}});
+  assert.equal(report.ok,false,change);assert.equal(calls,1);assert.ok(!fs.existsSync(path.join(options.runDir,'semantic-packets/page-004.author.json')));assert.match(report.pages[0].error,/reuse|acceptance/i);f.dispose();
+ }
+});
+test('frozen advisory retrieval still holds publication for source, teaching and current guidance edits',async t=>{
+ for(const change of ['source','teaching','guidance','policy']){
+  const options={...fixture(t),pages:[4]};options.manifest={...options.manifest,reviewProfile:'textbook-three-pass-v1'};options.config.automaticReuse=true;let calls=0;
+  const report=await runSemanticPackets(options,{...quiet,verifyPublication:()=>{if(change==='policy')options.config.automaticReuse=false;else if(change==='guidance')options.config.pageEvidence={4:{note:'New current workflow guidance'}};else fs.appendFileSync(path.join(options.runDir,'evidence/pages/page-00'+(change==='source'?4:1)+'.png'),'changed');},runner:async()=>{calls++;return {result:author(4),metrics:{}};}});
+  assert.equal(report.ok,false,change);assert.equal(calls,1);assert.match(report.pages[0].error,/Source, corrections or review gates changed|Automatic reuse configuration changed/);
+ }
+});
+
+test('unused prepared reuse candidate acceptance changes do not invalidate ordinary authored content',async t=>{
+ const options={...fixture(t),pages:[4]};options.manifest={...options.manifest,reviewProfile:'textbook-three-pass-v1'};options.config.automaticReuse=true;const f=publicationLibrary(t,options);assert.ok(createSemanticTasks(options)[0].reuseCandidates.some(c=>c.projectId===f.id));let calls=0;
+ const report=await runSemanticPackets(options,{...quiet,verifyPublication:()=>fs.writeFileSync(f.table,JSON.stringify({questions:{}})),runner:async()=>{calls++;return {result:author(4),metrics:{}};}});assert.equal(report.ok,true,JSON.stringify(report));assert.equal(calls,1);
+});
+test('current workflow source correction holds an in-flight prepared generation',async t=>{
+ const options={...fixture(t),pages:[4]};options.manifest={...options.manifest,reviewProfile:'textbook-three-pass-v1',workflowPolicy:'review-first-v1'};options.config.automaticReuse=true;fs.writeFileSync(path.join(options.runDir,'manifest.json'),JSON.stringify(options.manifest));const state={version:1,revision:0,reviewProfile:'textbook-three-pass-v1',pages:{4:{patterns:[]}},issues:{},corrections:[],representatives:{}};fs.mkdirSync(path.join(options.runDir,'workflow'));const file=path.join(options.runDir,'workflow/issues.json');fs.writeFileSync(file,JSON.stringify(state));let calls=0;
+ const report=await runSemanticPackets(options,{...quiet,verifyPublication:()=>{state.corrections.push({id:'changed-source',status:'approved',reason:'Current source decision',patches:[{scope:'inventory',page:4,targetId:'src-4',field:'/description',original:'Solve the equation.',corrected:'Changed assessed source task.'}]});fs.writeFileSync(file,JSON.stringify(state));},runner:async()=>{calls++;return {result:author(4),metrics:{}};}});assert.equal(report.ok,false,JSON.stringify(report));assert.equal(calls,1);assert.match(report.pages[0].error,/Source, corrections or review gates changed/);assert.ok(!fs.existsSync(path.join(options.runDir,'semantic-packets/page-004.author.json')));
 });

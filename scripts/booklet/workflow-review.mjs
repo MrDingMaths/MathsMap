@@ -226,7 +226,15 @@ export function materializeCorrections(source,state,scope,page){
     if(!targets.length)throw Error('Missing correction target '+patch.targetId);
     for(const target of targets){
      const before=fingerprint(target);
-     if(patch.field==='/parentId'&&patch.originalAbsent===true&&patch.original===null&&!Object.hasOwn(target,'parentId')){
+     if(patch.originalAbsent===true&&!['/parentId','/exclusionReason'].includes(patch.field))throw Error('Invalid absent inventory correction '+patch.targetId);
+     if(patch.field==='/exclusionReason'&&patch.originalAbsent===true){
+      const teachingKinds=['teaching','example','definition','summary','syllabus'];
+      const excludedTeachingAncestor=()=>{const entries=scope==='inventory'?result.entries:result.source?.inventory?.entries,byId=new Map((entries??[]).filter(entry=>scope==='inventory'||entry.pageNumber===patch.page).map(entry=>[entry.id,entry])),seen=new Set([target.id]);let parent=target.parentId,foundExcludedTeaching=false;while(parent){if(seen.has(parent))return false;seen.add(parent);const ancestor=byId.get(parent);if(!ancestor||['question','part'].includes(ancestor.kind))return false;if(teachingKinds.includes(ancestor.kind)&&typeof ancestor.exclusionReason==='string'&&ancestor.exclusionReason.trim()&&!ancestor.embeddedInQuestion)foundExcludedTeaching=true;parent=ancestor.parentId;}return foundExcludedTeaching;};
+      const referenceOnlyKind=teachingKinds.includes(target.kind)||target.kind==='diagram'&&excludedTeachingAncestor();
+      if(patch.scope!=='inventory'||patch.original!==null||!referenceOnlyKind||target.embeddedInQuestion||typeof patch.corrected!=='string'||!patch.corrected.trim()||!correction.sourceRefs?.some(ref=>ref.pageNumber===patch.page)||!evidenceCurrent(correction.evidence)||(scope==='inventory'&&result.pageNumber!==patch.page)||(scope==='project'&&target.pageNumber!==patch.page))throw Error('Invalid absent teaching exclusion correction '+patch.targetId);
+      if(Object.hasOwn(target,'exclusionReason')){if(target.exclusionReason!==patch.corrected)throw Error('Stale correction '+patch.targetId+patch.field);}
+      else target.exclusionReason=patch.corrected;
+     }else if(patch.field==='/parentId'&&patch.originalAbsent===true&&patch.original===null&&!Object.hasOwn(target,'parentId')){
       const ref=correction.parentInventory;
       if(target.kind!=='part'||typeof patch.corrected!=='string'||!ref||!Number.isInteger(ref.pageNumber)||ref.pageNumber>=patch.page||!correction.sourceRefs.some(r=>r.pageNumber===ref.pageNumber)||!correction.sourceRefs.some(r=>r.pageNumber===patch.page)||!correction.evidence?.some(a=>a.path===ref.path&&a.hash===ref.hash)||!fs.existsSync(ref.path)||bytesHash(ref.path)!==ref.hash)throw Error('Invalid absent inventory parent correction '+patch.targetId);
       const parentSource=json(ref.path,null);
@@ -255,6 +263,14 @@ export function materializeCorrections(source,state,scope,page){
      });
      if(removedByApprovedParent)continue;
      throw Error('Missing correction target '+patch.targetId);
+    }
+    if(patch.originalAbsent===true){
+     const value=patch.corrected;
+     if(patch.field!=='/presentation'||patch.original!==null||!['author','project'].includes(patch.scope)||target.node!==target.block||target.node.type!=='question'||target.node.content?.type!=='question'||!value||Object.getPrototypeOf(value)!==Object.prototype||Reflect.ownKeys(value).length!==1||!Object.hasOwn(value,'shortAnswerTableFullWidth')||value.shortAnswerTableFullWidth!==true)throw Error('Invalid absent presentation correction '+patch.targetId);
+     if(Object.hasOwn(target.node,'presentation')){
+      if(fingerprint(target.node.presentation)!==fingerprint(value))throw Error('Stale correction '+patch.targetId+patch.field);
+     }else{target.node.presentation=structuredClone(value);affected.add(target.block.id);}
+     continue;
     }
     if(superseded(target.node,patch))continue;
     const originalValue=fingerprint(target.node);

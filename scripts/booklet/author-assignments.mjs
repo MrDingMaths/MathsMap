@@ -9,6 +9,14 @@ import {coalescePacketContinuations} from './packet-continuations.mjs';
 import {compactTikzPrompt} from './token-efficient-prompts.mjs';
 import {assignmentCategoryHeadings,categoryGroupAnchors} from './practice-category-headings.mjs';
 import {materializeAutomaticReuse} from './automatic-reuse.mjs';
+import {leanPreExportLint} from './import-pre-final.mjs';
+
+// Apply existing export text rules before accepting a newly generated
+// assignment. Retained accepted assignments keep their original cache path.
+export function preflightAuthorAssignment(packet){
+ const {blocking}=leanPreExportLint(packet);
+ if(blocking.length)throw Error('Author assignment text repair required: '+JSON.stringify(blocking));
+}
 
 export const ASSIGNMENT_FORMAT='mathsmap-author-assignments-v1';
 const hash=v=>createHash('sha256').update(typeof v==='string'?v:JSON.stringify(v)).digest('hex');
@@ -242,7 +250,7 @@ export async function runAuthorAssignment({runDir,assignment,tasks,root=path.joi
     });
     if(!packets||packets.length!==assignment.pages.length||new Set(packets.map(p=>p.pageNumber)).size!==packets.length)throw Error('Assignment must return every assigned page exactly once');
     for(const p of assignment.pages){const packet=packets.find(v=>v.pageNumber===p),original=tasks.find(t=>t.page===p),inventory={...original.inventory,entries:assignment.entries.filter(e=>e.pageNumber===p)};
-     mergeAssignmentPackets(inventory,[{assignment,packet}]);validate(packet,{...original,inventory});}
+     mergeAssignmentPackets(inventory,[{assignment,packet}]);validate(packet,{...original,inventory});preflightAuthorAssignment(packet);}
     coalescePacketContinuations(packets,{continuations:assignment.continuations});
     const resultFile=path.join(out,'result.json');fs.writeFileSync(resultFile,JSON.stringify({packets},null,2));
     fs.writeFileSync(cacheFile,JSON.stringify({inputHash:payload.inputHash,result:{path:resultFile,hash:bytes(resultFile)}}));ok=true;events.end();return packets;
