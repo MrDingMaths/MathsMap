@@ -48,10 +48,10 @@ export function saveBookletProject(project, fetchImpl = globalThis.fetch) {
   }, fetchImpl);
 }
 
-export function updateBookletProjectLibrary(id, library, expectedRevision, fetchImpl = globalThis.fetch) {
+export function updateBookletProjectLibrary(id, library, expectedRevision, fetchImpl = globalThis.fetch, { title } = {}) {
   return request('/__booklet/projects/' + encodeURIComponent(id) + '/library', {
     method: 'PATCH',
-    body: JSON.stringify({ library, expectedRevision }),
+    body: JSON.stringify({ library, expectedRevision, ...(title != null ? { title } : {}) }),
   }, fetchImpl);
 }
 

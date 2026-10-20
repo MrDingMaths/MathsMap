@@ -80,3 +80,28 @@ test('library-only saves can update metadata on a project with duplicate live no
  assert.equal(updated.library.courseId,'adv');
  assert.deepEqual(updated.sections,before.sections);
 });
+
+test('library-only saves rename without touching content and reject blank titles',async t=>{
+  const root=await fs.mkdtemp(path.join(os.tmpdir(),'booklet-library-title-'));t.after(()=>fs.rm(root,{recursive:true,force:true}));
+  const options={projectRoot:path.join(root,'projects'),bankRoot:path.join(root,'bank')};
+  const created=await createBookletProject({title:'Old name',library:{category:'master',courseId:'s4'}},options);
+  const before=JSON.parse(await fs.readFile(path.join(options.projectRoot,created.id+'.json'),'utf8'));
+  const renamed=await updateProjectLibrary(created.id,undefined,{...options,expectedRevision:created.revision,title:'  New name  '});
+  assert.equal(renamed.title,'New name');assert.equal(renamed.revision,created.revision+1);
+  assert.deepEqual(renamed.library,before.library);
+  for(const key of Object.keys(before).filter(k=>!['title','revision','updatedAt'].includes(k)))assert.deepEqual(renamed[key],before[key],key);
+  assert.equal((await listBookletProjects({...options,summary:true}))[0].title,'New name');
+  await assert.rejects(updateProjectLibrary(created.id,undefined,{...options,expectedRevision:renamed.revision,title:'   '}),{statusCode:400});
+  await assert.rejects(updateProjectLibrary(created.id,undefined,{...options,expectedRevision:created.revision,title:'Stale'}),{statusCode:409});
+  const same=await updateProjectLibrary(created.id,renamed.library,{...options,expectedRevision:renamed.revision,title:'New name'});
+  assert.equal(same.revision,renamed.revision);
+  const both=await updateProjectLibrary(created.id,{category:'import-review',courseId:'adv'},{...options,expectedRevision:renamed.revision,title:'Both'});
+  assert.equal(both.title,'Both');assert.equal(both.library.category,'import-review');assert.equal(both.revision,renamed.revision+1);
+});
+
+test('client library update sends a title only when supplied',async()=>{
+  const bodies=[];const fetchImpl=async(url,options)=>{bodies.push(JSON.parse(options.body));return {ok:true,json:async()=>({})};};
+  await updateBookletProjectLibrary('a',{category:'master'},3,fetchImpl);
+  await updateBookletProjectLibrary('a',{category:'master'},3,fetchImpl,{title:'Renamed'});
+  assert.deepEqual(bodies,[{library:{category:'master'},expectedRevision:3},{library:{category:'master'},expectedRevision:3,title:'Renamed'}]);
+});

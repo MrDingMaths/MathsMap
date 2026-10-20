@@ -231,7 +231,9 @@ Merged from the project-library note of 17 September 2026.
 
 The Open booklet picker searches titles, stage/course names and class labels. Masters are grouped by their single home course, using the existing MathsMap course catalogue. Class booklets are grouped by class label. Import reviews and unclassified legacy projects have separate groups. Archived projects are shown only when the archive checkbox is selected; their direct project links still work.
 
-Use **File → Project details** to change category, home course or class label. Uncertain courses remain Unassigned. A library category is independent of publication status and bank ownership: changing it never transfers ownership.
+Use **File → Project details** to change category, home course or class label. Uncertain courses remain Unassigned.
+
+**File → Manage booklets…** (also on the Open a booklet screen) changes several booklets without opening them (20 October 2026, user requested). Tick booklets, or a whole group, then set **Project category** (with a class label for Class booklet) and/or **Home course**; fields left at *No change* keep each booklet's own value. **Rename** changes a title in place. Each booklet is saved separately through the library-only endpoint. A booklet that fails (for example, changed in another session) stays ticked with its reason shown. The open booklet saves pending edits first and keeps its new revision, so later edits do not conflict. A library category is independent of publication status and bank ownership: changing it never transfers ownership.
 
 In a master, **File → Create class booklet** saves pending edits and creates an independent copy with a class label and editable title. Content, solutions, pagination, local layout and bank revision pins are retained. Source review comments are cleared. Bank content updates still require explicit acceptance; master layout changes do not propagate to copies. Display ratings retain their existing automatic refresh behaviour.
 
@@ -241,7 +243,7 @@ In a master, **File → Create class booklet** saves pending edits and creates a
 
 Optional `library` metadata contains `category` (`master`, `class`, `import-review`, or null), `courseId`, `classLabel`, and `archivedAt` (ISO date or null). Stage is derived from the course. List summaries include normalized metadata; absent metadata means Unassigned. Existing whole-project saves retain revision checking and bank-sync behaviour.
 
-`PATCH /__booklet/projects/:id/library` accepts `library` and a required `expectedRevision`. It writes only library metadata, revision and update time through the shared transaction and checkpoint helpers. It does not publish pending question edits. A stale revision returns 409.
+`PATCH /__booklet/projects/:id/library` accepts `library`, a required `expectedRevision` and an optional non-empty `title` (an omitted `library` keeps the current one). It writes only library metadata, title, revision and update time through the shared transaction and checkpoint helpers. It does not publish pending question edits. A stale revision returns 409.
 
 The repeatable initial migration uses the running authoring server's write queue:
 

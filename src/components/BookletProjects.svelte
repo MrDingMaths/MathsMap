@@ -2,6 +2,7 @@
   import BookletProjectPicker from './BookletProjectPicker.svelte';
   import BookletLibraryFields from './BookletLibraryFields.svelte';
   import BookletCreateDialog from './BookletCreateDialog.svelte';
+  import BookletLibraryManager from './BookletLibraryManager.svelte';
   import BookletLibraryPanel from './BookletLibraryPanel.svelte';
   import {insertFromBooklet,insertSummary} from '../lib/booklet-library-transfer.js';
   import { normalizeProjectLibrary, groupLibraryProjects } from '../lib/booklet-library.js';
@@ -79,7 +80,7 @@
 
   let { initialProjectId = null, bank = [], onrequestbank = null, onprojectchange = null } = $props();
   let projects = $state([]);
-  let creation = $state(null);
+  let creation = $state(null), libraryManager = $state(false);
   let projectsReady = $state(false);
   let opening=$state.raw({id:null,title:'',stage:'Loading booklets'}),loadGeneration=0,previewAttempt=$state(0);
   function previewProgress(info,attempt){
@@ -696,23 +697,26 @@
     finally { busy = ''; }
   }
 
-  async function saveLibrary(library) {
+  // title is optional: the library manager renames through the same metadata-only save.
+  async function saveLibrary(library,title=null) {
     if(!project||editSession)return false;
-    librarySavePending=library;
+    librarySavePending={library,title:title??librarySavePending?.title??null};
     if(librarySaveInFlight)return true;
     librarySaveInFlight=true;error='';
     try{
       while(librarySavePending){
-        const nextLibrary=librarySavePending;librarySavePending=null;
+        const {library:nextLibrary,title:nextTitle}=librarySavePending;librarySavePending=null;
         finishInline();await flushDocument();
         const current=project;if(!current)return false;
         saveState='Saving…';
-        const saved=await updateBookletProjectLibrary(current.id,nextLibrary,current.revision);
+        const saved=await updateBookletProjectLibrary(current.id,nextLibrary,current.revision,undefined,{title:nextTitle});
         if(project?.id!==current.id)return false;
         const editedDuringSave=project!==current;
-        const next={...project,library:saved.library,revision:saved.revision,updatedAt:saved.updatedAt};
+        const next={...project,...(nextTitle!=null?{title:saved.title}:{}),library:saved.library,revision:saved.revision,updatedAt:saved.updatedAt};
         savedBase=clone(saved);
-        documentSession.dispatch(next,{remember:false,changedIds:[],selectionBefore:documentSession.selection,selectionAfter:documentSession.selection,layoutImpact:'content'});
+        // A rename repaginates like the Title field does: the cover and running headers print the title.
+        const renamed=next.title!==current.title;
+        documentSession.dispatch(next,{remember:false,...(renamed?{}:{changedIds:[]}),selectionBefore:documentSession.selection,selectionAfter:documentSession.selection,layoutImpact:renamed?'structure':'content'});
         persistence.reset(saved);
         saveState=editedDuringSave?'Unsaved changes':'Saved';saveConflict=false;mergeReview=null;
         if(editedDuringSave)queueSave();
@@ -723,8 +727,30 @@
       error=exception.message;saveConflict=exception.status===409;saveState=saveConflict?'Conflict - edits retained':'Save failed';return false;
     }finally{
       librarySaveInFlight=false;
-      if(librarySavePending){const pending=librarySavePending;librarySavePending=null;void saveLibrary(pending);}
+      if(librarySavePending){const pending=librarySavePending;librarySavePending=null;void saveLibrary(pending.library,pending.title);}
     }
+  }
+
+  // The open booklet goes through saveLibrary so its session keeps the new revision.
+  async function applyLibraryChanges(changes) {
+    const failures=[];let updated=0;
+    for(const item of changes){
+      const listed=projects.find(p=>p.id===item.id);
+      try{
+        if(project?.id===item.id){
+          error='';
+          if(!await saveLibrary(item.library??normalizeProjectLibrary(project.library),item.title??null))throw new Error(error||'Save failed');
+        }else{
+          if(!listed)throw new Error('Booklet not found; reload the library.');
+          const saved=await updateBookletProjectLibrary(item.id,item.library??listed.library,listed.revision,undefined,{title:item.title});
+          projects=projects.map(p=>p.id===saved.id?{...p,title:saved.title,library:normalizeProjectLibrary(saved.library),revision:saved.revision,updatedAt:saved.updatedAt}:p);
+        }
+        updated++;
+      }catch(exception){failures.push({id:item.id,title:listed?.title??item.id,error:exception.message});}
+    }
+    try{await refreshProjects();}catch(exception){error=exception.message;}
+    if(updated)status=`Updated ${updated} booklet${updated===1?'':'s'}.`;
+    return {updated,failures};
   }
 
   async function toggleArchived() {
@@ -1074,6 +1100,7 @@
   onMount(() => {initialiseProjects();});
 </script>
 {#if creation}<BookletCreateDialog source={creation.source} {courses} onsubmit={createLibraryBooklet} oncancel={()=>creation=null}/>{/if}
+{#if libraryManager}<BookletLibraryManager {projects} {courses} disabled={!!editSession||librarySaveInFlight} onapply={applyLibraryChanges} onclose={()=>libraryManager=false}/>{/if}
 {#if pasteFallback}<div class="document-finder" role="dialog" aria-modal="true" aria-label="Paste options"><p>This clipboard contains {pasteFallback.unsupported.join(', ')}. Paste the available text, or cancel to keep your selection.</p><button onclick={()=>{const value=pasteFallback.text;pasteFallback=null;selecting=false;replaceSelection(plainTextDocument(value));}}>Paste text only</button><button onclick={()=>pasteFallback=null}>Cancel</button></div>{/if}
 {#if finder}<dialog bind:this={finderDialog} oncancel={e=>{e.preventDefault();closeFinder();}} class="document-finder project-screen" aria-label={finder==='commands'?'Search commands':finder==='goto'?'Go to page':'Find in document'}>
  <header><strong>{finder==='commands'?'Commands':finder==='goto'?'Go to page':'Find in document'}</strong><button aria-label="Close search" onclick={closeFinder}>×</button></header>
@@ -1093,7 +1120,7 @@
    <div class="toolbar-actions" inert={!!opening||printing}><span class="tool-group"><button data-equation-control title="Undo (Ctrl+Z)" onclick={undo} disabled={!undoStack.length}>Undo</button><button data-equation-control title="Redo (Ctrl+Y)" onclick={redo} disabled={!redoStack.length}>Redo</button></span>
    <span class="tool-group"><button title="Find in document (Ctrl+F)" aria-label="Find in document" onclick={()=>openFinder('find')}>Find</button><button title="Commands (Ctrl+K)" aria-label="Search commands" onclick={()=>openFinder('commands')}>Commands</button></span>
    {#if project}<span class="tool-group panel-switch" role="group" aria-label="Panels" data-equation-control onpointerdown={e=>{if(e.target.closest('button'))e.preventDefault();}}><button bind:this={layoutPanelButton} class:on={panel==='layout'} aria-expanded={panel==='layout'} aria-controls="booklet-layout-spacing" onclick={()=>{inspectorTab='layout';panel='layout';}}>Spacing</button><details class="document-insert" class:on={commentsOpen}><summary>Comments {commentLocations.length||''}</summary><div><button onclick={addComment} aria-keyshortcuts="Control+`" title="Add comment (Ctrl + backtick)">Add comment <kbd>Ctrl + `</kbd></button><button aria-expanded={commentsOpen} aria-controls="booklet-comments-pane" onclick={()=>commentsOpen=!commentsOpen}>{commentsOpen?'Hide comments':'Show comments'}</button></div></details><button class:on={panel==='review'} aria-expanded={panel==='review'} onclick={()=>togglePanel('review')}>Review {flagCount?`(${flagCount})`:''}</button><button class:on={panel==='pdf'} aria-expanded={panel==='pdf'} onclick={()=>togglePanel('pdf')}>Export</button></span>{/if}
-   <details class="menu"><summary>File</summary><div><small class="menu-heading">Booklet</small><button onclick={createNew}>New booklet</button>{#if project}<button onclick={()=>panel='metadata'}>Project details</button>{#if project.library?.category==='master'}<button disabled={!!editSession||!!busy} onclick={()=>creation={source:project}}>Create class booklet</button>{/if}<button onclick={duplicateCurrent}>Duplicate booklet</button><button disabled={!!editSession||!!busy||librarySaveInFlight} onclick={toggleArchived}>{project.library?.archivedAt?'Restore booklet':'Archive booklet'}</button><small class="menu-heading">Check</small><button disabled={!sourceUrl} aria-pressed={comparison} onclick={toggleComparison}>{comparison?'Exit comparison':'Compare source'}</button><button onclick={checkCurrentPage}>Check page</button><small class="menu-heading">View</small><button onclick={()=>theme.toggle()}>Toggle theme</button><details class="submenu"><summary>Advanced{bankUpdates.length?` (${bankUpdates.length})`:''}</summary><button onclick={()=>{showBankSync=!showBankSync;refreshBankSync();}}>Bank sync{bankUpdates.length?` (${bankUpdates.length})`:''}</button><button onclick={()=>tool='assembly'}>Assembly</button><button onclick={()=>panel='properties'}>Block properties</button></details><hr/><button class="danger" onclick={removeCurrent}>Delete booklet</button>{:else}<small class="menu-heading">View</small><button onclick={()=>theme.toggle()}>Toggle theme</button>{/if}</div></details></div>
+   <details class="menu"><summary>File</summary><div><small class="menu-heading">Booklet</small><button onclick={createNew}>New booklet</button><button disabled={!!editSession} onclick={()=>libraryManager=true}>Manage booklets…</button>{#if project}<button onclick={()=>panel='metadata'}>Project details</button>{#if project.library?.category==='master'}<button disabled={!!editSession||!!busy} onclick={()=>creation={source:project}}>Create class booklet</button>{/if}<button onclick={duplicateCurrent}>Duplicate booklet</button><button disabled={!!editSession||!!busy||librarySaveInFlight} onclick={toggleArchived}>{project.library?.archivedAt?'Restore booklet':'Archive booklet'}</button><small class="menu-heading">Check</small><button disabled={!sourceUrl} aria-pressed={comparison} onclick={toggleComparison}>{comparison?'Exit comparison':'Compare source'}</button><button onclick={checkCurrentPage}>Check page</button><small class="menu-heading">View</small><button onclick={()=>theme.toggle()}>Toggle theme</button><details class="submenu"><summary>Advanced{bankUpdates.length?` (${bankUpdates.length})`:''}</summary><button onclick={()=>{showBankSync=!showBankSync;refreshBankSync();}}>Bank sync{bankUpdates.length?` (${bankUpdates.length})`:''}</button><button onclick={()=>tool='assembly'}>Assembly</button><button onclick={()=>panel='properties'}>Block properties</button></details><hr/><button class="danger" onclick={removeCurrent}>Delete booklet</button>{:else}<small class="menu-heading">View</small><button onclick={()=>theme.toggle()}>Toggle theme</button>{/if}</div></details></div>
  </header>
  {#if opening}<div class="workspace-loading project-screen" aria-busy={!opening.error}>
    <div class="loading-card">
@@ -1289,7 +1316,7 @@
       {/if}
     </section>
   {:else}
-    <section class="empty-project project-screen"><h3>{projects.length?'Open a booklet':'No editable booklets yet'}</h3><p>{projects.length?'Choose a booklet below, or search from the Open booklet menu above.':'Materialise an accepted full import or create a blank booklet.'}</p><button class="primary" onclick={createNew}>Create booklet</button>{#if !opening}<div class="library-groups">{#each libraryGroups as group (group.key)}<section aria-label={group.label}><h4>{group.label}</h4><div>{#each group.projects as item (item.id)}<button data-library-project={item.id} onclick={()=>openProject(item.id)}>{item.title}</button>{/each}</div></section>{/each}</div>{/if}</section>
+    <section class="empty-project project-screen"><h3>{projects.length?'Open a booklet':'No editable booklets yet'}</h3><p>{projects.length?'Choose a booklet below, or search from the Open booklet menu above.':'Materialise an accepted full import or create a blank booklet.'}</p><button class="primary" onclick={createNew}>Create booklet</button>{#if projects.length}<button onclick={()=>libraryManager=true}>Manage booklets</button>{/if}{#if !opening}<div class="library-groups">{#each libraryGroups as group (group.key)}<section aria-label={group.label}><h4>{group.label}</h4><div>{#each group.projects as item (item.id)}<button data-library-project={item.id} onclick={()=>openProject(item.id)}>{item.title}</button>{/each}</div></section>{/each}</div>{/if}</section>
   {/if}
 </section>
 

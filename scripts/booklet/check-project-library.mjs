@@ -31,7 +31,7 @@ await page.route('**/__booklet/**',async route=>{
      if(action==='open')result=await openBookletProject(id,options);
      else if(action==='bank-sync')result=await getProjectBankSync(id,options);
      else if(action==='duplicate')result=await duplicateBookletProject(id,{...options,...req.postDataJSON()});
-     else if(action==='library'&&req.method()==='PATCH'){const body=req.postDataJSON();libraryPatches.push(id);result=await updateProjectLibrary(id,body.library,{...options,expectedRevision:body.expectedRevision});}
+     else if(action==='library'&&req.method()==='PATCH'){const body=req.postDataJSON();libraryPatches.push(id);result=await updateProjectLibrary(id,body.library,{...options,expectedRevision:body.expectedRevision,title:body.title});}
      else if(req.method()==='PUT'){const body=req.postDataJSON();result=await saveBookletProject(body.project,{...options,expectedRevision:body.expectedRevision});}
      else if(req.method()==='GET')result=await loadBookletProject(id,options);
      else throw Error('Unexpected mutation');
@@ -84,7 +84,37 @@ try{
  assert.equal(await page.getByRole('dialog').getByLabel('Project category',{exact:true}).inputValue(),'master');
  await page.getByRole('dialog').getByLabel('Project category',{exact:true}).selectOption('import-review');
  await page.getByLabel('Booklet title',{exact:true}).fill('New review');await page.getByRole('dialog').getByRole('button',{name:'Create booklet',exact:true}).click();await ready();
- assert.equal((await listBookletProjects(options)).find(p=>p.title==='New review').library.category,'import-review');
- assert.deepEqual(errors,[]);console.log('Passed: keyboard/search, class copy, details/save/reopen, archive/restore, narrow picker, preview/print visibility and new categories.');
+ const openId=(await listBookletProjects(options)).find(p=>p.title==='New review').id;
+ assert.equal((await loadBookletProject(openId,options)).library.category,'import-review');
+ const manager=page.getByRole('dialog',{name:'Manage booklets'}),find=title=>listBookletProjects(options).then(list=>list.find(p=>p.title===title));
+ await fileMenu();await page.getByRole('button',{name:'Manage booklets…',exact:true}).click();await manager.waitFor();
+ await manager.getByLabel('Select Library Algebra',{exact:true}).check();await manager.getByLabel('Select Import review example',{exact:true}).check();
+ await manager.getByLabel('Bulk project category',{exact:true}).selectOption('master');await manager.getByLabel('Bulk home course',{exact:true}).selectOption('s5-core');
+ const patchesBefore=libraryPatches.length;
+ await manager.getByRole('button',{name:'Apply to 2 booklets',exact:true}).click();await manager.getByText('Updated 2 booklets.').waitFor();
+ assert.equal(libraryPatches.length-patchesBefore,2,'Bulk change should PATCH each selected booklet once');
+ for(const id of ['library-master','library-review']){const library=(await loadBookletProject(id,options)).library;assert.equal(library.category,'master',id);assert.equal(library.courseId,'s5-core',id);}
+ await manager.getByRole('region',{name:/^Masters \/ Stage 5/}).getByText('Import review example',{exact:true}).waitFor();
+ await manager.getByRole('button',{name:'Rename Import review example',exact:true}).click();
+ await manager.getByLabel('New title for Import review example',{exact:true}).fill('Renamed review');await page.keyboard.press('Enter');
+ await manager.getByText('Renamed review',{exact:true}).waitFor();assert.equal((await loadBookletProject('library-review',options)).title,'Renamed review');
+ await manager.getByRole('button',{name:'Rename New review',exact:true}).click();
+ await manager.getByLabel('New title for New review',{exact:true}).fill('Open renamed');await page.keyboard.press('Enter');
+ await page.waitForFunction(()=>document.querySelector('.picker-trigger')?.textContent.includes('Open renamed'));
+ assert.equal((await loadBookletProject(openId,options)).title,'Open renamed');
+ await manager.getByLabel('Select Library Algebra',{exact:true}).check();
+ await page.screenshot({path:path.join(out,'desktop-manager.png')});
+ await page.setViewportSize({width:390,height:844});
+ const managerBounds=await manager.boundingBox();assert.ok(managerBounds.x>=0&&managerBounds.x+managerBounds.width<=391,JSON.stringify(managerBounds));
+ assert.equal(await manager.evaluate(el=>el.scrollWidth<=el.clientWidth),true,'Manager should not scroll horizontally');
+ await page.screenshot({path:path.join(out,'mobile-manager.png')});await page.setViewportSize({width:1440,height:1050});
+ await manager.getByRole('button',{name:'Close',exact:true}).click();await manager.waitFor({state:'detached'});
+ await page.waitForFunction(()=>{const text=document.querySelector('.project-canvas')?.textContent??'';return text.includes('Open renamed')&&!text.includes('New review');});
+ // The open booklet's session must carry the renamed revision, so a later edit saves without a conflict.
+ await fileMenu();await page.getByRole('button',{name:'Project details',exact:true}).click();
+ await page.getByLabel('Subtitle',{exact:true}).fill('After rename');await page.getByLabel('Subtitle',{exact:true}).press('Tab');await saved();
+ const reopened=await loadBookletProject(openId,options);assert.equal(reopened.subtitle,'After rename');assert.equal(reopened.title,'Open renamed');
+ assert.ok(await find('Open renamed'));
+ assert.deepEqual(errors,[]);console.log('Passed: keyboard/search, class copy, details/save/reopen, archive/restore, narrow picker, preview/print visibility, new categories, bulk category/course, rename without opening and rename of the open booklet.');
 }catch(e){await page.screenshot({path:path.join(out,'failure.png')});console.error((await page.locator('body').innerText()).slice(-5000));throw e;}
 finally{await browser.close();await fs.rm(root,{recursive:true,force:true});}
