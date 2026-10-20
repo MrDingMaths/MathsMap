@@ -3,6 +3,7 @@
   import {isTheoryReview} from '../lib/question-bank-eligibility.js';
   import { houseStyleVariables } from '../lib/booklet-house-style.js';
   import { sourceRegionStyles } from '../lib/diagram-source-region.js';
+  import {exerciseHeading} from '../lib/booklet-exercise-heading.js';
   import { onMount,getContext,setContext } from 'svelte';
   import {usesReviewNumbers,teachingLabels,usesTeachingLetters,labelledTeachingQuestion,keyIdeasClozeStatements} from '../lib/booklet-labels.js';
   import BookletCover from './BookletCover.svelte';
@@ -148,7 +149,7 @@
   {@const chillies=rating?chilliCount(rating.reasoningScore):0}
   {@const bank=marked?bankMarker(block):null}
   {#if block.flow?.exerciseAnchorBefore&&firstPlacement(block)&&!(page.section?.headingStyle!=='none'&&page.showTopicHeading!==false)}<span id={`${anchorPrefix}exercise-topic-${block.flow.exerciseAnchorBefore}`}></span>{/if}
-  {#if block.flow?.exerciseHeadingBefore&&!(page.showDifficultyHeading!==false&&page.section?.difficultyTitle===`Exercise ${block.flow.exerciseHeadingBefore}`)}<BookletHeading kind="exercise">Exercise {block.flow.exerciseHeadingBefore}</BookletHeading>{/if}
+  {#if block.flow?.exerciseHeadingBefore&&!(page.showDifficultyHeading!==false&&page.section?.difficultyTitle===exerciseHeading(block.flow.exerciseHeadingBefore))}<BookletHeading kind="exercise">{exerciseHeading(block.flow.exerciseHeadingBefore)}</BookletHeading>{/if}
   {#if block.type === 'question'}
     {@const clozeStatements=keyIdeasClozeStatements(block)}
     {#if block.flow?.teachingLabel&&firstPlacement(block)}<span id={`${anchorPrefix}question-${block.id}`}></span>{#if usesTeachingLetters(block)&&presentation?.()?.teachingPresentationVersion!==1}<div class="teaching-activity-reference">{block.flow.teachingLabel}</div>{/if}{/if}

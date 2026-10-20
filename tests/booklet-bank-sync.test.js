@@ -65,6 +65,19 @@ test('a single response extended into parts keeps all new responses and diagram 
  const once=structuredClone(holder);reconcileSyncLayout(before,after,holder);assert.deepEqual(holder,once);
 });
 
+test('sync removes a deleted scaffold while preserving its part and working space',()=>{
+ const before={id:'b',type:'question',content:{id:'q',prompt:'Find the median',children:[{id:'a',label:'a',prompt:'3, 1, 2',questionDiagrams:[{id:'scaffold',format:'tikz',code:'diagram',widthMm:40}],answerSpaceMm:22}]}};
+ const holder={arrangement:arrangementCatalog(before).initial};holder.arrangement.root.gap=5;
+ const after=structuredClone(before);delete after.content.children[0].questionDiagrams;
+ reconcileSyncLayout(before,after,holder);
+ const resolved=resolveArrangement(after,holder.arrangement),refs=[];
+ const visit=n=>{if(n.ref)refs.push(n.ref);n.children?.forEach(visit);};visit(resolved.tree.root);
+ assert.deepEqual(resolved.missing,[]);assert(!refs.includes('scaffold'));assert(refs.includes('a/space'));assert(refs.includes('a/label'));assert.equal(holder.arrangement.root.gap,5);
+ const once=structuredClone(holder);reconcileSyncLayout(before,after,holder);assert.deepEqual(holder,once);
+ holder.arrangement.root.children.push({id:'unknown',type:'item',ref:'unknown-diagram'});
+ assert.throws(()=>reconcileSyncLayout(before,after,holder),/could not preserve layout references/);
+});
+
 test('sync removes deleted part spaces and inserts new given diagrams without losing layout',()=>{
  const before={id:'b',type:'question',content:{id:'q',prompt:'Calculate',children:[{id:'a',label:'a',prompt:'Radius 2, height 3',answerSpaceMm:20},{id:'g',label:'g',prompt:'Delete this part',answerSpaceMm:20}]}};
  const holder={arrangement:arrangementCatalog(before).initial};

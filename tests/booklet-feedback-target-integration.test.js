@@ -101,11 +101,9 @@ const pointerHandlers = arrows(
   handler => /selectCommentTarget\(rootId\)/.test(handler)
 );
 assert.equal(pointerHandlers.length, 1, 'Document pointer selection handler is identifiable');
-const editionHandlers = arrows(
-  source, /onchange=\{\s*(async\s+e\s*=>\s*)\{/g,
-  handler => /flowEdition\s*=\s*next/.test(handler) && /selectCommentTarget/.test(handler)
-);
-assert.equal(editionHandlers.length, 1, 'Edition change handler is identifiable');
+const editionSwitch = namedHandler('switchEdition');
+assert.ok(/flowEdition\s*=\s*next/.test(editionSwitch) && /selectCommentTarget/.test(editionSwitch), 'Edition switch retargets the selection');
+assert.equal((source.match(/onchange=\{e=>switchEdition\(e\.currentTarget\.value\)\}/g) ?? []).length, 2, 'Status bar and PDF tab share the edition switch');
 
 function controller(project = fixture(), initial = {}) {
   const started = [];
@@ -139,7 +137,8 @@ function controller(project = fixture(), initial = {}) {
     ${handlers}
     const outlineSelections = [${outlineHandlers.join(',')}];
     const pointerSelect = ${pointerHandlers[0]};
-    const changeEdition = ${editionHandlers[0]};
+    ${editionSwitch}
+    const changeEdition = e => switchEdition(e.currentTarget.value);
     return {
       selectLayout, selectFlow, goPage, selectCommentTarget, addComment,
       outlineSelections, pointerSelect, changeEdition,

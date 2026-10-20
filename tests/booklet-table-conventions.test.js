@@ -178,3 +178,24 @@ test('named quantity labels and adjacent x/y variable labels are both headers',(
  const {project}=repairStatisticalTableContent(input);
  assert.deepEqual(project.sections[0].blocks[0].rows.map(row=>row.map(c=>c.header)),[[true,true,false],[true,true,false]]);
 });
+
+// Fully outlined response regions need no duplicate dotted scaffold.
+test('outlined response cells retain their answers without duplicate cloze lines',()=>{
+ const response={id:'response',type:'cell',blocks:[{id:'response-p',type:'paragraph',inlines:[{type:'cloze',answer:'$2x$',width:17}]}]};
+ const fixture=(options={},cellOptions={})=>({blocks:[{id:'puzzle',type:'table',border:false,annotations:[{id:'box',type:'box',cellId:'response'}],rows:[[{...response,...cellOptions}]],...options}]});
+ for(const options of [{},{border:true,annotations:[]}]){
+  const doc=normalizeDocument(fixture(options)),before=JSON.stringify(doc);
+  for(const editable of [false,true])for(const fillCloze of [false,true]){
+   const html=renderDocument(doc,{editable,fillCloze,math:latex=>katex.renderToString(latex,{throwOnError:true})});
+   assert.match(html,/<td data-id="response"[^>]*--document-cloze-line:none;--document-cloze-dots:none;/);
+   assert.match(html,/data-cloze="\$2x\$"/);
+   if(fillCloze)assert.match(html,/katex/);
+  }
+  assert.equal(JSON.stringify(doc),before);
+ }
+ for(const raw of [fixture({showClozeDots:true}),fixture({annotations:[]}),fixture({border:true,annotations:[]},{borders:{bottom:false}})]){
+  assert.doesNotMatch(renderDocument(raw),/<td data-id="response"[^>]*--document-cloze-line:none;--document-cloze-dots:none;/);
+ }
+ const radical=fixture();radical.blocks[0].rows[0][0].blocks[0].inlines[0].enclosure='sqrt';
+ assert.doesNotMatch(renderDocument(radical),/<td data-id="response"[^>]*--document-cloze-line:none;--document-cloze-dots:none;/);
+});

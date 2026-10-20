@@ -17,6 +17,7 @@
   import {normaliseShortAnswer,SHORT_ANSWER_INK} from '../lib/short-answer-style.js';
   import {teachingAnswerCategory,retainsTeachingPromptWithAnswers} from '../lib/booklet-answer-options.js';
   import {hasEmbeddedResponseLabel,hasTopAlignedMathPrompt} from '../lib/booklet-labels.js';
+  import {alignNativeTableLabel} from '../lib/booklet-table-label.js';
 
   let { question, trailingQuestion = null, number = null, showSpaces = true, showShortAnswers = false, showWorkedSolutions = false, answerColumnsLimit = null, compactAnswerSettings=null, preserveDiagramWidths=false, answerLabelWidthMm=8, answerLink=null, answerHref=null, trailingAnswerHref=null, answerPartHref=null, answerMode=null, answerAnchorPrefix=null, compact = false, blockLayouts: suppliedBlockLayouts = {}, answerSpaceOverrides: suppliedAnswerSpaceOverrides = {}, diagramWidthOverrides: suppliedDiagramWidthOverrides = {}, diagramColourModes: suppliedDiagramColourModes = {}, onSpaceResize = null, onDiagramResize = null, showTitle = true, eagerDiagrams = false, editMode = false, onContentEdit = null, onContentRevert = null, onEditingChange = null, isEdited = () => false } = $props();
   // Bank records retain their source owner ID and local presentation. Explicit
@@ -152,7 +153,7 @@
   {@const space = resizeSpaces[node.id] ?? spaceFor(node)}
   <section class:part={depth > 0} class:numbered-root={depth === 0 && number != null} class:diagrams-first={node.diagramPlacement === 'before-prompt'} class:diagrams-beside={['beside-prompt','right-of-prompt'].includes(node.diagramPlacement)} class:diagrams-right={node.diagramPlacement === 'right-of-prompt'} class:compact class="question-node question-depth-{depth}" data-node-id={node.id} style={questionLayoutStyle(node,blockLayouts)}>
     {#if node.representations}
-      <div class="question-line" class:tabular-prompt={hasTopAlignedMathPrompt(node.prompt)}><span class="part-label">{@render labelText(label,node,depth)}</span><EditableBookletText value={node.prompt} rootId={node.id} pointer="/prompt" {editMode} oncommit={onContentEdit}/></div>
+      <div class="question-line" class:tabular-prompt={hasTopAlignedMathPrompt(node.prompt)} use:alignNativeTableLabel={hasTopAlignedMathPrompt(node.prompt)}><span class="part-label">{@render labelText(label,node,depth)}</span><EditableBookletText value={node.prompt} rootId={node.id} pointer="/prompt" {editMode} oncommit={onContentEdit}/></div>
       <div class:pattern-top={node.layoutPreset==='pattern-top'} class="representations" class:without-pattern={!node.representations.pattern&&!Object.values(node.representations.diagramSlots).includes('pattern')}>
         {#each ['pattern','table','equation','graph'] as slot}
           <section class={'representation representation-'+slot}>
@@ -165,7 +166,7 @@
       </div>
     {:else}
     {#if label&&node.diagramPlacement==='before-prompt'}<span class="leading-label part-label">{@render labelText(label,node,depth)}</span>{/if}
-    {#if label || node.prompt}<div class="question-line" class:tabular-prompt={hasTopAlignedMathPrompt(node.prompt)}>{#if label&&node.diagramPlacement!=='before-prompt'}<span class="part-label">{@render labelText(depth === 0 && number != null ? label : depth > 0 && label ? label : '',node,depth)}</span>{/if}{#if node.prompt}<div class="prompt">{#if depth === 0 && showTitle && /^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question?.title ?? "")}<strong class="exam-label">{visibleImportedQuestionTitle(question)}</strong>{/if}<EditableBookletText value={node.prompt} rootId={node.id} pointer="/prompt" {editMode} edited={isEdited(node.id, '/prompt')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} /></div>{/if}</div>{/if}
+    {#if label || node.prompt}<div class="question-line" class:tabular-prompt={hasTopAlignedMathPrompt(node.prompt)} use:alignNativeTableLabel={hasTopAlignedMathPrompt(node.prompt)}>{#if label&&node.diagramPlacement!=='before-prompt'}<span class="part-label">{@render labelText(depth === 0 && number != null ? label : depth > 0 && label ? label : '',node,depth)}</span>{/if}{#if node.prompt}<div class="prompt">{#if depth === 0 && showTitle && /^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question?.title ?? "")}<strong class="exam-label">{visibleImportedQuestionTitle(question)}</strong>{/if}<EditableBookletText value={node.prompt} rootId={node.id} pointer="/prompt" {editMode} edited={isEdited(node.id, '/prompt')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} /></div>{/if}</div>{/if}
     {#if node.questionDiagrams?.length}<div class="question-diagrams">{#each node.questionDiagrams as diagram}{@render diagramView(diagram)}{/each}</div>{/if}
     {#if node.afterDiagramPrompt}<div class="after-diagram-prompt"><EditableBookletText value={node.afterDiagramPrompt} rootId={node.id} pointer="/afterDiagramPrompt" {editMode} oncommit={onContentEdit}/></div>{/if}
     {#if node.layoutPreset==='scenario'&&node.children?.length===2}

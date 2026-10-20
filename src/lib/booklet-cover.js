@@ -105,7 +105,9 @@ export function deriveBookletCover(pages = [], overrides = {}) {
         const number=p.section?.exerciseNumber;
         if(!number||seenExercises.has(number))return [];
         seenExercises.add(number);
-        if(/\S\s+\S/.test(String(number)))return [{namedExercise:true,title:compactTopicTitle(p.section.topicTitle??number),pageNumber:p.pageNumber,href:`#exercise-topic-${number}`}];
+        const title=compactTopicTitle(p.section.topicTitle??number);
+        const redundantName=!/[0-9]/.test(String(number))&&String(number).trim().toLowerCase()===title.toLowerCase();
+        if(/^Exercises?$/.test(String(number).trim())||/\S\s+\S/.test(String(number))||redundantName)return [{namedExercise:true,title,pageNumber:p.pageNumber,href:`#exercise-topic-${number}`}];
         return [{number,title:compactTopicTitle(p.section.topicTitle),pageNumber:p.pageNumber,href:`#exercise-topic-${number}`}];
       })];
     }

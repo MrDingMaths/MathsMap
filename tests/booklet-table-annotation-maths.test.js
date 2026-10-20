@@ -5,6 +5,30 @@ import {chromium} from 'playwright-core';
 import {tableAnnotationLabelHtml} from '../public/libs/maths-editor/table-annotations.mjs';
 import {renderMath} from '../src/lib/render-math.js';
 
+test('operation labels clear unequal value columns through zoom and print',async()=>{
+ const browser=await chromium.launch({headless:true,channel:'chrome'});
+ try{
+  const page=await browser.newPage();
+  await page.route('http://annotation.test/module.mjs',r=>r.fulfill({contentType:'text/javascript',body:fs.readFileSync('public/libs/maths-editor/table-annotations.mjs','utf8')}));
+  const value=n=>renderMath('$'+n+'$');
+  await page.setContent(`<div id="root" style="margin:80px;font-size:10pt"><div style="position:relative;width:max-content"><table data-id="t" style="border-collapse:collapse;table-layout:fixed;width:40.5mm"><colgroup><col style="width:29mm"><col style="width:2.5mm"><col style="width:9mm"></colgroup>${[0,1].map(row=>`<tr style="height:10mm"><td data-id="l${row}" style="text-align:right">${value(row?'\\boxed{6}':'12')}</td><td>:</td><td data-id="r${row}" style="text-align:left">${value(row?'15':'30')}</td></tr>`).join('')}</table></div></div>`);
+  await page.addStyleTag({content:fs.readFileSync('node_modules/katex/dist/katex.min.css','utf8')});
+  const result=await page.evaluate(async()=>{
+   const {mountTableAnnotations}=await import('http://annotation.test/module.mjs');
+   const root=document.querySelector('#root'),table=root.querySelector('table');
+   table.dataset.annotations=JSON.stringify(['l','r'].map(id=>({id,type:'arrow',side:'middle',cellId:id+'0',toCellId:id+'1',label:'÷(−4)',colour:'#ef6068',distanceMm:1.5,curveMm:.5})));
+   const mounted=mountTableAnnotations(root),settle=()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+   await settle();
+   const read=()=>['l','r'].map(id=>{
+    const group=root.querySelector(`[data-annotation-id="${id}"]`),curve=group.querySelector('path').getBoundingClientRect(),label=group.querySelector('text').getBoundingClientRect();
+    return {gap:(id==='l'?curve.left-label.right:label.left-curve.right)/parseFloat(root.style.zoom||1),height:curve.height/parseFloat(root.style.zoom||1)};
+   });
+   const initial=read();root.style.zoom='1.5';mounted.update();await settle();const zoomed=read();window.dispatchEvent(new Event('beforeprint'));const printed=read();window.dispatchEvent(new Event('afterprint'));await settle();const after=read();mounted.destroy();return [initial,zoomed,printed,after];
+  });
+  for(const rows of result){assert.ok(Math.abs(rows[0].gap-rows[1].gap)<.2,JSON.stringify(result));for(const row of rows){assert.ok(row.gap>5&&row.gap<6.5);assert.ok(row.height>0&&row.height<25);}}
+ }finally{await browser.close();}
+});
+
 test('paired fraction arrows enclose numerator and denominator even with a numerator box',async()=>{
  const browser=await chromium.launch({headless:true,channel:'chrome'});
  try{

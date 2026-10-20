@@ -86,3 +86,21 @@ test('builds contents from reconstructed section order when no imported list exi
   ]);
   assert.deepEqual(parseImportedContents('Topic A .... 2\nnot a row'), [{ title: 'Topic A', sourcePage: 2 }]);
 });
+
+const namedExercisePages=entries=>[{pageNumber:1,flexible:true,mode:'student',section:{phase:'front-matter'},blocks:[]},...entries.map(([number,title],i)=>({pageNumber:i+2,mode:'student',section:{exerciseNumber:number,topicTitle:title},blocks:[]}))];
+test('unnumbered exercise nouns use full contents rows and preserve their actual destinations',()=>{
+ const input=namedExercisePages([['Exercise','Introductory constructions'],['Exercises','Construction trials'],['8A','Pythagoras']]),before=JSON.stringify(input);
+ assert.deepEqual(deriveBookletCover(input).contents,[{namedExercise:true,title:'Introductory constructions',pageNumber:2,href:'#exercise-topic-Exercise'},{namedExercise:true,title:'Construction trials',pageNumber:3,href:'#exercise-topic-Exercises'},{number:'8A',title:'Pythagoras',pageNumber:4,href:'#exercise-topic-8A'}]);
+ assert.equal(JSON.stringify(input),before);
+});
+test('redundant single-word named exercise labels appear once without changing destination',()=>{
+ const input=namedExercisePages([['Review','Review exercise'],['Challenge','Challenge exercise']]),snapshot=JSON.stringify(input),items=deriveBookletCover(input).contents;
+ assert.deepEqual(items,[{namedExercise:true,title:'Review',pageNumber:2,href:'#exercise-topic-Review'},{namedExercise:true,title:'Challenge',pageNumber:3,href:'#exercise-topic-Challenge'}]);assert.equal(JSON.stringify(input),snapshot);
+});
+test('numeric exercise labels, distinct labels and existing multiword named rows retain their layout data',()=>{
+ const items=deriveBookletCover(namedExercisePages([['5A','Multiplication of fractions'],[2,'2'],['Review','Revision problems'],['Mixed review','Mixed review exercise']])).contents;
+ assert.deepEqual(items,[{number:'5A',title:'Multiplication of fractions',pageNumber:2,href:'#exercise-topic-5A'},{number:2,title:'2',pageNumber:3,href:'#exercise-topic-2'},{number:'Review',title:'Revision problems',pageNumber:4,href:'#exercise-topic-Review'},{namedExercise:true,title:'Mixed review',pageNumber:5,href:'#exercise-topic-Mixed review'}]);
+});
+test('named exercise rows preserve links and answer transitions in combined editions',()=>{
+ const input=namedExercisePages([['Review',' Review EXERCISE '],['Challenge','CHALLENGE exercise']]);input.push({pageNumber:20,mode:'short',compactAnswers:true,section:{},blocks:[]},{pageNumber:30,mode:'worked',compactAnswers:true,section:{},blocks:[]});const items=deriveBookletCover(input).contents;assert.ok(items.slice(0,2).every(i=>i.namedExercise&&!Object.hasOwn(i,'number')));assert.deepEqual(items.slice(2),[{title:'Short answers',answerSection:true,pageNumber:20,href:'#answer-section-short'},{title:'Worked solutions',answerSection:true,pageNumber:30,href:'#answer-section-worked'}]);
+});

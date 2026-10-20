@@ -51,7 +51,7 @@ test('compact contents retain unnumbered syllabus, all topics, and only included
 // This checks DOM destinations/layout classes; final-size PDF inspection remains
 // a separate acceptance gate.
 const built = await build({
-  stdin:{contents:"import {render} from 'svelte/server'; import Cover from './src/components/BookletCover.svelte'; import Page from './src/components/TranscribedBookletPage.svelte'; import Practice from './src/components/PracticeQuestionRenderer.svelte'; export const practice = props => render(Practice,{props}).body; export const cover = props => render(Cover,{props}).body; export const page = props => render(Page,{props}).body;", resolveDir:process.cwd()},
+  stdin:{contents:"import {render} from 'svelte/server'; import Cover from './src/components/BookletCover.svelte'; import Page from './src/components/TranscribedBookletPage.svelte'; import Compact from './src/components/CompactAnswerPage.svelte'; import Practice from './src/components/PracticeQuestionRenderer.svelte'; export const practice = props => render(Practice,{props}).body; export const cover = props => render(Cover,{props}).body; export const page = props => render(Page,{props}).body; export const compact = props => render(Compact,{props}).body;", resolveDir:process.cwd()},
   bundle:true, platform:'node', format:'esm', write:false,
   plugins:[{name:'cover-components', setup(builder) {
     // Browser-only TikZ startup is outside this diagram-free DOM fixture.
@@ -62,6 +62,24 @@ const built = await build({
   }}],
 });
 const rendered = await import('data:text/javascript;base64,' + Buffer.from(built.outputFiles[0].text).toString('base64'));
+
+test('actual student, combined and compact answer components print unnumbered exercise nouns once',()=>{
+ for(const label of['Exercise','Exercises','8A']){
+  const heading=label==='8A'?'Exercise 8A':label;
+  const block={id:'construction',type:'question',sourceOrder:1,content:{id:'construction-root',prompt:'Construct a triangle.',answer:{short:'Sample construction.',worked:'Draw the perpendicular sides.'}},flow:{exerciseHeadingBefore:label,exerciseNumber:label,answerFragment:0}};
+  const section={id:'s',sourceSectionId:'s',topicId:'intro',phase:'practice',topicTitle:'Construction',difficultyTitle:heading,exerciseNumber:label};
+  for(const mode of['student','short','worked']){
+   const p={id:'p',pageNumber:1,mode,flexible:true,section,blocks:[block],showDifficultyHeading:true};
+   const text=rendered.page({page:p,bookletPages:[p],runId:'fixture'}).replace(/<[^>]*>/g,'');
+   assert.equal(text.split(heading).length-1,1);
+   assert.doesNotMatch(text,/Exercise Exercises?\b/);
+  }
+  const project={id:'fixture',settings:{compactAnswers:{gutterMm:8},layoutOverrides:{blockLayouts:{},diagramColourModes:{}}}},p={pageNumber:1,mode:'short',columns:[[{section,block,labelWidthMm:8,shortRow:0,shortColumns:1}]]};
+  const text=rendered.compact({project,page:p,pages:[p]}).replace(/<[^>]*>/g,'');
+  assert.equal(text.split(heading+' · Construction').length-1,1);
+  assert.doesNotMatch(text,/Exercise Exercises?\b/);
+ }
+});
 
 test('a consolidated answer retains each nested part destination once in both answer editions', () => {
  const content={id:'q',type:'question',label:'12',prompt:'Compare changes.',answer:{short:'Completed table',worked:'Completed table'},children:[

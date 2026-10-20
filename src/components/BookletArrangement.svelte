@@ -67,7 +67,7 @@
  function labelHasNativeTable(n){
   if(n.verticalAlign&&n.verticalAlign!=='top'||resolved.entries.get(n.children?.[0]?.ref)?.kind!=='label')return false;
   const body=n.children?.[1],first=resolved.entries.get(body?.ref??body?.children?.[0]?.ref);
-  return first?.kind==='document'&&hasNativeTableBaseline(first.value);
+  return (first?.kind==='document'||first?.kind==='text')&&hasTopAlignedMathPrompt(first.value);
  }
  function labelBodyHasTextBaseline(n){
   const body=n.children?.[1];

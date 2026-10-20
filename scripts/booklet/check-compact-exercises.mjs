@@ -7,6 +7,7 @@ import assert from 'node:assert/strict';
 import {chromium} from 'playwright-core';
 import {inspectPrintedPdf} from './pdf-layout-qa.mjs';
 import {isPractice,flowEditionSections,exerciseNumbers} from '../../src/lib/booklet-flow.js';
+import {exerciseHeading} from '../../src/lib/booklet-exercise-heading.js';
 import {isGivenFigureNode} from '../../src/lib/booklet-exercises.js';
 import {documentTikzEntries} from '../../src/lib/document-tikz.js';
 import {rendererSignature,qaSignature,layoutCacheKey,readLayoutCache,writeLayoutCache,contentAssetSignatures} from './verification-cache.mjs';
@@ -22,6 +23,15 @@ import {inspectPdfNavigation} from './pdf-navigation-qa.mjs';
 import {ensurePdfRasters,ensureSelectedPdfRasters} from './pdf-rasters.mjs';
 import {LEAN_REVIEW_PROFILE,isLeanReview,selectLeanVisualPages} from './lean-profile.mjs';
 import {seedUnchangedFinalExports,finalExportOutput} from './seed-final-export-cache.mjs';
+export function collectExerciseHeadings(texts){
+ return texts.map(text=>text.trim()).filter(text=>/^Exercises?$/.test(text)||/^Exercise \S+(?:\s+\S+)*$/.test(text));
+}
+export function assertExerciseHeadingCoverage(texts,record,edition){
+ const numbers=exerciseNumbers(record);
+ const practiceTopics=new Set(record.sections.filter(s=>s.phase==='practice'&&s.blocks.some(b=>!b.presentation?.editorOnly)).map(s=>s.topicId));
+ const expected=['short','worked'].includes(edition)?[]:Object.entries(numbers).filter(([topic])=>practiceTopics.has(topic)).map(([,number])=>exerciseHeading(number));
+ assert.deepEqual(collectExerciseHeadings(texts),expected,'Exactly one question-side heading per practice exercise, across source sections and teaching checkpoints');
+}
 // The compiler reports per-event durations; its public stats retain only the
 // last event, so exports accumulate the observed events without estimating time.
 export function accumulateTikzCompilation(state,detail){
@@ -258,7 +268,7 @@ try{
    for(const issue of diagrams.issues){const report=qa[issue.page-1];assert.ok(report,'Diagram belongs to a physical page');report.issues.push(issue);}
    const info=await page.locator('.project-print').evaluate(root=>({
      pages:root.querySelectorAll('.print-page').length,
-     exerciseHeadings:[...root.querySelectorAll('.difficulty-heading,.inline-exercise-heading,.exercise-heading')].map(e=>e.textContent.trim()).filter(t=>/^Exercise \S+(?:\s+\S+)*$/.test(t)),
+     exerciseHeadings:[...root.querySelectorAll('.difficulty-heading,.inline-exercise-heading,.exercise-heading')].map(e=>e.textContent.trim()),
      labels:[...root.querySelectorAll('.compact-answer .answer-item')].map(e=>({id:e.dataset.nodeId,label:e.querySelector('.answer-label')?.textContent,continuation:e.closest('[data-answer-continuation]')?.dataset.answerContinuation,editableFields:e.querySelectorAll('.editable-booklet-text').length,diagrams:e.querySelectorAll('[data-diagram-id]').length})),
      answerDiagramIds:[...root.querySelectorAll('.compact-answer [data-diagram-id]')].filter(e=>!e.parentElement.closest('[data-diagram-id]')).map(e=>e.dataset.diagramId),
      badges:root.querySelectorAll('[data-editor-difficulty]').length,
@@ -272,10 +282,7 @@ try{
      map:[...root.querySelectorAll('.print-page')].map(e=>({page:Number(e.dataset.flowPage),blocks:e.dataset.flowBlocks.split(',')}))
    }));
    if(record.settings.exerciseOrganisation==='topic'){
-    const numbers=exerciseNumbers(record);
-    const practiceTopics=new Set(record.sections.filter(s=>s.phase==='practice'&&s.blocks.some(b=>!b.presentation?.editorOnly)).map(s=>s.topicId));
-    const expected=['short','worked'].includes(edition)?[]:Object.entries(numbers).filter(([topic])=>practiceTopics.has(topic)).map(([,n])=>`Exercise ${n}`);
-    assert.deepEqual(info.exerciseHeadings,expected,'Exactly one question-side heading per practice exercise, across source sections and teaching checkpoints');
+    assertExerciseHeadingCoverage(info.exerciseHeadings,record,edition);
    }
    const domPages=await page.locator('.project-print .print-page').evaluateAll((elements,{lean,edition})=>elements.map(e=>{
     const base={html:e.outerHTML,blocks:e.dataset.flowBlocks?.split(',')??[]};

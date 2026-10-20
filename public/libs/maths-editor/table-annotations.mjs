@@ -7,7 +7,7 @@ export function tableAnnotationLabelHtml(label, math) {
   return parts.map((value,index)=>index%2?math(value):escape(value).replace(/\\\$/g,'$')).join('');
 }
 
-export function tableArrowGeometry(from, to, annotation = {}) {
+export function tableArrowGeometry(from, to, annotation = {}, measured = {}) {
   // Between-cell instructions follow the cell centres, with room for the values.
   // Existing top/bottom annotations retain their original geometry below.
   if(annotation.side==='middle'){
@@ -18,9 +18,12 @@ export function tableArrowGeometry(from, to, annotation = {}) {
     if(typeof annotation.label==='string' && annotation.label.trim() && Math.abs(from.left-to.left)<.01 && Math.abs(from.width-to.width)<.01 && y2>y1){
       const mm=96/25.4,leftRail=Math.abs(from.left)<.01,outward=leftRail?-1:1;
       const inset=.6*mm,reserve=2.8*mm;
-      const railX=leftRail?from.left+from.width-inset:from.left+inset;
+      const ink=measured.fromInk&&measured.toInk;
+      const clearance=.8*mm;
+      const railX=ink?(leftRail?Math.min(measured.fromInk.left,measured.toInk.left)-clearance:Math.max(measured.fromInk.left+measured.fromInk.width,measured.toInk.left+measured.toInk.width)+clearance):(leftRail?from.left+from.width-inset:from.left+inset);
       const trim=Math.min(length/3,Math.max(0,(annotation.distanceMm??1.5)*mm));
-      const railSy=y1+trim,railEy=y2-trim;
+      const railSy=ink?Math.min(y1+length*.45,Math.max(y1+trim,measured.fromInk.bottom+.6*mm)):y1+trim;
+      const railEy=ink?Math.max(y2-length*.45,Math.min(y2-trim,measured.toInk.top-.6*mm)):y2-trim;
       const bend=Math.min(.5*mm,Math.max(0,(annotation.curveMm??.5)*mm));
       const c1=[railX+outward*bend,railSy+(railEy-railSy)/3];
       const c2=[railX+outward*bend,railEy-(railEy-railSy)/3];
@@ -33,7 +36,7 @@ export function tableArrowGeometry(from, to, annotation = {}) {
         path:`M ${railX} ${railSy} C ${c1[0]} ${c1[1]}, ${c2[0]} ${c2[1]}, ${railX} ${railEy}`,
         startHead:railHead(railX,railSy,railX-c1[0],railSy-c1[1]),
         endHead:railHead(railX,railEy,railX-c2[0],railEy-c2[1]),
-        labelX:leftRail?from.left+(from.width-reserve)/2:from.left+reserve+(from.width-reserve)/2,
+        labelX:ink?railX+outward*(bend*.75+1.5*mm+(measured.labelWidth??0)/2):(leftRail?from.left+(from.width-reserve)/2:from.left+reserve+(from.width-reserve)/2),
         labelY:(railSy+railEy)/2,
         start:[railX,railSy],end:[railX,railEy],controls:[c1,c2],
       };
@@ -188,7 +191,17 @@ export function mountTableAnnotations(root, options = {}) {
           const paired=['top','bottom'].includes(a.side)&&annotations.some(other=>other.type==='arrow'&&other.cellId===a.cellId&&other.toCellId===a.toCellId&&other.side===(a.side==='top'?'bottom':'top'))&&tableMathBoxElement(elements.get(a.cellId),true)&&tableMathBoxElement(elements.get(a.toCellId),true);
           const start=anchor(a.cellId,a.startAnchor,paired),end=anchor(a.toCellId,a.endAnchor,paired);
           if(!start||!end){let output=wrap.querySelector('[data-annotation-diagnostics]');if(!output){output=document.createElement('output');output.dataset.annotationDiagnostics='';output.contentEditable='false';wrap.append(output);}const message='Unresolved maths-box anchor: '+a.id;if(output.textContent!==message)output.textContent=message;continue;}
-          const geometry=tableArrowGeometry(start,end,a);
+          // Measure actual formula and operation ink in local coordinates: cell
+          // widths and text alignment must not change the visible label gap.
+          const measured={};
+          if(a.side==='middle'&&a.label?.trim()&&Math.abs(start.left-end.left)<.01&&Math.abs(start.width-end.width)<.01&&end.top>start.top){
+            const ink=id=>{const cell=elements.get(id),formula=cell.querySelector('.katex-html, .ML__mathlive, math-field');return formula?bounds(formula):null;};
+            measured.fromInk=ink(a.cellId);measured.toInk=ink(a.toCellId);
+            const html=tableAnnotationLabelHtml(a.label,options.math);
+            if(html===null){const probe=add('text',{'font-size':40/3,'text-anchor':'middle'});probe.textContent=a.label;const box=probe.getBBox();measured.labelWidth=box.width;measured.labelCentreOffset=box.x+box.width/2;probe.remove();}
+            else{const probe=add('foreignObject',{width:10000,height:10000});const label=document.createElementNS('http://www.w3.org/1999/xhtml','div');label.style.cssText='display:inline-block;width:max-content;white-space:nowrap;font-size:10pt;line-height:1.2';label.innerHTML=html;probe.append(label);for(const formula of label.querySelectorAll('.katex,.ML__mathlive'))formula.style.fontSize='10pt';measured.labelWidth=label.getBoundingClientRect().width/scale;probe.remove();}
+          }
+          const geometry=tableArrowGeometry(start,end,a,measured);
           add('path',{...common,d:geometry.path,'stroke-linecap':'round'});
           if(['end','both'].includes(a.heads??'end'))add('path',{fill:stroke,d:geometry.endHead});
           if(['start','both'].includes(a.heads))add('path',{fill:stroke,d:geometry.startHead});
@@ -197,7 +210,7 @@ export function mountTableAnnotations(root, options = {}) {
           if(a.labelBox)add('rect',{x:labelX-12,y:labelY-10,width:24,height:22,fill:'white',stroke:'#cccccc','stroke-width':1});
           if(a.label){
             const html=tableAnnotationLabelHtml(a.label,options.math);
-            if(html===null){const text=add('text',{x:labelX,y:labelY+5,'text-anchor':'middle',fill:stroke,'font-size':a.side==='middle'?40/3:14});text.textContent=a.label;}
+            if(html===null){const text=add('text',{x:labelX-(measured.labelCentreOffset??0),y:labelY+5,'text-anchor':'middle',fill:stroke,'font-size':a.side==='middle'?40/3:14});text.textContent=a.label;}
             else{
               const foreign=add('foreignObject',{x:0,y:0,width:10000,height:10000,'data-annotation-maths-label':''});
               const label=document.createElementNS('http://www.w3.org/1999/xhtml','div');

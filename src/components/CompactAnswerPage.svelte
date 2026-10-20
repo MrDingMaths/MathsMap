@@ -2,12 +2,13 @@
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
   import BookletFooter from './BookletFooter.svelte';
   import InlineContent from './InlineContent.svelte';
+  import {exerciseHeading} from '../lib/booklet-exercise-heading.js';
   import {resolvePreviewAssets} from '../lib/booklet-preview.js';
   import {shortAnswerRows,SHORT_ANSWER_GRID_GAP_MM} from '../lib/booklet-short-answer-grid.js';
   let {project,page,pages=[],compact=false,editMode=false,onContentEdit=null,anchorPrefix=''}=$props();
   const settings=$derived(project.settings.compactAnswers);
   const assetUrl=src=>src?.startsWith('evidence/')?`/__booklet/full-imports/${encodeURIComponent(project.source?.runId??project.id)}/files/lanes/exact/${src}`:src;
-  const title=section=>`Exercise ${section.exerciseNumber} · ${section.topicTitle}`;
+  const title=section=>`${exerciseHeading(section.exerciseNumber)} · ${section.topicTitle}`;
   const firstFragment=(entry)=>!pages.some(p=>p.pageNumber<page.pageNumber&&p.mode===page.mode&&p.blocks.some(b=>b.id===entry.block.id))&&entry.block.flow.answerFragment===0;
   const questionLink=entry=>pages.some(p=>p.mode==='student'&&p.blocks.some(b=>b.id===entry.block.id))?`#${anchorPrefix}question-${entry.block.id}`:null;
 </script>

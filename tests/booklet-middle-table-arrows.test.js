@@ -81,6 +81,23 @@ test('optional table-arrow label offset clears tall fractions outward without mo
 
 const operationRailMm=96/25.4;
 const operationRailTolerance=1e-8;
+test('measured operation labels have equal ink clearance despite unequal cell widths',()=>{
+ const mm=96/25.4;
+ const cell=(left,width,top)=>({left,width,top,height:10*mm,bottom:top+10*mm});
+ const fromInk={left:24*mm,top:3*mm,width:4*mm,height:4*mm,bottom:7*mm};
+ const toInk={...fromInk,left:23*mm,top:12*mm,width:5*mm,bottom:17*mm};
+ for(const labelWidth of [12,38]){
+  const annotation={side:'middle',label:'÷(−4)',distanceMm:1.5,curveMm:.5};
+  const left=tableArrowGeometry(cell(0,29*mm,0),cell(0,29*mm,10*mm),annotation,{fromInk,toInk,labelWidth});
+  const right=tableArrowGeometry(cell(31.5*mm,9*mm,0),cell(31.5*mm,9*mm,10*mm),annotation,{fromInk:{...fromInk,left:31.5*mm},toInk:{...toInk,left:31.5*mm},labelWidth});
+  const leftGap=left.start[0]-.375*mm-(left.labelX+labelWidth/2);
+  const rightGap=right.labelX-labelWidth/2-(right.start[0]+.375*mm);
+  assert.ok(Math.abs(leftGap-1.5*mm)<1e-8);
+  assert.ok(Math.abs(rightGap-leftGap)<1e-8);
+  assert.ok(left.start[1]>fromInk.bottom&&left.end[1]<toInk.top);
+  assert.ok(left.end[1]-left.start[1]<7*mm);
+ }
+});
 function operationRailClose(actual,expected){
  assert.ok(Math.abs(actual-expected)<operationRailTolerance,`${actual} should equal ${expected}`);
 }

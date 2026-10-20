@@ -79,8 +79,9 @@ export function reconcileSyncLayout(before, after, holder, {editable=false}={}) 
    // together, while still rejecting unknown references on surviving content.
    const liveOwners=new Set([...catalog.entries.values()].map(entry=>entry.ownerId));
    const deletedOwners=new Set([...oldCatalog.entries.values()].map(entry=>entry.ownerId).filter(id=>!liveOwners.has(id)));
+   const deletedDiagrams=new Set([...oldCatalog.entries].filter(([ref,entry])=>entry.kind==='diagram'&&!catalog.entries.has(ref)).map(([ref])=>ref));
    const prune=n=>{
-    if(n.children)n.children=n.children.filter(child=>!deletedOwners.has(child.id?.replace(/:question$/,''))&&!(child.type==='item'&&deletedOwners.has(oldCatalog.entries.get(child.ref)?.ownerId))).map(child=>{prune(child);return child;}).filter(child=>!/:row:\d+$/.test(child.id)||child.children?.some(cell=>cell.children?.length||cell.type==='item'));
+    if(n.children)n.children=n.children.filter(child=>!deletedOwners.has(child.id?.replace(/:question$/,''))&&!(child.type==='item'&&(deletedOwners.has(oldCatalog.entries.get(child.ref)?.ownerId)||deletedDiagrams.has(child.ref)))).map(child=>{prune(child);return child;}).filter(child=>!/:row:\d+$/.test(child.id)||child.children?.some(cell=>cell.children?.length||cell.type==='item'));
    };prune(tree);
    // New givens must appear in the destination's saved layout as well as its
    // content. Insert only newly added diagrams in their existing owner's stack.
