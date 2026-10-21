@@ -1,5 +1,5 @@
 // Reconcile a native field without replacing its live mathematics or text nodes.
-import {editableMathLatex} from './math-latex.mjs';
+import {editableMathLatex,storedMathLatex} from './math-latex.mjs';
 // moveBefore preserves custom-element state and browser selection on supported hosts.
 export function moveConnected(parent,node,before=null){
   if(node.parentNode===parent&&node.nextSibling===before)return;
@@ -20,7 +20,15 @@ export function reconcileDocumentDOM(surface,html){
         if(node.nodeType===3){if(node.data!==fresh.data)node.data=fresh.data;}
         else if(node.nodeType===1){
           attributes(node,fresh);
-          if(node.matches('[data-math]')){const field=node.querySelector('math-field'),next=fresh.querySelector('math-field');if(field&&next&&field.getValue('latex')!==next.textContent)field.setValue(editableMathLatex(next.textContent),{silenceNotifications:true});const preview=node.querySelector('[data-math-preview]'),newPreview=fresh.querySelector('[data-math-preview]');if(preview&&newPreview&&preview.innerHTML!==newPreview.innerHTML)preview.innerHTML=newPreview.innerHTML;}
+          if(node.matches('[data-math]')){const field=node.querySelector('math-field'),next=fresh.querySelector('math-field');
+            // Compare stored forms so bold translation never resets a live caret.
+            if(field&&next&&storedMathLatex(field.getValue('latex'))!==storedMathLatex(next.textContent))field.setValue(editableMathLatex(next.textContent),{silenceNotifications:true});
+            // A freshly inserted island has no preview yet; without one the
+            // preview-host field has nothing to size against.
+            const preview=node.querySelector('[data-math-preview]'),newPreview=fresh.querySelector('[data-math-preview]');
+            if(!preview&&newPreview)node.insertBefore(newPreview.cloneNode(true),field??node.firstChild);
+            else if(preview&&!newPreview)preview.remove();
+            else if(preview&&newPreview){if(preview.innerHTML!==newPreview.innerHTML)preview.innerHTML=newPreview.innerHTML;attributes(preview,newPreview);}}
           else if(node.tagName!=='MATH-FIELD')patch(node,fresh);
         }
       }

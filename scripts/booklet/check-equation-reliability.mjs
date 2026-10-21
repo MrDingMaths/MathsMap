@@ -36,7 +36,7 @@ try {
   assert.deepEqual(await fields().first().boundingBox(),before,'opening controls does not move the equation');
   await page.screenshot({path:out+'/controls-open.png'});
   await tool('Cancel').click();await page.waitForFunction(()=>!document.querySelector('.me-latex-dialog')&&document.activeElement?.matches('math-field'));
-  await fields().first().press('Tab');await page.getByPlaceholder('Start typing to search').waitFor();
+  await fields().first().press('Alt+s');await page.getByPlaceholder('Start typing to search').waitFor();
   assert.equal(await highlighted(),1,'Symbols retains highlighted equation');
   await page.getByPlaceholder('Start typing to search').press('Escape');
   await page.getByRole('button',{name:'Outside editor',exact:true}).click();assert.equal(await highlighted(),0);
@@ -70,7 +70,7 @@ try {
   }
   // Insert a nested fraction from the actual Symbols picker and fill its slots.
   await set('$x$');await focus();await page.keyboard.press('Control+a');
-  await page.keyboard.press('Tab');const search=page.getByPlaceholder('Start typing to search');await search.fill('fraction');await search.press('Enter');
+  await page.keyboard.press('Alt+s');const search=page.getByPlaceholder('Start typing to search');await search.fill('fraction');await search.press('Enter');
   await page.keyboard.type('a');await page.keyboard.press('ArrowDown');await page.keyboard.type('b');
   assert.match(await latex(),/frac/);assert.match(await latex(),/a/);assert.match(await latex(),/b/);
   await page.keyboard.press('Backspace');await page.keyboard.type('c');assert.match(await latex(),/frac\{x\}\{ac\}/,'replace only the denominator, preserving the selected numerator');

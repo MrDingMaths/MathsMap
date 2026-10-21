@@ -33,7 +33,7 @@ export class DocumentEditor {
     this.selectionRevision=0;
     this.surface.addEventListener('pointerdown',()=>{this.selectionRevision++;},true);
     this.surface.addEventListener('beforeinput',e=>{if(!this.host.readonly&&e.target.matches?.('math-field')){this.capture();this.remember();}});
-    this.surface.addEventListener('beforeinput',e=>{if(e.inputType==='insertParagraph'&&!e.isComposing&&!this.host.readonly&&this.splitParagraph())e.preventDefault();});
+    this.surface.addEventListener('beforeinput',e=>{if(e.inputType==='insertParagraph'&&!e.isComposing&&!this.host.readonly&&!e.target.closest?.('math-field')&&this.splitParagraph())e.preventDefault();});
     this.surface.addEventListener('click',e=>{if(e.target.closest('a')&&!e.ctrlKey&&!e.metaKey)e.preventDefault();});
     this.surface.addEventListener('input', () => { try { this.capture(); this.styleLists(); this.installObjectHandles(); this.remember(); this.emit(); } catch(e) { this.message.textContent=e.message; } });
     this.surface.addEventListener('keydown',e=>{const image=e.target.closest?.('[data-type=inline-image]');if(image&&['Enter',' '].includes(e.key)){e.preventDefault();this.select(image);this.inspector.querySelector('input')?.focus();}if(image&&['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();const r=document.createRange();e.key==='ArrowLeft'?r.setStartBefore(image):r.setStartAfter(image);r.collapse(true);const s=getSelection();s.removeAllRanges();s.addRange(r);this.surface.focus();this.saveRange();}});
@@ -63,7 +63,18 @@ export class DocumentEditor {
   restoreRange() { if(this.range && this.surface.contains(this.range.commonAncestorContainer)) { const s=window.getSelection(); s.removeAllRanges(); s.addRange(this.range); } }
   select(target) { if(target.closest?.('[data-resize-handles],[data-table-annotations]'))return;const n=target.closest?.('[data-id]'); const changed=n&&this.selectedId!==n.dataset.id;if(n) this.selectedId=n.dataset.id; if(n?.dataset.type!=='inline-image')this.saveRange(); if(changed)this.properties(); }
   get selected() { let found; visitDocument(this.doc,n=>{if(n.id===this.selectedId)found=n;}); return found; }
-  capture() { this.surface.querySelectorAll('p:has([data-editor-placeholder])').forEach(p=>{if(p.textContent.replaceAll('\u200b','').trim()||p.querySelector('[data-math],[data-cloze],img'))p.querySelectorAll('[data-editor-placeholder]').forEach(n=>n.remove());});this.surface.querySelectorAll('[data-math-caret]').forEach(n=>n.toggleAttribute('data-empty-caret',!n.textContent.replaceAll('\u200b','')&&!n.querySelector('[data-math],br,img')));this.doc = this.read(this.surface); this.surface.querySelectorAll('[data-math-preview-host]').forEach(el=>{const mf=el.querySelector('math-field'),preview=el.querySelector('[data-math-preview]');if(preview&&this.host.renderMathPreview){const value=storedMathLatex(mf.getValue('latex'));if(preview.dataset.latex!==value){preview.innerHTML=this.host.renderMathPreview(tableMathLatex(value,el.dataset.mathBold==='true'),el.dataset.display==='true');preview.dataset.latex=value;}}}); if(this.host.dataset.houseStyleVersion||this.host.classList.contains('booklet-document-field')){const previous=this.doc,next=standardBookletContent(previous);if(shareDocument(previous,next)!==previous){this.doc=next;if(!patchMathValues(this,previous,next))this.render();}} }
+  capture() { this.surface.querySelectorAll('p:has([data-editor-placeholder])').forEach(p=>{if(p.textContent.replaceAll('\u200b','').trim()||p.querySelector('[data-math],[data-cloze],img'))p.querySelectorAll('[data-editor-placeholder]').forEach(n=>n.remove());});this.surface.querySelectorAll('[data-math-caret]').forEach(n=>n.toggleAttribute('data-empty-caret',!n.textContent.replaceAll('\u200b','')&&!n.querySelector('[data-math],br,img')));this.doc = this.read(this.surface); if(this.host.dataset.houseStyleVersion||this.host.classList.contains('booklet-document-field')){const previous=this.doc,next=standardBookletContent(previous);if(shareDocument(previous,next)!==previous){this.doc=next;if(!patchMathValues(this,previous,next))this.render();}} this.refreshMathPreviews(); }
+  // Previews follow the final (house-styled) value; a host without one, such as
+  // a just-inserted equation, gets one so its field has a size to edit against.
+  refreshMathPreviews() {
+    if(!this.host.renderMathPreview)return;
+    this.surface.querySelectorAll('[data-math-preview-host]').forEach(el=>{
+      const mf=el.querySelector('math-field');if(!mf)return;let value;try{value=storedMathLatex(mf.getValue('latex'));}catch{return;}
+      el.toggleAttribute('data-math-empty',!value.trim());
+      let preview=el.querySelector('[data-math-preview]');if(!preview){preview=document.createElement('span');preview.setAttribute('data-math-preview','');preview.setAttribute('aria-hidden','true');el.insertBefore(preview,mf);}
+      if(preview.dataset.latex!==value){preview.innerHTML=this.host.renderMathPreview(tableMathLatex(value,el.dataset.mathBold==='true'),el.dataset.display==='true');preview.dataset.latex=value;}
+    });
+  }
   read(root, original = this.doc) {
     const originals=new Map(), seen=new Set(); visitDocument(original,n=>originals.set(n.id,n));
     const identity=el=>{let id=el.dataset.id;if(!id || seen.has(id))id=uid();seen.add(id);el.dataset.id=id;return id;};
@@ -129,7 +140,7 @@ export class DocumentEditor {
     this.host.dispatchEvent(new CustomEvent('document-change',{bubbles:true,detail:{document:copy(this.doc),source:toSource(this.doc),losses:exportSource(this.doc).losses,layout:this.layoutChange===true}}));
   }
   set(value) { this.surface.querySelectorAll('[data-image-pending]').forEach(e=>e.remove());this.doc=normalizeDocument(value); this.selectedId=this.doc.blocks[0]?.id; this.render(null); this.history=[]; this.historySelections=[]; this.index=-1; this.remember(); }
-  undo(direction=-1) { if(this.host.readonly)return;this.finishEquationEdit?.();if(this.mathEditing?.field()){this.capture();this.remember();} const index=this.index+direction; if(index<0 || index>=this.history.length)return; const present=captureSelection(this);if(present)this.historySelections[this.index]=present;this.index=index; const previous=this.doc;this.doc=JSON.parse(this.history[index]);const bookmark=this.historySelections[index]??present;if(patchMathValues(this,previous,this.doc))restoreSelection(this,bookmark);else this.render(bookmark); this.emit(); }
+  undo(direction=-1) { if(this.host.readonly)return;this.finishEquationEdit?.();if(this.mathEditing?.field()){this.capture();this.remember();} const index=this.index+direction; if(index<0 || index>=this.history.length)return; const present=captureSelection(this);if(present)this.historySelections[this.index]=present;this.index=index; const previous=this.doc;this.doc=JSON.parse(this.history[index]);const bookmark=this.historySelections[index]??present;if(patchMathValues(this,previous,this.doc)){this.refreshMathPreviews();restoreSelection(this,bookmark);}else this.render(bookmark); this.emit(); }
   transact(fn) { if(this.host.readonly)return;this.finishEquationEdit?.(); try { this.capture(); const next=copy(this.doc); fn(next); this.doc=normalizeDocument(next); this.render(); this.remember(); this.emit(); this.message.textContent=''; } catch(e) {this.message.textContent=e.message;} }
   modify(fn) { if(this.host.readonly)return;if(this.selected?.type==='inline-image'){this.capture();fn(this.selected);this.doc=normalizeDocument(this.doc);this.patchLayout();this.remember();this.emit();return;}this.transact(doc=>visitDocument(doc,n=>{if(n.id===this.selectedId)fn(n);})); }
   splitParagraph(){
@@ -223,7 +234,7 @@ export class DocumentEditor {
   }
 
   insertDocument(doc) {
-    this.restoreRange();const wrapper=document.createElement('div');wrapper.innerHTML=renderDocument(doc,{editable:true,annotationMath:latex=>MathLive.convertLatexToMarkup(latex)});
+    this.restoreRange();const wrapper=document.createElement('div');wrapper.innerHTML=renderDocument(doc,{editable:true,...(this.host.renderMathPreview?{math:this.host.renderMathPreview,editableMathPreview:true}:{}),annotationMath:latex=>MathLive.convertLatexToMarkup(latex)});
     const selection=window.getSelection(), range=selection?.rangeCount&&this.surface.contains(selection.anchorNode)?selection.getRangeAt(0):null;
     const element=range?.startContainer.nodeType===1?range.startContainer:range?.startContainer.parentElement;
     const p=element?.closest('p');

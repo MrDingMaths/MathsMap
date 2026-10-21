@@ -31,7 +31,10 @@ try{
    const doc=await value();await page.evaluate(d=>document.querySelector('maths-editor').document=d,doc);assert.deepEqual(await value(),doc);
   }
   for(const after of [false,true]){
+   // As in Word, the first press selects the adjacent equation and the second deletes it.
    await set(source);await caret(after);await page.keyboard.press(after?'Backspace':'Delete');
+   assert.equal(await page.locator('.me-content math-field').count(),1,`first press selects adjacent equation ${source} after=${after}`);
+   await page.keyboard.press(after?'Backspace':'Delete');
    assert.equal(await page.locator('.me-content math-field').count(),0,`delete adjacent equation ${source} after=${after}`);
    await page.keyboard.press('Control+z');assert.equal(await page.locator('.me-content math-field').count(),1);
    await page.keyboard.press('Control+y');assert.equal(await page.locator('.me-content math-field').count(),0);

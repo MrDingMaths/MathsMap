@@ -5,7 +5,7 @@ import {BOOKLET_HOUSE_STYLE} from './house-style.mjs';
 // MathLive interaction shared by structured prose, tables and question editors.
 export function installMathEditing(editor) {
  const {host,surface}=editor, bar=document.createElement('div');bar.className='me-math-tools';bar.hidden=true;bar.setAttribute('role','toolbar');bar.setAttribute('aria-label','Equation tools');editor.inspector.after(bar);
- let active=null,dialog=null,selection=null;
+ let active=null,dialog=null,selection=null,pendingDelete=null,pendingPoint=null;
  const spacingLabel=document.createElement('label'),spacing=document.createElement('input');spacingLabel.textContent='Equation row spacing (mm) ';spacing.type='number';spacing.min='0';spacing.max='30';spacing.step='.5';spacing.setAttribute('aria-label','Equation row spacing (mm)');spacingLabel.append(spacing);bar.append(spacingLabel);
  const refreshSpacing=()=>{const state=active?equationRowSpacing(active.getValue('latex')):{supported:false};spacingLabel.hidden=!state.supported;spacing.value=state.valueMm==null?'':Number(state.valueMm.toFixed(3));spacing.placeholder=state.mixed?'Mixed':'';spacing.title='Extra space between equation rows; paragraph line spacing does not change this.';};
  spacing.onchange=()=>{const mf=field();if(!mf||!spacing.value.trim())return;try{rememberLocation();mf.setValue(setEquationRowSpacing(mf.getValue('latex'),Number(spacing.value)),{silenceNotifications:true});commit();refreshSpacing();}catch(e){editor.message.textContent=e.message;refreshSpacing();}};
@@ -15,6 +15,7 @@ export function installMathEditing(editor) {
   active=mf?.isConnected&&!host.readonly?mf:null;
   if(!active&&previous&&document.activeElement===previous)previous.blur();
   active?.closest('[data-math]')?.classList.add('me-equation-selected');
+  if(active!==previous)pendingDelete=null;
   bar.hidden=!active;refreshSpacing();
   if(active)colour.value=active.closest('[data-colour]')?.dataset.colour??'#24282d';
   if(!active)selection=null;
@@ -23,7 +24,8 @@ export function installMathEditing(editor) {
  // browser establishes a caret. Honour the explicit pointer/focus selection,
  // otherwise the next insert/format command edits the previous equation.
  const field=()=>active?.isConnected?active:null;
- const commit=()=>{editor.capture();editor.remember();editor.emit();};
+ // Tool commands and deletions are single undo steps, never merged with typing.
+ const commit=()=>{host.documentHost?.boundary?.();editor.capture();editor.remember();editor.emit();host.documentHost?.boundary?.();};
  const button=(label,action)=>editor.button(bar,label,action);
  const rememberSelection=()=>{const mf=field();if(mf&&document.activeElement===mf)selection=JSON.parse(JSON.stringify(mf.selection));};
  const rememberLocation=()=>{rememberSelection();if(editor.index>=0){const bookmark=captureSelection(editor);if(bookmark)editor.historySelections[editor.index]=bookmark;}};
@@ -51,20 +53,24 @@ export function installMathEditing(editor) {
  const selectedColourLabel=document.createElement('label');selectedColourLabel.textContent='Selected maths colour ';
  const selectedColour=document.createElement('input');selectedColour.type='color';selectedColour.value='#24282d';selectedColour.setAttribute('aria-label','Selected maths colour');selectedColour.oninput=()=>style({color:selectedColour.value});selectedColourLabel.append(selectedColour);bar.append(selectedColourLabel);
  button('Edit LaTeX',()=>{const mf=field();if(!mf||host.readonly)return;dialog?.remove();dialog=document.createElement('dialog');dialog.className='me-latex-dialog';dialog.setAttribute('aria-label','Edit equation LaTeX');const label=document.createElement('label');label.textContent='Equation LaTeX';const input=document.createElement('textarea');input.setAttribute('aria-label','Equation LaTeX');input.value=storedMathLatex(mf.getValue('latex'));label.append(input);const preview=document.createElement('div');preview.className='me-latex-preview';const update=()=>{preview.innerHTML=window.MathLive.convertLatexToMarkup(input.value);};input.oninput=update;update();dialog.append(label,preview);editor.button(dialog,'Apply equation',()=>{if(mf.isConnected&&!host.readonly){mf.setValue(editableMathLatex(input.value),{silenceNotifications:true});commit();}dialog.close();});editor.button(dialog,'Cancel',()=>dialog.close());dialog.addEventListener('close',()=>{dialog.remove();dialog=null;if(mf.isConnected)mf.focus();});host.append(dialog);dialog.addEventListener('keydown',e=>e.stopPropagation());dialog.showModal();input.focus();});
- const hint=document.createElement('span');hint.textContent='Tab: symbols · Escape: text after · Shift+Escape: text before · Backspace/Delete removes an empty equation';bar.append(hint);
+ const hint=document.createElement('span');hint.textContent='Tab: next box · Alt+S: symbols · Enter/Escape: text after · Shift+Escape: text before · Backspace/Delete beside an equation selects it, again deletes it';bar.append(hint);
  const focus=e=>{
   if(e.target.matches?.('math-field')&&surface.contains(e.target)){setActive(e.target);rememberLocation();}
   else if(editor.inspector.contains(e.target)&&editor.selected?.type==='annotated-equation'){selectBlock(surface.querySelector(`[data-id="${CSS.escape(editor.selectedId)}"]`));rememberLocation();}
   else if(surface.contains(e.target)||!host.contains(e.target)&&!e.target.closest?.('.me-palette,[data-equation-control]'))setActive(null);
  };
  const pointer=e=>{
-  const clickedField=e.target.closest?.('math-field');
+  const clickedField=e.target.closest?.('math-field');pendingDelete=null;pendingPoint=null;
+  // Measure against the preview-aligned layout before focus lets the field grow.
+  if(clickedField&&surface.contains(clickedField)&&document.activeElement!==clickedField&&e.button===0&&!e.shiftKey){const offset=clickedField.getOffsetFromPoint?.(e.clientX,e.clientY)??-1;if(offset>=0)pendingPoint={field:clickedField,offset};}
   if(clickedField&&surface.contains(clickedField))setActive(clickedField);
   rememberLocation();
   if(surface.contains(e.target)&&!e.target.closest?.('[data-math]')||!host.contains(e.target)&&!e.target.closest?.('.me-palette,[data-equation-control]'))setActive(null);
   selectBlock(e.target);
  };
- document.addEventListener('focusin',focus);document.addEventListener('pointerdown',pointer,true);
+ // A drag that selected maths keeps its range; a plain click places the caret.
+ const release=()=>{const point=pendingPoint;pendingPoint=null;if(!point?.field.isConnected||document.activeElement!==point.field)return;const range=point.field.selection?.ranges?.[0];if(range&&range[0]!==range[1])return;point.field.position=Math.min(point.offset,point.field.lastOffset);rememberLocation();};
+ document.addEventListener('focusin',focus);document.addEventListener('pointerdown',pointer,true);document.addEventListener('pointerup',release,true);
  surface.addEventListener('selection-change',rememberSelection);surface.addEventListener('keyup',rememberLocation);surface.addEventListener('mouseup',rememberLocation);
  // A real text-node position keeps native typing and whitespace deletion outside
  // MathLive, including when an equation is the first/last item in a paragraph.
@@ -89,7 +95,20 @@ export function installMathEditing(editor) {
    candidate=(forward?candidate.firstChild:candidate.lastChild)??outside(candidate);
   }
  };
- const key=e=>{if(host.readonly||e.isComposing||dialog)return;const mf=e.target.closest?.('math-field');if(mf){if(!surface.contains(mf))return;if(e.key==='Tab'&&(e.ctrlKey||e.metaKey||e.altKey))return;if(e.key==='Tab'){if(window.MathsEditor?.Palette?.isOpen())return;e.preventDefault();e.stopImmediatePropagation();palette();return;}if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();exit(mf,!e.shiftKey);}else if(['Backspace','Delete'].includes(e.key)&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!mf.getValue('latex').trim()){e.preventDefault();e.stopImmediatePropagation();remove(mf);}return;}if(!surface.contains(e.target)||e.ctrlKey||e.metaKey)return;if(e.altKey&&(e.key==='='||e.code==='Equal')){e.preventDefault();e.stopImmediatePropagation();editor.insertMath();return;}if(e.altKey)return;if(['ArrowLeft','ArrowRight','Backspace','Delete'].includes(e.key)&&!e.shiftKey){const forward=['ArrowRight','Delete'].includes(e.key),next=adjacent(forward);if(next){e.preventDefault();e.stopImmediatePropagation();if(['Backspace','Delete'].includes(e.key))remove(next);else{next.focus();queueMicrotask(()=>{next.position=forward?0:-1;});}}}};
+ // Word selects an equation beside the caret first; the next Backspace/Delete removes it.
+ const selectWhole=mf=>{mf.focus({preventScroll:true});mf.selection={ranges:[[0,mf.lastOffset]],direction:'forward'};pendingDelete=mf;rememberSelection();};
+ const wholeSelected=mf=>{const range=mf.selection?.ranges?.[0];return !!range&&Math.min(...range)===0&&Math.max(...range)===mf.lastOffset;};
+ const key=e=>{if(host.readonly||e.isComposing||dialog)return;const mf=e.target.closest?.('math-field');
+  if(mf){if(!surface.contains(mf))return;const plain=!e.ctrlKey&&!e.metaKey&&!e.altKey;
+   // Tab/Shift+Tab stay with MathLive (next/previous box, then move-out below).
+   if(e.altKey&&!e.ctrlKey&&!e.metaKey&&(e.code==='KeyS'||e.key.toLowerCase()==='s')){e.preventDefault();e.stopImmediatePropagation();palette();return;}
+   if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();exit(mf,!e.shiftKey);return;}
+   // Enter finishes the equation; LaTeX-command entry and row shortcuts stay MathLive's.
+   if(e.key==='Enter'&&plain&&!e.shiftKey&&mf.mode!=='latex'){e.preventDefault();e.stopImmediatePropagation();exit(mf,true);return;}
+   if(['Backspace','Delete'].includes(e.key)&&plain&&(!mf.getValue('latex').trim()||pendingDelete===mf&&wholeSelected(mf))){e.preventDefault();e.stopImmediatePropagation();remove(mf);return;}
+   if(!['Shift','Control','Alt','Meta'].includes(e.key))pendingDelete=null;return;}
+  if(!surface.contains(e.target)||e.ctrlKey||e.metaKey)return;if(e.altKey&&(e.key==='='||e.code==='Equal')){e.preventDefault();e.stopImmediatePropagation();editor.insertMath();return;}if(e.altKey)return;
+  if(['ArrowLeft','ArrowRight','Backspace','Delete'].includes(e.key)&&!e.shiftKey){const forward=['ArrowRight','Delete'].includes(e.key),next=adjacent(forward);if(next){e.preventDefault();e.stopImmediatePropagation();if(['Backspace','Delete'].includes(e.key)){if(next.getValue('latex').trim())selectWhole(next);else remove(next);}else{next.focus();queueMicrotask(()=>{next.position=forward?0:-1;});}}}};
  const move=e=>{if(!e.target.matches?.('math-field')||!['forward','backward'].includes(e.detail?.direction))return;e.preventDefault();exit(e.target,e.detail.direction==='forward');};host.addEventListener('keydown',key,true);surface.addEventListener('move-out',move);
- return ()=>{host.removeEventListener('keydown',key,true);document.removeEventListener('focusin',focus);document.removeEventListener('pointerdown',pointer,true);surface.removeEventListener('selection-change',rememberSelection);surface.removeEventListener('keyup',rememberLocation);surface.removeEventListener('mouseup',rememberLocation);surface.removeEventListener('move-out',move);if(active&&window.MathsEditor?.Palette?.isOpen())window.MathsEditor.Palette.close('editor-closed');setActive(null);dialog?.remove();bar.remove();};
+ return ()=>{host.removeEventListener('keydown',key,true);document.removeEventListener('focusin',focus);document.removeEventListener('pointerdown',pointer,true);document.removeEventListener('pointerup',release,true);surface.removeEventListener('selection-change',rememberSelection);surface.removeEventListener('keyup',rememberLocation);surface.removeEventListener('mouseup',rememberLocation);surface.removeEventListener('move-out',move);if(active&&window.MathsEditor?.Palette?.isOpen())window.MathsEditor.Palette.close('editor-closed');setActive(null);dialog?.remove();bar.remove();};
 }

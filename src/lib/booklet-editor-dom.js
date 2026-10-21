@@ -47,17 +47,25 @@ export function restoreEditorSelection(editor, bookmark) {
   const a=point(bookmark?.start),b=point(bookmark?.end??bookmark?.start);
   surface.focus({preventScroll:true});window.getSelection().setBaseAndExtent(...a,...b);editor.documentController.saveRange();
 }
-function focusMathField(field, surface, position, selection) {
+// A later click or drag owns the caret; deferred refocusing must not undo it.
+let pointerRevision=0;
+if(typeof document!=='undefined')document.addEventListener('pointerdown',()=>{pointerRevision++;},true);
+function focusMathField(field, surface, position, selection, at) {
   field.closest('maths-editor')?.documentController.mathEditing?.activate(field);
-  const focus=()=>{field.focus({preventScroll:true});if(selection)field.selection=JSON.parse(JSON.stringify(selection));else if(position!=null)field.position=position;};
+  // A click on an equation places the caret where it landed, as in Word. Measure
+  // before focus, while the field still lies over its printed preview.
+  const offsetAt=()=>{const offset=at?field.getOffsetFromPoint?.(at.x,at.y)??-1:-1;return offset>=0?Math.min(offset,field.lastOffset):null;};
+  let target=position??offsetAt();
+  const focus=()=>{field.focus({preventScroll:true});if(selection)field.selection=JSON.parse(JSON.stringify(selection));else{target??=offsetAt();if(target!=null)field.position=target;}};
   focus();
   // MathLive finishes mounting after the host's synchronous document render.
-  requestAnimationFrame(()=>{if(field.isConnected&&document.activeElement===field)focus();});
+  const revision=pointerRevision;
+  requestAnimationFrame(()=>{if(field.isConnected&&document.activeElement===field&&revision===pointerRevision)focus();});
 }
 export function placeEditorAtPoint(editor, point) {
   const surface=editor.documentController.surface;
-  if(point?.mathIndex!=null){const mf=surface.querySelectorAll('math-field')[point.mathIndex];if(mf){focusMathField(mf,surface);return;}}
   const coordinates=Number.isFinite(point?.x)&&Number.isFinite(point?.y);
+  if(point?.mathIndex!=null){const mf=surface.querySelectorAll('math-field')[point.mathIndex];if(mf){focusMathField(mf,surface,null,null,coordinates?point:null);return;}}
   const hit=coordinates&&document.caretPositionFromPoint?.(point.x,point.y);
   const range=coordinates&&!hit&&document.caretRangeFromPoint?.(point.x,point.y);
   const node=hit?.offsetNode??range?.startContainer,offset=hit?.offset??range?.startOffset;
