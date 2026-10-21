@@ -75,6 +75,7 @@ Approved findings are repaired through the [lean local feedback-repair rule](boo
 - Write each protected group from the review as `flow.keepWithNext` on its blocks. For a booklet with no `settings.questionOrder`, ask the user whether to pin it to `source`, because the exercise organiser otherwise sorts groups by reasoning score.
 - An inserted or moved question must not rewrite the stored labels of other blocks. Display numbers are computed from order, and a label edit returns a block to content review.
 - Look in the question bank for an already reviewed question before authoring one. A new question needs both answers, a classification and a working-space estimate. Bank-linked changes follow the runbook's bank check.
+- A repaired block that other booklets also contain is [shared content](booklet-shared-content.md). Ask, with the approval, whether the repair applies to all copies or only this booklet, then record it with `node scripts/booklet/shared-content.mjs decide --project ID --block ID --apply-all` or `--keep-separate --reason TEXT`. Check the pages the update lists in each other booklet.
 - Afterwards run `review --topics` on the affected topic and the topic after it, once. No further round without a named cause.
 
 ## Future imports

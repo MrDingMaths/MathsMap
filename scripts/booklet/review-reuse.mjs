@@ -6,61 +6,12 @@ import {questionReviewContent,isLeanReview} from './lean-profile.mjs';
 import {originalSource} from './source-lineage.mjs';
 import {loadWorkflow} from './workflow-review.mjs';
 import {verificationDependencies,recordVerification,createArtifactVerifier,questionTeachingDependencies} from './import-verification.mjs';
+import {remapReference,referenceField,reuseContentValue,reuseContentHash,changedReviewFields} from './reuse-content.mjs';
+// The content identity lives in reuse-content.mjs; existing callers import it from here.
+export {reuseContentValue,reuseContentHash,changedReviewFields} from './reuse-content.mjs';
 
 const sha=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
-// Colours and mathematical diagram code remain significant. Only identity and
-// presentation are omitted; never normalise text, values or diagram labels.
-const omitted=new Set(['id','number','questionNumber','sourceOrder','sourcePageNumber','sourceLabel','sourceAtom','reuse']);
-const remapReference=(value,ids)=>value.split(/([/#:])/).map(part=>ids.get(part)??part).join('');
-const referenceField=key=>/(?:Id|Ids)$/.test(key)||['ref','refs','overlayOf','target','targets'].includes(key);
-function canonical(value){
- if(Array.isArray(value))return value.map(canonical);
- if(!value||typeof value!=='object')return value;
- return Object.fromEntries(Object.keys(value).sort().filter(k=>!omitted.has(k)&&!(k==='label'&&value.type==='question'&&/^\d+$/.test(String(value[k])))).map(k=>[k,canonical(value[k])]));
-}
-function mathematicalContent(value){
- const projected=questionReviewContent(value);
- function restore(original,copy){
-  if(!original||typeof original!=='object'||!copy||typeof copy!=='object')return;
-  // Semantic colour and teaching responses are printable mathematical content.
-  for(const key of ['colour','color'])if(Object.hasOwn(original,key))copy[key]=original[key];
-  if(original.sourceReview?.responses)copy.teachingResponses=structuredClone(original.sourceReview.responses);
-  for(const [key,child]of Object.entries(original))restore(child,copy[key]);
- }
- restore(value,projected);return projected;
-}
-export function reuseContentValue(block){
- const content=mathematicalContent(block),ids=new Map();
- // Assign identities by structural position before sorting/omitting fields.
- // References retain their topology while local names can change freely.
- function collect(value,position='$'){
-  if(!value||typeof value!=='object')return;
-  if(typeof value.id==='string')ids.set(value.id,position);
-  for(const [key,child]of Object.entries(value))if(!omitted.has(key))collect(child,position+'/'+key);
- }
- collect(content);
- function references(value,field=''){
-  if(Array.isArray(value))return value.map(child=>references(child,field));
-  if(!value||typeof value!=='object'){
-   if(!referenceField(field)||typeof value!=='string')return value;
-   const mapped=remapReference(value,ids);return mapped===value?value:{localReference:mapped};
-  }
-  return Object.fromEntries(Object.entries(value).map(([key,child])=>[key,key==='id'?child:references(child,key)]));
- }
- return canonical(references(content));
-}
-export const reuseContentHash=block=>sha(reuseContentValue(block));
-export function changedReviewFields(before,after){
- const result=[],escape=s=>String(s).replaceAll('~','~0').replaceAll('/','~1');
- const visit=(a,b,field='')=>{
-  if(isDeepStrictEqual(a,b))return;
-  if(a&&b&&typeof a==='object'&&typeof b==='object'&&Array.isArray(a)===Array.isArray(b)){
-   for(const key of new Set([...Object.keys(a),...Object.keys(b)]))visit(a[key],b[key],field+'/'+escape(key));
-  }else result.push({field,original:a??null,current:b??null});
- };
- visit(reuseContentValue(before),reuseContentValue(after));return result;
-}
 export function cloneReusableBlock(block,{projectId,idPrefix,pageMap={},runId}={}){
  if(!projectId||!idPrefix)throw Error('Reuse cloning requires prior project ID and a new ID prefix');
  const copy=structuredClone(block),ids=new Map();

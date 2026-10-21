@@ -4,6 +4,7 @@
   import BookletCreateDialog from './BookletCreateDialog.svelte';
   import BookletLibraryManager from './BookletLibraryManager.svelte';
   import BookletLibraryPanel from './BookletLibraryPanel.svelte';
+  import BookletSharedContent from './BookletSharedContent.svelte';
   import {insertFromBooklet,insertSummary} from '../lib/booklet-library-transfer.js';
   import { normalizeProjectLibrary, groupLibraryProjects } from '../lib/booklet-library.js';
   import { menuGroup } from '../lib/booklet-menus.js';
@@ -74,7 +75,7 @@
   import {
     createBookletProject, deleteBookletProject, duplicateBookletProject,
     listBookletProjects, loadBookletProject, openBookletProject, promoteProjectModule,
-    promoteProjectQuestion, saveBookletProject, getProjectBankSync, resolveProjectBankSync,
+    promoteProjectQuestion, saveBookletProject, getProjectBankSync, resolveProjectBankSync, getProjectShared, resolveProjectShared,
     updateBookletProjectLibrary,
   } from '../lib/booklet-project-storage.js';
 
@@ -119,6 +120,50 @@
     if(!project||opening)return;const id=project.id,token=loadGeneration;
     try{const result=await getProjectBankSync(id);if(project?.id===id&&token===loadGeneration&&!opening){bankSync=result;project=applyBankRatings(project,result.items);bankSyncError='';}}
     catch(e){if(project?.id===id&&token===loadGeneration&&!opening)bankSyncError='Could not check bank updates. '+e.message;}
+    await refreshShared();
+  }
+  // Shared content: copies of the same block in other booklets. Updates applied
+  // from another booklet reach a saved, idle booklet in place; one with unsaved
+  // edits keeps them and meets the ordinary save conflict.
+  let shared = $state.raw({members:[],checks:[]}), showShared=$state(false), sharedBusy=$state(false);
+  const sharedPending=$derived(shared.members.filter(m=>m.status==='edited'||m.status==='diverged'));
+  const sharedSelected=$derived(shared.members.filter(m=>m.blockId===selectedBlockId));
+  const projectTitles=$derived(Object.fromEntries(projects.map(p=>[p.id,p.title])));
+  const sharedIdle=()=>project&&!opening&&!editSession&&saveState==='Saved'&&!saveInFlight;
+  function adoptSaved(saved){documentSession.dispatch(saved,{remember:false});savedBase=clone(saved);history.reset();undoStack=[];redoStack=[];persistence.reset(saved);}
+  async function refreshShared(){
+    if(!project||opening)return;const id=project.id,token=loadGeneration,current=()=>project?.id===id&&token===loadGeneration&&!opening;
+    try{
+      let result=await getProjectShared(id);if(!current())return;
+      if(result.revision>project.revision&&sharedIdle()){adoptSaved(await loadBookletProject(id));if(!current())return;status='Updated with shared content changed in another booklet.';}
+      if(result.members.some(m=>m.status==='behind')&&sharedIdle()&&!sharedBusy){
+        sharedBusy=true;
+        try{const applied=await resolveProjectShared(id,{action:'catch-up',expectedRevision:project.revision});if(!current())return;if(applied.project){adoptSaved(applied.project);status='Updated with shared content changed in another booklet.';}result=applied.status;}
+        catch(e){if(e.status!==409)throw e;}finally{sharedBusy=false;}
+      }
+      shared=result;
+    }catch{/* Shared status is advisory; the next check retries. */}
+  }
+  const sharedOpenKey=$derived(project&&!opening?project.id:'');
+  $effect(()=>{if(sharedOpenKey)untrack(()=>refreshShared());});
+  async function applyShared(body){
+    finishInline();
+    if(body.action!=='mark-checked'&&!sharedIdle()){status='Save or finish the current edit before deciding about shared content.';return;}
+    sharedBusy=true;error='';
+    try{
+      const result=await resolveProjectShared(project.id,{...body,expectedRevision:project.revision});
+      if(result.project)adoptSaved(result.project);
+      shared=result.status??shared;
+      if(body.action==='apply-all'||body.action==='offer-add'){
+        const rows=result.results??[],done=rows.filter(r=>r.updated?.length).length,waiting=rows.filter(r=>r.skipped==='busy').length,failed=rows.flatMap(r=>r.errors??[]);
+        const verb=body.action==='apply-all'?'Applied to':'Added to';
+        status=`${verb} ${done} other ${done===1?'booklet':'booklets'}${waiting?`; ${waiting} busy${body.action==='apply-all'?', updated when free':', offered again later'}`:''}.`;
+        if(failed.length)error='Some copies could not be updated: '+failed.map(f=>f.message).join('; ');
+      }else if(body.action==='use-shared')status='This copy now matches the shared version.';
+      else if(body.action==='keep-separate')status='This copy will stay different.';
+      else if(body.action==='offer-decline')status='The question stays in this booklet only.';
+      await refreshProjects();
+    }catch(e){error=e.message;await refreshShared();}finally{sharedBusy=false;}
   }
   async function applyBankSync(item,action){
     finishInline();
@@ -667,7 +712,7 @@
       const next=applyBankRatings(loaded.project,sync.items),base=clone(next);
       if(!projects.some(item=>item.id===id))projects=[...projects,{id,title:next.title}];
       project=next;savedBase=base;saveState='Saved';saveConflict=false;mergeReview=null;
-      bankSync=sync;bankSyncError=syncError;showBankSync=false;
+      bankSync=sync;bankSyncError=syncError;showBankSync=false;shared={members:[],checks:[]};showShared=false;
       selectDefaults(next);tool='';comparison=false;diagramSelection=null;layoutSelection=null;
       documentSession.reset();persistence.reset(project);documentGeneration=documentSession.generation;undoStack=[];redoStack=[];groupSelection=[];documentSelection=null;exportedFeedback='';
       previewAttempt=token;
@@ -826,6 +871,7 @@
       const editedDuringSave=project!==savingProject;
       savedBase=saved;const canonical=shareUnchanged(savingProject,saved);project=editedDuringSave?reconcileSaveAcknowledgement(snapshot,project,canonical):canonical;
       saveState = editedDuringSave?'Unsaved changes':'Saved';
+      void refreshShared();
       if(editedDuringSave)savePending=true;
       projects=projects.map(item=>item.id===saved.id?{...item,title:saved.title,revision:saved.revision}:item);
       // Bank status refresh remains available on focus, its 15 s timer and Review.
@@ -1148,6 +1194,13 @@
  </div>{/if}
   {#if error}<div class="project-notice error project-screen" role="alert">{error}</div>{:else if status}<div class="workspace-toast project-screen" role="status">{status}</div>{/if}
   {#if bankUpdates.length&&!showBankSync}<div class="project-notice project-screen" role="status">{bankUpdates.some(i=>i.state==='conflict')?'Bank sync needs review.':'Question bank updates available.'} <button onclick={()=>showBankSync=true}>Review updates</button></div>{/if}
+  {#if project&&!showShared}
+    {#if sharedPending.length}<div class="project-notice project-screen" role="status">{sharedPending.length===1?'A shared block was changed here.':`${sharedPending.length} shared blocks were changed here.`} Other booklets have copies. <button onclick={()=>showShared=true}>Choose all copies or this one</button></div>
+    {:else if shared.offers?.length}<div class="project-notice project-screen" role="status">{shared.offers.length===1?'A new question was added to an exercise other booklets share.':`${shared.offers.length} new questions were added to exercises other booklets share.`} <button onclick={()=>showShared=true}>Offer to other booklets</button></div>
+    {:else if shared.checks.length}<div class="project-notice project-screen" role="status">Shared content here was updated from another booklet. <button onclick={()=>showShared=true}>Pages to check</button></div>
+    {:else if sharedSelected.length}<div class="project-notice project-screen" role="status">The selected block is shared with {sharedSelected[0].others.length} other {sharedSelected[0].others.length===1?'copy':'copies'}. <button onclick={()=>showShared=true}>Details</button></div>{/if}
+  {/if}
+  {#if showShared&&project}<div class="project-screen"><BookletSharedContent status={shared} titles={projectTitles} {selectedBlockId} disabled={!!editSession||saveState!=='Saved'} busy={sharedBusy} onaction={applyShared} onselect={id=>{const section=project.sections.find(s=>s.blocks.some(b=>b.id===id));if(section)selectFlow(id,section.id);}} onclose={()=>showShared=false}/></div>{/if}
   {#if showBankSync&&project}
     <section class="bank-sync-panel project-screen" aria-label="Question bank sync">
       <h2>Question bank sync</h2>
