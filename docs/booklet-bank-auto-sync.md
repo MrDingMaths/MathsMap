@@ -107,6 +107,8 @@ When a linking booklet files the question under a different primary skill, that 
 
 `import-project-bank.mjs` applies these outcomes. Assessments cover the new questions only, the receipt records an `outcome` for every practice question, and a rerun after decisions handles the remainder. `--resume-from` supports only booklets whose practice questions are all new. Creating a bank question in the bank editor is refused when an identical record exists.
 
+Bank links cover published practice questions. Identical theory and questions shared by several booklets are also kept in step by [shared content](booklet-shared-content.md): an edit to one copy waits for **Apply to all copies** or **Keep different here**, and applying it updates the owner booklet's copy, which then syncs here as usual.
+
 To see where one booklet or the whole library stands, run the read-only report:
 
 ```text
