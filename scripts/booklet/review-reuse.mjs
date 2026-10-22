@@ -59,11 +59,17 @@ function originalTeachingProject(project,payload,result){
  return original;
 }
 export function loadReuseContext({projectFile,runDir,blockIds}){
- const project=read(projectFile),blocks=(project.sections??[]).flatMap(s=>s.blocks??[]),accepted=new Map(),baselines=new Map(),originals=new Map();
+ // One synchronous verification context may pin many selected rows in the
+ // same large review table. Read/parse that file once, retaining exact selector
+ // hashes and rejecting any file changed during this context construction.
+ const evidence=new Map(),signature=file=>{const s=fs.statSync(file);return [s.mtimeMs,s.ctimeMs,s.size,s.dev,s.ino].join(':');};
+ const snapshot=file=>{if(!evidence.has(file)){const before=signature(file),text=fs.readFileSync(file,'utf8');if(signature(file)!==before)throw Error('Reuse evidence changed while reading');evidence.set(file,{signature:before,text});}return evidence.get(file);};
+ const json=file=>{const value=snapshot(file);return value.json??=JSON.parse(value.text.replace(/^\uFEFF/,''));};
+ const project=json(projectFile),blocks=(project.sections??[]).flatMap(s=>s.blocks??[]),accepted=new Map(),baselines=new Map(),originals=new Map();
  let legacyState;
  const leanFile=path.join(runDir,'lean-review','reviewed.json');
  if(fs.existsSync(leanFile)){
-  const table=read(leanFile);
+  const table=json(leanFile);
   for(const block of blocks.filter(b=>!blockIds||blockIds.includes(b.id))){
    const row=table.questions?.[block.id],version=row?.acceptedVersion;
    if(row?.outcome==='passed'&&row.hash===sha(questionReviewContent(block))&&(!version?.mathematicalHash||version.mathematicalHash===reuseContentHash(block)))accepted.set(block.id,{record:leanFile,note:row.note});
@@ -79,7 +85,16 @@ export function loadReuseContext({projectFile,runDir,blockIds}){
    }
   }
  }else{
-  const state=legacyState=loadWorkflow(runDir),deps=verificationDependencies(state,project,{runDir}),artifactCurrent=createArtifactVerifier();
+  const state=legacyState=loadWorkflow(runDir);
+  // This path validates question mathematics, not build/UI/regression evidence.
+  // recordVerification requires the exact question dependency, checks and
+  // current source artifacts here; hashing every renderer/test tree per reuse
+  // candidate cannot establish any additional question acceptance.
+  // Preserve the complete historical signature for unknown dependency records.
+  const known=new Set(['question','questions','source','project','renderer','authoring','assessment','regression','build','storage']);
+  const selected=blocks.filter(b=>!blockIds||blockIds.includes(b.id));
+  const broad=selected.some(block=>Object.keys(state.verification?.entries?.['question:'+block.id]?.dependencies??{}).some(key=>!known.has(key)));
+  const deps=verificationDependencies(state,project,{runDir,...(!broad?{renderer:null,implementation:{authoring:null,assessment:null,regression:null,build:null,storage:null}}:{})}),artifactCurrent=createArtifactVerifier();
   for(const block of blocks.filter(b=>!blockIds||blockIds.includes(b.id))){
    const record=state.verification?.entries?.['question:'+block.id];
    if(record?.outcome!=='passed'||record.sourceCompared!==true||record.contentVerified!==true)continue;
@@ -113,17 +128,34 @@ export function loadReuseContext({projectFile,runDir,blockIds}){
   if(!fs.existsSync(leanFile)){const record=legacyState.verification?.entries?.['question:'+id];files.push(...(record?.artifacts??[]).map(a=>a.path));}
   acceptance.acceptancePins=[...new Set(files)].map(file=>{
    const selector=file===leanFile?['questions',id]:file===path.join(runDir,'workflow/issues.json')?['verification','entries','question:'+id]:null;
-   const value=selector?selector.reduce((node,key)=>node?.[key],read(file)):fs.readFileSync(file,'utf8');
+   const value=selector?selector.reduce((node,key)=>node?.[key],json(file)):snapshot(file).text;
    return {path:file,hash:sha(value),...(selector?{selector}:{})};
   });
  }
- return {projectId:project.id,projectFile,projectFileHash:sha(fs.readFileSync(projectFile,'utf8')),runDir,blocks,accepted,baselines,originals};
+ for(const [file,value]of evidence)if(signature(file)!==value.signature)throw Error('Reuse evidence changed during verification');
+ return {projectId:project.id,projectFile,projectFileHash:sha(snapshot(projectFile).text),runDir,blocks,accepted,baselines,originals};
 }
-export function reuseCandidate(block,context){
+// Advisory discovery may compare many candidates carrying pins into the same
+// large JSON evidence file. Cache only within that one synchronous retrieval;
+// final materialisation uses the ordinary byte checks again.
+export function createDiscoveryPinVerifier(){
+ const files=new Map();
+ const signature=file=>{const s=fs.statSync(file);return [s.mtimeMs,s.ctimeMs,s.size,s.dev,s.ino].join(':');};
+ return pin=>{
+  if(!fs.existsSync(pin.path))return false;
+  const before=signature(pin.path);let cached=files.get(pin.path);
+  if(!cached||cached.signature!==before){const text=fs.readFileSync(pin.path,'utf8');if(signature(pin.path)!==before)return false;cached={signature:before,text,hash:sha(text),selectors:new Map()};files.set(pin.path,cached);}
+  if(!pin.selector)return cached.hash===pin.hash;
+  const key=JSON.stringify(pin.selector);
+  if(!cached.selectors.has(key)){cached.json??=JSON.parse(cached.text.replace(/^\uFEFF/,''));cached.selectors.set(key,sha(pin.selector.reduce((node,part)=>node?.[part],cached.json)));}
+  return cached.selectors.get(key)===pin.hash;
+ };
+}
+export function reuseCandidate(block,context,{pinCurrent}={}){
  if(!context)return null;
  if(context.contexts){
   const reference=block.sourceReview?.reuse;
-  const matches=context.contexts.filter(c=>!reference?.projectId||c.projectId===reference.projectId).map(c=>reuseCandidate(block,c)).filter(Boolean);
+  const matches=context.contexts.filter(c=>!reference?.projectId||c.projectId===reference.projectId).map(c=>reuseCandidate(block,c,{pinCurrent})).filter(Boolean);
   return matches.length===1?matches[0]:null;
  }
  let currentBlocks;
@@ -139,7 +171,7 @@ export function reuseCandidate(block,context){
  const matches=matching.filter(b=>context.accepted.has(b.id)||context.baselines?.has(b.id));
  if(matches.length!==1)return null;
  const prior=matches[0],acceptance=context.accepted.get(prior.id)??context.baselines.get(prior.id);
- try{if(acceptance.acceptancePins?.some(pin=>!fs.existsSync(pin.path)||sha(pin.selector?pin.selector.reduce((node,key)=>node?.[key],read(pin.path)):fs.readFileSync(pin.path,'utf8'))!==pin.hash))return null;}catch{return null;}
+ try{if(acceptance.acceptancePins?.some(pin=>pinCurrent?!pinCurrent(pin):!fs.existsSync(pin.path)||sha(pin.selector?pin.selector.reduce((node,key)=>node?.[key],read(pin.path)):fs.readFileSync(pin.path,'utf8'))!==pin.hash))return null;}catch{return null;}
  const baseline=context.baselines?.get(prior.id)?.block??prior,amendments=context.accepted.has(prior.id)?[]:changedReviewFields(baseline,prior);
  const source=context.originals?.get(prior.id)??originalSource(prior,{runDir:context.runDir,projectId:context.projectId})??{block:baseline,origin:{projectId:context.projectId,blockId:prior.id,runId:path.basename(context.runDir??''),hash:reuseContentHash(baseline)}};
  const origin={...source.origin,projectId:source.origin?.projectId??context.projectId,blockId:source.origin?.blockId??prior.id,runId:source.origin?.runId??path.basename(context.runDir??''),hash:reuseContentHash(source.block)};

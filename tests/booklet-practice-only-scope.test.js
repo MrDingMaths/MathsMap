@@ -35,7 +35,7 @@ import {normalizeEditableProject} from '../src/lib/editable-booklet-model.js';
 import {organiseExercises} from '../src/lib/booklet-exercises.js';
 import {exerciseNumbers,flowEditionSections} from '../src/lib/booklet-flow.js';
 const inventory=()=>({pageNumber:4,inventoried:true,entries:[{id:'q',kind:'question',description:'True or false?'},{id:'theory',kind:'teaching',description:'Index rule',exclusionReason:'Standalone reference only'}]});
-const author=()=>({pageNumber:4,sections:[{id:'s',title:'Concept Check',phase:'practice',role:'mixed-practice',blocks:[{id:'b',type:'question',content:{id:'q',type:'question',prompt:'True or false?',answer:{short:'True',worked:'Apply the product rule.'}}}]}],inventoryMappings:[{inventoryId:'q',targetId:'q'}]});
+const author=()=>({pageNumber:4,sections:[{id:'s',title:'Concept Check',phase:'practice',role:'mixed-practice',blocks:[{id:'b',type:'question',classification:{reasoningScore:20,difficulty:'Foundation',difficultyReason:'Direct application in a scope-validation fixture.'},content:{id:'q',type:'question',prompt:'True or false?',answer:{short:'True',worked:'Apply the product rule.'}}}]}],inventoryMappings:[{inventoryId:'q',targetId:'q'}]});
 const check=(r,i=inventory())=>validateSemanticResult(r,{stage:'author',page:4,inventory:i,contentScope:'practice-only'});
 
 test('embedded supplied working retains its mapped content despite an explicit standalone-block exclusion',()=>{
@@ -827,3 +827,16 @@ test('unnumbered whole root rejects duplicate part targets',()=>{const f=wholeTa
 test('generic prose does not declare an unnumbered whole source task',()=>{const f=wholeTaskFixture();f.inventory.entries[0].presentation.sourceIdentity.questionLabel='Discussion';assert.throws(()=>validatePracticeAuthor(f.packet,f.inventory),/distinct part targets/);});
 test('unnumbered whole instruction cannot be remapped into its child',()=>{const f=wholeTaskFixture();f.packet.inventoryMappings.find(m=>m.inventoryId===f.inventory.entries[0].id).targetId=f.packet.sections[0].blocks[0].content.children[0].id;assert.throws(()=>validatePracticeAuthor(f.packet,f.inventory),/whole-task instruction/);});
 test('unnumbered whole source root retains same-page and spacing guards',()=>{let f=wholeTaskFixture();f.packet.sections[0].blocks[0].sourceRefs.push({pageNumber:13});assert.throws(()=>validatePracticeAuthor(f.packet,f.inventory),/distinct part targets/);f=wholeTaskFixture();delete f.packet.sections[0].blocks[0].sourceReview.workingSpaceEstimate;assert.throws(()=>validatePracticeAuthor(f.packet,f.inventory),/solution-informed spacing/);});
+
+test('explicit printed task identity is read beside an exercise heading, including nested sourceReview metadata',()=>{
+ for(const nested of [false,true]){
+  const f=wholeTaskFixture(),q=f.inventory.entries[0],identity=structuredClone(q.presentation.sourceIdentity);
+  delete identity.questionLabel;identity.printedQuestionLabel='Unnumbered shared task';q.sourceLabel='Exercise 7E';
+  q.presentation=nested?{sourceReview:{sourceIdentity:identity}}:{sourceIdentity:identity};
+  assert.doesNotThrow(()=>validatePracticeAuthor(f.packet,f.inventory));
+  for(const change of [v=>v.inventory.entries[0].presentation[nested?'sourceReview':'sourceIdentity'][nested?'sourceIdentity':'printedQuestionLabel']=nested?{...identity,printedQuestionLabel:'Discussion'}:'Discussion',v=>v.packet.inventoryMappings[2].targetId=v.packet.inventoryMappings[1].targetId,v=>v.packet.sections[0].blocks[0].sourceRefs.push({pageNumber:999})]){
+   const invalid=structuredClone(f);change(invalid);assert.throws(()=>validatePracticeAuthor(invalid.packet,invalid.inventory));
+  }
+  identity.pdfPages=[14,15];assert.throws(()=>validatePracticeAuthor(f.packet,f.inventory),/distinct part targets/);
+ }
+});

@@ -49,7 +49,7 @@ export function validatePracticeInventory(inventory) {
   }
 }
 
-export function validatePracticeAuthor(result,inventory,{continuations=[]}={}) {
+export function validatePracticeAuthor(result,inventory,{continuations=[],ancestorInventories=[]}={}) {
   inventory=normalizePracticeInventory(inventory);
   validatePracticeInventory(inventory);
   const blocks=result.sections.flatMap(s=>s.blocks);
@@ -64,15 +64,26 @@ export function validatePracticeAuthor(result,inventory,{continuations=[]}={}) {
    /^Inventory separately as embedded reference content; retain in the parent question rather than authoring a standalone teaching section\.?$/i,
    /^Embedded instruction context; retain within the question, not as a standalone teaching section\.?$/i,
    /^Embedded definition is retained once in the question parent; not a separate teaching section\.?$/i,
+   /^Embedded formula and (?:variable )?definitions are retained once in (?:the parent question|question \d+), not authored as standalone teaching\.?$/i,
+   /^Embedded shared requirement, retained once in the parent question\.?$/i,
    /^Retained in the parent question stem; do not duplicate as standalone teaching\.?$/i,
    /^Retain within question \d+(?:\([a-z]+\))*; do not author as a separate teaching block\.?$/i,
    /^Inventoried separately for coverage; retain within the question rather than authoring a separate teaching block\.?$/i,
    /^Inventoried separately for coverage; the definition and both example sequences remain embedded in question \d+\.?$/i,
    /^Already retained in the question stem; do not author a separate teaching block\.?$/i,
    /^Represent once within the parent question, not as a separate teaching block\.?$/i,
-   /^Represent once within the parent question, not as standalone theory\.?$/i
+   /^Represent once within the parent question, not as standalone theory\.?$/i,
+   /^Embedded demonstration retained in question \d+; no separate authored example block\.?$/i,
+   /^Embedded question scaffold, not a separate teaching block\.?$/i,
+   /^Retain within question \d+; do not author as a standalone teaching block\.?$/i
   ].some(pattern=>pattern.test(e.exclusionReason.trim()));
-  for(const e of inventory.entries)if(e.embeddedInQuestion&&e.exclusionReason&&!embeddedRetention(e))throw Error('Conflicting embedded content exclusion: '+e.id);
+  // A source navigation cue is intentionally omitted, unlike a retained
+  // definition. Keep this bounded to the observed independently inventoried
+  // margin reference; ordinary substantive embedded content cannot use it.
+  const omittedExampleReference=e=>e.kind==='teaching'&&e.embeddedInQuestion&&
+   /^Margin cross-reference: Example \d+[a-z]?\.$/i.test(e.description??'')&&
+   e.exclusionReason==='Reference to teaching elsewhere, not a worked example or additional practice task on this page.';
+  for(const e of inventory.entries)if(e.embeddedInQuestion&&e.exclusionReason&&!embeddedRetention(e)&&!omittedExampleReference(e))throw Error('Conflicting embedded content exclusion: '+e.id);
   const excluded=new Set(inventory.entries.filter(e=>e.exclusionReason&&!embeddedRetention(e)&&
    (e.kind!=='cover'||/publisher.*(?:navigation|furniture)|(?:navigation|furniture).*publisher/i.test(e.exclusionReason))).map(e=>e.id));
   // Some preserved inventories put reference-only answer/footer notes inside
@@ -104,15 +115,15 @@ export function validatePracticeAuthor(result,inventory,{continuations=[]}={}) {
       const range=String(q.sourceLabel??q.sourceReview?.sourceIdentity?.questionLabel??'').match(/^\s*Q?(\d+)\s*[-–—]\s*Q?(\d+)\s*$/i);
       const partNumbers=new Set(localParts.map(e=>String(e.sourceLabel??'').match(/^\s*Q?(\d+)(?:\b|\()/i)?.[1]).filter(Boolean).map(Number));
       const groupedRangeRoot=distinctLocalParts&&range&&Number(range[2])>=Number(range[1])&&partNumbers.size===Number(range[2])-Number(range[1])+1&&[...partNumbers].every(n=>n>=Number(range[1])&&n<=Number(range[2]));
-      const numberedNestedRoot=distinctLocalParts&&!range&&/^\s*(?:(?:Exercises?\s*\d+\s*[A-Z]\s*,\s*)|(?:\d+\s*[A-Z]\s*(?:Exercises\s*[,]?\s*)?))?Q?\d+\.?\s*[†‡*!]*\s*$/i.test(String(q.sourceLabel??''))&&
+      const numberedNestedRoot=distinctLocalParts&&!range&&/^\s*(?:(?:Review\s+exercise\s*,\s*)|(?:Exercises?\s*\d+\s*[A-Z]\s*,\s*)|(?:\d+\s*[A-Z]\s*(?:Exercises\s*[,]?\s*)?))?Q?\d+\.?\s*[†‡*!]*\s*$/i.test(String(q.sourceLabel??''))&&
        questions.filter(entry=>entry.sharedStemId===q.sharedStemId).length===1&&
        (q.sourceReview?.sourceIdentity?.pdfPages??[inventory.pageNumber]).length===1;
       // A source-labelled unnumbered task can still be one whole question.
       // Independent source parts must own every native child, on this page only.
-      const identity=q.sourceReview?.sourceIdentity??q.presentation?.sourceIdentity;
+      const identity=q.sourceReview?.sourceIdentity??q.presentation?.sourceReview?.sourceIdentity??q.presentation?.sourceIdentity;
       const sourcePartLabels=localParts.map(entry=>String(entry.sourceLabel??'').trim());
       const declaredLabels=identity?.questionLabels;
-      const declaredUnnumbered=/\bunnumbered(?: shared)? task\b/i.test(String(q.sourceLabel??identity?.questionLabel??''));
+      const declaredUnnumbered=[q.sourceLabel,identity?.questionLabel,identity?.printedQuestionLabel].some(label=>/\bunnumbered(?: shared)? task\b/i.test(String(label??'')));
       const numberedSourceGroup=Array.isArray(declaredLabels)&&declaredLabels.length===localParts.length&&declaredLabels.length>1&&
        declaredLabels.every(label=>/^\d+$/.test(String(label)))&&new Set(declaredLabels.map(String)).size===declaredLabels.length&&
        declaredLabels.every(label=>sourcePartLabels.includes(String(label)));
@@ -124,7 +135,7 @@ export function validatePracticeAuthor(result,inventory,{continuations=[]}={}) {
        questions.filter(entry=>entry.sharedStemId===q.sharedStemId).length===1&&
        block.sourceRefs?.length===1&&block.sourceRefs[0].pageNumber===inventory.pageNumber&&
        (identity?.pdfPage==null||identity.pdfPage===inventory.pageNumber)&&
-       (q.sourceReview?.sourceIdentity?.pdfPages??[inventory.pageNumber]).length===1&&
+       (identity?.pdfPages??[inventory.pageNumber]).length===1&&
        block.content.children?.length===localParts.length&&block.content.children.every(child=>localTargets.includes(child.id));
       const continuedRoot=distinctLocalParts&&
        result.sharedContentContinuations?.some(ref=>ref.blockId===block.id&&ref.reason?.trim()&&ref.canonicalPageNumber<inventory.pageNumber&&
@@ -163,7 +174,13 @@ export function validatePracticeAuthor(result,inventory,{continuations=[]}={}) {
       Number.isInteger(ref.canonicalPageNumber)&&ref.canonicalPageNumber>0&&ref.canonicalPageNumber<inventory.pageNumber);
     if(!continuation||![continuation.canonicalPageNumber,inventory.pageNumber].every(page=>block.sourceRefs?.some(ref=>ref.pageNumber===page)))continue;
     const parentIds=new Set([block.id,block.content.id]),descendants=new Set(ids(block.content).filter(id=>id!==block.content.id));
-    const belongs=entry=>{const seen=new Set();let parent=entry.parentId;while(parent&&!seen.has(parent)){if(parentIds.has(parent))return true;seen.add(parent);parent=byId.get(parent)?.parentId;}return false;};
+    const ancestors=new Map();
+    const declared=continuations.some(pair=>!Array.isArray(pair)&&pair.from===continuation.canonicalPageNumber&&pair.to===inventory.pageNumber&&pair.entryIds?.some(id=>parentIds.has(id)));
+    if(declared)for(const prior of ancestorInventories.filter(v=>v.pageNumber===continuation.canonicalPageNumber)){
+      if(!prior.entries.some(e=>e.kind==='question'&&parentIds.has(e.id)))continue;
+      for(const entry of prior.entries){const local=byId.get(entry.id);if(local&&(local.parentId!==entry.parentId||local.kind!==entry.kind))throw Error('Conflicting continuation ancestry: '+entry.id);ancestors.set(entry.id,entry);}
+    }
+    const belongs=entry=>{const seen=new Set();let parent=entry.parentId;while(parent&&!seen.has(parent)){if(parentIds.has(parent))return true;seen.add(parent);const owner=byId.get(parent)??ancestors.get(parent);if(owner?.exclusionReason)return false;parent=owner?.parentId;}return false;};
     const parts=inventory.entries.filter(e=>e.kind==='part'&&!e.exclusionReason&&belongs(e));
     const mapped=parts.map(part=>result.inventoryMappings.filter(m=>m.inventoryId===part.id&&!m.exclusionReason&&descendants.has(m.targetId)));
     const foreignPart=result.inventoryMappings.some(m=>{const entry=byId.get(m.inventoryId);return entry?.kind==='part'&&!entry.exclusionReason&&descendants.has(m.targetId)&&!belongs(entry);});
@@ -175,3 +192,4 @@ export function validatePracticeAuthor(result,inventory,{continuations=[]}={}) {
     if(parent.length>10&&(block.content.children??[]).some(n=>contentSource(n.prompt).trim().startsWith(parent)))throw Error('Repeated shared stem inside part: '+block.id);
   }
 }
+

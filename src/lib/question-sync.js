@@ -20,7 +20,7 @@ export function questionKey(value){
   if(typeof v==='string')return v.replace(/\s+/g,' ').trim();
   if(Array.isArray(v))return v.map(posed);
   if(!v||typeof v!=='object')return v;
-  return Object.fromEntries(Object.entries(v).filter(([k,x])=>k!=='answer'&&k!=='width'&&!(k==='label'&&v.type==='question'&&/^\d+$/.test(String(x)))).map(([k,x])=>[k,posed(x)]));
+  return Object.fromEntries(Object.entries(v).filter(([k,x])=>k!=='answer'&&!(k==='responseKind'&&x==='group-answer')&&k!=='width'&&!(k==='label'&&v.type==='question'&&/^\d+$/.test(String(x)))).map(([k,x])=>[k,posed(x)]));
  };
  return JSON.stringify(sharedQuestion({content:posed(value.content)}).content);
 }

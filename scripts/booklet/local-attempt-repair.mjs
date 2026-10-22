@@ -1,5 +1,6 @@
 // Review an exact field patch against a preserved attempt; no external generation.
 import fs from 'node:fs';
+import {restorePacketRatings,bindRepairAssessment} from './reasoning-ratings.mjs';
 import path from 'node:path';
 import {isDeepStrictEqual} from 'node:util';
 import {contentNodes} from '../../src/lib/booklet-content-verification.js';
@@ -25,21 +26,31 @@ const checkRef=artifact=>{
 // A planner may add explicit empty group membership lists without changing
 // its delivered source, contracts or task. Revalidate that narrow tool-only
 // difference; never extend this to source changes or new group members.
-export function equivalentAssignmentPrompt(before,after){
+export function equivalentAssignmentPrompt(before,after,{generation}={}){
  if(before===after)return true;
  const split=prompt=>{const at=prompt.lastIndexOf('\n{');if(at<0)return null;try{return {prefix:prompt.slice(0,at),context:JSON.parse(prompt.slice(at+1))};}catch{return null;}};
  const old=split(before),current=split(after);
- if(!old||!current||old.prefix!==current.prefix)return false;
- const normalize=context=>{const value=structuredClone(context);for(const group of value.groups??[])for(const key of ['questionIds','inventoryIds'])if(Array.isArray(group[key])&&!group[key].length)delete group[key];return value;};
+ // Adding the new classification enum member changes no source task, skill,
+ // solution or layout instruction. Current rating validation still runs below.
+ const unusedReuse=generation&&!JSON.stringify(generation).match(/"(?:reuse\w*|automaticReuse)"\s*:/i);
+ const noBlanks=generation&&!JSON.stringify(generation).match(/\\(?:boxed|fbox|square|Box|dots|ldots|cdots|dotfill|rule|placeholder)\b|\.{3}|…|"(?:cloze\w*|blank\w*)"\s*:|"(?:type|format)"\s*:\s*"[^"]*(?:cloze|blank|box)/i);
+ const exceptions=[String.raw`Exception (21 October 2026): a blank enclosed by parentheses inside a fraction component keeps the parentheses and empty writing space without a visible box or dots, including table-built fractions. Parentheses elsewhere do not remove unrelated boxes. Preserve occupied dimensions, line wrapping and pagination during repairs; \phantom{\boxed{...}} retains exact blank metrics without drawing an outline. `,String.raw`Parenthesised fraction blanks are an exception (21 October 2026): if parentheses enclose the blank, keep the parentheses and empty writing space without a visible box or dots, including table-built fractions. Parentheses elsewhere do not remove an unrelated box. For repairs, \phantom{\boxed{...}} can preserve the old blank's exact dimensions; preserve line wrapping and pagination. `];
+ const classificationEnum=prefix=>{
+  let text=prefix.replace('difficulty:"Foundation|Development|Mastery"','difficulty:"Foundation|Development|Mastery|Challenge"');
+  if(noBlanks)for(const exception of exceptions)text=text.replace(exception,'');
+  if(unusedReuse)text=text.split('\n').filter(line=>{try{const value=JSON.parse(line);return !(Object.keys(value).length===1&&Array.isArray(value.reuseCandidates));}catch{return true;}}).join('\n');
+  return text;
+ };
+ if(!old||!current||classificationEnum(old.prefix)!==classificationEnum(current.prefix))return false;
+ const normalize=context=>{const value=structuredClone(context);for(const group of value.groups??[])for(const key of ['questionIds','inventoryIds'])if(Array.isArray(group[key])&&!group[key].length)delete group[key];if(unusedReuse&&Array.isArray(value.guidance))value.guidance=value.guidance.filter(g=>g.name!=='automatic-reuse');return value;};
  return isDeepStrictEqual(normalize(old.context),normalize(current.context));
 }
 function sourceAttempt(options,request){
  const page=positive(request.page,'Page'),fromAttempt=positive(request.fromAttempt,'Repair source attempt');
- const task=createSemanticTasks({...options,stage:'author',pages:[page]})[0];
- if(task.blockers.length)throw Error('Repair is blocked: '+task.blockers.join('; '));
  if(request.assignmentId){
   if(!/^assignment-[a-f0-9]{20}$/.test(request.assignmentId))throw Error('Invalid assignment identity');
-  const root=path.join(task.packetRoot,'assignments',request.assignmentId),dir=path.join(root,String(fromAttempt)),input=path.join(dir,'task-input.json'),file=path.join(dir,'generation.json'),snapshot=read(input);
+  const root=path.join(options.runDir,'semantic-packets','assignments',request.assignmentId),dir=path.join(root,String(fromAttempt)),input=path.join(dir,'task-input.json'),file=path.join(dir,'generation.json'),snapshot=read(input);
+  if(!snapshot.assignment?.pages?.includes(page))throw Error('Repair page is outside the retained assignment');
   const continuations=options.config.assignmentLimits?.continuations??options.manifest.continuations??[];
   // A noncontinued assignment on a continuation page still needs the full
   // neighbouring inventory while rebuilding the original ownership plan.
@@ -47,21 +58,29 @@ function sourceAttempt(options,request){
   const planningPages=new Set(snapshot.assignment.pages);
   let expanded;
   do{expanded=false;for(const pair of continuations){const pages=Array.isArray(pair)?pair:[pair.from,pair.to];if(pages.some(p=>planningPages.has(p)))for(const p of pages)if(!planningPages.has(p)){planningPages.add(p);expanded=true;}}}while(expanded);
-  const tasks=createSemanticTasks({...options,stage:'author',pages:[...planningPages]});
+  const tasks=createSemanticTasks({...options,stage:'author',pages:[...planningPages].sort((a,b)=>a-b)});
+  const task=tasks.find(t=>t.page===page);if(!task)throw Error('Missing repair page task');
+  const blockers=tasks.flatMap(t=>t.blockers);if(blockers.length)throw Error('Repair is blocked: '+blockers.join('; '));
   const plan=planTaskAssignments(tasks,{...options.config.assignmentLimits,continuations:continuations.filter(pair=>(Array.isArray(pair)?pair:[pair.from,pair.to]).every(p=>planningPages.has(p)))});
   const assignment=plan.assignments.find(a=>a.id===request.assignmentId);
   if(!assignment)throw Error('Assignment source inputs changed');
   const payload=assignmentPayload(assignment,tasks),sameInputs=payload.inputHash===snapshot.inputHash;
-  if(!sameInputs&&(!request.revalidateToolOnly||!equivalentAssignmentPrompt(fs.readFileSync(path.join(dir,'prompt.md'),'utf8'),payload.prompt)))throw Error('Assignment source inputs changed');
+  const classificationOnly=request.targets?.length&&request.targets.every(t=>{const fields=t.fields??[t.field];return fields.length&&fields.every(field=>field==='/classification');});
+  const generation=read(file);
+  if(!sameInputs&&(!(request.revalidateToolOnly||classificationOnly)||!equivalentAssignmentPrompt(fs.readFileSync(path.join(dir,'prompt.md'),'utf8'),payload.prompt,{generation})))throw Error('Assignment source inputs changed');
   if(fs.existsSync(task.resultFile))throw Error('Published content uses repair-context');
-  const generation=read(file),packet=generation.packets?.find(p=>p.pageNumber===page);
+  const packet=structuredClone(generation.packets?.find(p=>p.pageNumber===page));
   if(!packet)throw Error('Assignment has no preserved packet for this page');
+  restorePacketRatings(packet,{runDir:options.runDir,out:dir});
   return {task:{...task,inputHash:payload.inputHash,images:payload.images,out:dir},packet,source:[ref(input),ref(file)],page,fromAttempt,assignment,tasks,generation,root,...(!sameInputs?{compatibility:{originalInputHash:snapshot.inputHash,currentInputHash:payload.inputHash,reason:'Delivered prompts differ only by explicit empty group membership lists or unchanged tool implementation.'}}:{})};
  }
+ const task=createSemanticTasks({...options,stage:'author',pages:[page]})[0];
+ if(task.blockers.length)throw Error('Repair is blocked: '+task.blockers.join('; '));
  const dir=path.join(task.packetRoot,`${task.stem}.author.${fromAttempt}`),input=path.join(dir,'task-input.json'),file=path.join(dir,'generation.json');
  if(read(input).inputHash!==task.inputHash)throw Error('Repair source inputs changed; review against current evidence before a new reconstruction');
  if(fs.existsSync(path.join(dir,'result.meta.json'))||fs.existsSync(task.resultFile))throw Error('Published content uses repair-context and the correction register; this command is for unpublished failed attempts');
  const packet=authorMaterializer(options.config)(read(file));
+ restorePacketRatings(packet,{runDir:options.runDir,out:dir});
  return {task,packet,source:[ref(input),ref(file)],page,fromAttempt};
 }
 function targetNode(packet,targetId,field){
@@ -84,9 +103,12 @@ export async function revalidateAssignment(options,request,{assertInputs=assertP
  request={...request,revalidateToolOnly:true};
  const source=sourceAttempt(options,request),{assignment,tasks,generation,root}=source;
  if(positive(options.attempt,'New attempt')<=source.fromAttempt)throw Error('Use a newer revalidation attempt');
- const raw=path.join(root,String(source.fromAttempt),'last-message.txt'),rawRef=ref(raw);
+ const sourceOut=path.join(root,String(source.fromAttempt));
+ const rawRef=assignment.evidenceOnly?ref(path.join(sourceOut,'generation.json')):retainedModelOutput(options.runDir,sourceOut),raw=rawRef.path;
  if(!isDeepStrictEqual(parseResultFile(raw),generation))throw Error('Preserved model output changed');
- const packets=generation.packets.map(authorMaterializer(options.config));
+ // The exact raw-output comparison above also pins the assessment's original
+ // model call. A local replay has no new model metrics of its own.
+ const packets=generation.packets.map(packet=>restorePacketRatings(authorMaterializer(options.config)(packet),{runDir:options.runDir,out:path.dirname(raw)}));
  for(const packet of packets){const task=tasks.find(t=>t.page===packet.pageNumber);validateSemanticResult(packet,{...task,inventory:{...task.inventory,entries:assignment.entries.filter(e=>e.pageNumber===packet.pageNumber)}});}
  const verify=()=>{
   assertInputs(options.runDir);for(const artifact of [...source.source,rawRef])checkRef(artifact);
@@ -106,6 +128,13 @@ export async function revalidateAssignment(options,request,{assertInputs=assertP
   fs.writeFileSync(path.join(root,'accepted.json'),JSON.stringify({inputHash:source.task.inputHash,result:ref(resultFile)}));
   events.finish({ok:true,metrics});return {ok:true,assignmentId:assignment.id,externalModelCalls:0,readyForAssembly:true};
  });
+}
+export function retainedModelOutput(runDir,out){
+ const raw=path.join(out,'last-message.txt');if(fs.existsSync(raw))return ref(raw);
+ const replay=path.join(out,'revalidation.json');if(!fs.existsSync(replay))throw Error('Missing original model output');
+ const original=read(replay).modelOutput,relative=path.relative(path.resolve(runDir),path.resolve(original?.path??''));
+ if(!relative||relative.startsWith('..')||path.isAbsolute(relative))throw Error('Retained model output leaves canonical run');
+ checkRef(original);return original;
 }
 export function attemptRepairContext(options,request){
  const {task,packet,source,page,fromAttempt,assignment}=sourceAttempt(options,request);
@@ -172,10 +201,10 @@ export async function repairAttempt(options,record,{log=console.log}={}){
  };
  verify();
  if(positive(options.attempt,'New attempt')<=context.fromAttempt)throw Error('Use a newer immutable repair attempt');
- const source=sourceAttempt(options,context),{packet}=source,result=applyAttemptPatches(packet,context,record.patches);
+ const source=sourceAttempt(options,context),{packet}=source,result=bindRepairAssessment(applyAttemptPatches(packet,context,record.patches),record,{runDir:options.runDir});
  if(context.assignmentId){
   const {assignment,tasks,generation,root}=source;
-  const packets=generation.packets.map(p=>p.pageNumber===context.page?result:p);
+  const packets=generation.packets.map(p=>p.pageNumber===context.page?result:restorePacketRatings(structuredClone(p),{runDir:options.runDir,out:source.task.out}));
   for(const p of packets){const task=tasks.find(t=>t.page===p.pageNumber);validateSemanticResult(p,{...task,inventory:{...task.inventory,entries:assignment.entries.filter(e=>e.pageNumber===p.pageNumber)}});}
   const lock='assignment-'+assignment.id.slice(11).replace(/[0-9]/g,n=>String.fromCharCode(103+Number(n)));
   return withRunLock(options.runDir,lock,()=>{

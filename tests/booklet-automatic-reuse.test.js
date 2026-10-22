@@ -73,7 +73,8 @@ test('assignment author publishes deterministic copies through normal coverage v
  const inventory={pageNumber:41,inventoried:true,entries:[{id:'i7',kind:'question',description:f.block.content.prompt},{id:'i7-part',kind:'part',parentId:'i7',description:'Find the distance'}]};
  const task={page:41,runId:'stage5-run',packetRoot:path.join(runDir,'semantic-packets'),inventory,reuseCandidates:[c],evidence:[],images:[],contextPages:[],teacherPages:[],generationDependencies:{configuration:TRANSCRIPTION_DEFAULT},topic:{id:'similarity'},promptSections:[{name:'contract',text:'Author assigned content'},{name:'automatic-reuse',text:AUTHOR_REUSE_CONTRACT}]};
  const assignment={id:'assignment-abcd',pages:[41],inventoryIds:inventory.entries.map(e=>e.id),entries:inventory.entries.map(e=>({...e,pageNumber:41}))};
- const result=await runAuthorAssignment({runDir,assignment,tasks:[task],attempt:1,validate:validateSemanticResult,runner:async()=>({result:{packets:[packet(c)]},metrics:{externalModelCalls:1}})});
+ const authored=packet(c);Object.assign(authored.sections[0].blocks[0].classification,{reasoningScore:20,difficulty:'Foundation',difficultyReason:'Apply the stated map scale and convert centimetres to kilometres.'});
+ const result=await runAuthorAssignment({runDir,assignment,tasks:[task],attempt:1,validate:validateSemanticResult,runner:async()=>({result:{packets:[authored]},metrics:{externalModelCalls:1,model:'test-model',endedAt:'2026-10-21T00:00:00Z'}})});
  assert.equal(result.packets[0].sections[0].blocks[0].content.answer.short,'1 km');assert.equal(result.packets[0].inventoryMappings[0].targetId,'p41-q7-old');
  assert.equal(result.packets[0].sections[0].blocks[0].sourceReview.reuse.projectId,'stage4');
 });

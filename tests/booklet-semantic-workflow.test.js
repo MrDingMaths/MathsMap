@@ -1,3 +1,4 @@
+import {stampPacketRatings} from '../scripts/booklet/reasoning-ratings.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -30,9 +31,20 @@ function fixture(t){
  return {runDir,manifest:{...TRANSCRIPTION_DEFAULT,selectedPages:[1,2,3,4,5],concurrency:2},config,stage:'author',pages:[4,5]};
 }
 const inventory=page=>({pageNumber:page,inventoried:true,entries:[{id:`src-${page}`,targetId:`q-${page}`,kind:'question',description:'Solve the equation.'}]});
-const author=page=>({pageNumber:page,sections:[{id:`s-${page}`,title:'Equations',blocks:[{id:`b-${page}`,type:'question',content:{id:`q-${page}`,type:'question',prompt:'Solve.',answer:{short:'1',worked:'x=1'}}}]}],inventoryMappings:[{inventoryId:`src-${page}`,targetId:`q-${page}`}]});
+const rating={reasoningScore:20,difficulty:'Foundation',difficultyReason:'Direct application of the supplied equation method.'};
+const testMetrics={model:'test-model',endedAt:'2026-10-21T00:00:00Z'};
+const author=page=>{const packet={pageNumber:page,sections:[{id:`s-${page}`,title:'Equations',blocks:[{id:`b-${page}`,type:'question',classification:{...rating},content:{id:`q-${page}`,type:'question',prompt:'Solve.',answer:{short:'1',worked:'x=1'}}}]}],inventoryMappings:[{inventoryId:`src-${page}`,targetId:`q-${page}`}]};return stampPacketRatings(packet,testMetrics,'test-fixture');};
 const pageFrom=prompt=>Number(prompt.match(/Target page (\d+)/)[1]);
 const quiet={log:()=>{}};
+
+test('initial authoring requires a reasoning assessment without an optional skill catalogue',async t=>{
+ const options={...fixture(t),pages:[4]},task=createSemanticTasks(options)[0];
+ assert.equal(options.config.classificationSkillIds,undefined);assert.match(task.prompt,/hardest essential demand/);
+ const packet=author(4);delete packet.sections[0].blocks[0].classification;
+ const report=await runSemanticPackets(options,{...quiet,runner:async()=>({result:packet,metrics:{...testMetrics,usage:{output_tokens:10}}})});
+ assert.equal(report.ok,false);assert.match(report.pages[0].error,/individual reasoning rating/);
+ assert.equal(fs.existsSync(task.resultFile),false);
+});
 
 test('assignment prompt compatibility permits only explicit empty group membership lists',()=>{
  const context={assignment:{pages:[1]},evidence:[{hash:'source-hash'}],groups:[{id:'group',entryIds:['question']}]};
@@ -65,7 +77,7 @@ test('failed assignments can be revalidated from matching original model output 
  const options={...fixture(t),stage:'author',pages:[4],attempt:1},tasks=createSemanticTasks(options),plan=planTaskAssignments(tasks),assignment=plan.assignments[0];
  const generation={packets:[author(4)]};
  await assert.rejects(()=>runAuthorAssignment({runDir:options.runDir,assignment,tasks,attempt:1,validate:()=>{throw Error('Prior validator rejected a valid demonstration');},runner:async task=>{
-  fs.writeFileSync(path.join(task.out,'last-message.txt'),JSON.stringify(generation));return {result:generation,metrics:{provider:'fixture-model'}};
+  fs.writeFileSync(path.join(task.out,'last-message.txt'),JSON.stringify(generation));return {result:generation,metrics:{...testMetrics,provider:'fixture-model'}};
  }}),/Prior validator/);
  let checks=0;
  const report=await revalidateAssignment({...options,attempt:2},{page:4,assignmentId:assignment.id,fromAttempt:1,reason:'Diagnosed validator repair.'},{assertInputs:()=>{checks++;}});
@@ -96,7 +108,7 @@ async function unpublishedInventory(t){
  fs.unlinkSync(path.join(options.runDir,'semantic-packets/page-004.inventory.json'));
  const preserved=await runSemanticPackets(options,{...quiet,verifyPublication:()=>{throw Error('Tool changed during generation');},runner:async task=>{
   const result=inventory(4);fs.writeFileSync(path.join(task.out,'last-message.txt'),JSON.stringify(result));
-  return {result,metrics:{provider:'fixture-model'}};
+  return {result,metrics:{...testMetrics,provider:'fixture-model'}};
  }});
  assert.equal(preserved.ok,false);
  const files=[1,2,3,4].flatMap(p=>['txt','png'].map(ext=>path.join(options.runDir,`evidence/pages/page-00${p}.${ext}`)));
@@ -149,7 +161,7 @@ test('guarded inventory replay rechecks its preserved bytes immediately before p
 });
 
 test('non-response worked demonstrations require independent source support, including given practice examples',()=>{
- const packet={pageNumber:1,sections:[{id:'teaching',title:'Example',phase:'teaching',blocks:[{id:'paired',type:'question',sourceReview:{responses:[{targetId:'worked',kind:'none'},{targetId:'turn',kind:'working'}]},content:{id:'pair',type:'group',prompt:'Worked example and your turn',children:[{id:'worked',type:'part',prompt:'Visible worked demonstration.'},{id:'turn',type:'part',prompt:'Solve.',answer:{short:'1',worked:'x=1'}}]}}]}],inventoryMappings:[{inventoryId:'source-example',targetId:'worked'},{inventoryId:'source-turn',targetId:'turn'}]};
+ const packet={pageNumber:1,sections:[{id:'teaching',title:'Example',phase:'teaching',blocks:[{id:'paired',type:'question',classification:{...rating},sourceReview:{responses:[{targetId:'worked',kind:'none'},{targetId:'turn',kind:'working'}]},content:{id:'pair',type:'group',prompt:'Worked example and your turn',children:[{id:'worked',type:'part',prompt:'Visible worked demonstration.'},{id:'turn',type:'part',prompt:'Solve.',answer:{short:'1',worked:'x=1'}}]}}]}],inventoryMappings:[{inventoryId:'source-example',targetId:'worked'},{inventoryId:'source-turn',targetId:'turn'}]};
  const source={entries:[{id:'source-example',kind:'example'},{id:'source-turn',kind:'question',responseKind:'working'}]};
  const validate=(value=packet,inventory=source)=>validateSemanticResult(value,{stage:'author',page:1,inventory});
  assert.doesNotThrow(()=>validate());
@@ -216,7 +228,7 @@ test('author assignment passes explicit worker wait options without changing lea
  const result=await runAuthorAssignment({runDir:options.runDir,tasks,assignment,attempt:2,regenerationReason:'Original explicit cancellation had no generation.',validate:validateSemanticResult,
   workerSlotOptions:{pollMs:1,timeoutMs:1234},runner:async()=>{
    const lease=JSON.parse(fs.readFileSync(path.join(slots,'0.json')));assert.equal(lease.assignmentId,assignment.id);assert.equal(lease.queueTimeoutMs,1234);
-   return {result:{packets:[author(4)]},metrics:{provider:'test',externalModelCalls:0}};
+   return {result:{packets:[author(4)]},metrics:{...testMetrics,provider:'test',externalModelCalls:0}};
   }});
  assert.equal(result.packets.length,1);assert.equal(fs.existsSync(path.join(slots,'0.json')),false);
  assert.equal(fs.readFileSync(path.join(slots,'1.json'),'utf8'),owners[1]);assert.equal(fs.readFileSync(path.join(slots,'2.json'),'utf8'),owners[2]);
@@ -225,7 +237,7 @@ test('author assignment passes explicit worker wait options without changing lea
 test('a regeneration reason naming one assignment reruns only that assignment and keeps the other cached',async t=>{
  const options=fixture(t),tasks=createSemanticTasks(options),{assignments}=planTaskAssignments(tasks);
  assert.ok(assignments.length>=2,'fixture plans separate assignments');
- const calls=[],runner=assignment=>async()=>{calls.push(assignment.id);return {result:{packets:[author(assignment.pages[0])]},metrics:{provider:'test',externalModelCalls:0}};};
+ const calls=[],runner=assignment=>async()=>{calls.push(assignment.id);return {result:{packets:[author(assignment.pages[0])]},metrics:{...testMetrics,provider:'test',externalModelCalls:0}};};
  for(const assignment of assignments)await runAuthorAssignment({runDir:options.runDir,tasks,assignment,attempt:1,validate:validateSemanticResult,runner:runner(assignment),...quiet});
  assert.equal(calls.length,assignments.length);calls.length=0;
  await assert.rejects(runAuthorAssignment({runDir:options.runDir,tasks,assignment:assignments[0],attempt:2,regenerationReason:'Cause fixed elsewhere',validate:validateSemanticResult,runner:()=>assert.fail('An unnamed assignment must stay cached'),...quiet}).then(()=>{throw Error('cached');}),/cached/);
@@ -240,7 +252,7 @@ test('three-pass inventory accepts a source checklist without legacy layout appr
  fs.writeFileSync(path.join(options.runDir,'manifest.json'),JSON.stringify(options.manifest));
  fs.unlinkSync(path.join(options.runDir,'semantic-packets/page-004.inventory.json'));
  let calls=0;
- const runner=async()=>{calls++;return {result:inventory(4),metrics:{}};};
+ const runner=async()=>{calls++;return {result:inventory(4),metrics:{...testMetrics,}};};
  const first=await runSemanticPackets(options,{...quiet,runner});
  assert.equal(first.ok,true);
  const second=await runSemanticPackets(options,{...quiet,runner});
@@ -255,12 +267,12 @@ test('explicit zero-call replay validates and publishes while model slots stay o
  const slots=path.join(options.runDir,'workflow','worker-slots');fs.mkdirSync(slots,{recursive:true});
  for(let i=0;i<3;i++)fs.writeFileSync(path.join(slots,i+'.json'),JSON.stringify({id:'model-owner-'+i}));
  const before=fs.readdirSync(slots).map(file=>fs.readFileSync(path.join(slots,file),'utf8'));
- const report=await runSemanticPackets(options,{...quiet,runner:async()=>({result:inventory(4),metrics:{provider:'local-replay',externalModelCalls:0,usage:null,elapsedMs:0}})});
+ const report=await runSemanticPackets(options,{...quiet,runner:async()=>({result:inventory(4),metrics:{...testMetrics,provider:'local-replay',externalModelCalls:0,usage:null,elapsedMs:0}})});
  assert.equal(report.ok,true);assert.equal(report.pages[0].metrics.externalModelCalls,0);
  assert.deepEqual(fs.readdirSync(slots).map(file=>fs.readFileSync(path.join(slots,file),'utf8')),before);
  assert.equal(JSON.parse(fs.readFileSync(path.join(options.runDir,'semantic-packets/page-004.inventory.json'))).pageNumber,4);
  const badOptions={...fixture(t),stage:'inventory',pages:[4],attempt:2,localReplay:true};
- const invalid=await runSemanticPackets(badOptions,{...quiet,runner:async()=>({result:{pageNumber:4},metrics:{provider:'local-replay',externalModelCalls:0,usage:null}})});
+ const invalid=await runSemanticPackets(badOptions,{...quiet,runner:async()=>({result:{pageNumber:4},metrics:{...testMetrics,provider:'local-replay',externalModelCalls:0,usage:null}})});
  assert.equal(invalid.ok,false);assert.equal(JSON.parse(fs.readFileSync(path.join(badOptions.runDir,'semantic-packets/page-004.inventory.json'))).inventoried,true);
 });
 
@@ -280,7 +292,7 @@ test('local replay cannot use the model runner or conceal external generation me
 test('a preserved structural failure is repaired locally with exact fields and all normal validators',async t=>{
  const options={...fixture(t),pages:[4]},bad=author(4);bad.inventoryMappings[0].targetId='missing-target';
  let calls=0;
- const failed=await runSemanticPackets(options,{...quiet,runner:async()=>{calls++;return {result:bad,metrics:{usage:{input_tokens:10,output_tokens:5}}};}});
+ const failed=await runSemanticPackets(options,{...quiet,runner:async()=>{calls++;return {result:bad,metrics:{...testMetrics,usage:{input_tokens:10,output_tokens:5}}};}});
  assert.equal(failed.ok,false);
  const context=attemptRepairContext(options,{page:4,fromAttempt:1,targets:[{targetId:'$packet',fields:['/inventoryMappings']}]});
  const record={context,patches:[{...context.targets[0],corrected:author(4).inventoryMappings,reason:'Use the existing question ID matched to the independently inventoried source.'}],review:{reviewer:'Test reviewer',note:'Compared existing source and content identity.',artifacts:[context.evidence[0]]}};
@@ -297,10 +309,13 @@ test('a preserved structural failure is repaired locally with exact fields and a
 
 test('local repairs reject stale source dependencies, missing evidence and ID changes',async t=>{
  const options={...fixture(t),pages:[4]},bad=author(4);delete bad.sections[0].blocks[0].content.answer;
- await runSemanticPackets(options,{...quiet,runner:async()=>({result:bad,metrics:{}})});
+ await runSemanticPackets(options,{...quiet,runner:async()=>({result:bad,metrics:{...testMetrics,}})});
  const request={page:4,fromAttempt:1,targets:[{targetId:'s-4',fields:['/blocks']}]},context=attemptRepairContext(options,request);
  const replacement=structuredClone(context.targets[0].original);replacement[0].id='changed-id';
- assert.throws(()=>applyAttemptPatches(bad,context,[{...context.targets[0],corrected:replacement,reason:'Bad identity change'}]),/preserve every content ID/);
+ // The source context now restores real rating provenance. Use that exact
+ // current baseline so this assertion reaches the identity guard itself.
+ const current=structuredClone(bad);current.sections[0].blocks=structuredClone(context.targets[0].original);
+ assert.throws(()=>applyAttemptPatches(current,context,[{...context.targets[0],corrected:replacement,reason:'Bad identity change'}]),/preserve every content ID/);
  await assert.rejects(repairAttempt({...options,attempt:2},{context,patches:[]},quiet),/named reviewer/);
  fs.appendFileSync(path.join(options.runDir,'evidence/pages/page-004.txt'),'Changed source');
  assert.throws(()=>attemptRepairContext(options,request),/source inputs changed/);
@@ -311,7 +326,7 @@ test('local structural repair may update author review references without changi
  block.content.children=[{...block.content,id:'response',type:'part'}];delete block.content.answer;
  block.sourceReview={sourcePages:[4],sourceCompared:false,presentationRequirements:[{path:'/content/children/0/prompt',value:'Solve.'}],arrangements:[{targetId:'q-4',layout:'list',order:['response']}]};
  bad.inventoryMappings[0].targetId='missing';
- await runSemanticPackets(options,{...quiet,runner:async()=>({result:bad,metrics:{}})});
+ await runSemanticPackets(options,{...quiet,runner:async()=>({result:bad,metrics:{...testMetrics,}})});
  const targets=[{targetId:'b-4',fields:['/content','/sourceReview/presentationRequirements','/sourceReview/arrangements']}];
  const context=attemptRepairContext(options,{page:4,fromAttempt:1,targets});
  const child=block.content.children[0],changed={...block.content,children:[],answer:child.answer,prompt:child.prompt};
@@ -326,7 +341,7 @@ test('local structural repair may update author review references without changi
 
 test('external full-page retries require a recorded reason before any new attempt starts',async t=>{
  const options={...fixture(t),pages:[4]},bad=author(4);bad.inventoryMappings=[];
- await runSemanticPackets(options,{...quiet,runner:async()=>({result:bad,metrics:{}})});
+ await runSemanticPackets(options,{...quiet,runner:async()=>({result:bad,metrics:{...testMetrics,}})});
  await assert.rejects(runSemanticPackets({...options,attempt:2},quiet),/targeted repair is insufficient/);
  assert.equal(fs.existsSync(path.join(options.runDir,'semantic-packets/page-004.author.2')),false);
 });
@@ -451,7 +466,7 @@ test('dry run performs no model calls or writes, and fingerprints only relevant 
 
 test('bounded workers resume completed pages, reject edited caches, and preserve failed retries',async t=>{
  const options=fixture(t);let active=0,peak=0,calls=0;
- const runner=async({prompt})=>{calls++;active++;peak=Math.max(peak,active);await new Promise(resolve=>setTimeout(resolve,10));active--;return {result:author(pageFrom(prompt)),metrics:{usage:{input_tokens:100,output_tokens:20}}};};
+ const runner=async({prompt})=>{calls++;active++;peak=Math.max(peak,active);await new Promise(resolve=>setTimeout(resolve,10));active--;return {result:author(pageFrom(prompt)),metrics:{...testMetrics,usage:{input_tokens:100,output_tokens:20}}};};
  const first=await runSemanticPackets(options,{...quiet,runner});
  assert.equal(first.ok,true);assert.equal(peak,2);assert.equal(calls,2);
  await runSemanticPackets(options,{...quiet,runner});assert.equal(calls,2);
@@ -461,14 +476,14 @@ test('bounded workers resume completed pages, reject edited caches, and preserve
  assert.equal(semanticCacheInfo(task).kind,'modified');
  await assert.rejects(()=>runSemanticPackets(options,{...quiet,runner}),/modified/);assert.equal(calls,2);
  fs.writeFileSync(task.resultFile,original);
- const retry=await runSemanticPackets({...options,pages:[4],attempt:2},{...quiet,runner:async()=>({result:{pageNumber:4},metrics:{}})});
+ const retry=await runSemanticPackets({...options,pages:[4],attempt:2},{...quiet,runner:async()=>({result:{pageNumber:4},metrics:{...testMetrics,}})});
  assert.equal(retry.ok,false);assert.equal(fs.readFileSync(task.resultFile,'utf8'),original);
  assert.ok(fs.existsSync(path.join(options.runDir,'semantic-packets/page-004.author.2/prompt.md')));
 });
 
 test('explicit attempts resume matching successes and legacy results require review',async t=>{
  const options={...fixture(t),pages:[4]};let calls=0;
- const runner=async()=>{calls++;return {result:author(4),metrics:{}};};
+ const runner=async()=>{calls++;return {result:author(4),metrics:{...testMetrics,}};};
  const task=createSemanticTasks(options)[0];fs.writeFileSync(task.resultFile,JSON.stringify(author(4)));
  assert.equal(semanticCacheInfo(task).kind,'legacy');
  await assert.rejects(()=>runSemanticPackets(options,{...quiet,runner}),/legacy/);
@@ -542,7 +557,7 @@ test('a source table may map to its exact native response payload, never prose o
  const a=author(4),i=inventory(4);i.entries.push({id:'source-response-table',kind:'diagram',description:'Completion table'});
  const table={id:'native-response-table',type:'table',rows:[[{blocks:[{id:'native-response-heading',type:'paragraph',inlines:[{type:'text',text:'Pay'}]}]}]]};
  const response={id:'table-response',type:'part',prompt:{format:'maths-editor-document-v1',version:1,blocks:[table]},answer:{short:'5',worked:'2+3=5'}};
- a.sections[0].blocks.push({id:'response-table-block',type:'question',content:response});
+ a.sections[0].blocks.push({id:'response-table-block',type:'question',classification:{...rating},content:response});
  const mapping={inventoryId:'source-response-table',targetId:response.id,field:'/prompt/blocks/0'};a.inventoryMappings.push(mapping);
  assert.doesNotThrow(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}));
  mapping.field='/prompt/blocks/1';assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
@@ -583,7 +598,7 @@ test('a populated native scaffold can replace a source equation visual',()=>{
 test('an inventoried response grid maps explicitly to its native grid layout',()=>{
  const i=inventory(4),a=author(4);i.entries.push({id:'source-grid',kind:'diagram',description:'Two response cells'});
  const grid={id:'native-grid',type:'group',prompt:'Find each range.',layout:'grid',children:['a','b'].map(id=>({id,type:'part',prompt:'$1, 2$',answer:{short:'1',worked:'$2-1=1$'}}))};
- a.sections[0].blocks.push({id:'grid-block',type:'question',content:grid});
+ a.sections[0].blocks.push({id:'grid-block',type:'question',classification:{...rating},content:grid});
  const mapping={inventoryId:'source-grid',targetId:grid.id,field:'/layout'};a.inventoryMappings.push(mapping);
  assert.doesNotThrow(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}));
  mapping.field='/prompt';assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
@@ -593,14 +608,14 @@ test('an inventoried response grid maps explicitly to its native grid layout',()
 test('a concurrent canonical edit survives an in-flight transcription',async t=>{
  const options={...fixture(t),pages:[4]},task=createSemanticTasks(options)[0];
  const report=await runSemanticPackets(options,{...quiet,runner:async()=>{
-  fs.writeFileSync(task.resultFile,'user edit');return {result:author(4),metrics:{}};
+  fs.writeFileSync(task.resultFile,'user edit');return {result:author(4),metrics:{...testMetrics,}};
  }});
  assert.equal(report.ok,false);assert.equal(fs.readFileSync(task.resultFile,'utf8'),'user edit');
  assert.ok(fs.existsSync(path.join(task.out,'result.json')));
 });
 
 test('validation and publication failures retain model usage, phase outcomes and immutable generation',async t=>{
- const options={...fixture(t),pages:[4]},metrics={usage:{input_tokens:100,cached_input_tokens:60,output_tokens:25},elapsedMs:50};
+ const options={...fixture(t),pages:[4]},metrics={...testMetrics,usage:{input_tokens:100,cached_input_tokens:60,output_tokens:25},elapsedMs:50};
  await runSemanticPackets(options,{...quiet,runner:async()=>({result:{pageNumber:4},metrics})});
  const root=path.join(options.runDir,'semantic-packets');
  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(root,'page-004.author.1/generation.json'))),{pageNumber:4});
@@ -628,7 +643,7 @@ test('generation errors record missing usage honestly and unfinished events surv
 test('concurrent attempt time is a union, not a sum of model call durations',()=>{
  const events=[['a',0,100],['b',50,150]].flatMap(([attemptId,start,end])=>[
   {attemptId,event:'started',time:start},{attemptId,event:'phase-started',phase:'generation',time:start},
-  {attemptId,event:'phase-finished',phase:'generation',time:end,elapsedMs:end-start,metrics:{elapsedMs:100,usage:{input_tokens:10,cached_input_tokens:6,output_tokens:3}}},
+  {attemptId,event:'phase-finished',phase:'generation',time:end,elapsedMs:end-start,metrics:{...testMetrics,elapsedMs:100,usage:{input_tokens:10,cached_input_tokens:6,output_tokens:3}}},
   {attemptId,event:'finished',time:end},
  ]);
  const receipt=summarizeAttemptEvents(events);assert.equal(receipt.completedAttemptActiveWallMs,150);assert.equal(receipt.callElapsedMs,200);assert.equal(receipt.usage.input_tokens,20);assert.equal(receipt.usage.cached_input_tokens,12);
@@ -637,7 +652,7 @@ test('concurrent attempt time is a union, not a sum of model call durations',()=
 test('mapping-only repair preserves content and valid mappings, records reasons, and revalidates',async t=>{
  const options={...fixture(t),pages:[4]},bad=author(4);
  bad.inventoryMappings.push({inventoryId:'p4-generated-heading',targetId:'s-4'});
- const metrics={usage:{input_tokens:30,output_tokens:10}};
+ const metrics={...testMetrics,usage:{input_tokens:30,output_tokens:10}};
  await runSemanticPackets(options,{...quiet,runner:async()=>({result:bad,metrics})});
  const repair={edits:[{index:1,original:bad.inventoryMappings[1],replacement:null,reason:'Generated section heading is not an independently inventoried item; all actual entries retain mappings.'}]};
  const report=await runSemanticPackets({...options,attempt:2,repairFrom:1},{...quiet,runner:async({prompt,images})=>{
@@ -658,8 +673,8 @@ test('mapping-only repair preserves content and valid mappings, records reasons,
 test('a targeted repair cannot hide other content defects or drop known inventory coverage',async t=>{
  const options={...fixture(t),pages:[4]},bad=author(4);delete bad.sections[0].blocks[0].content.answer;
  bad.inventoryMappings.push({inventoryId:'generated',targetId:'s-4'});
- await runSemanticPackets(options,{...quiet,runner:async()=>({result:bad,metrics:{}})});
- const report=await runSemanticPackets({...options,attempt:2,repairFrom:1},{...quiet,runner:async()=>({result:{edits:[{index:1,original:bad.inventoryMappings[1],replacement:null,reason:'Generated layout'}]},metrics:{}})});
+ await runSemanticPackets(options,{...quiet,runner:async()=>({result:bad,metrics:{...testMetrics,}})});
+ const report=await runSemanticPackets({...options,attempt:2,repairFrom:1},{...quiet,runner:async()=>({result:{edits:[{index:1,original:bad.inventoryMappings[1],replacement:null,reason:'Generated layout'}]},metrics:{...testMetrics,}})});
  assert.equal(report.ok,false);assert.match(report.pages[0].error,/lacks short\/worked/);
  assert.equal(fs.existsSync(createSemanticTasks(options)[0].resultFile),false);
  assert.equal(mappingRepairContext(bad,inventory(4)).invalid.length,1);
@@ -678,7 +693,7 @@ test('shared authoring is opt-in, fingerprints its format, and publishes only or
  assert.notEqual(normalTask.inputHash,sharedTask.inputHash);assert.doesNotMatch(normalTask.prompt,/Optional internal shared-diagram/);assert.match(sharedTask.prompt,/NO inserted spaces\/newlines/);
  assert.deepEqual(createSemanticTasks({...options,stage:'inventory'})[0].prompt,createSemanticTasks({...enabled,stage:'inventory'})[0].prompt);
  assert.throws(()=>createSemanticTasks({...options,config:{...options.config,authoringFormat:'unknown'}}),/Unsupported/);
- const raw=sharedAuthor(),report=await runSemanticPackets(enabled,{...quiet,runner:async()=>({result:raw,metrics:{usage:{output_tokens:20}}})});
+ const raw=sharedAuthor(),report=await runSemanticPackets(enabled,{...quiet,runner:async()=>({result:raw,metrics:{...testMetrics,usage:{output_tokens:20}}})});
  assert.equal(report.ok,true);
  const canonical=JSON.parse(fs.readFileSync(sharedTask.resultFile));assert.equal(canonical.authoringFormat,undefined);assert.equal(canonical.diagramLibrary,undefined);
  assert.equal(canonical.sections[0].blocks[0].content.questionDiagrams[0].code,raw.diagramLibrary.base+raw.diagramLibrary.end);
@@ -694,13 +709,13 @@ test('shared authoring is opt-in, fingerprints its format, and publishes only or
 
 test('shared materialization failures retain metrics and bounded mapping repairs consume expanded content',async t=>{
  const options={...fixture(t),pages:[4]},raw=sharedAuthor();
- const disabled=await runSemanticPackets(options,{...quiet,runner:async()=>({result:raw,metrics:{usage:{output_tokens:20}}})});
+ const disabled=await runSemanticPackets(options,{...quiet,runner:async()=>({result:raw,metrics:{...testMetrics,usage:{output_tokens:20}}})});
  assert.equal(disabled.ok,false);assert.match(disabled.pages[0].error,/explicit config/);
  const enabled={...options,config:{...options.config,authoringFormat:SHARED_DIAGRAM_FORMAT},attempt:2};
  raw.inventoryMappings.push({inventoryId:'generated-heading',targetId:'s-4'});
- const failed=await runSemanticPackets(enabled,{...quiet,runner:async()=>({result:raw,metrics:{usage:{output_tokens:30}}})});
+ const failed=await runSemanticPackets(enabled,{...quiet,runner:async()=>({result:raw,metrics:{...testMetrics,usage:{output_tokens:30}}})});
  assert.equal(failed.ok,false);assert.match(failed.pages[0].error,/Unknown inventory mapping/);
- const repair=await runSemanticPackets({...enabled,attempt:3,repairFrom:2},{...quiet,runner:async()=>({result:{edits:[{index:1,original:raw.inventoryMappings[1],replacement:null,reason:'Generated heading is not a source inventory entry.'}]},metrics:{usage:{output_tokens:5}}})});
+ const repair=await runSemanticPackets({...enabled,attempt:3,repairFrom:2},{...quiet,runner:async()=>({result:{edits:[{index:1,original:raw.inventoryMappings[1],replacement:null,reason:'Generated heading is not a source inventory entry.'}]},metrics:{...testMetrics,usage:{output_tokens:5}}})});
  assert.equal(repair.ok,true);
  const saved=JSON.parse(fs.readFileSync(createSemanticTasks(enabled)[0].resultFile));assert.equal(saved.authoringFormat,undefined);assert.equal(saved.inventoryMappings.length,1);assert.equal(typeof saved.sections[0].blocks[0].content.questionDiagrams[0].code,'string');
  const receipt=readAttemptReceipt(path.join(options.runDir,'semantic-packets'));assert.equal(receipt.calls,3);assert.equal(receipt.usage.output_tokens,55);
@@ -713,7 +728,7 @@ test('reviewed publication honours its bounded wait without stealing another wri
   const report=await runSemanticPackets(options,{...quiet,runner:async()=>{
    const file=path.join(base.runDir,'workflow/review.lock');fs.mkdirSync(path.dirname(file),{recursive:true});const owner=JSON.stringify({pid:process.pid,note:'Fixture writer owns this lock'});fs.writeFileSync(file,owner,{flag:'wx'});
    release=new Promise(resolve=>setTimeout(()=>{assert.equal(fs.readFileSync(file,'utf8'),owner);fs.unlinkSync(file);resolve();},releaseMs));
-   return {result:{...inventory(page),layoutPatterns:[{id:'plain',description:'Plain source question'}]},metrics:{}};
+   return {result:{...inventory(page),layoutPatterns:[{id:'plain',description:'Plain source question'}]},metrics:{...testMetrics,}};
   }});
   await release;assert.equal(report.ok,success);assert.equal(fs.existsSync(canonical),success);if(!success)assert.match(report.pages[0].error,/review lock is busy/);
  }
@@ -732,7 +747,7 @@ test('retained medium trial provenance changes generation identity and reaches i
   const result=await runSemanticPackets({...options,stage},{...quiet,runner:async request=>{
    calls++;assert.equal(request.configuration.effort,'medium');
    if(stage==='author')assert.match(request.prompt,/assigned Sol medium authoring worker/);
-   return {result:stage==='inventory'?inventory(4):author(4),metrics:{provider:'test',effort:request.configuration.effort}};
+   return {result:stage==='inventory'?inventory(4):author(4),metrics:{...testMetrics,provider:'test',effort:request.configuration.effort}};
   }});
   assert.equal(result.ok,true);assert.equal(calls,1);
   const task=createSemanticTasks({...options,stage})[0],meta=JSON.parse(fs.readFileSync(path.join(task.out,'result.meta.json')));
@@ -748,7 +763,7 @@ test('house authoring preferences are opt-in, fingerprinted, and publish generat
  assert.deepEqual(createSemanticTasks({...options,stage:'inventory'})[0].prompt,createSemanticTasks({...enabled,stage:'inventory'})[0].prompt);
  assert.throws(()=>createSemanticTasks({...options,config:{...options.config,authoringPreferences:'unknown'}}),/Unsupported/);
  const raw=author(4);raw.sections[0].blocks[0].content.questionDiagrams=[{id:'q4-diagram',role:'question',spec:{sourcePage:4},diagramTemplate:{family:'number-line',min:0,max:5,step:1}}];
- const report=await runSemanticPackets(enabled,{...quiet,runner:async()=>({result:raw,metrics:{usage:{output_tokens:20}}})});
+ const report=await runSemanticPackets(enabled,{...quiet,runner:async()=>({result:raw,metrics:{...testMetrics,usage:{output_tokens:20}}})});
  assert.equal(report.ok,true);
  const diagram=JSON.parse(fs.readFileSync(houseTask.resultFile)).sections[0].blocks[0].content.questionDiagrams[0];
  assert.equal(diagram.diagramTemplate,undefined);assert.match(diagram.code,/\\begin\{tikzpicture\}/);assert.equal(diagram.spec.template.family,'number-line');
@@ -757,7 +772,7 @@ test('house authoring preferences are opt-in, fingerprinted, and publish generat
 
 function suppliedDemonstration(entry){
  const inventory={pageNumber:1,inventoried:true,entries:[{id:'source-demo',description:'Sketch the supplied parabola.',...entry}]};
- const packet={pageNumber:1,sections:[{id:'demo-section',title:'Demonstration',topicId:'topic',phase:'teaching',blocks:[{id:'demo-block',type:'question',content:{id:'demo-node',type:'part',prompt:{format:'maths-editor-document-v1',version:1,blocks:[{id:'demo-paragraph',type:'paragraph',inlines:[{type:'text',text:'Supplied completed working.'}]}]}},sourceReview:{responses:[{targetId:'demo-node',kind:'none'}]}}]}],inventoryMappings:[{inventoryId:'source-demo',targetId:'demo-paragraph'}],findings:[],corrections:[]};
+ const packet={pageNumber:1,sections:[{id:'demo-section',title:'Demonstration',topicId:'topic',phase:'teaching',blocks:[{id:'demo-block',type:'question',classification:{...rating},content:{id:'demo-node',type:'part',prompt:{format:'maths-editor-document-v1',version:1,blocks:[{id:'demo-paragraph',type:'paragraph',inlines:[{type:'text',text:'Supplied completed working.'}]}]}},sourceReview:{responses:[{targetId:'demo-node',kind:'none'}]}}]}],inventoryMappings:[{inventoryId:'source-demo',targetId:'demo-paragraph'}],findings:[],corrections:[]};
  return {inventory,packet};
 }
 
@@ -786,7 +801,7 @@ test('inventoried selection alternatives stay given while the selection requires
   ...['a','b'].map(label=>({id:label,kind:'part',parentId:'selection',description:'Alternative '+label+'.'}))
  ]};
  const option=id=>({id,type:'part',prompt:'',questionDiagrams:[{id:id+'-diagram',format:'tikz',code:'\\begin{tikzpicture}\\draw (0,0) circle (1);\\end{tikzpicture}'}]});
- const packet={pageNumber:1,sections:[{id:'section',title:'Selection',blocks:[{id:'block',type:'question',content:{id:'root',type:'group',prompt:'Circle the radius.',children:[option('a'),option('b'),{id:'response',type:'part',prompt:'',answer:{short:'A',worked:'A joins the centre to the circumference.'}}]},sourceReview:{responses:[{targetId:'a',kind:'none'},{targetId:'b',kind:'none'},{targetId:'response',kind:'inline'}]}}]}],inventoryMappings:[{inventoryId:'selection',targetId:'root'},{inventoryId:'a',targetId:'a'},{inventoryId:'b',targetId:'b'}]};
+ const packet={pageNumber:1,sections:[{id:'section',title:'Selection',blocks:[{id:'block',type:'question',classification:{...rating},content:{id:'root',type:'group',prompt:'Circle the radius.',children:[option('a'),option('b'),{id:'response',type:'part',prompt:'',answer:{short:'A',worked:'A joins the centre to the circumference.'}}]},sourceReview:{responses:[{targetId:'a',kind:'none'},{targetId:'b',kind:'none'},{targetId:'response',kind:'inline'}]}}]}],inventoryMappings:[{inventoryId:'selection',targetId:'root'},{inventoryId:'a',targetId:'a'},{inventoryId:'b',targetId:'b'}]};
  const validate=(p=packet,i=inventory)=>validateSemanticResult(p,{stage:'author',page:1,inventory:i});
  assert.doesNotThrow(()=>validate());
  const unanswered=structuredClone(packet);delete unanswered.sections[0].blocks[0].content.children[2].answer;
@@ -811,7 +826,7 @@ function publicationLibrary(t,options){
 test('in-flight unrelated accepted-library addition publishes once, including assignment materialization',async t=>{
  for(const assigned of [false,true]){
   const options={...fixture(t),pages:[4]};options.manifest={...options.manifest,reviewProfile:'textbook-three-pass-v1',...(assigned?{pipelinePolicy:'bounded-three-pass-v1'}:{})};options.config.automaticReuse=true;
-  let calls=0,added=false;const report=await runSemanticPackets(options,{...quiet,verifyPublication:()=>{if(!added){publicationLibrary(t,options);added=true;}},runner:async()=>{calls++;return {result:assigned?{packets:[author(4)]}:author(4),metrics:{}};}});
+  let calls=0,added=false;const report=await runSemanticPackets(options,{...quiet,verifyPublication:()=>{if(!added){publicationLibrary(t,options);added=true;}},runner:async()=>{calls++;return {result:assigned?{packets:[author(4)]}:author(4),metrics:{...testMetrics,}};}});
   assert.equal(report.ok,true,JSON.stringify(report));assert.equal(calls,1);assert.ok(fs.existsSync(path.join(options.runDir,'semantic-packets/page-004.author.json')));
  }
 });
@@ -819,29 +834,29 @@ test('materialized assigned reuse rechecks original proof, mathematics, origin a
  for(const change of ['revoke','math','origin','amendment']){
   const options={...fixture(t),pages:[4]};options.manifest={...options.manifest,reviewProfile:'textbook-three-pass-v1',pipelinePolicy:'bounded-three-pass-v1'};options.config.automaticReuse=true;
   const f=publicationLibrary(t,options),candidate=createSemanticTasks(options)[0].reuseCandidates.find(c=>c.projectId===f.id);assert.ok(candidate);
-  const packet={pageNumber:4,sections:[{id:'s-4',title:'Equations',blocks:[{type:'reuse',reuseKey:candidate.key,id:'newcopy',sourceEquivalent:true,improvementsCompatible:true,sourceReview:{sourceIdentity:{questionLabel:'4',pdfPage:4}}}]}],inventoryMappings:[{inventoryId:'src-4',targetId:'q-4'}]};let calls=0;
+  const packet={pageNumber:4,sections:[{id:'s-4',title:'Equations',blocks:[{type:'reuse',classification:{...rating},reuseKey:candidate.key,id:'newcopy',sourceEquivalent:true,improvementsCompatible:true,sourceReview:{sourceIdentity:{questionLabel:'4',pdfPage:4}}}]}],inventoryMappings:[{inventoryId:'src-4',targetId:'q-4'}]};let calls=0;
   const report=await runSemanticPackets(options,{...quiet,verifyPublication:task=>{
    if(change==='revoke')fs.writeFileSync(f.table,JSON.stringify({questions:{}}));
    if(change==='math'){f.project.sections[0].blocks[0].content.answer.short='2';fs.writeFileSync(f.projectFile,JSON.stringify(f.project));}
    if(change==='origin')task.reuseCandidates.find(c=>c.projectId===f.id).origin.hash='changed-origin';
    if(change==='amendment')task.reuseCandidates.find(c=>c.projectId===f.id).amendmentHash='changed-amendment';
-  },runner:async()=>{calls++;return {result:{packets:[packet]},metrics:{}};}});
+  },runner:async()=>{calls++;return {result:{packets:[packet]},metrics:{...testMetrics,}};}});
   assert.equal(report.ok,false,change);assert.equal(calls,1);assert.ok(!fs.existsSync(path.join(options.runDir,'semantic-packets/page-004.author.json')));assert.match(report.pages[0].error,/reuse|acceptance/i);f.dispose();
  }
 });
 test('frozen advisory retrieval still holds publication for source, teaching and current guidance edits',async t=>{
  for(const change of ['source','teaching','guidance','policy']){
   const options={...fixture(t),pages:[4]};options.manifest={...options.manifest,reviewProfile:'textbook-three-pass-v1'};options.config.automaticReuse=true;let calls=0;
-  const report=await runSemanticPackets(options,{...quiet,verifyPublication:()=>{if(change==='policy')options.config.automaticReuse=false;else if(change==='guidance')options.config.pageEvidence={4:{note:'New current workflow guidance'}};else fs.appendFileSync(path.join(options.runDir,'evidence/pages/page-00'+(change==='source'?4:1)+'.png'),'changed');},runner:async()=>{calls++;return {result:author(4),metrics:{}};}});
+  const report=await runSemanticPackets(options,{...quiet,verifyPublication:()=>{if(change==='policy')options.config.automaticReuse=false;else if(change==='guidance')options.config.pageEvidence={4:{note:'New current workflow guidance'}};else fs.appendFileSync(path.join(options.runDir,'evidence/pages/page-00'+(change==='source'?4:1)+'.png'),'changed');},runner:async()=>{calls++;return {result:author(4),metrics:{...testMetrics,}};}});
   assert.equal(report.ok,false,change);assert.equal(calls,1);assert.match(report.pages[0].error,/Source, corrections or review gates changed|Automatic reuse configuration changed/);
  }
 });
 
 test('unused prepared reuse candidate acceptance changes do not invalidate ordinary authored content',async t=>{
  const options={...fixture(t),pages:[4]};options.manifest={...options.manifest,reviewProfile:'textbook-three-pass-v1'};options.config.automaticReuse=true;const f=publicationLibrary(t,options);assert.ok(createSemanticTasks(options)[0].reuseCandidates.some(c=>c.projectId===f.id));let calls=0;
- const report=await runSemanticPackets(options,{...quiet,verifyPublication:()=>fs.writeFileSync(f.table,JSON.stringify({questions:{}})),runner:async()=>{calls++;return {result:author(4),metrics:{}};}});assert.equal(report.ok,true,JSON.stringify(report));assert.equal(calls,1);
+ const report=await runSemanticPackets(options,{...quiet,verifyPublication:()=>fs.writeFileSync(f.table,JSON.stringify({questions:{}})),runner:async()=>{calls++;return {result:author(4),metrics:{...testMetrics,}};}});assert.equal(report.ok,true,JSON.stringify(report));assert.equal(calls,1);
 });
 test('current workflow source correction holds an in-flight prepared generation',async t=>{
  const options={...fixture(t),pages:[4]};options.manifest={...options.manifest,reviewProfile:'textbook-three-pass-v1',workflowPolicy:'review-first-v1'};options.config.automaticReuse=true;fs.writeFileSync(path.join(options.runDir,'manifest.json'),JSON.stringify(options.manifest));const state={version:1,revision:0,reviewProfile:'textbook-three-pass-v1',pages:{4:{patterns:[]}},issues:{},corrections:[],representatives:{}};fs.mkdirSync(path.join(options.runDir,'workflow'));const file=path.join(options.runDir,'workflow/issues.json');fs.writeFileSync(file,JSON.stringify(state));let calls=0;
- const report=await runSemanticPackets(options,{...quiet,verifyPublication:()=>{state.corrections.push({id:'changed-source',status:'approved',reason:'Current source decision',patches:[{scope:'inventory',page:4,targetId:'src-4',field:'/description',original:'Solve the equation.',corrected:'Changed assessed source task.'}]});fs.writeFileSync(file,JSON.stringify(state));},runner:async()=>{calls++;return {result:author(4),metrics:{}};}});assert.equal(report.ok,false,JSON.stringify(report));assert.equal(calls,1);assert.match(report.pages[0].error,/Source, corrections or review gates changed/);assert.ok(!fs.existsSync(path.join(options.runDir,'semantic-packets/page-004.author.json')));
+ const report=await runSemanticPackets(options,{...quiet,verifyPublication:()=>{state.corrections.push({id:'changed-source',status:'approved',reason:'Current source decision',patches:[{scope:'inventory',page:4,targetId:'src-4',field:'/description',original:'Solve the equation.',corrected:'Changed assessed source task.'}]});fs.writeFileSync(file,JSON.stringify(state));},runner:async()=>{calls++;return {result:author(4),metrics:{...testMetrics,}};}});assert.equal(report.ok,false,JSON.stringify(report));assert.equal(calls,1);assert.match(report.pages[0].error,/Source, corrections or review gates changed/);assert.ok(!fs.existsSync(path.join(options.runDir,'semantic-packets/page-004.author.json')));
 });

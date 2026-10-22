@@ -20,9 +20,9 @@ export function answerDisplayLabel(block,node,number,parts=[],mode=null){
 
 // A supplied matching figure is a structural container, not another response.
 // A real question (including an empty prompt awaiting repair) keeps its answer row.
-export const isGivenFigureNode=node=>!!node&&!node.children?.length&&!Object.hasOwn(node,'prompt')&&!node.answer&&!!node.questionDiagrams?.length;
+export const isGivenFigureNode=node=>!!node&&!node.children?.length&&!node.answer&&(node.responseSpace==='given'||!Object.hasOwn(node,'prompt')&&!!node.questionDiagrams?.length);
 export function firstAnswerNode(node,responses=[],mode=null){
-  if(!node||isGivenFigureNode(node))return null;
+  if(!node||isGivenFigureNode(node)||node.responseSpace==='solution-context')return null;
   if(!node.children?.length&&!node.answer?.short&&!node.answer?.worked&&responses.some(r=>r.targetId===node.id&&r.kind==='none'))return null;
   const groupAnswer=mode?node.answer?.[mode]||mode==='short'&&node.answer?.solutionDiagrams?.length:node.answer?.short||node.answer?.worked;
   if(groupAnswer||!node.children?.length)return node;
@@ -251,7 +251,7 @@ export function answerFragments(block, mode = null) {
   };
   retainDisplay(root);
   const visit=(node,path=[])=>{
-    if(isGivenFigureNode(node))return;
+    if(isGivenFigureNode(node)||node.responseSpace==='solution-context')return;
     if(!node.children?.length&&!node.answer?.short&&!node.answer?.worked&&block.sourceReview?.responses?.some(r=>r.targetId===node.id&&r.kind==='none'))return;
     if(node.children?.length&&!(mode&&(node.answer?.[mode]||mode==='short'&&node.answer?.solutionDiagrams?.length))&&!node.sharedSolutionDiagrams?.length&&!node.children.some(c=>c.dependsOn?.length))node.children.forEach(c=>visit(c,[...path,node]));
     else units.push({node,path});

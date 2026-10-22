@@ -37,7 +37,28 @@ export function imageSourceHash(src,root=process.cwd()){
   if(!file.startsWith(publicRoot+path.sep)||!fs.existsSync(file))return null;
   return solidHash(fs.readFileSync(file));
 }
+function disconnectedPlanarTriangles(code,drawings,named){
+  // Three separated comparison triangles repeat diagonal offsets without
+  // describing a solid. Recognise only complete, disjoint straight triangles;
+  // connectors, hidden strokes, filled faces and unknown paths stay candidates.
+  if(drawings.length<3||/\\(?:fill|filldraw|shade)\b|\\path\s*\[[^\]]*\bdraw\b/.test(code))return false;
+  const used=new Set(),bounds=[];
+  for(const draw of drawings){
+    const match=draw.match(/^\\draw\s*(?:\[([^\]]*)\]\s*)?\(([\w-]+)\)\s*--\s*\(([\w-]+)\)\s*--\s*\(([\w-]+)\)\s*--\s*cycle\s*;$/);
+    if(!match||/dash|dotted/.test(match[1]??''))return false;
+    const ids=match.slice(2),points=ids.map(id=>named.get(id));
+    if(ids.some(id=>used.has(id))||new Set(ids).size!==3||points.some(p=>p?.length!==2))return false;
+    const [a,b,c]=points;if(Math.abs((b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]))<1e-5)return false;
+    ids.forEach(id=>used.add(id));bounds.push({left:Math.min(...points.map(p=>p[0])),right:Math.max(...points.map(p=>p[0])),bottom:Math.min(...points.map(p=>p[1])),top:Math.max(...points.map(p=>p[1]))});
+  }
+  return used.size===named.size&&bounds.every((a,i)=>bounds.slice(i+1).every(b=>a.right<b.left-1e-5||b.right<a.left-1e-5||a.top<b.bottom-1e-5||b.top<a.bottom-1e-5));
+}
 export function isSolidCandidate(code,context='') {
+  // A colour-policy source reference such as "question 3d" names part d,
+  // not three-dimensional geometry. Keep all real shape/model/context cues.
+  code=code.replace(/(^|\n)([ \t]*% mathsmap-diagram-colours )([^\r\n]*)/g,(line,start,prefix,json)=>{
+    try{const metadata=JSON.parse(json);if(typeof metadata.reference==='string')metadata.reference=metadata.reference.replace(/\b(question|part)\s+3d\b(?!\s+(?:diagram|solid|shape|object))/gi,'$1 3(d)');return start+prefix+JSON.stringify(metadata);}catch{return line;}
+  });
   if(/mathsmap-solid|tdplot|(?:prism|pyramid|cylinder|cone|sphere|cuboid|solid|\b3d\b|\b3-d\b)/i.test(context+' '+code))return true;
   // Relation diagrams have upright set ovals joined only by arrows between
   // named nodes. Recognise that bounded planar structure before the ellipse
@@ -50,7 +71,8 @@ export function isSolidCandidate(code,context='') {
     ![...coordinates(code).values()].some(point=>point.length===3);
   if(planarMapping)return false;
   if(/ellipse|x radius|y radius/.test(code))return true;
-  const pts=[...coordinates(code).values()];if(pts.some(p=>p.length===3))return true;
+  const named=coordinates(code),pts=[...named.values()];if(pts.some(p=>p.length===3))return true;
+  if(disconnectedPlanarTriangles(code,drawings,named))return false;
   // Equally spaced points on a planar interval repeat the same offset, too.
   // They provide no evidence of a solid; explicit solid cues above still apply.
   const origin=pts[0],direction=origin&&pts.find(p=>Math.hypot(p[0]-origin[0],p[1]-origin[1])>1e-5);

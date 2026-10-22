@@ -1,3 +1,4 @@
+import {verifiedRating,reasoningTaskHash,compatibleRatingHash} from './reasoning-ratings.mjs';
 import { promises as fs } from 'node:fs';
 import { normalizeProjectLibrary } from '../../src/lib/booklet-library.js';
 import { isTheoryReview, isSelectableBankQuestion } from '../../src/lib/question-bank-eligibility.js';
@@ -78,12 +79,11 @@ function revisionOf(value) {
 
 async function readRecords(root) {
   const names = await fs.readdir(root).catch(() => []);
-  const records = [];
-  for (const name of names.filter((item) => item.endsWith('.json') && item !== 'manifest.json')) {
-    const record = await readJson(path.join(root, name));
-    if (record) records.push(record);
-  }
-  return records;
+  const files=names.filter((item)=>item.endsWith('.json')&&item!=='manifest.json'),records=new Array(files.length);let cursor=0;
+  await Promise.all(Array.from({length:Math.min(32,files.length)},async()=>{
+    while(cursor<files.length){const index=cursor++;records[index]=await readJson(path.join(root,files[index]));}
+  }));
+  return records.filter(Boolean);
 }
 
 async function projectLibraries({ bankRoot = BANK_ROOT, moduleRoot = MODULE_ROOT } = {}) {
@@ -423,7 +423,8 @@ async function promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,modu
   if (!placement) throw Object.assign(new Error('Select a top-level project question to promote'), { statusCode: 404 });
   if (isTheoryReview(placement.block, placement.section)) throw Object.assign(new Error('Review questions belong to theory. Save them in a teaching module rather than the practice question bank.'), { statusCode: 400 });
   const link=placement.block.bankRef?.id?(await syncLinks(bankRoot))[placement.block.bankRef.id]:null;
-  const projection=mode==='create'?(body.bankProjection??bankProjectionPolicy(placement.block)):link?.projection??bankProjectionPolicy(placement.block);
+  if(mode==='update'&&body.bankProjection&&(!link||link.projectId!==project.id||link.blockId!==placement.block.id))throw Object.assign(new Error('Projection updates require the existing bank owner'),{statusCode:409});
+  const projection=['create','link-existing','update'].includes(mode)?(body.bankProjection??link?.projection??bankProjectionPolicy(placement.block)):link?.projection??bankProjectionPolicy(placement.block);
   const candidates = await duplicateCandidates(placement.block, bankRoot, projection, { similar: mode === 'inspect' });
   if (mode === 'inspect') return { project, candidates };
   assertBankQuestionDependencies(project,{blockIds:[placement.block.id]});
@@ -452,7 +453,7 @@ async function promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,modu
       // The booklet's own block stays: identity for an exact match, the bank's answers otherwise.
       const amendment = await secondarySkillAmendment(bankRoot, target, placement.block.classification?.primarySkillId);
       if (amendment) await writeTransaction(amendment.entries);
-      linkBlockToBank(project, placement.block, amendment?.bank ?? target);
+      linkBlockToBank(project, placement.block, amendment?.bank ?? target,projection);
     } else placement.section.blocks[placement.index] = snapshotBankQuestion(target, { placementId: placement.block.id });
     const saved = await saveProjectUnlocked(project, { projectRoot, bankRoot, expectedRevision: project.revision });
     return { project: saved, question: target, candidates };
@@ -478,8 +479,15 @@ async function promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,modu
   const mapping=project.studio?.atoms?.[placement.block.id];
   if(!reviewedBlock.classification?.primarySkillId && mapping?.skillIds?.length)reviewedBlock.classification={...reviewedBlock.classification,primarySkillId:mapping.skillIds[0],secondarySkillIds:mapping.skillIds.slice(1),archetype:mapping.archetype};
   const attach=node=>{if(!node)return;const atom=project.studio?.atoms?.[node.id];if(atom)node.teachingMapping=atom;(node.children??[]).forEach(attach);};attach(reviewedBlock.content);
-  const publicationProjection=mode==='create'?projection:link?.projection??null;
-  const approved = canonicalFromProjectBlock(projectBankQuestion(reviewedBlock,{policy:publicationProjection}), targetId);
+  const publicationProjection=mode==='create'||mode==='update'&&body.bankProjection?projection:link?.projection??null;
+  let approved = canonicalFromProjectBlock(projectBankQuestion(reviewedBlock,{policy:publicationProjection}), targetId);
+  if(mode==='update'&&body.bankProjection){
+    if(compatibleRatingHash(previous)!==compatibleRatingHash(projectBankQuestion(reviewedBlock,{policy:link?.projection??null})))throw Object.assign(new Error('Projection updates must preserve the existing mathematical task'),{statusCode:409});
+    approved={...structuredClone(previous),content:approved.content,presentation:approved.presentation,updatedAt:approved.updatedAt};
+  }
+  if(publicationProjection&&!publicationProjection.prependPromptBlocks?.length&&verifiedRating(reviewedBlock)&&approved.classification.assessment?.taskHash!==reasoningTaskHash(approved)){
+    approved.classification.assessment={...approved.classification.assessment,originalTaskHash:approved.classification.assessment.originalTaskHash??approved.classification.assessment.taskHash,taskHash:reasoningTaskHash(approved),equivalentProjection:{version:1,policyHash:revisionOf(publicationProjection)}};
+  }
   if (previous) await writeJson(path.join(bankRoot, '.revisions', safeId(targetId), `${revisionOf(previous)}.json`), previous);
   await writeJson(file, approved);
   await writeBankManifest(bankRoot);
@@ -487,7 +495,7 @@ async function promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,modu
   placement.block.canonicalId = approved.id;
   placement.block.snapshotKind = 'bank';
   const saved = await saveProjectUnlocked(project, { projectRoot, bankRoot, expectedRevision: project.revision });
-  if(mode==='create')await registerBankOwner(bankRoot,saved,placement.block,approved,publicationProjection);
+  if(mode==='create'||mode==='update'&&body.bankProjection)await registerBankOwner(bankRoot,saved,placement.block,approved,publicationProjection,{refreshExisting:mode==='update'});
   return { project: saved, question: approved, candidates };
 }
 

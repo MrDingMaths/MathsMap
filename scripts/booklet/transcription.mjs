@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import {compatiblePracticeSchema} from './practice-schema-compatibility.mjs';
 import {LEAN_REVIEW_PROFILE} from './lean-profile.mjs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -163,7 +164,11 @@ export function assertPinnedInputs(runDir) {
   const mismatches = [];
   for (const [relative, expected] of Object.entries(manifest.pins.files ?? {})) {
     const file = path.join(REPO_ROOT, relative);
-    if (!fs.existsSync(file) || hashFile(file) !== expected) mismatches.push(relative);
+    if (!fs.existsSync(file) || hashFile(file) !== expected) {
+      const historical=path.join(runDir,'tooling-input-history',expected+'.practice-question-schema.json');
+      const compatible=relative==='scripts/booklet/practice-question-schema.json'&&fs.existsSync(file)&&fs.existsSync(historical)&&hashFile(historical)===expected&&compatiblePracticeSchema(readJson(historical),readJson(file));
+      if(!compatible)mismatches.push(relative);
+    }
   }
   for (const [relative, expected] of Object.entries(manifest.pins.runFiles ?? {})) {
     const file = path.join(runDir, relative);

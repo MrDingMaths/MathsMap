@@ -1,12 +1,13 @@
 // Discovery is advisory. Only a literal editable copy can reuse mathematics;
 // the independent review still checks the new source, classification and method.
 import fs from 'node:fs';
+import {practiceRatingBlocks,verifiedRating,validRawRating,reuseReasoningRating} from './reasoning-ratings.mjs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {captureQuestionPresentation} from '../../src/lib/question-presentation.js';
 import {originalSource,attachedAdditions} from './source-lineage.mjs';
-import {loadReuseContext,cloneReusableBlock,reuseContentHash,reuseCandidate} from './review-reuse.mjs';
+import {loadReuseContext,cloneReusableBlock,reuseContentHash,reuseCandidate,createDiscoveryPinVerifier} from './review-reuse.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8').replace(/^\uFEFF/,''));
@@ -100,10 +101,10 @@ export function findAuthorReuseCandidates(sourceText,catalog,{limit=12,maxCharac
  // fall back instead of causing an unbounded historical-review scan.
  const shortlist=ranked.slice(0,36);
  for(const candidate of shortlist)candidate.context.requestedBlockIds?.add(candidate.blockId);
- const result=[],seen=new Set(),seenOrigins=new Set();let length=0;
+ const result=[],seen=new Set(),seenOrigins=new Set(),pinCurrent=createDiscoveryPinVerifier();let length=0;
  for(const candidate of shortlist){
   const signature=reuseContentHash(candidate.block);if(seen.has(signature))continue;
-  const reuse=reuseCandidate(candidate.block,candidate.context);if(!reuse)continue;
+  const reuse=reuseCandidate(candidate.block,candidate.context,{pinCurrent});if(!reuse)continue;
   candidate.block={...candidate.block,presentation:captureQuestionPresentation(candidate.block,candidate.context.project?.settings?.layoutOverrides??{})};
   candidate.originalSourceBlock=reuse.originalSourceBlock;candidate.origin=reuse.origin;
   const sourceKey=reuseContentHash(reuse.originalSourceBlock);if(seenOrigins.has(sourceKey))continue;
@@ -136,7 +137,7 @@ export function findAuthorReuseCandidates(sourceText,catalog,{limit=12,maxCharac
 
 export const AUTHOR_REUSE_CONTRACT=`AUTOMATIC ACCEPTED-CONTENT REUSE: reuseCandidates are retrieval suggestions, never proof of identical source. Before transcribing an assigned complete question or teaching block, compare its ENTIRE prompt, every part, given, response requirement, supplied working, table and diagram with these candidates and the new source pixels. Different question numbering and page placement alone do not change content. Identify the SAME ORIGINAL task/theory using originalSourceBlock, not its improved wording. Source-original identity ignores later clarifications and expanded solutions. Compare the new source's givens, all parts, diagrams and required responses to originalSourceBlock. Use the most recently saved compatible version offered for an original source. Carry the current block's clarifications, extra working and attached additions when they preserve that task and fit this booklet's teaching. For enhanced candidates return improvementsCompatible:true only after checking that complete distinction. Never treat changed givens or changed assessed tasks as an improvement; author them normally. Only a whole source-identical block may be reused. Do not adapt values, remove/add parts or regenerate unchanged solutions. Return a placeholder in its normal section.blocks: {type:"reuse",reuseKey:KEY,id:NEW_UNIQUE_BLOCK_ID,sourceEquivalent:true,improvementsCompatible:true,number:NEW_NUMBER,classification:NEW_CLASSIFICATION,sourceReview:{teachingContext:NEW_CONTEXT}}. For a reused whole question, supply explicit fresh sourceReview.sourceIdentity.questionLabel as a positive whole numeric question label from the NEW source. The materializer rebinds only the native whole-question root label. Missing, Unnumbered, part-only, range or other unsupported source labels require normal authoring instead of a reuse placeholder; never infer the label from old metadata, number or node IDs. Supply explicit fresh sourceReview.sourceIdentity for the NEW source; historical source identities are removed from the copy and remain in the origin artifact. Map assigned inventory entries and NEW answer-book match evidence to the candidate's ORIGINAL node IDs (these are remapped locally), or use the placeholder root ID for whole-question evidence only when uniquely identified with reuseKey and reuseCopyId; add reuseKey:KEY and reuseCopyId:the placeholder id to every reused mapping/evidence record so copies from different books or repeated copies can safely share original IDs; preserve mapping fields. Supply fresh answerEvidence against the new source where required. The importer copies its editable content and answers deterministically, sets new source references and records the prior review. Author and solve unmatched items normally. Similar wording, uncertain diagrams or different taught methods require ordinary authoring. No reuse placeholder grants review acceptance. Never copy a prior bank link or review status. Do not put copied content into the placeholder.`;
 
-export function materializeAutomaticReuse(packet,candidates,{runId,teachingPages=[]}={}){
+export function materializeAutomaticReuse(packet,candidates,{runId,teachingPages=[],requireReasoningRatings=false}={}){
  const result=structuredClone(packet),used=new Set(),mapping=new Map();
  const expandedAdditions=new Map();
  for(const section of result.sections??[])section.blocks=(section.blocks??[]).flatMap(block=>{
@@ -175,7 +176,12 @@ export function materializeAutomaticReuse(packet,candidates,{runId,teachingPages
    copy.content.label=String(label);
   }
   if(block.number!==undefined)copy.number=block.number;
-  if(block.classification)copy.classification=structuredClone(block.classification);
+  const retainedRating=reuseReasoningRating(candidate.block,copy),supplied=block.classification;
+  const ratingChanged=supplied&&['reasoningScore','difficulty','difficultyReason'].some(key=>Object.hasOwn(supplied,key)&&supplied[key]!==retainedRating?.[key]);
+  if(supplied)copy.classification={...copy.classification,...structuredClone(supplied)};
+  if(retainedRating&&!ratingChanged)copy.classification={...copy.classification,...retainedRating};
+  else if(copy.classification)delete copy.classification.assessment;
+  if(requireReasoningRatings&&practiceRatingBlocks({sections:[{...section,blocks:[copy]}]}).length&&!verifiedRating(copy)&&!validRawRating(supplied))throw Error('Reused question requires an individual LLM reasoning rating: '+block.id);
   copy.sourceReview={...copy.sourceReview,...(block.sourceReview?.sourceIdentity?{sourceIdentity:structuredClone(block.sourceReview.sourceIdentity)}:{}),...(block.sourceReview?.teachingContext?{teachingContext:structuredClone(block.sourceReview.teachingContext)}:{}),teachingPages,sourcePages:[result.pageNumber],reuse:candidate.reviewOwner??{projectId:candidate.projectId,blockId:candidate.blockId},origin:candidate.origin};
   const extras=[];
   for(const addition of candidate.additions??[]){

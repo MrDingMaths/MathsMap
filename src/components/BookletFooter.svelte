@@ -1,15 +1,17 @@
 <script>
+  import {getContext} from 'svelte';
+  const projectRevision = getContext('booklet-revision');
   let {
     pageNumber = 1,
     totalPages = 1,
-    version = '',
     feedback = 'https://MrDingMaths.com',
     sourcePage = null,
   } = $props();
+  const revision = $derived(projectRevision?.());
 </script>
 
 <footer class="booklet-footer">
-  <span>{feedback}{version ? ` | ${version}` : ''}</span>
+  <span>{feedback}{revision != null ? ` | Revision ${revision}` : ''}</span>
   <span>{sourcePage?`Source p${sourcePage} · `:''}Page {pageNumber} of {totalPages}</span>
 </footer>
 

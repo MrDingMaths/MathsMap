@@ -40,7 +40,7 @@
       </div>
     </section>
   </div>
-  <BookletFooter pageNumber={1} totalPages={cover.totalPages} version={cover.version} feedback={cover.feedback} />
+  <BookletFooter pageNumber={1} totalPages={cover.totalPages} feedback={cover.feedback} />
 </article>
 
 <style>

@@ -1,3 +1,4 @@
+import {assessedRating} from '../scripts/booklet/reasoning-ratings.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -98,12 +99,19 @@ test('scoped visual repair consumes moved page sequences and retains new/reflowe
 import {leanPreExportLint} from '../scripts/booklet/import-pre-final.mjs';
 import {solidAcceptance} from '../scripts/audit-solid-visibility.mjs';
 
-const question=(id,short='4')=>({id,type:'question',sourcePageNumber:6,sourceRefs:[{pageNumber:6}],classification:{primarySkillId:'skill-a'},sourceReview:{teachingContext:[{pageNumber:4,method:'m'}]},content:{id:id+'-root',type:'question',prompt:'Find x.',layout:'grid',answer:{short,worked:'x='+short}}});
+const question=(id,short='4')=>{const block={id,type:'question',sourcePageNumber:6,sourceRefs:[{pageNumber:6}],classification:{primarySkillId:'skill-a'},sourceReview:{teachingContext:[{pageNumber:4,method:'m'}]},content:{id:id+'-root',type:'question',prompt:'Find x.',layout:'grid',answer:{short,worked:'x='+short}}};block.classification={...block.classification,...assessedRating(block,{reasoningScore:20,difficulty:'Foundation',difficultyReason:'Apply the given one-step method.'},{model:'test-model',assessedAt:'2026-10-21T00:00:00Z',evidence:'test-fixture'})};return block;};
 const fixture=()=>({id:'p',title:'P',reviewProfile:'textbook-three-pass-v1',revision:1,sections:[
  {id:'front',phase:'front-matter',blocks:[{id:'cover',type:'cover'}]},
  {id:'teach',phase:'teaching',topicId:'t1',blocks:[{id:'example',type:'question',sourcePageNumber:4,content:{id:'example-root',prompt:'Example'}}]},
  {id:'practice',phase:'practice',topicId:'t1',blocks:[question('q1'),question('q2'),question('q3'),question('q4'),question('q5')]}]});
 const workspace=project=>{const runDir=fs.mkdtempSync(path.join(os.tmpdir(),'lean-review-')),file=path.join(runDir,'candidate.json');fs.writeFileSync(file,JSON.stringify(project,null,2)+'\n');return {runDir,file,dir:path.join(runDir,'lean-review')};};
+
+test('initial export refuses an unverified reasoning rating before rendering',async t=>{
+ const project=fixture();delete project.sections[2].blocks[0].classification.assessment;
+ const {runDir,file}=workspace(project);t.after(()=>fs.rmSync(runDir,{recursive:true,force:true}));let rendered=0;
+ await assert.rejects(runLeanExport({runDir,projectId:project.id,projectFile:file,out:path.join(runDir,'export')},{exportRuntime:async()=>{rendered++;}}),/Incomplete LLM reasoning ratings.*q1/);
+ assert.equal(rendered,0);
+});
 
 function practiceEvidenceFixture(t){
  const block=question('practice'),section={id:'practice',phase:'practice',blocks:[block]},project={...fixture(),source:{contentScope:'practice-only'},sections:[section]};
@@ -282,8 +290,11 @@ test('visual plan skips accepted page hashes and combined bodies; findings are r
  let calls=0;const runner=async({images})=>{calls++;assert.deepEqual(images,['one.png','two.png']);return {result:{pages:[{page:1,outcome:'accepted'},{page:2,outcome:'needs-change',finding:'Clipped table'}]}};};
  const first=await runVisualReview({runDir,projectFile:file,exportDir,runner});
  assert.equal(first.pagesInspected,2);assert.equal(first.findings,1);
- await runVisualReview({runDir,projectFile:file,exportDir,runner:async({images})=>{calls++;assert.deepEqual(images,['two.png']);return {result:{pages:[{page:2,outcome:'accepted'}]}};}});
- assert.equal(calls,2);assert.deepEqual(reviewStatus({runDir,projectFile:file}),{blocks:6,pending:6,shadingPending:0,failed:[],pagesAccepted:2,pagesNeedingChange:0});
+ const unchanged=await runVisualReview({runDir,projectFile:file,exportDir,nativeDetails:()=>[],runner:async()=>assert.fail('Unchanged failed pixels require repair, not another opinion')});
+ assert.equal(unchanged.pagesInspected,0);assert.equal(unchanged.outstandingFindings,1);
+ const savedRepairPlan=JSON.parse(fs.readFileSync(path.join(exportDir,'visual-plan.json')));savedRepairPlan.student.pending[1].hash='b-repaired';fs.writeFileSync(path.join(exportDir,'visual-plan.json'),JSON.stringify(savedRepairPlan));
+ await runVisualReview({runDir,projectFile:file,exportDir,nativeDetails:()=>[],runner:async({images})=>{calls++;assert.deepEqual(images,['two.png']);return {result:{pages:[{page:2,outcome:'accepted'}]}};}});
+ assert.equal(calls,2);assert.deepEqual(reviewStatus({runDir,projectFile:file}),{blocks:6,pending:6,shadingPending:0,reasoningRatings:{total:5,verified:5,missing:[]},failed:[],pagesAccepted:2,pagesNeedingChange:1});
  const exportState=loadReviewed(path.join(runDir,'lean-review'));exportState.pages['student:obsolete']={outcome:'needs-change'};
  fs.writeFileSync(path.join(runDir,'lean-review/reviewed.json'),JSON.stringify(exportState));
  const currentReport=Object.fromEntries(['student','short','worked','with-short','with-worked'].map(edition=>[edition,{pdf:{path:'x.pdf'},issues:[],pageHashes:[{page:1,hash:edition==='student'?'a':'current-'+edition,blocks:[],isCover:true}]}]));

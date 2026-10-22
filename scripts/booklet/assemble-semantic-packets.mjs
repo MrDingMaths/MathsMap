@@ -36,7 +36,13 @@ for(const page of selected){
  const inv=workflow?effectiveInventory(runDir,page,workflow):JSON.parse(fs.readFileSync(path.join(root,stem+'.inventory.json'),'utf8'));
  const packet=workflow?effectiveAuthor(runDir,page,workflow):JSON.parse(fs.readFileSync(path.join(root,stem+'.author.json'),'utf8'));
  if(inv.pageNumber!==page||packet.pageNumber!==page)throw Error('Wrong packet page');
- validateSemanticResult(packet,{stage:'author',page,inventory:inv,contentScope:config.contentScope,reviewed:!!workflow,practiceContinuations:config.assignmentLimits?.continuations??manifest.continuations??[]});
+ const practiceContinuations=config.assignmentLimits?.continuations??manifest.continuations??[];
+ const practiceAncestorInventories=[...new Set(practiceContinuations.filter(pair=>!Array.isArray(pair)&&pair.to===page&&pair.from<page).map(pair=>pair.from))].map(prior=>{
+  const inventory=workflow?effectiveInventory(runDir,prior,workflow):JSON.parse(fs.readFileSync(path.join(root,`page-${String(prior).padStart(3,'0')}.inventory.json`),'utf8'));
+  if(inventory.pageNumber!==prior)throw Error('Wrong continuation inventory page');
+  return inventory;
+ });
+ validateSemanticResult(packet,{stage:'author',page,inventory:inv,contentScope:config.contentScope,reviewed:!!workflow,practiceContinuations,practiceAncestorInventories});
  inventories.set(page,inv);rawPackets.push(packet);
 }
 const packets=mergeQuestionFragments(coalescePacketContinuations(rawPackets,{continuations:config.assignmentLimits?.continuations}),config.questionFragmentGroups);

@@ -180,6 +180,7 @@
   const labels=$derived(teachingLabels(project?.sections.flatMap(s=>s.blocks)??[]));
   setContext('booklet-labels',()=>labels);
   setContext('booklet-presentation',()=>project?.settings);
+  setContext('booklet-revision',()=>project?.revision);
   setContext('booklet-cover-edit', {
     start: () => finishInline(),
     commit: (field, value) => change(updateBookletCover(project, field, value)),
@@ -329,6 +330,8 @@
       else if(target.sectionId)change({...project,sections:project.sections.map(s=>s.id===target.sectionId?{...s,title}:s)});
     }catch(e){error=e.message;}},
     bankState(blockId){return bankSync.items.find(item=>item.blockId===blockId);},
+    sharedState(blockId){return shared.members.find(m=>m.blockId===blockId);},
+    openShared(blockId){selectedBlockId=blockId;showShared=true;},
     // Reveal the answer page holding one part's answer, then scroll to that part.
     async openAnswer(anchorId){
       const match=/^(?:screen-)?answer-(short|worked)-part-(.*)$/.exec(anchorId);if(!match||!flowPreview)return;

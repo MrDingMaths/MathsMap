@@ -61,15 +61,18 @@ test('reuse needs independent source, classification and taught-method checks',(
 });
 test('legacy acceptance validates answer checks, current artifact bytes and question dependency',()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'reuse-legacy-')),prior=block(),project={id:'prior',reviewProfile:'textbook-three-pass-v1',sections:[{id:'s',phase:'practice',blocks:[prior]}]},file=path.join(dir,'prior.json');
+ const readdir=fs.readdirSync;
  try{
   fs.writeFileSync(file,JSON.stringify(project));fs.mkdirSync(path.join(dir,'workflow'));const artifact=path.join(dir,'result.json');fs.writeFileSync(artifact,'{}');
   const state={pipelinePolicy:PIPELINE_POLICY,reviewProfile:project.reviewProfile,pages:{}},deps=verificationDependencies(state,project,{renderer:'test',implementation:{},runDir:dir});
   const record={id:'question:old',outcome:'passed',reviewer:'independent',note:'Checked every answer',sourceCompared:true,contentVerified:true,checks:{answer:true,skillMapping:true,taughtMethod:true},artifacts:[{path:artifact,hash:createHash('sha256').update(fs.readFileSync(artifact)).digest('hex')}],dependencies:{question:deps.questions.old}};
   state.verification={version:1,entries:{'question:old':record}};const table=path.join(dir,'workflow','issues.json');fs.writeFileSync(table,JSON.stringify(state));
+  fs.readdirSync=function(folder,...args){if(['scripts','tests','src','public','node_modules'].some(name=>path.resolve(folder)===path.resolve(name)||path.resolve(folder).startsWith(path.resolve(name)+path.sep)))throw Error('Implementation tree scan');return readdir.call(this,folder,...args);};
   assert.equal(loadReuseContext({projectFile:file,runDir:dir}).accepted.size,1);
   record.checks.answer=false;fs.writeFileSync(table,JSON.stringify(state));assert.equal(loadReuseContext({projectFile:file,runDir:dir}).accepted.size,0);
   record.checks.answer=true;fs.writeFileSync(table,JSON.stringify(state));fs.writeFileSync(artifact,'changed');assert.equal(loadReuseContext({projectFile:file,runDir:dir}).accepted.size,0);
- }finally{fs.rmSync(dir,{recursive:true,force:true});}
+  record.dependencies.customImplementation='unknown';fs.writeFileSync(table,JSON.stringify(state));assert.throws(()=>loadReuseContext({projectFile:file,runDir:dir}),/Implementation tree scan/,'Unknown dependency records retain full verification');
+ }finally{fs.readdirSync=readdir;fs.rmSync(dir,{recursive:true,force:true});}
 });
 test('legacy snapshot accepts only bound unchanged mathematics and ignores corrections for other blocks',()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'reuse-snapshot-')),snapshot=block();snapshot.sourceAtom={label:'Scale Drawings'};

@@ -6,6 +6,22 @@ import {repairValue} from '../scripts/repair-solid-visibility.mjs';
 import {solidHash,visitFigures,isSolidCandidate,solidAcceptance} from '../scripts/audit-solid-visibility.mjs';
 const box=()=>solidTikz(prismModel([[0,0],[3,0],[3,2],[0,2]]));
 
+test('three disconnected comparison triangles are planar; solid cues and connected or hidden geometry remain guarded',()=>{
+ const triangles=String.raw`\begin{tikzpicture}
+ \coordinate (A) at (0,1.5);\coordinate (B) at (3,1.5);\coordinate (C) at (2.3,0);
+ \coordinate (D) at (4,1.5);\coordinate (E) at (7,1.5);\coordinate (F) at (6.3,0);
+ \coordinate (G) at (8,1.5);\coordinate (H) at (11,1.5);\coordinate (I) at (10.3,0);
+ \draw (A)--(B)--(C)--cycle;\draw (D)--(E)--(F)--cycle;\draw (G)--(H)--(I)--cycle;
+ \end{tikzpicture}`;
+ assert.equal(isSolidCandidate(triangles,'Compare similar triangles'),false);
+ for(const context of ['solid prism','3D geometry'])assert.equal(isSolidCandidate(triangles,context),true);
+ for(const extra of [String.raw`\draw (A)--(D);`,String.raw`\fill (A)--(D)--(E)--cycle;`,String.raw`\path[draw] (A)--(D);`])assert.equal(isSolidCandidate(triangles.replace('\\end{tikzpicture}',extra+'\\end{tikzpicture}')),true);
+ assert.equal(isSolidCandidate(triangles.replace('\\draw (A)','\\draw[dashed] (A)')),true);
+ assert.equal(isSolidCandidate(triangles.replace('(8,1.5)','(1,1.5)').replace('(11,1.5)','(4,1.5)').replace('(10.3,0)','(3.3,0)')),true);
+ assert.equal(isSolidCandidate(triangles.replace('(0,1.5)','(0,1.5,0)')),true);
+ assert.equal(isSolidCandidate(box()),true);
+});
+
 test('declared semantic colour aliases follow construction-line rules without exempting ordinary boundaries',()=>{
  const policy={version:1,kind:'geometry',base:['outlineInk'],semantic:[{name:'constructionRed',hex:'EF6068',reason:'Inscribed construction inside another solid'}],reference:'Test source diagram'};
  const original=box();

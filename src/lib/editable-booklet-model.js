@@ -110,7 +110,7 @@ function normalizeV4Block(raw = {}, index = 0) {
   if (block.type === 'callout') block.label ??= block.variant === 'key-ideas' ? 'Key Ideas' : block.variant === 'info' ? 'Definition' : block.variant === 'investigation' ? '' : 'Theory';
   if (block.type === 'question') {
     block.snapshotKind = block.snapshotKind === 'bank' ? 'bank' : 'local';
-    block.bankRef = block.bankRef?.id ? { id: String(block.bankRef.id), revision: String(block.bankRef.revision ?? '') } : null;
+    block.bankRef = block.bankRef?.id ? { id: String(block.bankRef.id), revision: String(block.bankRef.revision ?? ''),...(block.bankRef.projection?.version===1?{projection:clone(block.bankRef.projection)}:{}) } : null;
   }
   return block;
 }
@@ -509,12 +509,18 @@ export function validateEditableProject(raw) {
   if (!text(raw?.title)) errors.push('Project needs a title');
   if (!Array.isArray(raw?.sections) || !raw.sections.length) errors.push('Project needs at least one section');
   const ids = new Set();
+  const scanPresentation=value=>{
+    if(!value||typeof value!=='object')return;
+    if(value.arrangement?.root){const localIds=new Set();const visit=n=>{if(!n||typeof n!=='object')return;if(n.id){if(localIds.has(n.id))errors.push('Duplicate arrangement node id: '+n.id);localIds.add(n.id);}n.children?.forEach(visit);};visit(value.arrangement.root);}
+    for(const [key,child]of Object.entries(value))if(key!=='arrangement'){if(Array.isArray(child))child.forEach(scanPresentation);else scanPresentation(child);}
+  };
   const scan=(node)=>{
     if(!node||typeof node!=='object')return;
+    if(node.presentation)scanPresentation(node.presentation);
     if(isDocument(node)){try{normalizeDocument(node);}catch(error){errors.push(error.message);}}
     if(node.id){if(ids.has(node.id))errors.push(`Duplicate project node id: ${node.id}`);ids.add(node.id);}
     // A retained source diagram is evidence, not another live editor node.
-    for(const [key,value] of Object.entries(node))if(!['bankRef','sourceAtom','sourceReview','source','sourceQuestionRef','sourceLayoutEvidence','generationEvidence','teachingMapping','classification','originalDiagram'].includes(key))Array.isArray(value)?value.forEach(scan):scan(value);
+    for(const [key,value] of Object.entries(node))if(!['bankRef','sourceAtom','sourceReview','source','sourceQuestionRef','sourceLayoutEvidence','generationEvidence','teachingMapping','classification','originalDiagram','presentation'].includes(key))Array.isArray(value)?value.forEach(scan):scan(value);
   };
   scan(raw?.sections??[]);
   if(raw?.settings?.paginationMode==='flexible'){

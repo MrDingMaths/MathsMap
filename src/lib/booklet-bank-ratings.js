@@ -3,6 +3,9 @@ import {difficultyBandForScore} from './practice-question-model.js';
 // Read existing assessments without creating a default rating.
 export function questionDifficulty(block) {
   if(!block)return null;
+  // A locally assessed amendment may differ from its pinned bank task.
+  const local=block.classification;
+  if(local?.assessment?.taskHash&&local.assessment.taskHash!==block.flow?.bankDifficulty?.assessment?.taskHash&&Number.isInteger(local.reasoningScore)&&local.reasoningScore>=0&&local.reasoningScore<=100)return {...local,difficulty:difficultyBandForScore(local.reasoningScore)};
   const candidates=block.bankRef?.id
     ? [block.flow?.bankDifficulty,block.classification,block.flow?.localDifficulty]
     : [block.classification,block.flow?.localDifficulty,block.flow?.bankDifficulty];

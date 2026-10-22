@@ -28,7 +28,7 @@ export function rgbPng({width,height,pixels}){
  const rows=Buffer.alloc((width*3+1)*height);for(let y=0;y<height;y++)pixels.copy(rows,y*(width*3+1)+1,y*width*3,(y+1)*width*3);
  return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',header),chunk('IDAT',deflateSync(rows)),chunk('IEND',Buffer.alloc(0))]);
 }
-export function popplerVersion(){const r=spawnSync('pdftoppm',['-v'],{windowsHide:true,encoding:'utf8'});if(r.error||r.status!==0)throw Error('PDF rasterization requires pdftoppm: '+(r.error?.message??r.stderr));return (r.stderr+r.stdout).trim();}
+export function popplerVersion(renderer='pdftoppm'){if(!['pdftoppm','pdftocairo'].includes(renderer))throw Error('Unsupported PDF rasterizer');const r=spawnSync(renderer,['-v'],{windowsHide:true,encoding:'utf8'});if(r.error||r.status!==0)throw Error('PDF rasterization requires '+renderer+': '+(r.error?.message??r.stderr));return (r.stderr+r.stdout).trim();}
 export function renderPdfPage(pdf,page){const r=spawnSync('pdftoppm',['-r',String(DPI),'-f',String(page),'-l',String(page),'-singlefile',pdf],{windowsHide:true,maxBuffer:64*1024*1024});if(r.error||r.status!==0)throw Error('PDF rasterization failed: '+(r.error?.message??r.stderr?.toString()));decodePpm(r.stdout);return r.stdout;}
 // Native PNG output is retained verbatim. Cache validation reads its hash and
 // header, never inflates pixels or re-encodes an already accepted image.
@@ -53,7 +53,9 @@ export async function renderPdfRange(pdf,first,last,{out}){
  const dir=fs.mkdtempSync(path.join(path.resolve(out),'range-')),prefix=path.join(dir,'page');
  try{
   await new Promise((resolve,reject)=>{
-   const child=spawn('pdftoppm',['-r',String(DPI),'-f',String(first),'-l',String(last),'-png',pdf,prefix],{windowsHide:true,stdio:['ignore','ignore','pipe']});let errors='';
+   // Splash/pdftoppm can omit complete vertical strokes present in the PDF.
+   // Cairo preserves those vectors (verified against the native browser SVG).
+   const child=spawn('pdftocairo',['-r',String(DPI),'-f',String(first),'-l',String(last),'-png',pdf,prefix],{windowsHide:true,stdio:['ignore','ignore','pipe']});let errors='';
    child.stderr.on('data',bytes=>{errors=(errors+bytes.toString()).slice(-8192);});
    child.on('error',reject);child.on('close',code=>code===0?resolve():reject(Error('PDF rasterization failed: '+errors)));
   });
@@ -73,7 +75,7 @@ function readTargetedImage(pdf,page,out,engine,algorithm){
  if(digest(bytes)!==saved.image.hash||size.width!==saved.image.width||size.height!==saved.image.height)throw Error('Missing or stale PDF PNG raster');
  return {page,...saved.image,pdfHash:pdf.hash,receipt:ref(receiptFile)};
 }
-export async function ensureSelectedPdfRasters(pdf,count,out,{pages,renderRange=renderPdfRange,engine=popplerVersion()}={}){
+export async function ensureSelectedPdfRasters(pdf,count,out,{pages,renderRange=renderPdfRange,engine=popplerVersion('pdftocairo')}={}){
  const started=Date.now();check(pdf);selectedPageRanges(pages,count);fs.mkdirSync(out,{recursive:true});
  const algorithm=implementation(),images=new Map(),missing=[];
  for(const page of [...pages].sort((a,b)=>a-b)){

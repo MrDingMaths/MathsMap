@@ -41,6 +41,19 @@
     }
   },
   "$defs": {
+    "reasoningAssessment": {
+      "type": "object",
+      "required": ["model", "assessedAt", "rubricVersion", "taskHash", "evidence"],
+      "properties": {
+        "model": { "type": "string", "minLength": 1 },
+        "assessedAt": { "type": "string", "format": "date-time" },
+        "rubricVersion": { "const": "mathsmap-cognitive-demand-v1" },
+        "taskHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "originalTaskHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "evidence": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
     "diagram": {
       "type": "object",
       "required": [
@@ -413,6 +426,9 @@
             "difficultyReason": {
               "type": "string",
               "minLength": 1
+            },
+            "assessment": {
+              "$ref": "#/$defs/reasoningAssessment"
             }
           },
           "additionalProperties": false

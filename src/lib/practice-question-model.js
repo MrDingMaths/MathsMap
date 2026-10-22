@@ -130,6 +130,7 @@ function rawAnswer(value) {
 // A native completed table can answer its response group as one editable entry.
 // General parent summaries remain outside the canonical question contract.
 function hasCompletedTableAnswers(node){
+ if(node?.responseKind==='group-answer'&&rawChildren(node).length&&node.answer&&(text(node.answer.short)||text(node.answer.worked)||node.answer.solutionDiagrams?.length))return true;
  const answer=node?.answer,values=[answer?.short,answer?.worked].filter(value=>value!=null&&text(value)!=='');
  return values.length>0&&!answer?.solutionDiagrams?.length&&values.every(value=>isDocument(value)&&value.blocks.some(block=>block.type==='table')&&value.blocks.every(block=>block.type==='table'||block.type==='paragraph'));
 }
@@ -160,6 +161,8 @@ function normaliseNode(raw = {}, depth = 0, index = 0, root = false) {
     questionDiagrams: normaliseDiagrams(value.questionDiagrams ?? value.question_diagrams ?? value.images ?? value.diagrams ?? value.tikz, 'question'),
     children: children.map((child, childIndex) => normaliseNode(child, depth + 1, childIndex, false)),
   };
+  const givenFigure=value.responseSpace==='given'&&!children.length&&!value.answer;
+  if(givenFigure)node.responseSpace='given';
   if(value.answerColumns)node.answerColumns=Math.max(1,Math.min(6,Number(value.answerColumns)||2));
   if(value.afterDiagramPrompt!=null)node.afterDiagramPrompt=contentValue(value.afterDiagramPrompt);
   if(['scenario','pattern-top'].includes(value.layoutPreset))node.layoutPreset=value.layoutPreset;
@@ -175,7 +178,7 @@ function normaliseNode(raw = {}, depth = 0, index = 0, root = false) {
   if(['before-prompt','beside-prompt','right-of-prompt'].includes(value.diagramPlacement))node.diagramPlacement=value.diagramPlacement;
   if(value.dependsOn?.length)node.dependsOn=unique(value.dependsOn);
   // Completed tables may answer a group once while retaining its response leaves.
-  if (!children.length || hasCompletedTableAnswers(value)) {
+  if (!children.length && !givenFigure || hasCompletedTableAnswers(value)) {
     const answer = rawAnswer(value);
     node.answer = {
       short: answer.short == null || text(answer.short) === '' ? null : contentValue(answer.short),
@@ -187,6 +190,7 @@ function normaliseNode(raw = {}, depth = 0, index = 0, root = false) {
     node.answerSpaceMm = clampSpace(value.answerSpaceMm ?? value.defaultAnswerSpaceMm ?? value.responseSpaceMm, null);
     if(value.answerSpaceStyle==='box')node.answerSpaceStyle='box';
     if (value.responseSpace === 'scaffold') node.responseSpace = 'scaffold';
+    if(value.responseSpace==='solution-context'&&node.answer?.solutionDiagrams?.length)node.responseSpace='solution-context';
   }
   if(value.answer?.tableCells){node.answer??={};node.answer.tableCells=contentValue(value.answer.tableCells);}
   return node;
@@ -255,6 +259,7 @@ export function normaliseQuestion(raw = {}, { index = 0, source = null } = {}) {
       reasoningScore: score,
       difficulty: difficultyBandForScore(score),
       difficultyReason: text(value.difficultyReason ?? classification.difficultyReason) || 'Score-derived from the calibrated 0–100 reasoning scale.',
+      ...(classification.assessment ? {assessment:deepCopy(classification.assessment)} : {}),
     },
     content: root,
     ...(value.presentation ? {presentation:deepCopy(value.presentation)} : {}),
@@ -372,17 +377,17 @@ function validateNode(node, path, errors, warnings, depth, diagramIds, inherited
   if (!node || typeof node !== 'object') return errors.push(path + ' must be an object');
   if (!NODE_TYPES.includes(node.type)) errors.push(path + '.type must be question, group, or part');
   const children = Array.isArray(node.children) ? node.children : [];
-  if (!text(node.prompt) && !children.length && !(node.questionDiagrams ?? []).length && !inheritedTask) errors.push(path + '.prompt is required');
+  if (!text(node.prompt) && !children.length && !(node.questionDiagrams ?? []).length && !inheritedTask && node.responseSpace!=='given' && node.responseSpace!=='solution-context') errors.push(path + '.prompt is required');
   if (!NODE_LAYOUTS.includes(node.layout)) errors.push(path + '.layout must be list or grid');
   if (node.layout === 'grid' && !(Number.isInteger(Number(node.columns)) && Number(node.columns) >= 2 && Number(node.columns) <= 6)) errors.push(path + '.columns must be between 2 and 6 for a grid');
   if (node.layout === 'list' && node.columns != null) errors.push(path + '.columns must be null for a list');
   if (depth > MAX_PART_DEPTH) errors.push(path + ' exceeds supported nesting depth');
   if (!Array.isArray(node.children)) errors.push(path + '.children must be an array');
   if (children.length && node.type === 'part') errors.push(path + '.part cannot contain children');
-  if (!children.length && node.type === 'group') errors.push(path + '.group must contain children');
-  if (!children.length) {
+  if (!children.length && node.type === 'group' && !node.answer && node.responseSpace!=='given') errors.push(path + '.group must contain children');
+  if (!children.length && node.responseSpace!=='given') {
     if (!node.answer || typeof node.answer !== 'object') errors.push(path + '.answer is required on a leaf');
-    if (node.answer && !text(node.answer.worked)) errors.push(path + '.answer.worked is required on a leaf');
+    if (node.answer && !text(node.answer.worked) && !(node.responseSpace==='solution-context'&&node.answer.solutionDiagrams?.length)) errors.push(path + '.answer.worked is required on a leaf');
     if (node.answer && node.answer.short != null && !balancedMath(node.answer.short)) errors.push(path + '.answer.short has unbalanced maths delimiters');
   } else if (hasOwn(node, 'answer')&&!hasCompletedTableAnswers(node)) {
     errors.push(path + '.answer is only allowed on leaf nodes');
@@ -405,8 +410,9 @@ function validateNode(node, path, errors, warnings, depth, diagramIds, inherited
     const prefix = /^([a-z]|\d+)[.)](?:\s|$)/i.exec(label)?.[1];
     return prefix ? [label, prefix] : [label];
   })) : new Set();
+  const answerChildren=children.filter(child=>{const hasAnswer=n=>Boolean(n.answer?.worked)||(n.children??[]).some(hasAnswer);return hasAnswer(child);});
   children.forEach((child, index) => validateNode(child, path + '.children[' + index + ']', errors, warnings, depth + 1, diagramIds,
-    (ancestorTask || Boolean(text(node.prompt))) && (child.responseSpace === 'scaffold' || children.length === 1 || Boolean(child.label)&&tableLabels.has(child.label)
+    (ancestorTask || Boolean(text(node.prompt))) && (child.responseSpace === 'scaffold' || children.length === 1 || answerChildren.length===1&&answerChildren[0]===child || Boolean(child.label)&&tableLabels.has(child.label)
       || index === 0 && child.label === '' && Boolean(text(node.prompt)) && Boolean(child.sharedSolutionDiagramId) && diagramIds.has(child.sharedSolutionDiagramId)),
     ancestorTask || Boolean(text(node.prompt))));
 }

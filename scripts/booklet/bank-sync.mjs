@@ -13,7 +13,13 @@ export const questionKeyHash=(q,policy=null)=>revisionHash(questionKey(normalise
 const json=v=>JSON.stringify(v,null,2)+'\n';
 const segment=value=>{if(typeof value!=='string'||!value||!/^[a-zA-Z0-9._-]+$/.test(value)||value==='.'||value==='..')throw Object.assign(new Error('Invalid bank reference'),{statusCode:400});return value;};
 const linksPath=root=>path.join(root,'.sync','links.json');
-export async function readSyncJson(file,fallback=null){try{return JSON.parse(await fs.readFile(file,'utf8'));}catch(e){if(e.code==='ENOENT')return fallback;throw e;}}
+export async function readSyncJson(file,fallback=null,{readFile=fs.readFile,delay=ms=>new Promise(resolve=>setTimeout(resolve,ms))}={}){
+ for(let attempt=0;;attempt++)try{return JSON.parse(await readFile(file,'utf8'));}catch(e){
+  if(e.code==='ENOENT')return fallback;
+  if(attempt>=3||!['EPERM','EBUSY','UNKNOWN'].includes(e.code))throw e;
+  await delay([25,75,150][attempt]);
+ }
+}
 export async function syncLinks(root){return readSyncJson(linksPath(root),{});}
 let queue=Promise.resolve();
 export function withBankLock(work){const pending=queue.then(work,work);queue=pending.catch(()=>{});return pending;}
@@ -25,13 +31,13 @@ export async function writeTransaction(entries){
 async function bankRecords(root){const names=await fs.readdir(root).catch(()=>[]);return Promise.all(names.filter(n=>n.endsWith('.json')&&n!=='manifest.json').map(n=>readSyncJson(path.join(root,n))));}
 export async function bankManifestEntry(root,updates){const records=await bankRecords(root),byId=new Map(records.filter(Boolean).map(q=>[q.id,q]));for(const q of updates)byId.set(q.id,q);return [path.join(root,'manifest.json'),makeBankManifest([...byId.values()].sort((a,b)=>a.id.localeCompare(b.id)))];}
 export function registerOwner(links,project,block,bank,projection=links[bank.id]?.projection){links[bank.id]={projectId:project.id,blockId:block.id,sourceHash:sharedHash(block,projection),bankHash:sharedHash(bank),bankRevision:revisionHash(bank),...(projection?{projection}: {})};}
-export async function registerBankOwner(root,project,block,bank,projection){const links=await syncLinks(root);if(!links[bank.id]){registerOwner(links,project,block,bank,projection);await writeTransaction([[linksPath(root),links]]);}}
+export async function registerBankOwner(root,project,block,bank,projection,{refreshExisting=false}={}){const links=await syncLinks(root),old=links[bank.id];if(refreshExisting&&old&&(old.projectId!==project.id||old.blockId!==block.id))throw Object.assign(new Error('Projection updates require the existing bank owner'),{statusCode:409});if(!old||refreshExisting){registerOwner(links,project,block,bank,projection);await writeTransaction([[linksPath(root),links]]);}}
 const blocks=p=>p.sections.flatMap(s=>s.blocks).filter(b=>b.type==='question');
 export async function refreshBankRatings(project,bankRoot){
  for(const block of blocks(project)){
   if(!block.bankRef?.id)continue;
   const bank=await readSyncJson(path.join(bankRoot,segment(block.bankRef.id)+'.json'));
-  if(bank&&Number.isFinite(bank.classification?.reasoningScore))block.flow={...block.flow,bankDifficulty:{difficulty:bank.classification.difficulty,reasoningScore:bank.classification.reasoningScore,difficultyReason:bank.classification.difficultyReason??'',revision:revisionHash(bank)}};
+  if(bank&&Number.isFinite(bank.classification?.reasoningScore))block.flow={...block.flow,bankDifficulty:{difficulty:bank.classification.difficulty,reasoningScore:bank.classification.reasoningScore,difficultyReason:bank.classification.difficultyReason??'',...(bank.classification.assessment?{assessment:structuredClone(bank.classification.assessment)}:{}),revision:revisionHash(bank)}};
  }
  return project;
 }
@@ -62,7 +68,7 @@ export async function projectSyncStatus(project,bankRoot){
   segment(id);if(block.bankRef?.revision)segment(block.bankRef.revision);
   const bank=await readSyncJson(path.join(bankRoot,id+'.json')),link=ownerEntry?.[1];
   if(!bank){items.push({blockId:block.id,bankId:id,state:'missing',owner:!!link});continue;}
-  const localHash=sharedHash(block,link?.projection),bankHash=sharedHash(bank),bankRevision=revisionHash(bank);
+  const localHash=sharedHash(block,link?.projection??block.bankRef?.projection),bankHash=sharedHash(bank),bankRevision=revisionHash(bank);
   let state='synced';
   if(localHash!==bankHash){
    if(link)state=localHash!==link.sourceHash&&bankHash!==link.bankHash?'conflict':bankHash!==link.bankHash?'update':'pending';
@@ -72,7 +78,7 @@ export async function projectSyncStatus(project,bankRoot){
     state=base&&sharedHash(base)===bankHash?'local':base&&sharedHash(block)===sharedHash(base)?'update':'conflict';
    }else state='local';
   }
-  items.push({blockId:block.id,bankId:id,owner:!!link,state,bankRevision,localHash,...(Number.isFinite(bank.classification?.reasoningScore)?{bankDifficulty:{difficulty:bank.classification.difficulty,reasoningScore:bank.classification.reasoningScore,difficultyReason:bank.classification.difficultyReason??'',revision:bankRevision}}:{}),title:block.title||block.sourceOrder&&`Question ${block.sourceOrder}`||'Question',...(state==='update'||state==='conflict'?{local:{...normaliseQuestion(block)},bank}: {})});
+  items.push({blockId:block.id,bankId:id,owner:!!link,state,bankRevision,localHash,...(Number.isFinite(bank.classification?.reasoningScore)?{bankDifficulty:{difficulty:bank.classification.difficulty,reasoningScore:bank.classification.reasoningScore,difficultyReason:bank.classification.difficultyReason??'',...(bank.classification.assessment?{assessment:structuredClone(bank.classification.assessment)}:{}),revision:bankRevision}}:{}),title:block.title||block.sourceOrder&&`Question ${block.sourceOrder}`||'Question',...(state==='update'||state==='conflict'?{local:{...normaliseQuestion(block)},bank}: {})});
  }
  return {projectRevision:project.revision,items};
 }
@@ -84,7 +90,7 @@ export async function prepareSyncResolution(project,bankRoot,body){
  if(body.action==='use-bank'){
   const base=block.bankRef?.revision?await readSyncJson(path.join(bankRoot,'.revisions',item.bankId,block.bankRef.revision+'.json')):null;
   const before=structuredClone(block);
-  block.content=mergeBankIntoBooklet(bank.content,block,base?.content,item.owner?links[item.bankId]?.projection:null);block.title=bank.title;
+  block.content=mergeBankIntoBooklet(bank.content,block,base?.content,item.owner?links[item.bankId]?.projection:block.bankRef?.projection??null);block.title=bank.title;
   reconcileSyncLayout(before,block,block.presentation);
   reconcileSyncLayout(before,block,project.settings?.layoutOverrides?.blockLayouts?.[block.id]);
   if(block.bankRef)block.bankRef.revision=item.bankRevision;
@@ -104,15 +110,18 @@ export async function prepareSyncResolution(project,bankRoot,body){
 // calls identical; a looser question-only key raises a pair for one decision.
 const keyCache=new Map();
 export async function bankQuestionKeys(root){
- const cache=keyCache.get(root)??keyCache.set(root,new Map()).get(root),seen=new Set(),entries=[];
- for(const name of (await fs.readdir(root).catch(()=>[])).filter(n=>n.endsWith('.json')&&n!=='manifest.json')){
-  const file=path.join(root,name),stat=await fs.stat(file),stamp=stat.mtimeMs+':'+stat.size;seen.add(name);
-  let entry=cache.get(name);
-  if(entry?.stamp!==stamp){const q=await readSyncJson(file);entry=q?.id?{stamp,id:q.id,title:q.title??'',revision:revisionHash(q),selectable:isSelectableBankQuestion(q),shared:sharedHash(q),key:questionKeyHash(q)}:{stamp};cache.set(name,entry);}
-  if(entry.selectable)entries.push(entry);
- }
+ const cache=keyCache.get(root)??keyCache.set(root,new Map()).get(root),seen=new Set();
+ const names=(await fs.readdir(root).catch(()=>[])).filter(n=>n.endsWith('.json')&&n!=='manifest.json'),entries=new Array(names.length);let cursor=0;
+ await Promise.all(Array.from({length:Math.min(32,names.length)},async()=>{
+  while(cursor<names.length){
+   const index=cursor++,name=names[index],file=path.join(root,name),stat=await fs.stat(file),stamp=stat.mtimeMs+':'+stat.size;seen.add(name);
+   let entry=cache.get(name);
+   if(entry?.stamp!==stamp){const q=await readSyncJson(file);entry=q?.id?{stamp,id:q.id,title:q.title??'',revision:revisionHash(q),selectable:isSelectableBankQuestion(q),shared:sharedHash(q),key:questionKeyHash(q)}:{stamp};cache.set(name,entry);}
+   if(entry.selectable)entries[index]=entry;
+  }
+ }));
  for(const name of cache.keys())if(!seen.has(name))cache.delete(name);
- return entries;
+ return entries.filter(Boolean);
 }
 export const blockPolicy=block=>{try{return bankProjectionPolicy(block);}catch{return null;}};
 // One outcome per question, in order: linked, exact, held, new. A new question
@@ -135,14 +144,14 @@ export async function resolveBankOutcomes(questions,bankRoot,entries=null){
 }
 // An exact match takes identity only. A same-question match adopts the bank's
 // answers by structural path, so local ids and layout stay.
-export function linkBlockToBank(project,block,bank){
- if(sharedHash(block)!==sharedHash(bank)){
+export function linkBlockToBank(project,block,bank,projection=bankProjectionPolicy(block)){
+ if(sharedHash(block,projection)!==sharedHash(bank)){
   const before=structuredClone(block);
-  block.content=mergeBankIntoBooklet(bank.content,block,bank.content);block.title=bank.title;
+  block.content=mergeBankIntoBooklet(bank.content,block,bank.content,projection);block.title=bank.title;
   reconcileSyncLayout(before,block,block.presentation);
   reconcileSyncLayout(before,block,project.settings?.layoutOverrides?.blockLayouts?.[block.id]);
  }
- block.bankRef={id:bank.id,revision:revisionHash(bank)};block.canonicalId=bank.id;block.snapshotKind='bank';delete block.bankDecision;
+ block.bankRef={id:bank.id,revision:revisionHash(bank),...(projection?{projection}: {})};block.canonicalId=bank.id;block.snapshotKind='bank';delete block.bankDecision;
 }
 // A booklet that files a shared question under another skill keeps it findable there.
 export async function secondarySkillAmendment(bankRoot,bank,skillId){

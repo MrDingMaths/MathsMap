@@ -1,5 +1,8 @@
 // Deterministic ownership units; inventories remain independent and immutable.
 import fs from 'node:fs';
+import {compactAuthorPrompt} from './author-prompt-view.mjs';
+import {retainedAssignmentReference,verifyRetainedAssignmentReference} from './author-recovery-reference.mjs';
+import {validatePacketRatings,stampPacketRatings,restorePacketRatings} from './reasoning-ratings.mjs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {withRunLock} from './run-observability.mjs';
@@ -235,23 +238,35 @@ export async function runAuthorAssignment({runDir,assignment,tasks,root=path.joi
    fs.mkdirSync(dir,{recursive:true});
    // A diagnosed regeneration reason naming this assignment reruns only it;
    // the earlier attempt directory stays as evidence and other caches are kept.
-   if(fs.existsSync(cacheFile)&&!regenerationReason?.includes(assignment.id)){const cache=read(cacheFile);if(cache.inputHash===payload.inputHash&&fs.existsSync(cache.result.path)&&bytes(cache.result.path)===cache.result.hash){log(JSON.stringify({assignment:assignment.id,cached:true}));return read(cache.result.path).packets;}}
+   if(fs.existsSync(cacheFile)&&!regenerationReason?.includes(assignment.id)){const cache=read(cacheFile);if(cache.inputHash===payload.inputHash&&fs.existsSync(cache.result.path)&&bytes(cache.result.path)===cache.result.hash){log(JSON.stringify({assignment:assignment.id,cached:true}));const packets=read(cache.result.path).packets;for(const packet of packets)restorePacketRatings(packet,{runDir,out:path.dirname(cache.result.path)});if(bytes(cache.result.path)!==cache.result.hash)throw Error('Cached assignment changed during rating restoration');return packets;}}
    const out=path.join(dir,String(attempt));if(fs.existsSync(out))throw Error('Assignment attempt already exists; use a newer attempt or exact-field repair');
    if(fs.readdirSync(dir).some(n=>/^\d+$/.test(n))&&!regenerationReason)throw Error('Assignment retry needs a reason why targeted repair is insufficient');
-   fs.mkdirSync(out);fs.writeFileSync(path.join(out,'prompt.md'),payload.prompt);fs.writeFileSync(path.join(out,'task-input.json'),JSON.stringify({inputHash:payload.inputHash,assignment}));
+   const promptView=compactAuthorPrompt(payload.prompt,payload.resources);
+   const recoveryFile=path.join(runDir,'author-recovery-guidance.json'),recovery=fs.existsSync(recoveryFile)?read(recoveryFile):null;
+   const useRecovery=recovery?.pages?.some(page=>assignment.pages.includes(page));
+   const recoveryRef=useRecovery?{path:recoveryFile,hash:bytes(recoveryFile)}:null;
+   const retained=useRecovery?retainedAssignmentReference(dir,assignment,{maxCharacters:Math.max(0,Math.min(200000,650000-payload.prompt.length-JSON.stringify(recovery).length))}):null;
+   const prompt=promptView.prompt+(useRecovery?'\n\nDIAGNOSED REPAIR OF THIS INCOMPLETE ASSIGNMENT:\n'+recovery.reason+'\n'+recovery.guidance+'\nPreserve all source content, identifiers and response space. Return the ordinary complete assignment; independent content review and all validation still apply.':'')+(retained?'\n\nCOMPLETE RETAINED CANDIDATE, REFERENCE ONLY (attempt '+retained.attempt+'). Its independent inventory entries and page ownership exactly match this assignment. This explicitly supplied reference may be used without reading prior files. It grants no mathematical, source, rating or visual acceptance. Reconcile it with current source evidence and diagnosed corrections; return every complete packet, including continued copies, not a patch or empty packets.\n'+retained.text:'');
+   fs.mkdirSync(out);fs.writeFileSync(path.join(out,'prompt.md'),prompt);fs.writeFileSync(path.join(out,'task-input.json'),JSON.stringify({inputHash:payload.inputHash,assignment,...(recoveryRef?{recoveryGuidance:recoveryRef}:{}),...(retained?{retainedReference:{attempt:retained.attempt,artifacts:retained.artifacts}}:{})}));
+   if(promptView.savedCharacters){fs.writeFileSync(path.join(out,'canonical-prompt.md'),payload.prompt);fs.writeFileSync(path.join(out,'prompt-view.json'),JSON.stringify({...promptView,prompt:undefined,canonicalHash:hash(payload.prompt),transmittedBaseHash:hash(promptView.prompt)}));}
    const catalog=path.join(root,'evidence-'+hash(payload.context.evidence)+'.json');if(!fs.existsSync(catalog))fs.writeFileSync(catalog,JSON.stringify(payload.context.evidence,null,2));
-   const events=recordAttempt(path.join(runDir,'semantic-packets'),{stage:'author',page:assignment.pages[0],pages:assignment.pages,assignmentId:assignment.id,attempt,inputHash:payload.inputHash,promptStats:payload.promptStats,regenerationReason,retryReason:attempt>1?'content-repair':'initial'});let metrics,ok=false,error;
+   const events=recordAttempt(path.join(runDir,'semantic-packets'),{stage:'author',page:assignment.pages[0],pages:assignment.pages,assignmentId:assignment.id,attempt,inputHash:payload.inputHash,promptStats:{...payload.promptStats,characters:prompt.length,canonicalCharacters:payload.prompt.length,transmissionSavedCharacters:promptView.savedCharacters},regenerationReason,retryReason:attempt>1?'content-repair':'initial'});let metrics,ok=false,error;
    try{
-    events.phase('generation');const reply=assignment.evidenceOnly?{result:{packets:assignment.pages.map(pageNumber=>({pageNumber,sections:[],inventoryMappings:[],findings:[],corrections:[],answerEvidence:[]}))},metrics:{provider:'local-inventory-exclusions',externalModelCalls:0,usage:null,elapsedMs:0}}:await withWorkerSlot(runDir,{stage:'author',assignmentId:assignment.id},()=>runner({cwd:runDir,runDir,configuration:tasks.find(t=>assignment.pages.includes(t.page))?.generationDependencies.configuration,prompt:payload.prompt,images:payload.images,out}),workerSlotOptions);metrics=reply.metrics;events.end({metrics});
+    events.phase('generation');const reply=assignment.evidenceOnly?{result:{packets:assignment.pages.map(pageNumber=>({pageNumber,sections:[],inventoryMappings:[],findings:[],corrections:[],answerEvidence:[]}))},metrics:{provider:'local-inventory-exclusions',externalModelCalls:0,usage:null,elapsedMs:0}}:await withWorkerSlot(runDir,{stage:'author',assignmentId:assignment.id},()=>runner({cwd:runDir,runDir,configuration:tasks.find(t=>assignment.pages.includes(t.page))?.generationDependencies.configuration,prompt,images:payload.images,out}),workerSlotOptions);metrics=reply.metrics;events.end({metrics});
+    if(recoveryRef&&bytes(recoveryFile)!==recoveryRef.hash)throw Error('Recovery guidance changed during generation');
+    verifyRetainedAssignmentReference(retained);
     fs.writeFileSync(path.join(out,'generation.json'),JSON.stringify(reply.result,null,2));events.phase('validation');
     const packets=reply.result?.packets?.map(packet=>{
      const task=tasks.find(t=>t.page===packet.pageNumber);
-     return materialize(materializeAutomaticReuse(packet,task?.reuseCandidates??[],{runId:task?.runId,teachingPages:task?.contextPages??[]}));
+      const raw=materializeAutomaticReuse(packet,task?.reuseCandidates??[],{runId:task?.runId,teachingPages:task?.contextPages??[],requireReasoningRatings:true});
+      validatePacketRatings(raw);
+      return materialize(raw);
     });
     if(!packets||packets.length!==assignment.pages.length||new Set(packets.map(p=>p.pageNumber)).size!==packets.length)throw Error('Assignment must return every assigned page exactly once');
     for(const p of assignment.pages){const packet=packets.find(v=>v.pageNumber===p),original=tasks.find(t=>t.page===p),inventory={...original.inventory,entries:assignment.entries.filter(e=>e.pageNumber===p)};
      mergeAssignmentPackets(inventory,[{assignment,packet}]);validate(packet,{...original,inventory});preflightAuthorAssignment(packet);}
     coalescePacketContinuations(packets,{continuations:assignment.continuations});
+      for(const packet of packets)stampPacketRatings(packet,metrics,path.relative(process.cwd(),path.join(out,'generation.json')).replaceAll('\\','/'));
     const resultFile=path.join(out,'result.json');fs.writeFileSync(resultFile,JSON.stringify({packets},null,2));
     fs.writeFileSync(cacheFile,JSON.stringify({inputHash:payload.inputHash,result:{path:resultFile,hash:bytes(resultFile)}}));ok=true;events.end();return packets;
    }catch(e){error=e.message;metrics??=e.metrics;throw e;}finally{events.finish({ok,error,metrics});}

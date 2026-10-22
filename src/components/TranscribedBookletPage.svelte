@@ -66,6 +66,14 @@
     return {state:stale?item.state:'synced',label:stale?'Bank !':'Bank',title:`Question bank: ${bankId}${item?.owner?' (this booklet is the original)':''}${item?.state?' · '+item.state:''}`};
   }
 
+  // Editor-only: whether the question's content is shared with other booklets.
+  const SHARED_LABELS={synced:'In step',edited:'Changed here',diverged:'Differs',behind:'Update waiting',separate:'Kept different',missing:'Removed'};
+  function sharedMarker(block){
+    const m=documentActions?.sharedState?.(block.id);if(!m)return null;
+    const copies=m.others.filter(o=>o.status!=='separate').length+1;
+    return {state:m.status,label:m.status==='synced'?`Shared ×${copies}`:'Shared !',title:`Shared with ${m.others.length} other booklet${m.others.length===1?'':'s'} · ${SHARED_LABELS[m.status]??m.status}. Click for details.`};
+  }
+
   function editProps() {
     return { editMode, onContentEdit, onContentRevert, onEditingChange, oncommit: onContentEdit, onrevert: onContentRevert, oneditingchange: onEditingChange, isEdited };
   }
@@ -148,6 +156,7 @@
   {@const rating=rated?questionDifficulty(block):null}
   {@const chillies=rating?chilliCount(rating.reasoningScore):0}
   {@const bank=marked?bankMarker(block):null}
+  {@const sharedMark=marked?sharedMarker(block):null}
   {#if block.flow?.exerciseAnchorBefore&&firstPlacement(block)&&!(page.section?.headingStyle!=='none'&&page.showTopicHeading!==false)}<span id={`${anchorPrefix}exercise-topic-${block.flow.exerciseAnchorBefore}`}></span>{/if}
   {#if block.flow?.exerciseHeadingBefore&&!(page.showDifficultyHeading!==false&&page.section?.difficultyTitle===exerciseHeading(block.flow.exerciseHeadingBefore))}<BookletHeading kind="exercise">{exerciseHeading(block.flow.exerciseHeadingBefore)}</BookletHeading>{/if}
   {#if block.type === 'question'}
@@ -160,7 +169,7 @@
     {:else}
       <section class:atom-practice={insideAtom} class="practice" data-reasoning-band={marked?rating?.difficulty:undefined} data-chillies={marked&&chillies?chillies:undefined} id={block.flow?.exerciseNumber&&!block.flow?.teachingLabel&&firstPlacement(block)?`${anchorPrefix}question-${block.id}`:undefined}>
         {#if block.flow?.exerciseNumber&&block.pairedBlockId&&firstPlacement(block)}<span id={`${anchorPrefix}question-${block.pairedBlockId}`}></span>{/if}
-        {#if marked}<div class="editor-markers">{#if rating}<span class="editor-difficulty" data-editor-difficulty={block.id} data-chillies={chillies} title={`Difficulty: ${rating.difficulty}, reasoning ${rating.reasoningScore}/100${rating.difficultyReason?'; '+rating.difficultyReason:''}`}>{rating.reasoningScore}</span>{/if}<span class="editor-bank" data-editor-bank={bank.state} title={bank.title}>{bank.label}</span></div>{/if}
+        {#if marked}<div class="editor-markers">{#if rating}<span class="editor-difficulty" data-editor-difficulty={block.id} data-chillies={chillies} title={`Difficulty: ${rating.difficulty}, reasoning ${rating.reasoningScore}/100${rating.difficultyReason?'; '+rating.difficultyReason:''}`}>{rating.reasoningScore}</span>{/if}<span class="editor-bank" data-editor-bank={bank.state} title={bank.title}>{bank.label}</span>{#if sharedMark}<button type="button" class="editor-shared" data-editor-shared={sharedMark.state} title={sharedMark.title} onclick={()=>documentActions?.openShared?.(block.id)}>{sharedMark.label}</button>{/if}</div>{/if}
         {@render questionView(block, insideAtom ? null : block.sourceOrder ?? page.blocks.filter(item => item.type === 'question').findIndex(item => item.id === block.id) + 1, answerHrefFor(block))}
       </section>
     {/if}
@@ -275,7 +284,7 @@
             </div>
           {/each}
         </main>
-        <BookletFooter pageNumber={page.flexible?page.pageNumber:bookletPageNumber} totalPages={page.totalPages??cover.totalPages} sourcePage={!page.flexible&&(page.continuation||bookletPageNumber!==Number(page.pageNumber))?page.pageNumber:null} version={cover.version} feedback={cover.feedback} />
+        <BookletFooter pageNumber={page.flexible?page.pageNumber:bookletPageNumber} totalPages={page.totalPages??cover.totalPages} sourcePage={!page.flexible&&(page.continuation||bookletPageNumber!==Number(page.pageNumber))?page.pageNumber:null} feedback={cover.feedback} />
       </article>
       {#if editMode&&documentActions}<button class="document-end-insert" onclick={()=>documentActions.insert('text',null,page.blocks.at(-1)?.id)}>+ Write after this group</button>{/if}
     {/if}
@@ -288,7 +297,7 @@
   .document-group{display:block;position:relative}.document-group.editable-group{display:block;position:relative}.group-selected{outline:2px solid var(--booklet-blue);outline-offset:3px}.document-group-tools{position:absolute;left:-10mm;top:0;display:grid;gap:2px;z-index:4;opacity:.15}.document-group:hover>.document-group-tools,.document-group-tools:focus-within,.group-selected>.document-group-tools{opacity:1}.document-group-tools button{box-sizing:border-box;width:7mm;height:7mm;padding:0;min-height:0;border:1px solid var(--booklet-border);border-radius:4px;background:var(--booklet-white);color:var(--booklet-ink);font:14px system-ui;cursor:pointer}.group-handle{cursor:grab!important}.document-group.drop-before::before{content:'';position:absolute;left:0;right:0;top:-1.5mm;border-top:3px solid var(--booklet-blue);pointer-events:none;z-index:5}.document-end-insert{font:12px system-ui;color:var(--booklet-muted);border:1px dashed var(--booklet-border);background:transparent;padding:4px;opacity:.35}.document-end-insert:hover,.document-end-insert:focus{opacity:1}@media print{.document-group{display:block!important;outline:none!important}.document-group-tools,.document-end-insert{display:none!important}}
   .cloze-statement{display:grid;grid-template-columns:6mm minmax(0,1fr);gap:1mm;align-items:baseline}.cloze-number{grid-column:1;grid-row:1}.cloze-text{grid-column:2;grid-row:1;min-width:0}
   @media screen{.document-end-insert{position:absolute;left:0;top:calc(297mm + var(--studio-overflow-height,0px) + 4px);max-width:45%;white-space:nowrap}}
-  .practice{position:relative}.editor-markers{position:absolute;right:-14mm;top:0;width:13mm;display:grid;justify-items:end;gap:.6mm;font:7px/1.3 system-ui;color:var(--booklet-muted)}.editor-difficulty{font-size:8px;font-weight:600;white-space:nowrap;cursor:help}.editor-bank{padding:0 3px;border:1px solid #9aa7b5;border-radius:3px;white-space:nowrap;cursor:help}.editor-bank[data-editor-bank=synced]{border-color:#52769a;background:#52769a;color:#fff}.editor-bank[data-editor-bank=local]{border-style:dashed}.editor-bank:not([data-editor-bank=synced],[data-editor-bank=local]){border-color:#b45309;background:#fef3c7;color:#92400e}@media print{.editor-markers{display:none!important}}
+  .practice{position:relative}.editor-markers{position:absolute;right:-14mm;top:0;width:13mm;display:grid;justify-items:end;gap:.6mm;font:7px/1.3 system-ui;color:var(--booklet-muted)}.editor-difficulty{font-size:8px;font-weight:600;white-space:nowrap;cursor:help}.editor-bank{padding:0 3px;border:1px solid #9aa7b5;border-radius:3px;white-space:nowrap;cursor:help}.editor-bank[data-editor-bank=synced]{border-color:#52769a;background:#52769a;color:#fff}.editor-bank[data-editor-bank=local]{border-style:dashed}.editor-bank:not([data-editor-bank=synced],[data-editor-bank=local]){border-color:#b45309;background:#fef3c7;color:#92400e}.editor-shared{font:inherit;padding:0 3px;border:1px solid #6d5aa6;border-radius:3px;white-space:nowrap;background:#6d5aa6;color:#fff;cursor:pointer}.editor-shared:not([data-editor-shared=synced]){border-color:#b45309;background:#fef3c7;color:#92400e}@media print{.editor-markers{display:none!important}}
   /* Editor-only chillies sit under the question number, out of flow. */
   .practice[data-chillies]{--chilli:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23d92d20' d='M12.5 5C14.5 7.500 13.500 11.500 10 13.500 7.500 15 4 15 1.500 14 4.500 13 6.500 11 7.500 8.500 8.200 6.800 8.600 5.200 10 4.600 10.900 4.200 11.900 4.300 12.500 5z'/%3E%3Cpath fill='%233f8f3a' d='M10.500 4.700C10.500 3 11.400 1.800 13 1.200L13.800 2.600C12.800 3 12.300 3.800 12.300 5z'/%3E%3C/svg%3E")}
   .practice[data-chillies] :global(b[data-question-number]){position:relative}

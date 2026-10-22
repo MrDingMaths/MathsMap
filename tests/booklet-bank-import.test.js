@@ -1,11 +1,16 @@
+import {bankProjectionPolicy} from '../src/lib/question-bank-projection.js';
+import {answerFragments} from '../src/lib/booklet-exercises.js';
+import {assessedRating,verifiedRating} from '../scripts/booklet/reasoning-ratings.mjs';
+import {contentHash} from '../scripts/booklet/lean-review.mjs';
+import {transferTaskHash} from '../scripts/booklet/bank-transfer-review.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import {createEditableProject,createProjectBlock} from '../src/lib/editable-booklet-model.js';
+import {createEditableProject,createProjectBlock,validateEditableProject} from '../src/lib/editable-booklet-model.js';
 import {createBookletProject,saveBookletProject,loadBookletProject,promoteProjectQuestion} from '../scripts/booklet/project-studio-server.mjs';
-import {revisionHash,writeTransaction} from '../scripts/booklet/bank-sync.mjs';
-import {makeBankManifest} from '../src/lib/practice-question-model.js';
+import {projectSyncStatus,revisionHash,writeTransaction} from '../scripts/booklet/bank-sync.mjs';
+import {normaliseQuestion,makeBankManifest} from '../src/lib/practice-question-model.js';
 import {importProjectBank,practiceQuestions,verifyProjectBank} from '../scripts/booklet/import-project-bank.mjs';
 import {bankLinkReport} from '../scripts/booklet/bank-links.mjs';
 import {contentVerificationKey} from '../src/lib/booklet-content-verification.js';
@@ -53,6 +58,21 @@ async function fixture(t){
   const assessmentsFile=path.join(root,'assessments.json');await write(assessmentsFile,assessments);
   const args={root,projectId:p.id,assessmentsFile,out:path.join(root,'stage')};return {root,options,args,assessments,saved};
 }
+
+test('unresolved feedback is retained without blocking transfer and later owner repairs sync',async t=>{
+ const f=await fixture(t);
+ f.saved.studio={...f.saved.studio,version:1,flags:[{id:'pending-feedback',targetId:'q-source',note:'Review this answer later.',resolved:false,kind:'first-pass'}]};
+ await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);
+ f.assessments.sourceContext.projectHash=revisionHash(f.saved);await write(f.args.assessmentsFile,f.assessments);
+ assert.equal((await importProjectBank({...f.args,apply:true})).created,1);
+ const p=await loadBookletProject(f.saved.id,f.options);
+ assert.deepEqual(p.studio.flags,f.saved.studio.flags);
+ const block=practiceQuestions(p)[0],bankFile=path.join(f.options.bankRoot,block.bankRef.id+'.json');
+ block.content.answer.short='3';block.content.answer.worked='The corrected side is 3.';
+ await saveBookletProject(p,{...f.options,expectedRevision:p.revision});
+ const bank=await read(bankFile);
+ assert.equal(bank.content.answer.short,'3');assert.equal(bank.content.answer.worked,'The corrected side is 3.');
+});
 
 test('stage reuse preserves IDs; publication is idempotent and owner saves sync',async t=>{
   const f=await fixture(t);const initial=await importProjectBank(f.args);assert.equal(initial.applied,false);
@@ -366,6 +386,26 @@ test('adding another bank question preserves existing owner-local paragraph spac
  await assert.rejects(verifyProjectBank(live,f.options.bankRoot,{root:f.root,baseline:live,assessments:{...a,questions:[]}}),/content and answers/);
 });
 
+test('later transfers retain historical ownership of removed source questions',async t=>{
+ const f=await fixture(t);await importProjectBank({...f.args,apply:true});
+ const p=await loadBookletProject(f.saved.id,f.options),retired=practiceQuestions(p)[0];
+ const retiredFile=path.join(f.options.bankRoot,retired.bankRef.id+'.json'),retiredBytes=await fs.readFile(retiredFile,'utf8');
+ const linksFile=path.join(f.options.bankRoot,'.sync/links.json'),oldLink=(await read(linksFile))[retired.bankRef.id];
+ const next=createProjectBlock('question');next.id='q-added';next.content.prompt='Find the other side.';next.content.answer={short:'3',worked:'The other side is 3.',solutionDiagrams:[]};
+ p.sections[0].blocks=p.sections[0].blocks.filter(b=>b.id!==retired.id);p.sections[0].blocks.push(next);
+ const saved=await saveBookletProject(p,{...f.options,expectedRevision:p.revision});
+ const a={...f.assessments,sourceContext:{...f.assessments.sourceContext,projectHash:revisionHash(saved)},questions:[{...f.assessments.questions[0],sourceBlockId:next.id,contentHash:revisionHash(practiceQuestions(saved)[0].content)}]};
+ const args={...f.args,out:path.join(f.root,'later-stage')};await write(args.assessmentsFile,a);
+ assert.equal((await importProjectBank({...args,apply:true})).created,1);
+ assert.equal(await fs.readFile(retiredFile,'utf8'),retiredBytes);
+ assert.deepEqual((await read(linksFile))[retired.bankRef.id],oldLink);
+ assert.equal((await importProjectBank(args)).created,0);
+ const stagedLinksFile=path.join(args.out,'bank/.sync/links.json'),stagedLinks=await read(stagedLinksFile);
+ stagedLinks[retired.bankRef.id].blockId='invented-owner';await write(stagedLinksFile,stagedLinks);
+ const staged=await read(path.join(args.out,'projects',saved.id+'.json'));
+ await assert.rejects(verifyProjectBank(staged,path.join(args.out,'bank'),{root:f.root,baseline:saved,assessments:a}),/Unexpected ownership/);
+});
+
 test('existing owner verification ignores paragraph identity but rejects changed answers',async t=>{
  const f=await fixture(t);const b=practiceQuestions(f.saved)[0];b.content.prompt=fromSource('Find the side.');await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);
  f.assessments.questions[0].contentHash=revisionHash(b.content);f.assessments.sourceContext.projectHash=revisionHash(f.saved);await write(f.args.assessmentsFile,f.assessments);
@@ -373,4 +413,147 @@ test('existing owner verification ignores paragraph identity but rejects changed
  const check=()=>verifyProjectBank(live,f.options.bankRoot,{root:f.root,baseline:structuredClone(live),assessments:{...f.assessments,questions:[]}});
  assert.equal((await check()).ownedAndSynced,1);
  local.content.answer.short='3';await assert.rejects(check(),/content and answers/);
+});
+
+async function acceptedMasterFixture(t){
+ const f=await fixture(t);f.saved.library={category:'master'};f.saved.source={type:'full-booklet-import'};
+ await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);
+ const block=practiceQuestions(f.saved)[0],table=path.join(f.root,'reviewed.json');
+ await write(table,{questions:{[block.id]:{outcome:'passed',hash:contentHash(block),note:'Source, answer and sine-rule method independently checked.'}}});
+ f.assessments.sourceContext.projectHash=revisionHash(f.saved);
+ f.assessments.existingTransferReview={profile:'accepted-master-content-v1',questions:[{sourceBlockId:block.id,taskHash:transferTaskHash(block),note:'Reuse completed independent acceptance.',proof:{kind:'lean',table:{path:table,hash:bytesHash(table)},snapshot:block}}]};
+ await write(f.args.assessmentsFile,f.assessments);return f;
+}
+test('accepted master transfers preserve unrelated bank edits made after staging',async t=>{
+ const f=await acceptedMasterFixture(t);
+ const other=normaliseQuestion({id:'q-unrelated',status:'approved',classification:f.assessments.questions[0].classification,content:{prompt:'Find a different side.',answer:{short:'7',worked:'The other side is 7.'}}});
+ const otherFile=path.join(f.options.bankRoot,other.id+'.json'),linksFile=path.join(f.options.bankRoot,'.sync/links.json');
+ await write(otherFile,other);await write(path.join(f.options.bankRoot,'manifest.json'),makeBankManifest([other]));
+ await write(linksFile,{[other.id]:{projectId:'another-master',blockId:'other-source',bankRevision:revisionHash(other)}});
+ const first=await importProjectBank(f.args);assert.equal(first.created,1);
+ const changed={...other,classification:{...other.classification,reasoningScore:21},updatedAt:new Date().toISOString()};
+ const liveLink={projectId:'another-master',blockId:'other-source',bankRevision:revisionHash(changed)};
+ await write(otherFile,changed);await write(path.join(f.options.bankRoot,'manifest.json'),makeBankManifest([changed]));await write(linksFile,{[other.id]:liveLink});
+ const published=await importProjectBank({...f.args,apply:true});assert.equal(published.created,1);assert.equal(published.reused,true);
+ assert.deepEqual(await read(otherFile),changed);assert.deepEqual((await read(linksFile))[other.id],liveLink);
+ assert.equal((await read(path.join(f.options.bankRoot,'manifest.json'))).questions.find(q=>q.id===other.id).reasoningScore,21);
+ assert.equal((await importProjectBank(f.args)).created,0);
+});
+
+test('bank-only notation keeps verified rating provenance on both source and projected bank task',async t=>{
+ const f=await fixture(t),b=practiceQuestions(f.saved)[0];
+ b.content.prompt='Calculate $4/2$.';b.content.answer={short:'2',worked:'$4/2=2$',solutionDiagrams:[]};
+ const c=f.assessments.questions[0].classification;
+ Object.assign(c,assessedRating(b,c,{model:'test-review-model',assessedAt:'2026-10-21T00:00:00Z',evidence:'test-only-review.json'}));
+ f.assessments.questions[0].contentHash=revisionHash(b.content);
+ f.assessments.questions[0].bankProjection={version:1,notationReplacements:[{nodeId:b.content.id,field:'prompt',from:'4/2',to:'\\frac{4}{2}'},{nodeId:b.content.id,field:'answer.worked',from:'4/2=2',to:'\\frac{4}{2}=2'}]};
+ f.assessments.sourceContext.projectHash=revisionHash(f.saved);await write(f.args.assessmentsFile,f.assessments);await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);
+ await importProjectBank({...f.args,apply:true});const p=await loadBookletProject(f.saved.id,f.options),source=practiceQuestions(p)[0],bank=await read(path.join(f.options.bankRoot,source.bankRef.id+'.json'));
+ assert.equal(source.content.prompt,'Calculate $4/2$.');assert.equal(verifiedRating(source),true);assert.equal(verifiedRating(bank),true);
+ assert.equal(bank.classification.assessment.model,c.assessment.model);assert.equal(bank.classification.assessment.assessedAt,c.assessment.assessedAt);
+ assert.equal(bank.classification.assessment.originalTaskHash,c.assessment.taskHash);assert.equal((await importProjectBank(f.args)).created,0);
+});
+test('a labelled leaf group with its own worked answer remains transferable',async t=>{
+ const f=await fixture(t),b=practiceQuestions(f.saved)[0];
+ b.content.children=[{id:'given-worked-part',type:'group',label:'a',prompt:'Find the side.',answer:{short:'2',worked:'The side is 2.'}}];delete b.content.answer;
+ f.assessments.questions[0].contentHash=revisionHash(b.content);f.assessments.sourceContext.projectHash=revisionHash(f.saved);await write(f.args.assessmentsFile,f.assessments);await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);
+ assert.equal((await importProjectBank({...f.args,apply:true})).created,1);
+});
+
+test('given alternatives and explicitly inherited task responses transfer without invented answers',async t=>{
+ const f=await fixture(t),b=practiceQuestions(f.saved)[0];
+ b.content.prompt='Which labelled segment is a radius?';b.content.children=[{id:'given-A',type:'part',label:'A',prompt:'',questionDiagrams:[{id:'given-diagram',format:'tikz',role:'question',code:'\\begin{tikzpicture}\\draw (0,0)--(1,0);\\end{tikzpicture}',widthMm:30}]},{id:'response',type:'part',label:'',prompt:'',answer:{short:'A',worked:'A joins the centre to the circumference.'}},{id:'second-instruction',type:'group',prompt:'Now calculate the side.',children:[{id:'second-part',type:'part',label:'a',prompt:'Find the side.',answer:{short:'2',worked:'The side is 2.'}}]}];delete b.content.answer;
+ b.sourceReview={responses:[{targetId:'given-A',kind:'none'},{targetId:'response',kind:'short'}]};
+ f.assessments.questions[0].contentHash=revisionHash(b.content);f.assessments.sourceContext.projectHash=revisionHash(f.saved);await write(f.args.assessmentsFile,f.assessments);await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);
+ await importProjectBank({...f.args,apply:true});const p=await loadBookletProject(f.saved.id,f.options),block=practiceQuestions(p)[0],bank=await read(path.join(f.options.bankRoot,block.bankRef.id+'.json'));
+ assert.equal(bank.content.children[0].responseSpace,'given');assert.equal(bank.content.children[0].answer,undefined);assert.equal(bank.content.children[1].responseSpace,'scaffold');assert.equal(block.content.children[0].responseSpace,undefined);assert.equal(block.content.children[1].prompt,'');
+});
+
+test('equivalent projected duplicates link as consumers without rewriting source notation',async t=>{
+ const f=await fixture(t),b=practiceQuestions(f.saved)[0];b.content.prompt='Calculate $4/2$.';b.content.answer={short:'2',worked:'$4/2=2$',solutionDiagrams:[]};
+ const policy={version:1,notationReplacements:[{nodeId:b.content.id,field:'prompt',from:'4/2',to:'\\frac{4}{2}'},{nodeId:b.content.id,field:'answer.worked',from:'4/2=2',to:'\\frac{4}{2}=2'}]};
+ f.assessments.questions[0].contentHash=revisionHash(b.content);f.assessments.questions[0].bankProjection=policy;f.assessments.sourceContext.projectHash=revisionHash(f.saved);
+ await write(f.args.assessmentsFile,f.assessments);await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);await importProjectBank({...f.args,apply:true});
+ const owner=await loadBookletProject(f.saved.id,f.options),bankId=practiceQuestions(owner)[0].bankRef.id;
+ const consumer=createEditableProject({id:'projected-consumer',title:'Consumer'});consumer.sections[0].phase='practice';consumer.sections[0].blocks=[{...structuredClone(b),id:'consumer-question',classification:f.assessments.questions[0].classification},{...createProjectBlock('callout'),id:'consumer-teaching',content:'Use the source sine-rule context.'}];
+ const saved=await createBookletProject(consumer,f.options),before=structuredClone(practiceQuestions(saved)[0].content);
+ const a={projectId:saved.id,questions:[],linkProjections:{'consumer-question':policy},sourceContext:{projectHash:revisionHash(saved),courseIds:['s5-core'],topicIds:['t-s5-trig'],evidenceBlockIds:['consumer-teaching']}};
+ const args={...f.args,projectId:saved.id,assessmentsFile:path.join(f.root,'consumer-assessments.json'),out:path.join(f.root,'consumer-stage')};await write(args.assessmentsFile,a);
+ const result=await importProjectBank({...args,apply:true});assert.equal(result.created,0);assert.equal(result.linked,1);
+ const linked=await loadBookletProject(saved.id,f.options),block=practiceQuestions(linked)[0];assert.deepEqual(block.content,before);assert.equal(block.bankRef.id,bankId);assert.deepEqual(block.bankRef.projection,policy);
+ assert.equal((await projectSyncStatus(linked,f.options.bankRoot)).items[0].state,'synced');assert.equal((await importProjectBank(args)).created,0);
+});
+
+test('legacy native overlay intent transfers as metadata without changing diagram code',async t=>{
+ const f=await fixture(t),b=practiceQuestions(f.saved)[0],code='\\begin{tikzpicture}\\draw (0,0)--(1,1);\\end{tikzpicture}';
+ b.content.questionDiagrams=[{id:'base-grid',format:'tikz',role:'question',code,widthMm:40}];b.content.answer.solutionDiagrams=[{id:'solution-segment',format:'tikz',role:'solution-overlay',overlayOf:'base-grid',code,widthMm:40}];
+ f.assessments.questions[0].contentHash=revisionHash(b.content);f.assessments.sourceContext.projectHash=revisionHash(f.saved);await write(f.args.assessmentsFile,f.assessments);await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);
+ await importProjectBank({...f.args,apply:true});const p=await loadBookletProject(f.saved.id,f.options),source=practiceQuestions(p)[0],bank=await read(path.join(f.options.bankRoot,source.bankRef.id+'.json'));
+ assert.equal(bank.content.answer.solutionDiagrams[0].transparent,true);assert.equal(bank.content.answer.solutionDiagrams[0].code,code);assert.equal(source.content.answer.solutionDiagrams[0].transparent,undefined);
+});
+
+
+test('supplied text and table examples retain content without manufactured answer entries',async t=>{
+ const f=await fixture(t),b=practiceQuestions(f.saved)[0];
+ const given=fromSource('Example: 2+3=5.');
+ b.content.children=[{id:'example',type:'part',label:'',prompt:given},{id:'answer-part',type:'part',label:'a',prompt:'Find the side.',answer:{short:'2',worked:'The side is 2.'}}];delete b.content.answer;
+ b.sourceReview={responses:[{targetId:'example',kind:'none'},{targetId:'answer-part',kind:'working'}]};
+ f.assessments.questions[0].contentHash=revisionHash(b.content);f.assessments.sourceContext.projectHash=revisionHash(f.saved);await write(f.args.assessmentsFile,f.assessments);await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);
+ await importProjectBank({...f.args,apply:true});const p=await loadBookletProject(f.saved.id,f.options),source=practiceQuestions(p)[0],bank=await read(path.join(f.options.bankRoot,source.bankRef.id+'.json'));
+ assert.equal(bank.content.children[0].responseSpace,'given');assert.equal(bank.content.children[0].answer,undefined);assert.deepEqual(bank.content.children[0].prompt,given);assert.deepEqual(source.content.children[0].prompt,given);
+});
+
+test('generated native answer-table identities preserve structure and layout on transfer',async t=>{
+ const f=await fixture(t),b=practiceQuestions(f.saved)[0];
+ const table={format:'maths-editor-document-v1',version:1,blocks:[{type:'table',widthMm:40,rows:[[{type:'cell',blocks:[{type:'paragraph',inlines:[{type:'text',text:'2'}]}]}]]}]};
+ b.content.answer={short:table,worked:structuredClone(table)};
+ f.assessments.questions[0].contentHash=revisionHash(b.content);f.assessments.sourceContext.projectHash=revisionHash(f.saved);await write(f.args.assessmentsFile,f.assessments);await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);
+ assert.equal((await importProjectBank({...f.args,apply:true})).created,1);
+ assert.equal((await importProjectBank(f.args)).created,0);
+});
+
+
+test('currency projections retain delimited maths and literal money without changing the owner',async t=>{
+ const f=await fixture(t),b=practiceQuestions(f.saved)[0];b.content.prompt='The initial balance is $2000.';b.content.answer={short:'2',worked:'Use $n=2$. The final balance is $2500.'};
+ Object.assign(f.assessments.questions[0].classification,assessedRating(b,f.assessments.questions[0].classification,{model:'test-review-model',assessedAt:'2026-10-21T00:00:00Z',evidence:'test-only.json'}));
+ f.assessments.questions[0].contentHash=revisionHash(b.content);f.assessments.sourceContext.projectHash=revisionHash(f.saved);await write(f.args.assessmentsFile,f.assessments);await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);
+ await importProjectBank({...f.args,apply:true});const p=await loadBookletProject(f.saved.id,f.options),source=practiceQuestions(p)[0],bank=await read(path.join(f.options.bankRoot,source.bankRef.id+'.json'));
+ assert.equal(source.content.prompt,b.content.prompt);assert.equal(source.content.answer.worked,b.content.answer.worked);assert.equal(bank.content.prompt.blocks[0].inlines[0].text,'The initial balance is $2000.');assert.equal(bank.content.answer.worked.blocks[0].inlines.some(i=>i.type==='math'&&i.latex==='n=2'),true);assert.equal(verifiedRating(bank),true);
+});
+
+test('shared diagram-only worked context stays outside response fragments',async t=>{
+ const f=await fixture(t),b=practiceQuestions(f.saved)[0];
+ b.content.children=[{id:'shared-guide',type:'group',label:'Chart',prompt:'',answer:{short:null,worked:'',solutionDiagrams:[{id:'guide',format:'tikz',role:'solution',code:'\\begin{tikzpicture}\\draw (0,0)--(1,1);\\end{tikzpicture}',widthMm:40}]}},{id:'response',type:'part',label:'a',prompt:'Find the side.',answer:{short:'2',worked:'The side is 2.'}}];delete b.content.answer;b.sourceReview={responses:[{targetId:'shared-guide',kind:'none'},{targetId:'response',kind:'working'}]};
+ f.assessments.questions[0].contentHash=revisionHash(b.content);f.assessments.sourceContext.projectHash=revisionHash(f.saved);await write(f.args.assessmentsFile,f.assessments);await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);
+ await importProjectBank({...f.args,apply:true});const p=await loadBookletProject(f.saved.id,f.options),source=practiceQuestions(p)[0],bank=await read(path.join(f.options.bankRoot,source.bankRef.id+'.json'));
+ assert.equal(bank.content.children[0].responseSpace,'solution-context');assert.equal(bank.content.children[0].answer.solutionDiagrams[0].id,'guide');assert.equal(answerFragments(bank,'worked').length,1);assert.equal(source.content.children[0].responseSpace,undefined);
+});
+
+test('parent answer summaries and their existing leaves retain verified provenance',async t=>{
+ const f=await fixture(t),b=practiceQuestions(f.saved)[0];b.content.answer={short:'2',worked:'The complete grouped derivation gives the side as 2.'};b.content.children=[{id:'part-a',type:'part',label:'a',prompt:'Find the side.',answer:{short:'2',worked:'The side is 2.'}}];
+ Object.assign(f.assessments.questions[0].classification,assessedRating(b,f.assessments.questions[0].classification,{model:'test-review-model',assessedAt:'2026-10-21T00:00:00Z',evidence:'test-only.json'}));
+ f.assessments.questions[0].contentHash=revisionHash(b.content);f.assessments.sourceContext.projectHash=revisionHash(f.saved);await write(f.args.assessmentsFile,f.assessments);await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);
+ await importProjectBank({...f.args,apply:true});const p=await loadBookletProject(f.saved.id,f.options),source=practiceQuestions(p)[0],bank=await read(path.join(f.options.bankRoot,source.bankRef.id+'.json'));
+ assert.equal(bank.content.answer.worked,b.content.answer.worked);assert.equal(bank.content.children[0].answer.worked,b.content.children[0].answer.worked);assert.equal(bank.content.responseKind,'group-answer');assert.equal(source.content.responseKind,undefined);assert.equal(verifiedRating(bank),true);assert.equal(verifiedRating(source),true);
+});
+
+test('presentation arrangement identities are scoped to each override',async t=>{
+ const f=await fixture(t),b=practiceQuestions(f.saved)[0];b.content.children=[{id:'part-a',type:'part',label:'a',prompt:'Find the side.',answer:{short:'2',worked:'The side is 2.'}}];delete b.content.answer;
+ const parent=arrangementCatalog(b).initial,child=arrangementCatalog({...b,content:b.content.children[0]}).initial;parent.root.id='same-layout-root';child.root.id='same-layout-root';
+ f.saved.settings.layoutOverrides={blockLayouts:{[b.id]:{arrangement:parent},'part-a':{arrangement:child}},answerSpaces:{},diagramColourModes:{}};
+ f.assessments.questions[0].contentHash=revisionHash(b.content);f.assessments.sourceContext.projectHash=revisionHash(f.saved);await write(f.args.assessmentsFile,f.assessments);await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);
+ await importProjectBank({...f.args,apply:true});const p=await loadBookletProject(f.saved.id,f.options);assert.equal(validateEditableProject(p).valid,true);
+ const bad=structuredClone(p),tree=practiceQuestions(bad)[0].presentation.layoutOverrides.blockLayouts[b.id].arrangement.root;tree.children.push(structuredClone(tree.children[0]));assert.equal(validateEditableProject(bad).errors.some(e=>e.includes('Duplicate arrangement node id')),true);
+});
+
+
+test('an owned projection upgrade retains the bank ID and then synchronizes parent answers',async t=>{
+ const f=await fixture(t),b=practiceQuestions(f.saved)[0];b.content.answer={short:'2',worked:'The grouped derivation gives the side as 2.'};b.content.children=[{id:'part-a',type:'part',label:'a',prompt:'Find the side.',answer:{short:'2',worked:'The side is 2.'}}];
+ Object.assign(f.assessments.questions[0].classification,assessedRating(b,f.assessments.questions[0].classification,{model:'test-review-model',assessedAt:'2026-10-21T00:00:00Z',evidence:'test-only.json'}));f.assessments.questions[0].bankProjection={version:1};
+ f.assessments.questions[0].contentHash=revisionHash(b.content);f.assessments.sourceContext.projectHash=revisionHash(f.saved);await write(f.args.assessmentsFile,f.assessments);await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);await importProjectBank({...f.args,apply:true});
+ let p=await loadBookletProject(f.saved.id,f.options),source=practiceQuestions(p)[0];const id=source.bankRef.id,before=structuredClone(source.content);assert.equal((await read(path.join(f.options.bankRoot,id+'.json'))).content.answer,undefined);
+ await promoteProjectQuestion(p.id,{blockId:source.id,mode:'update',bankProjection:bankProjectionPolicy(source)},f.options);
+ p=await loadBookletProject(p.id,f.options);source=practiceQuestions(p)[0];let bank=await read(path.join(f.options.bankRoot,id+'.json'));
+ assert.equal(source.bankRef.id,id);assert.deepEqual(source.content,before);assert.equal(bank.content.answer.worked,before.answer.worked);assert.equal(verifiedRating(bank),true);assert.equal((await projectSyncStatus(p,f.options.bankRoot)).items[0].state,'synced');
+ source.content.answer.worked='A later owner correction retains the side as 2.';await saveBookletProject(p,{...f.options,expectedRevision:p.revision});bank=await read(path.join(f.options.bankRoot,id+'.json'));assert.equal(bank.content.answer.worked,source.content.answer.worked);
 });
