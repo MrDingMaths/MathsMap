@@ -43,7 +43,7 @@
     const group=root.querySelector(`[data-flow-index="${index}"]`);
     scrollToElement(group?.querySelector(`[id="${CSS.escape(anchorId)}"]`)??group);
   }
-  export async function waitUntilReady(){await tick();let pending;do{pending=queue;await pending;await tick();}while(pending!==queue);if(error)throw Error(error);if(!ready||composing||selecting)throw Error('Pagination is still updating.');if(result.issues.length)throw Error(result.issues.map(i=>`${i.id}: ${i.message}`).join('\n'));return result;}
+  export async function waitUntilReady({allowIssues=false}={}){await tick();let pending;do{pending=queue;await pending;await tick();}while(pending!==queue);if(error)throw Error(error);if(!ready||composing||selecting)throw Error('Pagination is still updating.');if(result.issues.length&&!allowIssues)throw Error(result.issues.map(i=>`${i.id}: ${i.message}`).join('\n'));return result;}
   export function retryLayout(){retry++;}
   export async function revealPage(index){if(index<0||index>=result.pages.length)return;visible=new Set([...visible,index]);await tick();return root.querySelector(`[data-flow-index="${index}"]`);}
   export async function revealAll(){for(let i=0;i<result.pages.length;i++){if(!visible.has(i)){visible=new Set([...visible,i]);await tick();await new Promise(resolve=>setTimeout(resolve,0));}}}

@@ -167,6 +167,50 @@ export function compactAnswerDisplay(value) {
   return compactAnswerProseGlue(wrapped);
 }
 
+// A hash of the rating an order was made for. Changing the rating invalidates it.
+export function ratingHash(block) {
+  const rating=block.flow?.bankDifficulty??block.flow?.localDifficulty;
+  let hash=2166136261;
+  for(const c of String(Number.isFinite(rating?.reasoningScore)?rating.reasoningScore:'none'))hash=Math.imul(hash^c.charCodeAt(0),16777619);
+  return (hash>>>0).toString(16);
+}
+// The rank an optimiser recorded for a group, or null when any practice block in
+// it has no autoOrder or its rating has changed since.
+function autoOrderRank(group) {
+  const practice=group.blocks.filter(isPractice);
+  if(!practice.length||practice.some(b=>!Number.isFinite(b.flow?.autoOrder?.rank)||b.flow.autoOrder.ratingHash!==ratingHash(b)))return null;
+  return Math.min(...practice.map(b=>b.flow.autoOrder.rank));
+}
+
+// The movable units of one practice run: continuation chains, paired questions and
+// source instructions stay together, and dependencies and keep-with-next
+// constraints join the whole intervening range. `blocks` defaults to the section's
+// blocks; a run of several sections passes them all. Returns {groups, unresolved}:
+// each group is {blocks}, and `unresolved` flags a reference to something the run
+// does not hold. Used by organiseExercises and the pagination optimiser.
+export function exerciseUnits(section, blocks = section.blocks) {
+  // Group continuation chains, paired questions and source instructions first.
+  const units=[];let pending=[];
+  for(const unit of logicalUnits({sections:[{...section,blocks}]})){
+    if(!unit.blocks.some(isPractice)){pending.push(...unit.blocks);continue;}
+    units.push({blocks:[...pending,...unit.blocks]});pending=[];
+  }
+  if(pending.length){if(units.length)units.at(-1).blocks.push(...pending);else units.push({blocks:pending});}
+  // Dependencies and keep-with-next constraints join the whole intervening range.
+  const ownedNodes=b=>{const found=[b];const visit=n=>{if(!n||typeof n!=='object')return;if(n.id)found.push(n);for(const c of n.children??[])visit(c);};visit(b.content);return found;};
+  const owner=new Map(units.flatMap((u,j)=>u.blocks.flatMap(b=>ownedNodes(b).map(n=>[n.id,j])))),joined=new Set();
+  const references=b=>[...(b.dependsOn??[]),b.pairedBlockId,b.flow?.continuationOf??b.continuationOf].filter(Boolean);
+  let unresolved=false;
+  for(const b of blocks.flatMap(ownedNodes))if(references(b).some(id=>!owner.has(id)))unresolved=true;
+  units.forEach((u,j)=>u.blocks.flatMap(ownedNodes).forEach(b=>{
+    const targets=references(b).map(id=>owner.get(id)).filter(n=>n!=null);
+    if(b.flow?.keepWithNext&&j+1<units.length)targets.push(j+1);
+    for(const n of targets)for(let k=Math.min(j,n);k<Math.max(j,n);k++)joined.add(k);
+  }));
+  const groups=[];units.forEach((u,j)=>{if(j&&joined.has(j-1))groups.at(-1).blocks.push(...u.blocks);else groups.push(u);});
+  return {groups,unresolved};
+}
+
 // Ratings are pinned presentation metadata, not edits to a bank classification.
 export function organiseExercises(source, ratings={}) {
   const project=structuredClone(source);
@@ -200,26 +244,22 @@ export function organiseExercises(source, ratings={}) {
       block.flow={...block.flow,sourcePageBreakBefore:false};
       delete block.flow.numberGapBefore;delete block.flow.numberResetBefore;
     }
-    // Group continuation chains, paired questions and source instructions first.
-    const units=[];let pending=[];
-    for(const unit of logicalUnits({sections:[{...section,blocks}]})){
-      if(!unit.blocks.some(isPractice)){pending.push(...unit.blocks);continue;}
-      units.push({blocks:[...pending,...unit.blocks]});pending=[];
-    }
-    if(pending.length){if(units.length)units.at(-1).blocks.push(...pending);else units.push({blocks:pending});}
-    // Dependencies and keep-with-next constraints join the whole intervening range.
-    const ownedNodes=b=>{const found=[b];const visit=n=>{if(!n||typeof n!=='object')return;if(n.id)found.push(n);for(const c of n.children??[])visit(c);};visit(b.content);return found;};
-    const owner=new Map(units.flatMap((u,j)=>u.blocks.flatMap(b=>ownedNodes(b).map(n=>[n.id,j])))),joined=new Set();
-    const references=b=>[...(b.dependsOn??[]),b.pairedBlockId,b.flow?.continuationOf??b.continuationOf].filter(Boolean);
-    for(const b of blocks.flatMap(ownedNodes))if(references(b).some(id=>!owner.has(id)))uncertain=true;
-    units.forEach((u,j)=>u.blocks.flatMap(ownedNodes).forEach(b=>{
-      const targets=references(b).map(id=>owner.get(id)).filter(n=>n!=null);
-      if(b.flow?.keepWithNext&&j+1<units.length)targets.push(j+1);
-      for(const n of targets)for(let k=Math.min(j,n);k<Math.max(j,n);k++)joined.add(k);
-    }));
-    const groups=[];units.forEach((u,j)=>{if(j&&joined.has(j-1))groups.at(-1).blocks.push(...u.blocks);else groups.push(u);});
+    const {groups,unresolved}=exerciseUnits(section,blocks);
+    if(unresolved)uncertain=true;
     const score=u=>Math.max(0,...u.blocks.filter(isPractice).map(b=>(b.flow.bankDifficulty??b.flow.localDifficulty).reasoningScore));
-    if(!uncertain&&project.settings.questionOrder!=='source')groups.sort((a,b)=>score(a)-score(b)); // Stable ties retain the source sequence.
+    if(!uncertain&&project.settings.questionOrder!=='source'){
+      // An optimiser rank (flow.autoOrder) survives while every group's rating still
+      // matches the rating it was made for; otherwise the run is sorted again by
+      // score and the stale ranks are dropped.
+      const ranks=groups.map(autoOrderRank);
+      if(ranks.some(r=>r!=null)&&ranks.every(r=>r!=null)){
+        const rank=new Map(groups.map((g,i)=>[g,ranks[i]]));
+        groups.sort((a,b)=>rank.get(a)-rank.get(b));
+      }else{
+        for(const block of blocks)if(block.flow?.autoOrder){block.flow={...block.flow};delete block.flow.autoOrder;}
+        groups.sort((a,b)=>score(a)-score(b)); // Stable ties retain the source sequence.
+      }
+    }
     if(uncertain&&project.settings.questionOrder!=='source'){
       project.studio??={version:1,flags:[]};project.studio.flags??=[];
       const id=`sequence-${section.id}`;

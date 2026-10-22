@@ -63,6 +63,17 @@ test('content check ignores labels, empties and layout, follows answers across f
  assert.ok(contentTokens(before).includes('ans:Multiply.'));
 });
 
+test('content check treats a labelled table arrow as content but not its geometry',()=>{
+ const table=annotations=>({id:'t',type:'table',rows:[[{id:'c1',type:'cell',blocks:[{type:'paragraph',inlines:[{type:'text',text:'2'}]}]},{id:'c2',type:'cell',blocks:[{type:'paragraph',inlines:[{type:'text',text:'6'}]}]}]],annotations});
+ const arrow={id:'a1',type:'arrow',cellId:'c1',toCellId:'c2',side:'bottom',label:'×3',heads:'end',curve:4,distance:3};
+ const before=table([arrow]);
+ assert.equal(sameContent(before,table([{...arrow,side:'top',curve:8,distance:5,startAnchor:'left',endAnchor:'right'}])),true);
+ assert.equal(sameContent(before,table([])),false);
+ assert.equal(sameContent(before,table([{...arrow,label:'÷5'}])),false);
+ assert.equal(sameContent(table([]),table([arrow])),true);
+ assert.ok(contentTokens(before).includes('ann:×3'));
+});
+
 test('trial apply keeps clean findings and comments on content loss, bad originals and conflicts',()=>{
  const blocks=[q1()],settings=booklet().settings;
  const corrections=[

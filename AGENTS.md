@@ -77,7 +77,7 @@ Where a source diagram belongs to a supported family (number line, fraction bar 
 
 Omit mascots and illustrations that carry no instructional or mathematical content, keeping everything they say as editable text and recording the omission against the source inventory. Explain-the-mistake and speech-bubble characters use the standard avatar set, assigned in order of first appearance within each booklet, with the existing 17 mm portrait and 5 mm gap; do not crop or reproduce source portraits. Keep the character's name and any image a question depends on.
 
-Do not migrate accepted projects automatically. These preferences add no review stage and change no quality gate, spacing rule, cloze or table convention. Their effect on import time is unmeasured until a comparable accepted import is recorded.
+Do not migrate accepted projects automatically. These preferences add no review stage and change no quality gate, spacing rule, cloze or table convention.
 
 ## Cloze styles and source tables (4 October 2026)
 
@@ -119,7 +119,11 @@ Compact-layout tuning remains user-directed. The import-efficiency work must not
 
 ## Tighter unreviewed layouts (17 October 2026, user requested)
 
-The [calibrated spacing exception](docs/booklet-cross-session-rules.md#tighter-unreviewed-layouts-17-october-2026-user-requested) permits tighter future import defaults and revision-checked maintenance of unreviewed, sweep-complete booklets. Any teacher flag with no `kind` and an `at` means reviewed. Preserve changed fields, repairs and exceptions; never migrate on load. Working-space reductions remain limited to the three named pilots until the teacher approves wider use. Studio actions change only explicitly selected layouts, with undo and save/reopen verification.
+The [calibrated spacing exception](docs/booklet-cross-session-rules.md#tighter-unreviewed-layouts-17-october-2026-user-requested) permits tighter future import defaults and revision-checked maintenance of unreviewed, sweep-complete booklets. Any teacher flag with no `kind` and an `at` means reviewed. Preserve changed fields, repairs and exceptions; never migrate on load. Studio actions change only explicitly selected layouts, with undo and save/reopen verification.
+
+## Faster verification (22 October 2026, user approved)
+
+[Verification speed](docs/booklet-verification-speed.md): teaching blocks take structure from the source, measurements from house style (not practice); calibrated working space is the new-import floor; run `handoff/run.mjs` before teacher review.
 
 ## Future imports: three-pass precedence (28 September 2026)
 

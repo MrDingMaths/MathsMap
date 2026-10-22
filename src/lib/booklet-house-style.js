@@ -4,6 +4,22 @@ import {styleManualGraphStrokes} from './graph-stroke-source.js';
 import { isDocument } from './document-content.js';
 export { BOOKLET_HOUSE_STYLE, houseStyleVariables, clozeWidthMm, HOUSE_STYLE_PROMPT };
 
+// Teaching-block scale (22 October 2026, user approved). For theory, worked examples, scaffolds
+// and guided practice the source decides structure and this scale decides every measurement:
+// vertical gaps snap to 1, 2 or 4 mm (within a group 1 mm; between groups 2 or 4 mm by the
+// rank of the source gap), each relative indent level is one 4 mm step, and columns are
+// aligned to the same 1.5 mm the checks compare with. Arrowheads, widths, palette, cloze width
+// and fraction boxes stay with BOOKLET_HOUSE_STYLE and IMPORT_SPACING; house rules win.
+export const TEACHING_SCALE = Object.freeze({
+  gapsMm: Object.freeze([1, 2, 4]),
+  withinGroupMm: 1,
+  betweenGroupMm: Object.freeze([2, 4]),
+  indentStepMm: 4,
+  maxIndentLevels: 3,
+  alignToleranceMm: 1.5,
+  columnCounts: Object.freeze({ min: 2, max: 5 }),
+});
+
 // Explicit adoption is a normal project transaction; loading never restyles content.
 export function adoptHouseStyle(project) {
   const next=JSON.parse(JSON.stringify(project));

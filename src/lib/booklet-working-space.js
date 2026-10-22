@@ -1,4 +1,5 @@
 import {contentSource} from './document-content.js';
+import {arrangementItems} from '../../public/libs/maths-editor/arrangement-model.mjs';
 
 // Authoring-time estimate only: never replace a saved/manual answerSpaceMm on load.
 export function estimateWorkedWritingSpace(node, {widthMm=80, responseKind='working', preserveExplicit=true, studentWork, studentDiagrams,responseContext=null}={}) {
@@ -42,6 +43,80 @@ export function estimateWorkedWritingSpace(node, {widthMm=80, responseKind='work
     return Math.min(65,statedHeight||(/number.?line/i.test(d.id+' '+d.spec?.description)?20:40));
   }));
   return Math.ceil(Math.max(12,height+3)/2)*2;
+}
+
+// Teacher-calibrated working space (22 October 2026, user decision): match the
+// teacher's final allowances on average. The default for new imports and unreviewed
+// booklets, and the floor for tightening and the pagination optimiser.
+// Refit by `node paginate/working-space.mjs calibrate`: per response kind a
+// least-absolute-deviation line fitted to the teacher's finals on the books where the
+// teacher worked on spacing, calibrated = ceil(scale * x + offset). x is the allowance
+// recorded at import when there is one (`fromImport`, the closer fit), otherwise the
+// node estimate (`fromEstimate`). Kinds without enough rows use the pooled fallback.
+// About 38% of working answers get 2 mm or more less than the teacher would give;
+// the teacher accepted that. Never under 8 mm, or the handwriting rule for a short
+// expected answer where that is larger. Arrangement item heights and part allowances
+// are the same value (layoutOverrides.answerSpaces mirrors the saved item), so one
+// fit covers both. The data supports no fit for table row heights (78% unchanged);
+// they keep the content-sized minimum in booklet-import-spacing.js.
+export const WORKING_SPACE_CALIBRATION_20261022 = Object.freeze({
+  version: '2026-10-22',
+  method: 'least-absolute-deviation',
+  floorMm: 8,
+  kinds: Object.freeze({
+    working: Object.freeze({fromImport: Object.freeze({scale: 0.63, offset: 2}), fromEstimate: Object.freeze({scale: 0.32, offset: 7.5})}),
+    short: Object.freeze({fromImport: Object.freeze({scale: 0.22, offset: 6}), fromEstimate: Object.freeze({scale: 0.03, offset: 9.5})}),
+    'tick-cross': Object.freeze({fromImport: Object.freeze({scale: 0, offset: -30}), fromEstimate: Object.freeze({scale: 0, offset: -30})}),
+  }),
+  fallback: Object.freeze({fromImport: Object.freeze({scale: 0.63, offset: 2}), fromEstimate: Object.freeze({scale: 0.35, offset: 6.5})}),
+});
+
+export function applyWorkingSpaceFit(fit, estimate, floorMm = 8) {
+  return estimate > 0 ? Math.max(floorMm, Math.ceil(fit.scale * estimate + fit.offset - 1e-9)) : 0;
+}
+
+// The allowance a response gets by default, and the least tightening may leave it.
+// Takes the options of estimateWorkedWritingSpace (any stored value is ignored) plus
+// `importMm`, the allowance recorded when the booklet was imported
+// (sourceReview.workingSpaceEstimate). Responses that own no writing space (cloze,
+// inline, scaffold, native table cells) stay 0.
+export function calibratedWorkingSpace(node, opts = {}, calibration = WORKING_SPACE_CALIBRATION_20261022) {
+  const {importMm, ...estimateOptions} = opts;
+  const kind = estimateOptions.responseKind ?? 'working';
+  const estimate = estimateWorkedWritingSpace(node, {...estimateOptions, preserveExplicit: false});
+  if (!(estimate > 0)) return 0;
+  const fits = calibration.kinds[kind] ?? calibration.fallback;
+  const fromImport = Number.isFinite(importMm) && importMm > 0;
+  const value = applyWorkingSpaceFit(fromImport ? fits.fromImport : fits.fromEstimate, fromImport ? importMm : estimate, calibration.floorMm);
+  // A short expected answer keeps the handwriting capacity the estimator derived for it.
+  return kind === 'short' ? Math.max(value, estimate) : value;
+}
+
+// The allowance recorded for a part when its block was imported, if any.
+export const importedAllowance = (block, targetId) => block?.sourceReview?.workingSpaceEstimate?.estimates?.find(e => e.targetId === targetId)?.answerSpaceMm;
+
+// Every stored copy of a part's allowance: the part's answerSpaceMm, layoutOverrides.answerSpaces[id] and the
+// height of a saved arrangement's space item. [[where, mm], ...], finite values only.
+export function allowanceCopies(project, block, node) {
+  const o = project?.settings?.layoutOverrides ?? {};
+  const layout = o.blockLayouts?.[block.id]?.arrangement;
+  const items = layout ? arrangementItems(layout.root).filter(item => item.ref === node.id + '/space' && Number.isFinite(item.height)) : [];
+  return [['answerSpaceMm', node.answerSpaceMm], ['answerSpaces', o.answerSpaces?.[node.id]], ...items.map((item, i) => ['item' + i, item.height])].filter(([, v]) => Number.isFinite(v));
+}
+// True when the part has a recorded import value and every stored copy still equals it (the 17 October rule:
+// a value that was changed since import belongs to the teacher or a repair and is left alone).
+export const stillImportAllowance = (copies, importMm) => Number.isFinite(importMm) && copies.length > 0 && copies.every(([, v]) => Math.abs(v - importMm) < 0.01);
+
+// The one floor Studio's Tighten and the pagination optimiser share (22 October 2026). A teacher-reviewed
+// booklet (`reviewed`) keeps the estimator floor Tighten always used, so named tightening there is no deeper
+// than before; an unreviewed booklet gets the calibrated floor, with the width and table-cell context
+// recorded at import. Returns 0 for responses that own no writing space; throws as the estimators do.
+export function workingSpaceFloor(block, node, {reviewed = false, widthMm} = {}) {
+  if (reviewed) return estimateWorkedWritingSpace(node, {preserveExplicit: false, ...(widthMm ? {widthMm} : {})});
+  const kind = block?.sourceReview?.responses?.find(r => r.targetId === node.id)?.kind ?? 'working';
+  const width = widthMm ?? block?.sourceReview?.workingSpaceEstimate?.estimates?.find(e => e.targetId === node.id)?.widthMm;
+  const binding = block?.sourceReview?.tableResponses?.find(r => r.targetId === node.id);
+  return calibratedWorkingSpace(node, {responseKind: kind, importMm: importedAllowance(block, node.id), ...(width ? {widthMm: width} : {}), responseContext: binding ? {kind: 'table-cell', providesWritingSpace: true} : {kind, expectedAnswer: node.answer?.short}});
 }
 
 export function sizeQuestionWorking(node,{widthMm=170,responseKinds={},records=[],preserveExplicit=true,studentWorkById={},studentDiagramsById={}}={}) {

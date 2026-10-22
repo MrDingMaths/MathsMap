@@ -98,6 +98,13 @@ mathematical structure and meaningful relationships; apply house style to
 everything else. These defaults apply to future imports and authorised feedback
 repairs. Accepted projects are not migrated on load.
 
+**Teaching blocks (22 October 2026, user approved).** For theory, worked examples,
+scaffolds and guided practice the source decides structure (alignment columns, arrow
+endpoints, side-by-side or stacked, figure side, indents, emphasis, order, grouping)
+and house style decides every measurement; house rules win where they conflict. This
+supersedes the first sentence above for teaching blocks only. Independent practice
+keeps the presets below. See [verification speed](booklet-verification-speed.md).
+
 **Preset arrangements.** Teaching and practice content uses the shared
 arrangement presets. A custom arrangement is used only where position carries
 mathematical or instructional meaning (paired figures, matching activities, card
@@ -318,9 +325,13 @@ unchanged answer bodies having recorded import widths/estimates: mean absolute
 error against current reviewed allowances was 4.30 mm, versus 4.40 mm for the
 stored estimates. On 3,226 changed allowances it was 9.04 versus 9.99 mm. It
 underestimated 720 current allowances, so these results do not establish safe
-general rollout. Working-space reductions are restricted to `fractional-indices-v1`,
-`compound-interest-depreciation-v1` and `area-parallelograms-triangles-v1`; show
-before/after pages and await teacher approval before any wider application.
+general rollout. Working-space reductions were restricted to `fractional-indices-v1`,
+`compound-interest-depreciation-v1` and `area-parallelograms-triangles-v1`. **Superseded
+on 22 October 2026 (user approved):** calibrated working space is the default and the
+floor for new imports and unreviewed booklets; reviewed booklets change only when named.
+The fit is the median (least-absolute-deviation) fit to the teacher's finals, by the
+user's decision "match me on average". See
+[verification speed](booklet-verification-speed.md).
 
 Studio's explicit actions preview fit with the actual paginator, apply as one undo
 step and reject stale/unsuccessful previews. Matching siblings preserves target

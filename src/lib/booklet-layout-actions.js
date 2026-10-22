@@ -2,8 +2,8 @@ import {resolveArrangement,findContent,replaceArrangementContent} from './bookle
 import {arrangementItems,arrangementParent,findArrangement} from '../../public/libs/maths-editor/arrangement-model.mjs';
 import {bookletLayoutSelection,containerSpacingFields} from './booklet-direct-layout.js';
 import {blockDocuments} from './booklet-bulk-spacing.js';
-import {tableRowMinimum,tableResponseAnswers} from './booklet-import-spacing.js';
-import {estimateWorkedWritingSpace} from './booklet-working-space.js';
+import {tableRowMinimum,tableResponseAnswers,hasTeacherReview} from './booklet-import-spacing.js';
+import {estimateWorkedWritingSpace,workingSpaceFloor} from './booklet-working-space.js';
 import {clozeHandwritingMm} from '../../public/libs/maths-editor/house-style.mjs';
 import {logicalUnits} from './booklet-flow.js';
 import {pageBoundaryKind,setPageBoundary} from './booklet-workspace.js';
@@ -164,10 +164,13 @@ export function changeSpaceChain(project,selection,item,key,value){
 }
 
 // Cumulative stages are measured by the real paginator before any save/history edit.
+// Working space never tightens below the shared floor (workingSpaceFloor): calibrated for unreviewed booklets,
+// the estimator for teacher-reviewed ones (22 October 2026).
 export function tightenStages(project,blockId){
  const original=blocks(project).find(b=>b.id===blockId);if(!original)throw Error('Select a block.');
  const usesArrangement=original.type==='question'||!!(overrides(project).blockLayouts?.[blockId]?.arrangement??original.presentation?.layoutOverrides?.blockLayouts?.[blockId]?.arrangement);
  const storeTree=(p,tree)=>usesArrangement?withTree(p,blockId,tree):p;
+ const reviewed=hasTeacherReview(project);
  let next=clone(project);const stages=[];
  const save=label=>stages.push({label,project:clone(next)});
  const docNodes=fn=>{const b=blocks(next).find(b=>b.id===blockId);for(const {document}of blockDocuments(b))visit(document,fn);};
@@ -180,7 +183,7 @@ export function tightenStages(project,blockId){
  docNodes(n=>{if(n.type==='table'&&(n.padding??2)>(n.border===false?0:1))n.padding=n.border===false?0:1;if(n.type==='layout'&&!['speech-bubble','cards'].includes(n.arrangement)&&(n.padding??3)>(n.border?1:0))n.padding=n.border?1:0;});save('Padding');
  docNodes(n=>{if(n.type==='table')n.rows.forEach((row,i)=>{if(row.some(c=>c.header))return;const minimum=tableRowMinimum(n,i,n.widthMm??170,tableResponseAnswers(blocks(next).find(b=>b.id===blockId)));if(minimum!=null&&n.rowHeights?.[i]>minimum)n.rowHeights[i]=minimum;});});save('Row heights');
  b=blocks(next).find(b=>b.id===blockId);o=overrides(next);resolved=resolveArrangement(b,o.blockLayouts?.[blockId]?.arrangement,o);tree=clone(resolved.tree);
- for(const item of arrangementItems(tree.root)){const entry=resolved.entries.get(item.ref);if(entry?.kind!=='space')continue;const node=findContent(b,entry.ownerId);if(!node?.answer)continue;try{const minimum=estimateWorkedWritingSpace(node,{preserveExplicit:false});const height=item.height??entry.value;if(height>minimum){item.height=minimum;next.settings.layoutOverrides.answerSpaces={...next.settings.layoutOverrides.answerSpaces,[entry.ownerId]:minimum};}}catch{}}
+ for(const item of arrangementItems(tree.root)){const entry=resolved.entries.get(item.ref);if(entry?.kind!=='space')continue;const node=findContent(b,entry.ownerId);if(!node?.answer)continue;try{const minimum=workingSpaceFloor(b,node,{reviewed});const height=item.height??entry.value;if(height>minimum){item.height=minimum;next.settings.layoutOverrides.answerSpaces={...next.settings.layoutOverrides.answerSpaces,[entry.ownerId]:minimum};}}catch{}}
  next=storeTree(next,tree);save('Surplus working space');
  // Width reductions are bounded, keep 10 pt labels, and do not shrink supplied drawing grids.
  for(const item of arrangementItems(tree.root)){const entry=resolved.entries.get(item.ref);if(entry?.kind!=='diagram')continue;const d=entry.value,description=[d.spec?.description,d.spec?.mathematics,d.id].join(' ');if(/blank|draw|sketch|plot|construct|grid/i.test(description))continue;const minimum=/graph|axes|cartesian/i.test(description)?70:b.content?.layout==='grid'?32:50;const width=item.width??d.widthMm;if(width>minimum)item.width=minimum;}
@@ -196,4 +199,16 @@ export function fitIsSafe(before,after,blockId,targetId){
  const ids=new Set((before.pages??[]).flatMap(p=>p.blocks.map(identity)));
  for(const id of ids)if(blockPages(after,id).length>blockPages(before,id).length)return false;
  return true;
+}
+
+// Blocks that occupy more pages after a change than before, for every block rather
+// than one chosen pair: a block newly split across pages is a new split. Returns
+// the block identities (continuations count as their first block).
+export function newSplits(before,after,ids=null){
+ const found=ids??[...new Set((before.pages??[]).flatMap(p=>p.blocks.map(identity)))];
+ return found.filter(id=>blockPages(after,id).length>blockPages(before,id).length);
+}
+// Issues the change adds (same id and message in the older map do not count).
+export function newIssues(before,after){
+ return (after.issues??[]).filter(issue=>!(before.issues??[]).some(old=>old.id===issue.id&&old.message===issue.message));
 }

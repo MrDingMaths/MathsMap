@@ -7,6 +7,10 @@ import {visitAuthorContent,materializeAuthorDiagrams,SHARED_DIAGRAM_FORMAT} from
 import {importStructureFindings} from '../../src/lib/booklet-import-structure.js';
 
 export const HOUSE_AUTHORING='house-presets-v1';
+// house-presets-v2 (22 October 2026) adds the teaching-block structure rule to the v1 text. The v1 prompt below is
+// unchanged, so recorded runs keep their input hashes; v2 is opt-in through config.authoringPreferences.
+export const HOUSE_AUTHORING_V2='house-presets-v2';
+export const HOUSE_AUTHORING_VALUES=Object.freeze([HOUSE_AUTHORING,HOUSE_AUTHORING_V2]);
 const has=(object,key)=>Object.prototype.hasOwnProperty.call(object,key);
 
 export const HOUSE_AUTHORING_PROMPT=String.raw`HOUSE AUTHORING PREFERENCES (house-presets-v1). These take precedence over earlier wording about preserving source arrangements, source diagram dimensions and source portraits. Source appearance is evidence, not a layout target: reproduce content, order, mathematical structure and meaningful relationships, and apply house style to everything else.
@@ -27,6 +31,12 @@ TEMPLATED DIAGRAMS. For these families return diagramTemplate INSTEAD of code, k
 Use ordinary complete TikZ code for every other diagram, and for a diagram in these families when the template cannot express a mathematical feature of the source (for example crossed-out parts, labelled segments or unequal parts); say which feature in spec.description.
 
 DECORATIVE IMAGES AND AVATARS. Omit mascots and illustrations with no instructional or mathematical content; keep every word they say or label as editable text and map their inventory entry with an explicit exclusion. Keep any image a question depends on. A character who speaks uses the speech-bubble layout whose first slot holds {id,type:"image",avatar:"CHARACTER NAME",alt:"CHARACTER NAME"}: give the printed name, or a stable description such as "Student 1" when unnamed, and the same value for every appearance of that character. Do not supply src, crop or source portrait assets; the caller assigns the standard avatar. Keep the name in the statement where the source prints it. Difficulty pictograms beside a question number (chillies, stars) are never content: leave them out of prompts, answers and diagrams, and record their count against the inventory entry as source evidence only. Studio shows its own chillies from the reasoning score.`;
+
+export const HOUSE_AUTHORING_V2_PROMPT=HOUSE_AUTHORING_PROMPT.replace('(house-presets-v1)','(house-presets-v2)')+String.raw`
+
+TEACHING BLOCKS (house-presets-v2, 22 October 2026, user approved). Everything above still applies; this changes only how teaching blocks are laid out. For TEACHING blocks (theory, definition, worked example, scaffold, guided practice) the source decides STRUCTURE and house style decides every MEASUREMENT. Structure means: alignment columns (relation signs "=" or colons aligned on consecutive lines), relative indent levels, arrows (how many, which terms or rows each joins, on which side, in which direction, with what label), stacked or side by side, which side a figure sits on, emphasis (box, bold, colour), order, and relative grouping (a gap clearly larger than the others starts a new group). Read these from the source, not the millimetres: never copy an absolute position, width or gap from the page. Choose the teaching preset that expresses the structure and let house style supply every number: two-column worked example (presentation.layout:"columns"); worked rows with operation arrows on the right (presentation.layout:"worked-rows" with an annotated equation); scaffold table with column arrows (a native table with table.annotations); ratio table (terms beside a narrow colon column, no borders); figure left and working right (diagramPlacement or an arrangement row); or the house-presets-v1 presets above. Vertical gaps are 1 mm within a group and 2 or 4 mm between groups (4 mm for the larger source gaps); each relative indent level is one 4 mm step; arrowhead size, widths, palette, cloze width, fraction boxes and the equals-sign gutter follow house style and win any conflict with the source. Record sourceReview.structure:{preset:"<preset id>"} on every teaching block. Use a custom arrangement only where no preset expresses the source's structure, with house numbers and sourceReview.customArrangement:{reason} naming what the source places that no preset can. Independent practice questions are unchanged: the house-presets-v1 presets above apply to them as before.`;
+// The prompt for a configured preference.
+export const houseAuthoringPrompt=preference=>preference===HOUSE_AUTHORING_V2?HOUSE_AUTHORING_V2_PROMPT:HOUSE_AUTHORING_PROMPT;
 
 // Replaces diagramTemplate with generated code and gives avatar blocks a valid
 // provisional image; assembly assigns the booklet-wide rotation.
@@ -59,4 +69,4 @@ export function materializeHouseAuthoring(packet,{enabled=false}={}) {
  return result;
 }
 
-export const authorMaterializer=config=>packet=>materializeAuthorDiagrams(materializeHouseAuthoring(packet,{enabled:config.authoringPreferences===HOUSE_AUTHORING}),{enabled:config.authoringFormat===SHARED_DIAGRAM_FORMAT});
+export const authorMaterializer=config=>packet=>materializeAuthorDiagrams(materializeHouseAuthoring(packet,{enabled:HOUSE_AUTHORING_VALUES.includes(config.authoringPreferences)}),{enabled:config.authoringFormat===SHARED_DIAGRAM_FORMAT});

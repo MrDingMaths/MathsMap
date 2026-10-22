@@ -9,6 +9,7 @@ import path from 'node:path';
 import {spawn} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
+import {conflictsWithDecidedConvention} from '../src/lib/booklet-cloze-convention.js';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 export const BASE='http://127.0.0.1:5173';
@@ -318,7 +319,11 @@ export function normalise(row,{index,edition,blockIds,pages}){
  if(!AREAS.includes(row.area))return {error:'unknown area '+row?.area};
  if(!text(row.comment))return {error:'no comment'};
  const page=Number.isInteger(row.page)&&pages.includes(row.page)?row.page:null;
- return {value:{edition,page,area:row.area,scope:SCOPES.includes(row.scope)?row.scope:'local',targets,comment:text(row.comment),gain:text(row.gain),proposal:typeof row.proposal==='string'?text(row.proposal):row.proposal?JSON.stringify(row.proposal):''}};
+ const proposal=typeof row.proposal==='string'?text(row.proposal):row.proposal?JSON.stringify(row.proposal):'';
+ // A decided convention (src/lib/booklet-cloze-convention.js) is dropped even when the worker raises it: 92 such findings were rejected by the teacher.
+ const decided=conflictsWithDecidedConvention({comment:text(row.comment),proposal});
+ if(decided)return {error:'conflicts with a decided convention: '+decided};
+ return {value:{edition,page,area:row.area,scope:SCOPES.includes(row.scope)?row.scope:'local',targets,comment:text(row.comment),gain:text(row.gain),proposal}};
 }
 const targetRows=(project,index,targets)=>targets.map(id=>({id,blockId:index.owners.get(id),hash:blockHash(project,index,index.owners.get(id))}));
 // One issue: the same area in the same edition on an overlapping block. The

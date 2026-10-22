@@ -14,7 +14,7 @@ import {reviewEnabled,liveWorkflow,pageGate,effectiveInventory,effectiveAuthor,m
 import {recordAttempt,readAttemptReceipt} from './semantic-run-metrics.mjs';
 import {mappingRepairPrompt,applyMappingRepair} from './semantic-mapping-repair.mjs';
 import {SHARED_DIAGRAM_FORMAT,SHARED_DIAGRAM_PROMPT} from './shared-diagram-authoring.mjs';
-import {HOUSE_AUTHORING,HOUSE_AUTHORING_PROMPT,authorMaterializer} from './house-authoring.mjs';
+import {HOUSE_AUTHORING_VALUES,houseAuthoringPrompt,authorMaterializer} from './house-authoring.mjs';
 import {withRunLock} from './run-observability.mjs';
 import {writeTransaction} from './bank-sync.mjs';
 import {validateContentScope,PRACTICE_ONLY_PROMPT,normalizePracticeInventory,validatePracticeInventory,validatePracticeAuthor} from './practice-only-scope.mjs';
@@ -65,8 +65,8 @@ function buildSemanticTasks({runDir,manifest,config,stage,pages,attempt=1,repres
  validateContentScope(config.contentScope);
  if(config.authoringFormat!==undefined&&config.authoringFormat!==SHARED_DIAGRAM_FORMAT)throw Error('Unsupported config.authoringFormat');
  const sharedDiagrams=stage==='author'&&config.authoringFormat===SHARED_DIAGRAM_FORMAT;
- if(config.authoringPreferences!==undefined&&config.authoringPreferences!==HOUSE_AUTHORING)throw Error('Unsupported config.authoringPreferences');
- const houseAuthoring=stage==='author'&&config.authoringPreferences===HOUSE_AUTHORING;
+ if(config.authoringPreferences!==undefined&&!HOUSE_AUTHORING_VALUES.includes(config.authoringPreferences))throw Error('Unsupported config.authoringPreferences');
+ const houseAuthoring=stage==='author'&&HOUSE_AUTHORING_VALUES.includes(config.authoringPreferences);
  const packetRoot=path.join(runDir,'semantic-packets');
  const reviewed=reviewEnabled(manifest,config),workflow=reviewed?(workflowState??liveWorkflow(runDir)):null;
  if(reviewed&&config.sourceDecisions)throw Error('Review-first source corrections belong in the structured editorial register, not config.sourceDecisions');
@@ -127,7 +127,7 @@ function buildSemanticTasks({runDir,manifest,config,stage,pages,attempt=1,repres
   if(stage==='inventory')add('header-identity','Record each visible teaching group kind, exact header/subtitle, and whether its heading is a main topic band or a light activity band. Preserve red identify/investigation groups containing demonstrations and responses as one group; do not call them guided-practice merely because pupils respond. Standard information, light-bulb, review-arrow and question-mark header icons are renderer-owned template decorations: record them with an explicit exclusionReason, not as mathematical diagrams requiring a new diagram target. Never exclude a mathematical figure, coordinate cue, graph, meaningful symbol or label by this rule. Record paired diagram/scaffold orientation, table column meanings and required response spaces. Supplied canonical layout decisions override decorative source appearance, never source mathematics.');
   if(stage==='author'&&config.contentScope==='practice-only')add('practice-answer-evidence','Also return answerEvidence:[{questionId:questionBlockId,teacherReference:[{pdfPage,printedPage,exercise,questionLabel}],matchEvidence:individualPixelComparison,conflict:null}]. Cover every authored whole question once, citing every original printed item in a shared-stem group; multiple answer-book pages are allowed for split answers. Missing/conflicting answers require a finding. Include an individual sourceReview.teachingContext:{pdfPages:[actuallyInspectedTeachingPages],methodNote,mappingNote}; retain relevant definitions or supplied working inside the question. Harder short answers retain the result and add a concise taught-method sentence where useful, in a separate paragraph within editable answer.short. Worked align* steps repeat the full left-hand side on each row. Generate/review worked solutions before allocating answerSpaceMm. Use the authoring-time estimateWorkedWritingSpace helper in src/lib/booklet-working-space.js with the selected grid cell width and response kind. Count mathematical rows including align* row separators, wrapped prose, tall fractions and student constructions with handwriting allowance. Record sourceReview.workingSpaceEstimate with the method, widths and per-node estimates. Short True/False needs little space; cloze-only parts use 0 extra space. Keep saved manual overrides. These are authored dimensions, not source measurements. Native list arrangement evidence uses columns:null, and order lists actual child IDs only. Never put reference or review notes in student-facing prose.');
   if(sharedDiagrams)add('shared-diagrams',SHARED_DIAGRAM_PROMPT);
-  if(houseAuthoring)add('house-authoring',HOUSE_AUTHORING_PROMPT);
+  if(houseAuthoring)add('house-authoring',houseAuthoringPrompt(config.authoringPreferences));
   // Shared prefix precedes page-specific diagram rules, IDs and payload.
   add('teaching',teaching?'SHARED TEACHING CONTEXT: inspect any referenced image needed for the taught method, including pages beyond the attached previews.\n'+teaching:'Teaching context unavailable; record a finding if needed to establish the taught method.');
   if(stage==='author')add('diagrams',compactTikzPrompt({inventory,sourceText}));

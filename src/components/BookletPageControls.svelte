@@ -1,6 +1,8 @@
 <script>
- let { block, onboundary, onlayout } = $props();
+ import BookletPaginationOptimiser from './BookletPaginationOptimiser.svelte';
+ let { block, onboundary, onlayout, project = null, options = {}, onoptimise = null, onfinish = () => {} } = $props();
 </script>
+{#if project&&onoptimise}<BookletPaginationOptimiser {project} {options} onchange={onoptimise} {onfinish}/>{/if}
 {#if block}
  <div class="page-actions"><button onclick={()=>onboundary('before')}>Page break before</button><button onclick={()=>onboundary('after')}>Page break after</button><button onclick={()=>onboundary('remove')}>Remove break before</button></div>
  <label><input type="checkbox" checked={!!block.flow?.keepTogether} onchange={e=>onlayout({keepTogether:e.currentTarget.checked})}/>Keep block together</label>

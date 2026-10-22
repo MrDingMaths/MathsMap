@@ -30,9 +30,10 @@ export const LEFT_AREAS=Object.freeze(['review','extension','duplicate']);
 // Fields the renderer reads for layout. responseSpace through diagramWidthMm were added on
 // 17 October 2026: the renderer consumes them, and refusing them failed 33 repairs.
 const LAYOUT_FIELDS=new Set(['align','verticalAlign','spaceBefore','spaceAfter','marginBefore','marginAfter','padding','paddingMm','margin','widths','rowHeights','border','borders','borderColour','background','headerBackground','widthMm','width','heightMm','gap','minHeight','minHeightMm','answerSpaceMm','responseSpace','layout','columns','flow','fontSize','lineHeight','indent','display','header','headerRow','colspan','rowspan','pageBreakBefore','breakBefore','keepTogether','responseLabel','unlabelled','label','presentation','clozeStyle','style','preserveParagraphAlignment','arrangement','responseWidthMm',
- 'backgroundColor','borderWidthMm','diagramPlacement','direction','weight','tail','gapMm','diagramWidthMm']);
+ 'backgroundColor','borderWidthMm','diagramPlacement','direction','weight','tail','gapMm','diagramWidthMm','rowLayout']);
 // Containers a table or cloze change has to rebuild; the content check guards what they hold.
-const STRUCTURE_FIELDS=new Set(['rows','cells','children','prompt','inlines','parts','items','blocks']);
+// examples and annotations were added for source-match (22 October 2026): worked-example rows and table arrows.
+const STRUCTURE_FIELDS=new Set(['rows','cells','children','prompt','inlines','parts','items','blocks','examples','annotations']);
 // Answer-edition diagram sizes are per-diagram settings; the booklet-wide defaults are not repairs.
 const EDITION_SETTINGS=new Set(['diagramWidths','diagramStyles']);
 const pointerParts=field=>typeof field==='string'&&field.startsWith('/')?field.split('/').slice(1).map(part=>part.replace(/~1/g,'/').replace(/~0/g,'~')):null;
@@ -42,18 +43,22 @@ export function patchAllowed(patch){
  if(patch.targetId==='project')return parts[0]==='settings'&&parts.length>2&&(parts[1]==='layoutOverrides'||parts[1]==='compactAnswers'&&EDITION_SETTINGS.has(parts[2])&&parts.length>3);
  const head=parts[0]==='content'?parts[1]:parts[0];
  // A source response label is a label like any other.
- if(head==='sourceReview')return parts.at(-1)==='label';
+ // sourceReview.structure and .customArrangement record how a teaching block follows its source (source-match).
+ if(head==='sourceReview')return parts.at(-1)==='label'||['structure','customArrangement'].includes(parts[parts.indexOf('sourceReview')+1]);
  return head!==undefined&&(LAYOUT_FIELDS.has(head)||STRUCTURE_FIELDS.has(head));
 }
 
 // What a student reads or an answer key records, as a sorted list. Layout, labels, ids and
 // empty strings do not count; any answer string counts as an answer wherever it sits, so a
 // cloze answer may move into a response answer field.
-const IGNORED_KEYS=new Set(['id','type','label','responseLabel','unlabelled','align','verticalAlign','background','headerBackground','border','borders','borderColour','layout','display','flow','presentation','style','clozeStyle','variant','arrangement','colour','color']);
+// sourceReview and the annotation references (cellId, toCellId, startAnchor, endAnchor, heads, side) are structure, not printed content (source-match, 22 October 2026).
+const IGNORED_KEYS=new Set(['format','sourceReview','cellId','toCellId','startAnchor','endAnchor','heads','side','id','type','label','responseLabel','unlabelled','align','verticalAlign','background','headerBackground','border','borders','borderColour','layout','display','flow','presentation','style','clozeStyle','variant','arrangement','colour','color']);
 const ANSWER_KEYS=new Set(['answer','answers','short','worked','expected','solution']);
 export function contentTokens(value){
  const tokens=[];
  const walk=(node,key,answer)=>{
+  // A table arrow or equation annotation is a printed relationship: one token per entry, carrying its label.
+  if(key==='annotations'&&Array.isArray(node))for(const entry of node)if(entry&&typeof entry==='object')tokens.push('ann:'+String(entry.label??'').replace(/\s+/g,' ').trim());
   if(Array.isArray(node))return node.forEach(child=>walk(child,key,answer));
   if(typeof node==='string'){const textValue=node.replace(/\s+/g,' ').trim();if(textValue&&!IGNORED_KEYS.has(key))tokens.push((answer?'ans:':'c:')+textValue);return;}
   if(!node||typeof node!=='object')return;
@@ -65,7 +70,16 @@ export function contentTokens(value){
  walk(value,'',false);
  return tokens.sort();
 }
-export const sameContent=(before,after)=>isDeepStrictEqual(contentTokens(before),contentTokens(after));
+// Annotation tokens may only grow (source-match adds arrows); a removed arrow or a changed label is a content change.
+// Anchors, curve, distance and side stay layout.
+export function sameContent(before,after){
+ const split=tokens=>({plain:tokens.filter(t=>!t.startsWith('ann:')),ann:tokens.filter(t=>t.startsWith('ann:'))});
+ const a=split(contentTokens(before)),b=split(contentTokens(after));
+ if(!isDeepStrictEqual(a.plain,b.plain))return false;
+ const left=new Map();for(const t of b.ann)left.set(t,(left.get(t)??0)+1);
+ for(const t of a.ann){const n=left.get(t)??0;if(!n)return false;left.set(t,n-1);}
+ return true;
+}
 
 // ---- trial apply ------------------------------------------------------------------------
 export function canonicalLayoutValue(patch,value=patch.corrected){
@@ -234,15 +248,19 @@ export function repairPrompt({project,index,group,root=ROOT,feedback,evidence}){
  return {prompt:RULES+'\n\nReview contract (house conventions):\n'+contract({root})+'\n\nInput:\n'+JSON.stringify(payload),blockIds:[...ids,...neighbours]};
 }
 // What the renderer actually reads, as a short catalogue and the code that reads it.
-const RENDERER_FIELDS=`Fields the renderer reads (checked against the code on 17 October 2026):
+export const RENDERER_FIELDS=`Fields the renderer reads (checked against the code on 17 October 2026):
 - Question nodes: answerSpaceMm (working space; settings.layoutOverrides.answerSpaces[nodeId] overrides it), responseSpace:"scaffold" (suppresses ordinary answer space), diagramPlacement ("before-prompt", "beside-prompt", "right-of-prompt"; otherwise diagrams follow the prompt), layout ("list", "grid") with columns, label (a part's own letter), widthMm on diagrams and images.
 - Arrangements (settings.layoutOverrides.blockLayouts[blockId].arrangement, version 1): group {id, type:"group", direction:"row"|"stack", children, gap mm ≤30, rules:"internal"|"grid"} and item {id, type:"item", ref:content node id}; either may have before, after (mm ≤80), inset (≤60), width (≤190), weight (row column proportion), height, minHeight (≤180), align (left|center|right|stretch), verticalAlign (top|middle|bottom), keepTogether, keepInline. An item id is usually "layout:"+ref.
 - Question with a diagram beside its prompt: settings.layoutOverrides.blockLayouts[nodeId] (keyed by the question or part node id) may hold textWidthMm (15–175), gapMm (0–20), insetMm (0–40), diagramWidthMm (5–190) and diagramSizing ("fixed"|"fit") beside any arrangement. To add an entry that does not exist yet, patch /settings/layoutOverrides/blockLayouts/<id> itself with original null.
 - Tables and cells: widths, rowHeights, border, borderWidthMm, backgroundColor, align, verticalAlign, header.
 - Answer editions: block.presentation.answerPartLabels.short|worked[nodeId] is the label suffix shown after the question number in that edition only (for example "a" gives 4a instead of 4(1)a); presentation.shortAnswerGroupStarts lists node ids that start a new Short answers row; presentation.shortAnswerTableFullWidth:true lets a completed short-answer table use the full page width; settings.compactAnswers.diagramWidths[diagramId] = {short:mm, worked:mm} and diagramStyles[edition][diagramId].widthMm size a diagram in one answer edition only.
 - Worked examples and teaching: presentation.layout ("columns", "worked-rows") with presentation.columns, presentation.numberSteps, presentation.showLabels; presentation.sourceResponseLabels:true with sourceReview.responses[].label shows source response labels; presentation.reviewNumbering:"source".
-- Flow (block.flow): pageBreakBefore:true starts a new page; in the Questions edition sourcePageBreakBefore:true also does unless pageBreakBefore is false, so set pageBreakBefore:false to remove a source break. keepTogether and keepWithNext keep a block with its continuation or the next block.`;
-function rendererCapabilities(root){
+- Flow (block.flow): pageBreakBefore:true starts a new page; in the Questions edition sourcePageBreakBefore:true also does unless pageBreakBefore is false, so set pageBreakBefore:false to remove a source break. keepTogether and keepWithNext keep a block with its continuation or the next block.
+- Worked-example rows (added 22 October 2026): block.examples[].rowLayout {gapMm, aboveMm, belowMm, minHeightMm}; presentation.layout "worked-rows" stacks the examples as rows, "columns" sets them side by side (presentation.columns); presentation.numberSteps numbers the steps. A paragraph's indent (mm of left padding), spaceBefore, spaceAfter, align and lineHeight are its own fields.
+- Table arrows (added 22 October 2026): table.annotations is a list of {id, type:"arrow"|"circle"|"box", cellId, toCellId, side:"top"|"bottom"|"middle", label, colour, heads:"none"|"start"|"end"|"both", distanceMm, curveMm, thicknessMm, labelOffsetMm}; cell ids are table cell node ids and an arrow joins two cells.
+- Annotated equations (added 22 October 2026): an annotated-equation node has annotations [{targetId (an anchor id), placement:"above"|"below", decoration:"arrow"|"bracket"|"highlight"|"none", colour}], connections [{fromId, toId, colour, height}], gap, arrowSpace, width and align.
+- Structure record (added 22 October 2026): sourceReview.structure is {preset, signatureHash}; a custom arrangement also has sourceReview.customArrangement {reason}.`;
+export function rendererCapabilities(root){
  const sources=[['src/lib/booklet-labels.js',65,110],['src/lib/booklet-exercises.js',10,40],['src/lib/booklet-short-answer-grid.js',60,70],['src/components/PracticeQuestionRenderer.svelte',27,39],['src/components/BookletArrangement.svelte',20,72],['public/libs/maths-editor/arrangement-model.mjs',12,31],['public/libs/maths-editor/document-model.mjs',131,146],['public/libs/maths-editor/document-model.mjs',192,206],['public/libs/maths-editor/document-model.mjs',235,241]];
  return {catalogue:RENDERER_FIELDS,notes:'The excerpts are actual renderer code. Do not invent controls: prove the renderer consumes any proposed field. Preserve continuation table ownership, content and response answers. Existing custom arrangement sizes or layoutOverrides can override node sizes. A change of printed page number alone is not a defect if the requested grouping is achieved.',sources:sources.filter(([file])=>fs.existsSync(path.join(root,file))).map(([file,start,end])=>({file,code:fs.readFileSync(path.join(root,file),'utf8').split(/\r?\n/).slice(start,end).join('\n')}))};
 }

@@ -10,6 +10,7 @@ import {dormantAlignment} from '../scripts/booklet/check-dormant-alignment.mjs';
 import {repairExampleGutters} from '../scripts/content/example-gutters.mjs';
 import {fromSource} from '../src/lib/document-content.js';
 import {clozeHandwritingMm} from '../public/libs/maths-editor/house-style.mjs';
+import {fractionConvention} from '../src/lib/booklet-cloze-convention.js';
 import {teachingLabels,usesTeachingLetters} from '../src/lib/booklet-labels.js';
 import {resolveArrangement} from '../src/lib/booklet-arrangement.js';
 
@@ -132,6 +133,7 @@ function gutterRule(block,{fix,report}){
 // ---------------------------------------------------------------- clozes
 const BOX=/\\boxed\{\s*\\rule\{0pt\}\{[\d.]+mm\}\s*\\hspace\{[\d.]+mm\}\s*\}/g;
 const DOTS=/\\(?:ldots|cdots|dots|dotfill)|\\mathord\{\\ldotp|\\underline\{\\hspace/;
+const PHANTOM_BOX=new RegExp('\\\\phantom\\{\\s*'+BOX.source+'\\s*\\}','g'),SIZED_DOTS=/\\underline\{\\hspace\{[\d.]+mm\}\}/g;
 // Split a \frac's numerator and denominator (balanced braces).
 function fracs(latex){
  const out=[],pattern=/\\(?:dfrac|tfrac|frac)\b/g;let match;
@@ -164,22 +166,24 @@ function clozeRule(block,{fix,report}){
    }
    if(node.type==='paragraph'&&node.inlines?.some(i=>i.type==='cloze')&&node.inlines.some(i=>i.type==='math'&&i.display))out.push(report('cloze',owner?.id??block.id,'cloze beside a display equation in '+node.id));
    if(node.type==='math'&&typeof node.latex==='string'){
-    const latex=node.latex,frac=fracs(latex);
-    for(const f of frac){
-     const n=blank(f.num),d=blank(f.den);
-     // A full fraction scaffold deliberately retains two outlined components
-     // and its vinculum (17 October 2026, user reaffirmed). It is not an
-     // ordinary complete-answer cloze outside a fraction.
-     if(n&&d){
-      if(DOTS.test(f.num)||DOTS.test(f.den))out.push(report('cloze',owner?.id??block.id,'dotted fraction components should be outlined boxes: '+latex.slice(f.start,f.end).slice(0,60)));
-     }
-     else if((n||d)&&DOTS.test(n?f.num:f.den))out.push(report('cloze',owner?.id??block.id,'dotted fraction component should be an outlined box: '+latex.slice(f.start,f.end).slice(0,60)));
+    const target=owner?.id??block.id;
+    // The fraction decisions live in src/lib/booklet-cloze-convention.js (22 October 2026): numerator and
+    // denominator boxes stay (a full scaffold keeps both boxes and the vinculum), a blank inside
+    // parentheses in a component is empty space with no box and no dots, dotted or invisible
+    // components become boxes. Anything fixable is fixed; the rest is reported.
+    const convention=fractionConvention(node.latex);
+    const fixable=convention.issues.filter(i=>i.fixable),stuck=convention.issues.filter(i=>!i.fixable);
+    if(fixable.length){
+     if(exception)for(const i of fixable)out.push(report('cloze',target,i.detail+'; local exception: '+exception));
+     else{if(fix)node.latex=convention.latex;out.push({rule:'cloze',target,action:'fix',detail:[...new Set(fixable.map(i=>i.kind))].join(', ')+': '+node.latex.slice(0,60)});}
     }
-    // Boxes outside fractions and powers are blanks inside an equation.
+    for(const i of stuck)out.push(report('cloze',target,i.detail+': '+node.latex.slice(0,60)));
+    const latex=convention.latex,frac=fracs(latex);
+    // Boxes outside fractions and powers are blanks inside an equation. An invisible \phantom box is not one.
     let stripped=latex.split('').map((c,i)=>frac.some(f=>i>=f.start&&i<f.end)?' ':c).join('');
-    stripped=stripped.replace(/\^\{?\\boxed\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}\}?/g,'');
+    stripped=stripped.replace(/\^\{?\\boxed\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}\}?/g,'').replace(new RegExp('\\\\phantom\\{\\s*'+BOX.source+'\\s*\\}','g'),'');
     const boxes=(stripped.match(BOX)??[]).length;
-    if(boxes&&!/\^\s*$/.test(stripped))out.push(report('cloze',owner?.id??block.id,boxes+' outlined box blank'+(boxes===1?'':'s')+' inside an equation (dots expected): '+latex.slice(0,60)));
+    if(boxes&&!/\^\s*$/.test(stripped))out.push(report('cloze',target,boxes+' outlined box blank'+(boxes===1?'':'s')+' inside an equation (dots expected): '+latex.slice(0,60)));
    }
    if(node.type==='paragraph'){
     const ix=node.inlines??[],rule=ix.findIndex(i=>i.type==='math'&&/^\\rule\{[\d.]+mm\}\{0?\.\d+(?:mm|pt)\}$/.test(String(i.latex).trim()));
@@ -453,7 +457,7 @@ function forcedBreaks(project,block,index,{report}){
 // ---------------------------------------------------------------- driver
 export const RULES=Object.freeze({
  gutter:'Equals-sign gutter (checklist, 10 October 2026)',
- cloze:'Fraction boxes, dotted clozes, no dots in table cells or circles, cloze widths 2.2 mm/character + 6 mm, one size per question',
+ cloze:'Fraction boxes (a full scaffold keeps both boxes and the vinculum; blanks inside parentheses in a component are empty space), dotted clozes elsewhere, no dots in table cells or circles, cloze widths 2.2 mm/character + 6 mm, one size per question',
  labels:'No lone "a" on investigations, worked examples and Key Ideas; Key Ideas numbered from 1; bold part labels without ")"',
  empty:'Empty paragraphs, empty answer groups under completed tables, stale layout groups',
  ratio:'Ratio scaffolds: no header fill, no borders, terms beside a narrow colon column',
@@ -500,7 +504,9 @@ export function contentSignature(block){
  const parts=[];
  const walk=(node,key)=>{
   if(node==null)return;
-  if(typeof node==='string'){if(['text','latex','answer','expectedResponse','prompt','short','worked','theorySolution','solution_text','question_text'].includes(key))parts.push(key+':'+node.replaceAll(PHANTOM,'').trim());return;}
+  // A blank is a blank whether it is drawn as a box, left as empty space (\phantom of the box) or dotted
+  // with a stated width: the convention changes how it is drawn, never what it asks for.
+  if(typeof node==='string'){if(['text','latex','answer','expectedResponse','prompt','short','worked','theorySolution','solution_text','question_text'].includes(key))parts.push(key+':'+node.replaceAll(PHANTOM,'').replace(PHANTOM_BOX,'[blank]').replace(BOX,'[blank]').replace(SIZED_DOTS,'[blank]').trim());return;}
   if(typeof node!=='object')return;
   if(Array.isArray(node)){node.forEach(n=>walk(n,key));return;}
   for(const [k,v] of Object.entries(node))if(!SKIP.has(k)&&k!=='label')walk(v,k);

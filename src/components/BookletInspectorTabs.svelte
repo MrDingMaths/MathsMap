@@ -1,7 +1,9 @@
 <script>
  import {tick} from 'svelte';
  const LAYOUT_TABS = [['layout','Spacing'],['tables','Tables'],['arrange','Arrange'],['page','Page']];
- let { value = 'layout', onchange, id = 'inspector', tabs = LAYOUT_TABS, label = 'Properties', controls = `${id}-content`, strip = false } = $props();
+ // `source` adds the Source tab (the source page beside the block, BookletSourceCompare); without it the strip is unchanged.
+ let { value = 'layout', onchange, id = 'inspector', tabs: given = null, source = false, label = 'Properties', controls = `${id}-content`, strip = false } = $props();
+ const tabs = $derived(given ?? (source ? [...LAYOUT_TABS, ['source','Source']] : LAYOUT_TABS));
  async function key(event, index) {
   if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
   event.preventDefault(); const count = tabs.length, next = event.key === 'Home' ? 0 : event.key === 'End' ? count - 1 : (index + (event.key === 'ArrowRight' ? 1 : count - 1)) % count;

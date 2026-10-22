@@ -12,6 +12,7 @@
   import {createBookletPersistence} from '../lib/booklet-persistence.js';
   import {createBookletDocumentSession} from '../lib/booklet-document-session.js';
   import BookletPageControls from './BookletPageControls.svelte';
+  import BookletSourceCompare from './BookletSourceCompare.svelte';
   import BookletBankPicker from './BookletBankPicker.svelte';
   import {contentExcerpt,setPageBoundary} from '../lib/booklet-workspace.js';
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
@@ -201,6 +202,8 @@
   function spaceSelectedParagraphs(targets,key,value){const next=setBookletParagraphSpacing(project,targets,key,value);finishInline();history.boundary();change(next);history.boundary();}
   const documentColours=$derived(bookletColours(project));
   let inspectorTab=$state('layout'), bankPicker=$state(false);
+  // The Source tab exists only for a project with an import run; switching to one without falls back to the default tab.
+  $effect(()=>{if(inspectorTab==='source'&&!project?.source?.runId)inspectorTab='layout';});
   let workspaceTop=$state(120),layoutStatus=$state.raw({pending:true}),finder=$state(''),findQuery=$state(''),findEntries=$state.raw([]),finderInput=$state(),finderDialog=$state(),goPageValue=$state('1');
   const wordWorkspace=typeof window==='undefined'||localStorage.getItem('booklet-word-workspace')!=='off';
   const commands=[
@@ -1261,9 +1264,10 @@
     <div id="booklet-panel-body" class="panel-context"><h2 class:sr-only={panelTabs.some(t=>t[0]===panel)}>{panel==='layout'?'Spacing':panel==='format'?'Selection options':panel==='review'?'Review':panel==='pdf'?'PDF':panel==='metadata'?'Project details':'Block properties'}</h2>{#if ['layout','properties','review'].includes(panel)}<div class="selection-breadcrumb" title={selectionPath}>{selectionPath}</div>{/if}</div>
     {#if panel==='layout'}
     <div id="booklet-layout-spacing" class="layout-spacing-panel" data-equation-control>
-     <BookletInspectorTabs value={inspectorTab} onchange={value=>inspectorTab=value} id="booklet-inspector"/>
+     <BookletInspectorTabs value={inspectorTab} onchange={value=>inspectorTab=value} id="booklet-inspector" source={!!project?.source?.runId}/>
      <div id="booklet-inspector-content" role="tabpanel" aria-labelledby={'booklet-inspector-'+inspectorTab}>
-      {#if inspectorTab==='page'}<BookletPageControls block={selectedBlock} onboundary={pageBoundary} onlayout={pageLayout}/>
+      {#if inspectorTab==='source'}<BookletSourceCompare {project} block={selectedBlock} onselect={selectCoverageTarget}/>
+      {:else if inspectorTab==='page'}<BookletPageControls block={selectedBlock} onboundary={pageBoundary} onlayout={pageLayout} project={flexible?project:null} options={exportSettings} onoptimise={applyQuickLayout} onfinish={finishInline}/>
       {:else}
        {#if inspectorTab==='layout'||inspectorTab==='tables'}
         {#if spacingBlockIds.length}<section class="spacing-scope-section" aria-labelledby="whole-question-spacing-heading"><h3 id="whole-question-spacing-heading">{spacingBlockIds.length>1?spacingBlockIds.length+' selected blocks':selectedBlock?.type==='question'?'Whole question '+(questionNumbers[selectedBlock.id]??''):'Whole block'}</h3>
