@@ -1,5 +1,72 @@
 # Cross-session transcription and rendering rules
 
+## Theory text: source fidelity and cognitive load (22 October 2026, user approved)
+
+Apply these principles to imported and newly authored theory, worked-example
+explanations, and authorised audits and repairs across all booklets. They guide
+the existing content review; they add no import stage or automatic migration.
+
+1. **Preserve the source's teaching intent.** Keep its meaning, essential
+   conditions, terminology and taught method. An import must not substantially
+   rewrite theory or turn a short introduction into a reference manual.
+2. **Use simple, direct language.** Prefer familiar words, short sentences and
+   concrete statements appropriate to the students' stage. Introduce necessary
+   mathematical vocabulary clearly and use it consistently.
+3. **Give each theory section a clear purpose.** Include what students need to
+   understand the idea and attempt the nearby examples. Put additional
+   explanation where students actually need it.
+4. **Introduce the main idea before exceptions.** Include a qualification when
+   omitting it would make the statement false or mislead students in the current
+   tasks. Avoid cataloguing edge cases. Use accurate, bounded wording instead
+   of a broad claim followed by many caveats. Do not copy an inaccurate source
+   absolute merely to preserve wording; record the correction and retain the
+   original evidence.
+5. **Let demonstrations carry the procedure.** Use worked steps, diagrams and
+   keys to show what to do. Add a short explanation when it reveals a decision
+   or relationship that the demonstration cannot make clear alone. Preserve
+   necessary intermediate steps; a shorter explanation must not hide a decision.
+6. **State instructions once.** Put shared instructions in the question stem
+   and distinct tasks in the parts. Remove duplicated wording while preserving
+   information students need to identify their response.
+7. **Keep related information together.** Place a definition, key or explanation
+   beside the notation or diagram it explains. Avoid making students search
+   between separate blocks or decode several representations unnecessarily.
+8. **Reduce unnecessary load without removing support.** Remove distraction and
+   duplication while retaining essential definitions, units, reasoning,
+   scaffolds and conditions. Do not impose word limits or bullet quotas.
+9. **Make the smallest useful change.** Retain clear source wording and useful
+   accepted clarifications. Rewrite only to correct an error, remove demonstrated
+   confusion or improve clarity without changing the teaching intent. Record
+   substantive departures and preserve original evidence and explicit local
+   exceptions.
+
+**Import and audit check:** compare theory with the actual source and any saved
+authorised clarifications. Look for unsupported expansion, unnecessary
+exceptions, unfamiliar language without explanation, redundant narration and
+repeated parent/part instructions. For an audit finding, quote the affected text,
+identify a concrete obstacle to understanding at the students' level and propose
+the smallest repair. Length or a preferred wording alone is not a defect. Check
+repeated applicable occurrences rather than treating the reported example as
+the full scope. Missing source evidence is an explicit limitation, not grounds
+to invent a restoration or claim source fidelity. Preserve accepted unaffected
+content, teaching methods and bank relationships; verify changed content and
+affected rendered output before resolving comments.
+
+Examples: a line-graph introduction can explain changes over time and estimates
+between readings without listing every permissible dataset. A stem-and-leaf
+introduction can define stem and leaf, with its key beside the plot; discuss
+negative leaves only where the task needs them. A completed plot need not be
+followed by prose restating every visible feature. A sector-graph demonstration
+keeps the source's percentage-scaling method rather than silently substituting
+division by a fraction. These are principles, not fixed wording or a ban on
+necessary explanation.
+
+## Teaching-panel borders (21 October 2026, user correction)
+
+Teaching and theory panels retain their shared grey outer borders, including
+Key ideas. Borderless layout containers inside a panel do not remove the panel's
+border. This applies across current booklets and future authoring.
+
 ## Calculator screens and right-angle markers (19 October 2026, user requested)
 
 Retain original calculator-screen screenshots as instructional interface evidence, including status indicators, input notation and output precision. Do not replace screens with native typeset imitations. Keep surrounding instructions, mathematical explanations and ordinary equations editable, retain original source evidence, and record each screen as an authorised raster exception with a final-size inspection. This applies across booklets and future imports.
@@ -109,6 +176,16 @@ accepted import. Native SVG rendering was considered and not pursued: TikZ
 compilation was 18 of 137 export minutes across the six FDP booklets.
 
 ### Cloze styles and source tables (4 October 2026)
+
+**Parenthesised fraction blanks (21 October 2026, user requested):** When parentheses
+enclose an empty response within a fraction numerator or denominator, retain the
+parentheses and empty handwriting space without a visible box or dots. This also
+applies to fractions built from native tables or separate editor nodes. Parentheses
+elsewhere in a fraction do not remove unrelated boxes, such as the coefficient in
+`\frac{\boxed{\rule{0pt}{5mm}\hspace{8mm}}(x+1)}{4}`. Preserve writing capacity,
+line wrapping and pagination during repairs; `\phantom{\boxed{...}}` may retain
+the former blank's exact occupied dimensions without drawing its outline. Preserve
+source evidence and explicit local exceptions; do not migrate content on load.
 
 **Fraction-component exception (14 October 2026, reaffirmed 17 October 2026, user requested):** Missing
 numerators and denominators use outlined boxes in editable native mathematics,
@@ -475,6 +552,8 @@ table after-spacing accepted for Logarithms page 4 are local, not global default
 Group related source items under their shared instruction or definition as one editable question with a, b, c parts and a native grid, even when the source numbers them individually. Preserve meaningful range, exercise and category boundaries, nested parts and original source identities in provenance. Renumber displayed questions within each exercise. Generate/review worked solutions first and estimate per-part handwriting space from mathematical steps (including TeX rows), cell-width wrapping, fractions and required drawings; save editable estimates and retain manual overrides. Inspect representative grids at final size, including pagination. Do not repeat the stem per item or use question-type allowances alone. See [practice-only import contract](booklet-practice-only-import.md).
 
 ## Original handwritten analysis panels (9 October 2026, user requested)
+
+**Two-column arrangement (20 October 2026, user requested).** For this archetype, place the original student-work image on the left and its associated editable questions on the right. Keep each panel paired with its own questions, preserving response space and explicit local exceptions. Audit saved arrangements as well as semantic layout fields; a saved stack can override an otherwise paired layout. This applies to existing matching questions and future imports.
 
 For current booklet repairs and future imports, retain the original image when a question presents a student's handwritten working and asks pupils to analyse its steps, reasoning, correctness or errors. Solve Two-Step Equations page 49, Mackenzie's and Ken's work, is the reference archetype. This includes correct and incorrect panels, handwritten fraction responses and handwritten inequality graphs. Confirm the archetype visually against the original source; wording such as “read the example” alone is insufficient.
 

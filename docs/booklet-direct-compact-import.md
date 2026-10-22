@@ -1,5 +1,7 @@
 # Direct compact import
 
+For imported theory and worked explanations, apply the [theory-text principles](booklet-cross-session-rules.md#theory-text-source-fidelity-and-cognitive-load-22-october-2026-user-approved) during authoring and the existing content review. Preserve the source's teaching intent and method; avoid substantial rewrites, unsupported expansion and duplicated instructions or narration. Retain essential support and original evidence. This adds no approval or review stage.
+
 > Future runs with `textbook-three-pass-v1` use [three-pass imports](booklet-three-pass-import.md), which supersede conflicting approval stages and exhaustive visual/audit requirements here. Historical runs keep their existing policy.
 
 Read the [cross-session transcription and rendering rules](booklet-cross-session-rules.md) as well: earlier table, handwriting, graph, attribution and editor-parity feedback remains applicable to every new subject. Shared production authoring prompts carry these rules through `HOUSE_STYLE_PROMPT`; direct compact authoring must perform the same checks.

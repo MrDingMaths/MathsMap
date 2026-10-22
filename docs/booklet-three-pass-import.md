@@ -1,5 +1,11 @@
 # Three-pass imports
 
+**Theory text (22 October 2026, user approved)**
+
+Apply the [theory-text principles](booklet-cross-session-rules.md#theory-text-source-fidelity-and-cognitive-load-22-october-2026-user-approved) during authoring and the existing independent content review. Preserve source theory and taught methods; make only small, justified clarity improvements or necessary corrections. Do not expand an introduction with edge cases, duplicate a demonstration in prose or repeat shared instructions in its parts. Retain essential conditions, intermediate steps and useful accepted clarifications. Compare imported theory with the source and saved authorised changes, and record substantive departures with the original evidence retained. This adds no review stage, pedagogy pass or import hold, and does not renew historical acceptance.
+
+Practice-question reasoning ratings are mandatory during initial authoring; follow the [LLM rating requirement](question-bank-assessment.md#llm-ratings-for-all-studio-practice-questions-21-october-2026). Use the existing content review to check rating consistency, retain actual model/task provenance and require complete verified coverage before delivery. This adds no review stage and excludes teaching examples and guided practice.
+
 ## Streamlined textbook imports (18 October 2026, user approved)
 
 Applies to work not yet started, including remaining textbook campaign work when its next process launches or a coordinator reaches a completed stage boundary. Do not interrupt active workers, invalidate their inputs, redo successful stages or rewrite historical evidence. This section supersedes conflicting mandatory stages elsewhere on this page.

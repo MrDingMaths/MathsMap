@@ -8,12 +8,26 @@ This checklist records the user's general feedback from the Index Laws transcrip
 
 ## Source fidelity requirements
 
+**Theory clarity and fidelity (22 October 2026):** apply the [theory-text principles](booklet-cross-session-rules.md#theory-text-source-fidelity-and-cognitive-load-22-october-2026-user-approved) in the existing content review. Compare against the actual source and saved authorised clarifications. Check for unsupported expansion, unnecessary exceptions, unexplained vocabulary, redundant narration and repeated parent/part instructions. Preserve necessary definitions, conditions, steps, scaffolds and taught methods. Repair concrete confusion with the smallest change; length and stylistic preference alone are not failures. Preserve evidence and check affected rendered output through the ordinary scoped workflow; add no review stage.
+
 For missing numerators and denominators, apply the 14 October 2026
 [fraction-component exception](booklet-cross-session-rules.md#cloze-styles-and-source-tables-4-october-2026):
 use outlined native maths boxes with sufficient handwriting capacity. A full
 fraction scaffold retains its boxed numerator, boxed denominator and vinculum,
 even when both components are missing (17 October 2026, user reaffirmed).
 Ordinary unstructured answer spaces outside a fraction use dotted clozes.
+Exception (21 October 2026): a fraction-component blank enclosed by parentheses
+keeps empty handwriting space without a visible box or dots. Preserve the existing
+occupied dimensions, line wrapping and pagination; parentheses elsewhere do not
+remove unrelated boxes. Apply this to native-table fractions too.
+
+**Fraction spacing (Rates feedback, 21 October 2026):** Author the numerator,
+vinculum and denominator as one native fraction, including response scaffolds.
+Do not imitate a fraction with three paragraph blocks or three table rows: their
+independent line boxes and row heights add excessive vertical gaps. A native
+table may still align complete equations, numbered steps and annotations. For
+parenthesised response scaffolds, retain the handwriting width and use empty
+space without visible boxes or dots. Preserve explicit local box exceptions.
 
 For ordinary feedback maintenance, use the [minimum verification matrix](booklet-change-runbook.md#minimum-verification-for-feedback-maintenance) and apply only relevant categories below to the affected occurrences. Do not rerun a whole transcription checklist, every historical interaction case or all five complete editions for an ordinary repair. Shared-cause audits and explicitly local exceptions still determine content scope; a narrow verification method must not leave known applicable defects unfixed. The complete transcription/full-acceptance checks later in this document remain for new imports or required full reviews.
 

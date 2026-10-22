@@ -85,6 +85,8 @@ For future imports and authorised feedback repairs, ordinary completion blanks u
 
 Full fraction scaffolds keep a boxed numerator, boxed denominator and vinculum; never automatically replace the scaffold with dots (17 October 2026).
 
+Exception (21 October 2026): [parenthesised fraction blanks](docs/booklet-cross-session-rules.md#cloze-styles-and-source-tables-4-october-2026) keep empty space without visible boxes or dots. Preserve occupied dimensions, line wrapping and pagination; unrelated boxes stay.
+
 Keep source tables as native editable tables, preserving row/column relationships, givens, reading order and meaningful borders; do not replace their cells with separate cards. Bordered table cells already provide the writing space and normally have no cloze dots or duplicate response boxes inside them. Preserve actual card activities as cards. The Integers magic-square conversion is an explicit user-requested departure from its separate source boxes. See [the cross-session convention](docs/booklet-cross-session-rules.md#cloze-styles-and-source-tables-4-october-2026).
 
 ## Source alignment on import and Studio layout controls (4 October 2026)
@@ -137,7 +139,7 @@ Feedback-maintenance precedence (16 September 2026, efficiency review): use the 
 
 ## Standing booklet conventions
 
-Before any booklet or question-bank work (imports, edits, restores, feedback repairs, diagram changes), read [standing booklet conventions](docs/booklet-standing-conventions.md). It holds, word for word, the September 2026 rules that used to follow here: short-answer layout and ink, unshaded diagrams, legacy-profile review gates, Volume prevention, the compact exercise style, the worked-solution contract, Linear v1 teaching templates, cover and contents rules, the canonical Linear Relationships booklet and bank sync, source activity identity, black diagram ink, 10 pt diagram labels, the standard palette, the section-header colour and shared-stem question groups. They moved on 9 October 2026 because Codex loads only the first 32,768 bytes of this file.
+Before any booklet or question-bank work, read [standing booklet conventions](docs/booklet-standing-conventions.md), which holds the September 2026 rules moved here on 9 October. Follow the [LLM practice-question rating requirement](docs/question-bank-assessment.md#llm-ratings-for-all-studio-practice-questions-21-october-2026) for current Studio questions and initial imports.
 
 For all 3D diagrams, follow [the visibility contract](docs/solid-visibility.md). Use explicit solid faces and the actual viewing direction to derive hidden edges; silhouettes stay solid. Labels use non-drawing paths and cannot repaint edges. Preserve construction/semantic lines separately. Audit every current occurrence and new candidate with `scripts/audit-solid-visibility.mjs`; unresolved geometry requires a source-hashed review. Changing camera or coordinates invalidates prior visibility acceptance.
 

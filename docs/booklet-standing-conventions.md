@@ -1,5 +1,7 @@
 # Standing booklet conventions
 
+For theory imports, authoring and authorised audits or repairs, follow the [theory-text principles](booklet-cross-session-rules.md#theory-text-source-fidelity-and-cognitive-load-22-october-2026-user-approved) (22 October 2026): preserve source teaching, use simple language, remove unnecessary load and retain essential support. Apply them within existing review stages and preserve explicit local exceptions.
+
 Moved word for word from `AGENTS.md` on 9 October 2026, so that file stays under the 32,768 bytes Codex loads. `AGENTS.md` tells every agent to read this page before booklet or question-bank work. The paragraphs keep their original order and wording; only link paths changed. Newer dated rules in `AGENTS.md` take precedence where they say so.
 
 Short-answer precedence (16 September 2026): all current and future compact back-of-book answers use two 9 pt columns with an 8 mm gutter and measured three/two/one-entry rows inside each column, with 3 mm between cells. Preserve full labels and reading order. Explanations, brief methods, tables and diagrams span the column. Remove grey divider rules between questions and parts; keep exercise separators and meaningful table/diagram borders. Harder answers retain their final result and add a concise method where useful, following the booklet's taught approach and the worked-solution contract. Keep result and method in editable `answer.short`; preserve worked solutions and question pagination settings.
